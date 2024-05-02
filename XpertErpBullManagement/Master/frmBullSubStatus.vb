@@ -90,7 +90,7 @@ Public Class frmBullSubStatus
         End If
         'Return True
         If clsCommon.myLen(txtname.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow("Fill Name.")
+            clsCommon.MyMessageBoxShow(Me, "Fill Name.", Me.Text)
             txtname.Focus()
             txtname.Select()
             ErrorControl.SetError(txtname, "Fill Name")

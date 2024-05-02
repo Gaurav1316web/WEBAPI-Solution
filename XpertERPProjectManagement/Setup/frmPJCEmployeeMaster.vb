@@ -182,7 +182,7 @@ Public Class frmPJCEmployeeMaster
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -211,7 +211,7 @@ Public Class frmPJCEmployeeMaster
                 clsCommon.MyMessageBoxShow("Current Cost Code is in use")
 
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
             trans.Rollback()
         End Try

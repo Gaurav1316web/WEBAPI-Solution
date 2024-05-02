@@ -422,7 +422,7 @@ Public Class FrmComplaintDetailEntry
 
             'Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -514,7 +514,7 @@ Public Class FrmComplaintDetailEntry
             End If
             'Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -670,7 +670,7 @@ Public Class FrmComplaintDetailEntry
                 common.clsCommon.MyMessageBoxShow("Data Could Not Saved", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         'End If
     End Sub
@@ -696,7 +696,7 @@ Public Class FrmComplaintDetailEntry
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1020,7 +1020,7 @@ Public Class FrmComplaintDetailEntry
             End If
         Catch ex As Exception
             txtassetcode.Enabled = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1040,7 +1040,7 @@ Public Class FrmComplaintDetailEntry
                 txtcmplntdesc.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1051,7 +1051,7 @@ Public Class FrmComplaintDetailEntry
             txttdmcode.Value = clsCommon.ShowSelectForm("TDMFND", qry, "Code", whrcls, txttdmcode.Value, "Code", isButtonClicked)
             txttdmdesc.Text = clsDBFuncationality.getSingleValue("select vendor_name from tspl_vendor_master where vendor_code='" + txttdmcode.Value + "'")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1064,7 +1064,7 @@ Public Class FrmComplaintDetailEntry
             txtsrvcdlrname.Text = clsDBFuncationality.getSingleValue("select emp_name from TSPL_employee_MASTER where emp_code='" + txtsrvcdlr.Value + "'")
             'End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1109,7 +1109,7 @@ Public Class FrmComplaintDetailEntry
                 txttagno.Text = clsCommon.myCstr(dr("Tag No")) 'clsDBFuncationality.getSingleValue("select tag_no from tspl_visi_master where asset_no='" + txtassetcode.Value + "' and tag_no<>''")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1169,7 +1169,7 @@ Public Class FrmComplaintDetailEntry
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1214,7 +1214,7 @@ Public Class FrmComplaintDetailEntry
                 UsLock1.Status = ERPTransactionStatus.Pending
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1234,7 +1234,7 @@ Public Class FrmComplaintDetailEntry
                 txtcmplntdesc.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1244,7 +1244,7 @@ Public Class FrmComplaintDetailEntry
             txtseccode.Value = clsCommon.ShowSelectForm("SECFNDID", qry, "SecondaryCode", "", txtseccode.Value, "SecondaryCode", isButtonClicked)
             txtsecresn.Text = clsDBFuncationality.getSingleValue("select description from TSPL_COMPLAINT_MASTER where complaint_code='" + txtseccode.Value + "'")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1255,7 +1255,7 @@ Public Class FrmComplaintDetailEntry
             txtpendcode.Value = clsCommon.ShowSelectForm("PENFNDID", qry, "PendingCode", "", txtpendcode.Value, "PendingCode", isButtonClicked)
             txtpendrsn.Text = clsDBFuncationality.getSingleValue("select description from TSPL_PENDING_REASON_MASTER where pending_reason_code='" + txtpendcode.Value + "'")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1489,7 +1489,7 @@ Public Class FrmComplaintDetailEntry
             btnDelete.Enabled = False
             btnPost.Enabled = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1539,7 +1539,7 @@ Public Class FrmComplaintDetailEntry
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1576,7 +1576,7 @@ Public Class FrmComplaintDetailEntry
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1768,7 +1768,7 @@ Public Class FrmComplaintDetailEntry
                 common.clsCommon.MyMessageBoxShow("Data Could Not Saved", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         'End If
     End Sub
@@ -1894,7 +1894,7 @@ Public Class FrmComplaintDetailEntry
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

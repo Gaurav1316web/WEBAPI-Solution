@@ -48,7 +48,7 @@ Public Class FrmTankerOut
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -263,7 +263,7 @@ Public Class FrmTankerOut
             LoadData(fndGateOutNo.Value, NavType)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             qry = Nothing
         End Try
@@ -346,7 +346,7 @@ Public Class FrmTankerOut
                     End If
                 Next
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
             
             If count >= 3 Then

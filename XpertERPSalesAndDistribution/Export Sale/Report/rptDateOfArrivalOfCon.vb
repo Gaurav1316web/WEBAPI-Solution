@@ -93,7 +93,7 @@ Public Class RptDateOfArrivalOfCon
             gv1.DataSource = Nothing
             LocationsFinder.arrValueMember = Nothing
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub print(ByVal exporter As EnumExportTo)
@@ -139,7 +139,7 @@ Public Class RptDateOfArrivalOfCon
             ButtonToolTip.SetToolTip(BtnReset, "Press Alt+N Adding New")
             Reset()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -241,7 +241,7 @@ Public Class RptDateOfArrivalOfCon
                 common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -255,7 +255,7 @@ Public Class RptDateOfArrivalOfCon
         Try
             LocationsFinder.arrValueMember = clsCommon.ShowMultipleSelectForm("rptDateOfArrivalOfConLocFndr", qry, "Code", "Name", LocationsFinder.arrValueMember, LocationsFinder.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub ReStoreGridLayout()

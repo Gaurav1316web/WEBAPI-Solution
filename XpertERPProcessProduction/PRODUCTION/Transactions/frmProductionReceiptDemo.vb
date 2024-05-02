@@ -789,7 +789,7 @@ Public Class FrmProductionReceiptDemo
         '    txtLocation.Value = clsCommon.ShowSelectForm("LocFND", qry, "Code", WhrCls, txtLocation.Value, "Code", isButtonClicked)
         '    lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
         'Catch ex As Exception
-        '    common.clsCommon.MyMessageBoxShow(ex.Message)
+        '    common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
 
@@ -804,7 +804,7 @@ Public Class FrmProductionReceiptDemo
         '        lblEmpName.Text = ""
         '    End If
         'Catch ex As Exception
-        '    common.clsCommon.MyMessageBoxShow(ex.Message)
+        '    common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
 

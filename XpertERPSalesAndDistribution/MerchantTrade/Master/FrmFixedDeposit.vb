@@ -79,7 +79,7 @@ Public Class FrmFixedDeposit
             End If
             LoadData(fndFixedDepositcode.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -150,12 +150,12 @@ Public Class FrmFixedDeposit
         Try
             If (deleteConfirm()) Then
                 If (ClsFixedDeposit.DeleteData(fndFixedDepositcode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data deleted successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub Reset()
@@ -391,7 +391,7 @@ Public Class FrmFixedDeposit
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isFlag = False
         End Try

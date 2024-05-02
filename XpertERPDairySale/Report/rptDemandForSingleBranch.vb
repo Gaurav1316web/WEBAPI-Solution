@@ -376,7 +376,7 @@ Public Class RptDemandForSingleBranch
         '        End If
         '    Next
         'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
 
         ' KUNAL > TICKET : BM00000010061 > DATE : 22 -OCT -2016

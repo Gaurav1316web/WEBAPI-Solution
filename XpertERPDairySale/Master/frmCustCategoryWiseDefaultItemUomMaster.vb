@@ -569,7 +569,7 @@ Public Class frmCustCategoryWiseDefaultItemUomMaster
     '    Try
     '        If (myMessages.deleteConfirm()) Then
     '            If (clsVendorItemChargeMaster.DeleteData(txtCode.Value)) Then
-    '                common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+    '                common.clsCommon.MyMessageBoxShow(me,"Data Deleted Successfully ",me.text)
     '                funReset()
     '            End If
     '        End If

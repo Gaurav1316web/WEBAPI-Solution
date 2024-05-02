@@ -412,7 +412,7 @@ Public Class FrmPrintBulkInvoiceStatement
                 'common.clsCommon.MyMessageBoxShow("Exported Successfully.")
                 'Process.Start(filePath)
             Catch ex As Exception
-                common.clsCommon.MyMessageBoxShow(ex.Message)
+                common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         Else
             RadMessageBox.Show("No Data Found to Display", Me.Text)

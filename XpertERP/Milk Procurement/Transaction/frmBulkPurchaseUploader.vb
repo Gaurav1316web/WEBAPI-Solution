@@ -4043,7 +4043,7 @@ Public Class frmBulkPurchaseUploader
             Catch ex1 As Exception
 
             End Try
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4076,7 +4076,7 @@ Public Class frmBulkPurchaseUploader
             Catch ex1 As Exception
 
             End Try
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -273,7 +273,7 @@ Public Class FrmTenderTrackingReport
             TemplateGridview = gv1
             fillGridReport()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -366,7 +366,7 @@ Public Class FrmTenderTrackingReport
                 clsCommon.MyExportToPDF(Me.Text, gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -379,7 +379,7 @@ Public Class FrmTenderTrackingReport
             End If
             multiLocationFinder.arrValueMember = clsCommon.ShowMultipleSelectForm("purchaseHistoryLocsFinder", qry, "LOCATION_CODE", "Location_Desc", multiLocationFinder.arrValueMember, multiLocationFinder.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

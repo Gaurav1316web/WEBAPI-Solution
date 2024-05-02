@@ -45,7 +45,7 @@ Public Class FrmCostMaintainance
         Try
             If (myMessages.deleteConfirm()) Then
                 If (ClsCostMaintainance.DeleteData(fndItemCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If

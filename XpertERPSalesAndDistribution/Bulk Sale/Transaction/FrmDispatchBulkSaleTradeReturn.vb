@@ -84,7 +84,7 @@ Public Class FrmDispatchBulkSaleTradereturn
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -537,7 +537,7 @@ Public Class FrmDispatchBulkSaleTradereturn
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub UpdateCurrentRow(ByVal IntRowNo As Integer)
@@ -606,7 +606,7 @@ Public Class FrmDispatchBulkSaleTradereturn
                 'gv1.Rows(IntRowNo).Cells(colRate).Value = Math.Floor(clsCommon.myCdbl(Amount / Qty) * 100) / 100
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenItemList(ByVal isButtonClick As Boolean)
@@ -641,7 +641,7 @@ Public Class FrmDispatchBulkSaleTradereturn
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isFlag = False
         End Try
@@ -679,7 +679,7 @@ Public Class FrmDispatchBulkSaleTradereturn
 
             lblTotRAmt1.Text = clsCommon.myFormat(dblTotAmt)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Function AllowToSave() As Boolean
@@ -921,7 +921,7 @@ Public Class FrmDispatchBulkSaleTradereturn
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
             obj = Nothing
@@ -1032,7 +1032,7 @@ Public Class FrmDispatchBulkSaleTradereturn
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
             obj = Nothing
@@ -1053,7 +1053,7 @@ Public Class FrmDispatchBulkSaleTradereturn
 
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             qry = Nothing
         End Try
@@ -1099,14 +1099,14 @@ Public Class FrmDispatchBulkSaleTradereturn
                     Throw New Exception("You cannot delete this dispatch because it is used in Bulk Milk SRN Trade")
                 Else
                     If (ClsDispatchBulkSaleTradeReturn.DeleteData(txtDocNo.Value)) Then
-                        common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                         Reset()
                     End If
 
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             BulkMilkSRNNo = Nothing
         End Try

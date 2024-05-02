@@ -436,7 +436,7 @@ Public Class FrmMCDiscReport
                 SetGridFormationOFgvReport()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 

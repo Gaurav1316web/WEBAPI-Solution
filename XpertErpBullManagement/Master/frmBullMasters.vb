@@ -956,7 +956,7 @@ Public Class frmBullMasters
         Dim oldNewentry As Boolean = isNewEntry
         Dim counter As Integer = 0
 
-        If transportSql.importExcel(gv_Import, "Bull_Code", "Name") Then
+        If transportSql.importExcel(gv_Import, "Bull_Code", "Name", "Bull_Code", "Species_Code", "Category_Code", "Sub_Category_Code", "SS_Centre_Code", "Breed_Code", "Shed_Code", "Pen_Code", "Status_Code", "Sub_Status_Code", "Exotic_Blood_Per", "Bull_Book_Value", "Country_Code", "Prev_Bull_Id", "SS_Bull_Id", "Bull_Alia_Name", "Bull_Rating", "Dam_Location_Yeild", "Bull_source_Printing_Straws", "Is_Semen", "Bull_RFID", "Remark", "Registration_Date", "Date_Of_Birth", "Status_Changed_Date", "Exit_Date") Then
             Dim obj As New clsBullMasters()
 
             Try

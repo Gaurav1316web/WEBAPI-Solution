@@ -102,6 +102,7 @@
     <Compile Include="Bull Breed Management\clsBullVaccinationEntry.vb" />
     <Compile Include="Bull Breed Management\ClsCMUGrouping.vb" />
     <Compile Include="Bull Breed Management\clsDiseaseMaster.vb" />
+    <Compile Include="Bull Breed Management\clsInsuranceTagAllocation.vb" />
     <Compile Include="Classes\clsAllStoreProcedure.vb" />
     <Compile Include="Classes\clsBullRating.vb" />
     <Compile Include="Classes\ClsCostCenter.vb" />

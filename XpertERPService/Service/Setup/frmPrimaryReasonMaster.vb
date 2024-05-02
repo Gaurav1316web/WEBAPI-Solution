@@ -42,7 +42,7 @@ Public Class FrmPrimaryReasonMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -57,7 +57,7 @@ Public Class FrmPrimaryReasonMaster
             ButtonToolTip.SetToolTip(rbtnClose, "Press Alt+C Close the Window")
             Reset()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub Reset()
@@ -112,12 +112,12 @@ Public Class FrmPrimaryReasonMaster
             Dim qry1 As String = "SELECT Count(*) FROM TSPL_COMPLAINT_GROUP_MASTER where COMPLAINT_Code = '" & txtComplaintGroupCode.Value & "'"
             Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
             If check1 = 0 Then
-                common.clsCommon.MyMessageBoxShow("Invalid Complaint Group Code")
+                common.clsCommon.MyMessageBoxShow(Me, "Invalid Complaint Group Code", Me.Text)
                 Return False
             End If
             'Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -132,35 +132,35 @@ Public Class FrmPrimaryReasonMaster
 
             Dim isSaved As Boolean = obj.SaveData(obj, IIf(rbtnSave.Text = "Save", True, False), Nothing)
             If isSaved Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 rbtnSave.Text = "Update"
                 rbtnDelete.Enabled = True
             Else
                 rbtnSave.Text = "Save"
                 rbtnDelete.Enabled = False
-                common.clsCommon.MyMessageBoxShow("Data Could Not Saved")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Could Not Saved", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
     Sub deleteData()
         Try
             If clsCommon.myLen(fndReasonID.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Reason Code found to Delete", Me.Name)
+                common.clsCommon.MyMessageBoxShow(Me, "No Reason Code found to Delete", Me.Name)
                 'Return False
             ElseIf Not (common.clsCommon.MyMessageBoxShow("Delete the Reason Code " + fndReasonID.Value + Environment.NewLine + " Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
                 'Return False
             End If
             If (clsPrimaryReasonMaster.DeleteData(fndReasonID.Value)) Then
-                common.clsCommon.MyMessageBoxShow("Data Deleted Sucessfully", Me.Name)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Sucessfully", Me.Name)
                 Reset()
                 'Return True
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -175,7 +175,7 @@ Public Class FrmPrimaryReasonMaster
                 lblComplaintGroupDesc.Text = obj.description
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -228,7 +228,7 @@ Public Class FrmPrimaryReasonMaster
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -265,7 +265,7 @@ Public Class FrmPrimaryReasonMaster
             str = "select Reason_Code as 'Reason Code' ,Description, Complaint_Code as 'Complaint Code' from   TSPL_Primary_Reason_MASTER "
             transportSql.ExporttoExcel(str, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

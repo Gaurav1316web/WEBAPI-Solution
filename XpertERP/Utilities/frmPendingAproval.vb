@@ -124,7 +124,7 @@ Public Class FrmPendingAproval
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -1294,7 +1294,7 @@ Public Class FrmPendingAproval
             IsPostBack = False
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4591,7 +4591,7 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                     common.clsCommon.MyMessageBoxShow("" + clsCommon.myCstr(countPostedDoc) + " Document Posted Successfully")
                 Catch ex As Exception
                     clsCommon.ProgressBarPercentHide()
-                    common.clsCommon.MyMessageBoxShow(ex.Message)
+                    common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 Finally
                     clsCommon.ProgressBarPercentHide()
                     '----Added by---Pankaj Kumar-on-14/06/2012-----For Openning a Exceptions Collection Window-------------
@@ -6518,7 +6518,7 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
         '    Next
         '    txtGrandTotal.Text = TempTotal
         'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'Finally
         '    FlagAllSelectWorking = False
         'End Try
@@ -6557,7 +6557,7 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                 txtGrandTotal.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             FlagAllSelectWorking = False
         End Try

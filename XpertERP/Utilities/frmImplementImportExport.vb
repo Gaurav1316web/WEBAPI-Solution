@@ -28,7 +28,7 @@ Public Class frmImplementImportExport
             End If
             transportSql.ExporttoExcel(qry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "GL Option")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "GL Option", Me.Text)
         End Try
     End Sub
 
@@ -64,7 +64,7 @@ Public Class frmImplementImportExport
                     SNO += 1
                     clsCommon.ProgressBarPercentHide()
                     obj.SaveData(arr)
-                    common.clsCommon.MyMessageBoxShow("Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
                     Try
                         Dim isRecExit As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select count (*) from TSPL_GLSETTING"))
                         If isRecExit = False Then
@@ -86,7 +86,7 @@ Public Class frmImplementImportExport
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "GL Option")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "GL Option", Me.Text)
         Finally
             Me.Controls.Remove(gv)
         End Try
@@ -98,7 +98,7 @@ Public Class frmImplementImportExport
             Dim query As String = "Select seg_no as 'Segment No',segment_name as 'Segment Name',segment_code as 'Segment Code',Description as 'Description',Account_code as 'Account Code',GIT,state_Code as [State Code] from tspl_gl_segment_code"
             transportSql.ExporttoExcel(query, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "Segment Code")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Segment Code", Me.Text)
         End Try
 
     End Sub
@@ -159,7 +159,7 @@ Public Class frmImplementImportExport
                     Next
                     trans.Commit()
                     clsCommon.ProgressBarPercentHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     trans.Rollback()
                     clsCommon.ProgressBarPercentHide()
@@ -167,7 +167,7 @@ Public Class frmImplementImportExport
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(dgv)
         End Try
@@ -179,7 +179,7 @@ Public Class frmImplementImportExport
             qry = "SELECT TSPL_LOCATION_MASTER.Location_Code as LocationCode,TSPL_LOCATION_MASTER.Location_Desc as LocationDesc,tspl_location_master.Loc_Short_Name as LocationShortName,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.City_Code as CityCode,TSPL_LOCATION_MASTER.State,TSPL_LOCATION_MASTER.Pin_Code as PINCode ,TSPL_LOCATION_MASTER.Country,TSPL_LOCATION_MASTER.Telphone,TSPL_LOCATION_MASTER.Email,TSPL_LOCATION_MASTER.Location_Type as LocationType,TSPL_LOCATION_MASTER.Loc_Segment_Code AS LocationSegmentCode,TSPL_LOCATION_MASTER.Registration_Number AS RegistrationNumber,TSPL_LOCATION_MASTER.Is_Section as [Section(Y/N)],Is_Sub_Location as [SubLocation(Y/N)],CASE When Is_Section ='Y' THEN  Section_Code else '' end AS SectionCode,CASE When Is_Section  ='Y' OR Is_Sub_Location  ='Y' THEN  Main_Location_Code  else '' end AS MainLocationCode,case when tspl_location_master.is_consumption_location=0 then 'N' else 'Y' end as [ConsumptionLocation(Y/N)],tspl_location_master.IsSubLocationWise as [SubLocationWise(Y/N)],tspl_location_master.GSTNo,IsMainPlant as [IsMainPlant(0/1)] FROM TSPL_LOCATION_MASTER"
             transportSql.ExporttoExcel(qry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "Location Master")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Location Master", Me.Text)
         End Try
     End Sub
 
@@ -341,7 +341,7 @@ Public Class frmImplementImportExport
                     Next
                     trans.Commit()
                     clsCommon.ProgressBarPercentHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     trans.Rollback()
                     clsCommon.ProgressBarPercentHide()
@@ -349,7 +349,7 @@ Public Class frmImplementImportExport
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(gv)
         End Try
@@ -361,7 +361,7 @@ Public Class frmImplementImportExport
             qry = "select Account_Main_Group_Code As [Account Main Group Code],Account_Main_Group_Desc as [Description],GROUP_TYPE AS 'Type' from TSPL_ACCOUNT_MAIN_GROUPS"
             transportSql.ExporttoExcel(qry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "Account Main Group")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Account Main Group", Me.Text)
         End Try
     End Sub
 
@@ -414,7 +414,7 @@ Public Class frmImplementImportExport
                     Next
                     trans.Commit()
                     clsCommon.ProgressBarPercentHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     trans.Rollback()
                     clsCommon.ProgressBarPercentHide()
@@ -422,7 +422,7 @@ Public Class frmImplementImportExport
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "Account Main Group")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Account Main Group", Me.Text)
         Finally
             Me.Controls.Remove(gv)
         End Try
@@ -434,7 +434,7 @@ Public Class frmImplementImportExport
             qry = "select account_group_code As [Account Group Code],account_group_desc as [Description] ,ISNULL(Account_Main_Group_Code,'') AS [Account Main Group Code] from tspl_Account_Groups"
             transportSql.ExporttoExcel(qry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "Account Group")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Account Group", Me.Text)
         End Try
     End Sub
 
@@ -502,7 +502,7 @@ Public Class frmImplementImportExport
                     Next
                     trans.Commit()
                     clsCommon.ProgressBarPercentHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     trans.Rollback()
                     clsCommon.ProgressBarPercentHide()
@@ -510,7 +510,7 @@ Public Class frmImplementImportExport
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "Account Group")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Account Group", Me.Text)
         Finally
             Me.Controls.Remove(gv)
         End Try
@@ -522,7 +522,7 @@ Public Class frmImplementImportExport
             qry = "select Account_Sub_Group_Code As [Account Sub Group Code],Account_Sub_Group_Desc as [Description],Account_Group_Code AS [Account Group Code] from TSPL_ACCOUNT_SUB_GROUPS"
             transportSql.ExporttoExcel(qry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "Account Sub Group")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Account Sub Group", Me.Text)
         End Try
     End Sub
 
@@ -574,7 +574,7 @@ Public Class frmImplementImportExport
                     Next
                     trans.Commit()
                     clsCommon.ProgressBarPercentHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     trans.Rollback()
                     clsCommon.ProgressBarPercentHide()
@@ -582,7 +582,7 @@ Public Class frmImplementImportExport
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "Account Sub Group")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Account Sub Group", Me.Text)
         Finally
             Me.Controls.Remove(gv)
         End Try
@@ -594,7 +594,7 @@ Public Class frmImplementImportExport
             qry = "select Main_GL_Account as Code,Main_GL_Account_Desc as Name,Sub_Group_Code as [Sub Group] from TSPL_ACCOUNT_MAIN_GL_ACCOUNT"
             transportSql.ExporttoExcel(qry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "GL Main Account")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "GL Main Account", Me.Text)
         End Try
     End Sub
 
@@ -647,18 +647,18 @@ Public Class frmImplementImportExport
                         Next
                         trans.Commit()
                         clsCommon.ProgressBarPercentHide()
-                        common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                     Catch ex As Exception
                         trans.Rollback()
                         Throw New Exception("Error at line no" + clsCommon.myCstr(linno) + Environment.NewLine + ex.Message)
                     End Try
                 Catch ex As Exception
                     clsCommon.ProgressBarPercentHide()
-                    clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "GL Main Account")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "GL Main Account", Me.Text)
         Finally
             Me.Controls.Remove(gv)
         End Try
@@ -670,7 +670,7 @@ Public Class frmImplementImportExport
             qry = "Select Tax_Code as 'Tax Authority',Tax_Code_Desc as 'Description',Tax_Liability_Account as 'Tax Liability Account',(case when Tax_Recoverable='Y' then 'Yes' else 'No' END) as 'Tax Recoverable',Tax_Recoverable_Account as 'Tax Recoverable Account',Tax_Recover_Rate as 'Tax Recover Rate',Tax_Net_Payable as 'Tax Net Payable',(Case type when 'V'then 'VAT' when 'E'then 'EXCISE' when 'C'then 'CST' when 'A' then 'ADDTAX' when 'W' then 'WCT' when 'O' then  'OTHER'  when 'S' then 'SERVICE' when 'M' then 'MANDI TAX' when 'IGST' then 'IGST' when 'SGST' then 'SGST' when 'UGST' then 'UGST' when 'CGST' then 'CGST' else ''end)as 'Type',Tax_Recoverable_Account2 as 'Tax Recoverable Account2',Tax_Recover_Rate2 as 'Tax Recover Rate2',Tax_Recoverable_Account3 as 'Tax Recoverable Account3',Tax_Recover_Rate3 as 'Tax Recover Rate3',Tax_Recoverable_Account4 as 'Tax Recoverable Account4',Tax_Recover_Rate4 as 'Tax Recover Rate4',Tax_Recoverable_Account5 as 'Tax Recoverable Account5',Tax_Recover_Rate5 as 'Tax Recover Rate5'  ,PayableControl as [Payable Control],DepositControl as [Deposit Control],GSTActive as [GST Active] from TSPL_TAX_MASTER"
             transportSql.ExporttoExcel(qry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "Tax Authority")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Tax Authority", Me.Text)
         End Try
     End Sub
 
@@ -884,7 +884,7 @@ Public Class frmImplementImportExport
                     Next
                     trans.Commit()
                     clsCommon.ProgressBarPercentHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     trans.Rollback()
                     clsCommon.ProgressBarPercentHide()
@@ -892,7 +892,7 @@ Public Class frmImplementImportExport
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "Tax Authority")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Tax Authority", Me.Text)
         Finally
             Me.Controls.Remove(gv)
         End Try
@@ -904,7 +904,7 @@ Public Class frmImplementImportExport
             qry = "Select Tax_Code as 'Tax Authority',(Case when Tax_Type='S' then 'Sales' when Tax_Type='P' then  'Purchase' when Tax_Type='T' then 'Transfer' else '' end) as 'Tax Type',Tax_Rate_Code as 'Rate Code',Tax_Rate_Desc as 'Rate Description',Tax_Rate as 'Tax Rate'  ,case when GSTActive=1 then 'Y' else 'N' end as [GST Active(Y/N)]  from TSPL_TAX_RATES"
             transportSql.ExporttoExcel(qry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "Tax Rate")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Tax Rate", Me.Text)
         End Try
     End Sub
 
@@ -991,7 +991,7 @@ Public Class frmImplementImportExport
                     Next
                     trans.Commit()
                     clsCommon.ProgressBarPercentHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     trans.Rollback()
                     clsCommon.ProgressBarPercentHide()
@@ -1000,7 +1000,7 @@ Public Class frmImplementImportExport
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "Tax Rate")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Tax Rate", Me.Text)
         Finally
             Me.Controls.Remove(gv)
         End Try
@@ -1018,7 +1018,7 @@ Public Class frmImplementImportExport
              "  TSPL_Tax_Group_Master.Tax_Group_Type = TSPL_TAX_GROUP_DETAILS.Tax_Group_Type "
             transportSql.ExporttoExcel(qry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "Tax Group")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Tax Group", Me.Text)
         End Try
     End Sub
 
@@ -1144,15 +1144,15 @@ Public Class frmImplementImportExport
                     Next
                     trans.Commit()
                     clsCommon.ProgressBarPercentHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text)
                 Catch ex As Exception
                     trans.Rollback()
                     clsCommon.ProgressBarPercentHide()
-                    clsCommon.MyMessageBoxShow("Error at line no " + clsCommon.myCstr(LineNo) + Environment.NewLine + ex.Message, Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Error at line no " + clsCommon.myCstr(LineNo) + Environment.NewLine + ex.Message, Me.Text)
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "Tax Group")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Tax Group")
         Finally
             Me.Controls.Remove(gv)
         End Try
@@ -1165,7 +1165,7 @@ Public Class frmImplementImportExport
             query += " ,Advance_account as 'Advance Account',CURRENCY_CODE  as 'Currency' from tspl_vendor_account_set"
             transportSql.ExporttoExcel(query, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "Vendor Account Set")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Vendor Account Set", Me.Text)
         End Try
     End Sub
 
@@ -1266,7 +1266,7 @@ Public Class frmImplementImportExport
                     Next
                     trans.Commit()
                     clsCommon.ProgressBarPercentHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     trans.Rollback()
                     clsCommon.ProgressBarPercentHide()
@@ -1274,7 +1274,7 @@ Public Class frmImplementImportExport
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "Vendor Account Set")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Vendor Account Set", Me.Text)
         Finally
             Me.Controls.Remove(dgv)
         End Try
@@ -1286,7 +1286,7 @@ Public Class frmImplementImportExport
             qry = "select ven_group_code as 'Vendor Group Code',group_desc as 'Description',acct_set_code as 'Account Set',acct_set_desc as 'Account Set Description',Terms_code as 'Terms Code',terms_desc as 'Terms Descriptiion',payment_code as 'Payment Code',payment_desc as 'Payment Code Description',Bank_Code as 'Bank Code',Description as 'Bank Code Description',tax_group_code as 'Tax Group',Tax_group_desc as 'Tax Group Description',(case when Is_TDSApplicable='1' then 'Y' else 'N' end) as 'Is TDS Applicable'  from tspl_vendor_Group"
             transportSql.ExporttoExcel(qry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "Vendor Group")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Vendor Group", Me.Text)
         End Try
     End Sub
 
@@ -1389,7 +1389,7 @@ Public Class frmImplementImportExport
                     Next
                     trans.Commit()
                     clsCommon.ProgressBarPercentHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     trans.Rollback()
                     clsCommon.ProgressBarPercentHide()
@@ -1397,7 +1397,7 @@ Public Class frmImplementImportExport
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "Vendor Group")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Vendor Group", Me.Text)
         Finally
             Me.Controls.Remove(dgv)
         End Try
@@ -1410,7 +1410,7 @@ Public Class frmImplementImportExport
             Dim whrCls = " and (form_type='ALL') "
             transportSql.ExporttoExcel(qry, whrCls, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "Vendor Master")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Vendor Master", Me.Text)
         End Try
     End Sub
 
@@ -1597,7 +1597,7 @@ Public Class frmImplementImportExport
                             qry = "select CURRENCY_CODE from TSPL_VENDOR_ACCOUNT_SET where Acct_Set_Code='" & clsCommon.myCstr(vendoracct) & "' "
                             Dim accCurrCode As String = clsDBFuncationality.getSingleValue(qry, trans).ToString
                             If clsCommon.CompairString(accCurrCode, clsCommon.myCstr(CURRENCY_CODE)) <> CompairStringResult.Equal Then
-                                clsCommon.MyMessageBoxShow("Account Set Currency and Vendor Currency must be same in case of Multicurrency.")
+                                clsCommon.MyMessageBoxShow(Me, "Account Set Currency and Vendor Currency must be same in case of Multicurrency.", Me.Text)
                                 Exit Sub
                             End If
                         Else
@@ -3076,7 +3076,7 @@ Public Class frmImplementImportExport
                 qry += UOMTotal + " " + UOMConTotal + " " + UOMDefTotal + " " + UOMStockUnitTotal + " " + TotalUOMWeight + " " + TotalUOMGrossWt + ",IsTaxable,TSPL_ITEM_MASTER.HSN_Code as 'HSN Code',Structure_Code as [Structure Code],Structure_Desc as [Structure Desc],TSPL_ITEM_MASTER.IS_SCRAP_ITEM as [IS SCRAP ITEM],TSPL_ITEM_MASTER.SCrap_Item_Code as [Scrap Item Code], " + itemCostForStockingUnit + " as [Item Cost(Stocking Unit)], CSA_TYPE as [Item Group Type], Alies_Name as [Alies Name],isnull(TSPL_ITEM_MASTER.Is_Insurance,0) as Is_Insurance,TSPL_ITEM_MASTER.InsuranceNo,TSPL_ITEM_MASTER.InsuranceFromDate,TSPL_ITEM_MASTER.InsuranceToDate,isnull(TSPL_ITEM_MASTER.Marketing_Seq,0) as [Marketing Seq No] from TSPL_ITEM_MASTER  " + code + ""
                 transportSql.ExporttoExcel(qry, whrcls, Me)
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, "Item Master")
@@ -4165,7 +4165,7 @@ Public Class frmImplementImportExport
             End If
             transportSql.ExporttoExcel(qry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4316,7 +4316,7 @@ Public Class frmImplementImportExport
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(gv)
         End Try
@@ -6280,7 +6280,7 @@ ExitLOOP:
                     clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
                 Catch ex As Exception
                     clsCommon.ProgressBarPercentHide()
-                    clsCommon.MyMessageBoxShow(ex.Message)
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 End Try
             End If
         Catch ex As Exception
@@ -6347,7 +6347,7 @@ ExitLOOP:
             Dim whrCls As String = " and form_type='TTM' "
             transportSql.ExporttoExcel(qry, whrCls, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7144,7 +7144,7 @@ ExitLOOP:
                 Catch ex As Exception
                     tran.Rollback()
                     clsCommon.ProgressBarPercentHide()
-                    clsCommon.MyMessageBoxShow(ex.Message)
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 End Try
             End If
         Catch ex As Exception
@@ -8044,7 +8044,7 @@ ExitLOOP:
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarPercentHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Finally
             End Try
         Catch ex As Exception
@@ -8647,7 +8647,7 @@ ExitLOOP:
                     clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
                 Catch ex As Exception
                     clsCommon.ProgressBarPercentHide()
-                    clsCommon.MyMessageBoxShow(ex.Message)
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 End Try
             End If
         Catch ex As Exception
@@ -9068,7 +9068,7 @@ ExitLOOP:
                         End Try
                     End If
                 Catch ex As Exception
-                    clsCommon.MyMessageBoxShow(ex.Message)
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 End Try
             End If
         Catch ex As Exception
@@ -9082,7 +9082,7 @@ ExitLOOP:
         Try
             MDI.ShowForm(clsUserMgtCode.accountStructure, "", True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9090,7 +9090,7 @@ ExitLOOP:
         Try
             MDI.ShowForm(clsUserMgtCode.frmWeightConversion, "", True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9100,7 +9100,7 @@ ExitLOOP:
             qry = "select ITEM_CATEGORY_CODE as [Code],DESCRIPTION as [Description] ,CATEGORY_LEVEL as [Category Level]  from TSPL_ITEM_CATEGORY_LEVEL "
             transportSql.ExporttoExcel(qry, " and isnull(form_type,'ITEM')='ITEM'", Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9198,7 +9198,7 @@ ExitLOOP:
             Dim qry As String = "select TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE as [Item Category Code],TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE as [Code],TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as [Description] from TSPL_ITEM_CATEGORY_LEVEL_VALUES left outer join TSPL_ITEM_CATEGORY_LEVEL on TSPL_ITEM_CATEGORY_LEVEL .ITEM_CATEGORY_CODE =TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE and TSPL_ITEM_CATEGORY_LEVEL_VALUES.form_type=TSPL_ITEM_CATEGORY_LEVEL.form_type "
             transportSql.ExporttoExcel(qry, " and isnull(TSPL_ITEM_CATEGORY_LEVEL_VALUES.form_type,'ITEM')='ITEM'", Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9290,7 +9290,7 @@ ExitLOOP:
                 Throw New Exception("Error at line no" + clsCommon.myCstr(counter) + Environment.NewLine + ex.Message)
             End Try
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(gv)
         End Try
@@ -9300,7 +9300,7 @@ ExitLOOP:
         Try
             MDI.ShowForm(clsUserMgtCode.frmItemCategoryStructure, "", True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9310,7 +9310,7 @@ ExitLOOP:
             qry = "select Bank_Code as 'Bank Code' ,Bank_Name as 'Bank Name',Add1 as 'Add1',Country_Code as 'Country Code' ,State_Code as 'State Code' ,City_Code as 'City Code' from TSPL_Vendor_Bank_Master"
             transportSql.ExporttoExcel(qry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9430,7 +9430,7 @@ ExitLOOP:
             End If
             Me.Controls.Remove(gv)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
 
         End Try
@@ -9447,7 +9447,7 @@ ExitLOOP:
             " left outer join tspl_mcc_master on Tspl_mcc_master.mcc_code=TSPL_MCC_ROUTE_MASTER.mcc_code"
             transportSql.ExporttoExcel(qry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9564,7 +9564,7 @@ ExitLOOP:
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(gv)
         End Try
@@ -9574,7 +9574,7 @@ ExitLOOP:
         Try
             MDI.ShowForm(clsUserMgtCode.FrmPriceChartUploader, "", True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9582,7 +9582,7 @@ ExitLOOP:
         Try
             MDI.ShowForm(clsUserMgtCode.LocationDistanceMapping, "", True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9590,7 +9590,7 @@ ExitLOOP:
         Try
             MDI.ShowForm(clsUserMgtCode.frmParameterRangeMasterForQC, "", True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9690,7 +9690,7 @@ ExitLOOP:
             End If
             Me.Controls.Remove(gv)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
         End Try
     End Sub
@@ -9700,7 +9700,7 @@ ExitLOOP:
             qry = "Select Bank_Code as [Bank Code],Branch_Name as [Branch],Bank_IFSC_Code as [IFSC Code],Bank_Swift_Code as [Swift Code] from TSPL_Vendor_Bank_Branch_Details "
             transportSql.ExporttoExcel(qry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9773,7 +9773,7 @@ ExitLOOP:
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(gv)
         End Try
@@ -9783,7 +9783,7 @@ ExitLOOP:
         Try
             MDI.ShowForm(clsUserMgtCode.PricePlan, "", True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9791,7 +9791,7 @@ ExitLOOP:
         Try
             MDI.ShowForm(clsUserMgtCode.createAccounts, "", True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9799,7 +9799,7 @@ ExitLOOP:
         Try
             MDI.ShowForm(clsUserMgtCode.FrmItemTypeMaster, "", True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -10448,7 +10448,7 @@ ExitLOOP:
         Try
             MDI.ShowForm(clsUserMgtCode.FrmItemWiseTax, "", True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

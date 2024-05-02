@@ -138,7 +138,7 @@ Public Class FrmChangeInvoiceSalesman
                 FormatGrid()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -247,7 +247,7 @@ Public Class FrmChangeInvoiceSalesman
             common.clsCommon.MyMessageBoxShow("Changed Succcessfully")
             trans.Commit()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             trans.Rollback()
         End Try
     End Sub

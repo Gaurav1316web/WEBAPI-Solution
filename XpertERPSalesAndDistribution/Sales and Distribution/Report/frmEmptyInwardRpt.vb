@@ -10,7 +10,7 @@ Public Class FrmEmptyInwardRpt
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt("JRN-ENTRY")
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -101,7 +101,7 @@ Public Class FrmEmptyInwardRpt
             frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "crptEmptyInwardRegister", "Empty Inward Register Report")
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

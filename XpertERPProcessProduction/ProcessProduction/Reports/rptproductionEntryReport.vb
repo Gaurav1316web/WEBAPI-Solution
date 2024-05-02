@@ -743,7 +743,7 @@ Public Class RptproductionEntryReport
             'common.clsCommon.MyMessageBoxShow("Exported Successfully.")
             'Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -871,7 +871,7 @@ Public Class RptproductionEntryReport
             transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
             clsCommon.MyExportToPDF("Production Entry Report", gv1, arrHeader, "Production Entry Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

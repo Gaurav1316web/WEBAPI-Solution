@@ -460,7 +460,7 @@ Public Class FrmRptCustomerTransList
                     RadPageView1.SelectedPage = RadPageViewPage2
                     RadGroupBox1.Enabled = False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -719,7 +719,7 @@ Public Class FrmRptCustomerTransList
             clsCommon.MyExportToExcelGrid("Customer Transaction Report ", gv, arrHeader, Me.Text)
             common.clsCommon.MyMessageBoxShow("Exported Successfully.")
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -764,7 +764,7 @@ Public Class FrmRptCustomerTransList
             transportSql.applyExportTemplate(gv, PageSetupReport_ID)
             clsCommon.MyExportToPDF("Customer Transaction Report ", gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -477,7 +477,7 @@ Public Class frmMilkSRNMCC
             'UcCustomFields1.AllowToSave()
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 

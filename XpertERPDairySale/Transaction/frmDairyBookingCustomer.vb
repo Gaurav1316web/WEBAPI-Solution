@@ -1185,7 +1185,9 @@ Public Class frmDairyBookingCustomer
                                 'Dim strIUOM As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
                                 'ItemPrice(strICode, strIUOM, clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value), gv1.CurrentRow.Index)
                             End If
-
+                            If RunBatchFifowise = 0 OrElse RunBatchFifowisewithmodifyfunctionality = True Then
+                                OpenBatchItem()
+                            End If
                             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
                                 UpdateCurrentRow1(gv1.CurrentRow.Index)
                             Else
@@ -2732,85 +2734,88 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                         common.clsCommon.MyMessageBoxShow(Me, "Please enter Booked Quantity UOM for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
                         Return False
                     End If
-                    'If dblQty > 0 AndAlso clsCommon.myCBool(gv1.Rows(ii).Cells(colIsBatchItem).Value) AndAlso clsERPFuncationality.GetBatchWiseApplicableStatus(txtDate.Value, trans) = True Then
-                    '    'If RunBatchFifowise = 1 Then
-                    '    '    gv1.CurrentRow = gv1.Rows(ii)
-                    '    '    OpenBatchItem()
-                    '    'End If
-                    '    Dim arrBatchNo As List(Of clsBatchInventory) = TryCast(gv1.Rows(ii).Cells(colICode).Tag, List(Of clsBatchInventory))
-                    '    If arrBatchNo Is Nothing Then
-                    '        Throw New Exception("Please provide Batch no for item : " + strICode + " . At Line No" + clsCommon.myCstr(ii + 1))
-                    '    Else
-                    '        Dim tQty As Decimal = 0
-                    '        For Each objBatch As clsBatchInventory In arrBatchNo
-                    '            tQty += objBatch.Qty
-                    '        Next
-                    '        If tQty <> dblQty Then
-                    '            Throw New Exception("Item : " + strICode + " Entered Qty " + clsCommon.myCstr(dblQty) + Environment.NewLine + "And Batchwise Qty " + clsCommon.myCstr(tQty) + " . At Line No" + clsCommon.myCstr(ii + 1))
-                    '        End If
-                    '    End If
-                    'End If
-                    If ShowBookingTypeDropDownonDairyBookingCustomer = True Then
-                        If dblQty > 0 AndAlso dblrate <= 0 Then
-                            clsCommon.MyMessageBoxShow(Me, "Please enter Booked Rate for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
-                            Return False
-                        End If
-                    Else
-                        If dblQty <= 0 Then
-                            common.clsCommon.MyMessageBoxShow(Me, "Please enter Booked Quantity for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
-                            Return False
-                        End If
-                        If dblrate <= 0 Then
-                            clsCommon.MyMessageBoxShow(Me, "Please enter Booked Rate for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
-                            Return False
-                        End If
-                    End If
-                    'Sanjay Ticket No- BHA/28/06/18-000106 Client- Bharat Dairy, Setting for check Average Quantity ''richa this check will not be worked for those booking which are created through Mobile app ERO/27/08/19-001005
-                    ' If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(BookingThrough,'')  from TSPL_BOOKING_MATSER   where Document_No ='" & txtDocNo.Value & "' ", trans)), "App") <> CompairStringResult.Equal Then
-                    If clsCommon.CompairString(strBookingType, "App") <> CompairStringResult.Equal Then
-                        If CheckAvgQtyOnDairyBooking = True Then
-                            If (FlagCreateDo = False) And (FlagFirstRecord = False) Then 'And (AvgQty > 0)
-                                ''  ERO/29/07/19-000971 by Balwinder on 30/07/2019
-                                If Math.Abs(dblQty - AvgQty) > SettDairyBookingTolleranceQty Then
-                                    If common.clsCommon.MyMessageBoxShow(Me, "Booking Quantity Should be in Average Quantity [" + clsCommon.myCstr(IIf(AvgQty - SettDairyBookingTolleranceQty < 0, 0, (AvgQty - SettDairyBookingTolleranceQty))) + " - " + clsCommon.myCstr(AvgQty + SettDairyBookingTolleranceQty) + " ] for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1) + vbNewLine + " Do you want to continue? ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
-                                        Return False
-                                    Else
-                                        Dim frm As New FrmFreeTxtBox1
-                                        frm.Text = "Remarks"
-                                        frm.strRmks = strRemarks
-                                        frm.ShowDialog()
-                                        gv1.Rows(ii).Cells(colRemarks).Value = frm.strRmks
-                                    End If
+                    If clsCommon.myLen(gv1.Rows(ii).Cells(colBatchNo)) <= 0 Then
+                        If dblQty > 0 AndAlso clsCommon.myCBool(gv1.Rows(ii).Cells(colIsBatchItem).Value) AndAlso clsERPFuncationality.GetBatchWiseApplicableStatus(txtDate.Value, trans) = True Then
+                            'If RunBatchFifowise = 1 Then
+                            '    gv1.CurrentRow = gv1.Rows(ii)
+                            '    OpenBatchItem()
+                            'End If
+                            Dim arrBatchNo As List(Of clsBatchInventory) = TryCast(gv1.Rows(ii).Cells(colICode).Tag, List(Of clsBatchInventory))
+                            If arrBatchNo Is Nothing Then
+                                Throw New Exception("Please provide Batch no for item : " + strICode + " . At Line No" + clsCommon.myCstr(ii + 1))
+                            Else
+                                Dim tQty As Decimal = 0
+                                For Each objBatch As clsBatchInventory In arrBatchNo
+                                    tQty += objBatch.Qty
+                                Next
+                                If tQty <> dblQty Then
+                                    Throw New Exception("Item : " + strICode + " Entered Qty " + clsCommon.myCstr(dblQty) + Environment.NewLine + "And Batchwise Qty " + clsCommon.myCstr(tQty) + " . At Line No" + clsCommon.myCstr(ii + 1))
                                 End If
-                                'If dblQty > AvgQty Then
-                                '    If common.clsCommon.MyMessageBoxShow("Booking Quantity is more than Average Quantity for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1) + vbNewLine + " Do you want to continue? ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
-                                '        Return False
-                                '    Else
-                                '        Dim frm As New FrmFreeTxtBox1
-                                '        frm.Text = "Remarks"
-                                '        frm.strRmks = strRemarks
-                                '        frm.ShowDialog()
-                                '        gv1.Rows(ii).Cells(colRemarks).Value = frm.strRmks
-                                '    End If
-                                'End If
-                                ''Sanjay Ticket No- ERO/12/07/18-000371  Client - Erode, Message on Less Qty than Average
-                                'If dblQty < AvgQty Then
-                                '    If common.clsCommon.MyMessageBoxShow("Booking Quantity is less than Average Quantity for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1) + vbNewLine + " Do you want to continue? ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
-                                '        Return False
-                                '    Else
-                                '        Dim frm As New FrmFreeTxtBox1
-                                '        frm.Text = "Remarks"
-                                '        frm.strRmks = strRemarks
-                                '        frm.ShowDialog()
-                                '        gv1.Rows(ii).Cells(colRemarks).Value = frm.strRmks
-                                '    End If
-                                'End If
-                                ''Sanjay Ticket No- ERO/12/07/18-000371  Client - Erode
                             End If
                         End If
                     End If
-                End If
-                Dim dblBalQty As Double = 0
+
+                    If ShowBookingTypeDropDownonDairyBookingCustomer = True Then
+                            If dblQty > 0 AndAlso dblrate <= 0 Then
+                                clsCommon.MyMessageBoxShow(Me, "Please enter Booked Rate for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
+                                Return False
+                            End If
+                        Else
+                            If dblQty <= 0 Then
+                                common.clsCommon.MyMessageBoxShow(Me, "Please enter Booked Quantity for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
+                                Return False
+                            End If
+                            If dblrate <= 0 Then
+                                clsCommon.MyMessageBoxShow(Me, "Please enter Booked Rate for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
+                                Return False
+                            End If
+                        End If
+                        'Sanjay Ticket No- BHA/28/06/18-000106 Client- Bharat Dairy, Setting for check Average Quantity ''richa this check will not be worked for those booking which are created through Mobile app ERO/27/08/19-001005
+                        ' If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(BookingThrough,'')  from TSPL_BOOKING_MATSER   where Document_No ='" & txtDocNo.Value & "' ", trans)), "App") <> CompairStringResult.Equal Then
+                        If clsCommon.CompairString(strBookingType, "App") <> CompairStringResult.Equal Then
+                            If CheckAvgQtyOnDairyBooking = True Then
+                                If (FlagCreateDo = False) And (FlagFirstRecord = False) Then 'And (AvgQty > 0)
+                                    ''  ERO/29/07/19-000971 by Balwinder on 30/07/2019
+                                    If Math.Abs(dblQty - AvgQty) > SettDairyBookingTolleranceQty Then
+                                        If common.clsCommon.MyMessageBoxShow(Me, "Booking Quantity Should be in Average Quantity [" + clsCommon.myCstr(IIf(AvgQty - SettDairyBookingTolleranceQty < 0, 0, (AvgQty - SettDairyBookingTolleranceQty))) + " - " + clsCommon.myCstr(AvgQty + SettDairyBookingTolleranceQty) + " ] for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1) + vbNewLine + " Do you want to continue? ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+                                            Return False
+                                        Else
+                                            Dim frm As New FrmFreeTxtBox1
+                                            frm.Text = "Remarks"
+                                            frm.strRmks = strRemarks
+                                            frm.ShowDialog()
+                                            gv1.Rows(ii).Cells(colRemarks).Value = frm.strRmks
+                                        End If
+                                    End If
+                                    'If dblQty > AvgQty Then
+                                    '    If common.clsCommon.MyMessageBoxShow("Booking Quantity is more than Average Quantity for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1) + vbNewLine + " Do you want to continue? ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+                                    '        Return False
+                                    '    Else
+                                    '        Dim frm As New FrmFreeTxtBox1
+                                    '        frm.Text = "Remarks"
+                                    '        frm.strRmks = strRemarks
+                                    '        frm.ShowDialog()
+                                    '        gv1.Rows(ii).Cells(colRemarks).Value = frm.strRmks
+                                    '    End If
+                                    'End If
+                                    ''Sanjay Ticket No- ERO/12/07/18-000371  Client - Erode, Message on Less Qty than Average
+                                    'If dblQty < AvgQty Then
+                                    '    If common.clsCommon.MyMessageBoxShow("Booking Quantity is less than Average Quantity for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1) + vbNewLine + " Do you want to continue? ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+                                    '        Return False
+                                    '    Else
+                                    '        Dim frm As New FrmFreeTxtBox1
+                                    '        frm.Text = "Remarks"
+                                    '        frm.strRmks = strRemarks
+                                    '        frm.ShowDialog()
+                                    '        gv1.Rows(ii).Cells(colRemarks).Value = frm.strRmks
+                                    '    End If
+                                    'End If
+                                    ''Sanjay Ticket No- ERO/12/07/18-000371  Client - Erode
+                                End If
+                            End If
+                        End If
+                    End If
+                    Dim dblBalQty As Double = 0
                 If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtLocation.Value) & "'", trans)), "Y") = CompairStringResult.Equal Then
                     If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(txtVendorNo.Value) & "' ", trans)), "Others") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(txtVendorNo.Value) & "' ", trans)), "") = CompairStringResult.Equal Then
                         dblBalQty = clsItemLocationDetails.getBalance(strICode, IIf(clsCommon.myLen(clsCommon.myCstr(txtSubLocation.Value)) > 0, txtSubLocation.Value, txtLocation.Value), txtDocNo.Value, txtDate.Value, trans, strUOM, dblMRP)
@@ -3175,11 +3180,33 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                     objTr.Security_Amt = clsCommon.myCdbl(grow.Cells(ColSCAmt).Value)
                     objTr.Security_Rate = clsCommon.myCdbl(grow.Cells(ColSCRate).Value)
                     objTr.Security_Amt = clsCommon.myCdbl(grow.Cells(ColSCAmt).Value)
+                    objTr.Batch_No = clsCommon.myCstr(grow.Cells(colBatchNo).Value)
                     DCTotalAmt += objTr.Distributor_Commission_Amt
                     TCTotalAmt += objTr.Transporter_Commission_Amt
                     SCTotalAmt += objTr.Security_Amt
                     objTr.Distributor_Commission_RateWithTax = clsCommon.myCdbl(grow.Cells(ColDCRateWithTax).Value)
                     objTr.arrBatchItem = TryCast(grow.Cells(colICode).Tag, List(Of clsBatchInventory))
+                    If clsCommon.myCBool(gv1.Rows(gv1.Rows.Count - 1).Cells(colIsBatchItem).Value) Then
+                        If objTr.arrBatchItem Is Nothing Then
+                            Dim strQry1 As String = "select * from TSPL_BATCH_ITEM where Document_Code='" + clsCommon.myCstr(txtDocNo.Value) + "' and Item_Code='" + clsCommon.myCstr(grow.Cells(colICode).Value) + "' and UOM='" + clsCommon.myCstr(grow.Cells(colUnit).Value) + "' and In_Out_Type='O'"
+                            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(strQry1)
+                            If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
+                                For Each dr As DataRow In dt1.Rows
+                                    Dim objArrBatch As New clsBatchInventory()
+                                    objArrBatch.Batch_No = clsCommon.myCstr(dr("Batch_No"))
+                                    objArrBatch.Manual_BatchNo = clsCommon.myCstr(dr("Manual_BatchNo"))
+                                    objArrBatch.Manufacture_Date = clsCommon.myCstr(dr("Manufacture_Date"))
+                                    objArrBatch.Expiry_Date = clsCommon.myCstr(dr("Expiry_Date"))
+                                    objArrBatch.Qty = clsCommon.myCstr(dr("Qty"))
+                                    objArrBatch.UOM = clsCommon.myCstr(dr("UOM"))
+                                    objArrBatch.Item_Code = clsCommon.myCstr(dr("Item_Code"))
+                                    objArrBatch.Document_Date = clsCommon.myCDate(dr("Document_Date"))
+                                    objTr.arrBatchItem.Add(objArrBatch)
+                                Next
+                            End If
+                        End If
+                    End If
+
                     'gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + intLine)).Value = Nothing
                     'gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Base_Amt" + intLine)).Value = Nothing
                     '    gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Rate" + intLine)).Value = Nothing
@@ -4120,6 +4147,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                     gv1.Rows(gv1.Rows.Count - 1).Cells(ColTCAmt).Value = clsCommon.myCstr(dt2.Rows(jj)("Transporter_Commission_Amt"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(ColSCRate).Value = clsCommon.myCstr(dt2.Rows(jj)("Security_Rate"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(ColSCAmt).Value = clsCommon.myCstr(dt2.Rows(jj)("Security_Amt"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colBatchNo).Value = clsCommon.myCstr(dt2.Rows(jj)("Batch_No"))
                     ''RICHA 06 JUNE,2020
                     If chkSampling.Checked = False And DonotAllowtoChangeUOMinDairyBookingCustomer = True Then
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).ReadOnly = True
@@ -7990,7 +8018,27 @@ from
                 For Each grow As GridViewRowInfo In gv1.Rows
                     ii += 1
                     If grow.Cells(colICode).Value IsNot Nothing Then
+
                         Dim objTr As New clsPSShipmentHeadDetail()
+                        objTr.arrBatchItem = New List(Of clsBatchInventory)
+                        If clsCommon.myCBool(grow.Cells(colIsBatchItem).Value) Then
+                            Dim strQry1 As String = "select * from TSPL_BATCH_ITEM where Document_Code='" + clsCommon.myCstr(txtDocNo.Value) + "' and Item_Code='" + clsCommon.myCstr(grow.Cells(colICode).Value) + "' and UOM='" + clsCommon.myCstr(grow.Cells(colUnit).Value) + "' and In_Out_Type='O'"
+                            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(strQry1, trans)
+                            If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
+                                For Each dr As DataRow In dt1.Rows
+                                    Dim objArrBatch As New clsBatchInventory()
+                                    objArrBatch.Batch_No = clsCommon.myCstr(dr("Batch_No"))
+                                    objArrBatch.Manual_BatchNo = clsCommon.myCstr(dr("Manual_BatchNo"))
+                                    objArrBatch.Manufacture_Date = clsCommon.myCstr(dr("Manufacture_Date"))
+                                    objArrBatch.Expiry_Date = clsCommon.myCstr(dr("Expiry_Date"))
+                                    objArrBatch.Qty = clsCommon.myCstr(dr("Qty"))
+                                    objArrBatch.UOM = clsCommon.myCstr(dr("UOM"))
+                                    objArrBatch.Item_Code = clsCommon.myCstr(dr("Item_Code"))
+                                    objArrBatch.Document_Date = clsCommon.myCDate(dr("Document_Date"))
+                                    objTr.arrBatchItem.Add(objArrBatch)
+                                Next
+                            End If
+                        End If
                         If (clsCommon.myLen(clsCommon.myCdbl(grow.Cells(colTax + clsCommon.myCstr(1)).Value)) > 0) Then
                             objTr.TAX1 = clsCommon.myCstr(grow.Cells(colTax + clsCommon.myCstr(1)).Value)
                             objTr.TAX1_Base_Amt = clsCommon.myCdbl(grow.Cells(colTax_Base_Amt + clsCommon.myCstr(1)).Value)
@@ -8101,9 +8149,11 @@ from
                 If clsCommon.myLen(obj.Document_Code) <= 0 Then
                     If (clsPSShipmentHead.SaveData(obj, isNewEntry, trans, True)) Then
                         'trans.Commit()
-                        clsPSShipmentHead.PostData(MyBase.Form_ID, obj.Document_Code, trans, Nothing, False, "")
+                        clsPSShipmentHead.PostData(MyBase.Form_ID, obj.Document_Code, trans, Nothing, True, "")
                         'clsPSShipmentHead.PostData(MyBase.Form_ID, obj.Document_Code)
                         DocCode = obj.Document_Code
+                        Dim QryBatchUpdate As String = "update  TSPL_BATCH_ITEM set In_Out_Type='N' where Document_Type='PS-SH' and  Document_Code='" + txtDocNo.Value + "'"
+                        clsDBFuncationality.ExecuteNonQuery(QryBatchUpdate, trans)
                         trans.Commit()
                         clsCommon.MyMessageBoxShow(Me, "Document Created Successfully.", Me.Text)
                     Else
@@ -8760,6 +8810,7 @@ where  TSPL_BOOKING_DETAIL.Cust_Code='" + strVendorno + "' and convert(date,TSPL
                         frm.ShowDialog()
                         If Not frm.isCencelButtonClicked Then
                             gv1.CurrentRow.Cells(colICode).Tag = frm.arr
+                            gv1.CurrentRow.Cells(colBatchNo).Value = frm.arr(0).Batch_No
                         End If
                     End If
                 End If
@@ -8785,6 +8836,7 @@ where  TSPL_BOOKING_DETAIL.Cust_Code='" + strVendorno + "' and convert(date,TSPL
                     frm.ShowDialog()
                     If Not frm.isCencelButtonClicked Then
                         gv1.CurrentRow.Cells(colICode).Tag = frm.arr
+                        gv1.CurrentRow.Cells(colBatchNo).Value = frm.arr(0).Batch_No
                     End If
                 End If
                 ' w/o fifo ends here

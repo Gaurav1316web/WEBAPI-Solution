@@ -28,7 +28,7 @@ Public Class FrmDetailsOfForm2B
             chkallcustomer.IsChecked = True
             chkLocAll.IsChecked = True
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -321,7 +321,7 @@ Public Class FrmDetailsOfForm2B
 
 
     ''        Catch ex As Exception
-    ''            common.clsCommon.MyMessageBoxShow(ex.Message)
+    ''            common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     ''        End Try
     ''    End Sub
 
@@ -620,7 +620,7 @@ Public Class FrmDetailsOfForm2B
 
 
     '        Catch ex As Exception
-    '            common.clsCommon.MyMessageBoxShow(ex.Message)
+    '            common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '        End Try
     '    End Sub
 
@@ -902,7 +902,7 @@ Public Class FrmDetailsOfForm2B
             frmcrystal.funreport(CrystalReportFolder.SalesReport, clsDBFuncationality.GetDataTable(strmain), "DetailsOfForm2BCstVat", "Details of Form 2B")
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1147,7 +1147,7 @@ Public Class FrmDetailsOfForm2B
 
 
     '' ''        Catch ex As Exception
-    '' ''            common.clsCommon.MyMessageBoxShow(ex.Message)
+    '' ''            common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '' ''        End Try
     '' ''    End Sub
 

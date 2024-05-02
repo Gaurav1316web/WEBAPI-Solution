@@ -2576,7 +2576,7 @@ Public Class FrmProcessBatchOrder
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ''richa agarwal againt ticket no BHA/02/07/18-000120
@@ -2640,7 +2640,7 @@ Public Class FrmProcessBatchOrder
             clsCommon.MyMessageBoxShow("Successfully Cancelled", Me.Text)
             FunReset()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 

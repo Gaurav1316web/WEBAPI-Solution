@@ -1869,11 +1869,11 @@ Public Class rptMCCWiseAbstractReport
     Public Sub RouteBillsAbstract(ByVal isDotMaterixPrint As Boolean)
         Try
             If clsCommon.myLen(fndLoc.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select Plant First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select Plant First.", Me.Text)
                 Return
             End If
             If clsCommon.myLen(fndSingleMCCCode.Value) <= 0 AndAlso MultipleFinderFillAuto = False Then
-                clsCommon.MyMessageBoxShow("Please select MCC First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select MCC First.", Me.Text)
                 Return
             End If
 
@@ -2112,7 +2112,7 @@ Public Class rptMCCWiseAbstractReport
                     obj.Print(obj, dt, PageSetup.Landscap, "AddDash", "1")
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
 
             End If
         Catch ex As Exception
@@ -2123,16 +2123,16 @@ Public Class rptMCCWiseAbstractReport
     Public Sub UnitWiseDeduction(ByVal isDotMaterixPrint As Boolean)
         Try
             If clsCommon.myLen(fndLoc.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select Plant First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select Plant First.", Me.Text)
                 Return
             End If
             If clsCommon.myLen(fndSingleMCCCode.Value) <= 0 AndAlso MultipleFinderFillAuto = False Then
-                clsCommon.MyMessageBoxShow("Please select MCC First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select MCC First.", Me.Text)
                 Return
             End If
             Dim strDeductionNameForPivot As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select STUFF((Select ',['+Description+']'  from (select TSPL_DEDUCTION_MASTER.Description,TSPL_DEDUCTION_MASTER.Sequence_No from TSPL_DEDUCTION_MASTER ) XXX order by Sequence_No For XML Path('')),1,1,'') "))
             If clsCommon.myLen(strDeductionNameForPivot) <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             Dim strDeductionNameWithIsNull As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select STUFF((Select ',isnull( ['+Description+'],0) as ' + '['+Description+']' from (select TSPL_DEDUCTION_MASTER.Description,TSPL_DEDUCTION_MASTER.Sequence_No from TSPL_DEDUCTION_MASTER ) XXX order by Sequence_No For XML Path('')),1,1,'') "))
@@ -2233,7 +2233,7 @@ Public Class rptMCCWiseAbstractReport
                     obj.Print(obj, dt, PageSetup.Landscap)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
 
             End If
         Catch ex As Exception
@@ -2244,11 +2244,11 @@ Public Class rptMCCWiseAbstractReport
     Public Sub TIPsummaryReportMCCandVLCwise(ByVal isDotMaterixPrint As Boolean)
         Try
             If clsCommon.myLen(fndLoc.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select Plant First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select Plant First.", Me.Text)
                 Return
             End If
             If clsCommon.myLen(fndSingleMCCCode.Value) <= 0 AndAlso MultipleFinderFillAuto = False Then
-                clsCommon.MyMessageBoxShow("Please select MCC First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select MCC First.", Me.Text)
                 Return
             End If
             Dim qry As String = ""
@@ -2349,7 +2349,7 @@ Public Class rptMCCWiseAbstractReport
                     obj.Print(obj, dt, PageSetup.Potrate)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
 
             End If
         Catch ex As Exception
@@ -2360,11 +2360,11 @@ Public Class rptMCCWiseAbstractReport
     Public Sub UnitwiseBillSummary(ByVal isDotMaterixPrint As Boolean)
         Try
             If clsCommon.myLen(fndLoc.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select Plant First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select Plant First.", Me.Text)
                 Return
             End If
             If clsCommon.myLen(fndSingleMCCCode.Value) <= 0 AndAlso MultipleFinderFillAuto = False Then
-                clsCommon.MyMessageBoxShow("Please select MCC First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select MCC First.", Me.Text)
                 Return
             End If
             'Dim StrDeductionHead As String = clsDBFuncationality.getSingleValue("DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   isnull(STUFF((SELECT distinct ',' + QUOTENAME(" &
@@ -2675,7 +2675,7 @@ Public Class rptMCCWiseAbstractReport
                     Process.Start(subPath)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -2718,7 +2718,7 @@ Public Class rptMCCWiseAbstractReport
     Private Sub txtReciptMCC__My_Click(sender As Object, e As EventArgs) Handles txtReciptMCC._My_Click
         Try
             If clsCommon.myLen(fndLoc.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select Plant First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select Plant First.", Me.Text)
                 txtReciptMCC.arrValueMember = Nothing
                 txtReciptMCC.arrDispalyMember = Nothing
                 Return

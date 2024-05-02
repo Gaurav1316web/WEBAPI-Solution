@@ -131,7 +131,7 @@ Public Class frmCustomerTargetFixing
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -335,7 +335,7 @@ Public Class frmCustomerTargetFixing
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsCustomerTargetFixing.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If

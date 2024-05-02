@@ -9949,7 +9949,7 @@ Public Class frmDeliveryOrderProductSale
     '        End If
 
     '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(ex.Message)
+    '        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
 
@@ -10072,7 +10072,7 @@ Public Class frmDeliveryOrderProductSale
                 lblDept.Text = ""
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -10215,7 +10215,7 @@ Public Class frmDeliveryOrderProductSale
                 End If
             End If
         Catch ex As Exception
-            'common.clsCommon.MyMessageBoxShow(ex.Message)
+            'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
 
@@ -10854,7 +10854,7 @@ Public Class frmDeliveryOrderProductSale
             lstUsers.Add(txtVendorNo.Value)
             SendSMSandEmail(lstUsers, False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnSendForApproval_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSendForApproval.Click
@@ -10886,7 +10886,7 @@ Public Class frmDeliveryOrderProductSale
             End If
             SendSMSandEmail(lstUsers, True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SendSMSandEmail(ByVal lstUsers As List(Of String), ByVal isSendForApproval As Boolean)
@@ -11375,7 +11375,7 @@ Public Class frmDeliveryOrderProductSale
             '    End If
             'End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub chkBookingwise_ToggleStateChanged(ByVal sender As Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles chkBookingwise.ToggleStateChanged
@@ -11426,7 +11426,7 @@ Public Class frmDeliveryOrderProductSale
                 txttcstaxbaseamount.Value = 0
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

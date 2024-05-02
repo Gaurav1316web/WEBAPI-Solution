@@ -492,7 +492,7 @@ Public Class frmPendingDispatch
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
         'If Not IsInsideLoadData Then
@@ -570,7 +570,7 @@ Public Class frmPendingDispatch
         End If
 
         'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         '    gvHead.CurrentRow.Cells(colDSelect).Value = False
         'End Try
     End Sub

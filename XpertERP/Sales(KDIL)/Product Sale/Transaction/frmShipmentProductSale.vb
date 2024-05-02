@@ -319,7 +319,7 @@ Public Class frmShipmentProductSale
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2517,7 +2517,7 @@ Public Class frmShipmentProductSale
                 Next
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2751,7 +2751,7 @@ Public Class frmShipmentProductSale
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub TotalGrossWt_FromItemMaster()
@@ -3111,7 +3111,7 @@ Public Class frmShipmentProductSale
                 gv1.CurrentRow = gv1.Rows(intCurrRow)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4419,7 +4419,7 @@ Public Class frmShipmentProductSale
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -5109,7 +5109,7 @@ Public Class frmShipmentProductSale
             Return True
         Catch ex As Exception
             If ChekPostBtn = False Then
-                common.clsCommon.MyMessageBoxShow(ex.Message)
+                common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Else
                 Throw New Exception(ex.Message)
             End If
@@ -5843,7 +5843,7 @@ Public Class frmShipmentProductSale
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -5892,7 +5892,7 @@ Public Class frmShipmentProductSale
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6165,7 +6165,7 @@ Public Class frmShipmentProductSale
                     Return True
                 Catch ex As Exception
                     trans.Rollback()
-                    common.clsCommon.MyMessageBoxShow(ex.Message)
+                    common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 End Try
             End If
         End If
@@ -6218,7 +6218,7 @@ Public Class frmShipmentProductSale
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6247,12 +6247,12 @@ Public Class frmShipmentProductSale
                 End If
                 If (clsPSShipmentHead.DeleteData(txtDocNo.Value, txtInvoiceNo.Text)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6300,7 +6300,7 @@ Public Class frmShipmentProductSale
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7414,7 +7414,7 @@ where Document_Code ='" & strDO & "')z where isnull(z.Tax_Code ,'')<>''"
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ''====================Preeti Gupta ticket no[BM00000004268,ERO/22/12/18-000450]
@@ -7534,7 +7534,7 @@ where Document_Code ='" & strDO & "')z where isnull(z.Tax_Code ,'')<>''"
             End If
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7724,7 +7724,7 @@ where Document_Code ='" & strDO & "')z where isnull(z.Tax_Code ,'')<>''"
                 lblDept.Text = ""
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7754,7 +7754,7 @@ where Document_Code ='" & strDO & "')z where isnull(z.Tax_Code ,'')<>''"
             frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptMRDA", "MRDA Report")
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -8053,7 +8053,7 @@ where Document_Code ='" & strDO & "')z where isnull(z.Tax_Code ,'')<>''"
             gv1.Rows(IntRowNo).Cells(colOrgUnit).Value = strOrgUnit
             gv1.Rows(IntRowNo).Cells(colMRP).Value = Math.Round(dblMRP, 2)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -8100,7 +8100,7 @@ where Document_Code ='" & strDO & "')z where isnull(z.Tax_Code ,'')<>''"
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -8112,7 +8112,7 @@ where Document_Code ='" & strDO & "')z where isnull(z.Tax_Code ,'')<>''"
                 gvAC.CurrentRow = gvAC.Rows(intCurrRow)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -8153,7 +8153,7 @@ where Document_Code ='" & strDO & "')z where isnull(z.Tax_Code ,'')<>''"
                 cell.BackColor = Color.FromArgb(243, 181, 51)
             End If
         Catch ex As Exception
-            'common.clsCommon.MyMessageBoxShow(ex.Message)
+            'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
 
@@ -8172,7 +8172,7 @@ where Document_Code ='" & strDO & "')z where isnull(z.Tax_Code ,'')<>''"
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     '============created by preeti gupta===============
@@ -8807,7 +8807,7 @@ where Document_Code ='" & strDO & "')z where isnull(z.Tax_Code ,'')<>''"
             lstUsers.Add(txtVendorNo.Value)
             SendEmail(lstUsers, False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 #End Region
@@ -8842,7 +8842,7 @@ where Document_Code ='" & strDO & "')z where isnull(z.Tax_Code ,'')<>''"
             End If
             SendEmail(lstUsers, True)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9611,7 +9611,7 @@ where Document_Code ='" & strDO & "')z where isnull(z.Tax_Code ,'')<>''"
                 iswithouterror = True
 a:          End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             iswithouterror = False
         Finally
             isInsideLoadData = False
@@ -9680,7 +9680,7 @@ a:          End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9754,7 +9754,7 @@ a:          End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Function UpdateCustomerAfterPosting() As Boolean
@@ -9876,7 +9876,7 @@ a:          End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnInvoiceJE_Click(sender As Object, e As EventArgs) Handles btnInvoiceJE.Click
@@ -9900,7 +9900,7 @@ a:          End If
                 txttcstaxbaseamount.Value = 0
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

@@ -51,7 +51,7 @@ Public Class rptCollectionCenterChart
             Me.picOrgChart.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top) Or System.Windows.Forms.AnchorStyles.Left) Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Text)
         End Try
     End Sub
     Function GetUsersNameInDesignation(ByVal DesignationCode As String) As String

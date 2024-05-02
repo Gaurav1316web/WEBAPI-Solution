@@ -243,7 +243,7 @@ Public Class frmOperationMaster
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
         End Try
     End Sub
@@ -388,7 +388,7 @@ Public Class frmOperationMaster
         Try
             LoadData(fndCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     '----preeti Gupta---Ticket No.BM00000002845--

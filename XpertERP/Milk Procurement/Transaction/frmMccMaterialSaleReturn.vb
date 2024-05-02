@@ -4834,7 +4834,7 @@ Public Class frmMccMaterialSaleReturn
     '            UpdateAllTotals()
     '        End If
     '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(ex.Message)
+    '        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
 
@@ -6169,7 +6169,7 @@ Public Class frmMccMaterialSaleReturn
                 'cell.BackColor = Color.FromArgb(243, 181, 51)
             End If
         Catch ex As Exception
-            'common.clsCommon.MyMessageBoxShow(ex.Message)
+            'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
 
@@ -6653,7 +6653,7 @@ Public Class frmMccMaterialSaleReturn
                 cell.BackColor = Color.FromArgb(243, 181, 51)
             End If
         Catch ex As Exception
-            'common.clsCommon.MyMessageBoxShow(ex.Message)
+            'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
 
