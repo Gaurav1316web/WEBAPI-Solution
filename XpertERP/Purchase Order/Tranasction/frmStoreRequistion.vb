@@ -2568,7 +2568,8 @@ Public Class frmStoreRequistion
     '-------------Richa Code Ends Here------------
 
     Private Sub txtRequestBy__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtRequestBy._MYValidating
-        Dim obj As clsEmployeeMaster = clsEmployeeMaster.FinderForEmployee(txtRequestBy.Value, isButtonClicked)
+
+        Dim obj As clsEmployeeMaster = clsEmployeeMaster.FinderForEmployeeSTORE(txtRequestBy.Value, isButtonClicked)
         If obj IsNot Nothing AndAlso clsCommon.myLen(obj.EMP_CODE) > 0 Then
             txtRequestBy.Value = obj.EMP_CODE
             lblRequestBy.Text = obj.Emp_Name
