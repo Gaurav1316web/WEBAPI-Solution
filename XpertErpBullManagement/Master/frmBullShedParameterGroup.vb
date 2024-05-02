@@ -269,24 +269,24 @@ Public Class frmBullShedParameterGroup
 
     Private Sub fndCode__MYValidating_1(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndCode._MYValidating
         Try
-            'Dim Sqlqry As String = "select count(*) from TSPL_BULL_SHED_PARAMETER_MASTER where Code ='" + fndCode.Value + "'"
-            'Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Sqlqry))
-            'If count = 0 Then
-            '    fndCode.MyReadOnly = False
-            'Else
-            '    fndCode.MyReadOnly = True
-            'End If
-            'If fndCode.MyReadOnly OrElse isButtonClicked Then
-            '    Dim whrClas As String = ""
-            Dim qry As String
-            'qry = " select count(*) from TSPL_BULL_SHED_PARAMETER_MASTER where Code ='" + fndCode.Value + "'"
-            'Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+            Dim Sqlqry As String = "select count(*) from TSPL_BULL_SHED_PARAMETER_MASTER where Code ='" + fndCode.Value + "'"
+            Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Sqlqry))
+            If count = 0 Then
+                fndCode.MyReadOnly = False
+            Else
+                fndCode.MyReadOnly = True
+            End If
+            If fndCode.MyReadOnly OrElse isButtonClicked Then
+                Dim whrClas As String = ""
+                Dim qry As String
+                'qry = " select count(*) from TSPL_BULL_SHED_PARAMETER_MASTER where Code ='" + fndCode.Value + "'"
+                'Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
 
-            'If count > 0 Then
-            qry = "select Code as Code,Name as [Name] from TSPL_BULL_SHED_PARAMETER_MASTER"
+                'If count > 0 Then
+                qry = "select Code as Code,Name as [Name] from TSPL_BULL_SHED_PARAMETER_MASTER"
                 fndCode.Value = clsCommon.ShowSelectForm("RTY", qry, "Code", "", fndCode.Value, " Code asc", isButtonClicked, Nothing)
                 LoadData(fndCode.Value, NavigatorType.Current)
-            ' End If
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

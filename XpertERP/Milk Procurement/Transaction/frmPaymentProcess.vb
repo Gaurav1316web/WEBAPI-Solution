@@ -237,11 +237,11 @@ Public Class FrmPaymentProcess
             AutoFillAllVSP()
         End If
 
-
         If clsCommon.myLen(Me.Tag) > 0 Then
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
     End Sub
+
 
     Public Sub LoadDataFromOtherForm()
         Try

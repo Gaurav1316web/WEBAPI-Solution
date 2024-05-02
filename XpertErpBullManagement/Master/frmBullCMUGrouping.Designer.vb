@@ -33,11 +33,13 @@ Partial Class frmBullCMUGrouping
         Me.txtMultiGroup = New common.UserControls.txtMultiSelectFinder()
         Me.fndGroup = New common.Controls.MyLabel()
         Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.MyLabel3 = New common.Controls.MyLabel()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.TxtName = New common.Controls.MyTextBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.UsLock1 = New common.usLock()
+        Me.dtpDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.fndCode = New common.UserControls.txtNavigator()
         Me.txtremarks = New common.Controls.MyTextBox()
         Me.lblName = New common.Controls.MyLabel()
@@ -46,8 +48,6 @@ Partial Class frmBullCMUGrouping
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
-        Me.dtpDate = New Telerik.WinControls.UI.RadDateTimePicker()
-        Me.MyLabel3 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -55,10 +55,12 @@ Partial Class frmBullCMUGrouping
         CType(Me.fndGroup, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TxtName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dtpDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtremarks, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -66,8 +68,6 @@ Partial Class frmBullCMUGrouping
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dtpDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -169,6 +169,17 @@ Partial Class frmBullCMUGrouping
         Me.gv1.TabIndex = 90
         Me.gv1.TabStop = False
         '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.MyLabel3.Location = New System.Drawing.Point(374, 23)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(31, 16)
+        Me.MyLabel3.TabIndex = 89
+        Me.MyLabel3.Text = "Date"
+        Me.MyLabel3.Visible = False
+        '
         'MyLabel2
         '
         Me.MyLabel2.FieldName = Nothing
@@ -236,6 +247,21 @@ Partial Class frmBullCMUGrouping
         Me.UsLock1.Size = New System.Drawing.Size(101, 20)
         Me.UsLock1.Status = common.ERPTransactionStatus.Pending
         Me.UsLock1.TabIndex = 84
+        '
+        'dtpDate
+        '
+        Me.dtpDate.CustomFormat = "dd/MM/yyyy"
+        Me.dtpDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpDate.Location = New System.Drawing.Point(417, 20)
+        Me.dtpDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpDate.Name = "dtpDate"
+        Me.dtpDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpDate.Size = New System.Drawing.Size(85, 20)
+        Me.dtpDate.TabIndex = 82
+        Me.dtpDate.TabStop = False
+        Me.dtpDate.Text = "23/04/2024"
+        Me.dtpDate.Value = New Date(2024, 4, 23, 0, 0, 0, 0)
+        Me.dtpDate.Visible = False
         '
         'fndCode
         '
@@ -342,32 +368,6 @@ Partial Class frmBullCMUGrouping
         Me.btndelete.TabIndex = 91
         Me.btndelete.Text = "Delete"
         '
-        'dtpDate
-        '
-        Me.dtpDate.CustomFormat = "dd/MM/yyyy"
-        Me.dtpDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpDate.Location = New System.Drawing.Point(417, 20)
-        Me.dtpDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpDate.Name = "dtpDate"
-        Me.dtpDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpDate.Size = New System.Drawing.Size(85, 20)
-        Me.dtpDate.TabIndex = 82
-        Me.dtpDate.TabStop = False
-        Me.dtpDate.Text = "23/04/2024"
-        Me.dtpDate.Value = New Date(2024, 4, 23, 0, 0, 0, 0)
-        Me.dtpDate.Visible = False
-        '
-        'MyLabel3
-        '
-        Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
-        Me.MyLabel3.Location = New System.Drawing.Point(374, 23)
-        Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(31, 16)
-        Me.MyLabel3.TabIndex = 89
-        Me.MyLabel3.Text = "Date"
-        Me.MyLabel3.Visible = False
-        '
         'frmBullCMUGrouping
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -388,10 +388,12 @@ Partial Class frmBullCMUGrouping
         CType(Me.fndGroup, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TxtName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dtpDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtremarks, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
@@ -399,8 +401,6 @@ Partial Class frmBullCMUGrouping
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dtpDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
