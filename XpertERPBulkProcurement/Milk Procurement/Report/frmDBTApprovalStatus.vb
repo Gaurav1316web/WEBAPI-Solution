@@ -42,6 +42,7 @@ Public Class frmDBTApprovalStatus
 
             Dim CD As New DateTime(SY, SM, 1)
             Slot2 = clsCommon.GetPrintDate(CD.AddMonths(1).AddDays(-1), "dd/MMM/yyyy")
+
             ''txtTODate.Value = txtFromDate.Value.AddMonths(2)
             Month1 = clsCommon.GetPrintDate(txtFromDate.Value, "MM-yyyy")
             Month2 = clsCommon.GetPrintDate(txtFromDate.Value.AddMonths(1), "MM-yyyy")
@@ -70,12 +71,12 @@ Public Class frmDBTApprovalStatus
         If rbtnSummary.IsChecked Then
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For ii As Integer = 0 To dt.Rows.Count - 1
-                    BaseQry &= "DB_Name as [Union Name], Document_Code As [Document Code], Convert(varchar,TSPL_DBT_NEFT_RCDF.From_Date,103) AS [From Date], Convert(varchar,TSPL_DBT_NEFT_RCDF.To_Date,103) AS [TO Date],Created_By
+                    BaseQry &= "Select DB_Name as [Union Name], Document_Code As [Document Code], Convert(varchar,TSPL_DBT_NEFT_RCDF.From_Date,103) AS [From Date], Convert(varchar,TSPL_DBT_NEFT_RCDF.To_Date,103) AS [TO Date],Created_By
                             AS [Created By], Convert(varchar,TSPL_DBT_NEFT_RCDF.Created_Date,103) AS [Created Date], Post_By as [Approved By], Convert(varchar,TSPL_DBT_NEFT_RCDF.Post_Date,103) as [Approved Date & Time], "
                     BaseQry &= "CASE WHEN ISNULL(Status,0) = 0 THEN 'Pending' ELSE 'Approved' END AS Status "
                     BaseQry &= "FROM TSPL_DBT_NEFT_RCDF WHERE DB_Name ='" & clsCommon.myCstr(fndUnion.Value) & "' "
-                    BaseQry &= "AND CONVERT(date, From_Date, 103) >= '" & Slot1 & "' "
-                    BaseQry &= "AND CONVERT(date, To_Date, 103) <= '" & Slot2 & "' "
+                    BaseQry &= "AND CONVERT(date, From_Date, 103) >= CONVERT(date,'" & Slot1 & "', 103) "
+                    BaseQry &= "AND CONVERT(date, To_Date, 103) <= CONVERT(date,'" & Slot2 & "', 103) "
                     ' Check if rbtnTransactionPosted is checked
                     If rbtnTransactionPending.Checked Then
                         ' Show only data with status=0
