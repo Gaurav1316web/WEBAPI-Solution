@@ -704,7 +704,7 @@ Public Class frmRCDFStandardization
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gvProduce_CellValueChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvProduce.CellValueChanged
@@ -842,7 +842,7 @@ Public Class frmRCDFStandardization
         For Each grow As GridViewRowInfo In gvProduce.Rows
             If clsCommon.myLen(grow.Cells(colProduceBOMCode).Value) > 0 AndAlso clsCommon.myLen(grow.Cells(colProduceItemCode).Value) > 0 AndAlso clsCommon.myLen(grow.Cells(colProduceUOM).Value) > 0 Then
                 objlist = New List(Of clsRecursiveitems)
-                clsRecursiveitems.GetItemOfBOM(objlist, grow.Cells(colProduceItemCode).Value, grow.Cells(colProduceQty).Value, grow.Cells(colProduceUOM).Value, "", "", dtpDate.Value, Nothing, 1, True, grow.Cells(colProduceBOMCode).Value)
+                clsRecursiveitems.GetItemOfBOM(objlist, grow.Cells(colProduceItemCode).Value, grow.Cells(colProduceQty).Value, grow.Cells(colProduceUOM).Value, "", "", dtpDate.Value, Nothing, 1, True, grow.Cells(colProduceBOMCode).Value, False)
                 If objlist IsNot Nothing AndAlso objlist.Count > 0 Then
                     For Each objtr As clsRecursiveitems In objlist
                         gvIssue.Rows.AddNew()
@@ -890,7 +890,7 @@ Public Class frmRCDFStandardization
     Private Sub IssueOpenLocation()
         Dim intRow As Integer = gvIssue.CurrentRow.Index
         If clsCommon.myLen(arrLoc) <= 0 Then
-            clsCommon.MyMessageBoxShow("No location rights.")
+            clsCommon.MyMessageBoxShow(Me, "No location rights.", Me.Text)
             Exit Sub
         End If
         Dim frm As New FrmPPIssueChildScrren()
@@ -1062,7 +1062,7 @@ Public Class frmRCDFStandardization
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.frmProcessProductionStandardization)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -1492,7 +1492,7 @@ Public Class frmRCDFStandardization
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -1713,9 +1713,9 @@ Public Class frmRCDFStandardization
                 If clsRCDFStanardization.SaveData(isNewEntry, obj) Then
                     If isPost = False Then
                         If clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal Then
-                            clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                            clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                         Else
-                            clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                            clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                         End If
                     End If
 
@@ -1730,7 +1730,7 @@ Public Class frmRCDFStandardization
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -1758,7 +1758,7 @@ Public Class frmRCDFStandardization
             Dim isDeleted As Boolean = False
             If clsRCDFStanardization.DeleteData(txtCode.Value, trans) Then
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                 isDeleted = True
             End If
 
@@ -1768,7 +1768,7 @@ Public Class frmRCDFStandardization
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnPost_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPost.Click
@@ -1793,7 +1793,7 @@ Public Class frmRCDFStandardization
 
 
 
-            If Not clsCommon.MyMessageBoxShow("Are you sure,want to post entry no. " + txtCode.Value + "?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
+            If Not clsCommon.MyMessageBoxShow(Me, "Are you sure,want to post entry no. " + txtCode.Value + "?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
                 Return
             End If
 
@@ -1804,11 +1804,11 @@ Public Class frmRCDFStandardization
             End If
             'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             If clsRCDFStanardizationTemp.PostData(txtCode.Value, arrLoc, "") Then
-                clsCommon.MyMessageBoxShow("Data Posted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully", Me.Text)
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnclose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnclose.Click
@@ -2029,7 +2029,7 @@ Public Class frmRCDFStandardization
             End If
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         isInsideLoadData = False
     End Sub
@@ -2099,7 +2099,7 @@ Public Class frmRCDFStandardization
             'FillStageDetail()
             'FillSection()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub FillBatchOrder()
@@ -2343,7 +2343,7 @@ Public Class frmRCDFStandardization
     End Sub
     Private Sub OpenUOM(ByVal isButtonClicked As Boolean)
         If clsCommon.myLen(gvAddRemove.CurrentRow.Cells(colARItemCode).Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select item code first", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Select item code first", Me.Text)
             Exit Sub
         End If
         qry = "select TSPL_ITEM_UOM_DETAIL.UOM_Code as Code,TSPL_UNIT_MASTER.Unit_Desc as Description,TSPL_ITEM_UOM_DETAIL.Weight,TSPL_ITEM_UOM_DETAIL.Stocking_Unit as [Stocking Unit],TSPL_ITEM_UOM_DETAIL.Conversion_Factor as [Conversion Factor] from TSPL_ITEM_UOM_DETAIL left outer join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.UOM_Code "
@@ -2370,7 +2370,7 @@ Public Class frmRCDFStandardization
     Private Sub btnunpost_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnunpost.Click
         Try
 
-            If common.clsCommon.MyMessageBoxShow("Amend and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Amend and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 Dim Reason As String = ""
                 Dim frm As New FrmFreeTxtBox1
                 frm.Text = "Remarks for Amendment"
@@ -2398,7 +2398,7 @@ Public Class frmRCDFStandardization
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub UpdateBatchFatSNF(ByVal Item_Code As String, ByVal Value As Decimal, ByVal Type As String, ByVal QC_Type As String)
@@ -2454,14 +2454,14 @@ Public Class frmRCDFStandardization
             If clsCommon.myLen(txtCode.Value) <= 0 Then
                 Throw New Exception("Code is empty")
             End If
-            If clsCommon.MyMessageBoxShow("Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+            If clsCommon.MyMessageBoxShow(Me, "Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                 Exit Function
             End If
             'clsRCDFStanardization.CancelData(Me.Form_ID, txtCode.Value)
-            clsCommon.MyMessageBoxShow("Successfully Cancelled", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
             FunReset()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -2554,7 +2554,7 @@ Public Class frmRCDFStandardization
         calculateALL()
     End Sub
     Private Sub gvARDetail_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gvAddRemove.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
 
         End If
@@ -2668,7 +2668,7 @@ Public Class frmRCDFStandardization
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Code")
+                clsCommon.MyMessageBoxShow(Me, "Select Code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "Doc_Code", "TSPL_RCDF_STD", "TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL")
@@ -2678,7 +2678,7 @@ Public Class frmRCDFStandardization
     End Sub
     Private Sub txtLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocation._MYValidating
         If clsCommon.myLen(arrLoc) <= 0 Then
-            clsCommon.MyMessageBoxShow("No location rights.")
+            clsCommon.MyMessageBoxShow(Me, "No location rights.", Me.Text)
             Exit Sub
         End If
 

@@ -206,7 +206,7 @@ where TSPL_PAYMENT_HEADER.Payment_type in ('AV','OA','PY')"
             Exit Sub
         End If
         If chkVendorSelect.IsChecked AndAlso cbgVendor.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single vendor or select all.")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single vendor or select all.", Me.Text)
             Exit Sub
         End If
         'Dim Qry As String = " select  Value ,TSPL_PAYMENT_HEADER.Payment_No as Doc_No,convert(varchar,Payment_Date,103)as Payment_Date,Payment_Amount,bank.BANKACCNUMBER as Debit_Account,TSPL_PAYMENT_HEADER.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_VENDOR_MASTER.bank_code as Vendor_Bank_Code,TSPL_VENDOR_MASTER.IFSC_Code,VendorBank.DESCRIPTION as Vendor_Bank_Name,TSPL_BANK_BRANCH_MASTER.Branch_code as Vendor_Branch_code,TSPL_BANK_BRANCH_MASTER.Branch_Name as Vendor_Branch_Name ,TSPL_PAYMENT_HEADER.Payment_Code,Account_No as Credit_Account,TSPL_PAYMENT_HEADER.Bank_Code,Bank.DESCRIPTION as Bank_Name,Bank.Add1,Bank.Add2,Bank.Add3,Bank.Add4 ,TSPL_COMPANY_MASTER.Comp_Name from TSPL_PAYMENT_HEADER left join TSPL_PAYMENT_DETAIL on TSPL_PAYMENT_DETAIL.Payment_No=TSPL_PAYMENT_HEADER.Payment_No  left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_PAYMENT_HEADER.Vendor_Code  left outer join tspl_bank_master as VendorBank on VendorBank.bank_code=TSPL_VENDOR_MASTER.bank_code left join TSPL_BANK_BRANCH_MASTER on TSPL_BANK_BRANCH_MASTER.Bank_code=VendorBank.bank_code left join TSPL_bank_master as Bank on Bank.bank_code=TSPL_PAYMENT_HEADER.Bank_Code left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.comp_code=TSPL_PAYMENT_HEADER.comp_code left join (select Transaction_code,Value from TSPL_CUSTOM_FIELD_VALUES left join TSPL_CUSTOM_FIELD_HEAD on TSPL_CUSTOM_FIELD_HEAD.Code=TSPL_CUSTOM_FIELD_VALUES.Custom_Field_Code left join TSPL_PROGRAM_MASTER on TSPL_PROGRAM_MASTER.Program_Code=TSPL_CUSTOM_FIELD_VALUES.Program_Code where TSPL_CUSTOM_FIELD_VALUES.Program_Code='PYMT-NEW'  and "
@@ -310,7 +310,7 @@ where TSPL_PAYMENT_HEADER.Payment_type in ('AV','OA','PY')"
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -320,7 +320,7 @@ where TSPL_PAYMENT_HEADER.Payment_type in ('AV','OA','PY')"
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
     Private Sub FunExport(ByVal exporter As EnumExportTo)
         Try

@@ -484,85 +484,7 @@ Public Class clsCustomFieldMapping
 End Class
 
 
-Public Class clsCustomFieldValues
-#Region "Variables"
-    Public Program_Code As String = Nothing
-    Public Transaction_Code As String = Nothing
-    Public Custom_Field_Code As String = Nothing
-    Public Value As String = Nothing
-    Public Line_N0_For_Detail As Integer = 0
-    Public ValueDescription As String = Nothing ''Not a table filed
-#End Region
 
-    Public Shared Function SaveData(ByVal strProgramCode As String, ByVal strTransactionCode As String, ByVal Arr As List(Of clsCustomFieldValues), ByVal trans As SqlTransaction) As Boolean
-        Try
-            Dim qry As String = "delete from TSPL_CUSTOM_FIELD_VALUES where Program_Code='" + strProgramCode + "' and Transaction_Code='" + strTransactionCode + "'"
-            clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
-                Dim counter As Integer = 1
-                For Each obj As clsCustomFieldValues In Arr
-                    Dim coll As New Hashtable()
-                    clsCommon.AddColumnsForChange(coll, "Program_Code", strProgramCode)
-                    clsCommon.AddColumnsForChange(coll, "Transaction_Code", strTransactionCode)
-                    clsCommon.AddColumnsForChange(coll, "Custom_Field_Code", obj.Custom_Field_Code)
-                    clsCommon.AddColumnsForChange(coll, "Value", obj.Value)
-                    clsCommon.AddColumnsForChange(coll, "Line_N0_For_Detail", obj.Line_N0_For_Detail)
-                    counter += 1
-                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOM_FIELD_VALUES", OMInsertOrUpdate.Insert, "", trans)
-                Next
-            End If
-        Catch ex As Exception
-            Throw New Exception(ex.Message)
-        End Try
-        Return True
-    End Function
-
-    Public Shared Function DeleteData(ByVal strProgramCode As String, ByVal strTransactionCode As String, ByVal trans As SqlTransaction) As Boolean
-        Try
-            Dim qry As String = "delete from TSPL_CUSTOM_FIELD_VALUES where Program_Code='" + strProgramCode + "' and Transaction_Code='" + strTransactionCode + "'"
-            clsDBFuncationality.ExecuteNonQuery(qry, trans)
-        Catch ex As Exception
-            Throw New Exception(ex.Message)
-        End Try
-        Return True
-    End Function
-
-    Public Shared Function getQueryStringForRPT(ByVal strProgramCode As String, ByVal strTransactionCode As String, ByVal trans As SqlTransaction) As String
-        Try
-            Dim qry As String = "delete from TSPL_CUSTOM_FIELD_VALUES where Program_Code='" + strProgramCode + "' and Transaction_Code='" + strTransactionCode + "'"
-            clsDBFuncationality.ExecuteNonQuery(qry, trans)
-        Catch ex As Exception
-            Throw New Exception(ex.Message)
-        End Try
-        Return True
-    End Function
-    Public Shared Function GetData(ByVal strProgramCode As String, ByVal strTransactionCode As String, ByVal isForDetail As Boolean) As List(Of clsCustomFieldValues)
-        Dim Arr As List(Of clsCustomFieldValues) = Nothing
-        Dim qry As String = "SELECT TSPL_CUSTOM_FIELD_VALUES.*,TSPL_CUSTOM_FIELD_DETAIL.Description as ValueDescription  FROM TSPL_CUSTOM_FIELD_VALUES  left outer join TSPL_CUSTOM_FIELD_DETAIL on TSPL_CUSTOM_FIELD_DETAIL.Custom_Field_Code=TSPL_CUSTOM_FIELD_VALUES.Custom_Field_Code  and TSPL_CUSTOM_FIELD_DETAIL.Value=TSPL_CUSTOM_FIELD_VALUES.Value where Program_Code='" + strProgramCode + "' and Transaction_Code='" + strTransactionCode + "' "
-        If isForDetail Then
-            qry += " and Line_N0_For_Detail >0"
-        Else
-            qry += " and Line_N0_For_Detail =0"
-        End If
-
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-            Arr = New List(Of clsCustomFieldValues)
-            Dim objTr As clsCustomFieldValues
-            For Each dr As DataRow In dt.Rows
-                objTr = New clsCustomFieldValues
-                objTr.Program_Code = clsCommon.myCstr(dr("Program_Code"))
-                objTr.Transaction_Code = clsCommon.myCstr(dr("Transaction_Code"))
-                objTr.Custom_Field_Code = clsCommon.myCstr(dr("Custom_Field_Code"))
-                objTr.Value = clsCommon.myCstr(dr("Value"))
-                objTr.ValueDescription = clsCommon.myCstr(dr("ValueDescription"))
-                objTr.Line_N0_For_Detail = clsCommon.myCstr(dr("Line_N0_For_Detail"))
-                Arr.Add(objTr)
-            Next
-        End If
-        Return Arr
-    End Function
-End Class
 
 Public Class clsCustomFieldGrid
     Public iCode As String = ""
@@ -746,7 +668,132 @@ Public Class clsCustomFieldGrid
         End If
 
     End Sub
+    Public Shared Sub LoadBlankGrid(ByVal gv1 As RadGridView, ByVal ArrDetailFields As List(Of clsCustomFieldMapping), ByVal trans As SqlTransaction, Optional Report_Id As String = "")
+        If ArrDetailFields IsNot Nothing AndAlso ArrDetailFields.Count > 0 AndAlso clsCommon.myLen(Report_Id) > 0 Then
 
+            ControlsInvolvedinCalculation = ucCustomFields.getControlInvolvedInCalculation(Report_Id, trans)
+            If ControlsInvolvedinCalculation IsNot Nothing AndAlso ControlsInvolvedinCalculation.Count > 0 Then
+                FormId = Report_Id
+                ArrCustomFields = ArrDetailFields
+                grid = gv1
+                AddHandler gv1.CellValueChanged, AddressOf clsCustomFieldGrid.Grid_CellValueChanged
+            End If
+            For Each obj As clsCustomFieldMapping In ArrDetailFields
+                If obj.Is_Validate Then
+                    'Dim qry As String = "select Value,Description from TSPL_CUSTOM_FIELD_DETAIL where Custom_Field_Code='" + obj.Custom_Field_Code + "' order by SNo"
+                    'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                    'Dim dr As DataRow = dt.NewRow()
+                    'dr("Value") = ""
+                    'dt.Rows.InsertAt(dr, 0)
+
+                    'Dim repoItem As GridViewMultiComboBoxColumn = New GridViewMultiComboBoxColumn()
+                    'repoItem.FormatString = ""
+                    'repoItem.HeaderText = obj.Custom_Field_Name
+                    'repoItem.Name = obj.Custom_Field_Code
+                    'repoItem.Width = 100
+                    'repoItem.ReadOnly = False
+                    'repoItem.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+                    'repoItem.DataSource = dt
+                    'repoItem.ValueMember = "Value"
+                    'repoItem.DisplayMember = "Description"
+                    'gv1.MasterTemplate.Columns.Add(repoItem)
+
+                    Dim repoItem As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+                    repoItem.FormatString = ""
+                    repoItem.HeaderText = obj.Custom_Field_Name
+                    repoItem.Name = obj.Custom_Field_Code
+                    repoItem.Width = 100
+                    repoItem.ReadOnly = False
+                    repoItem.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+                    repoItem.HeaderImage = Global.XpertERPEngine.My.Resources.search4
+                    repoItem.TextImageRelation = TextImageRelation.TextBeforeImage
+                    'repoItem.Tag=obj.Custom_Field_Field_Name 
+                    If obj.Is_CalCulated_Column = 1 Then
+                        repoItem.ReadOnly = True
+                    End If
+                    gv1.MasterTemplate.Columns.Add(repoItem)
+                    ' gv1.MasterTemplate.Columns(obj.Custom_Field_Code).Tag = "CFLD"
+                    gv1.MasterTemplate.Columns(obj.Custom_Field_Code).FieldName = "_CFLD_" & obj.Custom_Field_Code
+
+                    Dim repoItemDesc As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+                    repoItemDesc.FormatString = ""
+                    repoItemDesc.HeaderText = obj.Custom_Field_Name & " Description"
+                    repoItemDesc.Name = obj.Custom_Field_Code & "DESC"
+                    repoItemDesc.Width = 100
+                    repoItemDesc.ReadOnly = True
+                    repoItemDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+                    If obj.Is_CalCulated_Column = 1 Then
+                        repoItemDesc.ReadOnly = True
+                    End If
+                    gv1.MasterTemplate.Columns.Add(repoItemDesc)
+
+
+                    'Dim repoItem As GridViewComboBoxColumn = New GridViewComboBoxColumn()
+                    'repoItem.FormatString = ""
+                    'repoItem.HeaderText = obj.Custom_Field_Name
+                    'repoItem.Name = obj.Custom_Field_Code
+                    'repoItem.Width = 100
+                    'repoItem.ReadOnly = False
+                    'repoItem.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+                    'repoItem.DataSource = dt
+                    'repoItem.ValueMember = "Value"
+                    'repoItem.DisplayMember = "Description"
+                    'gv1.MasterTemplate.Columns.Add(repoItem)
+                ElseIf obj.Type = EnumCustomFieldType.TextType Then
+                    Dim repoItem As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+                    repoItem.HeaderText = obj.Custom_Field_Name
+                    repoItem.Name = obj.Custom_Field_Code
+                    repoItem.Width = 100
+                    repoItem.ReadOnly = False
+                    If obj.Is_CalCulated_Column = 1 Then
+                        repoItem.ReadOnly = True
+                    End If
+                    gv1.MasterTemplate.Columns.Add(repoItem)
+                ElseIf obj.Type = EnumCustomFieldType.NumberType Then
+                    Dim repoItem As GridViewDecimalColumn = New GridViewDecimalColumn()
+                    repoItem.WrapText = True
+                    repoItem.ReadOnly = False
+                    repoItem.FormatString = ""
+                    repoItem.HeaderText = obj.Custom_Field_Name
+                    repoItem.Name = obj.Custom_Field_Code
+                    repoItem.Width = 100
+                    repoItem.Minimum = 0
+                    If obj.Is_CalCulated_Column = 1 Then
+                        repoItem.ReadOnly = True
+                    End If
+                    repoItem.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+                    gv1.MasterTemplate.Columns.Add(repoItem)
+                ElseIf obj.Type = EnumCustomFieldType.DateType Then
+                    Dim repoItem As GridViewDateTimeColumn = New GridViewDateTimeColumn()
+                    repoItem.Format = DateTimePickerFormat.Custom
+                    repoItem.CustomFormat = "dd-MM-yyyy"
+                    repoItem.HeaderText = obj.Custom_Field_Name
+                    repoItem.FormatString = "{0:d}"
+                    repoItem.Name = obj.Custom_Field_Code
+                    repoItem.WrapText = True
+                    repoItem.ReadOnly = False
+                    If obj.Is_CalCulated_Column = 1 Then
+                        repoItem.ReadOnly = True
+                    End If
+                    repoItem.Width = 100
+                    gv1.MasterTemplate.Columns.Add(repoItem)
+                ElseIf obj.Type = EnumCustomFieldType.CheckType Then
+                    Dim repoItem As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
+                    repoItem.HeaderText = obj.Custom_Field_Name
+                    repoItem.Name = obj.Custom_Field_Code
+                    repoItem.ReadOnly = False
+                    repoItem.IsVisible = True
+                    If obj.Is_CalCulated_Column = 1 Then
+                        repoItem.ReadOnly = True
+                    End If
+                    repoItem.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+                    repoItem.Width = 100
+                    gv1.MasterTemplate.Columns.Add(repoItem)
+                End If
+            Next
+        End If
+
+    End Sub
     Public Shared Sub GetData(ByRef arr As List(Of clsCustomFieldValues), ByVal gv1 As RadGridView, ByVal ArrDetailFields As List(Of clsCustomFieldMapping), ByVal strConditionalCol As String)
         If ArrDetailFields IsNot Nothing AndAlso ArrDetailFields.Count > 0 Then
             For Each objSetting As clsCustomFieldMapping In ArrDetailFields

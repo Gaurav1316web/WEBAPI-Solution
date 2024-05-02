@@ -204,9 +204,9 @@ left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No
                 If clsCommon.myLen(dt.Rows(0)("Against_DCS_Multiple_Days")) > 0 OrElse clsCommon.myLen(dt.Rows(0)("Against_DCS_Multiple_Days_Merge")) > 0 Then
                     isAgainstMultipleDays = True
                 End If
-                qry = "select MCC_SHIFT_CODE  from TSPL_OPEN_MCC_SHIFT where MCC_CODE='" + clsCommon.myCstr(dt.Rows(0)("MCC_Code")) + "' 
+                qry = "select Document_No from TSPL_MILK_SHIFT_UPLOADER_HEAD where MCC_CODE='" + clsCommon.myCstr(dt.Rows(0)("MCC_Code")) + "' 
 and SHIFT='" + objDCSTr.Shift + "' 
-and convert(date, MCC_SHIFT_DATE,103)=convert(date, '" + clsCommon.GetPrintDate(IIf((clsCommon.CompairString(objDCSTr.Shift, "M") = CompairStringResult.Equal OrElse isAgainstMultipleDays), objDCS.Document_Date, objDCS.Document_Date.AddDays(-1)), "dd/MMM/yyyy") + "',103)"
+and convert(date, Shift_Date,103)=convert(date, '" + clsCommon.GetPrintDate(IIf((clsCommon.CompairString(objDCSTr.Shift, "M") = CompairStringResult.Equal OrElse isAgainstMultipleDays), objDCS.Document_Date, objDCS.Document_Date.AddDays(-1)), "dd/MMM/yyyy") + "',103)"
                 Dim dtShit As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                 If dtShit Is Nothing OrElse dtShit.Rows.Count <= 0 Then
                     Dim objtr As New clsMilkShiftUploaderDetail

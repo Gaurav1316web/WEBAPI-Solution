@@ -168,7 +168,7 @@ Public Class frmTrialBalanceReport
                 grdTrial.CurrentRow.Cells(1).Value = dblNewCode
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -181,7 +181,7 @@ Public Class frmTrialBalanceReport
         Try
             FrmProvionalSalesReport.proShowReport("Trial balance", dtpFdate.Value, DtpTodate.Value)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

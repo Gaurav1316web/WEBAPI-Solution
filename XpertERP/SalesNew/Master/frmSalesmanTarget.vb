@@ -271,7 +271,7 @@ Public Class FrmSalesmanTarget
                 btnSave.Text = "Update"
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -302,7 +302,7 @@ Public Class FrmSalesmanTarget
                 txtAmount.Text = clsCommon.myCstr(Amount)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -328,7 +328,7 @@ Public Class FrmSalesmanTarget
                 clsCommon.MyMessageBoxShow("Data deleted successfully.")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -354,7 +354,7 @@ Public Class FrmSalesmanTarget
         Try
             LoadData(txtTargetNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -801,7 +801,7 @@ Public Class frmJWOGateEntry
             UcAttachment1.AllowToSave()
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -843,7 +843,7 @@ Public Class frmJWOGateEntry
             fndGateEntryNO.MyReadOnly = False
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub SaveData(ByVal isPost As Boolean)
@@ -951,7 +951,7 @@ Public Class frmJWOGateEntry
             fndGateEntryNO.MyReadOnly = False
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub postDataQC()
@@ -998,7 +998,7 @@ Public Class frmJWOGateEntry
             End If
             dt = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub postData()
@@ -1049,7 +1049,7 @@ Public Class frmJWOGateEntry
             End If
             dt = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal strGateEntryNo As String, ByVal docType As String, ByVal nav As NavigatorType)
@@ -1445,7 +1445,7 @@ Public Class frmJWOGateEntry
         '        End If
         '    End If
         'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         '    txtTankerNoBulk.Text = ""
         '    txtTankerNoBulk.Focus()
         'End Try
@@ -1555,7 +1555,7 @@ Public Class frmJWOGateEntry
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             dtpDateAndTimeBulk.Value = clsCommon.myCDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy hh:mm:ss tt")
         End Try
     End Sub

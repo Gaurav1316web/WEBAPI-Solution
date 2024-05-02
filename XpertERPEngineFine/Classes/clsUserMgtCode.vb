@@ -279,6 +279,8 @@ Public Class clsUserMgtCode
     Public Const frmQualityCheckApprovalForSRN As String = "QC_APRV_SRN"
     Public Const rptPendingQCReport As String = "PND_QC_RPT"
     Public Const QualitySummaryReport As String = "QTY_SUMY_RPT"
+    Public Const rptQCAnalysisReport As String = "QC_ANLS_RPT"
+
     'frmQualityCheckForSRN
     ''==================
 
@@ -312,7 +314,28 @@ Public Class clsUserMgtCode
     Public Const frmBullSSCentreMaster As String = "BULL-SS-CE"
     Public Const frmBullPenIDMaster As String = "BULL-PAN-M"
     Public Const frmBullMasters As String = "BULL-Maste"
+    Public Const frmBullMovement As String = "BULL-MVMNT"
+    Public Const frmBullCurlingEntry As String = "BULL-CUR-ENT"
+    Public Const frmBullStatus As String = "BULL-Status"
+    Public Const frmBullSubStatus As String = "BULL-SUB-S"
+    Public Const frmBullSourcePainting As String = "BULL-SOUR"
+    Public Const frmBullRating As String = "BULL-RATING"
+    Public Const frmBullSourceName As String = "BULL-SOURCE"
+    Public Const frmBullPurchaseNo As String = "BUL-PURCHASE"
+    Public Const frmBullInsuranceMaster As String = "BULL-INSR-M"
+    Public Const frmBullInsuranceType As String = "BULL-INSR-TY"
+    Public Const frmBullInsurance As String = "BULL-INSRCE"
+    'Public Const frmBullSourceName As String = "BULL-SOURCE"
+    'Public Const frmBullPurchaseNo As String = "BUL-PURCHASE"
+    Public Const frmDiseaseMaster As String = "DIZIZ-MST"
+    Public Const frmBullTestParameterEntry As String = "BLL-TST-MTR"
+    Public Const frmBullVaccinationEntry As String = "BULL-VAC-EN"
 
+    Public Const frmInsuranceTagAllocation As String = "INS-TG-ALOC"
+
+    Public Const frmBullCMUGrouping As String = "BLL-CMU-GRP"
+
+    Public Const frmCMUChecklistEntry As String = "BLL-CMU-CHKL"
 
     ''============BullManagementReport=======================
     Public Const SubModuleBullManagementReport As String = "MSBullMangR"
@@ -2634,6 +2657,20 @@ Public Class clsUserMgtCode
     ''==================MILK UNION===================
     Public Const ModuleMilkUnion As String = "MLK_UNION"
     Public Const SubModuleMilkUnion As String = "RPT_MLK_UNN"
+
+
+    ''==================Sheed Module start here ===============
+    Public Const ModuleSheed As String = "MSHEED"
+    Public Const SubModuleSheedSetUp As String = "SMSHEED"
+    Public Const frmSheedGrowerMaster As String = "SHEED-GRWR-M"
+
+
+    ''=========== sheed transactions=====
+    Public Const SubModuleSheedTransaction As String = "SMSHEED-T"
+
+
+    ''============sheed MODULE  Report=======================
+    Public Const SubModuleSheedReport As String = "SMSHEED-R"
 
 
     Private Shared Function InsertDefaultValue(ByVal strProgramCode As String, ByVal strProgramName As String, ByVal strLevel1 As String, ByVal strLevel2 As String, ByVal CurrentUserCode As String, ByVal CurrentCompanyCode As String) As Boolean

@@ -619,7 +619,7 @@ Public Class frmMilkSampleMCCOddEven
                     objPriceChargeList = New List(Of clsMilkSRNPriceChargeDetail)
                     Dim dr() As DataRow = DtMilkReceipt.Select("DOC_CODE='" & txtMilkReceiptNo.Value & "' and vlc_DOC_Code='" & clsCommon.myCstr(grow.Cells(ColVlcDocCode).Value) & "'")
                     objHead = New clsMilkSRNMCC
-                    objHead.MILK_SAMPLE_CODE = clsCommon.myCstr(txtCode.Value)
+                    'objHead.MILK_SAMPLE_CODE = clsCommon.myCstr(txtCode.Value)
                     objHead.DOC_DATE = clsCommon.myCDate(dtpDocDate.Value)
                     objHead.SHIFT = clsCommon.myCstr(Me.cboShift.SelectedValue)
                     objHead.COMM_PORT = clsCommon.myCstr(cboComPort.SelectedValue)
@@ -841,7 +841,7 @@ Public Class frmMilkSampleMCCOddEven
                     Next
                     '===========================================
 
-                    If Not clsMilkSRNMCC.SaveData(objHead, objList, objVSPChargeList, objPriceChargeList) Then
+                    If Not clsMilkSRNMCC.SaveData(objHead, objList) Then
                         Return False
                     Else
                         objHead = Nothing

@@ -2495,7 +2495,7 @@ Public Class frmSaleOrderDairy
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2956,7 +2956,7 @@ Public Class frmSaleOrderDairy
             Else
                 Dim strIcodegrp As String = gv1.CurrentRow.Cells(colICodeGrp).Value
                 If clsCommon.myLen(strIcodegrp) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Please select Item Group First")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select Item Group First", Me.Text)
                     isCellValueChangedOpen = False
                     Exit Sub
                 End If
@@ -3015,7 +3015,7 @@ Public Class frmSaleOrderDairy
         Dim intx As Integer = clsItemMaster.isItemOfSameExcisable(arrICode)
         Dim Item_TaxType As Integer = 0
         If Not (intx = arrICode.Count OrElse intx = 0) Then
-            common.clsCommon.MyMessageBoxShow("All item should be of Excisable or NonExcisable")
+            common.clsCommon.MyMessageBoxShow(Me, "All item should be of Excisable or NonExcisable", Me.Text)
             gv1.CurrentRow.Cells(colICode).Value = ""
             gv1.CurrentRow.Cells(colIName).Value = ""
             Return False

@@ -2020,8 +2020,8 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                 If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
                     StrWhere += " and TSPL_QC_CHECK_HEAD.Bill_To_location in (" + objCommonVar.strCurrUserLocations + ")"
                 End If
-                If clsCommon.myLen(TxtFinderRalPrint.Value) > 0 Then
-                    StrWhere += "and  TSPL_GRN_HEAD.Ref_No='" + TxtFinderRalPrint.Value + "'"
+                If clsCommon.myLen(TxtFinderRalPrint.arrValueMember) > 0 Then
+                    StrWhere += "and  TSPL_GRN_HEAD.Ref_No in (" + clsCommon.GetMulcallString(TxtFinderRalPrint.arrValueMember) + ")"
                 End If
                 If rbtnQCdate.IsChecked = True Then
                     StrWhere += " and convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103) >= convert(date,('" & fromDate.Value & "'),103) and convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103) <= convert(date,('" & ToDate.Value & "'),103) "
@@ -2116,8 +2116,8 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                 If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
                     StrWhere += " and TSPL_QC_CHECK_HEAD.Bill_To_location in (" + objCommonVar.strCurrUserLocations + ")"
                 End If
-                If clsCommon.myLen(TxtFinderRalPrint.Value) > 0 Then
-                    StrWhere += "and  TSPL_GRN_HEAD.Ref_No='" + TxtFinderRalPrint.Value + "'"
+                If clsCommon.myLen(TxtFinderRalPrint.arrValueMember) > 0 Then
+                    StrWhere += "and  TSPL_GRN_HEAD.Ref_No in (" + clsCommon.GetMulcallString(TxtFinderRalPrint.arrValueMember) + ")"
                 End If
                 If rbtnQCdate.IsChecked = True Then
                     StrWhere += " and convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103) >= convert(date,('" & fromDate.Value & "'),103) and convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103) <= convert(date,('" & ToDate.Value & "'),103) "
@@ -2204,8 +2204,8 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                 If clsCommon.myLen(TxtFinderVendorPrint.Value) > 0 Then
                     StrWhere += " and TSPL_QC_CHECK_HEAD.Vendor_Code = '" + TxtFinderVendorPrint.Value + "' "
                 End If
-                If clsCommon.myLen(TxtFinderRalPrint.Value) > 0 Then
-                    StrWhere += "  And TSPL_GRN_HEAD.Ref_No = '" + TxtFinderRalPrint.Value + "'"
+                If clsCommon.myLen(TxtFinderRalPrint.arrValueMember) > 0 Then
+                    StrWhere += "  And TSPL_GRN_HEAD.Ref_No in (" + clsCommon.GetMulcallString(TxtFinderRalPrint.arrValueMember) + ")"
                 End If
                 If clsCommon.myLen(TxtFinderItemPrint.Value) > 0 Then
                     StrWhere += "  and  TSPL_QC_CHECK_DETAIL.Item_Code = '" + TxtFinderItemPrint.Value + "'"
@@ -2255,23 +2255,23 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
         End Try
     End Sub
 
-    Private Sub TxtFinderRalPrint__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtFinderRalPrint._MYValidating
-        If clsCommon.myLen(TxtFinderVendorPrint.Value) <= 0 AndAlso clsCommon.myLen(TxtFinderItemPrint.Value) <= 0 Then
-            Dim qry1 As String = "select  tspl_tender_header.DocumentCode as RALNO ,max(tspl_tender_header.DocumentDate) as DocumentDate  from tspl_tender_header
-                               left outer join TSPL_TENDER_DETAIL on TSPL_TENDER_DETAIL.DocumentCode=tspl_tender_header.DocumentCode "
-            Dim whrcls1 As String = " TSPL_TENDER_DETAIL.Location='" + txtLoationPrintFinder.Value + "' group by tspl_tender_header.DocumentCode "
-            TxtFinderRalPrint.Value = clsCommon.ShowSelectForm("RPTRal", qry1, "RALNO", whrcls1, TxtFinderRalPrint.Value, "RALNO", isButtonClicked)
-            lblRalPrint.Text = clsCommon.GetPrintDate(clsDBFuncationality.getSingleValue("select DocumentDate from tspl_tender_header WHERE DocumentCode ='" + TxtFinderRalPrint.Value + "'"))
-        Else
-            Dim qry As String = "select  tspl_tender_header.DocumentCode as RALNO ,max(tspl_tender_header.DocumentDate) as DocumentDate  from tspl_tender_header
-                            left outer join TSPL_TENDER_DETAIL on TSPL_TENDER_DETAIL.DocumentCode=tspl_tender_header.DocumentCode "
-            Dim whrcls As String = " TSPL_TENDER_DETAIL.Vendor_Code = '" + TxtFinderVendorPrint.Value + "'
-                                 and  TSPL_TENDER_DETAIL.Item_Code = '" + TxtFinderItemPrint.Value + "'
-                                 and TSPL_TENDER_DETAIL.Location='" + txtLoationPrintFinder.Value + "' group by tspl_tender_header.DocumentCode "
-            TxtFinderRalPrint.Value = clsCommon.ShowSelectForm("RPTRal", qry, "RALNO", whrcls, TxtFinderRalPrint.Value, "RALNO", isButtonClicked)
-            lblRalPrint.Text = clsCommon.GetPrintDate(clsDBFuncationality.getSingleValue("select DocumentDate from tspl_tender_header WHERE DocumentCode ='" + TxtFinderRalPrint.Value + "'"))
-        End If
-    End Sub
+    'Private Sub TxtFinderRalPrint__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean)
+    '    If clsCommon.myLen(TxtFinderVendorPrint.Value) <= 0 AndAlso clsCommon.myLen(TxtFinderItemPrint.Value) <= 0 Then
+    '        Dim qry1 As String = "select  tspl_tender_header.DocumentCode as RALNO ,max(tspl_tender_header.DocumentDate) as DocumentDate  from tspl_tender_header
+    '                           left outer join TSPL_TENDER_DETAIL on TSPL_TENDER_DETAIL.DocumentCode=tspl_tender_header.DocumentCode "
+    '        Dim whrcls1 As String = " TSPL_TENDER_DETAIL.Location='" + txtLoationPrintFinder.Value + "' group by tspl_tender_header.DocumentCode "
+    '        TxtFinderRalPrint.Value = clsCommon.ShowSelectForm("RPTRal", qry1, "RALNO", whrcls1, TxtFinderRalPrint.Value, "RALNO", isButtonClicked)
+    '        lblRalPrint.Text = clsCommon.GetPrintDate(clsDBFuncationality.getSingleValue("select DocumentDate from tspl_tender_header WHERE DocumentCode ='" + TxtFinderRalPrint.Value + "'"))
+    '    Else
+    '        Dim qry As String = "select  tspl_tender_header.DocumentCode as RALNO ,max(tspl_tender_header.DocumentDate) as DocumentDate  from tspl_tender_header
+    '                        left outer join TSPL_TENDER_DETAIL on TSPL_TENDER_DETAIL.DocumentCode=tspl_tender_header.DocumentCode "
+    '        Dim whrcls As String = " TSPL_TENDER_DETAIL.Vendor_Code = '" + TxtFinderVendorPrint.Value + "'
+    '                             and  TSPL_TENDER_DETAIL.Item_Code = '" + TxtFinderItemPrint.Value + "'
+    '                             and TSPL_TENDER_DETAIL.Location='" + txtLoationPrintFinder.Value + "' group by tspl_tender_header.DocumentCode "
+    '        TxtFinderRalPrint.Value = clsCommon.ShowSelectForm("RPTRal", qry, "RALNO", whrcls, TxtFinderRalPrint.Value, "RALNO", isButtonClicked)
+    '        lblRalPrint.Text = clsCommon.GetPrintDate(clsDBFuncationality.getSingleValue("select DocumentDate from tspl_tender_header WHERE DocumentCode ='" + TxtFinderRalPrint.Value + "'"))
+    '    End If
+    'End Sub
 
 
     Private Sub btnRALWiseAnaysisPrint_Click(sender As Object, e As EventArgs) Handles btnRALWiseAnaysisPrint.Click
@@ -2295,7 +2295,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                     txtLoationPrintFinder.Focus()
                     Exit Sub
                 End If
-                If clsCommon.myLen(TxtFinderRalPrint.Value) <= 0 Then
+                If clsCommon.myLen(TxtFinderRalPrint.arrValueMember) <= 0 Then
                     common.clsCommon.MyMessageBoxShow(Me, "Select RAL first")
                     TxtFinderRalPrint.Focus()
                     Exit Sub
@@ -2308,7 +2308,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                     StrWhere += " and TSPL_QC_CHECK_DETAIL.Item_Code = '" + TxtFinderItemPrint.Value + "'"
                 End If
                 StrWhere += " And TSPL_LOCATION_MASTER.Location_Code='" + txtLoationPrintFinder.Value + "'
-                              And TSPL_GRN_HEAD.Ref_No = '" + TxtFinderRalPrint.Value + "'"
+                              And TSPL_GRN_HEAD.Ref_No in (" + clsCommon.GetMulcallString(TxtFinderRalPrint.arrValueMember) + ")"
                 If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
                     StrWhere += " and TSPL_QC_CHECK_HEAD.Bill_To_location in (" + objCommonVar.strCurrUserLocations + ")"
                 End If
@@ -2373,9 +2373,27 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
         lblVendorPrint.Text = ""
         TxtFinderItemPrint.Value = ""
         lblItemPrint.Text = ""
-        TxtFinderRalPrint.Value = ""
-        lblRalPrint.Text = ""
+        TxtFinderRalPrint.arrValueMember = Nothing
         rbtnWeighmentDate.IsChecked = False
         rbtnQCdate.IsChecked = True
     End Sub
+
+
+    Private Sub TxtFinderRalPrint__My_Click(sender As Object, e As EventArgs) Handles TxtFinderRalPrint._My_Click
+        If clsCommon.myLen(TxtFinderVendorPrint.Value) <= 0 AndAlso clsCommon.myLen(TxtFinderItemPrint.Value) <= 0 Then
+            Dim qry1 As String = "select  tspl_tender_header.DocumentCode as RALNO ,max(tspl_tender_header.DocumentDate) as DocumentDate  from tspl_tender_header
+                               left outer join TSPL_TENDER_DETAIL on TSPL_TENDER_DETAIL.DocumentCode=tspl_tender_header.DocumentCode "
+            qry1 += " where TSPL_TENDER_DETAIL.Location='" + txtLoationPrintFinder.Value + "' group by tspl_tender_header.DocumentCode "
+            TxtFinderRalPrint.arrValueMember = clsCommon.ShowMultipleSelectForm(False, "RPTRal", qry1, "RALNO", "", TxtFinderRalPrint.arrValueMember, Nothing)
+
+        Else
+            Dim qry As String = "select  tspl_tender_header.DocumentCode as RALNO ,max(tspl_tender_header.DocumentDate) as DocumentDate  from tspl_tender_header
+                            left outer join TSPL_TENDER_DETAIL on TSPL_TENDER_DETAIL.DocumentCode=tspl_tender_header.DocumentCode "
+            qry += " where TSPL_TENDER_DETAIL.Vendor_Code = '" + TxtFinderVendorPrint.Value + "'
+                                 and  TSPL_TENDER_DETAIL.Item_Code = '" + TxtFinderItemPrint.Value + "'
+                                 and TSPL_TENDER_DETAIL.Location='" + txtLoationPrintFinder.Value + "' group by tspl_tender_header.DocumentCode "
+            TxtFinderRalPrint.arrValueMember = clsCommon.ShowMultipleSelectForm(False, "RPTRal", qry, "RALNO", "", TxtFinderRalPrint.arrValueMember, Nothing)
+        End If
+    End Sub
+
 End Class

@@ -146,6 +146,7 @@ Public Class clsRcptEntryHeader
     Public strRecieptCust As String = ""
     Public strRecieptNum As String = Nothing
     Public Property Name1 As String = Nothing
+    Public TDS_Recoverable_Amt As Double = 0.0
 
 
 
@@ -274,7 +275,7 @@ Public Class clsRcptEntryHeader
 
             clsCommon.AddColumnsForChange(coll, "Foreign_Bank_Charges_Amt", obj.Foreign_Bank_Charges_Amt)
             clsCommon.AddColumnsForChange(coll, "Bank_Charges_Amt", obj.Bank_Charges_Amt)
-
+            clsCommon.AddColumnsForChange(coll, "TDS_Recoverable_Amt", obj.TDS_Recoverable_Amt)
             clsCommon.AddColumnsForChange(coll, "TapalNo", obj.TapalNo, True)
             If clsCommon.myLen(obj.DateAndTime) > 0 Then
                 clsCommon.AddColumnsForChange(coll, "DateAndTime", clsCommon.GetPrintDate(obj.DateAndTime, "dd/MMM/yyyy hh:mm tt"))
@@ -844,7 +845,7 @@ Public Class clsRcptEntryHeader
         Dim isCustomerFinderLocationWiseARReceipt As Boolean = False
         Dim strJointCond As String = ""
 
-        Dim qry As String = "SELECT TSPL_RECEIPT_HEADER.Against_RCDF_Loadin, TSPL_RECEIPT_HEADER.isCardSale,TSPL_RECEIPT_HEADER.TapalNo,TSPL_RECEIPT_HEADER.DateAndTime,TSPL_RECEIPT_HEADER.AC_Payee,TSPL_RECEIPT_HEADER.cheque_in_favour_of,TSPL_RECEIPT_HEADER.ReceiptAgainstSO_DO,TSPL_RECEIPT_HEADER.SO_Location_Code,TSPL_RECEIPT_HEADER.Booking_Code,TSPL_RECEIPT_HEADER.Against_CSA_Transfer_Code,TSPL_RECEIPT_HEADER.SecurityDepositType,TSPL_RECEIPT_HEADER. memorandum_amt,TSPL_RECEIPT_HEADER.Receipt_No, TSPL_RECEIPT_HEADER.Receipt_Date, TSPL_RECEIPT_HEADER.Receipt_Post_Date,  TSPL_RECEIPT_HEADER.Entry_Desc, TSPL_RECEIPT_HEADER.Bank_Code,TSPL_RECEIPT_HEADER. Receipt_Type,TSPL_RECEIPT_HEADER.SecurityDepositType, TSPL_RECEIPT_HEADER.Cust_Code," &
+        Dim qry As String = "SELECT TSPL_RECEIPT_HEADER.Against_RCDF_Loadin,TSPL_RECEIPT_HEADER.TDS_Recoverable_Amt, TSPL_RECEIPT_HEADER.isCardSale,TSPL_RECEIPT_HEADER.TapalNo,TSPL_RECEIPT_HEADER.DateAndTime,TSPL_RECEIPT_HEADER.AC_Payee,TSPL_RECEIPT_HEADER.cheque_in_favour_of,TSPL_RECEIPT_HEADER.ReceiptAgainstSO_DO,TSPL_RECEIPT_HEADER.SO_Location_Code,TSPL_RECEIPT_HEADER.Booking_Code,TSPL_RECEIPT_HEADER.Against_CSA_Transfer_Code,TSPL_RECEIPT_HEADER.SecurityDepositType,TSPL_RECEIPT_HEADER. memorandum_amt,TSPL_RECEIPT_HEADER.Receipt_No, TSPL_RECEIPT_HEADER.Receipt_Date, TSPL_RECEIPT_HEADER.Receipt_Post_Date,  TSPL_RECEIPT_HEADER.Entry_Desc, TSPL_RECEIPT_HEADER.Bank_Code,TSPL_RECEIPT_HEADER. Receipt_Type,TSPL_RECEIPT_HEADER.SecurityDepositType, TSPL_RECEIPT_HEADER.Cust_Code," &
         " TSPL_RECEIPT_HEADER.Customer_Name, TSPL_RECEIPT_HEADER.Reference, TSPL_RECEIPT_HEADER.Narration   , TSPL_RECEIPT_HEADER.Payment_Code, TSPL_RECEIPT_HEADER.Cheque_No, TSPL_RECEIPT_HEADER.Cheque_Date, TSPL_RECEIPT_HEADER.Cheque_From, TSPL_RECEIPT_HEADER.From_Branch, TSPL_RECEIPT_HEADER.Receipt_Amount," &
         " TSPL_RECEIPT_HEADER.Cust_Account, TSPL_RECEIPT_HEADER.Apply_By, TSPL_RECEIPT_HEADER.Apply_To, TSPL_RECEIPT_HEADER.Posted,TSPL_RECEIPT_HEADER.Foreign_Bank_Charges_Amt ,TSPL_RECEIPT_HEADER.Bank_Charges_Amt," &
         " TSPL_RECEIPT_HEADER.Level1_User_code, TSPL_RECEIPT_HEADER.Level2_User_code, TSPL_RECEIPT_HEADER.Level3_User_code, TSPL_RECEIPT_HEADER.Level4_User_code, TSPL_RECEIPT_HEADER.Level5_User_code," &
@@ -947,6 +948,7 @@ Public Class clsRcptEntryHeader
             obj.Delivery_order_Amount = clsCommon.myCdbl(dt.Rows(0)("Delivery_order_Amount"))
             obj.DO_Total_Add_Amount = clsCommon.myCdbl(dt.Rows(0)("DO_Total_Add_Amount"))
             obj.Tax_Amount_Advance = clsCommon.myCdbl(dt.Rows(0)("Tax_Amount_Advance"))
+            obj.TDS_Recoverable_Amt = clsCommon.myCdbl(dt.Rows(0)("TDS_Recoverable_Amt"))
             obj.isCardSale = clsCommon.myCdbl(dt.Rows(0)("isCardSale"))
             obj.Tax_Group = clsCommon.myCstr(dt.Rows(0)("Tax_Group"))
             obj.Delivery_Code_PS = clsCommon.myCstr(dt.Rows(0)("Delivery_Code_PS"))
@@ -1077,17 +1079,17 @@ Public Class clsRcptEntryHeader
             End If
 
 
-            qry = "SELECT Receipt_No, Receipt_Line_No, Apply, Receipt_Type, TSPL_RECEIPT_DETAIL.Document_No,  Original_Amt,  case when TSPL_RECEIPT_DETAIL.Receipt_Type='F' then (Select RH.Balance_Amt from TSPL_RECEIPT_HEADER RH WHERE RH.Receipt_No=TSPL_RECEIPT_DETAIL.Document_No)  else  TSPL_RECEIPT_DETAIL.Pending_Balance end as Pending_Balance," & _
-            " Case When ISNULL(Against_Sale_No,'')<>'' Then Against_Sale_No When ISNULL(Against_Sale_Return_No,'')<> '' Then Against_Sale_Return_No Else TSPL_RECEIPT_DETAIL.Document_No End as SaleInvoice," & _
-            " Applied_Amount,  Account_Code,  TSPL_RECEIPT_DETAIL.Description,  TSPL_RECEIPT_DETAIL.Remarks,  Comment,  TSPL_RECEIPT_DETAIL.Shipment_No,  Adjustment_Account," & _
-            " Adjustment_Cost, Adjustment_No," & _
-            " AutoId, TagType, Posted, TSPL_Customer_Invoice_Head.Document_Date, TSPL_SD_SALE_INVOICE_HEAD.Total_Amt As Total_Invoice_Amt, 0 as Empty_Value, TSPL_RECEIPT_DETAIL.ConvRateOld,TSPL_RECEIPT_DETAIL.Child_Cust_Code," & _
-            "  TSPL_RECEIPT_DETAIL.Cost_Center_Fin_Code,TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Name,TSPL_RECEIPT_DETAIL.Hirerachy_Level_Code,TSPL_HIRERACHY_LEVEL_MASTER.Description as Hirerachy_Level_Name " & _
-            " FROM TSPL_RECEIPT_DETAIL" & _
-             " LEFT OUTER JOIN TSPL_COST_CENTRE_FINANCIAL on TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code=TSPL_RECEIPT_DETAIL.Cost_Center_Fin_Code " + _
-             " LEFT OUTER JOIN TSPL_HIRERACHY_LEVEL_MASTER on TSPL_HIRERACHY_LEVEL_MASTER.HIRERACHY_CODE=TSPL_RECEIPT_DETAIL.Hirerachy_Level_Code " + _
-            " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Document_No=TSPL_RECEIPT_DETAIL.Document_No" & _
-            " LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_Customer_Invoice_Head.Against_Sale_No" & _
+            qry = "SELECT Receipt_No, Receipt_Line_No, Apply, Receipt_Type, TSPL_RECEIPT_DETAIL.Document_No,  Original_Amt,  case when TSPL_RECEIPT_DETAIL.Receipt_Type='F' then (Select RH.Balance_Amt from TSPL_RECEIPT_HEADER RH WHERE RH.Receipt_No=TSPL_RECEIPT_DETAIL.Document_No)  else  TSPL_RECEIPT_DETAIL.Pending_Balance end as Pending_Balance," &
+            " Case When ISNULL(Against_Sale_No,'')<>'' Then Against_Sale_No When ISNULL(Against_Sale_Return_No,'')<> '' Then Against_Sale_Return_No Else TSPL_RECEIPT_DETAIL.Document_No End as SaleInvoice," &
+            " Applied_Amount,  Account_Code,  TSPL_RECEIPT_DETAIL.Description,  TSPL_RECEIPT_DETAIL.Remarks,  Comment,  TSPL_RECEIPT_DETAIL.Shipment_No,  Adjustment_Account," &
+            " Adjustment_Cost, Adjustment_No," &
+            " AutoId, TagType, Posted, TSPL_Customer_Invoice_Head.Document_Date, TSPL_SD_SALE_INVOICE_HEAD.Total_Amt As Total_Invoice_Amt, 0 as Empty_Value, TSPL_RECEIPT_DETAIL.ConvRateOld,TSPL_RECEIPT_DETAIL.Child_Cust_Code," &
+            "  TSPL_RECEIPT_DETAIL.Cost_Center_Fin_Code,TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Name,TSPL_RECEIPT_DETAIL.Hirerachy_Level_Code,TSPL_HIRERACHY_LEVEL_MASTER.Description as Hirerachy_Level_Name " &
+            " FROM TSPL_RECEIPT_DETAIL" &
+             " LEFT OUTER JOIN TSPL_COST_CENTRE_FINANCIAL on TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code=TSPL_RECEIPT_DETAIL.Cost_Center_Fin_Code " +
+             " LEFT OUTER JOIN TSPL_HIRERACHY_LEVEL_MASTER on TSPL_HIRERACHY_LEVEL_MASTER.HIRERACHY_CODE=TSPL_RECEIPT_DETAIL.Hirerachy_Level_Code " +
+            " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Document_No=TSPL_RECEIPT_DETAIL.Document_No" &
+            " LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_Customer_Invoice_Head.Against_Sale_No" &
             " WHERE TSPL_RECEIPT_DETAIL.Receipt_No = '" + obj.Receipt_No + "'"
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(qry, trans)
@@ -1242,17 +1244,17 @@ Public Class clsRcptEntryHeader
 
             ''----------
             ''richa agarwal ERO/18/07/19-000956
-            qry = "SELECT Receipt_No, Receipt_Line_No, Apply, Receipt_Type, TSPL_RECEIPT_DETAIL_Refund.Document_No,  Original_Amt,  case when TSPL_RECEIPT_DETAIL_Refund.Receipt_Type='F' then (Select RH.Balance_Amt from TSPL_RECEIPT_HEADER RH WHERE RH.Receipt_No=TSPL_RECEIPT_DETAIL_Refund.Document_No)  else  TSPL_RECEIPT_DETAIL_Refund.Pending_Balance end as Pending_Balance," & _
-           " Case When ISNULL(Against_Sale_No,'')<>'' Then Against_Sale_No When ISNULL(Against_Sale_Return_No,'')<> '' Then Against_Sale_Return_No Else TSPL_RECEIPT_DETAIL_Refund.Document_No End as SaleInvoice," & _
-           " Applied_Amount,  Account_Code,  TSPL_RECEIPT_DETAIL_Refund.Description,  TSPL_RECEIPT_DETAIL_Refund.Remarks,  Comment,  TSPL_RECEIPT_DETAIL_Refund.Shipment_No,  Adjustment_Account," & _
-           " Adjustment_Cost, Adjustment_No," & _
-           " AutoId, TagType, Posted, TSPL_Customer_Invoice_Head.Document_Date, TSPL_SD_SALE_INVOICE_HEAD.Total_Amt As Total_Invoice_Amt, 0 as Empty_Value, TSPL_RECEIPT_DETAIL_Refund.ConvRateOld,TSPL_RECEIPT_DETAIL_Refund.Child_Cust_Code," & _
-           "  TSPL_RECEIPT_DETAIL_Refund.Cost_Center_Fin_Code,TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Name,TSPL_RECEIPT_DETAIL_Refund.Hirerachy_Level_Code,TSPL_HIRERACHY_LEVEL_MASTER.Description as Hirerachy_Level_Name " & _
-           " FROM TSPL_RECEIPT_DETAIL_Refund" & _
-            " LEFT OUTER JOIN TSPL_COST_CENTRE_FINANCIAL on TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code=TSPL_RECEIPT_DETAIL_Refund.Cost_Center_Fin_Code " + _
-            " LEFT OUTER JOIN TSPL_HIRERACHY_LEVEL_MASTER on TSPL_HIRERACHY_LEVEL_MASTER.HIRERACHY_CODE=TSPL_RECEIPT_DETAIL_Refund.Hirerachy_Level_Code " + _
-           " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Document_No=TSPL_RECEIPT_DETAIL_Refund.Document_No" & _
-           " LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_Customer_Invoice_Head.Against_Sale_No" & _
+            qry = "SELECT Receipt_No, Receipt_Line_No, Apply, Receipt_Type, TSPL_RECEIPT_DETAIL_Refund.Document_No,  Original_Amt,  case when TSPL_RECEIPT_DETAIL_Refund.Receipt_Type='F' then (Select RH.Balance_Amt from TSPL_RECEIPT_HEADER RH WHERE RH.Receipt_No=TSPL_RECEIPT_DETAIL_Refund.Document_No)  else  TSPL_RECEIPT_DETAIL_Refund.Pending_Balance end as Pending_Balance," &
+           " Case When ISNULL(Against_Sale_No,'')<>'' Then Against_Sale_No When ISNULL(Against_Sale_Return_No,'')<> '' Then Against_Sale_Return_No Else TSPL_RECEIPT_DETAIL_Refund.Document_No End as SaleInvoice," &
+           " Applied_Amount,  Account_Code,  TSPL_RECEIPT_DETAIL_Refund.Description,  TSPL_RECEIPT_DETAIL_Refund.Remarks,  Comment,  TSPL_RECEIPT_DETAIL_Refund.Shipment_No,  Adjustment_Account," &
+           " Adjustment_Cost, Adjustment_No," &
+           " AutoId, TagType, Posted, TSPL_Customer_Invoice_Head.Document_Date, TSPL_SD_SALE_INVOICE_HEAD.Total_Amt As Total_Invoice_Amt, 0 as Empty_Value, TSPL_RECEIPT_DETAIL_Refund.ConvRateOld,TSPL_RECEIPT_DETAIL_Refund.Child_Cust_Code," &
+           "  TSPL_RECEIPT_DETAIL_Refund.Cost_Center_Fin_Code,TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Name,TSPL_RECEIPT_DETAIL_Refund.Hirerachy_Level_Code,TSPL_HIRERACHY_LEVEL_MASTER.Description as Hirerachy_Level_Name " &
+           " FROM TSPL_RECEIPT_DETAIL_Refund" &
+            " LEFT OUTER JOIN TSPL_COST_CENTRE_FINANCIAL on TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code=TSPL_RECEIPT_DETAIL_Refund.Cost_Center_Fin_Code " +
+            " LEFT OUTER JOIN TSPL_HIRERACHY_LEVEL_MASTER on TSPL_HIRERACHY_LEVEL_MASTER.HIRERACHY_CODE=TSPL_RECEIPT_DETAIL_Refund.Hirerachy_Level_Code " +
+           " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Document_No=TSPL_RECEIPT_DETAIL_Refund.Document_No" &
+           " LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_Customer_Invoice_Head.Against_Sale_No" &
            " WHERE TSPL_RECEIPT_DETAIL_Refund.Receipt_No = '" + obj.Receipt_No + "'"
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(qry, trans)
@@ -1307,22 +1309,22 @@ Public Class clsRcptEntryHeader
             '" Select Receipt_No as [Code], Entry_Desc as [Description], Receipt_Date as [Payment Date], Case When Receipt_Type='P' Then 'Advance' When Receipt_Type='O' Then 'On Account' Else 'UnApplied' End As [Payment Type], Receipt_Amount as [Payment Amt], Balance_Amt-ISNULL((Select SUM(Receipt_Amount) from TSPL_RECEIPT_HEADER RH WHERE RH.Posted<>'Y' AND RH.Receipt_Type='A' AND RH.Cust_Code=TSPL_RECEIPT_HEADER.Cust_Code AND RH.Applied_Receipt=TSPL_RECEIPT_HEADER.Receipt_No AND RH.Receipt_No<>'" + strPaymentNo + "'),0) as [Bal Amt] from TSPL_RECEIPT_HEADER WHERE Posted='Y' AND Receipt_Type IN ('P','O','U') AND Receipt_No <> '" + strPaymentNo + "'" & _
             '" ) Final WHERE Code='" + strAppliedPayment + "'"
 
-            Dim qry As String = "Select [Bal Amt] from (" & _
-            " Select Receipt_No as [Code], Entry_Desc as [Description], Receipt_Date as [Payment Date], Case When Receipt_Type='P' Then 'Advance' When Receipt_Type='O' Then 'On Account' Else 'UnApplied' End As [Payment Type], Receipt_Amount as [Payment Amt], Balance_Amt-ISNULL((Select SUM(Receipt_Amount) from TSPL_RECEIPT_HEADER RH WHERE RH.Posted<>'Y' AND RH.Receipt_Type='A' AND RH.Cust_Code=TSPL_RECEIPT_HEADER.Cust_Code AND RH.Applied_Receipt=TSPL_RECEIPT_HEADER.Receipt_No AND RH.Receipt_No<>'" + strPaymentNo + "'),0) as [Bal Amt] from TSPL_RECEIPT_HEADER WHERE Posted='Y' AND Receipt_Type IN ('P','O','U') AND Receipt_No <> '" + strPaymentNo + "'" & _
-            "union all " & Environment.NewLine & _
-            " Select * from  (select [Invoice No] as [Code],Description ,[Invoice Date] as [Receipt Date],Type as [Receipt Type],[Doc Total] as [Receipt Amt], [Balance Amount]-((Select ISNULL(SUM(Applied_Amount),0) from TSPL_RECEIPT_DETAIL WHere Posted<>'Y' AND TSPL_RECEIPT_DETAIL.Document_No=[Invoice No])+(Select ISNULL(SUM(Adjustment_Amount),0) from TSPL_RECEIPT_ADJUSTMENT_HEADER WHere ISNULL(Is_Post,'N')<>'Y' AND Doc_No=SaleInvoice)) as [Bal Amt] from ( select " & Environment.NewLine & _
-            " TSPL_Customer_Invoice_Head.Description , " & Environment.NewLine & _
-            " 'No' as [Apply], Case When Document_Type='I' Then 'Invoice' When Document_Type='D' Then 'Debit Note' When Document_Type='C' Then 'Credit Note' End as [Type],  Case When ISNULL(Against_Sale_No,'')<>'' Then Against_Sale_No When ISNULL(Against_Sale_Return_No,'')<> '' Then Against_Sale_Return_No Else Document_No End as SaleInvoice, Document_No as [Invoice No],convert(date,Document_Date,103) as [Invoice Date] ,Document_Total as [Doc Total] ," & Environment.NewLine & _
-            " (TSPL_Customer_Invoice_Head.Document_Total -isnull((select sum(isnull(Applied_Amount,0)) from TSPL_RECEIPT_DETAIL where TSPL_RECEIPT_DETAIL.Document_No=TSPL_Customer_Invoice_Head.Document_No and not exists (select 1 from TSPL_BANK_REVERSE where TSPL_BANK_REVERSE.Reverse_Document='Receipts' and TSPL_BANK_REVERSE.Document_No=TSPL_RECEIPT_DETAIL.Receipt_No)),0)  " & Environment.NewLine & _
-            " -isnull((select sum(isnull(Receipt_Amount,0)) from TSPL_RECEIPT_HEADER where TSPL_RECEIPT_HEADER.Applied_Receipt=TSPL_Customer_Invoice_Head.Document_No and not exists (select 1 from TSPL_BANK_REVERSE where TSPL_BANK_REVERSE.Reverse_Document='Receipts' and TSPL_BANK_REVERSE.Document_No=TSPL_RECEIPT_HEADER.Receipt_No) and TSPL_Customer_Invoice_Head.Document_Type='C' and isnull(TSPL_RECEIPT_HEADER.Applied_Receipt,'')<>''  AND Receipt_No <> '" + strPaymentNo + "' ),0)  " & Environment.NewLine & _
-            " -isnull((select sum(isnull(TSPL_SD_SALE_RETURN_HEAD.Total_Amt,0)) from TSPL_SD_SALE_RETURN_HEAD left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No " & Environment.NewLine & _
-            " LEFT OUTER JOIN TSPL_Customer_Invoice_Head as innINVHead ON innINVHead.Against_Sale_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code where innINVHead.Document_No = TSPL_Customer_Invoice_Head.Document_No  ),0) " & Environment.NewLine & _
-            " -isnull((select sum(isnull(TSPL_SALE_RETURN_MASTER_BULKSALE.Total_Amt,0)) from TSPL_SALE_RETURN_MASTER_BULKSALE left outer join TSPL_INVOICE_MASTER_BULKSALE on TSPL_INVOICE_MASTER_BULKSALE.Document_No=TSPL_SALE_RETURN_MASTER_BULKSALE.InvoiceNo " & Environment.NewLine & _
-            " LEFT OUTER JOIN TSPL_Customer_Invoice_Head as innINVHead ON innINVHead.Against_Sale_No=TSPL_INVOICE_MASTER_BULKSALE.Document_No where innINVHead.Document_No = TSPL_Customer_Invoice_Head.Document_No ),0) " & Environment.NewLine & _
-            " -isnull((select sum(isnull(Adjustment_Amount,0)) from TSPL_Receipt_Adjustment_Header where TSPL_Receipt_Adjustment_Header.Doc_No=TSPL_Customer_Invoice_Head.Document_No),0)) as [Balance Amount]  " & Environment.NewLine & _
-            " , '0.00' as [Apply_Amt],  Customer_Code as  Cust_Code  ,'C' as [Tag], Due_Date,  0 as EmptyTotal, ConvRate ,isnull( ( select top 1 TSPL_REVALUATION_HEAD.Currency_Rate  from TSPL_REVALUATION_DETAIL left outer join TSPL_REVALUATION_HEAD on TSPL_REVALUATION_HEAD.Document_No=TSPL_REVALUATION_DETAIL.Document_No  where TSPL_REVALUATION_DETAIL.AR_Invoice_No=TSPL_Customer_Invoice_Head.Document_No and TSPL_REVALUATION_HEAD.Status=1 order by TSPL_REVALUATION_HEAD.Document_Date desc),0) as ConvRateRevaluation from TSPL_Customer_Invoice_Head where Status =1 and TSPL_Customer_Invoice_Head.RefDocType<> 'REVALUATION ENTRY'  " & Environment.NewLine & _
-            " ) as xxx  left outer join TSPL_CUSTOMER_MASTER on xxx.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code ) XXX WHERE [Bal Amt]>0 " & Environment.NewLine & _
-            "and [Receipt Type]  ='Credit Note' " & Environment.NewLine & _
+            Dim qry As String = "Select [Bal Amt] from (" &
+            " Select Receipt_No as [Code], Entry_Desc as [Description], Receipt_Date as [Payment Date], Case When Receipt_Type='P' Then 'Advance' When Receipt_Type='O' Then 'On Account' Else 'UnApplied' End As [Payment Type], Receipt_Amount as [Payment Amt], Balance_Amt-ISNULL((Select SUM(Receipt_Amount) from TSPL_RECEIPT_HEADER RH WHERE RH.Posted<>'Y' AND RH.Receipt_Type='A' AND RH.Cust_Code=TSPL_RECEIPT_HEADER.Cust_Code AND RH.Applied_Receipt=TSPL_RECEIPT_HEADER.Receipt_No AND RH.Receipt_No<>'" + strPaymentNo + "'),0) as [Bal Amt] from TSPL_RECEIPT_HEADER WHERE Posted='Y' AND Receipt_Type IN ('P','O','U') AND Receipt_No <> '" + strPaymentNo + "'" &
+            "union all " & Environment.NewLine &
+            " Select * from  (select [Invoice No] as [Code],Description ,[Invoice Date] as [Receipt Date],Type as [Receipt Type],[Doc Total] as [Receipt Amt], [Balance Amount]-((Select ISNULL(SUM(Applied_Amount),0) from TSPL_RECEIPT_DETAIL WHere Posted<>'Y' AND TSPL_RECEIPT_DETAIL.Document_No=[Invoice No])+(Select ISNULL(SUM(Adjustment_Amount),0) from TSPL_RECEIPT_ADJUSTMENT_HEADER WHere ISNULL(Is_Post,'N')<>'Y' AND Doc_No=SaleInvoice)) as [Bal Amt] from ( select " & Environment.NewLine &
+            " TSPL_Customer_Invoice_Head.Description , " & Environment.NewLine &
+            " 'No' as [Apply], Case When Document_Type='I' Then 'Invoice' When Document_Type='D' Then 'Debit Note' When Document_Type='C' Then 'Credit Note' End as [Type],  Case When ISNULL(Against_Sale_No,'')<>'' Then Against_Sale_No When ISNULL(Against_Sale_Return_No,'')<> '' Then Against_Sale_Return_No Else Document_No End as SaleInvoice, Document_No as [Invoice No],convert(date,Document_Date,103) as [Invoice Date] ,Document_Total as [Doc Total] ," & Environment.NewLine &
+            " (TSPL_Customer_Invoice_Head.Document_Total -isnull((select sum(isnull(Applied_Amount,0)) from TSPL_RECEIPT_DETAIL where TSPL_RECEIPT_DETAIL.Document_No=TSPL_Customer_Invoice_Head.Document_No and not exists (select 1 from TSPL_BANK_REVERSE where TSPL_BANK_REVERSE.Reverse_Document='Receipts' and TSPL_BANK_REVERSE.Document_No=TSPL_RECEIPT_DETAIL.Receipt_No)),0)  " & Environment.NewLine &
+            " -isnull((select sum(isnull(Receipt_Amount,0)) from TSPL_RECEIPT_HEADER where TSPL_RECEIPT_HEADER.Applied_Receipt=TSPL_Customer_Invoice_Head.Document_No and not exists (select 1 from TSPL_BANK_REVERSE where TSPL_BANK_REVERSE.Reverse_Document='Receipts' and TSPL_BANK_REVERSE.Document_No=TSPL_RECEIPT_HEADER.Receipt_No) and TSPL_Customer_Invoice_Head.Document_Type='C' and isnull(TSPL_RECEIPT_HEADER.Applied_Receipt,'')<>''  AND Receipt_No <> '" + strPaymentNo + "' ),0)  " & Environment.NewLine &
+            " -isnull((select sum(isnull(TSPL_SD_SALE_RETURN_HEAD.Total_Amt,0)) from TSPL_SD_SALE_RETURN_HEAD left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No " & Environment.NewLine &
+            " LEFT OUTER JOIN TSPL_Customer_Invoice_Head as innINVHead ON innINVHead.Against_Sale_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code where innINVHead.Document_No = TSPL_Customer_Invoice_Head.Document_No  ),0) " & Environment.NewLine &
+            " -isnull((select sum(isnull(TSPL_SALE_RETURN_MASTER_BULKSALE.Total_Amt,0)) from TSPL_SALE_RETURN_MASTER_BULKSALE left outer join TSPL_INVOICE_MASTER_BULKSALE on TSPL_INVOICE_MASTER_BULKSALE.Document_No=TSPL_SALE_RETURN_MASTER_BULKSALE.InvoiceNo " & Environment.NewLine &
+            " LEFT OUTER JOIN TSPL_Customer_Invoice_Head as innINVHead ON innINVHead.Against_Sale_No=TSPL_INVOICE_MASTER_BULKSALE.Document_No where innINVHead.Document_No = TSPL_Customer_Invoice_Head.Document_No ),0) " & Environment.NewLine &
+            " -isnull((select sum(isnull(Adjustment_Amount,0)) from TSPL_Receipt_Adjustment_Header where TSPL_Receipt_Adjustment_Header.Doc_No=TSPL_Customer_Invoice_Head.Document_No),0)) as [Balance Amount]  " & Environment.NewLine &
+            " , '0.00' as [Apply_Amt],  Customer_Code as  Cust_Code  ,'C' as [Tag], Due_Date,  0 as EmptyTotal, ConvRate ,isnull( ( select top 1 TSPL_REVALUATION_HEAD.Currency_Rate  from TSPL_REVALUATION_DETAIL left outer join TSPL_REVALUATION_HEAD on TSPL_REVALUATION_HEAD.Document_No=TSPL_REVALUATION_DETAIL.Document_No  where TSPL_REVALUATION_DETAIL.AR_Invoice_No=TSPL_Customer_Invoice_Head.Document_No and TSPL_REVALUATION_HEAD.Status=1 order by TSPL_REVALUATION_HEAD.Document_Date desc),0) as ConvRateRevaluation from TSPL_Customer_Invoice_Head where Status =1 and TSPL_Customer_Invoice_Head.RefDocType<> 'REVALUATION ENTRY'  " & Environment.NewLine &
+            " ) as xxx  left outer join TSPL_CUSTOMER_MASTER on xxx.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code ) XXX WHERE [Bal Amt]>0 " & Environment.NewLine &
+            "and [Receipt Type]  ='Credit Note' " & Environment.NewLine &
             " ) Final WHERE Code='" + strAppliedPayment + "'"
             Return clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
         Catch ex As Exception
@@ -2397,7 +2399,7 @@ Public Class clsRcptEntryHeader
     '        Return False
     '    End Try
     'End Function
-   
+
     Public Shared Function funRcptPost(ByVal strDocNo As String, ByVal trans As SqlTransaction, Optional ByVal Module_Code As String = "MReceivable", Optional strInvFromLoc As String = Nothing, Optional ByVal strJurEntryDefault As Boolean = False) As Boolean
         Try
             Dim strQ As String = GetQuery(strDocNo)
@@ -2418,10 +2420,10 @@ Public Class clsRcptEntryHeader
             Else
                 clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Receivables", "Receipt Entry", LocSegmentCode, clsCommon.myCDate(sqlDr.Rows(0)("Receipt_Date")), trans)
             End If
-                '-----------------------------------------------------------------------------------------------
-                If clsCommon.myCBool(clsCommon.CompairString(strJurEntryDefault, True)) = CompairStringResult.Equal Then
-                Else
-                    If clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowtoSkipJournalEntryofPaymentandReceiptforAD, clsFixedParameterCode.AllowtoSkipJournalEntryofPaymentandReceiptforAD, trans)), "1") = CompairStringResult.Equal AndAlso (clsCommon.CompairString(clsCommon.myCstr(sqlDr.Rows(0)("Receipt_Type")), "A") = CompairStringResult.Equal) Then
+            '-----------------------------------------------------------------------------------------------
+            If clsCommon.myCBool(clsCommon.CompairString(strJurEntryDefault, True)) = CompairStringResult.Equal Then
+            Else
+                If clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowtoSkipJournalEntryofPaymentandReceiptforAD, clsFixedParameterCode.AllowtoSkipJournalEntryofPaymentandReceiptforAD, trans)), "1") = CompairStringResult.Equal AndAlso (clsCommon.CompairString(clsCommon.myCstr(sqlDr.Rows(0)("Receipt_Type")), "A") = CompairStringResult.Equal) Then
                 Else
                     ''richa 12 Nov,2018  TEC/02/11/18-000363 create journal entry for opening in case of Misc receipt and Advance (Security) as Journal Master table instead of journal master op table
                     'Dim strERPStartDate As String = clsFixedParameter.GetData(clsFixedParameterType.ERPStartDate, clsFixedParameterCode.ERPStartDate, trans)
@@ -2440,172 +2442,172 @@ Public Class clsRcptEntryHeader
                     End If
                     ''-----------------
                     ' CreateJournalEntry(False, sqlDr, strDocNo, LocSegmentCode, trans, "", Module_Code, strInvFromLoc)
-                    End If
-
                 End If
 
-                If clsCommon.CompairString(clsCommon.myCstr(sqlDr.Rows(0)("Receipt_Type")), "P") = CompairStringResult.Equal Then
-                    If Not String.IsNullOrEmpty(sqlDr.Rows(0)("CForm_InvoiceNo")) Then
-                        Dim qry = "update TSPL_SD_SALE_INVOICE_HEAD set CFormRecd=1 WHERE Document_Code ='" + sqlDr.Rows(0)("CForm_InvoiceNo") + "'"
-                        clsDBFuncationality.ExecuteNonQuery(qry, trans)
-                    End If
-                End If
-                '' Anubhooti 01-Jan-2015 (Remarks : if setting "AllowToUseSubAccount" is ON And Bank_Type should be "B" Then BankAccount is Sub_Account Else previous)
-                Dim BankTypeOfBank As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select ISNULL(Bank_type,'') AS Bank_Type From TSPL_BANK_MASTER Where BANK_CODE ='" + clsCommon.myCstr(sqlDr.Rows(0)("Bank_Code")) + "'", trans))
-                '' Anubhooti 03-Sep-2014 BM00000003437(Remarks : if setting "AllowToUseSubAccount" is ON Then BankAccount is Sub_Account Else previous)
-                Dim strBankAcc As String = ""
-                Dim UseSubAcc As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowToUseSubAccount, clsFixedParameterCode.AllowToUseSubAccount, trans))
-                If clsCommon.CompairString(UseSubAcc, "1") = CompairStringResult.Equal AndAlso clsCommon.CompairString(BankTypeOfBank, "B") = CompairStringResult.Equal Then
-                    strQ = "select ISNULL(Sub_Account,'')  BANKACC  from TSPL_BANK_MASTER where BANK_CODE='" + clsCommon.myCstr(sqlDr.Rows(0)("Bank_Code")) + "'"
-                    strBankAcc = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strQ, trans))
-                Else
-                    strQ = "select BANKACC  from TSPL_BANK_MASTER where BANK_CODE='" + clsCommon.myCstr(sqlDr.Rows(0)("Bank_Code")) + "'"
-                    strBankAcc = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strQ, trans))
-                End If
-                If clsCommon.CompairString(clsCommon.myCstr(sqlDr.Rows(0)("Receipt_Type")), "M") = CompairStringResult.Equal Then
-                    Dim Receipt_Line_No As Integer = 0
-                    If sqlDr IsNot Nothing AndAlso sqlDr.Rows.Count > 0 Then
-                        For Each dr As DataRow In sqlDr.Rows
-                            Dim strQue As String = "update TSPL_receipt_header set posted = 'Y' where receipt_no ='" + strDocNo + "' "
-                            clsDBFuncationality.ExecuteNonQuery(strQue, trans)
-                            Receipt_Line_No = Receipt_Line_No + 1
-                            Dim strQue1 As String = "update TSPL_RECEIPT_DETAIL set posted = 'Y' where receipt_no ='" + strDocNo + "' and  Receipt_Line_No = " & Receipt_Line_No & " "
-                            clsDBFuncationality.ExecuteNonQuery(strQue1, trans)
-                        Next
-                    End If
-                    Dim strQue2 As String = "update TSPL_receipt_header set posted = 'Y',Modify_By='" + objCommonVar.CurrentUserCode + "' where receipt_no ='" + strDocNo + "' "
-                    clsDBFuncationality.ExecuteNonQuery(strQue2, trans)
-                ElseIf clsCommon.CompairString(clsCommon.myCstr(sqlDr.Rows(0)("Receipt_Type")), "S") = CompairStringResult.Equal Then
-                    Dim Receipt_Line_No As Integer = 0
-                    If sqlDr IsNot Nothing AndAlso sqlDr.Rows.Count > 0 Then
-                        Dim isApplyBrachAccounting As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyBrachAccounting, clsFixedParameterCode.ApplyBrachAccounting, trans)) = 1, True, False)
-                        For Each dr As DataRow In sqlDr.Rows
-                            Dim strQue As String = "update TSPL_receipt_header set posted = 'Y' where receipt_no ='" + strDocNo + "' "
-                            clsDBFuncationality.ExecuteNonQuery(strQue, trans)
-                            Receipt_Line_No = Receipt_Line_No + 1
-                            Dim strQue1 As String = "update TSPL_RECEIPT_DETAIL set posted = 'Y' where receipt_no ='" + strDocNo + "' and  Receipt_Line_No = " & Receipt_Line_No & " "
-                            clsDBFuncationality.ExecuteNonQuery(strQue1, trans)
-                        Next
-                    End If
-                    Dim strQue2 As String = "update TSPL_receipt_header set posted = 'Y',Modify_By='" + objCommonVar.CurrentUserCode + "' where receipt_no ='" + strDocNo + "' "
-                    clsDBFuncationality.ExecuteNonQuery(strQue2, trans)
-                    '-------------------------------------------------------------------------------------------------------------------
-                Else
-                    If clsCommon.CompairString(clsCommon.myCstr(sqlDr.Rows(0)("Receipt_Type")), "R") = CompairStringResult.Equal Or clsCommon.CompairString(clsCommon.myCstr(sqlDr.Rows(0)("Receipt_Type")), "A") = CompairStringResult.Equal Then
-                        If clsCommon.myLen(sqlDr.Rows(0)("Adjustment_No")) > 0 And clsCommon.CompairString(sqlDr.Rows(0)("AdjStatus"), "N") = CompairStringResult.Equal Then
-                            clsAdjustmentEntryReceivables.FunPost(clsCommon.myCstr(sqlDr.Rows(0)("Adjustment_No")), trans)
-                        End If
-                        '--------------------------This COde Updates Balance Amount of Invoice--------------------------
-                        'Dim qry As String = "select TSPL_RECEIPT_DETAIL.Document_No,case when isnull(TSPL_Customer_Invoice_Head.ConvRate,0)=0 then 1 else TSPL_Customer_Invoice_Head.ConvRate end  as ConvRateOld, (Case When TSPL_RECEIPT_DETAIL.Receipt_Type<>'C' Then Applied_Amount Else Applied_Amount*-1 End) as Applied_Amount, TagType,ISNULL(TSPL_Customer_Invoice_Head.Document_Type,'') AS  DocType ,TSPL_Customer_Invoice_Head.Loc_Code from TSPL_RECEIPT_DETAIL "
-                        'qry += " LEFT OUTER JOIN TSPL_Receipt_Adjustment_Header ON TSPL_Receipt_Adjustment_Header.Adjustment_No=TSPL_RECEIPT_DETAIL.Adjustment_No "
-                        'qry += " left outer join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Document_No=TSPL_RECEIPT_DETAIL.Document_No"
-                        'qry += " WHERE TSPL_RECEIPT_DETAIL.Receipt_No='" + strDocNo + "'"
+            End If
 
-                        ''richa 
-                        If clsCommon.CompairString(clsCommon.myCstr(sqlDr.Rows(0)("Receipt_Type")), "A") = CompairStringResult.Equal Then
-                            Dim strdocumentType As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Document_Type from TSPL_Customer_Invoice_Head where Document_No='" & clsCommon.myCstr(sqlDr.Rows(0)("Applied_Receipt")) & "'", trans))
-                            If clsCommon.myLen(strdocumentType) > 0 AndAlso clsCommon.CompairString(strdocumentType, "C") = CompairStringResult.Equal Then
-                                Dim qry1 As String = "Select Applied_Receipt as Document_No,case when isnull(TSPL_Customer_Invoice_Head.ConvRate,0)=0 then 1 else TSPL_Customer_Invoice_Head.ConvRate end  as ConvRateOld, " & _
-                                " (Case When TSPL_Customer_Invoice_Head.Document_Type not in ('C') Then Receipt_Amount Else Receipt_Amount*-1 End) as Applied_Amount, 'C' as TagType, ISNULL(TSPL_Customer_Invoice_Head.Document_Type,'') AS  DocType , TSPL_Customer_Invoice_Head.Loc_Code  as Loc_Code " & _
-                                " from TSPL_RECEIPT_HEADER left outer join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Document_No=TSPL_RECEIPT_HEADER.Applied_Receipt" & _
-                                 " WHERE TSPL_RECEIPT_HEADER.Receipt_No='" + strDocNo + "'"
-                                Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry1, trans)
-                                Dim StartGLAccordingToBrach1 As Boolean = True
-                                Dim isApplyBrachAccounting1 As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyBrachAccounting, clsFixedParameterCode.ApplyBrachAccounting, trans)) = 1, True, False)
-                                Dim strBankLocation1 As String = strBankAcc.Substring(clsCommon.myLen(strBankAcc) - 3, 3)
-                                If clsCommon.myCBool(clsCommon.CompairString(strJurEntryDefault, True)) = CompairStringResult.Equal Then
-                                Else
-                                    For Each dr As DataRow In dt1.Rows
-                                        If clsCommon.CompairString(clsCommon.myCstr(dr("DocType")), "F") <> CompairStringResult.Equal Then
-                                            clsReceiptDettail.funBalanceAmtSave(dr("Document_No"), clsCommon.myCdbl(dr("Applied_Amount")), trans, clsCommon.myCstr(dr("DocType")), dr("TagType"))
-                                        End If
-                                    Next
-                                End If
+            If clsCommon.CompairString(clsCommon.myCstr(sqlDr.Rows(0)("Receipt_Type")), "P") = CompairStringResult.Equal Then
+                If Not String.IsNullOrEmpty(sqlDr.Rows(0)("CForm_InvoiceNo")) Then
+                    Dim qry = "update TSPL_SD_SALE_INVOICE_HEAD set CFormRecd=1 WHERE Document_Code ='" + sqlDr.Rows(0)("CForm_InvoiceNo") + "'"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                End If
+            End If
+            '' Anubhooti 01-Jan-2015 (Remarks : if setting "AllowToUseSubAccount" is ON And Bank_Type should be "B" Then BankAccount is Sub_Account Else previous)
+            Dim BankTypeOfBank As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select ISNULL(Bank_type,'') AS Bank_Type From TSPL_BANK_MASTER Where BANK_CODE ='" + clsCommon.myCstr(sqlDr.Rows(0)("Bank_Code")) + "'", trans))
+            '' Anubhooti 03-Sep-2014 BM00000003437(Remarks : if setting "AllowToUseSubAccount" is ON Then BankAccount is Sub_Account Else previous)
+            Dim strBankAcc As String = ""
+            Dim UseSubAcc As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowToUseSubAccount, clsFixedParameterCode.AllowToUseSubAccount, trans))
+            If clsCommon.CompairString(UseSubAcc, "1") = CompairStringResult.Equal AndAlso clsCommon.CompairString(BankTypeOfBank, "B") = CompairStringResult.Equal Then
+                strQ = "select ISNULL(Sub_Account,'')  BANKACC  from TSPL_BANK_MASTER where BANK_CODE='" + clsCommon.myCstr(sqlDr.Rows(0)("Bank_Code")) + "'"
+                strBankAcc = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strQ, trans))
+            Else
+                strQ = "select BANKACC  from TSPL_BANK_MASTER where BANK_CODE='" + clsCommon.myCstr(sqlDr.Rows(0)("Bank_Code")) + "'"
+                strBankAcc = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strQ, trans))
+            End If
+            If clsCommon.CompairString(clsCommon.myCstr(sqlDr.Rows(0)("Receipt_Type")), "M") = CompairStringResult.Equal Then
+                Dim Receipt_Line_No As Integer = 0
+                If sqlDr IsNot Nothing AndAlso sqlDr.Rows.Count > 0 Then
+                    For Each dr As DataRow In sqlDr.Rows
+                        Dim strQue As String = "update TSPL_receipt_header set posted = 'Y' where receipt_no ='" + strDocNo + "' "
+                        clsDBFuncationality.ExecuteNonQuery(strQue, trans)
+                        Receipt_Line_No = Receipt_Line_No + 1
+                        Dim strQue1 As String = "update TSPL_RECEIPT_DETAIL set posted = 'Y' where receipt_no ='" + strDocNo + "' and  Receipt_Line_No = " & Receipt_Line_No & " "
+                        clsDBFuncationality.ExecuteNonQuery(strQue1, trans)
+                    Next
+                End If
+                Dim strQue2 As String = "update TSPL_receipt_header set posted = 'Y',Modify_By='" + objCommonVar.CurrentUserCode + "' where receipt_no ='" + strDocNo + "' "
+                clsDBFuncationality.ExecuteNonQuery(strQue2, trans)
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(sqlDr.Rows(0)("Receipt_Type")), "S") = CompairStringResult.Equal Then
+                Dim Receipt_Line_No As Integer = 0
+                If sqlDr IsNot Nothing AndAlso sqlDr.Rows.Count > 0 Then
+                    Dim isApplyBrachAccounting As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyBrachAccounting, clsFixedParameterCode.ApplyBrachAccounting, trans)) = 1, True, False)
+                    For Each dr As DataRow In sqlDr.Rows
+                        Dim strQue As String = "update TSPL_receipt_header set posted = 'Y' where receipt_no ='" + strDocNo + "' "
+                        clsDBFuncationality.ExecuteNonQuery(strQue, trans)
+                        Receipt_Line_No = Receipt_Line_No + 1
+                        Dim strQue1 As String = "update TSPL_RECEIPT_DETAIL set posted = 'Y' where receipt_no ='" + strDocNo + "' and  Receipt_Line_No = " & Receipt_Line_No & " "
+                        clsDBFuncationality.ExecuteNonQuery(strQue1, trans)
+                    Next
+                End If
+                Dim strQue2 As String = "update TSPL_receipt_header set posted = 'Y',Modify_By='" + objCommonVar.CurrentUserCode + "' where receipt_no ='" + strDocNo + "' "
+                clsDBFuncationality.ExecuteNonQuery(strQue2, trans)
+                '-------------------------------------------------------------------------------------------------------------------
+            Else
+                If clsCommon.CompairString(clsCommon.myCstr(sqlDr.Rows(0)("Receipt_Type")), "R") = CompairStringResult.Equal Or clsCommon.CompairString(clsCommon.myCstr(sqlDr.Rows(0)("Receipt_Type")), "A") = CompairStringResult.Equal Then
+                    If clsCommon.myLen(sqlDr.Rows(0)("Adjustment_No")) > 0 And clsCommon.CompairString(sqlDr.Rows(0)("AdjStatus"), "N") = CompairStringResult.Equal Then
+                        clsAdjustmentEntryReceivables.FunPost(clsCommon.myCstr(sqlDr.Rows(0)("Adjustment_No")), trans)
+                    End If
+                    '--------------------------This COde Updates Balance Amount of Invoice--------------------------
+                    'Dim qry As String = "select TSPL_RECEIPT_DETAIL.Document_No,case when isnull(TSPL_Customer_Invoice_Head.ConvRate,0)=0 then 1 else TSPL_Customer_Invoice_Head.ConvRate end  as ConvRateOld, (Case When TSPL_RECEIPT_DETAIL.Receipt_Type<>'C' Then Applied_Amount Else Applied_Amount*-1 End) as Applied_Amount, TagType,ISNULL(TSPL_Customer_Invoice_Head.Document_Type,'') AS  DocType ,TSPL_Customer_Invoice_Head.Loc_Code from TSPL_RECEIPT_DETAIL "
+                    'qry += " LEFT OUTER JOIN TSPL_Receipt_Adjustment_Header ON TSPL_Receipt_Adjustment_Header.Adjustment_No=TSPL_RECEIPT_DETAIL.Adjustment_No "
+                    'qry += " left outer join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Document_No=TSPL_RECEIPT_DETAIL.Document_No"
+                    'qry += " WHERE TSPL_RECEIPT_DETAIL.Receipt_No='" + strDocNo + "'"
+
+                    ''richa 
+                    If clsCommon.CompairString(clsCommon.myCstr(sqlDr.Rows(0)("Receipt_Type")), "A") = CompairStringResult.Equal Then
+                        Dim strdocumentType As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Document_Type from TSPL_Customer_Invoice_Head where Document_No='" & clsCommon.myCstr(sqlDr.Rows(0)("Applied_Receipt")) & "'", trans))
+                        If clsCommon.myLen(strdocumentType) > 0 AndAlso clsCommon.CompairString(strdocumentType, "C") = CompairStringResult.Equal Then
+                            Dim qry1 As String = "Select Applied_Receipt as Document_No,case when isnull(TSPL_Customer_Invoice_Head.ConvRate,0)=0 then 1 else TSPL_Customer_Invoice_Head.ConvRate end  as ConvRateOld, " &
+                            " (Case When TSPL_Customer_Invoice_Head.Document_Type not in ('C') Then Receipt_Amount Else Receipt_Amount*-1 End) as Applied_Amount, 'C' as TagType, ISNULL(TSPL_Customer_Invoice_Head.Document_Type,'') AS  DocType , TSPL_Customer_Invoice_Head.Loc_Code  as Loc_Code " &
+                            " from TSPL_RECEIPT_HEADER left outer join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Document_No=TSPL_RECEIPT_HEADER.Applied_Receipt" &
+                             " WHERE TSPL_RECEIPT_HEADER.Receipt_No='" + strDocNo + "'"
+                            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry1, trans)
+                            Dim StartGLAccordingToBrach1 As Boolean = True
+                            Dim isApplyBrachAccounting1 As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyBrachAccounting, clsFixedParameterCode.ApplyBrachAccounting, trans)) = 1, True, False)
+                            Dim strBankLocation1 As String = strBankAcc.Substring(clsCommon.myLen(strBankAcc) - 3, 3)
+                            If clsCommon.myCBool(clsCommon.CompairString(strJurEntryDefault, True)) = CompairStringResult.Equal Then
+                            Else
+                                For Each dr As DataRow In dt1.Rows
+                                    If clsCommon.CompairString(clsCommon.myCstr(dr("DocType")), "F") <> CompairStringResult.Equal Then
+                                        clsReceiptDettail.funBalanceAmtSave(dr("Document_No"), clsCommon.myCdbl(dr("Applied_Amount")), trans, clsCommon.myCstr(dr("DocType")), dr("TagType"))
+                                    End If
+                                Next
                             End If
                         End If
+                    End If
 
-                        Dim qry As String = "select TSPL_RECEIPT_DETAIL.Document_No,case when isnull(TSPL_Customer_Invoice_Head.ConvRate,0)=0 then 1 else TSPL_Customer_Invoice_Head.ConvRate end  as ConvRateOld, (Case When TSPL_RECEIPT_DETAIL.Receipt_Type not in ('C') Then Applied_Amount Else Applied_Amount*-1 End) as Applied_Amount, TagType,case when TSPL_RECEIPT_DETAIL.Receipt_Type ='F' then 'F' else ISNULL(TSPL_Customer_Invoice_Head.Document_Type,'') end  AS  DocType ,case when TSPL_RECEIPT_DETAIL.Receipt_Type ='F' then (Select right(BANKACC,3) from TSPL_RECEIPT_HEADER left outer join TSPL_BANK_MASTER on TSPL_RECEIPT_HEADER .Bank_Code =TSPL_BANK_MASTER .BANK_CODE  where Receipt_No =TSPL_RECEIPT_DETAIL.Document_No) else TSPL_Customer_Invoice_Head.Loc_Code end as Loc_Code from TSPL_RECEIPT_DETAIL "
-                        qry += " LEFT OUTER JOIN TSPL_Receipt_Adjustment_Header ON TSPL_Receipt_Adjustment_Header.Adjustment_No=TSPL_RECEIPT_DETAIL.Adjustment_No "
-                        qry += " left outer join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Document_No=TSPL_RECEIPT_DETAIL.Document_No"
-                        qry += " WHERE TSPL_RECEIPT_DETAIL.Receipt_No='" + strDocNo + "'"
+                    Dim qry As String = "select TSPL_RECEIPT_DETAIL.Document_No,case when isnull(TSPL_Customer_Invoice_Head.ConvRate,0)=0 then 1 else TSPL_Customer_Invoice_Head.ConvRate end  as ConvRateOld, (Case When TSPL_RECEIPT_DETAIL.Receipt_Type not in ('C') Then Applied_Amount Else Applied_Amount*-1 End) as Applied_Amount, TagType,case when TSPL_RECEIPT_DETAIL.Receipt_Type ='F' then 'F' else ISNULL(TSPL_Customer_Invoice_Head.Document_Type,'') end  AS  DocType ,case when TSPL_RECEIPT_DETAIL.Receipt_Type ='F' then (Select right(BANKACC,3) from TSPL_RECEIPT_HEADER left outer join TSPL_BANK_MASTER on TSPL_RECEIPT_HEADER .Bank_Code =TSPL_BANK_MASTER .BANK_CODE  where Receipt_No =TSPL_RECEIPT_DETAIL.Document_No) else TSPL_Customer_Invoice_Head.Loc_Code end as Loc_Code from TSPL_RECEIPT_DETAIL "
+                    qry += " LEFT OUTER JOIN TSPL_Receipt_Adjustment_Header ON TSPL_Receipt_Adjustment_Header.Adjustment_No=TSPL_RECEIPT_DETAIL.Adjustment_No "
+                    qry += " left outer join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Document_No=TSPL_RECEIPT_DETAIL.Document_No"
+                    qry += " WHERE TSPL_RECEIPT_DETAIL.Receipt_No='" + strDocNo + "'"
 
-                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-                        Dim StartGLAccordingToBrach As Boolean = True
-                        Dim isApplyBrachAccounting As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyBrachAccounting, clsFixedParameterCode.ApplyBrachAccounting, trans)) = 1, True, False)
-                        Dim strBankLocation As String = strBankAcc.Substring(clsCommon.myLen(strBankAcc) - 3, 3)
-                        If clsCommon.myCBool(clsCommon.CompairString(strJurEntryDefault, True)) = CompairStringResult.Equal Then
-                        Else
-                            For Each dr As DataRow In dt.Rows
-                                If clsCommon.CompairString(clsCommon.myCstr(dr("DocType")), "F") <> CompairStringResult.Equal Then
-                                    clsReceiptDettail.funBalanceAmtSave(dr("Document_No"), clsCommon.myCdbl(dr("Applied_Amount")), trans, clsCommon.myCstr(dr("DocType")), dr("TagType"))
-                                ElseIf clsCommon.CompairString(clsCommon.myCstr(dr("DocType")), "F") = CompairStringResult.Equal Then
-                                    strQ = "update TSPL_RECEIPT_HEADER set Balance_Amt =Balance_Amt -'" & clsCommon.myCdbl(dr("Applied_Amount")) & "' where Receipt_No in ('" & dr("Document_No") & "')"
-                                    clsDBFuncationality.ExecuteNonQuery(strQ, trans)
-                                End If
-                            Next
-                        End If
-                    ElseIf clsCommon.CompairString(clsCommon.myCstr(sqlDr.Rows(0)("Receipt_Type")), "O") = CompairStringResult.Equal Then
-                        Dim InvcNo As String = ""
-                        Dim BalAmt As Decimal = 0.0
-                        Dim drtotal As Decimal = clsCommon.myCdbl(sqlDr.Rows(0)("Receipt_Amount").ToString())
-                        Dim PayAmt As Decimal = drtotal
-                        strQ = " select Document_No as Document_No  ,Due_Date ,case when fifo_balance>0 then fifo_balance else   Balance_Amt end as  Balance_Amt from TSPL_Customer_Invoice_Head" & _
-                               " where Balance_Amt>0 and Customer_Code ='" + sqlDr.Rows(0)("Cust_Code").ToString() + "' and  fifo_knockoff='N' order by TSPL_Customer_Invoice_Head.Due_Date "
-                        Dim Dt1 As DataTable = New DataTable()
-                        Dt1 = clsDBFuncationality.GetDataTable(strQ, trans)
-                        For Each dr As DataRow In Dt1.Rows
-                            InvcNo = dr.Item("Document_No").ToString()
-                            BalAmt = dr.Item("Balance_Amt")
-                            If drtotal > BalAmt Then
-                                drtotal = drtotal - BalAmt
-                                strQ = "update TSPL_Customer_Invoice_Head set fifo_balance=0.00 , fifo_knockoff='Y' where Document_No ='" + InvcNo + "' and Customer_Code ='" + sqlDr.Rows(0)("Cust_Code").ToString() + "'"
-                                clsDBFuncationality.ExecuteNonQuery(strQ, trans)
-                            ElseIf drtotal < BalAmt Then
-                                drtotal = drtotal - BalAmt
-                                strQ = "update TSPL_Customer_Invoice_Head set fifo_balance=" + (drtotal * -1).ToString() + "-fifo_balance , fifo_knockoff='N' where Document_No ='" + InvcNo + "' and Customer_Code ='" + sqlDr.Rows(0)("Cust_Code").ToString() + "'"
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                    Dim StartGLAccordingToBrach As Boolean = True
+                    Dim isApplyBrachAccounting As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyBrachAccounting, clsFixedParameterCode.ApplyBrachAccounting, trans)) = 1, True, False)
+                    Dim strBankLocation As String = strBankAcc.Substring(clsCommon.myLen(strBankAcc) - 3, 3)
+                    If clsCommon.myCBool(clsCommon.CompairString(strJurEntryDefault, True)) = CompairStringResult.Equal Then
+                    Else
+                        For Each dr As DataRow In dt.Rows
+                            If clsCommon.CompairString(clsCommon.myCstr(dr("DocType")), "F") <> CompairStringResult.Equal Then
+                                clsReceiptDettail.funBalanceAmtSave(dr("Document_No"), clsCommon.myCdbl(dr("Applied_Amount")), trans, clsCommon.myCstr(dr("DocType")), dr("TagType"))
+                            ElseIf clsCommon.CompairString(clsCommon.myCstr(dr("DocType")), "F") = CompairStringResult.Equal Then
+                                strQ = "update TSPL_RECEIPT_HEADER set Balance_Amt =Balance_Amt -'" & clsCommon.myCdbl(dr("Applied_Amount")) & "' where Receipt_No in ('" & dr("Document_No") & "')"
                                 clsDBFuncationality.ExecuteNonQuery(strQ, trans)
                             End If
-                            If drtotal < 0 Then
-                                Exit For
-                            End If
                         Next
-                        If drtotal > 0 Then
-                            strQ = "update TSPL_RECEIPT_HEADER set fifo_balance=" + drtotal.ToString() + " where Receipt_No ='" + strDocNo + "'"
+                    End If
+                ElseIf clsCommon.CompairString(clsCommon.myCstr(sqlDr.Rows(0)("Receipt_Type")), "O") = CompairStringResult.Equal Then
+                    Dim InvcNo As String = ""
+                    Dim BalAmt As Decimal = 0.0
+                    Dim drtotal As Decimal = clsCommon.myCdbl(sqlDr.Rows(0)("Receipt_Amount").ToString())
+                    Dim PayAmt As Decimal = drtotal
+                    strQ = " select Document_No as Document_No  ,Due_Date ,case when fifo_balance>0 then fifo_balance else   Balance_Amt end as  Balance_Amt from TSPL_Customer_Invoice_Head" &
+                           " where Balance_Amt>0 and Customer_Code ='" + sqlDr.Rows(0)("Cust_Code").ToString() + "' and  fifo_knockoff='N' order by TSPL_Customer_Invoice_Head.Due_Date "
+                    Dim Dt1 As DataTable = New DataTable()
+                    Dt1 = clsDBFuncationality.GetDataTable(strQ, trans)
+                    For Each dr As DataRow In Dt1.Rows
+                        InvcNo = dr.Item("Document_No").ToString()
+                        BalAmt = dr.Item("Balance_Amt")
+                        If drtotal > BalAmt Then
+                            drtotal = drtotal - BalAmt
+                            strQ = "update TSPL_Customer_Invoice_Head set fifo_balance=0.00 , fifo_knockoff='Y' where Document_No ='" + InvcNo + "' and Customer_Code ='" + sqlDr.Rows(0)("Cust_Code").ToString() + "'"
+                            clsDBFuncationality.ExecuteNonQuery(strQ, trans)
+                        ElseIf drtotal < BalAmt Then
+                            drtotal = drtotal - BalAmt
+                            strQ = "update TSPL_Customer_Invoice_Head set fifo_balance=" + (drtotal * -1).ToString() + "-fifo_balance , fifo_knockoff='N' where Document_No ='" + InvcNo + "' and Customer_Code ='" + sqlDr.Rows(0)("Cust_Code").ToString() + "'"
                             clsDBFuncationality.ExecuteNonQuery(strQ, trans)
                         End If
-                    ElseIf clsCommon.CompairString(clsCommon.myCstr(sqlDr.Rows(0)("Receipt_Type")), "A") = CompairStringResult.Equal Then
-                        ''---richa agarwal added to deduct advance amount when it is used with refund
-                    ElseIf clsCommon.CompairString(clsCommon.myCstr(sqlDr.Rows(0)("Receipt_Type")), "F") = CompairStringResult.Equal Then
-                        If clsCommon.CompairString(clsCommon.myCstr(sqlDr.Rows(0)("Applied_Receipt")), "") <> CompairStringResult.Equal Then
-
-                            clsRcptEntryHeader.UpdateBalance(clsCommon.myCstr(sqlDr.Rows(0)("Applied_Receipt")), clsCommon.myCdbl(sqlDr.Rows(0)("Receipt_Amount")), Set_Off_Date, clsCommon.myCdbl(sqlDr.Rows(0)("SetOffSkipJE")), trans)
+                        If drtotal < 0 Then
+                            Exit For
                         End If
-                    Else
-
+                    Next
+                    If drtotal > 0 Then
+                        strQ = "update TSPL_RECEIPT_HEADER set fifo_balance=" + drtotal.ToString() + " where Receipt_No ='" + strDocNo + "'"
+                        clsDBFuncationality.ExecuteNonQuery(strQ, trans)
                     End If
+                ElseIf clsCommon.CompairString(clsCommon.myCstr(sqlDr.Rows(0)("Receipt_Type")), "A") = CompairStringResult.Equal Then
+                    ''---richa agarwal added to deduct advance amount when it is used with refund
+                ElseIf clsCommon.CompairString(clsCommon.myCstr(sqlDr.Rows(0)("Receipt_Type")), "F") = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(clsCommon.myCstr(sqlDr.Rows(0)("Applied_Receipt")), "") <> CompairStringResult.Equal Then
 
-                    Dim PayType As String = ""
-                    If sqlDr.Rows(0)("Receipt_Type").ToString() = "R" Then
-                        PayType = "AR-PY"
-                    ElseIf sqlDr.Rows(0)("Receipt_Type").ToString() = "O" Then
-                        PayType = "AR-OA"
-                    ElseIf sqlDr.Rows(0)("Receipt_Type").ToString() = "A" Then
-                        PayType = "AR-DC"
-                    ElseIf sqlDr.Rows(0)("Receipt_Type").ToString() = "P" Then 'Or sqlDr.Rows(0)("Receipt_Type").ToString() = "A" Then
-                        PayType = "AR-PI"
-                    ElseIf sqlDr.Rows(0)("Receipt_Type").ToString() = "U" Then
-                        PayType = "AR-UC"
-                    ElseIf sqlDr.Rows(0)("Receipt_Type").ToString() = "F" Then
-                        PayType = "AR-RF"
+                        clsRcptEntryHeader.UpdateBalance(clsCommon.myCstr(sqlDr.Rows(0)("Applied_Receipt")), clsCommon.myCdbl(sqlDr.Rows(0)("Receipt_Amount")), Set_Off_Date, clsCommon.myCdbl(sqlDr.Rows(0)("SetOffSkipJE")), trans)
                     End If
+                Else
 
-                    If clsCommon.CompairString(sqlDr.Rows(0)("Receipt_Type").ToString(), "P") = CompairStringResult.Equal Or clsCommon.CompairString(sqlDr.Rows(0)("Receipt_Type").ToString(), "O") = CompairStringResult.Equal Or clsCommon.CompairString(sqlDr.Rows(0)("Receipt_Type").ToString(), "F") = CompairStringResult.Equal Then
+                End If
 
-                    End If
+                Dim PayType As String = ""
+                If sqlDr.Rows(0)("Receipt_Type").ToString() = "R" Then
+                    PayType = "AR-PY"
+                ElseIf sqlDr.Rows(0)("Receipt_Type").ToString() = "O" Then
+                    PayType = "AR-OA"
+                ElseIf sqlDr.Rows(0)("Receipt_Type").ToString() = "A" Then
+                    PayType = "AR-DC"
+                ElseIf sqlDr.Rows(0)("Receipt_Type").ToString() = "P" Then 'Or sqlDr.Rows(0)("Receipt_Type").ToString() = "A" Then
+                    PayType = "AR-PI"
+                ElseIf sqlDr.Rows(0)("Receipt_Type").ToString() = "U" Then
+                    PayType = "AR-UC"
+                ElseIf sqlDr.Rows(0)("Receipt_Type").ToString() = "F" Then
+                    PayType = "AR-RF"
+                End If
 
-                    ''richa agarwal
-                    Dim strForeignBankAcc As String = String.Empty
-                    Dim strBankChargesOtherAcc As String = String.Empty
+                If clsCommon.CompairString(sqlDr.Rows(0)("Receipt_Type").ToString(), "P") = CompairStringResult.Equal Or clsCommon.CompairString(sqlDr.Rows(0)("Receipt_Type").ToString(), "O") = CompairStringResult.Equal Or clsCommon.CompairString(sqlDr.Rows(0)("Receipt_Type").ToString(), "F") = CompairStringResult.Equal Then
+
+                End If
+
+                ''richa agarwal
+                Dim strForeignBankAcc As String = String.Empty
+                Dim strBankChargesOtherAcc As String = String.Empty
                 'If clsCommon.CompairString(clsCommon.myCstr(sqlDr.Rows(0)("Receipt_Type")), "A") = CompairStringResult.Equal Then
                 '    clsRcptEntryHeader.UpdateBalance(clsCommon.myCstr(sqlDr.Rows(0)("Applied_Receipt")), clsCommon.myCdbl(sqlDr.Rows(0)("Receipt_Amount")), Set_Off_Date, clsCommon.myCdbl(sqlDr.Rows(0)("SetOffSkipJE")), trans)
                 'End If
@@ -2628,31 +2630,31 @@ Public Class clsRcptEntryHeader
                     End If
                 End If
 
-                    Dim strQue As String = "update TSPL_receipt_header set posted = 'Y',Modify_By='" + objCommonVar.CurrentUserCode + "' where receipt_no ='" + strDocNo + "' "
-                    clsDBFuncationality.ExecuteNonQuery(strQue, trans)
-                    strQue = "update TSPL_RECEIPT_DETAIL set posted = 'Y' where receipt_no ='" + strDocNo + "' "
-                    clsDBFuncationality.ExecuteNonQuery(strQue, trans)
-                    If sqlDr.Rows(0)("UnApplied_No").ToString() <> "" Then
-                        Dim DocUnAppliedNo As String = sqlDr.Rows(0)("UnApplied_No").ToString()
-                        clsRcptEntryHeader.funRcptPostUnApplied(DocUnAppliedNo, trans)
-                    End If
+                Dim strQue As String = "update TSPL_receipt_header set posted = 'Y',Modify_By='" + objCommonVar.CurrentUserCode + "' where receipt_no ='" + strDocNo + "' "
+                clsDBFuncationality.ExecuteNonQuery(strQue, trans)
+                strQue = "update TSPL_RECEIPT_DETAIL set posted = 'Y' where receipt_no ='" + strDocNo + "' "
+                clsDBFuncationality.ExecuteNonQuery(strQue, trans)
+                If sqlDr.Rows(0)("UnApplied_No").ToString() <> "" Then
+                    Dim DocUnAppliedNo As String = sqlDr.Rows(0)("UnApplied_No").ToString()
+                    clsRcptEntryHeader.funRcptPostUnApplied(DocUnAppliedNo, trans)
                 End If
-                '-------------This Code Creates Unapplied entry and post also-----------------------
-                If clsCommon.CompairString(clsCommon.myCstr(sqlDr.Rows(0)("Receipt_Type")), "R") = CompairStringResult.Equal Then
-                    If clsCommon.myCdbl(sqlDr.Rows(0)("UnApplied_Balance")) > 0 Then
-                        Dim obj As clsRcptEntryHeader
-                        obj = clsRcptEntryHeader.GetData(strDocNo, NavigatorType.Current, trans)
-                        clsRcptEntryHeader.funUnAppliedEntry(obj, trans)
-                    End If
+            End If
+            '-------------This Code Creates Unapplied entry and post also-----------------------
+            If clsCommon.CompairString(clsCommon.myCstr(sqlDr.Rows(0)("Receipt_Type")), "R") = CompairStringResult.Equal Then
+                If clsCommon.myCdbl(sqlDr.Rows(0)("UnApplied_Balance")) > 0 Then
+                    Dim obj As clsRcptEntryHeader
+                    obj = clsRcptEntryHeader.GetData(strDocNo, NavigatorType.Current, trans)
+                    clsRcptEntryHeader.funUnAppliedEntry(obj, trans)
                 End If
-                ' post  bank transfer
-                Dim obj1 As clsRcptEntryHeader
-                obj1 = clsRcptEntryHeader.GetData(strDocNo, NavigatorType.Current, trans)
-                If clsCommon.myLen(obj1.Transfer_No) > 0 Then
-                    clsBankTrasnferNew.PostData(obj1.Transfer_No, trans)
-                End If
-                '---------------------------------------------------------------------
-                clsBankReco.SetOutstandingEntry(strDocNo, clsCommon.myCDate(sqlDr.Rows(0)("Receipt_Date")), "Receipt", trans)
+            End If
+            ' post  bank transfer
+            Dim obj1 As clsRcptEntryHeader
+            obj1 = clsRcptEntryHeader.GetData(strDocNo, NavigatorType.Current, trans)
+            If clsCommon.myLen(obj1.Transfer_No) > 0 Then
+                clsBankTrasnferNew.PostData(obj1.Transfer_No, trans)
+            End If
+            '---------------------------------------------------------------------
+            clsBankReco.SetOutstandingEntry(strDocNo, clsCommon.myCDate(sqlDr.Rows(0)("Receipt_Date")), "Receipt", trans)
             '' Work done for Swd 09/04/2018
             'Send SMS If document type other than Applied document
             If clsCommon.CompairString(clsCommon.myCstr(sqlDr.Rows(0)("Receipt_Type")), "A") <> CompairStringResult.Equal Then
@@ -2841,10 +2843,10 @@ Public Class clsRcptEntryHeader
                     objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.OutStandingAmt, clsCommon.myFormat(dtCustomerOutstanding.Rows(0)("BalAmt")))
 
                     objSMSH.arrMobilNo = New List(Of String)()
-                   
-                        objSMSH.arrMobilNo.Add(clsCommon.myCstr(dtParty.Rows(0)("MobileNo")))
-                        objSMSH.SaveData(Form_ID, objSMSH, trans)
-                        objSMSH = Nothing
+
+                    objSMSH.arrMobilNo.Add(clsCommon.myCstr(dtParty.Rows(0)("MobileNo")))
+                    objSMSH.SaveData(Form_ID, objSMSH, trans)
+                    objSMSH = Nothing
                 End If
             End If
         End If
@@ -2900,12 +2902,12 @@ Public Class clsRcptEntryHeader
             BaseQryForCustomer = clsCustomerMaster.GetCustomerBaseQry(False, False, "", False, ConvRate, strCustomer, False, strfromdate, strtodate, False, False, False, Trans)
             BaseQryForCustomerforOpening = clsCustomerMaster.GetCustomerBaseQry(False, False, "", False, ConvRate, strCustomer, True, strfromdate, strtodate, False, False, False, Trans)
 
-            BaseQry = " Select '" + clsCommon.GetPrintDate(strtodate, "dd/MM/yyyy") + "' as DocDate, ACode,  MAX(AName) as AName, SUM(convert(decimal(18,2),OpngBal)) as OpngBal, SUM(convert(decimal(18,2),DrAmt)) as DrAmt, SUM(convert(decimal(18,2),CrAmt)) as CrAmt,  ( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))  as BalAmt  From (" + Environment.NewLine & _
-            "  Select max(DocDate) as DocDate, ACode, MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as AName,  '' as CurrencyCode, null as ConvRate, SUM(DrAmt*ConvRate)-SUM(CrAmt) as OpngBal, 0 as DrAmt, 0 as CrAmt from  ( " + BaseQryForCustomerforOpening + " ) Final left outer join TSPL_CUSTOMER_MASTER on final.ACode=TSPL_CUSTOMER_MASTER.Cust_Code LEFT OUTER JOIN TSPL_CUSTOMER_GROUP_MASTER ON TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code where  CONVERT(DATE,final.DocDate,103) < '" + strfromdate + "' AND LEN(ACode)>0 AND TSPL_CUSTOMER_MASTER.Status='N'  GROUP BY ACode" + Environment.NewLine & _
-            Environment.NewLine + " UNION ALL" + Environment.NewLine & _
-            " Select  max(DocDate) as DocDate, ACode, MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as AName,  MAX(Final.Currency_Code) as Currency_Code, MAX(Final.ConvRate) as ConvRate, 0 as OpngBal, SUM(convert(decimal(18,2),DrAmt*  Final.ConvRate)) as DrAmt, " & Environment.NewLine & _
-            " SUM(convert(decimal(18,2),CrAmt)) as CrAmt FROM ( " + BaseQryForCustomer + " ) Final left outer join TSPL_CUSTOMER_MASTER on final.ACode=TSPL_CUSTOMER_MASTER.Cust_Code LEFT OUTER JOIN TSPL_CUSTOMER_GROUP_MASTER ON TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code " + Environment.NewLine & _
-            " Left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =Final.DocNo  LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE=Final.Bank_Code " + Environment.NewLine & _
+            BaseQry = " Select '" + clsCommon.GetPrintDate(strtodate, "dd/MM/yyyy") + "' as DocDate, ACode,  MAX(AName) as AName, SUM(convert(decimal(18,2),OpngBal)) as OpngBal, SUM(convert(decimal(18,2),DrAmt)) as DrAmt, SUM(convert(decimal(18,2),CrAmt)) as CrAmt,  ( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))  as BalAmt  From (" + Environment.NewLine &
+            "  Select max(DocDate) as DocDate, ACode, MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as AName,  '' as CurrencyCode, null as ConvRate, SUM(DrAmt*ConvRate)-SUM(CrAmt) as OpngBal, 0 as DrAmt, 0 as CrAmt from  ( " + BaseQryForCustomerforOpening + " ) Final left outer join TSPL_CUSTOMER_MASTER on final.ACode=TSPL_CUSTOMER_MASTER.Cust_Code LEFT OUTER JOIN TSPL_CUSTOMER_GROUP_MASTER ON TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code where  CONVERT(DATE,final.DocDate,103) < '" + strfromdate + "' AND LEN(ACode)>0 AND TSPL_CUSTOMER_MASTER.Status='N'  GROUP BY ACode" + Environment.NewLine &
+            Environment.NewLine + " UNION ALL" + Environment.NewLine &
+            " Select  max(DocDate) as DocDate, ACode, MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as AName,  MAX(Final.Currency_Code) as Currency_Code, MAX(Final.ConvRate) as ConvRate, 0 as OpngBal, SUM(convert(decimal(18,2),DrAmt*  Final.ConvRate)) as DrAmt, " & Environment.NewLine &
+            " SUM(convert(decimal(18,2),CrAmt)) as CrAmt FROM ( " + BaseQryForCustomer + " ) Final left outer join TSPL_CUSTOMER_MASTER on final.ACode=TSPL_CUSTOMER_MASTER.Cust_Code LEFT OUTER JOIN TSPL_CUSTOMER_GROUP_MASTER ON TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code " + Environment.NewLine &
+            " Left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =Final.DocNo  LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE=Final.Bank_Code " + Environment.NewLine &
             "where  CONVERT(DATE,final.DocDate,103) >= '" + strfromdate + "' AND CONVERT(DATE,final.DocDate,103) <= '" + strtodate + "' AND LEN(ACode)>0 AND TSPL_CUSTOMER_MASTER.Status='N' GROUP BY ACode ) XXX GROUP BY ACode  " + Environment.NewLine
 
             Return BaseQry
@@ -2917,25 +2919,25 @@ Public Class clsRcptEntryHeader
         Try
             Dim BaseQry As String = Nothing
 
-            BaseQry = " ( Select convert(varchar,Doc_Date,103) as Doc_Date,Customer_Code,Customer_Name, OpencrateQty, CrateQtyRecd ,CrateOutQty, CrateAdjQty ,SUM(CrateQtyClosing) OVER (Partition BY Customer_Code ORDER BY Customer_Code) as CrateQtyClosing,OpenCanQty , CanQtyRecd  ,CanOutQty , CanAdjQty ,SUM(CanQtyClosing ) OVER (Partition BY Customer_Code ORDER BY Customer_Code) as CanQtyClosing from ( " & Environment.NewLine & _
-            " select  pp.Doc_Date  as Doc_Date,TSPL_CUSTOMER_MASTER.Route_No,TSPL_CUSTOMER_MASTER.Route_Desc,pp.Vehicle_Code,tspl_vehicle_master.Number as Vehicle_Name ,pp.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,pp.OpencrateQty as OpencrateQty,pp.OpenJaaliQty  as OpenJaaliQty,pp.OpenBoxQty  as OpenBoxQty,pp.OpenCanQty  as OpenCanQty,pp.CrateQtyRecd  as CrateQtyRecd,pp.JaaliQtyRecd  as JaaliQtyRecd,pp.BoxQtyRecd  as BoxQtyRecd ,pp.CanQtyRecd  as CanQtyRecd,pp.CrateOutQty  as CrateOutQty,pp.jaaliOutQty  as jaaliOutQty ,pp.boxOutQty  as boxOutQty,pp.CanOutQty  as CanOutQty ,pp.CrateQtyClosing as CrateQtyClosing, pp.JaaliQtyClosing as  JaaliQtyClosing, pp.BoxQtyClosing as BoxQtyClosing, pp.CanQtyClosing as CanQtyClosing,pp.CrateAdjQty , pp.JaaliAdjQty  , pp.BoxAdjQty , pp.CanAdjQty from ( " & Environment.NewLine & _
-            " select  max(convert(date,Doc_Date,103))  as Doc_Date,max(xx.Vehicle_Code) as Vehicle_Code,xx.Customer_Code,sum(xx.OpencrateQty) as OpencrateQty,sum(xx.OpenJaaliQty ) as OpenJaaliQty,sum(xx.OpenBoxQty )  as OpenBoxQty,sum(xx.OpenCanQty )  as OpenCanQty,sum(xx.CrateQtyRecd) as CrateQtyRecd,sum(xx.JaaliQtyRecd) as JaaliQtyRecd,sum(xx.BoxQtyRecd) as BoxQtyRecd,sum(xx.CanQtyRecd) as CanQtyRecd,sum(xx.CrateOutQty ) as CrateOutQty,sum(xx.jaaliOutQty ) as jaaliOutQty ,sum(xx.boxOutQty ) as boxOutQty,sum(xx.CanOutQty ) as CanOutQty, sum(xx.CrateAdjQty ) as CrateAdjQty ,sum(xx.JaaliAdjQty )as JaaliAdjQty  ,sum(xx.BoxAdjQty )  as BoxAdjQty ,sum(xx.CanAdjQty )  as CanAdjQty,(sum(xx.OpencrateQty)+sum(xx.CrateOutQty )-sum(xx.CrateQtyRecd)-sum(xx.CrateAdjQty )) as CrateQtyClosing, (sum(xx.OpenJaaliQty)+sum(xx.jaaliOutQty)-sum(xx.JaaliQtyRecd)-sum(xx.JaaliAdjQty )) as JaaliQtyClosing, (sum(xx.OpenBoxQty)+sum(xx.boxOutQty )-sum(xx.BoxQtyRecd)-sum(xx.BoxAdjQty )) as BoxQtyClosing  , (sum(xx.OpenCanQty)+sum(xx.CanOutQty )-sum(xx.CanQtyRecd)-sum(xx.CanAdjQty )) as CanQtyClosing  from (select  max(convert(date,'" + strfromdate + "' ,103)) as Doc_Date,max(Opening.Vehicle_Code) as Vehicle_Code , Opening.Customer_Code ,sum(Opening.OpencrateQty*Type) as OpencrateQty,sum(Opening.OpenJaaliQty*Type ) as OpenJaaliQty,sum(Opening.OpenBoxQty *Type)  as OpenBoxQty,sum(Opening.OpenCanQty *Type)  as OpenCanQty,sum(Opening.CrateQtyRecd *Type) as CrateQtyRecd,sum(Opening.JaaliQtyRecd*Type ) as JaaliQtyRecd,sum(Opening.BoxQtyRecd*Type ) as BoxQtyRecd,sum(Opening.CanQtyRecd*Type ) as CanQtyRecd,sum(Opening.CrateOutQty*Type ) as CrateOutQty,sum(Opening.jaaliOutQty*Type ) as jaaliOutQty ,sum(Opening.boxOutQty*Type ) as boxOutQty,sum(Opening.CanOutQty*Type ) as CanOutQty,sum(Opening.CrateAdjQty*Type ) as CrateAdjQty,sum(Opening.JaaliAdjQty*Type ) as JaaliAdjQty,sum(Opening.BoxAdjQty *Type) as  BoxAdjQty ,sum(Opening.CanAdjQty *Type) as  canAdjQty from  ( select TSPL_SD_SHIPMENT_HEAD.Document_Date    as Document_Date,TSPL_SD_SHIPMENT_HEAD.Vehicle_Code ,TSPL_SD_SHIPMENT_HEAD.customer_code  ,1 as Type  ,'O' as Type1,TSPL_SD_SHIPMENT_HEAD.Crate as OpencrateQty,TSPL_SD_SHIPMENT_HEAD.jaali as OpenJaaliQty, TSPL_SD_SHIPMENT_HEAD.box  as OpenBoxQty , TSPL_SD_SHIPMENT_HEAD.ShippedCAN  as OpenCanQty  ,0 as CrateQtyRecd,0  as JaaliQtyRecd ,0 as BoxQtyRecd ,0 as CanQtyRecd ,0 as CrateOutQty,0 as jaaliOutQty,0 as boxOutQty ,0 as CanOutQty,0 as CrateAdjQty,0 as JaaliAdjQty,0 as  BoxAdjQty  ,0 as  CanAdjQty  from TSPL_SD_SHIPMENT_HEAD  where TSPL_SD_SHIPMENT_HEAD.screen_type='DS'  union all  select TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date as Document_Date,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Vehicle_Code ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Customer_Code  ,1 as Type,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type as Type1  , TSPL_CRATE_RECEIVED_detail_FRESHSALE.OutQty as OpencrateQty, TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaaliOutQty   as OpenjaaliQty , TSPL_CRATE_RECEIVED_detail_FRESHSALE.boxOutQty  as OpenboxQty, TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANOutQty as OpenCanQty , 0 as CrateQtyRecd,0 JaaliQtyRecd , 0 BoxQtyRecd , 0 CanQtyRecd , 0 as CrateOutQty, 0 jaaliOutQty, 0 boxoutqty, 0 Canoutqty, 0  as CrateAdjQty, 0  as JaaliAdjQty, 0  as BoxAdjQty, 0  as CanAdjQty from TSPL_CRATE_RECEIVED_detail_FRESHSALE left join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No =TSPL_CRATE_RECEIVED_detail_FRESHSALE.Document_No  where TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type ='O'  union all select TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date as Document_Date,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Vehicle_Code ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Customer_Code  ,-1 as Type,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type as Type1  , isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.CrateQtyRecd,0) + isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.Adjustment,0)  as OpencrateQty, isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.JaaliQtyRecd,0) + isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaaliAdjustment,0)    as OpenjaaliQty , isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.BoxQtyRecd,0) + isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.boxAdjustment,0)  as OpenboxQty, isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANQtyRec,0) + isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANAdjustment,0)  as OpenCanQty, 0 as CrateQtyRecd,0 JaaliQtyRecd , 0 BoxQtyRecd , 0 CanQtyRecd , 0 as CrateOutQty, 0 jaaliOutQty, 0 boxoutqty, 0 Canoutqty, 0  as CrateAdjQty, 0  as JaaliAdjQty, 0  as BoxAdjQty, 0  as CanAdjQty from TSPL_CRATE_RECEIVED_detail_FRESHSALE left join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No =TSPL_CRATE_RECEIVED_detail_FRESHSALE.Document_No  where TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type ='I'  )as Opening WHERE convert(date,Document_Date,103)<(convert(date,'" + strfromdate + "' ,103)) group by Customer_Code " & Environment.NewLine & _
-            " UNION All " & Environment.NewLine & _
-            " select Document_Date,Vehicle_Code,Customer_Code,0 as OpencrateQty,0 as OpenjaaliQty ,0 as OpenboxQty,0 as OpenCanQty,Case When [Type]=1 Then CrateQtyRecd Else 0 End as CrateQtyRecd,Case When [Type]=1 Then JaaliQtyRecd Else 0 End as JaaliQtyRecd,Case When [Type]=1 Then BoxQtyRecd Else 0 End as BoxQtyRecd,Case When [Type]=1 Then CANQtyRec Else 0 End as CANQtyRec, " & Environment.NewLine & _
-            " Case When [Type]=-1 Then CrateOutQty Else 0 End as CrateOutQty,Case When [Type]=-1 Then jaaliOutQty Else 0 End as jaaliOutQty,Case When [Type]=-1 Then boxOutQty Else 0 End as boxOutQty,Case When [Type]=-1 Then CanOutQty Else 0 End as CanOutQty,Case When [Type]=1 Then CrateAdjQty Else 0 End as CrateAdjQty,Case When [Type]=1 Then JaaliAdjQty Else 0 End as JaaliAdjQty,Case When [Type]=1 Then BoxAdjQty Else 0 End as BoxAdjQty,Case When [Type]=1 Then CANAdjustment Else 0 End as CANAdjustment " & Environment.NewLine & _
-            " from ((select TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date as Document_Date,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Vehicle_Code ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Customer_Code  ,1 as Type,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type as Type1  ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CrateQtyManual as OpencrateQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaali  as OpenjaaliQty ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.box as OpenboxQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANQty as OpenCanQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CrateQtyRecd as CrateQtyRecd,TSPL_CRATE_RECEIVED_detail_FRESHSALE.JaaliQtyRecd ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.BoxQtyRecd,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANQtyRec ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.OutQty as CrateOutQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaaliOutQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.boxOutQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANOutQty , TSPL_CRATE_RECEIVED_detail_FRESHSALE.Adjustment  as CrateAdjQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaaliAdjustment  as JaaliAdjQty, TSPL_CRATE_RECEIVED_detail_FRESHSALE.boxAdjustment  as BoxAdjQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANAdjustment  as CANAdjustment from TSPL_CRATE_RECEIVED_detail_FRESHSALE" & Environment.NewLine & _
-            " left join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No =TSPL_CRATE_RECEIVED_detail_FRESHSALE.Document_No  " & Environment.NewLine & _
-            "where TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type ='I') " & Environment.NewLine & _
-            " union all" & Environment.NewLine & _
-            " (select TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date as Document_Date,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Vehicle_Code ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Customer_Code  ,-1 as Type,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type as Type1  ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CrateQtyManual as OpencrateQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaali  as OpenjaaliQty ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.box as OpenboxQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANQty as OpenCANQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CrateQtyRecd as CrateQtyRecd,TSPL_CRATE_RECEIVED_detail_FRESHSALE.JaaliQtyRecd ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.BoxQtyRecd,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANQtyRec ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.OutQty as CrateOutQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaaliOutQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.boxOutQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANOutQty , TSPL_CRATE_RECEIVED_detail_FRESHSALE.Adjustment  as CrateAdjQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaaliAdjustment  as JaaliAdjQty, TSPL_CRATE_RECEIVED_detail_FRESHSALE.boxAdjustment  as BoxAdjQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANAdjustment  as CANAdjustment from TSPL_CRATE_RECEIVED_detail_FRESHSALE" & Environment.NewLine & _
-            " left join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No =TSPL_CRATE_RECEIVED_detail_FRESHSALE.Document_No " & Environment.NewLine & _
-            " where TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type ='O' " & Environment.NewLine & _
-            " union all " & Environment.NewLine & _
-            " select TSPL_SD_SHIPMENT_HEAD.Document_Date   as Document_Date,TSPL_SD_SHIPMENT_HEAD.Vehicle_Code ,TSPL_SD_SHIPMENT_HEAD.customer_code  ,-1 as Type  ,'O' as Type1,0 as OpencrateQty,0  as OpenBoxQty ,0 as OpenJaaliQty,0 as OpenCANQty, 0 as CrateQtyRecd, 0 JaaliQtyRecd ,  0  as BoxQtyRecd,0 CanQtyRecd  ,TSPL_SD_SHIPMENT_HEAD.Crate as CrateOutQty,jaali  as jaaliOutQty,TSPL_SD_SHIPMENT_HEAD.Box as boxOutQty,TSPL_SD_SHIPMENT_HEAD.ShippedCAN as CanOutQty ,0 as CrateAdjQty,0 as JaaliAdjQty,0 as  BoxAdjQty,0 as  CanAdjQty    from TSPL_SD_SHIPMENT_HEAD  where TSPL_SD_SHIPMENT_HEAD.screen_type='DS')  ) as Closing " & Environment.NewLine & _
-            " WHERE convert(date,Document_Date ,103)>= convert(date,'" + strfromdate + "' ,103) AND convert(date,Document_Date,103)<=convert(date,'" + strtodate + "' ,103) " & Environment.NewLine & _
-            " ) as xx where 2=2   and xx.Customer_Code  in (" & strCustomer & ") " & Environment.NewLine & _
-            " GROUP BY Customer_Code " & Environment.NewLine & _
-            " ) as pp   left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =pp.Customer_Code " & Environment.NewLine & _
+            BaseQry = " ( Select convert(varchar,Doc_Date,103) as Doc_Date,Customer_Code,Customer_Name, OpencrateQty, CrateQtyRecd ,CrateOutQty, CrateAdjQty ,SUM(CrateQtyClosing) OVER (Partition BY Customer_Code ORDER BY Customer_Code) as CrateQtyClosing,OpenCanQty , CanQtyRecd  ,CanOutQty , CanAdjQty ,SUM(CanQtyClosing ) OVER (Partition BY Customer_Code ORDER BY Customer_Code) as CanQtyClosing from ( " & Environment.NewLine &
+            " select  pp.Doc_Date  as Doc_Date,TSPL_CUSTOMER_MASTER.Route_No,TSPL_CUSTOMER_MASTER.Route_Desc,pp.Vehicle_Code,tspl_vehicle_master.Number as Vehicle_Name ,pp.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,pp.OpencrateQty as OpencrateQty,pp.OpenJaaliQty  as OpenJaaliQty,pp.OpenBoxQty  as OpenBoxQty,pp.OpenCanQty  as OpenCanQty,pp.CrateQtyRecd  as CrateQtyRecd,pp.JaaliQtyRecd  as JaaliQtyRecd,pp.BoxQtyRecd  as BoxQtyRecd ,pp.CanQtyRecd  as CanQtyRecd,pp.CrateOutQty  as CrateOutQty,pp.jaaliOutQty  as jaaliOutQty ,pp.boxOutQty  as boxOutQty,pp.CanOutQty  as CanOutQty ,pp.CrateQtyClosing as CrateQtyClosing, pp.JaaliQtyClosing as  JaaliQtyClosing, pp.BoxQtyClosing as BoxQtyClosing, pp.CanQtyClosing as CanQtyClosing,pp.CrateAdjQty , pp.JaaliAdjQty  , pp.BoxAdjQty , pp.CanAdjQty from ( " & Environment.NewLine &
+            " select  max(convert(date,Doc_Date,103))  as Doc_Date,max(xx.Vehicle_Code) as Vehicle_Code,xx.Customer_Code,sum(xx.OpencrateQty) as OpencrateQty,sum(xx.OpenJaaliQty ) as OpenJaaliQty,sum(xx.OpenBoxQty )  as OpenBoxQty,sum(xx.OpenCanQty )  as OpenCanQty,sum(xx.CrateQtyRecd) as CrateQtyRecd,sum(xx.JaaliQtyRecd) as JaaliQtyRecd,sum(xx.BoxQtyRecd) as BoxQtyRecd,sum(xx.CanQtyRecd) as CanQtyRecd,sum(xx.CrateOutQty ) as CrateOutQty,sum(xx.jaaliOutQty ) as jaaliOutQty ,sum(xx.boxOutQty ) as boxOutQty,sum(xx.CanOutQty ) as CanOutQty, sum(xx.CrateAdjQty ) as CrateAdjQty ,sum(xx.JaaliAdjQty )as JaaliAdjQty  ,sum(xx.BoxAdjQty )  as BoxAdjQty ,sum(xx.CanAdjQty )  as CanAdjQty,(sum(xx.OpencrateQty)+sum(xx.CrateOutQty )-sum(xx.CrateQtyRecd)-sum(xx.CrateAdjQty )) as CrateQtyClosing, (sum(xx.OpenJaaliQty)+sum(xx.jaaliOutQty)-sum(xx.JaaliQtyRecd)-sum(xx.JaaliAdjQty )) as JaaliQtyClosing, (sum(xx.OpenBoxQty)+sum(xx.boxOutQty )-sum(xx.BoxQtyRecd)-sum(xx.BoxAdjQty )) as BoxQtyClosing  , (sum(xx.OpenCanQty)+sum(xx.CanOutQty )-sum(xx.CanQtyRecd)-sum(xx.CanAdjQty )) as CanQtyClosing  from (select  max(convert(date,'" + strfromdate + "' ,103)) as Doc_Date,max(Opening.Vehicle_Code) as Vehicle_Code , Opening.Customer_Code ,sum(Opening.OpencrateQty*Type) as OpencrateQty,sum(Opening.OpenJaaliQty*Type ) as OpenJaaliQty,sum(Opening.OpenBoxQty *Type)  as OpenBoxQty,sum(Opening.OpenCanQty *Type)  as OpenCanQty,sum(Opening.CrateQtyRecd *Type) as CrateQtyRecd,sum(Opening.JaaliQtyRecd*Type ) as JaaliQtyRecd,sum(Opening.BoxQtyRecd*Type ) as BoxQtyRecd,sum(Opening.CanQtyRecd*Type ) as CanQtyRecd,sum(Opening.CrateOutQty*Type ) as CrateOutQty,sum(Opening.jaaliOutQty*Type ) as jaaliOutQty ,sum(Opening.boxOutQty*Type ) as boxOutQty,sum(Opening.CanOutQty*Type ) as CanOutQty,sum(Opening.CrateAdjQty*Type ) as CrateAdjQty,sum(Opening.JaaliAdjQty*Type ) as JaaliAdjQty,sum(Opening.BoxAdjQty *Type) as  BoxAdjQty ,sum(Opening.CanAdjQty *Type) as  canAdjQty from  ( select TSPL_SD_SHIPMENT_HEAD.Document_Date    as Document_Date,TSPL_SD_SHIPMENT_HEAD.Vehicle_Code ,TSPL_SD_SHIPMENT_HEAD.customer_code  ,1 as Type  ,'O' as Type1,TSPL_SD_SHIPMENT_HEAD.Crate as OpencrateQty,TSPL_SD_SHIPMENT_HEAD.jaali as OpenJaaliQty, TSPL_SD_SHIPMENT_HEAD.box  as OpenBoxQty , TSPL_SD_SHIPMENT_HEAD.ShippedCAN  as OpenCanQty  ,0 as CrateQtyRecd,0  as JaaliQtyRecd ,0 as BoxQtyRecd ,0 as CanQtyRecd ,0 as CrateOutQty,0 as jaaliOutQty,0 as boxOutQty ,0 as CanOutQty,0 as CrateAdjQty,0 as JaaliAdjQty,0 as  BoxAdjQty  ,0 as  CanAdjQty  from TSPL_SD_SHIPMENT_HEAD  where TSPL_SD_SHIPMENT_HEAD.screen_type='DS'  union all  select TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date as Document_Date,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Vehicle_Code ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Customer_Code  ,1 as Type,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type as Type1  , TSPL_CRATE_RECEIVED_detail_FRESHSALE.OutQty as OpencrateQty, TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaaliOutQty   as OpenjaaliQty , TSPL_CRATE_RECEIVED_detail_FRESHSALE.boxOutQty  as OpenboxQty, TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANOutQty as OpenCanQty , 0 as CrateQtyRecd,0 JaaliQtyRecd , 0 BoxQtyRecd , 0 CanQtyRecd , 0 as CrateOutQty, 0 jaaliOutQty, 0 boxoutqty, 0 Canoutqty, 0  as CrateAdjQty, 0  as JaaliAdjQty, 0  as BoxAdjQty, 0  as CanAdjQty from TSPL_CRATE_RECEIVED_detail_FRESHSALE left join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No =TSPL_CRATE_RECEIVED_detail_FRESHSALE.Document_No  where TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type ='O'  union all select TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date as Document_Date,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Vehicle_Code ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Customer_Code  ,-1 as Type,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type as Type1  , isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.CrateQtyRecd,0) + isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.Adjustment,0)  as OpencrateQty, isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.JaaliQtyRecd,0) + isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaaliAdjustment,0)    as OpenjaaliQty , isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.BoxQtyRecd,0) + isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.boxAdjustment,0)  as OpenboxQty, isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANQtyRec,0) + isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANAdjustment,0)  as OpenCanQty, 0 as CrateQtyRecd,0 JaaliQtyRecd , 0 BoxQtyRecd , 0 CanQtyRecd , 0 as CrateOutQty, 0 jaaliOutQty, 0 boxoutqty, 0 Canoutqty, 0  as CrateAdjQty, 0  as JaaliAdjQty, 0  as BoxAdjQty, 0  as CanAdjQty from TSPL_CRATE_RECEIVED_detail_FRESHSALE left join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No =TSPL_CRATE_RECEIVED_detail_FRESHSALE.Document_No  where TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type ='I'  )as Opening WHERE convert(date,Document_Date,103)<(convert(date,'" + strfromdate + "' ,103)) group by Customer_Code " & Environment.NewLine &
+            " UNION All " & Environment.NewLine &
+            " select Document_Date,Vehicle_Code,Customer_Code,0 as OpencrateQty,0 as OpenjaaliQty ,0 as OpenboxQty,0 as OpenCanQty,Case When [Type]=1 Then CrateQtyRecd Else 0 End as CrateQtyRecd,Case When [Type]=1 Then JaaliQtyRecd Else 0 End as JaaliQtyRecd,Case When [Type]=1 Then BoxQtyRecd Else 0 End as BoxQtyRecd,Case When [Type]=1 Then CANQtyRec Else 0 End as CANQtyRec, " & Environment.NewLine &
+            " Case When [Type]=-1 Then CrateOutQty Else 0 End as CrateOutQty,Case When [Type]=-1 Then jaaliOutQty Else 0 End as jaaliOutQty,Case When [Type]=-1 Then boxOutQty Else 0 End as boxOutQty,Case When [Type]=-1 Then CanOutQty Else 0 End as CanOutQty,Case When [Type]=1 Then CrateAdjQty Else 0 End as CrateAdjQty,Case When [Type]=1 Then JaaliAdjQty Else 0 End as JaaliAdjQty,Case When [Type]=1 Then BoxAdjQty Else 0 End as BoxAdjQty,Case When [Type]=1 Then CANAdjustment Else 0 End as CANAdjustment " & Environment.NewLine &
+            " from ((select TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date as Document_Date,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Vehicle_Code ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Customer_Code  ,1 as Type,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type as Type1  ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CrateQtyManual as OpencrateQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaali  as OpenjaaliQty ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.box as OpenboxQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANQty as OpenCanQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CrateQtyRecd as CrateQtyRecd,TSPL_CRATE_RECEIVED_detail_FRESHSALE.JaaliQtyRecd ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.BoxQtyRecd,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANQtyRec ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.OutQty as CrateOutQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaaliOutQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.boxOutQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANOutQty , TSPL_CRATE_RECEIVED_detail_FRESHSALE.Adjustment  as CrateAdjQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaaliAdjustment  as JaaliAdjQty, TSPL_CRATE_RECEIVED_detail_FRESHSALE.boxAdjustment  as BoxAdjQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANAdjustment  as CANAdjustment from TSPL_CRATE_RECEIVED_detail_FRESHSALE" & Environment.NewLine &
+            " left join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No =TSPL_CRATE_RECEIVED_detail_FRESHSALE.Document_No  " & Environment.NewLine &
+            "where TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type ='I') " & Environment.NewLine &
+            " union all" & Environment.NewLine &
+            " (select TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date as Document_Date,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Vehicle_Code ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Customer_Code  ,-1 as Type,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type as Type1  ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CrateQtyManual as OpencrateQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaali  as OpenjaaliQty ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.box as OpenboxQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANQty as OpenCANQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CrateQtyRecd as CrateQtyRecd,TSPL_CRATE_RECEIVED_detail_FRESHSALE.JaaliQtyRecd ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.BoxQtyRecd,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANQtyRec ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.OutQty as CrateOutQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaaliOutQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.boxOutQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANOutQty , TSPL_CRATE_RECEIVED_detail_FRESHSALE.Adjustment  as CrateAdjQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaaliAdjustment  as JaaliAdjQty, TSPL_CRATE_RECEIVED_detail_FRESHSALE.boxAdjustment  as BoxAdjQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANAdjustment  as CANAdjustment from TSPL_CRATE_RECEIVED_detail_FRESHSALE" & Environment.NewLine &
+            " left join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No =TSPL_CRATE_RECEIVED_detail_FRESHSALE.Document_No " & Environment.NewLine &
+            " where TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type ='O' " & Environment.NewLine &
+            " union all " & Environment.NewLine &
+            " select TSPL_SD_SHIPMENT_HEAD.Document_Date   as Document_Date,TSPL_SD_SHIPMENT_HEAD.Vehicle_Code ,TSPL_SD_SHIPMENT_HEAD.customer_code  ,-1 as Type  ,'O' as Type1,0 as OpencrateQty,0  as OpenBoxQty ,0 as OpenJaaliQty,0 as OpenCANQty, 0 as CrateQtyRecd, 0 JaaliQtyRecd ,  0  as BoxQtyRecd,0 CanQtyRecd  ,TSPL_SD_SHIPMENT_HEAD.Crate as CrateOutQty,jaali  as jaaliOutQty,TSPL_SD_SHIPMENT_HEAD.Box as boxOutQty,TSPL_SD_SHIPMENT_HEAD.ShippedCAN as CanOutQty ,0 as CrateAdjQty,0 as JaaliAdjQty,0 as  BoxAdjQty,0 as  CanAdjQty    from TSPL_SD_SHIPMENT_HEAD  where TSPL_SD_SHIPMENT_HEAD.screen_type='DS')  ) as Closing " & Environment.NewLine &
+            " WHERE convert(date,Document_Date ,103)>= convert(date,'" + strfromdate + "' ,103) AND convert(date,Document_Date,103)<=convert(date,'" + strtodate + "' ,103) " & Environment.NewLine &
+            " ) as xx where 2=2   and xx.Customer_Code  in (" & strCustomer & ") " & Environment.NewLine &
+            " GROUP BY Customer_Code " & Environment.NewLine &
+            " ) as pp   left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =pp.Customer_Code " & Environment.NewLine &
             " left join tspl_vehicle_master on tspl_vehicle_master.vehicle_id=pp.vehicle_code where 2=2  ) YYY )"
 
 
@@ -2944,7 +2946,7 @@ Public Class clsRcptEntryHeader
             Throw New Exception(ex.Message)
         End Try
     End Function
- 
+
     Public Shared Function CheckNegativeBankBalance(ByVal SqlDr As DataTable, Optional ByVal trans As SqlTransaction = Nothing) As Boolean
         '' Validation check: by Panch Raj against ticket No:BM00000008437
         If clsCommon.CompairString(SqlDr.Rows(0)("Receipt_Type").ToString, "F") = CompairStringResult.Equal OrElse clsCommon.CompairString(SqlDr.Rows(0)("Receipt_Type").ToString, "S") = CompairStringResult.Equal Then
@@ -3364,7 +3366,9 @@ Public Class clsRcptEntryHeader
                     If clsCommon.myLen(strRcvblAcc) <= 0 Then
                         Throw New Exception("Please provide Advance account for customer Account Set for customer-" + clsCommon.myCstr(dtReceipt.Rows(0)("Cust_Code")))
                     End If
-
+                    'Else
+                    '    strQ1 = "SELECT TSPL_CUSTOMER_ACCOUNT_SET.TDS_Recoverable FROM  TSPL_CUSTOMER_ACCOUNT_SET INNER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account = TSPL_CUSTOMER_MASTER.Cust_Account  where TSPL_CUSTOMER_MASTER.Cust_Code ='" + clsCommon.myCstr(dtReceipt.Rows(0)("Cust_Code")) + "'"
+                    '    strRcvblAcc = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strQ1, trans))
 
                 End If
                 ''
@@ -3754,7 +3758,7 @@ Public Class clsRcptEntryHeader
                         BankAcc = New String() {strBankAcc, clsCommon.myCdbl((dtReceipt.Rows(0)("Receipt_Amount").ToString() * ConvRate + clsCommon.myCdbl(dtReceipt.Rows(0)("Bank_Charges_Amt")) - ((ConvRate * clsCommon.myCdbl(dtReceipt.Rows(0)("Foreign_Bank_Charges_Amt")))) + IIf(IsMultiCurrency, (-EXCHANGE_LOSS_AMT + EXCHANGE_GAIN_AMT), 0))) * -1, "", "", "", "", "", "", "B"}
                     Else
                         ''richa agarwal deduct foreign bank amount * converison + indian bANK AMOUNT from bank amount
-                        BankAcc = New String() {strBankAcc, (dtReceipt.Rows(0)("Receipt_Amount").ToString() * ConvRate - ((ConvRate * clsCommon.myCdbl(dtReceipt.Rows(0)("Foreign_Bank_Charges_Amt"))) + clsCommon.myCdbl(dtReceipt.Rows(0)("Bank_Charges_Amt"))) + IIf(IsMultiCurrency, (-EXCHANGE_LOSS_AMT + EXCHANGE_GAIN_AMT), 0)), "", "", "", "", "", "", "B"}
+                        BankAcc = New String() {strBankAcc, (dtReceipt.Rows(0)("Receipt_Amount").ToString() * ConvRate - ((ConvRate * clsCommon.myCdbl(dtReceipt.Rows(0)("Foreign_Bank_Charges_Amt"))) + clsCommon.myCdbl(dtReceipt.Rows(0)("Bank_Charges_Amt"))) + clsCommon.myCdbl(dtReceipt.Rows(0)("TDS_Recoverable_Amt")) + IIf(IsMultiCurrency, (-EXCHANGE_LOSS_AMT + EXCHANGE_GAIN_AMT), 0)), "", "", "", "", "", "", "B"}
 
                     End If
                     ''----------------------------------------
@@ -3864,6 +3868,19 @@ Public Class clsRcptEntryHeader
                         strBankChargesOtherAcc = clsERPFuncationality.ChangeGLAccountLocationSegment(strBankChargesOtherAcc, IIf(clsCommon.myCstr(dtReceipt.Rows(0)("Receipt_Type")) = "R", strBankLocation, clsCommon.myCstr(dtReceipt.Rows(0)("Location_GL_Code"))), True, trans)
                         BankChargesAcc = New String() {strBankChargesOtherAcc, clsCommon.myCdbl(dtReceipt.Rows(0)("Bank_Charges_Amt"))}
                         ArrList.Add(BankChargesAcc)
+                    End If
+                    If clsCommon.CompairString(clsCommon.myCstr(dtReceipt.Rows(0)("Receipt_Type")), "R") = CompairStringResult.Equal Or clsCommon.CompairString(clsCommon.myCstr(dtReceipt.Rows(0)("Receipt_Type")), "O") = CompairStringResult.Equal Or clsCommon.CompairString(clsCommon.myCstr(dtReceipt.Rows(0)("Receipt_Type")), "P") = CompairStringResult.Equal Then
+                        If clsCommon.myCdbl(clsCommon.myCdbl(dtReceipt.Rows(0)("TDS_Recoverable_Amt"))) <> 0 Then
+                            strQ1 = "SELECT TSPL_CUSTOMER_ACCOUNT_SET.TDS_Recoverable FROM  TSPL_CUSTOMER_ACCOUNT_SET INNER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account = TSPL_CUSTOMER_MASTER.Cust_Account  where TSPL_CUSTOMER_MASTER.Cust_Code ='" + clsCommon.myCstr(dtReceipt.Rows(0)("Cust_Code")) + "'"
+                            strBankChargesOtherAcc = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strQ1, trans))
+                            If clsCommon.myLen(strBankChargesOtherAcc) <= 0 Then
+                                Throw New Exception("Please Select Bank Charges Other Account first ")
+                                Return False
+                            End If
+                            strBankChargesOtherAcc = clsERPFuncationality.ChangeGLAccountLocationSegment(strBankChargesOtherAcc, IIf(clsCommon.myCstr(dtReceipt.Rows(0)("Receipt_Type")) = "R", strBankLocation, clsCommon.myCstr(dtReceipt.Rows(0)("Location_GL_Code"))), True, trans)
+                            BankChargesAcc = New String() {strBankChargesOtherAcc, clsCommon.myCdbl(dtReceipt.Rows(0)("TDS_Recoverable_Amt").ToString()) * ConvRate * -1}
+                            ArrList.Add(BankChargesAcc)
+                        End If
                     End If
                 Else
                     Dim strBankLocation As String = strBankAcc.Substring(clsCommon.myLen(strBankAcc) - 3, 3)
@@ -4284,7 +4301,7 @@ Public Class clsRcptEntryHeader
               "   TSPL_RECEIPT_HEADER.Cheque_Date, Cheque_From, TSPL_RECEIPT_HEADER.Receipt_Amount as Receipt_Amount, TSPL_RECEIPT_HEADER.Cust_Account,  " &
               "   TSPL_RECEIPT_HEADER.Apply_By, TSPL_RECEIPT_HEADER.Apply_To, TSPL_RECEIPT_HEADER.Posted, TSPL_RECEIPT_HEADER.Balance_Amt,  " &
               "   TSPL_RECEIPT_HEADER.Document_No, TSPL_RECEIPT_HEADER.UnApply_Amt, TSPL_RECEIPT_HEADER.Payer,  " &
-              "   TSPL_RECEIPT_HEADER.Dr_Account, TSPL_RECEIPT_HEADER.Cr_Account, TSPL_RECEIPT_HEADER.UnApplied_Balance, TSPL_RECEIPT_DETAIL.Receipt_No as [ReceiptNo_D], " &
+              "   TSPL_RECEIPT_HEADER.Dr_Account, TSPL_RECEIPT_HEADER.Cr_Account, TSPL_RECEIPT_HEADER.UnApplied_Balance,TSPL_RECEIPT_HEADER.TDS_Recoverable_Amt, TSPL_RECEIPT_DETAIL.Receipt_No as [ReceiptNo_D], " &
               "   TSPL_RECEIPT_DETAIL.Receipt_Line_No, TSPL_RECEIPT_DETAIL.Apply, TSPL_RECEIPT_DETAIL.Receipt_Type as [Type_D], " &
               "   TSPL_RECEIPT_DETAIL.Document_No AS [Doc_D], TSPL_RECEIPT_DETAIL.Original_Amt, case when TSPL_RECEIPT_DETAIL.Receipt_Type='F' then (Select RH.Balance_Amt from TSPL_RECEIPT_HEADER RH WHERE RH.Receipt_No=TSPL_RECEIPT_DETAIL.Document_No)  else  TSPL_RECEIPT_DETAIL.Pending_Balance end as Pending_Balance, " &
               "   TSPL_RECEIPT_DETAIL.Applied_Amount * TSPL_RECEIPT_HEADER.ConvRateOld as Applied_Amount, TSPL_RECEIPT_DETAIL.Account_Code, TSPL_RECEIPT_DETAIL.Description,  " &
@@ -4309,20 +4326,20 @@ Public Class clsRcptEntryHeader
         Dim strQ As String = Nothing
         Dim sqlDr As DataTable
         Try
-            strQ = " SELECT TSPL_RECEIPT_HEADER.Receipt_No, TSPL_RECEIPT_HEADER.Receipt_Date, TSPL_RECEIPT_HEADER.Receipt_Post_Date, " & _
-                   "   TSPL_RECEIPT_HEADER.Entry_Desc, TSPL_RECEIPT_HEADER.Bank_Code, TSPL_RECEIPT_HEADER.Receipt_Type,  " & _
-                   "   TSPL_RECEIPT_HEADER.Cust_Code, TSPL_RECEIPT_HEADER.Customer_Name, TSPL_RECEIPT_HEADER.Reference,  " & _
-                   "   TSPL_RECEIPT_HEADER.Narration, TSPL_RECEIPT_HEADER.Payment_Code, TSPL_RECEIPT_HEADER.Cheque_No,  " & _
-                   "   TSPL_RECEIPT_HEADER.Cheque_Date, TSPL_RECEIPT_HEADER.Receipt_Amount, TSPL_RECEIPT_HEADER.Cust_Account,  " & _
-                   "   TSPL_RECEIPT_HEADER.Apply_By, TSPL_RECEIPT_HEADER.Apply_To, TSPL_RECEIPT_HEADER.Posted, TSPL_RECEIPT_HEADER.Balance_Amt,  " & _
-                   "   TSPL_RECEIPT_HEADER.Document_No, TSPL_RECEIPT_HEADER.UnApply_Amt, TSPL_RECEIPT_HEADER.Payer,  " & _
-                   "   TSPL_RECEIPT_HEADER.Dr_Account, TSPL_RECEIPT_HEADER.Cr_Account, TSPL_RECEIPT_DETAIL.Receipt_No as [ReceiptNo_D], " & _
-                   "   TSPL_RECEIPT_DETAIL.Receipt_Line_No, TSPL_RECEIPT_DETAIL.Apply, TSPL_RECEIPT_DETAIL.Receipt_Type as [Type_D], " & _
-                   "   TSPL_RECEIPT_DETAIL.Document_No AS [Doc_D], TSPL_RECEIPT_DETAIL.Original_Amt, TSPL_RECEIPT_DETAIL.Pending_Balance, " & _
-                   "   TSPL_RECEIPT_DETAIL.Applied_Amount, TSPL_RECEIPT_DETAIL.Account_Code, TSPL_RECEIPT_DETAIL.Description,  " & _
-                   "   TSPL_RECEIPT_DETAIL.Remarks, TSPL_RECEIPT_DETAIL.Comment, TSPL_RECEIPT_DETAIL.Shipment_No,  " & _
-                   "   TSPL_RECEIPT_DETAIL.Adjustment_Account, TSPL_RECEIPT_DETAIL.Adjustment_Cost, TSPL_RECEIPT_DETAIL.Adjustment_No,TSPL_RECEIPT_HEADER.UnApplied_No " & _
-                   "   FROM TSPL_RECEIPT_HEADER left JOIN TSPL_RECEIPT_DETAIL ON TSPL_RECEIPT_HEADER.Receipt_No = TSPL_RECEIPT_DETAIL.Receipt_No " & _
+            strQ = " SELECT TSPL_RECEIPT_HEADER.Receipt_No, TSPL_RECEIPT_HEADER.Receipt_Date, TSPL_RECEIPT_HEADER.Receipt_Post_Date, " &
+                   "   TSPL_RECEIPT_HEADER.Entry_Desc, TSPL_RECEIPT_HEADER.Bank_Code, TSPL_RECEIPT_HEADER.Receipt_Type,  " &
+                   "   TSPL_RECEIPT_HEADER.Cust_Code, TSPL_RECEIPT_HEADER.Customer_Name, TSPL_RECEIPT_HEADER.Reference,  " &
+                   "   TSPL_RECEIPT_HEADER.Narration, TSPL_RECEIPT_HEADER.Payment_Code, TSPL_RECEIPT_HEADER.Cheque_No,  " &
+                   "   TSPL_RECEIPT_HEADER.Cheque_Date, TSPL_RECEIPT_HEADER.Receipt_Amount, TSPL_RECEIPT_HEADER.Cust_Account,  " &
+                   "   TSPL_RECEIPT_HEADER.Apply_By, TSPL_RECEIPT_HEADER.Apply_To, TSPL_RECEIPT_HEADER.Posted, TSPL_RECEIPT_HEADER.Balance_Amt,  " &
+                   "   TSPL_RECEIPT_HEADER.Document_No, TSPL_RECEIPT_HEADER.UnApply_Amt, TSPL_RECEIPT_HEADER.Payer,  " &
+                   "   TSPL_RECEIPT_HEADER.Dr_Account, TSPL_RECEIPT_HEADER.Cr_Account, TSPL_RECEIPT_DETAIL.Receipt_No as [ReceiptNo_D], " &
+                   "   TSPL_RECEIPT_DETAIL.Receipt_Line_No, TSPL_RECEIPT_DETAIL.Apply, TSPL_RECEIPT_DETAIL.Receipt_Type as [Type_D], " &
+                   "   TSPL_RECEIPT_DETAIL.Document_No AS [Doc_D], TSPL_RECEIPT_DETAIL.Original_Amt, TSPL_RECEIPT_DETAIL.Pending_Balance, " &
+                   "   TSPL_RECEIPT_DETAIL.Applied_Amount, TSPL_RECEIPT_DETAIL.Account_Code, TSPL_RECEIPT_DETAIL.Description,  " &
+                   "   TSPL_RECEIPT_DETAIL.Remarks, TSPL_RECEIPT_DETAIL.Comment, TSPL_RECEIPT_DETAIL.Shipment_No,  " &
+                   "   TSPL_RECEIPT_DETAIL.Adjustment_Account, TSPL_RECEIPT_DETAIL.Adjustment_Cost, TSPL_RECEIPT_DETAIL.Adjustment_No,TSPL_RECEIPT_HEADER.UnApplied_No " &
+                   "   FROM TSPL_RECEIPT_HEADER left JOIN TSPL_RECEIPT_DETAIL ON TSPL_RECEIPT_HEADER.Receipt_No = TSPL_RECEIPT_DETAIL.Receipt_No " &
                    "   where TSPL_RECEIPT_HEADER.Receipt_No ='" + strDocNo + "'"
             sqlDr = clsDBFuncationality.GetDataTable(strQ, trans)
 
@@ -4375,11 +4392,11 @@ Public Class clsRcptEntryHeader
                     Dim i As Integer = 0
                     Dim strQ1 As String
                     Dim ADjNo As String = Convert.ToString(sqlDr.Rows(0)("Adjustment_No").ToString())
-                    strQ1 = " SELECT isnull(TSPL_Receipt_Adjustment_Header.Adjustment_Amount,0) as Adjustment_Amount,TSPL_Receipt_Adjustment_Header.Adjustment_No, TSPL_Receipt_Adjustment_Header.Description, " & _
-                                      " TSPL_Receipt_Adjustment_Header.Adjustment_Date, TSPL_Receipt_Adjustment_Header.Post_Date, TSPL_Receipt_Adjustment_Header.Customer_No, " & _
-                                      "  TSPL_Receipt_Adjustment_Header.Customer_Name, TSPL_Receipt_Adjustment_Header.Doc_No, TSPL_Receipt_Adjustment_Header.Doc_Amount, " & _
-                                      "  TSPL_Receipt_Adjustment_Header.Remarks,  TSPL_Receipt_Adjustment_Detail.Account_No, " & _
-                                      "  TSPL_Receipt_Adjustment_Detail.Account_Description, isnull(TSPL_Receipt_Adjustment_Detail.Amount,0) as Amount, TSPL_Receipt_Adjustment_Detail.Remarks AS Expr1" & _
+                    strQ1 = " SELECT isnull(TSPL_Receipt_Adjustment_Header.Adjustment_Amount,0) as Adjustment_Amount,TSPL_Receipt_Adjustment_Header.Adjustment_No, TSPL_Receipt_Adjustment_Header.Description, " &
+                                      " TSPL_Receipt_Adjustment_Header.Adjustment_Date, TSPL_Receipt_Adjustment_Header.Post_Date, TSPL_Receipt_Adjustment_Header.Customer_No, " &
+                                      "  TSPL_Receipt_Adjustment_Header.Customer_Name, TSPL_Receipt_Adjustment_Header.Doc_No, TSPL_Receipt_Adjustment_Header.Doc_Amount, " &
+                                      "  TSPL_Receipt_Adjustment_Header.Remarks,  TSPL_Receipt_Adjustment_Detail.Account_No, " &
+                                      "  TSPL_Receipt_Adjustment_Detail.Account_Description, isnull(TSPL_Receipt_Adjustment_Detail.Amount,0) as Amount, TSPL_Receipt_Adjustment_Detail.Remarks AS Expr1" &
                                       "  FROM TSPL_Receipt_Adjustment_Header INNER JOIN TSPL_Receipt_Adjustment_Detail ON TSPL_Receipt_Adjustment_Header.Adjustment_No = TSPL_Receipt_Adjustment_Detail.Adjustment_No WHERE     (TSPL_Receipt_Adjustment_Header.Adjustment_No = '" + ADjNo + "')"
                     If ADjNo <> "" Then
                         TAdjAmt = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(strQ1, trans))
@@ -4419,7 +4436,7 @@ Public Class clsRcptEntryHeader
                     Dim BalAmt As Decimal = 0.0
                     Dim drtotal As Decimal = clsCommon.myCdbl(sqlDr.Rows(0)("Receipt_Amount").ToString())
                     Dim PayAmt As Decimal = drtotal
-                    strQ = " select Sale_Invoice_No as Document_No  ,Due_Date ,case when fifo_balance>0 then fifo_balance else   Balance_Amt end as  Balance_Amt from TSPL_SALE_INVOICE_HEAD" & _
+                    strQ = " select Sale_Invoice_No as Document_No  ,Due_Date ,case when fifo_balance>0 then fifo_balance else   Balance_Amt end as  Balance_Amt from TSPL_SALE_INVOICE_HEAD" &
                            " where Balance_Amt>0 and Cust_Code ='" + sqlDr.Rows(0)("Cust_Code").ToString() + "' and  fifo_knockoff='N' order by TSPL_SALE_INVOICE_HEAD.Due_Date "
                     Dim Dt1 As DataTable = New DataTable()
                     Dt1 = clsDBFuncationality.GetDataTable(strQ, trans)
@@ -4538,7 +4555,7 @@ Public Class clsRcptEntryHeader
                     Throw New Exception(Qry)
                 End If
             End If
-          
+
 
             '' reverse has not done from receipt entry against Booking 
             Dim strBookingType As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select ISNULL(TSPL_BOOKING_MATSER.Booking_Type ,'') from TSPL_BOOKING_PAYMENT_MODE_DETAIL left outer join  TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_No= TSPL_BOOKING_PAYMENT_MODE_DETAIL.Document_No where isnull(TSPL_BOOKING_PAYMENT_MODE_DETAIL.Against_Receipt_No ,'')='" & strCode & "'", trans))
@@ -4631,8 +4648,8 @@ Public Class clsRcptEntryHeader
 
     Public Shared Function GetExchangeDetailDt(ByVal CustomerCode As String, Optional ByVal trans As SqlTransaction = Nothing) As DataTable
         Dim strq As String
-        strq = " SELECT TSPL_CUSTOMER_MASTER.Cust_Code,TSPL_CUSTOMER_ACCOUNT_SET.EXCHANGE_LOSS_ACCOUNT,TSPL_CUSTOMER_ACCOUNT_SET.EXCHANGE_GAIN_ACCOUNT " & _
-               " FROM TSPL_CUSTOMER_MASTER LEFT JOIN TSPL_CUSTOMER_ACCOUNT_SET ON TSPL_CUSTOMER_MASTER.Cust_Account=TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account  " & _
+        strq = " SELECT TSPL_CUSTOMER_MASTER.Cust_Code,TSPL_CUSTOMER_ACCOUNT_SET.EXCHANGE_LOSS_ACCOUNT,TSPL_CUSTOMER_ACCOUNT_SET.EXCHANGE_GAIN_ACCOUNT " &
+               " FROM TSPL_CUSTOMER_MASTER LEFT JOIN TSPL_CUSTOMER_ACCOUNT_SET ON TSPL_CUSTOMER_MASTER.Cust_Account=TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account  " &
                " WHERE TSPL_CUSTOMER_MASTER.Cust_Code='" & CustomerCode & "'"
         Dim dt As DataTable
         dt = clsDBFuncationality.GetDataTable(strq, trans)
@@ -4652,14 +4669,14 @@ Public Class clsRcptEntryHeader
         If clsCommon.myLen(strCustCode) <= 0 Then
             Throw New Exception("Please provide customer code")
         End If
-        Dim qry As String = "select Receipt_No as ReceiptNo, max(Receipt_Date) as ReceiptDate,Cust_Code as CustomerCode,max(Customer_Name) as CustomerName,sum(Amount*RI) as Amount from (" + Environment.NewLine + _
-       " select Receipt_No,Receipt_Date,Cust_Code,Customer_Name,RECEIVED_AMOUNT_BASE_CURRENCY AS Amount,1 as RI,1 as Chk from TSPL_RECEIPT_HEADER where SecurityDeposit='Y' and Posted='Y'" + Environment.NewLine + _
+        Dim qry As String = "select Receipt_No as ReceiptNo, max(Receipt_Date) as ReceiptDate,Cust_Code as CustomerCode,max(Customer_Name) as CustomerName,sum(Amount*RI) as Amount from (" + Environment.NewLine +
+       " select Receipt_No,Receipt_Date,Cust_Code,Customer_Name,RECEIVED_AMOUNT_BASE_CURRENCY AS Amount,1 as RI,1 as Chk from TSPL_RECEIPT_HEADER where SecurityDeposit='Y' and Posted='Y'" + Environment.NewLine +
        " and Cust_Code='" + strCustCode + "'" + Environment.NewLine
         If clsCommon.myLen(strReceiptNo) > 0 Then
             qry += " and Receipt_No='" + strReceiptNo + "'"
         End If
-        qry += " union all " + Environment.NewLine + _
-       " select Against_Security_Receipt_No as Receipt_No,null as Receipt_Date,TSPL_Customer_Invoice_Head.Customer_Code as Cust_Code,'' as Customer_Name,Discount_Base AS Amount,-1 as RI,0 as Chk from TSPL_Customer_Invoice_Head where Is_Against_Security_Receipt=1 and TSPL_Customer_Invoice_Head.Document_No <> '" + strCurrentDocNo + "'" + Environment.NewLine + _
+        qry += " union all " + Environment.NewLine +
+       " select Against_Security_Receipt_No as Receipt_No,null as Receipt_Date,TSPL_Customer_Invoice_Head.Customer_Code as Cust_Code,'' as Customer_Name,Discount_Base AS Amount,-1 as RI,0 as Chk from TSPL_Customer_Invoice_Head where Is_Against_Security_Receipt=1 and TSPL_Customer_Invoice_Head.Document_No <> '" + strCurrentDocNo + "'" + Environment.NewLine +
        " )xx group by Receipt_No,Cust_Code having sum(Chk)>0 "
         Return qry
     End Function
@@ -4713,7 +4730,7 @@ Public Class clsReceiptDettail
         Dim intLineNo As Integer = 1
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsReceiptDettail In Arr
-                Dim coll As New Hashtable()                
+                Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Receipt_Line_No", intLineNo)
                 clsCommon.AddColumnsForChange(coll, "Receipt_No", strReceiptNo)
                 clsCommon.AddColumnsForChange(coll, "Apply", obj.Apply)
@@ -5061,12 +5078,12 @@ Public Class clsSOAdvanceAdjustmentKnockOff
         End If
         Dim obj As clsSOAdvanceAdjustmentKnockOff = Nothing
         If clsCommon.myLen(strSINo) > 0 Then
-            Dim qry As String = "select distinct TSPL_RECEIPT_HEADER.Receipt_No from TSPL_RECEIPT_DETAIL_GST" + Environment.NewLine + _
-            " left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No=TSPL_RECEIPT_DETAIL_GST.Receipt_No " + Environment.NewLine + _
-            " where TSPL_RECEIPT_DETAIL_GST.Document_Code in (select distinct " & SODONo & " from " + Environment.NewLine + _
-            "TSPL_SD_SALE_INVOICE_HEAD left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code " + Environment.NewLine + _
-            " left outer join TSPL_SD_SHIPMENT_DETAIL  on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " + Environment.NewLine + _
-            " left outer join TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE on TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code=TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS " + Environment.NewLine + _
+            Dim qry As String = "select distinct TSPL_RECEIPT_HEADER.Receipt_No from TSPL_RECEIPT_DETAIL_GST" + Environment.NewLine +
+            " left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No=TSPL_RECEIPT_DETAIL_GST.Receipt_No " + Environment.NewLine +
+            " where TSPL_RECEIPT_DETAIL_GST.Document_Code in (select distinct " & SODONo & " from " + Environment.NewLine +
+            "TSPL_SD_SALE_INVOICE_HEAD left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code " + Environment.NewLine +
+            " left outer join TSPL_SD_SHIPMENT_DETAIL  on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " + Environment.NewLine +
+            " left outer join TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE on TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code=TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS " + Environment.NewLine +
             " where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in ('" & strSINo & "')) and isnull(TSPL_RECEIPT_HEADER.Posted,'N')='N' "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -5080,69 +5097,69 @@ Public Class clsSOAdvanceAdjustmentKnockOff
             qry = "Delete from TSPL_SO_ADVANCE_ADJUSTMENT_KNOCKOFF where SI_No='" + strSINo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
-            qry = "insert  into TSPL_SO_ADVANCE_ADJUSTMENT_KNOCKOFF(SI_No,SODO_No,TAX1_Amt,TAX2_Amt,TAX3_Amt,TAX4_Amt,TAX5_Amt,TAX6_Amt,TAX7_Amt,TAX8_Amt,TAX9_Amt,TAX10_Amt ) " + Environment.NewLine + _
-            "select '" + strSINo + "' as SI_No,SODO_No, case when TAX1_Amt<0 then 0 else TAX1_Amt end as TAX1_Amt,case when TAX2_Amt<0 then 0 else TAX2_Amt end as TAX2_Amt ,case when TAX3_Amt<0 then 0 else TAX3_Amt end as TAX3_Amt ,case when TAX4_Amt<0 then 0 else TAX4_Amt end as TAX4_Amt ,case when TAX5_Amt<0 then 0 else TAX5_Amt end as TAX5_Amt ,case when TAX6_Amt<0 then 0 else TAX6_Amt end as TAX6_Amt ,case when TAX7_Amt<0 then 0 else TAX7_Amt end as TAX7_Amt ,case when TAX8_Amt<0 then 0 else TAX8_Amt end as TAX8_Amt ,case when TAX9_Amt<0 then 0 else TAX9_Amt end as TAX9_Amt ,case when TAX10_Amt<0 then 0 else TAX10_Amt end as TAX10_Amt  from ( " + Environment.NewLine + _
-            "select SODO_No, case when sum(InvoiceAmt) > = sum(SoDoAmt) then min(TAX1_Amt) else min(TAX1_Amt) end as TAX1_Amt," + Environment.NewLine + _
-            "case when sum(InvoiceAmt) > = sum(SoDoAmt) then min(TAX2_Amt) else min(TAX2_Amt) end as TAX2_Amt, " + Environment.NewLine + _
-            "case when sum(InvoiceAmt) > = sum(SoDoAmt) then min(TAX3_Amt) else min(TAX3_Amt) end as  TAX3_Amt, " + Environment.NewLine + _
-            "case when sum(InvoiceAmt) > = sum(SoDoAmt) then min(TAX4_Amt) else min(TAX4_Amt) end as TAX4_Amt, " + Environment.NewLine + _
-            "case when sum(InvoiceAmt) > = sum(SoDoAmt) then min(TAX5_Amt) else min(TAX5_Amt) end as TAX5_Amt, " + Environment.NewLine + _
-            "case when sum(InvoiceAmt) > = sum(SoDoAmt) then min(TAX7_Amt) else min(TAX7_Amt) end as TAX6_Amt, " + Environment.NewLine + _
-            "case when sum(InvoiceAmt) > = sum(SoDoAmt) then min(TAX7_Amt) else min(TAX7_Amt) end as TAX7_Amt, " + Environment.NewLine + _
-            "case when sum(InvoiceAmt) > = sum(SoDoAmt) then min(TAX8_Amt) else min(TAX8_Amt) end as TAX8_Amt, " + Environment.NewLine + _
-            "case when sum(InvoiceAmt) > = sum(SoDoAmt) then min(TAX9_Amt) else min(TAX9_Amt) end as TAX9_Amt , " + Environment.NewLine + _
-            "case when sum(InvoiceAmt) > = sum(SoDoAmt) then min(TAX10_Amt) else min(TAX10_Amt) end as TAX10_Amt from ( " + Environment.NewLine + _
-            "select sum(InvoiceAmt) as InvoiceAmt,sum(SoDOAmt) as SoDoAmt,'SI' as DocType, SODO_No, max(TAX1_Amt) as TAX1_Amt, " & _
-            "max(TAX2_Amt) as TAX2_Amt,max(TAX3_Amt) as  TAX3_Amt,max (TAX4_Amt) as TAX4_Amt,max(TAX5_Amt) as TAX5_Amt,max(TAX6_Amt) as TAX6_Amt, " & _
-            "max(TAX7_Amt) as TAX7_Amt,max(TAX8_Amt) as TAX8_Amt,max(TAX9_Amt) as TAX9_Amt ,max(TAX10_Amt) as TAX10_Amt,0 as chk from ( " + Environment.NewLine + _
-            "select  max(TSPL_SD_SALE_INVOICE_HEAD.Total_Amt) as InvoiceAmt,0 as SoDOAmt, 'SI' as DocType, " & SODONo & " as SODO_No,sum(TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt) as TAX1_Amt,sum(TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt) as TAX2_Amt,sum(TSPL_SD_SHIPMENT_DETAIL.TAX3_Amt) as TAX3_Amt,sum(TSPL_SD_SHIPMENT_DETAIL.TAX4_Amt) as TAX4_Amt,sum(TSPL_SD_SHIPMENT_DETAIL.TAX5_Amt) as TAX5_Amt,sum(TSPL_SD_SHIPMENT_DETAIL.TAX6_Amt) as TAX6_Amt,sum(TSPL_SD_SHIPMENT_DETAIL.TAX7_Amt) as TAX7_Amt, " + Environment.NewLine + _
-            "sum(TSPL_SD_SHIPMENT_DETAIL.TAX8_Amt) as TAX8_Amt,sum(TSPL_SD_SHIPMENT_DETAIL.TAX9_Amt) as TAX9_Amt,sum(TSPL_SD_SHIPMENT_DETAIL.TAX10_Amt) as TAX10_Amt,0 as Chk " + Environment.NewLine + _
-            "from TSPL_SD_SALE_INVOICE_HEAD left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code " + Environment.NewLine + _
-            "left outer join TSPL_SD_SHIPMENT_DETAIL  on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " + Environment.NewLine + _
-            "left outer join TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE on TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code=TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS " + Environment.NewLine + _
-            "where  TSPL_SD_SALE_INVOICE_HEAD.Document_Code in ('" + strSINo + "') group by  " & SODONo & " " + Environment.NewLine + _
-            "union all " + Environment.NewLine + _
-            "select  sum(TSPL_SD_SALE_INVOICE_HEAD.Total_Amt) as InvoiceAmt,0 as SoDOAmt,'SI' as DocType, " & SODONo & "  as SODO_No, " + Environment.NewLine + _
-            "0 as TAX1_Amt,0 as TAX2_Amt,0 as TAX3_Amt,0 as TAX4_Amt,0 as TAX5_Amt,0 as TAX6_Amt,0 as TAX7_Amt, " + Environment.NewLine + _
-            "0 as TAX8_Amt,0 as TAX9_Amt,0 as TAX10_Amt,0 as Chk  " + Environment.NewLine + _
-            "from TSPL_SD_SALE_INVOICE_HEAD left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code  " + Environment.NewLine + _
-            "left outer join TSPL_SD_SHIPMENT_DETAIL  on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE  " + Environment.NewLine + _
-            "left outer join TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE on TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code=TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS " + Environment.NewLine + _
-            "where  TSPL_SD_SALE_INVOICE_HEAD.Document_Code not in ('" + strSINo + "') and " + Environment.NewLine + _
-            " " & SODONo & " in (select distinct   " & SODONo & "  from  " + Environment.NewLine + _
-            "TSPL_SD_SALE_INVOICE_HEAD left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code " + Environment.NewLine + _
-            "left outer join TSPL_SD_SHIPMENT_DETAIL  on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " + Environment.NewLine + _
-            "left outer join TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE on TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code=TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS  " + Environment.NewLine + _
-            "where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in ('" + strSINo + "')) group by   " & SODONo & "  " + Environment.NewLine + _
-            "union all " + Environment.NewLine + _
-            "select 0 as InvoiceAmt, sum(TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Total_Amt) as SoDOAmt,'SI' as DocType, " + Environment.NewLine + _
-            "" & SODONo & " as SODO_No,0 as TAX1_Amt,0 as TAX2_Amt,0 as TAX3_Amt,0 as TAX4_Amt,0 as TAX5_Amt, " + Environment.NewLine + _
-            "0 as TAX6_Amt,0 as TAX7_Amt, 0 as TAX8_Amt,0 as TAX9_Amt,0 as TAX10_Amt,0 as Chk " + Environment.NewLine + _
-            "from TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE where " & SODONo & " in (select distinct   " & SODONo & "  from " + Environment.NewLine + _
-            "TSPL_SD_SALE_INVOICE_HEAD left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code " + Environment.NewLine + _
-            "left outer join TSPL_SD_SHIPMENT_DETAIL  on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " + Environment.NewLine + _
-            "left outer join TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE on TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code=TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS " + Environment.NewLine + _
-            "where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in ('" + strSINo + "')) group by   " & SODONo & "  ) aa  group by   aa.SODO_No  " + Environment.NewLine + _
-            "union all " + Environment.NewLine + _
-            "select  0 as InvoiceAmt,0 as SoDOAmt,'BAL'as DocType, SODO_No,sum(TAX1_Amt * RI) as TAX1_Amt,sum(TAX2_Amt * RI) as TAX2_Amt,sum(TAX3_Amt * RI) as TAX3_Amt,sum(TAX4_Amt * RI) as TAX4_Amt,sum(TAX5_Amt * RI) as TAX5_Amt,sum(TAX6_Amt * RI) as TAX6_Amt,sum(TAX7_Amt * RI) as TAX7_Amt,sum(TAX8_Amt * RI) as TAX8_Amt,sum(TAX9_Amt * RI) as TAX9_Amt,sum(TAX10_Amt * RI) as TAX10_Amt,1 as Chk   from ( " + Environment.NewLine + _
-            "select 'AD' as DocType,Document_Code as SODO_No,Item_Code,1 as RI,convert(decimal(18,2),TSPL_RECEIPT_DETAIL_GST.TAX1_Amt_Receipt) as TAX1_Amt,convert(decimal(18,2),TSPL_RECEIPT_DETAIL_GST.TAX2_Amt_Receipt) as TAX2_Amt,convert(decimal(18,2),TSPL_RECEIPT_DETAIL_GST.TAX3_Amt_Receipt) as TAX3_Amt,convert(decimal(18,2),TSPL_RECEIPT_DETAIL_GST.TAX4_Amt_Receipt) as TAX4_Amt, " + Environment.NewLine + _
-            "convert(decimal(18,2),TSPL_RECEIPT_DETAIL_GST.TAX5_Amt_Receipt) as TAX5_Amt,convert(decimal(18,2),TSPL_RECEIPT_DETAIL_GST.TAX6_Amt_Receipt) as TAX6_Amt, " + Environment.NewLine + _
-            "convert(decimal(18,2),TSPL_RECEIPT_DETAIL_GST.TAX7_Amt_Receipt) as TAX7_Amt,convert(decimal(18,2),TSPL_RECEIPT_DETAIL_GST.TAX8_Amt_Receipt) as TAX8_Amt, " + Environment.NewLine + _
-            "convert(decimal(18,2),TSPL_RECEIPT_DETAIL_GST.TAX9_Amt_Receipt) as TAX9_Amt,convert(decimal(18,2),TSPL_RECEIPT_DETAIL_GST.TAX10_Amt_Receipt) as TAX10_Amt from " + Environment.NewLine + _
-            "TSPL_RECEIPT_DETAIL_GST where Document_Code in (select distinct  " & SODONo & " from " + Environment.NewLine + _
-            "TSPL_SD_SALE_INVOICE_HEAD left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code " + Environment.NewLine + _
-            "left outer join TSPL_SD_SHIPMENT_DETAIL  on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " + Environment.NewLine + _
-            "left outer join TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE on TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code=TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS " + Environment.NewLine + _
-            "where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in ('" + strSINo + "')) " + Environment.NewLine + _
-            "union all " + Environment.NewLine + _
-            "select 'PO_AD_Adj' as DocType,SODO_No,'' as Item_Code,-1 as RI,TAX1_Amt,TAX2_Amt,TAX3_Amt,TAX4_Amt,TAX5_Amt,TAX6_Amt,TAX7_Amt,TAX8_Amt,TAX9_Amt,TAX10_Amt from TSPL_SO_ADVANCE_ADJUSTMENT_KNOCKOFF " + Environment.NewLine + _
-            "where SODO_No  in (select distinct  " & SODONo & " from TSPL_SD_SALE_INVOICE_HEAD left outer join " + Environment.NewLine + _
-            "TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code " + Environment.NewLine + _
-            "left outer join TSPL_SD_SHIPMENT_DETAIL  on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " + Environment.NewLine + _
-            "left outer join TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE on TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code=TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS " + Environment.NewLine + _
-            "where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in ('" + strSINo + "')) " + Environment.NewLine + _
-            " )xx Group by SODO_No " + Environment.NewLine + _
-            ")xxx group by SODO_No having sum(chk)>0 " + Environment.NewLine + _
+            qry = "insert  into TSPL_SO_ADVANCE_ADJUSTMENT_KNOCKOFF(SI_No,SODO_No,TAX1_Amt,TAX2_Amt,TAX3_Amt,TAX4_Amt,TAX5_Amt,TAX6_Amt,TAX7_Amt,TAX8_Amt,TAX9_Amt,TAX10_Amt ) " + Environment.NewLine +
+            "select '" + strSINo + "' as SI_No,SODO_No, case when TAX1_Amt<0 then 0 else TAX1_Amt end as TAX1_Amt,case when TAX2_Amt<0 then 0 else TAX2_Amt end as TAX2_Amt ,case when TAX3_Amt<0 then 0 else TAX3_Amt end as TAX3_Amt ,case when TAX4_Amt<0 then 0 else TAX4_Amt end as TAX4_Amt ,case when TAX5_Amt<0 then 0 else TAX5_Amt end as TAX5_Amt ,case when TAX6_Amt<0 then 0 else TAX6_Amt end as TAX6_Amt ,case when TAX7_Amt<0 then 0 else TAX7_Amt end as TAX7_Amt ,case when TAX8_Amt<0 then 0 else TAX8_Amt end as TAX8_Amt ,case when TAX9_Amt<0 then 0 else TAX9_Amt end as TAX9_Amt ,case when TAX10_Amt<0 then 0 else TAX10_Amt end as TAX10_Amt  from ( " + Environment.NewLine +
+            "select SODO_No, case when sum(InvoiceAmt) > = sum(SoDoAmt) then min(TAX1_Amt) else min(TAX1_Amt) end as TAX1_Amt," + Environment.NewLine +
+            "case when sum(InvoiceAmt) > = sum(SoDoAmt) then min(TAX2_Amt) else min(TAX2_Amt) end as TAX2_Amt, " + Environment.NewLine +
+            "case when sum(InvoiceAmt) > = sum(SoDoAmt) then min(TAX3_Amt) else min(TAX3_Amt) end as  TAX3_Amt, " + Environment.NewLine +
+            "case when sum(InvoiceAmt) > = sum(SoDoAmt) then min(TAX4_Amt) else min(TAX4_Amt) end as TAX4_Amt, " + Environment.NewLine +
+            "case when sum(InvoiceAmt) > = sum(SoDoAmt) then min(TAX5_Amt) else min(TAX5_Amt) end as TAX5_Amt, " + Environment.NewLine +
+            "case when sum(InvoiceAmt) > = sum(SoDoAmt) then min(TAX7_Amt) else min(TAX7_Amt) end as TAX6_Amt, " + Environment.NewLine +
+            "case when sum(InvoiceAmt) > = sum(SoDoAmt) then min(TAX7_Amt) else min(TAX7_Amt) end as TAX7_Amt, " + Environment.NewLine +
+            "case when sum(InvoiceAmt) > = sum(SoDoAmt) then min(TAX8_Amt) else min(TAX8_Amt) end as TAX8_Amt, " + Environment.NewLine +
+            "case when sum(InvoiceAmt) > = sum(SoDoAmt) then min(TAX9_Amt) else min(TAX9_Amt) end as TAX9_Amt , " + Environment.NewLine +
+            "case when sum(InvoiceAmt) > = sum(SoDoAmt) then min(TAX10_Amt) else min(TAX10_Amt) end as TAX10_Amt from ( " + Environment.NewLine +
+            "select sum(InvoiceAmt) as InvoiceAmt,sum(SoDOAmt) as SoDoAmt,'SI' as DocType, SODO_No, max(TAX1_Amt) as TAX1_Amt, " &
+            "max(TAX2_Amt) as TAX2_Amt,max(TAX3_Amt) as  TAX3_Amt,max (TAX4_Amt) as TAX4_Amt,max(TAX5_Amt) as TAX5_Amt,max(TAX6_Amt) as TAX6_Amt, " &
+            "max(TAX7_Amt) as TAX7_Amt,max(TAX8_Amt) as TAX8_Amt,max(TAX9_Amt) as TAX9_Amt ,max(TAX10_Amt) as TAX10_Amt,0 as chk from ( " + Environment.NewLine +
+            "select  max(TSPL_SD_SALE_INVOICE_HEAD.Total_Amt) as InvoiceAmt,0 as SoDOAmt, 'SI' as DocType, " & SODONo & " as SODO_No,sum(TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt) as TAX1_Amt,sum(TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt) as TAX2_Amt,sum(TSPL_SD_SHIPMENT_DETAIL.TAX3_Amt) as TAX3_Amt,sum(TSPL_SD_SHIPMENT_DETAIL.TAX4_Amt) as TAX4_Amt,sum(TSPL_SD_SHIPMENT_DETAIL.TAX5_Amt) as TAX5_Amt,sum(TSPL_SD_SHIPMENT_DETAIL.TAX6_Amt) as TAX6_Amt,sum(TSPL_SD_SHIPMENT_DETAIL.TAX7_Amt) as TAX7_Amt, " + Environment.NewLine +
+            "sum(TSPL_SD_SHIPMENT_DETAIL.TAX8_Amt) as TAX8_Amt,sum(TSPL_SD_SHIPMENT_DETAIL.TAX9_Amt) as TAX9_Amt,sum(TSPL_SD_SHIPMENT_DETAIL.TAX10_Amt) as TAX10_Amt,0 as Chk " + Environment.NewLine +
+            "from TSPL_SD_SALE_INVOICE_HEAD left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code " + Environment.NewLine +
+            "left outer join TSPL_SD_SHIPMENT_DETAIL  on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " + Environment.NewLine +
+            "left outer join TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE on TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code=TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS " + Environment.NewLine +
+            "where  TSPL_SD_SALE_INVOICE_HEAD.Document_Code in ('" + strSINo + "') group by  " & SODONo & " " + Environment.NewLine +
+            "union all " + Environment.NewLine +
+            "select  sum(TSPL_SD_SALE_INVOICE_HEAD.Total_Amt) as InvoiceAmt,0 as SoDOAmt,'SI' as DocType, " & SODONo & "  as SODO_No, " + Environment.NewLine +
+            "0 as TAX1_Amt,0 as TAX2_Amt,0 as TAX3_Amt,0 as TAX4_Amt,0 as TAX5_Amt,0 as TAX6_Amt,0 as TAX7_Amt, " + Environment.NewLine +
+            "0 as TAX8_Amt,0 as TAX9_Amt,0 as TAX10_Amt,0 as Chk  " + Environment.NewLine +
+            "from TSPL_SD_SALE_INVOICE_HEAD left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code  " + Environment.NewLine +
+            "left outer join TSPL_SD_SHIPMENT_DETAIL  on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE  " + Environment.NewLine +
+            "left outer join TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE on TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code=TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS " + Environment.NewLine +
+            "where  TSPL_SD_SALE_INVOICE_HEAD.Document_Code not in ('" + strSINo + "') and " + Environment.NewLine +
+            " " & SODONo & " in (select distinct   " & SODONo & "  from  " + Environment.NewLine +
+            "TSPL_SD_SALE_INVOICE_HEAD left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code " + Environment.NewLine +
+            "left outer join TSPL_SD_SHIPMENT_DETAIL  on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " + Environment.NewLine +
+            "left outer join TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE on TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code=TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS  " + Environment.NewLine +
+            "where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in ('" + strSINo + "')) group by   " & SODONo & "  " + Environment.NewLine +
+            "union all " + Environment.NewLine +
+            "select 0 as InvoiceAmt, sum(TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Total_Amt) as SoDOAmt,'SI' as DocType, " + Environment.NewLine +
+            "" & SODONo & " as SODO_No,0 as TAX1_Amt,0 as TAX2_Amt,0 as TAX3_Amt,0 as TAX4_Amt,0 as TAX5_Amt, " + Environment.NewLine +
+            "0 as TAX6_Amt,0 as TAX7_Amt, 0 as TAX8_Amt,0 as TAX9_Amt,0 as TAX10_Amt,0 as Chk " + Environment.NewLine +
+            "from TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE where " & SODONo & " in (select distinct   " & SODONo & "  from " + Environment.NewLine +
+            "TSPL_SD_SALE_INVOICE_HEAD left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code " + Environment.NewLine +
+            "left outer join TSPL_SD_SHIPMENT_DETAIL  on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " + Environment.NewLine +
+            "left outer join TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE on TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code=TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS " + Environment.NewLine +
+            "where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in ('" + strSINo + "')) group by   " & SODONo & "  ) aa  group by   aa.SODO_No  " + Environment.NewLine +
+            "union all " + Environment.NewLine +
+            "select  0 as InvoiceAmt,0 as SoDOAmt,'BAL'as DocType, SODO_No,sum(TAX1_Amt * RI) as TAX1_Amt,sum(TAX2_Amt * RI) as TAX2_Amt,sum(TAX3_Amt * RI) as TAX3_Amt,sum(TAX4_Amt * RI) as TAX4_Amt,sum(TAX5_Amt * RI) as TAX5_Amt,sum(TAX6_Amt * RI) as TAX6_Amt,sum(TAX7_Amt * RI) as TAX7_Amt,sum(TAX8_Amt * RI) as TAX8_Amt,sum(TAX9_Amt * RI) as TAX9_Amt,sum(TAX10_Amt * RI) as TAX10_Amt,1 as Chk   from ( " + Environment.NewLine +
+            "select 'AD' as DocType,Document_Code as SODO_No,Item_Code,1 as RI,convert(decimal(18,2),TSPL_RECEIPT_DETAIL_GST.TAX1_Amt_Receipt) as TAX1_Amt,convert(decimal(18,2),TSPL_RECEIPT_DETAIL_GST.TAX2_Amt_Receipt) as TAX2_Amt,convert(decimal(18,2),TSPL_RECEIPT_DETAIL_GST.TAX3_Amt_Receipt) as TAX3_Amt,convert(decimal(18,2),TSPL_RECEIPT_DETAIL_GST.TAX4_Amt_Receipt) as TAX4_Amt, " + Environment.NewLine +
+            "convert(decimal(18,2),TSPL_RECEIPT_DETAIL_GST.TAX5_Amt_Receipt) as TAX5_Amt,convert(decimal(18,2),TSPL_RECEIPT_DETAIL_GST.TAX6_Amt_Receipt) as TAX6_Amt, " + Environment.NewLine +
+            "convert(decimal(18,2),TSPL_RECEIPT_DETAIL_GST.TAX7_Amt_Receipt) as TAX7_Amt,convert(decimal(18,2),TSPL_RECEIPT_DETAIL_GST.TAX8_Amt_Receipt) as TAX8_Amt, " + Environment.NewLine +
+            "convert(decimal(18,2),TSPL_RECEIPT_DETAIL_GST.TAX9_Amt_Receipt) as TAX9_Amt,convert(decimal(18,2),TSPL_RECEIPT_DETAIL_GST.TAX10_Amt_Receipt) as TAX10_Amt from " + Environment.NewLine +
+            "TSPL_RECEIPT_DETAIL_GST where Document_Code in (select distinct  " & SODONo & " from " + Environment.NewLine +
+            "TSPL_SD_SALE_INVOICE_HEAD left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code " + Environment.NewLine +
+            "left outer join TSPL_SD_SHIPMENT_DETAIL  on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " + Environment.NewLine +
+            "left outer join TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE on TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code=TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS " + Environment.NewLine +
+            "where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in ('" + strSINo + "')) " + Environment.NewLine +
+            "union all " + Environment.NewLine +
+            "select 'PO_AD_Adj' as DocType,SODO_No,'' as Item_Code,-1 as RI,TAX1_Amt,TAX2_Amt,TAX3_Amt,TAX4_Amt,TAX5_Amt,TAX6_Amt,TAX7_Amt,TAX8_Amt,TAX9_Amt,TAX10_Amt from TSPL_SO_ADVANCE_ADJUSTMENT_KNOCKOFF " + Environment.NewLine +
+            "where SODO_No  in (select distinct  " & SODONo & " from TSPL_SD_SALE_INVOICE_HEAD left outer join " + Environment.NewLine +
+            "TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code " + Environment.NewLine +
+            "left outer join TSPL_SD_SHIPMENT_DETAIL  on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " + Environment.NewLine +
+            "left outer join TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE on TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code=TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS " + Environment.NewLine +
+            "where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in ('" + strSINo + "')) " + Environment.NewLine +
+            " )xx Group by SODO_No " + Environment.NewLine +
+            ")xxx group by SODO_No having sum(chk)>0 " + Environment.NewLine +
             ")xxxx where ( TAX1_Amt>0 or TAX2_Amt>0 or TAX3_Amt>0 or TAX4_Amt>0 or TAX5_Amt>0 or TAX6_Amt>0 or TAX7_Amt>0 or TAX8_Amt>0 or TAX9_Amt>0 or TAX10_Amt>0) "
 
 

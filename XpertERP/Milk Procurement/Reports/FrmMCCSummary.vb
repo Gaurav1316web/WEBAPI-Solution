@@ -186,15 +186,12 @@ Public Class FrmMCCSummary
                     & " As [Milk Weight(LTR)],      TSPL_MILK_SAMPLE_DETAIL.FAT As [FAT(%)], TSPL_MILK_SAMPLE_DETAIL.SNF As      [SNF(%)], Convert(decimal(18,2),TSPL_MILK_SAMPLE_DETAIL.FAT * " _
                     & " TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT / 100) As [FAT(KG)],      Convert(decimal(18,2),TSPL_MILK_SAMPLE_DETAIL.SNF *      TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT / 100)" _
                     & " As [SNF(KG)],      TSPL_MILK_SRN_HEAD.DOC_CODE As [SRN No],      Convert(decimal(18,2),TSPL_MILK_SRN_DETAIL.AMOUNT) As [SRN Amount],    " _
-                    & " TSPL_MILK_SRN_DETAIL.RATE As [SRN Rate], TSPL_MILK_SRN_DETAIL.Qty As      [SRN Qty]   From TSPL_MILK_RECEIPT_DETAIL Left Outer Join TSPL_MILK_RECEIPT_HEAD     " _
-                    & " On TSPL_MILK_RECEIPT_HEAD.DOC_CODE = TSPL_MILK_RECEIPT_DETAIL.DOC_CODE      Left Outer Join TSPL_MILK_SAMPLE_HEAD        On TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE = " _
-                    & " TSPL_MILK_RECEIPT_HEAD.DOC_CODE Left Outer Join TSPL_MILK_SAMPLE_DETAIL        On TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO = TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO     " _
-                    & " And TSPL_MILK_SAMPLE_DETAIL.DOC_CODE = TSPL_MILK_SAMPLE_HEAD.DOC_CODE      Left Outer Join TSPL_MILK_SRN_HEAD On TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE =  " _
-                    & " TSPL_MILK_SAMPLE_HEAD.DOC_CODE And TSPL_MILK_SRN_HEAD.SAMPLE_NO =        TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO Left Outer Join TSPL_MILK_SRN_DETAIL  " _
-                    & " On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE      Left Outer Join TSPL_MILK_PURCHASE_INVOICE_DETAIL        On TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE =   " _
+                    & " TSPL_MILK_SRN_DETAIL.RATE As [SRN Rate], TSPL_MILK_SRN_DETAIL.Qty As      [SRN Qty]   From TSPL_MILK_SRN_DETAIL Left Outer Join TSPL_MILK_SRN_HEAD     " _
+                    & " On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE " _
+                    & "    Left Outer Join TSPL_MILK_PURCHASE_INVOICE_DETAIL  On TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE =   " _
                     & " TSPL_MILK_SRN_HEAD.DOC_CODE Left Outer Join      TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE        = TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE " _
-                    & " Left Outer Join      TSPL_MCC_MASTER        On TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_RECEIPT_HEAD.MCC_CODE      Left Outer Join TSPL_VLC_MASTER_HEAD On " _
-                    & " TSPL_VLC_MASTER_HEAD.VLC_Code =        TSPL_MILK_RECEIPT_DETAIL.VLC_CODE Left Outer Join TSPL_VENDOR_MASTER        On TSPL_VENDOR_MASTER.Vendor_Code = " _
+                    & " Left Outer Join      TSPL_MCC_MASTER        On TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_SRN_HEAD.MCC_CODE      Left Outer Join TSPL_VLC_MASTER_HEAD On " _
+                    & " TSPL_VLC_MASTER_HEAD.VLC_Code =        TSPL_MILK_SRN_HEAD.VLC_CODE Left Outer Join TSPL_VENDOR_MASTER        On TSPL_VENDOR_MASTER.Vendor_Code = " _
                     & " TSPL_MILK_RECEIPT_DETAIL.VSP_CODE      Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MCC_ROUTE_MASTER.Route_Code =        TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE  " _
                     & " Left Outer Join      TSPL_Primary_Vehicle_Master On TSPL_Primary_Vehicle_Master.Vehicle_Code =        TSPL_MCC_ROUTE_MASTER.Vehicle_Code Left Outer Join      " _
                     & " TSPL_MILK_Shift_End_HEAD On TSPL_MILK_Shift_End_HEAD.MCC_CODE =        TSPL_MILK_RECEIPT_HEAD.MCC_CODE And TSPL_MILK_Shift_End_HEAD.DOC_DATE =  " _
@@ -662,7 +659,7 @@ Public Class FrmMCCSummary
             'Process.Start(filePath)
             transportSql.QuickExportToExcel(gv, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

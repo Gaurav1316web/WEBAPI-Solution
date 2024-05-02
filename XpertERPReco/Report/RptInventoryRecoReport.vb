@@ -130,7 +130,7 @@ Public Class RptInventoryRecoReport
                 ''---------------
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
@@ -138,7 +138,7 @@ Public Class RptInventoryRecoReport
             clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
             common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub Export(ByVal exporter As EnumExportTo)

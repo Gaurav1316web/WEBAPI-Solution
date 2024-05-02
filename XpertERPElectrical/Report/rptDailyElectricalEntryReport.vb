@@ -42,12 +42,12 @@ Public Class rptDailyElectricalEntryReport
         Try
             Dim strSlotCount As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count (*) from TSPL_SLOT_MASTER "))
             If strSlotCount <= 0 Then
-                clsCommon.MyMessageBoxShow(" Slot is not Available in [Slot Master]", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, " Slot is not Available in [Slot Master]", Me.Text)
                 Return
             End If
             Dim strDGcount As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count (*) from TSPL_DG_MASTER "))
             If strDGcount <= 0 Then
-                clsCommon.MyMessageBoxShow(" DG is not Available in [DG Master]", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, " DG is not Available in [DG Master]", Me.Text)
                 Return
             End If
 
@@ -154,13 +154,13 @@ Public Class rptDailyElectricalEntryReport
                 End If
                 '=======================================================================
             Else
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
 
             ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -216,7 +216,7 @@ Public Class rptDailyElectricalEntryReport
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = Gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
 
@@ -228,14 +228,14 @@ Public Class rptDailyElectricalEntryReport
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
 
     Private Sub btnExport_Click(sender As Object, e As EventArgs) Handles btnExport.Click
         Try
             If Gv1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                 Exit Sub
             End If
             Dim arrHeader As List(Of String) = New List(Of String)()
@@ -244,7 +244,7 @@ Public Class rptDailyElectricalEntryReport
 
             clsCommon.MyExportToExcelGrid("Daily Electrical Entry Report", Gv1, arrHeader, Me.Text)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
 End Class

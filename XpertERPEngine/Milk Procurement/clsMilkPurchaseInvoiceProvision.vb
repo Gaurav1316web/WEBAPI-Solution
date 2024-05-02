@@ -99,9 +99,7 @@ Public Class clsMilkPurchaseInvoiceProvisionHead
                     Else
                         MAddition += "+isnull([" + clsCommon.myCstr(row("Description")) + "],0)"
                     End If
-
                 ElseIf clsCommon.myCstr(row("Ded_Grp_Code")) = "DEDUCTION" Then
-
                     If MDeduction = Nothing Then
                         MDeduction = "isnull([" + clsCommon.myCstr(row("Description")) + "],0)"
                     Else
@@ -110,14 +108,12 @@ Public Class clsMilkPurchaseInvoiceProvisionHead
                 End If
                 '  DedName1 += "," + "[" + clsCommon.myCstr(dtDedName.Rows(i)("Description")) + "]"
             Next
-
-
         End If
 
         Dim strqry1 As String = "SELECT distinct TSPL_DCS_ADDITION_DEDUCTION.Description,TSPL_VENDOR_INVOICE_HEAD.Document_Type from TSPL_DCS_ADDITION_DEDUCTION
 
                                 left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction=TSPL_DCS_ADDITION_DEDUCTION.Code
-                                LEFT OUTER JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_VENDOR_INVOICE_DETAIL.Document_No"
+                                LEFT OUTER JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_VENDOR_INVOICE_DETAIL.Document_No where TSPL_VENDOR_INVOICE_HEAD.Document_Type Not In ('Null','')"
 
         Dim dtdesc1 As DataTable = clsDBFuncationality.GetDataTable(strqry1)
         Dim dedname1 As String = Nothing
@@ -131,11 +127,8 @@ Public Class clsMilkPurchaseInvoiceProvisionHead
             For Each row As DataRow In dtdesc1.Rows
                 If dedname1 = Nothing Then
                     dedname1 = "SUM(FINAL.[" + clsCommon.myCstr(row("Description")) + "]) AS [" + clsCommon.myCstr(row("Description")) + "]"
-
-
                 Else
                     dedname1 += "," + "SUM(FINAL.[" + clsCommon.myCstr(row("Description")) + "]) AS [" + clsCommon.myCstr(row("Description")) + "]"
-
                 End If
                 If clsCommon.myCstr(row("Document_Type")) = "C" Then
                     If AutoAddition = Nothing Then
@@ -145,9 +138,7 @@ Public Class clsMilkPurchaseInvoiceProvisionHead
                         AutoAddition += "+isnull([" + clsCommon.myCstr(row("Description")) + "],0)"
                         'totaladd += "+FINAL.[" + clsCommon.myCstr(row("Description")) + "])"
                     End If
-
                 ElseIf clsCommon.myCstr(row("Document_Type")) = "D" Then
-
                     If AutoDeduction = Nothing Then
                         AutoDeduction = "isnull([" + clsCommon.myCstr(row("Description")) + "],0)"
                     Else
@@ -159,16 +150,8 @@ Public Class clsMilkPurchaseInvoiceProvisionHead
                 Else
                     DEDREAL += "," + "[" + clsCommon.myCstr(row("Description")) + "] "
                 End If
-
-
-
                 '  DedName1 += "," + "[" + clsCommon.myCstr(dtDedName.Rows(i)("Description")) + "]"
-
-
-
             Next
-
-
         End If
 
 

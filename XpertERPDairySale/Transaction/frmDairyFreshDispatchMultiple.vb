@@ -5046,6 +5046,7 @@ Public Class frmDairyFreshDispatchMultiple
             End If
             If blnInsert = True Then
                 common.clsCommon.MyMessageBoxShow(gv1, "Dispatch created successfully.")
+
             End If
 
             If AllowFreshInvoiceAutoPost = 0 Then
@@ -5504,7 +5505,7 @@ Public Class frmDairyFreshDispatchMultiple
                 End If
                 qry = clsAllSQLTrigger.trg_TSPL_SD_SHIPMENT_DETAIL_Scheme()
                 clsDBFuncationality.ExecuteNonQuery(qry)
-                clsCommon.MyMessageBoxShow("Scheme Validation applied successfully")
+                clsCommon.MyMessageBoxShow(Me, "Scheme Validation applied successfully", Me.Text)
             Else
                 If clsCommon.MyMessageBoxShow(Me, "Scheme Validation will be de-activated, Are you sure ?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                     Exit Sub
@@ -8113,7 +8114,7 @@ Public Class frmDairyFreshDispatchMultiple
 
     Private Sub btnGo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGo.Click
         If clsCommon.myCDate(txtFromDate.Value) < objCommonVar.GSTApplicableDate AndAlso clsCommon.myCDate(txtToDate.Value) > objCommonVar.GSTApplicableDate Then
-            clsCommon.MyMessageBoxShow("Please Select From Date and To date range without GST or within GST", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select From Date and To date range without GST or within GST", Me.Text)
             Exit Sub
         End If
 

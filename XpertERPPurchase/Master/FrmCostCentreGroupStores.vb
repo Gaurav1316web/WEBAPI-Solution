@@ -82,12 +82,12 @@ Public Class FrmCostCentreGroupStores
         Try
             If (deleteConfirm()) Then
                 If (ClsCostCentreGroupStores.DeleteData(fndCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub RmImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RmImport.Click
@@ -210,7 +210,7 @@ Public Class FrmCostCentreGroupStores
         Try
             LoadData(fndCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

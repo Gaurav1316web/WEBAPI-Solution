@@ -124,7 +124,7 @@ Public Class FrmPendingAproval
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -1194,7 +1194,7 @@ Public Class FrmPendingAproval
 
     Private Sub btnShow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnShow.Click
         If clsCommon.myCDate(dtpFromDate.Value, "dd/MMM/yyyy") > clsCommon.myCDate(dtpToDate.Value, "dd/MMM/yyyy") Then
-            common.clsCommon.MyMessageBoxShow("'From date' Cann't Be Greater Than 'To Date'")
+            common.clsCommon.MyMessageBoxShow(Me, "'From date' Cann't Be Greater Than 'To Date'", Me.Text)
         Else
             qry = Nothing
             ShowData()
@@ -1285,16 +1285,16 @@ Public Class FrmPendingAproval
             If dt Is Nothing OrElse dt.Rows.Count = 0 Then
                 gv1.DataSource = Nothing
                 If rbtnStatusPending.IsChecked = True Then
-                    common.clsCommon.MyMessageBoxShow("There Is No '" + rbtnStatusPending.Text + "' Data Between The Dates '" + dtpFromDate.Value.Date + "' And '" + dtpToDate.Value.Date + "' ", caption:="Pending")
+                    common.clsCommon.MyMessageBoxShow(Me, "There Is No '" + rbtnStatusPending.Text + "' Data Between The Dates '" + dtpFromDate.Value.Date + "' And '" + dtpToDate.Value.Date + "' ", caption:="Pending", Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow("There Is No '" + rbtnStatusPosted.Text + "' Data Between The Dates '" + dtpFromDate.Value.Date + "' And '" + dtpToDate.Value.Date + "' ", caption:="Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "There Is No '" + rbtnStatusPosted.Text + "' Data Between The Dates '" + dtpFromDate.Value.Date + "' And '" + dtpToDate.Value.Date + "' ", caption:="Posted", Me.Text)
                 End If
                 Return
             End If
             IsPostBack = False
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4540,7 +4540,7 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
         End If
 
         If trnsLst.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Select Atleast One Document")
+            common.clsCommon.MyMessageBoxShow(Me, "Select Atleast One Document", Me.Text)
         Else
 
             If myMessages.postConfirm Then
@@ -4588,10 +4588,10 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                         PostSalesAndDistributionNew()
                     End If
                     clsCommon.ProgressBarPercentHide()
-                    common.clsCommon.MyMessageBoxShow("" + clsCommon.myCstr(countPostedDoc) + " Document Posted Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "" + clsCommon.myCstr(countPostedDoc) + " Document Posted Successfully", Me.Text)
                 Catch ex As Exception
                     clsCommon.ProgressBarPercentHide()
-                    common.clsCommon.MyMessageBoxShow(ex.Message)
+                    common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 Finally
                     clsCommon.ProgressBarPercentHide()
                     '----Added by---Pankaj Kumar-on-14/06/2012-----For Openning a Exceptions Collection Window-------------
@@ -5907,6 +5907,27 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                         Try
                             clsCommon.ProgressBarPercentUpdate((((j + 1) * 100) / (trnsLst.Count)), "Document Posting " + clsCommon.myCstr(j + 1) + "/" + clsCommon.myCstr(trnsLst.Count))
                             clsDemandBookingSale.PostData(clsUserMgtCode.frmDemandBooking, strDocNo, strCustomerCode)
+                            If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandAll, clsFixedParameterCode.ApplyDemandAll, Nothing)) = 1 Or clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, Nothing)) = 1 Then
+                                Dim isNewEntry As Boolean = False
+                                Dim obj As clsDemandBookingSale = clsDemandBookingSale.GetData(strDocNo, NavigatorType.Current)
+                                obj.Document_Date = clsCommon.myCDate(obj.Document_Date).AddDays(1)
+                                obj.Document_No = clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No='" + clsCommon.myCstr(obj.Route_No) + "' and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103 )='" + clsCommon.GetPrintDate(obj.Document_Date) + "') and location_code='" + clsCommon.myCstr(obj.Location_Code) + "' and ShiftType='" + obj.ShiftType + "' and IsIndividualCustomer=0 ")
+                                If clsCommon.myLen(obj.Document_No) > 0 Then
+                                    isNewEntry = False
+                                Else
+                                    isNewEntry = True
+                                End If
+                                If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, Nothing)) = 1 Then
+                                    For ii As Integer = 0 To obj.Arr.Count - 1
+                                        If clsCommon.CompairString(obj.Arr(ii).Cust_Code, clsDBFuncationality.getSingleValue("Select Cust_Code from TSPL_CUSTOMER_MASTER where cust_code='" + clsCommon.myCstr(obj.Arr(ii).Cust_Code) + "' and IsReorder=1")) = CompairStringResult.Equal Then
+                                            obj.Arr(ii).Qty = obj.Arr(ii).Qty
+                                        Else
+                                            obj.Arr(ii).Qty = 0
+                                        End If
+                                    Next
+                                End If
+                                obj.SaveData(obj, isNewEntry)
+                            End If
                         Catch ex As Exception
                             Throw New Exception(ex.Message)
                         End Try
@@ -6497,7 +6518,7 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
         '    Next
         '    txtGrandTotal.Text = TempTotal
         'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'Finally
         '    FlagAllSelectWorking = False
         'End Try
@@ -6536,7 +6557,7 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                 txtGrandTotal.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             FlagAllSelectWorking = False
         End Try
@@ -6561,4 +6582,6 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
     Private Sub gv1_FilterChanged(sender As Object, e As GridViewCollectionChangedEventArgs) Handles gv1.FilterChanged
         lblNoOfRecords.Text = "" + gv1.ChildRows.Count.ToString + " Records Found"
     End Sub
+
+
 End Class

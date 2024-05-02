@@ -68,9 +68,13 @@ Public Class RptPendingMilkSRN
     End Sub
 
     Private Sub btnGo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGo.Click
-        PageSetupReport_ID = MyBase.Form_ID + IIf(RbSummary.IsChecked = True, "S", "D")
-        TemplateGridview = gv
-        Load_Report()
+        Try
+            PageSetupReport_ID = MyBase.Form_ID + IIf(RbSummary.IsChecked = True, "S", "D")
+            TemplateGridview = gv
+            Load_Report()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Sub Reset()
         LOCATIONRIGTHS()
@@ -154,25 +158,25 @@ Public Class RptPendingMilkSRN
     End Sub
     Public Sub Load_Report()
         If txtFromDate.Value > txtToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             txtFromDate.Focus()
             Exit Sub
         End If
         If chkLocationSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Location or select all.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single Location or select all.", Me.Text)
             Exit Sub
         End If
         If chkVendorSelect.IsChecked AndAlso cbgVendor.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Vendor or select all.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single Vendor or select all.", Me.Text)
             Exit Sub
         End If
         Dim sQuery As String = ""
 
         If RbAll.IsChecked = True Then
             If RbDetail.IsChecked = True Then
-                sQuery += "select xx.Location ,xx.Location_Desc as Location_Name,xx.VSP_CODE as Vendor_Code,xx.Vendor_Name ,xx.DOC_CODE as SRN_No,convert(varchar,xx.DOC_DATE,103) as SRN_Date,xx.DOC_DATE as DocDate,convert(decimal(18,2),CF*xx.AMOUNT) as Amount,xx.MILK_SAMPLE_CODE as Sample_Code  from (select t_detail.*  from  (select TSPL_MILK_SRN_DETAIL.Item_Code ,VSP_CODE ,Vendor_Name,Location_Desc,TSPL_MILK_SAMPLE_HEAD. MCC_Code +' -('+Location_Desc +')'  as Location ,UOM_Code,TSPL_MILK_SRN_DETAIL.AMOUNT ,TSPL_MILK_SRN_HEAD.DOC_CODE ,TSPL_MILK_SRN_HEAD.DOC_DATE ,TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE from TSPL_MILK_SRN_HEAD left join TSPL_MILK_SAMPLE_HEAD on TSPL_MILK_SAMPLE_HEAD.DOC_CODE  =TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE  left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_SAMPLE_HEAD.MCC_CODE left join TSPL_VENDOR_MASTER on  TSPL_VENDOR_MASTER.Vendor_Code =TSPL_MILK_SRN_HEAD.VSP_CODE  left join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE =TSPL_MILK_SRN_HEAD.DOC_CODE left join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE =TSPL_MILK_SRN_HEAD.DOC_CODE  " & Environment.NewLine & _
+                sQuery += "select xx.Location ,xx.Location_Desc as Location_Name,xx.VSP_CODE as Vendor_Code,xx.Vendor_Name ,xx.DOC_CODE as SRN_No,convert(varchar,xx.DOC_DATE,103) as SRN_Date,xx.DOC_DATE as DocDate,convert(decimal(18,2),CF*xx.AMOUNT) as Amount,xx.MILK_SAMPLE_CODE as Sample_Code  from (select t_detail.*  from  (select TSPL_MILK_SRN_DETAIL.Item_Code ,VSP_CODE ,Vendor_Name,Location_Desc,TSPL_MILK_SRN_HEAD.MCC_Code +' -('+Location_Desc +')'  as Location ,UOM_Code,TSPL_MILK_SRN_DETAIL.AMOUNT ,TSPL_MILK_SRN_HEAD.DOC_CODE ,TSPL_MILK_SRN_HEAD.DOC_DATE ,TSPL_MILK_SRN_HEAD.SAMPLE_NO AS MILK_SAMPLE_CODE from TSPL_MILK_SRN_HEAD  left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_SRN_HEAD.MCC_CODE left join TSPL_VENDOR_MASTER on  TSPL_VENDOR_MASTER.Vendor_Code =TSPL_MILK_SRN_HEAD.VSP_CODE  left join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE =TSPL_MILK_SRN_HEAD.DOC_CODE left join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE =TSPL_MILK_SRN_HEAD.DOC_CODE  " & Environment.NewLine &
                  " where 2 = 2 and  TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE is null and Form_Type ='VSP' and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) <=convert(date,'" + txtToDate.Value + "' ,103)" & Environment.NewLine
-               
+
                 If cbgLocation.CheckedValue.Count > 0 Then
                     sQuery += " and TSPL_LOCATION_MASTER. Location_Code   IN (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
                 End If
@@ -196,7 +200,7 @@ Public Class RptPendingMilkSRN
                 sQuery += "   order by DocDate "
 
             ElseIf RbSummary.IsChecked = True Then
-                sQuery += "select tt.Location ,tt.Location_Name ,tt.Vendor_Code ,tt.Vendor_Name ,sum (tt.Amount ) as Amount   from (select xx.Location as Location,xx.VSP_CODE as Vendor_Code,xx.Vendor_Name ,xx.DOC_CODE as SRN_No,xx.DOC_DATE as SRN_Date,convert(decimal(18,2),CF*xx.AMOUNT) as Amount ,xx.MILK_SAMPLE_CODE as Sample_Code,xx.Location_Desc as Location_Name  from (select t_detail.*  from  (select TSPL_MILK_SRN_DETAIL.Item_Code ,VSP_CODE ,Vendor_Name,TSPL_MILK_SAMPLE_HEAD. MCC_Code +' -('+Location_Desc +')'  as Location  ,UOM_Code,TSPL_MILK_SRN_DETAIL.AMOUNT ,TSPL_MILK_SRN_HEAD.DOC_CODE ,TSPL_MILK_SRN_HEAD.DOC_DATE ,TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE ,Location_Desc from TSPL_MILK_SRN_HEAD left join TSPL_MILK_SAMPLE_HEAD on TSPL_MILK_SAMPLE_HEAD.DOC_CODE  =TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE  left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_SAMPLE_HEAD.MCC_CODE left join TSPL_VENDOR_MASTER on  TSPL_VENDOR_MASTER.Vendor_Code =TSPL_MILK_SRN_HEAD.VSP_CODE  left join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE =TSPL_MILK_SRN_HEAD.DOC_CODE left join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE =TSPL_MILK_SRN_HEAD.DOC_CODE " & Environment.NewLine & _
+                sQuery += "select tt.Location ,tt.Location_Name ,tt.Vendor_Code ,tt.Vendor_Name ,sum (tt.Amount ) as Amount   from (select xx.Location as Location,xx.VSP_CODE as Vendor_Code,xx.Vendor_Name ,xx.DOC_CODE as SRN_No,xx.DOC_DATE as SRN_Date,convert(decimal(18,2),CF*xx.AMOUNT) as Amount ,xx.MILK_SAMPLE_CODE as Sample_Code,xx.Location_Desc as Location_Name  from (select t_detail.*  from  (select TSPL_MILK_SRN_DETAIL.Item_Code ,VSP_CODE ,Vendor_Name,TSPL_MILK_SRN_HEAD. MCC_Code +' -('+Location_Desc +')'  as Location  ,UOM_Code,TSPL_MILK_SRN_DETAIL.AMOUNT ,TSPL_MILK_SRN_HEAD.DOC_CODE ,TSPL_MILK_SRN_HEAD.DOC_DATE ,TSPL_MILK_SRN_HEAD.SAMPLE_NO AS MILK_SAMPLE_CODE ,Location_Desc from TSPL_MILK_SRN_HEAD left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_SRN_HEAD.MCC_CODE left join TSPL_VENDOR_MASTER on  TSPL_VENDOR_MASTER.Vendor_Code =TSPL_MILK_SRN_HEAD.VSP_CODE  left join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE =TSPL_MILK_SRN_HEAD.DOC_CODE left join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE =TSPL_MILK_SRN_HEAD.DOC_CODE " & Environment.NewLine &
                  "   where 2 = 2 and  TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE is null and Form_Type ='VSP' and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) <=convert(date,'" + txtToDate.Value + "' ,103)" & Environment.NewLine
 
 
@@ -226,8 +230,8 @@ Public Class RptPendingMilkSRN
         Else
             '=============================================
             If RbDetail.IsChecked = True Then
-                sQuery += "select xx.Location ,xx.Location_Desc as Location_Name,xx.VSP_CODE as Vendor_Code,xx.Vendor_Name ,xx.DOC_CODE as SRN_No,xx.DOC_DATE as DocDate,convert(varchar,xx.DOC_DATE,103) as SRN_Date,convert(decimal(18,2),CF*xx.AMOUNT) as Amount ,xx.MILK_SAMPLE_CODE as Sample_Code  from (select t_detail.*  from  (select TSPL_MILK_SRN_DETAIL.Item_Code ,VSP_CODE,Location_Desc ,Vendor_Name,TSPL_MILK_SAMPLE_HEAD. MCC_Code +' -('+Location_Desc +')'  as Location  ,UOM_Code,TSPL_MILK_SRN_DETAIL.AMOUNT ,TSPL_MILK_SRN_HEAD.DOC_CODE ,TSPL_MILK_SRN_HEAD.DOC_DATE ,TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE from TSPL_MILK_SRN_HEAD left join TSPL_MILK_SAMPLE_HEAD on TSPL_MILK_SAMPLE_HEAD.DOC_CODE  =TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE  left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_SAMPLE_HEAD.MCC_CODE left join TSPL_VENDOR_MASTER on  TSPL_VENDOR_MASTER.Vendor_Code =TSPL_MILK_SRN_HEAD.VSP_CODE  left join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE =TSPL_MILK_SRN_HEAD.DOC_CODE left join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE =TSPL_MILK_SRN_HEAD.DOC_CODE  " & Environment.NewLine & _
-                " where 2 = 2 and  TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE is null and Form_Type ='VSP' and  TSPL_MILK_SAMPLE_HEAD.Posted ='0'   and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) <=convert(date,'" + txtToDate.Value + "' ,103)" & Environment.NewLine
+                sQuery += "select xx.Location ,xx.Location_Desc as Location_Name,xx.VSP_CODE as Vendor_Code,xx.Vendor_Name ,xx.DOC_CODE as SRN_No,xx.DOC_DATE as DocDate,convert(varchar,xx.DOC_DATE,103) as SRN_Date,convert(decimal(18,2),CF*xx.AMOUNT) as Amount ,xx.MILK_SAMPLE_CODE as Sample_Code  from (select t_detail.*  from  (select TSPL_MILK_SRN_DETAIL.Item_Code ,VSP_CODE,Location_Desc ,Vendor_Name,TSPL_MILK_SRN_HEAD. MCC_Code +' -('+Location_Desc +')'  as Location  ,UOM_Code,TSPL_MILK_SRN_DETAIL.AMOUNT ,TSPL_MILK_SRN_HEAD.DOC_CODE ,TSPL_MILK_SRN_HEAD.DOC_DATE ,TSPL_MILK_SRN_HEAD.SAMPLE_NO AS MILK_SAMPLE_CODE from TSPL_MILK_SRN_HEAD left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_SRN_HEAD.MCC_CODE left join TSPL_VENDOR_MASTER on  TSPL_VENDOR_MASTER.Vendor_Code =TSPL_MILK_SRN_HEAD.VSP_CODE  left join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE =TSPL_MILK_SRN_HEAD.DOC_CODE left join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE =TSPL_MILK_SRN_HEAD.DOC_CODE  " & Environment.NewLine &
+                " where 2 = 2 and  TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE is null and Form_Type ='VSP' and  TSPL_MILK_SRN_HEAD.Posted ='0'   and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) <=convert(date,'" + txtToDate.Value + "' ,103)" & Environment.NewLine
 
                 If cbgLocation.CheckedValue.Count > 0 Then
                     sQuery += "and TSPL_LOCATION_MASTER. Location_Code  IN (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
@@ -251,8 +255,8 @@ Public Class RptPendingMilkSRN
                 End If
                 sQuery += " order by SRN_Date "
             ElseIf RbSummary.IsChecked = True Then
-                sQuery += "select tt.Location ,tt.Location_Name ,tt.Vendor_Code ,tt.Vendor_Name ,sum (tt.Amount ) as Amount   from (select xx.Location as Location,xx.VSP_CODE as Vendor_Code,xx.Vendor_Name ,xx.DOC_CODE as SRN_No,xx.DOC_DATE as SRN_Date,convert(decimal(18,2),CF*xx.AMOUNT) as Amount ,xx.MILK_SAMPLE_CODE as Sample_Code,xx.Location_Desc as Location_Name  from (select t_detail.*  from  (select TSPL_MILK_SRN_DETAIL.Item_Code ,VSP_CODE ,Vendor_Name,TSPL_MILK_SAMPLE_HEAD. MCC_Code +' -('+Location_Desc +')'  as Location  ,UOM_Code,TSPL_MILK_SRN_DETAIL.AMOUNT ,TSPL_MILK_SRN_HEAD.DOC_CODE ,TSPL_MILK_SRN_HEAD.DOC_DATE ,TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE ,Location_Desc from TSPL_MILK_SRN_HEAD left join TSPL_MILK_SAMPLE_HEAD on TSPL_MILK_SAMPLE_HEAD.DOC_CODE  =TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE  left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_SAMPLE_HEAD.MCC_CODE left join TSPL_VENDOR_MASTER on  TSPL_VENDOR_MASTER.Vendor_Code =TSPL_MILK_SRN_HEAD.VSP_CODE  left join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE =TSPL_MILK_SRN_HEAD.DOC_CODE left join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE =TSPL_MILK_SRN_HEAD.DOC_CODE" & Environment.NewLine & _
-                "   where 2 = 2 and  TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE is null and Form_Type ='VSP' and  TSPL_MILK_SAMPLE_HEAD.Posted ='0'  and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) <=convert(date,'" + txtToDate.Value + "' ,103)" & Environment.NewLine
+                sQuery += "select tt.Location ,tt.Location_Name ,tt.Vendor_Code ,tt.Vendor_Name ,sum (tt.Amount ) as Amount   from (select xx.Location as Location,xx.VSP_CODE as Vendor_Code,xx.Vendor_Name ,xx.DOC_CODE as SRN_No,xx.DOC_DATE as SRN_Date,convert(decimal(18,2),CF*xx.AMOUNT) as Amount ,xx.MILK_SAMPLE_CODE as Sample_Code,xx.Location_Desc as Location_Name  from (select t_detail.*  from  (select TSPL_MILK_SRN_DETAIL.Item_Code ,VSP_CODE ,Vendor_Name,TSPL_MILK_SRN_HEAD. MCC_Code +' -('+Location_Desc +')'  as Location  ,UOM_Code,TSPL_MILK_SRN_DETAIL.AMOUNT ,TSPL_MILK_SRN_HEAD.DOC_CODE ,TSPL_MILK_SRN_HEAD.DOC_DATE ,TSPL_MILK_SRN_HEAD.SAMPLE_NO AS MILK_SAMPLE_CODE ,Location_Desc from TSPL_MILK_SRN_HEAD left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_SRN_HEAD.MCC_CODE left join TSPL_VENDOR_MASTER on  TSPL_VENDOR_MASTER.Vendor_Code =TSPL_MILK_SRN_HEAD.VSP_CODE  left join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE =TSPL_MILK_SRN_HEAD.DOC_CODE left join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE =TSPL_MILK_SRN_HEAD.DOC_CODE" & Environment.NewLine &
+                "   where 2 = 2 and  TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE is null and Form_Type ='VSP' and  TSPL_MILK_SRN_HEAD.Posted ='0'  and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) <=convert(date,'" + txtToDate.Value + "' ,103)" & Environment.NewLine
 
                 If cbgLocation.CheckedValue.Count > 0 Then
                     sQuery += " and TSPL_LOCATION_MASTER. Location_Code   IN (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
@@ -291,20 +295,24 @@ Public Class RptPendingMilkSRN
             FormatGrid()
             RadPageView1.SelectedPage = RadPageViewPage2
         Else
-            clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
         ReStoreGridLayout()
     End Sub
    
 
     Private Sub RptPendingMilkSRN_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
-        If e.Alt AndAlso e.KeyCode = Keys.N Then
-            Load_Report()
-        ElseIf e.Alt And e.KeyCode = Keys.C Then
-            Me.Close()
-        ElseIf e.Alt And e.KeyCode = Keys.R Then
-            Reset()
-        End If
+        Try
+            If e.Alt AndAlso e.KeyCode = Keys.N Then
+                Load_Report()
+            ElseIf e.Alt And e.KeyCode = Keys.C Then
+                Me.Close()
+            ElseIf e.Alt And e.KeyCode = Keys.R Then
+                Reset()
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Sub LoadLocation()
         Dim qry As String = Nothing

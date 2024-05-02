@@ -132,7 +132,7 @@ Public Class FrmLCRequest
             End If
             LoadData(fndLCRequestcode.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -277,12 +277,12 @@ Public Class FrmLCRequest
         Try
             If (deleteConfirm()) Then
                 If (ClsLCRequest.DeleteData(fndLCRequestcode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data deleted successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub Reset()
@@ -682,7 +682,7 @@ Public Class FrmLCRequest
             End If
             isFlag = False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isFlag = False
         End Try
@@ -961,7 +961,7 @@ Public Class FrmLCRequest
                 Throw New Exception("Please Select LC Request No first")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub funSGSWaiverLetterPrint()
@@ -980,7 +980,7 @@ Public Class FrmLCRequest
             frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptSGSWaiverLetterMT", "SGS Waiver Letter")
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1004,7 +1004,7 @@ Public Class FrmLCRequest
             frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptMerchantDeclarationMT", "Merchant Declaration")
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1017,7 +1017,7 @@ Public Class FrmLCRequest
                 Throw New Exception("Please Select LC Request No first")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub funFormA2Print()
@@ -1037,7 +1037,7 @@ Public Class FrmLCRequest
             frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptFormA2MT", "Form A2")
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Function NumberToUSDString(ByVal num As Double) As String
@@ -1316,7 +1316,7 @@ Public Class FrmLCRequest
                 Throw New Exception("Please Select LC Request No first")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub funLCIssuingApplicationPrint()
@@ -1341,7 +1341,7 @@ Public Class FrmLCRequest
             frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptLCIssuingApplicationMT", "LC Issuing Application")
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1353,7 +1353,7 @@ Public Class FrmLCRequest
                 Throw New Exception("Please Select LC Request No first")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1365,7 +1365,7 @@ Public Class FrmLCRequest
                 Throw New Exception("Please Select LC Request No first")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub funMerchantDeclarationFormat2Print()
@@ -1385,7 +1385,7 @@ Public Class FrmLCRequest
             frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptMerchantDeclarationMTFormat2", "Merchant Declaration")
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1396,7 +1396,7 @@ Public Class FrmLCRequest
                 Throw New Exception(" FD % cannot be more than 100 ")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -350,7 +350,7 @@ Public Class FrmMPMaster
     '        dgvNoofCows.AllowAutoSizeColumns = False
     '        dgvNoofCows.ShowGroupPanel = False
     '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
     Private Sub SetUserMgmtNew()
@@ -1197,7 +1197,7 @@ Public Class FrmMPMaster
         '        txtCityName.Text = ""
         '    End If
         'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
 
@@ -1222,7 +1222,7 @@ Public Class FrmMPMaster
         '        txtCityName.Text = ""
         '    End If
         'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
 
@@ -1328,7 +1328,7 @@ Public Class FrmMPMaster
         '        txtBankStateName.Text = clsDBFuncationality.getSingleValue("select state_name from tspl_state_master where state_code='" & fndBankState.Value & "'")
         '    End If
         'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
 
@@ -1345,7 +1345,7 @@ Public Class FrmMPMaster
         '        txtBankCityName.Text = clsDBFuncationality.getSingleValue("select  city_name from tspl_city_master where city_code='" & fndBankCity.Value & "'")
         '    End If
         'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
 
@@ -1367,7 +1367,7 @@ Public Class FrmMPMaster
     '            End If
     '        End If
     '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
 
@@ -1393,7 +1393,7 @@ Public Class FrmMPMaster
     '            End If
     '        End If
     '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
 
@@ -1406,7 +1406,7 @@ Public Class FrmMPMaster
     '        Next
     '        txtNoofCows.Text = dgvNoofCows.Rows.Count
     '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
 
@@ -1416,7 +1416,7 @@ Public Class FrmMPMaster
     '            e.Cancel = True
     '        End If
     '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
 
@@ -2684,7 +2684,7 @@ Public Class FrmMPMaster
             saveCancelLog(Reason, "Verified", trans)
             Dim Verified As String = "update tspl_mp_master set Jan_Aadhar_No_Verified = 0 where MP_Code = '" & fndMPCode.Value & "'"
             clsDBFuncationality.ExecuteNonQuery(Verified, trans)
-            clsCommon.MyMessageBoxShow(Me, "This is Unverified Successfully")
+            clsCommon.MyMessageBoxShow(Me, "This is Unverified Successfully", Me.Text)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndMPCode.Value, "tspl_mp_master", "MP_Code", trans)
             trans.Commit()
 

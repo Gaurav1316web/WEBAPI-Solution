@@ -289,7 +289,7 @@ Public Class FrmSupplierReg
         Try
             If (myMessages.deleteConfirm()) Then
                 If (ClsSupplierRegistration.DeleteData(txtcode.Value)) Then
-                    Common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If

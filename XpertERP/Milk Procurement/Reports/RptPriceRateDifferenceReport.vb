@@ -23,14 +23,14 @@ Public Class RptPriceRateDifferenceReport
         Dim variable1 As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select STUFF((Select ', ['+Charge_CODE+']' from (Select Distinct Charge_CODE from TSPL_FAT_SNF_UPLOADER_Chart_Detail) XXX For XML Path('')),1,1,'')"))
         Dim variable2 As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select ((Select ',isnull(['+Charge_CODE+'],0) as ['+Charge_CODE+']' from (Select Distinct Charge_CODE from TSPL_FAT_SNF_UPLOADER_Chart_Detail  ) XXX For XML Path('')))"))
         If txtFromDate.Value > txtToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             txtFromDate.Focus()
             Exit Sub
         End If
 
         'Ticket No-BHA/21/11/18-000690
         If clsCommon.myLen(variable1) = 0 Then
-            clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Exit Sub
         End If
 

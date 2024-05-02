@@ -696,7 +696,7 @@ TSPL_DISTRIBUTOR_ROUTE.Status=1"
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -706,7 +706,7 @@ TSPL_DISTRIBUTOR_ROUTE.Status=1"
             Dim Reason As String = ""
             If (myMessages.deleteConfirm()) Then
                 If (clsDistributorCommission.DeleteData(txtDocNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If

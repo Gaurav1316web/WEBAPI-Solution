@@ -1665,7 +1665,7 @@ Public Class FrmPriceMaster
         '    sql = "Select TSPL_ITEM_PRICE_MASTER.Item_Code, TSPL_ITEM_MASTER.Item_Desc, UOM, Remarks, TSPL_ITEM_PRICE_MASTER.Item_Basic_Price_Type, TSPL_ITEM_PRICE_MASTER.Basic_Price_on, Landing_Cost, Purchase_Cost, TSPL_ITEM_PRICE_MASTER.Item_MRP, Item_Basic_Price, Item_Basic_Net, Markup_On, Markup_Percent, Tax_Manipulation_On, Start_Date, End_Date, Tax_group, TAX1, TAX1_Rate, TAX1_Amt, TAX2, TAX2_Rate, TAX2_Amt, TAX3, TAX3_Rate, TAX3_Amt, TAX4, TAX4_Rate, TAX4_Amt, TAX5, TAX5_Rate, TAX5_Amt, TAX6, TAX6_Rate, TAX6_Amt, TAX7, TAX7_Rate, TAX7_Amt, TAX8, TAX8_Rate, TAX8_Amt, TAX9, TAX9_Rate, TAX9_Amt, TAX10, TAX10_Rate, TAX10_Amt, Price_Code, Abatement_Rate, Abatement  from TSPL_ITEM_PRICE_MASTER LEFT OUTER JOIN TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_ITEM_PRICE_MASTER.Item_Code"
         '    transportSql.ExporttoExcel(sql, Me)
         'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
 
@@ -2679,7 +2679,7 @@ Public Class FrmPriceMaster
         '    sql = "Select TSPL_ITEM_PRICE_MASTER.Item_Code, TSPL_ITEM_MASTER.Item_Desc, UOM, Remarks, TSPL_ITEM_PRICE_MASTER.Item_Basic_Price_Type, TSPL_ITEM_PRICE_MASTER.Basic_Price_on, Landing_Cost, Purchase_Cost, TSPL_ITEM_PRICE_MASTER.Item_MRP, Item_Basic_Price, Item_Basic_Net, Markup_On, Markup_Percent, Tax_Manipulation_On, Start_Date, End_Date, Tax_group, TAX1, TAX1_Rate, TAX1_Amt, TAX2, TAX2_Rate, TAX2_Amt, TAX3, TAX3_Rate, TAX3_Amt, TAX4, TAX4_Rate, TAX4_Amt, TAX5, TAX5_Rate, TAX5_Amt, TAX6, TAX6_Rate, TAX6_Amt, TAX7, TAX7_Rate, TAX7_Amt, TAX8, TAX8_Rate, TAX8_Amt, TAX9, TAX9_Rate, TAX9_Amt, TAX10, TAX10_Rate, TAX10_Amt, Price_Code, Abatement_Rate, Abatement  from TSPL_ITEM_PRICE_MASTER LEFT OUTER JOIN TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_ITEM_PRICE_MASTER.Item_Code"
         '    transportSql.ExporttoExcel(sql, Me)
         'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
 

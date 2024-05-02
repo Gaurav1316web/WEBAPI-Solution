@@ -30,7 +30,7 @@ Public Class FrmListOfProductionLines
 
        
         If chkProductionSelect.IsChecked AndAlso cbgProduction.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast one ProductionLine")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast one ProductionLine", Me.Text)
             Return
         ElseIf chkProductionSelect.IsChecked AndAlso cbgProduction.CheckedValue.Count > 0 Then
             qry += " and  PRODUCTION_LINE_CODE in (" + clsCommon.GetMulcallString(cbgProduction.CheckedValue) + ")"
@@ -47,7 +47,7 @@ Public Class FrmListOfProductionLines
         gv.EnableFiltering = True
 
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             Exit Sub
         Else
             gv.DataSource = dt

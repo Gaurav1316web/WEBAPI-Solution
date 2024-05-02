@@ -36,7 +36,7 @@ Public Class frmListOfBOM
         qry += " from TSPL_MF_BOM_HEAD left outer join TSPL_MF_BOM_COSTING on TSPL_MF_BOM_COSTING.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE AND TSPL_MF_BOM_COSTING.CALC_TYPE='Standard' "
         qry += " where 2=2"
         If chkProductionSelect.IsChecked AndAlso cbgProduction.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast one BOM")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast one BOM", Me.Text)
             Return
         ElseIf chkProductionSelect.IsChecked AndAlso cbgProduction.CheckedValue.Count > 0 Then
             qry += " and BOM_CODE in (" + clsCommon.GetMulcallString(cbgProduction.CheckedValue) + ")"
@@ -56,7 +56,7 @@ Public Class frmListOfBOM
         gv.EnableFiltering = True
 
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             Exit Sub
         Else
             gv.DataSource = dt
@@ -210,7 +210,7 @@ Public Class frmListOfBOM
                 clsCommon.MyExportToPDF("List Of BOM", gv, arrHeader, "List Of BOM", False)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

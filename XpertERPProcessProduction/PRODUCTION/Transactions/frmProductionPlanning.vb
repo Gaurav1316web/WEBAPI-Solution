@@ -349,7 +349,7 @@ Public Class frmProductionPlanning
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
 
         End Try
@@ -458,7 +458,7 @@ Public Class frmProductionPlanning
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -544,7 +544,7 @@ Public Class frmProductionPlanning
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
             isCellValueChangedOpen = False
@@ -627,7 +627,7 @@ Public Class frmProductionPlanning
                 'Return False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -645,7 +645,7 @@ Public Class frmProductionPlanning
             Dim QryStr As String = "select POSTED from TSPL_MF_PRODUCTION_PLAN_HEAD where PROD_PLAN_CODE = '" + txtCode.Value + "' "
             Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)
             If chkpost = "1" Then
-                clsCommon.MyMessageBoxShow("Transection already posted")
+                clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                 Return False
             End If
         End If
@@ -678,14 +678,14 @@ Public Class frmProductionPlanning
         If clsCommon.CompairString(IndustryType, "A") = CompairStringResult.Equal Then
 
             If clsCommon.myLen(txtloc_code.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select location.")
+                clsCommon.MyMessageBoxShow(Me, "Select location.", Me.Text)
                 txtloc_code.Focus()
                 txtloc_code.Select()
                 Return False
             End If
 
             If clsCommon.myLen(txtplan_to_date.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select plan to date.")
+                clsCommon.MyMessageBoxShow(Me, "Select plan to date.", Me.Text)
                 txtplan_to_date.Focus()
                 txtplan_to_date.Select()
                 Return False
@@ -693,7 +693,7 @@ Public Class frmProductionPlanning
 
             For ii As Integer = 0 To gvPP.Rows.Count - 1
                 If ii = 0 AndAlso clsCommon.myLen(gvPP.Rows(ii).Cells(colItemCode).Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Fill atleast one item in grid for planning.")
+                    clsCommon.MyMessageBoxShow(Me, "Fill atleast one item in grid for planning.", Me.Text)
                     gvPP.CurrentRow = gvPP.Rows(ii)
                     Return False
                 End If
@@ -705,18 +705,18 @@ Public Class frmProductionPlanning
                 Dim lineNo As String = clsCommon.myCstr(gvPP.Rows(ii).Cells(colProductionLineCode).Value)
                 If clsCommon.myLen(icode) > 0 AndAlso clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "ADVANTEK") = CompairStringResult.Equal Then
                     If clsCommon.myLen(lineNo) <= 0 Then
-                        clsCommon.MyMessageBoxShow("Production Line Code can not be blank for itemcode '" + icode + "'")
+                        clsCommon.MyMessageBoxShow(Me, "Production Line Code can not be blank for itemcode '" + icode + "'")
                         Return False
                     End If
                 End If
 
                 If clsCommon.myLen(icode) > 0 AndAlso chk_post = True AndAlso clsCommon.myLen(bomcode) <= 0 Then
-                    clsCommon.MyMessageBoxShow("No BOM detail exist for item " + clsCommon.myCstr(gvPP.Rows(ii).Cells(colitemDesc).Value) + " at line no. " + clsCommon.myCstr(ii + 1) + ".")
+                    clsCommon.MyMessageBoxShow(Me, "No BOM detail exist for item " + clsCommon.myCstr(gvPP.Rows(ii).Cells(colitemDesc).Value) + " at line no. " + clsCommon.myCstr(ii + 1) + ".")
                     gvPP.CurrentRow = gvPP.Rows(ii)
                     Return False
                 End If
                 If clsCommon.myLen(icode) > 0 AndAlso planqty <= 0 Then
-                    clsCommon.MyMessageBoxShow("Fill planned quantity for item " + clsCommon.myCstr(gvPP.Rows(ii).Cells(colitemDesc).Value) + " at line no. " + clsCommon.myCstr(ii + 1) + ".")
+                    clsCommon.MyMessageBoxShow(Me, "Fill planned quantity for item " + clsCommon.myCstr(gvPP.Rows(ii).Cells(colitemDesc).Value) + " at line no. " + clsCommon.myCstr(ii + 1) + ".")
                     gvPP.CurrentRow = gvPP.Rows(ii)
                     Return False
                 End If
@@ -727,7 +727,7 @@ Public Class frmProductionPlanning
                     Dim oldSOcode As String = clsCommon.myCstr(gvPP.Rows(jj).Cells(colSaleOrderNo).Value)
 
                     If clsCommon.myLen(icode) > 0 AndAlso clsCommon.CompairString(icode, oldicode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(bomcode, oldbomcode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(SOcode, oldSOcode) = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Duplicate data at line no. " + clsCommon.myCstr(jj + 1) + ".")
+                        clsCommon.MyMessageBoxShow(Me, "Duplicate data at line no. " + clsCommon.myCstr(jj + 1) + ".")
                         gvPP.CurrentRow = gvPP.Rows(jj)
                         Return False
                     End If
@@ -737,7 +737,7 @@ Public Class frmProductionPlanning
             If MandatoryLineNoMaxMinQtyForProductionPlan Then
                 For ii As Integer = 0 To gvPP.Rows.Count - 1
                     If ii = 0 AndAlso clsCommon.myLen(gvPP.Rows(ii).Cells(colItemCode).Value) <= 0 Then
-                        clsCommon.MyMessageBoxShow("Fill atleast one item in grid for planning.")
+                        clsCommon.MyMessageBoxShow(Me, "Fill atleast one item in grid for planning.")
                         gvPP.CurrentRow = gvPP.Rows(ii)
                         Return False
                     End If
@@ -747,15 +747,15 @@ Public Class frmProductionPlanning
                     Dim maxQty As Decimal = clsCommon.myCdbl(gvPP.Rows(ii).Cells(colMaxQty).Value)
                     If clsCommon.myLen(icode) > 0 Then
                         If clsCommon.myLen(lineNo) <= 0 Then
-                            clsCommon.MyMessageBoxShow("Production Line Code can not be blank for itemcode '" + icode + "'")
+                            clsCommon.MyMessageBoxShow(Me, "Production Line Code can not be blank for itemcode '" + icode + "'")
                             Return False
                         End If
                         If minQty = 0 Then
-                            clsCommon.MyMessageBoxShow("min qty should be greter then zero for itemcode '" + icode + "'")
+                            clsCommon.MyMessageBoxShow(Me, "min qty should be greter then zero for itemcode '" + icode + "'")
                             Return False
                         End If
                         If maxQty = 0 Then
-                            clsCommon.MyMessageBoxShow("max qty should be greter then zero for itemcode '" + icode + "'")
+                            clsCommon.MyMessageBoxShow(Me, "max qty should be greter then zero for itemcode '" + icode + "'")
                             Return False
                         End If
                     End If
@@ -772,7 +772,7 @@ Public Class frmProductionPlanning
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -795,7 +795,7 @@ Public Class frmProductionPlanning
                 End If
                 If (clsProductionPlanning.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -818,7 +818,7 @@ Public Class frmProductionPlanning
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -863,20 +863,20 @@ Public Class frmProductionPlanning
                 If AllowToSave(True) Then
                     SavingData(True)
                     If (clsProductionPlanning.PostData(txtCode.Value, True)) Then
-                        common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                         LoadData(txtCode.Value, NavigatorType.Current)
                     End If
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (Save()) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
         End If
     End Sub
@@ -1058,7 +1058,7 @@ Public Class frmProductionPlanning
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
 
         End Try
@@ -1100,7 +1100,7 @@ Public Class frmProductionPlanning
             End If
             OBJEMP = Nothing
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1133,7 +1133,7 @@ Public Class frmProductionPlanning
             frmCRV.funreport(CrystalReportFolder.PRODUCTION, dt, "crptProductionPlan", "Production Plan")
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1253,10 +1253,10 @@ Public Class frmProductionPlanning
                     obj.SaveData(obj, Nothing, isNewEntry, obj.BOM_CODE)
                 Next
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
 
         End If
@@ -1348,7 +1348,7 @@ Public Class frmProductionPlanning
                 common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
 
         End If

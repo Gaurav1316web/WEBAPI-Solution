@@ -22,6 +22,7 @@ Imports XpertERPTDS
 Imports XpertERPPurchase
 Imports XpertERPMIS
 Imports XpertErpBullManagement
+Imports XpertERPSheed
 
 Public Class MDI
 #Region "Varaibles"
@@ -474,6 +475,11 @@ Public Class MDI
             strTempVersion = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertERPMIS.dll").FileVersion
             If Not clsCommon.CompairString(CurrEXEVersion, strTempVersion) = CompairStringResult.Equal Then
                 Throw New Exception("Wrong DLL Version" + Environment.NewLine + "XpertERPMIS")
+            End If
+
+            strTempVersion = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertErpBullManagement.dll").FileVersion
+            If Not clsCommon.CompairString(CurrEXEVersion, strTempVersion) = CompairStringResult.Equal Then
+                Throw New Exception("Wrong DLL Version" + Environment.NewLine + "XpertErpBullManagement")
             End If
             '--Check Apps Version
             If File.Exists(Application.StartupPath + "\XpertSMSApp.exe") Then
@@ -6003,7 +6009,7 @@ Public Class MDI
                         frm = New frmBulkSaleFreightMaster()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmBulkSaleFreightCalculation
-                        frm = New frmBulkSaleFreightCalculation()
+                        frm = New frmBullVaccinationEntry()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.NIRQC
                         frm = New frmNIRQC()
@@ -6856,6 +6862,10 @@ Public Class MDI
 
                     Case clsUserMgtCode.QualitySummaryReport
                         frm = New QualitySummaryReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.rptQCAnalysisReport
+                        frm = New rptQCAnalysisReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.frmOperationMaster
@@ -9767,11 +9777,42 @@ Public Class MDI
                     Case clsUserMgtCode.frmBullMasters
                         frm = New frmBullMasters
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullStatus
+                        frm = New frmBullStatus
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullSubStatus
+                        frm = New frmBullSubStatus
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullSourcePainting
+                        frm = New frmBullSourcePainting
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullRating
+                        frm = New frmBullRating
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullSourceName
+                        frm = New frmBullSourceName
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullPurchaseNo
+                        frm = New frmBullPurchaseNo
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullInsuranceMaster
+                        frm = New frmBullInsuranceMaster
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullInsuranceType
+                        frm = New frmBullInsuranceType
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.frmDiseaseMaster
+                        frm = New frmDiseaseMaster
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.frmBullMovementType
                         frm = New frmBullMovementType
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.frmBullVaccinationEntry
+                        frm = New frmBullVaccinationEntry
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmBullSpeciesMaster
                         frm = New frmBullSpeciesMaster
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -9786,6 +9827,37 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmBullPenIDMaster
                         frm = New frmBullPenIDMaster
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullMovement
+                        frm = New frmBullMovement
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullCurlingEntry
+                        frm = New frmBullCurlingEntry
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullInsurance
+                        frm = New frmBullInsurance
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullTestParameterEntry
+                        frm = New frmBullTestParameterEntry
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullCMUGrouping
+                        frm = New frmBullCMUGrouping
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.frmInsuranceTagAllocation
+                        frm = New frmInsuranceTagAllocation
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.frmCMUChecklistEntry
+                        frm = New frmCMUChecklistEntry
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+
+
+
+                        '------------- SHEED  -----------
+                    Case clsUserMgtCode.frmSheedGrowerMaster
+                        frm = New frmSheedGrowerMaster
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                         '-------------------- MIS Master---------------
 

@@ -86,7 +86,7 @@ Public Class frmchannelCategory
             myMessages.insert()
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ' This function is used for Update.
@@ -95,7 +95,7 @@ Public Class frmchannelCategory
             clsDBFuncationality.UpdateInAllDatabase("sp_channelcategorymaster", New SqlParameter("@type", rdbtnsave.Text), New SqlParameter("@channelcategoryid", fndID.Value), New SqlParameter("@channelcategoryname", rdtxtcategoryname1.Text), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("@modifyby", userCode), New SqlParameter("@modifydate", connectSql.serverDate()), New SqlParameter("@compcode", companyCode))
             myMessages.update()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'This Function is used for delete.
@@ -104,7 +104,7 @@ Public Class frmchannelCategory
             clsDBFuncationality.UpdateInAllDatabase("sp_channelcategorymaster", New SqlParameter("@type", rdbtndelete.Text), New SqlParameter("@channelcategoryid", fndID.Value), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("@modifydate", connectSql.serverDate()))
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'This function is used for reset all Control.

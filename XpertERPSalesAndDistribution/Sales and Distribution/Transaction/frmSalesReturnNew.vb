@@ -1839,7 +1839,7 @@ Public Class frmSalesReturnNew
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2118,7 +2118,7 @@ Public Class frmSalesReturnNew
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -2149,7 +2149,7 @@ Public Class frmSalesReturnNew
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         clicked = False
     End Sub
@@ -2176,13 +2176,13 @@ Public Class frmSalesReturnNew
                 End If
                 If (clsSalesReturnHead.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, Optional ByVal trans As SqlTransaction = Nothing) As Boolean
@@ -2237,7 +2237,7 @@ Public Class frmSalesReturnNew
             LoadData(txtDocNo.Value, NavType)
             btnPrint.Enabled = True
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2640,7 +2640,7 @@ Public Class frmSalesReturnNew
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub UpdateCurrentRow(ByVal IntRowNo As Integer)
@@ -3646,7 +3646,7 @@ Public Class frmSalesReturnNew
                     common.clsCommon.MyMessageBoxShow("Journal Entry created successfully", Me.Text)
                 Catch ex As Exception
                     trans.Rollback()
-                    common.clsCommon.MyMessageBoxShow(ex.Message)
+                    common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 End Try
             End If
         End If
@@ -3702,7 +3702,7 @@ Public Class frmSalesReturnNew
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 Catch ex As Exception
                     trans.Rollback()
-                    common.clsCommon.MyMessageBoxShow(ex.Message)
+                    common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 End Try
             End If
         End If
@@ -3787,7 +3787,7 @@ Public Class frmSalesReturnNew
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

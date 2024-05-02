@@ -57,7 +57,9 @@ Public Class frmStoreRequistion
     '--------------richa 14/07/2014 Ticket No BM00000003042---------
     Public ArrItem As List(Of clsItemMaster)
     Dim ChkAutoDepOnPurchaseCycle As Boolean = False
+
     ''
+    Public ShowItemAllStructureWise As Boolean = False
     Dim EnableHirerachyCostCentre As Double = 0
     Dim ShowCapexCodeandSubCode As Boolean = False
     Dim EnableStoreCostCentre As Double = 0
@@ -90,6 +92,8 @@ Public Class frmStoreRequistion
         EnableStoreCostCentre = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableStoreCostCentre, clsFixedParameterCode.EnableStoreCostCentre, Nothing))
         ShowDefaultUser = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowDefaultUser, clsFixedParameterCode.ShowDefaultUser, Nothing)) = 1, True, False)
         '========End=================
+        ShowItemAllStructureWise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, Nothing)) = 1, True, False)
+
 
         StoreRequisitionMandatory = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.StoreRequisitionMandatoryforstorerequest, clsFixedParameterCode.StoreRequisitionMandatoryforstorerequest, Nothing)) = 1, True, False)
 
@@ -178,13 +182,29 @@ Public Class frmStoreRequistion
         txtRmks.MaxLength = 200
         txtComment.MaxLength = 200
     End Sub
-
+    Public Shared Function GetItemall() As DataTable
+        Dim dt As DataTable = New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+        dt.Columns.Add("Name", GetType(String))
+        Dim dr As DataRow = dt.NewRow()
+        dr("Code") = "Z"
+        dr("Name") = "All"
+        dt.Rows.Add(dr)
+        dr = dt.NewRow()
+        Return dt
+    End Function
     Sub LoadItemType()
-        ' cboItemType.DataSource = clsItemMaster.GetItemType()
-        Dim Whr = " AND IS_NON_INVENTORY=0   AND ITEM_TYPE_CODE NOT IN('J') "
+        If ShowItemAllStructureWise = True Then
+            cboItemType.DataSource = GetItemall()
+            cboItemType.ValueMember = "Code"
+            cboItemType.DisplayMember = "Name"
+        Else
+            ' cboItemType.DataSource = clsItemMaster.GetItemType()
+            Dim Whr = " AND IS_NON_INVENTORY=0   AND ITEM_TYPE_CODE NOT IN('J') "
         cboItemType.DataSource = clsItemMaster.getItemTypeQuery(Whr)
         cboItemType.ValueMember = "Code"
-        cboItemType.DisplayMember = "Name"
+            cboItemType.DisplayMember = "Name"
+        End If
     End Sub
 
     Sub BlankAllControls()
@@ -775,7 +795,7 @@ Public Class frmStoreRequistion
             Exit Sub
         End If
 
-        Dim obj As clsItemMaster = clsItemMaster.FinderForItem(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), cboItemType.SelectedValue, True, isButtonClick, "", "")
+        Dim obj As clsItemMaster = clsItemMaster.FinderForItemALL(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), cboItemType.SelectedValue, True, ShowItemAllStructureWise, isButtonClick, "", "")
         If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Item_Code) > 0 Then
             gv1.CurrentRow.Cells(colICode).Value = obj.Item_Code
             gv1.CurrentRow.Cells(colIName).Value = obj.Item_Desc
@@ -1087,7 +1107,9 @@ Public Class frmStoreRequistion
                     End If
                 End If
             Next
-            clsItemMaster.isItemOfSameType(clsCommon.myCstr(cboItemType.SelectedValue), cboItemType.Text, arrICode)
+            If ShowItemAllStructureWise = False Then
+                clsItemMaster.isItemOfSameType(clsCommon.myCstr(cboItemType.SelectedValue), cboItemType.Text, arrICode)
+            End If
             UcCustomFields1.AllowToSave()
             UcAttachment1.AllowToSave()
             '--------------richa 09/07/2014 Ticket No BM00000003042---------
@@ -1132,110 +1154,114 @@ Public Class frmStoreRequistion
                 obj.Mode_Of_Transport = ""
                 obj.Comments = txtComment.Text
                 obj.Is_Internal = IIf(chkInternal.Checked, "Y", "N")
-                obj.Item_Type = clsCommon.myCstr(cboItemType.SelectedValue)
+                If ShowItemAllStructureWise = False Then
+                    obj.Item_Type = clsCommon.myCstr(cboItemType.SelectedValue)
+                Else
+                    obj.Item_Type = "A"
+                End If
                 obj.Dept = txtDept.Value
-                obj.Dept_Desc = lblDept.Text
-                obj.Request_By = txtRequestBy.Value
-                obj.Requisition_Type = ""
-                obj.PROJECT_ID = fndProject.Value
-                '====Sanjeet(22/01/2018)===
-                obj.Capex_Code = fndcapexcode.Value
-                obj.Capex_SubCode = fndcapexsubcode.Value
-                obj.CosCenter_Unit = txtUnitCode.Value
-                obj.CostCenter_Type = txtCostCenterType.Value
-                '=======================
-                'Sanjay
-                obj.SubCapex_Amount = clsCommon.myCdbl(lbl_budgetamt.Text)
-                obj.SubCapex_AmountWithTol = clsCommon.myCdbl(lbl_budgetamtwithtolerence.Text)
-                obj.SubCapex_BalAmount = clsCommon.myCdbl(lbl_rebudgetamt.Text)
-                obj.SubCapex_BalAmountWithTol = clsCommon.myCdbl(lbl_rebudgetamtwithtolerence.Text)
-                'Sanjay
-                If chkprclose.Checked = True Then
-                    obj.close_yn = "Y"
-                ElseIf chkprclose.Checked = False Then
-                    obj.close_yn = "N"
-                End If
-
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select Level1, Level2 from TSPL_REQUISITION_APPROVAL")
-                If dt.Rows.Count > 0 Then
-                    If clsCommon.myCdbl(lblTotRAmt.Text) <= clsCommon.myCdbl(dt.Rows(0)("Level1")) Then
-                        obj.Approvel_Level_Required = 1
-                    ElseIf clsCommon.myCdbl(lblTotRAmt.Text) > clsCommon.myCdbl(dt.Rows(0)("Level1")) And clsCommon.myCdbl(lblTotRAmt.Text) <= clsCommon.myCdbl(dt.Rows(0)("Level2")) Then
-                        obj.Approvel_Level_Required = 2
-                    Else
-                        obj.Approvel_Level_Required = 3
+                    obj.Dept_Desc = lblDept.Text
+                    obj.Request_By = txtRequestBy.Value
+                    obj.Requisition_Type = ""
+                    obj.PROJECT_ID = fndProject.Value
+                    '====Sanjeet(22/01/2018)===
+                    obj.Capex_Code = fndcapexcode.Value
+                    obj.Capex_SubCode = fndcapexsubcode.Value
+                    obj.CosCenter_Unit = txtUnitCode.Value
+                    obj.CostCenter_Type = txtCostCenterType.Value
+                    '=======================
+                    'Sanjay
+                    obj.SubCapex_Amount = clsCommon.myCdbl(lbl_budgetamt.Text)
+                    obj.SubCapex_AmountWithTol = clsCommon.myCdbl(lbl_budgetamtwithtolerence.Text)
+                    obj.SubCapex_BalAmount = clsCommon.myCdbl(lbl_rebudgetamt.Text)
+                    obj.SubCapex_BalAmountWithTol = clsCommon.myCdbl(lbl_rebudgetamtwithtolerence.Text)
+                    'Sanjay
+                    If chkprclose.Checked = True Then
+                        obj.close_yn = "Y"
+                    ElseIf chkprclose.Checked = False Then
+                        obj.close_yn = "N"
                     End If
-                End If
-                obj.ArrTr = New List(Of clsRequistionDetail)
-                For Each grow As GridViewRowInfo In gv1.Rows
-                    Dim objTr As New clsRequistionDetail()
-                    objTr.Item_Code = clsCommon.myCstr(grow.Cells(colICode).Value)
-                    objTr.Item_Desc = clsCommon.myCstr(grow.Cells(colIName).Value)
-                    objTr.Vendor_Code = clsCommon.myCstr(grow.Cells(colVendorCode).Value)
-                    objTr.Requisition_Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
-                    objTr.Balance_Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
-                    objTr.Location = txtLocation.Value 'clsCommon.myCstr(grow.Cells(colLocationCode).Value)
-                    objTr.Item_Cost = clsCommon.myCdbl(grow.Cells(colRate).Value)
-                    objTr.Unit_Code = clsCommon.myCstr(grow.Cells(colUnit).Value)
-                    objTr.Item_Net_Amt = clsCommon.myCdbl(grow.Cells(colAmt).Value)
-                    objTr.Vendor_ItemNo = clsCommon.myCstr(grow.Cells(colVendorItemNo).Value)
-                    objTr.Order_No = clsCommon.myCstr(grow.Cells(colOrderNo).Value)
-                    objTr.Status = "N"
 
-                    objTr.Specification = clsCommon.myCstr(grow.Cells(colSpecification).Value)
-                    objTr.Remarks = clsCommon.myCstr(grow.Cells(colRemarks).Value)
-
-                    ''richa agarwal 1 Dec ,2016
-                    If clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowCostCenterAndHierarchyLevelInPurchaseModule, clsFixedParameterCode.ShowCostCenterAndHierarchyLevelInPurchaseModule, Nothing)), "1") = CompairStringResult.Equal Then
-                        objTr.Hirerachy_Code = clsCommon.myCstr(grow.Cells(colHierarchyCode).Value)
-                        objTr.Cost_Centre_Code = clsCommon.myCstr(grow.Cells(colCostCenterCode).Value)
-                        If EnableHirerachyCostCentre = 1 Then
-                            objTr.HirerachyLevelCode3 = clsCommon.myCstr(grow.Cells(colHierarchyLevel2).Value)
-                            objTr.HirerachyLevelCode4 = clsCommon.myCstr(grow.Cells(colHierarchyLevel3).Value)
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select Level1, Level2 from TSPL_REQUISITION_APPROVAL")
+                    If dt.Rows.Count > 0 Then
+                        If clsCommon.myCdbl(lblTotRAmt.Text) <= clsCommon.myCdbl(dt.Rows(0)("Level1")) Then
+                            obj.Approvel_Level_Required = 1
+                        ElseIf clsCommon.myCdbl(lblTotRAmt.Text) > clsCommon.myCdbl(dt.Rows(0)("Level1")) And clsCommon.myCdbl(lblTotRAmt.Text) <= clsCommon.myCdbl(dt.Rows(0)("Level2")) Then
+                            obj.Approvel_Level_Required = 2
+                        Else
+                            obj.Approvel_Level_Required = 3
                         End If
-                    Else
-                        objTr.CostCode = clsCommon.myCstr(grow.Cells(colCCCode).Value)
+                    End If
+                    obj.ArrTr = New List(Of clsRequistionDetail)
+                    For Each grow As GridViewRowInfo In gv1.Rows
+                        Dim objTr As New clsRequistionDetail()
+                        objTr.Item_Code = clsCommon.myCstr(grow.Cells(colICode).Value)
+                        objTr.Item_Desc = clsCommon.myCstr(grow.Cells(colIName).Value)
+                        objTr.Vendor_Code = clsCommon.myCstr(grow.Cells(colVendorCode).Value)
+                        objTr.Requisition_Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
+                        objTr.Balance_Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
+                        objTr.Location = txtLocation.Value 'clsCommon.myCstr(grow.Cells(colLocationCode).Value)
+                        objTr.Item_Cost = clsCommon.myCdbl(grow.Cells(colRate).Value)
+                        objTr.Unit_Code = clsCommon.myCstr(grow.Cells(colUnit).Value)
+                        objTr.Item_Net_Amt = clsCommon.myCdbl(grow.Cells(colAmt).Value)
+                        objTr.Vendor_ItemNo = clsCommon.myCstr(grow.Cells(colVendorItemNo).Value)
+                        objTr.Order_No = clsCommon.myCstr(grow.Cells(colOrderNo).Value)
+                        objTr.Status = "N"
+
+                        objTr.Specification = clsCommon.myCstr(grow.Cells(colSpecification).Value)
+                        objTr.Remarks = clsCommon.myCstr(grow.Cells(colRemarks).Value)
+
+                        ''richa agarwal 1 Dec ,2016
+                        If clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowCostCenterAndHierarchyLevelInPurchaseModule, clsFixedParameterCode.ShowCostCenterAndHierarchyLevelInPurchaseModule, Nothing)), "1") = CompairStringResult.Equal Then
+                            objTr.Hirerachy_Code = clsCommon.myCstr(grow.Cells(colHierarchyCode).Value)
+                            objTr.Cost_Centre_Code = clsCommon.myCstr(grow.Cells(colCostCenterCode).Value)
+                            If EnableHirerachyCostCentre = 1 Then
+                                objTr.HirerachyLevelCode3 = clsCommon.myCstr(grow.Cells(colHierarchyLevel2).Value)
+                                objTr.HirerachyLevelCode4 = clsCommon.myCstr(grow.Cells(colHierarchyLevel3).Value)
+                            End If
+                        Else
+                            objTr.CostCode = clsCommon.myCstr(grow.Cells(colCCCode).Value)
+                        End If
+
+
+                        'objTr.Order_No = clsCommon.myCdbl(grow.Cells(colorderno).Value)
+                        If (clsCommon.myLen(objTr.Item_Code) > 0) Then
+                            obj.ArrTr.Add(objTr)
+                        End If
+                    Next
+
+
+                    If (obj.ArrTr Is Nothing OrElse obj.ArrTr.Count <= 0) Then
+                        common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
+                        Return
                     End If
 
-
-                    'objTr.Order_No = clsCommon.myCdbl(grow.Cells(colorderno).Value)
-                    If (clsCommon.myLen(objTr.Item_Code) > 0) Then
-                        obj.ArrTr.Add(objTr)
+                    ''For Custom Fields
+                    obj.Form_ID = MyBase.Form_ID
+                    obj.arrCustomFields = New List(Of clsCustomFieldValues)
+                    If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
+                        UcCustomFields1.GetData(obj.arrCustomFields)
                     End If
-                Next
-
-
-                If (obj.ArrTr Is Nothing OrElse obj.ArrTr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
-                    Return
-                End If
-
-                ''For Custom Fields
-                obj.Form_ID = MyBase.Form_ID
-                obj.arrCustomFields = New List(Of clsCustomFieldValues)
-                If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
-                    UcCustomFields1.GetData(obj.arrCustomFields)
-                End If
-                If MyBase.ArrDetailFields IsNot Nothing AndAlso MyBase.ArrDetailFields.Count > 0 Then
-                    clsCustomFieldGrid.GetData(obj.arrCustomFields, gv1, MyBase.ArrDetailFields, colICode)
-                End If
-                ''End of For Custom Fields
-
-                If (obj.SaveData(obj, isNewEntry)) Then
-                    UcAttachment1.SaveData(obj.Requisition_Id)
-                    If ChekBtnPost = False Then
-                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
+                    If MyBase.ArrDetailFields IsNot Nothing AndAlso MyBase.ArrDetailFields.Count > 0 Then
+                        clsCustomFieldGrid.GetData(obj.arrCustomFields, gv1, MyBase.ArrDetailFields, colICode)
                     End If
-                    LoadData(obj.Requisition_Id, NavigatorType.Current)
-                    'If objCommonVar.IsDemoERP Then
-                    '    SendMail()
-                    'End If
+                    ''End of For Custom Fields
+
+                    If (obj.SaveData(obj, isNewEntry)) Then
+                        UcAttachment1.SaveData(obj.Requisition_Id)
+                        If ChekBtnPost = False Then
+                            common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
+                        End If
+                        LoadData(obj.Requisition_Id, NavigatorType.Current)
+                        'If objCommonVar.IsDemoERP Then
+                        '    SendMail()
+                        'End If
+
+                    End If
 
                 End If
-
-            End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     '--------------richa 09/07/2014 Ticket No BM00000003042---------
@@ -1380,93 +1406,97 @@ Public Class frmStoreRequistion
                 lblLocation.Text = obj.LocationName
                 lblTotRAmt.Text = clsCommon.myFormat(obj.RQ_Detail_Total_Amt)
                 txtComment.Text = obj.Comments
-                cboItemType.SelectedValue = obj.Item_Type
+                If ShowItemAllStructureWise = False Then
+                    cboItemType.SelectedValue = obj.Item_Type
+                Else
+                    LoadItemType()
+                End If
                 txtDept.Value = obj.Dept
-                lblDept.Text = obj.Dept_Desc
-                txtRequestBy.Value = obj.Request_By
-                lblRequestBy.Text = clsEmployeeMaster.GetName(obj.Request_By, Nothing)
-                fndProject.Value = obj.PROJECT_ID
-                lblProject.Text = clsDBFuncationality.getSingleValue("select SPECIFICATION from TSPL_PJC_PROJECT where PROJECT_CODE='" + fndProject.Value + "'")
-                ''==Sanjeet (Load CAPEX Detail and check it's amount)======
-                fndcapexcode.Value = obj.Capex_Code
-                If clsCommon.myLen(Me.fndcapexcode.Value) > 0 Then
-                    lbl_capexcode.Text = clsCapexMaster.GetName(Me.fndcapexcode.Value, Nothing)
-                End If
-                fndcapexsubcode.Value = obj.Capex_SubCode
-                If clsCommon.myLen(Me.fndcapexsubcode.Value) > 0 Then
-                    lbl_capexsubcode.Text = clsCapexBudget.GetName(Me.fndcapexsubcode.Value, Nothing)
-                    lbl_budgetamt.Text = clsCapexBudget.GetBudget(Me.fndcapexsubcode.Value, Nothing)
-                    lbl_budgetamtwithtolerence.Text = clsCapexBudget.GetBudgetWithTolerence(Me.fndcapexsubcode.Value, Nothing)
-                    lbl_rebudgetamt.Text = clsCapexBudget.GetReBudget(Me.fndcapexsubcode.Value, obj.Requisition_Id, Nothing)
-                    lbl_rebudgetamtwithtolerence.Text = clsCapexBudget.GetReBudgetWithTolerence(Me.fndcapexsubcode.Value, obj.Requisition_Id, Nothing)
-                End If
-                'Use if you want to show store balance
-                'lbl_budgetamt.Text = clsCommon.myCstr(obj.SubCapex_Amount)
-                'lbl_budgetamtwithtolerence.Text = clsCommon.myCstr(obj.SubCapex_AmountWithTol)
-                'lbl_rebudgetamt.Text = clsCommon.myCstr(obj.SubCapex_BalAmount)
-                'lbl_rebudgetamtwithtolerence.Text = clsCommon.myCstr(obj.SubCapex_BalAmountWithTol)
-                'Use if you want to show store balance
+                    lblDept.Text = obj.Dept_Desc
+                    txtRequestBy.Value = obj.Request_By
+                    lblRequestBy.Text = clsEmployeeMaster.GetName(obj.Request_By, Nothing)
+                    fndProject.Value = obj.PROJECT_ID
+                    lblProject.Text = clsDBFuncationality.getSingleValue("select SPECIFICATION from TSPL_PJC_PROJECT where PROJECT_CODE='" + fndProject.Value + "'")
+                    ''==Sanjeet (Load CAPEX Detail and check it's amount)======
+                    fndcapexcode.Value = obj.Capex_Code
+                    If clsCommon.myLen(Me.fndcapexcode.Value) > 0 Then
+                        lbl_capexcode.Text = clsCapexMaster.GetName(Me.fndcapexcode.Value, Nothing)
+                    End If
+                    fndcapexsubcode.Value = obj.Capex_SubCode
+                    If clsCommon.myLen(Me.fndcapexsubcode.Value) > 0 Then
+                        lbl_capexsubcode.Text = clsCapexBudget.GetName(Me.fndcapexsubcode.Value, Nothing)
+                        lbl_budgetamt.Text = clsCapexBudget.GetBudget(Me.fndcapexsubcode.Value, Nothing)
+                        lbl_budgetamtwithtolerence.Text = clsCapexBudget.GetBudgetWithTolerence(Me.fndcapexsubcode.Value, Nothing)
+                        lbl_rebudgetamt.Text = clsCapexBudget.GetReBudget(Me.fndcapexsubcode.Value, obj.Requisition_Id, Nothing)
+                        lbl_rebudgetamtwithtolerence.Text = clsCapexBudget.GetReBudgetWithTolerence(Me.fndcapexsubcode.Value, obj.Requisition_Id, Nothing)
+                    End If
+                    'Use if you want to show store balance
+                    'lbl_budgetamt.Text = clsCommon.myCstr(obj.SubCapex_Amount)
+                    'lbl_budgetamtwithtolerence.Text = clsCommon.myCstr(obj.SubCapex_AmountWithTol)
+                    'lbl_rebudgetamt.Text = clsCommon.myCstr(obj.SubCapex_BalAmount)
+                    'lbl_rebudgetamtwithtolerence.Text = clsCommon.myCstr(obj.SubCapex_BalAmountWithTol)
+                    'Use if you want to show store balance
 
-                txtUnitCode.Value = obj.CosCenter_Unit
-                If clsCommon.myLen(Me.txtUnitCode.Value) > 0 Then
-                    lblUnitDesc.Text = clsUnitMaster.GetName(Me.txtUnitCode.Value)
-                End If
-                txtCostCenterType.Value = obj.CostCenter_Type
-                If clsCommon.myLen(Me.txtCostCenterType.Value) > 0 Then
-                    lblCostcenterTypeDesc.Text = clsCostCenterTypeMaster.GetName(Me.txtCostCenterType.Value)
-                End If
-                '======================
-                For Each objTr As clsRequistionDetail In obj.ArrTr
-                    gv1.Rows.AddNew()
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = objTr.Line_No
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colComplete).Value = objTr.Status
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = objTr.Item_Code
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = objTr.Item_Desc
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colVendorCode).Value = objTr.Vendor_Code
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colVendorName).Value = objTr.VendorName
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = objTr.Balance_Qty
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = objTr.Requisition_Qty
-                    ''gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationCode).Value = objTr.Location
-                    ''gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationName).Value = objTr.LocationName
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = objTr.Item_Cost
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = objTr.Unit_Code
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colAmt).Value = objTr.Item_Net_Amt
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colVendorItemNo).Value = objTr.Vendor_ItemNo
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colOrderNo).Value = objTr.Order_No
+                    txtUnitCode.Value = obj.CosCenter_Unit
+                    If clsCommon.myLen(Me.txtUnitCode.Value) > 0 Then
+                        lblUnitDesc.Text = clsUnitMaster.GetName(Me.txtUnitCode.Value)
+                    End If
+                    txtCostCenterType.Value = obj.CostCenter_Type
+                    If clsCommon.myLen(Me.txtCostCenterType.Value) > 0 Then
+                        lblCostcenterTypeDesc.Text = clsCostCenterTypeMaster.GetName(Me.txtCostCenterType.Value)
+                    End If
+                    '======================
+                    For Each objTr As clsRequistionDetail In obj.ArrTr
+                        gv1.Rows.AddNew()
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = objTr.Line_No
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colComplete).Value = objTr.Status
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = objTr.Item_Code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = objTr.Item_Desc
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colVendorCode).Value = objTr.Vendor_Code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colVendorName).Value = objTr.VendorName
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = objTr.Balance_Qty
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = objTr.Requisition_Qty
+                        ''gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationCode).Value = objTr.Location
+                        ''gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationName).Value = objTr.LocationName
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = objTr.Item_Cost
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = objTr.Unit_Code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colAmt).Value = objTr.Item_Net_Amt
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colVendorItemNo).Value = objTr.Vendor_ItemNo
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colOrderNo).Value = objTr.Order_No
 
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colSpecification).Value = objTr.Specification
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colRemarks).Value = objTr.Remarks
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colSpecification).Value = objTr.Specification
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colRemarks).Value = objTr.Remarks
 
-                    ''richa agarwal 1 Dec ,2016
-                    If clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowCostCenterAndHierarchyLevelInPurchaseModule, clsFixedParameterCode.ShowCostCenterAndHierarchyLevelInPurchaseModule, Nothing)), "1") = CompairStringResult.Equal Then
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colHierarchyCode).Value = objTr.Hirerachy_Code
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colCostCenterCode).Value = objTr.Cost_Centre_Code
-                        If EnableHirerachyCostCentre = 1 Then
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colHierarchyLevel2).Value = objTr.HirerachyLevelCode3
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colHierarchyLevel3).Value = objTr.HirerachyLevelCode4
-                            OpenCostCentreLevelName(False)
+                        ''richa agarwal 1 Dec ,2016
+                        If clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowCostCenterAndHierarchyLevelInPurchaseModule, clsFixedParameterCode.ShowCostCenterAndHierarchyLevelInPurchaseModule, Nothing)), "1") = CompairStringResult.Equal Then
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colHierarchyCode).Value = objTr.Hirerachy_Code
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colCostCenterCode).Value = objTr.Cost_Centre_Code
+                            If EnableHirerachyCostCentre = 1 Then
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colHierarchyLevel2).Value = objTr.HirerachyLevelCode3
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colHierarchyLevel3).Value = objTr.HirerachyLevelCode4
+                                OpenCostCentreLevelName(False)
+                            End If
+
+                        Else
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colCCCode).Value = objTr.CostCode
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colCCDesc).Value = ClsCostCenter.GetCostCenterDesc(objTr.CostCode)
                         End If
 
-                    Else
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colCCCode).Value = objTr.CostCode
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colCCDesc).Value = ClsCostCenter.GetCostCenterDesc(objTr.CostCode)
+
+                    Next
+                    If obj.Status = ERPTransactionStatus.Pending Then
+                        gv1.Rows.AddNew()
                     End If
 
+                    ''For Custom Fields
+                    If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
+                        UcCustomFields1.LoadData(obj.Requisition_Id)
+                    End If
+                    clsCustomFieldGrid.FillDataInGrid(obj.Requisition_Id, MyBase.Form_ID, gv1)
+                    ''End of For Custom Fields
+                    UcAttachment1.LoadData(obj.Requisition_Id)
 
-                Next
-                If obj.Status = ERPTransactionStatus.Pending Then
-                    gv1.Rows.AddNew()
                 End If
-
-                ''For Custom Fields
-                If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
-                    UcCustomFields1.LoadData(obj.Requisition_Id)
-                End If
-                clsCustomFieldGrid.FillDataInGrid(obj.Requisition_Id, MyBase.Form_ID, gv1)
-                ''End of For Custom Fields
-                UcAttachment1.LoadData(obj.Requisition_Id)
-
-            End If
 
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -1930,7 +1960,7 @@ Public Class frmStoreRequistion
             ''    e.CellElement.Alignment = ContentAlignment.TopLeft
             ''End If
         Catch ex As Exception
-            'common.clsCommon.MyMessageBoxShow(ex.Message)
+            'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
 
@@ -2069,7 +2099,7 @@ Public Class frmStoreRequistion
     '        'End If
 
     '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
     'Public Sub sendEMailThroughOUTLOOK(ByVal strPath As String, ByVal arrReceivers As List(Of String), ByVal arrUsers As List(Of String), ByVal ReqNo As String, ByVal ReqDate As String)

@@ -216,6 +216,11 @@ Public Class rptBMCCapacityUtilizationReport
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
+    Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+        CancelPressed()
+    End Sub
+    Sub CancelPressed()
+        Me.Close()
+    End Sub
 
 End Class

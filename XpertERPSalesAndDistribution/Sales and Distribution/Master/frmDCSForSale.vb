@@ -72,7 +72,7 @@ Public Class frmDCSforSale
 
                 If (obj.SaveData(obj, isNewEntry)) Then
 
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Code, NavigatorType.Current)
                 End If
             End If
@@ -124,7 +124,7 @@ Public Class frmDCSforSale
             txtCode.Focus()
         ElseIf myMessages.deleteConfirm() Then
             If (ClsDCSforSale.DeleteData(txtCode.Value)) Then
-                common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                 funreset()
             End If
         End If
@@ -207,7 +207,7 @@ Public Class frmDCSforSale
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -347,10 +347,10 @@ Public Class frmDCSforSale
 
                 'trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 'myMessages.myExceptions(ex)
             End Try
         End If
@@ -442,7 +442,7 @@ Public Class frmDCSforSale
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

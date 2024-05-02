@@ -70,7 +70,7 @@ Public Class TDMwiseTarget
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -79,13 +79,13 @@ Public Class TDMwiseTarget
         Try
 
             If clsCommon.myLen(fndEmployee.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Employee ")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Employee ", Me.Text)
                 fndEmployee.Focus()
                 Return False
             End If
 
             If txtTargetQty.Text = "" Then
-                common.clsCommon.MyMessageBoxShow("Please fill TargetQty")
+                common.clsCommon.MyMessageBoxShow(Me, "Please fill TargetQty", Me.Text)
                 Return False
             End If
 
@@ -120,12 +120,12 @@ Public Class TDMwiseTarget
             Next
             If chkFlavour.Checked = True Then
                 If Not Total = txtTargetQty.Value Then
-                    common.clsCommon.MyMessageBoxShow("Target Qty should be equal to Flavours Qty")
+                    common.clsCommon.MyMessageBoxShow(Me, "Target Qty should be equal to Flavours Qty", Me.Text)
                     Return False
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -166,7 +166,7 @@ Public Class TDMwiseTarget
                 Next
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -319,7 +319,7 @@ Public Class TDMwiseTarget
             '    End If
             'Next
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
         End Try
     End Sub

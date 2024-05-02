@@ -344,7 +344,7 @@ Public Class FrmItemCommissionSummary
                 frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "crptItemCommissionDetailsReport", "Item Commission Summary")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -464,7 +464,7 @@ Public Class FrmItemCommissionSummary
     ' ''            frm.funreport(dt, "crptItemCommissionDetailsReport", "Item Commission Summary")
     ' ''        End If
     ' ''    Catch ex As Exception
-    ' ''        common.clsCommon.MyMessageBoxShow(ex.Message)
+    ' ''        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     ' ''    End Try
     ' ''End Sub
 

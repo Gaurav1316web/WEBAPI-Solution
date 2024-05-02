@@ -20,7 +20,7 @@ Public Class clsDocType
     Public Const CHACHARGEMASTER As String = "CHA Charge Master"
     Public Const DebitNote As String = "AP Debit Note"
     Public Const CreditNote As String = "AP Credit Note"
-
+    Public Const BullMasters As String = "Bull Masters"
     ''richa job work module
     Public Const GateEntryJWO As String = "JWO Gate Entry"
     Public Const WeighmentJWO As String = "JWO Weighment"
@@ -396,6 +396,9 @@ Public Class clsDocType
     Public Const MilkCollectionDCSMulipleMerge As String = "Milk Coll DCS Multiple Merge"
     Public Const HeadLoadDCS As String = "Head Load DCS"
     Public Const BulkSaleFreightMaster As String = "Bulk Sale Freight Master"
+    Public Const BullVaccinationEntry As String = "Bull Vaccination Entry"
+    Public Const BullInsurance As String = "Bull Insurance"
+    Public Const InsuranceTagAllocation As String = "Insurance Tag Allocation"
     Public Const VSPMASTER As String = "VSP Master"
     Public Const PTMMASTER As String = "PTM Master"
     Public Const TTMMASTER As String = "TTM Master"
@@ -545,6 +548,8 @@ Public Class clsDocType
     Public Const frmBullBreedMaster As String = "Bull Breed Master "
     Public Const frmBullTestParameter As String = "Bull Test Parameter "
     Public Const frmBullParameterGroup As String = "Bull Parameter Group"
+    Public Const frmBullCurlingEntry As String = "Bull Curling Entry "
+    Public Const frmBullCMUGrouping As String = "Bull CMU Grouping "
 
     Public Const Cleaning As String = "Cleaning"
     Public Const MilkCleaning As String = "MilkCleaning"
@@ -735,6 +740,7 @@ Public Class clsDocType
     Public Const MISItemGroupMaster As String = "MIS Item Group Master"
     Public Const frmDailyMilkProducts As String = "Daily Milk Products"
     Public Const frmDailySMPProduction As String = "Daily SMP Production"
+    Public Const frmBullMovement As String = "Bull Movement"
     Public Const CattleFeedPlantDaily As String = "Cattle Feed Plant"
     Public Shared Function SetDefaultValues() As Boolean
         Try
@@ -998,6 +1004,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.CreateRemmitance, "", False, False)
             InsertDefaultValue(clsDocType.frmDailyMilkProducts, "", False, False)
             InsertDefaultValue(clsDocType.frmDailySMPProduction, "", False, False)
+            InsertDefaultValue(clsDocType.frmBullMovement, "", False, False)
             InsertDefaultValue(clsDocType.CattleFeedPlantDaily, "", False, True)
             'InsertDefaultValue(clsDocType.EmptyTransaction, clsDocTransactionType.EmptyTransactionOut, False)
             'InsertDefaultValue(clsDocType.EmptyTransaction, clsDocTransactionType.EmptyTransactionRouteIn, False)

@@ -55,99 +55,104 @@ Public Class RptMonthlyVLCProcurement1
     End Sub
 
     Public Sub Load_Report()
-        If txtFromDate.Value > txtToDate.Value Then
-            common.clsCommon.MyMessageBoxShow(Me, "From date can't be greater than to Date", Me.Text)
-            txtFromDate.Focus()
-            Exit Sub
-        End If
+        Try
 
-        If cboUnit.Text = "" Then
-            clsCommon.MyMessageBoxShow("Please select Unit", Me.Text)
-        End If
-        If cbtMCCRouteVLCC.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.", Me.Text)
-            Exit Sub
-        End If
-        'Sanjay Ticket No-TEC/04/07/19-000928, case when sum(NewQty)>0
-        'Dim squery As String = "select RANK() over(partition by DOC_DATE order by DOC_DATE,Shift,VLC) as [SamNO], convert(date,DOC_DATE,103) as DOC_DATE,DOC_DATE as Document_date,Shift,VLC,VLC_Name,convert(decimal(18,2),QTY)as QTY ,convert(decimal(18,1),[FAT %])as [FAT %] ,convert(decimal(18,1),[SNF %])as [SNF %]  ,Convert(Decimal(18,2),([FAT %] *QTY /100)) as [FAT in kg],Convert(DECIMAL(18,2),([SNF %] *QTY /100)) as [SNF in kg] from (select convert(varchar,DOC_DATE,103) as DOC_DATE,MAX(TOUOM ) as UOM,max(shift) as shift,VLC_CODE as VLC,max(VLC_Name) as VLC_Name,convert(Decimal(18,2),sum(FATQTY)/sum(NewQty)*100) as [FAT %], convert(DECIMAL(18,2),sum(SNFQTY )/sum(NewQty)*100) as [SNF %],SUM(isnull(NewQty,0) ) as QTY from(" & Environment.NewLine & _
-        Dim squery As String = "select RANK() over(partition by DOC_DATE order by DOC_DATE,Shift,VLC) as [SamNO], convert(date,DOC_DATE,103) as DOC_DATE,DOC_DATE as Document_date,Shift,VLC,VLC_Name,convert(decimal(18,2),QTY)as QTY ,convert(decimal(18,1),[FAT %])as [FAT %] ,convert(decimal(18,1),[SNF %])as [SNF %]  ,Convert(Decimal(18,2),([FAT %] *QTY /100)) as [FAT in kg],Convert(DECIMAL(18,2),([SNF %] *QTY /100)) as [SNF in kg] from (select convert(varchar,DOC_DATE,103) as DOC_DATE,MAX(TOUOM ) as UOM,max(shift) as shift,VLC_CODE as VLC,max(VLC_Name) as VLC_Name,case when sum(NewQty)>0 then convert(Decimal(18,2),sum(FATQTY)/sum(NewQty)*100) else 0 end as [FAT %],case when sum(NewQty)>0 then convert(DECIMAL(18,2),sum(SNFQTY )/sum(NewQty)*100) else 0 end as [SNF %],SUM(isnull(NewQty,0) ) as QTY from(" & Environment.NewLine & _
-        " select DOC_DATE,UOM_Code,shift,VLC_CODE,VLC_Name,FATQTY*CF as FATQTY,SNFQTY*CF as SNFQTY,Qty*CF as NewQty, Qty,FromUOM,TOUOM,CF   from(" & Environment.NewLine & _
-        " select TSPL_MILK_RECEIPT_DETAIL.Item_Code,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,TSPL_MILK_RECEIPT_HEAD.shift,TSPL_MILK_RECEIPT_DETAIL.UOM_Code ,TSPL_MILK_RECEIPT_DETAIL.VLC_CODE,TSPL_VLC_MASTER_HEAD.VLC_Name ,TSPL_MILK_SAMPLE_DETAIL.FAT,(TSPL_MILK_SAMPLE_DETAIL.FAT*TSPL_MILK_SAMPLE_DETAIL.Qty/100) as FATQTY ,TSPL_MILK_SAMPLE_DETAIL.SNF,(TSPL_MILK_SAMPLE_DETAIL.SNF*TSPL_MILK_SAMPLE_DETAIL.Qty /100) as SNFQTY ,TSPL_MILK_SAMPLE_DETAIL.Qty  from TSPL_MILK_RECEIPT_DETAIL left outer join TSPL_MILK_RECEIPT_HEAD on TSPL_MILK_RECEIPT_HEAD.DOC_CODE =TSPL_MILK_RECEIPT_DETAIL.DOC_CODE" & Environment.NewLine & _
-        " left outer join TSPL_MCC_MASTER  on TSPL_MCC_MASTER .MCC_Code =TSPL_MILK_RECEIPT_HEAD .MCC_CODE  left outer join TSPL_MILK_SAMPLE_DETAIL on TSPL_MILK_SAMPLE_DETAIL.VLC_DOC_CODE =TSPL_MILK_RECEIPT_DETAIL.VLC_DOC_CODE " & Environment.NewLine & _
-        " left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_RECEIPT_DETAIL.VLC_CODE" & Environment.NewLine & _
-        " where 2 = 2" & Environment.NewLine & _
-        " and convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) <=convert(date,'" + txtToDate.Value + "' ,103) "
-
-        Dim arr As List(Of String) = Nothing
-        If cbtMCCRouteVLCC.CheckedValue.Count > 0 Then
-            arr = cbtMCCRouteVLCC.CheckedValue(1)
-            If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                squery += "and TSPL_MILK_RECEIPT_DETAIL.MCC_Code  IN (" + clsCommon.GetMulcallString(arr) + ") "
-            Else
-                Throw New Exception("Please select at least one MCC")
+            If txtFromDate.Value > txtToDate.Value Then
+                common.clsCommon.MyMessageBoxShow(Me, "From date can't be greater than to Date", Me.Text)
+                txtFromDate.Focus()
+                Exit Sub
             End If
-        End If
-        If cbtMCCRouteVLCC.CheckedValue.Count > 1 Then
-            arr = cbtMCCRouteVLCC.CheckedValue(2)
-            If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                squery += " and TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE in (" + clsCommon.GetMulcallString(arr) + ")  "
-            Else
-                Throw New Exception("Please select at least one Route")
+
+            If cboUnit.Text = "" Then
+                clsCommon.MyMessageBoxShow(Me, "Please select Unit", Me.Text)
             End If
-        End If
-        If cbtMCCRouteVLCC.CheckedValue.Count > 2 Then
-            arr = cbtMCCRouteVLCC.CheckedValue(3)
-            If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                squery += " and TSPL_MILK_RECEIPT_DETAIL.VLC_CODE in (" + clsCommon.GetMulcallString(arr) + ")  "
-            Else
-                Throw New Exception("Please select at least one Route")
+            If cbtMCCRouteVLCC.CheckedValue.Count = 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select atleast single MCC or select all.", Me.Text)
+                Exit Sub
             End If
-        End If
-        'End If
-        If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
-            squery += " and 2=( case when TSPL_MILK_RECEIPT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_RECEIPT_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_RECEIPT_HEAD.SHIFT='M' then 3 else 2 end  )"
-        End If
-        If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
-            squery += " and 2=( case when TSPL_MILK_RECEIPT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_RECEIPT_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_RECEIPT_HEAD.SHIFT='E' then 3 else 2 end  )"
-        End If
+            'Sanjay Ticket No-TEC/04/07/19-000928, case when sum(NewQty)>0
+            'Dim squery As String = "select RANK() over(partition by DOC_DATE order by DOC_DATE,Shift,VLC) as [SamNO], convert(date,DOC_DATE,103) as DOC_DATE,DOC_DATE as Document_date,Shift,VLC,VLC_Name,convert(decimal(18,2),QTY)as QTY ,convert(decimal(18,1),[FAT %])as [FAT %] ,convert(decimal(18,1),[SNF %])as [SNF %]  ,Convert(Decimal(18,2),([FAT %] *QTY /100)) as [FAT in kg],Convert(DECIMAL(18,2),([SNF %] *QTY /100)) as [SNF in kg] from (select convert(varchar,DOC_DATE,103) as DOC_DATE,MAX(TOUOM ) as UOM,max(shift) as shift,VLC_CODE as VLC,max(VLC_Name) as VLC_Name,convert(Decimal(18,2),sum(FATQTY)/sum(NewQty)*100) as [FAT %], convert(DECIMAL(18,2),sum(SNFQTY )/sum(NewQty)*100) as [SNF %],SUM(isnull(NewQty,0) ) as QTY from(" & Environment.NewLine & _
+            Dim squery As String = "select RANK() over(partition by DOC_DATE order by DOC_DATE,Shift,VLC) as [SamNO], convert(date,DOC_DATE,103) as DOC_DATE,DOC_DATE as Document_date,Shift,VLC,VLC_Name,convert(decimal(18,2),QTY)as QTY ,convert(decimal(18,1),[FAT %])as [FAT %] ,convert(decimal(18,1),[SNF %])as [SNF %]  ,Convert(Decimal(18,2),([FAT %] *QTY /100)) as [FAT in kg],Convert(DECIMAL(18,2),([SNF %] *QTY /100)) as [SNF in kg] from (select convert(varchar,DOC_DATE,103) as DOC_DATE,MAX(TOUOM ) as UOM,max(shift) as shift,VLC_CODE as VLC,max(VLC_Name) as VLC_Name,case when sum(NewQty)>0 then convert(Decimal(18,2),sum(FATQTY)/sum(NewQty)*100) else 0 end as [FAT %],case when sum(NewQty)>0 then convert(DECIMAL(18,2),sum(SNFQTY )/sum(NewQty)*100) else 0 end as [SNF %],SUM(isnull(NewQty,0) ) as QTY from(" & Environment.NewLine &
+            " select DOC_DATE,UOM_Code,shift,VLC_CODE,VLC_Name,FATQTY*CF as FATQTY,SNFQTY*CF as SNFQTY,Qty*CF as NewQty, Qty,FromUOM,TOUOM,CF   from(" & Environment.NewLine &
+            " select TSPL_MILK_SRN_DETAIL.Item_Code,TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_HEAD.shift,TSPL_MILK_SRN_DETAIL.UOM_Code ,TSPL_MILK_SRN_HEAD.VLC_CODE,TSPL_VLC_MASTER_HEAD.VLC_Name ,TSPL_MILK_SRN_DETAIL.FAT_PER,(TSPL_MILK_SRN_DETAIL.FAT_PER*TSPL_MILK_SRN_DETAIL.Qty/100) as FATQTY ,TSPL_MILK_SRN_DETAIL.SNF_PER,(TSPL_MILK_SRN_DETAIL.SNF_PER*TSPL_MILK_SRN_DETAIL.Qty /100) as SNFQTY ,TSPL_MILK_SRN_DETAIL.Qty  from TSPL_MILK_SRN_DETAIL left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE =TSPL_MILK_SRN_DETAIL.DOC_CODE" & Environment.NewLine &
+            " left outer join TSPL_MCC_MASTER  on TSPL_MCC_MASTER .MCC_Code =TSPL_MILK_SRN_HEAD.MCC_CODE   " & Environment.NewLine &
+            " left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_SRN_HEAD.VLC_CODE" & Environment.NewLine &
+            " where 2 = 2" & Environment.NewLine &
+            " and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) <=convert(date,'" + txtToDate.Value + "' ,103) "
 
-        squery += " ) xx  left outer join tspl_item_master on tspl_item_master.item_code= xx.Item_Code "
+            Dim arr As List(Of String) = Nothing
+            If cbtMCCRouteVLCC.CheckedValue.Count > 0 Then
+                arr = cbtMCCRouteVLCC.CheckedValue(1)
+                If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                    squery += "and TSPL_MILK_SRN_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(arr) + ") "
+                Else
+                    Throw New Exception("Please select at least one MCC")
+                End If
+            End If
+            If cbtMCCRouteVLCC.CheckedValue.Count > 1 Then
+                arr = cbtMCCRouteVLCC.CheckedValue(2)
+                If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                    squery += " and TSPL_MILK_SRN_HEAD.ROUTE_CODE in (" + clsCommon.GetMulcallString(arr) + ")  "
+                Else
+                    Throw New Exception("Please select at least one Route")
+                End If
+            End If
+            If cbtMCCRouteVLCC.CheckedValue.Count > 2 Then
+                arr = cbtMCCRouteVLCC.CheckedValue(3)
+                If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                    squery += " and TSPL_MILK_SRN_HEAD.VLC_CODE in (" + clsCommon.GetMulcallString(arr) + ")  "
+                Else
+                    Throw New Exception("Please select at least one Route")
+                End If
+            End If
+            'End If
+            If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
+                squery += " and 2=( case when TSPL_MILK_SRN_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_HEAD.SHIFT='M' then 3 else 2 end  )"
+            End If
+            If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
+                squery += " and 2=( case when TSPL_MILK_SRN_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_HEAD.SHIFT='E' then 3 else 2 end  )"
+            End If
 
-        ''richa agarwal 24 May,2019  TEC/28/03/19-000462 add item structure on setting based
-        If ItemStructureMandatoryOnWeightConversion = True Then
-            squery += " left outer join (Select Distinct yyy.* From (  Select Container_UOM as FromUOM, Contained_UOM as TOUOM, Container_Qty*Contained_Qty as CF,Structure_code  from TSPL_WEIGHT_CONVERSION UNION All   Select Contained_UOM as FromUOM, Contained_UOM as TOUOM, 1 as CF,Structure_code  from TSPL_WEIGHT_CONVERSION UNION All Select Container_UOM as FromUOM, Container_UOM as TOUOM, 1 as CF,Structure_code  from TSPL_WEIGHT_CONVERSION  ) yyy) zzz on zzz.FromUOM =UOM_Code   and lower(zzz.TOUOM)='" + cboUnit.Text + "' where 2 = 2 AND TSPL_ITEM_MASTER.Structure_Code =zzz.Structure_code "
-        Else
-            squery += "  left outer join (Select Distinct yyy.* From ( " & Environment.NewLine & _
-            " Select TOP 1 Container_UOM as FromUOM, Contained_UOM as TOUOM, Container_Qty*Contained_Qty as CF from TSPL_WEIGHT_CONVERSION WHERE Product_Type IN ('ALL','MI') order by Product_Type desc" & Environment.NewLine & _
-            " UNION All Select  TOP 1 Contained_UOM as FromUOM, Container_UOM as TOUOM, Container_Qty/Contained_Qty as CF from TSPL_WEIGHT_CONVERSION WHERE  Product_Type IN ('ALL','MI') order by Product_Type desc" & Environment.NewLine & _
-            " UNION All   Select  TOP 1 Contained_UOM as FromUOM, Contained_UOM as TOUOM, 1 as CF from TSPL_WEIGHT_CONVERSION WHERE  Product_Type IN ('ALL','MI') order by Product_Type desc" & Environment.NewLine & _
-            " UNION All Select  TOP 1  Container_UOM as FromUOM, Container_UOM as TOUOM, 1 as CF from TSPL_WEIGHT_CONVERSION WHERE  Product_Type IN ('ALL','MI') order by Product_Type desc" & Environment.NewLine & _
-            " ) yyy) zzz on zzz.FromUOM =UOM_Code  and lower(zzz.TOUOM)='" + cboUnit.Text + "' "
-        End If
+            squery += " ) xx  left outer join tspl_item_master on tspl_item_master.item_code= xx.Item_Code "
 
-      
-        squery += "  ) ttt group by DOC_DATE,VLC_CODE ) ff order by convert(date,ff.DOC_DATE,103)"
-
+            ''richa agarwal 24 May,2019  TEC/28/03/19-000462 add item structure on setting based
+            If ItemStructureMandatoryOnWeightConversion = True Then
+                squery += " left outer join (Select Distinct yyy.* From (  Select Container_UOM as FromUOM, Contained_UOM as TOUOM, Container_Qty*Contained_Qty as CF,Structure_code  from TSPL_WEIGHT_CONVERSION UNION All   Select Contained_UOM as FromUOM, Contained_UOM as TOUOM, 1 as CF,Structure_code  from TSPL_WEIGHT_CONVERSION UNION All Select Container_UOM as FromUOM, Container_UOM as TOUOM, 1 as CF,Structure_code  from TSPL_WEIGHT_CONVERSION  ) yyy) zzz on zzz.FromUOM =UOM_Code   and lower(zzz.TOUOM)='" + cboUnit.Text + "' where 2 = 2 AND TSPL_ITEM_MASTER.Structure_Code =zzz.Structure_code "
+            Else
+                squery += "  left outer join (Select Distinct yyy.* From ( " & Environment.NewLine &
+                " Select TOP 1 Container_UOM as FromUOM, Contained_UOM as TOUOM, Container_Qty*Contained_Qty as CF from TSPL_WEIGHT_CONVERSION WHERE Product_Type IN ('ALL','MI') order by Product_Type desc" & Environment.NewLine &
+                " UNION All Select  TOP 1 Contained_UOM as FromUOM, Container_UOM as TOUOM, Container_Qty/Contained_Qty as CF from TSPL_WEIGHT_CONVERSION WHERE  Product_Type IN ('ALL','MI') order by Product_Type desc" & Environment.NewLine &
+                " UNION All   Select  TOP 1 Contained_UOM as FromUOM, Contained_UOM as TOUOM, 1 as CF from TSPL_WEIGHT_CONVERSION WHERE  Product_Type IN ('ALL','MI') order by Product_Type desc" & Environment.NewLine &
+                " UNION All Select  TOP 1  Container_UOM as FromUOM, Container_UOM as TOUOM, 1 as CF from TSPL_WEIGHT_CONVERSION WHERE  Product_Type IN ('ALL','MI') order by Product_Type desc" & Environment.NewLine &
+                " ) yyy) zzz on zzz.FromUOM =UOM_Code  and lower(zzz.TOUOM)='" + cboUnit.Text + "' "
+            End If
 
 
+            squery += "  ) ttt group by DOC_DATE,VLC_CODE ) ff order by convert(date,ff.DOC_DATE,103)"
 
-        Dim dtgv As New DataTable
-        dtgv = clsDBFuncationality.GetDataTable(squery)
-        If dtgv IsNot Nothing And dtgv.Rows.Count > 0 Then
-            gv.DataSource = Nothing
-            gv.Rows.Clear()
-            gv.Columns.Clear()
-            gv.DataSource = dtgv
-            gv.GroupDescriptors.Clear()
-            gv.MasterTemplate.SummaryRowsBottom.Clear()
-            FormatGrid()
 
-            RadPageView1.SelectedPage = RadPageViewPage2
-        Else
-            clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
-        End If
 
-        ReStoreGridLayout()
+
+            Dim dtgv As New DataTable
+            dtgv = clsDBFuncationality.GetDataTable(squery)
+            If dtgv IsNot Nothing And dtgv.Rows.Count > 0 Then
+                gv.DataSource = Nothing
+                gv.Rows.Clear()
+                gv.Columns.Clear()
+                gv.DataSource = dtgv
+                gv.GroupDescriptors.Clear()
+                gv.MasterTemplate.SummaryRowsBottom.Clear()
+                FormatGrid()
+
+                RadPageView1.SelectedPage = RadPageViewPage2
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
+            End If
+
+            ReStoreGridLayout()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Sub FormatGrid()
         gv.TableElement.TableHeaderHeight = 20
@@ -305,10 +310,10 @@ Public Class RptMonthlyVLCProcurement1
                     clsCommon.MyExportToPDF("Monthly VLC Procurement", gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
 

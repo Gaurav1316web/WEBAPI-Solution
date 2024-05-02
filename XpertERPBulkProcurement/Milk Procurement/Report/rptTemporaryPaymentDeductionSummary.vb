@@ -210,7 +210,8 @@ left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_
 left  join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No
 left join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo=TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No 
 left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
-where 2=2 " + whrActiveInactive
+where 2=2  and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode is not null   " + whrActiveInactive
+        'and DeductionCode NOT IN (SELECT Ded_Code FROM TSPL_PAYMENT_PROCESS_DEDUCTION)
         If clsCommon.myLen(txtMCC.Value) > 0 Then
             BaseQry += " and TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Value + "' "
         End If
@@ -225,7 +226,8 @@ left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_
 left  join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No
 left join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No 
 left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
-where 2=2 " + whrActiveInactive
+where 2=2 and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode is not null " + whrActiveInactive
+        'and  AP_Invoice_No NOT IN (SELECT AP_Invoice_No FROM TSPL_PAYMENT_PROCESS_CREDIT_NOTE)
         If clsCommon.myLen(txtMCC.Value) > 0 Then
             BaseQry += " and TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Value + "' "
         End If

@@ -44,12 +44,20 @@ Public Class rptExeVersionReport
                 If txtUnion.arrValueMember IsNot Nothing Then
                     dt = clsDBFuncationality.GetDataTable("SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name  in (" & clsCommon.GetMulcallString(txtUnion.arrValueMember) & ") AND DataBase_Name  not in ('TECXPERT','UDAIPURTEST','CHT','JMBILL') ORDER BY [TSPL_APP_LOCATION].Location_Name")
                 End If
-                ''Baseqry = " select ROW_NUMBER() over(order by ([Union Name])) as 'SNO.',* from ( "
+
                 For ii As Integer = 0 To dt.Rows.Count - 1
                     If ii > 0 Then
                         Baseqry += " UNION ALL "
                     End If
-                    Baseqry += "select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],  MAX(Version_No) AS [Exe Version],max(Date)  AS Date from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Exe_Deployment"
+                    Baseqry += "select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name], "
+                    If rbtnDetail.IsChecked Then
+                        Baseqry += " Version_No AS [Exe Version],Date  from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Exe_Deployment where convert(date,Date,103) >=convert(date,'" + txtFromDate.Value + "',103) and convert(date,Date,103) <= convert(date,'" + txtToDate.Value + "',103)"
+                    Else
+                        Baseqry += " MAX(Version_No) AS [Exe Version],max(Date)  AS Date from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Exe_Deployment"
+                    End If
+
+
+
                 Next
             End If
             dt = clsDBFuncationality.GetDataTable(Baseqry)
@@ -118,17 +126,7 @@ Public Class rptExeVersionReport
         End Try
     End Sub
     Private Sub btnPDF_Click(sender As Object, e As EventArgs) Handles btnPDF.Click
-        Try
-            If gv1.Rows.Count > 0 Then
-                Dim arrHeader As List(Of String) = New List(Of String)()
-                clsCommon.MyExportToPDF(Me.Text, gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
-
-            Else
-                clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
-            End If
-        Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
+        print(EnumExportTo.PDF)
     End Sub
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         CancelPressed()
@@ -150,6 +148,42 @@ Public Class rptExeVersionReport
             txtUnion.arrValueMember = clsCommon.ShowMultipleSelectForm("DBTPaymentDetail", qry, "DataBase_Name", "Location_Name", txtUnion.arrValueMember, txtUnion.arrDispalyMember)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub rbtnSummary_CheckStateChanged(sender As Object, e As EventArgs) Handles rbtnSummary.CheckStateChanged
+        If rbtnSummary.IsChecked Then
+            txtFromDate.Enabled = False
+            txtToDate.Enabled = False
+
+        Else
+            txtFromDate.Enabled = True
+            txtToDate.Enabled = True
+        End If
+    End Sub
+
+    Private Sub btnExcel_Click(sender As Object, e As EventArgs) Handles btnExcel.Click
+        Print(EnumExportTo.Excel)
+    End Sub
+    Private Sub print(ByVal exporter As EnumExportTo)
+        Try
+            If gv1.Rows.Count > 0 Then
+
+                Dim arrHeader As List(Of String) = New List(Of String)()
+                arrHeader.Add("Run Date : " + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Nothing, "dd/MM/yyyy hh:mm tt", False), "dd/MM/yyyy hh:mm tt")) ' clsCommon.myCDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy HH:MM"))
+                arrHeader.Add("User : " + objCommonVar.CurrentUser)
+                If exporter = EnumExportTo.Excel Then
+                    transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
+                    transportSql.QuickExportToExcel(gv1, "", "", , arrHeader)
+                Else
+                    clsCommon.MyExportToPDF(Me.Text, gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

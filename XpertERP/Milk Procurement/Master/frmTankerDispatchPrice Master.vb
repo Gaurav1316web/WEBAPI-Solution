@@ -160,7 +160,7 @@ Public Class FrmTankerDispatchPrice_Master
                         msg = "Successfully Posted"
                     End If
                     If clsCommon.myLen(msg) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(msg)
+                        common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                     End If
                     LoadData(fndcode.Value, NavigatorType.Current)
                 End If

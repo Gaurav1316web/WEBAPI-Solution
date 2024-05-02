@@ -286,20 +286,20 @@ Public Class frmRptMCCProvision
             Dim BaseQry As String = ""
             If clsCommon.CompairString(clsCommon.myCstr(cboTransactionType.SelectedValue), "Transport") = CompairStringResult.Equal Then
                 BaseQry = " select xx.MCC_CODE,TSPL_MCC_MASTER.MCC_NAME,xx.Route_CODE,TSPL_MCC_ROUTE_MASTER.Route_Name,xx.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name,TransType,xx.DOC_CODE,convert(varchar,xx.DOC_DATE,103) as DOC_DATE_VIEW,xx.DOC_DATE, TSPL_PROVISION_ENTRY.Doc_No as [Provision Code] ,convert (varchar, TSPL_PROVISION_ENTRY.Doc_Date,103) as [Provision Date] ,tspl_provision_Entry.Status_Update_Doc_No as [AP Invoice No],convert(varchar, TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date) as [AP Invoice Date] ,SHIFT,Total_KM,Actual_KM,xx.Amount,xx.Vehicle from (" + Environment.NewLine ',
-                BaseQry += " select TSPL_MILK_Shift_End_HEAD.MCC_CODE,TSPL_Primary_Vehicle_Master.Vendor_Code ,TSPL_MILK_Shift_End_Route_DETAIL.DOC_CODE,TSPL_MILK_Shift_End_HEAD.DOC_DATE,TSPL_MILK_Shift_End_HEAD.SHIFT, TSPL_MILK_Shift_End_Route_DETAIL.Route_CODE,TSPL_MILK_Shift_End_Route_DETAIL.Total_KM,TSPL_MILK_Shift_End_Route_DETAIL.Actual_KM,TSPL_MILK_Shift_End_Route_DETAIL.Amount,'Transport' as TransType,TSPL_Primary_Vehicle_Master.Vehicle" + Environment.NewLine +
-                " from TSPL_MILK_Shift_End_Route_DETAIL " + Environment.NewLine +
-                " left outer join TSPL_MILK_Shift_End_HEAD on TSPL_MILK_Shift_End_HEAD.DOC_CODE=TSPL_MILK_Shift_End_Route_DETAIL.DOC_CODE" + Environment.NewLine +
-                " left outer join TSPL_Primary_Vehicle_Master on TSPL_Primary_Vehicle_Master.Vehicle_Code=TSPL_MILK_Shift_End_Route_DETAIL.VEHICLE_CODE" + Environment.NewLine +
-                " where TSPL_MILK_Shift_End_HEAD.Posted=1  " + Environment.NewLine +
-                " and TSPL_MILK_Shift_End_HEAD.DOC_DATE >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_Shift_End_HEAD.DOC_DATE <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "'"
+                BaseQry += " select TSPL_MILK_SRN_Detail.MCC_CODE,TSPL_Primary_Vehicle_Master.Vendor_Code ,TSPL_MILK_SRN_Detail.DOC_CODE,TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_HEAD.SHIFT, TSPL_MILK_SRN_HEAD.Route_CODE,0 AS Total_KM,0 AS Actual_KM,0 AS Amount,'Transport' as TransType,TSPL_Primary_Vehicle_Master.Vehicle" + Environment.NewLine +
+                " from TSPL_MILK_SRN_Detail " + Environment.NewLine +
+                " left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_Detail.DOC_CODE" + Environment.NewLine +
+                " left outer join TSPL_Primary_Vehicle_Master on TSPL_Primary_Vehicle_Master.Vehicle_Code=TSPL_MILK_SRN_HEAD.VEHICLE_CODE" + Environment.NewLine +
+                " where TSPL_MILK_SRN_HEAD.Posted=1  " + Environment.NewLine +
+                " and TSPL_MILK_SRN_HEAD.DOC_DATE >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_HEAD.DOC_DATE <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "'"
                 If clsCommon.CompairString(clsCommon.myCstr(cboFromDateShift.SelectedValue), "E") = CompairStringResult.Equal Then
-                    BaseQry += " and 2=( case when TSPL_MILK_Shift_End_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_Shift_End_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_Shift_End_HEAD.SHIFT='M' then 3 else 2 end  )"
+                    BaseQry += " and 2=( case when TSPL_MILK_SRN_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_HEAD.SHIFT='M' then 3 else 2 end  )"
                 End If
                 If clsCommon.CompairString(clsCommon.myCstr(cboToDateShift.SelectedValue), "M") = CompairStringResult.Equal Then
-                    BaseQry += " and 2=( case when TSPL_MILK_Shift_End_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_Shift_End_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_Shift_End_HEAD.SHIFT='E' then 3 else 2 end  )"
+                    BaseQry += " and 2=( case when TSPL_MILK_SRN_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_HEAD.SHIFT='E' then 3 else 2 end  )"
                 End If
                 If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
-                    BaseQry += " and TSPL_MILK_Shift_End_HEAD.MCC_CODE in (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                    BaseQry += " and TSPL_MILK_SRN_HEAD.MCC_CODE in (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
                 End If
                 If txtVendor.arrValueMember IsNot Nothing AndAlso txtVendor.arrValueMember.Count > 0 Then
                     BaseQry += " and TSPL_Primary_Vehicle_Master.Vendor_Code in (" + clsCommon.GetMulcallString(txtVendor.arrValueMember) + ")"
@@ -568,7 +568,7 @@ Public Class frmRptMCCProvision
             Next
             Fnd.arrDispalyMember = arrList
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
     

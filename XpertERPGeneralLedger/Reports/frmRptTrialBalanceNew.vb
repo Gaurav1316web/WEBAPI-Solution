@@ -1687,7 +1687,7 @@ Public Class frmRptTrialBalanceNew
             Dim frm As New FrmChangePrntOrdr_ACGroup()
             frm.ShowDialog()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

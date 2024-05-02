@@ -317,7 +317,7 @@ Public Class ucCustomFields
             Dim whrclas As String = ""
             SenderObject.Value = clsCommon.ShowSelectForm("CF" + SenderObject.Name, qry, "Value", whrclas, SenderObject.Value, "", True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -328,7 +328,7 @@ Public Class ucCustomFields
             SenderObject = CType(sender, common.Controls.MyTextBox)
             clsCommon.MyMessageBoxShow(SenderObject.Text)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     WithEvents Evaluator1 As Evaluator
@@ -353,7 +353,7 @@ Public Class ucCustomFields
                 Next
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub Evaluator1_GetVariable(ByVal name As String, ByRef value As Object) Handles Evaluator1.GetVariable

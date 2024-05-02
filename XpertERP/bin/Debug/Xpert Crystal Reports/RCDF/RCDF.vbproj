@@ -273,6 +273,7 @@
     <None Include="Crystal Reports GST\Inventory Report\crptStockTransferChallanInvoiceInterState.rpt" />
     <None Include="Crystal Reports GST\Inventory Report\crptStockTransferChallanInvoiceInterState_Challan.rpt" />
     <None Include="Crystal Reports GST\Inventory Report\crptStockTransferChallanInvoice_Challan.rpt" />
+    <None Include="Crystal Reports GST\Inventory Report\crptStockTransferChallanInvoice_ChallanNew.rpt" />
     <None Include="Crystal Reports GST\Inventory Report\crptStockTransferChallanOut.rpt" />
     <None Include="Crystal Reports GST\Inventory Report\crptStockTransferSTA.rpt" />
     <None Include="Crystal Reports GST\Inventory Report\crptTransferLO.rpt" />
@@ -1328,6 +1329,7 @@
     <None Include="Crystal Reports\Milk Procurement\crptBankAdvice.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNew.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNewJPR.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNewSaving.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNewSWM.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceneww.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviseBankWiseSubReportALW.rpt" />
@@ -1898,6 +1900,7 @@
     <None Include="Crystal Reports\Sales Report\rptCustomerWiseDRCR.rpt" />
     <None Include="Crystal Reports\Sales Report\rptDayShiftWiseDmand.rpt" />
     <None Include="Crystal Reports\Sales Report\rptGatePassVsActual.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptItemStockReport.rpt" />
     <None Include="Crystal Reports\Sales Report\rptMonthlyInvoicePrint.rpt" />
     <None Include="Crystal Reports\Sales Report\rptNetSaleDetailCustomerWise.rpt" />
     <None Include="Crystal Reports\Sales Report\rptNetSaleDetailItemWise.rpt" />

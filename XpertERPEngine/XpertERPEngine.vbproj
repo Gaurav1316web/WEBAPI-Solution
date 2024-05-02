@@ -399,7 +399,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Inventory\ClsAdjustmentsQCC.vb" />
-    <Compile Include="Inventory\clsBatchInventoryNew.vb" />
+    <Compile Include="Inventory\clsItemLocationDetails.vb" />
+    <Compile Include="Inventory\clsOutputEntry.vb" />
+    <Compile Include="Inventory\clsPhysicalstock.vb" />
     <Compile Include="Inventory\clsWeightUomMaster.vb" />
     <Compile Include="Inventory\frmBatchItemOutNew.Designer.vb">
       <DependentUpon>frmBatchItemOutNew.vb</DependentUpon>
@@ -407,11 +409,20 @@
     <Compile Include="Inventory\frmBatchItemOutNew.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ItemModel\clsItemMasterQCParameter.vb" />
+    <Compile Include="ItemModel\clsItemPurchaseSetDetail.vb" />
+    <Compile Include="ItemModel\clsItemSalePurchaseSetDetail.vb" />
+    <Compile Include="ItemModel\clsItemSalePurchaseSetMaster.vb" />
+    <Compile Include="ItemModel\clsItemSetDetail.vb" />
+    <Compile Include="ItemModel\clsItemUpdateDetail.vb" />
+    <Compile Include="ItemModel\clsItemUpdateMaster.vb" />
+    <Compile Include="ItemModel\clsPurchaseAccountSets.vb" />
     <Compile Include="JobWork Outward\ClsJobWorkBilling.vb" />
     <Compile Include="JobWork Outward\clsJWEStimate.vb" />
     <Compile Include="JobWork Outward\clsJWFormula.vb" />
     <Compile Include="JobWork Outward\clsJWOEstimate.vb" />
     <Compile Include="JobWork Outward\clsJWOFormula.vb" />
+    <Compile Include="LocationModel\clsLocationCustomerMappings.vb" />
     <Compile Include="Milk JobWork\clsJWIItemPriceMaster.vb" />
     <Compile Include="Milk Procurement\clsAcknowledgementEntry.vb" />
     <Compile Include="Milk Procurement\clsBankAdvise.vb" />
@@ -436,6 +447,7 @@
     <Compile Include="Milk Procurement\clsMilkCollectionMCCMulipleDays.vb" />
     <Compile Include="Milk Procurement\clsMilkPurchaseInvoiceProvision.vb" />
     <Compile Include="Milk Procurement\clsMilkShiftUploader.vb" />
+    <Compile Include="Milk Procurement\clsMilkSRN.vb" />
     <Compile Include="Milk Procurement\clsMPDCSInsentiveReco.vb" />
     <Compile Include="Milk Procurement\clsMPIncentiveEntry.vb" />
     <Compile Include="Milk Procurement\clsMPIncetiveSlab.vb" />
@@ -521,6 +533,7 @@
     <Compile Include="Shared Form\RptBulkMilkMultiplePurchaseInvoice.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Sheed\clsSheedGrowerMaster.vb" />
     <Compile Include="UserControl\ucCustomFields.Designer.vb">
       <DependentUpon>ucCustomFields.vb</DependentUpon>
     </Compile>
@@ -643,7 +656,6 @@
     <Compile Include="Inventory\ClsAlternateitemDetail.vb" />
     <Compile Include="Inventory\clsAssemblies.vb" />
     <Compile Include="Inventory\clsBarCodeGenerator.vb" />
-    <Compile Include="Inventory\clsBatchInventory.vb" />
     <Compile Include="Inventory\clsBatchOrder.vb" />
     <Compile Include="Inventory\clsBillOfMaterial.vb" />
     <Compile Include="Inventory\clsBOM.vb" />
@@ -652,18 +664,13 @@
     <Compile Include="Inventory\ClsDayWiseLoadOutEntered.vb" />
     <Compile Include="Inventory\clsGateEntryReturnTransfer.vb" />
     <Compile Include="Inventory\ClsGatePassTransfer.vb" />
-    <Compile Include="Inventory\clsInventoryMovement.vb" />
-    <Compile Include="Inventory\clsInventorySourceCode.vb" />
-    <Compile Include="Inventory\clsItemCostMapping.vb" />
-    <Compile Include="Inventory\clsItemMaster.vb" />
-    <Compile Include="Inventory\clsItemSubCategory.vb" />
-    <Compile Include="Inventory\clsItemType.vb" />
+    <Compile Include="ItemModel\clsItemCostMapping.vb" />
+    <Compile Include="ItemModel\clsItemSubCategory.vb" />
+    <Compile Include="ItemModel\clsItemType.vb" />
     <Compile Include="Inventory\ClsJobWorkRMConsum.vb" />
-    <Compile Include="Inventory\clsLocation.vb" />
     <Compile Include="Inventory\clsManufacturingOrder.vb" />
     <Compile Include="Inventory\clsOverheadCost.vb" />
     <Compile Include="Inventory\clsOverheadCostGroup.vb" />
-    <Compile Include="Inventory\clsSerializeInvenotry.vb" />
     <Compile Include="Inventory\clsTransferCrateReceivedHead.vb" />
     <Compile Include="Inventory\clsTransferGateOut.vb" />
     <Compile Include="Inventory\clsTransferReturn.vb" />
@@ -1033,20 +1040,20 @@
     <Compile Include="HR\ClsInterviewSchedule.vb" />
     <Compile Include="Sale\clsInvoicePirceComp.vb" />
     <Compile Include="Inventory\clsIssueReturn.vb" />
-    <Compile Include="Inventory\ClsItemCategory.vb" />
+    <Compile Include="ItemModel\ClsItemCategory.vb" />
     <Compile Include="Production\ClsItemCategoryForproduction.vb" />
-    <Compile Include="Inventory\clsItemCategoryLevel.vb" />
-    <Compile Include="Inventory\clsItemCategoryStructure.vb" />
-    <Compile Include="Inventory\clsItemchargecategorymaster.vb" />
-    <Compile Include="Inventory\clsItemConversion.vb" />
-    <Compile Include="Inventory\clsItemInfo.vb" />
+    <Compile Include="ItemModel\clsItemCategoryLevel.vb" />
+    <Compile Include="ItemModel\clsItemCategoryStructure.vb" />
+    <Compile Include="ItemModel\clsItemchargecategorymaster.vb" />
+    <Compile Include="ItemModel\clsItemConversion.vb" />
+    <Compile Include="ItemModel\clsItemInfo.vb" />
     <Compile Include="Production\clsItemIssueToAssembledAsset.vb" />
-    <Compile Include="Inventory\clsItemLoc.vb" />
-    <Compile Include="Inventory\ClsItemMcMapping.vb" />
+    <Compile Include="ItemModel\clsItemLoc.vb" />
+    <Compile Include="ItemModel\ClsItemMcMapping.vb" />
     <Compile Include="Sale\clsItemPriceListLevel3.vb" />
-    <Compile Include="Inventory\ClsItemReorderLevel.vb" />
-    <Compile Include="Inventory\clsItemStockConveriosn.vb" />
-    <Compile Include="Inventory\clsItemToItemStockConversion.vb" />
+    <Compile Include="ItemModel\ClsItemReorderLevel.vb" />
+    <Compile Include="ItemModel\clsItemStockConveriosn.vb" />
+    <Compile Include="ItemModel\clsItemToItemStockConversion.vb" />
     <Compile Include="Purchase\clsJobMaster.vb" />
     <Compile Include="Purchase\ClsJobTitle.vb" />
     <Compile Include="HR\clsJoiningCheckList.vb" />
@@ -1625,6 +1632,7 @@
   <ItemGroup>
     <None Include="Resources\new.bmp" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

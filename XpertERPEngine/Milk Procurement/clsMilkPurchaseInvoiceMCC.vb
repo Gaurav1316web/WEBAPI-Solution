@@ -3002,9 +3002,8 @@ a:      Dim arrexttra As ArrayList = Calculate_Extra_Incentive(Inv_Code, VspCode
     End Function
 
     Public Shared Function GetIrregular_Location(ByVal srn_Code As String, ByVal trans As SqlTransaction)
-        Dim qry As String = "select (case when len(isnull(TSPL_MILK_SRN_HEAD.Against_Reject_No,''))>0 then TSPL_MILK_SRN_HEAD.MCC_Code else  TSPL_MILK_SAMPLE_HEAD.Mcc_Code end) as Mcc_Code" + Environment.NewLine + _
-        " from TSPL_MILK_SRN_HEAD " + Environment.NewLine + _
-        " left outer join TSPL_MILK_SAMPLE_HEAD   on TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE=TSPL_MILK_SAMPLE_HEAD.DOC_CODE  " + Environment.NewLine + _
+        Dim qry As String = "select TSPL_MILK_SRN_HEAD  .Mcc_Code" + Environment.NewLine +
+        " from TSPL_MILK_SRN_HEAD " + Environment.NewLine +
         " where tspl_Milk_srn_Head.doc_Code='" + srn_Code + "'"
         Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
 

@@ -11,9 +11,6 @@ Public Class frmBullMovementType
     Dim isNewEntry As Boolean = True
     Dim ErrorControl As New clsErrorControl()
 
-    Private Sub frmBullMovementType_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
-    End Sub
 
     Private Sub fndCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndCode._MYValidating
         Dim Sqlqry As String = "select Code,Name,Peridocity from TSPL_BULL_MOVEMENT_TYPE where code='" + fndCode.Value + "'"
@@ -51,58 +48,45 @@ Public Class frmBullMovementType
                 'AddNew()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnsave_Click(sender As Object, e As EventArgs) Handles btnsave.Click
         SaveData()
     End Sub
     Private Function AllowToSave() As Boolean
-        If clsCommon.myLen(txtname.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow("Fill Name.")
-            txtname.Focus()
-            txtname.Select()
-            txtPeriodcity.Focus()
-            txtPeriodcity.Select()
-
-            'ErrorControl.SetError(txtname, "Fill Name")
-        Else
-            'ErrorControl.ResetError(txtname)
+        If clsCommon.myLen(fndCode.Value) <= 0 Then
+            fndCode.Focus()
+            clsCommon.MyMessageBoxShow(Me, "Bull Code can't be blank", Me.Text)
+            Exit Function
+            Return False
         End If
-
-        Return True
     End Function
     Private Sub SaveData()
         Try
             If (AllowToSave()) Then
-                If MyBase.isModifyonPasswordFlag Then
-                    If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.frmBullMovementType, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
-                    Else
-                        Return
-                    End If
+
+                Dim obj As New clsBullMovementType()
+                obj.Code = fndCode.Value
+                obj.Name = txtname.Text.Replace("'", "`")
+                'obj.Type = txtType.Text
+
+                obj.Peridocity = txtPeriodcity.Text
+                If IsNumeric(txtPeriodcity.Text) Then
+                    ' Convert the input to a number
+                    obj.Peridocity = clsCommon.myCdbl(txtPeriodcity.Text)
+                Else
+                    ' Display an error message if the input is not a valid number
+                    clsCommon.MyMessageBoxShow(Me, "Please enter a valid number for Days.", Me.Text)
+                    txtPeriodcity.Focus()
+                    txtPeriodcity.Text = ""
+                    Exit Sub
+                End If
+                If (obj.SaveData(obj, isNewEntry)) Then
+                    clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
+                    LoadData(obj.Code, NavigatorType.Current)
                 End If
             End If
-            Dim obj As New clsBullMovementType()
-            obj.Code = fndCode.Value
-            obj.Name = txtname.Text.Replace("'", "`")
-            'obj.Type = txtType.Text
-
-            obj.Peridocity = txtPeriodcity.Text
-            If IsNumeric(txtPeriodcity.Text) Then
-                ' Convert the input to a number
-                obj.Peridocity = clsCommon.myCdbl(txtPeriodcity.Text)
-            Else
-                ' Display an error message if the input is not a valid number
-                clsCommon.MyMessageBoxShow("Please enter a valid number for Days.", Me.Text)
-                txtPeriodcity.Focus()
-                txtPeriodcity.Text = ""
-                Exit Sub
-            End If
-            If (obj.SaveData(obj, isNewEntry)) Then
-                clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
-                LoadData(obj.Code, NavigatorType.Current)
-            End If
-            'End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -113,7 +97,7 @@ Public Class frmBullMovementType
         Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
 
         If check > 0 Then
-            qry = "select Code,Name, from TSPL_BULL_MOVEMENT_TYPE"
+            qry = "select Code,Name from TSPL_BULL_MOVEMENT_TYPE"
         Else
             qry = "select '' as Code,'' as Name,'' AS Peridocity"
         End If
@@ -167,15 +151,15 @@ Public Class frmBullMovementType
                 clsCommon.ProgressBarHide()
 
                 If counter >= 1 Then
-                    clsCommon.MyMessageBoxShow("Data transfer successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data transfer successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("No data found to transfer", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No data found to transfer", Me.Text)
                 End If
 
 
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
 
@@ -208,7 +192,7 @@ Public Class frmBullMovementType
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub AddNew()
@@ -229,5 +213,20 @@ Public Class frmBullMovementType
 
     Private Sub btnnew_Click(sender As Object, e As EventArgs) Handles btnnew.Click
         AddNew()
+    End Sub
+
+    Private Sub fndCode__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles fndCode._MYNavigator
+        Try
+            Dim qry As String = "select count(*) from TSPL_BULL_MOVEMENT_TYPE where Code='" + fndCode.Value + "' "
+            Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+            If count = 0 Then
+                fndCode.MyReadOnly = False
+            Else
+                fndCode.MyReadOnly = True
+            End If
+            LoadData(fndCode.Value, NavType)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

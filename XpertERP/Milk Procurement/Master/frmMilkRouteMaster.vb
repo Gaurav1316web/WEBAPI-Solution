@@ -1010,7 +1010,7 @@ Public Class FrmMilkRouteMaster
         '        Reset()
         '    Catch ex As Exception
         '        clsCommon.ProgressBarHide()
-        '        clsCommon.MyMessageBoxShow(ex.Message)
+        '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         '    End Try
         'End If
         'Me.Controls.Remove(gv)

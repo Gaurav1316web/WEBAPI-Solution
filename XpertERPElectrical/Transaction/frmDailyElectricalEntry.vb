@@ -258,12 +258,12 @@ Public Class frmDailyElectricalEntry
             Next
 
             If clsDailyElectricalEntryHead.SaveData(obj, isNewEntery) Then
-                clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.Document_No, NavigatorType.Current)
                 Exit Sub
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -513,7 +513,7 @@ Public Class frmDailyElectricalEntry
 
     Sub DeleteData()
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Enter Document Code To delete ")
+            clsCommon.MyMessageBoxShow(Me, "Please Enter Document Code To delete ", Me.Text)
         Else
             If myMessages.deleteConfirm() Then
                 If clsDailyElectricalEntryHead.deleteData(txtDocNo.Value) Then
@@ -562,11 +562,11 @@ Public Class frmDailyElectricalEntry
         Try
             If (myMessages.postConfirm()) Then
                 clsDailyElectricalEntryHead.postData(txtDocNo.Value)
-                clsCommon.MyMessageBoxShow("Successfully Posted")
+                clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                 LoadData(txtDocNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -623,7 +623,7 @@ Public Class frmDailyElectricalEntry
             End If
             isInsideLoadData = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -952,13 +952,13 @@ Public Class frmDailyElectricalEntry
     Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
-                If clsCommon.MyMessageBoxShow("Reverese and unpost current document " + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow(Me, "Reverese and unpost current document " + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsDailyElectricalEntryHead.ReverseAndUnpostData(txtDocNo.Value)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -981,7 +981,7 @@ Public Class frmDailyElectricalEntry
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenSlotCodeList(ByVal isButtonClick As Boolean)
@@ -1010,7 +1010,7 @@ Public Class frmDailyElectricalEntry
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenDGCodeList(ByVal isButtonClick As Boolean)
@@ -1056,7 +1056,7 @@ Public Class frmDailyElectricalEntry
     End Sub
 
     Private Sub gvSlot_UserDeletingRow(sender As Object, e As GridViewRowCancelEventArgs) Handles gvSlot.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -1075,7 +1075,7 @@ Public Class frmDailyElectricalEntry
                 LoadData(txtDocNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

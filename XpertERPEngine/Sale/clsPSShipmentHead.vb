@@ -248,6 +248,8 @@ Public Class clsPSShipmentHead
     Public Distributor_Commission_TotalAmt As Decimal = 0
     Public Transporter_Commission_TotalAmt As Decimal = 0
     Public Security_TotalAmt As Decimal = 0
+    Public IsCreditCustomer As Boolean = False
+    Public ParentDocNo As String = ""
 
 
     Public ArrDemand As List(Of clsPSShipmentDemand) = Nothing
@@ -836,7 +838,9 @@ Public Class clsPSShipmentHead
             clsCommon.AddColumnsForChange(coll, "IsReplacement", obj.IsReplacement)
             clsCommon.AddColumnsForChange(coll, "Invoice_No_ForReplacement", obj.Invoice_No_ForReplacement, True)
             clsCommon.AddColumnsForChange(coll, "Customer_Complaint_No", obj.Customer_Complaint_No, True)
-
+            If obj.IsCreditCustomer Then
+                clsCommon.AddColumnsForChange(coll, "ParentDocNo", obj.ParentDocNo, True)
+            End If
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "Screen_Type", obj.Screen_Type)
                 If IsDairyModule = False Then
@@ -852,7 +856,10 @@ Public Class clsPSShipmentHead
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SHIPMENT_HEAD", OMInsertOrUpdate.Update, "TSPL_SD_SHIPMENT_HEAD.Document_Code='" + obj.Document_Code + "'", trans)
             End If
             clsPSShipmentHeadDetail.SaveData(obj.Document_Code, obj.Arr, trans, obj.Document_Date, IsDairyModule, obj.Trans_Type)
-            clsPSShipmentDemand.SaveData(obj.Document_Code, obj.ArrDemand, trans)
+            If obj.ArrDemand IsNot Nothing Then
+                clsPSShipmentDemand.SaveData(obj.Document_Code, obj.ArrDemand, trans)
+
+            End If
 
             clsPSShipmentChecklistDetail.SaveData(obj.Document_Code, obj.ArrChkList, trans)
             clsCustomFieldValues.SaveData(obj.Form_ID, obj.Document_Code, obj.arrCustomFields, trans)
@@ -1498,7 +1505,7 @@ Public Class clsPSShipmentHead
             "TSPL_SD_SHIPMENT_DETAIL.vendor_code,TSPL_SD_SHIPMENT_DETAIL.vendor_desc,TSPL_SD_SHIPMENT_DETAIL.PrincipleCode,TSPL_SD_SHIPMENT_DETAIL.PrincipleDesc,TSPL_SD_SHIPMENT_DETAIL.Markup_On,TSPL_SD_SHIPMENT_DETAIL.Markup_Percent,TSPL_SD_SHIPMENT_DETAIL.Landing_Cost,TSPL_SD_SHIPMENT_DETAIL.HeadDiscAmt,TSPL_SD_SHIPMENT_DETAIL.CustDiscPer,TSPL_SD_SHIPMENT_DETAIL.CasdDiscScheme_Code " &
             ",TSPL_SD_SHIPMENT_DETAIL.Item_Group,TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS,TSPL_SD_SHIPMENT_DETAIL.TAX_PAID,TSPL_SD_SHIPMENT_DETAIL.Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Commission_Party,TSPL_SD_SHIPMENT_DETAIL.Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Commission "
             qry += " ,TSPL_SD_SHIPMENT_DETAIL.Alternate_UOM,TSPL_SD_SHIPMENT_DETAIL.RATE_UOM,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Booking_No," &
-                   " TSPL_BOOKING_MATSER.Created_By as Booking_User_Code,TSPL_USER_MASTER.Distributor_Retailer_Code,SecCust.Customer_Name as Distributor_Retailer_Name,SecCust.Email as Distributor_Retailer_Email,TSPL_Additional_Charges.Description as  AddChargeDesc,TSPL_SD_SHIPMENT_DETAIL.Sampling,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_PKID,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_RateWithTax,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.Transporter_Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Transporter_Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.Security_Rate,TSPL_SD_SHIPMENT_DETAIL.Security_Amt FROM TSPL_SD_SHIPMENT_DETAIL "
+                   " TSPL_BOOKING_MATSER.Created_By as Booking_User_Code,TSPL_USER_MASTER.Distributor_Retailer_Code,SecCust.Customer_Name as Distributor_Retailer_Name,SecCust.Email as Distributor_Retailer_Email,TSPL_Additional_Charges.Description as  AddChargeDesc,TSPL_SD_SHIPMENT_DETAIL.Sampling,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_PKID,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_RateWithTax,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.Transporter_Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Transporter_Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.Security_Rate,TSPL_SD_SHIPMENT_DETAIL.Security_Amt,TSPL_SD_SHIPMENT_DETAIL.Transporter FROM TSPL_SD_SHIPMENT_DETAIL "
             qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_DETAIL.Location "
             qry += " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code " & _
                    " left join TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE on TSPL_SD_SHIPMENT_DETAIL.Delivery_Code=TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Document_No " & _
@@ -1696,6 +1703,7 @@ Public Class clsPSShipmentHead
                     objTr.Transporter_Commission_Amt = clsCommon.myCdbl(dr("Transporter_Commission_Amt"))
                     objTr.Security_Rate = clsCommon.myCdbl(dr("Security_Rate"))
                     objTr.Security_Amt = clsCommon.myCdbl(dr("Security_Amt"))
+                    objTr.Transporter = clsCommon.myCdbl(dr("Transporter"))
 
                     objTr.arrSrItem = clsSerializeInvenotry.GetData("SD-IN", objTr.Document_Code, objTr.Item_Code, objTr.Line_No, trans)
                     'objTr.arrBatchItem = clsBatchInventory.GetData("PS-SH", objTr.Document_Code, objTr.Item_Code, objTr.Line_No, trans)
@@ -1768,7 +1776,16 @@ Public Class clsPSShipmentHead
     Public Shared Function PostData(ByVal FormId As String, ByVal strDocNo As String, Optional ByVal IsDairyModule As Boolean = False) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            PostData(FormId, strDocNo, trans, Nothing, IsDairyModule, "")
+            Dim str As String = "select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" + strDocNo + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(str, trans)
+            If dt IsNot Nothing And dt.Rows.Count > 0 Then
+                For Each dr As DataRow In dt.Rows
+                    PostData(FormId, clsCommon.myCstr(dr("Document_Code")), trans, Nothing, IsDairyModule, "")
+
+                Next
+            Else
+                Throw New Exception("Please select Parent Document")
+            End If
             trans.Commit()
         Catch ex As Exception
             Dim strEx As String = ex.Message
@@ -3205,7 +3222,17 @@ Public Class clsPSShipmentHead
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             Dim isSaved As Boolean = True
-            isSaved = isSaved AndAlso DeleteData(strCode, strInvoiceNo, trans)
+            Dim str As String = "select Document_Code,Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" + strCode + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(str, trans)
+            If dt IsNot Nothing And dt.Rows.Count > 0 Then
+                For Each dr As DataRow In dt.Rows
+
+                    isSaved = isSaved AndAlso DeleteData(clsCommon.myCstr(dr("Document_Code")), clsCommon.myCstr(dr("Sale_Invoice_No")), trans)
+                Next
+            Else
+                Throw New Exception("Please select Parent Document")
+            End If
+
             trans.Commit()
             Return isSaved
         Catch ex As Exception
@@ -3415,6 +3442,15 @@ Public Class clsPSShipmentHead
     Public Shared Function ReverseAndUnpost(ByVal strCode As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
+            Dim str As String = "select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" + strCode + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(str, trans)
+            If dt IsNot Nothing And dt.Rows.Count > 0 Then
+                For Each dr As DataRow In dt.Rows
+                    ReverseAndUnpost(clsCommon.myCstr(dr("Document_Code")), trans)
+                Next
+            Else
+                Throw New Exception("Please select Parent Document")
+            End If
             ReverseAndUnpost(strCode, trans)
             trans.Commit()
         Catch ex As Exception
@@ -3898,6 +3934,7 @@ Public Class clsPSShipmentHeadDetail
     Public Transporter_Commission_Amt As Decimal = 0
     Public Security_Rate As Decimal = 0
     Public Security_Amt As Decimal = 0
+    Public Transporter As String = ""
 
 #End Region
 
@@ -4099,6 +4136,7 @@ Public Class clsPSShipmentHeadDetail
                 clsCommon.AddColumnsForChange(coll, "Transporter_Commission_Amt", obj.Transporter_Commission_Amt, True)
                 clsCommon.AddColumnsForChange(coll, "Security_Rate", obj.Security_Rate, True)
                 clsCommon.AddColumnsForChange(coll, "Security_Amt", obj.Security_Amt, True)
+                clsCommon.AddColumnsForChange(coll, "Transporter", obj.Transporter, True)
 
 
                 'clsCommon.AddColumnsForChange(coll, "Unit_Cogs", clsItemLocationDetails.GetUnitCogs(obj.Item_Code, obj.Location, trans))
@@ -4258,6 +4296,7 @@ End Class
 
 Public Class clsPSShipmentDemand
     Public DOCUMENT_CODE As String
+    Public Booth_Code As String
     Public Booking_TR_Code As String
     Public Item_Code As String
     Public Unit_Code As String
@@ -4271,6 +4310,7 @@ Public Class clsPSShipmentDemand
             For Each obj As clsPSShipmentDemand In arrDemand
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Document_Code", strDocNo)
+                clsCommon.AddColumnsForChange(coll, "Booth_Code", obj.Booth_Code)
                 clsCommon.AddColumnsForChange(coll, "Booking_TR_Code", obj.Booking_TR_Code)
                 clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
                 clsCommon.AddColumnsForChange(coll, "Unit_Code", obj.Unit_Code)
@@ -4282,4 +4322,29 @@ Public Class clsPSShipmentDemand
             Next
         End If
     End Sub
+    Public Shared Function GetData(ByVal DocCode As String, ByVal trans As SqlTransaction) As List(Of clsPSShipmentDemand)
+        Dim Arr As List(Of clsPSShipmentDemand) = Nothing
+        Try
+            Dim obj As clsPSShipmentDemand = Nothing
+
+            Arr = New List(Of clsPSShipmentDemand)
+            Dim strQry As String = "select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code  from TSPL_SD_SHIPMENT_BOOKING_DETAIL
+left join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code=TSPL_CUSTOMER_MASTER.Cust_Code
+where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + DocCode + "' and TSPL_CUSTOMER_MASTER.Credit_Customer='Y'
+group by Booth_Code"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
+            If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                For Each dr As DataRow In dt.Rows
+                    obj = New clsPSShipmentDemand()
+                    obj.Booth_Code = clsCommon.myCDecimal(dr("Booth_Code"))
+                    Arr.Add(obj)
+                Next
+            End If
+
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return Arr
+    End Function
 End Class

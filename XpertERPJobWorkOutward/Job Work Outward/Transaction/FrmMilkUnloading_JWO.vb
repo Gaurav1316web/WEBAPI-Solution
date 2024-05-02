@@ -191,7 +191,7 @@ Public Class FrmMilkUnloading_JWO
             fndUnloadingNo.MyReadOnly = False
             trans.Rollback()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             trans.Rollback()
         End Try
 
@@ -225,7 +225,7 @@ Public Class FrmMilkUnloading_JWO
                 clsCommon.MyMessageBoxShow("Please select a Unloading No To delete")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             trans.Rollback()
         End Try
     End Sub
@@ -273,7 +273,7 @@ Public Class FrmMilkUnloading_JWO
                 loadData(fndUnloadingNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub FrmMilkUnloading_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
@@ -375,7 +375,7 @@ Public Class FrmMilkUnloading_JWO
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function

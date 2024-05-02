@@ -17,36 +17,27 @@ Public Class frmBullPenIDMaster
     Private Sub SaveData()
         Try
             If (AllowToSave()) Then
-                If MyBase.isModifyonPasswordFlag Then
-                    If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.frmBullPenIDMaster, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
-                    Else
-                        Return
-                    End If
-                End If
-            End If
-            Dim obj As New clsBullPenIDMaster()
-            obj.Code = txtCode.Value
+
+                Dim obj As New clsBullPenIDMaster()
+                obj.Code = txtCode.Value
             obj.Name = txtname.Text.Replace("'", "`")
 
             If (obj.SaveData(obj, isNewEntry)) Then
                 clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
                 LoadData(obj.Code, NavigatorType.Current)
             End If
-            'End If
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Function AllowToSave() As Boolean
-        If clsCommon.myLen(txtname.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow("Fill Name.")
-            txtname.Focus()
-            txtname.Select()
-            ErrorControl.SetError(txtname, "Fill Name")
-        Else
-            ErrorControl.ResetError(txtname)
+        If clsCommon.myLen(txtCode.Value) <= 0 Then
+            txtCode.Focus()
+            clsCommon.MyMessageBoxShow(Me, "Code can't be blank", Me.Text)
+            Exit Function
+            Return False
         End If
-
         Return True
     End Function
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -70,7 +61,7 @@ Public Class frmBullPenIDMaster
                 AddNew()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub AddNew()
@@ -125,7 +116,7 @@ Public Class frmBullPenIDMaster
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -188,19 +179,39 @@ Public Class frmBullPenIDMaster
                 clsCommon.ProgressBarHide()
 
                 If counter >= 1 Then
-                    clsCommon.MyMessageBoxShow("Data transfer successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data transfer successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("No data found to transfer", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No data found to transfer", Me.Text)
                 End If
 
 
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
 
         isNewEntry = oldNewentry
         Me.Controls.Remove(gv_Import)
     End Sub
+
+    Private Sub txtCode__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtCode._MYNavigator
+        Try
+            Dim qry As String = "select count(*) from TSPL_BULL_PEN_ID_MASTER where Code='" + txtCode.Value + "' "
+            Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+            If count = 0 Then
+                txtCode.MyReadOnly = False
+            Else
+                txtCode.MyReadOnly = True
+            End If
+            LoadData(txtCode.Value, NavType)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnnew_Click(sender As Object, e As EventArgs) Handles btnnew.Click
+        AddNew()
+    End Sub
+
 End Class

@@ -694,7 +694,7 @@ Public Class rptSKUWiseSale
             common.clsCommon.MyMessageBoxShow("Exported Successfully.")
             Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -709,7 +709,7 @@ Public Class rptSKUWiseSale
                 cboFiscalYear.DisplayMember = "FiscalYear"
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
