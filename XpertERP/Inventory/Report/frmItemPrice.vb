@@ -168,7 +168,7 @@ Public Class frmItemPrice
     '        Dim qry As String = "select distinct uom from tspl_item_price_master"
     '        transportSql.FillComboBox(qry, cmbuom, "UOM", "UOM")
     '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(ex.Message)
+    '        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
 
     'End Sub

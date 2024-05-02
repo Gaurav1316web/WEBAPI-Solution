@@ -51,6 +51,7 @@ Public Class frmBullShedMaster
                 isNewEntry = False
                 fndCode.Value = obj.Code
                 txtname.Text = obj.Name
+                txtValue.Text = obj.AreaValue
                 'cmbArea.Text = obj.Area
                 'cmbArea.Text = cmbArea.SelectedItem.ToString()
                 If obj.Area = 1.0 Then
@@ -69,15 +70,15 @@ Public Class frmBullShedMaster
                 'AddNew()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Function AllowToSave() As Boolean
         If clsCommon.myLen(fndCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Fill Code.")
+            clsCommon.MyMessageBoxShow(Me, "Fill Code.", Me.Text)
         End If
         If clsCommon.myLen(txtname.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow("Fill Name.")
+            clsCommon.MyMessageBoxShow(Me, "Fill Name.", Me.Text)
             txtname.Focus()
             txtname.Select()
             cmbArea.Focus()
@@ -87,7 +88,10 @@ Public Class frmBullShedMaster
         Else
             'ErrorControl.ResetError(txtname)
         End If
-
+        If clsCommon.myLen(txtValue.Text) <= 0 Then
+            clsCommon.MyMessageBoxShow("Fill AreaValue.")
+            txtValue.Focus()
+        End If
         Return True
     End Function
     Private Sub btnsave_Click(sender As Object, e As EventArgs) Handles btnsave.Click
@@ -96,27 +100,22 @@ Public Class frmBullShedMaster
     Private Sub SaveData()
         Try
             If (AllowToSave()) Then
-                If MyBase.isModifyonPasswordFlag Then
-                    If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.frmBullTestParameter, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
-                    Else
-                        Return
-                    End If
+
+                Dim obj As New clsBullShedMaster()
+                obj.Code = fndCode.Value
+                obj.Name = txtname.Text.Replace("'", "`")
+                obj.AreaValue = txtValue.Text
+                obj.Area = Me.cmbArea.SelectedValue
+                If cmbArea.SelectedText = "m²" Then
+                    obj.Area = 1
+                Else cmbArea.SelectedText = "ft²"
+                    obj.Area = 2
+                End If
+                If (obj.SaveData(obj, isNewEntry)) Then
+                    clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
+                    LoadData(obj.Code, NavigatorType.Current)
                 End If
             End If
-            Dim obj As New clsBullShedMaster()
-            obj.Code = fndCode.Value
-            obj.Name = txtname.Text.Replace("'", "`")
-            obj.Area = Me.cmbArea.SelectedValue
-            If cmbArea.SelectedText = "m²" Then
-                obj.Area = 1
-            Else cmbArea.SelectedText = "ft²"
-                obj.Area = 2
-            End If
-            If (obj.SaveData(obj, isNewEntry)) Then
-                clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
-                LoadData(obj.Code, NavigatorType.Current)
-            End If
-            'End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -146,22 +145,19 @@ Public Class frmBullShedMaster
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub AddNew()
         fndCode.Value = ""
         txtname.Text = ""
+        txtValue.Text = ""
         cmbArea.Text = ""
-        'txtPeriodcity.Text = ""
-
         fndCode.MyReadOnly = False
         btnsave.Text = "Save"
         btnsave.Enabled = True
         btndelete.Enabled = False
-
         isNewEntry = True
-
         txtname.Focus()
         txtname.Select()
     End Sub
@@ -225,15 +221,15 @@ Public Class frmBullShedMaster
                 clsCommon.ProgressBarHide()
 
                 If counter >= 1 Then
-                    clsCommon.MyMessageBoxShow("Data transfer successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data transfer successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("No data found to transfer", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No data found to transfer", Me.Text)
                 End If
 
 
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
 
@@ -279,5 +275,20 @@ Public Class frmBullShedMaster
 
     Private Sub lblName_Click(sender As Object, e As EventArgs) Handles lblName.Click
 
+    End Sub
+
+    Private Sub fndCode__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles fndCode._MYNavigator
+        Try
+            Dim qry As String = "select count(*) from tspl_bull_shed_master where Code='" + fndCode.Value + "' "
+            Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+            If count = 0 Then
+                fndCode.MyReadOnly = False
+            Else
+                fndCode.MyReadOnly = True
+            End If
+            LoadData(fndCode.Value, NavType)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

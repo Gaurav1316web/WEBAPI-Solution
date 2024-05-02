@@ -3,7 +3,7 @@
 Public Class clsBullShedParameter
     Public Code As String = Nothing
     Public Name As String = Nothing
-    Public Type As String = Nothing
+    Public Type As String = ""
 
     Public Function SaveData(ByVal obj As clsBullShedParameter, ByVal isNewEntry As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()

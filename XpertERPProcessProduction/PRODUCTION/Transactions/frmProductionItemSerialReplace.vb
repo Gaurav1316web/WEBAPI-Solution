@@ -446,7 +446,7 @@ Public Class frmProductionItemSerialReplace
                 gv.CurrentRow = gv.Rows(0)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -491,7 +491,7 @@ Public Class frmProductionItemSerialReplace
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -619,7 +619,7 @@ Public Class frmProductionItemSerialReplace
             isInsideLoadData = False
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -641,7 +641,7 @@ Public Class frmProductionItemSerialReplace
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -726,9 +726,9 @@ Public Class frmProductionItemSerialReplace
             If clsProductionItemSerialReplace.SaveData(obj, isNewEntry, isPost, trans) Then
                 If Not isPost Then
                     If clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                     End If
                 End If
 
@@ -739,7 +739,7 @@ Public Class frmProductionItemSerialReplace
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -751,18 +751,18 @@ Public Class frmProductionItemSerialReplace
                 Throw New Exception("Select document no. first")
             End If
 
-            If Not clsCommon.MyMessageBoxShow("Are you sure,want to delete document no. " + clsCommon.myCstr(txtCode.Value) + "?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+            If Not clsCommon.MyMessageBoxShow(Me, "Are you sure,want to delete document no. " + clsCommon.myCstr(txtCode.Value) + "?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 Return
             End If
 
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             If clsProductionItemSerialReplace.DeleteData(txtCode.Value, trans) Then
-                clsCommon.MyMessageBoxShow("Data Delete Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Delete Successfully", Me.Text)
                 FunReset()
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -774,7 +774,7 @@ Public Class frmProductionItemSerialReplace
                 Throw New Exception("Select document no. first")
             End If
 
-            If Not clsCommon.MyMessageBoxShow("Are you sure,want to post document no. " + clsCommon.myCstr(txtCode.Value) + "?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+            If Not clsCommon.MyMessageBoxShow(Me, "Are you sure,want to post document no. " + clsCommon.myCstr(txtCode.Value) + "?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 Return
             End If
 
@@ -783,7 +783,7 @@ Public Class frmProductionItemSerialReplace
 
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             If clsProductionItemSerialReplace.PostData(txtCode.Value, trans) Then
-                clsCommon.MyMessageBoxShow("Data Posted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully", Me.Text)
                 btnpost.Enabled = False
                 btndelete.Enabled = False
                 btnsave.Enabled = False
@@ -791,7 +791,7 @@ Public Class frmProductionItemSerialReplace
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -811,7 +811,7 @@ Public Class frmProductionItemSerialReplace
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -858,7 +858,7 @@ Public Class frmProductionItemSerialReplace
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

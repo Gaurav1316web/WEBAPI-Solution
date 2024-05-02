@@ -183,11 +183,11 @@ Public Class frmCustomerAccountSet
             clsCommon.AddColumnsForChange(coll, "Customer_Opening_Clearing_AC", Me.fndCustomerOpeningClearingAC.Value, True)
             clsCommon.AddColumnsForChange(coll, "Customer_Security_Opening_Clearing_AC", Me.fndCustomerSecurityOpeningClearingAC.Value, True)
             clsCommon.AddColumnsForChange(coll, "Rate_Difference", Me.FndRateDifference.Value, True)
-
+            clsCommon.AddColumnsForChange(coll, "TDS_Recoverable", Me.TxtTDSRec.Value, True)
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_ACCOUNT_SET", OMInsertOrUpdate.Update, "TSPL_CUSTOMER_ACCOUNT_SET.Cust_account='" + fndaccountsetcode.Value + "'", Nothing)
             '' end multicurrency
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text())
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text())
         End Try
     End Sub
     'This function is used to update Data.
@@ -225,7 +225,7 @@ Public Class frmCustomerAccountSet
             clsCommon.AddColumnsForChange(coll, "Customer_Opening_Clearing_AC", Me.fndCustomerOpeningClearingAC.Value, True)
             clsCommon.AddColumnsForChange(coll, "Customer_Security_Opening_Clearing_AC", Me.fndCustomerSecurityOpeningClearingAC.Value, True)
             clsCommon.AddColumnsForChange(coll, "Rate_Difference", Me.FndRateDifference.Value, True)
-
+            clsCommon.AddColumnsForChange(coll, "TDS_Recoverable", Me.TxtTDSRec.Value, True)
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_ACCOUNT_SET", OMInsertOrUpdate.Update, "TSPL_CUSTOMER_ACCOUNT_SET.Cust_account='" + fndaccountsetcode.Value + "'", Nothing)
 
             '' UPDATE CURRENCY CODE IN CUSTOMER MASTER TABLE
@@ -364,7 +364,7 @@ Public Class frmCustomerAccountSet
 
     Private Sub rdbtndelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdbtndelete.Click
         If clsCommon.myLen(fndaccountsetcode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         If myMessages.deleteConfirm() Then
@@ -375,7 +375,7 @@ Public Class frmCustomerAccountSet
                 rdbtndelete.Enabled = False
                 funreset()
             Else
-                common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+                common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             End If
             'fundelete()
             'myMessages.delete()
@@ -424,8 +424,8 @@ Public Class frmCustomerAccountSet
 
             Dim query As String = "select cust_account,cust_acct_desc,receivable_control_acct,receipts_discount_acct,advance_acct,write_offs, " &
             " Container_Deposit,tspl_customer_account_set.CURRENCY_CODE,tspl_customer_account_set.EXCHANGE_LOSS_ACCOUNT, " &
-            " TSPL_CUSTOMER_ACCOUNT_SET.SECURITY_ACCOUNT,gl3.description as SECURITY_ACCOUNT_NAME ,TSPL_CUSTOMER_ACCOUNT_SET.CREATE_SECURITY_ACCOUNT,gl4.description as CREATE_SECURITY_ACCOUNT_NAME ,TSPL_CUSTOMER_ACCOUNT_SET.BANK_GUARANTEE, gl5.description as BANK_GUARANTEE_NAME ,TSPL_CUSTOMER_ACCOUNT_SET.ACCOUNT1, gl6.description as ACCOUNT1_NAME ,TSPL_CUSTOMER_ACCOUNT_SET.ACCOUNT2, gl7.description as ACCOUNT2_NAME,TSPL_CUSTOMER_ACCOUNT_SET.Bank_Charges_Other_Account, g23.description as Bank_Charges_Other_Account_NAME,TSPL_CUSTOMER_ACCOUNT_SET.Foreign_Bank_Charges_Account, g22.description as Foreign_Bank_Charges_Account_NAME,TSPL_CUSTOMER_ACCOUNT_SET.SubSidy_Account, g24.description as SubSidy_Account_Desc , " &
-            " TSPL_CURRENCY_MASTER.currency_name,gl1.description as EXCHANGE_LOSS_ACCOUNT_Name,gl2.description as EXCHANGE_GAIN_ACCOUNT_Name,tspl_customer_account_set.EXCHANGE_GAIN_ACCOUNT,tspl_customer_account_set.GSOC_Acct,gl8.description as gsoc_name,tspl_customer_account_set.Consignment_Acct,gl9.description as consgnmnt_name,tspl_customer_account_set.Gain_Acct,g20.description as gain_name,tspl_customer_account_set.Loss_Acct,g21.description as loss_name,TSPL_CUSTOMER_ACCOUNT_SET.Penalty_Charges_Account, g25.description as Penalty_Charges_Account_NAME,TSPL_CUSTOMER_ACCOUNT_SET.Leakage_Deduction,g26.Description as Leakage_Deduction_Desc,tspl_customer_account_set.Customer_Opening_Clearing_AC, g27.Description as Customer_Opening_Clearing_AC_Desc ,tspl_customer_account_set.Customer_Security_Opening_Clearing_AC , g28.Description as Customer_Security_Opening_Clearing_AC_Desc,tspl_customer_account_set.Rate_Difference, g29.Description as  Rate_Difference_Desc  from tspl_customer_account_set " &
+            " TSPL_CUSTOMER_ACCOUNT_SET.SECURITY_ACCOUNT,gl3.description as SECURITY_ACCOUNT_NAME ,TSPL_CUSTOMER_ACCOUNT_SET.CREATE_SECURITY_ACCOUNT,gl4.description as CREATE_SECURITY_ACCOUNT_NAME ,TSPL_CUSTOMER_ACCOUNT_SET.BANK_GUARANTEE, gl5.description as BANK_GUARANTEE_NAME,g55.Description, TSPL_CUSTOMER_ACCOUNT_SET.ACCOUNT1, gl6.description as ACCOUNT1_NAME ,TSPL_CUSTOMER_ACCOUNT_SET.ACCOUNT2, gl7.description as ACCOUNT2_NAME,TSPL_CUSTOMER_ACCOUNT_SET.Bank_Charges_Other_Account, g23.description as Bank_Charges_Other_Account_NAME,TSPL_CUSTOMER_ACCOUNT_SET.Foreign_Bank_Charges_Account, g22.description as Foreign_Bank_Charges_Account_NAME,TSPL_CUSTOMER_ACCOUNT_SET.SubSidy_Account, g24.description as SubSidy_Account_Desc , " &
+            " TSPL_CURRENCY_MASTER.currency_name,gl1.description as EXCHANGE_LOSS_ACCOUNT_Name,gl2.description as EXCHANGE_GAIN_ACCOUNT_Name,tspl_customer_account_set.EXCHANGE_GAIN_ACCOUNT,tspl_customer_account_set.GSOC_Acct,gl8.description as gsoc_name,tspl_customer_account_set.Consignment_Acct,gl9.description as consgnmnt_name,tspl_customer_account_set.Gain_Acct,g20.description as gain_name,tspl_customer_account_set.Loss_Acct,g21.description as loss_name,TSPL_CUSTOMER_ACCOUNT_SET.Penalty_Charges_Account, g25.description as Penalty_Charges_Account_NAME,TSPL_CUSTOMER_ACCOUNT_SET.Leakage_Deduction,g26.Description as Leakage_Deduction_Desc,tspl_customer_account_set.Customer_Opening_Clearing_AC, g27.Description as Customer_Opening_Clearing_AC_Desc ,tspl_customer_account_set.Customer_Security_Opening_Clearing_AC,tspl_customer_account_set.TDS_Recoverable , g28.Description as Customer_Security_Opening_Clearing_AC_Desc,tspl_customer_account_set.Rate_Difference, g29.Description as  Rate_Difference_Desc  from tspl_customer_account_set " &
             " left join TSPL_CURRENCY_MASTER on tspl_customer_account_set.currency_code=TSPL_CURRENCY_MASTER.currency_code " &
             " left join TSPL_GL_ACCOUNTS gl1 on tspl_customer_account_set.EXCHANGE_LOSS_ACCOUNT=gl1.account_code " &
             " left join TSPL_GL_ACCOUNTS gl2 on tspl_customer_account_set.EXCHANGE_GAIN_ACCOUNT=gl2.account_code " &
@@ -445,7 +445,7 @@ Public Class frmCustomerAccountSet
             "left join TSPL_GL_ACCOUNTS g26 on tspl_customer_account_set.Leakage_Deduction=g26.account_code " &
             " left join TSPL_GL_ACCOUNTS g27 on tspl_customer_account_set.Customer_Opening_Clearing_AC=g27.account_code " &
             " left join TSPL_GL_ACCOUNTS g28 on tspl_customer_account_set.Customer_Security_Opening_Clearing_AC=g28.account_code " &
-             " left join TSPL_GL_ACCOUNTS g29 on tspl_customer_account_set.Rate_Difference= g29.account_code " &
+             " left join TSPL_GL_ACCOUNTS g29 on tspl_customer_account_set.Rate_Difference= g29.account_code    left join TSPL_GL_ACCOUNTS g55 on tspl_customer_account_set.tds_recoverable = g55.account_code " &
                         " where cust_account='" + fndaccountsetcode.Value + "'"
 
             Dim adp As New SqlDataAdapter(query, connectSql.SqlCon)
@@ -505,7 +505,8 @@ Public Class frmCustomerAccountSet
             lblCustomerSecurityOpeningClearingAC.Text = clsCommon.myCstr(dr("Customer_Security_Opening_Clearing_AC_Desc"))
             FndRateDifference.Value = clsCommon.myCstr(dr("Rate_Difference"))
             lblRateDifference.Text = clsCommon.myCstr(dr("Rate_Difference_Desc"))
-
+            TxtTDSRec.Value = clsCommon.myCstr(dr("TDS_Recoverable"))
+            lblTDSRev.Text = clsCommon.myCstr(dr("Description"))
             rdbtnsave.Text = "Update"
             rdbtndelete.Enabled = True
 
@@ -590,6 +591,8 @@ Public Class frmCustomerAccountSet
         fndaccountsetcode.Value = ""
         FndRateDifference.Value = ""
         lblRateDifference.Text = ""
+        TxtTDSRec.Value = ""
+        lblTDSRev.Text = ""
         fndaccountsetcode.Enabled = True
         rdtxtdescription.Text = ""
         fndadvance.Value = ""
@@ -1109,7 +1112,7 @@ Public Class frmCustomerAccountSet
                 Try
                     trans.Commit()
                     clsCommon.ProgressBarHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
 
                 Catch ex As Exception
 
@@ -1317,7 +1320,7 @@ Public Class frmCustomerAccountSet
                 Else : query = ""
 
                     rdtxtrecievablecontrol.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Recievable Control Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Recievable Control Account does not exist", Me.Text)
                     fndrecisvablecontrol.Value = ""
 
 
@@ -1349,7 +1352,7 @@ Public Class frmCustomerAccountSet
                 Else : query = ""
 
                     rdtxtrecieptdicount.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Reciept Discount Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Reciept Discount Account does not exist", Me.Text)
                     fndrecieptdiscount.Value = ""
 
 
@@ -1381,7 +1384,7 @@ Public Class frmCustomerAccountSet
                 Else : query = ""
 
                     rdtxtadvance.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Advance Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Advance Account does not exist", Me.Text)
                     fndadvance.Value = ""
 
 
@@ -1413,7 +1416,7 @@ Public Class frmCustomerAccountSet
                 Else : query = ""
 
                     rdtxtwriteoff.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Write Offs Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Write Offs Account does not exist", Me.Text)
                     fndwriteoffs.Value = ""
 
 
@@ -1538,7 +1541,7 @@ Public Class frmCustomerAccountSet
 
 
     Private Sub fndrecisvablecontrol__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndrecisvablecontrol._MYValidating
-        Dim qry As String = "select account_code as [AccountCode],description as [Description] from tspl_gl_accounts "
+        Dim qry As String = "select account_code as [AccountCode],description as [Description] from                          "
         fndrecisvablecontrol.Value = clsCommon.ShowSelectForm("REC_CONfnd", qry, "AccountCode", " ControlAccount ='Y' ", fndrecisvablecontrol.Value, "", isButtonClicked)
         rdtxtrecievablecontrol.Text = clsDBFuncationality.getSingleValue("select description from tspl_gl_accounts where account_code='" + fndrecisvablecontrol.Value + "' ")
         LoadRec()
@@ -1753,7 +1756,7 @@ Public Class frmCustomerAccountSet
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(fndaccountsetcode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Account Set", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Select Account Set", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(fndaccountsetcode.Value, "Cust_Account", "TSPL_CUSTOMER_ACCOUNT_SET")
@@ -1785,6 +1788,13 @@ Public Class frmCustomerAccountSet
         Dim qry As String = "select account_code as [AccountCode],description as [Description] from tspl_gl_accounts "
         FndRateDifference.Value = clsCommon.ShowSelectForm("BankCO", qry, "AccountCode", " ControlAccount ='Y' ", FndRateDifference.Value, "", isButtonClicked)
         lblRateDifference.Text = clsDBFuncationality.getSingleValue("select description from tspl_gl_accounts where account_code='" + FndRateDifference.Value + "' ")
+    End Sub
+
+    Private Sub TxtTDSRec__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtTDSRec._MYValidating
+        Dim qry As String = "select account_code as [AccountCode],description as [Description] from tspl_gl_accounts "
+        TxtTDSRec.Value = clsCommon.ShowSelectForm("TDSRecoverablefnd", qry, "AccountCode", "", TxtTDSRec.Value, "", isButtonClicked)
+        lblTDSRev.Text = clsDBFuncationality.getSingleValue("select description from tspl_gl_accounts where account_code='" + TxtTDSRec.Value + "' ")
+
     End Sub
 
     Private Sub fndCustomerSecurityOpeningClearingAC__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndCustomerSecurityOpeningClearingAC._MYValidating

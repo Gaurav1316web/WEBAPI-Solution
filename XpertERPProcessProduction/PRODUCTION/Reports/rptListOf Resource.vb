@@ -36,7 +36,7 @@ Public Class RptListOf_Resource
             qry += " and UNIT_CODE='" + fnduom.Value + "'"
         End If
         If chkResourceSelect.IsChecked AndAlso cbgResource.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast one resource")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast one resource", Me.Text)
         ElseIf chkResourceSelect.IsChecked AndAlso cbgResource.CheckedValue.Count > 0 Then
             qry += " and  RESOURCE_CODE in (" + clsCommon.GetMulcallString(cbgResource.CheckedValue) + ")"
         End If
@@ -52,7 +52,7 @@ Public Class RptListOf_Resource
         gv.EnableFiltering = True
 
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             Exit Sub
         Else
             gv.DataSource = dt

@@ -1430,7 +1430,7 @@ Public Class FrmRptSales
             clsCommon.MyExportToExcel("Sale Register ( " + ReportType + ")", gvReport, arrHeader, Me.Text)
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarHide()
         End Try

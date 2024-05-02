@@ -50,7 +50,7 @@ Public Class frmDBTStatusAndLastDPTStatus
 
         '    fillGridReport(False)
         'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
     Private Function ReportQry() As String
@@ -265,7 +265,7 @@ Public Class frmDBTStatusAndLastDPTStatus
                 doc = Nothing
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

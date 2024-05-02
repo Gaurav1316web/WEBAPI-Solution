@@ -125,14 +125,13 @@ Public Class rptMultipleDeductionReport
                 If txtMultiVSP.arrValueMember IsNot Nothing AndAlso txtMultiVSP.arrValueMember.Count > 0 Then
                     ItemInUse += " and tspl_sd_shipment_head.Customer_Code in (" + clsCommon.GetMulcallString(txtMultiVSP.arrValueMember) + ")"
                 End If
+                Dim dtItem As DataTable = clsDBFuncationality.GetDataTable("select * from  " & ItemInUse & "")
+                If dtItem.Rows.Count > 0 Then
+                    Dim strItem As String = clsDBFuncationality.getSingleValue("DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' +'Sum(isnull(' + QUOTENAME( " + strAliasCol + ") +',0))' +' as ' + QUOTENAME( " + strAliasCol + ") as Alies_Name  FROM " + ItemInUse + "   FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')  ")
+                    Dim strItemTotal2 As String = clsDBFuncationality.getSingleValue("  DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct '+' +'Sum(isnull(' + QUOTENAME( " + strAliasCol + ") +',0))'  as Alies_Name  FROM " + ItemInUse + "  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')  ")
+                    Dim strItemwhrcls As String = clsDBFuncationality.getSingleValue("DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' + QUOTENAME( " + strAliasCol + ") as Alies_Name  FROM " + ItemInUse + "   FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')  ")
 
-
-
-                Dim strItem As String = clsDBFuncationality.getSingleValue("DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' +'Sum(isnull(' + QUOTENAME( " + strAliasCol + ") +',0))' +' as ' + QUOTENAME( " + strAliasCol + ") as Alies_Name  FROM " + ItemInUse + "   FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')  ")
-                Dim strItemTotal2 As String = clsDBFuncationality.getSingleValue("  DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct '+' +'Sum(isnull(' + QUOTENAME( " + strAliasCol + ") +',0))'  as Alies_Name  FROM " + ItemInUse + "  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')  ")
-                Dim strItemwhrcls As String = clsDBFuncationality.getSingleValue("DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' + QUOTENAME( " + strAliasCol + ") as Alies_Name  FROM " + ItemInUse + "   FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')  ")
-
-                qry = "Select Route_No as [Route Code]," & strItem & "," & strItemTotal2 & " as Total
+                    qry = "Select Route_No as [Route Code]," & strItem & "," & strItemTotal2 & " as Total
 from (Select Final.Route_No,Final.Item_code,Final.Item_Desc,isnull(Sum(final.QtyInStockingUnit),0) as Qty From (select TSPL_VLC_MASTER_HEAD.Route_Code as Route_No,tspl_item_Uom_detail.UOM_Code,TSPL_SD_SHIPMENT_DETAIL.Item_code,tspl_item_master.Item_Desc,TSPL_SD_SHIPMENT_DETAIL.Unit_code,TSPL_SD_SHIPMENT_DETAIL.Qty as Qty,--ConvertedUnit.Conversion_Factor,isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1),
 isnull((TSPL_SD_SHIPMENT_DETAIL.Qty*isnull(ConvertedUnit.Conversion_Factor,1)/isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))  ,0) as QtyInStockingUnit
 from tspl_sd_shipment_head
@@ -143,14 +142,14 @@ left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_S
 where tspl_sd_shipment_head.Trans_Type='MCC' 
 and tspl_sd_shipment_head.status=1 "
 
-                If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
-                    qry += " and tspl_sd_shipment_head.Bill_To_Location in (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
-                End If
-                If txtMultiVSP.arrValueMember IsNot Nothing AndAlso txtMultiVSP.arrValueMember.Count > 0 Then
-                    qry += " and tspl_sd_shipment_head.Customer_Code in (" + clsCommon.GetMulcallString(txtMultiVSP.arrValueMember) + ")"
-                End If
+                    If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                        qry += " and tspl_sd_shipment_head.Bill_To_Location in (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
+                    End If
+                    If txtMultiVSP.arrValueMember IsNot Nothing AndAlso txtMultiVSP.arrValueMember.Count > 0 Then
+                        qry += " and tspl_sd_shipment_head.Customer_Code in (" + clsCommon.GetMulcallString(txtMultiVSP.arrValueMember) + ")"
+                    End If
 
-                qry += " )Final
+                    qry += " )Final
 group by Final.Route_No,Final.Item_code,Final.Item_Desc
 ) t
 PIVOT(
@@ -159,8 +158,14 @@ FOR Item_Desc IN (
 " & strItemwhrcls & "
 )
 ) AS pivot_table
-group by Route_no
-"
+group by Route_no"
+
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "No Items found", Me.Text)
+                    Exit Sub
+                End If
+
+
             Else
 
                 strBaseqry = "select TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No,convert(varchar,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) as Document_Date  ,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then TSPL_MULTIPLE_DEDUCTION_detail.amount else 0 end as Addition,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 0 else TSPL_MULTIPLE_DEDUCTION_detail.amount  end as Deduction,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as [VLC Uploader Code]  from TSPL_MULTIPLE_DEDUCTION_HEAD 

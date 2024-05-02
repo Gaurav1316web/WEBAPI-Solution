@@ -645,7 +645,7 @@ Public Class FrmSchmeMaster
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -963,7 +963,7 @@ Public Class FrmSchmeMaster
             createitem = classcode + size + cate + pack
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return createitem
     End Function
@@ -971,7 +971,7 @@ Public Class FrmSchmeMaster
     Public Sub nodecheck()
         Try
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1344,7 +1344,7 @@ Public Class FrmSchmeMaster
                 grdScheme.CurrentRow.Cells(1).Value = connectSql.RunScalar("select Item_Desc  from TSPL_ITEM_MASTER  where Item_Code = '" + grdScheme.CurrentRow.Cells(0).Value + "'")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
         End Try
     End Sub

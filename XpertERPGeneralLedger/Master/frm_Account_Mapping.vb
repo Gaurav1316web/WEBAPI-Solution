@@ -18,7 +18,7 @@ Public Class Frm_Account_Mapping
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.frm_Account_Mapping)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -85,7 +85,7 @@ Public Class Frm_Account_Mapping
 
             Next
         Else
-            common.clsCommon.MyMessageBoxShow("Please Select account")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select account", Me.Text)
             txtfndAccountCode.Focus()
             Exit Sub
         End If
@@ -98,7 +98,7 @@ Public Class Frm_Account_Mapping
 
             Next
         Else
-            common.clsCommon.MyMessageBoxShow("Please Select account")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select account", Me.Text)
             txtfndAccountCode.Focus()
             Exit Sub
         End If
@@ -116,7 +116,7 @@ Public Class Frm_Account_Mapping
     End Sub
     Public Function AllowToSave() As Boolean
         If clsCommon.myLen(txtfndAccountCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select Account Code firstly ")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select Account Code firstly ", Me.Text)
             Return False
         End If
         Dim i As Integer
@@ -173,12 +173,12 @@ Public Class Frm_Account_Mapping
             Next
 
             If arr.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atlest Single account")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atlest Single account", Me.Text)
                 Exit Sub
 
             End If
             If ClsAccount_Mapping.SaveData(txtfndAccountCode.Value, arr) Then
-                common.clsCommon.MyMessageBoxShow("Data saved SucessFully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data saved SucessFully", Me.Text)
             End If
 
         End If

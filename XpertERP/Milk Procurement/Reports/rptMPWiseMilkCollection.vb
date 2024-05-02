@@ -202,11 +202,11 @@ Public Class RptMPWiseMilkCollection
     Private Sub LoadData()
         If clsCommon.myCDate(txtFromDate.Value) > clsCommon.myCDate(txtToDate.Value) Then
             txtFromDate.Focus()
-            clsCommon.MyMessageBoxShow("From date can not be greater then to Date", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             Exit Sub
         End If
         If chkMCCSelect.IsChecked AndAlso cbgMCC.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single MCC or select all.", Me.Text)
             Exit Sub
         End If
         Dim companyADD, CompName, CompCode As String
@@ -334,7 +334,7 @@ Public Class RptMPWiseMilkCollection
             frmCRV = Nothing
         End If
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             Exit Sub
         End If
         gv.BestFitColumns()
@@ -417,7 +417,7 @@ Public Class RptMPWiseMilkCollection
                     transportSql.QuickExportToExcel(gv, "", Me.Text, , arrHeader)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)

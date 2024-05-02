@@ -451,7 +451,7 @@ Public Class RptProductDOStatus
                 clsCommon.MyExportToPDF("Delivery Status", Gv1, arrHeader, "Delivery Status", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

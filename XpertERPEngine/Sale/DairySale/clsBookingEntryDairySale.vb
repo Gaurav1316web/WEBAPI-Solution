@@ -132,7 +132,6 @@ Public Class clsBookingEntryDairySale
     Public Security_TotalAmt As Decimal = 0
 
 
-
     Public arrBookingDetailDairySalePaymentMode As List(Of clsBookingDetailDairySalePaymentMode) = Nothing
 #End Region
     Public Function SaveData(ByVal obj As clsBookingEntryDairySale, ByVal isNewEntry As Boolean) As Boolean
@@ -165,6 +164,7 @@ Public Class clsBookingEntryDairySale
             'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmbookingdairyFreshSale, obj.location_code, obj.Document_Date, trans)
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmbookingdairy, obj.location_code, obj.Document_Date, trans)
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmDairyBookingCustomer, obj.location_code, obj.Document_Date, trans)
+            clsBatchInventory.DeleteData("PS-SH", obj.Document_No, trans)
 
 
             Dim isSaved As Boolean = True
@@ -1400,6 +1400,7 @@ Public Class clsBookingDetailDairySale
     Public PricePlanNo As String = String.Empty
     Public Item_Price_ID As Integer = 0
     Public Document_No As String = Nothing
+    Public arrBatchItem As List(Of clsBatchInventory) = Nothing
     Public Against_DemandBooking_TR_Code As String = String.Empty
     Public Against_DemandBooking_No As String = String.Empty
     Public Line_No As Integer
@@ -1494,6 +1495,7 @@ Public Class clsBookingDetailDairySale
     Public Transporter_Commission_Amt As Decimal = 0
     Public Security_Rate As Decimal = 0
     Public Security_Amt As Decimal = 0
+    Public Batch_No As String = ""
 #End Region
 
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsBookingDetailDairySale), ByVal trans As SqlTransaction, ByVal isNewEntry As Boolean, ByVal Docdate As String) As Boolean
@@ -1510,7 +1512,7 @@ Public Class clsBookingDetailDairySale
         Dim dtBookingScheme As DataTable = Nothing
         Dim dtGatePassScheme As DataTable = Nothing
         Dim ArrGPScheme As New List(Of clsGatePassDairySaleDetail)
-
+        Dim IsDairyModule As Boolean = False
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsBookingDetailDairySale In Arr
                 If arrRepeat.Contains(obj.Cust_Code) Then
@@ -1614,6 +1616,7 @@ Public Class clsBookingDetailDairySale
                 clsCommon.AddColumnsForChange(coll, "Transporter_Commission_Amt", obj.Transporter_Commission_Amt, True)
                 clsCommon.AddColumnsForChange(coll, "Security_Rate", obj.Security_Rate, True)
                 clsCommon.AddColumnsForChange(coll, "Security_Amt", obj.Security_Amt, True)
+                clsCommon.AddColumnsForChange(coll, "Batch_No", obj.Batch_No, True)
                 'Ticket No- ERO/12/07/18-000371
                 clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
                 'Ticket No- ERO/12/07/18-000371
@@ -1682,7 +1685,15 @@ Public Class clsBookingDetailDairySale
                         End If
                     Next
                 End If
+                Dim checkstockmrpwise As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.checkstockMRPwise, clsFixedParameterCode.checkstockMRPwise, trans)) = 0, False, True)
+                If IsDairyModule = False Then
+                    If checkstockmrpwise Then
+                        clsBatchInventory.SaveData("PS-SH", strDocNo, Docdate, "O", obj.Item_Code, obj.Loc_Code, obj.Line_No, obj.Item_Rate, obj.Unit_code, obj.arrBatchItem, trans)
+                    Else
+                        clsBatchInventory.SaveData("PS-SH", strDocNo, Docdate, "O", obj.Item_Code, obj.Loc_Code, obj.Line_No, 0, obj.Unit_code, obj.arrBatchItem, trans)
+                    End If
 
+                End If
             Next
 
             'GatePass Entry
@@ -1933,6 +1944,7 @@ Public Class clsBookingDetailDairySale
                     obj.Distributor_Commission_Amt = clsCommon.myCdbl(dt.Rows(i)("Distributor_Commission_Amt"))
                     obj.Security_Rate = clsCommon.myCdbl(dt.Rows(i)("Security_Rate"))
                     obj.Security_Amt = clsCommon.myCdbl(dt.Rows(i)("Security_Amt"))
+                    obj.Batch_No = clsCommon.myCdbl(dt.Rows(i)("Batch_No"))
                     arrObj.Add(obj)
                 Next
             End If

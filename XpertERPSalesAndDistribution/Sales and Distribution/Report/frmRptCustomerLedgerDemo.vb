@@ -175,7 +175,7 @@ Public Class FrmRptCustomerLedgerDemo
         chkMonthWise.Visible = False
         chkIncludeCardIndent.Checked = True
         AllowtoSHOWParentChildCustomer = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowtoSHOWParentChildCustomer, clsFixedParameterCode.AllowtoSHOWParentChildCustomer, Nothing)) = 1, True, False))
-        strCusMappingByLocForCurUser = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' +'''' + ( Customer_Code ) +''''  as Alies_Name FROM TSPL_CUSTOMER_LOCATION_MAPPING where Location_Code in (select Location_Code from TSPL_LOCATION_MASTER where Loc_Segment_Code   in ( " + objCommonVar.strCurrUserLocationsSegment + " ) )  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') "))
+        'strCusMappingByLocForCurUser = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' +'''' + ( Customer_Code ) +''''  as Alies_Name FROM TSPL_CUSTOMER_LOCATION_MAPPING where Location_Code in (select Location_Code from TSPL_LOCATION_MASTER where Loc_Segment_Code   in ( " + objCommonVar.strCurrUserLocationsSegment + " ) )  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') "))
     End Sub
 
     Private Sub SetUserMgmtNew()
@@ -1054,7 +1054,7 @@ Public Class FrmRptCustomerLedgerDemo
             strFromDate = Nothing
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function getQueryCustomerMonthiwisereport(ByVal strCustomerdayWiseqry As String) As String
@@ -2615,7 +2615,7 @@ left outer join tspl_company_master on tspl_company_master.Comp_Code =tspl_custo
             GridSummaryRow()
             gvDetails.MasterTemplate.SortDescriptors.Clear()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2962,7 +2962,7 @@ left outer join tspl_company_master on tspl_company_master.Comp_Code =tspl_custo
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2999,7 +2999,7 @@ left outer join tspl_company_master on tspl_company_master.Comp_Code =tspl_custo
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3281,7 +3281,7 @@ left outer join tspl_company_master on tspl_company_master.Comp_Code =tspl_custo
             chkDateWise.Checked = False
             chkIncludeCardIndent.Checked = True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3340,7 +3340,7 @@ left outer join tspl_company_master on tspl_company_master.Comp_Code =tspl_custo
             'common.clsCommon.MyMessageBoxShow("Exported Successfully.")
             'Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -3424,7 +3424,7 @@ left outer join tspl_company_master on tspl_company_master.Comp_Code =tspl_custo
             'common.clsCommon.MyMessageBoxShow("Exported Successfully.")
             'Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -3437,7 +3437,7 @@ left outer join tspl_company_master on tspl_company_master.Comp_Code =tspl_custo
             End If
             ExportCSV(gvDetails, True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -3497,7 +3497,7 @@ left outer join tspl_company_master on tspl_company_master.Comp_Code =tspl_custo
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3530,7 +3530,7 @@ left outer join tspl_company_master on tspl_company_master.Comp_Code =tspl_custo
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3625,7 +3625,7 @@ left outer join tspl_company_master on tspl_company_master.Comp_Code =tspl_custo
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3653,7 +3653,7 @@ left outer join tspl_company_master on tspl_company_master.Comp_Code =tspl_custo
             pdfExporter.RunExport(FilePath)
             System.Diagnostics.Process.Start(FilePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ''richa ERO/23/12/19-001161
@@ -3665,7 +3665,7 @@ left outer join tspl_company_master on tspl_company_master.Comp_Code =tspl_custo
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3677,7 +3677,7 @@ left outer join tspl_company_master on tspl_company_master.Comp_Code =tspl_custo
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3690,7 +3690,7 @@ left outer join tspl_company_master on tspl_company_master.Comp_Code =tspl_custo
                 txtFromDate.Value = clsCommon.myCDate(strStartDate, "dd/MMM/yyyy")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

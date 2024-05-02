@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.businesssms.co.in/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.businesssms.co.in/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.businesssms.co.in/">
+      <s:element name="BSAcBalance">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strPwd" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BSAcBalanceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BSAcBalanceResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BSChangePwd">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strPwd" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strNewPwd" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BSChangePwdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BSChangePwdResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SubmitSMS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strPwd" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strPhNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strText" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strSchedule" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="intRetryMin" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="strSenderID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strSenderNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SubmitSMSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SubmitSMSResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="BSAcBalanceSoapIn">
+    <wsdl:part name="parameters" element="tns:BSAcBalance" />
+  </wsdl:message>
+  <wsdl:message name="BSAcBalanceSoapOut">
+    <wsdl:part name="parameters" element="tns:BSAcBalanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="BSChangePwdSoapIn">
+    <wsdl:part name="parameters" element="tns:BSChangePwd" />
+  </wsdl:message>
+  <wsdl:message name="BSChangePwdSoapOut">
+    <wsdl:part name="parameters" element="tns:BSChangePwdResponse" />
+  </wsdl:message>
+  <wsdl:message name="SubmitSMSSoapIn">
+    <wsdl:part name="parameters" element="tns:SubmitSMS" />
+  </wsdl:message>
+  <wsdl:message name="SubmitSMSSoapOut">
+    <wsdl:part name="parameters" element="tns:SubmitSMSResponse" />
+  </wsdl:message>
+  <wsdl:portType name="BSWSSoap">
+    <wsdl:operation name="BSAcBalance">
+      <wsdl:input message="tns:BSAcBalanceSoapIn" />
+      <wsdl:output message="tns:BSAcBalanceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BSChangePwd">
+      <wsdl:input message="tns:BSChangePwdSoapIn" />
+      <wsdl:output message="tns:BSChangePwdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SubmitSMS">
+      <wsdl:input message="tns:SubmitSMSSoapIn" />
+      <wsdl:output message="tns:SubmitSMSSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BSWSSoap" type="tns:BSWSSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="BSAcBalance">
+      <soap:operation soapAction="http://www.businesssms.co.in/BSAcBalance" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BSChangePwd">
+      <soap:operation soapAction="http://www.businesssms.co.in/BSChangePwd" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SubmitSMS">
+      <soap:operation soapAction="http://www.businesssms.co.in/SubmitSMS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="BSWSSoap12" type="tns:BSWSSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="BSAcBalance">
+      <soap12:operation soapAction="http://www.businesssms.co.in/BSAcBalance" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BSChangePwd">
+      <soap12:operation soapAction="http://www.businesssms.co.in/BSChangePwd" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SubmitSMS">
+      <soap12:operation soapAction="http://www.businesssms.co.in/SubmitSMS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="BSWS">
+    <wsdl:port name="BSWSSoap" binding="tns:BSWSSoap">
+      <soap:address location="http://www.businesssms.co.in/WebService/BSWS.asmx" />
+    </wsdl:port>
+    <wsdl:port name="BSWSSoap12" binding="tns:BSWSSoap12">
+      <soap12:address location="http://www.businesssms.co.in/WebService/BSWS.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

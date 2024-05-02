@@ -18,7 +18,7 @@ Public Class FrmItemSelector2
             dgvItem.DataSource = dt
             FormatGrid()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -41,14 +41,14 @@ Public Class FrmItemSelector2
                 End If
             Next
             If (Arr Is Nothing OrElse Arr.Count <= 0) Then
-                common.clsCommon.MyMessageBoxShow("Please Select Atleast Single Item")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast Single Item", Me.Text)
                 Return
             Else
                 Me.Close()
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

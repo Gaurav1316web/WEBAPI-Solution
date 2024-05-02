@@ -111,7 +111,8 @@ Partial Class frmBullParameterGroup
         'btnnew
         '
         Me.btnnew.Image = CType(resources.GetObject("btnnew.Image"), System.Drawing.Image)
-        Me.btnnew.Location = New System.Drawing.Point(310, 14)
+        Me.btnnew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnnew.Location = New System.Drawing.Point(313, 14)
         Me.btnnew.Name = "btnnew"
         Me.btnnew.Size = New System.Drawing.Size(16, 21)
         Me.btnnew.TabIndex = 62

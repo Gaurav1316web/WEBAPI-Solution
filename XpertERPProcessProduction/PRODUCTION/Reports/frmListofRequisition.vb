@@ -86,7 +86,7 @@ Public Class frmListofRequisition
             qry += " convert(date,TSPL_MF_REQUISITION.REQ_DATE,103) <= '" + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") + "'   "
             If chkBOAll.IsChecked = False Then
                 If chkBOSelect.IsChecked = True AndAlso cbgBatchOrder.CheckedValue.Count = 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select atleast one Batch Order")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Batch Order")
                     Return
                 ElseIf cbgBatchOrder.CheckedValue.Count > 0 Then
                     If chkSum.IsChecked = True Then
@@ -98,7 +98,7 @@ Public Class frmListofRequisition
             End If
             If chkLocationAll.IsChecked = False Then
                 If chkLocationSelect.IsChecked = True AndAlso cbgLocation.CheckedValue.Count = 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select atleast one Location")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Location")
                     Return
                 ElseIf cbgLocation.CheckedValue.Count > 0 Then
                     qry += "  and TSPL_MF_REQUISITION.LOCATION_CODE in (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ")"
@@ -112,7 +112,7 @@ Public Class frmListofRequisition
             gv.Columns.Clear()
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Record Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
             Else
                 If dt IsNot Nothing And dt.Rows.Count > 0 Then
                     gv.DataSource = dt
@@ -192,7 +192,7 @@ Public Class frmListofRequisition
                 clsCommon.MyExportToPDF(str, gv, arr, "List of Requisition", False)
             End If
         Else
-            common.clsCommon.MyMessageBoxShow("No Record Found to print.")
+            common.clsCommon.MyMessageBoxShow(Me, "No Record Found to print.", Me.Text)
         End If
     End Sub
 

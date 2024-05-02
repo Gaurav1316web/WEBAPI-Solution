@@ -178,7 +178,7 @@ Public Class FrmNDDBMaster
             If (clsCommon.CompairString(clsCommon.myCstr(ex.Message), "Code not found to delete") <> CompairStringResult.Equal) Then
                 clsCommon.MyMessageBoxShow("Current Code is in use")
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -188,7 +188,7 @@ Public Class FrmNDDBMaster
         Try
             LoadData(txtNDDBNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtNDDBNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtNDDBNo._MYValidating

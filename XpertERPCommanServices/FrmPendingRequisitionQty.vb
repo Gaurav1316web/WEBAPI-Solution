@@ -351,7 +351,7 @@ Public Class FrmPendingRequisitionQty
             RadPageView1.SelectedPage = RadPageViewPage2
             RadGroupBox2.Enabled = False
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
         ReStoreGridLayout()
     End Sub

@@ -101,7 +101,7 @@ Public Class FrmBranchAccountMapping
     '    Try
     '        If (deleteConfirm()) Then
     '            If (ClsBranchAccountMapping.DeleteData(fndCode.Value)) Then
-    '                common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+    '                common.clsCommon.MyMessageBoxShow(me,"Data Deleted Successfully ",me.text)
     '                funReset()
     '            End If
     '        End If

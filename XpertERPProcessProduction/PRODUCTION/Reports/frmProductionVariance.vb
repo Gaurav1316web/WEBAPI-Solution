@@ -53,7 +53,7 @@ Public Class frmProductionVariance
 
         If chkLocationAll.IsChecked = False Then
             If chkLocationSelect.IsChecked = True AndAlso cbgLocation.CheckedValue.Count = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast one Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Location", Me.Text)
                 Return
             ElseIf cbgLocation.CheckedValue.Count > 0 Then
                 If ApplyStandardProductionVariance = True Then
@@ -66,7 +66,7 @@ Public Class frmProductionVariance
         End If
         If chkItemAll.IsChecked = False Then
             If chkItemSelect.IsChecked = True AndAlso cbgItem.CheckedValue.Count = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast one ItemCode")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one ItemCode", Me.Text)
                 Return
             ElseIf cbgItem.CheckedValue.Count > 0 Then
 
@@ -174,7 +174,7 @@ Public Class frmProductionVariance
             RadPageView1.SelectedPage = RadPageViewPage2
             gv1.BestFitColumns()
         Else
-            clsCommon.MyMessageBoxShow("No Data to Show in Selected Dates.")
+            clsCommon.MyMessageBoxShow(Me, "No Data to Show in Selected Dates.", Me.Text)
         End If
 
     End Sub
@@ -270,7 +270,7 @@ Public Class frmProductionVariance
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -336,7 +336,7 @@ Public Class frmProductionVariance
                 clsCommon.MyExportToPDF(str, gv1, arr, "Production Variance Report", True)
             End If
         Else
-            common.clsCommon.MyMessageBoxShow("No Record Found to print.")
+            common.clsCommon.MyMessageBoxShow(Me, "No Record Found to print.", Me.Text)
         End If
     End Sub
 

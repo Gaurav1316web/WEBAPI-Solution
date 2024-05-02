@@ -57,7 +57,7 @@ Public Class FrmToolType
         Try
             If (myMessages.deleteConfirm()) Then
                 If (ClsMFToolType.DeleteData(fndToolCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If
@@ -169,7 +169,7 @@ Public Class FrmToolType
         Try
             LoadData(fndToolCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

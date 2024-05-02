@@ -40,7 +40,7 @@ Public Class FrmAssetDetails
     '    '    btnSave.Visible = MyBase.isModifyFlag
     '    '    btnDelete.Visible = MyBase.isDeleteFlag
     '    'Catch ex As Exception
-    '    '    clsCommon.MyMessageBoxShow(ex.Message)
+    '    '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    'End Try
     'End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -198,7 +198,7 @@ Public Class FrmAssetDetails
             dtpDOP.Value = System.DateTime.Now.ToString()
             UcAttachment1.BlankAllControls()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub FrmAssetDetails_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown

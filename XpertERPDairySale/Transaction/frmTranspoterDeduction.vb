@@ -330,7 +330,7 @@ Public Class frmTranspoterDeduction
             isInsideLoadData = False
         Catch ex As Exception
             isInsideLoadData = False
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Transpoter Deduction", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Transpoter Deduction", MessageBoxButtons.OK)
         End Try
     End Sub
 
@@ -436,7 +436,7 @@ Public Class frmTranspoterDeduction
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -472,13 +472,13 @@ Public Class frmTranspoterDeduction
     End Sub
     Private Sub btnPost_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPost.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Document No not found to Post")
+            common.clsCommon.MyMessageBoxShow(Me, "Document No not found to Post", Me.Text)
             Exit Sub
         End If
 
         Dim isPost As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select count (*) from TSPL_TRANSPOTER_DEDUCTION_ENTRY_HEADER where Document_Code = '" + txtDocNo.Value + "' and IsPosted = 'Y'"))
         If isPost = True Then
-            common.clsCommon.MyMessageBoxShow("Record Already posted.")
+            common.clsCommon.MyMessageBoxShow(Me, "Record Already posted.", Me.Text)
             Exit Sub
         End If
         If myMessages.postConfirm() Then
@@ -547,7 +547,7 @@ Public Class frmTranspoterDeduction
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsTransporterDeductionHead.DeleteData(txtDocNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     btnAddNew.PerformClick()
                 End If
             End If
@@ -586,7 +586,7 @@ Public Class frmTranspoterDeduction
 
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -733,7 +733,7 @@ Public Class frmTranspoterDeduction
                 isInsideLoadData = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
 
         End Try
@@ -962,14 +962,14 @@ Public Class frmTranspoterDeduction
 
     Private Sub btnReverseAndUnpost_Click(sender As Object, e As EventArgs) Handles btnReverseAndUnpost.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsTransporterDeductionHead.ReverseAndUnpost(txtDocNo.Value) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -981,7 +981,7 @@ Public Class frmTranspoterDeduction
                 lblTranspoter.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Transporter_Name from tspl_transport_Master WHERE Transport_Id='" + fndTranspoter.Value + "'"))
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1011,7 +1011,7 @@ Public Class frmTranspoterDeduction
             Dim qry As String = " select TSPL_ROUTE_MASTER.Route_No as Code, TSPL_ROUTE_MASTER.Route_Desc as Name from TSPL_ROUTE_MASTER left outer join TSPL_VEHICLE_MASTER on TSPL_ROUTE_MASTER.vehicle_code = TSPL_VEHICLE_MASTER.Vehicle_Id  where TSPL_VEHICLE_MASTER.Transport_Id = '" + fndTranspoter.Value + "'"
             mulRoute.arrValueMember = clsCommon.ShowMultipleSelectForm(False, "TranspoterDeduMulRoute@fnd", qry, "Code", "", mulRoute.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

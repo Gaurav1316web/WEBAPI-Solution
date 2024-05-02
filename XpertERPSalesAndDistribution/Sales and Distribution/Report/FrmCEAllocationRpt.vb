@@ -12,7 +12,7 @@ Public Class FrmCEAllocationRpt
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.CEAllocationReport)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -115,7 +115,7 @@ Public Class FrmCEAllocationRpt
 
 
             If chkrotesel.IsChecked = True AndAlso cgvRoute.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one route Category or select ALL ")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one route Category or select ALL ", Me.Text)
                 Return
             End If
             If clsCommon.CompairString(ddlhier.Text, "ALL") = CompairStringResult.Equal Then
@@ -224,7 +224,7 @@ Public Class FrmCEAllocationRpt
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

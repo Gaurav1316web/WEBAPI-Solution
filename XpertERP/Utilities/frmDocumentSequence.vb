@@ -19,16 +19,16 @@ Public Class frmDocumentSequence
             Dim qry As String = "select DocNo,sum(1) as Transactions from (select SUBSTRING( Gate_Entry_No,0,len(Gate_Entry_No)-" + clsCommon.myCstr(txtSplit.Value - 1) + ") as DocNo  from Tspl_Gate_Entry_Details   )xx group by DocNo order by DocNo"
             txtBulkProcSeq.arrValueMember = clsCommon.ShowMultipleSelectForm("txtBulkProcSequti", qry, "DocNo", "", txtBulkProcSeq.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub RadButton47_Click(sender As Object, e As EventArgs) Handles RadButton47.Click
         If txtBulkProcSeq.arrValueMember Is Nothing OrElse txtBulkProcSeq.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Sequence", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Sequence", Me.Text)
             Exit Sub
         End If
-        If clsCommon.MyMessageBoxShow("Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin
@@ -73,11 +73,11 @@ Public Class frmDocumentSequence
             clsDBFuncationality.ExecuteNonQuery("insert into TMP_DOC_SEQ_HIST select *,'BulkGateEntry','" + objCommonVar.CurrentUserCode + "',GETDATE() from TMP_DOC_SEQ", trans)
             trans.Commit()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Task Done successfully")
+            clsCommon.MyMessageBoxShow(Me, "Task Done successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -90,17 +90,17 @@ Public Class frmDocumentSequence
             Dim qry As String = "select DocNo,sum(1) as Transactions from (select SUBSTRING( Weighment_No,0,len(Weighment_No)-" + clsCommon.myCstr(txtSplit.Value - 1) + ") as DocNo  from TSPL_Weighment_Detail   )xx group by DocNo order by DocNo"
             txtWeighmentSeqGrp.arrValueMember = clsCommon.ShowMultipleSelectForm("txtBulkProcWeSe", qry, "DocNo", "", txtWeighmentSeqGrp.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub RadButton44_Click(sender As Object, e As EventArgs) Handles RadButton44.Click
         If txtWeighmentSeqGrp.arrValueMember Is Nothing OrElse txtWeighmentSeqGrp.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Sequence", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Sequence", Me.Text)
             Exit Sub
         End If
 
-        If clsCommon.MyMessageBoxShow("Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin
@@ -145,11 +145,11 @@ Public Class frmDocumentSequence
             clsDBFuncationality.ExecuteNonQuery("insert into TMP_DOC_SEQ_HIST select *,'BulkEntryWeighment','" + objCommonVar.CurrentUserCode + "',GETDATE() from TMP_DOC_SEQ", trans)
             trans.Commit()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Task Done successfully")
+            clsCommon.MyMessageBoxShow(Me, "Task Done successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -161,17 +161,17 @@ Public Class frmDocumentSequence
             Dim qry As String = "select DocNo,sum(1) as Transactions from (select SUBSTRING( QC_No,0,len(QC_No)-" + clsCommon.myCstr(txtSplit.Value - 1) + ") as DocNo  from TSPL_QUALITY_CHECK   )xx group by DocNo order by DocNo"
             txtBulkProcQC.arrValueMember = clsCommon.ShowMultipleSelectForm("txtBulkProcQCSequti", qry, "DocNo", "", txtBulkProcQC.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub RadButton46_Click(sender As Object, e As EventArgs) Handles RadButton46.Click
         If txtBulkProcQC.arrValueMember Is Nothing OrElse txtBulkProcQC.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Sequence", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Sequence", Me.Text)
             Exit Sub
         End If
 
-        If clsCommon.MyMessageBoxShow("Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin
@@ -216,11 +216,11 @@ Public Class frmDocumentSequence
             clsDBFuncationality.ExecuteNonQuery("insert into TMP_DOC_SEQ_HIST select *,'BulkEntryQC','" + objCommonVar.CurrentUserCode + "',GETDATE() from TMP_DOC_SEQ", trans)
             trans.Commit()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Task Done successfully")
+            clsCommon.MyMessageBoxShow(Me, "Task Done successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -232,17 +232,17 @@ Public Class frmDocumentSequence
             Dim qry As String = "select DocNo,sum(1) as Transactions from (select SUBSTRING( SRN_NO,0,len(SRN_NO)-" + clsCommon.myCstr(txtSplit.Value - 1) + ") as DocNo  from TSPL_Bulk_MILK_SRN)xx group by DocNo order by DocNo"
             txtBulkSRNSequence.arrValueMember = clsCommon.ShowMultipleSelectForm("txtBulkProcSRNSequti", qry, "DocNo", "", txtBulkSRNSequence.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub RadButton48_Click(sender As Object, e As EventArgs) Handles RadButton48.Click
         If txtBulkSRNSequence.arrValueMember Is Nothing OrElse txtBulkSRNSequence.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Sequence", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Sequence", Me.Text)
             Exit Sub
         End If
 
-        If clsCommon.MyMessageBoxShow("Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin
@@ -287,11 +287,11 @@ Public Class frmDocumentSequence
             clsDBFuncationality.ExecuteNonQuery("insert into TMP_DOC_SEQ_HIST select *,'BulkEntrySRN','" + objCommonVar.CurrentUserCode + "',GETDATE() from TMP_DOC_SEQ", trans)
             trans.Commit()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Task Done successfully")
+            clsCommon.MyMessageBoxShow(Me, "Task Done successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -303,17 +303,17 @@ Public Class frmDocumentSequence
             Dim qry As String = "select DocNo,sum(1) as Transactions from (select SUBSTRING( DOC_NO,0,len(DOC_NO)-" + clsCommon.myCstr(txtSplit.Value - 1) + ") as DocNo  from tspl_Bulk_milk_purchase_Invoice_head)xx group by DocNo order by DocNo"
             txtBulkPI.arrValueMember = clsCommon.ShowMultipleSelectForm("txtBulkProcPISequti", qry, "DocNo", "", txtBulkPI.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub RadButton49_Click(sender As Object, e As EventArgs) Handles RadButton49.Click
         If txtBulkPI.arrValueMember Is Nothing OrElse txtBulkPI.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Sequence", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Sequence", Me.Text)
             Exit Sub
         End If
 
-        If clsCommon.MyMessageBoxShow("Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin
@@ -358,11 +358,11 @@ Public Class frmDocumentSequence
             clsDBFuncationality.ExecuteNonQuery("insert into TMP_DOC_SEQ_HIST select *,'BulkEntryPI','" + objCommonVar.CurrentUserCode + "',GETDATE() from TMP_DOC_SEQ", trans)
             trans.Commit()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Task Done successfully")
+            clsCommon.MyMessageBoxShow(Me, "Task Done successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -374,17 +374,17 @@ Public Class frmDocumentSequence
             Dim qry As String = "select DocNo,sum(1) as Transactions from (select SUBSTRING( Document_No,0,len(Document_No)-" + clsCommon.myCstr(txtSplit.Value - 1) + ") as DocNo  from TSPL_GATEENTRY_SALE)xx group by DocNo order by DocNo"
             txtBulkSaleGateEntry.arrValueMember = clsCommon.ShowMultipleSelectForm("txtBulkSaleGateEntry", qry, "DocNo", "", txtBulkSaleGateEntry.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub RadButton54_Click(sender As Object, e As EventArgs) Handles RadButton54.Click
         If txtBulkSaleGateEntry.arrValueMember Is Nothing OrElse txtBulkSaleGateEntry.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Sequence", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Sequence", Me.Text)
             Exit Sub
         End If
 
-        If clsCommon.MyMessageBoxShow("Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin
@@ -429,11 +429,11 @@ Public Class frmDocumentSequence
             clsDBFuncationality.ExecuteNonQuery("insert into TMP_DOC_SEQ_HIST select *,'BulkSaleEntry','" + objCommonVar.CurrentUserCode + "',GETDATE() from TMP_DOC_SEQ", trans)
             trans.Commit()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Task Done successfully")
+            clsCommon.MyMessageBoxShow(Me, "Task Done successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -446,17 +446,17 @@ Public Class frmDocumentSequence
             Dim qry As String = "select DocNo,sum(1) as Transactions from (select SUBSTRING( weighment_No,0,len(weighment_No)-" + clsCommon.myCstr(txtSplit.Value - 1) + ") as DocNo  from TSPL_WEIGHMENT_DETAIL_BULKSALE)xx group by DocNo order by DocNo"
             txtBulkSaleWeighment.arrValueMember = clsCommon.ShowMultipleSelectForm("TxtMultiSelectFinder4", qry, "DocNo", "", txtBulkSaleWeighment.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub RadButton53_Click(sender As Object, e As EventArgs) Handles RadButton53.Click
         If txtBulkSaleWeighment.arrValueMember Is Nothing OrElse txtBulkSaleWeighment.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Sequence", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Sequence", Me.Text)
             Exit Sub
         End If
 
-        If clsCommon.MyMessageBoxShow("Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin
@@ -501,11 +501,11 @@ Public Class frmDocumentSequence
             clsDBFuncationality.ExecuteNonQuery("insert into TMP_DOC_SEQ_HIST select *,'BulkSaleWeighment','" + objCommonVar.CurrentUserCode + "',GETDATE() from TMP_DOC_SEQ", trans)
             trans.Commit()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Task Done successfully")
+            clsCommon.MyMessageBoxShow(Me, "Task Done successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -517,17 +517,17 @@ Public Class frmDocumentSequence
             Dim qry As String = "select DocNo,sum(1) as Transactions from (select SUBSTRING( LoadingTanker_No,0,len(LoadingTanker_No)-" + clsCommon.myCstr(txtSplit.Value - 1) + ") as DocNo  from TSPL_LOADING_TANKER_DETAIL_BULKSALE)xx group by DocNo order by DocNo"
             txtBulkSaleLoading.arrValueMember = clsCommon.ShowMultipleSelectForm("txtBulkSaleLoading", qry, "DocNo", "", txtBulkSaleLoading.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub txtBulkSaleLoading__My_Click(sender As Object, e As EventArgs) Handles RadButton55.Click
         If txtBulkSaleLoading.arrValueMember Is Nothing OrElse txtBulkSaleLoading.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Sequence", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Sequence", Me.Text)
             Exit Sub
         End If
 
-        If clsCommon.MyMessageBoxShow("Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin
@@ -572,11 +572,11 @@ Public Class frmDocumentSequence
             clsDBFuncationality.ExecuteNonQuery("insert into TMP_DOC_SEQ_HIST select *,'BulkSaleLoading','" + objCommonVar.CurrentUserCode + "',GETDATE() from TMP_DOC_SEQ", trans)
             trans.Commit()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Task Done successfully")
+            clsCommon.MyMessageBoxShow(Me, "Task Done successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -591,17 +591,17 @@ Public Class frmDocumentSequence
             Dim qry As String = "select DocNo,sum(1) as Transactions from (select SUBSTRING( QC_No,0,len(QC_No)-" + clsCommon.myCstr(txtSplit.Value - 1) + ") as DocNo  from TSPL_Quality_Check_BulkSale)xx group by DocNo order by DocNo"
             txtBulkSaleQC.arrValueMember = clsCommon.ShowMultipleSelectForm("TxtMultiSelectFinder4", qry, "DocNo", "", txtBulkSaleQC.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub RadButton52_Click(sender As Object, e As EventArgs) Handles RadButton52.Click
         If txtBulkSaleQC.arrValueMember Is Nothing OrElse txtBulkSaleQC.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Sequence", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Sequence", Me.Text)
             Exit Sub
         End If
 
-        If clsCommon.MyMessageBoxShow("Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin
@@ -646,11 +646,11 @@ Public Class frmDocumentSequence
             clsDBFuncationality.ExecuteNonQuery("insert into TMP_DOC_SEQ_HIST select *,'BulkSaleQC','" + objCommonVar.CurrentUserCode + "',GETDATE() from TMP_DOC_SEQ", trans)
             trans.Commit()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Task Done successfully")
+            clsCommon.MyMessageBoxShow(Me, "Task Done successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -662,17 +662,17 @@ Public Class frmDocumentSequence
             Dim qry As String = "select DocNo,sum(1) as Transactions from (select SUBSTRING( Document_No,0,len(Document_No)-" + clsCommon.myCstr(txtSplit.Value - 1) + ") as DocNo  from TSPL_Dispatch_BulkSale)xx group by DocNo order by DocNo"
             txtBSDispatch.arrValueMember = clsCommon.ShowMultipleSelectForm("txtBSDispatch", qry, "DocNo", "", txtBSDispatch.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub RadButton51_Click(sender As Object, e As EventArgs) Handles RadButton51.Click
         If txtBSDispatch.arrValueMember Is Nothing OrElse txtBSDispatch.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Sequence", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Sequence", Me.Text)
             Exit Sub
         End If
 
-        If clsCommon.MyMessageBoxShow("Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin
@@ -717,11 +717,11 @@ Public Class frmDocumentSequence
             clsDBFuncationality.ExecuteNonQuery("insert into TMP_DOC_SEQ_HIST select *,'BulkSaleDispatch','" + objCommonVar.CurrentUserCode + "',GETDATE() from TMP_DOC_SEQ", trans)
             trans.Commit()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Task Done successfully")
+            clsCommon.MyMessageBoxShow(Me, "Task Done successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -733,17 +733,17 @@ Public Class frmDocumentSequence
             Dim qry As String = "select DocNo,sum(1) as Transactions from (select SUBSTRING( Document_No,0,len(Document_No)-" + clsCommon.myCstr(txtSplit.Value - 1) + ") as DocNo  from TSPL_INVOICE_MASTER_BULKSALE)xx group by DocNo order by DocNo"
             txtBulkSaleInvoice.arrValueMember = clsCommon.ShowMultipleSelectForm("txtBulkSaleInvoice", qry, "DocNo", "", txtBulkSaleInvoice.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub RadButton50_Click(sender As Object, e As EventArgs) Handles RadButton50.Click
         If txtBulkSaleInvoice.arrValueMember Is Nothing OrElse txtBulkSaleInvoice.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Sequence", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Sequence", Me.Text)
             Exit Sub
         End If
 
-        If clsCommon.MyMessageBoxShow("Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin
@@ -788,11 +788,11 @@ Public Class frmDocumentSequence
             clsDBFuncationality.ExecuteNonQuery("insert into TMP_DOC_SEQ_HIST select *,'BulkSaleInvoice','" + objCommonVar.CurrentUserCode + "',GETDATE() from TMP_DOC_SEQ", trans)
             trans.Commit()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Task Done successfully")
+            clsCommon.MyMessageBoxShow(Me, "Task Done successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -804,17 +804,17 @@ Public Class frmDocumentSequence
             Dim qry As String = "select DocNo,sum(1) as Transactions from (select SUBSTRING( Document_No,0,len(Document_No)-" + clsCommon.myCstr(txtSplit.Value - 1) + ") as DocNo  from TSPL_GATEOUT_SALE)xx group by DocNo order by DocNo"
             txtBulkSaleGateOut.arrValueMember = clsCommon.ShowMultipleSelectForm("txtBulkSaleGateOut", qry, "DocNo", "", txtBulkSaleGateOut.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub RadButton56_Click(sender As Object, e As EventArgs) Handles RadButton56.Click
         If txtBulkSaleGateOut.arrValueMember Is Nothing OrElse txtBulkSaleGateOut.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Sequence", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Sequence", Me.Text)
             Exit Sub
         End If
 
-        If clsCommon.MyMessageBoxShow("Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin
@@ -859,11 +859,11 @@ Public Class frmDocumentSequence
             clsDBFuncationality.ExecuteNonQuery("insert into TMP_DOC_SEQ_HIST select *,'BulkGateOut','" + objCommonVar.CurrentUserCode + "',GETDATE() from TMP_DOC_SEQ", trans)
             trans.Commit()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Task Done successfully")
+            clsCommon.MyMessageBoxShow(Me, "Task Done successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 
@@ -881,17 +881,17 @@ Public Class frmDocumentSequence
             Dim qry As String = "select DocNo,sum(1) as Transactions from (select SUBSTRING( Document_No,0,len(Document_No)-" + clsCommon.myCstr(txtSplit.Value - 1) + ") as DocNo  from TSPL_Customer_Invoice_Head)xx group by DocNo order by DocNo"
             txtAR.arrValueMember = clsCommon.ShowMultipleSelectForm("txtAR", qry, "DocNo", "", txtAR.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub RadButton7_Click(sender As Object, e As EventArgs) Handles RadButton7.Click
         If txtAR.arrValueMember Is Nothing OrElse txtAR.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Sequence", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Sequence", Me.Text)
             Exit Sub
         End If
 
-        If clsCommon.MyMessageBoxShow("Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin
@@ -936,11 +936,11 @@ Public Class frmDocumentSequence
             clsDBFuncationality.ExecuteNonQuery("insert into TMP_DOC_SEQ_HIST select *,'ARInvoice','" + objCommonVar.CurrentUserCode + "',GETDATE() from TMP_DOC_SEQ", trans)
             trans.Commit()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Task Done successfully")
+            clsCommon.MyMessageBoxShow(Me, "Task Done successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -953,17 +953,17 @@ Public Class frmDocumentSequence
             Dim qry As String = "select DocNo,sum(1) as Transactions from (select SUBSTRING( Document_No,0,len(Document_No)-" + clsCommon.myCstr(txtSplit.Value - 1) + ") as DocNo  from TSPL_VENDOR_INVOICE_HEAD)xx group by DocNo order by DocNo"
             txtAP.arrValueMember = clsCommon.ShowMultipleSelectForm("txtAP", qry, "DocNo", "", txtAP.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
         If txtAP.arrValueMember Is Nothing OrElse txtAP.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Sequence", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Sequence", Me.Text)
             Exit Sub
         End If
 
-        If clsCommon.MyMessageBoxShow("Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin
@@ -1008,11 +1008,11 @@ Public Class frmDocumentSequence
             clsDBFuncationality.ExecuteNonQuery("insert into TMP_DOC_SEQ_HIST select *,'APInvoice','" + objCommonVar.CurrentUserCode + "',GETDATE() from TMP_DOC_SEQ", trans)
             trans.Commit()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Task Done successfully")
+            clsCommon.MyMessageBoxShow(Me, "Task Done successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1024,17 +1024,17 @@ Public Class frmDocumentSequence
             Dim qry As String = "select DocNo,sum(1) as Transactions from (select SUBSTRING( Voucher_No,0,len(Voucher_No)-" + clsCommon.myCstr(txtSplit.Value - 1) + ") as DocNo  from TSPL_JOURNAL_MASTER)xx group by DocNo order by DocNo"
             txtJournalEntry.arrValueMember = clsCommon.ShowMultipleSelectForm("txtJournalEntry", qry, "DocNo", "", txtJournalEntry.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub RadButton2_Click(sender As Object, e As EventArgs) Handles RadButton2.Click
         If txtJournalEntry.arrValueMember Is Nothing OrElse txtJournalEntry.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Sequence", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Sequence", Me.Text)
             Exit Sub
         End If
 
-        If clsCommon.MyMessageBoxShow("Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin
@@ -1079,11 +1079,11 @@ Public Class frmDocumentSequence
             clsDBFuncationality.ExecuteNonQuery("insert into TMP_DOC_SEQ_HIST select *,'JournalEntry','" + objCommonVar.CurrentUserCode + "',GETDATE() from TMP_DOC_SEQ", trans)
             trans.Commit()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Task Done successfully")
+            clsCommon.MyMessageBoxShow(Me, "Task Done successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1097,17 +1097,17 @@ Public Class frmDocumentSequence
             Dim qry As String = "select DocNo,sum(1) as Transactions from (select SUBSTRING( Doc_No,0,len(Doc_No)-" + clsCommon.myCstr(txtSplit.Value - 1) + ") as DocNo  from TSpl_Gate_Out)xx group by DocNo order by DocNo"
             txtGateout.arrValueMember = clsCommon.ShowMultipleSelectForm("txtGateout", qry, "DocNo", "", txtGateout.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub RadButton5_Click(sender As Object, e As EventArgs) Handles RadButton5.Click
         If txtGateout.arrValueMember Is Nothing OrElse txtGateout.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Sequence", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Sequence", Me.Text)
             Exit Sub
         End If
 
-        If clsCommon.MyMessageBoxShow("Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin
@@ -1152,11 +1152,11 @@ Public Class frmDocumentSequence
             clsDBFuncationality.ExecuteNonQuery("insert into TMP_DOC_SEQ_HIST select *,'BulkEntryGateOut','" + objCommonVar.CurrentUserCode + "',GETDATE() from TMP_DOC_SEQ", trans)
             trans.Commit()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Task Done successfully")
+            clsCommon.MyMessageBoxShow(Me, "Task Done successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1165,17 +1165,17 @@ Public Class frmDocumentSequence
             Dim qry As String = "select DocNo,sum(1) as Transactions from (select SUBSTRING( Unloading_No,0,len(Unloading_No)-" + clsCommon.myCstr(txtSplit.Value - 1) + ") as DocNo  from TSPL_MILK_UNLOADING)xx group by DocNo order by DocNo"
             txtUnloading.arrValueMember = clsCommon.ShowMultipleSelectForm("txtUnloading", qry, "DocNo", "", txtUnloading.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub RadButton6_Click(sender As Object, e As EventArgs) Handles RadButton6.Click
         If txtUnloading.arrValueMember Is Nothing OrElse txtUnloading.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Sequence", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Sequence", Me.Text)
             Exit Sub
         End If
 
-        If clsCommon.MyMessageBoxShow("Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -1224,11 +1224,11 @@ Public Class frmDocumentSequence
             clsDBFuncationality.ExecuteNonQuery("insert into TMP_DOC_SEQ_HIST select *,'BulkEntryUnloading','" + objCommonVar.CurrentUserCode + "',GETDATE() from TMP_DOC_SEQ", trans)
             trans.Commit()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Task Done successfully")
+            clsCommon.MyMessageBoxShow(Me, "Task Done successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1237,17 +1237,17 @@ Public Class frmDocumentSequence
             Dim qry As String = "select DocNo,sum(1) as Transactions from (select SUBSTRING( Receipt_No,0,len(Receipt_No)-" + clsCommon.myCstr(txtSplit.Value - 1) + ") as DocNo  from TSPL_RECEIPT_HEADER)xx group by DocNo order by DocNo"
             txtReceipt.arrValueMember = clsCommon.ShowMultipleSelectForm("txtReceipt", qry, "DocNo", "", txtReceipt.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub RadButton8_Click(sender As Object, e As EventArgs) Handles RadButton8.Click
         If txtReceipt.arrValueMember Is Nothing OrElse txtReceipt.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Sequence", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Sequence", Me.Text)
             Exit Sub
         End If
 
-        If clsCommon.MyMessageBoxShow("Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin
@@ -1292,11 +1292,11 @@ Public Class frmDocumentSequence
             clsDBFuncationality.ExecuteNonQuery("insert into TMP_DOC_SEQ_HIST select *,'ReceiptEntry','" + objCommonVar.CurrentUserCode + "',GETDATE() from TMP_DOC_SEQ", trans)
             trans.Commit()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Task Done successfully")
+            clsCommon.MyMessageBoxShow(Me, "Task Done successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1305,17 +1305,17 @@ Public Class frmDocumentSequence
             Dim qry As String = "select DocNo,sum(1) as Transactions from (select SUBSTRING( Payment_No,0,len(Payment_No)-" + clsCommon.myCstr(txtSplit.Value - 1) + ") as DocNo  from TSPL_PAYMENT_HEADER)xx group by DocNo order by DocNo"
             txtPayment.arrValueMember = clsCommon.ShowMultipleSelectForm("txtPayment", qry, "DocNo", "", txtPayment.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub RadButton9_Click(sender As Object, e As EventArgs) Handles RadButton9.Click
         If txtPayment.arrValueMember Is Nothing OrElse txtPayment.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Sequence", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Sequence", Me.Text)
             Exit Sub
         End If
 
-        If clsCommon.MyMessageBoxShow("Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin
@@ -1360,11 +1360,11 @@ Public Class frmDocumentSequence
             clsDBFuncationality.ExecuteNonQuery("insert into TMP_DOC_SEQ_HIST select *,'PaymentEntry','" + objCommonVar.CurrentUserCode + "',GETDATE() from TMP_DOC_SEQ", trans)
             trans.Commit()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Task Done successfully")
+            clsCommon.MyMessageBoxShow(Me, "Task Done successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1373,17 +1373,17 @@ Public Class frmDocumentSequence
             Dim qry As String = "select DocNo,sum(1) as Transactions from (select SUBSTRING( Adjustment_No,0,len(Adjustment_No)-" + clsCommon.myCstr(txtSplit.Value - 1) + ") as DocNo  from TSPL_ADJUSTMENT_HEADER)xx group by DocNo order by DocNo"
             txtStockAdjustment.arrValueMember = clsCommon.ShowMultipleSelectForm("txtSAdjustment", qry, "DocNo", "", txtStockAdjustment.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub RadButton10_Click(sender As Object, e As EventArgs) Handles RadButton10.Click
         If txtStockAdjustment.arrValueMember Is Nothing OrElse txtStockAdjustment.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Sequence", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Sequence", Me.Text)
             Exit Sub
         End If
 
-        If clsCommon.MyMessageBoxShow("Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin
@@ -1428,11 +1428,11 @@ Public Class frmDocumentSequence
             clsDBFuncationality.ExecuteNonQuery("insert into TMP_DOC_SEQ_HIST select *,'StoreAdjustment','" + objCommonVar.CurrentUserCode + "',GETDATE() from TMP_DOC_SEQ", trans)
             trans.Commit()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Task Done successfully")
+            clsCommon.MyMessageBoxShow(Me, "Task Done successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1455,19 +1455,19 @@ Public Class frmDocumentSequence
             Dim qry As String = "select DocNo,sum(1) as Transactions from (select SUBSTRING( TSPL_MILK_GATE_ENTRY_IN.Entry_Code,0,len(TSPL_MILK_GATE_ENTRY_IN.Entry_Code)-" + clsCommon.myCstr(txtSplit.Value - 1) + ") as DocNo  from TSPL_MILK_GATE_ENTRY_IN)xx group by DocNo order by DocNo"
             txtMilkGateEntryIn.arrValueMember = clsCommon.ShowMultipleSelectForm("txtMGEI", qry, "DocNo", "", txtMilkGateEntryIn.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub RadButton11_Click(sender As Object, e As EventArgs) Handles RadButton11.Click
         If txtMilkGateEntryIn.arrValueMember Is Nothing OrElse txtMilkGateEntryIn.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Sequence", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Sequence", Me.Text)
             Exit Sub
         End If
-        If clsCommon.MyMessageBoxShow("You are Running this utility on MCC Database." + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "You are Running this utility on MCC Database." + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
-        If clsCommon.MyMessageBoxShow("Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin
@@ -1512,11 +1512,11 @@ Public Class frmDocumentSequence
             clsDBFuncationality.ExecuteNonQuery("insert into TMP_DOC_SEQ_HIST select *,'MilkGateEntryIN','" + objCommonVar.CurrentUserCode + "',GETDATE() from TMP_DOC_SEQ", trans)
             trans.Commit()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Task Done successfully")
+            clsCommon.MyMessageBoxShow(Me, "Task Done successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     
@@ -1525,19 +1525,19 @@ Public Class frmDocumentSequence
             Dim qry As String = "select DocNo,sum(1) as Transactions from (select SUBSTRING( TSPL_MILK_GATE_ENTRY_WEIGHTMENT.Weighment_Code,0,len(TSPL_MILK_GATE_ENTRY_WEIGHTMENT.Weighment_Code)-" + clsCommon.myCstr(txtSplit.Value - 1) + ") as DocNo  from TSPL_MILK_GATE_ENTRY_WEIGHTMENT)xx group by DocNo order by DocNo"
             txtMilkGateEntryWeightment.arrValueMember = clsCommon.ShowMultipleSelectForm("txtMGEW", qry, "DocNo", "", txtMilkGateEntryWeightment.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub RadButton13_Click(sender As Object, e As EventArgs) Handles RadButton13.Click
         If txtMilkGateEntryWeightment.arrValueMember Is Nothing OrElse txtMilkGateEntryWeightment.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Sequence", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Sequence", Me.Text)
             Exit Sub
         End If
-        If clsCommon.MyMessageBoxShow("You are Running this utility on MCC Database." + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "You are Running this utility on MCC Database." + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
-        If clsCommon.MyMessageBoxShow("Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin
@@ -1582,11 +1582,11 @@ Public Class frmDocumentSequence
             clsDBFuncationality.ExecuteNonQuery("insert into TMP_DOC_SEQ_HIST select *,'MilkGateEntryWGH','" + objCommonVar.CurrentUserCode + "',GETDATE() from TMP_DOC_SEQ", trans)
             trans.Commit()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Task Done successfully")
+            clsCommon.MyMessageBoxShow(Me, "Task Done successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1595,19 +1595,19 @@ Public Class frmDocumentSequence
             Dim qry As String = "select DocNo,sum(1) as Transactions from (select SUBSTRING( TSPL_MILK_GATE_ENTRY_OUT.Gate_Out_Code,0,len(TSPL_MILK_GATE_ENTRY_OUT.Gate_Out_Code)-" + clsCommon.myCstr(txtSplit.Value - 1) + ") as DocNo  from TSPL_MILK_GATE_ENTRY_OUT)xx group by DocNo order by DocNo"
             txtMilkGateEntryOut.arrValueMember = clsCommon.ShowMultipleSelectForm("txtMGEO", qry, "DocNo", "", txtMilkGateEntryOut.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub RadButton12_Click(sender As Object, e As EventArgs) Handles RadButton12.Click
         If txtMilkGateEntryOut.arrValueMember Is Nothing OrElse txtMilkGateEntryOut.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Sequence", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Sequence", Me.Text)
             Exit Sub
         End If
-        If clsCommon.MyMessageBoxShow("You are Running this utility on MCC Database." + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "You are Running this utility on MCC Database." + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
-        If clsCommon.MyMessageBoxShow("Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin
@@ -1652,11 +1652,11 @@ Public Class frmDocumentSequence
             clsDBFuncationality.ExecuteNonQuery("insert into TMP_DOC_SEQ_HIST select *,'MilkGateEntryOUT','" + objCommonVar.CurrentUserCode + "',GETDATE() from TMP_DOC_SEQ", trans)
             trans.Commit()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Task Done successfully")
+            clsCommon.MyMessageBoxShow(Me, "Task Done successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1667,19 +1667,19 @@ Public Class frmDocumentSequence
             Dim qry As String = "select DocNo,sum(1) as Transactions from (select SUBSTRING( DOC_CODE,0,len(DOC_CODE)-" + clsCommon.myCstr(txtSplit.Value - 1) + ") as DocNo  from TSPL_MILK_SRN_HEAD)xx group by DocNo order by DocNo"
             txtMilkSRN.arrValueMember = clsCommon.ShowMultipleSelectForm("txtMSRN", qry, "DocNo", "", txtMilkSRN.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub RadButton14_Click(sender As Object, e As EventArgs) Handles RadButton14.Click
         If txtMilkSRN.arrValueMember Is Nothing OrElse txtMilkSRN.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Sequence", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Sequence", Me.Text)
             Exit Sub
         End If
-        If clsCommon.MyMessageBoxShow("You are Running this utility on MCC Database." + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "You are Running this utility on MCC Database." + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
-        If clsCommon.MyMessageBoxShow("Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         Try
@@ -1731,14 +1731,14 @@ Public Class frmDocumentSequence
                 clsDBFuncationality.ExecuteNonQuery("insert into TMP_DOC_SEQ_HIST select *,'MilkGateEntrySRN','" + objCommonVar.CurrentUserCode + "',GETDATE() from TMP_DOC_SEQ", trans)
                 trans.Commit()
                 clsCommon.ProgressBarPercentHide()
-                clsCommon.MyMessageBoxShow("Task Done successfully")
+                clsCommon.MyMessageBoxShow(Me, "Task Done successfully", Me.Text)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarPercentHide()
                 Throw New Exception(ex.Message)
             End Try
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Try
                 clsDBFuncationality.ExecuteNonQuery("Enable TRIGGER  [trg_dontdeletecreatedsrnsampleno] on  [TSPL_MILK_SAMPLE_DETAIL]")
@@ -1753,17 +1753,17 @@ Public Class frmDocumentSequence
             Dim qry As String = "select DocNo,sum(1) as Transactions from (select SUBSTRING(Purchase_Tax_Invoice,0,len(Purchase_Tax_Invoice)-" + clsCommon.myCstr(txtSplit.Value - 1) + ") as DocNo  from tspl_vendor_invoice_head  where Purchase_Tax_Invoice is not null and Purchase_Tax_Invoice_Type='P')xx group by DocNo order by DocNo"
             txtPurchaseTaxInvoice.arrValueMember = clsCommon.ShowMultipleSelectForm("txtPurchaseTaxInvoice", qry, "DocNo", "", txtPurchaseTaxInvoice.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub RadButton15_Click(sender As Object, e As EventArgs) Handles RadButton15.Click
         If txtPurchaseTaxInvoice.arrValueMember Is Nothing OrElse txtPurchaseTaxInvoice.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Sequence", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Sequence", Me.Text)
             Exit Sub
         End If
 
-        If clsCommon.MyMessageBoxShow("Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "Apply Documents Sequence." + Environment.NewLine + "Are you sure ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin
@@ -1816,11 +1816,11 @@ Public Class frmDocumentSequence
             clsDBFuncationality.ExecuteNonQuery("insert into TMP_DOC_SEQ_HIST select *,'GST PurchaseTaxInvoice','" + objCommonVar.CurrentUserCode + "',GETDATE() from TMP_DOC_SEQ", trans)
             trans.Commit()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Task Done successfully")
+            clsCommon.MyMessageBoxShow(Me, "Task Done successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

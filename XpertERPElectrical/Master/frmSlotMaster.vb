@@ -58,13 +58,13 @@ Public Class frmSlotMaster
     Function AllowToSave() As Boolean
 
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Enter Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Enter Code", Me.Text)
             txtCode.Focus()
             Return False
         End If
         'End If
         If clsCommon.myLen(txtDesc.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Enter Description")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Enter Description", Me.Text)
             txtDesc.Focus()
             Return False
         End If
@@ -72,7 +72,7 @@ Public Class frmSlotMaster
         If clsCommon.myLen(txtDesc.Text) > 0 Then
             Dim chkDesc As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_SLOT_MASTER where Description = '" + txtDesc.Text.Trim() + "' and code <> '" + txtCode.Value + "'"))
             If chkDesc > 0 Then
-                common.clsCommon.MyMessageBoxShow("Description Already used another slot.Description should be unique.")
+                common.clsCommon.MyMessageBoxShow(Me, "Description Already used another slot.Description should be unique.", Me.Text)
                 txtDesc.Text = ""
                 txtDesc.Focus()
                 Return False

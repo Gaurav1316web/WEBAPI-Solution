@@ -9802,7 +9802,9 @@ Public Class MDI
                         frm = New frmBullInsuranceType
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
-
+                    Case clsUserMgtCode.frmDiseaseMaster
+                        frm = New frmDiseaseMaster
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.frmBullMovementType
                         frm = New frmBullMovementType
@@ -9832,6 +9834,24 @@ Public Class MDI
                     Case clsUserMgtCode.frmBullCurlingEntry
                         frm = New frmBullCurlingEntry
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullInsurance
+                        frm = New frmBullInsurance
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullTestParameterEntry
+                        frm = New frmBullTestParameterEntry
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullCMUGrouping
+                        frm = New frmBullCMUGrouping
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.frmInsuranceTagAllocation
+                        frm = New frmInsuranceTagAllocation
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.frmCMUChecklistEntry
+                        frm = New frmCMUChecklistEntry
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
 
 
 

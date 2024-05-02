@@ -214,14 +214,14 @@ Public Class RptLowProcurement
 
             Dim whrcls As String = " where 2=2 "
             If cbgMCC.CheckedValue.Count > 0 Then 'chkMCCSelect.IsChecked And
-                whrcls += " and TSPL_MILK_RECEIPT_DETAIL.MCC_Code  IN (" + clsCommon.GetMulcallString(cbgMCC.CheckedValue) + ") "
+                whrcls += " and TSPL_MILK_SRN_head.MCC_Code  IN (" + clsCommon.GetMulcallString(cbgMCC.CheckedValue) + ") "
             End If
             If chkStateSelect.IsChecked And cbgState.CheckedValue.Count > 0 Then
                 whrcls += " and TSPL_MCC_MASTER.State_Code in (" + clsCommon.GetMulcallString(cbgState.CheckedValue) + ")  "
             End If
 
 
-            whrcls += "  and convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103)>=convert(date,('" + txtFromDate.Value + "'),103) and convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) <=convert(date,('" + txtToDate.Value + "'),103) "
+            whrcls += "  and convert(date,TSPL_MILK_SRN_head.DOC_DATE,103)>=convert(date,('" + txtFromDate.Value + "'),103) and convert(date,TSPL_MILK_SRN_head.DOC_DATE,103) <=convert(date,('" + txtToDate.Value + "'),103) "
 
             ' Ticket No : BHA/21/11/18-000686 By Prabhakar - for Devided by Zero error
             ''richa agarwal 24 May,2019  TEC/28/03/19-000462 add item structure on setting based
@@ -229,22 +229,22 @@ Public Class RptLowProcurement
             '" select State_Code  ,STATE_NAME  ,VLC_CODE  ,VLC_Name ,Vendor_Name ,MCC_CODE ,MCC_NAME  ,DOC_DATE ,Period_days   ,SHIFT  as shift  ,Weight as NewQty from(" & Environment.NewLine &
             Dim sQuery As String = "select '' as SNo,max(State_Code ) as State_Code,MAX(STATE_NAME ) as STATE_NAME,(VLC_CODE ) as VLC_CODE,MAX(VLC_Name ) as VLC_Name,max(VSP_Name ) as VSP_Name,MAX(MCC_CODE ) as MCC_CODE,MAX(MCC_NAME ) as MCC_NAME,convert(decimal(18,2),sum(NewQty )) as NewQty,count(shift) as No_of_Shift,convert(DECIMAL(18,2),sum(NewQty )/count(SHIFT)) as [Av.Per Shift],convert(DECIMAL(18,2),sum(NewQty )/MAX(Period_days)) as [Av.Per day] ,max([VLC Uploader Code]) as [VLC Uploader Code]  from (select max(State_Code ) as State_Code,MAX(STATE_NAME ) as STATE_NAME,(VLC_CODE ) as VLC_CODE,MAX(VLC_Name ) as VLC_Name,max(Vendor_Name) as VSP_Name ," & Environment.NewLine &
             " MAX(MCC_CODE ) as MCC_CODE,MAX(MCC_NAME ) as MCC_NAME,MAX(DOC_DATE) as Date,sum(NewQty ) as NewQty,shift  ,max(Period_days )as Period_days ,max([VLC Uploader Code]) as [VLC Uploader Code] from (" & Environment.NewLine &
-            " select TSPL_MILK_RECEIPT_DETAIL.item_code, TSPL_MCC_MASTER.State_Code  ,TSPL_STATE_MASTER.STATE_NAME ,TSPL_MILK_RECEIPT_DETAIL.VLC_CODE ,TSPL_VLC_MASTER_HEAD.VLC_Name  ,TSPL_MILK_RECEIPT_DETAIL.VSP_CODE ,TSPL_VENDOR_MASTER.Vendor_Name ,TSPL_MILK_RECEIPT_DETAIL.MCC_CODE,TSPL_MCC_MASTER.MCC_NAME ," & Environment.NewLine &
-            " TSPL_MILK_RECEIPT_HEAD.DOC_DATE  ," & Environment.NewLine &
+            " select TSPL_MILK_SRN_DETAIL.item_code, TSPL_MCC_MASTER.State_Code  ,TSPL_STATE_MASTER.STATE_NAME ,TSPL_MILK_SRN_head.VLC_CODE ,TSPL_VLC_MASTER_HEAD.VLC_Name  ,TSPL_MILK_SRN_head.VSP_CODE ,TSPL_VENDOR_MASTER.Vendor_Name ,TSPL_MILK_SRN_DETAIL.MCC_CODE,TSPL_MCC_MASTER.MCC_NAME ," & Environment.NewLine &
+            " TSPL_MILK_SRN_head.DOC_DATE  ," & Environment.NewLine &
             " DateDiff(day,convert(date,'" + txtFromDate.Value + "',103),convert(date,'" + txtToDate.Value + "',103))+1  as Period_days  " & Environment.NewLine
             If clsCommon.CompairString(cboUnit.Text, "ltr") = CompairStringResult.Equal Then
-                sQuery += " ,(TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT_LTR) as [NewQty]"
+                sQuery += " ,(TSPL_MILK_SRN_DETAIL.ACC_Qty_LTR) as [NewQty]"
             ElseIf clsCommon.CompairString(cboUnit.Text, "Kg") = CompairStringResult.Equal Then
-                sQuery += " ,(TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT) as [NewQty]"
+                sQuery += " ,(TSPL_MILK_SRN_DETAIL.ACC_Qty) as [NewQty]"
             Else
-                sQuery += " ,(TSPL_MILK_RECEIPT_DETAIL.MILK_WEIGHT) as [NewQty]"
+                sQuery += " ,(TSPL_MILK_SRN_DETAIL.ACC_Qty) as [NewQty]"
             End If
-            sQuery += ",TSPL_MILK_RECEIPT_DETAIL.UOM_Code ,TSPL_MILK_RECEIPT_HEAD .SHIFT,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [VLC Uploader Code]" & Environment.NewLine &
-            " from TSPL_MILK_RECEIPT_DETAIL " & Environment.NewLine &
-            " left outer join TSPL_MILK_RECEIPT_HEAD  on TSPL_MILK_RECEIPT_HEAD .DOC_CODE =TSPL_MILK_RECEIPT_DETAIL .DOC_CODE  " & Environment.NewLine &
-            " left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_RECEIPT_DETAIL.VLC_CODE " & Environment.NewLine &
-            " left outer join TSPL_VENDOR_MASTER  on TSPL_VENDOR_MASTER.Form_Type='VSP' and TSPL_MILK_RECEIPT_DETAIL .VSP_CODE =TSPL_VENDOR_MASTER .Vendor_Code" & Environment.NewLine &
-            " left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code =TSPL_MILK_RECEIPT_HEAD.MCC_CODE  " & Environment.NewLine &
+            sQuery += ",TSPL_MILK_SRN_DETAIL.UOM_Code ,TSPL_MILK_SRN_head .SHIFT,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [VLC Uploader Code]" & Environment.NewLine &
+            " from TSPL_MILK_SRN_DETAIL " & Environment.NewLine &
+            " left outer join TSPL_MILK_SRN_head  on TSPL_MILK_SRN_head .DOC_CODE =TSPL_MILK_SRN_DETAIL .DOC_CODE  " & Environment.NewLine &
+            " left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_SRN_head.VLC_CODE " & Environment.NewLine &
+            " left outer join TSPL_VENDOR_MASTER  on TSPL_VENDOR_MASTER.Form_Type='VSP' and TSPL_MILK_SRN_head .VSP_CODE =TSPL_VENDOR_MASTER .Vendor_Code" & Environment.NewLine &
+            " left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code =TSPL_MILK_SRN_head.MCC_CODE  " & Environment.NewLine &
             " left outer join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE =TSPL_MCC_MASTER.State_Code " & Environment.NewLine &
             " " + whrcls + " " & Environment.NewLine &
             " )xx " & Environment.NewLine

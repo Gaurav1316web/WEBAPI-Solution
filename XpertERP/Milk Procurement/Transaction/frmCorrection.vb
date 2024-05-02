@@ -1050,6 +1050,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
             If txtBMCCorrSNF.Value < 0 Then
                 Throw New Exception("SNF % Can't be -ve")
             End If
+
             Dim qry As String = "PK_Id=" + lblBMCDetailNo.Text + ""
             Dim Arr As List(Of clsMilkCollectionMCCDetail) = clsMilkCollectionMCCDetail.GetData(lblBMCDocNo.Text, qry, Nothing)
             If Arr Is Nothing OrElse Arr.Count <= 0 Then

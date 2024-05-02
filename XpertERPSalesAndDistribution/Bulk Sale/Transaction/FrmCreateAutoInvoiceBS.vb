@@ -550,7 +550,7 @@ Public Class FrmCreateAutoInvoiceBS
 
             LoadDispatchDetail()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -752,7 +752,7 @@ Public Class FrmCreateAutoInvoiceBS
             Reset()
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             strcountno = Nothing
             obj = Nothing

@@ -3536,7 +3536,7 @@ Public Class FrmAPInvoiceEntry
             UcAttachment1.AllowToSave()
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
 
@@ -3995,7 +3995,7 @@ Public Class FrmAPInvoiceEntry
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4638,7 +4638,7 @@ Public Class FrmAPInvoiceEntry
                 FillVendorDetails()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -4671,7 +4671,7 @@ Public Class FrmAPInvoiceEntry
                 UpdateAllTotals()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -5101,7 +5101,7 @@ Public Class FrmAPInvoiceEntry
             'cell.GradientStyle = GradientStyles.Solid
             'cell.BackColor = Color.FromArgb(243, 181, 51)
         Catch ex As Exception
-            'clsCommon.MyMessageBoxShow(ex.Message)
+            'clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
 
     End Sub
@@ -5401,7 +5401,7 @@ Public Class FrmAPInvoiceEntry
                 'cell.BackColor = Color.FromArgb(243, 181, 51)
             End If
         Catch ex As Exception
-            'clsCommon.MyMessageBoxShow(ex.Message)
+            'clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
 
@@ -5470,7 +5470,7 @@ Public Class FrmAPInvoiceEntry
         ''        End If
         ''    End If
         ''Catch ex As Exception
-        ''    clsCommon.MyMessageBoxShow(ex.Message)
+        ''    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         ''End Try
     End Sub
 

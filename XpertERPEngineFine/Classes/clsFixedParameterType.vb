@@ -640,6 +640,7 @@ Public Class clsFixedParameterType
     Public Const IsRemarkReasonMandatoryOnPO As String = "IsRemarkReasonMandatoryOnPO"
     Public Const ShowCostCenterAndHierarchyLevelInPurchaseModule As String = "ShowCostCenterAndHierarchyLevelInPurchaseModule"
     Public Const IsQCColumnRequiredonMRN As String = "IsQCColumnRequiredonMRN"
+    Public Const ShowItemAllStructureWise As String = "ShowItemAllStructureWise"
     Public Const IsRGPAfterPurchaseOrder As String = "Do RGP After Purchase Order"
     Public Const AllowQualityModuleInERP As String = "On Quality Module"
     Public Const SRNReportQuantityWise As String = "SRNReportQuantityWise"
@@ -1329,7 +1330,7 @@ Public Class clsFixedParameterType
     Public Const AllowGatePassDemandTripWise = "Allow Gatepass Demand Trip Wise"
     Public Const ConvertPouchtoCrate = "Convert 1 Pouch to Crate"
     Public Const ChangeInventroyMovemnet = "Inventroy Movement from Dispath/Gatepass"
-
+    Public Const ApplyCommissionRateWithTax = "Apply Commission Rate With TAX"
 End Class
 Public Class clsFixedParameterCode
     Public Const NoOfRecordForLotNo As String = "No Of Record For Lot No"
@@ -2070,6 +2071,7 @@ Public Class clsFixedParameterCode
     Public Const IsRemarkReasonMandatoryOnPO As String = "IsRemarkReasonMandatoryOnPO"
     Public Const ShowCostCenterAndHierarchyLevelInPurchaseModule As String = "ShowCostCenterAndHierarchyLevelInPurchaseModule"
     Public Const IsQCColumnRequiredonMRN As String = "IsQCColumnRequiredonMRN"
+    Public Const ShowItemAllStructureWise As String = "ShowItemAllStructureWise"
     Public Const AllowQcDateAfterCurrentDate As String = "AllowQcDateAfterCurrentDate"
     Public Const AllowWeighmentDateAfterCurrentDate As String = "AllowWeighmentDateAfterCurrentDate"
     Public Const AllowUnloadingDateAfterCurrentDate As String = "AllowUnloadingDateAfterCurrentDate"
@@ -2794,6 +2796,7 @@ Public Class clsFixedParameterCode
     Public Const AllowGatePassDemandTripWise = "Allow Gatepass Demand Trip Wise"
     Public Const ConvertPouchtoCrate = "Convert 1 Pouch to Crate"
     Public Const ChangeInventroyMovemnet = "Inventroy Movement from Dispath/Gatepass"
+    Public Const ApplyCommissionRateWithTax = "Apply Commission Rate With TAX"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -3656,6 +3659,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.IsRemarkReasonMandatoryOnPO, clsFixedParameterCode.IsRemarkReasonMandatoryOnPO, "0", "0 :Off, 1: On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowCostCenterAndHierarchyLevelInPurchaseModule, clsFixedParameterCode.ShowCostCenterAndHierarchyLevelInPurchaseModule, "0", "0 :Off, 1: On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.IsQCColumnRequiredonMRN, clsFixedParameterCode.IsQCColumnRequiredonMRN, "0", "0 :Off, 1: On")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, "0", "0 :Off, 1: On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowPOScheduling, clsFixedParameterCode.AllowPOScheduling, "0", "0:Off, 1:On for allow PO Scheduling in system.")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MilkProc, clsFixedParameterCode.AllowQcDateAfterCurrentDate, "0", "0:Off, 1:On ")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MilkProc, clsFixedParameterCode.AllowWeighmentDateAfterCurrentDate, "0", "0:Off, 1:On ")
@@ -4527,6 +4531,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.SeparateDemandMilkandProduct, clsFixedParameterCode.SeparateDemandMilkandProduct, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowDemandDoc, clsFixedParameterCode.ShowDemandDoc, "0", "0:Don't Show, 1:Show;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyCommission, clsFixedParameterCode.ApplyCommission, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyCommissionRateWithTax, clsFixedParameterCode.ApplyCommissionRateWithTax, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PricePlanRoundOffTruncate, clsFixedParameterCode.PricePlanRoundOffTruncate, "0", "0:RoundOff, 1:Truncate;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowIncreaseDispatchQty, clsFixedParameterCode.AllowIncreaseDispatchQty, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, "0", "Enter Weight in KG ")
@@ -5191,6 +5196,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.CustomerMaster, clsFixedParameterType.EnableDistributorSubsidy, clsFixedParameterCode.EnableDistributorSubsidy, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.CustomerMaster, clsFixedParameterType.AutoGeneratedCustomerCodeForAllCompany, clsFixedParameterCode.AutoGeneratedCustomerCodeForAllCompany, EnumControlType.CheckBox)
 
+        '=================for show all structure wise item 
 
 
 
@@ -5643,6 +5649,13 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.itemPurchaseAccount, clsFixedParameterType.ShowPurchaseControlAc, clsFixedParameterCode.ShowPurchaseControlAc, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.mbtnIssueReturn, clsFixedParameterType.ShowCostCenterAndHierarchyLevelInPurchaseModule, clsFixedParameterCode.ShowCostCenterAndHierarchyLevelInPurchaseModule, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmStoreRequistion, clsFixedParameterType.ShowCostCenterAndHierarchyLevelInPurchaseModule, clsFixedParameterCode.ShowCostCenterAndHierarchyLevelInPurchaseModule, EnumControlType.CheckBox)
+
+        InsertDefaultValue(clsUserMgtCode.mbtnPurchaseRequistion, clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmStoreRequistion, clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.mbtnMRN, clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.mbtnGRN, clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.mbtnSRN, clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.mbtnPurchaseOrder, clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, EnumControlType.CheckBox)
 
         InsertDefaultValue(clsUserMgtCode.mbtnPurchaseOrder, clsFixedParameterType.IsRGPAfterPurchaseOrder, clsFixedParameterCode.IsRGPAfterPurchaseOrder, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.mbtnPurchaseOrder, clsFixedParameterType.IsRemarkReasonMandatoryOnPO, clsFixedParameterCode.IsRemarkReasonMandatoryOnPO, EnumControlType.CheckBox)
@@ -6579,6 +6592,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDistributorRouteTagging, clsFixedParameterType.SeparateDemandMilkandProduct, clsFixedParameterCode.SeparateDemandMilkandProduct, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.ShowDemandDoc, clsFixedParameterCode.ShowDemandDoc, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyCommission, clsFixedParameterCode.ApplyCommission, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyCommissionRateWithTax, clsFixedParameterCode.ApplyCommissionRateWithTax, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.PricePlan, clsFixedParameterType.PricePlanRoundOffTruncate, clsFixedParameterCode.PricePlanRoundOffTruncate, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.AllowIncreaseDispatchQty, clsFixedParameterCode.AllowIncreaseDispatchQty, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, EnumControlType.TextBox)

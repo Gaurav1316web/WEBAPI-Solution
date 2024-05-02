@@ -527,7 +527,7 @@ Public Class FrmPrimaryTransporterVehicalMaster
             Return
         End If
 
-        If Not clsCommon.MyMessageBoxShow("Are You Sure,Want To Delete Primary Transporter Vehicle Master of Vehicle No. " + fndcode.Value + "?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+        If Not clsCommon.MyMessageBoxShow(Me, "Are You Sure,Want To Delete Primary Transporter Vehicle Master of Vehicle No. " + fndcode.Value + "?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
             Return
         End If
 

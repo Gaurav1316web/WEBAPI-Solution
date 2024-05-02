@@ -314,7 +314,7 @@ Public Class frmSalesImport
         '    If (clsCommon.CompairString(clsCommon.myCstr(ex.Message), "Cost Code not found to delete") <> CompairStringResult.Equal) Then
         '        clsCommon.MyMessageBoxShow("Current Cost Code is in use")
         '    Else
-        '        clsCommon.MyMessageBoxShow(ex.Message)
+        '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         '    End If
         '    trans.Rollback()
         'End Try

@@ -826,7 +826,7 @@ Public Class frmBookingDairyMultipleCustomer
             txtMultiCustomer.arrValueMember = Nothing
             FlagPaste = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -891,7 +891,7 @@ Public Class frmBookingDairyMultipleCustomer
         Catch ex As Exception
             isInsideLoadData = False
             isCellValueChangedOpen = False
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             'Finally
             '    isInsideLoadData = False
             '    isCellValueChangedOpen = False
@@ -1101,7 +1101,7 @@ Public Class frmBookingDairyMultipleCustomer
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         'sanjay GKD/20/06/18-000150
 
@@ -1186,7 +1186,7 @@ Public Class frmBookingDairyMultipleCustomer
                 txtLocation.Enabled = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub CalculateItemRate(ByVal intRow As Integer, ByVal intColumn As Integer)
@@ -3943,7 +3943,7 @@ Public Class frmBookingDairyMultipleCustomer
             'LoadBlankGrid()
             'End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4039,7 +4039,7 @@ Public Class frmBookingDairyMultipleCustomer
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4047,7 +4047,7 @@ Public Class frmBookingDairyMultipleCustomer
         Dim qry As String = ""
         qry = "update tspl_booking_matser set User_Lock_For_Edit=0,LockedBy_UserCode='' where Document_No='" & txtDocNo.Value & "'"
         clsDBFuncationality.ExecuteNonQuery(qry)
-        common.clsCommon.MyMessageBoxShow("Document Unlock Successfully", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Document Unlock Successfully", Me.Text)
         qry = txtDocNo.Value
         btnAddNew.PerformClick()
         LoadData(qry, NavigatorType.Current)
@@ -4055,7 +4055,7 @@ Public Class frmBookingDairyMultipleCustomer
     ''RICHA MIL/14/05/19-000082
     Private Sub btnreverse_Click(sender As Object, e As EventArgs) Handles btnreverse.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                 '' REASON FOR DELETE 
                 Dim Reason As String = ""
                 Dim frm As New FrmFreeTxtBox1
@@ -4068,12 +4068,12 @@ Public Class frmBookingDairyMultipleCustomer
                 End If
                 If clsBookingEntryDairySale.ReverseAndUnpost(txtDocNo.Value) Then
                     saveCancelLog(Reason, "Reverse And Recreate", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

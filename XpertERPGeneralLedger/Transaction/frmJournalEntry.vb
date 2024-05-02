@@ -1423,23 +1423,23 @@ Public Class frmJournalEntry
         isInsideLoadData = True
         Try
             ''RICHA KDI/11/07/18-000401 PICK CUSTOMER OR VENDOR NAME FROM THEIR MASTER TABLE
-            sql = " SELECT TSPL_JOURNAL_MASTER.Voucher_No, TSPL_JOURNAL_MASTER.Voucher_Date, TSPL_JOURNAL_MASTER.Source_Code, " & _
-                         "  TSPL_JOURNAL_MASTER.Source_Desc, TSPL_JOURNAL_MASTER.Source_Doc_No, TSPL_JOURNAL_MASTER.Source_Doc_Date, " & _
-                         "  TSPL_JOURNAL_MASTER.Posting_Date, TSPL_JOURNAL_MASTER.Voucher_Desc, TSPL_JOURNAL_MASTER.Source_Narration,  " & _
-                         "  TSPL_JOURNAL_MASTER.Remarks, TSPL_JOURNAL_MASTER.Comments, TSPL_JOURNAL_MASTER.Auto_Reverse,ISNULL(TSPL_JOURNAL_MASTER.Reverse_Date,'') AS Reverse_Date,  " & _
-                         "  TSPL_JOURNAL_MASTER.Source_Type, TSPL_JOURNAL_MASTER.CustVend_Code, CASE WHEN ISNULL(TSPL_JOURNAL_MASTER.Source_Type,'')='C' THEN TSPL_CUSTOMER_MASTER.CUSTOMER_NAME  WHEN ISNULL(TSPL_JOURNAL_MASTER.Source_Type,'')='V' THEN TSPL_VENDOR_MASTER.VENDOR_NAME ELSE TSPL_JOURNAL_MASTER.CustVend_Name end AS CustVend_Name,  " & _
-                         "  TSPL_JOURNAL_MASTER.Transaction_Type,  " & _
-                         "  TSPL_JOURNAL_MASTER.Provisional_Post, TSPL_JOURNAL_MASTER.Authorized, TSPL_JOURNAL_MASTER.Total_Debit_Amt,  " & _
-                         "  TSPL_JOURNAL_MASTER.Total_Credit_Amt, TSPL_JOURNAL_DETAILS.Detail_Line_No as [Line No], TSPL_JOURNAL_DETAILS.Account_code as [Acc Code],  " & _
-                         "  TSPL_JOURNAL_DETAILS.Account_Desc as [Acc Desc], case  when TSPL_JOURNAL_DETAILS.Amount >=0 then TSPL_JOURNAL_DETAILS.Amount else 0 end as DrAmt , case  when TSPL_JOURNAL_DETAILS.Amount <0 then TSPL_JOURNAL_DETAILS.Amount*-1 else 0 end as CrAmt, TSPL_JOURNAL_DETAILS.Description as [Desc],  " & _
-                         "  TSPL_JOURNAL_DETAILS.Reference as [Ref], convert(varchar(11),TSPL_JOURNAL_DETAILS.Posting_Date,103) AS [Date], " & _
-                         "  TSPL_JOURNAL_MASTER.SendToTally,TSPL_JOURNAL_MASTER.Segment_code,TSPL_JOURNAL_MASTER.MonthlyReverse,TSPL_JOURNAL_DETAILS.Hirerachy_code as [Hierarchy Code], " & _
-                         " TSPL_JOURNAL_DETAILS.Cost_Centre_Code as [Cost Centre],TSPL_JOURNAL_MASTER.Ind_As , TSPL_JOURNAL_MASTER.AgainstVoucherNoReverseEntry,TSPL_JOURNAL_MASTER.TapalNo,TSPL_JOURNAL_MASTER.DateAndTime " & _
-                         "  FROM TSPL_JOURNAL_MASTER INNER JOIN " & _
-                         "  TSPL_JOURNAL_DETAILS ON   " & _
-                         "  TSPL_JOURNAL_MASTER.Voucher_No = TSPL_JOURNAL_DETAILS.Voucher_No " & _
-                                     "  left outer join  tspl_customer_master on tspl_customer_master.cust_code  =TSPL_JOURNAL_MASTER.CustVend_Code" & _
-            " left outer join  TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.VENDOR_CODE  =TSPL_JOURNAL_MASTER.CustVend_Code " & _
+            sql = " SELECT TSPL_JOURNAL_MASTER.Voucher_No, TSPL_JOURNAL_MASTER.Voucher_Date, TSPL_JOURNAL_MASTER.Source_Code, " &
+                         "  TSPL_JOURNAL_MASTER.Source_Desc, TSPL_JOURNAL_MASTER.Source_Doc_No, TSPL_JOURNAL_MASTER.Source_Doc_Date, " &
+                         "  TSPL_JOURNAL_MASTER.Posting_Date, TSPL_JOURNAL_MASTER.Voucher_Desc, TSPL_JOURNAL_MASTER.Source_Narration,  " &
+                         "  TSPL_JOURNAL_MASTER.Remarks, TSPL_JOURNAL_MASTER.Comments, TSPL_JOURNAL_MASTER.Auto_Reverse,ISNULL(TSPL_JOURNAL_MASTER.Reverse_Date,'') AS Reverse_Date,  " &
+                         "  TSPL_JOURNAL_MASTER.Source_Type, TSPL_JOURNAL_MASTER.CustVend_Code, CASE WHEN ISNULL(TSPL_JOURNAL_MASTER.Source_Type,'')='C' THEN TSPL_CUSTOMER_MASTER.CUSTOMER_NAME  WHEN ISNULL(TSPL_JOURNAL_MASTER.Source_Type,'')='V' THEN TSPL_VENDOR_MASTER.VENDOR_NAME ELSE TSPL_JOURNAL_MASTER.CustVend_Name end AS CustVend_Name,  " &
+                         "  TSPL_JOURNAL_MASTER.Transaction_Type,  " &
+                         "  TSPL_JOURNAL_MASTER.Provisional_Post, TSPL_JOURNAL_MASTER.Authorized, TSPL_JOURNAL_MASTER.Total_Debit_Amt,  " &
+                         "  TSPL_JOURNAL_MASTER.Total_Credit_Amt, TSPL_JOURNAL_DETAILS.Detail_Line_No as [Line No], TSPL_JOURNAL_DETAILS.Account_code as [Acc Code],  " &
+                         "  TSPL_JOURNAL_DETAILS.Account_Desc as [Acc Desc], case  when TSPL_JOURNAL_DETAILS.Amount >=0 then TSPL_JOURNAL_DETAILS.Amount else 0 end as DrAmt , case  when TSPL_JOURNAL_DETAILS.Amount <0 then TSPL_JOURNAL_DETAILS.Amount*-1 else 0 end as CrAmt, TSPL_JOURNAL_DETAILS.Description as [Desc],  " &
+                         "  TSPL_JOURNAL_DETAILS.Reference as [Ref], convert(varchar(11),TSPL_JOURNAL_DETAILS.Posting_Date,103) AS [Date], " &
+                         "  TSPL_JOURNAL_MASTER.SendToTally,TSPL_JOURNAL_MASTER.Segment_code,TSPL_JOURNAL_MASTER.MonthlyReverse,TSPL_JOURNAL_DETAILS.Hirerachy_code as [Hierarchy Code], " &
+                         " TSPL_JOURNAL_DETAILS.Cost_Centre_Code as [Cost Centre],TSPL_JOURNAL_MASTER.Ind_As , TSPL_JOURNAL_MASTER.AgainstVoucherNoReverseEntry,TSPL_JOURNAL_MASTER.TapalNo,TSPL_JOURNAL_MASTER.DateAndTime " &
+                         "  FROM TSPL_JOURNAL_MASTER INNER JOIN " &
+                         "  TSPL_JOURNAL_DETAILS ON   " &
+                         "  TSPL_JOURNAL_MASTER.Voucher_No = TSPL_JOURNAL_DETAILS.Voucher_No " &
+                                     "  left outer join  tspl_customer_master on tspl_customer_master.cust_code  =TSPL_JOURNAL_MASTER.CustVend_Code" &
+            " left outer join  TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.VENDOR_CODE  =TSPL_JOURNAL_MASTER.CustVend_Code " &
             "  WHERE      TSPL_JOURNAL_MASTER.Voucher_No= '" + fndVoucher.Value + "' order by [Line No] "
             ds = connectSql.RunSQLReturnDS(sql)
             ' Dim dr As DataRow

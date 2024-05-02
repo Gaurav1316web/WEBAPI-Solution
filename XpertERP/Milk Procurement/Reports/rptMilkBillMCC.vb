@@ -101,18 +101,18 @@ Public Class RptMilkBillMCC
             Dim arrVLC As ArrayList = Nothing
             Dim arrVSP As ArrayList = Nothing
             If txtFromDate.Value > txtToDate.Value Then
-                common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
                 txtFromDate.Focus()
                 Exit Sub
             End If
 
             If chkVSPSelect.IsChecked AndAlso cbgVSP.CheckedValue.Count = 0 Then
-                clsCommon.MyMessageBoxShow("Please select atleast single VSP or select all.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select atleast single VSP or select all.", Me.Text)
                 Exit Sub
             End If
 
             If cbtMCCRouteVLCC.CheckedValue.Count = 0 Then
-                clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select atleast single MCC or select all.", Me.Text)
                 Exit Sub
             End If
 
@@ -265,7 +265,7 @@ Public Class RptMilkBillMCC
             End If
             ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         
     End Sub
@@ -414,7 +414,7 @@ Public Class RptMilkBillMCC
                 clsCommon.MyExportToPDF("MCC Milk Bill Details(MCC Wise)", gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
 

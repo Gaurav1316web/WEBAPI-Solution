@@ -300,7 +300,7 @@ Public Class frmDistributorRouteTagging
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gv_CurrentColumnChanged(sender As Object, e As CurrentColumnChangedEventArgs) Handles gv1.CurrentColumnChanged
@@ -476,9 +476,9 @@ Public Class frmDistributorRouteTagging
                                 Next
                                 isInsideLoadData = False
                             End If
-                            common.clsCommon.MyMessageBoxShow("Data Load Completed!", Me.Text, MessageBoxButtons.OK)
+                            common.clsCommon.MyMessageBoxShow(Me, "Data Load Completed!", Me.Text, MessageBoxButtons.OK)
                         Else
-                            common.clsCommon.MyMessageBoxShow("Data Load Failed", Me.Text, MessageBoxButtons.OK)
+                            common.clsCommon.MyMessageBoxShow(Me, "Data Load Failed", Me.Text, MessageBoxButtons.OK)
                         End If
                     End If
                     clsCommon.ProgressBarHide()

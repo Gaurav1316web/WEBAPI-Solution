@@ -251,6 +251,12 @@
     <Compile Include="Master\frmBullParameterGroup.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Master\frmBullParameterRangeSelection.Designer.vb">
+      <DependentUpon>frmBullParameterRangeSelection.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmBullParameterRangeSelection.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmBullPenIDMaster.Designer.vb">
       <DependentUpon>frmBullPenIDMaster.vb</DependentUpon>
     </Compile>
@@ -335,6 +341,12 @@
     <Compile Include="Master\frmBullTestParameter.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Master\frmDiseaseMaster.Designer.vb">
+      <DependentUpon>frmDiseaseMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmDiseaseMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
@@ -350,10 +362,22 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Master\frmBullCMUGrouping.Designer.vb">
+      <DependentUpon>frmBullCMUGrouping.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmBullCMUGrouping.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\frmBullCurlingEntry.Designer.vb">
       <DependentUpon>frmBullCurlingEntry.vb</DependentUpon>
     </Compile>
     <Compile Include="Transaction\frmBullCurlingEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction\frmBullInsurance.Designer.vb">
+      <DependentUpon>frmBullInsurance.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmBullInsurance.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Transaction\frmBullMovement.Designer.vb">
@@ -362,10 +386,28 @@
     <Compile Include="Transaction\frmBullMovement.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Transaction\frmBullTestParameterEntry.Designer.vb">
+      <DependentUpon>frmBullTestParameterEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmBullTestParameterEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\frmBullVaccinationEntry.Designer.vb">
       <DependentUpon>frmBullVaccinationEntry.vb</DependentUpon>
     </Compile>
     <Compile Include="Transaction\frmBullVaccinationEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction\frmInsuranceTagAllocation.Designer.vb">
+      <DependentUpon>frmInsuranceTagAllocation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmInsuranceTagAllocation.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction\frmCMUChecklistEntry.Designer.vb">
+      <DependentUpon>frmCMUChecklistEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmCMUChecklistEntry.vb">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
@@ -390,6 +432,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Master\frmBullParameterGroup.resx">
       <DependentUpon>frmBullParameterGroup.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmBullParameterRangeSelection.resx">
+      <DependentUpon>frmBullParameterRangeSelection.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Master\frmBullPenIDMaster.resx">
       <DependentUpon>frmBullPenIDMaster.vb</DependentUpon>
@@ -433,12 +478,24 @@
     <EmbeddedResource Include="Master\frmBullTestParameter.resx">
       <DependentUpon>frmBullTestParameter.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmDiseaseMaster.resx">
+      <DependentUpon>frmDiseaseMaster.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="My Project\licenses.licx" />
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmBullCMUGrouping.resx">
+      <DependentUpon>frmBullCMUGrouping.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmBullInsurance.resx">
+      <DependentUpon>frmBullInsurance.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmBullTestParameterEntry.resx">
+      <DependentUpon>frmBullTestParameterEntry.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmBullVaccinationEntry.resx">
       <DependentUpon>frmBullVaccinationEntry.vb</DependentUpon>
@@ -448,6 +505,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmBullMovement.resx">
       <DependentUpon>frmBullMovement.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmInsuranceTagAllocation.resx">
+      <DependentUpon>frmInsuranceTagAllocation.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

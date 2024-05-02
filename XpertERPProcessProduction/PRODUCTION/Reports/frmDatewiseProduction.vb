@@ -17,7 +17,7 @@ Public Class frmDatewiseProduction
     Sub LoadData()
         
         If isInsideLoadData Then
-            clsCommon.MyMessageBoxShow("Work in Progress Please Wait...")
+            clsCommon.MyMessageBoxShow(Me, "Work in Progress Please Wait...", Me.Text)
             Exit Sub
         End If
 
@@ -56,7 +56,7 @@ Public Class frmDatewiseProduction
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         Else
-            clsCommon.MyMessageBoxShow("No Data to Show in Selected Dates.")
+            clsCommon.MyMessageBoxShow(Me, "No Data to Show in Selected Dates.", Me.Text)
         End If
         isInsideLoadData = False
         btnGenrate.Enabled = True
@@ -137,7 +137,7 @@ Public Class frmDatewiseProduction
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()

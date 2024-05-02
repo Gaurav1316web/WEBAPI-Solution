@@ -315,7 +315,7 @@ Public Class frmMRPAutoMobile
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -399,7 +399,7 @@ Public Class frmMRPAutoMobile
 
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
             isInsideLoaddata = False
@@ -529,7 +529,7 @@ Public Class frmMRPAutoMobile
                     End If
 
                 Catch ex As Exception
-                    clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                     Return False
                 End Try
             Else
@@ -538,7 +538,7 @@ Public Class frmMRPAutoMobile
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -551,13 +551,13 @@ Public Class frmMRPAutoMobile
                 Dim QryStr As String = "select POSTED from TSPL_MRP_HEAD where MRP_Code = '" + txtCode.Value + "' "
                 Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)
                 If chkpost = "1" Then
-                    clsCommon.MyMessageBoxShow("Transection already posted")
+                    clsCommon.MyMessageBoxShow(Me, "Transection already posted")
                     Return False
                 End If
             End If
 
             If clsCommon.myLen(fndProductionPlan.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select production plan.")
+                clsCommon.MyMessageBoxShow(Me, "Select production plan.")
                 fndProductionPlan.Focus()
                 fndProductionPlan.Select()
                 Errorcontrol.SetError(txtProductionPlanDesc, "Select production plan.")
@@ -572,7 +572,7 @@ Public Class frmMRPAutoMobile
                 icode = clsCommon.myCstr(gvMRPDetal.Rows(ii).Cells(colItem_Code).Value)
 
                 If ii = 0 AndAlso clsCommon.myLen(icode) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Fill atleast one row for MRP.")
+                    clsCommon.MyMessageBoxShow(Me, "Fill atleast one row for MRP.")
                     gvMRPDetal.CurrentRow = gvMRPDetal.Rows(ii)
                     Return False
                 End If
@@ -580,7 +580,7 @@ Public Class frmMRPAutoMobile
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -591,7 +591,7 @@ Public Class frmMRPAutoMobile
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record")
             Exit Sub
         End If
         funDelete()
@@ -614,7 +614,7 @@ Public Class frmMRPAutoMobile
                 End If
                 If (clsMRPAutoMobile.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -657,14 +657,14 @@ Public Class frmMRPAutoMobile
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (Save()) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
         End If
     End Sub
@@ -673,7 +673,7 @@ Public Class frmMRPAutoMobile
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -707,7 +707,7 @@ Public Class frmMRPAutoMobile
             fndLocation.Value = clsLocation.getFinder(WhrCls, fndLocation.Value, isButtonClicked)
             lblLocationDesc.Text = clsLocation.GetName(fndLocation.Value, Nothing)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -814,7 +814,7 @@ Public Class frmMRPAutoMobile
                 End If
 
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Finally
                 objPP = Nothing
                 MergeSimilarItemRows()
@@ -982,7 +982,7 @@ Public Class frmMRPAutoMobile
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -997,14 +997,14 @@ Public Class frmMRPAutoMobile
     Private Sub btnUnpost_Click(sender As Object, e As EventArgs) Handles btnUnpost.Click
         Try
             If clsCommon.myLen(txtCode.Value) > 0 Then
-                If clsCommon.MyMessageBoxShow("Unpost the current transaction" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow(Me, "Unpost the current transaction" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
                     clsMRPAutoMobile.ReverseAndUnpost(txtCode.Value, chkAutoIndent.IsChecked)
-                    clsCommon.MyMessageBoxShow("Tansaction unposted succesffuly", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Tansaction unposted succesffuly", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

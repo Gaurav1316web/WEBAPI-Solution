@@ -222,7 +222,7 @@ Public Class FrmViewTDS
     '        txtNatureOfDeduction.Caption = "Description"
     '        txtNatureOfDeduction.ValueToSelect1 = "Deduction_Code"
     '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(ex.Message)
+    '        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
 
@@ -234,7 +234,7 @@ Public Class FrmViewTDS
     '        txtBranchCode.Caption = "Code"
     '        txtBranchCode.ValueToSelect1 = "Code"
     '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(ex.Message)
+    '        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
 
@@ -246,7 +246,7 @@ Public Class FrmViewTDS
     '        txtFiscalYear.Caption = "Fiscal Year"
     '        txtFiscalYear.ValueToSelect1 = "Fiscal Year"
     '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(ex.Message)
+    '        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
 

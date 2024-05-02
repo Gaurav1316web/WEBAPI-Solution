@@ -4114,7 +4114,7 @@ Public Class frmCustomer
                 End If
             End If
         Catch ex As Exception
-            'common.clsCommon.MyMessageBoxShow(ex.Message)
+            'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
     '--------------Added By ----Pankaj Kumar------on---23/03/2012-----------------------

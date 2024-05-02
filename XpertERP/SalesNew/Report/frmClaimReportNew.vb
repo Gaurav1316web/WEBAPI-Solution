@@ -123,7 +123,7 @@ Public Class FrmClaimReportNew
                 clsCommon.MyExportToPDF(Me.Text, gv, Nothing, Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

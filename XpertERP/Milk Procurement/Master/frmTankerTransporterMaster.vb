@@ -2252,7 +2252,7 @@ Public Class frmTankerTransporterMaster
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -3202,7 +3202,7 @@ Public Class frmTankerTransporterMaster
                 End If
                 Dim msg As String = clsERPFuncationality.CheckPanStructure(txtpan.Text.Trim(), txtvendorname.Text)
                 If clsCommon.myLen(msg) > 0 Then
-                    clsCommon.MyMessageBoxShow(msg, Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                     txtpan.Focus()
                     txtpan.Select()
                     Errorcontrol.SetError(txtpan, msg)
@@ -3351,7 +3351,7 @@ Public Class frmTankerTransporterMaster
             End If
 
             If (cmbagreemnt.SelectedValue = "YES" Or cmbsecurity.SelectedValue = "YES") AndAlso UcAttachment1.gv1.Rows.Count < 1 Then
-                clsCommon.MyMessageBoxShow("Please Attach Documents For Agreement/Security Cheque", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Attach Documents For Agreement/Security Cheque", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage3
                 Errorcontrol.SetError(UcAttachment1.gv1, "Please Attach Documents For Agreement/Security Cheque")
                 Return
@@ -3729,7 +3729,7 @@ Public Class frmTankerTransporterMaster
         '        'fndCity.Value = ""
         '    End If
         'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
 
@@ -4040,7 +4040,7 @@ Public Class frmTankerTransporterMaster
             qry = "select CURRENCY_CODE from TSPL_VENDOR_ACCOUNT_SET where Acct_Set_Code='" & clsCommon.myCstr(strVendorAccountSet) & "' "
             Dim accCurrCode As String = clsDBFuncationality.getSingleValue(qry, trans).ToString
             If clsCommon.CompairString(accCurrCode, clsCommon.myCstr(strVendorCurrency)) <> CompairStringResult.Equal Then
-                clsCommon.MyMessageBoxShow("Account Set Currency and Vendor Currency must be same in case of Multicurrency. See At Line No :" + strlineNo) ',See At Line No.
+                clsCommon.MyMessageBoxShow(Me, "Account Set Currency and Vendor Currency must be same in case of Multicurrency. See At Line No :" + strlineNo) ',See At Line No.
                 Return False
             End If
             '' match tax Group currency with vendor currency
@@ -4059,7 +4059,7 @@ Public Class frmTankerTransporterMaster
                 End If
             Next
             If clsCommon.myLen(taxCode) > 0 Then
-                clsCommon.MyMessageBoxShow("Tax Code '" & taxCode & "' in Tax Group " & clsCommon.myCstr(strTaxGroup) & " are created for currency other than " & clsCommon.myCstr(strVendorCurrency) & " .See At Line No :" + strlineNo)
+                clsCommon.MyMessageBoxShow(Me, "Tax Code '" & taxCode & "' in Tax Group " & clsCommon.myCstr(strTaxGroup) & " are created for currency other than " & clsCommon.myCstr(strVendorCurrency) & " .See At Line No :" + strlineNo, Me.Text)
                 Return False
             End If
             'End If

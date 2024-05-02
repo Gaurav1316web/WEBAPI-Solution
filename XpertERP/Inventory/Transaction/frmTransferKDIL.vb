@@ -5796,7 +5796,7 @@ Public Class FrmTransferKDIL
 
 
         Catch ex As Exception
-            'common.clsCommon.MyMessageBoxShow(ex.Message)
+            'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
 
@@ -6099,7 +6099,7 @@ Public Class FrmTransferKDIL
             'cell.BackColor = Color.FromArgb(243, 181, 51)
             'End If
         Catch ex As Exception
-            'common.clsCommon.MyMessageBoxShow(ex.Message)
+            'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
 
@@ -7664,7 +7664,7 @@ Public Class FrmTransferKDIL
         '    End If
 
         'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
     '========================Added by preeti gupta[For GST Print]========================================

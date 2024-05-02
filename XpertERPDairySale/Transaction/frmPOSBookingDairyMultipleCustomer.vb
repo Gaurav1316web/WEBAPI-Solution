@@ -164,7 +164,7 @@ Public Class frmPOSBookingDairyMultipleCustomer
 
             If clsCommon.myLen(strtotalShort) = 0 Then
                 gv1.DataSource = Nothing
-                clsCommon.MyMessageBoxShow("Please MAP Customer with Location . " & txtLocation.Value, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please MAP Customer with Location . " & txtLocation.Value, Me.Text)
                 blnPageLoad = False
                 Exit Sub
             End If
@@ -855,7 +855,7 @@ Public Class frmPOSBookingDairyMultipleCustomer
         '    Next
         Return True
         'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         '    Return False
         'Finally
         '    strCustCode = Nothing
@@ -878,7 +878,7 @@ Public Class frmPOSBookingDairyMultipleCustomer
                 txtLocation.Enabled = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub CalculateItemRate(ByVal intRow As Integer, ByVal intColumn As Integer)
@@ -1254,7 +1254,7 @@ Public Class frmPOSBookingDairyMultipleCustomer
                 Next
                 If blnRatezero = True Then
                     trans.Rollback()
-                    clsCommon.MyMessageBoxShow(DOmsg, Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, DOmsg, Me.Text)
                     Return
                 End If
                 If (obj.Document_No Is Nothing OrElse obj.Arr.Count <= 0) Then
@@ -2141,7 +2141,7 @@ Public Class frmPOSBookingDairyMultipleCustomer
                 End If
                 If DOCreated = True Then
                     Dim msg = "Successfully created"
-                    Common.clsCommon.MyMessageBoxShow(msg, Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                     msg = Nothing
                 End If
                 LoadData(txtDocNo.Value, NavigatorType.Current)
@@ -2217,7 +2217,7 @@ Public Class frmPOSBookingDairyMultipleCustomer
 
         ISFresh = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Count(Item_Code) AS Item_Code  from tspl_item_master where is_freshitem=1"))
         If ISFresh = 0 Then
-            clsCommon.MyMessageBoxShow("There is No Items For Fresh Sale..", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "There is No Items For Fresh Sale..", Me.Text)
             Exit Sub
         End If
         FreshItem = clsCommon.myCstr("select Isnull(Item_Code,'') As Item_Code from tspl_item_master where is_freshitem=1 ")
