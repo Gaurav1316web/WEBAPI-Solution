@@ -22,8 +22,10 @@ Partial Class RptVillageSlip
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -168,12 +170,10 @@ Partial Class RptVillageSlip
         '
         Me.RadPageView1.RootElement.AccessibleDescription = "Report1"
         Me.RadPageView1.RootElement.AccessibleName = "Report1"
-        Me.RadPageView1.RootElement.Text = "Report1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(900, 561)
         Me.RadPageView1.TabIndex = 2
         Me.RadPageView1.TabStop = False
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0).GetChildAt(2), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Filter"
         CType(Me.RadPageView1.GetChildAt(0).GetChildAt(3), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Filter"
@@ -474,6 +474,7 @@ Partial Class RptVillageSlip
         '
         Me.txtToShift.AutoCompleteDisplayMember = Nothing
         Me.txtToShift.AutoCompleteValueMember = Nothing
+        Me.txtToShift.DropDownAnimationEnabled = True
         Me.txtToShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.txtToShift.Location = New System.Drawing.Point(360, 12)
         Me.txtToShift.Name = "txtToShift"
@@ -493,6 +494,7 @@ Partial Class RptVillageSlip
         '
         Me.txtFromShift.AutoCompleteDisplayMember = Nothing
         Me.txtFromShift.AutoCompleteValueMember = Nothing
+        Me.txtFromShift.DropDownAnimationEnabled = True
         Me.txtFromShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.txtFromShift.Location = New System.Drawing.Point(163, 11)
         Me.txtFromShift.Name = "txtFromShift"
@@ -505,6 +507,7 @@ Partial Class RptVillageSlip
         Me.cboUnit.AutoCompleteValueMember = Nothing
         Me.cboUnit.BackColor = System.Drawing.Color.Transparent
         Me.cboUnit.CalculationExpression = Nothing
+        Me.cboUnit.DropDownAnimationEnabled = True
         Me.cboUnit.FieldCode = Nothing
         Me.cboUnit.FieldDesc = Nothing
         Me.cboUnit.FieldMaxLength = 0
@@ -514,10 +517,10 @@ Partial Class RptVillageSlip
         Me.cboUnit.IsSourceFromTable = False
         Me.cboUnit.IsSourceFromValueList = False
         Me.cboUnit.IsUnique = False
-        RadListDataItem3.Text = "Kg"
-        RadListDataItem4.Text = "Ltr"
-        Me.cboUnit.Items.Add(RadListDataItem3)
-        Me.cboUnit.Items.Add(RadListDataItem4)
+        RadListDataItem1.Text = "Kg"
+        RadListDataItem2.Text = "Ltr"
+        Me.cboUnit.Items.Add(RadListDataItem1)
+        Me.cboUnit.Items.Add(RadListDataItem2)
         Me.cboUnit.Location = New System.Drawing.Point(78, 42)
         Me.cboUnit.MendatroryField = True
         Me.cboUnit.MyLinkLable1 = Nothing
@@ -605,14 +608,16 @@ Partial Class RptVillageSlip
         '
         Me.gv1.Location = New System.Drawing.Point(69, 5)
         '
-        'gv1
         '
+        '
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(10, 10)
         Me.gv1.TabIndex = 1
-        Me.gv1.Text = "RadGridView1"
         '
         'lblfromDate
         '
@@ -647,13 +652,15 @@ Partial Class RptVillageSlip
         Me.gv.MasterTemplate.AllowAddNewRow = False
         Me.gv.MasterTemplate.AllowDeleteRow = False
         Me.gv.MasterTemplate.EnableFiltering = True
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(1022, 513)
         Me.gv.TabIndex = 3
-        Me.gv.Text = "gv"
         '
         'RadSplitButton1
         '
@@ -667,15 +674,11 @@ Partial Class RptVillageSlip
         '
         'rmiExcel
         '
-        Me.rmiExcel.AccessibleDescription = "Excel"
-        Me.rmiExcel.AccessibleName = "Excel"
         Me.rmiExcel.Name = "rmiExcel"
         Me.rmiExcel.Text = "Excel"
         '
         'rmiPDF
         '
-        Me.rmiPDF.AccessibleDescription = "PDF"
-        Me.rmiPDF.AccessibleName = "PDF"
         Me.rmiPDF.Name = "rmiPDF"
         Me.rmiPDF.Text = "PDF"
         '
@@ -726,20 +729,15 @@ Partial Class RptVillageSlip
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(900, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmSaveL, Me.rmDeleteL})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
         '
         'rmSaveL
         '
-        Me.rmSaveL.AccessibleDescription = "Save Layout"
-        Me.rmSaveL.AccessibleName = "Save Layout"
         Me.rmSaveL.Name = "rmSaveL"
         Me.rmSaveL.Text = "Save Layout"
         '
