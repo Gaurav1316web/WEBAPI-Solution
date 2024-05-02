@@ -2894,7 +2894,7 @@ Public Class FrmCSATransferReturn
             End If ''end setting cond.
         Catch ex As Exception
             isCellValueChnaged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

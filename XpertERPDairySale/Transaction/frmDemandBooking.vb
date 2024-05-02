@@ -1397,7 +1397,7 @@ Public Class frmDemandBooking
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -3667,7 +3667,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
                 'End If
             Next
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub rmi_TS_Excel_Click(sender As Object, e As EventArgs) Handles rmi_TS_Excel.Click
@@ -4036,7 +4036,7 @@ where 2=2 "
             'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dt2, "rptDemandBooking", "Demand Booking", "rptSubDemandBooking")
             frmCRV = Nothing
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnExport_Click(sender As Object, e As EventArgs) Handles btnExport.Click
@@ -4045,7 +4045,7 @@ where 2=2 "
     Private Sub Export(ByVal exporter As EnumExportTo)
         Try
             If gv1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                 Exit Sub
             End If
             'Dim sfd As SaveFileDialog = New SaveFileDialog()
@@ -4063,7 +4063,7 @@ where 2=2 "
             End If
             ' End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
     Private Sub btnImport_Click(sender As Object, e As EventArgs) Handles btnImport.Click
@@ -4071,7 +4071,7 @@ where 2=2 "
         Dim arrVisbleColumns As New List(Of Integer)
         Try
             If clsCommon.myLen(gv1.Rows(0).Cells(colCustCode).Value) = 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Import", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Import", Me.Text)
                 Exit Sub
             End If
             Me.Controls.Add(gvImport)
@@ -4125,7 +4125,7 @@ where 2=2 "
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(gvImport)
         End Try

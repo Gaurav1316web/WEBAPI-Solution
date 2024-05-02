@@ -55,7 +55,7 @@ Public Class FrmProjectProfitReport
         Try
             ExportToExcel(Exporter.Print)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -167,7 +167,7 @@ Public Class FrmProjectProfitReport
                 clsCommon.MyExportToPDF("Project Profitability Report", gv, arrHeader, "Project Profitability Report", False)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
     Sub FormatGrid()
@@ -267,7 +267,7 @@ Public Class FrmProjectProfitReport
         Try
             ExportToExcel(Exporter.Excel)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -275,7 +275,7 @@ Public Class FrmProjectProfitReport
         Try
             ExportToExcel(Exporter.PDF)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -283,7 +283,7 @@ Public Class FrmProjectProfitReport
         Try
             LoadData("", "")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -291,7 +291,7 @@ Public Class FrmProjectProfitReport
         Try
             LoadData("", "")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

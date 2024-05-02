@@ -61,7 +61,7 @@ Public Class frmFilterColumnsToExport
     '            RadButton1_Click("", ee)
     '        End If
     '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
 
@@ -120,7 +120,7 @@ Public Class frmFilterColumnsToExport
                 RadButton1_Click("", ee)
             End If
         Catch ex As Exception
-            ' clsCommon.MyMessageBoxShow(ex.Message)
+            ' clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
 
@@ -152,7 +152,7 @@ Public Class frmFilterColumnsToExport
     '        repoLineNo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
     '        cbgCommonGrid.MasterTemplate.Columns.Add(repoLineNo)
     '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
 
@@ -164,7 +164,7 @@ Public Class frmFilterColumnsToExport
     '        End If
     '        dict.Add(clsCommon.myCstr(cboColumns.SelectedValue), cbgCommonGrid.CheckedValue)
     '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
 
     'End Sub
@@ -237,7 +237,7 @@ Public Class frmFilterColumnsToExport
             Me.isCancel = False
             Me.Close()
         Catch ex As Exception
-            'clsCommon.MyMessageBoxShow(ex.Message)
+            'clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
 

@@ -59,7 +59,7 @@ Public Class EmptyReportDetail
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub gridformat(ByVal arritem As ArrayList)
@@ -159,7 +159,7 @@ Public Class EmptyReportDetail
 
             Next
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub
@@ -174,7 +174,7 @@ Public Class EmptyReportDetail
     Sub loaddata()
         Try
             If chkLocationSelect.IsChecked = True AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Location or select ALL")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Location or select ALL", Me.Text)
                 Exit Sub
             End If
             Dim strItemCodestring, strItemCode, strMainItemCode, strmainItemCodeString, strsum As String
@@ -184,7 +184,7 @@ Public Class EmptyReportDetail
             strmainItemCodeString = ""
             strsum = ""
             If dtpFdate.Value > dtpToDate.Value Then
-                common.clsCommon.MyMessageBoxShow("FromDate is greater than ToDate")
+                common.clsCommon.MyMessageBoxShow(Me, "FromDate is greater than ToDate", Me.Text)
                 Exit Sub
             End If
 
@@ -289,7 +289,7 @@ Public Class EmptyReportDetail
                 strmainItemCodeString = strmainItemCodeString.Substring(0, strmainItemCodeString.Length - 1)
                 strsum = strsum.Substring(0, strsum.Length - 1)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 gv.DataSource = Nothing
                 Exit Sub
             End If
@@ -312,7 +312,7 @@ Public Class EmptyReportDetail
             gv.DataSource = clsDBFuncationality.GetDataTable(qryForPivot)
             gridformat(arritem)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -416,9 +416,9 @@ Public Class EmptyReportDetail
             ''Else
             ''    common.clsCommon.MyMessageBoxShow(Me, text)
             ''End If
-            common.clsCommon.MyMessageBoxShow(text)
+            common.clsCommon.MyMessageBoxShow(Me, text, Me.Text)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
             ''If Me.InvokeRequired Then
             ''    Dim ev As CustomDelegate = AddressOf Me.MessageShowError
             ''    ev.Invoke(Me, ex.Message)

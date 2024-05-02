@@ -502,7 +502,7 @@ Public Class frmMaterialQuotation
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -532,7 +532,7 @@ Public Class frmMaterialQuotation
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
@@ -637,7 +637,7 @@ Public Class frmMaterialQuotation
         Try
             
         Catch ex As Exception
-            'common.clsCommon.MyMessageBoxShow(ex.Message)
+            'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
 
         End Try
     End Sub
@@ -696,7 +696,7 @@ Public Class frmMaterialQuotation
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

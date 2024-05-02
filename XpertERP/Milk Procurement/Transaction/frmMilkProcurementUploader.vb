@@ -659,7 +659,7 @@ Public Class frmMilkProcurementUploader
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -954,11 +954,11 @@ Public Class frmMilkProcurementUploader
                 Else
                     clsMilkProcurementUploaderHead.PostData(txtDocNo.Value)
                 End If
-                clsCommon.MyMessageBoxShow("Data posted successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data posted successfully", Me.Text)
                 LoadData(txtDocNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

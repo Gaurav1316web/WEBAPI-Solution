@@ -381,7 +381,7 @@ Public Class FrmLocationDistanceMaster
 
         '    Catch ex As Exception
         '        clsCommon.ProgressBarHide()
-        '        clsCommon.MyMessageBoxShow(ex.Message)
+        '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         '    End Try
         'End If
         'Me.Controls.Remove(gv1)

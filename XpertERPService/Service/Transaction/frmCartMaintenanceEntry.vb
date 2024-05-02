@@ -191,7 +191,7 @@ Public Class FrmCartMaintenanceEntry
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -260,7 +260,7 @@ Public Class FrmCartMaintenanceEntry
 
             'Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -290,7 +290,7 @@ Public Class FrmCartMaintenanceEntry
             UsLock1.Status = ERPTransactionStatus.Approved
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -404,7 +404,7 @@ Public Class FrmCartMaintenanceEntry
             gv1.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
             gv1.MasterTemplate.ShowRowHeaderColumn = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -561,7 +561,7 @@ Public Class FrmCartMaintenanceEntry
 
             LoadData(txtdocno.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -632,7 +632,7 @@ Public Class FrmCartMaintenanceEntry
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

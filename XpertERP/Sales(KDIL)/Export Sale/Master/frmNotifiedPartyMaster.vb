@@ -454,7 +454,7 @@ Public Class FrmNotifiedPartyMaster
                 Errorcontrol.ResetError(txtcode)
             End If
 
-            If Not clsCommon.MyMessageBoxShow("Are you sure,want to delete notify party no. " + txtcode.Value + "?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+            If Not clsCommon.MyMessageBoxShow(Me, "Are you sure,want to delete notify party no. " + txtcode.Value + "?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 Return
             End If
 

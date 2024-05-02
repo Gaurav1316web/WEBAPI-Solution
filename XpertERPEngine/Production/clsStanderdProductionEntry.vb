@@ -1084,14 +1084,15 @@ Public Class clsStanderdProductionEntryRM
             clsCommon.AddColumnsForChange(coll, "AVG_COST", cost)
             Dim BalanceQty As Decimal = 0
 
-
+            Dim tdate As DateTime = Nothing
+            tdate = clsCommon.GetDateWithEndTime(objRec.PROD_DATE)
             Dim Product_Type As String = clsItemMaster.GetItemProductType(dr.Item("Consm_Item_Code"), trans)
 
             '' check item balance 
             If clsCommon.CompairString(Product_Type, "MI") = CompairStringResult.Equal Then
-                BalanceQty = clsInventoryMovementNew.getBalance(clsCommon.myCstr(dr.Item("Consm_Item_Code")), clsLocation.GetMainLocationMilk(clsCommon.myCstr(dr.Item("CONSM_LOCATION_CODE")), trans), clsCommon.myCstr(dr.Item("CONSM_LOCATION_CODE")), ReceiptCode, objRec.PROD_DATE, trans, clsCommon.myCstr(dr.Item("Consm_Unit_Code")))
+                BalanceQty = clsInventoryMovementNew.getBalance(clsCommon.myCstr(dr.Item("Consm_Item_Code")), clsLocation.GetMainLocationMilk(clsCommon.myCstr(dr.Item("CONSM_LOCATION_CODE")), trans), clsCommon.myCstr(dr.Item("CONSM_LOCATION_CODE")), ReceiptCode, tdate, trans, clsCommon.myCstr(dr.Item("Consm_Unit_Code")))
             Else
-                BalanceQty = clsItemLocationDetails.getBalance(clsCommon.myCstr(dr.Item("Consm_Item_Code")), clsCommon.myCstr(dr.Item("CONSM_LOCATION_CODE")), ReceiptCode, objRec.PROD_DATE, trans, clsCommon.myCstr(dr.Item("Consm_Unit_Code")), 0)
+                BalanceQty = clsItemLocationDetails.getBalance(clsCommon.myCstr(dr.Item("Consm_Item_Code")), clsCommon.myCstr(dr.Item("CONSM_LOCATION_CODE")), ReceiptCode, tdate, trans, clsCommon.myCstr(dr.Item("Consm_Unit_Code")), 0)
             End If
             ' commented by priti on 18/09/2018 discussed with ranjana
             If clsCommon.myCdbl(dr.Item("Consm_Qty")) > BalanceQty Then

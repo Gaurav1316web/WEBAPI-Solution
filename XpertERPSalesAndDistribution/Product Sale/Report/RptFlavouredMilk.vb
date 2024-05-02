@@ -4818,7 +4818,7 @@ Public Class RptFlavouredMilk
                 clsCommon.MyExportToPDF("Flavoured Milk", gv1, arrHeader, Me.Text, True)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -5483,7 +5483,7 @@ Public Class RptFlavouredMilk
             common.clsCommon.MyMessageBoxShow("Exported Successfully.")
             Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

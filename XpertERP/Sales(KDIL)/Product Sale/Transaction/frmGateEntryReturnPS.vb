@@ -37,7 +37,7 @@ Public Class frmGateEntryReturnPS
            
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -79,7 +79,7 @@ Public Class frmGateEntryReturnPS
 
         Catch ex As Exception
 
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub
@@ -125,7 +125,7 @@ Public Class frmGateEntryReturnPS
                 clsCommon.MyMessageBoxShow("Please Select a document to delete")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -196,7 +196,7 @@ Public Class frmGateEntryReturnPS
                 clsCommon.MyMessageBoxShow("Please Select a document to Post")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

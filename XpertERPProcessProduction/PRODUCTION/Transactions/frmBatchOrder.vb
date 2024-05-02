@@ -491,7 +491,7 @@ Public Class frmBatchOrder
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -672,7 +672,7 @@ Public Class frmBatchOrder
                 'Return False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
         Return False
@@ -760,7 +760,7 @@ Public Class frmBatchOrder
                 End If
                 If (clsBatchOrder.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -783,7 +783,7 @@ Public Class frmBatchOrder
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -828,7 +828,7 @@ Public Class frmBatchOrder
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1100,7 +1100,7 @@ Public Class frmBatchOrder
             frmCRV.funreport(CrystalReportFolder.PRODUCTION, dt, "crptBatchOrderPrint", "Batch Order Print")
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1139,7 +1139,7 @@ Public Class frmBatchOrder
             lblLocationDesc.Text = clsLocation.GetName(fndLocation.Value, Nothing)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

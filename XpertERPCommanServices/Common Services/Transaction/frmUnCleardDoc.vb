@@ -574,7 +574,7 @@ Public Class frmUnCleardDoc
 
     Private Sub txtUnclearedDoc__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtUnclearedDoc._MYValidating
         If clsCommon.myLen(txtVendor.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please first select " + MyLabel3.Text, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please first select " + MyLabel3.Text, Me.Text)
             txtVendor.Focus()
             Exit Sub
         End If

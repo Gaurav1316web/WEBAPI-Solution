@@ -231,7 +231,7 @@ Public Class FrmInvoiceBulkSale
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -1041,7 +1041,7 @@ Public Class FrmInvoiceBulkSale
             UpdateAllTotals()
             RefreshDispatchNo()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function IsItemExistInGrid(ByVal obj As clsDispatchDetailBulkSale)
@@ -1126,7 +1126,7 @@ Public Class FrmInvoiceBulkSale
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenUOMList(ByVal isButtonClick As Boolean)
@@ -1359,7 +1359,7 @@ Public Class FrmInvoiceBulkSale
             gv1.Rows(IntRowNo).Cells(colAmtAfterTax).Value = Math.Round(dblAmtAfterTax, 2)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txttcstaxbaseamount_TextChanged(sender As Object, e As EventArgs) Handles txttcstaxbaseamount.TextChanged
@@ -1374,7 +1374,7 @@ Public Class FrmInvoiceBulkSale
                 txttcstaxbaseamount.Value = 0
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ''==================='
@@ -1521,7 +1521,7 @@ Public Class FrmInvoiceBulkSale
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub SaveData()
@@ -1876,7 +1876,7 @@ Public Class FrmInvoiceBulkSale
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isFlag = False
         End Try
@@ -2286,12 +2286,12 @@ Public Class FrmInvoiceBulkSale
         Try
             If (deleteConfirm()) Then
                 If (ClsInvoiceBulkSale.DeleteData(txtDocNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2308,7 +2308,7 @@ Public Class FrmInvoiceBulkSale
 
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             qry = Nothing
         End Try
@@ -2375,7 +2375,7 @@ Public Class FrmInvoiceBulkSale
                 Throw New Exception("Please Select Document No first")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Function funPrint(ByVal StrCode As String, ByVal AgainstDis As String, ByVal isPDFPath As Boolean) As String
@@ -2507,7 +2507,7 @@ Public Class FrmInvoiceBulkSale
             qry = Nothing
             dt = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return filePath
     End Function
@@ -2963,7 +2963,7 @@ Public Class FrmInvoiceBulkSale
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

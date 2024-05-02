@@ -637,7 +637,7 @@ Public Class frmSynchronization
     '        clsCommon.MyMessageBoxShow("Data Syncronized successfully")
     '    Catch ex As Exception
     '        clsCommon.ProgressBarHide()
-    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '        Dim objWriter As New System.IO.StreamWriter(logFile, True)
     '        objWriter.WriteLine("Error in synchronization : " & ex.Message & " at " & Now & "")
     '        objWriter.Close()

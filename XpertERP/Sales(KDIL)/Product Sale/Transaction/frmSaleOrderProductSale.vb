@@ -5465,7 +5465,7 @@ Public Class frmSaleOrderProductSale
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return Nothing
         End Try
     End Function
@@ -8155,7 +8155,7 @@ Public Class frmSaleOrderProductSale
                 lblDept.Text = ""
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -8241,7 +8241,7 @@ Public Class frmSaleOrderProductSale
                 End If
             End If
         Catch ex As Exception
-            'common.clsCommon.MyMessageBoxShow(ex.Message)
+            'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
 
@@ -8362,7 +8362,7 @@ Public Class frmSaleOrderProductSale
         '    End If
 
         'Catch ex As Exception
-        '    common.clsCommon.MyMessageBoxShow(ex.Message)
+        '    common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
 
@@ -8404,7 +8404,7 @@ Public Class frmSaleOrderProductSale
                 gvAC.CurrentRow = gvAC.Rows(intCurrRow)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -8432,7 +8432,7 @@ Public Class frmSaleOrderProductSale
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -8865,7 +8865,7 @@ Public Class frmSaleOrderProductSale
             lstUsers.Add(txtVendorNo.Value)
             SendSMSandEmail(lstUsers, False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnSendForApproval_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSendForApproval.Click
@@ -8897,7 +8897,7 @@ Public Class frmSaleOrderProductSale
             End If
             SendSMSandEmail(lstUsers, True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnApproveCreditLimit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnApproveCreditLimit.Click
@@ -8931,7 +8931,7 @@ Public Class frmSaleOrderProductSale
             clsDBFuncationality.ExecuteNonQuery(qry)
             LoadData(txtDocNo.Value, NavigatorType.Current)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SendSMSandEmail(ByVal lstUsers As List(Of String), ByVal isSendForApproval As Boolean)
@@ -9375,7 +9375,7 @@ Public Class frmSaleOrderProductSale
                 txttcstaxbaseamount.Value = 0
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

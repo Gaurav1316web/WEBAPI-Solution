@@ -3480,7 +3480,7 @@ Public Class frmCSATransfer
     '        End If
     '        Return True
     '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Function
 
@@ -6004,7 +6004,7 @@ Public Class frmCSATransfer
         '    End If
 
         'Catch ex As Exception
-        '    common.clsCommon.MyMessageBoxShow(ex.Message)
+        '    common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
 
@@ -6193,7 +6193,7 @@ Public Class frmCSATransfer
         '    lstUsers.Add(txtVendorNo.Value)
         '    SendSMSandEmail(lstUsers, False)
         'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
     Private Sub btnSendForApproval_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSendForApproval.Click
@@ -6225,7 +6225,7 @@ Public Class frmCSATransfer
         '    End If
         '    SendSMSandEmail(lstUsers, True)
         'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
     Private Sub SendSMSandEmail(ByVal lstUsers As List(Of String), ByVal isSendForApproval As Boolean)

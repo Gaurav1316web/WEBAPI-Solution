@@ -94,7 +94,7 @@ Public Class frmPJCAccountSetting
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message())
+            clsCommon.MyMessageBoxShow(Me, ex.Message(), Me.Text)
         End Try
     End Sub
 
@@ -102,7 +102,7 @@ Public Class frmPJCAccountSetting
         Try
             LoadData(fndaccountsetcode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 #End Region
@@ -111,7 +111,7 @@ Public Class frmPJCAccountSetting
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsPJCAccountSet.DeleteData(fndaccountsetcode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If

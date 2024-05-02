@@ -533,7 +533,7 @@ Public Class frmAdjustmentProduction
                 gv1.CurrentRow.Cells(colBreakCost).ReadOnly = IIf(clsCommon.myLen(gv1.CurrentRow.Cells(colBreakCode).Value) > 0, False, True)
             End If
         Catch ex As Exception
-            'common.clsCommon.MyMessageBoxShow(ex.Message)
+            'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
 

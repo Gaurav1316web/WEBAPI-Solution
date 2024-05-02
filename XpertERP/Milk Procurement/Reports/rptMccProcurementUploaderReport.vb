@@ -242,7 +242,7 @@ Public Class rptMccProcurementUploaderReport
                 transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
                 clsCommon.MyExportToPDF("MCC Procurement Uploader Report", gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

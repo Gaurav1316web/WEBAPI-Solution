@@ -169,7 +169,7 @@ Public Class frmRouteGroupMaster
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(fndGroup_Id.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         If myMessages.deleteConfirm() Then
@@ -484,7 +484,7 @@ Public Class frmRouteGroupMaster
         If (strcheck <> "" Or fndRoute_id.Value = "") Then
             fndRoute_id.Value = strcheck
         Else
-            common.clsCommon.MyMessageBoxShow("This Route Code does not exist in master table")
+            common.clsCommon.MyMessageBoxShow(Me, "This Route Code does not exist in master table", Me.Text)
             fndRoute_id.Value = ""
             fndRoute_id.Focus()
         End If
@@ -525,7 +525,7 @@ Public Class frmRouteGroupMaster
                     ' Dim stredate As String
                     Dim strGroup_Id As String = grow.Cells(0).Value.ToString()
                     If String.IsNullOrEmpty(strGroup_Id) Or strGroup_Id.Length > 12 Then
-                        common.clsCommon.MyMessageBoxShow("Group Id can not be left blank or size can not be grater than 12")
+                        common.clsCommon.MyMessageBoxShow(Me, "Group Id can not be left blank or size can not be grater than 12", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     End If
@@ -535,20 +535,20 @@ Public Class frmRouteGroupMaster
                     ElseIf strStatus = "F" Then
                         strStatus = "F"
                     Else
-                        common.clsCommon.MyMessageBoxShow("You must enter the value either T or F for Status")
+                        common.clsCommon.MyMessageBoxShow(Me, "You must enter the value either T or F for Status", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     End If
                     Dim strRouteCode As String = grow.Cells(2).Value.ToString()
                     If String.IsNullOrEmpty(strRouteCode) Or strRouteCode.Length > 12 Then
-                        common.clsCommon.MyMessageBoxShow("Route Code can not be left blank or size can not be grater than 12")
+                        common.clsCommon.MyMessageBoxShow(Me, "Route Code can not be left blank or size can not be grater than 12", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     End If
 
                     Dim strs_date As String = grow.Cells(3).Value.ToString()
                     If String.IsNullOrEmpty(strs_date) Then
-                        common.clsCommon.MyMessageBoxShow("Start Date has some incorrect values", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Start Date has some incorrect values", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     Else
@@ -564,49 +564,49 @@ Public Class frmRouteGroupMaster
                     'End If
                     Dim strMonday As String = grow.Cells(4).Value.ToString()
                     If strMonday.Length > 1 Then
-                        common.clsCommon.MyMessageBoxShow("You must enter the value either T or F for Monday")
+                        common.clsCommon.MyMessageBoxShow(Me, "You must enter the value either T or F for Monday", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     End If
                     Dim strTuesday As String = grow.Cells(5).Value.ToString()
                     If strTuesday.Length > 1 Then
-                        common.clsCommon.MyMessageBoxShow("You must enter the value either T or F for Tuesday")
+                        common.clsCommon.MyMessageBoxShow(Me, "You must enter the value either T or F for Tuesday", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     End If
                     Dim strWednesday As String = grow.Cells(6).Value.ToString()
                     If strWednesday.Length > 1 Then
-                        common.clsCommon.MyMessageBoxShow("You must enter the value either T or F for Wednesday")
+                        common.clsCommon.MyMessageBoxShow(Me, "You must enter the value either T or F for Wednesday", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     End If
                     Dim strThursday As String = grow.Cells(7).Value.ToString()
                     If strThursday.Length > 1 Then
-                        common.clsCommon.MyMessageBoxShow("You must enter the value either T or F for Thursday")
+                        common.clsCommon.MyMessageBoxShow(Me, "You must enter the value either T or F for Thursday", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     End If
                     Dim strFriday As String = grow.Cells(8).Value.ToString()
                     If strFriday.Length > 1 Then
-                        common.clsCommon.MyMessageBoxShow("You must enter the value either T or F for Friday")
+                        common.clsCommon.MyMessageBoxShow(Me, "You must enter the value either T or F for Friday", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     End If
                     Dim strSaturday As String = grow.Cells(9).Value.ToString()
                     If strSaturday.Length > 1 Then
-                        common.clsCommon.MyMessageBoxShow("You must enter the value either T or F for Saturday")
+                        common.clsCommon.MyMessageBoxShow(Me, "You must enter the value either T or F for Saturday", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     End If
                     Dim strSunday As String = grow.Cells(10).Value.ToString()
                     If strSunday.Length > 1 Then
-                        common.clsCommon.MyMessageBoxShow("You must enter the value either T or F for Sunday")
+                        common.clsCommon.MyMessageBoxShow(Me, "You must enter the value either T or F for Sunday", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     End If
                     Dim strdescription As String = grow.Cells(11).Value.ToString()
                     If String.IsNullOrEmpty(strdescription) Or strdescription.Length > 50 Then
-                        common.clsCommon.MyMessageBoxShow("description can not be left blank or size can not be grater than 50")
+                        common.clsCommon.MyMessageBoxShow(Me, "description can not be left blank or size can not be grater than 50", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     End If
@@ -619,7 +619,7 @@ Public Class frmRouteGroupMaster
                     End If
                 Next
                 trans.Commit()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 myMessages.myExceptions(ex)
                 trans.Rollback()

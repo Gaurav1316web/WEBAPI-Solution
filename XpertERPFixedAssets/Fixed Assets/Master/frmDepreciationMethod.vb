@@ -389,7 +389,7 @@ Public Class frmDepreciationMethod
                             Dim dblxyz = clsDBFuncationality.getSingleValue("select  " + ChkFormula + "")
                         Catch ex As Exception
                             Throw New Exception("Not a Correct Formula")
-                            'clsCommon.MyMessageBoxShow(ex.Message)
+                            'clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
                             txtFormula.Focus()
                         End Try
                     End If

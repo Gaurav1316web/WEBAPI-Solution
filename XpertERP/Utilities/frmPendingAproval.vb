@@ -6518,7 +6518,7 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
         '    Next
         '    txtGrandTotal.Text = TempTotal
         'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'Finally
         '    FlagAllSelectWorking = False
         'End Try

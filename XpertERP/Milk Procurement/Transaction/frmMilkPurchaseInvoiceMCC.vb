@@ -94,7 +94,7 @@ Public Class frmMilkPurchaseInvoiceMCC
     '        objRemittance = frm.ObjReturn
     '        'End If
     '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(ex.Message)
+    '        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
 
@@ -426,7 +426,7 @@ Public Class frmMilkPurchaseInvoiceMCC
             UcCustomFields1.AllowToSave()
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 

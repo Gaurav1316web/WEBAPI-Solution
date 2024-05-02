@@ -14,6 +14,8 @@ Public Class ClsCMUGrouping
     Public Modified_By As String = Nothing
     Public Modified_Date As DateTime
     Public Arr As List(Of ClsCMUGroupingDetail) = Nothing
+    Public arrSelectionRange As List(Of clsBullCMUGroupingDeatilRange) = Nothing
+    Public arrPKID As List(Of clsBullCMUGroupingDeatilRange) = Nothing
 
 
 
@@ -43,16 +45,17 @@ Public Class ClsCMUGrouping
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
             clsCommon.AddColumnsForChange(coll, "Name", obj.Name)
+            clsCommon.AddColumnsForChange(coll, "Document_No", obj.Code)
             'clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Doc_Date, "dd/MMM/yyyy"))
 
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             If isNewEntry Then
-                obj.Code = clsERPFuncationality.GetNextCode(trans, DateTime.Now, clsDocType.frmBullCMUGrouping, "", objCommonVar.strCurrUserLocations)
-                If clsCommon.myLen(obj.Code) <= 0 Then
-                    Throw New Exception("Error in Code Generation")
-                End If
-                clsCommon.AddColumnsForChange(coll, "Document_No", obj.Code)
+                'obj.Code = clsERPFuncationality.GetNextCode(trans, DateTime.Now, clsDocType.frmBullCMUGrouping, "", objCommonVar.strCurrUserLocations)
+                'If clsCommon.myLen(obj.Code) <= 0 Then
+                '    Throw New Exception("Error in Code Generation")
+                'End If
+                ' clsCommon.AddColumnsForChange(coll, "Document_No", obj.Code)
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
                 IsSaved = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BULL_CMU_GROUPING", OMInsertOrUpdate.Insert, "", trans)
@@ -61,6 +64,25 @@ Public Class ClsCMUGrouping
             End If
 
             IsSaved = IsSaved AndAlso ClsCMUGroupingDetail.SaveData(clsCommon.myCstr(obj.Code), obj.Arr, trans)
+
+
+
+            Dim Qry As String = ""
+            Dim dt As New DataTable
+            Qry = "select TSPL_BULL_CMU_GROUPING_detail.PK_Id from TSPL_BULL_CMU_GROUPING_detail where Document_No='" + obj.Code + "'"
+            dt = clsDBFuncationality.GetDataTable(Qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                obj.arrPKID = New List(Of clsBullCMUGroupingDeatilRange)
+                Dim objTr As clsBullCMUGroupingDeatilRange
+                For Each dr As DataRow In dt.Rows
+                    objTr = New clsBullCMUGroupingDeatilRange
+                    objTr.Against_Detail_PK_Id = clsCommon.myCstr(dr("PK_Id"))
+                    obj.arrPKID.Add(objTr)
+                Next
+            End If
+            'Return obj
+            IsSaved = IsSaved AndAlso clsBullCMUGroupingDeatilRange.SaveData(clsCommon.myCstr(obj.Code), obj.arrSelectionRange, obj.arrPKID, trans)
+            'IsSaved = IsSaved AndAlso clsBullCMUGroupingDeatilRange.SaveData(clsCommon.myCstr(obj.Code), obj.arrSelectionRange, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -179,6 +201,12 @@ Public Class ClsCMUGroupingDetail
     Public Parameter_Type As String = Nothing
     Public Parameter_Name As String = Nothing
     Public Pk_Id As Integer = 0
+    Public Required_For_Result As String = ""
+    Public From_Range As Decimal
+    Public To_Range As Decimal
+    Public R_Boolean As String = ""
+    Public Alpha_Numeric As String = ""
+    Public Range_Selection As Decimal
 
 
 
@@ -189,6 +217,12 @@ Public Class ClsCMUGroupingDetail
                     Dim colm As New Hashtable()
                     clsCommon.AddColumnsForChange(colm, "Document_No", strDocNo)
                     clsCommon.AddColumnsForChange(colm, "Against_Parameter_Group_Code", obj.Pk_Id)
+                    clsCommon.AddColumnsForChange(colm, "Required_For_Result", obj.Required_For_Result)
+                    clsCommon.AddColumnsForChange(colm, "From_Range", obj.From_Range)
+                    clsCommon.AddColumnsForChange(colm, "To_Range", obj.To_Range)
+                    clsCommon.AddColumnsForChange(colm, "R_Boolean", obj.R_Boolean)
+                    clsCommon.AddColumnsForChange(colm, "Alpha_Numeric", obj.Alpha_Numeric)
+                    clsCommon.AddColumnsForChange(colm, "Range_Selection", obj.Range_Selection)
                     ' clsCommon.AddColumnsForChange(colm, "Parameter_Code", obj.ParameterCode)
                     'clsCommon.AddColumnsForChange(colm, "Amount", obj.ParameterCode)
                     clsCommonFunctionality.UpdateDataTable(colm, "TSPL_BULL_CMU_GROUPING_Detail", OMInsertOrUpdate.Insert, "", trans)
@@ -204,7 +238,7 @@ Public Class ClsCMUGroupingDetail
         Dim arr As List(Of ClsCMUGroupingDetail) = Nothing
         Try
             Dim dt As New DataTable
-            Dim strQry As String = " select TSPL_BULL_CMU_GROUPING_Detail.Document_No,TSPL_BULL_CMU_GROUPING.Name,TSPL_BULL_CMU_GROUPING.Remarks,TSPL_BULL_SHED_PARAMETER_DETAIL.PK_Id,
+            Dim strQry As String = " select TSPL_BULL_CMU_GROUPING_Detail.*,TSPL_BULL_CMU_GROUPING.Name,TSPL_BULL_CMU_GROUPING.Remarks,TSPL_BULL_SHED_PARAMETER_DETAIL.PK_Id,
 	                                 TSPL_BULL_SHED_PARAMETER_DETAIL.Code as GroupCode,TSPL_BULL_SHED_PARAMETER_MASTER.Name as GroupName,TSPL_BULL_SHED_PARAMETER_DETAIL.PCode,
                                      TSPL_BULL_SHED_PARAMETER.Name as ParameterName,TSPL_BULL_SHED_PARAMETER.Type as ParameterType  from TSPL_BULL_CMU_GROUPING_Detail
                                      left outer join TSPL_BULL_CMU_GROUPING on TSPL_BULL_CMU_GROUPING.Document_No = TSPL_BULL_CMU_GROUPING_Detail.Document_No
@@ -226,6 +260,12 @@ Public Class ClsCMUGroupingDetail
                     objTr.GroupCode = clsCommon.myCstr(dr("GroupCode"))
                     objTr.GroupName = clsCommon.myCstr(dr("GroupName"))
                     objTr.Pk_Id = clsCommon.myCstr(dr("PK_Id"))
+                    objTr.Required_For_Result = clsCommon.myCstr(dr("Required_For_Result"))
+                    objTr.From_Range = clsCommon.myCDecimal(dr("From_Range"))
+                    objTr.To_Range = clsCommon.myCDecimal(dr("To_Range"))
+                    objTr.R_Boolean = clsCommon.myCstr(dr("To_Range"))
+                    objTr.Alpha_Numeric = clsCommon.myCstr(dr("Alpha_Numeric"))
+                    objTr.Range_Selection = clsCommon.myCstr(dr("Range_Selection"))
 
                     arr.Add(objTr)
                 Next
@@ -235,4 +275,27 @@ Public Class ClsCMUGroupingDetail
         End Try
         Return arr
     End Function
+End Class
+
+Public Class clsBullCMUGroupingDeatilRange
+    Public Against_Group_Code As String
+    Public Against_Detail_PK_Id As Decimal
+    Public Range_Selection As String
+
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal arrSelection As List(Of clsBullCMUGroupingDeatilRange), ByVal arrPKID As List(Of clsBullCMUGroupingDeatilRange), ByVal trans As SqlTransaction) As Boolean
+        'Public Shared Function SaveData(ByVal strDocNo As String, ByVal arrSelection As List(Of clsBullCMUGroupingDeatilRange), ByVal trans As SqlTransaction) As Boolean
+        If (arrSelection IsNot Nothing AndAlso arrSelection.Count > 0) Then
+            For Each obj As clsBullCMUGroupingDeatilRange In arrSelection
+                Dim colm As New Hashtable()
+                clsCommon.AddColumnsForChange(colm, "Against_Group_Code", strDocNo)
+                'clsCommon.AddColumnsForChange(colm, "Against_Detail_PK_Id", obj.Against_Detail_PK_Id)
+                clsCommon.AddColumnsForChange(colm, "Against_Detail_PK_Id", arrPKID.Item(0).Against_Detail_PK_Id)
+                clsCommon.AddColumnsForChange(colm, "Range_Selection", obj.Range_Selection)
+                clsCommonFunctionality.UpdateDataTable(colm, "TSPL_BULL_CMU_GROUPING_DETAIL_RANGE", OMInsertOrUpdate.Insert, "", trans)
+            Next
+        End If
+        Return True
+    End Function
+
+
 End Class

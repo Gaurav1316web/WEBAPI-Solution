@@ -204,7 +204,7 @@ Public Class frmVendorBillDetails
             'gv.Columns("Cheque_Date").FormatString = "dd/MM/yyyy"
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

@@ -1040,7 +1040,7 @@ Public Class RptJobWorktPurchaseRegisterReport
                 clsCommon.MyExportToPDF("Purchase Register " + ddlReportType.SelectedValue, Gv1, arrHeader, "Purchase Register", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

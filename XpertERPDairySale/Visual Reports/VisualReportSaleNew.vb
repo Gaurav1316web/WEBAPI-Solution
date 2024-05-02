@@ -167,7 +167,7 @@ Public Class VisualReportSaleNew
             EnableDisableCntrl(False)
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -175,7 +175,7 @@ Public Class frmBatchOrderReport
                 clsCommon.MyExportToPDF(str, gv, arr, "Batch Order Report", False)
             End If
         Else
-            common.clsCommon.MyMessageBoxShow("No Record Found to print.")
+            common.clsCommon.MyMessageBoxShow(Me, "No Record Found to print.", Me.Text)
         End If
     End Sub
 

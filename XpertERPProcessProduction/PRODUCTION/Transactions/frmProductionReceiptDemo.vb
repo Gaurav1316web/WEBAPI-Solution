@@ -473,25 +473,25 @@ Public Class FrmProductionReceiptDemo
             Dim MainItemType As String = String.Empty
 
             If clsCommon.myLen(txtRecptNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select issue detail.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select issue detail.", Me.Text)
                 txtRecptNo.Focus()
                 txtRecptNo.Select()
                 Return False
             End If
 
             If clsCommon.myLen(gv.Rows(0).Cells(colGVItemcode).Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Fill atleast one row in main item grid.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Fill atleast one row in main item grid.", Me.Text)
                 Return False
             End If
             MainItemType = clsCommon.myCstr(gv.Rows(0).Cells(ColGVItemType).Value)
             If clsCommon.CompairString(MainItemType, "S") <> CompairStringResult.Equal Then
                 If clsCommon.myLen(gv_main.Rows(0).Cells(colitemcode).Value) <= 0 AndAlso clsCommon.myLen(gv_raw.Rows(0).Cells(colRawitemcode).Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Fill atleast one row in principle item grid and raw item grid.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Fill atleast one row in principle item grid and raw item grid.", Me.Text)
                     Return False
                 End If
             Else
                 If clsCommon.myLen(gv_raw.Rows(0).Cells(colRawitemcode).Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Fill atleast one row in raw item grid.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Fill atleast one row in raw item grid.", Me.Text)
                     Return False
                 End If
             End If
@@ -580,7 +580,7 @@ Public Class FrmProductionReceiptDemo
                                 If Not (LSTP.Contains(obj1.serial_no)) Then
                                     LSTP.Add(obj1.serial_no)
                                 Else
-                                    common.clsCommon.MyMessageBoxShow("Please check ! " + obj1.serial_no + " is repeating with " + obj1.item_code + " item (" & obj1.main_serial_no & ") in principle item.")
+                                    common.clsCommon.MyMessageBoxShow(Me, "Please check ! " + obj1.serial_no + " is repeating with " + obj1.item_code + " item (" & obj1.main_serial_no & ") in principle item.")
                                     Return False
                                 End If
                             End If
@@ -591,7 +591,7 @@ Public Class FrmProductionReceiptDemo
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -685,9 +685,9 @@ Public Class FrmProductionReceiptDemo
             If clsfrmProductionReceiptDemo.SaveData(isNewEntry, isPost, obj, trans) Then
                 If Not isPost Then
                     If clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                     End If
                 End If
                 txtCode.Value = obj.docno
@@ -696,7 +696,7 @@ Public Class FrmProductionReceiptDemo
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -712,17 +712,17 @@ Public Class FrmProductionReceiptDemo
                 Throw New Exception("Select document for deletion")
             End If
 
-            If Not clsCommon.MyMessageBoxShow("Are you sure,want to delete document no. " + txtCode.Value + "?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+            If Not clsCommon.MyMessageBoxShow(Me, "Are you sure,want to delete document no. " + txtCode.Value + "?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 Return
             End If
 
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             If clsfrmProductionReceiptDemo.DeleteData(txtCode.Value, trans) Then
-                clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                 FunReset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -734,7 +734,7 @@ Public Class FrmProductionReceiptDemo
                 Throw New Exception("Select document for posting")
             End If
 
-            If Not clsCommon.MyMessageBoxShow("Are you sure,want to post document no. " + txtCode.Value + "?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+            If Not clsCommon.MyMessageBoxShow(Me, "Are you sure,want to post document no. " + txtCode.Value + "?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 Return
             End If
 
@@ -742,11 +742,11 @@ Public Class FrmProductionReceiptDemo
             SaveData(True)
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             If clsfrmProductionReceiptDemo.PostData(txtCode.Value, trans) Then
-                clsCommon.MyMessageBoxShow("Data Posted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully", Me.Text)
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -789,7 +789,7 @@ Public Class FrmProductionReceiptDemo
         '    txtLocation.Value = clsCommon.ShowSelectForm("LocFND", qry, "Code", WhrCls, txtLocation.Value, "Code", isButtonClicked)
         '    lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
         'Catch ex As Exception
-        '    common.clsCommon.MyMessageBoxShow(ex.Message)
+        '    common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
 
@@ -804,7 +804,7 @@ Public Class FrmProductionReceiptDemo
         '        lblEmpName.Text = ""
         '    End If
         'Catch ex As Exception
-        '    common.clsCommon.MyMessageBoxShow(ex.Message)
+        '    common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
 
@@ -835,7 +835,7 @@ Public Class FrmProductionReceiptDemo
                 lblReceivedBy.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1020,7 +1020,7 @@ Public Class FrmProductionReceiptDemo
         Catch ex As Exception
             isNewEntry = True
             isInsideLoadData = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1041,7 +1041,7 @@ Public Class FrmProductionReceiptDemo
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1083,7 +1083,7 @@ Public Class FrmProductionReceiptDemo
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1135,7 +1135,7 @@ Public Class FrmProductionReceiptDemo
             'gv_raw.Rows.AddNew()
             'ShowDetail(allbomcode) 05-Oct
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1458,7 +1458,7 @@ Public Class FrmProductionReceiptDemo
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenMainIcode(ByVal isButtonCLicked As Boolean)

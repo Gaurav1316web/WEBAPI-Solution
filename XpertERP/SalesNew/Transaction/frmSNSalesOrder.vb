@@ -2161,7 +2161,7 @@ Public Class frmSNSalesOrder
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -3551,7 +3551,7 @@ Public Class frmSNSalesOrder
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -3798,7 +3798,7 @@ Public Class frmSNSalesOrder
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -4192,7 +4192,7 @@ Public Class frmSNSalesOrder
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -4777,7 +4777,7 @@ Public Class frmSNSalesOrder
             End If
             '============================================
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -4813,7 +4813,7 @@ Public Class frmSNSalesOrder
             End If
 
                    Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4890,7 +4890,7 @@ Public Class frmSNSalesOrder
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4916,7 +4916,7 @@ Public Class frmSNSalesOrder
                 End If
                 If (clsSNSalesOrderHead.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
@@ -5006,7 +5006,7 @@ Public Class frmSNSalesOrder
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         'Dim frm As New frmMandatoryFieldChecker
         'gv1.Enabled = Not frm.CheckmandatoryField(Me)
@@ -5845,7 +5845,7 @@ Public Class frmSNSalesOrder
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6018,7 +6018,7 @@ Public Class frmSNSalesOrder
 
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6141,7 +6141,7 @@ Public Class frmSNSalesOrder
                 lblDept.Text = ""
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6226,7 +6226,7 @@ Public Class frmSNSalesOrder
 
             End If
         Catch ex As Exception
-            'common.clsCommon.MyMessageBoxShow(ex.Message)
+            'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
 
@@ -6319,7 +6319,7 @@ Public Class frmSNSalesOrder
         '    End If
 
         'Catch ex As Exception
-        '    common.clsCommon.MyMessageBoxShow(ex.Message)
+        '    common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
 
@@ -6361,7 +6361,7 @@ Public Class frmSNSalesOrder
                 gvAC.CurrentRow = gvAC.Rows(intCurrRow)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6389,7 +6389,7 @@ Public Class frmSNSalesOrder
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6824,7 +6824,7 @@ Public Class frmSNSalesOrder
             lstUsers.Add(txtVendorNo.Value)
             SendSMSandEmail(lstUsers, False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnSendForApproval_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSendForApproval.Click
@@ -6856,7 +6856,7 @@ Public Class frmSNSalesOrder
             End If
             SendSMSandEmail(lstUsers, True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SendSMSandEmail(ByVal lstUsers As List(Of String), ByVal isSendForApproval As Boolean)
@@ -7293,7 +7293,7 @@ Public Class frmSNSalesOrder
             LoadData(txtDocNo.Value, NavigatorType.Current)
             clsCommon.MyMessageBoxShow("Update Successfuly")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

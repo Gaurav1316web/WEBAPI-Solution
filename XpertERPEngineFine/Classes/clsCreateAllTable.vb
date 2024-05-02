@@ -8450,7 +8450,7 @@ Public Class clsCreateAllTable
             coll.Add("Transporter_Commission_Amt", "decimal(18,4) NULL")
             coll.Add("Security_Rate", "decimal(18,2) NULL")
             coll.Add("Security_Amt", "decimal(18,2) NULL")
-
+            coll.Add("Batch_No", "varchar(30) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_DETAIL", coll, "", True, False, "TSPL_BOOKING_MATSER", "Document_No", "")
 
             ''richa for Booking detail payment
@@ -54413,9 +54413,19 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             clsCommonFunctionality.CreateOrAlterTable("TSPL_BULL_SHED_PARAMETER_Detail", coll)
 
             Try
-                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_BULL_SHED_PARAMETER_Detail Add PRIMARY KEY (PK_Id)")
+                Dim sql As String = "SELECT count(1) FROM INFORMATION_SCHEMA.COLUMNS WHERE  TABLE_NAME = 'TSPL_BULL_SHED_PARAMETER_DETAIL' AND COLUMN_NAME = 'PK_Id' "
+                Dim CodeExists = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(sql))
+                If CodeExists = 1 Then
+                    Dim qrys As String = "select count(1) from TSPL_BULL_SHED_PARAMETER_DETAIL"
+                    Dim DataExists = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qrys))
+                    Dim is_Identity As Integer = clsDBFuncationality.getSingleValue("SELECT  is_identity FROM sys.columns WHERE [object_id] = object_id('TSPL_BULL_SHED_PARAMETER_DETAIL') and name = 'PK_Id'")
+                    If is_Identity = 0 Then
+                        clsDBFuncationality.ExecuteNonQuery("alter table TSPL_BULL_SHED_PARAMETER_Detail Add PRIMARY KEY (PK_Id)")
+                    End If
+                End If
+
             Catch ex As Exception
-                Throw New Exception(ex.Message)
+
             End Try
 
             coll = New Dictionary(Of String, String)()
@@ -54569,7 +54579,26 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("No_abortions", "integer not null default 0")
             coll.Add("No_males_born", "integer not null default 0")
             coll.Add("REARING_Centre", "Varchar(50)  NULL ")
+            coll.Add("Picture_Upload", "image null")
+            'coll.Add("Relation", "Varchar(50)  NULL ")
+            'coll.Add("Taq_No", "Varchar(50)  NULL ")
+            'coll.Add("First_Standard_Location_Yield", "Varchar(50)  NULL ")
+            'coll.Add("Fat_Percent", "decimal (18,6) NULL")
+            'coll.Add("Snf_Percent", "decimal (18,6) NULL")
+            'coll.Add("Protien", "Varchar(50)  NULL ")
+            'coll.Add("Lactose", "Varchar(50)  NULL ")
+            'coll.Add("Date_Of_Pedigree_Information_Update", "Date NULL")
+            'coll.Add("SCC", "Varchar(50)  NULL ")
+            'coll.Add("MUN", "Varchar(50)  NULL ")
+            'coll.Add("Best_Standard_Location_Yield", "Varchar(50)  NULL ")
+            'coll.Add("Lact_No", "decimal (18,6) NULL")
+            'coll.Add("FAT_IN_KG", "decimal (18,3) NULL")
+            'coll.Add("SNF_IN_KG", "decimal (18,3) NULL")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_BULL_MASTER", coll)
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION")
+            coll.Add("Code", "varchar(30) NOT NULL REFERENCES TSPL_BULL_MASTER(Bull_Code)")
             coll.Add("Relation", "Varchar(50)  NULL ")
             coll.Add("Taq_No", "Varchar(50)  NULL ")
             coll.Add("First_Standard_Location_Yield", "Varchar(50)  NULL ")
@@ -54584,7 +54613,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Lact_No", "decimal (18,6) NULL")
             coll.Add("FAT_IN_KG", "decimal (18,3) NULL")
             coll.Add("SNF_IN_KG", "decimal (18,3) NULL")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_BULL_MASTER", coll)
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_BULL_MASTER_Detail", coll)
 
 
             coll = New Dictionary(Of String, String)()
@@ -55077,6 +55106,50 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Unit_code", "varchar(12) Not NULL ")
             coll.Add("Qty", "decimal (18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BULL_VACCINE_ENTRY_DETAIL", coll, Nothing, True, False, "TSPL_BULL_VACCINE_ENTRY", "Document_Code", "Document_Date", False)
+
+            coll = New Dictionary(Of String, String)()
+
+            coll.Add("Document_Code", "varchar(30) NOT NULL Primary Key")
+            coll.Add("Policy_Code", "varchar(30) NOT NULL ")
+            coll.Add("Policy_Date", "DateTime not NULL")
+            coll.Add("Policy_Start_Date", "Date  NULL")
+            coll.Add("Policy_End__Date", "Date NULL")
+            coll.Add("Ins_Comp_Code", "VARCHAR(30) not NULL  REFERENCES TSPL_BULL_INSURANCE_MASTER (Code) ")
+            coll.Add("Ins_Type_Code", "VARCHAR(30) not NULL REFERENCES TSPL_BULL_INSURANCE_TYPE (Code)")
+            coll.Add("Insured_Amount", "Decimal (18,2) Null")
+            coll.Add("Premium_Per", "Decimal (18,2) Null")
+            coll.Add("Premium_Amount", "Decimal (18,2) Null")
+            coll.Add("Ser_Charge_Per", "Decimal (18,2) Null")
+            coll.Add("Ser_Charge_Amount", "Decimal (18,2) Null")
+            coll.Add("Total_Amount", "Decimal (18,2) Null")
+            coll.Add("Status", "integer not null default 0")
+            coll.Add("Created_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE) ")
+            coll.Add("Created_Date", "datetime NOT NULL  ")
+            coll.Add("Modified_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE) ")
+            coll.Add("Modified_Date", "datetime NOT NULL ")
+            coll.Add("Posted_By", "varchar(12) NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
+            coll.Add("Posted_Date", "datetime NULL")
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BULL_INSURANCE", coll, "unique(Ins_Comp_Code, Policy_Code)", True, False, Nothing, Nothing, Nothing, False)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Document_Code", "Varchar(30) not null REFERENCES TSPL_BULL_INSURANCE(Document_Code)")
+            coll.Add("Tag_No", "varchar(30) NOT NULL UNIQUE ")
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BULL_INSURANCE_TAG", coll, Nothing, True, False, "TSPL_BULL_INSURANCE", "Document_Code", "Policy_Date", False)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Document_Code", "varchar(30) NOT NULL Primary Key")
+            coll.Add("Document_Date", "DateTime not NULL")
+            coll.Add("Bull_Code", "VARCHAR(30) not NULL REFERENCES TSPL_BULL_MASTER (Bull_Code)")
+            coll.Add("Tag_No", "integer not NULL REFERENCES TSPL_BULL_INSURANCE_TAG (PK_Id)")
+            coll.Add("Status", "integer not null default 0")
+            coll.Add("Created_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE) ")
+            coll.Add("Created_Date", "datetime NOT NULL  ")
+            coll.Add("Modified_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE) ")
+            coll.Add("Modified_Date", "datetime NOT NULL ")
+            coll.Add("Posted_By", "varchar(12) NULL  REFERENCES TSPL_USER_MASTER (USER_CODE)")
+            coll.Add("Posted_Date", "datetime NULL")
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_INS_TAG_ALLOCATION", coll, Nothing, True, False, Nothing, Nothing, Nothing, False)
 
             clsCommon.ProgressBarPercentHide()
         Catch ex As Exception

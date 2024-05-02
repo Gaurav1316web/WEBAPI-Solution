@@ -1994,7 +1994,7 @@ Public Class frmTender
                         End If
                     End If
                     If grow.Cells("Unit_code").Value IsNot Nothing Then
-                        gv1.Rows(gv1.Rows.Count - 1).Cells("colUnit").Value = clsCommon.myCdbl(grow.Cells("Unit_code").Value)
+                        gv1.Rows(gv1.Rows.Count - 1).Cells("colUnit").Value = clsCommon.myCstr(grow.Cells("Unit_code").Value)
                     End If
                     If grow.Cells("Qty").Value IsNot Nothing Then
                         gv1.Rows(gv1.Rows.Count - 1).Cells("colQty").Value = clsCommon.myCdbl(grow.Cells("Qty").Value)

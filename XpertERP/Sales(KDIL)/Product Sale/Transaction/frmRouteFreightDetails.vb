@@ -224,7 +224,7 @@ Public Class FrmRouteFreightDetails
                 LoadData()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -492,7 +492,7 @@ Public Class FrmRouteFreightDetails
             Validation()
             ShowLocation()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             IsLoadData = False
         End Try
@@ -551,7 +551,7 @@ Public Class FrmRouteFreightDetails
             Validation()
             ShowLocation()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             IsLoadData = False
         End Try

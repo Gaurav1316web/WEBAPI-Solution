@@ -912,7 +912,7 @@ Public Class FrmInterviewFeedback
         'Try
         '    LoadData(txtcode.Value, NavType)
         'Catch ex As Exception
-        '    common.clsCommon.MyMessageBoxShow(ex.Message)
+        '    common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
         ' Dim IntrAppCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select APPLICANT_CODE As Code from TSPL_HR_INTERVIEW_SCHEDULE"))
         Dim obj As New ClsInterviewSchedule()

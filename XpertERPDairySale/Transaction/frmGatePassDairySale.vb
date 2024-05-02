@@ -338,7 +338,7 @@ Public Class frmGatePassDairySale
         Qry += " ) as Final  group by  final.ICode,final.Unit,final.Vehicle_Code ,Final.foc_item,Final.Scheme_Item "
         Dim dtAllData As DataTable = clsDBFuncationality.GetDataTable(Qry)
         If dtAllData Is Nothing OrElse dtAllData.Rows.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("No record found.")
+            common.clsCommon.MyMessageBoxShow(Me, "No record found.", Me.Text)
             Me.Close()
         Else
             fndLocation.Value = clsCommon.myCstr(dtAllData.Rows(0)("Loc_Code"))

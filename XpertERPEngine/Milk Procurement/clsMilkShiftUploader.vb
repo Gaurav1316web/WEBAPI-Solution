@@ -1824,9 +1824,13 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
             Dim isPickCLRInsteadOfSNF As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) > 0)
             Dim qry As String = "select REPLACE( convert(varchar, GETDATE(),106),' ','/') as Date,'' as [Shift],'' as Route,'' as DCSNo,"
 
-            If objCommonVar.DisplayTypeInMilkReceipt Then
-                qry += " '' As [Mix/Cow],"
+            If Not isPickCLRInsteadOfSNF Then
+                If objCommonVar.DisplayTypeInMilkReceipt Then
+                    qry += " '' As [Mix/Cow],"
+                End If
             End If
+
+
             qry += "'Good' as MilkType,0.00 as Qty,0.0 as FAT"
 
             Dim ListImpExpColumnsMandatory As List(Of String) = New List(Of String)({"Date", "Shift", "DCSNo", "Qty", "FAT"})
@@ -1861,7 +1865,6 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
             Else
                 flag = transportSql.importExcel(gv, "Date", "Shift", "Route", "DCSNo", "MilkType", "Qty", "FAT", "SNF")
             End If
-
         End If
         If flag Then
             Try
@@ -1951,7 +1954,7 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
                             objtr.FAT = objtemp.FAT
                             objtr.SNF = objtemp.SNF
                             If objCommonVar.DisplayTypeInMilkReceipt Then
-                                objtr.Dock_Collection_Milk_Type = clsCommon.myCstr(grow.Cells("Milk/Cow").Value)
+                                objtr.Dock_Collection_Milk_Type = clsCommon.myCstr(grow.Cells("Mix/Cow").Value)
                             Else
                                 objtr.Dock_Collection_Milk_Type = "M"
                             End If

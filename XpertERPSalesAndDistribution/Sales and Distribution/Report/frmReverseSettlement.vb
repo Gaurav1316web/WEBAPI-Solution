@@ -99,7 +99,7 @@ Public Class FrmReverseSettlement
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub
@@ -131,7 +131,7 @@ Public Class FrmReverseSettlement
             End If
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarHide()
         End Try

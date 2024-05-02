@@ -811,7 +811,7 @@ Public Class FrmAssetServiceMaster
             Reset()
             Visiblility()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

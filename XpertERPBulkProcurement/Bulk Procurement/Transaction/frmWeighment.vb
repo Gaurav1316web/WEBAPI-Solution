@@ -1831,7 +1831,7 @@ Public Class FrmWeighment
         '    isCellValueChangedOpen = False
         'Catch ex As Exception
         '    isCellValueChangedOpen = False
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
         If Not isCellValueChangedOpen Then
             isCellValueChangedOpen = True

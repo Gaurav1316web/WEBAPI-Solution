@@ -523,7 +523,7 @@ Public Class frmRptAPInvoice
 
     '        PurchaseViewer.funsubreport(qry, qry1, "rptAPInvoice", "AP Invoice", "AP_InvoiceDetails.rpt")
     '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(ex.Message)
+    '        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
     ''This will check the authorization of user to access the screen.If authorize then it will allow user to access the screen.

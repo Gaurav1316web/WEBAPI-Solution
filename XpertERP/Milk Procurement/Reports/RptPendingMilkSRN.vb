@@ -154,16 +154,16 @@ Public Class RptPendingMilkSRN
     End Sub
     Public Sub Load_Report()
         If txtFromDate.Value > txtToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             txtFromDate.Focus()
             Exit Sub
         End If
         If chkLocationSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Location or select all.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single Location or select all.", Me.Text)
             Exit Sub
         End If
         If chkVendorSelect.IsChecked AndAlso cbgVendor.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Vendor or select all.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single Vendor or select all.", Me.Text)
             Exit Sub
         End If
         Dim sQuery As String = ""
@@ -291,7 +291,7 @@ Public Class RptPendingMilkSRN
             FormatGrid()
             RadPageView1.SelectedPage = RadPageViewPage2
         Else
-            clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
         ReStoreGridLayout()
     End Sub

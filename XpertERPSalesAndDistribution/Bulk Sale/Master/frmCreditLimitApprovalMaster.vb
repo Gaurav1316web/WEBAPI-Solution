@@ -151,7 +151,7 @@ Public Class FrmCreditLimitApprovalMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsCreditLimitApprovalHead.DeleteData(ddmodule.Text)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     resetdata()
                 End If
             End If

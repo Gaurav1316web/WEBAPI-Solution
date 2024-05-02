@@ -2644,7 +2644,12 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
                             obj.Temp = clsCommon.myCDecimal(grow.Cells("TEMP.").Value)
                             obj.Acidity = clsCommon.myCDecimal(grow.Cells("ACIDITY").Value)
                             obj.ORG = clsCommon.myCstr(grow.Cells("ORG.").Value)
-                            obj.Description = clsCommon.myCstr(grow.Cells("Remark").Value)
+
+                            If clsCommon.myLen(clsCommon.myCstr(grow.Cells("Remark").Value)) > 0 Then
+                                obj.Description = clsCommon.myCstr(grow.Cells("Remark").Value)
+                            Else
+                                obj.Description = txtDesc.Text
+                            End If
 
                             If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Qty").Value))) Then
                                 Throw New Exception("Qty is Blank at Line No" + clsCommon.myCstr(linno))

@@ -81,7 +81,7 @@ Public Class rptMilkCollectionShiftWiseReport
             Gv1.MasterView.Refresh()
 
             If dt1 Is Nothing OrElse dt1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             Else
                 Gv1.DataSource = dt1
@@ -136,7 +136,7 @@ Public Class rptMilkCollectionShiftWiseReport
     Private Sub ExportGrid(ByVal exporter As EnumExportTo)
         Try
             If Gv1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                 Exit Sub
             End If
             Dim arrHeader As List(Of String) = New List(Of String)()
@@ -153,7 +153,7 @@ Public Class rptMilkCollectionShiftWiseReport
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, Me.Text)
         End Try
     End Sub
 

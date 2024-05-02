@@ -67,7 +67,7 @@ Public Class FrmQualityCheckBulkSale
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -704,7 +704,7 @@ Public Class FrmQualityCheckBulkSale
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'Sub calculateSNFForParameter()
@@ -833,13 +833,13 @@ Public Class FrmQualityCheckBulkSale
                 arr.Add(fndQcNo.Value)
                 If clsERPFuncationalityOLD.AddToHistory(arr, clsUserMgtCode.FrmQualityCheckBulkSale, Nothing) Then
                     If (ClsQualityCheckBulkSale.DeleteData(fndQcNo.Value)) Then
-                        common.clsCommon.MyMessageBoxShow("Data deleted successfully ")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                         Reset()
                     End If
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub SaveData()
@@ -1036,7 +1036,7 @@ Public Class FrmQualityCheckBulkSale
 
             LoadData(fndQcNo.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             qry = Nothing
         End Try
@@ -1072,7 +1072,7 @@ Public Class FrmQualityCheckBulkSale
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isFlag = False
             msg = Nothing
