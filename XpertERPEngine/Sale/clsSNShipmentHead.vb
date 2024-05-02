@@ -2083,7 +2083,12 @@ Public Class clsSNShipmentWeighment
         Return True
     End Function
 End Class
-
+Public Class clsMargeDistributorItems
+    Public keys As String = Nothing
+    Public ICode As String = Nothing
+    Public Qty As Decimal
+    Public UOM As String = Nothing
+End Class
 Public Class clsSNShipmentDCSItemDetail
 #Region "Variables"
     Public DOCUMENT_CODE As String = Nothing

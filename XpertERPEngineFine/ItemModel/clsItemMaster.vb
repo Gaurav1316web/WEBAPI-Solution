@@ -855,7 +855,7 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
         Dim TotalItemweight As Double = 0
         Dim weightUnitValue As Double = 0
         ConvFact = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" select Conversion_Factor   from TSPL_ITEM_UOM_DETAIL where Item_Code='" & itemCode & "' and UOM_Code='" & UOM & "' ", trans))
-        Itemweight = ConvFact * clsCommon.myCdbl(clsItemMaster.GetItemWeightValue(itemCode, Nothing))
+        Itemweight = ConvFact * clsCommon.myCdbl(clsItemMaster.GetItemWeightValue(itemCode, trans))
         TotalItemweight = dblQty * Itemweight
         Return TotalItemweight
     End Function
@@ -1214,9 +1214,21 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
         End If
         Return False
     End Function
+    Public Shared Function IsItemHaveEmptyValue(ByVal strICode As String, ByVal trans As SqlTransaction) As Boolean
+        Dim qry As String = "select top 1 (Empty_Value_Bottle+Empty_Value_Shell) as EmptyValue from TSPL_ITEM_PRICE_MASTER where Item_Code='" + strICode + "' order by Start_Date desc"
+        Dim EmptyValue As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
+        If EmptyValue > 0 Then
+            Return True
+        End If
+        Return False
+    End Function
     Public Shared Function IsSerializeItem(ByVal strICode As String) As Boolean
         Dim qry As String = "select Is_Serial_Item from TSPL_ITEM_MASTER where Item_Code='" + strICode + "'"
         Return IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry)) = 1, True, False)
+    End Function
+    Public Shared Function IsSerializeItem(ByVal strICode As String, ByVal trans As SqlTransaction) As Boolean
+        Dim qry As String = "select Is_Serial_Item from TSPL_ITEM_MASTER where Item_Code='" + strICode + "'"
+        Return IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans)) = 1, True, False)
     End Function
     Public Shared Function GetItemTypeFromMaster(ByVal strICode As String) As String
         Return GetItemTypeFromMaster(strICode, Nothing)

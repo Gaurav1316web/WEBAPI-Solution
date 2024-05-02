@@ -29524,6 +29524,8 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Temperature", "decimal(18,2) null")
             coll.Add("MBRT_Hours", "decimal(18,2) null")
             coll.Add("Gross_Amount", "decimal(18, 2) NULL")
+            coll.Add("ParentDocNo", "varchar(30) NULL")
+
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SHIPMENT_HEAD alter column Insurance varchar(30)")
@@ -29703,6 +29705,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Security_Rate", "decimal(18,2) NULL")
             coll.Add("Security_Amt", "decimal(18,2) NULL")
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Transporter", "varchar(12) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
 
             coll = New Dictionary(Of String, String)()
@@ -29717,6 +29720,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll = New Dictionary(Of String, String)()
             coll.Add("DOCUMENT_CODE", "Varchar(30) not null References TSPL_SD_SHIPMENT_HEAD(DOCUMENT_CODE)")
             coll.Add("Booking_TR_Code", "varchar(30) NOT NULL Unique REFERENCES TSPL_DEMAND_BOOKING_DETAIL(TR_Code)")
+            coll.Add("Booth_Code", "varchar(12) NULL")
             coll.Add("Qty", "decimal(18,2) null")
             coll.Add("Item_Code", "varchar(50) NULL")
             coll.Add("Unit_code", "varchar(12) NULL")
