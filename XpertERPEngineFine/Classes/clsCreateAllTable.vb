@@ -13794,6 +13794,7 @@ Public Class clsCreateAllTable
             coll.Add("IsAllowSkipPurchaseQC", "Integer not null default 0")
             coll.Add("OEM", "integer null")
             coll.Add("Is_Provisional", "Integer not null default 0")
+            coll.Add("Is_Default_Grower", "Integer null default 0")
 
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VENDOR_MASTER", coll, "", True)
 
@@ -14545,6 +14546,7 @@ Public Class clsCreateAllTable
             coll.Add("Latitude", "varchar(20) NULL")
             coll.Add("Longitude", "varchar(20) NULL")
             coll.Add("File_Info", "bigint NULL")
+            coll.Add("Is_Default_Grower", "Integer null default 0")
             Try
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", False)
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", True)

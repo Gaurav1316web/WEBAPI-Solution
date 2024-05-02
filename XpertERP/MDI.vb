@@ -22,6 +22,7 @@ Imports XpertERPTDS
 Imports XpertERPPurchase
 Imports XpertERPMIS
 Imports XpertErpBullManagement
+Imports XpertERPSheed
 
 Public Class MDI
 #Region "Varaibles"
@@ -9830,6 +9831,13 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmBullCurlingEntry
                         frm = New frmBullCurlingEntry
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+
+
+                        '------------- SHEED  -----------
+                    Case clsUserMgtCode.frmSheedGrowerMaster
+                        frm = New frmSheedGrowerMaster
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                         '-------------------- MIS Master---------------
 
