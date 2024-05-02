@@ -483,6 +483,7 @@ Public Class clsMilkRejectHead
                     obj1.Item_CODE = objtr.Item_CODE
                     obj1.MILK_Qty = objtr.MILK_WEIGHT
                     obj1.ACC_Qty = objtr.ACC_WEIGHT_KG
+                    obj1.ACC_Qty_LTR = objtr.ACC_WEIGHT_LTR
                     obj1.FAT = objtr.FAT
                     obj1.SNF = objtr.SNF
                     obj1.MCC_CODE = obj.MCC_CODE
