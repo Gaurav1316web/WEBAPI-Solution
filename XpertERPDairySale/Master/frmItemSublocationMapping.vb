@@ -607,7 +607,7 @@ Public Class frmItemSublocationMapping
     '        'End If
 
     '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(ex.Message)
+    '        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    Finally
     '        isInsideLoadData = False
     '    End Try

@@ -2241,7 +2241,7 @@ Public Class frmProcessProductionStandardization
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3747,7 +3747,7 @@ Public Class frmProcessProductionStandardization
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3830,7 +3830,7 @@ Public Class frmProcessProductionStandardization
             clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
             FunReset()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 

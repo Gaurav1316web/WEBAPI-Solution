@@ -41,6 +41,7 @@ Partial Class FrmReceipttNew
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.txtsalesmanCode = New common.UserControls.txtFinder()
         Me.txtTDSAmt = New common.MyNumBox()
         Me.pnlCurrConv = New System.Windows.Forms.Panel()
         Me.TxtForeignBankCharges = New common.MyNumBox()
@@ -163,7 +164,6 @@ Partial Class FrmReceipttNew
         Me.dgvReceipt = New common.UserControls.MyRadGridView()
         Me.dgvmiscpayment = New common.UserControls.MyRadGridView()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.TabForGST = New Telerik.WinControls.UI.RadPageViewPage()
@@ -205,7 +205,7 @@ Partial Class FrmReceipttNew
         Me.MenuClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.txtsalesmanCode = New common.UserControls.txtFinder()
+        Me.UcCustomFields1 = New ERP.ucCustomFields()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -580,10 +580,10 @@ Partial Class FrmReceipttNew
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.SplitContainer1)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(53.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(49.0!, 24.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1212, 413)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1212, 417)
         Me.RadPageViewPage1.Text = "Receipt"
         '
         'SplitContainer1
@@ -676,9 +676,35 @@ Partial Class FrmReceipttNew
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.dgvReceipt)
         Me.SplitContainer1.Panel2.Controls.Add(Me.dgvmiscpayment)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1212, 413)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1212, 417)
         Me.SplitContainer1.SplitterDistance = 281
         Me.SplitContainer1.TabIndex = 0
+        '
+        'txtsalesmanCode
+        '
+        Me.txtsalesmanCode.CalculationExpression = Nothing
+        Me.txtsalesmanCode.FieldCode = Nothing
+        Me.txtsalesmanCode.FieldDesc = Nothing
+        Me.txtsalesmanCode.FieldMaxLength = 0
+        Me.txtsalesmanCode.FieldName = Nothing
+        Me.txtsalesmanCode.isCalculatedField = False
+        Me.txtsalesmanCode.IsSourceFromTable = False
+        Me.txtsalesmanCode.IsSourceFromValueList = False
+        Me.txtsalesmanCode.IsUnique = False
+        Me.txtsalesmanCode.Location = New System.Drawing.Point(115, 66)
+        Me.txtsalesmanCode.MendatroryField = True
+        Me.txtsalesmanCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtsalesmanCode.MyLinkLable1 = Me.lblcustomer
+        Me.txtsalesmanCode.MyLinkLable2 = Nothing
+        Me.txtsalesmanCode.MyReadOnly = False
+        Me.txtsalesmanCode.MyShowMasterFormButton = True
+        Me.txtsalesmanCode.Name = "txtsalesmanCode"
+        Me.txtsalesmanCode.ReferenceFieldDesc = Nothing
+        Me.txtsalesmanCode.ReferenceFieldName = Nothing
+        Me.txtsalesmanCode.ReferenceTableName = Nothing
+        Me.txtsalesmanCode.Size = New System.Drawing.Size(154, 19)
+        Me.txtsalesmanCode.TabIndex = 12133
+        Me.txtsalesmanCode.Value = ""
         '
         'txtTDSAmt
         '
@@ -2580,7 +2606,7 @@ Partial Class FrmReceipttNew
         Me.dgvReceipt.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvReceipt.ShowGroupPanel = False
         Me.dgvReceipt.ShowHeaderCellButtons = True
-        Me.dgvReceipt.Size = New System.Drawing.Size(1212, 128)
+        Me.dgvReceipt.Size = New System.Drawing.Size(1212, 132)
         Me.dgvReceipt.TabIndex = 2
         Me.dgvReceipt.TabStop = False
         '
@@ -2605,30 +2631,22 @@ Partial Class FrmReceipttNew
         Me.dgvmiscpayment.Name = "dgvmiscpayment"
         Me.dgvmiscpayment.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvmiscpayment.ShowHeaderCellButtons = True
-        Me.dgvmiscpayment.Size = New System.Drawing.Size(1212, 128)
+        Me.dgvmiscpayment.Size = New System.Drawing.Size(1212, 132)
         Me.dgvmiscpayment.TabIndex = 4
         '
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(86.0!, 28.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(82.0!, 24.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 37)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(1212, 413)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
-        'UcCustomFields1
-        '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1212, 413)
-        Me.UcCustomFields1.TabIndex = 1
-        '
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 28.0!)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 24.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 37)
         Me.Attachments.Name = "Attachments"
         Me.Attachments.Size = New System.Drawing.Size(967, 415)
@@ -2645,7 +2663,7 @@ Partial Class FrmReceipttNew
         'TabForGST
         '
         Me.TabForGST.Controls.Add(Me.SplitContainer3)
-        Me.TabForGST.ItemSize = New System.Drawing.SizeF(36.0!, 28.0!)
+        Me.TabForGST.ItemSize = New System.Drawing.SizeF(32.0!, 24.0!)
         Me.TabForGST.Location = New System.Drawing.Point(10, 37)
         Me.TabForGST.Name = "TabForGST"
         Me.TabForGST.Size = New System.Drawing.Size(1004, 413)
@@ -3187,31 +3205,13 @@ Partial Class FrmReceipttNew
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Import"
         '
-        'txtsalesmanCode
+        'UcCustomFields1
         '
-        Me.txtsalesmanCode.CalculationExpression = Nothing
-        Me.txtsalesmanCode.FieldCode = Nothing
-        Me.txtsalesmanCode.FieldDesc = Nothing
-        Me.txtsalesmanCode.FieldMaxLength = 0
-        Me.txtsalesmanCode.FieldName = Nothing
-        Me.txtsalesmanCode.isCalculatedField = False
-        Me.txtsalesmanCode.IsSourceFromTable = False
-        Me.txtsalesmanCode.IsSourceFromValueList = False
-        Me.txtsalesmanCode.IsUnique = False
-        Me.txtsalesmanCode.Location = New System.Drawing.Point(115, 66)
-        Me.txtsalesmanCode.MendatroryField = True
-        Me.txtsalesmanCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtsalesmanCode.MyLinkLable1 = Me.lblcustomer
-        Me.txtsalesmanCode.MyLinkLable2 = Nothing
-        Me.txtsalesmanCode.MyReadOnly = False
-        Me.txtsalesmanCode.MyShowMasterFormButton = True
-        Me.txtsalesmanCode.Name = "txtsalesmanCode"
-        Me.txtsalesmanCode.ReferenceFieldDesc = Nothing
-        Me.txtsalesmanCode.ReferenceFieldName = Nothing
-        Me.txtsalesmanCode.ReferenceTableName = Nothing
-        Me.txtsalesmanCode.Size = New System.Drawing.Size(154, 19)
-        Me.txtsalesmanCode.TabIndex = 12133
-        Me.txtsalesmanCode.Value = ""
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1212, 413)
+        Me.UcCustomFields1.TabIndex = 1
         '
         'FrmReceipttNew
         '

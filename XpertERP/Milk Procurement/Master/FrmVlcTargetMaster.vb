@@ -610,7 +610,7 @@ Public Class FrmVlcTargetMaster
                 If ClsVlcTargetMaster.SaveData(objList, trans) Then
                     trans.Commit()
                     UcAttachment1.SaveData(objList(0).DOC_CODE)
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(objList(0).DOC_CODE, objList(0).Route_Code, Nothing, NavigatorType.Current)
                     fndRouteCode.Focus()
                 End If

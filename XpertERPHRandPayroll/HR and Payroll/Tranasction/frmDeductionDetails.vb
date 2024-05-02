@@ -663,7 +663,7 @@ Public Class frmDeductionDetails
         '    End If
 
         'Catch ex As Exception
-        '    common.clsCommon.MyMessageBoxShow(ex.Message)
+        '    common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
 
         ''RICHA ================================= 5 FEB,2016
@@ -780,7 +780,7 @@ Public Class frmDeductionDetails
     '        'End If
 
     '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(ex.Message)
+    '        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
     ''==============================================

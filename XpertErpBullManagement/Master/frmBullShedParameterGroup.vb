@@ -284,12 +284,23 @@ Public Class frmBullShedParameterGroup
 
                 'If count > 0 Then
                 qry = "select Code as Code,Name as [Name] from TSPL_BULL_SHED_PARAMETER_MASTER"
-                fndCode.Value = clsCommon.ShowSelectForm("RTY", qry, "Code", "", fndCode.Value, " Code asc", isButtonClicked, Nothing)
-                LoadData(fndCode.Value, NavigatorType.Current)
-            End If
+            fndCode.Value = clsCommon.ShowSelectForm("RTY", qry, "Code", "", fndCode.Value, " Code asc", isButtonClicked, Nothing)
+            LoadData(fndCode.Value, NavigatorType.Current)
+            ' End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+        'Try
+
+        '    Dim qry As String
+
+        '    qry = "select Code as Code,Name as [Name] from TSPL_BULL_SHED_PARAMETER_MASTER"
+        '        fndCode.Value = clsCommon.ShowSelectForm("RTY", qry, "Code", "", fndCode.Value, " Code asc", isButtonClicked, Nothing)
+        '        LoadData(fndCode.Value, NavigatorType.Current)
+        '    ' End If
+        'Catch ex As Exception
+        '    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        'End Try
     End Sub
 
     Private Sub btnnew_Click_1(sender As Object, e As EventArgs) Handles btnnew.Click

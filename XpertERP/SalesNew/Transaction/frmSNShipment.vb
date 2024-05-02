@@ -22,7 +22,7 @@ Public Class frmSNShipment
     Private PurchaseOneItemOneVendor As Boolean = False
     Private ItemRateEditable As Boolean = False
     Private ItemMRPEditable As Boolean = False
-
+    Dim OneTimeCheck As Boolean = False
     Public strExcise As Boolean
     Public intMRPwithabatement As Integer
     Private isPO_GRN_MRN_Editable As Boolean = False
@@ -6695,7 +6695,7 @@ Public Class frmSNShipment
                 'cell.BackColor = Color.FromArgb(243, 181, 51)
             End If
         Catch ex As Exception
-            'clsCommon.MyMessageBoxShow(ex.Message)
+            'clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
 
@@ -7675,7 +7675,7 @@ Public Class frmSNShipment
             End If
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9578,5 +9578,59 @@ a:          End If
             funPrint(False)
         End If
     End Sub
+
+    Private Sub RadLabel21_Click(sender As Object, e As EventArgs) Handles RadLabel21.Click
+
+    End Sub
+
+    Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
+        Dim frm As New FrmPWD(Nothing)
+        frm.strType = clsFixedParameterType.SIRC
+        frm.strCode = clsFixedParameterCode.UpdatePassword
+        frm.ShowDialog()
+        If frm.isPasswordCorrect Then
+            ShowRemarks()
+            OneTimeCheck = True
+            CancelData()
+        End If
+
+    End Sub
+    Private Sub ShowRemarks()
+        Try
+            Dim Reason As String = ""
+            Dim frm As New FrmFreeTxtBox1
+            frm.Text = "Remarks for Update"
+            frm.ShowDialog()
+            If clsCommon.myLen(frm.strRmks) <= 0 Then
+                Exit Sub
+            Else
+                Reason = frm.strRmks
+            End If
+            saveCancelLog(Reason, "Updated", Nothing)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Function CancelData() As Boolean
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                Throw New Exception("Code is empty")
+            End If
+
+            If clsCommon.MyMessageBoxShow("Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+                Return False
+            End If
+            Dim strSaleReturnNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select document_code from TSPL_SD_SALE_INVOICE_HEAD where Against_Shipment_No = '" & txtDocNo.Value & "' "))
+            If clsCommon.myLen(strSaleReturnNo) > 0 Then
+                Throw New Exception("You cannot cancelled this document because its Sale Invoice (" + clsCommon.myCstr(strSaleReturnNo) + ") has been created.")
+            End If
+            clsSNShipmentHead.CancelData(Me.Form_ID, txtDocNo.Value, lblInvoiceNo.Text, NavigatorType.Current)
+            clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
+            AddNew()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+        Return True
+    End Function
 End Class
 

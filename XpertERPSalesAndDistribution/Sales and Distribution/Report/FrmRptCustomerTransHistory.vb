@@ -411,7 +411,7 @@ Public Class FrmRptCustomerTransHistory
             RadPageView1.SelectedPage = RadPageViewPage2
             RadGroupBox1.Enabled = False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -589,7 +589,7 @@ Public Class FrmRptCustomerTransHistory
                 clsCommon.MyExportToPDF("Customer Transaction Report", gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

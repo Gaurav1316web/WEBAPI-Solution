@@ -15,7 +15,7 @@ Public Class FrmUserLog
             btnSelect.Text = "Select All"
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -24,7 +24,7 @@ Public Class FrmUserLog
             btnSelect.Text = "Select All"
             FillData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -240,7 +240,7 @@ Public Class FrmUserLog
                 btnSelect.Text = "Select All"
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Reset()
         End Try
     End Sub
@@ -250,7 +250,7 @@ Public Class FrmUserLog
             FillTempGrid()
             clsCommon.MyExportToExcelGrid("User Log", gvTemp, Nothing, "UserLog", True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

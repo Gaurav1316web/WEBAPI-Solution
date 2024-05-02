@@ -19,7 +19,7 @@ Public Class FrmRpt_OutStnd_Items_RGP
             End If
             RadSplitButton1.Visible = MyBase.isExport
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub FrmRGP_Register_NRGP_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
@@ -38,7 +38,7 @@ Public Class FrmRpt_OutStnd_Items_RGP
                 Me.Close()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub FrmRGP_Register_NRGP_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -52,7 +52,7 @@ Public Class FrmRpt_OutStnd_Items_RGP
             txtFromDate.Value = Today.AddMonths(-1)
             RadPageView1.SelectedPage = RadPageViewPage1
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
@@ -71,7 +71,7 @@ Public Class FrmRpt_OutStnd_Items_RGP
             gv.EnableGrouping = True
             RadPageView1.SelectedPage = RadPageViewPage1
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -115,7 +115,7 @@ Public Class FrmRpt_OutStnd_Items_RGP
             End If
             RadPageView1.SelectedPage = RadPageViewPage2
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub FormatGrid()
@@ -198,7 +198,7 @@ Public Class FrmRpt_OutStnd_Items_RGP
             gv.MasterTemplate.AutoExpandGroups = True
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
@@ -240,7 +240,7 @@ Public Class FrmRpt_OutStnd_Items_RGP
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Function ExporttoMyExcel(ByVal sql As String, ByVal frm As RadForm) As Boolean
@@ -313,7 +313,7 @@ Public Class FrmRpt_OutStnd_Items_RGP
             e.ExcelStyleElement.FontStyle.Bold = False
             e.ExcelStyleElement.FontStyle.Size = 8
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnExcel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExcel.Click
@@ -324,7 +324,7 @@ Public Class FrmRpt_OutStnd_Items_RGP
             Dim qry As String = " select Location_Code as Code, Location_Desc as Name from TSPL_LOCATION_MASTER Where Location_Type='Physical'"
             txtLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("OutStndLoc", qry, "Code", "Name", txtLocation.arrValueMember, txtLocation.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtVendor__My_Click(sender As Object, e As EventArgs) Handles txtVendor._My_Click
@@ -332,7 +332,7 @@ Public Class FrmRpt_OutStnd_Items_RGP
             Dim qry As String = "select Vendor_Code as Code,Vendor_Name as Name from TSPL_VENDOR_MASTER  WHERE  Status='N' "
             txtVendor.arrValueMember = clsCommon.ShowMultipleSelectForm("OutStndVnd", qry, "Code", "Name", txtVendor.arrValueMember, txtVendor.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -342,7 +342,7 @@ Public Class FrmRpt_OutStnd_Items_RGP
             txtItem.arrValueMember = clsCommon.ShowMultipleSelectForm("OutStndItem", qry, "Code", "Name", txtItem.arrValueMember, txtItem.arrDispalyMember)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub QuickExport(ByVal exportType As EnumExportTo, ByVal arrayOfParams As List(Of String))
@@ -384,7 +384,7 @@ Public Class FrmRpt_OutStnd_Items_RGP
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnQuickExport_Click(sender As Object, e As EventArgs)
@@ -395,7 +395,7 @@ Public Class FrmRpt_OutStnd_Items_RGP
             Dim qry As String = " select  RGP_No Doc , RGP_Date Date , Doc_Type , Vendor_Name   from TSPL_RGP_HEAD "
             txtDocNo.arrValueMember = clsCommon.ShowMultipleSelectForm("OutStndDoc", qry, "Doc", "Date", txtItem.arrValueMember, txtItem.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnreset_Click(sender As Object, e As EventArgs) Handles btnreset.Click

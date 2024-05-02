@@ -930,7 +930,7 @@ Public Class RptProductSaleRegister1
         '        Throw New Exception(ex.Message)
         '    End Try
         'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
 
     End Sub
@@ -1036,7 +1036,7 @@ Public Class RptProductSaleRegister1
             'Process.Start(filePath)
             transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

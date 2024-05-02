@@ -1020,7 +1020,7 @@ Public Class frmPOWeighment
         Try
             PrintData(txtCode.Value)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

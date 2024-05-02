@@ -50,7 +50,7 @@ Public Class FrmCapexBudget
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -178,7 +178,7 @@ Public Class FrmCapexBudget
                 txtCapexAmount.Text = clsCapexMaster.chkMainBuget(Me.txtCapexCode.Value, Nothing)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -384,7 +384,7 @@ Public Class FrmCapexBudget
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsCapexBudget.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If

@@ -219,7 +219,7 @@ Public Class rptTankerDispatchGainLossReco
             transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
             transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -256,7 +256,7 @@ Public Class rptTankerDispatchGainLossReco
             transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
             clsCommon.MyExportToPDF("Tanker Dispatch Gain Loss Reco", Gv1, arrHeader, "Tanker Dispatch Gain Loss Reco", PageSetupReport_ID, objCommonVar.CurrentUserCode)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

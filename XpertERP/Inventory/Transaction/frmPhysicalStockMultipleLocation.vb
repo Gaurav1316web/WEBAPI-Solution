@@ -1551,7 +1551,7 @@ Public Class frmPhysicalStockMultipleLocation
     '        'End If
 
     '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
 

@@ -287,7 +287,7 @@ Public Class FrmSecurityLevel
     '        End If
     '        ExportExcel_PDF(Exporter.Excel)
     '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
 

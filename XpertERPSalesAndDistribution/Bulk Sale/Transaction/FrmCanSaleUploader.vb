@@ -107,7 +107,7 @@ Public Class FrmCanSaleUploader
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -428,7 +428,7 @@ Public Class FrmCanSaleUploader
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenCustomerList(ByVal isButtonClick As Boolean)
@@ -457,7 +457,7 @@ Public Class FrmCanSaleUploader
 
     '        lblTotRAmt1.Text = clsCommon.myFormat(dblTotAmt)
     '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(ex.Message)
+    '        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
     'Private Sub UpdateCurrentRow(ByVal IntRowNo As Integer)
@@ -534,7 +534,7 @@ Public Class FrmCanSaleUploader
     '        End If
     '        ''==============================================
     '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(ex.Message)
+    '        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
 
@@ -877,7 +877,7 @@ Public Class FrmCanSaleUploader
     '        End If
     '        '============================================
     '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(ex.Message)
+    '        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    Finally
     '        isInsideLoadData = False
     '        dt = Nothing
@@ -906,7 +906,7 @@ Public Class FrmCanSaleUploader
 
     '        LoadData(txtDocNo.Value, NavType)
     '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    Finally
     '        qry = Nothing
     '    End Try
@@ -965,7 +965,7 @@ Public Class FrmCanSaleUploader
     '        End If
 
     '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(ex.Message)
+    '        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    Finally
     '        isFlag = False
     '        msg = Nothing
@@ -1130,7 +1130,7 @@ Public Class FrmCanSaleUploader
                 Next
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gv1_CurrentColumnChanged(sender As Object, e As CurrentColumnChangedEventArgs) Handles gv1.CurrentColumnChanged
@@ -1690,7 +1690,7 @@ Public Class FrmCanSaleUploader
                 'clsCommon.ProgressBarPercentHide()
             Catch ex1 As Exception
             End Try
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

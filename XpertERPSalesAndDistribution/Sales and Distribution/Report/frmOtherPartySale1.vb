@@ -982,7 +982,7 @@ Public Class FrmOtherPartySale1
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub
@@ -1065,7 +1065,7 @@ Public Class FrmOtherPartySale1
             End If
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarHide()
         End Try

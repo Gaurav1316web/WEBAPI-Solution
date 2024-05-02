@@ -992,7 +992,7 @@ Public Class FrmBookingEntry
 
     '        Return True
     '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(ex.Message)
+    '        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    Finally
     '        qry = Nothing
     '    End Try

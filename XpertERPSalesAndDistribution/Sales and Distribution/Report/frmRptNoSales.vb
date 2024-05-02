@@ -250,7 +250,7 @@ Public Class frmRptNoSales
                 frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "rptNoSaleSummary", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnReset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReset.Click

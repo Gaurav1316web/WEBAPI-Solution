@@ -62,10 +62,10 @@ Public Class RptMonthlyVLCProcurement1
         End If
 
         If cboUnit.Text = "" Then
-            clsCommon.MyMessageBoxShow("Please select Unit", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Unit", Me.Text)
         End If
         If cbtMCCRouteVLCC.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single MCC or select all.", Me.Text)
             Exit Sub
         End If
         'Sanjay Ticket No-TEC/04/07/19-000928, case when sum(NewQty)>0
@@ -144,7 +144,7 @@ Public Class RptMonthlyVLCProcurement1
 
             RadPageView1.SelectedPage = RadPageViewPage2
         Else
-            clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
 
         ReStoreGridLayout()
@@ -305,10 +305,10 @@ Public Class RptMonthlyVLCProcurement1
                     clsCommon.MyExportToPDF("Monthly VLC Procurement", gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
 

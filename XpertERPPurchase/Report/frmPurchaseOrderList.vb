@@ -17,7 +17,7 @@ Public Class frmPurchaseOrderList
             SetUserMgmtNew()
             AddNew()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadVendor()
@@ -444,7 +444,7 @@ Public Class frmPurchaseOrderList
             TemplateGridview = gv
             LoadData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -480,7 +480,7 @@ Public Class frmPurchaseOrderList
             btnPrint.Enabled = False
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -584,7 +584,7 @@ Public Class frmPurchaseOrderList
     '        common.clsCommon.MyMessageBoxShow("Exported Successfully.")
     '        Process.Start(filePath)
     '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(ex.Message)
+    '        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
 
@@ -647,7 +647,7 @@ Public Class frmPurchaseOrderList
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

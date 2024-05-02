@@ -105,7 +105,7 @@ Public Class frmPJCSettings
                 clsCommon.MyMessageBoxShow("Current Cost Code is in use")
 
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub

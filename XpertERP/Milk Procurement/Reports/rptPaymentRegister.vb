@@ -156,16 +156,16 @@ Public Class RptPaymentRegister
             Exit Sub
         End If
         If chkMCCSelect.IsChecked AndAlso cbgMCC.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single MCC or select all.", Me.Text)
             Exit Sub
         End If
         If chkBankSelect.IsChecked AndAlso cbgBank.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Bank or select all.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single Bank or select all.", Me.Text)
             Exit Sub
         End If
        
         If chkVSPSelect.IsChecked AndAlso cbgVSP.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single VSP or select all.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single VSP or select all.", Me.Text)
             Exit Sub
         End If
         Dim sQuery As String = "select TSPL_VENDOR_MASTER.Vendor_Code as VSP_CODE,Vendor_Name as Vsp_name,TSPL_MILK_RECEIPT_DETAIL.VLC_CODE+', Name - '+VLC_Name as VLC_CODE,TSPL_VLC_MASTER_HEAD.VLC_Name,convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) as shift_date ,case when TSPL_MILK_RECEIPT_HEAD.SHIFT='M' then 'Morning'  else 'Evening' end as  Shift_type,TSPL_MILK_RECEIPT_DETAIL.TYPE,TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO,MILK_WEIGHT as Qty,TSPL_MILK_SAMPLE_DETAIL.FAT,TSPL_MILK_SAMPLE_DETAIL.SNF,convert(decimal(18,3),TSPL_MILK_SAMPLE_DETAIL.FAT*Qty /100) as Fat_KG,convert(Decimal(18,3),TSPL_MILK_SAMPLE_DETAIL.snf*Qty /100) as SNF_KG,RATE,amount,TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE +', Name -'+Route_name as ROUTE_CODE,TSPL_mcc_ROUTE_MASTER.Route_name,TSPL_VLC_MASTER_HEAD.Village_Code,Village_Name,TSPL_MILK_RECEIPT_DETAIL.MCC_Code+' Name- '+MCC_NAME as MCC_Code ,TSPL_MCC_MASTER .MCC_NAME  "

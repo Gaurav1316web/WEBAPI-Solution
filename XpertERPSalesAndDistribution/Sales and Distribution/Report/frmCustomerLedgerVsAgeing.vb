@@ -750,7 +750,7 @@ Public Class frmCustomerLedgerVsAgeing
                 chkIncludeApplyDocument.Checked = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -769,7 +769,7 @@ Public Class frmCustomerLedgerVsAgeing
                 transportSql.QuickExportToExcel(gvCustomer, "", Me.Text, , arrHeader)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -803,7 +803,7 @@ Public Class frmCustomerLedgerVsAgeing
                 transportSql.QuickExportToExcel(gvCustomer, "", Me.Text, , arrHeader)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -859,7 +859,7 @@ Public Class frmCustomerLedgerVsAgeing
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -907,7 +907,7 @@ Public Class frmCustomerLedgerVsAgeing
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -932,7 +932,7 @@ Public Class frmCustomerLedgerVsAgeing
             pdfExporter.RunExport(FilePath)
             System.Diagnostics.Process.Start(FilePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

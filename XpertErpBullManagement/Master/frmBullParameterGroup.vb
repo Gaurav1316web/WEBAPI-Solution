@@ -172,8 +172,6 @@ Public Class frmBullParameterGroup
             gridcolRangeSelection.Width = 110
             gv1.MasterTemplate.Columns.Add(gridcolRangeSelection)
             'gridcolRangeSelection.IsVisible = False
-
-
             gv1.AllowAddNewRow = False
             gv1.AllowDeleteRow = True
             gv1.AllowRowReorder = False

@@ -43,7 +43,7 @@ Public Class frmComplaintGroupMaster
                 Reset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -58,7 +58,7 @@ Public Class frmComplaintGroupMaster
             ButtonToolTip.SetToolTip(rbtnClose, "Press Alt+C Close the Window")
             Reset()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub Reset()
@@ -106,7 +106,7 @@ Public Class frmComplaintGroupMaster
             End If
             'Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -130,7 +130,7 @@ Public Class frmComplaintGroupMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub deleteData()
@@ -147,7 +147,7 @@ Public Class frmComplaintGroupMaster
                 'Return True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 
@@ -161,7 +161,7 @@ Public Class frmComplaintGroupMaster
                 txtDescription.Text = obj.description
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -210,7 +210,7 @@ Public Class frmComplaintGroupMaster
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -266,7 +266,7 @@ Public Class frmComplaintGroupMaster
             str = "select Complaint_Code as 'Complaint Group Code' ,description as 'Complaint Group Description' from   TSPL_COMPLAINT_GROUP_MASTER "
             transportSql.ExporttoExcel(str, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

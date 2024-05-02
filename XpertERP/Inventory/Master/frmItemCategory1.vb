@@ -198,7 +198,7 @@ Public Class FrmItemCategory1
     '            End If
     '        End If
     '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(ex.Message)
+    '        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
 
@@ -286,7 +286,7 @@ Public Class FrmItemCategory1
     '           Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
     '           PurchaseOrderViewer.funreport(dt, "PurchaseRequisition", "Purchase Requisition")
     '       Catch ex As Exception
-    '           common.clsCommon.MyMessageBoxShow(ex.Message)
+    '           common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '       End Try
     '   End Sub
 

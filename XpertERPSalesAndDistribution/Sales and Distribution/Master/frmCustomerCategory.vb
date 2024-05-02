@@ -98,7 +98,7 @@ Public Class frmCustomerCategory
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(fndCustomerId.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         If myMessages.deleteConfirm Then
@@ -442,7 +442,7 @@ Public Class frmCustomerCategory
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -480,7 +480,7 @@ Public Class frmCustomerCategory
             strSql = "select Price_Code from TSPL_PRICE_COMPONENT_MAPPING where Price_Code='" + fndPriceCode.Value + "'"
             s = clsDBFuncationality.getSingleValue(strSql)
             If s <> fndPriceCode.Value Then
-                common.clsCommon.MyMessageBoxShow("Price Code doesn't exist")
+                common.clsCommon.MyMessageBoxShow(Me, "Price Code doesn't exist", Me.Text)
                 fndPriceCode.Value = ""
                 txtPriceCodeDesc.Text = ""
                 fndPriceCode.Focus()
@@ -501,7 +501,7 @@ Public Class frmCustomerCategory
             strSql = "select Price_Code from TSPL_PRICE_COMPONENT_MAPPING where Price_Code='" + fndPriceCodeNon.Value + "'"
             s = clsDBFuncationality.getSingleValue(strSql)
             If s <> fndPriceCodeNon.Value Then
-                common.clsCommon.MyMessageBoxShow("Price Code(Non-Excisable) doesn't exist")
+                common.clsCommon.MyMessageBoxShow(Me, "Price Code(Non-Excisable) doesn't exist", Me.Text)
                 fndPriceCodeNon.Value = ""
                 txtPriceCodeNon.Text = ""
                 fndPriceCodeNon.Focus()
@@ -575,7 +575,7 @@ Public Class frmCustomerCategory
             s = clsDBFuncationality.getSingleValue(strSql)
 
             If s <> fndRoute.Value Then
-                common.clsCommon.MyMessageBoxShow("Route Id doesn't exist")
+                common.clsCommon.MyMessageBoxShow(Me, "Route Id doesn't exist", Me.Text)
                 fndRoute.Value = ""
                 txtRouteDesc.Text = ""
                 fndRoute.Focus()

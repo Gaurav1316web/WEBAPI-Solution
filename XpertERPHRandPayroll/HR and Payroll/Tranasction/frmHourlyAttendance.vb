@@ -630,7 +630,7 @@ Public Class frmHourlyAttendance
             Dim query As String = "Select '' as [Log Date],'' as [Direction],'' as [Employee Code],'' as [Employee Name],'' as [Company],'' as [Department] "
             transportSql.ExporttoExcel(query, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
