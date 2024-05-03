@@ -248,11 +248,13 @@ Public Class clsMilkProcurementUploaderHead
                 Next
                 clsMCCPaymentCycleLockForScheduler.CheckForSchedulerLock(obj.MCC_Code, MinDate, trans)
             End If
-            If obj.Reject Then
-                MilkRejectUploader(obj, trans)
-            Else
-                MilkProcurementUploader(obj, trans)
-            End If
+            'If obj.Reject Then
+            '    MilkRejectUploader(obj, trans)
+            'Else
+            '    MilkProcurementUploader(obj, trans)
+            'End If
+
+            MilkProcurementUploader(obj, trans)
 
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Status", 1)
@@ -1308,8 +1310,6 @@ where TSPL_MILK_SRN_HEAD.MCC_CODE='" + obj.MCC_Code + "' and TSPL_MILK_SRN_HEAD.
                                 objMilkSRNDetail.CLR = clsEkoPro.getClrOnCalculation(objMilkSRNDetail.FAT, objMilkSRNDetail.SNF, corrFactor)
                                 objMilkSRNDetail.RATE = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(objMilkSRNDetail.MILK_Qty, objMilkSRNDetail.Price_Code, objMilkSRNDetail.FAT, objMilkSRNDetail.SNF, obj.MCC_Code, objtr.VLC_Code, objtr.Shift, dtShiftDate, trans, strDockCollectionMilkType)
                             End If
-
-
                             objMilkSRNDetail.MCC_CODE = obj.MCC_Code
                             objMilkSRNDetail.Correction_Factor = corrFactor
                             objMilkSRNDetail.UOM = Unit_CodeApply
@@ -1318,7 +1318,33 @@ where TSPL_MILK_SRN_HEAD.MCC_CODE='" + obj.MCC_Code + "' and TSPL_MILK_SRN_HEAD.
                             objMilkSRNDetail.Commission = 0 ' because nature is always E and it is never C 'clsCommon.myCdbl(dr(0)("Actual_charges"))
                             objMilkSRNDetail.Commission_Amount = Math.Round(objMilkSRNDetail.AMOUNT * objMilkSRNDetail.Commission / 100, 2)
                             objMilkSRNDetail.Std_Qty = clsInventoryMovementNew.GetStdQty(trans, Math.Round(objMilkSRNDetail.ACC_Qty * objMilkSRNDetail.FAT / 100, 2), Math.Round(objMilkSRNDetail.ACC_Qty * objMilkSRNDetail.SNF / 100, 2), objMilkSRNHead.DOC_DATE)
-
+                            If clsCommon.myLen(objtr.Reject_Type) > 0 Then
+                                Dim objMRT As clsMilkRejectType = clsMilkRejectType.GetData(objtr.Reject_Type, NavigatorType.Current, trans)
+                                If objMRT Is Nothing Then
+                                    Throw New Exception("Invalid rejection type [" + objtr.Reject_Type + "]")
+                                End If
+                                objMilkSRNDetail.Item_CODE = objMRT.Item_Code
+                                Dim dclRate As Decimal = objMilkSRNDetail.RATE
+                                Dim dclAmt As Decimal = 0
+                                Dim CalKG As Decimal = 0
+                                If objMRT.Applicable_On = 1 Then  ''RAte
+                                    dclRate = objMRT.Applicable_Per
+                                    dclAmt = Math.Round((dclRate * objtr.Milk_Weight), 2, MidpointRounding.ToEven)
+                                ElseIf objMRT.Applicable_On = 2 Then  ''FAT KG RAte
+                                    CalKG = (objtr.Milk_Weight * objtr.FAT) / 100
+                                    dclAmt = Math.Round((objMRT.Applicable_Per * CalKG), 2, MidpointRounding.ToEven)
+                                    dclRate = clsCommon.myCDivide(dclAmt, objtr.Milk_Weight)
+                                ElseIf objMRT.Applicable_On = 3 Then  ''SNF KG RAte
+                                    CalKG = (objtr.Milk_Weight * objtr.SNF) / 100
+                                    dclAmt = Math.Round((objMRT.Applicable_Per * CalKG), 2, MidpointRounding.ToEven)
+                                    dclRate = clsCommon.myCDivide(dclAmt, objtr.Milk_Weight)
+                                Else ''%Age
+                                    dclRate = Math.Round(dclRate * objMRT.Applicable_Per / 100, 2, MidpointRounding.ToEven)
+                                    dclAmt = Math.Round((dclRate * objtr.Milk_Weight), 2, MidpointRounding.ToEven)
+                                End If
+                                objMilkSRNDetail.RATE = dclRate
+                                objMilkSRNDetail.AMOUNT = dclAmt
+                            End If
                             If clsCommon.CompairString(clsCommon.myCstr(dtVLC.Rows(0)("EMP_Type")), "FP") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dtVLC.Rows(0)("EMP_Type")), "FAFP") = CompairStringResult.Equal Then
                                 objMilkSRNDetail.Payment_Commission = clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges"))
                                 If clsCommon.CompairString(clsCommon.myCstr(dtVLC.Rows(0)("Service_Charge_Type")), "%(Percentage)") = CompairStringResult.Equal Then
@@ -1559,11 +1585,13 @@ Public Class clsMilkProcurementUploaderDetail
 
     Public Shared Function GetData(ByVal strPONo As String, ByVal strExtraWhrclas As String, ByVal trans As SqlTransaction) As List(Of clsMilkProcurementUploaderDetail)
         Dim arr As List(Of clsMilkProcurementUploaderDetail) = Nothing
-        Dim qry As String = "SELECT TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.*,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [Uploader_Code] FROM TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.VLC_Code  where  TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No='" + strPONo + "' "
+        Dim qry As String = "SELECT TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.*,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [Uploader_Code] 
+FROM TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL 
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.VLC_Code  
+where  TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No='" + strPONo + "' "
         If clsCommon.myLen(strExtraWhrclas) > 0 Then
             qry += " and " + strExtraWhrclas
         End If
-
         qry += " ORDER BY TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.SNO"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then

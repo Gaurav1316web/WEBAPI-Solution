@@ -26,6 +26,64 @@ Public Class frmMilkShiftUploaderUCDF
 #End Region
 
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Try
+            Dim qry As String = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MILK_SRN_HEAD' and COLUMN_NAME='Against_Reject_No'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin
+                Try
+                    qry = "update TSPL_MILK_SRN_HEAD set Against_Shift_Uploader_TR_No=xx.Against_Shift_Uploader_TR_No from (
+select TSPL_MILK_SRN_HEAD.DOC_CODE,TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No 
+from TSPL_MILK_SRN_HEAD 
+left outer join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.Against_Reject_No and TSPL_MILK_REJECT_DETAIL.SAMPLE_NO=TSPL_MILK_SRN_HEAD.SAMPLE_NO
+where len(ISNULL(TSPL_MILK_SRN_HEAD.Against_Reject_No,''))>0 
+and LEN(ISNULL(TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No,''))>0
+)xx inner join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=xx.DOC_CODE "
+                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+
+                    qry = "update TSPL_MILK_SRN_HEAD set Against_Uploader_TR_No=xx.TR_No from (
+select TSPL_MILK_SRN_HEAD.DOC_CODE,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No
+from TSPL_MILK_SRN_HEAD 
+inner join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
+inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.Against_Reject_No and TSPL_MILK_REJECT_DETAIL.SAMPLE_NO=TSPL_MILK_SRN_HEAD.SAMPLE_NO
+inner join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.VLC_CODE=TSPL_MILK_SRN_HEAD.VLC_CODE and TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift_Date=TSPL_MILK_SRN_HEAD.DOC_DATE and TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift=TSPL_MILK_SRN_HEAD.SHIFT and len(isnull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,''))>0  and TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT= TSPL_MILK_SRN_DETAIL.Qty and TSPL_MILK_REJECT_DETAIL.FAT= TSPL_MILK_SRN_DETAIL.FAT_PER and TSPL_MILK_REJECT_DETAIL.SNF= TSPL_MILK_SRN_DETAIL.SNF_PER  
+inner join TSPL_MILK_PROCUREMENT_UPLOADER_HEAD on TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No and TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Status=1 and TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Reject=1 and TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.MCC_Code=TSPL_MILK_SRN_HEAD.MCC_CODE
+where   len(ISNULL(TSPL_MILK_SRN_HEAD.Against_Reject_No,''))>0 
+and LEN(ISNULL(TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No,''))<=0
+)xx inner join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=xx.DOC_CODE"
+                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+
+                    qry = clsGetKeys.GetForeignKeyName("TSPL_MILK_SRN_HEAD", "Against_Reject_No", tran)
+                    If clsCommon.myLen(qry) > 0 Then
+                        qry = "alter table TSPL_MILK_SRN_HEAD drop " & qry & ""
+                        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+                    End If
+
+                    qry = "alter table TSPL_MILK_SRN_HEAD drop column Against_Reject_No"
+                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+
+                    qry = "drop table TSPL_MILK_REJECT_DETAIL"
+                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+
+                    qry = clsGetKeys.GetForeignKeyName("TSPL_MILK_SRN_HEAD_SYNC", "Against_Reject_No", tran)
+                    If clsCommon.myLen(qry) > 0 Then
+                        qry = "alter table TSPL_MILK_SRN_HEAD_SYNC drop " & qry & ""
+                        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+                    End If
+
+                    qry = "drop table TSPL_MILK_REJECT_HEAD"
+                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+
+                    tran.Commit()
+                Catch ex As Exception
+                    tran.Rollback()
+                    Throw New Exception("Error in Milk Reject Structure change" + Environment.NewLine + ex.Message)
+                End Try
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
         '        Dim coll As New Dictionary(Of String, String)()
 
         '        Try

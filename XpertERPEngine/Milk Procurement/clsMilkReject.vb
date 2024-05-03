@@ -460,7 +460,7 @@ Public Class clsMilkRejectHead
                         Throw New Exception("VSP -" + objtr.VSP_CODE + " not found in master.")
                     End If
                     objHead = New clsMilkSRNMCC
-                    objHead.Against_Reject_No = obj.DOC_CODE
+                    'objHead.Against_Reject_No = obj.DOC_CODE
                     objHead.DOC_DATE = obj.DOC_DATE
                     objHead.SHIFT = obj.SHIFT
                     objHead.COMM_PORT = ""
