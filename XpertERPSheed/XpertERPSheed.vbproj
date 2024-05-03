@@ -48,6 +48,26 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ActiveDatabaseSoftware.ActiveQueryBuilder2, Version=2.9.6.720, Culture=neutral, PublicKeyToken=3cbcbcc9bf57ecde, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\ActiveDatabaseSoftware.ActiveQueryBuilder2.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveDatabaseSoftware.ExpressionEditor2, Version=2.9.6.720, Culture=neutral, PublicKeyToken=3cbcbcc9bf57ecde, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\ActiveDatabaseSoftware.ExpressionEditor2.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveDatabaseSoftware.MSSQLMetadataProvider2, Version=2.9.6.720, Culture=neutral, PublicKeyToken=3cbcbcc9bf57ecde, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\ActiveDatabaseSoftware.MSSQLMetadataProvider2.dll</HintPath>
+    </Reference>
+    <Reference Include="CgtFpAccessCSD200Dotnet, Version=2.4.0.0, Culture=neutral, PublicKeyToken=8c0485f223e60602, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\CgtFpAccessCSD200Dotnet.dll</HintPath>
+    </Reference>
+    <Reference Include="Comm64, Version=6.4.0.30, Culture=neutral, PublicKeyToken=dd445fe4659af8f3, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\Comm64.dll</HintPath>
+    </Reference>
     <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
@@ -75,15 +95,15 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Telerik.WinControls, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\XpertERP\bin\Debug\Telerik.WinControls.dll</HintPath>
+      <HintPath>..\XpertErpBullManagement\bin\Debug\Telerik.WinControls.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.WinControls.GridView, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\XpertERP\bin\Debug\Telerik.WinControls.GridView.dll</HintPath>
+      <HintPath>..\XpertErpBullManagement\bin\Debug\Telerik.WinControls.GridView.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.WinControls.PivotGrid, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\XpertERP\bin\Debug\Telerik.WinControls.PivotGrid.dll</HintPath>
+      <HintPath>..\XpertErpBullManagement\bin\Debug\Telerik.WinControls.PivotGrid.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.WinControls.RadChart, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -99,34 +119,34 @@
     </Reference>
     <Reference Include="Telerik.WinControls.RadMarkupEditor, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\XpertERP\bin\Debug\Telerik.WinControls.RadMarkupEditor.dll</HintPath>
+      <HintPath>..\XpertErpBullManagement\bin\Debug\Telerik.WinControls.RadMarkupEditor.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.WinControls.Scheduler, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\XpertERP\bin\Debug\Telerik.WinControls.Scheduler.dll</HintPath>
+      <HintPath>..\XpertErpBullManagement\bin\Debug\Telerik.WinControls.Scheduler.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.WinControls.Themes.HighContrastBlack, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\XpertERP\bin\Debug\Telerik.WinControls.Themes.HighContrastBlack.dll</HintPath>
+      <HintPath>..\XpertErpBullManagement\bin\Debug\Telerik.WinControls.Themes.HighContrastBlack.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.WinControls.UI, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\XpertERP\bin\Debug\Telerik.WinControls.UI.dll</HintPath>
+      <HintPath>..\XpertErpBullManagement\bin\Debug\Telerik.WinControls.UI.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.WinControls.UI.Design, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\XpertERP\bin\Debug\Telerik.WinControls.UI.Design.dll</HintPath>
+      <HintPath>..\XpertErpBullManagement\bin\Debug\Telerik.WinControls.UI.Design.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Documents.Spreadsheet">
       <HintPath>..\XpertERP\bin\Debug\Telerik.Windows.Documents.Spreadsheet.dll</HintPath>
     </Reference>
     <Reference Include="TelerikCommon, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\XpertERP\bin\Debug\TelerikCommon.dll</HintPath>
+      <HintPath>..\XpertErpBullManagement\bin\Debug\TelerikCommon.dll</HintPath>
     </Reference>
     <Reference Include="TelerikData, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\XpertERP\bin\Debug\TelerikData.dll</HintPath>
+      <HintPath>..\XpertErpBullManagement\bin\Debug\TelerikData.dll</HintPath>
     </Reference>
     <Reference Include="XpertCommon">
       <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
