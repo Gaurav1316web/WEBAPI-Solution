@@ -902,8 +902,30 @@ Public Class clsEmployeeMaster
 
     Public Shared Function FinderForEmployee(ByVal strCode As String, ByVal isButtonClicked As Boolean, Optional ByVal WhrCls As String = "") As clsEmployeeMaster
         Dim obj As clsEmployeeMaster = Nothing
-        Dim qry As String = "select EMP_CODE as Code,Emp_Name as Name,Designation  from TSPL_EMPLOYEE_MASTER"
-        'Dim WhrCls As String = ""
+        Dim qry As String = "select EMP_CODE as Code,Emp_Name as Name,Designation  from TSPL_EMPLOYEE_MASTER  "
+        strCode = clsCommon.ShowSelectForm("EmployeeFinder", qry, "Code", WhrCls, strCode, "Code", isButtonClicked)
+        If clsCommon.myLen(strCode) > 0 Then
+            qry = "select EMP_CODE as Code,Emp_Name as Name,Designation,Phone,EMail_ID  from TSPL_EMPLOYEE_MASTER where EMP_CODE='" + strCode + "' "
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                obj = New clsEmployeeMaster()
+                obj.EMP_CODE = clsCommon.myCstr(dt.Rows(0)("Code"))
+                obj.Emp_Name = clsCommon.myCstr(dt.Rows(0)("Name"))
+                obj.Designation = clsCommon.myCstr(dt.Rows(0)("Designation"))
+                obj.Phone = clsCommon.myCstr(dt.Rows(0)("Phone"))
+                obj.EMail_ID = clsCommon.myCstr(dt.Rows(0)("EMail_ID"))
+            End If
+        End If
+        Return obj
+    End Function
+
+    Public Shared Function FinderForEmployeeSTORE(ByVal strCode As String, ByVal isButtonClicked As Boolean) As clsEmployeeMaster
+        Dim obj As clsEmployeeMaster = Nothing
+        Dim WhrCls As String = ""
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            WhrCls += " Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+        End If
+        Dim qry As String = "select EMP_CODE as Code,Emp_Name as Name,Designation  from TSPL_EMPLOYEE_MASTER  "
         strCode = clsCommon.ShowSelectForm("EmployeeFinder", qry, "Code", WhrCls, strCode, "Code", isButtonClicked)
         If clsCommon.myLen(strCode) > 0 Then
             qry = "select EMP_CODE as Code,Emp_Name as Name,Designation,Phone,EMail_ID  from TSPL_EMPLOYEE_MASTER where EMP_CODE='" + strCode + "' "
