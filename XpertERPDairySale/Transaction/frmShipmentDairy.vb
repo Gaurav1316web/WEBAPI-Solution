@@ -10838,7 +10838,7 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                 Dim dblTotCustDisc As Double = 0
                 If clsCommon.myLen(strICode) > 0 And clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColFOC).Value) = 0 Then
                     Dim obj_Cash As clsSchemeApplyOnDairy = Nothing
-                    obj_Cash = clsSchemeApplyOnDairy.GetPriceSchemeData(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colICode).Value), clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colUnit).Value), clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value), txtVendorNo.Value, "", "", trans)
+                    obj_Cash = clsSchemeApplyOnDairy.GetPriceSchemeData(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colICode).Value), clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colUnit).Value), clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value), txtVendorNo.Value, Nothing, Nothing, trans)
                     'If clsCommon.myLen(obj_Cash.Schm_Code) = 0 AndAlso clsCommon.myLen(gv1.Rows(IntRowNo).Cells(colUnitALter).Value) > 0 Then
                     '    obj_Cash = clsSchemeApplyOnDairy.GetPriceSchemeData(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colICode).Value), clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colUnitALter).Value), clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value), txtVendorNo.Value)
                     'End If
@@ -10930,11 +10930,11 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                 For ii As Integer = 1 To 10
                     Dim strTaxCode As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells("COLTAX" + clsCommon.myCstr(ii)).Value)
                     If clsCommon.myLen(strTaxCode) > 0 Then
-                        If clsCommon.CompairString(clsTaxCalculation.GetTaxType(strTaxCode, Nothing), "K") = CompairStringResult.Equal Then
+                        If clsCommon.CompairString(clsTaxCalculation.GetTaxType(strTaxCode, trans), "K") = CompairStringResult.Equal Then
                             dblKKFTaxRate = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells("COLTAXRATE" + clsCommon.myCstr(ii)).Value)
-                        ElseIf clsCommon.CompairString(clsTaxCalculation.GetTaxType(strTaxCode, Nothing), "M") = CompairStringResult.Equal Then
+                        ElseIf clsCommon.CompairString(clsTaxCalculation.GetTaxType(strTaxCode, trans), "M") = CompairStringResult.Equal Then
                             dblMNDTaxRate = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells("COLTAXRATE" + clsCommon.myCstr(ii)).Value)
-                        ElseIf clsCommon.CompairString(clsTaxCalculation.GetTaxType(strTaxCode, Nothing), "GST") = CompairStringResult.Equal Then
+                        ElseIf clsCommon.CompairString(clsTaxCalculation.GetTaxType(strTaxCode, trans), "GST") = CompairStringResult.Equal Then
                             dblGSTTaxRate.Add(clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells("COLTAXRATE" + clsCommon.myCstr(ii)).Value))
                         End If
                         'If Not clsCommon.myCBool(gv1.CurrentRow.Cells(colIsTaxable + clsCommon.myCstr(ii)).Value) OrElse (clsCommon.CompairString(strTaxCode, "CGST") = CompairStringResult.Equal Or clsCommon.CompairString(strTaxCode, "SGST") = CompairStringResult.Equal) Then
@@ -11036,10 +11036,10 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                             'If (IsTaxable AndAlso Not arrTaxableAuth1.Contains(strTaxCode.ToUpper())) Then
                             '    arrTaxableAuth1.Add(strTaxCode.ToUpper())
                             'End If
-                            If clsCommon.CompairString(clsTaxCalculation.GetTaxType(strTaxCode, Nothing), "K") = CompairStringResult.Equal Then
+                            If clsCommon.CompairString(clsTaxCalculation.GetTaxType(strTaxCode, trans), "K") = CompairStringResult.Equal Then
                                 gv1.Rows(IntRowNo).Cells("colTaxAmt" + clsCommon.myCstr(ii)).Value = dblKKFTaxValue
                                 gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = Math.Round(dblProductValue, 2)
-                            ElseIf clsCommon.CompairString(clsTaxCalculation.GetTaxType(strTaxCode, Nothing), "M") = CompairStringResult.Equal Then
+                            ElseIf clsCommon.CompairString(clsTaxCalculation.GetTaxType(strTaxCode, trans), "M") = CompairStringResult.Equal Then
                                 gv1.Rows(IntRowNo).Cells("colTaxAmt" + clsCommon.myCstr(ii)).Value = dblMNDTaxValue
                                 gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = Math.Round(dblProductValue, 2)
                             ElseIf clsCommon.CompairString(strTaxCode, "CGST") = CompairStringResult.Equal Then
