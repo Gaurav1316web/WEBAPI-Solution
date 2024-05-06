@@ -141,11 +141,8 @@ Public Class clsSheedGrowerMaster
     End Function
     Public Shared Function CreateCustomer(ByVal obj As clsSheedGrowerMaster, ByVal trans As SqlTransaction)
         Try
-            Dim strCmd As String
-            Dim strcode As String
-
-            strCmd = "select Cust_Code from tspl_customer_master where CUSTOMER_FORM_TYPE='ALL' and Is_Default_Grower=1"
-            strcode = clsDBFuncationality.getSingleValue(strCmd, trans)
+            Dim strCmd As String = "select Cust_Code from tspl_customer_master where CUSTOMER_FORM_TYPE='ALL' and Is_Default_Grower=1"
+            Dim strcode As String = clsDBFuncationality.getSingleValue(strCmd, trans)
             If clsCommon.myLen(strcode) < 0 Then
                 Throw New Exception("To make first customer defautl grower")
             End If
@@ -163,17 +160,17 @@ Public Class clsSheedGrowerMaster
     End Function
     Public Shared Function CreateVendor(ByVal obj As clsSheedGrowerMaster, ByVal trans As SqlTransaction)
         Try
-            Dim strCmd As String
-            Dim strcode As String
-            strCmd = "select Vendor_Code from TSPL_VENDOR_MASTER where Is_Default_Grower=1 "
-            strcode = clsDBFuncationality.getSingleValue(strCmd, trans)
+
+            Dim strCmd As String = "select Vendor_Code from TSPL_VENDOR_MASTER where Is_Default_Grower=1 "
+            Dim strcode As String = clsDBFuncationality.getSingleValue(strCmd, trans)
             If clsCommon.myLen(strcode) < 0 Then
                 Throw New Exception("To make first vendor default grower")
             End If
-            Dim objVendor As clsVendorMaster = clsVendorMaster.GetData(strcode, trans)
+            Dim objVendor As clsVendorMaster = clsVendorMaster.GetVendorData(strcode, trans)
             objVendor.Vendor_Code = obj.Code
             objVendor.Vendor_Name = obj.Name
             objVendor.Form_Type = "GRO"
+            objVendor.SaveData(objVendor, True, trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
