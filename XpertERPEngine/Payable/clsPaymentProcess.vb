@@ -2095,7 +2095,7 @@ where  TSPL_PAYMENT_PROCESS_HEAD.From_Date>=convert(date,('" + CycleFromDate + "
 
 
         If clsCommon.myLen(strLoc) > 0 Then
-            whrcls1 += " and TSPL_PAYMENT_PROCESS_Head.loc_seg_code    IN ('" + strLoc + "') " 'fndLoc.Value
+            whrcls1 += " and TSPL_PAYMENT_PROCESS_Head.loc_seg_code    IN (" + strLoc + ") " 'fndLoc.Value
         End If
         whrclsItemWise += " and final.doc_no in ( " + strDocNo + " )"
         whrclsItemWise += "  and convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + fromDate + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + Todate + "'),103) "
