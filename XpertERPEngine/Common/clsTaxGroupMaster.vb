@@ -987,6 +987,7 @@ Public Class clsVendorMaster
     Public Nature As String
     Public Actual_charges As Double
     Public Joint_Bank_Code As String
+    Public Joint_Account_No As String
     Public Start_Date As Date? = Nothing
     Public End_Date As Date? = Nothing
     Public CSA_Type As Char
@@ -1120,338 +1121,329 @@ Public Class clsVendorMaster
 
     Public CUSTOMER_FORM_TYPE As String = String.Empty
 
-    'Public Function SaveData(ByVal obj As clsVendorMaster, ByVal isNewEntry As Boolean) As Boolean
-    '    Dim ISSaved As Boolean = True
-    '    Dim trans As SqlTransaction = Nothing
-    '    Try
-    '        trans = clsDBFuncationality.GetTransactin()
-    '        'ISSaved = SaveData(obj, arrVisi, isNewEntry, arrDBName, trans)
-    '        ISSaved = SaveData(obj, isNewEntry, trans)
-    '        trans.Commit()
-    '    Catch ex As Exception
-    '        trans.Rollback()
-    '        clsCommon.MyMessageBoxShow(ex.Message)
-    '        Return False
-    '        'Throw New Exception(ex.Message)
-    '    End Try
-    '    Return ISSaved
-    'End Function
+    Public Function SaveData(ByVal obj As clsVendorMaster, ByVal isNewEntry As Boolean) As Boolean
+        Dim ISSaved As Boolean = True
+        Dim trans As SqlTransaction = Nothing
+        Try
+            trans = clsDBFuncationality.GetTransactin()
+            ISSaved = SaveData(obj, isNewEntry, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            clsCommon.MyMessageBoxShow(ex.Message)
+            Return False
+            'Throw New Exception(ex.Message)
+        End Try
+        Return ISSaved
+    End Function
 
-    'Public Function SaveData(ByVal obj As clsVendorMaster, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
-    '    Dim isSaved As Boolean = True
-    '    Try
-    '        If (obj.Is_Default_Grower = 1) Then
-    '            Dim qry As String = "update TSPL_VENDOR_MASTER set Is_Default_Grower=0 where Is_Default_Grower=1"
-    '            clsDBFuncationality.ExecuteNonQuery(qry, trans)
-    '        End If
+    Public Function SaveData(ByVal obj As clsVendorMaster, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
+        Dim isSaved As Boolean = True
+        Try
+            If (obj.Is_Default_Grower = 1) Then
+                Dim qry As String = "update TSPL_VENDOR_MASTER set Is_Default_Grower=0 where Is_Default_Grower=1"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
 
-    '        Dim coll As New Hashtable()
-    '        clsCommon.AddColumnsForChange(coll, "Form_Type", obj.Form_Type)
-    '        clsCommon.AddColumnsForChange(coll, "Vendor_Name", obj.Vendor_Name)
-    '        clsCommon.AddColumnsForChange(coll, "Vendor_Name_Hindi", obj.Vendor_Name_Hindi, True, True)
-    '        clsCommon.AddColumnsForChange(coll, "Pin_Code", obj.Pin_Code)
-    '        clsCommon.AddColumnsForChange(coll, "Add1", obj.Add1)
-    '        clsCommon.AddColumnsForChange(coll, "Add2", obj.Add2)
-    '        clsCommon.AddColumnsForChange(coll, "Add3", obj.Add3)
-    '        If clsCommon.CompairString(obj.Status, "Y") = CompairStringResult.Equal Then
-    '            clsCommon.AddColumnsForChange(coll, "Closing_Date", obj.Closing_Date)
-    '        Else
-    '            clsCommon.AddColumnsForChange(coll, "Closing_Date", Nothing)
-    '        End If
-    '        clsCommon.AddColumnsForChange(coll, "Vendor_Group_Code", obj.Vendor_Group_Code)
-    '        clsCommon.AddColumnsForChange(coll, "Vendor_Group_Code_Desc", obj.Vendor_Group_Code_Desc)
-    '        clsCommon.AddColumnsForChange(coll, "City_Code", obj.City_Code)
-    '        clsCommon.AddColumnsForChange(coll, "City_Code_Desc", obj.City_Code_Desc)
-    '        clsCommon.AddColumnsForChange(coll, "State", obj.State)
-    '        clsCommon.AddColumnsForChange(coll, "Country", obj.Country)
-    '        clsCommon.AddColumnsForChange(coll, "Phone1", obj.Phone1)
-    '        clsCommon.AddColumnsForChange(coll, "Phone2", obj.Phone2)
-    '        clsCommon.AddColumnsForChange(coll, "Fax", obj.Fax)
-    '        clsCommon.AddColumnsForChange(coll, "Email", obj.Email)
-    '        clsCommon.AddColumnsForChange(coll, "WebSite", obj.WebSite)
-    '        clsCommon.AddColumnsForChange(coll, "Contact_Person_Name", obj.Contact_Person_Name)
-    '        clsCommon.AddColumnsForChange(coll, "Contact_Person_Phone", obj.Contact_Person_Phone)
-    '        clsCommon.AddColumnsForChange(coll, "Contact_Person_Fax", obj.Contact_Person_Fax)
-    '        clsCommon.AddColumnsForChange(coll, "Contact_Person_Website", obj.Contact_Person_Website)
-    '        clsCommon.AddColumnsForChange(coll, "Contact_Person_Email", obj.Contact_Person_Email)
-    '        clsCommon.AddColumnsForChange(coll, "Terms_Code", obj.Terms_Code)
-    '        clsCommon.AddColumnsForChange(coll, "Terms_Code_Desc", obj.Terms_Code_Desc)
-    '        clsCommon.AddColumnsForChange(coll, "Vendor_Account", obj.Vendor_Account)
-    '        clsCommon.AddColumnsForChange(coll, "Vendor_Account_Desc", obj.Vendor_Account_Desc)
-    '        clsCommon.AddColumnsForChange(coll, "Payment_Code", obj.Payment_Code)
-    '        clsCommon.AddColumnsForChange(coll, "Payment_Code_Desc", obj.Payment_Code_Desc)
-    '        clsCommon.AddColumnsForChange(coll, "Bank_Code", obj.Bank_Code)
-    '        clsCommon.AddColumnsForChange(coll, "Bank_Code_Desc", obj.Bank_Code_Desc)
-    '        clsCommon.AddColumnsForChange(coll, "Tax_Group", obj.Tax_Group)
-    '        clsCommon.AddColumnsForChange(coll, "Tax_Group_Desc", obj.Tax_Group_Desc)
-    '        clsCommon.AddColumnsForChange(coll, "Ven_Type_Code", obj.Ven_Type_Code)
-    '        clsCommon.AddColumnsForChange(coll, "Ven_Type_Desc", obj.Ven_Type_Desc)
-    '        clsCommon.AddColumnsForChange(coll, "TAX1", obj.TAX1)
-    '        clsCommon.AddColumnsForChange(coll, "TAX1_Rate", obj.TAX1_Rate)
-    '        clsCommon.AddColumnsForChange(coll, "TAX2", obj.TAX2)
-    '        clsCommon.AddColumnsForChange(coll, "TAX2_Rate", obj.TAX2_Rate)
-    '        clsCommon.AddColumnsForChange(coll, "TAX3", obj.TAX3)
-    '        clsCommon.AddColumnsForChange(coll, "TAX3_Rate", obj.TAX3_Rate)
-    '        clsCommon.AddColumnsForChange(coll, "TAX4", obj.TAX4)
-    '        clsCommon.AddColumnsForChange(coll, "TAX4_Rate", obj.TAX4_Rate)
-    '        clsCommon.AddColumnsForChange(coll, "TAX5", obj.TAX5)
-    '        clsCommon.AddColumnsForChange(coll, "TAX5_Rate", obj.TAX5_Rate)
-    '        clsCommon.AddColumnsForChange(coll, "TAX6", obj.TAX6)
-    '        clsCommon.AddColumnsForChange(coll, "TAX6_Rate", obj.TAX6_Rate)
-    '        clsCommon.AddColumnsForChange(coll, "TAX7", obj.TAX7)
-    '        clsCommon.AddColumnsForChange(coll, "TAX7_Rate", obj.TAX7_Rate)
-    '        clsCommon.AddColumnsForChange(coll, "TAX8", obj.TAX8)
-    '        clsCommon.AddColumnsForChange(coll, "TAX8_Rate", obj.TAX8_Rate)
-    '        clsCommon.AddColumnsForChange(coll, "TAX9", obj.TAX9)
-    '        clsCommon.AddColumnsForChange(coll, "TAX9_Rate", obj.TAX9_Rate)
-    '        clsCommon.AddColumnsForChange(coll, "TAX10", obj.TAX10)
-    '        clsCommon.AddColumnsForChange(coll, "TAX10_Rate", obj.TAX10_Rate)
-    '        clsCommon.AddColumnsForChange(coll, "Service_Tax_No", obj.Service_Tax_No)
-    '        clsCommon.AddColumnsForChange(coll, "Tin_No", obj.Tin_No)
-    '        clsCommon.AddColumnsForChange(coll, "Lst_No", obj.Lst_No)
-    '        clsCommon.AddColumnsForChange(coll, "Status", obj.Status)
-    '        clsCommon.AddColumnsForChange(coll, "OnHold", obj.OnHold)
-    '        clsCommon.AddColumnsForChange(coll, "Transporter", obj.Transporter)
-    '        clsCommon.AddColumnsForChange(coll, "Remarks1", obj.Remarks1)
-    '        clsCommon.AddColumnsForChange(coll, "Remarks2", obj.Remarks2)
-    '        clsCommon.AddColumnsForChange(coll, "Additional1", obj.Additional1)
-    '        clsCommon.AddColumnsForChange(coll, "Additional2", obj.Additional2)
-    '        clsCommon.AddColumnsForChange(coll, "Additional3", obj.Additional3)
-    '        clsCommon.AddColumnsForChange(coll, "Credit_Limit", obj.Credit_Limit)
-    '        clsCommon.AddColumnsForChange(coll, "Is_Gross_Receipt", obj.Is_Gross_Receipt)
-    '        clsCommon.AddColumnsForChange(coll, "Inter_Branch", obj.Inter_Branch)
-    '        clsCommon.AddColumnsForChange(coll, "CURRENCY_CODE", obj.CURRENCY_CODE, True)
-    '        clsCommon.AddColumnsForChange(coll, "franchise_yn", obj.franchise_yn, True)
-    '        clsCommon.AddColumnsForChange(coll, "franchise_yn", obj.State_Code)
-    '        clsCommon.AddColumnsForChange(coll, "Country_Code", obj.Country_Code)
-    '        clsCommon.AddColumnsForChange(coll, "Service_charges", obj.Service_charges)
-    '        clsCommon.AddColumnsForChange(coll, "commision_pers", obj.commision_pers)
-    '        clsCommon.AddColumnsForChange(coll, "incentive", obj.incentive)
-    '        clsCommon.AddColumnsForChange(coll, "incentive_days", obj.incentive_days)
-    '        clsCommon.AddColumnsForChange(coll, "vsp_payment", obj.vsp_payment)
-    '        clsCommon.AddColumnsForChange(coll, "VSP_Payee_Name", obj.VSP_Payee_Name)
-    '        clsCommon.AddColumnsForChange(coll, "Zila", obj.Zila)
-    '        clsCommon.AddColumnsForChange(coll, "Tehsil", obj.Tehsil)
-    '        clsCommon.AddColumnsForChange(coll, "Branch_Name", obj.Branch_Name, True)
-    '        clsCommon.AddColumnsForChange(coll, "IFCI_Code", obj.IFCI_Code, True)
-    '        clsCommon.AddColumnsForChange(coll, "Account_No", obj.Account_No, True)
+            Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "Form_Type", obj.Form_Type)
+            clsCommon.AddColumnsForChange(coll, "Vendor_Name", obj.Vendor_Name)
+            clsCommon.AddColumnsForChange(coll, "Vendor_Name_Hindi", obj.Vendor_Name_Hindi, True, True)
+            clsCommon.AddColumnsForChange(coll, "Pin_Code", obj.Pin_Code)
+            clsCommon.AddColumnsForChange(coll, "Add1", obj.Add1)
+            clsCommon.AddColumnsForChange(coll, "Add2", obj.Add2)
+            clsCommon.AddColumnsForChange(coll, "Add3", obj.Add3)
+            If clsCommon.CompairString(obj.Status, "Y") = CompairStringResult.Equal Then
+                clsCommon.AddColumnsForChange(coll, "Closing_Date", obj.Closing_Date)
+            Else
+                clsCommon.AddColumnsForChange(coll, "Closing_Date", Nothing)
+            End If
+            clsCommon.AddColumnsForChange(coll, "Vendor_Group_Code", obj.Vendor_Group_Code)
+            clsCommon.AddColumnsForChange(coll, "Vendor_Group_Code_Desc", obj.Vendor_Group_Code_Desc)
+            clsCommon.AddColumnsForChange(coll, "City_Code", obj.City_Code)
+            clsCommon.AddColumnsForChange(coll, "City_Code_Desc", obj.City_Code_Desc)
+            clsCommon.AddColumnsForChange(coll, "State", obj.State)
+            clsCommon.AddColumnsForChange(coll, "Country", obj.Country)
+            clsCommon.AddColumnsForChange(coll, "Phone1", obj.Phone1)
+            clsCommon.AddColumnsForChange(coll, "Phone2", obj.Phone2)
+            clsCommon.AddColumnsForChange(coll, "Fax", obj.Fax)
+            clsCommon.AddColumnsForChange(coll, "Email", obj.Email)
+            clsCommon.AddColumnsForChange(coll, "WebSite", obj.WebSite)
+            clsCommon.AddColumnsForChange(coll, "Contact_Person_Name", obj.Contact_Person_Name)
+            clsCommon.AddColumnsForChange(coll, "Contact_Person_Phone", obj.Contact_Person_Phone)
+            clsCommon.AddColumnsForChange(coll, "Contact_Person_Fax", obj.Contact_Person_Fax)
+            clsCommon.AddColumnsForChange(coll, "Contact_Person_Website", obj.Contact_Person_Website)
+            clsCommon.AddColumnsForChange(coll, "Contact_Person_Email", obj.Contact_Person_Email)
+            clsCommon.AddColumnsForChange(coll, "Terms_Code", obj.Terms_Code)
+            clsCommon.AddColumnsForChange(coll, "Terms_Code_Desc", obj.Terms_Code_Desc)
+            clsCommon.AddColumnsForChange(coll, "Vendor_Account", obj.Vendor_Account)
+            clsCommon.AddColumnsForChange(coll, "Vendor_Account_Desc", obj.Vendor_Account_Desc)
+            clsCommon.AddColumnsForChange(coll, "Payment_Code", obj.Payment_Code)
+            clsCommon.AddColumnsForChange(coll, "Payment_Code_Desc", obj.Payment_Code_Desc)
+            clsCommon.AddColumnsForChange(coll, "Bank_Code", obj.Bank_Code, True)
+            clsCommon.AddColumnsForChange(coll, "Bank_Code_Desc", obj.Bank_Code_Desc)
+            clsCommon.AddColumnsForChange(coll, "Tax_Group", obj.Tax_Group)
+            clsCommon.AddColumnsForChange(coll, "Tax_Group_Desc", obj.Tax_Group_Desc)
+            clsCommon.AddColumnsForChange(coll, "Ven_Type_Code", obj.Ven_Type_Code)
+            clsCommon.AddColumnsForChange(coll, "Ven_Type_Desc", obj.Ven_Type_Desc)
+            clsCommon.AddColumnsForChange(coll, "TAX1", obj.TAX1)
+            clsCommon.AddColumnsForChange(coll, "TAX1_Rate", obj.TAX1_Rate)
+            clsCommon.AddColumnsForChange(coll, "TAX2", obj.TAX2)
+            clsCommon.AddColumnsForChange(coll, "TAX2_Rate", obj.TAX2_Rate)
+            clsCommon.AddColumnsForChange(coll, "TAX3", obj.TAX3)
+            clsCommon.AddColumnsForChange(coll, "TAX3_Rate", obj.TAX3_Rate)
+            clsCommon.AddColumnsForChange(coll, "TAX4", obj.TAX4)
+            clsCommon.AddColumnsForChange(coll, "TAX4_Rate", obj.TAX4_Rate)
+            clsCommon.AddColumnsForChange(coll, "TAX5", obj.TAX5)
+            clsCommon.AddColumnsForChange(coll, "TAX5_Rate", obj.TAX5_Rate)
+            clsCommon.AddColumnsForChange(coll, "TAX6", obj.TAX6)
+            clsCommon.AddColumnsForChange(coll, "TAX6_Rate", obj.TAX6_Rate)
+            clsCommon.AddColumnsForChange(coll, "TAX7", obj.TAX7)
+            clsCommon.AddColumnsForChange(coll, "TAX7_Rate", obj.TAX7_Rate)
+            clsCommon.AddColumnsForChange(coll, "TAX8", obj.TAX8)
+            clsCommon.AddColumnsForChange(coll, "TAX8_Rate", obj.TAX8_Rate)
+            clsCommon.AddColumnsForChange(coll, "TAX9", obj.TAX9)
+            clsCommon.AddColumnsForChange(coll, "TAX9_Rate", obj.TAX9_Rate)
+            clsCommon.AddColumnsForChange(coll, "TAX10", obj.TAX10)
+            clsCommon.AddColumnsForChange(coll, "TAX10_Rate", obj.TAX10_Rate)
+            clsCommon.AddColumnsForChange(coll, "Service_Tax_No", obj.Service_Tax_No)
+            clsCommon.AddColumnsForChange(coll, "Tin_No", obj.Tin_No)
+            clsCommon.AddColumnsForChange(coll, "Lst_No", obj.Lst_No)
+            clsCommon.AddColumnsForChange(coll, "Status", obj.Status)
+            clsCommon.AddColumnsForChange(coll, "OnHold", obj.OnHold)
+            clsCommon.AddColumnsForChange(coll, "Transporter", obj.Transporter)
+            clsCommon.AddColumnsForChange(coll, "Remarks1", obj.Remarks1)
+            clsCommon.AddColumnsForChange(coll, "Remarks2", obj.Remarks2)
+            clsCommon.AddColumnsForChange(coll, "Additional1", obj.Additional1)
+            clsCommon.AddColumnsForChange(coll, "Additional2", obj.Additional2)
+            clsCommon.AddColumnsForChange(coll, "Additional3", obj.Additional3)
+            clsCommon.AddColumnsForChange(coll, "Credit_Limit", obj.Credit_Limit)
+            clsCommon.AddColumnsForChange(coll, "Is_Gross_Receipt", obj.Is_Gross_Receipt)
+            clsCommon.AddColumnsForChange(coll, "Inter_Branch", obj.Inter_Branch)
+            clsCommon.AddColumnsForChange(coll, "CURRENCY_CODE", obj.CURRENCY_CODE, True)
+            clsCommon.AddColumnsForChange(coll, "franchise_yn", obj.franchise_yn, True)
+            clsCommon.AddColumnsForChange(coll, "State_Code", obj.State_Code)
+            clsCommon.AddColumnsForChange(coll, "Country_Code", obj.Country_Code)
+            clsCommon.AddColumnsForChange(coll, "Service_charges", obj.Service_charges)
+            clsCommon.AddColumnsForChange(coll, "commision_pers", obj.commision_pers)
+            clsCommon.AddColumnsForChange(coll, "incentive", obj.incentive)
+            clsCommon.AddColumnsForChange(coll, "incentive_days", obj.incentive_days)
+            clsCommon.AddColumnsForChange(coll, "vsp_payment", obj.vsp_payment)
+            clsCommon.AddColumnsForChange(coll, "VSP_Payee_Name", obj.VSP_Payee_Name)
+            clsCommon.AddColumnsForChange(coll, "Zila", obj.Zila)
+            clsCommon.AddColumnsForChange(coll, "Tehsil", obj.Tehsil)
+            clsCommon.AddColumnsForChange(coll, "Branch_Name", obj.Branch_Name, True)
+            clsCommon.AddColumnsForChange(coll, "IFCI_Code", obj.IFCI_Code, True)
+            clsCommon.AddColumnsForChange(coll, "Account_No", obj.Account_No, True)
+            clsCommon.AddColumnsForChange(coll, "Industry_Type", obj.Industry_Type)
+            clsCommon.AddColumnsForChange(coll, "Industry_Person", obj.Industry_Person)
+            clsCommon.AddColumnsForChange(coll, "Agreement", obj.Agreement)
+            clsCommon.AddColumnsForChange(coll, "Security_Cheque", obj.Security_Cheque)
+            clsCommon.AddColumnsForChange(coll, "No_of_Installment", obj.No_of_Installment)
+            clsCommon.AddColumnsForChange(coll, "Amount_of_Installment", obj.Amount_of_Installment)
+            clsCommon.AddColumnsForChange(coll, "IsPermanent", obj.IsPermanent)
+            clsCommon.AddColumnsForChange(coll, "IsTemporary", obj.IsTemporary)
+            clsCommon.AddColumnsForChange(coll, "Joint_Name", obj.Joint_Name)
+            clsCommon.AddColumnsForChange(coll, "Service_Charge_Type", obj.Service_Charge_Type)
+            clsCommon.AddColumnsForChange(coll, "Is_Parent_Vendor", obj.Is_Parent_Vendor)
+            clsCommon.AddColumnsForChange(coll, "Parent_Vendor_Code", obj.Parent_Vendor_Code)
+            clsCommon.AddColumnsForChange(coll, "branch_code", obj.branch_code)
+            clsCommon.AddColumnsForChange(coll, "Category_Struct_Code", obj.Category_Struct_Code)
+            clsCommon.AddColumnsForChange(coll, "Bank_Name", obj.Bank_Name, True)
+            clsCommon.AddColumnsForChange(coll, "IFSC_Code", obj.IFSC_Code, True)
+            clsCommon.AddColumnsForChange(coll, "Account_Type", obj.Account_Type, True)
+            clsCommon.AddColumnsForChange(coll, "Vendor_Type", obj.Vendor_Type)
+            clsCommon.AddColumnsForChange(coll, "payment_commision_pers", obj.payment_commision_pers)
+            clsCommon.AddColumnsForChange(coll, "Security_Amount", obj.Security_Amount)
+            clsCommon.AddColumnsForChange(coll, "AMC_Charge", obj.AMC_Charge)
+            clsCommon.AddColumnsForChange(coll, "AMCU", obj.AMCU)
+            If obj.Billing_Date IsNot Nothing Then
+                clsCommon.AddColumnsForChange(coll, "Billing_Date", clsCommon.GetPrintDate(obj.Billing_Date, "dd/MMM/yyyy"))
+            Else
+                clsCommon.AddColumnsForChange(coll, "Billing_Date", Nothing, True)
+            End If
+            clsCommon.AddColumnsForChange(coll, "Is_Chilling_vendor", obj.Is_Chilling_vendor)
+            clsCommon.AddColumnsForChange(coll, "TDS_Branch_Code", obj.TDS_Branch_Code)
+            clsCommon.AddColumnsForChange(coll, "Deduction_Code", obj.Deduction_Code)
+            clsCommon.AddColumnsForChange(coll, "TDS_State_Code", obj.TDS_State_Code)
+            clsCommon.AddColumnsForChange(coll, "TDS_Vendor_Type", obj.TDS_Vendor_Type)
+            clsCommon.AddColumnsForChange(coll, "TDS_Status", obj.TDS_Status)
+            clsCommon.AddColumnsForChange(coll, "Is_TDS_Applicable", obj.Is_TDS_Applicable)
+            clsCommon.AddColumnsForChange(coll, "Nature", obj.Nature)
+            clsCommon.AddColumnsForChange(coll, "Actual_charges", obj.Actual_charges)
+            clsCommon.AddColumnsForChange(coll, "Joint_Bank_Code", obj.Joint_Bank_Code)
+            If obj.Start_Date IsNot Nothing Then
+                clsCommon.AddColumnsForChange(coll, "Start_Date", clsCommon.GetPrintDate(obj.Start_Date, "dd/MMM/yyyy"))
+            Else
+                clsCommon.AddColumnsForChange(coll, "Start_Date", Nothing, True)
+            End If
+            If obj.End_Date IsNot Nothing Then
+                clsCommon.AddColumnsForChange(coll, "End_Date", clsCommon.GetPrintDate(obj.End_Date, "dd/MMM/yyyy"))
+            Else
+                clsCommon.AddColumnsForChange(coll, "End_Date", Nothing, True)
+            End If
+            clsCommon.AddColumnsForChange(coll, "CSA_Type", obj.CSA_Type)
+            If obj.Start_Period IsNot Nothing Then
+                clsCommon.AddColumnsForChange(coll, "Start_Period", clsCommon.GetPrintDate(obj.Start_Period, "dd/MMM/yyyy"))
+            Else
+                clsCommon.AddColumnsForChange(coll, "Start_Period", Nothing, True)
+            End If
+            If obj.Expired_Period IsNot Nothing Then
+                clsCommon.AddColumnsForChange(coll, "Expired_Period", clsCommon.GetPrintDate(obj.Expired_Period, "dd/MMM/yyyy"))
+            Else
+                clsCommon.AddColumnsForChange(coll, "Expired_Period", Nothing, True)
+            End If
+            clsCommon.AddColumnsForChange(coll, "PC_CODE", obj.PC_CODE)
+            clsCommon.AddColumnsForChange(coll, "IsBlankCheque", obj.IsBlankCheque)
+            clsCommon.AddColumnsForChange(coll, "Alies_Name", obj.Alies_Name)
+            clsCommon.AddColumnsForChange(coll, "Vendor_Type_CHA", obj.Vendor_Type_CHA)
+            clsCommon.AddColumnsForChange(coll, "Is_Head_Load", obj.Is_Head_Load)
+            clsCommon.AddColumnsForChange(coll, "Rate_Head_Load", obj.Rate_Head_Load)
+            clsCommon.AddColumnsForChange(coll, "Service_Basis_Head_Load", obj.Service_Basis_Head_Load)
+            clsCommon.AddColumnsForChange(coll, "Is_Own_Asset", obj.Is_Own_Asset)
+            clsCommon.AddColumnsForChange(coll, "Rate_Own_Asset", obj.Rate_Own_Asset)
+            clsCommon.AddColumnsForChange(coll, "Service_Basis_Own_Asset", obj.Service_Basis_Own_Asset)
+            clsCommon.AddColumnsForChange(coll, "IsVendorInvoiceNo", obj.IsVendorInvoiceNo)
+            clsCommon.AddColumnsForChange(coll, "CHA_DOC_NO", obj.CHA_DOC_NO)
+            clsCommon.AddColumnsForChange(coll, "Standard_Security_Amount", obj.Standard_Security_Amount)
+            clsCommon.AddColumnsForChange(coll, "Is_TC_Certified", obj.Is_TC_Certified)
+            clsCommon.AddColumnsForChange(coll, "TC_Certified", obj.TC_Certified)
+            clsCommon.AddColumnsForChange(coll, "MP_Code", obj.MP_Code)
+            clsCommon.AddColumnsForChange(coll, "MP_Name", obj.MP_Name)
+            clsCommon.AddColumnsForChange(coll, "Cheque_In_Favour_Of", obj.Cheque_In_Favour_Of)
+            clsCommon.AddColumnsForChange(coll, "is_Drip_Saver", obj.is_Drip_Saver)
+            clsCommon.AddColumnsForChange(coll, "Other_For_PAN", obj.Other_For_PAN)
+            clsCommon.AddColumnsForChange(coll, "Joint_Branch_Name", obj.Joint_Branch_Name)
+            clsCommon.AddColumnsForChange(coll, "Joint_IFSC_Code", obj.Joint_IFSC_Code)
+            clsCommon.AddColumnsForChange(coll, "VSP_Farmer_Billing", obj.VSP_Farmer_Billing)
+            clsCommon.AddColumnsForChange(coll, "EMP_Type", obj.EMP_Type)
+            clsCommon.AddColumnsForChange(coll, "EMP_Fixed_Amount", obj.EMP_Fixed_Amount)
+            clsCommon.AddColumnsForChange(coll, "Actual_charges_Slab", obj.Actual_charges_Slab)
+            clsCommon.AddColumnsForChange(coll, "Actual_charges_Slab2", obj.Actual_charges_Slab2)
+            clsCommon.AddColumnsForChange(coll, "Actual_charges2", obj.Actual_charges2)
+            clsCommon.AddColumnsForChange(coll, "Actual_charges_Slab3", obj.Actual_charges_Slab3)
+            clsCommon.AddColumnsForChange(coll, "Actual_charges3", obj.Actual_charges3)
+            clsCommon.AddColumnsForChange(coll, "Actual_charges_Slab4", obj.Actual_charges_Slab4)
+            clsCommon.AddColumnsForChange(coll, "Actual_charges4", obj.Actual_charges4)
+            clsCommon.AddColumnsForChange(coll, "Actual_charges_Slab5", obj.Actual_charges_Slab5)
+            clsCommon.AddColumnsForChange(coll, "Actual_charges5", obj.Actual_charges5)
+            clsCommon.AddColumnsForChange(coll, "Vendor_Distance", obj.Vendor_Distance)
+            clsCommon.AddColumnsForChange(coll, "Apply_Mult_Incentive", obj.Apply_Mult_Incentive)
+            clsCommon.AddColumnsForChange(coll, "MinimumQtyRequired_pertrip", obj.MinimumQtyRequired_pertrip)
+            clsCommon.AddColumnsForChange(coll, "OldName", obj.OldName)
+            clsCommon.AddColumnsForChange(coll, "Security_Deduction_Amount", obj.Security_Deduction_Amount)
+            clsCommon.AddColumnsForChange(coll, "Interest_Per", obj.Interest_Per)
+            clsCommon.AddColumnsForChange(coll, "Minimum_Interest", obj.Minimum_Interest)
+            clsCommon.AddColumnsForChange(coll, "SSI_No", obj.SSI_No)
+            clsCommon.AddColumnsForChange(coll, "Is_Blacklist", obj.Is_Blacklist)
+            clsCommon.AddColumnsForChange(coll, "Service_Charge_Per_Unit", obj.Service_Charge_Per_Unit)
+            clsCommon.AddColumnsForChange(coll, "is_Hold_Payment_Process", obj.is_Hold_Payment_Process)
+            clsCommon.AddColumnsForChange(coll, "Is_Inactive_In_Milk_Procurement", obj.Is_Inactive_In_Milk_Procurement)
+            clsCommon.AddColumnsForChange(coll, "DFOption", obj.DFOption)
+            clsCommon.AddColumnsForChange(coll, "BusinessCondition", obj.BusinessCondition)
+            clsCommon.AddColumnsForChange(coll, "GSTRegistered", obj.GSTRegistered)
+            clsCommon.AddColumnsForChange(coll, "GST_Composition_scheme", obj.GST_Composition_scheme)
+            clsCommon.AddColumnsForChange(coll, "GSTEntity", obj.GSTEntity)
+            clsCommon.AddColumnsForChange(coll, "GSTLastEntity", obj.GSTLastEntity)
+            clsCommon.AddColumnsForChange(coll, "GSTFinalNo", obj.GSTFinalNo)
+            clsCommon.AddColumnsForChange(coll, "GSTMiddle", obj.GSTMiddle)
+            clsCommon.AddColumnsForChange(coll, "Weight", obj.Weight)
+            clsCommon.AddColumnsForChange(coll, "JWPriceCode", obj.JWPriceCode)
+            clsCommon.AddColumnsForChange(coll, "CorrectionFat", obj.CorrectionFat)
+            clsCommon.AddColumnsForChange(coll, "CorrectionSNF", obj.CorrectionSNF)
+            clsCommon.AddColumnsForChange(coll, "IsEmployee", obj.IsEmployee)
+            clsCommon.AddColumnsForChange(coll, "Handling_Charges_Per", obj.Handling_Charges_Per)
+            clsCommon.AddColumnsForChange(coll, "Credit_Limit_On_Milk_Receipt_Per", obj.Credit_Limit_On_Milk_Receipt_Per)
+            clsCommon.AddColumnsForChange(coll, "isBulkProcurement", obj.isBulkProcurement)
+            clsCommon.AddColumnsForChange(coll, "isHighClass", obj.isHighClass)
+            clsCommon.AddColumnsForChange(coll, "Bulk_ROUTE_NO", obj.Bulk_ROUTE_NO, True)
+            clsCommon.AddColumnsForChange(coll, "Monthly_Rent", obj.Monthly_Rent)
+            clsCommon.AddColumnsForChange(coll, "EMP_CODE", obj.EMP_CODE)
+            clsCommon.AddColumnsForChange(coll, "TIP_Buffalo", obj.TIP_Buffalo)
+            clsCommon.AddColumnsForChange(coll, "TIP_Cow", obj.TIP_Cow)
+            clsCommon.AddColumnsForChange(coll, "TIP_Mix", obj.TIP_Mix)
+            clsCommon.AddColumnsForChange(coll, "Registration_No", obj.Registration_No)
+            clsCommon.AddColumnsForChange(coll, "Aadhar_No", obj.Aadhar_No)
+            clsCommon.AddColumnsForChange(coll, "Care_Of", obj.Care_Of)
+            clsCommon.AddColumnsForChange(coll, "IsTCSnotApplicable", obj.IsTCSnotApplicable, True)
+            clsCommon.AddColumnsForChange(coll, "Isbuyerfilereturninlasttwoyears", obj.Isbuyerfilereturninlasttwoyears)
+            clsCommon.AddColumnsForChange(coll, "IsTCS_TDSamountgreaterthan50KpreviousYear", obj.IsTCS_TDSamountgreaterthan50KpreviousYear)
+            clsCommon.AddColumnsForChange(coll, "SecChequeNoLac1", obj.SecChequeNoLac1)
+            clsCommon.AddColumnsForChange(coll, "SecChequeNoRs100", obj.SecChequeNoRs100)
+            clsCommon.AddColumnsForChange(coll, "TDS_Branch_Code_Service", obj.TDS_Branch_Code_Service)
+            clsCommon.AddColumnsForChange(coll, "Deduction_Code_Service", obj.Deduction_Code_Service)
+            clsCommon.AddColumnsForChange(coll, "TDS_Status_Service", obj.TDS_Status_Service)
+            clsCommon.AddColumnsForChange(coll, "TDS_Vendor_Type_Service", obj.TDS_Vendor_Type_Service)
+            clsCommon.AddColumnsForChange(coll, "TDS_State_Code_Service", obj.TDS_State_Code_Service)
+            clsCommon.AddColumnsForChange(coll, "DistanceKM_Head_Load", obj.DistanceKM_Head_Load)
+            clsCommon.AddColumnsForChange(coll, "Registered_PDCS_CLUSTER", obj.Registered_PDCS_CLUSTER, True)
+            If obj.StartDate IsNot Nothing Then
+                clsCommon.AddColumnsForChange(coll, "StartDate", clsCommon.GetPrintDate(obj.StartDate, "dd/MMM/yyyy"))
+            Else
+                clsCommon.AddColumnsForChange(coll, "StartDate", Nothing, True)
+            End If
+            clsCommon.AddColumnsForChange(coll, "BankCode2", obj.BankCode2, True)
+            clsCommon.AddColumnsForChange(coll, "BankName2", obj.BankName2, True)
+            clsCommon.AddColumnsForChange(coll, "Credit2", obj.Credit2)
+            clsCommon.AddColumnsForChange(coll, "IFSCCode2", obj.IFSCCode2, True)
+            clsCommon.AddColumnsForChange(coll, "AccNo2", obj.AccNo2)
+            clsCommon.AddColumnsForChange(coll, "AccountType2", obj.AccountType2)
+            clsCommon.AddColumnsForChange(coll, "BankBranch2", obj.BankBranch2)
+            clsCommon.AddColumnsForChange(coll, "SecurityCharges2", obj.SecurityCharges2)
+            clsCommon.AddColumnsForChange(coll, "SupervisorOrRP", obj.SupervisorOrRP)
+            If obj.Active_Date IsNot Nothing Then
+                clsCommon.AddColumnsForChange(coll, "Active_Date", clsCommon.GetPrintDate(obj.Active_Date, "dd/MMM/yyyy"))
+            Else
+                clsCommon.AddColumnsForChange(coll, "Active_Date", Nothing, True)
+            End If
+            clsCommon.AddColumnsForChange(coll, "Gender", obj.Gender, True)
+            clsCommon.AddColumnsForChange(coll, "RegistrationNo", obj.RegistrationNo, True)
+            If obj.RegistrationDate IsNot Nothing Then
+                clsCommon.AddColumnsForChange(coll, "RegistrationDate", clsCommon.GetPrintDate(obj.RegistrationDate, "dd/MMM/yyyy"))
+            Else
+                clsCommon.AddColumnsForChange(coll, "RegistrationDate", Nothing, True)
+            End If
+            clsCommon.AddColumnsForChange(coll, "DISTRICT_Code", obj.DISTRICT_Code, True)
+            clsCommon.AddColumnsForChange(coll, "Zone_Code", obj.Zone_Code, True)
+            clsCommon.AddColumnsForChange(coll, "Cast_Category_Code", obj.CAST_CATEGORY_CODE, True)
+            clsCommon.AddColumnsForChange(coll, "Block_Code", obj.BLOCK_CODE, True)
+            clsCommon.AddColumnsForChange(coll, "Company_Bank", obj.Company_Bank)
+            clsCommon.AddColumnsForChange(coll, "Revenue_Village_Code", obj.REVENUE_VILLAGE_CODE, True)
+            clsCommon.AddColumnsForChange(coll, "Grampanchayat_Code", obj.GRAMPANCHAYAT_CODE, True)
+            clsCommon.AddColumnsForChange(coll, "Panchayat_Samiti_Code", obj.PANCHAYAT_SAMITI_CODE, True)
+            clsCommon.AddColumnsForChange(coll, "Vidhan_Sabha_Code", obj.VIDHAN_SABHA_CODE, True)
+            clsCommon.AddColumnsForChange(coll, "IsAllowSkipPurchaseQC", obj.IsAllowSkip_PurchaseQC)
+            clsCommon.AddColumnsForChange(coll, "OEM", obj.OEM)
+            clsCommon.AddColumnsForChange(coll, "Is_Provisional", obj.Is_Provisional)
+            clsCommon.AddColumnsForChange(coll, "Company_Bank_Current", obj.Company_Bank_Current)
+            clsCommon.AddColumnsForChange(coll, "In_Active_CF", obj.In_Active_CF)
+            clsCommon.AddColumnsForChange(coll, "Is_Default_Grower", obj.Is_Default_Grower)
+            clsCommon.AddColumnsForChange(coll, "Modify_By", obj.Modify_By)
+            clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"))
+            clsCommon.AddColumnsForChange(coll, "Comp_Code", obj.Comp_Code)
+            clsCommon.AddColumnsForChange(coll, "CST", obj.CST)
+            clsCommon.AddColumnsForChange(coll, "ECC", obj.ECC)
+            clsCommon.AddColumnsForChange(coll, "Range", obj.Range)
+            clsCommon.AddColumnsForChange(coll, "Collectorate", obj.Collectorate)
+            clsCommon.AddColumnsForChange(coll, "PAN", obj.PAN)
 
-    '        clsCommon.AddColumnsForChange(coll, "Cust_Type_Code", obj.Cust_Type_Code, True)
-    '        clsCommon.AddColumnsForChange(coll, "Route_No", obj.Route_No, True)
-    '        Dim Route_Desc As String = clsDBFuncationality.getSingleValue("Select Route_Desc from TSPL_ROUTE_MASTER Where Route_No='" + obj.Route_No + "'", trans)
-    '        clsCommon.AddColumnsForChange(coll, "Route_Desc", Route_Desc)
+            If isNewEntry Then
+                clsCommon.AddColumnsForChange(coll, "Vendor_Code", obj.Vendor_Code)
+                clsCommon.AddColumnsForChange(coll, "Created_By", obj.Created_By)
+                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"))
+                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VENDOR_MASTER", OMInsertOrUpdate.Insert, "", trans)
+                '' isSaved = isSaved AndAlso clsLocationCustomerMappings.SaveData(obj2, obj.Arr, trans)
+            Else
+                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VENDOR_MASTER", OMInsertOrUpdate.Update, "TSPL_VENDOR_MASTER.Vendor_Code='" + obj.Vendor_Code + "'", trans)
+                'isSaved = isSaved AndAlso clsLocationCustomerMapping.SaveData(obj2, obj.Arr, trans)
+            End If
 
-
-    '        clsCommon.AddColumnsForChange(coll, "OldName", obj.OldName)
-
-    '        clsCommon.AddColumnsForChange(coll, "VehicleNo", obj.Vehicle_No)
-    '        clsCommon.AddColumnsForChange(coll, "Driver_Name", obj.Driver_Name)
-    '        clsCommon.AddColumnsForChange(coll, "Driver_Mobile_No", obj.Driver_Mobile_No)
-
-    '        clsCommon.AddColumnsForChange(coll, "Cust_Account", obj.Cust_Account)
-
-
-
-
-    '        clsCommon.AddColumnsForChange(coll, "Form_Type", obj.Form_Type)
-    '        clsCommon.AddColumnsForChange(coll, "Channel_Code", obj.Channel_Code)
-    '        clsCommon.AddColumnsForChange(coll, "Other_For_PAN", obj.Other_For_PAN)
-    '        Dim Channel_Desc As String = clsDBFuncationality.getSingleValue("Select Channel_Name  from TSPL_CHANNEL_MASTER where Channel_Id='" + obj.Channel_Code + "'", trans)
-    '        clsCommon.AddColumnsForChange(coll, "Channel_Desc", Channel_Desc)
-
-
-
-    '        clsCommon.AddColumnsForChange(coll, "Salesman_Code", obj.Salesman_Code)
-    '        Dim Salesman_Desc As String = clsDBFuncationality.getSingleValue("Select Emp_Name  from TSPL_EMPLOYEE_MASTER where EMP_CODE='" + obj.Salesman_Code + "'", trans)
-    '        clsCommon.AddColumnsForChange(coll, "Salesman_Desc", Salesman_Desc)
-    '        clsCommon.AddColumnsForChange(coll, "OutLet_Commossion", obj.OutLet_Commossion)
-    '        clsCommon.AddColumnsForChange(coll, "Balance_ToDate", obj.Balance_ToDate)
-
-    '        ''richa ticket No. BM00000003109 on 19/08/2014
-    '        clsCommon.AddColumnsForChange(coll, "TempCreditLimit", obj.TempCreditLimit, True)
-    '        If obj.TempCreditLimitFrom IsNot Nothing Then
-    '            clsCommon.AddColumnsForChange(coll, "TempCreditLimitFrom", clsCommon.GetPrintDate(obj.TempCreditLimitFrom, "dd/MMM/yyyy"))
-    '        Else
-    '            clsCommon.AddColumnsForChange(coll, "TempCreditLimitFrom", Nothing, True)
-    '        End If
-    '        If obj.TempCreditLimitTo IsNot Nothing Then
-    '            clsCommon.AddColumnsForChange(coll, "TempCreditLimitTo", clsCommon.GetPrintDate(obj.TempCreditLimitTo, "dd/MMM/yyyy"))
-    '        Else
-    '            clsCommon.AddColumnsForChange(coll, "TempCreditLimitTo", Nothing, True)
-    '        End If
-    '        clsCommon.AddColumnsForChange(coll, "CheckCreditLimit", obj.CheckCreditLimit)
-
-    '        clsCommon.AddColumnsForChange(coll, "Crate_Opening", obj.Crate_Opening)
-    '        If obj.Crate_Opening_Date IsNot Nothing Then
-    '            clsCommon.AddColumnsForChange(coll, "Crate_Opening_Date", clsCommon.GetPrintDate(obj.Crate_Opening_Date, "dd/MMM/yyyy"))
-    '        Else
-    '            clsCommon.AddColumnsForChange(coll, "Crate_Opening_Date", Nothing, True)
-    '        End If
-    '        '-----------------------------------------------
-    '        clsCommon.AddColumnsForChange(coll, "Modify_By", obj.Modify_By)
-    '        clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
-    '        clsCommon.AddColumnsForChange(coll, "Comp_Code", obj.Comp_Code)
-    '        clsCommon.AddColumnsForChange(coll, "Route_Group", obj.Route_Group)
-    '        clsCommon.AddColumnsForChange(coll, "CST", obj.CST)
-    '        clsCommon.AddColumnsForChange(coll, "ECC", obj.ECC)
-    '        clsCommon.AddColumnsForChange(coll, "Range", obj.Range)
-    '        clsCommon.AddColumnsForChange(coll, "Collectorate", obj.Collectorate)
-    '        clsCommon.AddColumnsForChange(coll, "PAN", obj.PAN)
-    '        clsCommon.AddColumnsForChange(coll, "Division", obj.Division)
-    '        clsCommon.AddColumnsForChange(coll, "Parent_Customer_No", obj.Parent_Customer_No)
-    '        ''Anand  Ticket No:BM00000003994
-    '        clsCommon.AddColumnsForChange(coll, "Alies_Name", obj.Alies_Name)
-    '        clsCommon.AddColumnsForChange(coll, "Zone_Code", obj.Zone_Code, True)
-    '        ''------------------------
-    '        clsCommon.AddColumnsForChange(coll, "Area_Code", obj.Area_Code, True)
-    '        clsCommon.AddColumnsForChange(coll, "Customer_Class", obj.Customer_Class)
-    '        clsCommon.AddColumnsForChange(coll, "Credit_Customer", obj.Credit_Customer)
-    '        clsCommon.AddColumnsForChange(coll, "LastInvoice_No", obj.LastInvoice_No)
-    '        clsCommon.AddColumnsForChange(coll, "LastInvoice_Date", obj.LastInvoice_Date)
-    '        clsCommon.AddColumnsForChange(coll, "Price_Code", obj.Price_Code)
-    '        clsCommon.AddColumnsForChange(coll, "Price_CodeNon", obj.Price_CodeNon)
-    '        clsCommon.AddColumnsForChange(coll, "Price_CodeFOR", obj.Price_CodeFOR)
-    '        clsCommon.AddColumnsForChange(coll, "Price_Group_Code", obj.Price_Group_Code)
-
-    '        clsCommon.AddColumnsForChange(coll, "Transaction_Type", obj.Transaction_Type)
-    '        clsCommon.AddColumnsForChange(coll, "Agg_Made_Date", clsCommon.GetPrintDate(obj.Agg_Made_Date, "dd/MMM/yyyy"))
-    '        clsCommon.AddColumnsForChange(coll, "Agg_Close_Date", clsCommon.GetPrintDate(obj.Agg_Close_Date, "dd/MMM/yyyy"))
-
-    '        clsCommon.AddColumnsForChange(coll, "Franchise_CODE", obj.Franchise_CODE, True)
-    '        clsCommon.AddColumnsForChange(coll, "Service_Dealer_Code", obj.ServiceDealerCode, True)
-    '        clsCommon.AddColumnsForChange(coll, "TDM_Code", obj.TDMCode, True)
-    '        clsCommon.AddColumnsForChange(coll, "Distributor_Code", obj.DistributorCode, True)
-    '        clsCommon.AddColumnsForChange(coll, "IsDistributor", obj.IsDistributor)
-    '        clsCommon.AddColumnsForChange(coll, "Is_Default_Grower", obj.Is_Default_Grower)
-    '        clsCommon.AddColumnsForChange(coll, "Parent_customer_yn", obj.prntcustyn)
-    '        clsCommon.AddColumnsForChange(coll, "CSA_Type", obj.CSA_Type)
-    '        clsCommon.AddColumnsForChange(coll, "Manual_Customer", obj.ManualCustomer)
-    '        clsCommon.AddColumnsForChange(coll, "Category_Struct_Code", obj.cat_struct_code)
-    '        '====================sanjeet(gst detail(30/05/2017)===============
-    '        clsCommon.AddColumnsForChange(coll, "GSTNO", obj.GSTNO)
-    '        clsCommon.AddColumnsForChange(coll, "GSTEntity", obj.GSTEntity)
-    '        clsCommon.AddColumnsForChange(coll, "GSTBlank", obj.GSTBlank)
-    '        clsCommon.AddColumnsForChange(coll, "GSTDigit", obj.GSTDigit)
-    '        clsCommon.AddColumnsForChange(coll, "Region_Type", obj.Region_Type)
-    '        clsCommon.AddColumnsForChange(coll, "GST_Registered", obj.GST_Registered)
-    '        clsCommon.AddColumnsForChange(coll, "GST_COMPOSITION", obj.GST_COMPOSITION)
-    '        '=================================================
-    '        clsCommon.AddColumnsForChange(coll, "Priority_Level", obj.Priority_Level) ' 
-    '        clsCommon.AddColumnsForChange(coll, "FSSAI_NO", obj.FSSAI_NO)
-    '        clsCommon.AddColumnsForChange(coll, "SubsidyAmount", obj.SubsidyAmount)
-
-    '        clsCommon.AddColumnsForChange(coll, "RSM", obj.RSM)
-    '        clsCommon.AddColumnsForChange(coll, "ZSM", obj.ZSM)
-    '        clsCommon.AddColumnsForChange(coll, "ASM", obj.ASM)
-    '        clsCommon.AddColumnsForChange(coll, "ASO", obj.ASO)
-    '        clsCommon.AddColumnsForChange(coll, "Booking_Type", obj.Booking_Type, True)
-    '        clsCommon.AddColumnsForChange(coll, "Customer_Category", obj.Customer_Category, True)
-    '        clsCommon.AddColumnsForChange(coll, "Bank_Name", obj.Bank_Name, True)
-    '        clsCommon.AddColumnsForChange(coll, "IFSC_Code", obj.IFSC_Code, True)
-
-    '        'clsCommon.AddColumnsForChange(coll, "BankCode2", obj.BankCode2, True)
-    '        'clsCommon.AddColumnsForChange(coll, "IFSCCode2", obj.IFSCCode2, True)
-
-
-    '        clsCommon.AddColumnsForChange(coll, "IsTCSnotApplicable", obj.IsTCSnotApplicable, True)
-    '        clsCommon.AddColumnsForChange(coll, "IsTurnoverMorethan10CR", obj.IsTurnoverMorethan10CR, True)
-    '        clsCommon.AddColumnsForChange(coll, "IsTCSGreaterthan50K", obj.IsTCSGreaterthan50K, True)
-    '        clsCommon.AddColumnsForChange(coll, "IsITRfilledinLast2Years", obj.IsITRfilledinLast2Years, True)
-
-    '        clsCommon.AddColumnsForChange(coll, "F_H_Name", obj.F_H_Name, True)
-    '        clsCommon.AddColumnsForChange(coll, "Education", obj.Education, True)
-    '        clsCommon.AddColumnsForChange(coll, "ResidentialAdd1", obj.ResidentialAdd1, True)
-    '        clsCommon.AddColumnsForChange(coll, "ResidentialAdd2", obj.ResidentialAdd2, True)
-    '        clsCommon.AddColumnsForChange(coll, "CustStatus", obj.CustStatus, True)
-    '        clsCommon.AddColumnsForChange(coll, "MaritalStatus", obj.MaritalStatus, True)
-    '        If obj.DOB IsNot Nothing AndAlso clsCommon.myLen(obj.DOB) > 0 Then
-    '            clsCommon.AddColumnsForChange(coll, "DOB", clsCommon.GetPrintDate(obj.DOB, "dd/MMM/yyyy"), True)
-    '        Else
-    '            clsCommon.AddColumnsForChange(coll, "DOB", Nothing, True)
-    '        End If
-    '        clsCommon.AddColumnsForChange(coll, "IsReorder", obj.IsReorder)
-    '        clsCommon.AddColumnsForChange(coll, "Cast_Category_Code", obj.CAST_CATEGORY_CODE, True)
-    '        clsCommon.AddColumnsForChange(coll, "Distict_Code", obj.Distict_Code, True)
-    '        clsCommon.AddColumnsForChange(coll, "Block_Code", obj.BLOCK_CODE, True)
-    '        clsCommon.AddColumnsForChange(coll, "Revenue_Village_Code", obj.REVENUE_VILLAGE_CODE, True)
-    '        clsCommon.AddColumnsForChange(coll, "Grampanchayat_Code", obj.GRAMPANCHAYAT_CODE, True)
-    '        clsCommon.AddColumnsForChange(coll, "Panchayat_Samiti_Code", obj.PANCHAYAT_SAMITI_CODE, True)
-    '        clsCommon.AddColumnsForChange(coll, "Vidhan_Sabha_Code", obj.VIDHAN_SABHA_CODE, True)
-    '        If isNewEntry Then
-    '            clsCommon.AddColumnsForChange(coll, "Vendor_Code", obj.Vendor_Code)
-    '            clsCommon.AddColumnsForChange(coll, "Created_By", obj.Created_By)
-    '            clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
-    '            isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_MASTER", OMInsertOrUpdate.Insert, "", trans)
-    '            isSaved = isSaved AndAlso clsLocationCustomerMappings.SaveData(obj2, obj.Arr, trans)
-    '        Else
-    '            isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_MASTER", OMInsertOrUpdate.Update, "TSPL_CUSTOMER_MASTER.Vendor_Code='" + obj.Vendor_Code + "'", trans)
-    '            'isSaved = isSaved AndAlso clsLocationCustomerMapping.SaveData(obj2, obj.Arr, trans)
-    '        End If
-    '        clsCustomerMaster.CreatLoginIdOfCustomer(obj.Vendor_Code, obj.Customer_Name, trans)
-    '        ''added by richa agarwal
-    '        If clsCommon.CompairString(obj.prntcustyn, "Y") = CompairStringResult.Equal Then
-    '            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery("Update TSPL_CUSTOMER_MASTER set Credit_Limit=" & obj.Credit_Limit & " where Parent_Customer_No ='" & obj.Cust_Code & "'", trans)
-    '        End If
-    '        ''=======================
-    '        '----------------------If Routed Customer then Ite Updates Details In These Selected Database in Array------
-    '        'If arrDBName.Count <= 0 Then
-    '        '    Throw New Exception("Please Select Atleast Single database")
-    '        'ElseIf obj.isCustRouteType Then
-    '        '    If arrDBName.Count > 1 Then
-    '        '        Dim Msg As String = "This Customer Has Type 'Route', It can not be inserted into multiple DataBase " + Environment.NewLine + ""
-    '        '        Msg += "Please Select only a Single DataBase"
-    '        '        Throw New Exception(Msg)
-    '        '    Else
-    '        '        Dim arrDBName1 As New List(Of String)
-    '        '        Dim dtDb As DataTable = clsDBFuncationality.GetDataTable("Select DataBase_Name  from TSPL_COMPANY_MASTER Where DataBase_Name not in (" + clsCommon.GetMulcallString(arrDBName) + ")", trans)
-    '        '        For Each drdb As DataRow In dtDb.Rows
-    '        '            arrDBName1.Add(clsCommon.myCstr(drdb("DataBase_Name")))
-    '        '        Next
-    '        '        For ii As Integer = 0 To arrDBName1.Count - 1
-    '        '            Dim qry As String = "update " + clsCommon.myCstr(arrDBName1(ii)) + ".dbo.TSPL_CUSTOMER_MASTER set Status='Y',Closing_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy") + "' where Cust_Code='" + obj.Cust_Code + "'"
-    '        '            clsDBFuncationality.ExecuteNonQueryInSelectedDatabase(qry, arrDBName1, trans)
-    '        '        Next
-    '        '    End If
-    '        'End If
-    '        '------------------------------------------------------------------------------------------------------------
-
-    '        isSaved = isSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.Cust_Code, obj.arrCustomFields, trans)
-    '        isSaved = isSaved AndAlso SaveCategory(obj.Cust_Code, obj.cat_struct_code, obj.arrCat, trans)
-    '        isSaved = isSaved AndAlso clsCustomerCrateAccounting.SaveData(obj.Cust_Code, obj.Arr_CrateAccount, trans)
-    '        isSaved = isSaved AndAlso clsCustomerCanAccounting.SaveData(obj.Cust_Code, obj.Arr_CanAccount, trans)
-    '        isSaved = isSaved AndAlso clsMultRouteCustomer.SaveData(obj.Cust_Code, ArrRoute, trans)
-    '        If clsCustomerItemdetail.SaveData(Cust_Code, ArrItem, trans) Then
-    '            If clsvisidetail.SaveData(Cust_Code, Arr_visi, trans) Then
-
-    '                '---------------------Visi-Detail--------------------------Update Visi Master----
-    '                Dim collVisi As New Hashtable()
-    '                clsCommon.AddColumnsForChange(collVisi, "Customer_Id", obj.Cust_Code)
-    '                clsCommon.AddColumnsForChange(collVisi, "Customer_name", obj.Customer_Name)
-    '                clsDBFuncationality.ExecuteNonQuery("Update TSPL_VISI_MASTER set Customer_Id='' , Customer_name='' Where Customer_Id='" + obj.Cust_Code + "'", trans)
-
-    '                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(collVisi, "TSPL_VISI_MASTER", OMInsertOrUpdate.Update, "TSPL_VISI_MASTER.Visi_Id IN (" + clsCommon.GetMulcallString(arrVisi) + ")", trans)
-    '                '----------------------------------------------------------------------------------
-    '                If (Arr_Asset IsNot Nothing AndAlso Arr_Asset.Count > 0) Then
-    '                    For Each objj As clsAssetInstallPullOut In obj.Arr_Asset
-    '                        For Each objv As clsvisidetail In obj.Arr_visi
-    '                            If objv.serialno = objj.Asset_Id Then
-    '                                objj.Item_Id = objv.asstcode
-    '                            End If
-    '                        Next
-    '                    Next
-
-    '                    clsAssetInstallPullOut.Save_Data(Arr_Asset, trans)
-
-    '                End If
-
-    '            End If
-    '        End If
-    '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(ex.Message)
-    '        Return False
-    '    End Try
-    '    Return isSaved
-    'End Function
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+            Return False
+        End Try
+        Return isSaved
+    End Function
 
     Public Shared Function getQueryForVSPMaster(ByVal strVspCode As String) As String
         Dim qry As String = " Select Vendor_Name, Vendor_Group_Code,Vendor_Group_Code_Desc,Status,OnHold,Convert(Date,Closing_Date,103),Add1,Add2,Add3,City_Code,City_Code_Desc,State,Country,Phone1,Phone2,Fax,Email,WebSite,Contact_Person_Name,Contact_Person_Phone,Contact_Person_Fax,Contact_Person_Website,Contact_Person_Email,Terms_Code,Terms_Code_Desc,Vendor_Account,Vendor_Account_Desc,Payment_Code,Payment_Code_Desc,Ven_Type_Code,Ven_Type_Desc,Bank_Code,Bank_Code_Desc,Service_Tax_No,Lst_No,Tin_No,Credit_Limit,Tax_Group,Tax_Group_Desc,TAX1,TAX1_Rate,TAX2,TAX2_Rate,TAX3,TAX3_Rate,TAX4,TAX4_Rate,TAX5,TAX5_Rate,TAX6 ,TAX6_Rate ,TAX7 ,TAX7_Rate ,TAX8 ,TAX8_Rate ,TAX9 ,TAX9_Rate ,TAX10 ,TAX10_Rate ,Remarks1 ,Remarks2 ,Additional1 ,Additional2 ,Additional3,transporter,CST,ECC,Range,Collectorate,PAN,is_Gross_Receipt,Inter_branch,currency_code,franchise_yn,state_code,country_code,vsp_payment,incentive_days,incentive,commision_pers,payment_commision_pers,Service_charges,VSP_Payee_Name,Service_Charge_Type,Joint_Name,Branch_Name,Account_No,Bank_Name,IFSC_Code,Account_Type,Security_Amount,AMCU,Amc_Charge,Billing_date,Nature,Actual_charges,joint_bank_Code,Joint_Account_No,Agreement,Start_Date,End_Date,PC_Code,Is_Head_Load,Rate_Head_Load,Service_Basis_Head_Load,Is_Own_Asset,Rate_Own_Asset,Service_Basis_Own_Asset,joint_bank_code,Standard_security_Amount,MP_code,MP_Name,Cheque_In_Favour_Of,Pin_code,is_drip_saver,isnull(Joint_Branch_Name,'') as Joint_Branch_Name,isnull(Joint_IFSC_Code,'') as Joint_IFSC_Code,EMP_Type,EMP_Fixed_Amount,Actual_charges_Slab,Actual_charges_Slab2,Actual_charges2,Actual_charges_Slab3,Actual_charges3,Actual_charges_Slab4,Actual_charges4,Actual_charges_Slab5,Actual_charges5,Apply_Mult_Incentive,Security_Deduction_Amount,Interest_Per,Minimum_Interest,Is_Blacklist,Service_Charge_Per_Unit,is_Hold_Payment_Process,Is_Inactive_In_Milk_Procurement,GSTRegistered,GSTEntity,GSTLastEntity,GSTFinalNo,CorrectionFat,CorrectionSNF,Handling_Charges_Per,Credit_Limit_On_Milk_Receipt_Per,Monthly_Rent,TIP_Buffalo,TIP_Cow,TIP_Mix,Aadhar_No,Care_Of,Isbuyerfilereturninlasttwoyears,IsTCS_TDSamountgreaterthan50KpreviousYear,Is_TDS_Applicable,TDS_Branch_Code,Deduction_Code,TDS_Vendor_Type,TDS_Status,TDS_State_Code,SecChequeNoLac1,SecChequeNoRs100,DistanceKM_Head_Load,  BankCode2,BankName2,Credit2, IFSCCode2 ,AccNo2,AccountType2,BankBranch2,SecurityCharges2,Registered_PDCS_CLUSTER,StartDate,SupervisorOrRP,Vendor_name_Hindi,tspl_vendor_master.Company_Bank from tspl_vendor_master where vendor_code='" + strVspCode + "' and form_type='VSP' "
@@ -2928,6 +2920,299 @@ Public Class clsVendorMaster
         End If
 
         Return flag
+    End Function
+    Public Shared Function GetVendorData(ByVal strCode As String, ByVal trans As SqlTransaction) As clsVendorMaster
+        Dim obj As clsVendorMaster = Nothing
+        Dim qry As String = "select * from TSPL_VENDOR_MASTER where Vendor_Code='" + strCode + "' "
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+        If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+            Throw New Exception("Vendor Code -" + strCode + ". Not Exist")
+        End If
+        obj = New clsVendorMaster()
+        obj.Vendor_Name = clsCommon.myCstr(dt.Rows(0)("Vendor_Code"))
+        obj.Vendor_Name = clsCommon.myCstr(dt.Rows(0)("Vendor_Name"))
+        obj.Add1 = clsCommon.myCstr(dt.Rows(0)("Add1"))
+        obj.Add2 = clsCommon.myCstr(dt.Rows(0)("Add2"))
+        obj.Add3 = clsCommon.myCstr(dt.Rows(0)("Add3"))
+        If dt.Rows(0)("Closing_Date") Is DBNull.Value Then
+            obj.Closing_Date = Nothing
+        Else
+            obj.Closing_Date = clsCommon.myCstr(dt.Rows(0)("Closing_Date"))
+        End If
+        obj.Vendor_Group_Code = clsCommon.myCstr(dt.Rows(0)("Vendor_Group_Code"))
+        obj.Vendor_Group_Code_Desc = clsCommon.myCstr(dt.Rows(0)("Vendor_Group_Code_Desc"))
+        obj.City_Code = clsCommon.myCstr(dt.Rows(0)("City_Code"))
+        obj.City_Code_Desc = clsCommon.myCstr(dt.Rows(0)("City_Code_Desc"))
+        obj.State = clsCommon.myCstr(dt.Rows(0)("State"))
+        obj.Country = clsCommon.myCstr(dt.Rows(0)("Country"))
+        obj.Phone1 = clsCommon.myCstr(dt.Rows(0)("Phone1"))
+        obj.Phone2 = clsCommon.myCstr(dt.Rows(0)("Phone2"))
+        obj.Fax = clsCommon.myCstr(dt.Rows(0)("Fax"))
+        obj.Email = clsCommon.myCstr(dt.Rows(0)("Email"))
+        obj.WebSite = clsCommon.myCstr(dt.Rows(0)("WebSite"))
+        obj.Contact_Person_Name = clsCommon.myCstr(dt.Rows(0)("Contact_Person_Name"))
+        obj.Contact_Person_Phone = clsCommon.myCstr(dt.Rows(0)("Contact_Person_Phone"))
+        obj.Contact_Person_Fax = clsCommon.myCstr(dt.Rows(0)("Contact_Person_Fax"))
+        obj.Contact_Person_Website = clsCommon.myCstr(dt.Rows(0)("Contact_Person_Website"))
+        obj.Contact_Person_Email = clsCommon.myCstr(dt.Rows(0)("Contact_Person_Email"))
+        obj.Terms_Code = clsCommon.myCstr(dt.Rows(0)("Terms_Code"))
+        obj.Terms_Code = clsCommon.myCstr(dt.Rows(0)("Terms_Code"))
+        obj.Vendor_Account = clsCommon.myCstr(dt.Rows(0)("Vendor_Account"))
+        obj.Vendor_Account_Desc = clsCommon.myCstr(dt.Rows(0)("Vendor_Account_Desc"))
+        obj.Payment_Code = clsCommon.myCstr(dt.Rows(0)("Payment_Code"))
+        obj.Payment_Code_Desc = clsCommon.myCstr(dt.Rows(0)("Payment_Code_Desc"))
+        obj.Bank_Code = clsCommon.myCstr(dt.Rows(0)("Bank_Code"))
+        obj.Bank_Code_Desc = clsCommon.myCstr(dt.Rows(0)("Bank_Code_Desc"))
+        obj.Tax_Group = clsCommon.myCstr(dt.Rows(0)("Tax_Group"))
+        obj.Tax_Group_Desc = clsCommon.myCstr(dt.Rows(0)("Tax_Group_Desc"))
+        obj.Ven_Type_Code = clsCommon.myCstr(dt.Rows(0)("Ven_Type_Code"))
+        obj.Ven_Type_Desc = clsCommon.myCstr(dt.Rows(0)("Ven_Type_Desc"))
+        obj.TAX1 = clsCommon.myCstr(dt.Rows(0)("TAX1"))
+        obj.TAX1_Rate = clsCommon.myCstr(dt.Rows(0)("TAX1_Rate"))
+        obj.TAX2 = clsCommon.myCstr(dt.Rows(0)("TAX2"))
+        obj.TAX2_Rate = clsCommon.myCstr(dt.Rows(0)("TAX2_Rate"))
+        obj.TAX3 = clsCommon.myCstr(dt.Rows(0)("TAX3"))
+        obj.TAX3_Rate = clsCommon.myCstr(dt.Rows(0)("TAX3_Rate"))
+        obj.TAX4 = clsCommon.myCstr(dt.Rows(0)("TAX4"))
+        obj.TAX4_Rate = clsCommon.myCstr(dt.Rows(0)("TAX4_Rate"))
+        obj.TAX5 = clsCommon.myCstr(dt.Rows(0)("TAX5"))
+        obj.TAX5_Rate = clsCommon.myCstr(dt.Rows(0)("TAX5_Rate"))
+        obj.TAX6 = clsCommon.myCstr(dt.Rows(0)("TAX6"))
+        obj.TAX6_Rate = clsCommon.myCstr(dt.Rows(0)("TAX6_Rate"))
+        obj.TAX7 = clsCommon.myCstr(dt.Rows(0)("TAX7"))
+        obj.TAX7_Rate = clsCommon.myCstr(dt.Rows(0)("TAX7_Rate"))
+        obj.TAX8 = clsCommon.myCstr(dt.Rows(0)("TAX8"))
+        obj.TAX8_Rate = clsCommon.myCstr(dt.Rows(0)("TAX8_Rate"))
+        obj.TAX9 = clsCommon.myCstr(dt.Rows(0)("TAX9"))
+        obj.TAX9_Rate = clsCommon.myCstr(dt.Rows(0)("TAX9_Rate"))
+        obj.TAX10 = clsCommon.myCstr(dt.Rows(0)("TAX10"))
+        obj.TAX10_Rate = clsCommon.myCstr(dt.Rows(0)("TAX10_Rate"))
+        obj.Service_Tax_No = clsCommon.myCstr(dt.Rows(0)("Service_Tax_No"))
+        obj.Tin_No = clsCommon.myCstr(dt.Rows(0)("Tin_No"))
+        obj.Lst_No = clsCommon.myCstr(dt.Rows(0)("Lst_No"))
+        obj.TAX1 = clsCommon.myCstr(dt.Rows(0)("TAX1"))
+        obj.State = clsCommon.myCstr(dt.Rows(0)("Status"))
+        obj.OnHold = clsCommon.myCstr(dt.Rows(0)("OnHold"))
+        obj.Transporter = clsCommon.myCstr(dt.Rows(0)("Transporter"))
+        obj.Remarks1 = clsCommon.myCstr(dt.Rows(0)("Remarks1"))
+        obj.Remarks2 = clsCommon.myCstr(dt.Rows(0)("Remarks2"))
+        obj.Additional1 = clsCommon.myCstr(dt.Rows(0)("Additional1"))
+        obj.Additional2 = clsCommon.myCstr(dt.Rows(0)("Additional2"))
+        obj.Additional3 = clsCommon.myCstr(dt.Rows(0)("Additional3"))
+        obj.Credit_Limit = clsCommon.myCstr(dt.Rows(0)("Credit_Limit"))
+        obj.Comp_Code = clsCommon.myCstr(dt.Rows(0)("Comp_Code"))
+        obj.CST = clsCommon.myCstr(dt.Rows(0)("CST"))
+        obj.ECC = clsCommon.myCstr(dt.Rows(0)("ECC"))
+        obj.Range = clsCommon.myCstr(dt.Rows(0)("Range"))
+        obj.Collectorate = clsCommon.myCstr(dt.Rows(0)("Collectorate"))
+        obj.PAN = clsCommon.myCstr(dt.Rows(0)("PAN"))
+        obj.Is_Gross_Receipt = clsCommon.myCstr(dt.Rows(0)("Is_Gross_Receipt"))
+        obj.Inter_Branch = clsCommon.myCstr(dt.Rows(0)("Inter_Branch"))
+        obj.CURRENCY_CODE = clsCommon.myCstr(dt.Rows(0)("CURRENCY_CODE"))
+        obj.franchise_yn = clsCommon.myCstr(dt.Rows(0)("franchise_yn"))
+        obj.Form_Type = clsCommon.myCstr(dt.Rows(0)("Form_Type"))
+        obj.State_Code = clsCommon.myCstr(dt.Rows(0)("State_Code"))
+        obj.Country_Code = clsCommon.myCstr(dt.Rows(0)("Country_Code"))
+        obj.Service_charges = clsCommon.myCdbl(dt.Rows(0)("Service_charges"))
+        obj.commision_pers = clsCommon.myCdbl(dt.Rows(0)("commision_pers"))
+        obj.incentive = clsCommon.myCstr(dt.Rows(0)("incentive"))
+        obj.incentive_days = clsCommon.myCdbl(dt.Rows(0)("incentive_days"))
+        obj.vsp_payment = clsCommon.myCstr(dt.Rows(0)("vsp_payment"))
+        obj.VSP_Payee_Name = clsCommon.myCstr(dt.Rows(0)("VSP_Payee_Name"))
+        obj.Zila = clsCommon.myCstr(dt.Rows(0)("Zila"))
+        obj.Tehsil = clsCommon.myCstr(dt.Rows(0)("Tehsil"))
+        obj.Branch_Name = clsCommon.myCstr(dt.Rows(0)("Branch_Name"))
+        obj.IFCI_Code = clsCommon.myCstr(dt.Rows(0)("IFCI_Code"))
+        obj.Account_No = clsCommon.myCstr(dt.Rows(0)("Account_No"))
+        obj.Industry_Type = clsCommon.myCstr(dt.Rows(0)("Industry_Type"))
+        obj.Industry_Person = clsCommon.myCstr(dt.Rows(0)("Industry_Person"))
+        obj.Agreement = clsCommon.myCstr(dt.Rows(0)("Agreement"))
+        obj.Security_Cheque = clsCommon.myCstr(dt.Rows(0)("Security_Cheque"))
+        obj.No_of_Installment = clsCommon.myCdbl(dt.Rows(0)("No_of_Installment"))
+        obj.Amount_of_Installment = clsCommon.myCdbl(dt.Rows(0)("Amount_of_Installment"))
+        obj.IsPermanent = clsCommon.myCstr(dt.Rows(0)("IsPermanent"))
+        obj.IsTemporary = clsCommon.myCstr(dt.Rows(0)("IsTemporary"))
+        obj.Joint_Name = clsCommon.myCstr(dt.Rows(0)("Joint_Name"))
+        obj.Service_Charge_Type = clsCommon.myCstr(dt.Rows(0)("Service_Charge_Type"))
+        obj.Is_Parent_Vendor = clsCommon.myCstr(dt.Rows(0)("Is_Parent_Vendor"))
+        obj.Parent_Vendor_Code = clsCommon.myCstr(dt.Rows(0)("Parent_Vendor_Code"))
+        obj.branch_code = clsCommon.myCstr(dt.Rows(0)("branch_code"))
+        obj.Category_Struct_Code = clsCommon.myCstr(dt.Rows(0)("Category_Struct_Code"))
+        obj.Bank_Name = clsCommon.myCstr(dt.Rows(0)("Bank_Name"))
+        obj.IFSC_Code = clsCommon.myCstr(dt.Rows(0)("IFSC_Code"))
+        obj.Account_Type = clsCommon.myCstr(dt.Rows(0)("Account_Type"))
+        obj.Vendor_Type = clsCommon.myCstr(dt.Rows(0)("Vendor_Type"))
+        obj.payment_commision_pers = clsCommon.myCdbl(dt.Rows(0)("payment_commision_pers"))
+        obj.Pin_Code = clsCommon.myCstr(dt.Rows(0)("Pin_Code"))
+        obj.Security_Amount = clsCommon.myCdbl(dt.Rows(0)("Security_Amount"))
+        obj.AMC_Charge = clsCommon.myCdbl(dt.Rows(0)("AMC_Charge"))
+        obj.AMCU = clsCommon.myCstr(dt.Rows(0)("AMCU"))
+        If dt.Rows(0)("Billing_Date") Is DBNull.Value Then
+            obj.Billing_Date = Nothing
+        Else
+            obj.Billing_Date = clsCommon.myCstr(dt.Rows(0)("Billing_Date"))
+        End If
+        obj.Is_Chilling_vendor = clsCommon.myCstr(dt.Rows(0)("Is_Chilling_vendor"))
+        obj.TDS_Branch_Code = clsCommon.myCstr(dt.Rows(0)("TDS_Branch_Code"))
+        obj.Deduction_Code = clsCommon.myCstr(dt.Rows(0)("Deduction_Code"))
+        obj.TDS_State_Code = clsCommon.myCstr(dt.Rows(0)("TDS_State_Code"))
+        obj.TDS_Vendor_Type = clsCommon.myCstr(dt.Rows(0)("TDS_Vendor_Type"))
+        obj.TDS_Status = clsCommon.myCstr(dt.Rows(0)("TDS_Status"))
+        obj.Is_TDS_Applicable = clsCommon.myCstr(dt.Rows(0)("Is_TDS_Applicable"))
+        obj.Nature = clsCommon.myCstr(dt.Rows(0)("Nature"))
+        obj.Actual_charges = clsCommon.myCdbl(dt.Rows(0)("Actual_charges"))
+        obj.Joint_Bank_Code = clsCommon.myCstr(dt.Rows(0)("Joint_Bank_Code"))
+        obj.Joint_Account_No = clsCommon.myCstr(dt.Rows(0)("Joint_Account_No"))
+        If dt.Rows(0)("Start_Date") Is DBNull.Value Then
+            obj.Start_Date = Nothing
+        Else
+            obj.Start_Date = clsCommon.myCstr(dt.Rows(0)("Start_Date"))
+        End If
+        If dt.Rows(0)("End_Date") Is DBNull.Value Then
+            obj.End_Date = Nothing
+        Else
+            obj.End_Date = clsCommon.myCstr(dt.Rows(0)("End_Date"))
+        End If
+        obj.CSA_Type = clsCommon.myCstr(dt.Rows(0)("CSA_Type"))
+        If dt.Rows(0)("Start_Period") Is DBNull.Value Then
+            obj.Start_Period = Nothing
+        Else
+            obj.Start_Period = clsCommon.myCstr(dt.Rows(0)("Start_Period"))
+        End If
+        If dt.Rows(0)("Expired_Period") Is DBNull.Value Then
+            obj.Expired_Period = Nothing
+        Else
+            obj.Expired_Period = clsCommon.myCstr(dt.Rows(0)("Expired_Period"))
+        End If
+        obj.PC_CODE = clsCommon.myCstr(dt.Rows(0)("PC_CODE"))
+        obj.IsBlankCheque = clsCommon.myCstr(dt.Rows(0)("IsBlankCheque"))
+        obj.Alies_Name = clsCommon.myCstr(dt.Rows(0)("Alies_Name"))
+        obj.Vendor_Type_CHA = clsCommon.myCstr(dt.Rows(0)("Vendor_Type_CHA"))
+        obj.Is_Head_Load = clsCommon.myCstr(dt.Rows(0)("Is_Head_Load"))
+        obj.Rate_Head_Load = clsCommon.myCdbl(dt.Rows(0)("Rate_Head_Load"))
+        obj.Service_Basis_Head_Load = clsCommon.myCstr(dt.Rows(0)("Service_Basis_Head_Load"))
+        obj.Is_Own_Asset = clsCommon.myCstr(dt.Rows(0)("Is_Own_Asset"))
+        obj.Rate_Own_Asset = clsCommon.myCdbl(dt.Rows(0)("Rate_Own_Asset"))
+        obj.Service_Basis_Own_Asset = clsCommon.myCstr(dt.Rows(0)("Service_Basis_Own_Asset"))
+        obj.IsVendorInvoiceNo = clsCommon.myCstr(dt.Rows(0)("IsVendorInvoiceNo"))
+        obj.CHA_DOC_NO = clsCommon.myCstr(dt.Rows(0)("CHA_DOC_NO"))
+        obj.Standard_Security_Amount = clsCommon.myCdbl(dt.Rows(0)("Standard_Security_Amount"))
+        obj.Is_TC_Certified = clsCommon.myCstr(dt.Rows(0)("Is_TC_Certified"))
+        obj.TC_Certified = clsCommon.myCstr(dt.Rows(0)("TC_Certified"))
+        obj.MP_Code = clsCommon.myCstr(dt.Rows(0)("MP_Code"))
+        obj.MP_Name = clsCommon.myCstr(dt.Rows(0)("MP_Name"))
+        obj.Cheque_In_Favour_Of = clsCommon.myCstr(dt.Rows(0)("Cheque_In_Favour_Of"))
+        obj.is_Drip_Saver = clsCommon.myCstr(dt.Rows(0)("is_Drip_Saver"))
+        obj.Other_For_PAN = clsCommon.myCstr(dt.Rows(0)("Other_For_PAN"))
+        obj.Joint_Branch_Name = clsCommon.myCstr(dt.Rows(0)("Joint_Branch_Name"))
+        obj.Joint_IFSC_Code = clsCommon.myCstr(dt.Rows(0)("Joint_IFSC_Code"))
+        obj.VSP_Farmer_Billing = clsCommon.myCstr(dt.Rows(0)("VSP_Farmer_Billing"))
+        obj.EMP_Type = clsCommon.myCstr(dt.Rows(0)("EMP_Type"))
+        obj.EMP_Fixed_Amount = clsCommon.myCdbl(dt.Rows(0)("EMP_Fixed_Amount"))
+        obj.Actual_charges_Slab = clsCommon.myCdbl(dt.Rows(0)("Actual_charges_Slab"))
+        obj.Actual_charges_Slab2 = clsCommon.myCdbl(dt.Rows(0)("Actual_charges_Slab2"))
+        obj.Actual_charges2 = clsCommon.myCdbl(dt.Rows(0)("Actual_charges2"))
+        obj.Actual_charges_Slab3 = clsCommon.myCdbl(dt.Rows(0)("Actual_charges_Slab3"))
+        obj.Actual_charges3 = clsCommon.myCdbl(dt.Rows(0)("Actual_charges3"))
+        obj.Actual_charges_Slab4 = clsCommon.myCdbl(dt.Rows(0)("Actual_charges_Slab4"))
+        obj.Actual_charges4 = clsCommon.myCdbl(dt.Rows(0)("Actual_charges4"))
+        obj.Actual_charges_Slab5 = clsCommon.myCdbl(dt.Rows(0)("Actual_charges_Slab5"))
+        obj.Actual_charges5 = clsCommon.myCdbl(dt.Rows(0)("Actual_charges5"))
+        obj.Vendor_Distance = clsCommon.myCstr(dt.Rows(0)("Vendor_Distance"))
+        obj.Apply_Mult_Incentive = clsCommon.myCdbl(dt.Rows(0)("Apply_Mult_Incentive"))
+        obj.MinimumQtyRequired_pertrip = clsCommon.myCdbl(dt.Rows(0)("MinimumQtyRequired_pertrip"))
+        obj.OldName = clsCommon.myCstr(dt.Rows(0)("OldName"))
+        obj.Security_Deduction_Amount = clsCommon.myCdbl(dt.Rows(0)("Security_Deduction_Amount"))
+        obj.Interest_Per = clsCommon.myCdbl(dt.Rows(0)("Interest_Per"))
+        obj.Minimum_Interest = clsCommon.myCdbl(dt.Rows(0)("Minimum_Interest"))
+        obj.SSI_No = clsCommon.myCstr(dt.Rows(0)("SSI_No"))
+        obj.Is_Blacklist = clsCommon.myCdbl(dt.Rows(0)("Is_Blacklist"))
+        obj.Service_Charge_Per_Unit = clsCommon.myCdbl(dt.Rows(0)("Service_Charge_Per_Unit"))
+        obj.is_Hold_Payment_Process = clsCommon.myCdbl(dt.Rows(0)("is_Hold_Payment_Process"))
+        obj.Is_Inactive_In_Milk_Procurement = clsCommon.myCdbl(dt.Rows(0)("Is_Inactive_In_Milk_Procurement"))
+        obj.DFOption = clsCommon.myCstr(dt.Rows(0)("DFOption"))
+        obj.BusinessCondition = clsCommon.myCstr(dt.Rows(0)("BusinessCondition"))
+        obj.GSTRegistered = clsCommon.myCdbl(dt.Rows(0)("GSTRegistered"))
+        obj.GST_Composition_scheme = clsCommon.myCdbl(dt.Rows(0)("GST_Composition_scheme"))
+        obj.GSTEntity = clsCommon.myCstr(dt.Rows(0)("GSTEntity"))
+        obj.GSTLastEntity = clsCommon.myCstr(dt.Rows(0)("GSTLastEntity"))
+        obj.GSTFinalNo = clsCommon.myCstr(dt.Rows(0)("GSTFinalNo"))
+        obj.GSTMiddle = clsCommon.myCstr(dt.Rows(0)("GSTMiddle"))
+        obj.Weight = clsCommon.myCdbl(dt.Rows(0)("Weight"))
+        obj.JWPriceCode = clsCommon.myCstr(dt.Rows(0)("JWPriceCode"))
+        obj.CorrectionFat = clsCommon.myCdbl(dt.Rows(0)("CorrectionFat"))
+        obj.CorrectionSNF = clsCommon.myCdbl(dt.Rows(0)("CorrectionSNF"))
+        obj.IsEmployee = clsCommon.myCdbl(dt.Rows(0)("IsEmployee"))
+        obj.Handling_Charges_Per = clsCommon.myCdbl(dt.Rows(0)("Handling_Charges_Per"))
+        obj.Credit_Limit_On_Milk_Receipt_Per = clsCommon.myCdbl(dt.Rows(0)("Credit_Limit_On_Milk_Receipt_Per"))
+        obj.isBulkProcurement = clsCommon.myCdbl(dt.Rows(0)("isBulkProcurement"))
+        obj.isHighClass = clsCommon.myCdbl(dt.Rows(0)("isHighClass"))
+        obj.Bulk_ROUTE_NO = clsCommon.myCstr(dt.Rows(0)("Bulk_ROUTE_NO"))
+        obj.Monthly_Rent = clsCommon.myCdbl(dt.Rows(0)("Monthly_Rent"))
+        obj.EMP_CODE = clsCommon.myCstr(dt.Rows(0)("EMP_CODE"))
+        obj.TIP_Buffalo = clsCommon.myCdbl(dt.Rows(0)("TIP_Buffalo"))
+        obj.TIP_Cow = clsCommon.myCdbl(dt.Rows(0)("TIP_Cow"))
+        obj.TIP_Mix = clsCommon.myCdbl(dt.Rows(0)("TIP_Mix"))
+        obj.Registration_No = clsCommon.myCstr(dt.Rows(0)("Registration_No"))
+        obj.Aadhar_No = clsCommon.myCstr(dt.Rows(0)("Aadhar_No"))
+        obj.Care_Of = clsCommon.myCstr(dt.Rows(0)("Care_Of"))
+        obj.IsTCSnotApplicable = clsCommon.myCdbl(dt.Rows(0)("IsTCSnotApplicable"))
+        obj.Isbuyerfilereturninlasttwoyears = clsCommon.myCdbl(dt.Rows(0)("Isbuyerfilereturninlasttwoyears"))
+        obj.IsTCS_TDSamountgreaterthan50KpreviousYear = clsCommon.myCdbl(dt.Rows(0)("IsTCS_TDSamountgreaterthan50KpreviousYear"))
+        obj.SecChequeNoLac1 = clsCommon.myCstr(dt.Rows(0)("SecChequeNoLac1"))
+        obj.SecChequeNoRs100 = clsCommon.myCstr(dt.Rows(0)("SecChequeNoRs100"))
+        obj.TDS_Branch_Code_Service = clsCommon.myCstr(dt.Rows(0)("TDS_Branch_Code_Service"))
+        obj.Deduction_Code_Service = clsCommon.myCstr(dt.Rows(0)("Deduction_Code_Service"))
+        obj.TDS_Status_Service = clsCommon.myCstr(dt.Rows(0)("TDS_Status_Service"))
+        obj.TDS_Vendor_Type_Service = clsCommon.myCstr(dt.Rows(0)("TDS_Vendor_Type_Service"))
+        obj.TDS_State_Code_Service = clsCommon.myCstr(dt.Rows(0)("TDS_State_Code_Service"))
+        obj.DistanceKM_Head_Load = clsCommon.myCdbl(dt.Rows(0)("DistanceKM_Head_Load"))
+        obj.Vendor_Name_Hindi = clsCommon.myCstr(dt.Rows(0)("Vendor_Name_Hindi"))
+        obj.Registered_PDCS_CLUSTER = clsCommon.myCstr(dt.Rows(0)("Registered_PDCS_CLUSTER"))
+        If dt.Rows(0)("StartDate") Is DBNull.Value Then
+            obj.StartDate = Nothing
+        Else
+            obj.StartDate = clsCommon.myCstr(dt.Rows(0)("StartDate"))
+        End If
+        obj.BankCode2 = clsCommon.myCstr(dt.Rows(0)("BankCode2"))
+        obj.BankName2 = clsCommon.myCstr(dt.Rows(0)("BankName2"))
+        obj.Credit2 = clsCommon.myCdbl(dt.Rows(0)("Credit2"))
+        obj.IFSCCode2 = clsCommon.myCstr(dt.Rows(0)("IFSCCode2"))
+        obj.AccNo2 = clsCommon.myCstr(dt.Rows(0)("AccNo2"))
+        obj.AccountType2 = clsCommon.myCstr(dt.Rows(0)("AccountType2"))
+        obj.BankBranch2 = clsCommon.myCstr(dt.Rows(0)("BankBranch2"))
+        obj.SecurityCharges2 = clsCommon.myCstr(dt.Rows(0)("SecurityCharges2"))
+        obj.SupervisorOrRP = clsCommon.myCstr(dt.Rows(0)("SupervisorOrRP"))
+        If dt.Rows(0)("Active_Date") Is DBNull.Value Then
+            obj.Active_Date = Nothing
+        Else
+            obj.Active_Date = clsCommon.myCDate(dt.Rows(0)("Active_Date"))
+        End If
+        obj.Gender = clsCommon.myCstr(dt.Rows(0)("Gender"))
+        obj.RegistrationNo = clsCommon.myCstr(dt.Rows(0)("RegistrationNo"))
+        If dt.Rows(0)("RegistrationDate") Is DBNull.Value Then
+            obj.RegistrationDate = Nothing
+        Else
+            obj.RegistrationDate = clsCommon.myCstr(dt.Rows(0)("RegistrationDate"))
+        End If
+        obj.DISTRICT_Code = clsCommon.myCstr(dt.Rows(0)("DISTRICT_Code"))
+        obj.Zone_Code = clsCommon.myCstr(dt.Rows(0)("Zone_Code"))
+        obj.CAST_CATEGORY_CODE = clsCommon.myCstr(dt.Rows(0)("CAST_CATEGORY_CODE"))
+        obj.BLOCK_CODE = clsCommon.myCstr(dt.Rows(0)("BLOCK_CODE"))
+        obj.Company_Bank = clsCommon.myCstr(dt.Rows(0)("Company_Bank"))
+        obj.REVENUE_VILLAGE_CODE = clsCommon.myCstr(dt.Rows(0)("REVENUE_VILLAGE_CODE"))
+        obj.GRAMPANCHAYAT_CODE = clsCommon.myCstr(dt.Rows(0)("GRAMPANCHAYAT_CODE"))
+        obj.PANCHAYAT_SAMITI_CODE = clsCommon.myCstr(dt.Rows(0)("PANCHAYAT_SAMITI_CODE"))
+        obj.VIDHAN_SABHA_CODE = clsCommon.myCstr(dt.Rows(0)("VIDHAN_SABHA_CODE"))
+        obj.IsAllowSkip_PurchaseQC = clsCommon.myCdbl(dt.Rows(0)("IsAllowSkipPurchaseQC"))
+        obj.OEM = clsCommon.myCdbl(dt.Rows(0)("OEM"))
+        obj.Is_Provisional = clsCommon.myCdbl(dt.Rows(0)("Is_Provisional"))
+        obj.Company_Bank_Current = clsCommon.myCstr(dt.Rows(0)("Company_Bank_Current"))
+        obj.In_Active_CF = clsCommon.myCstr(dt.Rows(0)("In_Active_CF"))
+        obj.Is_Default_Grower = clsCommon.myCdbl(dt.Rows(0)("Is_Default_Grower"))
+
+        Return obj
+
     End Function
 
 End Class

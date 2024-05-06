@@ -451,7 +451,7 @@ Environment.NewLine + "Company : " & objCommonVar.CurrentCompanyName
 
             If TxtDeductionCode.arrValueMember IsNot Nothing AndAlso TxtDeductionCode.arrValueMember.Count > 0 Then
                 strQry3 += " and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode in (" + clsCommon.GetMulcallString(TxtDeductionCode.arrValueMember) + ") "
-                strQry4 += "and (TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code in (" + clsCommon.GetMulcallString(TxtDeductionCode.arrValueMember) + ")"
+                strQry4 += "and TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code in (" + clsCommon.GetMulcallString(TxtDeductionCode.arrValueMember) + ")"
             End If
             If clsCommon.myLen(fndArea.Value) > 0 Then
                 strQry5 += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
@@ -502,7 +502,7 @@ Environment.NewLine + "Company : " & objCommonVar.CurrentCompanyName
                 strQry += " FINAL1.MCC_Name"
             End If
             strQry += " ,FINAL1.[Document Date],FINAL1.[Document No],FINAL1.Type,FINAL1.Addition,FINAL1.Deduction,FINAL1.[Deduction Code],FINAL1.Phone,final1.Remarks,
-                        FINAL1.[Deduction Desc],FINAL1.FromDate, final1.ToDate, SUM(TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT) AS ACC_WEIGHT,FINAL1.Comp_Code FROM (
+                        FINAL1.[Deduction Desc],FINAL1.FromDate, final1.ToDate, SUM(TSPL_MILK_SRN_DETAIL.ACC_Qty) AS ACC_WEIGHT,FINAL1.Comp_Code FROM (
                          Select  max(Final.company_name) as company_name,final.Vendor_Code as [Vendor Code] ,max(final.Vendor_Name) as [Vendor Name],
                         max(final.[VLC Uploader Code]) as [VLC Uploader Code],"
             If AreaWiseBilling =True Then
@@ -536,8 +536,9 @@ Environment.NewLine + "Company : " & objCommonVar.CurrentCompanyName
             strQry += "  where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= convert(date,('" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "'),103) and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= convert(date,('" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'),103) " + strQry3 + strQry1 + strQry5 + "  )Final 
                         group by final.company_name,final.Document_No,final.Document_Date , final.Vendor_Code ,final.DeductionCode  
                         ) FINAL1
-                        LEFT OUTER JOIN TSPL_MILK_RECEIPT_DETAIL ON TSPL_MILK_RECEIPT_DETAIL.VSP_CODE=FINAL1.[Vendor Code]
-                        WHERE convert(date,TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,103) >= convert(date,('" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "'),103) and convert(date,TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,103) <= convert(date,('" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'),103)
+                        LEFT OUTER JOIN TSPL_MILK_SRN_HEAD ON TSPL_MILK_SRN_HEAD.VSP_CODE=FINAL1.[Vendor Code]
+						left outer join TSPL_MILK_SRN_DETAIL ON TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_HEAD.DOC_CODE
+                        WHERE convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) >= convert(date,('" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "'),103) and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) <= convert(date,('" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'),103)
                         GROUP BY 
                         final1.company_name,FINAL1.[Vendor Code],FINAL1.[Vendor Name],FINAL1.[VLC Uploader Code],"
             If AreaWiseBilling =True
@@ -562,7 +563,7 @@ Environment.NewLine + "Company : " & objCommonVar.CurrentCompanyName
 
                         left join TSPL_PAYMENT_PROCESS_DEDUCTION on TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE=final3.[Vendor Code]
                         left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
-                        WHERE convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) >=convert(date,('" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "'),103) and convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) <= convert(date,('" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'),103) and final3.Type = 'D'" + strQry4 + " )
+                        WHERE convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) >=convert(date,('" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "'),103) and convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) <= convert(date,('" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'),103) and final3.Type = 'D'" + strQry4 + " 
 	                        or final3.Type='a'
                         group by FINAL3.company_name,FINAL3.[Vendor Code],FINAL3.[Vendor Name],FINAL3.[VLC Uploader Code],FINAL3.MCC_Name,FINAL3.[Document Date],FINAL3.[Document No],
                         FINAL3.Type,FINAL3.Addition,FINAL3.Deduction,FINAL3.[Deduction Code],FINAL3.Regn_No,FINAL3.[Deduction Desc],final3.[SRN Qty],FINAL3.Phone,final3.remarks,
