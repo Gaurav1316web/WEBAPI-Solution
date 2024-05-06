@@ -5027,24 +5027,24 @@ Public Class clsAllSQLTrigger
                       " End "
                 clsDBFuncationality.ExecuteNonQuery(qryTrig)
 
-                If clsPostCreateTable.CheckTriggerExits("trigDuplicateReceiptNoOnSampleHead", Nothing) = 0 Then
-                    CreateAletr = "Create "
-                Else
-                    CreateAletr = "Alter "
-                                        End If
-                qryTrig = "" & CreateAletr & "   trigger [dbo].[trigDuplicateReceiptNoOnSampleHead] on [dbo].[TSPL_MILK_SAMPLE_HEAD] for Insert,update as" + _
-                " declare @i as integer,@DOC_CODE as varchar(100),@MILK_RECEIPT_CODE as varchar(100),@OLDDOCNO as varchar(100) " + _
-                " select @DOC_CODE=DOC_CODE,@MILK_RECEIPT_CODE=MILK_RECEIPT_CODE from inserted" + _
-                " select @OLDDOCNO=max(DOC_CODE) from TSPL_MILK_SAMPLE_HEAD where MILK_RECEIPT_CODE=@MILK_RECEIPT_CODE and DOC_CODE<>@DOC_CODE" + _
-                " if  @OLDDOCNO is not null" + _
-                " begin" + _
-                " Print 'Sample No : ' + @OLDDOCNO +' already generated '" + _
-                " raiserror ('Duplicate entry generating' ,16,1) end "
+            'If clsPostCreateTable.CheckTriggerExits("trigDuplicateReceiptNoOnSampleHead", Nothing) = 0 Then
+            '    CreateAletr = "Create "
+            'Else
+            '    CreateAletr = "Alter "
+            '                        End If
+            'qryTrig = "" & CreateAletr & "   trigger [dbo].[trigDuplicateReceiptNoOnSampleHead] on [dbo].[TSPL_MILK_SAMPLE_HEAD] for Insert,update as" + _
+            '" declare @i as integer,@DOC_CODE as varchar(100),@MILK_RECEIPT_CODE as varchar(100),@OLDDOCNO as varchar(100) " + _
+            '" select @DOC_CODE=DOC_CODE,@MILK_RECEIPT_CODE=MILK_RECEIPT_CODE from inserted" + _
+            '" select @OLDDOCNO=max(DOC_CODE) from TSPL_MILK_SAMPLE_HEAD where MILK_RECEIPT_CODE=@MILK_RECEIPT_CODE and DOC_CODE<>@DOC_CODE" + _
+            '" if  @OLDDOCNO is not null" + _
+            '" begin" + _
+            '" Print 'Sample No : ' + @OLDDOCNO +' already generated '" + _
+            '" raiserror ('Duplicate entry generating' ,16,1) end "
 
-                clsDBFuncationality.ExecuteNonQuery(qryTrig)
+            'clsDBFuncationality.ExecuteNonQuery(qryTrig)
 
 
-                If clsPostCreateTable.CheckTriggerExits("TRG_JD_FiscaYearEndNoUpdateNoDelete", Nothing) = 0 Then
+            If clsPostCreateTable.CheckTriggerExits("TRG_JD_FiscaYearEndNoUpdateNoDelete", Nothing) = 0 Then
                     CreateAletr = "Create "
                 Else
                     CreateAletr = "Alter "
