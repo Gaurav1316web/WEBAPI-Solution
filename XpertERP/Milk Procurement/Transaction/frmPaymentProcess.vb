@@ -6471,16 +6471,6 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
                 End If
                 qry += " and TSPL_MILK_SRN_Head.MCC_Code='" + txtMCC.Text + "'"
             End If
-
-            qry += " union all " + Environment.NewLine +
-            " select VSP_CODE,VLC_CODE as VLC_CODE from TSPL_MILK_REJECT_DETAIL left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE=TSPL_MILK_REJECT_DETAIL.DOC_CODE  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_MILK_REJECT_HEAD.MCC_CODE where TSPL_MILK_REJECT_HEAD.Posted=1 and " + strLocation + " "
-            If Not isPickPendingMilkSRNinNextPaymentCycle Then
-                qry += " and TSPL_MILK_REJECT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "'"
-            End If
-            qry += " and TSPL_MILK_REJECT_HEAD.DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' " + Environment.NewLine
-            If SettShowMCCFinder AndAlso MultipleFinderFillAuto = False Then
-                qry += " and TSPL_MILK_REJECT_HEAD.MCC_CODE='" + txtMCC.Text + "'"
-            End If
             qry += " )xxx group by VSP_CODE " + Environment.NewLine +
             " )xx " + Environment.NewLine +
             " left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.VSP_CODE " + Environment.NewLine +

@@ -1627,33 +1627,33 @@ select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo
         'End of Delete deduction Entry
 
         'Delete MilkReject Entry
-        Dim strWhrReject As String = "( select DOC_CODE from TSPL_MILK_REJECT_HEAD  " + Environment.NewLine +
-        "inner Join (  " + Environment.NewLine +
-        "select MCC_Code,max(FromDate) as FromDate,max(ToDate) as ToDate from (" + Environment.NewLine +
-        "select TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_Code,DATEADD(day,((-1*TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE)+1), TSPL_MILK_PURCHASE_INVOICE_HEAD.Doc_Date) as FromDate ,TSPL_MILK_PURCHASE_INVOICE_HEAD.Doc_Date as ToDate" + Environment.NewLine +
-        "from TSPL_MILK_PURCHASE_INVOICE_HEAD " + Environment.NewLine +
-        "left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_code=TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_code" + Environment.NewLine +
-        "left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle" + Environment.NewLine +
-        "where TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE in " + strWhr + "" + Environment.NewLine +
-        ")x Group by MCC_Code" + Environment.NewLine +
-        ")Inv on Inv.MCC_Code=TSPL_MILK_REJECT_HEAD.MCC_CODE and convert(date, TSPL_MILK_REJECT_HEAD.DOC_DATE,103)>=inv.FromDate and convert(date, TSPL_MILK_REJECT_HEAD.DOC_DATE,103)<=inv.ToDate)"
+        'Dim strWhrReject As String = "( select DOC_CODE from TSPL_MILK_REJECT_HEAD  " + Environment.NewLine +
+        '"inner Join (  " + Environment.NewLine +
+        '"select MCC_Code,max(FromDate) as FromDate,max(ToDate) as ToDate from (" + Environment.NewLine +
+        '"select TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_Code,DATEADD(day,((-1*TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE)+1), TSPL_MILK_PURCHASE_INVOICE_HEAD.Doc_Date) as FromDate ,TSPL_MILK_PURCHASE_INVOICE_HEAD.Doc_Date as ToDate" + Environment.NewLine +
+        '"from TSPL_MILK_PURCHASE_INVOICE_HEAD " + Environment.NewLine +
+        '"left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_code=TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_code" + Environment.NewLine +
+        '"left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle" + Environment.NewLine +
+        '"where TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE in " + strWhr + "" + Environment.NewLine +
+        '")x Group by MCC_Code" + Environment.NewLine +
+        '")Inv on Inv.MCC_Code=TSPL_MILK_REJECT_HEAD.MCC_CODE and convert(date, TSPL_MILK_REJECT_HEAD.DOC_DATE,103)>=inv.FromDate and convert(date, TSPL_MILK_REJECT_HEAD.DOC_DATE,103)<=inv.ToDate)"
 
-        qry = "delete from TSPL_INVENTORY_MOVEMENT_NEW where Trans_Type='IC-AD' and source_doc_no in ( select Adjustment_No from TSPL_ADJUSTMENT_HEADER where Against_AP_Invoice_No in (select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocNo in " + strWhrReject + " and RefDocType in ('MILK-REJ')))"
-        clsDBFuncationality.ExecuteNonQuery(qry, trans)
-        qry = "delete from TSPL_ADJUSTMENT_DETAIL where Adjustment_No in ( select Adjustment_No from TSPL_ADJUSTMENT_HEADER where Against_AP_Invoice_No in (select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocNo in " + strWhrReject + " and RefDocType in ('MILK-REJ')))"
-        clsDBFuncationality.ExecuteNonQuery(qry, trans)
-        qry = "delete from TSPL_ADJUSTMENT_HEADER where Adjustment_No in ( select Adjustment_No from TSPL_ADJUSTMENT_HEADER where Against_AP_Invoice_No in (select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocNo in " + strWhrReject + " and RefDocType in ('MILK-REJ')))"
-        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+        'qry = "delete from TSPL_INVENTORY_MOVEMENT_NEW where Trans_Type='IC-AD' and source_doc_no in ( select Adjustment_No from TSPL_ADJUSTMENT_HEADER where Against_AP_Invoice_No in (select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocNo in " + strWhrReject + " and RefDocType in ('MILK-REJ')))"
+        'clsDBFuncationality.ExecuteNonQuery(qry, trans)
+        'qry = "delete from TSPL_ADJUSTMENT_DETAIL where Adjustment_No in ( select Adjustment_No from TSPL_ADJUSTMENT_HEADER where Against_AP_Invoice_No in (select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocNo in " + strWhrReject + " and RefDocType in ('MILK-REJ')))"
+        'clsDBFuncationality.ExecuteNonQuery(qry, trans)
+        'qry = "delete from TSPL_ADJUSTMENT_HEADER where Adjustment_No in ( select Adjustment_No from TSPL_ADJUSTMENT_HEADER where Against_AP_Invoice_No in (select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocNo in " + strWhrReject + " and RefDocType in ('MILK-REJ')))"
+        'clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
 
-        qry = "delete from TSPL_JOURNAL_DETAILS  where Voucher_No in (select voucher_no from TSPL_JOURNAL_MASTER where Source_Doc_No in   (select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocNo in " + strWhrReject + "  and RefDocType in ('MILK-REJ')))"
-        clsDBFuncationality.ExecuteNonQuery(qry, trans)
-        qry = "delete from TSPL_JOURNAL_MASTER where Source_Doc_No in   (select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocNo in " + strWhrReject + " and RefDocType in ('MILK-REJ'))"
-        clsDBFuncationality.ExecuteNonQuery(qry, trans)
-        qry = "delete from TSPL_VENDOR_INVOICE_DETAIL where Document_No in (select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocNo in " + strWhrReject + " and RefDocType in ('MILK-REJ'))"
-        clsDBFuncationality.ExecuteNonQuery(qry, trans)
-        qry = "delete from TSPL_VENDOR_INVOICE_HEAD where RefDocNo in " + strWhrReject + " and RefDocType in ('MILK-REJ')"
-        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+        'qry = "delete from TSPL_JOURNAL_DETAILS  where Voucher_No in (select voucher_no from TSPL_JOURNAL_MASTER where Source_Doc_No in   (select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocNo in " + strWhrReject + "  and RefDocType in ('MILK-REJ')))"
+        'clsDBFuncationality.ExecuteNonQuery(qry, trans)
+        'qry = "delete from TSPL_JOURNAL_MASTER where Source_Doc_No in   (select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocNo in " + strWhrReject + " and RefDocType in ('MILK-REJ'))"
+        'clsDBFuncationality.ExecuteNonQuery(qry, trans)
+        'qry = "delete from TSPL_VENDOR_INVOICE_DETAIL where Document_No in (select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocNo in " + strWhrReject + " and RefDocType in ('MILK-REJ'))"
+        'clsDBFuncationality.ExecuteNonQuery(qry, trans)
+        'qry = "delete from TSPL_VENDOR_INVOICE_HEAD where RefDocNo in " + strWhrReject + " and RefDocType in ('MILK-REJ')"
+        'clsDBFuncationality.ExecuteNonQuery(qry, trans)
         'End of Delete deduction Entry
 
 
