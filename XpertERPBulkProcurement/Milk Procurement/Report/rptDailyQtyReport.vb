@@ -2203,23 +2203,24 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_V
                         Sum(IsNull(xxx.No_Of_Cans,0) * case when Isnull(xxx.Reject_Type,'')='' then 1 else 0 end  ) as [Sweet_No_Of_Cans],
                         Sum(IsNull(xxx.Milk_Weight,0) * case when Isnull(xxx.Reject_Type,'')='' then 1 else 0 end  ) as [Sweet_Milk_Weight],
                         Sum(IsNull(xxx.FAT,0) * case when Isnull(xxx.Reject_Type,'')='' then 1 else 0 end  ) as [Sweet_Milk_FAT],
-                        Sum(((IsNull(xxx.FAT,0)*IsNull(xxx.Milk_Weight,0))/100) * case when Isnull(xxx.Reject_Type,'')='' then 1 else 0 end  ) as [Sweet_Milk_FATKG],
+                        Sum(xxx.FATKG * case when Isnull(xxx.Reject_Type,'')='' then 1 else 0 end  ) as [Sweet_Milk_FATKG],
                         Sum(IsNull(xxx.SNF,0) * case when Isnull(xxx.Reject_Type,'')='' then 1 else 0 end  ) as [Sweet_Milk_SNF],
-                        Sum(((IsNull(xxx.SNF,0)*IsNull(xxx.Milk_Weight,0))/100) * case when Isnull(xxx.Reject_Type,'')='' then 1 else 0 end  ) as [Sweet_Milk_SNFKG],
+                        Sum(xxx.SNFKG  * case when Isnull(xxx.Reject_Type,'')='' then 1 else 0 end  ) as [Sweet_Milk_SNFKG],
                         Sum(IsNull(xxx.No_Of_Cans,0) * case when Isnull(xxx.Reject_Type,'')='SOUR' then 1 else 0 end  ) as [SOUR_No_Of_Cans],
                         Sum(IsNull(xxx.Milk_Weight,0) * case when Isnull(xxx.Reject_Type,'')='SOUR' then 1 else 0 end  ) as [SOUR_Milk_Weight],
                         Sum(IsNull(xxx.FAT,0) * case when Isnull(xxx.Reject_Type,'')='SOUR' then 1 else 0 end  ) as [SOUR_Milk_FAT],
-                        Sum(((IsNull(xxx.FAT,0)*IsNull(xxx.Milk_Weight,0))/100) * case when Isnull(xxx.Reject_Type,'')='SOUR' then 1 else 0 end  ) as [SOUR_Milk_FATKG],
+                        Sum(xxx.SNFKG * case when Isnull(xxx.Reject_Type,'')='SOUR' then 1 else 0 end  ) as [SOUR_Milk_FATKG],
                         Sum(IsNull(xxx.SNF,0) * case when Isnull(xxx.Reject_Type,'')='SOUR' then 1 else 0 end  ) as [SOUR_Milk_SNF],
-                        Sum(((IsNull(xxx.SNF,0)*IsNull(xxx.Milk_Weight,0))/100) * case when Isnull(xxx.Reject_Type,'')='SOUR' then 1 else 0 end  ) as [SOUR_Milk_SNFKG],
+                        Sum(xxx.SNFKG * case when Isnull(xxx.Reject_Type,'')='SOUR' then 1 else 0 end  ) as [SOUR_Milk_SNFKG],
                         Sum(IsNull(xxx.No_Of_Cans,0) * case when Isnull(xxx.Reject_Type,'')='CURD' then 1 else 0 end  ) as [CURD_No_Of_Cans],
                         Sum(IsNull(xxx.Milk_Weight,0) * case when Isnull(xxx.Reject_Type,'')='CURD' then 1 else 0 end  ) as [CURD_Milk_Weight],
                         Sum(IsNull(xxx.FAT,0) * case when Isnull(xxx.Reject_Type,'')='CURD' then 1 else 0 end  ) as [CURD_Milk_FAT],
-                        Sum(((IsNull(xxx.FAT,0)*IsNull(xxx.Milk_Weight,0))/100) * case when Isnull(xxx.Reject_Type,'')='CURD' then 1 else 0 end  ) as [CURD_Milk_FATKG],
+                        Sum(xxx.SNFKG  * case when Isnull(xxx.Reject_Type,'')='CURD' then 1 else 0 end  ) as [CURD_Milk_FATKG],
                         Sum(IsNull(xxx.SNF,0) * case when Isnull(xxx.Reject_Type,'')='CURD' then 1 else 0 end  ) as [CURD_Milk_SNF],
-                        Sum(((IsNull(xxx.SNF,0)*IsNull(xxx.Milk_Weight,0))/100) * case when Isnull(xxx.Reject_Type,'')='CURD' then 1 else 0 end  ) as [CURD_Milk_SNFKG],
+                        Sum(xxx.SNFKG * case when Isnull(xxx.Reject_Type,'')='CURD' then 1 else 0 end  ) as [CURD_Milk_SNFKG],
                         Max(xxx.Comp_Name)Comp_Name from
-                        (SELECT TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.*,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [Uploader_Code],TSPL_MCC_MASTER.MCC_NAME As MCC,TSPL_COMPANY_MASTER.Comp_Name 
+                        (SELECT TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.FAT,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.SNF,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Milk_Weight,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.No_Of_Cans,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift_Date,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Bulk_Route_Code,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Dock_Collection_Milk_Type,case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.FAT,0) =0 then 0 else cast(cast(cast(((TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Milk_Weight*TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.FAT/100)*1000) as int) as decimal(18,0))/1000 as decimal(18,3)) end as FATKG
+,case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.SNF,0) =0 then 0 else cast(cast(cast(((TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Milk_Weight*TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.SNF/100)*1000) as int) as decimal(18,0))/1000 as decimal(18,3)) end as SNFKG,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [Uploader_Code],TSPL_MCC_MASTER.MCC_NAME As MCC,TSPL_COMPANY_MASTER.Comp_Name 
                         FROM TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL 
                         Left Outer Join TSPL_MILK_PROCUREMENT_UPLOADER_HEAD On TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No
                         left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.VLC_Code  
