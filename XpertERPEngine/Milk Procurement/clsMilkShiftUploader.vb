@@ -345,7 +345,7 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
             clsMCCPaymentCycleLockForScheduler.CheckForSchedulerLock(obj.MCC_Code, obj.Shift_Date, trans)
 
             MilkProcurementUploader(obj, trans)
-            MilkRejectUploader(obj, trans)
+            'MilkRejectUploader(obj, trans)
 
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Status", 1)
@@ -1175,9 +1175,6 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
                     If objCommonVar.DisplayTypeInMilkReceipt Then
                         strDockCollectionMilkType = "M"
                     End If
-                    If clsCommon.myLen(objtr.Reject_Type) > 0 Then
-                        Continue For
-                    End If
                     qry = " select TSPL_Primary_Vehicle_Master.Vehicle_Weight,TSPL_VLC_MASTER_HEAD.Route_Code,TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_MCC_ROUTE_MASTER.Vehicle_Code,TSPL_VENDOR_MASTER.EMP_Type,TSPL_VENDOR_MASTER.EMP_Fixed_Amount ,TSPL_VENDOR_MASTER.Actual_charges_Slab,TSPL_VENDOR_MASTER.Actual_charges,TSPL_VENDOR_MASTER.Actual_charges_Slab2,TSPL_VENDOR_MASTER.Actual_charges2,TSPL_VENDOR_MASTER.Actual_charges_Slab3,TSPL_VENDOR_MASTER.Actual_charges3,TSPL_VENDOR_MASTER.Actual_charges_Slab4,TSPL_VENDOR_MASTER.Actual_charges4 ,TSPL_VENDOR_MASTER.Actual_charges_Slab5,TSPL_VENDOR_MASTER.Actual_charges5,TSPL_VENDOR_MASTER.Service_Charge_Per_Unit,coalesce(TSPL_VENDOR_MASTER.Rate_Head_Load,0) as Rate_Head_Load,coalesce(TSPL_VENDOR_MASTER.Rate_Own_Asset,0) as Rate_Own_Asset,TSPL_VENDOR_MASTER.Service_Basis_Head_Load,TSPL_VENDOR_MASTER.Service_Basis_Own_Asset,TSPL_Primary_Vehicle_Master.Vendor_Code as TransporterCode,TSPL_VENDOR_MASTER.Service_Charge_Type,TSPL_VENDOR_MASTER.TIP_Buffalo,TSPL_VENDOR_MASTER.TIP_Cow,TSPL_VENDOR_MASTER.TIP_Mix,TSPL_VLC_MASTER_HEAD.Milk_Receive_UOM,TSPL_VENDOR_MASTER.DistanceKM_Head_Load " + Environment.NewLine +
                             " from TSPL_VLC_MASTER_HEAD " + Environment.NewLine +
                             " left outer join TSPL_MCC_ROUTE_MASTER on TSPL_MCC_ROUTE_MASTER.Route_Code=TSPL_VLC_MASTER_HEAD.Route_Code " + Environment.NewLine +
@@ -1291,13 +1288,38 @@ and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE='" + clsCommon.myCstr(dtVLC.Rows(0)
                     objMilkSRNDetail.AMOUNT = Math.Round(clsCommon.myCdbl(objMilkSRNDetail.RATE * objMilkSRNDetail.MILK_Qty), 2, MidpointRounding.AwayFromZero)
                     objMilkSRNDetail.Own_Asset_Rate = clsCommon.myCdbl(dtVLC.Rows(0)("Rate_Own_Asset"))
                     objMilkSRNDetail.QAT_Amt = clsCommon.myRoundOFF(objMilkSRNDetail.QAT_Rate * objMilkSRNDetail.MILK_Qty, 2, 4)
-
                     objMilkSRNDetail.Negative_Amount = clsCommon.myRoundOFF(objMilkSRNDetail.Negative_Rate * objMilkSRNDetail.MILK_Qty, 2, 4)
-
-
                     objMilkSRNDetail.Commission = 0 ' because nature is always E and it is never C 'clsCommon.myCdbl(dr(0)("Actual_charges"))
                     objMilkSRNDetail.Commission_Amount = Math.Round(objMilkSRNDetail.AMOUNT * objMilkSRNDetail.Commission / 100, 2)
                     objMilkSRNDetail.Std_Qty = clsInventoryMovementNew.GetStdQty(trans, Math.Round(objMilkSRNDetail.ACC_Qty * objMilkSRNDetail.FAT / 100, 2), Math.Round(objMilkSRNDetail.ACC_Qty * objMilkSRNDetail.SNF / 100, 2), objMilkSRNHead.DOC_DATE)
+
+                    If clsCommon.myLen(objtr.Reject_Type) > 0 Then
+                        Dim objMRT As clsMilkRejectType = clsMilkRejectType.GetData(objtr.Reject_Type, NavigatorType.Current, trans)
+                        If objMRT Is Nothing Then
+                            Throw New Exception("Invalid rejection type [" + objtr.Reject_Type + "]")
+                        End If
+                        objMilkSRNDetail.Item_CODE = objMRT.Item_Code
+                        Dim dclRate As Decimal = objMilkSRNDetail.RATE
+                        Dim dclAmt As Decimal = 0
+                        Dim CalKG As Decimal = 0
+                        If objMRT.Applicable_On = 1 Then  ''RAte
+                            dclRate = objMRT.Applicable_Per
+                            dclAmt = Math.Round((dclRate * objtr.Milk_Weight), 2, MidpointRounding.ToEven)
+                        ElseIf objMRT.Applicable_On = 2 Then  ''FAT KG RAte
+                            CalKG = (objtr.Milk_Weight * objtr.FAT) / 100
+                            dclAmt = Math.Round((objMRT.Applicable_Per * CalKG), 2, MidpointRounding.ToEven)
+                            dclRate = clsCommon.myCDivide(dclAmt, objtr.Milk_Weight)
+                        ElseIf objMRT.Applicable_On = 3 Then  ''SNF KG RAte
+                            CalKG = (objtr.Milk_Weight * objtr.SNF) / 100
+                            dclAmt = Math.Round((objMRT.Applicable_Per * CalKG), 2, MidpointRounding.ToEven)
+                            dclRate = clsCommon.myCDivide(dclAmt, objtr.Milk_Weight)
+                        Else ''%Age
+                            dclRate = Math.Round(dclRate * objMRT.Applicable_Per / 100, 2, MidpointRounding.ToEven)
+                            dclAmt = Math.Round((dclRate * objtr.Milk_Weight), 2, MidpointRounding.ToEven)
+                        End If
+                        objMilkSRNDetail.RATE = dclRate
+                        objMilkSRNDetail.AMOUNT = dclAmt
+                    End If
 
                     If clsCommon.CompairString(clsCommon.myCstr(dtVLC.Rows(0)("EMP_Type")), "FP") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dtVLC.Rows(0)("EMP_Type")), "FAFP") = CompairStringResult.Equal Then
                         objMilkSRNDetail.Payment_Commission = clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges"))
