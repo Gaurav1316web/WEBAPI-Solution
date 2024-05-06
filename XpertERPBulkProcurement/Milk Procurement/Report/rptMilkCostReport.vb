@@ -80,7 +80,7 @@ Public Class rptMilkCostReport
                 else (TSPL_MILK_PRICE_MASTER.Milk_Rate*TSPL_MILK_PRICE_MASTER.Ratio/TSPL_MILK_PRICE_MASTER.Fat_Pers) end) as decimal(18,2)) as [FAT Rate]
                 ,cast((case when ((RejectType='SOUR' or RejectType='CURD') and Defaulter='VSP') then 0
                 else (TSPL_MILK_PRICE_MASTER.Milk_Rate*TSPL_MILK_PRICE_MASTER.SNF_Ratio/TSPL_MILK_PRICE_MASTER.SNF_Pers) end) as decimal(18,2)) as [SNF Rate]
-                ,RejectType,Defaulter,final.[SRN Amount] AS [Inventory Value] From ( " & strSRNQuery & " Union All " & strRejectionQuery & ") As final left join TSPL_MILK_PRICE_MASTER on TSPL_MILK_PRICE_MASTER.price_code=final.price_code where 2=2 "
+                ,RejectType,Defaulter,final.[SRN Amount] AS [Inventory Value] From ( " & strSRNQuery & ") As final left join TSPL_MILK_PRICE_MASTER on TSPL_MILK_PRICE_MASTER.price_code=final.price_code where 2=2 "
 
 
             FinalQuery = "SELECT  ROW_NUMBER() OVER(Partition by 1 ORDER BY [MCC Code]) AS SNo
