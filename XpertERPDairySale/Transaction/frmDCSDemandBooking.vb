@@ -640,8 +640,8 @@ Public Class frmDCSDemandBooking
                         gv1.Rows(dbrow).Cells(colCreditType).Value = RowCredit
 
                         gv1.Rows(dbrow).Cells(colOutstanding).Value = GetOutStandingBal(clsCommon.myCstr(dr("VSP_Code")), clsCommon.GetPrintDate(txtDate.Value))
-                            gv1.Rows(dbrow).Cells(colLastMilkdate).Value = clsCommon.GetPrintDate(clsDBFuncationality.getSingleValue("select top 1 DOC_DATE from TSPL_MILK_RECEIPT_DETAIL Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_RECEIPT_DETAIL.VLC_CODE where TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader='" + clsCommon.myCstr(dr("VLC_Code_VLC_Uploader")) + "' order by TSPL_MILK_RECEIPT_DETAIL.DOC_DATE desc"), "dd-MMM-yyyy")
-                            gv1.Rows(dbrow).Cells(colunbilledMilkAmt).Value = GetUnbilledAmt(clsCommon.myCstr(dr("VSP_Code")))
+                        gv1.Rows(dbrow).Cells(colLastMilkdate).Value = clsCommon.GetPrintDate(clsDBFuncationality.getSingleValue("select top 1 DOC_DATE from TSPL_MILK_SRN_HEAD Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_SRN_HEAD.VLC_CODE where TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader='" + clsCommon.myCstr(dr("VLC_Code_VLC_Uploader")) + "' order by TSPL_MILK_SRN_HEAD.DOC_DATE desc"), "dd-MMM-yyyy")
+                        gv1.Rows(dbrow).Cells(colunbilledMilkAmt).Value = GetUnbilledAmt(clsCommon.myCstr(dr("VSP_Code")))
                             gv1.Rows(dbrow).Cells(colbilledMilkAmt).Value = GetLastbilledAmt(clsCommon.myCstr(dr("VSP_Code")))
 
 
