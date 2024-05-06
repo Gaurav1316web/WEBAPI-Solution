@@ -90,14 +90,14 @@ Public Class rptSocietyLedgerReport
             whrcls += "  and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)>=convert(date,('" + fromDate.Value + "'),103) and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) <=convert(date,('" + ToDate.Value + "'),103) "
             whrcls += "  and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE  in ('" & txtVSP.Value & "')"
             If clsCommon.myLen(fndLoc.Value) > 0 Then
-                whrcls += " and TSPL_LOCATION_MASTER.Loc_Segment_Code     IN (" + fndLoc.Value + ") "
+                whrcls += " and TSPL_LOCATION_MASTER.Loc_Segment_Code     IN ('" + fndLoc.Value + "') "
             End If
             whrcls += " and not exists(select 1 from TSPL_MILK_PURCHASE_INVOICE_PRO_LOSS where TSPL_MILK_PURCHASE_INVOICE_PRO_LOSS.InvoiceNo=TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE) "
 
             whrcls1 += "  and convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + fromDate.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + ToDate.Value + "'),103) "
             whrcls1 += "  and TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE  in ('" & txtVSP.Value & "')"
             If clsCommon.myLen(fndLoc.Value) > 0 Then
-                whrcls1 += " and TSPL_PAYMENT_PROCESS_Head.loc_seg_code    IN (" + fndLoc.Value + ") "
+                whrcls1 += " and TSPL_PAYMENT_PROCESS_Head.loc_seg_code    IN ('" + fndLoc.Value + "') "
             End If
 
             Dim BaseQry As String = ""
