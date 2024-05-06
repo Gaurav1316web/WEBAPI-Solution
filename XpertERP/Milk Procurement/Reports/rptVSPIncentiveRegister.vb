@@ -908,192 +908,197 @@ Public Class rptVSPIncentiveRegister
 
 
     Private Sub LoadData(Optional ByVal BulkExport As Integer = 0)
-        If txtFromDate.Value > txtToDate.Value Then
-            txtFromDate.Focus()
-            Throw New Exception("From date can not be greater then to Date")
-        End If
+        Try
 
-        If cbtMCCRouteVLCC.CheckedValue.Count = 0 Then
-
-            clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.", Me.Text)
-            Exit Sub
-        End If
-        ' KUNAL > TICKET : BM00000009937 > DATE : 05-0CT-2016 > TASK ADDED COLS : IS_MANUAL, MACHINE_NO
-        Dim FinalQuery As String = Nothing
-        '===Case when final.[Milk Weight(KG)]=final.[Milk Weight(LTR)] then final.[Milk Weight(LTR)]/1.03 else [Milk Weight(LTR)]
-        Dim qry As String = "Select final.[Milk Receipt Code] ,final.MCC as [MCC Code] ,final.[MCC Name] ,final.Date ,final.[Doc Date] ,final.Shift ," & _
-        "final.[Route Code],final.[Route Name] ,final.[Vehicle Code] ,final.[VSP Code],final.[VSP Name] ,final.[Vlc Uploader Code] ,final.[Vlc Code] ,final.[VLC Name] ," & _
-         " final.[Sample No] ,final.[No Of Cans] ,final.[Milk Weight],final.[Milk Weight(KG)]," & _
-            " final.[Milk Weight(LTR)]  as [Milk Weight(LTR)]," & _
-         " final.[FAT(%)] ,final.[SNF(%)] ,final.[FAT(KG)],final.[SNF(KG)] ,final.[Cow Milk Qty (KG)],final.[Cow FAT(%)],final.[Cow SNF(%)] , Case When final.[FAT(%)] <= 5 Then final.[FAT(KG)] Else 0 End [Cow FAT (KG)], Case When final.[FAT(%)] <= 5 Then final.[SNF(KG)] Else 0 End [Cow SNF (KG)]," & _
-         " final.[Buffalo Milk Qty (KG)],final.[Buffalo SNF(%)],final.[Buffalo FAT(%)], Case When final.[FAT(%)] > 5 Then final.[FAT(KG)] Else 0 End [Buffalo FAT (KG)], Case When final.[FAT(%)] > 5 Then final.[SNF(KG)] Else 0 End [Buffalo SNF (KG)],final.[Milk Type],final.[SRN No],final.[SRN Amount]," & _
-         " final.[SRN Qty],final.[STD Qty],final.[SRN Rate],final.[Shift Status] ,Invoice_no ,Invoice_Date , IS_MANUAL, MACHINE_NO,final.Incentive_Code as [Incentive Code],final.Incentive_Amount as [Incentive Amount],final.[Incentive Description] From (Select Case When TSPL_MILK_SAMPLE_DETAIL.FAT < 5 Then TSPL_MILK_SAMPLE_DETAIL.FAT Else 0 End [Cow FAT(%)], Case When TSPL_MILK_SAMPLE_DETAIL.FAT < 5 Then TSPL_MILK_SAMPLE_DETAIL.SNF Else 0 End [Cow SNF(%)]," & _
-       " Case When TSPL_MILK_SAMPLE_DETAIL.FAT > 5 Then TSPL_MILK_SAMPLE_DETAIL.FAT Else 0 End [Buffalo FAT(%)], Case When TSPL_MILK_SAMPLE_DETAIL.FAT > 5 Then TSPL_MILK_SAMPLE_DETAIL.SNF Else 0 End [Buffalo SNF(%)], Case When TSPL_MILK_SAMPLE_DETAIL.FAT <= 5 Then TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT Else 0 End [Cow Milk Qty (KG)]," & _
-       " Case When TSPL_MILK_SAMPLE_DETAIL.FAT > 5 Then TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT Else 0 End [Buffalo Milk Qty (KG)], Case When Coalesce(TSPL_MILK_SAMPLE_DETAIL.FAT, 0) <= 0 Then '' When Coalesce(TSPL_MILK_SAMPLE_DETAIL.FAT, 0) <= 5 Then 'C' Else 'B' End As [Milk Type], TSPL_MILK_RECEIPT_HEAD.DOC_CODE As [Milk Receipt Code]," & _
-        " TSPL_MILK_RECEIPT_HEAD.MCC_CODE As MCC, TSPL_MCC_MASTER.MCC_NAME As [MCC Name], Convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) As Date, " & _
-    " Convert(varchar,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) As [Doc Date], Case When TSPL_MILK_RECEIPT_DETAIL.SHIFT = 'M' Then 'Morning' Else 'Evening' End As Shift, " & _
-    " TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE As [Route Code], TSPL_MCC_ROUTE_MASTER.Route_Name As [Route Name], TSPL_MILK_RECEIPT_DETAIL.VEHICLE_CODE As [Vehicle Code]," & _
-   " TSPL_MILK_SRN_HEAD.VSP_CODE As [VSP Code], TSPL_VENDOR_MASTER.Vendor_Name As [VSP Name], TSPL_VLC_MASTER_HEAD.VLC_Code As [Vlc Code]," & _
-   " TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code], TSPL_VLC_MASTER_HEAD.VLC_Name As [VLC Name], TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO As [Sample No], " & _
-   " TSPL_MILK_RECEIPT_DETAIL.NO_OF_CANS As [No Of Cans], TSPL_MILK_RECEIPT_DETAIL.MILK_WEIGHT As [Milk Weight], TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT As [Milk Weight(KG)]," & _
-   " TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT_LTR As [Milk Weight(LTR)], TSPL_MILK_SAMPLE_DETAIL.FAT As [FAT(%)], TSPL_MILK_SAMPLE_DETAIL.SNF As [SNF(%)], Convert(decimal(18,2)," & _
-       " TSPL_MILK_SAMPLE_DETAIL.FAT * TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT / 100) As [FAT(KG)], Convert(decimal(18,2),TSPL_MILK_SAMPLE_DETAIL.SNF * TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT / 100) As [SNF(KG)], Case When TSPL_MILK_SAMPLE_DETAIL.IS_MANUAL = '' Then 'Auto' Else TSPL_MILK_SAMPLE_DETAIL.IS_MANUAL End As [Sample Status]," & _
-    " TSPL_MILK_SRN_HEAD.DOC_CODE As [SRN No], Convert(decimal(18,2),TSPL_MILK_SRN_DETAIL.AMOUNT) As [SRN Amount], TSPL_MILK_SRN_DETAIL.RATE As [SRN Rate], TSPL_MILK_SRN_DETAIL.Qty As [SRN Qty],round(((TSPL_MILK_SRN_detail.FAT_KG/Price_Chart.FAT_Pers) * (Price_Chart.Fat_ratio/100.00)+ " & _
-    " (TSPL_MILK_SRN_detail.SNF_KG/Price_Chart.SNF_Pers) * (Price_Chart.SNF_Ratio/100.00))*100,3) as [Std Qty], Case When TSPL_MILK_Shift_End_HEAD.DOC_CODE Is Null Then 'Open' Else 'Close' End [Shift Status],TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE as Invoice_no," & _
-" convert(varchar,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) as Invoice_Date , tspl_milk_receipt_detail.IS_MANUAL , tspl_milk_receipt_detail.MACHINE_NO ,TSPL_MILK_PURCHASE_INVOICE_INCENTIVEDETAIL.Incentive_Code ,isnull(TSPL_MILK_PURCHASE_INVOICE_INCENTIVEDETAIL.Incentive_Amount,0) as Incentive_Amount,TSPL_INCENTIVE_MASTER_HEAD.DESCRIPTION AS [Incentive Description] From TSPL_MILK_RECEIPT_DETAIL Left Outer Join TSPL_MILK_RECEIPT_HEAD On TSPL_MILK_RECEIPT_HEAD.DOC_CODE = TSPL_MILK_RECEIPT_DETAIL.DOC_CODE Left Outer Join TSPL_MILK_SAMPLE_HEAD On TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE = TSPL_MILK_RECEIPT_HEAD.DOC_CODE" & _
-" Left Outer Join TSPL_MILK_SAMPLE_DETAIL On TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO = TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO And TSPL_MILK_SAMPLE_DETAIL.DOC_CODE = TSPL_MILK_SAMPLE_HEAD.DOC_CODE " & _
-" Left Outer Join TSPL_MILK_SRN_HEAD On TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE = TSPL_MILK_SAMPLE_HEAD.DOC_CODE And TSPL_MILK_SRN_HEAD.SAMPLE_NO = TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO Left Outer Join TSPL_MILK_SRN_DETAIL On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE" & _
-" Left Outer Join TSPL_MILK_PURCHASE_INVOICE_DETAIL On TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE = TSPL_MILK_SRN_HEAD.DOC_CODE Left Outer Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE = TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE " & _
-" Left Outer Join TSPL_MCC_MASTER On TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_RECEIPT_HEAD.MCC_CODE Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_RECEIPT_DETAIL.VLC_CODE" & _
- " Left Outer Join TSPL_VENDOR_MASTER On TSPL_VENDOR_MASTER.Vendor_Code = TSPL_MILK_RECEIPT_DETAIL.VSP_CODE" & _
- " Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MCC_ROUTE_MASTER.Route_Code = TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE" & _
-" Left Outer Join TSPL_Primary_Vehicle_Master On TSPL_Primary_Vehicle_Master.Vehicle_Code = TSPL_MCC_ROUTE_MASTER.Vehicle_Code " & _
-" Left Outer Join TSPL_MILK_Shift_End_HEAD On TSPL_MILK_Shift_End_HEAD.MCC_CODE = TSPL_MILK_RECEIPT_HEAD.MCC_CODE " & _
-" And convert(date,TSPL_MILK_Shift_End_HEAD.DOC_DATE,103) = convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) " & _
-" And TSPL_MILK_Shift_End_HEAD.SHIFT = TSPL_MILK_RECEIPT_HEAD.SHIFT " & _
-" Left Outer Join TSPL_MILK_Shift_End_Route_DETAIL On TSPL_MILK_Shift_End_Route_DETAIL.DOC_CODE = TSPL_MILK_Shift_End_HEAD.DOC_CODE " & _
-" And TSPL_MILK_Shift_End_Route_DETAIL.Route_CODE = TSPL_MCC_ROUTE_MASTER.Route_Code" & _
-" Left Outer Join TSPL_MILK_PURCHASE_INVOICE_INCENTIVEDETAIL on TSPL_MILK_PURCHASE_INVOICE_INCENTIVEDETAIL.MILK_DOC_Code = TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE and  " & _
-" TSPL_MILK_PURCHASE_INVOICE_INCENTIVEDETAIL.MILK_SRN_Code=TSPL_MILK_SRN_HEAD.DOC_CODE and TSPL_MILK_PURCHASE_INVOICE_INCENTIVEDETAIL.MILK_Item_Code=TSPL_MILK_PURCHASE_INVOICE_DETAIL.Item_Code " & _
-" Left Outer Join TSPL_INCENTIVE_MASTER_HEAD on TSPL_INCENTIVE_MASTER_HEAD.INCENTIVE_CODE=TSPL_MILK_PURCHASE_INVOICE_INCENTIVEDETAIL.Incentive_Code" & _
-" LEFT JOIN (select distinct FAT_Pers,SNF_Pers,Ratio as Fat_ratio,SNF_Ratio, Milk_Rate,TSPL_MILK_PRICE_MASTER.Price_Code,TSPL_FAT_SNF_UPLOADER_MASTER.code " & _
-" from TSPL_FAT_SNF_UPLOADER_MASTER inner join  TSPL_MILK_PRICE_MASTER  on TSPL_MILK_PRICE_MASTER.Price_Code=TSPL_FAT_SNF_UPLOADER_MASTER.Price_Code) as  Price_Chart " & _
-" on TSPL_MILK_SRN_DETAIL.Price_Code=Price_Chart.Code " & _
-" where 2 = 2 "
-        qry += " and TSPL_MILK_RECEIPT_HEAD.DOC_DATE >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_RECEIPT_HEAD.DOC_DATE <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "'"
-        If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
-            qry += " and 2=( case when TSPL_MILK_RECEIPT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_RECEIPT_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_RECEIPT_DETAIL.SHIFT='M' then 3 else 2 end  )"
-        End If
-        If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
-            qry += " and 2=( case when TSPL_MILK_RECEIPT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_RECEIPT_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_RECEIPT_DETAIL.SHIFT='E' then 3 else 2 end  )"
-        End If
-
-        'If rbtnMCCRouteVLCCSelect.IsChecked Then'===update by preeti gupta Against Ticket No [BM00000008695]
-        Dim arr As List(Of String) = Nothing
-        If cbtMCCRouteVLCC.CheckedValue.Count > 0 Then
-            arr = cbtMCCRouteVLCC.CheckedValue(1)
-            If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                qry += "and TSPL_MILK_RECEIPT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(arr) + ") "
-            Else
-                Throw New Exception("Please select at least one MCC")
+            If txtFromDate.Value > txtToDate.Value Then
+                txtFromDate.Focus()
+                Throw New Exception("From date can not be greater then to Date")
             End If
-        End If
-        If cbtMCCRouteVLCC.CheckedValue.Count > 1 Then
-            arr = cbtMCCRouteVLCC.CheckedValue(2)
-            If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                qry += " and TSPL_MILK_RECEIPT_DETAIL .Route_Code in (" + clsCommon.GetMulcallString(arr) + ")  "
-            Else
-                Throw New Exception("Please select at least one Route")
+
+            If cbtMCCRouteVLCC.CheckedValue.Count = 0 Then
+
+                clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.", Me.Text)
+                Exit Sub
             End If
-        End If
-        '===============Update by Preeti Gupta Against Ticket No[BM00000008365]
-        If cbtMCCRouteVLCC.CheckedValue.Count > 1 Then
-            arr = cbtMCCRouteVLCC.CheckedValue(3)
-            If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                qry += " and TSPL_MILK_RECEIPT_DETAIL.VLC_CODE in (" + clsCommon.GetMulcallString(arr) + ")  "
-            Else
-                Throw New Exception("Please select at least one VLC Code")
+            ' KUNAL > TICKET : BM00000009937 > DATE : 05-0CT-2016 > TASK ADDED COLS : IS_MANUAL, MACHINE_NO
+            Dim FinalQuery As String = Nothing
+            '===Case when final.[Milk Weight(KG)]=final.[Milk Weight(LTR)] then final.[Milk Weight(LTR)]/1.03 else [Milk Weight(LTR)]
+            Dim qry As String = "Select final.[Milk Receipt Code] ,final.MCC as [MCC Code] ,final.[MCC Name] ,final.Date ,final.[Doc Date] ,final.Shift ," &
+            "final.[Route Code],final.[Route Name] ,final.[Vehicle Code] ,final.[VSP Code],final.[VSP Name] ,final.[Vlc Uploader Code] ,final.[Vlc Code] ,final.[VLC Name] ," &
+             " final.[Sample No] ,final.[No Of Cans] ,final.[Milk Weight],final.[Milk Weight(KG)]," &
+                " final.[Milk Weight(LTR)]  as [Milk Weight(LTR)]," &
+             " final.[FAT(%)] ,final.[SNF(%)] ,final.[FAT(KG)],final.[SNF(KG)] ,final.[Cow Milk Qty (KG)],final.[Cow FAT(%)],final.[Cow SNF(%)] , Case When final.[FAT(%)] <= 5 Then final.[FAT(KG)] Else 0 End [Cow FAT (KG)], Case When final.[FAT(%)] <= 5 Then final.[SNF(KG)] Else 0 End [Cow SNF (KG)]," &
+             " final.[Buffalo Milk Qty (KG)],final.[Buffalo SNF(%)],final.[Buffalo FAT(%)], Case When final.[FAT(%)] > 5 Then final.[FAT(KG)] Else 0 End [Buffalo FAT (KG)], Case When final.[FAT(%)] > 5 Then final.[SNF(KG)] Else 0 End [Buffalo SNF (KG)],final.[Milk Type],final.[SRN No],final.[SRN Amount]," &
+             " final.[SRN Qty],final.[STD Qty],final.[SRN Rate],final.[Shift Status] ,Invoice_no ,Invoice_Date , IS_MANUAL, MACHINE_NO,final.Incentive_Code as [Incentive Code],final.Incentive_Amount as [Incentive Amount],final.[Incentive Description] From (Select Case When TSPL_MILK_SAMPLE_DETAIL.FAT < 5 Then TSPL_MILK_SAMPLE_DETAIL.FAT Else 0 End [Cow FAT(%)], Case When TSPL_MILK_SAMPLE_DETAIL.FAT < 5 Then TSPL_MILK_SAMPLE_DETAIL.SNF Else 0 End [Cow SNF(%)]," &
+           " Case When TSPL_MILK_SAMPLE_DETAIL.FAT > 5 Then TSPL_MILK_SAMPLE_DETAIL.FAT Else 0 End [Buffalo FAT(%)], Case When TSPL_MILK_SAMPLE_DETAIL.FAT > 5 Then TSPL_MILK_SAMPLE_DETAIL.SNF Else 0 End [Buffalo SNF(%)], Case When TSPL_MILK_SAMPLE_DETAIL.FAT <= 5 Then TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT Else 0 End [Cow Milk Qty (KG)]," &
+           " Case When TSPL_MILK_SAMPLE_DETAIL.FAT > 5 Then TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT Else 0 End [Buffalo Milk Qty (KG)], Case When Coalesce(TSPL_MILK_SAMPLE_DETAIL.FAT, 0) <= 0 Then '' When Coalesce(TSPL_MILK_SAMPLE_DETAIL.FAT, 0) <= 5 Then 'C' Else 'B' End As [Milk Type], TSPL_MILK_RECEIPT_HEAD.DOC_CODE As [Milk Receipt Code]," &
+            " TSPL_MILK_RECEIPT_HEAD.MCC_CODE As MCC, TSPL_MCC_MASTER.MCC_NAME As [MCC Name], Convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) As Date, " &
+        " Convert(varchar,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) As [Doc Date], Case When TSPL_MILK_RECEIPT_DETAIL.SHIFT = 'M' Then 'Morning' Else 'Evening' End As Shift, " &
+        " TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE As [Route Code], TSPL_MCC_ROUTE_MASTER.Route_Name As [Route Name], TSPL_MILK_RECEIPT_DETAIL.VEHICLE_CODE As [Vehicle Code]," &
+       " TSPL_MILK_SRN_HEAD.VSP_CODE As [VSP Code], TSPL_VENDOR_MASTER.Vendor_Name As [VSP Name], TSPL_VLC_MASTER_HEAD.VLC_Code As [Vlc Code]," &
+       " TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code], TSPL_VLC_MASTER_HEAD.VLC_Name As [VLC Name], TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO As [Sample No], " &
+       " TSPL_MILK_RECEIPT_DETAIL.NO_OF_CANS As [No Of Cans], TSPL_MILK_RECEIPT_DETAIL.MILK_WEIGHT As [Milk Weight], TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT As [Milk Weight(KG)]," &
+       " TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT_LTR As [Milk Weight(LTR)], TSPL_MILK_SAMPLE_DETAIL.FAT As [FAT(%)], TSPL_MILK_SAMPLE_DETAIL.SNF As [SNF(%)], Convert(decimal(18,2)," &
+           " TSPL_MILK_SAMPLE_DETAIL.FAT * TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT / 100) As [FAT(KG)], Convert(decimal(18,2),TSPL_MILK_SAMPLE_DETAIL.SNF * TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT / 100) As [SNF(KG)], Case When TSPL_MILK_SAMPLE_DETAIL.IS_MANUAL = '' Then 'Auto' Else TSPL_MILK_SAMPLE_DETAIL.IS_MANUAL End As [Sample Status]," &
+        " TSPL_MILK_SRN_HEAD.DOC_CODE As [SRN No], Convert(decimal(18,2),TSPL_MILK_SRN_DETAIL.AMOUNT) As [SRN Amount], TSPL_MILK_SRN_DETAIL.RATE As [SRN Rate], TSPL_MILK_SRN_DETAIL.Qty As [SRN Qty],round(((TSPL_MILK_SRN_detail.FAT_KG/Price_Chart.FAT_Pers) * (Price_Chart.Fat_ratio/100.00)+ " &
+        " (TSPL_MILK_SRN_detail.SNF_KG/Price_Chart.SNF_Pers) * (Price_Chart.SNF_Ratio/100.00))*100,3) as [Std Qty], Case When TSPL_MILK_Shift_End_HEAD.DOC_CODE Is Null Then 'Open' Else 'Close' End [Shift Status],TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE as Invoice_no," &
+    " convert(varchar,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) as Invoice_Date , tspl_milk_receipt_detail.IS_MANUAL , tspl_milk_receipt_detail.MACHINE_NO ,TSPL_MILK_PURCHASE_INVOICE_INCENTIVEDETAIL.Incentive_Code ,isnull(TSPL_MILK_PURCHASE_INVOICE_INCENTIVEDETAIL.Incentive_Amount,0) as Incentive_Amount,TSPL_INCENTIVE_MASTER_HEAD.DESCRIPTION AS [Incentive Description] From TSPL_MILK_RECEIPT_DETAIL Left Outer Join TSPL_MILK_RECEIPT_HEAD On TSPL_MILK_RECEIPT_HEAD.DOC_CODE = TSPL_MILK_RECEIPT_DETAIL.DOC_CODE Left Outer Join TSPL_MILK_SAMPLE_HEAD On TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE = TSPL_MILK_RECEIPT_HEAD.DOC_CODE" &
+    " Left Outer Join TSPL_MILK_SAMPLE_DETAIL On TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO = TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO And TSPL_MILK_SAMPLE_DETAIL.DOC_CODE = TSPL_MILK_SAMPLE_HEAD.DOC_CODE " &
+    " Left Outer Join TSPL_MILK_SRN_HEAD On TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE = TSPL_MILK_SAMPLE_HEAD.DOC_CODE And TSPL_MILK_SRN_HEAD.SAMPLE_NO = TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO Left Outer Join TSPL_MILK_SRN_DETAIL On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE" &
+    " Left Outer Join TSPL_MILK_PURCHASE_INVOICE_DETAIL On TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE = TSPL_MILK_SRN_HEAD.DOC_CODE Left Outer Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE = TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE " &
+    " Left Outer Join TSPL_MCC_MASTER On TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_RECEIPT_HEAD.MCC_CODE Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_RECEIPT_DETAIL.VLC_CODE" &
+     " Left Outer Join TSPL_VENDOR_MASTER On TSPL_VENDOR_MASTER.Vendor_Code = TSPL_MILK_RECEIPT_DETAIL.VSP_CODE" &
+     " Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MCC_ROUTE_MASTER.Route_Code = TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE" &
+    " Left Outer Join TSPL_Primary_Vehicle_Master On TSPL_Primary_Vehicle_Master.Vehicle_Code = TSPL_MCC_ROUTE_MASTER.Vehicle_Code " &
+    " Left Outer Join TSPL_MILK_Shift_End_HEAD On TSPL_MILK_Shift_End_HEAD.MCC_CODE = TSPL_MILK_RECEIPT_HEAD.MCC_CODE " &
+    " And convert(date,TSPL_MILK_Shift_End_HEAD.DOC_DATE,103) = convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) " &
+    " And TSPL_MILK_Shift_End_HEAD.SHIFT = TSPL_MILK_RECEIPT_HEAD.SHIFT " &
+    " Left Outer Join TSPL_MILK_Shift_End_Route_DETAIL On TSPL_MILK_Shift_End_Route_DETAIL.DOC_CODE = TSPL_MILK_Shift_End_HEAD.DOC_CODE " &
+    " And TSPL_MILK_Shift_End_Route_DETAIL.Route_CODE = TSPL_MCC_ROUTE_MASTER.Route_Code" &
+    " Left Outer Join TSPL_MILK_PURCHASE_INVOICE_INCENTIVEDETAIL on TSPL_MILK_PURCHASE_INVOICE_INCENTIVEDETAIL.MILK_DOC_Code = TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE and  " &
+    " TSPL_MILK_PURCHASE_INVOICE_INCENTIVEDETAIL.MILK_SRN_Code=TSPL_MILK_SRN_HEAD.DOC_CODE and TSPL_MILK_PURCHASE_INVOICE_INCENTIVEDETAIL.MILK_Item_Code=TSPL_MILK_PURCHASE_INVOICE_DETAIL.Item_Code " &
+    " Left Outer Join TSPL_INCENTIVE_MASTER_HEAD on TSPL_INCENTIVE_MASTER_HEAD.INCENTIVE_CODE=TSPL_MILK_PURCHASE_INVOICE_INCENTIVEDETAIL.Incentive_Code" &
+    " LEFT JOIN (select distinct FAT_Pers,SNF_Pers,Ratio as Fat_ratio,SNF_Ratio, Milk_Rate,TSPL_MILK_PRICE_MASTER.Price_Code,TSPL_FAT_SNF_UPLOADER_MASTER.code " &
+    " from TSPL_FAT_SNF_UPLOADER_MASTER inner join  TSPL_MILK_PRICE_MASTER  on TSPL_MILK_PRICE_MASTER.Price_Code=TSPL_FAT_SNF_UPLOADER_MASTER.Price_Code) as  Price_Chart " &
+    " on TSPL_MILK_SRN_DETAIL.Price_Code=Price_Chart.Code " &
+    " where 2 = 2 "
+            qry += " and TSPL_MILK_RECEIPT_HEAD.DOC_DATE >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_RECEIPT_HEAD.DOC_DATE <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "'"
+            If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
+                qry += " and 2=( case when TSPL_MILK_RECEIPT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_RECEIPT_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_RECEIPT_DETAIL.SHIFT='M' then 3 else 2 end  )"
             End If
-        End If
-        qry += " ) As final where 2=2 "
+            If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
+                qry += " and 2=( case when TSPL_MILK_RECEIPT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_RECEIPT_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_RECEIPT_DETAIL.SHIFT='E' then 3 else 2 end  )"
+            End If
 
-        'qry += "order by final.[Date]  "
+            'If rbtnMCCRouteVLCCSelect.IsChecked Then'===update by preeti gupta Against Ticket No [BM00000008695]
+            Dim arr As List(Of String) = Nothing
+            If cbtMCCRouteVLCC.CheckedValue.Count > 0 Then
+                arr = cbtMCCRouteVLCC.CheckedValue(1)
+                If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                    qry += "and TSPL_MILK_RECEIPT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(arr) + ") "
+                Else
+                    Throw New Exception("Please select at least one MCC")
+                End If
+            End If
+            If cbtMCCRouteVLCC.CheckedValue.Count > 1 Then
+                arr = cbtMCCRouteVLCC.CheckedValue(2)
+                If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                    qry += " and TSPL_MILK_RECEIPT_DETAIL .Route_Code in (" + clsCommon.GetMulcallString(arr) + ")  "
+                Else
+                    Throw New Exception("Please select at least one Route")
+                End If
+            End If
+            '===============Update by Preeti Gupta Against Ticket No[BM00000008365]
+            If cbtMCCRouteVLCC.CheckedValue.Count > 1 Then
+                arr = cbtMCCRouteVLCC.CheckedValue(3)
+                If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                    qry += " and TSPL_MILK_RECEIPT_DETAIL.VLC_CODE in (" + clsCommon.GetMulcallString(arr) + ")  "
+                Else
+                    Throw New Exception("Please select at least one VLC Code")
+                End If
+            End If
+            qry += " ) As final where 2=2 "
+
+            'qry += "order by final.[Date]  "
 
 
-        If ChkDetailWise.Checked Then
-            FinalQuery = "" & qry & ""
-        ElseIf rbtnVLCWise.Checked Then
-            FinalQuery = "select aa.[MCC Code] ,aa.[MCC Name] ,aa.[Route Code] ,aa.[Route Name],aa.[Vlc Code] ,aa.[VLC Name],aa.[Milk Weight] ,aa.[Milk Weight(KG)]	,aa.[Milk Weight(LTR)] ,aa.[FAT(%)] ,aa.[SNF(%)] ,aa.[FAT(KG)] ,aa.[SNF(KG)] ,aa.[Cow Milk Qty (KG)] ,aa.[Cow FAT(%)] ,aa.[Cow SNF(%)] ,aa.[Cow FAT (KG)] ,aa.[Cow SNF (KG)] ,aa.[Buffalo Milk Qty (KG)] ,aa.[Buffalo FAT(%)] ,aa.[Buffalo SNF(%)] ,aa.[Buffalo FAT (KG)] ,aa.[Buffalo SNF (KG)] ,aa.[SRN Qty],aa.[STD Qty],aa.[SRN Amount] ,aa.[Incentive Code],aa.[Incentive Amount],aa.[Incentive Description]  from ( "
-            FinalQuery += " select xxx.* ,"
-            FinalQuery += "  case when [Cow Milk Qty (KG)] =0 then 0 else [Cow FAT (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow FAT(%)],"
-            FinalQuery += " case when [Cow Milk Qty (KG)] =0 then 0 else [Cow Snf (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow SNF(%)],"
-            FinalQuery += "  case when  [Buffalo Milk Qty (KG)] =0 then 0 else [Buffalo FAT (KG)]/[Buffalo Milk Qty (KG)] *100 end as [Buffalo FAT(%)],"
-            FinalQuery += " case when  [Buffalo Milk Qty (KG)] =0 then 0 else [Buffalo SNF (KG)]/[Buffalo Milk Qty (KG)] *100 end as [Buffalo SNF(%)]"
-            FinalQuery += " from ("
-            FinalQuery += " select xx.*"
-            FinalQuery += " from ( "
-            FinalQuery += "select pp.[MCC Code]  as [MCC Code],max(pp.[MCC Name] )  as [MCC Name],pp.[Route Code] as [Route Code],max(pp.[Route Name] ) as [Route Name],pp.[Vlc Code],max([VLC Name]) as [VLC Name],sum([Milk Weight] ) as [Milk Weight],sum([Milk Weight(KG)] ) as [Milk Weight(KG)],sum([Milk Weight(LTR)] ) as [Milk Weight(LTR)],"
-            FinalQuery += " case when sum([Milk Weight(KG)] )=0 then 0 else (sum([FAT(KG)] )/sum([Milk Weight(KG)] ))*100 end as [FAT(%)],"
-            FinalQuery += " case when sum([Milk Weight(KG)] )=0 then 0 else (sum([SNF(KG)] )/sum([Milk Weight(KG)] ))*100 end as [SNF(%)]"
-            FinalQuery += " ,sum([FAT(KG)] ) as [FAT(KG)] ,sum([SNF(KG)] ) as [SNF(KG)],"
-            FinalQuery += " sum(pp.[Cow Milk Qty (KG)]) as [Cow Milk Qty (KG)],"
-            FinalQuery += " sum([Buffalo Milk Qty (KG)]) as [Buffalo Milk Qty (KG)],"
-            FinalQuery += " sum([SRN Qty]) as [SRN Qty],sum([STD Qty]) as [STD Qty] ,sum([Cow FAT (KG)]) as [Cow FAT (KG)], sum ([Cow SNF (KG)]) as [Cow SNF (KG)], sum([Buffalo FAT (KG)]) as [Buffalo FAT (KG)], sum( [Buffalo SNF (KG)]) as [Buffalo SNF (KG)],sum([SRN Amount]) as [SRN Amount],pp.[Incentive Code],sum(pp.[Incentive Amount]) as [Incentive Amount],max(pp.[Incentive Description]) as [Incentive Description] from ("
-            FinalQuery += "" & qry & ""
-            FinalQuery += " ) as  pp group by pp.[MCC Code],pp.[Route Code],pp.[Vlc Code],pp.[Incentive Code] "
-            FinalQuery += " )as xx"
-            FinalQuery += " ) as xxx"
-            FinalQuery += " ) as aa"
-        ElseIf chkRoutewise.Checked Then
-            FinalQuery = "select aa.[MCC Code] ,aa.[MCC Name] ,aa.[Route Code] ,aa.[Route Name] ,aa.[Milk Weight] ,aa.[Milk Weight(KG)]	,aa.[Milk Weight(LTR)] ,aa.[FAT(%)] ,aa.[SNF(%)] ,aa.[FAT(KG)] ,aa.[SNF(KG)] ,aa.[Cow Milk Qty (KG)] ,aa.[Cow FAT(%)] ,aa.[Cow SNF(%)] ,aa.[Cow FAT (KG)] ,aa.[Cow SNF (KG)] ,aa.[Buffalo Milk Qty (KG)] ,aa.[Buffalo FAT(%)] ,aa.[Buffalo SNF(%)] ,aa.[Buffalo FAT (KG)] ,aa.[Buffalo SNF (KG)] ,aa.[SRN Qty],aa.[STD Qty],aa.[SRN Amount],aa.[Incentive Code],aa.[Incentive Amount],aa.[Incentive Description]  from ( "
-            FinalQuery += " select xxx.* ,"
-            FinalQuery += "  case when [Cow Milk Qty (KG)] =0 then 0 else [Cow FAT (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow FAT(%)],"
-            FinalQuery += " case when [Cow Milk Qty (KG)] =0 then 0 else [Cow Snf (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow SNF(%)],"
-            FinalQuery += "  case when  [Buffalo Milk Qty (KG)] =0 then 0 else [Buffalo FAT (KG)]/[Buffalo Milk Qty (KG)] *100 end as [Buffalo FAT(%)],"
-            FinalQuery += " case when  [Buffalo Milk Qty (KG)] =0 then 0 else [Buffalo SNF (KG)]/[Buffalo Milk Qty (KG)] *100 end as [Buffalo SNF(%)]"
-            FinalQuery += " from ("
-            FinalQuery += " select xx.*"
-            FinalQuery += " from ( "
-            FinalQuery += "select pp.[MCC Code]  as [MCC Code],max(pp.[MCC Name] )  as [MCC Name],pp.[Route Code] as [Route Code],max(pp.[Route Name] ) as [Route Name],sum([Milk Weight] ) as [Milk Weight],sum([Milk Weight(KG)] ) as [Milk Weight(KG)],sum([Milk Weight(LTR)] ) as [Milk Weight(LTR)],"
-            FinalQuery += " case when sum([Milk Weight(KG)] )=0 then 0 else (sum([FAT(KG)] )/sum([Milk Weight(KG)] ))*100 end as [FAT(%)],"
-            FinalQuery += " case when sum([Milk Weight(KG)] )=0 then 0 else (sum([SNF(KG)] )/sum([Milk Weight(KG)] ))*100 end as [SNF(%)]"
-            FinalQuery += " ,sum([FAT(KG)] ) as [FAT(KG)] ,sum([SNF(KG)] ) as [SNF(KG)],"
-            FinalQuery += " sum(pp.[Cow Milk Qty (KG)]) as [Cow Milk Qty (KG)],"
-            FinalQuery += " sum([Buffalo Milk Qty (KG)]) as [Buffalo Milk Qty (KG)],"
-            FinalQuery += " sum([SRN Qty]) as [SRN Qty],sum([STD Qty]) as [STD Qty] ,sum([Cow FAT (KG)]) as [Cow FAT (KG)], sum ([Cow SNF (KG)]) as [Cow SNF (KG)], sum([Buffalo FAT (KG)]) as [Buffalo FAT (KG)], sum( [Buffalo SNF (KG)]) as [Buffalo SNF (KG)],sum([SRN Amount]) as [SRN Amount],pp.[Incentive Code],sum(pp.[Incentive Amount]) as [Incentive Amount],max(pp.[Incentive Description]) as [Incentive Description] from ("
-            FinalQuery += "" & qry & ""
-            FinalQuery += " ) as  pp group by pp.[MCC Code],pp.[Route Code],pp.[Incentive Code]"
-            FinalQuery += " )as xx"
-            FinalQuery += " ) as xxx"
-            FinalQuery += " ) as aa"
-        ElseIf ChkMCCWise.Checked Then
-            FinalQuery = "select aa.[MCC Code] ,aa.[MCC Name] ,aa.[Milk Weight] ,aa.[Milk Weight(KG)]	,aa.[Milk Weight(LTR)] ,aa.[FAT(%)] ,aa.[SNF(%)] ,aa.[FAT(KG)] ,aa.[SNF(KG)] ,aa.[Cow Milk Qty (KG)] ,aa.[Cow FAT(%)] ,aa.[Cow SNF(%)] ,aa.[Cow FAT (KG)] ,aa.[Cow SNF (KG)] ,aa.[Buffalo Milk Qty (KG)] ,aa.[Buffalo FAT(%)] ,aa.[Buffalo SNF(%)] ,aa.[Buffalo FAT (KG)] ,aa.[Buffalo SNF (KG)] ,aa.[SRN Qty],aa.[STD Qty],aa.[SRN Amount],aa.[Incentive Code],aa.[Incentive Amount],aa.[Incentive Description]  from ( "
-            FinalQuery += " select xxx.* ,"
-            FinalQuery += "  case when [Cow Milk Qty (KG)] =0 then 0 else [Cow FAT (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow FAT(%)],"
-            FinalQuery += " case when [Cow Milk Qty (KG)] =0 then 0 else [Cow Snf (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow SNF(%)],"
-            FinalQuery += "  case when  [Buffalo Milk Qty (KG)] =0 then 0 else [Buffalo FAT (KG)]/[Buffalo Milk Qty (KG)] *100 end as [Buffalo FAT(%)],"
-            FinalQuery += " case when  [Buffalo Milk Qty (KG)] =0 then 0 else [Buffalo SNF (KG)]/[Buffalo Milk Qty (KG)] *100 end as [Buffalo SNF(%)]"
-            FinalQuery += " from ("
-            FinalQuery += " select xx.*"
-            FinalQuery += " from ( "
-            FinalQuery += "select pp.[MCC Code]  as [MCC Code],max(pp.[MCC Name] )  as [MCC Name] ,sum([Milk Weight] ) as [Milk Weight],sum([Milk Weight(KG)] ) as [Milk Weight(KG)],sum([Milk Weight(LTR)] ) as [Milk Weight(LTR)],"
-            FinalQuery += " case when sum([Milk Weight(KG)] )=0 then 0 else (sum([FAT(KG)] )/sum([Milk Weight(KG)] ))*100 end as [FAT(%)],"
-            FinalQuery += " case when sum([Milk Weight(KG)] )=0 then 0 else (sum([SNF(KG)] )/sum([Milk Weight(KG)] ))*100 end as [SNF(%)]"
-            FinalQuery += " ,sum([FAT(KG)] ) as [FAT(KG)] ,sum([SNF(KG)] ) as [SNF(KG)],"
-            FinalQuery += " sum(pp.[Cow Milk Qty (KG)]) as [Cow Milk Qty (KG)],"
-            FinalQuery += " sum([Buffalo Milk Qty (KG)]) as [Buffalo Milk Qty (KG)],"
-            FinalQuery += " sum([SRN Qty]) as [SRN Qty],sum([STD Qty]) as [STD Qty] ,sum([Cow FAT (KG)]) as [Cow FAT (KG)], sum ([Cow SNF (KG)]) as [Cow SNF (KG)], sum([Buffalo FAT (KG)]) as [Buffalo FAT (KG)], sum( [Buffalo SNF (KG)]) as [Buffalo SNF (KG)],sum([SRN Amount]) as [SRN Amount],pp.[Incentive Code],sum(pp.[Incentive Amount]) as [Incentive Amount],max(pp.[Incentive Description]) as [Incentive Description] from ("
-            FinalQuery += "" & qry & ""
-            FinalQuery += " ) as  pp group by pp.[MCC Code],pp.[Incentive Code] "
-            FinalQuery += " )as xx"
-            FinalQuery += " ) as xxx"
-            FinalQuery += " ) as aa"
-        End If
-        '' bulk export
-        If BulkExport = 1 Then
-            transportSql.BulkExport("VSP_Incentive_Register", FinalQuery, "", "csv")
-            Exit Sub
-        ElseIf BulkExport = 2 Then
-            transportSql.BulkExport("VSP_Incentive_Register", FinalQuery, "", "xls")
-            Exit Sub
-        End If
+            If ChkDetailWise.Checked Then
+                FinalQuery = "" & qry & ""
+            ElseIf rbtnVLCWise.Checked Then
+                FinalQuery = "select aa.[MCC Code] ,aa.[MCC Name] ,aa.[Route Code] ,aa.[Route Name],aa.[Vlc Code] ,aa.[VLC Name],aa.[Milk Weight] ,aa.[Milk Weight(KG)]	,aa.[Milk Weight(LTR)] ,aa.[FAT(%)] ,aa.[SNF(%)] ,aa.[FAT(KG)] ,aa.[SNF(KG)] ,aa.[Cow Milk Qty (KG)] ,aa.[Cow FAT(%)] ,aa.[Cow SNF(%)] ,aa.[Cow FAT (KG)] ,aa.[Cow SNF (KG)] ,aa.[Buffalo Milk Qty (KG)] ,aa.[Buffalo FAT(%)] ,aa.[Buffalo SNF(%)] ,aa.[Buffalo FAT (KG)] ,aa.[Buffalo SNF (KG)] ,aa.[SRN Qty],aa.[STD Qty],aa.[SRN Amount] ,aa.[Incentive Code],aa.[Incentive Amount],aa.[Incentive Description]  from ( "
+                FinalQuery += " select xxx.* ,"
+                FinalQuery += "  case when [Cow Milk Qty (KG)] =0 then 0 else [Cow FAT (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow FAT(%)],"
+                FinalQuery += " case when [Cow Milk Qty (KG)] =0 then 0 else [Cow Snf (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow SNF(%)],"
+                FinalQuery += "  case when  [Buffalo Milk Qty (KG)] =0 then 0 else [Buffalo FAT (KG)]/[Buffalo Milk Qty (KG)] *100 end as [Buffalo FAT(%)],"
+                FinalQuery += " case when  [Buffalo Milk Qty (KG)] =0 then 0 else [Buffalo SNF (KG)]/[Buffalo Milk Qty (KG)] *100 end as [Buffalo SNF(%)]"
+                FinalQuery += " from ("
+                FinalQuery += " select xx.*"
+                FinalQuery += " from ( "
+                FinalQuery += "select pp.[MCC Code]  as [MCC Code],max(pp.[MCC Name] )  as [MCC Name],pp.[Route Code] as [Route Code],max(pp.[Route Name] ) as [Route Name],pp.[Vlc Code],max([VLC Name]) as [VLC Name],sum([Milk Weight] ) as [Milk Weight],sum([Milk Weight(KG)] ) as [Milk Weight(KG)],sum([Milk Weight(LTR)] ) as [Milk Weight(LTR)],"
+                FinalQuery += " case when sum([Milk Weight(KG)] )=0 then 0 else (sum([FAT(KG)] )/sum([Milk Weight(KG)] ))*100 end as [FAT(%)],"
+                FinalQuery += " case when sum([Milk Weight(KG)] )=0 then 0 else (sum([SNF(KG)] )/sum([Milk Weight(KG)] ))*100 end as [SNF(%)]"
+                FinalQuery += " ,sum([FAT(KG)] ) as [FAT(KG)] ,sum([SNF(KG)] ) as [SNF(KG)],"
+                FinalQuery += " sum(pp.[Cow Milk Qty (KG)]) as [Cow Milk Qty (KG)],"
+                FinalQuery += " sum([Buffalo Milk Qty (KG)]) as [Buffalo Milk Qty (KG)],"
+                FinalQuery += " sum([SRN Qty]) as [SRN Qty],sum([STD Qty]) as [STD Qty] ,sum([Cow FAT (KG)]) as [Cow FAT (KG)], sum ([Cow SNF (KG)]) as [Cow SNF (KG)], sum([Buffalo FAT (KG)]) as [Buffalo FAT (KG)], sum( [Buffalo SNF (KG)]) as [Buffalo SNF (KG)],sum([SRN Amount]) as [SRN Amount],pp.[Incentive Code],sum(pp.[Incentive Amount]) as [Incentive Amount],max(pp.[Incentive Description]) as [Incentive Description] from ("
+                FinalQuery += "" & qry & ""
+                FinalQuery += " ) as  pp group by pp.[MCC Code],pp.[Route Code],pp.[Vlc Code],pp.[Incentive Code] "
+                FinalQuery += " )as xx"
+                FinalQuery += " ) as xxx"
+                FinalQuery += " ) as aa"
+            ElseIf chkRoutewise.Checked Then
+                FinalQuery = "select aa.[MCC Code] ,aa.[MCC Name] ,aa.[Route Code] ,aa.[Route Name] ,aa.[Milk Weight] ,aa.[Milk Weight(KG)]	,aa.[Milk Weight(LTR)] ,aa.[FAT(%)] ,aa.[SNF(%)] ,aa.[FAT(KG)] ,aa.[SNF(KG)] ,aa.[Cow Milk Qty (KG)] ,aa.[Cow FAT(%)] ,aa.[Cow SNF(%)] ,aa.[Cow FAT (KG)] ,aa.[Cow SNF (KG)] ,aa.[Buffalo Milk Qty (KG)] ,aa.[Buffalo FAT(%)] ,aa.[Buffalo SNF(%)] ,aa.[Buffalo FAT (KG)] ,aa.[Buffalo SNF (KG)] ,aa.[SRN Qty],aa.[STD Qty],aa.[SRN Amount],aa.[Incentive Code],aa.[Incentive Amount],aa.[Incentive Description]  from ( "
+                FinalQuery += " select xxx.* ,"
+                FinalQuery += "  case when [Cow Milk Qty (KG)] =0 then 0 else [Cow FAT (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow FAT(%)],"
+                FinalQuery += " case when [Cow Milk Qty (KG)] =0 then 0 else [Cow Snf (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow SNF(%)],"
+                FinalQuery += "  case when  [Buffalo Milk Qty (KG)] =0 then 0 else [Buffalo FAT (KG)]/[Buffalo Milk Qty (KG)] *100 end as [Buffalo FAT(%)],"
+                FinalQuery += " case when  [Buffalo Milk Qty (KG)] =0 then 0 else [Buffalo SNF (KG)]/[Buffalo Milk Qty (KG)] *100 end as [Buffalo SNF(%)]"
+                FinalQuery += " from ("
+                FinalQuery += " select xx.*"
+                FinalQuery += " from ( "
+                FinalQuery += "select pp.[MCC Code]  as [MCC Code],max(pp.[MCC Name] )  as [MCC Name],pp.[Route Code] as [Route Code],max(pp.[Route Name] ) as [Route Name],sum([Milk Weight] ) as [Milk Weight],sum([Milk Weight(KG)] ) as [Milk Weight(KG)],sum([Milk Weight(LTR)] ) as [Milk Weight(LTR)],"
+                FinalQuery += " case when sum([Milk Weight(KG)] )=0 then 0 else (sum([FAT(KG)] )/sum([Milk Weight(KG)] ))*100 end as [FAT(%)],"
+                FinalQuery += " case when sum([Milk Weight(KG)] )=0 then 0 else (sum([SNF(KG)] )/sum([Milk Weight(KG)] ))*100 end as [SNF(%)]"
+                FinalQuery += " ,sum([FAT(KG)] ) as [FAT(KG)] ,sum([SNF(KG)] ) as [SNF(KG)],"
+                FinalQuery += " sum(pp.[Cow Milk Qty (KG)]) as [Cow Milk Qty (KG)],"
+                FinalQuery += " sum([Buffalo Milk Qty (KG)]) as [Buffalo Milk Qty (KG)],"
+                FinalQuery += " sum([SRN Qty]) as [SRN Qty],sum([STD Qty]) as [STD Qty] ,sum([Cow FAT (KG)]) as [Cow FAT (KG)], sum ([Cow SNF (KG)]) as [Cow SNF (KG)], sum([Buffalo FAT (KG)]) as [Buffalo FAT (KG)], sum( [Buffalo SNF (KG)]) as [Buffalo SNF (KG)],sum([SRN Amount]) as [SRN Amount],pp.[Incentive Code],sum(pp.[Incentive Amount]) as [Incentive Amount],max(pp.[Incentive Description]) as [Incentive Description] from ("
+                FinalQuery += "" & qry & ""
+                FinalQuery += " ) as  pp group by pp.[MCC Code],pp.[Route Code],pp.[Incentive Code]"
+                FinalQuery += " )as xx"
+                FinalQuery += " ) as xxx"
+                FinalQuery += " ) as aa"
+            ElseIf ChkMCCWise.Checked Then
+                FinalQuery = "select aa.[MCC Code] ,aa.[MCC Name] ,aa.[Milk Weight] ,aa.[Milk Weight(KG)]	,aa.[Milk Weight(LTR)] ,aa.[FAT(%)] ,aa.[SNF(%)] ,aa.[FAT(KG)] ,aa.[SNF(KG)] ,aa.[Cow Milk Qty (KG)] ,aa.[Cow FAT(%)] ,aa.[Cow SNF(%)] ,aa.[Cow FAT (KG)] ,aa.[Cow SNF (KG)] ,aa.[Buffalo Milk Qty (KG)] ,aa.[Buffalo FAT(%)] ,aa.[Buffalo SNF(%)] ,aa.[Buffalo FAT (KG)] ,aa.[Buffalo SNF (KG)] ,aa.[SRN Qty],aa.[STD Qty],aa.[SRN Amount],aa.[Incentive Code],aa.[Incentive Amount],aa.[Incentive Description]  from ( "
+                FinalQuery += " select xxx.* ,"
+                FinalQuery += "  case when [Cow Milk Qty (KG)] =0 then 0 else [Cow FAT (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow FAT(%)],"
+                FinalQuery += " case when [Cow Milk Qty (KG)] =0 then 0 else [Cow Snf (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow SNF(%)],"
+                FinalQuery += "  case when  [Buffalo Milk Qty (KG)] =0 then 0 else [Buffalo FAT (KG)]/[Buffalo Milk Qty (KG)] *100 end as [Buffalo FAT(%)],"
+                FinalQuery += " case when  [Buffalo Milk Qty (KG)] =0 then 0 else [Buffalo SNF (KG)]/[Buffalo Milk Qty (KG)] *100 end as [Buffalo SNF(%)]"
+                FinalQuery += " from ("
+                FinalQuery += " select xx.*"
+                FinalQuery += " from ( "
+                FinalQuery += "select pp.[MCC Code]  as [MCC Code],max(pp.[MCC Name] )  as [MCC Name] ,sum([Milk Weight] ) as [Milk Weight],sum([Milk Weight(KG)] ) as [Milk Weight(KG)],sum([Milk Weight(LTR)] ) as [Milk Weight(LTR)],"
+                FinalQuery += " case when sum([Milk Weight(KG)] )=0 then 0 else (sum([FAT(KG)] )/sum([Milk Weight(KG)] ))*100 end as [FAT(%)],"
+                FinalQuery += " case when sum([Milk Weight(KG)] )=0 then 0 else (sum([SNF(KG)] )/sum([Milk Weight(KG)] ))*100 end as [SNF(%)]"
+                FinalQuery += " ,sum([FAT(KG)] ) as [FAT(KG)] ,sum([SNF(KG)] ) as [SNF(KG)],"
+                FinalQuery += " sum(pp.[Cow Milk Qty (KG)]) as [Cow Milk Qty (KG)],"
+                FinalQuery += " sum([Buffalo Milk Qty (KG)]) as [Buffalo Milk Qty (KG)],"
+                FinalQuery += " sum([SRN Qty]) as [SRN Qty],sum([STD Qty]) as [STD Qty] ,sum([Cow FAT (KG)]) as [Cow FAT (KG)], sum ([Cow SNF (KG)]) as [Cow SNF (KG)], sum([Buffalo FAT (KG)]) as [Buffalo FAT (KG)], sum( [Buffalo SNF (KG)]) as [Buffalo SNF (KG)],sum([SRN Amount]) as [SRN Amount],pp.[Incentive Code],sum(pp.[Incentive Amount]) as [Incentive Amount],max(pp.[Incentive Description]) as [Incentive Description] from ("
+                FinalQuery += "" & qry & ""
+                FinalQuery += " ) as  pp group by pp.[MCC Code],pp.[Incentive Code] "
+                FinalQuery += " )as xx"
+                FinalQuery += " ) as xxx"
+                FinalQuery += " ) as aa"
+            End If
+            '' bulk export
+            If BulkExport = 1 Then
+                transportSql.BulkExport("VSP_Incentive_Register", FinalQuery, "", "csv")
+                Exit Sub
+            ElseIf BulkExport = 2 Then
+                transportSql.BulkExport("VSP_Incentive_Register", FinalQuery, "", "xls")
+                Exit Sub
+            End If
 
-        dt = clsDBFuncationality.GetDataTable(FinalQuery)
-        gv.DataSource = Nothing
-        gv.Rows.Clear()
-        gv.Columns.Clear()
-        gv.DataSource = dt
-        gv.GroupDescriptors.Clear()
-        gv.MasterTemplate.SummaryRowsBottom.Clear()
-        FormatGrid()
+            dt = clsDBFuncationality.GetDataTable(FinalQuery)
+            gv.DataSource = Nothing
+            gv.Rows.Clear()
+            gv.Columns.Clear()
+            gv.DataSource = dt
+            gv.GroupDescriptors.Clear()
+            gv.MasterTemplate.SummaryRowsBottom.Clear()
+            FormatGrid()
 
-        If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
-            Exit Sub
-        End If
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                Exit Sub
+            End If
 
-        RadPageView1.SelectedPage = RadPageViewPage2
-        ReStoreGridLayout()
+            RadPageView1.SelectedPage = RadPageViewPage2
+            ReStoreGridLayout()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
 
