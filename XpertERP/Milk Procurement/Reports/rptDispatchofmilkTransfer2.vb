@@ -178,7 +178,7 @@ Public Class RptDispatchofmilkTransfer2
         common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
     Public Sub Load_Report()
-
+        try
         If chkMCCSelect.IsChecked AndAlso cbgMCC.CheckedValue.Count = 0 Then
             clsCommon.MyMessageBoxShow(Me, "Please select atleast single Location or select all.", Me.Text)
             Exit Sub
@@ -196,14 +196,14 @@ Public Class RptDispatchofmilkTransfer2
 
         If cbgMCC.CheckedValue.Count > 0 Then 'chkMCCSelect.IsChecked And
             sQuery += "and TSPL_MILK_Shift_End_HEAD.Mcc_Code  IN (" + clsCommon.GetMulcallString(cbgMCC.CheckedValue) + ") "
-            End If
+        End If
 
         sQuery += " group by TSPL_MCC_MASTER.State_Code ,TSPL_MILK_Shift_End_HEAD.MCC_CODE)"
 
         sQuery += " yy  full join  (select TSPL_MCC_Dispatch_Challan.isIntermittent,TSPL_MCC_MASTER.State_Code,max(TSPL_STATE_MASTER.STATE_NAME) as STATE_NAME, TSPL_MCC_Dispatch_Challan.MCC_Code ,max(TSPL_MCC_MASTER.MCC_NAME)as MCC_NAME ,max(TSPL_MCC_Dispatch_Challan.Dispatch_Date)  as Dispatch_Date,'' as shift,0 as Opening,0 as closing,0 as Milk_proc,case when max(TSPL_MCC_Dispatch_Challan.isIntermittent)=1 then sum(TSPL_MCC_Dispatch_Challan.Net_Qty)else 0 end as Dis_qty_Inter,case when max(TSPL_MCC_Dispatch_Challan.isIntermittent)=0 then sum(TSPL_MCC_Dispatch_Challan.Net_Qty)else 0 end as Dis_qty,max(TSPL_LOCATION_MASTER.location_desc) as Tanker_Dispatch_To , cast(max(convert(varchar,TSPL_MCC_Dispatch_Challan.Dispatch_Date,108) )  as varchar) as Tanker_Dispatch_Time ,TSPL_MCC_Dispatch_Challan.Tanker_No ,max(Tspl_Gate_Entry_Details.Date_And_Time ) as Reached_Date_time from TSPL_MCC_Dispatch_Challan left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER .MCC_Code =TSPL_MCC_Dispatch_Challan.MCC_CODE left outer join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE =TSPL_MCC_MASTER.State_Code  left outer join Tspl_Gate_Entry_Details on Tspl_Gate_Entry_Details.Challan_No =TSPL_MCC_Dispatch_Challan.Chalan_NO  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MCC_Dispatch_Challan.Mcc_Or_Plant_Code  where convert(date,TSPL_MCC_Dispatch_Challan.Dispatch_Date,103)=convert(date,'" + txtDate.Value + "',103) group by isIntermittent,TSPL_MCC_MASTER.State_Code,TSPL_MCC_Dispatch_Challan.MCC_Code,TSPL_MCC_Dispatch_Challan.Tanker_No)as xx on convert(date,xx.Dispatch_Date,103) =convert(date,yy.doc_date,103) and xx.MCC_Code=yy.mcc_code"
         sQuery += " where 2=2 "
 
-            'sQuery += " and  convert(date,yy.Doc_date,103)=convert(date,'" + txtDate.Value + "',103) "
+        'sQuery += " and  convert(date,yy.Doc_date,103)=convert(date,'" + txtDate.Value + "',103) "
 
         If cbgMCC.CheckedValue.Count > 0 Then 'chkMCCSelect.IsChecked And
             sQuery += "and yy.Mcc_Code  IN (" + clsCommon.GetMulcallString(cbgMCC.CheckedValue) + ") "
@@ -241,7 +241,10 @@ Public Class RptDispatchofmilkTransfer2
         Else
             clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
-        ReStoreGridLayout()
+            ReStoreGridLayout()
+        Catch err As Exception
+            clsCommon.MyMessageBoxShow(Me, err.Message, Me.Text)
+        End Try
     End Sub
     Sub FormatGrid()
         
