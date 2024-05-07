@@ -74,13 +74,25 @@ Public Class RptWeighmentRegister
                 strRoute = clsCommon.GetMulcallString(txtRoute.arrValueMember)
             End If
             If clsCommon.myLen(strRoute) > 0 Then
-                whr = whr + " and TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE in (" + strRoute + " )"
+                whr = whr + " and tspl_milk_srn_Detail.ROUTE_CODE in (" + strRoute + " )"
             End If
 
-            qry = " select TSPL_MILK_RECEIPT_DETAIL.DOC_CODE,FORMAT ( convert (date,TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,103),'dd/MM/yyyy') as DOC_DATE ,TSPL_MILK_RECEIPT_HEAD.MCC_CODE,max(TSPL_MCC_MASTER.MCC_NAME) as MCC_NAME,TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE,max(TSPL_MCC_ROUTE_MASTER.Route_Name) as Route_Name,max(TSPL_MILK_RECEIPT_DETAIL.SHIFT) as SHIFT,sum(TSPL_MILK_RECEIPT_DETAIL.NO_OF_CANS) as NO_OF_CANS ,sum(TSPL_MILK_RECEIPT_DETAIL.MILK_WEIGHT) as MILK_WEIGHT,max(CAST( (convert (time,TSPL_MILK_GATE_ENTRY_IN.Entry_Date,109)) AS TIME(0))) as  Arrival_Time,CAST( min(convert (time,TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,109)) AS TIME(0)) 'Challan_Received_At',CAST( min(convert (time,TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,109)) AS TIME(0)) 'Dumping_Start_Time',CAST(max(convert (time,TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,109)) AS TIME(0)) 'Dumping_Finish_Time', CAST((max(TSPL_MILK_RECEIPT_DETAIL.DOC_DATE)-min(TSPL_MILK_RECEIPT_DETAIL.DOC_DATE)) as time(0)) 'Net_Dumping_Time'   from TSPL_MILK_RECEIPT_DETAIL left outer join TSPL_MILK_RECEIPT_HEAD on TSPL_MILK_RECEIPT_DETAIL.DOC_CODE = TSPL_MILK_RECEIPT_HEAD.DOC_CODE left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_RECEIPT_HEAD.MCC_CODE left outer join TSPL_MCC_ROUTE_MASTER on TSPL_MCC_ROUTE_MASTER.Route_Code=TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE  " & _
-                  " left outer join TSPL_MILK_GATE_ENTRY_IN on convert (varchar,TSPL_MILK_GATE_ENTRY_IN.Shift_Date,103)=convert (varchar,TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,103) and TSPL_MILK_GATE_ENTRY_IN.Route_Code=TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE  and TSPL_MILK_GATE_ENTRY_IN.Entry_Shift=TSPL_MILK_RECEIPT_DETAIL.SHIFT " & _
-                  " where convert (date ,TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,103) >=convert(date,'" + fromdate + "',103) and convert (date ,TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,103) <=Convert(Date,'" + Todate + "',103) and TSPL_MILK_RECEIPT_HEAD.Posted = 1 and TSPL_MILK_GATE_ENTRY_IN.Status=1 " + whr + " " & _
-                  " group by TSPL_MILK_RECEIPT_DETAIL.DOC_CODE ,TSPL_MILK_RECEIPT_HEAD.MCC_CODE,TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE ,convert (date,TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,103)  order by TSPL_MILK_RECEIPT_HEAD.MCC_CODE "
+            qry = " select tspl_milk_srn_Detail.DOC_CODE,FORMAT ( convert (date,tspl_milk_srn_head.DOC_DATE,103),'dd/MM/yyyy') as DOC_DATE ,tspl_milk_srn_head.MCC_CODE,max(TSPL_MCC_MASTER.MCC_NAME) as MCC_NAME,
+tspl_milk_srn_head.ROUTE_CODE,max(TSPL_MCC_ROUTE_MASTER.Route_Name) as Route_Name,max(tspl_milk_srn_head.SHIFT) as SHIFT,
+sum(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.NO_OF_CANS) as NO_OF_CANS ,sum(tspl_milk_srn_detail.QTY) as MILK_WEIGHT,
+max(CAST( (convert (time,TSPL_MILK_GATE_ENTRY_IN.Entry_Date,109)) AS TIME(0))) as  Arrival_Time,
+CAST( min(convert (time,tspl_milk_srn_head.DOC_DATE,109)) AS TIME(0)) 'Challan_Received_At',
+CAST( min(convert (time,tspl_milk_srn_head.DOC_DATE,109)) AS TIME(0)) 'Dumping_Start_Time',CAST(max(convert (time,tspl_milk_srn_head.DOC_DATE,109)) AS TIME(0)) 'Dumping_Finish_Time',
+CAST((max(tspl_milk_srn_head.DOC_DATE)-min(tspl_milk_srn_head.DOC_DATE)) as time(0)) 'Net_Dumping_Time'  
+from tspl_milk_srn_Detail 
+ left outer join tspl_milk_srn_head on tspl_milk_srn_head.DOC_CODE = tspl_milk_srn_detail.DOC_CODE 
+ left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=tspl_milk_srn_head.Against_Shift_Uploader_TR_No
+
+left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = tspl_milk_srn_head.MCC_CODE 
+left outer join TSPL_MCC_ROUTE_MASTER on TSPL_MCC_ROUTE_MASTER.Route_Code=tspl_milk_srn_head.ROUTE_CODE  " &
+                  " left outer join TSPL_MILK_GATE_ENTRY_IN on convert (varchar,TSPL_MILK_GATE_ENTRY_IN.Shift_Date,103)=convert (varchar,tspl_milk_srn_head.DOC_DATE,103) and TSPL_MILK_GATE_ENTRY_IN.Route_Code=tspl_milk_srn_head.ROUTE_CODE  and TSPL_MILK_GATE_ENTRY_IN.Entry_Shift=tspl_milk_srn_head.SHIFT " &
+                  " where convert (date ,tspl_milk_srn_head.DOC_DATE,103) >=convert(date,'" + fromdate + "',103) and convert (date ,tspl_milk_srn_head.DOC_DATE,103) <=Convert(Date,'" + Todate + "',103) and tspl_milk_srn_head.Posted = 1 and TSPL_MILK_GATE_ENTRY_IN.Status=1 " + whr + " " &
+                  " group by tspl_milk_srn_Detail.DOC_CODE ,tspl_milk_srn_head.MCC_CODE,tspl_milk_srn_head.ROUTE_CODE ,convert (date,tspl_milk_srn_head.DOC_DATE,103)  order by tspl_milk_srn_head.MCC_CODE "
             Dim dtgv As New DataTable
             If Print = 1 Then
                 dtgv = clsDBFuncationality.GetDataTable(qry)

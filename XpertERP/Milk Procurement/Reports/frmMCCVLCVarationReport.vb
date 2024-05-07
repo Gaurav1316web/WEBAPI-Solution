@@ -124,76 +124,83 @@ Public Class FrmMCCVLCVarationReport
         RadGroupBox2.Enabled = val
     End Sub
     Private Sub LoadData()
-        If txtFromDate.Value > txtToDate.Value Then
-            txtFromDate.Focus()
-            Throw New Exception("From date can not be greater then to Date")
-        End If
-
-        If cbtMCCRouteVLCC.CheckedValue.Count = 0 Then
-
-            clsCommon.MyMessageBoxShow(Me, "Please select atleast single MCC or select all.", Me.Text)
-            Exit Sub
-        End If
-
-        Dim qry As String = "Select *, IsNull(final.[Qty(MCC)] - final.[Qty(VLC)], 0) As [Varation MCC/VLC Qty], IsNull(final.[FAT(Mcc)] - final.[FAT(VLC)], 0) As [Varation MCC/VLC FAT], IsNull(final.[SNF(Mcc)] - final.[SNF(VLC)], 0) As [Varation MCC/VLC SNF], IsNull(final.[FAT %(MCC)] - final.[FAT %(VLC)], 0) As [Varation MCC/VLC FAT %], IsNull(final.[SNF %(MCC)] - final.[SNF % (VLC)], 0) As [Varation MCC/VLC SNF %], IsNull(final.[Qty(MCC)] - final.[Qty(Transporter)], 0) As [Varation MCC/Transporter Qty], IsNull(final.[FAT(Mcc)] - final.[FAT(Transporter)], 0) As [Varation MCC/Transporter FAT], IsNull(final.[SNF(Mcc)] - final.[SNF(Transporter)], 0) As [Varation MCC/Transporter SNF], IsNull(final.[FAT %(MCC)] - final.[FAT %(Transporter)], 0) As [Varation MCC/Transporter FAT %], IsNull(final.[SNF %(MCC)] - final.[SNF %(Transporter)], 0) As [Varation MCC/Transporter SNF %] From (Select *    From (Select rh.DOC_CODE As [Doc Code], Convert(date,rh.DOC_DATE,103) As [Doc Date], Convert(Varchar,rh.DOC_DATE,103) As Date,rd.SHIFT, rh.MCC_CODE As [Mcc Code], TSPL_MCC_MASTER.MCC_NAME As [Mcc Name], rd.ROUTE_CODE As [Route Code], rm.Route_Name As [Route Name], rd.VLC_CODE As [Vlc Code], TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code], TSPL_VLC_MASTER_HEAD.VLC_Name As [Vlc Name], rd.VSP_CODE As [VSP Code], TSPL_VENDOR_MASTER.Vendor_Name As [VSP Name], Sum(rd.MILK_WEIGHT) As [Qty(MCC)], Sum(sample.FAT_KG) As [FAT(Mcc)], Sum(sample.SNF_KG) As [SNF(Mcc)], Case When Sum(sample.Qty) = 0 Then 0 Else Convert(decimal(18,2),(Sum(sample.FAT_KG) * 100 / Sum(IsNull(sample.Qty, 0)))) End As [FAT %(MCC)], Case When Sum(sample.Qty) = 0 Then 0 Else Convert(decimal(18,2),(Sum(sample.SNF_KG) * 100 / Sum(sample.Qty))) End As [SNF %(MCC)], IsNull(Sum(truck_Sheet.Mcc_Qty), 0) As [Qty(Transporter)], IsNull(Convert(decimal(18,3),Sum(truck_Sheet.FatMCC)), 0) As [FAT(Transporter)], IsNull(Convert(decimal(18,3),Sum(truck_Sheet.SNFMCC)), 0) As [SNF(Transporter)], Case When Sum(truck_Sheet.Mcc_Qty) = 0 Then 0 Else Convert(decimal(18,2),(Sum(truck_Sheet.FatMCC) * 100 / IsNull(Sum(truck_Sheet.Mcc_Qty), 0))) End As [FAT %(Transporter)], Case When Sum(truck_Sheet.Mcc_Qty) = 0 Then 0 Else Convert(decimal(18,2),(Sum(truck_Sheet.SNFMCC) * 100 / IsNull(Sum(truck_Sheet.Mcc_Qty), 0))) End As [SNF %(Transporter)], Convert(decimal(18,3),IsNull(Max(Uploader.Qty), 0)) As [Qty(VLC)], IsNull(Max(Uploader.FAT), 0) As [FAT(VLC)], IsNull(Max(Uploader.SNF), 0) As [SNF(VLC)], Case When Max(Uploader.Qty) = 0 Then 0 Else Convert(decimal(18,2),(Max(Uploader.FAT) * 100 / Max(Uploader.Qty))) End As [FAT %(VLC)], Case When Max(Uploader.Qty) = 0 Then 0 Else Convert(decimal(18,2),(Max(Uploader.SNF) * 100 / Max(Uploader.Qty))) End As [SNF % (VLC)]      From TSPL_MILK_RECEIPT_HEAD rh Inner Join TSPL_MILK_RECEIPT_DETAIL rd On rh.DOC_CODE = rd.DOC_CODE Left Join (Select sh.MILK_RECEIPT_CODE, sd.SAMPLE_NO, sd.VLC_DOC_CODE, sd.FAT_KG, sd.SNF_KG, sd.Qty        From TSPL_MILK_SAMPLE_HEAD sh Inner Join TSPL_MILK_SAMPLE_DETAIL sd On sh.DOC_CODE = sd.DOC_CODE) sample On sample.MILK_RECEIPT_CODE = rh.DOC_CODE And sample.SAMPLE_NO = rd.SAMPLE_NO Left Join (Select Th.Milk_Receipt_Code, Td.SAMPLE_NO, Td.VLC_DOC_CODE, Sum(IsNull(Td.Mcc_Qty, 0)) As Mcc_Qty, Sum(Td.Mcc_FAT * Td.Mcc_Qty / 100) As FatMCC, Sum(Td.Mcc_SNF * Td.Mcc_Qty / 100) As SNFMCC        From Tspl_Milk_Truck_Sheet_Head Th Inner Join Tspl_Milk_Truck_Sheet_Detail Td On Th.DOC_CODE = Td.DOC_CODE        Group By Th.Milk_Receipt_Code, Td.SAMPLE_NO, Td.VLC_DOC_CODE) truck_Sheet On truck_Sheet.Milk_Receipt_Code = rh.DOC_CODE And truck_Sheet.SAMPLE_NO = rd.SAMPLE_NO Left Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = rd.VLC_CODE Left Join (Select TSPL_VLC_DATA_UPLOADER.MCC_Code, TSPL_VLC_DATA_UPLOADER.Doc_Date As File_Date, TSPL_VLC_DATA_UPLOADER.shift, TSPL_VLC_DATA_UPLOADER.VLC_CODE, Sum(IsNull(TSPL_VLC_DATA_UPLOADER.qty, 0)) As Qty, Sum(TSPL_VLC_DATA_UPLOADER.fat * TSPL_VLC_DATA_UPLOADER.qty / 100) As FAT, Sum(TSPL_VLC_DATA_UPLOADER.snf * TSPL_VLC_DATA_UPLOADER.qty / 100) As SNF        From TSPL_VLC_DATA_UPLOADER        Group By TSPL_VLC_DATA_UPLOADER.MCC_Code, TSPL_VLC_DATA_UPLOADER.Doc_Date, TSPL_VLC_DATA_UPLOADER.shift, TSPL_VLC_DATA_UPLOADER.VLC_CODE) Uploader On Uploader.MCC_Code = rh.MCC_CODE And Convert(date,Uploader.File_Date,103) = Convert(date,rh.DOC_DATE,103) And Uploader.shift = rd.SHIFT And Uploader.VLC_CODE = TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader Left Join TSPL_MCC_MASTER On TSPL_MCC_MASTER.MCC_Code = rh.MCC_CODE Left Join TSPL_VENDOR_MASTER On TSPL_VENDOR_MASTER.Vendor_Code = rd.VSP_CODE Left Join TSPL_MCC_ROUTE_MASTER rm On rm.Route_Code = rd.ROUTE_CODE      Group By rh.DOC_CODE, Convert(date,rh.DOC_DATE,103), Convert(Varchar,rh.DOC_DATE,103), rh.MCC_CODE, TSPL_MCC_MASTER.MCC_NAME, rd.ROUTE_CODE, rm.Route_Name, rd.VLC_CODE, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, TSPL_VLC_MASTER_HEAD.VLC_Name, rd.VSP_CODE, TSPL_VENDOR_MASTER.Vendor_Name,rd.SHIFT) Doc) As final"
-        qry += " where 2=2 "
-        qry += " and convert(date,final.[Doc Date],103 )>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,final.[Doc Date],103) <=convert(date,'" + txtToDate.Value + "',103)"
-        If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
-            qry += " and 2=( case when  convert(date,final.[Doc Date],103 ) >= convert(date,'" + txtFromDate.Value + "',103) and  convert(date,final.[Doc Date],103) <= convert(date,'" + txtFromDate.Value + "',103) and final.shift='M' then 3 else 2 end  )"
-        End If
-        If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
-            qry += " and 2=( case when  convert(date,final.[Doc Date],103 ) >= convert(date,'" + txtToDate.Value + "',103) and convert(date,final.[Date],103 ) <= convert(date,'" + txtToDate.Value + "',103) and final.shift='E' then 3 else 2 end  )"
-        End If
-
-        'If rbtnMCCRouteVLCCSelect.IsChecked Then
-        Dim arr As List(Of String) = Nothing
-        If cbtMCCRouteVLCC.CheckedValue.Count > 0 Then
-            arr = cbtMCCRouteVLCC.CheckedValue(1)
-            If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                qry += "and final.[Mcc code]  IN (" + clsCommon.GetMulcallString(arr) + ") "
-            Else
-                Throw New Exception("Please select at least one MCC")
+        Try
+            If txtFromDate.Value > txtToDate.Value Then
+                txtFromDate.Focus()
+                Throw New Exception("From date can not be greater then to Date")
             End If
-        End If
-        If cbtMCCRouteVLCC.CheckedValue.Count > 1 Then
-            arr = cbtMCCRouteVLCC.CheckedValue(2)
-            If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                qry += " and final.[Route Code] in (" + clsCommon.GetMulcallString(arr) + ")  "
-            Else
-                Throw New Exception("Please select at least one Route")
+
+            If cbtMCCRouteVLCC.CheckedValue.Count = 0 Then
+
+                clsCommon.MyMessageBoxShow(Me, "Please select atleast single MCC or select all.", Me.Text)
+                Exit Sub
             End If
-        End If
-        If cbtMCCRouteVLCC.CheckedValue.Count > 1 Then
-            arr = cbtMCCRouteVLCC.CheckedValue(3)
-            If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                qry += " and final.[Vlc Code] in (" + clsCommon.GetMulcallString(arr) + ")  "
-            Else
-                Throw New Exception("Please select at least one VLC")
+
+            Dim qry As String = "Select *, IsNull(final.[Qty(MCC)] - final.[Qty(VLC)], 0) As [Varation MCC/VLC Qty], IsNull(final.[FAT(Mcc)] - final.[FAT(VLC)], 0) As [Varation MCC/VLC FAT], IsNull(final.[SNF(Mcc)] - final.[SNF(VLC)], 0) As [Varation MCC/VLC SNF], IsNull(final.[FAT %(MCC)] - final.[FAT %(VLC)], 0) As [Varation MCC/VLC FAT %], IsNull(final.[SNF %(MCC)] - final.[SNF % (VLC)], 0) As [Varation MCC/VLC SNF %], IsNull(final.[Qty(MCC)] - final.[Qty(Transporter)], 0) As [Varation MCC/Transporter Qty], IsNull(final.[FAT(Mcc)] - final.[FAT(Transporter)], 0) As [Varation MCC/Transporter FAT], IsNull(final.[SNF(Mcc)] - final.[SNF(Transporter)], 0) As [Varation MCC/Transporter SNF], IsNull(final.[FAT %(MCC)] - final.[FAT %(Transporter)], 0) As [Varation MCC/Transporter FAT %], IsNull(final.[SNF %(MCC)] - final.[SNF %(Transporter)], 0) As [Varation MCC/Transporter SNF %] From (Select *    From (Select rd.DOC_CODE As [Doc Code], Convert(date,rd.DOC_DATE,103) As [Doc Date], Convert(Varchar,rd.DOC_DATE,103) As Date,rd.SHIFT, rh.MCC_CODE As [Mcc Code], TSPL_MCC_MASTER.MCC_NAME As [Mcc Name], rd.ROUTE_CODE As [Route Code], rm.Route_Name As [Route Name], rd.VLC_CODE As [Vlc Code], TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code], TSPL_VLC_MASTER_HEAD.VLC_Name As [Vlc Name], rd.VSP_CODE As [VSP Code], TSPL_VENDOR_MASTER.Vendor_Name As [VSP Name], Sum(rh.Qty) As [Qty(MCC)], Sum(rh.FAT_KG) As [FAT(Mcc)], Sum(rh.SNF_KG) As [SNF(Mcc)], Case When Sum(rh.Qty) = 0 Then 0 Else Convert(decimal(18,2),(Sum(rh.FAT_KG) * 100 / Sum(IsNull(rh.Qty, 0)))) End As [FAT %(MCC)], Case When Sum(rh.Qty) = 0 Then 0 Else Convert(decimal(18,2),(Sum(rh.SNF_KG) * 100 / Sum(rh.Qty))) End As [SNF %(MCC)], IsNull(Sum(truck_Sheet.Mcc_Qty), 0) As [Qty(Transporter)], IsNull(Convert(decimal(18,3),Sum(truck_Sheet.FatMCC)), 0) As [FAT(Transporter)], IsNull(Convert(decimal(18,3),Sum(truck_Sheet.SNFMCC)), 0) As [SNF(Transporter)], Case When Sum(truck_Sheet.Mcc_Qty) = 0 Then 0 Else Convert(decimal(18,2),(Sum(truck_Sheet.FatMCC) * 100 / IsNull(Sum(truck_Sheet.Mcc_Qty), 0))) End As [FAT %(Transporter)], Case When Sum(truck_Sheet.Mcc_Qty) = 0 Then 0 Else Convert(decimal(18,2),(Sum(truck_Sheet.SNFMCC) * 100 / IsNull(Sum(truck_Sheet.Mcc_Qty), 0))) End As [SNF %(Transporter)], Convert(decimal(18,3),IsNull(Max(Uploader.Qty), 0)) As [Qty(VLC)], IsNull(Max(Uploader.FAT), 0) As [FAT(VLC)], IsNull(Max(Uploader.SNF), 0) As [SNF(VLC)], Case When Max(Uploader.Qty) = 0 Then 0 Else Convert(decimal(18,2),(Max(Uploader.FAT) * 100 / Max(Uploader.Qty))) End As [FAT %(VLC)], Case When Max(Uploader.Qty) = 0 Then 0 Else Convert(decimal(18,2),(Max(Uploader.SNF) * 100 / Max(Uploader.Qty))) End As [SNF % (VLC)]      From TSPL_MILK_SRN_HEAD rd Inner Join TSPL_MILK_SRN_DETAIL rh On rd.DOC_CODE = rd.DOC_CODE  Left Join (Select Th.Milk_Receipt_Code, Td.SAMPLE_NO, Td.VLC_DOC_CODE, Sum(IsNull(Td.Mcc_Qty, 0)) As Mcc_Qty, Sum(Td.Mcc_FAT * Td.Mcc_Qty / 100) As FatMCC, Sum(Td.Mcc_SNF * Td.Mcc_Qty / 100) As SNFMCC        From Tspl_Milk_Truck_Sheet_Head Th Inner Join Tspl_Milk_Truck_Sheet_Detail Td On Th.DOC_CODE = Td.DOC_CODE        Group By Th.Milk_Receipt_Code, Td.SAMPLE_NO, Td.VLC_DOC_CODE) truck_Sheet On truck_Sheet.Milk_Receipt_Code = rd.DOC_CODE And truck_Sheet.SAMPLE_NO = rd.SAMPLE_NO Left Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = rd.VLC_CODE Left Join (Select TSPL_VLC_DATA_UPLOADER.MCC_Code, TSPL_VLC_DATA_UPLOADER.Doc_Date As File_Date, TSPL_VLC_DATA_UPLOADER.shift, TSPL_VLC_DATA_UPLOADER.VLC_CODE, Sum(IsNull(TSPL_VLC_DATA_UPLOADER.qty, 0)) As Qty, Sum(TSPL_VLC_DATA_UPLOADER.fat * TSPL_VLC_DATA_UPLOADER.qty / 100) As FAT, Sum(TSPL_VLC_DATA_UPLOADER.snf * TSPL_VLC_DATA_UPLOADER.qty / 100) As SNF        From TSPL_VLC_DATA_UPLOADER        Group By TSPL_VLC_DATA_UPLOADER.MCC_Code, TSPL_VLC_DATA_UPLOADER.Doc_Date, TSPL_VLC_DATA_UPLOADER.shift, TSPL_VLC_DATA_UPLOADER.VLC_CODE) Uploader On Uploader.MCC_Code = rh.MCC_CODE And Convert(date,Uploader.File_Date,103) = Convert(date,rd.DOC_DATE,103) And Uploader.shift = rd.SHIFT And Uploader.VLC_CODE = TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader Left Join TSPL_MCC_MASTER On TSPL_MCC_MASTER.MCC_Code = rh.MCC_CODE Left Join TSPL_VENDOR_MASTER On TSPL_VENDOR_MASTER.Vendor_Code = rd.VSP_CODE Left Join TSPL_MCC_ROUTE_MASTER rm On rm.Route_Code = rd.ROUTE_CODE      Group By rd.DOC_CODE, Convert(date,rd.DOC_DATE,103), Convert(Varchar,rd.DOC_DATE,103), rh.MCC_CODE, TSPL_MCC_MASTER.MCC_NAME, rd.ROUTE_CODE, rm.Route_Name, rd.VLC_CODE, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, TSPL_VLC_MASTER_HEAD.VLC_Name, rd.VSP_CODE, TSPL_VENDOR_MASTER.Vendor_Name,rd.SHIFT) Doc) As final"
+            qry += " where 2=2 "
+            qry += " and convert(date,final.[Doc Date],103 )>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,final.[Doc Date],103) <=convert(date,'" + txtToDate.Value + "',103)"
+            If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
+                qry += " and 2=( case when  convert(date,final.[Doc Date],103 ) >= convert(date,'" + txtFromDate.Value + "',103) and  convert(date,final.[Doc Date],103) <= convert(date,'" + txtFromDate.Value + "',103) and final.shift='M' then 3 else 2 end  )"
             End If
-        End If
+            If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
+                qry += " and 2=( case when  convert(date,final.[Doc Date],103 ) >= convert(date,'" + txtToDate.Value + "',103) and convert(date,final.[Date],103 ) <= convert(date,'" + txtToDate.Value + "',103) and final.shift='E' then 3 else 2 end  )"
+            End If
 
-        'End If
+            'If rbtnMCCRouteVLCCSelect.IsChecked Then
+            Dim arr As List(Of String) = Nothing
+            If cbtMCCRouteVLCC.CheckedValue.Count > 0 Then
+                arr = cbtMCCRouteVLCC.CheckedValue(1)
+                If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                    qry += "and final.[Mcc code]  IN (" + clsCommon.GetMulcallString(arr) + ") "
+                Else
+                    Throw New Exception("Please select at least one MCC")
+                End If
+            End If
+            If cbtMCCRouteVLCC.CheckedValue.Count > 1 Then
+                arr = cbtMCCRouteVLCC.CheckedValue(2)
+                If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                    qry += " and final.[Route Code] in (" + clsCommon.GetMulcallString(arr) + ")  "
+                Else
+                    Throw New Exception("Please select at least one Route")
+                End If
+            End If
+            If cbtMCCRouteVLCC.CheckedValue.Count > 1 Then
+                If cbtMCCRouteVLCC.CheckedValue.Count > 2 Then
+                    arr = cbtMCCRouteVLCC.CheckedValue(3)
+                End If
+                If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                    qry += " and final.[Vlc Code] in (" + clsCommon.GetMulcallString(arr) + ")  "
+                Else
+                    Throw New Exception("Please select at least one VLC")
+                End If
+            End If
 
-        qry += "order by convert(date,final.[Doc Date],103)  "
+            'End If
+
+            qry += "order by convert(date,final.[Doc Date],103)  "
 
 
-        dt = clsDBFuncationality.GetDataTable(qry)
-        gv.DataSource = Nothing
-        gv.Rows.Clear()
-        gv.Columns.Clear()
-        gv.DataSource = dt
-        gv.GroupDescriptors.Clear()
-        gv.MasterTemplate.SummaryRowsBottom.Clear()
-        'FormatGrid()
-        gv.BestFitColumns()
-        gv.Columns("Doc Date").IsVisible = False
-        If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
-            Exit Sub
-        End If
+            dt = clsDBFuncationality.GetDataTable(qry)
+            gv.DataSource = Nothing
+            gv.Rows.Clear()
+            gv.Columns.Clear()
+            gv.DataSource = dt
+            gv.GroupDescriptors.Clear()
+            gv.MasterTemplate.SummaryRowsBottom.Clear()
+            'FormatGrid()
+            gv.BestFitColumns()
+            gv.Columns("Doc Date").IsVisible = False
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                Exit Sub
+            End If
 
-        RadPageView1.SelectedPage = RadPageViewPage2
-        ReStoreGridLayout()
+            RadPageView1.SelectedPage = RadPageViewPage2
+            ReStoreGridLayout()
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub FrmMCCVLCVarationReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
