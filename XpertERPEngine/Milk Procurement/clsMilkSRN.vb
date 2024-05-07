@@ -9,7 +9,7 @@ Public Class clsMilkSRNMCC
     Public COMM_PORT As String
     Public VLC_DOC_CODE As String
     'Public MILK_SAMPLE_CODE As String
-    Public Against_Reject_No As String
+    'Public Against_Reject_No As String
     Public SAMPLE_NO As Integer
     Public VLC_CODE As String
     Public ROUTE_CODE As String
@@ -74,7 +74,7 @@ Public Class clsMilkSRNMCC
             clsCommon.AddColumnsForChange(coll, "COMM_PORT", obj.COMM_PORT)
             clsCommon.AddColumnsForChange(coll, "VLC_DOC_CODE", obj.VLC_DOC_CODE)
             'clsCommon.AddColumnsForChange(coll, "MILK_SAMPLE_CODE", obj.MILK_SAMPLE_CODE, True)
-            clsCommon.AddColumnsForChange(coll, "Against_Reject_No", obj.Against_Reject_No, True)
+            'clsCommon.AddColumnsForChange(coll, "Against_Reject_No", obj.Against_Reject_No, True)
             clsCommon.AddColumnsForChange(coll, "SAMPLE_NO", obj.SAMPLE_NO)
             clsCommon.AddColumnsForChange(coll, "VLC_CODE", obj.VLC_CODE)
             clsCommon.AddColumnsForChange(coll, "ROUTE_CODE", obj.ROUTE_CODE)
@@ -95,7 +95,7 @@ Public Class clsMilkSRNMCC
             clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Trans), "dd/MMM/yyyy"))
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_SRN_HEAD", OMInsertOrUpdate.Insert, "", Trans)
-            clsMilkSRNMCCDetail.SaveData(obj.DOC_CODE, obj.Dock_Collection_Milk_Type, objList, Trans, True, obj.Against_Reject_No, obj.SAMPLE_NO)
+            clsMilkSRNMCCDetail.SaveData(obj.DOC_CODE, obj.Dock_Collection_Milk_Type, objList, Trans, True, obj.SAMPLE_NO)
             PostData("M-SRN", obj.DOC_CODE, Trans)
         Catch err As Exception
             Throw New Exception(err.Message)
@@ -136,7 +136,7 @@ Public Class clsMilkSRNMCC
             obj.COMM_PORT = clsCommon.myCstr(dt.Rows(0)("COMM_PORT"))
             obj.VLC_DOC_CODE = clsCommon.myCstr(dt.Rows(0)("VLC_DOC_CODE"))
             'obj.MILK_SAMPLE_CODE = clsCommon.myCstr(dt.Rows(0)("MILK_SAMPLE_CODE"))
-            obj.Against_Reject_No = clsCommon.myCstr(dt.Rows(0)("Against_Reject_No"))
+            'obj.Against_Reject_No = clsCommon.myCstr(dt.Rows(0)("Against_Reject_No"))
             obj.Dock_Collection_Milk_Type = clsCommon.myCstr(dt.Rows(0)("Dock_Collection_Milk_Type"))
             obj.SAMPLE_NO = clsCommon.myCDecimal(dt.Rows(0)("SAMPLE_NO"))
             obj.VLC_CODE = clsCommon.myCstr(dt.Rows(0)("VLC_CODE"))
@@ -321,7 +321,7 @@ Public Class clsMilkSRNMCC
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_SRN_HEAD", OMInsertOrUpdate.Update, " doc_code='" & obj.DOC_CODE & "'", trans)
             End If
-            isSaved = isSaved AndAlso clsMilkSRNMCCDetail.SaveData(obj.DOC_CODE, obj.Dock_Collection_Milk_Type, objList, trans, isNewEntry, obj.Against_Reject_No, obj.SAMPLE_NO)
+            isSaved = isSaved AndAlso clsMilkSRNMCCDetail.SaveData(obj.DOC_CODE, obj.Dock_Collection_Milk_Type, objList, trans, isNewEntry, obj.SAMPLE_NO)
             isSaved = isSaved AndAlso clsMilkSRNVSpChargeDetail.SaveData(obj.DOC_CODE, objVSPChargeList, trans, isNewEntry)
             isSaved = isSaved AndAlso clsMilkSRNPriceChargeDetail.SaveData(obj.DOC_CODE, objPriceChargeList, trans, isNewEntry)
 
@@ -419,7 +419,7 @@ Public Class clsMilkSRNMCC
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_SRN_HEAD", OMInsertOrUpdate.Update, " doc_code='" & obj.DOC_CODE & "'", trans)
             End If
-            isSaved = isSaved AndAlso clsMilkSRNMCCDetail.SaveData(obj.DOC_CODE, obj.Dock_Collection_Milk_Type, objList, trans, isNewEntry, obj.Against_Reject_No, obj.SAMPLE_NO)
+            isSaved = isSaved AndAlso clsMilkSRNMCCDetail.SaveData(obj.DOC_CODE, obj.Dock_Collection_Milk_Type, objList, trans, isNewEntry, obj.SAMPLE_NO)
             isSaved = isSaved AndAlso clsMilkSRNVSpChargeDetail.SaveData(obj.DOC_CODE, objVSPChargeList, trans, isNewEntry)
             isSaved = isSaved AndAlso clsMilkSRNPriceChargeDetail.SaveData(obj.DOC_CODE, objPriceChargeList, trans, isNewEntry)
 
@@ -496,15 +496,15 @@ Public Class clsMilkSRNMCC
             Dim Mcc_Name As String = clsDBFuncationality.getSingleValue("select MCC_NAME from tspl_MCC_MASTER where MCC_CODE='" & obj.MCC_CODE & "'", trans)
             Dim settRejectedMilkSendToRejectLocation As Boolean = False
             Dim strRejectLocation As String = ""
-            If clsCommon.myLen(obj.Against_Reject_No) > 0 Then
-                settRejectedMilkSendToRejectLocation = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.RejectedMilkSendToRejectLocation, clsFixedParameterCode.RejectedMilkSendToRejectLocation, trans)) = 1)
-                If settRejectedMilkSendToRejectLocation Then
-                    strRejectLocation = clsLocation.GetRejectedLocation(obj.MCC_CODE, trans)
-                    If clsCommon.myLen(strRejectLocation) <= 0 Then
-                        Throw New Exception("Please set rejected location for loaction : " + obj.MCC_CODE)
-                    End If
-                End If
-            End If
+            'If clsCommon.myLen(obj.Against_Reject_No) > 0 Then
+            '    settRejectedMilkSendToRejectLocation = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.RejectedMilkSendToRejectLocation, clsFixedParameterCode.RejectedMilkSendToRejectLocation, trans)) = 1)
+            '    If settRejectedMilkSendToRejectLocation Then
+            '        strRejectLocation = clsLocation.GetRejectedLocation(obj.MCC_CODE, trans)
+            '        If clsCommon.myLen(strRejectLocation) <= 0 Then
+            '            Throw New Exception("Please set rejected location for loaction : " + obj.MCC_CODE)
+            '        End If
+            '    End If
+            'End If
 
             Dim qry As String = ""
             Dim ArryLstGLAC As ArrayList = New ArrayList()
@@ -670,10 +670,10 @@ Public Class clsMilkSRNMCC
                 Dim AccCr() As String = {strPaybleCleanigCtrlAC, -1 * Math.Round((((objTr.NET_AMOUNT))), 2, MidpointRounding.ToEven), "", "", "", "", "", "", "Y"}
                 ArryLstGLAC.Add(AccCr)
                 Dim Main_Mcc_Code As String = obj.MCC_CODE
-                If clsCommon.myLen(obj.Against_Reject_No) > 0 Then
-                    qry = "select Mcc_Code From TSPL_MILK_REJECT_HEAD where Doc_COde = '" & obj.Against_Reject_No & "'"
-                    Main_Mcc_Code = clsDBFuncationality.getSingleValue(qry, trans)
-                End If
+                'If clsCommon.myLen(obj.Against_Reject_No) > 0 Then
+                '    qry = "select Mcc_Code From TSPL_MILK_REJECT_HEAD where Doc_COde = '" & obj.Against_Reject_No & "'"
+                '    Main_Mcc_Code = clsDBFuncationality.getSingleValue(qry, trans)
+                'End If
                 If clsCommon.CompairString(Main_Mcc_Code, obj.MCC_CODE) <> CompairStringResult.Equal Then
                     strPaybleCleanigCtrlAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strPaybleCleanigCtrlAC, Main_Mcc_Code, trans)
                     Dim AccCr1() As String = {strPaybleCleanigCtrlAC, -1 * Math.Round((((objTr.NET_AMOUNT))), 2, MidpointRounding.ToEven), "", "", "", "", "", "", "Y"}
@@ -1428,7 +1428,7 @@ Public Class clsMilkSRNMCCDetail
     Public Negative_Amount As Decimal
 #End Region
 
-    Public Shared Function SaveData(ByVal strDocNo As String, ByVal Dock_Collection_Milk_Type As String, ByVal Arr As List(Of clsMilkSRNMCCDetail), ByVal trans As SqlTransaction, ByVal isNewEntry As Boolean, ByVal Against_Reject_No As String, ByVal SAMPLE_NO As Integer) As Boolean
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal Dock_Collection_Milk_Type As String, ByVal Arr As List(Of clsMilkSRNMCCDetail), ByVal trans As SqlTransaction, ByVal isNewEntry As Boolean, ByVal SAMPLE_NO As Integer) As Boolean
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsMilkSRNMCCDetail In Arr
                 Dim coll As New Hashtable()
@@ -1478,13 +1478,7 @@ Public Class clsMilkSRNMCCDetail
                 clsCommon.AddColumnsForChange(coll, "TIP_Amount", obj.TIP_Amount)
                 clsCommon.AddColumnsForChange(coll, "Service_Charge_Type", obj.Service_Charge_Type)
                 clsCommon.AddColumnsForChange(coll, "MCC_CODE", obj.MCC_CODE)
-                If clsCommon.myLen(Against_Reject_No) > 0 Then
-                    If (clsDBFuncationality.getSingleValue("select TSPL_MILK_REJECT_TYPE.Exclude_Head from TSPL_MILK_REJECT_DETAIL left outer join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.Code=TSPL_MILK_REJECT_DETAIL.Reject_Type
-where DOC_CODE='" + clsCommon.myCstr(Against_Reject_No) + "' and SAMPLE_NO=" + clsCommon.myCstr(SAMPLE_NO) + " and TSPL_MILK_REJECT_TYPE.Exclude_Head is not null", trans)) = 1 Then
-                        obj.Head_Load_Rate = 0
-                        obj.Head_Load_Amount = 0
-                    End If
-                End If
+
 
                 clsCommon.AddColumnsForChange(coll, "Head_Load_Rate", obj.Head_Load_Rate)
                 clsCommon.AddColumnsForChange(coll, "Head_Load_Amount", obj.Head_Load_Amount)

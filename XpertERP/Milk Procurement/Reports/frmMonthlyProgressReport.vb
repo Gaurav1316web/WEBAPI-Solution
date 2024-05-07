@@ -115,45 +115,49 @@ Public Class frmMonthlyProgressReport
             strmd = clsCommon.myCstr(clsCommon.myCstr(days) + "/" + clsCommon.GetPrintDate(txtFromDate.Value, "MMM") + "/" + clsCommon.GetPrintDate(txtFromDate.Value, "yyyy"))
             ToDate = clsCommon.myCDate(strmd)
 
-            sQuery = "Select (TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT/" & days & ")*2 as Milk_handledpertrip, convert(varchar(3),datename(month,TSPL_MILK_RECEIPT_HEAD.DOC_DATE)) AS MONTH , TSPL_MILK_RECEIPT_HEAD.MCC_CODE As MCC," & _
-                     " TSPL_MCC_MASTER.MCC_NAME As [MCC Name], Convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) As Date,  Convert(varchar,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) As [Doc Date], " & _
-                     "  TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE As [Route Code], TSPL_MCC_ROUTE_MASTER.Route_Name As [Route Name],tspl_mcc_route_master.Supervisor_Name as [Supervisor Name],  TSPL_VLC_MASTER_HEAD.VLC_Code As [Vlc Code], TSPL_MILK_RECEIPT_DETAIL.NO_OF_CANS, TSPL_MILK_RECEIPT_DETAIL.VSP_CODE,CATTLE.Qty, " & _
-                     " TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT As [Milk Weight(KG)],CATTLE.Amount as Cattle_amount ," & _
-                     " case when TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT >=500 then TSPL_VLC_MASTER_HEAD.VLC_Code end as 'upto 500 vlc code'" & _
-                     " ,case when (TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT >=300 and TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT <=499 )then TSPL_VLC_MASTER_HEAD.VLC_Code else '' end as 'upto 300-499 vlc code'" & _
-                     " ,case when (TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT >=100 and TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT <=299 )then TSPL_VLC_MASTER_HEAD.VLC_Code end as 'upto 100-299 vlc code'" & _
-                     " ,case when (TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT <=100 )then TSPL_VLC_MASTER_HEAD.VLC_Code end as 'Less then 100 vlc code'" & _
-                     " From TSPL_MILK_RECEIPT_DETAIL" & _
-                " Left Outer Join TSPL_MILK_RECEIPT_HEAD On TSPL_MILK_RECEIPT_HEAD.DOC_CODE = TSPL_MILK_RECEIPT_DETAIL.DOC_CODE " & _
-                " Left Outer Join TSPL_MILK_SAMPLE_HEAD On TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE = TSPL_MILK_RECEIPT_HEAD.DOC_CODE " & _
-                " Left Outer Join TSPL_MILK_SAMPLE_DETAIL On TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO = TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO And TSPL_MILK_SAMPLE_DETAIL.DOC_CODE = TSPL_MILK_SAMPLE_HEAD.DOC_CODE  Left Outer Join TSPL_MILK_SRN_HEAD On TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE = TSPL_MILK_SAMPLE_HEAD.DOC_CODE And TSPL_MILK_SRN_HEAD.SAMPLE_NO = TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO Left Outer Join TSPL_MILK_SRN_DETAIL On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE Left Outer Join TSPL_MILK_PURCHASE_INVOICE_DETAIL On TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE = TSPL_MILK_SRN_HEAD.DOC_CODE Left Outer Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE = TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE  Left Outer Join TSPL_MCC_MASTER On TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_RECEIPT_HEAD.MCC_CODE Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_RECEIPT_DETAIL.VLC_CODE Left Outer Join TSPL_VENDOR_MASTER On TSPL_VENDOR_MASTER.Vendor_Code = TSPL_MILK_RECEIPT_DETAIL.VSP_CODE " & _
-                " left outer join (select Vendor_Code as TransporterCode,Vendor_Name as TransporterName,TSPL_MCC_Transporter_MAPPING.MCC_CODE from TSPL_MCC_Transporter_MAPPING  left outer join tspl_vendor_master on tspl_vendor_master.Vendor_Code=TSPL_MCC_Transporter_MAPPING.Transporter_CODE  )Transporter on Transporter.MCC_CODE=TSPL_MILK_RECEIPT_HEAD.MCC_CODE  Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MCC_ROUTE_MASTER.Route_Code = TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE Left Outer Join TSPL_Primary_Vehicle_Master On TSPL_Primary_Vehicle_Master.Vehicle_Code = TSPL_MCC_ROUTE_MASTER.Vehicle_Code  Left Outer Join TSPL_MILK_Shift_End_HEAD On TSPL_MILK_Shift_End_HEAD.MCC_CODE = TSPL_MILK_RECEIPT_HEAD.MCC_CODE  And convert(date,TSPL_MILK_Shift_End_HEAD.DOC_DATE,103) = convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103)  And TSPL_MILK_Shift_End_HEAD.SHIFT = TSPL_MILK_RECEIPT_HEAD.SHIFT  Left Outer Join TSPL_MILK_Shift_End_Route_DETAIL On TSPL_MILK_Shift_End_Route_DETAIL.DOC_CODE = TSPL_MILK_Shift_End_HEAD.DOC_CODE  And TSPL_MILK_Shift_End_Route_DETAIL.Route_CODE = TSPL_MCC_ROUTE_MASTER.Route_Code " & _
-                " left join (select Route_Code ,VLC_Code ,Bill_To_Location,Customer_Code ,sum(Amount) as Amount,sum(Qty) as Qty from (select TSPL_SD_SHIPMENT_DETAIL.Qty,  TSPL_ITEM_MASTER.ITEM_DESC, TSPL_VENDOR_MASTER.Vendor_Code as VSP,TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE ,TSPL_VLC_MASTER_HEAD.Route_Code ,TSPL_VLC_MASTER_HEAD.VLC_Code ,TSPL_ROUTE_MASTER.Route_No,Document_Date,TSPL_SD_SHIPMENT_detail.Amount,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location ,TSPL_SD_SHIPMENT_HEAD.Customer_Code  from  TSPL_SD_SHIPMENT_HEAD " & _
-                " left join TSPL_SD_SHIPMENT_DETAIL  on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE =TSPL_SD_SHIPMENT_HEAD.Document_Code " & _
-                " left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code =TSPL_SD_SHIPMENT_DETAIL.Item_Code " & _
-                " left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.cust_code=TSPL_SD_SHIPMENT_HEAD.Customer_Code" & _
-                " left outer join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No" & _
-                " left outer join TSPL_VEHICLE_MASTER on TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id " & _
-                " left join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code" & _
-                " left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code " & _
-                " left join TSPL_VLC_MASTER_HEAD on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code" & _
+            sQuery = "Select (TSPL_MILK_SRN_DETAIL.ACC_Qty/" & days & ")*2 as Milk_handledpertrip, convert(varchar(3),datename(month,TSPL_MILK_SRN_HEAD.DOC_DATE)) AS MONTH , TSPL_MILK_SRN_HEAD.MCC_CODE As MCC," &
+                     " TSPL_MCC_MASTER.MCC_NAME As [MCC Name], Convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) As Date,  Convert(varchar,TSPL_MILK_SRN_HEAD.DOC_DATE,103) As [Doc Date], " &
+                     "  TSPL_MILK_SRN_HEAD.ROUTE_CODE As [Route Code], TSPL_MCC_ROUTE_MASTER.Route_Name As [Route Name],tspl_mcc_route_master.Supervisor_Name as [Supervisor Name],  TSPL_VLC_MASTER_HEAD.VLC_Code As [Vlc Code], TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.NO_OF_CANS, TSPL_MILK_SRN_HEAD.VSP_CODE,CATTLE.Qty, " &
+                     " TSPL_MILK_SRN_DETAIL.ACC_Qty As [Milk Weight(KG)],CATTLE.Amount as Cattle_amount ," &
+                     " case when TSPL_MILK_SRN_DETAIL.ACC_Qty >=500 then TSPL_VLC_MASTER_HEAD.VLC_Code end as 'upto 500 vlc code'" &
+                     " ,case when (TSPL_MILK_SRN_DETAIL.ACC_Qty >=300 and TSPL_MILK_SRN_DETAIL.ACC_Qty <=499 )then TSPL_VLC_MASTER_HEAD.VLC_Code else '' end as 'upto 300-499 vlc code'" &
+                     " ,case when (TSPL_MILK_SRN_DETAIL.ACC_Qty >=100 and TSPL_MILK_SRN_DETAIL.ACC_Qty <=299 )then TSPL_VLC_MASTER_HEAD.VLC_Code end as 'upto 100-299 vlc code'" &
+                     " ,case when (TSPL_MILK_SRN_DETAIL.ACC_Qty <=100 )then TSPL_VLC_MASTER_HEAD.VLC_Code end as 'Less then 100 vlc code'" &
+                     " From TSPL_MILK_SRN_DETAIL" &
+                " Left Outer Join TSPL_MILK_SRN_HEAD On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE " &
+                " Left Outer Join TSPL_MILK_PURCHASE_INVOICE_DETAIL On TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE = TSPL_MILK_SRN_HEAD.DOC_CODE 
+                  Left Outer Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE = TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE  
+                  Left Outer Join TSPL_MCC_MASTER On TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_SRN_HEAD.MCC_CODE 
+                  Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_SRN_HEAD.VLC_CODE 
+                  Left Outer Join TSPL_VENDOR_MASTER On TSPL_VENDOR_MASTER.Vendor_Code = TSPL_MILK_SRN_HEAD.VSP_CODE 
+                  left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Tr_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No" &
+                " left outer join (select Vendor_Code as TransporterCode,Vendor_Name as TransporterName,TSPL_MCC_Transporter_MAPPING.MCC_CODE from TSPL_MCC_Transporter_MAPPING  left outer join tspl_vendor_master on tspl_vendor_master.Vendor_Code=TSPL_MCC_Transporter_MAPPING.Transporter_CODE  )Transporter on Transporter.MCC_CODE=TSPL_MILK_SRN_HEAD.MCC_CODE  Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MCC_ROUTE_MASTER.Route_Code = TSPL_MILK_SRN_HEAD.ROUTE_CODE Left Outer Join TSPL_Primary_Vehicle_Master On TSPL_Primary_Vehicle_Master.Vehicle_Code = TSPL_MCC_ROUTE_MASTER.Vehicle_Code " &
+                " left join (select Route_Code ,VLC_Code ,Bill_To_Location,Customer_Code ,sum(Amount) as Amount,sum(Qty) as Qty from (select TSPL_SD_SHIPMENT_DETAIL.Qty,  TSPL_ITEM_MASTER.ITEM_DESC, TSPL_VENDOR_MASTER.Vendor_Code as VSP,TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE ,TSPL_VLC_MASTER_HEAD.Route_Code ,TSPL_VLC_MASTER_HEAD.VLC_Code ,TSPL_ROUTE_MASTER.Route_No,Document_Date,TSPL_SD_SHIPMENT_detail.Amount,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location ,TSPL_SD_SHIPMENT_HEAD.Customer_Code  from  TSPL_SD_SHIPMENT_HEAD " &
+                " left join TSPL_SD_SHIPMENT_DETAIL  on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE =TSPL_SD_SHIPMENT_HEAD.Document_Code " &
+                " left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code =TSPL_SD_SHIPMENT_DETAIL.Item_Code " &
+                " left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.cust_code=TSPL_SD_SHIPMENT_HEAD.Customer_Code" &
+                " left outer join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No" &
+                " left outer join TSPL_VEHICLE_MASTER on TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id " &
+                " left join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code" &
+                " left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code " &
+                " left join TSPL_VLC_MASTER_HEAD on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code" &
                 " where TSPL_SD_SHIPMENT_HEAD.Trans_Type ='MCC'   "
             If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
                 sQuery += " and TSPL_SD_SHIPMENT_HEAD.Bill_To_Location   IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") "
             End If
             ' sQuery += " and TSPL_SD_SHIPMENT_HEAD.Bill_To_Location   IN ('" + fndMccCode.Value + "') "
-            sQuery += " and ITEM_DESC LIKE '%CATTLE%'" & _
-                " and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)  >=convert(date,'" + FromDate + "',103) and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <=convert(date,'" + ToDate + "',103 )" & _
-                " ) final group by Bill_To_Location,Route_Code ,VLC_Code ,Customer_Code  " & _
-                " ) as CATTLE" & _
-                " on CATTLE.Bill_To_Location=TSPL_MILK_RECEIPT_HEAD.MCC_CODE" & _
-                "  and CATTLE.Customer_Code =TSPL_MILK_RECEIPT_detail.VSP_CODE " & _
-                " and CATTLE.Route_Code =TSPL_MILK_RECEIPT_detail.ROUTE_CODE " & _
-                " and CATTLE.VLC_Code =TSPL_MILK_RECEIPT_detail.VLC_CODE " & _
-                " where 2 = 2  and TSPL_MILK_RECEIPT_DETAIL.Against_Uploader_TR_No is null and convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) >=convert(date,'" + FromDate + "' ,103) and convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) <=convert(date,'" + ToDate + "',103) "
+            sQuery += " and ITEM_DESC LIKE '%CATTLE%'" &
+                " and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)  >=convert(date,'" + FromDate + "',103) and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <=convert(date,'" + ToDate + "',103 )" &
+                " ) final group by Bill_To_Location,Route_Code ,VLC_Code ,Customer_Code  " &
+                " ) as CATTLE" &
+                " on CATTLE.Bill_To_Location=TSPL_MILK_SRN_HEAD.MCC_CODE" &
+                "  and CATTLE.Customer_Code =TSPL_MILK_SRN_HEAD.VSP_CODE " &
+                " and CATTLE.Route_Code =TSPL_MILK_SRN_HEAD.ROUTE_CODE " &
+                " and CATTLE.VLC_Code =TSPL_MILK_SRN_HEAD.VLC_CODE " &
+                " where 2 = 2  and TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No is null and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) >=convert(date,'" + FromDate + "' ,103) and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) <=convert(date,'" + ToDate + "',103) "
 
             If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
-                sQuery += " and TSPL_MILK_RECEIPT_HEAD.MCC_CODE   IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")   "
+                sQuery += " and TSPL_MILK_SRN_HEAD.MCC_CODE   IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")   "
             End If
             sQuery += " And tspl_mcc_route_master.Supervisor_Name='" + fndSuperVisorCode.Value + "'"
             'sQuery += " and TSPL_MILK_RECEIPT_HEAD.MCC_CODE   IN ('" + fndMccCode.Value + "')  And tspl_mcc_route_master.Supervisor_Name='" + fndSuperVisorCode.Value + "' "

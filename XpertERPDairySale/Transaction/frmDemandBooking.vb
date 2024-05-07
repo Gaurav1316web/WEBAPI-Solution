@@ -10,6 +10,7 @@ Public Class frmDemandBooking
     Dim gvFullMode As Boolean = False
     Public Shared LockUnlock As Integer = 0
     Dim EnableLocation As Boolean = False
+    Dim DisableRouteandVehicle As Boolean = False
     Dim EnableResetDemand As Boolean = False
     Dim ConvertPouchtoCrate As Boolean = False
     Dim SeparateDemandMilkandProduct As Boolean = False
@@ -94,6 +95,7 @@ Public Class frmDemandBooking
             checkCreditLimit = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CheckCreditLimit, clsFixedParameterCode.CheckCreditLimit, Nothing)) = 1, True, False)
             SeparateDemandMilkandProduct = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SeparateDemandMilkandProduct, clsFixedParameterCode.SeparateDemandMilkandProduct, Nothing)) = 1, True, False)
             ConvertPouchtoCrate = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConvertPouchtoCrate, clsFixedParameterCode.ConvertPouchtoCrate, Nothing)) = 1, True, False)
+            DisableRouteandVehicle = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DisableRouteandVehicle, clsFixedParameterCode.DisableRouteandVehicle, Nothing)) = 1, True, False)
             AddNew()
             SetUserMgmtNew()
             If clsCommon.myLen(StrDocNo) > 0 Then
@@ -617,8 +619,10 @@ Public Class frmDemandBooking
             lblTransporterName.Text = ""
             lblCityName.Text = ""
             txtRouteNo.Value = ""
+            txtRouteNo.Enabled = True
             lblRouteDesc.Text = ""
             txtVehicleNo.Value = ""
+            txtVehicleNo.Enabled = True
             lblVehicleNo.Text = ""
             txtTripNo.Text = ""
             txtCustomerNo.Value = ""
@@ -1167,6 +1171,13 @@ Public Class frmDemandBooking
                 If SettSeprateDemandForMorningEveningShift Then
                     RadGroupBox3.Enabled = False
                 End If
+                If DisableRouteandVehicle Then
+                    txtRouteNo.Enabled = False
+                    txtVehicleNo.Enabled = False
+                Else
+                    txtRouteNo.Enabled = True
+                    txtVehicleNo.Enabled = True
+                End If
                 If clsCommon.CompairString(obj.ItemType, "Fresh") = CompairStringResult.Equal Then
                     rbtn_Fresh.IsChecked = True
                     If SeparateDemandMilkandProduct Then
@@ -1597,6 +1608,13 @@ Public Class frmDemandBooking
 
             If clsCommon.myLen(clsCommon.myCstr(txtRouteNo.Value)) > 0 Then
                 setRouteVehicleCityDetail()
+            End If
+            If DisableRouteandVehicle Then
+                txtRouteNo.Enabled = False
+                txtVehicleNo.Enabled = False
+            Else
+                txtRouteNo.Enabled = True
+                txtVehicleNo.Enabled = True
             End If
             Dim shiftType As String = ""
             If rbtnMorning.IsChecked Then
