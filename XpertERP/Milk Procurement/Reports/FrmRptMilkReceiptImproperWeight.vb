@@ -142,33 +142,32 @@ Public Class FrmRptMilkReceiptImproperWeight
             Dim FinalQuery As String = Nothing
             Dim qry As String = Nothing
 
-            qry = "select TSPL_MILK_RECEIPT_HEAD.MCC_CODE,TSPL_MCC_MASTER.MCC_NAME,TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE,TSPL_MCC_ROUTE_MASTER.Route_Name,TSPL_MILK_RECEIPT_DETAIL.VLC_CODE,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_MILK_RECEIPT_DETAIL.VSP_CODE,TSPL_VENDOR_MASTER.Vendor_Name as VSP_Name,TSPL_MILK_RECEIPT_HEAD.DOC_CODE,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,TSPL_MILK_RECEIPT_HEAD.SHIFT,TSPL_MILK_RECEIPT_IMPROPER_WEIGHT_LOG.Created_By,TSPL_USER_MASTER.User_Name,TSPL_MILK_RECEIPT_IMPROPER_WEIGHT_LOG.Sample_No,TSPL_MILK_RECEIPT_IMPROPER_WEIGHT_LOG.Min_Weight_Value,TSPL_MILK_RECEIPT_DETAIL.MILK_WEIGHT from TSPL_MILK_RECEIPT_IMPROPER_WEIGHT_LOG" + Environment.NewLine + _
-            " left outer join TSPL_MILK_RECEIPT_DETAIL on TSPL_MILK_RECEIPT_DETAIL.DOC_CODE=TSPL_MILK_RECEIPT_IMPROPER_WEIGHT_LOG.Doc_Code and TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO=TSPL_MILK_RECEIPT_IMPROPER_WEIGHT_LOG.Sample_No" + Environment.NewLine + _
-            " left outer join TSPL_MILK_RECEIPT_HEAD on TSPL_MILK_RECEIPT_HEAD.DOC_CODE=TSPL_MILK_RECEIPT_IMPROPER_WEIGHT_LOG.Doc_Code" + Environment.NewLine + _
-            " left outer join TSPL_VLC_MASTER_HEAD on  TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_RECEIPT_DETAIL.VLC_CODE" + Environment.NewLine + _
-            " left outer join TSPL_MCC_ROUTE_MASTER on TSPL_MCC_ROUTE_MASTER.Route_Code=TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE" + Environment.NewLine + _
-            " left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_RECEIPT_HEAD.MCC_CODE" + Environment.NewLine + _
-            " left outer join TSPL_USER_MASTER on TSPL_USER_MASTER.User_Code=TSPL_MILK_RECEIPT_IMPROPER_WEIGHT_LOG.Created_By" + Environment.NewLine + _
-            " left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_MILK_RECEIPT_DETAIL.VSP_CODE" + Environment.NewLine + _
+            qry = "select tspl_milk_srn_head.MCC_CODE,TSPL_MCC_MASTER.MCC_NAME,tspl_milk_srn_head.ROUTE_CODE,TSPL_MCC_ROUTE_MASTER.Route_Name,tspl_milk_srn_head.VLC_CODE,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,tspl_milk_srn_head.VSP_CODE,TSPL_VENDOR_MASTER.Vendor_Name as VSP_Name,tspl_milk_srn_head.DOC_CODE,tspl_milk_srn_head.DOC_DATE,tspl_milk_srn_head.SHIFT,tspl_milk_srn_head.Created_By,TSPL_USER_MASTER.User_Name,tspl_milk_srn_head.Sample_No,0 as Min_Weight_Value,tspl_milk_srn_detail.Qty as MILK_WEIGHT from tspl_milk_srn_detail" + Environment.NewLine +
+            " left outer join  tspl_milk_srn_head on tspl_milk_srn_head.DOC_CODE=tspl_milk_srn_detail.DOC_CODE" + Environment.NewLine +
+            " left outer join TSPL_VLC_MASTER_HEAD on  TSPL_VLC_MASTER_HEAD.VLC_Code=tspl_milk_srn_head.VLC_CODE" + Environment.NewLine +
+            " left outer join TSPL_MCC_ROUTE_MASTER on TSPL_MCC_ROUTE_MASTER.Route_Code=tspl_milk_srn_head.ROUTE_CODE" + Environment.NewLine +
+            " left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=tspl_milk_srn_head.MCC_CODE" + Environment.NewLine +
+            " left outer join TSPL_USER_MASTER on TSPL_USER_MASTER.User_Code=tspl_milk_srn_head.Created_By" + Environment.NewLine +
+            " left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=tspl_milk_srn_head.VSP_CODE" + Environment.NewLine +
             " where 2 = 2 "
-            qry += " and  TSPL_MILK_RECEIPT_HEAD.DOC_DATE >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and TSPL_MILK_RECEIPT_HEAD.DOC_DATE <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'"
+            qry += " and  tspl_milk_srn_head.DOC_DATE >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and tspl_milk_srn_head.DOC_DATE <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'"
             If clsCommon.CompairString(clsCommon.myCstr(cboFromShift.SelectedValue), "E") = CompairStringResult.Equal Then
-                qry += " and 2=( case when Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and TSPL_MILK_RECEIPT_DETAIL.SHIFT='M' then 3 else 2 end  )"
+                qry += " and 2=( case when Cast(tspl_milk_srn_head.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and Cast(tspl_milk_srn_head.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and tspl_milk_srn_head.SHIFT='M' then 3 else 2 end  )"
             End If
             If clsCommon.CompairString(clsCommon.myCstr(cboToShift.SelectedValue), "M") = CompairStringResult.Equal Then
-                qry += " and 2=( case when Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy") + "' and TSPL_MILK_RECEIPT_DETAIL.SHIFT='E' then 3 else 2 end  )"
+                qry += " and 2=( case when Cast(tspl_milk_srn_head.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy") + "' and Cast(tspl_milk_srn_head.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy") + "' and tspl_milk_srn_head.SHIFT='E' then 3 else 2 end  )"
             End If
             If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
-                qry += "and TSPL_MILK_RECEIPT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") "
+                qry += "and tspl_milk_srn_head.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") "
             End If
             If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
-                qry += " and TSPL_MILK_RECEIPT_DETAIL.Route_Code in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")  "
+                qry += " and tspl_milk_srn_head.Route_Code in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")  "
             End If
             If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count > 0 Then
-                qry += " and TSPL_MILK_RECEIPT_DETAIL.VLC_CODE in (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ")  "
+                qry += " and tspl_milk_srn_head.VLC_CODE in (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ")  "
             End If
             If ChkDetailWise.Checked Then
-                FinalQuery = "" & qry & " order by TSPL_MILK_RECEIPT_HEAD.DOC_DATE,TSPL_MILK_RECEIPT_HEAD.DOC_CODE,TSPL_MILK_RECEIPT_IMPROPER_WEIGHT_LOG.Sample_No "
+                FinalQuery = "" & qry & " order by tspl_milk_srn_head.DOC_DATE,tspl_milk_srn_head.DOC_CODE,tspl_milk_srn_head.Sample_No "
             ElseIf rbtnVLCWise.Checked Then
                 FinalQuery = "select MCC_CODE,max(MCC_NAME) as MCC_NAME,ROUTE_CODE,MAX(Route_Name) as Route_Name,VLC_CODE,max(VLC_Name) as VLC_Name,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,VSP_CODE,max(VSP_Name) as VSP_Name,sum(Min_Weight_Value) as Min_Weight_Value,sum(MILK_WEIGHT) as MILK_WEIGHT from (" + Environment.NewLine + _
                     qry + Environment.NewLine + _
