@@ -371,41 +371,41 @@ Public Class RptPrimaryTransporter
                   " " + SlabRangeqry + " " &
                   " TSPL_Primary_Vehicle_Master.MCC_Code,TSPL_MCC_MASTER .MCC_NAME ,TSPL_MCC_ROUTE_MASTER.ROUTE_CODE ,TSPL_MCC_ROUTE_MASTER.Route_Name, " &
                   " TSPL_VENDOR_MASTER.PAN  ,isnull(TSPL_Primary_Vehicle_Master.Shift_Charges,0) as Shift_Charges,TSPL_Primary_Vehicle_Master.Vehicle_Code as Transp_vehicleNo," &
-                  " isnull(TSPL_MILK_RECEIPT_DETAIL.MILK_WEIGHT,0) as Qty,isnull(TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT,0) as qty_kg, TSPL_MILK_RECEIPT_DETAIL.VLC_CODE   as Total_VLC,isnull(TSPL_MCC_ROUTE_MASTER.KiloMeter,0) as Stand_Per_Day_km ," &
+                  " isnull(tspl_milk_srn_DETAIL.Qty,0) as Qty,isnull(tspl_milk_srn_DETAIL.ACC_qty,0) as qty_kg, tspl_milk_srn_head.VLC_CODE   as Total_VLC,isnull(TSPL_MCC_ROUTE_MASTER.KiloMeter,0) as Stand_Per_Day_km ," &
                   " isnull(TSPL_MCC_ROUTE_VLC_MAPPING.Distance,0) as VLC_Actual_KMs , " &
-                  " TSPL_MILK_RECEIPT_HEAD.shift as Stand_Total_Shift,isnull(TSPL_MILK_Shift_End_Route_DETAIL.Total_KM,0) as Total_KM ,isnull(TSPL_Primary_Vehicle_Master.Avg_Km_Ltr,0) as Avg_Km_Ltr," &
+                  " tspl_milk_srn_head.shift as Stand_Total_Shift,0 as Total_KM ,isnull(TSPL_Primary_Vehicle_Master.Avg_Km_Ltr,0) as Avg_Km_Ltr," &
                   " isnull(TSPL_Primary_Vehicle_Master.Diesel_Rate,0) as Diesel_Rate , " &
                   " isnull((case when TSPL_Primary_Vehicle_Master.Status='Rental/Diesel' then  TSPL_Primary_Vehicle_Master.Rental_Amount " &
                   " when TSPL_Primary_Vehicle_Master.Status='Rental' then " &
-                  " (case when TSPL_Primary_Vehicle_Master.Rental_Type='Day' then TSPL_Primary_Vehicle_Master.Rental_Amount*DAY(DATEADD(DD,-1,DATEADD(MM,DATEDIFF(MM,-1,TSPL_MILK_RECEIPT_HEAD.DOC_DATE),0))) " &
+                  " (case when TSPL_Primary_Vehicle_Master.Rental_Type='Day' then TSPL_Primary_Vehicle_Master.Rental_Amount*DAY(DATEADD(DD,-1,DATEADD(MM,DATEDIFF(MM,-1,tspl_milk_srn_head.DOC_DATE),0))) " &
                   " when TSPL_Primary_Vehicle_Master.Rental_Type='Month' then TSPL_Primary_Vehicle_Master.Rental_Amount " &
                   " when TSPL_Primary_Vehicle_Master.Rental_Type='Year' then TSPL_Primary_Vehicle_Master.Rental_Amount/12.00 else 0 end ) " &
                   " end),0) as Rental_Month ," &
-                  " DAY(DATEADD(DD,-1,DATEADD(MM,DATEDIFF(MM,-1,TSPL_MILK_RECEIPT_HEAD.DOC_DATE),0))) as No_Days_In_month,TSPL_Primary_Vehicle_Master.Rate_Type as [Rate/Ltr],TSPL_Primary_Vehicle_Master.Price_Ltr_KG as [Ltr Amount],TSPL_Primary_Vehicle_Master.Price_KM as [Rate/Km] " &
-                  " , convert(date,TSPL_MILK_RECEIPT_head.DOC_DATE,103) as Doc_Date,  " &
-                  " (select distinct case when coalesce(VEHICLE_CODE,'')='' then 0 else 1 end as Vehicle from TSPL_MILK_RECEIPT_DETAIL inner join TSPL_MILK_RECEIPT_HEAD on TSPL_MILK_RECEIPT_HEAD.DOC_CODE=TSPL_MILK_RECEIPT_DETAIL.DOC_CODE" &
-                  " where (TSPL_MILK_RECEIPT_HEAD.doc_date between '" + fromDate + "' and '" + Todate + "') and VEHICLE_CODE=TSPL_Primary_Vehicle_Master.Vehicle_Code) " &
+                  " DAY(DATEADD(DD,-1,DATEADD(MM,DATEDIFF(MM,-1,tspl_milk_srn_head.DOC_DATE),0))) as No_Days_In_month,TSPL_Primary_Vehicle_Master.Rate_Type as [Rate/Ltr],TSPL_Primary_Vehicle_Master.Price_Ltr_KG as [Ltr Amount],TSPL_Primary_Vehicle_Master.Price_KM as [Rate/Km] " &
+                  " , convert(date,tspl_milk_srn_head.DOC_DATE,103) as Doc_Date,  " &
+                  " (select distinct case when coalesce(VEHICLE_CODE,'')='' then 0 else 1 end as Vehicle from tspl_milk_srn_DETAIL inner join tspl_milk_srn_head on tspl_milk_srn_head.DOC_CODE=tspl_milk_srn_DETAIL.DOC_CODE" &
+                  " where (tspl_milk_srn_head.doc_date between '" + fromDate + "' and '" + Todate + "') and VEHICLE_CODE=TSPL_Primary_Vehicle_Master.Vehicle_Code) " &
                   " as countVehicle," &
                   " TSPL_VENDOR_INVOICE_HEAD.Total_Amt as Other_Deduction,TSPL_VENDOR_INVOICE_HEAD.DrNote,TSPL_VENDOR_INVOICE_HEAD.CrNote  from TSPL_Primary_Vehicle_Master " &
                   " left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code =TSPL_Primary_Vehicle_Master.Vendor_Code and Form_Type='PTM' " &
                   " left outer join TSPL_Vendor_Bank_MASTER on TSPL_Vendor_Bank_MASTER.bank_code=tspl_vendor_master.bank_code left outer join TSPL_Vendor_Bank_Branch_Details on TSPL_Vendor_Bank_Branch_Details.bank_code=tspl_vendor_master.bank_code and TSPL_Vendor_Bank_Branch_Details.bank_ifsc_code=tspl_vendor_master.branch_code " &
-                  " left join TSPL_MILK_RECEIPT_DETAIL on TSPL_MILK_RECEIPT_DETAIL.VEHICLE_CODE =TSPL_Primary_Vehicle_Master.Vehicle_Code  and TSPL_Primary_Vehicle_Master.Vendor_Code =TSPL_Primary_Vehicle_Master.Vendor_Code" &
-                  " left join TSPL_MILK_RECEIPT_head on TSPL_MILK_RECEIPT_head.DOC_CODE  =TSPL_MILK_RECEIPT_DETAIL.DOC_CODE  " &
-                  " Left join TSPL_MILK_Shift_End_HEAD on TSPL_MILK_Shift_End_HEAD.MCC_CODE=TSPL_MILK_RECEIPT_head.MCC_CODE and  TSPL_MILK_Shift_End_HEAD.shift=TSPL_MILK_RECEIPT_head.shift and convert(date, TSPL_MILK_Shift_End_HEAD.doc_date,103)=convert(date, TSPL_MILK_RECEIPT_head.doc_date  ,103) " &
-                  " left join TSPL_MILK_Shift_End_Route_DETAIL on TSPL_MILK_Shift_End_Route_DETAIL.Route_CODE =TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE  and TSPL_MILK_Shift_End_Route_DETAIL.DOC_CODE=TSPL_MILK_Shift_End_HEAD.DOC_CODE " &
+                  " left join tspl_milk_srn_DETAIL on tspl_milk_srn_DETAIL.VEHICLE_CODE =TSPL_Primary_Vehicle_Master.Vehicle_Code  and TSPL_Primary_Vehicle_Master.Vendor_Code =TSPL_Primary_Vehicle_Master.Vendor_Code" &
+                  " left join tspl_milk_srn_head on tspl_milk_srn_head.DOC_CODE  =tspl_milk_srn_DETAIL.DOC_CODE  " &
+                  " Left join TSPL_MILK_Shift_End_HEAD on TSPL_MILK_Shift_End_HEAD.MCC_CODE=tspl_milk_srn_head.MCC_CODE and  TSPL_MILK_Shift_End_HEAD.shift=tspl_milk_srn_head.shift and convert(date, TSPL_MILK_Shift_End_HEAD.doc_date,103)=convert(date, tspl_milk_srn_head.doc_date  ,103) " &
+                  " left join TSPL_MILK_Shift_End_Route_DETAIL on TSPL_MILK_Shift_End_Route_DETAIL.Route_CODE =tspl_milk_srn_DETAIL.ROUTE_CODE  and TSPL_MILK_Shift_End_Route_DETAIL.DOC_CODE=TSPL_MILK_Shift_End_HEAD.DOC_CODE " &
                   " left join TSPL_MCC_MASTER on tspl_mcc_master .MCC_Code =TSPL_Primary_Vehicle_Master.MCC_Code " &
-                  " left join TSPL_MCC_ROUTE_MASTER  on  TSPL_MCC_ROUTE_MASTER.Route_Code = TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE" &
-                  "  left join  TSPL_MCC_ROUTE_VLC_MAPPING on TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE = TSPL_MCC_ROUTE_VLC_MAPPING.Route_CODE and  TSPL_MILK_RECEIPT_DETAIL.VLC_CODE = TSPL_MCC_ROUTE_VLC_MAPPING.VLC_CODE " &
+                  " left join TSPL_MCC_ROUTE_MASTER  on  TSPL_MCC_ROUTE_MASTER.Route_Code = tspl_milk_srn_DETAIL.ROUTE_CODE" &
+                  "  left join  TSPL_MCC_ROUTE_VLC_MAPPING on tspl_milk_srn_DETAIL.ROUTE_CODE = TSPL_MCC_ROUTE_VLC_MAPPING.Route_CODE and  tspl_milk_srn_DETAIL.VLC_CODE = TSPL_MCC_ROUTE_VLC_MAPPING.VLC_CODE " &
                   " left outer join (select TSPL_MILK_SAMPLE_DETAIL.*,MILK_RECEIPT_CODE from TSPL_MILK_SAMPLE_DETAIL inner join TSPL_MILK_SAMPLE_Head on TSPL_MILK_SAMPLE_DETAIL.DOC_CODE " &
-                  " =TSPL_MILK_SAMPLE_Head.DOC_CODE) TSPL_MILK_SAMPLE_DETAIL  on TSPL_MILK_SAMPLE_DETAIL.VLC_DOC_CODE =TSPL_MILK_RECEIPT_DETAIL.VLC_DOC_CODE left join tspl_milk_srn_Head on  tspl_milk_srn_Head.vlc_doc_code=TSPL_MILK_RECEIPT_DETAIL.vlc_doc_code and tspl_milk_srn_Head.sample_No=" &
-                   " TSPL_MILK_RECEIPT_DETAIL.sample_No and tspl_milk_srn_Head.milk_sample_code=TSPL_MILK_sample_DETAIL.doc_code left join tspl_milk_srn_detail " &
+                  " =TSPL_MILK_SAMPLE_Head.DOC_CODE) TSPL_MILK_SAMPLE_DETAIL  on TSPL_MILK_SAMPLE_DETAIL.VLC_DOC_CODE =tspl_milk_srn_DETAIL.VLC_DOC_CODE left join tspl_milk_srn_Head on  tspl_milk_srn_Head.vlc_doc_code=tspl_milk_srn_DETAIL.vlc_doc_code and tspl_milk_srn_Head.sample_No=" &
+                   " tspl_milk_srn_head.sample_No and tspl_milk_srn_Head.milk_sample_code=TSPL_MILK_sample_DETAIL.doc_code left join tspl_milk_srn_detail " &
                    " on tspl_milk_srn_detail.doc_code=tspl_milk_srn_Head.doc_code " &
                   " left join (select sum(case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' then 0 when TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' then 0 else TSPL_VENDOR_INVOICE_HEAD.Document_Total end) as Total_Amt ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,convert(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103) as Document_Date,sum(case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' then TSPL_VENDOR_INVOICE_HEAD.Document_Total else 0 end)as DrNote,sum(case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' then TSPL_VENDOR_INVOICE_HEAD.Document_Total else 0 end)as CrNote  " &
                   " from TSPL_VENDOR_INVOICE_HEAD  /*left join TSPL_Primary_Vehicle_Master on TSPL_VENDOR_INVOICE_HEAD.Vendor_Code =TSPL_Primary_Vehicle_Master.Vendor_Code and convert(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103) between convert(date,('" + txtFromDate.Value + "'),103) and convert(date,('" + txtToDate.Value + "'),103) */ " &
                   " LEFT OUTER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code = TSPL_VENDOR_INVOICE_HEAD.Vendor_Code where  " &
                   " convert(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date ,103)>=convert(date,('" + txtFromDate.Value + "'),103) and convert(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103) <=convert(date,('" + txtToDate.Value + "'),103)" &
                   " AND ISNULL(TSPL_VENDOR_MASTER.Form_Type,'') ='PTM' group by TSPL_VENDOR_INVOICE_HEAD.Vendor_Code ,convert(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103))  as TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Vendor_Code=TSPL_Primary_Vehicle_Master.Vendor_Code" &
-                  " and  convert(date,TSPL_MILK_RECEIPT_head.DOC_DATE,103) =convert(date,TSPL_VENDOR_INVOICE_HEAD.Document_Date,103)" &
+                  " and  convert(date,tspl_milk_srn_head.DOC_DATE,103) =convert(date,TSPL_VENDOR_INVOICE_HEAD.Document_Date,103)" &
                   ")xx  where 2=2  and DOC_DATE >='" + fromDate + "' and DOC_DATE <='" + Todate + "'  "
 
 
@@ -553,36 +553,36 @@ Public Class RptPrimaryTransporter
           " " + SlabRangeqry + " " &
           " TSPL_Primary_Vehicle_Master.MCC_Code,TSPL_MCC_MASTER .MCC_NAME ,TSPL_MCC_ROUTE_MASTER.ROUTE_CODE ,TSPL_MCC_ROUTE_MASTER.Route_Name, " &
           " TSPL_VENDOR_MASTER.PAN  ,isnull(TSPL_Primary_Vehicle_Master.Shift_Charges,0) as Shift_Charges,TSPL_Primary_Vehicle_Master.Vehicle_Code as Transp_vehicleNo," &
-          " isnull(TSPL_MILK_RECEIPT_DETAIL.MILK_WEIGHT,0) as Qty,isnull(TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT,0) as qty_kg, TSPL_MILK_RECEIPT_DETAIL.VLC_CODE   as Total_VLC, " + IIf(ApplyCalculationOnRouteLenth = True, " isnull (TSPL_MILK_Shift_End_Route_DETAIL.Actual_KM,0) ", " isnull(TSPL_MCC_ROUTE_MASTER.KiloMeter,0) ") + "  as Stand_Per_Day_km ,isnull (TSPL_Primary_Vehicle_Master.Rental_Amount,0) as  Temp_Rental_Amount  " + IIf(ApplyCalculationOnRouteLenth = True, " , TSPL_PROVISION_ENTRY.Doc_No as [Provision Code], convert (varchar, TSPL_PROVISION_ENTRY.Doc_Date,103) as [Provision Date] ", "") + " ," &
-          " TSPL_MILK_RECEIPT_HEAD.shift as Stand_Total_Shift,isnull(TSPL_MILK_Shift_End_Route_DETAIL.Total_KM,0) as Total_KM ,isnull(TSPL_Primary_Vehicle_Master.Avg_Km_Ltr,0) as Avg_Km_Ltr," &
+          " isnull(tspl_milk_srn_detail.qty,0) as Qty,isnull(tspl_milk_srn_DETAIL.ACC_qty,0) as qty_kg, tspl_milk_srn_head.VLC_CODE   as Total_VLC, " + IIf(ApplyCalculationOnRouteLenth = True, " isnull (TSPL_MILK_Shift_End_Route_DETAIL.Actual_KM,0) ", " isnull(TSPL_MCC_ROUTE_MASTER.KiloMeter,0) ") + "  as Stand_Per_Day_km ,isnull (TSPL_Primary_Vehicle_Master.Rental_Amount,0) as  Temp_Rental_Amount  " + IIf(ApplyCalculationOnRouteLenth = True, " , TSPL_PROVISION_ENTRY.Doc_No as [Provision Code], convert (varchar, TSPL_PROVISION_ENTRY.Doc_Date,103) as [Provision Date] ", "") + " ," &
+          " tspl_milk_srn_head.shift as Stand_Total_Shift,0 as Total_KM ,isnull(TSPL_Primary_Vehicle_Master.Avg_Km_Ltr,0) as Avg_Km_Ltr," &
           " isnull(TSPL_Primary_Vehicle_Master.Diesel_Rate,0) as Diesel_Rate , " &
           " isnull((case when TSPL_Primary_Vehicle_Master.Status='Rental/Diesel' then  TSPL_Primary_Vehicle_Master.Rental_Amount " &
           " when TSPL_Primary_Vehicle_Master.Status='Rental' then " &
-          " (case when TSPL_Primary_Vehicle_Master.Rental_Type='Day' then TSPL_Primary_Vehicle_Master.Rental_Amount*DAY(DATEADD(DD,-1,DATEADD(MM,DATEDIFF(MM,-1,TSPL_MILK_RECEIPT_HEAD.DOC_DATE),0))) " &
+          " (case when TSPL_Primary_Vehicle_Master.Rental_Type='Day' then TSPL_Primary_Vehicle_Master.Rental_Amount*DAY(DATEADD(DD,-1,DATEADD(MM,DATEDIFF(MM,-1,tspl_milk_srn_head.DOC_DATE),0))) " &
           " when TSPL_Primary_Vehicle_Master.Rental_Type='Month' then TSPL_Primary_Vehicle_Master.Rental_Amount " &
           " when TSPL_Primary_Vehicle_Master.Rental_Type='Year' then TSPL_Primary_Vehicle_Master.Rental_Amount/12.00 else 0 end ) " &
           " end),0) as Rental_Month ," &
-          " DAY(DATEADD(DD,-1,DATEADD(MM,DATEDIFF(MM,-1,TSPL_MILK_RECEIPT_HEAD.DOC_DATE),0))) as No_Days_In_month,TSPL_Primary_Vehicle_Master.Rate_Type as [Rate/Ltr],TSPL_Primary_Vehicle_Master.Price_Ltr_KG as [Ltr Amount],TSPL_Primary_Vehicle_Master.Price_KM as [Rate/Km] " &
-          " , convert(date,TSPL_MILK_RECEIPT_head.DOC_DATE,103) as Doc_Date,  " &
-          " (select distinct case when coalesce(VEHICLE_CODE,'')='' then 0 else 1 end as Vehicle from TSPL_MILK_RECEIPT_DETAIL inner join TSPL_MILK_RECEIPT_HEAD on TSPL_MILK_RECEIPT_HEAD.DOC_CODE=TSPL_MILK_RECEIPT_DETAIL.DOC_CODE" &
-          " where (TSPL_MILK_RECEIPT_HEAD.doc_date between '" + fromDate + "' and '" + Todate + "') and VEHICLE_CODE=TSPL_Primary_Vehicle_Master.Vehicle_Code) " &
+          " DAY(DATEADD(DD,-1,DATEADD(MM,DATEDIFF(MM,-1,tspl_milk_srn_head.DOC_DATE),0))) as No_Days_In_month,TSPL_Primary_Vehicle_Master.Rate_Type as [Rate/Ltr],TSPL_Primary_Vehicle_Master.Price_Ltr_KG as [Ltr Amount],TSPL_Primary_Vehicle_Master.Price_KM as [Rate/Km] " &
+          " , convert(date,tspl_milk_srn_head.DOC_DATE,103) as Doc_Date,  " &
+          " (select distinct case when coalesce(VEHICLE_CODE,'')='' then 0 else 1 end as Vehicle from tspl_milk_srn_DETAIL inner join tspl_milk_srn_head on tspl_milk_srn_head.DOC_CODE=tspl_milk_srn_DETAIL.DOC_CODE" &
+          " where (tspl_milk_srn_head.doc_date between '" + fromDate + "' and '" + Todate + "') and VEHICLE_CODE=TSPL_Primary_Vehicle_Master.Vehicle_Code) " &
           " as countVehicle," &
-          " TSPL_VENDOR_INVOICE_HEAD.Total_Amt as Other_Deduction,TSPL_VENDOR_INVOICE_HEAD.DrNote,TSPL_VENDOR_INVOICE_HEAD.CrNote,TSPL_Primary_Vehicle_Master.Vehicle as VehicleNo  from TSPL_Primary_Vehicle_Master " &
+          " TSPL_VENDOR_INVOICE_HEAD.Total_Amt as Other_Deduction,TSPL_VENDOR_INVOICE_HEAD.DrNote,TSPL_VENDOR_INVOICE_HEAD.CrNote,TSPL_Primary_Vehicle_Master.Vehicle as VehicleNo 
+          		  		from tspl_milk_srn_detail 
+          	left outer join tspl_milk_srn_head on tspl_milk_srn_detail.doc_code=tspl_milk_srn_head.doc_code
+			left outer join TSPL_Primary_Vehicle_Master on TSPL_Primary_Vehicle_Master.Vehicle_Code=tspl_milk_srn_head.VEHICLE_CODE" &
           " left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code =TSPL_Primary_Vehicle_Master.Vendor_Code and Form_Type='PTM' " &
-          " left outer join TSPL_Vendor_Bank_MASTER on TSPL_Vendor_Bank_MASTER.bank_code=tspl_vendor_master.bank_code left outer join (Select distinct * from TSPL_Vendor_Bank_Branch_Details ) TSPL_Vendor_Bank_Branch_Details on TSPL_Vendor_Bank_Branch_Details.bank_code=tspl_vendor_master.bank_code and TSPL_Vendor_Bank_Branch_Details.bank_ifsc_code=tspl_vendor_master.branch_code and TSPL_Vendor_Bank_Branch_Details.Branch_Name= tspl_vendor_master.Branch_Name  " &
-          " left join TSPL_MILK_RECEIPT_DETAIL on TSPL_MILK_RECEIPT_DETAIL.VEHICLE_CODE =TSPL_Primary_Vehicle_Master.Vehicle_Code  and TSPL_Primary_Vehicle_Master.Vendor_Code =TSPL_Primary_Vehicle_Master.Vendor_Code" &
-          " left join TSPL_MILK_RECEIPT_head on TSPL_MILK_RECEIPT_head.DOC_CODE  =TSPL_MILK_RECEIPT_DETAIL.DOC_CODE  " &
-          " Left join TSPL_MILK_Shift_End_HEAD on TSPL_MILK_Shift_End_HEAD.MCC_CODE=TSPL_MILK_RECEIPT_head.MCC_CODE and  TSPL_MILK_Shift_End_HEAD.shift=TSPL_MILK_RECEIPT_head.shift and convert(date, TSPL_MILK_Shift_End_HEAD.doc_date,103)=convert(date, TSPL_MILK_RECEIPT_head.doc_date  ,103) " &
-          " left join TSPL_MILK_Shift_End_Route_DETAIL on TSPL_MILK_Shift_End_Route_DETAIL.Route_CODE =TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE  and TSPL_MILK_Shift_End_Route_DETAIL.DOC_CODE=TSPL_MILK_Shift_End_HEAD.DOC_CODE " &
+          " left outer join TSPL_Vendor_Bank_MASTER on TSPL_Vendor_Bank_MASTER.bank_code=tspl_vendor_master.bank_code 
+          left outer join (Select distinct * from TSPL_Vendor_Bank_Branch_Details ) TSPL_Vendor_Bank_Branch_Details on TSPL_Vendor_Bank_Branch_Details.bank_code=tspl_vendor_master.bank_code and TSPL_Vendor_Bank_Branch_Details.bank_ifsc_code=tspl_vendor_master.branch_code and TSPL_Vendor_Bank_Branch_Details.Branch_Name= tspl_vendor_master.Branch_Name  " &
           " " + IIf(ApplyCalculationOnRouteLenth = True, " left outer join TSPL_PROVISION_ENTRY on TSPL_PROVISION_ENTRY.Ref_Doc_No = TSPL_MILK_Shift_End_Route_DETAIL.DOC_CODE  and TSPL_PROVISION_ENTRY.Vendor_Code = TSPL_Primary_Vehicle_Master.Vendor_Code and TSPL_PROVISION_ENTRY.Route_Code = TSPL_MILK_Shift_End_Route_DETAIL.Route_CODE ", "") + " " &
           " left join TSPL_MCC_MASTER on tspl_mcc_master .MCC_Code =TSPL_Primary_Vehicle_Master.MCC_Code " &
-          " left join TSPL_MCC_ROUTE_MASTER  on  TSPL_MCC_ROUTE_MASTER.Route_Code = TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE" &
+          " left join TSPL_MCC_ROUTE_MASTER  on  TSPL_MCC_ROUTE_MASTER.Route_Code = tspl_milk_srn_head.ROUTE_CODE" &
           " left join (select sum(case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' then 0 when TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' then 0 else TSPL_VENDOR_INVOICE_HEAD.Document_Total end) as Total_Amt ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,convert(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103) as Document_Date,sum(case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' then TSPL_VENDOR_INVOICE_HEAD.Document_Total else 0 end)as DrNote,sum(case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' then TSPL_VENDOR_INVOICE_HEAD.Document_Total else 0 end)as CrNote  " &
           " from TSPL_VENDOR_INVOICE_HEAD  /*left join TSPL_Primary_Vehicle_Master on TSPL_VENDOR_INVOICE_HEAD.Vendor_Code =TSPL_Primary_Vehicle_Master.Vendor_Code and convert(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103) between convert(date,('" + txtFromDate.Value + "'),103) and convert(date,('" + txtToDate.Value + "'),103) */ " &
           " LEFT OUTER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code = TSPL_VENDOR_INVOICE_HEAD.Vendor_Code where  " &
           " convert(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date ,103)>=convert(date,('" + txtFromDate.Value + "'),103) and convert(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103) <=convert(date,('" + txtToDate.Value + "'),103)" &
           " AND ISNULL(TSPL_VENDOR_MASTER.Form_Type,'') ='PTM' group by TSPL_VENDOR_INVOICE_HEAD.Vendor_Code ,convert(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103))  as TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Vendor_Code=TSPL_Primary_Vehicle_Master.Vendor_Code" &
-          " and  convert(date,TSPL_MILK_RECEIPT_head.DOC_DATE,103) =convert(date,TSPL_VENDOR_INVOICE_HEAD.Document_Date,103)" &
+          " and  convert(date,tspl_milk_srn_head.DOC_DATE,103) =convert(date,TSPL_VENDOR_INVOICE_HEAD.Document_Date,103)" &
           ")xx  where 2=2  and DOC_DATE >='" + fromDate + "' and DOC_DATE <='" + Todate + "'  "
 
         If chkMCCSelect.IsChecked AndAlso cbgMCC.CheckedValue.Count > 0 Then
