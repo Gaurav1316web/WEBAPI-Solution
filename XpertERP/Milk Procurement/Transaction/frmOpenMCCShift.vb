@@ -836,24 +836,27 @@ Public Class FrmOpenMCCShift
     End Sub
 
     Private Sub txtCode__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtCode._MYValidating
-        Dim whrcls As String = ""
-        If clsCommon.myLen(arrLoc) > 0 Then
-            whrcls = " TSPL_OPEN_MCC_SHIFT.MCC_CODE in (" + arrLoc + ")"
-        End If
-        
-        Dim qry As String = "select MCC_SHIFT_CODE As Code,TSPL_OPEN_MCC_SHIFT.MCC_CODE As [MCC CODE],Mcc_name as [Mcc Name], SHIFT,(CONVERT(varchar,MCC_SHIFT_DATE,103)+SUBSTRING(CONVERT(varchar,MCC_SHIFT_DATE,100),12,8)) As [Date],TSPL_OPEN_MCC_SHIFT.Status from TSPL_OPEN_MCC_SHIFT LEFT OUTER JOIN TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code =TSPL_OPEN_MCC_SHIFT.MCC_CODE "
-        txtCode.Value = clsCommon.ShowSelectForm("TSPL_OPEN_MCC_SHIFT", qry, "Code", whrcls, txtCode.Value, "", isButtonClicked)
-        
-        If clsCommon.myLen(txtCode.Value) > 0 Then
-            LoadData(txtCode.Value, NavigatorType.Current)
-            btnsave.Text = "Update"
-            btndelete.Enabled = True
-            txtCode.MyReadOnly = True
-        Else
-            AddNew()
-            txtCode.MyReadOnly = False
-        End If
+        Try
+            Dim whrcls As String = ""
+            If clsCommon.myLen(arrLoc) > 0 Then
+                whrcls = " TSPL_OPEN_MCC_SHIFT.MCC_CODE in (" + arrLoc + ")"
+            End If
 
+            Dim qry As String = "select MCC_SHIFT_CODE As Code,TSPL_OPEN_MCC_SHIFT.MCC_CODE As [MCC CODE],Mcc_name as [Mcc Name], SHIFT,(CONVERT(varchar,MCC_SHIFT_DATE,103)+SUBSTRING(CONVERT(varchar,MCC_SHIFT_DATE,100),12,8)) As [Date],TSPL_OPEN_MCC_SHIFT.Status from TSPL_OPEN_MCC_SHIFT LEFT OUTER JOIN TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code =TSPL_OPEN_MCC_SHIFT.MCC_CODE "
+            txtCode.Value = clsCommon.ShowSelectForm("TSPL_OPEN_MCC_SHIFT", qry, "Code", whrcls, txtCode.Value, "", isButtonClicked)
+
+            If clsCommon.myLen(txtCode.Value) > 0 Then
+                LoadData(txtCode.Value, NavigatorType.Current)
+                btnsave.Text = "Update"
+                btndelete.Enabled = True
+                txtCode.MyReadOnly = True
+            Else
+                AddNew()
+                txtCode.MyReadOnly = False
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
 
     End Sub
 
