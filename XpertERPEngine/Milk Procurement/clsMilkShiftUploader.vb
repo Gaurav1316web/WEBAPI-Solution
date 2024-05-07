@@ -1272,7 +1272,7 @@ and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE='" + clsCommon.myCstr(dtVLC.Rows(0)
                         objMilkSRNDetail.SNF = clsEkoPro.getSnfOnCalculation(objtr.FAT, objMilkSRNDetail.CLR, corrFactor)
                         If PickPriceFromFATAndSNF Then
                             objMilkSRNDetail.SNF = clsCommon.myRoundOFF(objtr.SNF, 1, 4)
-                            objMilkSRNDetail.RATE = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(objMilkSRNDetail.MILK_Qty, objMilkSRNDetail.Price_Code, objMilkSRNDetail.FAT, objMilkSRNDetail.SNF, obj.MCC_Code, objMilkSRNDetail.VlC_Code, objMilkSRNHead.SHIFT, dtShiftDate, trans, strDockCollectionMilkType, objMilkSRNDetail.QAT_Rate, objMilkSRNDetail.Negative_Rate)
+                            objMilkSRNDetail.RATE = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(objMilkSRNDetail.MILK_Qty, objMilkSRNDetail.Price_Code, objMilkSRNDetail.FAT, objMilkSRNDetail.SNF, obj.MCC_Code, objMilkSRNHead.VLC_CODE, objMilkSRNHead.SHIFT, dtShiftDate, trans, strDockCollectionMilkType, objMilkSRNDetail.QAT_Rate, objMilkSRNDetail.Negative_Rate)
                         Else
                             objMilkSRNDetail.SNF = clsCommon.myRoundOFF(objMilkSRNDetail.SNF, 2, 9)
                             objMilkSRNDetail.RATE = clsEkoPro.getRateFromUploaderShiftWiseCLR(objMilkSRNDetail.FAT, objMilkSRNDetail.CLR, obj.MCC_Code, objtr.VLC_Code, obj.Shift, dtShiftDate, trans, strDockCollectionMilkType, objMilkSRNDetail.Price_Code)
@@ -1416,7 +1416,7 @@ and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE='" + clsCommon.myCstr(dtVLC.Rows(0)
                         dclDistanceKM = 1
                     End If
                     Dim objHeadLoad As New clsHeadLoadDCS()
-                    objHeadLoad = clsHeadLoadDCS.GetDcsData(objMilkSRNDetail.VlC_Code, dtShiftDate, trans)
+                    objHeadLoad = clsHeadLoadDCS.GetDcsData(objMilkSRNHead.VLC_CODE, dtShiftDate, trans)
                     objMilkSRNDetail.Head_Load_Rate = clsCommon.myCdbl(objHeadLoad.Head_Load_Rate)
 
                     If clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "K") = CompairStringResult.Equal Then
