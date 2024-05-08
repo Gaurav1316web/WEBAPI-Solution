@@ -34,7 +34,7 @@ Public Class frmCorrection
                     chkAddMissingSample.Visible = False
                     chkAdjustOwnBMCFATSNF.Visible = True
                     chkDeleteBMCCollection.Visible = True
-                    txtFromShift.Enabled = False
+                    txtFromShift.Enabled = True
                 Else
                     chkAddMissingSample.Visible = True
                     chkAdjustOwnBMCFATSNF.Visible = False
