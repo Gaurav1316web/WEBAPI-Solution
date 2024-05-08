@@ -4175,15 +4175,28 @@ TSPL_MILK_COLLECTION_MCC
                 End If
 
                 Dim Qry As String = "; with CTE as (select 1 Number  union all  select Number +1 from CTE where Number<31 ) 
-                                     select CASE WHEN max(Registered_PDCS_CLUSTER) = 'Registered' THEN ([DCS Code]) + '(R)' ELSE CASE WHEN max(Registered_PDCS_CLUSTER) = 'PDCS' THEN ([DCS Code]) + '(CC)' ELSE ([DCS Code]) END END AS DCSCode,
+                                     select"
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                    Qry += " CASE WHEN max(Registered_PDCS_CLUSTER) = 'Registered' THEN ([DCS Code]) + '' ELSE CASE WHEN max(Registered_PDCS_CLUSTER) = 'PDCS' THEN ([DCS Code]) + '' ELSE ([DCS Code]) END END AS DCSCode,
+									
+									 CASE WHEN max(Registered_PDCS_CLUSTER) = 'Registered' THEN 'R' else CASE WHEN max(Registered_PDCS_CLUSTER) = 'PDCS' THEN 'P' end end as DCStype ,
+									 max(Route_code) as Route_code,"
+                Else
+                    Qry += " CASE WHEN max(Registered_PDCS_CLUSTER) = 'Registered' THEN ([DCS Code]) + '(R)' ELSE CASE WHEN max(Registered_PDCS_CLUSTER) = 'PDCS' THEN ([DCS Code]) + '(CC)' ELSE ([DCS Code]) END END AS DCSCode,"
+                End If
+                Qry += "
                                      Max([DCS Code])[DCS Code],'" + objCommonVar.CurrentCompanyName + MCCName + "'  as CompName,'" + objCommonVar.CurrentUser + "' as User_Name,'" + txtDateFrom.Value + "' as fromDate ,'" + txtDateTo.Value + "' as Todate,max(VSP_CODE) as VSP_CODE ,max(Vendor_Name) as Vendor_Name,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER, sum(MorningSweetQty) as MorningSweetQty ,sum(MorningSoreQty) as MorningSoreQty,sum(MorningCurdQty) as MorningCurdQty,sum(EveningSweetQty) as EveningSweetQty,sum(EveningSoreQty) as EveningSoreQty ,sum(EveningCurdQty) as EveningCurdQty ,sum(TotalSweetQty) as TotalSweetQty ,sum(TotalSoreQty) as TotalSoreQty ,sum(TotalCurdQty) as TotalCurdQty,
                                      ((sum(FATKG)* 100)/(sum(TotalSweetQty)+sum(TotalSoreQty))) as FATPer,((Sum(SNFKG)* 100)/(sum(TotalSweetQty)+sum(TotalSoreQty))) as SNFPer,
                                      Count(Distinct Doc_Date)DAYS_Total, 
                                      (sum(TotalSweetQty)+sum(TotalSoreQty)+sum(TotalCurdQty))/max(FYDays+1)as AVG_QTY,(sum(TotalSweetQty)+sum(TotalSoreQty)+sum(TotalCurdQty))as TotalQty  
                                      from (
-                                     select [DCS Code],FATKG,SNFKG,Doc_Date,Number2, VSP_CODE1, Vendor_Name,Registered_PDCS_CLUSTER ,MorningSweetQty,MorningSoreQty,MorningCurdQty,EveningSweetQty,EveningSoreQty,EveningCurdQty,TotalSweetQty,TotalSoreQty,TotalCurdQty,FATQTY,SNFQTY,DAYS_Total,(DATEDIFF(DAY, convert(date,('" + txtDateFrom.Value + "'),103), convert(date,('" + txtDateTo.Value + "'),103)))FYDays
+                                     select "
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                    Qry += " Route_code,"
+                End If
+                Qry += "        [DCS Code],FATKG,SNFKG,Doc_Date,Number2, VSP_CODE1, Vendor_Name,Registered_PDCS_CLUSTER ,MorningSweetQty,MorningSoreQty,MorningCurdQty,EveningSweetQty,EveningSoreQty,EveningCurdQty,TotalSweetQty,TotalSoreQty,TotalCurdQty,FATQTY,SNFQTY,DAYS_Total,(DATEDIFF(DAY, convert(date,('" + txtDateFrom.Value + "'),103), convert(date,('" + txtDateTo.Value + "'),103)))FYDays
                                        from (
-                                     select [DCS Code],FATKG,SNFKG,Doc_Date,Number,Number as Number2, VSP_CODE1, Vendor_Name,Registered_PDCS_CLUSTER, SHIFT, QBD , ROUTE_CODE , Qty, FAT_PER , SNF_PER , FATQTY, SNFQTY, SRN_Net_Amount, 
+                                     select  [DCS Code],FATKG,SNFKG,Doc_Date,Number,Number as Number2, VSP_CODE1, Vendor_Name,Registered_PDCS_CLUSTER, SHIFT, QBD , ROUTE_CODE , Qty, FAT_PER , SNF_PER , FATQTY, SNFQTY, SRN_Net_Amount, 
                                      Case when SHIFT = 'M' and QBD = 'SWEET' then Qty else 0 end as MorningSweetQty,
                                      Case when SHIFT = 'M' and QBD = 'SOUR' then Qty else 0 end as MorningSoreQty,
                                      Case when SHIFT = 'M' and QBD = 'CURD' then Qty else 0 end as MorningCurdQty,
@@ -4406,11 +4419,18 @@ TSPL_MILK_COLLECTION_MCC
                 Dim dtSubDay As DataTable = clsDBFuncationality.GetDataTable(Qry)
                 If dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubMonthly, "rptDCSSummaryYearlyWise", "", "rptSubDCSYearlySummaryMonthlyWiseReport.rpt")
-                    'frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubMonthly, "rptDCSSummaryYearlyWise", "", "rptSubDCSYearlySummaryMonthlyWiseReport", "rptDCSSummaryYearlyDayWiseReport", dtSubDay)
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                        frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubMonthly, "rptDCSSummaryYearlyWiseUDP", "", "rptSubDCSYearlySummaryMonthlyWiseReport.rpt")
+
+                    Else
+
+                        frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubMonthly, "rptDCSSummaryYearlyWise", "", "rptSubDCSYearlySummaryMonthlyWiseReport.rpt")
+                        'frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubMonthly, "rptDCSSummaryYearlyWise", "", "rptSubDCSYearlySummaryMonthlyWiseReport", "rptDCSSummaryYearlyDayWiseReport", dtSubDay)
+                    End If
                     frmCRV = Nothing
-                Else
-                    clsCommon.MyMessageBoxShow(Me, "No data found to print.", Me.Text)
+
+                        Else
+                        clsCommon.MyMessageBoxShow(Me, "No data found to print.", Me.Text)
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "Finacial Year can't be blanck.", Me.Text)
