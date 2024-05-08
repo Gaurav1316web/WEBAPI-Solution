@@ -328,7 +328,7 @@ Public Class FrmOpenMCCShift
 
             CalculateSNFFromCLR()
             If FormCode = "MCC-SHF" Then
-                Qry = "select * from tspl_milk_receipt_Head  Where MCC_Code = '" + txtmccode.Value + "' and shift='" & cmbShift.SelectedValue & "'and convert(date,Doc_date,103)=convert(date,'" & dtpShiftDate.Value & "',103)"
+                Qry = "select * from TSPL_MILK_SRN_HEAD  Where MCC_Code = '" + txtmccode.Value + "' and shift='" & cmbShift.SelectedValue & "'and convert(date,Doc_date,103)=convert(date,'" & dtpShiftDate.Value & "',103)"
                 dt = clsDBFuncationality.GetDataTable(Qry)
                 If dt.Rows.Count > 0 Then
                     clsCommon.MyMessageBoxShow(Me, "This Shift is Used in Milk Receipt and can not be Updated.", Me.Text)
@@ -479,7 +479,7 @@ Public Class FrmOpenMCCShift
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmOpenMCCShift, txtmccode.Value, dtpShiftDate.Value, Nothing)
 
             If clsCommon.MyMessageBoxShow("Do you want to delete  Code '" + txtCode.Value + "'", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
-                qry = "select * from tspl_milk_receipt_Head  Where MCC_Code = '" + txtmccode.Value + "' and shift='" & cmbShift.SelectedValue & "'and convert(date,Doc_date,103)=convert(date,'" & dtpShiftDate.Value & "',103)"
+                qry = "select * from TSPL_MILK_SRN_HEAD  Where MCC_Code = '" + txtmccode.Value + "' and shift='" & cmbShift.SelectedValue & "'and convert(date,Doc_date,103)=convert(date,'" & dtpShiftDate.Value & "',103)"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dt.Rows.Count <= 0 Then
                     qry = "DELETE FROM TSPL_OPEN_MCC_SHIFT WHERE MCC_SHIFT_CODE='" + txtCode.Value + "'"

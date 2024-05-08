@@ -73,15 +73,15 @@ Public Class rptTruckSheetDailySummaryReport
                 Else
                     If txtMCC.arrValueMember.Count > 1 Then
                         MCCName = ",'Ganganagar' AS MCCName"
-                        whrclsRjt = "  and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                        'whrclsRjt = "  and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
                         whrclsRecpt = " and TSPL_milk_SRN_head.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
                     ElseIf txtMCC.arrValueMember.Count <= 0 Then
                         MCCName = ",'Ganganagar' AS MCCName"
-                        whrclsRjt = "  and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                        'whrclsRjt = "  and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
                         whrclsRecpt = " and TSPL_milk_SRN_head.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
                     Else
                         MCCName = ",max ([MCC Name]) as MCCName"
-                        whrclsRjt = "  and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                        'whrclsRjt = "  and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
                         whrclsRecpt = " and TSPL_milk_SRN_head.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
                     End If
                 End If
