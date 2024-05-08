@@ -1331,6 +1331,8 @@ Public Class clsFixedParameterType
     Public Const ConvertPouchtoCrate = "Convert 1 Pouch to Crate"
     Public Const ChangeInventroyMovemnet = "Inventroy Movement from Dispath/Gatepass"
     Public Const ApplyCommissionRateWithTax = "Apply Commission Rate With TAX"
+    Public Const DisableRouteandVehicle = "Disable Route and Vehicle No."
+
 End Class
 Public Class clsFixedParameterCode
     Public Const NoOfRecordForLotNo As String = "No Of Record For Lot No"
@@ -2797,6 +2799,7 @@ Public Class clsFixedParameterCode
     Public Const ConvertPouchtoCrate = "Convert 1 Pouch to Crate"
     Public Const ChangeInventroyMovemnet = "Inventroy Movement from Dispath/Gatepass"
     Public Const ApplyCommissionRateWithTax = "Apply Commission Rate With TAX"
+    Public Const DisableRouteandVehicle = "Disable Route and Vehicle No."
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4532,6 +4535,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowDemandDoc, clsFixedParameterCode.ShowDemandDoc, "0", "0:Don't Show, 1:Show;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyCommission, clsFixedParameterCode.ApplyCommission, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyCommissionRateWithTax, clsFixedParameterCode.ApplyCommissionRateWithTax, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.DisableRouteandVehicle, clsFixedParameterCode.DisableRouteandVehicle, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PricePlanRoundOffTruncate, clsFixedParameterCode.PricePlanRoundOffTruncate, "0", "0:RoundOff, 1:Truncate;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowIncreaseDispatchQty, clsFixedParameterCode.AllowIncreaseDispatchQty, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, "0", "Enter Weight in KG ")
@@ -6593,6 +6597,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.ShowDemandDoc, clsFixedParameterCode.ShowDemandDoc, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyCommission, clsFixedParameterCode.ApplyCommission, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyCommissionRateWithTax, clsFixedParameterCode.ApplyCommissionRateWithTax, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.DisableRouteandVehicle, clsFixedParameterCode.DisableRouteandVehicle, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.PricePlan, clsFixedParameterType.PricePlanRoundOffTruncate, clsFixedParameterCode.PricePlanRoundOffTruncate, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.AllowIncreaseDispatchQty, clsFixedParameterCode.AllowIncreaseDispatchQty, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, EnumControlType.TextBox)

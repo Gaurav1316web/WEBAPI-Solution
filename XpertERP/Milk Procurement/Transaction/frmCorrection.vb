@@ -536,7 +536,7 @@ Public Class frmCorrection
 (Case When Retesting_OR_Correction_Status=1 Then TSPL_MILK_SRN_DETAIL.Retesting_SNF Else (Case When Retesting_OR_Correction_Status=2 Then TSPL_MILK_SRN_DETAIL.SNF_PER Else TSPL_MILK_SRN_DETAIL.Retesting_SNF End) End) As SNF from TSPL_MILK_SRN_DETAIL" + Environment.NewLine +
                     "left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE"
 
-            Dim whr As String = " convert(date, TSPL_MILK_SRN_HEAD.DOC_DATE,106)='" + clsCommon.GetPrintDate(txtShiftDate.Value, "dd/MMM/yyyy") + "' and TSPL_MILK_SRN_HEAD.SHIFT='" + clsCommon.myCstr(cboShift.SelectedValue) + "' and TSPL_MILK_SRN_HEAD.VLC_CODE='" + clsCommon.myCstr(txtVLC.Tag) + "' and TSPL_MILK_SRN_HEAD.Against_Reject_No is null"
+            Dim whr As String = " convert(date, TSPL_MILK_SRN_HEAD.DOC_DATE,106)='" + clsCommon.GetPrintDate(txtShiftDate.Value, "dd/MMM/yyyy") + "' and TSPL_MILK_SRN_HEAD.SHIFT='" + clsCommon.myCstr(cboShift.SelectedValue) + "' and TSPL_MILK_SRN_HEAD.VLC_CODE='" + clsCommon.myCstr(txtVLC.Tag) + "'"
 
             If Not MultipleFinderFillAuto Then
                 whr += " and TSPL_MILK_SRN_HEAD.MCC_CODE='" + txtMCC.Value + "' "
@@ -782,19 +782,16 @@ where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + clsCommon.myCstr(drDO
                                                 End If
                                             Else
                                                 If Math.Abs(clsCommon.myCdbl(drDCS("DiffFATKG"))) > 0 OrElse Math.Abs(clsCommon.myCdbl(drDCS("DiffSNFKG"))) > 0 Then
-                                                    qry = "select xx.*,TSPL_MILK_SRN_HEAD.DOC_CODE,TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type from
+                                                qry = "select xx.*,TSPL_MILK_SRN_HEAD.DOC_CODE,TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type from
 	(select PK_Id,Qty,FATKG,SNFKG,Shift 
 	 from TSPL_MILK_COLLECTION_DCS_DETAIL where exists(select 1 from TSPL_MILK_COLLECTION_DCS_DETAIL as  inn where inn.PK_Id=" + clsCommon.myCstr(drDCS("PK_Id")) + " and inn.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code and inn.Document_No= TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No)
 	 )xx
 	 left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail=xx.PK_Id
 left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail=xx.PK_Id
-left outer join TSPL_MILK_RECEIPT_DETAIL on TSPL_MILK_RECEIPT_DETAIL.Against_Uploader_TR_No=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No or TSPL_MILK_RECEIPT_DETAIL.Against_Shift_Uploader_TR_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No
-left outer join TSPL_MILK_SAMPLE_HEAD on TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE=TSPL_MILK_RECEIPT_DETAIL.DOC_CODE
-left outer join TSPL_MILK_SAMPLE_DETAIL on TSPL_MILK_SAMPLE_DETAIL.DOC_CODE=TSPL_MILK_SAMPLE_HEAD.DOC_CODE and TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO=TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO
-left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.SAMPLE_NO=TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO and TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE=TSPL_MILK_SAMPLE_DETAIL.DOC_CODE
+left outer join TSPL_MILK_SRN_HEAD  on ((TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No) or  (TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No= TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No))
 order by  xx.Shift desc,xx.Qty "
 
-                                                    Dim dtDetail As DataTable = clsDBFuncationality.GetDataTable(qry)
+                                                Dim dtDetail As DataTable = clsDBFuncationality.GetDataTable(qry)
                                                     If dtDetail IsNot Nothing AndAlso dtDetail.Rows.Count > 0 Then
                                                         For indx As Integer = 0 To dtDetail.Rows.Count - 1
                                                             Dim Qty As Decimal = clsCommon.myCDecimal(dtDetail.Rows(indx)("Qty"))
@@ -868,7 +865,7 @@ order by  xx.Shift desc,xx.Qty "
                                     qry = "select TSPL_MILK_SRN_HEAD.DOC_CODE,TSPL_MILK_SRN_DETAIL.FAT_PER,TSPL_MILK_SRN_DETAIL.SNF_PER,TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type 
 from TSPL_MILK_SRN_DETAIL 
 left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE  
-where TSPL_MILK_SRN_HEAD.Against_Reject_No is null and TSPL_MILK_SRN_HEAD.MCC_CODE='" + strMCCcode + "' and TSPL_MILK_SRN_HEAD.DOC_DATE>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtVLCCMFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and TSPL_MILK_SRN_HEAD.DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtVLCCMToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'"
+where TSPL_MILK_SRN_HEAD.MCC_CODE='" + strMCCcode + "' and TSPL_MILK_SRN_HEAD.DOC_DATE>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtVLCCMFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and TSPL_MILK_SRN_HEAD.DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtVLCCMToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'"
                                     If Not clsCommon.CompairString(clsCommon.myCstr(cboMPCMShift.SelectedValue), "B") = CompairStringResult.Equal Then
                                         qry += " and TSPL_MILK_SRN_HEAD.SHIFT='" + clsCommon.myCstr(cboVLCCMShift.SelectedValue) + "'"
                                     End If
@@ -1050,7 +1047,6 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
             If txtBMCCorrSNF.Value < 0 Then
                 Throw New Exception("SNF % Can't be -ve")
             End If
-
             Dim qry As String = "PK_Id=" + lblBMCDetailNo.Text + ""
             Dim Arr As List(Of clsMilkCollectionMCCDetail) = clsMilkCollectionMCCDetail.GetData(lblBMCDocNo.Text, qry, Nothing)
             If Arr Is Nothing OrElse Arr.Count <= 0 Then
@@ -1063,10 +1059,7 @@ left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No
 left outer join TSPL_MILK_COLLECTION_DCS_DETAIL on TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No=TSPL_MILK_COLLECTION_DCS.Document_No
 left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail=TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id
 left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail=TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id
-left outer join TSPL_MILK_RECEIPT_DETAIL on TSPL_MILK_RECEIPT_DETAIL.Against_Shift_Uploader_TR_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No or TSPL_MILK_RECEIPT_DETAIL.Against_Uploader_TR_No=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No 
-left outer join TSPL_MILK_SAMPLE_HEAD on TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE=TSPL_MILK_RECEIPT_DETAIL.DOC_CODE
-left outer join TSPL_MILK_SAMPLE_DETAIL on TSPL_MILK_SAMPLE_DETAIL.DOC_CODE=TSPL_MILK_SAMPLE_HEAD.DOC_CODE and TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO=TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO
-left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE=TSPL_MILK_SAMPLE_HEAD.DOC_CODE and TSPL_MILK_SRN_HEAD.SAMPLE_NO=TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO
+left outer join TSPL_MILK_SRN_HEAD on ((TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No) or  (TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No= TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No))
 left outer join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
 where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=" + lblBMCDetailNo.Text + ""
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)

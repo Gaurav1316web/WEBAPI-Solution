@@ -206,13 +206,22 @@ Public Class RptDailyDifferentRow_vb
             sQuery = ""
 
             ''richa agarwal TEC/28/03/19-000462 add item master table to pick item structure code
-            sQuery += "  WITH TEMP AS" & Environment.NewLine & _
-            " ( select ROW_NUMBER () over (  order by [Mcc Code] desc,VLC_Code desc,convert(date,DOC_DATE,103) asc )  as FSLNO, * from (select ROW_NUMBER () over ( partition by [Mcc Code],VLC_Code order by [Mcc Code],VLC_Code,convert(date,DOC_DATE,103) )  as SLNO,* from" & Environment.NewLine & _
-            " (select max( [MCC Code]) as [MCC Code] ,max([Mcc Name]) as [MCC Name] ,max(VLC_Code) as VLC_Code ,max(VLC_Name) as VLC_Name,max(VLC_Uploader_Code) as VLC_Uploader_Code ,convert(varchar,DOC_DATE,103) as DOC_DATE,convert(decimal(18,2),SUM(isnull(NewQty,0) )) as QTY,isnull(convert(DECIMAL(18,1),sum(FATQTY)/nullif(sum(NewQty),0)*100),0) as FAT_PER, isnull(convert(DECIMAL(18,1),sum(SNFQTY )/nullif(sum(NewQty),0)*100),0) as SNF_PER from" & Environment.NewLine & _
-            " (  select [MCC Code] as [MCC Code],[Mcc Name],VLC_Code ,VLC_Name ,VLC_Uploader_Code , convert(date,DOC_DATE,103) as DOC_DATE,UOM_Code,convert(DECIMAL(18,2),FATQTY*CF) as FATQTY,convert(DECIMAL(18,2),SNFQTY*CF) as SNFQTY,Qty*CF as NewQty, Qty,FromUOM,TOUOM,CF   from(  select TSPL_MCC_MASTER.MCC_Code as [MCC Code] ,TSPL_MCC_MASTER.MCC_NAME as [Mcc Name],TSPL_VLC_MASTER_HEAD.VLC_Code  , TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VLC_Uploader_Code,TSPL_VLC_MASTER_HEAD.VLC_Name, TSPL_MILK_RECEIPT_HEAD.DOC_DATE,TSPL_MILK_RECEIPT_DETAIL.UOM_Code ,TSPL_MILK_SAMPLE_DETAIL.FAT,(TSPL_MILK_SAMPLE_DETAIL.FAT*TSPL_MILK_SAMPLE_DETAIL.Qty/100) as FATQTY ,TSPL_MILK_SAMPLE_DETAIL.SNF,(TSPL_MILK_SAMPLE_DETAIL.SNF*TSPL_MILK_SAMPLE_DETAIL.Qty /100) as SNFQTY ,TSPL_MILK_SAMPLE_DETAIL.Qty,TSPL_ITEM_MASTER.Structure_Code  from TSPL_MILK_RECEIPT_DETAIL left outer join TSPL_MILK_RECEIPT_HEAD on TSPL_MILK_RECEIPT_HEAD.DOC_CODE =TSPL_MILK_RECEIPT_DETAIL.DOC_CODE  left outer join TSPL_MCC_MASTER  on TSPL_MCC_MASTER .MCC_Code =TSPL_MILK_RECEIPT_HEAD .MCC_CODE  left outer join TSPL_MILK_SAMPLE_DETAIL on TSPL_MILK_SAMPLE_DETAIL.VLC_DOC_CODE =TSPL_MILK_RECEIPT_DETAIL.VLC_DOC_CODE  left outer join TSPL_STATE_MASTER on TSPL_STATE_MASTER.State_Code =TSPL_MCC_MASTER .State_Code  left outer join TSPL_CITY_MASTER  on TSPL_CITY_MASTER.City_Code =TSPL_MCC_MASTER.City_code left outer join TSPL_VLC_MASTER_HEAD  on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_RECEIPT_DETAIL .VLC_Code left join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER. Route_No =TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE" & Environment.NewLine & _
-            " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_MILK_RECEIPT_DETAIL.Item_Code " & Environment.NewLine & _
-            " where 2 = 2 " & Environment.NewLine & _
-            " and convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103)>=convert(date,('" + txtFromDate.Value + "'),103) and convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) <=convert(date,('" + txtToDate.Value + "'),103) " & Environment.NewLine
+            sQuery += "  WITH TEMP AS" & Environment.NewLine &
+            " ( select ROW_NUMBER () over (  order by [Mcc Code] desc,VLC_Code desc,convert(date,DOC_DATE,103) asc )  as FSLNO, * from 
+            (select ROW_NUMBER () over ( partition by [Mcc Code],VLC_Code order by [Mcc Code],VLC_Code,convert(date,DOC_DATE,103) )  as SLNO,* from" & Environment.NewLine &
+            " (select max( [MCC Code]) as [MCC Code] ,max([Mcc Name]) as [MCC Name] ,max(VLC_Code) as VLC_Code ,max(VLC_Name) as VLC_Name,max(VLC_Uploader_Code) as VLC_Uploader_Code ,convert(varchar,DOC_DATE,103) as DOC_DATE,convert(decimal(18,2),SUM(isnull(NewQty,0) )) as QTY,isnull(convert(DECIMAL(18,1),sum(FATQTY)/nullif(sum(NewQty),0)*100),0) as FAT_PER, isnull(convert(DECIMAL(18,1),sum(SNFQTY )/nullif(sum(NewQty),0)*100),0) as SNF_PER from" & Environment.NewLine &
+            " (  select [MCC Code] as [MCC Code],[Mcc Name],VLC_Code ,VLC_Name ,VLC_Uploader_Code , convert(date,DOC_DATE,103) as DOC_DATE,UOM_Code,convert(DECIMAL(18,2),FATQTY*CF) as FATQTY,convert(DECIMAL(18,2),SNFQTY*CF) as SNFQTY,Qty*CF as NewQty, Qty,FromUOM,TOUOM,CF 
+            from( 
+            select TSPL_MCC_MASTER.MCC_Code as [MCC Code] ,TSPL_MCC_MASTER.MCC_NAME as [Mcc Name],TSPL_VLC_MASTER_HEAD.VLC_Code  , TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VLC_Uploader_Code,TSPL_VLC_MASTER_HEAD.VLC_Name, TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_detail.UOM_Code ,TSPL_MILK_SRN_detail.FAT_Per,(TSPL_MILK_SRN_detail.FAT_per*TSPL_MILK_SRN_detail.Qty/100) as FATQTY ,TSPL_MILK_SRN_detail.SNF_per,(TSPL_MILK_SRN_detail.SNF_PER*TSPL_MILK_SRN_detail.Qty /100) as SNFQTY ,TSPL_MILK_SRN_detail.Qty,TSPL_ITEM_MASTER.Structure_Code  from TSPL_MILK_SRN_detail 
+             left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_detail.DOC_CODE
+            left outer join TSPL_MCC_MASTER  on TSPL_MCC_MASTER .MCC_Code =TSPL_MILK_SRN_HEAD .MCC_CODE  
+            left outer join TSPL_STATE_MASTER on TSPL_STATE_MASTER.State_Code =TSPL_MCC_MASTER .State_Code 
+            left outer join TSPL_CITY_MASTER  on TSPL_CITY_MASTER.City_Code =TSPL_MCC_MASTER.City_code 
+            left outer join TSPL_VLC_MASTER_HEAD  on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_SRN_HEAD .VLC_Code
+            left join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER. Route_No =TSPL_MILK_SRN_HEAD.ROUTE_CODE" & Environment.NewLine &
+            " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_MILK_SRN_detail.Item_Code " & Environment.NewLine &
+            " where 2 = 2 " & Environment.NewLine &
+            " and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103)>=convert(date,('" + txtFromDate.Value + "'),103) and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) <=convert(date,('" + txtToDate.Value + "'),103) " & Environment.NewLine
 
             'If rbtnMCCRouteVLCCSelect.IsChecked Then
             Dim arr As List(Of String) = Nothing
@@ -227,7 +236,7 @@ Public Class RptDailyDifferentRow_vb
             If cbtMCCRouteVLCC.CheckedValue.Count > 1 Then
                 arr = cbtMCCRouteVLCC.CheckedValue(2)
                 If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                    sQuery += " and TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE in (" + clsCommon.GetMulcallString(arr) + ")  "
+                    sQuery += " and TSPL_MILK_SRN_HEAD.ROUTE_CODE in (" + clsCommon.GetMulcallString(arr) + ")  "
                 Else
                     Throw New Exception("Please select at least one Route")
                 End If
@@ -235,7 +244,7 @@ Public Class RptDailyDifferentRow_vb
             If cbtMCCRouteVLCC.CheckedValue.Count > 2 Then
                 arr = cbtMCCRouteVLCC.CheckedValue(3)
                 If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                    sQuery += " and TSPL_MILK_RECEIPT_DETAIL.VLC_CODE in (" + clsCommon.GetMulcallString(arr) + ")  "
+                    sQuery += " and TSPL_MILK_SRN_HEAD.VLC_CODE in (" + clsCommon.GetMulcallString(arr) + ")  "
                 Else
                     Throw New Exception("Please select at least one Route")
                 End If
@@ -253,10 +262,10 @@ Public Class RptDailyDifferentRow_vb
                 sQuery += " and TSPL_STATE_MASTER.STATE_CODE in (" + clsCommon.GetMulcallString(cbgState.CheckedValue) + ")  "
             End If
             If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
-                sQuery += " and 2=( case when TSPL_MILK_RECEIPT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_RECEIPT_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_RECEIPT_HEAD.SHIFT='M' then 3 else 2 end  )"
+                sQuery += " and 2=( case when TSPL_MILK_SRN_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_HEAD.SHIFT='M' then 3 else 2 end  )"
             End If
             If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
-                sQuery += " and 2=( case when TSPL_MILK_RECEIPT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_RECEIPT_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_RECEIPT_HEAD.SHIFT='E' then 3 else 2 end  )"
+                sQuery += " and 2=( case when TSPL_MILK_SRN_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_HEAD.SHIFT='E' then 3 else 2 end  )"
             End If
             ''richa agarwal TEC/28/03/19-000462 add item structure on setting based
             If ItemStructureMandatoryOnWeightConversion Then

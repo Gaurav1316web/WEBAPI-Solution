@@ -369,6 +369,7 @@ Public Class FrmPaymentNew
         txtBankCharges.Text = ""
         txtRemitTo.Text = ""
         txtPONo.Value = ""
+        txtmulPI.arrValueMember = Nothing
         LoadBlankGrid(ddlPaymentType.SelectedValue)
         dtpPayment.Focus()
         txtBankCode.Enabled = True
@@ -635,6 +636,9 @@ Public Class FrmPaymentNew
                 chkCheckPrint.Visible = True
                 chkSaving.Visible = True
                 btnOk.Visible = False
+                txtmulPI.Visible = True
+                PIbtngo.Visible = True
+                MyLabel15.Visible = True
             ElseIf clsCommon.CompairString(ddlPaymentType.SelectedValue, "AD") = CompairStringResult.Equal Then
                 lblTotPayment.Text = "Total Payment"
                 txtPaymentAmt.ReadOnly = True
@@ -655,6 +659,9 @@ Public Class FrmPaymentNew
                 txtBankCharges.Text = "0"
                 ChkAdvSalary.Visible = False
                 ChkAdvSalary.Checked = False
+                txtmulPI.Visible = True
+                PIbtngo.Visible = True
+                MyLabel15.Visible = True
             ElseIf clsCommon.CompairString(ddlPaymentType.SelectedValue, "AV") = CompairStringResult.Equal Or clsCommon.CompairString(ddlPaymentType.SelectedValue, "OA") = CompairStringResult.Equal Then
                 pnlAdvance.Visible = True
                 lblTotPayment.Text = "Payment Amount"
@@ -671,6 +678,9 @@ Public Class FrmPaymentNew
                 ChkAdvSalary.Visible = True
                 pnlEMI.Visible = True
                 chkSaving.Visible = False
+                txtmulPI.Visible = False
+                PIbtngo.Visible = False
+                MyLabel15.Visible = False
                 If clsCommon.CompairString(ddlPaymentType.SelectedValue, "AV") = CompairStringResult.Equal Then
                     pnlmemorndm.Visible = True
                     lblpaymentcode.Visible = True
@@ -682,6 +692,9 @@ Public Class FrmPaymentNew
                     ChkRetention.Visible = False
                     LblPONo.Visible = True
                     txtPONo.Visible = True
+                    txtmulPI.Visible = False
+                    PIbtngo.Visible = False
+                    MyLabel15.Visible = False
                 Else
                     chkSaving.Visible = True
                 End If
@@ -726,6 +739,9 @@ Public Class FrmPaymentNew
                 ChkRetention.Visible = True
                 ChkAdvSalary.Visible = True
                 ChkAdvSalary.Checked = False
+                txtmulPI.Visible = False
+                PIbtngo.Visible = False
+                MyLabel15.Visible = False
                 If isApplyBranchAccounting = True Then
                     RadLabel18.Visible = True
                     txtlocation.Visible = True
@@ -752,7 +768,9 @@ Public Class FrmPaymentNew
                 pnlCheque.Visible = True
                 txtBankCharges.Visible = True
                 MyLabel3.Visible = True
-
+                txtmulPI.Visible = True
+                PIbtngo.Visible = True
+                MyLabel15.Visible = True
                 txtPaymentAmt.ReadOnly = False
                 gvDetails.Visible = True
                 btnViewTDSDetails.Enabled = False
@@ -7521,5 +7539,12 @@ left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOI
             trans.Rollback()
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub txtmulPI__My_Click(sender As Object, e As EventArgs) Handles txtmulPI._My_Click
+        Dim qry As String = " select pi_no as PurchaseInvoice ,PI_Date as Date,TSPL_PI_HEAD.Vendor_Code as [Vendor Code],TSPL_PI_HEAD.Vendor_Name as [Vendor Name],TSPL_PURCHASE_ORDER_HEAD.RefTendorNo AS RAL,TSPL_PI_HEAD.Against_PO as PO from TSPL_PI_HEAD
+                                left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=TSPL_PI_HEAD.Against_PO
+                                where TSPL_PI_HEAD.Status=1 "
+        txtmulPI.arrValueMember = clsCommon.ShowMultipleSelectForm("ItemMulSel", qry, "PurchaseInvoice", "", txtmulPI.arrValueMember, txtmulPI.arrDispalyMember)
     End Sub
 End Class

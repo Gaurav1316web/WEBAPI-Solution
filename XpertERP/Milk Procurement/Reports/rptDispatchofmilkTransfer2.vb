@@ -178,32 +178,35 @@ Public Class RptDispatchofmilkTransfer2
         common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
     Public Sub Load_Report()
-
+        try
         If chkMCCSelect.IsChecked AndAlso cbgMCC.CheckedValue.Count = 0 Then
             clsCommon.MyMessageBoxShow(Me, "Please select atleast single Location or select all.", Me.Text)
             Exit Sub
         End If
         Dim sQuery As String = " ;with wholedata as (select case when sum(Dis_qty_Inter) >0 then xx.isIntermittent else 0 end  as isIntermittent,'' as SNO, coalesce(yy.State_Code,xx.state_code) as state_code ,Max(coalesce(yy.STATE_NAME,xx.STATE_NAME)) as STATE_NAME ,coalesce(yy.MCC_CODE,xx.MCC_CODE) as MCC_CODE,max(coalesce(yy.MCC_NAME,xx.MCC_NAME)) as MCC_NAME,max(convert(varchar,coalesce(yy.DOC_DATE,xx.Dispatch_Date),103))  as DOC_DATE,isnull(yy.Opening,0) as  Opening ,isnull(yy.closing ,0) as  closing , isnull(yy.milk_pro,0 ) as milk_proc,isnull(yy.milk_pro_Inter ,0 )as milk_pro_Inter,sum(xx.Dis_qty) as Dis_qty,sum(xx.Dis_qty_Inter ) as Dis_qty_Inter, Max(xx.Tanker_Dispatch_To) as Tanker_Dispatch_To,Max (xx.Tanker_Dispatch_Time) as Tanker_Dispatch_Time,(Tanker_No) as Tanker_No ,(convert(varchar,Reached_Date_time,103)) as Reached_Date_time  from "
-        sQuery += " (select 0 as isIntermittent,  TSPL_MCC_MASTER.State_Code ,Max(TSPL_STATE_MASTER.STATE_NAME) as STATE_NAME ,TSPL_MILK_Shift_End_HEAD.MCC_CODE,max(TSPL_MCC_MASTER.MCC_NAME)"
-        sQuery += "  as MCC_NAME  ,max(TSPL_MILK_Shift_End_HEAD.DOC_DATE)  as DOC_DATE,max(opening.manual_stock) as  Opening,max(closing.manual_stock) as  closing  ,0 as milk_pro_Inter,sum(tspl_milk_shift_end_route_detail.Actual_Weight) "
-        sQuery += " as milk_pro from TSPL_MILK_Shift_End_HEAD  left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER .MCC_Code =TSPL_MILK_Shift_End_HEAD.MCC_CODE "
-        sQuery += " left outer join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE =TSPL_MCC_MASTER.State_Code "
-        sQuery += " left join TSPL_OPEN_MCC_SHIFT on convert(date,TSPL_OPEN_MCC_SHIFT.MCC_SHIFT_DATE,103)=convert(date,'" + txtDate.Value + "',103) and  TSPL_OPEN_MCC_SHIFT.SHIFT='M' and TSPL_OPEN_MCC_SHIFT.MCC_CODE=TSPL_MILK_Shift_End_HEAD.MCC_CODE left outer join tspl_milk_shift_end_route_detail on tspl_milk_shift_end_route_detail.DOC_CODE =TSPL_MILK_Shift_End_HEAD.DOC_CODE  "
-        'sQuery += " Left join (select location_code,round(sum(Qty),2) as Qty,round(SUM(FAT),2) as FAT,round(SUM(SNF),2) as SNF,Item_COde  from (select TSPL_INVENTORY_MOVEMENT_NEW.location_code,case when InOut='O'  then case when UOM='ltr' then -Qty*(Contained_Qty)  else -qty end else case when UOM='ltr' then  Qty*(Contained_Qty)  else qty end  end as Qty,case when InOut='O' then -FAT_KG else FAT_Kg end as FAT,case when InOut='O' then -SNF_KG  else SNF_KG end as SNF,Item_Code from TSPL_INVENTORY_MOVEMENT_NEW left join (select * from TSPL_WEIGHT_CONVERSION where  Container_UOM='ltr' and Contained_UOM='kg') conv on conv.Container_UOM=UOM and Contained_UOM='kg' where Item_Code=(select  Description from TSPL_FIXED_PARAMETER where Type='MCCDefaultMilkItem')  and convert(date,Source_Doc_Date,103)<=convert(date,'" + txtDate.Value + "',103) )    tt group by Item_Code,location_code ) Opening on Opening.Location_Code=TSPL_OPEN_MCC_SHIFT.MCC_CODE"
-        sQuery += " left join (select mcc_code,mcc_shift_date,sum(manual_stock) as manual_stock from TSPL_OPEN_MCC_SHIFT where 2=2 and shift='M' and  convert(date,mcc_shift_date,103)=convert(date,'" + txtDate.Value + "',103)  group by mcc_code,mcc_shift_date)Opening on Opening.mcc_code=TSPL_OPEN_MCC_SHIFT.MCC_CODE "
-        sQuery += "left join (select mcc_code,DOC_DATE ,sum(manual_stock) as manual_stock from TSPL_MILK_Shift_End_HEAD where 2=2 and shift='E' and  convert(date,DOC_DATE,103)=convert(date,'" + txtDate.Value + "',103) group by mcc_code,DOC_DATE)closing on closing.mcc_code=TSPL_OPEN_MCC_SHIFT.MCC_CODE "
-        sQuery += " where 2=2 and  convert(date,TSPL_MILK_Shift_End_HEAD.Doc_date,103)=convert(date,'" + txtDate.Value + "',103)"
+            sQuery += " (select 0 as isIntermittent,  TSPL_MCC_MASTER.State_Code ,Max(TSPL_STATE_MASTER.STATE_NAME) as STATE_NAME ,TSPL_MILK_SRN_HEAD.MCC_CODE,max(TSPL_MCC_MASTER.MCC_NAME)"
+            sQuery += "  as MCC_NAME  ,max(TSPL_MILK_SRN_HEAD.DOC_DATE)  as DOC_DATE,0 as  Opening,0 as  closing  ,0 as milk_pro_Inter,sum(TSPL_MILK_SRN_detail.ACC_Qty) "
+            sQuery += " as milk_pro from TSPL_MILK_SRN_detail  LEFT OUTER jOIN TSPL_MILK_SRN_HEAD ON TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_detail.DOC_CODE
+ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER .MCC_Code =TSPL_MILK_SRN_HEAD.MCC_CODE "
+            sQuery += " left outer join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE =TSPL_MCC_MASTER.State_Code "
+            'sQuery += " left join TSPL_OPEN_MCC_SHIFT on convert(date,TSPL_OPEN_MCC_SHIFT.MCC_SHIFT_DATE,103)=convert(date,'" + txtDate.Value + "',103) and  
+            'TSPL_OPEN_MCC_SHIFT.SHIFT='M' and TSPL_OPEN_MCC_SHIFT.MCC_CODE=TSPL_MILK_Shift_End_HEAD.MCC_CODE 
+            'Left outer join tspl_milk_shift_end_route_detail on tspl_milk_shift_end_route_detail.DOC_CODE =TSPL_MILK_Shift_End_HEAD.DOC_CODE  "
+            'sQuery += " Left join (select location_code,round(sum(Qty),2) as Qty,round(SUM(FAT),2) as FAT,round(SUM(SNF),2) as SNF,Item_COde  from (select TSPL_INVENTORY_MOVEMENT_NEW.location_code,case when InOut='O'  then case when UOM='ltr' then -Qty*(Contained_Qty)  else -qty end else case when UOM='ltr' then  Qty*(Contained_Qty)  else qty end  end as Qty,case when InOut='O' then -FAT_KG else FAT_Kg end as FAT,case when InOut='O' then -SNF_KG  else SNF_KG end as SNF,Item_Code from TSPL_INVENTORY_MOVEMENT_NEW left join (select * from TSPL_WEIGHT_CONVERSION where  Container_UOM='ltr' and Contained_UOM='kg') conv on conv.Container_UOM=UOM and Contained_UOM='kg' where Item_Code=(select  Description from TSPL_FIXED_PARAMETER where Type='MCCDefaultMilkItem')  and convert(date,Source_Doc_Date,103)<=convert(date,'" + txtDate.Value + "',103) )    tt group by Item_Code,location_code ) Opening on Opening.Location_Code=TSPL_OPEN_MCC_SHIFT.MCC_CODE"
+            'sQuery += " left join (select mcc_code,mcc_shift_date,sum(manual_stock) as manual_stock from TSPL_OPEN_MCC_SHIFT where 2=2 and shift='M' and  convert(date,mcc_shift_date,103)=convert(date,'" + txtDate.Value + "',103)  group by mcc_code,mcc_shift_date)Opening on Opening.mcc_code=TSPL_OPEN_MCC_SHIFT.MCC_CODE "
+            'sQuery += "left join (select mcc_code,DOC_DATE ,sum(manual_stock) as manual_stock from TSPL_MILK_Shift_End_HEAD where 2=2 and shift='E' and  convert(date,DOC_DATE,103)=convert(date,'" + txtDate.Value + "',103) group by mcc_code,DOC_DATE)closing on closing.mcc_code=TSPL_OPEN_MCC_SHIFT.MCC_CODE "
+            sQuery += " where 2=2 and  convert(date,TSPL_MILK_SRN_HEAD.Doc_date,103)=convert(date,'" + txtDate.Value + "',103)"
 
-        If cbgMCC.CheckedValue.Count > 0 Then 'chkMCCSelect.IsChecked And
-            sQuery += "and TSPL_MILK_Shift_End_HEAD.Mcc_Code  IN (" + clsCommon.GetMulcallString(cbgMCC.CheckedValue) + ") "
+            If cbgMCC.CheckedValue.Count > 0 Then 'chkMCCSelect.IsChecked And
+                sQuery += "and TSPL_MILK_SRN_HEAD.Mcc_Code  IN (" + clsCommon.GetMulcallString(cbgMCC.CheckedValue) + ") "
             End If
 
-        sQuery += " group by TSPL_MCC_MASTER.State_Code ,TSPL_MILK_Shift_End_HEAD.MCC_CODE)"
+            sQuery += " group by TSPL_MCC_MASTER.State_Code ,TSPL_MILK_SRN_HEAD.MCC_CODE)"
 
-        sQuery += " yy  full join  (select TSPL_MCC_Dispatch_Challan.isIntermittent,TSPL_MCC_MASTER.State_Code,max(TSPL_STATE_MASTER.STATE_NAME) as STATE_NAME, TSPL_MCC_Dispatch_Challan.MCC_Code ,max(TSPL_MCC_MASTER.MCC_NAME)as MCC_NAME ,max(TSPL_MCC_Dispatch_Challan.Dispatch_Date)  as Dispatch_Date,'' as shift,0 as Opening,0 as closing,0 as Milk_proc,case when max(TSPL_MCC_Dispatch_Challan.isIntermittent)=1 then sum(TSPL_MCC_Dispatch_Challan.Net_Qty)else 0 end as Dis_qty_Inter,case when max(TSPL_MCC_Dispatch_Challan.isIntermittent)=0 then sum(TSPL_MCC_Dispatch_Challan.Net_Qty)else 0 end as Dis_qty,max(TSPL_LOCATION_MASTER.location_desc) as Tanker_Dispatch_To , cast(max(convert(varchar,TSPL_MCC_Dispatch_Challan.Dispatch_Date,108) )  as varchar) as Tanker_Dispatch_Time ,TSPL_MCC_Dispatch_Challan.Tanker_No ,max(Tspl_Gate_Entry_Details.Date_And_Time ) as Reached_Date_time from TSPL_MCC_Dispatch_Challan left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER .MCC_Code =TSPL_MCC_Dispatch_Challan.MCC_CODE left outer join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE =TSPL_MCC_MASTER.State_Code  left outer join Tspl_Gate_Entry_Details on Tspl_Gate_Entry_Details.Challan_No =TSPL_MCC_Dispatch_Challan.Chalan_NO  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MCC_Dispatch_Challan.Mcc_Or_Plant_Code  where convert(date,TSPL_MCC_Dispatch_Challan.Dispatch_Date,103)=convert(date,'" + txtDate.Value + "',103) group by isIntermittent,TSPL_MCC_MASTER.State_Code,TSPL_MCC_Dispatch_Challan.MCC_Code,TSPL_MCC_Dispatch_Challan.Tanker_No)as xx on convert(date,xx.Dispatch_Date,103) =convert(date,yy.doc_date,103) and xx.MCC_Code=yy.mcc_code"
+            sQuery += " yy  full join  (select TSPL_MCC_Dispatch_Challan.isIntermittent,TSPL_MCC_MASTER.State_Code,max(TSPL_STATE_MASTER.STATE_NAME) as STATE_NAME, TSPL_MCC_Dispatch_Challan.MCC_Code ,max(TSPL_MCC_MASTER.MCC_NAME)as MCC_NAME ,max(TSPL_MCC_Dispatch_Challan.Dispatch_Date)  as Dispatch_Date,'' as shift,0 as Opening,0 as closing,0 as Milk_proc,case when max(TSPL_MCC_Dispatch_Challan.isIntermittent)=1 then sum(TSPL_MCC_Dispatch_Challan.Net_Qty)else 0 end as Dis_qty_Inter,case when max(TSPL_MCC_Dispatch_Challan.isIntermittent)=0 then sum(TSPL_MCC_Dispatch_Challan.Net_Qty)else 0 end as Dis_qty,max(TSPL_LOCATION_MASTER.location_desc) as Tanker_Dispatch_To , cast(max(convert(varchar,TSPL_MCC_Dispatch_Challan.Dispatch_Date,108) )  as varchar) as Tanker_Dispatch_Time ,TSPL_MCC_Dispatch_Challan.Tanker_No ,max(Tspl_Gate_Entry_Details.Date_And_Time ) as Reached_Date_time from TSPL_MCC_Dispatch_Challan left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER .MCC_Code =TSPL_MCC_Dispatch_Challan.MCC_CODE left outer join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE =TSPL_MCC_MASTER.State_Code  left outer join Tspl_Gate_Entry_Details on Tspl_Gate_Entry_Details.Challan_No =TSPL_MCC_Dispatch_Challan.Chalan_NO  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MCC_Dispatch_Challan.Mcc_Or_Plant_Code  where convert(date,TSPL_MCC_Dispatch_Challan.Dispatch_Date,103)=convert(date,'" + txtDate.Value + "',103) group by isIntermittent,TSPL_MCC_MASTER.State_Code,TSPL_MCC_Dispatch_Challan.MCC_Code,TSPL_MCC_Dispatch_Challan.Tanker_No)as xx on convert(date,xx.Dispatch_Date,103) =convert(date,yy.doc_date,103) and xx.MCC_Code=yy.mcc_code"
         sQuery += " where 2=2 "
 
-            'sQuery += " and  convert(date,yy.Doc_date,103)=convert(date,'" + txtDate.Value + "',103) "
+        'sQuery += " and  convert(date,yy.Doc_date,103)=convert(date,'" + txtDate.Value + "',103) "
 
         If cbgMCC.CheckedValue.Count > 0 Then 'chkMCCSelect.IsChecked And
             sQuery += "and yy.Mcc_Code  IN (" + clsCommon.GetMulcallString(cbgMCC.CheckedValue) + ") "
@@ -241,7 +244,10 @@ Public Class RptDispatchofmilkTransfer2
         Else
             clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
-        ReStoreGridLayout()
+            ReStoreGridLayout()
+        Catch err As Exception
+            clsCommon.MyMessageBoxShow(Me, err.Message, Me.Text)
+        End Try
     End Sub
     Sub FormatGrid()
         

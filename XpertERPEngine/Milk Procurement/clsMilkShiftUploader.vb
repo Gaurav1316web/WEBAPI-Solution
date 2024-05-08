@@ -1272,7 +1272,7 @@ and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE='" + clsCommon.myCstr(dtVLC.Rows(0)
                         objMilkSRNDetail.SNF = clsEkoPro.getSnfOnCalculation(objtr.FAT, objMilkSRNDetail.CLR, corrFactor)
                         If PickPriceFromFATAndSNF Then
                             objMilkSRNDetail.SNF = clsCommon.myRoundOFF(objtr.SNF, 1, 4)
-                            objMilkSRNDetail.RATE = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(objMilkSRNDetail.MILK_Qty, objMilkSRNDetail.Price_Code, objMilkSRNDetail.FAT, objMilkSRNDetail.SNF, obj.MCC_Code, objMilkSRNDetail.VlC_Code, objMilkSRNHead.SHIFT, dtShiftDate, trans, strDockCollectionMilkType, objMilkSRNDetail.QAT_Rate, objMilkSRNDetail.Negative_Rate)
+                            objMilkSRNDetail.RATE = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(objMilkSRNDetail.MILK_Qty, objMilkSRNDetail.Price_Code, objMilkSRNDetail.FAT, objMilkSRNDetail.SNF, obj.MCC_Code, objMilkSRNHead.VLC_CODE, objMilkSRNHead.SHIFT, dtShiftDate, trans, strDockCollectionMilkType, objMilkSRNDetail.QAT_Rate, objMilkSRNDetail.Negative_Rate)
                         Else
                             objMilkSRNDetail.SNF = clsCommon.myRoundOFF(objMilkSRNDetail.SNF, 2, 9)
                             objMilkSRNDetail.RATE = clsEkoPro.getRateFromUploaderShiftWiseCLR(objMilkSRNDetail.FAT, objMilkSRNDetail.CLR, obj.MCC_Code, objtr.VLC_Code, obj.Shift, dtShiftDate, trans, strDockCollectionMilkType, objMilkSRNDetail.Price_Code)
@@ -1416,7 +1416,7 @@ and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE='" + clsCommon.myCstr(dtVLC.Rows(0)
                         dclDistanceKM = 1
                     End If
                     Dim objHeadLoad As New clsHeadLoadDCS()
-                    objHeadLoad = clsHeadLoadDCS.GetDcsData(objMilkSRNDetail.VlC_Code, dtShiftDate, trans)
+                    objHeadLoad = clsHeadLoadDCS.GetDcsData(objMilkSRNHead.VLC_CODE, dtShiftDate, trans)
                     objMilkSRNDetail.Head_Load_Rate = clsCommon.myCdbl(objHeadLoad.Head_Load_Rate)
 
                     If clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "K") = CompairStringResult.Equal Then
@@ -1768,20 +1768,20 @@ select Document_No from TEMP_TSPL_MILK_COLLECTION_DCS_DETAIL))X"
 
 
         '----Milk Rejection
-        qry = "delete from TSPL_INVENTORY_MOVEMENT_new where Source_Doc_No in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where against_reject_no in (select DOC_CODE from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + "))"
-        clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_JOURNAL_DETAILS  where Voucher_No in ( select Voucher_No from TSPL_JOURNAL_MASTER  where Source_Doc_No in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where against_reject_no in (select DOC_CODE from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")))"
-        clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_JOURNAL_MASTER  where Source_Doc_No in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where against_reject_no in (select DOC_CODE from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + "))"
-        clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_SRN_DETAIL where DOC_CODE in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where against_reject_no in (select DOC_CODE from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + "))"
-        clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_SRN_HEAD where against_reject_no in (select DOC_CODE from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")"
-        clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_REJECT_Detail where DOC_CODE in (select DOC_CODE from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")"
-        clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ""
-        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        'qry = "delete from TSPL_INVENTORY_MOVEMENT_new where Source_Doc_No in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where against_reject_no in (select DOC_CODE from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + "))"
+        'clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        'qry = "delete from TSPL_JOURNAL_DETAILS  where Voucher_No in ( select Voucher_No from TSPL_JOURNAL_MASTER  where Source_Doc_No in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where against_reject_no in (select DOC_CODE from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")))"
+        'clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        'qry = "delete from TSPL_JOURNAL_MASTER  where Source_Doc_No in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where against_reject_no in (select DOC_CODE from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + "))"
+        'clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        'qry = "delete from TSPL_MILK_SRN_DETAIL where DOC_CODE in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where against_reject_no in (select DOC_CODE from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + "))"
+        'clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        'qry = "delete from TSPL_MILK_SRN_HEAD where against_reject_no in (select DOC_CODE from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")"
+        'clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        'qry = "delete from TSPL_MILK_REJECT_Detail where DOC_CODE in (select DOC_CODE from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")"
+        'clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        'qry = "delete from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ""
+        'clsDBFuncationality.ExecuteNonQuery(qry, tran)
         '----End of Milk Rejection
 
         'qry = "delete from TSPL_MILK_RECEIPT_DETAIL where DOC_CODE in ( select DOC_CODE from TSPL_MILK_RECEIPT_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")"

@@ -58,48 +58,48 @@ Public Class RptCollectionAnalysis
             End If
 
             '            sQuery = " SELECT vlc_code,max(VLC_Name) as VLC_Name,MAX(Total_Shift) AS Total_Shift,sum(shift) as shift,SUM(Milk_Collected) AS Milk_Collected,MAX([Total Days]) AS [Total Days],SUM(FULLDAY) AS FULLDAY ,sum(isnull(HalfDAY,0)) as HalfDAY,(SUM(ISNULL(FULLDAY,0)) +sum(isnull(HalfDAY,0)* 0.5)) as Total FROM (SELECT VLC_CODE,VLC_Name  ,DATEDIFF(DAY ,convert(date,'" & txtFromDate.Value & "',103),convert(date,'" & txtToDate.Value & "',103))+ 1 as [Total Days],case when morning > 0 and Evening >0 then 2  else  1  end as  Milk_Collected ,((DATEDIFF(DAY ,convert(date,'" & txtFromDate.Value & "',103),convert(date,'" & txtToDate.Value & "',103))+ 1) * 2) as Total_Shift,CASE WHEN MORNING >0 AND eVENING >0 THEN 1 END AS FULLDAY,CASE WHEN MORNING = 0 AND eVENING >0 or MORNING > 0 AND eVENING = 0 THEN 1 END AS HalfDAY,shift FROM (SELECT VLC_CODE ,MAX(VLC_Name) AS VLC_Name,DOC_DATE   ,SUM(MORNING) AS MORNING,SUM(eVENING) AS eVENING,sum(shift) as shift FROM " & _
-            '" (SELECT VLC_CODE ,MAX(VLC_Name) AS VLC_Name ,DOC_CODE,DOC_DATE,SUM(MORNING) AS MORNING,SUM(eVENING) AS eVENING,count(shift) as shift  FROM (select distinct TSPL_MILK_RECEIPT_DETAIL.vlc_code ,TSPL_VLC_MASTER_HEAD.VLC_Name  ,TSPL_MILK_RECEIPT_HEAD.DOC_CODE   ,(convert(varchar,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103)) as  DOC_DATE,case when TSPL_MILK_RECEIPT_DETAIL.shift ='M' then 1 end as  Morning   ,case when TSPL_MILK_RECEIPT_DETAIL.shift ='E' then 1 end as  Evening ,TSPL_MILK_RECEIPT_DETAIL.shift " & _
-            ' " from TSPL_MILK_RECEIPT_DETAIL left join TSPL_MILK_RECEIPT_HEAD on TSPL_MILK_RECEIPT_HEAD.DOC_CODE =TSPL_MILK_RECEIPT_DETAIL.DOC_CODE  left join tspl_mcc_master on tspl_mcc_master.MCC_Code =TSPL_MILK_RECEIPT_DETAIL.MCC_CODE  left join tspl_vendor_master on tspl_vendor_master.Vendor_Code =TSPL_MILK_RECEIPT_DETAIL.VSP_CODE  left join TSPL_MCC_ROUTE_MASTER on  TSPL_MCC_ROUTE_MASTER.Route_Code =TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE  left join TSPL_VLC_MASTER_HEAD  on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_RECEIPT_DETAIL.VLC_CODE " & _
-            '         " where 2 = 2  and  convert(date, TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and  convert(date,TSPL_MILK_RECEIPT_HEAD. DOC_DATE,103) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "'"
+            '" (SELECT VLC_CODE ,MAX(VLC_Name) AS VLC_Name ,DOC_CODE,DOC_DATE,SUM(MORNING) AS MORNING,SUM(eVENING) AS eVENING,count(shift) as shift  FROM (select distinct TSPL_MILK_SRN_HEAD.VLC_CODE ,TSPL_VLC_MASTER_HEAD.VLC_Name  ,TSPL_MILK_RECEIPT_HEAD.DOC_CODE   ,(convert(varchar,TSPL_MILK_SRN_HEAD.DOC_DATE,103)) as  DOC_DATE,case when TSPL_MILK_SRN_HEAD.Shift ='M' then 1 end as  Morning   ,case when TSPL_MILK_SRN_HEAD.Shift ='E' then 1 end as  Evening ,TSPL_MILK_SRN_HEAD.Shift " & _
+            ' " from TSPL_MILK_RECEIPT_DETAIL left join TSPL_MILK_RECEIPT_HEAD on TSPL_MILK_RECEIPT_HEAD.DOC_CODE =TSPL_MILK_RECEIPT_DETAIL.DOC_CODE  left join tspl_mcc_master on tspl_mcc_master.MCC_Code =TSPL_MILK_RECEIPT_DETAIL.MCC_CODE  left join tspl_vendor_master on tspl_vendor_master.Vendor_Code =TSPL_MILK_SRN_HEAD.VSP_CODE  left join TSPL_MCC_ROUTE_MASTER on  TSPL_MCC_ROUTE_MASTER.Route_Code =TSPL_MILK_SRN_HEAD.ROUTE_CODE  left join TSPL_VLC_MASTER_HEAD  on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_SRN_HEAD.VLC_CODE " & _
+            '         " where 2 = 2  and  convert(date, TSPL_MILK_SRN_HEAD.DOC_DATE,103) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and  convert(date,TSPL_MILK_RECEIPT_HEAD. DOC_DATE,103) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "'"
 
-            sQuery = " SELECT vlc_code,max(VLC_Name) as VLC_Name,MAX(shift) as shift,SUM(Milk_Collected) AS Milk_Collected,MAX([Total Days]) AS [Total Days],SUM(FULLDAY) AS FULLDAY ,sum(isnull(HalfDAY,0)) as HalfDAY,(SUM(ISNULL(FULLDAY,0)) +sum(ISNULL(HalfDAY,0))*0.5) as Total FROM " & _
-" (SELECT VLC_CODE,VLC_Name  ,DATEDIFF(DAY ,convert(date,'" & txtFromDate.Value & "',103),convert(date,'" & txtToDate.Value & "',103))+ 1 as [Total Days],case when morning > 0 and Evening >0 then 2  else  1  end as  Milk_Collected ,((DATEDIFF(DAY ,convert(date,'" & txtFromDate.Value & "',103),convert(date,'" & txtToDate.Value & "',103))+ 1) * 2) as Total_Shift,CASE WHEN MORNING >0 AND eVENING >0 THEN 1 END AS FULLDAY,CASE WHEN ISNULL(MORNING,0) = 0 AND ISNULL(eVENING,0) > 0 or ISNULL(MORNING,0) > 0 AND ISNULL(eVENING,0) = 0 THEN 1 END AS HalfDAY,shift FROM " & _
-" (SELECT VLC_CODE ,MAX(VLC_Name) AS VLC_Name,DOC_DATE   ,SUM(MORNING) AS MORNING,SUM(eVENING) AS eVENING,MAX(shift) as shift FROM " & _
- " ( SELECT VLC_CODE ,MAX(VLC_Name) AS VLC_Name ,DOC_CODE,DOC_DATE,SUM(MORNING) AS MORNING,SUM(eVENING) AS eVENING,MAX(shift) as shift  FROM " & _
-"(SELECT D.VLC_CODE ,D.VLC_Name ,DOC_CODE ,DOC_DATE,Morning,Evening,MCC_NAME,D.MCC_Code,M.SHIFT FROM( (select   TSPL_MILK_RECEIPT_DETAIL.vlc_code ,TSPL_VLC_MASTER_HEAD.VLC_Name  ,TSPL_MILK_RECEIPT_HEAD.DOC_CODE   ,(convert(varchar,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103)) as  DOC_DATE,case when TSPL_MILK_RECEIPT_DETAIL.shift ='M' then 1 end as  Morning   ,case when TSPL_MILK_RECEIPT_DETAIL.shift ='E' then 1 end as  Evening  ,tspl_mcc_master.MCC_NAME,tspl_mcc_master.MCC_Code   from TSPL_MILK_RECEIPT_DETAIL left join TSPL_MILK_RECEIPT_HEAD on TSPL_MILK_RECEIPT_HEAD.DOC_CODE =TSPL_MILK_RECEIPT_DETAIL.DOC_CODE  left join tspl_mcc_master on tspl_mcc_master.MCC_Code =TSPL_MILK_RECEIPT_DETAIL.MCC_CODE  left join tspl_vendor_master on tspl_vendor_master.Vendor_Code =TSPL_MILK_RECEIPT_DETAIL.VSP_CODE  left join TSPL_MCC_ROUTE_MASTER on  TSPL_MCC_ROUTE_MASTER.Route_Code =TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE  left join TSPL_VLC_MASTER_HEAD  on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_RECEIPT_DETAIL.VLC_CODE " & _
-                    " where 2 = 2  and  convert(date, TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and  convert(date,TSPL_MILK_RECEIPT_HEAD. DOC_DATE,103) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' "
-                'If rbtnMCCRouteVLCCSelect.IsChecked Then
+            sQuery = " SELECT vlc_code,max(VLC_Name) as VLC_Name,MAX(shift) as shift,SUM(Milk_Collected) AS Milk_Collected,MAX([Total Days]) AS [Total Days],SUM(FULLDAY) AS FULLDAY ,sum(isnull(HalfDAY,0)) as HalfDAY,(SUM(ISNULL(FULLDAY,0)) +sum(ISNULL(HalfDAY,0))*0.5) as Total FROM " &
+" (SELECT VLC_CODE,VLC_Name  ,DATEDIFF(DAY ,convert(date,'" & txtFromDate.Value & "',103),convert(date,'" & txtToDate.Value & "',103))+ 1 as [Total Days],case when morning > 0 and Evening >0 then 2  else  1  end as  Milk_Collected ,((DATEDIFF(DAY ,convert(date,'" & txtFromDate.Value & "',103),convert(date,'" & txtToDate.Value & "',103))+ 1) * 2) as Total_Shift,CASE WHEN MORNING >0 AND eVENING >0 THEN 1 END AS FULLDAY,CASE WHEN ISNULL(MORNING,0) = 0 AND ISNULL(eVENING,0) > 0 or ISNULL(MORNING,0) > 0 AND ISNULL(eVENING,0) = 0 THEN 1 END AS HalfDAY,shift FROM " &
+" (SELECT VLC_CODE ,MAX(VLC_Name) AS VLC_Name,DOC_DATE   ,SUM(MORNING) AS MORNING,SUM(eVENING) AS eVENING,MAX(shift) as shift FROM " &
+ " ( SELECT VLC_CODE ,MAX(VLC_Name) AS VLC_Name ,DOC_CODE,DOC_DATE,SUM(MORNING) AS MORNING,SUM(eVENING) AS eVENING,MAX(shift) as shift  FROM " &
+"(SELECT D.VLC_CODE ,D.VLC_Name ,DOC_CODE ,DOC_DATE,Morning,Evening,MCC_NAME,D.MCC_Code,M.SHIFT FROM( (select   TSPL_MILK_SRN_HEAD.VLC_CODE ,TSPL_VLC_MASTER_HEAD.VLC_Name  ,TSPL_MILK_SRN_HEAD.DOC_CODE   ,(convert(varchar,TSPL_MILK_SRN_HEAD.DOC_DATE,103)) as  DOC_DATE,case when TSPL_MILK_SRN_HEAD.Shift ='M' then 1 end as  Morning   ,case when TSPL_MILK_SRN_HEAD.Shift ='E' then 1 end as  Evening  ,tspl_mcc_master.MCC_NAME,tspl_mcc_master.MCC_Code   from TSPL_MILK_SRN_DETAIL left join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE =TSPL_MILK_SRN_DETAIL.DOC_CODE  left join tspl_mcc_master on tspl_mcc_master.MCC_Code =TSPL_MILK_SRN_HEAD.MCC_CODE  left join tspl_vendor_master on tspl_vendor_master.Vendor_Code =TSPL_MILK_SRN_HEAD.VSP_CODE  left join TSPL_MCC_ROUTE_MASTER on  TSPL_MCC_ROUTE_MASTER.Route_Code =TSPL_MILK_SRN_HEAD.ROUTE_CODE  left join TSPL_VLC_MASTER_HEAD  on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_SRN_HEAD.VLC_CODE " &
+                    " where 2 = 2  and  convert(date, TSPL_MILK_SRN_HEAD.DOC_DATE,103) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and  convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' "
+            'If rbtnMCCRouteVLCCSelect.IsChecked Then
             Dim arr As List(Of String) = Nothing
             If cbtMCCRouteVLCC.CheckedValue.Count > 0 Then
                 arr = cbtMCCRouteVLCC.CheckedValue(1)
                 If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                    sQuery += "and TSPL_MILK_RECEIPT_DETAIL.MCC_CODE IN (" + clsCommon.GetMulcallString(arr) + ") "
+                    sQuery += "and TSPL_MILK_SRN_HEAD.MCC_CODE IN (" + clsCommon.GetMulcallString(arr) + ") "
                 Else
                     Throw New Exception("Please select at least one MCC")
-                    End If
                 End If
+            End If
             If cbtMCCRouteVLCC.CheckedValue.Count > 1 Then
                 arr = cbtMCCRouteVLCC.CheckedValue(2)
                 If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                    sQuery += " and TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE in (" + clsCommon.GetMulcallString(arr) + ")  "
+                    sQuery += " and TSPL_MILK_SRN_HEAD.ROUTE_CODE in (" + clsCommon.GetMulcallString(arr) + ")  "
                 Else
                     Throw New Exception("Please select at least one Route")
-                    End If
                 End If
+            End If
             If cbtMCCRouteVLCC.CheckedValue.Count > 2 Then
                 arr = cbtMCCRouteVLCC.CheckedValue(3)
                 If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                    sQuery += "and TSPL_MILK_RECEIPT_DETAIL.VLC_Code in (" + clsCommon.GetMulcallString(arr) + ")  "
+                    sQuery += "and TSPL_MILK_SRN_HEAD.VLC_CODE in (" + clsCommon.GetMulcallString(arr) + ")  "
                 Else
                     Throw New Exception("Please select at least one VLC")
-                    End If
                 End If
-                'End If
+            End If
+            'End If
             If TxtMultiVSP.arrValueMember IsNot Nothing AndAlso TxtMultiVSP.arrValueMember.Count > 0 Then
-                sQuery += " and TSPL_MILK_RECEIPT_DETAIL.VSP_CODE in (" + clsCommon.GetMulcallString(TxtMultiVSP.arrValueMember) + ") "
-                End If
+                sQuery += " and TSPL_MILK_SRN_HEAD.VSP_CODE in (" + clsCommon.GetMulcallString(TxtMultiVSP.arrValueMember) + ") "
+            End If
             sQuery += " )AS D Left Join"
-            sQuery += "( SELECT COUNT(SHIFT) AS SHIFT,MCC_CODE  FROM TSPL_MILK_RECEIPT_HEAD WHERE    convert(date, TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and  convert(date,TSPL_MILK_RECEIPT_HEAD. DOC_DATE,103) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' GROUP BY MCC_CODE)AS M ON M.MCC_CODE=D.MCC_Code  )"
+            sQuery += "( SELECT COUNT(SHIFT) AS SHIFT,MCC_CODE  FROM TSPL_MILK_SRN_HEAD WHERE    convert(date, TSPL_MILK_SRN_HEAD.DOC_DATE,103) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and  convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' GROUP BY MCC_CODE)AS M ON M.MCC_CODE=D.MCC_Code  )"
             sQuery += " )aS M GROUP BY DOC_CODE,DOC_DATE,vlc_code) AS TT GROUP BY VLC_CODE,DOC_DATE) AS GG) AS KK group by vlc_code "
             Dim dtgv As New DataTable
             dtgv = clsDBFuncationality.GetDataTable(sQuery)

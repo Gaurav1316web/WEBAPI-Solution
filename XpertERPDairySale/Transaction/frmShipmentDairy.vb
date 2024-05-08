@@ -9,6 +9,7 @@ Public Class frmShipmentDairy
     Dim ParentDocNo As String = ""
     Dim EnableManualCrateonTaxableDairyDispatch As Integer = 0
     Dim EnableTCSRateValidityFrom01July2021 As Boolean = False
+    Dim DisableRouteandVehicle As Boolean = False
     Dim IsCreditCustomer As Boolean = False
     Dim ApplyCommission As Boolean = False
     Dim ApplyCommissionRateWithTax As Boolean = False
@@ -427,6 +428,8 @@ Public Class frmShipmentDairy
         ApplyRoundOffZero = If(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyRoundOffZero, clsFixedParameterCode.ApplyRoundOffZero, Nothing)) = 1, True, False)
         EnableLocation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, Nothing)) = 1, True, False)
         AllowIncreaseDispatchQty = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowIncreaseDispatchQty, clsFixedParameterCode.AllowIncreaseDispatchQty, Nothing)) = 1, True, False)
+        DisableRouteandVehicle = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DisableRouteandVehicle, clsFixedParameterCode.DisableRouteandVehicle, Nothing)) = 1, True, False)
+
         btnShowInventory.Visible = True
         IsFormLoad = True
         lblPriceCode.Visible = True
@@ -6116,6 +6119,8 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         txtTCAmt.Text = ""
         txtSecurity.Text = ""
         txtRouteNo.Enabled = SettDistributorWiseBilling
+        txtRouteNo.Enabled = True
+        txtVehicleCode.Enabled = True
         gvDistributor.DataSource = Nothing
         gvDistributor.Rows.Clear()
         gvDistributor.Columns.Clear()
@@ -7614,6 +7619,16 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
                     rbtn_Fresh.IsChecked = True
                 ElseIf obj.Trans_Type = "PS" Then
                     rbtn_Ambient.IsChecked = True
+                End If
+                If DisableRouteandVehicle Then
+                    txtRouteNo.Enabled = False
+                    txtVehicleCode.Enabled = False
+                    'cmbShift.Enabled = False
+                Else
+                    txtRouteNo.Enabled = True
+                    txtVehicleCode.Enabled = True
+                    'cmbShift.Enabled = True
+
                 End If
                 cmbDisItemType.Enabled = False
                 txtOPKM.Value = obj.OPKm
@@ -11706,6 +11721,15 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
         End If
         If clsCommon.myLen(txtRouteNo.Value) > 0 Then
             Vehicle()
+        End If
+        If DisableRouteandVehicle Then
+            txtRouteNo.Enabled = False
+            txtVehicleCode.Enabled = False
+            cmbShift.Enabled = False
+        Else
+            txtRouteNo.Enabled = True
+            txtVehicleCode.Enabled = True
+            cmbShift.Enabled = True
         End If
         cmbDisItemType.Enabled = False
     End Sub
