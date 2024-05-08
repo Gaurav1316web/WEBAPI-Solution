@@ -6150,9 +6150,9 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
     End Sub
     Function AllowToSave(ByVal ChekPostBtn As Boolean, Optional ByVal UpdateCustomerAfterPost As Boolean = False) As Boolean
         Try
-            'If SettDistributorWiseBilling Then
-            '    MergeDistributorItems(True)
-            'End If
+            If SettDistributorWiseBilling Then
+                MergeDistributorItems(True, False, trans)
+            End If
             'Sanjay Ticket No- ERO/02/07/18-000365 not allow to update record if it is posted
             If UpdateCustomerAfterPost <> True Then
                 If Not isNewEntry AndAlso clsCommon.myLen(txtDocNo.Value) > 0 Then
@@ -7468,7 +7468,7 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
                 Throw New Exception("Please Fill at list one Item")
                 Return False
             End If
-            If clsCommon.myLen(ParentDocNo) = 0 Then
+            If clsCommon.CompairString(ParentDocNo, obj.Document_Code) = CompairStringResult.Equal Then
                 obj.ArrDemand = New List(Of clsPSShipmentDemand)
                 For ii As Integer = 0 To gvDistributor.Rows.Count - 1
                     Dim objD As New clsPSShipmentDemand
@@ -14231,6 +14231,7 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
                 gvDistributor.CurrentRow.Cells("Qty").Value = gvDistributor.CurrentRow.Cells("DemandQty").Value
             End If
         End If
+        'MergeDistributorItems(True, False, trans)
     End Sub
     Private Sub calculateFOR(ByVal intRow As Integer, ByVal trans As SqlTransaction)
         Try

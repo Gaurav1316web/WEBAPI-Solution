@@ -4316,6 +4316,10 @@ where 2=2 "
             Throw New Exception(ex.Message)
         End Try
     End Sub
+
+    Private Sub txtCustomerNo_Load(sender As Object, e As EventArgs) Handles txtCustomerNo.Load
+
+    End Sub
 End Class
 Public Class ItemValueClass
     Public itemCode As String = String.Empty
