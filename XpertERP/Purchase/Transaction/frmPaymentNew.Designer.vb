@@ -22,14 +22,14 @@ Partial Class FrmPaymentNew
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -63,6 +63,7 @@ Partial Class FrmPaymentNew
         Me.lblCurrency = New common.Controls.MyLabel()
         Me.lblConvRate = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtmulPI = New common.UserControls.txtMultiSelectFinder()
         Me.chkTDSProvision = New common.Controls.MyCheckBox()
         Me.chkSaving = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkFarmerLoanPayment = New Telerik.WinControls.UI.RadCheckBox()
@@ -155,6 +156,7 @@ Partial Class FrmPaymentNew
         Me.lblpaymenttype = New common.Controls.MyLabel()
         Me.gvDetails = New common.UserControls.MyRadGridView()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.TabForGST = New Telerik.WinControls.UI.RadPageViewPage()
@@ -204,7 +206,8 @@ Partial Class FrmPaymentNew
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnpost = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.MyLabel15 = New common.Controls.MyLabel()
+        Me.PIbtngo = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -372,6 +375,8 @@ Partial Class FrmPaymentNew
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PIbtngo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -404,7 +409,7 @@ Partial Class FrmPaymentNew
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnpost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1134, 538)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1252, 538)
         Me.SplitContainer1.SplitterDistance = 509
         Me.SplitContainer1.TabIndex = 0
         '
@@ -419,17 +424,17 @@ Partial Class FrmPaymentNew
         Me.RadPageView1.Location = New System.Drawing.Point(0, 20)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(1134, 489)
+        Me.RadPageView1.Size = New System.Drawing.Size(1252, 489)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.SplitContainer2)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(56.0!, 24.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(60.0!, 28.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1113, 445)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1231, 441)
         Me.RadPageViewPage1.Text = "Payment"
         '
         'SplitContainer2
@@ -454,7 +459,7 @@ Partial Class FrmPaymentNew
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.gvDetails)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1113, 445)
+        Me.SplitContainer2.Size = New System.Drawing.Size(1231, 441)
         Me.SplitContainer2.SplitterDistance = 290
         Me.SplitContainer2.TabIndex = 0
         '
@@ -932,6 +937,9 @@ Partial Class FrmPaymentNew
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.PIbtngo)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel15)
+        Me.RadGroupBox1.Controls.Add(Me.txtmulPI)
         Me.RadGroupBox1.Controls.Add(Me.chkTDSProvision)
         Me.RadGroupBox1.Controls.Add(Me.chkSaving)
         Me.RadGroupBox1.Controls.Add(Me.chkFarmerLoanPayment)
@@ -991,8 +999,21 @@ Partial Class FrmPaymentNew
         Me.RadGroupBox1.Location = New System.Drawing.Point(2, 3)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(1110, 205)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(1212, 205)
         Me.RadGroupBox1.TabIndex = 0
+        '
+        'txtmulPI
+        '
+        Me.txtmulPI.arrDispalyMember = Nothing
+        Me.txtmulPI.arrValueMember = Nothing
+        Me.txtmulPI.Location = New System.Drawing.Point(542, 65)
+        Me.txtmulPI.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtmulPI.MyLinkLable1 = Nothing
+        Me.txtmulPI.MyLinkLable2 = Nothing
+        Me.txtmulPI.MyNullText = "All"
+        Me.txtmulPI.Name = "txtmulPI"
+        Me.txtmulPI.Size = New System.Drawing.Size(268, 21)
+        Me.txtmulPI.TabIndex = 12138
         '
         'chkTDSProvision
         '
@@ -1009,7 +1030,7 @@ Partial Class FrmPaymentNew
         'chkSaving
         '
         Me.chkSaving.CheckAlignment = System.Drawing.ContentAlignment.MiddleRight
-        Me.chkSaving.Location = New System.Drawing.Point(524, 66)
+        Me.chkSaving.Location = New System.Drawing.Point(886, 72)
         Me.chkSaving.Name = "chkSaving"
         Me.chkSaving.Size = New System.Drawing.Size(53, 18)
         Me.chkSaving.TabIndex = 12116
@@ -1109,7 +1130,7 @@ Partial Class FrmPaymentNew
         '
         'chkIsReceipt
         '
-        Me.chkIsReceipt.Location = New System.Drawing.Point(826, 26)
+        Me.chkIsReceipt.Location = New System.Drawing.Point(952, 88)
         Me.chkIsReceipt.Name = "chkIsReceipt"
         Me.chkIsReceipt.Size = New System.Drawing.Size(57, 18)
         Me.chkIsReceipt.TabIndex = 12135
@@ -1140,10 +1161,10 @@ Partial Class FrmPaymentNew
         Me.ddlEmployeeAdvanceType.IsSourceFromTable = False
         Me.ddlEmployeeAdvanceType.IsSourceFromValueList = False
         Me.ddlEmployeeAdvanceType.IsUnique = False
-        RadListDataItem1.Text = "Yes"
-        RadListDataItem2.Text = "No"
-        Me.ddlEmployeeAdvanceType.Items.Add(RadListDataItem1)
-        Me.ddlEmployeeAdvanceType.Items.Add(RadListDataItem2)
+        RadListDataItem3.Text = "Yes"
+        RadListDataItem4.Text = "No"
+        Me.ddlEmployeeAdvanceType.Items.Add(RadListDataItem3)
+        Me.ddlEmployeeAdvanceType.Items.Add(RadListDataItem4)
         Me.ddlEmployeeAdvanceType.Location = New System.Drawing.Point(980, 157)
         Me.ddlEmployeeAdvanceType.MendatroryField = True
         Me.ddlEmployeeAdvanceType.MyLinkLable1 = Me.MyLabel14
@@ -1179,11 +1200,11 @@ Partial Class FrmPaymentNew
         '
         Me.lblMPAdv.FieldName = Nothing
         Me.lblMPAdv.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblMPAdv.Location = New System.Drawing.Point(580, 27)
+        Me.lblMPAdv.Location = New System.Drawing.Point(817, 47)
         Me.lblMPAdv.Name = "lblMPAdv"
-        Me.lblMPAdv.Size = New System.Drawing.Size(130, 16)
+        Me.lblMPAdv.Size = New System.Drawing.Size(100, 16)
         Me.lblMPAdv.TabIndex = 12133
-        Me.lblMPAdv.Text = "Milk Producer (Advance)"
+        Me.lblMPAdv.Text = "Milk Producer (Ad)"
         Me.lblMPAdv.Visible = False
         '
         'txtMPAdv
@@ -1197,7 +1218,7 @@ Partial Class FrmPaymentNew
         Me.txtMPAdv.IsSourceFromTable = False
         Me.txtMPAdv.IsSourceFromValueList = False
         Me.txtMPAdv.IsUnique = False
-        Me.txtMPAdv.Location = New System.Drawing.Point(711, 26)
+        Me.txtMPAdv.Location = New System.Drawing.Point(922, 46)
         Me.txtMPAdv.MendatroryField = False
         Me.txtMPAdv.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMPAdv.MyLinkLable1 = Nothing
@@ -1228,10 +1249,10 @@ Partial Class FrmPaymentNew
         Me.ddlEmployeeType.IsSourceFromTable = False
         Me.ddlEmployeeType.IsSourceFromValueList = False
         Me.ddlEmployeeType.IsUnique = False
-        RadListDataItem3.Text = "Yes"
-        RadListDataItem4.Text = "No"
-        Me.ddlEmployeeType.Items.Add(RadListDataItem3)
-        Me.ddlEmployeeType.Items.Add(RadListDataItem4)
+        RadListDataItem5.Text = "Yes"
+        RadListDataItem6.Text = "No"
+        Me.ddlEmployeeType.Items.Add(RadListDataItem5)
+        Me.ddlEmployeeType.Items.Add(RadListDataItem6)
         Me.ddlEmployeeType.Location = New System.Drawing.Point(982, 135)
         Me.ddlEmployeeType.MendatroryField = True
         Me.ddlEmployeeType.MyLinkLable1 = Me.MyLabel13
@@ -1349,7 +1370,7 @@ Partial Class FrmPaymentNew
         'chkBankChargesWaveOff
         '
         Me.chkBankChargesWaveOff.CheckAlignment = System.Drawing.ContentAlignment.MiddleRight
-        Me.chkBankChargesWaveOff.Location = New System.Drawing.Point(881, 45)
+        Me.chkBankChargesWaveOff.Location = New System.Drawing.Point(1041, 47)
         Me.chkBankChargesWaveOff.Name = "chkBankChargesWaveOff"
         Me.chkBankChargesWaveOff.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.chkBankChargesWaveOff.Size = New System.Drawing.Size(138, 18)
@@ -1362,7 +1383,7 @@ Partial Class FrmPaymentNew
         Me.pnlEMI.Controls.Add(Me.MyLabel11)
         Me.pnlEMI.Controls.Add(Me.txtInterestRate)
         Me.pnlEMI.Controls.Add(Me.MyLabel8)
-        Me.pnlEMI.Location = New System.Drawing.Point(883, 65)
+        Me.pnlEMI.Location = New System.Drawing.Point(1042, 68)
         Me.pnlEMI.Name = "pnlEMI"
         Me.pnlEMI.Size = New System.Drawing.Size(137, 43)
         Me.pnlEMI.TabIndex = 12118
@@ -1404,6 +1425,7 @@ Partial Class FrmPaymentNew
         Me.MyLabel11.Size = New System.Drawing.Size(59, 16)
         Me.MyLabel11.TabIndex = 28
         Me.MyLabel11.Text = "No Of EMI"
+        Me.MyLabel11.TextAlignment = System.Drawing.ContentAlignment.TopLeft
         '
         'txtInterestRate
         '
@@ -1441,6 +1463,7 @@ Partial Class FrmPaymentNew
         Me.MyLabel8.Size = New System.Drawing.Size(71, 16)
         Me.MyLabel8.TabIndex = 26
         Me.MyLabel8.Text = "Interest Rate"
+        Me.MyLabel8.TextAlignment = System.Drawing.ContentAlignment.TopLeft
         '
         'fndloanNo
         '
@@ -1464,7 +1487,7 @@ Partial Class FrmPaymentNew
         Me.fndloanNo.ReferenceFieldDesc = Nothing
         Me.fndloanNo.ReferenceFieldName = Nothing
         Me.fndloanNo.ReferenceTableName = Nothing
-        Me.fndloanNo.Size = New System.Drawing.Size(117, 19)
+        Me.fndloanNo.Size = New System.Drawing.Size(136, 19)
         Me.fndloanNo.TabIndex = 12117
         Me.fndloanNo.Value = ""
         Me.fndloanNo.Visible = False
@@ -1495,7 +1518,7 @@ Partial Class FrmPaymentNew
         Me.lblCustomerOutStanding.BorderVisible = True
         Me.lblCustomerOutStanding.FieldName = Nothing
         Me.lblCustomerOutStanding.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCustomerOutStanding.Location = New System.Drawing.Point(961, 26)
+        Me.lblCustomerOutStanding.Location = New System.Drawing.Point(1033, 26)
         Me.lblCustomerOutStanding.Name = "lblCustomerOutStanding"
         Me.lblCustomerOutStanding.Size = New System.Drawing.Size(146, 18)
         Me.lblCustomerOutStanding.TabIndex = 12114
@@ -1505,7 +1528,7 @@ Partial Class FrmPaymentNew
         '
         Me.MyLabel10.FieldName = Nothing
         Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel10.Location = New System.Drawing.Point(891, 27)
+        Me.MyLabel10.Location = New System.Drawing.Point(963, 26)
         Me.MyLabel10.Name = "MyLabel10"
         Me.MyLabel10.Size = New System.Drawing.Size(67, 16)
         Me.MyLabel10.TabIndex = 12113
@@ -1515,7 +1538,7 @@ Partial Class FrmPaymentNew
         'ChkSecurity
         '
         Me.ChkSecurity.CheckAlignment = System.Drawing.ContentAlignment.MiddleRight
-        Me.ChkSecurity.Location = New System.Drawing.Point(590, 46)
+        Me.ChkSecurity.Location = New System.Drawing.Point(886, 89)
         Me.ChkSecurity.Name = "ChkSecurity"
         Me.ChkSecurity.Size = New System.Drawing.Size(60, 18)
         Me.ChkSecurity.TabIndex = 13
@@ -1525,7 +1548,7 @@ Partial Class FrmPaymentNew
         '
         Me.LblPONo.FieldName = Nothing
         Me.LblPONo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblPONo.Location = New System.Drawing.Point(656, 47)
+        Me.LblPONo.Location = New System.Drawing.Point(766, 23)
         Me.LblPONo.Name = "LblPONo"
         Me.LblPONo.Size = New System.Drawing.Size(43, 16)
         Me.LblPONo.TabIndex = 12112
@@ -1542,7 +1565,7 @@ Partial Class FrmPaymentNew
         Me.txtPONo.IsSourceFromTable = False
         Me.txtPONo.IsSourceFromValueList = False
         Me.txtPONo.IsUnique = False
-        Me.txtPONo.Location = New System.Drawing.Point(706, 46)
+        Me.txtPONo.Location = New System.Drawing.Point(821, 24)
         Me.txtPONo.MendatroryField = False
         Me.txtPONo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtPONo.MyLinkLable1 = Nothing
@@ -1553,7 +1576,7 @@ Partial Class FrmPaymentNew
         Me.txtPONo.ReferenceFieldDesc = Nothing
         Me.txtPONo.ReferenceFieldName = Nothing
         Me.txtPONo.ReferenceTableName = Nothing
-        Me.txtPONo.Size = New System.Drawing.Size(172, 19)
+        Me.txtPONo.Size = New System.Drawing.Size(136, 19)
         Me.txtPONo.TabIndex = 14
         Me.txtPONo.Value = ""
         '
@@ -1639,9 +1662,9 @@ Partial Class FrmPaymentNew
         Me.pnlCform.Controls.Add(Me.chkCForm)
         Me.pnlCform.Controls.Add(Me.MyLabel18)
         Me.pnlCform.Controls.Add(Me.txtCFormInvNo)
-        Me.pnlCform.Location = New System.Drawing.Point(589, 65)
+        Me.pnlCform.Location = New System.Drawing.Point(520, 42)
         Me.pnlCform.Name = "pnlCform"
-        Me.pnlCform.Size = New System.Drawing.Size(291, 22)
+        Me.pnlCform.Size = New System.Drawing.Size(291, 21)
         Me.pnlCform.TabIndex = 19
         '
         'chkCForm
@@ -1732,7 +1755,7 @@ Partial Class FrmPaymentNew
         '
         Me.lblLoadOutNo.FieldName = Nothing
         Me.lblLoadOutNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLoadOutNo.Location = New System.Drawing.Point(940, 4)
+        Me.lblLoadOutNo.Location = New System.Drawing.Point(959, 4)
         Me.lblLoadOutNo.Name = "lblLoadOutNo"
         Me.lblLoadOutNo.Size = New System.Drawing.Size(68, 16)
         Me.lblLoadOutNo.TabIndex = 5
@@ -1750,7 +1773,7 @@ Partial Class FrmPaymentNew
         Me.txtLoadOutno.IsSourceFromTable = False
         Me.txtLoadOutno.IsSourceFromValueList = False
         Me.txtLoadOutno.IsUnique = False
-        Me.txtLoadOutno.Location = New System.Drawing.Point(1014, 3)
+        Me.txtLoadOutno.Location = New System.Drawing.Point(1033, 3)
         Me.txtLoadOutno.MendatroryField = True
         Me.txtLoadOutno.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtLoadOutno.MyLinkLable1 = Nothing
@@ -1761,7 +1784,7 @@ Partial Class FrmPaymentNew
         Me.txtLoadOutno.ReferenceFieldDesc = Nothing
         Me.txtLoadOutno.ReferenceFieldName = Nothing
         Me.txtLoadOutno.ReferenceTableName = Nothing
-        Me.txtLoadOutno.Size = New System.Drawing.Size(66, 19)
+        Me.txtLoadOutno.Size = New System.Drawing.Size(146, 19)
         Me.txtLoadOutno.TabIndex = 6
         Me.txtLoadOutno.Value = ""
         Me.txtLoadOutno.Visible = False
@@ -2033,7 +2056,7 @@ Partial Class FrmPaymentNew
         Me.lblBankDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblBankDesc.Location = New System.Drawing.Point(256, 47)
         Me.lblBankDesc.Name = "lblBankDesc"
-        Me.lblBankDesc.Size = New System.Drawing.Size(324, 18)
+        Me.lblBankDesc.Size = New System.Drawing.Size(255, 18)
         Me.lblBankDesc.TabIndex = 12
         '
         'pnlAdvance
@@ -2174,7 +2197,7 @@ Partial Class FrmPaymentNew
         Me.txtDescription.ReferenceFieldDesc = Nothing
         Me.txtDescription.ReferenceFieldName = Nothing
         Me.txtDescription.ReferenceTableName = Nothing
-        Me.txtDescription.Size = New System.Drawing.Size(486, 20)
+        Me.txtDescription.Size = New System.Drawing.Size(417, 20)
         Me.txtDescription.TabIndex = 9
         '
         'lblTotPayment
@@ -2379,29 +2402,37 @@ Partial Class FrmPaymentNew
         Me.gvDetails.MasterTemplate.EnableFiltering = True
         Me.gvDetails.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDetails.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvDetails.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvDetails.MasterTemplate.ViewDefinition = TableViewDefinition9
         Me.gvDetails.MyStopExport = False
         Me.gvDetails.Name = "gvDetails"
         Me.gvDetails.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvDetails.ShowGroupPanel = False
         Me.gvDetails.ShowHeaderCellButtons = True
-        Me.gvDetails.Size = New System.Drawing.Size(1113, 151)
+        Me.gvDetails.Size = New System.Drawing.Size(1231, 147)
         Me.gvDetails.TabIndex = 0
         Me.gvDetails.TabStop = False
         '
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(82.0!, 24.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(86.0!, 28.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 33)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(1113, 445)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1113, 445)
+        Me.UcCustomFields1.TabIndex = 1
+        '
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 24.0!)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 28.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 33)
         Me.Attachments.Name = "Attachments"
         Me.Attachments.Size = New System.Drawing.Size(1113, 445)
@@ -2418,7 +2449,7 @@ Partial Class FrmPaymentNew
         'TabForGST
         '
         Me.TabForGST.Controls.Add(Me.SplitContainer3)
-        Me.TabForGST.ItemSize = New System.Drawing.SizeF(32.0!, 24.0!)
+        Me.TabForGST.ItemSize = New System.Drawing.SizeF(36.0!, 28.0!)
         Me.TabForGST.Location = New System.Drawing.Point(10, 33)
         Me.TabForGST.Name = "TabForGST"
         Me.TabForGST.Size = New System.Drawing.Size(1113, 445)
@@ -2690,7 +2721,7 @@ Partial Class FrmPaymentNew
         Me.gvTaxDetail.MasterTemplate.AllowDeleteRow = False
         Me.gvTaxDetail.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTaxDetail.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvTaxDetail.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvTaxDetail.MasterTemplate.ViewDefinition = TableViewDefinition10
         Me.gvTaxDetail.MyStopExport = False
         Me.gvTaxDetail.Name = "gvTaxDetail"
         Me.gvTaxDetail.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2716,7 +2747,7 @@ Partial Class FrmPaymentNew
         Me.gvItem.MasterTemplate.AllowDeleteRow = False
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition11
         Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2734,7 +2765,7 @@ Partial Class FrmPaymentNew
         Me.TabBankChargesTax.Controls.Add(Me.RadLabel10)
         Me.TabBankChargesTax.Controls.Add(Me.gv2)
         Me.TabBankChargesTax.Controls.Add(Me.MyLabel12)
-        Me.TabBankChargesTax.ItemSize = New System.Drawing.SizeF(116.0!, 24.0!)
+        Me.TabBankChargesTax.ItemSize = New System.Drawing.SizeF(120.0!, 28.0!)
         Me.TabBankChargesTax.Location = New System.Drawing.Point(10, 33)
         Me.TabBankChargesTax.Name = "TabBankChargesTax"
         Me.TabBankChargesTax.Size = New System.Drawing.Size(1113, 445)
@@ -2863,7 +2894,7 @@ Partial Class FrmPaymentNew
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition12
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2877,7 +2908,7 @@ Partial Class FrmPaymentNew
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuClose})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(1134, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(1252, 20)
         Me.RadMenu1.TabIndex = 1
         '
         'MenuClose
@@ -2902,7 +2933,7 @@ Partial Class FrmPaymentNew
         '
         Me.btnOpenBankCashBook.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnOpenBankCashBook.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnOpenBankCashBook.Location = New System.Drawing.Point(877, 2)
+        Me.btnOpenBankCashBook.Location = New System.Drawing.Point(995, 2)
         Me.btnOpenBankCashBook.Name = "btnOpenBankCashBook"
         Me.btnOpenBankCashBook.Size = New System.Drawing.Size(124, 18)
         Me.btnOpenBankCashBook.TabIndex = 14
@@ -2932,7 +2963,7 @@ Partial Class FrmPaymentNew
         '
         Me.btnVoidCheck.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnVoidCheck.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnVoidCheck.Location = New System.Drawing.Point(804, 2)
+        Me.btnVoidCheck.Location = New System.Drawing.Point(922, 2)
         Me.btnVoidCheck.Name = "btnVoidCheck"
         Me.btnVoidCheck.Size = New System.Drawing.Size(73, 18)
         Me.btnVoidCheck.TabIndex = 10
@@ -2953,7 +2984,7 @@ Partial Class FrmPaymentNew
         '
         Me.btnPrintCheck.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnPrintCheck.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintCheck.Location = New System.Drawing.Point(1002, 2)
+        Me.btnPrintCheck.Location = New System.Drawing.Point(1120, 2)
         Me.btnPrintCheck.Name = "btnPrintCheck"
         Me.btnPrintCheck.Size = New System.Drawing.Size(79, 18)
         Me.btnPrintCheck.TabIndex = 7
@@ -2963,7 +2994,7 @@ Partial Class FrmPaymentNew
         '
         Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(691, 2)
+        Me.btnReverse.Location = New System.Drawing.Point(809, 2)
         Me.btnReverse.Name = "btnReverse"
         Me.btnReverse.Size = New System.Drawing.Size(113, 18)
         Me.btnReverse.TabIndex = 6
@@ -2994,7 +3025,7 @@ Partial Class FrmPaymentNew
         '
         Me.BtnBank.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.BtnBank.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnBank.Location = New System.Drawing.Point(614, 2)
+        Me.BtnBank.Location = New System.Drawing.Point(732, 2)
         Me.BtnBank.Name = "BtnBank"
         Me.BtnBank.Size = New System.Drawing.Size(77, 18)
         Me.BtnBank.TabIndex = 5
@@ -3034,25 +3065,37 @@ Partial Class FrmPaymentNew
         '
         Me.btnclose.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnclose.Location = New System.Drawing.Point(1082, 2)
+        Me.btnclose.Location = New System.Drawing.Point(1200, 2)
         Me.btnclose.Name = "btnclose"
         Me.btnclose.Size = New System.Drawing.Size(47, 18)
         Me.btnclose.TabIndex = 8
         Me.btnclose.Text = "Close"
         '
-        'UcCustomFields1
+        'MyLabel15
         '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1113, 445)
-        Me.UcCustomFields1.TabIndex = 1
+        Me.MyLabel15.FieldName = Nothing
+        Me.MyLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel15.Location = New System.Drawing.Point(516, 68)
+        Me.MyLabel15.Name = "MyLabel15"
+        Me.MyLabel15.Size = New System.Drawing.Size(20, 16)
+        Me.MyLabel15.TabIndex = 12139
+        Me.MyLabel15.Text = "P.I"
+        '
+        'PIbtngo
+        '
+        Me.PIbtngo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.PIbtngo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.PIbtngo.Location = New System.Drawing.Point(813, 66)
+        Me.PIbtngo.Name = "PIbtngo"
+        Me.PIbtngo.Size = New System.Drawing.Size(66, 19)
+        Me.PIbtngo.TabIndex = 12140
+        Me.PIbtngo.Text = ">>"
         '
         'FrmPaymentNew
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1134, 538)
+        Me.ClientSize = New System.Drawing.Size(1252, 538)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "FrmPaymentNew"
         '
@@ -3243,6 +3286,8 @@ Partial Class FrmPaymentNew
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PIbtngo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -3422,5 +3467,8 @@ Partial Class FrmPaymentNew
     Friend WithEvents chkSaving As RadCheckBox
     Friend WithEvents chkTDSProvision As common.Controls.MyCheckBox
     Friend WithEvents ChkRetention As RadCheckBox
+    Friend WithEvents txtmulPI As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents MyLabel15 As common.Controls.MyLabel
+    Friend WithEvents PIbtngo As RadButton
 End Class
 

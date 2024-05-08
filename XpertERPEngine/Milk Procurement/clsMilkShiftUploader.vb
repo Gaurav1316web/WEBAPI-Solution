@@ -1272,7 +1272,7 @@ and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE='" + clsCommon.myCstr(dtVLC.Rows(0)
                         objMilkSRNDetail.SNF = clsEkoPro.getSnfOnCalculation(objtr.FAT, objMilkSRNDetail.CLR, corrFactor)
                         If PickPriceFromFATAndSNF Then
                             objMilkSRNDetail.SNF = clsCommon.myRoundOFF(objtr.SNF, 1, 4)
-                            objMilkSRNDetail.RATE = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(objMilkSRNDetail.MILK_Qty, objMilkSRNDetail.Price_Code, objMilkSRNDetail.FAT, objMilkSRNDetail.SNF, obj.MCC_Code, objMilkSRNDetail.VlC_Code, objMilkSRNHead.SHIFT, dtShiftDate, trans, strDockCollectionMilkType, objMilkSRNDetail.QAT_Rate, objMilkSRNDetail.Negative_Rate)
+                            objMilkSRNDetail.RATE = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(objMilkSRNDetail.MILK_Qty, objMilkSRNDetail.Price_Code, objMilkSRNDetail.FAT, objMilkSRNDetail.SNF, obj.MCC_Code, objMilkSRNHead.VLC_CODE, objMilkSRNHead.SHIFT, dtShiftDate, trans, strDockCollectionMilkType, objMilkSRNDetail.QAT_Rate, objMilkSRNDetail.Negative_Rate)
                         Else
                             objMilkSRNDetail.SNF = clsCommon.myRoundOFF(objMilkSRNDetail.SNF, 2, 9)
                             objMilkSRNDetail.RATE = clsEkoPro.getRateFromUploaderShiftWiseCLR(objMilkSRNDetail.FAT, objMilkSRNDetail.CLR, obj.MCC_Code, objtr.VLC_Code, obj.Shift, dtShiftDate, trans, strDockCollectionMilkType, objMilkSRNDetail.Price_Code)
@@ -1415,20 +1415,32 @@ and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE='" + clsCommon.myCstr(dtVLC.Rows(0)
                     If dclDistanceKM = 0 Then
                         dclDistanceKM = 1
                     End If
-                    Dim objHeadLoad As New clsHeadLoadDCS()
-                    objHeadLoad = clsHeadLoadDCS.GetDcsData(objMilkSRNDetail.VlC_Code, dtShiftDate, trans)
-                    objMilkSRNDetail.Head_Load_Rate = clsCommon.myCdbl(objHeadLoad.Head_Load_Rate)
-
-                    If clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "K") = CompairStringResult.Equal Then
-                        If objMilkSRNDetail.ACC_Qty >= MinimumQtyForHeadLoad Then
-                            objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkSRNDetail.ACC_Qty * objHeadLoad.Head_Load_Rate * dclDistanceKM, 2)
-                        End If
-                    ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "L") = CompairStringResult.Equal Then
-                        If objMilkSRNDetail.ACC_Qty_LTR >= MinimumQtyForHeadLoad Then
-                            objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkSRNDetail.ACC_Qty_LTR * objHeadLoad.Head_Load_Rate * dclDistanceKM, 2)
-                        End If
+                    Dim ExcluetHeadLoad As Boolean = False
+                    If clsCommon.myLen(objtr.Reject_Type) > 0 Then
+                        qry = "select ISNULL(Exclude_Head,0) as Exclude_Head from TSPL_MILK_REJECT_TYPE where Code='" + objtr.Reject_Type + "' "
+                        ExcluetHeadLoad = (clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, trans)) = 1)
                     End If
-                    objMilkSRNDetail.Head_Load_Type = clsCommon.myCstr(objHeadLoad.Head_Load_Basis)
+                    If ExcluetHeadLoad Then
+                        objMilkSRNDetail.Head_Load_Rate = 0
+                        objMilkSRNDetail.Head_Load_Amount = 0
+                        objMilkSRNDetail.Head_Load_Type = ""
+                    Else
+                        Dim objHeadLoad As New clsHeadLoadDCS()
+                        objHeadLoad = clsHeadLoadDCS.GetDcsData(objMilkSRNHead.VLC_CODE, dtShiftDate, trans)
+                        objMilkSRNDetail.Head_Load_Rate = clsCommon.myCdbl(objHeadLoad.Head_Load_Rate)
+
+                        If clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "K") = CompairStringResult.Equal Then
+                            If objMilkSRNDetail.ACC_Qty >= MinimumQtyForHeadLoad Then
+                                objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkSRNDetail.ACC_Qty * objHeadLoad.Head_Load_Rate * dclDistanceKM, 2)
+                            End If
+                        ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "L") = CompairStringResult.Equal Then
+                            If objMilkSRNDetail.ACC_Qty_LTR >= MinimumQtyForHeadLoad Then
+                                objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkSRNDetail.ACC_Qty_LTR * objHeadLoad.Head_Load_Rate * dclDistanceKM, 2)
+                            End If
+                        End If
+                        objMilkSRNDetail.Head_Load_Type = clsCommon.myCstr(objHeadLoad.Head_Load_Basis)
+                    End If
+
                     '============================================
                     '==================Own Asset==========================
                     If clsCommon.CompairString(clsCommon.myCstr(dtVLC.Rows(0)("Service_Basis_Own_Asset")), "K") = CompairStringResult.Equal Then

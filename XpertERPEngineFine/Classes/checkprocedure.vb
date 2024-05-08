@@ -1827,6 +1827,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptYearlyMonthlyDcsCollectionReport, "Yearly/Monthly Dcs Collection", "1.17.03.120", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmDCSSavingLedger, "DCS Saving Ledger", "1.17.03.121", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 37)
         InsertDefaultValue(clsUserMgtCode.rptBMCCapacityUtilizationReport, "BMC Capacity Utilization Report", "1.17.03.122", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptBMCPerodicalReport, "BMC Periodical Report", "1.17.03.123", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
 
 
