@@ -22,6 +22,7 @@ Public Class frmBullCMUGrouping
     Const colRangeFrom As String = "colRangeFrom"
     Const colBoolean As String = "colBoolean"
     Const colAlphaNumeric As String = "colAlphaNumeric"
+    Const colRS As String = "colRS"
     Const colRangeSelection As String = "colRangeSelection"
     Dim isInsideLoadData As Boolean = False
     Dim isCellValueChangedOpen As Boolean = True
@@ -199,13 +200,31 @@ Public Class frmBullCMUGrouping
             gridcolAlphaNumeric.Width = 110
             gv1.MasterTemplate.Columns.Add(gridcolAlphaNumeric)
 
-            Dim gridcolRangeSelection As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-            gridcolRangeSelection.FormatString = ""
-            gridcolRangeSelection.HeaderText = "Range Selection"
-            gridcolRangeSelection.Name = colRangeSelection
-            gridcolRangeSelection.Width = 110
-            gv1.MasterTemplate.Columns.Add(gridcolRangeSelection)
+            'Dim gridcolRS As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+            'gridcolRS.FormatString = ""
+            'gridcolRS.HeaderText = "Range"
+            'gridcolRS.Name = colRS
+            'gridcolRS.Width = 110
+            'gv1.MasterTemplate.Columns.Add(gridcolRS)
+
+            'Dim gridcolRangeSelection As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+            'gridcolRangeSelection.FormatString = ""
+            'gridcolRangeSelection.HeaderText = "Range Selection"
+            'gridcolRangeSelection.Name = colRangeSelection
+            'gridcolRangeSelection.Width = 110
+            'gv1.MasterTemplate.Columns.Add(gridcolRangeSelection)
             'gridcolRangeSelection.IsVisible = False
+
+            Dim ShowBtn As New GridViewCommandColumn()
+            ShowBtn.FormatString = ""
+            ShowBtn.UseDefaultText = True
+            ShowBtn.DefaultText = "Range Selection"
+            ShowBtn.HeaderText = ""
+            ShowBtn.Name = colRangeSelection
+            ShowBtn.FieldName = colRangeSelection
+            ShowBtn.Width = 100
+            ShowBtn.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+            gv1.MasterTemplate.Columns.Add(ShowBtn)
 
 
             gv1.AllowAddNewRow = False
@@ -613,14 +632,41 @@ Public Class frmBullCMUGrouping
                 Next
             End If
 
-            If clsCommon.myCDecimal(gv1.CurrentRow.Cells(colRangeSelection).Value) > 0 Then
-                Dim frmP As New frmBullParameterRangeSelection()
-                frmP.AddGridView(clsCommon.myCDecimal(gv1.CurrentRow.Cells(colRangeSelection).Value))
-                frmP.Form_ID = clsUserMgtCode.frmBullCMUGrouping
-                frmP.Show()
-                'formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-            End If
+            'If clsCommon.myCDecimal(gv1.CurrentRow.Cells(colRangeSelection).Value) > 0 Then
+            '    Dim frmP As New frmBullParameterRangeSelection()
+            '    frmP.AddGridView(clsCommon.myCDecimal(gv1.CurrentRow.Cells(colRangeSelection).Value))
+            '    frmP.Form_ID = clsUserMgtCode.frmBullCMUGrouping
+            '    frmP.Show()
+            '    'formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+            'End If
 
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub gv1_CommandCellClick(sender As Object, e As GridViewCellEventArgs) Handles gv1.CommandCellClick
+        Try
+            If gv1.CurrentColumn Is gv1.Columns(colRangeSelection) Then
+                Dim frmP As New frmBullParameterRangeSelection()
+                'frmP.AddGridView(clsCommon.myCDecimal(gv1.CurrentRow.Cells(colRangeSelection).Value))
+                frmP.Form_ID = clsUserMgtCode.frmBullCMUGrouping
+                'frmP.Range = gv1.CurrentRow.Cells(colRS).Value
+                frmP.ArrRangeSelection = gv1.CurrentRow.Cells(colRangeSelection).Tag
+                'frmP.ArrRange = gv1.CurrentRow.Cells(colRangeSelection).Tag
+                'If frmP.ArrRange.Count > 0 Then
+                '    Dim value As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colRangeSelection).Value)
+                '    'frmP.ArrRange = gv1.CurrentRow.Cells(colRangeSelection).Value
+                '    frmP.ArrRange.Add(value)
+                'End If
+                'frmP.ArrRange = gv1.CurrentRow.Cells(colRangeSelection).Value
+                frmP.ShowDialog()
+                If frmP.isOK Then
+                    gv1.CurrentRow.Cells(colRangeSelection).Tag = frmP.ArrRangeSelection
+                    gv1.CurrentRow.Cells(colRangeSelection).Value = frmP.ArrRange
+                End If
+                'frmP.Show()
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

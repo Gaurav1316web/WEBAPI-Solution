@@ -35,7 +35,7 @@ Public Class frmLeaveMaster
             obj.PRINT_NAME = txtPrintName.Text
             obj.AFFECTS_SALARY = CboAffectsSal.SelectedValue
             obj.LEAVE_TYPE = cboLeaveType.SelectedValue
-
+            obj.APPLY_LEAVE_TYPE_DED = cboLeaveTypeDed.SelectedValue
             If (obj.SaveData(obj, isNewEntry)) Then
                 common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.Code, NavigatorType.Current)
@@ -62,6 +62,7 @@ Public Class frmLeaveMaster
             txtPrintName.Text = obj.PRINT_NAME
             CboAffectsSal.SelectedValue = obj.AFFECTS_SALARY
             cboLeaveType.SelectedValue = obj.LEAVE_TYPE
+            cboLeaveTypeDed.SelectedValue = obj.APPLY_LEAVE_TYPE_DED
         End If
 
     End Sub
@@ -155,7 +156,15 @@ Public Class frmLeaveMaster
         ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
         ButtonToolTip.SetToolTip(btnNew, "Press Alt+N Adding New ")
         '  ButtonToolTip.SetToolTip(btnPrint, "Press Alt+R for Print Preview")
+        createtable()
+    End Sub
 
+
+    Sub createtable()
+        Dim coll As Dictionary(Of String, String)
+        coll = New Dictionary(Of String, String)()
+        coll.Add("APPLY_LEAVE_TYPE_DED", "BIT NOT NULL Default 0")
+        clsCommonFunctionality.CreateOrAlterTable("TSPL_LEAVE_MASTER", coll)
     End Sub
 
     Private Sub SetUserMgmtNew()
@@ -199,6 +208,12 @@ Public Class frmLeaveMaster
         CboAffectsSal.ValueMember = "Code"
         CboAffectsSal.DisplayMember = "Name"
         CboAffectsSal.SelectedIndex = -1
+
+        cboLeaveTypeDed.DataSource = GetCboLeaveTypeDedDataTable()
+        cboLeaveTypeDed.ValueMember = "Code"
+        cboLeaveTypeDed.DisplayMember = "Name"
+        cboLeaveTypeDed.SelectedIndex = 1
+
         btnsave.Text = "Save"
         btnsave.Enabled = True
         btndelete.Enabled = True
@@ -214,29 +229,31 @@ Public Class frmLeaveMaster
     End Sub
 
     Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
-
-        Dim str As String = "select count(*) from TSPL_LEAVE_MASTER where LEAVE_CODE ='" + txtCode.Value + "' "
-        Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
-        If no = 0 AndAlso isButtonClicked = False Then
-            txtCode.MyReadOnly = False
-            'txtCode.Value = ""
-            '' common.clsCommon.MyMessageBoxShow("Value doesn't exist ")
-        Else
-            txtCode.MyReadOnly = True
-        End If
-        If txtCode.MyReadOnly OrElse isButtonClicked Then
-
-            'Dim qry As String = "select LEAVE_CODE AS Code, LEAVE_NAME as Name, PRINT_NAME as 'Print Name', AFFECTS_SALARY as 'Is Affects Salary'  from TSPL_LEAVE_MASTER"
-            'txtCode.Value = clsCommon.ShowSelectForm("LEAVE_MASTER", qry, "Code", "", txtCode.Value, "LEAVE_CODE", isButtonClicked)
-            txtCode.Value = clsLeaveMaster.getFinder("", txtCode.Value, isButtonClicked)
-            If txtCode.Value <> "" Then
-                LoadData(txtCode.Value, NavigatorType.Current)
+        Try
+            Dim str As String = "select count(*) from TSPL_LEAVE_MASTER where LEAVE_CODE ='" + txtCode.Value + "' "
+            Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
+            If no = 0 AndAlso isButtonClicked = False Then
+                txtCode.MyReadOnly = False
+                'txtCode.Value = ""
+                '' common.clsCommon.MyMessageBoxShow("Value doesn't exist ")
             Else
-                funReset()
+                txtCode.MyReadOnly = True
             End If
-        End If
+            If txtCode.MyReadOnly OrElse isButtonClicked Then
 
+                'Dim qry As String = "select LEAVE_CODE AS Code, LEAVE_NAME as Name, PRINT_NAME as 'Print Name', AFFECTS_SALARY as 'Is Affects Salary'  from TSPL_LEAVE_MASTER"
+                'txtCode.Value = clsCommon.ShowSelectForm("LEAVE_MASTER", qry, "Code", "", txtCode.Value, "LEAVE_CODE", isButtonClicked)
+                txtCode.Value = clsLeaveMaster.getFinder("", txtCode.Value, isButtonClicked)
+                If txtCode.Value <> "" Then
+                    LoadData(txtCode.Value, NavigatorType.Current)
+                Else
+                    funReset()
+                End If
+            End If
 
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub txtCode__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles txtCode._MYNavigator
@@ -370,5 +387,43 @@ Public Class frmLeaveMaster
 
         Return DT_AttReg
     End Function
+
+    Public Shared Function GetCboLeaveTypeDedDataTable() As DataTable
+        Dim DT_LeaveTypeDed As DataTable = New DataTable
+        DT_LeaveTypeDed.Columns.Add("Code", GetType(Int16))
+        DT_LeaveTypeDed.Columns.Add("Name", GetType(String))
+
+        Dim DR As DataRow = DT_LeaveTypeDed.NewRow()
+        DR("Name") = "Yes"
+        DR("Code") = 1
+        DT_LeaveTypeDed.Rows.Add(DR)
+
+        DR = DT_LeaveTypeDed.NewRow()
+        DR("Name") = "No"
+        DR("Code") = 0
+        DT_LeaveTypeDed.Rows.Add(DR)
+
+        DT_LeaveTypeDed.AcceptChanges()
+
+        Return DT_LeaveTypeDed
+    End Function
+
+    Private Sub cboLeaveTypeDed_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Dim Selected_val As String = String.Empty
+
+        If cboLeaveTypeDed.SelectedIndex > -1 Then
+            Selected_val = CboAffectsSal.SelectedValue
+        End If
+
+        cboLeaveTypeDed.DataSource = GetCboLeaveTypeDedDataTable()
+        cboLeaveTypeDed.ValueMember = "Code"
+        cboLeaveTypeDed.DisplayMember = "Name"
+
+        If Selected_val.Length > 0 Then
+            cboLeaveTypeDed.SelectedValue = Selected_val
+        Else
+            cboLeaveTypeDed.SelectedIndex = -1
+        End If
+    End Sub
 
 End Class

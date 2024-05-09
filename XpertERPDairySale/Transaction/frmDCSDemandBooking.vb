@@ -45,6 +45,12 @@ Public Class frmDCSDemandBooking
         SetUserMgmtNew()
         'CreateTable()
         AddNew()
+        'If clsCommon.myLen(PurchaseOrderNo) > 0 Then
+        '    LoadData(PurchaseOrderNo, NavigatorType.Current)
+        'End If
+        If clsCommon.myLen(Me.Tag) > 0 Then
+            LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
+        End If
     End Sub
     Private Sub frmDCSDemandBooking_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.F2 AndAlso gv1.CurrentCell IsNot Nothing Then
@@ -93,6 +99,13 @@ Public Class frmDCSDemandBooking
         lblRouteDesc.Text = ""
         txtLocation.Value = ""
         lblLocationDesc.Text = ""
+        txtVehicleNo.Text = ""
+        chkIndividualCustomer.Checked = False
+        txtCustomerNo.Value = ""
+        lblCustomerName.Text = ""
+        txtCustomerNo.Visible = False
+        lblCustomerName.Visible = False
+        lblCustomerCode.Visible = False
         rbtnCatelFeed.IsChecked = True
         LoadBlankGrid()
         btnSave.Enabled = True
@@ -322,6 +335,12 @@ Public Class frmDCSDemandBooking
             If clsCommon.myLen(txtLocation.Value) <= 0 Then
                 Throw New Exception("Please select Location")
             End If
+            If chkIndividualCustomer.Checked = True Then
+                If clsCommon.myLen(txtCustomerNo) <= 0 Then
+                    Throw New Exception("Please select Customer")
+
+                End If
+            End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -332,6 +351,8 @@ Public Class frmDCSDemandBooking
             Dim qry As String = ""
             Dim strPriceCode As String = String.Empty
             Dim LineNo As Integer = 1
+            Dim TotQty As Double = 0
+            clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtDocNo.Value))
             If (AllowToSave(Nothing)) Then
                 Dim obj As New clsDCSDemand()
                 If Not isNewEntry Then
@@ -347,6 +368,13 @@ Public Class frmDCSDemandBooking
                 ElseIf rbtnOther.IsChecked Then
                     obj.Categories = "O"
                 End If
+                obj.VehicleNo = txtVehicleNo.Text
+                If chkIndividualCustomer.Checked Then
+                    obj.IsIndividualCustomer = True
+                Else
+                    obj.IsIndividualCustomer = False
+                End If
+                obj.Cust_Code = txtCustomerNo.Value
                 obj.Arr = New List(Of clsDCSDemandDetail)
                 Dim intLine As Integer = 0
                 For dblrows As Integer = 0 To gv1.Rows.Count - 1
@@ -368,6 +396,7 @@ Public Class frmDCSDemandBooking
                                     objTr.Item_Code = clsCommon.myCstr(obj1.itemCode)
                                     objTr.Unit_code = clsCommon.myCstr(obj1.Unit_code)
                                     objTr.Qty = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
+                                    TotQty += objTr.Qty
                                     If (clsCommon.myLen(objTr.VLC_Uploader) > 0) AndAlso (clsCommon.myLen(objTr.Item_Code) > 0) Then
                                         obj.Arr.Add(objTr)
                                     End If
@@ -378,7 +407,8 @@ Public Class frmDCSDemandBooking
                     Next
                 Next
                 If (obj.SaveData(obj, isNewEntry)) = True Then
-                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
+                    'clsApprovalScreen.CheckApprovalLevel(.FormId, "Tspl_Lost_defect_sealNo_Head", "doc_no", obj.Document_No, trans)
+                    clsApply_Approval.CheckApprovalRequired(txtLocation.Value, "", MyBase.Form_ID, clsCommon.myCstr(txtDocNo.Value), txtDate.Text, "", "", 0, clsCommon.myCdbl(TotQty), "", Nothing, 0, False)
                     LoadData(obj.Document_No, NavigatorType.Current)
                 End If
             End If
@@ -409,6 +439,11 @@ Public Class frmDCSDemandBooking
                 txtDate.Value = obj.Document_Date
                 txtRouteNo.Value = obj.Route_No
                 txtLocation.Value = obj.Location
+                txtVehicleNo.Text = obj.VehicleNo
+                chkIndividualCustomer.Checked = obj.IsIndividualCustomer
+                txtCustomerNo.Value = obj.Cust_Code
+                lblCustomerName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select VLC_Name  from TSPL_VLC_master_Head  where VLC_Code_VLC_Uploader='" + txtCustomerNo.Value + "'"))
+
                 If obj.Posted = 1 Then
                     btnSave.Enabled = False
                     btnPost.Enabled = False
@@ -630,6 +665,9 @@ Public Class frmDCSDemandBooking
             If clsCommon.myLen(RouteNo) > 0 Then
                 Dim dbrow As Double = 0
                 Dim StrQry As String = "select VLC_Code_VLC_Uploader,VLC_Name,VSP_Code from TSPL_VLC_master_Head  where Route_Code='" + RouteNo + "'"
+                If chkIndividualCustomer.Checked Then
+                    StrQry += " and VLC_Code_VLC_Uploader='" + txtCustomerNo.Value + "'"
+                End If
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(StrQry)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     LoadBlankGrid()
@@ -762,4 +800,39 @@ order by FROM_DATE desc)"
         dblBal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, Nothing))
         Return dblBal
     End Function
+
+    Private Sub txtCustomerNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCustomerNo._MYValidating
+        Try
+            Dim WhrCls As String = Nothing
+            If clsCommon.myLen(txtRouteNo.Value) > 0 Then
+
+                Dim strQry As String = "select VLC_Code_VLC_Uploader as Code,VLC_Name as [VLC Name],VSP_Code as [VSP Code] from TSPL_VLC_master_Head "
+                WhrCls = " Route_Code='" + txtRouteNo.Value + "'"
+                txtCustomerNo.Value = clsCommon.ShowSelectForm("DCSDemandCustomerFinder", strQry, "Code", WhrCls, txtCustomerNo.Value, "", isButtonClicked)
+                lblCustomerName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select VLC_Name  from TSPL_VLC_master_Head  where VLC_Code_VLC_Uploader='" + txtCustomerNo.Value + "'"))
+                LoadBlankGrid()
+                LoadDCS(txtRouteNo.Value)
+            Else
+                Throw New Exception("Please Select Route No.")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub chkIndividualCustomer_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkIndividualCustomer.ToggleStateChanged
+        If chkIndividualCustomer.Checked = True Then
+            txtCustomerNo.Enabled = True
+            txtCustomerNo.Visible = True
+            lblCustomerName.Visible = True
+            lblCustomerCode.Visible = True
+
+        Else
+            txtCustomerNo.Enabled = False
+            txtCustomerNo.Visible = False
+            lblCustomerName.Visible = False
+            lblCustomerCode.Visible = False
+
+        End If
+    End Sub
 End Class
