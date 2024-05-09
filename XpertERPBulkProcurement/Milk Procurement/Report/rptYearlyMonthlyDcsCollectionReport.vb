@@ -85,12 +85,46 @@ group by TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code,TSPL_MP_INCENTIVE_ENTRY_DETAIL.VL
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             End If
-
+            FormatGrid()
             Gv1.BestFitColumns()
 
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+    Sub FormatGrid()
+        Gv1.AutoExpandGroups = False
+        Gv1.ShowGroupPanel = False
+        Gv1.ShowRowHeaderColumn = False
+        Gv1.AllowAddNewRow = False
+        Gv1.AllowDeleteRow = False
+        Gv1.EnableFiltering = True
+        Gv1.ShowFilteringRow = True
+
+
+        For ii As Integer = 0 To Gv1.Columns.Count - 1
+            Gv1.Columns(ii).ReadOnly = True
+            Gv1.Columns(ii).BestFit()
+        Next
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        Dim intCount As Integer = 0
+
+        Dim item1 As New GridViewSummaryItem("MILK WEIGHT", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        Dim item2 As New GridViewSummaryItem("Milk Weight(KG)", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item2)
+        Dim item3 As New GridViewSummaryItem("Milk Weight(LTR)", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item3)
+        Dim item4 As New GridViewSummaryItem("FAT(KG)", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item4)
+        Dim item5 As New GridViewSummaryItem("SNF(KG)", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item5)
+        Dim item6 As New GridViewSummaryItem("Farmers Milk Qty", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item6)
+
+        Gv1.ShowGroupPanel = True
+        Gv1.MasterTemplate.AutoExpandGroups = True
+        Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
     End Sub
 
     Private Sub txtMultRoute__My_Click(sender As Object, e As EventArgs) Handles txtMultRoute._My_Click
