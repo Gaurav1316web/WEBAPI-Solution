@@ -26,6 +26,8 @@ Partial Class frmLeaveMaster
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmLeaveMaster))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.cboLeaveTypeDed = New common.Controls.MyComboBox()
+        Me.MyLabel3 = New common.Controls.MyLabel()
         Me.cboLeaveType = New common.Controls.MyComboBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.CboAffectsSal = New common.Controls.MyComboBox()
@@ -48,6 +50,8 @@ Partial Class frmLeaveMaster
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.cboLeaveTypeDed, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboLeaveType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CboAffectsSal, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -76,6 +80,8 @@ Partial Class frmLeaveMaster
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.cboLeaveTypeDed)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel3)
         Me.SplitContainer1.Panel1.Controls.Add(Me.cboLeaveType)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel2)
         Me.SplitContainer1.Panel1.Controls.Add(Me.CboAffectsSal)
@@ -94,9 +100,47 @@ Partial Class frmLeaveMaster
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(510, 194)
-        Me.SplitContainer1.SplitterDistance = 160
+        Me.SplitContainer1.Size = New System.Drawing.Size(569, 203)
+        Me.SplitContainer1.SplitterDistance = 169
         Me.SplitContainer1.TabIndex = 0
+        '
+        'cboLeaveTypeDed
+        '
+        Me.cboLeaveTypeDed.AutoCompleteDisplayMember = Nothing
+        Me.cboLeaveTypeDed.AutoCompleteValueMember = Nothing
+        Me.cboLeaveTypeDed.BackColor = System.Drawing.Color.Transparent
+        Me.cboLeaveTypeDed.CalculationExpression = Nothing
+        Me.cboLeaveTypeDed.DropDownAnimationEnabled = True
+        Me.cboLeaveTypeDed.FieldCode = Nothing
+        Me.cboLeaveTypeDed.FieldDesc = Nothing
+        Me.cboLeaveTypeDed.FieldMaxLength = 0
+        Me.cboLeaveTypeDed.FieldName = Nothing
+        Me.cboLeaveTypeDed.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboLeaveTypeDed.isCalculatedField = False
+        Me.cboLeaveTypeDed.IsSourceFromTable = False
+        Me.cboLeaveTypeDed.IsSourceFromValueList = False
+        Me.cboLeaveTypeDed.IsUnique = False
+        Me.cboLeaveTypeDed.Location = New System.Drawing.Point(165, 143)
+        Me.cboLeaveTypeDed.MendatroryField = True
+        Me.cboLeaveTypeDed.MyLinkLable1 = Me.MyLabel3
+        Me.cboLeaveTypeDed.MyLinkLable2 = Nothing
+        Me.cboLeaveTypeDed.Name = "cboLeaveTypeDed"
+        Me.cboLeaveTypeDed.ReferenceFieldDesc = Nothing
+        Me.cboLeaveTypeDed.ReferenceFieldName = Nothing
+        Me.cboLeaveTypeDed.ReferenceTableName = Nothing
+        Me.cboLeaveTypeDed.Size = New System.Drawing.Size(161, 18)
+        Me.cboLeaveTypeDed.TabIndex = 124
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Location = New System.Drawing.Point(8, 145)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(151, 16)
+        Me.MyLabel3.TabIndex = 125
+        Me.MyLabel3.Text = "Apply Leave Type Deduction"
+        Me.MyLabel3.TextAlignment = System.Drawing.ContentAlignment.TopLeft
         '
         'cboLeaveType
         '
@@ -114,7 +158,7 @@ Partial Class frmLeaveMaster
         Me.cboLeaveType.IsSourceFromTable = False
         Me.cboLeaveType.IsSourceFromValueList = False
         Me.cboLeaveType.IsUnique = False
-        Me.cboLeaveType.Location = New System.Drawing.Point(130, 99)
+        Me.cboLeaveType.Location = New System.Drawing.Point(165, 99)
         Me.cboLeaveType.MendatroryField = True
         Me.cboLeaveType.MyLinkLable1 = Me.MyLabel2
         Me.cboLeaveType.MyLinkLable2 = Nothing
@@ -151,7 +195,7 @@ Partial Class frmLeaveMaster
         Me.CboAffectsSal.IsSourceFromTable = False
         Me.CboAffectsSal.IsSourceFromValueList = False
         Me.CboAffectsSal.IsUnique = False
-        Me.CboAffectsSal.Location = New System.Drawing.Point(130, 121)
+        Me.CboAffectsSal.Location = New System.Drawing.Point(165, 121)
         Me.CboAffectsSal.MendatroryField = True
         Me.CboAffectsSal.MyLinkLable1 = Me.MyLabel19
         Me.CboAffectsSal.MyLinkLable2 = Nothing
@@ -177,7 +221,7 @@ Partial Class frmLeaveMaster
         Me.RadMenu2.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3})
         Me.RadMenu2.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu2.Name = "RadMenu2"
-        Me.RadMenu2.Size = New System.Drawing.Size(510, 20)
+        Me.RadMenu2.Size = New System.Drawing.Size(569, 20)
         Me.RadMenu2.TabIndex = 121
         '
         'RadMenuItem3
@@ -204,9 +248,10 @@ Partial Class frmLeaveMaster
         'btnNew
         '
         Me.btnNew.Image = CType(resources.GetObject("btnNew.Image"), System.Drawing.Image)
-        Me.btnNew.Location = New System.Drawing.Point(339, 30)
+        Me.btnNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnNew.Location = New System.Drawing.Point(374, 30)
         Me.btnNew.Name = "btnNew"
-        Me.btnNew.Size = New System.Drawing.Size(14, 20)
+        Me.btnNew.Size = New System.Drawing.Size(17, 21)
         Me.btnNew.TabIndex = 1
         Me.btnNew.Text = " "
         '
@@ -222,7 +267,7 @@ Partial Class frmLeaveMaster
         Me.txtPrintName.IsSourceFromTable = False
         Me.txtPrintName.IsSourceFromValueList = False
         Me.txtPrintName.IsUnique = False
-        Me.txtPrintName.Location = New System.Drawing.Point(130, 77)
+        Me.txtPrintName.Location = New System.Drawing.Point(165, 77)
         Me.txtPrintName.MaxLength = 49
         Me.txtPrintName.MendatroryField = True
         Me.txtPrintName.MyLinkLable1 = Me.MyLabel1
@@ -256,7 +301,7 @@ Partial Class frmLeaveMaster
         Me.txtName.IsSourceFromTable = False
         Me.txtName.IsSourceFromValueList = False
         Me.txtName.IsUnique = False
-        Me.txtName.Location = New System.Drawing.Point(130, 55)
+        Me.txtName.Location = New System.Drawing.Point(165, 55)
         Me.txtName.MaxLength = 49
         Me.txtName.MendatroryField = True
         Me.txtName.MyLinkLable1 = Me.MyLabel18
@@ -281,7 +326,7 @@ Partial Class frmLeaveMaster
         'txtCode
         '
         Me.txtCode.FieldName = Nothing
-        Me.txtCode.Location = New System.Drawing.Point(130, 30)
+        Me.txtCode.Location = New System.Drawing.Point(165, 30)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
@@ -328,7 +373,7 @@ Partial Class frmLeaveMaster
         '
         Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnclose.Location = New System.Drawing.Point(436, 5)
+        Me.btnclose.Location = New System.Drawing.Point(495, 5)
         Me.btnclose.Name = "btnclose"
         Me.btnclose.Size = New System.Drawing.Size(66, 22)
         Me.btnclose.TabIndex = 2
@@ -338,7 +383,7 @@ Partial Class frmLeaveMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(510, 194)
+        Me.ClientSize = New System.Drawing.Size(569, 203)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "frmLeaveMaster"
         '
@@ -350,6 +395,8 @@ Partial Class frmLeaveMaster
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.cboLeaveTypeDed, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboLeaveType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CboAffectsSal, System.ComponentModel.ISupportInitialize).EndInit()
@@ -388,4 +435,6 @@ Partial Class frmLeaveMaster
     Friend WithEvents CboAffectsSal As common.Controls.MyComboBox
     Friend WithEvents cboLeaveType As common.Controls.MyComboBox
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
+    Friend WithEvents cboLeaveTypeDed As common.Controls.MyComboBox
+    Friend WithEvents MyLabel3 As common.Controls.MyLabel
 End Class
