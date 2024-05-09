@@ -1792,8 +1792,13 @@ left outer join ( select Code, 0 as Sequence_No,Description  from TSPL_DCS_ADDIT
 union 
 select  Code ,Sequence_No ,Description  from TSPL_DEDUCTION_MASTER
 )  TSPL_DEDUCTION_MASTER on (TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_DETAIL.DeductionCode or TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction)
-where TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ")
-group by TSPL_PAYMENT_PROCESS_SAVING.Doc_No,TSPL_DEDUCTION_MASTER.Description ,TSPL_DEDUCTION_MASTER.Code,TSPL_DEDUCTION_MASTER.Sequence_No 
+where TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ")"
+
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                sQuery += " and TSPL_DEDUCTION_MASTER.Code !='PDP' "
+            End If
+
+            sQuery += " group by TSPL_PAYMENT_PROCESS_SAVING.Doc_No,TSPL_DEDUCTION_MASTER.Description ,TSPL_DEDUCTION_MASTER.Code,TSPL_DEDUCTION_MASTER.Sequence_No 
 )TT
 left join (select MAPPING.Code mmCode,MAPPING.Description mmDescription,DEDUCTION.CODE AS ddCode from TSPL_DCS_ADDITION_DEDUCTION as MAPPING
 left join TSPL_DCS_ADDITION_DEDUCTION as DEDUCTION on  DEDUCTION.Code=MAPPING.MappingCode
@@ -2564,8 +2569,13 @@ left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.document_no
 left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.document_no=TSPL_VENDOR_INVOICE_HEAD.document_no
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE
 left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction
-where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in  (" + strDocNo + ") 
-)TT
+where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in  (" + strDocNo + ") "
+
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+            sQuerySaving += " and TSPL_DCS_ADDITION_DEDUCTION.Description is not null "
+        End If
+
+        sQuerySaving += " )TT
 left join (select MAPPING.Code mmCode,MAPPING.Description mmDescription,MAPPING.Description_Hindi HindiDescription,DEDUCTION.CODE AS ddCode from TSPL_DCS_ADDITION_DEDUCTION as MAPPING
 left join TSPL_DCS_ADDITION_DEDUCTION as DEDUCTION on  DEDUCTION.Code=MAPPING.MappingCode WHERE  len(isnull(MAPPING.MappingCode,''))>0)mapping on mapping.ddCode=TT.Code "
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
