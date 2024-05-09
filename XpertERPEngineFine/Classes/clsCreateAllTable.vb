@@ -1531,6 +1531,7 @@ Public Class clsCreateAllTable
             coll.Add("Modified_Date", "Datetime NOT NULL")
             '===================== TSPL_LEAVE_MASTER====================
             coll.Add("LEAVE_TYPE", "VARCHAR(30) NOT NULL DEFAULT 'Other' ") '' POSSIBLE VALUES 1. EL 2. CL 3. COFF 4. MATERNITY LEAVE(MATL) 5 MEDICAL LEAVE(MEDL) 6. Other           
+            coll.Add("APPLY_LEAVE_TYPE_DED", "BIT NOT NULL DEFAULT 0")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_LEAVE_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -8173,6 +8174,9 @@ Public Class clsCreateAllTable
             coll.Add("Route_No", "varchar(30) NULL REFERENCES TSPL_BULK_ROUTE_MASTER (ROUTE_NO)")
             coll.Add("Location", "Varchar(12) NULL  References TSPL_LOCATION_MASTER(Location_Code)")
             coll.Add("Categories", "Varchar(2) Not NULL")
+            coll.Add("VehicleNo", "Varchar(20) NULL")
+            coll.Add("IsIndividualCustomer", "int NULL")
+            coll.Add("Cust_Code", "varchar(30) NULL")
             coll.Add("Posted", "int not NULL default 0")
             coll.Add("Posting_Date", "Datetime NULL")
             coll.Add("Created_By", "varchar(12) NOT NULL")

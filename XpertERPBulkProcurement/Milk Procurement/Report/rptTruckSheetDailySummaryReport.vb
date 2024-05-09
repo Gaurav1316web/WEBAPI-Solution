@@ -180,38 +180,19 @@ TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Manual_Weight AS iS_mANUAL , '' AS MACHINE
 
     Sub Print(ByVal isPrint As Boolean, Optional ByVal isPrerint As Boolean = False)
         Try
-
-            'Dim strDate As String = clsDBFuncationality.getSingleValue(" Declare @colsScheme As NVARCHAR(MAX),@query  As NVARCHAR(MAX) with dates_cte(Date) as (select convert(date,'" + fromDate.Value + "',103) union all select dateadd(day,1,date) from dates_cte where convert(date,date,103)<convert(date,'" + ToDate.Value + "',103)) select  STUFF((Select distinct ',' + QUOTENAME(convert(varchar,dates_cte.Date,103) ) as Alies_Name FROM dates_cte order by Alies_Name FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') option (maxrecursion 0)")
-            'Dim strDateSum As String = clsDBFuncationality.getSingleValue(" Declare @colsScheme As NVARCHAR(MAX),@query  As NVARCHAR(MAX)  with dates_cte(Date) as (select convert(date,'" + fromDate.Value + "',103) union all select dateadd(day,1,date) from dates_cte where convert(date,date,103)<convert(date,'" + ToDate.Value + "',103)) select  STUFF((SELECT distinct ',' +'Sum(isnull(' + QUOTENAME(convert(varchar,dates_cte.Date,103)) +',0))' +' as ' + QUOTENAME(convert(varchar,dates_cte.Date,103)) as Alies_Name FROM dates_cte order by Alies_Name FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') option (maxrecursion 0)")
-
-            'qry = "select [Plant],[Mcc],[Shift]," + strDateSum + " from (SELECT isnull(tspl_location_master.location_desc,'') as [Plant],isnull(TSPL_MCC_MASTER.mcc_name,'') as [Mcc],tspl_location_master.Location_Code,TSPL_MILK_SRN_HEAD.MCC_CODE,convert(varchar,TSPL_MILK_SRN_HEAD.doc_date,103) as doc_date,TSPL_MILK_SRN_HEAD.shift,(case when TSPL_MILK_SRN_HEAD.shift='M' THEN '1'+TSPL_MILK_SRN_HEAD.shift ELSE '2'+TSPL_MILK_SRN_HEAD.shift END) as shift1,cast(TSPL_MILK_SRN_DETAIL.ACC_Qty as decimal(18,2)) AS Quantity from TSPL_MILK_SRN_DETAIL left outer join  TSPL_MILK_SRN_HEAD On  TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.mcc_code=TSPL_MILK_SRN_HEAD.MCC_CODE left outer join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.Plant_code " &
-            '    " where CONVERT(date,TSPL_MILK_SRN_HEAD.Doc_Date,103) >= convert(date,'" + fromDate.Value + "',103) AND  CONVERT(date,TSPL_MILK_SRN_HEAD.Doc_Date,103) <= convert(date,'" + ToDate.Value + "',103) "
-            'If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
-            '    qry += " and TSPL_MILK_SRN_HEAD.MCC_CODE  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") "
-            'End If
-            'qry += " ) as s pivot (  sum(Quantity) for doc_date in (" + strDate + " ) ) as zpivot group by zpivot.[Plant],zpivot.[Mcc],zpivot.[Shift],zpivot.[Shift1] order by [Plant],[Mcc],[Shift1]"
-
-            'Dim dtREJECT As DataTable
             Dim dt1 As New DataTable
             Dim qry As String = Nothing
             Dim FinalQuery As String = Nothing
             Dim strRejection As String = Nothing
             Dim strSRNQuery As String = Nothing
-            Dim strRejectionQuery As String = Nothing
-            strRejection = ",'' as RejectType,'' as RejectReason,'' as Defaulter"
+            strRejection = ",(case when len(isnull(TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No,''))>0 then TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type else (case when len(isnull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No,''))>0 then TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type else null end) end)   as RejectType,'' as RejectReason,'' as Defaulter"
             Dim ShowVLCUploaderData As Boolean = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowVLCUploaderData, clsFixedParameterCode.ShowVLCUploaderData, Nothing)) = 1
             Dim SetCowFatPer As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, Nothing))
-
             If AreaWiseBilling Then
                 strSRNQuery = clsMilkRejectHead.GetMCCRegisterWithRejectionColumnQuery(fromDate.Value, ToDate.Value, "M", "E", "", StrPermission, Nothing, Nothing, Nothing, "", strRejection, ShowVLCUploaderData, SetCowFatPer, fndArea.Value)
-                strRejectionQuery = clsMilkRejectHead.GetMCCRegisterRejectionQuery(fromDate.Value, ToDate.Value, "M", "E", StrPermission, Nothing, Nothing, Nothing, "", SetCowFatPer, fndArea.Value)
             Else
                 strSRNQuery = clsMilkRejectHead.GetMCCRegisterWithRejectionColumnQuery(fromDate.Value, ToDate.Value, "M", "E", "", StrPermission, txtMCC.arrValueMember, Nothing, Nothing, "", strRejection, ShowVLCUploaderData, SetCowFatPer, fndArea.Value)
-                strRejectionQuery = clsMilkRejectHead.GetMCCRegisterRejectionQuery(fromDate.Value, ToDate.Value, "M", "E", StrPermission, txtMCC.arrValueMember, Nothing, Nothing, "", SetCowFatPer, fndArea.Value)
             End If
-            'strSRNQuery = clsMilkRejectHead.GetMCCRegisterWithRejectionColumnQuery(fromDate.Value, ToDate.Value, "M", "E", "", StrPermission, txtMCC.arrValueMember, Nothing, Nothing, "", strRejection, ShowVLCUploaderData, SetCowFatPer, fndArea.Value)
-
-
 
             qry = "Select final.[Milk Receipt Code] ,final.MCC as [MCC Code] ,final.[MCC Name],final.[MCC Type] ,final.[Chilling Center],final.[Plant Code],final.[Plant Name] ,final.Date ,final.[Doc Date] ,final.Shift ," &
                 " final.[Route Code],final.[Route Name] ,final.[Vehicle Code] ,final.[VSP Code],final.[VSP Name], final.[Vendor Group Code],final.[Vendor Group Desc] ,final.[Vlc Uploader Code] ,final.[Vlc Code] ,final.[VLC Name] ," &
@@ -221,43 +202,6 @@ TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Manual_Weight AS iS_mANUAL , '' AS MACHINE
                 " final.[Buffalo Milk Qty (KG)], Case When final.[FAT(%)] > 5 Then CLR Else 0 End [Mix CLR],final.[Buffalo SNF(%)],final.[Buffalo FAT(%)], Case When final.[FAT(%)] > 5 Then final.[FAT(KG)] Else 0 End [Mix FAT (KG)], Case When final.[FAT(%)] > 5 Then final.[SNF(KG)] Else 0 End [Mix SNF (KG)],final.[Milk Type],final.[SRN No],final.[SRN Amount]," &
                 " final.[SRN Qty],final.[SRN Rate],final.[Shift Status] ,Invoice_no ,Invoice_Date , IS_MANUAL, MACHINE_NO,IS_MILK_SAMPLE_MANUAL,RejectType,RejectReason,Defaulter, " &
                 " final.EMP_Amount,final.TIP_Amount,final.Service_Charge_Amount ,([SRN Amount]+EMP_Amount+TIP_Amount-Service_Charge_Amount) as NetAmount,final.Purchase_Order_No,final.Head_Load_Amount ,final.SNF_Ded_Value,final.SNF_Ded_Rate,final.SNF_Ded_Amount, final.price_code,final.[Transporter Code],final.[Transporter Name],final.Handling_Charges_Amount,final.VSP_Commission_Amount,final.VSP_Deduction_Amount,final.VSP_Day_Wise_Incentive,final.SubStandard,final.vehicle  From ( " & strSRNQuery & ") As final where 2=2 "
-
-            'Dim qry1 As String = "select TSPL_MILK_REJECT_TYPE.code as Reject_Type,TSPL_MILK_REJECT_TYPE.Description as Description,TSPL_MILK_REJECT_TYPE.SNo as SNo from TSPL_MILK_REJECT_TYPE where 1=1 order by SNo"
-            'dtREJECT = clsDBFuncationality.GetDataTable(qry1)
-            'Dim strRejectQty As String = ""
-            'Dim strRejectPer1 As String = ""
-            'Dim strRejectsum As String = ""
-            'Dim strRejectPer2 As String = ",'' as [FAT - Per],'' as [SNF - Per]"
-            'If dtREJECT IsNot Nothing AndAlso dtREJECT.Rows.Count > 0 Then
-            '    For Each dr As DataRow In dtREJECT.Rows
-            '        strRejectQty += ",case When isnull(RejectType,'')='" + clsCommon.myCstr(dr("Description")) + "' then [Milk Weight] else 0 end as [" + clsCommon.myCstr(dr("Description")) + "]"
-            '        strRejectPer1 += ",case When sum([Milk Weight])>0 then cast((sum([" + clsCommon.myCstr(dr("Description")) + "])/sum([Milk Weight]))*100 as decimal(18,2)) else 0 end as [" + clsCommon.myCstr(dr("Description")) + " %]"
-            '        strRejectsum += ",sum([" + clsCommon.myCstr(dr("Description")) + "]) as [" + clsCommon.myCstr(dr("Description")) + "]"
-            '        strRejectPer2 += ",'' as [" + clsCommon.myCstr(dr("Description")) + " - Per]"
-            '    Next
-            'End If
-
-            'FinalQuery = "select [MCC Code],[MCC Name],[Route Code],[Route Name]
-            ' ,ROW_NUMBER() OVER(Partition by [MCC Name],[Route Name] ORDER BY [MCC Name],[Route Name]) AS SNo
-            ',[VSP Code] as [SOCIETY CODE],[VSP Name] as [SOCIETY NAME],[Milk Type]
-            ',sum([Milk Weight]) as [Milk Weight],sum([FAT]) as [FAT],sum([SNF]) as [SNF]" + strRejectsum + " ,case when sum([Milk Weight] )=0 then 0 else (sum([FAT] )/sum([Milk Weight] ))*100 end as [FAT(%)]
-            ',case when sum([Milk Weight] )=0 then 0 else (sum([SNF] )/sum([Milk Weight] ))*100 end as [SNF(%)] " + strRejectPer1 + " " + strRejectPer2 + " from(select [MCC Code],[MCC Name],[Route Code],[Route Name]
-            ',[VSP Code],[VSP Name],[Milk Type]
-            ',[Milk Weight],[FAT], [SNF]" + strRejectQty + "
-            'from (select pp.[MCC Code]  as [MCC Code],max(pp.[MCC Name] )  as [MCC Name]
-            ',pp.[Route Code],max(pp.[Route Name]) as [Route Name]
-            ',pp.[VSP Code],max(pp.[VSP Name]) as [VSP Name]
-            ',pp.[Milk Type]
-            ',sum([Milk Weight(KG)] ) as [Milk Weight]
-            ',sum([FAT(KG)] ) as [FAT] ,sum([SNF(KG)] ) as [SNF]
-            ',RejectType
-            'from (" + Environment.NewLine + qry + Environment.NewLine + " ) as  pp group by pp.[MCC Code],pp.[Route Code],pp.[VSP Code],pp.[Milk Type],pp.RejectType 
-            '  ) as aa )a where 1=1 group by [MCC Code],[MCC Name],[Route Code],[Route Name]
-            ',[VSP Code],[VSP Name],[Milk Type] order by [MCC Name],[Route Name],[VSP Code]"
-
-            '            ,case when sum([Milk Weight] )=0 then 0 else (sum([FAT] )/sum([Milk Weight] ))*100 end as [Total FAT(%)]
-            ',case when sum([Milk Weight] )=0 then 0 else (sum([SNF] )/sum([Milk Weight] ))*100 end as [Total SNF(%)] 
-
             FinalQuery = "select [Doc Date],a.[Milk type], 
                               sum([Milk Weight]* case when len(isnull(RejectType,''))>0 then 0 else 1 end) as [Sweet Qty]
                             ,sum([FAT] * case when len(isnull(RejectType,''))>0 then 0 else 1 end) as [Sweet FAT]		
@@ -317,8 +261,6 @@ TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Manual_Weight AS iS_mANUAL , '' AS MACHINE
         End Try
     End Sub
     Sub SetGridFormat()
-        'Gv1.GroupDescriptors.Add(New GridGroupByExpression("Plant as Plant format ""{0}: {1}"" Group By Plant"))
-        'Gv1.GroupDescriptors.Add(New GridGroupByExpression("Mcc as Mcc format ""{0}: {1}"" Group By Mcc"))
         Gv1.AutoExpandGroups = True
         Gv1.ShowGroupPanel = True
         Gv1.ShowRowHeaderColumn = False

@@ -634,7 +634,7 @@ Public Class frmMilkCollectionDCS
                                 clsCommon.MyMessageBoxShow(Me, "FAT % Can't be more than " + clsCommon.myCstr(settMaxFATPerLimit) + ".", Me.Text)
                             End If
                         End If
-                        If gv1.CurrentRow.Cells(colEveningQty).Value > 0 AndAlso gv1.CurrentRow.Cells(colEveningFATPer).Value > 0 AndAlso gv1.CurrentRow.Cells(colEveningSNFPer).Value > 0 Then
+                        If clsCommon.myCDecimal(gv1.CurrentRow.Cells(colEveningQty).Value) > 0 AndAlso clsCommon.myCDecimal(gv1.CurrentRow.Cells(colEveningFATPer).Value) > 0 AndAlso clsCommon.myCDecimal(gv1.CurrentRow.Cells(colEveningSNFPer).Value) > 0 Then
                             UpdateCurrentRow("E", gv1.CurrentRow.Index)
                         End If
                     ElseIf e.Column Is gv1.Columns(colEveningSNFPerNoDecimal) Then
@@ -644,7 +644,7 @@ Public Class frmMilkCollectionDCS
                                 clsCommon.MyMessageBoxShow(Me, "SNF % Can't be more than " + clsCommon.myCstr(settMaxSNFPerLimit) + ".", Me.Text)
                             End If
                         End If
-                        If gv1.CurrentRow.Cells(colEveningQty).Value > 0 AndAlso gv1.CurrentRow.Cells(colEveningFATPer).Value > 0 AndAlso gv1.CurrentRow.Cells(colEveningSNFPer).Value > 0 Then
+                        If clsCommon.myCDecimal(gv1.CurrentRow.Cells(colEveningQty).Value) > 0 AndAlso clsCommon.myCDecimal(gv1.CurrentRow.Cells(colEveningFATPer).Value) > 0 AndAlso clsCommon.myCDecimal(gv1.CurrentRow.Cells(colEveningSNFPer).Value) > 0 Then
                             UpdateCurrentRow("E", gv1.CurrentRow.Index)
                         End If
                     ElseIf e.Column Is gv1.Columns(colMorningFATPerNoDecimal) Then
@@ -654,7 +654,7 @@ Public Class frmMilkCollectionDCS
                                 clsCommon.MyMessageBoxShow(Me, "FAT % Can't be more than " + clsCommon.myCstr(settMaxFATPerLimit) + ".", Me.Text)
                             End If
                         End If
-                        If gv1.CurrentRow.Cells(colMorningQty).Value > 0 AndAlso gv1.CurrentRow.Cells(colMorningFATPer).Value > 0 AndAlso gv1.CurrentRow.Cells(colMorningSNFPer).Value > 0 Then
+                        If clsCommon.myCDecimal(gv1.CurrentRow.Cells(colMorningQty).Value) > 0 AndAlso clsCommon.myCDecimal(gv1.CurrentRow.Cells(colMorningFATPer).Value) > 0 AndAlso clsCommon.myCDecimal(gv1.CurrentRow.Cells(colMorningSNFPer).Value) > 0 Then
                             UpdateCurrentRow("M", gv1.CurrentRow.Index)
                         End If
                     ElseIf e.Column Is gv1.Columns(colMorningSNFPerNoDecimal) Then
@@ -664,7 +664,7 @@ Public Class frmMilkCollectionDCS
                                 clsCommon.MyMessageBoxShow(Me, "SNF % Can't be more than " + clsCommon.myCstr(settMaxSNFPerLimit) + ".", Me.Text)
                             End If
                         End If
-                        If gv1.CurrentRow.Cells(colMorningQty).Value > 0 AndAlso gv1.CurrentRow.Cells(colMorningFATPer).Value > 0 AndAlso gv1.CurrentRow.Cells(colMorningSNFPer).Value > 0 Then
+                        If clsCommon.myCDecimal(gv1.CurrentRow.Cells(colMorningQty).Value) > 0 AndAlso clsCommon.myCDecimal(gv1.CurrentRow.Cells(colMorningFATPer).Value) > 0 AndAlso clsCommon.myCDecimal(gv1.CurrentRow.Cells(colMorningSNFPer).Value) > 0 Then
                             UpdateCurrentRow("M", gv1.CurrentRow.Index)
                         End If
                     ElseIf e.Column Is gv1.Columns(colEveningQty) OrElse e.Column Is gv1.Columns(colEveningFATPer) OrElse e.Column Is gv1.Columns(colEveningFATKG) OrElse e.Column Is gv1.Columns(colEveningSNFPer) OrElse e.Column Is gv1.Columns(colEveningSNFKG) Then
@@ -682,7 +682,7 @@ Public Class frmMilkCollectionDCS
                                 End If
                             End If
                         End If
-                        If gv1.CurrentRow.Cells(colEveningQty).Value > 0 AndAlso gv1.CurrentRow.Cells(colEveningFATPer).Value > 0 AndAlso gv1.CurrentRow.Cells(colEveningSNFPer).Value > 0 Then
+                        If clsCommon.myCDecimal(gv1.CurrentRow.Cells(colEveningQty).Value) > 0 AndAlso clsCommon.myCDecimal(gv1.CurrentRow.Cells(colEveningFATPer).Value) > 0 AndAlso clsCommon.myCDecimal(gv1.CurrentRow.Cells(colEveningSNFPer).Value) > 0 Then
                             UpdateCurrentRow("E", gv1.CurrentRow.Index)
                         End If
 
@@ -701,7 +701,7 @@ Public Class frmMilkCollectionDCS
                                 End If
                             End If
                         End If
-                        If gv1.CurrentRow.Cells(colMorningQty).Value > 0 AndAlso gv1.CurrentRow.Cells(colMorningFATPer).Value > 0 AndAlso gv1.CurrentRow.Cells(colMorningSNFPer).Value > 0 Then
+                        If clsCommon.myCDecimal(gv1.CurrentRow.Cells(colMorningQty).Value) > 0 AndAlso clsCommon.myCDecimal(gv1.CurrentRow.Cells(colMorningFATPer).Value) > 0 AndAlso clsCommon.myCDecimal(gv1.CurrentRow.Cells(colMorningSNFPer).Value) > 0 Then
                             UpdateCurrentRow("M", gv1.CurrentRow.Index)
                         End If
                     End If

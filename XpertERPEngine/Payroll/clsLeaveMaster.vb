@@ -9,6 +9,7 @@ Public Class clsLeaveMaster
     Public Name As String
     Public AFFECTS_SALARY As Int16
     Public LEAVE_TYPE As String
+    Public APPLY_LEAVE_TYPE_DED As Int16
 #End Region
 
 
@@ -45,7 +46,7 @@ Public Class clsLeaveMaster
     End Function
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsLeaveMaster
         Dim obj As clsLeaveMaster = Nothing
-        Dim qry As String = "select LEAVE_CODE, LEAVE_NAME, PRINT_NAME, convert(int, AFFECTS_SALARY) as AFFECTS_SALARY,LEAVE_TYPE  from TSPL_LEAVE_MASTER where 2=2"
+        Dim qry As String = "select LEAVE_CODE, LEAVE_NAME, PRINT_NAME, convert(int, AFFECTS_SALARY) as AFFECTS_SALARY,LEAVE_TYPE,APPLY_LEAVE_TYPE_DED  from TSPL_LEAVE_MASTER where 2=2"
         Select Case NavType
             Case NavigatorType.First
                 qry += " and LEAVE_CODE = (select MIN(LEAVE_CODE) from TSPL_LEAVE_MASTER)"
@@ -67,6 +68,7 @@ Public Class clsLeaveMaster
             obj.Name = clsCommon.myCstr(dt.Rows(0)("LEAVE_NAME"))
             obj.AFFECTS_SALARY = Convert.ToInt16(clsCommon.myCdbl(dt.Rows(0)("AFFECTS_SALARY")))
             obj.LEAVE_TYPE = clsCommon.myCstr(dt.Rows(0)("LEAVE_TYPE"))
+            obj.APPLY_LEAVE_TYPE_DED = Convert.ToInt16(clsCommon.myCdbl(dt.Rows(0)("APPLY_LEAVE_TYPE_DED")))
         End If
         Return obj
 
@@ -81,6 +83,7 @@ Public Class clsLeaveMaster
             clsCommon.AddColumnsForChange(coll, "PRINT_NAME", obj.PRINT_NAME)
             clsCommon.AddColumnsForChange(coll, "AFFECTS_SALARY", obj.AFFECTS_SALARY)
             clsCommon.AddColumnsForChange(coll, "LEAVE_TYPE", obj.LEAVE_TYPE)
+            clsCommon.AddColumnsForChange(coll, "APPLY_LEAVE_TYPE_DED", obj.APPLY_LEAVE_TYPE_DED)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"))
             If isNewEntry Then

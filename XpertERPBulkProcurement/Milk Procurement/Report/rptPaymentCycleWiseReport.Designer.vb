@@ -34,6 +34,9 @@ Partial Class rptPaymentCycleWiseReport
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.txtZone = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel1 = New common.Controls.MyLabel()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
         Me.dgv_Groupmapping = New common.UserControls.MyRadGridView()
         Me.chkPaymentSummary = New Telerik.WinControls.UI.RadCheckBox()
@@ -43,7 +46,6 @@ Partial Class rptPaymentCycleWiseReport
         Me.chkShowData = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtMCC_BMC = New common.UserControls.txtMultiSelectFinder()
         Me.txtBank = New common.UserControls.txtMultiSelectFinder()
-        Me.MyLabel1 = New common.Controls.MyLabel()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rdbAll = New System.Windows.Forms.RadioButton()
@@ -74,6 +76,8 @@ Partial Class rptPaymentCycleWiseReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox4.SuspendLayout()
         CType(Me.dgv_Groupmapping, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -84,7 +88,6 @@ Partial Class rptPaymentCycleWiseReport
         CType(Me.rbtnHeadLoad, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnOutstanding, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkShowData, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
@@ -168,6 +171,8 @@ Partial Class rptPaymentCycleWiseReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel4)
+        Me.RadPageViewPage1.Controls.Add(Me.txtZone)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox4)
         Me.RadPageViewPage1.Controls.Add(Me.chkPaymentSummary)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
@@ -189,12 +194,45 @@ Partial Class rptPaymentCycleWiseReport
         Me.RadPageViewPage1.Size = New System.Drawing.Size(794, 404)
         Me.RadPageViewPage1.Text = "Filters"
         '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel4.Location = New System.Drawing.Point(15, 104)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(32, 18)
+        Me.MyLabel4.TabIndex = 1524
+        Me.MyLabel4.Text = "Zone"
+        '
+        'txtZone
+        '
+        Me.txtZone.arrDispalyMember = Nothing
+        Me.txtZone.arrValueMember = Nothing
+        Me.txtZone.Location = New System.Drawing.Point(86, 104)
+        Me.txtZone.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtZone.MyLinkLable1 = Me.MyLabel1
+        Me.txtZone.MyLinkLable2 = Nothing
+        Me.txtZone.MyNullText = "All"
+        Me.txtZone.Name = "txtZone"
+        Me.txtZone.Size = New System.Drawing.Size(424, 19)
+        Me.txtZone.TabIndex = 1523
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(15, 82)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(27, 18)
+        Me.MyLabel1.TabIndex = 430
+        Me.MyLabel1.Text = "DCS"
+        '
         'RadGroupBox4
         '
         Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox4.Controls.Add(Me.dgv_Groupmapping)
         Me.RadGroupBox4.HeaderText = ""
-        Me.RadGroupBox4.Location = New System.Drawing.Point(86, 149)
+        Me.RadGroupBox4.Location = New System.Drawing.Point(86, 169)
         Me.RadGroupBox4.Name = "RadGroupBox4"
         Me.RadGroupBox4.Size = New System.Drawing.Size(568, 235)
         Me.RadGroupBox4.TabIndex = 1522
@@ -230,6 +268,7 @@ Partial Class rptPaymentCycleWiseReport
         Me.dgv_Groupmapping.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgv_Groupmapping.MasterTemplate.ShowHeaderCellButtons = True
         Me.dgv_Groupmapping.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.dgv_Groupmapping.MyStopExport = False
         Me.dgv_Groupmapping.Name = "dgv_Groupmapping"
         Me.dgv_Groupmapping.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgv_Groupmapping.ShowHeaderCellButtons = True
@@ -239,7 +278,7 @@ Partial Class rptPaymentCycleWiseReport
         '
         'chkPaymentSummary
         '
-        Me.chkPaymentSummary.Location = New System.Drawing.Point(86, 130)
+        Me.chkPaymentSummary.Location = New System.Drawing.Point(86, 147)
         Me.chkPaymentSummary.Name = "chkPaymentSummary"
         Me.chkPaymentSummary.Size = New System.Drawing.Size(114, 18)
         Me.chkPaymentSummary.TabIndex = 1521
@@ -304,7 +343,7 @@ Partial Class rptPaymentCycleWiseReport
         '
         Me.txtBank.arrDispalyMember = Nothing
         Me.txtBank.arrValueMember = Nothing
-        Me.txtBank.Location = New System.Drawing.Point(86, 105)
+        Me.txtBank.Location = New System.Drawing.Point(86, 126)
         Me.txtBank.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtBank.MyLinkLable1 = Me.MyLabel1
         Me.txtBank.MyLinkLable2 = Nothing
@@ -313,21 +352,11 @@ Partial Class rptPaymentCycleWiseReport
         Me.txtBank.Size = New System.Drawing.Size(424, 19)
         Me.txtBank.TabIndex = 440
         '
-        'MyLabel1
-        '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(15, 82)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(27, 18)
-        Me.MyLabel1.TabIndex = 430
-        Me.MyLabel1.Text = "DCS"
-        '
         'MyLabel3
         '
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(15, 105)
+        Me.MyLabel3.Location = New System.Drawing.Point(15, 126)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(30, 18)
         Me.MyLabel3.TabIndex = 439
@@ -406,7 +435,7 @@ Partial Class rptPaymentCycleWiseReport
         '
         Me.mfndMcc.arrDispalyMember = Nothing
         Me.mfndMcc.arrValueMember = Nothing
-        Me.mfndMcc.Location = New System.Drawing.Point(537, 104)
+        Me.mfndMcc.Location = New System.Drawing.Point(537, 126)
         Me.mfndMcc.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.mfndMcc.MyLinkLable1 = Nothing
         Me.mfndMcc.MyLinkLable2 = Nothing
@@ -527,6 +556,7 @@ Partial Class rptPaymentCycleWiseReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -607,6 +637,8 @@ Partial Class rptPaymentCycleWiseReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox4.ResumeLayout(False)
         CType(Me.dgv_Groupmapping.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -618,7 +650,6 @@ Partial Class rptPaymentCycleWiseReport
         CType(Me.rbtnHeadLoad, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnOutstanding, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkShowData, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
@@ -684,5 +715,7 @@ Partial Class rptPaymentCycleWiseReport
     Friend WithEvents chkPaymentSummary As RadCheckBox
     Friend WithEvents RadGroupBox4 As RadGroupBox
     Friend WithEvents dgv_Groupmapping As common.UserControls.MyRadGridView
+    Friend WithEvents MyLabel4 As common.Controls.MyLabel
+    Friend WithEvents txtZone As common.UserControls.txtMultiSelectFinder
 End Class
 

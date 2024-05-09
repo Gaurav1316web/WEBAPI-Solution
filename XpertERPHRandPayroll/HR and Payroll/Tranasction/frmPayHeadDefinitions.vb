@@ -630,6 +630,11 @@ Public Class frmPayHeadDefinitions
         DR("Code") = "PRESENT_DAYS_DAILY_BASIS"
         DT_Cbo.Rows.Add(DR)
 
+        DR = DT_Cbo.NewRow()
+        DR("Name") = "Fixed 30 Days"
+        DR("Code") = "FIXED_30_DAYS"
+        DT_Cbo.Rows.Add(DR)
+
         DT_Cbo.AcceptChanges()
         Return DT_Cbo
     End Function
