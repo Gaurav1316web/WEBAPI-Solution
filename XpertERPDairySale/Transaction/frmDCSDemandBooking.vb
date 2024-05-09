@@ -352,7 +352,9 @@ Public Class frmDCSDemandBooking
             Dim strPriceCode As String = String.Empty
             Dim LineNo As Integer = 1
             Dim TotQty As Double = 0
-            clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtDocNo.Value))
+            If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtDocNo.Value))
+            End If
             If (AllowToSave(Nothing)) Then
                 Dim obj As New clsDCSDemand()
                 If Not isNewEntry Then
