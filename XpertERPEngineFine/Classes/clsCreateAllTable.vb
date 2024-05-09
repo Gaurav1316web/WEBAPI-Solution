@@ -1531,6 +1531,7 @@ Public Class clsCreateAllTable
             coll.Add("Modified_Date", "Datetime NOT NULL")
             '===================== TSPL_LEAVE_MASTER====================
             coll.Add("LEAVE_TYPE", "VARCHAR(30) NOT NULL DEFAULT 'Other' ") '' POSSIBLE VALUES 1. EL 2. CL 3. COFF 4. MATERNITY LEAVE(MATL) 5 MEDICAL LEAVE(MEDL) 6. Other           
+            coll.Add("APPLY_LEAVE_TYPE_DED", "BIT NOT NULL DEFAULT 0")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_LEAVE_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
