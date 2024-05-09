@@ -864,16 +864,16 @@ Public Class RptPurchaseRegisterReport
     End Sub
 
     Private Sub txtTransaction__My_Click(sender As Object, e As EventArgs) Handles txtTransaction._My_Click
-        Dim qry As String = " Select xxx.Code,  xxx.Name From (" & _
-                                 " Select distinct 'PI' As Code,    'Purchase Invoice' As Name from TSPL_PI_HEAD " & _
-                                 " Union  Select distinct 'MCC' As Code,    'Milk Receipt' As Name from TSPL_MILK_RECEIPT_HEAD " & _
-                                 " Union  Select distinct 'Bulk' As Code,    'Bulk Purchase' As Name from tspl_Bulk_milk_purchase_Invoice_head " & _
-                                  " Union  Select distinct 'Bulk Purchase Return' As Code,    'Bulk Purchase Return' As Name from TSPL_BULK_MILK_PURCHASE_RETURN_HEAD " & _
-                                 " Union  Select distinct 'MCC Transfer' As Code,    'MCC Transfer' As Name from TSPL_MILK_TRANSFER_IN " & _
-                                 " Union  Select distinct 'Transfer' As Code,    'Transfer' As Name from TSPL_TRANSFER_ORDER_HEAD " & _
-                                  " Union  Select distinct 'Transfer Return' As Code,    'Transfer Return' As Name from TSPL_TRANSFER_RETURN " & _
-                                 " Union  Select distinct 'Return' As Code,    'Purchase Return' As Name from TSPL_PR_HEAD " & _
-                                 " union Select distinct 'MT' As Code,    'Merchant Trade' As Name from TSPL_PI_HEAD " & _
+        Dim qry As String = " Select xxx.Code,  xxx.Name From (" &
+                                 " Select distinct 'PI' As Code,    'Purchase Invoice' As Name from TSPL_PI_HEAD " &
+                                 " Union  Select distinct 'MCC' As Code,    'Milk Receipt' As Name from TSPL_MILK_SRN_HEAD " &
+                                 " Union  Select distinct 'Bulk' As Code,    'Bulk Purchase' As Name from tspl_Bulk_milk_purchase_Invoice_head " &
+                                  " Union  Select distinct 'Bulk Purchase Return' As Code,    'Bulk Purchase Return' As Name from TSPL_BULK_MILK_PURCHASE_RETURN_HEAD " &
+                                 " Union  Select distinct 'MCC Transfer' As Code,    'MCC Transfer' As Name from TSPL_MILK_TRANSFER_IN " &
+                                 " Union  Select distinct 'Transfer' As Code,    'Transfer' As Name from TSPL_TRANSFER_ORDER_HEAD " &
+                                  " Union  Select distinct 'Transfer Return' As Code,    'Transfer Return' As Name from TSPL_TRANSFER_RETURN " &
+                                 " Union  Select distinct 'Return' As Code,    'Purchase Return' As Name from TSPL_PR_HEAD " &
+                                 " union Select distinct 'MT' As Code,    'Merchant Trade' As Name from TSPL_PI_HEAD " &
                                  " ) xxx"
         txtTransaction.arrValueMember = clsCommon.ShowMultipleSelectForm("ItemMulPur", qry, "Name", "Name", txtTransaction.arrValueMember, txtTransaction.arrDispalyMember)
     End Sub
@@ -2149,8 +2149,8 @@ Public Class RptPurchaseRegisterReport
          & " (TSPL_LOCATION_MASTER.Add1) + ' ' + (TSPL_LOCATION_MASTER.Add2) + ' ' + (TSPL_LOCATION_MASTER.Add3) As [Location Address],TSPL_LOCATION_MASTER.State as [Location State],TSPL_MILK_PURCHASE_INVOICE_Head.Posted as Status, " _
             & " tspl_mcc_Master.mcc_name,'Milk Receipt' as Invoice_Type,TSPL_MILK_PURCHASE_INVOICE_Head.DOC_CODE as PI_NO,'' as SRN_Id ,  convert(varchar,TSPL_MILK_PURCHASE_INVOICE_Head.DOC_DATE,103 ) as PI_Date,'' as Way_BillNo,'' as [GRNO],'' as LR_NO,'' as Vendor_Invoice_No,'' as Vendor_Invoice_Date," _
             & " TSPL_Primary_Vehicle_Master.Vehicle_Code as Vehicle_No, TSPL_Primary_Vehicle_Master.Description as vehicledesc,0  as Additional_Charge ,  " _
-            & " TSPL_MILK_RECEIPT_DETAIL.Vsp_CODE as Customer_Code,  tspl_vendor_Master.Vendor_Name as Customer_Name,(TSPL_VENDOR_MASTER.Add1) + ' ' + (TSPL_VENDOR_MASTER.Add2) + ' ' + (TSPL_VENDOR_MASTER.Add3) As [Vendor Address],tspl_state_Master.state_Code as [State Code],tspl_State_Master.state_Name as [State Name],tspl_vendor_Master.Tin_No as [TIN No],Parent_V.vendor_Code as [Parent Vendor No],Parent_V.vendor_Code as [Parent Vendor Code],Parent_V.vendor_Name as [Parent Vendor Name],pm.vendor_Code as [Transporter],pm.Vendor_Name as [Transporter Name]," _
-            & " TSPL_MILK_RECEIPT_DETAIL.Item_Code, tspl_Item_Master.Item_Desc ,  MILK_WEIGHT  as Qty ,TSPL_MILK_RECEIPT_DETAIL.UOM_Code as  Unit_code ,TSPL_MILK_SRN_DETAIL.RATE as  Item_Cost " _
+            & " TSPL_MILK_SRN_HEAD.Vsp_CODE as Customer_Code,  tspl_vendor_Master.Vendor_Name as Customer_Name,(TSPL_VENDOR_MASTER.Add1) + ' ' + (TSPL_VENDOR_MASTER.Add2) + ' ' + (TSPL_VENDOR_MASTER.Add3) As [Vendor Address],tspl_state_Master.state_Code as [State Code],tspl_State_Master.state_Name as [State Name],tspl_vendor_Master.Tin_No as [TIN No],Parent_V.vendor_Code as [Parent Vendor No],Parent_V.vendor_Code as [Parent Vendor Code],Parent_V.vendor_Name as [Parent Vendor Name],pm.vendor_Code as [Transporter],pm.Vendor_Name as [Transporter Name]," _
+            & " TSPL_MILK_SRN_detail.Item_Code, tspl_Item_Master.Item_Desc ,  MILK_WEIGHT  as Qty ,TSPL_MILK_SRN_detail.UOM_Code as  Unit_code ,TSPL_MILK_SRN_DETAIL.RATE as  Item_Cost " _
             & " ,  TSPL_MILK_SRN_DETAIL.FAT_Per as [FAT Per],  TSPL_MILK_SRN_DETAIL.SNF_PER as [SNF Per],TSPL_MILK_SRN_DETAIL.FAT_KG as [FAT KG],TSPL_MILK_SRN_DETAIL.SNF_KG " _
             & " as [SNF KG],TSPL_MILK_SRN_DETAIL.Amount ,0 as Disc_Per  ,0 as Disc_Amt ,  TSPL_MILK_PURCHASE_INVOICE_DETAIL.NET_AMOUNT as  Amt_Less_Discount ," _
             & " round(coalesce(TSPL_MILK_PURCHASE_INVOICE_DETAIL.AMOUNT*TSPL_MILK_PURCHASE_INVOICE_DETAIL.PAYMENT_COMMISSION/100,0),2) as EMP," _
@@ -2163,23 +2163,18 @@ Public Class RptPurchaseRegisterReport
             & " TSPL_vendor_Invoice_Head.Against_BulkMillkpurchaseInvoice_No,TSPL_vendor_Invoice_Head.Document_total as [AP Document Total],0 as MRP,0 as NonRecoverable_Tax, TSPL_MILK_PURCHASE_INVOICE_HEAD.Purchase_Tax_Invoice " _
             & " ,null as [Import Type],null  as [Port], null as [Import Bill of Entry No],null as [Import Bill of Entry Date] " _
             & " ,'' as [Original Invoice No],'' as [Original Invoice Date],'' as [Reason For Revision],'' as [ITC Eligible],'' as [ITC Status],'' as [ITC Details] " _
-            & " from TSPL_MILK_RECEIPT_DETAIL Left Outer Join TSPL_MILK_RECEIPT_HEAD        On TSPL_MILK_RECEIPT_HEAD.DOC_CODE = TSPL_MILK_RECEIPT_DETAIL.DOC_CODE  " _
-            & " Left Outer Join TSPL_MILK_SAMPLE_HEAD        On TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE =        TSPL_MILK_RECEIPT_HEAD.DOC_CODE Left Outer Join" _
-            & " TSPL_MILK_SAMPLE_DETAIL        On TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO = TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO        And TSPL_MILK_SAMPLE_DETAIL.DOC_CODE =" _
-            & " TSPL_MILK_SAMPLE_HEAD.DOC_CODE      Left Outer Join TSPL_MILK_SRN_HEAD On TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE =        TSPL_MILK_SAMPLE_HEAD.DOC_CODE And " _
-            & " TSPL_MILK_SRN_HEAD.SAMPLE_NO =        TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO Left Outer Join TSPL_MILK_SRN_DETAIL        On TSPL_MILK_SRN_HEAD.DOC_CODE = " _
-            & " TSPL_MILK_SRN_DETAIL.DOC_CODE      Left Outer Join TSPL_MILK_PURCHASE_INVOICE_DETAIL        On TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE =   " _
-            & " TSPL_MILK_SRN_HEAD.DOC_CODE Left Outer Join      TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE        = " _
-            & " TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE Left Outer Join      TSPL_MCC_MASTER        On TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_RECEIPT_HEAD.MCC_CODE   " _
-            & " Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code =        TSPL_MILK_RECEIPT_DETAIL.VLC_CODE Left Outer Join TSPL_VENDOR_MASTER  " _
-            & " On TSPL_VENDOR_MASTER.Vendor_Code = TSPL_MILK_RECEIPT_DETAIL.VSP_CODE      Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MCC_ROUTE_MASTER.Route_Code =  " _
-            & " TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE Left Outer Join      TSPL_Primary_Vehicle_Master On TSPL_Primary_Vehicle_Master.Vehicle_Code =    " _
-            & " TSPL_MCC_ROUTE_MASTER.Vehicle_Code left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.item_Code=TSPL_MILK_RECEIPT_DETAIL.Item_Code " _
+            & " from TSPL_MILK_SRN_detail Left Outer Join TSPL_MILK_SRN_HEAD        On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_detail.DOC_CODE  " _
+            & " Left Outer Join      TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE        = " _
+            & " TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE Left Outer Join      TSPL_MCC_MASTER        On TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_SRN_HEAD.MCC_CODE   " _
+            & " Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code =        TSPL_MILK_SRN_HEAD.VLC_CODE Left Outer Join TSPL_VENDOR_MASTER  " _
+            & " On TSPL_VENDOR_MASTER.Vendor_Code = TSPL_MILK_SRN_HEAD.VSP_CODE      Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MCC_ROUTE_MASTER.Route_Code =  " _
+            & " TSPL_MILK_SRN_HEAD.ROUTE_CODE Left Outer Join      TSPL_Primary_Vehicle_Master On TSPL_Primary_Vehicle_Master.Vehicle_Code =    " _
+            & " TSPL_MCC_ROUTE_MASTER.Vehicle_Code left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.item_Code=TSPL_MILK_SRN_detail.Item_Code " _
             & " Left join tspl_Vendor_Master Parent_v on Parent_v.vendor_Code=tspl_Vendor_Master.Parent_Vendor_Code" _
             & " Left join tspl_Vendor_Master Pm on pm.vendor_Code=TSPL_Primary_Vehicle_Master.Vendor_Code" _
             & " left outer join TSPL_FAT_SNF_UPLOADER_MASTER on TSPL_FAT_SNF_UPLOADER_MASTER.Code=TSPL_MILK_SRN_DETAIL.Price_Code and TSPL_FAT_SNF_UPLOADER_MASTER.FAT=TSPL_MILK_SRN_DETAIL.FAT_PER and TSPL_FAT_SNF_UPLOADER_MASTER.SNF=TSPL_MILK_SRN_DETAIL.SNF_PER  " _
             & " left outer join TSPL_MILK_PRICE_MASTER on TSPL_MILK_PRICE_MASTER.Price_Code=TSPL_FAT_SNF_UPLOADER_MASTER.Price_Code " _
-            & " left join tspl_Location_master on tspl_Location_master.location_code=tspl_Milk_receipt_Head.mcc_Code left join TSPL_vendor_Invoice_Head on  TSPL_vendor_Invoice_Head.Against_MillkpurchaseInvoice_No=TSPL_MILK_PURCHASE_INVOICE_Head.DOC_CODE  left join TSPL_STATE_MASTER on tspl_State_Master.STATE_CODE=TSPL_Mcc_MASTER.State_Code where coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.doc_Code,'')<>''  AND TSPL_vendor_Invoice_Head.DOCUMENT_TYPE='I' and convert(date,TSPL_MILK_PURCHASE_INVOICE_Head.DOC_DATE ,103) >= convert(date,('" + From_Date + "'),103) and convert(date,TSPL_MILK_PURCHASE_INVOICE_Head.DOC_DATE ,103) <= convert(date,('" + To_Date + "'),103))t"
+            & " left join tspl_Location_master on tspl_Location_master.location_code=TSPL_MILK_SRN_HEAD.mcc_Code left join TSPL_vendor_Invoice_Head on  TSPL_vendor_Invoice_Head.Against_MillkpurchaseInvoice_No=TSPL_MILK_PURCHASE_INVOICE_Head.DOC_CODE  left join TSPL_STATE_MASTER on tspl_State_Master.STATE_CODE=TSPL_Mcc_MASTER.State_Code where coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.doc_Code,'')<>''  AND TSPL_vendor_Invoice_Head.DOCUMENT_TYPE='I' and convert(date,TSPL_MILK_PURCHASE_INVOICE_Head.DOC_DATE ,103) >= convert(date,('" + From_Date + "'),103) and convert(date,TSPL_MILK_PURCHASE_INVOICE_Head.DOC_DATE ,103) <= convert(date,('" + To_Date + "'),103))t"
 
         strMainQuery += Environment.NewLine + Environment.NewLine + "  union all" + Environment.NewLine + Environment.NewLine
 
@@ -3421,8 +3416,8 @@ Public Class RptPurchaseRegisterReport
          & " (TSPL_LOCATION_MASTER.Add1) + ' ' + (TSPL_LOCATION_MASTER.Add2) + ' ' + (TSPL_LOCATION_MASTER.Add3) As [Location Address],TSPL_LOCATION_MASTER.State as [Location State],TSPL_MILK_PURCHASE_INVOICE_Head.Posted as Status, " _
             & " tspl_mcc_Master.mcc_name,'Milk Receipt' as Invoice_Type,TSPL_MILK_PURCHASE_INVOICE_Head.DOC_CODE as PI_NO,'' as SRN_Id ,'' as MRN_Id,'' as GRN_ID,  convert(varchar,TSPL_MILK_PURCHASE_INVOICE_Head.DOC_DATE,103 ) as PI_Date,'' as Way_BillNo,'' as [GRNO],'' as LR_NO,'' as Vendor_Invoice_No,'' as Vendor_Invoice_Date," _
             & " TSPL_Primary_Vehicle_Master.Vehicle_Code as Vehicle_No, TSPL_Primary_Vehicle_Master.Description as vehicledesc,0  as Additional_Charge ,  " _
-            & " TSPL_MILK_RECEIPT_DETAIL.Vsp_CODE as Customer_Code,  tspl_vendor_Master.Vendor_Name as Customer_Name,(TSPL_VENDOR_MASTER.Add1) + ' ' + (TSPL_VENDOR_MASTER.Add2) + ' ' + (TSPL_VENDOR_MASTER.Add3) As [Vendor Address],tspl_state_Master.state_Code as [State Code],tspl_State_Master.state_Name as [State Name],tspl_vendor_Master.Tin_No as [TIN No],Parent_V.vendor_Code as [Parent Vendor No],Parent_V.vendor_Code as [Parent Vendor Code],Parent_V.vendor_Name as [Parent Vendor Name],pm.vendor_Code as [Transporter],pm.Vendor_Name as [Transporter Name]," _
-            & " TSPL_MILK_RECEIPT_DETAIL.Item_Code, tspl_Item_Master.Item_Desc ,  MILK_WEIGHT  as Qty ,TSPL_MILK_RECEIPT_DETAIL.UOM_Code as  Unit_code ,TSPL_MILK_SRN_DETAIL.RATE as  Item_Cost " _
+            & " TSPL_MILK_SRN_HEAD.Vsp_CODE as Customer_Code,  tspl_vendor_Master.Vendor_Name as Customer_Name,(TSPL_VENDOR_MASTER.Add1) + ' ' + (TSPL_VENDOR_MASTER.Add2) + ' ' + (TSPL_VENDOR_MASTER.Add3) As [Vendor Address],tspl_state_Master.state_Code as [State Code],tspl_State_Master.state_Name as [State Name],tspl_vendor_Master.Tin_No as [TIN No],Parent_V.vendor_Code as [Parent Vendor No],Parent_V.vendor_Code as [Parent Vendor Code],Parent_V.vendor_Name as [Parent Vendor Name],pm.vendor_Code as [Transporter],pm.Vendor_Name as [Transporter Name]," _
+            & " TSPL_MILK_SRN_detail.Item_Code, tspl_Item_Master.Item_Desc ,  MILK_WEIGHT  as Qty ,TSPL_MILK_SRN_detail.UOM_Code as  Unit_code ,TSPL_MILK_SRN_DETAIL.RATE as  Item_Cost " _
             & " ,  TSPL_MILK_SRN_DETAIL.FAT_Per as [FAT Per],  TSPL_MILK_SRN_DETAIL.SNF_PER as [SNF Per],TSPL_MILK_SRN_DETAIL.FAT_KG as [FAT KG],TSPL_MILK_SRN_DETAIL.SNF_KG " _
             & " as [SNF KG],TSPL_MILK_SRN_DETAIL.Amount ,0 as Disc_Per  ,0 as Disc_Amt ,  TSPL_MILK_PURCHASE_INVOICE_DETAIL.NET_AMOUNT as  Amt_Less_Discount ," _
             & " round(coalesce(TSPL_MILK_PURCHASE_INVOICE_DETAIL.AMOUNT*TSPL_MILK_PURCHASE_INVOICE_DETAIL.PAYMENT_COMMISSION/100,0),2) as EMP," _
@@ -3433,23 +3428,18 @@ Public Class RptPurchaseRegisterReport
             & " TSPL_vendor_Invoice_Head.Against_PurchaseREturn_No,TSPL_vendor_Invoice_Head.total_tax as [AP Total Tax],TSPL_vendor_Invoice_Head.total_Add_Charge as " _
             & " [AP Total Add Charge],TSPL_vendor_Invoice_Head.Total_landed_Amt as [AP Landed Amt],TSPL_vendor_Invoice_Head.Against_MillkpurchaseInvoice_No," _
             & " TSPL_vendor_Invoice_Head.Against_BulkMillkpurchaseInvoice_No,TSPL_vendor_Invoice_Head.Document_total as [AP Document Total],0 as MRP,0 as NonRecoverable_Tax, TSPL_MILK_PURCHASE_INVOICE_HEAD.Purchase_Tax_Invoice,'SRN' as Ref_Doc_Type ,TSPL_MILK_SRN_HEAD.DOC_CODE ,convert(varchar,TSPL_MILK_SRN_HEAD.DOC_DATE,103) as DOC_DATE ,TSPL_MILK_PRICE_MASTER.Created_By ,TSPL_MILK_PRICE_MASTER.Modified_By " _
-            & " from TSPL_MILK_RECEIPT_DETAIL Left Outer Join TSPL_MILK_RECEIPT_HEAD        On TSPL_MILK_RECEIPT_HEAD.DOC_CODE = TSPL_MILK_RECEIPT_DETAIL.DOC_CODE  " _
-            & " Left Outer Join TSPL_MILK_SAMPLE_HEAD        On TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE =        TSPL_MILK_RECEIPT_HEAD.DOC_CODE Left Outer Join" _
-            & " TSPL_MILK_SAMPLE_DETAIL        On TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO = TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO        And TSPL_MILK_SAMPLE_DETAIL.DOC_CODE =" _
-            & " TSPL_MILK_SAMPLE_HEAD.DOC_CODE      Left Outer Join TSPL_MILK_SRN_HEAD On TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE =        TSPL_MILK_SAMPLE_HEAD.DOC_CODE And " _
-            & " TSPL_MILK_SRN_HEAD.SAMPLE_NO =        TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO Left Outer Join TSPL_MILK_SRN_DETAIL        On TSPL_MILK_SRN_HEAD.DOC_CODE = " _
-            & " TSPL_MILK_SRN_DETAIL.DOC_CODE      Left Outer Join TSPL_MILK_PURCHASE_INVOICE_DETAIL        On TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE =   " _
-            & " TSPL_MILK_SRN_HEAD.DOC_CODE Left Outer Join      TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE        = " _
-            & " TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE Left Outer Join      TSPL_MCC_MASTER        On TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_RECEIPT_HEAD.MCC_CODE   " _
-            & " Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code =        TSPL_MILK_RECEIPT_DETAIL.VLC_CODE Left Outer Join TSPL_VENDOR_MASTER  " _
-            & " On TSPL_VENDOR_MASTER.Vendor_Code = TSPL_MILK_RECEIPT_DETAIL.VSP_CODE      Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MCC_ROUTE_MASTER.Route_Code =  " _
-            & " TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE Left Outer Join      TSPL_Primary_Vehicle_Master On TSPL_Primary_Vehicle_Master.Vehicle_Code =    " _
-            & " TSPL_MCC_ROUTE_MASTER.Vehicle_Code left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.item_Code=TSPL_MILK_RECEIPT_DETAIL.Item_Code " _
+            & " from TSPL_MILK_SRN_detail Left Outer Join TSPL_MILK_SRN_HEAD        On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_detail.DOC_CODE  " _
+            & " Left Outer Join      TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE        = " _
+            & " TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE Left Outer Join      TSPL_MCC_MASTER        On TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_SRN_HEAD.MCC_CODE   " _
+            & " Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code =        TSPL_MILK_SRN_HEAD.VLC_CODE Left Outer Join TSPL_VENDOR_MASTER  " _
+            & " On TSPL_VENDOR_MASTER.Vendor_Code = TSPL_MILK_SRN_HEAD.VSP_CODE      Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MCC_ROUTE_MASTER.Route_Code =  " _
+            & " TSPL_MILK_SRN_HEAD.ROUTE_CODE Left Outer Join      TSPL_Primary_Vehicle_Master On TSPL_Primary_Vehicle_Master.Vehicle_Code =    " _
+            & " TSPL_MCC_ROUTE_MASTER.Vehicle_Code left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.item_Code=TSPL_MILK_SRN_detail.Item_Code " _
             & " Left join tspl_Vendor_Master Parent_v on Parent_v.vendor_Code=tspl_Vendor_Master.Parent_Vendor_Code" _
             & " Left join tspl_Vendor_Master Pm on pm.vendor_Code=TSPL_Primary_Vehicle_Master.Vendor_Code" _
             & " left outer join TSPL_FAT_SNF_UPLOADER_MASTER on TSPL_FAT_SNF_UPLOADER_MASTER.Code=TSPL_MILK_SRN_DETAIL.Price_Code and TSPL_FAT_SNF_UPLOADER_MASTER.FAT=TSPL_MILK_SRN_DETAIL.FAT_PER and TSPL_FAT_SNF_UPLOADER_MASTER.SNF=TSPL_MILK_SRN_DETAIL.SNF_PER  " _
             & " left outer join TSPL_MILK_PRICE_MASTER on TSPL_MILK_PRICE_MASTER.Price_Code=TSPL_FAT_SNF_UPLOADER_MASTER.Price_Code " _
-            & " left join tspl_Location_master on tspl_Location_master.location_code=tspl_Milk_receipt_Head.mcc_Code left join TSPL_vendor_Invoice_Head on  TSPL_vendor_Invoice_Head.Against_MillkpurchaseInvoice_No=TSPL_MILK_PURCHASE_INVOICE_Head.DOC_CODE  left join TSPL_STATE_MASTER on tspl_State_Master.STATE_CODE=TSPL_Mcc_MASTER.State_Code where coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.doc_Code,'')<>''  AND TSPL_vendor_Invoice_Head.DOCUMENT_TYPE='I' and convert(date,TSPL_MILK_PURCHASE_INVOICE_Head.DOC_DATE ,103) >= convert(date,('" + From_Date + "'),103) and convert(date,TSPL_MILK_PURCHASE_INVOICE_Head.DOC_DATE ,103) <= convert(date,('" + To_Date + "'),103))t"
+            & " left join tspl_Location_master on tspl_Location_master.location_code=TSPL_MILK_SRN_HEAD.mcc_Code left join TSPL_vendor_Invoice_Head on  TSPL_vendor_Invoice_Head.Against_MillkpurchaseInvoice_No=TSPL_MILK_PURCHASE_INVOICE_Head.DOC_CODE  left join TSPL_STATE_MASTER on tspl_State_Master.STATE_CODE=TSPL_Mcc_MASTER.State_Code where coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.doc_Code,'')<>''  AND TSPL_vendor_Invoice_Head.DOCUMENT_TYPE='I' and convert(date,TSPL_MILK_PURCHASE_INVOICE_Head.DOC_DATE ,103) >= convert(date,('" + From_Date + "'),103) and convert(date,TSPL_MILK_PURCHASE_INVOICE_Head.DOC_DATE ,103) <= convert(date,('" + To_Date + "'),103))t"
         'strMCCMaterial += "  union all"
         strMCCMaterial += "  union all"
 
