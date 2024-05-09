@@ -163,30 +163,30 @@ Public Class clsMilkProcurementUploaderHead
         Return True
     End Function
 
-    Public Shared Function DeleteAndCleanData(ByVal strCode As String) As Boolean
-        If (clsCommon.myLen(strCode) <= 0) Then
-            Throw New Exception("Document No not found to Delete")
-        End If
+    'Public Shared Function DeleteAndCleanData(ByVal strCode As String) As Boolean
+    '    If (clsCommon.myLen(strCode) <= 0) Then
+    '        Throw New Exception("Document No not found to Delete")
+    '    End If
 
-        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-        Try
-            Dim obj As clsMilkProcurementUploaderHead = clsMilkProcurementUploaderHead.GetData(strCode, NavigatorType.Current, trans)
-            If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
-                Throw New Exception("Document No: " + strCode + " not found to Delete")
-            End If
+    '    Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+    '    Try
+    '        Dim obj As clsMilkProcurementUploaderHead = clsMilkProcurementUploaderHead.GetData(strCode, NavigatorType.Current, trans)
+    '        If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
+    '            Throw New Exception("Document No: " + strCode + " not found to Delete")
+    '        End If
 
 
-            clsDBFuncationality.ExecuteNonQuery("update TSPL_MILK_RECEIPT_DETAIL set Against_Uploader_TR_No=null where Against_Uploader_TR_No in (select TR_No from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL where Document_No='" + strCode + "')", trans)
-            clsDBFuncationality.ExecuteNonQuery("delete from TSPL_MILK_PROCUREMENT_UPLOADER_QC_PARAMETER_DETAIL where Document_No='" + strCode + "'", trans)
-            clsDBFuncationality.ExecuteNonQuery("delete from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL where Document_No='" + strCode + "'", trans)
-            clsDBFuncationality.ExecuteNonQuery("delete from TSPL_MILK_PROCUREMENT_UPLOADER_HEAD where Document_No='" + strCode + "'", trans)
-            trans.Commit()
-        Catch ex As Exception
-            trans.Rollback()
-            Throw New Exception(ex.Message)
-        End Try
-        Return True
-    End Function
+    '        clsDBFuncationality.ExecuteNonQuery("update TSPL_MILK_RECEIPT_DETAIL set Against_Uploader_TR_No=null where Against_Uploader_TR_No in (select TR_No from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL where Document_No='" + strCode + "')", trans)
+    '        clsDBFuncationality.ExecuteNonQuery("delete from TSPL_MILK_PROCUREMENT_UPLOADER_QC_PARAMETER_DETAIL where Document_No='" + strCode + "'", trans)
+    '        clsDBFuncationality.ExecuteNonQuery("delete from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL where Document_No='" + strCode + "'", trans)
+    '        clsDBFuncationality.ExecuteNonQuery("delete from TSPL_MILK_PROCUREMENT_UPLOADER_HEAD where Document_No='" + strCode + "'", trans)
+    '        trans.Commit()
+    '    Catch ex As Exception
+    '        trans.Rollback()
+    '        Throw New Exception(ex.Message)
+    '    End Try
+    '    Return True
+    'End Function
 
     Public Shared Function PostDataForBatch(ByVal strCode As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -273,7 +273,6 @@ Public Class clsMilkProcurementUploaderHead
         If (clsCommon.myLen(strCode) <= 0) Then
             Throw New Exception("Document No not found to Delete")
         End If
-
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             Dim obj As clsMilkProcurementUploaderHead = clsMilkProcurementUploaderHead.GetData(strCode, NavigatorType.Current, trans)
@@ -283,19 +282,18 @@ Public Class clsMilkProcurementUploaderHead
             If obj.Status = 0 Then
                 Throw New Exception("Document No: " + strCode + " should be posted for Reverse and unpost")
             End If
-            If obj.Reject Then
-                Throw New Exception("Reverse and Unpost is not Reject")
-            End If
-            Dim strMilkReceipt As String = "SELECT DOC_CODE,SAMPLE_NO from TSPL_MILK_RECEIPT_DETAIL where Against_Uploader_TR_No in (select TR_No from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL where Document_No='" + strCode + "')"
+            'If obj.Reject Then
+            '    Throw New Exception("Reverse and Unpost is not Reject")
+            'End If
+            Dim strSRN As String = "select TSPL_MILK_SRN_HEAD.DOC_CODE from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL
+inner join TSPL_MILK_SRN_HEAD  on TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No  
+where TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No='" + strCode + "'"
 
-            Dim strMilkSample As String = "select TSPL_MILK_SAMPLE_DETAIL.DOC_CODE,TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO from TSPL_MILK_SAMPLE_HEAD 
-inner join TSPL_MILK_SAMPLE_DETAIL on TSPL_MILK_SAMPLE_DETAIL.DOC_CODE=TSPL_MILK_SAMPLE_HEAD.DOC_CODE
-inner join (" + strMilkReceipt + ")MilkReceipt on MilkReceipt.DOC_CODE=TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE and MilkReceipt.SAMPLE_NO=TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO"
-
-            Dim strSRN As String = "select TSPL_MILK_SRN_HEAD.DOC_CODE from TSPL_MILK_SRN_HEAD 
-inner join (" + strMilkSample + ") MilkSample on MilkSample.DOC_CODE=TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE and MilkSample.SAMPLE_NO=TSPL_MILK_SRN_HEAD.SAMPLE_NO"
-
-            Dim qry As String = "select TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE from TSPL_MILK_PURCHASE_INVOICE_DETAIL where SRN_CODE in (" + strSRN + ")"
+            Dim qry As String = "select TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE  
+from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL
+inner join TSPL_MILK_SRN_HEAD  on TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No
+inner join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
+where  TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No='" + strCode + "' "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Throw New Exception("Can't delete used in Milk Purchase invoice [" + clsCommon.myCstr(dt.Rows(0)("DOC_CODE")) + "]")
@@ -311,27 +309,12 @@ inner join (" + strMilkSample + ") MilkSample on MilkSample.DOC_CODE=TSPL_MILK_S
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_MILK_SRN_HEAD where DOC_CODE in (" + strSRN + ")"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            qry = "delete from TSPL_MILK_SAMPLE_DETAIL where exists( select 1 from (" + strMilkSample + ")MilkSample where MilkSample.DOC_CODE=TSPL_MILK_SAMPLE_DETAIL.DOC_CODE and MilkSample.SAMPLE_NO=TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO ) "
-            clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-            'qry = "delete from TSPL_MILK_SAMPLE_DETAIL_History where DOC_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103)=" + TransDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ")"
-            'clsDBFuncationality.ExecuteNonQuery(qry, tran)
-            'qry = "delete from TSPL_MILK_SAMPLE_READING_LOG where Sample_Code in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103)=" + TransDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ")"
-            'clsDBFuncationality.ExecuteNonQuery(qry, tran)
-            'qry = "delete from TSPL_MILK_SAMPLE_QC_PARAMETER_DETAIL where DOC_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103)=" + TransDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ")"
-            'clsDBFuncationality.ExecuteNonQuery(qry, tran)
-
-
-            qry = "delete from TSPL_MILK_RECEIPT_DETAIL where exists( select 1 from (" + strMilkReceipt + ")MilkReceipt where MilkReceipt.DOC_CODE=TSPL_MILK_RECEIPT_DETAIL.DOC_CODE and MilkReceipt.SAMPLE_NO=TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO ) "
-            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Status", 0)
             clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
             clsCommon.AddColumnsForChange(coll, "Posted_Date", Nothing, True)
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_PROCUREMENT_UPLOADER_HEAD", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
-
-
 
             trans.Commit()
         Catch ex As Exception
@@ -1440,20 +1423,31 @@ where TSPL_MILK_SRN_HEAD.MCC_CODE='" + obj.MCC_Code + "' and TSPL_MILK_SRN_HEAD.
                             If dclDistanceKM = 0 Then
                                 dclDistanceKM = 1
                             End If
-
-                            Dim objHeadLoad As New clsHeadLoadDCS()
-                            objHeadLoad = clsHeadLoadDCS.GetDcsData(objMilkSRNHead.VLC_CODE, dtShiftDate, trans)
-                            objMilkSRNDetail.Head_Load_Rate = objHeadLoad.Head_Load_Rate
-                            If clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "K") = CompairStringResult.Equal Then
-                                If objMilkSRNDetail.ACC_Qty >= MinimumQtyForHeadLoad Then
-                                    objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkSRNDetail.ACC_Qty * objHeadLoad.Head_Load_Rate * dclDistanceKM, 2)
-                                End If
-                            ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "L") = CompairStringResult.Equal Then
-                                If objMilkSRNDetail.ACC_Qty_LTR >= MinimumQtyForHeadLoad Then
-                                    objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkSRNDetail.ACC_Qty_LTR * objHeadLoad.Head_Load_Rate * dclDistanceKM, 2)
-                                End If
+                            Dim ExcluetHeadLoad As Boolean = False
+                            If clsCommon.myLen(objtr.Reject_Type) > 0 Then
+                                qry = "select ISNULL(Exclude_Head,0) as Exclude_Head from TSPL_MILK_REJECT_TYPE where Code='" + objtr.Reject_Type + "' "
+                                ExcluetHeadLoad = (clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, trans)) = 1)
                             End If
-                            objMilkSRNDetail.Head_Load_Type = clsCommon.myCstr(objHeadLoad.Head_Load_Basis)
+                            If ExcluetHeadLoad Then
+                                objMilkSRNDetail.Head_Load_Rate = 0
+                                objMilkSRNDetail.Head_Load_Amount = 0
+                                objMilkSRNDetail.Head_Load_Type = ""
+                            Else
+                                Dim objHeadLoad As New clsHeadLoadDCS()
+                                objHeadLoad = clsHeadLoadDCS.GetDcsData(objMilkSRNHead.VLC_CODE, dtShiftDate, trans)
+                                objMilkSRNDetail.Head_Load_Rate = objHeadLoad.Head_Load_Rate
+                                If clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "K") = CompairStringResult.Equal Then
+                                    If objMilkSRNDetail.ACC_Qty >= MinimumQtyForHeadLoad Then
+                                        objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkSRNDetail.ACC_Qty * objHeadLoad.Head_Load_Rate * dclDistanceKM, 2)
+                                    End If
+                                ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "L") = CompairStringResult.Equal Then
+                                    If objMilkSRNDetail.ACC_Qty_LTR >= MinimumQtyForHeadLoad Then
+                                        objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkSRNDetail.ACC_Qty_LTR * objHeadLoad.Head_Load_Rate * dclDistanceKM, 2)
+                                    End If
+                                End If
+                                objMilkSRNDetail.Head_Load_Type = clsCommon.myCstr(objHeadLoad.Head_Load_Basis)
+                            End If
+
                             '============================================
                             '==================Own Asset==========================
                             If clsCommon.CompairString(clsCommon.myCstr(dtVLC.Rows(0)("Service_Basis_Own_Asset")), "K") = CompairStringResult.Equal Then

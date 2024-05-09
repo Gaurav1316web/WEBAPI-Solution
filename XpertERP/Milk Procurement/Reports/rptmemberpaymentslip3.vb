@@ -259,161 +259,169 @@ Public Class Rptmemberpaymentslip3
 
     '==============Added by preeti against ticket no[BM00000009867]==============
     Private Sub LoadData()
-        If clsCommon.myCDate(txtFromDate.Value) > clsCommon.myCDate(txtToDate.Value) Then
-            txtFromDate.Focus()
-            clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
-            Exit Sub
-        End If
+        Try
 
-        If chkMCCSelect.IsChecked AndAlso cbgMCC.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Please select atleast single MCC or select all.", Me.Text)
-            Exit Sub
-        End If
-        Dim companyADD, CompName, CompCode As String
-        Dim qry As String
+            If clsCommon.myCDate(txtFromDate.Value) > clsCommon.myCDate(txtToDate.Value) Then
+                txtFromDate.Focus()
+                clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
+                Exit Sub
+            End If
 
-        qry = ""
-        qry += " select   TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_COMPANY_MASTER.City_Code)>0 then ', '+TSPL_COMPANY_MASTER.City_Code else ' ' end + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end  as comp_address from TSPL_COMPANY_MASTER where  Comp_Code = '" + objCommonVar.CurrentCompanyCode + "' "
-        Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry)
-        companyADD = dt1.Rows(0).Item("comp_address")
+            If chkMCCSelect.IsChecked AndAlso cbgMCC.CheckedValue.Count = 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select atleast single MCC or select all.", Me.Text)
+                Exit Sub
+            End If
+            Dim companyADD, CompName, CompCode As String
+            Dim qry As String
 
-        qry = ""
-        qry += " select   TSPL_COMPANY_MASTER.Comp_Name  from TSPL_COMPANY_MASTER where  Comp_Code = '" + objCommonVar.CurrentCompanyCode + "' "
-        Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(qry)
-        CompName = dt2.Rows(0).Item("Comp_Name")
+            qry = ""
+            qry += " select   TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_COMPANY_MASTER.City_Code)>0 then ', '+TSPL_COMPANY_MASTER.City_Code else ' ' end + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end  as comp_address from TSPL_COMPANY_MASTER where  Comp_Code = '" + objCommonVar.CurrentCompanyCode + "' "
+            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry)
+            companyADD = dt1.Rows(0).Item("comp_address")
 
-
-        qry = ""
-        qry += " select   TSPL_COMPANY_MASTER.comp_code  from TSPL_COMPANY_MASTER where  Comp_Code = '" + objCommonVar.CurrentCompanyCode + "' "
-        Dim dt5 As DataTable = clsDBFuncationality.GetDataTable(qry)
-        CompCode = dt5.Rows(0).Item("Comp_Code")
-        Dim Shh As String = String.Empty
-        Dim fromDate As Date = clsCommon.GetPrintDate(txtFromDate.Value)
-
-        Dim Todate As Date = clsCommon.GetPrintDate(txtToDate.Value)
-
-        Dim DiffDate As Integer = clsCommon.myCDate(Todate).Day - clsCommon.myCDate(fromDate).Day
-        If DiffDate > 0 Then
-            Shh = "Both"
-        ElseIf DiffDate = 0 And txtFromShift.SelectedValue <> txtToShift.SelectedValue Then
-            Shh = "Both"
-        Else
-            Shh = IIf(txtFromShift.SelectedValue = "M", "Morning", "Evening")
-        End If
-        ''richa agarwal 24 May,2019  TEC/28/03/19-000462 add item structure on setting based
-        Dim QryUploader As String = " select '" & clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.MCCDefaultMilkItem, clsFixedParameterCode.MilkSetting, Nothing)) & "'  as item_code,TSPL_VLC_DATA_UPLOADER.Doc_No , TSPL_Mp_MASTER.Mcc_Code_VLC_Uploader,TSPL_VLC_DATA_UPLOADER.MCC_Code,TSPL_VLC_DATA_UPLOADER.VLC_CODE as VLC_uploader_CODE,TSPL_Mp_MASTER.MCC_NAME ,TSPL_MP_MASTER.VLC_Code ,TSPL_MP_MASTER.VLC_Name,TSPL_Mp_MASTER.MP_Code ,TSPL_VLC_DATA_UPLOADER.MP_CODE   as MP_Code_uploader ,TSPL_MP_MASTER.MP_Name ,TSPL_MP_MASTER.AccountNO ,TSPL_MP_MASTER.BankBranch ,TSPL_MP_MASTER. BankName,TSPL_VLC_DATA_UPLOADER.Doc_Date ,TSPL_VLC_DATA_UPLOADER.shift,TSPL_VLC_DATA_UPLOADER.qty as qty,TSPL_VLC_DATA_UPLOADER.fat, TSPL_VLC_DATA_UPLOADER.snf ,TSPL_VLC_DATA_UPLOADER.Amount ,TSPL_Mp_Master.UOM_Code,TSPL_MP_MASTER.Route_Code,RT.Route_Name    from  (select TSPL_Mp_MASTER.MP_Code ,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader ,VLC_Code_VLC_Uploader,MP_Code_VLC_Uploader,Mp_Name,TSPL_MP_MASTER.AccountNO,TSPL_MP_MASTER.BankBranch,TSPL_MP_MASTER.BankName,TSPL_VLC_MASTER_HEAD.MCC, MCC_NAME,UOM_Code,TSPL_VLC_MASTER_HEAD.VLC_Code ,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.Route_Code  " & Environment.NewLine & _
-        " from TSPL_VLC_MASTER_HEAD   left join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code =TSPL_VLC_MASTER_HEAD.MCC " & Environment.NewLine & _
-        " Left join TSPL_Mcc_UOM_DETAIL on TSPL_Mcc_UOM_DETAIL.MCC_CODE =TSPL_MCC_MASTER.MCC_Code and Stocking_Unit ='Y' Left join TSPL_MP_MASTER on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MP_MASTER.VLC_Code  left join TSPL_BANK_BRANCH_MASTER on TSPL_BANK_BRANCH_MASTER.BRANCH_CODE =TSPL_MP_MASTER.BankBranch  left join TSPL_BANK_MASTER on TSPL_BANK_MASTER.BANK_CODE =TSPL_MP_MASTER.BankName) TSPL_MP_MASTER left join TSPL_VLC_DATA_UPLOADER " & Environment.NewLine & _
-         " on TSPL_MP_MASTER.MP_Code_VLC_Uploader=TSPL_VLC_DATA_UPLOADER.MP_CODE and TSPL_MP_MASTER.VLC_Code_VLC_Uploader=TSPL_VLC_DATA_UPLOADER.VLC_CODE and TSPL_MP_MASTER.MCC =TSPL_VLC_DATA_UPLOADER.MCC_Code " & Environment.NewLine & _
-            " left join TSPL_MCC_ROUTE_MASTER RT on TSPL_MP_MASTER.Route_Code=RT.Route_Code  where 2=2"
-
-        If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
-            QryUploader += " and 2=( case when File_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and File_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and shift='M' then 3 else 2 end  )"
-        End If
-        If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
-            QryUploader += " and 2=( case when File_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and File_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and shift='E' then 3 else 2 end  )"
-        End If
-
-        If cbgMCC.CheckedValue.Count > 0 Then
-            QryUploader += " and TSPL_VLC_DATA_UPLOADER.MCC_Code  IN (" + clsCommon.GetMulcallString(cbgMCC.CheckedValue) + ") "
-        End If
-        If cbgVLC.CheckedValue.Count > 0 AndAlso chkVLCselect.IsChecked Then
-            QryUploader += " and TSPL_MP_MASTER.VLC_Code  IN (" + clsCommon.GetMulcallString(cbgVLC.CheckedValue) + ") "
-        End If
-        If Not txtRoute.arrValueMember Is Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
-            QryUploader += " and TSPL_MP_MASTER.Route_Code  IN (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ") "
-        End If
-        QryUploader += "  and convert(date,File_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) and convert(date,File_Date,103) <=convert(date,('" + txtToDate.Value + "'),103) and qty >0 "
-
-        '' query change by Panch Raj against ticket No:KDI/21/05/18-000323-> Route code must be picked from vlc master
-        Dim QryManual As String = "select '" & clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.MCCDefaultMilkItem, clsFixedParameterCode.MilkSetting, Nothing)) & "'  as item_code,VDUM.document_code,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader, VLCM.MCC,VLCM.vlc_code_vlc_uploader AS VLC_UPLODER_CODE," & Environment.NewLine & _
-        " tspl_mcc_master.mcc_name,VDUM.VLC_Code,VLCM.vlc_Name as VLC_Name,TSPL_MP_MASTER.mp_code,TSPL_MP_MASTER.MP_Code_VLC_Uploader,TSPL_MP_MASTER.mp_name,TSPL_MP_MASTER.AccountNO," & Environment.NewLine & _
-        " TSPL_MP_MASTER.BankBranch,TSPL_MP_MASTER.BankName,VDUM.Document_Date as Document_Date,(case when VDUM.Shift='MORNING' THEN 'M' ELSE 'E' END) AS Shift," & Environment.NewLine & _
-        " VDUD.Qty,VDUD.fatper,VDUD.snfper,VDUD.Amount as VLC_Amount,VDUD.Unit_Code,VLCM.Route_Code," & Environment.NewLine & _
-        "  tspl_mcc_route_master.route_name from TSPL_VLC_DATA_UPLOADER_DETAIL VDUD  inner join TSPL_VLC_DATA_UPLOADER_MASTER VDUM on VDUD.Document_Code=VDUM.Document_Code  " & Environment.NewLine & _
-        " left join TSPL_VLC_MASTER_HEAD VLCM on VDUM.VLC_Code=VLCM.VLC_Code  left join tspl_mcc_master on tspl_mcc_master.mcc_code=VLCM.MCC " & Environment.NewLine & _
-        " left join tspl_mp_master on tspl_mp_master.mp_code=VDUD.farmer_code left join tspl_mcc_route_master on tspl_mcc_route_master.Route_Code=VLCM.Route_Code " & Environment.NewLine & _
-        " where 2 = 2  and  convert(date, VDUM.Document_Date,103) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and  convert(date, VDUM.Document_Date,103) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "'"
-
-        If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
-            QryManual += " and 2=( case when convert(date, VDUM.Document_Date,103) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and convert(date, VDUM.Document_Date,103) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and SHIFT='MORNING' then 3 else 2 end  )"
-        End If
-        If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
-            QryManual += " and 2=( case when convert(date, VDUM.Document_Date,103) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and convert(date, VDUM.Document_Date,103) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and SHIFT='EVENING' then 3 else 2 end  )"
-        End If
-        If cbgMCC.CheckedValue.Count > 0 Then
-            QryManual += " and VLCM.MCC  IN (" + clsCommon.GetMulcallString(cbgMCC.CheckedValue) + ") "
-        End If
-        If cbgVLC.CheckedValue.Count > 0 Then
-            QryManual += " and VLCM.VLC_Code IN (" + clsCommon.GetMulcallString(cbgVLC.CheckedValue) + ") "
-        End If
-        If Not txtRoute.arrValueMember Is Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
-            QryManual += " and VLCM.Route_Code  IN (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ") "
-        End If
+            qry = ""
+            qry += " select   TSPL_COMPANY_MASTER.Comp_Name  from TSPL_COMPANY_MASTER where  Comp_Code = '" + objCommonVar.CurrentCompanyCode + "' "
+            Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(qry)
+            CompName = dt2.Rows(0).Item("Comp_Name")
 
 
+            qry = ""
+            qry += " select   TSPL_COMPANY_MASTER.comp_code  from TSPL_COMPANY_MASTER where  Comp_Code = '" + objCommonVar.CurrentCompanyCode + "' "
+            Dim dt5 As DataTable = clsDBFuncationality.GetDataTable(qry)
+            CompCode = dt5.Rows(0).Item("Comp_Code")
+            Dim Shh As String = String.Empty
+            Dim fromDate As Date = clsCommon.GetPrintDate(txtFromDate.Value)
 
-        qry = ""
-        qry = "select  '" + txtFromShift.Text + "' as ShiftMor,'" + txtToShift.Text + "' as ShiftEve,'" + cboUnit.Text + "' as Unit, '" & Shh & "'  as HShift ,'" & fromDate & "'  as fromDate ,'" & Todate & "'  as Todate ,'" & companyADD & "'  as companyADD, '" & CompName & "'  as CompName,'" & CompCode & "'  as CompCode," & Environment.NewLine & _
-        "  MCC_Code as [MCC Code],(Mcc_Code_VLC_Uploader) as [MCC Uploader] ,(MCC_NAME) as [MCC Name],MP_Code as [MP Code],MP_Code_uploader   as [MP Uploader] ,(MP_Name) as [MP Name],(AccountNO) as [Account NO],(BankBranch) as [Bank Branch],(BankName) as [Bank Name],qq.VLC_CODE as [VLC Code] ,VLC_uploader_CODE   as [VLC Code Uploader],TSPL_VLC_MASTER_HEAD.VLC_Name  as [VLC Name],(qq.Route_Code) as [Route Code],(Route_Name) as [Route Name] ," & Environment.NewLine & _
-        " convert(varchar,Doc_Date,103) as [Doc Date] ,shift,([Buffalo Milk Qty (KG)]) as [Buffalo Milk Qty (KG)] ," & Environment.NewLine & _
-         " [Buffalo FAT(%)] as [Buffalo FAT(%)], " & Environment.NewLine & _
-       " [Buffalo SNF(%)] as [Buffalo SNF(%)] ," & Environment.NewLine & _
-        " ([Buffalo FAT (KG)]) as [Buffalo FAT (KG)]," & Environment.NewLine & _
-       " ([Buffalo SNF (KG)]) as [Buffalo SNF (KG)] ,([Buffalo Amount] ) as [Buffalo Amount]," & Environment.NewLine & _
-        " ([Cow Milk Qty (KG)]) as [Cow Milk Qty (KG)], " & Environment.NewLine & _
-        " [Cow FAT(%)] as [Cow FAT(%)]," & Environment.NewLine & _
-        " [Cow SNF(%)] as [Cow SNF(%)] , " & Environment.NewLine & _
-        " ([cow FAT (KG)])  as [Cow FAT (KG)],([cow SNF (KG)]) as [Cow SNF (KG)] ," & Environment.NewLine & _
-         " ([Cow Amount]) as [Cow Amount],doc_no  " & Environment.NewLine & _
-        " from (  select     " & Environment.NewLine & _
-         " pp.*,Case When pp.FAT <= 5 Then  pp.NewQty   Else 0 End [Cow Milk Qty (KG)],Case When pp.FAT < 5 Then pp.FAT Else 0 End [Cow FAT(%)], " & Environment.NewLine & _
-        " Case When pp.FAT < 5 Then pp.SNF Else 0 End [Cow SNF(%)],Case When pp.FAT  <= 5 Then pp.NewFAT_KG  Else 0 End [Cow FAT (KG)]," & Environment.NewLine & _
-         "Case When pp.FAT <= 5 Then pp.NewSNF_KG Else 0 End [Cow SNF (KG)], Case When pp.FAT <= 5 Then pp.NewAmount Else 0 End [Cow Amount]," & Environment.NewLine & _
-        " Case When pp.FAT > 5 Then pp.NewQty  Else 0 End [Buffalo Milk Qty (KG)],Case When pp.FAT > 5 Then pp.FAT Else 0 End [Buffalo FAT(%)], " & Environment.NewLine & _
-         " Case When pp.FAT > 5 Then pp.SNF Else 0 End [Buffalo SNF(%)], Case When pp.FAT > 5 Then pp.NewFAT_KG Else 0 End [Buffalo FAT (KG)], " & Environment.NewLine & _
-         " Case When pp.FAT > 5 Then pp.NewSNF_KG Else 0 End [Buffalo SNF (KG)],Case When pp.FAT > 5 Then pp.NewAmount  Else 0 End [Buffalo Amount]" & Environment.NewLine & _
-       " from (" & Environment.NewLine & _
-         " select xx.*,xx.qty*CF as NewQty,xx.Amount*CF as NewAmount ,  fat_KG *Cf   as NewFAT_KG, snf_KG *cf  as NewSNF_KG from (" & Environment.NewLine & _
-        " select *,(qty *fat) /100 as fat_KG,(qty *snf) /100 as snf_KG from (" & Environment.NewLine & _
-         " " & QryUploader & " " & Environment.NewLine & _
-         " union all " & Environment.NewLine & _
-         " " & QryManual & "" & Environment.NewLine & _
-         " ) as pp )xx " & Environment.NewLine & _
-          " LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code =xx.Item_Code "
+            Dim Todate As Date = clsCommon.GetPrintDate(txtToDate.Value)
 
-        ''richa agarwal 24 May,2019  TEC/28/03/19-000462 add item structure on setting based
-        If ItemStructureMandatoryOnWeightConversion = True Then
-            qry += " left outer join (Select Distinct yyy.* From (  Select Container_UOM as FromUOM, Contained_UOM as TOUOM, Container_Qty*Contained_Qty as CF,Structure_code  from TSPL_WEIGHT_CONVERSION UNION All   Select Contained_UOM as FromUOM, Contained_UOM as TOUOM, 1 as CF,Structure_code  from TSPL_WEIGHT_CONVERSION UNION All Select Container_UOM as FromUOM, Container_UOM as TOUOM, 1 as CF,Structure_code  from TSPL_WEIGHT_CONVERSION  ) yyy) zzz on zzz.FromUOM =xx.UOM_Code   and lower(zzz.TOUOM)='" + cboUnit.Text + "' where 2 = 2 AND TSPL_ITEM_MASTER.Structure_Code =zzz.Structure_code ) "
-        Else
-            qry += " left outer join (Select Distinct yyy.* From (  Select Container_UOM as FromUOM, Contained_UOM as TOUOM, Container_Qty*Contained_Qty as CF from TSPL_WEIGHT_CONVERSION UNION All Select Contained_UOM as FromUOM, Container_UOM as TOUOM, Container_Qty/ nullif (Contained_Qty,0) as CF from TSPL_WEIGHT_CONVERSION UNION All   Select Contained_UOM as FromUOM, Contained_UOM as TOUOM, 1 as CF from TSPL_WEIGHT_CONVERSION UNION All Select Container_UOM as FromUOM, Container_UOM as TOUOM, 1 as CF from TSPL_WEIGHT_CONVERSION  ) yyy) zzz on zzz.FromUOM =xx.UOM_Code and lower(zzz.TOUOM)='" + cboUnit.Text + "' ) "
-        End If
+            Dim DiffDate As Integer = clsCommon.myCDate(Todate).Day - clsCommon.myCDate(fromDate).Day
+            If DiffDate > 0 Then
+                Shh = "Both"
+            ElseIf DiffDate = 0 And txtFromShift.SelectedValue <> txtToShift.SelectedValue Then
+                Shh = "Both"
+            Else
+                Shh = IIf(txtFromShift.SelectedValue = "M", "Morning", "Evening")
+            End If
+            ''richa agarwal 24 May,2019  TEC/28/03/19-000462 add item structure on setting based
+            Dim QryUploader As String = " select '" & clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.MCCDefaultMilkItem, clsFixedParameterCode.MilkSetting, Nothing)) & "'  as item_code,TSPL_VLC_DATA_UPLOADER.Doc_No , TSPL_Mp_MASTER.Mcc_Code_VLC_Uploader,TSPL_VLC_DATA_UPLOADER.MCC_Code,TSPL_VLC_DATA_UPLOADER.VLC_CODE as VLC_uploader_CODE,TSPL_Mp_MASTER.MCC_NAME ,TSPL_MP_MASTER.VLC_Code ,TSPL_MP_MASTER.VLC_Name,TSPL_Mp_MASTER.MP_Code ,TSPL_VLC_DATA_UPLOADER.MP_CODE   as MP_Code_uploader ,TSPL_MP_MASTER.MP_Name ,TSPL_MP_MASTER.AccountNO ,TSPL_MP_MASTER.BankBranch ,TSPL_MP_MASTER. BankName,TSPL_VLC_DATA_UPLOADER.Doc_Date ,TSPL_VLC_DATA_UPLOADER.shift,TSPL_VLC_DATA_UPLOADER.qty as qty,TSPL_VLC_DATA_UPLOADER.fat, TSPL_VLC_DATA_UPLOADER.snf ,TSPL_VLC_DATA_UPLOADER.Amount ,TSPL_Mp_Master.UOM_Code,TSPL_MP_MASTER.Route_Code,RT.Route_Name    from  (select TSPL_Mp_MASTER.MP_Code ,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader ,VLC_Code_VLC_Uploader,MP_Code_VLC_Uploader,Mp_Name,TSPL_MP_MASTER.AccountNO,TSPL_MP_MASTER.BankBranch,TSPL_MP_MASTER.BankName,TSPL_VLC_MASTER_HEAD.MCC, MCC_NAME,UOM_Code,TSPL_VLC_MASTER_HEAD.VLC_Code ,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.Route_Code  " & Environment.NewLine &
+            " from TSPL_VLC_MASTER_HEAD   left join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code =TSPL_VLC_MASTER_HEAD.MCC " & Environment.NewLine &
+            " Left join TSPL_Mcc_UOM_DETAIL on TSPL_Mcc_UOM_DETAIL.MCC_CODE =TSPL_MCC_MASTER.MCC_Code and Stocking_Unit ='Y' Left join TSPL_MP_MASTER on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MP_MASTER.VLC_Code  left join TSPL_BANK_BRANCH_MASTER on TSPL_BANK_BRANCH_MASTER.BRANCH_CODE =TSPL_MP_MASTER.BankBranch  left join TSPL_BANK_MASTER on TSPL_BANK_MASTER.BANK_CODE =TSPL_MP_MASTER.BankName) TSPL_MP_MASTER left join TSPL_VLC_DATA_UPLOADER " & Environment.NewLine &
+             " on TSPL_MP_MASTER.MP_Code_VLC_Uploader=TSPL_VLC_DATA_UPLOADER.MP_CODE and TSPL_MP_MASTER.VLC_Code_VLC_Uploader=TSPL_VLC_DATA_UPLOADER.VLC_CODE and TSPL_MP_MASTER.MCC =TSPL_VLC_DATA_UPLOADER.MCC_Code " & Environment.NewLine &
+                " left join TSPL_MCC_ROUTE_MASTER RT on TSPL_MP_MASTER.Route_Code=RT.Route_Code  where 2=2"
 
-        qry += " as pp  ) as qq left join TSPL_VLC_MASTER_HEAD on qq.VLC_Code =TSPL_VLC_MASTER_HEAD.VLC_Code  "
+            If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
+                QryUploader += " and 2=( case when File_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and File_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and shift='M' then 3 else 2 end  )"
+            End If
+            If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
+                QryUploader += " and 2=( case when File_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and File_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and shift='E' then 3 else 2 end  )"
+            End If
+
+            If cbgMCC.CheckedValue.Count > 0 Then
+                QryUploader += " and TSPL_VLC_DATA_UPLOADER.MCC_Code  IN (" + clsCommon.GetMulcallString(cbgMCC.CheckedValue) + ") "
+            End If
+            If cbgVLC.CheckedValue.Count > 0 AndAlso chkVLCselect.IsChecked Then
+                QryUploader += " and TSPL_MP_MASTER.VLC_Code  IN (" + clsCommon.GetMulcallString(cbgVLC.CheckedValue) + ") "
+            End If
+            If Not txtRoute.arrValueMember Is Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                QryUploader += " and TSPL_MP_MASTER.Route_Code  IN (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ") "
+            End If
+            QryUploader += "  and convert(date,File_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) and convert(date,File_Date,103) <=convert(date,('" + txtToDate.Value + "'),103) and qty >0 "
+
+            '' query change by Panch Raj against ticket No:KDI/21/05/18-000323-> Route code must be picked from vlc master
+            Dim QryManual As String = "select '" & clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.MCCDefaultMilkItem, clsFixedParameterCode.MilkSetting, Nothing)) & "'  as item_code,VDUM.document_code,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader, VLCM.MCC,VLCM.vlc_code_vlc_uploader AS VLC_UPLODER_CODE," & Environment.NewLine &
+            " tspl_mcc_master.mcc_name,VDUM.VLC_Code,VLCM.vlc_Name as VLC_Name,TSPL_MP_MASTER.mp_code,TSPL_MP_MASTER.MP_Code_VLC_Uploader,TSPL_MP_MASTER.mp_name,TSPL_MP_MASTER.AccountNO," & Environment.NewLine &
+            " TSPL_MP_MASTER.BankBranch,TSPL_MP_MASTER.BankName,VDUM.Document_Date as Document_Date,(case when VDUM.Shift='MORNING' THEN 'M' ELSE 'E' END) AS Shift," & Environment.NewLine &
+            " VDUD.Qty,VDUD.fatper,VDUD.snfper,VDUD.Amount as VLC_Amount,VDUD.Unit_Code,VLCM.Route_Code," & Environment.NewLine &
+            "  tspl_mcc_route_master.route_name from TSPL_VLC_DATA_UPLOADER_DETAIL VDUD  inner join TSPL_VLC_DATA_UPLOADER_MASTER VDUM on VDUD.Document_Code=VDUM.Document_Code  " & Environment.NewLine &
+            " left join TSPL_VLC_MASTER_HEAD VLCM on VDUM.VLC_Code=VLCM.VLC_Code  left join tspl_mcc_master on tspl_mcc_master.mcc_code=VLCM.MCC " & Environment.NewLine &
+            " left join tspl_mp_master on tspl_mp_master.mp_code=VDUD.farmer_code left join tspl_mcc_route_master on tspl_mcc_route_master.Route_Code=VLCM.Route_Code " & Environment.NewLine &
+            " where 2 = 2  and  convert(date, VDUM.Document_Date,103) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and  convert(date, VDUM.Document_Date,103) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "'"
+
+            If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
+                QryManual += " and 2=( case when convert(date, VDUM.Document_Date,103) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and convert(date, VDUM.Document_Date,103) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and SHIFT='MORNING' then 3 else 2 end  )"
+            End If
+            If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
+                QryManual += " and 2=( case when convert(date, VDUM.Document_Date,103) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and convert(date, VDUM.Document_Date,103) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and SHIFT='EVENING' then 3 else 2 end  )"
+            End If
+            If cbgMCC.CheckedValue.Count > 0 Then
+                QryManual += " and VLCM.MCC  IN (" + clsCommon.GetMulcallString(cbgMCC.CheckedValue) + ") "
+            End If
+            If cbgVLC.CheckedValue.Count > 0 Then
+                QryManual += " and VLCM.VLC_Code IN (" + clsCommon.GetMulcallString(cbgVLC.CheckedValue) + ") "
+            End If
+            If Not txtRoute.arrValueMember Is Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                QryManual += " and VLCM.Route_Code  IN (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ") "
+            End If
 
 
-        dt = clsDBFuncationality.GetDataTable(qry)
-        gv.DataSource = Nothing
-        gv.Rows.Clear()
-        gv.Columns.Clear()
-        gv.DataSource = dt
-        gv.GroupDescriptors.Clear()
-        gv.MasterTemplate.SummaryRowsBottom.Clear()
-        FormatGrid()
-        If btnReferesh = False Then
-            Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinHeader(), "crptMemberPaymentSlip", "Member Payment Slip", "")
-            frmCRV = Nothing
 
-        End If
-        If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
-            Exit Sub
-        End If
-        gv.BestFitColumns()
+            qry = ""
+            qry = "select  '" + txtFromShift.Text + "' as ShiftMor,'" + txtToShift.Text + "' as ShiftEve,'" + cboUnit.Text + "' as Unit, '" & Shh & "'  as HShift ,'" & fromDate & "'  as fromDate ,'" & Todate & "'  as Todate ,'" & companyADD & "'  as companyADD, '" & CompName & "'  as CompName,'" & CompCode & "'  as CompCode," & Environment.NewLine &
+            "  MCC_Code as [MCC Code],(Mcc_Code_VLC_Uploader) as [MCC Uploader] ,(MCC_NAME) as [MCC Name],MP_Code as [MP Code],MP_Code_uploader   as [MP Uploader] ,(MP_Name) as [MP Name],(AccountNO) as [Account NO],(BankBranch) as [Bank Branch],(BankName) as [Bank Name],qq.VLC_CODE as [VLC Code] ,VLC_uploader_CODE   as [VLC Code Uploader],TSPL_VLC_MASTER_HEAD.VLC_Name  as [VLC Name],(qq.Route_Code) as [Route Code],(Route_Name) as [Route Name] ," & Environment.NewLine &
+            " convert(varchar,Doc_Date,103) as [Doc Date] ,shift,([Buffalo Milk Qty (KG)]) as [Buffalo Milk Qty (KG)] ," & Environment.NewLine &
+             " [Buffalo FAT(%)] as [Buffalo FAT(%)], " & Environment.NewLine &
+           " [Buffalo SNF(%)] as [Buffalo SNF(%)] ," & Environment.NewLine &
+            " ([Buffalo FAT (KG)]) as [Buffalo FAT (KG)]," & Environment.NewLine &
+           " ([Buffalo SNF (KG)]) as [Buffalo SNF (KG)] ,([Buffalo Amount] ) as [Buffalo Amount]," & Environment.NewLine &
+            " ([Cow Milk Qty (KG)]) as [Cow Milk Qty (KG)], " & Environment.NewLine &
+            " [Cow FAT(%)] as [Cow FAT(%)]," & Environment.NewLine &
+            " [Cow SNF(%)] as [Cow SNF(%)] , " & Environment.NewLine &
+            " ([cow FAT (KG)])  as [Cow FAT (KG)],([cow SNF (KG)]) as [Cow SNF (KG)] ," & Environment.NewLine &
+             " ([Cow Amount]) as [Cow Amount],doc_no  " & Environment.NewLine &
+            " from (  select     " & Environment.NewLine &
+             " pp.*,Case When pp.FAT <= 5 Then  pp.NewQty   Else 0 End [Cow Milk Qty (KG)],Case When pp.FAT < 5 Then pp.FAT Else 0 End [Cow FAT(%)], " & Environment.NewLine &
+            " Case When pp.FAT < 5 Then pp.SNF Else 0 End [Cow SNF(%)],Case When pp.FAT  <= 5 Then pp.NewFAT_KG  Else 0 End [Cow FAT (KG)]," & Environment.NewLine &
+             "Case When pp.FAT <= 5 Then pp.NewSNF_KG Else 0 End [Cow SNF (KG)], Case When pp.FAT <= 5 Then pp.NewAmount Else 0 End [Cow Amount]," & Environment.NewLine &
+            " Case When pp.FAT > 5 Then pp.NewQty  Else 0 End [Buffalo Milk Qty (KG)],Case When pp.FAT > 5 Then pp.FAT Else 0 End [Buffalo FAT(%)], " & Environment.NewLine &
+             " Case When pp.FAT > 5 Then pp.SNF Else 0 End [Buffalo SNF(%)], Case When pp.FAT > 5 Then pp.NewFAT_KG Else 0 End [Buffalo FAT (KG)], " & Environment.NewLine &
+             " Case When pp.FAT > 5 Then pp.NewSNF_KG Else 0 End [Buffalo SNF (KG)],Case When pp.FAT > 5 Then pp.NewAmount  Else 0 End [Buffalo Amount]" & Environment.NewLine &
+           " from (" & Environment.NewLine &
+             " select xx.*,xx.qty*CF as NewQty,xx.Amount*CF as NewAmount ,  fat_KG *Cf   as NewFAT_KG, snf_KG *cf  as NewSNF_KG from (" & Environment.NewLine &
+            " select *,(qty *fat) /100 as fat_KG,(qty *snf) /100 as snf_KG from (" & Environment.NewLine &
+             " " & QryUploader & " " & Environment.NewLine &
+             " union all " & Environment.NewLine &
+             " " & QryManual & "" & Environment.NewLine &
+             " ) as pp )xx " & Environment.NewLine &
+              " LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code =xx.Item_Code "
 
-        RadPageView1.SelectedPage = RadPageViewPage2
-        ReStoreGridLayout()
+            ''richa agarwal 24 May,2019  TEC/28/03/19-000462 add item structure on setting based
+            If ItemStructureMandatoryOnWeightConversion = True Then
+                qry += " left outer join (Select Distinct yyy.* From (  Select Container_UOM as FromUOM, Contained_UOM as TOUOM, Container_Qty*Contained_Qty as CF,Structure_code  from TSPL_WEIGHT_CONVERSION UNION All   Select Contained_UOM as FromUOM, Contained_UOM as TOUOM, 1 as CF,Structure_code  from TSPL_WEIGHT_CONVERSION UNION All Select Container_UOM as FromUOM, Container_UOM as TOUOM, 1 as CF,Structure_code  from TSPL_WEIGHT_CONVERSION  ) yyy) zzz on zzz.FromUOM =xx.UOM_Code   and lower(zzz.TOUOM)='" + cboUnit.Text + "' where 2 = 2 AND TSPL_ITEM_MASTER.Structure_Code =zzz.Structure_code ) "
+            Else
+                qry += " left outer join (Select Distinct yyy.* From (  Select Container_UOM as FromUOM, Contained_UOM as TOUOM, Container_Qty*Contained_Qty as CF from TSPL_WEIGHT_CONVERSION UNION All Select Contained_UOM as FromUOM, Container_UOM as TOUOM, Container_Qty/ nullif (Contained_Qty,0) as CF from TSPL_WEIGHT_CONVERSION UNION All   Select Contained_UOM as FromUOM, Contained_UOM as TOUOM, 1 as CF from TSPL_WEIGHT_CONVERSION UNION All Select Container_UOM as FromUOM, Container_UOM as TOUOM, 1 as CF from TSPL_WEIGHT_CONVERSION  ) yyy) zzz on zzz.FromUOM =xx.UOM_Code and lower(zzz.TOUOM)='" + cboUnit.Text + "' ) "
+            End If
+
+            qry += " as pp  ) as qq left join TSPL_VLC_MASTER_HEAD on qq.VLC_Code =TSPL_VLC_MASTER_HEAD.VLC_Code  "
+
+
+            dt = clsDBFuncationality.GetDataTable(qry)
+            gv.DataSource = Nothing
+            gv.Rows.Clear()
+            gv.Columns.Clear()
+            gv.DataSource = dt
+            gv.GroupDescriptors.Clear()
+            gv.MasterTemplate.SummaryRowsBottom.Clear()
+            FormatGrid()
+
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No Data Found ", Me.Text)
+                Exit Sub
+            End If
+
+            If btnReferesh = False Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinHeader(), "crptMemberPaymentSlip", "Member Payment Slip", "")
+                frmCRV = Nothing
+
+            End If
+
+            gv.BestFitColumns()
+
+            RadPageView1.SelectedPage = RadPageViewPage2
+            ReStoreGridLayout()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Private Sub ReStoreGridLayout()
         Try
