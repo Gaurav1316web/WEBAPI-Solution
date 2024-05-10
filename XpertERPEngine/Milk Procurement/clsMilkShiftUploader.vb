@@ -1304,18 +1304,18 @@ and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE='" + clsCommon.myCstr(dtVLC.Rows(0)
                         Dim CalKG As Decimal = 0
                         If objMRT.Applicable_On = 1 Then  ''RAte
                             dclRate = objMRT.Applicable_Per
-                            dclAmt = Math.Round((dclRate * objtr.Milk_Weight), 2, MidpointRounding.ToEven)
+                            dclAmt = Math.Round((dclRate * objtr.Milk_Weight), 2, MidpointRounding.AwayFromZero)
                         ElseIf objMRT.Applicable_On = 2 Then  ''FAT KG RAte
                             CalKG = (objtr.Milk_Weight * objtr.FAT) / 100
-                            dclAmt = Math.Round((objMRT.Applicable_Per * CalKG), 2, MidpointRounding.ToEven)
+                            dclAmt = Math.Round((objMRT.Applicable_Per * CalKG), 2, MidpointRounding.AwayFromZero)
                             dclRate = clsCommon.myCDivide(dclAmt, objtr.Milk_Weight)
                         ElseIf objMRT.Applicable_On = 3 Then  ''SNF KG RAte
                             CalKG = (objtr.Milk_Weight * objtr.SNF) / 100
-                            dclAmt = Math.Round((objMRT.Applicable_Per * CalKG), 2, MidpointRounding.ToEven)
+                            dclAmt = Math.Round((objMRT.Applicable_Per * CalKG), 2, MidpointRounding.AwayFromZero)
                             dclRate = clsCommon.myCDivide(dclAmt, objtr.Milk_Weight)
                         Else ''%Age
-                            dclRate = Math.Round(dclRate * objMRT.Applicable_Per / 100, 2, MidpointRounding.ToEven)
-                            dclAmt = Math.Round((dclRate * objtr.Milk_Weight), 2, MidpointRounding.ToEven)
+                            dclRate = Math.Round(dclRate * objMRT.Applicable_Per / 100, 2, MidpointRounding.AwayFromZero)
+                            dclAmt = Math.Round((dclRate * objtr.Milk_Weight), 2, MidpointRounding.AwayFromZero)
                         End If
                         objMilkSRNDetail.RATE = dclRate
                         objMilkSRNDetail.AMOUNT = dclAmt
