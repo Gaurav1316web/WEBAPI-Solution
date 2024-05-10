@@ -23,10 +23,12 @@ Partial Class rptMilkPaymentSummary
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.lblArea = New common.Controls.MyLabel()
+        Me.fndArea = New common.UserControls.txtFinder()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtMonth = New common.Controls.MyDateTimePicker()
         Me.txtMCC = New common.UserControls.txtMultiSelectFinder()
@@ -40,14 +42,13 @@ Partial Class rptMilkPaymentSummary
         Me.PDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.lblArea = New common.Controls.MyLabel()
-        Me.fndArea = New common.UserControls.txtFinder()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.lblArea, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtMonth, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -59,7 +60,6 @@ Partial Class rptMilkPaymentSummary
         CType(Me.radbtnBulkExp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblArea, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -110,6 +110,42 @@ Partial Class rptMilkPaymentSummary
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 359)
         Me.RadPageViewPage1.Text = "Filter"
+        '
+        'lblArea
+        '
+        Me.lblArea.FieldName = Nothing
+        Me.lblArea.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblArea.Location = New System.Drawing.Point(12, 31)
+        Me.lblArea.Name = "lblArea"
+        Me.lblArea.Size = New System.Drawing.Size(30, 16)
+        Me.lblArea.TabIndex = 1501
+        Me.lblArea.Text = "Area"
+        '
+        'fndArea
+        '
+        Me.fndArea.CalculationExpression = Nothing
+        Me.fndArea.FieldCode = Nothing
+        Me.fndArea.FieldDesc = Nothing
+        Me.fndArea.FieldMaxLength = 0
+        Me.fndArea.FieldName = Nothing
+        Me.fndArea.isCalculatedField = False
+        Me.fndArea.IsSourceFromTable = False
+        Me.fndArea.IsSourceFromValueList = False
+        Me.fndArea.IsUnique = False
+        Me.fndArea.Location = New System.Drawing.Point(65, 30)
+        Me.fndArea.MendatroryField = True
+        Me.fndArea.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndArea.MyLinkLable1 = Nothing
+        Me.fndArea.MyLinkLable2 = Nothing
+        Me.fndArea.MyReadOnly = False
+        Me.fndArea.MyShowMasterFormButton = False
+        Me.fndArea.Name = "fndArea"
+        Me.fndArea.ReferenceFieldDesc = Nothing
+        Me.fndArea.ReferenceFieldName = Nothing
+        Me.fndArea.ReferenceTableName = Nothing
+        Me.fndArea.Size = New System.Drawing.Size(174, 18)
+        Me.fndArea.TabIndex = 1500
+        Me.fndArea.Value = ""
         '
         'MyLabel1
         '
@@ -172,7 +208,7 @@ Partial Class rptMilkPaymentSummary
         Me.MyLabel16.Name = "MyLabel16"
         Me.MyLabel16.Size = New System.Drawing.Size(30, 18)
         Me.MyLabel16.TabIndex = 392
-        Me.MyLabel16.Text = "MCC"
+        Me.MyLabel16.Text = "BMC"
         '
         'RadPageViewPage2
         '
@@ -200,7 +236,7 @@ Partial Class rptMilkPaymentSummary
         Me.gv.MasterTemplate.EnableFiltering = True
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -271,42 +307,6 @@ Partial Class rptMilkPaymentSummary
         Me.btnGo.TabIndex = 162
         Me.btnGo.Text = ">>>"
         '
-        'lblArea
-        '
-        Me.lblArea.FieldName = Nothing
-        Me.lblArea.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblArea.Location = New System.Drawing.Point(12, 31)
-        Me.lblArea.Name = "lblArea"
-        Me.lblArea.Size = New System.Drawing.Size(30, 16)
-        Me.lblArea.TabIndex = 1501
-        Me.lblArea.Text = "Area"
-        '
-        'fndArea
-        '
-        Me.fndArea.CalculationExpression = Nothing
-        Me.fndArea.FieldCode = Nothing
-        Me.fndArea.FieldDesc = Nothing
-        Me.fndArea.FieldMaxLength = 0
-        Me.fndArea.FieldName = Nothing
-        Me.fndArea.isCalculatedField = False
-        Me.fndArea.IsSourceFromTable = False
-        Me.fndArea.IsSourceFromValueList = False
-        Me.fndArea.IsUnique = False
-        Me.fndArea.Location = New System.Drawing.Point(65, 30)
-        Me.fndArea.MendatroryField = True
-        Me.fndArea.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndArea.MyLinkLable1 = Nothing
-        Me.fndArea.MyLinkLable2 = Nothing
-        Me.fndArea.MyReadOnly = False
-        Me.fndArea.MyShowMasterFormButton = False
-        Me.fndArea.Name = "fndArea"
-        Me.fndArea.ReferenceFieldDesc = Nothing
-        Me.fndArea.ReferenceFieldName = Nothing
-        Me.fndArea.ReferenceTableName = Nothing
-        Me.fndArea.Size = New System.Drawing.Size(174, 18)
-        Me.fndArea.TabIndex = 1500
-        Me.fndArea.Value = ""
-        '
         'rptMilkPaymentSummary
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -326,6 +326,7 @@ Partial Class rptMilkPaymentSummary
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.lblArea, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtMonth, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
@@ -337,7 +338,6 @@ Partial Class rptMilkPaymentSummary
         CType(Me.radbtnBulkExp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblArea, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

@@ -17,17 +17,15 @@ Public Class frmNotification
         UcAttachment1.RunServiceForUploadFolder = True
         Addnew()
         SetMaxLength()
-        PopulateComboBox()
+        'PopulateComboBox()
     End Sub
-    Private Sub PopulateComboBox()
-        cmbType.Items.Clear()
-        cmbType.Items.Add("Saras Sale")
-        cmbType.Items.Add("Saras Pro")
+    'Private Sub PopulateComboBox()
+    '    cmbType.Items.Clear()
+    '    cmbType.Items.Add("Saras Sale")
+    '    cmbType.Items.Add("Saras Pro")
 
-        ' Set default selections
-        cmbType.SelectedIndex = 0 ' Default selection for m²
-        ' You can set cmbArea.SelectedIndex = 1 for default selection of ft² if needed
-    End Sub
+    '    cmbType.SelectedIndex = 0 ' Default selection for m²
+    'End Sub
 
     Function AllowToSave() As Boolean
         UcAttachment1.AllowToSave()
@@ -68,11 +66,11 @@ Public Class frmNotification
                 txtCode.Value = obj.Code
                 txtDate.Value = obj.Document_Date
                 txtStartDate.Value = obj.Start_Date
-                If obj.Type = 0 Then
-                    cmbType.Text = "Saras Sale"
-                ElseIf obj.Type = 1 Then
-                    cmbType.Text = "Saras Pro"
-                End If
+                'If obj.Type = 0 Then
+                '    cmbType.Text = "Saras Sale"
+                'ElseIf obj.Type = 1 Then
+                '    cmbType.Text = "Saras Pro"
+                'End If
                 'If clsCommon.myLen(obj.End_Date) > 0 Then
                 '    txtEndDate.Value = obj.End_Date
                 'Else
@@ -169,15 +167,17 @@ Public Class frmNotification
                 End If
                 obj.Subject = txtSubject.Text
                 obj.Description = txtDescription.Text
-                If clsCommon.CompairString(cmbType.Text, "Saras Pro") = CompairStringResult.Equal Then
-                    obj.Type = 1
-                ElseIf clsCommon.CompairString(cmbType.Text, "Saras Sale") = CompairStringResult.Equal Then
-                    obj.Type = 0
-                End If
+
+                Dim typeName As String=Nothing
                 Dim arrUserType As New List(Of String)
                 If txtUserType.arrValueMember IsNot Nothing Then
                     For i As Integer = 0 To txtUserType.arrValueMember.Count - 1
                         arrUserType.Add(txtUserType.arrValueMember(i))
+                        If clsCommon.myLen(typeName) > 0 Then
+                            typeName += "," + clsCommon.myCstr(txtUserType.arrValueMember(i))
+                        Else
+                            typeName = clsCommon.myCstr(txtUserType.arrValueMember(i))
+                        End If
                     Next
                 Else
                     clsCommon.MyMessageBoxShow(Me, "Please select atleast one User type", Me.Text)
@@ -185,26 +185,41 @@ Public Class frmNotification
                 End If
 
                 obj.Arr = New List(Of clsNotificationDetails)
-                For i As Integer = 0 To arrUserType.Count - 1
+                    For i As Integer = 0 To arrUserType.Count - 1
                     Dim objtr As New clsNotificationDetails
-                    objtr.Login_Type = arrUserType(i)
+
+                    If arrUserType(i).Contains("Admin") Then
+                        objtr.Login_Type = "A"
+                    ElseIf arrUserType(i).Contains("BMC Transporter") Then
+                        objtr.Login_Type = "B"
+                    ElseIf arrUserType(i).Contains("MCC") Then
+                        objtr.Login_Type = "M"
+                    ElseIf arrUserType(i).Contains("Milk Producer") Then
+                        objtr.Login_Type = "F"
+                    ElseIf arrUserType(i).Contains("RP") Then
+                        objtr.Login_Type = "R"
+                    ElseIf arrUserType(i).Contains("VSP") Then
+                        objtr.Login_Type = "V"
+                    ElseIf arrUserType(i).Contains("Zone") Then
+                        objtr.Login_Type = "Z"
+                    End If
                     obj.Arr.Add(objtr)
                 Next
-                Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
-                Try
-                    ClsNotification.SaveData(obj, isNewEntry, tran)
-                    UcAttachment1.SaveData(obj.Code, False, tran)
-                    Dim AttachmentCount As Integer = clsDBFuncationality.getSingleValue("SELECT COUNT(1) FROM TSPL_ATTACHMENTS WHERE TransactionId='" & obj.Code & "'", tran)
-                    Dim sql As String = "UPDATE TSPL_NOTIFICATIONS SET Attachment_Count = '" & AttachmentCount & "' where Document_No = '" & obj.Code & "'"
-                    clsDBFuncationality.ExecuteNonQuery(sql, tran)
-                    tran.Commit()
-                Catch ex As Exception
-                    tran.Rollback()
-                    Throw New Exception(ex.Message)
-                End Try
-                clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
-                LoadData(obj.Code, NavigatorType.Current)
-            End If
+                    Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
+                    Try
+                        ClsNotification.SaveData(obj, isNewEntry, tran)
+                        UcAttachment1.SaveData(obj.Code, False, tran)
+                        Dim AttachmentCount As Integer = clsDBFuncationality.getSingleValue("SELECT COUNT(1) FROM TSPL_ATTACHMENTS WHERE TransactionId='" & obj.Code & "'", tran)
+                        Dim sql As String = "UPDATE TSPL_NOTIFICATIONS SET Attachment_Count = '" & AttachmentCount & "' where Document_No = '" & obj.Code & "'"
+                        clsDBFuncationality.ExecuteNonQuery(sql, tran)
+                        tran.Commit()
+                    Catch ex As Exception
+                        tran.Rollback()
+                        Throw New Exception(ex.Message)
+                    End Try
+                    clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
+                    LoadData(obj.Code, NavigatorType.Current)
+                End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -258,7 +273,27 @@ Public Class frmNotification
 
     Private Sub txtUserType__My_Click(sender As Object, e As EventArgs) Handles txtUserType._My_Click
         Try
-            Dim qry As String = "SELECT DISTINCT Login_Type AS [Type] FROM TSPL_USER_MASTER WHERE (len(isnull(Login_Type,''))>0)"
+            'Dim qry As String = "SELECT DISTINCT Login_Type AS [Type] FROM TSPL_USER_MASTER WHERE (len(isnull(Login_Type,''))>0)"
+            Dim qry As String = "SELECT DISTINCT 
+    Login_Type AS [Type],'SARAS ORDER' AS SARAS
+FROM TSPL_USER_MASTER 
+WHERE LEN(ISNULL(Login_Type,'')) > 0
+
+UNION ALL
+
+SELECT DISTINCT 
+    COALESCE(
+     CASE WHEN User_APP_Type = 'A' THEN 'Admin' END,
+		CASE WHEN User_APP_Type = 'B' THEN 'BMC Transporter' END,
+		CASE WHEN User_APP_Type = 'M' THEN 'MCC' END,
+		CASE WHEN User_APP_Type = 'F' THEN 'Milk Producer' END,
+		CASE WHEN User_APP_Type = 'R' THEN 'RP' END,
+        CASE WHEN User_APP_Type = 'V' THEN 'VSP' END,
+		CASE WHEN User_APP_Type = 'Z' THEN 'Zone' END
+    ) AS [Type],'SARAS PRO' AS SARAS
+FROM TSPL_USER_MASTER 
+WHERE LEN(ISNULL(User_APP_Type,'')) > 0
+"
             txtUserType.arrValueMember = clsCommon.ShowMultipleSelectForm("TransTypeM", qry, "Type", "", txtUserType.arrValueMember, Nothing)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
