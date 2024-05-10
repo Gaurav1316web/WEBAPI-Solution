@@ -54472,6 +54472,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Start_Date", "Date not NULL")
             coll.Add("End_Date", "Date null")
             coll.Add("Status", "integer null")
+            coll.Add("Type", "integer not null default 0")
             coll.Add("Created_By", "VARCHAR(12) not NULL REFERENCES TSPL_USER_MASTER(User_Code) ")
             coll.Add("Created_Date", "DateTime not NULL")
             coll.Add("Modify_By", "VARCHAR(12) not NULL REFERENCES TSPL_USER_MASTER(User_Code) ")

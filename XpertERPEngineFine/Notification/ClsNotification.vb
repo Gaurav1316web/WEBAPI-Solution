@@ -17,6 +17,9 @@ Public Class ClsNotification
     Public Post_Date As DateTime
     Public Login_Type As String = Nothing
     Public Arr As List(Of clsNotificationDetails)
+    Public Type As Integer
+
+
 
 #End Region
 
@@ -43,6 +46,7 @@ Public Class ClsNotification
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Subject", obj.Subject, False, True)
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description, False, True)
+            clsCommon.AddColumnsForChange(coll, "Type", obj.Type)
             clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
@@ -77,7 +81,7 @@ Public Class ClsNotification
         Dim obj As ClsNotification = Nothing
 
         Try
-            Dim strQry As String = "SELECT Document_No as Code,Document_Date as Date,Start_Date,End_Date,Subject,Description,Status FROM TSPL_NOTIFICATIONS where 1=1 "
+            Dim strQry As String = "SELECT Document_No as Code,Document_Date as Date,Start_Date,End_Date,Subject,Description,Status,Type FROM TSPL_NOTIFICATIONS where 1=1 "
             Select Case NavType
                 Case NavigatorType.First
                     strQry += " and Document_No = (select MIN(Document_No) from TSPL_NOTIFICATIONS where 1=1  )"
@@ -100,6 +104,7 @@ Public Class ClsNotification
                     obj.End_Date = clsCommon.GetPrintDate(dt.Rows(0)("End_Date"), "dd/MMM/yyyy")
 
                 End If
+                obj.Type = clsCommon.myCdbl(dt.Rows(0)("Type"))
                 obj.Subject = clsCommon.myCstr(dt.Rows(0)("Subject"))
                 obj.Description = clsCommon.myCstr(dt.Rows(0)("Description"))
                 obj.Status = IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)

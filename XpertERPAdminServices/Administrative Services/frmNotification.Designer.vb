@@ -23,6 +23,8 @@ Partial Class frmNotification
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -55,6 +57,8 @@ Partial Class frmNotification
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.lblType = New common.Controls.MyLabel()
+        Me.cmbType = New common.Controls.MyComboBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -77,6 +81,8 @@ Partial Class frmNotification
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -118,6 +124,8 @@ Partial Class frmNotification
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.cmbType)
+        Me.RadPageViewPage1.Controls.Add(Me.lblType)
         Me.RadPageViewPage1.Controls.Add(Me.lblDocNo)
         Me.RadPageViewPage1.Controls.Add(Me.txtUserType)
         Me.RadPageViewPage1.Controls.Add(Me.UsLock1)
@@ -144,7 +152,7 @@ Partial Class frmNotification
         '
         Me.lblDocNo.FieldName = Nothing
         Me.lblDocNo.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDocNo.Location = New System.Drawing.Point(4, 53)
+        Me.lblDocNo.Location = New System.Drawing.Point(4, 74)
         Me.lblDocNo.Name = "lblDocNo"
         Me.lblDocNo.Size = New System.Drawing.Size(56, 18)
         Me.lblDocNo.TabIndex = 330
@@ -154,7 +162,7 @@ Partial Class frmNotification
         '
         Me.txtUserType.arrDispalyMember = Nothing
         Me.txtUserType.arrValueMember = Nothing
-        Me.txtUserType.Location = New System.Drawing.Point(101, 53)
+        Me.txtUserType.Location = New System.Drawing.Point(101, 75)
         Me.txtUserType.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtUserType.MyLinkLable1 = Me.lblDocNo
         Me.txtUserType.MyLinkLable2 = Nothing
@@ -185,7 +193,7 @@ Partial Class frmNotification
         Me.txtDescription.IsSourceFromTable = False
         Me.txtDescription.IsSourceFromValueList = False
         Me.txtDescription.IsUnique = False
-        Me.txtDescription.Location = New System.Drawing.Point(101, 151)
+        Me.txtDescription.Location = New System.Drawing.Point(101, 174)
         Me.txtDescription.MaxLength = 200
         Me.txtDescription.MendatroryField = False
         Me.txtDescription.Multiline = True
@@ -215,7 +223,7 @@ Partial Class frmNotification
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(4, 151)
+        Me.Label1.Location = New System.Drawing.Point(4, 174)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(66, 13)
         Me.Label1.TabIndex = 76
@@ -233,7 +241,7 @@ Partial Class frmNotification
         Me.txtSubject.IsSourceFromTable = False
         Me.txtSubject.IsSourceFromValueList = False
         Me.txtSubject.IsUnique = False
-        Me.txtSubject.Location = New System.Drawing.Point(101, 78)
+        Me.txtSubject.Location = New System.Drawing.Point(101, 101)
         Me.txtSubject.MaxLength = 200
         Me.txtSubject.MendatroryField = False
         Me.txtSubject.Multiline = True
@@ -253,7 +261,7 @@ Partial Class frmNotification
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(4, 78)
+        Me.Label3.Location = New System.Drawing.Point(4, 101)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(45, 13)
         Me.Label3.TabIndex = 74
@@ -505,6 +513,48 @@ Partial Class frmNotification
         Me.RadMenu1.Size = New System.Drawing.Size(728, 20)
         Me.RadMenu1.TabIndex = 6
         '
+        'lblType
+        '
+        Me.lblType.FieldName = Nothing
+        Me.lblType.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblType.Location = New System.Drawing.Point(3, 51)
+        Me.lblType.Name = "lblType"
+        Me.lblType.Size = New System.Drawing.Size(30, 18)
+        Me.lblType.TabIndex = 332
+        Me.lblType.Text = "Type"
+        '
+        'cmbType
+        '
+        Me.cmbType.AutoCompleteDisplayMember = Nothing
+        Me.cmbType.AutoCompleteValueMember = Nothing
+        Me.cmbType.CalculationExpression = Nothing
+        Me.cmbType.DropDownAnimationEnabled = True
+        Me.cmbType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbType.FieldCode = Nothing
+        Me.cmbType.FieldDesc = Nothing
+        Me.cmbType.FieldMaxLength = 0
+        Me.cmbType.FieldName = Nothing
+        Me.cmbType.isCalculatedField = False
+        Me.cmbType.IsSourceFromTable = False
+        Me.cmbType.IsSourceFromValueList = False
+        Me.cmbType.IsUnique = False
+        RadListDataItem1.Text = "Saras Pro"
+        RadListDataItem2.Selected = True
+        RadListDataItem2.Text = "Saras Sale"
+        Me.cmbType.Items.Add(RadListDataItem1)
+        Me.cmbType.Items.Add(RadListDataItem2)
+        Me.cmbType.Location = New System.Drawing.Point(101, 51)
+        Me.cmbType.MendatroryField = False
+        Me.cmbType.MyLinkLable1 = Nothing
+        Me.cmbType.MyLinkLable2 = Nothing
+        Me.cmbType.Name = "cmbType"
+        Me.cmbType.ReferenceFieldDesc = Nothing
+        Me.cmbType.ReferenceFieldName = Nothing
+        Me.cmbType.ReferenceTableName = Nothing
+        Me.cmbType.Size = New System.Drawing.Size(124, 20)
+        Me.cmbType.TabIndex = 1518
+        Me.cmbType.Text = "Saras Sale"
+        '
         'frmNotification
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -541,6 +591,8 @@ Partial Class frmNotification
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -579,4 +631,6 @@ Partial Class frmNotification
     Friend WithEvents RadMenuItem2 As RadMenuItem
     Friend WithEvents RadMenuItem4 As RadMenuItem
     Friend WithEvents RadMenu1 As RadMenu
+    Friend WithEvents lblType As common.Controls.MyLabel
+    Friend WithEvents cmbType As common.Controls.MyComboBox
 End Class
