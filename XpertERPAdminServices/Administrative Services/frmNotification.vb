@@ -5,6 +5,8 @@ Public Class frmNotification
 
 #Region "Variables"
     Dim isNewEntry As Boolean = True
+    Private WithEvents RadDropDownList1 As New RadDropDownList()
+
 #End Region
     Private Sub frmNotification_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         RadPageView1.SelectedPage = RadPageViewPage1
@@ -15,6 +17,16 @@ Public Class frmNotification
         UcAttachment1.RunServiceForUploadFolder = True
         Addnew()
         SetMaxLength()
+        PopulateComboBox()
+    End Sub
+    Private Sub PopulateComboBox()
+        cmbType.Items.Clear()
+        cmbType.Items.Add("Saras Sale")
+        cmbType.Items.Add("Saras Pro")
+
+        ' Set default selections
+        cmbType.SelectedIndex = 0 ' Default selection for m²
+        ' You can set cmbArea.SelectedIndex = 1 for default selection of ft² if needed
     End Sub
 
     Function AllowToSave() As Boolean
@@ -56,6 +68,11 @@ Public Class frmNotification
                 txtCode.Value = obj.Code
                 txtDate.Value = obj.Document_Date
                 txtStartDate.Value = obj.Start_Date
+                If obj.Type = 0 Then
+                    cmbType.Text = "Saras Sale"
+                ElseIf obj.Type = 1 Then
+                    cmbType.Text = "Saras Pro"
+                End If
                 'If clsCommon.myLen(obj.End_Date) > 0 Then
                 '    txtEndDate.Value = obj.End_Date
                 'Else
@@ -105,7 +122,7 @@ Public Class frmNotification
         End If
         'If txtCode.MyReadOnly OrElse isButtonClicked Then
         Dim whrClas As String = ""
-        Dim qry As String = "select Document_No as Code,Document_Date as Date,Start_Date As 'Start Date',End_Date As 'End Date',Subject,Status from TSPL_NOTIFICATIONS"
+        Dim qry As String = "select Document_No as Code,Document_Date as Date,Start_Date As 'Start Date',End_Date As 'End Date',Subject,Status,Type from TSPL_NOTIFICATIONS"
         LoadData(clsCommon.ShowSelectForm("DRT", qry, "Code", "", txtCode.Value, "TSPL_NOTIFICATIONS.Document_No  ", isButtonClicked), NavigatorType.Current)
         ' txtCode.Value = clsCommon.ShowSelectForm("DRT", qry, "Code", "", txtCode.Value, "TSPL_NOTIFICATIONS.Document_No ", isButtonClicked, "")
         'LoadData(txtCode.Value, NavigatorType.Current)
@@ -152,6 +169,11 @@ Public Class frmNotification
                 End If
                 obj.Subject = txtSubject.Text
                 obj.Description = txtDescription.Text
+                If clsCommon.CompairString(cmbType.Text, "Saras Pro") = CompairStringResult.Equal Then
+                    obj.Type = 1
+                ElseIf clsCommon.CompairString(cmbType.Text, "Saras Sale") = CompairStringResult.Equal Then
+                    obj.Type = 0
+                End If
                 Dim arrUserType As New List(Of String)
                 If txtUserType.arrValueMember IsNot Nothing Then
                     For i As Integer = 0 To txtUserType.arrValueMember.Count - 1
@@ -281,4 +303,6 @@ Public Class frmNotification
         txtDescription.MaxLength = 5000
         'txtDescription.MaxLength = Integer.MaxValue
     End Sub
+
+
 End Class
