@@ -22,13 +22,13 @@ Partial Class rptMccMasterDetail
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -36,6 +36,8 @@ Partial Class rptMccMasterDetail
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.lblArea = New common.Controls.MyLabel()
+        Me.fndArea = New common.UserControls.txtFinder()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnJanAll = New System.Windows.Forms.RadioButton()
         Me.rbtnJanUnverified = New System.Windows.Forms.RadioButton()
@@ -72,8 +74,6 @@ Partial Class rptMccMasterDetail
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.lblArea = New common.Controls.MyLabel()
-        Me.fndArea = New common.UserControls.txtFinder()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -81,6 +81,7 @@ Partial Class rptMccMasterDetail
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.lblArea, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -107,7 +108,6 @@ Partial Class rptMccMasterDetail
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblArea, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -201,6 +201,42 @@ Partial Class rptMccMasterDetail
         Me.RadPageViewPage1.Size = New System.Drawing.Size(882, 278)
         Me.RadPageViewPage1.Text = "Filters"
         '
+        'lblArea
+        '
+        Me.lblArea.FieldName = Nothing
+        Me.lblArea.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblArea.Location = New System.Drawing.Point(21, 216)
+        Me.lblArea.Name = "lblArea"
+        Me.lblArea.Size = New System.Drawing.Size(30, 16)
+        Me.lblArea.TabIndex = 1499
+        Me.lblArea.Text = "Area"
+        '
+        'fndArea
+        '
+        Me.fndArea.CalculationExpression = Nothing
+        Me.fndArea.FieldCode = Nothing
+        Me.fndArea.FieldDesc = Nothing
+        Me.fndArea.FieldMaxLength = 0
+        Me.fndArea.FieldName = Nothing
+        Me.fndArea.isCalculatedField = False
+        Me.fndArea.IsSourceFromTable = False
+        Me.fndArea.IsSourceFromValueList = False
+        Me.fndArea.IsUnique = False
+        Me.fndArea.Location = New System.Drawing.Point(116, 215)
+        Me.fndArea.MendatroryField = True
+        Me.fndArea.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndArea.MyLinkLable1 = Nothing
+        Me.fndArea.MyLinkLable2 = Nothing
+        Me.fndArea.MyReadOnly = False
+        Me.fndArea.MyShowMasterFormButton = False
+        Me.fndArea.Name = "fndArea"
+        Me.fndArea.ReferenceFieldDesc = Nothing
+        Me.fndArea.ReferenceFieldName = Nothing
+        Me.fndArea.ReferenceTableName = Nothing
+        Me.fndArea.Size = New System.Drawing.Size(338, 18)
+        Me.fndArea.TabIndex = 1498
+        Me.fndArea.Value = ""
+        '
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
@@ -271,7 +307,7 @@ Partial Class rptMccMasterDetail
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(30, 18)
         Me.MyLabel3.TabIndex = 400
-        Me.MyLabel3.Text = "MCC"
+        Me.MyLabel3.Text = "BMC"
         '
         'txtPanchayatSamiti
         '
@@ -444,18 +480,18 @@ Partial Class rptMccMasterDetail
         Me.cmbReportType.IsSourceFromTable = False
         Me.cmbReportType.IsSourceFromValueList = False
         Me.cmbReportType.IsUnique = False
-        RadListDataItem7.Text = "DCS Full Details"
-        RadListDataItem8.Text = "MP Details"
-        RadListDataItem9.Text = "Union Wise Jan Aadhar Status"
-        RadListDataItem10.Text = "VSP"
-        RadListDataItem11.Text = "Transporter"
-        RadListDataItem12.Text = "Employee"
-        Me.cmbReportType.Items.Add(RadListDataItem7)
-        Me.cmbReportType.Items.Add(RadListDataItem8)
-        Me.cmbReportType.Items.Add(RadListDataItem9)
-        Me.cmbReportType.Items.Add(RadListDataItem10)
-        Me.cmbReportType.Items.Add(RadListDataItem11)
-        Me.cmbReportType.Items.Add(RadListDataItem12)
+        RadListDataItem1.Text = "DCS Full Details"
+        RadListDataItem2.Text = "MP Details"
+        RadListDataItem3.Text = "Union Wise Jan Aadhar Status"
+        RadListDataItem4.Text = "VSP"
+        RadListDataItem5.Text = "Transporter"
+        RadListDataItem6.Text = "Employee"
+        Me.cmbReportType.Items.Add(RadListDataItem1)
+        Me.cmbReportType.Items.Add(RadListDataItem2)
+        Me.cmbReportType.Items.Add(RadListDataItem3)
+        Me.cmbReportType.Items.Add(RadListDataItem4)
+        Me.cmbReportType.Items.Add(RadListDataItem5)
+        Me.cmbReportType.Items.Add(RadListDataItem6)
         Me.cmbReportType.Location = New System.Drawing.Point(116, 16)
         Me.cmbReportType.MendatroryField = False
         Me.cmbReportType.MyLinkLable1 = Nothing
@@ -576,7 +612,7 @@ Partial Class rptMccMasterDetail
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -634,42 +670,6 @@ Partial Class rptMccMasterDetail
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'lblArea
-        '
-        Me.lblArea.FieldName = Nothing
-        Me.lblArea.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblArea.Location = New System.Drawing.Point(21, 216)
-        Me.lblArea.Name = "lblArea"
-        Me.lblArea.Size = New System.Drawing.Size(30, 16)
-        Me.lblArea.TabIndex = 1499
-        Me.lblArea.Text = "Area"
-        '
-        'fndArea
-        '
-        Me.fndArea.CalculationExpression = Nothing
-        Me.fndArea.FieldCode = Nothing
-        Me.fndArea.FieldDesc = Nothing
-        Me.fndArea.FieldMaxLength = 0
-        Me.fndArea.FieldName = Nothing
-        Me.fndArea.isCalculatedField = False
-        Me.fndArea.IsSourceFromTable = False
-        Me.fndArea.IsSourceFromValueList = False
-        Me.fndArea.IsUnique = False
-        Me.fndArea.Location = New System.Drawing.Point(116, 215)
-        Me.fndArea.MendatroryField = True
-        Me.fndArea.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndArea.MyLinkLable1 = Nothing
-        Me.fndArea.MyLinkLable2 = Nothing
-        Me.fndArea.MyReadOnly = False
-        Me.fndArea.MyShowMasterFormButton = False
-        Me.fndArea.Name = "fndArea"
-        Me.fndArea.ReferenceFieldDesc = Nothing
-        Me.fndArea.ReferenceFieldName = Nothing
-        Me.fndArea.ReferenceTableName = Nothing
-        Me.fndArea.Size = New System.Drawing.Size(338, 18)
-        Me.fndArea.TabIndex = 1498
-        Me.fndArea.Value = ""
-        '
         'rptMccMasterDetail
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -691,6 +691,7 @@ Partial Class rptMccMasterDetail
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.lblArea, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
@@ -719,7 +720,6 @@ Partial Class rptMccMasterDetail
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblArea, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

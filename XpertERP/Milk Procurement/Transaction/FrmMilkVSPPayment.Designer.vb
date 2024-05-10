@@ -301,7 +301,7 @@ Partial Class FrmMilkVSPPayment
         Me.lblTankerNo.Name = "lblTankerNo"
         Me.lblTankerNo.Size = New System.Drawing.Size(32, 16)
         Me.lblTankerNo.TabIndex = 10
-        Me.lblTankerNo.Text = "MCC"
+        Me.lblTankerNo.Text = "BMC"
         '
         'txtMCCMultiple
         '
