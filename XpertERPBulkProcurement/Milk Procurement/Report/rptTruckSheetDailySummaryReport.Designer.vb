@@ -204,7 +204,7 @@ Partial Class rptTruckSheetDailySummaryReport
         Me.MyLabel16.Name = "MyLabel16"
         Me.MyLabel16.Size = New System.Drawing.Size(30, 18)
         Me.MyLabel16.TabIndex = 427
-        Me.MyLabel16.Text = "MCC"
+        Me.MyLabel16.Text = "BMC"
         '
         'RadGroupBox3
         '
