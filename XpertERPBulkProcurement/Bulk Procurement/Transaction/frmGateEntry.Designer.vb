@@ -471,7 +471,7 @@ Partial Class FrmGateEntry
         Me.MyLabel20.Name = "MyLabel20"
         Me.MyLabel20.Size = New System.Drawing.Size(27, 16)
         Me.MyLabel20.TabIndex = 12140
-        Me.MyLabel20.Text = "Mcc"
+        Me.MyLabel20.Text = "Bmc"
         '
         'TxtFinder1
         '

@@ -22,7 +22,7 @@ Partial Class frmMPIncetiveEntryReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -426,7 +426,7 @@ Partial Class frmMPIncetiveEntryReport
         Me.MyLabel16.Name = "MyLabel16"
         Me.MyLabel16.Size = New System.Drawing.Size(30, 18)
         Me.MyLabel16.TabIndex = 440
-        Me.MyLabel16.Text = "MCC"
+        Me.MyLabel16.Text = "BMC"
         '
         'RadLabel1
         '
@@ -557,7 +557,7 @@ Partial Class frmMPIncetiveEntryReport
         Me.rbtnMCCWise.Name = "rbtnMCCWise"
         Me.rbtnMCCWise.Size = New System.Drawing.Size(72, 18)
         Me.rbtnMCCWise.TabIndex = 1
-        Me.rbtnMCCWise.Text = "MCC Wise"
+        Me.rbtnMCCWise.Text = "BMC Wise"
         Me.rbtnMCCWise.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'rbtnBankWise
@@ -595,7 +595,8 @@ Partial Class frmMPIncetiveEntryReport
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
