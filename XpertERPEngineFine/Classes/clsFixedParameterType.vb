@@ -2610,6 +2610,7 @@ Public Class clsFixedParameterCode
     Public Const DisableRouteandVehicle = "Disable Route and Vehicle No."
     Public Const SuperuserViewOnly = "Super User View Only"
     Public Const DistributorViewOnly = "Distributor View Only"
+    Public Const ShowDemandvsDispatch = "Show Demand vs Dispatch"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -2777,6 +2778,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.StopDemandUpdateForCNF, "0", "0:OFF,1:ON;CNF Type User will not update Demand")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.SuperuserViewOnly, "0", "0:OFF,1:ON;Super User Type View Report Only")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.DistributorViewOnly, "0", "0:OFF,1:ON;Distributor Type Use View Report Only")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.ShowDemandvsDispatch, "0", "0:OFF,1:ON;Show Demand VS Dispatch")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceQty, "100", "Tollerance % of Qty")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceFAT, "100", "Tollerance % of FAT")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceSNF, "100", "Tollerance % of SNF")

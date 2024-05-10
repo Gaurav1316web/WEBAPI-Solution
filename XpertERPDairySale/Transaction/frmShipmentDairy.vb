@@ -5532,10 +5532,12 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         Dim dblTotRate As Double = 0
         For ii As Integer = 1 To 10
             Dim strii As String = clsCommon.myCstr(ii)
-            If IntRowNo < 0 Then
-                dblTotRate = dblTotRate + clsCommon.myCdbl(gv1.CurrentRow.Cells(clsCommon.myCstr("COLTAXRate" + strii)).Value)
-            Else
-                dblTotRate = dblTotRate + clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXRate" + strii)).Value)
+            If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAX" + strii)).Value), "TCS") <> CompairStringResult.Equal Then
+                If IntRowNo < 0 Then
+                    dblTotRate = dblTotRate + clsCommon.myCdbl(gv1.CurrentRow.Cells(clsCommon.myCstr("COLTAXRate" + strii)).Value)
+                Else
+                    dblTotRate = dblTotRate + clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXRate" + strii)).Value)
+                End If
             End If
         Next
         Return dblTotRate
