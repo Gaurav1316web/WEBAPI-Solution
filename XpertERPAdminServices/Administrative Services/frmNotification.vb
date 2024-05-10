@@ -202,6 +202,10 @@ Public Class frmNotification
                         objtr.Login_Type = "V"
                     ElseIf arrUserType(i).Contains("Zone") Then
                         objtr.Login_Type = "Z"
+                    ElseIf arrUserType(i).Contains("SuperUser") Then
+                        objtr.Login_Type = "SuperUser"
+                    ElseIf arrUserType(i).Contains("CNF") Then
+                        objtr.Login_Type = "CNF"
                     End If
                     obj.Arr.Add(objtr)
                 Next
@@ -275,26 +279,48 @@ Public Class frmNotification
         Try
             'Dim qry As String = "SELECT DISTINCT Login_Type AS [Type] FROM TSPL_USER_MASTER WHERE (len(isnull(Login_Type,''))>0)"
             Dim qry As String = "SELECT DISTINCT 
-    Login_Type AS [Type],'SARAS ORDER' AS SARAS
-FROM TSPL_USER_MASTER 
-WHERE LEN(ISNULL(Login_Type,'')) > 0
+COALESCE(
+        CASE WHEN Login_type = 'SuperUser' THEN 'SuperUser' END,
+        CASE WHEN Login_type = 'CNF' THEN 'CNF' END)
+   AS [Code],
+      COALESCE(CASE WHEN Login_type = 'SuperUser' THEN 'SuperUser' END,
+        CASE WHEN Login_type = 'CNF' THEN 'CNF' END) AS [Name],
+    'SARAS ORDER' AS Application
+FROM 
+    TSPL_USER_MASTER 
+WHERE 
+    LEN(ISNULL(Login_Type,'')) > 0
 
 UNION ALL
 
-SELECT DISTINCT 
+SELECT DISTINCT
     COALESCE(
-     CASE WHEN User_APP_Type = 'A' THEN 'Admin' END,
-		CASE WHEN User_APP_Type = 'B' THEN 'BMC Transporter' END,
-		CASE WHEN User_APP_Type = 'M' THEN 'MCC' END,
-		CASE WHEN User_APP_Type = 'F' THEN 'Milk Producer' END,
-		CASE WHEN User_APP_Type = 'R' THEN 'RP' END,
+        CASE WHEN User_APP_Type = 'A' THEN 'A' END,
+        CASE WHEN User_APP_Type = 'B' THEN 'B' END,
+        CASE WHEN User_APP_Type = 'M' THEN 'M' END,
+        CASE WHEN User_APP_Type = 'F' THEN 'F' END,
+        CASE WHEN User_APP_Type = 'R' THEN 'R' END,
+        CASE WHEN User_APP_Type = 'V' THEN 'V' END,
+        CASE WHEN User_APP_Type = 'Z' THEN 'V' END
+    ) AS [Code],
+    COALESCE(
+        CASE WHEN User_APP_Type = 'A' THEN 'Admin' END,
+        CASE WHEN User_APP_Type = 'B' THEN 'BMC Transporter' END,
+        CASE WHEN User_APP_Type = 'M' THEN 'MCC' END,
+        CASE WHEN User_APP_Type = 'F' THEN 'Milk Producer' END,
+        CASE WHEN User_APP_Type = 'R' THEN 'RP' END,
         CASE WHEN User_APP_Type = 'V' THEN 'VSP' END,
-		CASE WHEN User_APP_Type = 'Z' THEN 'Zone' END
-    ) AS [Type],'SARAS PRO' AS SARAS
-FROM TSPL_USER_MASTER 
-WHERE LEN(ISNULL(User_APP_Type,'')) > 0
+        CASE WHEN User_APP_Type = 'Z' THEN 'Zone' END
+    ) AS [Name],
+    'SARAS PRO' AS Application
+FROM 
+    TSPL_USER_MASTER 
+WHERE 
+    LEN(ISNULL(User_APP_Type,'')) > 0
+
+
 "
-            txtUserType.arrValueMember = clsCommon.ShowMultipleSelectForm("TransTypeM", qry, "Type", "", txtUserType.arrValueMember, Nothing)
+            txtUserType.arrValueMember = clsCommon.ShowMultipleSelectForm("TransTypeM", qry, "Name", "", txtUserType.arrValueMember, Nothing)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
