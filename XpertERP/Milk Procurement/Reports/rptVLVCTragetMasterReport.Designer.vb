@@ -268,7 +268,7 @@ Partial Class RptVLVCTragetMasterReport
         Me.RadGroupBox5.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox5.Size = New System.Drawing.Size(251, 166)
         Me.RadGroupBox5.TabIndex = 2
-        Me.RadGroupBox5.Text = "VSP"
+        Me.RadGroupBox5.Text = "Secretary"
         '
         'cbgVSP
         '

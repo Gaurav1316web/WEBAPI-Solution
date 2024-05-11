@@ -307,7 +307,7 @@ Partial Class rptMccMasterDetail
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(30, 18)
         Me.MyLabel3.TabIndex = 400
-        Me.MyLabel3.Text = "BMC"
+        Me.MyLabel3.Text = "MCC"
         '
         'txtPanchayatSamiti
         '
@@ -483,7 +483,7 @@ Partial Class rptMccMasterDetail
         RadListDataItem1.Text = "DCS Full Details"
         RadListDataItem2.Text = "MP Details"
         RadListDataItem3.Text = "Union Wise Jan Aadhar Status"
-        RadListDataItem4.Text = "VSP"
+        RadListDataItem4.Text = "Secretary"
         RadListDataItem5.Text = "Transporter"
         RadListDataItem6.Text = "Employee"
         Me.cmbReportType.Items.Add(RadListDataItem1)

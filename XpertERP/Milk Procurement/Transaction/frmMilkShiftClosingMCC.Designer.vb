@@ -1361,7 +1361,7 @@ Partial Class frmMilkShiftClosingMCC
         Me.btnemailsmssettingforvsp.AccessibleDescription = "Email & SMS Setting For VSP"
         Me.btnemailsmssettingforvsp.AccessibleName = "Email & SMS Setting For VSP"
         Me.btnemailsmssettingforvsp.Name = "btnemailsmssettingforvsp"
-        Me.btnemailsmssettingforvsp.Text = "Email & SMS Setting For VSP"
+        Me.btnemailsmssettingforvsp.Text = "Email & SMS Setting For Secretary"
         '
         'frmMilkShiftClosingMCC
         '

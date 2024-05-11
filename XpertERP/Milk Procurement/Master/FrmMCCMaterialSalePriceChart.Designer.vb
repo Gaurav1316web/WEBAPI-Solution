@@ -177,13 +177,13 @@ Partial Class FrmMCCMaterialSalePriceChart
         Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox3.Controls.Add(Me.cbgMCC)
         Me.RadGroupBox3.Controls.Add(Me.Panel1)
-        Me.RadGroupBox3.HeaderText = "BMC"
+        Me.RadGroupBox3.HeaderText = "MCC"
         Me.RadGroupBox3.Location = New System.Drawing.Point(6, 38)
         Me.RadGroupBox3.Name = "RadGroupBox3"
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox3.Size = New System.Drawing.Size(360, 144)
         Me.RadGroupBox3.TabIndex = 14
-        Me.RadGroupBox3.Text = "BMC"
+        Me.RadGroupBox3.Text = "MCC"
         '
         'cbgMCC
         '

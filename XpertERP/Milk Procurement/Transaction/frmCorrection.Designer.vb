@@ -531,7 +531,7 @@ Partial Class frmCorrection
         Me.lblRouteCode.Name = "lblRouteCode"
         Me.lblRouteCode.Size = New System.Drawing.Size(55, 18)
         Me.lblRouteCode.TabIndex = 6
-        Me.lblRouteCode.Text = "VLC Code"
+        Me.lblRouteCode.Text = "DCS Code"
         '
         'txtVLC
         '
@@ -637,7 +637,7 @@ Partial Class frmCorrection
         Me.MyLabel8.Name = "MyLabel8"
         Me.MyLabel8.Size = New System.Drawing.Size(59, 18)
         Me.MyLabel8.TabIndex = 18
-        Me.MyLabel8.Text = "VLC Name"
+        Me.MyLabel8.Text = "DCS Name"
         '
         'MyLabel6
         '
@@ -748,7 +748,7 @@ Partial Class frmCorrection
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(55, 18)
         Me.MyLabel2.TabIndex = 6
-        Me.MyLabel2.Text = "VLC Code"
+        Me.MyLabel2.Text = "DCS Code"
         '
         'btnSave
         '
@@ -908,7 +908,7 @@ Partial Class frmCorrection
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
         Me.RadPageViewPage3.Size = New System.Drawing.Size(646, 376)
-        Me.RadPageViewPage3.Text = "VLC Correction Multiple"
+        Me.RadPageViewPage3.Text = "DCS Correction Multiple"
         '
         'GroupBox1
         '
@@ -926,7 +926,7 @@ Partial Class frmCorrection
         Me.GroupBox1.Size = New System.Drawing.Size(340, 96)
         Me.GroupBox1.TabIndex = 368
         Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Correction OF VLC Data"
+        Me.GroupBox1.Text = "Correction OF DCS Data"
         '
         'chkAdjustOwnBMCFATSNF
         '
@@ -1212,7 +1212,7 @@ Partial Class frmCorrection
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(646, 376)
-        Me.RadPageViewPage2.Text = "Delete VLC Collection Data"
+        Me.RadPageViewPage2.Text = "Delete DCS Collection Data"
         '
         'GroupBox76
         '

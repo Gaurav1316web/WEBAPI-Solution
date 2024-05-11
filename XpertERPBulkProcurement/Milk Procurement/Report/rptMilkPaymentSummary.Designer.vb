@@ -208,7 +208,7 @@ Partial Class rptMilkPaymentSummary
         Me.MyLabel16.Name = "MyLabel16"
         Me.MyLabel16.Size = New System.Drawing.Size(30, 18)
         Me.MyLabel16.TabIndex = 392
-        Me.MyLabel16.Text = "BMC"
+        Me.MyLabel16.Text = "MCC"
         '
         'RadPageViewPage2
         '

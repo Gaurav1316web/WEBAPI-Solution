@@ -349,7 +349,7 @@ Partial Class FrmMCCMilkRegister
         Me.MyLabel15.Name = "MyLabel15"
         Me.MyLabel15.Size = New System.Drawing.Size(26, 18)
         Me.MyLabel15.TabIndex = 410
-        Me.MyLabel15.Text = "VLC"
+        Me.MyLabel15.Text = "DCS"
         '
         'txtVLC
         '
@@ -623,7 +623,7 @@ Partial Class FrmMCCMilkRegister
         Me.chkVLCWisePayable.Size = New System.Drawing.Size(114, 17)
         Me.chkVLCWisePayable.TabIndex = 5
         Me.chkVLCWisePayable.TabStop = True
-        Me.chkVLCWisePayable.Text = "VLC Wise Payable"
+        Me.chkVLCWisePayable.Text = "DCS Wise Payable"
         Me.chkVLCWisePayable.UseVisualStyleBackColor = True
         '
         'rbtnPlantWise
@@ -645,7 +645,7 @@ Partial Class FrmMCCMilkRegister
         Me.rbtnVLCWise.Size = New System.Drawing.Size(72, 17)
         Me.rbtnVLCWise.TabIndex = 3
         Me.rbtnVLCWise.TabStop = True
-        Me.rbtnVLCWise.Text = "VLC Wise"
+        Me.rbtnVLCWise.Text = "DCS Wise"
         Me.rbtnVLCWise.UseVisualStyleBackColor = True
         '
         'ChkMCCWise

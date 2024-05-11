@@ -469,9 +469,9 @@ Partial Class FrmGateEntry
         Me.MyLabel20.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel20.Location = New System.Drawing.Point(670, 23)
         Me.MyLabel20.Name = "MyLabel20"
-        Me.MyLabel20.Size = New System.Drawing.Size(27, 16)
+        Me.MyLabel20.Size = New System.Drawing.Size(29, 16)
         Me.MyLabel20.TabIndex = 12140
-        Me.MyLabel20.Text = "Bmc"
+        Me.MyLabel20.Text = "MCC"
         '
         'TxtFinder1
         '

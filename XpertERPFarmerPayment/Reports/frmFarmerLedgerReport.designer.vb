@@ -311,7 +311,7 @@ Partial Class frmFarmerLedgerReport
         Me.lblEmployee.Name = "lblEmployee"
         Me.lblEmployee.Size = New System.Drawing.Size(26, 18)
         Me.lblEmployee.TabIndex = 8
-        Me.lblEmployee.Text = "VSP"
+        Me.lblEmployee.Text = "Secretary"
         '
         'rbtnDetail
         '

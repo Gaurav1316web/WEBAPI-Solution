@@ -1096,7 +1096,7 @@ Partial Class FrmMPMaster
         Me.MyLabel12.Name = "MyLabel12"
         Me.MyLabel12.Size = New System.Drawing.Size(62, 16)
         Me.MyLabel12.TabIndex = 147
-        Me.MyLabel12.Text = "VSP Name"
+        Me.MyLabel12.Text = "Secretary Name"
         '
         'txtVlCUploader
         '
@@ -1129,7 +1129,7 @@ Partial Class FrmMPMaster
         Me.MyLabel11.Name = "MyLabel11"
         Me.MyLabel11.Size = New System.Drawing.Size(108, 16)
         Me.MyLabel11.TabIndex = 145
-        Me.MyLabel11.Text = "VLC Uploader Code"
+        Me.MyLabel11.Text = "DCS Uploader Code"
         '
         'txtMCC
         '
@@ -1281,7 +1281,7 @@ Partial Class FrmMPMaster
         Me.chkIsVSP.Name = "chkIsVSP"
         Me.chkIsVSP.Size = New System.Drawing.Size(50, 18)
         Me.chkIsVSP.TabIndex = 46
-        Me.chkIsVSP.Text = "Is VSP"
+        Me.chkIsVSP.Text = "Is Secretary"
         '
         'MyLabel5
         '
@@ -1553,7 +1553,7 @@ Partial Class FrmMPMaster
         Me.MyLabel43.Name = "MyLabel43"
         Me.MyLabel43.Size = New System.Drawing.Size(155, 16)
         Me.MyLabel43.TabIndex = 128
-        Me.MyLabel43.Text = "MP Code (For VLC Uploader)"
+        Me.MyLabel43.Text = "MP Code (For DCS Uploader)"
         '
         'txtMPCodeVlcUploader
         '
@@ -2328,7 +2328,7 @@ Partial Class FrmMPMaster
         Me.lblMCC.Name = "lblMCC"
         Me.lblMCC.Size = New System.Drawing.Size(97, 16)
         Me.lblMCC.TabIndex = 18
-        Me.lblMCC.Text = "Producer For VLC"
+        Me.lblMCC.Text = "Producer For DCS"
         '
         'fndVLCode
         '
