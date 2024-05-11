@@ -37,7 +37,7 @@ Public Class rptSalesLedgerReport
                 view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
                 If rbtnDetail.IsChecked Then
                     view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Document_Date").Name)
-                    view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Shift_Type").Name)
+                    view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Shift").Name)
                 Else
                     If rbtnRoute.IsChecked Then
                         view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Route_No").Name)
@@ -58,7 +58,7 @@ Public Class rptSalesLedgerReport
                 view.ColumnGroups.Add(New GridViewColumnGroup("Total"))
 
                 view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
-                For col As Integer = 8 To gv1.Columns("Total Qty").Index - 1
+                For col As Integer = 9 To gv1.Columns("Total Qty").Index - 1
                     view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns(col).Name)
                 Next
                 view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
@@ -192,10 +192,10 @@ Public Class rptSalesLedgerReport
             and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= Convert(date,'" & txtToDate.Value & "',103) "
             Dim strShift As String = ""
             If rbtnMorning.IsChecked Then
-                qry += " and TSPL_SD_SHIPMENT_HEAD.Shift_Type  = 'M' "
+                qry += " and TSPL_SD_SHIPMENT_HEAD.Shift_Type  = 'AM' "
                 strShift = "'M'"
             ElseIf rbtnEvening.IsChecked Then
-                qry += " and TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'E' "
+                qry += " and TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'PM' "
                 strShift = "'E'"
             ElseIf rbtnBothShift.IsChecked Then
                 strShift = "''"
@@ -291,8 +291,8 @@ Public Class rptSalesLedgerReport
 
             BaseQry += " ," & itemName1 & " SUM(" & itemNamesQty & ") AS [Total Qty], " & itemName2 & "SUM(" & itemNamesAmt & ") AS [Total Amt],SUM( Receipt_Amount) AS [Deposit Amt]
          FROM (
-         SELECT  TSPL_ZONE_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description as [Zone Name], TSPL_CUSTOMER_MASTER.Cust_Code ,TSPL_CUSTOMER_MASTER.Customer_Name, TSPL_SD_SHIPMENT_HEAD.Route_No,TSPL_ROUTE_MASTER.Route_Desc,CASE WHEN isnull(TSPL_SD_SHIPMENT_HEAD.Shift_Type,'') = 'AM' THEN 'M' else ( case  when isnull(TSPL_SD_SHIPMENT_HEAD.Shift_Type,'') = 'PM' then 'E'  else ( CASE WHEN isnull(TSPL_SD_SHIPMENT_HEAD.Shift_Type,'') = 'M' then 'M' else 'E' end ) end ) 
-		 END AS Shift_Type,TSPL_SD_SHIPMENT_HEAD.Document_Date, TSPL_SD_SHIPMENT_DETAIL.Structure_Code, TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.Short_Description + 'Amt' AS Item_Description,TSPL_SD_SHIPMENT_DETAIL.Unit_code,TSPL_SD_SHIPMENT_DETAIL.Qty as CRATE,0 AS Receipt_Amount
+         SELECT  TSPL_ZONE_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description as [Zone Name], TSPL_CUSTOMER_MASTER.Cust_Code ,TSPL_CUSTOMER_MASTER.Customer_Name, TSPL_SD_SHIPMENT_HEAD.Route_No,TSPL_ROUTE_MASTER.Route_Desc,CASE WHEN isnull(TSPL_SD_SHIPMENT_HEAD.Shift_Type,'') = 'AM' THEN 'AM' else 'PM' 
+       END AS Shift_Type,TSPL_SD_SHIPMENT_HEAD.Document_Date, TSPL_SD_SHIPMENT_DETAIL.Structure_Code, TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.Short_Description + 'Amt' AS Item_Description,TSPL_SD_SHIPMENT_DETAIL.Unit_code,TSPL_SD_SHIPMENT_DETAIL.Qty as CRATE,0 AS Receipt_Amount
          FROM TSPL_SD_SHIPMENT_DETAIL
          LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_DETAIL.Item_Code
          LEFT OUTER JOIN TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
@@ -326,9 +326,9 @@ Public Class rptSalesLedgerReport
             If rbtnSummary.IsChecked Then
                 BaseQry += "and  convert(date,Document_Date,103) >= CONVERT(DATE, '" & txtFromDate.Value & "', 103)  and   convert(date,Document_Date,103) <= CONVERT(DATE, '" & txtToDate.Value & "', 103) "
                 If rbtnMorning.IsChecked Then
-                    FinalQuery += " and Shift_Type = 'M' "
+                    FinalQuery += " and Shift_Type = 'AM' "
                 ElseIf rbtnEvening.IsChecked Then
-                    FinalQuery += " and Shift_Type = 'E'"
+                    FinalQuery += " and Shift_Type = 'PM'"
                 End If
             End If
             BaseQry += "  union all 
@@ -353,18 +353,18 @@ Public Class rptSalesLedgerReport
             BaseQry += "GROUP BY Receipt_Date ) AS xx PIVOT (SUM(CRATE)  FOR Short_Description IN (" & itemNames1 & ") ) AS pivot_crate PIVOT (SUM(Item_Net_Amt)  FOR Item_Description IN (" & itemNames2 & ") ) AS pivot_net_amt  "
 
             If rbtnDetail.IsChecked Then
-                FinalQuery = "With CTE as (SELECT XXFINAL.Document_Date, XXFINAL.Shift_Type,max(Zone_Code)Zone_Code, max([Zone Name])[Zone Name], max(Cust_Code)Cust_Code,max(Customer_Name)Customer_Name,max(Route_No)Route_No,max(Route_Desc)Route_Desc ,"
+                FinalQuery = "With CTE as (SELECT XXFINAL.Document_Date, XXFINAL.Shift_Type, case when max(Shift_Type) = 'AM' THEN 'M' ELSE 'E' END AS Shift,max(Zone_Code)Zone_Code, max([Zone Name])[Zone Name], max(Cust_Code)Cust_Code,max(Customer_Name)Customer_Name,max(Route_No)Route_No,max(Route_Desc)Route_Desc ,"
                 FinalQuery += "" & FinalItemNamesQty & "SUM(XXFINAL.[Total Qty])[Total Qty]," & FinalItemNamesAmt & "
                SUM(XXFINAL.[Total Amt])[Total Amt],SUM(XXFINAL.[Deposit Amt])[Deposit Amt] FROM (  " & BaseQry & " GROUP BY Document_Date,Shift_Type  ) XXFINAL GROUP BY Document_Date,Shift_Type )
                select xxx.*,(op + [Total Amt]) as Due,(OP+[Total Amt]-[Deposit Amt]) as [Balance Amount] from (
-               select CTE.* ,isnull((select sum(InnerCTE.[Total Amt])-sum(InnerCTE.[Deposit Amt]) from CTE as InnerCTE where 2= (case when CTE.Shift_Type='M' then  (case when InnerCTE.Document_Date<CTE.Document_Date then 2 else 3 end )
-               else (case when InnerCTE.Document_Date<CTE.Document_Date then 2 else (case when InnerCTE.Document_Date=CTE.Document_Date and InnerCTE.Shift_Type='M' then 2 else 3 end) end) end) ),0) as OP
+               select CTE.* ,isnull((select sum(InnerCTE.[Total Amt])-sum(InnerCTE.[Deposit Amt]) from CTE as InnerCTE where 2= (case when CTE.Shift_Type='AM' then  (case when InnerCTE.Document_Date<CTE.Document_Date then 2 else 3 end )
+               else (case when InnerCTE.Document_Date<CTE.Document_Date then 2 else (case when InnerCTE.Document_Date=CTE.Document_Date and InnerCTE.Shift_Type='AM' then 2 else 3 end) end) end) ),0) as OP
 	           from CTE  )xxx  where xxx.Document_Date >= CONVERT(DATE, '" & txtFromDate.Value & "', 103)  and   xxx.Document_Date <= CONVERT(DATE, '" & txtToDate.Value & "', 103) "
 
                 If rbtnMorning.IsChecked Then
-                    FinalQuery += " and XXX.Shift_Type = 'M' "
+                    FinalQuery += " and XXX.Shift_Type = 'AM' "
                 ElseIf rbtnEvening.IsChecked Then
-                    FinalQuery += " and XXX.Shift_Type = 'E'"
+                    FinalQuery += " and XXX.Shift_Type = 'PM'"
                 End If
                 FinalQuery += "order by xxx.Document_Date,xxx.Shift_Type desc"
             Else
@@ -416,10 +416,11 @@ Public Class rptSalesLedgerReport
             Dim colName As Integer = gv1.Columns(ii).Name.Length - 1
             gv1.Columns(ii).HeaderText = gv1.Columns(ii).Name.Remove(colName, 1)
         Next
+        gv1.Columns("Shift_Type").IsVisible = False
 
         If rbtnSummary.IsChecked Then
             gv1.Columns("Document_Date").IsVisible = False
-            gv1.Columns("Shift_Type").IsVisible = False
+
             If rbtnCustomer.IsChecked Then
                 gv1.Columns("Route_No").IsVisible = False
                 gv1.Columns("Route_Desc").IsVisible = False
@@ -456,14 +457,14 @@ Public Class rptSalesLedgerReport
             gv1.Columns("Customer_Name").IsVisible = False
             gv1.Columns("Zone_Code").IsVisible = False
             gv1.Columns("Zone Name").IsVisible = False
-            gv1.Columns("Shift_Type").HeaderText = "Shift"
+
             If rbtnBothShift.IsChecked Then
-                gv1.Columns("Shift_Type").IsVisible = False
+                gv1.Columns("Shift").IsVisible = False
             End If
         End If
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
-        For ii As Integer = 8 To gv1.Columns.Count - 1
+        For ii As Integer = 9 To gv1.Columns.Count - 1
             summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
         Next
 

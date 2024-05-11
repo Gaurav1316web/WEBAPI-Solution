@@ -117,7 +117,7 @@ Partial Class rptListofCowDCS
         Me.lblOwnMCC.Name = "lblOwnMCC"
         Me.lblOwnMCC.Size = New System.Drawing.Size(62, 16)
         Me.lblOwnMCC.TabIndex = 354
-        Me.lblOwnMCC.Text = "MCC Code"
+        Me.lblOwnMCC.Text = "BMC Code"
         '
         'RadPageViewPage2
         '
@@ -144,6 +144,7 @@ Partial Class rptListofCowDCS
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True

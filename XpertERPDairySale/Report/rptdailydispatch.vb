@@ -25,8 +25,7 @@ Public Class rptdailydispatch
         gv1.Columns.Clear()
         gv1.MasterTemplate.SummaryRowsBottom.Clear()
         RadPageView1.SelectedPage = RadPageViewPage1
-        txtrouteno.Value = ""
-        lblRouteDesc.Text = ""
+        txtrouteno.arrValueMember = Nothing
         txtlocation.Value = ""
         lbllocation.Text = ""
         txtcustomer.Value = ""
@@ -44,12 +43,7 @@ Public Class rptdailydispatch
     Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnclose.Click
         Me.Close()
     End Sub
-    Private Sub txtrouteno__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtrouteno._MYValidating
-        Dim qry As String = ""
-        qry = " Select TSPL_ROUTE_MASTER.Route_No as Code,Route_Desc as Description from TSPL_ROUTE_MASTER"
-        txtrouteno.Value = clsCommon.ShowSelectForm("routeno", qry, "Code", "", txtrouteno.Value, "Code", isButtonClicked)
-        lblRouteDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_Desc from TSPL_Route_Master where Route_No='" + txtrouteno.Value + "' "))
-    End Sub
+
 
     Private Sub txtcustomer__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtcustomer._MYValidating
         Dim qry As String = ""
@@ -70,7 +64,7 @@ Public Class rptdailydispatch
             Dim dt As DataTable = Nothing
             Dim qry As String = ""
             Dim GpCode As String = Nothing
-            If clsCommon.myLen(txtrouteno.Value) <= 0 Then
+            If clsCommon.myLen(txtrouteno.arrValueMember) <= 0 Then
                 clsCommon.MyMessageBoxShow(Me, "Please select route no", Me.Text)
                 Exit Sub
             End If
@@ -83,7 +77,7 @@ Public Class rptdailydispatch
                 Exit Sub
             End If
 
-            Dim whr As String = " where Document_No in (select Against_Delivery_Code from TSPL_SD_SHIPMENT_HEAD) and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Route_No='" + txtrouteno.Value + "'  and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Location_Code='" + txtlocation.Value + "' and Customer_Code='" + txtcustomer.Value + "' AND convert
+            Dim whr As String = " where Document_No in (select Against_Delivery_Code from TSPL_SD_SHIPMENT_HEAD) and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Route_No in (" + clsCommon.GetMulcallString(txtrouteno.arrValueMember) + ")  and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Location_Code='" + txtlocation.Value + "' and Customer_Code='" + txtcustomer.Value + "' AND convert
                                     (date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtfromdate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txttodate.Value) + "' "
             'If rbtnMilk.Checked = True Then
             '    whr += " And TSPL_ITEM_MASTER.Is_FreshItem ='1' "
@@ -91,7 +85,7 @@ Public Class rptdailydispatch
             'If rbtnproduct.Checked = True Then
             '    whr += " and TSPL_ITEM_MASTER.Is_Ambient='1' "
             'End If
-            Dim batch As String = "  select right(Booking_No,6) as gpcode from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE   " + whr
+            Dim batch As String = "  select right(Booking_No,6) as gpcode from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE   " + whr + "union all  select right(Document_Code,6) as gpcode from TSPL_SD_SHIPMENT_HEAD where Is_Create_Auto_Invoice = 1 and Status = 1 and Bill_To_Location = '" + txtlocation.Value + "'  and Route_No in (" + clsCommon.GetMulcallString(txtrouteno.arrValueMember) + ")  and Customer_Code = '" + txtcustomer.Value + "' and convert (date,Document_Date,103)>= '" + clsCommon.GetPrintDate(txtfromdate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txttodate.Value) + "'  AND Against_Delivery_Code IS NULL "
             dt = clsDBFuncationality.GetDataTable(batch)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For Each btch In dt.Rows
@@ -120,7 +114,7 @@ Public Class rptdailydispatch
                 left join (select Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code from  TSPL_ITEM_UOM_DETAIL where UOM_code = 'Crate') as ItemConversionCrate on ItemConversionCrate.Item_code =  TSPL_SD_SHIPMENT_DETAIL.Item_Code 
                                             left join (select Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'Pouch' ) as ItemConversionInPouch on ItemConversionInPouch.Item_code = TSPL_SD_SHIPMENT_DETAIL.Item_Code
                                             left join ( select Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code from  TSPL_ITEM_UOM_DETAIL where UOM_code = 'LTR' ) as ItemConversionInLTR on ItemConversionInLTR.Item_code = TSPL_SD_SHIPMENT_DETAIL.Item_Code where convert
-                (date,tspl_sd_shipment_head.Document_Date,103)>='" + clsCommon.GetPrintDate(txtfromdate.Value) + "' and convert(date,tspl_sd_shipment_head.Document_Date,103)<='" + clsCommon.GetPrintDate(txttodate.Value) + "' and tspl_sd_shipment_head.Route_No='" + txtrouteno.Value + "' and tspl_sd_shipment_head.Bill_To_Location='" + txtlocation.Value + "' and tspl_sd_shipment_head.is_taxable=0 and tspl_sd_shipment_head.customer_code='" + txtcustomer.Value + "'"
+                (date,tspl_sd_shipment_head.Document_Date,103)>='" + clsCommon.GetPrintDate(txtfromdate.Value) + "' and convert(date,tspl_sd_shipment_head.Document_Date,103)<='" + clsCommon.GetPrintDate(txttodate.Value) + "' and tspl_sd_shipment_head.Route_No in (" + clsCommon.GetMulcallString(txtrouteno.arrValueMember) + ") and tspl_sd_shipment_head.Bill_To_Location='" + txtlocation.Value + "' and tspl_sd_shipment_head.is_taxable=0 and tspl_sd_shipment_head.customer_code='" + txtcustomer.Value + "'"
 
             If rbtnMilk.Checked = True Then
                 qry += " And TSPL_ITEM_MASTER.Is_FreshItem ='1' "
@@ -246,7 +240,7 @@ Public Class rptdailydispatch
         Try
             Dim dt As DataTable = Nothing
             Dim qry As String = ""
-            If clsCommon.myLen(txtrouteno.Value) <= 0 Then
+            If clsCommon.myLen(txtrouteno.arrValueMember) <= 0 Then
                 clsCommon.MyMessageBoxShow(Me, "Please select route no", Me.Text)
                 Exit Sub
             End If
@@ -270,7 +264,7 @@ Public Class rptdailydispatch
                     left join (select Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code from  TSPL_ITEM_UOM_DETAIL where UOM_code = 'Crate') as ItemConversionCrate on ItemConversionCrate.Item_code =  TSPL_SD_SHIPMENT_DETAIL.Item_Code 
                                                 left join (select Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'Pouch' ) as ItemConversionInPouch on ItemConversionInPouch.Item_code = TSPL_SD_SHIPMENT_DETAIL.Item_Code
                                                 left join ( select Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code from  TSPL_ITEM_UOM_DETAIL where UOM_code = 'LTR' ) as ItemConversionInLTR on ItemConversionInLTR.Item_code = TSPL_SD_SHIPMENT_DETAIL.Item_Code where convert
-                    (date,tspl_sd_shipment_head.Document_Date,103)>='" + clsCommon.GetPrintDate(txtfromdate.Value) + "' and convert(date,tspl_sd_shipment_head.Document_Date,103)<='" + clsCommon.GetPrintDate(txttodate.Value) + "' and tspl_sd_shipment_head.Route_No='" + txtrouteno.Value + "' and tspl_sd_shipment_head.Bill_To_Location='" + txtlocation.Value + "' and is_taxable=0 and Customer_Code='" + txtcustomer.Value + "' "
+                    (date,tspl_sd_shipment_head.Document_Date,103)>='" + clsCommon.GetPrintDate(txtfromdate.Value) + "' and convert(date,tspl_sd_shipment_head.Document_Date,103)<='" + clsCommon.GetPrintDate(txttodate.Value) + "' and tspl_sd_shipment_head.Route_No in ( " + clsCommon.GetMulcallString(txtrouteno.arrValueMember) + ") and tspl_sd_shipment_head.Bill_To_Location='" + txtlocation.Value + "' and is_taxable=0 and Customer_Code='" + txtcustomer.Value + "' "
 
             If rbtnMilk.Checked = True Then
                 qry += " and TSPL_ITEM_MASTER.Is_FreshItem='1' "
@@ -319,5 +313,12 @@ Public Class rptdailydispatch
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message(), Me.Text)
         End Try
+    End Sub
+
+    Private Sub txtrouteno__My_Click(sender As Object, e As EventArgs) Handles txtrouteno._My_Click
+        Dim qry As String = ""
+        qry = " Select TSPL_ROUTE_MASTER.Route_No as Code,Route_Desc as Description from TSPL_ROUTE_MASTER"
+        txtrouteno.arrValueMember = clsCommon.ShowMultipleSelectForm("routeno", qry, "Code", "Description", txtrouteno.arrValueMember, txtrouteno.arrDispalyMember)
+
     End Sub
 End Class
