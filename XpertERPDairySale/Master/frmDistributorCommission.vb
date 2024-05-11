@@ -327,10 +327,10 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                             Else
                                 Arr.Rate = clsCommon.myCDecimal(grow.Cells("Rate").Value)
                             End If
-                            If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Transporter_Rate").Value))) Then
+                            If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Transporter Rate").Value))) Then
                                 Continue For
                             Else
-                                Arr.Transporter_Rate = clsCommon.myCDecimal(grow.Cells("Transporter_Rate").Value)
+                                Arr.Transporter_Rate = clsCommon.myCDecimal(grow.Cells("Transporter Rate").Value)
                             End If
                             If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Security Rate").Value))) Then
                                 Continue For

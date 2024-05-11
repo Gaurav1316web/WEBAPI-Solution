@@ -24,6 +24,7 @@ Partial Class RptLowProcurement
     Private Sub InitializeComponent()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -106,27 +107,20 @@ Partial Class RptLowProcurement
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1043, 20)
         Me.RadMenu1.TabIndex = 5
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmSaveLayout, Me.rmDeleteLayout})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
         '
         'rmSaveLayout
         '
-        Me.rmSaveLayout.AccessibleDescription = "Save Layout"
-        Me.rmSaveLayout.AccessibleName = "Save Layout"
         Me.rmSaveLayout.Name = "rmSaveLayout"
         Me.rmSaveLayout.Text = "Save Layout"
         '
         'rmDeleteLayout
         '
-        Me.rmDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.rmDeleteLayout.AccessibleName = "Delete Layout"
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
         '
@@ -165,12 +159,10 @@ Partial Class RptLowProcurement
         '
         Me.RadPageView1.RootElement.AccessibleDescription = "Report1"
         Me.RadPageView1.RootElement.AccessibleName = "Report1"
-        Me.RadPageView1.RootElement.Text = "Report1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1043, 433)
         Me.RadPageView1.TabIndex = 0
         Me.RadPageView1.TabStop = False
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0).GetChildAt(2), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Filter"
         CType(Me.RadPageView1.GetChildAt(0).GetChildAt(3), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Filter"
@@ -191,13 +183,13 @@ Partial Class RptLowProcurement
         Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox3.Controls.Add(Me.cbgMCC)
         Me.RadGroupBox3.Controls.Add(Me.Panel1)
-        Me.RadGroupBox3.HeaderText = "MCC"
+        Me.RadGroupBox3.HeaderText = "BMC"
         Me.RadGroupBox3.Location = New System.Drawing.Point(376, 82)
         Me.RadGroupBox3.Name = "RadGroupBox3"
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox3.Size = New System.Drawing.Size(358, 210)
         Me.RadGroupBox3.TabIndex = 2
-        Me.RadGroupBox3.Text = "MCC"
+        Me.RadGroupBox3.Text = "BMC"
         '
         'cbgMCC
         '
@@ -366,6 +358,7 @@ Partial Class RptLowProcurement
         Me.cboUnit.AutoCompleteValueMember = Nothing
         Me.cboUnit.BackColor = System.Drawing.Color.Transparent
         Me.cboUnit.CalculationExpression = Nothing
+        Me.cboUnit.DropDownAnimationEnabled = True
         Me.cboUnit.FieldCode = Nothing
         Me.cboUnit.FieldDesc = Nothing
         Me.cboUnit.FieldMaxLength = 0
@@ -415,7 +408,7 @@ Partial Class RptLowProcurement
         Me.txtToKg.TabIndex = 3
         Me.txtToKg.Text = "0"
         Me.txtToKg.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtToKg.Value = 0.0R
+        Me.txtToKg.Value = 0R
         '
         'txtFromKg
         '
@@ -442,7 +435,7 @@ Partial Class RptLowProcurement
         Me.txtFromKg.TabIndex = 2
         Me.txtFromKg.Text = "0"
         Me.txtFromKg.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFromKg.Value = 0.0R
+        Me.txtFromKg.Value = 0R
         '
         'MyLabel2
         '
@@ -533,14 +526,16 @@ Partial Class RptLowProcurement
         Me.gv.MasterTemplate.AllowAddNewRow = False
         Me.gv.MasterTemplate.AllowDeleteRow = False
         Me.gv.MasterTemplate.EnableFiltering = True
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowGroupPanel = False
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(1022, 385)
         Me.gv.TabIndex = 3
-        Me.gv.Text = "gv"
         '
         'RadSplitButton1
         '
@@ -554,15 +549,11 @@ Partial Class RptLowProcurement
         '
         'rmExcel
         '
-        Me.rmExcel.AccessibleDescription = "Excel"
-        Me.rmExcel.AccessibleName = "Excel"
         Me.rmExcel.Name = "rmExcel"
         Me.rmExcel.Text = "Excel"
         '
         'rmPDF
         '
-        Me.rmPDF.AccessibleDescription = "PDF"
-        Me.rmPDF.AccessibleName = "PDF"
         Me.rmPDF.Name = "rmPDF"
         Me.rmPDF.Text = "PDF"
         '

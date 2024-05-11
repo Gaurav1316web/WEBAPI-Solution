@@ -10,6 +10,9 @@ Public Class clsDCSDemand
     Public Route_No As String = ""
     Public Location As String = ""
     Public Categories As String = ""
+    Public VehicleNo As String = ""
+    Public IsIndividualCustomer As Boolean = False
+    Public Cust_Code As String = ""
     Public Posted As Integer = 0
     Public Arr As List(Of clsDCSDemandDetail) = Nothing
 
@@ -32,12 +35,18 @@ Public Class clsDCSDemand
             If clsCommon.myLen(clsCommon.myCstr(obj.Document_No)) > 0 Then
                 qry = "delete from TSPL_DCS_DEMAND_BOOKING_DETAIL where tr_code in (select tr_code from TSPL_DCS_DEMAND_BOOKING_DETAIL where Document_No='" + obj.Document_No + "') "
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                qry = "delete from TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL where TRANS_Code='" + clsUserMgtCode.frmDCSDEmandBooking + "' and Document_Code in ( '" + obj.Document_No + "')"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
             End If
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Route_No", obj.Route_No)
             clsCommon.AddColumnsForChange(coll, "Location", obj.Location)
             clsCommon.AddColumnsForChange(coll, "Categories", obj.Categories)
+            clsCommon.AddColumnsForChange(coll, "VehicleNo", obj.VehicleNo)
+            clsCommon.AddColumnsForChange(coll, "IsIndividualCustomer", IIf(obj.IsIndividualCustomer, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "Cust_Code", obj.Cust_Code)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
 
@@ -55,7 +64,6 @@ Public Class clsDCSDemand
             End If
 
             clsDCSDemandDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, trans)
-
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -91,6 +99,9 @@ Public Class clsDCSDemand
             obj.Route_No = clsCommon.myCstr(dt.Rows(0)("Route_No"))
             obj.Location = clsCommon.myCstr(dt.Rows(0)("Location"))
             obj.Categories = clsCommon.myCstr(dt.Rows(0)("Categories"))
+            obj.VehicleNo = clsCommon.myCstr(dt.Rows(0)("VehicleNo"))
+            obj.IsIndividualCustomer = IIf(clsCommon.myCdbl(dt.Rows(0)("IsIndividualCustomer")) = 1, True, False)
+            obj.Cust_Code = clsCommon.myCstr(dt.Rows(0)("Cust_Code"))
             obj.Posted = clsCommon.myCdbl(dt.Rows(0)("Posted"))
 
             qry = "SELECT TSPL_DCS_DEMAND_BOOKING_DETAIL.*,tspl_item_master.Item_Desc FROM TSPL_DCS_DEMAND_BOOKING_DETAIL left outer join tspl_item_master on  " &

@@ -41,6 +41,8 @@ Public Class rptBMCPerodicalReport
             Gv1.Columns(ii).BestFit()
         Next
         '' Gv1.Columns("MCC Code").HeaderText = "BMC Code"
+        Gv1.Columns("Comp_Name").IsVisible = False
+        Gv1.Columns("Logo_Img").IsVisible = False
         Gv1.Columns("MCC Code").IsVisible = False
         Gv1.Columns("From_Date").IsVisible = False
         Gv1.Columns("To_Date").IsVisible = False
@@ -294,5 +296,35 @@ from  " & Environment.NewLine & ""
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Griddata(True)
+    End Sub
+
+    Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
+        Print(EnumExportTo.Excel)
+    End Sub
+
+    Private Sub rmiPDF_Click(sender As Object, e As EventArgs) Handles rmiPDF.Click
+        Print(EnumExportTo.PDF)
+    End Sub
+    Private Sub print(ByVal exporter As EnumExportTo)
+        Try
+            If Gv1.Rows.Count > 0 Then
+
+                Dim arrHeader As List(Of String) = New List(Of String)()
+                arrHeader.Add("Run Date : " + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Nothing, "dd/MM/yyyy hh:mm tt", False), "dd/MM/yyyy hh:mm tt")) ' clsCommon.myCDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy HH:MM"))
+                arrHeader.Add("User : " + objCommonVar.CurrentUser)
+                If exporter = EnumExportTo.Excel Then
+                    transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
+                    'transportSql.QuickExportToExcel(Gv1, "", "", , arrHeader)
+                    clsCommon.MyExportToExcelGrid(Me.Text, Gv1, arrHeader, Me.Text)
+                Else
+                    clsCommon.MyExportToPDF(Me.Text, Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

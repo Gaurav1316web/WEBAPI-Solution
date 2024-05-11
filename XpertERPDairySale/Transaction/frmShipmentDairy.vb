@@ -5532,10 +5532,12 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         Dim dblTotRate As Double = 0
         For ii As Integer = 1 To 10
             Dim strii As String = clsCommon.myCstr(ii)
-            If IntRowNo < 0 Then
-                dblTotRate = dblTotRate + clsCommon.myCdbl(gv1.CurrentRow.Cells(clsCommon.myCstr("COLTAXRate" + strii)).Value)
-            Else
-                dblTotRate = dblTotRate + clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXRate" + strii)).Value)
+            If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAX" + strii)).Value), "TCS") <> CompairStringResult.Equal Then
+                If IntRowNo < 0 Then
+                    dblTotRate = dblTotRate + clsCommon.myCdbl(gv1.CurrentRow.Cells(clsCommon.myCstr("COLTAXRate" + strii)).Value)
+                Else
+                    dblTotRate = dblTotRate + clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXRate" + strii)).Value)
+                End If
             End If
         Next
         Return dblTotRate
@@ -6150,9 +6152,9 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
     End Sub
     Function AllowToSave(ByVal ChekPostBtn As Boolean, Optional ByVal UpdateCustomerAfterPost As Boolean = False) As Boolean
         Try
-            'If SettDistributorWiseBilling Then
-            '    MergeDistributorItems(True)
-            'End If
+            If SettDistributorWiseBilling Then
+                MergeDistributorItems(True, False, trans)
+            End If
             'Sanjay Ticket No- ERO/02/07/18-000365 not allow to update record if it is posted
             If UpdateCustomerAfterPost <> True Then
                 If Not isNewEntry AndAlso clsCommon.myLen(txtDocNo.Value) > 0 Then
@@ -7468,7 +7470,7 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
                 Throw New Exception("Please Fill at list one Item")
                 Return False
             End If
-            If clsCommon.myLen(ParentDocNo) = 0 Then
+            If clsCommon.CompairString(ParentDocNo, obj.Document_Code) = CompairStringResult.Equal Then
                 obj.ArrDemand = New List(Of clsPSShipmentDemand)
                 For ii As Integer = 0 To gvDistributor.Rows.Count - 1
                     Dim objD As New clsPSShipmentDemand
@@ -11592,9 +11594,9 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                     Dim strQry1 As String = "select TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code  from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER
 left join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code=TSPL_DISTRIBUTOR_ROUTE.Code
                 where TSPL_DISTRIBUTOR_ROUTE.Status=1 and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code in(
-select max(TSPL_DISTRIBUTOR_ROUTE.Code) from TSPL_DISTRIBUTOR_ROUTE
+select top 1 TSPL_DISTRIBUTOR_ROUTE.Code from TSPL_DISTRIBUTOR_ROUTE
 left join TSPL_DISTRIBUTOR_ROUTE_CUSTOMER on TSPL_DISTRIBUTOR_ROUTE.Code=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code
-where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No='" + txtRouteNo.Value + "' and 2=(Case when TSPL_DISTRIBUTOR_ROUTE.End_Date is null then 2 else (Case when TSPL_DISTRIBUTOR_ROUTE.End_Date>='" + clsCommon.GetPrintDate(txtDate.Value) + "' then 2 else 3 end) end))
+where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No='" + txtRouteNo.Value + "' and 2=(Case when TSPL_DISTRIBUTOR_ROUTE.End_Date is null then 2 else (Case when TSPL_DISTRIBUTOR_ROUTE.End_Date>='" + clsCommon.GetPrintDate(txtDate.Value) + "' then 2 else 3 end) end) order by Start_Date desc)
  and TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No='" + txtRouteNo.Value + "' and 2=(Case when TSPL_DISTRIBUTOR_ROUTE.End_Date is null then 2 else (Case when TSPL_DISTRIBUTOR_ROUTE.End_Date>='" + clsCommon.GetPrintDate(txtDate.Value) + "' then 2 else 3 end) end)"
                     txtVendorNo.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strQry1))
                     strQry1 = "select Cust_Code as Code,Customer_Name as Name,ISNULL(TSPL_CUSTOMER_MASTER.Alies_Name,'') As [Alies Name],TSPL_CUSTOMER_MASTER.add1 +case when len(TSPL_CUSTOMER_MASTER.add2)>0 then ', '+TSPL_CUSTOMER_MASTER.add2 else '' end +case when LEN(isnull(TSPL_CUSTOMER_MASTER.Add3,''))>0 then ', '+isnull(TSPL_CUSTOMER_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER.City_Name)>0 then ', '+TSPL_CITY_MASTER.City_Name else ' ' end + case when len(TSPL_CUSTOMER_MASTER.State )>0 then TSPL_CUSTOMER_MASTER.State else '' end  as Address,TSPL_CUSTOMER_MASTER.Terms_Code as [Term Code] , TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Terms_Desc as [Term Description] ,Tax_Group as [Tax Group],Tax_Group_Desc as [Tax Group Description],Salesman_Code as [Salesman Code],Salesman_Desc as Salesman  " &
@@ -14231,6 +14233,7 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
                 gvDistributor.CurrentRow.Cells("Qty").Value = gvDistributor.CurrentRow.Cells("DemandQty").Value
             End If
         End If
+        'MergeDistributorItems(True, False, trans)
     End Sub
     Private Sub calculateFOR(ByVal intRow As Integer, ByVal trans As SqlTransaction)
         Try

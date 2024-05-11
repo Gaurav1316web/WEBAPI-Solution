@@ -22,6 +22,7 @@ Partial Class rptMccCollectionDetails
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -29,6 +30,10 @@ Partial Class rptMccCollectionDetails
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.cboShift = New common.Controls.MyComboBox()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.txtMCC = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel3 = New common.Controls.MyLabel()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadLabel2 = New common.Controls.MyLabel()
         Me.RadLabel1 = New common.Controls.MyLabel()
@@ -42,10 +47,6 @@ Partial Class rptMccCollectionDetails
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel3 = New common.Controls.MyLabel()
-        Me.txtMCC = New common.UserControls.txtMultiSelectFinder()
-        Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.cboShift = New common.Controls.MyComboBox()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -53,6 +54,9 @@ Partial Class rptMccCollectionDetails
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.cboShift, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -66,9 +70,6 @@ Partial Class rptMccCollectionDetails
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cboShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -79,27 +80,20 @@ Partial Class rptMccCollectionDetails
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(692, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmsaveLayout, Me.rmDeleteLayout})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
         '
         'rmsaveLayout
         '
-        Me.rmsaveLayout.AccessibleDescription = "Save Layout"
-        Me.rmsaveLayout.AccessibleName = "Save Layout"
         Me.rmsaveLayout.Name = "rmsaveLayout"
         Me.rmsaveLayout.Text = "Save Layout"
         '
         'rmDeleteLayout
         '
-        Me.rmDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.rmDeleteLayout.AccessibleName = "Delete Layout"
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
         '
@@ -136,7 +130,6 @@ Partial Class rptMccCollectionDetails
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(692, 326)
         Me.RadPageView1.TabIndex = 11
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -151,6 +144,65 @@ Partial Class rptMccCollectionDetails
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(671, 278)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'cboShift
+        '
+        Me.cboShift.AutoCompleteDisplayMember = Nothing
+        Me.cboShift.AutoCompleteValueMember = Nothing
+        Me.cboShift.CalculationExpression = Nothing
+        Me.cboShift.DropDownAnimationEnabled = True
+        Me.cboShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboShift.FieldCode = Nothing
+        Me.cboShift.FieldDesc = Nothing
+        Me.cboShift.FieldMaxLength = 0
+        Me.cboShift.FieldName = Nothing
+        Me.cboShift.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboShift.isCalculatedField = False
+        Me.cboShift.IsSourceFromTable = False
+        Me.cboShift.IsSourceFromValueList = False
+        Me.cboShift.IsUnique = False
+        Me.cboShift.Location = New System.Drawing.Point(58, 78)
+        Me.cboShift.MendatroryField = False
+        Me.cboShift.MyLinkLable1 = Nothing
+        Me.cboShift.MyLinkLable2 = Nothing
+        Me.cboShift.Name = "cboShift"
+        Me.cboShift.ReferenceFieldDesc = Nothing
+        Me.cboShift.ReferenceFieldName = Nothing
+        Me.cboShift.ReferenceTableName = Nothing
+        Me.cboShift.Size = New System.Drawing.Size(112, 18)
+        Me.cboShift.TabIndex = 405
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Location = New System.Drawing.Point(19, 78)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(29, 18)
+        Me.MyLabel1.TabIndex = 403
+        Me.MyLabel1.Text = "Shift"
+        '
+        'txtMCC
+        '
+        Me.txtMCC.arrDispalyMember = Nothing
+        Me.txtMCC.arrValueMember = Nothing
+        Me.txtMCC.Location = New System.Drawing.Point(58, 55)
+        Me.txtMCC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMCC.MyLinkLable1 = Me.MyLabel3
+        Me.txtMCC.MyLinkLable2 = Nothing
+        Me.txtMCC.MyNullText = "All"
+        Me.txtMCC.Name = "txtMCC"
+        Me.txtMCC.Size = New System.Drawing.Size(408, 19)
+        Me.txtMCC.TabIndex = 402
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Location = New System.Drawing.Point(19, 55)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(30, 18)
+        Me.MyLabel3.TabIndex = 400
+        Me.MyLabel3.Text = "BMC"
         '
         'RadGroupBox3
         '
@@ -235,13 +287,15 @@ Partial Class rptMccCollectionDetails
         '
         '
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
+        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(671, 278)
         Me.Gv1.TabIndex = 0
-        Me.Gv1.Text = "RadGridView1"
         '
         'btnSplitExport
         '
@@ -255,15 +309,11 @@ Partial Class rptMccCollectionDetails
         '
         'rmiExcel
         '
-        Me.rmiExcel.AccessibleDescription = "Excel"
-        Me.rmiExcel.AccessibleName = "Excel"
         Me.rmiExcel.Name = "rmiExcel"
         Me.rmiExcel.Text = "Excel"
         '
         'rmiPDF
         '
-        Me.rmiPDF.AccessibleDescription = "PDF"
-        Me.rmiPDF.AccessibleName = "PDF"
         Me.rmiPDF.Name = "rmiPDF"
         Me.rmiPDF.Text = "PDF"
         '
@@ -297,64 +347,6 @@ Partial Class rptMccCollectionDetails
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'MyLabel3
-        '
-        Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(19, 55)
-        Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(30, 18)
-        Me.MyLabel3.TabIndex = 400
-        Me.MyLabel3.Text = "MCC"
-        '
-        'txtMCC
-        '
-        Me.txtMCC.arrDispalyMember = Nothing
-        Me.txtMCC.arrValueMember = Nothing
-        Me.txtMCC.Location = New System.Drawing.Point(58, 55)
-        Me.txtMCC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtMCC.MyLinkLable1 = Me.MyLabel3
-        Me.txtMCC.MyLinkLable2 = Nothing
-        Me.txtMCC.MyNullText = "All"
-        Me.txtMCC.Name = "txtMCC"
-        Me.txtMCC.Size = New System.Drawing.Size(408, 19)
-        Me.txtMCC.TabIndex = 402
-        '
-        'MyLabel1
-        '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Location = New System.Drawing.Point(19, 78)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(29, 18)
-        Me.MyLabel1.TabIndex = 403
-        Me.MyLabel1.Text = "Shift"
-        '
-        'cboShift
-        '
-        Me.cboShift.AutoCompleteDisplayMember = Nothing
-        Me.cboShift.AutoCompleteValueMember = Nothing
-        Me.cboShift.CalculationExpression = Nothing
-        Me.cboShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.cboShift.FieldCode = Nothing
-        Me.cboShift.FieldDesc = Nothing
-        Me.cboShift.FieldMaxLength = 0
-        Me.cboShift.FieldName = Nothing
-        Me.cboShift.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cboShift.isCalculatedField = False
-        Me.cboShift.IsSourceFromTable = False
-        Me.cboShift.IsSourceFromValueList = False
-        Me.cboShift.IsUnique = False
-        Me.cboShift.Location = New System.Drawing.Point(58, 78)
-        Me.cboShift.MendatroryField = False
-        Me.cboShift.MyLinkLable1 = Nothing
-        Me.cboShift.MyLinkLable2 = Nothing
-        Me.cboShift.Name = "cboShift"
-        Me.cboShift.ReferenceFieldDesc = Nothing
-        Me.cboShift.ReferenceFieldName = Nothing
-        Me.cboShift.ReferenceTableName = Nothing
-        Me.cboShift.Size = New System.Drawing.Size(112, 18)
-        Me.cboShift.TabIndex = 405
-        '
         'rptMccCollectionDetails
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -376,6 +368,9 @@ Partial Class rptMccCollectionDetails
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.cboShift, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
         Me.RadGroupBox3.PerformLayout()
@@ -390,9 +385,6 @@ Partial Class rptMccCollectionDetails
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cboShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

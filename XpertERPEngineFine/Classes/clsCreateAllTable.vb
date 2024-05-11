@@ -8174,6 +8174,9 @@ Public Class clsCreateAllTable
             coll.Add("Route_No", "varchar(30) NULL REFERENCES TSPL_BULK_ROUTE_MASTER (ROUTE_NO)")
             coll.Add("Location", "Varchar(12) NULL  References TSPL_LOCATION_MASTER(Location_Code)")
             coll.Add("Categories", "Varchar(2) Not NULL")
+            coll.Add("VehicleNo", "Varchar(20) NULL")
+            coll.Add("IsIndividualCustomer", "int NULL")
+            coll.Add("Cust_Code", "varchar(30) NULL")
             coll.Add("Posted", "int not NULL default 0")
             coll.Add("Posting_Date", "Datetime NULL")
             coll.Add("Created_By", "varchar(12) NOT NULL")
@@ -25019,6 +25022,7 @@ Public Class clsCreateAllTable
             coll.Add("SRN_CODE", "Varchar(30) null references TSPL_MILK_SRN_HEAD(DOC_CODE)")
             coll.Add("Amt", "DECIMAL(18,2) NULL")
             coll.Add("Against_Milk_Collection_MCC_Detail", "integer NULL references TSPL_MILK_COLLECTION_MCC_DETAIL(PK_Id)")
+            coll.Add("Against_Milk_Collection_DCS", "Varchar(30) null references TSPL_MILK_COLLECTION_DCS(Document_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED", coll, Nothing, False, False, "TSPL_MILK_PURCHASE_INVOICE_HEAD", "InvoiceNo", "")
 
             qry = "alter table TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED alter column SRN_CODE varchar(30) null"
