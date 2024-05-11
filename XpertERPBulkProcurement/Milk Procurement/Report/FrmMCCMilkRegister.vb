@@ -3683,7 +3683,12 @@ Public Class FrmMCCMilkRegister
                     Else
                         RouteWiseQry += "'Sweet'As [Quality],"
                     End If
-                    RouteWiseQry += "TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2 from (" + FinalQuery + ")xxxFinal Left Join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "'  Order By Date asc,Shift desc,[Route Code] asc"
+                    RouteWiseQry += "TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2 from (" + FinalQuery + ")xxxFinal Left Join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "' "
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
+                        RouteWiseQry += " Order By Convert(int,[Route Code]) asc,Date asc,Shift desc"
+                    Else
+                        RouteWiseQry += " Order By Date asc,Shift desc,[Route Code] asc"
+                    End If
                     Dim dtRouteWise As DataTable = clsDBFuncationality.GetDataTable(RouteWiseQry)
                     If dtRouteWise.Rows.Count > 0 Then
                         Dim frmCRV As New frmCrystalReportViewer()
