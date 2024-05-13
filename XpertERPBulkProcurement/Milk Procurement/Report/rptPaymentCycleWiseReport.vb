@@ -406,8 +406,7 @@ Public Class rptPaymentCycleWiseReport
 
     Private Sub txtZone__My_Click(sender As Object, e As EventArgs) Handles txtZone._My_Click
         Try
-            Dim qry As String = " select Zone_Code as Zone,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [VLC Uploader Code],TSPL_VLC_MASTER_HEAD.VLC_Name as [VLC Name]  from TSPL_VENDOR_MASTER
-              left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_VENDOR_MASTER.Vendor_Code where Form_Type='VSP'"
+            Dim qry As String = " select Zone_Code ,Description as Name from TSPL_ZONE_MASTER"
             txtZone.arrValueMember = clsCommon.ShowMultipleSelectForm("ZONEFinder", qry, "Zone", "", txtDCS.arrValueMember, txtZone.arrDispalyMember)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
