@@ -210,18 +210,18 @@ where  Coalesce(Is_Incentive_Created,'N')='N' and  VSP_CODE='" & VSP & "' "
                             CreateVSPDebitNoteOfTIP(VSP, txtToDate, strMCCCode, trans) ''By Balwinder on 16/12/2019
                         End If
 
-                        qry = " select DOC_CODE from ( select TSPL_MILK_REJECT_DETAIL.DOC_CODE  from TSPL_MILK_REJECT_DETAIL" + Environment.NewLine +
-                        " left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE=TSPL_MILK_REJECT_DETAIL.DOC_CODE " + Environment.NewLine +
-                        " where " + Environment.NewLine +
-                        " TSPL_MILK_REJECT_HEAD.POSTED=1 and TSPL_MILK_REJECT_DETAIL.Defaulter in ('Transporter','VSP') and TSPL_MILK_REJECT_HEAD.MCC_CODE ='" + strMCCCode + "' and TSPL_MILK_REJECT_DETAIL.VSP_CODE in ('" + VSP + "') and  " + Environment.NewLine +
-                        " TSPL_MILK_REJECT_HEAD.DOC_DATE>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_REJECT_HEAD.DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate), "dd/MMM/yyyy hh:mm tt") + "' and not exists (select 1 from TSPL_VENDOR_INVOICE_HEAD where TSPL_VENDOR_INVOICE_HEAD.RefDocType='MILK-REJ' and TSPL_VENDOR_INVOICE_HEAD.RefDocNo=TSPL_MILK_REJECT_DETAIL.DOC_CODE " + Environment.NewLine   ''and TSPL_VENDOR_INVOICE_HEAD.Ref_SNo=TSPL_MILK_REJECT_DETAIL.SAMPLE_NO
-                        qry += "))xx group by DOC_CODE"
-                        dt = clsDBFuncationality.GetDataTable(qry, trans)
-                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                            For Each dr As DataRow In dt.Rows
-                                clsMilkRejectHead.CreateDebitNoteForRejection(txtFromDate, txtToDate, clsCommon.myCstr(dr("DOC_CODE")), trans)
-                            Next
-                        End If
+                        'qry = " select DOC_CODE from ( select TSPL_MILK_REJECT_DETAIL.DOC_CODE  from TSPL_MILK_REJECT_DETAIL" + Environment.NewLine +
+                        '" left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE=TSPL_MILK_REJECT_DETAIL.DOC_CODE " + Environment.NewLine +
+                        '" where " + Environment.NewLine +
+                        '" TSPL_MILK_REJECT_HEAD.POSTED=1 and TSPL_MILK_REJECT_DETAIL.Defaulter in ('Transporter','VSP') and TSPL_MILK_REJECT_HEAD.MCC_CODE ='" + strMCCCode + "' and TSPL_MILK_REJECT_DETAIL.VSP_CODE in ('" + VSP + "') and  " + Environment.NewLine +
+                        '" TSPL_MILK_REJECT_HEAD.DOC_DATE>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_REJECT_HEAD.DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate), "dd/MMM/yyyy hh:mm tt") + "' and not exists (select 1 from TSPL_VENDOR_INVOICE_HEAD where TSPL_VENDOR_INVOICE_HEAD.RefDocType='MILK-REJ' and TSPL_VENDOR_INVOICE_HEAD.RefDocNo=TSPL_MILK_REJECT_DETAIL.DOC_CODE " + Environment.NewLine   ''and TSPL_VENDOR_INVOICE_HEAD.Ref_SNo=TSPL_MILK_REJECT_DETAIL.SAMPLE_NO
+                        'qry += "))xx group by DOC_CODE"
+                        'dt = clsDBFuncationality.GetDataTable(qry, trans)
+                        'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        '    For Each dr As DataRow In dt.Rows
+                        '        clsMilkRejectHead.CreateDebitNoteForRejection(txtFromDate, txtToDate, clsCommon.myCstr(dr("DOC_CODE")), trans)
+                        '    Next
+                        'End If
                         'Throw New Exception("Balwinder singh premi")
                         trans.Commit()
                     Catch ex As Exception
@@ -1484,6 +1484,8 @@ left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.vendor_Code=TSPL_MILK_SRN_HEA
 left join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_MILK_SRN_HEAD.VEHICLE_CODE 
 left join TSPL_MCC_ROUTE_MASTER on TSPL_MCC_ROUTE_MASTER.Route_Code=TSPL_MILK_SRN_HEAD.ROUTE_CODE 
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.mcc_code=TSPL_MILK_SRN_HEAD.mcc_code 
+left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
+left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No
 where  TSPL_MILK_SRN_HEAD.Posted=1 and tspl_Milk_Srn_Head.is_incentive_Created='N' "
         If strSRN_No IsNot Nothing AndAlso strSRN_No.Count > 0 Then
             qry += " and TSPL_MILK_SRN_DETAIL.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No) + ")"
@@ -1493,7 +1495,7 @@ where  TSPL_MILK_SRN_HEAD.Posted=1 and tspl_Milk_Srn_Head.is_incentive_Created='
         Else
             qry += " and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) Between convert(date,'" & clsCommon.GetPrintDate(frm_date, "dd-MMM-yyyy") & "',103) and convert(date,'" & clsCommon.GetPrintDate(End_date, "dd-MMM-yyyy") & "',103) "
         End If
-        qry += " and 2= (case when isnull(TSPL_MCC_MASTER.Failed_Sample_Apply,0)=1 and (TSPL_MILK_SRN_DETAIL.FAT_PER<TSPL_MCC_MASTER.Failed_Sample_FAT or TSPL_MILK_SRN_DETAIL.SNF_PER<TSPL_MCC_MASTER.Failed_Sample_SNF) and isnull(TSPL_MILK_SRN_head.Failed_Sample_Status,0)=0 and isnull( TSPL_MILK_SRN_head.Against_Reject_No,'')='' then 3 else 2 end) "
+        qry += " and 2= (case when isnull(TSPL_MCC_MASTER.Failed_Sample_Apply,0)=1 and (TSPL_MILK_SRN_DETAIL.FAT_PER<TSPL_MCC_MASTER.Failed_Sample_FAT or TSPL_MILK_SRN_DETAIL.SNF_PER<TSPL_MCC_MASTER.Failed_Sample_SNF) and isnull(TSPL_MILK_SRN_head.Failed_Sample_Status,0)=0 and len(ISNULL(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,''))<=0 and len(ISNULL(TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,''))<=0 then 3 else 2 end) "
         If clsCommon.myLen(Vsp_Name) > 0 Then
             qry += " and TSPL_MILK_SRN_HEAD.VSP_Code='" + Vsp_Name + "'"
         End If
@@ -4200,12 +4202,13 @@ where  TSPL_MILK_SRN_HEAD.MCC_CODE='" + objHead.MCC_CODE + "' and TSPL_MILK_SRN_
             dtAmt = clsDBFuncationality.GetDataTable(qry, trans)
             If dtAmt IsNot Nothing AndAlso dtAmt.Rows.Count > 0 Then
 #Region "Create DCS Addition/Deduction"
-                qry = "insert into TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED (InvoiceNo,Against_DCS_ADDITION_DEDUCTION,SRN_CODE,Against_Milk_Collection_MCC_Detail,Amt)
-select '" + objHead.DOC_CODE + "' as InvoiceNo,Code, DOC_CODE,null as Against_Milk_Collection_MCC_Detail,((((case when Applicable_On=0 then (case when Qty_UOM=2 then ACC_Qty else (case when Qty_UOM=1 then ACC_WEIGHT_LTR else Qty end) end) else AMOUNT end) * Applicable_Value) / (case when Applicable_Type=0 then 1 else 100 end ))*Conversion) as Amt from ( 
-select  TSPL_MILK_SRN_HEAD.DOC_CODE,TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_DETAIL.Qty,TSPL_MILK_SRN_DETAIL.ACC_Qty,(case when len(isnull(TSPL_MILK_SRN_HEAD.Against_Reject_No,''))<=2 then TSPL_MILK_SRN_DETAIL.ACC_Qty_LTR else TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_LTR end) as ACC_WEIGHT_LTR,TSPL_MILK_SRN_DETAIL.AMOUNT, TSPL_DCS_ADDITION_DEDUCTION.Code,TSPL_DCS_ADDITION_DEDUCTION.Applicable_On,TSPL_DCS_ADDITION_DEDUCTION.Qty_UOM,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value,TSPL_DCS_ADDITION_DEDUCTION.Conversion 
+                qry = "insert into TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED (InvoiceNo,Against_DCS_ADDITION_DEDUCTION,SRN_CODE,Against_Milk_Collection_MCC_Detail,Amt,Against_Milk_Collection_DCS)
+select '" + objHead.DOC_CODE + "' as InvoiceNo,Code, DOC_CODE,null as Against_Milk_Collection_MCC_Detail,((((case when Applicable_On=0 then (case when Qty_UOM=2 then ACC_Qty else (case when Qty_UOM=1 then ACC_WEIGHT_LTR else Qty end) end) else AMOUNT end) * Applicable_Value) / (case when Applicable_Type=0 then 1 else 100 end ))*Conversion) as Amt,null as Against_Milk_Collection_DCS from ( 
+select  TSPL_MILK_SRN_HEAD.DOC_CODE,TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_DETAIL.Qty,TSPL_MILK_SRN_DETAIL.ACC_Qty,TSPL_MILK_SRN_DETAIL.ACC_Qty_LTR as ACC_WEIGHT_LTR,TSPL_MILK_SRN_DETAIL.AMOUNT, TSPL_DCS_ADDITION_DEDUCTION.Code,TSPL_DCS_ADDITION_DEDUCTION.Applicable_On,TSPL_DCS_ADDITION_DEDUCTION.Qty_UOM,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value,TSPL_DCS_ADDITION_DEDUCTION.Conversion 
 from TSPL_MILK_SRN_DETAIL 
 inner join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE
-left outer join  TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.Against_Reject_No and TSPL_MILK_REJECT_DETAIL.SAMPLE_NO=TSPL_MILK_SRN_HEAD.SAMPLE_NO
+left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No
+left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
 inner join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SRN_HEAD.VLC_CODE
 inner join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code
 inner join TSPL_DCS_ADDITION_DEDUCTION on TSPL_MILK_SRN_HEAD.DOC_DATE>=TSPL_DCS_ADDITION_DEDUCTION.Start_Date
@@ -4227,14 +4230,14 @@ and (2= case when TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=0 then 2 else
 (case when TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=3 and isnull(TSPL_VLC_MASTER_HEAD.isOwnBMC,0)=1 and TSPL_VLC_MASTER_HEAD.MCC=TSPL_MILK_SRN_HEAD.MCC_CODE  then 2  else 
 (case when TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=4 and isnull(TSPL_VLC_MASTER_HEAD.isOwnBMC,0)=0  then 2  else 1 
 end) end) end) end) end )
-and TSPL_DCS_ADDITION_DEDUCTION.Milk_Type like '%'''+isnull(TSPL_MILK_REJECT_DETAIL.Reject_Type,'Good')+'''%' 
+and TSPL_DCS_ADDITION_DEDUCTION.Milk_Type like '%'''+isnull((case when len(isnull(TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No,''))>0 then TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type else (case when len(isnull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No,''))>0 then TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type else null end)  end),'Good')+'''%' 
 )x"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
 
 
-                qry = "insert into TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED (InvoiceNo,Against_DCS_ADDITION_DEDUCTION,SRN_CODE,Against_Milk_Collection_MCC_Detail,Amt)
-select '" + objHead.DOC_CODE + "' as InvoiceNo,Code,null as SRN_CODE,PK_Id,((((case when Applicable_On=0 then Qty else AMOUNT end) * Applicable_Value) / (case when Applicable_Type=0 then 1 else 100 end ))*Conversion) as Amt from (
+                qry = "insert into TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED (InvoiceNo,Against_DCS_ADDITION_DEDUCTION,SRN_CODE,Against_Milk_Collection_MCC_Detail,Amt,Against_Milk_Collection_DCS)
+select '" + objHead.DOC_CODE + "' as InvoiceNo,Code,null as SRN_CODE,PK_Id,((((case when Applicable_On=0 then Qty else AMOUNT end) * Applicable_Value) / (case when Applicable_Type=0 then 1 else 100 end ))*Conversion) as Amt,null as Against_Milk_Collection_DCS from (
 select  TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id,TSPL_MILK_COLLECTION_MCC.Document_Date,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty,0 as AMOUNT, TSPL_DCS_ADDITION_DEDUCTION.Code,TSPL_DCS_ADDITION_DEDUCTION.Applicable_On,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value ,TSPL_DCS_ADDITION_DEDUCTION.Conversion 
 from TSPL_MILK_COLLECTION_MCC_DETAIL
 left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
@@ -4258,6 +4261,37 @@ and (2=(case when TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=5 and isnull(T
 and TSPL_DCS_ADDITION_DEDUCTION.Milk_Type like '%'''+trim(isnull(TSPL_MILK_COLLECTION_MCC_DETAIL.Milk_Type,'Good'))+'''%'
 )x"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "insert into TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED (InvoiceNo,Against_DCS_ADDITION_DEDUCTION,SRN_CODE,Against_Milk_Collection_MCC_Detail,Amt,Against_Milk_Collection_DCS)
+select '" + objHead.DOC_CODE + "' as InvoiceNo,Code,null as SRN_CODE,null as PK_Id,((((case when Applicable_On=0 then Qty else AMOUNT end) * Applicable_Value) / (case when Applicable_Type=0 then 1 else 100 end ))*Conversion) as Amt,Document_No as Against_Milk_Collection_DCS from (
+select  TAB_TSPL_MILK_COLLECTION_DCS.Document_No,TAB_TSPL_MILK_COLLECTION_DCS.Document_Date,TAB_TSPL_MILK_COLLECTION_DCS.Qty,0 as AMOUNT, TSPL_DCS_ADDITION_DEDUCTION.Code,TSPL_DCS_ADDITION_DEDUCTION.Applicable_On,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value ,TSPL_DCS_ADDITION_DEDUCTION.Conversion  from (
+select Document_No,max(Document_Date) as Document_Date,Milk_Type,sum(Qty) as Qty from (
+select TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No,TSPL_MILK_COLLECTION_DCS.Document_Date,TSPL_MILK_COLLECTION_DCS_DETAIL.Qty,TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type
+from TSPL_MILK_COLLECTION_DCS_DETAIL
+left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No=TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
+left outer join (select Document_No,max(Against_Milk_Collection_MCC_Detail) Against_Milk_Collection_MCC_Detail from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL group by Document_No) as TAB_TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TAB_TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No=TSPL_MILK_COLLECTION_DCS.Document_No
+left outer join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=TAB_TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail
+where TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code='" + objHead.MCC_CODE + "' and CONVERT(date,TSPL_MILK_COLLECTION_DCS.Document_Date,103)>='" + clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_MILK_COLLECTION_DCS.Document_Date,103)<='" + clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") + "'
+)x Group by Document_No,Milk_Type) TAB_TSPL_MILK_COLLECTION_DCS
+inner join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.MCC='" + objHead.MCC_CODE + "' and isnull(TSPL_VLC_MASTER_HEAD.isOwnBMC,0)=1
+inner join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code
+inner join TSPL_DCS_ADDITION_DEDUCTION on CONVERT(date, TAB_TSPL_MILK_COLLECTION_DCS.Document_Date,103)>=TSPL_DCS_ADDITION_DEDUCTION.Start_Date
+inner join (select Code,VLC_Code from (
+select TSPL_DCS_ADDITION_DEDUCTION.Code ,TSPL_VLC_MASTER_HEAD.VLC_Code,1 as RI
+from TSPL_DCS_ADDITION_DEDUCTION,TSPL_VLC_MASTER_HEAD
+union all
+select TSPL_DCS_ADDITION_DEDUCTION_DCS_EXCLUDE.Code,TSPL_DCS_ADDITION_DEDUCTION_DCS_EXCLUDE.DCS_Exclude as VLC_Code,-1 RI
+from TSPL_DCS_ADDITION_DEDUCTION_DCS_EXCLUDE
+)x Group by Code,VLC_Code having sum(RI)>0) as TAB_DCS_ADDITION_DEDUCTION_DCS on TAB_DCS_ADDITION_DEDUCTION_DCS.Code=TSPL_DCS_ADDITION_DEDUCTION.Code and TAB_DCS_ADDITION_DEDUCTION_DCS.VLC_Code=TSPL_VLC_MASTER_HEAD.VLC_Code
+where TSPL_DCS_ADDITION_DEDUCTION.Posted=1 and 
+isnull(TSPL_DCS_ADDITION_DEDUCTION.Inactive,0)=0 and TSPL_VLC_MASTER_HEAD.VLC_Code='" + strVLCCode + "'
+and (2= case when ISNULL(TSPL_DCS_ADDITION_DEDUCTION.Check_Saving_AC,0)=0 then 2 else (case when TSPL_DCS_ADDITION_DEDUCTION.Check_Saving_AC=1 and len(isnull(TSPL_VENDOR_MASTER.AccNo2,''))>0 then 2 else (case when TSPL_DCS_ADDITION_DEDUCTION.Check_Saving_AC=2 and len(isnull(TSPL_VENDOR_MASTER.AccNo2,''))<=0 then 2 else 3 end ) end ) end )
+and (2= case when TSPL_DCS_ADDITION_DEDUCTION.End_Date is null then 2 else case when CONVERT(date, TAB_TSPL_MILK_COLLECTION_DCS.Document_Date,103)<= TSPL_DCS_ADDITION_DEDUCTION.End_Date then 2 else 3 end end) 
+and (2=(case when TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=6 and isnull(TSPL_VLC_MASTER_HEAD.isOwnBMC,0)=1 and TSPL_VLC_MASTER_HEAD.MCC='" + objHead.MCC_CODE + "'  then 2  else 1 end))
+and TSPL_DCS_ADDITION_DEDUCTION.Milk_Type like '%'''+trim(isnull(TAB_TSPL_MILK_COLLECTION_DCS.Milk_Type,'Good'))+'''%'
+)x"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
                 ''Now Create Dr/Cr Note
                 qry = "select xxx.Against_DCS_ADDITION_DEDUCTION,xxx.Amt,TSPL_DCS_ADDITION_DEDUCTION.Apply_TDS,TSPL_DCS_ADDITION_DEDUCTION.Nature_Type,TSPL_DCS_ADDITION_DEDUCTION.GL_Account,TSPL_DCS_ADDITION_DEDUCTION.Saving,TSPL_DCS_ADDITION_DEDUCTION.Mapping_Matching,TSPL_DCS_ADDITION_DEDUCTION.RO_Decimal_Places,TSPL_DCS_ADDITION_DEDUCTION.RO_Increase_After
 ,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type,TSPL_DCS_ADDITION_DEDUCTION.Applicable_On
@@ -5727,16 +5761,6 @@ a:      Next
             qry += " and DOC_DATE>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate), "dd/MMM/yyyy hh:mm tt") + "'"
         End If
         qry += " and DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate), "dd/MMM/yyyy hh:mm tt") + "' " + Environment.NewLine +
-        " union all " + Environment.NewLine +
-        " select VSP_CODE,VLC_CODE as VLC_CODE,ROUTE_CODE from TSPL_MILK_REJECT_DETAIL left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE=TSPL_MILK_REJECT_DETAIL.DOC_CODE where TSPL_MILK_REJECT_HEAD.Posted=1 "
-
-        qry += " and TSPL_MILK_REJECT_HEAD.MCC_CODE in (" + clsCommon.GetMulcallString(arrMCC) + ")"
-
-
-        If Not isPickPendingMilkSRNinNextPaymentCycle Then
-            qry += " and TSPL_MILK_REJECT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate), "dd/MMM/yyyy hh:mm tt") + "'"
-        End If
-        qry += " and TSPL_MILK_REJECT_HEAD.DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate), "dd/MMM/yyyy hh:mm tt") + "' " + Environment.NewLine +
         " )x group by VSP_CODE,ROUTE_CODE " + Environment.NewLine
         If arrVSP IsNot Nothing AndAlso arrVSP.Count > 0 Then
             qry += " having VSP_CODE in (" + clsCommon.GetMulcallString(arrVSP) + ") "
@@ -5991,16 +6015,6 @@ a:      Next
             qry += " and DOC_DATE>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate), "dd/MMM/yyyy hh:mm tt") + "'"
         End If
         qry += " and DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate), "dd/MMM/yyyy hh:mm tt") + "' " + Environment.NewLine +
-        " union all " + Environment.NewLine +
-        " select VSP_CODE,VLC_CODE as VLC_CODE,ROUTE_CODE from TSPL_MILK_REJECT_DETAIL left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE=TSPL_MILK_REJECT_DETAIL.DOC_CODE where TSPL_MILK_REJECT_HEAD.Posted=1 "
-
-        qry += " and TSPL_MILK_REJECT_HEAD.MCC_CODE in (" + clsCommon.GetMulcallString(arrMCC) + ")"
-
-
-        If Not isPickPendingMilkSRNinNextPaymentCycle Then
-            qry += " and TSPL_MILK_REJECT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate), "dd/MMM/yyyy hh:mm tt") + "'"
-        End If
-        qry += " and TSPL_MILK_REJECT_HEAD.DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate), "dd/MMM/yyyy hh:mm tt") + "' " + Environment.NewLine +
         " )x group by VSP_CODE,ROUTE_CODE " + Environment.NewLine
         If arrVSP IsNot Nothing AndAlso arrVSP.Count > 0 Then
             qry += " having VSP_CODE in (" + clsCommon.GetMulcallString(arrVSP) + ") "

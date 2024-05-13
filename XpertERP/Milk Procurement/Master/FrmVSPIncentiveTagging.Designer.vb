@@ -197,7 +197,7 @@ Partial Class FrmVSPIncentiveTagging
         Me.txtVSP.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtVSP.MyLinkLable1 = Me.MyLabel1
         Me.txtVSP.MyLinkLable2 = Nothing
-        Me.txtVSP.MyNullText = "Select VSP..."
+        Me.txtVSP.MyNullText = "Select Secretary..."
         Me.txtVSP.Name = "txtVSP"
         Me.txtVSP.Size = New System.Drawing.Size(394, 19)
         Me.txtVSP.TabIndex = 383
@@ -211,7 +211,7 @@ Partial Class FrmVSPIncentiveTagging
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(55, 18)
         Me.MyLabel1.TabIndex = 384
-        Me.MyLabel1.Text = "VSP Code"
+        Me.MyLabel1.Text = "Secretary Code"
         Me.MyLabel1.Visible = False
         '
         'lblIncentiveCode

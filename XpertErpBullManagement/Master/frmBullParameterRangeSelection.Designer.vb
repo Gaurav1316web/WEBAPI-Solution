@@ -24,7 +24,7 @@ Partial Class frmBullParameterRangeSelection
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.gvRangeDetails = New Telerik.WinControls.UI.RadGridView()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
@@ -65,7 +65,7 @@ Partial Class frmBullParameterRangeSelection
         '
         '
         '
-        Me.gvRangeDetails.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvRangeDetails.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvRangeDetails.Name = "gvRangeDetails"
         Me.gvRangeDetails.Size = New System.Drawing.Size(800, 405)
         Me.gvRangeDetails.TabIndex = 0

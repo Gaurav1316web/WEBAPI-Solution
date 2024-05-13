@@ -163,13 +163,13 @@ Partial Class RptMonthlyVLCProcurement1
         Me.RadGroupBox6.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadGroupBox6.Controls.Add(Me.cbtMCCRouteVLCC)
-        Me.RadGroupBox6.HeaderText = "MCC,Route,VLC "
+        Me.RadGroupBox6.HeaderText = "MCC,Route,DCS "
         Me.RadGroupBox6.Location = New System.Drawing.Point(11, 79)
         Me.RadGroupBox6.Name = "RadGroupBox6"
         Me.RadGroupBox6.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox6.Size = New System.Drawing.Size(458, 240)
         Me.RadGroupBox6.TabIndex = 14
-        Me.RadGroupBox6.Text = "MCC,Route,VLC "
+        Me.RadGroupBox6.Text = "MCC,Route,DCS "
         '
         'cbtMCCRouteVLCC
         '

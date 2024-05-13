@@ -59,15 +59,6 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.txtPageNo = New common.MyNumBox()
-        Me.GroupBox76 = New System.Windows.Forms.GroupBox()
-        Me.TxtMultiSelectFinder8 = New common.UserControls.txtMultiSelectFinder()
-        Me.MyLabel40 = New common.Controls.MyLabel()
-        Me.txtMCCToDate = New common.Controls.MyDateTimePicker()
-        Me.txtFromShift = New Telerik.WinControls.UI.RadDropDownList()
-        Me.MyLabel39 = New common.Controls.MyLabel()
-        Me.txtMCCFromDate = New common.Controls.MyDateTimePicker()
-        Me.MyLabel41 = New common.Controls.MyLabel()
-        Me.BulkDelete = New Telerik.WinControls.UI.RadButton()
         Me.txtFiscalYear = New common.Controls.MyTextBox()
         Me.MyLabel6 = New common.Controls.MyLabel()
         Me.txtPaymentCycleNo = New common.Controls.MyTextBox()
@@ -122,14 +113,6 @@ Partial Class frmMilkShiftUploaderUCDF
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPageNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox76.SuspendLayout()
-        CType(Me.MyLabel40, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtMCCToDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtFromShift, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel39, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtMCCFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel41, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BulkDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFiscalYear, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPaymentCycleNo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -314,7 +297,6 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.Panel1.Controls.Add(Me.cboLate)
         Me.Panel1.Controls.Add(Me.MyLabel3)
         Me.Panel1.Controls.Add(Me.txtPageNo)
-        Me.Panel1.Controls.Add(Me.GroupBox76)
         Me.Panel1.Controls.Add(Me.txtFiscalYear)
         Me.Panel1.Controls.Add(Me.MyLabel6)
         Me.Panel1.Controls.Add(Me.txtPaymentCycleNo)
@@ -619,143 +601,6 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.txtPageNo.Text = "0"
         Me.txtPageNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.txtPageNo.Value = 0R
-        '
-        'GroupBox76
-        '
-        Me.GroupBox76.Controls.Add(Me.TxtMultiSelectFinder8)
-        Me.GroupBox76.Controls.Add(Me.MyLabel40)
-        Me.GroupBox76.Controls.Add(Me.txtMCCToDate)
-        Me.GroupBox76.Controls.Add(Me.txtFromShift)
-        Me.GroupBox76.Controls.Add(Me.MyLabel39)
-        Me.GroupBox76.Controls.Add(Me.txtMCCFromDate)
-        Me.GroupBox76.Controls.Add(Me.MyLabel41)
-        Me.GroupBox76.Controls.Add(Me.BulkDelete)
-        Me.GroupBox76.Location = New System.Drawing.Point(669, 47)
-        Me.GroupBox76.Name = "GroupBox76"
-        Me.GroupBox76.Size = New System.Drawing.Size(370, 67)
-        Me.GroupBox76.TabIndex = 11
-        Me.GroupBox76.TabStop = False
-        Me.GroupBox76.Text = "Delete MCC Milk Procurement Shift Collection"
-        '
-        'TxtMultiSelectFinder8
-        '
-        Me.TxtMultiSelectFinder8.arrDispalyMember = Nothing
-        Me.TxtMultiSelectFinder8.arrValueMember = Nothing
-        Me.TxtMultiSelectFinder8.Location = New System.Drawing.Point(40, 40)
-        Me.TxtMultiSelectFinder8.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtMultiSelectFinder8.MyLinkLable1 = Nothing
-        Me.TxtMultiSelectFinder8.MyLinkLable2 = Nothing
-        Me.TxtMultiSelectFinder8.MyNullText = "Please Select..."
-        Me.TxtMultiSelectFinder8.Name = "TxtMultiSelectFinder8"
-        Me.TxtMultiSelectFinder8.Size = New System.Drawing.Size(279, 19)
-        Me.TxtMultiSelectFinder8.TabIndex = 346
-        '
-        'MyLabel40
-        '
-        Me.MyLabel40.FieldName = Nothing
-        Me.MyLabel40.Location = New System.Drawing.Point(129, 19)
-        Me.MyLabel40.Name = "MyLabel40"
-        Me.MyLabel40.Size = New System.Drawing.Size(17, 18)
-        Me.MyLabel40.TabIndex = 330
-        Me.MyLabel40.Text = "to"
-        '
-        'txtMCCToDate
-        '
-        Me.txtMCCToDate.CalculationExpression = Nothing
-        Me.txtMCCToDate.CustomFormat = "dd/MMM/yyyy"
-        Me.txtMCCToDate.FieldCode = Nothing
-        Me.txtMCCToDate.FieldDesc = Nothing
-        Me.txtMCCToDate.FieldMaxLength = 0
-        Me.txtMCCToDate.FieldName = Nothing
-        Me.txtMCCToDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtMCCToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtMCCToDate.isCalculatedField = False
-        Me.txtMCCToDate.IsSourceFromTable = False
-        Me.txtMCCToDate.IsSourceFromValueList = False
-        Me.txtMCCToDate.IsUnique = False
-        Me.txtMCCToDate.Location = New System.Drawing.Point(149, 19)
-        Me.txtMCCToDate.MendatroryField = False
-        Me.txtMCCToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtMCCToDate.MyLinkLable1 = Me.RadLabel4
-        Me.txtMCCToDate.MyLinkLable2 = Nothing
-        Me.txtMCCToDate.Name = "txtMCCToDate"
-        Me.txtMCCToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtMCCToDate.ReferenceFieldDesc = Nothing
-        Me.txtMCCToDate.ReferenceFieldName = Nothing
-        Me.txtMCCToDate.ReferenceTableName = Nothing
-        Me.txtMCCToDate.Size = New System.Drawing.Size(87, 18)
-        Me.txtMCCToDate.TabIndex = 329
-        Me.txtMCCToDate.TabStop = False
-        Me.txtMCCToDate.Text = "13/Jun/2011"
-        Me.txtMCCToDate.Value = New Date(2011, 6, 13, 0, 0, 0, 0)
-        '
-        'txtFromShift
-        '
-        Me.txtFromShift.AutoCompleteDisplayMember = Nothing
-        Me.txtFromShift.AutoCompleteValueMember = Nothing
-        Me.txtFromShift.DropDownAnimationEnabled = True
-        Me.txtFromShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.txtFromShift.Location = New System.Drawing.Point(239, 18)
-        Me.txtFromShift.Name = "txtFromShift"
-        Me.txtFromShift.Size = New System.Drawing.Size(80, 20)
-        Me.txtFromShift.TabIndex = 328
-        '
-        'MyLabel39
-        '
-        Me.MyLabel39.FieldName = Nothing
-        Me.MyLabel39.Location = New System.Drawing.Point(4, 20)
-        Me.MyLabel39.Name = "MyLabel39"
-        Me.MyLabel39.Size = New System.Drawing.Size(30, 18)
-        Me.MyLabel39.TabIndex = 60
-        Me.MyLabel39.Text = "Date"
-        '
-        'txtMCCFromDate
-        '
-        Me.txtMCCFromDate.CalculationExpression = Nothing
-        Me.txtMCCFromDate.CustomFormat = "dd/MMM/yyyy"
-        Me.txtMCCFromDate.FieldCode = Nothing
-        Me.txtMCCFromDate.FieldDesc = Nothing
-        Me.txtMCCFromDate.FieldMaxLength = 0
-        Me.txtMCCFromDate.FieldName = Nothing
-        Me.txtMCCFromDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtMCCFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtMCCFromDate.isCalculatedField = False
-        Me.txtMCCFromDate.IsSourceFromTable = False
-        Me.txtMCCFromDate.IsSourceFromValueList = False
-        Me.txtMCCFromDate.IsUnique = False
-        Me.txtMCCFromDate.Location = New System.Drawing.Point(40, 19)
-        Me.txtMCCFromDate.MendatroryField = False
-        Me.txtMCCFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtMCCFromDate.MyLinkLable1 = Me.RadLabel4
-        Me.txtMCCFromDate.MyLinkLable2 = Nothing
-        Me.txtMCCFromDate.Name = "txtMCCFromDate"
-        Me.txtMCCFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtMCCFromDate.ReferenceFieldDesc = Nothing
-        Me.txtMCCFromDate.ReferenceFieldName = Nothing
-        Me.txtMCCFromDate.ReferenceTableName = Nothing
-        Me.txtMCCFromDate.Size = New System.Drawing.Size(87, 18)
-        Me.txtMCCFromDate.TabIndex = 59
-        Me.txtMCCFromDate.TabStop = False
-        Me.txtMCCFromDate.Text = "13/Jun/2011"
-        Me.txtMCCFromDate.Value = New Date(2011, 6, 13, 0, 0, 0, 0)
-        '
-        'MyLabel41
-        '
-        Me.MyLabel41.FieldName = Nothing
-        Me.MyLabel41.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel41.Location = New System.Drawing.Point(5, 41)
-        Me.MyLabel41.Name = "MyLabel41"
-        Me.MyLabel41.Size = New System.Drawing.Size(32, 16)
-        Me.MyLabel41.TabIndex = 46
-        Me.MyLabel41.Text = "MCC"
-        '
-        'BulkDelete
-        '
-        Me.BulkDelete.Location = New System.Drawing.Point(325, 19)
-        Me.BulkDelete.Name = "BulkDelete"
-        Me.BulkDelete.Size = New System.Drawing.Size(40, 38)
-        Me.BulkDelete.TabIndex = 13
-        Me.BulkDelete.Text = "Delete"
         '
         'txtFiscalYear
         '
@@ -1267,15 +1112,6 @@ Partial Class frmMilkShiftUploaderUCDF
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtPageNo, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox76.ResumeLayout(False)
-        Me.GroupBox76.PerformLayout()
-        CType(Me.MyLabel40, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtMCCToDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtFromShift, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel39, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtMCCFromDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel41, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BulkDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFiscalYear, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtPaymentCycleNo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1349,15 +1185,6 @@ Partial Class frmMilkShiftUploaderUCDF
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents txtFiscalYear As common.Controls.MyTextBox
     Friend WithEvents MyLabel6 As common.Controls.MyLabel
-    Friend WithEvents GroupBox76 As GroupBox
-    Friend WithEvents TxtMultiSelectFinder8 As common.UserControls.txtMultiSelectFinder
-    Friend WithEvents MyLabel40 As common.Controls.MyLabel
-    Friend WithEvents txtMCCToDate As common.Controls.MyDateTimePicker
-    Friend WithEvents txtFromShift As RadDropDownList
-    Friend WithEvents MyLabel39 As common.Controls.MyLabel
-    Friend WithEvents txtMCCFromDate As common.Controls.MyDateTimePicker
-    Friend WithEvents MyLabel41 As common.Controls.MyLabel
-    Friend WithEvents BulkDelete As RadButton
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents txtPageNo As common.MyNumBox
     Friend WithEvents SplitContainer1 As SplitContainer

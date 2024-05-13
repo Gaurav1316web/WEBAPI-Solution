@@ -338,6 +338,7 @@ Partial Class FrmMCCMaterialSalePriceChart
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(705, 167)

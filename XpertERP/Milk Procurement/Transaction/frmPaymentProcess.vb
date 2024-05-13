@@ -6471,16 +6471,6 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
                 End If
                 qry += " and TSPL_MILK_SRN_Head.MCC_Code='" + txtMCC.Text + "'"
             End If
-
-            qry += " union all " + Environment.NewLine +
-            " select VSP_CODE,VLC_CODE as VLC_CODE from TSPL_MILK_REJECT_DETAIL left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE=TSPL_MILK_REJECT_DETAIL.DOC_CODE  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_MILK_REJECT_HEAD.MCC_CODE where TSPL_MILK_REJECT_HEAD.Posted=1 and " + strLocation + " "
-            If Not isPickPendingMilkSRNinNextPaymentCycle Then
-                qry += " and TSPL_MILK_REJECT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "'"
-            End If
-            qry += " and TSPL_MILK_REJECT_HEAD.DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' " + Environment.NewLine
-            If SettShowMCCFinder AndAlso MultipleFinderFillAuto = False Then
-                qry += " and TSPL_MILK_REJECT_HEAD.MCC_CODE='" + txtMCC.Text + "'"
-            End If
             qry += " )xxx group by VSP_CODE " + Environment.NewLine +
             " )xx " + Environment.NewLine +
             " left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.VSP_CODE " + Environment.NewLine +
@@ -6596,7 +6586,7 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
             "(TSPL_MILK_PURCHASE_INVOICE_DETAIL.SNF_PER *TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty/100) as SNFQTY "
             End If
 
-            sQuery += " ,TSPL_MILK_PURCHASE_INVOICE_DETAIL.SNF_PER, case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else  Price_Chart.milk_rate end as Standard_Rate,TSPL_MILK_PURCHASE_INVOICE_DETAIL.RATE as RATE,TSPL_MILK_PURCHASE_INVOICE_DETAIL.AMOUNT as Net_AMOUNT,TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount ,TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_RO_Amount , TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE , convert(varchar,TSPL_MILK_SRN_head.DOC_DATE,103) as DOC_DATE,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE ,case when isnull(TSPL_MILK_SRN_HEAD.Against_reject_no,'')='' then TSPL_MILK_SRN_HEAD.shift else TSPL_MILK_REJECT_head.shift end as SHIFT,"
+            sQuery += " ,TSPL_MILK_PURCHASE_INVOICE_DETAIL.SNF_PER, case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else  Price_Chart.milk_rate end as Standard_Rate,TSPL_MILK_PURCHASE_INVOICE_DETAIL.RATE as RATE,TSPL_MILK_PURCHASE_INVOICE_DETAIL.AMOUNT as Net_AMOUNT,TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount ,TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_RO_Amount , TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE , convert(varchar,TSPL_MILK_SRN_head.DOC_DATE,103) as DOC_DATE,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE ,case when isnull(TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,'')='' then TSPL_MILK_SRN_HEAD.shift else TSPL_MILK_SRN_HEAD.shift end as SHIFT,"
             sQuery += " TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE ,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_MCC_ROUTE_MASTER .Route_Name  ,TSPL_MCC_MASTER .MCC_NAME ,case when isnull(TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type,'')='' then 'Mix' else TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type end as Type ,TSPL_MILK_SRN_DETAIL.CLR,TSPL_MILK_SRN_HEAD.SAMPLE_NO ,TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,"
             sQuery += " TSPL_VLC_MASTER_HEAD.VLC_Name ,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_PaymentCOMMISSION,0) as [EMP],coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.incentive_head,0) as Incentive,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.total_head_load_amount,0) as HEDAmt,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.total_Own_Asset_Amount,0) as AstAMT,coalesce(Total_dEDUCTION_AMOUNT,0) as DedAmt ,TSPL_MILK_PURCHASE_INVOICE_HEAD.Total_Basic_AMOUNT"
             sQuery += " , TSPL_VLC_MASTER_HEAD.Village_Code, TSPL_VILLAGE_MASTER.Village_Name, case when TSPL_MILK_PURCHASE_INVOICE_DETAIL.FAT_PER >= 5 then 'Buffalo' else 'Cow' end as CowBuffalo_Type from TSPL_MILK_PURCHASE_INVOICE_DETAIL  Inner Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE =TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE  left outer join TSPL_MILK_SRN_HEAD  on TSPL_MILK_SRN_HEAD .DOC_CODE  =TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE"
@@ -6615,7 +6605,8 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
             sQuery += " left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_MILK_PURCHASE_INVOICE_Head.Comp_Code "
             sQuery += " left join (select distinct FAT_Pers,SNF_Pers,Ratio as Fat_ratio,SNF_Ratio, Milk_Rate,TSPL_MILK_PRICE_MASTER.Price_Code,TSPL_FAT_SNF_UPLOADER_MASTER.code    from TSPL_FAT_SNF_UPLOADER_MASTER inner join  TSPL_MILK_PRICE_MASTER  on TSPL_MILK_PRICE_MASTER.Price_Code=TSPL_FAT_SNF_UPLOADER_MASTER.Price_Code) as  Price_Chart    on TSPL_MILK_SRN_DETAIL.Price_Code=Price_Chart.Code "
             sQuery += " left outer join TSPL_VILLAGE_MASTER on TSPL_VILLAGE_MASTER.Village_Code = TSPL_VLC_MASTER_HEAD.Village_Code " &
-            " left join TSPL_MILK_REJECT_head on TSPL_MILK_REJECT_head.doc_code=TSPL_MILK_SRN_HEAD.Against_reject_no"
+            " left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No = TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No
+            left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No = TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No"
             sQuery += "  " & whrcls & " "
             sQuery += "order by vsp_code,convert(datetime,TSPL_MILK_SRN_HEAD.DOC_DATE,103)"
 
@@ -8568,26 +8559,6 @@ inner join (select MCC_Code from TSPL_MCC_MASTER ) as TabTSPL_MCC_MASTER on TabT
                 qry += " and DOC_DATE>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' "
             End If
             qry += " and DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' " + Environment.NewLine
-            'qry += " And tspl_mcc_master.Area_Location_Code ='" + clsCommon.myCstr(fndArea.Value) + "' "
-            '--varsha added--
-            '       qry += " union all " + Environment.NewLine +
-            '           "select  VSP_CODE,VLC_CODE as VLC_CODE 
-            '               from tspl_mcc_master 
-            'left outer join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.VLC_CODE=tspl_mcc_master.MCC_Code
-            'left outer join TSPL_LOCATION_MASTER as tabPlantName on tabPlantName.Location_Code=TSPL_MCC_MASTER.Plant_Code  where tspl_mcc_master.mcc_Code in(" & clsCommon.GetMulcallString(mfndMcc.arrValueMember) & ")"
-            '       qry += " And tspl_mcc_master.Area_Location_Code ='" + clsCommon.myCstr(fndArea.Value) + "' "
-
-            '--varsha end ---
-
-            qry += " union all " + Environment.NewLine +
-            " select VSP_CODE,VLC_CODE as VLC_CODE from TSPL_MILK_REJECT_DETAIL left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE=TSPL_MILK_REJECT_DETAIL.DOC_CODE  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_MILK_REJECT_HEAD.MCC_CODE  left outer join tspl_mcc_master on tspl_mcc_master.MCC_Code=TSPL_MILK_REJECT_HEAD.mcc_code
-              where TSPL_MILK_REJECT_HEAD.Posted=1 and TSPL_LOCATION_MASTER.Location_code in (" & clsCommon.GetMulcallString(mfndMcc.arrValueMember) & ") AND tspl_mcc_master.Area_Location_Code='" & clsCommon.myCstr(fndArea.Value) & "'  "
-            If Not isPickPendingMilkSRNinNextPaymentCycle Then
-                qry += " and TSPL_MILK_REJECT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "'"
-            End If
-            qry += " and TSPL_MILK_REJECT_HEAD.DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' " + Environment.NewLine
-            qry += " And tspl_mcc_master.Area_Location_Code ='" + clsCommon.myCstr(fndArea.Value) + "' "
-
             qry += " )xxx group by VSP_CODE 
              )xx 
             left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.VSP_CODE 
@@ -8616,7 +8587,8 @@ inner join (select MCC_Code from TSPL_MCC_MASTER ) as TabTSPL_MCC_MASTER on TabT
                 Exit Sub
             End If
 
-            clsPaymentProcessHead.PaymentProcessDrCrPrint("'" + fndDocNo.Value + "'", dtpFromDate.Text, dtpToDate.Text, fndLoc.Value, clsCommon.GetMulcallString(txtVSP.arrValueMember), "", "", "", txtMCC.Text)
+            clsPaymentProcessHead.PaymentProcessDrCrPrint("'" + fndDocNo.Value + "'", dtpFromDate.Text, dtpToDate.Text, "'" + fndLoc.Value + "'", clsCommon.GetMulcallString(txtVSP.arrValueMember), "", "", "", txtMCC.Text)
+            '
 
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

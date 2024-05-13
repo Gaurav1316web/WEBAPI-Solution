@@ -3770,7 +3770,7 @@ Public Class frmIssueReturn
     End Sub
 
     Private Sub txtIssueTo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtIssueTo._MYValidating
-        Dim obj As clsEmployeeMaster = clsEmployeeMaster.FinderForEmployee(txtIssueTo.Value, isButtonClicked)
+        Dim obj As clsEmployeeMaster = clsEmployeeMaster.FinderForEmployeeSTORE(txtIssueTo.Value, isButtonClicked)
         If obj IsNot Nothing AndAlso clsCommon.myLen(obj.EMP_CODE) > 0 Then
             txtIssueTo.Value = obj.EMP_CODE
             lblIssueTo.Text = obj.Emp_Name
@@ -3781,7 +3781,7 @@ Public Class frmIssueReturn
     End Sub
 
     Private Sub txtRequestBy__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtRequestBy._MYValidating
-        Dim obj As clsEmployeeMaster = clsEmployeeMaster.FinderForEmployee(txtRequestBy.Value, isButtonClicked)
+        Dim obj As clsEmployeeMaster = clsEmployeeMaster.FinderForEmployeeSTORE(txtRequestBy.Value, isButtonClicked)
         If obj IsNot Nothing AndAlso clsCommon.myLen(obj.EMP_CODE) > 0 Then
             txtRequestBy.Value = obj.EMP_CODE
             lblRequestBy.Text = obj.Emp_Name

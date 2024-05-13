@@ -213,7 +213,7 @@ Partial Class RptMPWiseMilkCollection
         Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox2.Controls.Add(Me.cbgVLC)
         Me.RadGroupBox2.Controls.Add(Me.Panel2)
-        Me.RadGroupBox2.HeaderText = "VLC"
+        Me.RadGroupBox2.HeaderText = "DCS"
         Me.RadGroupBox2.Location = New System.Drawing.Point(367, 81)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)

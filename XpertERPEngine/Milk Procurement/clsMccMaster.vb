@@ -3015,12 +3015,12 @@ Public Class clsMccMasterDetailReport
             qry = "select OuterQry.Center,OuterQry.[VLC Uploader Code],OuterQry.[VLC Code],OuterQry.[VLC Name],OuterQry.[VSP Code] ,OuterQry.[VSP Name]
                         ,OuterQry.[Care Of],OuterQry.[Registration Date],OuterQry.Address,OuterQry.[Aadhar No],OuterQry.[File],OuterQry.[Security Cheque 100000],OuterQry.[Security Cheque 100]
                         ,OuterQry.Bank,OuterQry.Branch,OuterQry.[IFSC Code],OuterQry.[Account No],OuterQry.Asset
-                        ,case when (select MAX(DOC_CODE) AS AA from TSPL_MILK_RECEIPT_DETAIL 
-                        where TSPL_MILK_RECEIPT_DETAIL.DOC_DATE >= DATEADD(DAY,-3, OuterQry.MAXDate)  AND TSPL_MILK_RECEIPT_DETAIL.VSP_CODE=OuterQry.[VSP Code] 
-                        AND TSPL_MILK_RECEIPT_DETAIL.MCC_CODE=OuterQry.MCC_Code) IS NOT NULL then 'Active' else 'In Active' end as [VSP Status]
+                        ,case when (select MAX(TSPL_MILK_SRN_HEAD.DOC_CODE) AS AA from   TSPL_MILK_SRN_DETAIL left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE =  TSPL_MILK_SRN_DETAIL.DOC_CODE 
+                        where TSPL_MILK_SRN_HEAD.DOC_DATE >= DATEADD(DAY,-3, OuterQry.MAXDate)  AND TSPL_MILK_SRN_HEAD.VSP_CODE=OuterQry.[VSP Code] 
+                        AND TSPL_MILK_SRN_HEAD.MCC_CODE=OuterQry.MCC_Code) IS NOT NULL then 'Active' else 'In Active' end as [VSP Status]
                         from (select MainQry.* ,Mdate.MAXDate
                         from (" + qry + ")MainQry
-                        left outer join(select MCC_CODE,max(DOC_DATE) as MAXDate from TSPL_MILK_Shift_End_HEAD group by MCC_CODE)Mdate on Mdate.MCC_CODE=MainQry.MCC_Code
+                        left outer join(select MCC_CODE,max(DOC_DATE) as MAXDate from TSPL_MILK_SRN_HEAD group by MCC_CODE)Mdate on Mdate.MCC_CODE=MainQry.MCC_Code
                         )OuterQry WHERE [VSP Code] IS NOT NULL ORDER BY [VSP Code]"
         Else
             qry = "select OuterQry.Center,OuterQry.[VLC Uploader Code],OuterQry.[VLC Code],OuterQry.[VLC Name],OuterQry.[VSP Code] ,OuterQry.[VSP Name]
@@ -3057,13 +3057,13 @@ Public Class clsMccMasterDetailReport
             qry = "select OuterQry.Center,OuterQry.[Vehicle No],OuterQry.[Registration Date],OuterQry.PAN,OuterQry.[Transporter Code],OuterQry.[Transporter Name]
                             ,OuterQry.[Care Of],OuterQry.Address,OuterQry.[Aadhar No],OuterQry.[File],OuterQry.[Security Cheque 100000],OuterQry.[Security Cheque 100],OuterQry.Bank
                             ,OuterQry.Branch,OuterQry.[IFSC Code],OuterQry.[Account No],OuterQry.Asset,OuterQry.Vehicle
-                            ,case when (select MAX(DOC_CODE) AS AA from TSPL_MILK_Shift_End_Route_DETAIL 
-                            where TSPL_MILK_Shift_End_Route_DETAIL.DOC_DATE >= DATEADD(DAY,-1, OuterQry.MAXDate)  AND TSPL_MILK_Shift_End_Route_DETAIL.VEHICLE_CODE=OuterQry.[Vehicle No] 
-					        and TSPL_MILK_Shift_End_Route_DETAIL.Route_CODE =OuterQry.Route_CODE)
+                            ,case when (select MAX(DOC_CODE) AS AA from TSPL_MILK_SRN_HEAD 
+                            where TSPL_MILK_SRN_HEAD.DOC_DATE >= DATEADD(DAY,-1, OuterQry.MAXDate)  AND TSPL_MILK_SRN_HEAD.VEHICLE_CODE=OuterQry.[Vehicle No] 
+					        and TSPL_MILK_SRN_HEAD.Route_CODE =OuterQry.Route_CODE)
                             IS NOT NULL then 'Active' else 'In Active' end as [TPT Status]
                             from (select MainQry.* ,Mdate.MAXDate
                             from ( " + qry + " )MainQry
-                            left outer join(select MCC_CODE,max(DOC_DATE) as MAXDate from TSPL_MILK_Shift_End_HEAD group by MCC_CODE)Mdate on Mdate.MCC_CODE=MainQry.MCC_Code
+                            left outer join(select MCC_CODE,max(DOC_DATE) as MAXDate from TSPL_MILK_SRN_HEAD group by MCC_CODE)Mdate on Mdate.MCC_CODE=MainQry.MCC_Code
                             )OuterQry WHERE [Transporter Code] IS NOT NULL ORDER BY [Transporter Code]"
         Else
             qry = "select OuterQry.Center,OuterQry.[Vehicle No],OuterQry.[Registration Date],OuterQry.PAN,OuterQry.[Transporter Code],OuterQry.[Transporter Name]

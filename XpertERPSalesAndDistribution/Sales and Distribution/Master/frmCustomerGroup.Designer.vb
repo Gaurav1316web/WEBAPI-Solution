@@ -514,7 +514,7 @@ Partial Class frmCustomerGroup
         Me.chkDefaultVSP.Name = "chkDefaultVSP"
         Me.chkDefaultVSP.Size = New System.Drawing.Size(79, 18)
         Me.chkDefaultVSP.TabIndex = 308
-        Me.chkDefaultVSP.Text = "Default VSP"
+        Me.chkDefaultVSP.Text = "Default Secretary"
         '
         'chkPONOMandatory
         '

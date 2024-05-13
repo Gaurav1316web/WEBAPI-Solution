@@ -180,7 +180,7 @@ Partial Class FrmApplyCapping
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(26, 18)
         Me.MyLabel4.TabIndex = 16
-        Me.MyLabel4.Text = "VLC"
+        Me.MyLabel4.Text = "DCS"
         '
         'RadButton1
         '

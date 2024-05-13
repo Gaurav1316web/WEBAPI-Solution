@@ -373,7 +373,7 @@ Partial Class frmVSPMapping
         Me.MyLabel15.Name = "MyLabel15"
         Me.MyLabel15.Size = New System.Drawing.Size(26, 18)
         Me.MyLabel15.TabIndex = 367
-        Me.MyLabel15.Text = "VSP"
+        Me.MyLabel15.Text = "Secretary"
         '
         'txtMCC
         '
@@ -593,7 +593,7 @@ Partial Class frmVSPMapping
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox2.Size = New System.Drawing.Size(789, 188)
         Me.RadGroupBox2.TabIndex = 1
-        Me.RadGroupBox2.Text = "VSP Details"
+        Me.RadGroupBox2.Text = "Secretary Details"
         '
         'gv1
         '
@@ -636,7 +636,7 @@ Partial Class frmVSPMapping
         Me.btnUpdates.Name = "btnUpdates"
         Me.btnUpdates.Size = New System.Drawing.Size(128, 21)
         Me.btnUpdates.TabIndex = 109
-        Me.btnUpdates.Text = "Add More VSP"
+        Me.btnUpdates.Text = "Add More Secretary"
         '
         'btnsave
         '
@@ -676,7 +676,7 @@ Partial Class frmVSPMapping
         '
         '
         Me.RootElement.ApplyShapeToControl = True
-        Me.Text = "VSP Mapping"
+        Me.Text = "Secretary Mapping"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)

@@ -114,7 +114,7 @@ Partial Class FrmMilkVSPPayment
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox3.Size = New System.Drawing.Size(962, 279)
         Me.RadGroupBox3.TabIndex = 1
-        Me.RadGroupBox3.Text = "VSP Payment"
+        Me.RadGroupBox3.Text = "Secretary Payment"
         '
         'fndArea
         '
@@ -299,7 +299,7 @@ Partial Class FrmMilkVSPPayment
         Me.lblTankerNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTankerNo.Location = New System.Drawing.Point(13, 48)
         Me.lblTankerNo.Name = "lblTankerNo"
-        Me.lblTankerNo.Size = New System.Drawing.Size(32, 16)
+        Me.lblTankerNo.Size = New System.Drawing.Size(31, 16)
         Me.lblTankerNo.TabIndex = 10
         Me.lblTankerNo.Text = "MCC"
         '
@@ -484,6 +484,7 @@ Partial Class FrmMilkVSPPayment
         '
         'btnGenerateBill
         '
+        Me.btnGenerateBill.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnGenerateBill.Location = New System.Drawing.Point(3, 6)
         Me.btnGenerateBill.Name = "btnGenerateBill"
         Me.btnGenerateBill.Size = New System.Drawing.Size(111, 23)
@@ -507,7 +508,7 @@ Partial Class FrmMilkVSPPayment
         '
         'btnJE
         '
-        Me.btnJE.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnJE.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnJE.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnJE.Location = New System.Drawing.Point(231, 6)
         Me.btnJE.Name = "btnJE"
@@ -517,6 +518,7 @@ Partial Class FrmMilkVSPPayment
         '
         'btnProvisionBill
         '
+        Me.btnProvisionBill.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnProvisionBill.Location = New System.Drawing.Point(117, 6)
         Me.btnProvisionBill.Name = "btnProvisionBill"
         Me.btnProvisionBill.Size = New System.Drawing.Size(111, 23)
@@ -526,15 +528,17 @@ Partial Class FrmMilkVSPPayment
         '
         'btnDeleteVSPBill
         '
+        Me.btnDeleteVSPBill.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDeleteVSPBill.Location = New System.Drawing.Point(532, 6)
         Me.btnDeleteVSPBill.Name = "btnDeleteVSPBill"
         Me.btnDeleteVSPBill.Size = New System.Drawing.Size(254, 23)
         Me.btnDeleteVSPBill.TabIndex = 283
-        Me.btnDeleteVSPBill.Text = "Delete VSP Bill Not Used in Payment Process"
+        Me.btnDeleteVSPBill.Text = "Delete Secretary Bill Not Used in Payment Process"
         Me.btnDeleteVSPBill.Visible = False
         '
         'BtnReset
         '
+        Me.BtnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.BtnReset.Location = New System.Drawing.Point(418, 6)
         Me.BtnReset.Name = "BtnReset"
         Me.BtnReset.Size = New System.Drawing.Size(111, 23)
@@ -544,6 +548,7 @@ Partial Class FrmMilkVSPPayment
         '
         'BtnIncentive
         '
+        Me.BtnIncentive.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.BtnIncentive.Location = New System.Drawing.Point(304, 6)
         Me.BtnIncentive.Name = "BtnIncentive"
         Me.BtnIncentive.Size = New System.Drawing.Size(111, 23)

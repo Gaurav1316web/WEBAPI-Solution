@@ -244,7 +244,7 @@ Partial Class FrmVlcTargetMaster
         Me.lblVSP.Name = "lblVSP"
         Me.lblVSP.Size = New System.Drawing.Size(59, 16)
         Me.lblVSP.TabIndex = 428
-        Me.lblVSP.Text = "VSP Code"
+        Me.lblVSP.Text = "Secretary Code"
         '
         'fndVSPCode
         '

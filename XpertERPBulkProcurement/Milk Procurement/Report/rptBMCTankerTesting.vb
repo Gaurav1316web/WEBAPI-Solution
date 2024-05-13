@@ -102,7 +102,7 @@ and convert( date ,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) <= CONVERT(date
                     qry += "and TSPL_MILK_COLLECTION_MCC.Route_Code in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
                 End If
                 If clsCommon.myLen(txtBMC.arrValueMember) > 0 Then
-                    qry += "And TSPL_MILK_COLLECTION_MCC_DETAIL. in (" + clsCommon.GetMulcallString(txtBMC.arrValueMember) + ")"
+                    qry += "And TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code in (" + clsCommon.GetMulcallString(txtBMC.arrValueMember) + ")"
 
                 End If
                 qry += "ORDER BY TSPL_MILK_COLLECTION_MCC_DETAIL.SNO"

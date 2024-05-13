@@ -599,7 +599,7 @@ Partial Class rptVSPMilkNotSold
         '
         '
         Me.RootElement.ApplyShapeToControl = True
-        Me.Text = "VSP Milk Not Sold"
+        Me.Text = "Secretary Milk Not Sold"
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)

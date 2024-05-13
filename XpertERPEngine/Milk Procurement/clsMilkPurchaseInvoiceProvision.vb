@@ -311,11 +311,6 @@ round(case when   (sum( SNF_KG * case when RI in (2,3) then 1 else 0 end )>0 and
     "inner join TSPL_VLC_DATA_UPLOADER_MASTER on TSPL_VLC_DATA_UPLOADER_DETAIL.Document_Code=TSPL_VLC_DATA_UPLOADER_MASTER.Document_Code  " + Environment.NewLine +
     "left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_DATA_UPLOADER_MASTER.VLC_Code=TSPL_VLC_MASTER_HEAD.VLC_Code  " + Environment.NewLine +
     "where 2 = 2  and  convert(date, TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date,103) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(FromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and  convert(date, TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date,103) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and TSPL_VLC_DATA_UPLOADER_MASTER.VLC_Code  IN ('" + strVLCCode + "') " + Environment.NewLine +
-    "union all
-select TSPL_MILK_REJECT_HEAD.MCC_CODE,TSPL_MILK_REJECT_DETAIL.VLC_CODE ,convert(date, TSPL_MILK_REJECT_HEAD.DOC_DATE,103) as DOC_DATE,TSPL_MILK_REJECT_HEAD.SHIFT,TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_KG,CONVERT(DECIMAL(10,2), ROUND(ACC_WEIGHT_KG*FAT/100, 2, 1)) as FAT_KG,CONVERT(DECIMAL(10,2), ROUND(ACC_WEIGHT_KG*SNF/100, 2, 1)) as SNF_KG,TSPL_MILK_REJECT_DETAIL.AMOUNT,0 as Chk,4 as RI 
-from TSPL_MILK_REJECT_DETAIL 
-left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE=TSPL_MILK_REJECT_DETAIL.DOC_CODE
-where  TSPL_MILK_REJECT_DETAIL.VLC_CODE in ('" + strVLCCode + "') and  convert(date, TSPL_MILK_REJECT_HEAD.DOC_DATE,103) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(FromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and  convert(date, TSPL_MILK_REJECT_HEAD.DOC_DATE,103) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "'  " + Environment.NewLine +
     ")x group by mcc_Code,VLC_code, doc_date,shift having sum(chk)>0" + Environment.NewLine +
     ")xx " + Environment.NewLine +
     ")xxx"

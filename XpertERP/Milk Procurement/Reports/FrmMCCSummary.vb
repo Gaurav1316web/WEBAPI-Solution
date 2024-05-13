@@ -176,28 +176,25 @@ Public Class FrmMCCSummary
             End If
 
             If ReportLevel = 1 Then
-                sQuery = " Select TSPL_MILK_RECEIPT_HEAD.* From (Select TSPL_MILK_RECEIPT_HEAD.DOC_CODE As [Milk Receipt Code],      TSPL_MILK_RECEIPT_HEAD.MCC_CODE As MCC," _
-                    & " TSPL_MCC_MASTER.MCC_NAME As      [MCC Name], Convert(varchar,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) As Doc_Date ,TSPL_MILK_RECEIPT_HEAD.DOC_DATE As Date," _
-                    & " Case        When TSPL_MILK_RECEIPT_DETAIL.SHIFT = 'M' Then 'Morning' Else 'Evening'      End As Shift, TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE As [Route Code]" _
-                    & " ,      TSPL_MCC_ROUTE_MASTER.Route_Name As [Route Name],      TSPL_MILK_RECEIPT_DETAIL.VEHICLE_CODE As [Vehicle Code],      TSPL_MILK_RECEIPT_DETAIL.VSP_CODE " _
+                sQuery = " Select TSPL_MILK_SRN_HEAD.* From (Select TSPL_MILK_SRN_HEAD.DOC_CODE As [Milk Receipt Code],      TSPL_MILK_SRN_HEAD.MCC_CODE As MCC," _
+                    & " TSPL_MCC_MASTER.MCC_NAME As      [MCC Name], Convert(varchar,TSPL_MILK_SRN_HEAD.DOC_DATE,103) As Doc_Date ,TSPL_MILK_SRN_HEAD.DOC_DATE As Date," _
+                    & " Case        When TSPL_MILK_SRN_HEAD.SHIFT = 'M' Then 'Morning' Else 'Evening'      End As Shift, TSPL_MILK_SRN_HEAD.ROUTE_CODE As [Route Code]" _
+                    & " ,      TSPL_MCC_ROUTE_MASTER.Route_Name As [Route Name],      TSPL_MILK_SRN_HEAD.VEHICLE_CODE As [Vehicle Code],      TSPL_MILK_SRN_HEAD.VSP_CODE " _
                     & " As [VSP Code],      TSPL_VENDOR_MASTER.Vendor_Name As [VSP Name],      TSPL_VLC_MASTER_HEAD.VLC_Code As [Vlc Code],      TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code]," _
-                    & " TSPL_VLC_MASTER_HEAD.VLC_Name As [VLC Name],      TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO As [Sample No],      TSPL_MILK_RECEIPT_DETAIL.NO_OF_CANS As [No Of Cans],     " _
-                    & " TSPL_MILK_RECEIPT_DETAIL.MILK_WEIGHT As [Milk Weight],      TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT As [Milk Weight(KG)],      TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT_LTR " _
-                    & " As [Milk Weight(LTR)],      TSPL_MILK_SAMPLE_DETAIL.FAT As [FAT(%)], TSPL_MILK_SAMPLE_DETAIL.SNF As      [SNF(%)], Convert(decimal(18,2),TSPL_MILK_SAMPLE_DETAIL.FAT * " _
-                    & " TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT / 100) As [FAT(KG)],      Convert(decimal(18,2),TSPL_MILK_SAMPLE_DETAIL.SNF *      TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT / 100)" _
+                    & " TSPL_VLC_MASTER_HEAD.VLC_Name As [VLC Name],      TSPL_MILK_SRN_HEAD.SAMPLE_NO As [Sample No],      TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.NO_OF_CANS As [No Of Cans],     " _
+                    & " TSPL_MILK_SRN_DETAIL.Qty As [Milk Weight],      TSPL_MILK_SRN_DETAIL.ACC_Qty As [Milk Weight(KG)],      TSPL_MILK_SRN_DETAIL.ACC_Qty_LTR " _
+                    & " As [Milk Weight(LTR)],      TSPL_MILK_SRN_DETAIL.FAT_PER As [FAT(%)], TSPL_MILK_SRN_DETAIL.SNF_PER As      [SNF(%)], Convert(decimal(18,2),TSPL_MILK_SRN_DETAIL.FAT_PER * " _
+                    & " TSPL_MILK_SRN_DETAIL.ACC_Qty / 100) As [FAT(KG)],      Convert(decimal(18,2),TSPL_MILK_SRN_DETAIL.SNF_PER *      TSPL_MILK_SRN_DETAIL.ACC_Qty / 100)" _
                     & " As [SNF(KG)],      TSPL_MILK_SRN_HEAD.DOC_CODE As [SRN No],      Convert(decimal(18,2),TSPL_MILK_SRN_DETAIL.AMOUNT) As [SRN Amount],    " _
                     & " TSPL_MILK_SRN_DETAIL.RATE As [SRN Rate], TSPL_MILK_SRN_DETAIL.Qty As      [SRN Qty]   From TSPL_MILK_SRN_DETAIL Left Outer Join TSPL_MILK_SRN_HEAD     " _
-                    & " On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE " _
+                    & " On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE   LEFT OUTER JOIN TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL ON TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No = TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No " _
                     & "    Left Outer Join TSPL_MILK_PURCHASE_INVOICE_DETAIL  On TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE =   " _
                     & " TSPL_MILK_SRN_HEAD.DOC_CODE Left Outer Join      TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE        = TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE " _
                     & " Left Outer Join      TSPL_MCC_MASTER        On TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_SRN_HEAD.MCC_CODE      Left Outer Join TSPL_VLC_MASTER_HEAD On " _
                     & " TSPL_VLC_MASTER_HEAD.VLC_Code =        TSPL_MILK_SRN_HEAD.VLC_CODE Left Outer Join TSPL_VENDOR_MASTER        On TSPL_VENDOR_MASTER.Vendor_Code = " _
-                    & " TSPL_MILK_RECEIPT_DETAIL.VSP_CODE      Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MCC_ROUTE_MASTER.Route_Code =        TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE  " _
-                    & " Left Outer Join      TSPL_Primary_Vehicle_Master On TSPL_Primary_Vehicle_Master.Vehicle_Code =        TSPL_MCC_ROUTE_MASTER.Vehicle_Code Left Outer Join      " _
-                    & " TSPL_MILK_Shift_End_HEAD On TSPL_MILK_Shift_End_HEAD.MCC_CODE =        TSPL_MILK_RECEIPT_HEAD.MCC_CODE And TSPL_MILK_Shift_End_HEAD.DOC_DATE =  " _
-                    & " TSPL_MILK_RECEIPT_HEAD.DOC_DATE And TSPL_MILK_Shift_End_HEAD.SHIFT =        TSPL_MILK_RECEIPT_HEAD.SHIFT Left Outer Join      TSPL_MILK_Shift_End_Route_DETAIL      " _
-                    & " On TSPL_MILK_Shift_End_Route_DETAIL.DOC_CODE =        TSPL_MILK_Shift_End_HEAD.DOC_CODE And        TSPL_MILK_Shift_End_Route_DETAIL.Route_CODE =   " _
-                    & " TSPL_MCC_ROUTE_MASTER.Route_Code) As TSPL_MILK_RECEIPT_HEAD"
+                    & " TSPL_MILK_SRN_HEAD.VSP_CODE      Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MCC_ROUTE_MASTER.Route_Code =        TSPL_MILK_SRN_HEAD.ROUTE_CODE  " _
+                    & " Left Outer Join      TSPL_Primary_Vehicle_Master On TSPL_Primary_Vehicle_Master.Vehicle_Code =        TSPL_MCC_ROUTE_MASTER.Vehicle_Code  " _
+                    & " ) As TSPL_MILK_SRN_HEAD"
             Else
 
 
@@ -207,39 +204,38 @@ Public Class FrmMCCSummary
                 Else
                     sQuery = "Select  '' as [Total],[MCC Code] As MCC,max([MCC Name]) As [MCC Name],max([Doc Date]) As DocumentDate ,max([Doc Date]) As  [Doc_Date],     Sum([Milk Weight]) As [Milk Weight],      Sum([Milk Weight(KG)]) As [Milk Weight(KG)],     Sum([Milk Weight(LTR)]) As [Milk Weight(LTR)]      , Sum([FAT(KG)]) As [FAT(KG)],    Sum( [SNF(KG)]) As [SNF(KG)], Sum([FAT(LTR)]) As [FAT(LTR)] , Sum([SNF(LTR)]) As [SNF(LTR)] , Sum(NET_AMOUNT) As [Value]   from(" + strBaseQry + " )XX group by [MCC Code],Date order by [MCC Code],Date "
                 End If
-
-                Dim dtgv As New DataTable
-                dtgv = clsDBFuncationality.GetDataTable(sQuery)
-                If dtgv IsNot Nothing And dtgv.Rows.Count > 0 Then
-                    gv.DataSource = Nothing
-                    gv.Rows.Clear()
-                    gv.Columns.Clear()
-                    gv.DataSource = dtgv
-                    gv.GroupDescriptors.Clear()
-                    gv.MasterTemplate.SummaryRowsBottom.Clear()
-                    'If ReportLevel <> 1 Then
-                    FormatGrid()
-                    'End If
-                    If btnReferesh = False Then
-                        'If rdbRate.IsChecked = True Then
-                        '    'MilkProcurementReportViewer.funreport(dtgv, "MCCShiftReport(RouteWise)", "Milk Shift Report (Route Wise)")
-                        '    MilkProcurementReportViewer.funsubreportWithdt(dtgv, clsERPFuncationality.CompanyAddresShowinHeader(), "MCCShiftReport(RouteWise)", "Milk Shift Report (Route Wise)", "Address.rpt")
-                        'Else
-                        '    'MilkProcurementReportViewer.funreport(dtgv, "MCCShiftReport(RouteWise)RateAndAmount", "Milk Shift Report (Route Wise)")
-                        '    MilkProcurementReportViewer.funsubreportWithdt(dtgv, clsERPFuncationality.CompanyAddresShowinHeader(), "MCCShiftReport(RouteWise)RateAndAmount", "Milk Shift Report (Route Wise)", "Address.rpt")
-                        'End If
-
-                    End If
-
-                    RadPageView1.SelectedPage = RadPageViewPage2
-                    EnableDisableControl(False)
-                Else
-                    tmpValLoad = False
-                    clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
-                End If
-                ReStoreGridLayout()
             End If
 
+            Dim dtgv As New DataTable
+            dtgv = clsDBFuncationality.GetDataTable(sQuery)
+            If dtgv IsNot Nothing And dtgv.Rows.Count > 0 Then
+                gv.DataSource = Nothing
+                gv.Rows.Clear()
+                gv.Columns.Clear()
+                gv.DataSource = dtgv
+                gv.GroupDescriptors.Clear()
+                gv.MasterTemplate.SummaryRowsBottom.Clear()
+                'If ReportLevel <> 1 Then
+                FormatGrid()
+                'End If
+                If btnReferesh = False Then
+                    'If rdbRate.IsChecked = True Then
+                    '    'MilkProcurementReportViewer.funreport(dtgv, "MCCShiftReport(RouteWise)", "Milk Shift Report (Route Wise)")
+                    '    MilkProcurementReportViewer.funsubreportWithdt(dtgv, clsERPFuncationality.CompanyAddresShowinHeader(), "MCCShiftReport(RouteWise)", "Milk Shift Report (Route Wise)", "Address.rpt")
+                    'Else
+                    '    'MilkProcurementReportViewer.funreport(dtgv, "MCCShiftReport(RouteWise)RateAndAmount", "Milk Shift Report (Route Wise)")
+                    '    MilkProcurementReportViewer.funsubreportWithdt(dtgv, clsERPFuncationality.CompanyAddresShowinHeader(), "MCCShiftReport(RouteWise)RateAndAmount", "Milk Shift Report (Route Wise)", "Address.rpt")
+                    'End If
+
+                End If
+
+                RadPageView1.SelectedPage = RadPageViewPage2
+                EnableDisableControl(False)
+            Else
+                tmpValLoad = False
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
+            End If
+            ReStoreGridLayout()
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

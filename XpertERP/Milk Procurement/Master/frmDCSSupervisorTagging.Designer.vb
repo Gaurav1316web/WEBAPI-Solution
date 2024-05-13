@@ -193,12 +193,12 @@ Partial Class frmDCSSupervisorTagging
         Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox2.Controls.Add(Me.gvVLC)
         Me.RadGroupBox2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadGroupBox2.HeaderText = "VLC Detail"
+        Me.RadGroupBox2.HeaderText = "DCS Detail"
         Me.RadGroupBox2.Location = New System.Drawing.Point(3, 3)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Size = New System.Drawing.Size(899, 288)
         Me.RadGroupBox2.TabIndex = 0
-        Me.RadGroupBox2.Text = "VLC Detail"
+        Me.RadGroupBox2.Text = "DCS Detail"
         '
         'gvVLC
         '

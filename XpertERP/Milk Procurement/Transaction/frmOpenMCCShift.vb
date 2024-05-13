@@ -328,7 +328,7 @@ Public Class FrmOpenMCCShift
 
             CalculateSNFFromCLR()
             If FormCode = "MCC-SHF" Then
-                Qry = "select * from tspl_milk_receipt_Head  Where MCC_Code = '" + txtmccode.Value + "' and shift='" & cmbShift.SelectedValue & "'and convert(date,Doc_date,103)=convert(date,'" & dtpShiftDate.Value & "',103)"
+                Qry = "select * from TSPL_MILK_SRN_HEAD  Where MCC_Code = '" + txtmccode.Value + "' and shift='" & cmbShift.SelectedValue & "'and convert(date,Doc_date,103)=convert(date,'" & dtpShiftDate.Value & "',103)"
                 dt = clsDBFuncationality.GetDataTable(Qry)
                 If dt.Rows.Count > 0 Then
                     clsCommon.MyMessageBoxShow(Me, "This Shift is Used in Milk Receipt and can not be Updated.", Me.Text)
@@ -479,7 +479,7 @@ Public Class FrmOpenMCCShift
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmOpenMCCShift, txtmccode.Value, dtpShiftDate.Value, Nothing)
 
             If clsCommon.MyMessageBoxShow("Do you want to delete  Code '" + txtCode.Value + "'", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
-                qry = "select * from tspl_milk_receipt_Head  Where MCC_Code = '" + txtmccode.Value + "' and shift='" & cmbShift.SelectedValue & "'and convert(date,Doc_date,103)=convert(date,'" & dtpShiftDate.Value & "',103)"
+                qry = "select * from TSPL_MILK_SRN_HEAD  Where MCC_Code = '" + txtmccode.Value + "' and shift='" & cmbShift.SelectedValue & "'and convert(date,Doc_date,103)=convert(date,'" & dtpShiftDate.Value & "',103)"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dt.Rows.Count <= 0 Then
                     qry = "DELETE FROM TSPL_OPEN_MCC_SHIFT WHERE MCC_SHIFT_CODE='" + txtCode.Value + "'"
@@ -836,24 +836,27 @@ Public Class FrmOpenMCCShift
     End Sub
 
     Private Sub txtCode__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtCode._MYValidating
-        Dim whrcls As String = ""
-        If clsCommon.myLen(arrLoc) > 0 Then
-            whrcls = " TSPL_OPEN_MCC_SHIFT.MCC_CODE in (" + arrLoc + ")"
-        End If
-        
-        Dim qry As String = "select MCC_SHIFT_CODE As Code,TSPL_OPEN_MCC_SHIFT.MCC_CODE As [MCC CODE],Mcc_name as [Mcc Name], SHIFT,(CONVERT(varchar,MCC_SHIFT_DATE,103)+SUBSTRING(CONVERT(varchar,MCC_SHIFT_DATE,100),12,8)) As [Date],TSPL_OPEN_MCC_SHIFT.Status from TSPL_OPEN_MCC_SHIFT LEFT OUTER JOIN TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code =TSPL_OPEN_MCC_SHIFT.MCC_CODE "
-        txtCode.Value = clsCommon.ShowSelectForm("TSPL_OPEN_MCC_SHIFT", qry, "Code", whrcls, txtCode.Value, "", isButtonClicked)
-        
-        If clsCommon.myLen(txtCode.Value) > 0 Then
-            LoadData(txtCode.Value, NavigatorType.Current)
-            btnsave.Text = "Update"
-            btndelete.Enabled = True
-            txtCode.MyReadOnly = True
-        Else
-            AddNew()
-            txtCode.MyReadOnly = False
-        End If
+        Try
+            Dim whrcls As String = ""
+            If clsCommon.myLen(arrLoc) > 0 Then
+                whrcls = " TSPL_OPEN_MCC_SHIFT.MCC_CODE in (" + arrLoc + ")"
+            End If
 
+            Dim qry As String = "select MCC_SHIFT_CODE As Code,TSPL_OPEN_MCC_SHIFT.MCC_CODE As [MCC CODE],Mcc_name as [Mcc Name], SHIFT,(CONVERT(varchar,MCC_SHIFT_DATE,103)+SUBSTRING(CONVERT(varchar,MCC_SHIFT_DATE,100),12,8)) As [Date],TSPL_OPEN_MCC_SHIFT.Status from TSPL_OPEN_MCC_SHIFT LEFT OUTER JOIN TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code =TSPL_OPEN_MCC_SHIFT.MCC_CODE "
+            txtCode.Value = clsCommon.ShowSelectForm("TSPL_OPEN_MCC_SHIFT", qry, "Code", whrcls, txtCode.Value, "", isButtonClicked)
+
+            If clsCommon.myLen(txtCode.Value) > 0 Then
+                LoadData(txtCode.Value, NavigatorType.Current)
+                btnsave.Text = "Update"
+                btndelete.Enabled = True
+                txtCode.MyReadOnly = True
+            Else
+                AddNew()
+                txtCode.MyReadOnly = False
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
 
     End Sub
 

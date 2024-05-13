@@ -1267,7 +1267,7 @@ isnull(TSPL_VENDOR_MASTER.Actual_charges,0) as Actual_charges,isnull (TSPL_VENDO
 ,'" & companyADD & "'  as companyADD, '" & CompName & "'  as CompName,'" & CompCode & "'  as CompCode, /* TSPL_COMPANY_MASTER .Logo_Img   as compLogo1 ,TSPL_COMPANY_MASTER .Logo_Img2 as compLogo2, */ coalesce(PaymentProcess.Total_EMP_Amount,0) as Total_EMP_Amount,coalesce(PaymentProcess.Incentive_Amount,0) as Incentive_Amount ,coalesce(PaymentProcess.Incentive_EMP_Amount,0) as Incentive_EMP_Amount ,coalesce(PaymentProcess.EMP_Amount,0) as EMP_Amount ,coalesce(PaymentProcess.Vsp_Own_System_Amount,0) as Vsp_Own_System_Amount ,coalesce(PaymentProcess.Head_Load_Amount,0) as Head_Load_Amount ,coalesce(PaymentProcess.Payable_Amount,0) as Payable_Amount,coalesce(PaymentProcess.Credit_Note_Amount,0)as Credit_Note_Amount,coalesce(PaymentProcess.Deduction_Amount,0)*(-1) as Deduction_Amount,coalesce(PaymentProcess.Item_Issue_Amount,0)*(-1) as Item_Issue_Amount,coalesce(PaymentProcess.Item_Issue_Return_Amount,0) as Item_Issue_Return_Amount,coalesce(PaymentProcess.MCC_Sale_Amount,0)*(-1) as MCC_Sale_Amount ,coalesce(PaymentProcess.MCC_Sale_Return_Amount,0) as MCC_Sale_Return_Amount, TSPL_MCC_MASTER.add1 + TSPL_MCC_MASTER.add2 as addd,TSPL_MILK_SRN_DETAIL.UOM_Code,TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty 
 ,case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else  (Price_Chart.milk_rate+isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive_Rate,0)) end as Standard_Rate
 ,case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else Cast( (((Price_Chart.milk_rate+isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive_Rate,0))*Price_Chart.Fat_ratio)/Price_Chart.FAT_Pers) as decimal(18,2)) end as Standard_FAT_Rate,case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else  Cast( (((Price_Chart.milk_rate+isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive_Rate,0))*Price_Chart.SNF_Ratio)/Price_Chart.SNF_Pers) as decimal(18,2)) end as Standard_SNF_Rate
-,TSPL_MILK_PURCHASE_INVOICE_DETAIL.AMOUNT as Net_AMOUNT,TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_RO_Amount , TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE , convert(varchar,TSPL_MILK_SRN_head.DOC_DATE,103) as DOC_DATE,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE ,case when isnull(TSPL_MILK_SRN_HEAD.Against_reject_no,'')='' then TSPL_MILK_SRN_HEAD.shift else TSPL_MILK_REJECT_head.shift end as SHIFT,
+,TSPL_MILK_PURCHASE_INVOICE_DETAIL.AMOUNT as Net_AMOUNT,TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_RO_Amount , TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE , convert(varchar,TSPL_MILK_SRN_head.DOC_DATE,103) as DOC_DATE,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE ,case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,'')='' then TSPL_MILK_SRN_HEAD.shift else TSPL_MILK_SRN_HEAD.shift end as SHIFT,
 TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE ,TSPL_VENDOR_MASTER.Vendor_Name,
 TSPL_VENDOR_MASTER.Bank_Code, TSPL_VENDOR_MASTER.Account_No,
 TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as Route_Name  ,TSPL_MCC_MASTER .MCC_NAME ,case when isnull(TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type,'')='' then 'Mix' else TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type end as Type ,TSPL_MILK_SRN_DETAIL.CLR,TSPL_MILK_SRN_HEAD.SAMPLE_NO ,TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,
@@ -1291,12 +1291,15 @@ TSPL_VLC_MASTER_HEAD.VLC_Name ,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_Pa
 ,round(TSPL_MILK_PURCHASE_INVOICE_DETAIL.SNF_PER *TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty/100,2,1 ) as SNFQTY1 
 ,cast(case when round(TSPL_MILK_PURCHASE_INVOICE_DETAIL.SNF_PER *TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty/100,2,1 )=0 then 0 else (cast(((TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0)))-round( (TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0))*isnull(TSPL_MILK_SRN_DETAIL.FAT_Ratio,0),0) as integer)/round(TSPL_MILK_PURCHASE_INVOICE_DETAIL.SNF_PER *TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty/100,2,1)) end as decimal(18,2)) as SNF_Rate
 ,cast(((TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0)))-round( (TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0))*isnull(TSPL_MILK_SRN_DETAIL.FAT_Ratio,0),0) as integer) as SNF_Amount
-, case when isnull (TSPL_MILK_REJECT_DETAIL.Reject_Type,'') = '' then  'SWEET' else upper (TSPL_MILK_REJECT_DETAIL.Reject_Type) end  as QBD 
+,case when isnull(TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,'') = ''  then (case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type , '') = '' then 'SWEET' 
+		   else upper (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type) end ) else upper (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type ) end as QBD
 ,(case when row_number() over(partition by TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE order by TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE)=1 then PaymentProcess.PPSRN_RO_Amount else 0 end) as PPSRN_RO_Amount
 from TSPL_MILK_PURCHASE_INVOICE_DETAIL 
 Inner Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE =TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE 
 left outer join TSPL_MILK_SRN_HEAD  on TSPL_MILK_SRN_HEAD .DOC_CODE  =TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE 
 left outer join TSPL_MILK_SRN_DETAIL   on TSPL_MILK_SRN_DETAIL .DOC_CODE  =TSPL_MILK_SRN_HEAD.DOC_CODE 
+ left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No	 = TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
+ left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No	 = TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No
 Left Outer Join TSPL_VENDOR_MASTER On TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE =TSPL_VENDOR_MASTER.Vendor_Code And TSPL_VENDOR_MASTER.Form_Type = 'VSP'  
 Left Outer Join TSPL_MCC_MASTER On TSPL_MILK_PURCHASE_INVOICE_HEAD .MCC_CODE = TSPL_MCC_MASTER.MCC_Code  
 left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_Code 
@@ -1315,8 +1318,6 @@ PaymentProcess.vsp_code = TSPL_MILK_PURCHASE_INVOICE_Head.vsp_code And PaymentPr
 left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_MILK_PURCHASE_INVOICE_Head.Comp_Code
 left join (select distinct FAT_Pers,SNF_Pers,Ratio as Fat_ratio,SNF_Ratio, Milk_Rate,TSPL_MILK_PRICE_MASTER.Price_Code,TSPL_FAT_SNF_UPLOADER_MASTER.code    from TSPL_FAT_SNF_UPLOADER_MASTER inner join  TSPL_MILK_PRICE_MASTER  on TSPL_MILK_PRICE_MASTER.Price_Code=TSPL_FAT_SNF_UPLOADER_MASTER.Price_Code) as  Price_Chart    on TSPL_MILK_SRN_DETAIL.Price_Code=Price_Chart.Code 
 left outer join TSPL_VILLAGE_MASTER on TSPL_VILLAGE_MASTER.Village_Code = TSPL_VLC_MASTER_HEAD.Village_Code 
-left join TSPL_MILK_REJECT_head on TSPL_MILK_REJECT_head.doc_code=TSPL_MILK_SRN_HEAD.Against_reject_no
-left outer join  TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE = TSPL_MILK_REJECT_head.DOC_CODE and TSPL_VLC_MASTER_HEAD.VLC_Code  = TSPL_MILK_REJECT_DETAIL.VLC_CODE  and TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT = TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty and TSPL_MILK_REJECT_DETAIL.SAMPLE_NO=TSPL_MILK_SRN_HEAD.SAMPLE_NO
 left outer join TSPL_PRICE_CHART_PLANNING on TSPL_PRICE_CHART_PLANNING.Planning_Code=TSPL_MILK_SRN_DETAIL.Price_Code "
 
         'left outer join (select TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE , TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No as BillNo , convert(varchar,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_Date,103) as BillDate from TSPL_PAYMENT_PROCESS_DETAIL inner join TSPL_PAYMENT_PROCESS_HEAD on  TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
@@ -1337,6 +1338,27 @@ left outer join TSPL_PRICE_CHART_PLANNING on TSPL_PRICE_CHART_PLANNING.Planning_
 
         dt = clsDBFuncationality.GetDataTable(legerMainQuery)
 
+        ' If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+        ' Dim dtSaving As DataTable = Nothing
+        sQuery = "SELECT ZZ.VSP_Uploader_Code,ZZ.VSP_Code,ZZ.Vendor_NAME,ZZ.Addition,SUM(ZZ.Amount) AS Amount
+                 FROM (SELECT TT.VSP_Uploader_Code,TT.VSP_Code,TT.Vendor_NAME,coalesce (mapping.mmDescription, TT.Addition) AS Addition,coalesce (mapping.HindiDescription, TT.Addition_Hindi) AS Addition_Hindi
+                ,TT.Amount,0 as ManAddDed  FROM (
+                select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_VLC_MASTER_HEAD.VSP_Code,'' as Vendor_NAME,TSPL_DCS_ADDITION_DEDUCTION.Description as Addition,TSPL_DCS_ADDITION_DEDUCTION.Description_Hindi as Addition_Hindi,
+                TSPL_DCS_ADDITION_DEDUCTION.Code,
+                (TSPL_VENDOR_INVOICE_HEAD.Document_Total) as [Amount]  from TSPL_PAYMENT_PROCESS_SAVING 
+                left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_SAVING.Doc_No
+                left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.document_no=TSPL_PAYMENT_PROCESS_SAVING.AP_Invoice_No
+                left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.document_no=TSPL_VENDOR_INVOICE_HEAD.document_no
+                left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE
+                left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction
+                where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpLedgerFromDate.Value + "'),103) 
+                                and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpLedgerToDate.Value + "'),103) and TSPL_DCS_ADDITION_DEDUCTION.Description is not null
+                )TT
+                left join (select MAPPING.Code mmCode,MAPPING.Description mmDescription,MAPPING.Description_Hindi HindiDescription,DEDUCTION.CODE AS ddCode from TSPL_DCS_ADDITION_DEDUCTION as MAPPING
+                left join TSPL_DCS_ADDITION_DEDUCTION as DEDUCTION on  DEDUCTION.Code=MAPPING.MappingCode WHERE  len(isnull(MAPPING.MappingCode,''))>0)mapping on mapping.ddCode=TT.Code  )ZZ  GROUP BY ZZ.VSP_Uploader_Code,ZZ.VSP_Code,ZZ.Vendor_NAME,ZZ.Addition "
+
+        Dim dtSaving As DataTable = clsDBFuncationality.GetDataTable(sQuery)
+        ' End If
 
         'Dim strDocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Doc_No from TSPL_PAYMENT_PROCESS_head where convert(date,From_Date,103)>=convert(date,('" + dtpLedgerFromDate.Value + "'),103) and convert(date,To_Date,103)<=convert(date,('" + dtpLedgerToDate.Value + "'),103)"))
 
@@ -1355,8 +1377,10 @@ left outer join TSPL_PRICE_CHART_PLANNING on TSPL_PRICE_CHART_PLANNING.Planning_
                 left outer join TSPL_MULTIPLE_DEDUCTION_head on TSPL_MULTIPLE_DEDUCTION_head.Document_No = TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No 
                 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE
                 where  convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpLedgerFromDate.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpLedgerToDate.Value + "'),103) 
-                ) Final group by Final.VSP_Uploader_Code, Final.VSP_Code , Final.Item_Desc 
-                union all
+                ) Final group by Final.VSP_Uploader_Code, Final.VSP_Code , Final.Item_Desc "
+
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") <> CompairStringResult.Equal Then
+            sQuery += " union all
                 SELECT TT.VSP_Uploader_Code,TT.VSP_Code,TT.Vendor_NAME,coalesce (mapping.mmDescription, TT.Addition) AS Addition
                  ,TT.Amount
                  FROM (
@@ -1374,8 +1398,10 @@ left outer join TSPL_PRICE_CHART_PLANNING on TSPL_PRICE_CHART_PLANNING.Planning_
                 (select MAPPING.Code mmCode,MAPPING.Description mmDescription,DEDUCTION.CODE AS ddCode from TSPL_DCS_ADDITION_DEDUCTION as MAPPING
                  left join TSPL_DCS_ADDITION_DEDUCTION as DEDUCTION
                  on  DEDUCTION.Code=MAPPING.MappingCode
-                 WHERE  len(isnull(MAPPING.MappingCode,''))>0)mapping on mapping.ddCode=TT.Code
-                union all
+                 WHERE  len(isnull(MAPPING.MappingCode,''))>0)mapping on mapping.ddCode=TT.Code "
+        End If
+
+        sQuery += " union all
                 select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_VLC_MASTER_HEAD.VSP_Code,'' as Vendor_NAME
                  ,'Milk Purchase Expense' as Addition,Balance_Amt as Amount 
 from  TSPL_PAYMENT_PROCESS_DETAIL 
@@ -1590,7 +1616,7 @@ and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtp
         If dt IsNot Nothing And dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-                frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptPaymentProcessLegerJPR", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction)
+                frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptPaymentProcessLegerJPR", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "SubSaving.rpt", dtSaving)
             ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
                 frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptPaymentProcessLegerRJS", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction)
             Else
@@ -1665,7 +1691,7 @@ and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtp
         BaseQry += " ,case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else  (Price_Chart.milk_rate+isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive_Rate,0)) end as Standard_Rate" + Environment.NewLine +
         ",case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else Cast( (((Price_Chart.milk_rate+isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive_Rate,0))*Price_Chart.Fat_ratio)/Price_Chart.FAT_Pers) as decimal(18,2)) end as Standard_FAT_Rate" + Environment.NewLine +
         ",case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else  Cast( (((Price_Chart.milk_rate+isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive_Rate,0))*Price_Chart.SNF_Ratio)/Price_Chart.SNF_Pers) as decimal(18,2)) end as Standard_SNF_Rate" + Environment.NewLine +
-        ",TSPL_MILK_PURCHASE_INVOICE_DETAIL.AMOUNT as Net_AMOUNT,TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_RO_Amount , TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE , convert(varchar,TSPL_MILK_SRN_head.DOC_DATE,103) as DOC_DATE,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE ,case when isnull(TSPL_MILK_SRN_HEAD.Against_reject_no,'')='' then TSPL_MILK_SRN_HEAD.shift else TSPL_MILK_REJECT_head.shift end as SHIFT,"
+        ",TSPL_MILK_PURCHASE_INVOICE_DETAIL.AMOUNT as Net_AMOUNT,TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_RO_Amount , TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE , convert(varchar,TSPL_MILK_SRN_head.DOC_DATE,103) as DOC_DATE,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE ,case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,'')='' then TSPL_MILK_SRN_HEAD.shift else TSPL_MILK_SRN_HEAD.shift end as SHIFT,"
         BaseQry += " TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE ,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_MCC_ROUTE_MASTER .Route_Name  ,TSPL_MCC_MASTER .MCC_NAME ,case when isnull(TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type,'')='' then 'Mix' else TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type end as Type ,TSPL_MILK_SAMPLE_DETAIL.CLR,TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO ,TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,"
         BaseQry += " TSPL_VLC_MASTER_HEAD.VLC_Name ,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_PaymentCOMMISSION,0) as [EMP],coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.incentive_head,0) as Incentive,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.total_head_load_amount,0) as HEDAmt,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.total_Own_Asset_Amount,0) as AstAMT,coalesce(Total_dEDUCTION_AMOUNT,0) as DedAmt"
         BaseQry += " ,TSPL_VLC_MASTER_HEAD.Village_Code, TSPL_VILLAGE_MASTER.Village_Name, case when TSPL_MILK_PURCHASE_INVOICE_DETAIL.FAT_PER >= 5 then 'Buffalo' else 'Cow' end as CowBuffalo_Type " + Environment.NewLine +
@@ -1704,9 +1730,7 @@ and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtp
         BaseQry += " left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_MILK_PURCHASE_INVOICE_Head.Comp_Code " + Environment.NewLine
         BaseQry += " left join (select distinct FAT_Pers,SNF_Pers,Ratio as Fat_ratio,SNF_Ratio, Milk_Rate,TSPL_MILK_PRICE_MASTER.Price_Code,TSPL_FAT_SNF_UPLOADER_MASTER.code    from TSPL_FAT_SNF_UPLOADER_MASTER inner join  TSPL_MILK_PRICE_MASTER  on TSPL_MILK_PRICE_MASTER.Price_Code=TSPL_FAT_SNF_UPLOADER_MASTER.Price_Code) as  Price_Chart    on TSPL_MILK_SRN_DETAIL.Price_Code=Price_Chart.Code "
         BaseQry += " left outer join TSPL_VILLAGE_MASTER on TSPL_VILLAGE_MASTER.Village_Code = TSPL_VLC_MASTER_HEAD.Village_Code " + Environment.NewLine +
-        " left join TSPL_MILK_REJECT_head on TSPL_MILK_REJECT_head.doc_code=TSPL_MILK_SRN_HEAD.Against_reject_no
-          left outer join  TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE = TSPL_MILK_REJECT_head.DOC_CODE and TSPL_VLC_MASTER_HEAD.VLC_Code  = TSPL_MILK_REJECT_DETAIL.VLC_CODE  and TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT = TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty   
-          left outer join (select TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE , TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No as BillNo , convert(varchar,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_Date,103) as BillDate from TSPL_PAYMENT_PROCESS_DETAIL inner join TSPL_PAYMENT_PROCESS_HEAD on  TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
+        " left outer join (select TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE , TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No as BillNo , convert(varchar,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_Date,103) as BillDate from TSPL_PAYMENT_PROCESS_DETAIL inner join TSPL_PAYMENT_PROCESS_HEAD on  TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
 		  where 2=2   and convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + fromDate + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + Todate + "'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPosted = 1 ) as TBL_BILL_DETAILS on TBL_BILL_DETAILS.VSP_CODE =
           TSPL_MILK_PURCHASE_INVOICE_Head.vsp_code  
           "
@@ -1800,7 +1824,7 @@ and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtp
         '                    ) Final order by Is_Default_Pashu_Vikash_Kos desc , trans_type desc "
         '        Dim dtgv As DataTable = clsDBFuncationality.GetDataTable(sQuery)
 
-        'sQuery = "select  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No,TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE,convert(varchar, TSPL_MILK_REJECT_HEAD.DOC_DATE,103) as DOC_DATE,TSPL_MILK_REJECT_HEAD.SHIFT,TSPL_MILK_REJECT_DETAIL.Reject_Type,TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT,UOM_Code,TSPL_MILK_REJECT_DETAIL.RATE, TSPL_PAYMENT_PROCESS_DEDUCTION.Amount   " + Environment.NewLine +
+        'sQuery = "select  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No,TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE,convert(varchar, TSPL_MILK_REJECT_HEAD.DOC_DATE,103) as DOC_DATE,TSPL_MILK_SRN_HEAD.shift,TSPL_MILK_REJECT_DETAIL.Reject_Type,TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT,UOM_Code,TSPL_MILK_REJECT_DETAIL.RATE, TSPL_PAYMENT_PROCESS_DEDUCTION.Amount   " + Environment.NewLine +
         '"from TSPL_PAYMENT_PROCESS_DEDUCTION " + Environment.NewLine +
         '"left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.document_no=TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No" + Environment.NewLine +
         '"left outer join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_VENDOR_INVOICE_HEAD.RefDocNo and TSPL_MILK_REJECT_DETAIL.SAMPLE_NO=TSPL_VENDOR_INVOICE_HEAD.Ref_SNo " + Environment.NewLine +
@@ -1984,7 +2008,7 @@ TSPL_MILK_PURCHASE_INVOICE_DETAIL.VLC_NO,TSPL_MILK_SRN_DETAIL.UOM_Code,TSPL_MILK
 ,case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else  (Price_Chart.milk_rate+isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive_Rate,0)) end as Standard_Rate
 ,case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else Cast( (((Price_Chart.milk_rate+isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive_Rate,0))*Price_Chart.Fat_ratio)/Price_Chart.FAT_Pers) as decimal(18,2)) end as Standard_FAT_Rate
 ,case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else  Cast( (((Price_Chart.milk_rate+isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive_Rate,0))*Price_Chart.SNF_Ratio)/Price_Chart.SNF_Pers) as decimal(18,2)) end as Standard_SNF_Rate
-,TSPL_MILK_PURCHASE_INVOICE_DETAIL.AMOUNT as Net_AMOUNT,TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_RO_Amount , TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE , convert(varchar,TSPL_MILK_SRN_head.DOC_DATE,103) as DOC_DATE,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE ,case when isnull(TSPL_MILK_SRN_HEAD.Against_reject_no,'')='' then TSPL_MILK_SRN_HEAD.shift else TSPL_MILK_REJECT_head.shift end as SHIFT,
+,TSPL_MILK_PURCHASE_INVOICE_DETAIL.AMOUNT as Net_AMOUNT,TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_RO_Amount , TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE , convert(varchar,TSPL_MILK_SRN_head.DOC_DATE,103) as DOC_DATE,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE ,case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,'')='' then TSPL_MILK_SRN_HEAD.shift else TSPL_MILK_SRN_HEAD.shift end as SHIFT,
 TSPL_VLC_MASTER_HEAD.Route_code as ROUTE_CODE ,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_BULK_ROUTE_MASTER.Route_Name  ,TSPL_MCC_MASTER .MCC_NAME ,case when isnull(TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type,'')='' then 'Mix' else TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type end as Type ,TSPL_MILK_SRN_DETAIL.CLR,TSPL_MILK_SRN_head.SAMPLE_NO ,TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,
 TSPL_VLC_MASTER_HEAD.VLC_Name ,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_PaymentCOMMISSION,0) as [EMP],coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.incentive_head,0) as Incentive,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.total_head_load_amount,0) as HEDAmt,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.total_Own_Asset_Amount,0) as AstAMT,coalesce(Total_dEDUCTION_AMOUNT,0) as DedAmt
 ,TSPL_VLC_MASTER_HEAD.Village_Code, TSPL_VILLAGE_MASTER.Village_Name, case when TSPL_MILK_PURCHASE_INVOICE_DETAIL.FAT_PER >= 5 then 'Buffalo' else 'Cow' end as CowBuffalo_Type 
@@ -1997,11 +2021,14 @@ TSPL_VLC_MASTER_HEAD.VLC_Name ,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_Pa
 ,TSPL_MILK_SRN_DETAIL.SNF_KG as SNFQTY 
 ,cast(case when round(TSPL_MILK_PURCHASE_INVOICE_DETAIL.SNF_PER *TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty/100,2,1 )=0 then 0 else (cast(((TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0)))-round( (TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0))*isnull(TSPL_MILK_SRN_DETAIL.FAT_Ratio,0),0) as integer)/round(TSPL_MILK_PURCHASE_INVOICE_DETAIL.SNF_PER *TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty/100,2,1)) end as decimal(18,2)) as SNF_Rate
 ,cast(((TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0)))-round( (TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0))*isnull(TSPL_MILK_SRN_DETAIL.FAT_Ratio,0),0) as integer) as SNF_Amount
-, case when isnull (TSPL_MILK_REJECT_DETAIL.Reject_Type,'') = '' then  'SWEET' else upper (TSPL_MILK_REJECT_DETAIL.Reject_Type) end  as QBD, TBL_BILL_DETAILS.DOCNO
+, case when isnull(TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,'') = ''  then (case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type , '') = '' then 'SWEET' 
+		   else upper (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type) end ) else upper (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type ) end as QBD, TBL_BILL_DETAILS.DOCNO
 from TSPL_MILK_PURCHASE_INVOICE_DETAIL  
 Inner Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE =TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE  
 left outer join TSPL_MILK_SRN_HEAD  on TSPL_MILK_SRN_HEAD .DOC_CODE  =TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE
 left outer join TSPL_MILK_SRN_DETAIL   on TSPL_MILK_SRN_DETAIL .DOC_CODE  =TSPL_MILK_SRN_HEAD.DOC_CODE 
+left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No	 = TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
+ left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No	 = TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No
 Left Outer Join TSPL_VENDOR_MASTER On TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE =TSPL_VENDOR_MASTER.Vendor_Code And TSPL_VENDOR_MASTER.Form_Type = 'VSP'  
 left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_Code  
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_PURCHASE_INVOICE_DETAIL.VLC_NO"
@@ -2018,8 +2045,6 @@ left join TSPL_Primary_Vehicle_Master on TSPL_Primary_Vehicle_Master.VEHICLE_COD
 left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_MILK_PURCHASE_INVOICE_Head.Comp_Code 
 left join (select distinct FAT_Pers,SNF_Pers,Ratio as Fat_ratio,SNF_Ratio, Milk_Rate,TSPL_MILK_PRICE_MASTER.Price_Code,TSPL_FAT_SNF_UPLOADER_MASTER.code    from TSPL_FAT_SNF_UPLOADER_MASTER inner join  TSPL_MILK_PRICE_MASTER  on TSPL_MILK_PRICE_MASTER.Price_Code=TSPL_FAT_SNF_UPLOADER_MASTER.Price_Code) as  Price_Chart    on TSPL_MILK_SRN_DETAIL.Price_Code=Price_Chart.Code 
 left outer join TSPL_VILLAGE_MASTER on TSPL_VILLAGE_MASTER.Village_Code = TSPL_VLC_MASTER_HEAD.Village_Code 
-left join TSPL_MILK_REJECT_head on TSPL_MILK_REJECT_head.doc_code=TSPL_MILK_SRN_HEAD.Against_reject_no
-left outer join  TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE = TSPL_MILK_REJECT_head.DOC_CODE and  TSPL_MILK_REJECT_DETAIL.SAMPLE_NO=TSPL_MILK_SRN_HEAD.sample_no
 left outer join (select TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE , TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No as BillNo ,TSPL_PAYMENT_PROCESS_DETAIL.Doc_No as DOCNO, convert(varchar,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_Date,103) as BillDate from TSPL_PAYMENT_PROCESS_DETAIL inner join TSPL_PAYMENT_PROCESS_HEAD on  TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
 where 2=2   and convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + fromDate + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + Todate + "'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPosted = 1 
 ) as TBL_BILL_DETAILS on TBL_BILL_DETAILS.VSP_CODE = TSPL_MILK_PURCHASE_INVOICE_Head.vsp_code and TBL_BILL_DETAILS.BillNo=TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE
@@ -3173,7 +3198,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAY
             BaseQry += " ,case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else  (Price_Chart.milk_rate+isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive_Rate,0)) end as Standard_Rate" + Environment.NewLine +
             ",case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else Cast( (((Price_Chart.milk_rate+isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive_Rate,0))*Price_Chart.Fat_ratio)/Price_Chart.FAT_Pers) as decimal(18,2)) end as Standard_FAT_Rate" + Environment.NewLine +
             ",case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else  Cast( (((Price_Chart.milk_rate+isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive_Rate,0))*Price_Chart.SNF_Ratio)/Price_Chart.SNF_Pers) as decimal(18,2)) end as Standard_SNF_Rate" + Environment.NewLine +
-            ",TSPL_MILK_PURCHASE_INVOICE_DETAIL.AMOUNT as Net_AMOUNT,TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_RO_Amount , TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE , convert(varchar,TSPL_MILK_SRN_head.DOC_DATE,103) as DOC_DATE,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE as VSP_CODE1 ,case when isnull(TSPL_MILK_SRN_HEAD.Against_reject_no,'')='' then TSPL_MILK_SRN_HEAD.shift else TSPL_MILK_REJECT_head.shift end as SHIFT,"
+            ",TSPL_MILK_PURCHASE_INVOICE_DETAIL.AMOUNT as Net_AMOUNT,TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_RO_Amount , TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE , convert(varchar,TSPL_MILK_SRN_head.DOC_DATE,103) as DOC_DATE,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE as VSP_CODE1 ,case when isnull(TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,'')='' then TSPL_MILK_SRN_HEAD.shift else TSPL_MILK_SRN_HEAD.shift end as SHIFT,"
             BaseQry += " TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE ,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_MCC_ROUTE_MASTER .Route_Name  ,TSPL_MCC_MASTER .MCC_NAME ,case when isnull(TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type,'')='' then 'Mix' else TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type end as Type ,TSPL_MILK_SRN_DETAIL.CLR,TSPL_MILK_SRN_HEAD.SAMPLE_NO ,TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,"
             BaseQry += " TSPL_VLC_MASTER_HEAD.VLC_Name ,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_PaymentCOMMISSION,0) as [EMP],coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.incentive_head,0) as Incentive,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.total_head_load_amount,0) as HEDAmt,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.total_Own_Asset_Amount,0) as AstAMT,coalesce(Total_dEDUCTION_AMOUNT,0) as DedAmt"
             BaseQry += " ,TSPL_VLC_MASTER_HEAD.Village_Code, TSPL_VILLAGE_MASTER.Village_Name, case when TSPL_MILK_PURCHASE_INVOICE_DETAIL.FAT_PER >= 5 then 'Buffalo' else 'Cow' end as CowBuffalo_Type " + Environment.NewLine +
@@ -3193,13 +3218,18 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAY
 ,round(TSPL_MILK_PURCHASE_INVOICE_DETAIL.SNF_PER *TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty/100,2,1 ) as SNFQTY 
 ,cast(case when round(TSPL_MILK_PURCHASE_INVOICE_DETAIL.SNF_PER *TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty/100,2,1 )=0 then 0 else (cast(((TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0)))-round( (TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0))*isnull(TSPL_MILK_SRN_DETAIL.FAT_Ratio,0),0) as integer)/round(TSPL_MILK_PURCHASE_INVOICE_DETAIL.SNF_PER *TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty/100,2,1)) end as decimal(18,2)) as SNF_Rate
 ,cast(((TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0)))-round( (TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0))*isnull(TSPL_MILK_SRN_DETAIL.FAT_Ratio,0),0) as integer) as SNF_Amount
-,case when isnull (TSPL_MILK_REJECT_DETAIL.Reject_Type,'') = '' then  'SWEET' 
-when upper (TSPL_MILK_REJECT_DETAIL.Reject_Type)='SOUR' THEN 'SOUR'
-when upper (TSPL_MILK_REJECT_DETAIL.Reject_Type)='CURD' THEN 'CURD'
-else upper (TSPL_MILK_REJECT_DETAIL.Reject_Type) 
-end as QBD    " + Environment.NewLine +
+,case when isnull(TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,'') = ''  then (case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type , '') = '' then 'SWEET' 
+									when upper (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type)='SOUR' THEN 'SOUR'
+                                    when upper (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type)='CURD' THEN 'CURD'
+                                    else upper (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type) end )
+									else case when upper (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type)='SOUR' THEN 'SOUR'
+                                    when upper (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type)='CURD' THEN 'CURD'
+                                    else upper (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type )end
+									end as QBD    " + Environment.NewLine +
             " from TSPL_MILK_PURCHASE_INVOICE_DETAIL  " + Environment.NewLine + " Inner Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE =TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE  " + Environment.NewLine + " left outer join TSPL_MILK_SRN_HEAD  on TSPL_MILK_SRN_HEAD .DOC_CODE  =TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE " + Environment.NewLine
             BaseQry += " left outer join TSPL_MILK_SRN_DETAIL   on TSPL_MILK_SRN_DETAIL .DOC_CODE  =TSPL_MILK_SRN_HEAD.DOC_CODE " + Environment.NewLine
+            BaseQry += "" + Environment.NewLine + "left  join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No	= TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
+            left  join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No = TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No"
 
             BaseQry += "" + Environment.NewLine + " Left Outer Join TSPL_VENDOR_MASTER On TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE =TSPL_VENDOR_MASTER.Vendor_Code And TSPL_VENDOR_MASTER.Form_Type = 'VSP'  " + Environment.NewLine + " Left Outer Join TSPL_MCC_MASTER On TSPL_MILK_PURCHASE_INVOICE_HEAD .MCC_CODE = TSPL_MCC_MASTER.MCC_Code  " + Environment.NewLine + " left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_Code Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE =TSPL_MCC_ROUTE_MASTER.Route_Code " + Environment.NewLine + " left outer join TSPL_VLC_MASTER_HEAD on"
             BaseQry += " TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_PURCHASE_INVOICE_DETAIL.VLC_NO  " + Environment.NewLine
@@ -3208,10 +3238,8 @@ end as QBD    " + Environment.NewLine +
             BaseQry += " left join TSPL_Primary_Vehicle_Master on TSPL_Primary_Vehicle_Master.VEHICLE_CODE = TSPL_MILK_SRN_HEAD.VEHICLE_CODE " + Environment.NewLine
             BaseQry += " left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_MILK_PURCHASE_INVOICE_Head.Comp_Code " + Environment.NewLine
             BaseQry += " left join (select distinct FAT_Pers,SNF_Pers,Ratio as Fat_ratio,SNF_Ratio, Milk_Rate,TSPL_MILK_PRICE_MASTER.Price_Code,TSPL_FAT_SNF_UPLOADER_MASTER.code    from TSPL_FAT_SNF_UPLOADER_MASTER inner join  TSPL_MILK_PRICE_MASTER  on TSPL_MILK_PRICE_MASTER.Price_Code=TSPL_FAT_SNF_UPLOADER_MASTER.Price_Code) as  Price_Chart    on TSPL_MILK_SRN_DETAIL.Price_Code=Price_Chart.Code "
-            BaseQry += " left outer join TSPL_VILLAGE_MASTER on TSPL_VILLAGE_MASTER.Village_Code = TSPL_VLC_MASTER_HEAD.Village_Code " + Environment.NewLine +
-            " left join TSPL_MILK_REJECT_head on TSPL_MILK_REJECT_head.doc_code=TSPL_MILK_SRN_HEAD.Against_reject_no
-          left outer join  TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE = TSPL_MILK_REJECT_head.DOC_CODE and TSPL_VLC_MASTER_HEAD.VLC_Code  = TSPL_MILK_REJECT_DETAIL.VLC_CODE    
-          "
+            BaseQry += " left outer join TSPL_VILLAGE_MASTER on TSPL_VILLAGE_MASTER.Village_Code = TSPL_VLC_MASTER_HEAD.Village_Code " + Environment.NewLine
+
             BaseQry += "  " & whrcls & " " ' where Doc_No = '" + fndDocNo.Value + "'
             Dim dt As New DataTable
             sQuery = BaseQry '+ " order by vsp_code,convert(datetime,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103),shift desc"
@@ -3246,11 +3274,7 @@ end as QBD    " + Environment.NewLine +
                     from( Select Sum(Total) As  AllTotal, Date
             	from(select isnull(sum(Qty),0) as total,DOC_DATE as Date from TSPL_MILK_SRN_DETAIL 
 				left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE 
-            	where DOC_DATE  in('" & result & "') Group  by DOC_DATE
-                          union 
-            	select Isnull(sum(TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT),0) as total, (TSPL_MILK_REJECT_HEAD.DOC_DATE) as Date from TSPL_MILK_REJECT_DETAIL left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE = TSPL_MILK_REJECT_DETAIL.DOC_CODE left join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.code=TSPL_MILK_REJECT_DETAIL.Reject_Type
-            	where 2=2 and TSPL_MILK_REJECT_HEAD.DOC_DATE in('" & result & "')  Group By TSPL_MILK_REJECT_HEAD.DOC_DATE
-            	) xyz  group  by date )abc group  by date )as tab1
+            	where DOC_DATE  in('" & result & "') Group  by DOC_DATE  ) xyz  group  by date )abc group  by date )as tab1                   
             PIVOT(SUM(AllTotal) FOR Date IN (" & resultColumn & ")) AS Tab2 "
             Dim dtDayWise As DataTable = clsDBFuncationality.GetDataTable(Sqlqry)
             Dim sbDayWiseData As New System.Text.StringBuilder()
@@ -3265,12 +3289,21 @@ end as QBD    " + Environment.NewLine +
             Dim DayWiseResult = sbDayWiseData.ToString()
             Dim fatPer As Decimal = dtFatSnf.Rows(0)("fat%")
             Dim SNFPer As Decimal = dtFatSnf.Rows(0)("SNF%")
-            Dim Mor_Kg_Sweet As Decimal = clsDBFuncationality.getSingleValue("select ISnull (sum(cast( qty as int)),0) as [KG Sweet]  from TSPL_MILK_SRN_DETAIL left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE where Cast(doc_date AS DATE) >= '" & DCS_FromDate & "' AND Cast(doc_date AS DATE) <= '" & DCS_ToDate & "'  and shift = 'M' ")
-            Dim Eve_Kg_Sweet As Decimal = clsDBFuncationality.getSingleValue("select ISnull (sum(cast( qty as int)),0) as [KG Sweet]  from TSPL_MILK_SRN_DETAIL left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE where Cast(doc_date AS DATE) >= '" & DCS_FromDate & "' AND Cast(doc_date AS DATE) <= '" & DCS_ToDate & "'  and shift = 'E' ")
-            Dim Mor_kg_Sour As Decimal = clsDBFuncationality.getSingleValue("select Isnull(sum(cast(TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT as int)),0) as total from TSPL_MILK_REJECT_DETAIL left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE = TSPL_MILK_REJECT_DETAIL.DOC_CODE left join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.code=TSPL_MILK_REJECT_DETAIL.Reject_Type where 2=2   and TSPL_MILK_REJECT_HEAD.DOC_DATE >='" & DCS_FromDate & "' and TSPL_MILK_REJECT_HEAD.DOC_DATE <='" & DCS_ToDate & "' and SHIFT = 'M' AND Reject_Type = 'Sour' ")
-            Dim Mor_kg_Curd As Decimal = clsDBFuncationality.getSingleValue("select Isnull(sum(cast(TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT as int)),0) as total from TSPL_MILK_REJECT_DETAIL left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE = TSPL_MILK_REJECT_DETAIL.DOC_CODE left join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.code=TSPL_MILK_REJECT_DETAIL.Reject_Type where 2=2   and TSPL_MILK_REJECT_HEAD.DOC_DATE >='" & DCS_FromDate & "' and TSPL_MILK_REJECT_HEAD.DOC_DATE <='" & DCS_ToDate & "' and SHIFT = 'M' AND Reject_Type = 'Curd' ")
-            Dim Eve_kg_Sour As Decimal = clsDBFuncationality.getSingleValue("select Isnull(sum(cast(TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT as int)),0) as total from TSPL_MILK_REJECT_DETAIL left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE = TSPL_MILK_REJECT_DETAIL.DOC_CODE left join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.code=TSPL_MILK_REJECT_DETAIL.Reject_Type where 2=2   and TSPL_MILK_REJECT_HEAD.DOC_DATE >='" & DCS_FromDate & "' and TSPL_MILK_REJECT_HEAD.DOC_DATE <='" & DCS_ToDate & "' and SHIFT = 'E' AND Reject_Type = 'Sour' ")
-            Dim Eve_kg_Curd As Decimal = clsDBFuncationality.getSingleValue("select Isnull(sum(cast(TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT as int)),0) as total from TSPL_MILK_REJECT_DETAIL left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE = TSPL_MILK_REJECT_DETAIL.DOC_CODE left join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.code=TSPL_MILK_REJECT_DETAIL.Reject_Type where 2=2   and TSPL_MILK_REJECT_HEAD.DOC_DATE >='" & DCS_FromDate & "' and TSPL_MILK_REJECT_HEAD.DOC_DATE <='" & DCS_ToDate & "' and SHIFT = 'E' AND Reject_Type = 'Curd' ")
+            'Dim dtMorningData As DataTable = clsDBFuncationality.GetDataTable("SELECT sum(qty * case when ShiftReject =  0 and ProcReject = 0  then 1 else 0  end) as Mor_Kg_Sweet, sum(qty * case when ShiftReject =  1  then 1 else ( case when ProcReject = 1 then 1 else 0 end )  end) as Mor_kg_Sour,sum(qty * case when ShiftReject =  -1  then 1 else ( case when ProcReject = 1 then 1 else 0 end )  end) as Mor_kg_Curd from ( SELECT SUM(QTY)Qty ,case when TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type = 'SOUR' then 1 else ( case when TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type = 'CURD' then -1 else 0 end) end  as ProcReject, case when TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type = 'SOUR' then 1 else( case when TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type = 'CURD' then -1 else 0 end)  end as ShiftReject FROM TSPL_MILK_SRN_DETAIL left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE
+            'left  join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No	= TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No left  join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No = TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No where 2=2   and TSPL_MILK_SRN_HEAD.DOC_DATE >='" & DCS_FromDate & "' and TSPL_MILK_SRN_HEAD.DOC_DATE <='" & DCS_ToDate & "' and TSPL_MILK_SRN_HEAD.SHIFT = 'M' GROUP BY TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type , TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type ) xx ")
+            'If dtMorningData.Rows.Count > 0 Then
+            '    Dim Mor_Kg_Sweet As Decimal = clsCommon.myCDecimal(dtMorningData.Rows(0)("Mor_Kg_Sweet"))
+            '    Dim Mor_kg_Sour As Decimal = clsCommon.myCDecimal(dtMorningData.Rows(0)("Mor_kg_Sour"))
+            '    Dim Mor_kg_Curd As Decimal = clsCommon.myCDecimal(dtMorningData.Rows(0)("Mor_kg_Curd"))
+            'End If
+            'Dim dtEveningData As DataTable = clsDBFuncationality.GetDataTable("SELECT sum(qty * case when ShiftReject =  0 and ProcReject = 0  then 1 else 0  end) as Eve_Kg_Sweet, sum(qty * case when ShiftReject =  1  then 1 else ( case when ProcReject = 1 then 1 else 0 end )  end) as Eve_kg_Sour,sum(qty * case when ShiftReject =  -1  then 1 else ( case when ProcReject = 1 then 1 else 0 end )  end) as Eve_kg_Curd from ( SELECT SUM(QTY)Qty ,case when TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type = 'SOUR' then 1 else ( case when TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type = 'CURD' then -1 else 0 end) end  as ProcReject, case when TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type = 'SOUR' then 1 else( case when TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type = 'CURD' then -1 else 0 end)  end as ShiftReject FROM TSPL_MILK_SRN_DETAIL left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE
+            'left  join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No	= TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No left  join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No = TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No where 2=2   and TSPL_MILK_SRN_HEAD.DOC_DATE >='" & DCS_FromDate & "' and TSPL_MILK_SRN_HEAD.DOC_DATE <='" & DCS_ToDate & "' and TSPL_MILK_SRN_HEAD.SHIFT = 'E' GROUP BY TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type , TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type ) xx ")
+            'If dtEveningData.Rows.Count > 0 Then
+            '    Dim Eve_Kg_Sweet As Decimal = clsCommon.myCDecimal(dtEveningData.Rows(0)("Eve_Kg_Sweet"))
+            '    Dim Eve_kg_Curd As Decimal = clsCommon.myCDecimal(dtEveningData.Rows(0)("Eve_kg_Curd"))
+            '    Dim Eve_kg_Sour As Decimal = clsCommon.myCDecimal(dtEveningData.Rows(0)("Eve_kg_Sour"))
+            'End If
+
             Dim Days As String = clsDBFuncationality.getSingleValue(" SELECT COUNT(DISTINCT DOC_DATE)as Days FROM TSPL_MILK_SRN_HEAD where Cast(doc_date AS DATE) >= '" & DCS_FromDate & "' and Cast(doc_date AS DATE) <= '" & DCS_ToDate & "'")
             Dim DCSSummaryQuery As String = "  ; with CTE as  
                                                 ( 
@@ -3323,9 +3356,7 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
             AS [301-500DCS] ,SUM(case when avg_day > 500 then Milk_Weight else 0 end) AS [>500Qty] , COUNT(case when avg_day > 500 then DCS else null end) AS [>500DCS] ,COUNT(DCS) AS Total_DCS, sum(Milk_Weight)as Total_Qty  from (Select " + AvgDCS + " As Avg_Day , sum(total) as Milk_Weight , count(VLC_Code_VLC_Uploader) as DCS
             from(select isnull(sum(Qty),0) as total, VLC_Code_VLC_Uploader from TSPL_MILK_SRN_DETAIL
 			left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_SRN_HEAD.VLC_CODE where (convert (date,DOC_DATE,103)) >= convert (date, '" & startDate & "' ,103) 
-            and (convert (date,DOC_DATE,103)) <= convert (date,  '" & endDate & "' ,103) group by VLC_Code_VLC_Uploader union select Isnull(sum(TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT),0) as total , VLC_Code_VLC_Uploader from TSPL_MILK_REJECT_DETAIL Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_REJECT_DETAIL.VLC_CODE 
-            left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE = TSPL_MILK_REJECT_DETAIL.DOC_CODE left join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.code=TSPL_MILK_REJECT_DETAIL.Reject_Type where 2=2 and (convert (date,TSPL_MILK_REJECT_HEAD.DOC_DATE,103)) >=convert (date,  '" & startDate & "' ,103) AND
-            (convert (date,TSPL_MILK_REJECT_HEAD.DOC_DATE,103)) <= convert (date, '" & endDate & "' ,103) group by VLC_Code_VLC_Uploader ) xyz group by VLC_Code_VLC_Uploader )abc"
+            and (convert (date,DOC_DATE,103)) <= convert (date,  '" & endDate & "' ,103) group by VLC_Code_VLC_Uploader  ) xyz group by VLC_Code_VLC_Uploader )abc"
 
             Dim dtSubReport As DataTable = clsDBFuncationality.GetDataTable(DCSSubReportQuery)
 
@@ -3341,18 +3372,24 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
             select  VSP_CODE1, QBD  , Qty, Case when  QBD = 'SWEET' then Qty else 0  end  as TotalSweetQty, Case when  QBD = 'SOUR'  then Qty else 0  end  as TotalSoreQty, Case when  QBD = 'CURD'  then Qty 
             else 0  end  as TotalCurdQty ,count(VSP_CODE1 ) over (PARTITION BY VSP_CODE1) as DAYS_Total , VLC_Code_VLC_Uploader from (
             select * from (select DAY( convert (date,DOC_DATE,103)) as DocDay ,VSP_CODE1, QBD, sum( Qty) as Qty ,VLC_Code_VLC_Uploader from ( 
-            select TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty , convert(varchar,TSPL_MILK_SRN_head.DOC_DATE,103) as DOC_DATE,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE as VSP_CODE1 ,case when isnull(TSPL_MILK_SRN_HEAD.Against_reject_no,'')=''
-            then TSPL_MILK_SRN_HEAD.shift else TSPL_MILK_REJECT_head.shift end as SHIFT, TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, TSPL_VLC_MASTER_HEAD.VLC_Name
-            ,case when isnull (TSPL_MILK_REJECT_DETAIL.Reject_Type,'') = '' then  'SWEET' when upper (TSPL_MILK_REJECT_DETAIL.Reject_Type)='SOUR' THEN 'SOUR' when upper (TSPL_MILK_REJECT_DETAIL.Reject_Type)='CURD' THEN 'CURD'
-            else upper (TSPL_MILK_REJECT_DETAIL.Reject_Type) end as QBD  from TSPL_MILK_PURCHASE_INVOICE_DETAIL   left outer join TSPL_MILK_SRN_HEAD  on TSPL_MILK_SRN_HEAD .DOC_CODE  =TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE 
+            select TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty , convert(varchar,TSPL_MILK_SRN_head.DOC_DATE,103) as DOC_DATE,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE as VSP_CODE1 ,case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,'')=''
+            then TSPL_MILK_SRN_HEAD.shift else TSPL_MILK_SRN_HEAD.shift end as SHIFT, TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, TSPL_VLC_MASTER_HEAD.VLC_Name
+            ,case when isnull(TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,'') = ''  then (case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type , '') = '' then 'SWEET' 
+									when upper (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type)='SOUR' THEN 'SOUR'
+                                    when upper (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type)='CURD' THEN 'CURD'
+                                    else upper (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type) end )
+									else case when upper (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type)='SOUR' THEN 'SOUR'
+                                    when upper (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type)='CURD' THEN 'CURD'
+                                    else upper (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type )end
+									end as QBD  from TSPL_MILK_PURCHASE_INVOICE_DETAIL   left outer join TSPL_MILK_SRN_HEAD  on TSPL_MILK_SRN_HEAD .DOC_CODE  =TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE 
              Inner Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE =TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE  
              left outer join TSPL_MILK_SRN_DETAIL   on TSPL_MILK_SRN_DETAIL .DOC_CODE  =TSPL_MILK_SRN_HEAD.DOC_CODE 
+             left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No	 = TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
+             left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No	 = TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No
              Left Outer Join TSPL_VENDOR_MASTER On TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE =TSPL_VENDOR_MASTER.Vendor_Code And TSPL_VENDOR_MASTER.Form_Type = 'VSP'  
              left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_Code Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE =TSPL_MCC_ROUTE_MASTER.Route_Code 
              left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_PURCHASE_INVOICE_DETAIL.VLC_NO  
-             left join TSPL_MILK_REJECT_head on TSPL_MILK_REJECT_head.doc_code=TSPL_MILK_SRN_HEAD.Against_reject_no
-             left outer join  TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE = TSPL_MILK_REJECT_head.DOC_CODE and TSPL_VLC_MASTER_HEAD.VLC_Code  = TSPL_MILK_REJECT_DETAIL.VLC_CODE   
-             where 2=2  and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)>=convert(date,('" & startDate & "'),103) and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) <=convert(date,('" & endDate & "'),103) 
+              where 2=2  and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)>=convert(date,('" & startDate & "'),103) and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) <=convert(date,('" & endDate & "'),103) 
              ) XXXFinal group by DOC_DATE, VSP_CODE1,QBD , VLC_Code_VLC_Uploader ) XXX  ) XXXXMain)XXXFinal
 		     ) Final   left outer join (select VLC_Code_VLC_Uploader as DCS_Code,VLC_Name,TSPL_VLC_MASTER_HEAD.VSP_Code from TSPL_VLC_MASTER_HEAD            
 	         ) as XXXDCS ON XXXDCS.VSP_Code=Final.VSP_Code1 
@@ -4163,15 +4200,28 @@ TSPL_MILK_COLLECTION_MCC
                 End If
 
                 Dim Qry As String = "; with CTE as (select 1 Number  union all  select Number +1 from CTE where Number<31 ) 
-                                     select CASE WHEN max(Registered_PDCS_CLUSTER) = 'Registered' THEN ([DCS Code]) + '(R)' ELSE CASE WHEN max(Registered_PDCS_CLUSTER) = 'PDCS' THEN ([DCS Code]) + '(CC)' ELSE ([DCS Code]) END END AS DCSCode,
+                                     select"
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                    Qry += " CASE WHEN max(Registered_PDCS_CLUSTER) = 'Registered' THEN ([DCS Code]) + '' ELSE CASE WHEN max(Registered_PDCS_CLUSTER) = 'PDCS' THEN ([DCS Code]) + '' ELSE ([DCS Code]) END END AS DCSCode,
+									
+									 CASE WHEN max(Registered_PDCS_CLUSTER) = 'Registered' THEN 'R' else CASE WHEN max(Registered_PDCS_CLUSTER) = 'PDCS' THEN 'P' end end as DCStype ,
+									 max(Route_code) as Route_code,"
+                Else
+                    Qry += " CASE WHEN max(Registered_PDCS_CLUSTER) = 'Registered' THEN ([DCS Code]) + '(R)' ELSE CASE WHEN max(Registered_PDCS_CLUSTER) = 'PDCS' THEN ([DCS Code]) + '(CC)' ELSE ([DCS Code]) END END AS DCSCode,"
+                End If
+                Qry += "
                                      Max([DCS Code])[DCS Code],'" + objCommonVar.CurrentCompanyName + MCCName + "'  as CompName,'" + objCommonVar.CurrentUser + "' as User_Name,'" + txtDateFrom.Value + "' as fromDate ,'" + txtDateTo.Value + "' as Todate,max(VSP_CODE) as VSP_CODE ,max(Vendor_Name) as Vendor_Name,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER, sum(MorningSweetQty) as MorningSweetQty ,sum(MorningSoreQty) as MorningSoreQty,sum(MorningCurdQty) as MorningCurdQty,sum(EveningSweetQty) as EveningSweetQty,sum(EveningSoreQty) as EveningSoreQty ,sum(EveningCurdQty) as EveningCurdQty ,sum(TotalSweetQty) as TotalSweetQty ,sum(TotalSoreQty) as TotalSoreQty ,sum(TotalCurdQty) as TotalCurdQty,
                                      ((sum(FATKG)* 100)/(sum(TotalSweetQty)+sum(TotalSoreQty))) as FATPer,((Sum(SNFKG)* 100)/(sum(TotalSweetQty)+sum(TotalSoreQty))) as SNFPer,
                                      Count(Distinct Doc_Date)DAYS_Total, 
                                      (sum(TotalSweetQty)+sum(TotalSoreQty)+sum(TotalCurdQty))/max(FYDays+1)as AVG_QTY,(sum(TotalSweetQty)+sum(TotalSoreQty)+sum(TotalCurdQty))as TotalQty  
                                      from (
-                                     select [DCS Code],FATKG,SNFKG,Doc_Date,Number2, VSP_CODE1, Vendor_Name,Registered_PDCS_CLUSTER ,MorningSweetQty,MorningSoreQty,MorningCurdQty,EveningSweetQty,EveningSoreQty,EveningCurdQty,TotalSweetQty,TotalSoreQty,TotalCurdQty,FATQTY,SNFQTY,DAYS_Total,(DATEDIFF(DAY, convert(date,('" + txtDateFrom.Value + "'),103), convert(date,('" + txtDateTo.Value + "'),103)))FYDays
+                                     select "
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                    Qry += " Route_code,"
+                End If
+                Qry += "        [DCS Code],FATKG,SNFKG,Doc_Date,Number2, VSP_CODE1, Vendor_Name,Registered_PDCS_CLUSTER ,MorningSweetQty,MorningSoreQty,MorningCurdQty,EveningSweetQty,EveningSoreQty,EveningCurdQty,TotalSweetQty,TotalSoreQty,TotalCurdQty,FATQTY,SNFQTY,DAYS_Total,(DATEDIFF(DAY, convert(date,('" + txtDateFrom.Value + "'),103), convert(date,('" + txtDateTo.Value + "'),103)))FYDays
                                        from (
-                                     select [DCS Code],FATKG,SNFKG,Doc_Date,Number,Number as Number2, VSP_CODE1, Vendor_Name,Registered_PDCS_CLUSTER, SHIFT, QBD , ROUTE_CODE , Qty, FAT_PER , SNF_PER , FATQTY, SNFQTY, SRN_Net_Amount, 
+                                     select  [DCS Code],FATKG,SNFKG,Doc_Date,Number,Number as Number2, VSP_CODE1, Vendor_Name,Registered_PDCS_CLUSTER, SHIFT, QBD , ROUTE_CODE , Qty, FAT_PER , SNF_PER , FATQTY, SNFQTY, SRN_Net_Amount, 
                                      Case when SHIFT = 'M' and QBD = 'SWEET' then Qty else 0 end as MorningSweetQty,
                                      Case when SHIFT = 'M' and QBD = 'SOUR' then Qty else 0 end as MorningSoreQty,
                                      Case when SHIFT = 'M' and QBD = 'CURD' then Qty else 0 end as MorningCurdQty,
@@ -4188,7 +4238,7 @@ TSPL_MILK_COLLECTION_MCC
                                      sum (SRN_Net_Amount) as SRN_Net_Amount  from ( select isnull(TSPL_VENDOR_MASTER.Actual_charges,0) as Actual_charges,isnull (TSPL_VENDOR_MASTER.Rate_Head_Load,0) as Rate_Head_Load ,isnull(TSPL_MILK_PURCHASE_INVOICE_HEAD.Handling_Charges_Amount,0) as Handling_Charges_Amount , TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE as MPD ,convert(varchar,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) as MPI_Date,   TSPL_MCC_MASTER.add1 +case when len(TSPL_MCC_MASTER.add2)>0 then ', '+TSPL_MCC_MASTER.add2 else '' end + case when LEN(TSPL_COMPANY_MASTER.City_Code)>0 then ', '+MCC_City.City_Name  else ' ' end + case when len(TSPL_MCC_MASTER.State_Code )>0 then MCC_State.STATE_NAME else '' end  as MCC_address,     '01/05/2023'  as fromDate ,'31/05/2023'  as Todate ,'Opp. H. M.T. Beawar Road , ALWAR'  as companyADD, '" + objCommonVar.CurrentCompanyName + "'  as CompName, /* TSPL_COMPANY_MASTER .Logo_Img   as compLogo1 ,TSPL_COMPANY_MASTER .Logo_Img2 as compLogo2, */  TSPL_MCC_MASTER.add1 + TSPL_MCC_MASTER.add2 as addd,TSPL_MILK_SRN_DETAIL.UOM_Code,TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty  ,case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else  (Price_Chart.milk_rate+isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive_Rate,0)) end as Standard_Rate
                                     ,case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else Cast( (((Price_Chart.milk_rate+isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive_Rate,0))*Price_Chart.Fat_ratio)/Price_Chart.FAT_Pers) as decimal(18,2)) end as Standard_FAT_Rate
                                     ,case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else  Cast( (((Price_Chart.milk_rate+isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive_Rate,0))*Price_Chart.SNF_Ratio)/Price_Chart.SNF_Pers) as decimal(18,2)) end as Standard_SNF_Rate
-                                    ,TSPL_MILK_PURCHASE_INVOICE_DETAIL.AMOUNT as Net_AMOUNT,TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_RO_Amount , TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE , convert(varchar,TSPL_MILK_SRN_head.DOC_DATE,103) as DOC_DATE,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE as VSP_CODE1 ,case when isnull(TSPL_MILK_SRN_HEAD.Against_reject_no,'')='' then TSPL_MILK_SRN_HEAD.shift else TSPL_MILK_REJECT_head.shift end as SHIFT, TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE ,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_VENDOR_MASTER.Bank_Code,(Case When TSPL_VENDOR_MASTER.Account_No Is Null Then TSPL_VENDOR_MASTER.AccNo2 Else TSPL_VENDOR_MASTER.Account_No End) As Account_No ,TSPL_MCC_ROUTE_MASTER .Route_Name  ,TSPL_MCC_MASTER .MCC_NAME ,case when isnull(TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type,'')='' then 'Mix' else TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type end as Type ,TSPL_MILK_SRN_DETAIL.CLR,TSPL_MILK_SRN_HEAD.SAMPLE_NO ,TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER ,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_PaymentCOMMISSION,0) as [EMP],coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.incentive_head,0) as Incentive,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.total_head_load_amount,0) as HEDAmt,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.total_Own_Asset_Amount,0) as AstAMT,coalesce(Total_dEDUCTION_AMOUNT,0) as DedAmt ,TSPL_VLC_MASTER_HEAD.Village_Code, TSPL_VILLAGE_MASTER.Village_Name, case when TSPL_MILK_PURCHASE_INVOICE_DETAIL.FAT_PER >= 5 then 'Buffalo' else 'Cow' end as CowBuffalo_Type 
+                                    ,TSPL_MILK_PURCHASE_INVOICE_DETAIL.AMOUNT as Net_AMOUNT,TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_RO_Amount , TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE , convert(varchar,TSPL_MILK_SRN_head.DOC_DATE,103) as DOC_DATE,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE as VSP_CODE1 ,case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,'')='' then TSPL_MILK_SRN_HEAD.shift else TSPL_MILK_SRN_HEAD.shift end as SHIFT, TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE ,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_VENDOR_MASTER.Bank_Code,(Case When TSPL_VENDOR_MASTER.Account_No Is Null Then TSPL_VENDOR_MASTER.AccNo2 Else TSPL_VENDOR_MASTER.Account_No End) As Account_No ,TSPL_MCC_ROUTE_MASTER .Route_Name  ,TSPL_MCC_MASTER .MCC_NAME ,case when isnull(TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type,'')='' then 'Mix' else TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type end as Type ,TSPL_MILK_SRN_DETAIL.CLR,TSPL_MILK_SRN_HEAD.SAMPLE_NO ,TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER ,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_PaymentCOMMISSION,0) as [EMP],coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.incentive_head,0) as Incentive,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.total_head_load_amount,0) as HEDAmt,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.total_Own_Asset_Amount,0) as AstAMT,coalesce(Total_dEDUCTION_AMOUNT,0) as DedAmt ,TSPL_VLC_MASTER_HEAD.Village_Code, TSPL_VILLAGE_MASTER.Village_Name, case when TSPL_MILK_PURCHASE_INVOICE_DETAIL.FAT_PER >= 5 then 'Buffalo' else 'Cow' end as CowBuffalo_Type 
                                     ,(TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0)) as SRN_Net_Amount
                                     ,TSPL_MILK_PURCHASE_INVOICE_HEAD.Total_Basic_AMOUNT  ,TSPL_MILK_SRN_HEAD.VEHICLE_CODE ,cast( case when  TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty=0 then 0 else (TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0))/TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty end as decimal(18,2)) as RATE
                                     ,TSPL_MILK_PURCHASE_INVOICE_DETAIL.FAT_PER 
@@ -4197,18 +4247,24 @@ TSPL_MILK_COLLECTION_MCC
                                     ,cast( round((TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0))*isnull(TSPL_MILK_SRN_DETAIL.FAT_Ratio,0),0) as integer) as FAT_Amount,TSPL_MILK_PURCHASE_INVOICE_DETAIL.SNF_PER,round(TSPL_MILK_PURCHASE_INVOICE_DETAIL.SNF_PER *TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty/100,2,1 ) as SNFQTY 
                                     ,cast(case when round(TSPL_MILK_PURCHASE_INVOICE_DETAIL.SNF_PER *TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty/100,2,1 )=0 then 0 else (cast(((TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0)))-round( (TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0))*isnull(TSPL_MILK_SRN_DETAIL.FAT_Ratio,0),0) as integer)/round(TSPL_MILK_PURCHASE_INVOICE_DETAIL.SNF_PER *TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty/100,2,1)) end as decimal(18,2)) as SNF_Rate
                                     ,cast(((TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0)))-round( (TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0))*isnull(TSPL_MILK_SRN_DETAIL.FAT_Ratio,0),0) as integer) as SNF_Amount
-                                    ,case when isnull (TSPL_MILK_REJECT_DETAIL.Reject_Type,'') = '' then  'SWEET' 
-                                    when upper (TSPL_MILK_REJECT_DETAIL.Reject_Type)='SOUR' THEN 'SOUR'
-                                    when upper (TSPL_MILK_REJECT_DETAIL.Reject_Type)='CURD' THEN 'CURD'
-                                    else upper (TSPL_MILK_REJECT_DETAIL.Reject_Type) 
-                                    end as QBD ,TSPL_MILK_SRN_DETAIL.FAT_KG As [FATKG],TSPL_MILK_SRN_DETAIL.SNF_KG AS [SNFKG],
-									Case When TSPL_MILK_REJECT_DETAIL.Reject_Type='SOUR' Then((TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT/100)*TSPL_MILK_REJECT_DETAIL.FAT) Else 0 End As RFAT,
-									Case When TSPL_MILK_REJECT_DETAIL.Reject_Type='SOUR' Then((TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT/100)*TSPL_MILK_REJECT_DETAIL.SNF)Else 0 End As RSNF,
+                                    ,case when isnull(TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,'') = ''  then (case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type , '') = '' then 'SWEET'  
+                                    when upper (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type)='SOUR' THEN 'SOUR'
+                                    when upper (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type)='CURD' THEN 'CURD'
+                                    else upper (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type) end )
+                                    else case when upper (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type)='SOUR' THEN 'SOUR'
+                                    when upper (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type)='CURD' THEN 'CURD'
+                                    else upper (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type )end
+									end as QBD
+                                     ,TSPL_MILK_SRN_DETAIL.FAT_KG As [FATKG],TSPL_MILK_SRN_DETAIL.SNF_KG AS [SNFKG],
+									Case When TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type='SOUR' Then  ((TSPL_MILK_SRN_DETAIL.Qty/100)*TSPL_MILK_SRN_DETAIL.FAT_PER) Else ( case when  TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type='SOUR' THEN (( TSPL_MILK_SRN_DETAIL.Qty/100)*TSPL_MILK_SRN_DETAIL.FAT_PER )  ELSE 0 end ) End As RFAT,
+									Case When TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type='SOUR' Then  ((TSPL_MILK_SRN_DETAIL.Qty/100)*TSPL_MILK_SRN_DETAIL.SNF_PER) Else ( case when  TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type='SOUR' THEN (( TSPL_MILK_SRN_DETAIL.Qty/100)*TSPL_MILK_SRN_DETAIL.SNF_PER )  ELSE 0 end ) End As RSNF,
                                      TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [DCS Code]
                                      from TSPL_MILK_PURCHASE_INVOICE_DETAIL  
                                      Inner Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE =TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE  
                                      left outer join TSPL_MILK_SRN_HEAD  on TSPL_MILK_SRN_HEAD .DOC_CODE  =TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE 
                                      left outer join TSPL_MILK_SRN_DETAIL   on TSPL_MILK_SRN_DETAIL .DOC_CODE  =TSPL_MILK_SRN_HEAD.DOC_CODE 
+                                     left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No	 = TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
+								     left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No	 = TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No
                                      Left Outer Join TSPL_VENDOR_MASTER On TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE =TSPL_VENDOR_MASTER.Vendor_Code And TSPL_VENDOR_MASTER.Form_Type = 'VSP'  
                                      Left Outer Join TSPL_MCC_MASTER On TSPL_MILK_PURCHASE_INVOICE_HEAD .MCC_CODE = TSPL_MCC_MASTER.MCC_Code  
                                      left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_Code Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE =TSPL_MCC_ROUTE_MASTER.Route_Code 
@@ -4219,9 +4275,7 @@ TSPL_MILK_COLLECTION_MCC
                                      left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_MILK_PURCHASE_INVOICE_Head.Comp_Code 
                                      left join  (select distinct FAT_Pers,SNF_Pers,Ratio as Fat_ratio,SNF_Ratio, Milk_Rate,TSPL_MILK_PRICE_MASTER.Price_Code,TSPL_FAT_SNF_UPLOADER_MASTER.code 
                                      from TSPL_FAT_SNF_UPLOADER_MASTER  inner join  TSPL_MILK_PRICE_MASTER on TSPL_MILK_PRICE_MASTER.Price_Code=TSPL_FAT_SNF_UPLOADER_MASTER.Price_Code) as Price_Chart on TSPL_MILK_SRN_DETAIL.Price_Code=Price_Chart.Code  
-                                     left outer join TSPL_VILLAGE_MASTER on TSPL_VILLAGE_MASTER.Village_Code = TSPL_VLC_MASTER_HEAD.Village_Code 
-                                     left join TSPL_MILK_REJECT_head on TSPL_MILK_REJECT_head.doc_code=TSPL_MILK_SRN_HEAD.Against_reject_no
-                                     left outer join  TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE = TSPL_MILK_REJECT_head.DOC_CODE and TSPL_VLC_MASTER_HEAD.VLC_Code  = TSPL_MILK_REJECT_DETAIL.VLC_CODE  and TSPL_MILK_REJECT_DETAIL.SAMPLE_NO=tspl_milk_srn_HEad.SAMPLE_NO
+                                     left outer join TSPL_VILLAGE_MASTER on TSPL_VILLAGE_MASTER.Village_Code = TSPL_VLC_MASTER_HEAD.Village_Code                                     
                                     where 2=2  and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)>=convert(date,('" + txtDateFrom.Value + "'),103) and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) <=convert(date,('" + txtDateTo.Value + "'),103)  "
                 If clsCommon.myLen(fndMultMCC.arrValueMember) > 0 Then
                     Dim strMCC As String = Nothing
@@ -4310,12 +4364,7 @@ TSPL_MILK_COLLECTION_MCC
                         Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_SRN_HEAD.VLC_CODE
                         where DOC_DATE  >= convert(date,('" + txtDateFrom.Value + "'),103) and DOC_DATE <= convert(date,('" + txtDateTo.Value + "'),103) 
                         " + whrCls + " group by VLC_Code_VLC_Uploader
-                        union 
-                        select Isnull(sum(TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT),0) as total , VLC_Code_VLC_Uploader from TSPL_MILK_REJECT_DETAIL
-                        Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_REJECT_DETAIL.VLC_CODE
-                        left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE = TSPL_MILK_REJECT_DETAIL.DOC_CODE left join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.code=TSPL_MILK_REJECT_DETAIL.Reject_Type
-                        where 2=2 and TSPL_MILK_REJECT_HEAD.DOC_DATE >=convert(date,('" + txtDateFrom.Value + "'),103) AND TSPL_MILK_REJECT_HEAD.DOC_DATE <=convert(date,('" + txtDateTo.Value + "'),103) 
-                        " + whrCls + " group by VLC_Code_VLC_Uploader ) xyz
+                         ) xyz
                         group by VLC_Code_VLC_Uploader )abc where avg_day < 51
                         UNION
                         select  0 AS [<51Qty] , 0 AS [<51DCS] ,SUM(Milk_Weight) AS [51-150Qty] , count(DCS)AS [51-150DCS],
@@ -4325,13 +4374,7 @@ TSPL_MILK_COLLECTION_MCC
                         Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_SRN_HEAD.VLC_CODE
                         where DOC_DATE  >= convert(date,('" + txtDateFrom.Value + "'),103) and DOC_DATE <= convert(date,('" + txtDateTo.Value + "'),103) 
                         " + whrCls + " group by VLC_Code_VLC_Uploader
-                        union 
-                        select Isnull(sum(TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT),0) as total , VLC_Code_VLC_Uploader from TSPL_MILK_REJECT_DETAIL
-                        Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_REJECT_DETAIL.VLC_CODE
-                        left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE = TSPL_MILK_REJECT_DETAIL.DOC_CODE 
-                        left join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.code=TSPL_MILK_REJECT_DETAIL.Reject_Type 
-                        where 2=2   and TSPL_MILK_REJECT_HEAD.DOC_DATE >=convert(date,('" + txtDateFrom.Value + "'),103) AND TSPL_MILK_REJECT_HEAD.DOC_DATE <=convert(date,('" + txtDateTo.Value + "'),103) 
-                        " + whrCls + " group by VLC_Code_VLC_Uploader ) xyz
+                        ) xyz
                         group by VLC_Code_VLC_Uploader )abc where avg_day >= 51 AND Avg_Day < 150
                         UNION
                         select  0 AS [<51Qty] , 0 AS [<51DCS] ,0 AS [51-150Qty], 0 AS [51-150DCS],SUM(Milk_Weight)AS [151-300Qty] , count(DCS)AS [151-300DCS] ,0 AS [301-500Qty] , 0 AS [301-500DCS],
@@ -4341,12 +4384,7 @@ TSPL_MILK_COLLECTION_MCC
                         Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_SRN_HEAD.VLC_CODE
                         where DOC_DATE  >= convert(date,('" + txtDateFrom.Value + "'),103) and DOC_DATE <= convert(date,('" + txtDateTo.Value + "'),103) 
                         " + whrCls + " group by VLC_Code_VLC_Uploader
-                        union 
-                        select Isnull(sum(TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT),0) as total , VLC_Code_VLC_Uploader from TSPL_MILK_REJECT_DETAIL
-                        Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_REJECT_DETAIL.VLC_CODE
-                        left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE = TSPL_MILK_REJECT_DETAIL.DOC_CODE left join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.code=TSPL_MILK_REJECT_DETAIL.Reject_Type 
-                        where 2=2   and TSPL_MILK_REJECT_HEAD.DOC_DATE >=convert(date,('" + txtDateFrom.Value + "'),103) AND TSPL_MILK_REJECT_HEAD.DOC_DATE <=convert(date,('" + txtDateTo.Value + "'),103) 
-                        " + whrCls + "                        group by VLC_Code_VLC_Uploader ) xyz group by VLC_Code_VLC_Uploader )abc 
+                         ) xyz group by VLC_Code_VLC_Uploader )abc 
                         where avg_day >= 151 AND Avg_Day < 300
                         UNION
                         select  0 AS [<51Qty] , 0 AS [<51DCS],0 AS [51-150Qty], 0 AS [51-150DCS],0 AS [151-300Qty] ,0 AS [151-300DCS],SUM(Milk_Weight) As [301-500Qty], count(DCS) As [301-500DCS],
@@ -4355,14 +4393,8 @@ TSPL_MILK_COLLECTION_MCC
                         from(select isnull(sum(Qty),0) as total, VLC_Code_VLC_Uploader from TSPL_MILK_SRN_DETAIL left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE 
                         Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_SRN_HEAD.VLC_CODE
                         where DOC_DATE  >= convert(date,('" + txtDateFrom.Value + "'),103) and DOC_DATE <= convert(date,('" + txtDateTo.Value + "'),103)  
-                        " + whrCls + " group by VLC_Code_VLC_Uploader
-                        union 
-                        select Isnull(sum(TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT),0) as total , VLC_Code_VLC_Uploader from TSPL_MILK_REJECT_DETAIL
-                        Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_REJECT_DETAIL.VLC_CODE
-                        left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE = TSPL_MILK_REJECT_DETAIL.DOC_CODE left join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.code=TSPL_MILK_REJECT_DETAIL.Reject_Type 
-                        where 2=2   and TSPL_MILK_REJECT_HEAD.DOC_DATE >=convert(date,('" + txtDateFrom.Value + "'),103) AND TSPL_MILK_REJECT_HEAD.DOC_DATE <=convert(date,('" + txtDateTo.Value + "'),103)
-                        " + whrCls + " group by VLC_Code_VLC_Uploader ) xyz			
-                        group by VLC_Code_VLC_Uploader )abc 
+                        " + whrCls + " group by VLC_Code_VLC_Uploader ) xyz
+                         )abc 
                         where avg_day >= 301 AND Avg_Day < 500
                         UNION 
                         select  0 AS [<51Qty] , 0 AS [<51DCS] ,0 AS [51-150Qty], 0 AS [51-150DCS], 0 AS [151-300Qty] ,0 AS [151-300DCS],0 AS [301-500Qty], 0 As [301-500DCS],
@@ -4372,13 +4404,7 @@ TSPL_MILK_COLLECTION_MCC
                         Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_SRN_HEAD.VLC_CODE
                         where DOC_DATE  >= convert(date,('" + txtDateFrom.Value + "'),103) and DOC_DATE <= convert(date,('" + txtDateTo.Value + "'),103)
                         " + whrCls + " group by VLC_Code_VLC_Uploader
-                        union 
-                        select Isnull(sum(TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT),0) as total , VLC_Code_VLC_Uploader from TSPL_MILK_REJECT_DETAIL
-                        Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_REJECT_DETAIL.VLC_CODE
-                        left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE = TSPL_MILK_REJECT_DETAIL.DOC_CODE 
-                        left join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.code=TSPL_MILK_REJECT_DETAIL.Reject_Type 
-                        where 2=2 and TSPL_MILK_REJECT_HEAD.DOC_DATE >=convert(date,('" + txtDateFrom.Value + "'),103) AND TSPL_MILK_REJECT_HEAD.DOC_DATE <=convert(date,('" + txtDateTo.Value + "'),103) 
-                        " + whrCls + " group by VLC_Code_VLC_Uploader)xyz				
+                        )xyz				
                         group by VLC_Code_VLC_Uploader )abc where avg_day > 500	) abcd)xyz"
                 Dim dtSubMonthly As DataTable = clsDBFuncationality.GetDataTable(Qry)
 
@@ -4396,17 +4422,18 @@ TSPL_MILK_COLLECTION_MCC
             select  VSP_CODE1, QBD  , Qty, Case when  QBD = 'SWEET' then Qty else 0  end  as TotalSweetQty, Case when  QBD = 'SOUR'  then Qty else 0  end  as TotalSoreQty, Case when  QBD = 'CURD'  then Qty 
             else 0  end  as TotalCurdQty ,count(VSP_CODE1 ) over (PARTITION BY VSP_CODE1) as DAYS_Total , VLC_Code_VLC_Uploader from (
             select * from (select DAY( convert (date,DOC_DATE,103)) as DocDay ,VSP_CODE1, QBD, sum( Qty) as Qty ,VLC_Code_VLC_Uploader from ( 
-            select TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty , convert(varchar,TSPL_MILK_SRN_head.DOC_DATE,103) as DOC_DATE,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE as VSP_CODE1 ,case when isnull(TSPL_MILK_SRN_HEAD.Against_reject_no,'')=''
-            then TSPL_MILK_SRN_HEAD.shift else TSPL_MILK_REJECT_head.shift end as SHIFT, TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, TSPL_VLC_MASTER_HEAD.VLC_Name
-            ,case when isnull (TSPL_MILK_REJECT_DETAIL.Reject_Type,'') = '' then  'SWEET' when upper (TSPL_MILK_REJECT_DETAIL.Reject_Type)='SOUR' THEN 'SOUR' when upper (TSPL_MILK_REJECT_DETAIL.Reject_Type)='CURD' THEN 'CURD'
-            else upper (TSPL_MILK_REJECT_DETAIL.Reject_Type) end as QBD  from TSPL_MILK_PURCHASE_INVOICE_DETAIL   left outer join TSPL_MILK_SRN_HEAD  on TSPL_MILK_SRN_HEAD .DOC_CODE  =TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE 
+            select TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty , convert(varchar,TSPL_MILK_SRN_head.DOC_DATE,103) as DOC_DATE,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE as VSP_CODE1 ,case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,'')=''
+            then TSPL_MILK_SRN_HEAD.shift else TSPL_MILK_SRN_HEAD.shift end as SHIFT, TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, TSPL_VLC_MASTER_HEAD.VLC_Name,  
+             case when isnull(TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,'') = ''  then (case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type , '') = '' then 'SWEET'  when upper (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type)='SOUR' THEN 'SOUR'
+            when upper (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type)='CURD' THEN 'CURD' else upper (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type) end ) else case when upper (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type)='SOUR' THEN 'SOUR'
+            when upper (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type)='CURD' THEN 'CURD' else upper (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type )end end as QBD  from TSPL_MILK_PURCHASE_INVOICE_DETAIL   left outer join TSPL_MILK_SRN_HEAD  on TSPL_MILK_SRN_HEAD .DOC_CODE  =TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE 
              Inner Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE =TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE  
              left outer join TSPL_MILK_SRN_DETAIL   on TSPL_MILK_SRN_DETAIL .DOC_CODE  =TSPL_MILK_SRN_HEAD.DOC_CODE 
+             left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No	 = TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
+             left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No	 = TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No
              Left Outer Join TSPL_VENDOR_MASTER On TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE =TSPL_VENDOR_MASTER.Vendor_Code And TSPL_VENDOR_MASTER.Form_Type = 'VSP'  
              left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_Code Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE =TSPL_MCC_ROUTE_MASTER.Route_Code 
-             left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_PURCHASE_INVOICE_DETAIL.VLC_NO  
-             left join TSPL_MILK_REJECT_head on TSPL_MILK_REJECT_head.doc_code=TSPL_MILK_SRN_HEAD.Against_reject_no
-             left outer join  TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE = TSPL_MILK_REJECT_head.DOC_CODE and TSPL_VLC_MASTER_HEAD.VLC_Code  = TSPL_MILK_REJECT_DETAIL.VLC_CODE   
+             left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_PURCHASE_INVOICE_DETAIL.VLC_NO       
              where 2=2  and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)>=convert(date,('" + txtDateFrom.Value + "'),103) and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) <=convert(date,('" + txtDateTo.Value + "'),103) 
             " + whrCls + "
              ) XXXFinal group by DOC_DATE, VSP_CODE1,QBD , VLC_Code_VLC_Uploader ) XXX  ) XXXXMain)XXXFinal
@@ -4417,11 +4444,18 @@ TSPL_MILK_COLLECTION_MCC
                 Dim dtSubDay As DataTable = clsDBFuncationality.GetDataTable(Qry)
                 If dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubMonthly, "rptDCSSummaryYearlyWise", "", "rptSubDCSYearlySummaryMonthlyWiseReport.rpt")
-                    'frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubMonthly, "rptDCSSummaryYearlyWise", "", "rptSubDCSYearlySummaryMonthlyWiseReport", "rptDCSSummaryYearlyDayWiseReport", dtSubDay)
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                        frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubMonthly, "rptDCSSummaryYearlyWiseUDP", "", "rptSubDCSYearlySummaryMonthlyWiseReport.rpt")
+
+                    Else
+
+                        frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubMonthly, "rptDCSSummaryYearlyWise", "", "rptSubDCSYearlySummaryMonthlyWiseReport.rpt")
+                        'frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubMonthly, "rptDCSSummaryYearlyWise", "", "rptSubDCSYearlySummaryMonthlyWiseReport", "rptDCSSummaryYearlyDayWiseReport", dtSubDay)
+                    End If
                     frmCRV = Nothing
-                Else
-                    clsCommon.MyMessageBoxShow(Me, "No data found to print.", Me.Text)
+
+                        Else
+                        clsCommon.MyMessageBoxShow(Me, "No data found to print.", Me.Text)
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "Finacial Year can't be blanck.", Me.Text)

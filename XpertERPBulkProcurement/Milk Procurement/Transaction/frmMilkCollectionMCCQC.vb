@@ -439,20 +439,21 @@ where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.
                     objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.VLCDataUploaderFat, clsCommon.myCstr(gv1.Rows(RoWNum).Cells("FAT").Value))
                     objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.VLCDataUploaderSNF, clsCommon.myCstr(gv1.Rows(RoWNum).Cells("SNF").Value))
                     objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Form_Code, MyBase.Form_ID)
+
+                    If clsCommon.myLen(strPhoneno) > 0 Then
+                        strPhoneno = strPhoneno.Replace("(", "").Replace(")", "").Replace("+", "").Replace("_____", "").Replace("____", "").Replace("___", "").Replace("__", "").Replace("_", "")
+                    End If
+                    If clsCommon.myLen(strPhoneno) >= 10 Then
+                        objSMSH.arrMobilNo.Add(clsCommon.myCstr(strPhoneno))
+                    End If
+
+                    If clsCommon.myLen(dtContent.Rows(0)("SMS_Text")) > 0 Then
+                        objSMSH.SaveData(clsUserMgtCode.MilkCollectionMCCSample, objSMSH, trans)
+                    End If
                 End If
             End If
 
-            If clsCommon.myLen(strPhoneno) > 0 Then
-                strPhoneno = strPhoneno.Replace("(", "").Replace(")", "").Replace("+", "").Replace("_____", "").Replace("____", "").Replace("___", "").Replace("__", "").Replace("_", "")
-            End If
-            If clsCommon.myLen(strPhoneno) >= 10 Then
-                objSMSH.arrMobilNo.Add(clsCommon.myCstr(strPhoneno))
-            End If
-
-            If clsCommon.myLen(dtContent.Rows(0)("SMS_Text")) > 0 Then
-                objSMSH.SaveData(clsUserMgtCode.MilkCollectionMCCSample, objSMSH, trans)
-                objSMSH = Nothing
-            End If
+            objSMSH = Nothing
             'If clsCommon.myLen(dtContent.Rows(0)("SMS_Text")) > 0 Then
             '    clsCommon.MyMessageBoxShow(Me,"SMS Send Successfully", Me.Text)
             'End If

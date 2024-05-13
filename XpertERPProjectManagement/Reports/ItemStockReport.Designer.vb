@@ -27,6 +27,7 @@ Partial Class ItemStockReport
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkPhV = New System.Windows.Forms.CheckBox()
         Me.MyLabel8 = New common.Controls.MyLabel()
         Me.txtItemType = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel3 = New common.Controls.MyLabel()
@@ -50,6 +51,7 @@ Partial Class ItemStockReport
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.Label5 = New System.Windows.Forms.Label()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -111,6 +113,8 @@ Partial Class ItemStockReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.Label5)
+        Me.RadPageViewPage1.Controls.Add(Me.chkPhV)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel8)
         Me.RadPageViewPage1.Controls.Add(Me.txtItemType)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel3)
@@ -126,6 +130,16 @@ Partial Class ItemStockReport
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 366)
         Me.RadPageViewPage1.Text = "Filter"
+        '
+        'chkPhV
+        '
+        Me.chkPhV.AutoSize = True
+        Me.chkPhV.Location = New System.Drawing.Point(374, 18)
+        Me.chkPhV.Name = "chkPhV"
+        Me.chkPhV.Size = New System.Drawing.Size(178, 17)
+        Me.chkPhV.TabIndex = 349
+        Me.chkPhV.Text = "For Physical Stock Verification"
+        Me.chkPhV.UseVisualStyleBackColor = True
         '
         'MyLabel8
         '
@@ -431,6 +445,15 @@ Partial Class ItemStockReport
         Me.btnGo.TabIndex = 53
         Me.btnGo.Text = ">>"
         '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(392, 38)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(309, 13)
+        Me.Label5.TabIndex = 350
+        Me.Label5.Text = "( Which includes unloaded material but not taken in stock)"
+        '
         'ItemStockReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -498,4 +521,6 @@ Partial Class ItemStockReport
     Friend WithEvents txtItemType As common.UserControls.txtMultiSelectFinder
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Protected WithEvents cmbUnit As common.Controls.MyComboBox
+    Friend WithEvents chkPhV As CheckBox
+    Friend WithEvents Label5 As Label
 End Class

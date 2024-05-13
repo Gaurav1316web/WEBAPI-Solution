@@ -873,7 +873,7 @@ Partial Class frmVSPMaster
         Me.lblvendorname.Name = "lblvendorname"
         Me.lblvendorname.Size = New System.Drawing.Size(62, 16)
         Me.lblvendorname.TabIndex = 4
-        Me.lblvendorname.Text = "VSP Name"
+        Me.lblvendorname.Text = "Secretary Name"
         '
         'chkOwnBMC
         '
@@ -1002,7 +1002,7 @@ Partial Class frmVSPMaster
         Me.lblCopy.Name = "lblCopy"
         Me.lblCopy.Size = New System.Drawing.Size(58, 16)
         Me.lblCopy.TabIndex = 83
-        Me.lblCopy.Text = "VSP Copy"
+        Me.lblCopy.Text = "Secretary Copy"
         '
         'chkInactiveInMilkModule
         '
@@ -1471,7 +1471,7 @@ Partial Class frmVSPMaster
         Me.lblvandorno.Name = "lblvandorno"
         Me.lblvandorno.Size = New System.Drawing.Size(50, 16)
         Me.lblvandorno.TabIndex = 0
-        Me.lblvandorno.Text = "VSP No."
+        Me.lblvandorno.Text = "Secretary No."
         '
         'chkInterBranch
         '
@@ -1999,7 +1999,7 @@ Partial Class frmVSPMaster
         Me.MyLabel6.Name = "MyLabel6"
         Me.MyLabel6.Size = New System.Drawing.Size(77, 16)
         Me.MyLabel6.TabIndex = 41
-        Me.MyLabel6.Text = "VSP Payment"
+        Me.MyLabel6.Text = "Secretary Payment"
         '
         'LblIncentive
         '
@@ -7296,7 +7296,7 @@ Partial Class frmVSPMaster
         'rmVSPDetail
         '
         Me.rmVSPDetail.Name = "rmVSPDetail"
-        Me.rmVSPDetail.Text = "VSP Details"
+        Me.rmVSPDetail.Text = "Secretary Details"
         '
         'rmChargesDetail
         '
@@ -7318,7 +7318,7 @@ Partial Class frmVSPMaster
         'rmVSPDetails
         '
         Me.rmVSPDetails.Name = "rmVSPDetails"
-        Me.rmVSPDetails.Text = "VSP Details"
+        Me.rmVSPDetails.Text = "Secretary Details"
         '
         'rmChargesDetails
         '
@@ -7485,7 +7485,7 @@ Partial Class frmVSPMaster
         '
         '
         Me.RootElement.ApplyShapeToControl = True
-        Me.Text = "VSP Master"
+        Me.Text = "Secretary Master"
         CType(Me.vendorgrpbox, System.ComponentModel.ISupportInitialize).EndInit
         Me.vendorgrpbox.ResumeLayout(False)
         Me.vendorgrpbox.PerformLayout

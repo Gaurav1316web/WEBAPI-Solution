@@ -90,16 +90,16 @@ Public Class rptDBTMilkPayment
         Try
             If txtMCC.arrValueMember.Count > 1 Then
                 MCCName = ",'' AS MCCName"
-                whrclsRjt = "  and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
-                whrclsRecpt = " and TSPL_MILK_SRN_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                'whrclsRjt = "  and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                'whrclsRecpt = " and TSPL_MILK_SRN_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
             ElseIf txtMCC.arrValueMember.Count <= 0 Then
                 MCCName = ",'' AS MCCName"
-                whrclsRjt = "  and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
-                whrclsRecpt = " and TSPL_MILK_SRN_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                'whrclsRjt = "  and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                'whrclsRecpt = " and TSPL_MILK_SRN_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
             Else
                 MCCName = ",aa.[MCC Name] as MCCName"
-                whrclsRjt = "  and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
-                whrclsRecpt = " and TSPL_MILK_SRN_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                'whrclsRjt = "  and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                'whrclsRecpt = " and TSPL_MILK_SRN_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
             End If
         Catch
             MCCName = ",'' AS MCCName"
@@ -165,49 +165,7 @@ Public Class rptDBTMilkPayment
                          where 2 = 2 And Cast(TSPL_MILK_SRN_HEAD.DOC_DATE As Date) >='" + clsCommon.GetPrintDate(txtFromDate.Text, "dd/MMM/yyyy") + "'  
                          And Cast(TSPL_MILK_SRN_HEAD.DOC_DATE As Date) <='" + clsCommon.GetPrintDate(txtToDate.Text, "dd/MMM/yyyy") + "'   
                          " + whrclsRecpt + " " + whre + "  
-                          Union All 
-                          Select TSPL_MP_INCENTIVE1.Incetive_Rate,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,TSPL_MILK_SRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_MILK_REJECT_HEAD.DOC_CODE As [Milk Receipt Code], "
-        If AreaWiseBilling = True Then
-            Qry += " tspl_location_master.Location_Desc As [MCC Name],"
-        Else
-             Qry += "  TSPL_MCC_MASTER.MCC_NAME As [MCC Name],"
-            End If
-
-        Qry += "  TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code], TSPL_VLC_MASTER_HEAD.VLC_Name As [VLC Name], TSPL_MILK_REJECT_DETAIL.SAMPLE_NO As [Sample No], TSPL_MILK_REJECT_DETAIL.NO_OF_CANS As [No Of Cans], TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT As [Milk Weight], TSPL_MILK_REJECT_DETAIL.UOM_Code, TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_KG As [Milk Weight(KG)], TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_LTR As [Milk Weight(LTR)], TSPL_MILK_REJECT_DETAIL.FAT As [FAT(%)], TSPL_MILK_REJECT_DETAIL.SNF As [SNF(%)],0 As CLR, Convert(Decimal(18,3), TSPL_MILK_REJECT_DETAIL.FAT * TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_KG / 100) As [FAT(KG)],  Convert(Decimal(18,3),TSPL_MILK_REJECT_DETAIL.SNF * TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_KG / 100) As [SNF(KG)], '' As [Sample Status],  TSPL_MILK_SRN_HEAD.DOC_CODE As [SRN No], Convert(decimal(18,2),TSPL_MILK_SRN_DETAIL.AMOUNT) As [SRN Amount], TSPL_MILK_SRN_DETAIL.RATE As [SRN Rate],  TSPL_MILK_SRN_DETAIL.Qty As [SRN Qty], Case When TSPL_MILK_SRN_HEAD.DOC_CODE Is Null Then 'Open' Else 'Close' End [Shift Status],  TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE as Invoice_no, convert(varchar,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) as Invoice_Date ,  '' as IS_MANUAL ,'' as MACHINE_NO ,'' as IS_MILK_SAMPLE_MANUAL,TSPL_MILK_SRN_HEAD.Purchase_Order_No,TSPL_MILK_SRN_DETAIL.Head_Load_Amount,TSPL_MILK_REJECT_TYPE.Code as RejectType,  case when TSPL_MILK_REJECT_DETAIL.Is_Return=0 then '' when TSPL_MILK_REJECT_DETAIL.Is_Return=1 then 'Return' when TSPL_MILK_REJECT_DETAIL.Is_Return=2 then 'Drain' when TSPL_MILK_REJECT_DETAIL.Is_Return=3 then 'COB'  end as RejectReason,TSPL_MILK_REJECT_DETAIL.Defaulter  
-                         ,TSPL_MILK_PRICE_SNF_DEDUCTION.Amount as SNF_Ded_Value,cast((TSPL_MILK_PRICE_SNF_DEDUCTION.Amount+TSPL_MILK_SRN_DETAIL.RATE) as decimal(18,2)) as SNF_Ded_Rate,cast((TSPL_MILK_PRICE_SNF_DEDUCTION.Amount+TSPL_MILK_SRN_DETAIL.RATE)*TSPL_MILK_SRN_DETAIL.ACC_Qty as decimal(18,2)) as SNF_Ded_Amount 
-                         ,TabTSPL_FAT_SNF_UPLOADER_MASTER.Price_code,[Transporter Code], [Transporter Name],isnull(TSPL_MILK_PURCHASE_INVOICE_DETAIL.Handling_Charges_Amount,0) as Handling_Charges_Amount 
-                         ,(isnull(TSPL_MILK_SRN_DETAIL.VSP_Commission_Apply,0)*TSPL_MILK_SRN_DETAIL.VSP_Commission_Amount)  as VSP_Commission_Amount ,(isnull(TSPL_MILK_SRN_DETAIL.VSP_Deduction_Apply,0)*TSPL_MILK_SRN_DETAIL.VSP_Deduction_Amount)  as VSP_Deduction_Amount,TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,case when isnull( TSPL_MILK_SRN_DETAIL.Sub_Standard,0)=1 then 'Sub Standard' else '' end as SubStandard,t1.Vehicle,
-                         TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as [Mcc_Uploader_Code] , TSPL_COMPANY_MASTER.Comp_Name, TSPL_MCC_MASTER.Area_Location_Code, TSPL_MCC_MASTER.MCC_NAME
-                         From TSPL_MILK_REJECT_DETAIL 
-                         Left Outer Join TSPL_MILK_REJECT_HEAD On TSPL_MILK_REJECT_HEAD.DOC_CODE = TSPL_MILK_REJECT_DETAIL.DOC_CODE 
-                         Left OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=TSPL_MILK_REJECT_HEAD.Comp_Code
-                         Left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODe=TSPL_MILK_SRN_HEAD.Against_Reject_No And TSPL_MILK_SRN_HEAD.SAMPLE_NO=TSPL_MILK_REJECT_DETAIL.SAMPLE_NO 
-                         Left Outer Join TSPL_MILK_SRN_DETAIL On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE 
-                         Left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.item_code=TSPL_MILK_SRN_DETAIL.item_code
-                         Left OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_ITEM_MASTER.Item_Code And TSPL_ITEM_UOM_DETAIL.UOM_Code='LTR'
-            Left Outer Join TSPL_MILK_PURCHASE_INVOICE_DETAIL On TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE = TSPL_MILK_SRN_HEAD.DOC_CODE 
-                         Left Outer Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE = TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE 
-                         Left Outer Join TSPL_MCC_MASTER On TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_REJECT_HEAD.MCC_CODE 
-                         Left Outer Join TSPL_VLC_MASTER_HEAD On  TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_REJECT_DETAIL.VLC_CODE 
-                         Left Outer Join TSPL_VENDOR_MASTER On TSPL_VENDOR_MASTER.Vendor_Code = TSPL_MILK_REJECT_DETAIL.VSP_CODE 
-                         Left outer join TSPL_VENDOR_GROUP on TSPL_VENDOR_MASTER.Vendor_Group_Code = TSPL_VENDOR_GROUP.Ven_Group_Code 
-                         Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MCC_ROUTE_MASTER.Route_Code = TSPL_MILK_REJECT_DETAIL.ROUTE_CODE 
-                         Left Outer Join (Select TSPL_Primary_Vehicle_Master.vendor_code As [Transporter Code], tspl_vendor_master.vendor_name As [Transporter Name], TSPL_Primary_Vehicle_Master.mcc_code, TSPL_Primary_Vehicle_Master.vehicle_code, TSPL_Primary_Vehicle_Master.Vehicle from TSPL_Primary_Vehicle_Master left outer join tspl_vendor_master on tspl_vendor_master.vendor_code=TSPL_Primary_Vehicle_Master.vendor_code And tspl_vendor_master.form_type='PTM' left outer join tspl_mcc_master on tspl_mcc_master.mcc_code=TSPL_Primary_Vehicle_Master.mcc_code) as t1 on t1.vehicle_code=TSPL_MCC_ROUTE_MASTER.Vehicle_Code 
-                         left outer join (Select code, max(Price_code) as Price_code from  TSPL_FAT_SNF_UPLOADER_MASTER group by code) as TabTSPL_FAT_SNF_UPLOADER_MASTER on TabTSPL_FAT_SNF_UPLOADER_MASTER.code=TSPL_MILK_SRN_DETAIL.Price_Code 
-                         Left outer join TSPL_MILK_PRICE_SNF_DEDUCTION On TSPL_MILK_PRICE_SNF_DEDUCTION.Price_code=TabTSPL_FAT_SNF_UPLOADER_MASTER.Price_code And cast(TSPL_MILK_SRN_DETAIL.SNF_PER As Decimal(18, 1))=TSPL_MILK_PRICE_SNF_DEDUCTION.Per "
-        If AreaWiseBilling = True Then
-            Qry += " left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.Area_Location_Code"
-        Else 
-               Qry += " Left Join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.Plant_Code  "
-            End If
-
-
-        Qry += " left join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.code=TSPL_MILK_REJECT_DETAIL.Reject_Type 
-                         Left outer join (Select VLC_Code, max(Incetive_Rate) as Incetive_Rate  from TSPL_MP_INCENTIVE_ENTRY_HEAD
-                         Left outer join  TSPL_MP_INCENTIVE_ENTRY_DETAIL on TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code= TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code  group by VLC_Code) as TSPL_MP_INCENTIVE1 on TSPL_MP_INCENTIVE1.VLC_Code=TSPL_MILK_REJECT_DETAIL.VLC_CODE
-                         where 2 = 2 And TSPL_MILK_REJECT_HEAD.DOC_DATE >='" + clsCommon.GetPrintDate(txtFromDate.Text, "dd/MMM/yyyy") + "' 
-                         And TSPL_MILK_REJECT_HEAD.DOC_DATE <='" + clsCommon.GetPrintDate(txtToDate.Text, "dd/MMM/yyyy") + "' 
-                         " + whrclsRjt + " " + whre + ") As final where 2=2 
+                          ) As final where 2=2 
                          ) as  pp group by pp.[Vlc Uploader Code])as xx ) as xxx ) as aa
                          order by convert(int, aa.[VLC_Code_VLC_Uploader]) asc   "
 
@@ -336,16 +294,16 @@ Public Class rptDBTMilkPayment
             Try
                 If txtMCC.arrValueMember.Count > 1 Then
                     MCCName = ",'' AS MCCName"
-                    whrclsRjt = "  and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
-                    whrclsRecpt = " and TSPL_MILK_RECEIPT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
-        ElseIf txtMCC.arrValueMember.Count <= 0 Then
+                    'whrclsRjt = "  and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                    'whrclsRecpt = " and TSPL_MILK_RECEIPT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                ElseIf txtMCC.arrValueMember.Count <= 0 Then
             MCCName = ",'' AS MCCName"
-            whrclsRjt = "  and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
-            whrclsRecpt = " and TSPL_MILK_RECEIPT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
-        Else
+                    'whrclsRjt = "  and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                    'whrclsRecpt = " and TSPL_MILK_RECEIPT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                Else
             MCCName = ",aa.[MCC Name] as MCCName"
-                whrclsRjt = "  and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
-                whrclsRecpt = " and TSPL_MILK_RECEIPT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                    'whrclsRjt = "  and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                    'whrclsRecpt = " and TSPL_MILK_RECEIPT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
                 End If
         Catch
                 MCCName = ",'' AS MCCName"

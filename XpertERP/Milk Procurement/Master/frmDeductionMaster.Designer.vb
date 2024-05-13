@@ -538,7 +538,7 @@ Partial Class FrmDeductionMaster
         Me.chkVSP.Name = "chkVSP"
         Me.chkVSP.Size = New System.Drawing.Size(40, 18)
         Me.chkVSP.TabIndex = 81
-        Me.chkVSP.Text = "VSP"
+        Me.chkVSP.Text = "Secretary"
         '
         'chkCompany
         '

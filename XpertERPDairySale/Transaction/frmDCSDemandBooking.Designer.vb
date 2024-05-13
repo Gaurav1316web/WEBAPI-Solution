@@ -22,7 +22,7 @@ Partial Class frmDCSDemandBooking
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -32,6 +32,12 @@ Partial Class frmDCSDemandBooking
         Me.btnSendEmailSMS = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.chkIndividualCustomer = New Telerik.WinControls.UI.RadCheckBox()
+        Me.lblCustomerName = New common.Controls.MyLabel()
+        Me.lblCustomerCode = New common.Controls.MyLabel()
+        Me.txtCustomerNo = New common.UserControls.txtFinder()
+        Me.txtVehicleNo = New Telerik.WinControls.UI.RadTextBox()
+        Me.lblVehicleNo = New common.Controls.MyLabel()
         Me.lblLocationDesc = New common.Controls.MyLabel()
         Me.rbtnOther = New Telerik.WinControls.UI.RadRadioButton()
         Me.lblLocation = New common.Controls.MyLabel()
@@ -60,6 +66,11 @@ Partial Class frmDCSDemandBooking
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.chkIndividualCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCustomerName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCustomerCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtVehicleNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblVehicleNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocationDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnOther, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -157,6 +168,12 @@ Partial Class frmDCSDemandBooking
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.chkIndividualCustomer)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblCustomerName)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblCustomerCode)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtCustomerNo)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtVehicleNo)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblVehicleNo)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblLocationDesc)
         Me.SplitContainer2.Panel1.Controls.Add(Me.rbtnOther)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblLocation)
@@ -177,8 +194,81 @@ Partial Class frmDCSDemandBooking
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.gv1)
         Me.SplitContainer2.Size = New System.Drawing.Size(916, 421)
-        Me.SplitContainer2.SplitterDistance = 71
+        Me.SplitContainer2.SplitterDistance = 95
         Me.SplitContainer2.TabIndex = 0
+        '
+        'chkIndividualCustomer
+        '
+        Me.chkIndividualCustomer.Location = New System.Drawing.Point(414, 29)
+        Me.chkIndividualCustomer.Name = "chkIndividualCustomer"
+        Me.chkIndividualCustomer.Size = New System.Drawing.Size(120, 18)
+        Me.chkIndividualCustomer.TabIndex = 1475
+        Me.chkIndividualCustomer.Text = "Individual Customer"
+        '
+        'lblCustomerName
+        '
+        Me.lblCustomerName.AutoSize = False
+        Me.lblCustomerName.BorderVisible = True
+        Me.lblCustomerName.FieldName = Nothing
+        Me.lblCustomerName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCustomerName.Location = New System.Drawing.Point(590, 52)
+        Me.lblCustomerName.Name = "lblCustomerName"
+        Me.lblCustomerName.Size = New System.Drawing.Size(196, 18)
+        Me.lblCustomerName.TabIndex = 1473
+        Me.lblCustomerName.TextWrap = False
+        '
+        'lblCustomerCode
+        '
+        Me.lblCustomerCode.FieldName = Nothing
+        Me.lblCustomerCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCustomerCode.Location = New System.Drawing.Point(414, 52)
+        Me.lblCustomerCode.Name = "lblCustomerCode"
+        Me.lblCustomerCode.Size = New System.Drawing.Size(55, 16)
+        Me.lblCustomerCode.TabIndex = 1474
+        Me.lblCustomerCode.Text = "Customer"
+        '
+        'txtCustomerNo
+        '
+        Me.txtCustomerNo.CalculationExpression = Nothing
+        Me.txtCustomerNo.FieldCode = Nothing
+        Me.txtCustomerNo.FieldDesc = Nothing
+        Me.txtCustomerNo.FieldMaxLength = 0
+        Me.txtCustomerNo.FieldName = Nothing
+        Me.txtCustomerNo.isCalculatedField = False
+        Me.txtCustomerNo.IsSourceFromTable = False
+        Me.txtCustomerNo.IsSourceFromValueList = False
+        Me.txtCustomerNo.IsUnique = False
+        Me.txtCustomerNo.Location = New System.Drawing.Point(469, 51)
+        Me.txtCustomerNo.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtCustomerNo.MendatroryField = False
+        Me.txtCustomerNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCustomerNo.MyLinkLable1 = Me.lblCustomerCode
+        Me.txtCustomerNo.MyLinkLable2 = Me.lblCustomerName
+        Me.txtCustomerNo.MyReadOnly = False
+        Me.txtCustomerNo.MyShowMasterFormButton = False
+        Me.txtCustomerNo.Name = "txtCustomerNo"
+        Me.txtCustomerNo.ReferenceFieldDesc = Nothing
+        Me.txtCustomerNo.ReferenceFieldName = Nothing
+        Me.txtCustomerNo.ReferenceTableName = Nothing
+        Me.txtCustomerNo.Size = New System.Drawing.Size(115, 19)
+        Me.txtCustomerNo.TabIndex = 1472
+        Me.txtCustomerNo.Value = ""
+        '
+        'txtVehicleNo
+        '
+        Me.txtVehicleNo.Location = New System.Drawing.Point(91, 68)
+        Me.txtVehicleNo.Name = "txtVehicleNo"
+        Me.txtVehicleNo.Size = New System.Drawing.Size(115, 20)
+        Me.txtVehicleNo.TabIndex = 1471
+        '
+        'lblVehicleNo
+        '
+        Me.lblVehicleNo.FieldName = Nothing
+        Me.lblVehicleNo.Location = New System.Drawing.Point(12, 69)
+        Me.lblVehicleNo.Name = "lblVehicleNo"
+        Me.lblVehicleNo.Size = New System.Drawing.Size(60, 18)
+        Me.lblVehicleNo.TabIndex = 1470
+        Me.lblVehicleNo.Text = "Vehicle No"
         '
         'lblLocationDesc
         '
@@ -186,7 +276,7 @@ Partial Class frmDCSDemandBooking
         Me.lblLocationDesc.BorderVisible = True
         Me.lblLocationDesc.FieldName = Nothing
         Me.lblLocationDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLocationDesc.Location = New System.Drawing.Point(212, 49)
+        Me.lblLocationDesc.Location = New System.Drawing.Point(212, 48)
         Me.lblLocationDesc.Name = "lblLocationDesc"
         Me.lblLocationDesc.Size = New System.Drawing.Size(196, 18)
         Me.lblLocationDesc.TabIndex = 1469
@@ -203,7 +293,7 @@ Partial Class frmDCSDemandBooking
         'lblLocation
         '
         Me.lblLocation.FieldName = Nothing
-        Me.lblLocation.Location = New System.Drawing.Point(12, 49)
+        Me.lblLocation.Location = New System.Drawing.Point(12, 48)
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(49, 18)
         Me.lblLocation.TabIndex = 1468
@@ -220,7 +310,7 @@ Partial Class frmDCSDemandBooking
         Me.txtLocation.IsSourceFromTable = False
         Me.txtLocation.IsSourceFromValueList = False
         Me.txtLocation.IsUnique = False
-        Me.txtLocation.Location = New System.Drawing.Point(91, 49)
+        Me.txtLocation.Location = New System.Drawing.Point(91, 48)
         Me.txtLocation.Margin = New System.Windows.Forms.Padding(4)
         Me.txtLocation.MendatroryField = True
         Me.txtLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -396,9 +486,9 @@ Partial Class frmDCSDemandBooking
         '
         '
         '
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv1.Name = "gv1"
-        Me.gv1.Size = New System.Drawing.Size(916, 346)
+        Me.gv1.Size = New System.Drawing.Size(916, 322)
         Me.gv1.TabIndex = 0
         '
         'btnreverse
@@ -473,6 +563,11 @@ Partial Class frmDCSDemandBooking
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.chkIndividualCustomer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCustomerName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCustomerCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtVehicleNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblVehicleNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocationDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnOther, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
@@ -527,4 +622,10 @@ Partial Class frmDCSDemandBooking
     Friend WithEvents btnSave As RadButton
     Friend WithEvents btnClose As RadButton
     Friend WithEvents btnreverse As RadButton
+    Friend WithEvents txtVehicleNo As RadTextBox
+    Friend WithEvents lblVehicleNo As common.Controls.MyLabel
+    Friend WithEvents chkIndividualCustomer As RadCheckBox
+    Friend WithEvents lblCustomerName As common.Controls.MyLabel
+    Friend WithEvents lblCustomerCode As common.Controls.MyLabel
+    Friend WithEvents txtCustomerNo As common.UserControls.txtFinder
 End Class

@@ -210,13 +210,13 @@ Public Class FrmMCCMilkRegister
                 For ii As Integer = 4 To gv.Columns.Count - 1
                     gv.Columns(ii).ReadOnly = True
                     gv.Columns(ii).Width = 100
-                    gv.Columns(ii).FormatString = "{0:n2}"
+                    gv.Columns(ii).FormatString = "{0:n3}"
                 Next
             Else
                 For ii As Integer = 0 To gv.Columns.Count - 1
                     gv.Columns(ii).ReadOnly = True
                     gv.Columns(ii).IsVisible = True
-                    gv.Columns(ii).FormatString = "{0:n2}"
+                    gv.Columns(ii).FormatString = "{0:n3}"
                 Next
             End If
         End If
@@ -235,7 +235,9 @@ Public Class FrmMCCMilkRegister
                 gv.Columns("No Of Cans").HeaderText = "CANS"
                 gv.Columns("TotalQty").HeaderText = "QTY"
                 gv.Columns("FAT(%)").HeaderText = "FAT"
+                gv.Columns("FAT(%)").FormatString = "{0:n2}"
                 gv.Columns("SNF(%)").HeaderText = "SNF"
+                gv.Columns("SNF(%)").FormatString = "{0:n2}"
 
 
 
@@ -3188,7 +3190,7 @@ Public Class FrmMCCMilkRegister
                     Dim strSRNQuery As String = Nothing
                     Dim strRejectionQuery As String = Nothing
                     If chkRejection.Checked = True OrElse chkOnlyRejection.Checked = True Then
-                        strRejection = ",'' as RejectType,'' as RejectReason,'' as Defaulter"
+                        strRejection = ",  Case When TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type IS Null Then Case When TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type IS NUll Then 'SWEET' Else TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type End Else TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type End as RejectType,'' as RejectReason,'' as Defaulter"
                     Else
                         strRejection = ""
                     End If
@@ -3306,10 +3308,20 @@ Public Class FrmMCCMilkRegister
                     Dim SetCowFatPer As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, Nothing))
                     If AreaWiseBilling Then
                         strSRNQuery = clsMilkRejectHead.GetMCCRegisterWithRejectionColumnQuery(txtFromDate.Value, txtToDate.Value, "M", "E", "", StrPermission, Nothing, Nothing, Nothing, "", strRejection, chkShowVLCUploaderData.Checked, SetCowFatPer, fndArea.Value)
-                        strRejectionQuery = clsMilkRejectHead.GetMCCRegisterRejectionQuery(txtFromDate.Value, txtToDate.Value, "M", "E", StrPermission, Nothing, Nothing, Nothing, "", SetCowFatPer, fndArea.Value)
+                        'strRejectionQuery = clsMilkRejectHead.GetMCCRegisterRejectionQuery(txtFromDate.Value, txtToDate.Value, "M", "E", StrPermission, Nothing, Nothing, Nothing, "", SetCowFatPer, fndArea.Value)
+                        strRejectionQuery = strSRNQuery
+                        If chkOnlyRejection.Checked Then
+                            strRejectionQuery += " and (Case When TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No IS Null Then TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type Else 
+                                      Case When TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No Is Null Then TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type Else Null End End) Is Not Null"
+                        End If
                     Else
                         strSRNQuery = clsMilkRejectHead.GetMCCRegisterWithRejectionColumnQuery(txtFromDate.Value, txtToDate.Value, "M", "E", "", StrPermission, txtMCC.arrValueMember, Nothing, txtVLC.arrValueMember, "", strRejection, chkShowVLCUploaderData.Checked, SetCowFatPer, fndArea.Value)
-                        strRejectionQuery = clsMilkRejectHead.GetMCCRegisterRejectionQuery(txtFromDate.Value, txtToDate.Value, "M", "E", StrPermission, txtMCC.arrValueMember, Nothing, txtVLC.arrValueMember, "", SetCowFatPer, fndArea.Value)
+                        'strRejectionQuery = clsMilkRejectHead.GetMCCRegisterRejectionQuery(txtFromDate.Value, txtToDate.Value, "M", "E", StrPermission, txtMCC.arrValueMember, Nothing, txtVLC.arrValueMember, "", SetCowFatPer, fndArea.Value)
+                        strRejectionQuery = strSRNQuery
+                        If chkOnlyRejection.Checked Then
+                            strRejectionQuery += " and (Case When TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No IS Null Then TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type Else 
+                                      Case When TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No Is Null Then TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type Else Null End End) Is Not Null"
+                        End If
                     End If
 
                     'strSRNQuery = clsMilkRejectHead.GetMCCRegisterWithRejectionColumnQuery(txtFromDate.Value, txtToDate.Value, clsCommon.myCstr(txtFromShift.SelectedValue), clsCommon.myCstr(txtToShift.SelectedValue), clsCommon.myCstr(cboSRNAmounType.SelectedValue), StrPermission, arrMCC, arrRoute, arrVLC, clsCommon.myCstr(cboMilkReceiveUOM.SelectedValue), strRejection, chkShowVLCUploaderData.Checked, SetCowFatPer)
@@ -3428,7 +3440,7 @@ Public Class FrmMCCMilkRegister
                     " final.[FAT(%)]  ,final.CLR,final.[SNF(%)] ,final.[FAT(KG)],final.[SNF(KG)] ,final.[Cow Milk Qty (KG)],final.[Cow FAT(%)], Case When final.[FAT(%)] <= 5 Then CLR Else 0 End [Cow CLR],final.[Cow SNF(%)] , Case When final.[FAT(%)] <= 5 Then final.[FAT(KG)] Else 0 End [Cow FAT (KG)], Case When final.[FAT(%)] <= 5 Then final.[SNF(KG)] Else 0 End [Cow SNF (KG)]," &
                     " final.[Buffalo Milk Qty (KG)], Case When final.[FAT(%)] > 5 Then CLR Else 0 End [Buffalo CLR],final.[Buffalo SNF(%)],final.[Buffalo FAT(%)], Case When final.[FAT(%)] > 5 Then final.[FAT(KG)] Else 0 End [Buffalo FAT (KG)], Case When final.[FAT(%)] > 5 Then final.[SNF(KG)] Else 0 End [Buffalo SNF (KG)],final.[Milk Type],final.[SRN No],final.[SRN Amount]," &
                     " final.[SRN Qty],final.[SRN Rate],final.[Shift Status] ,Invoice_no ,Invoice_Date , IS_MANUAL, MACHINE_NO,IS_MILK_SAMPLE_MANUAL,RejectType,RejectReason,Defaulter, " &
-                    " final.EMP_Amount,final.TIP_Amount,final.Service_Charge_Amount ,([SRN Amount]+EMP_Amount+TIP_Amount-Service_Charge_Amount) as NetAmount,final.Purchase_Order_No,final.Head_Load_Amount ,final.SNF_Ded_Value,final.SNF_Ded_Rate,final.SNF_Ded_Amount, final.price_code,final.[Transporter Code],final.[Transporter Name],final.Handling_Charges_Amount,final.VSP_Commission_Amount,final.VSP_Deduction_Amount,final.VSP_Day_Wise_Incentive,final.SubStandard,final.vehicle,final.[Mcc_Uploader_Code] From ( " & strSRNQuery & " Union All " & strRejectionQuery & ") As final where 2=2 "
+                    " final.EMP_Amount,final.TIP_Amount,final.Service_Charge_Amount ,([SRN Amount]+EMP_Amount+TIP_Amount-Service_Charge_Amount) as NetAmount,final.Purchase_Order_No,final.Head_Load_Amount ,final.SNF_Ded_Value,final.SNF_Ded_Rate,final.SNF_Ded_Amount, final.price_code,final.[Transporter Code],final.[Transporter Name],final.Handling_Charges_Amount,final.VSP_Commission_Amount,final.VSP_Deduction_Amount,final.VSP_Day_Wise_Incentive,final.SubStandard,final.vehicle,final.[Mcc_Uploader_Code] From ( " & strSRNQuery & ") As final where 2=2 "
                     Else
                         qry = "Select final.[Milk Receipt Code] ,final.MCC as [MCC Code] ,final.[MCC Name],final.[MCC Type] ,final.[Chilling Center],final.[Plant Code],final.[Plant Name] ,final.Date ,final.[Doc Date] ,final.Shift ," &
                     "final.[Route Code],final.[Route Name] ,final.[Vehicle Code] ,final.[VSP Code],final.[VSP Name],final.[Vendor Group Code],final.[Vendor Group Desc] ,final.[Vlc Uploader Code],final.[Vlc Code] ,final.[VLC Name] ," &
@@ -3671,7 +3683,12 @@ Public Class FrmMCCMilkRegister
                     Else
                         RouteWiseQry += "'Sweet'As [Quality],"
                     End If
-                    RouteWiseQry += "TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2 from (" + FinalQuery + ")xxxFinal Left Join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "'  Order By Date asc,Shift desc,[Route Code] asc"
+                    RouteWiseQry += "TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2 from (" + FinalQuery + ")xxxFinal Left Join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "' "
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
+                        RouteWiseQry += " Order By Convert(int,[Route Code]) asc,Date asc,Shift desc"
+                    Else
+                        RouteWiseQry += " Order By Date asc,Shift desc,[Route Code] asc"
+                    End If
                     Dim dtRouteWise As DataTable = clsDBFuncationality.GetDataTable(RouteWiseQry)
                     If dtRouteWise.Rows.Count > 0 Then
                         Dim frmCRV As New frmCrystalReportViewer()
@@ -3713,12 +3730,26 @@ Public Class FrmMCCMilkRegister
             Dim BaseQry2 As String = ""
             If chkDateShift.Checked AndAlso rbtnCollectionSummary.Checked = False Then
                 qry = ""
-                BaseQry1 = "Select TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type   As [Milk Type], TSPL_MILK_SRN_HEAD.DOC_CODE As [Milk Receipt Code], TSPL_MILK_SRN_HEAD.MCC_CODE As MCC, TSPL_MCC_MASTER.MCC_NAME As [MCC Name], Convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) As Date,  Convert(varchar,TSPL_MILK_SRN_HEAD.DOC_DATE,103) As [Doc Date], Case When TSPL_MILK_SRN_HEAD.SHIFT = 'M' Then 'Morning' Else 'Evening' End As Shift,  TSPL_MILK_SRN_HEAD.ROUTE_CODE As [Route Code], TSPL_MCC_ROUTE_MASTER.Route_Name As [Route Name], TSPL_MILK_SRN_HEAD.VEHICLE_CODE As [Vehicle Code], TSPL_MILK_SRN_HEAD.VSP_CODE As [VSP Code],
-                    TSPL_VENDOR_MASTER.Vendor_Name As [VSP Name],TSPL_VLC_MASTER_HEAD.VLC_Code As [Vlc Code], TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code], TSPL_VLC_MASTER_HEAD.VLC_Name As [VLC Name], TSPL_MILK_SRN_HEAD.SAMPLE_NO As [Sample No], TSPL_MILK_SHIFT_UPLOADER_DETAIL.NO_OF_CANS As [No Of Cans], TSPL_MILK_SRN_DETAIL.ACC_QTY As [Milk Weight Sweet(KG)],   TSPL_MILK_SRN_DETAIL.FAT_kg As [Sweet FAT(KG)], TSPL_MILK_SRN_DETAIL.SNF_kg As [Sweet SNF(KG)],0 as [Sour FAT(KG)],0 as [Sour SNF(KG)], 'SWEET' as RejectType,'' as RejectReason ,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as [Mcc_Uploader_Code] ,
-                    0 as [Milk Weight Sour(KG)] , 0 as [Milk Weight Curd(KG)] From TSPL_MILK_SRN_DETAIL
+                BaseQry1 = "Select *,Case When xxx.RejectType='SWEET' Then xxx.ACC_Qty Else 0 End AS [Milk Weight Sweet(KG)],
+		                      Case When xxx.RejectType='SWEET' Then xxx.FAT_KG Else 0 End AS[Sweet FAT(KG)],
+		                      Case When xxx.RejectType='SWEET' Then xxx.SNF_KG Else 0 End AS[Sweet SNF(KG)],
+		                      Case When xxx.RejectType='SOUR' Then xxx.ACC_Qty Else 0 End AS [Milk Weight Sour(KG)],
+		                      Case When xxx.RejectType='SOUR' Then xxx.FAT_KG Else 0 End AS [Sour FAT(KG)],
+		                      Case When xxx.RejectType='SOUR' Then xxx.SNF_KG Else 0 End AS [Sour SNF(KG)],
+		                      Case When xxx.RejectType='CURD' Then xxx.ACC_Qty Else 0 End AS [Milk Weight Curd(KG)],
+		                      Case When xxx.RejectType='CURD' Then xxx.FAT_KG Else 0 End AS [Curd FAT(KG)],
+		                      Case When xxx.RejectType='CURD' Then xxx.SNF_KG Else 0 End AS [Curd SNF(KG)] from ("
+                BaseQry1 += "Select TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type  As [Milk Type], TSPL_MILK_SRN_HEAD.DOC_CODE As [Milk Receipt Code], TSPL_MILK_SRN_HEAD.MCC_CODE As MCC, TSPL_MCC_MASTER.MCC_NAME As [MCC Name], Convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) As Date,  Convert(varchar,TSPL_MILK_SRN_HEAD.DOC_DATE,103) As [Doc Date], Case When TSPL_MILK_SRN_HEAD.SHIFT = 'M' Then 'Morning' Else 'Evening' End As Shift,  TSPL_MILK_SRN_HEAD.ROUTE_CODE As [Route Code], TSPL_MCC_ROUTE_MASTER.Route_Name As [Route Name], TSPL_MILK_SRN_HEAD.VEHICLE_CODE As [Vehicle Code], TSPL_MILK_SRN_HEAD.VSP_CODE As [VSP Code],
+                    TSPL_VENDOR_MASTER.Vendor_Name As [VSP Name],TSPL_VLC_MASTER_HEAD.VLC_Code As [Vlc Code], TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code], TSPL_VLC_MASTER_HEAD.VLC_Name As [VLC Name], TSPL_MILK_SRN_HEAD.SAMPLE_NO As [Sample No], TSPL_MILK_SHIFT_UPLOADER_DETAIL.NO_OF_CANS As [No Of Cans], 
+                    TSPL_MILK_SRN_DETAIL.ACC_QTY ,   
+                    TSPL_MILK_SRN_DETAIL.FAT_kg , 
+                    TSPL_MILK_SRN_DETAIL.SNF_kg ,                    
+                    Case When TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type IS Null Then Case When TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type IS NUll Then 'SWEET' Else TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type End Else TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type End as RejectType,
+                    '' as RejectReason ,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as [Mcc_Uploader_Code]                     
+                    From TSPL_MILK_SRN_DETAIL
                     Left Outer Join TSPL_MILK_SRN_HEAD On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE 
                     Left Outer Join TSPL_MILK_SHIFT_UPLOADER_DETAIL ON TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No 
-                    Left Outer Join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL ON TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No=TSPL_MILK_SRN_HEAD.DOC_CODE 
+                    Left Outer Join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL ON TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No 
                     left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.item_code=TSPL_MILK_SRN_DETAIL.item_code 
                     Left Outer Join TSPL_MILK_PURCHASE_INVOICE_DETAIL On TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE = TSPL_MILK_SRN_HEAD.DOC_CODE 
                     Left Outer Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE = TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE  
@@ -3752,57 +3783,7 @@ Public Class FrmMCCMilkRegister
                         BaseQry1 += " And TSPL_MILK_SRN_HEAD.mcc_Code in (" & StrPermission & ")"
                     End If
                 End If
-
-                BaseQry1 += "  Union all  "
-                BaseQry1 += "Select 'M' As [Milk Type],  TSPL_MILK_REJECT_HEAD.DOC_CODE As [Milk Receipt Code], TSPL_MILK_REJECT_HEAD.MCC_CODE As MCC, TSPL_MCC_MASTER.MCC_NAME As [MCC Name],  Convert(date,TSPL_MILK_REJECT_HEAD.DOC_DATE,103) As Date,  Convert(varchar,TSPL_MILK_REJECT_HEAD.DOC_DATE,103) As [Doc Date], Case When TSPL_MILK_REJECT_HEAD.SHIFT = 'M' Then 'Morning' Else 'Evening' End As Shift,  TSPL_MILK_REJECT_DETAIL.ROUTE_CODE As [Route Code], TSPL_MCC_ROUTE_MASTER.Route_Name As [Route Name], TSPL_MILK_REJECT_DETAIL.VEHICLE_CODE As [Vehicle Code], TSPL_MILK_REJECT_DETAIL.VSP_CODE As [VSP Code], TSPL_VENDOR_MASTER.Vendor_Name As [VSP Name],
-                    TSPL_VLC_MASTER_HEAD.VLC_Code As [Vlc Code], TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code], TSPL_VLC_MASTER_HEAD.VLC_Name As [VLC Name], TSPL_MILK_REJECT_DETAIL.SAMPLE_NO As [Sample No],TSPL_MILK_REJECT_DETAIL.NO_OF_CANS As [No Of Cans],0 as [Milk Weight Sweet(KG)] ,0 as [Sweet FAT(KG)], 0 as [Sweet SNF(KG)],case when TSPL_MILK_REJECT_TYPE.Code = 'SOUR' then Convert(decimal(18,3), TSPL_MILK_REJECT_DETAIL.FAT * TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_KG / 100) else 0 end As [Sour FAT(KG)],
-                    case when TSPL_MILK_REJECT_TYPE.Code = 'SOUR' then Convert(decimal(18,3),TSPL_MILK_REJECT_DETAIL.SNF * TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_KG / 100) END As [Sour SNF(KG)],TSPL_MILK_REJECT_TYPE.Code as RejectType,  case when TSPL_MILK_REJECT_DETAIL.Is_Return=0 then '' when TSPL_MILK_REJECT_DETAIL.Is_Return=1 then 'Return' when TSPL_MILK_REJECT_DETAIL.Is_Return=2 then 'Drain' when TSPL_MILK_REJECT_DETAIL.Is_Return=3 then 'COB'  end as RejectReason,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as [Mcc_Uploader_Code] , case when TSPL_MILK_REJECT_TYPE.Code = 'SOUR' then TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_KG else 0 end as [Milk Weight Sour(KG)],
-                    case when TSPL_MILK_REJECT_TYPE.Code = 'CURD' then TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT else 0 end  [Milk Weight Curd(KG)]   
-                    From   TSPL_MILK_REJECT_DETAIL 
-                    Left Outer Join TSPL_MILK_REJECT_HEAD On TSPL_MILK_REJECT_HEAD.DOC_CODE = TSPL_MILK_REJECT_DETAIL.DOC_CODE 
-                    left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODe=TSPL_MILK_SRN_HEAD.Against_Reject_No and TSPL_MILK_SRN_HEAD.SAMPLE_NO=TSPL_MILK_REJECT_DETAIL.SAMPLE_NO 
-                    Left Outer Join TSPL_MILK_SRN_DETAIL On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE 
-                    left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.item_code=TSPL_MILK_SRN_DETAIL.item_code
-                    Left Outer Join TSPL_MILK_PURCHASE_INVOICE_DETAIL On TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE = TSPL_MILK_SRN_HEAD.DOC_CODE 
-                    Left Outer Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE = TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE 
-                    Left Outer Join TSPL_MCC_MASTER On TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_REJECT_HEAD.MCC_CODE 
-                    Left Outer Join TSPL_VLC_MASTER_HEAD On  TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_REJECT_DETAIL.VLC_CODE 
-                    Left Outer Join TSPL_VENDOR_MASTER On TSPL_VENDOR_MASTER.Vendor_Code = TSPL_MILK_REJECT_DETAIL.VSP_CODE 
-                    Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MCC_ROUTE_MASTER.Route_Code = TSPL_MILK_REJECT_DETAIL.ROUTE_CODE 
-                    left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.Plant_Code  
-                    left join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.code=TSPL_MILK_REJECT_DETAIL.Reject_Type 
-                    where 2=2 "
-                BaseQry1 += " and TSPL_MILK_REJECT_HEAD.DOC_DATE >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_REJECT_HEAD.DOC_DATE <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "'"
-
-                If clsCommon.CompairString(txtFromShift.SelectedValue, "E") = CompairStringResult.Equal Then
-                    BaseQry1 += " and 2=( case when TSPL_MILK_REJECT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_REJECT_HEAD.DOC_DATE <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_REJECT_HEAD.SHIFT='M' then 3 else 2 end  )"
-                End If
-                If clsCommon.CompairString(txtToShift.SelectedValue, "M") = CompairStringResult.Equal Then
-                    BaseQry1 += " and 2=( case when TSPL_MILK_REJECT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_REJECT_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_REJECT_HEAD.SHIFT='E' then 3 else 2 end  )"
-                End If
-
-                If arrRoute IsNot Nothing AndAlso arrRoute.Count > 0 Then
-                    BaseQry1 += " and TSPL_MILK_REJECT_DETAIL.Route_Code in (" + clsCommon.GetMulcallString(arrRoute) + ")  "
-                End If
-                If arrVLC IsNot Nothing AndAlso arrVLC.Count > 0 Then
-                    BaseQry1 += " and TSPL_MILK_REJECT_DETAIL.VLC_CODE in (" + clsCommon.GetMulcallString(arrVLC) + ")  "
-                End If
-                If AreaWiseBilling Then
-                    If Area IsNot Nothing AndAlso clsCommon.myLen(Area) > 0 Then
-                        BaseQry1 += " and TSPL_MCC_MASTER.Area_Location_Code = '" + Area + "'  "
-                    End If
-                Else
-                    If arrMCC IsNot Nothing AndAlso arrMCC.Count > 0 Then
-                        BaseQry1 += "and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(arrMCC) + ") "
-                    Else
-                        If clsCommon.myLen(StrPermission) > 0 Then
-                            BaseQry1 += "And TSPL_MILK_REJECT_HEAD.mcc_Code in (" & StrPermission & ") "
-                        End If
-                    End If
-                End If
-
-
-                BaseQry1 += ") final where 2=2 ) XXXFinal "
+                BaseQry1 += ") xxx) final where 2=2 ) XXXFinal "
 
                 Dim str As String = ""
                 Dim XXXFinal As String = ""
@@ -3887,7 +3868,6 @@ Public Class FrmMCCMilkRegister
 										 order by date , sno , shift desc,[Milk Type]"
                 End If
                 dtGrandTotal = clsDBFuncationality.GetDataTable(TotalQry)
-
             End If
 
             If rbtnCollectionSummary.Checked Then
@@ -3904,10 +3884,10 @@ Public Class FrmMCCMilkRegister
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
-            ElseIf chkVLCWisePayable.Checked Then
-                'For ii As Integer = 0 To dt.Rows.Count - 1
-                '    Dim incentive As ArrayList = clsMilkPurchaseInvoiceMCC.LoadDataQuery_For_Incentive("", clsCommon.myCstr() objHead.VSP_CODE, objHead.MCC_CODE, frm_date, Today.Date, False, trans, (End_date.Day - frm_date.Day) + 1)
-                'Next
+                'ElseIf chkVLCWisePayable.Checked Then
+                '    'For ii As Integer = 0 To dt.Rows.Count - 1
+                '    '    Dim incentive As ArrayList = clsMilkPurchaseInvoiceMCC.LoadDataQuery_For_Incentive("", clsCommon.myCstr() objHead.VSP_CODE, objHead.MCC_CODE, frm_date, Today.Date, False, trans, (End_date.Day - frm_date.Day) + 1)
+                '    'Next
             ElseIf dt.Rows.Count > 0 Then
                 If chkDateShift.Checked Then
                     If rbtnBMC.Checked Then
@@ -4186,7 +4166,7 @@ Public Class FrmMCCMilkRegister
             '    txtRoute.Focus()
             '    Throw New Exception("Please select at least route")
             'End If
-            Dim qry As String = "select  TSPL_VLC_MASTER_HEAD.VLC_Code as [VLC Code],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [VLC Uploader Code] ,TSPL_VLC_MASTER_HEAD.VLC_Name as [VlC Name],TSPL_VLC_MASTER_HEAD.Route_Code [Route Code],TSPL_MCC_ROUTE_MASTER.Route_Name as [Route Name] from TSPL_VLC_MASTER_HEAD left outer join TSPL_MCC_ROUTE_MASTER on TSPL_MCC_ROUTE_MASTER.Route_Code=TSPL_VLC_MASTER_HEAD.Route_Code where 2=2 and TSPL_VLC_MASTER_HEAD.Active='1' "
+            Dim qry As String = "select  TSPL_VLC_MASTER_HEAD.VLC_Code as [VLC Code],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [VLC Uploader Code] ,TSPL_VLC_MASTER_HEAD.VLC_Name as [VlC Name],TSPL_VLC_MASTER_HEAD.Route_Code [Route Code],TSPL_MCC_ROUTE_MASTER.Route_Name as [Route Name],TSPL_VENDOR_MASTER.Zone_Code as [Zone Code]  from TSPL_VLC_MASTER_HEAD left outer join TSPL_MCC_ROUTE_MASTER on TSPL_MCC_ROUTE_MASTER.Route_Code=TSPL_VLC_MASTER_HEAD.Route_Code left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_VLC_MASTER_HEAD.VSP_Code where 2=2 and TSPL_VLC_MASTER_HEAD.Active='1' "
             If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
                 qry += " and TSPL_VLC_MASTER_HEAD.Route_Code in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ") "
             End If

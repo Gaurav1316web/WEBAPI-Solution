@@ -22,6 +22,7 @@ Partial Class RptMilkWeigmentRegister
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -112,7 +113,6 @@ Partial Class RptMilkWeigmentRegister
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(652, 462)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -358,7 +358,10 @@ Partial Class RptMilkWeigmentRegister
         Me.gv.MasterTemplate.AllowAddNewRow = False
         Me.gv.MasterTemplate.AllowDeleteRow = False
         Me.gv.MasterTemplate.EnableFiltering = True
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ReadOnly = True
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -366,7 +369,6 @@ Partial Class RptMilkWeigmentRegister
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(631, 414)
         Me.gv.TabIndex = 5
-        Me.gv.Text = "gv"
         '
         'RadMenu1
         '
@@ -375,27 +377,20 @@ Partial Class RptMilkWeigmentRegister
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(652, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Setting"
-        Me.RadMenuItem2.AccessibleName = "Setting"
         Me.RadMenuItem2.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmSaveLayout, Me.rmDeleteLayout})
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Setting"
         '
         'rmSaveLayout
         '
-        Me.rmSaveLayout.AccessibleDescription = "Save Layout"
-        Me.rmSaveLayout.AccessibleName = "Save Layout"
         Me.rmSaveLayout.Name = "rmSaveLayout"
         Me.rmSaveLayout.Text = "Save Layout"
         '
         'rmDeleteLayout
         '
-        Me.rmDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.rmDeleteLayout.AccessibleName = "Delete Layout"
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
         '
@@ -421,15 +416,11 @@ Partial Class RptMilkWeigmentRegister
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Excel"
-        Me.RadMenuItem1.AccessibleName = "Excel"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Excel"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "PDF"
-        Me.RadMenuItem3.AccessibleName = "PDF"
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "PDF"
         '
