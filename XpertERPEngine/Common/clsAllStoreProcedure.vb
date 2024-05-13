@@ -3754,7 +3754,7 @@ Public Class clsAllSQLView
                              " INNER JOIN TSPL_PAYPERIOD_MASTER PP ON DA.PAY_PERIOD_CODE=PP.PAY_PERIOD_CODE WHERE DAD.Maternity_Leave>0 " &
                              " UNION ALL " &
                              " select DA.MTA_CODE AS TR_CODE,DA.PAY_PERIOD_CODE,DAD.EMP_CODE,(case when (SELECT count(Leave_Code) " &
-                             " from TSPL_LEAVE_MASTER where LEAVE_TYPE='MED')>0 then (SELECT Leave_Code from TSPL_LEAVE_MASTER where LEAVE_TYPE='MED') else 'Medical' end ) AS LEAVE_CODE ,PP.DATE_TO,0 AS Alloted,DAD.Medical_Leave as Availed,'AVAIL',DA.DESCRIPTION from TSPL_MONTHLY_ATTENDANCE_DETAIL DAD " &
+                             " from TSPL_LEAVE_MASTER where LEAVE_TYPE='MED')>0 then (SELECT Leave_Code from TSPL_LEAVE_MASTER where LEAVE_CODE='ML' And LEAVE_TYPE='MED') else 'Medical' end ) AS LEAVE_CODE ,PP.DATE_TO,0 AS Alloted,DAD.Medical_Leave as Availed,'AVAIL',DA.DESCRIPTION from TSPL_MONTHLY_ATTENDANCE_DETAIL DAD " &
                              " inner join TSPL_MONTHLY_ATTENDANCE DA on DAD.MTA_CODE=DA.MTA_CODE " &
                              " INNER JOIN TSPL_PAYPERIOD_MASTER PP ON DA.PAY_PERIOD_CODE=PP.PAY_PERIOD_CODE WHERE DAD.Medical_Leave>0 " &
                              " UNION ALL " &
