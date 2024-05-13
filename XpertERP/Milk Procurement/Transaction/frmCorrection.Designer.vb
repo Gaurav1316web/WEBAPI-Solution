@@ -350,7 +350,7 @@ Partial Class frmCorrection
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(646, 376)
-        Me.RadPageViewPage1.Text = "VLC Correction"
+        Me.RadPageViewPage1.Text = "DCS Correction"
         '
         'RadGroupBox2
         '

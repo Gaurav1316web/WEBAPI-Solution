@@ -411,7 +411,7 @@ Partial Class RptRoutewiseTPTimeTable
         Me.radioVLCWise.Size = New System.Drawing.Size(103, 18)
         Me.radioVLCWise.TabIndex = 343
         Me.radioVLCWise.TabStop = False
-        Me.radioVLCWise.Text = "VLC-wise Report"
+        Me.radioVLCWise.Text = "DCS-wise Report"
         '
         'txtTransporter
         '

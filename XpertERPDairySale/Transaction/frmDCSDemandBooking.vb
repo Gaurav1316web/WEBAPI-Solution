@@ -808,7 +808,7 @@ order by FROM_DATE desc)"
             Dim WhrCls As String = Nothing
             If clsCommon.myLen(txtRouteNo.Value) > 0 Then
 
-                Dim strQry As String = "select VLC_Code_VLC_Uploader as Code,VLC_Name as [VLC Name],VSP_Code as [VSP Code] from TSPL_VLC_master_Head "
+                Dim strQry As String = "select VLC_Code_VLC_Uploader as Code,VLC_Name as [DCS Name],VSP_Code as [Secretary Code] from TSPL_VLC_master_Head "
                 WhrCls = " Route_Code='" + txtRouteNo.Value + "'"
                 txtCustomerNo.Value = clsCommon.ShowSelectForm("DCSDemandCustomerFinder", strQry, "Code", WhrCls, txtCustomerNo.Value, "", isButtonClicked)
                 lblCustomerName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select VLC_Name  from TSPL_VLC_master_Head  where VLC_Code_VLC_Uploader='" + txtCustomerNo.Value + "'"))

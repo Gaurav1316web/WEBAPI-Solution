@@ -168,7 +168,7 @@ Partial Class FrmMCCFarmerMapping
         Me.MyLabel10.Name = "MyLabel10"
         Me.MyLabel10.Size = New System.Drawing.Size(58, 16)
         Me.MyLabel10.TabIndex = 163
-        Me.MyLabel10.Text = "VLC Code"
+        Me.MyLabel10.Text = "DCS Code"
         '
         'lblRouteName
         '

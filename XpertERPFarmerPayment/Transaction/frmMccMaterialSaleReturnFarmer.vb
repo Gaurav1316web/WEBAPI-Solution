@@ -4937,16 +4937,16 @@ Public Class frmMccMaterialSaleReturnFarmer
         '----------------------------------------------------- richa BM00000008842
         ' Dim qry As String = "select Document_Code as Code,CONVERT(varchar(10), Document_Date,103)+' '+ CONVERT(varchar(5), Document_Date,114) as Date,Farmer_Code as [Customer Code], Customer_Name as Customer,Total_Amt as Amount,case when TSPL_MCC_Sale_Return_Head_Farmer.Status=0 then 'Pending' else 'Approved' end as [Status] from TSPL_MCC_Sale_Return_Head_Farmer left outer join TSPL_MP_MASTER on TSPL_MP_MASTER.Cust_Code=TSPL_MCC_Sale_Return_Head_Farmer.Farmer_Code "
         '' finder query change by Panch Raj on 01-may-2018 against ticket : KDI/30/04/18-000281
-        Dim qry As String = " select TSPL_MCC_Sale_Return_Head_Farmer.Document_Code as Code,CONVERT(varchar(10), TSPL_MCC_Sale_Return_Head_Farmer.Document_Date,103)+' '+ CONVERT(varchar(5),  TSPL_MCC_Sale_Return_Head_Farmer.Document_Date,114) as Date," & _
-                            " TSPL_MCC_Sale_Return_Head_Farmer.Against_Invoice_No as [Against Invoice No],TSPL_MCC_Sale_Return_Head_Farmer.Bill_To_Location as [Bill To Location]," & _
-                            " TSPL_MCC_Sale_Return_Head_Farmer.Farmer_Code as [Farmer Code], " & _
-                            " TSPL_MP_MASTER.MP_NAME as [Farmer Name],TSPL_MP_MASTER.VLC_Code as [VLC Code],TSPL_VLC_MASTER_HEAD.VLC_Name as [VLC Name]," & _
-                            " TSPL_VLC_MASTER_HEAD.VSP_Code as [VSP Code], TSPL_VENDOR_MASTER.Vendor_Name as [VSP Name],TSPL_MCC_Sale_Return_Head_Farmer.Total_Amt as Amount,TSPL_MCC_Sale_Return_Detail_Farmer.Invoice_Code as [Invoice No] ," & _
-                            " case when TSPL_MCC_Sale_Return_Head_Farmer.Status=0 then 'Pending' else 'Approved' end as [Status],TSPL_MCC_Sale_Return_Head_Farmer.Description " & _
-                            " from TSPL_MCC_Sale_Return_Head_Farmer " & _
-                            " left outer join TSPL_MP_MASTER on TSPL_MP_MASTER.MP_CODE=TSPL_MCC_Sale_Return_Head_Farmer.Farmer_Code  " & _
-                            " left outer join TSPL_MCC_Sale_Return_Detail_Farmer on TSPL_MCC_Sale_Return_Detail_Farmer.DOCUMENT_CODE =TSPL_MCC_Sale_Return_Head_Farmer.Document_Code " & _
-                            " left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MP_MASTER.VLC_Code " & _
+        Dim qry As String = " select TSPL_MCC_Sale_Return_Head_Farmer.Document_Code as Code,CONVERT(varchar(10), TSPL_MCC_Sale_Return_Head_Farmer.Document_Date,103)+' '+ CONVERT(varchar(5),  TSPL_MCC_Sale_Return_Head_Farmer.Document_Date,114) as Date," &
+                            " TSPL_MCC_Sale_Return_Head_Farmer.Against_Invoice_No as [Against Invoice No],TSPL_MCC_Sale_Return_Head_Farmer.Bill_To_Location as [Bill To Location]," &
+                            " TSPL_MCC_Sale_Return_Head_Farmer.Farmer_Code as [Farmer Code], " &
+                            " TSPL_MP_MASTER.MP_NAME as [Farmer Name],TSPL_MP_MASTER.VLC_Code as [DCS Code],TSPL_VLC_MASTER_HEAD.VLC_Name as [DCS Name]," &
+                            " TSPL_VLC_MASTER_HEAD.VSP_Code as [Secretary  Code], TSPL_VENDOR_MASTER.Vendor_Name as [Secretary  Name],TSPL_MCC_Sale_Return_Head_Farmer.Total_Amt as Amount,TSPL_MCC_Sale_Return_Detail_Farmer.Invoice_Code as [Invoice No] ," &
+                            " case when TSPL_MCC_Sale_Return_Head_Farmer.Status=0 then 'Pending' else 'Approved' end as [Status],TSPL_MCC_Sale_Return_Head_Farmer.Description " &
+                            " from TSPL_MCC_Sale_Return_Head_Farmer " &
+                            " left outer join TSPL_MP_MASTER on TSPL_MP_MASTER.MP_CODE=TSPL_MCC_Sale_Return_Head_Farmer.Farmer_Code  " &
+                            " left outer join TSPL_MCC_Sale_Return_Detail_Farmer on TSPL_MCC_Sale_Return_Detail_Farmer.DOCUMENT_CODE =TSPL_MCC_Sale_Return_Head_Farmer.Document_Code " &
+                            " left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MP_MASTER.VLC_Code " &
                             " left join TSPL_VENDOR_MASTER on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MASTER.Vendor_Code "
 
         Dim whrClas As String = ""

@@ -189,7 +189,7 @@ Partial Class RptShiftReportCodeWise
         Me.RadGroupBox6.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox6.Size = New System.Drawing.Size(456, 300)
         Me.RadGroupBox6.TabIndex = 13
-        Me.RadGroupBox6.Text = "MCC,Route,VLC "
+        Me.RadGroupBox6.Text = "MCC,Route,DCS "
         '
         'cbtMCCRouteVLCC
         '
