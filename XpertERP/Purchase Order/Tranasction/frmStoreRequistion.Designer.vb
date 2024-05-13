@@ -1331,7 +1331,7 @@ Partial Class frmStoreRequistion
         Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(85.0!, 22.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 35)
         Me.pvpCustomFields.Name = "pvpCustomFields"
-        Me.pvpCustomFields.Size = New System.Drawing.Size(914, 439)
+        Me.pvpCustomFields.Size = New System.Drawing.Size(988, 398)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
         'Attachments
@@ -1340,7 +1340,7 @@ Partial Class frmStoreRequistion
         Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 22.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 35)
         Me.Attachments.Name = "Attachments"
-        Me.Attachments.Size = New System.Drawing.Size(914, 439)
+        Me.Attachments.Size = New System.Drawing.Size(988, 398)
         Me.Attachments.Text = "Attachments"
         '
         'UcAttachment1
@@ -1348,7 +1348,7 @@ Partial Class frmStoreRequistion
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
         Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(914, 439)
+        Me.UcAttachment1.Size = New System.Drawing.Size(988, 398)
         Me.UcAttachment1.TabIndex = 0
         '
         'btncancel
@@ -1458,7 +1458,7 @@ Partial Class frmStoreRequistion
         Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
         Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(914, 439)
+        Me.UcCustomFields1.Size = New System.Drawing.Size(988, 398)
         Me.UcCustomFields1.TabIndex = 0
         '
         'frmStoreRequistion
