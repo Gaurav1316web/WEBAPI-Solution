@@ -660,7 +660,7 @@ Partial Class frmMilkPurchaseInvoiceMCC
         Me.MyLabel7.Name = "MyLabel7"
         Me.MyLabel7.Size = New System.Drawing.Size(59, 18)
         Me.MyLabel7.TabIndex = 27
-        Me.MyLabel7.Text = "VSP Name"
+        Me.MyLabel7.Text = "Secretary Name"
         '
         'lblMCCCode
         '

@@ -278,7 +278,7 @@ Partial Class rptTCSLedger
         Me.LblVLC.Name = "LblVLC"
         Me.LblVLC.Size = New System.Drawing.Size(26, 18)
         Me.LblVLC.TabIndex = 360
-        Me.LblVLC.Text = "VLC"
+        Me.LblVLC.Text = "DCS"
         Me.LblVLC.Visible = False
         '
         'chkShowOnlyVSP
@@ -287,7 +287,7 @@ Partial Class rptTCSLedger
         Me.chkShowOnlyVSP.Name = "chkShowOnlyVSP"
         Me.chkShowOnlyVSP.Size = New System.Drawing.Size(94, 18)
         Me.chkShowOnlyVSP.TabIndex = 358
-        Me.chkShowOnlyVSP.Text = "Show only VSP"
+        Me.chkShowOnlyVSP.Text = "Show only Secretary"
         Me.chkShowOnlyVSP.Visible = False
         '
         'TxtRoute

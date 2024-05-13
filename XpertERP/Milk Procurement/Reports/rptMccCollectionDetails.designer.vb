@@ -202,7 +202,7 @@ Partial Class rptMccCollectionDetails
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(30, 18)
         Me.MyLabel3.TabIndex = 400
-        Me.MyLabel3.Text = "BMC"
+        Me.MyLabel3.Text = "MCC"
         '
         'RadGroupBox3
         '

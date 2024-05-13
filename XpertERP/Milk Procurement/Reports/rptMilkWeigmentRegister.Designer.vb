@@ -154,7 +154,7 @@ Partial Class RptMilkWeigmentRegister
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(30, 18)
         Me.MyLabel4.TabIndex = 28
-        Me.MyLabel4.Text = "BMC"
+        Me.MyLabel4.Text = "MCC"
         '
         'txtMilkType
         '

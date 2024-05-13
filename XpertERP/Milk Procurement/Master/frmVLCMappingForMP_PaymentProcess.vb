@@ -34,7 +34,7 @@ Public Class frmVLCMappingForMP_PaymentProcess
 
     Function AllowToSave() As Boolean
         If txtVLC.arrValueMember Is Nothing OrElse txtVLC.arrValueMember.Count <= 0 Then
-            Throw New Exception("Please select at least one VLC")
+            Throw New Exception("Please select at least one DCS")
         End If
         Return True
     End Function

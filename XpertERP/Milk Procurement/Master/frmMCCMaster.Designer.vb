@@ -3257,7 +3257,7 @@ Partial Class FrmMCCMaster
         Me.MyLabel43.Name = "MyLabel43"
         Me.MyLabel43.Size = New System.Drawing.Size(138, 16)
         Me.MyLabel43.TabIndex = 102
-        Me.MyLabel43.Text = " Code (For VLC Uploader)"
+        Me.MyLabel43.Text = " Code (For DCS Uploader)"
         '
         'TxtFatSnfCalcDecimal
         '

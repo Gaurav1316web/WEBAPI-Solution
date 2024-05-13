@@ -7502,6 +7502,10 @@ Public Class MDI
                         ElseIf intPricePlan = 7 Then
                             frm = New frmPriceChartPlanMasterJPR
                             formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                        ElseIf intPricePlan = 8 Then
+                            frm = New frmPriceChartPlanMasterAJM
+                            formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                         Else
                             frm = New frmPriceChartPlanMaster
                             formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

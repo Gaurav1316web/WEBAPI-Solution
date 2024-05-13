@@ -128,9 +128,9 @@ group by TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code,TSPL_MP_INCENTIVE_ENTRY_DETAIL.VL
     End Sub
 
     Private Sub txtMultRoute__My_Click(sender As Object, e As EventArgs) Handles txtMultRoute._My_Click
-        Dim qry As String = " select DISTINCT TSPL_ROUTE_MASTER.Route_No from TSPL_ROUTE_MASTER
-LEFT OUTER JOIN TSPL_MILK_SRN_HEAD ON TSPL_MILK_SRN_HEAD.ROUTE_CODE=TSPL_ROUTE_MASTER.Route_No
-where 2=2  AND TSPL_MILK_SRN_HEAD.MCC_CODE IN   (" + clsCommon.GetMulcallString(txtMultBmc.arrValueMember) + ") "
+        Dim qry As String = " select DISTINCT TSPL_ROUTE_MASTER.Route_No from TSPL_ROUTE_MASTER"
+'        Left OUTER JOIN TSPL_MILK_SRN_HEAD ON TSPL_MILK_SRN_HEAD.ROUTE_CODE=TSPL_ROUTE_MASTER.Route_No
+'where 2=2  AND TSPL_MILK_SRN_HEAD.MCC_CODE IN   (" + clsCommon.GetMulcallString(txtMultBmc.arrValueMember) + ") "
         txtMultRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("VSPMulSelect", qry, "Route_no", "", txtMultRoute.arrValueMember, txtMultRoute.arrDispalyMember)
     End Sub
 
@@ -144,7 +144,9 @@ where 2=2  AND TSPL_MILK_SRN_HEAD.MCC_CODE IN   (" + clsCommon.GetMulcallString(
     End Sub
 
     Private Sub txtMultDCS__My_Click(sender As Object, e As EventArgs) Handles txtMultDCS._My_Click
-        Dim qry As String = "select DISTINCT TSPL_MILK_SRN_HEAD.VSP_Code as Code from TSPL_MILK_SRN_HEAD where MCC_CODE IN  (" + clsCommon.GetMulcallString(txtMultBmc.arrValueMember) + ")"
+        Dim qry As String = "select DISTINCT TSPL_MILK_SRN_HEAD.VSP_Code as Code,TSPL_VENDOR_MASTER.Zone_Code  from TSPL_MILK_SRN_HEAD 
+left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_MILK_SRN_HEAD.VSP_CODE"
+        'where MCC_CODE IN  (" + clsCommon.GetMulcallString(txtMultBmc.arrValueMember) + ")"
         txtMultDCS.arrValueMember = clsCommon.ShowMultipleSelectForm("PCUVLC1", qry, "Code", "", txtMultDCS.arrValueMember, Nothing)
     End Sub
 

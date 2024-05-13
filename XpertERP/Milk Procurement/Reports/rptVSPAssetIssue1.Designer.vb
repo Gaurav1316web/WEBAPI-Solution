@@ -414,7 +414,7 @@ Partial Class RptVSPAssetIssue1
         Me.RadGroupBox5.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox5.Size = New System.Drawing.Size(358, 112)
         Me.RadGroupBox5.TabIndex = 5
-        Me.RadGroupBox5.Text = "VSP"
+        Me.RadGroupBox5.Text = "Secretary"
         Me.RadGroupBox5.Visible = False
         '
         'cbgVSP

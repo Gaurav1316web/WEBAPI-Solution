@@ -522,7 +522,7 @@ Partial Class frmMilkSampleMCCOddEvenCLR
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox2.Size = New System.Drawing.Size(460, 142)
         Me.RadGroupBox2.TabIndex = 1
-        Me.RadGroupBox2.Text = "VLC FAT SNF Details"
+        Me.RadGroupBox2.Text = "DCS FAT SNF Details"
         '
         'MyLabel2
         '
@@ -574,7 +574,7 @@ Partial Class frmMilkSampleMCCOddEvenCLR
         Me.RadGroupBox4.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox4.Size = New System.Drawing.Size(503, 142)
         Me.RadGroupBox4.TabIndex = 56
-        Me.RadGroupBox4.Text = "VLC FAT SNF Details"
+        Me.RadGroupBox4.Text = "DCS FAT SNF Details"
         '
         'MyLabel1
         '

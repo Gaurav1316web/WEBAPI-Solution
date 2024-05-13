@@ -264,7 +264,7 @@ Partial Class frmFarmerPaymentEntry
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(58, 16)
         Me.MyLabel3.TabIndex = 88
-        Me.MyLabel3.Text = "VLC Code"
+        Me.MyLabel3.Text = "DCS Code"
         '
         'MyLabel9
         '
@@ -647,7 +647,7 @@ Partial Class frmFarmerPaymentEntry
         Me.MyLabel7.Name = "MyLabel7"
         Me.MyLabel7.Size = New System.Drawing.Size(59, 18)
         Me.MyLabel7.TabIndex = 79
-        Me.MyLabel7.Text = "VSP Name"
+        Me.MyLabel7.Text = "Secretary Name"
         '
         'lblMCCCode
         '
@@ -667,7 +667,7 @@ Partial Class frmFarmerPaymentEntry
         Me.RadLabel3.Name = "RadLabel3"
         Me.RadLabel3.Size = New System.Drawing.Size(62, 16)
         Me.RadLabel3.TabIndex = 85
-        Me.RadLabel3.Text = "VLC Name"
+        Me.RadLabel3.Text = "DCS Name"
         '
         'txtVLCCode
         '
@@ -702,7 +702,7 @@ Partial Class frmFarmerPaymentEntry
         Me.lblVSPCode.Name = "lblVSPCode"
         Me.lblVSPCode.Size = New System.Drawing.Size(55, 18)
         Me.lblVSPCode.TabIndex = 78
-        Me.lblVSPCode.Text = "VSP Code"
+        Me.lblVSPCode.Text = "Secretary Code"
         '
         'lblVSPDesc
         '

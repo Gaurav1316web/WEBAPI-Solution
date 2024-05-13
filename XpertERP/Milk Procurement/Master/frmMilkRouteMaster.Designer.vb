@@ -1147,7 +1147,7 @@ Partial Class FrmMilkRouteMaster
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Size = New System.Drawing.Size(899, 168)
         Me.RadGroupBox2.TabIndex = 0
-        Me.RadGroupBox2.Text = "VLC Detail"
+        Me.RadGroupBox2.Text = "DCS Detail"
         '
         'gvVLC
         '

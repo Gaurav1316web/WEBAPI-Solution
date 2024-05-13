@@ -269,7 +269,7 @@ Partial Class rpttotalMilkProcurement
         Me.lblMCCCode.Name = "lblMCCCode"
         Me.lblMCCCode.Size = New System.Drawing.Size(30, 18)
         Me.lblMCCCode.TabIndex = 38
-        Me.lblMCCCode.Text = "BMC"
+        Me.lblMCCCode.Text = "MCC"
         '
         'RadGroupBox1
         '
