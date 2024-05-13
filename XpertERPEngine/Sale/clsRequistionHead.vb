@@ -29,6 +29,10 @@ Public Class clsRequistionHead
     Public Is_Internal As String = "N"
     Public Dept As String = Nothing
     Public Dept_Desc As String = Nothing
+    Public unit As String = Nothing
+    Public unit_Desc As String = Nothing
+    Public Cost As String = Nothing
+    Public Cost_Desc As String = Nothing
     Public Item_Type As String = Nothing
     Public Request_By As String = Nothing
     Public Requisition_Type As String = Nothing

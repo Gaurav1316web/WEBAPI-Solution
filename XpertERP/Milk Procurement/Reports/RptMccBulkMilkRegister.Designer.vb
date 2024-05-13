@@ -285,13 +285,13 @@ Partial Class RptMccBulkMilkRegister
         Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox2.Controls.Add(Me.cbgMCC)
         Me.RadGroupBox2.Controls.Add(Me.Panel2)
-        Me.RadGroupBox2.HeaderText = "BMC"
+        Me.RadGroupBox2.HeaderText = "MCC"
         Me.RadGroupBox2.Location = New System.Drawing.Point(367, 50)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox2.Size = New System.Drawing.Size(356, 210)
         Me.RadGroupBox2.TabIndex = 1
-        Me.RadGroupBox2.Text = "BMC"
+        Me.RadGroupBox2.Text = "MCC"
         '
         'cbgMCC
         '

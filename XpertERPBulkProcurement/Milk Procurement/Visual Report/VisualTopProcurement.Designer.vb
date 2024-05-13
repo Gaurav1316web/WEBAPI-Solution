@@ -356,7 +356,7 @@ Partial Class VisualTopProcurement
         Me.MyLabel15.Name = "MyLabel15"
         Me.MyLabel15.Size = New System.Drawing.Size(26, 18)
         Me.MyLabel15.TabIndex = 394
-        Me.MyLabel15.Text = "VLC"
+        Me.MyLabel15.Text = "DCS"
         Me.MyLabel15.Visible = False
         '
         'txtRoute

@@ -601,7 +601,7 @@ Partial Class frmMilkSRNMCC
         Me.lblVSPCode.Name = "lblVSPCode"
         Me.lblVSPCode.Size = New System.Drawing.Size(55, 18)
         Me.lblVSPCode.TabIndex = 26
-        Me.lblVSPCode.Text = "VSP Code"
+        Me.lblVSPCode.Text = "Secretary Code"
         '
         'lblVSPDesc
         '
@@ -621,7 +621,7 @@ Partial Class frmMilkSRNMCC
         Me.lblVLCCode.Name = "lblVLCCode"
         Me.lblVLCCode.Size = New System.Drawing.Size(55, 18)
         Me.lblVLCCode.TabIndex = 23
-        Me.lblVLCCode.Text = "VLC Code"
+        Me.lblVLCCode.Text = "DCS Code"
         '
         'lblVLCDesc
         '

@@ -706,7 +706,7 @@ Partial Class frmVSP_VLCMaster
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1057, 398)
-        Me.RadPageViewPage1.Text = "VSP Address"
+        Me.RadPageViewPage1.Text = "Secretary Address"
         '
         'lblMCCName
         '
@@ -754,7 +754,7 @@ Partial Class frmVSP_VLCMaster
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(61, 16)
         Me.MyLabel2.TabIndex = 434
-        Me.MyLabel2.Text = "VSP Detail"
+        Me.MyLabel2.Text = "Secretary Detail"
         '
         'txtvsp
         '
@@ -2868,7 +2868,7 @@ Partial Class frmVSP_VLCMaster
         Me.MyLabel61.Name = "MyLabel61"
         Me.MyLabel61.Size = New System.Drawing.Size(194, 16)
         Me.MyLabel61.TabIndex = 79
-        Me.MyLabel61.Text = "(PTM,PTVM,MRM,VSP,Village,VLC )"
+        Me.MyLabel61.Text = "(PTM,PTVM,MRM,Secretary,Village,VLC )"
         '
         'RadPageViewPage4
         '
@@ -3407,7 +3407,7 @@ Partial Class frmVSP_VLCMaster
         Me.lblCopy.Name = "lblCopy"
         Me.lblCopy.Size = New System.Drawing.Size(58, 16)
         Me.lblCopy.TabIndex = 83
-        Me.lblCopy.Text = "VSP Copy"
+        Me.lblCopy.Text = "Secretary Copy"
         '
         'MyCheckBox1
         '
@@ -4396,7 +4396,7 @@ Partial Class frmVSP_VLCMaster
         Me.MyLabel6.Name = "MyLabel6"
         Me.MyLabel6.Size = New System.Drawing.Size(77, 16)
         Me.MyLabel6.TabIndex = 425
-        Me.MyLabel6.Text = "VSP Payment"
+        Me.MyLabel6.Text = "Secretary Payment"
         '
         'RadLabel11
         '
@@ -5207,7 +5207,7 @@ Partial Class frmVSP_VLCMaster
         '
         '
         Me.RootElement.ApplyShapeToControl = True
-        Me.Text = "VSP/VLC Master"
+        Me.Text = "Secretary/DCS Master"
         CType(Me.btnclear, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()

@@ -834,7 +834,7 @@ Where 2=2 "
             Gv1.Columns("RouteName").IsVisible = False
             Gv1.Columns("RouteName").BestFit()
 
-            Gv1.Columns("VLCName").HeaderText = "VLC Name"
+            Gv1.Columns("VLCName").HeaderText = "DCS Name"
             Gv1.Columns("VLCName").IsVisible = True
             Gv1.Columns("VLCName").BestFit()
 
@@ -938,7 +938,7 @@ Where 2=2 "
             Gv1.Columns("RouteName").IsVisible = False
             Gv1.Columns("RouteName").BestFit()
 
-            Gv1.Columns("VLCName").HeaderText = "VLC Name"
+            Gv1.Columns("VLCName").HeaderText = "DCS Name"
             Gv1.Columns("VLCName").IsVisible = True
             Gv1.Columns("VLCName").BestFit()
 

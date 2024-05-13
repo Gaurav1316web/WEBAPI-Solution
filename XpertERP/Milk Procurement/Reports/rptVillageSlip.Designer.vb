@@ -232,7 +232,7 @@ Partial Class RptVillageSlip
         Me.RadGroupBox5.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox5.Size = New System.Drawing.Size(413, 495)
         Me.RadGroupBox5.TabIndex = 8
-        Me.RadGroupBox5.Text = "VSP"
+        Me.RadGroupBox5.Text = "Secretary"
         '
         'cbgVSP
         '

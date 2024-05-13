@@ -673,9 +673,9 @@ Partial Class FrmMilkTransferIn
         Me.lblVendor.FieldName = Nothing
         Me.lblVendor.Location = New System.Drawing.Point(6, 32)
         Me.lblVendor.Name = "lblVendor"
-        Me.lblVendor.Size = New System.Drawing.Size(60, 18)
+        Me.lblVendor.Size = New System.Drawing.Size(59, 18)
         Me.lblVendor.TabIndex = 325
-        Me.lblVendor.Text = "BMC/Plant"
+        Me.lblVendor.Text = "MCC/Plant"
         '
         'lblPending
         '

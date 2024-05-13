@@ -117,7 +117,7 @@ Partial Class rptListofCowDCS
         Me.lblOwnMCC.Name = "lblOwnMCC"
         Me.lblOwnMCC.Size = New System.Drawing.Size(62, 16)
         Me.lblOwnMCC.TabIndex = 354
-        Me.lblOwnMCC.Text = "BMC Code"
+        Me.lblOwnMCC.Text = "MCC Code"
         '
         'RadPageViewPage2
         '

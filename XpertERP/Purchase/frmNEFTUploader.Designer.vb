@@ -802,7 +802,7 @@ Partial Class FrmNEFTUploader
         Me.RadMenuItemVSP.AccessibleDescription = "VSP Wise"
         Me.RadMenuItemVSP.AccessibleName = "VSP Wise"
         Me.RadMenuItemVSP.Name = "RadMenuItemVSP"
-        Me.RadMenuItemVSP.Text = "VSP Wise"
+        Me.RadMenuItemVSP.Text = "Secretary Wise"
         '
         'RadMenuItemBank
         '

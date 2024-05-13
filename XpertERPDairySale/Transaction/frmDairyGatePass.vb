@@ -1049,7 +1049,7 @@ Public Class frmDairyGatePass
             ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.G Then
                 Dim frm As New FrmPWD(Nothing)
             frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
+            frm.strCode = "GatePass Password"
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 EnableDispatch = True

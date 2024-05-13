@@ -647,7 +647,7 @@ Partial Class frmFarmerPaymentEntry
         Me.MyLabel7.Name = "MyLabel7"
         Me.MyLabel7.Size = New System.Drawing.Size(59, 18)
         Me.MyLabel7.TabIndex = 79
-        Me.MyLabel7.Text = "VSP Name"
+        Me.MyLabel7.Text = "Secretary Name"
         '
         'lblMCCCode
         '
@@ -702,7 +702,7 @@ Partial Class frmFarmerPaymentEntry
         Me.lblVSPCode.Name = "lblVSPCode"
         Me.lblVSPCode.Size = New System.Drawing.Size(55, 18)
         Me.lblVSPCode.TabIndex = 78
-        Me.lblVSPCode.Text = "VSP Code"
+        Me.lblVSPCode.Text = "Secretary Code"
         '
         'lblVSPDesc
         '

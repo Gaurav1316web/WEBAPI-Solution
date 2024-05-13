@@ -98,14 +98,14 @@ Public Class clsSalaryGeneration
     End Function
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsSalaryGeneration
         Dim obj As clsSalaryGeneration = Nothing
-        Dim qry As String = "select TSPL_GENERATE_SALARY.*,TSPL_GL_ACCOUNTS.Description AS GL_SALARY_PAYABLE_DESC, " & _
-        " TSPL_LOCATION_MASTER.LOCATION_DESC,TSPL_DEVISION_MASTER.DEVISION_NAME,GL_PF.Description as GL_Employer_PF_PAYABLE_Desc, " & _
-        " GL_ESI.Description as GL_Employer_ESI_PAYABLE_Desc,GL_Othr.Description as GL_EMPLOYER_OTHERS_PAYABLE_Desc  from TSPL_GENERATE_SALARY " & _
-        " LEFT JOIN TSPL_GL_ACCOUNTS ON TSPL_GENERATE_SALARY.GL_SALARY_PAYABLE=TSPL_GL_ACCOUNTS.Account_Code " & _
-        " LEFT JOIN TSPL_GL_ACCOUNTS as GL_PF ON TSPL_GENERATE_SALARY.GL_Employer_PF_PAYABLE=GL_PF.Account_Code " & _
-        " LEFT JOIN TSPL_GL_ACCOUNTS as GL_ESI ON TSPL_GENERATE_SALARY.GL_Employer_ESI_PAYABLE=GL_ESI.Account_Code " & _
-        " LEFT JOIN TSPL_GL_ACCOUNTS as GL_Othr ON TSPL_GENERATE_SALARY.GL_EMPLOYER_OTHERS_PAYABLE=GL_Othr.Account_Code " & _
-        " LEFT JOIN TSPL_LOCATION_MASTER ON TSPL_GENERATE_SALARY.LOCATION_CODE=TSPL_LOCATION_MASTER.LOCATION_CODE " & _
+        Dim qry As String = "select TSPL_GENERATE_SALARY.*,TSPL_GL_ACCOUNTS.Description AS GL_SALARY_PAYABLE_DESC, " &
+        " TSPL_LOCATION_MASTER.LOCATION_DESC,TSPL_DEVISION_MASTER.DEVISION_NAME,GL_PF.Description as GL_Employer_PF_PAYABLE_Desc, " &
+        " GL_ESI.Description as GL_Employer_ESI_PAYABLE_Desc,GL_Othr.Description as GL_EMPLOYER_OTHERS_PAYABLE_Desc  from TSPL_GENERATE_SALARY " &
+        " LEFT JOIN TSPL_GL_ACCOUNTS ON TSPL_GENERATE_SALARY.GL_SALARY_PAYABLE=TSPL_GL_ACCOUNTS.Account_Code " &
+        " LEFT JOIN TSPL_GL_ACCOUNTS as GL_PF ON TSPL_GENERATE_SALARY.GL_Employer_PF_PAYABLE=GL_PF.Account_Code " &
+        " LEFT JOIN TSPL_GL_ACCOUNTS as GL_ESI ON TSPL_GENERATE_SALARY.GL_Employer_ESI_PAYABLE=GL_ESI.Account_Code " &
+        " LEFT JOIN TSPL_GL_ACCOUNTS as GL_Othr ON TSPL_GENERATE_SALARY.GL_EMPLOYER_OTHERS_PAYABLE=GL_Othr.Account_Code " &
+        " LEFT JOIN TSPL_LOCATION_MASTER ON TSPL_GENERATE_SALARY.LOCATION_CODE=TSPL_LOCATION_MASTER.LOCATION_CODE " &
         " LEFT JOIN TSPL_DEVISION_MASTER ON TSPL_GENERATE_SALARY.DEVISION_CODE=TSPL_DEVISION_MASTER.DEVISION_CODE where 2=2"
         Select Case NavType
             Case NavigatorType.First
@@ -317,12 +317,12 @@ Public Class clsSalaryGeneration
                 " EDLI_AMT_AC21,ADMIN_EDLI_RATE_AC22,ADMIN_EDLI_AMT_AC22,OTHER_CHARGE,Co_ESI_RATE,Co_ESI_AMT,Employer_Account,Arrear_Amt,PRINCIPAL_ROUND_OFF,ARREAR_ROUND_OFF,CoEPF_AMT_AC01_ROUND_OFF,CoEPS_AMT_AC10_ROUND_OFF,IS_PF_APPL,PF_Calculation_Type,PF_Rule_Max_Lim,Custom_PF_Max_Lim,PF_No,IS_ESI_APPL,ESI_Calculation_Type,ESI_Rule_Max_Lim,Custom_ESI_Max_Lim,ESI_No,EPS_To_EPF,IS_OT_APPL,OT_CODE,OT_HOURS,OT_RATE,HOUR_MULTIPLIER,IS_BONUS_APPL,BONUS_CODE,BONUS_FROM_PAY_PERIOD_CODE,BONUS_TO_PAY_PERIOD_CODE,OD_Applicable,MAX_AMOUNT,PREV_ESI  from TSPL_SALARY_CALCULATION) "
             clsDBFuncationality.ExecuteNonQuery(satQry, trans)
 
-            satQry = " update TSPL_GENERATE_SALARY_ATTENDANCE set ARREAR_AMT=coalesce(Arrear.Arrear_Amt,0) from " & _
-                     " (select SALARY_GENERATION_CODE,EMP_CODE,sum(case when PHM.ISEARNING=1 then Arrear_Amt else -ARREAR_AMT end) as Arrear_Amt from TSPL_GENERATE_SALARY_PAYHEADS " & _
-                     " left join TSPL_PAYHEAD_MASTER PHM on TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE=PHM.PAY_HEAD_CODE " & _
-                     " where SALARY_GENERATION_CODE='" & obj.Code & "' group by SALARY_GENERATION_CODE,EMP_CODE) as Arrear   " & _
-                     " where TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE = Arrear.SALARY_GENERATION_CODE  " & _
-                     " And TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE = Arrear.EMP_CODE " & _
+            satQry = " update TSPL_GENERATE_SALARY_ATTENDANCE set ARREAR_AMT=coalesce(Arrear.Arrear_Amt,0) from " &
+                     " (select SALARY_GENERATION_CODE,EMP_CODE,sum(case when PHM.ISEARNING=1 then Arrear_Amt else -ARREAR_AMT end) as Arrear_Amt from TSPL_GENERATE_SALARY_PAYHEADS " &
+                     " left join TSPL_PAYHEAD_MASTER PHM on TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE=PHM.PAY_HEAD_CODE " &
+                     " where SALARY_GENERATION_CODE='" & obj.Code & "' group by SALARY_GENERATION_CODE,EMP_CODE) as Arrear   " &
+                     " where TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE = Arrear.SALARY_GENERATION_CODE  " &
+                     " And TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE = Arrear.EMP_CODE " &
                      " and TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE='" & obj.Code & "'"
             clsDBFuncationality.ExecuteNonQuery(satQry, trans)
         End If
@@ -339,28 +339,28 @@ Public Class clsSalaryGeneration
         Dim obj As New clsLeaveAllotment
         Dim AllotQry As String = ""
         Dim Qry As String = ""
-        AllotQry = "select EMP.EMP_CODE,EMP.PAY_PERIOD_CODE,EMP.ACTUAL_BASIC,EMP.DATE_FROM,EMP.DATE_TO,EMP.PRESENT_DAYS,EMP.HOLIDAY_DAYS," & _
-                  Environment.NewLine & " EMP.DOJ,EMP.CONFIRMATION_DATE,EMP.PROBATION_END_DATE,LS.LEAVE_CODE,LS.LEAVE_ALLOT_TYPE," & _
-                  Environment.NewLine & " LS.ALLOT_AFTER_MONTHS,LS.ALLOT_AFTER_DAYS,LS.Allot_Periodicity,LS.Allot_Type,LS.Allot_Per_Month,LS.PerPresentDays," & _
-                  Environment.NewLine & " coalesce(round((CASE WHEN LS.Allot_Type='F' then LS.Allot_Per_Month WHEN LS.Allot_Type='Attn'  " & _
-                  Environment.NewLine & " then (EMP.PRESENT_DAYS/case when LS.PerPresentDays= 0 then 1 else LS.PerPresentDays end )*LS.Allot_Per_Month WHEN	LS.Allot_Type='Salary' then (select top 1 COALESCE((case when LS.Allot_Periodicity='Y' " & _
-                  Environment.NewLine & " then ALLOTED_LEAVE/12 else ALLOTED_LEAVE end ),0) AS  ALLOTED_LEAVE  from TSPL_LEAVE_SETTING_SALARY_SLAB_ALLOTED_LEAVE " & _
-                  Environment.NewLine & " where LEAVE_CODE=LS.LEAVE_CODE AND EMP.ACTUAL_BASIC BETWEEN SALARY_FROM AND SALARY_TO) END),2),0) AS Alloted_Leave from " & _
-                  Environment.NewLine & " ( select LEAVE_CODE,LEAVE_ALLOT_TYPE,ALLOT_AFTER_MONTHS,ALLOT_AFTER_DAYS,Allot_Periodicity, " & _
-                  Environment.NewLine & " Allot_Type,(case when Allot_Periodicity='Y' then  Alloted_Days/12 else Alloted_Days end) as Allot_Per_Month," & _
-                  Environment.NewLine & " (case when Allot_Periodicity='Y' then  PerPresentDays/12 else PerPresentDays end) as PerPresentDays " & _
-                  Environment.NewLine & " from TSPL_LEAVE_SETTING WHERE AutoAllotDuringSalaryGen='1') LS, " & _
-                  Environment.NewLine & " (select GSA.EMP_CODE,GS.PAY_PERIOD_CODE,GSA.ACTUAL_BASIC,PPM.DATE_FROM,PPM.DATE_TO,GSA.PRESENT_DAYS, " & _
-                  Environment.NewLine & " (coalesce(GSA.PAYABLE_DAYS,0)-coalesce(GSA.PRESENT_DAYS,0)-coalesce(GSA.LEAVE_DAYS,0)) as HOLIDAY_DAYS," & _
-                  Environment.NewLine & " CONVERT(DATE,EMP.Joining_date,103) AS DOJ,EMP.CONFIRMATION_DATE,EMP.PROBATION_END_DATE from TSPL_GENERATE_SALARY_ATTENDANCE GSA" & _
-                  Environment.NewLine & " INNER JOIN TSPL_GENERATE_SALARY GS ON GSA.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE " & _
-                  Environment.NewLine & " LEFT JOIN TSPL_PAYPERIOD_MASTER PPM ON GS.PAY_PERIOD_CODE=PPM.PAY_PERIOD_CODE " & _
-                  Environment.NewLine & " LEFT JOIN TSPL_EMPLOYEE_MASTER EMP ON GSA.EMP_CODE=EMP.EMP_CODE " & _
-                  Environment.NewLine & " where GS.SALARY_GENERATION_CODE='" & objSal.Code & "') EMP" & _
-                  Environment.NewLine & " WHERE (CASE WHEN LS.LEAVE_ALLOT_TYPE=1 THEN EMP.DOJ " & _
-                  Environment.NewLine & " WHEN LS.LEAVE_ALLOT_TYPE=2 THEN EMP.CONFIRMATION_DATE " & _
-                  Environment.NewLine & " WHEN LS.LEAVE_ALLOT_TYPE=3 THEN EMP.PROBATION_END_DATE " & _
-                  Environment.NewLine & " WHEN LS.LEAVE_ALLOT_TYPE=4 THEN DATEADD(DAY,LS.ALLOT_AFTER_DAYS,DateAdd(MONTH,LS.ALLOT_AFTER_MONTHS,EMP.DOJ))" & _
+        AllotQry = "select EMP.EMP_CODE,EMP.PAY_PERIOD_CODE,EMP.ACTUAL_BASIC,EMP.DATE_FROM,EMP.DATE_TO,EMP.PRESENT_DAYS,EMP.HOLIDAY_DAYS," &
+                  Environment.NewLine & " EMP.DOJ,EMP.CONFIRMATION_DATE,EMP.PROBATION_END_DATE,LS.LEAVE_CODE,LS.LEAVE_ALLOT_TYPE," &
+                  Environment.NewLine & " LS.ALLOT_AFTER_MONTHS,LS.ALLOT_AFTER_DAYS,LS.Allot_Periodicity,LS.Allot_Type,LS.Allot_Per_Month,LS.PerPresentDays," &
+                  Environment.NewLine & " coalesce(round((CASE WHEN LS.Allot_Type='F' then LS.Allot_Per_Month WHEN LS.Allot_Type='Attn'  " &
+                  Environment.NewLine & " then (EMP.PRESENT_DAYS/case when LS.PerPresentDays= 0 then 1 else LS.PerPresentDays end )*LS.Allot_Per_Month WHEN	LS.Allot_Type='Salary' then (select top 1 COALESCE((case when LS.Allot_Periodicity='Y' " &
+                  Environment.NewLine & " then ALLOTED_LEAVE/12 else ALLOTED_LEAVE end ),0) AS  ALLOTED_LEAVE  from TSPL_LEAVE_SETTING_SALARY_SLAB_ALLOTED_LEAVE " &
+                  Environment.NewLine & " where LEAVE_CODE=LS.LEAVE_CODE AND EMP.ACTUAL_BASIC BETWEEN SALARY_FROM AND SALARY_TO) END),2),0) AS Alloted_Leave from " &
+                  Environment.NewLine & " ( select LEAVE_CODE,LEAVE_ALLOT_TYPE,ALLOT_AFTER_MONTHS,ALLOT_AFTER_DAYS,Allot_Periodicity, " &
+                  Environment.NewLine & " Allot_Type,(case when Allot_Periodicity='Y' then  Alloted_Days/12 else Alloted_Days end) as Allot_Per_Month," &
+                  Environment.NewLine & " (case when Allot_Periodicity='Y' then  PerPresentDays/12 else PerPresentDays end) as PerPresentDays " &
+                  Environment.NewLine & " from TSPL_LEAVE_SETTING WHERE AutoAllotDuringSalaryGen='1') LS, " &
+                  Environment.NewLine & " (select GSA.EMP_CODE,GS.PAY_PERIOD_CODE,GSA.ACTUAL_BASIC,PPM.DATE_FROM,PPM.DATE_TO,GSA.PRESENT_DAYS, " &
+                  Environment.NewLine & " (coalesce(GSA.PAYABLE_DAYS,0)-coalesce(GSA.PRESENT_DAYS,0)-coalesce(GSA.LEAVE_DAYS,0)) as HOLIDAY_DAYS," &
+                  Environment.NewLine & " CONVERT(DATE,EMP.Joining_date,103) AS DOJ,EMP.CONFIRMATION_DATE,EMP.PROBATION_END_DATE from TSPL_GENERATE_SALARY_ATTENDANCE GSA" &
+                  Environment.NewLine & " INNER JOIN TSPL_GENERATE_SALARY GS ON GSA.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE " &
+                  Environment.NewLine & " LEFT JOIN TSPL_PAYPERIOD_MASTER PPM ON GS.PAY_PERIOD_CODE=PPM.PAY_PERIOD_CODE " &
+                  Environment.NewLine & " LEFT JOIN TSPL_EMPLOYEE_MASTER EMP ON GSA.EMP_CODE=EMP.EMP_CODE " &
+                  Environment.NewLine & " where GS.SALARY_GENERATION_CODE='" & objSal.Code & "') EMP" &
+                  Environment.NewLine & " WHERE (CASE WHEN LS.LEAVE_ALLOT_TYPE=1 THEN EMP.DOJ " &
+                  Environment.NewLine & " WHEN LS.LEAVE_ALLOT_TYPE=2 THEN EMP.CONFIRMATION_DATE " &
+                  Environment.NewLine & " WHEN LS.LEAVE_ALLOT_TYPE=3 THEN EMP.PROBATION_END_DATE " &
+                  Environment.NewLine & " WHEN LS.LEAVE_ALLOT_TYPE=4 THEN DATEADD(DAY,LS.ALLOT_AFTER_DAYS,DateAdd(MONTH,LS.ALLOT_AFTER_MONTHS,EMP.DOJ))" &
                   Environment.NewLine & " END)<=EMP.DATE_TO"
         Qry = "select Count(*) as tot from (" & AllotQry & ") as Final"
         Dim tot As Integer = clsDBFuncationality.getSingleValue(Qry, trans)
@@ -377,7 +377,7 @@ Public Class clsSalaryGeneration
             obj.PAY_PERIOD_CODE = objSal.PAY_PERIOD_CODE
             obj.ObjList = Nothing
             obj.SaveData(obj, IIf(clsCommon.myLen(objSal.LEAVEALLOTMENT_CODE) > 0, False, True), trans)
-            Qry = " insert into TSPL_LEAVE_ALLOTMENTDETAIL(LVALLOTMENT_CODE,EMP_CODE,LEAVE_CODE,ALLOTED_LEAVE,Created_By,Created_Date,Modified_By,Modified_Date)" & _
+            Qry = " insert into TSPL_LEAVE_ALLOTMENTDETAIL(LVALLOTMENT_CODE,EMP_CODE,LEAVE_CODE,ALLOTED_LEAVE,Created_By,Created_Date,Modified_By,Modified_Date)" &
                   " select '" & obj.LVALLOTMENT_CODE & "',EMP_CODE,LEAVE_CODE,ALLOTED_LEAVE,'" & objSal.GENERATED_BY & "','" & clsCommon.GetPrintDate(objSal.GENERATE_DATE, "dd/MMM/yyyy") & "','" & objSal.GENERATED_BY & "','" & clsCommon.GetPrintDate(objSal.GENERATE_DATE, "dd/MMM/yyyy") & "' from (" & AllotQry & ") as Final "
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
             'obj = clsLeaveAllotment.GetData(obj.LVALLOTMENT_CODE, NavigatorType.Current, trans)
@@ -838,20 +838,20 @@ Public Class clsSalaryGeneration
         'Dim objWriter As New System.IO.StreamWriter(logFile, True)
         Dim strq As String
 
-        strq = " SELECT * FROM ( " & _
-               " select TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE,(case when TSPL_PAYHEAD_MASTER.SUB_HEAD_TYPE='Loan' " & _
-               " then TSPL_EMPLOYEE_MASTER.ADVANCE_TO_STAFF else TSPL_GENERATE_SALARY_PAYHEADS.Account_Code end) AS SalAccount_Code," & _
-               " (case when TSPL_PAYHEAD_MASTER.SUB_HEAD_TYPE='Loan' " & _
-               " then TSPL_EMPLOYEE_MASTER.ADVANCE_TO_STAFF else TSPL_PAYHEAD_MASTER.Account_Code end) AS PHAccount_Code, " & _
-               " ((case when isnull(TSPL_PAYHEAD_MASTER.ISEARNING,0)=1 then TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT else 0 end)) as Debit, " & _
-               " ((case when isnull(TSPL_PAYHEAD_MASTER.ISEARNING,0)<>1 then TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT else 0 end)) as Credit, " & _
-               " (case when TSPL_PAYHEAD_MASTER.SUB_HEAD_TYPE='Loan' then TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE else null end ) as EMP_CODE " & _
-               " from TSPL_GENERATE_SALARY_PAYHEADS " & _
-               " inner join TSPL_GENERATE_SALARY on TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE " & _
-               " INNER JOIN TSPL_EMPLOYEE_MASTER ON  TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_EMPLOYEE_MASTER.EMP_CODE " & _
-               " left join TSPL_PAYHEAD_MASTER on TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE=TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE " & _
-               " left join TSPL_GL_ACCOUNTS on TSPL_PAYHEAD_MASTER.Account_Code=TSPL_GL_ACCOUNTS.Account_Code " & _
-               " where TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE='" & obj.Code & "'  ) as final " & _
+        strq = " SELECT * FROM ( " &
+               " select TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE,(case when TSPL_PAYHEAD_MASTER.SUB_HEAD_TYPE='Loan' " &
+               " then TSPL_EMPLOYEE_MASTER.ADVANCE_TO_STAFF else TSPL_GENERATE_SALARY_PAYHEADS.Account_Code end) AS SalAccount_Code," &
+               " (case when TSPL_PAYHEAD_MASTER.SUB_HEAD_TYPE='Loan' " &
+               " then TSPL_EMPLOYEE_MASTER.ADVANCE_TO_STAFF else TSPL_PAYHEAD_MASTER.Account_Code end) AS PHAccount_Code, " &
+               " ((case when isnull(TSPL_PAYHEAD_MASTER.ISEARNING,0)=1 then TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT else 0 end)) as Debit, " &
+               " ((case when isnull(TSPL_PAYHEAD_MASTER.ISEARNING,0)<>1 then TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT else 0 end)) as Credit, " &
+               " (case when TSPL_PAYHEAD_MASTER.SUB_HEAD_TYPE='Loan' then TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE else null end ) as EMP_CODE " &
+               " from TSPL_GENERATE_SALARY_PAYHEADS " &
+               " inner join TSPL_GENERATE_SALARY on TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE " &
+               " INNER JOIN TSPL_EMPLOYEE_MASTER ON  TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_EMPLOYEE_MASTER.EMP_CODE " &
+               " left join TSPL_PAYHEAD_MASTER on TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE=TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE " &
+               " left join TSPL_GL_ACCOUNTS on TSPL_PAYHEAD_MASTER.Account_Code=TSPL_GL_ACCOUNTS.Account_Code " &
+               " where TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE='" & obj.Code & "'  ) as final " &
                " where ((SalAccount_Code is null or PHAccount_Code is null) and EMP_CODE is null) or ((SalAccount_Code is null or PHAccount_Code is null) and EMP_CODE is not null and Credit>0)"
         Dim dtValid As DataTable
         dtValid = clsDBFuncationality.GetDataTable(strq, trans)
@@ -866,17 +866,17 @@ Public Class clsSalaryGeneration
         End If
 
         '' check for Employer GL Account
-        strq = " SELECT * FROM ( " & _
-              " select TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE,TSPL_GENERATE_SALARY_PAYHEADS.Employer_Account AS SalAccount_Code," & _
-              " ((case when isnull(TSPL_PAYHEAD_MASTER.ISEARNING,0)=1 then TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT else 0 end)) as Debit, " & _
-              " ((case when isnull(TSPL_PAYHEAD_MASTER.ISEARNING,0)<>1 then TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT else 0 end)) as Credit, " & _
-              " (case when TSPL_PAYHEAD_MASTER.SUB_HEAD_TYPE='Loan' then TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE else null end ) as EMP_CODE " & _
-              " from TSPL_GENERATE_SALARY_PAYHEADS " & _
-              " inner join TSPL_GENERATE_SALARY on TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE " & _
-              " INNER JOIN TSPL_EMPLOYEE_MASTER ON  TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_EMPLOYEE_MASTER.EMP_CODE " & _
-              " left join TSPL_PAYHEAD_MASTER on TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE=TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE " & _
-              " left join TSPL_GL_ACCOUNTS on TSPL_PAYHEAD_MASTER.Account_Code=TSPL_GL_ACCOUNTS.Account_Code " & _
-              " where TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE='" & obj.Code & "'  and TSPL_GENERATE_SALARY_PAYHEADS.SUB_HEAD_TYPE in ('EPF','EMPESI','LWF')) as final " & _
+        strq = " SELECT * FROM ( " &
+              " select TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE,TSPL_GENERATE_SALARY_PAYHEADS.Employer_Account AS SalAccount_Code," &
+              " ((case when isnull(TSPL_PAYHEAD_MASTER.ISEARNING,0)=1 then TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT else 0 end)) as Debit, " &
+              " ((case when isnull(TSPL_PAYHEAD_MASTER.ISEARNING,0)<>1 then TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT else 0 end)) as Credit, " &
+              " (case when TSPL_PAYHEAD_MASTER.SUB_HEAD_TYPE='Loan' then TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE else null end ) as EMP_CODE " &
+              " from TSPL_GENERATE_SALARY_PAYHEADS " &
+              " inner join TSPL_GENERATE_SALARY on TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE " &
+              " INNER JOIN TSPL_EMPLOYEE_MASTER ON  TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_EMPLOYEE_MASTER.EMP_CODE " &
+              " left join TSPL_PAYHEAD_MASTER on TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE=TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE " &
+              " left join TSPL_GL_ACCOUNTS on TSPL_PAYHEAD_MASTER.Account_Code=TSPL_GL_ACCOUNTS.Account_Code " &
+              " where TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE='" & obj.Code & "'  and TSPL_GENERATE_SALARY_PAYHEADS.SUB_HEAD_TYPE in ('EPF','EMPESI','LWF')) as final " &
               " where ((SalAccount_Code is null) and EMP_CODE is null) or ((SalAccount_Code is null) and EMP_CODE is not null and Credit>0)"
         Dim dtEmplValid As DataTable
         dtEmplValid = clsDBFuncationality.GetDataTable(strq, trans)
@@ -904,10 +904,10 @@ Public Class clsSalaryGeneration
         LocSep = "-"
         LocSeg = clsDBFuncationality.getSingleValue(QryLoc, trans)
         If clsCommon.myLen(LocSeg) <= 0 Then
-            strq = " SELECT distinct (CASE WHEN SUBSTRING(RIGHT(Account_Code,4),1,1)='-' THEN REPLACE(Account_Code,RIGHT(Account_Code,4),'') " & _
+            strq = " SELECT distinct (CASE WHEN SUBSTRING(RIGHT(Account_Code,4),1,1)='-' THEN REPLACE(Account_Code,RIGHT(Account_Code,4),'') " &
                    " ELSE Account_Code+ '' END) AS Account_Code,(case when TSPL_GENERATE_SALARY_PAYHEADS.SUB_HEAD_TYPE='Loan' then TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE else null end ) as EMP_CODE,(case when TSPL_GENERATE_SALARY_PAYHEADS.SUB_HEAD_TYPE='Loan' then TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT else null end ) as ACTUAL_AMOUNT  FROM TSPL_GENERATE_SALARY_PAYHEADS where SALARY_GENERATION_CODE='" & obj.Code & "'"
         Else
-            strq = " SELECT distinct (CASE WHEN SUBSTRING(RIGHT(Account_Code,4),1,1)='-' THEN REPLACE(Account_Code,RIGHT(Account_Code,4),'-" & LocSeg & "') " & _
+            strq = " SELECT distinct (CASE WHEN SUBSTRING(RIGHT(Account_Code,4),1,1)='-' THEN REPLACE(Account_Code,RIGHT(Account_Code,4),'-" & LocSeg & "') " &
                    " ELSE Account_Code+ '-" & LocSeg & "' END) AS Account_Code,(case when TSPL_GENERATE_SALARY_PAYHEADS.SUB_HEAD_TYPE='Loan' then TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE else null end ) as EMP_CODE,(case when TSPL_GENERATE_SALARY_PAYHEADS.SUB_HEAD_TYPE='Loan' then TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT else null end ) as ACTUAL_AMOUNT  FROM TSPL_GENERATE_SALARY_PAYHEADS where SALARY_GENERATION_CODE='" & obj.Code & "'"
         End If
         FinalQry = "select NewACC.Account_Code,TSPL_GL_ACCOUNTS.Account_Code as OldAccCode from (" & strq & ") as NewACC left join TSPL_GL_ACCOUNTS on NewACC.Account_Code=TSPL_GL_ACCOUNTS.Account_Code  where (TSPL_GL_ACCOUNTS.Account_Code is null and EMP_CODE is null) or (EMP_CODE is not null and ACTUAL_AMOUNT>0)"
@@ -944,8 +944,8 @@ Public Class clsSalaryGeneration
             fs.Close()
         End If
         '===========================================
-        Dim qryDedection As String = "  Select distinct Emp_code from ( " & _
-                            " select MAX(tspl_Vendor_master.isemployee) AS isemployee,TSPL_DEDUCTION_DETAIL.EMP_CODE ,TSPL_DEDUCTION_DETAIL.DEDUCTION_CODE ,sum(DEDUCTION_AMOUNT ) as DEDUCTION_AMOUNT,max(tspl_Vendor_master.Vendor_code) Vendor_code,max(tspl_Vendor_master.Vendor_name) as Vendor_name,max(TSPL_PAYHEAD_MASTER.Account_Code) as DeductionAccount from TSPL_DEDUCTION  left outer join TSPL_DEDUCTION_DETAIL on TSPL_DEDUCTION.DEDUCTION_CODE =TSPL_DEDUCTION_DETAIL.DEDUCTION_CODE left outer  join tspl_Vendor_master on TSPL_DEDUCTION_DETAIL.EMP_CODE=tspl_Vendor_master.EMP_CODE left outer join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE =TSPL_DEDUCTION_DETAIL.PAY_HEAD_CODE  where TSPL_DEDUCTION.PAY_PERIOD_CODE in (Select distinct TSPL_GENERATE_SALARY.PAY_PERIOD_CODE from TSPL_GENERATE_SALARY_PAYHEADS inner join TSPL_GENERATE_SALARY on TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE where TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE='" + obj.Code + "') and TSPL_DEDUCTION_DETAIL.EMP_CODE in (select distinct EMP_CODE from TSPL_GENERATE_SALARY_PAYHEADS where SALARY_GENERATION_CODE='" + obj.Code + "')  and TSPL_PAYHEAD_MASTER.SUB_HEAD_TYPE <>'TDS' group by TSPL_DEDUCTION_DETAIL.EMP_CODE ,TSPL_DEDUCTION_DETAIL.DEDUCTION_CODE " & _
+        Dim qryDedection As String = "  Select distinct Emp_code from ( " &
+                            " select MAX(tspl_Vendor_master.isemployee) AS isemployee,TSPL_DEDUCTION_DETAIL.EMP_CODE ,TSPL_DEDUCTION_DETAIL.DEDUCTION_CODE ,sum(DEDUCTION_AMOUNT ) as DEDUCTION_AMOUNT,max(tspl_Vendor_master.Vendor_code) Vendor_code,max(tspl_Vendor_master.Vendor_name) as Vendor_name,max(TSPL_PAYHEAD_MASTER.Account_Code) as DeductionAccount from TSPL_DEDUCTION  left outer join TSPL_DEDUCTION_DETAIL on TSPL_DEDUCTION.DEDUCTION_CODE =TSPL_DEDUCTION_DETAIL.DEDUCTION_CODE left outer  join tspl_Vendor_master on TSPL_DEDUCTION_DETAIL.EMP_CODE=tspl_Vendor_master.EMP_CODE left outer join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE =TSPL_DEDUCTION_DETAIL.PAY_HEAD_CODE  where TSPL_DEDUCTION.PAY_PERIOD_CODE in (Select distinct TSPL_GENERATE_SALARY.PAY_PERIOD_CODE from TSPL_GENERATE_SALARY_PAYHEADS inner join TSPL_GENERATE_SALARY on TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE where TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE='" + obj.Code + "') and TSPL_DEDUCTION_DETAIL.EMP_CODE in (select distinct EMP_CODE from TSPL_GENERATE_SALARY_PAYHEADS where SALARY_GENERATION_CODE='" + obj.Code + "')  and TSPL_PAYHEAD_MASTER.SUB_HEAD_TYPE <>'TDS' group by TSPL_DEDUCTION_DETAIL.EMP_CODE ,TSPL_DEDUCTION_DETAIL.DEDUCTION_CODE " &
                             " ) XFinal where  (isemployee is null or len (isnull(isemployee,'')) <=0 )  "
         Dim dtDedection As DataTable
         dtDedection = clsDBFuncationality.GetDataTable(qryDedection, trans)
@@ -960,8 +960,8 @@ Public Class clsSalaryGeneration
         End If
 
         '*******************************************
-        Dim qryDV As String = "  Select distinct Emp_code from ( " & _
-                            " select MAX(tspl_Vendor_master.isemployee) AS isemployee,TSPL_DEDUCTION_DETAIL.EMP_CODE ,TSPL_DEDUCTION_DETAIL.DEDUCTION_CODE ,sum(DEDUCTION_AMOUNT ) as DEDUCTION_AMOUNT,max(tspl_Vendor_master.Vendor_code) Vendor_code,max(tspl_Vendor_master.Vendor_name) as Vendor_name,max(TSPL_PAYHEAD_MASTER.Account_Code) as DeductionAccount from TSPL_DEDUCTION  left outer join TSPL_DEDUCTION_DETAIL on TSPL_DEDUCTION.DEDUCTION_CODE =TSPL_DEDUCTION_DETAIL.DEDUCTION_CODE left outer  join tspl_Vendor_master on TSPL_DEDUCTION_DETAIL.EMP_CODE=tspl_Vendor_master.EMP_CODE left outer join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE =TSPL_DEDUCTION_DETAIL.PAY_HEAD_CODE  where TSPL_DEDUCTION.PAY_PERIOD_CODE in (Select distinct TSPL_GENERATE_SALARY.PAY_PERIOD_CODE from TSPL_GENERATE_SALARY_PAYHEADS inner join TSPL_GENERATE_SALARY on TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE where TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE='" + obj.Code + "') and TSPL_DEDUCTION_DETAIL.EMP_CODE in (select distinct EMP_CODE from TSPL_GENERATE_SALARY_PAYHEADS where SALARY_GENERATION_CODE='" + obj.Code + "')  and TSPL_PAYHEAD_MASTER.SUB_HEAD_TYPE <>'TDS' group by TSPL_DEDUCTION_DETAIL.EMP_CODE ,TSPL_DEDUCTION_DETAIL.DEDUCTION_CODE " & _
+        Dim qryDV As String = "  Select distinct Emp_code from ( " &
+                            " select MAX(tspl_Vendor_master.isemployee) AS isemployee,TSPL_DEDUCTION_DETAIL.EMP_CODE ,TSPL_DEDUCTION_DETAIL.DEDUCTION_CODE ,sum(DEDUCTION_AMOUNT ) as DEDUCTION_AMOUNT,max(tspl_Vendor_master.Vendor_code) Vendor_code,max(tspl_Vendor_master.Vendor_name) as Vendor_name,max(TSPL_PAYHEAD_MASTER.Account_Code) as DeductionAccount from TSPL_DEDUCTION  left outer join TSPL_DEDUCTION_DETAIL on TSPL_DEDUCTION.DEDUCTION_CODE =TSPL_DEDUCTION_DETAIL.DEDUCTION_CODE left outer  join tspl_Vendor_master on TSPL_DEDUCTION_DETAIL.EMP_CODE=tspl_Vendor_master.EMP_CODE left outer join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE =TSPL_DEDUCTION_DETAIL.PAY_HEAD_CODE  where TSPL_DEDUCTION.PAY_PERIOD_CODE in (Select distinct TSPL_GENERATE_SALARY.PAY_PERIOD_CODE from TSPL_GENERATE_SALARY_PAYHEADS inner join TSPL_GENERATE_SALARY on TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE where TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE='" + obj.Code + "') and TSPL_DEDUCTION_DETAIL.EMP_CODE in (select distinct EMP_CODE from TSPL_GENERATE_SALARY_PAYHEADS where SALARY_GENERATION_CODE='" + obj.Code + "')  and TSPL_PAYHEAD_MASTER.SUB_HEAD_TYPE <>'TDS' group by TSPL_DEDUCTION_DETAIL.EMP_CODE ,TSPL_DEDUCTION_DETAIL.DEDUCTION_CODE " &
                             " ) XFinal where  isemployee =1 and (vendor_code is null or  len (isnull(vendor_Code,''))  <=0)  "
         Dim dtDV As DataTable
         dtDV = clsDBFuncationality.GetDataTable(qryDV, trans)
@@ -1010,13 +1010,13 @@ Public Class clsSalaryGeneration
         LocSep = "-"
         LocSeg = clsDBFuncationality.getSingleValue(QryLoc, trans)
         If clsCommon.myLen(LocSeg) <= 0 Then
-            strq = " SELECT  (CASE WHEN SUBSTRING(RIGHT(Account_Code,4),1,1)='-' THEN REPLACE(Account_Code,RIGHT(Account_Code,4),'') " & _
+            strq = " SELECT  (CASE WHEN SUBSTRING(RIGHT(Account_Code,4),1,1)='-' THEN REPLACE(Account_Code,RIGHT(Account_Code,4),'') " &
                    " ELSE Account_Code+ '' END) AS New_Account_Code,TSPL_GENERATE_SALARY_PAYHEADS.Account_Code  FROM TSPL_GENERATE_SALARY_PAYHEADS where SALARY_GENERATION_CODE='" & obj.Code & "'"
         Else
-            strq = " SELECT  (CASE WHEN SUBSTRING(RIGHT(Account_Code,4),1,1)='-' THEN REPLACE(Account_Code,RIGHT(Account_Code,4),'-" & LocSeg & "') " & _
+            strq = " SELECT  (CASE WHEN SUBSTRING(RIGHT(Account_Code,4),1,1)='-' THEN REPLACE(Account_Code,RIGHT(Account_Code,4),'-" & LocSeg & "') " &
                    " ELSE Account_Code+ '-" & LocSeg & "' END) AS New_Account_Code,TSPL_GENERATE_SALARY_PAYHEADS.Account_Code  FROM TSPL_GENERATE_SALARY_PAYHEADS where SALARY_GENERATION_CODE='" & obj.Code & "'"
         End If
-        Dim qryCheck As String = "select TSPL_GL_ACCOUNTS.Account_Code,gla_new.New_Account_Code from TSPL_GL_ACCOUNTS right outer join (select distinct New_Account_Code from (" & strq & ") GLA) gla_new on TSPL_GL_ACCOUNTS.Account_Code=gla_new.New_Account_Code " & _
+        Dim qryCheck As String = "select TSPL_GL_ACCOUNTS.Account_Code,gla_new.New_Account_Code from TSPL_GL_ACCOUNTS right outer join (select distinct New_Account_Code from (" & strq & ") GLA) gla_new on TSPL_GL_ACCOUNTS.Account_Code=gla_new.New_Account_Code " &
             " where gla_new.New_Account_Code is not null and TSPL_GL_ACCOUNTS.Account_Code is null"
 
         Dim dtCGlNA As DataTable = clsDBFuncationality.GetDataTable(qryCheck, trans)
@@ -1037,13 +1037,13 @@ Public Class clsSalaryGeneration
 
         '' update employer account
         If clsCommon.myLen(LocSeg) <= 0 Then
-            strq = " SELECT  (CASE WHEN SUBSTRING(RIGHT(Employer_Account,4),1,1)='-' THEN REPLACE(Employer_Account,RIGHT(Employer_Account,4),'') " & _
+            strq = " SELECT  (CASE WHEN SUBSTRING(RIGHT(Employer_Account,4),1,1)='-' THEN REPLACE(Employer_Account,RIGHT(Employer_Account,4),'') " &
                    " ELSE Employer_Account+ '' END) AS New_Account_Code,TSPL_GENERATE_SALARY_PAYHEADS.Employer_Account as Account_Code  FROM TSPL_GENERATE_SALARY_PAYHEADS where SALARY_GENERATION_CODE='" & obj.Code & "' and TSPL_GENERATE_SALARY_PAYHEADS.Sub_Head_Type in ('EPF','EMPESI','LWF')"
         Else
-            strq = " SELECT  (CASE WHEN SUBSTRING(RIGHT(Employer_Account,4),1,1)='-' THEN REPLACE(Employer_Account,RIGHT(Employer_Account,4),'-" & LocSeg & "') " & _
+            strq = " SELECT  (CASE WHEN SUBSTRING(RIGHT(Employer_Account,4),1,1)='-' THEN REPLACE(Employer_Account,RIGHT(Employer_Account,4),'-" & LocSeg & "') " &
                    " ELSE Employer_Account+ '-" & LocSeg & "' END) AS New_Account_Code,TSPL_GENERATE_SALARY_PAYHEADS.Employer_Account as Account_Code  FROM TSPL_GENERATE_SALARY_PAYHEADS where SALARY_GENERATION_CODE='" & obj.Code & "' and TSPL_GENERATE_SALARY_PAYHEADS.Sub_Head_Type in ('EPF','EMPESI','LWF')"
         End If
-        Dim qryCheckEmpl As String = "select TSPL_GL_ACCOUNTS.Account_Code,gla_new.New_Account_Code from TSPL_GL_ACCOUNTS right outer join (select distinct New_Account_Code from (" & strq & ") GLA) gla_new on TSPL_GL_ACCOUNTS.Account_Code=gla_new.New_Account_Code " & _
+        Dim qryCheckEmpl As String = "select TSPL_GL_ACCOUNTS.Account_Code,gla_new.New_Account_Code from TSPL_GL_ACCOUNTS right outer join (select distinct New_Account_Code from (" & strq & ") GLA) gla_new on TSPL_GL_ACCOUNTS.Account_Code=gla_new.New_Account_Code " &
             " where gla_new.New_Account_Code is not null and TSPL_GL_ACCOUNTS.Account_Code is null"
 
         Dim dtCGlEmplNA As DataTable = clsDBFuncationality.GetDataTable(qryCheck, trans)
@@ -1588,9 +1588,9 @@ Public Class clsSalaryGeneration
         Dim FinalQry As String
         Try
             SalaryQry = GetSalaryReportBaseQry(arrPayPeriodCode, arrLocation, arrDivision, strOuterCond, WithArrear)
-            Dim qry1 As String = " select distinct(select distinct ',['+PAY_HEAD_CODE+']'from 	(select  (SELECT PAY_PERIOD_CODE FROM TSPL_PAYPERIOD_mASTER WHERE CONVERT(DATE,TSPL_VENDOR_INVOICE_HEAD.INVOICE_ENTRY_DATE,103) BETWEEN DATE_FROM AND DATE_TO ) AS PAY_PERIOD_CODE,TSPL_PAYHEAD_MASTER.PAY_HEAD_NAME,isnull(TSPL_PAYHEAD_MASTER.ISEARNING,0) as ISEARNING,TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE,TSPL_VENDOR_INVOICE_DETAIL.Amount as amount,TSPL_EMPLOYEE_MASTER.Emp_code,TSPL_EMPLOYEE_MASTER.Designation,TSPL_EMPLOYEE_MASTER.DEPARTMENT_CODE,GL_Account_Code,TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.Loc_Code,TSPL_LOCATION_MASTER.Location_Desc, TSPL_VENDOR_INVOICE_DETAIL.Payment_Amount from TSPL_VENDOR_INVOICE_HEAD inner join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No inner join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.EMP_CODE=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code inner join TSPL_PAYHEAD_MASTER on concat(reverse(stuff(reverse(TSPL_PAYHEAD_MASTER.Account_Code),1,4,'')),'-',TSPL_VENDOR_INVOICE_HEAD.Loc_Code)=TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code  inner join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_VENDOR_INVOICE_HEAD.Loc_Code    union all select   (SELECT PAY_PERIOD_CODE FROM TSPL_PAYPERIOD_mASTER WHERE TSPL_PAYMENT_HEADER.PAYMENT_DATE BETWEEN DATE_FROM AND DATE_TO ) AS PAY_PERIOD_CODE ,isnull(TSPL_PAYHEAD_MASTER.ISEARNING,0) as ISEARNING,TSPL_PAYHEAD_MASTER.PAY_HEAD_NAME,TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE,TSPL_PAYMENT_HEADER.PAYMENT_AMOUNT as amount,TSPL_EMPLOYEE_MASTER.Emp_code,TSPL_EMPLOYEE_MASTER.Designation,TSPL_EMPLOYEE_MASTER.DEPARTMENT_CODE,TSPL_PAYMENT_DETAIL.Account_Code,TSPL_PAYMENT_HEADER.Document_No,TSPL_PAYMENT_HEADER.Vendor_Name,TSPL_EMPLOYEE_MASTER.LOCATION_CODE,TSPL_LOCATION_MASTER.Location_Desc, TSPL_PAYMENT_HEADER.Payment_Amount from TSPL_PAYMENT_HEADER inner join TSPL_PAYMENT_DETAIL on TSPL_PAYMENT_DETAIL.Document_No=TSPL_PAYMENT_HEADER.Document_No left outer join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.EMP_CODE=TSPL_PAYMENT_HEADER.Vendor_Code inner join TSPL_PAYHEAD_MASTER on concat(reverse(stuff(reverse(TSPL_PAYHEAD_MASTER.Account_Code),1,4,'')),'-',TSPL_EMPLOYEE_MASTER.LOCATION_CODE)=TSPL_PAYMENT_DETAIL.Account_Code  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_EMPLOYEE_MASTER.LOCATION_CODE where TSPL_PAYMENT_HEADER.Payment_Type='MI'	)as Test " & _
-" inner join tspl_payperiod_master on tspl_payperiod_master.Pay_Period_Code=test.PAY_PERIOD_CODE " & _
-" where TSPL_PAYPERIOD_MASTER.DATE_FROM>=convert(date,'" & strFromDate & "',103) and TSPL_PAYPERIOD_MASTER.DATE_TO<=convert(date,'" & StrToDate & "',103) " & _
+            Dim qry1 As String = " select distinct(select distinct ',['+PAY_HEAD_CODE+']'from 	(select  (SELECT PAY_PERIOD_CODE FROM TSPL_PAYPERIOD_mASTER WHERE CONVERT(DATE,TSPL_VENDOR_INVOICE_HEAD.INVOICE_ENTRY_DATE,103) BETWEEN DATE_FROM AND DATE_TO ) AS PAY_PERIOD_CODE,TSPL_PAYHEAD_MASTER.PAY_HEAD_NAME,isnull(TSPL_PAYHEAD_MASTER.ISEARNING,0) as ISEARNING,TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE,TSPL_VENDOR_INVOICE_DETAIL.Amount as amount,TSPL_EMPLOYEE_MASTER.Emp_code,TSPL_EMPLOYEE_MASTER.Designation,TSPL_EMPLOYEE_MASTER.DEPARTMENT_CODE,GL_Account_Code,TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.Loc_Code,TSPL_LOCATION_MASTER.Location_Desc, TSPL_VENDOR_INVOICE_DETAIL.Payment_Amount from TSPL_VENDOR_INVOICE_HEAD inner join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No inner join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.EMP_CODE=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code inner join TSPL_PAYHEAD_MASTER on concat(reverse(stuff(reverse(TSPL_PAYHEAD_MASTER.Account_Code),1,4,'')),'-',TSPL_VENDOR_INVOICE_HEAD.Loc_Code)=TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code  inner join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_VENDOR_INVOICE_HEAD.Loc_Code    union all select   (SELECT PAY_PERIOD_CODE FROM TSPL_PAYPERIOD_mASTER WHERE TSPL_PAYMENT_HEADER.PAYMENT_DATE BETWEEN DATE_FROM AND DATE_TO ) AS PAY_PERIOD_CODE ,isnull(TSPL_PAYHEAD_MASTER.ISEARNING,0) as ISEARNING,TSPL_PAYHEAD_MASTER.PAY_HEAD_NAME,TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE,TSPL_PAYMENT_HEADER.PAYMENT_AMOUNT as amount,TSPL_EMPLOYEE_MASTER.Emp_code,TSPL_EMPLOYEE_MASTER.Designation,TSPL_EMPLOYEE_MASTER.DEPARTMENT_CODE,TSPL_PAYMENT_DETAIL.Account_Code,TSPL_PAYMENT_HEADER.Document_No,TSPL_PAYMENT_HEADER.Vendor_Name,TSPL_EMPLOYEE_MASTER.LOCATION_CODE,TSPL_LOCATION_MASTER.Location_Desc, TSPL_PAYMENT_HEADER.Payment_Amount from TSPL_PAYMENT_HEADER inner join TSPL_PAYMENT_DETAIL on TSPL_PAYMENT_DETAIL.Document_No=TSPL_PAYMENT_HEADER.Document_No left outer join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.EMP_CODE=TSPL_PAYMENT_HEADER.Vendor_Code inner join TSPL_PAYHEAD_MASTER on concat(reverse(stuff(reverse(TSPL_PAYHEAD_MASTER.Account_Code),1,4,'')),'-',TSPL_EMPLOYEE_MASTER.LOCATION_CODE)=TSPL_PAYMENT_DETAIL.Account_Code  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_EMPLOYEE_MASTER.LOCATION_CODE where TSPL_PAYMENT_HEADER.Payment_Type='MI'	)as Test " &
+" inner join tspl_payperiod_master on tspl_payperiod_master.Pay_Period_Code=test.PAY_PERIOD_CODE " &
+" where TSPL_PAYPERIOD_MASTER.DATE_FROM>=convert(date,'" & strFromDate & "',103) and TSPL_PAYPERIOD_MASTER.DATE_TO<=convert(date,'" & StrToDate & "',103) " &
   " for xml path('')) as x "
 
             '            Dim qry1 As String = " select distinct (Select distinct ',['+PAY_HEAD_CODE+']' from TSPL_VENDOR_INVOICE_HEAD" & _
@@ -1612,20 +1612,20 @@ Public Class clsSalaryGeneration
                 Return dt
             End If
 
-            FinalQry = "select *,CTC as [CTC Amount] from (select Salary.*,xxx.PAY_HEAD_CODE,xxx.amount,CAse when xxx.ISEARNING=1 then Amount+salary.[NET SALARY] else Salary.[NET SALARY]-amount end as CTC from (" & SalaryQry & ") as Salary " & _
-                " left outer join (" & _
-                     " select max(pp.PAY_PERIOD_CODE) as PAY_PERIOD_CODE,max(pp.PAY_HEAD_CODE ) as PAY_HEAD_CODE ,max(pp.PAY_HEAD_NAME) as PAY_HEAD_NAME ,sum(amount) as amount,max(pp.EMP_CODE) as Emp_Code,max(pp.Vendor_Name) as Vendor_Name,sum(pp.Payment_Amount)as Payment_Amount,MAX(CONVERT(int,pp.ISEARNING)) as ISEARNING" & _
-            " from ( select  (SELECT PAY_PERIOD_CODE FROM TSPL_PAYPERIOD_mASTER WHERE CONVERT(DATE,TSPL_VENDOR_INVOICE_HEAD.INVOICE_ENTRY_DATE,103) BETWEEN DATE_FROM AND DATE_TO ) AS PAY_PERIOD_CODE,TSPL_PAYHEAD_MASTER.PAY_HEAD_NAME,isnull(TSPL_PAYHEAD_MASTER.ISEARNING,0) as ISEARNING,TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE,(TSPL_VENDOR_INVOICE_DETAIL.Amount) as amount,TSPL_EMPLOYEE_MASTER.Emp_code,TSPL_EMPLOYEE_MASTER.Designation,TSPL_EMPLOYEE_MASTER.DEPARTMENT_CODE,GL_Account_Code,TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.Loc_Code,TSPL_LOCATION_MASTER.Location_Desc, TSPL_VENDOR_INVOICE_DETAIL.Payment_Amount from TSPL_VENDOR_INVOICE_HEAD inner join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No inner join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.EMP_CODE=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code inner join TSPL_PAYHEAD_MASTER on concat(reverse(stuff(reverse(TSPL_PAYHEAD_MASTER.Account_Code),1,4,'')),'-',TSPL_VENDOR_INVOICE_HEAD.Loc_Code)=TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code  inner join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_VENDOR_INVOICE_HEAD.Loc_Code   " & _
-            " union all " & _
-            "  select   (SELECT PAY_PERIOD_CODE FROM TSPL_PAYPERIOD_mASTER WHERE TSPL_PAYMENT_HEADER.PAYMENT_DATE BETWEEN DATE_FROM AND DATE_TO ) AS PAY_PERIOD_CODE ,tSPL_PAYHEAD_MASTER.PAY_HEAD_NAME,isnull(TSPL_PAYHEAD_MASTER.ISEARNING,0) as ISEARNING,TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE,(TSPL_PAYMENT_HEADER.PAYMENT_AMOUNT) as amount,TSPL_EMPLOYEE_MASTER.Emp_code,TSPL_EMPLOYEE_MASTER.Designation,TSPL_EMPLOYEE_MASTER.DEPARTMENT_CODE,TSPL_PAYMENT_DETAIL.Account_Code,TSPL_PAYMENT_HEADER.Document_No,TSPL_PAYMENT_HEADER.Vendor_Name,TSPL_EMPLOYEE_MASTER.LOCATION_CODE,TSPL_LOCATION_MASTER.Location_Desc, TSPL_PAYMENT_HEADER.Payment_Amount from TSPL_PAYMENT_HEADER inner join TSPL_PAYMENT_DETAIL on TSPL_PAYMENT_DETAIL.Document_No=TSPL_PAYMENT_HEADER.Document_No left outer join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.EMP_CODE=TSPL_PAYMENT_HEADER.Vendor_Code inner join TSPL_PAYHEAD_MASTER on concat(reverse(stuff(reverse(TSPL_PAYHEAD_MASTER.Account_Code),1,4,'')),'-',TSPL_EMPLOYEE_MASTER.LOCATION_CODE)=TSPL_PAYMENT_DETAIL.Account_Code  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_EMPLOYEE_MASTER.LOCATION_CODE where TSPL_PAYMENT_HEADER.Payment_Type='MI'  ) " & _
-            " as pp  group by EMP_CODE ) " & _
+            FinalQry = "select *,CTC as [CTC Amount] from (select Salary.*,xxx.PAY_HEAD_CODE,xxx.amount,CAse when xxx.ISEARNING=1 then Amount+salary.[NET SALARY] else Salary.[NET SALARY]-amount end as CTC from (" & SalaryQry & ") as Salary " &
+                " left outer join (" &
+                     " select max(pp.PAY_PERIOD_CODE) as PAY_PERIOD_CODE,max(pp.PAY_HEAD_CODE ) as PAY_HEAD_CODE ,max(pp.PAY_HEAD_NAME) as PAY_HEAD_NAME ,sum(amount) as amount,max(pp.EMP_CODE) as Emp_Code,max(pp.Vendor_Name) as Vendor_Name,sum(pp.Payment_Amount)as Payment_Amount,MAX(CONVERT(int,pp.ISEARNING)) as ISEARNING" &
+            " from ( select  (SELECT PAY_PERIOD_CODE FROM TSPL_PAYPERIOD_mASTER WHERE CONVERT(DATE,TSPL_VENDOR_INVOICE_HEAD.INVOICE_ENTRY_DATE,103) BETWEEN DATE_FROM AND DATE_TO ) AS PAY_PERIOD_CODE,TSPL_PAYHEAD_MASTER.PAY_HEAD_NAME,isnull(TSPL_PAYHEAD_MASTER.ISEARNING,0) as ISEARNING,TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE,(TSPL_VENDOR_INVOICE_DETAIL.Amount) as amount,TSPL_EMPLOYEE_MASTER.Emp_code,TSPL_EMPLOYEE_MASTER.Designation,TSPL_EMPLOYEE_MASTER.DEPARTMENT_CODE,GL_Account_Code,TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.Loc_Code,TSPL_LOCATION_MASTER.Location_Desc, TSPL_VENDOR_INVOICE_DETAIL.Payment_Amount from TSPL_VENDOR_INVOICE_HEAD inner join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No inner join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.EMP_CODE=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code inner join TSPL_PAYHEAD_MASTER on concat(reverse(stuff(reverse(TSPL_PAYHEAD_MASTER.Account_Code),1,4,'')),'-',TSPL_VENDOR_INVOICE_HEAD.Loc_Code)=TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code  inner join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_VENDOR_INVOICE_HEAD.Loc_Code   " &
+            " union all " &
+            "  select   (SELECT PAY_PERIOD_CODE FROM TSPL_PAYPERIOD_mASTER WHERE TSPL_PAYMENT_HEADER.PAYMENT_DATE BETWEEN DATE_FROM AND DATE_TO ) AS PAY_PERIOD_CODE ,tSPL_PAYHEAD_MASTER.PAY_HEAD_NAME,isnull(TSPL_PAYHEAD_MASTER.ISEARNING,0) as ISEARNING,TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE,(TSPL_PAYMENT_HEADER.PAYMENT_AMOUNT) as amount,TSPL_EMPLOYEE_MASTER.Emp_code,TSPL_EMPLOYEE_MASTER.Designation,TSPL_EMPLOYEE_MASTER.DEPARTMENT_CODE,TSPL_PAYMENT_DETAIL.Account_Code,TSPL_PAYMENT_HEADER.Document_No,TSPL_PAYMENT_HEADER.Vendor_Name,TSPL_EMPLOYEE_MASTER.LOCATION_CODE,TSPL_LOCATION_MASTER.Location_Desc, TSPL_PAYMENT_HEADER.Payment_Amount from TSPL_PAYMENT_HEADER inner join TSPL_PAYMENT_DETAIL on TSPL_PAYMENT_DETAIL.Document_No=TSPL_PAYMENT_HEADER.Document_No left outer join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.EMP_CODE=TSPL_PAYMENT_HEADER.Vendor_Code inner join TSPL_PAYHEAD_MASTER on concat(reverse(stuff(reverse(TSPL_PAYHEAD_MASTER.Account_Code),1,4,'')),'-',TSPL_EMPLOYEE_MASTER.LOCATION_CODE)=TSPL_PAYMENT_DETAIL.Account_Code  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_EMPLOYEE_MASTER.LOCATION_CODE where TSPL_PAYMENT_HEADER.Payment_Type='MI'  ) " &
+            " as pp  group by EMP_CODE ) " &
              " as xxx on Salary.EMP_Code=xxx.Emp_code  AND Salary.[PAY PERIOD]=xxx.PAY_PERIOD_CODE inner join tspl_payperiod_master on tspl_payperiod_master.Pay_Period_Code=salary.[pay Period] where 2=2  "
             If Not arrEmpCode Is Nothing AndAlso arrEmpCode.Count > 0 Then
                 For Each Str As String In arrEmpCode
                     FinalQry += " and Salary.EMP_CODE in ('" & Str & "') "
                 Next
             End If
-            FinalQry += " and tspl_payperiod_master.DATE_FROM>=convert(date,'" & strFromDate & "',103) and tspl_payperiod_master.DATE_TO<=convert(date,'" & StrToDate & "',103)" & _
+            FinalQry += " and tspl_payperiod_master.DATE_FROM>=convert(date,'" & strFromDate & "',103) and tspl_payperiod_master.DATE_TO<=convert(date,'" & StrToDate & "',103)" &
              " ) as pp  pivot(max(Amount) for PAY_HEAD_Code in (" & pivotheader & "))t  "
             If clsCommon.myLen(SalaryQry) > 0 Then
 
@@ -1744,14 +1744,14 @@ Public Class clsSalaryGeneration
         Dim adminEDLI As Decimal = 0
         Dim qryAdminEDLI As String = ""
         For Each strLoc As String In arrLoc
-            qryAdminEDLI = " select (CASE WHEN  (((select SUM(case when HEAD_VALUE>" & objPF.EMPEPF_MAX & " then " & objPF.EMPEPF_MAX & " *PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end)  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " & _
-                           " TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE where  TSPL_GENERATE_SALARY.LOCATION_CODE = " & strLoc & " and SUB_HEAD_TYPE='EPF' and  TSPL_GENERATE_SALARY_PAYHEADS.Actual_Amount>0 and TSPL_GENERATE_SALARY.Pay_Period_Code='" & PayPeriod & "' " & DivCond & ")* " & objPF.ACCOEDLI_PER & ")/100)>" & objPF.ACCOEDLI_MIN & " THEN ((select SUM(case when HEAD_VALUE>" & objPF.EMPEPF_MAX & " then " & objPF.EMPEPF_MAX & " *PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end)  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " & _
+            qryAdminEDLI = " select (CASE WHEN  (((select SUM(case when HEAD_VALUE>" & objPF.EMPEPF_MAX & " then " & objPF.EMPEPF_MAX & " *PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end)  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " &
+                           " TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE where  TSPL_GENERATE_SALARY.LOCATION_CODE = " & strLoc & " and SUB_HEAD_TYPE='EPF' and  TSPL_GENERATE_SALARY_PAYHEADS.Actual_Amount>0 and TSPL_GENERATE_SALARY.Pay_Period_Code='" & PayPeriod & "' " & DivCond & ")* " & objPF.ACCOEDLI_PER & ")/100)>" & objPF.ACCOEDLI_MIN & " THEN ((select SUM(case when HEAD_VALUE>" & objPF.EMPEPF_MAX & " then " & objPF.EMPEPF_MAX & " *PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end)  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " &
                            " TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE where  TSPL_GENERATE_SALARY.LOCATION_CODE in " + Location_Code + " and SUB_HEAD_TYPE='EPF' and  TSPL_GENERATE_SALARY_PAYHEADS.Actual_Amount>0 and TSPL_GENERATE_SALARY.Pay_Period_Code='" & PayPeriod & "' " & DivCond & ")* " & objPF.ACCOEDLI_PER & ")/100 ELSE " & objPF.ACCOEDLI_MIN & " END) as Admin_EDLI_Amt"
             adminEDLI = adminEDLI + clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qryAdminEDLI))
         Next
         ''Ticket No - BM00000007674,BM00000007377 By Panch Raj
         Dim Total_58 As Integer = 0
-        Qry = " select COUNT(*)  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE INNER JOIN TSPL_GENERATE_SALARY_ATTENDANCE GSA ON TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=GSA.SALARY_GENERATION_CODE AND GSA.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE  where  TSPL_GENERATE_SALARY.LOCATION_CODE in " + Location_Code + " and SUB_HEAD_TYPE='EPF'  " & _
+        Qry = " select COUNT(*)  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE INNER JOIN TSPL_GENERATE_SALARY_ATTENDANCE GSA ON TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=GSA.SALARY_GENERATION_CODE AND GSA.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE  where  TSPL_GENERATE_SALARY.LOCATION_CODE in " + Location_Code + " and SUB_HEAD_TYPE='EPF'  " &
               " and  PF_Applicable=1 and CoEPF_AMT_AC01>0 and  coalesce(CoEPS_AMT_AC10,0)<=0 and TSPL_GENERATE_SALARY.Pay_Period_Code='" & PayPeriod & "' " & DivCond & ""
         Total_58 = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry))
 
@@ -1768,23 +1768,23 @@ Public Class clsSalaryGeneration
         'Qry += " (select COUNT(GSA.EMP_CODE)  from TSPL_GENERATE_SALARY_ATTENDANCE GSA left join TSPL_EMPLOYEE_MASTER EMP ON EMP.EMP_CODE=GSA.EMP_CODE " & _
         '       " INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=GSA.SALARY_GENERATION_CODE where  TSPL_GENERATE_SALARY.LOCATION_CODE in " + Location_Code + " and TSPL_GENERATE_SALARY.Pay_Period_Code='" & PayPeriod & "' " & DivCond & ") AS TotalEMP ,"
 
-        Qry += " (select SUM(case when HEAD_VALUE>PF_MAX_LM then PF_MAX_LM*PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end)  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE  inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " & _
+        Qry += " (select SUM(case when HEAD_VALUE>PF_MAX_LM then PF_MAX_LM*PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end)  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE  inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " &
                " TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE where  TSPL_GENERATE_SALARY.LOCATION_CODE in " + Location_Code + " and SUB_HEAD_TYPE='EPF' and  TSPL_GENERATE_SALARY_PAYHEADS.Actual_Amount>0 and TSPL_GENERATE_SALARY.Pay_Period_Code='" & PayPeriod & "' " & DivCond & ")TotalSalaryEPFAc01,"
-        Qry += " (select SUM(case when HEAD_VALUE>" & objPF.EMPEPF_MAX & " then " & objPF.EMPEPF_MAX & " *PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end)  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE  inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " & _
+        Qry += " (select SUM(case when HEAD_VALUE>" & objPF.EMPEPF_MAX & " then " & objPF.EMPEPF_MAX & " *PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end)  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE  inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " &
                " TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE where  TSPL_GENERATE_SALARY.LOCATION_CODE in " + Location_Code + " and SUB_HEAD_TYPE='EPF' and  TSPL_GENERATE_SALARY_PAYHEADS.CoEPS_AMT_AC10>0 and TSPL_GENERATE_SALARY.Pay_Period_Code='" & PayPeriod & "' " & DivCond & ")TotalSalaryPensionAc10,"
-        Qry += " (select SUM(case when HEAD_VALUE>" & objPF.EMPEPF_MAX & " then " & objPF.EMPEPF_MAX & " *PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end)  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE  inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " & _
+        Qry += " (select SUM(case when HEAD_VALUE>" & objPF.EMPEPF_MAX & " then " & objPF.EMPEPF_MAX & " *PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end)  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE  inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " &
                " TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE where  TSPL_GENERATE_SALARY.LOCATION_CODE in " + Location_Code + " and SUB_HEAD_TYPE='EPF' and  TSPL_GENERATE_SALARY_PAYHEADS.CoEPF_AMT_AC01>0 and TSPL_GENERATE_SALARY.Pay_Period_Code='" & PayPeriod & "' " & DivCond & ")TotalSalaryEDLIAc21,"
 
-        Qry += " (select SUM(Actual_Amount)  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE  inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " & _
+        Qry += " (select SUM(Actual_Amount)  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE  inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " &
                " TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE where  TSPL_GENERATE_SALARY.LOCATION_CODE in " + Location_Code + " and SUB_HEAD_TYPE='EPF' and  TSPL_GENERATE_SALARY_PAYHEADS.Actual_Amount>0 and TSPL_GENERATE_SALARY.Pay_Period_Code='" & PayPeriod & "' " & DivCond & ")EPFAmtAc01,"
-        Qry += " (select SUM(CoEPS_AMT_AC10)  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE  INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE  inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " & _
+        Qry += " (select SUM(CoEPS_AMT_AC10)  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE  INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE  inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " &
                " TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE where  TSPL_GENERATE_SALARY.LOCATION_CODE in " + Location_Code + " and SUB_HEAD_TYPE='EPF' and  TSPL_GENERATE_SALARY_PAYHEADS.CoEPS_AMT_AC10>0 and TSPL_GENERATE_SALARY.Pay_Period_Code='" & PayPeriod & "' " & DivCond & ")PensionAmtAc10,"
-        Qry += " (select SUM(Actual_Amount-(case when TSPL_GENERATE_SALARY_PAYHEADS.CoEPS_AMT_AC10<0 then 0 else TSPL_GENERATE_SALARY_PAYHEADS.CoEPS_AMT_AC10 end))  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE  inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " & _
+        Qry += " (select SUM(Actual_Amount-(case when TSPL_GENERATE_SALARY_PAYHEADS.CoEPS_AMT_AC10<0 then 0 else TSPL_GENERATE_SALARY_PAYHEADS.CoEPS_AMT_AC10 end))  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE  inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " &
                " TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE where  TSPL_GENERATE_SALARY.LOCATION_CODE in " + Location_Code + " and SUB_HEAD_TYPE='EPF' and  TSPL_GENERATE_SALARY_PAYHEADS.Actual_Amount>0 and TSPL_GENERATE_SALARY.Pay_Period_Code='" & PayPeriod & "' " & DivCond & ")DifferenceAmtAc01,"
 
-        Qry += " ((select SUM(case when HEAD_VALUE>PF_MAX_LM then PF_MAX_LM*PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end)  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE  inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " & _
+        Qry += " ((select SUM(case when HEAD_VALUE>PF_MAX_LM then PF_MAX_LM*PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end)  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE  inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " &
                " TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE where  TSPL_GENERATE_SALARY.LOCATION_CODE in " + Location_Code + " and SUB_HEAD_TYPE='EPF' and  TSPL_GENERATE_SALARY_PAYHEADS.Actual_Amount>0 and TSPL_GENERATE_SALARY.Pay_Period_Code='" & PayPeriod & "' " & DivCond & ")* " & objPF.ACCOEPF_PER & ")/100 AdminAmtAc02,"
-        Qry += " ((select SUM(case when HEAD_VALUE>" & objPF.EMPEPF_MAX & " then " & objPF.EMPEPF_MAX & " *PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end)  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE  inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " & _
+        Qry += " ((select SUM(case when HEAD_VALUE>" & objPF.EMPEPF_MAX & " then " & objPF.EMPEPF_MAX & " *PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end)  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE  inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " &
                " TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE where  TSPL_GENERATE_SALARY.LOCATION_CODE in " + Location_Code + " and SUB_HEAD_TYPE='EPF' and  TSPL_GENERATE_SALARY_PAYHEADS.Actual_Amount>0 and TSPL_GENERATE_SALARY.Pay_Period_Code='" & PayPeriod & "' " & DivCond & ")* " & objPF.COEDLI_PER & ")/100 EDLIAmtAc21,"
         Qry += " " & adminEDLI & " as  AdminEDLIAmtAc22,"
 
@@ -2384,7 +2384,7 @@ Public Class clsSalaryGeneration
         'ProgressBar1.Text = "Generating Salary...6. Inserting salary structure of all employees"
         Dim QryArrear As String = "TSPL_EMPLOYEE_SALARY"
         If Is_Arrear Then
-            QryArrear = " (select TSPL_EMPLOYEE_SALARY.EMP_SAL_CODE,TSPL_EMPLOYEE_SALARY.EMP_CODE,TSPL_EMPLOYEE_SALARY.REVISION_NO,TSPL_EMPLOYEE_INCREMENT_HEAD.ARREAR_FROM as Applicable_From " & _
+            QryArrear = " (select TSPL_EMPLOYEE_SALARY.EMP_SAL_CODE,TSPL_EMPLOYEE_SALARY.EMP_CODE,TSPL_EMPLOYEE_SALARY.REVISION_NO,TSPL_EMPLOYEE_INCREMENT_HEAD.ARREAR_FROM as Applicable_From " &
                         " from TSPL_EMPLOYEE_INCREMENT_HEAD inner join TSPL_EMPLOYEE_SALARY on TSPL_EMPLOYEE_INCREMENT_HEAD.EMP_SAL_CODE_NEW=TSPL_EMPLOYEE_SALARY.EMP_SAL_CODE)"
         End If
 
@@ -2494,7 +2494,7 @@ Public Class clsSalaryGeneration
 
         '' UPDATE ACCOUNT_CODE OF "& Calc_Table &" for non loan advance payheads
         clsCommon.ProgressBarUpdate("updating GL accounts of non loan/advance pay heads...")
-        strq = "update " & Calc_Table & " set " & Calc_Table & ".account_code=TSPL_PAYHEAD_MASTER.account_code,Employer_Account=TSPL_PAYHEAD_MASTER.GL_Employer_Account from TSPL_PAYHEAD_MASTER " & _
+        strq = "update " & Calc_Table & " set " & Calc_Table & ".account_code=TSPL_PAYHEAD_MASTER.account_code,Employer_Account=TSPL_PAYHEAD_MASTER.GL_Employer_Account from TSPL_PAYHEAD_MASTER " &
                " where " & Calc_Table & ".PAY_HEAD_CODE=TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE and " & Calc_Table & ".PAY_PERIOD_CODE='" & Pay_Period_Code & "'"
         If clsDBFuncationality.ExecuteNonQuery(strq, trans) = True Then
         Else
@@ -2506,7 +2506,7 @@ Public Class clsSalaryGeneration
 
         '' UPDATE ACCOUNT_CODE OF "& Calc_Table &" for loan advance payheads
         clsCommon.ProgressBarUpdate("updating GL accounts of loa/advancen pay head...")
-        strq = "update " & Calc_Table & " set " & Calc_Table & ".account_code=TSPL_EMPLOYEE_MASTER.ADVANCE_TO_STAFF from TSPL_EMPLOYEE_MASTER " & _
+        strq = "update " & Calc_Table & " set " & Calc_Table & ".account_code=TSPL_EMPLOYEE_MASTER.ADVANCE_TO_STAFF from TSPL_EMPLOYEE_MASTER " &
                " where " & Calc_Table & ".EMP_CODE=TSPL_EMPLOYEE_MASTER.EMP_CODE AND " & Calc_Table & ".SUB_HEAD_TYPE='Loan' and " & Calc_Table & ".PAY_PERIOD_CODE='" & Pay_Period_Code & "'"
         If clsDBFuncationality.ExecuteNonQuery(strq, trans) = True Then
         Else
@@ -2790,14 +2790,14 @@ Public Class clsSalaryGeneration
         & " WHEN IS_PF_APPL = 1 THEN " _
         & " ( " _
         & " CASE " _
-        & " WHEN SUB_HEAD_TYPE = 'EPF' THEN " + _
-        "( " + _
-"(CASE WHEN PF_MAX_LIM >0 THEN " + _
- "(CASE WHEN IS_PF_ATTN_ENABLE = 0 THEN (CASE WHEN (case when PAYABLE_DAYS=0 then 0 else   HEAD_VALUE*PAYPERIOD_DAYS/PAYABLE_DAYS end  ) > PF_MAX_LIM THEN PF_MAX_LIM  ELSE (case when PAYABLE_DAYS=0 then 0 else HEAD_VALUE*PAYPERIOD_DAYS/PAYABLE_DAYS end) End * (PAYABLE_DAYS / PAYPERIOD_DAYS))" + _
- "ELSE " + _
- "(CASE WHEN HEAD_VALUE > PF_MAX_LIM THEN ((PF_MAX_LIM * PAYABLE_DAYS) / PAYPERIOD_DAYS ) ELSE ( (HEAD_VALUE))End)End)" + _
-"ELSE" + _
-"(CASE WHEN IS_PF_ATTN_ENABLE = 0 THEN FORMULA_VALUE ELSE ((CASE WHEN HEAD_VALUE > PF_MAX_LIM THEN ((HEAD_VALUE))ELSE((HEAD_VALUE))End))End)End)" + _
+        & " WHEN SUB_HEAD_TYPE = 'EPF' THEN " +
+        "( " +
+"(CASE WHEN PF_MAX_LIM >0 THEN " +
+ "(CASE WHEN IS_PF_ATTN_ENABLE = 0 THEN (CASE WHEN (case when PAYABLE_DAYS=0 then 0 else   HEAD_VALUE*PAYPERIOD_DAYS/PAYABLE_DAYS end  ) > PF_MAX_LIM THEN PF_MAX_LIM  ELSE (case when PAYABLE_DAYS=0 then 0 else HEAD_VALUE*PAYPERIOD_DAYS/PAYABLE_DAYS end) End * (PAYABLE_DAYS / PAYPERIOD_DAYS))" +
+ "ELSE " +
+ "(CASE WHEN HEAD_VALUE > PF_MAX_LIM THEN ((PF_MAX_LIM * PAYABLE_DAYS) / PAYPERIOD_DAYS ) ELSE ( (HEAD_VALUE))End)End)" +
+"ELSE" +
+"(CASE WHEN IS_PF_ATTN_ENABLE = 0 THEN FORMULA_VALUE ELSE ((CASE WHEN HEAD_VALUE > PF_MAX_LIM THEN ((HEAD_VALUE))ELSE((HEAD_VALUE))End))End)End)" +
 ") * RATE_AMOUNT / 100 " _
         & " WHEN SUB_HEAD_TYPE IN ('COPF', 'COEPS') THEN " _
         & " ( " _
@@ -3105,19 +3105,19 @@ Public Class clsSalaryGeneration
         End If
 
         '' UPDATE PREV_ESI IN "& Calc_Table &"
-        strq = "UPDATE " & Calc_Table & " SET PREV_ESI=FINAL.ACTUAL_AMOUNT FROM " & _
-               " ( " & _
-               " SELECT TAB.SALARY_GENERATION_CODE,TAB.PAY_PERIOD_CODE, " & _
-               " TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE,TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE, " & _
-               " TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT FROM ( " & _
-               " SELECT TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE,TSPL_GENERATE_SALARY.PAY_PERIOD_CODE FROM TSPL_GENERATE_SALARY INNER JOIN TSPL_PAYPERIOD_MASTER " & _
-               " ON TSPL_GENERATE_SALARY.PAY_PERIOD_CODE=TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE " & _
-               " WHERE TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE IN  " & _
-               " (SELECT PAY_PERIOD_CODE FROM TSPL_PAYPERIOD_MASTER WHERE DATE_FROM='" & clsCommon.GetPrintDate(PP_END_DATE.AddMonths(-1), "dd/MMM/yyyy") & "')) TAB " & _
-               " LEFT JOIN TSPL_GENERATE_SALARY_PAYHEADS " & _
-               " ON TAB.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE " & _
-               " WHERE TSPL_GENERATE_SALARY_PAYHEADS.SUB_HEAD_TYPE IN ('EMPESI','COESI')) FINAL " & _
-               " WHERE " & Calc_Table & ".EMP_CODE=FINAL.EMP_CODE " & _
+        strq = "UPDATE " & Calc_Table & " SET PREV_ESI=FINAL.ACTUAL_AMOUNT FROM " &
+               " ( " &
+               " SELECT TAB.SALARY_GENERATION_CODE,TAB.PAY_PERIOD_CODE, " &
+               " TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE,TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE, " &
+               " TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT FROM ( " &
+               " SELECT TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE,TSPL_GENERATE_SALARY.PAY_PERIOD_CODE FROM TSPL_GENERATE_SALARY INNER JOIN TSPL_PAYPERIOD_MASTER " &
+               " ON TSPL_GENERATE_SALARY.PAY_PERIOD_CODE=TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE " &
+               " WHERE TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE IN  " &
+               " (SELECT PAY_PERIOD_CODE FROM TSPL_PAYPERIOD_MASTER WHERE DATE_FROM='" & clsCommon.GetPrintDate(PP_END_DATE.AddMonths(-1), "dd/MMM/yyyy") & "')) TAB " &
+               " LEFT JOIN TSPL_GENERATE_SALARY_PAYHEADS " &
+               " ON TAB.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE " &
+               " WHERE TSPL_GENERATE_SALARY_PAYHEADS.SUB_HEAD_TYPE IN ('EMPESI','COESI')) FINAL " &
+               " WHERE " & Calc_Table & ".EMP_CODE=FINAL.EMP_CODE " &
                " AND " & Calc_Table & ".PAY_HEAD_CODE=FINAL.PAY_HEAD_CODE and " & Calc_Table & ".PAY_PERIOD_CODE='" & Pay_Period_Code & "'"
 
         If clsDBFuncationality.ExecuteNonQuery(strq, trans) = True Then
@@ -3224,9 +3224,9 @@ Public Class clsSalaryGeneration
 
         '' Mediclaim CALCULATION
         clsCommon.ProgressBarUpdate("updating Mediclaim...")
-        strq = " UPDATE " & Calc_Table & " SET ACTUAL_AMOUNT=mediclim.Total_Amount " & _
-               " from (select EMP_CODE,SUM(Total_Amount) AS Total_Amount from TSPL_MEDICLAIM_HEAD " & _
-               " where PAY_PERIOD_CODE is null or PAY_PERIOD_CODE='" & Pay_Period_Code & "' GROUP BY EMP_CODE) as mediclim " & _
+        strq = " UPDATE " & Calc_Table & " SET ACTUAL_AMOUNT=mediclim.Total_Amount " &
+               " from (select EMP_CODE,SUM(Total_Amount) AS Total_Amount from TSPL_MEDICLAIM_HEAD " &
+               " where PAY_PERIOD_CODE is null or PAY_PERIOD_CODE='" & Pay_Period_Code & "' GROUP BY EMP_CODE) as mediclim " &
                " where " & Calc_Table & ".EMP_CODE=mediclim.EMP_CODE AND " & Calc_Table & ".SUB_HEAD_TYPE='Mediclaim' and " & Calc_Table & ".PAY_PERIOD_CODE='" & Pay_Period_Code & "'"
         Dim STRQ1 As String
         STRQ1 = "update TSPL_MEDICLAIM_HEAD set PAY_PERIOD_CODE='" & Pay_Period_Code & "' where PAY_PERIOD_CODE is null"
@@ -3241,9 +3241,9 @@ Public Class clsSalaryGeneration
 
         '' Gratuity CALCULATION
         clsCommon.ProgressBarUpdate("updating Gratuity...")
-        strq = " UPDATE " & Calc_Table & " SET ACTUAL_AMOUNT=GRATUITY.Total_Amount " & _
-               " from (select EMP_CODE,SUM(GRATUITYAMT) AS Total_Amount from TSPL_GRATUITY  " & _
-               " where PAY_PERIOD_CODE is null or PAY_PERIOD_CODE='" & Pay_Period_Code & "' GROUP BY EMP_CODE) as GRATUITY " & _
+        strq = " UPDATE " & Calc_Table & " SET ACTUAL_AMOUNT=GRATUITY.Total_Amount " &
+               " from (select EMP_CODE,SUM(GRATUITYAMT) AS Total_Amount from TSPL_GRATUITY  " &
+               " where PAY_PERIOD_CODE is null or PAY_PERIOD_CODE='" & Pay_Period_Code & "' GROUP BY EMP_CODE) as GRATUITY " &
                " where " & Calc_Table & ".EMP_CODE=GRATUITY.EMP_CODE AND " & Calc_Table & ".SUB_HEAD_TYPE='Gratuity' and " & Calc_Table & ".PAY_PERIOD_CODE='" & Pay_Period_Code & "'"
 
         STRQ1 = "update TSPL_GRATUITY set PAY_PERIOD_CODE='" & Pay_Period_Code & "' where PAY_PERIOD_CODE is null"
@@ -3258,9 +3258,9 @@ Public Class clsSalaryGeneration
 
         '' LTA CALCULATION
         clsCommon.ProgressBarUpdate("updating LTA...")
-        strq = " UPDATE " & Calc_Table & " SET ACTUAL_AMOUNT=LTA.Total_Amount " & _
-               " from (select EMP_CODE,SUM(Claim_Amount) AS Total_Amount from TSPL_LTA_Claim_Head   " & _
-               " where PAY_PERIOD_CODE is null or PAY_PERIOD_CODE='" & Pay_Period_Code & "' GROUP BY EMP_CODE) as LTA " & _
+        strq = " UPDATE " & Calc_Table & " SET ACTUAL_AMOUNT=LTA.Total_Amount " &
+               " from (select EMP_CODE,SUM(Claim_Amount) AS Total_Amount from TSPL_LTA_Claim_Head   " &
+               " where PAY_PERIOD_CODE is null or PAY_PERIOD_CODE='" & Pay_Period_Code & "' GROUP BY EMP_CODE) as LTA " &
                " where " & Calc_Table & ".EMP_CODE=LTA.EMP_CODE AND " & Calc_Table & ".SUB_HEAD_TYPE='LTA' and " & Calc_Table & ".PAY_PERIOD_CODE='" & Pay_Period_Code & "'"
 
         STRQ1 = "update TSPL_LTA_Claim_Head set PAY_PERIOD_CODE='" & Pay_Period_Code & "' where PAY_PERIOD_CODE is null"
@@ -3275,9 +3275,9 @@ Public Class clsSalaryGeneration
 
         '' Conveyance
         clsCommon.ProgressBarUpdate("updating Conveyance...")
-        strq = " UPDATE " & Calc_Table & " SET ACTUAL_AMOUNT=(CASE WHEN MAX_AMOUNT>0 AND  Conv.Total_Amount>MAX_AMOUNT THEN  MAX_AMOUNT ELSE Conv.Total_Amount END)  " & _
-               " from (select EMP_CODE,SUM(Claim_Amount) AS Total_Amount from TSPL_CONVEYANCE_CLAIM   " & _
-               " where PAY_PERIOD_CODE is null or PAY_PERIOD_CODE='" & Pay_Period_Code & "' GROUP BY EMP_CODE) as Conv " & _
+        strq = " UPDATE " & Calc_Table & " SET ACTUAL_AMOUNT=(CASE WHEN MAX_AMOUNT>0 AND  Conv.Total_Amount>MAX_AMOUNT THEN  MAX_AMOUNT ELSE Conv.Total_Amount END)  " &
+               " from (select EMP_CODE,SUM(Claim_Amount) AS Total_Amount from TSPL_CONVEYANCE_CLAIM   " &
+               " where PAY_PERIOD_CODE is null or PAY_PERIOD_CODE='" & Pay_Period_Code & "' GROUP BY EMP_CODE) as Conv " &
                " where " & Calc_Table & ".EMP_CODE=Conv.EMP_CODE AND " & Calc_Table & ".SUB_HEAD_TYPE='Conveyance' and " & Calc_Table & ".PAY_PERIOD_CODE='" & Pay_Period_Code & "'"
 
         STRQ1 = "update TSPL_CONVEYANCE_CLAIM set PAY_PERIOD_CODE='" & Pay_Period_Code & "' where PAY_PERIOD_CODE is null"
@@ -3294,7 +3294,7 @@ Public Class clsSalaryGeneration
         clsCommon.ProgressBarUpdate("Applying 58 years condition in Pension...")
         '',CoEPS_AMT_AC10=0
         'ACTUAL_AMOUNT*CoEPF_RATE_AC01/(CoEPF_RATE_AC01+CoEPS_RATE_AC10)
-        strq = " UPDATE  " & Calc_Table & " SET CoEPS_AMT_AC10=0  where SUB_HEAD_TYPE='EPF' and ACTUAL_AMOUNT>0 and " & Calc_Table & ".PAY_PERIOD_CODE='" & Pay_Period_Code & "'" & _
+        strq = " UPDATE  " & Calc_Table & " SET CoEPS_AMT_AC10=0  where SUB_HEAD_TYPE='EPF' and ACTUAL_AMOUNT>0 and " & Calc_Table & ".PAY_PERIOD_CODE='" & Pay_Period_Code & "'" &
                 " AND EMP_CODE IN (SELECT EMP_CODE FROM TSPL_EMPLOYEE_MASTER where DATEADD(year,Age_For_Pension,CONVERT(DATE,Birth_date,103))<='" & clsCommon.GetPrintDate(objPP.DATE_TO, "dd/MMM/yyyy") & "' and Age_For_Pension>0 );"
 
         If clsDBFuncationality.ExecuteNonQuery(strq, trans) = True Then
@@ -3396,7 +3396,7 @@ Public Class clsSalaryGeneration
         clsCommon.ProgressBarUpdate("Applying 58 years condition in Pension...")
         '',CoEPS_AMT_AC10=0
         'ACTUAL_AMOUNT*CoEPF_RATE_AC01/(CoEPF_RATE_AC01+CoEPS_RATE_AC10)
-        strq = " UPDATE  " & Calc_Table & " SET CoEPS_AMT_AC10=0  where SUB_HEAD_TYPE='EPF' and ACTUAL_AMOUNT>0 and " & Calc_Table & ".PAY_PERIOD_CODE='" & Pay_Period_Code & "'" & _
+        strq = " UPDATE  " & Calc_Table & " SET CoEPS_AMT_AC10=0  where SUB_HEAD_TYPE='EPF' and ACTUAL_AMOUNT>0 and " & Calc_Table & ".PAY_PERIOD_CODE='" & Pay_Period_Code & "'" &
                 " AND EMP_CODE IN (SELECT EMP_CODE FROM TSPL_EMPLOYEE_MASTER where DATEADD(year,Age_For_Pension,CONVERT(DATE,Birth_date,103))<='" & clsCommon.GetPrintDate(objPP.DATE_TO, "dd/MMM/yyyy") & "' and Age_For_Pension>0 );"
 
         If clsDBFuncationality.ExecuteNonQuery(strq, trans) = True Then
@@ -3566,18 +3566,18 @@ Public Class clsSalaryGeneration
         strq = "select PAY_HEAD_CODE from TSPL_PAYHEAD_MASTER where SUB_HEAD_TYPE='TDS'"
         Dim strTDS As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strq, trans))
         If clsCommon.myLen(strTDS) > 0 Then
-            strq = "select Fiscal_Code from TSPL_Fiscal_Year_Master where exists(select 1 from TSPL_PAYPERIOD_MASTER where PAY_PERIOD_CODE='" & Pay_Period_Code & "'" + Environment.NewLine + _
-            "and convert(date,TSPL_PAYPERIOD_MASTER.DATE_FROM,103)>= convert(date, TSPL_Fiscal_Year_Master.Start_Date,103)  " + Environment.NewLine + _
+            strq = "select Fiscal_Code from TSPL_Fiscal_Year_Master where exists(select 1 from TSPL_PAYPERIOD_MASTER where PAY_PERIOD_CODE='" & Pay_Period_Code & "'" + Environment.NewLine +
+            "and convert(date,TSPL_PAYPERIOD_MASTER.DATE_FROM,103)>= convert(date, TSPL_Fiscal_Year_Master.Start_Date,103)  " + Environment.NewLine +
             "and convert(date,TSPL_PAYPERIOD_MASTER.DATE_FROM,103)<= convert(date, TSPL_Fiscal_Year_Master.End_Date,103))"
             Dim strFiscalCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strq, trans))
             If clsCommon.myLen(strFiscalCode) > 0 Then
-                strq = "UPDATE " & Calc_Table & " SET ACTUAL_AMOUNT=xx.Total_TDS_Amt from (" + Environment.NewLine + _
-                "select TSPL_HR_TDS_INCOME_TAX_CALCULATION_EMP.Emp_Code,cast( TSPL_HR_TDS_INCOME_TAX_CALCULATION_EMP.Total_TDS_Amt/12 as decimal(18,2)) as Total_TDS_Amt from TSPL_HR_TDS_INCOME_TAX_CALCULATION_EMP" + Environment.NewLine + _
-                "left outer join TSPL_HR_TDS_INCOME_TAX_CALCULATION_HEAD on TSPL_HR_TDS_INCOME_TAX_CALCULATION_HEAD.Code=TSPL_HR_TDS_INCOME_TAX_CALCULATION_EMP.Code" + Environment.NewLine + _
-                "where TSPL_HR_TDS_INCOME_TAX_CALCULATION_HEAD.Status=1" + Environment.NewLine + _
-                "and Fiscal_Code ='" + strFiscalCode + "'" + Environment.NewLine + _
-                ")xx inner join " & Calc_Table & " on " & Calc_Table & ".EMP_CODE=xx.Emp_Code" + Environment.NewLine + _
-                "inner join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE=" & Calc_Table & ".PAY_HEAD_CODE" + Environment.NewLine + _
+                strq = "UPDATE " & Calc_Table & " SET ACTUAL_AMOUNT=xx.Total_TDS_Amt from (" + Environment.NewLine +
+                "select TSPL_HR_TDS_INCOME_TAX_CALCULATION_EMP.Emp_Code,cast( TSPL_HR_TDS_INCOME_TAX_CALCULATION_EMP.Total_TDS_Amt/12 as decimal(18,2)) as Total_TDS_Amt from TSPL_HR_TDS_INCOME_TAX_CALCULATION_EMP" + Environment.NewLine +
+                "left outer join TSPL_HR_TDS_INCOME_TAX_CALCULATION_HEAD on TSPL_HR_TDS_INCOME_TAX_CALCULATION_HEAD.Code=TSPL_HR_TDS_INCOME_TAX_CALCULATION_EMP.Code" + Environment.NewLine +
+                "where TSPL_HR_TDS_INCOME_TAX_CALCULATION_HEAD.Status=1" + Environment.NewLine +
+                "and Fiscal_Code ='" + strFiscalCode + "'" + Environment.NewLine +
+                ")xx inner join " & Calc_Table & " on " & Calc_Table & ".EMP_CODE=xx.Emp_Code" + Environment.NewLine +
+                "inner join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE=" & Calc_Table & ".PAY_HEAD_CODE" + Environment.NewLine +
                 "where " & Calc_Table & ".PAY_PERIOD_CODE='" & Pay_Period_Code & "' and TSPL_PAYHEAD_MASTER.SUB_HEAD_TYPE='" + strTDS + "'"
                 If clsDBFuncationality.ExecuteNonQuery(strq, trans) = True Then
                 Else
@@ -3661,11 +3661,11 @@ Public Class clsSalaryGeneration
         End If
 
         '' calculate ot 
-        strq = " SELECT SALARY_CALCULATION_CODE,EMP_CODE,PAYPERIOD_DAYS,PAY_HEAD_CODE,SUB_HEAD_TYPE,RATE_AMOUNT,(select actual_amount from " & Calc_Table & "  AS SALARY where sub_head_type='BASIC' AND SALARY.EMP_CODE=" & Calc_Table & ".EMP_CODE) AS HEAD_VALUE,ACTUAL_AMOUNT,OT_CODE,OT_HOURS," & _
-               " OT_RATE,HOUR_MULTIPLIER,IS_ASPER_ACTUAL_CALC " + Environment.NewLine + _
-               " ,(select sum(STD_AMOUNT) from " & Calc_Table & "  AS SALARY left outer join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE=SALARY.PAY_HEAD_CODE where TSPL_PAYHEAD_MASTER.ISEARNING=1 AND SALARY.EMP_CODE=" & Calc_Table & ".EMP_CODE and TSPL_PAYHEAD_MASTER.Do_Not_Include_In_Gross_Salary_For_Over_Time=0 ) AS GrossSalary" + Environment.NewLine + _
-               " FROM " & Calc_Table & " " & _
-               " left outer join TSPL_PAYPERIOD_MASTER on TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE=TSPL_SALARY_CALCULATION.PAY_PERIOD_CODE " + Environment.NewLine + _
+        strq = " SELECT SALARY_CALCULATION_CODE,EMP_CODE,PAYPERIOD_DAYS,PAY_HEAD_CODE,SUB_HEAD_TYPE,RATE_AMOUNT,(select actual_amount from " & Calc_Table & "  AS SALARY where sub_head_type='BASIC' AND SALARY.EMP_CODE=" & Calc_Table & ".EMP_CODE) AS HEAD_VALUE,ACTUAL_AMOUNT,OT_CODE,OT_HOURS," &
+               " OT_RATE,HOUR_MULTIPLIER,IS_ASPER_ACTUAL_CALC " + Environment.NewLine +
+               " ,(select sum(STD_AMOUNT) from " & Calc_Table & "  AS SALARY left outer join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE=SALARY.PAY_HEAD_CODE where TSPL_PAYHEAD_MASTER.ISEARNING=1 AND SALARY.EMP_CODE=" & Calc_Table & ".EMP_CODE and TSPL_PAYHEAD_MASTER.Do_Not_Include_In_Gross_Salary_For_Over_Time=0 ) AS GrossSalary" + Environment.NewLine +
+               " FROM " & Calc_Table & " " &
+               " left outer join TSPL_PAYPERIOD_MASTER on TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE=TSPL_SALARY_CALCULATION.PAY_PERIOD_CODE " + Environment.NewLine +
                " WHERE SUB_HEAD_TYPE='OT' AND OT_CODE IS NOT NULL AND COALESCE(OT_HOURS,0)>0 and " & Calc_Table & ".PAY_PERIOD_CODE='" & Pay_Period_Code & "' ORDER BY EMP_CODE,LINE_NO "
         'balwinder()
         Dim dtOT As DataTable
@@ -3748,9 +3748,9 @@ Public Class clsSalaryGeneration
     Public Shared Function CalculateOT(ByVal OTCode As String, ByVal otHours As Decimal, ByVal BasicPerHour As Decimal, ByVal Basic As Decimal, ByVal trans As SqlTransaction, ByVal GrossPerHour As Decimal) As Decimal
         Dim qry As String
         Dim OTAmount As Decimal = 0.0
-        qry = " select TSPL_OT_MASTER.OT_CODE,TSPL_OT_MASTER.IS_ASPER_ACTUAL_CALC,TSPL_OT_MASTER.HOUR_MULTIPLIER,TSPL_OT_SLAB_DETAIL.CRITERIA_TYPE," & _
-              " TSPL_OT_SLAB_DETAIL._FROM,TSPL_OT_SLAB_DETAIL._TO,coalesce(TSPL_OT_SLAB_DETAIL.OT_RATE,TSPL_OT_MASTER.ot_rate) as OT_RATE,TSPL_OT_SLAB_DETAIL.RATE_TYPE from TSPL_OT_MASTER left join " & _
-              " TSPL_OT_SLAB on TSPL_OT_MASTER.OT_CODE=TSPL_OT_SLAB.OT_CODE left join TSPL_OT_SLAB_DETAIL " & _
+        qry = " select TSPL_OT_MASTER.OT_CODE,TSPL_OT_MASTER.IS_ASPER_ACTUAL_CALC,TSPL_OT_MASTER.HOUR_MULTIPLIER,TSPL_OT_SLAB_DETAIL.CRITERIA_TYPE," &
+              " TSPL_OT_SLAB_DETAIL._FROM,TSPL_OT_SLAB_DETAIL._TO,coalesce(TSPL_OT_SLAB_DETAIL.OT_RATE,TSPL_OT_MASTER.ot_rate) as OT_RATE,TSPL_OT_SLAB_DETAIL.RATE_TYPE from TSPL_OT_MASTER left join " &
+              " TSPL_OT_SLAB on TSPL_OT_MASTER.OT_CODE=TSPL_OT_SLAB.OT_CODE left join TSPL_OT_SLAB_DETAIL " &
               " on TSPL_OT_SLAB.OT_CODE=TSPL_OT_SLAB_DETAIL.OT_CODE where TSPL_OT_MASTER.OT_CODE='" & OTCode & "'  order by TSPL_OT_MASTER.OT_CODE,TSPL_OT_SLAB_DETAIL._FROM"
         Dim dtOT As DataTable
         dtOT = clsDBFuncationality.GetDataTable(qry, trans)
@@ -3829,11 +3829,11 @@ Public Class clsSalaryGeneration
             Exit Function
         End If
 
-        qry = " select distinct TSPL_SALARY_CALCULATION.EMP_CODE,TSPL_SALARY_CALCULATION.EMP_SAL_CODE as NEW_EMP_SAL_CODE,Incr.EMP_SAL_CODE as OLD_EMP_SAL_CODE," & _
-              " EMP_Sal.APPLICABLE_FROM,Incr.Arrear_From from TSPL_SALARY_CALCULATION " & _
-              " inner join TSPL_EMPLOYEE_INCREMENT_HEAD Incr on Incr.EMP_SAL_CODE_NEW=TSPL_SALARY_CALCULATION.EMP_SAL_CODE " & _
-              " inner join TSPL_EMPLOYEE_SALARY EMP_Sal on EMP_Sal.EMP_SAL_CODE=TSPL_SALARY_CALCULATION.EMP_SAL_CODE where Incr.Arrear_From is not null " & _
-              " and  EMP_Sal.APPLICABLE_FROM between (select DATE_FROM from TSPL_PAYPERIOD_MASTER where PAY_PERIOD_CODE='" & Pay_Period_Code & "') and (select DATE_TO from TSPL_PAYPERIOD_MASTER where PAY_PERIOD_CODE='" & Pay_Period_Code & "') " & _
+        qry = " select distinct TSPL_SALARY_CALCULATION.EMP_CODE,TSPL_SALARY_CALCULATION.EMP_SAL_CODE as NEW_EMP_SAL_CODE,Incr.EMP_SAL_CODE as OLD_EMP_SAL_CODE," &
+              " EMP_Sal.APPLICABLE_FROM,Incr.Arrear_From from TSPL_SALARY_CALCULATION " &
+              " inner join TSPL_EMPLOYEE_INCREMENT_HEAD Incr on Incr.EMP_SAL_CODE_NEW=TSPL_SALARY_CALCULATION.EMP_SAL_CODE " &
+              " inner join TSPL_EMPLOYEE_SALARY EMP_Sal on EMP_Sal.EMP_SAL_CODE=TSPL_SALARY_CALCULATION.EMP_SAL_CODE where Incr.Arrear_From is not null " &
+              " and  EMP_Sal.APPLICABLE_FROM between (select DATE_FROM from TSPL_PAYPERIOD_MASTER where PAY_PERIOD_CODE='" & Pay_Period_Code & "') and (select DATE_TO from TSPL_PAYPERIOD_MASTER where PAY_PERIOD_CODE='" & Pay_Period_Code & "') " &
               " order by TSPL_SALARY_CALCULATION.EMP_CODE "
         Dim dtEMP As DataTable
         '' collect list of employees having salary increment in their current applicable salary.
@@ -3843,15 +3843,15 @@ Public Class clsSalaryGeneration
 
         For Each drEMP As DataRow In dtEMP.Rows
             qry = String.Empty
-            qry = " select COUNT(*) AS Total from TSPL_GENERATE_SALARY_ATTENDANCE GSA INNER JOIN TSPL_GENERATE_SALARY GS ON GSA.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE " & _
-                  " INNER JOIN TSPL_PAYPERIOD_MASTER PPM ON GS.PAY_PERIOD_CODE=PPM.PAY_PERIOD_CODE " & _
+            qry = " select COUNT(*) AS Total from TSPL_GENERATE_SALARY_ATTENDANCE GSA INNER JOIN TSPL_GENERATE_SALARY GS ON GSA.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE " &
+                  " INNER JOIN TSPL_PAYPERIOD_MASTER PPM ON GS.PAY_PERIOD_CODE=PPM.PAY_PERIOD_CODE " &
                   " where EMP_SAL_CODE='" & drEMP.Item("NEW_EMP_SAL_CODE") & "' AND PPM.DATE_FROM>='" & clsCommon.GetPrintDate(drEMP.Item("Arrear_From"), "dd/MMM/yyyy") & "' AND PPM.DATE_TO<'" & clsCommon.GetPrintDate(objPP.DATE_TO, "dd/MMM/yyyy") & "' and coalesce(GSA.Arrear_Amt,0)>0"
             Dim ArrCalc As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
             If ArrCalc <= 0 Then
                 qry = String.Empty
                 'and coalesce(GSA.Arrear_Amt,0)<=0
-                qry = " select  GS.Pay_Period_Code,GSA.EMP_CODE,GSA.SALARY_STRUCTURE_CODE,GSA.EMP_SAL_CODE,GSA.EMP_STATUS_CODE,GSA.ARREAR_AMT from TSPL_GENERATE_SALARY_ATTENDANCE GSA INNER JOIN TSPL_GENERATE_SALARY GS ON GSA.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE " & _
-                  " INNER JOIN TSPL_PAYPERIOD_MASTER PPM ON GS.PAY_PERIOD_CODE=PPM.PAY_PERIOD_CODE " & _
+                qry = " select  GS.Pay_Period_Code,GSA.EMP_CODE,GSA.SALARY_STRUCTURE_CODE,GSA.EMP_SAL_CODE,GSA.EMP_STATUS_CODE,GSA.ARREAR_AMT from TSPL_GENERATE_SALARY_ATTENDANCE GSA INNER JOIN TSPL_GENERATE_SALARY GS ON GSA.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE " &
+                  " INNER JOIN TSPL_PAYPERIOD_MASTER PPM ON GS.PAY_PERIOD_CODE=PPM.PAY_PERIOD_CODE " &
                   " where EMP_CODE='" & drEMP.Item("EMP_CODE") & "' AND PPM.DATE_FROM>='" & clsCommon.GetPrintDate(drEMP.Item("Arrear_From"), "dd/MMM/yyyy") & "' AND PPM.DATE_TO<'" & clsCommon.GetPrintDate(objPP.DATE_TO, "dd/MMM/yyyy") & "'  order by PPM.DATE_FROM"
                 Dim dtEmpArr As DataTable
                 Dim lstEmp As New ArrayList
@@ -3990,39 +3990,39 @@ Public Class clsSalaryGeneration
         'clsDBFuncationality.ExecuteNonQuery(Qry)
 
 
-        Qry = " update TSPL_SALARY_CALCULATION set ARREAR_AMT=coalesce(TSPL_SALARY_CALCULATION.ARREAR_AMT,0)+coalesce(Arrear.ACTUAL_AMOUNT,0)-coalesce(Old_Sal.ACTUAL_AMOUNT,0),HEAD_VALUE=coalesce(TSPL_SALARY_CALCULATION.HEAD_VALUE,0)+coalesce(Arrear.HEAD_VALUE,0)-coalesce(Old_Sal.HEAD_VALUE,0) from " & _
-                             " (select EMP_CODE,PAY_HEAD_CODE,sum(ACTUAL_AMOUNT-COALESCE(PRINCIPAL_ROUND_OFF,0)) as ACTUAL_AMOUNT,sum(HEAD_VALUE) as HEAD_VALUE from TSPL_ARREAR_CALCULATION where EMP_CODE IN (" & clsCommon.GetMulcallString(lstEmp) & ") and PAY_PERIOD_CODE='" & PP_Arrear & "' group by EMP_CODE,PAY_HEAD_CODE) Arrear " & _
-                             " LEFT JOIN (SELECT GSP.EMP_CODE,PAY_HEAD_CODE ,((GSP.ACTUAL_AMOUNT-COALESCE(PRINCIPAL_ROUND_OFF,0)) -(COALESCE(GSP.ARREAR_AMT,0)+COALESCE(ARREAR_ROUND_OFF,0))) AS ACTUAL_AMOUNT,round(coalesce(HEAD_VALUE,0)-(case when Head_Type='F' and GSP.ARREAR_AMT>0 then coalesce(GSP.ARREAR_AMT,0)*100/(case when COALESCE(GSP.RATE_AMOUNT,0)=0 then 1 else COALESCE(GSP.RATE_AMOUNT,0) end) else 0 end),0) as HEAD_VALUE  FROM TSPL_GENERATE_SALARY_PAYHEADS GSP " & _
-                             " INNER JOIN TSPL_GENERATE_SALARY GS ON GSP.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE inner join TSPL_GENERATE_SALARY_ATTENDANCE GSA ON GSP.SALARY_GENERATION_CODE=GSA.SALARY_GENERATION_CODE AND GSA.EMP_CODE=GSP.EMP_CODE WHERE GS.PAY_PERIOD_CODE='" & PP_Arrear & "' " & _
-                             " AND GSP.EMP_CODE IN (" & clsCommon.GetMulcallString(lstEmp) & ")) AS Old_Sal ON " & _
-                             " Arrear.EMP_CODE = Old_Sal.EMP_CODE And Arrear.PAY_HEAD_CODE = Old_Sal.PAY_HEAD_CODE " & _
+        Qry = " update TSPL_SALARY_CALCULATION set ARREAR_AMT=coalesce(TSPL_SALARY_CALCULATION.ARREAR_AMT,0)+coalesce(Arrear.ACTUAL_AMOUNT,0)-coalesce(Old_Sal.ACTUAL_AMOUNT,0),HEAD_VALUE=coalesce(TSPL_SALARY_CALCULATION.HEAD_VALUE,0)+coalesce(Arrear.HEAD_VALUE,0)-coalesce(Old_Sal.HEAD_VALUE,0) from " &
+                             " (select EMP_CODE,PAY_HEAD_CODE,sum(ACTUAL_AMOUNT-COALESCE(PRINCIPAL_ROUND_OFF,0)) as ACTUAL_AMOUNT,sum(HEAD_VALUE) as HEAD_VALUE from TSPL_ARREAR_CALCULATION where EMP_CODE IN (" & clsCommon.GetMulcallString(lstEmp) & ") and PAY_PERIOD_CODE='" & PP_Arrear & "' group by EMP_CODE,PAY_HEAD_CODE) Arrear " &
+                             " LEFT JOIN (SELECT GSP.EMP_CODE,PAY_HEAD_CODE ,((GSP.ACTUAL_AMOUNT-COALESCE(PRINCIPAL_ROUND_OFF,0)) -(COALESCE(GSP.ARREAR_AMT,0)+COALESCE(ARREAR_ROUND_OFF,0))) AS ACTUAL_AMOUNT,round(coalesce(HEAD_VALUE,0)-(case when Head_Type='F' and GSP.ARREAR_AMT>0 then coalesce(GSP.ARREAR_AMT,0)*100/(case when COALESCE(GSP.RATE_AMOUNT,0)=0 then 1 else COALESCE(GSP.RATE_AMOUNT,0) end) else 0 end),0) as HEAD_VALUE  FROM TSPL_GENERATE_SALARY_PAYHEADS GSP " &
+                             " INNER JOIN TSPL_GENERATE_SALARY GS ON GSP.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE inner join TSPL_GENERATE_SALARY_ATTENDANCE GSA ON GSP.SALARY_GENERATION_CODE=GSA.SALARY_GENERATION_CODE AND GSA.EMP_CODE=GSP.EMP_CODE WHERE GS.PAY_PERIOD_CODE='" & PP_Arrear & "' " &
+                             " AND GSP.EMP_CODE IN (" & clsCommon.GetMulcallString(lstEmp) & ")) AS Old_Sal ON " &
+                             " Arrear.EMP_CODE = Old_Sal.EMP_CODE And Arrear.PAY_HEAD_CODE = Old_Sal.PAY_HEAD_CODE " &
                              " where TSPL_SALARY_CALCULATION.EMP_CODE=Arrear.EMP_CODE and TSPL_SALARY_CALCULATION.PAY_HEAD_CODE=Arrear.PAY_HEAD_CODE "
         clsDBFuncationality.ExecuteNonQuery(Qry, trans)
 
 
         '' UPDATE EMPLOYER ACCOUNTS FOR PF
-        Qry = " update TSPL_SALARY_CALCULATION set CoEPF_AMT_AC01=coalesce(TSPL_SALARY_CALCULATION.CoEPF_AMT_AC01,0)+coalesce(Arrear.CoEPF_AMT_AC01,0)-coalesce(Old_Sal.CoEPF_AMT_AC01,0), " & _
-                             " CoEPS_AMT_AC10=coalesce(TSPL_SALARY_CALCULATION.CoEPS_AMT_AC10,0)+coalesce(Arrear.CoEPS_AMT_AC10,0)-coalesce(Old_Sal.CoEPS_AMT_AC10,0),  " & _
-                             " ADMIN_AMT_AC02=coalesce(TSPL_SALARY_CALCULATION.ADMIN_AMT_AC02,0)+coalesce(Arrear.ADMIN_AMT_AC02,0)-coalesce(Old_Sal.ADMIN_AMT_AC02,0),  " & _
-                             " EDLI_AMT_AC21=coalesce(TSPL_SALARY_CALCULATION.EDLI_AMT_AC21,0)+coalesce(Arrear.EDLI_AMT_AC21,0)-coalesce(Old_Sal.EDLI_AMT_AC21,0),  " & _
-                             " ADMIN_EDLI_AMT_AC22=coalesce(TSPL_SALARY_CALCULATION.ADMIN_EDLI_AMT_AC22,0)+coalesce(Arrear.ADMIN_EDLI_AMT_AC22,0)-coalesce(Old_Sal.ADMIN_EDLI_AMT_AC22,0),  " & _
-                             " OTHER_CHARGE=coalesce(TSPL_SALARY_CALCULATION.OTHER_CHARGE,0)+coalesce(Arrear.OTHER_CHARGE,0)-coalesce(Old_Sal.OTHER_CHARGE,0)  " & _
-                             " from (select EMP_CODE,PAY_HEAD_CODE,sum(CoEPF_AMT_AC01) as CoEPF_AMT_AC01,sum(CoEPS_AMT_AC10) as CoEPS_AMT_AC10,sum(ADMIN_AMT_AC02) as ADMIN_AMT_AC02, " & _
-                             " sum(EDLI_AMT_AC21) as EDLI_AMT_AC21,sum(ADMIN_EDLI_AMT_AC22) as ADMIN_EDLI_AMT_AC22,sum(OTHER_CHARGE) as OTHER_CHARGE from TSPL_ARREAR_CALCULATION where SUB_HEAD_TYPE='EPF' and EMP_CODE IN (" & clsCommon.GetMulcallString(lstEmp) & ") and PAY_PERIOD_CODE='" & PP_Arrear & "'   group by EMP_CODE,PAY_HEAD_CODE) Arrear " & _
-                             " LEFT JOIN (SELECT EMP_CODE,PAY_HEAD_CODE ,(GSP.CoEPF_AMT_AC01+coalesce(CoEPF_AMT_AC01_ROUND_OFF,0)-(case when GSP.ARREAR_AMT>0 then coalesce(ARREAR_AMT,0)*GSP.CoEPF_RATE_AC01/(case when COALESCE(GSP.RATE_AMOUNT,0)=0 then 1 else COALESCE(GSP.RATE_AMOUNT,0) end) ELSE 0 END)) as CoEPF_AMT_AC01,(GSP.CoEPS_AMT_AC10+coalesce(CoEPS_AMT_AC10_ROUND_OFF,0)-(case when GSP.ARREAR_AMT>0 " & _
-                             " then coalesce(ARREAR_AMT,0)*GSP.CoEPS_RATE_AC10/(case when COALESCE(GSP.RATE_AMOUNT,0)=0 then 1 else COALESCE(GSP.RATE_AMOUNT,0) end) ELSE 0 END)) as CoEPS_AMT_AC10,GSP.ADMIN_AMT_AC02,GSP.EDLI_AMT_AC21,GSP.ADMIN_EDLI_AMT_AC22,GSP.OTHER_CHARGE FROM TSPL_GENERATE_SALARY_PAYHEADS GSP " & _
-                             " INNER JOIN TSPL_GENERATE_SALARY GS ON GSP.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE WHERE GS.PAY_PERIOD_CODE='" & PP_Arrear & "' " & _
-                             " AND GSP.EMP_CODE IN (" & clsCommon.GetMulcallString(lstEmp) & ") and  GSP.SUB_HEAD_TYPE='EPF') AS Old_Sal ON " & _
-                             " Arrear.EMP_CODE = Old_Sal.EMP_CODE And Arrear.PAY_HEAD_CODE = Old_Sal.PAY_HEAD_CODE " & _
+        Qry = " update TSPL_SALARY_CALCULATION set CoEPF_AMT_AC01=coalesce(TSPL_SALARY_CALCULATION.CoEPF_AMT_AC01,0)+coalesce(Arrear.CoEPF_AMT_AC01,0)-coalesce(Old_Sal.CoEPF_AMT_AC01,0), " &
+                             " CoEPS_AMT_AC10=coalesce(TSPL_SALARY_CALCULATION.CoEPS_AMT_AC10,0)+coalesce(Arrear.CoEPS_AMT_AC10,0)-coalesce(Old_Sal.CoEPS_AMT_AC10,0),  " &
+                             " ADMIN_AMT_AC02=coalesce(TSPL_SALARY_CALCULATION.ADMIN_AMT_AC02,0)+coalesce(Arrear.ADMIN_AMT_AC02,0)-coalesce(Old_Sal.ADMIN_AMT_AC02,0),  " &
+                             " EDLI_AMT_AC21=coalesce(TSPL_SALARY_CALCULATION.EDLI_AMT_AC21,0)+coalesce(Arrear.EDLI_AMT_AC21,0)-coalesce(Old_Sal.EDLI_AMT_AC21,0),  " &
+                             " ADMIN_EDLI_AMT_AC22=coalesce(TSPL_SALARY_CALCULATION.ADMIN_EDLI_AMT_AC22,0)+coalesce(Arrear.ADMIN_EDLI_AMT_AC22,0)-coalesce(Old_Sal.ADMIN_EDLI_AMT_AC22,0),  " &
+                             " OTHER_CHARGE=coalesce(TSPL_SALARY_CALCULATION.OTHER_CHARGE,0)+coalesce(Arrear.OTHER_CHARGE,0)-coalesce(Old_Sal.OTHER_CHARGE,0)  " &
+                             " from (select EMP_CODE,PAY_HEAD_CODE,sum(CoEPF_AMT_AC01) as CoEPF_AMT_AC01,sum(CoEPS_AMT_AC10) as CoEPS_AMT_AC10,sum(ADMIN_AMT_AC02) as ADMIN_AMT_AC02, " &
+                             " sum(EDLI_AMT_AC21) as EDLI_AMT_AC21,sum(ADMIN_EDLI_AMT_AC22) as ADMIN_EDLI_AMT_AC22,sum(OTHER_CHARGE) as OTHER_CHARGE from TSPL_ARREAR_CALCULATION where SUB_HEAD_TYPE='EPF' and EMP_CODE IN (" & clsCommon.GetMulcallString(lstEmp) & ") and PAY_PERIOD_CODE='" & PP_Arrear & "'   group by EMP_CODE,PAY_HEAD_CODE) Arrear " &
+                             " LEFT JOIN (SELECT EMP_CODE,PAY_HEAD_CODE ,(GSP.CoEPF_AMT_AC01+coalesce(CoEPF_AMT_AC01_ROUND_OFF,0)-(case when GSP.ARREAR_AMT>0 then coalesce(ARREAR_AMT,0)*GSP.CoEPF_RATE_AC01/(case when COALESCE(GSP.RATE_AMOUNT,0)=0 then 1 else COALESCE(GSP.RATE_AMOUNT,0) end) ELSE 0 END)) as CoEPF_AMT_AC01,(GSP.CoEPS_AMT_AC10+coalesce(CoEPS_AMT_AC10_ROUND_OFF,0)-(case when GSP.ARREAR_AMT>0 " &
+                             " then coalesce(ARREAR_AMT,0)*GSP.CoEPS_RATE_AC10/(case when COALESCE(GSP.RATE_AMOUNT,0)=0 then 1 else COALESCE(GSP.RATE_AMOUNT,0) end) ELSE 0 END)) as CoEPS_AMT_AC10,GSP.ADMIN_AMT_AC02,GSP.EDLI_AMT_AC21,GSP.ADMIN_EDLI_AMT_AC22,GSP.OTHER_CHARGE FROM TSPL_GENERATE_SALARY_PAYHEADS GSP " &
+                             " INNER JOIN TSPL_GENERATE_SALARY GS ON GSP.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE WHERE GS.PAY_PERIOD_CODE='" & PP_Arrear & "' " &
+                             " AND GSP.EMP_CODE IN (" & clsCommon.GetMulcallString(lstEmp) & ") and  GSP.SUB_HEAD_TYPE='EPF') AS Old_Sal ON " &
+                             " Arrear.EMP_CODE = Old_Sal.EMP_CODE And Arrear.PAY_HEAD_CODE = Old_Sal.PAY_HEAD_CODE " &
                              " where TSPL_SALARY_CALCULATION.EMP_CODE=Arrear.EMP_CODE and TSPL_SALARY_CALCULATION.PAY_HEAD_CODE=Arrear.PAY_HEAD_CODE and  TSPL_SALARY_CALCULATION.SUB_HEAD_TYPE='EPF' "
         clsDBFuncationality.ExecuteNonQuery(Qry, trans)
         '' UPDATE EMPLOYER ACCOUNT FOR ESI
-        Qry = " update TSPL_SALARY_CALCULATION set Co_ESI_AMT=coalesce(TSPL_SALARY_CALCULATION.Co_ESI_AMT,0)+coalesce(Arrear.Co_ESI_AMT,0)-coalesce(Old_Sal.Co_ESI_AMT,0) " & _
-                             " from (select EMP_CODE,PAY_HEAD_CODE,sum(Co_ESI_AMT) as Co_ESI_AMT from TSPL_ARREAR_CALCULATION where SUB_HEAD_TYPE='EMPESI' and EMP_CODE IN (" & clsCommon.GetMulcallString(lstEmp) & ") and PAY_PERIOD_CODE='" & PP_Arrear & "' group by EMP_CODE,PAY_HEAD_CODE) Arrear " & _
-                             " LEFT JOIN (SELECT EMP_CODE,PAY_HEAD_CODE ,round(GSP.Co_ESI_AMT-(case when GSP.ARREAR_AMT>0 then coalesce(ARREAR_AMT,0)*GSP.Co_ESI_RATE/(case when COALESCE(GSP.RATE_AMOUNT,0)=0 then 1 else COALESCE(GSP.RATE_AMOUNT,0) end) ELSE 0 END),0) AS Co_ESI_AMT FROM TSPL_GENERATE_SALARY_PAYHEADS GSP " & _
-                             " INNER JOIN TSPL_GENERATE_SALARY GS ON GSP.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE WHERE GS.PAY_PERIOD_CODE='" & PP_Arrear & "' " & _
-                             " AND GSP.EMP_CODE IN (" & clsCommon.GetMulcallString(lstEmp) & ") and  GSP.SUB_HEAD_TYPE='EMPESI') AS Old_Sal ON " & _
-                             " Arrear.EMP_CODE = Old_Sal.EMP_CODE And Arrear.PAY_HEAD_CODE = Old_Sal.PAY_HEAD_CODE " & _
+        Qry = " update TSPL_SALARY_CALCULATION set Co_ESI_AMT=coalesce(TSPL_SALARY_CALCULATION.Co_ESI_AMT,0)+coalesce(Arrear.Co_ESI_AMT,0)-coalesce(Old_Sal.Co_ESI_AMT,0) " &
+                             " from (select EMP_CODE,PAY_HEAD_CODE,sum(Co_ESI_AMT) as Co_ESI_AMT from TSPL_ARREAR_CALCULATION where SUB_HEAD_TYPE='EMPESI' and EMP_CODE IN (" & clsCommon.GetMulcallString(lstEmp) & ") and PAY_PERIOD_CODE='" & PP_Arrear & "' group by EMP_CODE,PAY_HEAD_CODE) Arrear " &
+                             " LEFT JOIN (SELECT EMP_CODE,PAY_HEAD_CODE ,round(GSP.Co_ESI_AMT-(case when GSP.ARREAR_AMT>0 then coalesce(ARREAR_AMT,0)*GSP.Co_ESI_RATE/(case when COALESCE(GSP.RATE_AMOUNT,0)=0 then 1 else COALESCE(GSP.RATE_AMOUNT,0) end) ELSE 0 END),0) AS Co_ESI_AMT FROM TSPL_GENERATE_SALARY_PAYHEADS GSP " &
+                             " INNER JOIN TSPL_GENERATE_SALARY GS ON GSP.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE WHERE GS.PAY_PERIOD_CODE='" & PP_Arrear & "' " &
+                             " AND GSP.EMP_CODE IN (" & clsCommon.GetMulcallString(lstEmp) & ") and  GSP.SUB_HEAD_TYPE='EMPESI') AS Old_Sal ON " &
+                             " Arrear.EMP_CODE = Old_Sal.EMP_CODE And Arrear.PAY_HEAD_CODE = Old_Sal.PAY_HEAD_CODE " &
                              " where TSPL_SALARY_CALCULATION.EMP_CODE=Arrear.EMP_CODE and TSPL_SALARY_CALCULATION.PAY_HEAD_CODE=Arrear.PAY_HEAD_CODE and  TSPL_SALARY_CALCULATION.SUB_HEAD_TYPE='EMPESI' "
         clsDBFuncationality.ExecuteNonQuery(Qry, trans)
         Return True
@@ -4130,10 +4130,10 @@ Public Class clsSalaryGeneration
 
     Public Shared Function GetPFEMPListQry(ByVal strPPCode As String, ByVal strLocationList As ArrayList, ByVal strDivisionList As ArrayList) As String
         Dim qry As String = ""
-        qry = "select GSA.EMP_CODE  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE " & _
-            " INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE " & _
-            " INNER JOIN TSPL_GENERATE_SALARY_ATTENDANCE GSA ON TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=GSA.SALARY_GENERATION_CODE " & _
-            " AND GSA.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE " & _
+        qry = "select GSA.EMP_CODE  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE " &
+            " INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE " &
+            " INNER JOIN TSPL_GENERATE_SALARY_ATTENDANCE GSA ON TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=GSA.SALARY_GENERATION_CODE " &
+            " AND GSA.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE " &
             " where PF_Applicable=1 and TSPL_GENERATE_SALARY.Pay_Period_Code='" & strPPCode & "' and  TSPL_GENERATE_SALARY.LOCATION_CODE in (" & clsCommon.GetMulcallString(strLocationList) & ") and SUB_HEAD_TYPE='EPF' "
         If Not strDivisionList Is Nothing AndAlso strDivisionList.Count > 0 Then
             qry = qry & " and TSPL_GENERATE_SALARY.DEVISION_CODE in (" & clsCommon.GetMulcallString(strDivisionList) & ")"
@@ -4142,10 +4142,10 @@ Public Class clsSalaryGeneration
     End Function
     Public Shared Function GetPFPensionEMPListQry(ByVal strPPCode As String, ByVal strLocationList As ArrayList, ByVal strDivisionList As ArrayList) As String
         Dim qry As String = ""
-        qry = "select GSA.EMP_CODE  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE " & _
-            " INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE " & _
-            " INNER JOIN TSPL_GENERATE_SALARY_ATTENDANCE GSA ON TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=GSA.SALARY_GENERATION_CODE " & _
-            " AND GSA.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE " & _
+        qry = "select GSA.EMP_CODE  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE " &
+            " INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE " &
+            " INNER JOIN TSPL_GENERATE_SALARY_ATTENDANCE GSA ON TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=GSA.SALARY_GENERATION_CODE " &
+            " AND GSA.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE " &
             " where PF_Applicable=1 and CoEPF_AMT_AC01>0 and  coalesce(CoEPS_AMT_AC10,0)>0 and TSPL_GENERATE_SALARY.Pay_Period_Code='" & strPPCode & "' and  TSPL_GENERATE_SALARY.LOCATION_CODE in (" & clsCommon.GetMulcallString(strLocationList) & ") and SUB_HEAD_TYPE='EPF' "
         If Not strDivisionList Is Nothing AndAlso strDivisionList.Count > 0 Then
             qry = qry & " and TSPL_GENERATE_SALARY.DEVISION_CODE in (" & clsCommon.GetMulcallString(strDivisionList) & ")"
@@ -4197,37 +4197,37 @@ Public Class clsSalaryGeneration
 
         '' month qry
         Dim MonthQry As String = ""
-        MonthQry = " select 1 as Month_No, 'April-" & From_Year & "' as _Month" & _
-                   " union all " & _
-                   " select 2, 'May-" & From_Year & "' as _Month " & _
-                   " union all " & _
-                   " select 3, 'June-" & From_Year & "' as _Month " & _
-                   " union all " & _
-                   " select 4, 'July-" & From_Year & "' as _Month " & _
-                   " union all " & _
-                   " select 5, 'August-" & From_Year & "' as _Month " & _
-                   " union all " & _
-                   " select 6, 'September-" & From_Year & "' as _Month " & _
-                   " union all " & _
-                   " select 7, 'October-" & From_Year & "' as _Month " & _
-                   " union all " & _
-                   " select 8, 'November-" & From_Year & "' as _Month " & _
-                   " union all " & _
-                   " select 9, 'December-" & From_Year & "' as _Month " & _
-                   " union all " & _
-                   " select 10,'January-" & To_Year & "' as _Month " & _
-                   " union all " & _
-                   " select 11,'February-" & To_Year & "' as _Month " & _
-                   " union all " & _
+        MonthQry = " select 1 as Month_No, 'April-" & From_Year & "' as _Month" &
+                   " union all " &
+                   " select 2, 'May-" & From_Year & "' as _Month " &
+                   " union all " &
+                   " select 3, 'June-" & From_Year & "' as _Month " &
+                   " union all " &
+                   " select 4, 'July-" & From_Year & "' as _Month " &
+                   " union all " &
+                   " select 5, 'August-" & From_Year & "' as _Month " &
+                   " union all " &
+                   " select 6, 'September-" & From_Year & "' as _Month " &
+                   " union all " &
+                   " select 7, 'October-" & From_Year & "' as _Month " &
+                   " union all " &
+                   " select 8, 'November-" & From_Year & "' as _Month " &
+                   " union all " &
+                   " select 9, 'December-" & From_Year & "' as _Month " &
+                   " union all " &
+                   " select 10,'January-" & To_Year & "' as _Month " &
+                   " union all " &
+                   " select 11,'February-" & To_Year & "' as _Month " &
+                   " union all " &
                    " select 12,'March-" & To_Year & "' as _Month"
 
         '' emp qry
         Dim EMPQry As String = ""
-        EMPQry = " select GSA.EMP_CODE,GS.PAY_PERIOD_CODE,PPM.DATE_FROM,PPM.DATE_TO,GSA.PRESENT_DAYS," & _
-                 " (coalesce(GSA.PAYABLE_DAYS,0)-coalesce(GSA.PRESENT_DAYS,0)-coalesce(GSA.LEAVE_DAYS,0)) as HOLIDAY_DAYS from TSPL_GENERATE_SALARY_ATTENDANCE GSA" & _
-                 " INNER JOIN TSPL_GENERATE_SALARY GS ON GSA.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE " & _
-                 " LEFT JOIN TSPL_PAYPERIOD_MASTER PPM ON GS.PAY_PERIOD_CODE=PPM.PAY_PERIOD_CODE " & _
-                 " LEFT JOIN TSPL_EMPLOYEE_MASTER EMP ON GSA.EMP_CODE=EMP.EMP_CODE " & _
+        EMPQry = " select GSA.EMP_CODE,GS.PAY_PERIOD_CODE,PPM.DATE_FROM,PPM.DATE_TO,GSA.PRESENT_DAYS," &
+                 " (coalesce(GSA.PAYABLE_DAYS,0)-coalesce(GSA.PRESENT_DAYS,0)-coalesce(GSA.LEAVE_DAYS,0)) as HOLIDAY_DAYS from TSPL_GENERATE_SALARY_ATTENDANCE GSA" &
+                 " INNER JOIN TSPL_GENERATE_SALARY GS ON GSA.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE " &
+                 " LEFT JOIN TSPL_PAYPERIOD_MASTER PPM ON GS.PAY_PERIOD_CODE=PPM.PAY_PERIOD_CODE " &
+                 " LEFT JOIN TSPL_EMPLOYEE_MASTER EMP ON GSA.EMP_CODE=EMP.EMP_CODE " &
                  " WHERE CAST(PPM.DATE_FROM AS DATE) BETWEEN '" & clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") & "' AND '" & clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") & "' "
         If clsCommon.myLen(LocList) > 0 Then
             EMPQry = EMPQry & " and EMP.LOCATION_CODE IN (" & LocList & ")"
@@ -4241,10 +4241,10 @@ Public Class clsSalaryGeneration
 
         '' leave qry
         Dim LeaveQry As String = ""
-        LeaveQry = "select  LEDGER.EMP_CODE,PAY_PERIOD_CODE,sum(CASE WHEN TR_TYPE ='ALLOT' THEN ALLOTED  ELSE 0 END) AS Allot," & _
-                   " sum(CASE WHEN TR_TYPE ='AVAIL' THEN AVAILED ELSE 0 END) AS Avail  from TSPL_VIEW_LEAVE_LEDGER LEDGER " & _
-                   " LEFT JOIN TSPL_LEAVE_MASTER LEAVE ON LEDGER.LEAVE_CODE=LEAVE.LEAVE_CODE " & _
-                   " LEFT JOIN TSPL_EMPLOYEE_MASTER EMP ON LEDGER.EMP_CODE=EMP.EMP_CODE " & _
+        LeaveQry = "select  LEDGER.EMP_CODE,PAY_PERIOD_CODE,sum(CASE WHEN TR_TYPE ='ALLOT' THEN ALLOTED  ELSE 0 END) AS Allot," &
+                   " sum(CASE WHEN TR_TYPE ='AVAIL' THEN AVAILED ELSE 0 END) AS Avail  from TSPL_VIEW_LEAVE_LEDGER LEDGER " &
+                   " LEFT JOIN TSPL_LEAVE_MASTER LEAVE ON LEDGER.LEAVE_CODE=LEAVE.LEAVE_CODE " &
+                   " LEFT JOIN TSPL_EMPLOYEE_MASTER EMP ON LEDGER.EMP_CODE=EMP.EMP_CODE " &
                    " where LEDGER.LEAVE_CODE='" & Leave_Code & "' and LEDGER.DATE_FROM BETWEEN '" & clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") & "' AND '" & clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") & "' "
         If clsCommon.myLen(LocList) > 0 Then
             LeaveQry = LeaveQry & " and EMP.LOCATION_CODE IN (" & LocList & ")"
@@ -4259,8 +4259,8 @@ Public Class clsSalaryGeneration
 
         '' opening qry
         Dim OpeningQry As String = ""
-        OpeningQry = " select Leave.EMP_CODE,sum(Alloted) as Alloted,sum(Availed) as Availed,(sum(Alloted)-sum(Availed)) as Opening from TSPL_VIEW_LEAVE_LEDGER Leave " & _
-                     " LEFT JOIN TSPL_EMPLOYEE_MASTER EMP ON Leave.EMP_CODE=EMP.EMP_CODE " & _
+        OpeningQry = " select Leave.EMP_CODE,sum(Alloted) as Alloted,sum(Availed) as Availed,(sum(Alloted)-sum(Availed)) as Opening from TSPL_VIEW_LEAVE_LEDGER Leave " &
+                     " LEFT JOIN TSPL_EMPLOYEE_MASTER EMP ON Leave.EMP_CODE=EMP.EMP_CODE " &
                      " where Leave.LEAVE_CODE='" & Leave_Code & "' AND (DATE_FROM<'" & clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") & "' or TR_DATE<='" & clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") & "')  "
 
         If clsCommon.myLen(LocList) > 0 Then
@@ -4277,12 +4277,12 @@ Public Class clsSalaryGeneration
 
         '' last drawn salary query
         Dim lastBasicQry As String = ""
-        lastBasicQry = " select EMP_CODE,max(RATE_AMOUNT) as LastDrawnBasic,max(seqNo) as Last_Seq from (" & _
-                       " select GSP.EMP_CODE,GS.PAY_PERIOD_CODE,GSP.RATE_AMOUNT,GSP.ACTUAL_AMOUNT," & _
-                       " ROW_NUMBER() over (partition by GSP.EMP_CODE order by PPM.DATE_FROM ) AS SeqNo from TSPL_GENERATE_SALARY_PAYHEADS GSP " & _
-                       " left join TSPL_GENERATE_SALARY GS ON GSP.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE " & _
-                       " left join TSPL_PAYPERIOD_MASTER PPM ON GS.PAY_PERIOD_CODE=PPM.PAY_PERIOD_CODE " & _
-                       " LEFT JOIN TSPL_EMPLOYEE_MASTER EMP ON GSP.EMP_CODE=EMP.EMP_CODE " & _
+        lastBasicQry = " select EMP_CODE,max(RATE_AMOUNT) as LastDrawnBasic,max(seqNo) as Last_Seq from (" &
+                       " select GSP.EMP_CODE,GS.PAY_PERIOD_CODE,GSP.RATE_AMOUNT,GSP.ACTUAL_AMOUNT," &
+                       " ROW_NUMBER() over (partition by GSP.EMP_CODE order by PPM.DATE_FROM ) AS SeqNo from TSPL_GENERATE_SALARY_PAYHEADS GSP " &
+                       " left join TSPL_GENERATE_SALARY GS ON GSP.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE " &
+                       " left join TSPL_PAYPERIOD_MASTER PPM ON GS.PAY_PERIOD_CODE=PPM.PAY_PERIOD_CODE " &
+                       " LEFT JOIN TSPL_EMPLOYEE_MASTER EMP ON GSP.EMP_CODE=EMP.EMP_CODE " &
                        " WHERE GSP.SUB_HEAD_TYPE='Basic'  AND PPM.DATE_FROM BETWEEN '" & clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") & "' AND '" & clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") & "' "
 
         If clsCommon.myLen(LocList) > 0 Then
@@ -4296,41 +4296,41 @@ Public Class clsSalaryGeneration
         End If
         lastBasicQry = lastBasicQry & " ) as Sal group by EMP_CODE"
 
-        Finqry = " select OuterMost.EMP_CODE AS empcode,EMP.Emp_Name as empname,emp.Birth_date as dob,Loc.Location_Desc as Location,emp.Joining_date as doj," & WDCol & ",(" & WDTotalCol & ") as WDTotal," & HDCol & ",(" & HDTotalCol & ") as HDTotal,coalesce(Opening.Opening,0) as Opening," & AllotCol & ",(coalesce(Opening.Opening,0)+" & AllotTotalCol & ") as AllotTotal," & AvailCol & ",(" & AvailTotalCol & ") as AvailTotal,((coalesce(Opening.Opening,0)+" & AllotTotalCol & ")-(" & AvailTotalCol & ")) as [Net Balance],LastBasic.LastDrawnBasic,('" & objCommonVar.CurrentCompanyName & " '+ Div.DEVISION_NAME) as DivAddress " & _
-                 Environment.NewLine & " from (select OutData.EMP_CODE," & WDMaxCol & "," & HDMaxCol & "," & AllotMaxCol & "," & AvailMaxCol & " from ( select * from (select Months.Month_No,('WD'+Months._Month) as WDMonth,('HD'+Months._Month) as HDMonth,('Allot'+Months._Month) as AllotMonth," & _
-                 Environment.NewLine & " 'Avail'+(Months._Month) as AvailMonth,Innerqry.EMP_CODE,Innerqry.PAY_PERIOD_CODE,Innerqry.DATE_FROM,Innerqry.DATE_TO, " & _
-                 Environment.NewLine & " Innerqry.WD,Innerqry.HD,coalesce(Innerqry.Allot,0) as Allot,coalesce(Innerqry.Avail,0) as Avail  " & _
-                 Environment.NewLine & " from (" & MonthQry & ") as Months  " & _
-                 Environment.NewLine & " Left Join ( " & _
-                 Environment.NewLine & " select GSA.EMP_CODE,GSA.PAY_PERIOD_CODE, " & _
-                 Environment.NewLine & " (CAST(datename(month,GSA.DATE_FROM) AS VARCHAR)+'-'+ CAST(YEAR(GSA.DATE_FROM) AS VARCHAR)) AS _GSMonth,GSA.DATE_FROM,GSA.DATE_TO,GSA.PRESENT_DAYS as WD,GSA.HOLIDAY_DAYS as HD,LEAVES.Allot,LEAVES.Avail  " & _
-                 Environment.NewLine & " from ( " & EMPQry & ") as GSA left join (" & LeaveQry & ") as Leaves on GSA.EMP_CODE=LEAVES.EMP_CODE and GSA.PAY_PERIOD_CODE=LEAVES.PAY_PERIOD_CODE" & _
-                 Environment.NewLine & " ) as Innerqry on Months._Month=Innerqry._GSMonth " & _
-                 Environment.NewLine & " ) as Final " & _
-                 Environment.NewLine & " PIVOT " & _
-                 Environment.NewLine & " ( " & _
-                 Environment.NewLine & " max(WD) " & _
-                 Environment.NewLine & " FOR WDMonth IN (" & WDPiv & ") " & _
-                 Environment.NewLine & " ) AS PivotWD " & _
-                 Environment.NewLine & " PIVOT " & _
-                 Environment.NewLine & " ( " & _
-                 Environment.NewLine & " max(HD) " & _
-                 Environment.NewLine & " FOR HDMonth IN (" & HDPiv & ") " & _
-                 Environment.NewLine & " ) AS PivotHD " & _
-                 Environment.NewLine & " PIVOT " & _
-                 Environment.NewLine & " ( " & _
-                 Environment.NewLine & " max(Allot) " & _
-                 Environment.NewLine & " FOR AllotMonth IN (" & AllotPiv & ") " & _
-                 Environment.NewLine & " ) AS PivotAllot " & _
-                 Environment.NewLine & " PIVOT " & _
-                 Environment.NewLine & " ( " & _
-                 Environment.NewLine & " max(Avail) " & _
-                 Environment.NewLine & " FOR AvailMonth IN (" & AvailPiv & ") " & _
-                 Environment.NewLine & " ) AS PivotAvail ) as OutData Group by EMP_CODE) as OuterMost " & _
-                 Environment.NewLine & " left join (" & OpeningQry & ") as Opening on OuterMost.EMP_CODE=Opening.EMP_CODE " & _
-                 Environment.NewLine & " left join (" & lastBasicQry & ") as LastBasic on OuterMost.EMP_CODE=LastBasic.EMP_CODE " & _
-                 Environment.NewLine & " left join TSPL_EMPLOYEE_MASTER EMP ON OuterMost.EMP_CODE=EMP.EMP_CODE  " & _
-                 Environment.NewLine & " left join TSPL_LOCATION_MASTER Loc on EMP.LOCATION_CODE=Loc.Location_Code " & _
+        Finqry = " select OuterMost.EMP_CODE AS empcode,EMP.Emp_Name as empname,emp.Birth_date as dob,Loc.Location_Desc as Location,emp.Joining_date as doj," & WDCol & ",(" & WDTotalCol & ") as WDTotal," & HDCol & ",(" & HDTotalCol & ") as HDTotal,coalesce(Opening.Opening,0) as Opening," & AllotCol & ",(coalesce(Opening.Opening,0)+" & AllotTotalCol & ") as AllotTotal," & AvailCol & ",(" & AvailTotalCol & ") as AvailTotal,((coalesce(Opening.Opening,0)+" & AllotTotalCol & ")-(" & AvailTotalCol & ")) as [Net Balance],LastBasic.LastDrawnBasic,('" & objCommonVar.CurrentCompanyName & " '+ Div.DEVISION_NAME) as DivAddress " &
+                 Environment.NewLine & " from (select OutData.EMP_CODE," & WDMaxCol & "," & HDMaxCol & "," & AllotMaxCol & "," & AvailMaxCol & " from ( select * from (select Months.Month_No,('WD'+Months._Month) as WDMonth,('HD'+Months._Month) as HDMonth,('Allot'+Months._Month) as AllotMonth," &
+                 Environment.NewLine & " 'Avail'+(Months._Month) as AvailMonth,Innerqry.EMP_CODE,Innerqry.PAY_PERIOD_CODE,Innerqry.DATE_FROM,Innerqry.DATE_TO, " &
+                 Environment.NewLine & " Innerqry.WD,Innerqry.HD,coalesce(Innerqry.Allot,0) as Allot,coalesce(Innerqry.Avail,0) as Avail  " &
+                 Environment.NewLine & " from (" & MonthQry & ") as Months  " &
+                 Environment.NewLine & " Left Join ( " &
+                 Environment.NewLine & " select GSA.EMP_CODE,GSA.PAY_PERIOD_CODE, " &
+                 Environment.NewLine & " (CAST(datename(month,GSA.DATE_FROM) AS VARCHAR)+'-'+ CAST(YEAR(GSA.DATE_FROM) AS VARCHAR)) AS _GSMonth,GSA.DATE_FROM,GSA.DATE_TO,GSA.PRESENT_DAYS as WD,GSA.HOLIDAY_DAYS as HD,LEAVES.Allot,LEAVES.Avail  " &
+                 Environment.NewLine & " from ( " & EMPQry & ") as GSA left join (" & LeaveQry & ") as Leaves on GSA.EMP_CODE=LEAVES.EMP_CODE and GSA.PAY_PERIOD_CODE=LEAVES.PAY_PERIOD_CODE" &
+                 Environment.NewLine & " ) as Innerqry on Months._Month=Innerqry._GSMonth " &
+                 Environment.NewLine & " ) as Final " &
+                 Environment.NewLine & " PIVOT " &
+                 Environment.NewLine & " ( " &
+                 Environment.NewLine & " max(WD) " &
+                 Environment.NewLine & " FOR WDMonth IN (" & WDPiv & ") " &
+                 Environment.NewLine & " ) AS PivotWD " &
+                 Environment.NewLine & " PIVOT " &
+                 Environment.NewLine & " ( " &
+                 Environment.NewLine & " max(HD) " &
+                 Environment.NewLine & " FOR HDMonth IN (" & HDPiv & ") " &
+                 Environment.NewLine & " ) AS PivotHD " &
+                 Environment.NewLine & " PIVOT " &
+                 Environment.NewLine & " ( " &
+                 Environment.NewLine & " max(Allot) " &
+                 Environment.NewLine & " FOR AllotMonth IN (" & AllotPiv & ") " &
+                 Environment.NewLine & " ) AS PivotAllot " &
+                 Environment.NewLine & " PIVOT " &
+                 Environment.NewLine & " ( " &
+                 Environment.NewLine & " max(Avail) " &
+                 Environment.NewLine & " FOR AvailMonth IN (" & AvailPiv & ") " &
+                 Environment.NewLine & " ) AS PivotAvail ) as OutData Group by EMP_CODE) as OuterMost " &
+                 Environment.NewLine & " left join (" & OpeningQry & ") as Opening on OuterMost.EMP_CODE=Opening.EMP_CODE " &
+                 Environment.NewLine & " left join (" & lastBasicQry & ") as LastBasic on OuterMost.EMP_CODE=LastBasic.EMP_CODE " &
+                 Environment.NewLine & " left join TSPL_EMPLOYEE_MASTER EMP ON OuterMost.EMP_CODE=EMP.EMP_CODE  " &
+                 Environment.NewLine & " left join TSPL_LOCATION_MASTER Loc on EMP.LOCATION_CODE=Loc.Location_Code " &
                  Environment.NewLine & " left join TSPL_DEVISION_MASTER Div on EMP.DEVISION_CODE=Div.DEVISION_CODE where OuterMost.EMP_CODE IS NOT NULL "
 
         Return Finqry
@@ -4349,15 +4349,15 @@ Public Class clsSalaryGeneration
         Return dt
     End Function
     Public Shared Function GetLastDrawnSalaryPayPeriod(ByVal EMP_CODE As String, ByVal trans As SqlTransaction) As String
-        Dim qry As String = " select top 1 GS.PAY_PERIOD_CODE from TSPL_GENERATE_SALARY_ATTENDANCE GSA " & _
-                            " INNER JOIN TSPL_GENERATE_SALARY GS ON GSA.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE " & _
-                            " inner join TSPL_PAYPERIOD_MASTER PPM on gs.PAY_PERIOD_CODE=ppm.PAY_PERIOD_CODE " & _
+        Dim qry As String = " select top 1 GS.PAY_PERIOD_CODE from TSPL_GENERATE_SALARY_ATTENDANCE GSA " &
+                            " INNER JOIN TSPL_GENERATE_SALARY GS ON GSA.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE " &
+                            " inner join TSPL_PAYPERIOD_MASTER PPM on gs.PAY_PERIOD_CODE=ppm.PAY_PERIOD_CODE " &
                             " where GSA.EMP_CODE='" & EMP_CODE & "' order by ppm.DATE_FROM desc"
         Dim PP As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
         Return PP
     End Function
     Public Shared Function GetNextPayPeriod(ByVal Pay_Period_Code As String, ByVal trans As SqlTransaction) As String
-        Dim qry As String = "select top 1 PAY_PERIOD_CODE from TSPL_PAYPERIOD_MASTER where DATE_FROM>=(select max(DATE_TO) " & _
+        Dim qry As String = "select top 1 PAY_PERIOD_CODE from TSPL_PAYPERIOD_MASTER where DATE_FROM>=(select max(DATE_TO) " &
             " from TSPL_PAYPERIOD_MASTER where PAY_PERIOD_CODE='" & Pay_Period_Code & "') order by DATE_FROM"
         Dim PP As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
         Return PP
@@ -4609,7 +4609,7 @@ Public Class clsSalaryGeneration
         '' INSERT EMPLOYEE WAISE SALARY STRUCTURE FROM EMPLOYEE SALARY TABLE
         Dim QryArrear As String = "TSPL_EMPLOYEE_SALARY"
         If Is_Arrear Then
-            QryArrear = " (select TSPL_EMPLOYEE_SALARY.EMP_SAL_CODE,TSPL_EMPLOYEE_SALARY.EMP_CODE,TSPL_EMPLOYEE_SALARY.REVISION_NO,TSPL_EMPLOYEE_INCREMENT_HEAD.ARREAR_FROM as Applicable_From " & _
+            QryArrear = " (select TSPL_EMPLOYEE_SALARY.EMP_SAL_CODE,TSPL_EMPLOYEE_SALARY.EMP_CODE,TSPL_EMPLOYEE_SALARY.REVISION_NO,TSPL_EMPLOYEE_INCREMENT_HEAD.ARREAR_FROM as Applicable_From " &
                         " from TSPL_EMPLOYEE_INCREMENT_HEAD inner join TSPL_EMPLOYEE_SALARY on TSPL_EMPLOYEE_INCREMENT_HEAD.EMP_SAL_CODE_NEW=TSPL_EMPLOYEE_SALARY.EMP_SAL_CODE)"
         End If
 
@@ -4723,7 +4723,7 @@ Public Class clsSalaryGeneration
 
         '' UPDATE ACCOUNT_CODE OF "& strTableName &" for non loan advance payheads
         clsCommon.ProgressBarUpdate("updating GL accounts of non loan/advance pay heads...")
-        strq = "update " & strTableName & " set " & strTableName & ".account_code=TSPL_PAYHEAD_MASTER.account_code,Employer_Account=TSPL_PAYHEAD_MASTER.GL_Employer_Account from TSPL_PAYHEAD_MASTER " & _
+        strq = "update " & strTableName & " set " & strTableName & ".account_code=TSPL_PAYHEAD_MASTER.account_code,Employer_Account=TSPL_PAYHEAD_MASTER.GL_Employer_Account from TSPL_PAYHEAD_MASTER " &
                " where " & strTableName & ".PAY_HEAD_CODE=TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE and " & strTableName & ".PAY_PERIOD_CODE='" & Pay_Period_Code & "'"
         If Not clsDBFuncationality.ExecuteNonQuery(strq, trans) Then
             Throw New Exception("Error in updating payhead gl account in Salary Calculation Table !")
@@ -4731,7 +4731,7 @@ Public Class clsSalaryGeneration
 
         '' UPDATE ACCOUNT_CODE OF "& strTableName &" for loan advance payheads
         clsCommon.ProgressBarUpdate("updating GL accounts of loa/advancen pay head...")
-        strq = "update " & strTableName & " set " & strTableName & ".account_code=TSPL_EMPLOYEE_MASTER.ADVANCE_TO_STAFF from TSPL_EMPLOYEE_MASTER " & _
+        strq = "update " & strTableName & " set " & strTableName & ".account_code=TSPL_EMPLOYEE_MASTER.ADVANCE_TO_STAFF from TSPL_EMPLOYEE_MASTER " &
                " where " & strTableName & ".EMP_CODE=TSPL_EMPLOYEE_MASTER.EMP_CODE AND " & strTableName & ".SUB_HEAD_TYPE='Loan' and " & strTableName & ".PAY_PERIOD_CODE='" & Pay_Period_Code & "'"
         If Not clsDBFuncationality.ExecuteNonQuery(strq, trans) Then
             Throw New Exception("Error in updating advance gl account in Salary Calculation Table !")
@@ -4922,11 +4922,11 @@ Public Class clsSalaryGeneration
 
         '' calculate ot 
         '' BHA/06/08/19-000921 by balwinder on 07/08/2019
-        strq = " SELECT SALARY_CALCULATION_CODE,EMP_CODE,PAYPERIOD_DAYS,PAY_HEAD_CODE,SUB_HEAD_TYPE,RATE_AMOUNT,(select actual_amount from " & strTableName & "  AS SALARY where sub_head_type='BASIC' AND SALARY.EMP_CODE=" & strTableName & ".EMP_CODE) AS HEAD_VALUE,ACTUAL_AMOUNT,OT_CODE,OT_HOURS," & _
-               " OT_RATE,HOUR_MULTIPLIER,IS_ASPER_ACTUAL_CALC " + Environment.NewLine + _
-               " ,(select sum(STD_AMOUNT) from " & strTableName & "  AS SALARY left outer join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE=SALARY.PAY_HEAD_CODE where TSPL_PAYHEAD_MASTER.ISEARNING=1 AND SALARY.EMP_CODE=" & strTableName & ".EMP_CODE and TSPL_PAYHEAD_MASTER.Do_Not_Include_In_Gross_Salary_For_Over_Time=0 ) AS GrossSalary" + Environment.NewLine + _
-               " FROM " & strTableName & " " & _
-               " left outer join TSPL_PAYPERIOD_MASTER on TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE=" & strTableName & " .PAY_PERIOD_CODE " + Environment.NewLine + _
+        strq = " SELECT SALARY_CALCULATION_CODE,EMP_CODE,PAYPERIOD_DAYS,PAY_HEAD_CODE,SUB_HEAD_TYPE,RATE_AMOUNT,(select actual_amount from " & strTableName & "  AS SALARY where sub_head_type='BASIC' AND SALARY.EMP_CODE=" & strTableName & ".EMP_CODE) AS HEAD_VALUE,ACTUAL_AMOUNT,OT_CODE,OT_HOURS," &
+               " OT_RATE,HOUR_MULTIPLIER,IS_ASPER_ACTUAL_CALC " + Environment.NewLine +
+               " ,(select sum(STD_AMOUNT) from " & strTableName & "  AS SALARY left outer join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE=SALARY.PAY_HEAD_CODE where TSPL_PAYHEAD_MASTER.ISEARNING=1 AND SALARY.EMP_CODE=" & strTableName & ".EMP_CODE and TSPL_PAYHEAD_MASTER.Do_Not_Include_In_Gross_Salary_For_Over_Time=0 ) AS GrossSalary" + Environment.NewLine +
+               " FROM " & strTableName & " " &
+               " left outer join TSPL_PAYPERIOD_MASTER on TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE=" & strTableName & " .PAY_PERIOD_CODE " + Environment.NewLine +
                " WHERE SUB_HEAD_TYPE='OT' AND OT_CODE IS NOT NULL AND COALESCE(OT_HOURS,0)>0 and " & strTableName & ".PAY_PERIOD_CODE='" & Pay_Period_Code & "' ORDER BY EMP_CODE,LINE_NO "
         Dim dtOT As DataTable
         dtOT = clsDBFuncationality.GetDataTable(strq, trans)
@@ -5227,19 +5227,19 @@ Public Class clsSalaryGeneration
         End If
 
         '' UPDATE PREV_ESI IN "& strTableName &"
-        strq = "UPDATE " & strTableName & " SET PREV_ESI=FINAL.ACTUAL_AMOUNT FROM " & _
-               " ( " & _
-               " SELECT TAB.SALARY_GENERATION_CODE,TAB.PAY_PERIOD_CODE, " & _
-               " TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE,TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE, " & _
-               " TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT FROM ( " & _
-               " SELECT TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE,TSPL_GENERATE_SALARY.PAY_PERIOD_CODE FROM TSPL_GENERATE_SALARY INNER JOIN TSPL_PAYPERIOD_MASTER " & _
-               " ON TSPL_GENERATE_SALARY.PAY_PERIOD_CODE=TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE " & _
-               " WHERE TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE IN  " & _
-               " (SELECT PAY_PERIOD_CODE FROM TSPL_PAYPERIOD_MASTER WHERE DATE_FROM='" & clsCommon.GetPrintDate(PP_END_DATE.AddMonths(-1), "dd/MMM/yyyy") & "')) TAB " & _
-               " LEFT JOIN TSPL_GENERATE_SALARY_PAYHEADS " & _
-               " ON TAB.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE " & _
-               " WHERE TSPL_GENERATE_SALARY_PAYHEADS.SUB_HEAD_TYPE IN ('EMPESI','COESI')) FINAL " & _
-               " WHERE " & strTableName & ".EMP_CODE=FINAL.EMP_CODE " & _
+        strq = "UPDATE " & strTableName & " SET PREV_ESI=FINAL.ACTUAL_AMOUNT FROM " &
+               " ( " &
+               " SELECT TAB.SALARY_GENERATION_CODE,TAB.PAY_PERIOD_CODE, " &
+               " TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE,TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE, " &
+               " TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT FROM ( " &
+               " SELECT TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE,TSPL_GENERATE_SALARY.PAY_PERIOD_CODE FROM TSPL_GENERATE_SALARY INNER JOIN TSPL_PAYPERIOD_MASTER " &
+               " ON TSPL_GENERATE_SALARY.PAY_PERIOD_CODE=TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE " &
+               " WHERE TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE IN  " &
+               " (SELECT PAY_PERIOD_CODE FROM TSPL_PAYPERIOD_MASTER WHERE DATE_FROM='" & clsCommon.GetPrintDate(PP_END_DATE.AddMonths(-1), "dd/MMM/yyyy") & "')) TAB " &
+               " LEFT JOIN TSPL_GENERATE_SALARY_PAYHEADS " &
+               " ON TAB.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE " &
+               " WHERE TSPL_GENERATE_SALARY_PAYHEADS.SUB_HEAD_TYPE IN ('EMPESI','COESI')) FINAL " &
+               " WHERE " & strTableName & ".EMP_CODE=FINAL.EMP_CODE " &
                " AND " & strTableName & ".PAY_HEAD_CODE=FINAL.PAY_HEAD_CODE and " & strTableName & ".PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "' and Is_Earning_Payhead=" + isEarning + ""
 
         If Not clsDBFuncationality.ExecuteNonQuery(strq, trans) Then
@@ -5299,9 +5299,9 @@ Public Class clsSalaryGeneration
 
         '' Mediclaim CALCULATION
         clsCommon.ProgressBarUpdate("updating Mediclaim...")
-        strq = " UPDATE " & strTableName & " SET ACTUAL_AMOUNT=mediclim.Total_Amount " & _
-               " from (select EMP_CODE,SUM(Total_Amount) AS Total_Amount from TSPL_MEDICLAIM_HEAD " & _
-               " where PAY_PERIOD_CODE is null or PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "' GROUP BY EMP_CODE) as mediclim " & _
+        strq = " UPDATE " & strTableName & " SET ACTUAL_AMOUNT=mediclim.Total_Amount " &
+               " from (select EMP_CODE,SUM(Total_Amount) AS Total_Amount from TSPL_MEDICLAIM_HEAD " &
+               " where PAY_PERIOD_CODE is null or PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "' GROUP BY EMP_CODE) as mediclim " &
                " where " & strTableName & ".EMP_CODE=mediclim.EMP_CODE AND " & strTableName & ".SUB_HEAD_TYPE='Mediclaim' and " & strTableName & ".PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "' and Is_Earning_Payhead=" + isEarning + ""
         Dim STRQ1 As String
         STRQ1 = "update TSPL_MEDICLAIM_HEAD set PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "' where PAY_PERIOD_CODE is null "
@@ -5311,9 +5311,9 @@ Public Class clsSalaryGeneration
 
         '' Gratuity CALCULATION
         clsCommon.ProgressBarUpdate("updating Gratuity...")
-        strq = " UPDATE " & strTableName & " SET ACTUAL_AMOUNT=GRATUITY.Total_Amount " & _
-               " from (select EMP_CODE,SUM(GRATUITYAMT) AS Total_Amount from TSPL_GRATUITY  " & _
-               " where PAY_PERIOD_CODE is null or PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "' GROUP BY EMP_CODE) as GRATUITY " & _
+        strq = " UPDATE " & strTableName & " SET ACTUAL_AMOUNT=GRATUITY.Total_Amount " &
+               " from (select EMP_CODE,SUM(GRATUITYAMT) AS Total_Amount from TSPL_GRATUITY  " &
+               " where PAY_PERIOD_CODE is null or PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "' GROUP BY EMP_CODE) as GRATUITY " &
                " where " & strTableName & ".EMP_CODE=GRATUITY.EMP_CODE AND " & strTableName & ".SUB_HEAD_TYPE='Gratuity' and " & strTableName & ".PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "' and Is_Earning_Payhead=" + isEarning + ""
 
         STRQ1 = "update TSPL_GRATUITY set PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "' where PAY_PERIOD_CODE is null"
@@ -5323,9 +5323,9 @@ Public Class clsSalaryGeneration
 
         '' LTA CALCULATION
         clsCommon.ProgressBarUpdate("updating LTA...")
-        strq = " UPDATE " & strTableName & " SET ACTUAL_AMOUNT=LTA.Total_Amount " & _
-               " from (select EMP_CODE,SUM(Claim_Amount) AS Total_Amount from TSPL_LTA_Claim_Head   " & _
-               " where PAY_PERIOD_CODE is null or PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "' GROUP BY EMP_CODE) as LTA " & _
+        strq = " UPDATE " & strTableName & " SET ACTUAL_AMOUNT=LTA.Total_Amount " &
+               " from (select EMP_CODE,SUM(Claim_Amount) AS Total_Amount from TSPL_LTA_Claim_Head   " &
+               " where PAY_PERIOD_CODE is null or PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "' GROUP BY EMP_CODE) as LTA " &
                " where " & strTableName & ".EMP_CODE=LTA.EMP_CODE AND " & strTableName & ".SUB_HEAD_TYPE='LTA' and " & strTableName & ".PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "' and Is_Earning_Payhead=" + isEarning + ""
 
         STRQ1 = "update TSPL_LTA_Claim_Head set PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "' where PAY_PERIOD_CODE is null"
@@ -5335,9 +5335,9 @@ Public Class clsSalaryGeneration
 
         '' Conveyance
         clsCommon.ProgressBarUpdate("updating Conveyance...")
-        strq = " UPDATE " & strTableName & " SET ACTUAL_AMOUNT=(CASE WHEN MAX_AMOUNT>0 AND  Conv.Total_Amount>MAX_AMOUNT THEN  MAX_AMOUNT ELSE Conv.Total_Amount END)  " & _
-               " from (select EMP_CODE,SUM(Claim_Amount) AS Total_Amount from TSPL_CONVEYANCE_CLAIM   " & _
-               " where PAY_PERIOD_CODE is null or PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "' GROUP BY EMP_CODE) as Conv " & _
+        strq = " UPDATE " & strTableName & " SET ACTUAL_AMOUNT=(CASE WHEN MAX_AMOUNT>0 AND  Conv.Total_Amount>MAX_AMOUNT THEN  MAX_AMOUNT ELSE Conv.Total_Amount END)  " &
+               " from (select EMP_CODE,SUM(Claim_Amount) AS Total_Amount from TSPL_CONVEYANCE_CLAIM   " &
+               " where PAY_PERIOD_CODE is null or PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "' GROUP BY EMP_CODE) as Conv " &
                " where " & strTableName & ".EMP_CODE=Conv.EMP_CODE AND " & strTableName & ".SUB_HEAD_TYPE='Conveyance' and " & strTableName & ".PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "' and Is_Earning_Payhead=" + isEarning + ""
 
         STRQ1 = "update TSPL_CONVEYANCE_CLAIM set PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "' where PAY_PERIOD_CODE is null"
@@ -5345,9 +5345,38 @@ Public Class clsSalaryGeneration
             Throw New Exception("Error in Updating Conveyance !")
         End If
 
+
+        ''-------------------Deduction According Leave Master Apply Leave Type Ded Is 1
+        Dim check As String = "Select * from TSPL_LEAVE_MASTER where APPLY_LEAVE_TYPE_DED=1"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(check, trans)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            check = Nothing
+            For Each row As DataRow In dt.Rows
+                If clsCommon.CompairString(row("Leave_Type"), "EL") = CompairStringResult.Equal Then
+                    check += " + TSPL_MONTHLY_ATTENDANCE_DETAIL.Earned_Leave "
+                End If
+                If clsCommon.CompairString(row("Leave_Type"), "CL") = CompairStringResult.Equal Then
+                    check += " + TSPL_MONTHLY_ATTENDANCE_DETAIL.Casual_Leave "
+                End If
+                If clsCommon.CompairString(row("Leave_Type"), "MED") = CompairStringResult.Equal Then
+                    check += " + TSPL_MONTHLY_ATTENDANCE_DETAIL.Medical_Leave "
+                End If
+            Next
+            strq = " UPDATE " & strTableName & " Set ACTUAL_AMOUNT=(RATE_AMOUNT/30)*(30-(" & strTableName & ".ABSENT_DAYS " & check & ")) from
+                TSPL_MONTHLY_ATTENDANCE_DETAIL Inner Join TSPL_MONTHLY_ATTENDANCE On TSPL_MONTHLY_ATTENDANCE.MTA_CODE=TSPL_MONTHLY_ATTENDANCE_DETAIL.MTA_CODE
+                where TSPL_MONTHLY_ATTENDANCE_DETAIL.EMP_CODE=TSPL_SALARY_CALCULATION.EMP_CODE and
+                TSPL_MONTHLY_ATTENDANCE.PAY_PERIOD_CODE ='" & PAY_PERIOD_CODE & "'  AND  " & strTableName & ".HEAD_TYPE='FIXED' And
+                " & strTableName & ".SUB_HEAD_TYPE In (Select SUB_HEAD_TYPE from TSPL_PAYHEAD_MASTER where HEAD_TYPE='FIXED' And CALC_BASIS='FIXED_30_DAYS') 
+                And TSPL_SALARY_CALCULATION.PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "' and Is_Earning_Payhead=1 and CALC_BASIS='FIXED_30_DAYS'"
+            If Not (clsDBFuncationality.ExecuteNonQuery(strq, trans)) Then
+                Throw New Exception("Error in Updating Apply Leave Type Deduction !")
+            End If
+        End If
+
+
         ''update pension of employees having age equal to or greater than 58 years
         clsCommon.ProgressBarUpdate("Applying 58 years condition in Pension...")
-        strq = " UPDATE  " & strTableName & " SET CoEPS_AMT_AC10=0  where SUB_HEAD_TYPE='EPF' and ACTUAL_AMOUNT>0 and " & strTableName & ".PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "'" & _
+        strq = " UPDATE  " & strTableName & " SET CoEPS_AMT_AC10=0  where SUB_HEAD_TYPE='EPF' and ACTUAL_AMOUNT>0 and " & strTableName & ".PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "'" &
                 " AND EMP_CODE IN (SELECT EMP_CODE FROM TSPL_EMPLOYEE_MASTER where DATEADD(year,Age_For_Pension,CONVERT(DATE,Birth_date,103))<='" & clsCommon.GetPrintDate(objPP.DATE_TO, "dd/MMM/yyyy") & "' and Age_For_Pension>0 ) and Is_Earning_Payhead=" + isEarning + ";"
         If Not clsDBFuncationality.ExecuteNonQuery(strq, trans) Then
             Throw New Exception("Error in Updating pension of employees having age equal to or graeter than 58 years !")
@@ -5416,7 +5445,7 @@ Public Class clsSalaryGeneration
 
         ''update pension of employees having age equal to or greater than 58 years after arrear calculation
         clsCommon.ProgressBarUpdate("Applying 58 years condition in Pension...")
-        strq = " UPDATE  " & strTableName & " SET CoEPS_AMT_AC10=0  where SUB_HEAD_TYPE='EPF' and ACTUAL_AMOUNT>0 and " & strTableName & ".PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "'" & _
+        strq = " UPDATE  " & strTableName & " SET CoEPS_AMT_AC10=0  where SUB_HEAD_TYPE='EPF' and ACTUAL_AMOUNT>0 and " & strTableName & ".PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "'" &
                 " AND EMP_CODE IN (SELECT EMP_CODE FROM TSPL_EMPLOYEE_MASTER where DATEADD(year,Age_For_Pension,CONVERT(DATE,Birth_date,103))<='" & clsCommon.GetPrintDate(objPP.DATE_TO, "dd/MMM/yyyy") & "' and Age_For_Pension>0 ) and Is_Earning_Payhead=" + isEarning + ";"
         If Not clsDBFuncationality.ExecuteNonQuery(strq, trans) Then
             Throw New Exception("Error in Updating pension of employees having age equal to or graeter than 58 years !")
@@ -5529,18 +5558,18 @@ Public Class clsSalaryGeneration
         strq = "select PAY_HEAD_CODE from TSPL_PAYHEAD_MASTER where SUB_HEAD_TYPE='TDS'"
         Dim strTDS As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strq, trans))
         If clsCommon.myLen(strTDS) > 0 Then
-            strq = "select Fiscal_Code from TSPL_Fiscal_Year_Master where exists(select 1 from TSPL_PAYPERIOD_MASTER where PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "'" + Environment.NewLine + _
-            "and convert(date,TSPL_PAYPERIOD_MASTER.DATE_FROM,103)>= convert(date, TSPL_Fiscal_Year_Master.Start_Date,103)  " + Environment.NewLine + _
+            strq = "select Fiscal_Code from TSPL_Fiscal_Year_Master where exists(select 1 from TSPL_PAYPERIOD_MASTER where PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "'" + Environment.NewLine +
+            "and convert(date,TSPL_PAYPERIOD_MASTER.DATE_FROM,103)>= convert(date, TSPL_Fiscal_Year_Master.Start_Date,103)  " + Environment.NewLine +
             "and convert(date,TSPL_PAYPERIOD_MASTER.DATE_FROM,103)<= convert(date, TSPL_Fiscal_Year_Master.End_Date,103))"
             Dim strFiscalCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strq, trans))
             If clsCommon.myLen(strFiscalCode) > 0 Then
-                strq = "UPDATE " & strTableName & " SET ACTUAL_AMOUNT=xx.Total_TDS_Amt from (" + Environment.NewLine + _
-                "select TSPL_HR_TDS_INCOME_TAX_CALCULATION_EMP.Emp_Code,cast( TSPL_HR_TDS_INCOME_TAX_CALCULATION_EMP.Total_TDS_Amt/12 as decimal(18,2)) as Total_TDS_Amt from TSPL_HR_TDS_INCOME_TAX_CALCULATION_EMP" + Environment.NewLine + _
-                "left outer join TSPL_HR_TDS_INCOME_TAX_CALCULATION_HEAD on TSPL_HR_TDS_INCOME_TAX_CALCULATION_HEAD.Code=TSPL_HR_TDS_INCOME_TAX_CALCULATION_EMP.Code" + Environment.NewLine + _
-                "where TSPL_HR_TDS_INCOME_TAX_CALCULATION_HEAD.Status=1" + Environment.NewLine + _
-                "and Fiscal_Code ='" + strFiscalCode + "'" + Environment.NewLine + _
-                ")xx inner join " & strTableName & " on " & strTableName & ".EMP_CODE=xx.Emp_Code" + Environment.NewLine + _
-                "inner join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE=" & strTableName & ".PAY_HEAD_CODE" + Environment.NewLine + _
+                strq = "UPDATE " & strTableName & " SET ACTUAL_AMOUNT=xx.Total_TDS_Amt from (" + Environment.NewLine +
+                "select TSPL_HR_TDS_INCOME_TAX_CALCULATION_EMP.Emp_Code,cast( TSPL_HR_TDS_INCOME_TAX_CALCULATION_EMP.Total_TDS_Amt/12 as decimal(18,2)) as Total_TDS_Amt from TSPL_HR_TDS_INCOME_TAX_CALCULATION_EMP" + Environment.NewLine +
+                "left outer join TSPL_HR_TDS_INCOME_TAX_CALCULATION_HEAD on TSPL_HR_TDS_INCOME_TAX_CALCULATION_HEAD.Code=TSPL_HR_TDS_INCOME_TAX_CALCULATION_EMP.Code" + Environment.NewLine +
+                "where TSPL_HR_TDS_INCOME_TAX_CALCULATION_HEAD.Status=1" + Environment.NewLine +
+                "and Fiscal_Code ='" + strFiscalCode + "'" + Environment.NewLine +
+                ")xx inner join " & strTableName & " on " & strTableName & ".EMP_CODE=xx.Emp_Code" + Environment.NewLine +
+                "inner join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE=" & strTableName & ".PAY_HEAD_CODE" + Environment.NewLine +
                 "where " & strTableName & ".PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "' and TSPL_PAYHEAD_MASTER.SUB_HEAD_TYPE='" + strTDS + "' and Is_Earning_Payhead=" + isEarning + ""
                 If Not clsDBFuncationality.ExecuteNonQuery(strq, trans) Then
                     Throw New Exception("Error in Updating TDS Amount !")

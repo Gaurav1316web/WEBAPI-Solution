@@ -237,7 +237,7 @@ Partial Class rptDBTSummaryMonthlyWise
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(30, 18)
         Me.MyLabel2.TabIndex = 356
-        Me.MyLabel2.Text = "BMC"
+        Me.MyLabel2.Text = "MCC"
         '
         'RadPageViewPage2
         '
