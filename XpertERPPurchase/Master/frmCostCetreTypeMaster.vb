@@ -91,8 +91,15 @@ Public Class FrmCostCetreTypeMaster
         btnSave.Text = "Save"
         btnSave.Enabled = True
         btnDelete.Enabled = False
-        txtDepartment.Value = ""
+        Txtdepartmentcost.Value = ""
+        Txtdepartmentcost.Enabled = True
+        txtUnitCode.Value = ""
+        txtCostCenterType.Value = ""
         lblDepartmentDes.Text = ""
+        lblUnitDesc.Text = ""
+        txtdes.Text = ""
+        Txtdepartmentcost.Value = ""
+        Labdepartmentcost.Text = ""
     End Sub
     Public Sub Save()
         Try
@@ -108,10 +115,21 @@ Public Class FrmCostCetreTypeMaster
                 Dim obj As New clsCostCenterTypeMaster()
                 obj.Code = txtCode.Value
                 obj.Description = txtName.Text
-                obj.Department = txtDepartment.Value
+                obj.Department_Cost = Txtdepartmentcost.Value
+                obj.Unit_Code = txtUnitCode.Value
+                obj.Cost_Code = txtCostCenterType.Value
+                'obj.Department_Cost = Txtdepartmentcost.Value
+
+                Dim checkEntry As String = "Select 1 from TSPL_COST_CENTER_TYPE_MASTER where Code='" + txtCode.Value + "' "
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(checkEntry)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    isNewEntry = False
+                Else
+                    isNewEntry = True
+                End If
 
                 If (clsCostCenterTypeMaster.SaveData(obj, isNewEntry, Nothing)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Code, NavigatorType.Current)
                     btnSave.Text = "Update"
                     btnDelete.Enabled = True
@@ -133,18 +151,26 @@ Public Class FrmCostCetreTypeMaster
             Return False
             'End If
         ElseIf clsCommon.myLen(txtCode.Value) > 30 Then
-            clsCommon.MyMessageBoxShow("Code Max Length should be 30")
+            clsCommon.MyMessageBoxShow(Me, "Code Max Length should be 30", Me.Text)
             txtCode.Focus()
             Return False
         ElseIf clsCommon.myLen(txtName.Text) <= 0 Then
             myMessages.blankValue(Me, "Description", Me.Text)
             txtName.Focus()
             Return False
-        ElseIf clsCommon.myLen(txtDepartment.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Department")
-            txtDepartment.Focus()
+        ElseIf clsCommon.myLen(Txtdepartmentcost.Value) <= 0 Then
+            clsCommon.MyMessageBoxShow(Me, "Please Select Department", Me.Text)
+            Txtdepartmentcost.Focus()
             Return False
         End If
+
+        Dim checkEntry As String = "Select 1 from TSPL_COST_CENTER_TYPE_MASTER where Department_Cost='" + Labdepartmentcost.Text + "' "
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(checkEntry)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            clsCommon.MyMessageBoxShow(Me, "Department already exist", Me.Text)
+            Return False
+        End If
+
         Return True
     End Function
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -155,23 +181,46 @@ Public Class FrmCostCetreTypeMaster
         Dim obj As New clsCostCenterTypeMaster()
         obj = clsCostCenterTypeMaster.GetData(strCode, NavTyep)
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0) Then
+
             'funReset()
             isNewEntry = False
             btnSave.Text = "Update"
             btnDelete.Enabled = True
             txtCode.Value = obj.Code
             txtName.Text = obj.Description
-            txtDepartment.Value = obj.Department
-            If clsCommon.myLen(txtDepartment.Value) > 0 Then
-                lblDepartmentDes.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select DEPARTMENT_NAME from TSPL_DEPARTMENT_MASTER where DEPARTMENT_CODE='" + txtDepartment.Value + "'"))
-            Else
-                lblDepartmentDes.Text = ""
+            Txtdepartmentcost.Value = obj.Department_Cost
+            Labdepartmentcost.Text = obj.Department_Cost
+            If clsCommon.myLen(Txtdepartmentcost.Value) > 0 Then
+                Txtdepartmentcost.Enabled = False
             End If
-        End If
+            'txtlblDepartmentDes.Text = obj.Department
+            txtUnitCode.Value = obj.Unit_Code
+                txtCostCenterType.Value = obj.Cost_Code
+            If clsCommon.myLen(Txtdepartmentcost.Value) > 0 Then
+                Labdepartmentcost.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select DEPARTMENT_NAME from TSPL_DEPARTMENT_MASTER where DEPARTMENT_CODE='" + Txtdepartmentcost.Value + "'"))
+            Else
+                Labdepartmentcost.Text = ""
+            End If
+            If clsCommon.myLen(Labdepartmentcost.Text) > 0 Then
+                Txtdepartmentcost.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Segment_code from TSPL_GL_SEGMENT_CODE where Description='" + Labdepartmentcost.Text + "'"))
+
+            End If
+            If clsCommon.myLen(txtUnitCode.Value) > 0 Then
+                    lblUnitDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_COST_CENTER_UNIT_MASTER where Code='" + txtUnitCode.Value + "'"))
+                Else
+                    lblUnitDesc.Text = ""
+                End If
+
+                If clsCommon.myLen(txtCostCenterType.Value) > 0 Then
+                    txtdes.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cost_name from TSPL_CostCenter_MASTER where Cost_Code='" + txtCostCenterType.Value + "'"))
+                Else
+                    txtdes.Text = ""
+                End If
+            End If
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         ' Code Ends 
@@ -233,7 +282,7 @@ Public Class FrmCostCetreTypeMaster
                 End Try
                 tran.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)
@@ -259,16 +308,72 @@ Public Class FrmCostCetreTypeMaster
     End Sub
 
     Private Sub txtDepartment__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDepartment._MYValidating
+        'Try
+        '    'Dim Qry As String = "select  Segment_code , Segment_name  from TSPL_GL_SEGMENT_CODE "
+        '    Dim qry As String = "select DEPARTMENT_CODE as Code,DEPARTMENT_NAME as Name from TSPL_DEPARTMENT_MASTER"
+
+        '    'Dim qry As String = "select Segment_code as Code,Description as Name from TSPL_GL_SEGMENT_CODE "
+        '    txtDepartment.Value = clsCommon.ShowSelectForm("fndDepartment", qry, "Code", "", txtDepartment.Value, "Code", isButtonClicked)
+        '    If clsCommon.myLen(txtDepartment.Value) > 0 Then
+        '        lblDepartmentDes.Text = clsDBFuncationality.getSingleValue("Select Description from TSPL_GL_SEGMENT_CODE Where Segment_code='" + txtDepartment.Value + "' ")
+        '    Else
+        '        lblDepartmentDes.Text = ""
+        '    End If
+        'Catch ex As Exception
+        '    common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        'End Try
+    End Sub
+
+    Private Sub txtUnitCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtUnitCode._MYValidating
         Try
-            Dim Qry As String = "select  DEPARTMENT_CODE , DEPARTMENT_NAME  from TSPL_DEPARTMENT_MASTER "
-            txtDepartment.Value = clsCommon.ShowSelectForm("fndDepartment", Qry, "DEPARTMENT_CODE", "", txtDepartment.Value, "DEPARTMENT_CODE", isButtonClicked)
-            If clsCommon.myLen(txtDepartment.Value) > 0 Then
-                lblDepartmentDes.Text = clsDBFuncationality.getSingleValue("Select DEPARTMENT_NAME from TSPL_DEPARTMENT_MASTER Where DEPARTMENT_CODE='" + txtDepartment.Value + "' ")
+            Dim obj As clsUnitMaster = clsUnitMaster.Finder(txtUnitCode.Value, isButtonClicked)
+            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0 Then
+                txtUnitCode.Value = obj.Code
+                lblUnitDesc.Text = obj.Description
             Else
-                lblDepartmentDes.Text = ""
+                txtUnitCode.Value = ""
+                lblUnitDesc.Text = ""
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+    End Sub
+
+    Private Sub txtCostCenterType__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCostCenterType._MYValidating
+        'Try
+        '    Dim Qry As String = "select  DEPARTMENT_CODE , DEPARTMENT_NAME  from TSPL_DEPARTMENT_MASTER "
+        '    txtCostCenterType.Value = clsCommon.ShowSelectForm("fndDepartment", Qry, "DEPARTMENT_CODE", "", txtCostCenterType.Value, "DEPARTMENT_CODE", isButtonClicked)
+        '    If clsCommon.myLen(txtCostCenterType.Value) > 0 Then
+        '        txtdes.Text = clsDBFuncationality.getSingleValue("Select DEPARTMENT_NAME from TSPL_DEPARTMENT_MASTER Where DEPARTMENT_CODE='" + txtCostCenterType.Value + "' ")
+        '    Else
+        '        txtdes.Text = ""
+        '    End If
+        'Catch ex As Exception
+        '    common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        'End Try
+        If txtCostCenterType.MyReadOnly OrElse isButtonClicked Then
+            txtCostCenterType.Value = ClsCostCenter.getFinder("", txtCostCenterType.Value, isButtonClicked)
+            txtdes.Text = clsDBFuncationality.getSingleValue("Select TSPL_CostCenter_MASTER.Cost_name as [Cost Name] from TSPL_CostCenter_MASTER Where Cost_Code='" + txtCostCenterType.Value + "' ")
+
+            LoadData(txtCostCenterType.Value, NavigatorType.Current)
+        End If
+    End Sub
+
+    Private Sub Txtdepartmentcost__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles Txtdepartmentcost._MYValidating
+        Try
+            'Dim Qry As String = "select  Segment_code , Segment_name  from TSPL_GL_SEGMENT_CODE "
+            Dim qry As String = "select Segment_code as Code,Description as Name from TSPL_GL_SEGMENT_CODE "
+            Txtdepartmentcost.Value = clsCommon.ShowSelectForm("fndDepartment", qry, "Code", "Seg_No=3", Txtdepartmentcost.Value, "Code", isButtonClicked)
+            If clsCommon.myLen(Txtdepartmentcost.Value) > 0 Then
+                Labdepartmentcost.Text = clsDBFuncationality.getSingleValue("Select Description from TSPL_GL_SEGMENT_CODE Where Segment_code='" + Txtdepartmentcost.Value + "' ")
+            Else
+                Labdepartmentcost.Text = ""
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+
 End Class

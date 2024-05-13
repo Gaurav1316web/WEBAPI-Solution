@@ -4,7 +4,10 @@ Public Class clsCostCenterTypeMaster
 #Region "Variables"
     Public Code As String = Nothing
     Public Description As String = Nothing
-    Public Department As String = Nothing
+    Public Unit_Code As String = Nothing
+    Public Cost_Code As String = Nothing
+    'Public Department As String = Nothing
+    Public Department_Cost As String = Nothing
 
 #End Region
 
@@ -14,7 +17,10 @@ Public Class clsCostCenterTypeMaster
         Try
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
-            clsCommon.AddColumnsForChange(coll, "Department", obj.Department, True)
+            clsCommon.AddColumnsForChange(coll, "Unit_Code", obj.Unit_Code)
+            clsCommon.AddColumnsForChange(coll, "Cost_Code", obj.Cost_Code)
+            clsCommon.AddColumnsForChange(coll, "Department_Cost", obj.Department_Cost)
+            'clsCommon.AddColumnsForChange(coll, "Department", obj.Department, True)
             clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             If isNewEntry Then
@@ -47,7 +53,7 @@ Public Class clsCostCenterTypeMaster
 
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType) As clsCostCenterTypeMaster
         Dim obj As clsCostCenterTypeMaster = Nothing
-        Dim qry As String = "select TSPL_COST_CENTER_TYPE_MASTER.* from TSPL_COST_CENTER_TYPE_MASTER   where 2=2 "
+        Dim qry As String = "select TSPL_COST_CENTER_TYPE_MASTER.* from TSPL_COST_CENTER_TYPE_MASTER   where 2=2"
         Dim whrclas As String = ""
         Select Case NavType
             Case NavigatorType.First
@@ -66,7 +72,10 @@ Public Class clsCostCenterTypeMaster
             obj = New clsCostCenterTypeMaster()
             obj.Code = clsCommon.myCstr(dt.Rows(0)("Code"))
             obj.Description = clsCommon.myCstr(dt.Rows(0)("Description"))
-            obj.Department = clsCommon.myCstr(dt.Rows(0)("Department"))
+            obj.Unit_Code = clsCommon.myCstr(dt.Rows(0)("Unit_Code"))
+            obj.Cost_Code = clsCommon.myCstr(dt.Rows(0)("Cost_Code"))
+            'obj.Department = clsCommon.myCstr(dt.Rows(0)("Department"))
+            obj.Department_Cost = clsCommon.myCstr(dt.Rows(0)("Department_Cost"))
         End If
         Return obj
     End Function
@@ -88,7 +97,7 @@ Public Class clsCostCenterTypeMaster
 
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
-        Dim qry As String = "select TSPL_COST_CENTER_TYPE_MASTER.Code,TSPL_COST_CENTER_TYPE_MASTER.Description from TSPL_COST_CENTER_TYPE_MASTER "
+        Dim qry As String = "select TSPL_COST_CENTER_TYPE_MASTER.Code,TSPL_COST_CENTER_TYPE_MASTER.Description,TSPL_COST_CENTER_TYPE_MASTER.Department_Cost,TSPL_COST_CENTER_TYPE_MASTER.Created_By,TSPL_COST_CENTER_TYPE_MASTER.Created_Date,TSPL_COST_CENTER_TYPE_MASTER.Modify_By,TSPL_COST_CENTER_TYPE_MASTER.Modify_Date from TSPL_COST_CENTER_TYPE_MASTER "
         str = clsCommon.ShowSelectForm("AreaFnd", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
         Return str
 
@@ -98,7 +107,7 @@ Public Class clsCostCenterTypeMaster
         Dim qry As String = "select TSPL_COST_CENTER_TYPE_MASTER.Code,TSPL_COST_CENTER_TYPE_MASTER.Description from TSPL_COST_CENTER_TYPE_MASTER"
         Dim WhrCls As String = Nothing
         'If clsCommon.myLen(StrDept) > 0 Then
-        WhrCls = " TSPL_COST_CENTER_TYPE_MASTER.Department='" + StrDept + "'"
+        WhrCls = " TSPL_COST_CENTER_TYPE_MASTER.Department_Cost='" + StrDept + "'"
         ' End If
         strCode = clsCommon.ShowSelectForm("UnitMaster", qry, "Code", WhrCls, strCode, "Code", isButtonClicked)
         If clsCommon.myLen(strCode) > 0 Then
