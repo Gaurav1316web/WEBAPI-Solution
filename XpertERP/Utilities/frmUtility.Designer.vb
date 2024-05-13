@@ -9439,7 +9439,7 @@ Partial Class FrmUtility
         Me.GroupBox110.Size = New System.Drawing.Size(403, 44)
         Me.GroupBox110.TabIndex = 386
         Me.GroupBox110.TabStop = False
-        Me.GroupBox110.Text = "VSP Master & Exist VSP Code in Table"
+        Me.GroupBox110.Text = "Secretary Master & Exist Secretary Code in Table"
         '
         'RadButton347
         '

@@ -1063,7 +1063,7 @@ Partial Class frmMCCMaterialSale
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(28, 16)
         Me.MyLabel1.TabIndex = 137
-        Me.MyLabel1.Text = "VLC"
+        Me.MyLabel1.Text = "DCS"
         '
         'txtGRNo
         '

@@ -22,9 +22,16 @@ Partial Class rpttotalMilkProcurement
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.ddlUOM = New Telerik.WinControls.UI.RadDropDownList()
+        Me.lblUOM = New common.Controls.MyLabel()
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.ChkDetailWise = New System.Windows.Forms.RadioButton()
+        Me.chkSummarywise = New System.Windows.Forms.RadioButton()
         Me.TxtDocType = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.TxtVendorCode = New common.UserControls.txtMultiSelectFinder()
@@ -49,17 +56,16 @@ Partial Class rpttotalMilkProcurement
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.ChkDetailWise = New System.Windows.Forms.RadioButton()
-        Me.chkSummarywise = New System.Windows.Forms.RadioButton()
-        Me.lblUOM = New common.Controls.MyLabel()
-        Me.ddlUOM = New Telerik.WinControls.UI.RadDropDownList()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.ddlUOM, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblUOM, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox3.SuspendLayout()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblVendor, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblMCCCode, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -79,10 +85,6 @@ Partial Class rpttotalMilkProcurement
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox3.SuspendLayout()
-        CType(Me.lblUOM, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ddlUOM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -122,12 +124,10 @@ Partial Class rpttotalMilkProcurement
         '
         Me.RadPageView1.RootElement.AccessibleDescription = "Report1"
         Me.RadPageView1.RootElement.AccessibleName = "Report1"
-        Me.RadPageView1.RootElement.Text = "Report1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(760, 460)
         Me.RadPageView1.TabIndex = 3
         Me.RadPageView1.TabStop = False
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0).GetChildAt(2), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Filter"
         CType(Me.RadPageView1.GetChildAt(0).GetChildAt(3), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Filter"
@@ -149,6 +149,60 @@ Partial Class rpttotalMilkProcurement
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(739, 412)
         Me.RadPageViewPage1.Text = "Filter"
+        '
+        'ddlUOM
+        '
+        Me.ddlUOM.AutoCompleteDisplayMember = Nothing
+        Me.ddlUOM.AutoCompleteValueMember = Nothing
+        Me.ddlUOM.DropDownAnimationEnabled = True
+        Me.ddlUOM.Location = New System.Drawing.Point(62, 124)
+        Me.ddlUOM.Name = "ddlUOM"
+        Me.ddlUOM.Size = New System.Drawing.Size(121, 20)
+        Me.ddlUOM.TabIndex = 399
+        '
+        'lblUOM
+        '
+        Me.lblUOM.FieldName = Nothing
+        Me.lblUOM.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblUOM.Location = New System.Drawing.Point(3, 126)
+        Me.lblUOM.Name = "lblUOM"
+        Me.lblUOM.Size = New System.Drawing.Size(33, 16)
+        Me.lblUOM.TabIndex = 361
+        Me.lblUOM.Text = "UOM"
+        '
+        'RadGroupBox3
+        '
+        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.ChkDetailWise)
+        Me.RadGroupBox3.Controls.Add(Me.chkSummarywise)
+        Me.RadGroupBox3.HeaderText = ""
+        Me.RadGroupBox3.Location = New System.Drawing.Point(385, 7)
+        Me.RadGroupBox3.Name = "RadGroupBox3"
+        Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(162, 35)
+        Me.RadGroupBox3.TabIndex = 360
+        '
+        'ChkDetailWise
+        '
+        Me.ChkDetailWise.AutoSize = True
+        Me.ChkDetailWise.Location = New System.Drawing.Point(84, 9)
+        Me.ChkDetailWise.Name = "ChkDetailWise"
+        Me.ChkDetailWise.Size = New System.Drawing.Size(55, 17)
+        Me.ChkDetailWise.TabIndex = 0
+        Me.ChkDetailWise.Text = "Detail"
+        Me.ChkDetailWise.UseVisualStyleBackColor = True
+        '
+        'chkSummarywise
+        '
+        Me.chkSummarywise.AutoSize = True
+        Me.chkSummarywise.Checked = True
+        Me.chkSummarywise.Location = New System.Drawing.Point(7, 9)
+        Me.chkSummarywise.Name = "chkSummarywise"
+        Me.chkSummarywise.Size = New System.Drawing.Size(71, 17)
+        Me.chkSummarywise.TabIndex = 1
+        Me.chkSummarywise.TabStop = True
+        Me.chkSummarywise.Text = "Summary"
+        Me.chkSummarywise.UseVisualStyleBackColor = True
         '
         'TxtDocType
         '
@@ -265,14 +319,16 @@ Partial Class rpttotalMilkProcurement
         '
         Me.gv1.Location = New System.Drawing.Point(249, 17)
         '
-        'gv1
         '
+        '
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(10, 10)
         Me.gv1.TabIndex = 1
-        Me.gv1.Text = "RadGridView1"
         Me.gv1.Visible = False
         '
         'txtFromDate
@@ -346,14 +402,16 @@ Partial Class rpttotalMilkProcurement
         Me.gv.MasterTemplate.AllowAddNewRow = False
         Me.gv.MasterTemplate.AllowDeleteRow = False
         Me.gv.MasterTemplate.EnableFiltering = True
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowGroupPanel = False
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(739, 412)
         Me.gv.TabIndex = 3
-        Me.gv.Text = "gv"
         '
         'RadMenu1
         '
@@ -362,12 +420,9 @@ Partial Class rpttotalMilkProcurement
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(760, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmSaveLayout, Me.rmDeleteLayout})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
@@ -398,15 +453,11 @@ Partial Class rpttotalMilkProcurement
         '
         'Excel
         '
-        Me.Excel.AccessibleDescription = "Excel"
-        Me.Excel.AccessibleName = "Excel"
         Me.Excel.Name = "Excel"
         Me.Excel.Text = "Excel"
         '
         'PDF
         '
-        Me.PDF.AccessibleDescription = "PDF"
-        Me.PDF.AccessibleName = "PDF"
         Me.PDF.Name = "PDF"
         Me.PDF.Text = "PDF"
         '
@@ -440,59 +491,6 @@ Partial Class rpttotalMilkProcurement
         Me.btnGo.TabIndex = 8
         Me.btnGo.Text = ">>>"
         '
-        'RadGroupBox3
-        '
-        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox3.Controls.Add(Me.ChkDetailWise)
-        Me.RadGroupBox3.Controls.Add(Me.chkSummarywise)
-        Me.RadGroupBox3.HeaderText = ""
-        Me.RadGroupBox3.Location = New System.Drawing.Point(385, 7)
-        Me.RadGroupBox3.Name = "RadGroupBox3"
-        Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox3.Size = New System.Drawing.Size(162, 35)
-        Me.RadGroupBox3.TabIndex = 360
-        '
-        'ChkDetailWise
-        '
-        Me.ChkDetailWise.AutoSize = True
-        Me.ChkDetailWise.Location = New System.Drawing.Point(84, 9)
-        Me.ChkDetailWise.Name = "ChkDetailWise"
-        Me.ChkDetailWise.Size = New System.Drawing.Size(55, 17)
-        Me.ChkDetailWise.TabIndex = 0
-        Me.ChkDetailWise.Text = "Detail"
-        Me.ChkDetailWise.UseVisualStyleBackColor = True
-        '
-        'chkSummarywise
-        '
-        Me.chkSummarywise.AutoSize = True
-        Me.chkSummarywise.Checked = True
-        Me.chkSummarywise.Location = New System.Drawing.Point(7, 9)
-        Me.chkSummarywise.Name = "chkSummarywise"
-        Me.chkSummarywise.Size = New System.Drawing.Size(71, 17)
-        Me.chkSummarywise.TabIndex = 1
-        Me.chkSummarywise.TabStop = True
-        Me.chkSummarywise.Text = "Summary"
-        Me.chkSummarywise.UseVisualStyleBackColor = True
-        '
-        'lblUOM
-        '
-        Me.lblUOM.FieldName = Nothing
-        Me.lblUOM.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblUOM.Location = New System.Drawing.Point(3, 126)
-        Me.lblUOM.Name = "lblUOM"
-        Me.lblUOM.Size = New System.Drawing.Size(33, 16)
-        Me.lblUOM.TabIndex = 361
-        Me.lblUOM.Text = "UOM"
-        '
-        'ddlUOM
-        '
-        Me.ddlUOM.AutoCompleteDisplayMember = Nothing
-        Me.ddlUOM.AutoCompleteValueMember = Nothing
-        Me.ddlUOM.Location = New System.Drawing.Point(62, 124)
-        Me.ddlUOM.Name = "ddlUOM"
-        Me.ddlUOM.Size = New System.Drawing.Size(121, 20)
-        Me.ddlUOM.TabIndex = 399
-        '
         'rpttotalMilkProcurement
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -513,6 +511,11 @@ Partial Class rpttotalMilkProcurement
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.ddlUOM, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblUOM, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox3.ResumeLayout(False)
+        Me.RadGroupBox3.PerformLayout()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblVendor, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblMCCCode, System.ComponentModel.ISupportInitialize).EndInit()
@@ -533,11 +536,6 @@ Partial Class rpttotalMilkProcurement
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox3.ResumeLayout(False)
-        Me.RadGroupBox3.PerformLayout()
-        CType(Me.lblUOM, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ddlUOM, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

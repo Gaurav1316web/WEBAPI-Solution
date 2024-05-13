@@ -287,7 +287,7 @@ Partial Class rptTCSLedger
         Me.chkShowOnlyVSP.Name = "chkShowOnlyVSP"
         Me.chkShowOnlyVSP.Size = New System.Drawing.Size(94, 18)
         Me.chkShowOnlyVSP.TabIndex = 358
-        Me.chkShowOnlyVSP.Text = "Show only VSP"
+        Me.chkShowOnlyVSP.Text = "Show only Secretary"
         Me.chkShowOnlyVSP.Visible = False
         '
         'TxtRoute

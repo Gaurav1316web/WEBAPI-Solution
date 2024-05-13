@@ -109,7 +109,6 @@ Partial Class frmIssueReturn
         Me.gv2 = New common.UserControls.MyRadGridView()
         Me.RadLabel11 = New common.Controls.MyLabel()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -130,6 +129,7 @@ Partial Class frmIssueReturn
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -329,10 +329,10 @@ Partial Class frmIssueReturn
         Me.RadPageViewPage1.Controls.Add(Me.txtDocNo)
         Me.RadPageViewPage1.Controls.Add(Me.txtDate)
         Me.RadPageViewPage1.Controls.Add(Me.btnAddNew)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(124.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(120.0!, 24.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(949, 431)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(949, 435)
         Me.RadPageViewPage1.Text = "Issue/Return/Transfer"
         Me.RadPageViewPage1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -462,7 +462,7 @@ Partial Class frmIssueReturn
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.gv1)
-        Me.SplitContainer2.Size = New System.Drawing.Size(944, 140)
+        Me.SplitContainer2.Size = New System.Drawing.Size(944, 144)
         Me.SplitContainer2.SplitterDistance = 71
         Me.SplitContainer2.TabIndex = 72
         '
@@ -693,7 +693,7 @@ Partial Class frmIssueReturn
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(944, 65)
+        Me.gv1.Size = New System.Drawing.Size(944, 69)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
         '
@@ -880,7 +880,7 @@ Partial Class frmIssueReturn
         Me.MyLabel1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(732, 366)
+        Me.MyLabel1.Location = New System.Drawing.Point(732, 370)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(100, 16)
         Me.MyLabel1.TabIndex = 17
@@ -893,7 +893,7 @@ Partial Class frmIssueReturn
         Me.lblDocAmount.BorderVisible = True
         Me.lblDocAmount.FieldName = Nothing
         Me.lblDocAmount.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDocAmount.Location = New System.Drawing.Point(834, 364)
+        Me.lblDocAmount.Location = New System.Drawing.Point(834, 368)
         Me.lblDocAmount.Name = "lblDocAmount"
         Me.lblDocAmount.Size = New System.Drawing.Size(110, 18)
         Me.lblDocAmount.TabIndex = 15
@@ -905,7 +905,7 @@ Partial Class frmIssueReturn
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel5.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.MyLabel5.Location = New System.Drawing.Point(718, 417)
+        Me.MyLabel5.Location = New System.Drawing.Point(718, 421)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(235, 16)
         Me.MyLabel5.TabIndex = 0
@@ -919,7 +919,7 @@ Partial Class frmIssueReturn
         Me.UcItemBalance1.ItemCode = ""
         Me.UcItemBalance1.ItemMRP = 0R
         Me.UcItemBalance1.ItemName = ""
-        Me.UcItemBalance1.Location = New System.Drawing.Point(3, 357)
+        Me.UcItemBalance1.Location = New System.Drawing.Point(3, 361)
         Me.UcItemBalance1.LocationCode = ""
         Me.UcItemBalance1.LocationName = ""
         Me.UcItemBalance1.MaximumSize = New System.Drawing.Size(710, 70)
@@ -1466,7 +1466,7 @@ Partial Class frmIssueReturn
         Me.RadPageViewPage2.Controls.Add(Me.gv2)
         Me.RadPageViewPage2.Controls.Add(Me.lblTaxGrpName)
         Me.RadPageViewPage2.Controls.Add(Me.RadLabel11)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(70.0!, 28.0!)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(66.0!, 24.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(1047, 435)
@@ -1563,24 +1563,16 @@ Partial Class frmIssueReturn
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(86.0!, 28.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(82.0!, 24.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 37)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(874, 485)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
-        'UcCustomFields1
-        '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(874, 485)
-        Me.UcCustomFields1.TabIndex = 1
-        '
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 28.0!)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 24.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 37)
         Me.Attachments.Name = "Attachments"
         Me.Attachments.Size = New System.Drawing.Size(874, 485)
@@ -1603,7 +1595,7 @@ Partial Class frmIssueReturn
         Me.RadPageViewPage3.Controls.Add(Me.RadLabel25)
         Me.RadPageViewPage3.Controls.Add(Me.lblTaxAmt)
         Me.RadPageViewPage3.Controls.Add(Me.lblAmtAfterDiscount)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(41.0!, 28.0!)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(37.0!, 24.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
         Me.RadPageViewPage3.Size = New System.Drawing.Size(1047, 435)
@@ -1783,6 +1775,14 @@ Partial Class frmIssueReturn
         Me.btnSave.Size = New System.Drawing.Size(69, 22)
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
+        '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(874, 485)
+        Me.UcCustomFields1.TabIndex = 1
         '
         'frmIssueReturn
         '

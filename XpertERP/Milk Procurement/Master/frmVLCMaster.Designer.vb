@@ -549,7 +549,7 @@ Partial Class FrmVLCMaster
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(61, 16)
         Me.MyLabel2.TabIndex = 14
-        Me.MyLabel2.Text = "VSP Detail"
+        Me.MyLabel2.Text = "Secretary Detail"
         '
         'txtvsp
         '
@@ -876,7 +876,7 @@ Partial Class FrmVLCMaster
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(61, 16)
         Me.MyLabel1.TabIndex = 14
-        Me.MyLabel1.Text = "VSP Detail"
+        Me.MyLabel1.Text = "Secretary Detail"
         '
         'MyLabel3
         '

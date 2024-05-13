@@ -355,7 +355,7 @@ Partial Class ucPaymentProcess
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(26, 18)
         Me.MyLabel4.TabIndex = 284
-        Me.MyLabel4.Text = "VSP"
+        Me.MyLabel4.Text = "Secretary"
         '
         'txtNEFTUploaderREFNo
         '

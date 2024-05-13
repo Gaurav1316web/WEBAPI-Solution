@@ -1227,41 +1227,35 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
             Dim whrMonthCycleQry As String = Nothing
             If clsCommon.myLen(txtZone.Value) > 0 Then
                 whrQry = " where TSPL_ZONE_MASTER.Zone_Code='" + clsCommon.myCstr(txtZone.Value) + "'"
-                'Dim whrQry As String=" and TSPL_MILK_SRN_DETAIL.FAT_PER>" + clsCommon.myCstr(txtFatPer.Value) + " and TSPL_MILK_SRN_DETAIL.SNF_PER>" + clsCommon.myCstr(txtSnfPer.Value) + ""
             End If
-
             If ApplyMonthlySetting Then
                 whrMonthCycleQry = " where convert(Date, TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) >='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' And convert(Date, TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) <='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' "
             Else
                 whrMonthCycleQry = " where convert(Date, TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) ='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' "
             End If
-
             loadBlankGrid()
-
             Dim qry As String = "select xx.MCC_CODE,TSPL_MCC_MASTER.MCC_NAME,TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,xx.CycleYear,xx.CycleMonth,Convert(decimal(18,2),xx.Qty) As Qty,xx.UOM_Code,xx.FAT_KG,xx.SNF_KG,xx.AMOUNT,TSPL_VENDOR_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description as Zone_Name from (
-                                    select MCC_CODE,VSP_CODE,CycleYear,CycleMonth,sum(Qty+RQty) as Qty,max(UOM_Code) as UOM_Code,sum(FAT_KG) as FAT_KG,sum(SNF_KG) as SNF_KG,sum(AMOUNT) as AMOUNT  from (
-                                    select TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE,DATEPART(YEAR, TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE) as CycleYear,
-                                    DATEPART(MONTH, TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE) as CycleMonth,IsNull(TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT_LTR,0) AS Qty,IsNull(TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_LTR,0) AS RQty,TSPL_MILK_SRN_DETAIL.UOM_Code,TSPL_MILK_SRN_DETAIL.FAT_KG,TSPL_MILK_SRN_DETAIL.SNF_KG,TSPL_MILK_SRN_DETAIL.AMOUNT from 
-                                    TSPL_MILK_PURCHASE_INVOICE_DETAIL
-                                    left outer join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE=TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE 
-                                    left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE
-                                    left outer join TSPL_MILK_SRN_HEAD  on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE
-                                    left outer join TSPL_MILK_SAMPLE_DETAIL on TSPL_MILK_SAMPLE_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE
-				                                    And TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO=TSPL_MILK_SRN_HEAD.SAMPLE_NO
-                                    left outer join TSPL_MILK_SAMPLE_HEAD on TSPL_MILK_SAMPLE_HEAD.DOC_CODE=TSPL_MILK_SAMPLE_DETAIL.DOC_CODE
-                                    left outer join TSPL_MILK_RECEIPT_DETAIL on TSPL_MILK_RECEIPT_DETAIL.DOC_CODE=TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE 
-				                                    And TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO=TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO
-                                    left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE=TSPL_MILK_SRN_HEAD.Against_Reject_No
-                                    left outer join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK_REJECT_HEAD.DOC_CODE and TSPL_MILK_SRN_HEAD.SAMPLE_NO=TSPL_MILK_REJECT_DETAIL.SAMPLE_NO
-                                    left outer join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.Code= TSPL_MILK_REJECT_DETAIL.Reject_Type
-                                    " + whrMonthCycleQry + "
-                                    and 2=(case when len(isnull(TSPL_MILK_SRN_HEAD.Against_Reject_No,''))>0 then (case when isnull(TSPL_MILK_REJECT_TYPE.Include_In_DBT,0)=1 then 2 else 3 end ) else 2 end)
-                                    )X Group by MCC_CODE,VSP_CODE,CycleYear,CycleMonth
-                                    )xx 
-                                    left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=xx.MCC_CODE
-                                    left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=xx.VSP_CODE
-                                    left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code
-                                    left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_VENDOR_MASTER.Zone_Code" + whrQry
+select MCC_CODE,VSP_CODE,CycleYear,CycleMonth,sum(Qty+RQty) as Qty,max(UOM_Code) as UOM_Code,sum(FAT_KG) as FAT_KG,sum(SNF_KG) as SNF_KG,sum(AMOUNT) as AMOUNT  from (
+select TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE,DATEPART(YEAR, TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE) as CycleYear,
+DATEPART(MONTH, TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE) as CycleMonth
+,IsNull((case when TSPL_MILK_REJECT_TYPE.Code is null then TSPL_MILK_SRN_DETAIL.ACC_Qty_LTR else 0 end),0) AS Qty
+,IsNull((case when TSPL_MILK_REJECT_TYPE.Code is not null then TSPL_MILK_SRN_DETAIL.ACC_Qty_LTR else 0 end),0) AS RQty
+,TSPL_MILK_SRN_DETAIL.UOM_Code,TSPL_MILK_SRN_DETAIL.FAT_KG,TSPL_MILK_SRN_DETAIL.SNF_KG,TSPL_MILK_SRN_DETAIL.AMOUNT from 
+TSPL_MILK_PURCHASE_INVOICE_DETAIL
+left outer join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE=TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE 
+left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE
+left outer join TSPL_MILK_SRN_HEAD  on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE
+left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
+left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No
+left outer join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.Code= (case when TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No is not null then TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type else TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type end )
+" + whrMonthCycleQry + "
+and 2=(case when len(isnull(TSPL_MILK_REJECT_TYPE.Code,''))>0 then (case when isnull(TSPL_MILK_REJECT_TYPE.Include_In_DBT,0)=1 then 2 else 3 end ) else 2 end)
+)X Group by MCC_CODE,VSP_CODE,CycleYear,CycleMonth
+)xx 
+left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=xx.MCC_CODE
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=xx.VSP_CODE
+left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code
+left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_VENDOR_MASTER.Zone_Code" + whrQry
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             txtFatPer.Tag = txtFatPer.Value
             txtSnfPer.Tag = txtSnfPer.Value

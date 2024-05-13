@@ -1189,12 +1189,12 @@ Public Class clsMilkRejectHead
                   Case When TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No Is Null Then TSPL_MILK_SHIFT_UPLOADER_DETAIL.No_Of_Cans Else 0 End End As [No Of Cans], TSPL_MILK_SRN_DETAIL.Qty As [Milk Weight],TSPL_MILK_SRN_DETAIL.UOM_Code, TSPL_MILK_SRN_DETAIL.ACC_QTY As [Milk Weight(KG)]," &
                 " convert(decimal(18,2),TSPL_MILK_SRN_DETAIL.ACC_QTY_LTR) As [Milk Weight(LTR)],Convert(decimal(18,2),TSPL_MILK_SRN_DETAIL.ACC_QTY_LTR)*5 as [DBT Amount] , TSPL_MILK_SRN_DETAIL.FAT_PER As [FAT(%)], TSPL_MILK_SRN_DETAIL.SNF_PER As [SNF(%)], TSPL_MILK_SRN_DETAIL.CLR, "
 
-        If settPickFATSNFKgFromInventory Then
-            qry += "TSPL_INVENTORY_MOVEMENT_NEW.FAT_KG  As [FAT(KG)],TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG  As [SNF(KG)],"
-        Else
-            qry += "Convert(decimal(18," + clsCommon.myCstr(objCommonVar.MilkSRNFATSNFDecimalPlaces) + "), TSPL_MILK_SRN_DETAIL.FAT_KG) As [FAT(KG)]," &
+        'If settPickFATSNFKgFromInventory Then
+        '    qry += "TSPL_INVENTORY_MOVEMENT_NEW.FAT_KG  As [FAT(KG)],TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG  As [SNF(KG)],"
+        'Else
+        qry += "Convert(decimal(18," + clsCommon.myCstr(objCommonVar.MilkSRNFATSNFDecimalPlaces) + "), TSPL_MILK_SRN_DETAIL.FAT_KG) As [FAT(KG)]," &
                 " Convert(decimal(18," + clsCommon.myCstr(objCommonVar.MilkSRNFATSNFDecimalPlaces) + "),TSPL_MILK_SRN_DETAIL.SNF_KG) As [SNF(KG)],"
-        End If
+        'End If
         qry += " Convert(decimal(18," + clsCommon.myCstr(objCommonVar.MilkSRNFATSNFDecimalPlaces) + "), ROUND(TSPL_MILK_SRN_DETAIL.FAT_PER * TSPL_MILK_SRN_DETAIL.ACC_QTY_LTR / 100," + clsCommon.myCstr(objCommonVar.MilkSRNFATSNFDecimalPlaces) + ",1)) As [FAT(LTR)]," &
                 " Convert(decimal(18," + clsCommon.myCstr(objCommonVar.MilkSRNFATSNFDecimalPlaces) + "),ROUND(TSPL_MILK_SRN_DETAIL.SNF_PER * TSPL_MILK_SRN_DETAIL.ACC_QTY_LTR / 100," + clsCommon.myCstr(objCommonVar.MilkSRNFATSNFDecimalPlaces) + ",1)) As [SNF(LTR)]," &
                 " cast( round((TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount +isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0) )  * isnull(TSPL_MILK_SRN_DETAIL.FAT_Ratio,0),0) as integer) as FAT_Amount ," &

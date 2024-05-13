@@ -22,6 +22,8 @@ Partial Class RptMccBulkMilkRegister
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -141,12 +143,10 @@ Partial Class RptMccBulkMilkRegister
         '
         Me.RadPageView1.RootElement.AccessibleDescription = "Report1"
         Me.RadPageView1.RootElement.AccessibleName = "Report1"
-        Me.RadPageView1.RootElement.Text = "Report1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(760, 449)
         Me.RadPageView1.TabIndex = 3
         Me.RadPageView1.TabStop = False
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0).GetChildAt(2), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Filter"
         CType(Me.RadPageView1.GetChildAt(0).GetChildAt(3), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Filter"
@@ -359,6 +359,7 @@ Partial Class RptMccBulkMilkRegister
         '
         Me.txtToShift.AutoCompleteDisplayMember = Nothing
         Me.txtToShift.AutoCompleteValueMember = Nothing
+        Me.txtToShift.DropDownAnimationEnabled = True
         Me.txtToShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.txtToShift.Location = New System.Drawing.Point(378, 11)
         Me.txtToShift.Name = "txtToShift"
@@ -369,6 +370,7 @@ Partial Class RptMccBulkMilkRegister
         '
         Me.txtFromShift.AutoCompleteDisplayMember = Nothing
         Me.txtFromShift.AutoCompleteValueMember = Nothing
+        Me.txtFromShift.DropDownAnimationEnabled = True
         Me.txtFromShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.txtFromShift.Location = New System.Drawing.Point(169, 11)
         Me.txtFromShift.Name = "txtFromShift"
@@ -408,14 +410,16 @@ Partial Class RptMccBulkMilkRegister
         '
         Me.gv1.Location = New System.Drawing.Point(378, 17)
         '
-        'gv1
         '
+        '
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(10, 10)
         Me.gv1.TabIndex = 1
-        Me.gv1.Text = "RadGridView1"
         '
         'txtFromDate
         '
@@ -488,14 +492,16 @@ Partial Class RptMccBulkMilkRegister
         Me.gv.MasterTemplate.AllowAddNewRow = False
         Me.gv.MasterTemplate.AllowDeleteRow = False
         Me.gv.MasterTemplate.EnableFiltering = True
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowGroupPanel = False
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(739, 401)
         Me.gv.TabIndex = 3
-        Me.gv.Text = "gv"
         '
         'RadMenu1
         '
@@ -504,27 +510,20 @@ Partial Class RptMccBulkMilkRegister
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(760, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmSaveLayout, Me.rmDeleteLayout})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
         '
         'rmSaveLayout
         '
-        Me.rmSaveLayout.AccessibleDescription = "Save Layout"
-        Me.rmSaveLayout.AccessibleName = "Save Layout"
         Me.rmSaveLayout.Name = "rmSaveLayout"
         Me.rmSaveLayout.Text = "Save Layout"
         '
         'rmDeleteLayout
         '
-        Me.rmDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.rmDeleteLayout.AccessibleName = "Delete Layout"
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
         '
@@ -550,15 +549,11 @@ Partial Class RptMccBulkMilkRegister
         '
         'rmiExcel
         '
-        Me.rmiExcel.AccessibleDescription = "Excel"
-        Me.rmiExcel.AccessibleName = "Excel"
         Me.rmiExcel.Name = "rmiExcel"
         Me.rmiExcel.Text = "Excel"
         '
         'rmiPDF
         '
-        Me.rmiPDF.AccessibleDescription = "PDF"
-        Me.rmiPDF.AccessibleName = "PDF"
         Me.rmiPDF.Name = "rmiPDF"
         Me.rmiPDF.Text = "PDF"
         '

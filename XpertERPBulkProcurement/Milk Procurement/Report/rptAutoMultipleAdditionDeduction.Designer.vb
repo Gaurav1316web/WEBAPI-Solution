@@ -236,7 +236,7 @@ Partial Class rptAutoMultipleAdditionDeduction
         Me.MyLabel13.Name = "MyLabel13"
         Me.MyLabel13.Size = New System.Drawing.Size(55, 18)
         Me.MyLabel13.TabIndex = 434
-        Me.MyLabel13.Text = "VSP Code"
+        Me.MyLabel13.Text = "Secretary Code"
         '
         'MyLabel3
         '

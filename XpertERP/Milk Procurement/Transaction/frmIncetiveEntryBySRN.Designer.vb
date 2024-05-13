@@ -144,7 +144,7 @@ Partial Class frmIncetiveEntryBySRN
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(26, 18)
         Me.MyLabel4.TabIndex = 13
-        Me.MyLabel4.Text = "VSP"
+        Me.MyLabel4.Text = "Secretary"
         '
         'lblDocDate
         '
@@ -468,7 +468,7 @@ Partial Class frmIncetiveEntryBySRN
         Me.gb_PrintVSPWiseIncentive.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.gb_PrintVSPWiseIncentive.Size = New System.Drawing.Size(320, 85)
         Me.gb_PrintVSPWiseIncentive.TabIndex = 2
-        Me.gb_PrintVSPWiseIncentive.Text = "Print VSP wise Incentive"
+        Me.gb_PrintVSPWiseIncentive.Text = "Print Secretary wise Incentive"
         '
         'txtVSP_Print
         '
@@ -491,7 +491,7 @@ Partial Class frmIncetiveEntryBySRN
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(26, 18)
         Me.MyLabel2.TabIndex = 13
-        Me.MyLabel2.Text = "VSP"
+        Me.MyLabel2.Text = "Secretary"
         '
         'btnPrint_VSP
         '

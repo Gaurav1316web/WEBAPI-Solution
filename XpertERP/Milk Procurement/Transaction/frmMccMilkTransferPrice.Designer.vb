@@ -442,7 +442,7 @@ Partial Class FrmMccMilkTransferPrice
         Me.lblVspCharge.Name = "lblVspCharge"
         Me.lblVspCharge.Size = New System.Drawing.Size(64, 18)
         Me.lblVspCharge.TabIndex = 336
-        Me.lblVspCharge.Text = "VSP Charge"
+        Me.lblVspCharge.Text = "Secretary Charge"
         '
         'lblAdminCost
         '
