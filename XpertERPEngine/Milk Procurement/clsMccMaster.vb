@@ -2292,6 +2292,13 @@ Public Class clsEkoPro
         Return Rate
     End Function
 
+    Public Shared Function GetLatestPlaningQryALW(ByVal Doc_Date As Date, ByVal Shift As String, ByVal FATPer As String) As String
+        Return "select top 1 Planning_Code,Price_Chart_Code,Single_Axis_FAT_Per,Single_Axis_SNFDed_FAT_Per,Single_Axis_SNF_Per,Single_Axis_SNFDed_SNF_Per,TSDDCS_Rate
+ from TSPL_PRICE_CHART_PLANNING where Status=1 and GK_Min_FAT_Per<=" + FATPer + " and	GK_Max_FAT_Per>=" + FATPer + " and  
+ ((convert(Date,Planning_Date,103)< '" & clsCommon.GetPrintDate(Doc_Date, "dd/MMM/yyyy") & "' or (convert(Date,Planning_Date,103)= '" & clsCommon.GetPrintDate(Doc_Date, "dd/MMM/yyyy") & "' and shift>='" & Shift & "')))
+  order by Planning_Date desc,Planning_Code desc"
+    End Function
+
     Public Shared Function GetLatestPlaningQry(ByVal Doc_Date As Date, ByVal Shift As String, ByVal strMilkType As String) As String
         Return "select Planning_Code,Price_Chart_Code,Single_Axis_FAT_Per,Single_Axis_SNFDed_FAT_Per,Single_Axis_SNF_Per,Single_Axis_SNFDed_SNF_Per,TSDDCS_Rate
  from TSPL_PRICE_CHART_PLANNING where Dock_Collection_Milk_Type='" + strMilkType + "' and Status=1 and  
@@ -2458,6 +2465,8 @@ Public Class clsEkoPro
                     Rate = GetRateCalculatedRAJ(PriceCode, Doc_Date, Shift, vlcCode, strMilkType, qty, FatPer, SNFPer, tran)
                 ElseIf objCommonVar.PricePlan = 7 Then
                     Rate = GetRateCalculatedJPR(PriceCode, Doc_Date, Shift, vlcCode, strMilkType, qty, FatPer, SNFPer, tran, dclRefQATRate, dclRefNegativeRate)
+                ElseIf objCommonVar.PricePlan = 8 Then
+                    Rate = GetRateCalculatedAJM(PriceCode, Doc_Date, Shift, vlcCode, strMilkType, qty, FatPer, SNFPer, tran, dclRefNegativeRate)
                 Else
                     Dim settMilkCollectionPickBulkRoute As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkCollectionPickBulkRoute, clsFixedParameterCode.MilkCollectionPickBulkRoute, tran)) = 1)
                     Dim qry As String = "select top 1 TSPL_FAT_SNF_UPLOADER_MASTER.Rate,TSPL_FAT_SNF_UPLOADER_MASTER.Code,TSPL_FAT_SNF_UPLOADER_MASTER.Price_Code ,TSPL_VLC_MASTER_HEAD.Apply_Price_Chart_Uploader,TSPL_FAT_SNF_UPLOADER_MASTER.Planning_Code from TSPL_FAT_SNF_UPLOADER_MASTER " + Environment.NewLine
@@ -2510,6 +2519,68 @@ left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_FAT_SNF_UPL
             Throw New Exception(ex.Message)
         End Try
         Return Rate
+    End Function
+
+    Public Shared Function GetRateCalculatedAJM(ByRef strPlanningCode As String, ByVal Doc_Date As Date, ByVal Shift As String, ByVal VLC_Code As String, ByVal strMilkType As String, ByVal Qty As Decimal, ByVal FatPer As Double, ByVal SNFPer As Double, ByVal tran As SqlTransaction, ByRef dclRefNegativeRate As Decimal) As Decimal
+        Dim RetVal As Decimal = 0
+        strPlanningCode = ""
+        dclRefNegativeRate = 0
+        Dim strPriceMasterCode As String = Nothing
+        If Qty <= 0 Then
+            Return 0
+        End If
+        Dim qry As String = ""
+        Dim dt As DataTable = Nothing
+        qry = GetLatestPlaningQryALW(Doc_Date, Shift, FatPer)
+        dt = clsDBFuncationality.GetDataTable(qry, tran)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            strPlanningCode = clsCommon.myCstr(dt.Rows(0)("Planning_Code"))
+            strPriceMasterCode = clsCommon.myCstr(dt.Rows(0)("Price_Chart_Code"))
+        End If
+
+        If clsCommon.myLen(strPlanningCode) > 0 Then
+            qry = "select GK_Min_FAT_Per,GK_Max_FAT_Per,GK_Min_SNF_Per,GK_Max_SNF_Per,GK_Is_FAT_Rate_Zero_After_Max,GK_Is_SNF_Rate_Zero_After_Max,TSPL_PRICE_CHART_PLANNING.UCDF_SNF_Ded_Below,TSPL_PRICE_CHART_PLANNING.UCDF_SNF_Ded_Rate,TSPL_PRICE_CHART_PLANNING.TSDDCS_Rate,TSPL_PRICE_CHART_PLANNING.Single_Axis_FAT_Per,TSPL_PRICE_CHART_PLANNING.Single_Axis_SNFDed_FAT_Per,TSPL_PRICE_CHART_PLANNING.Single_Axis_SNF_Per,TSPL_PRICE_CHART_PLANNING.Single_Axis_SNFDed_SNF_Per from TSPL_PRICE_CHART_PLANNING where Planning_Code='" + strPlanningCode + "'"
+            Dim dtPlanning As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
+
+            Dim dblMilkRateFAT As Decimal = 0
+            Dim FATKg As Decimal = (Qty * FatPer) / 100
+            Dim SNFKg As Decimal = (Qty * SNFPer) / 100
+            Dim ApplyCowPrice As Boolean = False
+            qry = "select SNo,SNF_From,SNF_To,Rate_Per,Fixed_Rate from TSPL_PRICE_CHART_PLANNING_TSDDCF where Planning_Code='" + strPlanningCode + "' order by SNo"
+            Dim dtSlab As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
+            If dtSlab IsNot Nothing AndAlso dtSlab.Rows.Count > 0 Then
+                For Each drSlab As DataRow In dtSlab.Rows
+                    If clsCommon.myCDecimal(drSlab("SNF_From")) > 0 AndAlso clsCommon.myCDecimal(drSlab("SNF_To")) > 0 Then
+                        If clsCommon.myCDecimal(drSlab("SNF_From")) <= SNFPer AndAlso clsCommon.myCDecimal(drSlab("SNF_To")) >= SNFPer Then
+                            If clsCommon.myCDecimal(drSlab("Fixed_Rate")) > 0 Then
+                                RetVal = clsCommon.myCDecimal(drSlab("Fixed_Rate"))
+                            Else
+                                RetVal = (clsCommon.myCDecimal(drSlab("Rate_Per")) * FATKg) / Qty
+                            End If
+                            Dim arrSNF As Dictionary(Of Decimal, Decimal) = clsPriceChartPlanningTSDDCFSNFDed.GetData(strPlanningCode, clsCommon.myCDecimal(drSlab("SNo")), tran)
+                            If arrSNF IsNot Nothing AndAlso arrSNF.Count > 0 Then
+                                If arrSNF.ContainsKey(SNFPer) Then
+                                    RetVal += arrSNF.Item(SNFPer)
+                                End If
+                            End If
+                            Exit For
+                        End If
+                    End If
+                Next
+            End If
+            If RetVal < 0 Then
+                dclRefNegativeRate = -1 * RetVal
+                RetVal = 0
+            End If
+            If objCommonVar.MilkRateRoundOffType = 1 Then
+                RetVal = Math.Round(RetVal, 2, MidpointRounding.AwayFromZero)
+            Else
+                RetVal = Math.Round(RetVal, 2, MidpointRounding.ToEven)
+            End If
+        Else
+            Throw New Exception("Milk Price not exists")
+        End If
+        Return RetVal
     End Function
 
     Public Shared Function GetRateCalculatedJPR(ByRef strPlanningCode As String, ByVal Doc_Date As Date, ByVal Shift As String, ByVal VLC_Code As String, ByVal strMilkType As String, ByVal Qty As Decimal, ByVal dblFATPer As Double, ByVal dblSNFPer As Double, ByVal tran As SqlTransaction, ByRef dclRefQATRate As Decimal, ByRef dclRefNegativeRate As Decimal) As Decimal
