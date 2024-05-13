@@ -1739,7 +1739,8 @@ select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo
                 clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal OrElse
                 clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal OrElse
                 clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal OrElse
-                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
+                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse
+                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal Then
                 Flag = True
             End If
 
@@ -1930,7 +1931,11 @@ Comp_Code,Comp_Name,max(MCC_NAME) as MCC_NAME,Regn_No
                 Dim qry As String = "select 'SWEET' as Code,'SWEET' as Name union all select Code,Description from TSPL_MILK_REJECT_TYPE"
                 Dim dtRejType As DataTable = clsDBFuncationality.GetDataTable(qry)
 
-                sQuery = " select QBD,sum( Qty) as Qty, cast( sum (FATQTY) * 100 /sum( Qty) as decimal(18,2))  as FATPer, cast( sum (SNFQTY) * 100 / sum(Qty) as decimal(18,2)) as SNFPer,sum(isnull(SRN_NET_AMOUNT,0))+(sum(isnull(PPSRN_RO_Amount,0))*-1) AS Amt,round(sum (FATQTY),2,1)  as FATKG,round(sum (SNFQTY),2,1) as SNFKG from ( " + BaseQty + " ) XXXX group by QBD "
+                sQuery = " select QBD,sum( Qty) as Qty, cast( sum (FATQTY) * 100 /sum( Qty) as decimal(18,2))  as FATPer, cast( sum (SNFQTY) * 100 / sum(Qty) as decimal(18,2)) as SNFPer,sum(isnull(SRN_NET_AMOUNT,0))+(sum(isnull(PPSRN_RO_Amount,0))*-1) AS Amt,round(sum (FATQTY),2,1)  as FATKG,round(sum (SNFQTY),2,1) as SNFKG "
+                If AreaWiseBilling = True Then
+                    sQuery += " ,MAX(Location_Desc)Area "
+                End If
+                sQuery += " from ( " + BaseQty + " ) XXXX group by QBD "
                 dtMilkType = clsDBFuncationality.GetDataTable(sQuery)
                 For Each drRejType As DataRow In dtRejType.Rows
                     dt.Columns.Add("" + clsCommon.myCstr(drRejType("Code")) + "Qty" + "", GetType(Decimal))
@@ -2025,6 +2030,10 @@ where  TSPL_PAYMENT_PROCESS_HEAD.From_Date>=convert(date,('" + CycleFromDate + "
                     frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreRJS", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
                     frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreUDP", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreBKN", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal Then
+                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreJAL", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
                 Else
                     frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCre", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
                 End If
