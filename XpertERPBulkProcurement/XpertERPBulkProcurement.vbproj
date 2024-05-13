@@ -210,6 +210,12 @@
     <Compile Include="Milk Procurement\Master\frmMPMilkPrice.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Master\frmPriceChartPlanMasterAJM.Designer.vb">
+      <DependentUpon>frmPriceChartPlanMasterAJM.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmPriceChartPlanMasterAJM.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\frmDBTApprovalStatus.Designer.vb">
       <DependentUpon>frmDBTApprovalStatus.vb</DependentUpon>
     </Compile>
@@ -867,6 +873,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Master\frmMPMilkPrice.resx">
       <DependentUpon>frmMPMilkPrice.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Master\frmPriceChartPlanMasterAJM.resx">
+      <DependentUpon>frmPriceChartPlanMasterAJM.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\frmDBTApprovalStatus.resx">
       <DependentUpon>frmDBTApprovalStatus.vb</DependentUpon>
