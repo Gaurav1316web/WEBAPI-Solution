@@ -22,14 +22,14 @@ Partial Class FrmMCCMilkRegister
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyLabel16 = New common.Controls.MyLabel()
         Me.lblArea = New common.Controls.MyLabel()
         Me.fndArea = New common.UserControls.txtFinder()
-        Me.MyLabel16 = New common.Controls.MyLabel()
         Me.txtMCC = New common.UserControls.txtMultiSelectFinder()
         Me.RadLabel21 = New common.Controls.MyLabel()
         Me.lblLocation = New common.Controls.MyLabel()
@@ -57,6 +57,8 @@ Partial Class FrmMCCMilkRegister
         Me.rbtnDCS = New System.Windows.Forms.RadioButton()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnZoneWise = New System.Windows.Forms.RadioButton()
+        Me.rbtnCollectionSummary = New System.Windows.Forms.RadioButton()
         Me.rdbPlantWisePaymentSummary = New System.Windows.Forms.RadioButton()
         Me.rdoVLCWisePaymentSummary = New System.Windows.Forms.RadioButton()
         Me.chkVLCWisePayable = New System.Windows.Forms.RadioButton()
@@ -90,7 +92,6 @@ Partial Class FrmMCCMilkRegister
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.rbtnCollectionSummary = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -99,8 +100,8 @@ Partial Class FrmMCCMilkRegister
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
-        CType(Me.lblArea, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblArea, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboMilkReceiveUOM, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -218,10 +219,20 @@ Partial Class FrmMCCMilkRegister
         Me.RadGroupBox2.Controls.Add(Me.MyLabel15)
         Me.RadGroupBox2.Controls.Add(Me.txtVLC)
         Me.RadGroupBox2.HeaderText = ""
-        Me.RadGroupBox2.Location = New System.Drawing.Point(2, 62)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(2, 59)
         Me.RadGroupBox2.Name = "RadGroupBox2"
-        Me.RadGroupBox2.Size = New System.Drawing.Size(477, 120)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(477, 129)
         Me.RadGroupBox2.TabIndex = 415
+        '
+        'MyLabel16
+        '
+        Me.MyLabel16.FieldName = Nothing
+        Me.MyLabel16.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel16.Location = New System.Drawing.Point(8, 30)
+        Me.MyLabel16.Name = "MyLabel16"
+        Me.MyLabel16.Size = New System.Drawing.Size(30, 18)
+        Me.MyLabel16.TabIndex = 412
+        Me.MyLabel16.Text = "MCC"
         '
         'lblArea
         '
@@ -244,7 +255,7 @@ Partial Class FrmMCCMilkRegister
         Me.fndArea.IsSourceFromTable = False
         Me.fndArea.IsSourceFromValueList = False
         Me.fndArea.IsUnique = False
-        Me.fndArea.Location = New System.Drawing.Point(95, 6)
+        Me.fndArea.Location = New System.Drawing.Point(95, 9)
         Me.fndArea.MendatroryField = True
         Me.fndArea.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndArea.MyLinkLable1 = Nothing
@@ -259,21 +270,11 @@ Partial Class FrmMCCMilkRegister
         Me.fndArea.TabIndex = 1502
         Me.fndArea.Value = ""
         '
-        'MyLabel16
-        '
-        Me.MyLabel16.FieldName = Nothing
-        Me.MyLabel16.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel16.Location = New System.Drawing.Point(8, 28)
-        Me.MyLabel16.Name = "MyLabel16"
-        Me.MyLabel16.Size = New System.Drawing.Size(30, 18)
-        Me.MyLabel16.TabIndex = 412
-        Me.MyLabel16.Text = "MCC"
-        '
         'txtMCC
         '
         Me.txtMCC.arrDispalyMember = Nothing
         Me.txtMCC.arrValueMember = Nothing
-        Me.txtMCC.Location = New System.Drawing.Point(95, 28)
+        Me.txtMCC.Location = New System.Drawing.Point(95, 30)
         Me.txtMCC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMCC.MyLinkLable1 = Me.MyLabel16
         Me.txtMCC.MyLinkLable2 = Nothing
@@ -286,7 +287,7 @@ Partial Class FrmMCCMilkRegister
         '
         Me.RadLabel21.FieldName = Nothing
         Me.RadLabel21.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel21.Location = New System.Drawing.Point(8, 91)
+        Me.RadLabel21.Location = New System.Drawing.Point(8, 92)
         Me.RadLabel21.Name = "RadLabel21"
         Me.RadLabel21.Size = New System.Drawing.Size(83, 16)
         Me.RadLabel21.TabIndex = 414
@@ -296,7 +297,7 @@ Partial Class FrmMCCMilkRegister
         '
         Me.lblLocation.FieldName = Nothing
         Me.lblLocation.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLocation.Location = New System.Drawing.Point(8, 48)
+        Me.lblLocation.Location = New System.Drawing.Point(8, 50)
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(36, 18)
         Me.lblLocation.TabIndex = 408
@@ -317,7 +318,7 @@ Partial Class FrmMCCMilkRegister
         Me.cboMilkReceiveUOM.IsSourceFromTable = False
         Me.cboMilkReceiveUOM.IsSourceFromValueList = False
         Me.cboMilkReceiveUOM.IsUnique = False
-        Me.cboMilkReceiveUOM.Location = New System.Drawing.Point(95, 89)
+        Me.cboMilkReceiveUOM.Location = New System.Drawing.Point(95, 90)
         Me.cboMilkReceiveUOM.MendatroryField = False
         Me.cboMilkReceiveUOM.MyLinkLable1 = Me.RadLabel21
         Me.cboMilkReceiveUOM.MyLinkLable2 = Nothing
@@ -332,7 +333,7 @@ Partial Class FrmMCCMilkRegister
         '
         Me.txtRoute.arrDispalyMember = Nothing
         Me.txtRoute.arrValueMember = Nothing
-        Me.txtRoute.Location = New System.Drawing.Point(95, 48)
+        Me.txtRoute.Location = New System.Drawing.Point(95, 50)
         Me.txtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtRoute.MyLinkLable1 = Me.lblLocation
         Me.txtRoute.MyLinkLable2 = Nothing
@@ -345,7 +346,7 @@ Partial Class FrmMCCMilkRegister
         '
         Me.MyLabel15.FieldName = Nothing
         Me.MyLabel15.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel15.Location = New System.Drawing.Point(8, 68)
+        Me.MyLabel15.Location = New System.Drawing.Point(8, 70)
         Me.MyLabel15.Name = "MyLabel15"
         Me.MyLabel15.Size = New System.Drawing.Size(26, 18)
         Me.MyLabel15.TabIndex = 410
@@ -355,7 +356,7 @@ Partial Class FrmMCCMilkRegister
         '
         Me.txtVLC.arrDispalyMember = Nothing
         Me.txtVLC.arrValueMember = Nothing
-        Me.txtVLC.Location = New System.Drawing.Point(95, 68)
+        Me.txtVLC.Location = New System.Drawing.Point(95, 70)
         Me.txtVLC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtVLC.MyLinkLable1 = Me.MyLabel15
         Me.txtVLC.MyLinkLable2 = Nothing
@@ -415,7 +416,7 @@ Partial Class FrmMCCMilkRegister
         Me.RadGroupBox5.Controls.Add(Me.cboSRNAmounType)
         Me.RadGroupBox5.Controls.Add(Me.chkShowVLCUploaderData)
         Me.RadGroupBox5.HeaderText = ""
-        Me.RadGroupBox5.Location = New System.Drawing.Point(90, 188)
+        Me.RadGroupBox5.Location = New System.Drawing.Point(90, 195)
         Me.RadGroupBox5.Name = "RadGroupBox5"
         Me.RadGroupBox5.Size = New System.Drawing.Size(234, 50)
         Me.RadGroupBox5.TabIndex = 406
@@ -458,7 +459,7 @@ Partial Class FrmMCCMilkRegister
         Me.RadGroupBox4.Controls.Add(Me.chkShiftWise)
         Me.RadGroupBox4.Controls.Add(Me.chkRejection)
         Me.RadGroupBox4.HeaderText = ""
-        Me.RadGroupBox4.Location = New System.Drawing.Point(337, 188)
+        Me.RadGroupBox4.Location = New System.Drawing.Point(337, 195)
         Me.RadGroupBox4.Name = "RadGroupBox4"
         Me.RadGroupBox4.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox4.Size = New System.Drawing.Size(119, 73)
@@ -575,6 +576,7 @@ Partial Class FrmMCCMilkRegister
         'RadGroupBox3
         '
         Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.rbtnZoneWise)
         Me.RadGroupBox3.Controls.Add(Me.rbtnCollectionSummary)
         Me.RadGroupBox3.Controls.Add(Me.rdbPlantWisePaymentSummary)
         Me.RadGroupBox3.Controls.Add(Me.rdoVLCWisePaymentSummary)
@@ -591,6 +593,28 @@ Partial Class FrmMCCMilkRegister
         Me.RadGroupBox3.Size = New System.Drawing.Size(550, 50)
         Me.RadGroupBox3.TabIndex = 9
         '
+        'rbtnZoneWise
+        '
+        Me.rbtnZoneWise.AutoSize = True
+        Me.rbtnZoneWise.Location = New System.Drawing.Point(292, 27)
+        Me.rbtnZoneWise.Name = "rbtnZoneWise"
+        Me.rbtnZoneWise.Size = New System.Drawing.Size(79, 17)
+        Me.rbtnZoneWise.TabIndex = 416
+        Me.rbtnZoneWise.TabStop = True
+        Me.rbtnZoneWise.Text = "Zone Wise"
+        Me.rbtnZoneWise.UseVisualStyleBackColor = True
+        '
+        'rbtnCollectionSummary
+        '
+        Me.rbtnCollectionSummary.AutoSize = True
+        Me.rbtnCollectionSummary.Location = New System.Drawing.Point(260, 5)
+        Me.rbtnCollectionSummary.Name = "rbtnCollectionSummary"
+        Me.rbtnCollectionSummary.Size = New System.Drawing.Size(129, 17)
+        Me.rbtnCollectionSummary.TabIndex = 8
+        Me.rbtnCollectionSummary.TabStop = True
+        Me.rbtnCollectionSummary.Text = "DCS Wise Collection"
+        Me.rbtnCollectionSummary.UseVisualStyleBackColor = True
+        '
         'rdbPlantWisePaymentSummary
         '
         Me.rdbPlantWisePaymentSummary.AutoSize = True
@@ -606,7 +630,7 @@ Partial Class FrmMCCMilkRegister
         'rdoVLCWisePaymentSummary
         '
         Me.rdoVLCWisePaymentSummary.AutoSize = True
-        Me.rdoVLCWisePaymentSummary.Location = New System.Drawing.Point(292, 27)
+        Me.rdoVLCWisePaymentSummary.Location = New System.Drawing.Point(377, 27)
         Me.rdoVLCWisePaymentSummary.Name = "rdoVLCWisePaymentSummary"
         Me.rdoVLCWisePaymentSummary.Size = New System.Drawing.Size(167, 17)
         Me.rdoVLCWisePaymentSummary.TabIndex = 6
@@ -821,7 +845,7 @@ Partial Class FrmMCCMilkRegister
         Me.gv.MasterTemplate.EnableFiltering = True
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -958,17 +982,6 @@ Partial Class FrmMCCMilkRegister
         Me.btnGo.TabIndex = 9
         Me.btnGo.Text = ">>>"
         '
-        'rbtnCollectionSummary
-        '
-        Me.rbtnCollectionSummary.AutoSize = True
-        Me.rbtnCollectionSummary.Location = New System.Drawing.Point(260, 5)
-        Me.rbtnCollectionSummary.Name = "rbtnCollectionSummary"
-        Me.rbtnCollectionSummary.Size = New System.Drawing.Size(129, 17)
-        Me.rbtnCollectionSummary.TabIndex = 8
-        Me.rbtnCollectionSummary.TabStop = True
-        Me.rbtnCollectionSummary.Text = "DCS Wise Collection"
-        Me.rbtnCollectionSummary.UseVisualStyleBackColor = True
-        '
         'FrmMCCMilkRegister
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -991,8 +1004,8 @@ Partial Class FrmMCCMilkRegister
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         Me.RadGroupBox2.PerformLayout()
-        CType(Me.lblArea, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblArea, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboMilkReceiveUOM, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1109,5 +1122,6 @@ Partial Class FrmMCCMilkRegister
     Friend WithEvents lblArea As common.Controls.MyLabel
     Friend WithEvents fndArea As common.UserControls.txtFinder
     Friend WithEvents rbtnCollectionSummary As RadioButton
+    Friend WithEvents rbtnZoneWise As RadioButton
 End Class
 
