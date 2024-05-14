@@ -517,7 +517,7 @@ where " + TableName + ".Document_Code='" & txtDocumentNo.Value & "'"
         Return strMain
     End Function
 
-    Private Function GetMpQry(ByVal IsPickValid As Boolean) As String
+    Private Function GetMpQry(ByVal IsPickValid As Boolean, ByVal GrpByFarmer As Boolean) As String
 
         Dim BaseQry As String = "select TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id,TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code as Doc_No,convert(varchar, TSPL_MP_INCENTIVE_ENTRY_HEAD.From_Date,103) +' To '+ convert(varchar,TSPL_MP_INCENTIVE_ENTRY_HEAD.To_Date,103) as Date_Range,TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code,tspl_MCC_Master.MCC_Name,TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_MP_MASTER.MP_Code,TSPL_MP_MASTER.MP_Code_VLC_Uploader as VLC_CODE_Uploader,TSPL_MP_MASTER.PayeeName as Payee_Joint_Name,TSPL_MP_MASTER.BankName as Bank_Code,TSPL_MP_MASTER.BankName as Bank_Code_Desc,TSPL_MP_MASTER.Telphone,TSPL_MP_MASTER.AccountNO as Payee_Joint_Account_No,TSPL_MP_MASTER.IFCICode as Payee_Joint_IFSC_Code,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Qty,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Amount_Actual as Payable_Amount 
 ,TSPL_ZONE_MASTER.Description  as ZoneName   
