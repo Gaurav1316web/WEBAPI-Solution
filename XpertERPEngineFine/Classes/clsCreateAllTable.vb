@@ -53394,6 +53394,7 @@ Public Class clsCreateAllTable
             coll.Add("Zone_Code", "varchar(30) NULL references TSPL_ZONE_MASTER (Zone_Code) ")
             coll.Add("Apply_FAT_Above", "Decimal(18,2) null")
             coll.Add("Apply_SNF_Above", "Decimal(18,2) null")
+            coll.Add("DBT_Capping_Apply", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DCS_MP_INCENTIVE_RECO_HEAD", coll, Nothing, True, False, "", "Document_Code", "Document_Date")
 
             Try
