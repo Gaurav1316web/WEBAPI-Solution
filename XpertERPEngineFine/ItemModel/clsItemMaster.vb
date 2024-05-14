@@ -61,6 +61,7 @@ Public Class clsItemMaster
     Public Is_MRP As Boolean = False
     Public Is_FreshItem As Boolean = False
     Public Is_Ambient As Boolean = False
+    Public Is_FreshAmbient As Boolean = False
     Public Tax_Exempted As Integer = 0
     Public Sku_Seq As Int64 = 0
     Public Is_DisplayDemand As Boolean = False
@@ -1465,6 +1466,7 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
             clsCommon.AddColumnsForChange(coll, "Is_AllowQC_ON_Purchase", IIf(obj.Is_Allow_QC, 1, 0))
             '================================================
             clsCommon.AddColumnsForChange(coll, "Is_FreshItem", IIf(obj.Is_FreshItem, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "Is_FreshAmbient", IIf(obj.Is_FreshAmbient, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Is_Batch_Item", IIf(obj.Is_Batch_Item, 1, 0))
             clsCommon.AddColumnsForChange(coll, "RAL", IIf(obj.RAL, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Is_Rate_Change_OnDairyDispatch", obj.Is_Rate_Change_OnDairyDispatch)
@@ -1691,6 +1693,7 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
                 obj.Is_Rate_Change_OnDairyDispatch = clsCommon.myCdbl(dt.Rows(0)("Is_Rate_Change_OnDairyDispatch"))
                 obj.Is_QC_SNF_Based = clsCommon.myCdbl(dt.Rows(0)("Is_QC_SNF_Based"))
                 obj.Is_FreshItem = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_FreshItem")) = 1, True, False)
+                obj.Is_FreshAmbient = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_FreshAmbient")) = 1, True, False)
                 obj.Is_Batch_Item = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Batch_Item")) = 1, True, False)
                 obj.RAL = IIf(clsCommon.myCdbl(dt.Rows(0)("RAL")) = 1, True, False)
                 obj.Is_Ambient = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Ambient")) = 1, True, False)

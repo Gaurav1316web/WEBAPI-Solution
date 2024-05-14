@@ -2259,6 +2259,7 @@ Public Class clsCreateAllTable
             coll.Add("Cust_Account", "varchar(12) NULL REFERENCES TSPL_CUSTOMER_ACCOUNT_SET (Cust_Account)")
             coll.Add("IsTaxable", " integer not null default 0")
             coll.Add("Is_Ambient", "integer not NULL default 0")
+            coll.Add("Is_FreshAmbient", "integer not NULL default 0")
             coll.Add("Is_Rate_Change_OnDairyDispatch", "integer not NULL default 0")
             coll.Add("Posted", "integer not null default 0")
             coll.Add("Posted_By", "varchar(12)  NULL")
