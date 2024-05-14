@@ -79,8 +79,6 @@ Partial Class FrmItemMasterRMOther
         Me.rbtnExcisable = New Telerik.WinControls.UI.RadRadioButton()
         Me.rbtnNA = New Telerik.WinControls.UI.RadRadioButton()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.chkAmbient = New common.Controls.MyCheckBox()
-        Me.chkFresh = New common.Controls.MyCheckBox()
         Me.chkScrapItem = New common.Controls.MyCheckBox()
         Me.chkMilkPouch = New common.Controls.MyCheckBox()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
@@ -298,6 +296,9 @@ Partial Class FrmItemMasterRMOther
         Me.rmiClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.rbtnFresh = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnAmbient = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnFreshAmbient = New Telerik.WinControls.UI.RadRadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -335,8 +336,6 @@ Partial Class FrmItemMasterRMOther
         CType(Me.rbtnExcisable, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnNA, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
-        CType(Me.chkAmbient, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkFresh, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkScrapItem, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkMilkPouch, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -527,6 +526,9 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnFresh, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnAmbient, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnFreshAmbient, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -549,7 +551,7 @@ Partial Class FrmItemMasterRMOther
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1108, 630)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1142, 630)
         Me.SplitContainer1.SplitterDistance = 601
         Me.SplitContainer1.TabIndex = 0
         '
@@ -569,7 +571,7 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(1108, 601)
+        Me.RadPageView1.Size = New System.Drawing.Size(1142, 601)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -714,12 +716,12 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(71.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1087, 553)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1121, 553)
         Me.RadPageViewPage1.Text = "Item Detail"
         '
         'chkFGforCFRPT
         '
-        Me.chkFGforCFRPT.Location = New System.Drawing.Point(954, 3)
+        Me.chkFGforCFRPT.Location = New System.Drawing.Point(1024, 3)
         Me.chkFGforCFRPT.MyLinkLable1 = Nothing
         Me.chkFGforCFRPT.MyLinkLable2 = Nothing
         Me.chkFGforCFRPT.Name = "chkFGforCFRPT"
@@ -912,7 +914,7 @@ Partial Class FrmItemMasterRMOther
         '
         'chkNIRQC
         '
-        Me.chkNIRQC.Location = New System.Drawing.Point(891, 3)
+        Me.chkNIRQC.Location = New System.Drawing.Point(961, 3)
         Me.chkNIRQC.MyLinkLable1 = Nothing
         Me.chkNIRQC.MyLinkLable2 = Nothing
         Me.chkNIRQC.Name = "chkNIRQC"
@@ -1096,35 +1098,14 @@ Partial Class FrmItemMasterRMOther
         '
         'GroupBox1
         '
-        Me.GroupBox1.Controls.Add(Me.chkAmbient)
-        Me.GroupBox1.Controls.Add(Me.chkFresh)
-        Me.GroupBox1.Location = New System.Drawing.Point(729, -7)
+        Me.GroupBox1.Controls.Add(Me.rbtnFreshAmbient)
+        Me.GroupBox1.Controls.Add(Me.rbtnAmbient)
+        Me.GroupBox1.Controls.Add(Me.rbtnFresh)
+        Me.GroupBox1.Location = New System.Drawing.Point(727, -9)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(151, 30)
+        Me.GroupBox1.Size = New System.Drawing.Size(228, 28)
         Me.GroupBox1.TabIndex = 4
         Me.GroupBox1.TabStop = False
-        '
-        'chkAmbient
-        '
-        Me.chkAmbient.Location = New System.Drawing.Point(84, 10)
-        Me.chkAmbient.MyLinkLable1 = Nothing
-        Me.chkAmbient.MyLinkLable2 = Nothing
-        Me.chkAmbient.Name = "chkAmbient"
-        Me.chkAmbient.Size = New System.Drawing.Size(63, 18)
-        Me.chkAmbient.TabIndex = 1
-        Me.chkAmbient.Tag1 = Nothing
-        Me.chkAmbient.Text = "Ambient"
-        '
-        'chkFresh
-        '
-        Me.chkFresh.Location = New System.Drawing.Point(9, 10)
-        Me.chkFresh.MyLinkLable1 = Nothing
-        Me.chkFresh.MyLinkLable2 = Nothing
-        Me.chkFresh.Name = "chkFresh"
-        Me.chkFresh.Size = New System.Drawing.Size(72, 18)
-        Me.chkFresh.TabIndex = 0
-        Me.chkFresh.Tag1 = Nothing
-        Me.chkFresh.Text = "Fresh Item"
         '
         'chkScrapItem
         '
@@ -4205,7 +4186,7 @@ Partial Class FrmItemMasterRMOther
         'btnClose
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnClose.Location = New System.Drawing.Point(1027, 2)
+        Me.btnClose.Location = New System.Drawing.Point(1061, 2)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(71, 21)
         Me.btnClose.TabIndex = 2
@@ -4338,7 +4319,7 @@ Partial Class FrmItemMasterRMOther
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(1108, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(1142, 20)
         Me.RadMenu1.TabIndex = 1
         '
         'OpenFileDialog1
@@ -4346,11 +4327,35 @@ Partial Class FrmItemMasterRMOther
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         Me.OpenFileDialog1.Filter = "Image Files(*.BMP;*.JPG;*.JEPG;*.GIF)|*.BMP;*.JPG;*.JEPG;*.GIF"
         '
+        'rbtnFresh
+        '
+        Me.rbtnFresh.Location = New System.Drawing.Point(9, 8)
+        Me.rbtnFresh.Name = "rbtnFresh"
+        Me.rbtnFresh.Size = New System.Drawing.Size(47, 18)
+        Me.rbtnFresh.TabIndex = 1
+        Me.rbtnFresh.Text = "Fresh"
+        '
+        'rbtnAmbient
+        '
+        Me.rbtnAmbient.Location = New System.Drawing.Point(58, 8)
+        Me.rbtnAmbient.Name = "rbtnAmbient"
+        Me.rbtnAmbient.Size = New System.Drawing.Size(63, 18)
+        Me.rbtnAmbient.TabIndex = 2
+        Me.rbtnAmbient.Text = "Ambient"
+        '
+        'rbtnFreshAmbient
+        '
+        Me.rbtnFreshAmbient.Location = New System.Drawing.Point(121, 8)
+        Me.rbtnFreshAmbient.Name = "rbtnFreshAmbient"
+        Me.rbtnFreshAmbient.Size = New System.Drawing.Size(93, 18)
+        Me.rbtnFreshAmbient.TabIndex = 2
+        Me.rbtnFreshAmbient.Text = "Fresh Ambient"
+        '
         'FrmItemMasterRMOther
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1108, 650)
+        Me.ClientSize = New System.Drawing.Size(1142, 650)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Name = "FrmItemMasterRMOther"
@@ -4400,8 +4405,6 @@ Partial Class FrmItemMasterRMOther
         CType(Me.rbtnNA, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
-        CType(Me.chkAmbient, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkFresh, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkScrapItem, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkMilkPouch, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4601,6 +4604,9 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnFresh, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnAmbient, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnFreshAmbient, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -4701,7 +4707,6 @@ Partial Class FrmItemMasterRMOther
     Friend WithEvents MyLabel20 As common.Controls.MyLabel
     Friend WithEvents txtRackNo As common.Controls.MyTextBox
     Friend WithEvents lblRackNo As common.Controls.MyLabel
-    Friend WithEvents chkFresh As common.Controls.MyCheckBox
     Friend WithEvents MyLabel21 As common.Controls.MyLabel
     Friend WithEvents fndProductType As common.Controls.MyComboBox
     Friend WithEvents RadPageViewPage5 As Telerik.WinControls.UI.RadPageViewPage
@@ -4763,7 +4768,6 @@ Partial Class FrmItemMasterRMOther
     Friend WithEvents CSA_Panel As System.Windows.Forms.Panel
     Friend WithEvents chkTaxable As common.Controls.MyCheckBox
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
-    Friend WithEvents chkAmbient As common.Controls.MyCheckBox
     Friend WithEvents chkChangeRate As common.Controls.MyCheckBox
     Friend WithEvents btnPrint As Telerik.WinControls.UI.RadButton
     Friend WithEvents txt_tolerance As common.MyNumBox
@@ -4859,5 +4863,8 @@ Partial Class FrmItemMasterRMOther
     Friend WithEvents lblDCSSeqNo As Controls.MyLabel
     Friend WithEvents gvSchedule As UserControls.MyRadGridView
     Friend WithEvents chkFGforCFRPT As Controls.MyCheckBox
+    Friend WithEvents rbtnFreshAmbient As RadRadioButton
+    Friend WithEvents rbtnAmbient As RadRadioButton
+    Friend WithEvents rbtnFresh As RadRadioButton
 End Class
 
