@@ -132,7 +132,7 @@ Public Class FrmVLCRouteShiftMaster
         repocode.FormatString = ""
         repocode.Name = colvlccode
         repocode.Width = 80
-        repocode.HeaderText = "VLC Code"
+        repocode.HeaderText = "DCS Code"
         repocode.HeaderImage = Global.ERP.My.Resources.Resources.search4
         repocode.TextImageRelation = TextImageRelation.TextBeforeImage
         gv.MasterTemplate.Columns.Add(repocode)
@@ -141,7 +141,7 @@ Public Class FrmVLCRouteShiftMaster
         reponame.FormatString = ""
         reponame.Name = colvlcname
         reponame.Width = 150
-        reponame.HeaderText = "VLC Description"
+        reponame.HeaderText = "DCS Description"
         reponame.ReadOnly = True
         gv.MasterTemplate.Columns.Add(reponame)
 

@@ -120,7 +120,7 @@ Public Class frmNotification
         End If
         'If txtCode.MyReadOnly OrElse isButtonClicked Then
         Dim whrClas As String = ""
-        Dim qry As String = "select Document_No as Code,Document_Date as Date,Start_Date As 'Start Date',End_Date As 'End Date',Subject,Status,Type from TSPL_NOTIFICATIONS"
+        Dim qry As String = "select Document_No as Code,Document_Date as Date,Start_Date As 'Start Date',End_Date As 'End Date',Subject,Status from TSPL_NOTIFICATIONS"
         LoadData(clsCommon.ShowSelectForm("DRT", qry, "Code", "", txtCode.Value, "TSPL_NOTIFICATIONS.Document_No  ", isButtonClicked), NavigatorType.Current)
         ' txtCode.Value = clsCommon.ShowSelectForm("DRT", qry, "Code", "", txtCode.Value, "TSPL_NOTIFICATIONS.Document_No ", isButtonClicked, "")
         'LoadData(txtCode.Value, NavigatorType.Current)
@@ -168,7 +168,7 @@ Public Class frmNotification
                 obj.Subject = txtSubject.Text
                 obj.Description = txtDescription.Text
 
-                Dim typeName As String=Nothing
+                Dim typeName As String = Nothing
                 Dim arrUserType As New List(Of String)
                 If txtUserType.arrValueMember IsNot Nothing Then
                     For i As Integer = 0 To txtUserType.arrValueMember.Count - 1
@@ -185,7 +185,7 @@ Public Class frmNotification
                 End If
 
                 obj.Arr = New List(Of clsNotificationDetails)
-                    For i As Integer = 0 To arrUserType.Count - 1
+                For i As Integer = 0 To arrUserType.Count - 1
                     Dim objtr As New clsNotificationDetails
 
                     If arrUserType(i).Contains("Admin") Then
@@ -209,21 +209,21 @@ Public Class frmNotification
                     End If
                     obj.Arr.Add(objtr)
                 Next
-                    Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
-                    Try
-                        ClsNotification.SaveData(obj, isNewEntry, tran)
-                        UcAttachment1.SaveData(obj.Code, False, tran)
-                        Dim AttachmentCount As Integer = clsDBFuncationality.getSingleValue("SELECT COUNT(1) FROM TSPL_ATTACHMENTS WHERE TransactionId='" & obj.Code & "'", tran)
-                        Dim sql As String = "UPDATE TSPL_NOTIFICATIONS SET Attachment_Count = '" & AttachmentCount & "' where Document_No = '" & obj.Code & "'"
-                        clsDBFuncationality.ExecuteNonQuery(sql, tran)
-                        tran.Commit()
-                    Catch ex As Exception
-                        tran.Rollback()
-                        Throw New Exception(ex.Message)
-                    End Try
-                    clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
-                    LoadData(obj.Code, NavigatorType.Current)
-                End If
+                Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
+                Try
+                    ClsNotification.SaveData(obj, isNewEntry, tran)
+                    UcAttachment1.SaveData(obj.Code, False, tran)
+                    Dim AttachmentCount As Integer = clsDBFuncationality.getSingleValue("SELECT COUNT(1) FROM TSPL_ATTACHMENTS WHERE TransactionId='" & obj.Code & "'", tran)
+                    Dim sql As String = "UPDATE TSPL_NOTIFICATIONS SET Attachment_Count = '" & AttachmentCount & "' where Document_No = '" & obj.Code & "'"
+                    clsDBFuncationality.ExecuteNonQuery(sql, tran)
+                    tran.Commit()
+                Catch ex As Exception
+                    tran.Rollback()
+                    Throw New Exception(ex.Message)
+                End Try
+                clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
+                LoadData(obj.Code, NavigatorType.Current)
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
