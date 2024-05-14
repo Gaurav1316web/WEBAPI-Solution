@@ -152,7 +152,7 @@ Partial Class FrmVlcTargetMaster
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(908, 483)
-        Me.RadPageViewPage1.Text = "VLC Target Master"
+        Me.RadPageViewPage1.Text = "DCS Target Master"
         '
         'RadGroupBox2
         '
@@ -168,7 +168,7 @@ Partial Class FrmVlcTargetMaster
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox2.Size = New System.Drawing.Size(899, 308)
         Me.RadGroupBox2.TabIndex = 417
-        Me.RadGroupBox2.Text = "VLC Target Detail"
+        Me.RadGroupBox2.Text = "DCS Target Detail"
         '
         'gv1
         '
@@ -234,7 +234,7 @@ Partial Class FrmVlcTargetMaster
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(885, 145)
         Me.RadGroupBox1.TabIndex = 416
-        Me.RadGroupBox1.Text = "VLC Target Head"
+        Me.RadGroupBox1.Text = "DCS Target Head"
         '
         'lblVSP
         '
@@ -264,7 +264,7 @@ Partial Class FrmVlcTargetMaster
         Me.lblVLC.Name = "lblVLC"
         Me.lblVLC.Size = New System.Drawing.Size(58, 16)
         Me.lblVLC.TabIndex = 426
-        Me.lblVLC.Text = "VLC Code"
+        Me.lblVLC.Text = "DCS Code"
         '
         'fndVSPName
         '

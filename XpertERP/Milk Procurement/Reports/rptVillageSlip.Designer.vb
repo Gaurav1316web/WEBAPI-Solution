@@ -204,7 +204,7 @@ Partial Class RptVillageSlip
         Me.RadGroupBox7.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox7.Size = New System.Drawing.Size(420, 428)
         Me.RadGroupBox7.TabIndex = 10
-        Me.RadGroupBox7.Text = "MCC,Route,VLC "
+        Me.RadGroupBox7.Text = "MCC,Route,DCS "
         '
         'cbtMCCRouteVLCC
         '
@@ -405,7 +405,7 @@ Partial Class RptVillageSlip
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox2.Size = New System.Drawing.Size(53, 36)
         Me.RadGroupBox2.TabIndex = 5
-        Me.RadGroupBox2.Text = "VLC"
+        Me.RadGroupBox2.Text = "DCS"
         Me.RadGroupBox2.Visible = False
         '
         'cbgVLC

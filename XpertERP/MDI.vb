@@ -7502,6 +7502,10 @@ Public Class MDI
                         ElseIf intPricePlan = 7 Then
                             frm = New frmPriceChartPlanMasterJPR
                             formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                        ElseIf intPricePlan = 8 Then
+                            frm = New frmPriceChartPlanMasterAJM
+                            formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                         Else
                             frm = New frmPriceChartPlanMaster
                             formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8306,6 +8310,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptBMCPerodicalReport
                         frm = New rptBMCPerodicalReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptPerodicalDispatchReport
+                        frm = New rptPerodicalDispatchReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptDcsSecurity
                         frm = New rptDCSSecurity

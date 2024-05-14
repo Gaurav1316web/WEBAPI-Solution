@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class frmPriceChartPlanMasterBhole
+Partial Class frmPriceChartPlanMasterAJM
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
@@ -23,14 +23,13 @@ Partial Class frmPriceChartPlanMasterBhole
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
-        Me.cboDockCollectionMilkType = New common.Controls.MyComboBox()
+        Me.RadGroupBox9 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.gvSNF = New common.UserControls.MyRadGridView()
         Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.chkSNFZeroAfterMax = New Telerik.WinControls.UI.RadCheckBox()
-        Me.chkFATZeroAfterMax = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtMaxSNFPer = New common.MyNumBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtMaxFATPer = New common.MyNumBox()
@@ -39,12 +38,10 @@ Partial Class frmPriceChartPlanMasterBhole
         Me.MyLabel23 = New common.Controls.MyLabel()
         Me.txtMinFATPer = New common.MyNumBox()
         Me.MyLabel24 = New common.Controls.MyLabel()
+        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.cboDockCollectionMilkType = New common.Controls.MyComboBox()
         Me.CboShift = New common.Controls.MyComboBox()
         Me.MyLabel20 = New common.Controls.MyLabel()
-        Me.txtVLC = New common.UserControls.txtMultiSelectFinder()
-        Me.txtMCC = New common.UserControls.txtMultiSelectFinder()
-        Me.MyLabel15 = New common.Controls.MyLabel()
-        Me.MyLabel14 = New common.Controls.MyLabel()
         Me.UsLock1 = New common.usLock()
         Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.RadLabel4 = New common.Controls.MyLabel()
@@ -82,6 +79,8 @@ Partial Class frmPriceChartPlanMasterBhole
         Me.txtSearchFAT = New common.MyNumBox()
         Me.MyLabel18 = New common.Controls.MyLabel()
         Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
+        Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
@@ -92,12 +91,12 @@ Partial Class frmPriceChartPlanMasterBhole
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cboDockCollectionMilkType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox9, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox9.SuspendLayout()
+        CType(Me.gvSNF, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvSNF.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox5.SuspendLayout()
-        CType(Me.chkSNFZeroAfterMax, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkFATZeroAfterMax, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtMaxSNFPer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtMaxFATPer, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -106,10 +105,10 @@ Partial Class frmPriceChartPlanMasterBhole
         CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtMinFATPer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cboDockCollectionMilkType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CboShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox8, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -148,6 +147,7 @@ Partial Class frmPriceChartPlanMasterBhole
         CType(Me.txtSearchFAT, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Attachments.SuspendLayout()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -176,33 +176,31 @@ Partial Class frmPriceChartPlanMasterBhole
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Padding = New System.Windows.Forms.Padding(3)
-        Me.SplitContainer1.Size = New System.Drawing.Size(681, 432)
-        Me.SplitContainer1.SplitterDistance = 398
+        Me.SplitContainer1.Size = New System.Drawing.Size(815, 529)
+        Me.SplitContainer1.SplitterDistance = 495
         Me.SplitContainer1.TabIndex = 0
         '
         'RadPageView1
         '
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
+        Me.RadPageView1.Controls.Add(Me.Attachments)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(3, 3)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(675, 392)
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.Size = New System.Drawing.Size(809, 489)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox9)
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox5)
         Me.RadPageViewPage1.Controls.Add(Me.RadButton1)
         Me.RadPageViewPage1.Controls.Add(Me.cboDockCollectionMilkType)
-        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox5)
         Me.RadPageViewPage1.Controls.Add(Me.CboShift)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel20)
-        Me.RadPageViewPage1.Controls.Add(Me.txtVLC)
-        Me.RadPageViewPage1.Controls.Add(Me.txtMCC)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel15)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel14)
         Me.RadPageViewPage1.Controls.Add(Me.UsLock1)
         Me.RadPageViewPage1.Controls.Add(Me.txtDate)
         Me.RadPageViewPage1.Controls.Add(Me.RadLabel4)
@@ -215,8 +213,203 @@ Partial Class frmPriceChartPlanMasterBhole
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(45.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(654, 344)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(788, 441)
         Me.RadPageViewPage1.Text = "Detail"
+        '
+        'RadGroupBox9
+        '
+        Me.RadGroupBox9.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox9.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadGroupBox9.Controls.Add(Me.gvSNF)
+        Me.RadGroupBox9.HeaderText = "SNF Range"
+        Me.RadGroupBox9.Location = New System.Drawing.Point(2, 168)
+        Me.RadGroupBox9.Name = "RadGroupBox9"
+        Me.RadGroupBox9.Size = New System.Drawing.Size(783, 270)
+        Me.RadGroupBox9.TabIndex = 367
+        Me.RadGroupBox9.Text = "SNF Range"
+        '
+        'gvSNF
+        '
+        Me.gvSNF.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvSNF.Location = New System.Drawing.Point(2, 18)
+        '
+        '
+        '
+        Me.gvSNF.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvSNF.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvSNF.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvSNF.MyStopExport = False
+        Me.gvSNF.Name = "gvSNF"
+        Me.gvSNF.ShowHeaderCellButtons = True
+        Me.gvSNF.Size = New System.Drawing.Size(779, 250)
+        Me.gvSNF.TabIndex = 97
+        '
+        'RadGroupBox5
+        '
+        Me.RadGroupBox5.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox5.Controls.Add(Me.txtMaxSNFPer)
+        Me.RadGroupBox5.Controls.Add(Me.MyLabel1)
+        Me.RadGroupBox5.Controls.Add(Me.txtMaxFATPer)
+        Me.RadGroupBox5.Controls.Add(Me.MyLabel2)
+        Me.RadGroupBox5.Controls.Add(Me.txtMinSNFPer)
+        Me.RadGroupBox5.Controls.Add(Me.MyLabel23)
+        Me.RadGroupBox5.Controls.Add(Me.txtMinFATPer)
+        Me.RadGroupBox5.Controls.Add(Me.MyLabel24)
+        Me.RadGroupBox5.HeaderText = ""
+        Me.RadGroupBox5.Location = New System.Drawing.Point(277, 53)
+        Me.RadGroupBox5.Name = "RadGroupBox5"
+        Me.RadGroupBox5.Size = New System.Drawing.Size(372, 51)
+        Me.RadGroupBox5.TabIndex = 366
+        '
+        'txtMaxSNFPer
+        '
+        Me.txtMaxSNFPer.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtMaxSNFPer.CalculationExpression = Nothing
+        Me.txtMaxSNFPer.DecimalPlaces = 1
+        Me.txtMaxSNFPer.FieldCode = Nothing
+        Me.txtMaxSNFPer.FieldDesc = Nothing
+        Me.txtMaxSNFPer.FieldMaxLength = 0
+        Me.txtMaxSNFPer.FieldName = Nothing
+        Me.txtMaxSNFPer.isCalculatedField = False
+        Me.txtMaxSNFPer.IsSourceFromTable = False
+        Me.txtMaxSNFPer.IsSourceFromValueList = False
+        Me.txtMaxSNFPer.IsUnique = False
+        Me.txtMaxSNFPer.Location = New System.Drawing.Point(259, 27)
+        Me.txtMaxSNFPer.MendatroryField = True
+        Me.txtMaxSNFPer.MyLinkLable1 = Me.MyLabel1
+        Me.txtMaxSNFPer.MyLinkLable2 = Nothing
+        Me.txtMaxSNFPer.Name = "txtMaxSNFPer"
+        Me.txtMaxSNFPer.ReferenceFieldDesc = Nothing
+        Me.txtMaxSNFPer.ReferenceFieldName = Nothing
+        Me.txtMaxSNFPer.ReferenceTableName = Nothing
+        Me.txtMaxSNFPer.Size = New System.Drawing.Size(53, 20)
+        Me.txtMaxSNFPer.TabIndex = 7
+        Me.txtMaxSNFPer.Text = "0"
+        Me.txtMaxSNFPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtMaxSNFPer.Value = 0R
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel1.Location = New System.Drawing.Point(160, 29)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(94, 16)
+        Me.MyLabel1.TabIndex = 8
+        Me.MyLabel1.Text = "Maximum SNF %"
+        '
+        'txtMaxFATPer
+        '
+        Me.txtMaxFATPer.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtMaxFATPer.CalculationExpression = Nothing
+        Me.txtMaxFATPer.DecimalPlaces = 1
+        Me.txtMaxFATPer.FieldCode = Nothing
+        Me.txtMaxFATPer.FieldDesc = Nothing
+        Me.txtMaxFATPer.FieldMaxLength = 0
+        Me.txtMaxFATPer.FieldName = Nothing
+        Me.txtMaxFATPer.isCalculatedField = False
+        Me.txtMaxFATPer.IsSourceFromTable = False
+        Me.txtMaxFATPer.IsSourceFromValueList = False
+        Me.txtMaxFATPer.IsUnique = False
+        Me.txtMaxFATPer.Location = New System.Drawing.Point(259, 3)
+        Me.txtMaxFATPer.MendatroryField = True
+        Me.txtMaxFATPer.MyLinkLable1 = Me.MyLabel2
+        Me.txtMaxFATPer.MyLinkLable2 = Nothing
+        Me.txtMaxFATPer.Name = "txtMaxFATPer"
+        Me.txtMaxFATPer.ReferenceFieldDesc = Nothing
+        Me.txtMaxFATPer.ReferenceFieldName = Nothing
+        Me.txtMaxFATPer.ReferenceTableName = Nothing
+        Me.txtMaxFATPer.Size = New System.Drawing.Size(53, 20)
+        Me.txtMaxFATPer.TabIndex = 6
+        Me.txtMaxFATPer.Text = "0"
+        Me.txtMaxFATPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtMaxFATPer.Value = 0R
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel2.Location = New System.Drawing.Point(160, 5)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(93, 16)
+        Me.MyLabel2.TabIndex = 9
+        Me.MyLabel2.Text = "Maximum FAT %"
+        '
+        'txtMinSNFPer
+        '
+        Me.txtMinSNFPer.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtMinSNFPer.CalculationExpression = Nothing
+        Me.txtMinSNFPer.DecimalPlaces = 1
+        Me.txtMinSNFPer.FieldCode = Nothing
+        Me.txtMinSNFPer.FieldDesc = Nothing
+        Me.txtMinSNFPer.FieldMaxLength = 0
+        Me.txtMinSNFPer.FieldName = Nothing
+        Me.txtMinSNFPer.isCalculatedField = False
+        Me.txtMinSNFPer.IsSourceFromTable = False
+        Me.txtMinSNFPer.IsSourceFromValueList = False
+        Me.txtMinSNFPer.IsUnique = False
+        Me.txtMinSNFPer.Location = New System.Drawing.Point(100, 27)
+        Me.txtMinSNFPer.MendatroryField = True
+        Me.txtMinSNFPer.MyLinkLable1 = Me.MyLabel23
+        Me.txtMinSNFPer.MyLinkLable2 = Nothing
+        Me.txtMinSNFPer.Name = "txtMinSNFPer"
+        Me.txtMinSNFPer.ReferenceFieldDesc = Nothing
+        Me.txtMinSNFPer.ReferenceFieldName = Nothing
+        Me.txtMinSNFPer.ReferenceTableName = Nothing
+        Me.txtMinSNFPer.Size = New System.Drawing.Size(53, 20)
+        Me.txtMinSNFPer.TabIndex = 1
+        Me.txtMinSNFPer.Text = "0"
+        Me.txtMinSNFPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtMinSNFPer.Value = 0R
+        '
+        'MyLabel23
+        '
+        Me.MyLabel23.FieldName = Nothing
+        Me.MyLabel23.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel23.Location = New System.Drawing.Point(4, 29)
+        Me.MyLabel23.Name = "MyLabel23"
+        Me.MyLabel23.Size = New System.Drawing.Size(91, 16)
+        Me.MyLabel23.TabIndex = 4
+        Me.MyLabel23.Text = "Minimum SNF %"
+        '
+        'txtMinFATPer
+        '
+        Me.txtMinFATPer.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtMinFATPer.CalculationExpression = Nothing
+        Me.txtMinFATPer.DecimalPlaces = 1
+        Me.txtMinFATPer.FieldCode = Nothing
+        Me.txtMinFATPer.FieldDesc = Nothing
+        Me.txtMinFATPer.FieldMaxLength = 0
+        Me.txtMinFATPer.FieldName = Nothing
+        Me.txtMinFATPer.isCalculatedField = False
+        Me.txtMinFATPer.IsSourceFromTable = False
+        Me.txtMinFATPer.IsSourceFromValueList = False
+        Me.txtMinFATPer.IsUnique = False
+        Me.txtMinFATPer.Location = New System.Drawing.Point(100, 3)
+        Me.txtMinFATPer.MendatroryField = True
+        Me.txtMinFATPer.MyLinkLable1 = Me.MyLabel24
+        Me.txtMinFATPer.MyLinkLable2 = Nothing
+        Me.txtMinFATPer.Name = "txtMinFATPer"
+        Me.txtMinFATPer.ReferenceFieldDesc = Nothing
+        Me.txtMinFATPer.ReferenceFieldName = Nothing
+        Me.txtMinFATPer.ReferenceTableName = Nothing
+        Me.txtMinFATPer.Size = New System.Drawing.Size(53, 20)
+        Me.txtMinFATPer.TabIndex = 0
+        Me.txtMinFATPer.Text = "0"
+        Me.txtMinFATPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtMinFATPer.Value = 0R
+        '
+        'MyLabel24
+        '
+        Me.MyLabel24.FieldName = Nothing
+        Me.MyLabel24.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel24.Location = New System.Drawing.Point(4, 5)
+        Me.MyLabel24.Name = "MyLabel24"
+        Me.MyLabel24.Size = New System.Drawing.Size(90, 16)
+        Me.MyLabel24.TabIndex = 5
+        Me.MyLabel24.Text = "Minimum FAT %"
         '
         'RadButton1
         '
@@ -224,7 +417,7 @@ Partial Class frmPriceChartPlanMasterBhole
         Me.RadButton1.Location = New System.Drawing.Point(385, 1)
         Me.RadButton1.Name = "RadButton1"
         Me.RadButton1.Size = New System.Drawing.Size(20, 20)
-        Me.RadButton1.TabIndex = 1030
+        Me.RadButton1.TabIndex = 7
         Me.RadButton1.Text = "CC"
         '
         'cboDockCollectionMilkType
@@ -253,192 +446,6 @@ Partial Class frmPriceChartPlanMasterBhole
         Me.cboDockCollectionMilkType.ReferenceTableName = Nothing
         Me.cboDockCollectionMilkType.Size = New System.Drawing.Size(85, 18)
         Me.cboDockCollectionMilkType.TabIndex = 1029
-        '
-        'RadGroupBox5
-        '
-        Me.RadGroupBox5.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox5.Controls.Add(Me.chkSNFZeroAfterMax)
-        Me.RadGroupBox5.Controls.Add(Me.chkFATZeroAfterMax)
-        Me.RadGroupBox5.Controls.Add(Me.txtMaxSNFPer)
-        Me.RadGroupBox5.Controls.Add(Me.MyLabel1)
-        Me.RadGroupBox5.Controls.Add(Me.txtMaxFATPer)
-        Me.RadGroupBox5.Controls.Add(Me.MyLabel2)
-        Me.RadGroupBox5.Controls.Add(Me.txtMinSNFPer)
-        Me.RadGroupBox5.Controls.Add(Me.MyLabel23)
-        Me.RadGroupBox5.Controls.Add(Me.txtMinFATPer)
-        Me.RadGroupBox5.Controls.Add(Me.MyLabel24)
-        Me.RadGroupBox5.HeaderText = "Range"
-        Me.RadGroupBox5.Location = New System.Drawing.Point(278, 88)
-        Me.RadGroupBox5.Name = "RadGroupBox5"
-        Me.RadGroupBox5.Size = New System.Drawing.Size(372, 105)
-        Me.RadGroupBox5.TabIndex = 366
-        Me.RadGroupBox5.Text = "Range"
-        '
-        'chkSNFZeroAfterMax
-        '
-        Me.chkSNFZeroAfterMax.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkSNFZeroAfterMax.Location = New System.Drawing.Point(1, 85)
-        Me.chkSNFZeroAfterMax.Name = "chkSNFZeroAfterMax"
-        Me.chkSNFZeroAfterMax.Size = New System.Drawing.Size(175, 16)
-        Me.chkSNFZeroAfterMax.TabIndex = 18
-        Me.chkSNFZeroAfterMax.Text = "SNF Part Zero After Max Limit "
-        '
-        'chkFATZeroAfterMax
-        '
-        Me.chkFATZeroAfterMax.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkFATZeroAfterMax.Location = New System.Drawing.Point(1, 65)
-        Me.chkFATZeroAfterMax.Name = "chkFATZeroAfterMax"
-        Me.chkFATZeroAfterMax.Size = New System.Drawing.Size(174, 16)
-        Me.chkFATZeroAfterMax.TabIndex = 17
-        Me.chkFATZeroAfterMax.Text = "FAT Part Zero After Max Limit "
-        '
-        'txtMaxSNFPer
-        '
-        Me.txtMaxSNFPer.BackColor = System.Drawing.Color.LightGoldenrodYellow
-        Me.txtMaxSNFPer.CalculationExpression = Nothing
-        Me.txtMaxSNFPer.DecimalPlaces = 1
-        Me.txtMaxSNFPer.FieldCode = Nothing
-        Me.txtMaxSNFPer.FieldDesc = Nothing
-        Me.txtMaxSNFPer.FieldMaxLength = 0
-        Me.txtMaxSNFPer.FieldName = Nothing
-        Me.txtMaxSNFPer.isCalculatedField = False
-        Me.txtMaxSNFPer.IsSourceFromTable = False
-        Me.txtMaxSNFPer.IsSourceFromValueList = False
-        Me.txtMaxSNFPer.IsUnique = False
-        Me.txtMaxSNFPer.Location = New System.Drawing.Point(259, 40)
-        Me.txtMaxSNFPer.MendatroryField = True
-        Me.txtMaxSNFPer.MyLinkLable1 = Me.MyLabel1
-        Me.txtMaxSNFPer.MyLinkLable2 = Nothing
-        Me.txtMaxSNFPer.Name = "txtMaxSNFPer"
-        Me.txtMaxSNFPer.ReferenceFieldDesc = Nothing
-        Me.txtMaxSNFPer.ReferenceFieldName = Nothing
-        Me.txtMaxSNFPer.ReferenceTableName = Nothing
-        Me.txtMaxSNFPer.Size = New System.Drawing.Size(53, 20)
-        Me.txtMaxSNFPer.TabIndex = 7
-        Me.txtMaxSNFPer.Text = "0"
-        Me.txtMaxSNFPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMaxSNFPer.Value = 0R
-        '
-        'MyLabel1
-        '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel1.Location = New System.Drawing.Point(160, 42)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(94, 16)
-        Me.MyLabel1.TabIndex = 8
-        Me.MyLabel1.Text = "Maximum SNF %"
-        '
-        'txtMaxFATPer
-        '
-        Me.txtMaxFATPer.BackColor = System.Drawing.Color.LightGoldenrodYellow
-        Me.txtMaxFATPer.CalculationExpression = Nothing
-        Me.txtMaxFATPer.DecimalPlaces = 1
-        Me.txtMaxFATPer.FieldCode = Nothing
-        Me.txtMaxFATPer.FieldDesc = Nothing
-        Me.txtMaxFATPer.FieldMaxLength = 0
-        Me.txtMaxFATPer.FieldName = Nothing
-        Me.txtMaxFATPer.isCalculatedField = False
-        Me.txtMaxFATPer.IsSourceFromTable = False
-        Me.txtMaxFATPer.IsSourceFromValueList = False
-        Me.txtMaxFATPer.IsUnique = False
-        Me.txtMaxFATPer.Location = New System.Drawing.Point(259, 18)
-        Me.txtMaxFATPer.MendatroryField = True
-        Me.txtMaxFATPer.MyLinkLable1 = Me.MyLabel2
-        Me.txtMaxFATPer.MyLinkLable2 = Nothing
-        Me.txtMaxFATPer.Name = "txtMaxFATPer"
-        Me.txtMaxFATPer.ReferenceFieldDesc = Nothing
-        Me.txtMaxFATPer.ReferenceFieldName = Nothing
-        Me.txtMaxFATPer.ReferenceTableName = Nothing
-        Me.txtMaxFATPer.Size = New System.Drawing.Size(53, 20)
-        Me.txtMaxFATPer.TabIndex = 6
-        Me.txtMaxFATPer.Text = "0"
-        Me.txtMaxFATPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMaxFATPer.Value = 0R
-        '
-        'MyLabel2
-        '
-        Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel2.Location = New System.Drawing.Point(160, 20)
-        Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(93, 16)
-        Me.MyLabel2.TabIndex = 9
-        Me.MyLabel2.Text = "Maximum FAT %"
-        '
-        'txtMinSNFPer
-        '
-        Me.txtMinSNFPer.BackColor = System.Drawing.Color.LightGoldenrodYellow
-        Me.txtMinSNFPer.CalculationExpression = Nothing
-        Me.txtMinSNFPer.DecimalPlaces = 1
-        Me.txtMinSNFPer.FieldCode = Nothing
-        Me.txtMinSNFPer.FieldDesc = Nothing
-        Me.txtMinSNFPer.FieldMaxLength = 0
-        Me.txtMinSNFPer.FieldName = Nothing
-        Me.txtMinSNFPer.isCalculatedField = False
-        Me.txtMinSNFPer.IsSourceFromTable = False
-        Me.txtMinSNFPer.IsSourceFromValueList = False
-        Me.txtMinSNFPer.IsUnique = False
-        Me.txtMinSNFPer.Location = New System.Drawing.Point(100, 39)
-        Me.txtMinSNFPer.MendatroryField = True
-        Me.txtMinSNFPer.MyLinkLable1 = Me.MyLabel23
-        Me.txtMinSNFPer.MyLinkLable2 = Nothing
-        Me.txtMinSNFPer.Name = "txtMinSNFPer"
-        Me.txtMinSNFPer.ReferenceFieldDesc = Nothing
-        Me.txtMinSNFPer.ReferenceFieldName = Nothing
-        Me.txtMinSNFPer.ReferenceTableName = Nothing
-        Me.txtMinSNFPer.Size = New System.Drawing.Size(53, 20)
-        Me.txtMinSNFPer.TabIndex = 1
-        Me.txtMinSNFPer.Text = "0"
-        Me.txtMinSNFPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMinSNFPer.Value = 0R
-        '
-        'MyLabel23
-        '
-        Me.MyLabel23.FieldName = Nothing
-        Me.MyLabel23.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel23.Location = New System.Drawing.Point(1, 41)
-        Me.MyLabel23.Name = "MyLabel23"
-        Me.MyLabel23.Size = New System.Drawing.Size(91, 16)
-        Me.MyLabel23.TabIndex = 4
-        Me.MyLabel23.Text = "Minimum SNF %"
-        '
-        'txtMinFATPer
-        '
-        Me.txtMinFATPer.BackColor = System.Drawing.Color.LightGoldenrodYellow
-        Me.txtMinFATPer.CalculationExpression = Nothing
-        Me.txtMinFATPer.DecimalPlaces = 1
-        Me.txtMinFATPer.FieldCode = Nothing
-        Me.txtMinFATPer.FieldDesc = Nothing
-        Me.txtMinFATPer.FieldMaxLength = 0
-        Me.txtMinFATPer.FieldName = Nothing
-        Me.txtMinFATPer.isCalculatedField = False
-        Me.txtMinFATPer.IsSourceFromTable = False
-        Me.txtMinFATPer.IsSourceFromValueList = False
-        Me.txtMinFATPer.IsUnique = False
-        Me.txtMinFATPer.Location = New System.Drawing.Point(100, 17)
-        Me.txtMinFATPer.MendatroryField = True
-        Me.txtMinFATPer.MyLinkLable1 = Me.MyLabel24
-        Me.txtMinFATPer.MyLinkLable2 = Nothing
-        Me.txtMinFATPer.Name = "txtMinFATPer"
-        Me.txtMinFATPer.ReferenceFieldDesc = Nothing
-        Me.txtMinFATPer.ReferenceFieldName = Nothing
-        Me.txtMinFATPer.ReferenceTableName = Nothing
-        Me.txtMinFATPer.Size = New System.Drawing.Size(53, 20)
-        Me.txtMinFATPer.TabIndex = 0
-        Me.txtMinFATPer.Text = "0"
-        Me.txtMinFATPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMinFATPer.Value = 0R
-        '
-        'MyLabel24
-        '
-        Me.MyLabel24.FieldName = Nothing
-        Me.MyLabel24.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel24.Location = New System.Drawing.Point(1, 19)
-        Me.MyLabel24.Name = "MyLabel24"
-        Me.MyLabel24.Size = New System.Drawing.Size(90, 16)
-        Me.MyLabel24.TabIndex = 5
-        Me.MyLabel24.Text = "Minimum FAT %"
         '
         'CboShift
         '
@@ -475,52 +482,6 @@ Partial Class frmPriceChartPlanMasterBhole
         Me.MyLabel20.Size = New System.Drawing.Size(29, 16)
         Me.MyLabel20.TabIndex = 365
         Me.MyLabel20.Text = "Shift"
-        '
-        'txtVLC
-        '
-        Me.txtVLC.arrDispalyMember = Nothing
-        Me.txtVLC.arrValueMember = Nothing
-        Me.txtVLC.Location = New System.Drawing.Point(92, 67)
-        Me.txtVLC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtVLC.MyLinkLable1 = Nothing
-        Me.txtVLC.MyLinkLable2 = Nothing
-        Me.txtVLC.MyNullText = "Please Select"
-        Me.txtVLC.Name = "txtVLC"
-        Me.txtVLC.Size = New System.Drawing.Size(558, 20)
-        Me.txtVLC.TabIndex = 362
-        '
-        'txtMCC
-        '
-        Me.txtMCC.arrDispalyMember = Nothing
-        Me.txtMCC.arrValueMember = Nothing
-        Me.txtMCC.Location = New System.Drawing.Point(92, 44)
-        Me.txtMCC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtMCC.MyLinkLable1 = Nothing
-        Me.txtMCC.MyLinkLable2 = Nothing
-        Me.txtMCC.MyNullText = "Please Select"
-        Me.txtMCC.Name = "txtMCC"
-        Me.txtMCC.Size = New System.Drawing.Size(558, 20)
-        Me.txtMCC.TabIndex = 360
-        '
-        'MyLabel15
-        '
-        Me.MyLabel15.FieldName = Nothing
-        Me.MyLabel15.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel15.Location = New System.Drawing.Point(3, 69)
-        Me.MyLabel15.Name = "MyLabel15"
-        Me.MyLabel15.Size = New System.Drawing.Size(26, 18)
-        Me.MyLabel15.TabIndex = 363
-        Me.MyLabel15.Text = "DCS"
-        '
-        'MyLabel14
-        '
-        Me.MyLabel14.FieldName = Nothing
-        Me.MyLabel14.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel14.Location = New System.Drawing.Point(3, 48)
-        Me.MyLabel14.Name = "MyLabel14"
-        Me.MyLabel14.Size = New System.Drawing.Size(30, 18)
-        Me.MyLabel14.TabIndex = 361
-        Me.MyLabel14.Text = "MCC"
         '
         'UsLock1
         '
@@ -588,9 +549,9 @@ Partial Class frmPriceChartPlanMasterBhole
         Me.RadGroupBox8.Controls.Add(Me.MyLabel12)
         Me.RadGroupBox8.Controls.Add(Me.txtPriceChartCode)
         Me.RadGroupBox8.HeaderText = "Standart Price Details"
-        Me.RadGroupBox8.Location = New System.Drawing.Point(2, 88)
+        Me.RadGroupBox8.Location = New System.Drawing.Point(0, 47)
         Me.RadGroupBox8.Name = "RadGroupBox8"
-        Me.RadGroupBox8.Size = New System.Drawing.Size(270, 105)
+        Me.RadGroupBox8.Size = New System.Drawing.Size(270, 113)
         Me.RadGroupBox8.TabIndex = 3
         Me.RadGroupBox8.Text = "Standart Price Details"
         '
@@ -867,7 +828,7 @@ Partial Class frmPriceChartPlanMasterBhole
         '
         'btnnew
         '
-        Me.btnnew.Image = Global.ERP.My.Resources.Resources._new
+        Me.btnnew.Image = Global.XpertERPBulkProcurement.My.Resources.Resources._new
         Me.btnnew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnnew.Location = New System.Drawing.Point(365, 1)
         Me.btnnew.Name = "btnnew"
@@ -898,7 +859,7 @@ Partial Class frmPriceChartPlanMasterBhole
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(105.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(654, 344)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(788, 441)
         Me.RadPageViewPage2.Text = "Price Chart Matrix"
         '
         'gv
@@ -910,11 +871,11 @@ Partial Class frmPriceChartPlanMasterBhole
         '
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
-        Me.gv.Size = New System.Drawing.Size(654, 311)
+        Me.gv.Size = New System.Drawing.Size(788, 408)
         Me.gv.TabIndex = 0
         '
         'Panel1
@@ -928,13 +889,13 @@ Partial Class frmPriceChartPlanMasterBhole
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(654, 33)
+        Me.Panel1.Size = New System.Drawing.Size(788, 33)
         Me.Panel1.TabIndex = 1
         '
         'RadButton4
         '
         Me.RadButton4.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.RadButton4.Location = New System.Drawing.Point(572, 4)
+        Me.RadButton4.Location = New System.Drawing.Point(706, 4)
         Me.RadButton4.Name = "RadButton4"
         Me.RadButton4.Size = New System.Drawing.Size(78, 24)
         Me.RadButton4.TabIndex = 43
@@ -1111,6 +1072,24 @@ Partial Class frmPriceChartPlanMasterBhole
         Me.RadButton3.TabIndex = 24
         Me.RadButton3.Text = "Search"
         '
+        'Attachments
+        '
+        Me.Attachments.Controls.Add(Me.UcAttachment1)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 28.0!)
+        Me.Attachments.Location = New System.Drawing.Point(10, 37)
+        Me.Attachments.Name = "Attachments"
+        Me.Attachments.Size = New System.Drawing.Size(654, 441)
+        Me.Attachments.Text = "Attachments"
+        '
+        'UcAttachment1
+        '
+        Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
+        Me.UcAttachment1.Name = "UcAttachment1"
+        Me.UcAttachment1.Size = New System.Drawing.Size(654, 441)
+        Me.UcAttachment1.TabIndex = 1
+        Me.UcAttachment1.TabStop = False
+        '
         'btnPost
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -1123,7 +1102,7 @@ Partial Class frmPriceChartPlanMasterBhole
         'btnclose
         '
         Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnclose.Location = New System.Drawing.Point(604, 5)
+        Me.btnclose.Location = New System.Drawing.Point(730, 5)
         Me.btnclose.Name = "btnclose"
         Me.btnclose.Size = New System.Drawing.Size(73, 20)
         Me.btnclose.TabIndex = 2
@@ -1147,13 +1126,13 @@ Partial Class frmPriceChartPlanMasterBhole
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
-        'frmPriceChartPlanMasterBhole
+        'frmPriceChartPlanMasterAJM
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(681, 432)
+        Me.ClientSize = New System.Drawing.Size(815, 529)
         Me.Controls.Add(Me.SplitContainer1)
-        Me.Name = "frmPriceChartPlanMasterBhole"
+        Me.Name = "frmPriceChartPlanMasterAJM"
         '
         '
         '
@@ -1166,13 +1145,13 @@ Partial Class frmPriceChartPlanMasterBhole
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cboDockCollectionMilkType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox9, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox9.ResumeLayout(False)
+        CType(Me.gvSNF.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvSNF, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox5.ResumeLayout(False)
         Me.RadGroupBox5.PerformLayout()
-        CType(Me.chkSNFZeroAfterMax, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkFATZeroAfterMax, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtMaxSNFPer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtMaxFATPer, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1181,10 +1160,10 @@ Partial Class frmPriceChartPlanMasterBhole
         CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtMinFATPer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cboDockCollectionMilkType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CboShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox8, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1227,6 +1206,7 @@ Partial Class frmPriceChartPlanMasterBhole
         CType(Me.txtSearchFAT, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Attachments.ResumeLayout(False)
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1274,28 +1254,26 @@ Partial Class frmPriceChartPlanMasterBhole
     Friend WithEvents RadButton4 As Telerik.WinControls.UI.RadButton
     Friend WithEvents RadButton5 As Telerik.WinControls.UI.RadButton
     Friend WithEvents RadGroupBox8 As Telerik.WinControls.UI.RadGroupBox
-    Friend WithEvents Panel1 As System.Windows.Forms.Panel
     Friend WithEvents btnPost As Telerik.WinControls.UI.RadButton
     Friend WithEvents txtDate As common.Controls.MyDateTimePicker
     Friend WithEvents RadLabel4 As common.Controls.MyLabel
     Friend WithEvents UsLock1 As common.usLock
-    Friend WithEvents txtVLC As common.UserControls.txtMultiSelectFinder
-    Friend WithEvents txtMCC As common.UserControls.txtMultiSelectFinder
-    Friend WithEvents MyLabel15 As common.Controls.MyLabel
-    Friend WithEvents MyLabel14 As common.Controls.MyLabel
     Friend WithEvents CboShift As common.Controls.MyComboBox
     Friend WithEvents MyLabel20 As common.Controls.MyLabel
+    Friend WithEvents RadGroupBox9 As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents RadGroupBox5 As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents txtMinSNFPer As common.MyNumBox
     Friend WithEvents MyLabel23 As common.Controls.MyLabel
     Friend WithEvents txtMinFATPer As common.MyNumBox
     Friend WithEvents MyLabel24 As common.Controls.MyLabel
+    Friend WithEvents gvSNF As common.UserControls.MyRadGridView
     Friend WithEvents cboDockCollectionMilkType As common.Controls.MyComboBox
     Friend WithEvents txtMaxSNFPer As common.MyNumBox
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents txtMaxFATPer As common.MyNumBox
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
-    Friend WithEvents chkSNFZeroAfterMax As Telerik.WinControls.UI.RadCheckBox
-    Friend WithEvents chkFATZeroAfterMax As Telerik.WinControls.UI.RadCheckBox
-    Friend WithEvents RadButton1 As RadButton
+    Friend WithEvents RadButton1 As Telerik.WinControls.UI.RadButton
+    Friend WithEvents Attachments As RadPageViewPage
+    Friend WithEvents UcAttachment1 As ucAttachment
+    Friend WithEvents Panel1 As Panel
 End Class

@@ -141,7 +141,7 @@ Partial Class FrmVLCUploader
         Me.lblvandorno.Name = "lblvandorno"
         Me.lblvandorno.Size = New System.Drawing.Size(58, 16)
         Me.lblvandorno.TabIndex = 8
-        Me.lblvandorno.Text = "VLC Code"
+        Me.lblvandorno.Text = "DCS Code"
         '
         'MyLabel1
         '
@@ -162,7 +162,7 @@ Partial Class FrmVLCUploader
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Size = New System.Drawing.Size(722, 340)
         Me.RadGroupBox1.TabIndex = 0
-        Me.RadGroupBox1.Text = "VLC Chart"
+        Me.RadGroupBox1.Text = "DCS Chart"
         '
         'gv
         '

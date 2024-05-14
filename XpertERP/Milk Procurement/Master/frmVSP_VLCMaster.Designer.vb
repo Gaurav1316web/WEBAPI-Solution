@@ -3616,7 +3616,7 @@ Partial Class frmVSP_VLCMaster
         Me.MyLabel21.Name = "MyLabel21"
         Me.MyLabel21.Size = New System.Drawing.Size(62, 16)
         Me.MyLabel21.TabIndex = 433
-        Me.MyLabel21.Text = "VLC Name"
+        Me.MyLabel21.Text = "DCS Name"
         '
         'fndVendorCurrency
         '
@@ -4093,7 +4093,7 @@ Partial Class frmVSP_VLCMaster
         Me.MyLabel9.Name = "MyLabel9"
         Me.MyLabel9.Size = New System.Drawing.Size(58, 16)
         Me.MyLabel9.TabIndex = 432
-        Me.MyLabel9.Text = "VLC Code"
+        Me.MyLabel9.Text = "DCS Code"
         '
         'txtAdd3
         '

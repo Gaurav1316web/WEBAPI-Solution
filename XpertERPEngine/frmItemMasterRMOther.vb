@@ -13,6 +13,7 @@ Public Class FrmItemMasterRMOther
     Dim ShelfLifeManadatoryOnFG As Boolean = False
     Dim IndustryType As String = Nothing
     Dim isNewEntry As Boolean = False
+    Dim ShowFreshAmbientItems As Boolean = False
     Dim userCode, companyCode As String
     Dim isInsideLoadData As Boolean = False
     Dim isCellValueChangedOpen As Boolean = False
@@ -96,6 +97,7 @@ Public Class FrmItemMasterRMOther
         AllowItemConversionAutomation = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowItemConversionAutomation, clsFixedParameterCode.AllowItemConversionAutomation, Nothing))
         AllowDoNotShowDairyTypeItems = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DoNotShowDairyTypeItems, clsFixedParameterCode.DoNotShowDairyTypeItems, Nothing)) = 1, True, False)
         SettItemWiseQualityCheckInGeneralPurchase = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ItemWiseQualityCheckInGeneralPurchase, clsFixedParameterCode.ItemWiseQualityCheckInGeneralPurchase, Nothing)) = 1)
+        ShowFreshAmbientItems = IIf((clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.ShowFreshAmbientItems, Nothing))) = 1, True, False)
         SplitContainer2.Panel2Collapsed = Not SettItemWiseQualityCheckInGeneralPurchase
 
         SetUserMgmtNew()
@@ -401,8 +403,8 @@ Public Class FrmItemMasterRMOther
         chkPickAutoSrNo.Checked = False
         txtNextAutoSerialCounter.Text = ""
         chkMRP.Checked = False
-        chkFresh.Checked = False
-        chkAmbient.Checked = False
+        rbtnFresh.IsChecked = False
+        rbtnAmbient.IsChecked = False
         chkMorning.Visible = Not objCommonVar.IsDemoERP
 
         txtRate.Visible = Not objCommonVar.IsDemoERP
@@ -466,8 +468,8 @@ Public Class FrmItemMasterRMOther
         fndGLAcc.Value = ""
         LblGLAcc.Text = ""
         ''------------------
-        chkFresh.Visible = True
-        chkAmbient.Visible = True
+        rbtnFresh.Visible = True
+        rbtnAmbient.Visible = True
         cmbUsedAs.Visible = True
         'cboCSAType.Visible = True
         'lblCSaType.Visible = True
@@ -1269,24 +1271,30 @@ Public Class FrmItemMasterRMOther
         If clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.INDUSTRYTYPE, clsFixedParameterCode.INDUSTRYTYPE, Nothing)), "A") = CompairStringResult.Equal Then
             CmbWarrApp.Visible = True
             LblWarrDate.Visible = True
-            chkFresh.Visible = True
-            chkAmbient.Visible = True
+            rbtnFresh.Visible = True
+            rbtnAmbient.Visible = True
             ChkCrateType.Visible = True
             chkIsCanType.Visible = True
 
         Else
             CmbWarrApp.Visible = False
             LblWarrDate.Visible = False
-            chkFresh.Visible = False
-            chkAmbient.Visible = False
+            rbtnFresh.Visible = False
+            rbtnAmbient.Visible = False
             'cboCSAType.Visible = False
             ChkCrateType.Visible = False
             chkIsCanType.Visible = False
         End If
+        If ShowFreshAmbientItems Then
+            rbtnFreshAmbient.Visible = True
+        Else
+            rbtnFreshAmbient.Visible = False
+
+        End If
         ''======Parteek=======''
         If clsCommon.CompairString(clsFixedParameter.GetData(clsFixedParameterType.INDUSTRYTYPE, clsFixedParameterCode.INDUSTRYTYPE, Nothing), "D") = CompairStringResult.Equal Then
-            chkFresh.Visible = True
-            chkAmbient.Visible = True
+            rbtnFresh.Visible = True
+            rbtnAmbient.Visible = True
             cmbUsedAs.Visible = True
             'cboCSAType.Visible = True
             'lblCSaType.Visible = True
@@ -1464,8 +1472,9 @@ Public Class FrmItemMasterRMOther
                 obj.Weight_Value = clsCommon.myCdbl(txtWeightValue.Text)
                 obj.ITFCode = txtITFCode.Text
                 obj.Is_MRP = chkMRP.Checked
-                obj.Is_FreshItem = chkFresh.Checked
-                obj.Is_Ambient = chkAmbient.Checked
+                obj.Is_FreshItem = rbtnFresh.IsChecked
+                obj.Is_Ambient = rbtnAmbient.IsChecked
+                obj.Is_FreshAmbient = rbtnFreshAmbient.IsChecked
                 obj.Skip_GST = chkSkipGST.Checked
                 obj.Is_Power_And_Fuel = chkPowerAndFuel.Checked
                 If AllowGSTApplicable = True Then
@@ -1748,18 +1757,18 @@ Public Class FrmItemMasterRMOther
                 clsCommon.MyMessageBoxShow(Me, "Please Enter Item Description", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
                 txtDesc.Focus()
                 Return False
-            ElseIf chkFresh.Checked = True AndAlso chkAmbient.Checked = True AndAlso Not (chkFresh.Enabled = False AndAlso chkAmbient.Enabled = False) Then
+            ElseIf rbtnFresh.IsChecked = True AndAlso rbtnAmbient.IsChecked = True AndAlso Not (rbtnFresh.Enabled = False AndAlso rbtnAmbient.Enabled = False) Then
                 RadPageView1.SelectedPage = RadPageViewPage1
                 clsCommon.MyMessageBoxShow(Me, "You cannot select Fresh item/Ambient at a time, Please select either fresh Item or Ambient.", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
                 Return False
 
-                'ElseIf chkFresh.Checked = False AndAlso chkAmbient.Checked = False AndAlso Not (chkFresh.Enabled = False AndAlso chkAmbient.Enabled = False) Then
+                'ElseIf rbtnFresh.Checked = False AndAlso rbtnAmbient.Checked = False AndAlso Not (rbtnFresh.Enabled = False AndAlso rbtnAmbient.Enabled = False) Then
                 'RadPageView1.SelectedPage = RadPageViewPage1
                 'clsCommon.MyMessageBoxShow("Please select either fresh Item or Ambient.", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
                 'Return False
 
                 '' Anubhooti 10-Sep-2014 BM00000003847
-            ElseIf chkFresh.Checked = True AndAlso clsCommon.myLen(txtShortDescription.Text) <= 0 Then
+            ElseIf rbtnFresh.IsChecked = True AndAlso clsCommon.myLen(txtShortDescription.Text) <= 0 Then
                 RadPageView1.SelectedPage = RadPageViewPage1
                 clsCommon.MyMessageBoxShow(Me, "Please fill short description", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
                 txtShortDescription.Focus()
@@ -2582,10 +2591,11 @@ Public Class FrmItemMasterRMOther
                 chkIsDisplayDemad.Checked = obj.Is_DisplayDemand
                 chkExcludeInApp.Checked = obj.Is_ExcludeAPP
                 txtRackNo.Text = obj.Rack_No
-                chkFresh.Checked = obj.Is_FreshItem
+                rbtnFresh.IsChecked = obj.Is_FreshItem
                 chkChangeRate.Checked = IIf(obj.Is_Rate_Change_OnDairyDispatch = 1, True, False)
                 chkAllowSRNwoShort.Checked = IIf(obj.AllowSRNWithoutShortReject = 1, True, False)
-                chkAmbient.Checked = obj.Is_Ambient
+                rbtnAmbient.IsChecked = obj.Is_Ambient
+                rbtnFreshAmbient.IsChecked = obj.Is_FreshAmbient
                 If obj.Tax_Exempted = 1 Then
                     rbtnTaxExempted.IsChecked = True
                 ElseIf obj.Tax_Exempted = 2 Then
@@ -2823,8 +2833,8 @@ Public Class FrmItemMasterRMOther
                     chkCreateSepAssetForEachQty.Enabled = True
                     ChkCrateType.Enabled = False
                     chkIsCanType.Enabled = False
-                    chkFresh.Enabled = False
-                    chkAmbient.Enabled = False
+                    rbtnFresh.Enabled = False
+                    rbtnAmbient.Enabled = False
                     txtSeqNo.Enabled = False
                     chkChilledFreezen.Enabled = False
                 Else
@@ -2841,8 +2851,8 @@ Public Class FrmItemMasterRMOther
                     End If
 
 
-                    chkFresh.Enabled = True
-                    chkAmbient.Enabled = True
+                    rbtnFresh.Enabled = True
+                    rbtnAmbient.Enabled = True
                     txtSeqNo.Enabled = True
                     chkChilledFreezen.Enabled = True
                 End If
@@ -2850,8 +2860,8 @@ Public Class FrmItemMasterRMOther
                 ''======================================
                 ''=============Parteek==============''
                 If clsCommon.CompairString(clsFixedParameter.GetData(clsFixedParameterType.INDUSTRYTYPE, clsFixedParameterCode.INDUSTRYTYPE, Nothing), "D") = CompairStringResult.Equal Then
-                    chkFresh.Visible = True
-                    chkAmbient.Visible = True
+                    rbtnFresh.Visible = True
+                    rbtnAmbient.Visible = True
                     cmbUsedAs.Visible = True
                     'cboCSAType.Visible = True
                     'lblCSaType.Visible = True
@@ -5865,8 +5875,8 @@ ExitLOOP:
                 chkCreateSepAssetForEachQty.Enabled = True
                 ChkCrateType.Enabled = False
                 chkIsCanType.Enabled = False
-                chkFresh.Enabled = False
-                chkAmbient.Enabled = False
+                rbtnFresh.Enabled = False
+                rbtnAmbient.Enabled = False
                 txtSeqNo.Enabled = False
                 chkChilledFreezen.Enabled = False
             Else
@@ -5874,8 +5884,8 @@ ExitLOOP:
                 chkCreateSepAssetForEachQty.Enabled = False
                 ChkCrateType.Enabled = True
                 chkIsCanType.Enabled = True
-                chkFresh.Enabled = True
-                chkAmbient.Enabled = True
+                rbtnFresh.Enabled = True
+                rbtnAmbient.Enabled = True
                 txtSeqNo.Enabled = True
                 chkChilledFreezen.Enabled = True
             End If

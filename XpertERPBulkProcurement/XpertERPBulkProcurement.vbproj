@@ -210,6 +210,12 @@
     <Compile Include="Milk Procurement\Master\frmMPMilkPrice.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Master\frmPriceChartPlanMasterAJM.Designer.vb">
+      <DependentUpon>frmPriceChartPlanMasterAJM.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmPriceChartPlanMasterAJM.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\frmDBTApprovalStatus.Designer.vb">
       <DependentUpon>frmDBTApprovalStatus.vb</DependentUpon>
     </Compile>
@@ -352,6 +358,12 @@
       <DependentUpon>rptMobileAppMilkCollection.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Report\rptMobileAppMilkCollection.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptPerodicalDispatchReport.Designer.vb">
+      <DependentUpon>rptPerodicalDispatchReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptPerodicalDispatchReport.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Milk Procurement\Report\rptTemporaryPaymentDeductionSummary.Designer.vb">
@@ -868,6 +880,9 @@
     <EmbeddedResource Include="Milk Procurement\Master\frmMPMilkPrice.resx">
       <DependentUpon>frmMPMilkPrice.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Master\frmPriceChartPlanMasterAJM.resx">
+      <DependentUpon>frmPriceChartPlanMasterAJM.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\frmDBTApprovalStatus.resx">
       <DependentUpon>frmDBTApprovalStatus.vb</DependentUpon>
     </EmbeddedResource>
@@ -937,6 +952,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptMobileAppMilkCollection.resx">
       <DependentUpon>rptMobileAppMilkCollection.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptPerodicalDispatchReport.resx">
+      <DependentUpon>rptPerodicalDispatchReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptTemporaryPaymentDeductionSummary.resx">
       <DependentUpon>rptTemporaryPaymentDeductionSummary.vb</DependentUpon>
