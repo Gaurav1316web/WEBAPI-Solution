@@ -12,6 +12,7 @@ Public Class frmVendorBankAdvice
     Dim StrPermission As String
     Dim dtREJECT As DataTable
     Dim IsBankAdviseStartDate As String
+    Dim ExportBankWiseQry As String = Nothing
 #End Region
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
@@ -25,6 +26,9 @@ Public Class frmVendorBankAdvice
         MultipleFinderFillAuto = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultipleFinderFillAuto, clsFixedParameterCode.MultipleFinderFillAuto, Nothing)) = 1)
         StrPermission = clsERPFuncationality.UserWiseAvailableLocationCode()
         Reset()
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+            btnExportBankWise.Visible = True
+        End If
         'RadGroupBox1.Visible = Not MultipleFinderFillAuto
         txtPaymentCycleFrom.Enabled = Not MultipleFinderFillAuto
         txtPaymentCycleTo.Enabled = Not MultipleFinderFillAuto
@@ -465,6 +469,8 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
             End If
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(FinalQuery)
+            ExportBankWiseQry = FinalQuery
+
             Dim dt1 As DataTable = Nothing
             Dim dt2 As DataTable = Nothing
             Dim dt3 As DataTable = Nothing
@@ -486,6 +492,7 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
                 dt3 = clsDBFuncationality.GetDataTable(FinalQuery)
             End If
             Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+            Gv1.MasterTemplate.FilterDescriptors.Clear()
             Gv1.DataSource = Nothing
             Gv1.Rows.Clear()
             Gv1.Columns.Clear()
@@ -499,7 +506,6 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
             Else
                 Gv1.DataSource = dt
                 RadPageView1.SelectedPage = RadPageViewPage2
-
                 SetGridFormat()
                 EnableDisaableControls(False)
             End If
@@ -1625,5 +1631,56 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
         Else
             Print(True)
         End If
+    End Sub
+
+    Private Sub btnExportBankWise_Click(sender As Object, e As EventArgs) Handles btnExportBankWise.Click
+        Try
+            Dim dt As DataTable = Nothing
+            Dim dtBank As DataTable = Nothing
+
+            If Gv1.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
+                Exit Sub
+            End If
+            If rbtnSaving.IsChecked OrElse rbtnBankAdvice.IsChecked Then
+                dt = New DataTable()
+                dtBank = New DataTable()
+                dt = Gv1.DataSource
+                dtBank = dt.DefaultView.ToTable(True, "GRPColumn")
+
+                If dtBank.Rows.Count > 0 Then
+                    For Each dr In dtBank.Rows
+                        Gv1.MasterTemplate.FilterDescriptors.Clear()
+                        Dim filter As New FilterDescriptor("GRPColumn", FilterOperator.Contains, dr("GRPColumn"))
+                        Gv1.MasterTemplate.FilterDescriptors.Add(filter)
+
+                        Dim strHeading As String = ""
+                        If MultipleFinderFillAuto Then
+                            strHeading = clsCommon.myCstr("BankAdvice Report Bank Wise from " + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + " to " + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy"))
+                        End If
+
+                        Dim arrHeader As List(Of String) = New List(Of String)()
+                        If MultipleFinderFillAuto Then
+                            If rbtnSaving.IsChecked = True Then
+                                arrHeader.Add("Data: Saving ")
+                            End If
+                            If rbtnBankAdvice.IsChecked = True Then
+                                arrHeader.Add("Report Type: Bank Advice")
+                            End If
+                        Else
+                            arrHeader.Add("Mcc : " + txtMCC.Value)
+                        End If
+
+                        clsCommon.MyExportToExcelGrid(strHeading, Gv1, arrHeader, "Bank Advise  BankWise")
+                    Next
+
+                End If
+            End If
+            clsCommon.MyMessageBoxShow(Me, "Export Successfully", Me.Text)
+            Gv1.MasterTemplate.FilterDescriptors.Clear()
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class
