@@ -66,6 +66,7 @@ Partial Class FrmVendorBankMaster
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.txtBankNameHindi = New common.Controls.MyTextBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -101,6 +102,7 @@ Partial Class FrmVendorBankMaster
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtBankNameHindi, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -141,6 +143,7 @@ Partial Class FrmVendorBankMaster
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.txtBankNameHindi)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.txtIFSCCode)
         Me.RadPageViewPage1.Controls.Add(Me.lblIFSCCode)
@@ -204,6 +207,7 @@ Partial Class FrmVendorBankMaster
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -554,7 +558,7 @@ Partial Class FrmVendorBankMaster
         Me.txtBankName.ReferenceFieldDesc = Nothing
         Me.txtBankName.ReferenceFieldName = Nothing
         Me.txtBankName.ReferenceTableName = Nothing
-        Me.txtBankName.Size = New System.Drawing.Size(557, 20)
+        Me.txtBankName.Size = New System.Drawing.Size(273, 20)
         Me.txtBankName.TabIndex = 2
         '
         'lblBankName
@@ -703,6 +707,29 @@ Partial Class FrmVendorBankMaster
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
+        'txtBankNameHindi
+        '
+        Me.txtBankNameHindi.CalculationExpression = Nothing
+        Me.txtBankNameHindi.FieldCode = Nothing
+        Me.txtBankNameHindi.FieldDesc = Nothing
+        Me.txtBankNameHindi.FieldMaxLength = 0
+        Me.txtBankNameHindi.FieldName = Nothing
+        Me.txtBankNameHindi.isCalculatedField = False
+        Me.txtBankNameHindi.IsSourceFromTable = False
+        Me.txtBankNameHindi.IsSourceFromValueList = False
+        Me.txtBankNameHindi.IsUnique = False
+        Me.txtBankNameHindi.Location = New System.Drawing.Point(394, 41)
+        Me.txtBankNameHindi.MaxLength = 200
+        Me.txtBankNameHindi.MendatroryField = True
+        Me.txtBankNameHindi.MyLinkLable1 = Me.lblBankName
+        Me.txtBankNameHindi.MyLinkLable2 = Nothing
+        Me.txtBankNameHindi.Name = "txtBankNameHindi"
+        Me.txtBankNameHindi.ReferenceFieldDesc = Nothing
+        Me.txtBankNameHindi.ReferenceFieldName = Nothing
+        Me.txtBankNameHindi.ReferenceTableName = Nothing
+        Me.txtBankNameHindi.Size = New System.Drawing.Size(281, 20)
+        Me.txtBankNameHindi.TabIndex = 1374
+        '
         'FrmVendorBankMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -752,6 +779,7 @@ Partial Class FrmVendorBankMaster
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtBankNameHindi, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -798,5 +826,6 @@ Partial Class FrmVendorBankMaster
     Friend WithEvents RDExportBankDetails As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RDExportBranchDetails As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenu1 As Telerik.WinControls.UI.RadMenu
+    Friend WithEvents txtBankNameHindi As common.Controls.MyTextBox
 End Class
 
