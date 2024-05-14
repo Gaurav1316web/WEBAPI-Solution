@@ -228,23 +228,23 @@ from  " & Environment.NewLine & ""
 
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(FinalQuery)
-            If dt IsNot Nothing OrElse dt.Rows.Count > 0 Then
-                If print = False Then
-                    Gv1.DataSource = Nothing
-                    Gv1.Rows.Clear()
-                    Gv1.Columns.Clear()
-                    Gv1.GroupDescriptors.Clear()
-                    Gv1.MasterTemplate.SummaryRowsBottom.Clear()
-                    Gv1.MasterView.Refresh()
-                    Gv1.DataSource = dt
-                    For ii As Integer = 0 To Gv1.Columns.Count - 1
-                        Gv1.Columns(ii).ReadOnly = True
-                    Next
-                    RadPageView1.SelectedPage = RadPageViewPage2
-                    Gv1.EnableFiltering = True
-                    SetGridFormat1()
-                    Gv1.BestFitColumns()
-                Else
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+
+                Gv1.DataSource = Nothing
+                Gv1.Rows.Clear()
+                Gv1.Columns.Clear()
+                Gv1.GroupDescriptors.Clear()
+                Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                Gv1.MasterView.Refresh()
+                Gv1.DataSource = dt
+                For ii As Integer = 0 To Gv1.Columns.Count - 1
+                    Gv1.Columns(ii).ReadOnly = True
+                Next
+                RadPageView1.SelectedPage = RadPageViewPage2
+                Gv1.EnableFiltering = True
+                SetGridFormat1()
+                Gv1.BestFitColumns()
+                If print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptBMCPeriodicalReport", "")
                 End If

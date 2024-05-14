@@ -50,6 +50,7 @@ Public Class rptPaymentCycleWiseReport
         txtRoute.Enabled = val
         txtBank.Enabled = val
         txtDCS.Enabled = val
+        txtZone.Enabled = val
         txtMCC_BMC.Enabled = val
         RadGroupBox1.Enabled = val
         chkShowData.Enabled = val
@@ -87,6 +88,10 @@ Public Class rptPaymentCycleWiseReport
             Dim strBank As String = ""
             If txtBank.arrValueMember IsNot Nothing AndAlso txtBank.arrValueMember.Count > 0 Then
                 strBank = clsCommon.GetMulcallString(txtBank.arrValueMember)
+            End If
+            Dim strZone As String = ""
+            If txtZone.arrValueMember IsNot Nothing AndAlso txtZone.arrValueMember.Count > 0 Then
+                strZone = clsCommon.GetMulcallString(txtZone.arrValueMember)
             End If
             Dim strHold As String = ""
             If rdbHold.Checked = True Then
@@ -126,7 +131,7 @@ Public Class rptPaymentCycleWiseReport
                 If rbtnHeadLoad.IsChecked = True Then
                     query = "select VLC_Code_VLC_Uploader as [VSP Uploader Code],VSP_CODE as [VSP Code],Vendor_Name AS [VSP Name],MAX(Head_Load_Amount) AS [Amount]
                     from ("
-                    query += clsCommon.myCstr(clsPaymentProcessHead.Load_Report_Paymnet_RCDF(strDocumentCode, fromDate.Value, ToDate.Value, strLocaton, strDCS, strRoute, strBank, strHold, True))
+                    query += clsCommon.myCstr(clsPaymentProcessHead.Load_Report_Paymnet_RCDF(strDocumentCode, fromDate.Value, ToDate.Value, strLocaton, strDCS, strRoute, strBank, strHold, True, strZone))
                     query += " )xx GROUP BY VLC_Code_VLC_Uploader,VSP_CODE,Vendor_Name"
                 ElseIf rbtnOutstanding.IsChecked = True Then
                     query = "select Final.VSP_Uploader_Code as [VSP Uploader Code], Final.Vendor_CODE as [VSP Code], Vendor_NAME as [VSP Name], sum(Amount) as [Amount] from (
@@ -154,7 +159,7 @@ Public Class rptPaymentCycleWiseReport
                     Exit Sub
                 End If
             Else
-                clsPaymentProcessHead.Load_Report_Paymnet_RCDF(strDocumentCode, fromDate.Text, ToDate.Text, strLocaton, strDCS, strRoute, strBank, strHold, False) ' clsCommon.GetMulcallString(mfndMcc.arrValueMember)
+                clsPaymentProcessHead.Load_Report_Paymnet_RCDF(strDocumentCode, fromDate.Text, ToDate.Text, strLocaton, strDCS, strRoute, strBank, strHold, False, strZone) ' clsCommon.GetMulcallString(mfndMcc.arrValueMember)
             End If
             EnableDisableCtrl(False)
         Catch ex As Exception
@@ -406,10 +411,8 @@ Public Class rptPaymentCycleWiseReport
 
     Private Sub txtZone__My_Click(sender As Object, e As EventArgs) Handles txtZone._My_Click
         Try
-            Dim qry As String = " select Zone_Code as Zone,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Uploader Code],TSPL_VLC_MASTER_HEAD.VLC_Name as [DCS Name]  from TSPL_VENDOR_MASTER
-              left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_VENDOR_MASTER.Vendor_Code where Form_Type='VSP'"
-            ' Dim qry As String = " select Zone_Code ,Description as Name from TSPL_ZONE_MASTER"
-            txtZone.arrValueMember = clsCommon.ShowMultipleSelectForm("ZONEFinder", qry, "Zone", "", txtDCS.arrValueMember, txtZone.arrDispalyMember)
+            Dim qry As String = " select Zone_Code as Zone ,Description as Name from TSPL_ZONE_MASTER"
+            txtZone.arrValueMember = clsCommon.ShowMultipleSelectForm("ZONEFinder", qry, "Zone", "Name", txtZone.arrValueMember, txtZone.arrDispalyMember)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
