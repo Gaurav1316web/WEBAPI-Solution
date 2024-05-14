@@ -19,6 +19,7 @@ Public Class FrmVendorBankMaster
         isNewEntry = True
         fndBankCode.Value = ""
         txtBankName.Text = ""
+        txtBankNameHindi.Text = ""
         txtBranchCode.Text = ""
         txtBranchName.Text = ""
         txtIFSCCode.Text = ""
@@ -185,6 +186,7 @@ Public Class FrmVendorBankMaster
             Dim objTr As New clsVendorBankBranchDetail()
             obj.Bank_code = clsCommon.myCstr(fndBankCode.Value)
             obj.Bank_Name = clsCommon.myCstr(txtBankName.Text).Replace("'", "`")
+            obj.Bank_Name_Hindi = clsCommon.myCstr(txtBankNameHindi.Text).Replace("'", "`")
             ''richa agarwal 25/03/2015
             'obj.Branch_Code = clsCommon.myCstr(txtBranchCode.Text).Replace("'", "`")
             'obj.Branch_Name = clsCommon.myCstr(txtBranchName.Text).Replace("'", "`")
@@ -386,6 +388,7 @@ Public Class FrmVendorBankMaster
                 isNewEntry = False
                 fndBankCode.Value = obj.Bank_code
                 txtBankName.Text = obj.Bank_Name
+                txtBankNameHindi.Text = clsCommon.myCstr(obj.Bank_Name_Hindi)
                 ''richa agarwal 25/03/2015
                 'txtBranchCode.Text = obj.Branch_Code
                 'txtBranchName.Text = obj.Branch_Name

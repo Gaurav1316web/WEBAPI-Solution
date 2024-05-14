@@ -6,6 +6,7 @@ Public Class clsVendorBankMaster
     Public Bank_code As String = Nothing
     Public BankCode2 As String = Nothing
     Public Bank_Name As String = Nothing
+    Public Bank_Name_Hindi As String = Nothing
     Public Branch_Code As String = Nothing
     Public Branch_Name As String = Nothing
     Public IFSC_Code As String = Nothing
@@ -51,6 +52,7 @@ Public Class clsVendorBankMaster
             clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
             clsCommon.AddColumnsForChange(coll, "Bank_Code", obj.Bank_code)
             clsCommon.AddColumnsForChange(coll, "Bank_Name", obj.Bank_Name)
+            clsCommon.AddColumnsForChange(coll, "Bank_Name_Hindi", obj.Bank_Name_Hindi, True, True)
 
             clsCommon.AddColumnsForChange(coll, "Branch_Code", obj.Branch_Code, False)
             clsCommon.AddColumnsForChange(coll, "Branch_Name", obj.Branch_Name, False)
@@ -150,6 +152,7 @@ Public Class clsVendorBankMaster
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 obj.Bank_code = clsCommon.myCstr(dt.Rows(0)("Bank_code"))
                 obj.Bank_Name = clsCommon.myCstr(dt.Rows(0)("Bank_Name"))
+                obj.Bank_Name_Hindi = clsCommon.myCstr(dt.Rows(0)("Bank_Name_Hindi"))
                 obj.Branch_Code = clsCommon.myCstr(dt.Rows(0)("Branch_Code"))
                 obj.Branch_Name = clsCommon.myCstr(dt.Rows(0)("Branch_Name"))
                 obj.IFSC_Code = clsCommon.myCstr(dt.Rows(0)("IFSC_Code"))
