@@ -325,7 +325,7 @@ Partial Class FrmMilkVSPPayment
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(26, 18)
         Me.MyLabel4.TabIndex = 7
-        Me.MyLabel4.Text = "VLC"
+        Me.MyLabel4.Text = "DCS"
         '
         'MyLabel5
         '

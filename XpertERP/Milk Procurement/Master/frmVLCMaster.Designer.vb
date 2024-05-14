@@ -628,7 +628,7 @@ Partial Class FrmVLCMaster
         Me.MyLabel43.Name = "MyLabel43"
         Me.MyLabel43.Size = New System.Drawing.Size(108, 16)
         Me.MyLabel43.TabIndex = 104
-        Me.MyLabel43.Text = "VLC Uploader Code"
+        Me.MyLabel43.Text = "DCS Uploader Code"
         '
         'txtVLCCodeVlcUploader
         '
@@ -662,7 +662,7 @@ Partial Class FrmVLCMaster
         Me.lblvandorno.Name = "lblvandorno"
         Me.lblvandorno.Size = New System.Drawing.Size(58, 16)
         Me.lblvandorno.TabIndex = 6
-        Me.lblvandorno.Text = "VLC Code"
+        Me.lblvandorno.Text = "DCS Code"
         '
         'RadGroupBox1
         '
@@ -772,7 +772,7 @@ Partial Class FrmVLCMaster
         Me.lblvendorname.Name = "lblvendorname"
         Me.lblvendorname.Size = New System.Drawing.Size(62, 16)
         Me.lblvendorname.TabIndex = 9
-        Me.lblvendorname.Text = "VLC Name"
+        Me.lblvendorname.Text = "DCS Name"
         '
         'btnnew
         '

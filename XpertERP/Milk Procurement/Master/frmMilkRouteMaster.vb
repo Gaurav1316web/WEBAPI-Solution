@@ -318,7 +318,7 @@ Public Class FrmMilkRouteMaster
                         If objgenset.SNo <= 0 Then
                             gvVLC.CurrentRow = gvVLC.Rows(irow)
                             gvVLC.CurrentColumn = gvVLC.Columns(colSNO)
-                            Throw New Exception("Please provide Sequence No Of VLC " + objgenset.VLC_CODE)
+                            Throw New Exception("Please provide Sequence No Of DCS " + objgenset.VLC_CODE)
                         End If
                         Dim flag As Boolean = (objgenset.Distance <= 0)
                         If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHBA") = CompairStringResult.Equal Then
@@ -327,10 +327,10 @@ Public Class FrmMilkRouteMaster
                         If flag Then
                             gvVLC.CurrentRow = gvVLC.Rows(irow)
                             gvVLC.CurrentColumn = gvVLC.Columns(colDistance)
-                            Throw New Exception("Please provide Distance Of VLC " + objgenset.VLC_CODE)
+                            Throw New Exception("Please provide Distance Of DCS " + objgenset.VLC_CODE)
                         End If
                         If arrSNO.Contains(objgenset.SNo) Then
-                            Throw New Exception("Same Serial No Repeated Of VLC " + objgenset.VLC_CODE)
+                            Throw New Exception("Same Serial No Repeated Of DCS " + objgenset.VLC_CODE)
                         Else
                             arrSNO.Add(objgenset.SNo)
                         End If
@@ -343,14 +343,14 @@ Public Class FrmMilkRouteMaster
                     ElseIf VLCTimeTableColumnMandatory Then
                         gvVLC.CurrentRow = gvVLC.Rows(irow)
                         gvVLC.CurrentColumn = gvVLC.Columns(colReachingTimeMorning)
-                        Throw New Exception("Please provide morning reaching time Of VLC " + objgenset.VLC_CODE)
+                        Throw New Exception("Please provide morning reaching time Of DCS " + objgenset.VLC_CODE)
                     End If
                     If clsCommon.myLen(gvVLC.Rows(irow).Cells(colReachingTimeEvening).Value) > 0 Then
                         objgenset.Eve_Milk_Coll = clsCommon.myCDate(gvVLC.Rows(irow).Cells(colReachingTimeEvening).Value)
                     ElseIf VLCTimeTableColumnMandatory Then
                         gvVLC.CurrentRow = gvVLC.Rows(irow)
                         gvVLC.CurrentColumn = gvVLC.Columns(colReachingTimeEvening)
-                        Throw New Exception("Please provide evening reaching time Of VLC " + objgenset.VLC_CODE)
+                        Throw New Exception("Please provide evening reaching time Of DCS " + objgenset.VLC_CODE)
                     End If
                     clsfrmMilkRouteMaster.arr_VLC_Detail.Add(objgenset)
                 Next
@@ -1364,11 +1364,11 @@ Public Class FrmMilkRouteMaster
             If VLCTimeTableColumnShow Then
                 extraColumn = " ,TSPL_MCC_ROUTE_VLC_MAPPING.SNo as  [Sequence No],TSPL_MCC_ROUTE_VLC_MAPPING.Distance,SUBSTRING( convert(varchar, TSPL_MCC_ROUTE_VLC_MAPPING.Mor_Mik_Coll ,108),0,6) as [Morning Reaching Time],SUBSTRING( convert(varchar, TSPL_MCC_ROUTE_VLC_MAPPING.Eve_Milk_Coll ,108),0,6) as [Evening Reaching Time] "
             End If
-            qry = "select TSPL_MCC_ROUTE_VLC_MAPPING.Route_CODE AS [Route Code],TSPL_MCC_ROUTE_VLC_MAPPING.VLC_CODE AS [VLC Code],TSPL_VLC_MASTER_HEAD.VLC_Name As [VLC Name] ,VSP_Code AS [VSP Code] ,vendor_name as [VSP Name],case when coalesce(Is_Active,0)=1 then 'Open' else 'Close' end As [Status],case when TSPL_MCC_ROUTE_VLC_MAPPING.Out_Route=1 then 'Y' else 'N' end as [Out Route],TSPL_MCC_ROUTE_VLC_MAPPING.Out_Route as [Out Route KM] " + extraColumn + " From TSPL_MCC_ROUTE_VLC_MAPPING " &
+            qry = "select TSPL_MCC_ROUTE_VLC_MAPPING.Route_CODE AS [Route Code],TSPL_MCC_ROUTE_VLC_MAPPING.VLC_CODE AS [DCS Code],TSPL_VLC_MASTER_HEAD.VLC_Name As [DCS Name] ,VSP_Code AS [Secretary Code] ,vendor_name as [Secretary Name],case when coalesce(Is_Active,0)=1 then 'Open' else 'Close' end As [Status],case when TSPL_MCC_ROUTE_VLC_MAPPING.Out_Route=1 then 'Y' else 'N' end as [Out Route],TSPL_MCC_ROUTE_VLC_MAPPING.Out_Route as [Out Route KM] " + extraColumn + " From TSPL_MCC_ROUTE_VLC_MAPPING " &
                   " LEFT OUTER JOIN TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MCC_ROUTE_VLC_MAPPING.VLC_CODE " &
                   " left join TSPL_VENDOR_MASTER vm on vm.Vendor_Code=VSP_Code"
-            ListImpExpColumnsMandatory = New List(Of String)({"Route Code", "VLC Code", "Sequence No", "Distance"})
-            ListImpExpColumnsSuperMandatory = New List(Of String)({"Route Code", "VLC Code"})
+            ListImpExpColumnsMandatory = New List(Of String)({"Route Code", "DCS Code", "Sequence No", "Distance"})
+            ListImpExpColumnsSuperMandatory = New List(Of String)({"Route Code", "DCS Code"})
             transportSql.ExporttoExcel(qry, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID + "VLCDetails")
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "UOM")
@@ -1381,7 +1381,7 @@ Public Class FrmMilkRouteMaster
         Dim countDefaultUOM As Integer = 0
         Dim boolresult As Boolean = False
         If VLCTimeTableColumnShow Then
-            boolresult = transportSql.importExcel(gvCharges, "Route Code", "VLC Code", "VLC Name", "VSP Code", "VSP Name", "Status", "Out Route", "Out Route KM", "Sequence No", "Distance", "Morning Reaching Time", "Evening Reaching Time")
+            boolresult = transportSql.importExcel(gvCharges, "Route Code", "DCS Code", "DCS Name", "Secretary Code", "Secretary Name", "Status", "Out Route", "Out Route KM", "Sequence No", "Distance", "Morning Reaching Time", "Evening Reaching Time")
         Else
             boolresult = transportSql.importExcel(gvCharges, "Route Code", "VLC Code", "VLC Name", "VSP Code", "VSP Name", "Status", "Out Route", "Out Route KM")
         End If
@@ -1417,7 +1417,7 @@ Public Class FrmMilkRouteMaster
                     If clsCommon.myLen(VLCCode) > 0 Then
                         strVLCCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select VLC_Code from TSPL_VLC_MASTER_HEAD Where VLC_Code ='" + VLCCode + "'", trans))
                         If clsCommon.myLen(strVLCCode) <= 0 Then
-                            Throw New Exception("VLC Code '" + VLCCode + "' does not exist .Please make its master first at line no '" + LineNo + "'")
+                            Throw New Exception("DCS Code '" + VLCCode + "' does not exist .Please make its master first at line no '" + LineNo + "'")
                         End If
                     Else
                         Throw New Exception("Please fill VLC code at line no '" + LineNo + "' ")
