@@ -567,7 +567,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
                 Exit Sub
             End If
         End If
-        Dim qry As String = "Select VLC.VLC_Code_vlc_Uploader as [Code],VLC.VLC_Code as [VLC Code],VLC.VLC_Name as [VLC Name],VLC.MCC as [MCC Code],VLC.Route_Code as [Route Code],RM.Route_Name ,TSPL_VENDOR_MASTER.Zone_Code as ZoneCode, TSPL_ZONE_MASTER.Description as ZoneName
+        Dim qry As String = "Select VLC.VLC_Code_vlc_Uploader as [Code],VLC.VLC_Code as [DCS Code],VLC.VLC_Name as [DCS Name],VLC.MCC as [MCC Code],VLC.Route_Code as [Route Code],RM.Route_Name ,TSPL_VENDOR_MASTER.Zone_Code as ZoneCode, TSPL_ZONE_MASTER.Description as ZoneName
 from TSPL_VLC_MASTER_HEAD    VLC left join TSPL_MCC_ROUTE_MASTER RM on vlc.Route_Code=RM.Route_Code 
 left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=VLC.VSP_Code
 left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_VENDOR_MASTER.Zone_Code
@@ -578,7 +578,7 @@ where 2=2 "
         If SettApplyZoneOnDBT Then
             qry += "and TSPL_VENDOR_MASTER.Zone_Code='" + txtZone.Value + "' "
         End If
-        txtVLC.arrValueMember = clsCommon.ShowMultipleSelectForm("dbtneftv", qry, "VLC Code", "VLC Name", txtVLC.arrValueMember, txtVLC.arrDispalyMember)
+        txtVLC.arrValueMember = clsCommon.ShowMultipleSelectForm("dbtneftv", qry, "DCS Code", "DCS Name", txtVLC.arrValueMember, txtVLC.arrDispalyMember)
 
         fillMPS()
     End Sub

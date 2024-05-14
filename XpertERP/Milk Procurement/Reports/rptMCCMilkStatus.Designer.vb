@@ -138,7 +138,7 @@ Partial Class RptMCCMilkStatus
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox2.Size = New System.Drawing.Size(420, 208)
         Me.RadGroupBox2.TabIndex = 7
-        Me.RadGroupBox2.Text = "MCC,Route,VLC "
+        Me.RadGroupBox2.Text = "MCC,Route,DCS "
         '
         'cbtMCCRouteVLCC
         '

@@ -8318,6 +8318,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptBMCPerodicalReport
                         frm = New rptBMCPerodicalReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptPerodicalDispatchReport
+                        frm = New rptPerodicalDispatchReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptDcsSecurity
                         frm = New rptDCSSecurity
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)

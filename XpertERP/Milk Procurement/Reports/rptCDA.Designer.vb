@@ -145,7 +145,7 @@ Partial Class RptCDA
         Me.RadGroupBox6.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox6.Size = New System.Drawing.Size(458, 271)
         Me.RadGroupBox6.TabIndex = 15
-        Me.RadGroupBox6.Text = "MCC,Route,VLC "
+        Me.RadGroupBox6.Text = "MCC,Route,DCS "
         '
         'cbtMCCRouteVLCC
         '

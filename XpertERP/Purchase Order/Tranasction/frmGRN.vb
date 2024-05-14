@@ -3914,12 +3914,15 @@ Public Class frmGRN
                     objTr.Capex_SubCode = clsCommon.myCstr(grow.Cells(colCapexSubCode).Value)
                     Dim hsn As String = Nothing
                     Dim hsncode As String = clsItemMaster.GetItemHSNCode(clsCommon.myCstr(grow.Cells(colICode).Value), Nothing)
+                    Dim hsncode1 As String = clsItemMaster.checkHSNCode(clsCommon.myCstr(grow.Cells(colHSNNo).Value), Nothing)
                     If clsCommon.myLen(hsncode) <= 0 Then
+                        hsn = clsCommon.myCstr(grow.Cells(colHSNNo).Value)
+                        clsItemMaster.UpdateHSNCode(hsn, clsCommon.myCstr(grow.Cells(colICode).Value), Nothing)
+                    ElseIf clsCommon.myLen(hsncode1) <= 0 Then
                         hsn = clsCommon.myCstr(grow.Cells(colHSNNo).Value)
                         If clsCommon.myLen(hsn) > 0 Then
                             objhsn.Code = hsn
                             ClsHSNMaster.SaveData(objhsn, isNewEntry)
-                            clsItemMaster.UpdateHSNCode(hsn, clsCommon.myCstr(grow.Cells(colICode).Value), Nothing)
                         End If
                     End If
                     objTr.Line_No = clsCommon.myCdbl(grow.Cells(colLineNo).Value)

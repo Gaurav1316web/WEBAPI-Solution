@@ -193,7 +193,7 @@ Partial Class RptMccSaleAdjustment
         Me.rbtnVLCWise.Name = "rbtnVLCWise"
         Me.rbtnVLCWise.Size = New System.Drawing.Size(67, 18)
         Me.rbtnVLCWise.TabIndex = 22
-        Me.rbtnVLCWise.Text = "VLC Wise"
+        Me.rbtnVLCWise.Text = "DCS Wise"
         '
         'rbtnMCCWise
         '

@@ -1829,7 +1829,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmDCSSavingLedger, "DCS Saving Ledger", "1.17.03.121", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 37)
         InsertDefaultValue(clsUserMgtCode.rptBMCCapacityUtilizationReport, "BMC Capacity Utilization Report", "1.17.03.122", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptBMCPerodicalReport, "BMC Periodical Report", "1.17.03.123", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-
+        InsertDefaultValue(clsUserMgtCode.rptPerodicalDispatchReport, "Periodical Dispatch Report", "1.17.03.124", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
 
         '' Anubhooti 05-Aug-2014

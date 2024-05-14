@@ -227,7 +227,7 @@ Public Class rptSalesLedgerReport
                 qry += " and TSPL_ITEM_MASTER.Is_FreshItem = 1 or  TSPL_ITEM_MASTER.Is_Ambient = 1 "
 
             End If
-            qry += " AND TSPL_SD_SHIPMENT_HEAD.Status = 1 AND  TSPL_ITEM_MASTER.IsTaxable = 0 ORDER BY Structure_Code,Sku_Seq"
+            qry += " AND TSPL_SD_SHIPMENT_HEAD.Status = 1  ORDER BY Structure_Code,Sku_Seq"
 
             Dim itemName2 As String = Nothing
             Dim itemName1 As String = Nothing
@@ -321,7 +321,7 @@ Public Class rptSalesLedgerReport
 
             End If
 
-            BaseQry += " and  TSPL_ITEM_MASTER.IsTaxable = 0 and TSPL_SD_SHIPMENT_HEAD.Status = 1 "
+            BaseQry += " and TSPL_SD_SHIPMENT_HEAD.Status = 1 "
 
             If rbtnSummary.IsChecked Then
                 BaseQry += "and  convert(date,Document_Date,103) >= CONVERT(DATE, '" & txtFromDate.Value & "', 103)  and   convert(date,Document_Date,103) <= CONVERT(DATE, '" & txtToDate.Value & "', 103) "

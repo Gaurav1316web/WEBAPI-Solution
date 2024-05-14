@@ -360,6 +360,12 @@
     <Compile Include="Milk Procurement\Report\rptMobileAppMilkCollection.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\rptPerodicalDispatchReport.Designer.vb">
+      <DependentUpon>rptPerodicalDispatchReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptPerodicalDispatchReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\rptTemporaryPaymentDeductionSummary.Designer.vb">
       <DependentUpon>rptTemporaryPaymentDeductionSummary.vb</DependentUpon>
     </Compile>
@@ -952,6 +958,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptMobileAppMilkCollection.resx">
       <DependentUpon>rptMobileAppMilkCollection.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptPerodicalDispatchReport.resx">
+      <DependentUpon>rptPerodicalDispatchReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptTemporaryPaymentDeductionSummary.resx">
       <DependentUpon>rptTemporaryPaymentDeductionSummary.vb</DependentUpon>

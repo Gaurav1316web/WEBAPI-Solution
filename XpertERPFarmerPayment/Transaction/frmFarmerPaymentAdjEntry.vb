@@ -551,14 +551,14 @@ Public Class frmFarmerPaymentAdjEntry
 
     Private Sub fndFnAdj__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndFnAdj._MYValidating
         '' finder query change by Panch Raj on 01-may-2018 against ticket : KDI/30/04/18-000281
-        Dim Qry As String = " select TSPL_MP_PAY_ADJ_HEAD.Adjustment_no as [AdjustmentNo],TSPL_MP_PAY_ADJ_HEAD.Adjustment_date as [Date],TSPL_MP_PAY_ADJ_HEAD.Farmer_Code as [Farmer Code]," & _
-                            " TSPL_MP_PAY_ADJ_HEAD.Farmer_Name as [Farmer Name],TSPL_MP_MASTER.VLC_Code as [VLC Code],TSPL_VLC_MASTER_HEAD.VLC_Name as [VLC Name],TSPL_VLC_MASTER_HEAD.VSP_Code as [VSP Code]," & _
-                            " TSPL_VENDOR_MASTER.Vendor_Name as [VSP Name],TSPL_MP_PAY_ADJ_HEAD.Doc_No as [Against Invoice],TSPL_MP_PAY_ADJ_HEAD.Adjustment_Amount as [Adjustment Amount], " & _
-                            " (case when TSPL_MP_PAY_ADJ_HEAD.is_post='N' OR TSPL_MP_PAY_ADJ_HEAD.Is_Post IS null then 'UnPosted' when TSPL_MP_PAY_ADJ_HEAD.is_post='Y' then 'Posted' end ) as [Status],TSPL_MP_PAY_ADJ_HEAD.Adjustment_Type as [Adjustment Type], " & _
-                            " TSPL_MP_PAY_ADJ_HEAD.Is_Processed as [Is Processed],Description " & _
-                            " from TSPL_MP_PAY_ADJ_HEAD " & _
-                            " left join TSPL_MP_MASTER on TSPL_MP_PAY_ADJ_HEAD.Farmer_Code=TSPL_MP_MASTER.MP_Code " & _
-                            " left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MP_MASTER.VLC_Code " & _
+        Dim Qry As String = " select TSPL_MP_PAY_ADJ_HEAD.Adjustment_no as [AdjustmentNo],TSPL_MP_PAY_ADJ_HEAD.Adjustment_date as [Date],TSPL_MP_PAY_ADJ_HEAD.Farmer_Code as [Farmer Code]," &
+                            " TSPL_MP_PAY_ADJ_HEAD.Farmer_Name as [Farmer Name],TSPL_MP_MASTER.VLC_Code as [DCS Code],TSPL_VLC_MASTER_HEAD.VLC_Name as [DCS Name],TSPL_VLC_MASTER_HEAD.VSP_Code as [Secretary Code]," &
+                            " TSPL_VENDOR_MASTER.Vendor_Name as [Secretary Name],TSPL_MP_PAY_ADJ_HEAD.Doc_No as [Against Invoice],TSPL_MP_PAY_ADJ_HEAD.Adjustment_Amount as [Adjustment Amount], " &
+                            " (case when TSPL_MP_PAY_ADJ_HEAD.is_post='N' OR TSPL_MP_PAY_ADJ_HEAD.Is_Post IS null then 'UnPosted' when TSPL_MP_PAY_ADJ_HEAD.is_post='Y' then 'Posted' end ) as [Status],TSPL_MP_PAY_ADJ_HEAD.Adjustment_Type as [Adjustment Type], " &
+                            " TSPL_MP_PAY_ADJ_HEAD.Is_Processed as [Is Processed],Description " &
+                            " from TSPL_MP_PAY_ADJ_HEAD " &
+                            " left join TSPL_MP_MASTER on TSPL_MP_PAY_ADJ_HEAD.Farmer_Code=TSPL_MP_MASTER.MP_Code " &
+                            " left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MP_MASTER.VLC_Code " &
                             " left join TSPL_VENDOR_MASTER on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MASTER.Vendor_Code "
 
         fndFnAdj.Value = clsCommon.ShowSelectForm("AdjustmFiltrFND", Qry, "AdjustmentNo", "", fndFnAdj.Value, "AdjustmentNo", isButtonClicked)

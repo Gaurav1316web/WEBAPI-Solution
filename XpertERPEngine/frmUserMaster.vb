@@ -48,6 +48,7 @@ Public Class FrmUserMaster
     Dim dt As DataTable
     Dim qry As String
     Private isInsideLoadData As Boolean = False
+    Private ShowFreshAmbientItems As Boolean = False
     Private isFromLoad As Boolean = False
 
 #End Region
@@ -113,6 +114,7 @@ Public Class FrmUserMaster
 
         ChkSuperUser = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AddTypeForUserMaster, clsFixedParameterCode.AddTypeForUserMaster, Nothing)) = "1", True, False)
         UserWiseRouteMapping = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.UserWiseRouteMapping, clsFixedParameterCode.UserWiseRouteMapping, Nothing)) = "1", True, False)
+        ShowFreshAmbientItems = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.ShowFreshAmbientItems, Nothing)) = "1", True, False)
         If UserWiseRouteMapping = True Then
             GBRoute.Visible = True
         Else
@@ -1961,12 +1963,21 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
         dr("Code") = "Product"
         dr("Name") = "Product"
         dt.Rows.Add(dr)
-
-        dr = dt.NewRow()
-        dr("Code") = "Both"
-        dr("Name") = "Both"
-        dt.Rows.Add(dr)
-
+        If ShowFreshAmbientItems Then
+            dr = dt.NewRow()
+            dr("Code") = "FProduct"
+            dr("Name") = "F Product"
+            dt.Rows.Add(dr)
+            dr = dt.NewRow()
+            dr("Code") = "ALL"
+            dr("Name") = "ALL"
+            dt.Rows.Add(dr)
+        Else
+            dr = dt.NewRow()
+            dr("Code") = "Both"
+            dr("Name") = "Both"
+            dt.Rows.Add(dr)
+        End If
         CmbAppUserSaleType.DataSource = dt
         CmbAppUserSaleType.ValueMember = "Code"
         CmbAppUserSaleType.DisplayMember = "Name"

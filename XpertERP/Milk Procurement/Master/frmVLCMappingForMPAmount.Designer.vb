@@ -92,7 +92,7 @@ Partial Class frmVLCMappingForMPAmount
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(26, 18)
         Me.MyLabel1.TabIndex = 378
-        Me.MyLabel1.Text = "VLC"
+        Me.MyLabel1.Text = "DCS"
         '
         'txtRoute
         '
@@ -184,7 +184,7 @@ Partial Class frmVLCMappingForMPAmount
         '
         '
         Me.RootElement.ApplyShapeToControl = True
-        Me.Text = "VLC Mapping For MP Amount"
+        Me.Text = "DCS Mapping For MP Amount"
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)

@@ -2184,6 +2184,7 @@ Public Class clsUserMgtCode
     Public Const rptDailyQtyReport As String = "DAILY_QTY_R"
     Public Const rptBMCCapacityUtilizationReport As String = "BMC_CP_UTLZ"
     Public Const rptBMCPerodicalReport As String = "BMC_PERO_R"
+    Public Const rptPerodicalDispatchReport As String = "PERO_DISP_R"
     Public Const rptDcsSecurity As String = "DCS_SEC_RPT"
     Public Const rptDayWiseCol As String = "DAY_WSE_RPT"
     Public Const rptMarginAmt As String = "MRG_AMT_RPT"

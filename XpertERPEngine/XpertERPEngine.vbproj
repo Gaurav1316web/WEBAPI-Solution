@@ -169,10 +169,6 @@
     <Reference Include="XpertERPBlankTableScript">
       <HintPath>..\XpertERP\bin\Debug\XpertERPBlankTableScript.dll</HintPath>
     </Reference>
-    <Reference Include="XpertERPEngineFine, Version=7.1.0.45, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
-    </Reference>
     <Reference Include="zxing, Version=0.16.6.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
       <HintPath>..\XpertERP\packages\ZXing.Net.0.16.6\lib\net35\zxing.dll</HintPath>
     </Reference>
@@ -1632,7 +1628,12 @@
   <ItemGroup>
     <None Include="Resources\new.bmp" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\XpertERPEngineFine\XpertERPEngineFine.vbproj">
+      <Project>{ab38a7f1-75cb-41f0-ae56-6ad1cec5193b}</Project>
+      <Name>XpertERPEngineFine</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

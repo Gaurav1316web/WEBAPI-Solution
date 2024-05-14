@@ -510,7 +510,7 @@ Partial Class frmPriceChartPlanMasterBhole
         Me.MyLabel15.Name = "MyLabel15"
         Me.MyLabel15.Size = New System.Drawing.Size(26, 18)
         Me.MyLabel15.TabIndex = 363
-        Me.MyLabel15.Text = "VLC"
+        Me.MyLabel15.Text = "DCS"
         '
         'MyLabel14
         '

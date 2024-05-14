@@ -2614,6 +2614,7 @@ Public Class clsFixedParameterCode
     Public Const SuperuserViewOnly = "Super User View Only"
     Public Const DistributorViewOnly = "Distributor View Only"
     Public Const ShowDemandvsDispatch = "Show Demand vs Dispatch"
+    Public Const ShowFreshAmbientItems = "Show Fresh Ambient Items"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -2783,6 +2784,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.SuperuserViewOnly, "0", "0:OFF,1:ON;Super User Type View Report Only")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.DistributorViewOnly, "0", "0:OFF,1:ON;Distributor Type Use View Report Only")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.ShowDemandvsDispatch, "0", "0:OFF,1:ON;Show Demand VS Dispatch")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.ShowFreshAmbientItems, "0", "0:OFF,1:ON;Show Fresh Ambient Items")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceQty, "100", "Tollerance % of Qty")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceFAT, "100", "Tollerance % of FAT")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceSNF, "100", "Tollerance % of SNF")

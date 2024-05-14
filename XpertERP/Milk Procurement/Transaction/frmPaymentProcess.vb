@@ -182,6 +182,7 @@ Public Class FrmPaymentProcess
     Dim SetCowFatPer As Decimal = 0
     'Dim AreaWiseBilling As Boolean = False
     Dim Is_gv_Rows_Clear As Boolean = False
+    Dim PrintHindi As Boolean = False
 #End Region
 
     Private Sub FrmProvisionEntry_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -204,7 +205,7 @@ Public Class FrmPaymentProcess
 
         If PaymentProcessInHindi = True Then
             btnPrintHindi.Visible = PaymentProcessInHindi
-            btnPrint.Enabled = False
+            ' btnPrint.Enabled = False
         End If
 
 
@@ -8678,6 +8679,7 @@ where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='" + fndDocNo.Value + "' and TSPL_MILK_
 
     Private Sub btnPrintHindi_Click(sender As Object, e As EventArgs) Handles btnPrintHindi.Click
         Try
+
             If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
                 Load_Report_Paymnet_UDL()
             ElseIf clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHAD") = CompairStringResult.Equal Then
@@ -8688,10 +8690,11 @@ where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='" + fndDocNo.Value + "' and TSPL_MILK_
                 Load_Report_Paymnet_UCDF()
             ElseIf clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDF") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
                 'Load_Report_Paymnet_RCDF()
-                clsPaymentProcessHead.Load_Report_Paymnet_RCDF("'" + fndDocNo.Value + "'", dtpFromDate.Text, dtpToDate.Text, "", clsCommon.GetMulcallString(txtVSP.arrValueMember), "", "", "", False)
+                clsPaymentProcessHead.Load_Report_Paymnet_RCDF("'" + fndDocNo.Value + "'", dtpFromDate.Text, dtpToDate.Text, "", clsCommon.GetMulcallString(txtVSP.arrValueMember), "", "", "", False, False, True)
             Else
                 Load_Report(Nothing, Nothing, Nothing, Nothing, False, True)
             End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
