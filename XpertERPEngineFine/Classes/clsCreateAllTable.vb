@@ -10508,6 +10508,7 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "varchar(10) NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "varchar(10) NOT NULL")
+            coll.Add("Bank_Name_Hindi", "nvarchar(400) NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_Vendor_Bank_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
