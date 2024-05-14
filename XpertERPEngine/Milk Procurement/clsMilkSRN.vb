@@ -1195,8 +1195,8 @@ Public Class clsMilkSRNMCC
                     clsMilkSRNMCC.ObjList(0).Head_Load_Amount = Math.Round(clsMilkSRNMCC.ObjList(0).ACC_Qty * objHeadLoad.Head_Load_Rate * dclDistanceKM, 2)
                 End If
             ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "L") = CompairStringResult.Equal Then
-                If clsCommon.myCDecimal(DtMilkReceipt.Rows(0)("ACC_WEIGHT_LTR")) >= MinimumQtyForHeadLoad Then
-                    clsMilkSRNMCC.ObjList(0).Head_Load_Amount = Math.Round(clsCommon.myCDecimal(DtMilkReceipt.Rows(0)("ACC_WEIGHT_LTR")) * objHeadLoad.Head_Load_Rate * dclDistanceKM, 2)
+                If clsMilkSRNMCC.ObjList(0).ACC_Qty_LTR >= MinimumQtyForHeadLoad Then
+                    clsMilkSRNMCC.ObjList(0).Head_Load_Amount = Math.Round(clsMilkSRNMCC.ObjList(0).ACC_Qty_LTR * objHeadLoad.Head_Load_Rate * dclDistanceKM, 2)
                 End If
                 'ElseIf clsCommon.CompairString(clsCommon.myCstr(DtMilkReceipt.Rows(0)("Service_Basis_Head_Load")), "W") = CompairStringResult.Equal Then
                 '    qry = "select Ratio,SNF_Ratio,FAT_Pers,SNF_Pers from TSPL_MILK_PRICE_MASTER where Price_Code=(select top 1 Price_Code from TSPL_FAT_SNF_UPLOADER_MASTER where Code='" + clsMilkSRNMCC.ObjList(0).Price_Code + "')"
