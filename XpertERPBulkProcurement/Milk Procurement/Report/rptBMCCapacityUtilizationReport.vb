@@ -19,8 +19,8 @@ Public Class rptBMCCapacityUtilizationReport
 
     Private Sub txtBMC__My_Click(sender As Object, e As EventArgs) Handles txtBMC._My_Click
             Try
-            Dim qry As String = "select  TSPL_VLC_MASTER_HEAD.VLC_Code as [VLC Code],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [VLC Uploader Code] ,TSPL_VLC_MASTER_HEAD.VLC_Name as [VlC Name] from TSPL_VLC_MASTER_HEAD where TSPL_VLC_MASTER_HEAD.isOwnBMC = 1"
-            txtBMC.arrValueMember = clsCommon.ShowMultipleSelectForm(False, "BMCCapacityUtilization", qry, "VLC Code", "VLC Name", txtBMC.arrValueMember, Nothing)
+            Dim qry As String = "select  TSPL_VLC_MASTER_HEAD.VLC_Code as [DCS Code],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Uploader Code] ,TSPL_VLC_MASTER_HEAD.VLC_Name as [DCS Name] from TSPL_VLC_MASTER_HEAD where TSPL_VLC_MASTER_HEAD.isOwnBMC = 1"
+            txtBMC.arrValueMember = clsCommon.ShowMultipleSelectForm(False, "BMCCapacityUtilization", qry, "DCS Code", "DCS Name", txtBMC.arrValueMember, Nothing)
         Catch ex As Exception
                 clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try

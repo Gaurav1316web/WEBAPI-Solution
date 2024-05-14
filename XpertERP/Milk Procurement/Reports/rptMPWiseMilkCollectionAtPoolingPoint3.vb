@@ -899,12 +899,12 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
         txtRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("Pooling@R", qry, "Code", "Name", txtRoute.arrValueMember, txtRoute.arrDispalyMember)
     End Sub
     Private Sub txtVLC__My_Click(sender As Object, e As EventArgs) Handles txtVLC._My_Click
-        Dim qry As String = "Select VLC.VLC_Code_vlc_Uploader as [Code],VLC.VLC_Code as [VLC Code],VLC.VLC_Name as [VLC Name],VLC.MCC as [MCC Code],VLC.Route_Code as [Route Code],RM.Route_Name " &
+        Dim qry As String = "Select VLC.VLC_Code_vlc_Uploader as [Code],VLC.VLC_Code as [DCS Code],VLC.VLC_Name as [DCS Name],VLC.MCC as [MCC Code],VLC.Route_Code as [Route Code],RM.Route_Name " &
                   " from TSPL_VLC_MASTER_HEAD    VLC left join TSPL_MCC_ROUTE_MASTER RM on vlc.Route_Code=RM.Route_Code where 2=2 "
         If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
             qry += " and VLC.MCC in (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
         End If
-        txtVLC.arrValueMember = clsCommon.ShowMultipleSelectForm("Pooling@V", qry, "VLC Code", "VLC Name", txtVLC.arrValueMember, txtVLC.arrDispalyMember)
+        txtVLC.arrValueMember = clsCommon.ShowMultipleSelectForm("Pooling@V", qry, "DCS Code", "DCS Name", txtVLC.arrValueMember, txtVLC.arrDispalyMember)
 
     End Sub
 

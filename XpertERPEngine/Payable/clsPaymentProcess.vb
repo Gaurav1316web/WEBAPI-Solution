@@ -1877,7 +1877,7 @@ Comp_Code,Comp_Name,max(MCC_NAME) as MCC_NAME,Regn_No
 
             sQuery += "  from (select TSPL_PAYMENT_PROCESS_HEAD.doc_no
                         ,TSPL_COMPANY_MASTER.Comp_Code ,TSPL_COMPANY_MASTER.Comp_Name,"
-                If AreaWiseBilling = True Then
+            If AreaWiseBilling = True Then
                 sQuery += " xxxSetLocation.Location_Desc as MCC_NAME, "
             Else
                 sQuery += " TSPL_MCC_MASTER.MCC_NAME,"
@@ -1889,7 +1889,7 @@ Comp_Code,Comp_Name,max(MCC_NAME) as MCC_NAME,Regn_No
                     ,convert(varchar(12),TSPL_PAYMENT_PROCESS_HEAD.from_date,103) as from_date
                     ,convert(varchar(12),TSPL_PAYMENT_PROCESS_HEAD.to_date,103) as to_date"
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
-                	sQuery +=  ",(Select SUM(case when TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Account_No='' then (ISNULL(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount, 0) - ISNULL(TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount, 0))end)
+                sQuery += ",(Select SUM(case when TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Account_No='' then (ISNULL(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount, 0) - ISNULL(TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount, 0))end)
 					From TSPL_PAYMENT_PROCESS_DETAIL Where Doc_No In (" + strDocNo + "))AS TotalOutStandingAmt "
             End If
 
@@ -1900,7 +1900,7 @@ Comp_Code,Comp_Name,max(MCC_NAME) as MCC_NAME,Regn_No
                     ,(SELECT sum(Payable_Amount) FROM TSPL_PAYMENT_PROCESS_DETAIL WHERE TSPL_PAYMENT_PROCESS_DETAIL.is_Hold_Payment_Process=1 and TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in (" + strDocNo + ")) AS Hold_Payable_Amount
                     from TSPL_PAYMENT_PROCESS_HEAD
                     left outer join TSPL_COMPANY_MASTER  on TSPL_COMPANY_MASTER.Comp_Code =TSPL_PAYMENT_PROCESS_HEAD.Comp_Code"
-                If AreaWiseBilling = True Then
+            If AreaWiseBilling = True Then
                 sQuery += "	  Left Outer Join( 
 					  SELECT TSPL_LOCATION_MASTER.Location_Desc, TSPL_LOCATION_MASTER.Location_Code,TSPL_MCC_MASTER.MCC_Code FROM TSPL_PAYMENT_PROCESS_HEAD 
 										  LEFT OUTER JOIN TSPL_MCC_MASTER ON TSPL_MCC_MASTER.Area_Location_Code=TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code
@@ -2177,7 +2177,7 @@ where  TSPL_PAYMENT_PROCESS_HEAD.From_Date>=convert(date,('" + CycleFromDate + "
                                 ELSE (CASE WHEN TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No IS NOT NULL THEN ISNULL(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type, 'SWEET') 
                              ELSE (CASE WHEN TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No IS NOT NULL THEN ISNULL(TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type, 'SWEET') END) END) 
                             END AS QBD"
-            Else
+        Else
             BaseQry += "  ,(case when TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,'SWEET') else (case when TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,'SWEET') end) end) as QBD "
         End If
 
@@ -2240,7 +2240,9 @@ where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ") )x group by VSP_
 
         Return BaseQry
     End Function
-
+    Public Shared Function Load_Report_Paymnet_RCDF(ByVal strDocNo As String, ByVal CycleFromDate As String, ByVal CycleToDate As String, ByVal strLoc As String, ByVal strVSPCode As String, ByVal strRoutecode As String, ByVal strBank As String, ByVal strHoldUnhold As String, ByVal QryForShowData As Boolean, ByVal strZone As String) As String
+        Return Load_Report_Paymnet_RCDF(strDocNo, CycleFromDate, CycleToDate, strLoc, strVSPCode, strRoutecode, strBank, strHoldUnhold, QryForShowData, False, strZone)
+    End Function
     Public Shared Function Load_Report_Paymnet_RCDF(ByVal strDocNo As String, ByVal CycleFromDate As String, ByVal CycleToDate As String, ByVal strLoc As String, ByVal strVSPCode As String, ByVal strRoutecode As String, ByVal strBank As String, ByVal strHoldUnhold As String, ByVal QryForShowData As Boolean) As String
         Return Load_Report_Paymnet_RCDF(strDocNo, CycleFromDate, CycleToDate, strLoc, strVSPCode, strRoutecode, strBank, strHoldUnhold, QryForShowData, False, False)
     End Function
@@ -2283,6 +2285,9 @@ where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ") )x group by VSP_
         End If
         If clsCommon.myLen(strHoldUnhold) > 0 Then
             whrcls += " and TBL_BILL_DETAILS.is_Hold_Payment_Process  = " + strHoldUnhold + "  "
+        End If
+        If clsCommon.myLen(strZone) > 0 Then
+            whrcls += "   and TSPL_VENDOR_MASTER.Zone_Code  in ( " + strZone + ")"
         End If
         whrcls += " and not exists(select 1 from TSPL_MILK_PURCHASE_INVOICE_PRO_LOSS where TSPL_MILK_PURCHASE_INVOICE_PRO_LOSS.InvoiceNo=TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE) "
 

@@ -125,8 +125,8 @@ Public Class frmPriceChartPlanMasterGK
             If txtVLC.arrValueMember Is Nothing OrElse txtVLC.arrValueMember.Count <= 0 Then
                 txtVLC.Focus()
                 txtVLC.Select()
-                ErrorControl.SetError(txtVLC, "Please select VLC")
-                Throw New Exception("Please select VLC")
+                ErrorControl.SetError(txtVLC, "Please select DCS")
+                Throw New Exception("Please select DCS")
             Else
                 ErrorControl.ResetError(txtVLC)
             End If
