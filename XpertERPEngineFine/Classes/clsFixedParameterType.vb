@@ -2,6 +2,7 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
+    Public Const DBTMilkQtyCapping As String = "DBT Milk Qty Capping"
     Public Const PDAccountPaymanager As String = "PD Account Paymanager"
     Public Const BankAdviseRequired As String = "Bank Advice Start Date"
     Public Const ApplyMergeForDCSMultipleDays As String = "Apply Merge For DCS Multiple Days"
@@ -1245,6 +1246,7 @@ Public Class clsFixedParameterType
     'Public Const DistributorViewOnly = "Distributor View Only"
 End Class
 Public Class clsFixedParameterCode
+    Public Const DBTMilkQtyCapping As String = "DBT Milk Qty Capping"
     Public Const NoOfRecordForLotNo As String = "No Of Record For Lot No"
     Public Const BankAdviseRequired As String = "Bank Advice Start Date"
     Public Const ApplyMergeForDCSMultipleDays As String = "Apply Merge For DCS Multiple Days"
@@ -2690,6 +2692,7 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.DBTMilkQtyCapping, clsFixedParameterCode.DBTMilkQtyCapping, "0", "0:OFF;>0:ON DBT Valid Milk Qty for One Day")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PDAccountPaymanager, clsFixedParameterCode.NoOfRecordForLotNo, "4500", "No of Records to Set Lot No")
         InsertDefaultValueFixedParameter(clsFixedParameterType.BankAdviseRequired, clsFixedParameterCode.BankAdviseRequired, "", "Bank Advise Start Date [dd/MMM/yyyy]")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyMergeForDCSMultipleDays, clsFixedParameterCode.ApplyMergeForDCSMultipleDays, "1", "0:OFF;1:ON")
@@ -4174,6 +4177,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCSMultipleDays, clsFixedParameterType.ApplyMergeForDCSMultipleDays, clsFixedParameterCode.ApplyMergeForDCSMultipleDays, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkVSPPayment, clsFixedParameterType.CalculateFATSNFLossCycleWise, clsFixedParameterCode.CalculateFATSNFLossCycleWise, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FATSNFDiffReport, clsFixedParameterType.CalculateFATSNFLossCycleWise, clsFixedParameterCode.CalculateFATSNFLossCycleWise, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.DCSMPIncentiveReco, clsFixedParameterType.DBTMilkQtyCapping, clsFixedParameterCode.DBTMilkQtyCapping, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.DCSMPIncentiveReco, clsFixedParameterType.RefreshDBTReco, clsFixedParameterCode.RefreshDBTReco, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.DistributorWiseBilling, clsFixedParameterCode.DistributorWiseBilling, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.RoundOffBankAdvice, clsFixedParameterCode.RoundOffBankAdvice, EnumControlType.CheckBox)

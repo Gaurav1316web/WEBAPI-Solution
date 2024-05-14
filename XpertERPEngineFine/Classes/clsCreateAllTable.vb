@@ -13490,6 +13490,7 @@ Public Class clsCreateAllTable
             coll.Add("JA_caste", "nvarchar(50) NULL")
             coll.Add("JA_AADHAR_REF_NO", "varchar(20) NULL")
             coll.Add("Aadhar_No_Verified", " integer null")
+            coll.Add("DBT_Capping_Qty", " integer null")
             clsDBFuncationality.ExecuteNonQuery("delete  from  TSPL_MP_MASTER_Hist_Data where MP_Code+convert(varchar, Hist_Version) in (select MP_Code+convert(varchar, Hist_Version) from(select LEN([MP_Code_VLC_Uploader]) as Lenth,MP_Code,Hist_Version from TSPL_MP_MASTER_Hist_Data)xx where Lenth > 7)")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_MP_MASTER", coll, Nothing, True)
 

@@ -182,7 +182,11 @@ Public Class clsMPDCSInsentiveReco
             Dim qry As String = "Update TSPL_DCS_MP_INCENTIVE_RECO_HEAD set Status=1, Posting_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Document_Code='" + strDocNo + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-
+            Dim SettDBTMilkQtyCapping As Integer = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.DBTMilkQtyCapping, clsFixedParameterCode.DBTMilkQtyCapping, trans))
+            If SettDBTMilkQtyCapping > 0 Then
+                qry = "Update TSPL_MP_MASTER set DBT_Capping_Qty=" + clsCommon.myCstr(SettDBTMilkQtyCapping) + " where DBT_Capping_Qty is null"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
