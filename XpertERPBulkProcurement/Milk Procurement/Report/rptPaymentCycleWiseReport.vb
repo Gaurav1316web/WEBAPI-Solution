@@ -345,7 +345,7 @@ Public Class rptPaymentCycleWiseReport
 
     Private Sub txtDCS__My_Click(sender As Object, e As EventArgs) Handles txtDCS._My_Click
         Try
-            Dim qry As String = " select Vendor_Code  as Code, Vendor_Name as Name,Zone_Code as Zone,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [VLC Uploader Code] from TSPL_VENDOR_MASTER  left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_VENDOR_MASTER.Vendor_Code where Form_Type='VSP'"
+            Dim qry As String = " select Vendor_Code  as Code, Vendor_Name as Name,Zone_Code as Zone,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Uploader Code] from TSPL_VENDOR_MASTER  left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_VENDOR_MASTER.Vendor_Code where Form_Type='VSP'"
             txtDCS.arrValueMember = clsCommon.ShowMultipleSelectForm("PCWR@DCS@MFinder", qry, "Code", "Name", txtDCS.arrValueMember, txtDCS.arrDispalyMember)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

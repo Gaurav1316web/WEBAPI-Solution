@@ -309,7 +309,7 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.MyLabel34.Name = "MyLabel34"
         Me.MyLabel34.Size = New System.Drawing.Size(26, 18)
         Me.MyLabel34.TabIndex = 10
-        Me.MyLabel34.Text = "VLC"
+        Me.MyLabel34.Text = "DCS"
         '
         'cboUnit
         '
