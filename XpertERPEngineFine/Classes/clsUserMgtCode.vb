@@ -258,6 +258,7 @@ Public Class clsUserMgtCode
     Public Const rptdairydispatch As String = "DRY_DIS_RPT"
     Public Const rptRouteSaleRegister As String = "ROT_SAL_REG"
     Public Const rptGatePassReport As String = "GAT_PAS_RPT"
+    Public Const rptNewSalesReport As String = "NE_SALE_RPT"
 
     '===Dairy Visual Sales reports  
     Public Const SubModuleVisualSaleReport As String = "SMVSaleR"
