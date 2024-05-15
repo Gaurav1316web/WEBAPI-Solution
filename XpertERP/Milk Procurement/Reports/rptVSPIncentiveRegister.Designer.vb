@@ -159,7 +159,7 @@ Partial Class rptVSPIncentiveRegister
         Me.rbtnVLCWise.Size = New System.Drawing.Size(72, 17)
         Me.rbtnVLCWise.TabIndex = 3
         Me.rbtnVLCWise.TabStop = True
-        Me.rbtnVLCWise.Text = "VLC Wise"
+        Me.rbtnVLCWise.Text = "DCS Wise"
         Me.rbtnVLCWise.UseVisualStyleBackColor = True
         '
         'ChkMCCWise
@@ -201,13 +201,13 @@ Partial Class rptVSPIncentiveRegister
         Me.RadGroupBox2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadGroupBox2.Controls.Add(Me.cbtMCCRouteVLCC)
-        Me.RadGroupBox2.HeaderText = "MCC,Route,VLC "
+        Me.RadGroupBox2.HeaderText = "MCC,Route,DCS "
         Me.RadGroupBox2.Location = New System.Drawing.Point(1, 56)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox2.Size = New System.Drawing.Size(420, 322)
         Me.RadGroupBox2.TabIndex = 7
-        Me.RadGroupBox2.Text = "MCC,Route,VLC "
+        Me.RadGroupBox2.Text = "MCC,Route,DCS "
         '
         'cbtMCCRouteVLCC
         '

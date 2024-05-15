@@ -1338,6 +1338,27 @@ left outer join TSPL_PRICE_CHART_PLANNING on TSPL_PRICE_CHART_PLANNING.Planning_
 
         dt = clsDBFuncationality.GetDataTable(legerMainQuery)
 
+        ' If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+        ' Dim dtSaving As DataTable = Nothing
+        sQuery = "SELECT ZZ.VSP_Uploader_Code,ZZ.VSP_Code,ZZ.Vendor_NAME,ZZ.Addition,SUM(ZZ.Amount) AS Amount
+                 FROM (SELECT TT.VSP_Uploader_Code,TT.VSP_Code,TT.Vendor_NAME,coalesce (mapping.mmDescription, TT.Addition) AS Addition,coalesce (mapping.HindiDescription, TT.Addition_Hindi) AS Addition_Hindi
+                ,TT.Amount,0 as ManAddDed  FROM (
+                select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_VLC_MASTER_HEAD.VSP_Code,'' as Vendor_NAME,TSPL_DCS_ADDITION_DEDUCTION.Description as Addition,TSPL_DCS_ADDITION_DEDUCTION.Description_Hindi as Addition_Hindi,
+                TSPL_DCS_ADDITION_DEDUCTION.Code,
+                (TSPL_VENDOR_INVOICE_HEAD.Document_Total) as [Amount]  from TSPL_PAYMENT_PROCESS_SAVING 
+                left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_SAVING.Doc_No
+                left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.document_no=TSPL_PAYMENT_PROCESS_SAVING.AP_Invoice_No
+                left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.document_no=TSPL_VENDOR_INVOICE_HEAD.document_no
+                left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE
+                left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction
+                where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpLedgerFromDate.Value + "'),103) 
+                                and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpLedgerToDate.Value + "'),103) and TSPL_DCS_ADDITION_DEDUCTION.Description is not null
+                )TT
+                left join (select MAPPING.Code mmCode,MAPPING.Description mmDescription,MAPPING.Description_Hindi HindiDescription,DEDUCTION.CODE AS ddCode from TSPL_DCS_ADDITION_DEDUCTION as MAPPING
+                left join TSPL_DCS_ADDITION_DEDUCTION as DEDUCTION on  DEDUCTION.Code=MAPPING.MappingCode WHERE  len(isnull(MAPPING.MappingCode,''))>0)mapping on mapping.ddCode=TT.Code  )ZZ  GROUP BY ZZ.VSP_Uploader_Code,ZZ.VSP_Code,ZZ.Vendor_NAME,ZZ.Addition "
+
+        Dim dtSaving As DataTable = clsDBFuncationality.GetDataTable(sQuery)
+        ' End If
 
         'Dim strDocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Doc_No from TSPL_PAYMENT_PROCESS_head where convert(date,From_Date,103)>=convert(date,('" + dtpLedgerFromDate.Value + "'),103) and convert(date,To_Date,103)<=convert(date,('" + dtpLedgerToDate.Value + "'),103)"))
 
@@ -1356,8 +1377,10 @@ left outer join TSPL_PRICE_CHART_PLANNING on TSPL_PRICE_CHART_PLANNING.Planning_
                 left outer join TSPL_MULTIPLE_DEDUCTION_head on TSPL_MULTIPLE_DEDUCTION_head.Document_No = TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No 
                 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE
                 where  convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpLedgerFromDate.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpLedgerToDate.Value + "'),103) 
-                ) Final group by Final.VSP_Uploader_Code, Final.VSP_Code , Final.Item_Desc 
-                union all
+                ) Final group by Final.VSP_Uploader_Code, Final.VSP_Code , Final.Item_Desc "
+
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") <> CompairStringResult.Equal Then
+            sQuery += " union all
                 SELECT TT.VSP_Uploader_Code,TT.VSP_Code,TT.Vendor_NAME,coalesce (mapping.mmDescription, TT.Addition) AS Addition
                  ,TT.Amount
                  FROM (
@@ -1375,8 +1398,10 @@ left outer join TSPL_PRICE_CHART_PLANNING on TSPL_PRICE_CHART_PLANNING.Planning_
                 (select MAPPING.Code mmCode,MAPPING.Description mmDescription,DEDUCTION.CODE AS ddCode from TSPL_DCS_ADDITION_DEDUCTION as MAPPING
                  left join TSPL_DCS_ADDITION_DEDUCTION as DEDUCTION
                  on  DEDUCTION.Code=MAPPING.MappingCode
-                 WHERE  len(isnull(MAPPING.MappingCode,''))>0)mapping on mapping.ddCode=TT.Code
-                union all
+                 WHERE  len(isnull(MAPPING.MappingCode,''))>0)mapping on mapping.ddCode=TT.Code "
+        End If
+
+        sQuery += " union all
                 select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_VLC_MASTER_HEAD.VSP_Code,'' as Vendor_NAME
                  ,'Milk Purchase Expense' as Addition,Balance_Amt as Amount 
 from  TSPL_PAYMENT_PROCESS_DETAIL 
@@ -1591,7 +1616,7 @@ and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtp
         If dt IsNot Nothing And dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-                frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptPaymentProcessLegerJPR", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction)
+                frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptPaymentProcessLegerJPR", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "SubSaving.rpt", dtSaving)
             ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
                 frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptPaymentProcessLegerRJS", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction)
             Else
@@ -4175,15 +4200,28 @@ TSPL_MILK_COLLECTION_MCC
                 End If
 
                 Dim Qry As String = "; with CTE as (select 1 Number  union all  select Number +1 from CTE where Number<31 ) 
-                                     select CASE WHEN max(Registered_PDCS_CLUSTER) = 'Registered' THEN ([DCS Code]) + '(R)' ELSE CASE WHEN max(Registered_PDCS_CLUSTER) = 'PDCS' THEN ([DCS Code]) + '(CC)' ELSE ([DCS Code]) END END AS DCSCode,
+                                     select"
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                    Qry += " CASE WHEN max(Registered_PDCS_CLUSTER) = 'Registered' THEN ([DCS Code]) + '' ELSE CASE WHEN max(Registered_PDCS_CLUSTER) = 'PDCS' THEN ([DCS Code]) + '' ELSE ([DCS Code]) END END AS DCSCode,
+									
+									 CASE WHEN max(Registered_PDCS_CLUSTER) = 'Registered' THEN 'R' else CASE WHEN max(Registered_PDCS_CLUSTER) = 'PDCS' THEN 'P' end end as DCStype ,
+									 max(Route_code) as Route_code,"
+                Else
+                    Qry += " CASE WHEN max(Registered_PDCS_CLUSTER) = 'Registered' THEN ([DCS Code]) + '(R)' ELSE CASE WHEN max(Registered_PDCS_CLUSTER) = 'PDCS' THEN ([DCS Code]) + '(CC)' ELSE ([DCS Code]) END END AS DCSCode,"
+                End If
+                Qry += "
                                      Max([DCS Code])[DCS Code],'" + objCommonVar.CurrentCompanyName + MCCName + "'  as CompName,'" + objCommonVar.CurrentUser + "' as User_Name,'" + txtDateFrom.Value + "' as fromDate ,'" + txtDateTo.Value + "' as Todate,max(VSP_CODE) as VSP_CODE ,max(Vendor_Name) as Vendor_Name,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER, sum(MorningSweetQty) as MorningSweetQty ,sum(MorningSoreQty) as MorningSoreQty,sum(MorningCurdQty) as MorningCurdQty,sum(EveningSweetQty) as EveningSweetQty,sum(EveningSoreQty) as EveningSoreQty ,sum(EveningCurdQty) as EveningCurdQty ,sum(TotalSweetQty) as TotalSweetQty ,sum(TotalSoreQty) as TotalSoreQty ,sum(TotalCurdQty) as TotalCurdQty,
                                      ((sum(FATKG)* 100)/(sum(TotalSweetQty)+sum(TotalSoreQty))) as FATPer,((Sum(SNFKG)* 100)/(sum(TotalSweetQty)+sum(TotalSoreQty))) as SNFPer,
                                      Count(Distinct Doc_Date)DAYS_Total, 
                                      (sum(TotalSweetQty)+sum(TotalSoreQty)+sum(TotalCurdQty))/max(FYDays+1)as AVG_QTY,(sum(TotalSweetQty)+sum(TotalSoreQty)+sum(TotalCurdQty))as TotalQty  
                                      from (
-                                     select [DCS Code],FATKG,SNFKG,Doc_Date,Number2, VSP_CODE1, Vendor_Name,Registered_PDCS_CLUSTER ,MorningSweetQty,MorningSoreQty,MorningCurdQty,EveningSweetQty,EveningSoreQty,EveningCurdQty,TotalSweetQty,TotalSoreQty,TotalCurdQty,FATQTY,SNFQTY,DAYS_Total,(DATEDIFF(DAY, convert(date,('" + txtDateFrom.Value + "'),103), convert(date,('" + txtDateTo.Value + "'),103)))FYDays
+                                     select "
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                    Qry += " Route_code,"
+                End If
+                Qry += "        [DCS Code],FATKG,SNFKG,Doc_Date,Number2, VSP_CODE1, Vendor_Name,Registered_PDCS_CLUSTER ,MorningSweetQty,MorningSoreQty,MorningCurdQty,EveningSweetQty,EveningSoreQty,EveningCurdQty,TotalSweetQty,TotalSoreQty,TotalCurdQty,FATQTY,SNFQTY,DAYS_Total,(DATEDIFF(DAY, convert(date,('" + txtDateFrom.Value + "'),103), convert(date,('" + txtDateTo.Value + "'),103)))FYDays
                                        from (
-                                     select [DCS Code],FATKG,SNFKG,Doc_Date,Number,Number as Number2, VSP_CODE1, Vendor_Name,Registered_PDCS_CLUSTER, SHIFT, QBD , ROUTE_CODE , Qty, FAT_PER , SNF_PER , FATQTY, SNFQTY, SRN_Net_Amount, 
+                                     select  [DCS Code],FATKG,SNFKG,Doc_Date,Number,Number as Number2, VSP_CODE1, Vendor_Name,Registered_PDCS_CLUSTER, SHIFT, QBD , ROUTE_CODE , Qty, FAT_PER , SNF_PER , FATQTY, SNFQTY, SRN_Net_Amount, 
                                      Case when SHIFT = 'M' and QBD = 'SWEET' then Qty else 0 end as MorningSweetQty,
                                      Case when SHIFT = 'M' and QBD = 'SOUR' then Qty else 0 end as MorningSoreQty,
                                      Case when SHIFT = 'M' and QBD = 'CURD' then Qty else 0 end as MorningCurdQty,
@@ -4406,11 +4444,18 @@ TSPL_MILK_COLLECTION_MCC
                 Dim dtSubDay As DataTable = clsDBFuncationality.GetDataTable(Qry)
                 If dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubMonthly, "rptDCSSummaryYearlyWise", "", "rptSubDCSYearlySummaryMonthlyWiseReport.rpt")
-                    'frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubMonthly, "rptDCSSummaryYearlyWise", "", "rptSubDCSYearlySummaryMonthlyWiseReport", "rptDCSSummaryYearlyDayWiseReport", dtSubDay)
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                        frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubMonthly, "rptDCSSummaryYearlyWiseUDP", "", "rptSubDCSYearlySummaryMonthlyWiseReport.rpt")
+
+                    Else
+
+                        frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubMonthly, "rptDCSSummaryYearlyWise", "", "rptSubDCSYearlySummaryMonthlyWiseReport.rpt")
+                        'frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubMonthly, "rptDCSSummaryYearlyWise", "", "rptSubDCSYearlySummaryMonthlyWiseReport", "rptDCSSummaryYearlyDayWiseReport", dtSubDay)
+                    End If
                     frmCRV = Nothing
-                Else
-                    clsCommon.MyMessageBoxShow(Me, "No data found to print.", Me.Text)
+
+                        Else
+                        clsCommon.MyMessageBoxShow(Me, "No data found to print.", Me.Text)
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "Finacial Year can't be blanck.", Me.Text)

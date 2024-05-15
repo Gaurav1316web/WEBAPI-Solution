@@ -67,6 +67,10 @@ Public Class rptVSPMilkNotSold
         If clsCommon.myLen(txtMultiDeduction.arrValueMember) > 0 Then
             txtMultiDeduction.arrValueMember.Clear()
         End If
+        TxtMCCMultifnd.arrValueMember = Nothing
+        'If clsCommon.myLen(TxtMCCMultifnd.arrValueMember) > 0 Then
+        '    TxtMCCMultifnd.arrValueMember.Clear()
+        'End If
         'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
         '    ''Dim qry As String = "Select Code from TSPL_DEDUCTION_MASTER Where TSPL_DEDUCTION_MASTER.Code In('22','31','33','36')"
         '    Dim Qry As String = "Select Code from TSPL_DEDUCTION_MASTER Where Code In (Select DeductionCode from TSPL_MULTIPLE_DEDUCTION_DETAIL where TSPL_MULTIPLE_DEDUCTION_DETAIL.Amount>0)"
@@ -82,10 +86,21 @@ Public Class rptVSPMilkNotSold
     End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
-            If clsCommon.myLen(fndLoc.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please select the Location first", Me.Text)
-                Exit Sub
+            If PickAllMCC = True Then
+                If clsCommon.myLen(TxtMCCMultifnd.arrValueMember) <= 0 Then
+                    clsCommon.MyMessageBoxShow(Me, "Please select Location first..", Me.Text)
+                    Return
+                End If
+            Else
+                If clsCommon.myLen(fndLoc.Value) <= 0 Then
+                    clsCommon.MyMessageBoxShow(Me, "Please select Location first..", Me.Text)
+                    Return
+                End If
             End If
+            'If clsCommon.myLen(fndLoc.Value) <= 0 Then
+            '    clsCommon.MyMessageBoxShow(Me, "Please select the Location first", Me.Text)
+            '    Exit Sub
+            'End If
             If clsCommon.myLen(txtPaymentCycleCode.Value) <= 0 Then
                 clsCommon.MyMessageBoxShow(Me, "Please select the Cycle Code first", Me.Text)
                 Exit Sub
@@ -467,10 +482,22 @@ Public Class rptVSPMilkNotSold
     End Sub
     Private Sub txtPaymentCycleCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtPaymentCycleCode._MYValidating
         Try
-            If clsCommon.myLen(fndLoc.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please select Location first..", Me.Text)
-                Return
+            If PickAllMCC = True Then
+                If clsCommon.myLen(TxtMCCMultifnd.arrValueMember) <= 0 Then
+                    clsCommon.MyMessageBoxShow(Me, "Please select Location first..", Me.Text)
+                    Return
+                End If
+            Else
+                If clsCommon.myLen(fndLoc.Value) <= 0 Then
+                    clsCommon.MyMessageBoxShow(Me, "Please select Location first..", Me.Text)
+                    Return
+                End If
             End If
+
+            'If clsCommon.myLen(fndLoc.Value) <= 0 Then
+            '    clsCommon.MyMessageBoxShow(Me, "Please select Location first..", Me.Text)
+            '    Return
+            'End If
             'Dim strMccCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Location_Code from  TSPL_Location_MASTER where Loc_Segment_Code = '" + txtMCC.Value + "'"))
             Dim qry As String = " select Name as Code ,MCC_Code  ,Fiscal_Code , convert (varchar, From_Date,103) as [From Date] , convert (varchar,To_Date,103) as [To Date] from TSPL_PAYMENT_CYCLE_GENERATED"
             If Not PickAllMCC Then

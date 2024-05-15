@@ -537,7 +537,7 @@ Partial Class frmMPMilkPrice
         Me.txtVLC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtVLC.MyLinkLable1 = Me.MyLabel15
         Me.txtVLC.MyLinkLable2 = Nothing
-        Me.txtVLC.MyNullText = "Select VLC..."
+        Me.txtVLC.MyNullText = "Select DCS..."
         Me.txtVLC.Name = "txtVLC"
         Me.txtVLC.Size = New System.Drawing.Size(647, 19)
         Me.txtVLC.TabIndex = 1042

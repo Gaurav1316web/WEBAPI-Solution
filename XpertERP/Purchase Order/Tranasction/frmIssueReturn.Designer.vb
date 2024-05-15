@@ -1469,7 +1469,7 @@ Partial Class frmIssueReturn
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(70.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1047, 435)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(949, 431)
         Me.RadPageViewPage2.Text = "Tax Details"
         '
         'txtTaxGroup
@@ -1516,7 +1516,7 @@ Partial Class frmIssueReturn
         Me.RadLabel10.FieldName = Nothing
         Me.RadLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel10.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel10.Location = New System.Drawing.Point(889, 418)
+        Me.RadLabel10.Location = New System.Drawing.Point(791, 414)
         Me.RadLabel10.Name = "RadLabel10"
         Me.RadLabel10.Size = New System.Drawing.Size(155, 16)
         Me.RadLabel10.TabIndex = 3
@@ -1546,7 +1546,7 @@ Partial Class frmIssueReturn
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
-        Me.gv2.Size = New System.Drawing.Size(1044, 384)
+        Me.gv2.Size = New System.Drawing.Size(946, 380)
         Me.gv2.TabIndex = 1
         Me.gv2.TabStop = False
         '
@@ -1566,7 +1566,7 @@ Partial Class frmIssueReturn
         Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(86.0!, 28.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 37)
         Me.pvpCustomFields.Name = "pvpCustomFields"
-        Me.pvpCustomFields.Size = New System.Drawing.Size(874, 485)
+        Me.pvpCustomFields.Size = New System.Drawing.Size(949, 431)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
         'UcCustomFields1
@@ -1574,7 +1574,7 @@ Partial Class frmIssueReturn
         Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
         Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(874, 485)
+        Me.UcCustomFields1.Size = New System.Drawing.Size(949, 431)
         Me.UcCustomFields1.TabIndex = 1
         '
         'Attachments
@@ -1583,7 +1583,7 @@ Partial Class frmIssueReturn
         Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 28.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 37)
         Me.Attachments.Name = "Attachments"
-        Me.Attachments.Size = New System.Drawing.Size(874, 485)
+        Me.Attachments.Size = New System.Drawing.Size(949, 431)
         Me.Attachments.Text = "Attachments"
         '
         'UcAttachment1
@@ -1591,7 +1591,7 @@ Partial Class frmIssueReturn
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
         Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(874, 485)
+        Me.UcAttachment1.Size = New System.Drawing.Size(949, 431)
         Me.UcAttachment1.TabIndex = 0
         Me.UcAttachment1.TabStop = False
         '
@@ -1606,7 +1606,7 @@ Partial Class frmIssueReturn
         Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(41.0!, 28.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(1047, 435)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(949, 431)
         Me.RadPageViewPage3.Text = "Total"
         '
         'RadLabel7

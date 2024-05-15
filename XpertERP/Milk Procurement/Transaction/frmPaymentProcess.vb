@@ -182,6 +182,7 @@ Public Class FrmPaymentProcess
     Dim SetCowFatPer As Decimal = 0
     'Dim AreaWiseBilling As Boolean = False
     Dim Is_gv_Rows_Clear As Boolean = False
+    Dim PrintHindi As Boolean = False
 #End Region
 
     Private Sub FrmProvisionEntry_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -204,7 +205,7 @@ Public Class FrmPaymentProcess
 
         If PaymentProcessInHindi = True Then
             btnPrintHindi.Visible = PaymentProcessInHindi
-            btnPrint.Enabled = False
+            ' btnPrint.Enabled = False
         End If
 
 
@@ -8559,26 +8560,6 @@ inner join (select MCC_Code from TSPL_MCC_MASTER ) as TabTSPL_MCC_MASTER on TabT
                 qry += " and DOC_DATE>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' "
             End If
             qry += " and DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' " + Environment.NewLine
-            'qry += " And tspl_mcc_master.Area_Location_Code ='" + clsCommon.myCstr(fndArea.Value) + "' "
-            '--varsha added--
-            '       qry += " union all " + Environment.NewLine +
-            '           "select  VSP_CODE,VLC_CODE as VLC_CODE 
-            '               from tspl_mcc_master 
-            'left outer join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.VLC_CODE=tspl_mcc_master.MCC_Code
-            'left outer join TSPL_LOCATION_MASTER as tabPlantName on tabPlantName.Location_Code=TSPL_MCC_MASTER.Plant_Code  where tspl_mcc_master.mcc_Code in(" & clsCommon.GetMulcallString(mfndMcc.arrValueMember) & ")"
-            '       qry += " And tspl_mcc_master.Area_Location_Code ='" + clsCommon.myCstr(fndArea.Value) + "' "
-
-            '--varsha end ---
-
-            qry += " union all " + Environment.NewLine +
-            " select VSP_CODE,VLC_CODE as VLC_CODE from TSPL_MILK_REJECT_DETAIL left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE=TSPL_MILK_REJECT_DETAIL.DOC_CODE  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_MILK_REJECT_HEAD.MCC_CODE  left outer join tspl_mcc_master on tspl_mcc_master.MCC_Code=TSPL_MILK_REJECT_HEAD.mcc_code
-              where TSPL_MILK_REJECT_HEAD.Posted=1 and TSPL_LOCATION_MASTER.Location_code in (" & clsCommon.GetMulcallString(mfndMcc.arrValueMember) & ") AND tspl_mcc_master.Area_Location_Code='" & clsCommon.myCstr(fndArea.Value) & "'  "
-            If Not isPickPendingMilkSRNinNextPaymentCycle Then
-                qry += " and TSPL_MILK_REJECT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "'"
-            End If
-            qry += " and TSPL_MILK_REJECT_HEAD.DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' " + Environment.NewLine
-            qry += " And tspl_mcc_master.Area_Location_Code ='" + clsCommon.myCstr(fndArea.Value) + "' "
-
             qry += " )xxx group by VSP_CODE 
              )xx 
             left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.VSP_CODE 
@@ -8607,7 +8588,8 @@ inner join (select MCC_Code from TSPL_MCC_MASTER ) as TabTSPL_MCC_MASTER on TabT
                 Exit Sub
             End If
 
-            clsPaymentProcessHead.PaymentProcessDrCrPrint("'" + fndDocNo.Value + "'", dtpFromDate.Text, dtpToDate.Text, fndLoc.Value, clsCommon.GetMulcallString(txtVSP.arrValueMember), "", "", "", txtMCC.Text)
+            clsPaymentProcessHead.PaymentProcessDrCrPrint("'" + fndDocNo.Value + "'", dtpFromDate.Text, dtpToDate.Text, "'" + fndLoc.Value + "'", clsCommon.GetMulcallString(txtVSP.arrValueMember), "", "", "", txtMCC.Text)
+            '
 
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -8697,6 +8679,7 @@ where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='" + fndDocNo.Value + "' and TSPL_MILK_
 
     Private Sub btnPrintHindi_Click(sender As Object, e As EventArgs) Handles btnPrintHindi.Click
         Try
+
             If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
                 Load_Report_Paymnet_UDL()
             ElseIf clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHAD") = CompairStringResult.Equal Then
@@ -8707,10 +8690,11 @@ where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='" + fndDocNo.Value + "' and TSPL_MILK_
                 Load_Report_Paymnet_UCDF()
             ElseIf clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDF") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
                 'Load_Report_Paymnet_RCDF()
-                clsPaymentProcessHead.Load_Report_Paymnet_RCDF("'" + fndDocNo.Value + "'", dtpFromDate.Text, dtpToDate.Text, "", clsCommon.GetMulcallString(txtVSP.arrValueMember), "", "", "", False)
+                clsPaymentProcessHead.Load_Report_Paymnet_RCDF("'" + fndDocNo.Value + "'", dtpFromDate.Text, dtpToDate.Text, "", clsCommon.GetMulcallString(txtVSP.arrValueMember), "", "", "", False, "", True)
             Else
                 Load_Report(Nothing, Nothing, Nothing, Nothing, False, True)
             End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

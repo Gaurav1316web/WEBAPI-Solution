@@ -1406,7 +1406,7 @@ Public Class frmMilkSampleMCCOddEvenCLR
 
         Dim repoCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoCode.FormatString = ""
-        repoCode.HeaderText = "Vlc Doc Code"
+        repoCode.HeaderText = "DCS Doc Code"
         repoCode.Name = ColVlcDocCode
         repoCode.Width = 0
         repoCode.ReadOnly = True
@@ -1416,7 +1416,7 @@ Public Class frmMilkSampleMCCOddEvenCLR
 
         Dim repoVlcCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoVlcCode.FormatString = ""
-        repoVlcCode.HeaderText = "Vlc Code"
+        repoVlcCode.HeaderText = "DCS Code"
         repoVlcCode.Name = ColVlcCode
         repoVlcCode.Width = 0
         repoVlcCode.ReadOnly = True

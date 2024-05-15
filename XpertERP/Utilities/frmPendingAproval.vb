@@ -1285,9 +1285,9 @@ Public Class FrmPendingAproval
             If dt Is Nothing OrElse dt.Rows.Count = 0 Then
                 gv1.DataSource = Nothing
                 If rbtnStatusPending.IsChecked = True Then
-                    common.clsCommon.MyMessageBoxShow(Me, "There Is No '" + rbtnStatusPending.Text + "' Data Between The Dates '" + dtpFromDate.Value.Date + "' And '" + dtpToDate.Value.Date + "' ", caption:="Pending", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "There Is No '" + rbtnStatusPending.Text + "' Data Between The Dates '" + dtpFromDate.Value.Date + "' And '" + dtpToDate.Value.Date + "' ", caption:="Pending")
                 Else
-                    common.clsCommon.MyMessageBoxShow(Me, "There Is No '" + rbtnStatusPosted.Text + "' Data Between The Dates '" + dtpFromDate.Value.Date + "' And '" + dtpToDate.Value.Date + "' ", caption:="Posted", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "There Is No '" + rbtnStatusPosted.Text + "' Data Between The Dates '" + dtpFromDate.Value.Date + "' And '" + dtpToDate.Value.Date + "' ", caption:="Posted")
                 End If
                 Return
             End If

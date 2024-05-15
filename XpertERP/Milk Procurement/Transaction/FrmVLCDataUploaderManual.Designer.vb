@@ -415,7 +415,7 @@ Partial Class FrmVLCDataUploaderManual
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(58, 16)
         Me.MyLabel1.TabIndex = 5
-        Me.MyLabel1.Text = "VLC Code"
+        Me.MyLabel1.Text = "DCS Code"
         '
         'ddlShift
         '
@@ -816,7 +816,7 @@ Partial Class FrmVLCDataUploaderManual
         '
         '
         Me.RootElement.ApplyShapeToControl = True
-        Me.Text = "VLC Data Uploader "
+        Me.Text = "DCS Data Uploader "
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)

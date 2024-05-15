@@ -1586,8 +1586,8 @@ Public Class frmMilkSRNMCC
 
     Private Sub txtCode__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtCode._MYValidating
         Try
-            Dim Squery As String = "select TSPL_MILK_SRN_Head.DOC_COde as [Code],convert(varchar,Doc_date,103) as [Date],milk_sample_code as [Milk Sample Code],vlc_Name as [VLC]," _
-            & " Vendor_Name as [VSP], Route_Name as [Route],Vehical_Name as [Vehicle],DOC_DATE from tspl_Milk_srn_head left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=VSP_CODE " _
+            Dim Squery As String = "select TSPL_MILK_SRN_Head.DOC_COde as [Code],convert(varchar,Doc_date,103) as [Date],vlc_Name as [DCS]," _
+            & " Vendor_Name as [Secretary], Route_Name as [Route],Vehical_Name as [Vehicle],DOC_DATE from tspl_Milk_srn_head left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=VSP_CODE " _
             & " left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=tspl_Milk_srn_head .VLC_CODE Left outer join TSPL_Primary_Vehicle_Master on " _
             & " TSPL_Primary_Vehicle_Master.Vehicle_Code=tspl_Milk_srn_head.VEHICLE_CODE Left outer join TSPL_MCC_ROUTE_MASTER on TSPL_MCC_ROUTE_MASTER.Route_Code=tspl_Milk_srn_head.Route_CODE"
 

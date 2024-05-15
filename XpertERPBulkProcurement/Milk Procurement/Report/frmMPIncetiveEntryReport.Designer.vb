@@ -555,9 +555,9 @@ Partial Class frmMPIncetiveEntryReport
         Me.rbtnMCCWise.MyLinkLable1 = Nothing
         Me.rbtnMCCWise.MyLinkLable2 = Nothing
         Me.rbtnMCCWise.Name = "rbtnMCCWise"
-        Me.rbtnMCCWise.Size = New System.Drawing.Size(72, 18)
+        Me.rbtnMCCWise.Size = New System.Drawing.Size(71, 18)
         Me.rbtnMCCWise.TabIndex = 1
-        Me.rbtnMCCWise.Text = "MCC Wise"
+        Me.rbtnMCCWise.Text = "BMC Wise"
         Me.rbtnMCCWise.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'rbtnBankWise
@@ -596,6 +596,7 @@ Partial Class frmMPIncetiveEntryReport
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True

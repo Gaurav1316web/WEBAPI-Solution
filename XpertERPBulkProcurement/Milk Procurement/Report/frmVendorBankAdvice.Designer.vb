@@ -22,7 +22,7 @@ Partial Class frmVendorBankAdvice
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -30,22 +30,28 @@ Partial Class frmVendorBankAdvice
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadLabel2 = New common.Controls.MyLabel()
+        Me.MyLabel7 = New common.Controls.MyLabel()
+        Me.RadLabel1 = New common.Controls.MyLabel()
+        Me.rbtnCompulsoryWiseSummary = New common.Controls.MyRadioButton()
+        Me.ToDate = New Telerik.WinControls.UI.RadDateTimePicker()
+        Me.fromDate = New Telerik.WinControls.UI.RadDateTimePicker()
+        Me.rbtnSavingSummary = New common.Controls.MyRadioButton()
+        Me.rbtnCompulsory = New common.Controls.MyRadioButton()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.rbtnSaving = New common.Controls.MyRadioButton()
+        Me.rbtnCurrentBankWiseSummary = New common.Controls.MyRadioButton()
+        Me.rbtnBankWiseSummary = New common.Controls.MyRadioButton()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnBothSavCur = New common.Controls.MyRadioButton()
+        Me.rbtnBankAdvice = New common.Controls.MyRadioButton()
         Me.lblArea = New common.Controls.MyLabel()
         Me.fndArea = New common.UserControls.txtFinder()
         Me.ChkIFSCCode = New System.Windows.Forms.CheckBox()
-        Me.MyLabel6 = New common.Controls.MyLabel()
-        Me.rbtnSaving = New common.Controls.MyRadioButton()
-        Me.rbtnCompulsoryWiseSummary = New common.Controls.MyRadioButton()
-        Me.rbtnCompulsory = New common.Controls.MyRadioButton()
         Me.txtbankgroupname = New common.Controls.MyTextBox()
         Me.txtBankGroup = New common.UserControls.txtFinder()
         Me.lblBankGroup = New common.Controls.MyLabel()
-        Me.MyLabel5 = New common.Controls.MyLabel()
-        Me.rbtnCurrentBankWiseSummary = New common.Controls.MyRadioButton()
-        Me.rbtnBankWiseSummary = New common.Controls.MyRadioButton()
-        Me.rbtnBankAdvice = New common.Controls.MyRadioButton()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.txtMCC = New common.UserControls.txtFinder()
         Me.txtPaymentCycleTo = New common.UserControls.txtFinder()
@@ -53,11 +59,7 @@ Partial Class frmVendorBankAdvice
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.txtPaymentCycleFrom = New common.UserControls.txtFinder()
         Me.txtFiscalYear = New common.UserControls.txtFinder()
-        Me.RadLabel1 = New common.Controls.MyLabel()
         Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.RadLabel2 = New common.Controls.MyLabel()
-        Me.ToDate = New Telerik.WinControls.UI.RadDateTimePicker()
-        Me.fromDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.Gv1 = New common.UserControls.MyRadGridView()
         Me.btnPrintSWM = New Telerik.WinControls.UI.RadButton()
@@ -69,8 +71,7 @@ Partial Class frmVendorBankAdvice
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel7 = New common.Controls.MyLabel()
-        Me.rbtnSavingSummary = New common.Controls.MyRadioButton()
+        Me.btnExportBankWise = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -78,28 +79,30 @@ Partial Class frmVendorBankAdvice
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnCompulsoryWiseSummary, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ToDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.fromDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnSavingSummary, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnCompulsory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnSaving, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnCurrentBankWiseSummary, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnBankWiseSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox4.SuspendLayout()
         CType(Me.rbtnBothSavCur, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnBankAdvice, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblArea, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnSaving, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnCompulsoryWiseSummary, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnCompulsory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtbankgroupname, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBankGroup, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnCurrentBankWiseSummary, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnBankWiseSummary, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnBankAdvice, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ToDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.fromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -108,8 +111,7 @@ Partial Class frmVendorBankAdvice
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnSavingSummary, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnExportBankWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -152,6 +154,7 @@ Partial Class frmVendorBankAdvice
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnExportBankWise)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintSWM)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnExp)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -210,6 +213,145 @@ Partial Class frmVendorBankAdvice
         Me.RadPageViewPage1.Size = New System.Drawing.Size(794, 296)
         Me.RadPageViewPage1.Text = "Filters"
         '
+        'RadLabel2
+        '
+        Me.RadLabel2.FieldName = Nothing
+        Me.RadLabel2.Location = New System.Drawing.Point(212, 120)
+        Me.RadLabel2.Name = "RadLabel2"
+        Me.RadLabel2.Size = New System.Drawing.Size(45, 18)
+        Me.RadLabel2.TabIndex = 3
+        Me.RadLabel2.Text = "To Date"
+        '
+        'MyLabel7
+        '
+        Me.MyLabel7.FieldName = Nothing
+        Me.MyLabel7.Location = New System.Drawing.Point(4, 192)
+        Me.MyLabel7.Name = "MyLabel7"
+        Me.MyLabel7.Size = New System.Drawing.Size(110, 18)
+        Me.MyLabel7.TabIndex = 446
+        Me.MyLabel7.Text = "Cumpulsory Account"
+        '
+        'RadLabel1
+        '
+        Me.RadLabel1.FieldName = Nothing
+        Me.RadLabel1.Location = New System.Drawing.Point(4, 120)
+        Me.RadLabel1.Name = "RadLabel1"
+        Me.RadLabel1.Size = New System.Drawing.Size(59, 18)
+        Me.RadLabel1.TabIndex = 2
+        Me.RadLabel1.Text = "From Date"
+        '
+        'rbtnCompulsoryWiseSummary
+        '
+        Me.rbtnCompulsoryWiseSummary.Location = New System.Drawing.Point(215, 192)
+        Me.rbtnCompulsoryWiseSummary.MyLinkLable1 = Nothing
+        Me.rbtnCompulsoryWiseSummary.MyLinkLable2 = Nothing
+        Me.rbtnCompulsoryWiseSummary.Name = "rbtnCompulsoryWiseSummary"
+        Me.rbtnCompulsoryWiseSummary.Size = New System.Drawing.Size(158, 18)
+        Me.rbtnCompulsoryWiseSummary.TabIndex = 2
+        Me.rbtnCompulsoryWiseSummary.TabStop = False
+        Me.rbtnCompulsoryWiseSummary.Text = "Compulsory Wise Summary"
+        '
+        'ToDate
+        '
+        Me.ToDate.CustomFormat = "dd/MM/yyyy"
+        Me.ToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.ToDate.Location = New System.Drawing.Point(263, 119)
+        Me.ToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.ToDate.Name = "ToDate"
+        Me.ToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.ToDate.Size = New System.Drawing.Size(88, 20)
+        Me.ToDate.TabIndex = 1
+        Me.ToDate.TabStop = False
+        Me.ToDate.Text = "24/10/2011"
+        Me.ToDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
+        '
+        'fromDate
+        '
+        Me.fromDate.CustomFormat = "dd/MM/yyyy"
+        Me.fromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.fromDate.Location = New System.Drawing.Point(119, 119)
+        Me.fromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.fromDate.Name = "fromDate"
+        Me.fromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.fromDate.Size = New System.Drawing.Size(88, 20)
+        Me.fromDate.TabIndex = 0
+        Me.fromDate.TabStop = False
+        Me.fromDate.Text = "24/10/2011"
+        Me.fromDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
+        '
+        'rbtnSavingSummary
+        '
+        Me.rbtnSavingSummary.Location = New System.Drawing.Point(215, 168)
+        Me.rbtnSavingSummary.MyLinkLable1 = Nothing
+        Me.rbtnSavingSummary.MyLinkLable2 = Nothing
+        Me.rbtnSavingSummary.Name = "rbtnSavingSummary"
+        Me.rbtnSavingSummary.Size = New System.Drawing.Size(131, 18)
+        Me.rbtnSavingSummary.TabIndex = 447
+        Me.rbtnSavingSummary.TabStop = False
+        Me.rbtnSavingSummary.Text = "Saving Wise Summary"
+        '
+        'rbtnCompulsory
+        '
+        Me.rbtnCompulsory.Location = New System.Drawing.Point(122, 192)
+        Me.rbtnCompulsory.MyLinkLable1 = Nothing
+        Me.rbtnCompulsory.MyLinkLable2 = Nothing
+        Me.rbtnCompulsory.Name = "rbtnCompulsory"
+        Me.rbtnCompulsory.Size = New System.Drawing.Size(80, 18)
+        Me.rbtnCompulsory.TabIndex = 1
+        Me.rbtnCompulsory.TabStop = False
+        Me.rbtnCompulsory.Text = "Compulsory"
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Location = New System.Drawing.Point(4, 144)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(88, 18)
+        Me.MyLabel5.TabIndex = 435
+        Me.MyLabel5.Text = "Current Account"
+        '
+        'MyLabel6
+        '
+        Me.MyLabel6.FieldName = Nothing
+        Me.MyLabel6.Location = New System.Drawing.Point(4, 168)
+        Me.MyLabel6.Name = "MyLabel6"
+        Me.MyLabel6.Size = New System.Drawing.Size(83, 18)
+        Me.MyLabel6.TabIndex = 446
+        Me.MyLabel6.Text = "Saving Account"
+        '
+        'rbtnSaving
+        '
+        Me.rbtnSaving.Location = New System.Drawing.Point(122, 168)
+        Me.rbtnSaving.MyLinkLable1 = Nothing
+        Me.rbtnSaving.MyLinkLable2 = Nothing
+        Me.rbtnSaving.Name = "rbtnSaving"
+        Me.rbtnSaving.Size = New System.Drawing.Size(53, 18)
+        Me.rbtnSaving.TabIndex = 445
+        Me.rbtnSaving.TabStop = False
+        Me.rbtnSaving.Text = "Saving"
+        '
+        'rbtnCurrentBankWiseSummary
+        '
+        Me.rbtnCurrentBankWiseSummary.Location = New System.Drawing.Point(343, 144)
+        Me.rbtnCurrentBankWiseSummary.MyLinkLable1 = Nothing
+        Me.rbtnCurrentBankWiseSummary.MyLinkLable2 = Nothing
+        Me.rbtnCurrentBankWiseSummary.Name = "rbtnCurrentBankWiseSummary"
+        Me.rbtnCurrentBankWiseSummary.Size = New System.Drawing.Size(162, 18)
+        Me.rbtnCurrentBankWiseSummary.TabIndex = 2
+        Me.rbtnCurrentBankWiseSummary.TabStop = False
+        Me.rbtnCurrentBankWiseSummary.Text = "Current Bank Wise Summary"
+        '
+        'rbtnBankWiseSummary
+        '
+        Me.rbtnBankWiseSummary.Location = New System.Drawing.Point(215, 144)
+        Me.rbtnBankWiseSummary.MyLinkLable1 = Nothing
+        Me.rbtnBankWiseSummary.MyLinkLable2 = Nothing
+        Me.rbtnBankWiseSummary.Name = "rbtnBankWiseSummary"
+        Me.rbtnBankWiseSummary.Size = New System.Drawing.Size(122, 18)
+        Me.rbtnBankWiseSummary.TabIndex = 1
+        Me.rbtnBankWiseSummary.TabStop = False
+        Me.rbtnBankWiseSummary.Text = "Bank Wise Summary"
+        '
         'RadGroupBox4
         '
         Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
@@ -232,6 +374,18 @@ Partial Class frmVendorBankAdvice
         Me.rbtnBothSavCur.TabIndex = 446
         Me.rbtnBothSavCur.TabStop = False
         Me.rbtnBothSavCur.Text = "Saving/Current Combine"
+        '
+        'rbtnBankAdvice
+        '
+        Me.rbtnBankAdvice.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnBankAdvice.Location = New System.Drawing.Point(122, 144)
+        Me.rbtnBankAdvice.MyLinkLable1 = Nothing
+        Me.rbtnBankAdvice.MyLinkLable2 = Nothing
+        Me.rbtnBankAdvice.Name = "rbtnBankAdvice"
+        Me.rbtnBankAdvice.Size = New System.Drawing.Size(81, 18)
+        Me.rbtnBankAdvice.TabIndex = 0
+        Me.rbtnBankAdvice.Text = "Bank Advice"
+        Me.rbtnBankAdvice.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'lblArea
         '
@@ -278,48 +432,6 @@ Partial Class frmVendorBankAdvice
         Me.ChkIFSCCode.TabIndex = 448
         Me.ChkIFSCCode.Text = "IFSC Code"
         Me.ChkIFSCCode.UseVisualStyleBackColor = True
-        '
-        'MyLabel6
-        '
-        Me.MyLabel6.FieldName = Nothing
-        Me.MyLabel6.Location = New System.Drawing.Point(4, 168)
-        Me.MyLabel6.Name = "MyLabel6"
-        Me.MyLabel6.Size = New System.Drawing.Size(83, 18)
-        Me.MyLabel6.TabIndex = 446
-        Me.MyLabel6.Text = "Saving Account"
-        '
-        'rbtnSaving
-        '
-        Me.rbtnSaving.Location = New System.Drawing.Point(122, 168)
-        Me.rbtnSaving.MyLinkLable1 = Nothing
-        Me.rbtnSaving.MyLinkLable2 = Nothing
-        Me.rbtnSaving.Name = "rbtnSaving"
-        Me.rbtnSaving.Size = New System.Drawing.Size(53, 18)
-        Me.rbtnSaving.TabIndex = 445
-        Me.rbtnSaving.TabStop = False
-        Me.rbtnSaving.Text = "Saving"
-        '
-        'rbtnCompulsoryWiseSummary
-        '
-        Me.rbtnCompulsoryWiseSummary.Location = New System.Drawing.Point(215, 192)
-        Me.rbtnCompulsoryWiseSummary.MyLinkLable1 = Nothing
-        Me.rbtnCompulsoryWiseSummary.MyLinkLable2 = Nothing
-        Me.rbtnCompulsoryWiseSummary.Name = "rbtnCompulsoryWiseSummary"
-        Me.rbtnCompulsoryWiseSummary.Size = New System.Drawing.Size(158, 18)
-        Me.rbtnCompulsoryWiseSummary.TabIndex = 2
-        Me.rbtnCompulsoryWiseSummary.TabStop = False
-        Me.rbtnCompulsoryWiseSummary.Text = "Compulsory Wise Summary"
-        '
-        'rbtnCompulsory
-        '
-        Me.rbtnCompulsory.Location = New System.Drawing.Point(122, 192)
-        Me.rbtnCompulsory.MyLinkLable1 = Nothing
-        Me.rbtnCompulsory.MyLinkLable2 = Nothing
-        Me.rbtnCompulsory.Name = "rbtnCompulsory"
-        Me.rbtnCompulsory.Size = New System.Drawing.Size(80, 18)
-        Me.rbtnCompulsory.TabIndex = 1
-        Me.rbtnCompulsory.TabStop = False
-        Me.rbtnCompulsory.Text = "Compulsory"
         '
         'txtbankgroupname
         '
@@ -382,49 +494,6 @@ Partial Class frmVendorBankAdvice
         Me.lblBankGroup.Size = New System.Drawing.Size(67, 16)
         Me.lblBankGroup.TabIndex = 441
         Me.lblBankGroup.Text = "Bank Group"
-        '
-        'MyLabel5
-        '
-        Me.MyLabel5.FieldName = Nothing
-        Me.MyLabel5.Location = New System.Drawing.Point(4, 144)
-        Me.MyLabel5.Name = "MyLabel5"
-        Me.MyLabel5.Size = New System.Drawing.Size(88, 18)
-        Me.MyLabel5.TabIndex = 435
-        Me.MyLabel5.Text = "Current Account"
-        '
-        'rbtnCurrentBankWiseSummary
-        '
-        Me.rbtnCurrentBankWiseSummary.Location = New System.Drawing.Point(343, 144)
-        Me.rbtnCurrentBankWiseSummary.MyLinkLable1 = Nothing
-        Me.rbtnCurrentBankWiseSummary.MyLinkLable2 = Nothing
-        Me.rbtnCurrentBankWiseSummary.Name = "rbtnCurrentBankWiseSummary"
-        Me.rbtnCurrentBankWiseSummary.Size = New System.Drawing.Size(162, 18)
-        Me.rbtnCurrentBankWiseSummary.TabIndex = 2
-        Me.rbtnCurrentBankWiseSummary.TabStop = False
-        Me.rbtnCurrentBankWiseSummary.Text = "Current Bank Wise Summary"
-        '
-        'rbtnBankWiseSummary
-        '
-        Me.rbtnBankWiseSummary.Location = New System.Drawing.Point(215, 144)
-        Me.rbtnBankWiseSummary.MyLinkLable1 = Nothing
-        Me.rbtnBankWiseSummary.MyLinkLable2 = Nothing
-        Me.rbtnBankWiseSummary.Name = "rbtnBankWiseSummary"
-        Me.rbtnBankWiseSummary.Size = New System.Drawing.Size(122, 18)
-        Me.rbtnBankWiseSummary.TabIndex = 1
-        Me.rbtnBankWiseSummary.TabStop = False
-        Me.rbtnBankWiseSummary.Text = "Bank Wise Summary"
-        '
-        'rbtnBankAdvice
-        '
-        Me.rbtnBankAdvice.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnBankAdvice.Location = New System.Drawing.Point(122, 144)
-        Me.rbtnBankAdvice.MyLinkLable1 = Nothing
-        Me.rbtnBankAdvice.MyLinkLable2 = Nothing
-        Me.rbtnBankAdvice.Name = "rbtnBankAdvice"
-        Me.rbtnBankAdvice.Size = New System.Drawing.Size(81, 18)
-        Me.rbtnBankAdvice.TabIndex = 0
-        Me.rbtnBankAdvice.Text = "Bank Advice"
-        Me.rbtnBankAdvice.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'MyLabel4
         '
@@ -557,15 +626,6 @@ Partial Class frmVendorBankAdvice
         Me.txtFiscalYear.TabIndex = 432
         Me.txtFiscalYear.Value = ""
         '
-        'RadLabel1
-        '
-        Me.RadLabel1.FieldName = Nothing
-        Me.RadLabel1.Location = New System.Drawing.Point(4, 120)
-        Me.RadLabel1.Name = "RadLabel1"
-        Me.RadLabel1.Size = New System.Drawing.Size(59, 18)
-        Me.RadLabel1.TabIndex = 2
-        Me.RadLabel1.Text = "From Date"
-        '
         'MyLabel1
         '
         Me.MyLabel1.FieldName = Nothing
@@ -574,43 +634,6 @@ Partial Class frmVendorBankAdvice
         Me.MyLabel1.Size = New System.Drawing.Size(58, 18)
         Me.MyLabel1.TabIndex = 431
         Me.MyLabel1.Text = "Fiscal Year"
-        '
-        'RadLabel2
-        '
-        Me.RadLabel2.FieldName = Nothing
-        Me.RadLabel2.Location = New System.Drawing.Point(212, 120)
-        Me.RadLabel2.Name = "RadLabel2"
-        Me.RadLabel2.Size = New System.Drawing.Size(45, 18)
-        Me.RadLabel2.TabIndex = 3
-        Me.RadLabel2.Text = "To Date"
-        '
-        'ToDate
-        '
-        Me.ToDate.CustomFormat = "dd/MM/yyyy"
-        Me.ToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.ToDate.Location = New System.Drawing.Point(263, 119)
-        Me.ToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.ToDate.Name = "ToDate"
-        Me.ToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.ToDate.Size = New System.Drawing.Size(88, 20)
-        Me.ToDate.TabIndex = 1
-        Me.ToDate.TabStop = False
-        Me.ToDate.Text = "24/10/2011"
-        Me.ToDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
-        '
-        'fromDate
-        '
-        Me.fromDate.CustomFormat = "dd/MM/yyyy"
-        Me.fromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.fromDate.Location = New System.Drawing.Point(119, 119)
-        Me.fromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.fromDate.Name = "fromDate"
-        Me.fromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.fromDate.Size = New System.Drawing.Size(88, 20)
-        Me.fromDate.TabIndex = 0
-        Me.fromDate.TabStop = False
-        Me.fromDate.Text = "24/10/2011"
-        Me.fromDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
         '
         'RadPageViewPage2
         '
@@ -636,7 +659,7 @@ Partial Class frmVendorBankAdvice
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -715,25 +738,16 @@ Partial Class frmVendorBankAdvice
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'MyLabel7
+        'btnExportBankWise
         '
-        Me.MyLabel7.FieldName = Nothing
-        Me.MyLabel7.Location = New System.Drawing.Point(4, 192)
-        Me.MyLabel7.Name = "MyLabel7"
-        Me.MyLabel7.Size = New System.Drawing.Size(110, 18)
-        Me.MyLabel7.TabIndex = 446
-        Me.MyLabel7.Text = "Cumpulsory Account"
-        '
-        'rbtnSavingSummary
-        '
-        Me.rbtnSavingSummary.Location = New System.Drawing.Point(215, 168)
-        Me.rbtnSavingSummary.MyLinkLable1 = Nothing
-        Me.rbtnSavingSummary.MyLinkLable2 = Nothing
-        Me.rbtnSavingSummary.Name = "rbtnSavingSummary"
-        Me.rbtnSavingSummary.Size = New System.Drawing.Size(131, 18)
-        Me.rbtnSavingSummary.TabIndex = 447
-        Me.rbtnSavingSummary.TabStop = False
-        Me.rbtnSavingSummary.Text = "Saving Wise Summary"
+        Me.btnExportBankWise.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnExportBankWise.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnExportBankWise.Location = New System.Drawing.Point(340, 15)
+        Me.btnExportBankWise.Name = "btnExportBankWise"
+        Me.btnExportBankWise.Size = New System.Drawing.Size(107, 22)
+        Me.btnExportBankWise.TabIndex = 159
+        Me.btnExportBankWise.Text = "Export Bank Wise"
+        Me.btnExportBankWise.Visible = False
         '
         'frmVendorBankAdvice
         '
@@ -756,29 +770,31 @@ Partial Class frmVendorBankAdvice
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnCompulsoryWiseSummary, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ToDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.fromDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnSavingSummary, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnCompulsory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnSaving, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnCurrentBankWiseSummary, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnBankWiseSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox4.ResumeLayout(False)
         Me.RadGroupBox4.PerformLayout()
         CType(Me.rbtnBothSavCur, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnBankAdvice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblArea, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnSaving, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnCompulsoryWiseSummary, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnCompulsory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtbankgroupname, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBankGroup, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnCurrentBankWiseSummary, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnBankWiseSummary, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnBankAdvice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ToDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.fromDate, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -787,8 +803,7 @@ Partial Class frmVendorBankAdvice
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnSavingSummary, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnExportBankWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -842,5 +857,6 @@ Partial Class frmVendorBankAdvice
     Friend WithEvents btnPrintSWM As RadButton
     Friend WithEvents MyLabel7 As common.Controls.MyLabel
     Friend WithEvents rbtnSavingSummary As common.Controls.MyRadioButton
+    Friend WithEvents btnExportBankWise As RadButton
 End Class
 

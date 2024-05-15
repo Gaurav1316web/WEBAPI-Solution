@@ -164,7 +164,7 @@ Partial Class FrmMCCShiftReportRouteWise
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox2.Size = New System.Drawing.Size(420, 308)
         Me.RadGroupBox2.TabIndex = 7
-        Me.RadGroupBox2.Text = "MCC,Route,VLC "
+        Me.RadGroupBox2.Text = "MCC,Route,DCS "
         '
         'cbtMCCRouteVLCC
         '
@@ -186,13 +186,13 @@ Partial Class FrmMCCShiftReportRouteWise
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadGroupBox5.Controls.Add(Me.cbgVSP)
         Me.RadGroupBox5.Controls.Add(Me.Panel4)
-        Me.RadGroupBox5.HeaderText = "VSP"
+        Me.RadGroupBox5.HeaderText = "Secretary"
         Me.RadGroupBox5.Location = New System.Drawing.Point(427, 3)
         Me.RadGroupBox5.Name = "RadGroupBox5"
         Me.RadGroupBox5.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox5.Size = New System.Drawing.Size(358, 384)
         Me.RadGroupBox5.TabIndex = 4
-        Me.RadGroupBox5.Text = "VSP"
+        Me.RadGroupBox5.Text = "Secretary"
         '
         'cbgVSP
         '

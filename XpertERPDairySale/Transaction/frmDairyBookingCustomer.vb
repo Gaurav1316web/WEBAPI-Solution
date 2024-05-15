@@ -8599,7 +8599,7 @@ from
             Dim Qry As String = "Select * from (select 1 As CopyType,InLtr.Conversion_factor As [ConversionInLtr],InCrate.Conversion_factor As [ConversionInCrate],InPouch.Conversion_factor As [ConversionInPouch],TSPL_BOOKING_MATSER.Document_Date,
                         TSPL_BOOKING_MATSER.Is_Taxable,Case When TSPL_BOOKING_MATSER.GatePass_Type='AM' OR TSPL_BOOKING_MATSER.GatePass_Type='M' Then '[M]' Else '[E]' End As Shift,
                         TSPL_BOOKING_DETAIL.*,
-                        TSPL_BATCH_ITEM.Batch_No,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.HSN_Code,
+                        TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.HSN_Code,
                         case when coalesce(InLtr.Conversion_factor,0)=0 then 0 else convert(Decimal(18,2),  TSPL_BOOKING_DETAIL.Booking_Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/coalesce(InLtr.Conversion_factor,1)) end as QtyInLtr, 
                         case when coalesce(InCrate.Conversion_factor,0)=0 then 0 else convert(Decimal(18,2),  TSPL_BOOKING_DETAIL.Booking_Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/coalesce(InCrate.Conversion_factor,1)) end as QtyInCrate,
                         case when coalesce(InPouch.Conversion_factor,0)=0 then 0 else convert(Decimal(18,2),  TSPL_BOOKING_DETAIL.Booking_Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/coalesce(InPouch.Conversion_factor,1)) end as QtyInPouch,

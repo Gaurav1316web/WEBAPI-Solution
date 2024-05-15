@@ -22,10 +22,10 @@ Partial Class frmMilkProcurementUploader
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
-        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
@@ -57,10 +57,9 @@ Partial Class frmMilkProcurementUploader
         Me.txtDesc = New common.Controls.MyTextBox()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.gv1 = New common.UserControls.MyRadGridView()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.Panel2.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -83,7 +82,6 @@ Partial Class frmMilkProcurementUploader
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -91,7 +89,6 @@ Partial Class frmMilkProcurementUploader
         '
         Me.Panel2.Controls.Add(Me.btnHistory)
         Me.Panel2.Controls.Add(Me.RadButton2)
-        Me.Panel2.Controls.Add(Me.RadButton1)
         Me.Panel2.Controls.Add(Me.btnPost)
         Me.Panel2.Controls.Add(Me.btnDelete)
         Me.Panel2.Controls.Add(Me.btnClose)
@@ -101,6 +98,16 @@ Partial Class frmMilkProcurementUploader
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(784, 26)
         Me.Panel2.TabIndex = 1
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(402, 2)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(84, 22)
+        Me.btnHistory.TabIndex = 1031
+        Me.btnHistory.Text = "History"
         '
         'RadButton2
         '
@@ -112,17 +119,6 @@ Partial Class frmMilkProcurementUploader
         Me.RadButton2.TabIndex = 4
         Me.RadButton2.Text = "Reverse && Unpost"
         Me.RadButton2.Visible = False
-        '
-        'RadButton1
-        '
-        Me.RadButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton1.Location = New System.Drawing.Point(399, 2)
-        Me.RadButton1.Name = "RadButton1"
-        Me.RadButton1.Size = New System.Drawing.Size(103, 22)
-        Me.RadButton1.TabIndex = 4
-        Me.RadButton1.Text = "Delete And Clean"
-        Me.RadButton1.Visible = False
         '
         'btnPost
         '
@@ -517,22 +513,16 @@ Partial Class frmMilkProcurementUploader
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.EnableAlternatingRowColor = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
+        Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(784, 237)
         Me.gv1.TabIndex = 2
-        '
-        'btnHistory
-        '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(503, 2)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(84, 22)
-        Me.btnHistory.TabIndex = 1031
-        Me.btnHistory.Text = "History"
         '
         'frmMilkProcurementUploader
         '
@@ -552,8 +542,8 @@ Partial Class frmMilkProcurementUploader
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Milk Procurement Uploader"
         Me.Panel2.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
@@ -577,7 +567,6 @@ Partial Class frmMilkProcurementUploader
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -607,7 +596,6 @@ Partial Class frmMilkProcurementUploader
     Friend WithEvents fndMCCCode As common.UserControls.txtFinder
     Friend WithEvents RadMenuItem4 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem5 As Telerik.WinControls.UI.RadMenuItem
-    Friend WithEvents RadButton1 As Telerik.WinControls.UI.RadButton
     Friend WithEvents RadMenuItem6 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents lblDockName As common.Controls.MyLabel

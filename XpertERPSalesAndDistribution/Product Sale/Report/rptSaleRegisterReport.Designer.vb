@@ -973,7 +973,7 @@ Partial Class RptSaleRegisterReport
         Me.LblVLC.Name = "LblVLC"
         Me.LblVLC.Size = New System.Drawing.Size(26, 18)
         Me.LblVLC.TabIndex = 360
-        Me.LblVLC.Text = "VLC"
+        Me.LblVLC.Text = "DCS"
         Me.LblVLC.Visible = False
         '
         'RptSaleRegisterReport

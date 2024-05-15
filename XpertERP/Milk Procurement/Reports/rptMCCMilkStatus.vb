@@ -123,7 +123,7 @@ Public Class RptMCCMilkStatus
             qry += " max(final.MCC_NAME) as [MCC Name],final.Route_Code ,max(final.Route_Name) as [Route Name],final.VLC_Code as [VLC Code],max(final.VLC_Name) as [VLC Name],"
             qry += " final.VSP_Code as [VSP Code],max(final.Vendor_Name) as [VLC Name],max(Status) as [Status] from (select xxxx.thedate,xxxx.TempShift,xxxx.MCC,TSPL_MCC_MASTER.MCC_NAME ,"
             qry += "  xxxx.Route_Code, TSPL_MCC_ROUTE_MASTER.Route_Name, xxxx.VLC_Code, xxxx.VLC_Name, xxxx.VSP_Code, TSPL_VENDOR_MASTER.Vendor_Name"
-            qry += ",case when len(isnull( TSPL_MILK_RECEIPT_DETAIL.DOC_CODE,''))>0 then 'Received' else 'Pending' end as Status from ("
+            qry += ",case when len(isnull( TSPL_MILK_SRN_HEAD.DOC_CODE,''))>0 then 'Received' else 'Pending' end as Status from ("
             qry += " select xxx.thedate,xxx.TempShift,TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Name ,TSPL_VLC_MASTER_HEAD.MCC,"
             qry += " TSPL_VLC_MASTER_HEAD.Route_Code ,TSPL_VLC_MASTER_HEAD.VSP_Code  from ( "
             qry += " select thedate,'M' as TempShift from ExplodeDates('" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "','" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "')"
@@ -132,12 +132,12 @@ Public Class RptMCCMilkStatus
             qry += " )xxx ,TSPL_VLC_MASTER_HEAD"
             qry += " )xxxx"
 
-            qry += " left join TSPL_MILK_RECEIPT_DETAIL on xxxx.MCC =TSPL_MILK_RECEIPT_DETAIL.MCC_CODE "
-            qry += " and TSPL_MILK_RECEIPT_DETAIL.VLC_CODE  =xxxx.VLC_Code "
-            qry += " and TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE  =xxxx.Route_Code "
-            qry += " and TSPL_MILK_RECEIPT_DETAIL.VSP_CODE  =xxxx.VSP_Code"
-            qry += " and xxxx.TempShift=TSPL_MILK_RECEIPT_DETAIL.SHIFT"
-            qry += " and convert(date, TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,103)=CONVERT(date, xxxx.thedate,103)  "
+            qry += " left join TSPL_MILK_SRN_HEAD on xxxx.MCC =TSPL_MILK_SRN_HEAD.MCC_CODE "
+            qry += " and TSPL_MILK_SRN_HEAD.VLC_CODE  =xxxx.VLC_Code "
+            qry += " and TSPL_MILK_SRN_HEAD.ROUTE_CODE  =xxxx.Route_Code "
+            qry += " and TSPL_MILK_SRN_HEAD.VSP_CODE  =xxxx.VSP_Code"
+            qry += " and xxxx.TempShift=TSPL_MILK_SRN_HEAD.SHIFT"
+            qry += " and convert(date, TSPL_MILK_SRN_HEAD.DOC_DATE,103)=CONVERT(date, xxxx.thedate,103)  "
             qry += " left join TSPL_MCC_MASTER on TSPL_MCC_MASTER .MCC_Code =xxxx.MCC "
             qry += " left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code =xxxx.VLC_Code "
             qry += " left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code =xxxx.VSP_Code "
@@ -176,14 +176,16 @@ Public Class RptMCCMilkStatus
             tempdt = clsDBFuncationality.GetDataTable(strqry)
             If (tempdt.Rows.Count > 0) Then
                 If cbtMCCRouteVLCC.CheckedValue.Count > 1 Then
-                    arr = cbtMCCRouteVLCC.CheckedValue(3)
+                    If cbtMCCRouteVLCC.CheckedValue.Count > 2 Then
+                        arr = cbtMCCRouteVLCC.CheckedValue(3)
+                    End If
                     If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                        qry += " and final.VLC_Code in (" + clsCommon.GetMulcallString(arr) + ")  "
-                    Else
-                        Throw New Exception("Please select at least one VLC Code")
+                            qry += " and final.VLC_Code in (" + clsCommon.GetMulcallString(arr) + ")  "
+                        Else
+                            Throw New Exception("Please select at least one VLC Code")
+                        End If
                     End If
                 End If
-            End If
             qry += " group by final.MCC ,final.Route_Code ,final.VLC_Code ,final.VSP_Code ,final.thedate ,final.TempShift "
             qry += " order by thedate  "
 

@@ -22,6 +22,7 @@ Partial Class frmDCSAdditionDeduction
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.chkApplyFormula = New Telerik.WinControls.UI.RadCheckBox()
         Me.MyLabel12 = New common.Controls.MyLabel()
         Me.txtExcludeDCS = New common.UserControls.txtMultiSelectFinder()
         Me.DescHindi = New common.Controls.MyLabel()
@@ -91,10 +92,11 @@ Partial Class frmDCSAdditionDeduction
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.rdbtnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
-        Me.chkApplyFormula = New Telerik.WinControls.UI.RadCheckBox()
+        Me.rbtnDCSTypeDCSTruckSheet = New common.Controls.MyRadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.chkApplyFormula, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DescHindi, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDescNameHindi, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -157,7 +159,7 @@ Partial Class frmDCSAdditionDeduction
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkApplyFormula, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnDCSTypeDCSTruckSheet, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -232,6 +234,15 @@ Partial Class frmDCSAdditionDeduction
         Me.SplitContainer1.Size = New System.Drawing.Size(681, 449)
         Me.SplitContainer1.SplitterDistance = 415
         Me.SplitContainer1.TabIndex = 0
+        '
+        'chkApplyFormula
+        '
+        Me.chkApplyFormula.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkApplyFormula.Location = New System.Drawing.Point(510, 238)
+        Me.chkApplyFormula.Name = "chkApplyFormula"
+        Me.chkApplyFormula.Size = New System.Drawing.Size(93, 16)
+        Me.chkApplyFormula.TabIndex = 387
+        Me.chkApplyFormula.Text = "Apply Formula"
         '
         'MyLabel12
         '
@@ -349,7 +360,7 @@ Partial Class frmDCSAdditionDeduction
         'chkApplyTDS
         '
         Me.chkApplyTDS.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkApplyTDS.Location = New System.Drawing.Point(536, 93)
+        Me.chkApplyTDS.Location = New System.Drawing.Point(610, 237)
         Me.chkApplyTDS.Name = "chkApplyTDS"
         Me.chkApplyTDS.Size = New System.Drawing.Size(74, 16)
         Me.chkApplyTDS.TabIndex = 375
@@ -542,6 +553,7 @@ Partial Class frmDCSAdditionDeduction
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.rbtnDCSTypeDCSTruckSheet)
         Me.GroupBox1.Controls.Add(Me.txtConvertsion)
         Me.GroupBox1.Controls.Add(Me.MyLabel11)
         Me.GroupBox1.Controls.Add(Me.rbtnDCSTypeBMCTruckSheet)
@@ -550,9 +562,9 @@ Partial Class frmDCSAdditionDeduction
         Me.GroupBox1.Controls.Add(Me.rbtnDCSTypePDCS)
         Me.GroupBox1.Controls.Add(Me.rbtnDCSTypeDCS)
         Me.GroupBox1.Controls.Add(Me.rbtnDCSTypeBoth)
-        Me.GroupBox1.Location = New System.Drawing.Point(526, 116)
+        Me.GroupBox1.Location = New System.Drawing.Point(528, 83)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(145, 101)
+        Me.GroupBox1.Size = New System.Drawing.Size(145, 122)
         Me.GroupBox1.TabIndex = 3
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Applicable For DCS Type"
@@ -571,7 +583,7 @@ Partial Class frmDCSAdditionDeduction
         Me.txtConvertsion.IsSourceFromTable = False
         Me.txtConvertsion.IsSourceFromValueList = False
         Me.txtConvertsion.IsUnique = False
-        Me.txtConvertsion.Location = New System.Drawing.Point(77, 72)
+        Me.txtConvertsion.Location = New System.Drawing.Point(77, 91)
         Me.txtConvertsion.MaxLength = 5
         Me.txtConvertsion.MendatroryField = False
         Me.txtConvertsion.MyLinkLable1 = Me.MyLabel11
@@ -590,7 +602,7 @@ Partial Class frmDCSAdditionDeduction
         '
         Me.MyLabel11.FieldName = Nothing
         Me.MyLabel11.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel11.Location = New System.Drawing.Point(6, 74)
+        Me.MyLabel11.Location = New System.Drawing.Point(6, 93)
         Me.MyLabel11.Name = "MyLabel11"
         Me.MyLabel11.Size = New System.Drawing.Size(63, 16)
         Me.MyLabel11.TabIndex = 384
@@ -598,7 +610,7 @@ Partial Class frmDCSAdditionDeduction
         '
         'rbtnDCSTypeBMCTruckSheet
         '
-        Me.rbtnDCSTypeBMCTruckSheet.Location = New System.Drawing.Point(6, 51)
+        Me.rbtnDCSTypeBMCTruckSheet.Location = New System.Drawing.Point(4, 51)
         Me.rbtnDCSTypeBMCTruckSheet.MyLinkLable1 = Nothing
         Me.rbtnDCSTypeBMCTruckSheet.MyLinkLable2 = Nothing
         Me.rbtnDCSTypeBMCTruckSheet.Name = "rbtnDCSTypeBMCTruckSheet"
@@ -608,7 +620,7 @@ Partial Class frmDCSAdditionDeduction
         '
         'rbtnDCSTypeCluster
         '
-        Me.rbtnDCSTypeCluster.Location = New System.Drawing.Point(84, 32)
+        Me.rbtnDCSTypeCluster.Location = New System.Drawing.Point(86, 32)
         Me.rbtnDCSTypeCluster.MyLinkLable1 = Nothing
         Me.rbtnDCSTypeCluster.MyLinkLable2 = Nothing
         Me.rbtnDCSTypeCluster.Name = "rbtnDCSTypeCluster"
@@ -618,7 +630,7 @@ Partial Class frmDCSAdditionDeduction
         '
         'rbtnDCSTypeBMC
         '
-        Me.rbtnDCSTypeBMC.Location = New System.Drawing.Point(6, 32)
+        Me.rbtnDCSTypeBMC.Location = New System.Drawing.Point(4, 32)
         Me.rbtnDCSTypeBMC.MyLinkLable1 = Nothing
         Me.rbtnDCSTypeBMC.MyLinkLable2 = Nothing
         Me.rbtnDCSTypeBMC.Name = "rbtnDCSTypeBMC"
@@ -628,7 +640,7 @@ Partial Class frmDCSAdditionDeduction
         '
         'rbtnDCSTypePDCS
         '
-        Me.rbtnDCSTypePDCS.Location = New System.Drawing.Point(90, 13)
+        Me.rbtnDCSTypePDCS.Location = New System.Drawing.Point(94, 13)
         Me.rbtnDCSTypePDCS.MyLinkLable1 = Nothing
         Me.rbtnDCSTypePDCS.MyLinkLable2 = Nothing
         Me.rbtnDCSTypePDCS.Name = "rbtnDCSTypePDCS"
@@ -638,7 +650,7 @@ Partial Class frmDCSAdditionDeduction
         '
         'rbtnDCSTypeDCS
         '
-        Me.rbtnDCSTypeDCS.Location = New System.Drawing.Point(44, 13)
+        Me.rbtnDCSTypeDCS.Location = New System.Drawing.Point(47, 13)
         Me.rbtnDCSTypeDCS.MyLinkLable1 = Nothing
         Me.rbtnDCSTypeDCS.MyLinkLable2 = Nothing
         Me.rbtnDCSTypeDCS.Name = "rbtnDCSTypeDCS"
@@ -648,7 +660,7 @@ Partial Class frmDCSAdditionDeduction
         '
         'rbtnDCSTypeBoth
         '
-        Me.rbtnDCSTypeBoth.Location = New System.Drawing.Point(6, 13)
+        Me.rbtnDCSTypeBoth.Location = New System.Drawing.Point(4, 13)
         Me.rbtnDCSTypeBoth.MyLinkLable1 = Nothing
         Me.rbtnDCSTypeBoth.MyLinkLable2 = Nothing
         Me.rbtnDCSTypeBoth.Name = "rbtnDCSTypeBoth"
@@ -1162,14 +1174,15 @@ Partial Class frmDCSAdditionDeduction
         Me.btnDelete.TabIndex = 1
         Me.btnDelete.Text = "Delete"
         '
-        'chkApplyFormula
+        'rbtnDCSTypeDCSTruckSheet
         '
-        Me.chkApplyFormula.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkApplyFormula.Location = New System.Drawing.Point(510, 238)
-        Me.chkApplyFormula.Name = "chkApplyFormula"
-        Me.chkApplyFormula.Size = New System.Drawing.Size(93, 16)
-        Me.chkApplyFormula.TabIndex = 387
-        Me.chkApplyFormula.Text = "Apply Formula"
+        Me.rbtnDCSTypeDCSTruckSheet.Location = New System.Drawing.Point(4, 70)
+        Me.rbtnDCSTypeDCSTruckSheet.MyLinkLable1 = Nothing
+        Me.rbtnDCSTypeDCSTruckSheet.MyLinkLable2 = Nothing
+        Me.rbtnDCSTypeDCSTruckSheet.Name = "rbtnDCSTypeDCSTruckSheet"
+        Me.rbtnDCSTypeDCSTruckSheet.Size = New System.Drawing.Size(103, 18)
+        Me.rbtnDCSTypeDCSTruckSheet.TabIndex = 385
+        Me.rbtnDCSTypeDCSTruckSheet.Text = "DCS Truck Sheet"
         '
         'frmDCSAdditionDeduction
         '
@@ -1188,6 +1201,7 @@ Partial Class frmDCSAdditionDeduction
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.chkApplyFormula, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DescHindi, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDescNameHindi, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1254,7 +1268,7 @@ Partial Class frmDCSAdditionDeduction
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkApplyFormula, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnDCSTypeDCSTruckSheet, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1330,4 +1344,5 @@ Partial Class frmDCSAdditionDeduction
     Friend WithEvents MyLabel12 As common.Controls.MyLabel
     Friend WithEvents txtExcludeDCS As common.UserControls.txtMultiSelectFinder
     Friend WithEvents chkApplyFormula As RadCheckBox
+    Friend WithEvents rbtnDCSTypeDCSTruckSheet As common.Controls.MyRadioButton
 End Class

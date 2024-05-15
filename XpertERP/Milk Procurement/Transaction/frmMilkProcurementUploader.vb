@@ -682,7 +682,6 @@ Public Class frmMilkProcurementUploader
             frm.strCode = clsFixedParameterCode.SIReversAndCreate
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
-                RadButton1.Visible = True
                 RadButton2.Visible = True
             End If
         End If
@@ -1128,20 +1127,7 @@ ExitLOOP:
         End Try
     End Sub
 
-    Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
-        Try
-            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                Throw New Exception("Please select document no to delete")
-            End If
-            If clsCommon.MyMessageBoxShow("Delete and Clean the current document" + Environment.NewLine + "Are you sure ? ", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
-                clsMilkProcurementUploaderHead.DeleteAndCleanData(txtDocNo.Value)
-                clsCommon.MyMessageBoxShow(Me, "Data delete successfully", Me.Text)
-                AddNew()
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
+
 
     Private Sub RadMenuItem6_Click(sender As Object, e As EventArgs) Handles RadMenuItem6.Click
         Try

@@ -281,7 +281,7 @@ Partial Class rptMCCBillGenrationStatus
         Me.chkShowVLCUploaderData.Name = "chkShowVLCUploaderData"
         Me.chkShowVLCUploaderData.Size = New System.Drawing.Size(155, 17)
         Me.chkShowVLCUploaderData.TabIndex = 332
-        Me.chkShowVLCUploaderData.Text = "Show VLC Uploader Data"
+        Me.chkShowVLCUploaderData.Text = "Show DCS Uploader Data"
         Me.chkShowVLCUploaderData.UseVisualStyleBackColor = True
         Me.chkShowVLCUploaderData.Visible = False
         '
@@ -365,7 +365,7 @@ Partial Class rptMCCBillGenrationStatus
         Me.MyLabel15.Name = "MyLabel15"
         Me.MyLabel15.Size = New System.Drawing.Size(26, 18)
         Me.MyLabel15.TabIndex = 388
-        Me.MyLabel15.Text = "VLC"
+        Me.MyLabel15.Text = "DCS"
         Me.MyLabel15.Visible = False
         '
         'txtRoute

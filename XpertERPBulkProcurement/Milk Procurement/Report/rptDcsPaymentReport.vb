@@ -70,7 +70,7 @@ from   TSPL_PAYMENT_PROCESS_DETAIL
                 RadPageView1.SelectedPage = RadPageViewPage2
 
                 Gv1.EnableFiltering = True
-                'FormatGrid()
+                FormatGrid()
                 ControlEnableDisable(False)
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
@@ -117,23 +117,43 @@ from   TSPL_PAYMENT_PROCESS_DETAIL
 
 
     Sub FormatGrid()
-        Dim summaryItem As New GridViewSummaryItem()
-        Gv1.TableElement.TableHeaderHeight = 25
-        Gv1.MasterTemplate.ShowRowHeaderColumn = True
+        Gv1.AutoExpandGroups = False
+        Gv1.ShowGroupPanel = False
+        Gv1.ShowRowHeaderColumn = False
+        Gv1.AllowAddNewRow = False
+        Gv1.AllowDeleteRow = False
+        Gv1.EnableFiltering = True
+        Gv1.ShowFilteringRow = True
+
+
         For ii As Integer = 0 To Gv1.Columns.Count - 1
             Gv1.Columns(ii).ReadOnly = True
-            Gv1.Columns(ii).IsVisible = True
-            Gv1.Columns("S No").HeaderText = "S No"
+            Gv1.Columns(ii).BestFit()
         Next
         Dim summaryRowItem As New GridViewSummaryRowItem()
-        Dim item1 As New GridViewSummaryItem("Total_No_Of_Dcs", "{0:F2}", GridAggregateFunction.Sum)
+        Dim intCount As Integer = 0
+
+        Dim item1 As New GridViewSummaryItem("Milk_Qty", "", GridAggregateFunction.Sum)
         summaryRowItem.Add(item1)
-        Dim item2 As New GridViewSummaryItem("Entry_No_Of_Dcs", "{0:F2}", GridAggregateFunction.Sum)
+        Dim item2 As New GridViewSummaryItem("FATKg", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item2)
-        Dim item3 As New GridViewSummaryItem("Qty_Ltr", "{0:F2}", GridAggregateFunction.Sum)
+        Dim item3 As New GridViewSummaryItem("SNFKg", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item3)
-        Dim item4 As New GridViewSummaryItem("Qty_Kg", "{0:F2}", GridAggregateFunction.Sum)
+        Dim item4 As New GridViewSummaryItem("Milk_Amount", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item4)
+        Dim item5 As New GridViewSummaryItem("Head_Load_Amount", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item5)
+        Dim item6 As New GridViewSummaryItem("Reduce_Deduc_Amt", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item6)
+        Dim item7 As New GridViewSummaryItem("Deduction_Amount", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item7)
+        Dim item8 As New GridViewSummaryItem("Credit_Note_Amount", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item8)
+        Dim item9 As New GridViewSummaryItem("Payable_Amount", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item9)
+
+        Gv1.ShowGroupPanel = True
+        Gv1.MasterTemplate.AutoExpandGroups = True
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
     End Sub
 
@@ -159,7 +179,8 @@ from   TSPL_PAYMENT_PROCESS_DETAIL
     End Sub
 
     Private Sub txtMultDCS__My_Click(sender As Object, e As EventArgs) Handles txtMultDCS._My_Click
-        Dim qry As String = " select VLC_CODE_Uploader as Code,VLC_Name as Name from TSPL_PAYMENT_PROCESS_DETAIL where 2=2 "
+        Dim qry As String = " select VLC_CODE_Uploader as Code,VLC_Name as Name,TSPL_VENDOR_MASTER.Zone_Code from TSPL_PAYMENT_PROCESS_DETAIL 
+                             left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE where 2=2 "
         txtMultDCS.arrValueMember = clsCommon.ShowMultipleSelectForm("VSPMulSelect", qry, "Code", "Name", txtMultDCS.arrValueMember, txtMultDCS.arrDispalyMember)
     End Sub
 End Class

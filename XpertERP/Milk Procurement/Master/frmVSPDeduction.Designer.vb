@@ -160,7 +160,7 @@ Partial Class frmVSPDeduction
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(133, 16)
         Me.MyLabel1.TabIndex = 108
-        Me.MyLabel1.Text = "VSP Deduction Apply On"
+        Me.MyLabel1.Text = "Secretary Deduction Apply On"
         '
         'txtDeductionRate
         '
@@ -197,7 +197,7 @@ Partial Class frmVSPDeduction
         Me.MyLabel85.Name = "MyLabel85"
         Me.MyLabel85.Size = New System.Drawing.Size(110, 16)
         Me.MyLabel85.TabIndex = 106
-        Me.MyLabel85.Text = "VSP Deduction Rate"
+        Me.MyLabel85.Text = "Secretary Deduction Rate"
         '
         'txtDeductionNoOfPaymentCycleForNewVSP
         '
@@ -234,7 +234,7 @@ Partial Class frmVSPDeduction
         Me.MyLabel84.Name = "MyLabel84"
         Me.MyLabel84.Size = New System.Drawing.Size(237, 16)
         Me.MyLabel84.TabIndex = 104
-        Me.MyLabel84.Text = "Applicable For New VSP After Payment Cycle"
+        Me.MyLabel84.Text = "Applicable For New Secretary After Payment Cycle"
         '
         'lblDescription
         '

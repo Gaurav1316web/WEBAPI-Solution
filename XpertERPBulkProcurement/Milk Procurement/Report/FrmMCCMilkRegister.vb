@@ -1481,6 +1481,10 @@ Public Class FrmMCCMilkRegister
                     gv.Columns("Route Name").Width = 100
                     gv.Columns("Route Name").HeaderText = "Route Name"
 
+                    gv.Columns("Zone Code").IsVisible = True
+                    gv.Columns("Zone Code").Width = 100
+                    gv.Columns("Zone Code").HeaderText = "Zone Code"
+
                     gv.Columns("Vlc Code").IsVisible = True
                     gv.Columns("Vlc Code").Width = 100
                     gv.Columns("Vlc Code").HeaderText = "VLC Code"
@@ -1723,6 +1727,223 @@ Public Class FrmMCCMilkRegister
 
                     gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
                     gv.MasterTemplate.ShowTotals = True
+                ElseIf rbtnZoneWise.Checked Then
+                    If chkShiftWise.Checked And (chkRejection.Checked = True OrElse chkOnlyRejection.Checked = True) Then
+                        gv.Columns("Shift").IsVisible = True
+                        gv.Columns("Shift").Width = 80
+                        gv.Columns("Shift").HeaderText = "Shift"
+                    End If
+
+
+                    gv.Columns("Zone Code").IsVisible = True
+                    gv.Columns("Zone Code").Width = 100
+                    gv.Columns("Zone Code").HeaderText = "Zone Code"
+
+                    gv.Columns("Milk Weight").IsVisible = True
+                    gv.Columns("Milk Weight").Width = 100
+                    gv.Columns("Milk Weight").HeaderText = "Milk Weight"
+
+                    gv.Columns("Milk Weight(KG)").IsVisible = True
+                    gv.Columns("Milk Weight(KG)").Width = 100
+                    gv.Columns("Milk Weight(KG)").HeaderText = "Milk Weight(KG)"
+
+                    gv.Columns("Milk Weight(LTR)").IsVisible = True
+                    gv.Columns("Milk Weight(LTR)").Width = 100
+                    gv.Columns("Milk Weight(LTR)").HeaderText = "Milk Weight(LTR)"
+
+                    gv.Columns("FAT(%)").IsVisible = True
+                    gv.Columns("FAT(%)").Width = 100
+                    gv.Columns("FAT(%)").HeaderText = " FAT(%)"
+
+                    gv.Columns("SNF(%)").IsVisible = True
+                    gv.Columns("SNF(%)").Width = 100
+                    gv.Columns("SNF(%)").HeaderText = "SNF(%)"
+
+                    gv.Columns("FAT(KG)").IsVisible = True
+                    gv.Columns("FAT(KG)").Width = 100
+                    gv.Columns("FAT(KG)").HeaderText = " FAT(KG)"
+                    gv.Columns("FAT(KG)").FormatString = "{0:n3}"
+
+                    gv.Columns("SNF(KG)").IsVisible = True
+                    gv.Columns("SNF(KG)").Width = 100
+                    gv.Columns("SNF(KG)").HeaderText = "SNF(KG)"
+                    gv.Columns("SNF(KG)").FormatString = "{0:n3}"
+
+                    gv.Columns("Cow Milk Qty (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                    gv.Columns("Cow Milk Qty (KG)").Width = 100
+                    gv.Columns("Cow Milk Qty (KG)").HeaderText = "Cow Milk Qty (KG)"
+
+                    gv.Columns("Cow FAT(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                    gv.Columns("Cow FAT(%)").Width = 100
+                    gv.Columns("Cow FAT(%)").HeaderText = "Cow FAT(%)"
+
+                    gv.Columns("Cow SNF(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                    gv.Columns("Cow SNF(%)").Width = 100
+                    gv.Columns("Cow SNF(%)").HeaderText = "Cow SNF(%)"
+
+                    gv.Columns("Cow FAT (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                    gv.Columns("Cow FAT (KG)").Width = 100
+                    gv.Columns("Cow FAT (KG)").HeaderText = "Cow FAT (KG)"
+
+                    gv.Columns("Cow SNF (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                    gv.Columns("Cow SNF (KG)").Width = 100
+                    gv.Columns("Cow SNF (KG)").HeaderText = "Cow SNF (KG)"
+
+                    gv.Columns("Buffalo Milk Qty (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                    gv.Columns("Buffalo Milk Qty (KG)").Width = 100
+                    gv.Columns("Buffalo Milk Qty (KG)").HeaderText = "Buffalo Milk Qty (KG)"
+
+                    gv.Columns("Buffalo SNF(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                    gv.Columns("Buffalo SNF(%)").Width = 100
+                    gv.Columns("Buffalo SNF(%)").HeaderText = "Buffalo SNF(%)"
+
+                    gv.Columns("Buffalo FAT(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                    gv.Columns("Buffalo FAT(%)").Width = 100
+
+                    gv.Columns("Buffalo FAT (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                    gv.Columns("Buffalo FAT (KG)").Width = 100
+                    gv.Columns("Buffalo FAT (KG)").HeaderText = "Buffalo FAT (KG)"
+
+
+                    gv.Columns("SRN Qty").IsVisible = True
+                    gv.Columns("SRN Qty").Width = 100
+                    gv.Columns("SRN Qty").HeaderText = "SRN Qty"
+
+
+                    gv.Columns("SRN Amount").IsVisible = True
+                    gv.Columns("SRN Amount").Width = 100
+                    gv.Columns("SRN Amount").HeaderText = "SRN Amount"
+
+                    gv.Columns("EMP_Amount").IsVisible = True
+                    gv.Columns("EMP_Amount").Width = 100
+                    gv.Columns("EMP_Amount").HeaderText = "SRN EMP Amount"
+
+                    gv.Columns("TIP_Amount").IsVisible = True
+                    gv.Columns("TIP_Amount").Width = 100
+                    gv.Columns("TIP_Amount").HeaderText = "SRN TIP Amount"
+
+                    gv.Columns("SNF_Ded_Amount").IsVisible = False
+                    gv.Columns("SNF_Ded_Amount").HeaderText = "SNF Deduction Amount"
+
+
+                    Dim summaryRowItem As New GridViewSummaryRowItem()
+                    'TankerFromMaster = 0 AndAlso
+                    If chkRejection.Checked = False AndAlso chkOnlyRejection.Checked = False Then
+                        Try
+
+                            gv.Columns("NET_AMOUNT").IsVisible = True
+                            gv.Columns("NET_AMOUNT").Width = 100
+                            gv.Columns("NET_AMOUNT").HeaderText = "SRN Net Amount"
+
+                            gv.Columns("Round_Off").IsVisible = True
+                            gv.Columns("Round_Off").Width = 100
+                            gv.Columns("Round_Off").HeaderText = "SRN Round Off"
+
+                            gv.Columns("Handling_Charges_Amount").IsVisible = True
+                            gv.Columns("Handling_Charges_Amount").Width = 100
+                            gv.Columns("Handling_Charges_Amount").HeaderText = "Handling Charges"
+
+
+                            Dim item112 As New GridViewSummaryItem("NET_AMOUNT", "{0:F3}", GridAggregateFunction.Sum)
+                            summaryRowItem.Add(item112)
+                            Dim item113 As New GridViewSummaryItem("Round_Off", "{0:F3}", GridAggregateFunction.Sum)
+                            summaryRowItem.Add(item113)
+                            Dim item114 As New GridViewSummaryItem("Handling_Charges_Amount", "{0:F3}", GridAggregateFunction.Sum)
+                            summaryRowItem.Add(item114)
+                        Catch ex As Exception
+                        End Try
+
+                    End If
+
+                    Dim intCount As Integer = 0
+                    Dim item111 As New GridViewSummaryItem("EMP_AMOUNT", "{0:F3}", GridAggregateFunction.Sum)
+                    summaryRowItem.Add(item111)
+                    Dim item1111 As New GridViewSummaryItem("TIP_Amount", "{0:F3}", GridAggregateFunction.Sum)
+                    summaryRowItem.Add(item1111)
+                    Dim abcd As New GridViewSummaryItem("Head_Load_Amount", "{0:F3}", GridAggregateFunction.Sum)
+                    summaryRowItem.Add(abcd)
+                    Dim item1 As New GridViewSummaryItem("Milk Weight", "{0:F3}", GridAggregateFunction.Sum)
+                    summaryRowItem.Add(item1)
+                    Dim item2 As New GridViewSummaryItem("Milk Weight(KG)", "{0:F3}", GridAggregateFunction.Sum)
+                    summaryRowItem.Add(item2)
+                    Dim item3 As New GridViewSummaryItem("Milk Weight(LTR)", "{0:F3}", GridAggregateFunction.Sum)
+                    summaryRowItem.Add(item3)
+
+                    Dim item4 As New GridViewSummaryItem("FAT(KG)", "{0:F3}", GridAggregateFunction.Sum)
+                    summaryRowItem.Add(item4)
+
+                    Dim item5 As New GridViewSummaryItem("SNF(KG)", "{0:F3}", GridAggregateFunction.Sum)
+                    summaryRowItem.Add(item5)
+                    Dim summaryItem1 As New GridViewSummaryItem()
+                    summaryItem1.FormatString = "{0:F3}"
+                    summaryItem1.Name = "FAT(%)"
+                    summaryItem1.AggregateExpression = "sum([FAT(KG)])*100/sum([Milk Weight(KG)])"
+                    summaryRowItem.Add(summaryItem1)
+
+                    Dim summaryItem2 As New GridViewSummaryItem()
+                    summaryItem2.FormatString = "{0:F3}"
+                    summaryItem2.Name = "SNF(%)"
+                    summaryItem2.AggregateExpression = "sum([SNF(KG)])*100/sum([Milk Weight(KG)])"
+                    summaryRowItem.Add(summaryItem2)
+
+                    Dim item6 As New GridViewSummaryItem("Cow Milk Qty (KG)", "{0:F3}", GridAggregateFunction.Sum)
+                    summaryRowItem.Add(item6)
+                    Dim item7 As New GridViewSummaryItem("Cow FAT (KG)", "{0:F3}", GridAggregateFunction.Sum)
+                    summaryRowItem.Add(item7)
+
+                    Dim item8 As New GridViewSummaryItem("Cow SNF (KG)", "{0:F3}", GridAggregateFunction.Sum)
+
+                    summaryRowItem.Add(item8)
+                    Dim summaryItem3 As New GridViewSummaryItem()
+                    summaryItem3.FormatString = "{0:F2}"
+                    summaryItem3.Name = "Cow SNF(%)"
+                    summaryItem3.AggregateExpression = "IIf(sum([Cow SNF (KG)])>0,sum([Cow SNF (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
+                    summaryRowItem.Add(summaryItem3)
+
+                    Dim summaryItem4 As New GridViewSummaryItem()
+                    summaryItem4.FormatString = "{0:F2}"
+                    summaryItem4.Name = "Cow FAT(%)"
+                    summaryItem4.AggregateExpression = "IIf(sum([Cow FAT (KG)])>0,sum([Cow FAT (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
+                    summaryRowItem.Add(summaryItem4)
+
+                    Dim item9 As New GridViewSummaryItem("Buffalo Milk Qty (KG)", "{0:F3}", GridAggregateFunction.Sum)
+                    summaryRowItem.Add(item9)
+                    Dim item10 As New GridViewSummaryItem("Buffalo FAT (KG)", "{0:F3}", GridAggregateFunction.Sum)
+                    summaryRowItem.Add(item10)
+                    Dim item11 As New GridViewSummaryItem("Buffalo SNF (KG)", "{0:F3}", GridAggregateFunction.Sum)
+                    summaryRowItem.Add(item11)
+                    Dim summaryItem5 As New GridViewSummaryItem()
+                    summaryItem5.FormatString = "{0:F2}"
+                    summaryItem5.Name = "Buffalo FAT(%)"
+                    summaryItem5.AggregateExpression = "sum([Buffalo FAT (KG)])*100/sum([Buffalo Milk Qty (KG)])"
+                    summaryRowItem.Add(summaryItem5)
+
+                    Dim summaryItem6 As New GridViewSummaryItem()
+                    summaryItem6.FormatString = "{0:F2}"
+                    summaryItem6.Name = "Buffalo SNF(%)"
+                    summaryItem6.AggregateExpression = "sum([Buffalo SNF (KG)])*100/sum([Buffalo Milk Qty (KG)])"
+                    summaryRowItem.Add(summaryItem6)
+                    Dim item13 As New GridViewSummaryItem("SRN Qty", "{0:F3}", GridAggregateFunction.Sum)
+                    summaryRowItem.Add(item13)
+                    Dim item12 As New GridViewSummaryItem("SRN Amount", "{0:F3}", GridAggregateFunction.Sum)
+                    summaryRowItem.Add(item12)
+                    Dim item15 As New GridViewSummaryItem("SNF_Ded_Amount", "{0:F3}", GridAggregateFunction.Sum)
+                    summaryRowItem.Add(item15)
+
+                    Dim SummaryVSPCommission As New GridViewSummaryItem("VSP_Commission_Amount", "{0:F3}", GridAggregateFunction.Sum)
+                    summaryRowItem.Add(SummaryVSPCommission)
+                    Dim SummaryVSPQualityDeduction As New GridViewSummaryItem("VSP_Deduction_Amount", "{0:F3}", GridAggregateFunction.Sum)
+                    summaryRowItem.Add(SummaryVSPQualityDeduction)
+                    Dim SummaryVSPDayWiseInc As New GridViewSummaryItem("VSP_Day_Wise_Incentive", "{0:F3}", GridAggregateFunction.Sum)
+                    summaryRowItem.Add(SummaryVSPDayWiseInc)
+
+                    gv.ShowGroupPanel = False
+                    gv.MasterTemplate.AutoExpandGroups = True
+                    'And TankerFromMaster = 1
+                    If chkShiftWise.Checked AndAlso (chkRejection.Checked = True OrElse chkOnlyRejection.Checked = True) Then
+                        gv.GroupDescriptors.Add(New GridGroupByExpression("[Route Code] as [Route Code] format ""{0}: {1}"" Group By [Route Code]"))
+                    End If
+                    gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
                 ElseIf chkVLCWisePayable.Checked Then
                     gv.Columns("MCC Code").IsVisible = True
                     gv.Columns("MCC Code").Width = 100
@@ -2661,6 +2882,7 @@ Public Class FrmMCCMilkRegister
             Dim arrRoute As ArrayList = Nothing
             Dim arrVLC As ArrayList = Nothing
             Dim Area As String = Nothing
+            Dim arrZone As ArrayList = Nothing
             If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
                 arrMCC = txtMCC.arrValueMember
             End If
@@ -2670,6 +2892,9 @@ Public Class FrmMCCMilkRegister
             If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count > 0 Then
                 arrVLC = txtVLC.arrValueMember
             End If
+            'If txtZone.arrValueMember IsNot Nothing AndAlso txtZone.arrValueMember.Count > 0 Then
+            '    arrZone = txtZone.arrValueMember
+            'End If
             If clsCommon.myLen(fndArea.Value) > 0 Then
                 Area = fndArea.Value
             End If
@@ -2721,6 +2946,9 @@ Public Class FrmMCCMilkRegister
                     If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count > 0 Then
                         arrVLC = txtVLC.arrValueMember
                     End If
+                    'If txtZone.arrValueMember IsNot Nothing AndAlso txtZone.arrValueMember.Count > 0 Then
+                    '    arrZone = txtZone.arrValueMember
+                    'End If
                     If clsCommon.myLen(fndArea.Value) > 0 Then
                         Area = fndArea.Value
                     End If
@@ -2742,7 +2970,7 @@ Public Class FrmMCCMilkRegister
                         End If
 
                     ElseIf rbtnVLCWise.Checked Then
-                        FinalQuery = "select aa.[MCC Code] ,aa.[MCC Name],aa.[MCC Type] ,aa.[Chilling Center],aa.[Plant Code],aa.[Plant Name] ,aa.[Route Code] ,aa.[Route Name],aa.[Vlc Code],aa.[Vendor Code] ,aa.[VLC Name],aa.VLC_Code_VLC_Uploader as [VLC Uploader Code],aa.[Vendor Group Code],aa.[Vendor Group Desc],aa.[Milk Weight] ,aa.[Milk Weight(KG)]	,aa.[Milk Weight(LTR)],aa.[DBT Amount] ,aa.[FAT(%)] ,aa.[SNF(%)] ,aa.CLR,aa.[FAT(KG)] ,aa.[SNF(KG)] ,aa.[Cow Milk Qty (KG)] ,aa.[Cow FAT(%)] ,aa.[Cow CLR],aa.[Cow SNF(%)] ,aa.[Cow FAT (KG)] ,aa.[Cow SNF (KG)] ,aa.[Buffalo Milk Qty (KG)] ,aa.[Buffalo FAT(%)] ,aa.[Buffalo CLR],aa.[Buffalo SNF(%)] ,aa.[Buffalo FAT (KG)] ,aa.[Buffalo SNF (KG)] ,aa.[SRN Qty],aa.[SRN Amount],aa.EMP_Amount,aa.TIP_Amount,aa.NET_AMOUNT,aa.Round_Off,aa.Handling_Charges_Amount,aa.Head_Load_Amount,aa.SNF_Ded_Amount,aa.VSP_Commission_Amount ,aa.VSP_Deduction_Amount,aa.VSP_Day_Wise_Incentive,aa.Vehicle,aa.Mcc_Uploader_Code as Mcc_Uploader_Code  from ( "
+                        FinalQuery = "select aa.[MCC Code] ,aa.[MCC Name],aa.[MCC Type] ,aa.[Chilling Center],aa.[Plant Code],aa.[Plant Name] ,aa.[Route Code] ,aa.[Route Name],aa.[Zone Code],aa.[Vlc Code],aa.[Vendor Code] ,aa.[VLC Name],aa.VLC_Code_VLC_Uploader as [VLC Uploader Code],aa.[Vendor Group Code],aa.[Vendor Group Desc],aa.[Milk Weight] ,aa.[Milk Weight(KG)]	,aa.[Milk Weight(LTR)],aa.[DBT Amount] ,aa.[FAT(%)] ,aa.[SNF(%)] ,aa.CLR,aa.[FAT(KG)] ,aa.[SNF(KG)] ,aa.[Cow Milk Qty (KG)] ,aa.[Cow FAT(%)] ,aa.[Cow CLR],aa.[Cow SNF(%)] ,aa.[Cow FAT (KG)] ,aa.[Cow SNF (KG)] ,aa.[Buffalo Milk Qty (KG)] ,aa.[Buffalo FAT(%)] ,aa.[Buffalo CLR],aa.[Buffalo SNF(%)] ,aa.[Buffalo FAT (KG)] ,aa.[Buffalo SNF (KG)] ,aa.[SRN Qty],aa.[SRN Amount],aa.EMP_Amount,aa.TIP_Amount,aa.NET_AMOUNT,aa.Round_Off,aa.Handling_Charges_Amount,aa.Head_Load_Amount,aa.SNF_Ded_Amount,aa.VSP_Commission_Amount ,aa.VSP_Deduction_Amount,aa.VSP_Day_Wise_Incentive,aa.Vehicle,aa.Mcc_Uploader_Code as Mcc_Uploader_Code  from ( "
                         FinalQuery += " select xxx.* ,"
                         FinalQuery += "  case when [Cow Milk Qty (KG)] =0 then 0 else [Cow FAT (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow FAT(%)],"
                         FinalQuery += " case when [Cow Milk Qty (KG)] =0 then 0 else [Cow Snf (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow SNF(%)],"
@@ -2751,7 +2979,7 @@ Public Class FrmMCCMilkRegister
                         FinalQuery += " from ("
                         FinalQuery += " select xx.*"
                         FinalQuery += " from ( "
-                        FinalQuery += "select pp.[MCC Code]  as [MCC Code],max(pp.[MCC Name] )  as [MCC Name],max(pp.[MCC Type]) as [MCC Type],max(pp.[Chilling Center]) as [Chilling Center],max(pp.[Plant Code])  as [Plant Code],max(pp.[Plant Name] )  as [Plant Name],pp.[Route Code] as [Route Code],max(pp.[Route Name] ) as [Route Name],pp.[Vlc Code],max([VSP Code]) As [Vendor Code],max([VLC Name]) as [VLC Name],MAX(pp.[Vlc Uploader Code]) AS VLC_Code_VLC_Uploader,MAX (pp.[Vendor Group Code]) as [Vendor Group Code] ,MAX ([Vendor Group Desc]) as [Vendor Group Desc],sum([Milk Weight] ) as [Milk Weight],sum([Milk Weight(KG)] ) as [Milk Weight(KG)],sum([Milk Weight(LTR)] ) as [Milk Weight(LTR)],sum([DBT Amount]) as [DBT Amount],"
+                        FinalQuery += "select pp.[MCC Code]  as [MCC Code],max(pp.[MCC Name] )  as [MCC Name],max(pp.[MCC Type]) as [MCC Type],max(pp.[Chilling Center]) as [Chilling Center],max(pp.[Plant Code])  as [Plant Code],max(pp.[Plant Name] )  as [Plant Name],pp.[Route Code] as [Route Code],max(pp.[Route Name] ) as [Route Name],max(pp.[Zone Code]) as [Zone Code],pp.[Vlc Code],max([VSP Code]) As [Vendor Code],max([VLC Name]) as [VLC Name],MAX(pp.[Vlc Uploader Code]) AS VLC_Code_VLC_Uploader,MAX (pp.[Vendor Group Code]) as [Vendor Group Code] ,MAX ([Vendor Group Desc]) as [Vendor Group Desc],sum([Milk Weight] ) as [Milk Weight],sum([Milk Weight(KG)] ) as [Milk Weight(KG)],sum([Milk Weight(LTR)] ) as [Milk Weight(LTR)],sum([DBT Amount]) as [DBT Amount],"
                         FinalQuery += " case when sum([Milk Weight(KG)] )=0 then 0 else (sum([FAT(KG)] )/sum([Milk Weight(KG)] ))*100 end as [FAT(%)],"
                         FinalQuery += " case when sum([Milk Weight(KG)] )=0 then 0 else (sum([SNF(KG)] )/sum([Milk Weight(KG)] ))*100 end as [SNF(%)]"
                         FinalQuery += " ,sum([FAT(KG)] ) as [FAT(KG)] ,sum([SNF(KG)] ) as [SNF(KG)],"
@@ -2850,6 +3078,33 @@ Public Class FrmMCCMilkRegister
                             FinalQuery += " ) as aa  "
                         Else
                             FinalQuery += " ) as aa order by [Plant Code] "
+                        End If
+                    ElseIf rbtnZoneWise.Checked Then
+                        FinalQuery = "select aa.[Zone Code],aa.[Milk Weight] ,aa.[Milk Weight(KG)]	,aa.[Milk Weight(LTR)] ,aa.[FAT(%)],aa.CLR ,aa.[SNF(%)] ,aa.[FAT(KG)] ,aa.[SNF(KG)] ,aa.[Cow Milk Qty (KG)] ,aa.[Cow FAT(%)],aa.[Cow CLR] ,aa.[Cow SNF(%)] ,aa.[Cow FAT (KG)] ,aa.[Cow SNF (KG)] ,aa.[Buffalo Milk Qty (KG)] ,aa.[Buffalo FAT(%)] ,aa.[Buffalo SNF(%)],aa.[Buffalo CLR] ,aa.[Buffalo FAT (KG)] ,aa.[Buffalo SNF (KG)] ,aa.[SRN Qty],aa.[SRN Amount],aa.EMP_Amount,aa.TIP_Amount,aa.NET_AMOUNT,aa.Round_Off,aa.Handling_Charges_Amount,aa.Head_Load_Amount,aa.SNF_Ded_Amount,aa.VSP_Commission_Amount ,aa.VSP_Deduction_Amount,aa.VSP_Day_Wise_Incentive,aa.Vehicle from ( "
+                        FinalQuery += " select xxx.* ,"
+                        FinalQuery += "  case when [Cow Milk Qty (KG)] =0 then 0 else [Cow FAT (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow FAT(%)],"
+                        FinalQuery += " case when [Cow Milk Qty (KG)] =0 then 0 else [Cow Snf (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow SNF(%)],"
+                        FinalQuery += "  case when  [Buffalo Milk Qty (KG)] =0 then 0 else [Buffalo FAT (KG)]/[Buffalo Milk Qty (KG)] *100 end as [Buffalo FAT(%)],"
+                        FinalQuery += " case when  [Buffalo Milk Qty (KG)] =0 then 0 else [Buffalo SNF (KG)]/[Buffalo Milk Qty (KG)] *100 end as [Buffalo SNF(%)]"
+                        FinalQuery += " from ("
+                        FinalQuery += " select xx.*"
+                        FinalQuery += " from ( "
+                        FinalQuery += "select pp.[Zone Code] as [Zone Code],sum([Milk Weight] ) as [Milk Weight],sum([Milk Weight(KG)] ) as [Milk Weight(KG)],sum([Milk Weight(LTR)] ) as [Milk Weight(LTR)],sum([DBT Amount]) as [DBT Amount],"
+                        FinalQuery += " case when sum([Milk Weight(KG)] )=0 then 0 else (sum([FAT(KG)] )/sum([Milk Weight(KG)] ))*100 end as [FAT(%)],"
+                        FinalQuery += " case when sum([Milk Weight(KG)] )=0 then 0 else (sum([SNF(KG)] )/sum([Milk Weight(KG)] ))*100 end as [SNF(%)]"
+                        FinalQuery += " ,sum([FAT(KG)] ) as [FAT(KG)] ,sum([SNF(KG)] ) as [SNF(KG)],"
+                        FinalQuery += " sum([FAT(LTR)] ) as [FAT(LTR)] ,sum([SNF(LTR)] ) as [SNF(LTR)],"
+                        FinalQuery += " sum(pp.[Cow Milk Qty (KG)]) as [Cow Milk Qty (KG)],"
+                        FinalQuery += " sum([Buffalo Milk Qty (KG)]) as [Buffalo Milk Qty (KG)],"
+                        FinalQuery += " sum([SRN Qty]) as [SRN Qty] ,sum([Cow FAT (KG)]) as [Cow FAT (KG)], sum ([Cow SNF (KG)]) as [Cow SNF (KG)], sum([Buffalo FAT (KG)]) as [Buffalo FAT (KG)], sum( [Buffalo SNF (KG)]) as [Buffalo SNF (KG)],sum([SRN Amount]) as [SRN Amount],avg(CLR) as CLR,avg([Cow CLR]) as [Cow CLR] ,avg([Buffalo CLR]) as [Buffalo CLR],sum(EMP_Amount) as EMP_Amount,sum(TIP_Amount) as TIP_Amount,sum(NET_AMOUNT) as NET_AMOUNT,sum(Round_Off) as Round_Off,sum(Handling_Charges_Amount) as Handling_Charges_Amount,sum(Head_Load_Amount) as Head_Load_Amount,sum(SNF_Ded_Amount )as SNF_Ded_Amount,sum(VSP_Commission_Amount)as VSP_Commission_Amount,sum(VSP_Deduction_Amount )as VSP_Deduction_Amount,sum(VSP_Day_Wise_Incentive)as VSP_Day_Wise_Incentive,max(Vehicle) as Vehicle  from ("
+                        FinalQuery += "" + Environment.NewLine + Environment.NewLine + qry + Environment.NewLine + Environment.NewLine + ""
+                        FinalQuery += " ) as  pp group by pp.[Zone Code]"
+                        FinalQuery += " )as xx"
+                        FinalQuery += " ) as xxx"
+                        If BulkExport = 4 Then
+                            FinalQuery += " ) as aa "
+                        Else
+                            FinalQuery += " ) as aa order by [Zone Code]"
                         End If
                     ElseIf chkVLCWisePayable.Checked Then
                         FinalQuery = clsMilkPurchaseInvoiceProvisionHead.GetQryPayableMccMilkRegister(qry, txtFromDate.Value, txtToDate.Value)
@@ -3425,7 +3680,7 @@ Public Class FrmMCCMilkRegister
 
                     If chkOnlyRejection.Checked = True Then
                         qry = "Select final.[Milk Receipt Code] ,final.MCC as [MCC Code] ,final.[MCC Name],final.[MCC Type] ,final.[Chilling Center],final.[Plant Code],final.[Plant Name] ,final.Date ,final.[Doc Date] ,final.Shift ," &
-                    " final.[Route Code],final.[Route Name] ,final.[Vehicle Code] ,final.[VSP Code],final.[VSP Name], final.[Vendor Group Code],final.[Vendor Group Desc] ,final.[Vlc Uploader Code] ,final.[Vlc Code] ,final.[VLC Name] ," &
+                    " final.[Route Code],final.[Route Name] ,final.[Zone Code],final.[Vehicle Code] ,final.[VSP Code],final.[VSP Name], final.[Vendor Group Code],final.[Vendor Group Desc] ,final.[Vlc Uploader Code] ,final.[Vlc Code] ,final.[VLC Name] ," &
                     " final.[Sample No] ,final.[No Of Cans],final.Item_Code,final.Item_Desc,final.[Milk Weight],final.UOM_Code as [UOM],final.[Milk Weight(KG)]," &
                     " final.[Milk Weight(LTR)]  as [Milk Weight(LTR)]," &
                     " final.[FAT(%)]  ,final.CLR,final.[SNF(%)] ,final.[FAT(KG)],final.[SNF(KG)] ,final.[Cow Milk Qty (KG)],final.[Cow FAT(%)], Case When final.[FAT(%)] <= 5 Then CLR Else 0 End [Cow CLR],final.[Cow SNF(%)] , Case When final.[FAT(%)] <= 5 Then final.[FAT(KG)] Else 0 End [Cow FAT (KG)], Case When final.[FAT(%)] <= 5 Then final.[SNF(KG)] Else 0 End [Cow SNF (KG)]," &
@@ -3434,7 +3689,7 @@ Public Class FrmMCCMilkRegister
                     " final.EMP_Amount,final.TIP_Amount,final.Service_Charge_Amount ,([SRN Amount]+EMP_Amount+TIP_Amount-Service_Charge_Amount) as NetAmount,final.Purchase_Order_No,final.Head_Load_Amount ,final.SNF_Ded_Value,final.SNF_Ded_Rate,final.SNF_Ded_Amount, final.price_code,final.[Transporter Code],final.[Transporter Name],final.Handling_Charges_Amount,final.VSP_Commission_Amount,final.VSP_Deduction_Amount,final.VSP_Day_Wise_Incentive,final.SubStandard,final.vehicle,final.[Mcc_Uploader_Code]  From ( " & strRejectionQuery & ") As final where 2=2 "
                     ElseIf chkRejection.Checked = True Then
                         qry = "Select final.[Milk Receipt Code] ,final.MCC as [MCC Code] ,final.[MCC Name],final.[Area],final.[MCC Type] ,final.[Chilling Center],final.[Plant Code],final.[Plant Name] ,final.Date ,final.[Doc Date] ,final.Shift ," &
-                    " final.[Route Code],final.[Route Name] ,final.[Vehicle Code] ,final.[VSP Code],final.[VSP Name], final.[Vendor Group Code],final.[Vendor Group Desc] ,final.[Vlc Uploader Code],final.[isOwnBMC(Y/N)]  ,final.[Vlc Code] ,final.[VLC Name] ," &
+                    " final.[Route Code],final.[Route Name],final.[Zone Code],final.[Vehicle Code] ,final.[VSP Code],final.[VSP Name], final.[Vendor Group Code],final.[Vendor Group Desc] ,final.[Vlc Uploader Code],final.[isOwnBMC(Y/N)]  ,final.[Vlc Code] ,final.[VLC Name] ," &
                     " final.[Sample No] ,final.[No Of Cans],final.Item_Code,final.Item_Desc,final.[Milk Weight],final.UOM_Code as [UOM],final.[Milk Weight(KG)]," &
                     " final.[Milk Weight(LTR)]  as [Milk Weight(LTR)]," &
                     " final.[FAT(%)]  ,final.CLR,final.[SNF(%)] ,final.[FAT(KG)],final.[SNF(KG)] ,final.[Cow Milk Qty (KG)],final.[Cow FAT(%)], Case When final.[FAT(%)] <= 5 Then CLR Else 0 End [Cow CLR],final.[Cow SNF(%)] , Case When final.[FAT(%)] <= 5 Then final.[FAT(KG)] Else 0 End [Cow FAT (KG)], Case When final.[FAT(%)] <= 5 Then final.[SNF(KG)] Else 0 End [Cow SNF (KG)]," &
@@ -3496,7 +3751,7 @@ Public Class FrmMCCMilkRegister
 
                         ''richa MIL/01/02/19-000039 show empAmount in case of VLC Wise 
                     ElseIf rbtnVLCWise.Checked Then
-                        FinalQuery = "select aa.[MCC Code] ,aa.[MCC Name],aa.[MCC Type] ,aa.[Chilling Center],aa.[Plant Code],aa.[Plant Name] ,aa.[Route Code] ,aa.[Route Name],aa.[Vlc Code],aa.[Vendor Code] ,aa.[VLC Name],aa.VLC_Code_VLC_Uploader as [VLC Uploader Code],aa.[isOwnBMC(Y/N)] as [isOwnBMC(Y/N)],aa.[Vendor Group Code],aa.[Vendor Group Desc],aa.[Milk Weight] ,aa.[Milk Weight(KG)]	,aa.[Milk Weight(LTR)] ,aa.[FAT(%)] ,aa.CLR,aa.[SNF(%)] ,aa.[FAT(KG)] ,aa.[SNF(KG)] ,aa.[Cow Milk Qty (KG)] ,aa.[Cow FAT(%)] ,aa.[Cow CLR],aa.[Cow SNF(%)] ,aa.[Cow FAT (KG)] ,aa.[Cow SNF (KG)] ,aa.[Buffalo Milk Qty (KG)] ,aa.[Buffalo FAT(%)] ,aa.[Buffalo CLR] ,aa.[Buffalo SNF(%)] ,aa.[Buffalo FAT (KG)] ,aa.[Buffalo SNF (KG)] ,aa.[SRN Qty],aa.[SRN Amount],aa.EMP_Amount,aa.TIP_Amount,aa.Head_Load_Amount, aa.SNF_Ded_Amount,aa.price_code,aa.[Transporter Code],aa.[Transporter Name],aa.Handling_Charges_Amount,aa.Head_Load_Amount,aa.SNF_Ded_Amount,aa.VSP_Commission_Amount ,aa.VSP_Deduction_Amount,aa.VSP_Day_Wise_Incentive,aa.Vehicle,aa.[Mcc_Uploader_Code] from ( " & Environment.NewLine &
+                        FinalQuery = "select aa.[MCC Code] ,aa.[MCC Name],aa.[MCC Type] ,aa.[Chilling Center],aa.[Plant Code],aa.[Plant Name] ,aa.[Route Code] ,aa.[Route Name],aa.[Zone Code],aa.[Vlc Code],aa.[Vendor Code] ,aa.[VLC Name],aa.VLC_Code_VLC_Uploader as [VLC Uploader Code],aa.[isOwnBMC(Y/N)] as [isOwnBMC(Y/N)],aa.[Vendor Group Code],aa.[Vendor Group Desc],aa.[Milk Weight] ,aa.[Milk Weight(KG)]	,aa.[Milk Weight(LTR)] ,aa.[FAT(%)] ,aa.CLR,aa.[SNF(%)] ,aa.[FAT(KG)] ,aa.[SNF(KG)] ,aa.[Cow Milk Qty (KG)] ,aa.[Cow FAT(%)] ,aa.[Cow CLR],aa.[Cow SNF(%)] ,aa.[Cow FAT (KG)] ,aa.[Cow SNF (KG)] ,aa.[Buffalo Milk Qty (KG)] ,aa.[Buffalo FAT(%)] ,aa.[Buffalo CLR] ,aa.[Buffalo SNF(%)] ,aa.[Buffalo FAT (KG)] ,aa.[Buffalo SNF (KG)] ,aa.[SRN Qty],aa.[SRN Amount],aa.EMP_Amount,aa.TIP_Amount,aa.Head_Load_Amount, aa.SNF_Ded_Amount,aa.price_code,aa.[Transporter Code],aa.[Transporter Name],aa.Handling_Charges_Amount,aa.Head_Load_Amount,aa.SNF_Ded_Amount,aa.VSP_Commission_Amount ,aa.VSP_Deduction_Amount,aa.VSP_Day_Wise_Incentive,aa.Vehicle,aa.[Mcc_Uploader_Code] from ( " & Environment.NewLine &
                         " select xxx.* ," & Environment.NewLine &
                         "  case when [Cow Milk Qty (KG)] =0 then 0 else [Cow FAT (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow FAT(%)]," & Environment.NewLine &
                         " case when [Cow Milk Qty (KG)] =0 then 0 else [Cow Snf (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow SNF(%)]," & Environment.NewLine &
@@ -3505,7 +3760,7 @@ Public Class FrmMCCMilkRegister
                         " from (" & Environment.NewLine &
                         " select xx.*" & Environment.NewLine &
                         " from ( " & Environment.NewLine &
-                        "select pp.[MCC Code]  as [MCC Code],max(pp.[MCC Name] )  as [MCC Name],max(pp.[MCC Type]) as [MCC Type],max(pp.[Chilling Center]) as [Chilling Center],max(pp.[Plant Code])  as [Plant Code],max(pp.[Plant Name] )  as [Plant Name],pp.[Route Code] as [Route Code],max(pp.[Route Name] ) as [Route Name],pp.[Vlc Code],max([VSP Code]) as [Vendor Code],max([VLC Name]) as [VLC Name],max(pp.[Vlc Uploader Code]) AS VLC_Code_VLC_Uploader,max(pp.[isOwnBMC(Y/N)]) as [isOwnBMC(Y/N)],max (pp.[Vendor Group Code]) as [Vendor Group Code],max (pp.[Vendor Group Desc]) as [Vendor Group Desc] ,sum([Milk Weight] ) as [Milk Weight],sum([Milk Weight(KG)] ) as [Milk Weight(KG)],sum([Milk Weight(LTR)] ) as [Milk Weight(LTR)]," & Environment.NewLine &
+                        "select pp.[MCC Code]  as [MCC Code],max(pp.[MCC Name] )  as [MCC Name],max(pp.[MCC Type]) as [MCC Type],max(pp.[Chilling Center]) as [Chilling Center],max(pp.[Plant Code])  as [Plant Code],max(pp.[Plant Name] )  as [Plant Name],pp.[Route Code] as [Route Code],max(pp.[Route Name] ) as [Route Name],max(pp.[Zone Code]) as [Zone Code],pp.[Vlc Code],max([VSP Code]) as [Vendor Code],max([VLC Name]) as [VLC Name],max(pp.[Vlc Uploader Code]) AS VLC_Code_VLC_Uploader,max(pp.[isOwnBMC(Y/N)]) as [isOwnBMC(Y/N)],max (pp.[Vendor Group Code]) as [Vendor Group Code],max (pp.[Vendor Group Desc]) as [Vendor Group Desc] ,sum([Milk Weight] ) as [Milk Weight],sum([Milk Weight(KG)] ) as [Milk Weight(KG)],sum([Milk Weight(LTR)] ) as [Milk Weight(LTR)]," & Environment.NewLine &
                         " case when sum([Milk Weight(KG)] )=0 then 0 else (sum([FAT(KG)] )/sum([Milk Weight(KG)] ))*100 end as [FAT(%)],avg(CLR) as CLR,avg([Cow CLR]) as [Cow CLR] ,avg([Buffalo CLR]) as [Buffalo CLR]," & Environment.NewLine &
                         " case when sum([Milk Weight(KG)] )=0 then 0 else (sum([SNF(KG)] )/sum([Milk Weight(KG)] ))*100 end as [SNF(%)]" & Environment.NewLine &
                         " ,sum([FAT(KG)] ) as [FAT(KG)] ,sum([SNF(KG)] ) as [SNF(KG)]," & Environment.NewLine &
@@ -3683,7 +3938,8 @@ Public Class FrmMCCMilkRegister
                     Else
                         RouteWiseQry += "'Sweet'As [Quality],"
                     End If
-                    RouteWiseQry += "TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2 from (" + FinalQuery + ")xxxFinal Left Join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "'  Order By Date asc,Shift desc,[Route Code] asc"
+                    RouteWiseQry += "TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2 from (" + FinalQuery + ")xxxFinal Left Join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "' "
+                    RouteWiseQry += " Order By Date asc,Shift desc,[Route Code] asc"
                     Dim dtRouteWise As DataTable = clsDBFuncationality.GetDataTable(RouteWiseQry)
                     If dtRouteWise.Rows.Count > 0 Then
                         Dim frmCRV As New frmCrystalReportViewer()
@@ -4161,12 +4417,12 @@ Public Class FrmMCCMilkRegister
             '    txtRoute.Focus()
             '    Throw New Exception("Please select at least route")
             'End If
-            Dim qry As String = "select  TSPL_VLC_MASTER_HEAD.VLC_Code as [VLC Code],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [VLC Uploader Code] ,TSPL_VLC_MASTER_HEAD.VLC_Name as [VlC Name],TSPL_VLC_MASTER_HEAD.Route_Code [Route Code],TSPL_MCC_ROUTE_MASTER.Route_Name as [Route Name] from TSPL_VLC_MASTER_HEAD left outer join TSPL_MCC_ROUTE_MASTER on TSPL_MCC_ROUTE_MASTER.Route_Code=TSPL_VLC_MASTER_HEAD.Route_Code where 2=2 and TSPL_VLC_MASTER_HEAD.Active='1' "
+            Dim qry As String = "select  TSPL_VLC_MASTER_HEAD.VLC_Code as [DCS Code],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Uploader Code] ,TSPL_VLC_MASTER_HEAD.VLC_Name as [DCS Name],TSPL_VLC_MASTER_HEAD.Route_Code [Route Code],TSPL_MCC_ROUTE_MASTER.Route_Name as [Route Name],TSPL_VENDOR_MASTER.Zone_Code as [Zone Code]  from TSPL_VLC_MASTER_HEAD left outer join TSPL_MCC_ROUTE_MASTER on TSPL_MCC_ROUTE_MASTER.Route_Code=TSPL_VLC_MASTER_HEAD.Route_Code left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_VLC_MASTER_HEAD.VSP_Code where 2=2 and TSPL_VLC_MASTER_HEAD.Active='1' "
             If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
                 qry += " and TSPL_VLC_MASTER_HEAD.Route_Code in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ") "
             End If
 
-            txtVLC.arrValueMember = clsCommon.ShowMultipleSelectForm("PCUVLC1", qry, "VLC Code", "VLC Name", txtVLC.arrValueMember, Nothing)
+            txtVLC.arrValueMember = clsCommon.ShowMultipleSelectForm("PCUVLC1", qry, "DCS Code", "DCS Name", txtVLC.arrValueMember, Nothing)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -4637,4 +4893,13 @@ Public Class FrmMCCMilkRegister
             clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
+
+    'Private Sub txtZone__My_Click(sender As Object, e As EventArgs)
+    '    Try
+    '        Dim qry As String = "select Zone_Code as Zone, Description as Name from TSPL_ZONE_MASTER"
+    '        txtZone.arrValueMember = clsCommon.ShowMultipleSelectForm("ZONEMulSelect", qry, "Zone", "Name", txtZone.arrValueMember, txtZone.arrDispalyMember)
+    '    Catch ex As Exception
+    '        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '    End Try
+    'End Sub
 End Class

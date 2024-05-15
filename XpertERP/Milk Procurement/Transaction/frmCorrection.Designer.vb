@@ -337,7 +337,7 @@ Partial Class frmCorrection
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(667, 424)
         Me.RadPageView1.TabIndex = 2
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -346,11 +346,11 @@ Partial Class frmCorrection
         '
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(91.0!, 28.0!)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(93.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(646, 376)
-        Me.RadPageViewPage1.Text = "VLC Correction"
+        Me.RadPageViewPage1.Text = "DCS Correction"
         '
         'RadGroupBox2
         '
@@ -529,9 +529,9 @@ Partial Class frmCorrection
         Me.lblRouteCode.Font = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.lblRouteCode.Location = New System.Drawing.Point(5, 62)
         Me.lblRouteCode.Name = "lblRouteCode"
-        Me.lblRouteCode.Size = New System.Drawing.Size(55, 18)
+        Me.lblRouteCode.Size = New System.Drawing.Size(56, 18)
         Me.lblRouteCode.TabIndex = 6
-        Me.lblRouteCode.Text = "VLC Code"
+        Me.lblRouteCode.Text = "DCS Code"
         '
         'txtVLC
         '
@@ -635,9 +635,9 @@ Partial Class frmCorrection
         Me.MyLabel8.Font = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.MyLabel8.Location = New System.Drawing.Point(5, 140)
         Me.MyLabel8.Name = "MyLabel8"
-        Me.MyLabel8.Size = New System.Drawing.Size(59, 18)
+        Me.MyLabel8.Size = New System.Drawing.Size(60, 18)
         Me.MyLabel8.TabIndex = 18
-        Me.MyLabel8.Text = "VLC Name"
+        Me.MyLabel8.Text = "DCS Name"
         '
         'MyLabel6
         '
@@ -746,9 +746,9 @@ Partial Class frmCorrection
         Me.MyLabel2.Font = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.MyLabel2.Location = New System.Drawing.Point(5, 115)
         Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(55, 18)
+        Me.MyLabel2.Size = New System.Drawing.Size(56, 18)
         Me.MyLabel2.TabIndex = 6
-        Me.MyLabel2.Text = "VLC Code"
+        Me.MyLabel2.Text = "DCS Code"
         '
         'btnSave
         '
@@ -904,11 +904,11 @@ Partial Class frmCorrection
         'RadPageViewPage3
         '
         Me.RadPageViewPage3.Controls.Add(Me.GroupBox1)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(135.0!, 28.0!)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(137.0!, 28.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
         Me.RadPageViewPage3.Size = New System.Drawing.Size(646, 376)
-        Me.RadPageViewPage3.Text = "VLC Correction Multiple"
+        Me.RadPageViewPage3.Text = "DCS Correction Multiple"
         '
         'GroupBox1
         '
@@ -926,7 +926,7 @@ Partial Class frmCorrection
         Me.GroupBox1.Size = New System.Drawing.Size(340, 96)
         Me.GroupBox1.TabIndex = 368
         Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Correction OF VLC Data"
+        Me.GroupBox1.Text = "Correction OF DCS Data"
         '
         'chkAdjustOwnBMCFATSNF
         '
@@ -1208,11 +1208,11 @@ Partial Class frmCorrection
         'RadPageViewPage2
         '
         Me.RadPageViewPage2.Controls.Add(Me.GroupBox76)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(150.0!, 28.0!)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(152.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(646, 376)
-        Me.RadPageViewPage2.Text = "Delete VLC Collection Data"
+        Me.RadPageViewPage2.Text = "Delete DCS Collection Data"
         '
         'GroupBox76
         '

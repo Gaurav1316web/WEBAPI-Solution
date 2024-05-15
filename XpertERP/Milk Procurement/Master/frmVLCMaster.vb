@@ -256,20 +256,20 @@ Public Class FrmVLCMaster
     Function AllowToSave() As Boolean
         Try
             If clsCommon.myLen(txtvlcname.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please Fill VLC Name", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Fill DCS Name", Me.Text)
                 txtvlcname.Focus()
                 txtvlcname.Select()
-                Errorcontrol.SetError(txtvlcname, "Please Fill VLC Name")
+                Errorcontrol.SetError(txtvlcname, "Please Fill DCS Name")
                 Return False
             Else
                 Errorcontrol.ResetError(txtvlcname)
             End If
             If txtVLCCodeVlcUploader.Enabled = True Then
                 If clsCommon.myLen(txtVLCCodeVlcUploader.Text) <= 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "Please Fill VLC Code For VLC Uploader ", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Please Fill DCS Code For DCS Uploader ", Me.Text)
                     txtVLCCodeVlcUploader.Focus()
                     txtVLCCodeVlcUploader.Select()
-                    Errorcontrol.SetError(txtVLCCodeVlcUploader, "Please Fill VLC Code For VLC Uploader")
+                    Errorcontrol.SetError(txtVLCCodeVlcUploader, "Please Fill DCS Code For DCS Uploader")
                     Return False
                 Else
                     Errorcontrol.ResetError(txtVLCCodeVlcUploader)
@@ -278,10 +278,10 @@ Public Class FrmVLCMaster
             
             If isDuplicateVLCCode(IIf(clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal, False, True)) Then
 
-                clsCommon.MyMessageBoxShow(Me, " Duplicate VLC Code for VLC Uploader", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, " Duplicate DCS Code for DCS Uploader", Me.Text)
                 RadPageView1.SelectedPage = RadPageViewPage1
                 txtVLCCodeVlcUploader.Focus()
-                Errorcontrol.SetError(txtVLCCodeVlcUploader, "Duplicate VLC Code for VLC Uploader")
+                Errorcontrol.SetError(txtVLCCodeVlcUploader, "Duplicate DCS Code for DCS Uploader")
                 Return False
             Else
                 Errorcontrol.SetError(txtVLCCodeVlcUploader, "")
@@ -526,7 +526,7 @@ Public Class FrmVLCMaster
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             If clsCommon.myLen(fndvlccode.Value) <= 0 Then
-                Throw New Exception("Please Select VLC Code For Deletion")
+                Throw New Exception("Please Select DCS Code For Deletion")
             End If
 
             Dim qry As String = "select count(*) from TSPL_VLC_MASTER_HEAD where VLC_Code='" + fndvlccode.Value + "'"
@@ -727,7 +727,7 @@ Public Class FrmVLCMaster
     End Sub
 
     Private Sub fndvlccode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndvlccode._MYValidating
-        Dim qry As String = "select TSPL_VLC_MASTER_HEAD.vlc_code as [Code],TSPL_VLC_MASTER_HEAD.vlc_name as [VLC Name],TSPL_VLC_MASTER_HEAD.vehical_name as [Vehicle Name],TSPL_VLC_MASTER_HEAD.village_code as [Village Code],tspl_village_master.village_name as [Village Name],TSPL_VLC_MASTER_HEAD.route_code as [Route Code],tspl_mcc_route_master.route_name as [Route Name],TSPL_VLC_MASTER_HEAD.vsp_code as [VSP Code],TSPL_VENDOR_MASTER.Vendor_Name as [VSP Name],TSPL_VENDOR_MASTER.Vendor_Group_Code as [Group Code], TSPL_VENDOR_GROUP.Group_Desc as [Group  Description],TSPL_VLC_MASTER_HEAD.mcc as [MCC Code],TSPL_MCC_MASTER.mcc_name as [MCC Name],TSPL_VLC_MASTER_HEAD.created_by as [Created By],TSPL_VLC_MASTER_HEAD.created_date as [Created Date],TSPL_VLC_MASTER_HEAD.modified_by as [Modified By],TSPL_VLC_MASTER_HEAD.modified_date as [Modified Date],TSPL_VLC_MASTER_HEAD.vlc_code_vlc_uploader as [VLC Code For VLC Uploader] from TSPL_VLC_MASTER_HEAD left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.vsp_code and TSPL_VENDOR_MASTER.Form_Type='VSP' left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.mcc_code=TSPL_VLC_MASTER_HEAD.mcc left outer join tspl_village_master on TSPL_VLC_MASTER_HEAD.village_code=tspl_village_master.village_code left outer join tspl_mcc_route_master on TSPL_VLC_MASTER_HEAD.route_code=tspl_mcc_route_master.route_code left outer join TSPL_VENDOR_GROUP on TSPL_VENDOR_MASTER.Vendor_Group_Code = TSPL_VENDOR_GROUP.Ven_Group_Code "
+        Dim qry As String = "select TSPL_VLC_MASTER_HEAD.vlc_code as [Code],TSPL_VLC_MASTER_HEAD.vlc_name as [Dcs Name],TSPL_VLC_MASTER_HEAD.vehical_name as [Vehicle Name],TSPL_VLC_MASTER_HEAD.village_code as [Village Code],tspl_village_master.village_name as [Village Name],TSPL_VLC_MASTER_HEAD.route_code as [Route Code],tspl_mcc_route_master.route_name as [Route Name],TSPL_VLC_MASTER_HEAD.vsp_code as [VSP Code],TSPL_VENDOR_MASTER.Vendor_Name as [VSP Name],TSPL_VENDOR_MASTER.Vendor_Group_Code as [Group Code], TSPL_VENDOR_GROUP.Group_Desc as [Group  Description],TSPL_VLC_MASTER_HEAD.mcc as [MCC Code],TSPL_MCC_MASTER.mcc_name as [MCC Name],TSPL_VLC_MASTER_HEAD.created_by as [Created By],TSPL_VLC_MASTER_HEAD.created_date as [Created Date],TSPL_VLC_MASTER_HEAD.modified_by as [Modified By],TSPL_VLC_MASTER_HEAD.modified_date as [Modified Date],TSPL_VLC_MASTER_HEAD.vlc_code_vlc_uploader as [VLC Code For VLC Uploader] from TSPL_VLC_MASTER_HEAD left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.vsp_code and TSPL_VENDOR_MASTER.Form_Type='VSP' left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.mcc_code=TSPL_VLC_MASTER_HEAD.mcc left outer join tspl_village_master on TSPL_VLC_MASTER_HEAD.village_code=tspl_village_master.village_code left outer join tspl_mcc_route_master on TSPL_VLC_MASTER_HEAD.route_code=tspl_mcc_route_master.route_code left outer join TSPL_VENDOR_GROUP on TSPL_VENDOR_MASTER.Vendor_Group_Code = TSPL_VENDOR_GROUP.Ven_Group_Code "
         If clsCommon.myLen(arrLoc) > 0 Then
             fndvlccode.Value = clsCommon.ShowSelectForm("VLCFND2", qry, "Code", " TSPL_VLC_MASTER_HEAD.mcc in (" + arrLoc + ")", fndvlccode.Value, "Code", isButtonClicked)
         Else

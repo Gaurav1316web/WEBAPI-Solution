@@ -210,6 +210,12 @@
     <Compile Include="Milk Procurement\Master\frmMPMilkPrice.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Master\frmPriceChartPlanMasterAJM.Designer.vb">
+      <DependentUpon>frmPriceChartPlanMasterAJM.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmPriceChartPlanMasterAJM.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\frmDBTApprovalStatus.Designer.vb">
       <DependentUpon>frmDBTApprovalStatus.vb</DependentUpon>
     </Compile>
@@ -238,6 +244,12 @@
       <DependentUpon>rptBMCCapacityUtilizationReport.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Report\rptBMCCapacityUtilizationReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptBMCPerodicalReport.Designer.vb">
+      <DependentUpon>rptBMCPerodicalReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptBMCPerodicalReport.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Milk Procurement\Report\rptExeVersionReport.Designer.vb">
@@ -348,6 +360,12 @@
     <Compile Include="Milk Procurement\Report\rptMobileAppMilkCollection.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\rptPerodicalDispatchReport.Designer.vb">
+      <DependentUpon>rptPerodicalDispatchReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptPerodicalDispatchReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\rptTemporaryPaymentDeductionSummary.Designer.vb">
       <DependentUpon>rptTemporaryPaymentDeductionSummary.vb</DependentUpon>
     </Compile>
@@ -382,6 +400,12 @@
       <DependentUpon>FrmCreateBMCDCSbyMobile.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Transaction\FrmCreateBMCDCSbyMobile.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmDBTCapingCheck.Designer.vb">
+      <DependentUpon>frmDBTCapingCheck.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmDBTCapingCheck.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Milk Procurement\Transaction\FrmDBTPayment.Designer.vb">
@@ -862,6 +886,9 @@
     <EmbeddedResource Include="Milk Procurement\Master\frmMPMilkPrice.resx">
       <DependentUpon>frmMPMilkPrice.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Master\frmPriceChartPlanMasterAJM.resx">
+      <DependentUpon>frmPriceChartPlanMasterAJM.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\frmDBTApprovalStatus.resx">
       <DependentUpon>frmDBTApprovalStatus.vb</DependentUpon>
     </EmbeddedResource>
@@ -889,6 +916,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptBmcCollection.resx">
       <DependentUpon>rptBmcCollection.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptBMCPerodicalReport.resx">
+      <DependentUpon>rptBMCPerodicalReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptBMCTankerTesting.resx">
       <DependentUpon>rptBMCTankerTesting.vb</DependentUpon>
@@ -929,6 +959,9 @@
     <EmbeddedResource Include="Milk Procurement\Report\rptMobileAppMilkCollection.resx">
       <DependentUpon>rptMobileAppMilkCollection.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptPerodicalDispatchReport.resx">
+      <DependentUpon>rptPerodicalDispatchReport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptTemporaryPaymentDeductionSummary.resx">
       <DependentUpon>rptTemporaryPaymentDeductionSummary.vb</DependentUpon>
     </EmbeddedResource>
@@ -946,6 +979,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\FrmCreateBMCDCSbyMobile.resx">
       <DependentUpon>FrmCreateBMCDCSbyMobile.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\frmDBTCapingCheck.resx">
+      <DependentUpon>frmDBTCapingCheck.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\FrmDBTPayment.resx">
       <DependentUpon>FrmDBTPayment.vb</DependentUpon>

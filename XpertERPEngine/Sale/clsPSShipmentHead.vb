@@ -3451,7 +3451,7 @@ Public Class clsPSShipmentHead
             Else
                 Throw New Exception("Please select Parent Document")
             End If
-            ReverseAndUnpost(strCode, trans)
+            ' ReverseAndUnpost(strCode, trans)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()

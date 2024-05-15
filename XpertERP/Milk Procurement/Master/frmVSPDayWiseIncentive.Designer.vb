@@ -736,7 +736,7 @@ Partial Class frmVSPDayWiseIncentive
         '
         '
         Me.RootElement.ApplyShapeToControl = True
-        Me.Text = "VSP Day Wise Incentive"
+        Me.Text = "Secretary Day Wise Incentive"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         CType(Me.rdmenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.Panel1.ResumeLayout(False)

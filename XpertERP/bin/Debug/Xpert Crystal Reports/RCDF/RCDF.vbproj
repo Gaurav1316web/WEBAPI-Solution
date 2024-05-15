@@ -463,8 +463,10 @@
     <None Include="Crystal Reports GST\Milk Procurement\rptMilkTransferIn.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMPIDReport.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCre.rpt" />
+    <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreBKN.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreCHU.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreGNG.rpt" />
+    <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreJAL.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreJPR.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreRJS.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreUDP.rpt" />
@@ -1405,6 +1407,7 @@
     <None Include="Crystal Reports\Milk Procurement\NEFTUploaderVLC.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptAbstractReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptAbstractReportPrePrint.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\rptBMCPeriodicalReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptBulkMilkPurchaseInvoice.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptBulkMilkPurchaseInvoiceold.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptBulkMilkPurchaseMultipleInvoice.rpt" />
@@ -1418,6 +1421,7 @@
     <None Include="Crystal Reports\Milk Procurement\rptDCSSummaryMontholyWise.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptDCSSummaryYearlyDayWiseReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptDCSSummaryYearlyWise.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\rptDCSSummaryYearlyWiseUDP.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptDCSWiseAvgFatSnfPrint.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptDispatchChallan.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptMCCMaterialSale.rpt" />
@@ -1428,6 +1432,7 @@
     <None Include="Crystal Reports\Milk Procurement\rptMilkTransferIn.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptMPIDReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptQualityCheck.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\rptRoutePeriodicalDispatchReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptRouteWiseTimeTable.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTankerReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTruckSheetDailySummaryReport.rpt" />

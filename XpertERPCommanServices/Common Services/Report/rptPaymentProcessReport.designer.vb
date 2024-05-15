@@ -368,7 +368,7 @@ Partial Class rptPaymentProcessReport
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(26, 18)
         Me.MyLabel1.TabIndex = 385
-        Me.MyLabel1.Text = "VSP"
+        Me.MyLabel1.Text = "Secretary"
         '
         'txtVSP
         '

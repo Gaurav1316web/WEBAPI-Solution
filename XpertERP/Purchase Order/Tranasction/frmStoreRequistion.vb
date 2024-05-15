@@ -140,10 +140,7 @@ Public Class frmStoreRequistion
         End If
         '--------------richa 14/07/2014 Ticket No BM00000003042---------
         LoadItems()
-        txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
-        If clsCommon.myLen(txtLocation.Value) > 0 Then
-            lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtLocation.Value + "' "))
-        End If
+
         '--------------------------------------------------------------
         If EnableStoreCostCentre = 1 Then
             pnlUnit_CostType.Visible = True
@@ -168,8 +165,9 @@ Public Class frmStoreRequistion
         If ChkAutoDepOnPurchaseCycle Then
             txtDept.Enabled = False
             txtDept.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Segment_code from TSPL_USER_MASTER where User_Code ='" + objCommonVar.CurrentUserCode + "'"))
+            'txtDept.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 TSPL_GL_SEGMENT_CODE.Segment_code from TSPL_COST_CENTER_TYPE_MASTER inner  join TSPL_GL_SEGMENT_CODE ON TSPL_GL_SEGMENT_CODE.Segment_code=TSPL_COST_CENTER_TYPE_MASTER.Department_Cost Where TSPL_GL_SEGMENT_CODE.Seg_No=3 Order By TSPL_COST_CENTER_TYPE_MASTER.Created_Date Desc"))
             ' Ticket No : UDL/22/05/18-000172 By Prabhakar
-            lblDept.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Description from TSPL_GL_SEGMENT_CODE where Seg_No=3 and Segment_code='" + txtDept.Value + "'"))
+            lblDept.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Description from TSPL_GL_SEGMENT_CODE where Seg_No=3 and Segment_code='" + txtDept.Value + "' "))
         Else
             txtDept.Enabled = True
         End If
@@ -210,6 +208,7 @@ Public Class frmStoreRequistion
     Sub BlankAllControls()
         txtReqNo.Value = ""
         txtDesc.Text = ""
+        txtLocation.Text = ""
 
         vaddnew = "Y"
         chkprclose.Checked = False
@@ -473,7 +472,11 @@ Public Class frmStoreRequistion
             repoCCCode.HeaderImage = Global.ERP.My.Resources.Resources.search4
             repoCCCode.TextImageRelation = TextImageRelation.TextBeforeImage
             repoCCCode.Width = 100
-            repoCCCode.ReadOnly = False
+            If EnableStoreCostCentre = 1 Then
+                repoCCCode.ReadOnly = True
+            Else
+                repoCCCode.ReadOnly = False
+            End If
             gv1.MasterTemplate.Columns.Add(repoCCCode)
 
             Dim repoCCDesc As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -485,6 +488,7 @@ Public Class frmStoreRequistion
             repoCCDesc.ReadOnly = True
             gv1.MasterTemplate.Columns.Add(repoCCDesc)
         End If
+
 
 
         clsCustomFieldGrid.LoadBlankGrid(gv1, MyBase.ArrDetailFields)
@@ -800,7 +804,13 @@ Public Class frmStoreRequistion
             gv1.CurrentRow.Cells(colICode).Value = obj.Item_Code
             gv1.CurrentRow.Cells(colIName).Value = obj.Item_Desc
             gv1.CurrentRow.Cells(colUnit).Value = obj.Unit_Code
-           
+            If EnableStoreCostCentre = 1 Then
+                gv1.CurrentRow.Cells(colCCCode).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cost_Code from TSPL_COST_CENTER_TYPE_MASTER where Code='" & txtCostCenterType.Value & "' "))
+            Else
+                gv1.CurrentRow.Cells(colCCCode).Value = ""
+            End If
+            'gv1.CurrentRow.Cells(colCCCode).Value = clsCommon.myCstr(lblDept.Text)
+
             setCost()
         Else
             gv1.CurrentRow.Cells(colICode).Value = ""
@@ -929,7 +939,6 @@ Public Class frmStoreRequistion
         txtDate.Focus()
         cboItemType.SelectedIndex = 0
         cboItemType.Enabled = True
-        txtLocation.Enabled = True
         gv1.Rows.AddNew()
 
         If EnableStoreCostCentre = 1 Then
@@ -961,6 +970,7 @@ Public Class frmStoreRequistion
             txtDept.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Segment_Code from TSPL_USER_MASTER where User_Code ='" + objCommonVar.CurrentUserCode + "'"))
             lblDept.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select DEPARTMENT_NAME from TSPL_DEPARTMENT_MASTER WHERE DEPARTMENT_CODE='" + txtDept.Value + "'"))
 
+
         Else
             txtRequestBy.Value = ""
             lblRequestBy.Text = ""
@@ -969,12 +979,39 @@ Public Class frmStoreRequistion
             txtDept.Value = ""
             lblDept.Text = ""
         End If
-        txtUnitCode.Enabled = True
-        txtCostCenterType.Enabled = True
+        txtUnitCode.Enabled = False
+        txtCostCenterType.Enabled = False
         ' txtDept.Enabled = True
         If ShowDefaultUser = False Then
             AllowDepartmentMandatoryOnPurchaseCycle()
         End If
+
+
+
+        txtUnitCode.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Unit_Code from TSPL_COST_CENTER_TYPE_MASTER where Department_Cost='" + txtDept.Value + "' "))
+        lblUnitDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_COST_CENTER_UNIT_MASTER WHERE Code='" + txtUnitCode.Value + "'"))
+
+        txtCostCenterType.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Code from TSPL_COST_CENTER_TYPE_MASTER where Department_Cost='" + txtDept.Value + "' "))
+        lblCostcenterTypeDesc.Text = txtCostCenterType.Value ' clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cost_Code from TSPL_COST_CENTER_TYPE_MASTER WHERE Code='" + txtCostCenterType.Value + "'"))
+
+        'colCCCode. = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cost_Code from TSPL_COST_CENTER_TYPE_MASTER "))
+
+        'clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Segment_code from TSPL_USER_MASTER where User_Code ='" + objCommonVar.CurrentUserCode + "'"))
+        'If EnableStoreCostCentre = 1 Then
+        '    txtDept.Value = ""
+        '    lblDept.Text = ""
+        '    txtUnitCode.Value = ""
+        '    lblUnitDesc.Text = ""
+        '    txtCostCenterType.Value = ""
+        '    lblCostcenterTypeDesc.Text = ""
+
+        'End If
+
+        txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+        If clsCommon.myLen(txtLocation.Value) > 0 Then
+            lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtLocation.Value + "' "))
+        End If
+
         isCellValueChangedOpen = False
 
 
@@ -1353,6 +1390,7 @@ Public Class frmStoreRequistion
             UsLock1.Status = ERPTransactionStatus.Pending
             cboItemType.Enabled = False
             txtLocation.Enabled = False
+            'txtUnitCode.ReadOnly = True
             BlankAllControls()
             LoadBlankGrid()
             Dim obj As New clsRequistionHead()
@@ -1412,8 +1450,12 @@ Public Class frmStoreRequistion
                     LoadItemType()
                 End If
                 txtDept.Value = obj.Dept
-                    lblDept.Text = obj.Dept_Desc
-                    txtRequestBy.Value = obj.Request_By
+                lblDept.Text = obj.Dept_Desc
+                txtUnitCode.Value = obj.unit
+                lblUnitDesc.Text = obj.unit_Desc
+                txtCostCenterType.Value = obj.Cost
+                lblCostcenterTypeDesc.Text = obj.Cost_Desc
+                txtRequestBy.Value = obj.Request_By
                     lblRequestBy.Text = clsEmployeeMaster.GetName(obj.Request_By, Nothing)
                     fndProject.Value = obj.PROJECT_ID
                     lblProject.Text = clsDBFuncationality.getSingleValue("select SPECIFICATION from TSPL_PJC_PROJECT where PROJECT_CODE='" + fndProject.Value + "'")
@@ -1688,7 +1730,7 @@ Public Class frmStoreRequistion
 
 
             Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
-            Dim WhrCls As String = " Location_Type='Physical'  "
+            Dim WhrCls As String = " Location_Category not in( 'MCC')  "
             If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
                 WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
             End If
@@ -1816,7 +1858,7 @@ Public Class frmStoreRequistion
             "TSPL_REQUISITION_HEAD.Ref_No ,TSPL_REQUISITION_HEAD.Description,TSPL_REQUISITION_HEAD.Remarks,TSPL_REQUISITION_HEAD.Request_By, isnull(TSPL_EMPLOYEE_MASTER.Emp_Name,'') as  Request_By_Name , " &
             "TSPL_REQUISITION_DETAIL.Item_Code ,TSPL_REQUISITION_DETAIL.Item_Desc as Item_Detail,TSPL_REQUISITION_DETAIL.Specification, " &
             "TSPL_REQUISITION_DETAIL.Remarks as DRemarks ,TSPL_REQUISITION_DETAIL.Unit_Code ,TSPL_REQUISITION_DETAIL.Requisition_Qty, " &
-            "isnull((select SUM( case when InOut='I' then Qty else  -1* Qty end )from TSPL_INVENTORY_MOVEMENT where Item_Code=TSPL_REQUISITION_DETAIL.Item_Code and TSPL_INVENTORY_MOVEMENT.Location_Code=TSPL_REQUISITION_HEAD.Location),0) as AvaiQty  ,TSPL_REQUISITION_DETAIL.Item_Net_Amt as Amount,TSPL_REQUISITION_DETAIL.Item_Cost, " &
+            "isnull((select SUM( case when InOut='I' then Qty else  -1* Qty end )from TSPL_INVENTORY_MOVEMENT where Item_Code=TSPL_REQUISITION_DETAIL.Item_Code and TSPL_INVENTORY_MOVEMENT.Location_Code=TSPL_REQUISITION_HEAD.Location),0) as AvaiQty  ,TSPL_REQUISITION_DETAIL.Item_Net_Amt as Amount,TSPL_REQUISITION_DETAIL.Item_Cost,TSPL_COMPANY_MASTER.Phone1,TSPL_COMPANY_MASTER.Email,TSPL_COMPANY_MASTER.GSTReg_No, " &
             "TSPL_VENDOR_MASTER.Vendor_Name,TSPL_REQUISITION_HEAD.Comments ,TSPL_COMPANY_MASTER.Comp_Name ,TSPL_COMPANY_MASTER.Logo_Img , " &
             "TSPL_COMPANY_MASTER.Logo_Img2,user1.User_Name as CreatedBy,'' as AuthorizeBy ,TSPL_REQUISITION_HEAD.Request_By, " &
             "TSPL_REQUISITION_HEAD.Require_Date,TSPL_REQUISITION_HEAD.Dept_Desc,TSPL_REQUISITION_HEAD.Location , " &
@@ -1910,20 +1952,47 @@ Public Class frmStoreRequistion
 
     Private Sub txtDept__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDept._MYValidating
         Try
+
             Dim obj As clsDepartment = clsDepartment.Finder(txtDept.Value, isButtonClicked)
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0 Then
                 txtDept.Value = obj.Code
                 lblDept.Text = obj.Name
                 ''=======For Blank all Cost Centre value in Department Changed============
-                txtUnitCode.Value = ""
-                lblUnitDesc.Text = ""
-                txtCostCenterType.Value = ""
-                lblCostcenterTypeDesc.Text = ""
+                'txtUnitCode.Value = ""
+                'lblUnitDesc.Text = ""
+                'txtCostCenterType.Value = ""
+                'lblCostcenterTypeDesc.Text = ""
                 ''===============================
             Else
                 txtDept.Value = ""
                 lblDept.Text = ""
             End If
+
+            'If EnableStoreCostCentre = 1 And clsCommon.myLen(txtDept.Value) > 0 Then
+
+            '    txtUnitCode.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select unit_code from TSPL_COST_CENTER_TYPE_MASTER where Department='" + txtDept.Value + "'"))
+
+            '    txtCostCenterType.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select cost_code from TSPL_COST_CENTER_TYPE_MASTER where Department='" + txtDept.Value + "'"))
+
+            '    If clsCommon.myLen(txtUnitCode.Value) > 0 Then
+            '        lblUnitDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_COST_CENTER_UNIT_MASTER where Code='" + txtUnitCode.Value + "'"))
+            '    Else
+            '        lblUnitDesc.Text = ""
+            '    End If
+
+            '    If clsCommon.myLen(txtCostCenterType.Value) > 0 Then
+            '        lblCostcenterTypeDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cost_name from TSPL_CostCenter_MASTER where Cost_Code='" + txtCostCenterType.Value + "'"))
+            '    Else
+            '        lblCostcenterTypeDesc.Text = ""
+            '    End If
+            '    lblUnitDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_COST_CENTER_UNIT_MASTER where Code='" + txtUnitCode.Value + "'"))
+
+            '    If gv1.Rows.Count > 0 Then
+            '        For ii As Integer = 0 To gv1.Rows.Count - 1
+            '            gv1.Rows(ii).Cells(colCostCenterCode).Value = clsCommon.myCstr(txtCostCenterType.Value)
+            '        Next
+            '    End If
+            'End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -1981,18 +2050,37 @@ Public Class frmStoreRequistion
         End If
     End Sub
     Sub setBalance()
-        UcItemBalance1.ItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
-        UcItemBalance1.ItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
-        UcItemBalance1.ItemMRP = -1 ' clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value)
-        UcItemBalance1.LocationCode = txtLocation.Value
-        UcItemBalance1.LocationName = lblLocation.Text
-        UcItemBalance1.UOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
-        UcItemBalance1.TransNo = txtReqNo.Value
-        UcItemBalance1.TransDate = txtDate.Value
-        UcItemBalance1.ShowPOQty = True
-        UcItemBalance1.RefreshData()
-
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+            'UcItemBalance1.ItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
+            'UcItemBalance1.ItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
+            'UcItemBalance1.ItemMRP = -1 ' clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value)
+            'UcItemBalance1.LocationCode = txtLocation.Value
+            'UcItemBalance1.LocationName = lblLocation.Text
+            'UcItemBalance1.UOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
+            'UcItemBalance1.TransNo = txtReqNo.Value
+            'UcItemBalance1.TransDate = txtDate.Value
+            'UcItemBalance1.ShowPOQty = True
+            'UcItemBalance1.RefreshData()
+            UcItemBalance1.Visible = False
+        Else
+            UcItemBalance1.ItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
+            UcItemBalance1.ItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
+            UcItemBalance1.ItemMRP = -1 ' clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value)
+            UcItemBalance1.LocationCode = txtLocation.Value
+            UcItemBalance1.LocationName = lblLocation.Text
+            UcItemBalance1.UOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
+            UcItemBalance1.TransNo = txtReqNo.Value
+            UcItemBalance1.TransDate = txtDate.Value
+            UcItemBalance1.ShowPOQty = True
+            UcItemBalance1.RefreshData()
+        End If
     End Sub
+
+    'If no = 0 Then
+    '                  strRptPath = frmCRV.funreport1(CrystalReportFolder.PurchaseOrder, dt1, "PurchaseRequisitionWithoutVendor", "Purchase Requisition")
+    '              Else
+    '                  strRptPath = frmCRV.funreport1(CrystalReportFolder.PurchaseOrder, dt1, "PurchaseRequisition", "Purchase Requisition")
+    '              End If
 
     Private Sub gv1_CurrentColumnChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CurrentColumnChangedEventArgs) Handles gv1.CurrentColumnChanged
         If gv1.RowCount > 0 Then
@@ -2233,6 +2321,7 @@ Public Class frmStoreRequistion
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = obj.Item_Desc
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = obj.Unit_Code
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = obj.RemainingQtyToPurchase
+                    'gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = obj.co
                     gv1.Rows.AddNew()
                 Next
             End If

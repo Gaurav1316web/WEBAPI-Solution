@@ -306,7 +306,7 @@ Partial Class rptSocietyLedgerReport
         Me.MyLabel6.Name = "MyLabel6"
         Me.MyLabel6.Size = New System.Drawing.Size(104, 18)
         Me.MyLabel6.TabIndex = 447
-        Me.MyLabel6.Text = "VLC Uploader Code"
+        Me.MyLabel6.Text = "DCS Uploader Code"
         '
         'lblUploaderCode
         '
@@ -382,7 +382,7 @@ Partial Class rptSocietyLedgerReport
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(26, 18)
         Me.MyLabel4.TabIndex = 442
-        Me.MyLabel4.Text = "VSP"
+        Me.MyLabel4.Text = "Secretary"
         '
         'lblRouteDesc
         '

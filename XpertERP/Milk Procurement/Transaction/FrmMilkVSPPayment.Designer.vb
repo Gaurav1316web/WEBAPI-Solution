@@ -114,7 +114,7 @@ Partial Class FrmMilkVSPPayment
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox3.Size = New System.Drawing.Size(962, 279)
         Me.RadGroupBox3.TabIndex = 1
-        Me.RadGroupBox3.Text = "VSP Payment"
+        Me.RadGroupBox3.Text = "Secretary Payment"
         '
         'fndArea
         '
@@ -299,7 +299,7 @@ Partial Class FrmMilkVSPPayment
         Me.lblTankerNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTankerNo.Location = New System.Drawing.Point(13, 48)
         Me.lblTankerNo.Name = "lblTankerNo"
-        Me.lblTankerNo.Size = New System.Drawing.Size(32, 16)
+        Me.lblTankerNo.Size = New System.Drawing.Size(31, 16)
         Me.lblTankerNo.TabIndex = 10
         Me.lblTankerNo.Text = "MCC"
         '
@@ -325,7 +325,7 @@ Partial Class FrmMilkVSPPayment
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(26, 18)
         Me.MyLabel4.TabIndex = 7
-        Me.MyLabel4.Text = "VLC"
+        Me.MyLabel4.Text = "DCS"
         '
         'MyLabel5
         '
@@ -533,7 +533,7 @@ Partial Class FrmMilkVSPPayment
         Me.btnDeleteVSPBill.Name = "btnDeleteVSPBill"
         Me.btnDeleteVSPBill.Size = New System.Drawing.Size(254, 23)
         Me.btnDeleteVSPBill.TabIndex = 283
-        Me.btnDeleteVSPBill.Text = "Delete VSP Bill Not Used in Payment Process"
+        Me.btnDeleteVSPBill.Text = "Delete Secretary Bill Not Used in Payment Process"
         Me.btnDeleteVSPBill.Visible = False
         '
         'BtnReset
