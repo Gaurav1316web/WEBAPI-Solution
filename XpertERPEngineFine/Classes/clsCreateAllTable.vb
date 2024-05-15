@@ -3124,7 +3124,11 @@ Public Class clsCreateAllTable
             coll.Add("GST_COMPOSITION", "int null ")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_SHIP_TO_LOCATION", coll)
 
-
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Payment_No", "varchar(30) not null References TSPL_PAYMENT_HEADER(Payment_No)")
+            coll.Add("PI_No", "Varchar(30)  null References TSPL_PI_HEAD(PI_No)")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_PAYMENT_MULTIPLE_INVOICE_DETAIL", coll, "", True)
 
             ''''I am here
             coll = New Dictionary(Of String, String)()
