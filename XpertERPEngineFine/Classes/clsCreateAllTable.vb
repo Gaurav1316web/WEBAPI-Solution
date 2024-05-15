@@ -24448,6 +24448,14 @@ Public Class clsCreateAllTable
                     End If
 
 
+                    qry = "update TSPL_MILK_SRN_DETAIL set ACC_Qty_LTR=x.ACC_WEIGHT_LTR from (
+select TSPL_MILK_SRN_HEAD.DOC_CODE,TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_LTR 
+from TSPL_MILK_SRN_DETAIL
+inner join TSPL_MILK_SRN_HEAD on  TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE
+inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.Against_Reject_No and TSPL_MILK_REJECT_DETAIL.SAMPLE_NO=TSPL_MILK_SRN_HEAD.SAMPLE_NO
+)x inner join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=x.DOC_CODE"
+                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+
                     qry = "update TSPL_MILK_SRN_HEAD set Against_Shift_Uploader_TR_No=xx.Against_Shift_Uploader_TR_No from (
                 select TSPL_MILK_SRN_HEAD.DOC_CODE,TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No 
                 from TSPL_MILK_SRN_HEAD 
@@ -53425,7 +53433,7 @@ Public Class clsCreateAllTable
             coll.Add("Cycle_No", "integer not  NULL default 1")
             coll.Add("MCC_Code", "Varchar(30) not null REFERENCES TSPL_MCC_MASTER (MCC_Code)")
             coll.Add("VLC_Code", "Varchar(30) not null REFERENCES TSPL_VLC_MASTER_HEAD (VLC_Code)")
-            coll.Add("Qty", "Decimal(18,2) null")
+            coll.Add("Qty", "Decimal(18,3) null")
             coll.Add("UOM", "Varchar(12) not null")
             coll.Add("FAT", "Decimal(18,1) null")
             coll.Add("SNF", "Decimal(18,2) null")
@@ -53442,7 +53450,14 @@ Public Class clsCreateAllTable
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DCS_MP_INCENTIVE_RECO_DETAIL", coll, "unique(Cycle_Year,Cycle_Month,Cycle_No,VLC_Code)", True, False, "TSPL_DCS_MP_INCENTIVE_RECO_HEAD", "Document_Code", "")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID", coll, "", True, False, "TSPL_DCS_MP_INCENTIVE_RECO_HEAD", "Document_Code", "")
 
-
+            qry = "alter table TSPL_DCS_MP_INCENTIVE_RECO_DETAIL alter column Qty decimal(18,3)"
+            clsDBFuncationality.ExecuteNonQuery(qry)
+            qry = "alter table TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID alter column Qty decimal(18,3)"
+            clsDBFuncationality.ExecuteNonQuery(qry)
+            qry = "alter table TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_HIST_DATA alter column Qty decimal(18,3)"
+            clsDBFuncationality.ExecuteNonQuery(qry)
+            qry = "alter table TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID_HIST_DATA alter column Qty decimal(18,3)"
+            clsDBFuncationality.ExecuteNonQuery(qry)
 
 
 
