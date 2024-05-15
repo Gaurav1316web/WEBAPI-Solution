@@ -556,7 +556,7 @@ Environment.NewLine + "Company : " & objCommonVar.CurrentCompanyName
                         GROUP BY 
                         FINAL2.company_name,FINAL2.[Vendor Code],FINAL2.[Vendor Name],FINAL2.[VLC Uploader Code],FINAL2.MCC_Name,FINAL2.[Document Date],
                         FINAL2.[Document No],FINAL2.Type,FINAL2.Addition,FINAL2.Deduction,FINAL2.[Deduction Code],FINAL2.Regn_No,FINAL2.[Deduction Desc],
-                        TSPL_MILK_SRN_DETAIL.ACC_Qty ,FINAL2.Phone,final2.remarks,FINAL2.FromDate,FINAL2.ToDate,FINAL2.Comp_Code)final3
+                         FINAL2.Phone,final2.remarks,FINAL2.FromDate,FINAL2.ToDate,FINAL2.Comp_Code)final3
 
                         left join TSPL_PAYMENT_PROCESS_DEDUCTION on TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE=final3.[Vendor Code]
                         left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No

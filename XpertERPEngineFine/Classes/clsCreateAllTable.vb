@@ -3126,7 +3126,11 @@ Public Class clsCreateAllTable
             coll.Add("GST_COMPOSITION", "int null ")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_SHIP_TO_LOCATION", coll)
 
-
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Payment_No", "varchar(30) not null References TSPL_PAYMENT_HEADER(Payment_No)")
+            coll.Add("PI_No", "Varchar(30)  null References TSPL_PI_HEAD(PI_No)")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_PAYMENT_MULTIPLE_INVOICE_DETAIL", coll, "", True)
 
             ''''I am here
             coll = New Dictionary(Of String, String)()
@@ -10508,6 +10512,7 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "varchar(10) NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "varchar(10) NOT NULL")
+            coll.Add("Bank_Name_Hindi", "nvarchar(400) NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_Vendor_Bank_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -13491,6 +13496,7 @@ Public Class clsCreateAllTable
             coll.Add("JA_caste", "nvarchar(50) NULL")
             coll.Add("JA_AADHAR_REF_NO", "varchar(20) NULL")
             coll.Add("Aadhar_No_Verified", " integer null")
+            coll.Add("DBT_Capping_Qty", " integer null")
             clsDBFuncationality.ExecuteNonQuery("delete  from  TSPL_MP_MASTER_Hist_Data where MP_Code+convert(varchar, Hist_Version) in (select MP_Code+convert(varchar, Hist_Version) from(select LEN([MP_Code_VLC_Uploader]) as Lenth,MP_Code,Hist_Version from TSPL_MP_MASTER_Hist_Data)xx where Lenth > 7)")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_MP_MASTER", coll, Nothing, True)
 
@@ -24441,6 +24447,14 @@ Public Class clsCreateAllTable
                         Next
                     End If
 
+
+                    qry = "update TSPL_MILK_SRN_DETAIL set ACC_Qty_LTR=x.ACC_WEIGHT_LTR from (
+select TSPL_MILK_SRN_HEAD.DOC_CODE,TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_LTR 
+from TSPL_MILK_SRN_DETAIL
+inner join TSPL_MILK_SRN_HEAD on  TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE
+inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.Against_Reject_No and TSPL_MILK_REJECT_DETAIL.SAMPLE_NO=TSPL_MILK_SRN_HEAD.SAMPLE_NO
+)x inner join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=x.DOC_CODE"
+                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
                     qry = "update TSPL_MILK_SRN_HEAD set Against_Shift_Uploader_TR_No=xx.Against_Shift_Uploader_TR_No from (
                 select TSPL_MILK_SRN_HEAD.DOC_CODE,TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No 
@@ -53393,6 +53407,7 @@ Public Class clsCreateAllTable
             coll.Add("Zone_Code", "varchar(30) NULL references TSPL_ZONE_MASTER (Zone_Code) ")
             coll.Add("Apply_FAT_Above", "Decimal(18,2) null")
             coll.Add("Apply_SNF_Above", "Decimal(18,2) null")
+            coll.Add("DBT_Capping_Apply", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DCS_MP_INCENTIVE_RECO_HEAD", coll, Nothing, True, False, "", "Document_Code", "Document_Date")
 
             Try
@@ -53418,7 +53433,7 @@ Public Class clsCreateAllTable
             coll.Add("Cycle_No", "integer not  NULL default 1")
             coll.Add("MCC_Code", "Varchar(30) not null REFERENCES TSPL_MCC_MASTER (MCC_Code)")
             coll.Add("VLC_Code", "Varchar(30) not null REFERENCES TSPL_VLC_MASTER_HEAD (VLC_Code)")
-            coll.Add("Qty", "Decimal(18,2) null")
+            coll.Add("Qty", "Decimal(18,3) null")
             coll.Add("UOM", "Varchar(12) not null")
             coll.Add("FAT", "Decimal(18,1) null")
             coll.Add("SNF", "Decimal(18,2) null")
@@ -53435,7 +53450,14 @@ Public Class clsCreateAllTable
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DCS_MP_INCENTIVE_RECO_DETAIL", coll, "unique(Cycle_Year,Cycle_Month,Cycle_No,VLC_Code)", True, False, "TSPL_DCS_MP_INCENTIVE_RECO_HEAD", "Document_Code", "")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID", coll, "", True, False, "TSPL_DCS_MP_INCENTIVE_RECO_HEAD", "Document_Code", "")
 
-
+            qry = "alter table TSPL_DCS_MP_INCENTIVE_RECO_DETAIL alter column Qty decimal(18,3)"
+            clsDBFuncationality.ExecuteNonQuery(qry)
+            qry = "alter table TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID alter column Qty decimal(18,3)"
+            clsDBFuncationality.ExecuteNonQuery(qry)
+            qry = "alter table TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_HIST_DATA alter column Qty decimal(18,3)"
+            clsDBFuncationality.ExecuteNonQuery(qry)
+            qry = "alter table TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID_HIST_DATA alter column Qty decimal(18,3)"
+            clsDBFuncationality.ExecuteNonQuery(qry)
 
 
 
