@@ -494,14 +494,19 @@ Public Class frmMCCMaterialSaleUploader
                     Gv1.Rows(i).Cells(colTaxGroup).Value = clsLocationWiseTax.GetExempedDefaultTaxGroup(True, clsCommon.myCstr(Gv1.Rows(i).Cells("BILL TO LOCATION").Value), clsCommon.myCstr(Gv1.Rows(i).Cells("CUSTOMER NO").Value), "S", clsCommon.myCstr(Gv1.Rows(i).Cells("Date").Value))
                     Dim dt As DataTable = clsTaxGroupMaster.GetTaxDetailsByLocation(clsCommon.myCstr(Gv1.Rows(i).Cells(colTaxGroup).Value), "S", clsCommon.myCstr(Gv1.Rows(i).Cells("CUSTOMER NO").Value), clsCommon.myCstr(Gv1.Rows(i).Cells("BILL TO LOCATION").Value))
                     If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                        Dim ii As Integer = 0
                         For Each dr As DataRow In dt.Rows
-                            Gv1.Rows(i).Cells(coltax1).Value = clsCommon.myCstr(dr("Tax_Code"))
-                            Gv1.Rows(i).Cells(coltax1rate).Value = clsCommon.myCdbl(dr("TaxRate"))
-                            Gv1.Rows(i).Cells(coltax1Amt).Value = (clsCommon.myCdbl(dr("TaxRate")) * clsCommon.myCdbl(Gv1.Rows(i).Cells("Amount").Value)) / 100
+                            If ii = 0 Then
+                                Gv1.Rows(i).Cells(coltax1).Value = clsCommon.myCstr(dr("Tax_Code"))
+                                Gv1.Rows(i).Cells(coltax1rate).Value = clsCommon.myCdbl(dr("TaxRate"))
+                                Gv1.Rows(i).Cells(coltax1Amt).Value = (clsCommon.myCdbl(dr("TaxRate")) * clsCommon.myCdbl(Gv1.Rows(i).Cells("Amount").Value)) / 100
+                            ElseIf ii = 1 Then
+                                Gv1.Rows(i).Cells(coltax2).Value = clsCommon.myCstr(dr("Tax_Code"))
+                                Gv1.Rows(i).Cells(coltax2rate).Value = clsCommon.myCdbl(dr("TaxRate"))
+                                Gv1.Rows(i).Cells(coltax2Amt).Value = (clsCommon.myCdbl(dr("TaxRate")) * clsCommon.myCdbl(Gv1.Rows(i).Cells("Amount").Value)) / 100
 
-                            Gv1.Rows(i).Cells(coltax2).Value = ""
-                            Gv1.Rows(i).Cells(coltax2rate).Value = 0
-                            Gv1.Rows(i).Cells(coltax2Amt).Value = 0
+                            End If
+                            ii = ii + 1
                         Next
                     Else
                         ValidateStatus = ValidateStatus & "create tax of exempted type for this location and customer." & Environment.NewLine
