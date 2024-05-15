@@ -2522,6 +2522,55 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_V
         End Try
     End Sub
 
+    Private Sub rbtnRouteWise_Click(sender As Object, e As EventArgs) Handles rbtnRouteWise.Click
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+            btnRoutePrint.Visible = True
+        End If
+    End Sub
 
+    Private Sub btnRoutePrint_Click(sender As Object, e As EventArgs) Handles btnRoutePrint.Click
+        Try
+            Dim qry As String = Nothing
+            Dim Area As String = Nothing
+            Area = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select MCC_NAME from TSPL_MCC_MASTER WHERE Area_Location_Code = '" + fndArea.Value + "' "))
+
+            qry = "  SELECT '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' As [FromDate],'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MM/yyyy") + "' As [ToDate],'" & objCommonVar.CurrentUser & "' as User_Name,
+                          max(Comp_Name)Comp_Name,max(add1)add1,max(Add2)Add2,max(Add3)Add3,CONVERT (VARCHAR, Document_Date,103) AS Date , ROUTE_NO, max(ROUTE_NAME)ROUTE_NAME,  Sum (MCC_Qty) AS MCC_Qty, convert(decimal(18,2),(sum(MCC_FATKG)*100)/sum(MCC_Qty)) MCC_FAT_Per, convert(decimal(18,2),(sum(MCC_SNFKG)*100)/sum(MCC_Qty)) MCC_SNF_Per,
+                          sum (MCC_FATKG) AS MCC_FATKG, sum (MCC_SNFKG) AS MCC_SNFKG, sum(entered_qty) AS Entered_Qty, convert(decimal(18,2),(sum(Entered_FATKg)*100)/sum(Entered_Qty)) Entered_FAT_Per,convert(decimal(18,2),(sum(Entered_SNFKg)*100)/sum(Entered_Qty)) Entered_SNF_Per, Sum (entered_fatkg)  AS Entered_FATKg,
+                          Sum (entered_snfkg) AS Entered_SNFKg, Sum(MCC_Qty) - Sum(Entered_Qty) AS DiffEnteredVsMCC_Qty, Sum (MCC_FATKG) - Sum (Entered_FATKg)  AS DiffEnteredVsMCC_FAT, Sum (MCC_SNFKG)- Sum (Entered_SNFKg) AS DiffEnteredVsMCC_SNF 
+						  FROM
+                          ( SELECT max(Comp_Name)Comp_Name,max(Add1)Add1,max(Add2)Add2,max(Add3)Add3,ROUTE_NO,max(ROUTE_NAME)ROUTE_NAME,  sum(entered_qty) AS Entered_Qty, Isnull(sum(entered_fatkg),0) AS Entered_FATKg, Isnull(sum(entered_snfkg),0) AS Entered_SNFKg, (document_date) AS Document_Date,	 
+                          max(MCC_Qty) AS MCC_Qty, Isnull(max(MCC_FATKG), 0) AS MCC_FATKG, Isnull(max(MCC_SNFKG), 0) AS MCC_SNFKG FROM 
+						  (SELECT Tspl_Company_Master.Comp_Name,Tspl_Company_Master.Add1,Tspl_Company_Master.Add2,Tspl_Company_Master.Add3,Trip_No, tspl_bulk_route_master.ROUTE_NO,tspl_bulk_route_master.ROUTE_NAME, ISNULL(qty,0) as entered_qty , FATKG as entered_fatkg, SNFKG as entered_snfkg,
+                          tspl_milk_collection_mcc_detail.document_no, tspl_milk_collection_mcc.document_date
+                          AS Document_Date, Isnull(tspl_milk_collection_mcc.Entered_Qty, 0) AS MCC_Qty, Isnull(fat, 0) AS MCC_FAT, ISNULL(SNF, 0) AS MCC_SNF, ISNULL(tspl_milk_collection_mcc.Entered_FATKg, 0) AS MCC_FATKG, 
+                          ISNULL(tspl_milk_collection_mcc.Entered_SNFKg, 0) AS MCC_SNFKG  FROM   tspl_milk_collection_mcc_detail
+                          LEFT OUTER JOIN tspl_milk_collection_mcc ON tspl_milk_collection_mcc.document_no = tspl_milk_collection_mcc_detail.document_no 
+                          LEFT OUTER JOIN tspl_mcc_master ON tspl_mcc_master.mcc_code = tspl_milk_collection_mcc_detail.mcc_code 
+                          LEFT OUTER JOIN tspl_bulk_route_master ON tspl_bulk_route_master.route_no = tspl_milk_collection_mcc.route_code
+						  left outer join Tspl_Company_Master on Tspl_Company_Master.Comp_Code = tspl_mcc_master.Comp_Code
+                           WHERE  CONVERT(DATE, tspl_milk_collection_mcc.document_date, 103) >= CONVERT(DATE, '" + fromDate.Value + "',103) AND CONVERT (DATE, tspl_milk_collection_mcc.document_date, 103)
+                         <= CONVERT (DATE, '" + dtpToDate.Value + "',103) "
+
+            If AreaWiseBilling Then
+                If clsCommon.myLen(fndArea.Value) > 0 Then
+                    qry += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
+                End If
+            End If
+            qry += " ) xyz GROUP  BY ROUTE_NO, Document_Date,Trip_No) XXXFinal GROUP  BY  xxxfinal.ROUTE_NO , xxxfinal.Document_Date
+						   order by xxxfinal.ROUTE_NO "
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+
+            If dt IsNot Nothing And dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptRouteWisereport", "Route Wise", clsCommon.myCDate(fromDate.Value))
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class
 

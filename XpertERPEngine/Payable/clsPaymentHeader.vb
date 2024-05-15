@@ -74,7 +74,7 @@ Public Class clsPaymentHeader
     Public Bank_Charges As Double = 0.0
     Public ArrTr As List(Of clsPaymentDetail) = Nothing
     Public objRemittance As clsRemittance
-
+    Public ArrMul As List(Of clsMultipleInvoicedetail) = Nothing
     Public CURRENCY_CODE As String = ""
     Public ConvRate As Decimal
     Public ApplicableFrom As Date? = Nothing
@@ -649,6 +649,7 @@ Public Class clsPaymentHeader
             isSaved = isSaved AndAlso clsPaymentDetail.SaveData(obj.Payment_No, obj.ArrTr, trans)
             isSaved = isSaved AndAlso clsPaymentDetailGST.SaveData(obj.Payment_No, obj.ArrTrGST, trans)
             isSaved = isSaved AndAlso clsPaymentBankChargesTax.SaveData(obj.Payment_No, obj.objBCT, trans)
+            isSaved = isSaved AndAlso clsMultipleInvoicedetail.SaveData(obj.Payment_No, obj.ArrMul, trans)
             '' update currency loss and gain in case of payment type entr
             'If obj.ConvRate <> 1 Then
             '    If obj.Payment_Type = "PY" Then
@@ -1308,7 +1309,7 @@ Public Class clsPaymentHeader
             clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, strPaymentNo, "TSPL_PAYMENT_HEADER", "Payment_No", "TSPL_PAYMENT_DETAIL", "Payment_No", "TSPL_PAYMENT_BANK_CHARGES_TAX", "Payment_No", "TSPL_PAYMENT_DETAIL_GST", "Payment_No", "", "", "", "", "", "", trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strPaymentNo, "TSPL_REMITTANCE", "Document_No", trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strPaymentNo, "TSPL_bank_book", "SOURCEDOC_NO", trans)
-
+            clsDBFuncationality.ExecuteNonQuery("delete from TSPL_PAYMENT_MULTIPLE_INVOICE_DETAIL where Payment_no='" + strPaymentNo + "'", trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_PAYMENT_DETAIL where Payment_no='" + strPaymentNo + "'", trans)
             Dim qry As String = "DELETE From TSPL_PAYMENT_DETAIL_GST WHERE Payment_No ='" + strPaymentNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -5236,7 +5237,7 @@ End Class
 Public Class clsPaymentBankChargesTax
 #Region "Variable"
     ''-------------------------
-    Public Payment_No As String = String.Empty    
+    Public Payment_No As String = String.Empty
     Public Line_No As Integer
     'Public Tax_Group_BankCharges As String = String.Empty
     Public Tax_Code As String = String.Empty
@@ -5253,8 +5254,8 @@ Public Class clsPaymentBankChargesTax
                 For Each obj As clsPaymentBankChargesTax In Arr
                     Dim coll As New Hashtable()
 
-                    clsCommon.AddColumnsForChange(coll, "Payment_No", strDocNo)                    
-                    clsCommon.AddColumnsForChange(coll, "Line_No", obj.Line_No)                    
+                    clsCommon.AddColumnsForChange(coll, "Payment_No", strDocNo)
+                    clsCommon.AddColumnsForChange(coll, "Line_No", obj.Line_No)
                     'clsCommon.AddColumnsForChange(coll, "Tax_Group_BankCharges", obj.Tax_Group_BankCharges)
                     clsCommon.AddColumnsForChange(coll, "Tax_Code", obj.Tax_Code)
                     clsCommon.AddColumnsForChange(coll, "Tax_Rate", obj.Tax_Rate)
@@ -5294,3 +5295,25 @@ Public Class clsPaymentBankChargesTax
         Return objList
     End Function
 End Class
+Public Class clsMultipleInvoicedetail
+    Public Payment_no As String = Nothing
+    Public PI_No As String = Nothing
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsMultipleInvoicedetail), ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim issaved As Boolean = True
+            Dim intLineNo As Integer = 1
+            If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
+                For Each obj As clsMultipleInvoicedetail In Arr
+                    Dim coll As New Hashtable()
+                    clsCommon.AddColumnsForChange(coll, "Payment_No", strDocNo)
+                    clsCommon.AddColumnsForChange(coll, "PI_No", obj.PI_No)
+                    issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PAYMENT_MULTIPLE_INVOICE_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+                Next
+            End If
+            Return issaved
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Function
+End Class
+
