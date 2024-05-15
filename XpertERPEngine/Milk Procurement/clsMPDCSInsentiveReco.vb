@@ -179,14 +179,16 @@ Public Class clsMPDCSInsentiveReco
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
             End If
-            Dim qry As String = "Update TSPL_DCS_MP_INCENTIVE_RECO_HEAD set Status=1, Posting_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Document_Code='" + strDocNo + "' "
-            clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
+            Dim qry As String = ""
+            Dim ExtrColumn As String = " DBT_Capping_Apply=0"
             Dim SettDBTMilkQtyCapping As Integer = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.DBTMilkQtyCapping, clsFixedParameterCode.DBTMilkQtyCapping, trans))
             If SettDBTMilkQtyCapping > 0 Then
                 qry = "Update TSPL_MP_MASTER set DBT_Capping_Qty=" + clsCommon.myCstr(SettDBTMilkQtyCapping) + " where DBT_Capping_Qty is null"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                ExtrColumn = " DBT_Capping_Apply=1"
             End If
+            qry = "Update TSPL_DCS_MP_INCENTIVE_RECO_HEAD set Status=1 ," + ExtrColumn + ", Posting_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Document_Code='" + strDocNo + "' "
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()

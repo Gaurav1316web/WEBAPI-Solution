@@ -12,6 +12,7 @@ Public Class frmVendorBankAdvice
     Dim StrPermission As String
     Dim dtREJECT As DataTable
     Dim IsBankAdviseStartDate As String
+    Dim ExportBankWiseQry As String = Nothing
 #End Region
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
@@ -25,6 +26,9 @@ Public Class frmVendorBankAdvice
         MultipleFinderFillAuto = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultipleFinderFillAuto, clsFixedParameterCode.MultipleFinderFillAuto, Nothing)) = 1)
         StrPermission = clsERPFuncationality.UserWiseAvailableLocationCode()
         Reset()
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+            btnExportBankWise.Visible = True
+        End If
         'RadGroupBox1.Visible = Not MultipleFinderFillAuto
         txtPaymentCycleFrom.Enabled = Not MultipleFinderFillAuto
         txtPaymentCycleTo.Enabled = Not MultipleFinderFillAuto
@@ -465,6 +469,8 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
             End If
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(FinalQuery)
+            ExportBankWiseQry = FinalQuery
+
             Dim dt1 As DataTable = Nothing
             Dim dt2 As DataTable = Nothing
             Dim dt3 As DataTable = Nothing
@@ -486,6 +492,7 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
                 dt3 = clsDBFuncationality.GetDataTable(FinalQuery)
             End If
             Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+            Gv1.MasterTemplate.FilterDescriptors.Clear()
             Gv1.DataSource = Nothing
             Gv1.Rows.Clear()
             Gv1.Columns.Clear()
@@ -499,7 +506,6 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
             Else
                 Gv1.DataSource = dt
                 RadPageView1.SelectedPage = RadPageViewPage2
-
                 SetGridFormat()
                 EnableDisaableControls(False)
             End If
@@ -574,6 +580,7 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
                             and TSPL_VENDOR_INVOICE_HEAD.Document_Total>0 --and TSPL_Vendor_MASTER.Bank_Code='504' 
                             ) x group by x.GRPColumn,x.VLC_CODE_Uploader,x.Payee_Joint_Account_No )xxxSaving
                             Left Outer Join
+                            (select Max(Account_Type)As Account_Type,max(x.From_Date)From_Date,max(x.Doc_No)Doc_No,max(x.Fiscal_Name)Fiscal_Name,max(x.Date_Range)Date_Range,x.VLC_CODE_Uploader,max(x.Payee_Joint_Name)Payee_Joint_Name,max(x.Bank_Code)Bank_Code,max(x.Branch_Name)Branch_Name,max(x.Bank_Code_Desc)Bank_Code_Desc,max(x.Payee_Joint_IFSC_Code)Payee_Joint_IFSC_Code,x.Payee_Joint_Account_No,sum(x.Payable_Amount)Payable_Amount from
                             (select  Case When TSPL_VENDOR_MASTER.Account_Type='cur' Then TSPL_VENDOR_MASTER.Account_Type Else Case When TSPL_VENDOR_MASTER.AccountType2='cur' Then TSPL_VENDOR_MASTER.AccountType2 else '' End  End As Account_Type,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.Doc_No, TSPL_Fiscal_Year_Master.Fiscal_Name,
                             convert(varchar, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) +' To '+ convert(varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) as Date_Range, 
                             TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Name,TSPL_Vendor_MASTER.Bank_Code,TSPL_VENDOR_MASTER.Branch_Name,
@@ -590,7 +597,7 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
                             left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert(date, TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103)<=convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert(date,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103)>=convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)   and TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code = TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected   
                             where TSPL_PAYMENT_PROCESS_HEAD.isPosted = 1 and  TSPL_PAYMENT_PROCESS_HEAD.From_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and	TSPL_PAYMENT_PROCESS_HEAD.To_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' "
         ' and (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0))>0 
-        Qry += "  ) xxxCurrent On xxxCurrent.VLC_CODE_Uploader=xxxSaving.VLC_CODE_Uploader) xxxFinal
+        Qry += " ) x group by x.VLC_CODE_Uploader,x.Payee_Joint_Account_No ) xxxCurrent On xxxCurrent.VLC_CODE_Uploader=xxxSaving.VLC_CODE_Uploader) xxxFinal
                             Inner Join(SELECT YYY.[Vlc Uploader Code],YYY.[VLC Name],COUNT(YYY.[Vlc Uploader Code]) As DCSCount FROM (Select final.[Doc Date] ,(final.[Vlc Uploader Code])[Vlc Uploader Code] ,final.[VLC Name] From 
                             (Select Convert(varchar,TSPL_MILK_SRN_HEAD.DOC_DATE,103) As [Doc Date],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code], 
                             TSPL_VLC_MASTER_HEAD.VLC_Name As [VLC Name]
@@ -1624,5 +1631,56 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
         Else
             Print(True)
         End If
+    End Sub
+
+    Private Sub btnExportBankWise_Click(sender As Object, e As EventArgs) Handles btnExportBankWise.Click
+        Try
+            Dim dt As DataTable = Nothing
+            Dim dtBank As DataTable = Nothing
+
+            If Gv1.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
+                Exit Sub
+            End If
+            If rbtnSaving.IsChecked OrElse rbtnBankAdvice.IsChecked Then
+                dt = New DataTable()
+                dtBank = New DataTable()
+                dt = Gv1.DataSource
+                dtBank = dt.DefaultView.ToTable(True, "GRPColumn")
+
+                If dtBank.Rows.Count > 0 Then
+                    For Each dr In dtBank.Rows
+                        Gv1.MasterTemplate.FilterDescriptors.Clear()
+                        Dim filter As New FilterDescriptor("GRPColumn", FilterOperator.Contains, dr("GRPColumn"))
+                        Gv1.MasterTemplate.FilterDescriptors.Add(filter)
+
+                        Dim strHeading As String = ""
+                        If MultipleFinderFillAuto Then
+                            strHeading = clsCommon.myCstr("BankAdvice Report Bank Wise from " + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + " to " + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy"))
+                        End If
+
+                        Dim arrHeader As List(Of String) = New List(Of String)()
+                        If MultipleFinderFillAuto Then
+                            If rbtnSaving.IsChecked = True Then
+                                arrHeader.Add("Data: Saving ")
+                            End If
+                            If rbtnBankAdvice.IsChecked = True Then
+                                arrHeader.Add("Report Type: Bank Advice")
+                            End If
+                        Else
+                            arrHeader.Add("Mcc : " + txtMCC.Value)
+                        End If
+
+                        clsCommon.MyExportToExcelGrid(strHeading, Gv1, arrHeader, "Bank Advise  BankWise")
+                    Next
+
+                End If
+            End If
+            clsCommon.MyMessageBoxShow(Me, "Export Successfully", Me.Text)
+            Gv1.MasterTemplate.FilterDescriptors.Clear()
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

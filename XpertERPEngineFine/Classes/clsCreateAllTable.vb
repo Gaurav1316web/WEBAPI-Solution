@@ -3126,7 +3126,11 @@ Public Class clsCreateAllTable
             coll.Add("GST_COMPOSITION", "int null ")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_SHIP_TO_LOCATION", coll)
 
-
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Payment_No", "varchar(30) not null References TSPL_PAYMENT_HEADER(Payment_No)")
+            coll.Add("PI_No", "Varchar(30)  null References TSPL_PI_HEAD(PI_No)")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_PAYMENT_MULTIPLE_INVOICE_DETAIL", coll, "", True)
 
             ''''I am here
             coll = New Dictionary(Of String, String)()
@@ -53395,6 +53399,7 @@ Public Class clsCreateAllTable
             coll.Add("Zone_Code", "varchar(30) NULL references TSPL_ZONE_MASTER (Zone_Code) ")
             coll.Add("Apply_FAT_Above", "Decimal(18,2) null")
             coll.Add("Apply_SNF_Above", "Decimal(18,2) null")
+            coll.Add("DBT_Capping_Apply", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DCS_MP_INCENTIVE_RECO_HEAD", coll, Nothing, True, False, "", "Document_Code", "Document_Date")
 
             Try
