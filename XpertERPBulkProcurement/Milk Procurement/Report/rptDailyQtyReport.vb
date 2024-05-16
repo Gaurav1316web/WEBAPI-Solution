@@ -565,6 +565,7 @@ Public Class rptDailyQtyReport
                         End If
                         If rbtnRouteWise.Checked = False Then
                             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                         End If
                     End If
                     If rbtnBMCTankerCollection.Checked Then
@@ -895,6 +896,7 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                         End If
 
                         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                     End If
                     ControlEnableDisable(False)
 
@@ -1419,7 +1421,7 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
         summaryRowItem.Add(summaryItem2)
 
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
 

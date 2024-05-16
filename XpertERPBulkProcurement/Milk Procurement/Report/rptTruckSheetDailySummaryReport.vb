@@ -335,7 +335,7 @@ order by [Doc Date] "
         Gv1.ShowGroupPanel = True
         Gv1.MasterTemplate.AutoExpandGroups = True
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         'Gv1.ShowGroupPanel = False
         'Gv1.MasterTemplate.AutoExpandGroups = True
     End Sub

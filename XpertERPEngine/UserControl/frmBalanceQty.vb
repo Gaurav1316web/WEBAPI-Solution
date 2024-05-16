@@ -59,7 +59,7 @@ Public Class frmBalanceQty
             Dim item1 As New GridViewSummaryItem("Qty", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item1)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             gv1.ShowGroupPanel = False
             gv1.AllowAddNewRow = False
             gv1.ShowGroupPanel = False

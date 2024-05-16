@@ -864,7 +864,7 @@ Public Class RptPlantCustomerDemandReport
         gv2.ShowGroupPanel = False
         gv2.MasterTemplate.AutoExpandGroups = True
         gv2.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv2.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
     End Sub
 
@@ -953,7 +953,7 @@ Public Class RptPlantCustomerDemandReport
         gv2.ShowGroupPanel = False
         gv2.MasterTemplate.AutoExpandGroups = True
         gv2.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv2.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
     End Sub
 
@@ -1037,6 +1037,7 @@ Public Class RptPlantCustomerDemandReport
         gv2.MasterTemplate.AutoExpandGroups = True
 
         gv2.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv2.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         'gv2.MasterTemplate.ShowTotals = True
     End Sub
     Sub FormatGridBranch(ByVal dtExtraColumnForBranch As DataTable)
@@ -1121,7 +1122,7 @@ Public Class RptPlantCustomerDemandReport
 
         gv2.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         'gv2.MasterTemplate.ShowTotals = True
-
+        gv2.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
 
 

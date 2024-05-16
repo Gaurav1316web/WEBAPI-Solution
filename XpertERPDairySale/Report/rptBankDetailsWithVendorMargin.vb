@@ -335,6 +335,7 @@ Public Class rptBankDetailsWithVendorMargin
                     Dim itemQty As New GridViewSummaryItem("AMOUNT", "{0:F2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(itemQty)
                     Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                     Gv1.BestFitColumns()
                 Else
                     clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)

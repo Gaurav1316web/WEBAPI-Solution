@@ -746,6 +746,7 @@ Public Class FrmMCCMilkRegister
                     gv.MasterTemplate.AutoExpandGroups = True
 
                     gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 ElseIf ChkMCCWise.Checked Then
                     gv.Columns("MCC Code").IsVisible = True
                     gv.Columns("MCC Code").Width = 100
@@ -970,7 +971,7 @@ Public Class FrmMCCMilkRegister
                     gv.MasterTemplate.AutoExpandGroups = True
 
                     gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+                    gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 ElseIf rbtnPlantWise.Checked Then
                     gv.Columns("Plant Code").IsVisible = True
                     gv.Columns("Plant Code").Width = 100
@@ -1220,7 +1221,7 @@ Public Class FrmMCCMilkRegister
                     gv.MasterTemplate.AutoExpandGroups = True
 
                     gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+                    gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 ElseIf chkRoutewise.Checked Then
                     'TankerFromMaster = 1 AndAlso
                     If chkShiftWise.Checked And (chkRejection.Checked = True OrElse chkOnlyRejection.Checked = True) Then
@@ -1461,6 +1462,7 @@ Public Class FrmMCCMilkRegister
                         gv.GroupDescriptors.Add(New GridGroupByExpression("[Route Code] as [Route Code] format ""{0}: {1}"" Group By [Route Code]"))
                     End If
                     gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 ElseIf rbtnVLCWise.Checked Then
                     gv.Columns("MCC Code").IsVisible = True
                     gv.Columns("MCC Code").Width = 100
@@ -1726,6 +1728,7 @@ Public Class FrmMCCMilkRegister
                     gv.MasterTemplate.AutoExpandGroups = True
 
                     gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                     gv.MasterTemplate.ShowTotals = True
                 ElseIf rbtnZoneWise.Checked Then
                     If chkShiftWise.Checked And (chkRejection.Checked = True OrElse chkOnlyRejection.Checked = True) Then
@@ -1944,6 +1947,7 @@ Public Class FrmMCCMilkRegister
                         gv.GroupDescriptors.Add(New GridGroupByExpression("[Route Code] as [Route Code] format ""{0}: {1}"" Group By [Route Code]"))
                     End If
                     gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 ElseIf chkVLCWisePayable.Checked Then
                     gv.Columns("MCC Code").IsVisible = True
                     gv.Columns("MCC Code").Width = 100
@@ -2260,7 +2264,7 @@ Public Class FrmMCCMilkRegister
                     gv.MasterTemplate.AutoExpandGroups = True
 
                     gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+                    gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 ElseIf rdoVLCWisePaymentSummary.Checked Then
                     '[MCC Code],[MCC Name],[Vlc Code] , [VLC Name], 
                     gv.Columns("MCC Code").IsVisible = True
@@ -2638,7 +2642,7 @@ Public Class FrmMCCMilkRegister
                     gv.MasterTemplate.AutoExpandGroups = True
 
                     gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+                    gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 ElseIf rdbPlantWisePaymentSummary.Checked Then
 
                     For ii As Integer = 0 To gv.Columns.Count - 1
@@ -2744,7 +2748,7 @@ Public Class FrmMCCMilkRegister
                     gv.MasterTemplate.AutoExpandGroups = True
 
                     gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+                    gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
                 End If
             End If

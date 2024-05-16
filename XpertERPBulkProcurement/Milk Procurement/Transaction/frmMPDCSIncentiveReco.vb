@@ -790,6 +790,7 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
         Smitem = New GridViewSummaryItem(colDiffAmt, "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(Smitem)
         gvItem.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvItem.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub ReStoreGridLayout()

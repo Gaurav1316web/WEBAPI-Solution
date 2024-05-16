@@ -299,6 +299,7 @@ Public Class FrmDairySaleSchemeReport
                 summaryRowItem.Add(item1)
             Next
             gvData.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gvData.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             gvData.ShowGroupPanel = False
             gvData.MasterTemplate.AutoExpandGroups = True
             gvData.MasterTemplate.ShowTotals = True

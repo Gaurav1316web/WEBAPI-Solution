@@ -387,7 +387,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
             summaryRowItem.Add(item11)
 
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
