@@ -331,7 +331,7 @@ Public Class frmMilkShiftUploaderRaj
             AddNew()
             isInsideLoadData = True
             Dim obj As New clsMilkShiftUploaderHead()
-            obj = clsMilkShiftUploaderHead.GetData(strCode, NavTyep, Nothing, True)
+            obj = clsMilkShiftUploaderHead.GetData(strCode, NavTyep, Nothing, True, False)
 
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
                 isNewEntry = False
