@@ -616,6 +616,7 @@ Public Class rptBookingQtyAmtReport
 
             Gv1.MasterTemplate.Rows.Clear()
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemTotal)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             'Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemLtrTotal)
             ''''''''''''''''''''''''''''''''''''''
             'Dim summaryRowItemB As New GridViewSummaryRowItem()

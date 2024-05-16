@@ -147,7 +147,7 @@ Public Class FrmPrintProductInvoiceStatement
         gv.MasterTemplate.AutoExpandGroups = True
 
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Private Sub chkLocationAll_ToggleStateChanged(ByVal sender As System.Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles chkLocationAll.ToggleStateChanged
         cbgLocation.Enabled = Not chkLocationAll.IsChecked
