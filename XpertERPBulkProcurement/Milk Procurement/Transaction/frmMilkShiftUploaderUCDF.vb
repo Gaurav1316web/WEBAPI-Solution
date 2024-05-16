@@ -835,7 +835,7 @@ Public Class frmMilkShiftUploaderUCDF
                         End Try
                     Next
                     gvP.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem2)
-
+                    gvP.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                     '======================================================================
 
                 End If
