@@ -242,6 +242,7 @@ Public Class frmEmployeeTDSRpt
 
 
         gvReport.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvReport.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         'gvReport.MasterTemplate.ShowTotals = True
         RadPageView1.SelectedPage = RadPageViewPage2
         gvReport.BestFitColumns()

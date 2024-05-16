@@ -433,7 +433,7 @@ Public Class RptMilkBillRouteWise
         gv.MasterTemplate.AutoExpandGroups = True
 
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Private Sub RptMilkBillRouteWise_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.N Then

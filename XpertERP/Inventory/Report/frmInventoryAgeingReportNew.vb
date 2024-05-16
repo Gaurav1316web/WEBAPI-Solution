@@ -503,6 +503,7 @@ WHERE InOut='O' " & ItemTypeFilter & " and cast(Punching_Date as date)<='" & cls
         gv1.MasterTemplate.SummaryRowsBottom.Clear()
 
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         RadPageView1.SelectedPage = RadPageViewPage2
     End Sub
 

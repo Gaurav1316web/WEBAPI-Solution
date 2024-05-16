@@ -3676,6 +3676,7 @@ Public Class frmDailySettlement
             summaryRowItem.Add(item12)
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf rdbSummary.IsChecked Then
 
             gv1.Columns("SalesName").IsVisible = True
@@ -3753,7 +3754,7 @@ Public Class frmDailySettlement
 
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf rdbSalesmanSummary.IsChecked Then
 
 
@@ -3844,7 +3845,8 @@ Public Class frmDailySettlement
             gv1.MasterTemplate.AutoExpandGroups = True
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-            End If
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+        End If
     End Sub
 
     Sub PrintProvisionalReport()

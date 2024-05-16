@@ -501,6 +501,7 @@ Public Class rptMassBalanceReport
                         summaryRowItem.Add(Smitem)
 
                         gvDetail.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                        gvDetail.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                     Else
                         clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
                     End If

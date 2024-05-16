@@ -682,6 +682,7 @@ Public Class FrmRptEmptyTransaction
             Dim item8 As New GridViewSummaryItem("GLContainerDepositAmt", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item8)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Else
             gv1.Columns("Location").IsVisible = True
             gv1.Columns("Location").Width = 50
@@ -830,6 +831,7 @@ Public Class FrmRptEmptyTransaction
                 summaryRowItem.Add(item16)
             Next
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
         End If
     End Sub

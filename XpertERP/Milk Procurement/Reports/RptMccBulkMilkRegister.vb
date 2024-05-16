@@ -519,7 +519,7 @@ Public Class RptMccBulkMilkRegister
         gv1.MasterTemplate.AutoExpandGroups = True
         gv1.Size = New System.Drawing.Size(456, 311)
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
         gv1.MasterTemplate.ShowTotals = True
 
@@ -527,7 +527,7 @@ Public Class RptMccBulkMilkRegister
         gv.MasterTemplate.AutoExpandGroups = True
 
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         funPrint()

@@ -304,6 +304,7 @@ Public Class FrmRptMilkReceiptImproperWeight
             gv.MasterTemplate.AutoExpandGroups = True
 
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf ChkMCCWise.Checked Then
             gv.Columns("MCC_CODE").IsVisible = True
             gv.Columns("MCC_CODE").Width = 100
@@ -333,6 +334,7 @@ Public Class FrmRptMilkReceiptImproperWeight
             gv.MasterTemplate.AutoExpandGroups = True
 
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf chkRoutewise.Checked Then
             gv.Columns("MCC_CODE").IsVisible = True
             gv.Columns("MCC_CODE").Width = 100
@@ -370,6 +372,7 @@ Public Class FrmRptMilkReceiptImproperWeight
             gv.MasterTemplate.AutoExpandGroups = True
 
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf rbtnVLCWise.Checked Then
             gv.Columns("MCC_CODE").IsVisible = True
             gv.Columns("MCC_CODE").Width = 100
@@ -427,6 +430,7 @@ Public Class FrmRptMilkReceiptImproperWeight
             gv.MasterTemplate.AutoExpandGroups = True
 
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
     End Sub
 
