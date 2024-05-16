@@ -361,6 +361,7 @@ Public Class RpttankerReportForErode
             Dim item13 As New GridViewSummaryItem("In %", "{0:F3}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item13)
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             'gv.ReadOnly = True
             SetGridFormationOFGV1()
             gv.Columns("Check").IsVisible = True

@@ -447,7 +447,7 @@ Public Class frmIncetiveEntryBySRN
         Dim Qty4 As New GridViewSummaryItem(colAmount, "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(Qty4)
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         gv1.AllowAddNewRow = False
         gv1.ShowGroupPanel = False
         gv1.AllowColumnReorder = True

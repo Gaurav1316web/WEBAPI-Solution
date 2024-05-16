@@ -443,7 +443,7 @@ Public Class frmQCTemplateEntry
         Dim InputDataDeductionPerSum As New GridViewSummaryItem(colInputDataDeductionPer, "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(InputDataDeductionPerSum)
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         repoStr = Nothing
         repoInt = Nothing
         repoCombo = Nothing

@@ -2508,7 +2508,7 @@ Public Class FrmProcessBatchOrder
                 Dim item22 As New GridViewSummaryItem("SNF_KG", "{0:F2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(item22)
                 gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+                gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 gv1.AutoExpandGroups = True
             Else
                 Throw New Exception("No data found.")

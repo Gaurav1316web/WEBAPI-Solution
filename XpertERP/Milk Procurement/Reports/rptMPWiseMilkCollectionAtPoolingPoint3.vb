@@ -967,7 +967,7 @@ select [MCC Code],max([MCC Name]) as [MCC Name],[VLC Code],max([VLC Uploader]) a
             gv.ShowGroupPanel = False
             gv.MasterTemplate.AutoExpandGroups = True
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             gv.BestFitColumns()
             RadPageView1.SelectedPage = RadPageViewPage2
             EnableDisableControl(False)
@@ -1019,7 +1019,7 @@ where [VLC Code]='" + clsCommon.myCstr(gv.CurrentRow.Cells("VLC Code").Value) + 
             gv.ShowGroupPanel = False
             gv.MasterTemplate.AutoExpandGroups = True
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             gv.BestFitColumns()
             RadPageView1.SelectedPage = RadPageViewPage2
         Catch ex As Exception
