@@ -1100,6 +1100,7 @@ Public Class FrmTDMSaleReport
                     Next
                 End If
                 gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 'For j As Integer = 0 To arritem.Count - 1
                 '    gv.Columns(arritem.Item(j)).IsVisible = True
                 '    gv.Columns(arritem.Item(j)).Width = 100
@@ -1166,7 +1167,7 @@ Public Class FrmTDMSaleReport
                 
 
                 gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+                gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             ElseIf ddlprinttype.Text = "Routewise" Then
 
 
@@ -1196,7 +1197,7 @@ Public Class FrmTDMSaleReport
                     summaryRowItem.Add(item16)
                 Next
                 gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+                gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             ElseIf ddlprinttype.Text = "Hierarchywise" Then
                 gv.Columns("Name").IsVisible = True
                 gv.Columns("Name").Width = 150
@@ -1216,7 +1217,7 @@ Public Class FrmTDMSaleReport
                     summaryRowItem.Add(item16)
                 Next
                 gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+                gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
             End If
 

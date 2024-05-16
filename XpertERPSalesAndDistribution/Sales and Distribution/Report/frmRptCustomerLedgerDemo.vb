@@ -2769,6 +2769,7 @@ left outer join tspl_company_master on tspl_company_master.Comp_Code =tspl_custo
             End If
             gvCustomer.MasterTemplate.SummaryRowsBottom.Clear()
             gvCustomer.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gvCustomer.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf gvCustomerGroup.Visible = True Then
 
             Dim summaryRowItem As New GridViewSummaryRowItem()
@@ -2815,6 +2816,7 @@ left outer join tspl_company_master on tspl_company_master.Comp_Code =tspl_custo
             summaryRowItem.Add(TotalAmt)
             gvCustomerGroup.MasterTemplate.SummaryRowsBottom.Clear()
             gvCustomerGroup.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gvCustomerGroup.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf gvDetails.Visible = True AndAlso ChkDocWise.Checked = False Then
             Dim summaryRowItem As New GridViewSummaryRowItem()
             Dim ColumnTotal As New GridViewSummaryItem("DrAmt", "{0:F2}", GridAggregateFunction.Sum)
@@ -2844,7 +2846,7 @@ left outer join tspl_company_master on tspl_company_master.Comp_Code =tspl_custo
             End If
             gvDetails.MasterTemplate.SummaryRowsBottom.Clear()
             gvDetails.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gvDetails.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf gvDetails.Visible = True AndAlso ChkDocWise.Checked = True Then
             Dim summaryRowItem1 As New GridViewSummaryRowItem()
             Dim dramt As New GridViewSummaryItem("DrAmt", "{0:F2}", GridAggregateFunction.Sum)
@@ -2860,6 +2862,7 @@ left outer join tspl_company_master on tspl_company_master.Comp_Code =tspl_custo
                 summaryRowItem1.Add(summaryItem)
                 gvDetails.MasterTemplate.SummaryRowsBottom.Clear()
                 gvDetails.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem1)
+                gvDetails.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
         End If
     End Sub

@@ -453,6 +453,7 @@ Public Class FrmMCCShiftReportRouteWise
         '========update by preeti gupta Against ticket no[MIL/21/02/19-000043,MIL/21/02/19-000044]
         gv.MasterTemplate.ShowParentGroupSummaries = True
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
     End Sub
     Sub Reset()

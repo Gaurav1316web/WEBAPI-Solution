@@ -606,6 +606,7 @@ Public Class FrmPendingLoadIn_Transfer_Type
         summaryRowItem.Add(sumTotalQty)
 
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click

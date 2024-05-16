@@ -557,12 +557,13 @@ Public Class RptMCCVLCTragetMonthWiseReport
             gv1.MasterTemplate.AutoExpandGroups = True
             gv1.Size = New System.Drawing.Size(456, 311)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             'gv1.MasterTemplate.summaryRowItem[0].PinPosition = PinnedRowPosition.Top
 
 
 
             'gv1.MasterTemplate.Caption = "Total"
-            
+
             gv1.MasterTemplate.ShowTotals = True
         End If
         If chkSummaryRouteWise.Checked Then
@@ -678,6 +679,7 @@ Public Class RptMCCVLCTragetMonthWiseReport
             gv1.MasterTemplate.AutoExpandGroups = True
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             'gv1.MasterTemplate.Caption = "Total"
 
             gv1.MasterTemplate.ShowTotals = True
@@ -790,7 +792,7 @@ Public Class RptMCCVLCTragetMonthWiseReport
             gv1.MasterTemplate.AutoExpandGroups = True
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             'gv1.MasterTemplate.Caption = "Total"
 
             gv1.MasterTemplate.ShowTotals = True

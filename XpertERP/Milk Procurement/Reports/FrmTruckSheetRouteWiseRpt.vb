@@ -177,7 +177,7 @@ Public Class FrmTruckSheetRouteWiseRpt
         Dim Smitem1 As New GridViewSummaryItem("PRODUCER VALUE (RS)", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(Smitem1)
         dgvreport.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        dgvreport.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         dgvreport.BestFitColumns()
 
     End Sub

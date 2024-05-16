@@ -800,6 +800,7 @@ Public Class FrmRptSalesReturn
 
         End If
         gvReport.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvReport.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Sub print()
