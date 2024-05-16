@@ -136,11 +136,13 @@ where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.
             Dim strRouteNo As String = ""
             Dim dt As DataTable = Nothing
             For ii As Integer = 0 To gv1.RowCount - 1
+                If ii = 296 Then
+                    Dim x As Integer = 0
+                End If
                 clsCommon.ProgressBarPercentUpdate(ii * 100 / gv1.RowCount - 1, "Verifing " + clsCommon.myCstr(ii) + "/" + clsCommon.myCstr(gv1.RowCount - 1))
                 If ii = 0 Then
                     Try
                         Dim strDate As String = clsCommon.myCstr(gv1.Rows(ii).Cells("DATE").Value).Replace("00:00:00", "").Replace(" ", "")
-
                         Dim strSep As String = ""
                         If strDate.Contains("/") Then
                             strSep = "/"
@@ -184,7 +186,12 @@ where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.
                     qry += " and Sample_No='" + strSampleNo + "'"
                 End If
                 Try
-                    Dim dtTemp As DataTable = dt.Select(qry).CopyToDataTable()
+                    Dim dtTemp As DataTable = Nothing
+                    Try
+                        dtTemp = dt.Select(qry).CopyToDataTable()
+                    Catch ex As Exception
+                    End Try
+
                     If dtTemp Is Nothing OrElse dtTemp.Rows.Count <= 0 Then
                         gv1.Rows(ii).Cells("Error").Value += "Weight Not found."
                         gv1.Rows(ii).Cells("IsOK").Value = 2
