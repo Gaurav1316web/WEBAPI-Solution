@@ -362,7 +362,7 @@ Public Class RptItemConsumptionReport
         'Dim item2 As New GridViewSummaryItem("Cost", "{0:F2}", GridAggregateFunction.Sum)
         'summaryRowItem.Add(item2)
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         'ReStoreGridLayout()
     End Sub
     Sub Reset()
@@ -661,7 +661,7 @@ Public Class RptItemConsumptionReport
         'gv1.MasterTemplate.AutoExpandGroups = True
 
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Private Sub ReStoreGridLayout()
         Try

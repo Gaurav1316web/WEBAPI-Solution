@@ -620,6 +620,7 @@ Public Class RptMatrixFreshSalesReport
             Dim item1 As New GridViewSummaryItem("Total", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item1)
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             Gv1.Columns(0).IsPinned = True
             Gv1.Columns(1).IsPinned = True
             Gv1.Columns("Total").IsPinned = True
@@ -796,6 +797,7 @@ Public Class RptMatrixFreshSalesReport
                 summaryRowItem.Add(item)
             Next
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             Gv1.Columns(0).IsPinned = True
             Gv1.Columns(1).IsPinned = True
             Gv1.Columns("Total").IsPinned = True
@@ -960,6 +962,7 @@ Public Class RptMatrixFreshSalesReport
             Dim item1 As New GridViewSummaryItem("Total", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item1)
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             Gv1.Columns(0).IsPinned = True
             Gv1.Columns(1).IsPinned = True
             Gv1.Columns("Total").IsPinned = True
@@ -1124,6 +1127,7 @@ Public Class RptMatrixFreshSalesReport
             Dim item1 As New GridViewSummaryItem("Total", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item1)
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             Gv1.Columns(0).IsPinned = True
             Gv1.Columns(1).IsPinned = True
             Gv1.Columns("Total").IsPinned = True
@@ -1225,6 +1229,7 @@ from (select max(zzz.item_code) as item_code,zzz.Document_No,max(Document_Date) 
             Dim item1 As New GridViewSummaryItem("Total Amount", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item1)
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             Gv1.Columns(0).IsPinned = True
             Gv1.Columns(1).IsPinned = True
             Gv1.Columns("Total Amount").IsPinned = True
@@ -1334,6 +1339,7 @@ from (select max(zzz.item_code) as item_code,zzz.Document_No,max(Document_Date) 
                     Gv1.Columns(i).FormatString = "{0:n2}"
                 Next
                 Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 ReStoreGridLayout()
             End If
         Catch ex As Exception
@@ -1500,6 +1506,7 @@ from (select max(zzz.item_code) as item_code,zzz.Document_No,max(Document_Date) 
             Dim item1 As New GridViewSummaryItem("Total", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item1)
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             Gv1.Columns(0).IsPinned = True
             Gv1.Columns(1).IsPinned = True
             Gv1.Columns("Total").IsPinned = True
@@ -1726,6 +1733,7 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
                         Gv1.Columns(i).FormatString = "{0:n2}"
                     Next
                     Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                     ReStoreGridLayout()
                 End If
             End If
@@ -1954,6 +1962,7 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
                     Dim item1 As New GridViewSummaryItem("Amount", "{0:F2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(item1)
                     Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                     ReStoreGridLayout()
                 End If
             Else
@@ -2363,6 +2372,7 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
                             End If
                         Next
                         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                     End If
                 End If
                 ' Hide Column when footer grand total <= 0

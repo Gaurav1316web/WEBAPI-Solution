@@ -479,7 +479,7 @@ Public Class RptInventoryMovement
             Dim strSNFKG As New GridViewSummaryItem("SNF KG", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(strSNFKG)
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             Gv1.MasterView.Refresh()
 
             If dt Is Nothing OrElse dt.Rows.Count > 0 Then

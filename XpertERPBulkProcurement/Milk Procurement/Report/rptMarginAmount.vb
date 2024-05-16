@@ -214,7 +214,7 @@ Public Class rptMarginAmount
         Dim item1 As New GridViewSummaryItem("Addition/Deduction Amount", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item1)
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Private Sub ExportGrid(ByVal exporter As EnumExportTo)
         Try

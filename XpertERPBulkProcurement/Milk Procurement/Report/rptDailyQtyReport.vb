@@ -8,6 +8,7 @@ Public Class rptDailyQtyReport
     Dim FatSnfRoundOff As Integer
     Dim corrFactor As Decimal = 0
     Dim AreaWiseBilling As Boolean = False
+    Dim isPickCLRInsteadOfSNF As Boolean = False
 
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
@@ -220,7 +221,13 @@ Public Class rptDailyQtyReport
                     End If
 
 
-                    qry = "Select ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS SNo,CONVERT(varchar(10), tmp.Shift_Date, 103) As SDate ,tmp.Shift As Shift,No_Of_Cans As Qty,Milk_Weight As Milk_Wtd,FAT as FAT,SNF as SNF,convert(decimal(18,2),((Milk_Weight*FAT)/100)) As Fat_KG,convert(decimal(18,2),((Milk_Weight*SNF)/100)) As SNF_KG,'' As Rate,'' As Amt,tmp.VLC_Code, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As DCS_Uploader_Code,TSPL_VLC_MASTER_HEAD.VLC_Code As DCS_Code,TSPL_VLC_MASTER_HEAD.VLC_Name  As DCS_Name
+                    qry = "Select ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS SNo,CONVERT(varchar(10), tmp.Shift_Date, 103) As SDate ,tmp.Shift As Shift,No_Of_Cans As Qty,Milk_Weight As Milk_Wtd,FAT as FAT,"
+                    If isPickCLRInsteadOfSNF Then
+                        qry += " tmp.SNF/4+0.2*tmp.FAT+(select Description from TSPL_Fixed_parameter where type='defaultCorrectionFactor' and code='MilkSetting') as SNF,convert(decimal(18,2),((Milk_Weight*(tmp.SNF/4+0.2*tmp.FAT+(select Description from TSPL_Fixed_parameter where type='defaultCorrectionFactor' and code='MilkSetting')))/100)) As SNF_KG,"
+                    Else
+                        qry += " SNF as SNF, convert(decimal(18,2),((Milk_Weight*SNF)/100)) As SNF_KG, "
+                    End If
+                    qry += "  convert(decimal(18,2),((Milk_Weight*FAT)/100)) As Fat_KG,'' As Rate,'' As Amt,tmp.VLC_Code, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As DCS_Uploader_Code,TSPL_VLC_MASTER_HEAD.VLC_Code As DCS_Code,TSPL_VLC_MASTER_HEAD.VLC_Name  As DCS_Name
                         ,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader  As BMC_Uploader_Code,TSPL_MCC_MASTER.MCC_Code As BMC_Code,TSPL_MCC_MASTER.MCC_NAME As BMC_Name ,'" + AreaName + "' as Area, TSPL_VLC_MASTER_HEAD.Route_Code
                         from(
                         Select Shift_Date,Shift,No_Of_Cans,Milk_Weight,FAT,SNF,VLC_Code  from TSPL_MILK_SHIFT_UPLOADER_DETAIL
@@ -565,6 +572,7 @@ Public Class rptDailyQtyReport
                         End If
                         If rbtnRouteWise.Checked = False Then
                             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                         End If
                     End If
                     If rbtnBMCTankerCollection.Checked Then
@@ -895,6 +903,7 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                         End If
 
                         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                     End If
                     ControlEnableDisable(False)
 
@@ -1419,7 +1428,7 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
         summaryRowItem.Add(summaryItem2)
 
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
 
@@ -1912,6 +1921,7 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
         dtpToDate.Value = clsCommon.GETSERVERDATE()
         fromDate.Value = clsCommon.GETSERVERDATE() 'ToDate.Value.AddMonths(-1)
         AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
+        isPickCLRInsteadOfSNF = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) = 1, True, False)
         'fndArea.Visible = AreaWiseBilling
         'lblArea.Visible = AreaWiseBilling
         If AreaWiseBilling = True Then

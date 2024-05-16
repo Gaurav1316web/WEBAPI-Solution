@@ -331,7 +331,7 @@ Public Class rptCrateAccounting
         Gv1.MasterTemplate.AutoExpandGroups = True
 
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
 
     End Sub
@@ -491,7 +491,7 @@ Public Class rptCrateAccounting
         gv2.MasterTemplate.AutoExpandGroups = True
 
         gv2.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv2.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Sub FormatGridDetails()
         ' Dim strItemCode, head2 As String
@@ -564,7 +564,7 @@ Public Class rptCrateAccounting
         gv2.MasterTemplate.AutoExpandGroups = True
 
         gv2.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv2.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub gv2_CellDoubleClick(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv2.CellDoubleClick

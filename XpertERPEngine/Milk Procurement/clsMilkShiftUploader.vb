@@ -141,9 +141,9 @@ Public Class clsMilkShiftUploaderHead
     End Function
 
     Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsMilkShiftUploaderHead
-        Return GetData(strPONo, NavType, trans, False)
+        Return GetData(strPONo, NavType, trans, False, False)
     End Function
-    Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction, ByVal ForRaj As Boolean) As clsMilkShiftUploaderHead
+    Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction, ByVal ForRaj As Boolean, ByVal isPickCLRInsteadOfSNF As Boolean) As clsMilkShiftUploaderHead
         Dim obj As clsMilkShiftUploaderHead = Nothing
         Dim qry As String = "SELECT TSPL_MILK_SHIFT_UPLOADER_HEAD.*,TSPL_MCC_MASTER.MCC_NAME,TSPL_DOCK_MASTER.Description as Dock_Name,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as Raj_Bulk_Route_Name " &
         " FROM TSPL_MILK_SHIFT_UPLOADER_HEAD left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_SHIFT_UPLOADER_HEAD.MCC_Code left outer join TSPL_DOCK_MASTER on TSPL_DOCK_MASTER.Code=TSPL_MILK_SHIFT_UPLOADER_HEAD.Dock_Code  left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_SHIFT_UPLOADER_HEAD.Raj_Bulk_Route_Code where 2=2 "
@@ -202,6 +202,16 @@ Public Class clsMilkShiftUploaderHead
 ,case When isnull(Reject_Type,'')='' then cast(Milk_Weight*FAT/100 as decimal(18,3)) else 0 end as [Good FATKg]
 ,case When isnull(Reject_Type,'')='' then SNF else 0 end as [Good SNF %]
 ,case When isnull(Reject_Type,'')='' then cast (Milk_Weight*SNF/100 as decimal(18,3)) else 0 end as [Good SNFKG]"
+
+
+                If isPickCLRInsteadOfSNF = True Then
+                    qry += "  ,SNF/4+0.2*FAT+(select Description from TSPL_Fixed_parameter where type='defaultCorrectionFactor' and code='MilkSetting') as [SNF_PER]
+                     ,((Milk_Weight* (SNF/4+0.2*FAT+(select Description from TSPL_Fixed_parameter where type='defaultCorrectionFactor' and code='MilkSetting')))/100) as SNF_kg,
+                Convert(Decimal(18, 2), ((Milk_Weight * FAT) / 100)) As [Fat_KG] "
+                Else
+                    qry += " ,case When (isnull(Reject_Type,''))='CURD' then (cast (Milk_Weight*SNF/100 as decimal(18,3))) else 0 end as [CURD SNFKG] "
+                End If
+
                 If obj.dtRaj IsNot Nothing AndAlso obj.dtRaj.Rows.Count > 0 Then
                     For Each dr As DataRow In obj.dtRaj.Rows
                         qry += ",case When isnull(Reject_Type,'')='" + clsCommon.myCstr(dr("Reject_Type")) + "' then Milk_Weight else 0 end as [" + clsCommon.myCstr(dr("Reject_Type")) + " Qty]

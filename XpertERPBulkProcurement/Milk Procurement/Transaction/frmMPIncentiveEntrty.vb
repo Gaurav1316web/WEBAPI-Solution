@@ -917,7 +917,7 @@ Public Class frmMPIncentiveEntrty
             summaryRowItem.Add(New GridViewSummaryItem(clsMPIncetiveEntryColumns.colRahatKampekatFeedAmt, "{0:n2}", GridAggregateFunction.Sum))
             summaryRowItem.Add(New GridViewSummaryItem(clsMPIncetiveEntryColumns.colTotAmount, "{0:n2}", GridAggregateFunction.Sum))
             gvItem.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gvItem.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             gvItem.BestFitColumns()
 
             ReStoreGridLayout()

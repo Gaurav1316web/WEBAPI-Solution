@@ -193,7 +193,7 @@ Public Class QualitySummaryReport
         summaryRowItem.Add(item8)
 
         Gvv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        Gvv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub TxtItem__My_Click(sender As Object, e As EventArgs) Handles TxttRAL._My_Click

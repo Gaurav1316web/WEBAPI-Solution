@@ -152,6 +152,7 @@ Public Class frmCancelledTransactions_Exportsale
         Next
         Dim summaryRowItem As New GridViewSummaryRowItem()
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Sub gv2Format()
         Me.GV2.MasterTemplate.Columns("Document Id").Width = 150      ''First Column
@@ -164,6 +165,7 @@ Public Class frmCancelledTransactions_Exportsale
         Next
         Dim summaryRowItem As New GridViewSummaryRowItem()
         GV2.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        GV2.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
 #Region "Showing Details on GRID"

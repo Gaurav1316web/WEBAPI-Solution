@@ -448,6 +448,7 @@ Public Class rptDataEntryTracingReport
             Dim Qty10 As New GridViewSummaryItem("Stock issued by Dispatch Section", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(Qty10)
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Sales Data") = CompairStringResult.Equal Then
             If clsCommon.CompairString(ddlCustomerCategory.SelectedValue, "MKT") = CompairStringResult.Equal Then
                 Dim Qty4 As New GridViewSummaryItem("Cash", "", GridAggregateFunction.Sum)
@@ -477,6 +478,7 @@ Public Class rptDataEntryTracingReport
             summaryRowItem.Add(Qty10)
 
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "SHED/BMCU/MCC") = CompairStringResult.Equal Then
             Dim Qty1 As New GridViewSummaryItem("Loose Milk Sales", "", GridAggregateFunction.Sum)
             summaryRowItem.Add(Qty1)
@@ -486,6 +488,7 @@ Public Class rptDataEntryTracingReport
             summaryRowItem.Add(Qty3)
 
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
 
         Gv1.ShowGroupPanel = False

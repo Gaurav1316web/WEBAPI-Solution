@@ -4413,6 +4413,7 @@ Public Class frmVSPMaster
                 Dim item1 As New GridViewSummaryItem("Issued Qty", "", GridAggregateFunction.Sum)
                 summaryRowItem.Add(item1)
                 GvAsset.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                GvAsset.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
 
 

@@ -4889,6 +4889,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
 
 
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Dim summaryRowItemInvoice As New GridViewSummaryRowItem()
         gvInvoice.SummaryRowsBottom.Clear()
         For iii As Integer = 0 To gvInvoice.Columns.Count - 1
@@ -4897,6 +4898,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
             End If
         Next
         gvInvoice.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemInvoice)
+        gvInvoice.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Dim summaryRowItemMCCSale As New GridViewSummaryRowItem()
         gvMccSale.SummaryRowsBottom.Clear()
         For iii As Integer = 0 To gvMccSale.Columns.Count - 1
@@ -4905,6 +4907,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
             End If
         Next
         gvMccSale.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemMCCSale)
+        gvMccSale.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Dim summaryRowItemMCCSaleReturn As New GridViewSummaryRowItem()
         GvMccSaleReturn.SummaryRowsBottom.Clear()
         For iii As Integer = 0 To GvMccSaleReturn.Columns.Count - 1
@@ -4913,6 +4916,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
             End If
         Next
         GvMccSaleReturn.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemMCCSaleReturn)
+        GvMccSaleReturn.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Dim summaryRowItemIssue As New GridViewSummaryRowItem()
         gvItemIssue.SummaryRowsBottom.Clear()
         For iii As Integer = 0 To gvItemIssue.Columns.Count - 1
@@ -4921,7 +4925,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
             End If
         Next
         gvItemIssue.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemIssue)
-
+        gvItemIssue.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Dim summaryRowItemIssueReturn As New GridViewSummaryRowItem()
         gvItemIssueReturn.SummaryRowsBottom.Clear()
         For iii As Integer = 0 To gvItemIssueReturn.Columns.Count - 1
@@ -4930,7 +4934,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
             End If
         Next
         gvItemIssueReturn.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemIssueReturn)
-
+        gvItemIssueReturn.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Dim summaryRowDeduction As New GridViewSummaryRowItem()
         gvDeduction.SummaryRowsBottom.Clear()
         For iii As Integer = 0 To gvDeduction.Columns.Count - 1
@@ -4939,7 +4943,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
             End If
         Next
         gvDeduction.MasterTemplate.SummaryRowsBottom.Add(summaryRowDeduction)
-
+        gvDeduction.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Dim summaryRowCreditNote As New GridViewSummaryRowItem()
         gvCreditNote.SummaryRowsBottom.Clear()
         For iii As Integer = 0 To gvCreditNote.Columns.Count - 1
@@ -4948,7 +4952,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
             End If
         Next
         gvCreditNote.MasterTemplate.SummaryRowsBottom.Add(summaryRowCreditNote)
-
+        gvCreditNote.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Dim summaryRowAdvance As New GridViewSummaryRowItem()
         gvAdvancePayment.SummaryRowsBottom.Clear()
         For iii As Integer = 0 To gvAdvancePayment.Columns.Count - 1
@@ -4957,7 +4961,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
             End If
         Next
         gvAdvancePayment.MasterTemplate.SummaryRowsBottom.Add(summaryRowAdvance)
-
+        gvAdvancePayment.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
         Dim summaryRowAssetLost As New GridViewSummaryRowItem()
         gvAssetLost.SummaryRowsBottom.Clear()
@@ -4967,7 +4971,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
             End If
         Next
         gvAssetLost.MasterTemplate.SummaryRowsBottom.Add(summaryRowAdvance)
-
+        gvAssetLost.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
         Dim summaryRowSaving As New GridViewSummaryRowItem()
         gvSaving.SummaryRowsBottom.Clear()
@@ -4977,7 +4981,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
             End If
         Next
         gvSaving.MasterTemplate.SummaryRowsBottom.Add(summaryRowSaving)
-
+        gvSaving.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Dim summaryRowCompulsory As New GridViewSummaryRowItem()
         gvCompulsory.SummaryRowsBottom.Clear()
         For iii As Integer = 0 To gvCompulsory.Columns.Count - 1
@@ -4986,6 +4990,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
             End If
         Next
         gvCompulsory.MasterTemplate.SummaryRowsBottom.Add(summaryRowCompulsory)
+        gvCompulsory.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub fndDocNo__MYNavigator(ByVal sender As Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles fndDocNo._MYNavigator

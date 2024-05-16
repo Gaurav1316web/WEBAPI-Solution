@@ -376,7 +376,7 @@ Public Class FrmStockReportFinishedGoods
         summaryRowItem.Add(item2)
 
         gvReport.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gvReport.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
     End Sub
 

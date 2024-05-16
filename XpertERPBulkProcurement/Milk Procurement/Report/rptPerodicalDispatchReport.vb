@@ -106,6 +106,7 @@ Public Class rptPerodicalDispatchReport
         summaryRowItem.Add(New GridViewSummaryItem("SNF", "{0:F2}", "sum(KgSNF)*100/sum(Quantity)"))
 
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub ReStoreGridLayout()

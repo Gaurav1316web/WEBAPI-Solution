@@ -847,6 +847,7 @@ Public Class frmRptTrialBalanceNew
                 Dim item2 As New GridViewSummaryItem("CrAmt", "{0:F2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(item2)
                 gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             Else
                 gv1.Columns("Print_Order").HeaderText = " "
                 gv1.Columns("RollupSeq").HeaderText = " "
@@ -932,6 +933,7 @@ Public Class frmRptTrialBalanceNew
                 Dim item2 As New GridViewSummaryItem("CrAmt", "{0:F2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(item2)
                 gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
         ElseIf clsCommon.CompairString(cbgSrcCode.Text, "Subledger Trial Balance") = CompairStringResult.Equal Then
             If chkRollupWise.Checked Then
@@ -959,6 +961,7 @@ Public Class frmRptTrialBalanceNew
                 Dim item2 As New GridViewSummaryItem("CrAmt", "{0:F2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(item2)
                 gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             Else
 
                 gv1.Columns("RollupName").HeaderText = " "
@@ -1021,6 +1024,7 @@ Public Class frmRptTrialBalanceNew
                 Dim item2 As New GridViewSummaryItem("CrAmt", "{0:F2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(item2)
                 gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
         ElseIf clsCommon.CompairString(cbgSrcCode.Text, "Period Trial Balance") = CompairStringResult.Equal Then
             If chkShowOPBal.Checked Then
@@ -1089,6 +1093,7 @@ Public Class frmRptTrialBalanceNew
                     Dim item5 As New GridViewSummaryItem("ActualBal", "{0:F2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(item5)
                     gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 Else
                     gv1.Columns("GrpName").HeaderText = " "
                     gv1.Columns("RollupSeq").HeaderText = " "
@@ -1211,6 +1216,7 @@ Public Class frmRptTrialBalanceNew
                     summaryRowItem.Add(TotalPeriodBal)
                     ''-------------------------
                     gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 End If
             Else
                 If chkRollupWise.Checked Then
@@ -1265,6 +1271,7 @@ Public Class frmRptTrialBalanceNew
                     Dim item5 As New GridViewSummaryItem("ActualBal", "{0:F2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(item5)
                     gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 Else
                     gv1.Columns("GrpName").HeaderText = " "
 
@@ -1329,6 +1336,7 @@ Public Class frmRptTrialBalanceNew
                     End If
                     ''-----------
                     gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 End If
             End If
         ElseIf clsCommon.CompairString(cbgSrcCode.Text, "Basic Trial Balance") = CompairStringResult.Equal Then
@@ -1384,6 +1392,7 @@ Public Class frmRptTrialBalanceNew
             Dim item2 As New GridViewSummaryItem("CrAmt", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item2)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf clsCommon.CompairString(cbgSrcCode.Text, "Account Wise") = CompairStringResult.Equal Then
             gv1.Columns("AccCode").IsVisible = True
             gv1.Columns("AccCode").Width = 100
@@ -1459,6 +1468,7 @@ Public Class frmRptTrialBalanceNew
             Dim item6 As New GridViewSummaryItem("CrAmtCL", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item6)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf clsCommon.CompairString(cbgSrcCode.Text, "Location wise") = CompairStringResult.Equal Then
             gv1.Columns("RollupCode").IsVisible = True
             gv1.Columns("RollupCode").Width = 100
@@ -1508,6 +1518,7 @@ Public Class frmRptTrialBalanceNew
             Dim item2 As New GridViewSummaryItem("Total", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item2)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
         EnableDisableControls(False)
 

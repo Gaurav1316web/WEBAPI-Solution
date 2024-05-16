@@ -130,6 +130,7 @@ Public Class rptInvoiceDetailReport
                 Dim itemQty As New GridViewSummaryItem("Qty", "{0:F2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(itemQty)
                 Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub

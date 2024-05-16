@@ -274,6 +274,7 @@ Public Class rptDBTMilkPayment
 
 
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub rptDBTMilkReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load

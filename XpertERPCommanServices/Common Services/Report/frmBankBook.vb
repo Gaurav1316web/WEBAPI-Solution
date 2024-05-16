@@ -537,6 +537,7 @@ Public Class FrmBankBook
         summaryRowItem.Add(SUMCrAmt)
 
         gvReport.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvReport.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         '--------------------------------------------------------------------------------------------
         If chkSummary.IsChecked AndAlso clsCommon.CompairString(ddlBankType.Text, "Bank") = CompairStringResult.Equal AndAlso pnlAdminSetting.Visible AndAlso chkReconcile.Checked Then
             gvReport.Columns("SubledgerDrAmt").IsVisible = True

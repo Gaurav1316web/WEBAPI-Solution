@@ -796,7 +796,7 @@ Public Class FrmIssueOrReturnItemWiseSummary
             summaryRowItem.Add(item6)
             gv.MasterTemplate.ShowTotals = True
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 

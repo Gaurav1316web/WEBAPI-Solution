@@ -645,9 +645,7 @@ Public Class RptSaleRegisterReportWithCSASalePattiProductPackWise
             Gv1.MasterTemplate.AutoExpandGroups = True
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
 
-
-
-
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
         RadPageView1.SelectedPage = RadPageViewPage2
         Gv1.AllowAddNewRow = False
