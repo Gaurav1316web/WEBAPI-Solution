@@ -332,6 +332,7 @@ Public Class frmDemand_Sheet
                     summaryRowItem.Add(TotalCount)
                 Next
                 gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 gv1.AutoSizeRows = False
             End If
         Catch ex As Exception

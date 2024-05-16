@@ -111,6 +111,7 @@ Public Class FrmPendingBookingReport
         gvData.ShowGroupPanel = False
         gvData.MasterTemplate.AutoExpandGroups = True
         gvData.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvData.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ReStoreGridLayout()
     End Sub
     Sub SetGridFormationOFGV1()
@@ -138,6 +139,7 @@ Public Class FrmPendingBookingReport
         gvData.ShowGroupPanel = False
         gvData.MasterTemplate.AutoExpandGroups = True
         gvData.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvData.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ReStoreGridLayout()
     End Sub
     Private Sub rmExcel_Click(sender As Object, e As EventArgs) Handles rmenuExport.Click

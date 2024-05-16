@@ -247,7 +247,7 @@ Public Class frmAutoAdditionDeductionReport
         Dim Amounts As New GridViewSummaryItem("Addition/Deduction AmountR", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(Amounts)
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Gv1.AutoSizeRows = False
         Gv1.BestFitColumns()
     End Sub

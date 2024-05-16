@@ -237,7 +237,8 @@ Public Class rptSocietyLedgerReport
         Next
 
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-            Gv1.AutoSizeRows = True
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+        Gv1.AutoSizeRows = True
             Gv1.BestFitColumns()
         Gv1.MasterTemplate.AutoExpandGroups = True
     End Sub

@@ -200,7 +200,7 @@ Public Class ProductionReport
         summaryRowItem.Add(item6)
 
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
     End Sub
 

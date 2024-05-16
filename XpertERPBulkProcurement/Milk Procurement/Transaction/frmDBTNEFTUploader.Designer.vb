@@ -45,7 +45,6 @@ Partial Class frmDBTNEFTUploader
         Me.MyLabel34 = New common.Controls.MyLabel()
         Me.txtVLC = New common.UserControls.txtMultiSelectFinder()
         Me.txtdate = New common.Controls.MyDateTimePicker()
-        Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.lblCode = New common.Controls.MyLabel()
         Me.txtDocumentNo = New common.UserControls.txtNavigator()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
@@ -72,6 +71,7 @@ Partial Class frmDBTNEFTUploader
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -93,7 +93,6 @@ Partial Class frmDBTNEFTUploader
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtdate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
@@ -121,6 +120,7 @@ Partial Class frmDBTNEFTUploader
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -498,16 +498,6 @@ Partial Class frmDBTNEFTUploader
         Me.txtdate.Text = "13/06/2011"
         Me.txtdate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
         '
-        'btnReset
-        '
-        Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Image = Global.XpertERPBulkProcurement.My.Resources.Resources._new
-        Me.btnReset.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnReset.Location = New System.Drawing.Point(350, 8)
-        Me.btnReset.Name = "btnReset"
-        Me.btnReset.Size = New System.Drawing.Size(21, 19)
-        Me.btnReset.TabIndex = 8
-        '
         'lblCode
         '
         Me.lblCode.FieldName = Nothing
@@ -550,10 +540,10 @@ Partial Class frmDBTNEFTUploader
         'RadPageViewPage3
         '
         Me.RadPageViewPage3.Controls.Add(Me.gvFarmer)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(84.0!, 28.0!)
-        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(80.0!, 24.0!)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(839, 273)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(839, 277)
         Me.RadPageViewPage3.Text = "Valid Farmers"
         '
         'gvFarmer
@@ -570,14 +560,14 @@ Partial Class frmDBTNEFTUploader
         Me.gvFarmer.MyStopExport = False
         Me.gvFarmer.Name = "gvFarmer"
         Me.gvFarmer.ShowHeaderCellButtons = True
-        Me.gvFarmer.Size = New System.Drawing.Size(839, 273)
+        Me.gvFarmer.Size = New System.Drawing.Size(839, 277)
         Me.gvFarmer.TabIndex = 1
         Me.gvFarmer.TabStop = False
         '
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.gvItem)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(41.0!, 28.0!)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(37.0!, 24.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(839, 273)
@@ -605,7 +595,7 @@ Partial Class frmDBTNEFTUploader
         '
         Me.RadPageViewPage2.Controls.Add(Me.gvInvalid)
         Me.RadPageViewPage2.Controls.Add(Me.Panel1)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(49.0!, 28.0!)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(45.0!, 24.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(839, 273)
@@ -650,7 +640,7 @@ Partial Class frmDBTNEFTUploader
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.SplitContainer3)
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(71.0!, 24.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 37)
         Me.Attachments.Name = "Attachments"
         Me.Attachments.Size = New System.Drawing.Size(839, 273)
@@ -789,6 +779,16 @@ Partial Class frmDBTNEFTUploader
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
+        'btnReset
+        '
+        Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReset.Image = Global.XpertERPBulkProcurement.My.Resources.Resources._new
+        Me.btnReset.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnReset.Location = New System.Drawing.Point(350, 8)
+        Me.btnReset.Name = "btnReset"
+        Me.btnReset.Size = New System.Drawing.Size(21, 19)
+        Me.btnReset.TabIndex = 8
+        '
         'frmDBTNEFTUploader
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -823,7 +823,6 @@ Partial Class frmDBTNEFTUploader
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtdate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
@@ -851,6 +850,7 @@ Partial Class frmDBTNEFTUploader
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

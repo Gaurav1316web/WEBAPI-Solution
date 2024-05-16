@@ -298,7 +298,7 @@ Public Class FrmVlcTargetMaster
 
         Dim repoVLCUploaderCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoVLCUploaderCode.FormatString = ""
-        repoVLCUploaderCode.HeaderText = "VLC Code"
+        repoVLCUploaderCode.HeaderText = "DCS Code"
         repoVLCUploaderCode.Name = colVLCUploaderCode
         repoVLCUploaderCode.HeaderImage = Global.ERP.My.Resources.Resources.search4
         repoVLCUploaderCode.TextImageRelation = TextImageRelation.TextBeforeImage
@@ -311,7 +311,7 @@ Public Class FrmVlcTargetMaster
 
         Dim repoVLCName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoVLCName.FormatString = ""
-        repoVLCName.HeaderText = "VLC Name"
+        repoVLCName.HeaderText = "DCS Name"
         repoVLCName.Name = colVlcName
         repoVLCName.Width = 200
         repoVLCName.IsVisible = True
@@ -320,7 +320,7 @@ Public Class FrmVlcTargetMaster
 
         Dim repoCONS As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoCONS.FormatString = ""
-        repoCONS.HeaderText = "VSP Code"
+        repoCONS.HeaderText = "Secretary Code"
         repoCONS.Name = colVSP_Code
         repoCONS.Width = 100
         repoCONS.IsVisible = True
@@ -330,7 +330,7 @@ Public Class FrmVlcTargetMaster
 
         Dim repovlc_Code_Code As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repovlc_Code_Code.FormatString = ""
-        repovlc_Code_Code.HeaderText = "VSP Name"
+        repovlc_Code_Code.HeaderText = "Secretary Name"
         repovlc_Code_Code.Name = colVSP_Name
         repovlc_Code_Code.Width = 200
         repovlc_Code_Code.IsVisible = True

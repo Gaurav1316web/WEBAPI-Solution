@@ -151,7 +151,7 @@ Public Class rptBookingQtyAmtReport
             Else
                 Distributor = " Distributor.[Distributor Code],Distributor.[Distributor Name],"
                 DistributorSubQry = " Max([Distributor Code]) AS [Distributor Code],Max([Distributor Name])[Distributor Name],"
-                DistributorQry = " [Distributor Code],Max([Distributor Name])[Distributor Name],[Customer Code],[WdName] as [Customer Name],"
+                DistributorQry = " [Distributor Code],Max([Distributor Name])[Distributor Name],[Customer Code],[WdName] as [Customer Name],max([route no])[route no], "
                 UnionQry = " '' As [Distributor Code],'' As [Distributor Name], "
                 'DistributorJoin = " Left Outer Join (Select Cust_Code As [Distributor Code],Customer_Name As [Distributor Name],Cust_Group_Code from TSPL_CUSTOMER_MASTER) As Distributor ON Distributor.[Distributor Code]=TSPL_CUSTOMER_MASTER.Distributor_Code "
             End If

@@ -619,6 +619,7 @@ Public Class rptDailyreceiptReport
                 End If
 
                 Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 Gv1.BestFitColumns()
                 RadSplitExp.Items("rmiExcelSale").Visibility = ElementVisibility.Collapsed
                 RadSplitExp.Items("rmiPDFSale").Visibility = ElementVisibility.Collapsed

@@ -221,6 +221,7 @@ group by mcc)TSPL_VLC_MASTER on TSPL_VLC_MASTER.mcc=TSPL_MCC_MASTER.mcc_Code whe
         Dim item4 As New GridViewSummaryItem("Qty_Kg", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item4)
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click

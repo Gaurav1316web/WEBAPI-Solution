@@ -35,6 +35,8 @@ Partial Class rptDailyQtyReport
         Me.ddlShift = New common.Controls.MyComboBox()
         Me.MyLabel6 = New common.Controls.MyLabel()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnBMCRoutePrint = New System.Windows.Forms.RadioButton()
+        Me.rbtnBMCDCSPrint = New System.Windows.Forms.RadioButton()
         Me.rbtnSummary = New System.Windows.Forms.RadioButton()
         Me.rbtnDockSummary = New System.Windows.Forms.RadioButton()
         Me.rbtnBMCDock = New System.Windows.Forms.RadioButton()
@@ -74,6 +76,7 @@ Partial Class rptDailyQtyReport
         Me.fromDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.Gv1 = New common.UserControls.MyRadGridView()
+        Me.btnRoutePrint = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnSplitExport = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
@@ -81,8 +84,6 @@ Partial Class rptDailyQtyReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.rbtnBMCDCSPrint = New System.Windows.Forms.RadioButton()
-        Me.rbtnBMCRoutePrint = New System.Windows.Forms.RadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -119,6 +120,7 @@ Partial Class rptDailyQtyReport
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnRoutePrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -166,6 +168,7 @@ Partial Class rptDailyQtyReport
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnRoutePrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSplitExport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -309,6 +312,26 @@ Partial Class rptDailyQtyReport
         Me.RadGroupBox2.Size = New System.Drawing.Size(513, 42)
         Me.RadGroupBox2.TabIndex = 446
         Me.RadGroupBox2.Text = "Print"
+        '
+        'rbtnBMCRoutePrint
+        '
+        Me.rbtnBMCRoutePrint.AutoSize = True
+        Me.rbtnBMCRoutePrint.Location = New System.Drawing.Point(401, 15)
+        Me.rbtnBMCRoutePrint.Name = "rbtnBMCRoutePrint"
+        Me.rbtnBMCRoutePrint.Size = New System.Drawing.Size(109, 17)
+        Me.rbtnBMCRoutePrint.TabIndex = 8
+        Me.rbtnBMCRoutePrint.Text = "BMC Route Print"
+        Me.rbtnBMCRoutePrint.UseVisualStyleBackColor = True
+        '
+        'rbtnBMCDCSPrint
+        '
+        Me.rbtnBMCDCSPrint.AutoSize = True
+        Me.rbtnBMCDCSPrint.Location = New System.Drawing.Point(302, 15)
+        Me.rbtnBMCDCSPrint.Name = "rbtnBMCDCSPrint"
+        Me.rbtnBMCDCSPrint.Size = New System.Drawing.Size(99, 17)
+        Me.rbtnBMCDCSPrint.TabIndex = 7
+        Me.rbtnBMCDCSPrint.Text = "BMC DCS Print"
+        Me.rbtnBMCDCSPrint.UseVisualStyleBackColor = True
         '
         'rbtnSummary
         '
@@ -848,6 +871,17 @@ Partial Class rptDailyQtyReport
         Me.Gv1.Size = New System.Drawing.Size(719, 278)
         Me.Gv1.TabIndex = 0
         '
+        'btnRoutePrint
+        '
+        Me.btnRoutePrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnRoutePrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnRoutePrint.Location = New System.Drawing.Point(350, 15)
+        Me.btnRoutePrint.Name = "btnRoutePrint"
+        Me.btnRoutePrint.Size = New System.Drawing.Size(78, 22)
+        Me.btnRoutePrint.TabIndex = 158
+        Me.btnRoutePrint.Text = "Print"
+        Me.btnRoutePrint.Visible = False
+        '
         'btnPrint
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -908,26 +942,6 @@ Partial Class rptDailyQtyReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'rbtnBMCDCSPrint
-        '
-        Me.rbtnBMCDCSPrint.AutoSize = True
-        Me.rbtnBMCDCSPrint.Location = New System.Drawing.Point(302, 15)
-        Me.rbtnBMCDCSPrint.Name = "rbtnBMCDCSPrint"
-        Me.rbtnBMCDCSPrint.Size = New System.Drawing.Size(99, 17)
-        Me.rbtnBMCDCSPrint.TabIndex = 7
-        Me.rbtnBMCDCSPrint.Text = "BMC DCS Print"
-        Me.rbtnBMCDCSPrint.UseVisualStyleBackColor = True
-        '
-        'rbtnBMCRoutePrint
-        '
-        Me.rbtnBMCRoutePrint.AutoSize = True
-        Me.rbtnBMCRoutePrint.Location = New System.Drawing.Point(401, 15)
-        Me.rbtnBMCRoutePrint.Name = "rbtnBMCRoutePrint"
-        Me.rbtnBMCRoutePrint.Size = New System.Drawing.Size(109, 17)
-        Me.rbtnBMCRoutePrint.TabIndex = 8
-        Me.rbtnBMCRoutePrint.Text = "BMC Route Print"
-        Me.rbtnBMCRoutePrint.UseVisualStyleBackColor = True
-        '
         'rptDailyQtyReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -981,6 +995,7 @@ Partial Class rptDailyQtyReport
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnRoutePrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1051,5 +1066,6 @@ Partial Class rptDailyQtyReport
     Friend WithEvents rbtnDockDateWise As RadioButton
     Friend WithEvents rbtnBMCDCSPrint As RadioButton
     Friend WithEvents rbtnBMCRoutePrint As RadioButton
+    Friend WithEvents btnRoutePrint As RadButton
 End Class
 

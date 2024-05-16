@@ -325,6 +325,7 @@ Public Class FrmDasboard
                 summaryRowItem.Add(SalesInLTR)
 
                 gv4.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gv4.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
                 Dim barSeries As New Telerik.WinControls.UI.BarSeries("CPL", "Vehicle Type")
                 barSeries.BackColor = Color.Olive
@@ -1781,7 +1782,7 @@ Public Class FrmDasboard
 
 
         GridName.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        GridName.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Sub View(ByRef GridName As RadGridView)
@@ -2308,6 +2309,7 @@ Public Class FrmDasboard
                 summaryRowItem.Add(FreightAmount)
 
                 gvTransportcost.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gvTransportcost.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             Else
                 clsCommon.MyMessageBoxShow(Me, "Record Not Found.", Me.Text)
             End If
@@ -2482,6 +2484,7 @@ Public Class FrmDasboard
                 summaryRowItem.Add(Values)
 
                 gv_po.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gv_po.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
 
             'Store Report
@@ -2553,7 +2556,7 @@ Public Class FrmDasboard
                 summaryRowItem.Add(Consumption)
 
                 gv_store.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+                gv_store.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
 
             If gv_po.Rows.Count() = 0 AndAlso gv_store.Rows.Count() = 0 Then

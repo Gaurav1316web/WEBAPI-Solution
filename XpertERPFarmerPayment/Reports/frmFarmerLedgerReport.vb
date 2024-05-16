@@ -122,7 +122,7 @@ Public Class frmFarmerLedgerReport
         summaryRowItem.Add(item3)
 
         gv3.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv3.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
 
     End Sub

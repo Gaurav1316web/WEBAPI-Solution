@@ -255,7 +255,7 @@ Public Class rptDailyLeakageReplacementReport
                     Next
 
                     Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+                    Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 End If
             End If
 

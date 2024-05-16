@@ -60,6 +60,7 @@ Public Class frmVoucherPaymentsRegister
                         End If
                     Next
                     gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                     ReStoreGridLayout()
                 End Using
             End If

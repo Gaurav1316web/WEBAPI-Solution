@@ -223,6 +223,7 @@ Public Class RptPurchasePlanReport
                 summaryRowItem.Add(item1)
             Next
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
     End Sub
     Private Sub Export(ByVal exporter As EnumExportTo)
