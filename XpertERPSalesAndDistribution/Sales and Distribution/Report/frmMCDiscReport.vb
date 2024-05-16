@@ -613,6 +613,7 @@ Public Class FrmMCDiscReport
 
         End If
         gvReport.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvReport.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         RadPageView1.SelectedPage = RadPageViewPage2
     End Sub
 

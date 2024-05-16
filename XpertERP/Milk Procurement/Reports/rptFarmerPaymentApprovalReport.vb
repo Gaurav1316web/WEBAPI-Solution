@@ -159,6 +159,7 @@ Public Class rptFarmerPaymentApprovalReport
                 Gv1.ShowGroupPanel = True
                 Gv1.MasterTemplate.AutoExpandGroups = True
                 Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 Gv1.BestFitColumns()
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)

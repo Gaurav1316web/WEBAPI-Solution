@@ -4007,6 +4007,7 @@ Public Class ucPaymentProcess
 
 
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Dim summaryRowItemInvoice As New GridViewSummaryRowItem()
         gvInvoice.SummaryRowsBottom.Clear()
         For iii As Integer = 0 To gvInvoice.Columns.Count - 1

@@ -563,7 +563,7 @@ Public Class rptMCCVLCVariationReportPourersNo
         gv.MasterTemplate.AutoExpandGroups = True
 
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Sub View()
         If gv.Rows.Count > 0 Then

@@ -427,6 +427,7 @@ Public Class FrmPendingRequisitionQty
                 summaryRowItem.Add(item5)
 
                 gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 RadPageView1.SelectedPage = RadPageViewPage2
                 RadGroupBox2.Enabled = False
             Else
@@ -798,7 +799,7 @@ from ( select  Item_Code,MAX(Item_Desc) as Item_Desc,  SUM(Stock_Qty * case when
                 End If
 
                 gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+                gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 RadPageView1.SelectedPage = RadPageViewPage2
                 RadGroupBox2.Enabled = False
             Else
@@ -1051,7 +1052,7 @@ from ( select  Item_Code,MAX(Item_Desc) as Item_Desc,  SUM(Stock_Qty * case when
             Dim item7 As New GridViewSummaryItem("Balance Qty", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item7)
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             ''Dim PIDocCount As New GridViewSummaryItem("Requisition Doc", "{0:F2}", GridAggregateFunction.Count)
             ' gv.MasterTemplate.SummaryRowsBottom.Add(PIDocCount)
 
@@ -1537,7 +1538,7 @@ from ( select  Item_Code,MAX(Item_Desc) as Item_Desc,  SUM(Stock_Qty * case when
             gv.ShowGroupPanel = False
             gv.MasterTemplate.AutoExpandGroups = True
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             ReStoreGridLayout()
 
             If byMonth IsNot Nothing AndAlso clsCommon.myLen(byMonth) > 0 Then

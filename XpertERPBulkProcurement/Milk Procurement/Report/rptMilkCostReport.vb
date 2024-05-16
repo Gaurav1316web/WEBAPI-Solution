@@ -174,7 +174,7 @@ Public Class rptMilkCostReport
             summaryRowItem.Add(item7)
 
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
 
         Gv1.AutoSizeRows = True

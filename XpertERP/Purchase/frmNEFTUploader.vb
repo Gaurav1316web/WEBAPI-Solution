@@ -757,6 +757,7 @@ Public Class FrmNEFTUploader
             Next
 
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -805,6 +806,7 @@ Public Class FrmNEFTUploader
             Next
 
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -1220,6 +1222,7 @@ Public Class FrmNEFTUploader
                 End If
             Next
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

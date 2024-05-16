@@ -135,6 +135,7 @@ where convert(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon
             summaryRowItem.Add(item1)
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
     End Sub
 

@@ -630,6 +630,7 @@ and convert(date,tspl_pi_head.PI_Date,103) >='" + clsCommon.GetPrintDate(fromDat
             summaryRowItem.Add(Diff_Cr)
 
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             PageSetupReport_ID = Getreport_id()
             ReStoreGridLayout()
         Catch ex As Exception

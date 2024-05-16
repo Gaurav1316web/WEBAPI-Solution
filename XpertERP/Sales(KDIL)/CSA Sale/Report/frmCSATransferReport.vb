@@ -336,6 +336,7 @@ Public Class FrmCSATransferReport
             Dim item6 As New GridViewSummaryItem("Return_value", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item6)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

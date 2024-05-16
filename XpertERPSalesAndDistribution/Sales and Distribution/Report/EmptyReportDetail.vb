@@ -140,6 +140,7 @@ Public Class EmptyReportDetail
             Next
 
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             'For j As Integer = 0 To arritem.Count - 1
             '    gv.Columns(arritem.Item(j)).IsVisible = True
             '    gv.Columns(arritem.Item(j)).Width = 100

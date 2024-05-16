@@ -273,6 +273,7 @@ Public Class rptVSPMilkNotSold
             End If
         End If
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         'Gv1.GroupDescriptors.Add(New GridGroupByExpression("Type as Type format ""{0}: {1}"" Group By Type"))
         Gv1.AutoSizeRows = True
         Gv1.BestFitColumns()

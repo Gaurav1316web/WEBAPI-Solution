@@ -804,6 +804,7 @@ Public Class FrmFilledOutWard
                 Next
 
                 gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 'For j As Integer = 0 To arritem.Count - 1
                 '    gv.Columns(arritem.Item(j)).IsVisible = True
                 '    gv.Columns(arritem.Item(j)).Width = 100
@@ -835,7 +836,7 @@ Public Class FrmFilledOutWard
                     summaryRowItem.Add(item16)
                 Next
                 gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+                gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
             ElseIf rdbRoutewise.IsChecked = True Then
 
@@ -856,7 +857,7 @@ Public Class FrmFilledOutWard
                     summaryRowItem.Add(item16)
                 Next
                 gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+                gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             ElseIf rdbHierwise.IsChecked = True Then
                 gv.Columns("Name").IsVisible = True
                 gv.Columns("Name").Width = 150
@@ -869,7 +870,7 @@ Public Class FrmFilledOutWard
                     summaryRowItem.Add(item16)
                 Next
                 gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+                gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
             End If
 

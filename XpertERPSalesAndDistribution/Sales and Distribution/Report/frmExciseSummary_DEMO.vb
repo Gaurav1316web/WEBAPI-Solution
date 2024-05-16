@@ -163,6 +163,7 @@ Public Class FrmExciseSummary_DEMO
             Dim SumTotalTax As New GridViewSummaryItem("TotalTax", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(SumTotalTax)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Else
             gv1.Columns("Sale_Invoice_No").IsVisible = True
             gv1.Columns("Sale_Invoice_No").HeaderText = "Invoice No"
@@ -208,6 +209,7 @@ Public Class FrmExciseSummary_DEMO
             Dim SumHCess As New GridViewSummaryItem("TAX3_Amt", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(SumHCess)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
     End Sub
 

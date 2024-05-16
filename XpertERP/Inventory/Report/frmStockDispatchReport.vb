@@ -1109,7 +1109,7 @@ Public Class FrmStockDispatchReport
         End If
 
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         gv1.EnableFiltering = True
         RadPageView1.SelectedPage = RadPageViewPage2
     End Sub

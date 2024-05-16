@@ -517,6 +517,7 @@ Public Class FrmItemSerialTrackingReport
                     Dim itms As New GridViewSummaryItem("Qty", "{0:F2}", GridAggregateFunction.Sum)
                     gvSerialItemCountAtFoot.Add(itms)
                     gvSerial.MasterTemplate.SummaryRowsBottom.Add(gvSerialItemCountAtFoot)
+                    gvSerial.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 End If
             End If
         Catch ex As Exception
@@ -539,6 +540,7 @@ Public Class FrmItemSerialTrackingReport
             Dim item1 As New GridViewSummaryItem("Qty", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item1)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Else
             Dim item1 As New GridViewSummaryItem("Opening", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item1)
@@ -549,6 +551,7 @@ Public Class FrmItemSerialTrackingReport
             Dim item4 As New GridViewSummaryItem("Closing", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item4)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
 
 

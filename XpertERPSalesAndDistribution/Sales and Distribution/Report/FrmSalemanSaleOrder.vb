@@ -223,6 +223,7 @@ Public Class FrmSalemanSaleOrder
         Dim item4 As New GridViewSummaryItem("Payment_Amount", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item4)
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub gv1_ViewCellFormatting(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CellFormattingEventArgs) Handles gv1.ViewCellFormatting

@@ -685,10 +685,11 @@ Public Class frmMilkShiftUploaderUCDF
 
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         Try
+
             AddNew()
             isInsideLoadData = True
             Dim obj As New clsMilkShiftUploaderHead()
-            obj = clsMilkShiftUploaderHead.GetData(strCode, NavTyep, Nothing, True)
+            obj = clsMilkShiftUploaderHead.GetData(strCode, NavTyep, Nothing, True, isPickCLRInsteadOfSNF)
 
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
                 isNewEntry = False
@@ -780,7 +781,10 @@ Public Class frmMilkShiftUploaderUCDF
                                 summaryRowItem.Add(summaryItem5)
                             End If
                             If isPickCLRInsteadOfSNF Then
-                                gv1.Columns(ii).HeaderText = gv1.Columns(ii).HeaderText.Replace("SNF", "CLR")
+                                If ii <> 13 And ii <> 14 Then
+                                    gv1.Columns(ii).HeaderText = gv1.Columns(ii).HeaderText.Replace("SNF", "CLR")
+
+                                End If
                             End If
 
                         Catch ex As Exception
@@ -791,6 +795,7 @@ Public Class frmMilkShiftUploaderUCDF
                     summaryRowItem.Add(item11)
 
                     gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                     gv1.Columns("TR_No").IsVisible = False
                     gv1.Columns("Route Code").IsVisible = False
                     lblTotEntry.Text = gv1.Rows.Count
@@ -820,7 +825,11 @@ Public Class frmMilkShiftUploaderUCDF
                                 summaryRowItem2.Add(summaryItem5)
                             End If
                             If isPickCLRInsteadOfSNF Then
-                                gvP.Columns(ii).HeaderText = gvP.Columns(ii).HeaderText.Replace("SNF", "CLR")
+                                '  gvP.Columns(ii).HeaderText = gvP.Columns(ii).HeaderText.Replace("SNF_PER", "CLR_PER")
+                                If ii <> 13 And ii <> 14 Then
+                                    gv1.Columns(ii).HeaderText = gv1.Columns(ii).HeaderText.Replace("SNF", "CLR")
+
+                                End If
                             End If
                         Catch ex As Exception
                         End Try
@@ -1225,30 +1234,41 @@ Public Class frmMilkShiftUploaderUCDF
         Try
 
             strquery = "select TSPL_COMPANY_MASTER.Comp_Name,(TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No)TR_No,(TSPL_MILK_SHIFT_UPLOADER_DETAIL.SNo)SNo,(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) as VLC, (TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code) as [VLC Code],(TSPL_VLC_MASTER_HEAD.VLC_Name) as [VLC Name],(TSPL_MILK_SHIFT_UPLOADER_DETAIL.No_Of_Cans) as [No of Cans],(TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO) as [Route Code],(TSPL_BULK_ROUTE_MASTER.ROUTE_NAME) as [Route],(TSPL_BULK_ROUTE_MASTER.Tanker_No)Tanker_No,(TSPL_BULK_ROUTE_MASTER.Comp_Code)Comp_Code,(TSPL_MILK_SHIFT_UPLOADER_HEAD.Mix_Milk)Mix_Milk,(TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift)Shift,(TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date)Shift_Date,(TSPL_MILK_SHIFT_UPLOADER_HEAD.Created_Date)Created_Date,(TSPL_BULK_ROUTE_MASTER.Schedule_Time_Morning)Schedule_Time_Morning,(TSPL_MCC_MASTER.mcc_Name) as mcc_Name,
-case When (isnull(Reject_Type,''))='' then (isnull(No_Of_Cans,0)) else 0 end as [Good can qty]
-,case When (isnull(Reject_Type,''))='' then (isnull(Milk_Weight,0)) else 0 end as [Good Qty]
-,case When (isnull(Reject_Type,''))='' then (FAT) else 0 end as [Good FAT %]
-,case When (isnull(Reject_Type,''))='' then (cast(Milk_Weight*FAT/100 as decimal(18,3))) else 0 end as [Good FATKg]
-,case When (isnull(Reject_Type,''))='' then (SNF) else 0 end as [Good SNF %]
-,case When (isnull(Reject_Type,''))='' then (cast (Milk_Weight*SNF/100 as decimal(18,3))) else 0 end as [Good SNFKG],
-case When (isnull(Reject_Type,''))='SOUR' then (isnull(No_Of_Cans,0)) else 0 end as [SOUR can qty],
-case When (isnull(Reject_Type,''))='SOUR' then (Milk_Weight) else 0 end as [SOUR Qty]
-,case When (isnull(Reject_Type,''))='SOUR' then (FAT) else 0 end as [SOUR FAT %]
-,case When (isnull(Reject_Type,''))='SOUR' then (cast (Milk_Weight*FAT/100 as decimal(18,3))) else 0 end as [SOUR FATKg]
-,case When (isnull(Reject_Type,''))='SOUR' then (SNF) else 0 end as [SOUR SNF %]
-,case When (isnull(Reject_Type,''))='SOUR' then (cast (Milk_Weight*SNF/100 as decimal(18,3))) else 0 end as [SOUR SNFKG],
-case When (isnull(Reject_Type,''))='CURD' then (isnull(No_Of_Cans,0)) else 0 end as [CURD can qty],
-case When (isnull(Reject_Type,''))='CURD' then (Milk_Weight) else 0 end as [CURD Qty]
-,case When (isnull(Reject_Type,''))='CURD' then (FAT) else 0 end as [CURD FAT %]
-,case When (isnull(Reject_Type,''))='CURD' then (cast (Milk_Weight*FAT/100 as decimal(18,3))) else 0 end as [CURD FATKg]
-,case When (isnull(Reject_Type,''))='CURD' then (SNF) else 0 end as [CURD SNF %]
-,case When (isnull(Reject_Type,''))='CURD' then (cast (Milk_Weight*SNF/100 as decimal(18,3))) else 0 end as [CURD SNFKG] ,(TSPL_MILK_SHIFT_UPLOADER_DETAIL.PageNo)PageNo from TSPL_MILK_SHIFT_UPLOADER_DETAIL
-left join  TSPL_MILK_SHIFT_UPLOADER_HEAD on TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No
-left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code
-left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code = TSPL_VLC_MASTER_HEAD.Comp_Code
-left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO
-left join TSPL_MCC_MASTER on TSPL_MCC_MASTER.mcc_code=TSPL_MILK_SHIFT_UPLOADER_HEAD.MCC_Code
-where TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No='" + StrDocNo + "' ORDER BY SNO "
+                case When (isnull(Reject_Type,''))='' then (isnull(No_Of_Cans,0)) else 0 end as [Good can qty]
+                ,case When (isnull(Reject_Type,''))='' then (isnull(Milk_Weight,0)) else 0 end as [Good Qty]
+                ,case When (isnull(Reject_Type,''))='' then (FAT) else 0 end as [Good FAT %]
+                ,case When (isnull(Reject_Type,''))='' then (cast(Milk_Weight*FAT/100 as decimal(18,3))) else 0 end as [Good FATKg]
+                ,case When (isnull(Reject_Type,''))='' then (SNF) else 0 end as [Good SNF %]
+                ,case When (isnull(Reject_Type,''))='' then (cast (Milk_Weight*SNF/100 as decimal(18,3))) else 0 end as [Good SNFKG],
+                case When (isnull(Reject_Type,''))='SOUR' then (isnull(No_Of_Cans,0)) else 0 end as [SOUR can qty],
+                case When (isnull(Reject_Type,''))='SOUR' then (Milk_Weight) else 0 end as [SOUR Qty]
+                ,case When (isnull(Reject_Type,''))='SOUR' then (FAT) else 0 end as [SOUR FAT %]
+                ,case When (isnull(Reject_Type,''))='SOUR' then (cast (Milk_Weight*FAT/100 as decimal(18,3))) else 0 end as [SOUR FATKg]
+                ,case When (isnull(Reject_Type,''))='SOUR' then (SNF) else 0 end as [SOUR SNF %]
+                ,case When (isnull(Reject_Type,''))='SOUR' then (cast (Milk_Weight*SNF/100 as decimal(18,3))) else 0 end as [SOUR SNFKG],
+                case When (isnull(Reject_Type,''))='CURD' then (isnull(No_Of_Cans,0)) else 0 end as [CURD can qty],
+                case When (isnull(Reject_Type,''))='CURD' then (Milk_Weight) else 0 end as [CURD Qty]
+                ,case When (isnull(Reject_Type,''))='CURD' then (FAT) else 0 end as [CURD FAT %]
+                ,case When (isnull(Reject_Type,''))='CURD' then (cast (Milk_Weight*FAT/100 as decimal(18,3))) else 0 end as [CURD FATKg]
+                ,case When (isnull(Reject_Type,''))='CURD' then (SNF) else 0 end as [CURD SNF %] "
+
+            If isPickCLRInsteadOfSNF Then
+                strquery += " ,((Milk_Weight* (SNF/4+0.2*FAT+(select Description from TSPL_Fixed_parameter where type='defaultCorrectionFactor' and code='MilkSetting')))/100) as SNF_kg
+                ,SNF/4+0.2*FAT+(select Description from TSPL_Fixed_parameter where type='defaultCorrectionFactor' and code='MilkSetting') as SNF_PER,
+                Convert(Decimal(18, 2), ((Milk_Weight * FAT) / 100)) As Fat_KG "
+            Else
+                strquery += " ,case When (isnull(Reject_Type,''))='CURD' then (cast (Milk_Weight*SNF/100 as decimal(18,3))) else 0 end as [CURD SNFKG] "
+            End If
+
+
+
+            strquery += " ,(TSPL_MILK_SHIFT_UPLOADER_DETAIL.PageNo)PageNo from TSPL_MILK_SHIFT_UPLOADER_DETAIL
+                Left Join  TSPL_MILK_SHIFT_UPLOADER_HEAD on TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No
+                Left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code
+                Left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code = TSPL_VLC_MASTER_HEAD.Comp_Code
+                Left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO
+                Left Join TSPL_MCC_MASTER on TSPL_MCC_MASTER.mcc_code=TSPL_MILK_SHIFT_UPLOADER_HEAD.MCC_Code
+                where TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No ='" + StrDocNo + "' ORDER BY SNO "
 
             If strquery IsNot Nothing AndAlso clsCommon.myLen(strquery) > 0 Then
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(strquery)

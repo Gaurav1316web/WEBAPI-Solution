@@ -249,6 +249,7 @@ Public Class rptSKUWiseSale
             'Dim item2 As New GridViewSummaryItem("Product Type", "", "Total")
             'summaryRowItem.Add(item2)
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
         Gv1.MasterTemplate.ShowTotals = True
         'Gv1.MasterTemplate.ShowParentGroupSummaries = True

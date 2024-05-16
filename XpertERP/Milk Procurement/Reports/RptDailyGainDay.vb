@@ -380,7 +380,7 @@ Public Class RptDailyGainDay
         gv.MasterTemplate.AutoExpandGroups = True
 
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Sub ViewKDIL()
         If gv.Rows.Count > 0 Then
@@ -1068,7 +1068,7 @@ Public Class RptDailyGainDay
         gv.MasterTemplate.AutoExpandGroups = True
 
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Sub ViewUDL()
         If gv.Rows.Count > 0 Then

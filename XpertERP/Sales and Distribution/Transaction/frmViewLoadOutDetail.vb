@@ -286,6 +286,7 @@ Public Class FrmViewLoadOutDetail
         Dim item13 As New GridViewSummaryItem(colSchemeAmt, "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item13)
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Sub BindLoadOutDetails()

@@ -503,7 +503,7 @@ Public Class FrmInventoryAgeingReport
                 summaryRowItem.Add(BK4)
 
                 gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+                gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 RadPageView1.SelectedPage = RadPageViewPage2
             Else
                 gv1.DataSource = Nothing
@@ -616,6 +616,7 @@ Public Class FrmInventoryAgeingReport
         summaryRowItem.Add(item2)
 
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         RadPageView1.SelectedPage = RadPageViewPage2
     End Sub
 

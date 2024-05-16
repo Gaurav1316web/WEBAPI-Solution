@@ -579,7 +579,7 @@ Public Class FrmRptCustomerTransList
             summaryRowItem.Add(ttllAmt)
         End If
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         'If ChkSummary.Checked = True Then
         '    gv.GroupDescriptors.Clear()
         '    gv.GroupDescriptors.Add(New GridGroupByExpression("DocumentNo As [DocNo] format ""{0}: {1}"" group by DocumentNo"))
@@ -597,6 +597,7 @@ Public Class FrmRptCustomerTransList
             summaryItem.AggregateExpression = "SUM([Trans Amt])"
             summaryRowItem.Add(summaryItem)
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
         gv.BestFitColumns()
         '   gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)

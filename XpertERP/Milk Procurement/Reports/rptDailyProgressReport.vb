@@ -366,7 +366,7 @@ Public Class RptDailyProgressReport
         gvReport.MasterTemplate.AutoExpandGroups = True
 
         gvReport.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gvReport.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
 
     End Sub

@@ -280,7 +280,7 @@ Public Class RptJobWorkRegister
         Gv1.MasterTemplate.AutoExpandGroups = True
         Gv1.MasterTemplate.SummaryRowsBottom.Clear()
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Sub ViewGrid()

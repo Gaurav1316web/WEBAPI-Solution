@@ -618,6 +618,7 @@ Public Class FrmTaxTracking
                     Dim item3 As New GridViewSummaryItem("Total Amount", "{0:F2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(item3)
                     gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                     gv.BestFitColumns()
                     ReStoreGridLayout()
                 Else
@@ -646,6 +647,7 @@ Public Class FrmTaxTracking
                 Dim item3 As New GridViewSummaryItem("TotalAmt", "{0:F2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(item3)
                 gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 gv.BestFitColumns()
                 ReStoreGridLayout()
             End If
@@ -924,7 +926,7 @@ Public Class FrmTaxTracking
             summaryRowItem.Add(item2)
 
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
             'For j As Integer = 0 To arritem.Count - 1
             '    gv.Columns(arritem.Item(j)).IsVisible = True

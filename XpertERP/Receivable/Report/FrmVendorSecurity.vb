@@ -402,6 +402,7 @@ where 2=2 "
         Gv1.MasterTemplate.AutoExpandGroups = True
 
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
 
@@ -479,6 +480,7 @@ where 2=2 "
         Gv1.ShowGroupPanel = False
         Gv1.MasterTemplate.AutoExpandGroups = True
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Sub FormatGridDetails()
         Gv1.TableElement.TableHeaderHeight = 20
@@ -627,6 +629,7 @@ where 2=2 "
         Gv1.MasterTemplate.AutoExpandGroups = True
 
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Sub Reset()
         ToDate.Value = clsCommon.GETSERVERDATE()

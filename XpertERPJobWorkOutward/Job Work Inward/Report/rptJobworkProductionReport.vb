@@ -100,6 +100,7 @@ Public Class rptJobworkProductionReport
 
             Gv1.ShowGroupPanel = False
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

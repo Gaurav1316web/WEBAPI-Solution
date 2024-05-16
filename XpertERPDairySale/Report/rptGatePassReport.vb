@@ -60,7 +60,7 @@ Public Class GatePassReport
                 End If
             Next
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             Gv1.BestFitColumns()
 
         Catch ex As Exception

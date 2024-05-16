@@ -224,6 +224,7 @@ Public Class FrmCostCentreConsumptionRpt
         gvData.ShowGroupPanel = False
         gvData.MasterTemplate.AutoExpandGroups = True
         gvData.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvData.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub FrmCostCentreConsumptionRpt_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
@@ -282,6 +283,7 @@ Public Class FrmCostCentreConsumptionRpt
                 gvDetail.AutoExpandGroups = True
                 gvDetail.ShowGroupPanel = False
                 gvDetail.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gvDetail.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 gvDetail.ShowRowHeaderColumn = False
                 gvDetail.ReadOnly = True
                 gvDetail.AllowAddNewRow = False

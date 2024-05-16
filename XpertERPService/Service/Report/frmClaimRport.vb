@@ -262,6 +262,7 @@ Public Class FrmClaimRport
             Dim item4 As New GridViewSummaryItem("Billing_Amount", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item4)
             GV1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            GV1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf radioDocumentWise.IsChecked Then
             GV1.Columns("Document_Code").Width = 200
             GV1.Columns("Document_Code").IsVisible = False
@@ -332,6 +333,7 @@ Public Class FrmClaimRport
             Dim item4 As New GridViewSummaryItem("Billing_Amount", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item4)
             GV1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            GV1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Else
 
             GV1.Columns("PrincipleCode").Width = 200
@@ -362,6 +364,7 @@ Public Class FrmClaimRport
             Dim item1 As New GridViewSummaryItem("Claim_Amount", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item1)
             GV1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            GV1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
 
         GV1.BestFitColumns()

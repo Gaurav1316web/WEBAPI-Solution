@@ -334,7 +334,7 @@ Public Class RptMilkBillMCC
         gv.MasterTemplate.AutoExpandGroups = True
 
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub RptMilkBillMCC_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load

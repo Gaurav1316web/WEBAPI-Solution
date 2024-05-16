@@ -152,6 +152,7 @@ Public Class rptCustomerIncentiveEntry
                     summaryRowItem.Add(PayableAmount)
 
                     Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                     txtMonth.Enabled = False
                     txtLocation.Enabled = False
                     txtCustomer.Enabled = False

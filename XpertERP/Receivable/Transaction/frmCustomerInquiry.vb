@@ -122,6 +122,7 @@ Public Class FrmCustomerInquiry
         Dim SumBalAmt As New GridViewSummaryItem("Balance Amt", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(SumBalAmt)
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         '--------------------------------------------------------------------------------------------
     End Sub
 
@@ -185,6 +186,7 @@ Public Class FrmCustomerInquiry
         Dim SumAmt As New GridViewSummaryItem("Amount", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(SumAmt)
         gv2.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv2.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub btnReset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReset.Click

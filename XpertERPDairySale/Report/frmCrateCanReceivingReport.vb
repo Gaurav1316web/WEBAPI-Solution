@@ -78,7 +78,7 @@ Public Class frmCrateCanReceivingReport
         Gv1.MasterTemplate.AutoExpandGroups = True
 
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub txtVehicle__My_Click(sender As Object, e As EventArgs) Handles txtVehicle._My_Click
@@ -324,7 +324,8 @@ Public Class frmCrateCanReceivingReport
         Gv1.ShowGroupPanel = False
         Gv1.MasterTemplate.AutoExpandGroups = True
 
-        Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         'View()
     End Sub
     Sub View()

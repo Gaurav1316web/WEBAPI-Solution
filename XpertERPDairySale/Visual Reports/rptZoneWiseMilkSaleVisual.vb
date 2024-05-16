@@ -629,6 +629,7 @@ Public Class rptZoneWiseMilkSaleVisual
                 End If
             Next
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Else
             If ddlReportType.SelectedValue = "Document Info Level" Then
 
@@ -867,6 +868,7 @@ Public Class rptZoneWiseMilkSaleVisual
                     End If
                 Next
                 Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
 
             ''RICHA AGARWAL 23 jULY,2019 ERO/11/07/19-000682
@@ -880,6 +882,7 @@ Public Class rptZoneWiseMilkSaleVisual
                     summaryRowItem.Add(item)
                 Next
                 Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
 
         End If

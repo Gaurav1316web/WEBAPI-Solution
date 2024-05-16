@@ -543,6 +543,7 @@ Public Class FrmDailySaleReport
             'Dim item2 As New GridViewSummaryItem("Product Type", "", "Total")
             'summaryRowItem.Add(item2)
             gvSKU.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gvSKU.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
         gvSKU.MasterTemplate.ShowTotals = True
         'Gv1.MasterTemplate.ShowParentGroupSummaries = True
@@ -868,6 +869,7 @@ Public Class FrmDailySaleReport
                 End If
             Next
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Else
             If ddlReportType.SelectedValue = "Document Info Level" Then
 
@@ -1066,6 +1068,7 @@ Public Class FrmDailySaleReport
                 End If
             Next
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
 
 

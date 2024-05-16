@@ -168,6 +168,7 @@ Public Class FrmCustomerZoneReport
         gvData.ShowGroupPanel = False
         gvData.MasterTemplate.AutoExpandGroups = True
         gvData.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvData.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ReStoreGridLayout()
     End Sub
     Private Sub gvData_DoubleClick(sender As Object, e As EventArgs) Handles gvData.DoubleClick

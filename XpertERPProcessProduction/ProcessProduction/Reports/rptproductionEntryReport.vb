@@ -576,7 +576,7 @@ Public Class RptproductionEntryReport
         Dim item3 As New GridViewSummaryItem("SNF_KG", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item3)
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
         ReStoreGridLayout()
     End Sub

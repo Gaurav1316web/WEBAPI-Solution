@@ -239,6 +239,7 @@ Public Class TransferRegister
         summaryRowItem.Add(item10)
 
         gvReport.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvReport.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         RadPageView1.SelectedPage = RadPageViewPage2
     End Sub
     Private Sub btnReset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReset.Click
