@@ -369,6 +369,7 @@ Public Class rptJECheck
         Dim total As New GridViewSummaryItem("Amount", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(total)
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         RadPageView1.SelectedPage = RadPageViewPage2
         EnableDisableControls(False)
     End Sub

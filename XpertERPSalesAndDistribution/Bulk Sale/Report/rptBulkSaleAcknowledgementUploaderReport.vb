@@ -134,6 +134,7 @@ Public Class rptBulkSaleAcknowledgementUploaderReport
         'summaryRowItem.Add(ACKSNFPer)
 
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click

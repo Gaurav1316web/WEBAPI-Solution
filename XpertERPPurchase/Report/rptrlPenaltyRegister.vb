@@ -301,7 +301,7 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
         summaryRowItem.Add(item2)
 
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         gv.AutoSizeRows = False
         gv.BestFitColumns()
 
@@ -366,7 +366,7 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
                 summaryRowItem.Add(item1)
 
                 gvSchedule.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+                gvSchedule.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
 
             If dtgv.Rows.Count <= 0 Then

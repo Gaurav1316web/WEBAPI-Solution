@@ -535,6 +535,7 @@ Public Class frmGenerateBonus
             End If
         Next
         gvBonusSummary.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvBonusSummary.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         For col As Integer = 0 To gvBonusSummary.Columns.Count - 1
             gvBonusSummary.Columns(col).Width = 100
         Next
@@ -559,6 +560,7 @@ Public Class frmGenerateBonus
             End If
         Next
         gvBonusDetail.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvBonusDetail.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         For col As Integer = 0 To gvBonusDetail.Columns.Count - 1
             gvBonusDetail.Columns(col).Width = 100
         Next

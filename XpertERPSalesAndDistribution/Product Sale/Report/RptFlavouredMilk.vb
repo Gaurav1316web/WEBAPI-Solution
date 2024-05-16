@@ -658,7 +658,7 @@ Public Class RptFlavouredMilk
                 Dim BALANCE As New GridViewSummaryItem("BALANCE", "{0:F2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(BALANCE)
                 gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+                gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 'gv1.GroupDescriptors.Add(New GridGroupByExpression("[SUB BRAND] AS SubBrand format ""{0}: {1}"" Group By [SUB BRAND]"))
 
                 gv1.AutoExpandGroups = True
@@ -2614,6 +2614,7 @@ Public Class RptFlavouredMilk
             'summaryRowItem.Add(Smitem)
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Item Group Wise Summary") = CompairStringResult.Equal Then
             gv1.Columns("Item_Type").IsVisible = False
             gv1.Columns("Item_Type").HeaderText = "Item Type Code"
@@ -2851,7 +2852,7 @@ Public Class RptFlavouredMilk
             'summaryRowItem.Add(Smitem)
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Category Wise Summary") = CompairStringResult.Equal Then
             gv1.Columns("Item_Type").IsVisible = False
             gv1.Columns("Item_Type").HeaderText = "Item Type Code"
@@ -3091,7 +3092,7 @@ Public Class RptFlavouredMilk
             'summaryRowItem.Add(Smitem)
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Item Wise Summary") = CompairStringResult.Equal Then
             gv1.Columns("Item_Type").IsVisible = False
             gv1.Columns("Item_Type").HeaderText = "Item Type Code"
@@ -3351,7 +3352,7 @@ Public Class RptFlavouredMilk
             'summaryRowItem.Add(Smitem)
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Item And Location Wise Summary") = CompairStringResult.Equal Then
             gv1.Columns("Item_Type").IsVisible = False
             gv1.Columns("Item_Type").HeaderText = "Item Type Code"
@@ -3628,6 +3629,7 @@ Public Class RptFlavouredMilk
             'summaryRowItem.Add(Smitem)
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Document Wise Detail") = CompairStringResult.Equal Then
             gv1.Columns("Trans_Id").HeaderText = "Trans_Id"
 
@@ -3789,6 +3791,7 @@ Public Class RptFlavouredMilk
             summaryRowItem.Add(item2)
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Date, Item And Document Wise Detail") = CompairStringResult.Equal Then
             gv1.Columns("Source_Doc_No").IsVisible = True
             gv1.Columns("Source_Doc_No").Width = 100
@@ -4003,7 +4006,7 @@ Public Class RptFlavouredMilk
 
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Date and Item Wise Stock") = CompairStringResult.Equal Then
             gv1.Columns("Location_Code").IsVisible = True
             gv1.Columns("Location_Code").Width = 100
@@ -4404,7 +4407,7 @@ Public Class RptFlavouredMilk
             summaryRowItem.Add(item2)
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             If (True) Then
                 Dim test As String = Nothing
             End If
@@ -4457,7 +4460,7 @@ Public Class RptFlavouredMilk
 
                 Next
                 gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+                gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
             End If
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Document Wise Detail Ledger") = CompairStringResult.Equal Then
@@ -4560,7 +4563,7 @@ Public Class RptFlavouredMilk
             ''------------------------------------
             summaryRowItem.Add(item2)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             Dim descriptor3 As New GroupDescriptor()
             descriptor3.GroupNames.Add("Item_Code", System.ComponentModel.ListSortDirection.Ascending)
             gv1.GroupDescriptors.Add(descriptor3)
