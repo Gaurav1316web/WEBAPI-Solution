@@ -35,6 +35,8 @@ Public Class frmPayPeriodMaster
             obj.Name = txtName.Text
             obj.DATE_FROM = dtpFrom.Value.ToLongDateString()
             obj.DATE_TO = dtpTo.Value.ToLongDateString()
+            obj.ESI_FROM_MONTH = cboESIFromMonth.SelectedValue
+            obj.ESI_TO_MONTH = cboESIToMonth.SelectedValue
             If (obj.SaveData(obj, isNewEntry)) Then
                 'common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
                 LoadData(obj.Code, NavigatorType.Current)
@@ -71,8 +73,9 @@ Public Class frmPayPeriodMaster
             txtDescription.Text = obj.Description
             dtpFrom.Value = obj.DATE_FROM
             dtpTo.Value = obj.DATE_TO
+            cboESIFromMonth.SelectedValue = clsCommon.myCstr(obj.ESI_FROM_MONTH)
+            cboESIToMonth.SelectedValue = clsCommon.myCstr(obj.ESI_TO_MONTH)
         End If
-
     End Sub
 
     Function AllowToSave() As Boolean
@@ -177,21 +180,131 @@ Public Class frmPayPeriodMaster
 
     End Sub
 
-    Private Sub frmPayPeriodMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        SetUserMgmtNew()
-        isNewEntry = True
-
-        ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
-        ButtonToolTip.SetToolTip(btnPost, "Press Alt+P for  Post")
-        ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D  for Delete ")
-        ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
-        ButtonToolTip.SetToolTip(btnNew, "Press Alt+N Adding New ")
-        '  ButtonToolTip.SetToolTip(btnPrint, "Press Alt+R for Print Preview")
-        dtpFrom.Value = clsCommon.GETSERVERDATE()
-        dtpTo.Value = clsCommon.GETSERVERDATE()
-        btnReverse.Visible = False
+    Sub createTable()
+        Dim coll As Dictionary(Of String, String)
+        coll = New Dictionary(Of String, String)()
+        coll.Add("ESI_FROM_MONTH", "Decimal(2,0)  NULL")
+        coll.Add("ESI_TO_MONTH", "Decimal(2,0) NULL")
+        clsCommonFunctionality.CreateOrAlterTable("TSPL_PAYPERIOD_MASTER", coll)
     End Sub
 
+    Private Sub frmPayPeriodMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Try
+            SetUserMgmtNew()
+            isNewEntry = True
+            createTable()
+            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
+            ButtonToolTip.SetToolTip(btnPost, "Press Alt+P for  Post")
+            ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D  for Delete ")
+            ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
+            ButtonToolTip.SetToolTip(btnNew, "Press Alt+N Adding New ")
+            '  ButtonToolTip.SetToolTip(btnPrint, "Press Alt+R for Print Preview")
+            dtpFrom.Value = clsCommon.GETSERVERDATE()
+            dtpTo.Value = clsCommon.GETSERVERDATE()
+            btnReverse.Visible = False
+            ESIFromMonth()
+            cboESIToMonth.SelectedIndex = cboESIFromMonth.SelectedIndex + 5
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Sub ESIFromMonth()
+        Try
+            Dim dt As DataTable = ESIMonths()
+            cboESIFromMonth.DataSource = dt
+            cboESIFromMonth.ValueMember = "Code"
+            cboESIFromMonth.DisplayMember = "Name"
+            cboESIFromMonth.SelectedValue = "4"
+            ESIToMonth()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Sub ESIToMonth()
+        Try
+            Dim dt As DataTable = ESIMonths()
+            cboESIToMonth.DataSource = dt
+            cboESIToMonth.ValueMember = "Code"
+            cboESIToMonth.DisplayMember = "Name"
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Function ESIMonths() As DataTable
+        Dim dt As New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+        dt.Columns.Add("Name", GetType(String))
+
+        Dim dr As DataRow = dt.NewRow()
+        dr("Code") = "0"
+        dr("Name") = "Select"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "1"
+        dr("Name") = "January"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "2"
+        dr("Name") = "February"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "3"
+        dr("Name") = "March"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "4"
+        dr("Name") = "April"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "5"
+        dr("Name") = "May"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "6"
+        dr("Name") = "June"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "7"
+        dr("Name") = "July"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "8"
+        dr("Name") = "August"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "9"
+        dr("Name") = "September"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "10"
+        dr("Name") = "October"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "11"
+        dr("Name") = "November"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "12"
+        dr("Name") = "December"
+        dt.Rows.Add(dr)
+
+        Return dt
+    End Function
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.frmPayPeriodMaster)
         If Not (MyBase.isReadFlag) Then
@@ -245,6 +358,8 @@ Public Class frmPayPeriodMaster
         btnSave.Enabled = True
         btnDelete.Enabled = True
         btnPost.Enabled = True
+        ESIFromMonth()
+        SetToMonth()
     End Sub
 
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
@@ -257,30 +372,31 @@ Public Class frmPayPeriodMaster
     End Sub
 
     Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
-
-        Dim str As String = "select count(*) from TSPL_PAYPERIOD_MASTER where PAY_PERIOD_CODE ='" + txtCode.Value + "' "
-        Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
-        If no = 0 AndAlso isButtonClicked = False Then
-            txtCode.MyReadOnly = False
-            'txtCode.Value = ""
-            '' common.clsCommon.MyMessageBoxShow("Value doesn't exist ")
-        Else
-            txtCode.MyReadOnly = True
-        End If
-        If txtCode.MyReadOnly OrElse isButtonClicked Then
-
-
-            'Dim qry As String = "select PAY_PERIOD_CODE as Code , PAY_PERIOD_NAME as Name, DATE_FROM as 'From Date', DATE_TO AS 'To Date', DESCRIPTION as Description  from TSPL_PAYPERIOD_MASTER"
-            'txtCode.Value = clsCommon.ShowSelectForm("PAYPERIOD_Master", qry, "Code", "", txtCode.Value, "PAY_PERIOD_CODE", isButtonClicked)
-            txtCode.Value = clsPayPeriodMaster.getFinder("", txtCode.Value, isButtonClicked)
-            If txtCode.Value <> "" Then
-                LoadData(txtCode.Value, NavigatorType.Current)
+        Try
+            Dim str As String = "select count(*) from TSPL_PAYPERIOD_MASTER where PAY_PERIOD_CODE ='" + txtCode.Value + "' "
+            Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
+            If no = 0 AndAlso isButtonClicked = False Then
+                txtCode.MyReadOnly = False
+                'txtCode.Value = ""
+                '' common.clsCommon.MyMessageBoxShow("Value doesn't exist ")
             Else
-                funReset()
+                txtCode.MyReadOnly = True
             End If
-        End If
+            If txtCode.MyReadOnly OrElse isButtonClicked Then
 
 
+                'Dim qry As String = "select PAY_PERIOD_CODE as Code , PAY_PERIOD_NAME as Name, DATE_FROM as 'From Date', DATE_TO AS 'To Date', DESCRIPTION as Description  from TSPL_PAYPERIOD_MASTER"
+                'txtCode.Value = clsCommon.ShowSelectForm("PAYPERIOD_Master", qry, "Code", "", txtCode.Value, "PAY_PERIOD_CODE", isButtonClicked)
+                txtCode.Value = clsPayPeriodMaster.getFinder("", txtCode.Value, isButtonClicked)
+                If txtCode.Value <> "" Then
+                    LoadData(txtCode.Value, NavigatorType.Current)
+                Else
+                    funReset()
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Sub funFill()
@@ -302,33 +418,37 @@ Public Class frmPayPeriodMaster
     End Sub
 
     Private Sub frmPayPeriodMaster_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
-        If e.Alt AndAlso e.KeyCode = Keys.N AndAlso btnNew.Enabled Then
-            funReset()
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag AndAlso btnSave.Enabled Then
-            SavingData(False)
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso MyBase.isDeleteFlag AndAlso btnDelete.Enabled Then
-            DeleteData()
-        ElseIf e.Alt And e.KeyCode = Keys.C Then
-            funClose()
-        ElseIf e.Alt And e.KeyCode = Keys.N Then
-            funReset()
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso MyBase.isPostFlag AndAlso btnPost.Enabled Then
-            PostData()
-        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            If MyBase.isReverse Then
+        Try
+            If e.Alt AndAlso e.KeyCode = Keys.N AndAlso btnNew.Enabled Then
+                funReset()
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag AndAlso btnSave.Enabled Then
+                SavingData(False)
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso MyBase.isDeleteFlag AndAlso btnDelete.Enabled Then
+                DeleteData()
+            ElseIf e.Alt And e.KeyCode = Keys.C Then
+                funClose()
+            ElseIf e.Alt And e.KeyCode = Keys.N Then
+                funReset()
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso MyBase.isPostFlag AndAlso btnPost.Enabled Then
+                PostData()
+            ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
+                If MyBase.isReverse Then
 
-                Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
-                frm.ShowDialog()
-                If frm.isPasswordCorrect Then
-                    btnReverse.Visible = True
+                    Dim frm As New FrmPWD(Nothing)
+                    frm.strType = "SIRC"
+                    frm.strCode = "SIReversAndCreate"
+                    frm.ShowDialog()
+                    If frm.isPasswordCorrect Then
+                        btnReverse.Visible = True
+                    End If
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                    'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 End If
-            Else
-                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
-                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
-        End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Private Sub btnReverse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverse.Click
         Try
@@ -344,81 +464,108 @@ Public Class frmPayPeriodMaster
     End Sub
 
     Private Sub MenuItemImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemImport.Click
-        Dim gv As New RadGridView()
-        Me.Controls.Add(gv)
-        Dim currentdate As Date = Date.Today
-        If transportSql.importExcel(gv, "Code", "Name", "From Date", "To Date", "Description") Then
-            'Dim trans As SqlTransaction
-            Try
-                'connectSql.OpenConnection()
-                'trans = clsDBFuncationality.GetTransactin()
-                clsCommon.ProgressBarShow()
-                For Each grow As GridViewRowInfo In gv.Rows
-                    Dim obj As New clsPayPeriodMaster()
+        Try
+            Dim gv As New RadGridView()
+            Me.Controls.Add(gv)
+            Dim currentdate As Date = Date.Today
+            If transportSql.importExcel(gv, "Code", "Name", "From Date", "To Date", "Description") Then
+                'Dim trans As SqlTransaction
+                Try
+                    'connectSql.OpenConnection()
+                    'trans = clsDBFuncationality.GetTransactin()
+                    clsCommon.ProgressBarShow()
+                    For Each grow As GridViewRowInfo In gv.Rows
+                        Dim obj As New clsPayPeriodMaster()
 
-                    Dim strCode As String = clsCommon.myCstr(grow.Cells(0).Value)
-                    If strCode.Length > 30 Or (String.IsNullOrEmpty(strCode)) Then
-                        Throw New Exception("Code can not be blank or incorrect.")
-                    End If
-                    obj.Code = strCode
-
-                    strCode = clsCommon.myCstr(grow.Cells(1).Value)
-                    If strCode.Length > 100 Or (String.IsNullOrEmpty(strCode)) Then
-                        Throw New Exception("Name can not be blank or incorrect.")
-                    End If
-                    obj.Name = strCode
-
-                    If clsCommon.myCstr(grow.Cells(2).Value).Length > 10 Then
-                        If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells(1).Value))) Then
-                            Throw New Exception("From Date can not be blank or incorrect.")
+                        Dim strCode As String = clsCommon.myCstr(grow.Cells(0).Value)
+                        If strCode.Length > 30 Or (String.IsNullOrEmpty(strCode)) Then
+                            Throw New Exception("Code can not be blank or incorrect.")
                         End If
-                    End If
-                    obj.DATE_FROM = clsCommon.GetPrintDate(grow.Cells(2).Value, "dd/MMM/yyyy")
+                        obj.Code = strCode
 
-                    If clsCommon.myCstr(grow.Cells(3).Value).Length > 10 Then
-                        If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells(1).Value))) Then
-                            Throw New Exception("To Date can not be blank or incorrect.")
+                        strCode = clsCommon.myCstr(grow.Cells(1).Value)
+                        If strCode.Length > 100 Or (String.IsNullOrEmpty(strCode)) Then
+                            Throw New Exception("Name can not be blank or incorrect.")
                         End If
-                    End If
-                    obj.DATE_TO = clsCommon.GetPrintDate(grow.Cells(3).Value, "dd/MMM/yyyy")
+                        obj.Name = strCode
 
-                    strCode = clsCommon.myCstr(grow.Cells(4).Value)
-                    If strCode.Length > 200 Then
-                        Throw New Exception("Description can not be blank or incorrect.")
-                    End If
-                    obj.Description = strCode
-                    '' CHECK FOR EXISTING PAY PERIOD 
+                        If clsCommon.myCstr(grow.Cells(2).Value).Length > 10 Then
+                            If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells(1).Value))) Then
+                                Throw New Exception("From Date can not be blank or incorrect.")
+                            End If
+                        End If
+                        obj.DATE_FROM = clsCommon.GetPrintDate(grow.Cells(2).Value, "dd/MMM/yyyy")
 
-                    obj.SaveData(obj, clsPayPeriodMaster.CheckNewPayPeriod(obj.Code))
-                Next
-                clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
-            Catch ex As Exception
-                clsCommon.ProgressBarHide()
-                myMessages.myExceptions(ex)
-            End Try
+                        If clsCommon.myCstr(grow.Cells(3).Value).Length > 10 Then
+                            If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells(1).Value))) Then
+                                Throw New Exception("To Date can not be blank or incorrect.")
+                            End If
+                        End If
+                        obj.DATE_TO = clsCommon.GetPrintDate(grow.Cells(3).Value, "dd/MMM/yyyy")
 
-        End If
-        Me.Controls.Remove(gv)
+                        strCode = clsCommon.myCstr(grow.Cells(4).Value)
+                        If strCode.Length > 200 Then
+                            Throw New Exception("Description can not be blank or incorrect.")
+                        End If
+                        obj.Description = strCode
+                        '' CHECK FOR EXISTING PAY PERIOD 
+
+                        obj.SaveData(obj, clsPayPeriodMaster.CheckNewPayPeriod(obj.Code))
+                    Next
+                    clsCommon.ProgressBarHide()
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                Catch ex As Exception
+                    clsCommon.ProgressBarHide()
+                    myMessages.myExceptions(ex)
+                End Try
+
+            End If
+            Me.Controls.Remove(gv)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub MenuItemExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemExport.Click
-
-        Dim str As String
-        str = " select PAY_PERIOD_CODE as Code , PAY_PERIOD_NAME as Name, DATE_FROM as 'From Date', DATE_TO AS 'To Date', DESCRIPTION as Description  from TSPL_PAYPERIOD_MASTER"
-        transportSql.ExporttoExcel(str, Me)
-
+        Try
+            Dim str As String
+            str = " select PAY_PERIOD_CODE as Code , PAY_PERIOD_NAME as Name, DATE_FROM as 'From Date', DATE_TO AS 'To Date', DESCRIPTION as Description  from TSPL_PAYPERIOD_MASTER"
+            transportSql.ExporttoExcel(str, Me)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub MenuItemClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemClose.Click
         funClose()
-
     End Sub
 
     Private Sub txtName_Validated(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtName.Validated
-        Dim strCode As String = clsPayPeriodMaster.CheckNameExistness(txtName.Text, txtCode.Value, Nothing)
-        If clsCommon.myLen(strCode) > 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Name Allready Exist in Pay Period Code : " + strCode + ". Please Choose another  Name.")
+        Try
+            Dim strCode As String = clsPayPeriodMaster.CheckNameExistness(txtName.Text, txtCode.Value, Nothing)
+            If clsCommon.myLen(strCode) > 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Name Allready Exist in Pay Period Code : " + strCode + ". Please Choose another  Name.")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub cboESIFromMonth_SelectedValueChanged(sender As Object, e As EventArgs) Handles cboESIFromMonth.SelectedValueChanged
+        Try
+            SetToMonth()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Sub SetToMonth()
+        If cboESIFromMonth.SelectedIndex > 0 AndAlso (cboESIFromMonth.SelectedIndex + 5) > 12 Then
+            cboESIToMonth.SelectedIndex = ((cboESIFromMonth.SelectedIndex + 5) - 12)
+        ElseIf cboESIFromMonth.SelectedIndex > 0 Then
+            cboESIToMonth.SelectedIndex = cboESIFromMonth.SelectedIndex + 5
+        Else
+            cboESIToMonth.SelectedIndex = 0
         End If
     End Sub
 End Class

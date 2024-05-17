@@ -20,6 +20,7 @@ Public Class frmEmployee_Master
 
 
 #Region "Variable"
+    Dim EmployeeRetirementAge As Double = 0
     Private isNewEntry As Boolean = False
     Private isInsideLoadData As Boolean = False
     Private isCellValueChanged As Boolean = False
@@ -149,6 +150,7 @@ Public Class frmEmployee_Master
         LoadEmpBasisType()
         CreateEmpCodeAsPerEmployeeBasisType = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.CreateEmpCodeAsPerEmployeeBasisType, clsFixedParameterCode.CreateEmpCodeAsPerEmployeeBasisType, Nothing)) = "1", True, False)
         AadharNoMandatoryOnEmpMaster = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AadharNoMandatoryOnEmpMaster, clsFixedParameterCode.AadharNoMandatoryOnEmpMaster, Nothing)) = "1", True, False)
+        EmployeeRetirementAge = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EmployeeRetirementAge, clsFixedParameterCode.EmployeeRetirementAge, Nothing))
         ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update ")
         ButtonToolTip.SetToolTip(btndelete, "Press Alt+D  for Delete ")
         ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
@@ -468,6 +470,7 @@ Public Class frmEmployee_Master
                 If txtRelevingDate.Checked Then
                     obj.RELIEVING_DATE = txtRelevingDate.Value
                 End If
+                'obj.RELIEVING_DATE = txtDOB.Value.AddYears(EmployeeRetirementAge)
                 obj.NO_DUES = chkNoDues.Checked
                 obj.LEAVING_REASON = txtReasonOfLeaving.Text
                 obj.ISESI = chkApplyESI.Checked
@@ -758,9 +761,19 @@ Public Class frmEmployee_Master
         End Try
     End Sub
 
+
+    Sub CheckReleivingDate()
+        Try
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         BlankAllControl()
-
+        clsEmployeeMaster.UpdateEMPStatusData(strCode, EmployeeRetirementAge, NavTyep)
         Dim obj As New clsEmployeeMaster()
         obj = clsEmployeeMaster.GetData(strCode, NavTyep)
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.EMP_CODE) > 0) Then
@@ -811,6 +824,7 @@ Public Class frmEmployee_Master
             chkHoldsalary.Checked = obj.Hold_Slary
             txtBloodGroup.Text = obj.BLOOD_GROUP
             CboEmployeeStatus.SelectedValue = obj.Emp_Status
+            'Dim yearsDifference As Integer = DateDiff(DateInterval.Year, txtDOB.Value, txtRelevingDate.Value)
             If clsCommon.CompairString(clsCommon.myCstr(obj.Emp_Status), "Active") = CompairStringResult.Equal Then
                 If obj.Active_Date = 1 Then
                     lblActiveInactiveDate.Text = "Active Date"
@@ -4496,4 +4510,5 @@ Public Class frmEmployee_Master
         End If
         txtActiveInactiveDate.Checked = False
     End Sub
+
 End Class
