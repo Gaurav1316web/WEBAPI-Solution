@@ -659,7 +659,7 @@ Public Class frmDCSDemandBooking
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ") "
         End If
-        txtLocation.Value = clsCommon.ShowSelectForm("DCSDemandLocFnd", qry, "Code", WhrCls, txtLocation.Value, "Code", isButtonClicked)
+        txtLocation.Value = clsCommon.ShowSelectForm("DCSDemandLocFnd", qry, "Code", WhrCls, txtLocation.Value, "Code", isButtonClicked, " TSPL_GATEPASS_MASTER_DAIRYSALE.Document_date ")
         lblLocationDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
     End Sub
     Public Sub LoadDCS(ByVal RouteNo As String)
