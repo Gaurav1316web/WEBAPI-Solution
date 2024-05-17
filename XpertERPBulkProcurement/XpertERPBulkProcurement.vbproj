@@ -402,10 +402,10 @@
     <Compile Include="Milk Procurement\Transaction\FrmCreateBMCDCSbyMobile.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Milk Procurement\Transaction\frmDBTCapingCheck.Designer.vb">
-      <DependentUpon>frmDBTCapingCheck.vb</DependentUpon>
+    <Compile Include="Milk Procurement\Transaction\frmDBTCaping.Designer.vb">
+      <DependentUpon>frmDBTCaping.vb</DependentUpon>
     </Compile>
-    <Compile Include="Milk Procurement\Transaction\frmDBTCapingCheck.vb">
+    <Compile Include="Milk Procurement\Transaction\frmDBTCaping.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Milk Procurement\Transaction\FrmDBTPayment.Designer.vb">
@@ -980,8 +980,8 @@
     <EmbeddedResource Include="Milk Procurement\Transaction\FrmCreateBMCDCSbyMobile.resx">
       <DependentUpon>FrmCreateBMCDCSbyMobile.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Milk Procurement\Transaction\frmDBTCapingCheck.resx">
-      <DependentUpon>frmDBTCapingCheck.vb</DependentUpon>
+    <EmbeddedResource Include="Milk Procurement\Transaction\frmDBTCaping.resx">
+      <DependentUpon>frmDBTCaping.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\FrmDBTPayment.resx">
       <DependentUpon>FrmDBTPayment.vb</DependentUpon>
