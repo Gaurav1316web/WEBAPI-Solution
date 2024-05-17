@@ -2908,7 +2908,7 @@ Public Class ProgramCodeNew
 
         ''---------------------------------------SETUP--------------------------------
         InsertDefaultValue(clsUserMgtCode.SubModuleSheedSetUp, "Setup", "1.51.01", clsUserMgtCode.ModuleSheed, "SM", 24)
-        InsertDefaultValue(clsUserMgtCode.frmSheedGrowerMaster, "Sheed Grower Master", "1.51.01.01", clsUserMgtCode.SubModuleSheedSetUp, 27)
+        InsertDefaultValue(clsUserMgtCode.frmSeedGrowerMaster, "Sheed Grower Master", "1.51.01.01", clsUserMgtCode.SubModuleSheedSetUp, 27)
 
         ''--------------------------------------TRANSACTION--------------------------------------------------------
         InsertDefaultValue(clsUserMgtCode.SubModuleSheedTransaction, "Transaction", "1.51.02", clsUserMgtCode.ModuleSheed, "SM", 26)

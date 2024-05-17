@@ -2666,7 +2666,7 @@ Public Class clsUserMgtCode
     ''==================Sheed Module start here ===============
     Public Const ModuleSheed As String = "MSHEED"
     Public Const SubModuleSheedSetUp As String = "SMSHEED"
-    Public Const frmSheedGrowerMaster As String = "SHEED-GRWR-M"
+    Public Const frmSeedGrowerMaster As String = "SEED-GRWR-M"
 
 
     ''=========== sheed transactions=====

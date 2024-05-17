@@ -9873,8 +9873,8 @@ Public Class MDI
 
 
                         '------------- SHEED  -----------
-                    Case clsUserMgtCode.frmSheedGrowerMaster
-                        frm = New frmSheedGrowerMaster
+                    Case clsUserMgtCode.frmSeedGrowerMaster
+                        frm = New frmSeedGrowerMaster
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                         '-------------------- MIS Master---------------
 
