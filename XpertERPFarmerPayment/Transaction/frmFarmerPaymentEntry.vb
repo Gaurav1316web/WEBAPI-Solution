@@ -88,8 +88,8 @@ Public Class frmFarmerPaymentEntry
                             " left join TSPL_VENDOR_MASTER on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MASTER.Vendor_Code"
 
         Dim strWhrclas As String = "1=1"
-      
-        LoadData(clsCommon.ShowSelectForm("PMNTFNDPayment", qry, "Code", strWhrclas, txtPaymentNo.Value, "Code", isButtonClicked))
+
+        LoadData(clsCommon.ShowSelectForm("PMNTFNDPayment", qry, "Code", strWhrclas, txtPaymentNo.Value, "Code", isButtonClicked, TSPL_MP_PAY_HEAD.Payment_Date))
     End Sub
 
     Private Sub txtPaymentNo__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavigatorType As common.NavigatorType) Handles txtPaymentNo._MYNavigator

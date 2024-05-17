@@ -214,7 +214,7 @@ Public Class frmFarmerMilkPurchaseInvoice
                                 " TSPL_MP_PAY_PROCESS_DETAIL.Milk_Qty as [Milk Qty],TSPL_MP_PAY_PROCESS_DETAIL.Milk_Amount as [Milk Amount],TSPL_MP_PAY_PROCESS_DETAIL.MCC_Sale_Amount as [MCC Sale Amount]," &
                                 " TSPL_MP_PAY_PROCESS_DETAIL.MCC_Sale_Return_Amount as [MCC Sale Return Amount],TSPL_MP_PAY_PROCESS_DETAIL.MP_Adjust_Amount as [Adjustment Amount],TSPL_MP_PAY_PROCESS_DETAIL.Payable_Amount as [Payable Amount], " &
                                 " TSPL_MP_PAY_PROCESS_DETAIL.NextCycleDebitNoteMP as [Next Cycle Debit Note] from TSPL_MP_PAY_PROCESS_DETAIL"
-            txtCode.Value = clsCommon.ShowSelectForm("Farmer_Invoice", qry, "Code", "", txtCode.Value, "Code", isButtonClicked)
+            txtCode.Value = clsCommon.ShowSelectForm("Farmer_Invoice", qry, "Code", "", txtCode.Value, "Code", isButtonClicked, "TSPL_MP_PAY_PROCESS_DETAIL.Farmer_Invoice_Date")
             If clsCommon.myLen(txtCode.Value) > 0 Then
                 LoadData(txtCode.Value)
             End If
