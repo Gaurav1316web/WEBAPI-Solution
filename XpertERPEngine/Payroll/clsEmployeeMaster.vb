@@ -235,7 +235,7 @@ Public Class clsEmployeeMaster
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                Qry = "Update TSPL_EMPLOYEE_MASTER Set Emp_Status='Inactive',RELIEVING_DATE='" + clsCommon.GetPrintDate(dt.Rows(0)("RetirementDate"), "dd/MMM/yyyy") + "' where EMP_CODE = '" + strCode + "'"
+                Qry = "Update TSPL_EMPLOYEE_MASTER Set RELIEVING_DATE='" + clsCommon.GetPrintDate(dt.Rows(0)("RetirementDate"), "dd/MMM/yyyy") + "' where EMP_CODE = '" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(Qry)
                 If clsCommon.myCdbl(dt.Rows(0)("CurrentAge")) >= EmployeeRetirementAge Then
                     Qry = "Update TSPL_EMPLOYEE_MASTER Set Emp_Status='Inactive' where EMP_CODE = '" + strCode + "'"

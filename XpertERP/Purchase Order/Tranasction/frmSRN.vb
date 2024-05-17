@@ -7770,7 +7770,8 @@ Public Class frmSRN
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colIsSerialseItem).Value = clsItemMaster.IsSerializeItem(obj.Item_Code)
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colIsPickAutoSrNo).Value = clsItemMaster.IsPickAutoSerializeItem(obj.Item_Code)
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colMRNUnitCost).Value = obj.Item_Cost
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = frmPendingPO.Load_discount_for_GRN(obj.PurchaseOrder_No, obj.Item_Code)
+                    'gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = frmPendingPO.Load_discount_for_GRN(obj.PurchaseOrder_No, obj.Item_Code)
+                    'gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = frmPendingPO.Load_discount_for_GRN(objMRNHead.MRN_No, obj.Item_Code)
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = obj.Item_Cost
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = obj.Unit_code
                     If clsCommon.CompairString(clsCommon.myCstr(cboItemType.SelectedValue), "F") = CompairStringResult.Equal Then
@@ -7798,9 +7799,11 @@ Public Class frmSRN
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Tag = obj.Disc_Per
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = obj.Disc_Per
                     Else
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = obj.Disc_Per
+                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = obj.Disc_Per
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = frmPendingPO.Load_discount_for_GRN(objMRNHead.MRN_No, obj.Item_Code)
                     End If
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPerUnit).Value = frmPendingPO.Load_discount_per_unit_for_GRN(obj.PurchaseOrder_No, obj.Item_Code) 'obj.Disc_Per_Unit
+                    'gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPerUnit).Value = frmPendingPO.Load_discount_per_unit_for_GRN(obj.PurchaseOrder_No, obj.Item_Code) 'obj.Disc_Per_Unit
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPerUnit).Value = frmPendingPO.Load_discount_per_unit_for_GRN(objMRNHead.MRN_No, obj.Item_Code) 'obj.Disc_Per_Unit
                     'gv1.Rows(gv1.Rows.Count - 1).Cells(colDisAmtPerUnit).Value = obj.Disc_Amt_Per_Unit
 
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colHeaderDiscountPer).Value = obj.Header_Discount_Per
