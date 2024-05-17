@@ -146,6 +146,7 @@ Public Class FrmShipmentReport
         Dim item5 As New GridViewSummaryItem("Diff", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item5)
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     

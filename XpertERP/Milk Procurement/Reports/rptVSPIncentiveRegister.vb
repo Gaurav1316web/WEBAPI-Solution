@@ -363,6 +363,7 @@ Public Class rptVSPIncentiveRegister
             gv.MasterTemplate.AutoExpandGroups = True
 
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf ChkMCCWise.Checked Then
             gv.Columns("MCC Code").IsVisible = True
             gv.Columns("MCC Code").Width = 100
@@ -531,6 +532,7 @@ Public Class rptVSPIncentiveRegister
             gv.MasterTemplate.AutoExpandGroups = True
 
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf chkRoutewise.Checked Then
             gv.Columns("MCC Code").IsVisible = True
             gv.Columns("MCC Code").Width = 100
@@ -707,6 +709,7 @@ Public Class rptVSPIncentiveRegister
             gv.MasterTemplate.AutoExpandGroups = True
 
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf rbtnVLCWise.Checked Then
             gv.Columns("MCC Code").IsVisible = True
             gv.Columns("MCC Code").Width = 100
@@ -886,6 +889,7 @@ Public Class rptVSPIncentiveRegister
             gv.MasterTemplate.AutoExpandGroups = True
 
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
        
 

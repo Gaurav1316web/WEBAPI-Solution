@@ -833,7 +833,7 @@ Public Class rptCustomerAgeingDrillDown
 
         gv1.MasterTemplate.AutoExpandGroups = True
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         dtGrid.AcceptChanges()
         Return dtGrid
     End Function

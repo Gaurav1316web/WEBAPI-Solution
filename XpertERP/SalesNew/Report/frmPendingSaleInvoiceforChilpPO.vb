@@ -133,7 +133,7 @@ Public Class frmPendingSaleInvoiceforChilpPO
 
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
 
-
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Private Sub btnReset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReset.Click
         Reset()

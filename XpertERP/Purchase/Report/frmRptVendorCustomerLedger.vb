@@ -302,6 +302,7 @@ Public Class frmRptVendorCustomerLedger
             TotalAmt = New GridViewSummaryItem("Closing", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(TotalAmt)
             gvVendorGroup.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gvVendorGroup.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -385,6 +386,7 @@ Public Class frmRptVendorCustomerLedger
             TotalAmt = New GridViewSummaryItem("Closing", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(TotalAmt)
             gvVendor.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gvVendor.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -547,7 +549,7 @@ Public Class frmRptVendorCustomerLedger
 
 
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         RadPageView1.SelectedPage = RadPageViewPage2
     End Sub
     ''

@@ -312,7 +312,7 @@ Public Class FrmBookingEntry
 
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             'gv1.AutoSize = True
             gv1.AllowDeleteRow = True
             gv1.AllowAddNewRow = False

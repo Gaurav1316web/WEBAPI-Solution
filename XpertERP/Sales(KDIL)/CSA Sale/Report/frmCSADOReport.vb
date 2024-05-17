@@ -244,7 +244,7 @@ Public Class FrmCSADOReport
             Dim item22 As New GridViewSummaryItem("qty", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item22)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

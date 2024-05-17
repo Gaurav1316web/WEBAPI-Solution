@@ -96,145 +96,149 @@ Public Class FrmOrdertracking
     End Sub
 
     Sub Print()
-        Dim strCustomerInv As String = ""
-        Dim strCustomerRet As String = ""
-        Dim strLocationInv As String = ""
-        Dim strItemInv As String = ""
-        Dim strItemRet As String = ""
-        Dim strLocationRet As String = ""
+        Try
+            Dim strCustomerInv As String = ""
+            Dim strCustomerRet As String = ""
+            Dim strLocationInv As String = ""
+            Dim strItemInv As String = ""
+            Dim strItemRet As String = ""
+            Dim strLocationRet As String = ""
 
-        '-----------------------Monika 29/04/2014------------------------------
-        If rbtncustslct.IsChecked AndAlso cbgCustomer.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Atleast One Customer", Me.Text)
-            Return
-        End If
-
-        If rbtnlocslct.IsChecked AndAlso cbgLocation.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Atleast One Location", Me.Text)
-            Return
-        End If
-
-        If rbtnitemslct.IsChecked AndAlso cbgItem.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Atleast One Item", Me.Text)
-            Return
-        End If
-
-
-        If rdbDetail.IsChecked Then
-            If rbtnitemslct.IsChecked AndAlso cbgItem.CheckedValue.Count > 0 Then
-                strItemInv += " and  aa.Item_Code in (" + clsCommon.GetMulcallString(cbgItem.CheckedValue) + ") "
-            Else
-                strItemInv = ""
-            End If
-        End If
-
-        If rbtnlocslct.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
-            strLocationInv += " and  aa.Bill_To_Location in (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
-        Else
-            strLocationInv = ""
-        End If
-        If rbtncustslct.IsChecked AndAlso cbgCustomer.CheckedValue.Count > 0 Then
-            strCustomerInv += " and aa.Customer_Code in (" + clsCommon.GetMulcallString(cbgCustomer.CheckedValue) + ") "
-        Else
-            strCustomerInv = ""
-        End If
-
-        Dim str As String = "select distinct TSPL_SD_SALES_ORDER_HEAD.Salesman_Code,Salesman_Desc,Item_Code, " & _
-        "TSPL_SD_SALES_ORDER_HEAD.Document_Code,Document_Date,Parent_Customer_No, Customer_Code,Customer_Name,Bill_To_Location, TSPL_LOCATION_MASTER.Location_Desc," & _
-        "Qty as OrderQty,0 as ShipQty,0 as InvQty from TSPL_SD_SALES_ORDER_HEAD left outer join " & _
-        "TSPL_SD_SALES_ORDER_DETAIL on TSPL_SD_SALES_ORDER_HEAD.Document_Code=TSPL_SD_SALES_ORDER_DETAIL.Document_Code left outer join " & _
-        "TSPL_CUSTOMER_MASTER on TSPL_SD_SALES_ORDER_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code " & _
-       " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALES_ORDER_HEAD.Bill_To_Location " & _
-"union all " & _
-        "select TSPL_SD_SALES_ORDER_HEAD.Salesman_Code,Salesman_Desc,Item_Code,Against_Sales_Order,TSPL_SD_SALES_ORDER_HEAD.Document_Date, " & _
-        "Parent_Customer_No,TSPL_SD_SALES_ORDER_HEAD.Customer_Code,Customer_Name,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location, TSPL_LOCATION_MASTER.Location_Desc,0 as OrderQty,Qty as ShipQty, " & _
-        "0 as InvQty from TSPL_SD_SHIPMENT_HEAD left outer join TSPL_SD_SHIPMENT_DETAIL on " & _
-        "TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.Document_Code left outer join TSPL_SD_SALES_ORDER_HEAD on " & _
-        "TSPL_SD_SHIPMENT_HEAD.Against_Sales_Order=TSPL_SD_SALES_ORDER_HEAD.Document_Code left outer join TSPL_CUSTOMER_MASTER on  " & _
-        "TSPL_SD_SALES_ORDER_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code " & _
-               " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALES_ORDER_HEAD.Bill_To_Location " & _
-"union all " & _
-        "select TSPL_SD_SALES_ORDER_HEAD.Salesman_Code,Salesman_Desc,Item_Code,Against_Sales_Order,TSPL_SD_SALES_ORDER_HEAD.Document_Date, " & _
-        "Parent_Customer_No,TSPL_SD_SALES_ORDER_HEAD.Customer_Code,Customer_Name,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location, TSPL_LOCATION_MASTER.Location_Desc,0 as OrderQty,0 as ShipQty,Qty as InvQty " & _
-        "from TSPL_SD_SALE_INVOICE_HEAD left outer join TSPL_SD_SALE_INVOICE_DETAIL on " & _
-        "TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_DETAIL.Document_Code left outer join " & _
-        "TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code left outer join " & _
-        "TSPL_SD_SALES_ORDER_HEAD on TSPL_SD_SHIPMENT_HEAD.Against_Sales_Order=TSPL_SD_SALES_ORDER_HEAD.Document_Code left outer join  " & _
-        "TSPL_CUSTOMER_MASTER on TSPL_SD_SALES_ORDER_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  " & _
-                       " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALES_ORDER_HEAD.Bill_To_Location "
-
-        '****************************************************************************************
-        Dim qry As String
-        Dim whrcate As String = ""
-        qry = "select distinct Salesman_Code,Salesman_Desc,Item_Code,Document_Code,Document_Date,Parent_Customer_No,Customer_Code,Customer_Name,Bill_To_Location,Location_Desc,OrderQty,ShipQty,InvQty from (select TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code as [MainGroupCode],  TSPL_ITEM_CATEGORY_LEVEL.description as [Main Group],TSPL_ITEM_MASTER_CATEGORY.item_cagetory_values as [GroupCode], TSPL_ITEM_CATEGORY_LEVEL_VALUES.description as [Group Name],aaa.* from (" + str + ")aaa left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.item_code=aaa.item_code LEFT OUTER JOIN TSPL_ITEM_MASTER_CATEGORY ON TSPL_ITEM_MASTER_CATEGORY.item_code=  TSPL_ITEM_MASTER.item_code LEFT OUTER JOIN TSPL_ITEM_CATEGORY_LEVEL ON TSPL_ITEM_CATEGORY_LEVEL.item_category_code= TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code LEFT OUTER JOIN TSPL_ITEM_CATEGORY_LEVEL_VALUES ON TSPL_ITEM_CATEGORY_LEVEL_VALUES.item_category_code= TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and TSPL_ITEM_CATEGORY_LEVEL_VALUES.code= TSPL_ITEM_MASTER_CATEGORY.item_cagetory_values)ass"
-
-        If rbtnCategorySelect.IsChecked Then
-            Dim isFirstTime As Boolean = True
-            qry += " where exists (select 1  from TSPL_ITEM_MASTER_CATEGORY where Item_code in (select distinct item_code from (" + str + ")a1) and ( " + Environment.NewLine
-            For Each Ctr As RadTreeNode In tvCategory.CheckedNodes
-                If (Ctr.Checked) And Ctr.Parent IsNot Nothing Then
-                    If Not isFirstTime Then
-                        qry += " or "
-                        whrcate += " or "
-                    End If
-                    qry += " ( maingroupcode='" + clsCommon.myCstr(Ctr.Parent.Value) + "' and groupcode='" + clsCommon.myCstr(Ctr.Value) + "' )" + Environment.NewLine
-                    whrcate += " ( TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code='" + clsCommon.myCstr(Ctr.Parent.Value) + "' and TSPL_ITEM_MASTER_CATEGORY.item_cagetory_values='" + clsCommon.myCstr(Ctr.Value) + "' )" + Environment.NewLine
-                    isFirstTime = False
-                End If
-            Next
-            qry += " ))"
-            If isFirstTime Then
-                Throw New Exception("Please select at least one Category")
+            '-----------------------Monika 29/04/2014------------------------------
+            If rbtncustslct.IsChecked AndAlso cbgCustomer.CheckedValue.Count = 0 Then
+                clsCommon.MyMessageBoxShow("Please Select Atleast One Customer", Me.Text)
                 Return
             End If
-        End If
-        '***************************************************************************************
 
-        '--------------------xml path for categories-------------------
-        If clsCommon.myLen(whrcate) > 0 Then
-            whrcate = " and " + whrcate
-        End If
+            If rbtnlocslct.IsChecked AndAlso cbgLocation.CheckedValue.Count = 0 Then
+                clsCommon.MyMessageBoxShow("Please Select Atleast One Location", Me.Text)
+                Return
+            End If
 
-        str = qry
-        qry = "select axa.*,( select distinct (select ','+TSPL_ITEM_CATEGORY_LEVEL.description, ','+TSPL_ITEM_CATEGORY_LEVEL_VALUES.description from TSPL_ITEM_MASTER_CATEGORY left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER_CATEGORY.Item_code=TSPL_ITEM_MASTER.Item_Code left outer join TSPL_ITEM_CATEGORY_LEVEL on TSPL_ITEM_CATEGORY_LEVEL.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code left outer join TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values and TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code where TSPL_ITEM_MASTER_CATEGORY.Item_code=axa.Item_Code " + whrcate + " for XML path(''))) as Category from (" + qry + ")axa"
-        '---------------------------------------------------------------
-
-        If rdbSummary.IsChecked Then
-            qry = " (select Document_Code,Document_Date,max(aa.Parent_Customer_No)as ParentCode,MAX(Parent_Master.Customer_Name) as ParentName,Customer_Code,aa.Customer_Name,Bill_To_Location as loc,Location_Desc,aa.Salesman_Code,aa.Salesman_Desc, " & _
-            "SUM(OrderQty) as OrderQty,SUM(ShipQty) as  ShipQty , sum(InvQty) as InvQty,SUM(OrderQty)  - SUM(ShipQty)  as OutOrder,SUM(ShipQty) - sum(InvQty) as OutShip " & _
-            "from ( " & qry & ") aa  left outer join TSPL_CUSTOMER_MASTER as Parent_Master on Parent_Master.Cust_Code=aa.Parent_Customer_No where convert(date,aa.Document_Date,103) >= '" & clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") & "' and  " & _
-            "convert(date,aa.Document_Date,103) <= '" & clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") & "' " & strItemInv & " " & strLocationInv & "  " & strCustomerInv & " " & _
-            "group by Document_Code,Document_Date,Customer_Code,aa.Customer_Name,Bill_To_Location,Location_Desc ,aa.Salesman_Code,aa.Salesman_Desc) " 'select Document_Code,Document_Date,Customer_Code,Customer_Name,Bill_To_Location as loc,Location_Desc,Salesman_Code,Salesman_Desc,sum(OrderQty) as OrderQty,sum(shipqty) as ShipQty,sum(invqty) as InvQty,sum(OutOrder) as OutOrder,sum(OutShip) as OutShip from query1 group by
-
-        Else
-            qry = "select Document_Code,Document_Date,max(aa.Parent_Customer_No)as ParentCode,MAX(Parent_Master.Customer_Name) as ParentName,Customer_Code,aa.Customer_Name,Bill_To_Location as loc,Location_Desc,aa.Salesman_Code,aa.Salesman_Desc,Item_Code, " & _
-           "SUM(OrderQty) as OrderQty,SUM(ShipQty) as  ShipQty , sum(InvQty) as InvQty,SUM(OrderQty)  - SUM(ShipQty)  as OutOrder,SUM(ShipQty) - sum(InvQty) as OutShip,Category " & _
-           "from ( " & qry & ") aa  left outer join TSPL_CUSTOMER_MASTER as Parent_Master on Parent_Master.Cust_Code=aa.Parent_Customer_No where convert(date,aa.Document_Date,103) >= '" & clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") & "' and  " & _
-           "convert(date,aa.Document_Date,103) <= '" & clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") & "' " & strItemInv & " " & strLocationInv & "  " & strCustomerInv & " " & _
-           "group by category,Document_Code,Document_Date,Customer_Code,aa.Customer_Name,Bill_To_Location ,Location_Desc,aa.Salesman_Code,aa.Salesman_Desc,Item_Code"
-        End If
-        qry += " order by Document_Code "
+            If rbtnitemslct.IsChecked AndAlso cbgItem.CheckedValue.Count = 0 Then
+                clsCommon.MyMessageBoxShow("Please Select Atleast One Item", Me.Text)
+                Return
+            End If
 
 
+            If rdbDetail.IsChecked Then
+                If rbtnitemslct.IsChecked AndAlso cbgItem.CheckedValue.Count > 0 Then
+                    strItemInv += " and  aa.Item_Code in (" + clsCommon.GetMulcallString(cbgItem.CheckedValue) + ") "
+                Else
+                    strItemInv = ""
+                End If
+            End If
 
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-        Gv1.DataSource = Nothing
-        Gv1.Columns.Clear()
-        Gv1.Rows.Clear()
-        Gv1.GroupDescriptors.Clear()
-        Gv1.MasterTemplate.SummaryRowsBottom.Clear()
-        Gv1.EnableFiltering = True
+            If rbtnlocslct.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
+                strLocationInv += " and  aa.Bill_To_Location in (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
+            Else
+                strLocationInv = ""
+            End If
+            If rbtncustslct.IsChecked AndAlso cbgCustomer.CheckedValue.Count > 0 Then
+                strCustomerInv += " and aa.Customer_Code in (" + clsCommon.GetMulcallString(cbgCustomer.CheckedValue) + ") "
+            Else
+                strCustomerInv = ""
+            End If
 
-        If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
-            Exit Sub
-        Else
-            Gv1.DataSource = dt
-            SetGridFormationOFGV1()
-        End If
+            Dim str As String = "select distinct TSPL_SD_SALES_ORDER_HEAD.Salesman_Code,Salesman_Desc,Item_Code, " &
+            "TSPL_SD_SALES_ORDER_HEAD.Document_Code,Document_Date,Parent_Customer_No, Customer_Code,Customer_Name,Bill_To_Location, TSPL_LOCATION_MASTER.Location_Desc," &
+            "Qty as OrderQty,0 as ShipQty,0 as InvQty from TSPL_SD_SALES_ORDER_HEAD left outer join " &
+            "TSPL_SD_SALES_ORDER_DETAIL on TSPL_SD_SALES_ORDER_HEAD.Document_Code=TSPL_SD_SALES_ORDER_DETAIL.Document_Code left outer join " &
+            "TSPL_CUSTOMER_MASTER on TSPL_SD_SALES_ORDER_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code " &
+           " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALES_ORDER_HEAD.Bill_To_Location " &
+    "union all " &
+            "select TSPL_SD_SALES_ORDER_HEAD.Salesman_Code,Salesman_Desc,Item_Code,Against_Sales_Order,TSPL_SD_SALES_ORDER_HEAD.Document_Date, " &
+            "Parent_Customer_No,TSPL_SD_SALES_ORDER_HEAD.Customer_Code,Customer_Name,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location, TSPL_LOCATION_MASTER.Location_Desc,0 as OrderQty,Qty as ShipQty, " &
+            "0 as InvQty from TSPL_SD_SHIPMENT_HEAD left outer join TSPL_SD_SHIPMENT_DETAIL on " &
+            "TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.Document_Code left outer join TSPL_SD_SALES_ORDER_HEAD on " &
+            "TSPL_SD_SHIPMENT_HEAD.Against_Sales_Order=TSPL_SD_SALES_ORDER_HEAD.Document_Code left outer join TSPL_CUSTOMER_MASTER on  " &
+            "TSPL_SD_SALES_ORDER_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code " &
+                   " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALES_ORDER_HEAD.Bill_To_Location " &
+    "union all " &
+            "select TSPL_SD_SALES_ORDER_HEAD.Salesman_Code,Salesman_Desc,Item_Code,Against_Sales_Order,TSPL_SD_SALES_ORDER_HEAD.Document_Date, " &
+            "Parent_Customer_No,TSPL_SD_SALES_ORDER_HEAD.Customer_Code,Customer_Name,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location, TSPL_LOCATION_MASTER.Location_Desc,0 as OrderQty,0 as ShipQty,Qty as InvQty " &
+            "from TSPL_SD_SALE_INVOICE_HEAD left outer join TSPL_SD_SALE_INVOICE_DETAIL on " &
+            "TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_DETAIL.Document_Code left outer join " &
+            "TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code left outer join " &
+            "TSPL_SD_SALES_ORDER_HEAD on TSPL_SD_SHIPMENT_HEAD.Against_Sales_Order=TSPL_SD_SALES_ORDER_HEAD.Document_Code left outer join  " &
+            "TSPL_CUSTOMER_MASTER on TSPL_SD_SALES_ORDER_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  " &
+                           " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALES_ORDER_HEAD.Bill_To_Location "
 
-        Gv1.MasterTemplate.AllowAddNewRow = False
-        RadPageView1.SelectedPage = RadPageViewPage2
+            '****************************************************************************************
+            Dim qry As String
+            Dim whrcate As String = ""
+            qry = "select distinct Salesman_Code,Salesman_Desc,Item_Code,Document_Code,Document_Date,Parent_Customer_No,Customer_Code,Customer_Name,Bill_To_Location,Location_Desc,OrderQty,ShipQty,InvQty from (select TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code as [MainGroupCode],  TSPL_ITEM_CATEGORY_LEVEL.description as [Main Group],TSPL_ITEM_MASTER_CATEGORY.item_cagetory_values as [GroupCode], TSPL_ITEM_CATEGORY_LEVEL_VALUES.description as [Group Name],aaa.* from (" + str + ")aaa left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.item_code=aaa.item_code LEFT OUTER JOIN TSPL_ITEM_MASTER_CATEGORY ON TSPL_ITEM_MASTER_CATEGORY.item_code=  TSPL_ITEM_MASTER.item_code LEFT OUTER JOIN TSPL_ITEM_CATEGORY_LEVEL ON TSPL_ITEM_CATEGORY_LEVEL.item_category_code= TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code LEFT OUTER JOIN TSPL_ITEM_CATEGORY_LEVEL_VALUES ON TSPL_ITEM_CATEGORY_LEVEL_VALUES.item_category_code= TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and TSPL_ITEM_CATEGORY_LEVEL_VALUES.code= TSPL_ITEM_MASTER_CATEGORY.item_cagetory_values)ass"
+
+            If rbtnCategorySelect.IsChecked Then
+                Dim isFirstTime As Boolean = True
+                qry += " where exists (select 1  from TSPL_ITEM_MASTER_CATEGORY where Item_code in (select distinct item_code from (" + str + ")a1) and ( " + Environment.NewLine
+                For Each Ctr As RadTreeNode In tvCategory.CheckedNodes
+                    If (Ctr.Checked) And Ctr.Parent IsNot Nothing Then
+                        If Not isFirstTime Then
+                            qry += " or "
+                            whrcate += " or "
+                        End If
+                        qry += " ( maingroupcode='" + clsCommon.myCstr(Ctr.Parent.Value) + "' and groupcode='" + clsCommon.myCstr(Ctr.Value) + "' )" + Environment.NewLine
+                        whrcate += " ( TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code='" + clsCommon.myCstr(Ctr.Parent.Value) + "' and TSPL_ITEM_MASTER_CATEGORY.item_cagetory_values='" + clsCommon.myCstr(Ctr.Value) + "' )" + Environment.NewLine
+                        isFirstTime = False
+                    End If
+                Next
+                qry += " ))"
+                If isFirstTime Then
+                    Throw New Exception("Please select at least one Category")
+                    Return
+                End If
+            End If
+            '***************************************************************************************
+
+            '--------------------xml path for categories-------------------
+            If clsCommon.myLen(whrcate) > 0 Then
+                whrcate = " and " + whrcate
+            End If
+
+            str = qry
+            qry = "select axa.*,( select distinct (select ','+TSPL_ITEM_CATEGORY_LEVEL.description, ','+TSPL_ITEM_CATEGORY_LEVEL_VALUES.description from TSPL_ITEM_MASTER_CATEGORY left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER_CATEGORY.Item_code=TSPL_ITEM_MASTER.Item_Code left outer join TSPL_ITEM_CATEGORY_LEVEL on TSPL_ITEM_CATEGORY_LEVEL.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code left outer join TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values and TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code where TSPL_ITEM_MASTER_CATEGORY.Item_code=axa.Item_Code " + whrcate + " for XML path(''))) as Category from (" + qry + ")axa"
+            '---------------------------------------------------------------
+
+            If rdbSummary.IsChecked Then
+                qry = " (select Document_Code,Document_Date,max(aa.Parent_Customer_No)as ParentCode,MAX(Parent_Master.Customer_Name) as ParentName,Customer_Code,aa.Customer_Name,Bill_To_Location as loc,Location_Desc,aa.Salesman_Code,aa.Salesman_Desc, " &
+                "SUM(OrderQty) as OrderQty,SUM(ShipQty) as  ShipQty , sum(InvQty) as InvQty,SUM(OrderQty)  - SUM(ShipQty)  as OutOrder,SUM(ShipQty) - sum(InvQty) as OutShip " &
+                "from ( " & qry & ") aa  left outer join TSPL_CUSTOMER_MASTER as Parent_Master on Parent_Master.Cust_Code=aa.Parent_Customer_No where convert(date,aa.Document_Date,103) >= '" & clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") & "' and  " &
+                "convert(date,aa.Document_Date,103) <= '" & clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") & "' " & strItemInv & " " & strLocationInv & "  " & strCustomerInv & " " &
+                "group by Document_Code,Document_Date,Customer_Code,aa.Customer_Name,Bill_To_Location,Location_Desc ,aa.Salesman_Code,aa.Salesman_Desc) " 'select Document_Code,Document_Date,Customer_Code,Customer_Name,Bill_To_Location as loc,Location_Desc,Salesman_Code,Salesman_Desc,sum(OrderQty) as OrderQty,sum(shipqty) as ShipQty,sum(invqty) as InvQty,sum(OutOrder) as OutOrder,sum(OutShip) as OutShip from query1 group by
+
+            Else
+                qry = "select Document_Code,Document_Date,max(aa.Parent_Customer_No)as ParentCode,MAX(Parent_Master.Customer_Name) as ParentName,Customer_Code,aa.Customer_Name,Bill_To_Location as loc,Location_Desc,aa.Salesman_Code,aa.Salesman_Desc,Item_Code, " &
+               "SUM(OrderQty) as OrderQty,SUM(ShipQty) as  ShipQty , sum(InvQty) as InvQty,SUM(OrderQty)  - SUM(ShipQty)  as OutOrder,SUM(ShipQty) - sum(InvQty) as OutShip,Category " &
+               "from ( " & qry & ") aa  left outer join TSPL_CUSTOMER_MASTER as Parent_Master on Parent_Master.Cust_Code=aa.Parent_Customer_No where convert(date,aa.Document_Date,103) >= '" & clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") & "' and  " &
+               "convert(date,aa.Document_Date,103) <= '" & clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") & "' " & strItemInv & " " & strLocationInv & "  " & strCustomerInv & " " &
+               "group by category,Document_Code,Document_Date,Customer_Code,aa.Customer_Name,Bill_To_Location ,Location_Desc,aa.Salesman_Code,aa.Salesman_Desc,Item_Code"
+            End If
+            qry += " order by Document_Code "
+
+
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            Gv1.DataSource = Nothing
+            Gv1.Columns.Clear()
+            Gv1.Rows.Clear()
+            Gv1.GroupDescriptors.Clear()
+            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+            Gv1.EnableFiltering = True
+
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                Exit Sub
+            Else
+                Gv1.DataSource = dt
+                SetGridFormationOFGV1()
+            End If
+
+            Gv1.MasterTemplate.AllowAddNewRow = False
+            RadPageView1.SelectedPage = RadPageViewPage2
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Private Sub btnReset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReset.Click
         fromDate.Value = clsCommon.GETSERVERDATE()
@@ -414,7 +418,7 @@ Public Class FrmOrdertracking
         'gv1.MasterTemplate.AutoExpandGroups = True
 
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         RadPageView1.SelectedPage = RadPageViewPage2
     End Sub
 

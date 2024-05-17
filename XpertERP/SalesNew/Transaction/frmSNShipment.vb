@@ -2267,6 +2267,7 @@ Public Class frmSNShipment
             Dim FrieghtAmt As New GridViewSummaryItem("colDCSFrieghtAmt", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(FrieghtAmt)
             gvDCS.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gvDCS.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             isSummarygvDCS = False
         End If
 
