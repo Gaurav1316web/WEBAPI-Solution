@@ -985,6 +985,8 @@ Public Class ProgramCodeNew
         'InsertDefaultValue(clsUserMgtCode.frmSavingsMaster, "Savings Master", "1.11.01.30", clsUserMgtCode.SubModuleHRSetup, 27)
         'InsertDefaultValue(clsUserMgtCode.frmSectionAllowanceMaster, "Section/Allowance Master", "1.11.01.31", clsUserMgtCode.SubModuleHRSetup, 27)
         'InsertDefaultValue(clsUserMgtCode.frmEmployeeSavingsMapping, "Employee Savings Mapping", "1.11.01.32", clsUserMgtCode.SubModuleHRSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.frmEmployeeDeductionMaster, "Employee Deduction Master", "1.11.01.35", clsUserMgtCode.SubModuleHRSetup, 27)
+
         '-----------------Transaction---------------------
         InsertDefaultValue(clsUserMgtCode.SubModuleHRTransaction, "Transaction", "1.11.02", clsUserMgtCode.ModuleHR, "SM", 26)
 

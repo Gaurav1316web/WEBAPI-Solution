@@ -213,6 +213,42 @@ Public Class clsEmployeeMaster
         Return isSaved
     End Function
 
+    Public Shared Function UpdateEMPStatusData(ByVal strCode As String, ByVal EmployeeRetirementAge As Double, ByVal NavType As NavigatorType) As Boolean
+        Try
+            Dim whrcls As String = Nothing
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                whrcls += " And LOCATION_CODE IN (" + objCommonVar.strCurrUserLocations + ")"
+            End If
+            Dim Qry As String = "Select DATEDIFF(year,Convert(Date,Birth_date,103),Convert(Date,GETDATE(),103))CurrentAge,EOMONTH(DATEADD(year, " + clsCommon.myCstr(EmployeeRetirementAge) + ", Convert(Date,Birth_date,103)))RetirementDate,Emp_Status from TSPL_EMPLOYEE_MASTER where 2=2 " + whrcls
+            Select Case NavType
+                Case NavigatorType.First
+                    Qry += " and EMP_CODE = (select MIN(EMP_CODE) from TSPL_EMPLOYEE_MASTER)"
+                Case NavigatorType.Last
+                    Qry += " and EMP_CODE = (select Max(EMP_CODE) from TSPL_EMPLOYEE_MASTER)"
+                Case NavigatorType.Next
+                    Qry += " and EMP_CODE = (select Min(EMP_CODE) from TSPL_EMPLOYEE_MASTER where  EMP_CODE > '" + strCode + "')"
+                Case NavigatorType.Previous
+                    Qry += " and EMP_CODE = (select Max(EMP_CODE) from TSPL_EMPLOYEE_MASTER where EMP_CODE < '" + strCode + "')"
+                Case NavigatorType.Current
+                    Qry += " and EMP_CODE = '" + strCode + "'"
+            End Select
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Qry = "Update TSPL_EMPLOYEE_MASTER Set Emp_Status='Inactive',RELIEVING_DATE='" + clsCommon.GetPrintDate(dt.Rows(0)("RetirementDate"), "dd/MMM/yyyy") + "' where EMP_CODE = '" + strCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(Qry)
+                If clsCommon.myCdbl(dt.Rows(0)("CurrentAge")) >= EmployeeRetirementAge Then
+                    Qry = "Update TSPL_EMPLOYEE_MASTER Set Emp_Status='Inactive' where EMP_CODE = '" + strCode + "'"
+                    clsDBFuncationality.ExecuteNonQuery(Qry)
+                End If
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
+
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType) As clsEmployeeMaster
         Return GetData(strCode, NavType, Nothing)
     End Function
@@ -267,170 +303,170 @@ Public Class clsEmployeeMaster
                 obj.Status_Inactive_Date = clsCommon.GetPrintDate(dt.Rows(0)("Status_Inactive_Date"), "dd/MM/yyyy")
             End If
             obj.rel_date = clsCommon.myCstr(dt.Rows(0)("rel_date"))
-                obj.Payroll_Code = clsCommon.myCstr(dt.Rows(0)("Payroll_Code"))
-                obj.Empty_Ex = clsCommon.myCdbl(dt.Rows(0)("Empty_Ex"))
-                obj.Created_By = clsCommon.myCstr(dt.Rows(0)("Created_By"))
-                obj.Created_Date = clsCommon.myCstr(dt.Rows(0)("Created_Date"))
-                obj.Modify_By = clsCommon.myCstr(dt.Rows(0)("Modify_By"))
-                obj.Modify_Date = clsCommon.myCstr(dt.Rows(0)("Modify_Date"))
-                obj.strFranchiseCode = clsCommon.myCstr(dt.Rows(0)("Franchise_Code"))
-                obj.Comp_Code = clsCommon.myCstr(dt.Rows(0)("Comp_Code"))
-                obj.GL_Account = clsCommon.myCstr(dt.Rows(0)("GL_Account"))
-                obj.EMail_ID = clsCommon.myCstr(dt.Rows(0)("EMail_ID"))
-                obj.SEX = clsCommon.myCstr(dt.Rows(0)("SEX"))
-                obj.MARITAL_STATUS = clsCommon.myCstr(dt.Rows(0)("MARITAL_STATUS"))
-                If clsCommon.myLen(dt.Rows(0)("RELIEVING_DATE")) > 0 Then
-                    obj.RELIEVING_DATE = clsCommon.myCstr(dt.Rows(0)("RELIEVING_DATE"))
-                End If
-
-
-                '' CODE REPLACED FROM PEPSI TO XPERT ERP
-                obj.SALARY_ACCOUNT_CODE = clsCommon.myCstr(dt.Rows(0)("SALARY_ACCOUNT_CODE"))
-                obj.ADVANCE_TO_STAFF = clsCommon.myCstr(dt.Rows(0)("ADVANCE_TO_STAFF"))
-
-                If clsCommon.myLen(clsCommon.myCstr(dt.Rows(0)("ANNIVERSARY_DATE"))) > 0 Then
-                    obj.ANNIVERSARY_DATE = clsCommon.GetPrintDate(dt.Rows(0)("ANNIVERSARY_DATE"), "dd/MMM/yyyy")
-                Else
-                    obj.ANNIVERSARY_DATE = Nothing
-                End If
-                obj.DEPARTMENT_CODE = clsCommon.myCstr(dt.Rows(0)("DEPARTMENT_CODE"))
-                obj.SUB_DEPARTMENT_CODE = clsCommon.myCstr(dt.Rows(0)("SUB_DEPARTMENT_CODE"))
-                obj.OCCUPATION_CODE = clsCommon.myCstr(dt.Rows(0)("OCCUPATION_CODE"))
-                obj.DEVISION_CODE = clsCommon.myCstr(dt.Rows(0)("DEVISION_CODE"))
-                obj.GRADE_CODE = clsCommon.myCstr(dt.Rows(0)("GRADE_CODE"))
-                obj.LOCATION_CODE = clsCommon.myCstr(dt.Rows(0)("LOCATION_CODE"))
-                obj.WORKING_LOCATION_CODE = clsCommon.myCstr(dt.Rows(0)("WORKING_LOCATION_CODE"))
-                obj.ATTENDANCE_CODE = clsCommon.myCstr(dt.Rows(0)("ATTENDANCE_CODE"))
-                obj.PAYMENT_MODE = clsCommon.myCstr(dt.Rows(0)("PAYMENT_MODE_NEW"))
-                obj.BANK_ACC_NO = clsCommon.myCstr(dt.Rows(0)("BANK_ACC_NO"))
-                obj.BANK_CODE = clsCommon.myCstr(dt.Rows(0)("BANK_CODE"))
-                If clsCommon.myLen(clsCommon.myCstr(dt.Rows(0)("CONFIRMATION_DATE"))) > 0 Then
-                    obj.CONFIRMATION_DATE = clsCommon.GetPrintDate(dt.Rows(0)("CONFIRMATION_DATE"), "dd/MMM/yyyy")
-                Else
-                    obj.CONFIRMATION_DATE = Nothing
-                End If
-
-                If clsCommon.myLen(clsCommon.myCstr(dt.Rows(0)("PROBATION_END_DATE"))) > 0 Then
-                    obj.PROBATION_END_DATE = clsCommon.GetPrintDate(dt.Rows(0)("PROBATION_END_DATE"), "dd/MMM/yyyy")
-                Else
-                    obj.PROBATION_END_DATE = Nothing
-                End If
-
-                obj.SHIFT_CODE = clsCommon.myCstr(dt.Rows(0)("SHIFT_CODE"))
-                If clsCommon.myLen(clsCommon.myCstr(dt.Rows(0)("RELIEVING_DATE"))) > 0 Then
-                    obj.RELIEVING_DATE = clsCommon.GetPrintDate(dt.Rows(0)("RELIEVING_DATE"), "dd/MMM/yyyy")
-                Else
-                    obj.RELIEVING_DATE = Nothing
-                End If
-
-
-                obj.LEAVING_REASON = clsCommon.myCstr(dt.Rows(0)("LEAVING_REASON"))
-                obj.CAST_CATEGORY_CODE = clsCommon.myCstr(dt.Rows(0)("CAST_CATEGORY_CODE"))
-                obj.RELIGION_CODE = clsCommon.myCstr(dt.Rows(0)("RELIGION_CODE"))
-                obj.PRESENT_COUNTRY_CODE = clsCommon.myCstr(dt.Rows(0)("PRESENT_COUNTRY_CODE"))
-                obj.PRESENT_STATE_CODE = clsCommon.myCstr(dt.Rows(0)("PRESENT_STATE_CODE"))
-                obj.PRESENT_CITY_CODE = clsCommon.myCstr(dt.Rows(0)("PRESENT_CITY_CODE"))
-                obj.PRESENT_MOBILE_NO = clsCommon.myCstr(dt.Rows(0)("PRESENT_MOBILE_NO"))
-                obj.PERMA_COUNTRY_CODE = clsCommon.myCstr(dt.Rows(0)("PERMA_COUNTRY_CODE"))
-                obj.PERMA_STATE_CODE = clsCommon.myCstr(dt.Rows(0)("PERMA_STATE_CODE"))
-                obj.PERMA_CITY_CODE = clsCommon.myCstr(dt.Rows(0)("PERMA_CITY_CODE"))
-                obj.PERMA_PHONE_NO = clsCommon.myCstr(dt.Rows(0)("PERMA_PHONE_NO"))
-                obj.PERMA_MOBILE_NO = clsCommon.myCstr(dt.Rows(0)("PERMA_MOBILE_NO"))
-                obj.PERMA_PIN_CODE = clsCommon.myCstr(dt.Rows(0)("PERMA_PIN_CODE"))
-                obj.PAN_NO = clsCommon.myCstr(dt.Rows(0)("PAN_NO"))
-                obj.PASPORT_NO = clsCommon.myCstr(dt.Rows(0)("PASPORT_NO"))
-                obj.DESCRIPTION = clsCommon.myCstr(dt.Rows(0)("DESCRIPTION"))
-                obj.Transfer_PF = clsCommon.myCBool(IIf(clsCommon.myCdbl(dt.Rows(0)("transfer_PF")) = 1, True, False))
-                obj.transferText = clsCommon.myCstr(dt.Rows(0)("transferPF_text"))
-                obj.FATHERS_NAME = clsCommon.myCstr(dt.Rows(0)("FATHERS_NAME"))
-                obj.MOTHERS_NAME = clsCommon.myCstr(dt.Rows(0)("MOTHERS_NAME"))
-                obj.SPOUSE_NAME = clsCommon.myCstr(dt.Rows(0)("SPOUSE_NAME"))
-                obj.ISESI = clsCommon.myCBool(dt.Rows(0)("ISESI"))
-                obj.ESI_NO = clsCommon.myCstr(dt.Rows(0)("ESI_NO"))
-                obj.ESI_DISPENSARY = clsCommon.myCstr(dt.Rows(0)("ESI_DISPENSARY"))
-                obj.ISPF = clsCommon.myCBool(dt.Rows(0)("ISPF"))
-                obj.PF_NO = clsCommon.myCstr(dt.Rows(0)("PF_NO"))
-                obj.PF_NO_DEPT_FILE = clsCommon.myCstr(dt.Rows(0)("PF_NO_DEPT_FILE"))
-                obj.WARD_CIRCLE = clsCommon.myCstr(dt.Rows(0)("WARD_CIRCLE"))
-                obj.ISRESTRICT_PF = clsCommon.myCBool(dt.Rows(0)("ISRESTRICT_PF"))
-                obj.ISZERO_PENSION = clsCommon.myCBool(dt.Rows(0)("ISZERO_PENSION"))
-                obj.ISDIRECTOR = clsCommon.myCBool(dt.Rows(0)("ISDIRECTOR"))
-                obj.ISZERO_PT = clsCommon.myCBool(dt.Rows(0)("ISZERO_PT"))
-                If Not IsDBNull(dt.Rows(0)("RESIGNATION_SUBMIT_DATE")) Then
-                    obj.RESINATION_SUBMIT_DATE = clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("RESIGNATION_SUBMIT_DATE")), "dd/MMM/yyyy")
-                End If
-                obj.NOTICE_IN_DAYS = CInt(clsCommon.myCdbl(dt.Rows(0)("NOTICE_PERIOD_IN_DAYS")))
-                '' pjc module fields
-                obj.EARNING_CODE = clsCommon.myCstr(dt.Rows(0)("EARNING_CODE"))
-                obj.UNIT_COST = clsCommon.myCdbl(dt.Rows(0)("UNIT_COST"))
-                obj.BILLING_RATE = clsCommon.myCdbl(dt.Rows(0)("BILLING_RATE"))
-                obj.USER_CODE = clsCommon.myCstr(dt.Rows(0)("USER_CODE"))
-                obj.COMMENTS = clsCommon.myCstr(dt.Rows(0)("COMMENTS"))
-                obj.Hold_Slary = clsCommon.myCstr(dt.Rows(0)("Hold_Salary"))
-                If IsDBNull(dt.Rows(0)("APPLY_ALL_CUST")) = True Then
-                    obj.APPLY_ALL_CUST = False
-                Else
-                    obj.APPLY_ALL_CUST = dt.Rows(0)("APPLY_ALL_CUST")
-                End If
-
-                '' end pjc module fields
-                obj.ObjListEmpFamilieDetails = clsEmpFamilieDetails.GetData(obj.EMP_CODE, trans)
-                obj.ObjListEmpLangDetails = clsEmpLanguageDetails.GetData(obj.EMP_CODE, trans)
-                obj.ObjListEmpQualiDetails = clsEmpQualiDetails.GetData(obj.EMP_CODE, trans)
-                obj.ObjListEmpExpDetails = clsEmpExpDetails.GetData(obj.EMP_CODE, trans)
-                obj.ObjListEmpDocuments = clsEmpDocuments.GetDataForGrid(obj.EMP_CODE, trans)
-                obj.ObjListEmpAssets = clsEmpAssets.GetDataForGrid(obj.EMP_CODE, trans)
-
-                '' kdil and viney 
-                obj.CONV_TYPE = clsCommon.myCstr(dt.Rows(0)("CONV_TYPE"))
-                obj.EMPLOYMENT_NATURE = clsCommon.myCstr(dt.Rows(0)("EMPLOYMENT_NATURE"))
-                obj.IS_OT_APPL = clsCommon.myCBool(dt.Rows(0)("IS_OT_APPL"))
-                obj.IS_OD_APPL = clsCommon.myCBool(dt.Rows(0)("IS_OD_APPL"))
-                obj.DISPLAY_IN_STATUTORY = clsCommon.myCBool(dt.Rows(0)("DISPLAY_IN_STATUTORY"))
-                obj.MINIMUM_BASIC_SALARY = clsCommon.myCdbl(dt.Rows(0)("MINIMUM_BASIC_SALARY"))
-                obj.VENDOR_CODE = clsCommon.myCstr(dt.Rows(0)("VENDOR_CODE"))
-                obj.AGENCY_CODE = clsCommon.myCstr(dt.Rows(0)("AGENCY_CODE"))
-                obj.AgeForPension = clsCommon.myCdbl(dt.Rows(0)("Age_For_Pension"))
-                '==
-                obj.Bank_Branch = clsCommon.myCstr(dt.Rows(0)("Bank_Branch"))
-                '' kdil new dated - 10/dec/2014
-                obj.BLOOD_GROUP = clsCommon.myCstr(dt.Rows(0)("BLOOD_GROUP"))
-                obj.UIN_NO = clsCommon.myCstr(dt.Rows(0)("UIN_NO"))
-                obj.ADD1_TYPE = clsCommon.myCstr(dt.Rows(0)("ADD1_TYPE"))
-                obj.ADD1_VERIFIED = IIf(clsCommon.myCdbl(dt.Rows(0)("ADD1_VERIFIED")) = 1, True, False)
-                obj.ADD1_VERIFIED_REMARKS = clsCommon.myCstr(dt.Rows(0)("ADD1_VERIFIED_REMARKS"))
-                obj.ADD1_TEHSIL = clsCommon.myCstr(dt.Rows(0)("ADD1_TEHSIL"))
-                obj.ADD1_VILLAGE = clsCommon.myCstr(dt.Rows(0)("ADD1_VILLAGE"))
-                obj.ADD1_POST_OFFICE = clsCommon.myCstr(dt.Rows(0)("ADD1_POST_OFFICE"))
-                obj.ADD1_POLICE_STATION = clsCommon.myCstr(dt.Rows(0)("ADD1_POLICE_STATION"))
-                obj.ADD2_TYPE = clsCommon.myCstr(dt.Rows(0)("ADD2_TYPE"))
-                obj.ADD2_VERIFIED = IIf(clsCommon.myCdbl(dt.Rows(0)("ADD2_VERIFIED")) = 1, True, False)
-                obj.ADD2_VERIFIED_REMARKS = clsCommon.myCstr(dt.Rows(0)("ADD2_VERIFIED_REMARKS"))
-                obj.ADD2_TEHSIL = clsCommon.myCstr(dt.Rows(0)("ADD2_TEHSIL"))
-                obj.ADD2_VILLAGE = clsCommon.myCstr(dt.Rows(0)("ADD2_VILLAGE"))
-                obj.ADD2_POST_OFFICE = clsCommon.myCstr(dt.Rows(0)("ADD2_POST_OFFICE"))
-                obj.ADD2_POLICE_STATION = clsCommon.myCstr(dt.Rows(0)("ADD2_POLICE_STATION"))
-                obj.ALTERNATE_EMAIL_ID = clsCommon.myCstr(dt.Rows(0)("ALTERNATE_EMAIL_ID"))
-                obj.NO_DUES = clsCommon.myCstr(dt.Rows(0)("NO_DUES"))
-                obj.HRApplicant_Code = clsCommon.myCstr(dt.Rows(0)("HRApplicant_Code"))
-                obj.Bank_Branch_Name = clsCommon.myCstr(dt.Rows(0)("Bank_Branch_Name"))
-                obj.Bank_Name = clsCommon.myCstr(dt.Rows(0)("Bank_Name"))
-                obj.Adhar_No = clsCommon.myCstr(dt.Rows(0)("Adhar_No"))
-                '============
-                obj.Pf_Calculation_Type = clsCommon.myCstr(dt.Rows(0)("Pf_Calculation_Type"))
-                obj.Max_Amount_EPF = clsCommon.myCdbl(dt.Rows(0)("Max_Amount_EPF"))
-                obj.EPF_Rate = clsCommon.myCdbl(dt.Rows(0)("EPF_Rate"))
-
-
-                obj.Votercard_No = clsCommon.myCstr(dt.Rows(0)("Votercard_No"))
-                obj.Rationcard_No = clsCommon.myCstr(dt.Rows(0)("RationCard_No"))
-                obj.DL_No = clsCommon.myCstr(dt.Rows(0)("DL_No"))
-                obj.BioMetricEmpID = clsCommon.myCstr(dt.Rows(0)("BioMetricEmpID"))
-                obj.EmpBasisType = clsCommon.myCstr(dt.Rows(0)("EmpBasisType"))
-                obj.SecChequeNoLac1 = clsCommon.myCstr(dt.Rows(0)("SecChequeNoLac1"))
-                obj.SecChequeNoRs100 = clsCommon.myCstr(dt.Rows(0)("SecChequeNoRs100"))
+            obj.Payroll_Code = clsCommon.myCstr(dt.Rows(0)("Payroll_Code"))
+            obj.Empty_Ex = clsCommon.myCdbl(dt.Rows(0)("Empty_Ex"))
+            obj.Created_By = clsCommon.myCstr(dt.Rows(0)("Created_By"))
+            obj.Created_Date = clsCommon.myCstr(dt.Rows(0)("Created_Date"))
+            obj.Modify_By = clsCommon.myCstr(dt.Rows(0)("Modify_By"))
+            obj.Modify_Date = clsCommon.myCstr(dt.Rows(0)("Modify_Date"))
+            obj.strFranchiseCode = clsCommon.myCstr(dt.Rows(0)("Franchise_Code"))
+            obj.Comp_Code = clsCommon.myCstr(dt.Rows(0)("Comp_Code"))
+            obj.GL_Account = clsCommon.myCstr(dt.Rows(0)("GL_Account"))
+            obj.EMail_ID = clsCommon.myCstr(dt.Rows(0)("EMail_ID"))
+            obj.SEX = clsCommon.myCstr(dt.Rows(0)("SEX"))
+            obj.MARITAL_STATUS = clsCommon.myCstr(dt.Rows(0)("MARITAL_STATUS"))
+            If clsCommon.myLen(dt.Rows(0)("RELIEVING_DATE")) > 0 Then
+                obj.RELIEVING_DATE = clsCommon.myCstr(dt.Rows(0)("RELIEVING_DATE"))
             End If
-            Return obj
+
+
+            '' CODE REPLACED FROM PEPSI TO XPERT ERP
+            obj.SALARY_ACCOUNT_CODE = clsCommon.myCstr(dt.Rows(0)("SALARY_ACCOUNT_CODE"))
+            obj.ADVANCE_TO_STAFF = clsCommon.myCstr(dt.Rows(0)("ADVANCE_TO_STAFF"))
+
+            If clsCommon.myLen(clsCommon.myCstr(dt.Rows(0)("ANNIVERSARY_DATE"))) > 0 Then
+                obj.ANNIVERSARY_DATE = clsCommon.GetPrintDate(dt.Rows(0)("ANNIVERSARY_DATE"), "dd/MMM/yyyy")
+            Else
+                obj.ANNIVERSARY_DATE = Nothing
+            End If
+            obj.DEPARTMENT_CODE = clsCommon.myCstr(dt.Rows(0)("DEPARTMENT_CODE"))
+            obj.SUB_DEPARTMENT_CODE = clsCommon.myCstr(dt.Rows(0)("SUB_DEPARTMENT_CODE"))
+            obj.OCCUPATION_CODE = clsCommon.myCstr(dt.Rows(0)("OCCUPATION_CODE"))
+            obj.DEVISION_CODE = clsCommon.myCstr(dt.Rows(0)("DEVISION_CODE"))
+            obj.GRADE_CODE = clsCommon.myCstr(dt.Rows(0)("GRADE_CODE"))
+            obj.LOCATION_CODE = clsCommon.myCstr(dt.Rows(0)("LOCATION_CODE"))
+            obj.WORKING_LOCATION_CODE = clsCommon.myCstr(dt.Rows(0)("WORKING_LOCATION_CODE"))
+            obj.ATTENDANCE_CODE = clsCommon.myCstr(dt.Rows(0)("ATTENDANCE_CODE"))
+            obj.PAYMENT_MODE = clsCommon.myCstr(dt.Rows(0)("PAYMENT_MODE_NEW"))
+            obj.BANK_ACC_NO = clsCommon.myCstr(dt.Rows(0)("BANK_ACC_NO"))
+            obj.BANK_CODE = clsCommon.myCstr(dt.Rows(0)("BANK_CODE"))
+            If clsCommon.myLen(clsCommon.myCstr(dt.Rows(0)("CONFIRMATION_DATE"))) > 0 Then
+                obj.CONFIRMATION_DATE = clsCommon.GetPrintDate(dt.Rows(0)("CONFIRMATION_DATE"), "dd/MMM/yyyy")
+            Else
+                obj.CONFIRMATION_DATE = Nothing
+            End If
+
+            If clsCommon.myLen(clsCommon.myCstr(dt.Rows(0)("PROBATION_END_DATE"))) > 0 Then
+                obj.PROBATION_END_DATE = clsCommon.GetPrintDate(dt.Rows(0)("PROBATION_END_DATE"), "dd/MMM/yyyy")
+            Else
+                obj.PROBATION_END_DATE = Nothing
+            End If
+
+            obj.SHIFT_CODE = clsCommon.myCstr(dt.Rows(0)("SHIFT_CODE"))
+            If clsCommon.myLen(clsCommon.myCstr(dt.Rows(0)("RELIEVING_DATE"))) > 0 Then
+                obj.RELIEVING_DATE = clsCommon.GetPrintDate(dt.Rows(0)("RELIEVING_DATE"), "dd/MMM/yyyy")
+            Else
+                obj.RELIEVING_DATE = Nothing
+            End If
+
+
+            obj.LEAVING_REASON = clsCommon.myCstr(dt.Rows(0)("LEAVING_REASON"))
+            obj.CAST_CATEGORY_CODE = clsCommon.myCstr(dt.Rows(0)("CAST_CATEGORY_CODE"))
+            obj.RELIGION_CODE = clsCommon.myCstr(dt.Rows(0)("RELIGION_CODE"))
+            obj.PRESENT_COUNTRY_CODE = clsCommon.myCstr(dt.Rows(0)("PRESENT_COUNTRY_CODE"))
+            obj.PRESENT_STATE_CODE = clsCommon.myCstr(dt.Rows(0)("PRESENT_STATE_CODE"))
+            obj.PRESENT_CITY_CODE = clsCommon.myCstr(dt.Rows(0)("PRESENT_CITY_CODE"))
+            obj.PRESENT_MOBILE_NO = clsCommon.myCstr(dt.Rows(0)("PRESENT_MOBILE_NO"))
+            obj.PERMA_COUNTRY_CODE = clsCommon.myCstr(dt.Rows(0)("PERMA_COUNTRY_CODE"))
+            obj.PERMA_STATE_CODE = clsCommon.myCstr(dt.Rows(0)("PERMA_STATE_CODE"))
+            obj.PERMA_CITY_CODE = clsCommon.myCstr(dt.Rows(0)("PERMA_CITY_CODE"))
+            obj.PERMA_PHONE_NO = clsCommon.myCstr(dt.Rows(0)("PERMA_PHONE_NO"))
+            obj.PERMA_MOBILE_NO = clsCommon.myCstr(dt.Rows(0)("PERMA_MOBILE_NO"))
+            obj.PERMA_PIN_CODE = clsCommon.myCstr(dt.Rows(0)("PERMA_PIN_CODE"))
+            obj.PAN_NO = clsCommon.myCstr(dt.Rows(0)("PAN_NO"))
+            obj.PASPORT_NO = clsCommon.myCstr(dt.Rows(0)("PASPORT_NO"))
+            obj.DESCRIPTION = clsCommon.myCstr(dt.Rows(0)("DESCRIPTION"))
+            obj.Transfer_PF = clsCommon.myCBool(IIf(clsCommon.myCdbl(dt.Rows(0)("transfer_PF")) = 1, True, False))
+            obj.transferText = clsCommon.myCstr(dt.Rows(0)("transferPF_text"))
+            obj.FATHERS_NAME = clsCommon.myCstr(dt.Rows(0)("FATHERS_NAME"))
+            obj.MOTHERS_NAME = clsCommon.myCstr(dt.Rows(0)("MOTHERS_NAME"))
+            obj.SPOUSE_NAME = clsCommon.myCstr(dt.Rows(0)("SPOUSE_NAME"))
+            obj.ISESI = clsCommon.myCBool(dt.Rows(0)("ISESI"))
+            obj.ESI_NO = clsCommon.myCstr(dt.Rows(0)("ESI_NO"))
+            obj.ESI_DISPENSARY = clsCommon.myCstr(dt.Rows(0)("ESI_DISPENSARY"))
+            obj.ISPF = clsCommon.myCBool(dt.Rows(0)("ISPF"))
+            obj.PF_NO = clsCommon.myCstr(dt.Rows(0)("PF_NO"))
+            obj.PF_NO_DEPT_FILE = clsCommon.myCstr(dt.Rows(0)("PF_NO_DEPT_FILE"))
+            obj.WARD_CIRCLE = clsCommon.myCstr(dt.Rows(0)("WARD_CIRCLE"))
+            obj.ISRESTRICT_PF = clsCommon.myCBool(dt.Rows(0)("ISRESTRICT_PF"))
+            obj.ISZERO_PENSION = clsCommon.myCBool(dt.Rows(0)("ISZERO_PENSION"))
+            obj.ISDIRECTOR = clsCommon.myCBool(dt.Rows(0)("ISDIRECTOR"))
+            obj.ISZERO_PT = clsCommon.myCBool(dt.Rows(0)("ISZERO_PT"))
+            If Not IsDBNull(dt.Rows(0)("RESIGNATION_SUBMIT_DATE")) Then
+                obj.RESINATION_SUBMIT_DATE = clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("RESIGNATION_SUBMIT_DATE")), "dd/MMM/yyyy")
+            End If
+            obj.NOTICE_IN_DAYS = CInt(clsCommon.myCdbl(dt.Rows(0)("NOTICE_PERIOD_IN_DAYS")))
+            '' pjc module fields
+            obj.EARNING_CODE = clsCommon.myCstr(dt.Rows(0)("EARNING_CODE"))
+            obj.UNIT_COST = clsCommon.myCdbl(dt.Rows(0)("UNIT_COST"))
+            obj.BILLING_RATE = clsCommon.myCdbl(dt.Rows(0)("BILLING_RATE"))
+            obj.USER_CODE = clsCommon.myCstr(dt.Rows(0)("USER_CODE"))
+            obj.COMMENTS = clsCommon.myCstr(dt.Rows(0)("COMMENTS"))
+            obj.Hold_Slary = clsCommon.myCstr(dt.Rows(0)("Hold_Salary"))
+            If IsDBNull(dt.Rows(0)("APPLY_ALL_CUST")) = True Then
+                obj.APPLY_ALL_CUST = False
+            Else
+                obj.APPLY_ALL_CUST = dt.Rows(0)("APPLY_ALL_CUST")
+            End If
+
+            '' end pjc module fields
+            obj.ObjListEmpFamilieDetails = clsEmpFamilieDetails.GetData(obj.EMP_CODE, trans)
+            obj.ObjListEmpLangDetails = clsEmpLanguageDetails.GetData(obj.EMP_CODE, trans)
+            obj.ObjListEmpQualiDetails = clsEmpQualiDetails.GetData(obj.EMP_CODE, trans)
+            obj.ObjListEmpExpDetails = clsEmpExpDetails.GetData(obj.EMP_CODE, trans)
+            obj.ObjListEmpDocuments = clsEmpDocuments.GetDataForGrid(obj.EMP_CODE, trans)
+            obj.ObjListEmpAssets = clsEmpAssets.GetDataForGrid(obj.EMP_CODE, trans)
+
+            '' kdil and viney 
+            obj.CONV_TYPE = clsCommon.myCstr(dt.Rows(0)("CONV_TYPE"))
+            obj.EMPLOYMENT_NATURE = clsCommon.myCstr(dt.Rows(0)("EMPLOYMENT_NATURE"))
+            obj.IS_OT_APPL = clsCommon.myCBool(dt.Rows(0)("IS_OT_APPL"))
+            obj.IS_OD_APPL = clsCommon.myCBool(dt.Rows(0)("IS_OD_APPL"))
+            obj.DISPLAY_IN_STATUTORY = clsCommon.myCBool(dt.Rows(0)("DISPLAY_IN_STATUTORY"))
+            obj.MINIMUM_BASIC_SALARY = clsCommon.myCdbl(dt.Rows(0)("MINIMUM_BASIC_SALARY"))
+            obj.VENDOR_CODE = clsCommon.myCstr(dt.Rows(0)("VENDOR_CODE"))
+            obj.AGENCY_CODE = clsCommon.myCstr(dt.Rows(0)("AGENCY_CODE"))
+            obj.AgeForPension = clsCommon.myCdbl(dt.Rows(0)("Age_For_Pension"))
+            '==
+            obj.Bank_Branch = clsCommon.myCstr(dt.Rows(0)("Bank_Branch"))
+            '' kdil new dated - 10/dec/2014
+            obj.BLOOD_GROUP = clsCommon.myCstr(dt.Rows(0)("BLOOD_GROUP"))
+            obj.UIN_NO = clsCommon.myCstr(dt.Rows(0)("UIN_NO"))
+            obj.ADD1_TYPE = clsCommon.myCstr(dt.Rows(0)("ADD1_TYPE"))
+            obj.ADD1_VERIFIED = IIf(clsCommon.myCdbl(dt.Rows(0)("ADD1_VERIFIED")) = 1, True, False)
+            obj.ADD1_VERIFIED_REMARKS = clsCommon.myCstr(dt.Rows(0)("ADD1_VERIFIED_REMARKS"))
+            obj.ADD1_TEHSIL = clsCommon.myCstr(dt.Rows(0)("ADD1_TEHSIL"))
+            obj.ADD1_VILLAGE = clsCommon.myCstr(dt.Rows(0)("ADD1_VILLAGE"))
+            obj.ADD1_POST_OFFICE = clsCommon.myCstr(dt.Rows(0)("ADD1_POST_OFFICE"))
+            obj.ADD1_POLICE_STATION = clsCommon.myCstr(dt.Rows(0)("ADD1_POLICE_STATION"))
+            obj.ADD2_TYPE = clsCommon.myCstr(dt.Rows(0)("ADD2_TYPE"))
+            obj.ADD2_VERIFIED = IIf(clsCommon.myCdbl(dt.Rows(0)("ADD2_VERIFIED")) = 1, True, False)
+            obj.ADD2_VERIFIED_REMARKS = clsCommon.myCstr(dt.Rows(0)("ADD2_VERIFIED_REMARKS"))
+            obj.ADD2_TEHSIL = clsCommon.myCstr(dt.Rows(0)("ADD2_TEHSIL"))
+            obj.ADD2_VILLAGE = clsCommon.myCstr(dt.Rows(0)("ADD2_VILLAGE"))
+            obj.ADD2_POST_OFFICE = clsCommon.myCstr(dt.Rows(0)("ADD2_POST_OFFICE"))
+            obj.ADD2_POLICE_STATION = clsCommon.myCstr(dt.Rows(0)("ADD2_POLICE_STATION"))
+            obj.ALTERNATE_EMAIL_ID = clsCommon.myCstr(dt.Rows(0)("ALTERNATE_EMAIL_ID"))
+            obj.NO_DUES = clsCommon.myCstr(dt.Rows(0)("NO_DUES"))
+            obj.HRApplicant_Code = clsCommon.myCstr(dt.Rows(0)("HRApplicant_Code"))
+            obj.Bank_Branch_Name = clsCommon.myCstr(dt.Rows(0)("Bank_Branch_Name"))
+            obj.Bank_Name = clsCommon.myCstr(dt.Rows(0)("Bank_Name"))
+            obj.Adhar_No = clsCommon.myCstr(dt.Rows(0)("Adhar_No"))
+            '============
+            obj.Pf_Calculation_Type = clsCommon.myCstr(dt.Rows(0)("Pf_Calculation_Type"))
+            obj.Max_Amount_EPF = clsCommon.myCdbl(dt.Rows(0)("Max_Amount_EPF"))
+            obj.EPF_Rate = clsCommon.myCdbl(dt.Rows(0)("EPF_Rate"))
+
+
+            obj.Votercard_No = clsCommon.myCstr(dt.Rows(0)("Votercard_No"))
+            obj.Rationcard_No = clsCommon.myCstr(dt.Rows(0)("RationCard_No"))
+            obj.DL_No = clsCommon.myCstr(dt.Rows(0)("DL_No"))
+            obj.BioMetricEmpID = clsCommon.myCstr(dt.Rows(0)("BioMetricEmpID"))
+            obj.EmpBasisType = clsCommon.myCstr(dt.Rows(0)("EmpBasisType"))
+            obj.SecChequeNoLac1 = clsCommon.myCstr(dt.Rows(0)("SecChequeNoLac1"))
+            obj.SecChequeNoRs100 = clsCommon.myCstr(dt.Rows(0)("SecChequeNoRs100"))
+        End If
+        Return obj
     End Function
 
     Public Function SaveData(ByVal obj As clsEmployeeMaster, ByVal isNewEntry As Boolean, Optional ByVal trans As SqlTransaction = Nothing) As Boolean

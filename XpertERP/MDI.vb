@@ -6530,6 +6530,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmPTSlab
                         frm = New frmPTSlab(objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmEmployeeDeductionMaster
+                        frm = New frmEmployeeDeductionMaster()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmSavingsMaster
                         frm = New frmSavingsMaster()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
