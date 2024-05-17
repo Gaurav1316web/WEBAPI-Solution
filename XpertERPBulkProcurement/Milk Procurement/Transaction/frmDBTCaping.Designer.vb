@@ -45,6 +45,7 @@ Partial Class frmDBTCaping
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadLabel10 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -67,6 +68,7 @@ Partial Class frmDBTCaping
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -89,7 +91,7 @@ Partial Class frmDBTCaping
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1070, 451)
+        Me.SplitContainer1.Size = New System.Drawing.Size(641, 451)
         Me.SplitContainer1.SplitterDistance = 414
         Me.SplitContainer1.TabIndex = 1
         '
@@ -104,6 +106,7 @@ Partial Class frmDBTCaping
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.RadLabel10)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtReco)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblZonet)
         Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel1)
@@ -120,7 +123,7 @@ Partial Class frmDBTCaping
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.gvItem)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1070, 414)
+        Me.SplitContainer2.Size = New System.Drawing.Size(641, 414)
         Me.SplitContainer2.SplitterDistance = 75
         Me.SplitContainer2.TabIndex = 0
         '
@@ -341,7 +344,7 @@ Partial Class frmDBTCaping
         Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.ShowHeaderCellButtons = True
-        Me.gvItem.Size = New System.Drawing.Size(1070, 335)
+        Me.gvItem.Size = New System.Drawing.Size(641, 335)
         Me.gvItem.TabIndex = 0
         Me.gvItem.TabStop = False
         '
@@ -366,7 +369,7 @@ Partial Class frmDBTCaping
         'btnclose
         '
         Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnclose.Location = New System.Drawing.Point(998, 7)
+        Me.btnclose.Location = New System.Drawing.Point(569, 7)
         Me.btnclose.Name = "btnclose"
         Me.btnclose.Size = New System.Drawing.Size(69, 20)
         Me.btnclose.TabIndex = 3
@@ -387,7 +390,7 @@ Partial Class frmDBTCaping
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(1070, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(641, 20)
         Me.RadMenu1.TabIndex = 3
         '
         'RadMenuItem1
@@ -409,11 +412,23 @@ Partial Class frmDBTCaping
         Me.rmDeleteLayout.Text = "Delete Layout"
         Me.rmDeleteLayout.UseCompatibleTextRendering = False
         '
+        'RadLabel10
+        '
+        Me.RadLabel10.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadLabel10.FieldName = Nothing
+        Me.RadLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel10.ForeColor = System.Drawing.SystemColors.Highlight
+        Me.RadLabel10.Location = New System.Drawing.Point(451, 54)
+        Me.RadLabel10.Name = "RadLabel10"
+        Me.RadLabel10.Size = New System.Drawing.Size(186, 16)
+        Me.RadLabel10.TabIndex = 86
+        Me.RadLabel10.Text = "Double click To increase capping"
+        '
         'frmDBTCaping
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1070, 471)
+        Me.ClientSize = New System.Drawing.Size(641, 471)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Name = "frmDBTCaping"
@@ -445,6 +460,7 @@ Partial Class frmDBTCaping
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -473,5 +489,6 @@ Partial Class frmDBTCaping
     Friend WithEvents rmDeleteLayout As RadMenuItem
     Friend WithEvents txtReco As common.UserControls.txtFinder
     Friend WithEvents lblZonet As common.Controls.MyLabel
+    Friend WithEvents RadLabel10 As common.Controls.MyLabel
 End Class
 

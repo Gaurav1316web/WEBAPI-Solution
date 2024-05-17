@@ -4,6 +4,7 @@ Imports System.IO
 
 Public Class frmDBTCaping
     Inherits FrmMainTranScreen
+
 #Region "Variables"
     Public Const colPKID As String = "colPKID"
     Public Const colSlNo As String = "colSlNo"
@@ -28,10 +29,13 @@ Public Class frmDBTCaping
     Dim isCellValueChangedOpen As Boolean = False
     Dim IsinsideLoadData As Boolean = False
     Dim qry As String
+    Dim isCappingIncreaseScreen As Boolean = False
 #End Region
+
     Public Sub New()
         InitializeComponent()
     End Sub
+
     Private Sub FrmVLCDataUploaderManual_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Dim coll As New Dictionary(Of String, String)()
         coll = New Dictionary(Of String, String)()
@@ -50,9 +54,11 @@ Public Class frmDBTCaping
         coll = New Dictionary(Of String, String)()
         coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
         coll.Add("Document_Code", "varchar(30) not NULL references TSPL_DBT_CAPING (Document_Code) ")
+        coll.Add("BMC_Code", "Varchar(30) not null REFERENCES TSPL_MCC_MASTER (MCC_Code)")
+        coll.Add("DCS_Code", "Varchar(30) not null REFERENCES TSPL_VLC_MASTER_HEAD (VLC_Code)")
         coll.Add("MP_Code", "Varchar(30) not null REFERENCES TSPL_MP_MASTER (MP_Code)")
         coll.Add("Qty", "Decimal(18,2) null")
-        coll.Add("Caping_Qty", "Decimal(18,2) null")
+        coll.Add("Capping_Qty", "Decimal(18,2) null")
         coll.Add("Capping_Status", "int Null")
         coll.Add("Capping_Increase_By", "varchar(12) NULL")
         coll.Add("Capping_Increase_Date", "Datetime   NULL")
@@ -60,7 +66,12 @@ Public Class frmDBTCaping
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_CAPING_DETAIL", coll, "", True, False, "TSPL_DBT_CAPING", "Document_Code", "")
 
 
-
+        If clsCommon.CompairString(MyBase.Form_ID, clsUserMgtCode.DBTCappingIncrease) = CompairStringResult.Equal Then
+            isCappingIncreaseScreen = True
+            RadLabel10.Visible = True '
+        Else
+            RadLabel10.Visible = False
+        End If
 
         SetUserMgmtNew()
         Reset()
@@ -76,6 +87,7 @@ Public Class frmDBTCaping
         Me.Focus()
         txtdate.Focus()
     End Sub
+
     Private Sub FrmVLCDataUploaderManual_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.N Then
             Reset()
@@ -90,13 +102,11 @@ Public Class frmDBTCaping
         End If
     End Sub
 
-
-
-
     Sub loadBlankGrid()
+        gvItem.DataSource = Nothing
         gvItem.Rows.Clear()
         gvItem.Columns.Clear()
-        gvItem.DataSource = Nothing
+
         Dim farmercode As New GridViewTextBoxColumn()
 
         Dim lineNo As New GridViewTextBoxColumn()
@@ -312,21 +322,21 @@ Public Class frmDBTCaping
             MessageBox.Show(err.Message)
         End Try
     End Sub
+
     Private Sub SetUserMgmtNew()
-        ''MyBase.SetUserMgmt(clsUserMgtCode.FrmVLCDataUploaderManual)
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
+        End If
+        If isCappingIncreaseScreen Then
+            MyBase.isModifyFlag = False
+            MyBase.isDeleteFlag = False
+            MyBase.isPostFlag = False
         End If
         btnsave.Visible = MyBase.isModifyFlag
         btndelete.Visible = MyBase.isDeleteFlag
         btnPost.Visible = MyBase.isPostFlag
-
-        'If MyBase.isReverse Then
-        '    btnReverse.Enabled = True
-        'Else
-        '    btnReverse.Enabled = False
-        'End If
     End Sub
+
     Sub Reset()
         loadBlankGrid()
         Dim dt As Date = clsCommon.GETSERVERDATE()
@@ -351,6 +361,7 @@ Public Class frmDBTCaping
 
 
     End Sub
+
     Private Function AllowToSave(ByVal isByPost As Boolean) As Boolean
         If AllowFutureDateTransaction(txtdate.Value, Nothing) = False Then
             txtdate.Focus()
@@ -359,76 +370,45 @@ Public Class frmDBTCaping
 
         Return True
     End Function
+
     Sub SaveData(ByVal isByPost As Boolean)
         Try
             If AllowToSave(isByPost) Then
-                Dim obj As New clsMPDCSInsentiveReco()
+                Dim obj As New clsDBTCaping()
                 obj.Document_Code = txtDocumentNo.Value
                 obj.Document_Date = txtdate.Value
-                obj.Zone_Code = txtReco.Value
-                obj.Reco_Date = txtFromDate.Value
-                obj.Reco_Date_To = txtToDate.Value
-                'obj.Apply_FAT_Above = clsCommon.myCDecimal(txtFatPer.Tag)
-                'obj.Apply_SNF_Above = clsCommon.myCDecimal(txtSnfPer.Tag)
-                Dim objTr As New clsMPDCSInsentiveRecoDetail
-                obj.arr = New List(Of clsMPDCSInsentiveRecoDetail)
-                'For Each grow As GridViewRowInfo In gvItem.Rows
-                '    If clsCommon.myLen(grow.Cells(colQty).Value) > 0 Then
-                '        objTr = New clsMPDCSInsentiveRecoDetail()
-                '        objTr.PK_Id = clsCommon.myCDecimal(grow.Cells(colPKID).Value)
-                '        objTr.SNo = obj.arr.Count + 1
-                '        objTr.Reco_Staus = clsCommon.myCBool(grow.Cells(colRecoStatus).Value)
-                '        objTr.MCC_Code = clsCommon.myCstr(grow.Cells(colBMCCode).Value)
-                '        objTr.VLC_Code = clsCommon.myCstr(grow.Cells(colVLCCode).Value)
-                '        objTr.Cycle_Year = clsCommon.myCstr(grow.Cells(colYear).Value)
-                '        objTr.Cycle_Month = clsCommon.myCstr(grow.Cells(colMonth).Value)
-                '        objTr.Cycle_No = clsCommon.myCstr(grow.Cells(colCycleNo).Value)
-                '        objTr.Qty = clsCommon.myCDecimal(grow.Cells(colQty).Value)
-                '        objTr.UOM = clsCommon.myCstr(grow.Cells(colCapingIncreaseBy).Value)
-                '        objTr.FAT = clsCommon.myCDecimal(grow.Cells(colCapingIncreaseRemarks).Value)
-                '        objTr.SNF = clsCommon.myCDecimal(grow.Cells(colSNF).Value)
-                '        objTr.Amount = clsCommon.myCDecimal(grow.Cells(colCapingIncreaseDate).Value)
-                '        objTr.MP_Count = clsCommon.myCDecimal(grow.Cells(colCapingStatus).Value)
-                '        objTr.MP_Qty = clsCommon.myCDecimal(grow.Cells(colCapingQty).Value)
-                '        objTr.MP_FAT = clsCommon.myCDecimal(grow.Cells(colMPFAT).Value)
-                '        objTr.MP_SNF = clsCommon.myCDecimal(grow.Cells(colMPSNF).Value)
-                '        objTr.MP_Amount = clsCommon.myCDecimal(grow.Cells(colMPAmt).Value)
-                '        objTr.Diff_Qty = clsCommon.myCDecimal(grow.Cells(colDiffQty).Value)
-                '        objTr.Diff_FAT = clsCommon.myCDecimal(grow.Cells(colDiffFAT).Value)
-                '        objTr.Diff_SNF = clsCommon.myCDecimal(grow.Cells(colDiffSNF).Value)
-                '        objTr.Diff_Amount = clsCommon.myCDecimal(grow.Cells(colDiffAmt).Value)
-
-                '        obj.arr.Add(objTr)
-                '    End If
-                'Next
+                obj.Reco_Code = txtReco.Value
+                SetDate()
+                Dim objTr As New clsDBTCapingDetail
+                obj.arr = New List(Of clsDBTCapingDetail)
+                For Each grow As GridViewRowInfo In gvItem.Rows
+                    If clsCommon.myLen(grow.Cells(colQty).Value) > 0 Then
+                        objTr = New clsDBTCapingDetail()
+                        objTr.Capping_Status = clsCommon.myCBool(grow.Cells(colCapingStatus).Value)
+                        objTr.BMC_Code = clsCommon.myCstr(grow.Cells(colBMCCode).Value)
+                        objTr.DCS_Code = clsCommon.myCstr(grow.Cells(colVLCCode).Value)
+                        objTr.MP_Code = clsCommon.myCstr(grow.Cells(colMPCode).Value)
+                        objTr.Qty = clsCommon.myCDecimal(grow.Cells(colQty).Value)
+                        objTr.Capping_Qty = clsCommon.myCDecimal(grow.Cells(colCapingQty).Value)
+                        obj.arr.Add(objTr)
+                    End If
+                Next
                 If obj.arr.Count <= 0 Then
                     Throw New Exception("No data found to save")
                 End If
-                Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-                Try
-                    clsMPDCSInsentiveReco.SaveData(obj, isNewEntry, trans)
-                    trans.Commit()
-                    If Not isByPost Then
-                        clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
-                        LoadData(obj.Document_Code, NavigatorType.Current)
-                    End If
-                Catch ex As Exception
-                    trans.Rollback()
-                    Throw New Exception(ex.Message)
-                End Try
+                clsDBTCaping.SaveData(obj, isNewEntry)
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
+                LoadData(obj.Document_Code, NavigatorType.Current)
             End If
         Catch ex As Exception
-            If isByPost Then
-                Throw New Exception("Error while updating data " + ex.Message)
-            Else
-                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-            End If
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
     Private Sub DeleteData()
         Try
             If (deleteConfirm()) Then
-                If (clsMPDCSInsentiveReco.DeleteData(txtDocumentNo.Value)) Then
+                If (clsDBTCaping.DeleteData(txtDocumentNo.Value)) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
@@ -437,72 +417,33 @@ Public Class frmDBTCaping
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         IsinsideLoadData = True
         Reset()
-        Dim obj As clsMPDCSInsentiveReco = clsMPDCSInsentiveReco.GetData(strCode, NavTyep, objCommonVar.strCurrUserZones, Nothing)
+        Dim Whrcls As String = ""
+        If isCappingIncreaseScreen Then
+            Whrcls += " and TSPL_DBT_CAPING.Status=1 "
+        End If
+        Dim obj As clsDBTCaping = clsDBTCaping.GetData(strCode, NavTyep, Nothing, Whrcls)
         If obj IsNot Nothing Then
             DisableInputDataField()
             isNewEntry = False
             txtDocumentNo.Value = obj.Document_Code
             txtdate.Value = obj.Document_Date
-            txtFromDate.Value = obj.Reco_Date
-            txtToDate.Value = obj.Reco_Date_To
             lblPending.Status = obj.Status
-            txtReco.Value = obj.Zone_Code
-
-            'If obj.arr IsNot Nothing AndAlso obj.arr.Count > 0 Then
-            '    CycleNo = obj.arr(0).Cycle_No
-            '    For Each objTr As clsMPDCSInsentiveRecoDetail In obj.arr
-            '        gvItem.Rows.AddNew()
-            '        gvItem.Rows(gvItem.Rows.Count - 1).Cells(colPKID).Value = objTr.PK_Id
-
-            '        gvItem.Rows(gvItem.Rows.Count - 1).Cells(colSlNo).Value = gvItem.Rows.Count
-            '        gvItem.Rows(gvItem.Rows.Count - 1).Cells(colRecoStatus).Value = objTr.Reco_Staus
-
-            '        gvItem.Rows(gvItem.Rows.Count - 1).Cells(colBMCCode).Value = objTr.MCC_Code
-            '        gvItem.Rows(gvItem.Rows.Count - 1).Cells(colBMCName).Value = objTr.MCC_Name
-
-            '        gvItem.Rows(gvItem.Rows.Count - 1).Cells(colMPCode).Value = objTr.Route_Code
-            '        gvItem.Rows(gvItem.Rows.Count - 1).Cells(colMPName).Value = objTr.Route_Name
-
-            '        gvItem.Rows(gvItem.Rows.Count - 1).Cells(colMPUploaderCode).Value = objTr.Zone_Code
-            '        gvItem.Rows(gvItem.Rows.Count - 1).Cells(colZoneName).Value = objTr.Zone_Name
-
-            '        gvItem.Rows(gvItem.Rows.Count - 1).Cells(colVLCCode).Value = objTr.VLC_Code
-            '        gvItem.Rows(gvItem.Rows.Count - 1).Cells(colVLCUploaderCode).Value = objTr.VLC_Uploader_Code
-            '        gvItem.Rows(gvItem.Rows.Count - 1).Cells(colVLCName).Value = objTr.VLC_Name
-
-            '        gvItem.Rows(gvItem.Rows.Count - 1).Cells(colYear).Value = objTr.Cycle_Year
-            '        gvItem.Rows(gvItem.Rows.Count - 1).Cells(colMonth).Value = objTr.Cycle_Month
-            '        gvItem.Rows(gvItem.Rows.Count - 1).Cells(colCycleNo).Value = objTr.Cycle_No
-
-            '        gvItem.Rows(gvItem.Rows.Count - 1).Cells(colQty).Value = objTr.Qty
-            '        gvItem.Rows(gvItem.Rows.Count - 1).Cells(colCapingIncreaseBy).Value = objTr.UOM
-            '        gvItem.Rows(gvItem.Rows.Count - 1).Cells(colCapingIncreaseRemarks).Value = objTr.FAT
-            '        gvItem.Rows(gvItem.Rows.Count - 1).Cells(colSNF).Value = objTr.SNF
-            '        gvItem.Rows(gvItem.Rows.Count - 1).Cells(colCapingIncreaseDate).Value = objTr.Amount
-
-            '        gvItem.Rows(gvItem.Rows.Count - 1).Cells(colCapingStatus).Value = objTr.MP_Count
-            '        gvItem.Rows(gvItem.Rows.Count - 1).Cells(colCapingQty).Value = objTr.MP_Qty
-            '        gvItem.Rows(gvItem.Rows.Count - 1).Cells(colMPFAT).Value = objTr.MP_FAT
-            '        gvItem.Rows(gvItem.Rows.Count - 1).Cells(colMPSNF).Value = objTr.MP_SNF
-            '        gvItem.Rows(gvItem.Rows.Count - 1).Cells(colMPAmt).Value = objTr.MP_Amount
-
-            '        gvItem.Rows(gvItem.Rows.Count - 1).Cells(colDiffQty).Value = objTr.Diff_Qty
-            '        gvItem.Rows(gvItem.Rows.Count - 1).Cells(colDiffFAT).Value = objTr.Diff_FAT
-            '        gvItem.Rows(gvItem.Rows.Count - 1).Cells(colDiffSNF).Value = objTr.Diff_SNF
-            '        gvItem.Rows(gvItem.Rows.Count - 1).Cells(colDiffAmt).Value = objTr.Diff_Amount
-
-            '        'FillFarmerInfo(gvItem.Rows.Count - 1)
-            '    Next
-            'End If
+            txtReco.Value = obj.Reco_Code
+            SetDate()
+            Whrcls = ""
+            If isCappingIncreaseScreen Then
+                Whrcls += " and isnull(TSPL_DBT_CAPING_DETAIL.Capping_Status,0)=0 "
+            End If
+            SetFieldName(clsDBTCapingDetail.getData(obj.Document_Code, Whrcls))
             txtDocumentNo.MyReadOnly = True
             If obj.Status = ERPTransactionStatus.Approved Then
                 btnsave.Enabled = False
                 btndelete.Enabled = False
                 btnPost.Enabled = False
-
             Else
                 btnsave.Text = "Update"
                 btnsave.Enabled = True
@@ -512,9 +453,14 @@ Public Class frmDBTCaping
         End If
         IsinsideLoadData = False
     End Sub
+
     Private Sub txtDocumentNo__MYNavigator(ByVal sender As Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles txtDocumentNo._MYNavigator
         Try
-            Dim qry As String = "select count(*) from TSPL_DCS_MP_INCENTIVE_RECO_HEAD where Document_Code='" + txtDocumentNo.Value + "' "
+            Dim Whrcls As String = ""
+            If isCappingIncreaseScreen Then
+                Whrcls += " and TSPL_DBT_CAPING.Status=1 "
+            End If
+            Dim qry As String = "select count(*) from TSPL_DBT_CAPING where Document_Code='" + txtDocumentNo.Value + "'   " + Whrcls
             Dim check As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry))
             If check > 0 Then
                 txtDocumentNo.MyReadOnly = True
@@ -527,36 +473,49 @@ Public Class frmDBTCaping
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
     Private Sub txtDocumentNo__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtDocumentNo._MYValidating
         Try
-            txtDocumentNo.Value = clsMPDCSInsentiveReco.getFinder("", txtDocumentNo.Value, isButtonClicked)
+            Dim Whrcls As String = ""
+            If isCappingIncreaseScreen Then
+                Whrcls += " and TSPL_DBT_CAPING.Status=1 "
+            End If
+
+            txtDocumentNo.Value = clsDBTCaping.getFinder(Whrcls, txtDocumentNo.Value, isButtonClicked)
             LoadData(txtDocumentNo.Value, NavigatorType.Current)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
     Sub DisableInputDataField()
         txtdate.Enabled = False
-        txtFromDate.Enabled = False
+        'txtFromDate.Enabled = False
         txtReco.Enabled = False
     End Sub
+
     Sub EnableInputDataField()
         txtdate.Enabled = True
-        txtFromDate.Enabled = True
+        'txtFromDate.Enabled = True
         txtReco.Enabled = True
     End Sub
+
     Private Sub btnclose_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnclose.Click
         CloseForm()
     End Sub
+
     Private Sub btndelete_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btndelete.Click
         DeleteData()
     End Sub
+
     Private Sub btnReset_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnReset.Click
         Reset()
     End Sub
+
     Private Sub btnsave_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnsave.Click
         SaveData(False)
     End Sub
+
     Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
         PostData()
     End Sub
@@ -569,7 +528,7 @@ Public Class frmDBTCaping
 
             If (myMessages.postConfirm()) Then
 
-                clsMPDCSInsentiveReco.PostData(txtDocumentNo.Value)
+                clsDBTCaping.PostData(txtDocumentNo.Value)
                 clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                 LoadData(txtDocumentNo.Value, NavigatorType.Current)
             End If
@@ -581,61 +540,6 @@ Public Class frmDBTCaping
     Private Sub CloseForm()
         Me.Close()
         GC.Collect()
-    End Sub
-
-
-
-
-
-
-
-
-
-
-    Private Sub RadButton6_Click(sender As Object, e As EventArgs)
-        'Try
-        '    If Not lblPending.Status = ERPTransactionStatus.Pending Then
-        '        Throw New Exception("Trasanction should be pending for update")
-        '    End If
-
-        '    Dim Arr As New List(Of clsMPDCSInsentiveRecoDetail)
-        '    For Each grow As GridViewRowInfo In gvItem.Rows
-        '        If clsCommon.myLen(grow.Cells(colQty).Value) > 0 Then
-        '            Dim objTr = New clsMPDCSInsentiveRecoDetail()
-        '            objTr.PK_Id = clsCommon.myCDecimal(grow.Cells(colPKID).Value)
-        '            'objTr.SNo = obj.arr.Count + 1
-        '            objTr.Reco_Staus = clsCommon.myCBool(grow.Cells(colRecoStatus).Value)
-        '            objTr.MCC_Code = clsCommon.myCstr(grow.Cells(colBMCCode).Value)
-        '            objTr.VLC_Code = clsCommon.myCstr(grow.Cells(colVLCCode).Value)
-        '            objTr.Cycle_Year = clsCommon.myCstr(grow.Cells(colYear).Value)
-        '            objTr.Cycle_Month = clsCommon.myCstr(grow.Cells(colMonth).Value)
-        '            objTr.Cycle_No = clsCommon.myCstr(grow.Cells(colCycleNo).Value)
-        '            objTr.Qty = clsCommon.myCDecimal(grow.Cells(colQty).Value)
-        '            objTr.UOM = clsCommon.myCstr(grow.Cells(colCapingIncreaseBy).Value)
-        '            objTr.FAT = clsCommon.myCDecimal(grow.Cells(colCapingIncreaseRemarks).Value)
-        '            objTr.SNF = clsCommon.myCDecimal(grow.Cells(colSNF).Value)
-        '            objTr.Amount = clsCommon.myCDecimal(grow.Cells(colCapingIncreaseDate).Value)
-        '            objTr.MP_Count = clsCommon.myCDecimal(grow.Cells(colCapingStatus).Value)
-        '            objTr.MP_Qty = clsCommon.myCDecimal(grow.Cells(colCapingQty).Value)
-        '            objTr.MP_FAT = clsCommon.myCDecimal(grow.Cells(colMPFAT).Value)
-        '            objTr.MP_SNF = clsCommon.myCDecimal(grow.Cells(colMPSNF).Value)
-        '            objTr.MP_Amount = clsCommon.myCDecimal(grow.Cells(colMPAmt).Value)
-        '            objTr.Diff_Qty = clsCommon.myCDecimal(grow.Cells(colDiffQty).Value)
-        '            objTr.Diff_FAT = clsCommon.myCDecimal(grow.Cells(colDiffFAT).Value)
-        '            objTr.Diff_SNF = clsCommon.myCDecimal(grow.Cells(colDiffSNF).Value)
-        '            objTr.Diff_Amount = clsCommon.myCDecimal(grow.Cells(colDiffAmt).Value)
-
-        '            Arr.Add(objTr)
-        '        End If
-        '    Next
-        '    If Arr.Count <= 0 Then
-        '        Throw New Exception("No data found to save")
-        '    End If
-        '    clsMPDCSInsentiveRecoDetail.saveDataZone(txtDocumentNo.Value, objCommonVar.strCurrUserZones, Arr)
-        '    clsCommon.MyMessageBoxShow(Me, "Data updated successfully", Me.Text)
-        'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        'End Try
     End Sub
 
     Private Sub rmsaveLayout_Click(sender As Object, e As EventArgs) Handles rmsaveLayout.Click
@@ -669,21 +573,32 @@ Public Class frmDBTCaping
         End Try
     End Sub
 
-    Private Sub txtZone__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtReco._MYValidating
+    Private Sub txtReco__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtReco._MYValidating
         Dim qry As String = "select TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Code,convert(date, TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Date,103) as Document_Date, 
 TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date as FromDate, TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date_To as ToDate
 from TSPL_DCS_MP_INCENTIVE_RECO_HEAD"
-        Dim whrcls As String = " Status=1 and isnull(DBT_Capping_Apply,0)=1 and not exists(select 1 from TSPL_DBT_CAPING where TSPL_DBT_CAPING.Reco_Code=TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Code and TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Code not in ('" + txtDocumentNo.Value + "'))"
+        Dim whrcls As String = " Status=1 and isnull(DBT_Capping_Apply,0)=1 and not exists(select 1 from TSPL_DBT_CAPING where TSPL_DBT_CAPING.Reco_Code=TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Code and TSPL_DBT_CAPING.Document_Code not in ('" + txtDocumentNo.Value + "'))"
         txtReco.Value = clsCommon.ShowSelectForm("DBTCAP@F", qry, "Document_Code", whrcls, txtReco.Value, "Document_Code", isButtonClicked)
-        SetDate()
-        FillRecoData()
+        If clsCommon.myLen(txtReco.Value) > 0 Then
+            qry = clsDBFuncationality.getSingleValue("select Document_Code from TSPL_DBT_CAPING where Reco_Code='" + txtReco.Value + "'")
+            If clsCommon.myLen(qry) > 0 Then
+                LoadData(qry, NavigatorType.Current)
+            Else
+                SetDate()
+                FillRecoData()
+            End If
+        End If
     End Sub
 
     Private Sub FillRecoData()
         Dim ii As Integer = 0
         Try
             loadBlankGrid()
-            Dim qry As String = "select 0 as PK_Id,ROW_NUMBER() over (order by TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_MP_MASTER.MP_Code_VLC_Uploader ) as SNo,xxx.MP_Code,TSPL_MP_MASTER.MP_Code_VLC_Uploader,TSPL_MP_MASTER.MP_Name,xxx.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,xxx.MCC_Code,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,TSPL_MCC_MASTER.MCC_NAME,xxx.Qty,(TSPL_MP_MASTER.DBT_Capping_Qty*" + clsCommon.myCstr(txtToDate.Value.Day) + ") as Caping_Qty,case when xxx.Qty>(TSPL_MP_MASTER.DBT_Capping_Qty*" + clsCommon.myCstr(txtToDate.Value.Day) + ") then 0 else 1 end as Capping_Status,null as Capping_Increase_By,null as Capping_Increase_Date,0 as Capping_Increase_Remarks,  from (
+            Dim qry As String = "select 0 as PK_Id,ROW_NUMBER() over (order by TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_MP_MASTER.MP_Code_VLC_Uploader ) as SNo
+,xxx.MCC_Code as BMC_Code,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as BMC_Uploader_Code,TSPL_MCC_MASTER.MCC_NAME as BMC_Name
+,xxx.VLC_Code as DCS_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as DCS_Uploader_Code,TSPL_VLC_MASTER_HEAD.VLC_Name as DCS_Name
+,xxx.MP_Code,TSPL_MP_MASTER.MP_Code_VLC_Uploader as MP_Uploader_Code,TSPL_MP_MASTER.MP_Name
+,xxx.Qty,(TSPL_MP_MASTER.DBT_Capping_Qty*" + clsCommon.myCstr(txtToDate.Value.Day) + ") as Capping_Qty,case when xxx.Qty>(TSPL_MP_MASTER.DBT_Capping_Qty*" + clsCommon.myCstr(txtToDate.Value.Day) + ") then 0 else 1 end as Capping_Status,null as Capping_Increase_By,null as Capping_Increase_Date,0 as Capping_Increase_Remarks  from (
 select MP_Code,max(MCC_Code) as MCC_Code,MAX(VLC_Code) as VLC_Code,sum(Qty) as Qty from (
 select TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code,TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Qty,TSPL_MP_INCENTIVE_ENTRY_DETAIL.UOM 
 From  TSPL_MP_INCENTIVE_ENTRY_DETAIL
@@ -697,12 +612,10 @@ left outer join TSPL_MP_MASTER on TSPL_MP_MASTER.MP_Code=xxx.MP_Code
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=xxx.VLC_Code
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=xxx.MCC_Code
 order by TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_MP_MASTER.MP_Code_VLC_Uploader"
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                SetFieldName(dt)
-            Else
-                clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
-            End If
+            SetFieldName(clsDBFuncationality.GetDataTable(qry))
+
+
+
         Catch ex As Exception
             loadBlankGrid()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -710,38 +623,41 @@ order by TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC
     End Sub
 
     Private Sub SetFieldName(ByVal dt As DataTable)
-        gvItem.DataSource = Nothing
-        gvItem.AutoGenerateColumns = False
-        gvItem.DataSource = dt
-        gvItem.Columns(colPKID).FieldName = "PK_Id"
-        gvItem.Columns(colSlNo).FieldName = "SNo"
-        gvItem.Columns(colCapingStatus).FieldName = "Capping_Status"
-        gvItem.Columns(colBMCCode).FieldName = "MCC_Code"
-        gvItem.Columns(colBMCUploaderNo).FieldName = "Mcc_Code_VLC_Uploader"
-        gvItem.Columns(colBMCName).FieldName = "MCC_NAME"
-        gvItem.Columns(colVLCCode).FieldName = "VLC_Code"
-        gvItem.Columns(colVLCUploaderCode).FieldName = "VLC_Code_VLC_Uploader"
-        gvItem.Columns(colVLCName).FieldName = "VLC_Name"
-        gvItem.Columns(colMPCode).FieldName = "MP_Code"
-        gvItem.Columns(colMPUploaderCode).FieldName = "MP_Code_VLC_Uploader"
-        gvItem.Columns(colMPName).FieldName = "MP_Name"
-        gvItem.Columns(colQty).FieldName = "Qty"
-        gvItem.Columns(colCapingQty).FieldName = "Caping_Qty"
-        gvItem.Columns(colCapingIncreaseBy).FieldName = "Capping_Increase_By"
-        gvItem.Columns(colCapingIncreaseDate).FieldName = "Capping_Increase_Date"
-        gvItem.Columns(colCapingIncreaseRemarks).FieldName = "Capping_Increase_Remarks"
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            gvItem.DataSource = Nothing
+            gvItem.AutoGenerateColumns = False
+            gvItem.DataSource = dt
+            gvItem.Columns(colPKID).FieldName = "PK_Id"
+            gvItem.Columns(colSlNo).FieldName = "SNo"
+            gvItem.Columns(colCapingStatus).FieldName = "Capping_Status"
+            gvItem.Columns(colBMCCode).FieldName = "BMC_Code"
+            gvItem.Columns(colBMCUploaderNo).FieldName = "BMC_Uploader_Code"
+            gvItem.Columns(colBMCName).FieldName = "BMC_Name"
+            gvItem.Columns(colVLCCode).FieldName = "DCS_Code"
+            gvItem.Columns(colVLCUploaderCode).FieldName = "DCS_Uploader_Code"
+            gvItem.Columns(colVLCName).FieldName = "DCS_Name"
+            gvItem.Columns(colMPCode).FieldName = "MP_Code"
+            gvItem.Columns(colMPUploaderCode).FieldName = "MP_Uploader_Code"
+            gvItem.Columns(colMPName).FieldName = "MP_Name"
+            gvItem.Columns(colQty).FieldName = "Qty"
+            gvItem.Columns(colCapingQty).FieldName = "Capping_Qty"
+            gvItem.Columns(colCapingIncreaseBy).FieldName = "Capping_Increase_By"
+            gvItem.Columns(colCapingIncreaseDate).FieldName = "Capping_Increase_Date"
+            gvItem.Columns(colCapingIncreaseRemarks).FieldName = "Capping_Increase_Remarks"
+        Else
+            Throw New Exception("Data Not Found")
+        End If
     End Sub
 
     Sub SetDate()
         If clsCommon.myLen(txtReco.Value) > 0 Then
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Reco_Date,Reco_Date_To from TSPL_DCS_MP_INCENTIVE_RECO_HEAD where Document_Code='" + txtReco.Value + "'")
-            If dt IsNot Nothing AndAlso dt.Rows.Count <= 0 Then
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 txtFromDate.Value = clsCommon.myCDate(dt.Rows(0)("Reco_Date"))
                 txtToDate.Value = clsCommon.myCDate(dt.Rows(0)("Reco_Date_To"))
             End If
         End If
     End Sub
-
 
     Private Sub btnReverse_Click(sender As Object, e As EventArgs)
         Try
@@ -761,6 +677,28 @@ order by TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC
             '    clsCommon.MyMessageBoxShow("Task done Successfully", Me.Text)
             '    LoadData(txtDocNo.Value, NavigatorType.Current)
             'End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub gvItem_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles gvItem.DoubleClick
+        Try
+            If isCappingIncreaseScreen Then
+                If gvItem.CurrentRow.Index >= 0 Then
+                    Dim frm As New frmFreeTxtNumBox
+                    frm.Text = "Remarks for Increate the capping"
+                    frm.NumValue = clsCommon.myRoundOFF(clsCommon.myCDecimal(gvItem.CurrentRow.Cells(colQty).Value) / txtToDate.Value.Day, 0, 0)
+                    frm.ShowDialog()
+                    If clsCommon.myLen(frm.strRmks) <= 0 AndAlso frm.NumValue <= 0 Then
+                        Exit Sub
+                    Else
+                        clsDBTCapingDetail.CappingIncrease(clsCommon.myCDecimal(gvItem.CurrentRow.Cells(colPKID).Value), frm.strRmks, frm.NumValue, txtToDate.Value.Day)
+                        clsCommon.MyMessageBoxShow(Me, "Capping increased of selected farmer", Me.Text)
+                        LoadData(txtDocumentNo.Value, NavigatorType.Current)
+                    End If
+                End If
+            End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

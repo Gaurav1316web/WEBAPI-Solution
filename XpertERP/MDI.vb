@@ -7922,6 +7922,14 @@ Public Class MDI
                         Else
                             clsCommon.MyMessageBoxShow("This feature is not for you")
                         End If
+                    Case clsUserMgtCode.DBTCappingIncrease
+                        If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.DBTMilkQtyCapping, clsFixedParameterCode.DBTMilkQtyCapping, Nothing)) > 0 Then
+                            frm = New frmDBTCaping
+                            formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                        Else
+                            clsCommon.MyMessageBoxShow("This feature is not for you")
+                        End If
+
                     Case clsUserMgtCode.DBTNEFTUploader
                         frm = New frmDBTNEFTUploader
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
