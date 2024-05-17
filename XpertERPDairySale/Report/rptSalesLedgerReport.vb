@@ -183,7 +183,7 @@ Public Class rptSalesLedgerReport
             End If
 
 
-            Dim qry As String = "SELECT distinct TSPL_ITEM_MASTER.Structure_Code,TSPL_ITEM_MASTER.Item_Desc as Short_Description,TSPL_ITEM_MASTER.Item_Desc + 'Amt' as Item_Description,TSPL_ITEM_MASTER.Sku_Seq
+            Dim qry As String = "SELECT distinct TSPL_ITEM_MASTER.Structure_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.Short_Description + 'Amt' as Item_Description,TSPL_ITEM_MASTER.Sku_Seq
             FROM TSPL_SD_SHIPMENT_DETAIL 
             left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code 
             left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
@@ -469,6 +469,7 @@ Public Class rptSalesLedgerReport
         Next
 
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub ReStoreGridLayout()

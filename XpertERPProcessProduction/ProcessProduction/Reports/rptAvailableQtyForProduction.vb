@@ -318,7 +318,7 @@ Public Class rptAvailableQtyForProduction
         Dim item5 As New GridViewSummaryItem("Qty To Be Produced", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item5)
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Sub Reset()
         txtToDate.Value = clsCommon.GETSERVERDATE()

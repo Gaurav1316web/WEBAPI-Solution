@@ -452,6 +452,8 @@ Public Class rptGSTR
         gv2.ShowGroupPanel = False
         gv2.MasterTemplate.AutoExpandGroups = True
         gv2.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+
+        gv2.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         gv2.MasterTemplate.ShowTotals = True
     End Sub
 
@@ -534,6 +536,7 @@ Public Class rptGSTR
         gv3.ShowGroupPanel = False
         gv3.MasterTemplate.AutoExpandGroups = True
         gv3.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv3.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub rmsaveLayout_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click
@@ -1102,7 +1105,7 @@ Public Class rptGSTR
         gv3.ShowGroupPanel = False
         gv3.MasterTemplate.AutoExpandGroups = True
         gv3.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv3.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
 

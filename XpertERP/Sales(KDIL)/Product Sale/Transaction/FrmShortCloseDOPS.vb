@@ -152,7 +152,7 @@ Public Class FrmShortCloseDOPS
         GV1.MasterTemplate.AutoExpandGroups = True
 
         GV1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        GV1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Private Sub FrmShortCloseDO_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Reset()

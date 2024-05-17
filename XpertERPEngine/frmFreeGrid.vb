@@ -64,6 +64,7 @@ Public Class FrmFreeGrid
                     summaryRowItem.Add(item1)
                 Next
                 gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
 
         End If

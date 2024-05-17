@@ -195,7 +195,7 @@ Public Class RptTankerInTransit
         gv.ShowGroupPanel = False
         gv.MasterTemplate.AutoExpandGroups = True
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Sub Reset()
         txtFromDate.Value = clsCommon.GETSERVERDATE()

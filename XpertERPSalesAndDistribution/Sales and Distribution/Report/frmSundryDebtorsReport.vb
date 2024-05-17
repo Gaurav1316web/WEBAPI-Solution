@@ -378,6 +378,7 @@ PIVOT ( SUM(AMT)  FOR Location_Code IN ([AJMR], [BIKR], [JODH], [NADB], [LAMB], 
         summaryRowItem.Add(item11)
 
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         RadPageView1.SelectedPage = RadPageViewPage2
     End Sub
     Private Sub BtnReset_Click(sender As Object, e As EventArgs) Handles BtnReset.Click

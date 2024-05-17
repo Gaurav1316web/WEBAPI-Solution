@@ -113,6 +113,7 @@ Public Class RptDairyBookingDistributorReport
         Gv1.ShowGroupPanel = False
         Gv1.MasterTemplate.AutoExpandGroups = True
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Sub FormatGridUDL()
         ' Dim strItemCode, head2 As String
@@ -142,6 +143,7 @@ Public Class RptDairyBookingDistributorReport
         Gv1.ShowGroupPanel = False
         Gv1.MasterTemplate.AutoExpandGroups = True
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub TxtMultiSelectFinder2__My_Click(sender As Object, e As EventArgs) Handles TxtMultiSelectFinder2._My_Click

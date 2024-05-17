@@ -1225,6 +1225,7 @@ Public Class GLTransReport
         Dim item2 As New GridViewSummaryItem("CrAmt", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item2)
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         RadPageView1.SelectedPage = RadPageViewPage2
         EnableDisableControls(False)
     End Sub
@@ -1695,6 +1696,7 @@ Public Class GLTransReport
 
         ReStoreGridSoucreDocNo()
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         RadPageView1.SelectedPage = RadPageViewPage2
         EnableDisableControls(False)
     End Sub
@@ -1766,6 +1768,7 @@ Public Class GLTransReport
             total = New GridViewSummaryItem("CrAmt", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(total)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf clsCommon.CompairString(ddlGroupingType.SelectedItem.Text, "None") = CompairStringResult.Equal Then
 
             gv1.Columns("Account_code").IsVisible = True
@@ -1889,7 +1892,7 @@ Public Class GLTransReport
             total = New GridViewSummaryItem("FinalAmount", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(total)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf clsCommon.CompairString(ddlGroupingType.SelectedItem.Text, "Account No") = CompairStringResult.Equal Then
 
             gv1.Columns("Account_code").IsVisible = True
@@ -1932,7 +1935,7 @@ Public Class GLTransReport
             total = New GridViewSummaryItem("Closing", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(total)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
         End If
 

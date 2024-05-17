@@ -175,7 +175,7 @@ Public Class rptProvisionChart
         gv1.MasterTemplate.AutoExpandGroups = True
 
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
 

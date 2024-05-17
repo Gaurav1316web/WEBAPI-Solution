@@ -116,7 +116,7 @@ Public Class rptPaymentPayable
                 summaryRowItem.Add(itemPendingAmount)
 
                 Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+                Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 Gv1.BestFitColumns()
                 If isPrint = True Then
                     Dim frmCRV As New frmCrystalReportViewer()

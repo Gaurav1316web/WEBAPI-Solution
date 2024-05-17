@@ -209,7 +209,7 @@ Public Class frmDCSFinancialEntry
         summaryRowItem.Add(item2)
 
         gvItem.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gvItem.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
         gvItem.AllowAddNewRow = False
         gvItem.AllowDeleteRow = True

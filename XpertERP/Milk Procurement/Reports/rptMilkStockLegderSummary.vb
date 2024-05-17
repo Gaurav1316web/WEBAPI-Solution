@@ -349,7 +349,7 @@ Public Class RptMilkStockLegderSummary
         gv.ShowGroupPanel = False
         gv.MasterTemplate.AutoExpandGroups = True
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Private Sub RptMilkStockLegderSummary_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.N Then
@@ -572,7 +572,7 @@ Public Class RptMilkStockLegderSummary
         gv2.ShowGroupPanel = False
         gv2.MasterTemplate.AutoExpandGroups = True
         gv2.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv2.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub gv2_CellDoubleClick(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv2.CellDoubleClick

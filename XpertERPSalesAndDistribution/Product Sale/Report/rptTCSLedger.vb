@@ -457,7 +457,7 @@ Public Class rptTCSLedger
         Next
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
 
-
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         RadPageView1.SelectedPage = RadPageViewPage2
         EnableDisableControl(False)
         Gv1.AllowAddNewRow = False

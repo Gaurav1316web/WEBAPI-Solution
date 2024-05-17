@@ -326,7 +326,7 @@ Public Class FrmVendorInquiry
             Dim SumContainerDp As New GridViewSummaryItem(colG2Amt, "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(SumContainerDp)
             gv2.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv2.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
@@ -344,7 +344,7 @@ Public Class FrmVendorInquiry
             summaryRowItem.Add(SumContainerBal)
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 

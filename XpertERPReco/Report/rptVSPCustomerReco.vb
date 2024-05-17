@@ -369,7 +369,7 @@ Public Class rptVSPCustomerReco
             item = New GridViewSummaryItem("CRAmount", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item)
             Gv2.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            Gv2.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             RadPageView1.SelectedPage = RadPageViewPage3
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
@@ -527,6 +527,7 @@ Public Class rptVSPCustomerReco
 
             summaryRowItem.Add(item)
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Vendor And Account Wise") = CompairStringResult.Equal Then
             Gv1.Columns("Vendor_Group_Code").IsVisible = True
             Gv1.Columns("Vendor_Group_Code").Width = 120
@@ -631,6 +632,7 @@ Public Class rptVSPCustomerReco
             item = New GridViewSummaryItem("GLCLBal", "{0:F2}", GridAggregateFunction.Sum)
 
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Detail") = CompairStringResult.Equal Then
             Gv1.Columns("Vendor_Group_Code").IsVisible = True
             Gv1.Columns("Vendor_Group_Code").Width = 120
@@ -733,6 +735,7 @@ Public Class rptVSPCustomerReco
             item = New GridViewSummaryItem("DiffAmount", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item)
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
         RadPageView1.SelectedPage = RadPageViewPage2
 

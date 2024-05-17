@@ -397,7 +397,7 @@ where Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) >='" + fromDate + "' and Cas
         gv.ShowGroupPanel = False
         gv.MasterTemplate.AutoExpandGroups = True
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub ReStoreGridLayout()

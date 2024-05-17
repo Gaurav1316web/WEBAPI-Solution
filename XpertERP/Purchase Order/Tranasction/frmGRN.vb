@@ -3918,11 +3918,13 @@ Public Class frmGRN
                     If clsCommon.myLen(hsncode) <= 0 Then
                         hsn = clsCommon.myCstr(grow.Cells(colHSNNo).Value)
                         clsItemMaster.UpdateHSNCode(hsn, clsCommon.myCstr(grow.Cells(colICode).Value), Nothing)
-                    ElseIf clsCommon.myLen(hsncode1) <= 0 Then
+                    End If
+                    If clsCommon.myLen(hsncode1) <= 0 Then
+                        Dim isnew As Boolean = True
                         hsn = clsCommon.myCstr(grow.Cells(colHSNNo).Value)
                         If clsCommon.myLen(hsn) > 0 Then
                             objhsn.Code = hsn
-                            ClsHSNMaster.SaveData(objhsn, isNewEntry)
+                            ClsHSNMaster.SaveData(objhsn, isnew)
                         End If
                     End If
                     objTr.Line_No = clsCommon.myCdbl(grow.Cells(colLineNo).Value)

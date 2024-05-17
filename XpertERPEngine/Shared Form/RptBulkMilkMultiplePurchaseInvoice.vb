@@ -278,7 +278,7 @@ Public Class RptBulkMilkMultiplePurchaseInvoice
         gv.MasterTemplate.AutoExpandGroups = True
 
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     '============update by preeti gupta Against Ticket no[BHA/03/07/18-000128]
     Sub loadData()

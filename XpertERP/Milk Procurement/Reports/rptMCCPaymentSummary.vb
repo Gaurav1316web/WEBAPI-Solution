@@ -123,6 +123,7 @@ Public Class rptMCCPaymentSummary
                 Gv1.ShowGroupPanel = True
                 Gv1.MasterTemplate.AutoExpandGroups = True
                 Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 Gv1.BestFitColumns()
                 'Else
                 '    clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
@@ -461,6 +462,7 @@ Public Class rptMCCPaymentSummary
                     GvDetail.ShowGroupPanel = True
                     GvDetail.MasterTemplate.AutoExpandGroups = True
                     GvDetail.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    GvDetail.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                     GvDetail.BestFitColumns()
                 End If
                 'ReStoreGridLayout()

@@ -334,6 +334,7 @@ Public Class EmployeeWiseReport
             Next
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             ReStoreGridLayout()
             '' hide columns
             'gv1.Columns("SALARY_GENERATION_CODE").IsVisible = False

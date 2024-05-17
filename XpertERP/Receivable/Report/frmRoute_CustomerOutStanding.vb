@@ -272,7 +272,7 @@ Public Class FrmRoute_CustomerOutStanding
         Dim OverDue As New GridViewSummaryItem("OverDue", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(OverDue)
         gvReport.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gvReport.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub btnReset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)

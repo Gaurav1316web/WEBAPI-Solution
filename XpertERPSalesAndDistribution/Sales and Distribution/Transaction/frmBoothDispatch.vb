@@ -98,6 +98,7 @@ where 2=2
         gvData.ShowGroupPanel = True
         gvData.MasterTemplate.AutoExpandGroups = True
         gvData.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvData.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         gvData.MasterTemplate.ShowTotals = True
         'ReStoreGridLayout()
     End Sub

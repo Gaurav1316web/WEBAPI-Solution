@@ -2108,6 +2108,7 @@ Public Class frmPaymentProcessFarmer
                 End If
             Next
             gvInvoice.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gvInvoice.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -3141,6 +3142,7 @@ Public Class frmPaymentProcessFarmer
             End If
         Next
         gvFA.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvFA.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Sub LoadBlankGridCreditNote()
@@ -3286,6 +3288,7 @@ Public Class frmPaymentProcessFarmer
             End If
         Next
         gvDeduction.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvDeduction.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Sub LoadCreditNoteGridData()
@@ -3329,6 +3332,7 @@ Public Class frmPaymentProcessFarmer
             End If
         Next
         gvCreditNote.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvCreditNote.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Sub LoadAdvancePaymentGridData()
@@ -3379,6 +3383,7 @@ Public Class frmPaymentProcessFarmer
             End If
         Next
         gvAdvancePayment.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvAdvancePayment.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
 
@@ -3427,6 +3432,7 @@ Public Class frmPaymentProcessFarmer
             End If
         Next
         gvMccSale.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvMccSale.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Sub LoadMccSaleGridDataFarmer()
         LoadBlankGridMccSaleFarmer()
@@ -3478,6 +3484,7 @@ Public Class frmPaymentProcessFarmer
             End If
         Next
         gvMccSaleFarmer.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvMccSaleFarmer.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         isCellValueChanged = False
     End Sub
 
@@ -3541,6 +3548,7 @@ Public Class frmPaymentProcessFarmer
             End If
         Next
         GvMccSaleReturn.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        GvMccSaleReturn.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Sub LoadMccSaleReturnGridDataFarmer()
@@ -3601,6 +3609,7 @@ Public Class frmPaymentProcessFarmer
             End If
         Next
         gvMccSaleReturnFarmer.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvMccSaleReturnFarmer.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Sub LoadAdjustmentGridDataFarmer()
         'GvMccSaleReturn.Rows.Clear()
@@ -3655,6 +3664,7 @@ Public Class frmPaymentProcessFarmer
             End If
         Next
         gvMPAdj.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvMPAdj.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Sub LoadBlankGridItemIssue()
@@ -3937,6 +3947,7 @@ Public Class frmPaymentProcessFarmer
             End If
         Next
         gvItemIssue.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvItemIssue.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Sub LoadItemIssueReturnGridData()
@@ -3984,6 +3995,7 @@ Public Class frmPaymentProcessFarmer
             End If
         Next
         gvItemIssueReturn.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvItemIssueReturn.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub rbtnReset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReset.Click
@@ -5052,6 +5064,7 @@ Public Class frmPaymentProcessFarmer
                 Next
 
                 gvInvoice.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gvInvoice.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
             If obj.arrclsPaymentProcessFarmerMccSale IsNot Nothing AndAlso obj.arrclsPaymentProcessFarmerMccSale.Count > 0 Then
                 gvMccSaleFarmer.Rows.Clear()
@@ -5087,6 +5100,7 @@ Public Class frmPaymentProcessFarmer
                 Next
 
                 gvMccSaleFarmer.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gvMccSaleFarmer.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
             If obj.arrClsPaymentProcessMccSale IsNot Nothing AndAlso obj.arrClsPaymentProcessMccSale.Count > 0 Then
                 gvMccSale.Rows.Clear()
@@ -5118,6 +5132,7 @@ Public Class frmPaymentProcessFarmer
                 Next
 
                 gvMccSale.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gvMccSale.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
             If obj.arrclsPaymentProcessFarmerItemIssue IsNot Nothing AndAlso obj.arrclsPaymentProcessFarmerItemIssue.Count > 0 Then
                 gvItemIssue.Rows.Clear()
@@ -5147,6 +5162,7 @@ Public Class frmPaymentProcessFarmer
                 Next
 
                 gvItemIssue.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gvItemIssue.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
 
             If obj.arrclsPaymentProcessFarmerItemIssueReturn IsNot Nothing AndAlso obj.arrclsPaymentProcessFarmerItemIssueReturn.Count > 0 Then
@@ -5177,6 +5193,7 @@ Public Class frmPaymentProcessFarmer
                 Next
 
                 gvItemIssueReturn.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gvItemIssueReturn.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
 
             If obj.arrclsPaymentProcessFarmerDeductions IsNot Nothing AndAlso obj.arrclsPaymentProcessFarmerDeductions.Count > 0 Then
@@ -5206,6 +5223,7 @@ Public Class frmPaymentProcessFarmer
                 Next
 
                 gvDeduction.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gvDeduction.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
 
             If obj.arrclsPaymentProcessFarmerCreditNote IsNot Nothing AndAlso obj.arrclsPaymentProcessFarmerCreditNote.Count > 0 Then
@@ -5232,6 +5250,7 @@ Public Class frmPaymentProcessFarmer
                 Next
 
                 gvCreditNote.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gvCreditNote.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
             If obj.arrClsPaymentProcessMccSaleReturn IsNot Nothing AndAlso obj.arrClsPaymentProcessMccSaleReturn.Count > 0 Then
                 GvMccSaleReturn.Rows.Clear()
@@ -5263,6 +5282,7 @@ Public Class frmPaymentProcessFarmer
                 Next
 
                 GvMccSaleReturn.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                GvMccSaleReturn.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
 
             If obj.arrclsPaymentProcessFarmerMccSaleReturn IsNot Nothing AndAlso obj.arrclsPaymentProcessFarmerMccSaleReturn.Count > 0 Then
@@ -5295,6 +5315,7 @@ Public Class frmPaymentProcessFarmer
                 Next
 
                 gvMccSaleReturnFarmer.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gvMccSaleReturnFarmer.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
             LoadBlankGridGV()
 
@@ -5323,6 +5344,7 @@ Public Class frmPaymentProcessFarmer
                 Next
 
                 gvAdvancePayment.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gvAdvancePayment.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
             '' farmer payment grid   
             LoadBlankGridGVFarmer()
@@ -5399,6 +5421,7 @@ Public Class frmPaymentProcessFarmer
                 Next
 
                 gvPaymentToFarmer.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gvPaymentToFarmer.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
             '' adjustment
             If obj.ArrPPAdjustment IsNot Nothing AndAlso obj.ArrPPAdjustment.Count > 0 Then
@@ -5430,6 +5453,7 @@ Public Class frmPaymentProcessFarmer
                 Next
 
                 gvMPAdj.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gvMPAdj.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
 
 
@@ -5455,6 +5479,7 @@ Public Class frmPaymentProcessFarmer
                     End If
                 Next
                 gvFA.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gvFA.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
 
             If obj.ArrVSPPPDetail IsNot Nothing AndAlso obj.ArrVSPPPDetail.Count > 0 Then
@@ -5559,6 +5584,7 @@ Public Class frmPaymentProcessFarmer
                 Next
 
                 gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 ReStoreGridLayout()
             Else
                 loadGvData()
@@ -5969,6 +5995,7 @@ Public Class frmPaymentProcessFarmer
         Next
 
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         isCellValueChanged = False
     End Sub
 
@@ -6098,6 +6125,7 @@ Public Class frmPaymentProcessFarmer
         Next
 
         gvPaymentToFarmer.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvPaymentToFarmer.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         isCellValueChanged = False
     End Sub
 

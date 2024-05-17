@@ -164,6 +164,7 @@ Public Class RptEmployeeBday6
         Dim summaryRowItem As New GridViewSummaryRowItem()
         Dim intCount As Integer = 0
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         RadPageView1.SelectedPage = RadPageViewPage2
         gv.AllowAddNewRow = False
         gv.ShowGroupPanel = False

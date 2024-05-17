@@ -38,6 +38,7 @@ Public Class FrmPjcDrilldown
 
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             gv1.EnableFiltering = True
 
         Catch ex As Exception

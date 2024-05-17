@@ -980,6 +980,7 @@ Public Class FrmOtherPartySale1
             'gv1.ShowGroupPanel = False
             'gv1.MasterTemplate.AutoExpandGroups = True
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

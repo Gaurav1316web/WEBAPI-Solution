@@ -2954,6 +2954,7 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
             End If
             gvCustomer.MasterTemplate.SummaryRowsBottom.Clear()
             gvCustomer.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gvCustomer.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf gvCustomerGroup.Visible = True Then
             'FormatgvCustGroup()
             'ReStoreGridCustGrp()
@@ -3001,6 +3002,7 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
             summaryRowItem.Add(TotalAmt)
             gvCustomerGroup.MasterTemplate.SummaryRowsBottom.Clear()
             gvCustomerGroup.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gvCustomerGroup.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf gvDetails.Visible = True AndAlso ChkDocWise.Checked = False Then
             'FormatGrid(False)
             'ReStoreGridDetail()
@@ -3032,6 +3034,7 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
             End If
             gvDetails.MasterTemplate.SummaryRowsBottom.Clear()
             gvDetails.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gvDetails.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf gvDetails.Visible = True AndAlso ChkDocWise.Checked = True Then
             Dim summaryRowItem As New GridViewSummaryRowItem()
             Dim dramt As New GridViewSummaryItem("DrAmt", "{0:F2}", GridAggregateFunction.Sum)
@@ -3046,6 +3049,7 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
                 summaryItem.AggregateExpression = "SUM([TransAmt1])"
                 summaryRowItem.Add(summaryItem)
                 gvDetails.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gvDetails.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
         ElseIf gvArea.Visible = True Then
             'FormatgvArea()
@@ -3091,6 +3095,7 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
             End If
             gvArea.MasterTemplate.SummaryRowsBottom.Clear()
             gvArea.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gvArea.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf gvZone.Visible = True Then
             'FormatgvZone()
             'ReStoreGridZone()
@@ -3135,6 +3140,7 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
             End If
             gvZone.MasterTemplate.SummaryRowsBottom.Clear()
             gvZone.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gvZone.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
     End Sub
 

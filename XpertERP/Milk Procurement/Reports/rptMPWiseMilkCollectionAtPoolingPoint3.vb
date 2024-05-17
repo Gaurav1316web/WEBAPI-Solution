@@ -329,6 +329,7 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
         gv.ShowGroupPanel = False
         gv.MasterTemplate.AutoExpandGroups = True
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Sub Reset()
         gv.DataSource = Nothing
@@ -435,7 +436,7 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
             gv.ShowGroupPanel = False
             gv.MasterTemplate.AutoExpandGroups = True
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             gv.BestFitColumns()
             RadPageView1.SelectedPage = RadPageViewPage2
             ReStoreGridLayout()
@@ -822,7 +823,7 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
             gv.ShowGroupPanel = False
             gv.MasterTemplate.AutoExpandGroups = True
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             gv.BestFitColumns()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -966,7 +967,7 @@ select [MCC Code],max([MCC Name]) as [MCC Name],[VLC Code],max([VLC Uploader]) a
             gv.ShowGroupPanel = False
             gv.MasterTemplate.AutoExpandGroups = True
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             gv.BestFitColumns()
             RadPageView1.SelectedPage = RadPageViewPage2
             EnableDisableControl(False)
@@ -1018,7 +1019,7 @@ where [VLC Code]='" + clsCommon.myCstr(gv.CurrentRow.Cells("VLC Code").Value) + 
             gv.ShowGroupPanel = False
             gv.MasterTemplate.AutoExpandGroups = True
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             gv.BestFitColumns()
             RadPageView1.SelectedPage = RadPageViewPage2
         Catch ex As Exception

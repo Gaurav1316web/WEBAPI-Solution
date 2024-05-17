@@ -490,6 +490,7 @@ where TSPL_MP_INCENTIVE_ENTRY_HEAD.Status=1  and CONVERT(date,TSPL_MP_INCENTIVE_
             Gv1.ShowGroupPanel = False
             Gv1.MasterTemplate.AutoExpandGroups = True
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf rbtnDetails.IsChecked Then
             Gv1.Columns("S_No").HeaderText = "S.No."
             Gv1.Columns("S_No").IsVisible = True
@@ -682,6 +683,7 @@ where TSPL_MP_INCENTIVE_ENTRY_HEAD.Status=1  and CONVERT(date,TSPL_MP_INCENTIVE_
             Gv1.ShowGroupPanel = False
             Gv1.MasterTemplate.AutoExpandGroups = True
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf rbtnMCCWise.IsChecked Then
 
             If rbtnDetails.IsChecked Then
@@ -874,6 +876,7 @@ where TSPL_MP_INCENTIVE_ENTRY_HEAD.Status=1  and CONVERT(date,TSPL_MP_INCENTIVE_
             Gv1.ShowGroupPanel = False
             Gv1.MasterTemplate.AutoExpandGroups = True
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf rbtnNEFT.IsChecked Then
             Gv1.Columns("MCC_Code").HeaderText = "MCC Code"
             Gv1.Columns("MCC_Code").IsVisible = False

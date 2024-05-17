@@ -627,6 +627,7 @@ Public Class FrmCostCenterAnalysisRpt
             Dim item1 As New GridViewSummaryItem("Total", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item1)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Else
             gv1.MasterTemplate.ShowRowHeaderColumn = False
             For ii As Integer = 0 To gv1.Columns.Count - 1
@@ -719,6 +720,7 @@ Public Class FrmCostCenterAnalysisRpt
             Dim item2 As New GridViewSummaryItem("Credit", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item2)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
     End Sub
 

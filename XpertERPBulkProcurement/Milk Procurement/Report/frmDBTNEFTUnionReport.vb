@@ -329,6 +329,7 @@ Public Class frmDBTNEFTUnionReport
                 summaryRowItem.Add(New GridViewSummaryItem(Gv.Columns(i).Name, "{0:F2}", GridAggregateFunction.Sum))
             Next
             Gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            Gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
     End Sub
 

@@ -154,7 +154,7 @@ Public Class FrmPrintBulkInvoiceStatement
         gv.MasterTemplate.AutoExpandGroups = True
 
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Sub loadData()
         'Ticket No-ERO/19/06/19-000648, sanjay, add CLR and other field as per print from Transaction screen

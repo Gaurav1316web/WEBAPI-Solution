@@ -395,6 +395,7 @@ Public Class frmRptVendorLedgerVsAgeing
 
         gvVendor.MasterTemplate.SummaryRowsBottom.Clear()
         gvVendor.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvVendor.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Private Sub btnRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRefresh.Click
         blnRefresh = True

@@ -211,7 +211,7 @@ Public Class frmBankSummary_Report
         summaryRowItem.Add(item2)
         Gv1.MasterTemplate.SummaryRowsBottom.Clear()
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         RadPageView1.SelectedPage = RadPageViewPage2
         Gv1.AllowAddNewRow = False
         Gv1.ShowGroupPanel = True
@@ -234,7 +234,7 @@ Public Class frmBankSummary_Report
         summaryRowItem.Add(item2)
         Gv1.MasterTemplate.SummaryRowsBottom.Clear()
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         RadPageView1.SelectedPage = RadPageViewPage2
         Gv1.AllowAddNewRow = False
         Gv1.ShowGroupPanel = True

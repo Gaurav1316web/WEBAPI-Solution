@@ -217,6 +217,7 @@ Public Class rpttotalMilkProcurement
                         summaryRowItem.Add(item1)
                     Next
                     gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 End If
 
 
@@ -418,7 +419,7 @@ Public Class rpttotalMilkProcurement
             summaryRowItem.Add(summaryItem2)
 
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             gv.Columns("Qty_In_Kg").HeaderText = "Qty In Kg"
             gv.Columns("Qty_In_Ltr").HeaderText = "Qty In Ltr"
             gv.Columns("FAT_Per").HeaderText = "FAT Per"
@@ -502,7 +503,7 @@ Public Class rpttotalMilkProcurement
         gv.MasterTemplate.AutoExpandGroups = True
 
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Private Sub rmSaveLayout_Click(sender As Object, e As EventArgs) Handles rmSaveLayout.Click
         Try
