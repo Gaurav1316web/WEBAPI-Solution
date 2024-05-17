@@ -89,7 +89,7 @@ Public Class frmFarmerPaymentEntry
 
         Dim strWhrclas As String = "1=1"
 
-        LoadData(clsCommon.ShowSelectForm("PMNTFNDPayment", qry, "Code", strWhrclas, txtPaymentNo.Value, "Code", isButtonClicked, TSPL_MP_PAY_HEAD.Payment_Date))
+        LoadData(clsCommon.ShowSelectForm("PMNTFNDPayment", qry, "Code", strWhrclas, txtPaymentNo.Value, "Code", isButtonClicked, "TSPL_MP_PAY_HEAD.Payment_Date"))
     End Sub
 
     Private Sub txtPaymentNo__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavigatorType As common.NavigatorType) Handles txtPaymentNo._MYNavigator
