@@ -551,6 +551,7 @@ Public Class clsMRNHead
                 obj.GEDate = clsCommon.myCDate(dt.Rows(0)("GEDate"))
             End If
 
+
             'stuti
             obj.IsCancel = CInt(dt.Rows(0)("IsCancel"))
             obj.RoadPermit_No = clsCommon.myCstr(dt.Rows(0)("RoadPermit_No"))
