@@ -2588,6 +2588,9 @@ left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_FAT_SNF_UPL
         If Qty <= 0 Then
             Return 0
         End If
+        Dim OrgFATPer As Double = dblFATPer
+        Dim OrgSNFPer As Double = dblSNFPer
+
         dclRefQATRate = 0
         dclRefNegativeRate = 0
         strPlanningCode = ""
@@ -2638,16 +2641,16 @@ left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_FAT_SNF_UPL
 
                             Dim arrSNF As Dictionary(Of Decimal, Decimal) = clsPriceChartPlanningTSDDCFSNFDed.GetData(strPlanningCode, clsCommon.myCDecimal(drSlab("SNo")), tran)
                             If arrSNF IsNot Nothing AndAlso arrSNF.Count > 0 Then
-                                If arrSNF.ContainsKey(dblSNFPer) Then
-                                    dclReturnMilkValue += arrSNF.Item(dblSNFPer)
+                                If arrSNF.ContainsKey(OrgSNFPer) Then
+                                    dclReturnMilkValue += arrSNF.Item(OrgSNFPer)
                                 End If
                             End If
                         End If
 
                         Dim arrFAT As Dictionary(Of Decimal, Decimal) = clsPriceChartPlanningTSDDCFFATDed.GetData(strPlanningCode, clsCommon.myCDecimal(drSlab("SNo")), tran)
                         If arrFAT IsNot Nothing AndAlso arrFAT.Count > 0 Then
-                            If arrFAT.ContainsKey(dblFATPer) Then
-                                dclReturnMilkValue += arrFAT.Item(dblFATPer)
+                            If arrFAT.ContainsKey(OrgFATPer) Then
+                                dclReturnMilkValue += arrFAT.Item(OrgFATPer)
                             End If
                         End If
                         dclDedPer = clsCommon.myCDecimal(drSlab("Deduction_Per"))

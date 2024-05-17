@@ -903,7 +903,7 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
             txtRoute.Focus()
             Throw New Exception("Please provide Route code ")
         End If
-        Dim whr As String = "len(isnull(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,''))>0 "
+        Dim whr As String = "len(isnull(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,''))>0 and TSPL_MCC_MASTER.In_active=0 "
         If Not SettShowAllMCC Then
             whr += " and TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO='" + txtRoute.Value + "' "
         End If

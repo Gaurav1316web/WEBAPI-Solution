@@ -26,6 +26,10 @@ Partial Class frmPayPeriodMaster
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPayPeriodMaster))
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.cboESIToMonth = New common.Controls.MyComboBox()
+        Me.cboESIFromMonth = New common.Controls.MyComboBox()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.MyLabel4 = New common.Controls.MyLabel()
         Me.UsLock1 = New common.usLock()
         Me.dtpTo = New common.Controls.MyDateTimePicker()
         Me.MyLabel1 = New common.Controls.MyLabel()
@@ -53,10 +57,14 @@ Partial Class frmPayPeriodMaster
         Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
+        Me.btnPost = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.cboESIToMonth, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cboESIFromMonth, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpTo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpFrom, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -77,14 +85,18 @@ Partial Class frmPayPeriodMaster
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.cboESIToMonth)
+        Me.RadGroupBox1.Controls.Add(Me.cboESIFromMonth)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel5)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel4)
         Me.RadGroupBox1.Controls.Add(Me.UsLock1)
         Me.RadGroupBox1.Controls.Add(Me.dtpTo)
         Me.RadGroupBox1.Controls.Add(Me.dtpFrom)
@@ -107,6 +119,79 @@ Partial Class frmPayPeriodMaster
         Me.RadGroupBox1.Size = New System.Drawing.Size(519, 161)
         Me.RadGroupBox1.TabIndex = 0
         Me.RadGroupBox1.Text = " "
+        '
+        'cboESIToMonth
+        '
+        Me.cboESIToMonth.AutoCompleteDisplayMember = Nothing
+        Me.cboESIToMonth.AutoCompleteValueMember = Nothing
+        Me.cboESIToMonth.CalculationExpression = Nothing
+        Me.cboESIToMonth.DropDownAnimationEnabled = True
+        Me.cboESIToMonth.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboESIToMonth.FieldCode = Nothing
+        Me.cboESIToMonth.FieldDesc = Nothing
+        Me.cboESIToMonth.FieldMaxLength = 0
+        Me.cboESIToMonth.FieldName = Nothing
+        Me.cboESIToMonth.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboESIToMonth.isCalculatedField = False
+        Me.cboESIToMonth.IsSourceFromTable = False
+        Me.cboESIToMonth.IsSourceFromValueList = False
+        Me.cboESIToMonth.IsUnique = False
+        Me.cboESIToMonth.Location = New System.Drawing.Point(341, 135)
+        Me.cboESIToMonth.MendatroryField = False
+        Me.cboESIToMonth.MyLinkLable1 = Nothing
+        Me.cboESIToMonth.MyLinkLable2 = Nothing
+        Me.cboESIToMonth.Name = "cboESIToMonth"
+        Me.cboESIToMonth.ReadOnly = True
+        Me.cboESIToMonth.ReferenceFieldDesc = Nothing
+        Me.cboESIToMonth.ReferenceFieldName = Nothing
+        Me.cboESIToMonth.ReferenceTableName = Nothing
+        Me.cboESIToMonth.Size = New System.Drawing.Size(131, 18)
+        Me.cboESIToMonth.TabIndex = 33
+        '
+        'cboESIFromMonth
+        '
+        Me.cboESIFromMonth.AutoCompleteDisplayMember = Nothing
+        Me.cboESIFromMonth.AutoCompleteValueMember = Nothing
+        Me.cboESIFromMonth.CalculationExpression = Nothing
+        Me.cboESIFromMonth.DropDownAnimationEnabled = True
+        Me.cboESIFromMonth.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboESIFromMonth.FieldCode = Nothing
+        Me.cboESIFromMonth.FieldDesc = Nothing
+        Me.cboESIFromMonth.FieldMaxLength = 0
+        Me.cboESIFromMonth.FieldName = Nothing
+        Me.cboESIFromMonth.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboESIFromMonth.isCalculatedField = False
+        Me.cboESIFromMonth.IsSourceFromTable = False
+        Me.cboESIFromMonth.IsSourceFromValueList = False
+        Me.cboESIFromMonth.IsUnique = False
+        Me.cboESIFromMonth.Location = New System.Drawing.Point(113, 135)
+        Me.cboESIFromMonth.MendatroryField = False
+        Me.cboESIFromMonth.MyLinkLable1 = Nothing
+        Me.cboESIFromMonth.MyLinkLable2 = Nothing
+        Me.cboESIFromMonth.Name = "cboESIFromMonth"
+        Me.cboESIFromMonth.ReferenceFieldDesc = Nothing
+        Me.cboESIFromMonth.ReferenceFieldName = Nothing
+        Me.cboESIFromMonth.ReferenceTableName = Nothing
+        Me.cboESIFromMonth.Size = New System.Drawing.Size(141, 18)
+        Me.cboESIFromMonth.TabIndex = 32
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Location = New System.Drawing.Point(262, 134)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(73, 18)
+        Me.MyLabel5.TabIndex = 31
+        Me.MyLabel5.Text = "ESI To Month"
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Location = New System.Drawing.Point(11, 133)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(86, 18)
+        Me.MyLabel4.TabIndex = 30
+        Me.MyLabel4.Text = "ESI From Month"
         '
         'UsLock1
         '
@@ -132,7 +217,7 @@ Partial Class frmPayPeriodMaster
         Me.dtpTo.IsSourceFromTable = False
         Me.dtpTo.IsSourceFromValueList = False
         Me.dtpTo.IsUnique = False
-        Me.dtpTo.Location = New System.Drawing.Point(113, 126)
+        Me.dtpTo.Location = New System.Drawing.Point(113, 113)
         Me.dtpTo.MendatroryField = True
         Me.dtpTo.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpTo.MyLinkLable1 = Me.MyLabel1
@@ -142,7 +227,7 @@ Partial Class frmPayPeriodMaster
         Me.dtpTo.ReferenceFieldDesc = Nothing
         Me.dtpTo.ReferenceFieldName = Nothing
         Me.dtpTo.ReferenceTableName = Nothing
-        Me.dtpTo.Size = New System.Drawing.Size(142, 18)
+        Me.dtpTo.Size = New System.Drawing.Size(141, 18)
         Me.dtpTo.TabIndex = 5
         Me.dtpTo.TabStop = False
         Me.dtpTo.Text = "07/06/2016"
@@ -151,7 +236,7 @@ Partial Class frmPayPeriodMaster
         'MyLabel1
         '
         Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Location = New System.Drawing.Point(11, 126)
+        Me.MyLabel1.Location = New System.Drawing.Point(11, 113)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(45, 18)
         Me.MyLabel1.TabIndex = 28
@@ -171,7 +256,7 @@ Partial Class frmPayPeriodMaster
         Me.dtpFrom.IsSourceFromTable = False
         Me.dtpFrom.IsSourceFromValueList = False
         Me.dtpFrom.IsUnique = False
-        Me.dtpFrom.Location = New System.Drawing.Point(113, 100)
+        Me.dtpFrom.Location = New System.Drawing.Point(113, 92)
         Me.dtpFrom.MendatroryField = True
         Me.dtpFrom.MinDate = New Date(1900, 1, 1, 0, 0, 0, 0)
         Me.dtpFrom.MyLinkLable1 = Me.MyLabel2
@@ -181,7 +266,7 @@ Partial Class frmPayPeriodMaster
         Me.dtpFrom.ReferenceFieldDesc = Nothing
         Me.dtpFrom.ReferenceFieldName = Nothing
         Me.dtpFrom.ReferenceTableName = Nothing
-        Me.dtpFrom.Size = New System.Drawing.Size(142, 18)
+        Me.dtpFrom.Size = New System.Drawing.Size(141, 18)
         Me.dtpFrom.TabIndex = 4
         Me.dtpFrom.TabStop = False
         Me.dtpFrom.Text = "07/06/2016"
@@ -190,7 +275,7 @@ Partial Class frmPayPeriodMaster
         'MyLabel2
         '
         Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Location = New System.Drawing.Point(11, 100)
+        Me.MyLabel2.Location = New System.Drawing.Point(11, 92)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(59, 18)
         Me.MyLabel2.TabIndex = 27
@@ -215,7 +300,7 @@ Partial Class frmPayPeriodMaster
         Me.txtDescription.IsSourceFromTable = False
         Me.txtDescription.IsSourceFromValueList = False
         Me.txtDescription.IsUnique = False
-        Me.txtDescription.Location = New System.Drawing.Point(113, 72)
+        Me.txtDescription.Location = New System.Drawing.Point(113, 68)
         Me.txtDescription.MaxLength = 50
         Me.txtDescription.MendatroryField = False
         Me.txtDescription.MyLinkLable1 = Me.RadLabel3
@@ -230,7 +315,7 @@ Partial Class frmPayPeriodMaster
         'RadLabel3
         '
         Me.RadLabel3.FieldName = Nothing
-        Me.RadLabel3.Location = New System.Drawing.Point(11, 73)
+        Me.RadLabel3.Location = New System.Drawing.Point(11, 69)
         Me.RadLabel3.Name = "RadLabel3"
         Me.RadLabel3.Size = New System.Drawing.Size(63, 18)
         Me.RadLabel3.TabIndex = 20
@@ -256,9 +341,10 @@ Partial Class frmPayPeriodMaster
         'btnNew
         '
         Me.btnNew.Image = CType(resources.GetObject("btnNew.Image"), System.Drawing.Image)
-        Me.btnNew.Location = New System.Drawing.Point(336, 22)
+        Me.btnNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnNew.Location = New System.Drawing.Point(335, 22)
         Me.btnNew.Name = "btnNew"
-        Me.btnNew.Size = New System.Drawing.Size(14, 20)
+        Me.btnNew.Size = New System.Drawing.Size(17, 21)
         Me.btnNew.TabIndex = 1
         Me.btnNew.Text = " "
         '
@@ -354,22 +440,16 @@ Partial Class frmPayPeriodMaster
         '
         'RadMenuItemExport
         '
-        Me.RadMenuItemExport.AccessibleDescription = "File"
-        Me.RadMenuItemExport.AccessibleName = "File"
         Me.RadMenuItemExport.Name = "RadMenuItemExport"
         Me.RadMenuItemExport.Text = "File"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "File"
-        Me.RadMenuItem2.AccessibleName = "File"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "File"
         '
@@ -405,46 +485,27 @@ Partial Class frmPayPeriodMaster
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(529, 20)
         Me.RadMenu2.TabIndex = 13
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuItemImport, Me.MenuItemExport, Me.MenuItemClose})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
         '
         'MenuItemImport
         '
-        Me.MenuItemImport.AccessibleDescription = "Import"
-        Me.MenuItemImport.AccessibleName = "Import"
         Me.MenuItemImport.Name = "MenuItemImport"
         Me.MenuItemImport.Text = "Import"
         '
         'MenuItemExport
         '
-        Me.MenuItemExport.AccessibleDescription = "Export"
-        Me.MenuItemExport.AccessibleName = "Export"
         Me.MenuItemExport.Name = "MenuItemExport"
         Me.MenuItemExport.Text = "Export"
         '
         'MenuItemClose
         '
-        Me.MenuItemClose.AccessibleDescription = "Close"
-        Me.MenuItemClose.AccessibleName = "Close"
         Me.MenuItemClose.Name = "MenuItemClose"
         Me.MenuItemClose.Text = "Close"
-        '
-        'btnPost
-        '
-        Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(75, 7)
-        Me.btnPost.Name = "btnPost"
-        Me.btnPost.Size = New System.Drawing.Size(68, 18)
-        Me.btnPost.TabIndex = 1
-        Me.btnPost.Text = "Post"
         '
         'btnReverse
         '
@@ -456,6 +517,16 @@ Partial Class frmPayPeriodMaster
         Me.btnReverse.Size = New System.Drawing.Size(68, 18)
         Me.btnReverse.TabIndex = 4
         Me.btnReverse.Text = "Reverse"
+        '
+        'btnPost
+        '
+        Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPost.Location = New System.Drawing.Point(75, 7)
+        Me.btnPost.Name = "btnPost"
+        Me.btnPost.Size = New System.Drawing.Size(68, 18)
+        Me.btnPost.TabIndex = 1
+        Me.btnPost.Text = "Post"
         '
         'frmPayPeriodMaster
         '
@@ -472,6 +543,10 @@ Partial Class frmPayPeriodMaster
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.cboESIToMonth, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cboESIFromMonth, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpTo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpFrom, System.ComponentModel.ISupportInitialize).EndInit()
@@ -493,8 +568,8 @@ Partial Class frmPayPeriodMaster
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -529,5 +604,9 @@ Partial Class frmPayPeriodMaster
     Friend WithEvents btnPost As Telerik.WinControls.UI.RadButton
     Friend WithEvents UsLock1 As common.usLock
     Friend WithEvents btnReverse As Telerik.WinControls.UI.RadButton
+    Friend WithEvents MyLabel4 As common.Controls.MyLabel
+    Friend WithEvents MyLabel5 As common.Controls.MyLabel
+    Friend WithEvents cboESIToMonth As common.Controls.MyComboBox
+    Friend WithEvents cboESIFromMonth As common.Controls.MyComboBox
 End Class
 

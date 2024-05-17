@@ -6530,6 +6530,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmPTSlab
                         frm = New frmPTSlab(objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmEmployeeDeductionMaster
+                        frm = New frmEmployeeDeductionMaster()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmSavingsMaster
                         frm = New frmSavingsMaster()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -7914,11 +7917,19 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.DBTCappingCheck
                         If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.DBTMilkQtyCapping, clsFixedParameterCode.DBTMilkQtyCapping, Nothing)) > 0 Then
-                            frm = New frmDBTCapingCheck
+                            frm = New frmDBTCaping
                             formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                         Else
                             clsCommon.MyMessageBoxShow("This feature is not for you")
                         End If
+                    Case clsUserMgtCode.DBTCappingIncrease
+                        If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.DBTMilkQtyCapping, clsFixedParameterCode.DBTMilkQtyCapping, Nothing)) > 0 Then
+                            frm = New frmDBTCaping
+                            formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                        Else
+                            clsCommon.MyMessageBoxShow("This feature is not for you")
+                        End If
+
                     Case clsUserMgtCode.DBTNEFTUploader
                         frm = New frmDBTNEFTUploader
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -9873,8 +9884,8 @@ Public Class MDI
 
 
                         '------------- SHEED  -----------
-                    Case clsUserMgtCode.frmSheedGrowerMaster
-                        frm = New frmSheedGrowerMaster
+                    Case clsUserMgtCode.frmSeedGrowerMaster
+                        frm = New frmSeedGrowerMaster
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                         '-------------------- MIS Master---------------
 
