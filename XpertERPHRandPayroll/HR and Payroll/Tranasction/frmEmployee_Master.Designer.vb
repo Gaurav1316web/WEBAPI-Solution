@@ -3653,6 +3653,7 @@ Partial Class frmEmployee_Master
         Me.txtRelevingDate.MyLinkLable2 = Nothing
         Me.txtRelevingDate.Name = "txtRelevingDate"
         Me.txtRelevingDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtRelevingDate.ReadOnly = True
         Me.txtRelevingDate.ReferenceFieldDesc = Nothing
         Me.txtRelevingDate.ReferenceFieldName = Nothing
         Me.txtRelevingDate.ReferenceTableName = Nothing

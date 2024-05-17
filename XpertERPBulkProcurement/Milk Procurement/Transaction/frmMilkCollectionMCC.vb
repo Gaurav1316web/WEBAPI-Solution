@@ -903,7 +903,7 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
             txtRoute.Focus()
             Throw New Exception("Please provide Route code ")
         End If
-        Dim whr As String = "len(isnull(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,''))>0 "
+        Dim whr As String = "len(isnull(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,''))>0 and TSPL_MCC_MASTER.In_active=0 "
         If Not SettShowAllMCC Then
             whr += " and TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO='" + txtRoute.Value + "' "
         End If
@@ -1200,7 +1200,7 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
         Dim qry As String = "select  TSPL_MILK_COLLECTION_MCC.Document_No,convert (varchar,TSPL_MILK_COLLECTION_MCC.Document_Date,103) as Document_Date,TSPL_MILK_COLLECTION_MCC.Description,TSPL_MILK_COLLECTION_MCC.Route_Code,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,
 TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MILK_COLLECTION_MCC.Vehicle_No,
 case when TSPL_MILK_COLLECTION_MCC.Status=1 then 'Posted' else 'Pending' end as Status ,TSPL_MILK_COLLECTION_MCC.Trip_No from TSPL_MILK_COLLECTION_MCC left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO= TSPL_MILK_COLLECTION_MCC.Route_Code"
-        LoadData(clsCommon.ShowSelectForm("SMP2FINOC", qry, "Document_No", "", txtDocNo.Value, "Document_No", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("SMP2FINOC", qry, "Document_No", "", txtDocNo.Value, "Document_No", isButtonClicked, "TSPL_MILK_COLLECTION_MCC.Document_Date"), NavigatorType.Current)
     End Sub
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
         DeleteData()

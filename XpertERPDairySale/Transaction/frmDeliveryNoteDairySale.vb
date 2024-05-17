@@ -476,7 +476,7 @@ Public Class frmDeliveryNoteDairySale
             whrClas = " TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
         End If
 
-        LoadData(clsCommon.ShowSelectForm("FSDeliDocNo", Qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("FSDeliDocNo", Qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked, " TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_date "), NavigatorType.Current)
     End Sub
 
     Sub FillGrid()

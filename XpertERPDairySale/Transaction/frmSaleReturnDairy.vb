@@ -5643,7 +5643,7 @@ Public Class frmSaleReturnDairy
 
         '-----------------------------------------------------
 
-        LoadData(clsCommon.ShowSelectForm("PSSaleReturnDocfnd", qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("PSSaleReturnDocfnd", qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked, " TSPL_SD_SALE_RETURN_HEAD.Document_date "), NavigatorType.Current)
     End Sub
 
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
