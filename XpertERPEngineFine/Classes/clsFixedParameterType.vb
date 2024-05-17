@@ -1248,8 +1248,10 @@ Public Class clsFixedParameterType
     'Public Const DistributorViewOnly = "Distributor View Only"
 End Class
 Public Class clsFixedParameterCode
+    Public Const EmployeeRetirementAge As String = "Employee Retirement Age"
     Public Const NoOfRecordForLotNo As String = "No Of Record For Lot No"
     Public Const BankAdviseRequired As String = "Bank Advice Start Date"
+    Public Const DBTMilkQtyCapping As String = "DBT Milk Qty Capping"
     Public Const ApplyMergeForDCSMultipleDays As String = "Apply Merge For DCS Multiple Days"
     Public Const CalculateFATSNFLossCycleWise As String = "Calculate FAT SNF Loss Cycle Wise"
     Public Const ApplyRange As String = "Apply Range"
