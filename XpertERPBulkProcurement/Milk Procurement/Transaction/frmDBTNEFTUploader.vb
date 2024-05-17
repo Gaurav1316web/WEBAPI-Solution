@@ -677,7 +677,9 @@ where " + TableName + ".Document_Code='" & txtDocumentNo.Value & "'"
 from TSPL_MP_INCENTIVE_ENTRY_DETAIL "
         If SettDCSMPIncetiveReco Then
             BaseQry += " left outer join TSPL_DCS_MP_INCENTIVE_RECO_DETAIL on TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Cycle_Year=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Cycle_Year and TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Cycle_Month=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Cycle_Month and TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Cycle_No=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Cycle_No and TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.VLC_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code 
-left outer join TSPL_DCS_MP_INCENTIVE_RECO_HEAD on TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Code =TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Document_Code"
+left outer join TSPL_DCS_MP_INCENTIVE_RECO_HEAD on TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Code =TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Document_Code
+left outer join TSPL_DBT_CAPING on TSPL_DBT_CAPING.Reco_Code=TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Code
+left outer join TSPL_DBT_CAPING_DETAIL on TSPL_DBT_CAPING_DETAIL.Document_Code=TSPL_DBT_CAPING.Document_Code and  TSPL_DBT_CAPING_DETAIL.MP_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code"
         End If
 
         BaseQry += " left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code
@@ -688,7 +690,8 @@ left outer join TSPL_DCS_MP_INCENTIVE_RECO_HEAD on TSPL_DCS_MP_INCENTIVE_RECO_HE
     left outer join tspl_MCC_Master on tspl_MCC_Master.MCC_Code=TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code
     where 2=2 "
         If SettDCSMPIncetiveReco Then
-            BaseQry += " and TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Status=1 and TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.PK_Id is not null "
+            BaseQry += " and TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Status=1 and TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.PK_Id is not null 
+and 2=(case when ISNULL(TSPL_DCS_MP_INCENTIVE_RECO_HEAD.DBT_Capping_Apply,0)=1 then ((case when ISNULL(TSPL_DBT_CAPING_DETAIL.Capping_Status,0)=1 then 2 else 3 end)) else 2 end)"
         End If
         If IsPickValid Then
             BaseQry += " and (len(isnull(TSPL_MP_MASTER.AccountNO,''))>0 and len(isnull(TSPL_MP_MASTER.IFCICode,''))=11 )"

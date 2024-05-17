@@ -825,6 +825,12 @@
     <Compile Include="HR and Payroll\Setup\frmDocumentMaster.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="HR and Payroll\Setup\frmEmployeeDeductionMaster.Designer.vb">
+      <DependentUpon>frmEmployeeDeductionMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="HR and Payroll\Setup\frmEmployeeDeductionMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="HR and Payroll\Setup\frmEmployeeSavingsMapping.Designer.vb">
       <DependentUpon>frmEmployeeSavingsMapping.vb</DependentUpon>
     </Compile>
@@ -2059,6 +2065,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HR and Payroll\Setup\frmDocumentMaster.resx">
       <DependentUpon>frmDocumentMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HR and Payroll\Setup\frmEmployeeDeductionMaster.resx">
+      <DependentUpon>frmEmployeeDeductionMaster.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HR and Payroll\Setup\frmEmployeeSavingsMapping.resx">
       <DependentUpon>frmEmployeeSavingsMapping.vb</DependentUpon>

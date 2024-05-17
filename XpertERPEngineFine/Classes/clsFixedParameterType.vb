@@ -2,6 +2,7 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
+    Public Const EmployeeRetirementAge As String = "Employee Retirement Age"
     Public Const DBTMilkQtyCapping As String = "DBT Milk Qty Capping"
     Public Const PDAccountPaymanager As String = "PD Account Paymanager"
     Public Const BankAdviseRequired As String = "Bank Advice Start Date"
@@ -1247,9 +1248,10 @@ Public Class clsFixedParameterType
     'Public Const DistributorViewOnly = "Distributor View Only"
 End Class
 Public Class clsFixedParameterCode
-    Public Const DBTMilkQtyCapping As String = "DBT Milk Qty Capping"
+    Public Const EmployeeRetirementAge As String = "Employee Retirement Age"
     Public Const NoOfRecordForLotNo As String = "No Of Record For Lot No"
     Public Const BankAdviseRequired As String = "Bank Advice Start Date"
+    Public Const DBTMilkQtyCapping As String = "DBT Milk Qty Capping"
     Public Const ApplyMergeForDCSMultipleDays As String = "Apply Merge For DCS Multiple Days"
     Public Const CalculateFATSNFLossCycleWise As String = "Calculate FAT SNF Loss Cycle Wise"
     Public Const ApplyRange As String = "Apply Range"
@@ -2696,7 +2698,6 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
-        InsertDefaultValueFixedParameter(clsFixedParameterType.DBTMilkQtyCapping, clsFixedParameterCode.DBTMilkQtyCapping, "0", "0:OFF;>0:ON DBT Valid Milk Qty for One Day")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PDAccountPaymanager, clsFixedParameterCode.NoOfRecordForLotNo, "4500", "No of Records to Set Lot No")
         InsertDefaultValueFixedParameter(clsFixedParameterType.BankAdviseRequired, clsFixedParameterCode.BankAdviseRequired, "", "Bank Advise Start Date [dd/MMM/yyyy]")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyMergeForDCSMultipleDays, clsFixedParameterCode.ApplyMergeForDCSMultipleDays, "1", "0:OFF;1:ON")
@@ -4179,6 +4180,7 @@ Public Class clsFixedParameterProgramMapping
     End Function
     Public Shared Sub SetDefaultValues()
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_FIXED_PARAMETER_PROGRAM_MAPPING")
+        InsertDefaultValue(clsUserMgtCode.frmEmployee_Master, clsFixedParameterType.EmployeeRetirementAge, clsFixedParameterCode.EmployeeRetirementAge, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.DBTNEFTUploader, clsFixedParameterType.PDAccountPaymanager, clsFixedParameterCode.NoOfRecordForLotNo, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmBankAdvise, clsFixedParameterType.BankAdviseRequired, clsFixedParameterCode.BankAdviseRequired, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCSMultipleDays, clsFixedParameterType.ApplyMergeForDCSMultipleDays, clsFixedParameterCode.ApplyMergeForDCSMultipleDays, EnumControlType.CheckBox)

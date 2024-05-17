@@ -584,6 +584,7 @@ Public Class clsDocType
     Public Const MPIncentiveEntry As String = "MP Incentive Entrty"
     Public Const CattelFeedGRNQC As String = "Cattel Feed GRN QC"
     Public Const MPDCSIncentiveReco As String = "DCS MP Incentive Reco"
+    Public Const DBTCaping As String = "DBT Caping"
     Public Const DBTNEFT As String = "DBT NEFT"
     Public Const DBTNEFTReject As String = "DBT NEFT Reject"
     ''--------------------------------------
@@ -1208,6 +1209,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.VLCDataUploaderManual, "", False, True)
             InsertDefaultValue(clsDocType.MPIncentiveEntry, "", False, True)
             InsertDefaultValue(clsDocType.CattelFeedGRNQC, "", False, False)
+            InsertDefaultValue(clsDocType.DBTCaping, "", False, False)
             InsertDefaultValue(clsDocType.MPDCSIncentiveReco, "", False, False)
             InsertDefaultValue(clsDocType.DBTNEFT, "", False, False)
             InsertDefaultValue(clsDocType.DBTNEFTReject, "", False, False)

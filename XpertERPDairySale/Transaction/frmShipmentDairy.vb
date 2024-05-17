@@ -6165,6 +6165,9 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                     End If
                 End If
             End If
+            If clsCommon.myLen(txtRouteNo.Value) <= 0 Then
+                Throw New Exception("Please select Route")
+            End If
             'Sanjay Ticket No- ERO/02/07/18-000365 not allow to update record if it is posted
             GSTStatus = clsERPFuncationality.GetGSTStatus(txtDate.Value)
             RefreshReqNo()
@@ -11587,7 +11590,7 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
         If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "NT") = CompairStringResult.Equal Then
             ' 
             If SettDistributorWiseBilling Then
-                If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal OrElse clsCommon.myLen(txtVendorNo.Value) <= 0 Then
                     Dim strqry As String = "select Distinct Route_No as Code from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER"
                     txtRouteNo.Value = clsCommon.ShowSelectForm("DShipRouteFinder", strqry, "Code", "", txtRouteNo.Value, "", isButtonClicked)
                     fndRouteNo_TextChanged()

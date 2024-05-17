@@ -1,6 +1,6 @@
 ﻿Imports common
 Public Class clsUserMgtCode
-
+    Public Const frmEmployeeDeductionMaster As String = "EMP-DED-MST"
     'Public Const FrmReceiptInvoiceMapping As String = "REC-INV-MAP"
     Public Const frmActiveInactiveEmpRegister As String = "ACT-INACT"
     Public Const frmPOBulkProc As String = "PO-BULK-P"
@@ -2203,6 +2203,7 @@ Public Class clsUserMgtCode
     Public Const MPIncentiveEntry As String = "MP-INC-ENT"
     Public Const DCSMPIncentiveReco As String = "DCS-MP-RECO"
     Public Const DBTCappingCheck As String = "DBT-CAP-CHK"
+    Public Const DBTCappingIncrease As String = "DBT-CAP-INC"
     Public Const DBTNEFTUploader As String = "DBT-NEFT-UPL"
     Public Const DBTPayment As String = "DBT-PAY-MNT"
     Public Const FrmCreateBMCDCSbyMobile As String = "BMC-DCS-MOB"
