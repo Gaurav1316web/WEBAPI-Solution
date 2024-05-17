@@ -319,7 +319,7 @@ Partial Class FrmDeductionMaster
         Me.chkVLC.Name = "chkVLC"
         Me.chkVLC.Size = New System.Drawing.Size(40, 18)
         Me.chkVLC.TabIndex = 87
-        Me.chkVLC.Text = "VLC"
+        Me.chkVLC.Text = "DCS"
         '
         'chkOTHERS
         '

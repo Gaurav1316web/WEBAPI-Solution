@@ -316,7 +316,7 @@ Public Class RptDeliveryOrderReport1
         gv.MasterTemplate.AutoExpandGroups = True
 
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub Excel_Click(sender As Object, e As EventArgs) Handles Excel.Click

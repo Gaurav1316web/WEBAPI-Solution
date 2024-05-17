@@ -206,7 +206,7 @@ Public Class rptSalesVehicleReport
         gv1.MasterTemplate.AutoExpandGroups = True
 
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Private Sub ReStoreGridLayout()
         Try
@@ -243,6 +243,7 @@ Public Class rptSalesVehicleReport
         Dim SalesMilkLtr As New GridViewSummaryItem("Sales Milk/Ltr", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(SalesMilkLtr)
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Sub Reset()
         'txtToDate.Value = clsCommon.GETSERVERDATE()

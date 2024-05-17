@@ -100,6 +100,7 @@ order by ROUTE_CODE asc "
                         summaryRowItem.Add(item1)
                     Next
                     Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 End If
                 'Pinned column 
                 Gv1.Columns(0).IsPinned = True

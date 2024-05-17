@@ -459,7 +459,7 @@ Public Class FrmPendingSrn_Qty
         summaryRowItem.Add(Smitem4)
 
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         If OnlyGrid Then
             Exit Sub
         End If

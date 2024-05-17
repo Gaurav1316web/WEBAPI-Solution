@@ -317,7 +317,7 @@ Public Class frmDBTRecoVsIncentiveReport
         Dim SalesInLTR As New GridViewSummaryItem("Incentive Qty", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(SalesInLTR)
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Gv1.AutoSizeRows = False
         Gv1.BestFitColumns()
         Gv1.MasterTemplate.AutoExpandGroups = True

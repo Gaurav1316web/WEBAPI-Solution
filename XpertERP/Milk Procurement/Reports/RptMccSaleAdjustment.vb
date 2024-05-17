@@ -339,6 +339,7 @@ Public Class RptMccSaleAdjustment
                 gv1.ShowGroupPanel = False
                 gv1.MasterTemplate.AutoExpandGroups = True
                 gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             Else
                 If rbtnVLCWise.IsChecked Then
                     gv1.Columns("MCCCode").IsVisible = True
@@ -529,6 +530,7 @@ Public Class RptMccSaleAdjustment
                     gv1.ShowGroupPanel = False
                     gv1.MasterTemplate.AutoExpandGroups = True
                     gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 ElseIf rbtnMCCWise.IsChecked Then
                     gv1.Columns("MCCCode").IsVisible = True
                     gv1.Columns("MCCCode").Width = 100
@@ -697,7 +699,7 @@ Public Class RptMccSaleAdjustment
                     gv1.ShowGroupPanel = False
                     gv1.MasterTemplate.AutoExpandGroups = True
                     gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+                    gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 ElseIf rbtnAdhoc.IsChecked Then
                     gv1.Columns("MCCCode").IsVisible = True
                     gv1.Columns("MCCCode").Width = 100
@@ -801,6 +803,7 @@ Public Class RptMccSaleAdjustment
                     gv1.ShowGroupPanel = False
                     gv1.MasterTemplate.AutoExpandGroups = True
                     gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 End If
             End If
             

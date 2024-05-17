@@ -7915,6 +7915,13 @@ Public Class MDI
                     Case clsUserMgtCode.DCSMPIncentiveReco
                         frm = New frmMPDCSIncentiveReco
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.DBTCappingCheck
+                        If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.DBTMilkQtyCapping, clsFixedParameterCode.DBTMilkQtyCapping, Nothing)) > 0 Then
+                            frm = New frmDBTCapingCheck
+                            formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                        Else
+                            clsCommon.MyMessageBoxShow("This feature is not for you")
+                        End If
                     Case clsUserMgtCode.DBTNEFTUploader
                         frm = New frmDBTNEFTUploader
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8313,6 +8320,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptBMCPerodicalReport
                         frm = New rptBMCPerodicalReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptPerodicalDispatchReport
+                        frm = New rptPerodicalDispatchReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptDcsSecurity
                         frm = New rptDCSSecurity

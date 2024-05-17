@@ -300,6 +300,7 @@ Public Class FrmExciseSummaryNew
                 End If
             Next
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Else
 
             gv1.Columns("Status").IsVisible = False
@@ -400,6 +401,7 @@ Public Class FrmExciseSummaryNew
             'Dim SumHCess As New GridViewSummaryItem("TAX3_Amt", "{0:F2}", GridAggregateFunction.Sum)
             'summaryRowItem.Add(SumHCess)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
     End Sub
     Private Function funSetUserAccess() As Boolean

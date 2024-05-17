@@ -877,6 +877,7 @@ Public Class rptPaymentProcessRouteReport
 
                     Next
                     Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
@@ -2456,7 +2457,9 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAY
                                     dtMain.Rows.Add(clsCommon.myCstr(dtVSP1.Rows(V).Item("DOCNO")), SumSWEET1, SumKGFAT1, MilkAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, Sumtotal)
                                     dtMain.Rows.Add(clsCommon.myCstr(dtVSP1.Rows(V).Item("Vendor_Name")), SumSOUR1, SumKGSNF1, HeadLoadAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumDeduction1)
                                     dtMain.Rows.Add(clsCommon.myCstr(dtVSP1.Rows(V).Item("VLC_Code_VLC_Uploader")), SumCURD1, AVGFAT1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumNETPAYABLE1)
-                                    dtMain.Rows.Add(clsCommon.myCstr(dtVSP1.Rows(V).Item("ROUTE_CODE")), SumQty1, AVGSNF1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
+                                    'dtMain.Rows.Add(clsCommon.myCstr(dtVSP1.Rows(V).Item("ROUTE_CODE")), SumQty1, AVGSNF1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
+                                    dtMain.Rows.Add("Total", SumQty1, AVGSNF1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
+
                                 End If
 
                                 'dtMain.Rows.Add(clsCommon.myCstr(dtVSP1.Rows(V).Item("DOCNO")), SumSWEET1, SumKGFAT1, MilkAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, Sumtotal)
@@ -2751,7 +2754,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAY
                             dtMain.Rows.Add(clsCommon.myCstr(dr("DOCNO")), SumSWEET1, SumKGFAT1, MilkAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, Sumtotal)
                             dtMain.Rows.Add(clsCommon.myCstr(dr("Vendor_Name")), SumSOUR1, SumKGSNF1, HeadLoadAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumDeduction1)
                             dtMain.Rows.Add(clsCommon.myCstr(dr("VLC_Code_VLC_Uploader")), SumCURD1, AVGFAT1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumNETPAYABLE1)
-                            dtMain.Rows.Add(DBNull.Value, SumQty1, AVGSNF1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
+                            dtMain.Rows.Add("Total", SumQty1, AVGSNF1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
                         End If
                         'dtMain.Rows.Add(clsCommon.myCstr(dr("DOCNO")), SumSWEET1, SumKGFAT1, MilkAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, Sumtotal)
                         'dtMain.Rows.Add(clsCommon.myCstr(dr("Vendor_Name")), SumSOUR1, SumKGSNF1, HeadLoadAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumDeduction1)
@@ -2990,7 +2993,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAY
                         arrHeader.Add("MCC: " & MccName)
                     End If
                 End If
-                ' arrHeader.Add("Union: " & objCommonVar.CurrentCompanyName)
+                arrHeader.Add("Union: " & objCommonVar.CurrentCompanyName)
 
 
                 arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(dtpFromDCS_Ledger.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(dtpToDCS_Ledger.Value, "dd/MM/yyyy")) + " ")

@@ -617,7 +617,7 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
         Qty.Name = colQty
         Qty.Width = 100
         Qty.ReadOnly = True
-        Qty.FormatString = "{0:n2}"
+        Qty.FormatString = "{0:n3}"
         Qty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvItem.Columns.Add(Qty)
 
@@ -767,7 +767,7 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
 
         gvItem.MasterTemplate.SummaryRowsBottom.Clear()
         Dim summaryRowItem As New GridViewSummaryRowItem()
-        Dim Smitem As New GridViewSummaryItem(colQty, "{0:n2}", GridAggregateFunction.Sum)
+        Dim Smitem As New GridViewSummaryItem(colQty, "{0:n3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(Smitem)
 
         Smitem = New GridViewSummaryItem(colAmount, "{0:n2}", GridAggregateFunction.Sum)
@@ -790,6 +790,7 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
         Smitem = New GridViewSummaryItem(colDiffAmt, "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(Smitem)
         gvItem.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvItem.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub ReStoreGridLayout()
@@ -1234,7 +1235,7 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
                 whrMonthCycleQry = " where convert(Date, TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) ='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' "
             End If
             loadBlankGrid()
-            Dim qry As String = "select xx.MCC_CODE,TSPL_MCC_MASTER.MCC_NAME,TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,xx.CycleYear,xx.CycleMonth,Convert(decimal(18,2),xx.Qty) As Qty,xx.UOM_Code,xx.FAT_KG,xx.SNF_KG,xx.AMOUNT,TSPL_VENDOR_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description as Zone_Name from (
+            Dim qry As String = "select xx.MCC_CODE,TSPL_MCC_MASTER.MCC_NAME,TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,xx.CycleYear,xx.CycleMonth,Convert(decimal(18,3),xx.Qty) As Qty,xx.UOM_Code,xx.FAT_KG,xx.SNF_KG,xx.AMOUNT,TSPL_VENDOR_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description as Zone_Name from (
 select MCC_CODE,VSP_CODE,CycleYear,CycleMonth,sum(Qty+RQty) as Qty,max(UOM_Code) as UOM_Code,sum(FAT_KG) as FAT_KG,sum(SNF_KG) as SNF_KG,sum(AMOUNT) as AMOUNT  from (
 select TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE,DATEPART(YEAR, TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE) as CycleYear,
 DATEPART(MONTH, TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE) as CycleMonth

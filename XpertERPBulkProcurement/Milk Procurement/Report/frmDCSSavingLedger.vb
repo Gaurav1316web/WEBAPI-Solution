@@ -25,13 +25,13 @@ Public Class frmDCSSavingLedger
 
     Private Sub txtVSP__My_Click(sender As Object, e As EventArgs) Handles txtVSP._My_Click
         Try
-            Dim qry As String = "select VSP_Code as DCSCode,TSPL_VENDOR_MASTER.Vendor_Name as DCSName,VLC_Code_VLC_Uploader as UploaderNo,VLC_Code as VLCCode,VLC_Name as VLCNAme from TSPL_VENDOR_MASTER
+            Dim qry As String = "select VSP_Code as SecretaryCode,TSPL_VENDOR_MASTER.Vendor_Name as SecretaryName,VLC_Code_VLC_Uploader as UploaderNo,VLC_Code as DCSCode,VLC_Name as DCSNAme from TSPL_VENDOR_MASTER
                                  inner join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MASTER.Vendor_Code"
             If txtBMC.arrValueMember.Count > 0 Then
                 qry += " where TSPL_VENDOR_MASTER.Form_Type='VSP' and  TSPL_VLC_MASTER_HEAD.MCC in (" + clsCommon.GetMulcallString(txtBMC.arrValueMember) + ")"
             End If
 
-            txtVSP.arrValueMember = clsCommon.ShowMultipleSelectForm(False, "DCSLDGR@DCS", qry, "DCSCode", "", txtVSP.arrValueMember, Nothing)
+            txtVSP.arrValueMember = clsCommon.ShowMultipleSelectForm(False, "DCSLDGR@DCS", qry, "SecretaryCode", "", txtVSP.arrValueMember, Nothing)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -140,6 +140,7 @@ Public Class frmDCSSavingLedger
         Dim item As GridViewSummaryItem = New GridViewSummaryItem("Amount", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item)
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Function GetQuery() As String

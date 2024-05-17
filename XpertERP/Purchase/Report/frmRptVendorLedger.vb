@@ -1639,6 +1639,7 @@ and isnull(TSPL_VENDOR_INVOICE_HEAD.Is_Security,0)=0  " + Environment.NewLine
             gv.MasterTemplate.AutoExpandGroups = True
             gvVendor.MasterTemplate.SummaryRowsBottom.Clear()
             gvVendor.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gvVendor.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf gvVendorGroup.Visible = True Then
             Dim summaryRowItem As New GridViewSummaryRowItem()
             Dim TotalAmt As New GridViewSummaryItem("OpngBal", "{0:F2}", GridAggregateFunction.Sum)
@@ -1681,7 +1682,7 @@ and isnull(TSPL_VENDOR_INVOICE_HEAD.Is_Security,0)=0  " + Environment.NewLine
             gv.MasterTemplate.AutoExpandGroups = True
             gvVendorGroup.MasterTemplate.SummaryRowsBottom.Clear()
             gvVendorGroup.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gvVendorGroup.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
         ElseIf gv.Visible = True Then
             Dim summaryRowItem As New GridViewSummaryRowItem()
@@ -1739,7 +1740,7 @@ and isnull(TSPL_VENDOR_INVOICE_HEAD.Is_Security,0)=0  " + Environment.NewLine
             gv.MasterTemplate.AutoExpandGroups = True
             gv.MasterTemplate.SummaryRowsBottom.Clear()
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
     End Sub
 

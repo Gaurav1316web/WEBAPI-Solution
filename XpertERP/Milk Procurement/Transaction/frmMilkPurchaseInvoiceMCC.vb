@@ -1946,7 +1946,7 @@ Public Class frmMilkPurchaseInvoiceMCC
 
     Private Sub txtCode__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtCode._MYValidating
         Try
-            Dim qry As String = "SELECT Distinct TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE as Code,convert(date,DOC_DATE,103) as Date,MCC_NAME as [MCC],Vendor_Name as [VSP]," _
+            Dim qry As String = "SELECT Distinct TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE as Code,convert(date,DOC_DATE,103) as Date,MCC_NAME as [MCC],Vendor_Name as [Secretary]," _
             & " Route_Name as [Route],VENDOR_INVOICE_NO as [Vendor Invoice No],convert(date,VENDOR_INVOICE_DATE,103) as [Vendor Invoice Date],TSPL_MILK_PURCHASE_INVOICE_Head.TOTAL_AMOUNT_ACC as [Payment Amount] FROM TSPL_MILK_PURCHASE_INVOICE_HEAD inner join TSPL_MILK_PURCHASE_INVOICE_DETAIL on " _
             & " TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE=TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=VSP_CODE " _
             & "  Left join TSPL_MCC_ROUTE_MASTER on " _

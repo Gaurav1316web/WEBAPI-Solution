@@ -185,6 +185,7 @@ Public Class frmCancelledTransactions_MerchantSale
         Dim item1 As New GridViewSummaryItem("Amount", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item1)
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
 #Region "Showing Details on GRID"
@@ -573,6 +574,7 @@ Public Class frmCancelledTransactions_MerchantSale
 
 
         GV2.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        GV2.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Sub ExportToExcel(ByVal exporter As EnumExportTo)
         Try

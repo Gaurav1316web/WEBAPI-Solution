@@ -26,293 +26,302 @@ Public Class frmMilkShiftUploaderUCDF
 #End Region
 
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As New Dictionary(Of String, String)()
-        Try
-            coll = New Dictionary(Of String, String)()
-            coll.Add("ACC_Qty_LTR", "DECIMAL(18,3) NOT NULL DEFAULT 0")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_DETAIL", coll, "Primary Key (DOC_CODE,PK_Id)", True, False, "TSPL_MILK_SRN_HEAD", "DOC_CODE", "")
+        '        Dim coll As New Dictionary(Of String, String)()
+        '        Try
+        '            coll = New Dictionary(Of String, String)()
+        '            coll.Add("ACC_Qty_LTR", "DECIMAL(18,3) NOT NULL DEFAULT 0")
+        '            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_DETAIL", coll, "Primary Key (DOC_CODE,PK_Id)", True, False, "TSPL_MILK_SRN_HEAD", "DOC_CODE", "")
 
 
-            Dim qry As String = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MILK_SRN_HEAD' and COLUMN_NAME='Against_Uploader_TR_No'"
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        '            Dim qry As String = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MILK_SRN_HEAD' and COLUMN_NAME='Against_Uploader_TR_No'"
+        '            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
-            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin
-                Try
-                    qry = "alter table TSPL_MILK_SRN_HEAD drop PK_MilkSampleCodeSample_NoReject"
-                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+        '                Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin
+        '                Try
+        '                    qry = "alter table TSPL_MILK_SRN_HEAD drop PK_MilkSampleCodeSample_NoReject"
+        '                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
-                    qry = "alter table TSPL_MILK_SRN_HEAD add Against_Uploader_TR_No varchar(30) NULL References TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL(TR_No)"
-                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    qry = "alter table TSPL_MILK_SRN_HEAD add Against_Uploader_TR_No varchar(30) NULL References TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL(TR_No)"
+        '                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
-                    qry = "alter table TSPL_MILK_SRN_HEAD add Against_Shift_Uploader_TR_No varchar(30) NULL References TSPL_MILK_SHIFT_UPLOADER_DETAIL(TR_No)"
-                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    qry = "alter table TSPL_MILK_SRN_HEAD add Against_Shift_Uploader_TR_No varchar(30) NULL References TSPL_MILK_SHIFT_UPLOADER_DETAIL(TR_No)"
+        '                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
-                    qry = "CREATE UNIQUE INDEX Unique_Against_Uploader_TR_No ON TSPL_MILK_SRN_HEAD (Against_Uploader_TR_No) WHERE Against_Uploader_TR_No IS NOT NULL;"
-                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    qry = "CREATE UNIQUE INDEX Unique_Against_Uploader_TR_No ON TSPL_MILK_SRN_HEAD (Against_Uploader_TR_No) WHERE Against_Uploader_TR_No IS NOT NULL;"
+        '                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
-                    qry = "CREATE UNIQUE INDEX Unique_Against_Shift_Uploader_TR_No ON TSPL_MILK_SRN_HEAD (Against_Shift_Uploader_TR_No) WHERE Against_Shift_Uploader_TR_No IS NOT NULL;"
-                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    qry = "CREATE UNIQUE INDEX Unique_Against_Shift_Uploader_TR_No ON TSPL_MILK_SRN_HEAD (Against_Shift_Uploader_TR_No) WHERE Against_Shift_Uploader_TR_No IS NOT NULL;"
+        '                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
-                    qry = "update TSPL_MILK_SRN_HEAD set Against_Uploader_TR_No=x.Against_Uploader_TR_No,Against_Shift_Uploader_TR_No=x.Against_Shift_Uploader_TR_No from (
-                select TSPL_MILK_RECEIPT_DETAIL.Against_Uploader_TR_No,TSPL_MILK_RECEIPT_DETAIL.Against_Shift_Uploader_TR_No,TSPL_MILK_SRN_HEAD.DOC_CODE from TSPL_MILK_SRN_HEAD
-                inner join TSPL_MILK_SAMPLE_HEAD on TSPL_MILK_SAMPLE_HEAD.DOC_CODE=TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE
-                inner join TSPL_MILK_RECEIPT_DETAIL on TSPL_MILK_RECEIPT_DETAIL.DOC_CODE=TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE and TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO=TSPL_MILK_SRN_HEAD.SAMPLE_NO
-                )x inner join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=x.DOC_CODE"
-                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    qry = "update TSPL_MILK_SRN_HEAD set Against_Uploader_TR_No=x.Against_Uploader_TR_No,Against_Shift_Uploader_TR_No=x.Against_Shift_Uploader_TR_No from (
+        '                select TSPL_MILK_RECEIPT_DETAIL.Against_Uploader_TR_No,TSPL_MILK_RECEIPT_DETAIL.Against_Shift_Uploader_TR_No,TSPL_MILK_SRN_HEAD.DOC_CODE from TSPL_MILK_SRN_HEAD
+        '                inner join TSPL_MILK_SAMPLE_HEAD on TSPL_MILK_SAMPLE_HEAD.DOC_CODE=TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE
+        '                inner join TSPL_MILK_RECEIPT_DETAIL on TSPL_MILK_RECEIPT_DETAIL.DOC_CODE=TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE and TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO=TSPL_MILK_SRN_HEAD.SAMPLE_NO
+        '                )x inner join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=x.DOC_CODE"
+        '                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
-                    qry = "update TSPL_MILK_SRN_DETAIL set ACC_Qty_LTR=x.ACC_WEIGHT_LTR from (
-                select TSPL_MILK_SRN_HEAD.DOC_CODE,TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT_LTR 
-                from TSPL_MILK_SRN_DETAIL
-                inner join TSPL_MILK_SRN_HEAD on  TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE
-                inner join TSPL_MILK_SAMPLE_HEAD on TSPL_MILK_SAMPLE_HEAD.DOC_CODE=TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE
-                inner join TSPL_MILK_RECEIPT_DETAIL on TSPL_MILK_RECEIPT_DETAIL.DOC_CODE=TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE and TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO=TSPL_MILK_SRN_HEAD.SAMPLE_NO
-                )x inner join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=x.DOC_CODE"
-                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    qry = "update TSPL_MILK_SRN_DETAIL set ACC_Qty_LTR=x.ACC_WEIGHT_LTR from (
+        '                select TSPL_MILK_SRN_HEAD.DOC_CODE,TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT_LTR 
+        '                from TSPL_MILK_SRN_DETAIL
+        '                inner join TSPL_MILK_SRN_HEAD on  TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE
+        '                inner join TSPL_MILK_SAMPLE_HEAD on TSPL_MILK_SAMPLE_HEAD.DOC_CODE=TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE
+        '                inner join TSPL_MILK_RECEIPT_DETAIL on TSPL_MILK_RECEIPT_DETAIL.DOC_CODE=TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE and TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO=TSPL_MILK_SRN_HEAD.SAMPLE_NO
+        '                )x inner join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=x.DOC_CODE"
+        '                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
-                    ''Now delete Procurement table
-                    qry = clsGetKeys.GetForeignKeyName("TSPL_MILK_SRN_HEAD", "MILK_SAMPLE_CODE", tran)
-                    If clsCommon.myLen(qry) > 0 Then
-                        qry = "alter table TSPL_MILK_SRN_HEAD drop " & qry & ""
-                        clsDBFuncationality.ExecuteNonQuery(qry, tran)
-                    End If
+        '                    ''Now delete Procurement table
+        '                    qry = clsGetKeys.GetForeignKeyName("TSPL_MILK_SRN_HEAD", "MILK_SAMPLE_CODE", tran)
+        '                    If clsCommon.myLen(qry) > 0 Then
+        '                        qry = "alter table TSPL_MILK_SRN_HEAD drop " & qry & ""
+        '                        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    End If
 
-                    qry = "alter table TSPL_MILK_SRN_HEAD drop column MILK_SAMPLE_CODE"
-                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    qry = "alter table TSPL_MILK_SRN_HEAD drop column MILK_SAMPLE_CODE"
+        '                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
-                    qry = clsGetKeys.GetForeignKeyName("TSPL_MILK_SHIFT_END_DETAIL_SYNC", "DOC_CODE", tran)
-                    If clsCommon.myLen(qry) > 0 Then
-                        qry = "alter table TSPL_MILK_SHIFT_END_DETAIL_SYNC drop " & qry & ""
-                        clsDBFuncationality.ExecuteNonQuery(qry, tran)
-                    End If
+        '                    qry = clsGetKeys.GetForeignKeyName("TSPL_MILK_SHIFT_END_DETAIL_SYNC", "DOC_CODE", tran)
+        '                    If clsCommon.myLen(qry) > 0 Then
+        '                        qry = "alter table TSPL_MILK_SHIFT_END_DETAIL_SYNC drop " & qry & ""
+        '                        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    End If
 
-                    qry = clsGetKeys.GetForeignKeyName("TSPL_MILK_SHIFT_END_ROUTE_DETAIL_SYNC", "DOC_CODE", tran)
-                    If clsCommon.myLen(qry) > 0 Then
-                        qry = "alter table TSPL_MILK_SHIFT_END_ROUTE_DETAIL_SYNC drop " & qry & ""
-                        clsDBFuncationality.ExecuteNonQuery(qry, tran)
-                    End If
+        '                    qry = clsGetKeys.GetForeignKeyName("TSPL_MILK_SHIFT_END_ROUTE_DETAIL_SYNC", "DOC_CODE", tran)
+        '                    If clsCommon.myLen(qry) > 0 Then
+        '                        qry = "alter table TSPL_MILK_SHIFT_END_ROUTE_DETAIL_SYNC drop " & qry & ""
+        '                        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    End If
 
-                    qry = "drop table TSPL_MILK_Shift_End_Route_DETAIL  "
-                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
-                    qry = "drop table TSPL_MILK_Shift_End_DETAIL"
-                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
-                    qry = "drop table TSPL_MILK_Shift_End_HEAD"
-                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    qry = "drop table TSPL_MILK_Shift_End_Route_DETAIL  "
+        '                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    qry = "drop table TSPL_MILK_Shift_End_DETAIL"
+        '                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    qry = "drop table TSPL_MILK_Shift_End_HEAD"
+        '                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
-                    qry = clsGetKeys.GetForeignKeyName("TSPL_MILK_SAMPLE_DETAIL_SYNC", "DOC_CODE", tran)
-                    If clsCommon.myLen(qry) > 0 Then
-                        qry = "alter table TSPL_MILK_SAMPLE_DETAIL_SYNC drop " & qry & ""
-                        clsDBFuncationality.ExecuteNonQuery(qry, tran)
-                    End If
+        '                    qry = clsGetKeys.GetForeignKeyName("TSPL_MILK_SAMPLE_DETAIL_SYNC", "DOC_CODE", tran)
+        '                    If clsCommon.myLen(qry) > 0 Then
+        '                        qry = "alter table TSPL_MILK_SAMPLE_DETAIL_SYNC drop " & qry & ""
+        '                        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    End If
 
-                    qry = clsGetKeys.GetForeignKeyName("TSPL_MILK_SRN_HEAD_SYNC", "MILK_SAMPLE_CODE", tran)
-                    If clsCommon.myLen(qry) > 0 Then
-                        qry = "alter table TSPL_MILK_SRN_HEAD_SYNC drop " & qry & ""
-                        clsDBFuncationality.ExecuteNonQuery(qry, tran)
-                    End If
+        '                    qry = clsGetKeys.GetForeignKeyName("TSPL_MILK_SRN_HEAD_SYNC", "MILK_SAMPLE_CODE", tran)
+        '                    If clsCommon.myLen(qry) > 0 Then
+        '                        qry = "alter table TSPL_MILK_SRN_HEAD_SYNC drop " & qry & ""
+        '                        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    End If
 
-                    qry = "drop table TSPL_MILK_SAMPLE_DETAIL"
-                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
-                    qry = "drop table  TSPL_MCC_SAMPLE_QC_DETAIL "
-                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
-                    qry = "drop table TSPL_MILK_SAMPLE_DETAIL_History "
-                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
-                    qry = "drop table TSPL_MILK_SAMPLE_QC_PARAMETER_DETAIL "
-                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
-                    qry = "drop table TSPL_MILK_SAMPLE_READING_LOG "
-                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
-                    qry = "drop table TSPL_MILK_SAMPLE_HEAD"
-                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    qry = "drop table TSPL_MILK_SAMPLE_DETAIL"
+        '                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    qry = "drop table  TSPL_MCC_SAMPLE_QC_DETAIL "
+        '                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    qry = "drop table TSPL_MILK_SAMPLE_DETAIL_History "
+        '                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    qry = "drop table TSPL_MILK_SAMPLE_QC_PARAMETER_DETAIL "
+        '                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    qry = "drop table TSPL_MILK_SAMPLE_READING_LOG "
+        '                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    qry = "drop table TSPL_MILK_SAMPLE_HEAD"
+        '                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
-                    qry = clsGetKeys.GetForeignKeyName("TSPL_MILK_RECEIPT_DETAIL_SYNC", "DOC_CODE", tran)
-                    If clsCommon.myLen(qry) > 0 Then
-                        qry = "alter table TSPL_MILK_RECEIPT_DETAIL_SYNC drop " & qry & ""
-                        clsDBFuncationality.ExecuteNonQuery(qry, tran)
-                    End If
-                    qry = clsGetKeys.GetForeignKeyName("TSPL_MILK_RECEIPT_IMPROPER_WEIGHT_LOG_SYNC", "Doc_Code", tran)
-                    If clsCommon.myLen(qry) > 0 Then
-                        qry = "alter table TSPL_MILK_RECEIPT_IMPROPER_WEIGHT_LOG_SYNC drop " & qry & ""
-                        clsDBFuncationality.ExecuteNonQuery(qry, tran)
-                    End If
+        '                    qry = clsGetKeys.GetForeignKeyName("TSPL_MILK_RECEIPT_DETAIL_SYNC", "DOC_CODE", tran)
+        '                    If clsCommon.myLen(qry) > 0 Then
+        '                        qry = "alter table TSPL_MILK_RECEIPT_DETAIL_SYNC drop " & qry & ""
+        '                        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    End If
+        '                    qry = clsGetKeys.GetForeignKeyName("TSPL_MILK_RECEIPT_IMPROPER_WEIGHT_LOG_SYNC", "Doc_Code", tran)
+        '                    If clsCommon.myLen(qry) > 0 Then
+        '                        qry = "alter table TSPL_MILK_RECEIPT_IMPROPER_WEIGHT_LOG_SYNC drop " & qry & ""
+        '                        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    End If
 
-                    qry = "drop table TSPL_MILK_RECEIPT_DETAIL"
-                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
-                    qry = "drop table TSPL_MCC_SAMPLE_QC_PARAMETER_DETAIL"
-                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
-                    qry = "drop table TSPL_MCC_SAMPLE_QC_HEAD "
-                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
-                    qry = "drop table TSPL_MILK_RECEIPT_IMPROPER_WEIGHT_LOG "
-                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
-                    qry = "drop table TSPL_MILK_RECEIPT_HEAD"
-                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    qry = "drop table TSPL_MILK_RECEIPT_DETAIL"
+        '                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    qry = "drop table TSPL_MCC_SAMPLE_QC_PARAMETER_DETAIL"
+        '                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    qry = "drop table TSPL_MCC_SAMPLE_QC_HEAD "
+        '                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    qry = "drop table TSPL_MILK_RECEIPT_IMPROPER_WEIGHT_LOG "
+        '                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    qry = "drop table TSPL_MILK_RECEIPT_HEAD"
+        '                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
-                    qry = "drop table TSPL_OPEN_MCC_SHIFT"
-                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    qry = "drop table TSPL_OPEN_MCC_SHIFT"
+        '                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
-                    tran.Commit()
-                Catch ex As Exception
-                    tran.Rollback()
-                    Throw New Exception("Error in Milk Procument Structure change" + Environment.NewLine + ex.Message)
-                End Try
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
-        End Try
-
-
-        Try
-            Dim qry As String = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MILK_SRN_HEAD' and COLUMN_NAME='Against_Reject_No'"
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin
-                Try
-                    qry = "select Against_Shift_Uploader_TR_No,max(SAMPLE_NO) as maxSAMPLE_NO,sum(1) as Rep  from TSPL_MILK_REJECT_DETAIL where Against_Shift_Uploader_TR_No is not NULL group by Against_Shift_Uploader_TR_No  having sum(1)>1"
-                    Dim dtLoop As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
-                    If dtLoop IsNot Nothing AndAlso dtLoop.Rows.Count > 0 Then
-                        For Each drLoop As DataRow In dtLoop.Rows
-                            If clsCommon.myCDecimal(drLoop("Rep")) > 2 Then
-                                Throw New Exception("More than 2 reject sample repeated")
-                            End If
-                            qry = "select TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No from TSPL_MILK_SHIFT_UPLOADER_DETAIL
-        inner join  (
-        select Document_No,VLC_Code,Reject_Type from TSPL_MILK_SHIFT_UPLOADER_DETAIL where  TR_No in ('" + clsCommon.myCstr(drLoop("Against_Shift_Uploader_TR_No")) + "')  
-        )xx on xx.Document_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No and xx.VLC_Code=TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code and xx.Reject_Type=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type and TR_No not in ('" + clsCommon.myCstr(drLoop("Against_Shift_Uploader_TR_No")) + "')"
-                            Dim dtUpdate As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
-                            For Each drUpdate As DataRow In dtUpdate.Rows
-                                qry = "update TSPL_MILK_REJECT_DETAIL set Against_Shift_Uploader_TR_No='" + clsCommon.myCstr(drUpdate("TR_No")) + "' where Against_Shift_Uploader_TR_No='" + clsCommon.myCstr(drLoop("Against_Shift_Uploader_TR_No")) + "' and SAMPLE_NO=" + clsCommon.myCstr(drLoop("maxSAMPLE_NO")) + ""
-                                clsDBFuncationality.ExecuteNonQuery(qry, tran)
-                            Next
-                        Next
-                    End If
+        '                    tran.Commit()
+        '                Catch ex As Exception
+        '                    tran.Rollback()
+        '                    Throw New Exception("Error in Milk Procument Structure change" + Environment.NewLine + ex.Message)
+        '                End Try
+        '            End If
+        '        Catch ex As Exception
+        '            clsCommon.MyMessageBoxShow(ex.Message)
+        '        End Try
 
 
-                    qry = "update TSPL_MILK_SRN_HEAD set Against_Shift_Uploader_TR_No=xx.Against_Shift_Uploader_TR_No from (
-                select TSPL_MILK_SRN_HEAD.DOC_CODE,TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No 
-                from TSPL_MILK_SRN_HEAD 
-                left outer join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.Against_Reject_No and TSPL_MILK_REJECT_DETAIL.SAMPLE_NO=TSPL_MILK_SRN_HEAD.SAMPLE_NO
-                where len(ISNULL(TSPL_MILK_SRN_HEAD.Against_Reject_No,''))>0 
-                and LEN(ISNULL(TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No,''))>0
-                )xx inner join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=xx.DOC_CODE "
-                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '        Try
+        '            Dim qry As String = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MILK_SRN_HEAD' and COLUMN_NAME='Against_Reject_No'"
+        '            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        '            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+        '                Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin
+        '                Try
+        '                    qry = "select Against_Shift_Uploader_TR_No,max(SAMPLE_NO) as maxSAMPLE_NO,sum(1) as Rep  from TSPL_MILK_REJECT_DETAIL where Against_Shift_Uploader_TR_No is not NULL group by Against_Shift_Uploader_TR_No  having sum(1)>1"
+        '                    Dim dtLoop As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
+        '                    If dtLoop IsNot Nothing AndAlso dtLoop.Rows.Count > 0 Then
+        '                        For Each drLoop As DataRow In dtLoop.Rows
+        '                            If clsCommon.myCDecimal(drLoop("Rep")) > 2 Then
+        '                                Throw New Exception("More than 2 reject sample repeated")
+        '                            End If
+        '                            qry = "select TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No from TSPL_MILK_SHIFT_UPLOADER_DETAIL
+        '        inner join  (
+        '        select Document_No,VLC_Code,Reject_Type from TSPL_MILK_SHIFT_UPLOADER_DETAIL where  TR_No in ('" + clsCommon.myCstr(drLoop("Against_Shift_Uploader_TR_No")) + "')  
+        '        )xx on xx.Document_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No and xx.VLC_Code=TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code and xx.Reject_Type=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type and TR_No not in ('" + clsCommon.myCstr(drLoop("Against_Shift_Uploader_TR_No")) + "')"
+        '                            Dim dtUpdate As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
+        '                            For Each drUpdate As DataRow In dtUpdate.Rows
+        '                                qry = "update TSPL_MILK_REJECT_DETAIL set Against_Shift_Uploader_TR_No='" + clsCommon.myCstr(drUpdate("TR_No")) + "' where Against_Shift_Uploader_TR_No='" + clsCommon.myCstr(drLoop("Against_Shift_Uploader_TR_No")) + "' and SAMPLE_NO=" + clsCommon.myCstr(drLoop("maxSAMPLE_NO")) + ""
+        '                                clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                            Next
+        '                        Next
+        '                    End If
 
-                    qry = "update TSPL_MILK_SRN_HEAD set Against_Uploader_TR_No=xx.TR_No from (
-        select TSPL_MILK_SRN_HEAD.DOC_CODE,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No
-        from TSPL_MILK_SRN_HEAD 
-        inner join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
-        inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.Against_Reject_No and TSPL_MILK_REJECT_DETAIL.SAMPLE_NO=TSPL_MILK_SRN_HEAD.SAMPLE_NO
-        inner join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.VLC_CODE=TSPL_MILK_SRN_HEAD.VLC_CODE and TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift_Date=TSPL_MILK_SRN_HEAD.DOC_DATE and TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift=TSPL_MILK_SRN_HEAD.SHIFT and len(isnull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,''))>0  and TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT= TSPL_MILK_SRN_DETAIL.Qty and TSPL_MILK_REJECT_DETAIL.FAT= TSPL_MILK_SRN_DETAIL.FAT_PER and TSPL_MILK_REJECT_DETAIL.SNF= TSPL_MILK_SRN_DETAIL.SNF_PER   and TSPL_MILK_SRN_HEAD.SAMPLE_NO=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.sno
-        inner join TSPL_MILK_PROCUREMENT_UPLOADER_HEAD on TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No and TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Status=1 and TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Reject=1 and TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.MCC_Code=TSPL_MILK_SRN_HEAD.MCC_CODE
-        where   len(ISNULL(TSPL_MILK_SRN_HEAD.Against_Reject_No,''))>0 
-        and LEN(ISNULL(TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No,''))<=0
-        )xx inner join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=xx.DOC_CODE"
-                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    qry = "update TSPL_MILK_SRN_DETAIL set ACC_Qty_LTR=x.ACC_WEIGHT_LTR from (
+        'select TSPL_MILK_SRN_HEAD.DOC_CODE,TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_LTR 
+        'from TSPL_MILK_SRN_DETAIL
+        'inner join TSPL_MILK_SRN_HEAD on  TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE
+        'inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.Against_Reject_No and TSPL_MILK_REJECT_DETAIL.SAMPLE_NO=TSPL_MILK_SRN_HEAD.SAMPLE_NO
+        ')x inner join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=x.DOC_CODE"
+        '                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
-                    qry = clsGetKeys.GetForeignKeyName("TSPL_MILK_SRN_HEAD", "Against_Reject_No", tran)
-                    If clsCommon.myLen(qry) > 0 Then
-                        qry = "alter table TSPL_MILK_SRN_HEAD drop " & qry & ""
-                        clsDBFuncationality.ExecuteNonQuery(qry, tran)
-                    End If
-
-                    qry = "alter table TSPL_MILK_SRN_HEAD drop column Against_Reject_No"
-                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
-
-                    qry = "drop table TSPL_MILK_REJECT_DETAIL"
-                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
-
-                    qry = clsGetKeys.GetForeignKeyName("TSPL_MILK_SRN_HEAD_SYNC", "Against_Reject_No", tran)
-                    If clsCommon.myLen(qry) > 0 Then
-                        qry = "alter table TSPL_MILK_SRN_HEAD_SYNC drop " & qry & ""
-                        clsDBFuncationality.ExecuteNonQuery(qry, tran)
-                    End If
-
-                    qry = "drop table TSPL_MILK_REJECT_HEAD"
-                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
-
-                    tran.Commit()
-                Catch ex As Exception
-                    tran.Rollback()
-                    Throw New Exception("Error in Milk Reject Structure change" + Environment.NewLine + ex.Message)
-                End Try
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-
-        coll = New Dictionary(Of String, String)()
-        coll.Add("Code", "Varchar(30) not null PRIMARY KEY")
-        coll.Add("Description", "varchar(200) NOT NULL")
-        coll.Add("Start_Date", "date not null")
-        coll.Add("End_Date", "date null")
-        coll.Add("End_Date_Created_By", "varchar(12)  NULL")
-        coll.Add("End_Date_Created_Date", "datetime NULL")
-        coll.Add("Created_By", "varchar(12) NOT NULL")
-        coll.Add("Created_Date", "datetime NOT NULL")
-        coll.Add("Modified_By", "varchar(12)  NULL")
-        coll.Add("Modified_Date", "datetime NOT NULL")
-        coll.Add("Posted", "integer  NOT NULL DEFAULT 0")
-        coll.Add("Posted_By", "varchar(12)  NULL")
-        coll.Add("Posted_Date", "datetime NULL")
-        coll.Add("Inactive", "integer  NOT NULL DEFAULT 0")
-        coll.Add("Inactive_By", "varchar(12)  NULL")
-        coll.Add("Inactive_Date", "datetime NULL")
-        coll.Add("Applicable_On", "integer not null")
-        coll.Add("Payment_Mehod", "integer not null")
-        coll.Add("Calculation_Mehod", "integer not null")
-        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CHILLING_CHARGES", coll, Nothing, True)
+        '                    qry = "update TSPL_MILK_SRN_HEAD set Against_Shift_Uploader_TR_No=xx.Against_Shift_Uploader_TR_No from (
+        '                select TSPL_MILK_SRN_HEAD.DOC_CODE,TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No 
+        '                from TSPL_MILK_SRN_HEAD 
+        '                left outer join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.Against_Reject_No and TSPL_MILK_REJECT_DETAIL.SAMPLE_NO=TSPL_MILK_SRN_HEAD.SAMPLE_NO
+        '                where len(ISNULL(TSPL_MILK_SRN_HEAD.Against_Reject_No,''))>0 
+        '                and LEN(ISNULL(TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No,''))>0
+        '                )xx inner join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=xx.DOC_CODE "
+        '                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
 
-        coll = New Dictionary(Of String, String)()
-        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("Code", "Varchar(30) not null references TSPL_CHILLING_CHARGES(Code)")
-        coll.Add("Capacity", "integer not null")
-        coll.Add("Rate", "decimal(18,2) null")
-        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CHILLING_CHARGES_SLAB", coll, Nothing, True)
 
-        coll = New Dictionary(Of String, String)()
-        coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("InvoiceNo", "Varchar(30) not null references TSPL_MILK_PURCHASE_INVOICE_HEAD(DOC_CODE)")
-        coll.Add("Against_Chilling_Slab_PK_ID", "integer not NULL references TSPL_CHILLING_CHARGES_SLAB(PK_ID)")
-        coll.Add("Qty", "DECIMAL(18,2) NULL")
-        coll.Add("Apply_Date", "datetime not NULL")
-        coll.Add("Rate", "DECIMAL(18,2) NULL")
-        coll.Add("Amt", "DECIMAL(18,2) NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PURCHASE_INVOICE_CHILLING_CHARGES", coll, Nothing, False, False, "TSPL_MILK_PURCHASE_INVOICE_HEAD", "InvoiceNo", "")
+        '                    qry = "update TSPL_MILK_SRN_HEAD set Against_Uploader_TR_No=xx.TR_No from (
+        '        select TSPL_MILK_SRN_HEAD.DOC_CODE,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No
+        '        from TSPL_MILK_SRN_HEAD 
+        '        inner join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
+        '        inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.Against_Reject_No and TSPL_MILK_REJECT_DETAIL.SAMPLE_NO=TSPL_MILK_SRN_HEAD.SAMPLE_NO
+        '        inner join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.VLC_CODE=TSPL_MILK_SRN_HEAD.VLC_CODE and TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift_Date=TSPL_MILK_SRN_HEAD.DOC_DATE and TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift=TSPL_MILK_SRN_HEAD.SHIFT and len(isnull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,''))>0  and TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT= TSPL_MILK_SRN_DETAIL.Qty and TSPL_MILK_REJECT_DETAIL.FAT= TSPL_MILK_SRN_DETAIL.FAT_PER and TSPL_MILK_REJECT_DETAIL.SNF= TSPL_MILK_SRN_DETAIL.SNF_PER   and TSPL_MILK_SRN_HEAD.SAMPLE_NO=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.sno
+        '        inner join TSPL_MILK_PROCUREMENT_UPLOADER_HEAD on TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No and TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Status=1 and TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Reject=1 and TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.MCC_Code=TSPL_MILK_SRN_HEAD.MCC_CODE
+        '        where   len(ISNULL(TSPL_MILK_SRN_HEAD.Against_Reject_No,''))>0 
+        '        and LEN(ISNULL(TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No,''))<=0
+        '        )xx inner join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=xx.DOC_CODE"
+        '                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+
+        '                    qry = clsGetKeys.GetForeignKeyName("TSPL_MILK_SRN_HEAD", "Against_Reject_No", tran)
+        '                    If clsCommon.myLen(qry) > 0 Then
+        '                        qry = "alter table TSPL_MILK_SRN_HEAD drop " & qry & ""
+        '                        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    End If
+
+        '                    qry = "alter table TSPL_MILK_SRN_HEAD drop column Against_Reject_No"
+        '                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+
+        '                    qry = "drop table TSPL_MILK_REJECT_DETAIL"
+        '                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+
+        '                    qry = clsGetKeys.GetForeignKeyName("TSPL_MILK_SRN_HEAD_SYNC", "Against_Reject_No", tran)
+        '                    If clsCommon.myLen(qry) > 0 Then
+        '                        qry = "alter table TSPL_MILK_SRN_HEAD_SYNC drop " & qry & ""
+        '                        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        '                    End If
+
+        '                    qry = "drop table TSPL_MILK_REJECT_HEAD"
+        '                    clsDBFuncationality.ExecuteNonQuery(qry, tran)
+
+        '                    tran.Commit()
+        '                Catch ex As Exception
+        '                    tran.Rollback()
+        '                    Throw New Exception("Error in Milk Reject Structure change" + Environment.NewLine + ex.Message)
+        '                End Try
+        '            End If
+        '        Catch ex As Exception
+        '            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        '        End Try
+
+        '        coll = New Dictionary(Of String, String)()
+        '        coll.Add("Code", "Varchar(30) not null PRIMARY KEY")
+        '        coll.Add("Description", "varchar(200) NOT NULL")
+        '        coll.Add("Start_Date", "date not null")
+        '        coll.Add("End_Date", "date null")
+        '        coll.Add("End_Date_Created_By", "varchar(12)  NULL")
+        '        coll.Add("End_Date_Created_Date", "datetime NULL")
+        '        coll.Add("Created_By", "varchar(12) NOT NULL")
+        '        coll.Add("Created_Date", "datetime NOT NULL")
+        '        coll.Add("Modified_By", "varchar(12)  NULL")
+        '        coll.Add("Modified_Date", "datetime NOT NULL")
+        '        coll.Add("Posted", "integer  NOT NULL DEFAULT 0")
+        '        coll.Add("Posted_By", "varchar(12)  NULL")
+        '        coll.Add("Posted_Date", "datetime NULL")
+        '        coll.Add("Inactive", "integer  NOT NULL DEFAULT 0")
+        '        coll.Add("Inactive_By", "varchar(12)  NULL")
+        '        coll.Add("Inactive_Date", "datetime NULL")
+        '        coll.Add("Applicable_On", "integer not null")
+        '        coll.Add("Payment_Mehod", "integer not null")
+        '        coll.Add("Calculation_Mehod", "integer not null")
+        '        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CHILLING_CHARGES", coll, Nothing, True)
 
 
-        coll = New Dictionary(Of String, String)()
-        coll.Add("DOC_CODE", "Varchar(30) not null Primary key")
-        coll.Add("MCC_CODE", "Varchar(30) not null references TSPL_MCC_MASTER(MCC_CODE)")
-        coll.Add("DOC_DATE", "datetime NOT NULL")
-        coll.Add("SHIFT", "VARCHAR(10) NOT NULL")
-        coll.Add("COMM_PORT", "VARCHAR(30) NULL")
-        coll.Add("VLC_DOC_CODE", "VARCHAR(30) NOT NULL ")
-        'coll.Add("MILK_SAMPLE_CODE", "VARCHAR(30) NULL references TSPL_MILK_SAMPLE_HEAD(Doc_CODE)")
-        coll.Add("SAMPLE_NO", "INTEGER NOT NULL ")
-        coll.Add("VLC_CODE", "VARCHAR(30) NOT NULL REFERENCES TSPL_VLC_MASTER_HEAD(VLC_CODE)")
-        coll.Add("ROUTE_CODE", "VARCHAR(30) NOT NULL ")
-        coll.Add("VSP_CODE", "varchar(12) not null REFERENCES TSPL_VENDOR_MASTER (Vendor_Code)")
-        coll.Add("VEHICLE_CODE", "VARCHAR(30) NULL")
-        coll.Add("Transporter", "varchar(12) not null REFERENCES TSPL_VENDOR_MASTER (Vendor_Code) ")
-        coll.Add("Posted", "numeric(2) not null default 0")
-        coll.Add("Posting_Date", "datetime null")
-        coll.Add("Created_By", "varchar(12) NOT NULL")
-        coll.Add("Created_Date", "Datetime NOT NULL")
-        coll.Add("Modified_By", "varchar(12) NOT NULL")
-        coll.Add("Modified_Date", "Datetime NOT NULL")
-        coll.Add("Comp_Code", "varchar(8) NULL REFERENCES TSPL_COMPANY_MASTER(COMP_CODE)")
-        coll.Add("Is_Incentive_Created", "VARCHAR(1) NOT NULL Default 'N'")
-        'coll.Add("Against_Reject_No", "Varchar(30) null references TSPL_MILK_REJECT_HEAD(DOC_CODE)")
-        coll.Add("Dock_Collection_Milk_Type", "char(1) NOT NULL Default 'M'")
-        coll.Add("SYNC_STATUS", "int Null")
-        coll.Add("Failed_Sample_Status", "integer null")
-        coll.Add("Failed_Sample_Approve_By", "varchar(12) null")
-        coll.Add("Failed_Sample_Approve_Date", "datetime null")
-        coll.Add("Purchase_Order_No", "Varchar(30) null")
-        coll.Add("Capping_Apply", "integer null")
-        coll.Add("Retesting", "integer null")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_HEAD", coll, "", True, False, "", "DOC_CODE", "DOC_DATE")
-        coll.Item("MILK_SAMPLE_CODE") = "VARCHAR(30) NULL "
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_HEAD_SYNC", coll, "", False, False)
+        '        coll = New Dictionary(Of String, String)()
+        '        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+        '        coll.Add("Code", "Varchar(30) not null references TSPL_CHILLING_CHARGES(Code)")
+        '        coll.Add("Capacity", "integer not null")
+        '        coll.Add("Rate", "decimal(18,2) null")
+        '        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CHILLING_CHARGES_SLAB", coll, Nothing, True)
+
+        '        coll = New Dictionary(Of String, String)()
+        '        coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+        '        coll.Add("InvoiceNo", "Varchar(30) not null references TSPL_MILK_PURCHASE_INVOICE_HEAD(DOC_CODE)")
+        '        coll.Add("Against_Chilling_Slab_PK_ID", "integer not NULL references TSPL_CHILLING_CHARGES_SLAB(PK_ID)")
+        '        coll.Add("Qty", "DECIMAL(18,2) NULL")
+        '        coll.Add("Apply_Date", "datetime not NULL")
+        '        coll.Add("Rate", "DECIMAL(18,2) NULL")
+        '        coll.Add("Amt", "DECIMAL(18,2) NULL")
+        '        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PURCHASE_INVOICE_CHILLING_CHARGES", coll, Nothing, False, False, "TSPL_MILK_PURCHASE_INVOICE_HEAD", "InvoiceNo", "")
+
+
+        '        coll = New Dictionary(Of String, String)()
+        '        coll.Add("DOC_CODE", "Varchar(30) not null Primary key")
+        '        coll.Add("MCC_CODE", "Varchar(30) not null references TSPL_MCC_MASTER(MCC_CODE)")
+        '        coll.Add("DOC_DATE", "datetime NOT NULL")
+        '        coll.Add("SHIFT", "VARCHAR(10) NOT NULL")
+        '        coll.Add("COMM_PORT", "VARCHAR(30) NULL")
+        '        coll.Add("VLC_DOC_CODE", "VARCHAR(30) NOT NULL ")
+        '        'coll.Add("MILK_SAMPLE_CODE", "VARCHAR(30) NULL references TSPL_MILK_SAMPLE_HEAD(Doc_CODE)")
+        '        coll.Add("SAMPLE_NO", "INTEGER NOT NULL ")
+        '        coll.Add("VLC_CODE", "VARCHAR(30) NOT NULL REFERENCES TSPL_VLC_MASTER_HEAD(VLC_CODE)")
+        '        coll.Add("ROUTE_CODE", "VARCHAR(30) NOT NULL ")
+        '        coll.Add("VSP_CODE", "varchar(12) not null REFERENCES TSPL_VENDOR_MASTER (Vendor_Code)")
+        '        coll.Add("VEHICLE_CODE", "VARCHAR(30) NULL")
+        '        coll.Add("Transporter", "varchar(12) not null REFERENCES TSPL_VENDOR_MASTER (Vendor_Code) ")
+        '        coll.Add("Posted", "numeric(2) not null default 0")
+        '        coll.Add("Posting_Date", "datetime null")
+        '        coll.Add("Created_By", "varchar(12) NOT NULL")
+        '        coll.Add("Created_Date", "Datetime NOT NULL")
+        '        coll.Add("Modified_By", "varchar(12) NOT NULL")
+        '        coll.Add("Modified_Date", "Datetime NOT NULL")
+        '        coll.Add("Comp_Code", "varchar(8) NULL REFERENCES TSPL_COMPANY_MASTER(COMP_CODE)")
+        '        coll.Add("Is_Incentive_Created", "VARCHAR(1) NOT NULL Default 'N'")
+        '        'coll.Add("Against_Reject_No", "Varchar(30) null references TSPL_MILK_REJECT_HEAD(DOC_CODE)")
+        '        coll.Add("Dock_Collection_Milk_Type", "char(1) NOT NULL Default 'M'")
+        '        coll.Add("SYNC_STATUS", "int Null")
+        '        coll.Add("Failed_Sample_Status", "integer null")
+        '        coll.Add("Failed_Sample_Approve_By", "varchar(12) null")
+        '        coll.Add("Failed_Sample_Approve_Date", "datetime null")
+        '        coll.Add("Purchase_Order_No", "Varchar(30) null")
+        '        coll.Add("Capping_Apply", "integer null")
+        '        coll.Add("Retesting", "integer null")
+        '        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_HEAD", coll, "", True, False, "", "DOC_CODE", "DOC_DATE")
+        '        coll.Item("MILK_SAMPLE_CODE") = "VARCHAR(30) NULL "
+        '        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_HEAD_SYNC", coll, "", False, False)
 
 
         MyBase.SetUserMgmt(clsUserMgtCode.MilkShiftUploader)
@@ -676,10 +685,11 @@ Public Class frmMilkShiftUploaderUCDF
 
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         Try
+
             AddNew()
             isInsideLoadData = True
             Dim obj As New clsMilkShiftUploaderHead()
-            obj = clsMilkShiftUploaderHead.GetData(strCode, NavTyep, Nothing, True)
+            obj = clsMilkShiftUploaderHead.GetData(strCode, NavTyep, Nothing, True, isPickCLRInsteadOfSNF)
 
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
                 isNewEntry = False
@@ -771,7 +781,10 @@ Public Class frmMilkShiftUploaderUCDF
                                 summaryRowItem.Add(summaryItem5)
                             End If
                             If isPickCLRInsteadOfSNF Then
-                                gv1.Columns(ii).HeaderText = gv1.Columns(ii).HeaderText.Replace("SNF", "CLR")
+                                If ii <> 13 And ii <> 14 Then
+                                    gv1.Columns(ii).HeaderText = gv1.Columns(ii).HeaderText.Replace("SNF", "CLR")
+
+                                End If
                             End If
 
                         Catch ex As Exception
@@ -782,6 +795,7 @@ Public Class frmMilkShiftUploaderUCDF
                     summaryRowItem.Add(item11)
 
                     gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                     gv1.Columns("TR_No").IsVisible = False
                     gv1.Columns("Route Code").IsVisible = False
                     lblTotEntry.Text = gv1.Rows.Count
@@ -811,13 +825,17 @@ Public Class frmMilkShiftUploaderUCDF
                                 summaryRowItem2.Add(summaryItem5)
                             End If
                             If isPickCLRInsteadOfSNF Then
-                                gvP.Columns(ii).HeaderText = gvP.Columns(ii).HeaderText.Replace("SNF", "CLR")
+                                '  gvP.Columns(ii).HeaderText = gvP.Columns(ii).HeaderText.Replace("SNF_PER", "CLR_PER")
+                                If ii <> 13 And ii <> 14 Then
+                                    gv1.Columns(ii).HeaderText = gv1.Columns(ii).HeaderText.Replace("SNF", "CLR")
+
+                                End If
                             End If
                         Catch ex As Exception
                         End Try
                     Next
                     gvP.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem2)
-
+                    gvP.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                     '======================================================================
 
                 End If
@@ -945,9 +963,9 @@ Public Class frmMilkShiftUploaderUCDF
             '    txtMCC.Focus()
             '    Throw New Exception("Please select MCC")
             'End If
-            Dim qry As String = "select TSPL_VLC_MASTER_HEAD.vlc_code_vlc_uploader as [Uploader_Code],TSPL_VLC_MASTER_HEAD.vlc_code as [Vlc Code],TSPL_VLC_MASTER_HEAD.route_code as [Route Code],Route_name as [Route Name]," _
-                & " TSPL_VLC_MASTER_HEAD.vlc_name as [VLC Name],TSPL_VLC_MASTER_HEAD.vehical_name as [Vehicle Name],TSPL_VLC_MASTER_HEAD.vsp_code as [VSP Code]," _
-                & " TSPL_VENDOR_MASTER.Vendor_Name as [VSP Name],TSPL_VLC_MASTER_HEAD.mcc as [MCC Code],TSPL_MCC_MASTER.mcc_name as [MCC Name]," _
+            Dim qry As String = "select TSPL_VLC_MASTER_HEAD.vlc_code_vlc_uploader as [Uploader_Code],TSPL_VLC_MASTER_HEAD.vlc_code as [DCS Code],TSPL_VLC_MASTER_HEAD.route_code as [Route Code],Route_name as [Route Name]," _
+                & " TSPL_VLC_MASTER_HEAD.vlc_name as [DCS Name],TSPL_VLC_MASTER_HEAD.vehical_name as [Vehicle Name],TSPL_VLC_MASTER_HEAD.vsp_code as [Secretary Code]," _
+                & " TSPL_VENDOR_MASTER.Vendor_Name as [Secretary Name],TSPL_VLC_MASTER_HEAD.mcc as [MCC Code],TSPL_MCC_MASTER.mcc_name as [MCC Name]," _
                 & " TSPL_VLC_MASTER_HEAD.created_by as [Created By],TSPL_VLC_MASTER_HEAD.created_date as [Created Date],TSPL_VLC_MASTER_HEAD.modified_by as " _
                 & " [Modified By],TSPL_VLC_MASTER_HEAD.modified_date as [Modified Date]" _
                 + " ,TSPL_VLC_MASTER_HEAD.Village_Code as VillageCode,TSPL_VILLAGE_MASTER.Village_Name as VillageName " _
@@ -979,8 +997,8 @@ Public Class frmMilkShiftUploaderUCDF
             Dim dr As DataRow = dt_vlc.Rows(0)
             If Not IsNothing(dr) Then
                 txtVLC.Value = clsCommon.myCstr(dr("Uploader_Code"))
-                txtVLC.Tag = clsCommon.myCstr(dr("Vlc Code"))
-                lblVLC.Text = clsCommon.myCstr(dr("VLC Name"))
+                txtVLC.Tag = clsCommon.myCstr(dr("DCS Code"))
+                lblVLC.Text = clsCommon.myCstr(dr("DCS Name"))
                 If clsCommon.myLen(txtMCC.Value) <= 0 Then
                     txtMCC.Value = clsCommon.myCstr(dr("MCC Code"))
                     LblMccName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Mcc_Name from TSPL_Mcc_MASTER where MCC_Code='" + txtMCC.Value + "' "))
@@ -1216,30 +1234,41 @@ Public Class frmMilkShiftUploaderUCDF
         Try
 
             strquery = "select TSPL_COMPANY_MASTER.Comp_Name,(TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No)TR_No,(TSPL_MILK_SHIFT_UPLOADER_DETAIL.SNo)SNo,(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) as VLC, (TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code) as [VLC Code],(TSPL_VLC_MASTER_HEAD.VLC_Name) as [VLC Name],(TSPL_MILK_SHIFT_UPLOADER_DETAIL.No_Of_Cans) as [No of Cans],(TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO) as [Route Code],(TSPL_BULK_ROUTE_MASTER.ROUTE_NAME) as [Route],(TSPL_BULK_ROUTE_MASTER.Tanker_No)Tanker_No,(TSPL_BULK_ROUTE_MASTER.Comp_Code)Comp_Code,(TSPL_MILK_SHIFT_UPLOADER_HEAD.Mix_Milk)Mix_Milk,(TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift)Shift,(TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date)Shift_Date,(TSPL_MILK_SHIFT_UPLOADER_HEAD.Created_Date)Created_Date,(TSPL_BULK_ROUTE_MASTER.Schedule_Time_Morning)Schedule_Time_Morning,(TSPL_MCC_MASTER.mcc_Name) as mcc_Name,
-case When (isnull(Reject_Type,''))='' then (isnull(No_Of_Cans,0)) else 0 end as [Good can qty]
-,case When (isnull(Reject_Type,''))='' then (isnull(Milk_Weight,0)) else 0 end as [Good Qty]
-,case When (isnull(Reject_Type,''))='' then (FAT) else 0 end as [Good FAT %]
-,case When (isnull(Reject_Type,''))='' then (cast(Milk_Weight*FAT/100 as decimal(18,3))) else 0 end as [Good FATKg]
-,case When (isnull(Reject_Type,''))='' then (SNF) else 0 end as [Good SNF %]
-,case When (isnull(Reject_Type,''))='' then (cast (Milk_Weight*SNF/100 as decimal(18,3))) else 0 end as [Good SNFKG],
-case When (isnull(Reject_Type,''))='SOUR' then (isnull(No_Of_Cans,0)) else 0 end as [SOUR can qty],
-case When (isnull(Reject_Type,''))='SOUR' then (Milk_Weight) else 0 end as [SOUR Qty]
-,case When (isnull(Reject_Type,''))='SOUR' then (FAT) else 0 end as [SOUR FAT %]
-,case When (isnull(Reject_Type,''))='SOUR' then (cast (Milk_Weight*FAT/100 as decimal(18,3))) else 0 end as [SOUR FATKg]
-,case When (isnull(Reject_Type,''))='SOUR' then (SNF) else 0 end as [SOUR SNF %]
-,case When (isnull(Reject_Type,''))='SOUR' then (cast (Milk_Weight*SNF/100 as decimal(18,3))) else 0 end as [SOUR SNFKG],
-case When (isnull(Reject_Type,''))='CURD' then (isnull(No_Of_Cans,0)) else 0 end as [CURD can qty],
-case When (isnull(Reject_Type,''))='CURD' then (Milk_Weight) else 0 end as [CURD Qty]
-,case When (isnull(Reject_Type,''))='CURD' then (FAT) else 0 end as [CURD FAT %]
-,case When (isnull(Reject_Type,''))='CURD' then (cast (Milk_Weight*FAT/100 as decimal(18,3))) else 0 end as [CURD FATKg]
-,case When (isnull(Reject_Type,''))='CURD' then (SNF) else 0 end as [CURD SNF %]
-,case When (isnull(Reject_Type,''))='CURD' then (cast (Milk_Weight*SNF/100 as decimal(18,3))) else 0 end as [CURD SNFKG] ,(TSPL_MILK_SHIFT_UPLOADER_DETAIL.PageNo)PageNo from TSPL_MILK_SHIFT_UPLOADER_DETAIL
-left join  TSPL_MILK_SHIFT_UPLOADER_HEAD on TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No
-left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code
-left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code = TSPL_VLC_MASTER_HEAD.Comp_Code
-left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO
-left join TSPL_MCC_MASTER on TSPL_MCC_MASTER.mcc_code=TSPL_MILK_SHIFT_UPLOADER_HEAD.MCC_Code
-where TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No='" + StrDocNo + "' ORDER BY SNO "
+                case When (isnull(Reject_Type,''))='' then (isnull(No_Of_Cans,0)) else 0 end as [Good can qty]
+                ,case When (isnull(Reject_Type,''))='' then (isnull(Milk_Weight,0)) else 0 end as [Good Qty]
+                ,case When (isnull(Reject_Type,''))='' then (FAT) else 0 end as [Good FAT %]
+                ,case When (isnull(Reject_Type,''))='' then (cast(Milk_Weight*FAT/100 as decimal(18,3))) else 0 end as [Good FATKg]
+                ,case When (isnull(Reject_Type,''))='' then (SNF) else 0 end as [Good SNF %]
+                ,case When (isnull(Reject_Type,''))='' then (cast (Milk_Weight*SNF/100 as decimal(18,3))) else 0 end as [Good SNFKG],
+                case When (isnull(Reject_Type,''))='SOUR' then (isnull(No_Of_Cans,0)) else 0 end as [SOUR can qty],
+                case When (isnull(Reject_Type,''))='SOUR' then (Milk_Weight) else 0 end as [SOUR Qty]
+                ,case When (isnull(Reject_Type,''))='SOUR' then (FAT) else 0 end as [SOUR FAT %]
+                ,case When (isnull(Reject_Type,''))='SOUR' then (cast (Milk_Weight*FAT/100 as decimal(18,3))) else 0 end as [SOUR FATKg]
+                ,case When (isnull(Reject_Type,''))='SOUR' then (SNF) else 0 end as [SOUR SNF %]
+                ,case When (isnull(Reject_Type,''))='SOUR' then (cast (Milk_Weight*SNF/100 as decimal(18,3))) else 0 end as [SOUR SNFKG],
+                case When (isnull(Reject_Type,''))='CURD' then (isnull(No_Of_Cans,0)) else 0 end as [CURD can qty],
+                case When (isnull(Reject_Type,''))='CURD' then (Milk_Weight) else 0 end as [CURD Qty]
+                ,case When (isnull(Reject_Type,''))='CURD' then (FAT) else 0 end as [CURD FAT %]
+                ,case When (isnull(Reject_Type,''))='CURD' then (cast (Milk_Weight*FAT/100 as decimal(18,3))) else 0 end as [CURD FATKg]
+                ,case When (isnull(Reject_Type,''))='CURD' then (SNF) else 0 end as [CURD SNF %] "
+
+            If isPickCLRInsteadOfSNF Then
+                strquery += " ,((Milk_Weight* (SNF/4+0.2*FAT+(select Description from TSPL_Fixed_parameter where type='defaultCorrectionFactor' and code='MilkSetting')))/100) as SNF_kg
+                ,SNF/4+0.2*FAT+(select Description from TSPL_Fixed_parameter where type='defaultCorrectionFactor' and code='MilkSetting') as SNF_PER,
+                Convert(Decimal(18, 2), ((Milk_Weight * FAT) / 100)) As Fat_KG "
+            Else
+                strquery += " ,case When (isnull(Reject_Type,''))='CURD' then (cast (Milk_Weight*SNF/100 as decimal(18,3))) else 0 end as [CURD SNFKG] "
+            End If
+
+
+
+            strquery += " ,(TSPL_MILK_SHIFT_UPLOADER_DETAIL.PageNo)PageNo from TSPL_MILK_SHIFT_UPLOADER_DETAIL
+                Left Join  TSPL_MILK_SHIFT_UPLOADER_HEAD on TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No
+                Left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code
+                Left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code = TSPL_VLC_MASTER_HEAD.Comp_Code
+                Left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO
+                Left Join TSPL_MCC_MASTER on TSPL_MCC_MASTER.mcc_code=TSPL_MILK_SHIFT_UPLOADER_HEAD.MCC_Code
+                where TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No ='" + StrDocNo + "' ORDER BY SNO "
 
             If strquery IsNot Nothing AndAlso clsCommon.myLen(strquery) > 0 Then
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(strquery)

@@ -252,6 +252,7 @@ Public Class rptTransporterWiseReport
             Dim item4 As New GridViewSummaryItem("Total", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item4)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf chkRouteWise.Checked = True OrElse chkCrateAccountDateWise.Checked = True Then
 
             If gv1.Rows.Count > 0 Then
@@ -262,6 +263,7 @@ Public Class rptTransporterWiseReport
                     summaryRowItem.Add(item1)
                 Next
                 gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
 
         ElseIf chkZoneWise.Checked = True OrElse chkCrateAccountZonewise.Checked = True Then
@@ -273,6 +275,7 @@ Public Class rptTransporterWiseReport
                     summaryRowItem.Add(item1)
                 Next
                 gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
         ElseIf chkTransporterDeduction.Checked = True OrElse chkTransporterDeduction.Checked = True Then
             If gv1.Rows.Count > 0 Then
@@ -283,6 +286,7 @@ Public Class rptTransporterWiseReport
                     summaryRowItem.Add(item1)
                 Next
                 gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
             gv1.Columns("SOC_NoOfCrates").HeaderText = "Shortage Of Crates" + Environment.NewLine + "No Of Crates"
             gv1.Columns("SOC_NoOfCrates_Amount").HeaderText = "Shortage Of Crates" + Environment.NewLine + "Amount in Rs."

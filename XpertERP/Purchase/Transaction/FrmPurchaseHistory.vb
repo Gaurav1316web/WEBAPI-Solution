@@ -282,6 +282,7 @@ Public Class FrmPurchaseHistory
             Dim summaryRowItem As New GridViewSummaryRowItem()
 
             newgv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            newgv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             Dim item1 As New GridViewSummaryItem("Qty Received", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item1)
             Dim item2 As New GridViewSummaryItem("Net Amount", "{0:F2}", GridAggregateFunction.Sum)
@@ -321,6 +322,7 @@ Public Class FrmPurchaseHistory
             Dim summaryRowItem As New GridViewSummaryRowItem()
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             Dim item1 As New GridViewSummaryItem("Quantity", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item1)
             Dim item2 As New GridViewSummaryItem("Amount", "{0:F2}", GridAggregateFunction.Sum)

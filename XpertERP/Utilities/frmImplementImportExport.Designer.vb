@@ -602,7 +602,7 @@ Partial Class frmImplementImportExport
         Me.MyLabel61.Name = "MyLabel61"
         Me.MyLabel61.Size = New System.Drawing.Size(194, 16)
         Me.MyLabel61.TabIndex = 78
-        Me.MyLabel61.Text = "(PTM,PTVM,MRM,VSP,Village,VLC )"
+        Me.MyLabel61.Text = "(PTM,PTVM,MRM,VSP,Village,DCS )"
         '
         'MyLabel60
         '
@@ -1787,7 +1787,7 @@ Partial Class frmImplementImportExport
         Me.MyLabel23.Name = "MyLabel23"
         Me.MyLabel23.Size = New System.Drawing.Size(66, 16)
         Me.MyLabel23.TabIndex = 77
-        Me.MyLabel23.Text = "VLC Master"
+        Me.MyLabel23.Text = "DCS Master"
         '
         'RadButton43
         '

@@ -659,7 +659,7 @@ Public Class frmDCSDemandBooking
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ") "
         End If
-        txtLocation.Value = clsCommon.ShowSelectForm("DCSDemandLocFnd", qry, "Code", WhrCls, txtLocation.Value, "Code", isButtonClicked)
+        txtLocation.Value = clsCommon.ShowSelectForm("DCSDemandLocFnd", qry, "Code", WhrCls, txtLocation.Value, "Code", isButtonClicked, " TSPL_GATEPASS_MASTER_DAIRYSALE.Document_date ")
         lblLocationDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
     End Sub
     Public Sub LoadDCS(ByVal RouteNo As String)
@@ -808,7 +808,7 @@ order by FROM_DATE desc)"
             Dim WhrCls As String = Nothing
             If clsCommon.myLen(txtRouteNo.Value) > 0 Then
 
-                Dim strQry As String = "select VLC_Code_VLC_Uploader as Code,VLC_Name as [VLC Name],VSP_Code as [VSP Code] from TSPL_VLC_master_Head "
+                Dim strQry As String = "select VLC_Code_VLC_Uploader as Code,VLC_Name as [DCS Name],VSP_Code as [Secretary Code] from TSPL_VLC_master_Head "
                 WhrCls = " Route_Code='" + txtRouteNo.Value + "'"
                 txtCustomerNo.Value = clsCommon.ShowSelectForm("DCSDemandCustomerFinder", strQry, "Code", WhrCls, txtCustomerNo.Value, "", isButtonClicked)
                 lblCustomerName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select VLC_Name  from TSPL_VLC_master_Head  where VLC_Code_VLC_Uploader='" + txtCustomerNo.Value + "'"))

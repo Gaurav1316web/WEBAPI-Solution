@@ -211,6 +211,7 @@ Public Class rptMilkBillProcurementSummary
 
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemB)
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemC)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
 
         Gv1.AutoSizeRows = True

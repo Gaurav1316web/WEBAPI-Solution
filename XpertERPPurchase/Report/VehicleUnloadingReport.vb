@@ -207,7 +207,7 @@ Public Class VehicleUnloadingReport
         summaryRowItem.Add(item1)
 
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub txtBillToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtBillToLocation._MYValidating

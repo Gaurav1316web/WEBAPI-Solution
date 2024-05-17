@@ -256,6 +256,7 @@ Public Class frmDB
                 summaryRowItem.Add(SalesInLTR)
 
                 gv4.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gv4.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -440,7 +441,7 @@ Public Class frmDB
 
 
         GridName.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        GridName.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Sub View(ByRef GridName As RadGridView)
@@ -552,6 +553,7 @@ Public Class frmDB
                 summaryRowItem.Add(FreightAmount)
 
                 gvTransportcost.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gvTransportcost.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -583,6 +585,7 @@ Public Class frmDB
                 Dim Values As New GridViewSummaryItem("Value", "{0:F2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(Values)
                 gv_po.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gv_po.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -619,7 +622,7 @@ Public Class frmDB
                 summaryRowItem.Add(Consumption)
 
                 gv_store.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+                gv_store.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

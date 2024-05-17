@@ -377,7 +377,7 @@ Public Class FrmCategoryAnalysisReport
                 Dim LYAC As New GridViewSummaryItem("Last Year Actual Sales", "{0:F2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(LYAC)
                 gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+                gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
             RadPageView1.SelectedPage = RadPageViewPage2
 

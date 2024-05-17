@@ -713,6 +713,7 @@ Public Class frmRptCSACustomerLedger
         ColumnTotal = New GridViewSummaryItem("BalAmt", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(ColumnTotal)
         gvDetails.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvDetails.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         'FindAndRestoreGridLayout(Me)
     End Sub
 
@@ -801,6 +802,7 @@ Public Class frmRptCSACustomerLedger
             TotalAmt = New GridViewSummaryItem("BalAmt", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(TotalAmt)
             gvCustomerGroup.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gvCustomerGroup.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -892,6 +894,7 @@ Public Class frmRptCSACustomerLedger
             TotalAmt = New GridViewSummaryItem("BalAmt", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(TotalAmt)
             gvCustomer.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gvCustomer.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -1009,6 +1012,7 @@ Public Class frmRptCSACustomerLedger
         summaryItem.AggregateExpression = "SUM([TransAmt1])"
         summaryRowItem.Add(summaryItem)
         gvDetails.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvDetails.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         'End If
         gvDetails.BestFitColumns()
     End Sub

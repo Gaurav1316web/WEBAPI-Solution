@@ -392,7 +392,7 @@ Public Class FrmRptVendorTransHistory
         ttllAmt = New GridViewSummaryItem("Balance", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(ttllAmt)
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-      
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         gv.MasterTemplate.ExpandAllGroups()
 
         If ChkSummary.Checked = True Then
@@ -403,6 +403,7 @@ Public Class FrmRptVendorTransHistory
             summaryItem.AggregateExpression = "SUM([Trans Amt])"
             summaryRowItem.Add(summaryItem)
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
        
         RadPageView1.SelectedPage = RadPageViewPage2

@@ -1096,7 +1096,7 @@ Public Class frmPo_action
             'gv.MasterTemplate.AutoExpandGroups = True
 
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Else
             gv.Columns("purchase_no").IsVisible = True
             gv.Columns("purchase_no").Width = 120
@@ -1184,7 +1184,7 @@ Public Class frmPo_action
             gv.ShowGroupPanel = True
 
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
         ReStoreGridLayout()
     End Sub

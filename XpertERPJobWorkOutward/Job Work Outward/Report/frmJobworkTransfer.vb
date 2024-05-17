@@ -305,7 +305,7 @@ Public Class frmJobworkTransfer
             End If
         Next
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         For Each col As GridViewColumn In gv.Columns
             col.BestFit()
         Next

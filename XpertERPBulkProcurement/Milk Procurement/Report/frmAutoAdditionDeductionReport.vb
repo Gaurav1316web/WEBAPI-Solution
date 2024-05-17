@@ -247,7 +247,7 @@ Public Class frmAutoAdditionDeductionReport
         Dim Amounts As New GridViewSummaryItem("Addition/Deduction AmountR", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(Amounts)
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Gv1.AutoSizeRows = False
         Gv1.BestFitColumns()
     End Sub
@@ -424,11 +424,11 @@ Public Class frmAutoAdditionDeductionReport
 
     Private Sub TxtMultiDCS_My_Click(sender As Object, e As EventArgs) Handles TxtMultiDCS._My_Click
         Try
-            Dim qry As String = "select TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name as [VlC Name],TSPL_VENDOR_MASTER.Zone_Code,TSPL_VLC_MASTER_HEAD.Route_Code,TSPL_MCC_ROUTE_MASTER.Route_Name from TSPL_VLC_MASTER_HEAD left outer join TSPL_MCC_ROUTE_MASTER on TSPL_MCC_ROUTE_MASTER.Route_Code=TSPL_VLC_MASTER_HEAD.Route_Code left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_VLC_MASTER_HEAD.VSP_Code where 2=2 "
+            Dim qry As String = "select TSPL_VLC_MASTER_HEAD.VSP_Code AS [Secretary Code],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name as [DCS Name],TSPL_VENDOR_MASTER.Zone_Code,TSPL_VLC_MASTER_HEAD.Route_Code,TSPL_MCC_ROUTE_MASTER.Route_Name from TSPL_VLC_MASTER_HEAD left outer join TSPL_MCC_ROUTE_MASTER on TSPL_MCC_ROUTE_MASTER.Route_Code=TSPL_VLC_MASTER_HEAD.Route_Code left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_VLC_MASTER_HEAD.VSP_Code where 2=2 "
             If txtMultiMCC.arrValueMember IsNot Nothing AndAlso txtMultiMCC.arrValueMember.Count > 0 Then
                 qry += " and TSPL_VLC_MASTER_HEAD.MCC in (" + clsCommon.GetMulcallString(txtMultiMCC.arrValueMember) + ") "
             End If
-            TxtMultiDCS.arrValueMember = clsCommon.ShowMultipleSelectForm("VLC@VMPIFSC", qry, "VSP_Code", "VLC_Code_VLC_Uploader", TxtMultiDCS.arrValueMember, TxtMultiDCS.arrDispalyMember)
+            TxtMultiDCS.arrValueMember = clsCommon.ShowMultipleSelectForm("VLC@VMPIFSC", qry, "Secretary Code", "VLC_Code_VLC_Uploader", TxtMultiDCS.arrValueMember, TxtMultiDCS.arrDispalyMember)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

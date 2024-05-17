@@ -237,7 +237,8 @@ Public Class rptSocietyLedgerReport
         Next
 
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-            Gv1.AutoSizeRows = True
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+        Gv1.AutoSizeRows = True
             Gv1.BestFitColumns()
         Gv1.MasterTemplate.AutoExpandGroups = True
     End Sub
@@ -455,7 +456,7 @@ Public Class rptSocietyLedgerReport
                 Exit Sub
             End If
             Dim qry As String
-            qry = "  select Cust_Code as 'Code' , Customer_Name as Name , TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as [VLC Uploader Code] from TSPL_CUSTOMER_MASTER left outer Join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_CUSTOMER_MASTER.Cust_Code "
+            qry = "  select Cust_Code as 'Code' , Customer_Name as Name , TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as [DCS Uploader Code] from TSPL_CUSTOMER_MASTER left outer Join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_CUSTOMER_MASTER.Cust_Code "
             txtVSP.Value = clsCommon.ShowSelectForm("SLVSPFinder", qry, "Code", "Cust_Group_Code = 'VSP'", txtVSP.Value, "Cust_Code", isButtonClicked)
 
             If clsCommon.myLen(txtVSP.Value) > 0 Then

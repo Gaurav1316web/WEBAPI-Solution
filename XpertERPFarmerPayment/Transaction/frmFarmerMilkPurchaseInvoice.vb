@@ -208,13 +208,13 @@ Public Class frmFarmerMilkPurchaseInvoice
     Private Sub txtCode__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtCode._MYValidating
         Try
             '' finder query change by Panch Raj on 01-may-2018 against ticket : KDI/30/04/18-000281
-            Dim qry As String = " select TSPL_MP_PAY_PROCESS_DETAIL.Farmer_Invoice_No as Code,convert(date,TSPL_MP_PAY_PROCESS_DETAIL.Farmer_Invoice_Date,103) as Date,TSPL_MP_PAY_PROCESS_DETAIL.Farmer_Code as [Farmer Code],TSPL_MP_PAY_PROCESS_DETAIL.Farmer_Name as [Farmer Name]," & _
-                                " TSPL_MP_PAY_PROCESS_DETAIL.Doc_No as [Payment Process Code],TSPL_MP_PAY_PROCESS_DETAIL.AP_Adjustment_No as [AP Adjustment No],TSPL_MP_PAY_PROCESS_DETAIL.VLC_CODE_Uploader as [VLC Code]," & _
-                                " TSPL_MP_PAY_PROCESS_DETAIL.VLC_Name as [VLC Name],TSPL_MP_PAY_PROCESS_DETAIL.VSP_CODE as [VSP Code],TSPL_MP_PAY_PROCESS_DETAIL.VSP_Name as [VSP Name], " & _
-                                " TSPL_MP_PAY_PROCESS_DETAIL.Milk_Qty as [Milk Qty],TSPL_MP_PAY_PROCESS_DETAIL.Milk_Amount as [Milk Amount],TSPL_MP_PAY_PROCESS_DETAIL.MCC_Sale_Amount as [MCC Sale Amount]," & _
-                                " TSPL_MP_PAY_PROCESS_DETAIL.MCC_Sale_Return_Amount as [MCC Sale Return Amount],TSPL_MP_PAY_PROCESS_DETAIL.MP_Adjust_Amount as [Adjustment Amount],TSPL_MP_PAY_PROCESS_DETAIL.Payable_Amount as [Payable Amount], " & _
+            Dim qry As String = " select TSPL_MP_PAY_PROCESS_DETAIL.Farmer_Invoice_No as Code,convert(date,TSPL_MP_PAY_PROCESS_DETAIL.Farmer_Invoice_Date,103) as Date,TSPL_MP_PAY_PROCESS_DETAIL.Farmer_Code as [Farmer Code],TSPL_MP_PAY_PROCESS_DETAIL.Farmer_Name as [Farmer Name]," &
+                                " TSPL_MP_PAY_PROCESS_DETAIL.Doc_No as [Payment Process Code],TSPL_MP_PAY_PROCESS_DETAIL.AP_Adjustment_No as [AP Adjustment No],TSPL_MP_PAY_PROCESS_DETAIL.VLC_CODE_Uploader as [DCS Code]," &
+                                " TSPL_MP_PAY_PROCESS_DETAIL.VLC_Name as [DCS Name],TSPL_MP_PAY_PROCESS_DETAIL.VSP_CODE as [Secretary Code],TSPL_MP_PAY_PROCESS_DETAIL.VSP_Name as [Secretary Name], " &
+                                " TSPL_MP_PAY_PROCESS_DETAIL.Milk_Qty as [Milk Qty],TSPL_MP_PAY_PROCESS_DETAIL.Milk_Amount as [Milk Amount],TSPL_MP_PAY_PROCESS_DETAIL.MCC_Sale_Amount as [MCC Sale Amount]," &
+                                " TSPL_MP_PAY_PROCESS_DETAIL.MCC_Sale_Return_Amount as [MCC Sale Return Amount],TSPL_MP_PAY_PROCESS_DETAIL.MP_Adjust_Amount as [Adjustment Amount],TSPL_MP_PAY_PROCESS_DETAIL.Payable_Amount as [Payable Amount], " &
                                 " TSPL_MP_PAY_PROCESS_DETAIL.NextCycleDebitNoteMP as [Next Cycle Debit Note] from TSPL_MP_PAY_PROCESS_DETAIL"
-            txtCode.Value = clsCommon.ShowSelectForm("Farmer_Invoice", qry, "Code", "", txtCode.Value, "Code", isButtonClicked)
+            txtCode.Value = clsCommon.ShowSelectForm("Farmer_Invoice", qry, "Code", "", txtCode.Value, "Code", isButtonClicked, "TSPL_MP_PAY_PROCESS_DETAIL.Farmer_Invoice_Date")
             If clsCommon.myLen(txtCode.Value) > 0 Then
                 LoadData(txtCode.Value)
             End If

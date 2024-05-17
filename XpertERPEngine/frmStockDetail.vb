@@ -38,6 +38,7 @@ Public Class FrmStockDetail
 
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             gv1.EnableFiltering = True
             gv1.ShowGroupPanel = False
         Catch ex As Exception
@@ -98,6 +99,7 @@ Public Class FrmStockDetail
 
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             gv1.EnableFiltering = True
             gv1.ShowGroupPanel = False
         Catch ex As Exception

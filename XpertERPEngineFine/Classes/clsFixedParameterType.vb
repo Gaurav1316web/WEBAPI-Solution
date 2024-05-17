@@ -3,6 +3,7 @@ Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
     Public Const EmployeeRetirementAge As String = "Employee Retirement Age"
+    Public Const DBTMilkQtyCapping As String = "DBT Milk Qty Capping"
     Public Const PDAccountPaymanager As String = "PD Account Paymanager"
     Public Const BankAdviseRequired As String = "Bank Advice Start Date"
     Public Const ApplyMergeForDCSMultipleDays As String = "Apply Merge For DCS Multiple Days"
@@ -1109,6 +1110,7 @@ Public Class clsFixedParameterType
     Public Const ApplyLatestPriceChartWhilecreatingNewVSP As String = "Apply Latest Price Chart While creating New VSP"
     Public Const AllowToPrintInvoiceAfterPosting As String = "Allow To Print Invoice After Posting"
     Public Const EnableBankFromMaster As String = "Enable Bank From Master"
+    Public Const Autoadjustdebitcreditnote As String = "Auto Adjust Debit Credit Note"
     Public Const UpdateItemMasterWithoutTransactionValidation As String = "Update Item Master Without Transaction Validation"
     Public Const AddItemAliasInSMS As String = "Add Item Alias In SMS"
     Public Const ItemWiseQualityCheckInGeneralPurchase As String = "Item Wise Quality Check In General Purchase"
@@ -1246,7 +1248,6 @@ Public Class clsFixedParameterType
     'Public Const DistributorViewOnly = "Distributor View Only"
 End Class
 Public Class clsFixedParameterCode
-    Public Const EmployeeRetirementAge As String = "Employee Retirement Age"
     Public Const NoOfRecordForLotNo As String = "No Of Record For Lot No"
     Public Const BankAdviseRequired As String = "Bank Advice Start Date"
     Public Const ApplyMergeForDCSMultipleDays As String = "Apply Merge For DCS Multiple Days"
@@ -2478,6 +2479,7 @@ Public Class clsFixedParameterCode
     Public Const ApplyLatestPriceChartWhilecreatingNewVSP As String = "Apply Latest Price Chart While creating New VSP"
     Public Const AllowToPrintInvoiceAfterPosting As String = "Allow To Print Invoice After Posting"
     Public Const EnableBankFromMaster As String = "Enable Bank From Master"
+    Public Const Autoadjustdebitcreditnote As String = "Auto Adjust Debit Credit Note"
     Public Const UpdateItemMasterWithoutTransactionValidation As String = "Update Item Master Without Transaction Validation"
     Public Const AddItemAliasInSMS As String = "Add Item Alias In SMS"
     Public Const ItemWiseQualityCheckInGeneralPurchase As String = "Item Wise Quality Check In General Purchase"
@@ -2614,6 +2616,8 @@ Public Class clsFixedParameterCode
     Public Const SuperuserViewOnly = "Super User View Only"
     Public Const DistributorViewOnly = "Distributor View Only"
     Public Const ShowDemandvsDispatch = "Show Demand vs Dispatch"
+    Public Const ShowFreshAmbientItems = "Show Fresh Ambient Items"
+    Public Const AcknowledgeDispatchQty = "CNF User Acknowledge Dispatch Qty"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -2692,7 +2696,6 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
-        InsertDefaultValueFixedParameter(clsFixedParameterType.EmployeeRetirementAge, clsFixedParameterCode.EmployeeRetirementAge, "0", "Define Retirement Age")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PDAccountPaymanager, clsFixedParameterCode.NoOfRecordForLotNo, "4500", "No of Records to Set Lot No")
         InsertDefaultValueFixedParameter(clsFixedParameterType.BankAdviseRequired, clsFixedParameterCode.BankAdviseRequired, "", "Bank Advise Start Date [dd/MMM/yyyy]")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyMergeForDCSMultipleDays, clsFixedParameterCode.ApplyMergeForDCSMultipleDays, "1", "0:OFF;1:ON")
@@ -2783,6 +2786,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.SuperuserViewOnly, "0", "0:OFF,1:ON;Super User Type View Report Only")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.DistributorViewOnly, "0", "0:OFF,1:ON;Distributor Type Use View Report Only")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.ShowDemandvsDispatch, "0", "0:OFF,1:ON;Show Demand VS Dispatch")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.ShowFreshAmbientItems, "0", "0:OFF,1:ON;Show Fresh Ambient Items")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.AcknowledgeDispatchQty, "0", "0:OFF,1:ON;CNF User Acknowledge Dispatch Qty")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceQty, "100", "Tollerance % of Qty")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceFAT, "100", "Tollerance % of FAT")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceSNF, "100", "Tollerance % of SNF")
@@ -3991,6 +3996,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyLatestPriceChartWhilecreatingNewVSP, clsFixedParameterCode.ApplyLatestPriceChartWhilecreatingNewVSP, "1", "0-OFF;1-ON: Apply Latest Price Chart While creating New VSP")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowToPrintInvoiceAfterPosting, clsFixedParameterCode.AllowToPrintInvoiceAfterPosting, "0", "0-OFF;1-Allow To Print Invoice After Posting")
         InsertDefaultValueFixedParameter(clsFixedParameterType.EnableBankFromMaster, clsFixedParameterCode.EnableBankFromMaster, "0", "0-OFF;1-Enable Bank From Master")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.Autoadjustdebitcreditnote, clsFixedParameterCode.Autoadjustdebitcreditnote, "0", "0-OFF;1-Auto Adjust Debit Credit Note")
         InsertDefaultValueFixedParameter(clsFixedParameterType.UpdateItemMasterWithoutTransactionValidation, clsFixedParameterCode.UpdateItemMasterWithoutTransactionValidation, "0", "0-OFF;1-On Update Item Master Without Transaction Validation[Implement Import/Export] ")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AddItemAliasInSMS, clsFixedParameterCode.AddItemAliasInSMS, "0", "0-OFF;1-On Add Item Alias In SMS")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ItemWiseQualityCheckInGeneralPurchase, clsFixedParameterCode.ItemWiseQualityCheckInGeneralPurchase, "0", "0-OFF[Apply Vendor Wise QC Parameter];1-On[Apply Item Wise QC Parameter] ")
@@ -4178,6 +4184,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCSMultipleDays, clsFixedParameterType.ApplyMergeForDCSMultipleDays, clsFixedParameterCode.ApplyMergeForDCSMultipleDays, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkVSPPayment, clsFixedParameterType.CalculateFATSNFLossCycleWise, clsFixedParameterCode.CalculateFATSNFLossCycleWise, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FATSNFDiffReport, clsFixedParameterType.CalculateFATSNFLossCycleWise, clsFixedParameterCode.CalculateFATSNFLossCycleWise, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.DCSMPIncentiveReco, clsFixedParameterType.DBTMilkQtyCapping, clsFixedParameterCode.DBTMilkQtyCapping, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.DCSMPIncentiveReco, clsFixedParameterType.RefreshDBTReco, clsFixedParameterCode.RefreshDBTReco, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.DistributorWiseBilling, clsFixedParameterCode.DistributorWiseBilling, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.RoundOffBankAdvice, clsFixedParameterCode.RoundOffBankAdvice, EnumControlType.CheckBox)
@@ -5774,6 +5781,8 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmMilkReceipt, clsFixedParameterType.MCCDefaultMilkItemCow, clsFixedParameterCode.MilkSetting, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.frmMilkReceipt, clsFixedParameterType.MCCDefaultMilkItemBuffalo, clsFixedParameterCode.MilkSetting, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.frmVSPMaster, clsFixedParameterType.EnableBankFromMaster, clsFixedParameterCode.EnableBankFromMaster, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmVSPMaster, clsFixedParameterType.Autoadjustdebitcreditnote, clsFixedParameterCode.Autoadjustdebitcreditnote, EnumControlType.CheckBox)
+
         InsertDefaultValue(clsUserMgtCode.FrmItemMasterRMOther, clsFixedParameterType.UpdateItemMasterWithoutTransactionValidation, clsFixedParameterCode.UpdateItemMasterWithoutTransactionValidation, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleInvoicedairy, clsFixedParameterType.AddItemAliasInSMS, clsFixedParameterCode.AddItemAliasInSMS, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmItemMasterRMOther, clsFixedParameterType.ItemWiseQualityCheckInGeneralPurchase, clsFixedParameterCode.ItemWiseQualityCheckInGeneralPurchase, EnumControlType.CheckBox)

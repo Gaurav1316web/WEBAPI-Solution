@@ -258,6 +258,7 @@ Public Class clsUserMgtCode
     Public Const rptdairydispatch As String = "DRY_DIS_RPT"
     Public Const rptRouteSaleRegister As String = "ROT_SAL_REG"
     Public Const rptGatePassReport As String = "GAT_PAS_RPT"
+    Public Const rptNewSalesReport As String = "NE_SALE_RPT"
 
     '===Dairy Visual Sales reports  
     Public Const SubModuleVisualSaleReport As String = "SMVSaleR"
@@ -2184,6 +2185,7 @@ Public Class clsUserMgtCode
     Public Const rptDailyQtyReport As String = "DAILY_QTY_R"
     Public Const rptBMCCapacityUtilizationReport As String = "BMC_CP_UTLZ"
     Public Const rptBMCPerodicalReport As String = "BMC_PERO_R"
+    Public Const rptPerodicalDispatchReport As String = "PERO_DISP_R"
     Public Const rptDcsSecurity As String = "DCS_SEC_RPT"
     Public Const rptDayWiseCol As String = "DAY_WSE_RPT"
     Public Const rptMarginAmt As String = "MRG_AMT_RPT"
@@ -2200,6 +2202,7 @@ Public Class clsUserMgtCode
     Public Const FrmVLCDataUploaderManual As String = "VLC-D-UPL-MA"
     Public Const MPIncentiveEntry As String = "MP-INC-ENT"
     Public Const DCSMPIncentiveReco As String = "DCS-MP-RECO"
+    Public Const DBTCappingCheck As String = "DBT-CAP-CHK"
     Public Const DBTNEFTUploader As String = "DBT-NEFT-UPL"
     Public Const DBTPayment As String = "DBT-PAY-MNT"
     Public Const FrmCreateBMCDCSbyMobile As String = "BMC-DCS-MOB"

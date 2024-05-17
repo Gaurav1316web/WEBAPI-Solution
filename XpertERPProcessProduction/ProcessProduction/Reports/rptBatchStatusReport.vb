@@ -195,7 +195,7 @@ Public Class RptBatchStatusReport
             'summaryRowItem.Add(item2)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
 
-
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             'ReStoreGridLayout()
 
         Catch ex As Exception

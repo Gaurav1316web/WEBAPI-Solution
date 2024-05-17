@@ -17,7 +17,8 @@ Public Class frmMCCMaterialSaleUploader
     Public Const coltax2 As String = "coltax2"
     Public Const coltax2rate As String = "coltax2rate"
     Public Const coltax2Amt As String = "coltax2Amt"
-
+    Dim AmountToCheckCustomerOutstandingForTCSTax As Double = 0
+    Dim EnableTCSRateValidityFrom01July2021 As Boolean = False
 
     Public TextCol As GridViewTextBoxColumn = Nothing
     Public DecCol As GridViewDecimalColumn = Nothing
@@ -53,7 +54,8 @@ Public Class frmMCCMaterialSaleUploader
         coll.Add("Tax2Amt", "float NULL")
         coll.Add("Challan_No", "Varchar(50) NULL")
         clsCommonFunctionality.CreateOrAlterTable("Temp_table_MCC_Material_Sale_uploader", coll)
-
+        AmountToCheckCustomerOutstandingForTCSTax = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AmountToCheckCustomerOutstandingForTCSTax, clsFixedParameterCode.AmountToCheckCustomerOutstandingForTCSTax, Nothing))
+        EnableTCSRateValidityFrom01July2021 = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableTCSRateValidityFrom01July2021, clsFixedParameterCode.EnableTCSRateValidityFrom01July2021, Nothing)) = 0, False, True)
 
         AllowManualItemPriceOnMCCSale = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowManualItemPriceOnMCCSale, clsFixedParameterCode.AllowManualItemPriceOnMCCSale, Nothing)) = 0, False, True)
         Gv1.Visible = True
@@ -306,6 +308,7 @@ Public Class frmMCCMaterialSaleUploader
         ValidatedCount = 0
         Dim strCellValue
         Dim strSubLocation
+        Dim taxrate As Double
         If rdbAgainstBulkSale.IsChecked Then
             For i As Integer = 0 To Gv1.Rows.Count - 1
 
@@ -490,18 +493,52 @@ Public Class frmMCCMaterialSaleUploader
                     ValidateStatus = ValidateStatus & "Please enter correct UOM , this UOM is not for this Item." & Environment.NewLine
                 End If
 
+                If AmountToCheckCustomerOutstandingForTCSTax > 0 Then
+                    Dim dblOutstandingAmount As Double = clsCommon.myCdbl(clsCustomerMaster.GetCustomerOutstandingForTCSTaxApplicableOnFY(clsCommon.myCstr(Gv1.Rows(i).Cells("CUSTOMER NO").Value), clsCommon.myCstr(Gv1.Rows(i).Cells("Date").Value)))
+                    If dblOutstandingAmount < AmountToCheckCustomerOutstandingForTCSTax Then
+                        dblOutstandingAmount = dblOutstandingAmount + clsCommon.myCdbl(clsCommon.myCdbl(Gv1.Rows(i).Cells("Amount").Value))
+
+                    End If
+                    If dblOutstandingAmount > AmountToCheckCustomerOutstandingForTCSTax Then
+                        If EnableTCSRateValidityFrom01July2021 Then
+                            Dim Is_ITR_Filled_And_TCSAmountGreater50K As Boolean = IIf(clsCommon.myCstr(clsDBFuncationality.getSingleValue(" SELECT CASE WHEN ISNULL(IsTCSGreaterthan50K,0)=1 AND ISNULL(IsITRfilledinLast2Years,0)=1 THEN 1 ELSE 0 END FROM TSPL_CUSTOMER_MASTER WHERE Cust_Code='" & clsCommon.myCstr(Gv1.Rows(i).Cells("CUSTOMER NO").Value) & "'")) = 1, True, False)
+                            If Is_ITR_Filled_And_TCSAmountGreater50K = True Then
+                                taxrate = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithPanNo, clsFixedParameterCode.TCSRateforCustomerWithPanNo, Nothing))
+                            Else
+                                taxrate = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithoutPanNo, clsFixedParameterCode.TCSRateforCustomerWithoutPanNo, Nothing))
+                            End If
+                        Else
+                            Dim panno As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(pan,'')+isnull(Additional3 ,'') as PanNoAdhar from tspl_customer_master where cust_code='" & clsCommon.myCstr(Gv1.Rows(i).Cells("CUSTOMER NO").Value) & "'"))
+                            If clsCommon.myLen(panno) > 0 Then
+                                taxrate = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithPanNo, clsFixedParameterCode.TCSRateforCustomerWithPanNo, Nothing))
+                            Else
+                                taxrate = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithoutPanNo, clsFixedParameterCode.TCSRateforCustomerWithoutPanNo, Nothing))
+                            End If
+                        End If
+                    Else
+                        taxrate = 0
+                    End If
+                Else
+                    taxrate = 0
+                End If
+
                 If clsCommon.CompairString(clsCommon.myCstr(Gv1.Rows(i).Cells("TAXABLE").Value).ToUpper, "N") = CompairStringResult.Equal Then
                     Gv1.Rows(i).Cells(colTaxGroup).Value = clsLocationWiseTax.GetExempedDefaultTaxGroup(True, clsCommon.myCstr(Gv1.Rows(i).Cells("BILL TO LOCATION").Value), clsCommon.myCstr(Gv1.Rows(i).Cells("CUSTOMER NO").Value), "S", clsCommon.myCstr(Gv1.Rows(i).Cells("Date").Value))
                     Dim dt As DataTable = clsTaxGroupMaster.GetTaxDetailsByLocation(clsCommon.myCstr(Gv1.Rows(i).Cells(colTaxGroup).Value), "S", clsCommon.myCstr(Gv1.Rows(i).Cells("CUSTOMER NO").Value), clsCommon.myCstr(Gv1.Rows(i).Cells("BILL TO LOCATION").Value))
                     If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                        Dim ii As Integer = 0
                         For Each dr As DataRow In dt.Rows
-                            Gv1.Rows(i).Cells(coltax1).Value = clsCommon.myCstr(dr("Tax_Code"))
-                            Gv1.Rows(i).Cells(coltax1rate).Value = clsCommon.myCdbl(dr("TaxRate"))
-                            Gv1.Rows(i).Cells(coltax1Amt).Value = (clsCommon.myCdbl(dr("TaxRate")) * clsCommon.myCdbl(Gv1.Rows(i).Cells("Amount").Value)) / 100
+                            If ii = 0 Then
+                                Gv1.Rows(i).Cells(coltax1).Value = clsCommon.myCstr(dr("Tax_Code"))
+                                Gv1.Rows(i).Cells(coltax1rate).Value = clsCommon.myCdbl(dr("TaxRate"))
+                                Gv1.Rows(i).Cells(coltax1Amt).Value = (clsCommon.myCdbl(dr("TaxRate")) * clsCommon.myCdbl(Gv1.Rows(i).Cells("Amount").Value)) / 100
+                            ElseIf ii = 1 Then
+                                Gv1.Rows(i).Cells(coltax2).Value = clsCommon.myCstr(dr("Tax_Code"))
+                                Gv1.Rows(i).Cells(coltax2rate).Value = clsCommon.myCdbl(dr("TaxRate"))
+                                Gv1.Rows(i).Cells(coltax2Amt).Value = (taxrate * clsCommon.myCdbl(Gv1.Rows(i).Cells("Amount").Value)) / 100
 
-                            Gv1.Rows(i).Cells(coltax2).Value = ""
-                            Gv1.Rows(i).Cells(coltax2rate).Value = 0
-                            Gv1.Rows(i).Cells(coltax2Amt).Value = 0
+                            End If
+                            ii = ii + 1
                         Next
                     Else
                         ValidateStatus = ValidateStatus & "create tax of exempted type for this location and customer." & Environment.NewLine
@@ -639,6 +676,7 @@ Public Class frmMCCMaterialSaleUploader
         Dim ItemCode As String = String.Empty
         Dim UnitCode As String = String.Empty
         Dim strdocdate As Date? = Nothing
+        Dim TaxRate2 As Double = 0
         Try
             Dim InvoiceAmount As Double = 0
 

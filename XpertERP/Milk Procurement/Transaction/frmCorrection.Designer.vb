@@ -337,7 +337,7 @@ Partial Class frmCorrection
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(667, 424)
         Me.RadPageView1.TabIndex = 2
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -346,11 +346,11 @@ Partial Class frmCorrection
         '
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(91.0!, 28.0!)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(93.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(646, 376)
-        Me.RadPageViewPage1.Text = "VLC Correction"
+        Me.RadPageViewPage1.Text = "DCS Correction"
         '
         'RadGroupBox2
         '

@@ -669,6 +669,7 @@ Public Class FrmRptPurchaseReturnBook
         summaryRowItem.Add(item1)
 
         gvReport.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvReport.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Private Sub btnRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRefresh.Click
         LoadData(False, 1)

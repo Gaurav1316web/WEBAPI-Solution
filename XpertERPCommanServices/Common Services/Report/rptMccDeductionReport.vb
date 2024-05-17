@@ -116,6 +116,7 @@ Public Class rptMccDeductionReport
                         summaryRowItem.Add(item1)
                     Next
                     Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 End If
                 Gv1.EnableFiltering = True
                 Gv1.BestFitColumns()
@@ -235,7 +236,7 @@ Public Class rptMccDeductionReport
     End Sub
 
     Private Sub txtVLC__My_Click(sender As Object, e As EventArgs) Handles txtVLC._My_Click
-        Dim qry As String = " select VLC_Code as Code, VLC_Name as Name , VSP_Code as [VSP Code],TSPL_VENDOR_MASTER.Vendor_Name as [VSP Name], VLC_Code_VLC_Uploader as [VLC Uploader Code] from TSPL_VLC_MASTER_HEAD left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_VLC_MASTER_HEAD.VSP_Code "
+        Dim qry As String = " select VLC_Code as Code, VLC_Name as Name , VSP_Code as [Secretary Code],TSPL_VENDOR_MASTER.Vendor_Name as [Secretary Name], VLC_Code_VLC_Uploader as [DCS Uploader Code] from TSPL_VLC_MASTER_HEAD left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_VLC_MASTER_HEAD.VSP_Code "
         txtVLC.arrValueMember = clsCommon.ShowMultipleSelectForm("VSP@MulpledeductionReport", qry, "Code", "Name", txtVLC.arrValueMember, txtVLC.arrDispalyMember)
     End Sub
 End Class

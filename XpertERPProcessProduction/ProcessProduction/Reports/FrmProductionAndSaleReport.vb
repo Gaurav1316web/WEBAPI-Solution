@@ -434,6 +434,7 @@ Public Class FrmProductionAndSaleReport
             Dim item21 As New GridViewSummaryItem("BreakdownHRS", "{0:F0}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item21)
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Else
             Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable("SELECT TSPL_LOCATION_MASTER.location_code,TSPL_LOCATION_MASTER.Loc_Short_Name,cast(TSPL_LOCATION_MASTER.Silo_Capacity as int) as Silo_Capacity FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant=0")
             Dim strMainLocation As DataTable = clsDBFuncationality.GetDataTable("SELECT TSPL_LOCATION_MASTER.location_code,TSPL_LOCATION_MASTER.Loc_Short_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant=1")

@@ -124,7 +124,7 @@ Public Class frmProductionVariance
                 summaryRowItem.Add(item3)
                 gv1.MasterTemplate.ShowTotals = True
                 gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+                gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             Else
 
                 gv1.Columns("RECEIPT_CODE").Width = 100

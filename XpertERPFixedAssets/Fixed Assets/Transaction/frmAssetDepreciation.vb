@@ -1457,6 +1457,7 @@ select Asset_Code,-1* Dep_Amount as Dep_Amount,-1*Dep_Amount_Tax as Dep_Amount_T
 
 
         gv2.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv2.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         gv2.ShowFilteringRow = True
         gv2.EnableFiltering = True
         gv2.AllowDeleteRow = True

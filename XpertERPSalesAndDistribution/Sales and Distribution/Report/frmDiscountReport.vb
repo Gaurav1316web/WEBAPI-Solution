@@ -1111,6 +1111,7 @@ Public Class FrmDiscountReport
                     summaryRowItem.Add(item16)
                 Next
                 gvReport.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gvReport.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             Else
 
                 gvReport.Columns("Sale_Invoice_No").IsVisible = True
@@ -1306,6 +1307,7 @@ Public Class FrmDiscountReport
                     summaryRowItem.Add(item16)
                 Next
                 gvReport.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gvReport.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
 
 
@@ -1399,6 +1401,7 @@ Public Class FrmDiscountReport
                     summaryRowItem.Add(item16)
                 Next
                 gvReport.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gvReport.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             Else
 
                 gvReport.Columns("Sale_Invoice_No").IsVisible = True
@@ -1534,6 +1537,7 @@ Public Class FrmDiscountReport
                     summaryRowItem.Add(item16)
                 Next
                 gvReport.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gvReport.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
 
         ElseIf rdbVSD.IsChecked = True Then
@@ -1653,6 +1657,7 @@ Public Class FrmDiscountReport
                     summaryRowItem.Add(item16)
                 Next
                 gvReport.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gvReport.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             Else
 
                 gvReport.Columns("Sale_Invoice_No").IsVisible = True
@@ -1816,6 +1821,7 @@ Public Class FrmDiscountReport
                     summaryRowItem.Add(item16)
                 Next
                 gvReport.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gvReport.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
 
         ElseIf rdbOther.IsChecked = True Then
@@ -1907,6 +1913,7 @@ Public Class FrmDiscountReport
                     summaryRowItem.Add(item16)
                 Next
                 gvReport.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gvReport.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             Else
 
                 gvReport.Columns("Sale_Invoice_No").IsVisible = True
@@ -2043,6 +2050,7 @@ Public Class FrmDiscountReport
                     summaryRowItem.Add(item16)
                 Next
                 gvReport.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gvReport.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
 
         End If

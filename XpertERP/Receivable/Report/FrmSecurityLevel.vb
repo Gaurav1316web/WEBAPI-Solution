@@ -213,6 +213,7 @@ Public Class FrmSecurityLevel
         'Gv1.MasterTemplate.AutoExpandGroups = True
 
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         'ReStoreGridLayoutMain(Me)
         'FindAndRestoreGridLayout(Me)
         '==============Update by preeti Gupta against ticket no [BM00000007966]

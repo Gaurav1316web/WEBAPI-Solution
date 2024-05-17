@@ -98,6 +98,7 @@ Public Class RptComplainfeedback
             Next
         End If
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub txtCustomer__My_Click(sender As Object, e As EventArgs) Handles txtCustomer._My_Click
