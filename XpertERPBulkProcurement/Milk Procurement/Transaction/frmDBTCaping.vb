@@ -37,35 +37,6 @@ Public Class frmDBTCaping
     End Sub
 
     Private Sub FrmVLCDataUploaderManual_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        Dim coll As New Dictionary(Of String, String)()
-        coll = New Dictionary(Of String, String)()
-        coll.Add("Document_Code", "Varchar(30) NOT NULL primary key")
-        coll.Add("Document_Date", "datetime not NULL")
-        coll.Add("Reco_Code", "varchar(30) not NULL references TSPL_DCS_MP_INCENTIVE_RECO_HEAD (Document_Code) ")
-        coll.Add("Created_By", "varchar(12) NOT NULL")
-        coll.Add("Created_Date", "Datetime NOT NULL")
-        coll.Add("Modified_By", "varchar(12) NOT NULL")
-        coll.Add("Modified_Date", "Datetime NOT NULL")
-        coll.Add("Posted_By", "varchar(12) NULL")
-        coll.Add("Posting_Date", "Datetime NULL")
-        coll.Add("Status", "int Null")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_CAPING", coll, "unique (Reco_Code)", True, False, "", "Document_Code", "Document_Date")
-
-        coll = New Dictionary(Of String, String)()
-        coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("Document_Code", "varchar(30) not NULL references TSPL_DBT_CAPING (Document_Code) ")
-        coll.Add("BMC_Code", "Varchar(30) not null REFERENCES TSPL_MCC_MASTER (MCC_Code)")
-        coll.Add("DCS_Code", "Varchar(30) not null REFERENCES TSPL_VLC_MASTER_HEAD (VLC_Code)")
-        coll.Add("MP_Code", "Varchar(30) not null REFERENCES TSPL_MP_MASTER (MP_Code)")
-        coll.Add("Qty", "Decimal(18,2) null")
-        coll.Add("Capping_Qty", "Decimal(18,2) null")
-        coll.Add("Capping_Status", "int Null")
-        coll.Add("Capping_Increase_By", "varchar(12) NULL")
-        coll.Add("Capping_Increase_Date", "Datetime   NULL")
-        coll.Add("Capping_Increase_Remarks", "varchar(200) NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_CAPING_DETAIL", coll, "", True, False, "TSPL_DBT_CAPING", "Document_Code", "")
-
-
         If clsCommon.CompairString(MyBase.Form_ID, clsUserMgtCode.DBTCappingIncrease) = CompairStringResult.Equal Then
             isCappingIncreaseScreen = True
             RadLabel10.Visible = True '
