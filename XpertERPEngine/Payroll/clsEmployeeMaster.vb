@@ -213,13 +213,13 @@ Public Class clsEmployeeMaster
         Return isSaved
     End Function
 
-    Public Shared Function UpdateEMPStatusData(ByVal strCode As String, ByVal EmployeeRetirementAge As Double, ByVal NavType As NavigatorType) As Boolean
+    Public Shared Function UpdateEMPStatusData(ByVal strCode As String, ByVal EmployeeRetirementAge As Double, ByVal EmployeePFRetirementAge As Double, ByVal NavType As NavigatorType) As Boolean
         Try
             Dim whrcls As String = Nothing
             If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
                 whrcls += " And LOCATION_CODE IN (" + objCommonVar.strCurrUserLocations + ")"
             End If
-            Dim Qry As String = "Select DATEDIFF(year,Convert(Date,Birth_date,103),Convert(Date,GETDATE(),103))CurrentAge,EOMONTH(DATEADD(year, " + clsCommon.myCstr(EmployeeRetirementAge) + ", Convert(Date,Birth_date,103)))RetirementDate,Emp_Status from TSPL_EMPLOYEE_MASTER where 2=2 " + whrcls
+            Dim Qry As String = "Select DATEDIFF(year,Convert(Date,Birth_date,103),Convert(Date,'" & clsCommon.GETSERVERDATE() & "',103))CurrentAge,EOMONTH(DATEADD(year, " + clsCommon.myCstr(EmployeeRetirementAge) + ", Convert(Date,Birth_date,103)))RetirementDate,Emp_Status from TSPL_EMPLOYEE_MASTER where 2=2 " + whrcls
             Select Case NavType
                 Case NavigatorType.First
                     Qry += " and EMP_CODE = (select MIN(EMP_CODE) from TSPL_EMPLOYEE_MASTER)"
@@ -237,8 +237,12 @@ Public Class clsEmployeeMaster
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Qry = "Update TSPL_EMPLOYEE_MASTER Set RELIEVING_DATE='" + clsCommon.GetPrintDate(dt.Rows(0)("RetirementDate"), "dd/MMM/yyyy") + "' where EMP_CODE = '" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(Qry)
-                If clsCommon.myCdbl(dt.Rows(0)("CurrentAge")) >= EmployeeRetirementAge Then
+                If clsCommon.myCdbl(dt.Rows(0)("CurrentAge")) >= EmployeeRetirementAge AndAlso EmployeeRetirementAge > 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Emp_Status")), "Active") = CompairStringResult.Equal Then
                     Qry = "Update TSPL_EMPLOYEE_MASTER Set Emp_Status='Inactive' where EMP_CODE = '" + strCode + "'"
+                    clsDBFuncationality.ExecuteNonQuery(Qry)
+                End If
+                If clsCommon.myCdbl(dt.Rows(0)("CurrentAge")) >= EmployeePFRetirementAge AndAlso EmployeePFRetirementAge > 0 AndAlso EmployeePFRetirementAge <= EmployeeRetirementAge Then
+                    Qry = "Update TSPL_EMPLOYEE_MASTER Set ISPF=0 where EMP_CODE = '" + strCode + "'"
                     clsDBFuncationality.ExecuteNonQuery(Qry)
                 End If
             End If
