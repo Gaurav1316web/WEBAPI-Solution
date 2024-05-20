@@ -42,7 +42,7 @@ Public Class clsProcessProductionIssueEntry
         Else
             whrCls = " " 'tspl_pp_issue_head.comp_code='" + objCommonVar.CurrentCompanyCode + "'"
         End If
-        str = clsCommon.ShowSelectForm("ISSFND", qry, "Code", whrCls, currCode, "Code", isButtonClicked)
+        str = clsCommon.ShowSelectForm("ISSFND", qry, "Code", whrCls, currCode, "Code", isButtonClicked, "TSPL_PP_ISSUE_HEAD.Issue_Date")
 
         Return str
     End Function

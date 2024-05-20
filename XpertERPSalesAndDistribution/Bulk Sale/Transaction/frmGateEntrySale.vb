@@ -540,7 +540,7 @@ Public Class FrmGateEntrySale
         Dim qry As String = "Select TSPL_GATEENTRY_SALE.Document_No as DocumentNo,Convert(varchar,TSPL_GATEENTRY_SALE.Document_Date,103) as Date,TSPL_GATEENTRY_SALE.Tanker_No as [Tanker No],TSPL_GATEENTRY_SALE.Location_Code as [Location Code],TSPL_LOCATION_MASTER.Location_Desc as [Location Description],TSPL_GATEENTRY_SALE.Customer_Code as [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name],ISNULL(TSPL_CUSTOMER_MASTER.Alies_Name,'') As [Alies Name],TSPL_GATEENTRY_SALE.IsSaleReturn as [Sale Return],ISNULL(SaleReturnAgaintGEN,'') as [SR Against Gate Entry No],isnull(TSPL_GATEENTRY_SALE.Dispatch_No,'') as [Dispatch No],isnull(TSPL_GATEENTRY_SALE.Bulk_SO_No,'') as [Sale Order No] from TSPL_GATEENTRY_SALE Left Outer join TSPL_TANKER_MASTER on TSPL_GATEENTRY_SALE.Tanker_No =TSPL_TANKER_MASTER.Tanker_No Left Outer Join TSPL_LOCATION_MASTER on TSPL_GATEENTRY_SALE.Location_Code=TSPL_LOCATION_MASTER.Location_Code Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_GATEENTRY_SALE.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code"
         Dim whrClas As String = "TSPL_GATEENTRY_SALE.Location_Code in (" + arrLoc + ") and TSPL_GATEENTRY_SALE.comp_code='" + objCommonVar.CurrentCompanyCode + "'"
         Reset()
-        LoadData(clsCommon.ShowSelectForm("CRTMNTID", qry, "DocumentNo", whrClas, fndGateEntryNo.Value, "DocumentNo", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("CRTMNTID", qry, "DocumentNo", whrClas, fndGateEntryNo.Value, "DocumentNo", isButtonClicked, "TSPL_GATEENTRY_SALE.Document_Date"), NavigatorType.Current)
         qry = Nothing
         whrClas = Nothing
     End Sub

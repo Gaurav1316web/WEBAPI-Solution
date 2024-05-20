@@ -1566,7 +1566,7 @@ Public Class frmCreateReceivedDairySale
                 whrClas = " Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
             End If
 
-            LoadData(clsCommon.ShowSelectForm("Docfnd", Qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked), NavigatorType.Current)
+            LoadData(clsCommon.ShowSelectForm("Docfnd", Qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked, "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date"), NavigatorType.Current)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

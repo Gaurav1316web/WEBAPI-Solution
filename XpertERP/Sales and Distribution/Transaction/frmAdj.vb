@@ -487,7 +487,7 @@ Public Class frmAdj
                             " , tspl_receipt_adjustment_header.ARInvoiceNo  as [Document No], tspl_receipt_adjustment_header.Doc_Amount as [Document Amount] ,tspl_receipt_adjustment_header.Adjustment_Amount  as [Adjustment Amount]  ,tspl_receipt_adjustment_header.Created_By  as [Created By], convert(varchar, tspl_receipt_adjustment_header.Created_Date, 103) as [Created Date]  ,tspl_receipt_adjustment_header.Modified_By as [Modified By], convert (varchar, tspl_receipt_adjustment_header.Modified_Date ,103) as [Modified Date] ,tspl_receipt_adjustment_header.Doc_No as [Sale Invoice No] from tspl_receipt_adjustment_header "
         '' Anubhooti 13-Mar-2015 (Fetch Alies Name On Vendor Finder) Ticket No : GKD/24/09/18-000164 By Prabhakar 
         Qry += " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = tspl_receipt_adjustment_header.Customer_No "
-        fndFnAdj.Value = clsCommon.ShowSelectForm("AdjustmFiltrFND", Qry, "AdjustmentNo", "", fndFnAdj.Value, "Adjustment_date desc", isButtonClicked)
+        fndFnAdj.Value = clsCommon.ShowSelectForm("AdjustmFiltrFND", Qry, "AdjustmentNo", "", fndFnAdj.Value, "Adjustment_date desc", isButtonClicked, "tspl_receipt_adjustment_header.Adjustment_date")
         LoadData(fndFnAdj.Value, NavigatorType.Current)
     End Sub
 

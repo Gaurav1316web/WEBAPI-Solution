@@ -579,7 +579,7 @@ Public Class frmMaterialQuotation
         '' Anubhooti 12-Mar-2015 (Fetch Alies Name On Vendor Finder)
         'qry += " LEFT OUTER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code = TSPL_VENDOR_QUOTATION_HEAD.Vendor_Code "
         Dim whrClas As String = ""
-        LoadData(clsCommon.ShowSelectForm("QReqfndNo", qry, "Code", whrClas, txtCode.Value, "Code", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("QReqfndNo", qry, "Code", whrClas, txtCode.Value, "Code", isButtonClicked, "TSPL_SCRAP_QUOTATION_HEAD.QDate"), NavigatorType.Current)
     End Sub
 
     Private Sub frmPurchaseRequistion_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown

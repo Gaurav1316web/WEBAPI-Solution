@@ -395,7 +395,7 @@ Public Class frmDairyProductionUploader
         ",TSPL_PRODUCTION_UPLOADER_HEAD.Location_Code as [Location Code]  ,TSPL_LOCATION_MASTER.Location_Desc as [Location Name] " & _
         " from TSPL_PRODUCTION_UPLOADER_HEAD" & _
         " LEFT JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=TSPL_PRODUCTION_UPLOADER_HEAD.Location_Code"
-        LoadData(clsCommon.ShowSelectForm("PUFINDOC", qry, "Document_No", "", txtDocNo.Value, "Document_No", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("PUFINDOC", qry, "Document_No", "", txtDocNo.Value, "Document_No", isButtonClicked, "TSPL_PRODUCTION_UPLOADER_HEAD.Document_Date"), NavigatorType.Current)
     End Sub
 
     Public Function SaveData() As Boolean

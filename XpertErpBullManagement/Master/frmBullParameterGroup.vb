@@ -211,6 +211,7 @@ Public Class frmBullParameterGroup
             Exit Function
             Return False
         End If
+        Return True
     End Function
     Private Function SaveData() As Boolean
         Try

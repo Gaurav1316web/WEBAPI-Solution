@@ -32,7 +32,7 @@ Public Class frmDiseaseMaster
             Dim strCode As String = ""
             Qry = ""
             Qry = " Select Code,Name From TSPL_Disease_Master "
-            strCode = clsCommon.ShowSelectForm("fndrcode", Qry, "Code", "", fndCode.Value, "Code", isButtonClicked)
+            strCode = clsCommon.ShowSelectForm("fndrcode", Qry, "Code", "", fndCode.Value, "Code", isButtonClicked, "TSPL_Disease_Master.Created_Date")
             If clsCommon.myLen(strCode) > 0 Then
                 LoadData(strCode, NavigatorType.Current)
             End If
