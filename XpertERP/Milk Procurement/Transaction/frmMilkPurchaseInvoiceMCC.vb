@@ -1951,7 +1951,7 @@ Public Class frmMilkPurchaseInvoiceMCC
             & " TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE=TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=VSP_CODE " _
             & "  Left join TSPL_MCC_ROUTE_MASTER on " _
             & " TSPL_MCC_ROUTE_MASTER.Route_Code=TSPL_MILK_PURCHASE_INVOICE_Head.Route_CODE  Left join TSPL_MCC_MASTER on TSPL_MCC_MASTER.Mcc_Code=TSPL_MILK_PURCHASE_INVOICE_Head.Mcc_CODE "
-            txtCode.Value = clsCommon.ShowSelectForm("MILK Invoice", qry, "Code", "", txtCode.Value, "Code", isButtonClicked)
+            txtCode.Value = clsCommon.ShowSelectForm("MILK Invoice", qry, "Code", "", txtCode.Value, "Code", isButtonClicked, "TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE")
 
 
             If clsCommon.myLen(txtCode.Value) > 0 Then

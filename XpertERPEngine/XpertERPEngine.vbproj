@@ -533,7 +533,7 @@
     <Compile Include="Shared Form\RptBulkMilkMultiplePurchaseInvoice.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Sheed\clsSheedGrowerMaster.vb" />
+    <Compile Include="Seed\clsSeedGrowerMaster.vb" />
     <Compile Include="UserControl\ucCustomFields.Designer.vb">
       <DependentUpon>ucCustomFields.vb</DependentUpon>
     </Compile>
@@ -1330,6 +1330,12 @@
     <Compile Include="WinForm\frmFreeTxtBox1.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="WinForm\frmFreeTxtNumBox.Designer.vb">
+      <DependentUpon>frmFreeTxtNumBox.vb</DependentUpon>
+    </Compile>
+    <Compile Include="WinForm\frmFreeTxtNumBox.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="WinForm\frmMainTranScreen.Designer.vb">
       <DependentUpon>frmMainTranScreen.vb</DependentUpon>
     </Compile>
@@ -1556,6 +1562,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="WinForm\frmFreeTxtBox1.resx">
       <DependentUpon>frmFreeTxtBox1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForm\frmFreeTxtNumBox.resx">
+      <DependentUpon>frmFreeTxtNumBox.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinForm\frmMainTranScreen.resx">
       <DependentUpon>frmMainTranScreen.vb</DependentUpon>

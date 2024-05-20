@@ -178,10 +178,10 @@
       <DependentUpon>Form1.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Master\frmSheedGrowerMaster.Designer.vb">
-      <DependentUpon>frmSheedGrowerMaster.vb</DependentUpon>
+    <Compile Include="Master\frmSeedGrowerMaster.Designer.vb">
+      <DependentUpon>frmSeedGrowerMaster.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmSheedGrowerMaster.vb">
+    <Compile Include="Master\frmSeedGrowerMaster.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -202,8 +202,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Master\frmSheedGrowerMaster.resx">
-      <DependentUpon>frmSheedGrowerMaster.vb</DependentUpon>
+    <EmbeddedResource Include="Master\frmSeedGrowerMaster.resx">
+      <DependentUpon>frmSeedGrowerMaster.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\licenses.licx" />
     <EmbeddedResource Include="My Project\Resources.resx">

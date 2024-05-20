@@ -1042,7 +1042,8 @@ Public Class frmMilkCollectionDCS
     End Sub
 
     Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
-        Dim qry As String = "select * from (
+        Try
+            Dim qry As String = "select * from (
 select Document_No,max(Document_Date) as Document_Date,max(Description) as Description,max(BMC) as BMC,max(BMC_Code) as BMC_Code,max(BMC_Name) as BMC_Name,max(Route_Code) as Route_Code,max(ROUTE_NAME) as ROUTE_NAME,max(Tanker_No) as Tanker_No,max(Vehicle_No) as Vehicle_No,max(Status) as Status from (
 select TSPL_MILK_COLLECTION_DCS.Document_No,convert (varchar,TSPL_MILK_COLLECTION_DCS.Document_Date,103) as Document_Date,TSPL_MILK_COLLECTION_DCS.Description,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as BMC,TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code as BMC_Code,TSPL_MCC_MASTER.MCC_NAME as BMC_Name,TSPL_MILK_COLLECTION_MCC.Route_Code,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MILK_COLLECTION_MCC.Vehicle_No,case when TSPL_MILK_COLLECTION_DCS.Status=1 then 'Posted' else 'Pending' end as Status 
 from TSPL_MILK_COLLECTION_DCS 
@@ -1053,7 +1054,10 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO= TSPL_
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
 )xx group by xx.Document_No
 )xxx"
-        LoadData(clsCommon.ShowSelectForm("SMP2FINOC", qry, "Document_No", "", txtDocNo.Value, "Document_No", isButtonClicked), NavigatorType.Current)
+            LoadData(clsCommon.ShowSelectForm("SMP2FINOC", qry, "Document_No", "", txtDocNo.Value, "Document_No", isButtonClicked, "TSPL_MILK_COLLECTION_DCS.Document_Date"), NavigatorType.Current)
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click

@@ -10,7 +10,16 @@ Public Class clsDBTCaping
     Public arr As List(Of clsDBTCapingDetail) = Nothing
 
 #End Region
-
+    Public Shared Function SaveData(ByVal obj As clsDBTCaping, ByVal isNewEntry As Boolean) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            SaveData(obj, isNewEntry, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+    End Function
     Public Shared Function SaveData(ByVal obj As clsDBTCaping, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Dim qry As String = ""
         Try
@@ -40,19 +49,17 @@ Public Class clsDBTCaping
         End Try
         Return True
     End Function
-
-    Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsDBTCaping
+    Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction, ByVal whrclas As String) As clsDBTCaping
         Dim obj As clsDBTCaping = Nothing
         Dim Arr As List(Of clsDBTCaping) = Nothing
-        Dim qry As String = "Select TSPL_DBT_CAPING.* from TSPL_DBT_CAPING  where 2=2 "
-        Dim whrclas As String = ""
+        Dim qry As String = "Select TSPL_DBT_CAPING.* from TSPL_DBT_CAPING  where 2=2 " + whrclas
         Select Case NavType
             Case NavigatorType.First
                 qry += " and TSPL_DBT_CAPING.Document_Code = (select MIN(Document_Code) from TSPL_DBT_CAPING WHERE 1=1 " + whrclas + " )"
             Case NavigatorType.Last
                 qry += " and TSPL_DBT_CAPING.Document_Code = (select Max(Document_Code) from TSPL_DBT_CAPING WHERE 1=1 " + whrclas + " )"
             Case NavigatorType.Current
-                qry += " and TSPL_DBT_CAPING.Document_Code = '" + strCode + "' " + whrclas + " "
+                qry += " and TSPL_DBT_CAPING.Document_Code = '" + strCode + "' "
             Case NavigatorType.Next
                 qry += " and TSPL_DBT_CAPING.Document_Code = (select Min(Document_Code) from TSPL_DBT_CAPING where Document_Code>'" + strCode + "' " + whrclas + ")"
             Case NavigatorType.Previous
@@ -88,19 +95,7 @@ Public Class clsDBTCaping
             Throw New Exception("Document No not found to Delete")
         End If
         Try
-
-            Dim Location_code As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 MCC_Code from TSPL_DBT_CAPING_DETAIL where Document_Code='" + strDocNo + "'", trans))
-
-            If (clsCommon.myLen(Location_code) <= 0) Then
-                Location_code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 MCC_Code from TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID where Document_Code='" + strDocNo + "'", trans))
-            End If
-            Dim Document_Date As DateTime = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select top 1 Document_Date from TSPL_DBT_CAPING where Document_Code='" + strDocNo + "'", trans))
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.DCSMPIncentiveReco, Location_code, Document_Date, trans)
-
-
             Dim qry As String = ""
-            qry = "delete from TSPL_ATTACHMENTS where FormId='" + clsUserMgtCode.DCSMPIncentiveReco + "' and TransactionId='" + strDocNo + "'"
-            clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_DBT_CAPING_DETAIL where Document_Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_DBT_CAPING where Document_Code='" + strDocNo + "'"
@@ -112,12 +107,10 @@ Public Class clsDBTCaping
     End Function
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
-        Dim qry As String = "  Select TSPL_DBT_CAPING.Document_Code as Code,Convert(varchar,TSPL_DBT_CAPING.Document_Date,103) as Date
-            Convert(varchar,TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date,103) as [From Date],Convert(varchar,TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date_To,103) as [To Date],Reco_Code as Zone
-          ,case when isnull(Status,0)=0 then 'Pending' else 'Approved' end as Status 
-          from TSPL_DBT_CAPING 
+        Dim qry As String = "  Select TSPL_DBT_CAPING.Document_Code as Code,Convert(varchar,TSPL_DBT_CAPING.Document_Date,103) as Date,Convert(varchar,TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date,103) as [From Date],Convert(varchar,TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date_To,103)as [To Date],Reco_Code as Zone,case when isnull(TSPL_DBT_CAPING.Status,0)=0 then 'Pending' else 'Approved' end as Status 
+from TSPL_DBT_CAPING 
 left outer join TSPL_DCS_MP_INCENTIVE_RECO_HEAD on TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Code=TSPL_DBT_CAPING.Reco_Code "
-        str = clsCommon.ShowSelectForm("DCMPInc#F", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
+        str = clsCommon.ShowSelectForm("DCMPInc#F", qry, "Code", "2=2 " + whrcls, curcode, "Code", isButtonClicked)
         Return str
     End Function
     Public Shared Function PostData(ByVal strDocNo As String) As Boolean
@@ -126,19 +119,9 @@ left outer join TSPL_DCS_MP_INCENTIVE_RECO_HEAD on TSPL_DCS_MP_INCENTIVE_RECO_HE
             If (clsCommon.myLen(strDocNo) <= 0) Then
                 Throw New Exception("Document No not found to Post")
             End If
-
-            Dim Location_code As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 MCC_Code from TSPL_DBT_CAPING_DETAIL where Document_Code='" + strDocNo + "'", trans))
-
-            If (clsCommon.myLen(Location_code) <= 0) Then
-                Location_code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 MCC_Code from TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID where Document_Code='" + strDocNo + "'", trans))
-            End If
-
             Dim strPostDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt")
 
-            Dim obj As clsDBTCaping = clsDBTCaping.GetData(strDocNo, NavigatorType.Current, trans)
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.DCSMPIncentiveReco, Location_code, obj.Document_Date, trans)
-
-
+            Dim obj As clsDBTCaping = clsDBTCaping.GetData(strDocNo, NavigatorType.Current, trans, "")
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
@@ -154,7 +137,6 @@ left outer join TSPL_DCS_MP_INCENTIVE_RECO_HEAD on TSPL_DCS_MP_INCENTIVE_RECO_HE
         End Try
         Return True
     End Function
-
     Public Shared Function ReverseAndUnpost(ByVal strCode As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
@@ -166,7 +148,6 @@ left outer join TSPL_DCS_MP_INCENTIVE_RECO_HEAD on TSPL_DCS_MP_INCENTIVE_RECO_HE
         End Try
         Return True
     End Function
-
     Public Shared Function ReverseAndUnpost(ByVal strDocNo As String, ByVal trans As SqlTransaction) As Boolean
         Try
             Throw New Exception("Not implemented")
@@ -204,12 +185,21 @@ Public Class clsDBTCapingDetail
 #Region "Variable"
     Public PK_Id As Integer = Nothing
     Public Document_Code As String = Nothing
+    Public BMC_Code As String = Nothing
+    Public BMC_Uploader_Code As String = Nothing ''Not a Table Column
+    Public BMC_Name As String = Nothing ''Not a Table Column
+    Public DCS_Code As String = Nothing
+    Public DCS_Uploader_Code As String = Nothing ''Not a Table Column
+    Public DCS_Name As String = Nothing ''Not a Table Column
     Public MP_Code As String = Nothing
     Public MP_Uploader_Code As String = Nothing ''Not a Table Column
     Public MP_Name As String = Nothing ''Not a Table Column
     Public Qty As Decimal = 0
-    Public Caping_Qty As Decimal = 0
-    Public Capping_Status As Integer = False
+    Public Capping_Qty As Decimal = 0
+    Public Capping_Status As Boolean = False
+    Public Capping_Increase_By As String = Nothing
+    Public Capping_Increase_Date As DateTime? = Nothing
+    Public Capping_Increase_Remarks As String = Nothing
 #End Region
 
     Public Shared Function saveData(ByVal strDocNo As String, ByVal arrObj As List(Of clsDBTCapingDetail), ByVal trans As SqlTransaction) As Boolean
@@ -218,10 +208,12 @@ Public Class clsDBTCapingDetail
                 For Each obj As clsDBTCapingDetail In arrObj
                     Dim coll As New Hashtable()
                     clsCommon.AddColumnsForChange(coll, "Document_Code", strDocNo)
+                    clsCommon.AddColumnsForChange(coll, "BMC_Code", obj.BMC_Code)
+                    clsCommon.AddColumnsForChange(coll, "DCS_Code", obj.DCS_Code)
                     clsCommon.AddColumnsForChange(coll, "MP_Code", obj.MP_Code)
                     clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
-                    clsCommon.AddColumnsForChange(coll, "Caping_Qty", obj.Caping_Qty)
-                    clsCommon.AddColumnsForChange(coll, "Capping_Status", obj.Capping_Status)
+                    clsCommon.AddColumnsForChange(coll, "Capping_Qty", obj.Capping_Qty)
+                    clsCommon.AddColumnsForChange(coll, "Capping_Status", IIf(obj.Capping_Status, 1, 0))
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DBT_CAPING_DETAIL", OMInsertOrUpdate.Insert, "", trans)
                 Next
             End If
@@ -230,74 +222,50 @@ Public Class clsDBTCapingDetail
         End Try
         Return True
     End Function
+    Public Shared Function getData(ByVal document_Code As String, ByVal whrcls As String) As DataTable
+        Dim qry As String = "select TSPL_DBT_CAPING_DETAIL.PK_Id,ROW_NUMBER() over (order by TSPL_DBT_CAPING_DETAIL.PK_Id) as SNo
+,TSPL_DBT_CAPING_DETAIL.BMC_Code,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as BMC_Uploader_Code,TSPL_MCC_MASTER.MCC_NAME as BMC_Name
+,TSPL_DBT_CAPING_DETAIL.DCS_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as DCS_Uploader_Code,TSPL_VLC_MASTER_HEAD.VLC_Name as DCS_Name,
+TSPL_DBT_CAPING_DETAIL.MP_Code,TSPL_MP_MASTER.MP_Code_VLC_Uploader as MP_Uploader_Code,TSPL_MP_MASTER.MP_Name,
+TSPL_DBT_CAPING_DETAIL.Qty,TSPL_DBT_CAPING_DETAIL.Capping_Qty,TSPL_DBT_CAPING_DETAIL.Capping_Status,TSPL_DBT_CAPING_DETAIL.Capping_Increase_By,TSPL_DBT_CAPING_DETAIL.Capping_Increase_Date,TSPL_DBT_CAPING_DETAIL.Capping_Increase_Remarks 
+from TSPL_DBT_CAPING_DETAIL
+left outer join TSPL_MP_MASTER on TSPL_MP_MASTER.MP_Code=TSPL_DBT_CAPING_DETAIL.MP_Code
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_DBT_CAPING_DETAIL.DCS_Code
+left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_DBT_CAPING_DETAIL.BMC_Code
+where TSPL_DBT_CAPING_DETAIL.Document_Code='" + document_Code + "' " + whrcls
+        Return clsDBFuncationality.GetDataTable(qry)
+    End Function
+    Public Shared Function CappingIncrease(ByVal strPKId As String, ByVal Remarks As String, ByVal CappingQtyPerDay As Integer, ByVal DaysInMonth As Integer) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            If (clsCommon.myLen(strPKId) <= 0) Then
+                Throw New Exception("Invalid Farmer Detail")
+            End If
+            Dim qry As String = "select pk_id,Qty,MP_Code,Capping_Qty,Capping_Status from TSPL_DBT_CAPING_DETAIL where pk_id=" + strPKId + ""
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                Throw New Exception("Invalid Farmer Details")
+            End If
+            If clsCommon.myCDecimal(dt.Rows(0)("Capping_Status")) = 1 Then
+                Throw New Exception("Farmer capping Details should be invalid type")
+            End If
+            If clsCommon.myCDecimal(dt.Rows(0)("Qty")) > (CappingQtyPerDay * DaysInMonth) Then
+                Throw New Exception("DBT Qty [" + clsCommon.myCstr(dt.Rows(0)("Qty")) + "] and Capping Qty [" + clsCommon.myCstr((CappingQtyPerDay * DaysInMonth)) + "]")
+            End If
+
+            qry = "Update TSPL_MP_MASTER set  DBT_Capping_Qty='" + clsCommon.myCstr(CappingQtyPerDay) + "' where MP_Code='" + clsCommon.myCstr(dt.Rows(0)("MP_Code")) + "' "
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
 
-    '    Public Shared Function getData(ByVal strDocNo As String, ByVal SelectedZone As String, ByVal trans As SqlTransaction) As List(Of clsDBTCapingDetail)
-    '        Try
-    '            Dim arrObj As List(Of clsDBTCapingDetail) = Nothing
-    '            Dim obj As clsDBTCapingDetail = Nothing
-    '            Dim qry As String = "Select TSPL_VLC_MASTER_HEAD.Route_Code,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME, TSPL_DBT_CAPING_DETAIL.*,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader
-    ',TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_MCC_MASTER.MCC_NAME,TSPL_VENDOR_MASTER.Reco_Code,TSPL_ZONE_MASTER.Description as Zone_Name
-    'from (select PK_Id,Document_Code,SNo,Cycle_Year,Cycle_Month,Cycle_No,MCC_Code,MP_Code,Qty,UOM,FAT,SNF,Amount,MP_Count,Caping_Qty,MP_FAT,MP_SNF,MP_Amount,Diff_Qty,Diff_FAT,Diff_SNF,Diff_Amount,1 as Reco_Staus from TSPL_DBT_CAPING_DETAIL where TSPL_DBT_CAPING_DETAIL.Document_Code='" & strDocNo & "' ) as TSPL_DBT_CAPING_DETAIL 
-    'left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.MP_Code=TSPL_DBT_CAPING_DETAIL.MP_Code
-    'left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code
-    'left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Reco_Code=TSPL_VENDOR_MASTER.Reco_Code
-    'left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
-    'left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_VLC_MASTER_HEAD.Route_Code where 2=2 "
+            Dim strPostDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt")
+            qry = "Update TSPL_DBT_CAPING_DETAIL set  Capping_Status=1,Capping_Qty=" + clsCommon.myCstr((CappingQtyPerDay * DaysInMonth)) + " , Capping_Increase_Date='" + strPostDate + "',Capping_Increase_By='" + objCommonVar.CurrentUserCode + "',Capping_Increase_Remarks='" + Remarks + "' where PK_Id='" + strPKId + "' "
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-    '            If clsCommon.myLen(SelectedZone) > 0 Then
-    '                qry += " and TSPL_VENDOR_MASTER.Reco_Code in (" + SelectedZone + ")"
-    '            End If
-    '            qry += "Order by TSPL_DBT_CAPING_DETAIL.SNo"
-    '            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-    '            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-    '                arrObj = New List(Of clsDBTCapingDetail)
-    '                For i As Integer = 0 To dt.Rows.Count - 1
-    '                    obj = New clsDBTCapingDetail()
-    '                    obj.PK_Id = clsCommon.myCDecimal(dt.Rows(i)("PK_Id"))
-    '                    obj.Document_Code = clsCommon.myCstr(dt.Rows(i)("Document_Code"))
-    '                    obj.SNo = i + 1
-    '                    obj.Route_Code = clsCommon.myCstr(dt.Rows(i)("Route_Code"))
-    '                    obj.Route_Name = clsCommon.myCstr(dt.Rows(i)("Route_Name"))
-
-    '                    obj.MCC_Code = clsCommon.myCstr(dt.Rows(i)("MCC_Code"))
-    '                    obj.MCC_Name = clsCommon.myCstr(dt.Rows(i)("MCC_Name"))
-
-    '                    obj.MP_Code = clsCommon.myCstr(dt.Rows(i)("MP_Code"))
-    '                    obj.VLC_Uploader_Code = clsCommon.myCstr(dt.Rows(i)("VLC_Code_VLC_Uploader"))
-    '                    obj.VLC_Name = clsCommon.myCstr(dt.Rows(i)("VLC_Name"))
-
-    '                    obj.Reco_Code = clsCommon.myCstr(dt.Rows(i)("Reco_Code"))
-    '                    obj.Zone_Name = clsCommon.myCstr(dt.Rows(i)("Zone_Name"))
-
-    '                    obj.Cycle_Year = clsCommon.myCDecimal(dt.Rows(i)("Cycle_Year"))
-    '                    obj.Cycle_Month = clsCommon.myCDecimal(dt.Rows(i)("Cycle_Month"))
-    '                    obj.Cycle_No = clsCommon.myCDecimal(dt.Rows(i)("Cycle_No"))
-
-    '                    obj.Qty = clsCommon.myCDecimal(dt.Rows(i)("Qty"))
-    '                    obj.UOM = clsCommon.myCstr(dt.Rows(i)("UOM"))
-    '                    obj.FAT = clsCommon.myCDecimal(dt.Rows(i)("FAT"))
-    '                    obj.SNF = clsCommon.myCDecimal(dt.Rows(i)("SNF"))
-    '                    obj.Amount = clsCommon.myCDecimal(dt.Rows(i)("Amount"))
-
-    '                    obj.MP_Count = clsCommon.myCDecimal(dt.Rows(i)("MP_Count"))
-    '                    obj.Caping_Qty = clsCommon.myCDecimal(dt.Rows(i)("Caping_Qty"))
-    '                    obj.MP_FAT = clsCommon.myCDecimal(dt.Rows(i)("MP_FAT"))
-    '                    obj.MP_SNF = clsCommon.myCDecimal(dt.Rows(i)("MP_SNF"))
-    '                    obj.MP_Amount = clsCommon.myCDecimal(dt.Rows(i)("MP_Amount"))
-
-    '                    obj.Diff_Qty = clsCommon.myCDecimal(dt.Rows(i)("Diff_Qty"))
-    '                    obj.Diff_FAT = clsCommon.myCDecimal(dt.Rows(i)("Diff_FAT"))
-    '                    obj.Diff_SNF = clsCommon.myCDecimal(dt.Rows(i)("Diff_SNF"))
-    '                    obj.Diff_Amount = clsCommon.myCDecimal(dt.Rows(i)("Diff_Amount"))
-
-    '                    obj.Reco_Staus = (clsCommon.myCDecimal(dt.Rows(i)("Reco_Staus")) = 1)
-    '                    arrObj.Add(obj)
-    '                Next
-    '            End If
-    '            Return arrObj
-    '        Catch ex As Exception
-    '            Throw New Exception(ex.Message)
-    '        End Try
-    '    End Function
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
 End Class

@@ -1180,7 +1180,7 @@ Public Class clsVendorMaster
             clsCommon.AddColumnsForChange(coll, "Vendor_Account_Desc", obj.Vendor_Account_Desc)
             clsCommon.AddColumnsForChange(coll, "Payment_Code", obj.Payment_Code)
             clsCommon.AddColumnsForChange(coll, "Payment_Code_Desc", obj.Payment_Code_Desc)
-            clsCommon.AddColumnsForChange(coll, "Bank_Code", obj.Bank_Code, True)
+            clsCommon.AddColumnsForChange(coll, "Bank_Code", obj.Bank_Code)
             clsCommon.AddColumnsForChange(coll, "Bank_Code_Desc", obj.Bank_Code_Desc)
             clsCommon.AddColumnsForChange(coll, "Tax_Group", obj.Tax_Group)
             clsCommon.AddColumnsForChange(coll, "Tax_Group_Desc", obj.Tax_Group_Desc)

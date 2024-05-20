@@ -1511,7 +1511,7 @@ Public Class frmPurchaseRequistion
             whrClas = whrClas & " and Location in (" + objCommonVar.strCurrUserLocations + ")"
         End If
 
-        LoadData(clsCommon.ShowSelectForm("PRReqfndNo", qry, "Code", whrClas, txtReqNo.Value, "Requisition_Date desc", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("PRReqfndNo", qry, "Code", whrClas, txtReqNo.Value, "Requisition_Date desc", isButtonClicked, "TSPL_REQUISITION_HEAD.Requisition_Date"), NavigatorType.Current)
     End Sub
 
     Private Sub txtLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtLocation._MYValidating
