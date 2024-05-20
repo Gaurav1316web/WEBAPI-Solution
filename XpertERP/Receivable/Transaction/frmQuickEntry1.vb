@@ -1482,7 +1482,7 @@ Public Class FrmQuickEntry1
         Else
             WhrCls += "  AND (substring(TSPL_BANK_MASTER.BANKACC,(len(TSPL_BANK_MASTER.BANKACC)-2),3) IN (" + clsCommon.GetMulcallString(Arrloc) + ") OR TSPL_BANK_MASTER.BANKACC IN (" + clsCommon.GetMulcallString(ArrAcc) + "))"
         End If
-        txtEntryNo.Value = clsCommon.ShowSelectForm("Quick_Book_Entry", Qry, "QuickEntryNo", WhrCls, txtEntryNo.Value, "Receipt_Date desc", isButtonClicked, "TSPL_RECEIPT_HEADER.Receipt_Date")
+        txtEntryNo.Value = clsCommon.ShowSelectForm("Quick_Book_Entry", Qry, "QuickEntryNo", WhrCls, txtEntryNo.Value, "Receipt_Date desc", isButtonClicked)
         '-------------------------Code Ends Here------------------
         'txtEntryNo.Value = clsCommon.ShowSelectForm("Quick_Book_Entry", Qry, "QuickEntryNo", "(QuickEntryNo is not null) and ( QuickEntryNo<>'')", txtEntryNo.Value, "QuickEntryNo", isButtonClicked)
         If txtEntryNo.Value <> "" Then

@@ -746,7 +746,7 @@ Public Class clsBankMaster
         '' Richa Againt Ticket No. BM00000003641 on 27/08/2014 add FDPercentage,LCCreditLimit
         Dim str As String = ""
         Dim qry As String = " select BANK_CODE as [Code],DESCRIPTION as [Description],ADD1 as [Add1],ADD2 as [Add2],ADD3 as [Add3],ADD4 as [Add4],CITY as [City],STATE as [State],POSTAL as [Postal],COUNTRY as [Country],CONTACT as [Contact],PHONE as [Phone],FAX as [Fax],INACTIVE as [Inactive],BANKACCNUMBER as [Bank Account Number],BANKACC as [Bank Account],WRITEOFFACC as [Write Off Account],CREDITACC as [Credit Account],Created_By as [Created By],Created_Date as [Created Date],Modify_By as [Modify By],Modify_Date as [Modify Date],Comp_Code as [Company Code],Bank_type as [Bank Type],Cheque_Validity_In_Days as [Cheque Validity In Days],LCCreditLimit as [LC Credit Limit], FDPercentage as [FD Percentage]   from TSPL_Bank_Master    "
-        str = clsCommon.ShowSelectForm("BNKMSTFND", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
+        str = clsCommon.ShowSelectForm("BNKMSTFND", qry, "Code", whrcls, curcode, "Code", isButtonClicked, "TSPL_Bank_Master.Created_Date")
         Return str
     End Function
     '==============Added By preeti gupta[4/5/2016]==========

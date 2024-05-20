@@ -338,7 +338,7 @@ Public Class clsCSABooking
             whrCls = " TSPL_CSA_BOOKING_HEAD.comp_code='" + objCommonVar.CurrentCompanyCode + "'"
         End If
 
-        str = clsCommon.ShowSelectForm("STD", qry, "Code", whrCls, currCode, "Code", isButtonClicked)
+        str = clsCommon.ShowSelectForm("STD", qry, "Code", whrCls, currCode, "Code", isButtonClicked, "TSPL_CSA_BOOKING_HEAD.BOOKING_DATE")
 
         Return str
     End Function
