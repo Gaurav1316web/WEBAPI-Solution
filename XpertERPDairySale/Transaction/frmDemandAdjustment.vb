@@ -250,7 +250,7 @@ Public Class frmDemandAdjustment
         Dim TotalQty As New GridViewSummaryItem("Qty", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItemB.Add(TotalQty)
         GV1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemB)
-
+        GV1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
 
         GV1.AutoSizeRows = True

@@ -360,7 +360,7 @@ Public Class frmPOAmendmentReport
         summaryRowItem.Add(item9)
 
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
         RadPageView1.SelectedPage = RadPageViewPage2
     End Sub

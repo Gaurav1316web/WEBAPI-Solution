@@ -178,8 +178,9 @@ Public Class RptMPWiseMilkCollection
             gv.ShowGroupPanel = False
             gv.MasterTemplate.AutoExpandGroups = True
         End If
-        
+
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Sub Reset()
         gv.DataSource = Nothing

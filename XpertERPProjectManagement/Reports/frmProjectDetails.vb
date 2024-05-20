@@ -235,6 +235,7 @@ Public Class FrmProjectDetails
         Dim profit As New GridViewSummaryItem("profit", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(profit)
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         RadPageView1.SelectedPage = RadPageViewPage2
     End Sub
 

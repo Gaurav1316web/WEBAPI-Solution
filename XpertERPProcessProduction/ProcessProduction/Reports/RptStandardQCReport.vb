@@ -158,7 +158,7 @@ Public Class RptStandardQCReport
         summaryRowItem.Add(item3)
 
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Sub Reset()
         txtToDate.Value = clsCommon.GETSERVERDATE()

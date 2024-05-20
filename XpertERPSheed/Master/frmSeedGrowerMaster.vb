@@ -2,7 +2,7 @@
 Imports XpertERPEngine
 Imports XpertERPEngineFine
 Imports Telerik.WinControls.UI
-Public Class frmSheedGrowerMaster
+Public Class frmSeedGrowerMaster
     Dim isNewEntry As Boolean = True
     Dim ErrorControl As New clsErrorControl()
     Dim ButtonToolTip As ToolTip = New ToolTip()
@@ -14,6 +14,7 @@ Public Class frmSheedGrowerMaster
         ButtonToolTip.SetToolTip(btndelete, "Press Alt+D  for Delete ")
         ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
         ButtonToolTip.SetToolTip(btnnew, "Press Alt+N Adding New ")
+
     End Sub
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
@@ -39,15 +40,26 @@ Public Class frmSheedGrowerMaster
         Try
             If (AllowToSave()) Then
                 If MyBase.isModifyonPasswordFlag Then
-                    If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.frmSheedGrowerMaster, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
+                    If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.frmSeedGrowerMaster, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
                     Else
                         Return
                     End If
                 End If
-                Dim obj As New clsSheedGrowerMaster()
+                Dim obj As New clsSeedGrowerMaster()
                 obj.Code = txtCode.Value
                 obj.Name = txtname.Text.Replace("'", "`")
                 obj.Father_Name = txtFatherName.Text
+                obj.Add1 = txtAdd1.Text
+                obj.Add2 = txtAdd2.Text
+                obj.Add3 = txtAdd3.Text
+                obj.Registration_No = txtRegNo.Text
+                obj.Khasra_No = txtKhasraNo.Text
+                obj.Aadhar_No = txtAadharNo.Text
+                obj.PAN = txtPAN.Text
+                obj.Bank_Name = TxtBankName.Text
+                obj.Branch_Name = txtbranchname.Text
+                obj.IFSC_Code = TxtIFSCCode.Text
+                obj.Account_No = TxtAccNo.Text
                 obj.Village_Code = fndVillegeCode.Value
                 obj.Tehsil = txtTehsil.Text
                 obj.District_Code = txtDistrict.Value
@@ -106,7 +118,7 @@ Public Class frmSheedGrowerMaster
             btnsave.Text = "Save"
             txtCode.MyReadOnly = False
 
-            Dim obj As clsSheedGrowerMaster = clsSheedGrowerMaster.GetData(strCode, NavTyep)
+            Dim obj As clsSeedGrowerMaster = clsSeedGrowerMaster.GetData(strCode, NavTyep)
             If obj IsNot Nothing Then
                 isNewEntry = False
                 txtCode.Value = obj.Code
@@ -120,6 +132,18 @@ Public Class frmSheedGrowerMaster
                 txtFamilyLand.Value = obj.Family_Land
                 txtLeaseLand.Value = obj.Lease_Land
                 txtTotal.Value = obj.Total_Land
+                txtAdd1.Text = obj.Add1
+                txtAdd2.Text = obj.Add2
+                txtAdd3.Text = obj.Add3
+                txtRegNo.Text = obj.Registration_No
+                txtKhasraNo.Text = obj.Khasra_No
+                txtAadharNo.Text = obj.Aadhar_No
+                txtPAN.Text = obj.PAN
+                TxtBankName.Text = obj.Bank_Name
+                txtbranchname.Text = obj.Branch_Name
+                TxtIFSCCode.Text = obj.IFSC_Code
+                TxtAccNo.Text = obj.Account_No
+
                 lblVillage.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select distinct village_name from tspl_village_master where village_code='" + obj.Village_Code + "'"))
                 lblDistrict.Text = clsDistrictMaster.GetName(obj.District_Code)
 
@@ -165,6 +189,17 @@ Public Class frmSheedGrowerMaster
         txtTotal.Value = 0
         lblVillage.Text = ""
         lblDistrict.Text = ""
+        txtAdd1.Text = ""
+        txtAdd2.Text = ""
+        txtAdd3.Text = ""
+        txtRegNo.Text = ""
+        txtKhasraNo.Text = ""
+        txtKhasraNo.Text = ""
+        txtAadharNo.Text = ""
+        TxtBankName.Text = ""
+        txtbranchname.Text = ""
+        TxtIFSCCode.Text = ""
+        TxtAccNo.Text = ""
         txtCode.MyReadOnly = False
         btnsave.Text = "Save"
         btnsave.Enabled = True
@@ -189,7 +224,7 @@ Public Class frmSheedGrowerMaster
             End If
 
             If myMessages.deleteConfirm() Then
-                If clsSheedGrowerMaster.DeleteData(txtCode.Value) Then
+                If clsSeedGrowerMaster.DeleteData(txtCode.Value) Then
                     myMessages.delete()
                     AddNew()
                 End If
@@ -225,7 +260,7 @@ Public Class frmSheedGrowerMaster
         Dim counter As Integer = 0
 
         If transportSql.importExcel(gv_Import, "Code", "Name") Then
-            Dim obj As New clsSheedGrowerMaster()
+            Dim obj As New clsSeedGrowerMaster()
 
             Try
                 clsCommon.ProgressBarShow()

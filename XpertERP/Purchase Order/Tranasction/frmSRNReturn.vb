@@ -248,7 +248,7 @@ Public Class frmSRNReturn
         Dim qry As String = "select TSPL_SRN_RETURN.Document_No as Code,CONVERT(varchar,TSPL_SRN_RETURN.Document_Date,103) as DocumentDate,TSPL_SRN_RETURN.SRN_No,TSPL_SRN_RETURN.Remarks from TSPL_SRN_RETURN" & _
         " left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD .SRN_No=TSPL_SRN_RETURN.SRN_No"
         Dim whrClas As String = ""
-        LoadData(clsCommon.ShowSelectForm("SRNRetDocNo", qry, "Code", whrClas, txtCode.Value, "Code", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("SRNRetDocNo", qry, "Code", whrClas, txtCode.Value, "Code", isButtonClicked, "TSPL_SRN_RETURN.Document_Date"), NavigatorType.Current)
     End Sub
 
     Private Sub frmPurchaseRequistion_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown

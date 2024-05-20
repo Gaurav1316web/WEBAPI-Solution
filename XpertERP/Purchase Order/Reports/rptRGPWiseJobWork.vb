@@ -319,7 +319,7 @@ Public Class RptRGPWiseJobWork
 
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
 
-
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub RptRGPWiseJobWork_Load(sender As Object, e As EventArgs) Handles MyBase.Load

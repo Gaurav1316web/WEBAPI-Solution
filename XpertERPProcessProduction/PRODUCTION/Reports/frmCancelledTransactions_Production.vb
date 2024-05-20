@@ -172,6 +172,7 @@ Public Class frmCancelledTransactions_Production
         Next
         Dim summaryRowItem As New GridViewSummaryRowItem()
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
 #Region "Showing Details on GRID"

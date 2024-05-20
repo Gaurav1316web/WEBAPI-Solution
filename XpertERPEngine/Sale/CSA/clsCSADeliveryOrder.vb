@@ -33,7 +33,7 @@ Public Class clsCSADeliveryOrder
             qry += "left outer join tspl_state_master on tspl_state_master.state_code=TSPL_CSA_DO_HEAD.state_code "
             ''qry += " left outer join TSPL_CSA_TRANSFER_HEAD on TSPL_CSA_TRANSFER_HEAD.DELEVERY_ORDER_NO=TSPL_CSA_DO_HEAD.Doc_No"
 
-            str = clsCommon.myCstr(clsCommon.ShowSelectForm("DOFND", qry, "Code", whrCls, CurrCode, "Code", isButtonClicked))
+            str = clsCommon.myCstr(clsCommon.ShowSelectForm("DOFND", qry, "Code", whrCls, CurrCode, "Code", isButtonClicked, "TSPL_CSA_DO_HEAD.doc_date"))
 
             Return str
         Catch ex As Exception

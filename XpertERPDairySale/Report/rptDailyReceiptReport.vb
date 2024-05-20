@@ -359,6 +359,7 @@ Public Class rptDailyreceiptReport
                         Dim Quantity As New GridViewSummaryItem("Quantity", "{0:F2}", GridAggregateFunction.Sum)
                         summaryRowItem.Add(Quantity)
                         gv_Sale.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                        gv_Sale.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                         gv_Sale.BestFitColumns()
                     End If
 
@@ -387,6 +388,7 @@ Public Class rptDailyreceiptReport
                         Dim Amount1 As New GridViewSummaryItem("Amount", "{0:F2}", GridAggregateFunction.Sum)
                         summaryRowItem1.Add(Amount1)
                         gv_Collection.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem1)
+                        gv_Collection.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                         gv_Collection.BestFitColumns()
                     End If
 
@@ -619,6 +621,7 @@ Public Class rptDailyreceiptReport
                 End If
 
                 Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 Gv1.BestFitColumns()
                 RadSplitExp.Items("rmiExcelSale").Visibility = ElementVisibility.Collapsed
                 RadSplitExp.Items("rmiPDFSale").Visibility = ElementVisibility.Collapsed

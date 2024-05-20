@@ -56,6 +56,7 @@ Public Class frmPromptMsgNotification
             Dim item1 As New GridViewSummaryItem("No", "", GridAggregateFunction.Sum)
             summaryRowItem.Add(item1)
             grdLoginInfo.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            grdLoginInfo.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
     End Sub
 

@@ -890,12 +890,15 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
             Dim CurrentAmt As New GridViewSummaryItem("CurrentAmt", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItemB.Add(CurrentAmt)
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemB)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Else
             Dim summaryRowItemB As New GridViewSummaryRowItem()
             'Dim MilkTypeB As New GridViewSummaryItem("Payable_Amount", "{0:n0}", GridAggregateFunction.Sum)
             Dim MilkTypeB As New GridViewSummaryItem("Payable_Amount", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItemB.Add(MilkTypeB)
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemB)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+
         End If
 
         Gv1.AutoSizeRows = True

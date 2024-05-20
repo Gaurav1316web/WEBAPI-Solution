@@ -549,7 +549,7 @@ Partial Class frmEmployee_Master
         Me.RadPageView1.Controls.Add(Me.pageOthers)
         Me.RadPageView1.Location = New System.Drawing.Point(5, 35)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.General
+        Me.RadPageView1.SelectedPage = Me.pageOthers
         Me.RadPageView1.Size = New System.Drawing.Size(866, 460)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -3653,6 +3653,7 @@ Partial Class frmEmployee_Master
         Me.txtRelevingDate.MyLinkLable2 = Nothing
         Me.txtRelevingDate.Name = "txtRelevingDate"
         Me.txtRelevingDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtRelevingDate.ReadOnly = True
         Me.txtRelevingDate.ReferenceFieldDesc = Nothing
         Me.txtRelevingDate.ReferenceFieldName = Nothing
         Me.txtRelevingDate.ReferenceTableName = Nothing

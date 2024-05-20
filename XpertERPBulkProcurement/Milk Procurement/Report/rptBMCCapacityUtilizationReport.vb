@@ -158,6 +158,7 @@ Public Class rptBMCCapacityUtilizationReport
         Dim Payable_Qty As New GridViewSummaryItem("Payable_Qty", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(Payable_Qty)
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click

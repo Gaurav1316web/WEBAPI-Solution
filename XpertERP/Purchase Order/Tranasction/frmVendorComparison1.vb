@@ -151,6 +151,7 @@ Public Class FrmVendorComparison1
             Dim item2 As New GridViewSummaryItem("Qty", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item2)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

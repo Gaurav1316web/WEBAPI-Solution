@@ -457,6 +457,7 @@ Public Class FrmSaleHistory
         Dim summaryRowItem As New GridViewSummaryRowItem()
 
         gvDetails.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvDetails.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Dim item1 As New GridViewSummaryItem("Qty", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item1)
         Dim item2 As New GridViewSummaryItem("Amount", "{0:F2}", GridAggregateFunction.Sum)

@@ -406,6 +406,7 @@ Public Class FrmZoneWiseSKUReport
                     End If
                 Next
                 gvData.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gvData.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 'gvData.GroupDescriptors.Add(New GridGroupByExpression("[Product Sub Type] as [Product Sub Type] format ""{0}: {1}"" Group By [Product Sub Type]"))
 
                 For Each dr As DataRow In dtZone.Rows

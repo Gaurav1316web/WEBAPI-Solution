@@ -415,6 +415,7 @@ Public Class frmCashDiscountNew
             summaryRowItem.Add(item2)
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Else
             gv1.Columns("Comp_Code").HeaderText = "Company Code"
             gv1.Columns("Comp_Code").IsVisible = False
@@ -460,6 +461,7 @@ Public Class frmCashDiscountNew
                 End If
             Next
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
     End Sub
 

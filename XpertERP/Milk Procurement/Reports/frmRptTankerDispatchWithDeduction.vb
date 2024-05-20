@@ -325,6 +325,7 @@ Public Class frmRptTankerDispatchWithDeduction
             Next
         End If
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         EnableDisableControls(False)
     End Sub
 

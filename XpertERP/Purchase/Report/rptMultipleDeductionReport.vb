@@ -106,7 +106,7 @@ Public Class rptMultipleDeductionReport
 
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
 
-
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
     End Sub
 
@@ -175,9 +175,15 @@ left outer join TSPL_MCC_MASTER ON TSPL_VLC_MASTER_HEAD.MCC=TSPL_MCC_MASTER.MCC_
 where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= convert(date,('" + fromDate.Value + "'),103) and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= convert(date,('" & ToDate.Value & "'),103) "
 
 
+                'If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                '    strBaseqry += " and TSPL_MULTIPLE_DEDUCTION_HEAD.Loc_Code in (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
+                'End If
+
                 If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
-                    strBaseqry += " and TSPL_MULTIPLE_DEDUCTION_HEAD.Loc_Code in (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
+                    strBaseqry += " and TSPL_MULTIPLE_DEDUCTION_HEAD.MCC_Code in (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
                 End If
+
+
                 If txtMultiVSP.arrValueMember IsNot Nothing AndAlso txtMultiVSP.arrValueMember.Count > 0 Then
                     strBaseqry += " and TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code in(" + clsCommon.GetMulcallString(txtMultiVSP.arrValueMember) + ")"
                 End If

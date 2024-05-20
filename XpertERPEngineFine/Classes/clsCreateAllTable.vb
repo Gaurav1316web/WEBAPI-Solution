@@ -8341,7 +8341,8 @@ Public Class clsCreateAllTable
             Try
                 clsDBFuncationality.ExecuteNonQuery("Alter Table TSPL_BOOKING_MATSER Alter Column Created_Date datetime NOT NULL")
                 clsDBFuncationality.ExecuteNonQuery("Alter Table TSPL_BOOKING_MATSER Alter Column Modified_Date datetime NOT NULL")
-                clsDBFuncationality.ExecuteNonQuery("Alter Table TSPL_BOOKING_MATSER Alter Column Tax_Group varchar(12) NOT NULL")
+                'clsDBFuncationality.ExecuteNonQuery("Alter Table TSPL_BOOKING_MATSER Alter Column Tax_Group varchar(12) NOT NULL")
+                clsDBFuncationality.ExecuteNonQuery("Alter Table TSPL_BOOKING_MATSER Alter Column Tax_Group varchar(12) NULL")
                 'Dim qry As String = String.Empty
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                     qry = "CREATE UNIQUE INDEX Unique_Against_Receipt ON TSPL_BOOKING_MATSER (Against_Receipt_No) WHERE Against_Receipt_No IS NOT NULL;"
@@ -53450,6 +53451,8 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DCS_MP_INCENTIVE_RECO_DETAIL", coll, "unique(Cycle_Year,Cycle_Month,Cycle_No,VLC_Code)", True, False, "TSPL_DCS_MP_INCENTIVE_RECO_HEAD", "Document_Code", "")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID", coll, "", True, False, "TSPL_DCS_MP_INCENTIVE_RECO_HEAD", "Document_Code", "")
 
+
+
             qry = "alter table TSPL_DCS_MP_INCENTIVE_RECO_DETAIL alter column Qty decimal(18,3)"
             clsDBFuncationality.ExecuteNonQuery(qry)
             qry = "alter table TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID alter column Qty decimal(18,3)"
@@ -53460,7 +53463,32 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             clsDBFuncationality.ExecuteNonQuery(qry)
 
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Document_Code", "Varchar(30) NOT NULL primary key")
+            coll.Add("Document_Date", "datetime not NULL")
+            coll.Add("Reco_Code", "varchar(30) not NULL references TSPL_DCS_MP_INCENTIVE_RECO_HEAD (Document_Code) ")
+            coll.Add("Created_By", "varchar(12) NOT NULL")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Modified_By", "varchar(12) NOT NULL")
+            coll.Add("Modified_Date", "Datetime NOT NULL")
+            coll.Add("Posted_By", "varchar(12) NULL")
+            coll.Add("Posting_Date", "Datetime NULL")
+            coll.Add("Status", "int Null")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_CAPING", coll, "unique (Reco_Code)", True, False, "", "Document_Code", "Document_Date")
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Document_Code", "varchar(30) not NULL references TSPL_DBT_CAPING (Document_Code) ")
+            coll.Add("BMC_Code", "Varchar(30) not null REFERENCES TSPL_MCC_MASTER (MCC_Code)")
+            coll.Add("DCS_Code", "Varchar(30) not null REFERENCES TSPL_VLC_MASTER_HEAD (VLC_Code)")
+            coll.Add("MP_Code", "Varchar(30) not null REFERENCES TSPL_MP_MASTER (MP_Code)")
+            coll.Add("Qty", "Decimal(18,2) null")
+            coll.Add("Capping_Qty", "Decimal(18,2) null")
+            coll.Add("Capping_Status", "int Null")
+            coll.Add("Capping_Increase_By", "varchar(12) NULL")
+            coll.Add("Capping_Increase_Date", "Datetime   NULL")
+            coll.Add("Capping_Increase_Remarks", "varchar(200) NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_CAPING_DETAIL", coll, "", True, False, "TSPL_DBT_CAPING", "Document_Code", "")
 
 
             coll = New Dictionary(Of String, String)()
@@ -55389,6 +55417,10 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Code", "VARCHAR(30) NOT NULL PRIMARY KEY ")
             coll.Add("Name", "Varchar(50) NOT NULL ")
             coll.Add("Father_Name", "varchar(100) NULL")
+            coll.Add("Registration_No", "varchar(30) Null")
+            coll.Add("Add1", "varchar(150) NULL")
+            coll.Add("Add2", "varchar(150) NULL")
+            coll.Add("Add3", "varchar(150) NULL")
             coll.Add("Village_Code", "varchar(30)  NULL REFERENCES TSPL_VILLAGE_MASTER(Village_code)")
             coll.Add("Tehsil", "varchar(50) NULL")
             coll.Add("DISTRICT_Code", "Varchar(30) null references TSPL_DISTRICT_MASTER (Code)")
@@ -55397,6 +55429,13 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Family_Land", "decimal(18,2) NULL ")
             coll.Add("Lease_Land", "decimal(18,2)  NULL")
             coll.Add("Total_Land", "decimal(18,2)  NULL")
+            coll.Add("Khasra_No", "varchar(20) NULL")
+            coll.Add("Aadhar_No", "varchar(12) NULL")
+            coll.Add("PAN", "varchar(30) null")
+            coll.Add("Bank_Name", "varchar(50) NULL ")
+            coll.Add("IFSC_Code", "varchar(50) NULL")
+            coll.Add("Branch_Name", "varchar(150) NULL")
+            coll.Add("Account_No", "varchar(50) NULL")
             coll.Add("Created_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")

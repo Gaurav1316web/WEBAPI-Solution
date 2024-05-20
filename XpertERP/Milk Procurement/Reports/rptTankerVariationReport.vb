@@ -427,7 +427,7 @@ Public Class RptTankerVariationReport
         gv.MasterTemplate.AutoExpandGroups = True
 
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Sub view()
         If gv.Rows.Count > 0 Then

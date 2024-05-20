@@ -258,7 +258,7 @@ Public Class FrmRECEIPTSAGAINSTSALES_FILLED_
             Dim item3 As New GridViewSummaryItem("BALANCE", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item3)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
 
         Catch ex As Exception

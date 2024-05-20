@@ -179,7 +179,7 @@ Public Class FrmAdvancePaymentRegister
         summaryRowItem.Add(item2)
 
         gv3.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv3.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Private Sub frmAdvancePaymentRegister_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SetUserMgmtNew()

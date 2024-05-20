@@ -312,7 +312,7 @@ Public Class clsSalaryGeneration
                 " ACTUAL_AMOUNT,PAYABLE_AMOUNT,FORMULA_AMOUNT,HEAD_VALUE,ISHIDDENCOMPONENT,PF_MAX_LM,ACCOUNT_CODE,EPF_RATE,ESI_RATE,CoEPF_RATE,CoEPF_RATE_AC01,CoEPF_AMT_AC01,CoEPS_RATE_AC10,CoEPS_AMT_AC10,ADMIN_RATE_AC02,ADMIN_AMT_AC02,EDLI_RATE_AC21," &
                 " EDLI_AMT_AC21,ADMIN_EDLI_RATE_AC22,ADMIN_EDLI_AMT_AC22,OTHER_CHARGE,Co_ESI_RATE,Co_ESI_AMT,Employer_Account,Arrear_Amt,PRINCIPAL_ROUND_OFF,ARREAR_ROUND_OFF,CoEPF_AMT_AC01_ROUND_OFF,CoEPS_AMT_AC10_ROUND_OFF,PF_Applicable,PF_Calculation_Type,PF_Rule_Max_Lim,Custom_PF_Max_Lim,PF_No,ESI_Applicable,ESI_Calculation_Type,ESI_Rule_Max_Lim,Custom_ESI_Max_Lim,ESI_No,EPS_To_EPF,OT_Applicable,OT_CODE,OT_HOURS,OT_RATE,HOUR_MULTIPLIER,Bonus_Applicable,BONUS_CODE,BONUS_FROM_PAY_PERIOD_CODE,BONUS_TO_PAY_PERIOD_CODE,OD_Applicable,MAX_AMOUNT,PREV_ESI)"
             satQry += "(select '" & obj.Code & "', EMP_CODE,LINE_NO  ,PAY_HEAD_CODE ,HEAD_TYPE  ,SUB_HEAD_TYPE ,CALC_BASIS ,PAYHEAD_FORMULA ,RATE_AMOUNT , " &
-                " ACTUAL_AMOUNT, (case when PAY_HEAD_CODE in ('EPF','GPF') then ACTUAL_AMOUNT else STD_AMOUNT end) as PAYABLE_AMOUNT,FORMULA_AMOUNT,HEAD_VALUE,ISHIDDENCOMPONENT,PF_MAX_LIM,ACCOUNT_CODE,EPF_RATE,ESI_RATE,CoEPF_RATE,CoEPF_RATE_AC01, " &
+                " ACTUAL_AMOUNT, (case when PAY_HEAD_CODE in ('EPF','GPF') then ACTUAL_AMOUNT When PAY_HEAD_CODE in ('ESI') then PAYABLE_AMOUNT else STD_AMOUNT end) as PAYABLE_AMOUNT,FORMULA_AMOUNT,HEAD_VALUE,ISHIDDENCOMPONENT,PF_MAX_LIM,ACCOUNT_CODE,EPF_RATE,ESI_RATE,CoEPF_RATE,CoEPF_RATE_AC01, " &
                 " CoEPF_AMT_AC01,CoEPS_RATE_AC10,CoEPS_AMT_AC10,ADMIN_RATE_AC02,ADMIN_AMT_AC02,EDLI_RATE_AC21," &
                 " EDLI_AMT_AC21,ADMIN_EDLI_RATE_AC22,ADMIN_EDLI_AMT_AC22,OTHER_CHARGE,Co_ESI_RATE,Co_ESI_AMT,Employer_Account,Arrear_Amt,PRINCIPAL_ROUND_OFF,ARREAR_ROUND_OFF,CoEPF_AMT_AC01_ROUND_OFF,CoEPS_AMT_AC10_ROUND_OFF,IS_PF_APPL,PF_Calculation_Type,PF_Rule_Max_Lim,Custom_PF_Max_Lim,PF_No,IS_ESI_APPL,ESI_Calculation_Type,ESI_Rule_Max_Lim,Custom_ESI_Max_Lim,ESI_No,EPS_To_EPF,IS_OT_APPL,OT_CODE,OT_HOURS,OT_RATE,HOUR_MULTIPLIER,IS_BONUS_APPL,BONUS_CODE,BONUS_FROM_PAY_PERIOD_CODE,BONUS_TO_PAY_PERIOD_CODE,OD_Applicable,MAX_AMOUNT,PREV_ESI  from TSPL_SALARY_CALCULATION) "
             clsDBFuncationality.ExecuteNonQuery(satQry, trans)
@@ -3756,33 +3756,33 @@ Public Class clsSalaryGeneration
         dtOT = clsDBFuncationality.GetDataTable(qry, trans)
         For Each dr As DataRow In dtOT.Rows
             If IsDBNull(dr.Item("CRITERIA_TYPE")) Then
-                If dr.Item("IS_ASPER_ACTUAL_CALC") = 1 Then
+                If clsCommon.myCBool(dr.Item("IS_ASPER_ACTUAL_CALC")) Then
                     OTAmount = otHours * BasicPerHour
                 Else
-                    OTAmount = otHours * dr.Item("OT_RATE")
+                    OTAmount = otHours * dr.Item("OT_RATE") * BasicPerHour
                 End If
                 Exit For
             Else
                 If clsCommon.CompairString(dr.Item("CRITERIA_TYPE"), "Basic", False) = CompairStringResult.Equal Then
                     If Basic <= dr.Item("_TO") And Basic >= dr.Item("_FROM") Then
-                        If dr.Item("IS_ASPER_ACTUAL_CALC") = 1 Then
+                        If clsCommon.myCBool(dr.Item("IS_ASPER_ACTUAL_CALC")) Then
                             If clsCommon.CompairString(dr.Item("Rate_Type"), "PBS", False) = CompairStringResult.Equal Then
                                 OTAmount = otHours * BasicPerHour * dr.Item("OT_RATE") / 100
                             Else
-                                OTAmount = otHours * BasicPerHour
+                                OTAmount = otHours * dr.Item("OT_RATE") * BasicPerHour
                             End If
                         Else
                             If clsCommon.CompairString(dr.Item("Rate_Type"), "PBS", False) = CompairStringResult.Equal Then
                                 OTAmount = otHours * BasicPerHour * dr.Item("OT_RATE") / 100
                             Else
-                                OTAmount = otHours * dr.Item("OT_RATE")
+                                OTAmount = otHours * dr.Item("OT_RATE") * BasicPerHour
                             End If
                         End If
                         Exit For
                     End If
                 ElseIf clsCommon.CompairString(dr.Item("CRITERIA_TYPE"), "OTH", False) = CompairStringResult.Equal Then
                     If otHours <= dr.Item("_TO") And otHours >= dr.Item("_FROM") Then
-                        If dr.Item("IS_ASPER_ACTUAL_CALC") = 1 Then
+                        If clsCommon.myCBool(dr.Item("IS_ASPER_ACTUAL_CALC")) Then
                             If clsCommon.CompairString(dr.Item("Rate_Type"), "PBS", False) = CompairStringResult.Equal Then
                                 OTAmount = otHours * BasicPerHour * dr.Item("OT_RATE") / 100
                             ElseIf clsCommon.CompairString(dr.Item("Rate_Type"), "PGS", False) = CompairStringResult.Equal Then
@@ -4896,9 +4896,9 @@ Public Class clsSalaryGeneration
             TreatExcessLeaveAbsentSett = "0"
         End If
 
-        strq = "UPDATE " & strTableName & " SET ACTUAL_AMOUNT = 0,OT_HOURS=T11.OT_HOURS,OT_RATE=(CASE WHEN IS_ASPER_ACTUAL_CALC=0 THEN T11.OT_RATE ELSE COALESCE(HEAD_VALUE,0)/PAYPERIOD_DAYS END) " _
+        strq = "UPDATE " & strTableName & " SET ACTUAL_AMOUNT = 0,OT_CODE=T11.OT_CODE,OT_HOURS=T11.OT_HOURS,OT_RATE=(CASE WHEN IS_ASPER_ACTUAL_CALC=0 THEN T11.OT_RATE ELSE COALESCE(HEAD_VALUE,0)/PAYPERIOD_DAYS END) " _
         & " FROM ( " _
-        & " SELECT T1.EMP_CODE,T1.OT_HOURS,T1.OT_RATE,T1.OT_TOTAL_AMOUNT FROM TSPL_OT_SHEET T1 " _
+        & " SELECT T1.OT_CODE,T1.EMP_CODE,T1.OT_HOURS,T1.OT_RATE,T1.OT_TOTAL_AMOUNT FROM TSPL_OT_SHEET T1 " _
         & " WHERE PAY_PERIOD_CODE='" & Pay_Period_Code & "') AS T11 WHERE " & strTableName & ".EMP_CODE=T11.EMP_CODE " _
         & " AND SUB_HEAD_TYPE='OT' and " & strTableName & ".PAY_PERIOD_CODE='" & Pay_Period_Code & "'"
 
@@ -5252,11 +5252,34 @@ Public Class clsSalaryGeneration
             Arrear = 0
         End If
 
+        Dim ESIFrom As Double = 0
+        Dim ESITo As Double = 0
+        Dim Qry As String = "Select IsNull(ESI_FROM_MONTH,0)ESI_FROM_MONTH,IsNull(ESI_TO_MONTH,0)ESI_TO_MONTH from TSPL_PAYPERIOD_MASTER Where PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "'"
+        Dim dtt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
+        If dtt IsNot Nothing AndAlso dtt.Rows.Count > 0 Then
+            ESIFrom = clsCommon.myCdbl(dtt.Rows(0)("ESI_FROM_MONTH"))
+            ESITo = clsCommon.myCdbl(dtt.Rows(0)("ESI_TO_MONTH")) + 1
+        End If
+
         strq = "UPDATE " & strTableName & "" _
               & " SET ACTUAL_AMOUNT = ( " _
               & " CASE " _
               & " WHEN IS_ESI_APPL = 1 " _
-              & " AND HEAD_VALUE > ESI_MAX_LIM and " & Arrear & "=0 AND " & PP_END_DATE.Month & " IN (4,10) THEN " _
+              & " AND HEAD_VALUE > ESI_MAX_LIM and " & Arrear & "=0 AND " & PP_END_DATE.Month & " IN (" & ESIFrom & "," & ESITo & ") THEN " _
+              & " 0 " _
+              & " WHEN IS_ESI_APPL = 1 " _
+              & " AND HEAD_VALUE > ESI_MAX_LIM AND COALESCE(PREV_ESI,0)<=0 and " & Arrear & "=0 THEN " _
+              & " 0 " _
+              & " WHEN IS_ESI_APPL = 0 THEN " _
+              & " 0 " _
+              & " ELSE " _
+              & " ACTUAL_AMOUNT " _
+              & " End " _
+              & " ) " _
+              & " , Payable_Amount = ( " _
+              & " CASE " _
+              & " WHEN IS_ESI_APPL = 1 " _
+              & " AND HEAD_VALUE > ESI_MAX_LIM and " & Arrear & "=0 AND " & PP_END_DATE.Month & " IN (" & ESIFrom & "," & ESITo & ") THEN " _
               & " 0 " _
               & " WHEN IS_ESI_APPL = 1 " _
               & " AND HEAD_VALUE > ESI_MAX_LIM AND COALESCE(PREV_ESI,0)<=0 and " & Arrear & "=0 THEN " _

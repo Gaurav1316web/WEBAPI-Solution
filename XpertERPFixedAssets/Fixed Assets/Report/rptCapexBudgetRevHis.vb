@@ -271,6 +271,7 @@ Public Class RptCapexBudgetRevHis
         gv3.MasterTemplate.AutoExpandGroups = True
 
         gv3.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv3.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Private Sub RptCapexBudgetRevHis_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetUserMgmtNew()

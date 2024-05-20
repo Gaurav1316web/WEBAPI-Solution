@@ -278,7 +278,7 @@ Public Class RptVehicleCapacityFreshSale
         Gv1.MasterTemplate.AutoExpandGroups = True
 
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub rmsaveLayout_Click(sender As Object, e As EventArgs) Handles rmsaveLayout.Click

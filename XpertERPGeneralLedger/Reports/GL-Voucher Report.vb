@@ -619,6 +619,7 @@ Public Class JrnlVoucherReport
                 summaryRowItem.Add(item2)
 
                 gridvoucher.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gridvoucher.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             Else
                 'gridvoucher.Columns("transType").IsVisible = False
                 'gridvoucher.Columns("transType").Width = 100
@@ -684,7 +685,7 @@ Public Class JrnlVoucherReport
                 summaryRowItem.Add(item2)
 
                 gridvoucher.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+                gridvoucher.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
 
 

@@ -230,7 +230,7 @@ Public Class rptdailydispatch
         Dim item4 As New GridViewSummaryItem("amount", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item4)
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub btngo_Click(sender As Object, e As EventArgs) Handles btngo.Click

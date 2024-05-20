@@ -410,7 +410,7 @@ Public Class frmLoanEntry
         summaryRowItem.Add(item)
 
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         RadPageView1.SelectedPage = RadPageViewPage2
         gv.AllowAddNewRow = False
         gv.ShowGroupPanel = False

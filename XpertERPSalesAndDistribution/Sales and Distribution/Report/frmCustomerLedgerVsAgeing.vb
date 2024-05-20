@@ -572,7 +572,7 @@ Public Class frmCustomerLedgerVsAgeing
 
             gvCustomer.MasterTemplate.SummaryRowsBottom.Clear()
             gvCustomer.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gvCustomer.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
     End Sub
     Private Sub gvCustomer_CellDoubleClick(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvCustomer.CellDoubleClick

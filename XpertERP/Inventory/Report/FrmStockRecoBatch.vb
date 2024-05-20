@@ -1277,6 +1277,7 @@ Public Class FrmStockRecoBatch
 
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Item Group Wise Summary") = CompairStringResult.Equal Then
             gv1.Columns("Item_Type").IsVisible = False
             gv1.Columns("Item_Type").HeaderText = "Item Type Code"
@@ -1475,7 +1476,7 @@ Public Class FrmStockRecoBatch
 
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Category Wise Summary") = CompairStringResult.Equal Then
             gv1.Columns("Item_Type").IsVisible = False
             gv1.Columns("Item_Type").HeaderText = "Item Type Code"
@@ -1677,7 +1678,7 @@ Public Class FrmStockRecoBatch
 
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Item And Batch Wise Summary") = CompairStringResult.Equal Then
             gv1.Columns("Item_Type").IsVisible = False
             gv1.Columns("Item_Type").HeaderText = "Item Type Code"
@@ -1950,7 +1951,7 @@ Public Class FrmStockRecoBatch
             summaryRowItem.Add(Smitem)
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Item Batch And Location Wise Summary") = CompairStringResult.Equal Then
             gv1.Columns("Item_Type").IsVisible = False
             gv1.Columns("Item_Type").HeaderText = "Item Type Code"
@@ -2238,6 +2239,7 @@ Public Class FrmStockRecoBatch
             summaryRowItem.Add(Smitem)
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Document Wise Detail") = CompairStringResult.Equal Then
             gv1.Columns("Trans_Id").HeaderText = "Trans_Id"
 
@@ -2367,6 +2369,7 @@ Public Class FrmStockRecoBatch
             summaryRowItem.Add(item1)
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Date, Item And Document Wise Detail") = CompairStringResult.Equal Then
             gv1.Columns("Source_Doc_No").IsVisible = True
             gv1.Columns("Source_Doc_No").Width = 100
@@ -2616,7 +2619,7 @@ Public Class FrmStockRecoBatch
             summaryRowItem.Add(item2)
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Date and Item Wise Stock") = CompairStringResult.Equal Then
             gv1.Columns("Location_Code").IsVisible = True
             gv1.Columns("Location_Code").Width = 100
@@ -3018,6 +3021,7 @@ Public Class FrmStockRecoBatch
 
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Document Wise Detail Ledger") = CompairStringResult.Equal Then
             gv1.Columns("Source_Doc_No").IsVisible = True
             gv1.Columns("Source_Doc_No").Width = 100
@@ -3109,7 +3113,7 @@ Public Class FrmStockRecoBatch
             ''------------------------------------
             summaryRowItem.Add(item2)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             Dim descriptor3 As New GroupDescriptor()
             descriptor3.GroupNames.Add("Item_Code", System.ComponentModel.ListSortDirection.Ascending)
             gv1.GroupDescriptors.Add(descriptor3)

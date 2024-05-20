@@ -5636,6 +5636,7 @@ Public Class frmCustomer
             Dim Receipt_Amount As New GridViewSummaryItem("Amount", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(Receipt_Amount)
             gvSecurity.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gvSecurity.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
     End Sub
     Private Sub UcAttachment1_Load(sender As Object, e As EventArgs) Handles UcAttachment1.Load

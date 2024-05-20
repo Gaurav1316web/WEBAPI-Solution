@@ -988,11 +988,11 @@ Public Class frmStoreRequistion
 
 
 
-        txtUnitCode.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Unit_Code from TSPL_COST_CENTER_TYPE_MASTER where Department_Cost='" + txtDept.Value + "' "))
-        lblUnitDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_COST_CENTER_UNIT_MASTER WHERE Code='" + txtUnitCode.Value + "'"))
+        'txtUnitCode.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Unit_Code from TSPL_COST_CENTER_TYPE_MASTER where Department_Cost='" + txtDept.Value + "' "))
+        'lblUnitDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_COST_CENTER_UNIT_MASTER WHERE Code='" + txtUnitCode.Value + "'"))
 
-        txtCostCenterType.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Code from TSPL_COST_CENTER_TYPE_MASTER where Department_Cost='" + txtDept.Value + "' "))
-        lblCostcenterTypeDesc.Text = txtCostCenterType.Value ' clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cost_Code from TSPL_COST_CENTER_TYPE_MASTER WHERE Code='" + txtCostCenterType.Value + "'"))
+        'txtCostCenterType.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Code from TSPL_COST_CENTER_TYPE_MASTER where Department_Cost='" + txtDept.Value + "' "))
+        'lblCostcenterTypeDesc.Text = txtCostCenterType.Value ' clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cost_Code from TSPL_COST_CENTER_TYPE_MASTER WHERE Code='" + txtCostCenterType.Value + "'"))
 
         'colCCCode. = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cost_Code from TSPL_COST_CENTER_TYPE_MASTER "))
 
@@ -1709,7 +1709,7 @@ Public Class frmStoreRequistion
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             whrClas += " and  Location in (" + objCommonVar.strCurrUserLocations + ")"
         End If
-        LoadData(clsCommon.ShowSelectForm("PRReqfndNo", qry, "Code", whrClas, txtReqNo.Value, "Code", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("PRReqfndNo", qry, "Code", whrClas, txtReqNo.Value, "Code", isButtonClicked, "TSPL_REQUISITION_HEAD.Requisition_Date"), NavigatorType.Current)
 
     End Sub
 

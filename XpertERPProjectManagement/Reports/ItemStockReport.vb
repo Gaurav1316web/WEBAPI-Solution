@@ -565,7 +565,7 @@ Public Class ItemStockReport
 
 
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub TxtItem__My_Click(sender As Object, e As EventArgs) Handles TxtItem._My_Click

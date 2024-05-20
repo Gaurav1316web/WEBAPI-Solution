@@ -331,7 +331,7 @@ Public Class frmMilkShiftUploaderRaj
             AddNew()
             isInsideLoadData = True
             Dim obj As New clsMilkShiftUploaderHead()
-            obj = clsMilkShiftUploaderHead.GetData(strCode, NavTyep, Nothing, True)
+            obj = clsMilkShiftUploaderHead.GetData(strCode, NavTyep, Nothing, True, False)
 
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
                 isNewEntry = False
@@ -417,6 +417,7 @@ Public Class frmMilkShiftUploaderRaj
                     summaryRowItem.Add(item11)
 
                     gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                     gv1.Columns("TR_No").IsVisible = False
                     lblTotEntry.Text = gv1.Rows.Count
                 End If

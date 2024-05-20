@@ -610,6 +610,7 @@ Public Class RptVillageDiffReport
         gv.ShowGroupPanel = False
         gv.MasterTemplate.AutoExpandGroups = True
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         gv.MasterTemplate.ShowTotals = True
         If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "SPMMD") = CompairStringResult.Equal Then
             gv.MasterTemplate.ShowParentGroupSummaries = False

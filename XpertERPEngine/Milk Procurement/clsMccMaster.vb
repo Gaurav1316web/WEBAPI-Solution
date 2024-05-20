@@ -366,7 +366,7 @@ Public Class clsMccMaster
         Try
             Dim qry As String = " select tspl_mcc_master.MCC_Code as [Code] ,tspl_mcc_master.MCC_Type as [Mcc Type] ,tspl_mcc_master.MCC_NAME as [Mcc Name] ,tspl_mcc_master.Chilling_Vendor as [Chilling Vendor] ,tspl_mcc_master.Add1 as [Address1] ,tspl_mcc_master.Add2 as [Address2] ,tspl_mcc_master.Tehsil as [Tehsil] ,tspl_mcc_master.City_code as [City Code] ,tspl_mcc_master.State_Code as [State Code] ,tspl_mcc_master.Country_code as [Country Code] ,tspl_mcc_master.Pin_code as [Pin Code],tspl_mcc_master.Pan_No as [Pan No] ,tspl_mcc_master.Telphone as [Telphone] ,tspl_mcc_master.Email as [Email] ,tspl_mcc_master.Fax as [Fax] ,tspl_mcc_master.MCC_Area as [Mcc Area] ,tspl_mcc_master.Area_Of_Store as [Area Of Store] ,tspl_mcc_master.Area_Of_Office as [Area Of Office] ,tspl_mcc_master.Open_Area_For_tanker as [Open Area For Tanker] ,tspl_mcc_master.Area_Of_LAB as [Area Of Lab] ,tspl_mcc_master.No_Of_SILO as [No Of Silo] ,tspl_mcc_master.Total_Storage_capacity as [Total Storage Capacity] ,tspl_mcc_master.Area_Of_Receiving_DOCK as [Area Of Receiving Dock] ,tspl_mcc_master.No_Of_Chiller as [No Of Chiller] ,tspl_mcc_master.Chiller_Brand_Name as [Chiller Brand Name] ,tspl_mcc_master.Chiller_Capacity as [Chiller Capacity] ,tspl_mcc_master.No_Of_MilkPump as [No Of Milkpump] ,tspl_mcc_master.MilkPump_Capacity as [Milkpump Capacity] ,tspl_mcc_master.DripSaver as [Drip Saver] ,tspl_mcc_master.CanWasher as [Can Washer] ,tspl_mcc_master.CanScrubber as [Can Scrubber] ,tspl_mcc_master.FSSAI_NO as [FSSAI No] ,tspl_mcc_master.ETP as [ETP] ,tspl_mcc_master.Earthing as [Earthing] ,tspl_mcc_master.Coil_Length as [Coil Length] ,tspl_mcc_master.Electricity_Connection as [Electricity Connection] ,tspl_mcc_master.Boiler as [Boiler] ,tspl_mcc_master.NoOfDG as [No. of DG] ,tspl_mcc_master.NoOfCompressor as [No. of Compressor] ,tspl_mcc_master.PayeeName as [Payee Name] ,tspl_mcc_master.BankName as [Bank Name] ,tspl_mcc_master.BankBranch as [Bank Branch] ,tspl_mcc_master.BankCityCode as [Bank City Code] ,tspl_mcc_master.BankStateCode as [Bank State Code] ,tspl_mcc_master.IFCICode as [IFCI Code] ,tspl_mcc_master.AccountNO as [Account No] ,tspl_mcc_master.Created_By as [Created By] ,tspl_mcc_master.Created_Date as [Created Date] ,tspl_mcc_master.Modified_By as [Modified By] ,tspl_mcc_master.Modified_Date as [Modified Date] ,tspl_mcc_master.Comp_Code as [Company Code],tspl_mcc_master.mcc_code_vlc_uploader as [MCC Code For VLC Uploder],tspl_mcc_master.Plant_Code AS [Plant Code],TSPL_LOCATION_MASTER.Location_Desc AS [Plant Name] From tspl_mcc_master LEFT JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=tspl_mcc_master.Plant_Code"
 
-            str = clsCommon.ShowSelectForm("MCCMST", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
+            str = clsCommon.ShowSelectForm("MCCMST", qry, "Code", whrcls, curcode, "Code", isButtonClicked, "tspl_mcc_master.Created_Date")
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
@@ -2588,6 +2588,9 @@ left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_FAT_SNF_UPL
         If Qty <= 0 Then
             Return 0
         End If
+        Dim OrgFATPer As Double = dblFATPer
+        Dim OrgSNFPer As Double = dblSNFPer
+
         dclRefQATRate = 0
         dclRefNegativeRate = 0
         strPlanningCode = ""
@@ -2638,16 +2641,16 @@ left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_FAT_SNF_UPL
 
                             Dim arrSNF As Dictionary(Of Decimal, Decimal) = clsPriceChartPlanningTSDDCFSNFDed.GetData(strPlanningCode, clsCommon.myCDecimal(drSlab("SNo")), tran)
                             If arrSNF IsNot Nothing AndAlso arrSNF.Count > 0 Then
-                                If arrSNF.ContainsKey(dblSNFPer) Then
-                                    dclReturnMilkValue += arrSNF.Item(dblSNFPer)
+                                If arrSNF.ContainsKey(OrgSNFPer) Then
+                                    dclReturnMilkValue += arrSNF.Item(OrgSNFPer)
                                 End If
                             End If
                         End If
 
                         Dim arrFAT As Dictionary(Of Decimal, Decimal) = clsPriceChartPlanningTSDDCFFATDed.GetData(strPlanningCode, clsCommon.myCDecimal(drSlab("SNo")), tran)
                         If arrFAT IsNot Nothing AndAlso arrFAT.Count > 0 Then
-                            If arrFAT.ContainsKey(dblFATPer) Then
-                                dclReturnMilkValue += arrFAT.Item(dblFATPer)
+                            If arrFAT.ContainsKey(OrgFATPer) Then
+                                dclReturnMilkValue += arrFAT.Item(OrgFATPer)
                             End If
                         End If
                         dclDedPer = clsCommon.myCDecimal(drSlab("Deduction_Per"))

@@ -420,6 +420,7 @@ and convert( date ,xxxxx.Doc_Date , 103) <= CONVERT(date, '" & txtToDate.Value &
         summaryRowItem.Add(Amount)
 
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click

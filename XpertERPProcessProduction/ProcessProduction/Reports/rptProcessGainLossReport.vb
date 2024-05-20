@@ -132,6 +132,7 @@ Public Class rptProcessGainLossReport
                     summaryRowItem.Add(ProcessGainLoss)
                 End If
                 Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             Else
                 clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
                 Exit Sub

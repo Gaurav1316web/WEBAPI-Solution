@@ -210,7 +210,7 @@ Public Class frmDistributorRouteTagging
         If txtCode.MyReadOnly OrElse isButtonClicked Then
             Dim whrClas As String = ""
             Dim qry As String = "select Code,Start_Date As 'Start Date',End_Date As 'End Date',Remarks,Status from TSPL_DISTRIBUTOR_ROUTE"
-            txtCode.Value = clsCommon.ShowSelectForm("DRT", qry, "Code", "", txtCode.Value, "TSPL_DISTRIBUTOR_ROUTE.Code ", isButtonClicked, "")
+            txtCode.Value = clsCommon.ShowSelectForm("DRT", qry, "Code", "", txtCode.Value, "TSPL_DISTRIBUTOR_ROUTE.Code ", isButtonClicked, "TSPL_DISTRIBUTOR_ROUTE.Start_Date")
             LoadData(txtCode.Value, NavigatorType.Current)
         End If
     End Sub

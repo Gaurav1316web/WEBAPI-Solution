@@ -273,6 +273,7 @@ Public Class FrmVlcDataUploadar
             Dim TranAmount As New GridViewSummaryItem(colAmount, "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(TranAmount)
             gvData.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gvData.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
     End Sub
 

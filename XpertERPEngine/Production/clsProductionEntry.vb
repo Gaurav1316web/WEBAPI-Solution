@@ -609,7 +609,7 @@ Public Class clsProductionEntry
         Else
             whrCls = " TSPL_PP_PRODUCTION_ENTRY.comp_code='" + objCommonVar.CurrentCompanyCode + "'"
         End If
-        str = clsCommon.ShowSelectForm("STD", qry, "Code", whrCls, currCode, "Code", isButtonClicked)
+        str = clsCommon.ShowSelectForm("STD", qry, "Code", whrCls, currCode, "Code", isButtonClicked, "TSPL_PP_PRODUCTION_ENTRY.PROD_DATE")
 
         Return str
     End Function

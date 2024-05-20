@@ -792,6 +792,7 @@ Where 2=2   and TSPL_MP_MASTER.VLC_Code<>'" + clsCommon.myCstr(fndVLCCode.Tag) +
         Dim item7 As New GridViewSummaryItem("Amount", "{0:F3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item7)
         gvManualCollectHist.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvManualCollectHist.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         For col As Integer = 0 To gvManualCollectHist.Columns.Count - 1
             gvManualCollectHist.Columns(col).Width = 100
         Next
@@ -822,7 +823,7 @@ Where 2=2   and TSPL_MP_MASTER.VLC_Code<>'" + clsCommon.myCstr(fndVLCCode.Tag) +
         summaryRowItem.Add(item7)
         gvPDCollectHist.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         'gvPDCollectHist.AutoSizeColumnsMode = GridViewAutoSizeColumnsMode.Fill
-
+        gvPDCollectHist.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         For col As Integer = 0 To gvPDCollectHist.Columns.Count - 1
             gvPDCollectHist.Columns(col).Width = 100
         Next

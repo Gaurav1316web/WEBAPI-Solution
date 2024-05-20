@@ -3674,7 +3674,7 @@ Public Class frmJobWorkDispatch
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             whrClas += "  and loc_code in (" + objCommonVar.strCurrUserLocations + ")"
         End If
-        LoadData(clsCommon.ShowSelectForm("ScrpCodFiltrF1", qry, "Code", whrClas, txtDocNo.Value, "shipment_Date desc", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("ScrpCodFiltrF1", qry, "Code", whrClas, txtDocNo.Value, "shipment_Date desc", isButtonClicked, "tspl_scrapsale_head.shipment_Date"), NavigatorType.Current)
     End Sub
 
     Private Sub txtTermCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtTermCode._MYValidating

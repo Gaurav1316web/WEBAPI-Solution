@@ -468,7 +468,7 @@ Public Class FrmPendingRequisitionQty
         Dim item7 As New GridViewSummaryItem("BalanceQty", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item7)
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         RadPageView1.SelectedPage = RadPageViewPage2
         gv.AllowAddNewRow = False
         gv.ShowGroupPanel = False

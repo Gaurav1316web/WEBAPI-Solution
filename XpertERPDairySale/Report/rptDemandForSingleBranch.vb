@@ -422,6 +422,7 @@ Public Class RptDemandForSingleBranch
         gv2.MasterTemplate.AutoExpandGroups = True
 
         gv2.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv2.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         'gv2.MasterTemplate.ShowTotals = True
     End Sub
     Private Sub RptDemandForSingleBranch_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown

@@ -1055,7 +1055,7 @@ Public Class RCDFDashboard
                 case when TSPL_ITEM_MASTER.ITEM_CODE in ('FG0001','FG0002','FG0003') then  substring(TSPL_ITEM_MASTER.ITEM_CODE, 6,1) else '0' end as sr_no, 
                 TSPL_ITEM_MASTER.Short_Description AS 'ITEM_DESC',0 as FINAL_PRODUCTION_QTY
                 from ExplodeDates('" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "','" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'),TSPL_ITEM_MASTER
-                where TSPL_ITEM_MASTER.STRUCTURE_CODE='FG'	 
+                where TSPL_ITEM_MASTER.STRUCTURE_CODE='FG'	 and TSPL_ITEM_MASTER.FG_for_CF_RPT=1
                 )x
                 )xxxxx Group by GrpMonth,GrpCode order by convert(date, GrpMonth,103),sr_no desc"
                 dtProduction = clsDBFuncationality.GetDataTable(sQuery)

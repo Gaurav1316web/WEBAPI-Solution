@@ -3984,7 +3984,7 @@ Public Class frmScrapSaleReturn
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             whrClas += " and loc_code in (" + objCommonVar.strCurrUserLocations + ")"
         End If
-        LoadData(clsCommon.ShowSelectForm("ScrpCodFiltrFND", qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("ScrpCodFiltrFND", qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked, "tspl_scrapsale_head_return.Return_ship_Date"), NavigatorType.Current)
     End Sub
 
     Private Sub txtTermCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtTermCode._MYValidating

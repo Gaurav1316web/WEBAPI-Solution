@@ -2997,7 +2997,7 @@ Public Class clsMachineIntegration
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
         Dim qry As String = " select Code as MachineCode , Description as MachineName, case when type=1 then 'Analyzer' else 'EWS' end as MachineType from TSPL_MACHINE_INTEGRATION"
-        str = clsCommon.ShowSelectForm("FndMachine", qry, "MachineCode", whrcls, curcode, "MachineCode", isButtonClicked)
+        str = clsCommon.ShowSelectForm("FndMachine", qry, "MachineCode", whrcls, curcode, "MachineCode", isButtonClicked, "TSPL_MACHINE_INTEGRATION.Created_Date")
         Return str
     End Function
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType) As clsMachineIntegration

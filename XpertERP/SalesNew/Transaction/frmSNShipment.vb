@@ -2267,6 +2267,7 @@ Public Class frmSNShipment
             Dim FrieghtAmt As New GridViewSummaryItem("colDCSFrieghtAmt", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(FrieghtAmt)
             gvDCS.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gvDCS.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             isSummarygvDCS = False
         End If
 
@@ -9620,7 +9621,7 @@ a:          End If
             If clsCommon.MyMessageBoxShow("Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                 Return False
             End If
-            Dim strSaleReturnNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select document_code from TSPL_SD_SALE_INVOICE_HEAD where Against_Shipment_No = '" & txtDocNo.Value & "' "))
+            Dim strSaleReturnNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select DOCUMENT_CODE from TSPL_SD_SALE_INVOICE_DETAIL where Shipment_Code= '" & txtDocNo.Value & "' "))
             If clsCommon.myLen(strSaleReturnNo) > 0 Then
                 Throw New Exception("You cannot cancelled this document because its Sale Invoice (" + clsCommon.myCstr(strSaleReturnNo) + ") has been created.")
             End If

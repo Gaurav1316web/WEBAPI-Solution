@@ -247,6 +247,7 @@ Public Class RptSecondaryTransporterReport
             End If
         Next
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         If chkDetail.IsChecked Then
             gv.Columns("Dispatch_Date").IsVisible = False
         End If

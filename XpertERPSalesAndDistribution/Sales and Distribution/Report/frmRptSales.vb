@@ -987,7 +987,7 @@ Public Class FrmRptSales
 
         End If
         gvReport.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gvReport.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         If rbtnInvoiceWise.IsChecked AndAlso pnlAdminSetting.Visible AndAlso chkReconcile.Checked Then
             gvReport.Columns("SubledgerAmt").IsVisible = True
             gvReport.Columns("SubledgerAmt").Width = 100

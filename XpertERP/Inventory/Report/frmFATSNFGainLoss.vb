@@ -611,7 +611,7 @@ goAlreadyAdded:
                             Smitem = New GridViewSummaryItem("SNFKG", "{0:F2}", GridAggregateFunction.Sum)
                             summaryRowItem.Add(Smitem)
                             gvDetail.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+                            gvDetail.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                             RadPageView1.SelectedPage = RadPageView1.Pages(2)
                             gvDetail.BestFitColumns()
                             Exit For
@@ -1116,6 +1116,7 @@ goAlreadyAdded:
             Smitem = New GridViewSummaryItem("Balance_SNF", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(Smitem)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Main Location and Location Wise") = CompairStringResult.Equal Then
             gv1.Columns("Main_Location_Code").HeaderText = "Main Location Code"
 
@@ -1329,6 +1330,7 @@ goAlreadyAdded:
             Smitem = New GridViewSummaryItem("Balance_SNF", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(Smitem)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
         gv1.BestFitColumns()
         ReStoreGridLayout()
