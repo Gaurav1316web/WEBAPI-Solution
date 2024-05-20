@@ -6808,7 +6808,7 @@ Public Class frmSRN
         'End If
 
 
-        LoadData(clsCommon.ShowSelectForm("SRNCofnd", qry, "Code", whrClas, txtDocNo.Value, "", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("SRNCofnd", qry, "Code", whrClas, txtDocNo.Value, "", isButtonClicked, "TSPL_SRN_HEAD.SRN_Date"), NavigatorType.Current)
     End Sub
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.F2 AndAlso gv1.CurrentCell IsNot Nothing AndAlso gv1.CurrentColumn Is gv1.Columns(colUnit) Then

@@ -84,7 +84,7 @@ Public Class clsCanMaster
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
         Dim qry As String = "select TSPL_CAN_MASTER.Code,TSPL_CAN_MASTER.Description,TSPL_CAN_MASTER.Tare_Weight as [Tare Weight] from TSPL_CAN_MASTER "
-        str = clsCommon.ShowSelectForm("canmasterFnd", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
+        str = clsCommon.ShowSelectForm("canmasterFnd", qry, "Code", whrcls, curcode, "Code", isButtonClicked, "TSPL_CAN_MASTER.Created_Date")
         Return str
 
     End Function
@@ -225,7 +225,7 @@ Public Class clsDockMaster
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
         Dim qry As String = "select TSPL_DOCK_MASTER.Code,TSPL_DOCK_MASTER.Description,TSPL_DOCK_MASTER.MCC_Code as [MCC Code] from TSPL_DOCK_MASTER "
-        str = clsCommon.ShowSelectForm("DockmasterFnd", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
+        str = clsCommon.ShowSelectForm("DockmasterFnd", qry, "Code", whrcls, curcode, "Code", isButtonClicked, "TSPL_DOCK_MASTER.Created_Date")
         Return str
 
     End Function

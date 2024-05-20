@@ -4430,7 +4430,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             whrClas += " and loc_code in (" + objCommonVar.strCurrUserLocations + ")"
         End If
-        LoadData(clsCommon.ShowSelectForm("ScrpCodFiltrFND", qry, "Code", whrClas, txtDocNo.Value, "shipment_Date desc", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("ScrpCodFiltrFND", qry, "Code", whrClas, txtDocNo.Value, "shipment_Date desc", isButtonClicked, "TSPL_SCRAPINVOICE_HEAD.shipment_Date"), NavigatorType.Current)
     End Sub
 
     Private Sub txtTermCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtTermCode._MYValidating

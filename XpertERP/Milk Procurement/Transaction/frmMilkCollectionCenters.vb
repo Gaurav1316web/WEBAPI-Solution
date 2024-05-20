@@ -189,7 +189,7 @@ Public Class FrmMilkCollectionCenters
     Private Sub txtCollectionCenters__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCollectionCenters._MYValidating
         If txtCollectionCenters.MyReadOnly OrElse isButtonClicked Then
             Dim qry As String = "select COLLECTION_CENTER_CODE as Code,Description as Name from TSPL_MilkCollectionCenter  "
-            LoadData(clsCommon.ShowSelectForm("TSPL_MilkCollectionLevels", qry, "Code", "", txtCollectionCenters.Value, "Code", isButtonClicked), NavigatorType.Current)
+            LoadData(clsCommon.ShowSelectForm("TSPL_MilkCollectionLevels", qry, "Code", "", txtCollectionCenters.Value, "Code", isButtonClicked, "TSPL_MilkCollectionCenter.Created_Date"), NavigatorType.Current)
         End If
     End Sub
 

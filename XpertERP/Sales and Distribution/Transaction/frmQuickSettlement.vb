@@ -644,7 +644,7 @@ Public Class FrmQuickSettlement
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             WhrCls += "  TH.From_Location in (" + objCommonVar.strCurrUserLocations + ")"
         End If
-        fndQuickSettlement.Value = clsCommon.ShowSelectForm("QuickSetFND", qry, "QuickSettlement", WhrCls, fndQuickSettlement.Value, "Quick_SettleMent_Id", isButtonClicked)
+        fndQuickSettlement.Value = clsCommon.ShowSelectForm("QuickSetFND", qry, "QuickSettlement", WhrCls, fndQuickSettlement.Value, "Quick_SettleMent_Id", isButtonClicked, "tspl_QuickSettleMent.Transfer_Date")
         'LoadData(clsCommon.ShowSelectForm("QuickSettlement", qry, "Quick_SettleMent_Id", "", fndQuickSettlement.Value, "Quick_SettleMent_Id", isButtonClicked))
         If fndQuickSettlement.Value <> "" Then
             funFill(fndQuickSettlement.Value)

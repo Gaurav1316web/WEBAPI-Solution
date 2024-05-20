@@ -120,7 +120,7 @@ Public Class clsDBTNEFTReject
           ,TSPL_DBT_NEFT_REJECT.Remarks as [Remarks],TSPL_DBT_NEFT_REJECT.Against_DBT_NEFT as [DBT NEFT No], Convert(varchar,TSPL_DBT_NEFT.From_Date,103) as [From Date],Convert(varchar,TSPL_DBT_NEFT.To_Date,103) as [To Date]
           ,case when isnull(TSPL_DBT_NEFT_REJECT.Status,0)=0 then 'Pending' else 'Approved' end as Status 
           from TSPL_DBT_NEFT_REJECT left outer join TSPL_DBT_NEFT on TSPL_DBT_NEFT.Document_Code=TSPL_DBT_NEFT_REJECT.Against_DBT_NEFT"
-        str = clsCommon.ShowSelectForm("DPTRNft#F", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
+        str = clsCommon.ShowSelectForm("DPTRNft#F", qry, "Code", whrcls, curcode, "Code", isButtonClicked, "TSPL_DBT_NEFT_REJECT.Document_Date")
         Return str
     End Function
     Public Shared Function PostData(ByVal strDocNo As String) As Boolean

@@ -1628,7 +1628,7 @@ Public Class frmProductionStoreRequest
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             whrClas += " and  Location in (" + objCommonVar.strCurrUserLocations + ")"
         End If
-        LoadData(clsCommon.ShowSelectForm("ProductionPRReqfndNo", qry, "Code", whrClas, txtReqNo.Value, "Code", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("ProductionPRReqfndNo", qry, "Code", whrClas, txtReqNo.Value, "Code", isButtonClicked, "TSPL_PP_REQUISITION_HEAD.Requisition_Date"), NavigatorType.Current)
 
     End Sub
 

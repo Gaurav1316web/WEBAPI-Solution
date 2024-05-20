@@ -72,7 +72,7 @@ Public Class clsProvisionEntry
         Dim str As String = ""
         Try
             Dim qry As String = " select TSPL_PROVISION_ENTRY.Doc_No as [DocNo] ,convert(varchar,TSPL_PROVISION_ENTRY.Doc_Date,103) as [Doc Date] ,TSPL_PROVISION_ENTRY.Vendor_Code as [Vendor Code] ,TSPL_PROVISION_ENTRY.Vendor_Desc as [Vendor Desc] ,TSPL_PROVISION_ENTRY.Vendor_Type as [Vendor Type] ,TSPL_PROVISION_ENTRY.Status as [Status] ,TSPL_PROVISION_ENTRY.Ref_Doc_No as [Ref Doc No] ,TSPL_PROVISION_ENTRY.Prov_type as [Prov Type] ,TSPL_PROVISION_ENTRY.Toll_Amt as [Toll Amount] ,TSPL_PROVISION_ENTRY.Amount as [Amount] ,TSPL_PROVISION_ENTRY.Prog_Code as [Prog Code] ,TSPL_PROVISION_ENTRY.Prov_Month as [Prov Month] ,TSPL_PROVISION_ENTRY.Prov_Year as [Prov Year] ,TSPL_PROVISION_ENTRY.Comp_Code as [Comp Code] ,TSPL_PROVISION_ENTRY.Created_By as [Created By] ,TSPL_PROVISION_ENTRY.Created_Date as [Created Date] ,TSPL_PROVISION_ENTRY.Modified_By as [Modified By] ,TSPL_PROVISION_ENTRY.Modified_Date as [Modified Date] ,TSPL_PROVISION_ENTRY.isPosted as [Isposted] ,TSPL_PROVISION_ENTRY.Posting_Date as [Posting Date] ,TSPL_PROVISION_ENTRY.Loc_Code as [Loc Code] ,TSPL_PROVISION_ENTRY.Loc_Desc as [Loc Desc] ,TSPL_PROVISION_ENTRY.Status_Update_Doc_No as [Status Update Doc No] ,TSPL_PROVISION_ENTRY.Route_Code as [Route Code]  From TSPL_PROVISION_ENTRY "
-            str = clsCommon.ShowSelectForm("DISPTRNS", qry, "DocNo", whrcls, curcode, "TSPL_PROVISION_ENTRY.Doc_Date desc", isButtonClicked)
+            str = clsCommon.ShowSelectForm("DISPTRNS", qry, "DocNo", whrcls, curcode, "TSPL_PROVISION_ENTRY.Doc_Date desc", isButtonClicked, "TSPL_PROVISION_ENTRY.Doc_Date")
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try

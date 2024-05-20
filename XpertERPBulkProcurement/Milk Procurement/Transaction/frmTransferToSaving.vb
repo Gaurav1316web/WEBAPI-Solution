@@ -450,7 +450,7 @@ Public Class frmTransferToSaving
         Dim qry As String = "select TSPL_TRANSFER_TO_SAVING.Document_No ,convert(varchar,TSPL_TRANSFER_TO_SAVING.Document_date,103) as Document_date,TSPL_TRANSFER_TO_SAVING.Loc_seg_Code as [Location Code],TSPL_TRANSFER_TO_SAVING.MCC_CODE as [MCC Code],TSPL_MCC_MASTER.MCC_Name as [MCC Name],case when TSPL_TRANSFER_TO_SAVING.status =1  then 'Approved' else 'Pending' end as Status   
 from TSPL_TRANSFER_TO_SAVING 
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_TRANSFER_TO_SAVING.MCC_CODE"
-        LoadData(clsCommon.ShowSelectForm("TrsToSav@F", qry, "Document_No", "", txtDocNo.Value, "Document_No", isButtonClicked, ""), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("TrsToSav@F", qry, "Document_No", "", txtDocNo.Value, "Document_No", isButtonClicked, "TSPL_TRANSFER_TO_SAVING.Document_date"), NavigatorType.Current)
 
     End Sub
 

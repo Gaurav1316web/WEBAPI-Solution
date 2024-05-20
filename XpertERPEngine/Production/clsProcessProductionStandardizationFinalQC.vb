@@ -79,8 +79,8 @@ Public Class clsPPStdFinalQCHead
         " from TSPL_PP_STD_FINALQC_HEAD left outer join TSPL_PP_BATCH_ORDER_HEAD on TSPL_PP_BATCH_ORDER_HEAD.Batch_Code=TSPL_PP_STD_FINALQC_HEAD.Child_Batch_Code " & _
         " left join (select * from (   select ROW_NUMBER()  over(partition by QC_Code order by Product_Type desc, TSPL_PP_STD_FINALQC_BATCH_ITEM_DETAIL.Item_Code) as S_no ,QC_Code as STD_Main,  TSPL_PP_STD_FINALQC_BATCH_ITEM_DETAIL.Item_Code as [Main Item Code],Item_Desc as [Item Description],Product_Type as [Product Type]  from TSPL_PP_STD_FINALQC_BATCH_ITEM_DETAIL left join TSPL_ITEM_MASTER on TSPL_PP_STD_FINALQC_BATCH_ITEM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code  ) as M_Inner where S_no=1 ) as Main on TSPL_PP_STD_FINALQC_HEAD.QC_Code=Main.STD_Main"
         Dim str As String = ""
-        
-        str = clsCommon.ShowSelectForm("STD", qry, "Code", whrCls, currCode, "Code", isButtonClicked)
+
+        str = clsCommon.ShowSelectForm("STD", qry, "Code", whrCls, currCode, "Code", isButtonClicked, "TSPL_PP_STD_FINALQC_HEAD.QC_Date")
 
         Return str
 
