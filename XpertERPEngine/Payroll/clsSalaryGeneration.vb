@@ -3756,33 +3756,33 @@ Public Class clsSalaryGeneration
         dtOT = clsDBFuncationality.GetDataTable(qry, trans)
         For Each dr As DataRow In dtOT.Rows
             If IsDBNull(dr.Item("CRITERIA_TYPE")) Then
-                If dr.Item("IS_ASPER_ACTUAL_CALC") = 1 Then
+                If clsCommon.myCBool(dr.Item("IS_ASPER_ACTUAL_CALC")) Then
                     OTAmount = otHours * BasicPerHour
                 Else
-                    OTAmount = otHours * dr.Item("OT_RATE")
+                    OTAmount = otHours * dr.Item("OT_RATE") * BasicPerHour
                 End If
                 Exit For
             Else
                 If clsCommon.CompairString(dr.Item("CRITERIA_TYPE"), "Basic", False) = CompairStringResult.Equal Then
                     If Basic <= dr.Item("_TO") And Basic >= dr.Item("_FROM") Then
-                        If dr.Item("IS_ASPER_ACTUAL_CALC") = 1 Then
+                        If clsCommon.myCBool(dr.Item("IS_ASPER_ACTUAL_CALC")) Then
                             If clsCommon.CompairString(dr.Item("Rate_Type"), "PBS", False) = CompairStringResult.Equal Then
                                 OTAmount = otHours * BasicPerHour * dr.Item("OT_RATE") / 100
                             Else
-                                OTAmount = otHours * BasicPerHour
+                                OTAmount = otHours * dr.Item("OT_RATE") * BasicPerHour
                             End If
                         Else
                             If clsCommon.CompairString(dr.Item("Rate_Type"), "PBS", False) = CompairStringResult.Equal Then
                                 OTAmount = otHours * BasicPerHour * dr.Item("OT_RATE") / 100
                             Else
-                                OTAmount = otHours * dr.Item("OT_RATE")
+                                OTAmount = otHours * dr.Item("OT_RATE") * BasicPerHour
                             End If
                         End If
                         Exit For
                     End If
                 ElseIf clsCommon.CompairString(dr.Item("CRITERIA_TYPE"), "OTH", False) = CompairStringResult.Equal Then
                     If otHours <= dr.Item("_TO") And otHours >= dr.Item("_FROM") Then
-                        If dr.Item("IS_ASPER_ACTUAL_CALC") = 1 Then
+                        If clsCommon.myCBool(dr.Item("IS_ASPER_ACTUAL_CALC")) Then
                             If clsCommon.CompairString(dr.Item("Rate_Type"), "PBS", False) = CompairStringResult.Equal Then
                                 OTAmount = otHours * BasicPerHour * dr.Item("OT_RATE") / 100
                             ElseIf clsCommon.CompairString(dr.Item("Rate_Type"), "PGS", False) = CompairStringResult.Equal Then
@@ -4896,9 +4896,9 @@ Public Class clsSalaryGeneration
             TreatExcessLeaveAbsentSett = "0"
         End If
 
-        strq = "UPDATE " & strTableName & " SET ACTUAL_AMOUNT = 0,OT_HOURS=T11.OT_HOURS,OT_RATE=(CASE WHEN IS_ASPER_ACTUAL_CALC=0 THEN T11.OT_RATE ELSE COALESCE(HEAD_VALUE,0)/PAYPERIOD_DAYS END) " _
+        strq = "UPDATE " & strTableName & " SET ACTUAL_AMOUNT = 0,OT_CODE=T11.OT_CODE,OT_HOURS=T11.OT_HOURS,OT_RATE=(CASE WHEN IS_ASPER_ACTUAL_CALC=0 THEN T11.OT_RATE ELSE COALESCE(HEAD_VALUE,0)/PAYPERIOD_DAYS END) " _
         & " FROM ( " _
-        & " SELECT T1.EMP_CODE,T1.OT_HOURS,T1.OT_RATE,T1.OT_TOTAL_AMOUNT FROM TSPL_OT_SHEET T1 " _
+        & " SELECT T1.OT_CODE,T1.EMP_CODE,T1.OT_HOURS,T1.OT_RATE,T1.OT_TOTAL_AMOUNT FROM TSPL_OT_SHEET T1 " _
         & " WHERE PAY_PERIOD_CODE='" & Pay_Period_Code & "') AS T11 WHERE " & strTableName & ".EMP_CODE=T11.EMP_CODE " _
         & " AND SUB_HEAD_TYPE='OT' and " & strTableName & ".PAY_PERIOD_CODE='" & Pay_Period_Code & "'"
 

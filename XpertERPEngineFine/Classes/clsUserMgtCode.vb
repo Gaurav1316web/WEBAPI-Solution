@@ -2203,6 +2203,7 @@ Public Class clsUserMgtCode
     Public Const MPIncentiveEntry As String = "MP-INC-ENT"
     Public Const DCSMPIncentiveReco As String = "DCS-MP-RECO"
     Public Const DBTCappingCheck As String = "DBT-CAP-CHK"
+    Public Const DBTCappingIncrease As String = "DBT-CAP-INC"
     Public Const DBTNEFTUploader As String = "DBT-NEFT-UPL"
     Public Const DBTPayment As String = "DBT-PAY-MNT"
     Public Const FrmCreateBMCDCSbyMobile As String = "BMC-DCS-MOB"
@@ -2666,7 +2667,7 @@ Public Class clsUserMgtCode
     ''==================Sheed Module start here ===============
     Public Const ModuleSheed As String = "MSHEED"
     Public Const SubModuleSheedSetUp As String = "SMSHEED"
-    Public Const frmSheedGrowerMaster As String = "SHEED-GRWR-M"
+    Public Const frmSeedGrowerMaster As String = "SEED-GRWR-M"
 
 
     ''=========== sheed transactions=====

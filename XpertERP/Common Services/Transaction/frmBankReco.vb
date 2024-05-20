@@ -1007,23 +1007,27 @@ Public Class FrmBankReco
     End Sub
 
     Private Sub fndRecoId__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndRecoId._MYValidating
-        Dim qry As String = "SELECT tspl_BankReco_Head.Reconciliation_Id, tspl_BankReco_Head.Bank_Code, tspl_BankReco_Head.Bank_Name, tspl_BankReco_Head.Description,CONVERT (VARCHAR,statement_Date,103) As [Statement Date], CONVERT (VARCHAR,Reconciliation_Date ,103) AS [Reconcillation Date],case when isnull(tspl_BankReco_Head.Post,'N')='Y' then 'Approved' else 'Pending' end as Status FROM tspl_BankReco_Head " & _
+        Try
+            Dim qry As String = "SELECT tspl_BankReco_Head.Reconciliation_Id, tspl_BankReco_Head.Bank_Code, tspl_BankReco_Head.Bank_Name, tspl_BankReco_Head.Description,CONVERT (VARCHAR,statement_Date,103) As [Statement Date], CONVERT (VARCHAR,Reconciliation_Date ,103) AS [Reconcillation Date],case when isnull(tspl_BankReco_Head.Post,'N')='Y' then 'Approved' else 'Pending' end as Status FROM tspl_BankReco_Head " &
         " LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.Bank_Code=tspl_BankReco_Head.Bank_Code"
-        Dim Bank_Code As String = FrmMainTranScreen.bankPermission(Nothing)
-        Dim strWhrclas As String = "1=1"
-        If clsCommon.CompairString(clsFixedParameter.GetData(clsFixedParameterType.PermissionSettingForTransactionWithBank, clsFixedParameterType.PermissionSettingForTransactionWithBank, Nothing), "0") = CompairStringResult.Equal Then
-            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-                strWhrclas += " AND RIGHT(TSPL_BANK_MASTER.BANKACC,3) in (" + objCommonVar.strCurrUserLocationsSegment + ")"
+            Dim Bank_Code As String = FrmMainTranScreen.bankPermission(Nothing)
+            Dim strWhrclas As String = "1=1"
+            If clsCommon.CompairString(clsFixedParameter.GetData(clsFixedParameterType.PermissionSettingForTransactionWithBank, clsFixedParameterType.PermissionSettingForTransactionWithBank, Nothing), "0") = CompairStringResult.Equal Then
+                If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                    strWhrclas += " AND RIGHT(TSPL_BANK_MASTER.BANKACC,3) in (" + objCommonVar.strCurrUserLocationsSegment + ")"
+                End If
+            Else
+                If clsCommon.myLen(fndBank.Value) > 0 Then
+                    strWhrclas += " AND tspl_BankReco_Head.Bank_Code in ( '" + fndBank.Value + "' )"
+                End If
             End If
-        Else
-            If clsCommon.myLen(fndBank.Value) > 0 Then
-                strWhrclas += " AND tspl_BankReco_Head.Bank_Code in ( '" + fndBank.Value + "' )"
+            fndRecoId.Value = clsCommon.ShowSelectForm("Bank Reconciliation", qry, "Reconciliation_Id", strWhrclas, fndRecoId.Value, "Reconciliation_Id", isButtonClicked, "tspl_BankReco_Head.Reconciliation_Date")
+            If clsCommon.myLen(fndRecoId.Value) > 0 Then
+                funFill(fndRecoId.Value)
             End If
-        End If
-        fndRecoId.Value = clsCommon.ShowSelectForm("Bank Reconciliation", qry, "Reconciliation_Id", strWhrclas, fndRecoId.Value, "Reconciliation_Id", isButtonClicked, "tspl_BankReco_Head.Reconciliation_Date")
-        If clsCommon.myLen(fndRecoId.Value) > 0 Then
-            funFill(fndRecoId.Value)
-        End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub SelectAll(ByVal val As Boolean)

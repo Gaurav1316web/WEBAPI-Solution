@@ -65,7 +65,7 @@ Public Class clsPhysicalstock
         qry += "left outer join tspl_location_master on tspl_location_master.location_code=TSPL_PHYSICAL_STOCK.location group by TSPL_PHYSICAL_STOCK.physical_no ) xx "
 
         Dim str As String = ""
-        str = clsCommon.ShowSelectForm("PHYDOCFND", qry, "Code", whrCls, strCurrCode, "Code", isButtonClicked)
+        str = clsCommon.ShowSelectForm("PHYDOCFND", qry, "Code", whrCls, strCurrCode, "Code", isButtonClicked, "TSPL_PHYSICAL_STOCK.stock_Date")
 
         Return str
     End Function

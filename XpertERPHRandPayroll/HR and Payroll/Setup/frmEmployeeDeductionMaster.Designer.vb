@@ -38,6 +38,8 @@ Partial Class frmEmployeeDeductionMaster
         Me.TextBox8 = New System.Windows.Forms.TextBox()
         Me.MyLabel8 = New common.Controls.MyLabel()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtQuarterLeftDate = New common.Controls.MyDateTimePicker()
+        Me.txtQuarterAllotedDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel12 = New common.Controls.MyLabel()
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.txtQuarterType = New System.Windows.Forms.TextBox()
@@ -61,11 +63,8 @@ Partial Class frmEmployeeDeductionMaster
         Me.lblCode = New common.Controls.MyLabel()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
-        Me.txtQuarterAllotedDate = New common.Controls.MyDateTimePicker()
-        Me.txtQuarterLeftDate = New common.Controls.MyDateTimePicker()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -80,6 +79,8 @@ Partial Class frmEmployeeDeductionMaster
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
+        CType(Me.txtQuarterLeftDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtQuarterAllotedDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -97,11 +98,8 @@ Partial Class frmEmployeeDeductionMaster
         CType(Me.lblempcode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtQuarterAllotedDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtQuarterLeftDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -136,7 +134,6 @@ Partial Class frmEmployeeDeductionMaster
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Size = New System.Drawing.Size(996, 430)
@@ -256,6 +253,66 @@ Partial Class frmEmployeeDeductionMaster
         Me.RadGroupBox3.Size = New System.Drawing.Size(960, 46)
         Me.RadGroupBox3.TabIndex = 217
         Me.RadGroupBox3.Text = "Quarter "
+        '
+        'txtQuarterLeftDate
+        '
+        Me.txtQuarterLeftDate.CalculationExpression = Nothing
+        Me.txtQuarterLeftDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtQuarterLeftDate.FieldCode = Nothing
+        Me.txtQuarterLeftDate.FieldDesc = Nothing
+        Me.txtQuarterLeftDate.FieldMaxLength = 0
+        Me.txtQuarterLeftDate.FieldName = Nothing
+        Me.txtQuarterLeftDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtQuarterLeftDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtQuarterLeftDate.isCalculatedField = False
+        Me.txtQuarterLeftDate.IsSourceFromTable = False
+        Me.txtQuarterLeftDate.IsSourceFromValueList = False
+        Me.txtQuarterLeftDate.IsUnique = False
+        Me.txtQuarterLeftDate.Location = New System.Drawing.Point(719, 17)
+        Me.txtQuarterLeftDate.MendatroryField = False
+        Me.txtQuarterLeftDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtQuarterLeftDate.MyLinkLable1 = Nothing
+        Me.txtQuarterLeftDate.MyLinkLable2 = Nothing
+        Me.txtQuarterLeftDate.Name = "txtQuarterLeftDate"
+        Me.txtQuarterLeftDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtQuarterLeftDate.ReferenceFieldDesc = Nothing
+        Me.txtQuarterLeftDate.ReferenceFieldName = Nothing
+        Me.txtQuarterLeftDate.ReferenceTableName = Nothing
+        Me.txtQuarterLeftDate.Size = New System.Drawing.Size(225, 18)
+        Me.txtQuarterLeftDate.TabIndex = 219
+        Me.txtQuarterLeftDate.TabStop = False
+        Me.txtQuarterLeftDate.Text = "17/05/2024"
+        Me.txtQuarterLeftDate.Value = New Date(2024, 5, 17, 0, 0, 0, 0)
+        '
+        'txtQuarterAllotedDate
+        '
+        Me.txtQuarterAllotedDate.CalculationExpression = Nothing
+        Me.txtQuarterAllotedDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtQuarterAllotedDate.FieldCode = Nothing
+        Me.txtQuarterAllotedDate.FieldDesc = Nothing
+        Me.txtQuarterAllotedDate.FieldMaxLength = 0
+        Me.txtQuarterAllotedDate.FieldName = Nothing
+        Me.txtQuarterAllotedDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtQuarterAllotedDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtQuarterAllotedDate.isCalculatedField = False
+        Me.txtQuarterAllotedDate.IsSourceFromTable = False
+        Me.txtQuarterAllotedDate.IsSourceFromValueList = False
+        Me.txtQuarterAllotedDate.IsUnique = False
+        Me.txtQuarterAllotedDate.Location = New System.Drawing.Point(406, 17)
+        Me.txtQuarterAllotedDate.MendatroryField = False
+        Me.txtQuarterAllotedDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtQuarterAllotedDate.MyLinkLable1 = Nothing
+        Me.txtQuarterAllotedDate.MyLinkLable2 = Nothing
+        Me.txtQuarterAllotedDate.Name = "txtQuarterAllotedDate"
+        Me.txtQuarterAllotedDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtQuarterAllotedDate.ReferenceFieldDesc = Nothing
+        Me.txtQuarterAllotedDate.ReferenceFieldName = Nothing
+        Me.txtQuarterAllotedDate.ReferenceTableName = Nothing
+        Me.txtQuarterAllotedDate.Size = New System.Drawing.Size(225, 18)
+        Me.txtQuarterAllotedDate.TabIndex = 218
+        Me.txtQuarterAllotedDate.TabStop = False
+        Me.txtQuarterAllotedDate.Text = "17/05/2024"
+        Me.txtQuarterAllotedDate.Value = New Date(2024, 5, 17, 0, 0, 0, 0)
         '
         'MyLabel12
         '
@@ -503,16 +560,6 @@ Partial Class frmEmployeeDeductionMaster
         Me.btnclose.TabIndex = 4
         Me.btnclose.Text = "Close"
         '
-        'btnPost
-        '
-        Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(80, 8)
-        Me.btnPost.Name = "btnPost"
-        Me.btnPost.Size = New System.Drawing.Size(68, 18)
-        Me.btnPost.TabIndex = 216
-        Me.btnPost.Text = "Post"
-        '
         'btnsave
         '
         Me.btnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -527,71 +574,11 @@ Partial Class frmEmployeeDeductionMaster
         '
         Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btndelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btndelete.Location = New System.Drawing.Point(149, 8)
+        Me.btndelete.Location = New System.Drawing.Point(81, 8)
         Me.btndelete.Name = "btndelete"
         Me.btndelete.Size = New System.Drawing.Size(68, 18)
         Me.btndelete.TabIndex = 217
         Me.btndelete.Text = "Delete"
-        '
-        'txtQuarterAllotedDate
-        '
-        Me.txtQuarterAllotedDate.CalculationExpression = Nothing
-        Me.txtQuarterAllotedDate.CustomFormat = "dd/MM/yyyy"
-        Me.txtQuarterAllotedDate.FieldCode = Nothing
-        Me.txtQuarterAllotedDate.FieldDesc = Nothing
-        Me.txtQuarterAllotedDate.FieldMaxLength = 0
-        Me.txtQuarterAllotedDate.FieldName = Nothing
-        Me.txtQuarterAllotedDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtQuarterAllotedDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtQuarterAllotedDate.isCalculatedField = False
-        Me.txtQuarterAllotedDate.IsSourceFromTable = False
-        Me.txtQuarterAllotedDate.IsSourceFromValueList = False
-        Me.txtQuarterAllotedDate.IsUnique = False
-        Me.txtQuarterAllotedDate.Location = New System.Drawing.Point(406, 17)
-        Me.txtQuarterAllotedDate.MendatroryField = False
-        Me.txtQuarterAllotedDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtQuarterAllotedDate.MyLinkLable1 = Nothing
-        Me.txtQuarterAllotedDate.MyLinkLable2 = Nothing
-        Me.txtQuarterAllotedDate.Name = "txtQuarterAllotedDate"
-        Me.txtQuarterAllotedDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtQuarterAllotedDate.ReferenceFieldDesc = Nothing
-        Me.txtQuarterAllotedDate.ReferenceFieldName = Nothing
-        Me.txtQuarterAllotedDate.ReferenceTableName = Nothing
-        Me.txtQuarterAllotedDate.Size = New System.Drawing.Size(225, 18)
-        Me.txtQuarterAllotedDate.TabIndex = 218
-        Me.txtQuarterAllotedDate.TabStop = False
-        Me.txtQuarterAllotedDate.Text = "17/05/2024"
-        Me.txtQuarterAllotedDate.Value = New Date(2024, 5, 17, 0, 0, 0, 0)
-        '
-        'txtQuarterLeftDate
-        '
-        Me.txtQuarterLeftDate.CalculationExpression = Nothing
-        Me.txtQuarterLeftDate.CustomFormat = "dd/MM/yyyy"
-        Me.txtQuarterLeftDate.FieldCode = Nothing
-        Me.txtQuarterLeftDate.FieldDesc = Nothing
-        Me.txtQuarterLeftDate.FieldMaxLength = 0
-        Me.txtQuarterLeftDate.FieldName = Nothing
-        Me.txtQuarterLeftDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtQuarterLeftDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtQuarterLeftDate.isCalculatedField = False
-        Me.txtQuarterLeftDate.IsSourceFromTable = False
-        Me.txtQuarterLeftDate.IsSourceFromValueList = False
-        Me.txtQuarterLeftDate.IsUnique = False
-        Me.txtQuarterLeftDate.Location = New System.Drawing.Point(719, 17)
-        Me.txtQuarterLeftDate.MendatroryField = False
-        Me.txtQuarterLeftDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtQuarterLeftDate.MyLinkLable1 = Nothing
-        Me.txtQuarterLeftDate.MyLinkLable2 = Nothing
-        Me.txtQuarterLeftDate.Name = "txtQuarterLeftDate"
-        Me.txtQuarterLeftDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtQuarterLeftDate.ReferenceFieldDesc = Nothing
-        Me.txtQuarterLeftDate.ReferenceFieldName = Nothing
-        Me.txtQuarterLeftDate.ReferenceTableName = Nothing
-        Me.txtQuarterLeftDate.Size = New System.Drawing.Size(225, 18)
-        Me.txtQuarterLeftDate.TabIndex = 219
-        Me.txtQuarterLeftDate.TabStop = False
-        Me.txtQuarterLeftDate.Text = "17/05/2024"
-        Me.txtQuarterLeftDate.Value = New Date(2024, 5, 17, 0, 0, 0, 0)
         '
         'frmEmployeeDeductionMaster
         '
@@ -624,6 +611,8 @@ Partial Class frmEmployeeDeductionMaster
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
         Me.RadGroupBox3.PerformLayout()
+        CType(Me.txtQuarterLeftDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtQuarterAllotedDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
@@ -643,11 +632,8 @@ Partial Class frmEmployeeDeductionMaster
         CType(Me.lblempcode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtQuarterAllotedDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtQuarterLeftDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -662,7 +648,6 @@ Partial Class frmEmployeeDeductionMaster
     Friend WithEvents lblempcode As Controls.MyLabel
     Friend WithEvents lblCode As Controls.MyLabel
     Friend WithEvents txtCode As UserControls.txtNavigator
-    Friend WithEvents btnPost As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnsave As Telerik.WinControls.UI.RadButton
     Friend WithEvents btndelete As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnclose As Telerik.WinControls.UI.RadButton
