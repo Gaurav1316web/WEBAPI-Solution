@@ -23,6 +23,16 @@ Partial Class FrmMCCMaster
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim RadListDataItem146 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem147 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem148 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem149 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem150 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem151 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem152 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem153 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem154 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem155 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -120,6 +130,7 @@ Partial Class FrmMCCMaster
         Dim RadListDataItem95 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem96 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem97 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem98 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem99 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem100 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -130,7 +141,6 @@ Partial Class FrmMCCMaster
         Dim RadListDataItem105 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem106 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem107 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem108 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem109 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem110 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -155,29 +165,19 @@ Partial Class FrmMCCMaster
         Dim RadListDataItem129 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem130 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem131 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition13 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition14 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition15 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition16 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition17 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition18 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem132 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem133 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem134 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem135 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem136 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem137 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem138 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem139 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem140 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem141 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem142 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem143 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem144 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem145 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition19 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition20 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.RadSplitContainer1 = New Telerik.WinControls.UI.RadSplitContainer()
@@ -563,7 +563,6 @@ Partial Class FrmMCCMaster
         Me.Pg_Bankg = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvBankG = New common.UserControls.MyRadGridView()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage7 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -633,12 +632,16 @@ Partial Class FrmMCCMaster
         Me.mnuExit = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitPanel3 = New Telerik.WinControls.UI.SplitPanel()
+        Me.RadSplitExp = New Telerik.WinControls.UI.RadSplitButton()
+        Me.MilkReceipt = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MilkSample = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+        Me.UcCustomFields1 = New ERP.ucCustomFields()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadSplitContainer1.SuspendLayout
@@ -1066,6 +1069,7 @@ Partial Class FrmMCCMaster
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.SplitPanel3, System.ComponentModel.ISupportInitialize).BeginInit
         Me.SplitPanel3.SuspendLayout
+        CType(Me.RadSplitExp, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1260,10 +1264,10 @@ Partial Class FrmMCCMaster
         Me.RadPageViewPage1.Controls.Add(Me.fndMCCCode)
         Me.RadPageViewPage1.Controls.Add(Me.llMCCType)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel41)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(55.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(51.0!, 24.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1198, 517)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1198, 521)
         Me.RadPageViewPage1.Text = "General"
         '
         'MyLabel95
@@ -1644,26 +1648,26 @@ Partial Class FrmMCCMaster
         Me.CmbSampleComport4.IsSourceFromTable = False
         Me.CmbSampleComport4.IsSourceFromValueList = False
         Me.CmbSampleComport4.IsUnique = False
-        RadListDataItem1.Text = "COM1"
-        RadListDataItem2.Text = "COM2"
-        RadListDataItem3.Text = "COM3"
-        RadListDataItem4.Text = "COM4"
-        RadListDataItem5.Text = "COM5"
-        RadListDataItem6.Text = "COM6"
-        RadListDataItem7.Text = "COM7"
-        RadListDataItem8.Text = "COM8"
-        RadListDataItem9.Text = "COM9"
-        RadListDataItem10.Text = "COM10"
-        Me.CmbSampleComport4.Items.Add(RadListDataItem1)
-        Me.CmbSampleComport4.Items.Add(RadListDataItem2)
-        Me.CmbSampleComport4.Items.Add(RadListDataItem3)
-        Me.CmbSampleComport4.Items.Add(RadListDataItem4)
-        Me.CmbSampleComport4.Items.Add(RadListDataItem5)
-        Me.CmbSampleComport4.Items.Add(RadListDataItem6)
-        Me.CmbSampleComport4.Items.Add(RadListDataItem7)
-        Me.CmbSampleComport4.Items.Add(RadListDataItem8)
-        Me.CmbSampleComport4.Items.Add(RadListDataItem9)
-        Me.CmbSampleComport4.Items.Add(RadListDataItem10)
+        RadListDataItem146.Text = "COM1"
+        RadListDataItem147.Text = "COM2"
+        RadListDataItem148.Text = "COM3"
+        RadListDataItem149.Text = "COM4"
+        RadListDataItem150.Text = "COM5"
+        RadListDataItem151.Text = "COM6"
+        RadListDataItem152.Text = "COM7"
+        RadListDataItem153.Text = "COM8"
+        RadListDataItem154.Text = "COM9"
+        RadListDataItem155.Text = "COM10"
+        Me.CmbSampleComport4.Items.Add(RadListDataItem146)
+        Me.CmbSampleComport4.Items.Add(RadListDataItem147)
+        Me.CmbSampleComport4.Items.Add(RadListDataItem148)
+        Me.CmbSampleComport4.Items.Add(RadListDataItem149)
+        Me.CmbSampleComport4.Items.Add(RadListDataItem150)
+        Me.CmbSampleComport4.Items.Add(RadListDataItem151)
+        Me.CmbSampleComport4.Items.Add(RadListDataItem152)
+        Me.CmbSampleComport4.Items.Add(RadListDataItem153)
+        Me.CmbSampleComport4.Items.Add(RadListDataItem154)
+        Me.CmbSampleComport4.Items.Add(RadListDataItem155)
         Me.CmbSampleComport4.Location = New System.Drawing.Point(962, 173)
         Me.CmbSampleComport4.MendatroryField = True
         Me.CmbSampleComport4.MyLinkLable1 = Me.MyLabel56
@@ -1707,26 +1711,26 @@ Partial Class FrmMCCMaster
         Me.CmbSampleComport3.IsSourceFromTable = False
         Me.CmbSampleComport3.IsSourceFromValueList = False
         Me.CmbSampleComport3.IsUnique = False
-        RadListDataItem11.Text = "COM1"
-        RadListDataItem12.Text = "COM2"
-        RadListDataItem13.Text = "COM3"
-        RadListDataItem14.Text = "COM4"
-        RadListDataItem15.Text = "COM5"
-        RadListDataItem16.Text = "COM6"
-        RadListDataItem17.Text = "COM7"
-        RadListDataItem18.Text = "COM8"
-        RadListDataItem19.Text = "COM9"
-        RadListDataItem20.Text = "COM10"
-        Me.CmbSampleComport3.Items.Add(RadListDataItem11)
-        Me.CmbSampleComport3.Items.Add(RadListDataItem12)
-        Me.CmbSampleComport3.Items.Add(RadListDataItem13)
-        Me.CmbSampleComport3.Items.Add(RadListDataItem14)
-        Me.CmbSampleComport3.Items.Add(RadListDataItem15)
-        Me.CmbSampleComport3.Items.Add(RadListDataItem16)
-        Me.CmbSampleComport3.Items.Add(RadListDataItem17)
-        Me.CmbSampleComport3.Items.Add(RadListDataItem18)
-        Me.CmbSampleComport3.Items.Add(RadListDataItem19)
-        Me.CmbSampleComport3.Items.Add(RadListDataItem20)
+        RadListDataItem1.Text = "COM1"
+        RadListDataItem2.Text = "COM2"
+        RadListDataItem3.Text = "COM3"
+        RadListDataItem4.Text = "COM4"
+        RadListDataItem5.Text = "COM5"
+        RadListDataItem6.Text = "COM6"
+        RadListDataItem7.Text = "COM7"
+        RadListDataItem8.Text = "COM8"
+        RadListDataItem9.Text = "COM9"
+        RadListDataItem10.Text = "COM10"
+        Me.CmbSampleComport3.Items.Add(RadListDataItem1)
+        Me.CmbSampleComport3.Items.Add(RadListDataItem2)
+        Me.CmbSampleComport3.Items.Add(RadListDataItem3)
+        Me.CmbSampleComport3.Items.Add(RadListDataItem4)
+        Me.CmbSampleComport3.Items.Add(RadListDataItem5)
+        Me.CmbSampleComport3.Items.Add(RadListDataItem6)
+        Me.CmbSampleComport3.Items.Add(RadListDataItem7)
+        Me.CmbSampleComport3.Items.Add(RadListDataItem8)
+        Me.CmbSampleComport3.Items.Add(RadListDataItem9)
+        Me.CmbSampleComport3.Items.Add(RadListDataItem10)
         Me.CmbSampleComport3.Location = New System.Drawing.Point(875, 173)
         Me.CmbSampleComport3.MendatroryField = True
         Me.CmbSampleComport3.MyLinkLable1 = Me.MyLabel56
@@ -1759,14 +1763,14 @@ Partial Class FrmMCCMaster
         Me.cboSampleMachine4.IsSourceFromTable = False
         Me.cboSampleMachine4.IsSourceFromValueList = False
         Me.cboSampleMachine4.IsUnique = False
-        RadListDataItem21.Text = "COM1"
-        RadListDataItem22.Text = "COM2"
-        RadListDataItem23.Text = "COM3"
-        RadListDataItem24.Text = "COM4"
-        Me.cboSampleMachine4.Items.Add(RadListDataItem21)
-        Me.cboSampleMachine4.Items.Add(RadListDataItem22)
-        Me.cboSampleMachine4.Items.Add(RadListDataItem23)
-        Me.cboSampleMachine4.Items.Add(RadListDataItem24)
+        RadListDataItem11.Text = "COM1"
+        RadListDataItem12.Text = "COM2"
+        RadListDataItem13.Text = "COM3"
+        RadListDataItem14.Text = "COM4"
+        Me.cboSampleMachine4.Items.Add(RadListDataItem11)
+        Me.cboSampleMachine4.Items.Add(RadListDataItem12)
+        Me.cboSampleMachine4.Items.Add(RadListDataItem13)
+        Me.cboSampleMachine4.Items.Add(RadListDataItem14)
         Me.cboSampleMachine4.Location = New System.Drawing.Point(962, 197)
         Me.cboSampleMachine4.MendatroryField = True
         Me.cboSampleMachine4.MyLinkLable1 = Me.MyLabel46
@@ -1810,14 +1814,14 @@ Partial Class FrmMCCMaster
         Me.cboSampleMachine3.IsSourceFromTable = False
         Me.cboSampleMachine3.IsSourceFromValueList = False
         Me.cboSampleMachine3.IsUnique = False
-        RadListDataItem25.Text = "COM1"
-        RadListDataItem26.Text = "COM2"
-        RadListDataItem27.Text = "COM3"
-        RadListDataItem28.Text = "COM4"
-        Me.cboSampleMachine3.Items.Add(RadListDataItem25)
-        Me.cboSampleMachine3.Items.Add(RadListDataItem26)
-        Me.cboSampleMachine3.Items.Add(RadListDataItem27)
-        Me.cboSampleMachine3.Items.Add(RadListDataItem28)
+        RadListDataItem15.Text = "COM1"
+        RadListDataItem16.Text = "COM2"
+        RadListDataItem17.Text = "COM3"
+        RadListDataItem18.Text = "COM4"
+        Me.cboSampleMachine3.Items.Add(RadListDataItem15)
+        Me.cboSampleMachine3.Items.Add(RadListDataItem16)
+        Me.cboSampleMachine3.Items.Add(RadListDataItem17)
+        Me.cboSampleMachine3.Items.Add(RadListDataItem18)
         Me.cboSampleMachine3.Location = New System.Drawing.Point(875, 197)
         Me.cboSampleMachine3.MendatroryField = True
         Me.cboSampleMachine3.MyLinkLable1 = Me.MyLabel46
@@ -2162,26 +2166,26 @@ Partial Class FrmMCCMaster
         Me.CmbSampleComport2Cow.IsSourceFromTable = False
         Me.CmbSampleComport2Cow.IsSourceFromValueList = False
         Me.CmbSampleComport2Cow.IsUnique = False
-        RadListDataItem29.Text = "COM1"
-        RadListDataItem30.Text = "COM2"
-        RadListDataItem31.Text = "COM3"
-        RadListDataItem32.Text = "COM4"
-        RadListDataItem33.Text = "COM5"
-        RadListDataItem34.Text = "COM6"
-        RadListDataItem35.Text = "COM7"
-        RadListDataItem36.Text = "COM8"
-        RadListDataItem37.Text = "COM9"
-        RadListDataItem38.Text = "COM10"
-        Me.CmbSampleComport2Cow.Items.Add(RadListDataItem29)
-        Me.CmbSampleComport2Cow.Items.Add(RadListDataItem30)
-        Me.CmbSampleComport2Cow.Items.Add(RadListDataItem31)
-        Me.CmbSampleComport2Cow.Items.Add(RadListDataItem32)
-        Me.CmbSampleComport2Cow.Items.Add(RadListDataItem33)
-        Me.CmbSampleComport2Cow.Items.Add(RadListDataItem34)
-        Me.CmbSampleComport2Cow.Items.Add(RadListDataItem35)
-        Me.CmbSampleComport2Cow.Items.Add(RadListDataItem36)
-        Me.CmbSampleComport2Cow.Items.Add(RadListDataItem37)
-        Me.CmbSampleComport2Cow.Items.Add(RadListDataItem38)
+        RadListDataItem19.Text = "COM1"
+        RadListDataItem20.Text = "COM2"
+        RadListDataItem21.Text = "COM3"
+        RadListDataItem22.Text = "COM4"
+        RadListDataItem23.Text = "COM5"
+        RadListDataItem24.Text = "COM6"
+        RadListDataItem25.Text = "COM7"
+        RadListDataItem26.Text = "COM8"
+        RadListDataItem27.Text = "COM9"
+        RadListDataItem28.Text = "COM10"
+        Me.CmbSampleComport2Cow.Items.Add(RadListDataItem19)
+        Me.CmbSampleComport2Cow.Items.Add(RadListDataItem20)
+        Me.CmbSampleComport2Cow.Items.Add(RadListDataItem21)
+        Me.CmbSampleComport2Cow.Items.Add(RadListDataItem22)
+        Me.CmbSampleComport2Cow.Items.Add(RadListDataItem23)
+        Me.CmbSampleComport2Cow.Items.Add(RadListDataItem24)
+        Me.CmbSampleComport2Cow.Items.Add(RadListDataItem25)
+        Me.CmbSampleComport2Cow.Items.Add(RadListDataItem26)
+        Me.CmbSampleComport2Cow.Items.Add(RadListDataItem27)
+        Me.CmbSampleComport2Cow.Items.Add(RadListDataItem28)
         Me.CmbSampleComport2Cow.Location = New System.Drawing.Point(292, 75)
         Me.CmbSampleComport2Cow.MendatroryField = True
         Me.CmbSampleComport2Cow.MyLinkLable1 = Me.MyLabel66
@@ -2225,14 +2229,14 @@ Partial Class FrmMCCMaster
         Me.cboSampleMachine2Cow.IsSourceFromTable = False
         Me.cboSampleMachine2Cow.IsSourceFromValueList = False
         Me.cboSampleMachine2Cow.IsUnique = False
-        RadListDataItem39.Text = "COM1"
-        RadListDataItem40.Text = "COM2"
-        RadListDataItem41.Text = "COM3"
-        RadListDataItem42.Text = "COM4"
-        Me.cboSampleMachine2Cow.Items.Add(RadListDataItem39)
-        Me.cboSampleMachine2Cow.Items.Add(RadListDataItem40)
-        Me.cboSampleMachine2Cow.Items.Add(RadListDataItem41)
-        Me.cboSampleMachine2Cow.Items.Add(RadListDataItem42)
+        RadListDataItem29.Text = "COM1"
+        RadListDataItem30.Text = "COM2"
+        RadListDataItem31.Text = "COM3"
+        RadListDataItem32.Text = "COM4"
+        Me.cboSampleMachine2Cow.Items.Add(RadListDataItem29)
+        Me.cboSampleMachine2Cow.Items.Add(RadListDataItem30)
+        Me.cboSampleMachine2Cow.Items.Add(RadListDataItem31)
+        Me.cboSampleMachine2Cow.Items.Add(RadListDataItem32)
         Me.cboSampleMachine2Cow.Location = New System.Drawing.Point(292, 27)
         Me.cboSampleMachine2Cow.MendatroryField = True
         Me.cboSampleMachine2Cow.MyLinkLable1 = Me.MyLabel67
@@ -2276,26 +2280,26 @@ Partial Class FrmMCCMaster
         Me.CmbSampleComportCow.IsSourceFromTable = False
         Me.CmbSampleComportCow.IsSourceFromValueList = False
         Me.CmbSampleComportCow.IsUnique = False
-        RadListDataItem43.Text = "COM1"
-        RadListDataItem44.Text = "COM2"
-        RadListDataItem45.Text = "COM3"
-        RadListDataItem46.Text = "COM4"
-        RadListDataItem47.Text = "COM5"
-        RadListDataItem48.Text = "COM6"
-        RadListDataItem49.Text = "COM7"
-        RadListDataItem50.Text = "COM8"
-        RadListDataItem51.Text = "COM9"
-        RadListDataItem52.Text = "COM10"
-        Me.CmbSampleComportCow.Items.Add(RadListDataItem43)
-        Me.CmbSampleComportCow.Items.Add(RadListDataItem44)
-        Me.CmbSampleComportCow.Items.Add(RadListDataItem45)
-        Me.CmbSampleComportCow.Items.Add(RadListDataItem46)
-        Me.CmbSampleComportCow.Items.Add(RadListDataItem47)
-        Me.CmbSampleComportCow.Items.Add(RadListDataItem48)
-        Me.CmbSampleComportCow.Items.Add(RadListDataItem49)
-        Me.CmbSampleComportCow.Items.Add(RadListDataItem50)
-        Me.CmbSampleComportCow.Items.Add(RadListDataItem51)
-        Me.CmbSampleComportCow.Items.Add(RadListDataItem52)
+        RadListDataItem33.Text = "COM1"
+        RadListDataItem34.Text = "COM2"
+        RadListDataItem35.Text = "COM3"
+        RadListDataItem36.Text = "COM4"
+        RadListDataItem37.Text = "COM5"
+        RadListDataItem38.Text = "COM6"
+        RadListDataItem39.Text = "COM7"
+        RadListDataItem40.Text = "COM8"
+        RadListDataItem41.Text = "COM9"
+        RadListDataItem42.Text = "COM10"
+        Me.CmbSampleComportCow.Items.Add(RadListDataItem33)
+        Me.CmbSampleComportCow.Items.Add(RadListDataItem34)
+        Me.CmbSampleComportCow.Items.Add(RadListDataItem35)
+        Me.CmbSampleComportCow.Items.Add(RadListDataItem36)
+        Me.CmbSampleComportCow.Items.Add(RadListDataItem37)
+        Me.CmbSampleComportCow.Items.Add(RadListDataItem38)
+        Me.CmbSampleComportCow.Items.Add(RadListDataItem39)
+        Me.CmbSampleComportCow.Items.Add(RadListDataItem40)
+        Me.CmbSampleComportCow.Items.Add(RadListDataItem41)
+        Me.CmbSampleComportCow.Items.Add(RadListDataItem42)
         Me.CmbSampleComportCow.Location = New System.Drawing.Point(153, 75)
         Me.CmbSampleComportCow.MendatroryField = True
         Me.CmbSampleComportCow.MyLinkLable1 = Me.MyLabel66
@@ -2328,14 +2332,14 @@ Partial Class FrmMCCMaster
         Me.CmbWeighingComportCow.IsSourceFromTable = False
         Me.CmbWeighingComportCow.IsSourceFromValueList = False
         Me.CmbWeighingComportCow.IsUnique = False
-        RadListDataItem53.Text = "COM1"
-        RadListDataItem54.Text = "COM2"
-        RadListDataItem55.Text = "COM3"
-        RadListDataItem56.Text = "COM4"
-        Me.CmbWeighingComportCow.Items.Add(RadListDataItem53)
-        Me.CmbWeighingComportCow.Items.Add(RadListDataItem54)
-        Me.CmbWeighingComportCow.Items.Add(RadListDataItem55)
-        Me.CmbWeighingComportCow.Items.Add(RadListDataItem56)
+        RadListDataItem43.Text = "COM1"
+        RadListDataItem44.Text = "COM2"
+        RadListDataItem45.Text = "COM3"
+        RadListDataItem46.Text = "COM4"
+        Me.CmbWeighingComportCow.Items.Add(RadListDataItem43)
+        Me.CmbWeighingComportCow.Items.Add(RadListDataItem44)
+        Me.CmbWeighingComportCow.Items.Add(RadListDataItem45)
+        Me.CmbWeighingComportCow.Items.Add(RadListDataItem46)
         Me.CmbWeighingComportCow.Location = New System.Drawing.Point(153, 52)
         Me.CmbWeighingComportCow.MendatroryField = True
         Me.CmbWeighingComportCow.MyLinkLable1 = Me.MyLabel68
@@ -2379,14 +2383,14 @@ Partial Class FrmMCCMaster
         Me.cboSampleMachineCow.IsSourceFromTable = False
         Me.cboSampleMachineCow.IsSourceFromValueList = False
         Me.cboSampleMachineCow.IsUnique = False
-        RadListDataItem57.Text = "COM1"
-        RadListDataItem58.Text = "COM2"
-        RadListDataItem59.Text = "COM3"
-        RadListDataItem60.Text = "COM4"
-        Me.cboSampleMachineCow.Items.Add(RadListDataItem57)
-        Me.cboSampleMachineCow.Items.Add(RadListDataItem58)
-        Me.cboSampleMachineCow.Items.Add(RadListDataItem59)
-        Me.cboSampleMachineCow.Items.Add(RadListDataItem60)
+        RadListDataItem47.Text = "COM1"
+        RadListDataItem48.Text = "COM2"
+        RadListDataItem49.Text = "COM3"
+        RadListDataItem50.Text = "COM4"
+        Me.cboSampleMachineCow.Items.Add(RadListDataItem47)
+        Me.cboSampleMachineCow.Items.Add(RadListDataItem48)
+        Me.cboSampleMachineCow.Items.Add(RadListDataItem49)
+        Me.cboSampleMachineCow.Items.Add(RadListDataItem50)
         Me.cboSampleMachineCow.Location = New System.Drawing.Point(153, 27)
         Me.cboSampleMachineCow.MendatroryField = True
         Me.cboSampleMachineCow.MyLinkLable1 = Me.MyLabel67
@@ -2419,14 +2423,14 @@ Partial Class FrmMCCMaster
         Me.CboMachineCow.IsSourceFromTable = False
         Me.CboMachineCow.IsSourceFromValueList = False
         Me.CboMachineCow.IsUnique = False
-        RadListDataItem61.Text = "COM1"
-        RadListDataItem62.Text = "COM2"
-        RadListDataItem63.Text = "COM3"
-        RadListDataItem64.Text = "COM4"
-        Me.CboMachineCow.Items.Add(RadListDataItem61)
-        Me.CboMachineCow.Items.Add(RadListDataItem62)
-        Me.CboMachineCow.Items.Add(RadListDataItem63)
-        Me.CboMachineCow.Items.Add(RadListDataItem64)
+        RadListDataItem51.Text = "COM1"
+        RadListDataItem52.Text = "COM2"
+        RadListDataItem53.Text = "COM3"
+        RadListDataItem54.Text = "COM4"
+        Me.CboMachineCow.Items.Add(RadListDataItem51)
+        Me.CboMachineCow.Items.Add(RadListDataItem52)
+        Me.CboMachineCow.Items.Add(RadListDataItem53)
+        Me.CboMachineCow.Items.Add(RadListDataItem54)
         Me.CboMachineCow.Location = New System.Drawing.Point(153, 4)
         Me.CboMachineCow.MendatroryField = True
         Me.CboMachineCow.MyLinkLable1 = Me.MyLabel69
@@ -2483,26 +2487,26 @@ Partial Class FrmMCCMaster
         Me.CmbSampleComport2.IsSourceFromTable = False
         Me.CmbSampleComport2.IsSourceFromValueList = False
         Me.CmbSampleComport2.IsUnique = False
-        RadListDataItem65.Text = "COM1"
-        RadListDataItem66.Text = "COM2"
-        RadListDataItem67.Text = "COM3"
-        RadListDataItem68.Text = "COM4"
-        RadListDataItem69.Text = "COM5"
-        RadListDataItem70.Text = "COM6"
-        RadListDataItem71.Text = "COM7"
-        RadListDataItem72.Text = "COM8"
-        RadListDataItem73.Text = "COM9"
-        RadListDataItem74.Text = "COM10"
-        Me.CmbSampleComport2.Items.Add(RadListDataItem65)
-        Me.CmbSampleComport2.Items.Add(RadListDataItem66)
-        Me.CmbSampleComport2.Items.Add(RadListDataItem67)
-        Me.CmbSampleComport2.Items.Add(RadListDataItem68)
-        Me.CmbSampleComport2.Items.Add(RadListDataItem69)
-        Me.CmbSampleComport2.Items.Add(RadListDataItem70)
-        Me.CmbSampleComport2.Items.Add(RadListDataItem71)
-        Me.CmbSampleComport2.Items.Add(RadListDataItem72)
-        Me.CmbSampleComport2.Items.Add(RadListDataItem73)
-        Me.CmbSampleComport2.Items.Add(RadListDataItem74)
+        RadListDataItem55.Text = "COM1"
+        RadListDataItem56.Text = "COM2"
+        RadListDataItem57.Text = "COM3"
+        RadListDataItem58.Text = "COM4"
+        RadListDataItem59.Text = "COM5"
+        RadListDataItem60.Text = "COM6"
+        RadListDataItem61.Text = "COM7"
+        RadListDataItem62.Text = "COM8"
+        RadListDataItem63.Text = "COM9"
+        RadListDataItem64.Text = "COM10"
+        Me.CmbSampleComport2.Items.Add(RadListDataItem55)
+        Me.CmbSampleComport2.Items.Add(RadListDataItem56)
+        Me.CmbSampleComport2.Items.Add(RadListDataItem57)
+        Me.CmbSampleComport2.Items.Add(RadListDataItem58)
+        Me.CmbSampleComport2.Items.Add(RadListDataItem59)
+        Me.CmbSampleComport2.Items.Add(RadListDataItem60)
+        Me.CmbSampleComport2.Items.Add(RadListDataItem61)
+        Me.CmbSampleComport2.Items.Add(RadListDataItem62)
+        Me.CmbSampleComport2.Items.Add(RadListDataItem63)
+        Me.CmbSampleComport2.Items.Add(RadListDataItem64)
         Me.CmbSampleComport2.Location = New System.Drawing.Point(788, 174)
         Me.CmbSampleComport2.MendatroryField = True
         Me.CmbSampleComport2.MyLinkLable1 = Me.MyLabel56
@@ -2535,14 +2539,14 @@ Partial Class FrmMCCMaster
         Me.cboSampleMachine2.IsSourceFromTable = False
         Me.cboSampleMachine2.IsSourceFromValueList = False
         Me.cboSampleMachine2.IsUnique = False
-        RadListDataItem75.Text = "COM1"
-        RadListDataItem76.Text = "COM2"
-        RadListDataItem77.Text = "COM3"
-        RadListDataItem78.Text = "COM4"
-        Me.cboSampleMachine2.Items.Add(RadListDataItem75)
-        Me.cboSampleMachine2.Items.Add(RadListDataItem76)
-        Me.cboSampleMachine2.Items.Add(RadListDataItem77)
-        Me.cboSampleMachine2.Items.Add(RadListDataItem78)
+        RadListDataItem65.Text = "COM1"
+        RadListDataItem66.Text = "COM2"
+        RadListDataItem67.Text = "COM3"
+        RadListDataItem68.Text = "COM4"
+        Me.cboSampleMachine2.Items.Add(RadListDataItem65)
+        Me.cboSampleMachine2.Items.Add(RadListDataItem66)
+        Me.cboSampleMachine2.Items.Add(RadListDataItem67)
+        Me.cboSampleMachine2.Items.Add(RadListDataItem68)
         Me.cboSampleMachine2.Location = New System.Drawing.Point(788, 198)
         Me.cboSampleMachine2.MendatroryField = True
         Me.cboSampleMachine2.MyLinkLable1 = Me.MyLabel46
@@ -2752,26 +2756,26 @@ Partial Class FrmMCCMaster
         Me.CmbSampleComport.IsSourceFromTable = False
         Me.CmbSampleComport.IsSourceFromValueList = False
         Me.CmbSampleComport.IsUnique = False
-        RadListDataItem79.Text = "COM1"
-        RadListDataItem80.Text = "COM2"
-        RadListDataItem81.Text = "COM3"
-        RadListDataItem82.Text = "COM4"
-        RadListDataItem83.Text = "COM5"
-        RadListDataItem84.Text = "COM6"
-        RadListDataItem85.Text = "COM7"
-        RadListDataItem86.Text = "COM8"
-        RadListDataItem87.Text = "COM9"
-        RadListDataItem88.Text = "COM10"
-        Me.CmbSampleComport.Items.Add(RadListDataItem79)
-        Me.CmbSampleComport.Items.Add(RadListDataItem80)
-        Me.CmbSampleComport.Items.Add(RadListDataItem81)
-        Me.CmbSampleComport.Items.Add(RadListDataItem82)
-        Me.CmbSampleComport.Items.Add(RadListDataItem83)
-        Me.CmbSampleComport.Items.Add(RadListDataItem84)
-        Me.CmbSampleComport.Items.Add(RadListDataItem85)
-        Me.CmbSampleComport.Items.Add(RadListDataItem86)
-        Me.CmbSampleComport.Items.Add(RadListDataItem87)
-        Me.CmbSampleComport.Items.Add(RadListDataItem88)
+        RadListDataItem69.Text = "COM1"
+        RadListDataItem70.Text = "COM2"
+        RadListDataItem71.Text = "COM3"
+        RadListDataItem72.Text = "COM4"
+        RadListDataItem73.Text = "COM5"
+        RadListDataItem74.Text = "COM6"
+        RadListDataItem75.Text = "COM7"
+        RadListDataItem76.Text = "COM8"
+        RadListDataItem77.Text = "COM9"
+        RadListDataItem78.Text = "COM10"
+        Me.CmbSampleComport.Items.Add(RadListDataItem69)
+        Me.CmbSampleComport.Items.Add(RadListDataItem70)
+        Me.CmbSampleComport.Items.Add(RadListDataItem71)
+        Me.CmbSampleComport.Items.Add(RadListDataItem72)
+        Me.CmbSampleComport.Items.Add(RadListDataItem73)
+        Me.CmbSampleComport.Items.Add(RadListDataItem74)
+        Me.CmbSampleComport.Items.Add(RadListDataItem75)
+        Me.CmbSampleComport.Items.Add(RadListDataItem76)
+        Me.CmbSampleComport.Items.Add(RadListDataItem77)
+        Me.CmbSampleComport.Items.Add(RadListDataItem78)
         Me.CmbSampleComport.Location = New System.Drawing.Point(701, 174)
         Me.CmbSampleComport.MendatroryField = True
         Me.CmbSampleComport.MyLinkLable1 = Me.MyLabel56
@@ -2804,14 +2808,14 @@ Partial Class FrmMCCMaster
         Me.CmbWeighingComport.IsSourceFromTable = False
         Me.CmbWeighingComport.IsSourceFromValueList = False
         Me.CmbWeighingComport.IsUnique = False
-        RadListDataItem89.Text = "COM1"
-        RadListDataItem90.Text = "COM2"
-        RadListDataItem91.Text = "COM3"
-        RadListDataItem92.Text = "COM4"
-        Me.CmbWeighingComport.Items.Add(RadListDataItem89)
-        Me.CmbWeighingComport.Items.Add(RadListDataItem90)
-        Me.CmbWeighingComport.Items.Add(RadListDataItem91)
-        Me.CmbWeighingComport.Items.Add(RadListDataItem92)
+        RadListDataItem79.Text = "COM1"
+        RadListDataItem80.Text = "COM2"
+        RadListDataItem81.Text = "COM3"
+        RadListDataItem82.Text = "COM4"
+        Me.CmbWeighingComport.Items.Add(RadListDataItem79)
+        Me.CmbWeighingComport.Items.Add(RadListDataItem80)
+        Me.CmbWeighingComport.Items.Add(RadListDataItem81)
+        Me.CmbWeighingComport.Items.Add(RadListDataItem82)
         Me.CmbWeighingComport.Location = New System.Drawing.Point(701, 126)
         Me.CmbWeighingComport.MendatroryField = True
         Me.CmbWeighingComport.MyLinkLable1 = Me.MyLabel57
@@ -2866,14 +2870,14 @@ Partial Class FrmMCCMaster
         Me.cboSampleMachine.IsSourceFromTable = False
         Me.cboSampleMachine.IsSourceFromValueList = False
         Me.cboSampleMachine.IsUnique = False
-        RadListDataItem93.Text = "COM1"
-        RadListDataItem94.Text = "COM2"
-        RadListDataItem95.Text = "COM3"
-        RadListDataItem96.Text = "COM4"
-        Me.cboSampleMachine.Items.Add(RadListDataItem93)
-        Me.cboSampleMachine.Items.Add(RadListDataItem94)
-        Me.cboSampleMachine.Items.Add(RadListDataItem95)
-        Me.cboSampleMachine.Items.Add(RadListDataItem96)
+        RadListDataItem83.Text = "COM1"
+        RadListDataItem84.Text = "COM2"
+        RadListDataItem85.Text = "COM3"
+        RadListDataItem86.Text = "COM4"
+        Me.cboSampleMachine.Items.Add(RadListDataItem83)
+        Me.cboSampleMachine.Items.Add(RadListDataItem84)
+        Me.cboSampleMachine.Items.Add(RadListDataItem85)
+        Me.cboSampleMachine.Items.Add(RadListDataItem86)
         Me.cboSampleMachine.Location = New System.Drawing.Point(701, 198)
         Me.cboSampleMachine.MendatroryField = True
         Me.cboSampleMachine.MyLinkLable1 = Me.MyLabel46
@@ -2906,14 +2910,14 @@ Partial Class FrmMCCMaster
         Me.CboMachine.IsSourceFromTable = False
         Me.CboMachine.IsSourceFromValueList = False
         Me.CboMachine.IsUnique = False
-        RadListDataItem97.Text = "COM1"
-        RadListDataItem98.Text = "COM2"
-        RadListDataItem99.Text = "COM3"
-        RadListDataItem100.Text = "COM4"
-        Me.CboMachine.Items.Add(RadListDataItem97)
-        Me.CboMachine.Items.Add(RadListDataItem98)
-        Me.CboMachine.Items.Add(RadListDataItem99)
-        Me.CboMachine.Items.Add(RadListDataItem100)
+        RadListDataItem87.Text = "COM1"
+        RadListDataItem88.Text = "COM2"
+        RadListDataItem89.Text = "COM3"
+        RadListDataItem90.Text = "COM4"
+        Me.CboMachine.Items.Add(RadListDataItem87)
+        Me.CboMachine.Items.Add(RadListDataItem88)
+        Me.CboMachine.Items.Add(RadListDataItem89)
+        Me.CboMachine.Items.Add(RadListDataItem90)
         Me.CboMachine.Location = New System.Drawing.Point(701, 149)
         Me.CboMachine.MendatroryField = True
         Me.CboMachine.MyLinkLable1 = Me.MyLabel45
@@ -3255,7 +3259,7 @@ Partial Class FrmMCCMaster
         Me.MyLabel43.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel43.Location = New System.Drawing.Point(265, 294)
         Me.MyLabel43.Name = "MyLabel43"
-        Me.MyLabel43.Size = New System.Drawing.Size(138, 16)
+        Me.MyLabel43.Size = New System.Drawing.Size(140, 16)
         Me.MyLabel43.TabIndex = 102
         Me.MyLabel43.Text = " Code (For DCS Uploader)"
         '
@@ -4765,20 +4769,20 @@ Partial Class FrmMCCMaster
         Me.ddlMCCType.AutoCompleteValueMember = Nothing
         Me.ddlMCCType.DropDownAnimationEnabled = True
         Me.ddlMCCType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        RadListDataItem101.Text = "Co. Owned"
-        RadListDataItem102.Text = "Co. Leased"
-        RadListDataItem103.Text = "Chilling Basis"
-        RadListDataItem104.Text = "Federation"
-        RadListDataItem105.Text = "PPP"
-        RadListDataItem106.Text = "IKP"
-        RadListDataItem107.Text = "MPCS"
-        Me.ddlMCCType.Items.Add(RadListDataItem101)
-        Me.ddlMCCType.Items.Add(RadListDataItem102)
-        Me.ddlMCCType.Items.Add(RadListDataItem103)
-        Me.ddlMCCType.Items.Add(RadListDataItem104)
-        Me.ddlMCCType.Items.Add(RadListDataItem105)
-        Me.ddlMCCType.Items.Add(RadListDataItem106)
-        Me.ddlMCCType.Items.Add(RadListDataItem107)
+        RadListDataItem91.Text = "Co. Owned"
+        RadListDataItem92.Text = "Co. Leased"
+        RadListDataItem93.Text = "Chilling Basis"
+        RadListDataItem94.Text = "Federation"
+        RadListDataItem95.Text = "PPP"
+        RadListDataItem96.Text = "IKP"
+        RadListDataItem97.Text = "MPCS"
+        Me.ddlMCCType.Items.Add(RadListDataItem91)
+        Me.ddlMCCType.Items.Add(RadListDataItem92)
+        Me.ddlMCCType.Items.Add(RadListDataItem93)
+        Me.ddlMCCType.Items.Add(RadListDataItem94)
+        Me.ddlMCCType.Items.Add(RadListDataItem95)
+        Me.ddlMCCType.Items.Add(RadListDataItem96)
+        Me.ddlMCCType.Items.Add(RadListDataItem97)
         Me.ddlMCCType.Location = New System.Drawing.Point(98, 31)
         Me.ddlMCCType.Name = "ddlMCCType"
         Me.ddlMCCType.SelectNextOnDoubleClick = True
@@ -4804,7 +4808,7 @@ Partial Class FrmMCCMaster
         'RadPageViewPage6
         '
         Me.RadPageViewPage6.Controls.Add(Me.gvEmp)
-        Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(102.0!, 28.0!)
+        Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(98.0!, 24.0!)
         Me.RadPageViewPage6.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage6.Name = "RadPageViewPage6"
         Me.RadPageViewPage6.Size = New System.Drawing.Size(1198, 517)
@@ -4819,7 +4823,7 @@ Partial Class FrmMCCMaster
         '
         Me.gvEmp.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvEmp.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvEmp.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvEmp.MasterTemplate.ViewDefinition = TableViewDefinition11
         Me.gvEmp.MyStopExport = False
         Me.gvEmp.Name = "gvEmp"
         Me.gvEmp.ShowHeaderCellButtons = True
@@ -4897,7 +4901,7 @@ Partial Class FrmMCCMaster
         Me.RadPageViewPage3.Controls.Add(Me.lblAreaOfStore)
         Me.RadPageViewPage3.Controls.Add(Me.txtMCCArea)
         Me.RadPageViewPage3.Controls.Add(Me.lblMCCArea)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(107.0!, 28.0!)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(103.0!, 24.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
         Me.RadPageViewPage3.Size = New System.Drawing.Size(1198, 517)
@@ -4955,10 +4959,10 @@ Partial Class FrmMCCMaster
         Me.cboCollectionMethod.IsSourceFromTable = False
         Me.cboCollectionMethod.IsSourceFromValueList = False
         Me.cboCollectionMethod.IsUnique = False
-        RadListDataItem108.Text = "Yes"
-        RadListDataItem109.Text = "No"
-        Me.cboCollectionMethod.Items.Add(RadListDataItem108)
-        Me.cboCollectionMethod.Items.Add(RadListDataItem109)
+        RadListDataItem98.Text = "Yes"
+        RadListDataItem99.Text = "No"
+        Me.cboCollectionMethod.Items.Add(RadListDataItem98)
+        Me.cboCollectionMethod.Items.Add(RadListDataItem99)
         Me.cboCollectionMethod.Location = New System.Drawing.Point(636, 289)
         Me.cboCollectionMethod.MendatroryField = True
         Me.cboCollectionMethod.MyLinkLable1 = Nothing
@@ -5646,10 +5650,10 @@ Partial Class FrmMCCMaster
         Me.CmbRateOfLeasedCharges.IsSourceFromTable = False
         Me.CmbRateOfLeasedCharges.IsSourceFromValueList = False
         Me.CmbRateOfLeasedCharges.IsUnique = False
-        RadListDataItem110.Text = "Yes"
-        RadListDataItem111.Text = "No"
-        Me.CmbRateOfLeasedCharges.Items.Add(RadListDataItem110)
-        Me.CmbRateOfLeasedCharges.Items.Add(RadListDataItem111)
+        RadListDataItem100.Text = "Yes"
+        RadListDataItem101.Text = "No"
+        Me.CmbRateOfLeasedCharges.Items.Add(RadListDataItem100)
+        Me.CmbRateOfLeasedCharges.Items.Add(RadListDataItem101)
         Me.CmbRateOfLeasedCharges.Location = New System.Drawing.Point(381, 266)
         Me.CmbRateOfLeasedCharges.MendatroryField = True
         Me.CmbRateOfLeasedCharges.MyLinkLable1 = Nothing
@@ -5686,10 +5690,10 @@ Partial Class FrmMCCMaster
         Me.CmbChillerPeriod.IsSourceFromTable = False
         Me.CmbChillerPeriod.IsSourceFromValueList = False
         Me.CmbChillerPeriod.IsUnique = False
-        RadListDataItem112.Text = "Yes"
-        RadListDataItem113.Text = "No"
-        Me.CmbChillerPeriod.Items.Add(RadListDataItem112)
-        Me.CmbChillerPeriod.Items.Add(RadListDataItem113)
+        RadListDataItem102.Text = "Yes"
+        RadListDataItem103.Text = "No"
+        Me.CmbChillerPeriod.Items.Add(RadListDataItem102)
+        Me.CmbChillerPeriod.Items.Add(RadListDataItem103)
         Me.CmbChillerPeriod.Location = New System.Drawing.Point(717, 218)
         Me.CmbChillerPeriod.MendatroryField = True
         Me.CmbChillerPeriod.MyLinkLable1 = Nothing
@@ -5716,10 +5720,10 @@ Partial Class FrmMCCMaster
         Me.CmbChilleronQty.IsSourceFromTable = False
         Me.CmbChilleronQty.IsSourceFromValueList = False
         Me.CmbChilleronQty.IsUnique = False
-        RadListDataItem114.Text = "Yes"
-        RadListDataItem115.Text = "No"
-        Me.CmbChilleronQty.Items.Add(RadListDataItem114)
-        Me.CmbChilleronQty.Items.Add(RadListDataItem115)
+        RadListDataItem104.Text = "Yes"
+        RadListDataItem105.Text = "No"
+        Me.CmbChilleronQty.Items.Add(RadListDataItem104)
+        Me.CmbChilleronQty.Items.Add(RadListDataItem105)
         Me.CmbChilleronQty.Location = New System.Drawing.Point(636, 171)
         Me.CmbChilleronQty.MendatroryField = True
         Me.CmbChilleronQty.MyLinkLable1 = Nothing
@@ -5746,10 +5750,10 @@ Partial Class FrmMCCMaster
         Me.CmbChillerOn.IsSourceFromTable = False
         Me.CmbChillerOn.IsSourceFromValueList = False
         Me.CmbChillerOn.IsUnique = False
-        RadListDataItem116.Text = "Yes"
-        RadListDataItem117.Text = "No"
-        Me.CmbChillerOn.Items.Add(RadListDataItem116)
-        Me.CmbChillerOn.Items.Add(RadListDataItem117)
+        RadListDataItem106.Text = "Yes"
+        RadListDataItem107.Text = "No"
+        Me.CmbChillerOn.Items.Add(RadListDataItem106)
+        Me.CmbChillerOn.Items.Add(RadListDataItem107)
         Me.CmbChillerOn.Location = New System.Drawing.Point(636, 147)
         Me.CmbChillerOn.MendatroryField = True
         Me.CmbChillerOn.MyLinkLable1 = Nothing
@@ -5776,10 +5780,10 @@ Partial Class FrmMCCMaster
         Me.CmbArea_of_receiving.IsSourceFromTable = False
         Me.CmbArea_of_receiving.IsSourceFromValueList = False
         Me.CmbArea_of_receiving.IsUnique = False
-        RadListDataItem118.Text = "Yes"
-        RadListDataItem119.Text = "No"
-        Me.CmbArea_of_receiving.Items.Add(RadListDataItem118)
-        Me.CmbArea_of_receiving.Items.Add(RadListDataItem119)
+        RadListDataItem108.Text = "Yes"
+        RadListDataItem109.Text = "No"
+        Me.CmbArea_of_receiving.Items.Add(RadListDataItem108)
+        Me.CmbArea_of_receiving.Items.Add(RadListDataItem109)
         Me.CmbArea_of_receiving.Location = New System.Drawing.Point(389, 147)
         Me.CmbArea_of_receiving.MendatroryField = True
         Me.CmbArea_of_receiving.MyLinkLable1 = Nothing
@@ -5806,10 +5810,10 @@ Partial Class FrmMCCMaster
         Me.CmbArea_of_lab.IsSourceFromTable = False
         Me.CmbArea_of_lab.IsSourceFromValueList = False
         Me.CmbArea_of_lab.IsUnique = False
-        RadListDataItem120.Text = "Yes"
-        RadListDataItem121.Text = "No"
-        Me.CmbArea_of_lab.Items.Add(RadListDataItem120)
-        Me.CmbArea_of_lab.Items.Add(RadListDataItem121)
+        RadListDataItem110.Text = "Yes"
+        RadListDataItem111.Text = "No"
+        Me.CmbArea_of_lab.Items.Add(RadListDataItem110)
+        Me.CmbArea_of_lab.Items.Add(RadListDataItem111)
         Me.CmbArea_of_lab.Location = New System.Drawing.Point(389, 99)
         Me.CmbArea_of_lab.MendatroryField = True
         Me.CmbArea_of_lab.MyLinkLable1 = Nothing
@@ -5836,10 +5840,10 @@ Partial Class FrmMCCMaster
         Me.CmbOpenArea.IsSourceFromTable = False
         Me.CmbOpenArea.IsSourceFromValueList = False
         Me.CmbOpenArea.IsUnique = False
-        RadListDataItem122.Text = "Yes"
-        RadListDataItem123.Text = "No"
-        Me.CmbOpenArea.Items.Add(RadListDataItem122)
-        Me.CmbOpenArea.Items.Add(RadListDataItem123)
+        RadListDataItem112.Text = "Yes"
+        RadListDataItem113.Text = "No"
+        Me.CmbOpenArea.Items.Add(RadListDataItem112)
+        Me.CmbOpenArea.Items.Add(RadListDataItem113)
         Me.CmbOpenArea.Location = New System.Drawing.Point(389, 75)
         Me.CmbOpenArea.MendatroryField = True
         Me.CmbOpenArea.MyLinkLable1 = Nothing
@@ -5866,10 +5870,10 @@ Partial Class FrmMCCMaster
         Me.CmbArea_of_Office.IsSourceFromTable = False
         Me.CmbArea_of_Office.IsSourceFromValueList = False
         Me.CmbArea_of_Office.IsUnique = False
-        RadListDataItem124.Text = "Yes"
-        RadListDataItem125.Text = "No"
-        Me.CmbArea_of_Office.Items.Add(RadListDataItem124)
-        Me.CmbArea_of_Office.Items.Add(RadListDataItem125)
+        RadListDataItem114.Text = "Yes"
+        RadListDataItem115.Text = "No"
+        Me.CmbArea_of_Office.Items.Add(RadListDataItem114)
+        Me.CmbArea_of_Office.Items.Add(RadListDataItem115)
         Me.CmbArea_of_Office.Location = New System.Drawing.Point(389, 51)
         Me.CmbArea_of_Office.MendatroryField = True
         Me.CmbArea_of_Office.MyLinkLable1 = Nothing
@@ -5896,10 +5900,10 @@ Partial Class FrmMCCMaster
         Me.CmbArea_of_Store.IsSourceFromTable = False
         Me.CmbArea_of_Store.IsSourceFromValueList = False
         Me.CmbArea_of_Store.IsUnique = False
-        RadListDataItem126.Text = "Yes"
-        RadListDataItem127.Text = "No"
-        Me.CmbArea_of_Store.Items.Add(RadListDataItem126)
-        Me.CmbArea_of_Store.Items.Add(RadListDataItem127)
+        RadListDataItem116.Text = "Yes"
+        RadListDataItem117.Text = "No"
+        Me.CmbArea_of_Store.Items.Add(RadListDataItem116)
+        Me.CmbArea_of_Store.Items.Add(RadListDataItem117)
         Me.CmbArea_of_Store.Location = New System.Drawing.Point(389, 27)
         Me.CmbArea_of_Store.MendatroryField = True
         Me.CmbArea_of_Store.MyLinkLable1 = Nothing
@@ -5926,10 +5930,10 @@ Partial Class FrmMCCMaster
         Me.CmbMccArea.IsSourceFromTable = False
         Me.CmbMccArea.IsSourceFromValueList = False
         Me.CmbMccArea.IsUnique = False
-        RadListDataItem128.Text = "Yes"
-        RadListDataItem129.Text = "No"
-        Me.CmbMccArea.Items.Add(RadListDataItem128)
-        Me.CmbMccArea.Items.Add(RadListDataItem129)
+        RadListDataItem118.Text = "Yes"
+        RadListDataItem119.Text = "No"
+        Me.CmbMccArea.Items.Add(RadListDataItem118)
+        Me.CmbMccArea.Items.Add(RadListDataItem119)
         Me.CmbMccArea.Location = New System.Drawing.Point(389, 3)
         Me.CmbMccArea.MendatroryField = True
         Me.CmbMccArea.MyLinkLable1 = Nothing
@@ -6483,10 +6487,10 @@ Partial Class FrmMCCMaster
         Me.ddlBoiler.IsSourceFromTable = False
         Me.ddlBoiler.IsSourceFromValueList = False
         Me.ddlBoiler.IsUnique = False
-        RadListDataItem130.Text = "Yes"
-        RadListDataItem131.Text = "No"
-        Me.ddlBoiler.Items.Add(RadListDataItem130)
-        Me.ddlBoiler.Items.Add(RadListDataItem131)
+        RadListDataItem120.Text = "Yes"
+        RadListDataItem121.Text = "No"
+        Me.ddlBoiler.Items.Add(RadListDataItem120)
+        Me.ddlBoiler.Items.Add(RadListDataItem121)
         Me.ddlBoiler.Location = New System.Drawing.Point(255, 242)
         Me.ddlBoiler.MendatroryField = False
         Me.ddlBoiler.MyLinkLable1 = Nothing
@@ -6570,10 +6574,10 @@ Partial Class FrmMCCMaster
         Me.ddlEarthing.IsSourceFromTable = False
         Me.ddlEarthing.IsSourceFromValueList = False
         Me.ddlEarthing.IsUnique = False
-        RadListDataItem132.Text = "Yes"
-        RadListDataItem133.Text = "No"
-        Me.ddlEarthing.Items.Add(RadListDataItem132)
-        Me.ddlEarthing.Items.Add(RadListDataItem133)
+        RadListDataItem122.Text = "Yes"
+        RadListDataItem123.Text = "No"
+        Me.ddlEarthing.Items.Add(RadListDataItem122)
+        Me.ddlEarthing.Items.Add(RadListDataItem123)
         Me.ddlEarthing.Location = New System.Drawing.Point(255, 171)
         Me.ddlEarthing.MendatroryField = True
         Me.ddlEarthing.MyLinkLable1 = Nothing
@@ -6610,10 +6614,10 @@ Partial Class FrmMCCMaster
         Me.ddlETP.IsSourceFromTable = False
         Me.ddlETP.IsSourceFromValueList = False
         Me.ddlETP.IsUnique = False
-        RadListDataItem134.Text = "Yes"
-        RadListDataItem135.Text = "No"
-        Me.ddlETP.Items.Add(RadListDataItem134)
-        Me.ddlETP.Items.Add(RadListDataItem135)
+        RadListDataItem124.Text = "Yes"
+        RadListDataItem125.Text = "No"
+        Me.ddlETP.Items.Add(RadListDataItem124)
+        Me.ddlETP.Items.Add(RadListDataItem125)
         Me.ddlETP.Location = New System.Drawing.Point(636, 99)
         Me.ddlETP.MendatroryField = True
         Me.ddlETP.MyLinkLable1 = Nothing
@@ -6682,10 +6686,10 @@ Partial Class FrmMCCMaster
         Me.ddlCanScrubber.IsSourceFromTable = False
         Me.ddlCanScrubber.IsSourceFromValueList = False
         Me.ddlCanScrubber.IsUnique = False
-        RadListDataItem136.Text = "Yes"
-        RadListDataItem137.Text = "No"
-        Me.ddlCanScrubber.Items.Add(RadListDataItem136)
-        Me.ddlCanScrubber.Items.Add(RadListDataItem137)
+        RadListDataItem126.Text = "Yes"
+        RadListDataItem127.Text = "No"
+        Me.ddlCanScrubber.Items.Add(RadListDataItem126)
+        Me.ddlCanScrubber.Items.Add(RadListDataItem127)
         Me.ddlCanScrubber.Location = New System.Drawing.Point(636, 51)
         Me.ddlCanScrubber.MendatroryField = True
         Me.ddlCanScrubber.MyLinkLable1 = Nothing
@@ -6722,10 +6726,10 @@ Partial Class FrmMCCMaster
         Me.ddlCanWasher.IsSourceFromTable = False
         Me.ddlCanWasher.IsSourceFromValueList = False
         Me.ddlCanWasher.IsUnique = False
-        RadListDataItem138.Text = "Yes"
-        RadListDataItem139.Text = "No"
-        Me.ddlCanWasher.Items.Add(RadListDataItem138)
-        Me.ddlCanWasher.Items.Add(RadListDataItem139)
+        RadListDataItem128.Text = "Yes"
+        RadListDataItem129.Text = "No"
+        Me.ddlCanWasher.Items.Add(RadListDataItem128)
+        Me.ddlCanWasher.Items.Add(RadListDataItem129)
         Me.ddlCanWasher.Location = New System.Drawing.Point(636, 27)
         Me.ddlCanWasher.MendatroryField = True
         Me.ddlCanWasher.MyLinkLable1 = Nothing
@@ -6762,10 +6766,10 @@ Partial Class FrmMCCMaster
         Me.ddlDripSaver.IsSourceFromTable = False
         Me.ddlDripSaver.IsSourceFromValueList = False
         Me.ddlDripSaver.IsUnique = False
-        RadListDataItem140.Text = "Yes"
-        RadListDataItem141.Text = "No"
-        Me.ddlDripSaver.Items.Add(RadListDataItem140)
-        Me.ddlDripSaver.Items.Add(RadListDataItem141)
+        RadListDataItem130.Text = "Yes"
+        RadListDataItem131.Text = "No"
+        Me.ddlDripSaver.Items.Add(RadListDataItem130)
+        Me.ddlDripSaver.Items.Add(RadListDataItem131)
         Me.ddlDripSaver.Location = New System.Drawing.Point(636, 3)
         Me.ddlDripSaver.MendatroryField = True
         Me.ddlDripSaver.MyLinkLable1 = Nothing
@@ -7050,7 +7054,7 @@ Partial Class FrmMCCMaster
         'Pg_Uom
         '
         Me.Pg_Uom.Controls.Add(Me.gvUOM)
-        Me.Pg_Uom.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
+        Me.Pg_Uom.ItemSize = New System.Drawing.SizeF(46.0!, 24.0!)
         Me.Pg_Uom.Location = New System.Drawing.Point(10, 37)
         Me.Pg_Uom.Name = "Pg_Uom"
         Me.Pg_Uom.Size = New System.Drawing.Size(1198, 517)
@@ -7065,7 +7069,7 @@ Partial Class FrmMCCMaster
         '
         Me.gvUOM.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvUOM.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvUOM.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvUOM.MasterTemplate.ViewDefinition = TableViewDefinition12
         Me.gvUOM.MyStopExport = False
         Me.gvUOM.Name = "gvUOM"
         Me.gvUOM.ShowHeaderCellButtons = True
@@ -7076,7 +7080,7 @@ Partial Class FrmMCCMaster
         'Pg_Chiller
         '
         Me.Pg_Chiller.Controls.Add(Me.RadPageView2)
-        Me.Pg_Chiller.ItemSize = New System.Drawing.SizeF(88.0!, 28.0!)
+        Me.Pg_Chiller.ItemSize = New System.Drawing.SizeF(84.0!, 24.0!)
         Me.Pg_Chiller.Location = New System.Drawing.Point(10, 37)
         Me.Pg_Chiller.Name = "Pg_Chiller"
         Me.Pg_Chiller.Size = New System.Drawing.Size(1198, 517)
@@ -7103,6 +7107,7 @@ Partial Class FrmMCCMaster
         Me.RadPageViewPage4.Controls.Add(Me.lblNoOfDG)
         Me.RadPageViewPage4.Controls.Add(Me.dgvGenSet)
         Me.RadPageViewPage4.Controls.Add(Me.txtNoOfDG)
+        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(90.0!, 28.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1177, 469)
@@ -7134,7 +7139,7 @@ Partial Class FrmMCCMaster
         '
         Me.dgvGenSet.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvGenSet.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgvGenSet.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.dgvGenSet.MasterTemplate.ViewDefinition = TableViewDefinition13
         Me.dgvGenSet.MyStopExport = False
         Me.dgvGenSet.Name = "dgvGenSet"
         Me.dgvGenSet.ShowHeaderCellButtons = True
@@ -7174,6 +7179,7 @@ Partial Class FrmMCCMaster
         Me.RadPageViewPage2.Controls.Add(Me.lblNoOfCompressor)
         Me.RadPageViewPage2.Controls.Add(Me.dgvCompressor)
         Me.RadPageViewPage2.Controls.Add(Me.txtNoOfCompressor)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(76.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(1177, 469)
@@ -7205,7 +7211,7 @@ Partial Class FrmMCCMaster
         '
         Me.dgvCompressor.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvCompressor.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgvCompressor.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.dgvCompressor.MasterTemplate.ViewDefinition = TableViewDefinition14
         Me.dgvCompressor.MyStopExport = False
         Me.dgvCompressor.Name = "dgvCompressor"
         Me.dgvCompressor.ShowHeaderCellButtons = True
@@ -7245,6 +7251,7 @@ Partial Class FrmMCCMaster
         Me.Pg_Silo.Controls.Add(Me.TxtNoofSiloo)
         Me.Pg_Silo.Controls.Add(Me.gvSilo)
         Me.Pg_Silo.Controls.Add(Me.MyLabel50)
+        Me.Pg_Silo.ItemSize = New System.Drawing.SizeF(34.0!, 28.0!)
         Me.Pg_Silo.Location = New System.Drawing.Point(10, 37)
         Me.Pg_Silo.Name = "Pg_Silo"
         Me.Pg_Silo.Size = New System.Drawing.Size(1177, 469)
@@ -7293,7 +7300,7 @@ Partial Class FrmMCCMaster
         '
         Me.gvSilo.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSilo.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSilo.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvSilo.MasterTemplate.ViewDefinition = TableViewDefinition15
         Me.gvSilo.MyStopExport = False
         Me.gvSilo.Name = "gvSilo"
         Me.gvSilo.ShowHeaderCellButtons = True
@@ -7316,6 +7323,7 @@ Partial Class FrmMCCMaster
         Me.Pg_MilkPump.Controls.Add(Me.MyLabel51)
         Me.Pg_MilkPump.Controls.Add(Me.gvMilkPump)
         Me.Pg_MilkPump.Controls.Add(Me.txtNoofMilkPumpo)
+        Me.Pg_MilkPump.ItemSize = New System.Drawing.SizeF(70.0!, 28.0!)
         Me.Pg_MilkPump.Location = New System.Drawing.Point(10, 37)
         Me.Pg_MilkPump.Name = "Pg_MilkPump"
         Me.Pg_MilkPump.Size = New System.Drawing.Size(1177, 450)
@@ -7347,7 +7355,7 @@ Partial Class FrmMCCMaster
         '
         Me.gvMilkPump.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvMilkPump.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvMilkPump.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvMilkPump.MasterTemplate.ViewDefinition = TableViewDefinition16
         Me.gvMilkPump.MyStopExport = False
         Me.gvMilkPump.Name = "gvMilkPump"
         Me.gvMilkPump.ShowHeaderCellButtons = True
@@ -7387,6 +7395,7 @@ Partial Class FrmMCCMaster
         Me.Pg_Chillers.Controls.Add(Me.txtNoofChillero)
         Me.Pg_Chillers.Controls.Add(Me.gvChiller)
         Me.Pg_Chillers.Controls.Add(Me.MyLabel52)
+        Me.Pg_Chillers.ItemSize = New System.Drawing.SizeF(85.0!, 28.0!)
         Me.Pg_Chillers.Location = New System.Drawing.Point(10, 37)
         Me.Pg_Chillers.Name = "Pg_Chillers"
         Me.Pg_Chillers.Size = New System.Drawing.Size(1177, 450)
@@ -7435,7 +7444,7 @@ Partial Class FrmMCCMaster
         '
         Me.gvChiller.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvChiller.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvChiller.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvChiller.MasterTemplate.ViewDefinition = TableViewDefinition17
         Me.gvChiller.MyStopExport = False
         Me.gvChiller.Name = "gvChiller"
         Me.gvChiller.ShowHeaderCellButtons = True
@@ -7459,7 +7468,7 @@ Partial Class FrmMCCMaster
         Me.Pg_bank.Controls.Add(Me.GrpSecurity)
         Me.Pg_bank.Controls.Add(Me.GroupBox3)
         Me.Pg_bank.Controls.Add(Me.GroupBox2)
-        Me.Pg_bank.ItemSize = New System.Drawing.SizeF(148.0!, 28.0!)
+        Me.Pg_bank.ItemSize = New System.Drawing.SizeF(144.0!, 24.0!)
         Me.Pg_bank.Location = New System.Drawing.Point(10, 37)
         Me.Pg_bank.Name = "Pg_bank"
         Me.Pg_bank.Size = New System.Drawing.Size(1198, 517)
@@ -7502,7 +7511,7 @@ Partial Class FrmMCCMaster
         '
         Me.gvCheque.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCheque.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCheque.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvCheque.MasterTemplate.ViewDefinition = TableViewDefinition18
         Me.gvCheque.MyStopExport = False
         Me.gvCheque.Name = "gvCheque"
         Me.gvCheque.ShowHeaderCellButtons = True
@@ -7524,10 +7533,10 @@ Partial Class FrmMCCMaster
         Me.cmbsecurity.IsSourceFromTable = False
         Me.cmbsecurity.IsSourceFromValueList = False
         Me.cmbsecurity.IsUnique = False
-        RadListDataItem142.Text = "NO"
-        RadListDataItem143.Text = "YES"
-        Me.cmbsecurity.Items.Add(RadListDataItem142)
-        Me.cmbsecurity.Items.Add(RadListDataItem143)
+        RadListDataItem132.Text = "NO"
+        RadListDataItem133.Text = "YES"
+        Me.cmbsecurity.Items.Add(RadListDataItem132)
+        Me.cmbsecurity.Items.Add(RadListDataItem133)
         Me.cmbsecurity.Location = New System.Drawing.Point(179, 16)
         Me.cmbsecurity.MendatroryField = False
         Me.cmbsecurity.MyLinkLable1 = Me.MyLabel35
@@ -8405,10 +8414,10 @@ Partial Class FrmMCCMaster
         Me.cmbagreemnt.IsSourceFromTable = False
         Me.cmbagreemnt.IsSourceFromValueList = False
         Me.cmbagreemnt.IsUnique = False
-        RadListDataItem144.Text = "NO"
-        RadListDataItem145.Text = "YES"
-        Me.cmbagreemnt.Items.Add(RadListDataItem144)
-        Me.cmbagreemnt.Items.Add(RadListDataItem145)
+        RadListDataItem134.Text = "NO"
+        RadListDataItem135.Text = "YES"
+        Me.cmbagreemnt.Items.Add(RadListDataItem134)
+        Me.cmbagreemnt.Items.Add(RadListDataItem135)
         Me.cmbagreemnt.Location = New System.Drawing.Point(180, 12)
         Me.cmbagreemnt.MendatroryField = False
         Me.cmbagreemnt.MyLinkLable1 = Me.MyLabel34
@@ -8423,7 +8432,7 @@ Partial Class FrmMCCMaster
         'Payment_Entry
         '
         Me.Payment_Entry.Controls.Add(Me.GVPaymentEntry)
-        Me.Payment_Entry.ItemSize = New System.Drawing.SizeF(93.0!, 28.0!)
+        Me.Payment_Entry.ItemSize = New System.Drawing.SizeF(89.0!, 24.0!)
         Me.Payment_Entry.Location = New System.Drawing.Point(10, 37)
         Me.Payment_Entry.Name = "Payment_Entry"
         Me.Payment_Entry.Size = New System.Drawing.Size(1198, 517)
@@ -8438,7 +8447,7 @@ Partial Class FrmMCCMaster
         '
         Me.GVPaymentEntry.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.GVPaymentEntry.MasterTemplate.ShowHeaderCellButtons = True
-        Me.GVPaymentEntry.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.GVPaymentEntry.MasterTemplate.ViewDefinition = TableViewDefinition19
         Me.GVPaymentEntry.MyStopExport = False
         Me.GVPaymentEntry.Name = "GVPaymentEntry"
         Me.GVPaymentEntry.ShowHeaderCellButtons = True
@@ -8448,7 +8457,7 @@ Partial Class FrmMCCMaster
         'Pg_Bankg
         '
         Me.Pg_Bankg.Controls.Add(Me.gvBankG)
-        Me.Pg_Bankg.ItemSize = New System.Drawing.SizeF(132.0!, 28.0!)
+        Me.Pg_Bankg.ItemSize = New System.Drawing.SizeF(128.0!, 24.0!)
         Me.Pg_Bankg.Location = New System.Drawing.Point(10, 37)
         Me.Pg_Bankg.Name = "Pg_Bankg"
         Me.Pg_Bankg.Size = New System.Drawing.Size(1198, 517)
@@ -8463,7 +8472,7 @@ Partial Class FrmMCCMaster
         '
         Me.gvBankG.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBankG.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvBankG.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gvBankG.MasterTemplate.ViewDefinition = TableViewDefinition20
         Me.gvBankG.MyStopExport = False
         Me.gvBankG.Name = "gvBankG"
         Me.gvBankG.ShowHeaderCellButtons = True
@@ -8473,24 +8482,16 @@ Partial Class FrmMCCMaster
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(86.0!, 28.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(82.0!, 24.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 37)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(1198, 517)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
-        'UcCustomFields1
-        '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1198, 517)
-        Me.UcCustomFields1.TabIndex = 3
-        '
         'RadPageViewPage5
         '
         Me.RadPageViewPage5.Controls.Add(Me.UcAttachment1)
-        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
+        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(71.0!, 24.0!)
         Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
         Me.RadPageViewPage5.Size = New System.Drawing.Size(1198, 517)
@@ -8520,7 +8521,7 @@ Partial Class FrmMCCMaster
         Me.RadPageViewPage7.Controls.Add(Me.txtCommissionRate)
         Me.RadPageViewPage7.Controls.Add(Me.MyLabel80)
         Me.RadPageViewPage7.Controls.Add(Me.RadGroupBox4)
-        Me.RadPageViewPage7.ItemSize = New System.Drawing.SizeF(167.0!, 28.0!)
+        Me.RadPageViewPage7.ItemSize = New System.Drawing.SizeF(163.0!, 24.0!)
         Me.RadPageViewPage7.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage7.Name = "RadPageViewPage7"
         Me.RadPageViewPage7.Size = New System.Drawing.Size(1198, 517)
@@ -9558,6 +9559,7 @@ Partial Class FrmMCCMaster
         '
         'SplitPanel3
         '
+        Me.SplitPanel3.Controls.Add(Me.RadSplitExp)
         Me.SplitPanel3.Controls.Add(Me.btnHistory)
         Me.SplitPanel3.Controls.Add(Me.RadButton1)
         Me.SplitPanel3.Controls.Add(Me.btnClose)
@@ -9575,6 +9577,26 @@ Partial Class FrmMCCMaster
         Me.SplitPanel3.TabIndex = 2
         Me.SplitPanel3.TabStop = False
         Me.SplitPanel3.Text = "SplitPanel3"
+        '
+        'RadSplitExp
+        '
+        Me.RadSplitExp.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadSplitExp.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MilkReceipt, Me.MilkSample})
+        Me.RadSplitExp.Location = New System.Drawing.Point(453, 4)
+        Me.RadSplitExp.Name = "RadSplitExp"
+        Me.RadSplitExp.Size = New System.Drawing.Size(138, 20)
+        Me.RadSplitExp.TabIndex = 157
+        Me.RadSplitExp.Text = "Change Dock Password"
+        '
+        'MilkReceipt
+        '
+        Me.MilkReceipt.Name = "MilkReceipt"
+        Me.MilkReceipt.Text = "Milk Receipt"
+        '
+        'MilkSample
+        '
+        Me.MilkSample.Name = "MilkSample"
+        Me.MilkSample.Text = "Milk Sample"
         '
         'btnHistory
         '
@@ -9625,6 +9647,14 @@ Partial Class FrmMCCMaster
         'ErrorProvider1
         '
         Me.ErrorProvider1.ContainerControl = Me
+        '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1198, 517)
+        Me.UcCustomFields1.TabIndex = 3
         '
         'FrmMCCMaster
         '
@@ -10097,6 +10127,7 @@ Partial Class FrmMCCMaster
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.SplitPanel3, System.ComponentModel.ISupportInitialize).EndInit
         Me.SplitPanel3.ResumeLayout(False)
+        CType(Me.RadSplitExp, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit
@@ -10568,5 +10599,8 @@ Partial Class FrmMCCMaster
     Friend WithEvents MyLabel41 As common.Controls.MyLabel
     Friend WithEvents MyNumBox1 As common.MyNumBox
     Friend WithEvents RadButton2 As RadButton
+    Friend WithEvents RadSplitExp As RadSplitButton
+    Friend WithEvents MilkReceipt As RadMenuItem
+    Friend WithEvents MilkSample As RadMenuItem
 End Class
 
