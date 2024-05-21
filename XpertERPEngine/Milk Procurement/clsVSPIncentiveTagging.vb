@@ -117,7 +117,7 @@ Public Class clsVSPIncentiveTagging
         Else
             whrCls = " TSPL_VSP_INCENTIVE_Detail.comp_code='" + objCommonVar.CurrentCompanyCode + "'"
         End If
-        str = clsCommon.ShowSelectForm("PPVIT", qry, "Code", whrCls, currCode, "Code", isButtonClicked)
+        str = clsCommon.ShowSelectForm("PPVIT", qry, "Code", whrCls, currCode, "Code", isButtonClicked, "TSPL_VSP_INCENTIVE_Detail.Created_Date")
         Return str
     End Function
 

@@ -731,7 +731,7 @@ Public Class FrmVLCMaster
         If clsCommon.myLen(arrLoc) > 0 Then
             fndvlccode.Value = clsCommon.ShowSelectForm("VLCFND2", qry, "Code", " TSPL_VLC_MASTER_HEAD.mcc in (" + arrLoc + ")", fndvlccode.Value, "Code", isButtonClicked)
         Else
-            fndvlccode.Value = clsCommon.ShowSelectForm("VLCFND2", qry, "Code", " ", fndvlccode.Value, "Code", isButtonClicked)
+            fndvlccode.Value = clsCommon.ShowSelectForm("VLCFND2", qry, "Code", " ", fndvlccode.Value, "Code", isButtonClicked, "TSPL_VLC_MASTER_HEAD.Created_Date")
         End If
 
         If clsCommon.myLen(fndvlccode.Value) > 0 Then

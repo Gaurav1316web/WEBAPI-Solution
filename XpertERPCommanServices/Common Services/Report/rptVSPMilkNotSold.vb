@@ -11,6 +11,7 @@ Public Class rptVSPMilkNotSold
     Dim strQry As String = ""
     Dim isLoad As Boolean = False
     Dim AreaWiseBilling As Boolean = False
+    Dim StrPermission As String
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
@@ -42,6 +43,7 @@ Public Class rptVSPMilkNotSold
             TxtMCCMultifnd.Visible = False
             TxtMCCMultifnd.Location = New System.Drawing.Point(265, 160)
         End If
+        StrPermission = clsERPFuncationality.UserWiseAvailableLocationCode()
         dtpToDate.Value = clsCommon.GETSERVERDATE()
         dtpFromDate.Value = dtpToDate.Value.AddMonths(-1)
         AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
@@ -87,10 +89,10 @@ Public Class rptVSPMilkNotSold
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
             If PickAllMCC = True Then
-                If clsCommon.myLen(TxtMCCMultifnd.arrValueMember) <= 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "Please select Location first..", Me.Text)
-                    Return
-                End If
+                'If clsCommon.myLen(TxtMCCMultifnd.arrValueMember) <= 0 Then
+                '    clsCommon.MyMessageBoxShow(Me, "Please select Location first..", Me.Text)
+                '    Return
+                'End If
             Else
                 If clsCommon.myLen(fndLoc.Value) <= 0 Then
                     clsCommon.MyMessageBoxShow(Me, "Please select Location first..", Me.Text)
@@ -317,7 +319,7 @@ Public Class rptVSPMilkNotSold
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = Gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -484,10 +486,10 @@ Public Class rptVSPMilkNotSold
     Private Sub txtPaymentCycleCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtPaymentCycleCode._MYValidating
         Try
             If PickAllMCC = True Then
-                If clsCommon.myLen(TxtMCCMultifnd.arrValueMember) <= 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "Please select Location first..", Me.Text)
-                    Return
-                End If
+                'If clsCommon.myLen(TxtMCCMultifnd.arrValueMember) <= 0 Then
+                '    clsCommon.MyMessageBoxShow(Me, "Please select Location first..", Me.Text)
+                '    Return
+                'End If
             Else
                 If clsCommon.myLen(fndLoc.Value) <= 0 Then
                     clsCommon.MyMessageBoxShow(Me, "Please select Location first..", Me.Text)
@@ -529,9 +531,11 @@ Public Class rptVSPMilkNotSold
     End Sub
     Private Sub chkDeduction_CheckStateChanged(sender As Object, e As EventArgs) Handles chkDeduction.CheckStateChanged
         Try
+            ' If chkDeduction.Checked Then
             If chkDeduction.Checked Then
+
                 If clsCommon.myLen(txtPaymentCycleCode.Value) > 0 Then
-                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
                         ''Dim qry As String = "Select Code from TSPL_DEDUCTION_MASTER Where TSPL_DEDUCTION_MASTER.Code In('22','31','33','36')"
                         Dim Qry As String = "Select Code from TSPL_DEDUCTION_MASTER Where Code In (Select  TSPL_MULTIPLE_DEDUCTION_DETAIL.DeductionCode from TSPL_MULTIPLE_DEDUCTION_DETAIL
                                         Inner Join TSPL_MULTIPLE_DEDUCTION_HEAD On TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
@@ -543,31 +547,40 @@ Public Class rptVSPMilkNotSold
                         If AreaWiseBilling = True Then
                             Qry += "  and tspl_mcc_master.Area_Location_Code='" + fndArea.Value + "'"
                         Else
-                            Qry += "  and TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Text + "' "
-                        End If
-                        Qry += "  And TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date >=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' And TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date  <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' and 
+                            'If clsCommon.myLen(TxtMCCMultifnd.arrValueMember) > 0 Then
+                            '    Qry += "  and TSPL_VLC_MASTER_HEAD.MCC In (" + clsCommon.GetMulcallString(TxtMCCMultifnd.arrValueMember) + ") "
+                            'Else
+                            '    Qry += "  and TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Text + "' "
+                            'End If
+                            If clsCommon.myLen(StrPermission) > 0 Then
+                                Qry += "  and TSPL_VLC_MASTER_HEAD.MCC In (" & StrPermission & ") "
+                            Else
+                                Qry += "  and TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Text + "' "
+                            End If
+                            Qry += "  And TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date >=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' And TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date  <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' and 
                                           TSPL_VLC_MASTER_HEAD.VSP_Code Not In(Select VSP_Code from TSPL_MILK_SRN_HEAD where Doc_Date >=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' And Doc_Date  <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "')) "
 
-                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
-                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                            Dim arr As New ArrayList
-                            For Each dr As DataRow In dt.Rows
-                                arr.Add(clsCommon.myCstr(dr("Code")))
-                            Next
-                            txtMultiDeduction.arrValueMember = arr
+                            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                Dim arr As New ArrayList
+                                For Each dr As DataRow In dt.Rows
+                                    arr.Add(clsCommon.myCstr(dr("Code")))
+                                Next
+                                txtMultiDeduction.arrValueMember = arr
+                            End If
                         End If
+                        MyLabel3.Visible = True
+                        txtMultiDeduction.Visible = True
+                    Else
+                        clsCommon.MyMessageBoxShow(Me, "Select Payment Cycle", Me.Text)
+                        chkDeduction.Checked = False
+                        MyLabel3.Visible = False
+                        txtMultiDeduction.Visible = False
                     End If
-                    MyLabel3.Visible = True
-                    txtMultiDeduction.Visible = True
                 Else
-                    clsCommon.MyMessageBoxShow(Me, "Select Payment Cycle", Me.Text)
-                    chkDeduction.Checked = False
                     MyLabel3.Visible = False
                     txtMultiDeduction.Visible = False
                 End If
-            Else
-                MyLabel3.Visible = False
-                txtMultiDeduction.Visible = False
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

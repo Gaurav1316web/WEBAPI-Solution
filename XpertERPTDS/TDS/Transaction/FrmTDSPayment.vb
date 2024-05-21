@@ -1086,7 +1086,7 @@ Public Class FrmTDSPayment
         Dim qry As String = " Select TSPL_TDS_PAYMENT_HEADER.Document_No,CONVERT(VARCHAR,TSPL_TDS_PAYMENT_HEADER.Document_Date,103) AS Document_Date,TSPL_TDS_PAYMENT_HEADER.Bank_Code,TSPL_BANK_MASTER.DESCRIPTION as Bank_Name,TSPL_TDS_PAYMENT_HEADER.TDS_Section_Code,TSPL_TDS_SECTION_MASTER.Description as TDS_Section_Name,TSPL_TDS_PAYMENT_HEADER.TDS_Deduction_Code,CONVERT(VARCHAR,TSPL_TDS_PAYMENT_HEADER.From_Date,103) AS From_Date,CONVERT(VARCHAR,TSPL_TDS_PAYMENT_HEADER.To_Date,103) AS To_Date,TSPL_TDS_PAYMENT_HEADER.BSR_Code,TSPL_TDS_PAYMENT_HEADER.Challan_No," & _
         " CONVERT(VARCHAR,TSPL_TDS_PAYMENT_HEADER.Challan_Date,103) AS Challan_Date,TSPL_TDS_PAYMENT_HEADER.Location_Code,TSPL_LOCATION_MASTER.Location_Desc ,case when TSPL_TDS_PAYMENT_HEADER.Posted=0 then 'Pending' else 'Approved' end as Status from TSPL_TDS_PAYMENT_HEADER Left Outer join TSPL_BANK_MASTER on TSPL_TDS_PAYMENT_HEADER.Bank_Code=TSPL_BANK_MASTER.BANK_CODE left outer join TSPL_TDS_SECTION_MASTER on TSPL_TDS_PAYMENT_HEADER.TDS_Section_Code=TSPL_TDS_SECTION_MASTER.TDS_Group " & _
         " Left Outer Join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code =TSPL_TDS_PAYMENT_HEADER.Location_Code"
-        txtDocNo.Value = clsCommon.ShowSelectForm("TDSPayment", qry, "Document_No", "", txtDocNo.Value, "", isButtonClicked)
+        txtDocNo.Value = clsCommon.ShowSelectForm("TDSPayment", qry, "Document_No", "", txtDocNo.Value, "", isButtonClicked, "TSPL_TDS_PAYMENT_HEADER.Document_Date")
         LoadData(txtDocNo.Value, NavigatorType.Current)
         qry = Nothing
     End Sub

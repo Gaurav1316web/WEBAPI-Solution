@@ -323,7 +323,7 @@ Public Class frmMilkGateEntryWeighment
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             whrClas += " and TSPL_MILK_GATE_ENTRY_IN.MCC_CODE in (" + objCommonVar.strCurrUserLocations + ") "
         End If
-        LoadData(clsCommon.ShowSelectForm("MGEWIFin", qry, "Weighment_Code", whrClas, txtCode.Value, "", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("MGEWIFin", qry, "Weighment_Code", whrClas, txtCode.Value, "", isButtonClicked, "TSPL_MILK_GATE_ENTRY_WEIGHTMENT.GW_Weighment_Date"), NavigatorType.Current)
     End Sub
 
     Private Sub txtCode__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtCode._MYNavigator

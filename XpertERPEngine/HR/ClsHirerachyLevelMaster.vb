@@ -13,7 +13,7 @@ Public Class ClsHirerachyLevelMaster
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
         Dim qry As String = "select TSPL_HIRERACHY_LEVEL_MASTER.HIRERACHY_CODE as [Code] ,TSPL_HIRERACHY_LEVEL_MASTER.Description as [Description],TSPL_HIRERACHY_LEVEL_MASTER.Level as [Level] ,TSPL_HIRERACHY_LEVEL_MASTER.Created_By as [Created By] ,CONVERT(VARCHAR,TSPL_HIRERACHY_LEVEL_MASTER.Created_Date,103) as [Created Date] ,TSPL_HIRERACHY_LEVEL_MASTER.Modified_By as [Modified By] ,CONVERT(VARCHAR,TSPL_HIRERACHY_LEVEL_MASTER.Modified_Date,103) as [Modified Date]  From TSPL_HIRERACHY_LEVEL_MASTER  "
-        str = clsCommon.ShowSelectForm("HIRCFND", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
+        str = clsCommon.ShowSelectForm("HIRCFND", qry, "Code", whrcls, curcode, "Code", isButtonClicked, "TSPL_HIRERACHY_LEVEL_MASTER.Created_Date")
         Return str
     End Function
     Public Shared Function GetName(ByVal HCode As String, ByVal trans As SqlTransaction) As String

@@ -34,7 +34,7 @@ Public Class frmBullShedMaster
         If fndCode.MyReadOnly OrElse isButtonClicked Then
             Dim whrClas As String = ""
             Dim qry As String = "select Code,Name,Area from tspl_bull_shed_master"
-            fndCode.Value = clsCommon.ShowSelectForm("RTY", qry, "Code", "", fndCode.Value, "tspl_bull_shed_master.Code asc", isButtonClicked, Nothing)
+            fndCode.Value = clsCommon.ShowSelectForm("RTY", qry, "Code", "", fndCode.Value, "tspl_bull_shed_master.Code asc", isButtonClicked, "tspl_bull_shed_master.Created_Date")
             LoadData(fndCode.Value, NavigatorType.Current)
         End If
     End Sub

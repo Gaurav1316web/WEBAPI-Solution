@@ -1054,7 +1054,7 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO= TSPL_
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
 )xx group by xx.Document_No
 )xxx"
-            LoadData(clsCommon.ShowSelectForm("SMP2FINOC", qry, "Document_No", "", txtDocNo.Value, "Document_No", isButtonClicked, "TSPL_MILK_COLLECTION_DCS.Document_Date"), NavigatorType.Current)
+            LoadData(clsCommon.ShowSelectForm("SMP2FINOC", qry, "Document_No", "", txtDocNo.Value, "Document_No", isButtonClicked), NavigatorType.Current)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

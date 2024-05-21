@@ -111,7 +111,7 @@ Public Class clsContractTankerHead
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
         Dim qry As String = " select TANKER_CODE as Code,TANKER_NO as [Tanker No],NO_OF_CHAMBER as [No Of Chamber]  from TSPL_CONTRACT_TANKER_MASTER  "
-        str = clsCommon.ShowSelectForm("ContracttabkerMST", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
+        str = clsCommon.ShowSelectForm("ContracttabkerMST", qry, "Code", whrcls, curcode, "Code", isButtonClicked, "TSPL_CONTRACT_TANKER_MASTER.Created_Date")
         Return str
     End Function
     Public Shared Function getTankerNo(ByVal strCode As String, Optional ByVal trans As SqlTransaction = Nothing) As String
