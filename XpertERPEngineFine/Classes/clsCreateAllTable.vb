@@ -4088,7 +4088,7 @@ Public Class clsCreateAllTable
             coll = New Dictionary(Of String, String)()
             coll.Add("Container_Qty", "decimal(18,6) Not null Default 1")
             coll.Add("Container_UOM", "varchar(20)")
-            coll.Add("Contained_Qty", "decimal(18,4) Not null Default 1")
+            coll.Add("Contained_Qty", "decimal(18,6) Not null Default 1")
             coll.Add("Contained_UOM", "varchar(20)")
             coll.Add("Created_By", "varchar(12) NOT NULL")
             coll.Add("Created_Date", "Date NOT NULL")
@@ -4099,10 +4099,10 @@ Public Class clsCreateAllTable
             coll.Add("Product_Type", "varchar(10) not null default 'ALL'")
             coll.Add("Structure_Code", "varchar(12) NOT NULL Default ''")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_WEIGHT_CONVERSION", coll)
-            'Try
-            '    clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_WEIGHT_CONVERSION ALTER COLUMN Contained_Qty DECIMAL(18,6)")
-            'Catch ex As Exception
-            'End Try
+            Try
+                clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_WEIGHT_CONVERSION ALTER COLUMN Contained_Qty DECIMAL(18,6)")
+            Catch ex As Exception
+            End Try
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Doc_Type", "varchar(30) NOT NULL")
@@ -4368,7 +4368,7 @@ Public Class clsCreateAllTable
             coll.Add("Criteria", "varchar(20) NULL")
             coll.Add("Criteria_Code", "varchar(20) NOT NULL")
             coll.Add("Comments", "varchar(200) NULL")
-            coll.Add("Created_By", "varchar(12) NOT NULL")
+            coll.Add("Created_By", "TSPL_WEIGHT_CONVERSION(12) NOT NULL")
             coll.Add("Created_Date", "dateTime NOT NULL")
             coll.Add("Modify_By", "varchar(12) NOT NULL")
             coll.Add("Modify_Date", "dateTime NOT NULL")
@@ -14327,6 +14327,10 @@ Public Class clsCreateAllTable
             coll.Add("Transfer_PF", "integer null default 0")
             coll.Add("TransferPF_Text", "Varchar(12) null")
             coll.Add("GPF_No", "Varchar(50) null")
+            coll.Add("Policy_No", "Varchar(50) null")
+            coll.Add("Lic_No", "Varchar(50) null")
+            coll.Add("Membership_id", "Varchar(50) null")
+            coll.Add("Special_desc", "Varchar(50) null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_EMPLOYEE_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -15447,6 +15451,24 @@ Public Class clsCreateAllTable
             coll.Add("Location_Code", "varchar(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_LEAVE_SETTING", coll)
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("CODE", "Varchar(20) Not Null Primary key")
+            coll.Add("EMP_CODE", "VARCHAR(12)  NULL REFERENCES TSPL_EMPLOYEE_MASTER(EMP_CODE)")
+            coll.Add("LIC_POLICY_NO", "VARCHAR(20) NUll")
+            coll.Add("LIC_PREMIUM_AMT", "Decimal(18,2) NULL")
+            coll.Add("BANK_NAME", "VARCHAR(200) NULL")
+            coll.Add("BANK_ACCOUNT_NO", "VARCHAR(200) NULL")
+            coll.Add("BANK_INSTALMENT", "Decimal(18,2) NULL")
+            coll.Add("QUARTER_TYPE", "VARCHAR(200) NULL")
+            coll.Add("QUARTER_ALLOTED_DATE", "DATETIME NULL")
+            coll.Add("QUARTER_LEFT_DATE", "DATETIME NULL")
+            coll.Add("KKK_INSTALMENT", "Decimal(18,2) NULL")
+            coll.Add("KKK_LOAN_TOTAL", "Decimal(18,2) NULL")
+            coll.Add("Created_By", "varchar(12)  Not NULL")
+            coll.Add("Created_Date", "datetime  Not NULL")
+            coll.Add("Modified_By", "varchar(12)  Not NULL")
+            coll.Add("Modified_Date", "datetime  Not NULL")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_EMPLOYEE_DEDUCTION_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("WKHOLIDAY_CODE", "VARCHAR(30) NOT NULL PRIMARY KEY ")

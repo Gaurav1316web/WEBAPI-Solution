@@ -2907,18 +2907,20 @@ Public Class ProgramCodeNew
 
 
         ''=======================================SHEED=============================================
-        InsertDefaultValue(clsUserMgtCode.ModuleSheed, "Sheed", "1.51", clsUserMgtCode.ExpertERP, "M", 23)
+        InsertDefaultValue(clsUserMgtCode.ModuleSheed, "Seed", "1.51", clsUserMgtCode.ExpertERP, "M", 23)
 
         ''---------------------------------------SETUP--------------------------------
         InsertDefaultValue(clsUserMgtCode.SubModuleSheedSetUp, "Setup", "1.51.01", clsUserMgtCode.ModuleSheed, "SM", 24)
-        InsertDefaultValue(clsUserMgtCode.frmSeedGrowerMaster, "Sheed Grower Master", "1.51.01.01", clsUserMgtCode.SubModuleSheedSetUp, 27)
+        InsertDefaultValue(clsUserMgtCode.frmSeedGrowerMaster, "Seed Grower Master", "1.51.01.01", clsUserMgtCode.SubModuleSheedSetUp, 27)
 
         ''--------------------------------------TRANSACTION--------------------------------------------------------
         InsertDefaultValue(clsUserMgtCode.SubModuleSheedTransaction, "Transaction", "1.51.02", clsUserMgtCode.ModuleSheed, "SM", 26)
+        InsertDefaultValue(clsUserMgtCode.frmSeedSelectionEntry, "Seed Selection Entry", "1.51.02.01", clsUserMgtCode.SubModuleSheedTransaction, 8)
 
 
         ''---------------------------------------REPORT---------------------------------------------------------
         InsertDefaultValue(clsUserMgtCode.SubModuleSheedReport, "Report", "1.51.03", clsUserMgtCode.ModuleSheed, "SM", 30)
+
 
         Try
             clsDashBoard.InsertDefaultValueDashBoard(clsDashBoard.BankCashBook, "Bank Cash Book")

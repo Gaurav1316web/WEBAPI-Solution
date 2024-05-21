@@ -2664,17 +2664,18 @@ Public Class clsUserMgtCode
     Public Const SubModuleMilkUnion As String = "RPT_MLK_UNN"
 
 
-    ''==================Sheed Module start here ===============
+    ''==================Seed Module start here ===============
     Public Const ModuleSheed As String = "MSHEED"
     Public Const SubModuleSheedSetUp As String = "SMSHEED"
     Public Const frmSeedGrowerMaster As String = "SEED-GRWR-M"
 
 
-    ''=========== sheed transactions=====
+    ''=========== seed transactions=====
     Public Const SubModuleSheedTransaction As String = "SMSHEED-T"
+    Public Const frmSeedSelectionEntry As String = "SED-SEL-ENT"
 
 
-    ''============sheed MODULE  Report=======================
+    ''============seed MODULE  Report=======================
     Public Const SubModuleSheedReport As String = "SMSHEED-R"
 
 

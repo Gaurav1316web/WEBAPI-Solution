@@ -25,18 +25,13 @@ Partial Class frmEmployeeDeductionMaster
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmEmployeeDeductionMaster))
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.MyLabel7 = New common.Controls.MyLabel()
         Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
         Me.txtKKKLoanTotal = New System.Windows.Forms.TextBox()
         Me.MyLabel9 = New common.Controls.MyLabel()
         Me.txtKKKInstalment = New System.Windows.Forms.TextBox()
         Me.MyLabel10 = New common.Controls.MyLabel()
-        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.TextBox7 = New System.Windows.Forms.TextBox()
-        Me.MyLabel7 = New common.Controls.MyLabel()
-        Me.TextBox8 = New System.Windows.Forms.TextBox()
-        Me.MyLabel8 = New common.Controls.MyLabel()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.txtQuarterLeftDate = New common.Controls.MyDateTimePicker()
         Me.txtQuarterAllotedDate = New common.Controls.MyDateTimePicker()
@@ -59,24 +54,23 @@ Partial Class frmEmployeeDeductionMaster
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.lblEmpName = New common.Controls.MyLabel()
         Me.txtEmpCode = New common.UserControls.txtFinder()
-        Me.lblempcode = New common.Controls.MyLabel()
         Me.lblCode = New common.Controls.MyLabel()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
-        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox5.SuspendLayout()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox4.SuspendLayout()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         CType(Me.txtQuarterLeftDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -95,20 +89,13 @@ Partial Class frmEmployeeDeductionMaster
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblEmpName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblempcode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
-        '
-        'RadMenu1
-        '
-        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
-        Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(996, 20)
-        Me.RadMenu1.TabIndex = 0
         '
         'SplitContainer1
         '
@@ -119,8 +106,8 @@ Partial Class frmEmployeeDeductionMaster
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel7)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox5)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox4)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox3)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox2)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox1)
@@ -128,7 +115,6 @@ Partial Class frmEmployeeDeductionMaster
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblEmpName)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtEmpCode)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblCode)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.lblempcode)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtCode)
         '
         'SplitContainer1.Panel2
@@ -140,6 +126,16 @@ Partial Class frmEmployeeDeductionMaster
         Me.SplitContainer1.SplitterDistance = 393
         Me.SplitContainer1.TabIndex = 1
         '
+        'MyLabel7
+        '
+        Me.MyLabel7.FieldName = Nothing
+        Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel7.Location = New System.Drawing.Point(13, 34)
+        Me.MyLabel7.Name = "MyLabel7"
+        Me.MyLabel7.Size = New System.Drawing.Size(87, 16)
+        Me.MyLabel7.TabIndex = 220
+        Me.MyLabel7.Text = "Employee Code"
+        '
         'RadGroupBox5
         '
         Me.RadGroupBox5.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
@@ -148,7 +144,7 @@ Partial Class frmEmployeeDeductionMaster
         Me.RadGroupBox5.Controls.Add(Me.txtKKKInstalment)
         Me.RadGroupBox5.Controls.Add(Me.MyLabel10)
         Me.RadGroupBox5.HeaderText = "Karmchari Kalyan Kosh"
-        Me.RadGroupBox5.Location = New System.Drawing.Point(12, 251)
+        Me.RadGroupBox5.Location = New System.Drawing.Point(12, 204)
         Me.RadGroupBox5.Name = "RadGroupBox5"
         Me.RadGroupBox5.Size = New System.Drawing.Size(960, 46)
         Me.RadGroupBox5.TabIndex = 219
@@ -189,54 +185,6 @@ Partial Class frmEmployeeDeductionMaster
         Me.MyLabel10.Size = New System.Drawing.Size(58, 16)
         Me.MyLabel10.TabIndex = 213
         Me.MyLabel10.Text = "Instalment"
-        '
-        'RadGroupBox4
-        '
-        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox4.Controls.Add(Me.TextBox7)
-        Me.RadGroupBox4.Controls.Add(Me.MyLabel7)
-        Me.RadGroupBox4.Controls.Add(Me.TextBox8)
-        Me.RadGroupBox4.Controls.Add(Me.MyLabel8)
-        Me.RadGroupBox4.HeaderText = "Light and Water"
-        Me.RadGroupBox4.Location = New System.Drawing.Point(13, 203)
-        Me.RadGroupBox4.Name = "RadGroupBox4"
-        Me.RadGroupBox4.Size = New System.Drawing.Size(960, 46)
-        Me.RadGroupBox4.TabIndex = 218
-        Me.RadGroupBox4.Text = "Light and Water"
-        '
-        'TextBox7
-        '
-        Me.TextBox7.Location = New System.Drawing.Point(406, 17)
-        Me.TextBox7.Name = "TextBox7"
-        Me.TextBox7.Size = New System.Drawing.Size(225, 20)
-        Me.TextBox7.TabIndex = 216
-        '
-        'MyLabel7
-        '
-        Me.MyLabel7.FieldName = Nothing
-        Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel7.Location = New System.Drawing.Point(321, 20)
-        Me.MyLabel7.Name = "MyLabel7"
-        Me.MyLabel7.Size = New System.Drawing.Size(78, 16)
-        Me.MyLabel7.TabIndex = 215
-        Me.MyLabel7.Text = "Premium Amt."
-        '
-        'TextBox8
-        '
-        Me.TextBox8.Location = New System.Drawing.Point(90, 17)
-        Me.TextBox8.Name = "TextBox8"
-        Me.TextBox8.Size = New System.Drawing.Size(225, 20)
-        Me.TextBox8.TabIndex = 214
-        '
-        'MyLabel8
-        '
-        Me.MyLabel8.FieldName = Nothing
-        Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel8.Location = New System.Drawing.Point(5, 20)
-        Me.MyLabel8.Name = "MyLabel8"
-        Me.MyLabel8.Size = New System.Drawing.Size(57, 16)
-        Me.MyLabel8.TabIndex = 213
-        Me.MyLabel8.Text = "Policy No."
         '
         'RadGroupBox3
         '
@@ -474,7 +422,7 @@ Partial Class frmEmployeeDeductionMaster
         Me.btnNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnNew.Location = New System.Drawing.Point(330, 10)
         Me.btnNew.Name = "btnNew"
-        Me.btnNew.Size = New System.Drawing.Size(16, 20)
+        Me.btnNew.Size = New System.Drawing.Size(17, 20)
         Me.btnNew.TabIndex = 214
         Me.btnNew.Text = " "
         '
@@ -502,7 +450,7 @@ Partial Class frmEmployeeDeductionMaster
         Me.txtEmpCode.Location = New System.Drawing.Point(103, 34)
         Me.txtEmpCode.MendatroryField = True
         Me.txtEmpCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtEmpCode.MyLinkLable1 = Me.lblempcode
+        Me.txtEmpCode.MyLinkLable1 = Nothing
         Me.txtEmpCode.MyLinkLable2 = Nothing
         Me.txtEmpCode.MyReadOnly = False
         Me.txtEmpCode.MyShowMasterFormButton = False
@@ -513,16 +461,6 @@ Partial Class frmEmployeeDeductionMaster
         Me.txtEmpCode.Size = New System.Drawing.Size(225, 19)
         Me.txtEmpCode.TabIndex = 210
         Me.txtEmpCode.Value = ""
-        '
-        'lblempcode
-        '
-        Me.lblempcode.FieldName = Nothing
-        Me.lblempcode.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.lblempcode.Location = New System.Drawing.Point(11, 37)
-        Me.lblempcode.Name = "lblempcode"
-        Me.lblempcode.Size = New System.Drawing.Size(87, 16)
-        Me.lblempcode.TabIndex = 211
-        Me.lblempcode.Text = "Employee Code"
         '
         'lblCode
         '
@@ -554,7 +492,7 @@ Partial Class frmEmployeeDeductionMaster
         '
         Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnclose.Location = New System.Drawing.Point(916, 8)
+        Me.btnclose.Location = New System.Drawing.Point(916, 6)
         Me.btnclose.Name = "btnclose"
         Me.btnclose.Size = New System.Drawing.Size(68, 18)
         Me.btnclose.TabIndex = 4
@@ -564,7 +502,7 @@ Partial Class frmEmployeeDeductionMaster
         '
         Me.btnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnsave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnsave.Location = New System.Drawing.Point(11, 8)
+        Me.btnsave.Location = New System.Drawing.Point(11, 6)
         Me.btnsave.Name = "btnsave"
         Me.btnsave.Size = New System.Drawing.Size(68, 18)
         Me.btnsave.TabIndex = 215
@@ -574,11 +512,35 @@ Partial Class frmEmployeeDeductionMaster
         '
         Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btndelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btndelete.Location = New System.Drawing.Point(81, 8)
+        Me.btndelete.Location = New System.Drawing.Point(81, 6)
         Me.btndelete.Name = "btndelete"
         Me.btndelete.Size = New System.Drawing.Size(68, 18)
         Me.btndelete.TabIndex = 217
         Me.btndelete.Text = "Delete"
+        '
+        'RadMenu1
+        '
+        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
+        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
+        Me.RadMenu1.Name = "RadMenu1"
+        Me.RadMenu1.Size = New System.Drawing.Size(996, 20)
+        Me.RadMenu1.TabIndex = 0
+        '
+        'RadMenuItem1
+        '
+        Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnImport, Me.btnExport})
+        Me.RadMenuItem1.Name = "RadMenuItem1"
+        Me.RadMenuItem1.Text = "File"
+        '
+        'btnImport
+        '
+        Me.btnImport.Name = "btnImport"
+        Me.btnImport.Text = "Import"
+        '
+        'btnExport
+        '
+        Me.btnExport.Name = "btnExport"
+        Me.btnExport.Text = "Export"
         '
         'frmEmployeeDeductionMaster
         '
@@ -593,21 +555,16 @@ Partial Class frmEmployeeDeductionMaster
         '
         Me.RootElement.ApplyShapeToControl = True
         Me.Text = "frmEmployeeDeductionMaster"
-        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox5.ResumeLayout(False)
         Me.RadGroupBox5.PerformLayout()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox4.ResumeLayout(False)
-        Me.RadGroupBox4.PerformLayout()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
         Me.RadGroupBox3.PerformLayout()
@@ -629,23 +586,20 @@ Partial Class frmEmployeeDeductionMaster
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblEmpName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblempcode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
-
-    Friend WithEvents RadMenu1 As Telerik.WinControls.UI.RadMenu
     Friend WithEvents SplitContainer1 As SplitContainer
     Friend WithEvents btnNew As Telerik.WinControls.UI.RadButton
     Friend WithEvents lblEmpName As Controls.MyLabel
     Friend WithEvents txtEmpCode As UserControls.txtFinder
-    Friend WithEvents lblempcode As Controls.MyLabel
     Friend WithEvents lblCode As Controls.MyLabel
     Friend WithEvents txtCode As UserControls.txtNavigator
     Friend WithEvents btnsave As Telerik.WinControls.UI.RadButton
@@ -661,11 +615,6 @@ Partial Class frmEmployeeDeductionMaster
     Friend WithEvents MyLabel9 As Controls.MyLabel
     Friend WithEvents txtKKKInstalment As TextBox
     Friend WithEvents MyLabel10 As Controls.MyLabel
-    Friend WithEvents RadGroupBox4 As Telerik.WinControls.UI.RadGroupBox
-    Friend WithEvents TextBox7 As TextBox
-    Friend WithEvents MyLabel7 As Controls.MyLabel
-    Friend WithEvents TextBox8 As TextBox
-    Friend WithEvents MyLabel8 As Controls.MyLabel
     Friend WithEvents RadGroupBox3 As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents MyLabel5 As Controls.MyLabel
     Friend WithEvents txtQuarterType As TextBox
@@ -680,4 +629,9 @@ Partial Class frmEmployeeDeductionMaster
     Friend WithEvents MyLabel12 As Controls.MyLabel
     Friend WithEvents txtQuarterLeftDate As Controls.MyDateTimePicker
     Friend WithEvents txtQuarterAllotedDate As Controls.MyDateTimePicker
+    Friend WithEvents RadMenu1 As Telerik.WinControls.UI.RadMenu
+    Friend WithEvents RadMenuItem1 As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents btnImport As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents btnExport As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents MyLabel7 As Controls.MyLabel
 End Class
