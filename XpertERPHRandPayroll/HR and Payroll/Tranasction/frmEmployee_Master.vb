@@ -21,6 +21,7 @@ Public Class frmEmployee_Master
 
 #Region "Variable"
     Dim EmployeeRetirementAge As Double = 0
+    Dim EmployeePFRetirementAge As Double = 0
     Private isNewEntry As Boolean = False
     Private isInsideLoadData As Boolean = False
     Private isCellValueChanged As Boolean = False
@@ -151,6 +152,7 @@ Public Class frmEmployee_Master
         CreateEmpCodeAsPerEmployeeBasisType = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.CreateEmpCodeAsPerEmployeeBasisType, clsFixedParameterCode.CreateEmpCodeAsPerEmployeeBasisType, Nothing)) = "1", True, False)
         AadharNoMandatoryOnEmpMaster = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AadharNoMandatoryOnEmpMaster, clsFixedParameterCode.AadharNoMandatoryOnEmpMaster, Nothing)) = "1", True, False)
         EmployeeRetirementAge = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EmployeeRetirementAge, clsFixedParameterCode.EmployeeRetirementAge, Nothing))
+        EmployeePFRetirementAge = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EmployeePFRetirementAge, clsFixedParameterCode.EmployeePFRetirementAge, Nothing))
         ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update ")
         ButtonToolTip.SetToolTip(btndelete, "Press Alt+D  for Delete ")
         ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
@@ -773,7 +775,7 @@ Public Class frmEmployee_Master
 
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         BlankAllControl()
-        clsEmployeeMaster.UpdateEMPStatusData(strCode, EmployeeRetirementAge, NavTyep)
+        clsEmployeeMaster.UpdateEMPStatusData(strCode, EmployeeRetirementAge, EmployeePFRetirementAge, NavTyep)
         Dim obj As New clsEmployeeMaster()
         obj = clsEmployeeMaster.GetData(strCode, NavTyep)
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.EMP_CODE) > 0) Then

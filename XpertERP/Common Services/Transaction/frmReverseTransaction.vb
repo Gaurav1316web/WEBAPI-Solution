@@ -1641,7 +1641,7 @@ Public Class frmReverseTransaction
             End If
         End If
         Try
-            fndreversecode.Value = clsCommon.ShowSelectForm("Code", Qry, "Code", strWhrclas, fndreversecode.Value, "Code", isButtonClicked)
+            fndreversecode.Value = clsCommon.ShowSelectForm("Code", Qry, "Code", strWhrclas, fndreversecode.Value, "Code", isButtonClicked, "TSPL_BANK_REVERSE.reversal_date")
             If clsCommon.myLen(fndreversecode.Value) > 0 Then
                 funFill4()
             Else

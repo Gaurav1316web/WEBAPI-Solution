@@ -23,6 +23,7 @@ Partial Class FrmCSADeliveryOrder
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmCSADeliveryOrder))
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -165,7 +166,6 @@ Partial Class FrmCSADeliveryOrder
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(912, 429)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -259,6 +259,7 @@ Partial Class FrmCSADeliveryOrder
         Me.cmbTax.AutoCompleteDisplayMember = Nothing
         Me.cmbTax.AutoCompleteValueMember = Nothing
         Me.cmbTax.CalculationExpression = Nothing
+        Me.cmbTax.DropDownAnimationEnabled = True
         Me.cmbTax.FieldCode = Nothing
         Me.cmbTax.FieldDesc = Nothing
         Me.cmbTax.FieldMaxLength = 0
@@ -284,6 +285,7 @@ Partial Class FrmCSADeliveryOrder
         Me.cmbCSAType.AutoCompleteDisplayMember = Nothing
         Me.cmbCSAType.AutoCompleteValueMember = Nothing
         Me.cmbCSAType.CalculationExpression = Nothing
+        Me.cmbCSAType.DropDownAnimationEnabled = True
         Me.cmbCSAType.FieldCode = Nothing
         Me.cmbCSAType.FieldDesc = Nothing
         Me.cmbCSAType.FieldMaxLength = 0
@@ -349,7 +351,6 @@ Partial Class FrmCSADeliveryOrder
         Me.txtRt_UOM.Name = "txtRt_UOM"
         Me.txtRt_UOM.Size = New System.Drawing.Size(68, 19)
         Me.txtRt_UOM.TabIndex = 1394
-        Me.txtRt_UOM.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel4
         '
@@ -371,7 +372,6 @@ Partial Class FrmCSADeliveryOrder
         Me.txttotal_amt.Name = "txttotal_amt"
         Me.txttotal_amt.Size = New System.Drawing.Size(143, 19)
         Me.txttotal_amt.TabIndex = 1390
-        Me.txttotal_amt.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel1
         '
@@ -456,7 +456,7 @@ Partial Class FrmCSADeliveryOrder
         Me.txtrate.TabIndex = 3
         Me.txtrate.Text = "0"
         Me.txtrate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtrate.Value = 0.0R
+        Me.txtrate.Value = 0R
         '
         'MyLabel8
         '
@@ -477,7 +477,6 @@ Partial Class FrmCSADeliveryOrder
         Me.txtstate_name.Name = "txtstate_name"
         Me.txtstate_name.Size = New System.Drawing.Size(43, 19)
         Me.txtstate_name.TabIndex = 1381
-        Me.txtstate_name.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtstate_name.Visible = False
         '
         'txtstate_code
@@ -527,7 +526,6 @@ Partial Class FrmCSADeliveryOrder
         Me.txttoloc_name.Name = "txttoloc_name"
         Me.txttoloc_name.Size = New System.Drawing.Size(43, 19)
         Me.txttoloc_name.TabIndex = 1378
-        Me.txttoloc_name.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txttoloc_name.Visible = False
         '
         'txttoloc_code
@@ -566,7 +564,6 @@ Partial Class FrmCSADeliveryOrder
         Me.txtfrmloc_name.Name = "txtfrmloc_name"
         Me.txtfrmloc_name.Size = New System.Drawing.Size(407, 19)
         Me.txtfrmloc_name.TabIndex = 1375
-        Me.txtfrmloc_name.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtfrmloc_code
         '
@@ -613,7 +610,6 @@ Partial Class FrmCSADeliveryOrder
         Me.txtcustName.Name = "txtcustName"
         Me.txtcustName.Size = New System.Drawing.Size(407, 19)
         Me.txtcustName.TabIndex = 1372
-        Me.txtcustName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtcustcode
         '
@@ -713,20 +709,22 @@ Partial Class FrmCSADeliveryOrder
         Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv.Location = New System.Drawing.Point(1, 1)
         '
-        'gv
+        '
         '
         Me.gv.MasterTemplate.AllowAddNewRow = False
         Me.gv.MasterTemplate.AllowDeleteRow = False
         Me.gv.MasterTemplate.AllowDragToGroup = False
         Me.gv.MasterTemplate.EnableFiltering = True
         Me.gv.MasterTemplate.EnableGrouping = False
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowGroupPanel = False
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(887, 155)
         Me.gv.TabIndex = 0
-        Me.gv.Text = "RadGridView1"
         '
         'UcItemBalance1
         '
@@ -734,7 +732,7 @@ Partial Class FrmCSADeliveryOrder
         Me.UcItemBalance1.CommitedQtyLbl = False
         Me.UcItemBalance1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcItemBalance1.ItemCode = ""
-        Me.UcItemBalance1.ItemMRP = 0.0R
+        Me.UcItemBalance1.ItemMRP = 0R
         Me.UcItemBalance1.ItemName = ""
         Me.UcItemBalance1.Location = New System.Drawing.Point(1, 1)
         Me.UcItemBalance1.LocationCode = ""
@@ -775,7 +773,6 @@ Partial Class FrmCSADeliveryOrder
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(912, 20)
         Me.RadMenu1.TabIndex = 1391
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'rdmenufile
         '
@@ -788,22 +785,16 @@ Partial Class FrmCSADeliveryOrder
         '
         'btnsavelayout
         '
-        Me.btnsavelayout.AccessibleDescription = "Save Layout"
-        Me.btnsavelayout.AccessibleName = "Save Layout"
         Me.btnsavelayout.Name = "btnsavelayout"
         Me.btnsavelayout.Text = "Save Layout"
         '
         'btndeletelayout
         '
-        Me.btndeletelayout.AccessibleDescription = "Delete Layout"
-        Me.btndeletelayout.AccessibleName = "Delete Layout"
         Me.btndeletelayout.Name = "btndeletelayout"
         Me.btndeletelayout.Text = "Delete Layout"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Email And SMS Setting"
-        Me.RadMenuItem1.AccessibleName = "Email And SMS Setting"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Email And SMS Setting"
         '
@@ -840,15 +831,11 @@ Partial Class FrmCSADeliveryOrder
         '
         'btnSend
         '
-        Me.btnSend.AccessibleDescription = "Send Email/SMS"
-        Me.btnSend.AccessibleName = "Send Email/SMS"
         Me.btnSend.Name = "btnSend"
         Me.btnSend.Text = "Send Email/SMS"
         '
         'btnSend_Approval
         '
-        Me.btnSend_Approval.AccessibleDescription = "Send For Approval"
-        Me.btnSend_Approval.AccessibleName = "Send For Approval"
         Me.btnSend_Approval.Name = "btnSend_Approval"
         Me.btnSend_Approval.Text = "Send For Approval"
         '

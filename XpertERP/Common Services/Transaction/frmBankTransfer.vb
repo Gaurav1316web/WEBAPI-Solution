@@ -1530,7 +1530,7 @@ Public Class FrmBankTransfer
                 strWhrclas += " AND TSPL_BANK_TRANSFER.From_Bank_Code in ( " + Bank_Code + " )"
             End If
         End If
-        Fnd_Transfernumber.Value = clsCommon.ShowSelectForm("BankTranNo", qry, "Code", strWhrclas, Fnd_Transfernumber.Value, "Code", isButtonClicked)
+        Fnd_Transfernumber.Value = clsCommon.ShowSelectForm("BankTranNo", qry, "Code", strWhrclas, Fnd_Transfernumber.Value, "Code", isButtonClicked, "TSPL_BANK_TRANSFER.Transfer_Date")
         txt_description.Text = clsDBFuncationality.getSingleValue("select Description from TSPL_BANK_TRANSFER where Transfer_No='" & Fnd_Transfernumber.Value & "'")
         'dr = connectSql.RunSqlReturnDR("select Transfer_No from TSPL_BANK_TRANSFER where Transfer_No = '" + Fnd_Transfernumber.Value.Trim() + "'")
         Dim s As String = ""

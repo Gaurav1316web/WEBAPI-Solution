@@ -4682,7 +4682,7 @@ Public Class frmCSATransfer
             whrClas = " TSPL_CSA_TRANSFER_HEAD.Cust_Code in (" + strwherecls + ")"
         End If
         '-----------------------------------------------------
-        LoadData(clsCommon.ShowSelectForm("TrnsferCSAFndd", qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("TrnsferCSAFndd", qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked, "TSPL_CSA_TRANSFER_HEAD.Transfer_Date"), NavigatorType.Current)
         'btnReverse.Enabled = False
     End Sub
 

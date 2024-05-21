@@ -40,7 +40,7 @@ Public Class clsProcessProductionPlanning
             " left outer join TSPL_PROFIT_CENTER_MASTER on TSPL_PROFIT_CENTER_MASTER.Code =TSPL_PP_PRODUCTION_PLAN_HEAD.ProfitCenterCode " & _
             " left outer join TSPL_CostCenter_MASTER on TSPL_CostCenter_MASTER.Cost_Code =TSPL_PP_PRODUCTION_PLAN_HEAD.CostCenterCode"
 
-        str = clsCommon.ShowSelectForm("PLNFND", qry, "Code", whrCls, currCode, "Code", isButtonClicked)
+        str = clsCommon.ShowSelectForm("PLNFND", qry, "Code", whrCls, currCode, "Code", isButtonClicked, "TSPL_PP_PRODUCTION_PLAN_HEAD.plan_date")
 
         Return str
     End Function

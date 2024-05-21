@@ -2220,7 +2220,7 @@ Public Class frmRGP
             whrClas = " Location in (" + objCommonVar.strCurrUserLocations + ")"
         End If
 
-        LoadData(clsCommon.ShowSelectForm("RGPFNDR", qry, "Code", whrClas, txtDocNo.Value, "RGP_Date desc", isButtonClicked), NavigatorType.Current, False)
+        LoadData(clsCommon.ShowSelectForm("RGPFNDR", qry, "Code", whrClas, txtDocNo.Value, "RGP_Date desc", isButtonClicked, "TSPL_RGP_HEAD.RGP_Date"), NavigatorType.Current, False)
     End Sub
 
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown

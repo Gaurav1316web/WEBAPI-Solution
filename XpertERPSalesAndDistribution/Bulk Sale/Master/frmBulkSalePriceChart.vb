@@ -439,7 +439,7 @@ Public Class FrmBulkSalePriceChart
 
     Private Sub fndcode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndcode._MYValidating
         Dim qry As String = "select TSPL_BulkSalePrice_MASTER.Price_Code as Code,Convert(varchar,TSPL_BulkSalePrice_MASTER.Price_Date,103) as Date,TSPL_BulkSalePrice_MASTER.Location_Code as [Location Code],TSPL_LOCATION_MASTER.Location_Desc as [Location Name],TSPL_BulkSalePrice_MASTER.Fat_Weightage as [Fat Weightage],TSPL_BulkSalePrice_MASTER.Snf_Weightage as [SNF Weightage],TSPL_BulkSalePrice_MASTER.Fat_Ratio as [Fat Ratio],TSPL_BulkSalePrice_MASTER.Snf_Ratio as [SNF Ratio],TSPL_BulkSalePrice_MASTER.FatRate as [Fat Rate],TSPL_BulkSalePrice_MASTER.SNFRate as [SNF Rate],TSPL_BulkSalePrice_MASTER.Standard_Rate as [Standard Rate],TSPL_BulkSalePrice_MASTER.TolerancePerPlus as [Tolerance % (+)],TSPL_BulkSalePrice_MASTER.TolerancePerMinus as [Tolerance % (-)],case isnull(TSPL_BulkSalePrice_MASTER.Posted,0) when '0' Then 'Pending' When '1' then 'Approved' else '' end as 'Status' from  TSPL_BulkSalePrice_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_BulkSalePrice_MASTER .Location_Code "
-        fndcode.Value = clsCommon.ShowSelectForm("BulkSalePriceChart", qry, "Code", "", fndcode.Value, "", isButtonClicked)
+        fndcode.Value = clsCommon.ShowSelectForm("BulkSalePriceChart", qry, "Code", "", fndcode.Value, "", isButtonClicked, "TSPL_BulkSalePrice_MASTER.Price_Date")
         LoadData(fndcode.Value, NavigatorType.Current)
         qry = Nothing
     End Sub

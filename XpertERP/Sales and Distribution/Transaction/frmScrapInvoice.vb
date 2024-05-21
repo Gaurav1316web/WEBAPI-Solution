@@ -3148,7 +3148,7 @@ Public Class frmScrapInvoice
 
     Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDocNo._MYValidating
         Dim qry As String = "select invoice_No as Code,shipment_No as Shipment,shipment_Date as Date,cust_Code as [Customer Code], cust_Name as Customer,ship_Total_Amt as Amount,case when ispost='0' then 'Pending' else 'Approved' end as [Status] from TSPL_SCRAPINVOICE_HEAD"
-        LoadData(clsCommon.ShowSelectForm("InvCeCodFltrFND", qry, "Code", "", txtDocNo.Value, "Code", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("InvCeCodFltrFND", qry, "Code", "", txtDocNo.Value, "Code", isButtonClicked, "TSPL_SCRAPINVOICE_HEAD.shipment_Date"), NavigatorType.Current)
     End Sub
 
     Private Sub txtTermCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtTermCode._MYValidating

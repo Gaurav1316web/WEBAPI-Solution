@@ -1101,7 +1101,7 @@ Partial Class frmMilkReceiptMCC
         Me.lblVSPCode.Font = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.lblVSPCode.Location = New System.Drawing.Point(435, 73)
         Me.lblVSPCode.Name = "lblVSPCode"
-        Me.lblVSPCode.Size = New System.Drawing.Size(55, 18)
+        Me.lblVSPCode.Size = New System.Drawing.Size(82, 18)
         Me.lblVSPCode.TabIndex = 26
         Me.lblVSPCode.Text = "Secretary Code"
         '
@@ -1121,7 +1121,7 @@ Partial Class frmMilkReceiptMCC
         Me.lblVLCCode.Font = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.lblVLCCode.Location = New System.Drawing.Point(9, 73)
         Me.lblVLCCode.Name = "lblVLCCode"
-        Me.lblVLCCode.Size = New System.Drawing.Size(55, 18)
+        Me.lblVLCCode.Size = New System.Drawing.Size(56, 18)
         Me.lblVLCCode.TabIndex = 23
         Me.lblVLCCode.Text = "DCS Code"
         '
@@ -1346,6 +1346,7 @@ Partial Class frmMilkReceiptMCC
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False

@@ -32,15 +32,17 @@ Partial Class rptNewSalesReport
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkExcludeGhee = New Telerik.WinControls.UI.RadCheckBox()
+        Me.txtCustomer = New common.UserControls.txtFinder()
+        Me.lblLocation = New common.Controls.MyLabel()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnPartyWise = New common.Controls.MyRadioButton()
         Me.rbtnRouteWise = New common.Controls.MyRadioButton()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnDemand = New common.Controls.MyRadioButton()
         Me.rbtnDispatch = New common.Controls.MyRadioButton()
-        Me.lblCustomer = New common.Controls.MyLabel()
         Me.txtRoute = New common.UserControls.txtMultiSelectFinder()
-        Me.lblLocation = New common.Controls.MyLabel()
+        Me.lblCustomer = New common.Controls.MyLabel()
         Me.txtToDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.txtFromDate = New common.Controls.MyDateTimePicker()
@@ -53,8 +55,6 @@ Partial Class rptNewSalesReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.txtCustomer = New common.UserControls.txtFinder()
-        Me.chkExcludeGhee = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -66,6 +66,8 @@ Partial Class rptNewSalesReport
         Me.RadPanel1.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.chkExcludeGhee, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         CType(Me.rbtnPartyWise, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -75,7 +77,6 @@ Partial Class rptNewSalesReport
         CType(Me.rbtnDemand, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnDispatch, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -87,7 +88,6 @@ Partial Class rptNewSalesReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkExcludeGhee, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -185,8 +185,53 @@ Partial Class rptNewSalesReport
         Me.RadGroupBox1.HeaderText = ""
         Me.RadGroupBox1.Location = New System.Drawing.Point(6, 13)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(653, 263)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(653, 180)
         Me.RadGroupBox1.TabIndex = 389
+        '
+        'chkExcludeGhee
+        '
+        Me.chkExcludeGhee.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkExcludeGhee.Location = New System.Drawing.Point(538, 22)
+        Me.chkExcludeGhee.Name = "chkExcludeGhee"
+        Me.chkExcludeGhee.Size = New System.Drawing.Size(91, 16)
+        Me.chkExcludeGhee.TabIndex = 1485
+        Me.chkExcludeGhee.Text = "Exclude Ghee"
+        '
+        'txtCustomer
+        '
+        Me.txtCustomer.CalculationExpression = Nothing
+        Me.txtCustomer.FieldCode = Nothing
+        Me.txtCustomer.FieldDesc = Nothing
+        Me.txtCustomer.FieldMaxLength = 0
+        Me.txtCustomer.FieldName = Nothing
+        Me.txtCustomer.isCalculatedField = False
+        Me.txtCustomer.IsSourceFromTable = False
+        Me.txtCustomer.IsSourceFromValueList = False
+        Me.txtCustomer.IsUnique = False
+        Me.txtCustomer.Location = New System.Drawing.Point(82, 69)
+        Me.txtCustomer.MendatroryField = True
+        Me.txtCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCustomer.MyLinkLable1 = Me.lblLocation
+        Me.txtCustomer.MyLinkLable2 = Nothing
+        Me.txtCustomer.MyReadOnly = False
+        Me.txtCustomer.MyShowMasterFormButton = False
+        Me.txtCustomer.Name = "txtCustomer"
+        Me.txtCustomer.ReferenceFieldDesc = Nothing
+        Me.txtCustomer.ReferenceFieldName = Nothing
+        Me.txtCustomer.ReferenceTableName = Nothing
+        Me.txtCustomer.Size = New System.Drawing.Size(226, 19)
+        Me.txtCustomer.TabIndex = 444
+        Me.txtCustomer.Value = ""
+        '
+        'lblLocation
+        '
+        Me.lblLocation.FieldName = Nothing
+        Me.lblLocation.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLocation.Location = New System.Drawing.Point(5, 41)
+        Me.lblLocation.Name = "lblLocation"
+        Me.lblLocation.Size = New System.Drawing.Size(36, 18)
+        Me.lblLocation.TabIndex = 388
+        Me.lblLocation.Text = "Route"
         '
         'RadGroupBox3
         '
@@ -257,16 +302,6 @@ Partial Class rptNewSalesReport
         Me.rbtnDispatch.TabStop = False
         Me.rbtnDispatch.Text = "Dispatch"
         '
-        'lblCustomer
-        '
-        Me.lblCustomer.FieldName = Nothing
-        Me.lblCustomer.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCustomer.Location = New System.Drawing.Point(5, 70)
-        Me.lblCustomer.Name = "lblCustomer"
-        Me.lblCustomer.Size = New System.Drawing.Size(60, 18)
-        Me.lblCustomer.TabIndex = 356
-        Me.lblCustomer.Text = "Distributor"
-        '
         'txtRoute
         '
         Me.txtRoute.arrDispalyMember = Nothing
@@ -280,15 +315,15 @@ Partial Class rptNewSalesReport
         Me.txtRoute.Size = New System.Drawing.Size(226, 19)
         Me.txtRoute.TabIndex = 387
         '
-        'lblLocation
+        'lblCustomer
         '
-        Me.lblLocation.FieldName = Nothing
-        Me.lblLocation.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLocation.Location = New System.Drawing.Point(5, 41)
-        Me.lblLocation.Name = "lblLocation"
-        Me.lblLocation.Size = New System.Drawing.Size(36, 18)
-        Me.lblLocation.TabIndex = 388
-        Me.lblLocation.Text = "Route"
+        Me.lblCustomer.FieldName = Nothing
+        Me.lblCustomer.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCustomer.Location = New System.Drawing.Point(5, 70)
+        Me.lblCustomer.Name = "lblCustomer"
+        Me.lblCustomer.Size = New System.Drawing.Size(60, 18)
+        Me.lblCustomer.TabIndex = 356
+        Me.lblCustomer.Text = "Distributor"
         '
         'txtToDate
         '
@@ -449,41 +484,6 @@ Partial Class rptNewSalesReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'txtCustomer
-        '
-        Me.txtCustomer.CalculationExpression = Nothing
-        Me.txtCustomer.FieldCode = Nothing
-        Me.txtCustomer.FieldDesc = Nothing
-        Me.txtCustomer.FieldMaxLength = 0
-        Me.txtCustomer.FieldName = Nothing
-        Me.txtCustomer.isCalculatedField = False
-        Me.txtCustomer.IsSourceFromTable = False
-        Me.txtCustomer.IsSourceFromValueList = False
-        Me.txtCustomer.IsUnique = False
-        Me.txtCustomer.Location = New System.Drawing.Point(82, 69)
-        Me.txtCustomer.MendatroryField = True
-        Me.txtCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCustomer.MyLinkLable1 = Me.lblLocation
-        Me.txtCustomer.MyLinkLable2 = Nothing
-        Me.txtCustomer.MyReadOnly = False
-        Me.txtCustomer.MyShowMasterFormButton = False
-        Me.txtCustomer.Name = "txtCustomer"
-        Me.txtCustomer.ReferenceFieldDesc = Nothing
-        Me.txtCustomer.ReferenceFieldName = Nothing
-        Me.txtCustomer.ReferenceTableName = Nothing
-        Me.txtCustomer.Size = New System.Drawing.Size(226, 19)
-        Me.txtCustomer.TabIndex = 444
-        Me.txtCustomer.Value = ""
-        '
-        'chkExcludeGhee
-        '
-        Me.chkExcludeGhee.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkExcludeGhee.Location = New System.Drawing.Point(538, 22)
-        Me.chkExcludeGhee.Name = "chkExcludeGhee"
-        Me.chkExcludeGhee.Size = New System.Drawing.Size(91, 16)
-        Me.chkExcludeGhee.TabIndex = 1485
-        Me.chkExcludeGhee.Text = "Exclude Ghee"
-        '
         'rptNewSalesReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -509,6 +509,8 @@ Partial Class rptNewSalesReport
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.chkExcludeGhee, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
         Me.RadGroupBox3.PerformLayout()
@@ -520,7 +522,6 @@ Partial Class rptNewSalesReport
         CType(Me.rbtnDemand, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnDispatch, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -532,7 +533,6 @@ Partial Class rptNewSalesReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkExcludeGhee, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
