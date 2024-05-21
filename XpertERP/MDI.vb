@@ -9887,6 +9887,10 @@ Public Class MDI
                     Case clsUserMgtCode.frmSeedGrowerMaster
                         frm = New frmSeedGrowerMaster
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmSeedSelectionEntry
+                        frm = New frmSeedSelectionEntry
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                         '-------------------- MIS Master---------------
 
                         'Case clsUserMgtCode.MISitemGroups
