@@ -285,6 +285,7 @@ Public Class RptJobWorkStatus
             gv.MasterTemplate.AutoExpandGroups = True
 
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             View()
         Else
             gv.Columns("Location").IsVisible = True

@@ -848,7 +848,7 @@ Public Class frmMaterialQuotationComparison
     Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
         Dim qry As String = " select  Code,QCDate as Date,Description, case when TSPL_SCRAP_QUOTATION_COMPARISON_HEAD.Status='0' then 'Pending' else 'Approved' end as [Status] from TSPL_SCRAP_QUOTATION_COMPARISON_HEAD"
         Dim whrClas As String = " 1=1 "
-        LoadData(clsCommon.ShowSelectForm("QCfndNo", qry, "Code", whrClas, txtCode.Value, "Code", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("QCfndNo", qry, "Code", whrClas, txtCode.Value, "Code", isButtonClicked, "TSPL_SCRAP_QUOTATION_COMPARISON_HEAD.QCDate"), NavigatorType.Current)
     End Sub
 
     Private Sub frmPurchaseRequistion_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown

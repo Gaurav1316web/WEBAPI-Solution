@@ -670,7 +670,7 @@ Public Class FrmCustomerOutstanding
 
     Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
         Dim qry As String = "Select TSPL_CUSTOMER_OUTSTANDING_HEADER.Customer_Outsanding_No as Code,Convert(varchar,TSPL_CUSTOMER_OUTSTANDING_HEADER.Document_Date,103) as [Dispatch Date],TSPL_CUSTOMER_OUTSTANDING_HEADER.Cust_Code as [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name],ISNULL(TSPL_CUSTOMER_MASTER.Alies_Name,'') As [Alies Name],TSPL_CUSTOMER_OUTSTANDING_HEADER.Location_Code as [Location Code],TSPL_LOCATION_MASTER.Location_Desc as [Location Name],case when TSPL_CUSTOMER_OUTSTANDING_HEADER.Posted=0 then 'Pending' else 'Approved' end as Status from TSPL_CUSTOMER_OUTSTANDING_HEADER left outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_OUTSTANDING_HEADER.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code Left Outer Join TSPL_LOCATION_MASTER on TSPL_CUSTOMER_OUTSTANDING_HEADER.Location_Code =TSPL_LOCATION_MASTER.Location_Code"
-        txtDocNo.Value = clsCommon.ShowSelectForm("CustomerOutstanding", qry, "Code", " TSPL_CUSTOMER_OUTSTANDING_HEADER.Location_Code in (" + arrLoc + ")", txtDocNo.Value, "", isButtonClicked)
+        txtDocNo.Value = clsCommon.ShowSelectForm("CustomerOutstanding", qry, "Code", " TSPL_CUSTOMER_OUTSTANDING_HEADER.Location_Code in (" + arrLoc + ")", txtDocNo.Value, "", isButtonClicked, "TSPL_CUSTOMER_OUTSTANDING_HEADER.Document_Date")
         LoadData(txtDocNo.Value, NavigatorType.Current)
         qry = Nothing
     End Sub

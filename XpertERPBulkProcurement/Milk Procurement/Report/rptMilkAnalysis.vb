@@ -339,7 +339,8 @@ Public Class rptMilkAnalysis
                 summaryRowItem.Add(item1)
 
                 Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-                End If
+                Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+            End If
             End If
 
             'If Gv1.Rows.Count > 0 Then

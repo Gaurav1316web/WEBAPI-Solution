@@ -55,6 +55,7 @@ Public Class frmDatewiseProduction
             'Next
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Else
             clsCommon.MyMessageBoxShow(Me, "No Data to Show in Selected Dates.", Me.Text)
         End If

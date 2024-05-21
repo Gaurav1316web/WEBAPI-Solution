@@ -7721,7 +7721,7 @@ Public Class FrmCSASaleInvoice
             Dim item2 As New GridViewSummaryItem("Alt_qty", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item2)
             gv_Summary.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            gv_Summary.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             gv_Summary.GroupDescriptors.Add(New GridGroupByExpression("DOC_CODE as Doc Format ""{0}: {1}"" Group By DOC_CODE"))
             gv_Summary.GroupDescriptors.Add(New GridGroupByExpression("Item_code as Item Format ""{0}: {1}"" Group By Item_code"))
 

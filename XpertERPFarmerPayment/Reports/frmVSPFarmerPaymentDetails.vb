@@ -432,6 +432,7 @@ Public Class frmVSPFarmerPaymentDetails
 
 
         gv3.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv3.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Private Sub frmFarmerLedgerReport_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SetUserMgmtNew()

@@ -414,7 +414,7 @@ Public Class frmFreightChargesMaster
             Dim whrcls As String = ""
             If fndcode.MyReadOnly Or isButtonClicked Then
                 qry = "select TSPL_FREIGHT_CHARGES_MASTER.Freight_Code as Code,Freight_Description  from TSPL_FREIGHT_CHARGES_MASTER "
-                fndcode.Value = clsCommon.ShowSelectForm("FCMFND", qry, "Code", whrcls, fndcode.Value, "Code", isButtonClicked)
+                fndcode.Value = clsCommon.ShowSelectForm("FCMFND", qry, "Code", whrcls, fndcode.Value, "Code", isButtonClicked, "TSPL_FREIGHT_CHARGES_MASTER.Created_Date")
                 LoadData(fndcode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception

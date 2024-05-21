@@ -1206,6 +1206,7 @@ Public Class FrmSaleAccountBreakOrCashDisc
                 summaryRowItem.Add(item16)
             Next
             GV1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            GV1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf rdbSummaryDoc.IsChecked Then
             GV1.Columns("company").IsVisible = True
             GV1.Columns("company").Width = 50
@@ -1400,7 +1401,7 @@ Public Class FrmSaleAccountBreakOrCashDisc
                 summaryRowItem.Add(item16)
             Next
             GV1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            GV1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf rdbSalewithTargetQty.IsChecked Then
 
 
@@ -1463,7 +1464,7 @@ Public Class FrmSaleAccountBreakOrCashDisc
                 summaryRowItem.Add(item16)
             Next
             GV1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            GV1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
         ElseIf rdbDetail.IsChecked Then
             'GV1.Columns("Comp_Code").IsVisible = True
@@ -1585,7 +1586,7 @@ Public Class FrmSaleAccountBreakOrCashDisc
             'summaryRowItem.Add(item5)
 
             GV1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+            GV1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
 
         If rdbRoute.Checked Then

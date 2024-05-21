@@ -54,6 +54,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Telerik.WinControls.UI, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL" />
     <Reference Include="XpertCommon">
       <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
@@ -133,8 +134,10 @@
     <Compile Include="LocationModel\clsLocationWiseTax.vb" />
     <Compile Include="LocationModel\ClsLocation_JobworkItem.vb" />
     <Compile Include="Milk Procurement\clsChillingCharges.vb" />
+    <Compile Include="Milk Procurement\clsDBTCaping.vb" />
     <Compile Include="MIS\clsDailySMPProduction.vb" />
     <Compile Include="MIS\clsProductionTransactionType.vb" />
+    <Compile Include="Payroll\clsEmployeeDeductionMaster.vb" />
     <Compile Include="PJC\clsCostType.vb" />
     <Compile Include="PJC\clsPJCAccountSet.vb" />
     <Compile Include="PJC\clsPJCExpense.vb" />

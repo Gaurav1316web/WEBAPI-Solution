@@ -561,7 +561,7 @@ Public Class frmFarmerPaymentAdjEntry
                             " left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MP_MASTER.VLC_Code " &
                             " left join TSPL_VENDOR_MASTER on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MASTER.Vendor_Code "
 
-        fndFnAdj.Value = clsCommon.ShowSelectForm("AdjustmFiltrFND", Qry, "AdjustmentNo", "", fndFnAdj.Value, "AdjustmentNo", isButtonClicked)
+        fndFnAdj.Value = clsCommon.ShowSelectForm("AdjustmFiltrFND", Qry, "AdjustmentNo", "", fndFnAdj.Value, "AdjustmentNo", isButtonClicked, "TSPL_MP_PAY_ADJ_HEAD.Adjustment_date")
         LoadData(fndFnAdj.Value, NavigatorType.Current)
     End Sub
 

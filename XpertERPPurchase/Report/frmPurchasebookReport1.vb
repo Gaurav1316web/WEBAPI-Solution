@@ -891,6 +891,7 @@ Public Class FrmPurchasebookReport1
             summaryRowItem.Add(item10)
 
             GV1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            GV1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
         RadPageView1.SelectedPage = RadPageViewPage2
 
@@ -943,6 +944,7 @@ Public Class FrmPurchasebookReport1
         Dim total As New GridViewSummaryItem("Total", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(total)
         GV1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        GV1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         RadPageView1.SelectedPage = RadPageViewPage2
     End Sub
 

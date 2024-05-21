@@ -119,7 +119,7 @@ Public Class frmBullTestParameter
         If txtCode.MyReadOnly OrElse isButtonClicked Then
             Dim whrClas As String = ""
             Dim qry As String = "select Code,Name,Peridocity,Type from TSPL_BULL_TEST_PARAMETER"
-            txtCode.Value = clsCommon.ShowSelectForm("RTY", qry, "Code", whrClas, txtCode.Value, "TSPL_BULL_TEST_PARAMETER.Code asc", isButtonClicked, Nothing)
+            txtCode.Value = clsCommon.ShowSelectForm("RTY", qry, "Code", whrClas, txtCode.Value, "TSPL_BULL_TEST_PARAMETER.Code asc", isButtonClicked, "TSPL_BULL_TEST_PARAMETER.Created_Date")
             LoadData(txtCode.Value, NavigatorType.Current)
         End If
     End Sub

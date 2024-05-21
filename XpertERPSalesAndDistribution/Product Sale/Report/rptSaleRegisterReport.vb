@@ -689,6 +689,7 @@ Public Class RptSaleRegisterReport
                 End If
             Next
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Else
             If ddlReportType.SelectedValue = "Document Info Level" Then
 
@@ -919,6 +920,7 @@ Public Class RptSaleRegisterReport
                 End If
             Next
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
 
 

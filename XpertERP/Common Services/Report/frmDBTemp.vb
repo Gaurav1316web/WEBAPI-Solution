@@ -495,6 +495,7 @@ Public Class frmDBTemp
                 summaryRowItem.Add(SalesInLTR4)
 
                 gvVehicleUtilization.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gvVehicleUtilization.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -778,7 +779,7 @@ Public Class frmDBTemp
 
 
         GridName.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        GridName.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Sub View(ByRef GridName As RadGridView)

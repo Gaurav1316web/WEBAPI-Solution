@@ -570,7 +570,7 @@ Public Class FrmItemConversion
 
     Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDocNo._MYValidating
         Dim qry As String = "select Doc_Code as [Doc_Code],Item_COde as [Item Code],Description from TSPL_ITEM_CONVERSION_Head "
-        txtDocNo.Value = clsCommon.ShowSelectForm("Item_Conv", qry, "Doc_Code", "", txtDocNo.Value, "Doc_Code", isButtonClicked)
+        txtDocNo.Value = clsCommon.ShowSelectForm("Item_Conv", qry, "Doc_Code", "", txtDocNo.Value, "Doc_Code", isButtonClicked, "TSPL_ITEM_CONVERSION_Head.Created_Date")
         LoadData(txtDocNo.Value, NavigatorType.Current)
     End Sub
 

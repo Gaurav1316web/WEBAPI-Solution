@@ -23,7 +23,7 @@ Public Class clsBankOpeningReco
 
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim qry As String = " select  TSPL_BANK_OPENING_RECO.Code,TSPL_BANK_OPENING_RECO.Reco_Date as RecoDate,TSPL_BANK_OPENING_RECO.Type,TSPL_BANK_OPENING_RECO.Vendor_Code as VendorCode,TSPL_VENDOR_MASTER.Vendor_Name as VendorName,TSPL_BANK_OPENING_RECO.Cust_Code as CustomerCode,TSPL_CUSTOMER_MASTER.Customer_Name as CustomerName,TSPL_BANK_OPENING_RECO.Bank_Code,TSPL_BANK_MASTER.DESCRIPTION as BankName,TSPL_BANK_OPENING_RECO.Cheque_No as ChequeNo,TSPL_BANK_OPENING_RECO.Cheque_Date as ChequeDate,TSPL_BANK_OPENING_RECO.Amt as Amount,TSPL_BANK_OPENING_RECO.Description From TSPL_BANK_OPENING_RECO left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_BANK_OPENING_RECO.Vendor_Code left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_BANK_OPENING_RECO.Cust_Code left outer join TSPL_BANK_MASTER on TSPL_BANK_MASTER.BANK_CODE=TSPL_BANK_OPENING_RECO.Bank_Code "
-        Return clsCommon.ShowSelectForm("BankOpenRecoFnd", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
+        Return clsCommon.ShowSelectForm("BankOpenRecoFnd", qry, "Code", whrcls, curcode, "Code", isButtonClicked, "TSPL_BANK_OPENING_RECO.Reco_Date")
     End Function
 
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType) As clsBankOpeningReco

@@ -381,6 +381,7 @@ Public Class rptSaleRecoNew
             item = New GridViewSummaryItem("TotalAmount", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item)
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Customer And Account Wise") = CompairStringResult.Equal Then
             Gv1.Columns("Cust_Group_Code").IsVisible = True
             Gv1.Columns("Cust_Group_Code").Width = 120
@@ -453,6 +454,7 @@ Public Class rptSaleRecoNew
             item = New GridViewSummaryItem("DiffAmount", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item)
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Detail") = CompairStringResult.Equal Then
             If is_Other_VoucherDrCr = False Then
                 'Gv1.Columns("Cust_Group_Code").IsVisible = True
@@ -550,6 +552,7 @@ Public Class rptSaleRecoNew
                 item = New GridViewSummaryItem("DiffAmount", "{0:F2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(item)
                 Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             Else
                 Gv1.Columns("Document Code").IsVisible = True
                 Gv1.Columns("Document Code").Width = 120
@@ -602,6 +605,7 @@ Public Class rptSaleRecoNew
                 item = New GridViewSummaryItem("Other Amount Credit", "{0:F2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(item)
                 Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             End If
            
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Sale Register Wise") = CompairStringResult.Equal Then
@@ -697,6 +701,7 @@ Public Class rptSaleRecoNew
             item = New GridViewSummaryItem("Diff Sale Reg Trial", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item)
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
         RadPageView1.SelectedPage = RadPageViewPage2
         Gv1.AllowAddNewRow = False

@@ -326,6 +326,7 @@ Public Class FrmrptTDSLedger
         gvReport.Columns("Amount_Paid").FormatString = "{0:F2}"
 
         gvReport.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvReport.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         RadPageView1.SelectedPage = RadPageViewPage2
         gvReport.BestFitColumns()
         ReStoreGridLayout()

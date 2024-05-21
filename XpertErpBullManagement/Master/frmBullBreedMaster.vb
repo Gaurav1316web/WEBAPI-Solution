@@ -16,9 +16,9 @@ Public Class frmBullBreedMaster
     End Sub
     Private Sub SaveData()
         Try
-            If (AllowToSave()) Then
+            'If (AllowToSave()) Then
 
-                Dim obj As New clsBullBreedMaster()
+            Dim obj As New clsBullBreedMaster()
                 obj.Code = txtCode.Value
                 obj.Name = txtname.Text.Replace("'", "`")
 
@@ -26,7 +26,7 @@ Public Class frmBullBreedMaster
                     clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
                     LoadData(obj.Code, NavigatorType.Current)
                 End If
-            End If
+            'End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -39,6 +39,7 @@ Public Class frmBullBreedMaster
             Exit Function
             Return False
         End If
+        Return True
     End Function
 
     Private Sub txtCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCode._MYValidating
@@ -52,7 +53,7 @@ Public Class frmBullBreedMaster
         If txtCode.MyReadOnly OrElse isButtonClicked Then
             Dim whrClas As String = ""
             Dim qry As String = "select Code,Name from TSPL_BULL_BREED_MASTER"
-            txtCode.Value = clsCommon.ShowSelectForm("RTY", qry, "Code", whrClas, txtCode.Value, "TSPL_BULL_BREED_MASTER.Code asc", isButtonClicked, Nothing)
+            txtCode.Value = clsCommon.ShowSelectForm("RTY", qry, "Code", whrClas, txtCode.Value, "TSPL_BULL_BREED_MASTER.Code asc", isButtonClicked, "TSPL_BULL_BREED_MASTER.Created_Date")
             LoadData(txtCode.Value, NavigatorType.Current)
         End If
     End Sub

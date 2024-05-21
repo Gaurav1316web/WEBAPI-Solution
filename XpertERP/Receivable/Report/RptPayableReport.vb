@@ -193,6 +193,7 @@ strMilkSRNBaseQry + Environment.NewLine + _
         Dim item5 As New GridViewSummaryItem("Diff", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item5)
         gv3.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv3.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     
    

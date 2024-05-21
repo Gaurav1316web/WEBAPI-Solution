@@ -370,6 +370,7 @@ where [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_
             Gv1.Columns(ii).BestFit()
         Next
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Gv1.AutoSizeRows = False
         Gv1.BestFitColumns()
     End Sub

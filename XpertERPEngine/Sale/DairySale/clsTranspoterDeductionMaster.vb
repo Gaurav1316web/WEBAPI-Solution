@@ -18,7 +18,7 @@ Public Class clsTranspoterDeductionHeader
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
         Dim qry As String = " select DEDUCTION_CODE as Code,convert(varchar,DEDUCTION_DATE,103) as [Date], DESCRIPTION as [Description], DEDUCTION_CATEGORY as [Deduction Category]  from TSPL_TRANSPOTER_DEDUCTION_HEADER  "
-        str = clsCommon.ShowSelectForm("Transporter@Deduction", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
+        str = clsCommon.ShowSelectForm("Transporter@Deduction", qry, "Code", whrcls, curcode, "Code", isButtonClicked, "TSPL_TRANSPOTER_DEDUCTION_HEADER.DEDUCTION_DATE")
         Return str
     End Function
 

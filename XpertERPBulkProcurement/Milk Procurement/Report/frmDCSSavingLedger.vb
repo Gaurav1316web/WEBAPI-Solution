@@ -140,6 +140,7 @@ Public Class frmDCSSavingLedger
         Dim item As GridViewSummaryItem = New GridViewSummaryItem("Amount", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item)
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Function GetQuery() As String

@@ -778,6 +778,7 @@ Public Class FrmDistribuorDiscount
 
 
             gvReport.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gvReport.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Else
 
             gvReport.Columns("Sale Invoice No").IsVisible = True
@@ -909,6 +910,7 @@ Public Class FrmDistribuorDiscount
 
 
             gvReport.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gvReport.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
 
 

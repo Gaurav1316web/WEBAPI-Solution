@@ -1113,7 +1113,7 @@ Public Class frmYearMonthWiseSaleComparison
         End If
 
         gv2.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv2.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub ReStoreGridLayout()

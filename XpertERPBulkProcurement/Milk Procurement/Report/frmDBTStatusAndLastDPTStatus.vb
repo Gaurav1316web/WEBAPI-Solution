@@ -221,6 +221,7 @@ Public Class frmDBTStatusAndLastDPTStatus
             MyRadGridView2.Columns(ii).BestFit()
         Next
         MyRadGridView2.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        MyRadGridView2.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         MyRadGridView2.AutoSizeRows = False
         MyRadGridView2.BestFitColumns()
     End Sub

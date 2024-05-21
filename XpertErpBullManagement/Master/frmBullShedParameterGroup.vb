@@ -284,7 +284,7 @@ Public Class frmBullShedParameterGroup
 
                 'If count > 0 Then
                 qry = "select Code as Code,Name as [Name] from TSPL_BULL_SHED_PARAMETER_MASTER"
-                fndCode.Value = clsCommon.ShowSelectForm("RTY", qry, "Code", "", fndCode.Value, " Code asc", isButtonClicked, Nothing)
+                fndCode.Value = clsCommon.ShowSelectForm("RTY", qry, "Code", "", fndCode.Value, " Code asc", isButtonClicked, "TSPL_BULL_SHED_PARAMETER_MASTER.Created_Date")
                 LoadData(fndCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception

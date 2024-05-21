@@ -132,7 +132,7 @@ order by DCSCode,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date"
         Dim item1 As New GridViewSummaryItem("Amount", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item1)
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         gv1.AutoSizeRows = False
         gv1.BestFitColumns()
     End Sub

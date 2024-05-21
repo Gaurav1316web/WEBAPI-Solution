@@ -386,6 +386,7 @@ Public Class FrmSettlement_CashMemoStatus
         Dim TTL As New GridViewSummaryItem("% Complete", "{0:F2}", GridAggregateFunction.Avg)
         summaryRowItem.Add(TTL)
         gvReport.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvReport.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         '--------------------------------------------------------------------------------------------
     End Sub
 

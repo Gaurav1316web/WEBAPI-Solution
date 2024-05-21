@@ -318,7 +318,7 @@ Public Class frmMCCTankerWeighment
         " left outer join TSPL_MCC_GATE_ENTRY on TSPL_MCC_GATE_ENTRY.Document_No=TSPL_MCC_WEIGHMENT.Gate_Entry_No " + Environment.NewLine +
         " left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_MCC_GATE_ENTRY.Transporter_Code"
         Dim strwhrcls As String = " TSPL_MCC_WEIGHMENT.Location_Code in (" + arrLoc + ")"
-        txtDocumentNo.Value = clsCommon.ShowSelectForm("MCCWeDocF", qry, "Document_No", strwhrcls, txtDocumentNo.Value, "", isButtonClicked)
+        txtDocumentNo.Value = clsCommon.ShowSelectForm("MCCWeDocF", qry, "Document_No", strwhrcls, txtDocumentNo.Value, "", isButtonClicked, "TSPL_MCC_WEIGHMENT.Document_Date")
         LoadData(txtDocumentNo.Value, NavigatorType.Current)
         qry = Nothing
         strwhrcls = Nothing

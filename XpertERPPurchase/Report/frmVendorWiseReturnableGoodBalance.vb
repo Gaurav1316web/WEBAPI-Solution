@@ -377,7 +377,7 @@ Public Class FrmVendorWiseReturnableGoodBalance
         gv.MasterTemplate.AutoExpandGroups = True
 
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub ReStoreGridLayout()

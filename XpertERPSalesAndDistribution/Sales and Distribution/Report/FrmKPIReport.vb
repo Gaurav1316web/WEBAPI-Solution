@@ -589,6 +589,7 @@ Public Class FrmKPIReport
         Dim item16 As New GridViewSummaryItem("TotalSale", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item16)
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub gv1_ViewCellFormatting(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CellFormattingEventArgs) Handles gv1.ViewCellFormatting

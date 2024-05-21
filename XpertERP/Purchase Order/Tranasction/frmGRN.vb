@@ -3918,11 +3918,13 @@ Public Class frmGRN
                     If clsCommon.myLen(hsncode) <= 0 Then
                         hsn = clsCommon.myCstr(grow.Cells(colHSNNo).Value)
                         clsItemMaster.UpdateHSNCode(hsn, clsCommon.myCstr(grow.Cells(colICode).Value), Nothing)
-                    ElseIf clsCommon.myLen(hsncode1) <= 0 Then
+                    End If
+                    If clsCommon.myLen(hsncode1) <= 0 Then
+                        Dim isnew As Boolean = True
                         hsn = clsCommon.myCstr(grow.Cells(colHSNNo).Value)
                         If clsCommon.myLen(hsn) > 0 Then
                             objhsn.Code = hsn
-                            ClsHSNMaster.SaveData(objhsn, isNewEntry)
+                            ClsHSNMaster.SaveData(objhsn, isnew)
                         End If
                     End If
                     objTr.Line_No = clsCommon.myCdbl(grow.Cells(colLineNo).Value)
@@ -5400,7 +5402,7 @@ Public Class frmGRN
             whrClas += " and TSPL_GRN_HEAD.Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
         End If
 
-        LoadData(clsCommon.ShowSelectForm("GRNFND", qry, "Code", whrClas, txtDocNo.Value, "GRN_Date desc", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("GRNFND", qry, "Code", whrClas, txtDocNo.Value, "GRN_Date desc", isButtonClicked, "TSPL_GRN_HEAD.GRN_Date"), NavigatorType.Current)
     End Sub
 
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown

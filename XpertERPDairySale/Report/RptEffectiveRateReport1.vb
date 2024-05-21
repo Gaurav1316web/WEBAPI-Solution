@@ -228,6 +228,7 @@ Public Class RptEffectiveRateReport1
         gv.MasterTemplate.AutoExpandGroups = True
 
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         'View()
     End Sub
     Sub View()

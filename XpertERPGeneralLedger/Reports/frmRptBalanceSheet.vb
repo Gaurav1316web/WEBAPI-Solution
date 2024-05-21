@@ -934,7 +934,7 @@ Public Class frmRptBalanceSheet
         Dim item1 As New GridViewSummaryItem("AmtActual", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item1)
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
         If chkLocationWise.Checked Then
             gv1.ViewDefinition = view

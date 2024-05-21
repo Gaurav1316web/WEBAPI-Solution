@@ -764,6 +764,7 @@ Public Class frmRptBalanceSheetFormula
         summaryRowItem.Add(item1)
         If chkShowTotalRow.Checked Then
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
 
         If chkLocationWise.Checked Then

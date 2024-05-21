@@ -154,7 +154,7 @@ Public Class RptSectionWiseStockReport
         'Dim item2 As New GridViewSummaryItem("Cost", "{0:F2}", GridAggregateFunction.Sum)
         'summaryRowItem.Add(item2)
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
         ReStoreGridLayout()
     End Sub

@@ -294,6 +294,7 @@ Public Class FrmCompleteTransfer
         Dim item7 As New GridViewSummaryItem("BalanceQty", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item7)
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click

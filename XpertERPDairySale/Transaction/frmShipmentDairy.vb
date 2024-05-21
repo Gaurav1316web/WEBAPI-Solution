@@ -6165,6 +6165,9 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                     End If
                 End If
             End If
+            If clsCommon.myLen(txtRouteNo.Value) <= 0 Then
+                Throw New Exception("Please select Route")
+            End If
             'Sanjay Ticket No- ERO/02/07/18-000365 not allow to update record if it is posted
             GSTStatus = clsERPFuncationality.GetGSTStatus(txtDate.Value)
             RefreshReqNo()
@@ -8973,7 +8976,44 @@ left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=
         ElseIf e.Alt AndAlso e.KeyCode = Keys.S AndAlso btnSave.Enabled AndAlso MyBase.isModifyFlag Then
             ' done by priti GKD/05/06/18-000144
             If (AllowToSave(False)) Then
-                SaveData(False, Nothing)
+                trans = clsDBFuncationality.GetTransactin()
+                Try
+                    txtTransNo.Text = txtVendorNo.Value
+                    SaveData(False, trans)
+                    If lstobj IsNot Nothing AndAlso lstobj.Count > 0 Then
+                        For Each lst As clsPSShipmentDemand In lstobj
+                            Dim strQry As String = "select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code as TR_Code,
+TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code as Cust_Code,
+TSPL_CUSTOMER_MASTER.Customer_Name as Customer_Name,
+TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code as Item_Code,
+TSPL_ITEM_MASTER.Item_Desc as Item_Desc,
+TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty as DemandQty,
+TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty as Qty,
+TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code as Unit_code,
+TSPL_SD_SHIPMENT_BOOKING_DETAIL.Trip_No as Trip_No,
+TSPL_SD_SHIPMENT_BOOKING_DETAIL.Commission_Amt,
+TSPL_SD_SHIPMENT_BOOKING_DETAIL.Security_Amt
+from TSPL_SD_SHIPMENT_BOOKING_DETAIL
+left join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code=TSPL_CUSTOMER_MASTER.Cust_Code
+left join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_code='" + lst.Booth_Code + "'"
+                            LoadDistributorGrid(strQry, trans)
+                            MergeDistributorItems(True, True, trans)
+                            txtVendorNo.Value = lst.Booth_Code
+                            lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + lst.Booth_Code + "'", trans))
+                            SaveData(False, trans)
+                        Next
+                    End If
+                    trans.Commit()
+
+                    Dim strupdate As String = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo='" + ParentDocNo + "' where Document_Code='" + ParentDocNo + "'"
+                    clsDBFuncationality.ExecuteNonQuery(strupdate)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
+                    LoadData(ParentDocNo, NavigatorType.Current)
+                Catch ex As Exception
+                    trans.Rollback()
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                End Try
             End If
         ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso btnPost.Enabled AndAlso MyBase.isPostFlag Then
             PostData(Nothing, "", "", "")
@@ -11587,7 +11627,7 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
         If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "NT") = CompairStringResult.Equal Then
             ' 
             If SettDistributorWiseBilling Then
-                If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal OrElse clsCommon.myLen(txtVendorNo.Value) <= 0 Then
                     Dim strqry As String = "select Distinct Route_No as Code from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER"
                     txtRouteNo.Value = clsCommon.ShowSelectForm("DShipRouteFinder", strqry, "Code", "", txtRouteNo.Value, "", isButtonClicked)
                     fndRouteNo_TextChanged()

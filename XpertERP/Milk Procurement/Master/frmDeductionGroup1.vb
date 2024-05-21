@@ -89,7 +89,7 @@ Public Class FrmDeductionGroup1
         If fndCode.MyReadOnly OrElse isButtonClicked Then
             Dim qry As String = ""
             qry = "Select Ded_Code As [Code],Ded_Description As [Name] from TSPL_DEDUCTION_GROUP"
-            fndCode.Value = clsCommon.ShowSelectForm("DEDUCTION", qry, "Ded_Code", "", fndCode.Value, "TSPL_DEDUCTION_GROUP.Ded_Code", isButtonClicked)
+            fndCode.Value = clsCommon.ShowSelectForm("DEDUCTION", qry, "Ded_Code", "", fndCode.Value, "TSPL_DEDUCTION_GROUP.Ded_Code", isButtonClicked, "TSPL_DEDUCTION_GROUP.Created_Date")
             If clsCommon.myLen(fndCode.Value) > 0 Then
                 Dim objOT As clsDeductionGroup
                 objOT = clsDeductionGroup.GetData(fndCode.Value, NavigatorType.Current)

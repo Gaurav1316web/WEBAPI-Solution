@@ -365,7 +365,7 @@ Public Class frmDeductionMapping
     Private Sub fndcode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
         Dim qry As String = "select  Doc_Code as DocCode,Doc_Date as DocDate,Start_Date as StartDate,End_Date as EndDate,case when Post_Status=1 then 'Approved' else 'Pending' end as Status from TSPL_DEDUCTION_MAPPING_HEAD "
         Dim whrcls As String = ""
-        txtCode.Value = clsCommon.ShowSelectForm("dedMapMainfd", qry, "DocCode", whrcls, txtCode.Value, "", isButtonClicked)
+        txtCode.Value = clsCommon.ShowSelectForm("dedMapMainfd", qry, "DocCode", whrcls, txtCode.Value, "", isButtonClicked, "TSPL_DEDUCTION_MAPPING_HEAD.Doc_Date")
         If clsCommon.myLen(txtCode.Value) > 0 Then
             LoadData(txtCode.Value, NavigatorType.Current)
         Else

@@ -491,7 +491,7 @@ Public Class frmGatePassDairySale
             whrClas = " TSPL_GATEPASS_MASTER_DAIRYSALE.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
         End If
 
-        LoadData(clsCommon.ShowSelectForm("DSGatepassDocNo", Qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("DSGatepassDocNo", Qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked, " TSPL_GATEPASS_MASTER_DAIRYSALE.Document_date "), NavigatorType.Current)
     End Sub
 
     Sub FillGrid()

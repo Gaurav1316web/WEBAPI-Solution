@@ -421,6 +421,7 @@ Public Class frmBookingDairyMultipleDistributor
 
 
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             gv1.TableElement.TableHeaderHeight = 130
             'gv1.AutoSize = True
             gv1.AllowDeleteRow = True
@@ -1669,7 +1670,7 @@ Public Class frmBookingDairyMultipleDistributor
 
         gv2.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         'gv2.MasterTemplate.ShowTotals = True
-
+        gv2.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
 
 

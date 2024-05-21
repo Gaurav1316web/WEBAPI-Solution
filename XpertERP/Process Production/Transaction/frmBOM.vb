@@ -2987,7 +2987,7 @@ Public Class frmBOM
         Dim item22 As New GridViewSummaryItem("SNF_KG", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item22)
         gv_History.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv_History.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         gv_History.AutoExpandGroups = True
     End Sub
 

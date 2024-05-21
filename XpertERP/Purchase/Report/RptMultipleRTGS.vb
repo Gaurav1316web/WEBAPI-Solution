@@ -101,6 +101,7 @@ where TSPL_PAYMENT_HEADER.Payment_type in ('AV','OA','PY')"
             Dim item1 As New GridViewSummaryItem("Amount", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item1)
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             gv.BestFitColumns()
         Else
             gv.Columns("Check").IsVisible = True
@@ -146,6 +147,7 @@ where TSPL_PAYMENT_HEADER.Payment_type in ('AV','OA','PY')"
             Dim item1 As New GridViewSummaryItem("Payment_Amount", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item1)
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
 
 

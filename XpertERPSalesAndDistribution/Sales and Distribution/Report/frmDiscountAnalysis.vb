@@ -446,7 +446,7 @@ Public Class FrmDiscountAnalysis
         summaryRowItem.Add(pc2)
 
         GV1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        GV1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         RadPageView1.SelectedPage = RadPageViewPage2
     End Sub
 
