@@ -411,6 +411,10 @@ Public Class frmEmployee_Master
                     obj.Inactive_Date = 0
                     obj.Status_Inactive_Date = Nothing
                 End If
+                obj.membership_id = txtmembershipid.Text
+                obj.special_desc = txtspecialdesc.Text
+                obj.Lic_id = txtLICID.Text
+                obj.policy = txtpolicy.Text
                 obj.Payroll_Code = txtPayRollCode.Text
                 obj.GL_Account = TxtGLAccount.Value
                 obj.CAST_CATEGORY_CODE = txtCastCategory.Value
@@ -770,6 +774,10 @@ Public Class frmEmployee_Master
             isNewEntry = False
             btnsave.Text = "Update"
             txtGPFNo.Text = obj.GPF_no
+            txtLICID.Text = obj.Lic_id
+            txtpolicy.Text = obj.policy
+            txtmembershipid.Text = obj.membership_id
+            txtspecialdesc.Text = obj.special_desc
             txtEmployeeBand.Value = obj.EMP_Band_Code
             fndcity.Value = obj.Working_City_Code
             txtCode.Value = obj.EMP_CODE
@@ -4495,5 +4503,9 @@ Public Class frmEmployee_Master
             txtActiveInactiveDate.Visible = True
         End If
         txtActiveInactiveDate.Checked = False
+    End Sub
+
+    Private Sub GroupBox1_Enter(sender As Object, e As EventArgs) Handles GroupBox1.Enter
+
     End Sub
 End Class

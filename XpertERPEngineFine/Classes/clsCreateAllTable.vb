@@ -14324,6 +14324,10 @@ Public Class clsCreateAllTable
             coll.Add("Transfer_PF", "integer null default 0")
             coll.Add("TransferPF_Text", "Varchar(12) null")
             coll.Add("GPF_No", "Varchar(50) null")
+            coll.Add("Policy_No", "Varchar(50) null")
+            coll.Add("Lic_No", "Varchar(50) null")
+            coll.Add("Membership_id", "Varchar(50) null")
+            coll.Add("Special_desc", "Varchar(50) null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_EMPLOYEE_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()

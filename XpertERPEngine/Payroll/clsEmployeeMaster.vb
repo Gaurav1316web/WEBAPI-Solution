@@ -27,6 +27,10 @@ Public Class clsEmployeeMaster
     Public Status_Inactive_Date As Date?
     Public rel_date As String
     Public Payroll_Code As String
+    Public Lic_id As String
+    Public policy As String
+    Public membership_id As String
+    Public special_desc As String
     Public Empty_Ex As Double
     Public Created_By As String
     Public Created_Date As String
@@ -240,6 +244,10 @@ Public Class clsEmployeeMaster
 
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             obj = New clsEmployeeMaster()
+            obj.membership_id = clsCommon.myCstr(dt.Rows(0)("membership_id"))
+            obj.special_desc = clsCommon.myCstr(dt.Rows(0)("special_desc"))
+            obj.Lic_id = clsCommon.myCstr(dt.Rows(0)("Lic_No"))
+            obj.policy = clsCommon.myCstr(dt.Rows(0)("policy_No"))
             obj.UANNo = clsCommon.myCstr(dt.Rows(0)("UANNo"))
             obj.GPF_no = clsCommon.myCstr(dt.Rows(0)("GPF_No"))
             obj.Working_City_Code = clsCommon.myCstr(dt.Rows(0)("Working_City_Code"))
@@ -608,7 +616,10 @@ Public Class clsEmployeeMaster
             clsCommon.AddColumnsForChange(coll, "UANNo", obj.UANNo, True)
             clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"))
-
+            clsCommon.AddColumnsForChange(coll, "Lic_No", obj.Lic_id)
+            clsCommon.AddColumnsForChange(coll, "policy_No", obj.policy)
+            clsCommon.AddColumnsForChange(coll, "membership_id", obj.membership_id)
+            clsCommon.AddColumnsForChange(coll, "special_desc", obj.special_desc)
             clsCommon.AddColumnsForChange(coll, "transfer_PF", IIf(obj.Transfer_PF, 1, 0))
             clsCommon.AddColumnsForChange(coll, "transferPF_text", obj.transferText)
             clsCommon.AddColumnsForChange(coll, "Votercard_No", obj.Votercard_No)
