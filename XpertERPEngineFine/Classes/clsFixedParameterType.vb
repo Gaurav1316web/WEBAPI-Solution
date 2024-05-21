@@ -734,6 +734,7 @@ Public Class clsFixedParameterType
     Public Const MixFATPer As String = "Mix FAT Per"
     Public Const CmtSetting As String = "Comment Setting"
     Public Const AreaWiseBilling As String = "Area Wise Billing"
+    Public Const ShowNewFormatofPDF As String = "Show New Format of PDF"
     Public Const PaymentProcessPrintInHindi As String = "Payment Process Print In Hindi"
     Public Const VendorBankAdviceForSWM As String = "Vendor Bank Advice For SWM"
     Public Const MilkSamplShowOddEvenTwoGrid As String = "Show Odd and Even Two Grid"
@@ -1606,6 +1607,7 @@ Public Class clsFixedParameterCode
     Public Const MixFATPer As String = "Mix FAT Per"
     Public Const CmtSetting As String = "Comment Setting"
     Public Const AreaWiseBilling As String = "Area Wise Billing"
+    Public Const ShowNewFormatofPDF As String = "Show New Format of PDF"
     Public Const PaymentProcessPrintInHindi As String = "Payment Process Print In Hindi"
     Public Const VendorBankAdviceForSWM As String = "Vendor Bank Advice For SWM"
     Public Const GateEntryTankerFromTankerMaster As String = "Gate Entry tanker From Master"
@@ -3553,6 +3555,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.MixFATPer, clsFixedParameterCode.MixFATPer, "0", "Mix FAT Percentage")
         InsertDefaultValueFixedParameter(clsFixedParameterType.CmtSetting, clsFixedParameterCode.CmtSetting, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ShowNewFormatofPDF, clsFixedParameterCode.ShowNewFormatofPDF, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PaymentProcessPrintInHindi, clsFixedParameterCode.PaymentProcessPrintInHindi, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.VendorBankAdviceForSWM, clsFixedParameterCode.VendorBankAdviceForSWM, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MilkSamplShowOddEvenTwoGrid, clsFixedParameterCode.MilkSamplShowOddEvenTwoGrid, "0", "0:Off, 1:On; Show Tow Grid Odd Even")
@@ -4205,6 +4208,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.rptPaymentProcessRouteReport, clsFixedParameterType.PickBulkRoute, clsFixedParameterCode.PickBulkRoute, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.rptPaymentProcessRouteReport, clsFixedParameterType.ShowMultipleLegers, clsFixedParameterCode.ShowMultipleLegers, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.rptPaymentProcessRouteReport, clsFixedParameterType.LoadLedgerMixedMilk, clsFixedParameterCode.LoadLedgerMixedMilk, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.rptPaymentProcessRouteReport, clsFixedParameterType.ShowNewFormatofPDF, clsFixedParameterCode.ShowNewFormatofPDF, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkVSPPayment, clsFixedParameterType.HeadLoadRODecimalPlace, clsFixedParameterCode.HeadLoadRODecimalPlace, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.MilkVSPPayment, clsFixedParameterType.HeadLoadROIncreaseAfter, clsFixedParameterCode.HeadLoadROIncreaseAfter, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.MilkVSPPayment, clsFixedParameterType.ApplyUnpaidBank, clsFixedParameterCode.ApplyUnpaidBank, EnumControlType.CheckBox)

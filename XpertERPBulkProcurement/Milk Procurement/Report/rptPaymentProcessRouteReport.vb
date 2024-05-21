@@ -18,6 +18,7 @@ Public Class rptPaymentProcessRouteReport
     Dim AreaWiseBilling As Boolean = False
     Dim MccName As String = Nothing
     Dim AreaName As String = Nothing
+    Dim ShowNewFormatofPDF As Boolean = False
 
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
@@ -39,6 +40,7 @@ Public Class rptPaymentProcessRouteReport
 
     Private Sub RptInventoryMovement_Load(sender As Object, e As EventArgs) Handles Me.Load
         isLoad = True
+        ShowNewFormatofPDF = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowNewFormatofPDF, clsFixedParameterCode.ShowNewFormatofPDF, Nothing)) = 1)
         SettPickBulkRoute = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PickBulkRoute, clsFixedParameterCode.PickBulkRoute, Nothing)) = 1)
         SettShowMultipleLegers = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowMultipleLegers, clsFixedParameterCode.ShowMultipleLegers, Nothing)) = 1)
         ToDate.Value = clsCommon.GETSERVERDATE()
@@ -2512,17 +2514,17 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAY
                                         End If
                                     Next
                                 End If
-                                newBlankRow1 = dtMain.NewRow
-                                dtMain.Rows.Add(newBlankRow1)
-                                newBlankRow2 = dtMain.NewRow
-                                dtMain.Rows.Add(newBlankRow2)
+                                'newBlankRow1 = dtMain.NewRow
+                                'dtMain.Rows.Add(newBlankRow1)
+                                'newBlankRow2 = dtMain.NewRow
+                                'dtMain.Rows.Add(newBlankRow2)
                             Next
 
                             'Route Total
-                            newBlankRow1 = dtMain.NewRow
-                            dtMain.Rows.Add(newBlankRow1)
-                            newBlankRow2 = dtMain.NewRow
-                            dtMain.Rows.Add(newBlankRow2)
+                            'newBlankRow1 = dtMain.NewRow
+                            'dtMain.Rows.Add(newBlankRow1)
+                            'newBlankRow2 = dtMain.NewRow
+                            'dtMain.Rows.Add(newBlankRow2)
 
                             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
                                 SumSWEET1 = clsCommon.myCdbl(dt.Compute("sum(SweetQty)", "Mcc_Code_VLC_Uploader='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("Mcc_Code_VLC_Uploader")) + "'"))
@@ -2714,10 +2716,10 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAY
                                 '    End If
                                 'Next
                             End If
-                            newBlankRow1 = dtMain.NewRow
-                            dtMain.Rows.Add(newBlankRow1)
-                            newBlankRow2 = dtMain.NewRow
-                            dtMain.Rows.Add(newBlankRow2)
+                            'newBlankRow1 = dtMain.NewRow
+                            'dtMain.Rows.Add(newBlankRow1)
+                            'newBlankRow2 = dtMain.NewRow
+                            'dtMain.Rows.Add(newBlankRow2)
                             'Route Total
                         End If
                     Next
@@ -2802,10 +2804,10 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAY
                                 End If
                             Next
                         End If
-                        newBlankRow1 = dtMain.NewRow
-                        dtMain.Rows.Add(newBlankRow1)
-                        newBlankRow2 = dtMain.NewRow
-                        dtMain.Rows.Add(newBlankRow2)
+                        'newBlankRow1 = dtMain.NewRow
+                        'dtMain.Rows.Add(newBlankRow1)
+                        'newBlankRow2 = dtMain.NewRow
+                        'dtMain.Rows.Add(newBlankRow2)
                         If HeadingRowCount > 4 Then
                             For t As Integer = 4 To HeadingRowCount - 1
                                 dtMain.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
@@ -2993,11 +2995,17 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAY
                         arrHeader.Add("MCC: " & MccName)
                     End If
                 End If
-                arrHeader.Add("Union: " & objCommonVar.CurrentCompanyName)
+
 
 
                 arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(dtpFromDCS_Ledger.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(dtpToDCS_Ledger.Value, "dd/MM/yyyy")) + " ")
-                clsCommon.MyOldExportToPDF("DCS LEDGER", Gv1, arrHeader, "DCS LEDGER", PageSetupReport_ID, objCommonVar.CurrentUserCode)
+                If ShowNewFormatofPDF Then
+                    clsCommon.MyExportToPDF("DCS LEDGER", Gv1, arrHeader, "DCS LEDGER")
+                Else
+                    arrHeader.Add("Union: " & objCommonVar.CurrentCompanyName)
+                    clsCommon.MyOldExportToPDF("DCS LEDGER", Gv1, arrHeader, "DCS LEDGER", PageSetupReport_ID, objCommonVar.CurrentUserCode)
+
+                End If
             End If
 
         Catch ex As Exception

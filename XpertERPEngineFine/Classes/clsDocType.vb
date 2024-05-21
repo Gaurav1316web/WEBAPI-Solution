@@ -2,6 +2,7 @@
 Imports System.Reflection
 Imports System.Windows.Forms
 Public Class clsDocType
+    Public Const frmEmployeeDeductionMaster As String = "Employee Deduction Master"
     Public Const TenderPenalty As String = "Tender Penalty"
     Public Const BreakDownEntry As String = "Break Down Entry"
     Public Const OutputEntry As String = "Output Entry"
@@ -910,7 +911,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.SRNReturn, "", False, True)
             InsertDefaultValue(clsDocType.TransferReturn, "", False, True)
             InsertDefaultValue(clsDocType.GatePasstransfer, "", False, True)
-            InsertDefaultValue(clsDocType.NIRQC,"", False, False)
+            InsertDefaultValue(clsDocType.NIRQC, "", False, False)
             InsertDefaultValue(clsDocType.MTSRN, clsDocTransactionType.POFinishedGoods, False, True)
             InsertDefaultValue(clsDocType.MTSRN, clsDocTransactionType.POSemiFinishedGoods, False, True)
             InsertDefaultValue(clsDocType.MTSRN, clsDocTransactionType.POOther, False, True)

@@ -2240,7 +2240,7 @@ where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ") )x group by VSP_
         Return BaseQry
     End Function
     Public Shared Function Load_Report_Paymnet_RCDF(ByVal strDocNo As String, ByVal CycleFromDate As String, ByVal CycleToDate As String, ByVal strLoc As String, ByVal strVSPCode As String, ByVal strRoutecode As String, ByVal strBank As String, ByVal strHoldUnhold As String, ByVal QryForShowData As Boolean, ByVal strZone As String) As String
-        Return Load_Report_Paymnet_RCDF(strDocNo, CycleFromDate, CycleToDate, strLoc, strVSPCode, strRoutecode, strBank, strHoldUnhold, QryForShowData, False, strZone)
+        Return Load_Report_Paymnet_RCDF(strDocNo, CycleFromDate, CycleToDate, strLoc, strVSPCode, strRoutecode, strBank, strHoldUnhold, QryForShowData, False, strZone, False)
     End Function
 
     Public Shared Function Load_Report_Paymnet_RCDF(ByVal strDocNo As String, ByVal CycleFromDate As String, ByVal CycleToDate As String, ByVal strLoc As String, ByVal strVSPCode As String, ByVal strRoutecode As String, ByVal strBank As String, ByVal strHoldUnhold As String, ByVal QryForShowData As Boolean, ByVal strZone As String, ByVal isprintHindi As Boolean) As String
