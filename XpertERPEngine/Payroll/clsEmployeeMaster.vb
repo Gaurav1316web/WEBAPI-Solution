@@ -27,6 +27,10 @@ Public Class clsEmployeeMaster
     Public Status_Inactive_Date As Date?
     Public rel_date As String
     Public Payroll_Code As String
+    Public Lic_id As String
+    Public policy As String
+    Public membership_id As String
+    Public special_desc As String
     Public Empty_Ex As Double
     Public Created_By As String
     Public Created_Date As String
@@ -183,7 +187,7 @@ Public Class clsEmployeeMaster
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
         Dim qry As String = " select EMP_CODE as [Code],Emp_Name as [Employee Name],Designation,Add1,Add2,Pin_Code as [Pin Code],Phone,Birth_date as [Date Of Birth],Cash,Card_No as [Card No],Joining_date as [Joining Date],Emp_type as [Employee Type],ExDate [Expiry Date],Emp_Status as [Employee Status],rel_date as [Releving Date],Payroll_Code as [Payroll Code],Empty_Ex as [Empty Ex],Created_By as [Created By],Created_Date as [Created Date],Modify_By as [Modify By],Modify_Date as [Modify Date],Comp_Code as [Company Code],GL_Account as [GL Account],EMail_ID as [Email ID],SEX,MARITAL_STATUS as [Marital Status],ANNIVERSARY_DATE as [Anniversary Date],DEPARTMENT_CODE as [Department Code],OCCUPATION_CODE as [Occupation Code],DEVISION_CODE as [Division Code],GRADE_CODE as [Grade Code],LOCATION_CODE as [Branch Code],ATTENDANCE_CODE as [Attandance Code],PAYMENT_MODE_NEW as [Payment Mode],BANK_ACC_NO as [Bank Account No],BANK_CODE as [Bank Code],CONFIRMATION_DATE as [Confirmation Date],PROBATION_END_DATE as [Probation End Date],SHIFT_CODE as [Shift Code],RELIEVING_DATE as [Relieving Date],LEAVING_REASON as [Leaving Reason],CAST_CATEGORY_CODE as [Cast Category Code],RELIGION_CODE as [Religion Code],PRESENT_COUNTRY_CODE as [Present Country Code],PRESENT_STATE_CODE as [Present State Code,PRESENT_CITY_CODE as [Present City Code],PRESENT_MOBILE_NO as [Present Mobile No],PERMA_COUNTRY_CODE as [Permanent Country Code],PERMA_STATE_CODE as [Permanent State Code],PERMA_CITY_CODE as [Permanent City Code],PERMA_PHONE_NO as [Permanent Phone No],PERMA_MOBILE_NO as [Permanent Mobile No],PERMA_PIN_CODE as [Permanent Pin Code],PAN_NO as [Pan No],PASPORT_NO as [Passport No],DESCRIPTION as [Description],FATHERS_NAME as [Fathers Name],MOTHERS_NAME as [Mothers Name],SPOUSE_NAME as [Spouse Name],ISESI as [Is ESI],ESI_NO as [ESI No],ESI_DISPENSARY as [ESI Dispensary],ISPF as [Is PF],PF_NO as [PF No],PF_NO_DEPT_FILE as [PF No Department File],WARD_CIRCLE as [Ward Circle],ISRESTRICT_PF as [Is Restrict PF],ISZERO_PENSION as [Is Zero Pension],ISDIRECTOR as [Is Director],ISZERO_PT as [Is Zero PT],EARNING_CODE as [Earning Code],UNIT_COST as [Unit Cost],BILLING_RATE as [Billing Rate],APPLY_ALL_CUST as [Apply All Customer],USER_CODE as [User Code],COMMENTS as [Comments],Franchise_Code as [Franchise Code],RESIGNATION_SUBMIT_DATE as [Resignation Submission Date],NOTICE_PERIOD_IN_DAYS as [Notice Period In Days],EMPLOYMENT_NATURE as [Employment Nature],CONV_TYPE as [Conveyance Type],VENDOR_CODE as [Vendor Code],Agency_Code as [Agency Code],ISNULL(HRApplicant_Code,'') AS [HRApplicant Code],Age_For_Pension AS [Age For Pension] from tspl_employee_master "
-        str = clsCommon.ShowSelectForm("RPTEMPFND", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
+        str = clsCommon.ShowSelectForm("RPTEMPFND", qry, "Code", whrcls, curcode, "Code", isButtonClicked, "tspl_employee_master.Birth_date")
         Return str
     End Function
 
@@ -213,13 +217,13 @@ Public Class clsEmployeeMaster
         Return isSaved
     End Function
 
-    Public Shared Function UpdateEMPStatusData(ByVal strCode As String, ByVal EmployeeRetirementAge As Double, ByVal NavType As NavigatorType) As Boolean
+    Public Shared Function UpdateEMPStatusData(ByVal strCode As String, ByVal EmployeeRetirementAge As Double, ByVal EmployeePFRetirementAge As Double, ByVal NavType As NavigatorType) As Boolean
         Try
             Dim whrcls As String = Nothing
             If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
                 whrcls += " And LOCATION_CODE IN (" + objCommonVar.strCurrUserLocations + ")"
             End If
-            Dim Qry As String = "Select DATEDIFF(year,Convert(Date,Birth_date,103),Convert(Date,GETDATE(),103))CurrentAge,EOMONTH(DATEADD(year, " + clsCommon.myCstr(EmployeeRetirementAge) + ", Convert(Date,Birth_date,103)))RetirementDate,Emp_Status from TSPL_EMPLOYEE_MASTER where 2=2 " + whrcls
+            Dim Qry As String = "Select DATEDIFF(year,Convert(Date,Birth_date,103),Convert(Date,'" & clsCommon.GETSERVERDATE() & "',103))CurrentAge,EOMONTH(DATEADD(year, " + clsCommon.myCstr(EmployeeRetirementAge) + ", Convert(Date,Birth_date,103)))RetirementDate,Emp_Status from TSPL_EMPLOYEE_MASTER where 2=2 " + whrcls
             Select Case NavType
                 Case NavigatorType.First
                     Qry += " and EMP_CODE = (select MIN(EMP_CODE) from TSPL_EMPLOYEE_MASTER)"
@@ -237,8 +241,12 @@ Public Class clsEmployeeMaster
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Qry = "Update TSPL_EMPLOYEE_MASTER Set RELIEVING_DATE='" + clsCommon.GetPrintDate(dt.Rows(0)("RetirementDate"), "dd/MMM/yyyy") + "' where EMP_CODE = '" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(Qry)
-                If clsCommon.myCdbl(dt.Rows(0)("CurrentAge")) >= EmployeeRetirementAge Then
+                If clsCommon.myCdbl(dt.Rows(0)("CurrentAge")) >= EmployeeRetirementAge AndAlso EmployeeRetirementAge > 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Emp_Status")), "Active") = CompairStringResult.Equal Then
                     Qry = "Update TSPL_EMPLOYEE_MASTER Set Emp_Status='Inactive' where EMP_CODE = '" + strCode + "'"
+                    clsDBFuncationality.ExecuteNonQuery(Qry)
+                End If
+                If clsCommon.myCdbl(dt.Rows(0)("CurrentAge")) >= EmployeePFRetirementAge AndAlso EmployeePFRetirementAge > 0 AndAlso EmployeePFRetirementAge <= EmployeeRetirementAge Then
+                    Qry = "Update TSPL_EMPLOYEE_MASTER Set ISPF=0 where EMP_CODE = '" + strCode + "'"
                     clsDBFuncationality.ExecuteNonQuery(Qry)
                 End If
             End If
@@ -276,6 +284,10 @@ Public Class clsEmployeeMaster
 
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             obj = New clsEmployeeMaster()
+            obj.membership_id = clsCommon.myCstr(dt.Rows(0)("membership_id"))
+            obj.special_desc = clsCommon.myCstr(dt.Rows(0)("special_desc"))
+            obj.Lic_id = clsCommon.myCstr(dt.Rows(0)("Lic_No"))
+            obj.policy = clsCommon.myCstr(dt.Rows(0)("policy_No"))
             obj.UANNo = clsCommon.myCstr(dt.Rows(0)("UANNo"))
             obj.GPF_no = clsCommon.myCstr(dt.Rows(0)("GPF_No"))
             obj.Working_City_Code = clsCommon.myCstr(dt.Rows(0)("Working_City_Code"))
@@ -644,7 +656,10 @@ Public Class clsEmployeeMaster
             clsCommon.AddColumnsForChange(coll, "UANNo", obj.UANNo, True)
             clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"))
-
+            clsCommon.AddColumnsForChange(coll, "Lic_No", obj.Lic_id)
+            clsCommon.AddColumnsForChange(coll, "policy_No", obj.policy)
+            clsCommon.AddColumnsForChange(coll, "membership_id", obj.membership_id)
+            clsCommon.AddColumnsForChange(coll, "special_desc", obj.special_desc)
             clsCommon.AddColumnsForChange(coll, "transfer_PF", IIf(obj.Transfer_PF, 1, 0))
             clsCommon.AddColumnsForChange(coll, "transferPF_text", obj.transferText)
             clsCommon.AddColumnsForChange(coll, "Votercard_No", obj.Votercard_No)

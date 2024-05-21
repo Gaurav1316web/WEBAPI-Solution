@@ -5896,7 +5896,7 @@ select SRN_No,'RM Late Penalty [ Recalculate ]' as Type,Item_Code,Penalty as Amo
             whrClas = " TSPL_PI_HEAD.Bill_To_Location in (" + arrLoc + ")"
         End If
 
-        LoadData(clsCommon.ShowSelectForm("PICoerFND", qry, "Code", whrClas, txtDocNo.Value, "PI_Date desc", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("PICoerFND", qry, "Code", whrClas, txtDocNo.Value, "PI_Date desc", isButtonClicked, "TSPL_PI_HEAD.PI_Date"), NavigatorType.Current)
     End Sub
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         ''If e.KeyCode = Keys.F2 AndAlso gv1.CurrentCell IsNot Nothing AndAlso clsCommon.myLen(gv1.CurrentRow.Cells(colSRNNo).Value) <= 0 Then

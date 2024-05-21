@@ -46,7 +46,7 @@ Public Class frmBankAdvise
     Private Sub fndDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndDocNo._MYValidating
         Try
             Dim Qry As String = "Select Document_No As [Document Code], Document_Date As [Document Date],Case When Status ='' Then 'Pending' Else 'Approved' End As [Status] from TSPL_BANK_ADVISE"
-            fndDocNo.Value = clsCommon.ShowSelectForm("fndDocNo", Qry, "Document Code", "", "", "Document_No", isButtonClicked)
+            fndDocNo.Value = clsCommon.ShowSelectForm("fndDocNo", Qry, "Document Code", "", "", "Document_No", isButtonClicked, "TSPL_BANK_ADVISE.Document_Date")
             If clsCommon.myLen(fndDocNo.Value) > 0 Then
                 LoadData(fndDocNo.Value, NavigatorType.Current)
             End If

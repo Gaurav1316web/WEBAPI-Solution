@@ -777,7 +777,7 @@ Public Class frmMilkProcurementUploader
         " ) xx left join (select Document_No,case when COUNT(1)=1 then max(Shift) else 'Both' end as [Shift]  from (" &
      "select Document_No, shift from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL group by Document_No,shift " &
    ") x group by Document_No) xxx on xx.Document_No = xxx.Document_No )final  "
-        LoadData(clsCommon.ShowSelectForm("MPUFINDOC", qry, "Document_No", whrcls, txtDocNo.Value, "Document_No", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("MPUFINDOC", qry, "Document_No", whrcls, txtDocNo.Value, "Document_No", isButtonClicked, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_Date"), NavigatorType.Current)
     End Sub
 
     Public Function SaveData() As Boolean

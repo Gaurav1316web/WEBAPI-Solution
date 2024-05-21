@@ -2440,7 +2440,7 @@ Public Class MDI
             'arrExcluded.Add(clsUserMgtCode.VendorRegistration)
             arrExcluded.Add(clsUserMgtCode.frmMapLedgerAccToTally)
             arrExcluded.Add(clsUserMgtCode.frmPostAllGLToTally)
-            'arrExcluded.Add(clsUserMgtCode.chapterhead)
+            ' arrExcluded.Add(clsUserMgtCode.chapterhead)
             arrExcluded.Add(clsUserMgtCode.frmStandardscheme)
             arrExcluded.Add(clsUserMgtCode.frmStandardRateItem)
             'arrExcluded.Add(clsUserMgtCode.frmBarCodeGenerator)
@@ -8365,6 +8365,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptGatePassReport
                         frm = New GatePassReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptNewSalesReport
+                        frm = New rptNewSalesReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptPaymentCycleWiseReport
                         frm = New rptPaymentCycleWiseReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
@@ -9884,9 +9887,13 @@ Public Class MDI
 
 
                         '------------- SHEED  -----------
-                    Case clsUserMgtCode.frmSheedGrowerMaster
-                        frm = New frmSheedGrowerMaster
+                    Case clsUserMgtCode.frmSeedGrowerMaster
+                        frm = New frmSeedGrowerMaster
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmSeedSelectionEntry
+                        frm = New frmSeedSelectionEntry
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                         '-------------------- MIS Master---------------
 
                         'Case clsUserMgtCode.MISitemGroups

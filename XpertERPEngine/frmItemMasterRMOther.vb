@@ -195,6 +195,7 @@ Public Class FrmItemMasterRMOther
         applyNLevelCategorySetting()
         'Me.cboCSAType.Visible = False
         LoadItemCSAType()
+        LoadItemSubGroupType()
         '' Anubhooti 10-Sep-2014 BM00000003847
         ItemShortDesp()
         If CreateGLAccToItem = True Then
@@ -380,9 +381,10 @@ Public Class FrmItemMasterRMOther
         lblSubCategory.Text = ""
         txtUOM.Value = ""
         lblUOM.Text = ""
-        fndChptr.Value = ""
-        lblchptrdesc.Text = ""
+        'fndChptr.Value = ""
+        'lblchptrdesc.Text = ""
         cboItemType.SelectedValue = ""
+        cboItemSubGroupType.SelectedValue = ""
         cmbUsedAs.SelectedValue = ""
         cboType.SelectedValue = ""
         txtCost.Value = 0
@@ -1414,7 +1416,8 @@ Public Class FrmItemMasterRMOther
                 obj.Sale_Class_Code = txtSaleAcSet.Value
                 obj.item_category = txtCategory.Value
                 obj.Sub_item_category = txtSubCategory.Value
-                obj.Cheapter_Heads = fndChptr.Value
+                ' obj.Cheapter_Heads = fndChptr.Value
+                obj.Item_Sub_Group_Type = clsCommon.myCstr(cboItemSubGroupType.SelectedValue)
                 obj.TypeOfItm = clsCommon.myCstr(cboType.SelectedValue)
                 obj.Item_Type = clsCommon.myCstr(cboItemType.SelectedValue)
                 obj.Morning = chkMorning.Checked
@@ -2520,7 +2523,7 @@ Public Class FrmItemMasterRMOther
                 End If
                 'txt_tolerance.Value = obj.Tolerance
                 TxtProdTolerance.Value = obj.Production_Tolerance
-                fndChptr.Value = obj.Cheapter_Heads
+                'fndChptr.Value = obj.Cheapter_Heads
                 txtCategoryStructureCode.Value = obj.Item_Category_Struct_Code
                 lblCategoryStructureCode.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select DESCRIPTION from TSPL_ITEM_CATEGORY_STRUCTURE where ITEM_CATEGORY_STRUCT_CODE='" + txtCategoryStructureCode.Value + "'"))
                 txtRate.Value = obj.Rate
@@ -2531,7 +2534,7 @@ Public Class FrmItemMasterRMOther
                 chkActive.Checked = obj.Active
                 txtAlternativeItem.Value = obj.AlternativeItem
                 lblAlternativeItemName.Text = clsItemMaster.GetItemName(txtAlternativeItem.Value, Nothing)
-                lblchptrdesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_CHAPTER_HEAD where Chapter_head_code ='" + fndChptr.Value + "'"))
+                ' lblchptrdesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_CHAPTER_HEAD where Chapter_head_code ='" + fndChptr.Value + "'"))
 
                 fndCSA_AC_Code.Value = obj.Cust_Account
                 txtCSA_AC_Name.Text = obj.Cust_Account_Name
@@ -2564,6 +2567,7 @@ Public Class FrmItemMasterRMOther
                 txtSubCategory.Value = obj.Sub_item_category
                 lblSubCategory.Text = clsDBFuncationality.getSingleValue("select Description  from TSPL_ITEM_SUB_CATEGORY where Sub_Category_Code='" + txtSubCategory.Value + "'")
                 cboType.SelectedValue = obj.TypeOfItm
+                cboItemSubGroupType.SelectedValue = obj.Item_Sub_Group_Type
                 cboItemType.SelectedValue = obj.Item_Type
 
                 If ToleranceMandatoryFor_RM_Other_Trade AndAlso (clsCommon.CompairString(cboItemType.SelectedValue, "R") = CompairStringResult.Equal OrElse clsCommon.CompairString(cboItemType.SelectedValue, "O") = CompairStringResult.Equal OrElse clsCommon.CompairString(cboItemType.SelectedValue, "T") = CompairStringResult.Equal) Then
@@ -3029,12 +3033,7 @@ Public Class FrmItemMasterRMOther
         End If
         Me.Close()
     End Sub
-    Private Sub fndChptr__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndChptr._MYValidating
-        Dim Qry As String = "select Chapter_Head_Code as Code,Description from TSPL_CHAPTER_HEAD "
-        fndChptr.Value = clsCommon.ShowSelectForm("fnsubcat", Qry, "Code", "", txtSubCategory.Value, "Code", isButtonClicked)
-        lblchptrdesc.Text = clsDBFuncationality.getSingleValue("select Description from TSPL_CHAPTER_HEAD where Chapter_Head_Code='" + fndChptr.Value + "'")
 
-    End Sub
     Private Sub txtAlternativeItem__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtAlternativeItem._MYValidating
         Dim obj As clsItemMaster = clsItemMaster.FinderForItem(clsCommon.myCstr(txtAlternativeItem.Value), "cboItemType.SelectedValue", True, isButtonClicked, "", "")
         If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Item_Code) > 0 Then
@@ -3163,7 +3162,7 @@ Public Class FrmItemMasterRMOther
             QrySheet = " Select TSPL_ITEM_MASTER.Item_Code as [Item Code], Item_Desc as [Item Description],sku_seq as [Seq No],Short_Description as [Short Description], Structure_Code as [Structure Code], Rack_No as [Rack No],"
             QrySheet += " Purchase_Class_Code as [Purchase A/c Set], Sale_Class_Code as [Sale A/c Set], item_category as [Category], "
             QrySheet += " Sub_item_category as [Sub Category], Unit_Code as [UOM], Item_Type as [Item Type], TypeOfItm as [Type],TSPL_ITEM_MASTER.tolerence as [Tolerence], Cost,Purchase_Price as [Standard Purchase Price], "
-            QrySheet += " Morning,Cheapter_Heads as [Chapter Code], Item_Category_Struct_Code as [Category Structure], Weight_UOM, Weight_Value,Is_MRP,ITF_CODE,Active,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,TSPL_ITEM_UOM_DETAIL.Weight,TSPL_ITEM_UOM_DETAIL.Stocking_Unit,Is_FreshItem,Is_Ambient,Product_type as [Product Type],case when coalesce(Is_Purchaseable,'0')='1' then 'Yes' else 'No' end as [Is Purchaseable],case when coalesce(Is_AllowQC_On_Purchase,'0')='1' then 'Yes' else 'No' end as [Is Allow QC on Purchase],Is_CrateType,Is_CAN_Type,case When Item_used_as='I' then 'MCC Issue' when item_used_as='S' then 'MCC Sale' when item_used_as='P' then 'Production' else 'None' end as [Used As],ISNULL(TSPL_ITEM_MASTER.GL_Account,'') AS [GL Account],(SELECT Description  From TSPL_GL_ACCOUNTS where Account_Code=TSPL_ITEM_MASTER.GL_Account) AS [Account Description] "
+            QrySheet += " Morning,Cheapter_Heads as [Chapter Code],Item_Sub_Group_Type as [Item Sub Group Type], Item_Category_Struct_Code as [Category Structure], Weight_UOM, Weight_Value,Is_MRP,ITF_CODE,Active,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,TSPL_ITEM_UOM_DETAIL.Weight,TSPL_ITEM_UOM_DETAIL.Stocking_Unit,Is_FreshItem,Is_Ambient,Product_type as [Product Type],case when coalesce(Is_Purchaseable,'0')='1' then 'Yes' else 'No' end as [Is Purchaseable],case when coalesce(Is_AllowQC_On_Purchase,'0')='1' then 'Yes' else 'No' end as [Is Allow QC on Purchase],Is_CrateType,Is_CAN_Type,case When Item_used_as='I' then 'MCC Issue' when item_used_as='S' then 'MCC Sale' when item_used_as='P' then 'Production' else 'None' end as [Used As],ISNULL(TSPL_ITEM_MASTER.GL_Account,'') AS [GL Account],(SELECT Description  From TSPL_GL_ACCOUNTS where Account_Code=TSPL_ITEM_MASTER.GL_Account) AS [Account Description] "
             If clsCommon.myLen(code) > 0 Then
                 QrySheet += ",TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values"
             Else
@@ -3265,6 +3264,7 @@ Public Class FrmItemMasterRMOther
                 Dim Unit_Code As String
                 Dim Item_Type As String
                 Dim TypeOfItm As String
+                Dim Item_Sub_Group_Type As String
                 Dim Cost As Double
                 Dim Tolerence As Double
                 Dim Morning As String
@@ -3511,7 +3511,12 @@ Public Class FrmItemMasterRMOther
                         clsCommon.AddColumnsForChange(coll, "TypeOfItm", TypeOfItm)
                         '----------------------------------------------------------------
 
+                        '-----Item Sub Group Type---------
+                        Item_Sub_Group_Type = clsCommon.myCstr(grow.Cells("Type").Value)
+                        clsCommon.AddColumnsForChange(coll, "Item_Sub_Group_Type", Item_Sub_Group_Type)
+
                         '-------------------------Cost--------------------------------
+
                         Cost = clsCommon.myCdbl(grow.Cells("Cost").Value)
                         clsCommon.AddColumnsForChange(coll, "Cost", Cost)
                         '---------------------------------------------------------------
@@ -4422,6 +4427,15 @@ Public Class FrmItemMasterRMOther
         cboCSAType.DisplayMember = "Name"
         'Return dt
     End Sub
+
+    Sub LoadItemSubGroupType()
+
+        Dim Qry As String = " SELECT '' AS Code,'Select' as Description union select Chapter_Head_Code as Code,Description from TSPL_CHAPTER_HEAD "
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        cboItemSubGroupType.DataSource = dt
+        cboItemSubGroupType.ValueMember = "Code"
+        cboItemSubGroupType.DisplayMember = "Description"
+    End Sub
     Private Sub btnSerializedExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSerializedExport.Click
         Try
             qry = "Select Item_Code as [Item Code], Is_Serial_Item as [Is Serialized Item] ,isnull(Serial_Counter,'') as [Serial Counter] ,isnull(WARRANTY_CODE,'') as [Warranty Code],isnull(Asset_Life,0) as [Asset Life],isnull(Warranty_Period,0) as [Warranty Period] from TSPL_ITEM_MASTER "
@@ -4627,6 +4641,7 @@ Public Class FrmItemMasterRMOther
                     Dim Unit_Code As String = Nothing
                     Dim Item_Type As String = ""
                     Dim TypeOfItm As String
+                    Dim Item_Sub_Group_Type As String
                     Dim Cost As Double
                     Dim Tolerence As Double
                     Dim Morning As String
@@ -5042,6 +5057,10 @@ Public Class FrmItemMasterRMOther
                                 ErrCount = ErrCount + 1 : GoTo ExitLOOP
                             End If
                             clsCommon.AddColumnsForChange(coll, "TypeOfItm", TypeOfItm)
+
+                            '--------Item Sub Group Type------
+                            Item_Sub_Group_Type = clsCommon.myCstr(grow.Cells("Type").Value)
+                            clsCommon.AddColumnsForChange(coll, "Item_Sub_Group_Type", Item_Sub_Group_Type)
                             '----------------------------------------------------------------
 
                             '-------------------------Cost--------------------------------
@@ -5773,7 +5792,7 @@ ExitLOOP:
             Dim whrcls As String = ""
             QrySheet = " Select TSPL_ITEM_MASTER.Item_Code as [Item Code], Item_Desc as [Item Description],Sku_Seq [Seq No],Short_Description as [Short Description], Structure_Code as [Structure Code], Rack_No as [Rack No],"
             QrySheet += " Purchase_Class_Code as [Purchase A/c Set], Sale_Class_Code as [Sale A/c Set], item_category as [Category], "
-            QrySheet += " Sub_item_category as [Sub Category], Unit_Code as [UOM], Item_Type as [Item Type], TypeOfItm as [Type], Cost,TSPL_ITEM_MASTER.tolerence as [Tolerence],TSPL_ITEM_MASTER.tech_shelf_life as [Shelf Life],TSPL_ITEM_MASTER.min_shelf_life as [Min Shelf Life],Purchase_Price as [Standard Purchase Price],"
+            QrySheet += " Sub_item_category as [Sub Category], Unit_Code as [UOM], Item_Type as [Item Type], TypeOfItm as [Type],Item_Sub_Group_Type as [Item Sub Group Type], Cost,TSPL_ITEM_MASTER.tolerence as [Tolerence],TSPL_ITEM_MASTER.tech_shelf_life as [Shelf Life],TSPL_ITEM_MASTER.min_shelf_life as [Min Shelf Life],Purchase_Price as [Standard Purchase Price],"
             ''CHANGES BY RICHA AGARWAL IN QUERY
             QrySheet += " Morning,Cheapter_Heads as [Chapter Code], Item_Category_Struct_Code as [Category Structure], Weight_UOM, Weight_Value,Is_MRP,ITF_CODE,Active,Is_FreshItem,Is_Ambient,Product_type as [Product Type],case when coalesce(Is_Purchaseable,'0')='1' then 'Yes' else 'No' end as [Is Purchaseable],case when coalesce(Is_AllowQC_On_Purchase,'0')='1' then 'Yes' else 'No' end as [Is Allow QC on Purchase],Is_CrateType,Is_CAN_Type,case When Item_used_as='I' then 'MCC Issue' when item_used_as='S' then 'MCC Sale' when item_used_as='P' then 'Production' else 'None' end as [Used As],Part_No,Drawing_No,ISNULL(TSPL_ITEM_MASTER.GL_Account,'') AS [GL Account],(SELECT Description  From TSPL_GL_ACCOUNTS where Account_Code=TSPL_ITEM_MASTER.GL_Account) AS [Account Description],ISNULL(WARRANTY_CODE,'') AS [Warranty Code],ISNULL(Warranty_Applied_From ,'') AS [Warranty Applied From],Alies_Name as [Alies Name],is_leakage_not_Applicable as [Leakage Not Applicable],Production_Tolerance as [Production Tolerance]"
             ''------------

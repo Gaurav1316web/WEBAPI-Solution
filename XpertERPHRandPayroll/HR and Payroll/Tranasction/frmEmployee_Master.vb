@@ -21,6 +21,7 @@ Public Class frmEmployee_Master
 
 #Region "Variable"
     Dim EmployeeRetirementAge As Double = 0
+    Dim EmployeePFRetirementAge As Double = 0
     Private isNewEntry As Boolean = False
     Private isInsideLoadData As Boolean = False
     Private isCellValueChanged As Boolean = False
@@ -151,6 +152,7 @@ Public Class frmEmployee_Master
         CreateEmpCodeAsPerEmployeeBasisType = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.CreateEmpCodeAsPerEmployeeBasisType, clsFixedParameterCode.CreateEmpCodeAsPerEmployeeBasisType, Nothing)) = "1", True, False)
         AadharNoMandatoryOnEmpMaster = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AadharNoMandatoryOnEmpMaster, clsFixedParameterCode.AadharNoMandatoryOnEmpMaster, Nothing)) = "1", True, False)
         EmployeeRetirementAge = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EmployeeRetirementAge, clsFixedParameterCode.EmployeeRetirementAge, Nothing))
+        EmployeePFRetirementAge = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EmployeePFRetirementAge, clsFixedParameterCode.EmployeePFRetirementAge, Nothing))
         ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update ")
         ButtonToolTip.SetToolTip(btndelete, "Press Alt+D  for Delete ")
         ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
@@ -413,6 +415,10 @@ Public Class frmEmployee_Master
                     obj.Inactive_Date = 0
                     obj.Status_Inactive_Date = Nothing
                 End If
+                obj.membership_id = txtmembershipid.Text
+                obj.special_desc = txtspecialdesc.Text
+                obj.Lic_id = txtLICID.Text
+                obj.policy = txtpolicy.Text
                 obj.Payroll_Code = txtPayRollCode.Text
                 obj.GL_Account = TxtGLAccount.Value
                 obj.CAST_CATEGORY_CODE = txtCastCategory.Value
@@ -773,7 +779,7 @@ Public Class frmEmployee_Master
 
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         BlankAllControl()
-        clsEmployeeMaster.UpdateEMPStatusData(strCode, EmployeeRetirementAge, NavTyep)
+        clsEmployeeMaster.UpdateEMPStatusData(strCode, EmployeeRetirementAge, EmployeePFRetirementAge, NavTyep)
         Dim obj As New clsEmployeeMaster()
         obj = clsEmployeeMaster.GetData(strCode, NavTyep)
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.EMP_CODE) > 0) Then
@@ -783,6 +789,10 @@ Public Class frmEmployee_Master
             isNewEntry = False
             btnsave.Text = "Update"
             txtGPFNo.Text = obj.GPF_no
+            txtLICID.Text = obj.Lic_id
+            txtpolicy.Text = obj.policy
+            txtmembershipid.Text = obj.membership_id
+            txtspecialdesc.Text = obj.special_desc
             txtEmployeeBand.Value = obj.EMP_Band_Code
             fndcity.Value = obj.Working_City_Code
             txtCode.Value = obj.EMP_CODE
@@ -4510,5 +4520,4 @@ Public Class frmEmployee_Master
         End If
         txtActiveInactiveDate.Checked = False
     End Sub
-
 End Class

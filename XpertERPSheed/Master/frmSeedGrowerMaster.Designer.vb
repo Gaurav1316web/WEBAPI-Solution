@@ -1,7 +1,7 @@
 ﻿Imports XpertERPEngine
 Imports XpertERPEngineFine
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class frmSheedGrowerMaster
+Partial Class frmSeedGrowerMaster
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
@@ -25,6 +25,28 @@ Partial Class frmSheedGrowerMaster
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.txtAadharNo = New common.Controls.MyTextBox()
+        Me.MyLabel13 = New common.Controls.MyLabel()
+        Me.txtPAN = New common.Controls.MyTextBox()
+        Me.MyLabel12 = New common.Controls.MyLabel()
+        Me.txtAdd2 = New common.Controls.MyTextBox()
+        Me.RadLabel2 = New common.Controls.MyLabel()
+        Me.txtAdd1 = New common.Controls.MyTextBox()
+        Me.txtAdd3 = New common.Controls.MyTextBox()
+        Me.txtKhasraNo = New common.Controls.MyTextBox()
+        Me.MyLabel11 = New common.Controls.MyLabel()
+        Me.txtRegNo = New common.Controls.MyTextBox()
+        Me.MyLabel10 = New common.Controls.MyLabel()
+        Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.TxtAccNo = New common.Controls.MyTextBox()
+        Me.MyLabel8 = New common.Controls.MyLabel()
+        Me.MyLabel25 = New common.Controls.MyLabel()
+        Me.TxtIFSCCode = New common.Controls.MyTextBox()
+        Me.MyLabel27 = New common.Controls.MyLabel()
+        Me.txtbranchname = New common.Controls.MyTextBox()
+        Me.MyLabel9 = New common.Controls.MyLabel()
+        Me.TxtBankName = New common.Controls.MyTextBox()
+        Me.MyLabel28 = New common.Controls.MyLabel()
         Me.lblDistrict = New common.Controls.MyLabel()
         Me.txtDistrict = New common.UserControls.txtFinder()
         Me.MyLabel1 = New common.Controls.MyLabel()
@@ -32,7 +54,6 @@ Partial Class frmSheedGrowerMaster
         Me.fndVillegeCode = New common.UserControls.txtFinder()
         Me.MyLabel7 = New common.Controls.MyLabel()
         Me.txtTotal = New common.MyNumBox()
-        Me.MyLabel8 = New common.Controls.MyLabel()
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.txtLeaseLand = New common.MyNumBox()
         Me.MyLabel6 = New common.Controls.MyLabel()
@@ -64,12 +85,34 @@ Partial Class frmSheedGrowerMaster
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.txtAadharNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtPAN, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtAdd2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtAdd1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtAdd3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtKhasraNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtRegNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox6.SuspendLayout()
+        CType(Me.TxtAccNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TxtIFSCCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtbranchname, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TxtBankName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel28, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDistrict, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblVillage, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTotal, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtLeaseLand, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -100,12 +143,27 @@ Partial Class frmSheedGrowerMaster
         'SplitContainer1
         '
         Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
+        Me.SplitContainer1.IsSplitterFixed = True
         Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainer1.Name = "SplitContainer1"
         Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtAadharNo)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel13)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtPAN)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel12)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtAdd2)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtAdd1)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtAdd3)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadLabel2)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtKhasraNo)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel11)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtRegNo)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel10)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox6)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblDistrict)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtDistrict)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblVillage)
@@ -142,9 +200,380 @@ Partial Class frmSheedGrowerMaster
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(906, 445)
-        Me.SplitContainer1.SplitterDistance = 392
+        Me.SplitContainer1.Size = New System.Drawing.Size(943, 539)
+        Me.SplitContainer1.SplitterDistance = 498
         Me.SplitContainer1.TabIndex = 0
+        '
+        'txtAadharNo
+        '
+        Me.txtAadharNo.CalculationExpression = Nothing
+        Me.txtAadharNo.FieldCode = Nothing
+        Me.txtAadharNo.FieldDesc = Nothing
+        Me.txtAadharNo.FieldMaxLength = 0
+        Me.txtAadharNo.FieldName = Nothing
+        Me.txtAadharNo.isCalculatedField = False
+        Me.txtAadharNo.IsSourceFromTable = False
+        Me.txtAadharNo.IsSourceFromValueList = False
+        Me.txtAadharNo.IsUnique = False
+        Me.txtAadharNo.Location = New System.Drawing.Point(123, 324)
+        Me.txtAadharNo.MendatroryField = False
+        Me.txtAadharNo.MyLinkLable1 = Nothing
+        Me.txtAadharNo.MyLinkLable2 = Nothing
+        Me.txtAadharNo.Name = "txtAadharNo"
+        Me.txtAadharNo.ReferenceFieldDesc = Nothing
+        Me.txtAadharNo.ReferenceFieldName = Nothing
+        Me.txtAadharNo.ReferenceTableName = Nothing
+        Me.txtAadharNo.Size = New System.Drawing.Size(226, 20)
+        Me.txtAadharNo.TabIndex = 1485
+        '
+        'MyLabel13
+        '
+        Me.MyLabel13.FieldName = Nothing
+        Me.MyLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel13.Location = New System.Drawing.Point(17, 328)
+        Me.MyLabel13.Name = "MyLabel13"
+        Me.MyLabel13.Size = New System.Drawing.Size(63, 16)
+        Me.MyLabel13.TabIndex = 1486
+        Me.MyLabel13.Text = "Aadhar No."
+        '
+        'txtPAN
+        '
+        Me.txtPAN.CalculationExpression = Nothing
+        Me.txtPAN.FieldCode = Nothing
+        Me.txtPAN.FieldDesc = Nothing
+        Me.txtPAN.FieldMaxLength = 0
+        Me.txtPAN.FieldName = Nothing
+        Me.txtPAN.isCalculatedField = False
+        Me.txtPAN.IsSourceFromTable = False
+        Me.txtPAN.IsSourceFromValueList = False
+        Me.txtPAN.IsUnique = False
+        Me.txtPAN.Location = New System.Drawing.Point(123, 303)
+        Me.txtPAN.MendatroryField = False
+        Me.txtPAN.MyLinkLable1 = Nothing
+        Me.txtPAN.MyLinkLable2 = Nothing
+        Me.txtPAN.Name = "txtPAN"
+        Me.txtPAN.ReferenceFieldDesc = Nothing
+        Me.txtPAN.ReferenceFieldName = Nothing
+        Me.txtPAN.ReferenceTableName = Nothing
+        Me.txtPAN.Size = New System.Drawing.Size(226, 20)
+        Me.txtPAN.TabIndex = 1483
+        '
+        'MyLabel12
+        '
+        Me.MyLabel12.FieldName = Nothing
+        Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel12.Location = New System.Drawing.Point(17, 307)
+        Me.MyLabel12.Name = "MyLabel12"
+        Me.MyLabel12.Size = New System.Drawing.Size(50, 16)
+        Me.MyLabel12.TabIndex = 1484
+        Me.MyLabel12.Text = "PAN No."
+        '
+        'txtAdd2
+        '
+        Me.txtAdd2.CalculationExpression = Nothing
+        Me.txtAdd2.FieldCode = Nothing
+        Me.txtAdd2.FieldDesc = Nothing
+        Me.txtAdd2.FieldMaxLength = 0
+        Me.txtAdd2.FieldName = Nothing
+        Me.txtAdd2.isCalculatedField = False
+        Me.txtAdd2.IsSourceFromTable = False
+        Me.txtAdd2.IsSourceFromValueList = False
+        Me.txtAdd2.IsUnique = False
+        Me.txtAdd2.Location = New System.Drawing.Point(123, 127)
+        Me.txtAdd2.MaxLength = 75
+        Me.txtAdd2.MendatroryField = False
+        Me.txtAdd2.MyLinkLable1 = Me.RadLabel2
+        Me.txtAdd2.MyLinkLable2 = Nothing
+        Me.txtAdd2.Name = "txtAdd2"
+        Me.txtAdd2.ReferenceFieldDesc = Nothing
+        Me.txtAdd2.ReferenceFieldName = Nothing
+        Me.txtAdd2.ReferenceTableName = Nothing
+        Me.txtAdd2.Size = New System.Drawing.Size(553, 20)
+        Me.txtAdd2.TabIndex = 1480
+        '
+        'RadLabel2
+        '
+        Me.RadLabel2.FieldName = Nothing
+        Me.RadLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel2.Location = New System.Drawing.Point(17, 105)
+        Me.RadLabel2.Name = "RadLabel2"
+        Me.RadLabel2.Size = New System.Drawing.Size(48, 16)
+        Me.RadLabel2.TabIndex = 1482
+        Me.RadLabel2.Text = "Address"
+        '
+        'txtAdd1
+        '
+        Me.txtAdd1.CalculationExpression = Nothing
+        Me.txtAdd1.FieldCode = Nothing
+        Me.txtAdd1.FieldDesc = Nothing
+        Me.txtAdd1.FieldMaxLength = 0
+        Me.txtAdd1.FieldName = Nothing
+        Me.txtAdd1.isCalculatedField = False
+        Me.txtAdd1.IsSourceFromTable = False
+        Me.txtAdd1.IsSourceFromValueList = False
+        Me.txtAdd1.IsUnique = False
+        Me.txtAdd1.Location = New System.Drawing.Point(123, 105)
+        Me.txtAdd1.MaxLength = 75
+        Me.txtAdd1.MendatroryField = False
+        Me.txtAdd1.MyLinkLable1 = Me.RadLabel2
+        Me.txtAdd1.MyLinkLable2 = Nothing
+        Me.txtAdd1.Name = "txtAdd1"
+        Me.txtAdd1.ReferenceFieldDesc = Nothing
+        Me.txtAdd1.ReferenceFieldName = Nothing
+        Me.txtAdd1.ReferenceTableName = Nothing
+        Me.txtAdd1.Size = New System.Drawing.Size(553, 20)
+        Me.txtAdd1.TabIndex = 1479
+        '
+        'txtAdd3
+        '
+        Me.txtAdd3.CalculationExpression = Nothing
+        Me.txtAdd3.FieldCode = Nothing
+        Me.txtAdd3.FieldDesc = Nothing
+        Me.txtAdd3.FieldMaxLength = 0
+        Me.txtAdd3.FieldName = Nothing
+        Me.txtAdd3.isCalculatedField = False
+        Me.txtAdd3.IsSourceFromTable = False
+        Me.txtAdd3.IsSourceFromValueList = False
+        Me.txtAdd3.IsUnique = False
+        Me.txtAdd3.Location = New System.Drawing.Point(123, 149)
+        Me.txtAdd3.MaxLength = 75
+        Me.txtAdd3.MendatroryField = False
+        Me.txtAdd3.MyLinkLable1 = Me.RadLabel2
+        Me.txtAdd3.MyLinkLable2 = Nothing
+        Me.txtAdd3.Name = "txtAdd3"
+        Me.txtAdd3.ReferenceFieldDesc = Nothing
+        Me.txtAdd3.ReferenceFieldName = Nothing
+        Me.txtAdd3.ReferenceTableName = Nothing
+        Me.txtAdd3.Size = New System.Drawing.Size(553, 20)
+        Me.txtAdd3.TabIndex = 1481
+        '
+        'txtKhasraNo
+        '
+        Me.txtKhasraNo.CalculationExpression = Nothing
+        Me.txtKhasraNo.FieldCode = Nothing
+        Me.txtKhasraNo.FieldDesc = Nothing
+        Me.txtKhasraNo.FieldMaxLength = 0
+        Me.txtKhasraNo.FieldName = Nothing
+        Me.txtKhasraNo.isCalculatedField = False
+        Me.txtKhasraNo.IsSourceFromTable = False
+        Me.txtKhasraNo.IsSourceFromValueList = False
+        Me.txtKhasraNo.IsUnique = False
+        Me.txtKhasraNo.Location = New System.Drawing.Point(123, 282)
+        Me.txtKhasraNo.MendatroryField = False
+        Me.txtKhasraNo.MyLinkLable1 = Me.MyLabel11
+        Me.txtKhasraNo.MyLinkLable2 = Nothing
+        Me.txtKhasraNo.Name = "txtKhasraNo"
+        Me.txtKhasraNo.ReferenceFieldDesc = Nothing
+        Me.txtKhasraNo.ReferenceFieldName = Nothing
+        Me.txtKhasraNo.ReferenceTableName = Nothing
+        Me.txtKhasraNo.Size = New System.Drawing.Size(226, 20)
+        Me.txtKhasraNo.TabIndex = 1477
+        '
+        'MyLabel11
+        '
+        Me.MyLabel11.FieldName = Nothing
+        Me.MyLabel11.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel11.Location = New System.Drawing.Point(17, 286)
+        Me.MyLabel11.Name = "MyLabel11"
+        Me.MyLabel11.Size = New System.Drawing.Size(63, 16)
+        Me.MyLabel11.TabIndex = 1478
+        Me.MyLabel11.Text = "Khasra No."
+        '
+        'txtRegNo
+        '
+        Me.txtRegNo.CalculationExpression = Nothing
+        Me.txtRegNo.FieldCode = Nothing
+        Me.txtRegNo.FieldDesc = Nothing
+        Me.txtRegNo.FieldMaxLength = 0
+        Me.txtRegNo.FieldName = Nothing
+        Me.txtRegNo.isCalculatedField = False
+        Me.txtRegNo.IsSourceFromTable = False
+        Me.txtRegNo.IsSourceFromValueList = False
+        Me.txtRegNo.IsUnique = False
+        Me.txtRegNo.Location = New System.Drawing.Point(123, 261)
+        Me.txtRegNo.MendatroryField = False
+        Me.txtRegNo.MyLinkLable1 = Me.MyLabel10
+        Me.txtRegNo.MyLinkLable2 = Nothing
+        Me.txtRegNo.Name = "txtRegNo"
+        Me.txtRegNo.ReferenceFieldDesc = Nothing
+        Me.txtRegNo.ReferenceFieldName = Nothing
+        Me.txtRegNo.ReferenceTableName = Nothing
+        Me.txtRegNo.Size = New System.Drawing.Size(226, 20)
+        Me.txtRegNo.TabIndex = 1475
+        '
+        'MyLabel10
+        '
+        Me.MyLabel10.FieldName = Nothing
+        Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel10.Location = New System.Drawing.Point(17, 265)
+        Me.MyLabel10.Name = "MyLabel10"
+        Me.MyLabel10.Size = New System.Drawing.Size(87, 16)
+        Me.MyLabel10.TabIndex = 1476
+        Me.MyLabel10.Text = "Registration No."
+        '
+        'RadGroupBox6
+        '
+        Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox6.Controls.Add(Me.TxtAccNo)
+        Me.RadGroupBox6.Controls.Add(Me.MyLabel25)
+        Me.RadGroupBox6.Controls.Add(Me.TxtIFSCCode)
+        Me.RadGroupBox6.Controls.Add(Me.MyLabel27)
+        Me.RadGroupBox6.Controls.Add(Me.txtbranchname)
+        Me.RadGroupBox6.Controls.Add(Me.MyLabel9)
+        Me.RadGroupBox6.Controls.Add(Me.TxtBankName)
+        Me.RadGroupBox6.Controls.Add(Me.MyLabel28)
+        Me.RadGroupBox6.HeaderText = "Bank Details"
+        Me.RadGroupBox6.Location = New System.Drawing.Point(12, 350)
+        Me.RadGroupBox6.Name = "RadGroupBox6"
+        Me.RadGroupBox6.Size = New System.Drawing.Size(449, 121)
+        Me.RadGroupBox6.TabIndex = 1474
+        Me.RadGroupBox6.Text = "Bank Details"
+        '
+        'TxtAccNo
+        '
+        Me.TxtAccNo.CalculationExpression = Nothing
+        Me.TxtAccNo.FieldCode = Nothing
+        Me.TxtAccNo.FieldDesc = Nothing
+        Me.TxtAccNo.FieldMaxLength = 0
+        Me.TxtAccNo.FieldName = Nothing
+        Me.TxtAccNo.isCalculatedField = False
+        Me.TxtAccNo.IsSourceFromTable = False
+        Me.TxtAccNo.IsSourceFromValueList = False
+        Me.TxtAccNo.IsUnique = False
+        Me.TxtAccNo.Location = New System.Drawing.Point(110, 93)
+        Me.TxtAccNo.MaxLength = 50
+        Me.TxtAccNo.MendatroryField = False
+        Me.TxtAccNo.MyLinkLable1 = Me.MyLabel8
+        Me.TxtAccNo.MyLinkLable2 = Nothing
+        Me.TxtAccNo.Name = "TxtAccNo"
+        Me.TxtAccNo.ReferenceFieldDesc = Nothing
+        Me.TxtAccNo.ReferenceFieldName = Nothing
+        Me.TxtAccNo.ReferenceTableName = Nothing
+        Me.TxtAccNo.Size = New System.Drawing.Size(321, 20)
+        Me.TxtAccNo.TabIndex = 121
+        '
+        'MyLabel8
+        '
+        Me.MyLabel8.FieldName = Nothing
+        Me.MyLabel8.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel8.Location = New System.Drawing.Point(355, 287)
+        Me.MyLabel8.Name = "MyLabel8"
+        Me.MyLabel8.Size = New System.Drawing.Size(31, 18)
+        Me.MyLabel8.TabIndex = 1467
+        Me.MyLabel8.Text = "Total"
+        '
+        'MyLabel25
+        '
+        Me.MyLabel25.FieldName = Nothing
+        Me.MyLabel25.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel25.Location = New System.Drawing.Point(9, 93)
+        Me.MyLabel25.Name = "MyLabel25"
+        Me.MyLabel25.Size = New System.Drawing.Size(68, 16)
+        Me.MyLabel25.TabIndex = 38
+        Me.MyLabel25.Text = "Account No."
+        '
+        'TxtIFSCCode
+        '
+        Me.TxtIFSCCode.CalculationExpression = Nothing
+        Me.TxtIFSCCode.FieldCode = Nothing
+        Me.TxtIFSCCode.FieldDesc = Nothing
+        Me.TxtIFSCCode.FieldMaxLength = 0
+        Me.TxtIFSCCode.FieldName = Nothing
+        Me.TxtIFSCCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtIFSCCode.isCalculatedField = False
+        Me.TxtIFSCCode.IsSourceFromTable = False
+        Me.TxtIFSCCode.IsSourceFromValueList = False
+        Me.TxtIFSCCode.IsUnique = False
+        Me.TxtIFSCCode.Location = New System.Drawing.Point(111, 46)
+        Me.TxtIFSCCode.MaxLength = 50
+        Me.TxtIFSCCode.MendatroryField = False
+        Me.TxtIFSCCode.MyLinkLable1 = Me.MyLabel27
+        Me.TxtIFSCCode.MyLinkLable2 = Nothing
+        Me.TxtIFSCCode.Name = "TxtIFSCCode"
+        Me.TxtIFSCCode.ReferenceFieldDesc = Nothing
+        Me.TxtIFSCCode.ReferenceFieldName = Nothing
+        Me.TxtIFSCCode.ReferenceTableName = Nothing
+        Me.TxtIFSCCode.Size = New System.Drawing.Size(320, 18)
+        Me.TxtIFSCCode.TabIndex = 5
+        '
+        'MyLabel27
+        '
+        Me.MyLabel27.FieldName = Nothing
+        Me.MyLabel27.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel27.Location = New System.Drawing.Point(9, 47)
+        Me.MyLabel27.Name = "MyLabel27"
+        Me.MyLabel27.Size = New System.Drawing.Size(62, 16)
+        Me.MyLabel27.TabIndex = 29
+        Me.MyLabel27.Text = "IFSC Code"
+        '
+        'txtbranchname
+        '
+        Me.txtbranchname.CalculationExpression = Nothing
+        Me.txtbranchname.FieldCode = Nothing
+        Me.txtbranchname.FieldDesc = Nothing
+        Me.txtbranchname.FieldMaxLength = 0
+        Me.txtbranchname.FieldName = Nothing
+        Me.txtbranchname.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtbranchname.isCalculatedField = False
+        Me.txtbranchname.IsSourceFromTable = False
+        Me.txtbranchname.IsSourceFromValueList = False
+        Me.txtbranchname.IsUnique = False
+        Me.txtbranchname.Location = New System.Drawing.Point(110, 70)
+        Me.txtbranchname.MaxLength = 150
+        Me.txtbranchname.MendatroryField = False
+        Me.txtbranchname.MyLinkLable1 = Me.MyLabel9
+        Me.txtbranchname.MyLinkLable2 = Nothing
+        Me.txtbranchname.Name = "txtbranchname"
+        Me.txtbranchname.ReferenceFieldDesc = Nothing
+        Me.txtbranchname.ReferenceFieldName = Nothing
+        Me.txtbranchname.ReferenceTableName = Nothing
+        Me.txtbranchname.Size = New System.Drawing.Size(321, 18)
+        Me.txtbranchname.TabIndex = 4
+        '
+        'MyLabel9
+        '
+        Me.MyLabel9.FieldName = Nothing
+        Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel9.Location = New System.Drawing.Point(9, 71)
+        Me.MyLabel9.Name = "MyLabel9"
+        Me.MyLabel9.Size = New System.Drawing.Size(71, 16)
+        Me.MyLabel9.TabIndex = 27
+        Me.MyLabel9.Text = "Bank Branch"
+        '
+        'TxtBankName
+        '
+        Me.TxtBankName.CalculationExpression = Nothing
+        Me.TxtBankName.FieldCode = Nothing
+        Me.TxtBankName.FieldDesc = Nothing
+        Me.TxtBankName.FieldMaxLength = 0
+        Me.TxtBankName.FieldName = Nothing
+        Me.TxtBankName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtBankName.isCalculatedField = False
+        Me.TxtBankName.IsSourceFromTable = False
+        Me.TxtBankName.IsSourceFromValueList = False
+        Me.TxtBankName.IsUnique = False
+        Me.TxtBankName.Location = New System.Drawing.Point(111, 23)
+        Me.TxtBankName.MaxLength = 50
+        Me.TxtBankName.MendatroryField = False
+        Me.TxtBankName.MyLinkLable1 = Me.MyLabel28
+        Me.TxtBankName.MyLinkLable2 = Nothing
+        Me.TxtBankName.Name = "TxtBankName"
+        Me.TxtBankName.ReferenceFieldDesc = Nothing
+        Me.TxtBankName.ReferenceFieldName = Nothing
+        Me.TxtBankName.ReferenceTableName = Nothing
+        Me.TxtBankName.Size = New System.Drawing.Size(320, 18)
+        Me.TxtBankName.TabIndex = 1
+        Me.TxtBankName.TabStop = False
+        '
+        'MyLabel28
+        '
+        Me.MyLabel28.FieldName = Nothing
+        Me.MyLabel28.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel28.Location = New System.Drawing.Point(9, 25)
+        Me.MyLabel28.Name = "MyLabel28"
+        Me.MyLabel28.Size = New System.Drawing.Size(78, 16)
+        Me.MyLabel28.TabIndex = 26
+        Me.MyLabel28.Text = "Name of Bank"
         '
         'lblDistrict
         '
@@ -152,7 +581,7 @@ Partial Class frmSheedGrowerMaster
         Me.lblDistrict.BorderVisible = True
         Me.lblDistrict.FieldName = Nothing
         Me.lblDistrict.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDistrict.Location = New System.Drawing.Point(352, 129)
+        Me.lblDistrict.Location = New System.Drawing.Point(352, 197)
         Me.lblDistrict.Name = "lblDistrict"
         Me.lblDistrict.Size = New System.Drawing.Size(324, 19)
         Me.lblDistrict.TabIndex = 1473
@@ -169,7 +598,7 @@ Partial Class frmSheedGrowerMaster
         Me.txtDistrict.IsSourceFromTable = False
         Me.txtDistrict.IsSourceFromValueList = False
         Me.txtDistrict.IsUnique = False
-        Me.txtDistrict.Location = New System.Drawing.Point(123, 129)
+        Me.txtDistrict.Location = New System.Drawing.Point(123, 197)
         Me.txtDistrict.MendatroryField = True
         Me.txtDistrict.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtDistrict.MyLinkLable1 = Me.MyLabel1
@@ -188,7 +617,7 @@ Partial Class frmSheedGrowerMaster
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(17, 106)
+        Me.MyLabel1.Location = New System.Drawing.Point(17, 174)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(40, 16)
         Me.MyLabel1.TabIndex = 108
@@ -200,7 +629,7 @@ Partial Class frmSheedGrowerMaster
         Me.lblVillage.BorderVisible = True
         Me.lblVillage.FieldName = Nothing
         Me.lblVillage.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblVillage.Location = New System.Drawing.Point(352, 106)
+        Me.lblVillage.Location = New System.Drawing.Point(352, 174)
         Me.lblVillage.Name = "lblVillage"
         Me.lblVillage.Size = New System.Drawing.Size(324, 19)
         Me.lblVillage.TabIndex = 1471
@@ -217,7 +646,7 @@ Partial Class frmSheedGrowerMaster
         Me.fndVillegeCode.IsSourceFromTable = False
         Me.fndVillegeCode.IsSourceFromValueList = False
         Me.fndVillegeCode.IsUnique = False
-        Me.fndVillegeCode.Location = New System.Drawing.Point(123, 106)
+        Me.fndVillegeCode.Location = New System.Drawing.Point(123, 174)
         Me.fndVillegeCode.MendatroryField = True
         Me.fndVillegeCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndVillegeCode.MyLinkLable1 = Me.MyLabel1
@@ -236,7 +665,7 @@ Partial Class frmSheedGrowerMaster
         '
         Me.MyLabel7.FieldName = Nothing
         Me.MyLabel7.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel7.Location = New System.Drawing.Point(232, 261)
+        Me.MyLabel7.Location = New System.Drawing.Point(570, 287)
         Me.MyLabel7.Name = "MyLabel7"
         Me.MyLabel7.Size = New System.Drawing.Size(29, 18)
         Me.MyLabel7.TabIndex = 1469
@@ -255,7 +684,7 @@ Partial Class frmSheedGrowerMaster
         Me.txtTotal.IsSourceFromTable = False
         Me.txtTotal.IsSourceFromValueList = False
         Me.txtTotal.IsUnique = False
-        Me.txtTotal.Location = New System.Drawing.Point(123, 260)
+        Me.txtTotal.Location = New System.Drawing.Point(461, 286)
         Me.txtTotal.MendatroryField = False
         Me.txtTotal.MyLinkLable1 = Nothing
         Me.txtTotal.MyLinkLable2 = Nothing
@@ -269,21 +698,11 @@ Partial Class frmSheedGrowerMaster
         Me.txtTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.txtTotal.Value = 0R
         '
-        'MyLabel8
-        '
-        Me.MyLabel8.FieldName = Nothing
-        Me.MyLabel8.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel8.Location = New System.Drawing.Point(17, 261)
-        Me.MyLabel8.Name = "MyLabel8"
-        Me.MyLabel8.Size = New System.Drawing.Size(31, 18)
-        Me.MyLabel8.TabIndex = 1467
-        Me.MyLabel8.Text = "Total"
-        '
         'MyLabel5
         '
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(232, 239)
+        Me.MyLabel5.Location = New System.Drawing.Point(570, 265)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(29, 18)
         Me.MyLabel5.TabIndex = 1463
@@ -302,7 +721,7 @@ Partial Class frmSheedGrowerMaster
         Me.txtLeaseLand.IsSourceFromTable = False
         Me.txtLeaseLand.IsSourceFromValueList = False
         Me.txtLeaseLand.IsUnique = False
-        Me.txtLeaseLand.Location = New System.Drawing.Point(123, 238)
+        Me.txtLeaseLand.Location = New System.Drawing.Point(461, 264)
         Me.txtLeaseLand.MendatroryField = False
         Me.txtLeaseLand.MyLinkLable1 = Nothing
         Me.txtLeaseLand.MyLinkLable2 = Nothing
@@ -320,7 +739,7 @@ Partial Class frmSheedGrowerMaster
         '
         Me.MyLabel6.FieldName = Nothing
         Me.MyLabel6.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel6.Location = New System.Drawing.Point(17, 239)
+        Me.MyLabel6.Location = New System.Drawing.Point(355, 265)
         Me.MyLabel6.Name = "MyLabel6"
         Me.MyLabel6.Size = New System.Drawing.Size(61, 18)
         Me.MyLabel6.TabIndex = 1461
@@ -330,7 +749,7 @@ Partial Class frmSheedGrowerMaster
         '
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(232, 217)
+        Me.MyLabel3.Location = New System.Drawing.Point(570, 243)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(29, 18)
         Me.MyLabel3.TabIndex = 1460
@@ -340,7 +759,7 @@ Partial Class frmSheedGrowerMaster
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(232, 195)
+        Me.MyLabel2.Location = New System.Drawing.Point(570, 221)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(29, 18)
         Me.MyLabel2.TabIndex = 1457
@@ -359,7 +778,7 @@ Partial Class frmSheedGrowerMaster
         Me.txtOwnLand.IsSourceFromTable = False
         Me.txtOwnLand.IsSourceFromValueList = False
         Me.txtOwnLand.IsUnique = False
-        Me.txtOwnLand.Location = New System.Drawing.Point(123, 194)
+        Me.txtOwnLand.Location = New System.Drawing.Point(461, 220)
         Me.txtOwnLand.MendatroryField = False
         Me.txtOwnLand.MyLinkLable1 = Nothing
         Me.txtOwnLand.MyLinkLable2 = Nothing
@@ -386,7 +805,7 @@ Partial Class frmSheedGrowerMaster
         Me.txtFamilyLand.IsSourceFromTable = False
         Me.txtFamilyLand.IsSourceFromValueList = False
         Me.txtFamilyLand.IsUnique = False
-        Me.txtFamilyLand.Location = New System.Drawing.Point(123, 216)
+        Me.txtFamilyLand.Location = New System.Drawing.Point(461, 242)
         Me.txtFamilyLand.MendatroryField = False
         Me.txtFamilyLand.MyLinkLable1 = Nothing
         Me.txtFamilyLand.MyLinkLable2 = Nothing
@@ -404,7 +823,7 @@ Partial Class frmSheedGrowerMaster
         '
         Me.MyLabel23.FieldName = Nothing
         Me.MyLabel23.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel23.Location = New System.Drawing.Point(17, 195)
+        Me.MyLabel23.Location = New System.Drawing.Point(355, 221)
         Me.MyLabel23.Name = "MyLabel23"
         Me.MyLabel23.Size = New System.Drawing.Size(57, 18)
         Me.MyLabel23.TabIndex = 1455
@@ -414,7 +833,7 @@ Partial Class frmSheedGrowerMaster
         '
         Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(17, 217)
+        Me.MyLabel4.Location = New System.Drawing.Point(355, 243)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(65, 18)
         Me.MyLabel4.TabIndex = 1458
@@ -431,7 +850,7 @@ Partial Class frmSheedGrowerMaster
         Me.txtMobile.IsSourceFromTable = False
         Me.txtMobile.IsSourceFromValueList = False
         Me.txtMobile.IsUnique = False
-        Me.txtMobile.Location = New System.Drawing.Point(123, 172)
+        Me.txtMobile.Location = New System.Drawing.Point(123, 240)
         Me.txtMobile.MendatroryField = False
         Me.txtMobile.MyLinkLable1 = Me.lblTelephone
         Me.txtMobile.MyLinkLable2 = Nothing
@@ -446,7 +865,7 @@ Partial Class frmSheedGrowerMaster
         '
         Me.lblTelephone.FieldName = Nothing
         Me.lblTelephone.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTelephone.Location = New System.Drawing.Point(17, 176)
+        Me.lblTelephone.Location = New System.Drawing.Point(17, 244)
         Me.lblTelephone.Name = "lblTelephone"
         Me.lblTelephone.Size = New System.Drawing.Size(60, 16)
         Me.lblTelephone.TabIndex = 408
@@ -456,7 +875,7 @@ Partial Class frmSheedGrowerMaster
         '
         Me.MyLabel38.FieldName = Nothing
         Me.MyLabel38.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel38.Location = New System.Drawing.Point(17, 129)
+        Me.MyLabel38.Location = New System.Drawing.Point(17, 197)
         Me.MyLabel38.Name = "MyLabel38"
         Me.MyLabel38.Size = New System.Drawing.Size(41, 16)
         Me.MyLabel38.TabIndex = 404
@@ -473,7 +892,7 @@ Partial Class frmSheedGrowerMaster
         Me.txtTehsil.IsSourceFromTable = False
         Me.txtTehsil.IsSourceFromValueList = False
         Me.txtTehsil.IsUnique = False
-        Me.txtTehsil.Location = New System.Drawing.Point(123, 151)
+        Me.txtTehsil.Location = New System.Drawing.Point(123, 219)
         Me.txtTehsil.MendatroryField = False
         Me.txtTehsil.MyLinkLable1 = Nothing
         Me.txtTehsil.MyLinkLable2 = Nothing
@@ -488,7 +907,7 @@ Partial Class frmSheedGrowerMaster
         '
         Me.lblTehsil.FieldName = Nothing
         Me.lblTehsil.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTehsil.Location = New System.Drawing.Point(17, 155)
+        Me.lblTehsil.Location = New System.Drawing.Point(17, 223)
         Me.lblTehsil.Name = "lblTehsil"
         Me.lblTehsil.Size = New System.Drawing.Size(36, 16)
         Me.lblTehsil.TabIndex = 106
@@ -533,7 +952,7 @@ Partial Class frmSheedGrowerMaster
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(906, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(943, 20)
         Me.RadMenu1.TabIndex = 56
         '
         'RadMenuItem1
@@ -631,7 +1050,7 @@ Partial Class frmSheedGrowerMaster
         '
         Me.btnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnsave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnsave.Location = New System.Drawing.Point(12, 27)
+        Me.btnsave.Location = New System.Drawing.Point(5, 7)
         Me.btnsave.Name = "btnsave"
         Me.btnsave.Size = New System.Drawing.Size(66, 18)
         Me.btnsave.TabIndex = 6
@@ -641,7 +1060,7 @@ Partial Class frmSheedGrowerMaster
         '
         Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btndelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btndelete.Location = New System.Drawing.Point(85, 27)
+        Me.btndelete.Location = New System.Drawing.Point(78, 7)
         Me.btndelete.Name = "btndelete"
         Me.btndelete.Size = New System.Drawing.Size(66, 18)
         Me.btndelete.TabIndex = 7
@@ -651,7 +1070,7 @@ Partial Class frmSheedGrowerMaster
         '
         Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnclose.Location = New System.Drawing.Point(817, 27)
+        Me.btnclose.Location = New System.Drawing.Point(847, 7)
         Me.btnclose.Name = "btnclose"
         Me.btnclose.Size = New System.Drawing.Size(66, 18)
         Me.btnclose.TabIndex = 8
@@ -661,7 +1080,7 @@ Partial Class frmSheedGrowerMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(906, 445)
+        Me.ClientSize = New System.Drawing.Size(943, 539)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "frmSheedGrowerMaster"
         '
@@ -673,12 +1092,35 @@ Partial Class frmSheedGrowerMaster
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.txtAadharNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtPAN, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtAdd2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtAdd1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtAdd3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtKhasraNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtRegNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox6.ResumeLayout(False)
+        Me.RadGroupBox6.PerformLayout()
+        CType(Me.TxtAccNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TxtIFSCCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtbranchname, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TxtBankName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel28, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDistrict, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblVillage, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTotal, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtLeaseLand, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
@@ -745,4 +1187,25 @@ Partial Class frmSheedGrowerMaster
     Friend WithEvents fndVillegeCode As common.UserControls.txtFinder
     Friend WithEvents lblDistrict As common.Controls.MyLabel
     Friend WithEvents txtDistrict As common.UserControls.txtFinder
+    Friend WithEvents RadGroupBox6 As Telerik.WinControls.UI.RadGroupBox
+    Friend WithEvents TxtAccNo As common.Controls.MyTextBox
+    Friend WithEvents MyLabel25 As common.Controls.MyLabel
+    Friend WithEvents TxtIFSCCode As common.Controls.MyTextBox
+    Friend WithEvents MyLabel27 As common.Controls.MyLabel
+    Friend WithEvents txtbranchname As common.Controls.MyTextBox
+    Friend WithEvents MyLabel9 As common.Controls.MyLabel
+    Friend WithEvents TxtBankName As common.Controls.MyTextBox
+    Friend WithEvents MyLabel28 As common.Controls.MyLabel
+    Friend WithEvents txtRegNo As common.Controls.MyTextBox
+    Friend WithEvents MyLabel10 As common.Controls.MyLabel
+    Friend WithEvents txtKhasraNo As common.Controls.MyTextBox
+    Friend WithEvents MyLabel11 As common.Controls.MyLabel
+    Friend WithEvents txtAdd2 As common.Controls.MyTextBox
+    Friend WithEvents RadLabel2 As common.Controls.MyLabel
+    Friend WithEvents txtAdd1 As common.Controls.MyTextBox
+    Friend WithEvents txtAdd3 As common.Controls.MyTextBox
+    Friend WithEvents txtPAN As common.Controls.MyTextBox
+    Friend WithEvents MyLabel12 As common.Controls.MyLabel
+    Friend WithEvents txtAadharNo As common.Controls.MyTextBox
+    Friend WithEvents MyLabel13 As common.Controls.MyLabel
 End Class

@@ -3537,7 +3537,7 @@ Public Class frmIssueReturn
         End If
 
 
-        LoadData(clsCommon.ShowSelectForm("IRTCodeFilter", qry, "Code", whrClas, txtDocNo.Value, "Doc_Date desc", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("IRTCodeFilter", qry, "Code", whrClas, txtDocNo.Value, "Doc_Date desc", isButtonClicked, "TSPL_IssueReturn_HEAD.Doc_Date"), NavigatorType.Current)
     End Sub
 
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown

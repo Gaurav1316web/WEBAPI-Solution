@@ -95,7 +95,7 @@ Public Class clsVSPCommission
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
         Dim qry As String = "select TSPL_VSP_COMMISSION_MASTER.Commission_Code,TSPL_VSP_COMMISSION_MASTER.Commission_Name,TSPL_VSP_COMMISSION_MASTER.Commission_Rate as [Tare Weight] from TSPL_VSP_COMMISSION_MASTER "
-        str = clsCommon.ShowSelectForm("canmasterFnd", qry, "Commission_Code", whrcls, curcode, "Commission_Code", isButtonClicked)
+        str = clsCommon.ShowSelectForm("canmasterFnd", qry, "Commission_Code", whrcls, curcode, "Commission_Code", isButtonClicked, "TSPL_VSP_COMMISSION_MASTER.Created_Date")
         Return str
 
     End Function

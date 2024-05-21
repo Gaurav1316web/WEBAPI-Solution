@@ -590,7 +590,7 @@ Public Class frmMccGatePass
     Private Sub txtCode__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtCode._MYValidating
         Dim qry As String = " SELECT  GPCode,convert(varchar(10),GPDate,103)  as GPDate,Vehicle_Id,Vehicle_Number FROM  TSPL_MCC_SCRAP_GATEPASS_MASTER"
 
-        LoadData(clsCommon.ShowSelectForm("GatepassEntry", qry, "GPCode", "", txtCode.Value, "GPCode", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("GatepassEntry", qry, "GPCode", "", txtCode.Value, "GPCode", isButtonClicked, "TSPL_MCC_SCRAP_GATEPASS_MASTER.GPDate"), NavigatorType.Current)
 
         If clsCommon.myLen(txtCode.Value) > 0 Then
             txtCode.MyReadOnly = False
