@@ -112,6 +112,11 @@ Public Class rptNewSalesReport
             Dim itemNamesProduct As String = Nothing
             Dim FreshItemNameMax As String = Nothing
             Dim ProductItemNameMax As String = Nothing
+            If dtFreshItem.Rows.Count <= 0 AndAlso dtProductItem.Rows.Count <= 0 Then
+
+                clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
+                Exit Sub
+            End If
             If dtFreshItem.Rows.Count > 0 Then
                 For i As Integer = 0 To dtFreshItem.Rows.Count - 1
                     FreshItemName += "Sum(IsNull([" + clsCommon.myCstr(dtFreshItem.Rows(i)("Fresh_Item")) + "],0)) As [" + clsCommon.myCstr(dtFreshItem.Rows(i)("Fresh_Item")) + "]" + ","
@@ -124,9 +129,7 @@ Public Class rptNewSalesReport
                         FreshItemsName += ", [" + clsCommon.myCstr(dtFreshItem.Rows(i)("Fresh_Item")) + "] "
                     End If
                 Next
-            Else
-                clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
-                Exit Sub
+
             End If
 
             If dtProductItem.Rows.Count > 0 Then
@@ -142,10 +145,6 @@ Public Class rptNewSalesReport
                         ProductIemsName += ", [" + clsCommon.myCstr(dtProductItem.Rows(i)("Product_Item")) + "] "
                     End If
                 Next
-            Else
-
-                clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
-                Exit Sub
             End If
 
             Dim MaxQry As String = ""
@@ -224,9 +223,13 @@ Public Class rptNewSalesReport
                 FinalQuery += " " & Environment.NewLine & " --AVG " & Environment.NewLine & " union all " & Environment.NewLine & " Select 5 as SNO,max(route_no) as Route_No,max(Shift_Type)Shift_Type,'AVG' as Document_Date " & qry3 & " select Days,route_no,Document_Date,Shift_Type,Fresh_Item,Fresh_Item_Amt,Uom,Qty,Fresh_Qty,Product_Qty,KG_QTY,LTR_QTY,Product_Amount,Fresh_Amount,
                 (" & AmountAvg & ") AS Amount,Product_Item,Product_Item_Amt,Receipt_Amount , convert( decimal(18,2),(LTR_QTY/Days )) as Fresh_Avg ,  convert( decimal(18,2),(KG_QTY /  Days)) as Product_Avg from ( " & qry & " " & Environment.NewLine & " )xxx pivot (sum(Fresh_Avg) FOR  Fresh_Item IN (" & FreshItemsName & ") ) AS pivot_fresh PIVOT (SUM(Product_Avg)   FOR Product_Item IN(" & ProductIemsName & ") ) AS  pivot_Product"
                 FinalQuery += " order by SNO, Document_Date,Shift_Type "
-            Else
+            ElseIf rbtnRouteWise.IsChecked Then
                 FinalQuery = "Select  (Route_No)Route_No,(Shift_Type)Shift_Type, (convert(varchar,Document_Date,103)) Document_Date " & qry1 & "" & qry & " " & Environment.NewLine & " PIVOT (SUM(LTR_QTY)  FOR Fresh_Item IN (" & FreshItemsName & ") ) AS pivot_fresh PIVOT (SUM(KG_QTY)   FOR Product_Item IN (" & ProductIemsName & ") ) AS  pivot_Product  group by Route_No,Document_Date,Shift_Type "
                 FinalQuery += " order by Route_No,Document_Date,Shift_Type "
+                ElseIf rbtnRouteSummary.IsChecked Then
+
+                FinalQuery = "Select  (Route_No)Route_No,max(Shift_Type)Shift_Type, max(convert(varchar,Document_Date,103)) Document_Date " & qry1 & "" & qry & " " & Environment.NewLine & " PIVOT (SUM(LTR_QTY)  FOR Fresh_Item IN (" & FreshItemsName & ") ) AS pivot_fresh PIVOT (SUM(KG_QTY)   FOR Product_Item IN (" & ProductIemsName & ") ) AS  pivot_Product  group by Route_No "
+                FinalQuery += " order by Route_No"
             End If
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(FinalQuery)
@@ -304,7 +307,7 @@ Public Class rptNewSalesReport
             Next
             gv1.Columns("Route_No").HeaderText = "Route No"
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-        Else
+        ElseIf rbtnPartyWise.IsChecked Then
             gv1.Columns("Route_No").IsVisible = False
             gv1.Columns("SNO").IsVisible = False
         End If

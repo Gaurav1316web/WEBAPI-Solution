@@ -585,7 +585,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.GSTunitMeasure, "Gst Unit Of Measure", "1.07.01.08", clsUserMgtCode.SubModuleMaterialSetup, 27)
 
         InsertDefaultValue(clsUserMgtCode.unitMaster, "Unit Of Measure", "1.07.01.09", clsUserMgtCode.SubModuleMaterialSetup, 27)
-        InsertDefaultValue(clsUserMgtCode.chapterhead, "Product Sub Type", "1.07.01.10", clsUserMgtCode.SubModuleMaterialSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.chapterhead, "Item Sub Group Type", "1.07.01.10", clsUserMgtCode.SubModuleMaterialSetup, 27)
         ' InsertDefaultValue(clsUserMgtCode.mbtnItemCategory, "Item Category", "1.07.01.10", clsUserMgtCode.SubModuleMaterialSetup, 27)
         ' InsertDefaultValue(clsUserMgtCode.mbtnItemSubCategory, "Item Sub Category", "1.07.01.11", clsUserMgtCode.SubModuleMaterialSetup, 27)
         InsertDefaultValue(clsUserMgtCode.packType, "Pack Type", "1.07.01.11", clsUserMgtCode.SubModuleMaterialSetup, 27)

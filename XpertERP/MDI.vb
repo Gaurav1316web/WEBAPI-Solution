@@ -2440,7 +2440,7 @@ Public Class MDI
             'arrExcluded.Add(clsUserMgtCode.VendorRegistration)
             arrExcluded.Add(clsUserMgtCode.frmMapLedgerAccToTally)
             arrExcluded.Add(clsUserMgtCode.frmPostAllGLToTally)
-            'arrExcluded.Add(clsUserMgtCode.chapterhead)
+            ' arrExcluded.Add(clsUserMgtCode.chapterhead)
             arrExcluded.Add(clsUserMgtCode.frmStandardscheme)
             arrExcluded.Add(clsUserMgtCode.frmStandardRateItem)
             'arrExcluded.Add(clsUserMgtCode.frmBarCodeGenerator)

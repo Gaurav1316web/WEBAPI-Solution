@@ -244,7 +244,7 @@ Partial Class frmChapterHead
         '
         '
         Me.RootElement.ApplyShapeToControl = True
-        Me.Text = "Product Sub Type"
+        Me.Text = "Item Sub Group Type"
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDescription, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnDelete, System.ComponentModel.ISupportInitialize).EndInit()
