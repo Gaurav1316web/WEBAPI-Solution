@@ -28,7 +28,7 @@ Public Class clsFrmMilkRecurringScheduler
         Dim str As String = ""
         Try
             Dim qry As String = "select Tspl_Recurring_Scheduler_Head.Doc_code as Code,Tspl_Recurring_Scheduler_Head.Doc_Date as [Doc Date],Tspl_Recurring_Scheduler_Head.Description as [Description],Tspl_Recurring_Scheduler_Head.created_By as [Created By],Tspl_Recurring_Scheduler_Head.created_By as [Created By],Tspl_Recurring_Scheduler_Head.created_Date as [Created Date],Tspl_Recurring_Scheduler_Head.modified_by as [Modified By],Tspl_Recurring_Scheduler_Head.modified_date as [Modified Date] from Tspl_Recurring_Scheduler_Head "
-            str = clsCommon.ShowSelectForm("MCC_Rec", qry, "Code", whrcls, curcode, "Code", isButtonClicked, "Tspl_Recurring_Scheduler_Head.Doc_Date")
+            str = clsCommon.ShowSelectForm("MCC_Rec", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try

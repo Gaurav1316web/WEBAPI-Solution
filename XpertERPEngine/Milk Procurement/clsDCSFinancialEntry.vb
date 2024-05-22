@@ -122,7 +122,7 @@ where 2=2 "
           ,TSPL_DCS_FINANCIAL_ENTRY.Remarks as [Remarks],TSPL_DCS_FINANCIAL_ENTRY.Type,TSPL_DCS_FINANCIAL_ENTRY.DCS_Code,TSPL_DCS_FINANCIAL_ENTRY.Fiscal_Code
           ,case when isnull(Status,0)=0 then 'Pending' else 'Approved' end as Status 
           from TSPL_DCS_FINANCIAL_ENTRY "
-        str = clsCommon.ShowSelectForm("DCSFE#F", qry, "Code", whrcls, curcode, "Code", isButtonClicked, "TSPL_DCS_FINANCIAL_ENTRY.Document_Date")
+        str = clsCommon.ShowSelectForm("DCSFE#F", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
         Return str
     End Function
     Public Shared Function PostData(ByVal strDocNo As String) As Boolean

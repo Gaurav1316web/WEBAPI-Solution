@@ -1378,7 +1378,7 @@ left outer join TSPL_LOCATION_MASTER as AreaMaster on AreaMaster.Location_Code=T
 left outer join TSPL_GL_SEGMENT_CODE  on TSPL_GL_SEGMENT_CODE.segment_code=TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code 
 left join (select Doc_No as PP_Code,Max(Payment_Mode) as Payment_Mode,sum(Payable_Amount) as Payable_Amount  from TSPL_PAYMENT_PROCESS_DETAIL group by Doc_No) PMode on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=PMode.PP_Code  "
             End If
-            str = clsCommon.ShowSelectForm("fndPayProcess", qry, "DocumentNo", whrcls, curcode, "DocumentNo", isButtonClicked, "TSPL_PAYMENT_PROCESS_HEAD.Doc_Date")
+            str = clsCommon.ShowSelectForm("fndPayProcess", qry, "DocumentNo", whrcls, curcode, "DocumentNo", isButtonClicked)
             Return str
         Catch ex As Exception
             Throw New Exception(ex.Message)

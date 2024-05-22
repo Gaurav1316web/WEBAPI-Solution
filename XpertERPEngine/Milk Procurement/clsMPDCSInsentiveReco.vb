@@ -151,7 +151,7 @@ Public Class clsMPDCSInsentiveReco
            , SUBSTRING( REPLACE(convert(varchar, TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date,106),' ',' /'),5,10) as [Reco Date],Convert(varchar,TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date,103) as [From Date],Convert(varchar,TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date_To,103) as [To Date],zone_code as Zone
           ,case when isnull(Status,0)=0 then 'Pending' else 'Approved' end as Status 
           from TSPL_DCS_MP_INCENTIVE_RECO_HEAD  "
-        str = clsCommon.ShowSelectForm("DCMPInc#F", qry, "Code", whrcls, curcode, "Code", isButtonClicked, "TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Date")
+        str = clsCommon.ShowSelectForm("DCMPInc#F", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
         Return str
     End Function
     Public Shared Function PostData(ByVal strDocNo As String) As Boolean

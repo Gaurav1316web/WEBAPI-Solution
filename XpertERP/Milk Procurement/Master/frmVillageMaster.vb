@@ -338,7 +338,7 @@ Public Class FrmVillageMaster
         End If
         If fndcode.MyReadOnly OrElse isButtonClicked Then
             str = "select TSPL_VILLAGE_MASTER.village_code as villcode,TSPL_VILLAGE_MASTER.village_name as [Village Name],TSPL_VILLAGE_MASTER.add1 as Address,TSPL_VILLAGE_MASTER.city_code as [City code],tspl_city_master.city_name as [City Name],TSPL_VILLAGE_MASTER.state_code as [State Code],tspl_state_master.state_name as [State Name],TSPL_VILLAGE_MASTER.country_code as [Country Code],tspl_country_master.country_name as [Country Name],TSPL_VILLAGE_MASTER.pin_no as [Pin No] from TSPL_VILLAGE_MASTER left outer join tspl_city_master on tspl_city_master.city_code=TSPL_VILLAGE_MASTER.city_code left outer join tspl_state_master on tspl_state_master.state_code=TSPL_VILLAGE_MASTER.state_code left outer join tspl_country_master on tspl_country_master.country_code=TSPL_VILLAGE_MASTER.country_code"
-            LoadData(clsCommon.ShowSelectForm("VILLFND", str, "villcode", "", fndcode.Value, "villcode", isButtonClicked, "TSPL_VILLAGE_MASTER.Created_Date"), NavigatorType.Current)
+            LoadData(clsCommon.ShowSelectForm("VILLFND", str, "villcode", "", fndcode.Value, "villcode", isButtonClicked), NavigatorType.Current)
         End If
     End Sub
 

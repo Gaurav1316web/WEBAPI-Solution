@@ -302,7 +302,7 @@ Public Class clsWreckageBooking
         Else
             whrCls = " TSPL_WRECKAGE_ENTRY.comp_code='" + objCommonVar.CurrentCompanyCode + "'"
         End If
-        str = clsCommon.ShowSelectForm("STD", qry, "Code", whrCls, currCode, "Code", isButtonClicked, "TSPL_WRECKAGE_ENTRY.PROD_DATE")
+        str = clsCommon.ShowSelectForm("STD", qry, "Code", whrCls, currCode, "Code", isButtonClicked)
 
         Return str
     End Function
