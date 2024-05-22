@@ -21,7 +21,7 @@ Public Class frmBullPurchaseNo
         If fndCode.MyReadOnly OrElse isButtonClicked Then
             Dim whrClas As String = ""
             Dim qry As String = "select Code,Name from TSPL_BULL_PURCHASE_REQUEST_NO"
-            fndCode.Value = clsCommon.ShowSelectForm("RTY", qry, "Code", whrClas, fndCode.Value, "TSPL_BULL_PURCHASE_REQUEST_NO.Code asc", isButtonClicked, "TSPL_BULL_PURCHASE_REQUEST_NO.Created_Date")
+            fndCode.Value = clsCommon.ShowSelectForm("RTY", qry, "Code", whrClas, fndCode.Value, "TSPL_BULL_PURCHASE_REQUEST_NO.Code asc", isButtonClicked)
             LoadData(fndCode.Value, NavigatorType.Current)
         End If
     End Sub
