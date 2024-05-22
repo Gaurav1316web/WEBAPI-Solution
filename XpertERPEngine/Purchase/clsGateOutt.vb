@@ -140,7 +140,7 @@ Public Class clsGateOutt
             whrcls = "  TSPL_SRN_HEAD.Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and "
         End If
         whrcls += "  TSPL_SRN_HEAD.Status=1"
-        Dim Str As String = clsCommon.ShowSelectForm("NIRQCFnd", qry, "Code", whrcls, "", "Code", isButtonClicked)
+        Dim Str As String = clsCommon.ShowSelectForm("NIRQCFnd", qry, "Code", whrcls, "", "Code", isButtonClicked, "Date")
         Return Str
     End Function
 End Class
