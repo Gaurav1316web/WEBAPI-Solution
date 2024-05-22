@@ -192,7 +192,7 @@ Public Class frmPayPeriodMaster
         Try
             SetUserMgmtNew()
             isNewEntry = True
-            createTable()
+            'createTable()
             ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
             ButtonToolTip.SetToolTip(btnPost, "Press Alt+P for  Post")
             ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D  for Delete ")

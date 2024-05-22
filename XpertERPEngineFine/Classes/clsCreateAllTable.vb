@@ -823,6 +823,8 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
+            coll.Add("ESI_FROM_MONTH", "Decimal(2,0)  NULL")
+            coll.Add("ESI_TO_MONTH", "Decimal(2,0) NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_PAYPERIOD_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
