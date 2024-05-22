@@ -653,7 +653,7 @@ Public Class frmPaymentAdjEntry
         '' Anubhooti 12-Mar-2015 (Fetch Alies Name On Vendor Finder)
         Qry += " LEFT OUTER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code = TSPL_PAYMENT_ADJUSTMENT_HEADER.Vendor_No "
 
-        fndFnAdj.Value = clsCommon.ShowSelectForm("AdjustmFiltrFND", Qry, "AdjustmentNo", "", fndFnAdj.Value, "AdjustmentNo", isButtonClicked, "TSPL_PAYMENT_ADJUSTMENT_Header.Adjustment_date")
+        fndFnAdj.Value = clsCommon.ShowSelectForm("AdjustmFiltrFND", Qry, "AdjustmentNo", "", fndFnAdj.Value, "AdjustmentNo", isButtonClicked, "Adjustment_date")
         LoadData(fndFnAdj.Value, NavigatorType.Current)
     End Sub
 
