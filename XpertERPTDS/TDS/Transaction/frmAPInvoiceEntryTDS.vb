@@ -3429,7 +3429,7 @@ Public Class FrmAPInvoiceEntryTDS
             WhrCls = " TSPL_VENDOR_INVOICE_HEAD.is_For_TDS=1 and ( substring(TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code,(len(TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code)-2),3) IN (" + clsCommon.GetMulcallString(Arrloc) + ") OR TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code IN (" + clsCommon.GetMulcallString(ArrAcc) + "))"
         End If
         '-------------------------Code Ends Here------------------
-        LoadData(clsCommon.ShowSelectForm("APInvcSLCtr", qry, "DocumentNo", WhrCls, txtDocNo.Value, "DocumentNo", isButtonClicked, "TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date"))
+        LoadData(clsCommon.ShowSelectForm("APInvcSLCtr", qry, "DocumentNo", WhrCls, txtDocNo.Value, "DocumentNo", isButtonClicked, "Invoice_Entry_Date"))
     End Sub
 
     Private Sub txtDocNo_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txtDocNo.KeyPress
