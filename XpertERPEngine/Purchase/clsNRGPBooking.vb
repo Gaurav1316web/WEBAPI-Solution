@@ -341,7 +341,7 @@ Public Class cls_TSPL_NRGP_REQUEST_HEAD
             whrCls = " TSPL_NRGP_REQUEST_HEAD.comp_code='" + objCommonVar.CurrentCompanyCode + "'"
         End If
 
-        str = clsCommon.ShowSelectForm("STD", qry, "Code", whrCls, currCode, "Code", isButtonClicked, "TSPL_NRGP_REQUEST_HEAD.BOOKING_DATE")
+        str = clsCommon.ShowSelectForm("STD", qry, "Code", whrCls, currCode, "Code", isButtonClicked)
 
         Return str
     End Function

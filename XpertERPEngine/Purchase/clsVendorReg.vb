@@ -66,7 +66,7 @@ Public Class clsVendorReg
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
         Dim qry As String = " select TSPL_VENDORREGISTRATION_MASTER.Registration_No as [Code],TSPL_VENDORREGISTRATION_MASTER.Name as [Name],TSPL_VENDORREGISTRATION_MASTER.Created_By as [Created By],TSPL_VENDORREGISTRATION_MASTER.Created_Date as [Created Date],TSPL_VENDORREGISTRATION_MASTER.Modified_By as [Modify By],TSPL_VENDORREGISTRATION_MASTER.Modified_Date as [Modify Date]  from TSPL_VENDORREGISTRATION_MASTER"
-        str = clsCommon.ShowSelectForm("STMTRND", qry, "Code", whrcls, curcode, "Code", isButtonClicked, "TSPL_VENDORREGISTRATION_MASTER.Created_Date")
+        str = clsCommon.ShowSelectForm("STMTRND", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
         Return str
 
     End Function

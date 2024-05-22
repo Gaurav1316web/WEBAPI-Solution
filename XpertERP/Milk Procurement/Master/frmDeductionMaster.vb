@@ -279,7 +279,7 @@ Public Class FrmDeductionMaster
     Private Sub fndCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndCode._MYValidating
         If isButtonClicked = True Then
             Dim ary As String = " select Code,Description,Ded_Grp_Code,GL_Account_Code,Security,Sequence_No as [Sequence No] from TSPL_DEDUCTION_MASTER "
-            fndCode.Value = clsCommon.ShowSelectForm("Deduction1", ary, "Code", "", fndCode.Value, "TSPL_DEDUCTION_MASTER.Code", isButtonClicked, "TSPL_DEDUCTION_MASTER.Created_Date")
+            fndCode.Value = clsCommon.ShowSelectForm("Deduction1", ary, "Code", "", fndCode.Value, "TSPL_DEDUCTION_MASTER.Code", isButtonClicked)
             If clsCommon.myLen(fndCode.Value) > 0 Then
                 LoadData(fndCode.Value, NavigatorType.Current)
             End If
