@@ -259,6 +259,7 @@ Public Class clsUserMgtCode
     Public Const rptRouteSaleRegister As String = "ROT_SAL_REG"
     Public Const rptGatePassReport As String = "GAT_PAS_RPT"
     Public Const rptNewSalesReport As String = "NE_SALE_RPT"
+    Public Const FrmPrintMultipleGatepass As String = "MUL_PNT_GP"
 
     '===Dairy Visual Sales reports  
     Public Const SubModuleVisualSaleReport As String = "SMVSaleR"
