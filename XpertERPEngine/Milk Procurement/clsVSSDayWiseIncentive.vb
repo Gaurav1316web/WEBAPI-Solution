@@ -144,7 +144,7 @@ Public Class clsVSSDayWiseIncentive
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
         Dim qry As String = "select TSPL_VSP_DAY_WISE_INCENTIVE_MASTER.Day_Wise_Incentive_Code,TSPL_VSP_DAY_WISE_INCENTIVE_MASTER.Day_Wise_Incentive_Name from TSPL_VSP_DAY_WISE_INCENTIVE_MASTER "
-        str = clsCommon.ShowSelectForm("DYWIfnd", qry, "Day_Wise_Incentive_Code", whrcls, curcode, "Day_Wise_Incentive_Code", isButtonClicked, "TSPL_VSP_DAY_WISE_INCENTIVE_MASTER.Created_Date")
+        str = clsCommon.ShowSelectForm("DYWIfnd", qry, "Day_Wise_Incentive_Code", whrcls, curcode, "Day_Wise_Incentive_Code", isButtonClicked)
         Return str
 
     End Function

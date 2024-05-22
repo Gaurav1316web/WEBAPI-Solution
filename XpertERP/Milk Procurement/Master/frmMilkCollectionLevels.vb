@@ -80,7 +80,7 @@ Public Class frmMilkCollectionLevels
     Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
         If txtCode.MyReadOnly OrElse isButtonClicked Then
             Dim qry As String = "select LEVEL_CODE as Code,Description as Name, Parent_Level_Code as 'Parent Level Code' from TSPL_MilkCollectionLevels  "
-            LoadData(clsCommon.ShowSelectForm("TSPL_MilkCollectionLevels", qry, "Code", "", txtCode.Value, "Code", isButtonClicked, "TSPL_MilkCollectionLevels.Created_Date"), NavigatorType.Current)
+            LoadData(clsCommon.ShowSelectForm("TSPL_MilkCollectionLevels", qry, "Code", "", txtCode.Value, "Code", isButtonClicked), NavigatorType.Current)
         End If
       
     End Sub

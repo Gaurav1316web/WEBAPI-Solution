@@ -823,6 +823,8 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
+            coll.Add("ESI_FROM_MONTH", "Decimal(2,0)  NULL")
+            coll.Add("ESI_TO_MONTH", "Decimal(2,0) NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_PAYPERIOD_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -2309,6 +2311,8 @@ Public Class clsCreateAllTable
             coll.Add("BuyBackType", "integer null default 0")
             coll.Add("BuyBackValue", "Decimal(18,2) null")
             coll.Add("BomBuildQty", "integer Null")
+            coll.Add("Item_Sub_Group_Type", "varchar(50) NULL")
+
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -14325,6 +14329,10 @@ Public Class clsCreateAllTable
             coll.Add("Transfer_PF", "integer null default 0")
             coll.Add("TransferPF_Text", "Varchar(12) null")
             coll.Add("GPF_No", "Varchar(50) null")
+            coll.Add("Policy_No", "Varchar(50) null")
+            coll.Add("Lic_No", "Varchar(50) null")
+            coll.Add("Membership_id", "Varchar(50) null")
+            coll.Add("Special_desc", "Varchar(50) null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_EMPLOYEE_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -15445,6 +15453,24 @@ Public Class clsCreateAllTable
             coll.Add("Location_Code", "varchar(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_LEAVE_SETTING", coll)
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("CODE", "Varchar(20) Not Null Primary key")
+            coll.Add("EMP_CODE", "VARCHAR(12)  NULL REFERENCES TSPL_EMPLOYEE_MASTER(EMP_CODE)")
+            coll.Add("LIC_POLICY_NO", "VARCHAR(20) NUll")
+            coll.Add("LIC_PREMIUM_AMT", "Decimal(18,2) NULL")
+            coll.Add("BANK_NAME", "VARCHAR(200) NULL")
+            coll.Add("BANK_ACCOUNT_NO", "VARCHAR(200) NULL")
+            coll.Add("BANK_INSTALMENT", "Decimal(18,2) NULL")
+            coll.Add("QUARTER_TYPE", "VARCHAR(200) NULL")
+            coll.Add("QUARTER_ALLOTED_DATE", "DATETIME NULL")
+            coll.Add("QUARTER_LEFT_DATE", "DATETIME NULL")
+            coll.Add("KKK_INSTALMENT", "Decimal(18,2) NULL")
+            coll.Add("KKK_LOAN_TOTAL", "Decimal(18,2) NULL")
+            coll.Add("Created_By", "varchar(12)  Not NULL")
+            coll.Add("Created_Date", "datetime  Not NULL")
+            coll.Add("Modified_By", "varchar(12)  Not NULL")
+            coll.Add("Modified_Date", "datetime  Not NULL")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_EMPLOYEE_DEDUCTION_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("WKHOLIDAY_CODE", "VARCHAR(30) NOT NULL PRIMARY KEY ")

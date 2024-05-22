@@ -577,7 +577,7 @@ Public Class FrmWeighmentEntry
             ' strval = "yes"
             strwhrcls = strwhrcls + " and TSPL_WEIGHMENT_DETAIL_BULKSALE.Posted=0"
         End If
-        fndWeighmentcode.Value = clsCommon.ShowSelectForm("WeighmentEntry", qry, "Code", strwhrcls, fndWeighmentcode.Value, "", isButtonClicked, "TSPL_WEIGHMENT_DETAIL_BULKSALE.Weighment_Date")
+        fndWeighmentcode.Value = clsCommon.ShowSelectForm("WeighmentEntry", qry, "Code", strwhrcls, fndWeighmentcode.Value, "", isButtonClicked)
         LoadData(fndWeighmentcode.Value, NavigatorType.Current)
 
         'Dim check As Integer = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Count(Weighment_No) as Weighment_No from TSPL_LOADING_TANKER_DETAIL_BULKSALE Inner Join TSPL_Quality_Check_BulkSale on TSPL_LOADING_TANKER_DETAIL_BULKSALE.LoadingTanker_No =TSPL_Quality_Check_BulkSale.LoadingTanker_No  where TSPL_LOADING_TANKER_DETAIL_BULKSALE.Weighment_No ='" + fndWeighmentcode.Value + "' and TSPL_Quality_Check_BulkSale.Posted='Y'"))

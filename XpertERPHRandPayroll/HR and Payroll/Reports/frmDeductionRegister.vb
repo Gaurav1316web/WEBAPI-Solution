@@ -189,7 +189,12 @@ Public Class frmDeductionRegister
         gv1.Rows.Clear()
         gv1.Columns.Clear()
         RadPageView1.SelectedPage = RadPageViewPage1
-
+        fndDeductioncode.Value = ""
+        fndLocation.Value = ""
+        fndDeductioncode.Value = ""
+        lbldeduction.Text = ""
+        lbldeduction.Text = ""
+        lblLocationName.Text = ""
     End Sub
 
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
@@ -204,7 +209,7 @@ Public Class frmDeductionRegister
         Dim qry As String = "SELECT PAY_PERIOD_CODE AS 'Code',(DATEDIFF(DAY,date_from,date_to)+1) as 'Total days', " _
             & " PAY_PERIOD_NAME as 'Pay Period Name' FROM TSPL_PAYPERIOD_MASTER  "
         txtFromPP.Value = clsCommon.ShowSelectForm("TSPL_PAYPERIOD_MASTER", qry, "Code", "POSTED=1 AND FREEZED=0", txtFromPP.Value, "", isButtonClicked)
-        lblFrompp.Text = clsPayPeriodMaster.GetName(txtFromPP.Value, Nothing)
+        lblpayperiod.Text = clsPayPeriodMaster.GetName(txtFromPP.Value, Nothing)
     End Sub
 
     Private Sub txtCode_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
@@ -238,7 +243,7 @@ Public Class frmDeductionRegister
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage
@@ -391,21 +396,21 @@ Public Class frmDeductionRegister
     '        clsCommon.MyMessageBoxShow(ex.ToString)
     '    End Try
     'End Sub
-    Private Sub fndLocationCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndLocationCode._MYValidating
-        fndLocationCode.Value = clsLocation.getFinder("Location_Type='Physical'", Me.fndLocationCode.Value, isButtonClicked)
-        If clsCommon.myLen(fndLocationCode.Value) > 0 Then
-            lblLocationName.Text = clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" & fndLocationCode.Value & "'")
+    Private Sub fndLocationCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean)
+        fndPayperiod.Value = clsLocation.getFinder("Location_Type='Physical'", Me.fndPayperiod.Value, isButtonClicked)
+        If clsCommon.myLen(fndPayperiod.Value) > 0 Then
+            lblLocationName.Text = clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" & fndPayperiod.Value & "'")
             'SetDiplayMemberSingleFinder(fndLocationCode, "Location_Desc", "TSPL_LOCATION_MASTER", "Location_Code")
         Else
             lblLocationName.Text = ""
         End If
     End Sub
 
-    Private Sub fndDivisionCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndDivisionCode._MYValidating
+    Private Sub fndDivisionCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean)
         Dim qry As String = "select DEVISION_CODE as Code, DEVISION_NAME as Name, DESCRIPTION as Description from TSPL_DEVISION_MASTER"
-        fndDivisionCode.Value = clsCommon.ShowSelectForm("DEVISION_MASTER", qry, "Code", "", fndDivisionCode.Value, "DEVISION_CODE", isButtonClicked)
-        If clsCommon.myLen(fndDivisionCode.Value) > 0 Then
-            lblDivisionName.Text = clsDBFuncationality.getSingleValue("select DEVISION_NAME from TSPL_DEVISION_MASTER where DEVISION_CODE='" & fndDivisionCode.Value & "'")
+        fndDeductioncode.Value = clsCommon.ShowSelectForm("DEVISION_MASTER", qry, "Code", "", fndDeductioncode.Value, "DEVISION_CODE", isButtonClicked)
+        If clsCommon.myLen(fndDeductioncode.Value) > 0 Then
+            lblDivisionName.Text = clsDBFuncationality.getSingleValue("select DEVISION_NAME from TSPL_DEVISION_MASTER where DEVISION_CODE='" & fndDeductioncode.Value & "'")
         Else
             lblDivisionName.Text = ""
         End If
@@ -420,19 +425,19 @@ Public Class frmDeductionRegister
                 arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.frmDeductionRegister & "'"))
                 arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
                 'arrHeader.Add(("From Pay Period: " + txtFromPP.Value) + " To Pay Period " + txtTopp.Value)
-                If MulttxtFromPP.arrValueMember IsNot Nothing AndAlso MulttxtFromPP.arrValueMember.Count > 0 Then
-                    arrHeader.Add("Pay Period: " + clsCommon.GetMulcallString(MulttxtFromPP.arrValueMember))
-                End If
-                'If fndLocationCode.Value IsNot Nothing AndAlso fndLocationCode.Value.Count > 0 Then
-                If MultfndLocationCode.arrValueMember IsNot Nothing AndAlso MultfndLocationCode.arrValueMember.Count > 0 Then
-                    arrHeader.Add("Location: " + clsCommon.GetMulcallString(MultfndLocationCode.arrValueMember))
-                End If
-                If MultfndDivisionCode.arrValueMember IsNot Nothing AndAlso MultfndDivisionCode.arrValueMember.Count > 0 Then
-                    arrHeader.Add("Division : " + clsCommon.GetMulcallStringWithComma(MultfndDivisionCode.arrValueMember))
-                End If
-                If MultfndEmployee.arrValueMember IsNot Nothing AndAlso MultfndEmployee.arrValueMember.Count > 0 Then
-                    arrHeader.Add("Employee : " + clsCommon.GetMulcallStringWithComma(MultfndEmployee.arrValueMember))
-                End If
+                'If MulttxtFromPP.arrValueMember IsNot Nothing AndAlso MulttxtFromPP.arrValueMember.Count > 0 Then
+                '    arrHeader.Add("Pay Period: " + clsCommon.GetMulcallString(MulttxtFromPP.arrValueMember))
+                'End If
+                ''If fndLocationCode.Value IsNot Nothing AndAlso fndLocationCode.Value.Count > 0 Then
+                'If MultfndLocationCode.arrValueMember IsNot Nothing AndAlso MultfndLocationCode.arrValueMember.Count > 0 Then
+                '    arrHeader.Add("Location: " + clsCommon.GetMulcallString(MultfndLocationCode.arrValueMember))
+                'End If
+                'If MultfndDivisionCode.arrValueMember IsNot Nothing AndAlso MultfndDivisionCode.arrValueMember.Count > 0 Then
+                '    arrHeader.Add("Division : " + clsCommon.GetMulcallStringWithComma(MultfndDivisionCode.arrValueMember))
+                'End If
+                'If MultfndEmployee.arrValueMember IsNot Nothing AndAlso MultfndEmployee.arrValueMember.Count > 0 Then
+                '    arrHeader.Add("Employee : " + clsCommon.GetMulcallStringWithComma(MultfndEmployee.arrValueMember))
+                'End If
 
                 If exporter = EnumExportTo.Excel Then
 
@@ -463,17 +468,17 @@ Public Class frmDeductionRegister
     End Sub
 
 
-    Private Sub fndEmployee__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndEmployee._MYValidating
-        fndEmployee.Value = clsEmployeeMaster.getFinder("", Me.fndLocationCode.Value, isButtonClicked)
-        If clsCommon.myLen(fndEmployee.Value) > 0 Then
-            txtEmployeeName.Text = clsDBFuncationality.getSingleValue("select emp_name from tspl_employee_master where emp_code='" & fndEmployee.Value & "'")
+    Private Sub fndEmployee__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean)
+        fndLocation.Value = clsEmployeeMaster.getFinder("", Me.fndPayperiod.Value, isButtonClicked)
+        If clsCommon.myLen(fndLocation.Value) > 0 Then
+            lbldeduction.Text = clsDBFuncationality.getSingleValue("select emp_name from tspl_employee_master where emp_code='" & fndLocation.Value & "'")
         Else
-            txtEmployeeName.Text = ""
+            lbldeduction.Text = ""
         End If
     End Sub
 
     Private Sub MultfndLocationCode__My_Click(sender As Object, e As EventArgs) Handles MultfndLocationCode._My_Click
-        Dim qry As String = " Select Location_Code As Code,location_Desc As Name ,Add1 + ' ' + Add2 + Add3 + ' ' + Add4 As [Address],City_Code As [City Code],State As [State],Pin_Code As [Pin Code]," & _
+        Dim qry As String = " Select Location_Code As Code,location_Desc As Name ,Add1 + ' ' + Add2 + Add3 + ' ' + Add4 As [Address],City_Code As [City Code],State As [State],Pin_Code As [Pin Code]," &
                           " Country ,Telphone,Email,Location_Type AS [Location Type],Loc_Status AS [Loc Status] ,Loc_Segment_Code As [Loc Segment Code],Type As [Type] From TSPL_LOCATION_MASTER  where Location_Type='Physical'"
 
         MultfndLocationCode.arrValueMember = clsCommon.ShowMultipleSelectForm("LocMulPF", qry, "Code", "Name", MultfndLocationCode.arrValueMember, MultfndLocationCode.arrDispalyMember)
@@ -498,4 +503,219 @@ Public Class frmDeductionRegister
           & " PAY_PERIOD_NAME as 'Name' FROM TSPL_PAYPERIOD_MASTER  "
         MulttxtFromPP.arrValueMember = clsCommon.ShowMultipleSelectForm("MulttxtFromPP", qry, "Code", "Name", MulttxtFromPP.arrValueMember, MulttxtFromPP.arrDispalyMember)
     End Sub
+
+    Private Sub RadLabel1_Click(sender As Object, e As EventArgs) Handles RadLabel1.Click
+
+    End Sub
+
+    Private Sub fndPayperiod__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndPayperiod._MYValidating
+        Dim qry As String = "SELECT PAY_PERIOD_CODE AS 'Code',(DATEDIFF(DAY,date_from,date_to)+1) as 'Total days', " _
+         & " PAY_PERIOD_NAME as 'Name' FROM TSPL_PAYPERIOD_MASTER  "
+        fndPayperiod.Value = clsCommon.ShowSelectForm("PAY_HEAD", qry, "Code", "", fndPayperiod.Value, "Code", isButtonClicked)
+        lblpayperiod.Text = clsDBFuncationality.getSingleValue("select PAY_PERIOD_NAME from TSPL_PAYPERIOD_MASTER where PAY_PERIOD_CODE='" & fndPayperiod.Value & "'")
+
+    End Sub
+
+    Private Sub fndLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndLocation._MYValidating
+        Dim qry As String = " Select Location_Code As Code,location_Desc As Name ,Add1 + ' ' + Add2 + Add3 + ' ' + Add4 As [Address],City_Code As [City Code],State As [State],Pin_Code As [Pin Code],
+                           Country ,Telphone,Email,Location_Type AS [Location Type],Loc_Status AS [Loc Status] ,Loc_Segment_Code As [Loc Segment Code],Type As [Type] From TSPL_LOCATION_MASTER "
+        Dim whrcls As String = "   Location_Type='Physical'"
+        fndLocation.Value = clsCommon.ShowSelectForm("location", qry, "Code", " ", fndLocation.Value, "Code", isButtonClicked)
+        lblLocationName.Text = clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" & fndLocation.Value & "'")
+        'SetDiplayMemberSingleFinder(fndLocationCode, "Location_Desc", "TSPL_LOCATION_MASTER", "Location_Code")
+    End Sub
+
+    Private Sub fndDeductioncode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndDeductioncode._MYValidating
+        Dim qry As String = "select PAY_HEAD_CODE as Code ,PAY_HEAD_NAME as Name,HEAD_TYPE,SUB_HEAD_TYPE,CALC_BASIS from TSPL_PAYHEAD_MASTER "
+        Dim whrcls As String = "  ISEARNING=0  "
+        fndDeductioncode.Value = clsCommon.ShowSelectForm("deduction", qry, "Code", whrcls, fndDeductioncode.Value, "code", isButtonClicked)
+        lbldeduction.Text = clsDBFuncationality.getSingleValue("select PAY_HEAD_NAME from TSPL_PAYHEAD_MASTER where PAY_HEAD_CODE='" & fndDeductioncode.Value & "'")
+    End Sub
+
+    Private Sub brngo_Click(sender As Object, e As EventArgs) Handles brngo.Click
+        LoadGrid()
+    End Sub
+    Sub LoadGrid()
+        Try
+            If clsCommon.myLen(fndPayperiod.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select Pay Period ")
+                Exit Sub
+            End If
+            If clsCommon.myLen(fndLocation.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select Location ")
+                Exit Sub
+            End If
+            If clsCommon.myLen(fndDeductioncode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select Deduction Code")
+                Exit Sub
+            End If
+
+            Dim totalVgsli As Double = 0
+            Dim qry As String = "  select GS.Pay_Period_Code as [Pay Period],Final.* from (SELECT Sex,
+                 LIC_No, Policy_No,
+                 SALARY_GENERATION_CODE,EMP_CODE AS EMP_CODE,EMPLOYEE_NAME,FATHERS_NAME AS [Father Name],Birth_date AS [Date of Birth],Joining_date as [Joining Date],LOCATION_DESC AS Location, SUM(gsli) AS vgsli FROM (SELECT ACD.SEX,
+                 ACD.LIC_No,acd.Policy_No,
+                 ACD.SALARY_GENERATION_CODE,ACD.EMP_CODE,ACD.PAY_HEAD_CODE,EMPLOYEE_NAME,FATHERS_NAME,[Working City],Birth_date,Joining_date,Designation,Department,LOCATION_DESC,DEVISION_NAME, BANK_NAME, Bank_Branch,Bank_Branch_Name,PAYMENT_MODE, ACD.PAYPERIOD_DAYS, ACD.PRESENT_DAYS, ACD.PAYABLE_DAYS, ACD.HOLIDAY_DAYS,ACD.WEEKLY_OFF_DAYS,ACD.LEAVE_DAYS ,PF_NO,ESI_NO,BANK_ACC_NO,RELIEVING_DATE,ACD.OT_HOURS, CASE WHEN  ACD.PAY_HEAD_CODE ='" + fndDeductioncode.Value + "' THEN acd.Payable_Amount else 0 END  AS gsli FROM  ( SELECT T2.SEX,
+                 t2.LIC_No,t2.Policy_No,
+                 T1.SALARY_GENERATION_CODE,T1.EMP_CODE,T2.EMP_NAME AS EMPLOYEE_NAME,T2.FATHERS_NAME,T2.WORKING_LOCATION_CODE,Working_City.City_Name as [Working City],T3.DESIGNATION_DESC AS DESIGNATION,T4.DEPARTMENT_NAME AS DEPARTMENT, T1.DEVISION_CODE,T1.LOCATION_CODE,LOC.LOCATION_DESC,Dev.DEVISION_NAME,T2.Bank_Name,T2.Bank_Branch,T2.Bank_Branch_Name,T2.PAYMENT_MODE_New as PAYMENT_MODE,T2.Birth_date,T2.Joining_date,T2.RELIEVING_DATE,T2.BRANCH_CODE,T1.PAY_HEAD_CODE , T1.ACTUAL_AMOUNT,T1.Payable_Amount,T1.PAYPERIOD_DAYS ,T1.PRESENT_DAYS ,T1.PAYABLE_DAYS,T1.HOLIDAY_DAYS,T1.WEEKLY_OFF_DAYS,T1.LEAVE_DAYS,T2.PF_NO,T2.ESI_NO,T2.BANK_ACC_NO,T1.OT_HOURS FROM (SELECT T1.SALARY_GENERATION_CODE,T2.EMP_CODE,T2.PAY_HEAD_CODE,T2.ACTUAL_AMOUNT,T2.Payable_Amount,T5.PAYPERIOD_DAYS,T5.PRESENT_DAYS,T5.PAYABLE_DAYS,T5.HOLIDAY_DAYS,T5.LEAVE_DAYS, (T5.PAYPERIOD_DAYS-T5.PRESENT_DAYS-T5.HOLIDAY_DAYS-T5.LEAVE_DAYS-T5.ABSENT_DAYS) as WEEKLY_OFF_DAYS,T1.LOCATION_CODE,T1.DEVISION_CODE,T2.OT_HOURS FROM TSPL_GENERATE_SALARY T1  INNER JOIN TSPL_GENERATE_SALARY_PAYHEADS T2 ON T1.SALARY_GENERATION_CODE=T2.SALARY_GENERATION_CODE  inner JOIN TSPL_GENERATE_SALARY_ATTENDANCE T5 ON T5.Emp_code =T2.Emp_code  AND T1.SALARY_GENERATION_CODE=T5.SALARY_GENERATION_CODE  WHERE 2=2  AND T1.PAY_PERIOD_CODE in ( '" + fndPayperiod.Value + "') AND T1.LOCATION_CODE in ( '" + fndLocation.Value + "')  ) T1 LEFT JOIN TSPL_EMPLOYEE_MASTER T2 ON T1.EMP_CODE=T2.EMP_CODE  LEFT JOIN TSPL_DESIGNATION_MASTER T3 ON T2.DESIGNATION=T3.DESIGNATION_ID LEFT JOIN TSPL_DEPARTMENT_MASTER T4 ON T2.DEPARTMENT_CODE=T4.DEPARTMENT_CODE LEFT JOIN TSPL_DEVISION_MASTER Dev ON T1.DEVISION_CODE=Dev.DEVISION_CODE LEFT JOIN TSPL_LOCATION_MASTER LOC ON T1.LOCATION_CODE=LOC.LOCATION_CODE LEFT JOIN TSPL_BANK_MASTER Bank ON T2.BANK_CODE=Bank.BANK_CODE  left join TSPL_City_MASTER as Working_City on Working_City.City_Code  =T2.WORKING_City_CODE) AS ACD) AS X where 2=2   GROUP BY x.[Working City] , X.SALARY_GENERATION_CODE,X.EMP_CODE,X.EMPLOYEE_NAME,X.DESIGNATION,X.DEPARTMENT,X.DEVISION_NAME ,X.PAYPERIOD_DAYS,X.PRESENT_DAYS,X.PAYABLE_DAYS,X.PF_NO,X.BANK_ACC_NO,X.Birth_date,X.HOLIDAY_DAYS,X.WEEKLY_OFF_DAYS, x.SEX,
+                 x.LIC_No,x.Policy_No,
+                 X.LEAVE_DAYS,X.ESI_NO,X.FATHERS_NAME,X.Bank_Name,X.Bank_Branch,X.Bank_Branch_Name,X.PAYMENT_MODE,X.Joining_date,X.RELIEVING_DATE,X.LOCATION_DESC) as Final  left join TSPL_GENERATE_SALARY_ATTENDANCE GSA ON Final.SALARY_GENERATION_CODE=GSA.SALARY_GENERATION_CODE  AND Final.EMP_CODE=GSA.EMP_CODE left join TSPL_GENERATE_SALARY GS ON Final.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE  left join TSPL_PAYPERIOD_MASTER PPM ON GS.PAY_PERIOD_CODE=PPM.PAY_PERIOD_CODE  LEFT JOIN TSPL_EMPLOYEE_STATUS EMPStatus on GSA.EMP_STATUS_CODE=EMPStatus.EMP_STATUS_CODE  LEFT JOIN (select TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE,TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE,  max(CASE WHEN SUB_HEAD_TYPE='EPF' and ACTUAL_AMOUNT>0 then (case when HEAD_VALUE>PF_MAX_LM then PF_MAX_LM*PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end) ELSE 0 END) AS Salary_EPF_AC_01,  max(CASE WHEN SUB_HEAD_TYPE='EPF' and CoEPS_AMT_AC10>0 then (case when HEAD_VALUE>0.01 then 0.01*PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end) ELSE 0 END) AS Salary_EPF_AC_10,  max(CASE WHEN SUB_HEAD_TYPE='EPF' and CoEPF_AMT_AC01>0 then (case when HEAD_VALUE>0.01 then 0.01*PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end) ELSE 0 END) AS Salary_EDLI_AC_21,  max(CASE WHEN SUB_HEAD_TYPE='EPF' then ACTUAL_AMOUNT ELSE 0 END) AS EPF_Amount_AC_01,  max(CASE WHEN SUB_HEAD_TYPE='EPF' and CoEPS_AMT_AC10>0 then CoEPS_AMT_AC10 ELSE 0 END) AS Pension_Amount_AC_10,  max(CASE WHEN SUB_HEAD_TYPE='EPF' and Actual_Amount>0 then (Actual_Amount-(case when HEAD_VALUE>PF_MAX_LM then CoEPS_AMT_AC10*PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else CoEPS_AMT_AC10 end)) ELSE 0 END) AS Diff_Amount_AC_01,  (max(CASE WHEN SUB_HEAD_TYPE='EPF' and ACTUAL_AMOUNT>0 then (case when HEAD_VALUE>PF_MAX_LM then PF_MAX_LM*PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end) ELSE 0 END))*1.1/100 AS Admin_Amt_AC_02,  (max(CASE WHEN SUB_HEAD_TYPE='EPF' and CoEPF_AMT_AC01>0 then (case when HEAD_VALUE>0.01 then 0.01*PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end) ELSE 0 END))*0.5/100 AS EDLI_Amt_AC_21,  max(CASE WHEN SUB_HEAD_TYPE='EPF' then PF_MAX_LM*PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS ELSE 0 END) AS PF_MAX_LM,  max(CoEPF_RATE_AC01) as CoEPF_RATE_AC01,max(CoEPF_AMT_AC01) as CoEPF_AMT_AC01,max(CoEPS_RATE_AC10) as CoEPS_RATE_AC10,  max(CoEPS_AMT_AC10) as CoEPS_AMT_AC10,max(EDLI_RATE_AC21) as EDLI_RATE_AC21,  max(EDLI_AMT_AC21) as EDLI_AMT_AC21,  max(CASE WHEN SUB_HEAD_TYPE='EMPESI' AND ACTUAL_AMOUNT>0 then HEAD_VALUE ELSE 0 END) as ESI_HEAD_VALUE,  max(CASE WHEN SUB_HEAD_TYPE='EMPESI' then ACTUAL_AMOUNT ELSE 0 END) AS ESI_Amount,  max(Co_ESI_RATE) as Co_ESI_RATE,max(Co_ESI_AMT) as Co_ESI_AMT  from TSPL_GENERATE_SALARY_PAYHEADS inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and  TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE where SUB_HEAD_TYPE in ('EPF','EMPESI')  group by TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE,TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE) AS GSP ON Final.SALARY_GENERATION_CODE=GSP.SALARY_GENERATION_CODE  AND Final.EMP_CODE=GSP.EMP_CODE LEFT JOIN TSPL_EMPLOYEE_MASTER ON TSPL_EMPLOYEE_MASTER.EMP_CODE=Final.EMP_CODE  ORDER BY Final.EMP_CODE,PPM.DATE_FROM
+"
+            Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt2.Rows.Count > 0 AndAlso dt2.Columns.Contains("vgsli") Then
+                For Each row As DataRow In dt2.Rows
+                    If Not row("vgsli") Is DBNull.Value Then
+                        totalVgsli += clsCommon.myCdbl(row("vgsli"))
+                    End If
+                Next
+            End If
+            If totalVgsli > 0 Then
+                gv1.DataSource = Nothing
+                gv1.Rows.Clear()
+                gv1.Columns.Clear()
+                gv1.GroupDescriptors.Clear()
+                gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                gv1.MasterView.Refresh()
+                gv1.DataSource = dt2
+                For ii As Integer = 0 To gv1.Columns.Count - 1
+                    gv1.Columns(ii).ReadOnly = True
+                Next
+                RadPageView1.SelectedPage = RadPageViewPage2
+                gv1.EnableFiltering = True
+                SetGridFormat()
+                gv1.BestFitColumns()
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                Exit Sub
+            End If
+
+            ' ReStoreGridLayout()
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Sub SetGridFormat()
+        gv1.AutoExpandGroups = True
+        gv1.ShowGroupPanel = True
+        gv1.ShowRowHeaderColumn = False
+        gv1.AllowAddNewRow = False
+        gv1.AllowDeleteRow = False
+        gv1.EnableFiltering = True
+        gv1.ShowFilteringRow = True
+
+
+        For ii As Integer = 0 To gv1.Columns.Count - 1
+            gv1.Columns(ii).ReadOnly = True
+            gv1.Columns(ii).BestFit()
+        Next
+        gv1.Columns("Pay Period").Name = "Pay Period"
+        gv1.Columns("Pay Period").IsVisible = True '
+
+        gv1.Columns("SALARY_GENERATION_CODE").HeaderText = "SALARY GENERATION CODE"
+        gv1.Columns("SALARY_GENERATION_CODE").Width = 500
+        gv1.Columns("SALARY_GENERATION_CODE").IsVisible = False
+
+        gv1.Columns("EMP_CODE").HeaderText = "EMP CODE"
+        gv1.Columns("EMP_CODE").Width = 500
+        gv1.Columns("EMP_CODE").IsVisible = True
+
+        gv1.Columns("EMPLOYEE_NAME").HeaderText = "EMPLOYEE NAME"
+        gv1.Columns("EMPLOYEE_NAME").Width = 500
+        gv1.Columns("EMPLOYEE_NAME").IsVisible = True
+
+        gv1.Columns("LIC_No").HeaderText = "LIC Id"
+        gv1.Columns("LIC_No").Width = 500
+        gv1.Columns("LIC_No").IsVisible = True
+
+        gv1.Columns("Policy_No").HeaderText = "Policy No"
+        gv1.Columns("Policy_No").Width = 500
+        gv1.Columns("Policy_No").IsVisible = False
+
+
+        gv1.Columns("Father Name").HeaderText = "Father Name"
+        gv1.Columns("Father Name").Width = 200
+        gv1.Columns("Father Name").IsVisible = True
+
+        gv1.Columns("Sex").HeaderText = "Gender"
+        gv1.Columns("Sex").IsVisible = True
+
+        gv1.Columns("Date of Birth").HeaderText = "Date of Birth"
+        gv1.Columns("Date of Birth").IsVisible = True
+
+        gv1.Columns("Joining Date").HeaderText = "Joining Date"
+        gv1.Columns("Joining Date").IsVisible = True
+
+
+
+        gv1.Columns("Location").HeaderText = "Location"
+        gv1.Columns("Location").IsVisible = False
+
+
+
+
+        gv1.Columns("vgsli").HeaderText = "Deduction"
+        gv1.Columns("vgsli").IsVisible = True
+        gv1.Columns("vgsli").FormatString = "{0:n3}"
+
+        gv1.ShowGroupPanel = True
+        gv1.MasterTemplate.AutoExpandGroups = True
+
+    End Sub
+
+    Private Sub btnprint_Click(sender As Object, e As EventArgs) Handles btnprint.Click
+        Try
+            If clsCommon.myLen(fndPayperiod.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select Pay Period ")
+                Exit Sub
+            End If
+            If clsCommon.myLen(fndLocation.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select Location ")
+                Exit Sub
+            End If
+            If clsCommon.myLen(fndDeductioncode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select Deduction Code")
+                Exit Sub
+            End If
+
+            Dim totalVgsli As Double = 0
+            Dim qry As String = "  SELECT CONCAT('" + fndDeductioncode.Value + "','  ','DEDUCTION OF EMPLOYEES FOR PERIOD',' ') + CONCAT(GS.Pay_Period_Code, '-', (final.GENERATE_DATE)) AS [Pay Period]
+                    ,Final.* from (SELECT Sex,Designation,Membership_id,Special_desc,
+                     LIC_No, Policy_no,generate_date,
+                     SALARY_GENERATION_CODE,EMP_CODE AS EMP_CODE,EMPLOYEE_NAME,FATHERS_NAME AS [Father Name],Birth_date AS [Date of Birth],Joining_date as [Joining Date],LOCATION_DESC AS Location, SUM(gsli) AS vgsli FROM (SELECT ACD.SEX,ACD.Membership_id,ACD.Special_desc,
+                     ACD.LIC_No,acd.Policy_no,acd.GENERATE_DATE,
+                     ACD.SALARY_GENERATION_CODE,ACD.EMP_CODE,ACD.PAY_HEAD_CODE,EMPLOYEE_NAME,FATHERS_NAME,[Working City],Birth_date,Joining_date,Designation,Department,LOCATION_DESC,DEVISION_NAME, BANK_NAME, Bank_Branch,Bank_Branch_Name,PAYMENT_MODE, ACD.PAYPERIOD_DAYS, ACD.PRESENT_DAYS, ACD.PAYABLE_DAYS, ACD.HOLIDAY_DAYS,ACD.WEEKLY_OFF_DAYS,ACD.LEAVE_DAYS ,PF_NO,ESI_NO,BANK_ACC_NO,RELIEVING_DATE,ACD.OT_HOURS, CASE WHEN  ACD.PAY_HEAD_CODE ='" + fndDeductioncode.Value + "' THEN acd.Payable_Amount else 0 END  AS gsli FROM  ( SeleCT T2.SEX,t2.Membership_id,t2.Special_desc,
+                     t2.LIC_No,t2.Policy_no,t1.GENERATE_DATE,
+                     T1.SALARY_GENERATION_CODE,T1.EMP_CODE,T2.EMP_NAME AS EMPLOYEE_NAME,T2.FATHERS_NAME,T2.WORKING_LOCATION_CODE,Working_City.City_Name as [Working City],T3.DESIGNATION_DESC AS DESIGNATION,T4.DEPARTMENT_NAME AS DEPARTMENT, T1.DEVISION_CODE,T1.LOCATION_CODE,LOC.LOCATION_DESC,Dev.DEVISION_NAME,T2.Bank_Name,T2.Bank_Branch,T2.Bank_Branch_Name,T2.PAYMENT_MODE_New as PAYMENT_MODE,T2.Birth_date,T2.Joining_date,T2.RELIEVING_DATE,T2.BRANCH_CODE,T1.PAY_HEAD_CODE , T1.ACTUAL_AMOUNT,T1.Payable_Amount,T1.PAYPERIOD_DAYS ,T1.PRESENT_DAYS ,T1.PAYABLE_DAYS,T1.HOLIDAY_DAYS,T1.WEEKLY_OFF_DAYS,T1.LEAVE_DAYS,T2.PF_NO,T2.ESI_NO,T2.BANK_ACC_NO,T1.OT_HOURS FROM (SELECT YEAR(t1.GENERATE_DATE)GENERATE_DATE,T1.SALARY_GENERATION_CODE,T2.EMP_CODE,T2.PAY_HEAD_CODE,T2.ACTUAL_AMOUNT,T2.Payable_Amount,T5.PAYPERIOD_DAYS,T5.PRESENT_DAYS,T5.PAYABLE_DAYS,T5.HOLIDAY_DAYS,T5.LEAVE_DAYS, (T5.PAYPERIOD_DAYS-T5.PRESENT_DAYS-T5.HOLIDAY_DAYS-T5.LEAVE_DAYS-T5.ABSENT_DAYS) as WEEKLY_OFF_DAYS,T1.LOCATION_CODE,T1.DEVISION_CODE,T2.OT_HOURS FROM TSPL_GENERATE_SALARY T1  INNER JOIN TSPL_GENERATE_SALARY_PAYHEADS T2 ON T1.SALARY_GENERATION_CODE=T2.SALARY_GENERATION_CODE  inner JOIN TSPL_GENERATE_SALARY_ATTENDANCE T5 ON T5.Emp_code =T2.Emp_code  AND T1.SALARY_GENERATION_CODE=T5.SALARY_GENERATION_CODE  WHERE 2=2  AND T1.PAY_PERIOD_CODE in ( 'APR') AND T1.LOCATION_CODE in ( 'JODHPUR')  ) T1 LEFT JOIN TSPL_EMPLOYEE_MASTER T2 ON T1.EMP_CODE=T2.EMP_CODE  LEFT JOIN TSPL_DESIGNATION_MASTER T3 ON T2.DESIGNATION=T3.DESIGNATION_ID LEFT JOIN TSPL_DEPARTMENT_MASTER T4 ON T2.DEPARTMENT_CODE=T4.DEPARTMENT_CODE LEFT JOIN TSPL_DEVISION_MASTER Dev ON T1.DEVISION_CODE=Dev.DEVISION_CODE LEFT JOIN TSPL_LOCATION_MASTER LOC ON T1.LOCATION_CODE=LOC.LOCATION_CODE LEFT JOIN TSPL_BANK_MASTER Bank ON T2.BANK_CODE=Bank.BANK_CODE  left join TSPL_City_MASTER as Working_City on Working_City.City_Code  =T2.WORKING_City_CODE) AS ACD) AS X where 2=2   GROUP BY x.[Working City] , X.SALARY_GENERATION_CODE,X.EMP_CODE,X.EMPLOYEE_NAME,X.DESIGNATION,X.DEPARTMENT,X.DEVISION_NAME ,X.PAYPERIOD_DAYS,X.PRESENT_DAYS,X.PAYABLE_DAYS,X.PF_NO,X.BANK_ACC_NO,X.Birth_date,X.HOLIDAY_DAYS,X.WEEKLY_OFF_DAYS, x.SEX,x.GENERATE_DATE,
+                     x.LIC_No,x.policy_no,x.membership_id,x.special_desc,
+                     X.LEAVE_DAYS,X.ESI_NO,X.FATHERS_NAME,X.Bank_Name,X.Bank_Branch,X.Bank_Branch_Name,X.PAYMENT_MODE,X.Joining_date,X.RELIEVING_DATE,X.LOCATION_DESC) as Final  left join TSPL_GENERATE_SALARY_ATTENDANCE GSA ON Final.SALARY_GENERATION_CODE=GSA.SALARY_GENERATION_CODE  AND Final.EMP_CODE=GSA.EMP_CODE left join TSPL_GENERATE_SALARY GS ON Final.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE  left join TSPL_PAYPERIOD_MASTER PPM ON GS.PAY_PERIOD_CODE=PPM.PAY_PERIOD_CODE  LEFT JOIN TSPL_EMPLOYEE_STATUS EMPStatus on GSA.EMP_STATUS_CODE=EMPStatus.EMP_STATUS_CODE  LEFT JOIN (select TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE,TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE,  max(CASE WHEN SUB_HEAD_TYPE='EPF' and ACTUAL_AMOUNT>0 then (case when HEAD_VALUE>PF_MAX_LM then PF_MAX_LM*PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end) ELSE 0 END) AS Salary_EPF_AC_01,  max(CASE WHEN SUB_HEAD_TYPE='EPF' and CoEPS_AMT_AC10>0 then (case when HEAD_VALUE>0.01 then 0.01*PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end) ELSE 0 END) AS Salary_EPF_AC_10,  max(CASE WHEN SUB_HEAD_TYPE='EPF' and CoEPF_AMT_AC01>0 then (case when HEAD_VALUE>0.01 then 0.01*PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end) ELSE 0 END) AS Salary_EDLI_AC_21,  max(CASE WHEN SUB_HEAD_TYPE='EPF' then ACTUAL_AMOUNT ELSE 0 END) AS EPF_Amount_AC_01,  max(CASE WHEN SUB_HEAD_TYPE='EPF' and CoEPS_AMT_AC10>0 then CoEPS_AMT_AC10 ELSE 0 END) AS Pension_Amount_AC_10,  max(CASE WHEN SUB_HEAD_TYPE='EPF' and Actual_Amount>0 then (Actual_Amount-(case when HEAD_VALUE>PF_MAX_LM then CoEPS_AMT_AC10*PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else CoEPS_AMT_AC10 end)) ELSE 0 END) AS Diff_Amount_AC_01,  (max(CASE WHEN SUB_HEAD_TYPE='EPF' and ACTUAL_AMOUNT>0 then (case when HEAD_VALUE>PF_MAX_LM then PF_MAX_LM*PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end) ELSE 0 END))*1.1/100 AS Admin_Amt_AC_02,  (max(CASE WHEN SUB_HEAD_TYPE='EPF' and CoEPF_AMT_AC01>0 then (case when HEAD_VALUE>0.01 then 0.01*PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end) ELSE 0 END))*0.5/100 AS EDLI_Amt_AC_21,  max(CASE WHEN SUB_HEAD_TYPE='EPF' then PF_MAX_LM*PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS ELSE 0 END) AS PF_MAX_LM,  max(CoEPF_RATE_AC01) as CoEPF_RATE_AC01,max(CoEPF_AMT_AC01) as CoEPF_AMT_AC01,max(CoEPS_RATE_AC10) as CoEPS_RATE_AC10,  max(CoEPS_AMT_AC10) as CoEPS_AMT_AC10,max(EDLI_RATE_AC21) as EDLI_RATE_AC21,  max(EDLI_AMT_AC21) as EDLI_AMT_AC21,  max(CASE WHEN SUB_HEAD_TYPE='EMPESI' AND ACTUAL_AMOUNT>0 then HEAD_VALUE ELSE 0 END) as ESI_HEAD_VALUE,  max(CASE WHEN SUB_HEAD_TYPE='EMPESI' then ACTUAL_AMOUNT ELSE 0 END) AS ESI_Amount,  max(Co_ESI_RATE) as Co_ESI_RATE,max(Co_ESI_AMT) as Co_ESI_AMT  from TSPL_GENERATE_SALARY_PAYHEADS inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and  TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE where SUB_HEAD_TYPE in ('EPF','EMPESI')  group by TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE,TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE) AS GSP ON Final.SALARY_GENERATION_CODE=GSP.SALARY_GENERATION_CODE  AND Final.EMP_CODE=GSP.EMP_CODE LEFT JOIN TSPL_EMPLOYEE_MASTER ON TSPL_EMPLOYEE_MASTER.EMP_CODE=Final.EMP_CODE  where vgsli>0  ORDER BY Final.EMP_CODE,PPM.DATE_FROM
+                    "
+            Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt2.Rows.Count > 0 AndAlso dt2.Columns.Contains("vgsli") Then
+                For Each row As DataRow In dt2.Rows
+                    If Not row("vgsli") Is DBNull.Value Then
+                        totalVgsli += clsCommon.myCdbl(row("vgsli"))
+                    End If
+                Next
+            End If
+
+            If totalVgsli > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                If clsCommon.CompairString(clsCommon.myCstr(fndDeductioncode.Value), "KKK") <> CompairStringResult.Equal Then
+                    frmCRV.funreport(CrystalReportFolder.HRPayroll, dt2, "rptDeductionRegister", "Sale Order")
+                Else
+                    frmCRV.funreport(CrystalReportFolder.HRPayroll, dt2, "rptDeductionRegisterkkk", "Sale Order")
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                Exit Sub
+            End If
+
+            ' ReStoreGridLayout()
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
 End Class
