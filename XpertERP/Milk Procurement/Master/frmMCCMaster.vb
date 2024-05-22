@@ -5566,4 +5566,40 @@ Public Class FrmMCCMaster
             clsCommon.MyMessageBoxShow(Me, ex.ToString)
         End Try
     End Sub
+
+    Private Sub MilkReceipt_Click(sender As Object, e As EventArgs) Handles MilkReceipt.Click
+        Dim frm As New FrmPWD(Nothing)
+        frm.strType = clsFixedParameterType.SIRC
+        frm.strCode = clsFixedParameterCode.DockPasswod
+        frm.ShowDialog()
+        If frm.isPasswordCorrect Then
+            ShowRemarks()
+            'OneTimeCheck = True
+        End If
+    End Sub
+    Private Sub MilkSample_Click(sender As Object, e As EventArgs) Handles MilkSample.Click
+        Dim frm As New FrmPWD(Nothing)
+        frm.strType = clsFixedParameterType.SIRC
+        frm.strCode = clsFixedParameterCode.DockPasswod
+        frm.ShowDialog()
+        If frm.isPasswordCorrect Then
+            ShowRemarks()
+            'OneTimeCheck = True
+        End If
+    End Sub
+    Private Sub ShowRemarks()
+        Try
+            Dim Reason As String = ""
+            Dim frm As New FrmFreeTxtBox1
+            frm.Text = "Remarks for Update"
+            frm.ShowDialog()
+            If clsCommon.myLen(frm.strRmks) <= 0 Then
+                Exit Sub
+            Else
+                Reason = frm.strRmks
+            End If
+            'clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        Catch
+        End Try
+    End Sub
 End Class

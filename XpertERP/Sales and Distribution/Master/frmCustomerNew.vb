@@ -2449,16 +2449,16 @@ Public Class frmCustomer
         Me.fndCountry.Value = ""
         Me.TxtCountryName.Text = ""
         ''
-        Me.txtPhone1.Text = "(+__)__________"
-        Me.txtPhone2.Text = "(+__)__________"
+        Me.txtPhone1.Text = ""
+        Me.txtPhone2.Text = ""
         Me.txtfax.Text = ""
         Me.txtEmail.Text = ""
         Me.txtTinNo.Text = ""
         Me.drpformtype.SelectedIndex = 0
         Me.txtWeb.Text = ""
         Me.txtContactName.Text = ""
-        Me.txtContPhone.Text = "(+__)__________"
-        Me.txtDriverMobileNo.Text = "(+__)__________"
+        Me.txtContPhone.Text = ""
+        Me.txtDriverMobileNo.Text = ""
         Me.txtDriverFinder.Value = ""
         Me.txtVehicleNo.Text = ""
         Me.txtContactFax.Text = ""
@@ -5194,7 +5194,7 @@ Public Class frmCustomer
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    Private Sub txtDriverMobileNo_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtDriverMobileNo.KeyPress
+    Private Sub txtDriverMobileNo_KeyPress(sender As Object, e As KeyPressEventArgs)
         If ((e.KeyChar >= Chr(48) And e.KeyChar <= Chr(57)) Or e.KeyChar = Chr(8) Or e.KeyChar = Chr(48) Or e.KeyChar = Chr(45)) Then
         Else
             e.Handled = True
@@ -5578,6 +5578,10 @@ Public Class frmCustomer
         End Try
     End Sub
     Private Sub btnAddSecurity_Click(sender As Object, e As EventArgs) Handles btnAddSecurity.Click
+        AddSecurity()
+    End Sub
+
+    Sub AddSecurity()
         Dim ReceiptFormOpens As Boolean = True
         'Dim valueEntry As Boolean = True
         Try
@@ -5601,6 +5605,7 @@ Public Class frmCustomer
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
     Private Sub GetSecurityDetails(ByVal customer As String)
         'gvSecurity.DataSource = Nothing
         'gvSecurity.Rows.Clear()
@@ -5729,6 +5734,11 @@ Public Class frmCustomer
         Dim WhrCls As String = " TSPL_TAX_GROUP_MASTER.Excisable ='N'"
         txtPriceCodeFOR.Value = clsCommon.ShowSelectForm("PriceCodeNFND", qry, "Code", WhrCls, txtPriceCodeFOR.Value, "Code", isButtonClicked)
     End Sub
+
+    Private Sub rbtnAddSecurity_Click(sender As Object, e As EventArgs) Handles rbtnAddSecurity.Click
+        AddSecurity()
+    End Sub
+
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
         Dim obj As New clsCancelLog
         obj.Program_Code = Form_ID

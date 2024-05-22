@@ -2309,6 +2309,8 @@ Public Class clsCreateAllTable
             coll.Add("BuyBackType", "integer null default 0")
             coll.Add("BuyBackValue", "Decimal(18,2) null")
             coll.Add("BomBuildQty", "integer Null")
+            coll.Add("Item_Sub_Group_Type", "varchar(50) NULL")
+
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
