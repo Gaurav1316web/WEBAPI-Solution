@@ -200,8 +200,8 @@ Public Class clsMilkShiftUploaderHead
 ,case When isnull(Reject_Type,'')='' then Milk_Weight else 0 end as [Good Qty]
 ,case When isnull(Reject_Type,'')='' then FAT else 0 end as [Good FAT %]
 ,case When isnull(Reject_Type,'')='' then cast(Milk_Weight*FAT/100 as decimal(18,3)) else 0 end as [Good FATKg]
-,case When isnull(Reject_Type,'')='' then SNF else 0 end as [Good SNF %]
-,case When isnull(Reject_Type,'')='' then cast (Milk_Weight*SNF/100 as decimal(18,3)) else 0 end as [Good SNFKG]"
+                ,case When isnull(Reject_Type,'')='' then SNF else 0 end as [Good SNF %]
+                ,case When isnull(Reject_Type,'')='' then cast (Milk_Weight*SNF/100 as decimal(18,3)) else 0 end as [Good SNFKG]"
 
 
                 If isPickCLRInsteadOfSNF = True Then
@@ -217,14 +217,14 @@ Public Class clsMilkShiftUploaderHead
                         qry += ",case When isnull(Reject_Type,'')='" + clsCommon.myCstr(dr("Reject_Type")) + "' then Milk_Weight else 0 end as [" + clsCommon.myCstr(dr("Reject_Type")) + " Qty]
 ,case When isnull(Reject_Type,'')='" + clsCommon.myCstr(dr("Reject_Type")) + "' then FAT else 0 end as [" + clsCommon.myCstr(dr("Reject_Type")) + " FAT %]
 ,case When isnull(Reject_Type,'')='" + clsCommon.myCstr(dr("Reject_Type")) + "' then cast (Milk_Weight*FAT/100 as decimal(18,3)) else 0 end as [" + clsCommon.myCstr(dr("Reject_Type")) + " FATKg]
-,case When isnull(Reject_Type,'')='" + clsCommon.myCstr(dr("Reject_Type")) + "' then SNF else 0 end as [" + clsCommon.myCstr(dr("Reject_Type")) + " SNF %]
-,case When isnull(Reject_Type,'')='" + clsCommon.myCstr(dr("Reject_Type")) + "' then cast (Milk_Weight*SNF/100 as decimal(18,3)) else 0 end as [" + clsCommon.myCstr(dr("Reject_Type")) + " SNFKG]"
+,case When isnull(Reject_Type,'')='" + clsCommon.myCstr(dr("Reject_Type")) + "' then SNF else 0 end as [" + clsCommon.myCstr(dr("Reject_Type")) + " SNF %]"
+                        ',case When isnull(Reject_Type,'')='" + clsCommon.myCstr(dr("Reject_Type")) + "' then cast (Milk_Weight*SNF/100 as decimal(18,3)) else 0 end as [" + clsCommon.myCstr(dr("Reject_Type")) + " SNFKG]"
 
                         DocRejectType += ",  sum ([" + clsCommon.myCstr(dr("Reject_Type")) + " Qty] ) as [" + clsCommon.myCstr(dr("Reject_Type")) + " Qty]
 , isnull (convert(decimal(18,2), ( sum( [" + clsCommon.myCstr(dr("Reject_Type")) + " FATKg]) * 100/ nullif((sum([" + clsCommon.myCstr(dr("Reject_Type")) + " Qty])),0)    )),0)   as [" + clsCommon.myCstr(dr("Reject_Type")) + " FAT %]
-, sum([" + clsCommon.myCstr(dr("Reject_Type")) + " FATKg]) as [" + clsCommon.myCstr(dr("Reject_Type")) + " FATKg]
-, isnull ( convert(decimal(18,2), ( sum( [" + clsCommon.myCstr(dr("Reject_Type")) + " SNFKG]) * 100/ nullif( (sum([" + clsCommon.myCstr(dr("Reject_Type")) + " Qty])),0)    )),0)   as [" + clsCommon.myCstr(dr("Reject_Type")) + " SNF %]
-, sum ([" + clsCommon.myCstr(dr("Reject_Type")) + " SNFKG]) as [" + clsCommon.myCstr(dr("Reject_Type")) + " SNFKG]"
+, sum([" + clsCommon.myCstr(dr("Reject_Type")) + " FATKg]) as [" + clsCommon.myCstr(dr("Reject_Type")) + " FATKg]"
+                        ', isnull ( convert(decimal(18,2), ( sum( [" + clsCommon.myCstr(dr("Reject_Type")) + " SNFKG]) * 100/ nullif( (sum([" + clsCommon.myCstr(dr("Reject_Type")) + " Qty])),0)    )),0)   as [" + clsCommon.myCstr(dr("Reject_Type")) + " SNF %]
+                        ', sum ([" + clsCommon.myCstr(dr("Reject_Type")) + " SNFKG]) as [" + clsCommon.myCstr(dr("Reject_Type")) + " SNFKG]"
                     Next
                 End If
                 qry += " ,TSPL_MILK_SHIFT_UPLOADER_DETAIL.PageNo from TSPL_MILK_SHIFT_UPLOADER_DETAIL 

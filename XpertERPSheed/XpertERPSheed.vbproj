@@ -200,6 +200,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Transaction\frmSeedSelectionEntry.Designer.vb">
+      <DependentUpon>frmSeedSelectionEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmSeedSelectionEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Master\frmSeedGrowerMaster.resx">
@@ -211,6 +217,9 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmSeedSelectionEntry.resx">
+      <DependentUpon>frmSeedSelectionEntry.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -230,8 +239,6 @@
   <ItemGroup>
     <None Include="Resources\search4.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Transaction\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

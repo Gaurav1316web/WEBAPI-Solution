@@ -94,8 +94,8 @@ Public Class FrmWeightCoversion
         gv.MasterTemplate.Columns.Add(repoTemp)
 
         Dim repoContainedQty As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoContainedQty.FormatString = "{0:n4}" '"{0:F4}"
-        repoContainedQty.DecimalPlaces = 4
+        repoContainedQty.FormatString = "{0:n6}" '"{0:F4}"
+        repoContainedQty.DecimalPlaces = 6
         repoContainedQty.HeaderText = ""
         repoContainedQty.Name = colContainedQty
         repoContainedQty.ReadOnly = False
