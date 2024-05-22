@@ -48,7 +48,7 @@ Public Class clsAcknowledgementEntry
         Dim str As String = ""
         Try
             Dim qry As String = " select TSPL_ACKNOWLEDGENT_ENTRY_Header.document_No as DocNo ,CONVERT(varchar(10), TSPL_ACKNOWLEDGENT_ENTRY_Header.Document_Date,103)+' '+ CONVERT(varchar(5), TSPL_ACKNOWLEDGENT_ENTRY_Header.Document_Date,114)   as [Document Date]  ,TSPL_ACKNOWLEDGENT_ENTRY_Header.Tanker_No as [TankerNo], TSPL_ACKNOWLEDGENT_ENTRY_Header.dispatch_Document_No as [Tanker Dispatch No],CONVERT(varchar(10), TSPL_ACKNOWLEDGENT_ENTRY_Header.Document_Date,103) [Tanker Dispatch Date],TSPL_ACKNOWLEDGENT_ENTRY_Header.MCC_Code as [Mcc Code] ,TSPL_ACKNOWLEDGENT_ENTRY_Header.MCC_Name as [Mcc Name] ,TSPL_ACKNOWLEDGENT_ENTRY_Header.Tanker_Dispatch_To as [Tanker Dispatch To] , case when TSPL_ACKNOWLEDGENT_ENTRY_Header.isPosted=0 then 'NO' else 'YES' end as [Posting Status]  From TSPL_ACKNOWLEDGENT_ENTRY_Header left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code= TSPL_ACKNOWLEDGENT_ENTRY_Header.Mcc_Or_Plant_Code"
-            str = clsCommon.ShowSelectForm("ACKEntry", qry, "DocNo", whrcls, curcode, "TSPL_ACKNOWLEDGENT_ENTRY_Header.Document_Date desc", isButtonClicked, "TSPL_ACKNOWLEDGENT_ENTRY_Header.Document_Date")
+            str = clsCommon.ShowSelectForm("ACKEntry", qry, "DocNo", whrcls, curcode, "TSPL_ACKNOWLEDGENT_ENTRY_Header.Document_Date desc", isButtonClicked)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try

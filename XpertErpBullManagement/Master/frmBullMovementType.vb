@@ -23,7 +23,7 @@ Public Class frmBullMovementType
         If fndCode.MyReadOnly OrElse isButtonClicked Then
             Dim whrClas As String = ""
             Dim qry As String = "select Code,Name,Peridocity from TSPL_BULL_MOVEMENT_TYPE"
-            fndCode.Value = clsCommon.ShowSelectForm("RTY", qry, "Code", whrClas, fndCode.Value, "TSPL_BULL_MOVEMENT_TYPE.Code asc", isButtonClicked, "TSPL_BULL_MOVEMENT_TYPE.Created_Date")
+            fndCode.Value = clsCommon.ShowSelectForm("RTY", qry, "Code", whrClas, fndCode.Value, "TSPL_BULL_MOVEMENT_TYPE.Code asc", isButtonClicked)
             LoadData(fndCode.Value, NavigatorType.Current)
         End If
     End Sub

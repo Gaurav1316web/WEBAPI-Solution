@@ -599,7 +599,7 @@ Public Class FrmPriceChartMaster
             qry = "select price_code as Code,Description,Effective_Date as [Effective Date],Inactive_Date as [Inactive Date],Ratio as [FAT Ratio],snf_ratio as [SNF Ratio],FAT_Pers as [FAT %],SNF_Pers as [SNF %],Milk_Rate as [Milk Rate],Created_By as [Created By],Created_Date as [Created Date],Modified_By as [Modified By],Modified_Date as [Modified Date],case isnull(Posted,0) when '0' Then 'Pending' else 'Approved' end as 'Status' from TSPL_MILK_PRICE_MASTER"
         End If
         Dim whrcls As String = " Price_Type='" + formtype + "'"
-        fndcode.Value = clsCommon.ShowSelectForm("PRCFND", qry, "Code", whrcls, fndcode.Value, "Code", isButtonClicked, "")
+        fndcode.Value = clsCommon.ShowSelectForm("PRCFND", qry, "Code", whrcls, fndcode.Value, "Code", isButtonClicked)
 
         If clsCommon.myLen(fndcode.Value) > 0 Then
             LoadData(fndcode.Value, NavigatorType.Current)

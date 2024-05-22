@@ -119,7 +119,7 @@ Public Class rptNewSalesReport
             End If
             If dtFreshItem.Rows.Count > 0 Then
                 For i As Integer = 0 To dtFreshItem.Rows.Count - 1
-                    FreshItemName += "Sum(IsNull([" + clsCommon.myCstr(dtFreshItem.Rows(i)("Fresh_Item")) + "],0)) As [" + clsCommon.myCstr(dtFreshItem.Rows(i)("Fresh_Item")) + "]" + ","
+                    FreshItemName += " Sum(IsNull([" + clsCommon.myCstr(dtFreshItem.Rows(i)("Fresh_Item")) + "],0)) As [" + clsCommon.myCstr(dtFreshItem.Rows(i)("Fresh_Item")) + "]" + ","
                     FreshItemNameMax += "max(IsNull([" + clsCommon.myCstr(dtFreshItem.Rows(i)("Fresh_Item")) + "],0)) As [" + clsCommon.myCstr(dtFreshItem.Rows(i)("Fresh_Item")) + "]" + ","
                     If i = 0 Then
                         itemNamesFresh += "ISNULL([" + clsCommon.myCstr(dtFreshItem.Rows(i)("Fresh_Item")) + "],0)"
@@ -152,12 +152,18 @@ Public Class rptNewSalesReport
             Dim qry2 As String = ""
             Dim qry3 As String = ""
             qry = ""
+            Dim TotalFreshQty As String = ""
             Dim FinalQuery As String = ""
+            If dtFreshItem.Rows.Count > 0 Then
+                TotalFreshQty = " SUM(" & itemNamesFresh & ") AS [Total_FreshQty] "
+            Else
+                TotalFreshQty += " 0 AS [Total_FreshQty] "
+            End If
 
-            MaxQry = " " & FreshItemNameMax & "SUM(" & itemNamesFresh & ") AS [Total_FreshQty] , " & ProductItemNameMax & "0 as Amount, 0 as Receipt_Amount, (SUM(Amount) - SUM(Receipt_Amount)) as Bal  from ( " & Environment.NewLine & ""
-            qry1 = "," & FreshItemName & " SUM(" & itemNamesFresh & ") AS [Total_FreshQty], " & ProductIemName & "SUM(Amount) Amount, SUM(Receipt_Amount)Receipt_Amount, 0 as Bal  from ( " & Environment.NewLine & ""
-            qry2 = "," & FreshItemName & " SUM(" & itemNamesFresh & ") AS [Total_FreshQty], " & ProductIemName & "SUM(Amount) Amount, 0 as Receipt_Amount, 0 as Bal  from ( " & Environment.NewLine & ""
-            qry3 = "," & FreshItemName & " SUM(" & itemNamesFresh & ") AS [Total_FreshQty], " & ProductIemName & "max(Amount) Amount, 0 as Receipt_Amount, 0 as Bal  from ( " & Environment.NewLine & ""
+            MaxQry = " " & FreshItemNameMax & " " & TotalFreshQty & " , " & ProductItemNameMax & " 0 as Amount, 0 as Receipt_Amount, (SUM(Amount) - SUM(Receipt_Amount)) as Bal  from ( " & Environment.NewLine & ""
+            qry1 = "" & FreshItemName & " " & TotalFreshQty & " , " & ProductIemName & " SUM(Amount) Amount, SUM(Receipt_Amount)Receipt_Amount, 0 as Bal  from ( " & Environment.NewLine & ""
+            qry2 = "" & FreshItemName & " " & TotalFreshQty & " , " & ProductIemName & " SUM(Amount) Amount, 0 as Receipt_Amount, 0 as Bal  from ( " & Environment.NewLine & ""
+            qry3 = "" & FreshItemName & " " & TotalFreshQty & " , " & ProductIemName & " max(Amount) Amount, 0 as Receipt_Amount, 0 as Bal  from ( " & Environment.NewLine & ""
 
             If rbtnDemand.IsChecked Then
 
@@ -165,7 +171,7 @@ Public Class rptNewSalesReport
                 case when TSPL_ITEM_MASTER.Is_FreshItem = 1 and IsTaxable = 0 then  TSPL_ITEM_MASTER.Short_Description + 'Amt' end as Fresh_Item_Amt,TSPL_BOOKING_DETAIL.Unit_Code AS UOM ,isnull(TSPL_BOOKING_DETAIL.Booking_Qty,0) AS Qty,
                 case when TSPL_ITEM_MASTER.Is_FreshItem = 1 and IsTaxable = 0 then isnull(TSPL_BOOKING_DETAIL.Booking_Qty,0) end as Fresh_Qty, case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then isnull(TSPL_BOOKING_DETAIL.Booking_Qty,0) end as Product_Qty,round((isnull(TSPL_BOOKING_DETAIL.Booking_Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[KG],2) as KG_QTY
                 ,round((isnull(TSPL_BOOKING_DETAIL.Booking_Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[LTR],2) as LTR_QTY ,case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then isnull(TSPL_BOOKING_DETAIL.Amount_with_Tax,0)end as Product_Amount
-		        ,case when TSPL_ITEM_MASTER.Is_FreshItem = 1 and IsTaxable = 0 then isnull(TSPL_BOOKING_DETAIL.Amount_with_Tax,0)end as Fresh_Amount,TSPL_BOOKING_DETAIL.Amount_with_Tax AS Amount, case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then TSPL_ITEM_MASTER.Short_Description + 'Prod' end AS Product_Item
+		        ,case when TSPL_ITEM_MASTER.Is_FreshItem = 1 and IsTaxable = 0 then isnull(TSPL_BOOKING_DETAIL.Amount_with_Tax,0)end as Fresh_Amount,TSPL_BOOKING_DETAIL.Amount_with_Tax AS Amount, case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then TSPL_ITEM_MASTER.Short_Description  end AS Product_Item
 		        ,case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then TSPL_ITEM_MASTER.Short_Description + 'Amt' end AS Product_Item_Amt, 0 AS Receipt_Amount
                 FROM TSPL_BOOKING_DETAIL
                 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_BOOKING_DETAIL.Item_Code left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BOOKING_DETAIL.Item_Code   and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BOOKING_DETAIL.Unit_Code 
@@ -185,7 +191,7 @@ Public Class rptNewSalesReport
                 case when TSPL_ITEM_MASTER.Is_FreshItem = 1 and IsTaxable = 0 then  TSPL_ITEM_MASTER.Short_Description + 'Amt' end as Fresh_Item_Amt,TSPL_SD_SHIPMENT_DETAIL.Unit_Code AS UOM ,isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) AS Qty,
                 case when TSPL_ITEM_MASTER.Is_FreshItem = 1 and IsTaxable = 0 then isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0) end as Fresh_Qty, case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) end as Product_Qty,round((isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[KG],2) as KG_QTY
                 ,round((isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[LTR],2) as LTR_QTY ,case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then isnull(TSPL_SD_SHIPMENT_DETAIL.Amount,0)end as Product_Amount
-		        ,case when TSPL_ITEM_MASTER.Is_FreshItem = 1 and IsTaxable = 0 then isnull(TSPL_SD_SHIPMENT_DETAIL.Amount,0)end as Fresh_Amount,TSPL_SD_SHIPMENT_DETAIL.Amount, case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then TSPL_ITEM_MASTER.Short_Description + 'Prod' end AS Product_Item
+		        ,case when TSPL_ITEM_MASTER.Is_FreshItem = 1 and IsTaxable = 0 then isnull(TSPL_SD_SHIPMENT_DETAIL.Amount,0)end as Fresh_Amount,TSPL_SD_SHIPMENT_DETAIL.Amount, case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then TSPL_ITEM_MASTER.Short_Description  end AS Product_Item
 		        ,case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then TSPL_ITEM_MASTER.Short_Description + 'Amt' end AS Product_Item_Amt, 0 AS Receipt_Amount
                 FROM TSPL_SD_SHIPMENT_DETAIL left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code   and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_Code 
 		        left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code 
@@ -214,21 +220,92 @@ Public Class rptNewSalesReport
                 qry += " and  TSPL_RECEIPT_HEADER.Cust_Code  = '" + clsCommon.myCstr(txtCustomer.Value) + "'"
             End If
             qry += " ) AS xx  "
+
+
             If rbtnPartyWise.IsChecked Then
-                Dim AmountAvg As Decimal = clsDBFuncationality.getSingleValue("Select SUM(" & itemNamesFresh & " + " & itemNamesProduct & ") AS [Total_Qty]  from ( " & qry & " " & Environment.NewLine & " PIVOT (SUM(LTR_QTY)  For Fresh_Item In (" & FreshItemsName & ") ) As pivot_fresh PIVOT (SUM(KG_QTY)   For Product_Item In (" & ProductIemsName & ") ) As  pivot_Product")
-                FinalQuery = "Select  1 As SNO, max(Route_No)Route_No,Shift_Type, convert(varchar,Document_Date,103)Document_Date " & qry1 & "" & qry & " " & Environment.NewLine & " PIVOT (SUM(LTR_QTY)  For Fresh_Item In (" & FreshItemsName & ") ) As pivot_fresh PIVOT (SUM(KG_QTY)   For Product_Item In (" & ProductIemsName & ") ) As  pivot_Product  group by Document_Date,Shift_Type"
-                FinalQuery += " " & Environment.NewLine & " ---QTY " & Environment.NewLine & " union all " & Environment.NewLine & " Select  2 As SNO, max(Route_No) Route_No, max(Shift_Type)Shift_Type,'QTY' as Document_Date " & qry1 & "" & qry & " " & Environment.NewLine & " PIVOT (SUM(LTR_QTY)  FOR Fresh_Item IN (" & FreshItemsName & ") ) AS pivot_fresh PIVOT (SUM(KG_QTY)   FOR Product_Item IN (" & ProductIemsName & ") ) AS  pivot_Product "
-                FinalQuery += "  " & Environment.NewLine & " --RATE " & Environment.NewLine & " union all " & Environment.NewLine & " Select 3 as SNO,	max(route_no) as Route_No,max(Shift_Type)Shift_Type,'Rate' as Document_Date, " & MaxQry & "select * , convert( decimal(18,2),(Fresh_Amount/ LTR_QTY)) as Fresh_Rate ,  convert( decimal(18,2),(Product_Amount /  KG_QTY)) as Product_Rate from (" & qry & " " & Environment.NewLine & " )xxx PIVOT (avg(Fresh_Rate)  FOR Fresh_Item IN (" & FreshItemsName & ") ) AS pivot_fresh PIVOT (avg(Product_Rate)   FOR Product_Item IN (" & ProductIemsName & ") ) AS  pivot_Product"
-                FinalQuery += " " & Environment.NewLine & " --AMT " & Environment.NewLine & " union all " & Environment.NewLine & " Select 4 as SNO,max(route_no) as Route_No,max(Shift_Type)Shift_Type,'AMT' as Document_Date " & qry2 & "" & qry & " " & Environment.NewLine & " pivot (sum(Fresh_Amount) FOR  Fresh_Item_Amt IN (" & FreshItemsName & ") ) AS pivot_fresh PIVOT (SUM(Product_Amount)   FOR Product_Item IN(" & ProductIemsName & ") ) AS  pivot_Product"
-                FinalQuery += " " & Environment.NewLine & " --AVG " & Environment.NewLine & " union all " & Environment.NewLine & " Select 5 as SNO,max(route_no) as Route_No,max(Shift_Type)Shift_Type,'AVG' as Document_Date " & qry3 & " select Days,route_no,Document_Date,Shift_Type,Fresh_Item,Fresh_Item_Amt,Uom,Qty,Fresh_Qty,Product_Qty,KG_QTY,LTR_QTY,Product_Amount,Fresh_Amount,
-                (" & AmountAvg & ") AS Amount,Product_Item,Product_Item_Amt,Receipt_Amount , convert( decimal(18,2),(LTR_QTY/Days )) as Fresh_Avg ,  convert( decimal(18,2),(KG_QTY /  Days)) as Product_Avg from ( " & qry & " " & Environment.NewLine & " )xxx pivot (sum(Fresh_Avg) FOR  Fresh_Item IN (" & FreshItemsName & ") ) AS pivot_fresh PIVOT (SUM(Product_Avg)   FOR Product_Item IN(" & ProductIemsName & ") ) AS  pivot_Product"
+                Dim AmountavgQry As String = "Select SUM(" & itemNamesFresh & ""
+
+                If dtFreshItem.Rows.Count > 0 AndAlso dtProductItem.Rows.Count > 0 Then
+                    AmountavgQry += " + " & itemNamesProduct & ") AS [Total_Qty] "
+                Else
+                    AmountavgQry += " " & itemNamesProduct & ") AS [Total_Qty] "
+                End If
+                AmountavgQry += "from ( " & qry & " " & Environment.NewLine & ""
+                If dtFreshItem.Rows.Count > 0 Then
+                    AmountavgQry += "PIVOT (SUM(LTR_QTY)  For Fresh_Item In (" & FreshItemsName & ") ) As pivot_fresh "
+                End If
+                If dtProductItem.Rows.Count > 0 Then
+                    AmountavgQry += "PIVOT (SUM(KG_QTY)   For Product_Item In (" & ProductIemsName & ") ) As  pivot_Product "
+                End If
+                Dim AmountAvg As Decimal = clsDBFuncationality.getSingleValue(AmountavgQry)
+                FinalQuery = "Select  1 As SNO, max(Route_No)Route_No,Shift_Type, convert(varchar,Document_Date,103)Document_Date, " & qry1 & "" & qry & " " & Environment.NewLine & " "
+                If dtFreshItem.Rows.Count > 0 Then
+                    FinalQuery += "PIVOT (SUM(LTR_QTY)  For Fresh_Item In (" & FreshItemsName & ") ) As pivot_fresh "
+                End If
+                If dtProductItem.Rows.Count > 0 Then
+                    FinalQuery += " PIVOT (SUM(KG_QTY)   For Product_Item In (" & ProductIemsName & ") ) As  pivot_Product "
+                End If
+                FinalQuery += " Group by Document_Date, Shift_Type"
+                FinalQuery += " " & Environment.NewLine & " ---QTY " & Environment.NewLine & " union all " & Environment.NewLine & " Select  2 As SNO, max(Route_No) Route_No, max(Shift_Type)Shift_Type,'QTY' as Document_Date, " & qry1 & "" & qry & " " & Environment.NewLine & ""
+
+                If dtFreshItem.Rows.Count > 0 Then
+                    FinalQuery += " PIVOT (SUM(LTR_QTY)  For Fresh_Item In (" & FreshItemsName & ") ) As pivot_fresh "
+                End If
+                If dtProductItem.Rows.Count > 0 Then
+                    FinalQuery += " PIVOT (SUM(KG_QTY)   For Product_Item In (" & ProductIemsName & ") ) As  pivot_Product "
+                End If
+
+                FinalQuery += "  " & Environment.NewLine & " --RATE " & Environment.NewLine & " union all " & Environment.NewLine & " Select 3 as SNO,	max(route_no) as Route_No,max(Shift_Type)Shift_Type,'Rate' as Document_Date, " & MaxQry & "select * , convert( decimal(18,2),(Fresh_Amount/ LTR_QTY)) as Fresh_Rate ,  convert( decimal(18,2),(Product_Amount /  KG_QTY)) as Product_Rate from (" & qry & " " & Environment.NewLine & " )xxx "
+
+                If dtFreshItem.Rows.Count > 0 Then
+                    FinalQuery += " PIVOT (avg(Fresh_Rate)  FOR Fresh_Item IN (" & FreshItemsName & ") ) AS pivot_fresh "
+                End If
+                If dtProductItem.Rows.Count > 0 Then
+                    FinalQuery += " PIVOT (avg(Product_Rate)   FOR Product_Item IN (" & ProductIemsName & ") ) AS  pivot_Product"
+                End If
+
+                FinalQuery += " " & Environment.NewLine & " --AMT " & Environment.NewLine & " union all " & Environment.NewLine & " Select 4 as SNO,max(route_no) as Route_No,max(Shift_Type)Shift_Type,'AMT' as Document_Date, " & qry2 & "" & qry & " " & Environment.NewLine & ""
+                If dtFreshItem.Rows.Count > 0 Then
+                    FinalQuery += " pivot (sum(Fresh_Amount) For  Fresh_Item_Amt In (" & FreshItemsName & ") ) As pivot_fresh "
+                End If
+                If dtProductItem.Rows.Count > 0 Then
+                    FinalQuery += " PIVOT(SUM(Product_Amount)   For Product_Item In(" & ProductIemsName & ") ) As  pivot_Product"
+                End If
+
+
+                FinalQuery += " " & Environment.NewLine & " --AVG " & Environment.NewLine & " union all " & Environment.NewLine & " Select 5 As SNO,max(route_no) As Route_No,max(Shift_Type)Shift_Type,'AVG' as Document_Date, " & qry3 & " select Days,route_no,Document_Date,Shift_Type,Fresh_Item,Fresh_Item_Amt,Uom,Qty,Fresh_Qty,Product_Qty,KG_QTY,LTR_QTY,Product_Amount,Fresh_Amount,
+                (" & AmountAvg & ") AS Amount,Product_Item,Product_Item_Amt,Receipt_Amount , convert( decimal(18,2),(LTR_QTY/Days )) as Fresh_Avg ,  convert( decimal(18,2),(KG_QTY /  Days)) as Product_Avg from ( " & qry & " " & Environment.NewLine & " )xxx"
+
+                If dtFreshItem.Rows.Count > 0 Then
+                    FinalQuery += " pivot (sum(Fresh_Avg) FOR  Fresh_Item IN (" & FreshItemsName & ") ) AS pivot_fresh "
+                End If
+                If dtProductItem.Rows.Count > 0 Then
+                    FinalQuery += " PIVOT (SUM(Product_Avg)   FOR Product_Item IN(" & ProductIemsName & ") ) AS  pivot_Product "
+                End If
+
                 FinalQuery += " order by SNO, Document_Date,Shift_Type "
             ElseIf rbtnRouteWise.IsChecked Then
-                FinalQuery = "Select  (Route_No)Route_No,(Shift_Type)Shift_Type, (convert(varchar,Document_Date,103)) Document_Date " & qry1 & "" & qry & " " & Environment.NewLine & " PIVOT (SUM(LTR_QTY)  FOR Fresh_Item IN (" & FreshItemsName & ") ) AS pivot_fresh PIVOT (SUM(KG_QTY)   FOR Product_Item IN (" & ProductIemsName & ") ) AS  pivot_Product  group by Route_No,Document_Date,Shift_Type "
-                FinalQuery += " order by Route_No,Document_Date,Shift_Type "
-                ElseIf rbtnRouteSummary.IsChecked Then
+                FinalQuery = "Select  (Route_No)Route_No,(Shift_Type)Shift_Type, (convert(varchar,Document_Date,103)) Document_Date, " & qry1 & "" & qry & " " & Environment.NewLine & ""
 
-                FinalQuery = "Select  (Route_No)Route_No,max(Shift_Type)Shift_Type, max(convert(varchar,Document_Date,103)) Document_Date " & qry1 & "" & qry & " " & Environment.NewLine & " PIVOT (SUM(LTR_QTY)  FOR Fresh_Item IN (" & FreshItemsName & ") ) AS pivot_fresh PIVOT (SUM(KG_QTY)   FOR Product_Item IN (" & ProductIemsName & ") ) AS  pivot_Product  group by Route_No "
+                If dtFreshItem.Rows.Count > 0 Then
+                    FinalQuery += " PIVOT (SUM(LTR_QTY)  For Fresh_Item In (" & FreshItemsName & ") ) As pivot_fresh "
+                End If
+                If dtProductItem.Rows.Count > 0 Then
+                    FinalQuery += " PIVOT (SUM(KG_QTY)   For Product_Item In (" & ProductIemsName & ") ) As  pivot_Product "
+                End If
+                FinalQuery += "group by Route_No, Document_Date, Shift_Type "
+                FinalQuery += " order by Route_No, Document_Date, Shift_Type "
+            ElseIf rbtnRouteSummary.IsChecked Then
+
+                FinalQuery = "Select  (Route_No)Route_No,max(Shift_Type)Shift_Type, max(convert(varchar,Document_Date,103)) Document_Date, " & qry1 & "" & qry & " " & Environment.NewLine & ""
+
+                If dtFreshItem.Rows.Count > 0 Then
+                    FinalQuery += " PIVOT (SUM(LTR_QTY)  For Fresh_Item In (" & FreshItemsName & ") ) As pivot_fresh "
+                End If
+                If dtProductItem.Rows.Count > 0 Then
+                    FinalQuery += " PIVOT (SUM(KG_QTY)   For Product_Item In (" & ProductIemsName & ") ) As  pivot_Product "
+                End If
+                FinalQuery += " Group by Route_No "
                 FinalQuery += " order by Route_No"
             End If
 
@@ -251,7 +328,7 @@ Public Class rptNewSalesReport
                 RadPageView1.SelectedPage = RadPageViewPage2
                 gv1.BestFitColumns()
             Else
-                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found To Display", Me.Text)
                 Exit Sub
 
             End If
@@ -291,8 +368,9 @@ Public Class rptNewSalesReport
 
         gv1.Columns("Shift_Type").IsVisible = False
         gv1.Columns("Document_Date").HeaderText = "Date"
-        gv1.Columns("Total_FreshQty").IsVisible = False
-
+        If clsCommon.myLen(gv1.Columns("Total_FreshQty")) > 0 Then
+            gv1.Columns("Total_FreshQty").IsVisible = False
+        End If
         gv1.Columns("Amount").HeaderText = "SHIFT WISE AMOUNT RS."
         gv1.Columns("Receipt_Amount").HeaderText = "CHQ/CASH AMOUNT"
         gv1.Columns("Bal").HeaderText = "BAL. RS."

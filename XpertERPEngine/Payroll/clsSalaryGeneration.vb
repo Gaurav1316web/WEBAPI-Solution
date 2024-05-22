@@ -5257,8 +5257,16 @@ Public Class clsSalaryGeneration
         Dim Qry As String = "Select IsNull(ESI_FROM_MONTH,0)ESI_FROM_MONTH,IsNull(ESI_TO_MONTH,0)ESI_TO_MONTH from TSPL_PAYPERIOD_MASTER Where PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "'"
         Dim dtt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
         If dtt IsNot Nothing AndAlso dtt.Rows.Count > 0 Then
-            ESIFrom = clsCommon.myCdbl(dtt.Rows(0)("ESI_FROM_MONTH"))
-            ESITo = clsCommon.myCdbl(dtt.Rows(0)("ESI_TO_MONTH")) + 1
+            If clsCommon.myCdbl(dtt.Rows(0)("ESI_FROM_MONTH")) > 0 AndAlso clsCommon.myCdbl(dtt.Rows(0)("ESI_TO_MONTH")) > 0 Then
+                ESIFrom = clsCommon.myCdbl(dtt.Rows(0)("ESI_FROM_MONTH"))
+                ESITo = clsCommon.myCdbl(dtt.Rows(0)("ESI_TO_MONTH")) + 1
+            Else
+                ESIFrom = 4
+                ESITo = 10
+            End If
+        Else
+            ESIFrom = 4
+            ESITo = 10
         End If
 
         strq = "UPDATE " & strTableName & "" _

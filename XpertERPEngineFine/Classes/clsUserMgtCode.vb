@@ -259,6 +259,7 @@ Public Class clsUserMgtCode
     Public Const rptRouteSaleRegister As String = "ROT_SAL_REG"
     Public Const rptGatePassReport As String = "GAT_PAS_RPT"
     Public Const rptNewSalesReport As String = "NE_SALE_RPT"
+    Public Const FrmPrintMultipleGatepass As String = "MUL_PNT_GP"
 
     '===Dairy Visual Sales reports  
     Public Const SubModuleVisualSaleReport As String = "SMVSaleR"
@@ -2186,6 +2187,7 @@ Public Class clsUserMgtCode
     Public Const rptBMCCapacityUtilizationReport As String = "BMC_CP_UTLZ"
     Public Const rptBMCPerodicalReport As String = "BMC_PERO_R"
     Public Const rptPerodicalDispatchReport As String = "PERO_DISP_R"
+    Public Const rptDBTCappingReport As String = "DBT_CAP_R"
     Public Const rptDcsSecurity As String = "DCS_SEC_RPT"
     Public Const rptDayWiseCol As String = "DAY_WSE_RPT"
     Public Const rptMarginAmt As String = "MRG_AMT_RPT"

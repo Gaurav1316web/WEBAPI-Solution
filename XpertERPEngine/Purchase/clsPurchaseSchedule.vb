@@ -28,7 +28,7 @@ Public Class clsPurchaseSchedule
         Dim str As String = ""
         Dim qry As String = "select TSPL_PO_SCH_HEAD.Document_Code as Code,TSPL_PO_SCH_HEAD.document_date as [Date],TSPL_PO_SCH_HEAD.Description,tspl_vendor_master.vendor_name as [Vendor],(case when Schedule_Type='D' then 'Daily' else case when Schedule_Type='W' then 'Weekly' else case when Schedule_Type='M' then 'Monthly' end end end) as [Schedule Type],(case when Schedule_Type='M' then cast(year(TSPL_PO_SCH_HEAD.schedule_month) as varchar) else cast(datename(month,TSPL_PO_SCH_HEAD.schedule_month) as varchar)+' '+cast(year(TSPL_PO_SCH_HEAD.schedule_month) as varchar) end) as [Schedule Period],TSPL_PO_SCH_HEAD.Revision_No"
         qry += " from TSPL_PO_SCH_HEAD left outer join tspl_vendor_master on tspl_vendor_master.vendor_code=TSPL_PO_SCH_HEAD.vendor_code "
-        str = clsCommon.myCstr(clsCommon.ShowSelectForm("PURSCHFND", qry, "Code", whrCls, strCurrCode, "Code", isButtonClicked, "TSPL_PO_SCH_HEAD.document_date"))
+        str = clsCommon.myCstr(clsCommon.ShowSelectForm("PURSCHFND", qry, "Code", whrCls, strCurrCode, "Code", isButtonClicked))
 
         Return str
     End Function

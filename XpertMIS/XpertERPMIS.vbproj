@@ -98,7 +98,7 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Telerik.WinControls">
-      <HintPath>..\XpertERP\bin\Debug\Telerik.WinControls.dll</HintPath>
+      <HintPath>..\..\Git API\XpertERPAPI\bin\Debug\Telerik.WinControls.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.WinControls.ChartView, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -106,7 +106,7 @@
     </Reference>
     <Reference Include="Telerik.WinControls.GridView, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\XpertERP\bin\Debug\Telerik.WinControls.GridView.dll</HintPath>
+      <HintPath>..\XpertErpBullManagement\bin\Debug\Telerik.WinControls.GridView.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.WinControls.RadChart, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -121,11 +121,11 @@
       <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadMap.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.WinControls.UI">
-      <HintPath>..\XpertERP\bin\Debug\Telerik.WinControls.UI.dll</HintPath>
+      <HintPath>..\XpertErpBullManagement\bin\Debug\Telerik.WinControls.UI.dll</HintPath>
     </Reference>
     <Reference Include="TelerikCommon, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\XpertERP\bin\Debug\TelerikCommon.dll</HintPath>
+      <HintPath>..\XpertErpBullManagement\bin\Debug\TelerikCommon.dll</HintPath>
     </Reference>
     <Reference Include="XpertCommon, Version=2.1.6.67, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
