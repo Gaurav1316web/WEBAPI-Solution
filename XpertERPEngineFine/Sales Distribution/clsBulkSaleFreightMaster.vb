@@ -118,7 +118,7 @@ Public Class clsBulkSaleFreightMaster
     Public Shared Function getFinder(ByVal strCode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
         Dim sql As String = "select Document_Code as DocumentNo ,convert(varchar(12),Start_Date,103) AS [Start Date],convert(varchar(12),Document_date,103) as DocumentDate,case when Status = 1 then 'Posted' else 'Unposted' end as Posted from TSPL_BLK_FREIGHT_MASTER"
-        str = clsCommon.ShowSelectForm("BulkSaleFreightMaster", sql, "DocumentNo", "", strCode, "DocumentNo", isButtonClicked)
+        str = clsCommon.ShowSelectForm("BulkSaleFreightMaster", sql, "DocumentNo", "", strCode, "DocumentNo", isButtonClicked, "Document_date")
         Return str
     End Function
 

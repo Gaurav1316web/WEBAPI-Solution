@@ -108,7 +108,7 @@ Public Class frmBullShedParameterMaster
         If fndCode.MyReadOnly OrElse isButtonClicked Then
             Dim whrClas As String = ""
             Dim qry As String = "select Code,Name,Type from TSPL_BULL_SHED_PARAMETER"
-            fndCode.Value = clsCommon.ShowSelectForm("RTY", qry, "Code", whrClas, fndCode.Value, "TSPL_BULL_SHED_PARAMETER.Code asc", isButtonClicked, "TSPL_BULL_SHED_PARAMETER.Created_Date")
+            fndCode.Value = clsCommon.ShowSelectForm("RTY", qry, "Code", whrClas, fndCode.Value, "TSPL_BULL_SHED_PARAMETER.Code asc", isButtonClicked)
             LoadData(fndCode.Value, NavigatorType.Current)
         End If
     End Sub

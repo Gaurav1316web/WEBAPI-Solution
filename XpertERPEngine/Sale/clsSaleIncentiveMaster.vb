@@ -23,7 +23,7 @@ Public Class clsSaleIncentiveHeader
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
         Dim qry As String = " select INCENTIVE_CODE as Code,convert(varchar,INCENTIVE_DATE,103) as [Incentive Date], DESCRIPTION as [Description], FROM_DATE as [From Date] , TO_DATE as [To Date], STATUS as Status, RANGE_UOM as [Range Uom], INCENTIVE_UOM as [Incentive Uom] from TSPL_SALES_INCENTIVE_HEADER  "
-        str = clsCommon.ShowSelectForm("INCENTIVEFND", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
+        str = clsCommon.ShowSelectForm("INCENTIVEFND", qry, "Code", whrcls, curcode, "Code", isButtonClicked, "INCENTIVE_DATE")
         Return str
     End Function
 

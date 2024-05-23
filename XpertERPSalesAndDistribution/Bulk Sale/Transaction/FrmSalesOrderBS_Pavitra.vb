@@ -1133,7 +1133,7 @@ Public Class FrmSalesOrderBS_Pavitra
 
     Private Sub fndSONo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndSONo._MYValidating
         Dim qry As String = "Select TSPL_SALES_ORDER_MASTER_BULKSALE.Document_No as Code,Convert(varchar,TSPL_SALES_ORDER_MASTER_BULKSALE.Document_Date,103) as [Dispatch Date],TSPL_SALES_ORDER_MASTER_BULKSALE.Customer_Code as [Customer Code],TSPL_SALES_ORDER_MASTER_BULKSALE.Customer_Name as [Customer Name],TSPL_SALES_ORDER_MASTER_BULKSALE.Location_Code as [Location Code],TSPL_SALES_ORDER_MASTER_BULKSALE.Location_Name [Location Name],TSPL_SALES_ORDER_MASTER_BULKSALE.PO_NO as [PO NO],Convert(varchar,TSPL_SALES_ORDER_MASTER_BULKSALE.PO_Date,103) as [PO Date],TSPL_SALES_ORDER_MASTER_BULKSALE.Price_Code as [Price Code],TSPL_SALES_ORDER_MASTER_BULKSALE.TERMS_Code as [Payment Terms],case when TSPL_SALES_ORDER_MASTER_BULKSALE.Posted=0 then 'Pending' else 'Approved' end as Status from TSPL_SALES_ORDER_MASTER_BULKSALE"
-        fndSONo.Value = clsCommon.ShowSelectForm("SalesOrderBulkSale", qry, "Code", " TSPL_SALES_ORDER_MASTER_BULKSALE.Location_Code in (" + arrLoc + ")", fndSONo.Value, "", isButtonClicked, "TSPL_SALES_ORDER_MASTER_BULKSALE.Document_Date")
+        fndSONo.Value = clsCommon.ShowSelectForm("SalesOrderBulkSale", qry, "Code", " TSPL_SALES_ORDER_MASTER_BULKSALE.Location_Code in (" + arrLoc + ")", fndSONo.Value, "", isButtonClicked, "Document_Date")
         LoadData(fndSONo.Value, NavigatorType.Current)
         qry = Nothing
     End Sub
