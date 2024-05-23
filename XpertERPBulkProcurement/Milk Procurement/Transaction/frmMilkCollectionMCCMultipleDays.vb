@@ -1151,7 +1151,7 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
         Dim qry As String = "select  TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.Document_No,convert (varchar,TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.Document_Date,103) as Document_Date,TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.Description,TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.Route_Code,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,
 TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.Tanker_No,TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.Vehicle_No,
 case when TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.Status=1 then 'Posted' else 'Pending' end as Status  from TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO= TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.Route_Code"
-        LoadData(clsCommon.ShowSelectForm("SMP2FINOC", qry, "Document_No", "", txtDocNo.Value, "Document_No", isButtonClicked, "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.Document_Date"), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("SMP2FINOC", qry, "Document_No", "", txtDocNo.Value, "Document_No", isButtonClicked, "Document_Date"), NavigatorType.Current)
     End Sub
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
         DeleteData()

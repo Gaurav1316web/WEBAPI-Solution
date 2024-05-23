@@ -280,7 +280,7 @@ Public Class frmMilkGateEntryOut
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             whrClas = " TSPL_MILK_GATE_ENTRY_IN.MCC_CODE in (" + objCommonVar.strCurrUserLocations + ") "
         End If
-        LoadData(clsCommon.ShowSelectForm("MGEWOFin", qry, "Gate_Out_Code", whrClas, txtCode.Value, "", isButtonClicked, "TSPL_MILK_GATE_ENTRY_OUT.Gate_Out_Date"), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("MGEWOFin", qry, "Gate_Out_Code", whrClas, txtCode.Value, "", isButtonClicked, "Gate_Out_Date"), NavigatorType.Current)
     End Sub
 
     Private Sub txtCode__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtCode._MYNavigator

@@ -932,7 +932,7 @@ Public Class frmMilkReceiptMCC
             If clsCommon.myLen(lblDockCode.Text) > 0 Then
                 strWhr += "TSPL_MILK_RECEIPT_HEAD.DOCK_Code='" + lblDockCode.Text + "'"
             End If
-            txtCode.Value = clsCommon.ShowSelectForm("MILK RECEIPT", qry, "Code", strWhr, txtCode.Value, "Code", isButtonClicked, "TSPL_MILK_RECEIPT_HEAD.DOC_DATE")
+            txtCode.Value = clsCommon.ShowSelectForm("MILK RECEIPT", qry, "Code", strWhr, txtCode.Value, "Code", isButtonClicked, "DOC_DATE")
             If clsCommon.myLen(txtCode.Value) > 0 Then
                 LoadData(txtCode.Value)
                 cboShift.Enabled = False

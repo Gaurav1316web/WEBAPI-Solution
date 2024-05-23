@@ -5314,7 +5314,7 @@ Public Class frmMCCMaterialSale
 
 
 
-        LoadData(clsCommon.ShowSelectForm("ShipmentCofnd", qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked, "TSPL_SD_SHIPMENT_HEAD.Document_Date"), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("ShipmentCofnd", qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked, "Document_Date"), NavigatorType.Current)
     End Sub
 
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown

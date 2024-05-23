@@ -395,7 +395,7 @@ Public Class FrmMediclaimEntry
         Dim qry As String = "select TSPL_MEDICLAIM_HEAD.document_code as Code,TSPL_MEDICLAIM_HEAD.Date,TSPL_MEDICLAIM_HEAD.Description,TSPL_MEDICLAIM_HEAD.emp_code as [Employee Code],TSPL_EMPLOYEE_MASTER.emp_name as [Employee Name],TSPL_EMPLOYEE_MASTER.birth_date as [DOB],TSPL_EMPLOYEE_MASTER.joining_date as [DOJ],TSPL_MEDICLAIM_HEAD.fromdate as [From Claim Period],TSPL_MEDICLAIM_HEAD.todate as [To Claim Period],TSPL_MEDICLAIM_HEAD.total_amount as [Claim Amount] from TSPL_MEDICLAIM_HEAD left outer join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.emp_code=TSPL_MEDICLAIM_HEAD.emp_code"
         'Reset()
 
-        LoadData(clsCommon.ShowSelectForm("MEDFND", qry, "Code", "", txtCode.Value, "Code", isButtonClicked, "TSPL_MEDICLAIM_HEAD.Date"), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("MEDFND", qry, "Code", "", txtCode.Value, "Code", isButtonClicked, "Date"), NavigatorType.Current)
 
     End Sub
 

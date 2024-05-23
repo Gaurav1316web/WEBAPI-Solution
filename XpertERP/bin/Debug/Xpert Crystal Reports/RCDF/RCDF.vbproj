@@ -332,6 +332,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntry.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntries.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntryNew.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleMultipleGatePassEntriesJPR.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleMultipleGatePassEntryNew.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDispatchProductSale.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDockSummaryReport.rpt" />

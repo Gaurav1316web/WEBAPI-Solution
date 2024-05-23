@@ -361,7 +361,7 @@ Public Class FrmRFQ
                             "TSPL_REQUISITION_HEAD.PROJECT_ID as [Project Id],TSPL_REQUISITION_HEAD.Ref_No as [Reference No]" & _
                             "from TSPL_REQUISITION_HEAD   inner join TSPL_RFQ_HEAD on TSPL_RFQ_HEAD.Requisition_Id = TSPL_REQUISITION_HEAD.Requisition_Id"
         Dim whr As String = ""
-        LoadData(clsCommon.ShowSelectForm("RFQ", qry, "Code", "", txtReqNo.Value, "", isButtonClicked, "TSPL_REQUISITION_HEAD.RFQ_Date"), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("RFQ", qry, "Code", "", txtReqNo.Value, "", isButtonClicked, "RFQ_Date"), NavigatorType.Current)
     End Sub
 
     Private Sub txtReqNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtReqNo._MYValidating

@@ -4199,8 +4199,8 @@ where  TSPL_MILK_SRN_HEAD.MCC_CODE='" + objHead.MCC_CODE + "' and TSPL_MILK_SRN_
             dtAmt = clsDBFuncationality.GetDataTable(qry, trans)
             If dtAmt IsNot Nothing AndAlso dtAmt.Rows.Count > 0 Then
 #Region "Create DCS Addition/Deduction"
-                qry = "insert into TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED (InvoiceNo,Against_DCS_ADDITION_DEDUCTION,SRN_CODE,Against_Milk_Collection_MCC_Detail,Amt,Against_Milk_Collection_DCS)
-select '" + objHead.DOC_CODE + "' as InvoiceNo,Code, DOC_CODE,null as Against_Milk_Collection_MCC_Detail,((((case when Applicable_On=0 then (case when Qty_UOM=2 then ACC_Qty else (case when Qty_UOM=1 then ACC_WEIGHT_LTR else Qty end) end) else AMOUNT end) * Applicable_Value) / (case when Applicable_Type=0 then 1 else 100 end ))*Conversion) as Amt,null as Against_Milk_Collection_DCS from ( 
+                qry = "insert into TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED (InvoiceNo,Against_DCS_ADDITION_DEDUCTION,SRN_CODE,Against_Milk_Collection_MCC_Detail,Amt,Against_Milk_Collection_DCS,Against_Milk_Collection_DCS_Multiple_Days)
+select '" + objHead.DOC_CODE + "' as InvoiceNo,Code, DOC_CODE,null as Against_Milk_Collection_MCC_Detail,((((case when Applicable_On=0 then (case when Qty_UOM=2 then ACC_Qty else (case when Qty_UOM=1 then ACC_WEIGHT_LTR else Qty end) end) else AMOUNT end) * Applicable_Value) / (case when Applicable_Type=0 then 1 else 100 end ))*Conversion) as Amt,null as Against_Milk_Collection_DCS,null as Against_Milk_Collection_DCS_Multiple_Days from ( 
 select  TSPL_MILK_SRN_HEAD.DOC_CODE,TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_DETAIL.Qty,TSPL_MILK_SRN_DETAIL.ACC_Qty,TSPL_MILK_SRN_DETAIL.ACC_Qty_LTR as ACC_WEIGHT_LTR,TSPL_MILK_SRN_DETAIL.AMOUNT, TSPL_DCS_ADDITION_DEDUCTION.Code,TSPL_DCS_ADDITION_DEDUCTION.Applicable_On,TSPL_DCS_ADDITION_DEDUCTION.Qty_UOM,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value,TSPL_DCS_ADDITION_DEDUCTION.Conversion 
 from TSPL_MILK_SRN_DETAIL 
 inner join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE
@@ -4233,8 +4233,8 @@ and TSPL_DCS_ADDITION_DEDUCTION.Milk_Type like '%'''+isnull((case when len(isnul
 
 
 
-                qry = "insert into TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED (InvoiceNo,Against_DCS_ADDITION_DEDUCTION,SRN_CODE,Against_Milk_Collection_MCC_Detail,Amt,Against_Milk_Collection_DCS)
-select '" + objHead.DOC_CODE + "' as InvoiceNo,Code,null as SRN_CODE,PK_Id,((((case when Applicable_On=0 then Qty else AMOUNT end) * Applicable_Value) / (case when Applicable_Type=0 then 1 else 100 end ))*Conversion) as Amt,null as Against_Milk_Collection_DCS from (
+                qry = "insert into TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED (InvoiceNo,Against_DCS_ADDITION_DEDUCTION,SRN_CODE,Against_Milk_Collection_MCC_Detail,Amt,Against_Milk_Collection_DCS,Against_Milk_Collection_DCS_Multiple_Days)
+select '" + objHead.DOC_CODE + "' as InvoiceNo,Code,null as SRN_CODE,PK_Id,((((case when Applicable_On=0 then Qty else AMOUNT end) * Applicable_Value) / (case when Applicable_Type=0 then 1 else 100 end ))*Conversion) as Amt,null as Against_Milk_Collection_DCS,null as Against_Milk_Collection_DCS_Multiple_Days from (
 select  TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id,TSPL_MILK_COLLECTION_MCC.Document_Date,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty,0 as AMOUNT, TSPL_DCS_ADDITION_DEDUCTION.Code,TSPL_DCS_ADDITION_DEDUCTION.Applicable_On,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value ,TSPL_DCS_ADDITION_DEDUCTION.Conversion 
 from TSPL_MILK_COLLECTION_MCC_DETAIL
 left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
@@ -4259,8 +4259,8 @@ and TSPL_DCS_ADDITION_DEDUCTION.Milk_Type like '%'''+trim(isnull(TSPL_MILK_COLLE
 )x"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                qry = "insert into TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED (InvoiceNo,Against_DCS_ADDITION_DEDUCTION,SRN_CODE,Against_Milk_Collection_MCC_Detail,Amt,Against_Milk_Collection_DCS)
-select '" + objHead.DOC_CODE + "' as InvoiceNo,Code,null as SRN_CODE,null as PK_Id,((((case when Applicable_On=0 then Qty else AMOUNT end) * Applicable_Value) / (case when Applicable_Type=0 then 1 else 100 end ))*Conversion) as Amt,Document_No as Against_Milk_Collection_DCS from (
+                qry = "insert into TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED (InvoiceNo,Against_DCS_ADDITION_DEDUCTION,SRN_CODE,Against_Milk_Collection_MCC_Detail,Amt,Against_Milk_Collection_DCS,Against_Milk_Collection_DCS_Multiple_Days)
+select '" + objHead.DOC_CODE + "' as InvoiceNo,Code,null as SRN_CODE,null as PK_Id,((((case when Applicable_On=0 then Qty else AMOUNT end) * Applicable_Value) / (case when Applicable_Type=0 then 1 else 100 end ))*Conversion) as Amt,Document_No as Against_Milk_Collection_DCS,null as Against_Milk_Collection_DCS_Multiple_Days from (
 select  TAB_TSPL_MILK_COLLECTION_DCS.Document_No,TAB_TSPL_MILK_COLLECTION_DCS.Document_Date,TAB_TSPL_MILK_COLLECTION_DCS.Qty,0 as AMOUNT, TSPL_DCS_ADDITION_DEDUCTION.Code,TSPL_DCS_ADDITION_DEDUCTION.Applicable_On,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value ,TSPL_DCS_ADDITION_DEDUCTION.Conversion  from (
 select Document_No,max(Document_Date) as Document_Date,Milk_Type,sum(Qty) as Qty from (
 select TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No,TSPL_MILK_COLLECTION_DCS.Document_Date,TSPL_MILK_COLLECTION_DCS_DETAIL.Qty,TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type
@@ -4285,6 +4285,34 @@ isnull(TSPL_DCS_ADDITION_DEDUCTION.Inactive,0)=0 and TSPL_VLC_MASTER_HEAD.VLC_Co
 and (2= case when ISNULL(TSPL_DCS_ADDITION_DEDUCTION.Check_Saving_AC,0)=0 then 2 else (case when TSPL_DCS_ADDITION_DEDUCTION.Check_Saving_AC=1 and len(isnull(TSPL_VENDOR_MASTER.AccNo2,''))>0 then 2 else (case when TSPL_DCS_ADDITION_DEDUCTION.Check_Saving_AC=2 and len(isnull(TSPL_VENDOR_MASTER.AccNo2,''))<=0 then 2 else 3 end ) end ) end )
 and (2= case when TSPL_DCS_ADDITION_DEDUCTION.End_Date is null then 2 else case when CONVERT(date, TAB_TSPL_MILK_COLLECTION_DCS.Document_Date,103)<= TSPL_DCS_ADDITION_DEDUCTION.End_Date then 2 else 3 end end) 
 and (2=(case when TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=6 and isnull(TSPL_VLC_MASTER_HEAD.isOwnBMC,0)=1 and TSPL_VLC_MASTER_HEAD.MCC='" + objHead.MCC_CODE + "'  then 2  else 1 end))
+and TSPL_DCS_ADDITION_DEDUCTION.Milk_Type like '%'''+trim(isnull(TAB_TSPL_MILK_COLLECTION_DCS.Milk_Type,'Good'))+'''%'
+)x"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "insert into TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED (InvoiceNo,Against_DCS_ADDITION_DEDUCTION,SRN_CODE,Against_Milk_Collection_MCC_Detail,Amt,Against_Milk_Collection_DCS,Against_Milk_Collection_DCS_Multiple_Days)
+select '" + objHead.DOC_CODE + "' as InvoiceNo,Code,null as SRN_CODE,null as PK_Id,((((case when Applicable_On=0 then Qty else AMOUNT end) * Applicable_Value) / (case when Applicable_Type=0 then 1 else 100 end ))*Conversion) as Amt,null as Against_Milk_Collection_DCS ,Document_No as Against_Milk_Collection_DCS_Multiple_Days from (
+select  TAB_TSPL_MILK_COLLECTION_DCS.Document_No,TAB_TSPL_MILK_COLLECTION_DCS.Document_Date,TAB_TSPL_MILK_COLLECTION_DCS.Qty,0 as AMOUNT, TSPL_DCS_ADDITION_DEDUCTION.Code,TSPL_DCS_ADDITION_DEDUCTION.Applicable_On,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value ,TSPL_DCS_ADDITION_DEDUCTION.Conversion  from (
+select Document_No,max(Document_Date) as Document_Date,Milk_Type,sum(Qty) as Qty from (
+select TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Entered_Qty as Qty,null as Milk_Type
+from  TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS  
+where TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code='" + objHead.MCC_CODE + "' and CONVERT(date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date,103)>='" + clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date,103)<='" + clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") + "'
+) x Group by Document_No,Milk_Type
+) TAB_TSPL_MILK_COLLECTION_DCS
+inner join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.MCC='" + objHead.MCC_CODE + "' and isnull(TSPL_VLC_MASTER_HEAD.isOwnBMC,0)=1
+inner join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code
+inner join TSPL_DCS_ADDITION_DEDUCTION on CONVERT(date, TAB_TSPL_MILK_COLLECTION_DCS.Document_Date,103)>=TSPL_DCS_ADDITION_DEDUCTION.Start_Date
+inner join (select Code,VLC_Code from (
+select TSPL_DCS_ADDITION_DEDUCTION.Code ,TSPL_VLC_MASTER_HEAD.VLC_Code,1 as RI
+from TSPL_DCS_ADDITION_DEDUCTION,TSPL_VLC_MASTER_HEAD
+union all
+select TSPL_DCS_ADDITION_DEDUCTION_DCS_EXCLUDE.Code,TSPL_DCS_ADDITION_DEDUCTION_DCS_EXCLUDE.DCS_Exclude as VLC_Code,-1 RI
+from TSPL_DCS_ADDITION_DEDUCTION_DCS_EXCLUDE
+)x Group by Code,VLC_Code having sum(RI)>0) as TAB_DCS_ADDITION_DEDUCTION_DCS on TAB_DCS_ADDITION_DEDUCTION_DCS.Code=TSPL_DCS_ADDITION_DEDUCTION.Code and TAB_DCS_ADDITION_DEDUCTION_DCS.VLC_Code=TSPL_VLC_MASTER_HEAD.VLC_Code
+where TSPL_DCS_ADDITION_DEDUCTION.Posted=1 and 
+isnull(TSPL_DCS_ADDITION_DEDUCTION.Inactive,0)=0 and TSPL_VLC_MASTER_HEAD.VLC_Code='" + strVLCCode + "'
+and (2= case when ISNULL(TSPL_DCS_ADDITION_DEDUCTION.Check_Saving_AC,0)=0 then 2 else (case when TSPL_DCS_ADDITION_DEDUCTION.Check_Saving_AC=1 and len(isnull(TSPL_VENDOR_MASTER.AccNo2,''))>0 then 2 else (case when TSPL_DCS_ADDITION_DEDUCTION.Check_Saving_AC=2 and len(isnull(TSPL_VENDOR_MASTER.AccNo2,''))<=0 then 2 else 3 end ) end ) end )
+and (2= case when TSPL_DCS_ADDITION_DEDUCTION.End_Date is null then 2 else case when CONVERT(date, TAB_TSPL_MILK_COLLECTION_DCS.Document_Date,103)<= TSPL_DCS_ADDITION_DEDUCTION.End_Date then 2 else 3 end end) 
+and (2=(case when TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=7 and isnull(TSPL_VLC_MASTER_HEAD.isOwnBMC,0)=1 and TSPL_VLC_MASTER_HEAD.MCC='" + objHead.MCC_CODE + "'  then 2  else 1 end))
 and TSPL_DCS_ADDITION_DEDUCTION.Milk_Type like '%'''+trim(isnull(TAB_TSPL_MILK_COLLECTION_DCS.Milk_Type,'Good'))+'''%'
 )x"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)

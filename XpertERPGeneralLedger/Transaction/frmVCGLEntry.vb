@@ -923,7 +923,7 @@ Public Class frmVCGLEntry
         If clsCommon.myLen(objCommonVar.strCurrUserLocationsSegment) > 0 Then
             whrclas += " Location_Segment in (" + objCommonVar.strCurrUserLocationsSegment + ")"
         End If
-        LoadData(clsCommon.ShowSelectForm("VCGLEntryCode", qry, "Document_No", whrclas, txtDocNo.Value, "", isButtonClicked, "TSPL_VCGL_Head.Document_Date"))
+        LoadData(clsCommon.ShowSelectForm("VCGLEntryCode", qry, "Document_No", whrclas, txtDocNo.Value, "", isButtonClicked, "Document_Date"))
     End Sub
 
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click

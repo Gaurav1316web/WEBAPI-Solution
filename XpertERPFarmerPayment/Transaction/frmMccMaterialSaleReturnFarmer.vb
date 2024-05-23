@@ -4967,7 +4967,7 @@ Public Class frmMccMaterialSaleReturnFarmer
         End If
         '-----------------------------------------------------
 
-        LoadData(clsCommon.ShowSelectForm("PSSaleReturnDocfnd", qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked, "TSPL_MCC_Sale_Return_Head_Farmer.Document_Date"), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("PSSaleReturnDocfnd", qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked, "Document_Date"), NavigatorType.Current)
     End Sub
 
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
