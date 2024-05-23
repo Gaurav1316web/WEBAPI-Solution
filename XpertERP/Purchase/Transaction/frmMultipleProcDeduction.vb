@@ -807,7 +807,7 @@ Public Class FrmMultipleProcDeduction
     End Sub
     Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDocNo._MYValidating
         Dim qry As String = "select TSPL_MULTIPLE_DEDUCTION_head.Document_No ,convert(varchar,TSPL_MULTIPLE_DEDUCTION_head.Document_date,103) as Date,TSPL_MULTIPLE_DEDUCTION_head.Loc_Code as [Location Code],TSPL_MULTIPLE_DEDUCTION_head.MCC_Code as [MCC Code],TSPL_MULTIPLE_DEDUCTION_head.MCC_Name as [MCC Name],case when TSPL_MULTIPLE_DEDUCTION_head.IsPosted =1  then 'Approved' else 'Pending' end as Status   from TSPL_MULTIPLE_DEDUCTION_head "
-        LoadData(clsCommon.ShowSelectForm("PROCDeduction1", qry, "Document_No", "", txtDocNo.Value, "Document_No", isButtonClicked, "TSPL_MULTIPLE_DEDUCTION_head.Document_date"))
+        LoadData(clsCommon.ShowSelectForm("PROCDeduction1", qry, "Document_No", "", txtDocNo.Value, "Document_No", isButtonClicked, "Document_date"))
 
     End Sub
 

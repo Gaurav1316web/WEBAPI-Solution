@@ -560,7 +560,7 @@ Public Class clsVendorAccountSet
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
         Dim qry As String = " select Acct_Set_Code as [Code],Acct_Set_Desc as [Account Set Description],Payable_Account as [Payable Account],Discount_Account as [Discount Account],Advance_Account as [Advance Account],Created_By as [Created By],Created_Date as [Created Date],Modify_By as [Modify By],Modify_Date as [Modify Date],Comp_Code as [Company Code],CURRENCY_CODE as [Currency Code],EXCHANGE_LOSS_ACCOUNT as [Exchange Loss Account],EXCHANGE_GAIN_ACCOUNT as [Exchange Gain Account] from TSPL_VENDOR_ACCOUNT_SET    "
-        str = clsCommon.ShowSelectForm("VENDACSET", qry, "Code", whrcls, curcode, "Code", isButtonClicked, "TSPL_VENDOR_ACCOUNT_SET.Created_Date")
+        str = clsCommon.ShowSelectForm("VENDACSET", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
         Return str
     End Function
     '----------------End of Code For Get Finder--------------------------------------------------------------'

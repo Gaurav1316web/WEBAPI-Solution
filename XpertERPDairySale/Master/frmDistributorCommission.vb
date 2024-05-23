@@ -589,7 +589,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
             If txtDocNo.MyReadOnly OrElse isButtonClicked Then
                 Dim whrClas As String = "2=2"
                 Dim qry As String = "select Doc_No as Code,Document_Date,Applicable_Date,Commision_UOM,Created_By,Created_Date,Modified_By,Modified_Date,IsPosted,Posted_Date from TSPL_Distributor_Commission_Head"
-                LoadData(clsCommon.myCstr(clsCommon.ShowSelectForm("RPTBDMST", qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked, "TSPL_Distributor_Commission_Head.Document_Date")), NavigatorType.Current)
+                LoadData(clsCommon.myCstr(clsCommon.ShowSelectForm("RPTBDMST", qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked, "Document_Date")), NavigatorType.Current)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
