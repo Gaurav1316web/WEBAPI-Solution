@@ -585,7 +585,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.GSTunitMeasure, "Gst Unit Of Measure", "1.07.01.08", clsUserMgtCode.SubModuleMaterialSetup, 27)
 
         InsertDefaultValue(clsUserMgtCode.unitMaster, "Unit Of Measure", "1.07.01.09", clsUserMgtCode.SubModuleMaterialSetup, 27)
-        InsertDefaultValue(clsUserMgtCode.chapterhead, "Product Sub Type", "1.07.01.10", clsUserMgtCode.SubModuleMaterialSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.chapterhead, "Item Sub Group Type", "1.07.01.10", clsUserMgtCode.SubModuleMaterialSetup, 27)
         ' InsertDefaultValue(clsUserMgtCode.mbtnItemCategory, "Item Category", "1.07.01.10", clsUserMgtCode.SubModuleMaterialSetup, 27)
         ' InsertDefaultValue(clsUserMgtCode.mbtnItemSubCategory, "Item Sub Category", "1.07.01.11", clsUserMgtCode.SubModuleMaterialSetup, 27)
         InsertDefaultValue(clsUserMgtCode.packType, "Pack Type", "1.07.01.11", clsUserMgtCode.SubModuleMaterialSetup, 27)
@@ -1833,6 +1833,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptBMCCapacityUtilizationReport, "BMC Capacity Utilization Report", "1.17.03.122", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptBMCPerodicalReport, "BMC Periodical Report", "1.17.03.123", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptPerodicalDispatchReport, "Periodical Dispatch Report", "1.17.03.124", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDBTCappingReport, "DBT Capping Report", "1.17.03.125", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
 
         '' Anubhooti 05-Aug-2014
@@ -2355,6 +2356,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmDairySaleSchemeReport, "Dairy Sale Scheme Report", "1.06.03.50", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptBookingWiseRegister, "Booking Wise Register", "1.06.03.51", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmDemandHistory, "Demand History", "1.06.03.52", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.FrmPrintMultipleGatepass, "Print Multiple Gatepass", "1.06.03.52", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         '-------------------------SERVICE MODULE END----------------------------------------
 
 

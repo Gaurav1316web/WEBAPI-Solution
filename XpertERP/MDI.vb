@@ -2440,7 +2440,7 @@ Public Class MDI
             'arrExcluded.Add(clsUserMgtCode.VendorRegistration)
             arrExcluded.Add(clsUserMgtCode.frmMapLedgerAccToTally)
             arrExcluded.Add(clsUserMgtCode.frmPostAllGLToTally)
-            'arrExcluded.Add(clsUserMgtCode.chapterhead)
+            ' arrExcluded.Add(clsUserMgtCode.chapterhead)
             arrExcluded.Add(clsUserMgtCode.frmStandardscheme)
             arrExcluded.Add(clsUserMgtCode.frmStandardRateItem)
             'arrExcluded.Add(clsUserMgtCode.frmBarCodeGenerator)
@@ -8160,6 +8160,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmDemandHistory
                         frm = New frmDemandHistory()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmPrintMultipleGatepass
+                        frm = New FrmPrintMultipleGatepass()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptZoneWiseMSVisual
                         frm = New rptZoneWiseMilkSaleVisual()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8331,6 +8334,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptPerodicalDispatchReport
                         frm = New rptPerodicalDispatchReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptDBTCappingReport
+                        frm = New rptDBTCappingReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptDcsSecurity
                         frm = New rptDCSSecurity

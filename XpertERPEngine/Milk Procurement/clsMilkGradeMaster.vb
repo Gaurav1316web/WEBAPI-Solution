@@ -18,7 +18,7 @@ Public Class clsMilkGradeMaster
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
         Dim qry As String = " select TSPL_MILK_GRADE_MASTER.MILK_GRADE_CODE as [Code] ,TSPL_MILK_GRADE_MASTER.DESCRIPTION as [Description] ,TSPL_MILK_GRADE_MASTER.GRADE_TYPE as [GRADE TYPE] ,TSPL_MILK_GRADE_MASTER.MILK_TYPE_CODE AS [MILK TYPE CODE],TSPL_MILK_TYPE_MASTER.MILK_TYPE AS [MILK TYPE],TSPL_MILK_GRADE_MASTER.SequenceNo,TSPL_MILK_GRADE_MASTER.Created_By as [Created By] ,TSPL_MILK_GRADE_MASTER.Created_Date as [Created Date] ,TSPL_MILK_GRADE_MASTER.Modified_By as [Modified By] ,TSPL_MILK_GRADE_MASTER.Modified_Date as [Modified Date]  From TSPL_MILK_GRADE_MASTER LEFT OUTER JOIN TSPL_MILK_TYPE_MASTER ON TSPL_MILK_TYPE_MASTER.MILK_TYPE_CODE=TSPL_MILK_GRADE_MASTER.MILK_TYPE_CODE "
-        str = clsCommon.ShowSelectForm("MilkGradeMST", qry, "Code", whrcls, curcode, "Code", isButtonClicked, "TSPL_MILK_GRADE_MASTER.Created_Date")
+        str = clsCommon.ShowSelectForm("MilkGradeMST", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
         Return str
     End Function
     Public Shared Function getMilkGradeName(ByVal strCode As String, Optional ByVal trans As SqlTransaction = Nothing) As String

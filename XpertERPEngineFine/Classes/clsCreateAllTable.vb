@@ -823,6 +823,8 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
+            coll.Add("ESI_FROM_MONTH", "Decimal(2,0)  NULL")
+            coll.Add("ESI_TO_MONTH", "Decimal(2,0) NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_PAYPERIOD_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -2309,6 +2311,8 @@ Public Class clsCreateAllTable
             coll.Add("BuyBackType", "integer null default 0")
             coll.Add("BuyBackValue", "Decimal(18,2) null")
             coll.Add("BomBuildQty", "integer Null")
+            coll.Add("Item_Sub_Group_Type", "varchar(50) NULL")
+
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()

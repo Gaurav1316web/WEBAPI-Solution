@@ -404,7 +404,7 @@ Public Class clsProductionEntryFinalQCHead
         Else
             whrCls = " TSPL_PE_FINALQC_HEAD.comp_code='" + objCommonVar.CurrentCompanyCode + "'"
         End If
-        str = clsCommon.ShowSelectForm("PEQCM", qry, "Code", whrCls, currCode, "Code", isButtonClicked, "TSPL_PE_FINALQC_HEAD.QC_Date")
+        str = clsCommon.ShowSelectForm("PEQCM", qry, "Code", whrCls, currCode, "Code", isButtonClicked)
 
         Return str
     End Function

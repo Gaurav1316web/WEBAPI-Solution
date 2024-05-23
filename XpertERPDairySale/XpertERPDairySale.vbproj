@@ -276,6 +276,12 @@
     <Compile Include="Report\frmDemandHistory.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\FrmPrintMultipleGatepass.Designer.vb">
+      <DependentUpon>FrmPrintMultipleGatepass.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\FrmPrintMultipleGatepass.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\FrmZoneWiseSKUReport.Designer.vb">
       <DependentUpon>FrmZoneWiseSKUReport.vb</DependentUpon>
     </Compile>
@@ -846,6 +852,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\frmDemandHistory.resx">
       <DependentUpon>frmDemandHistory.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\FrmPrintMultipleGatepass.resx">
+      <DependentUpon>FrmPrintMultipleGatepass.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\FrmZoneWiseSKUReport.resx">
       <DependentUpon>FrmZoneWiseSKUReport.vb</DependentUpon>

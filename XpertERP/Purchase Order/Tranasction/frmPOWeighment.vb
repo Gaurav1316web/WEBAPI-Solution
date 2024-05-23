@@ -694,7 +694,7 @@ Public Class frmPOWeighment
             whrClas = "  (TSPL_GRN_HEAD.Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") or TSPL_GRN_HEAD.Ship_To_Location in (" + objCommonVar.strCurrUserLocations + ")) "
         End If
         chkSave = True
-        LoadData(clsCommon.ShowSelectForm("POWFMain", qry, "Weighment_Code", whrClas, txtCode.Value, "TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date desc", isButtonClicked, "TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date"), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("POWFMain", qry, "Weighment_Code", whrClas, txtCode.Value, "TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date desc", isButtonClicked, "Weighment_Date"), NavigatorType.Current)
     End Sub
 
     Private Sub txtCode__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtCode._MYNavigator

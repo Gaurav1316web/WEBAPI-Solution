@@ -302,7 +302,7 @@ Public Class frmProfitCenter
         If txtCode.MyReadOnly OrElse isButtonClicked Then
             Dim whrClas As String = ""
             Dim qry As String = " select Code as [Code],Name as [Name],Created_By as [Created By],Created_Date as [Created Date],Modify_By as [Modify By],Modify_Date as [Modify Date],Comp_Code as [Company Code] from TSPL_PROFIT_CENTER_MASTER  "
-            txtCode.Value = clsCommon.ShowSelectForm("RPTPROFND", qry, "Code", whrClas, txtCode.Value, "Code", isButtonClicked, "TSPL_PROFIT_CENTER_MASTER.Created_Date")
+            txtCode.Value = clsCommon.ShowSelectForm("RPTPROFND", qry, "Code", whrClas, txtCode.Value, "Code", isButtonClicked)
             LoadData(txtCode.Value, NavigatorType.Current)
         End If
     End Sub
