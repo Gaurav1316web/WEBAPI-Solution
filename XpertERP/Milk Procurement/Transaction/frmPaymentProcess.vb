@@ -3,6 +3,8 @@ Imports System.Data.SqlClient
 Imports System.IO
 Imports common
 Imports Newtonsoft.Json.Linq
+Imports System.Drawing
+Imports System.Drawing.Text
 
 
 Public Class FrmPaymentProcess
@@ -183,6 +185,7 @@ Public Class FrmPaymentProcess
     'Dim AreaWiseBilling As Boolean = False
     Dim Is_gv_Rows_Clear As Boolean = False
     Dim PrintHindi As Boolean = False
+    Public fontInstalled As Boolean = False
 #End Region
 
     Private Sub FrmProvisionEntry_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -8684,20 +8687,30 @@ where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='" + fndDocNo.Value + "' and TSPL_MILK_
 
     Private Sub btnPrintHindi_Click(sender As Object, e As EventArgs) Handles btnPrintHindi.Click
         Try
-
-            If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
-                Load_Report_Paymnet_UDL()
-            ElseIf clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHAD") = CompairStringResult.Equal Then
-                Load_Report_Paymnet_BHAD()
-            ElseIf clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHBA") = CompairStringResult.Equal Then
-                Load_Report_Paymnet_BHBA()
-            ElseIf clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UCDF") = CompairStringResult.Equal Then
-                Load_Report_Paymnet_UCDF()
-            ElseIf clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDF") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
-                'Load_Report_Paymnet_RCDF()
-                clsPaymentProcessHead.Load_Report_Paymnet_RCDF("'" + fndDocNo.Value + "'", dtpFromDate.Text, dtpToDate.Text, "", clsCommon.GetMulcallString(txtVSP.arrValueMember), "", "", "", False, "", True)
+            Dim fontInstalled As Boolean = False
+            For Each fontFamily As FontFamily In FontFamily.Families
+                If fontFamily.Name = "Mangal" Then
+                    fontInstalled = True
+                    Exit For
+                End If
+            Next
+            If fontInstalled Then
+                If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
+                    Load_Report_Paymnet_UDL()
+                ElseIf clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHAD") = CompairStringResult.Equal Then
+                    Load_Report_Paymnet_BHAD()
+                ElseIf clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHBA") = CompairStringResult.Equal Then
+                    Load_Report_Paymnet_BHBA()
+                ElseIf clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UCDF") = CompairStringResult.Equal Then
+                    Load_Report_Paymnet_UCDF()
+                ElseIf clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDF") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
+                    'Load_Report_Paymnet_RCDF()
+                    clsPaymentProcessHead.Load_Report_Paymnet_RCDF("'" + fndDocNo.Value + "'", dtpFromDate.Text, dtpToDate.Text, "", clsCommon.GetMulcallString(txtVSP.arrValueMember), "", "", "", False, "", True)
+                Else
+                    Load_Report(Nothing, Nothing, Nothing, Nothing, False, True)
+                End If
             Else
-                Load_Report(Nothing, Nothing, Nothing, Nothing, False, True)
+                clsCommon.MyMessageBoxShow(Me, "The font Mangal is not installed on the system.", Me.Text)
             End If
 
         Catch ex As Exception
