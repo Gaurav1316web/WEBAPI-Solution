@@ -6778,7 +6778,7 @@ Public Class frmSRN
             qry += ",max(TSPL_SRN_HEAD.Against_PO) as [Against PO Code], max(TSPL_PURCHASE_ORDER_HEAD.ReferencePO) as [Reference PO]  "
         End If
         qry += " ,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as TenderNo,max(TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code) as Weighment_Code,max(TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date) as Weighment_Date from TSPL_SRN_HEAD LEFT OUTER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code = TSPL_SRN_HEAD.Vendor_Code left join TSPL_USER_MASTER on TSPL_USER_MASTER.User_Code =TSPL_SRN_HEAD.Created_By  left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No = TSPL_SRN_HEAD.Against_PO left outer join TSPL_GRN_HEAD ON TSPL_GRN_HEAD.GRN_No=TSPL_SRN_HEAD.Against_GRN left outer join TSPL_QC_CHECK_HEAD On TSPL_QC_CHECK_HEAD.Document_Code=TSPL_SRN_HEAD.Against_QC_Code left outer join TSPL_SRN_DETAIL on TSPL_SRN_DETAIL.SRN_No=TSPL_SRN_HEAD.SRN_No  left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_GRN_HEAD.GRN_No
-               and TSPL_SRN_DETAIL.Item_code Not In ('PM0002','PM0001') Group by TSPL_SRN_HEAD.SRN_No, TSPL_PURCHASE_ORDER_HEAD.RefTendorNo
+               and TSPL_SRN_DETAIL.Item_code Not In ('PM0002','PM0001')
                  "
 
 
@@ -6808,7 +6808,7 @@ Public Class frmSRN
         'End If
 
 
-        LoadData(clsCommon.ShowSelectForm("SRNCofnd", qry, "Code", whrClas, txtDocNo.Value, "", isButtonClicked, "SRN_Date"), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("SRNCofnd", qry, "Code", whrClas, txtDocNo.Value, "", isButtonClicked), NavigatorType.Current)
     End Sub
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.F2 AndAlso gv1.CurrentCell IsNot Nothing AndAlso gv1.CurrentColumn Is gv1.Columns(colUnit) Then
