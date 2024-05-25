@@ -239,14 +239,14 @@ Public Class clsEmployeeMaster
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                Qry = "Update TSPL_EMPLOYEE_MASTER Set RELIEVING_DATE='" + clsCommon.GetPrintDate(dt.Rows(0)("RetirementDate"), "dd/MMM/yyyy") + "' where EMP_CODE = '" + strCode + "'"
+                Qry = "Update TSPL_EMPLOYEE_MASTER Set RELIEVING_DATE='" + clsCommon.GetPrintDate(dt.Rows(0)("RetirementDate"), "dd/MMM/yyyy") + "' where EMP_CODE = '" + strCode + "' And RELIEVING_DATE is null "
                 clsDBFuncationality.ExecuteNonQuery(Qry)
                 If clsCommon.myCdbl(dt.Rows(0)("CurrentAge")) >= EmployeeRetirementAge AndAlso EmployeeRetirementAge > 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Emp_Status")), "Active") = CompairStringResult.Equal Then
-                    Qry = "Update TSPL_EMPLOYEE_MASTER Set Emp_Status='Inactive' where EMP_CODE = '" + strCode + "'"
+                    Qry = "Update TSPL_EMPLOYEE_MASTER Set Emp_Status='Inactive' where EMP_CODE = '" + strCode + "' And Emp_Status='Active'"
                     clsDBFuncationality.ExecuteNonQuery(Qry)
                 End If
                 If clsCommon.myCdbl(dt.Rows(0)("CurrentAge")) >= EmployeePFRetirementAge AndAlso EmployeePFRetirementAge > 0 AndAlso EmployeePFRetirementAge <= EmployeeRetirementAge Then
-                    Qry = "Update TSPL_EMPLOYEE_MASTER Set ISPF=0 where EMP_CODE = '" + strCode + "'"
+                    Qry = "Update TSPL_EMPLOYEE_MASTER Set ISPF=0 where EMP_CODE = '" + strCode + "' and ISPF=1"
                     clsDBFuncationality.ExecuteNonQuery(Qry)
                 End If
             End If
@@ -905,7 +905,7 @@ Public Class clsEmployeeMaster
         clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
         clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"))
         If clsCommon.myLen(obj.EMP_CODE) <= 0 Then
-            obj.EMP_CODE = clsERPFuncationality.GetNextCode(Nothing, clsCommon.myCDate(clsCommon.GETSERVERDATE(trans)), clsDocType.Employee_Master, "", "")
+            obj.EMP_CODE = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(clsCommon.GETSERVERDATE(trans)), clsDocType.Employee_Master, "", "")
             If clsCommon.myLen(obj.EMP_CODE) <= 0 Then
                 Throw New Exception("Error in Code Genration")
             End If
