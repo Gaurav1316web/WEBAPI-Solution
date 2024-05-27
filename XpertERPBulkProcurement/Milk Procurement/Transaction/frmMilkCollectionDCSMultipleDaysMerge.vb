@@ -381,7 +381,7 @@ where  TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS.Document_No='" + obj.Do
         Dim qry As String = "select TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE.Document_No,convert (varchar,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE.Document_Date,103) as Document_Date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE.Description ,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE.Route_Code,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE.Tanker_No,case when TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE.Status=1 then 'Posted' else 'Pending' end as Status 
     from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE
     left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO= TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE.Route_Code "
-        LoadData(clsCommon.ShowSelectForm("SMP3FIOC", qry, "Document_No", "", txtDocNo.Value, "Document_No", isButtonClicked, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE.Document_Date"), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("SMP3FIOC", qry, "Document_No", "", txtDocNo.Value, "Document_No", isButtonClicked, "Document_Date"), NavigatorType.Current)
     End Sub
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
         DeleteData()

@@ -2813,7 +2813,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
         ,sum(isnull(TotalCrates_ItemWise,0)) as [Crates]
         ,sum(isnull(MAmt,0)) as [Milk Amount]
         ,sum(isnull(PQty,0)) as [Product Quantity]
-        ,sum(isnull(PAmt,0)) as [Product Amount]
+        ,sum(isnull(PAmt,0)) as [Product Amount],(sum(isnull(MAmt,0))+sum(isnull(PAmt,0))) as [Total Amount]
         from   
         (Select  max(Display_Seq) as Display_Seq,Cust_Code,max(Customer_Name) as Customer_Name,Item_Code,max(Alies_Name)+'#C' as Alies_Name#C
         ,max(Alies_Name)+'#P' AS Alies_Name#P
@@ -2888,6 +2888,19 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
                     Dim ColNameAmt As String = ColName.Substring(0, ColName.Length - 6) + "#A"
                     newTotalAmtRow(ColName) = clsCommon.myCdbl(dt.Compute("sum([" + ColNameAmt + "])", ""))
                 End If
+                If ColName.Contains("Milk Amount") Then
+                    Dim ColNameAmt As String = ColName
+                    newTotalAmtRow(ColName) = clsCommon.myCdbl(dt.Compute("sum([" + ColNameAmt + "])", ""))
+                End If
+                If ColName.Contains("Product Amount") Then
+                    Dim ColNameAmt As String = ColName
+                    newTotalAmtRow(ColName) = clsCommon.myCdbl(dt.Compute("sum([" + ColNameAmt + "])", ""))
+                End If
+                If ColName.Contains("Total Amount") Then
+                    Dim ColNameAmt As String = ColName
+                    newTotalAmtRow(ColName) = clsCommon.myCdbl(dt.Compute("sum([" + ColNameAmt + "])", ""))
+                End If
+
             Next
             dt.Rows.Add(newTotalRow)
             If rdbnFreshAmbientBoth.IsChecked = True OrElse rbtn_Fresh.IsChecked = True Then
@@ -2938,6 +2951,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
             GVTruckSheet.Columns("Milk Amount").FormatString = "{0:n2}"
             GVTruckSheet.Columns("Product Quantity").FormatString = "{0:n2}"
             GVTruckSheet.Columns("Product Amount").FormatString = "{0:n2}"
+            GVTruckSheet.Columns("Total Amount").FormatString = "{0:n2}"
             Dim view As New ColumnGroupsViewDefinition()
             view.ColumnGroups.Add(New GridViewColumnGroup(""))
             view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
@@ -2980,6 +2994,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
             view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(GVTruckSheet.Columns("Milk Amount").Name)
             view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(GVTruckSheet.Columns("Product Quantity").Name)
             view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(GVTruckSheet.Columns("Product Amount").Name)
+            view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(GVTruckSheet.Columns("Total Amount").Name)
             GVTruckSheet.ViewDefinition = view
             Dim arrHeader As List(Of String) = New List(Of String)()
             arrHeader.Add("Doc Date : " & clsCommon.myCstr(clsCommon.GetPrintDate(txtDate.Value, "dd-MMM-yyyy")) & "   Shift : " & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening") & "   Trip No : " & clsCommon.myCstr(TripNo))

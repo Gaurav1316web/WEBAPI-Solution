@@ -104,7 +104,7 @@ Public Class clsProcessProductionStandardization
         Else
             whrCls = " TSPL_PP_STANDARDIZATION_HEAD.comp_code='" + objCommonVar.CurrentCompanyCode + "'"
         End If
-        str = clsCommon.ShowSelectForm("STD", qry, "Code", whrCls, currCode, "Code", isButtonClicked, "TSPL_PP_STANDARDIZATION_HEAD.Standardization_Date")
+        str = clsCommon.ShowSelectForm("STD", qry, "Code", whrCls, currCode, "Code", isButtonClicked)
 
         Return str
 

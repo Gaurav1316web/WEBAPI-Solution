@@ -1582,6 +1582,83 @@ Public Class clsSalaryGeneration
         End Try
         Return dt
     End Function
+    Public Shared Function GetSalaryReportData1(ByVal arrPayPeriodCode As ArrayList, ByVal arrLocation As ArrayList, ByVal arrDivision As ArrayList, ByVal strOuterCond As String, ByVal employee As String, ByVal WithArrear As Boolean) As DataTable
+        Dim dt As DataTable
+        Dim FinalQry As String = ""
+        Try
+            FinalQry = GetSalaryReportBaseQry1(arrPayPeriodCode, arrLocation, arrDivision, strOuterCond, employee, WithArrear)
+            ' '' done by panch Raj Against Ticket No : BM00000007870 on 17/09/2015
+            'Dim objPF As clsPFRulesMaster = clsPFRulesMaster.GetRecentPFRule(arrPayPeriodCode.Item(0))
+            'Dim qry As String = ""
+            'qry = "declare @TYPE TYPE_TSPL_HEADWISE_SALARY , @STRQ VARCHAR(MAX); "
+            'qry = qry & "insert into @TYPE "
+            'If Not arrPayPeriodCode Is Nothing AndAlso arrPayPeriodCode.Count > 0 Then
+            '    For Each Str As String In arrPayPeriodCode
+            '        If arrPayPeriodCode.IndexOf(Str) = 0 Then
+            '            qry = qry & " select '" & Str & "',null,null "
+            '        Else
+            '            qry = qry & " union all  select '" & Str & "',null,null "
+            '        End If
+            '    Next
+            'End If
+            'If Not arrLocation Is Nothing AndAlso arrLocation.Count > 0 Then
+            '    For Each Str As String In arrLocation
+            '        qry = qry & " union all  select null,'" & Str & "',null "
+            '    Next
+            'End If
+            'If Not arrDivision Is Nothing AndAlso arrDivision.Count > 0 Then
+            '    For Each Str As String In arrDivision
+            '        qry = qry & " union all  select null,null,'" & Str & "' "
+            '    Next
+            'End If
+
+            'qry += " EXEC TSPL_HEADWISE_SALARY @Type," & strOuterCond & ",@STRQ OUTPUT; "
+            'qry += "SELECT @STRQ; "
+            'dt = clsDBFuncationality.GetDataTable(qry)
+            If clsCommon.myLen(FinalQry) > 0 Then
+                '    Dim strQry As String = clsCommon.myCstr(dt.Rows(0)(0))
+                '    Dim FinalQry As String = ""
+                '    FinalQry = " select GS.Pay_Period_Code as [Pay Period],Final.*,cast(EMPStatus.IS_PF_APPL as integer) AS EPF_AC_01,((case when EMPStatus.IS_PF_APPL=1 " & _
+                '        " then 1 else 0 end)-(case when EMPStatus.IS_PF_APPL=1 and CoEPF_AMT_AC01>0 and  coalesce(CoEPS_AMT_AC10,0)<=0 then 1 else 0 end)) as EPF_AC_10,cast(EMPStatus.IS_PF_APPL as integer) AS EDLI_AC_21," & _
+                '        " Salary_EPF_AC_01,Salary_EPF_AC_10,Salary_EDLI_AC_21,EPF_Amount_AC_01,Pension_Amount_AC_10,Diff_Amount_AC_01,Admin_Amt_AC_02," & _
+                '        " CoEPF_RATE_AC01,CoEPF_AMT_AC01,CoEPS_RATE_AC10,CoEPS_AMT_AC10,EDLI_RATE_AC21,EDLI_Amt_AC_21,ESI_HEAD_VALUE " & _
+                '        " ,ESI_Amount,Co_ESI_RATE,Co_ESI_AMT from (" & strQry & ") as Final " & _
+                '        " left join TSPL_GENERATE_SALARY_ATTENDANCE GSA ON Final.SALARY_GENERATION_CODE=GSA.SALARY_GENERATION_CODE " & _
+                '        " AND Final.EMP_CODE=GSA.EMP_CODE" & _
+                '        " left join TSPL_GENERATE_SALARY GS ON Final.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE " & _
+                '        " left join TSPL_PAYPERIOD_MASTER PPM ON GS.PAY_PERIOD_CODE=PPM.PAY_PERIOD_CODE " & _
+                '        " LEFT JOIN TSPL_EMPLOYEE_STATUS EMPStatus on GSA.EMP_STATUS_CODE=EMPStatus.EMP_STATUS_CODE " & _
+                '        " LEFT JOIN (select TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE,TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE, " & _
+                '        " max(CASE WHEN SUB_HEAD_TYPE='EPF' and ACTUAL_AMOUNT>0 then (case when HEAD_VALUE>PF_MAX_LM then PF_MAX_LM*PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end) ELSE 0 END) AS Salary_EPF_AC_01, " & _
+                '        " max(CASE WHEN SUB_HEAD_TYPE='EPF' and CoEPS_AMT_AC10>0 then (case when HEAD_VALUE>" & objPF.EMPEPF_MAX & " then " & objPF.EMPEPF_MAX & "*PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end) ELSE 0 END) AS Salary_EPF_AC_10, " & _
+                '        " max(CASE WHEN SUB_HEAD_TYPE='EPF' and CoEPF_AMT_AC01>0 then (case when HEAD_VALUE>" & objPF.EMPEPF_MAX & " then " & objPF.EMPEPF_MAX & "*PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end) ELSE 0 END) AS Salary_EDLI_AC_21, " & _
+                '        " max(CASE WHEN SUB_HEAD_TYPE='EPF' then ACTUAL_AMOUNT ELSE 0 END) AS EPF_Amount_AC_01, " & _
+                '        " max(CASE WHEN SUB_HEAD_TYPE='EPF' and CoEPS_AMT_AC10>0 then CoEPS_AMT_AC10 ELSE 0 END) AS Pension_Amount_AC_10, " & _
+                '        " max(CASE WHEN SUB_HEAD_TYPE='EPF' and Actual_Amount>0 then (Actual_Amount-(case when HEAD_VALUE>PF_MAX_LM then CoEPS_AMT_AC10*PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else CoEPS_AMT_AC10 end)) ELSE 0 END) AS Diff_Amount_AC_01, " & _
+                '        " (max(CASE WHEN SUB_HEAD_TYPE='EPF' and ACTUAL_AMOUNT>0 then (case when HEAD_VALUE>PF_MAX_LM then PF_MAX_LM*PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end) ELSE 0 END))*" & objPF.ACCOEPF_PER & "/100 AS Admin_Amt_AC_02, " & _
+                '        " (max(CASE WHEN SUB_HEAD_TYPE='EPF' and CoEPF_AMT_AC01>0 then (case when HEAD_VALUE>" & objPF.EMPEPF_MAX & " then " & objPF.EMPEPF_MAX & "*PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end) ELSE 0 END))*" & objPF.COEDLI_PER & "/100 AS EDLI_Amt_AC_21, " & _
+                '        " max(CASE WHEN SUB_HEAD_TYPE='EPF' then PF_MAX_LM*PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS ELSE 0 END) AS PF_MAX_LM, " & _
+                '        " max(CoEPF_RATE_AC01) as CoEPF_RATE_AC01,max(CoEPF_AMT_AC01) as CoEPF_AMT_AC01,max(CoEPS_RATE_AC10) as CoEPS_RATE_AC10, " & _
+                '        " max(CoEPS_AMT_AC10) as CoEPS_AMT_AC10,max(EDLI_RATE_AC21) as EDLI_RATE_AC21, " & _
+                '        " max(EDLI_AMT_AC21) as EDLI_AMT_AC21, " & _
+                '        " max(CASE WHEN SUB_HEAD_TYPE='EMPESI' AND ACTUAL_AMOUNT>0 then HEAD_VALUE ELSE 0 END) as ESI_HEAD_VALUE, " & _
+                '        " max(CASE WHEN SUB_HEAD_TYPE='EMPESI' then ACTUAL_AMOUNT ELSE 0 END) AS ESI_Amount, " & _
+                '        " max(Co_ESI_RATE) as Co_ESI_RATE,max(Co_ESI_AMT) as Co_ESI_AMT " & _
+                '        " from TSPL_GENERATE_SALARY_PAYHEADS inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " & _
+                '        " TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE where SUB_HEAD_TYPE in ('EPF','EMPESI') " & _
+                '        " group by TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE,TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE) AS GSP ON Final.SALARY_GENERATION_CODE=GSP.SALARY_GENERATION_CODE " & _
+                '        " AND Final.EMP_CODE=GSP.EMP_CODE " & _
+                '        " ORDER BY Final.EMP_CODE,PPM.DATE_FROM "
+
+                dt = clsDBFuncationality.GetDataTable(FinalQry)
+            Else
+                dt = New DataTable
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return dt
+    End Function
     Public Shared Function GetEmployeeMISReportData(ByVal arrPayPeriodCode As ArrayList, ByVal arrLocation As ArrayList, ByVal arrDivision As ArrayList, ByVal strOuterCond As String, ByVal arrEmpCode As ArrayList, ByVal strFromDate As Date, ByVal StrToDate As Date, ByVal WithArrear As Boolean) As DataTable
         Dim dt As DataTable
         Dim SalaryQry As String = ""
@@ -1637,6 +1714,56 @@ Public Class clsSalaryGeneration
             Throw New Exception(ex.Message)
         End Try
         Return dt
+    End Function
+    Public Shared Function GetSalaryReportBaseQry1(ByVal arrPayPeriodCode As ArrayList, ByVal arrLocation As ArrayList, ByVal arrDivision As ArrayList, ByVal strOuterCond As String, ByVal employee As String, ByVal withArrear As Boolean, Optional ByVal trans As SqlTransaction = Nothing) As String
+        Dim dt As DataTable
+        Dim FinalQry As String = ""
+        Dim whr As String = ""
+        Try
+            '' done by panch Raj Against Ticket No : BM00000007870 on 17/09/2015
+            Dim objPF As clsPFRulesMaster = clsPFRulesMaster.GetRecentPFRule(arrPayPeriodCode.Item(0), trans)
+            Dim qry As String = ""
+            qry = "declare @TYPE TYPE_TSPL_HEADWISE_SALARY , @STRQ VARCHAR(MAX); "
+            qry = qry & "insert into @TYPE "
+            If Not arrPayPeriodCode Is Nothing AndAlso arrPayPeriodCode.Count > 0 Then
+                For Each Str As String In arrPayPeriodCode
+                    If arrPayPeriodCode.IndexOf(Str) = 0 Then
+                        qry = qry & " select '" & Str & "',null,null "
+                    Else
+                        qry = qry & " union all  select '" & Str & "',null,null "
+                    End If
+                Next
+            End If
+            If Not arrLocation Is Nothing AndAlso arrLocation.Count > 0 Then
+                For Each Str As String In arrLocation
+                    qry = qry & " union all  select null,'" & Str & "',null "
+                Next
+            End If
+            If Not arrDivision Is Nothing AndAlso arrDivision.Count > 0 Then
+                For Each Str As String In arrDivision
+                    qry = qry & " union all  select null,null,'" & Str & "' "
+                Next
+            End If
+            If withArrear Then
+                qry += " EXEC TSPL_HEADWISE_SALARY_With_Arrear @Type," & strOuterCond & ",@STRQ OUTPUT; "
+            Else
+                qry += " EXEC TSPL_HEADWISE_SALARY @Type," & strOuterCond & ",@STRQ OUTPUT; "
+            End If
+
+            qry += "SELECT @STRQ; "
+            dt = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim strQry As String = clsCommon.myCstr(dt.Rows(0)(0))
+                If clsCommon.myLen(employee) > 0 Then
+                    whr = " where EMP_CODE= '" + employee + "'"
+                End If
+                FinalQry = "select PAY_PERIOD_CODE,max(SALARY_GENERATION_CODE)SALARY_GENERATION_CODE,max(EMP_CODE) AS EMP_CODE,max(EMPLOYEE_NAME)EMPLOYEE_NAME, max([Father Name])[Father Name],max([Working City])[Working City],max([PF No])[PF No],max([ESI No])[ESI No], max([Bank Acc No])[Bank Acc No],max([Date of Birth])[Date of Birth],max([Joining Date])[Joining Date], max([Relieving Date])[Relieving Date], max(Designation)Designation,max(Department)Department,max(Location)Location, max(Division)Division, max([Bank Name])[Bank Name],max([Bank Branch])[Bank Branch], max([Bank Branch Name])[Bank Branch Name],max([Payment Mode])[Payment Mode],max([Month Days])[Month Days], max([Present Days])[Present Days],  max([Payable Days])[Payable Days],max([Holidays])[Holidays], max([Week Off Days])[Week Off Days],max([Leave Days])[Leave Days] ,sum(basic)basic,sum(cca)cca,sum(da)da,sum(hra)hra,sum([wash.all.])[wash.all.],sum(Gross)Gross,sum(vbasic)vbasic,sum(vcca)vcca,sum(vda)vda,sum(vhra)vhra,sum([vwash.all.])[vwash.all.],sum([GROSS SALARY])[GROSS SALARY],sum(vepf)vepf,sum(vgsli)vgsli,sum(vkkk)vkkk,sum(vswsf)vswsf,sum([TOTAL DEDUCTION])[TOTAL DEDUCTION],sum([NET SALARY])[NET SALARY] from 
+                    (" & strQry & ")xy " + whr + "  group by PAY_PERIOD_CODE "
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return FinalQry
     End Function
     Public Shared Function GetSalaryReportBaseQry(ByVal arrPayPeriodCode As ArrayList, ByVal arrLocation As ArrayList, ByVal arrDivision As ArrayList, ByVal strOuterCond As String, ByVal withArrear As Boolean, Optional ByVal trans As SqlTransaction = Nothing) As String
         Dim dt As DataTable
