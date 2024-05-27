@@ -303,7 +303,63 @@ Public Class rptCollectionDataChangeReport
                 "  and UpdateData.[SRN No]=HistData.[SRN No]	 " &
                 "  order by HistData.[Doc Date],HistData.[Milk Receipt Code] ,HistData.[Sample No]  "
 
+            If rbtnMilkProcUpl.Checked Then
+                qry = ""
+                qry = " WITH FirstMilkWeight AS ( SELECT  Document_No as Org_Document_No, SNo, MIN(Hist_Version) AS FirstMilkHistVersion  FROM  TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data   WHERE Milk_Weight IS NOT NULL GROUP BY  Document_No, SNo ),
+                   FirstNonNullFatSnf AS ( SELECT Document_No, SNo,MIN(Hist_Version) AS FirstNonNullFatSnfVersion FROM TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data WHERE FAT IS NOT NULL OR SNF IS NOT NULL GROUP BY   Document_No, SNo ) ,
+                   MaxVersion AS ( SELECT Document_No, SNo,MAX(Hist_Version) AS MaxHistVersion FROM TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data  GROUP BY Document_No, SNo ), FirstMilkWeightData AS (SELECT FirstMilkWeight.Org_Document_No,FirstMilkWeight.SNo,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.Bulk_Route_Code AS Org_Route_No,
+                   vh.VLC_Code_VLC_Uploader AS Org_VLC_Code_VLC_Uploader,vh.VLC_Name AS Org_VLC_Name, TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.Milk_Weight AS Org_Milk_Weight,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.Manual_Weight AS Org_Manual_Weight,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.Hist_By AS Org_Weighment_User,
+                   TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.Hist_On AS Org_Weighment_Date,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.FAT AS Org_FAT,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.SNF AS Org_SNF,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.Manual_Sample AS Org_Manual_Sample,
+                   TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.Hist_By AS Org_Sample_User,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.Hist_On AS Org_Sample_Date,  CONVERT(VARCHAR, TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date, 103) AS Org_Document_Date FROM FirstMilkWeight 
+                   left outer JOIN TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data  ON FirstMilkWeight.Org_Document_No = TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.Document_No AND FirstMilkWeight.SNo = TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.SNo
+                   AND FirstMilkWeight.FirstMilkHistVersion = TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.Hist_Version     LEFT  JOIN TSPL_MILK_PROCUREMENT_UPLOADER_HEAD ON TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No = TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.Document_No
+                   LEFT JOIN  TSPL_VLC_MASTER_HEAD vh ON vh.VLC_Code = TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.VLC_Code ), FirstNonNullFatSnfData AS ( SELECT  FirstNonNullFatSnf.Document_No,FirstNonNullFatSnf.SNo,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.FAT AS First_FAT,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.SNF AS First_SNF,
+                   TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.Milk_Weight AS First_Milk_Weight,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.Hist_By AS Org_Sample_User, TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.Hist_On AS Org_Sample_Date FROM FirstNonNullFatSnf left JOIN TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data 
+                   ON FirstNonNullFatSnf.Document_No = TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.Document_No AND FirstNonNullFatSnf.SNo = TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.SNo  AND FirstNonNullFatSnf.FirstNonNullFatSnfVersion = TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.Hist_Version ), MaxVersionData AS (
+                   SELECT MaxVersion.Document_No,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.MCC_Code, MaxVersionData.Shift,MaxVersionData.VLC_Code ,MaxVersion.SNo,MaxVersionData.Bulk_Route_Code AS Upd_Route_No,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader AS Upd_VLC_Code_VLC_Uploader, TSPL_VLC_MASTER_HEAD.VLC_Name AS Upd_VLC_Name,MaxVersionData.Milk_Weight AS Upd_Milk_Weight,MaxVersionData.FAT AS Upd_FAT
+                   ,MaxVersionData.SNF AS Upd_SNF,   MaxVersionData.Manual_Weight AS Upd_Manual_Weight,MaxVersionData.Hist_By AS Upd_Weighment_User,MaxVersionData.Hist_On AS Upd_Weighment_Date,MaxVersionData.Manual_Sample AS  Upd_Manual_Sample,MaxVersionData.Hist_By AS Upd_Sample_User,MaxVersionData.Hist_On AS Upd_Sample_Date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Source_API,
+                   CONVERT(VARCHAR, TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date, 103) AS Upd_Document_Date,MaxVersionData.Document_No as Upd_Document_No FROM MaxVersion left JOIN  TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data MaxVersionData  ON MaxVersion.Document_No = MaxVersionData.Document_No AND MaxVersion.SNo = MaxVersionData.SNo AND MaxVersion.MaxHistVersion = MaxVersionData.Hist_Version
+                   LEFT JOIN TSPL_MILK_PROCUREMENT_UPLOADER_HEAD ON TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No = MaxVersionData.Document_No      LEFT JOIN TSPL_VLC_MASTER_HEAD  ON TSPL_VLC_MASTER_HEAD.VLC_Code = MaxVersionData.VLC_Code )  SELECT FirstMilkWeightData.Org_Route_No,FirstMilkWeightData.Org_VLC_Code_VLC_Uploader,FirstMilkWeightData.Org_VLC_Name, FirstMilkWeightData.Org_Document_Date,
+                   FirstMilkWeightData.Org_Document_No,FirstMilkWeightData.SNo,ISNULL(FirstNonNullFatSnfData.First_Milk_Weight, FirstMilkWeightData.Org_Milk_Weight) AS Org_Milk_Weight, FirstMilkWeightData.Org_Manual_Weight,FirstMilkWeightData.Org_Weighment_User,FirstMilkWeightData.Org_Weighment_Date,ISNULL(FirstNonNullFatSnfData.First_FAT, FirstMilkWeightData.Org_FAT) AS Org_FAT,
+                   ISNULL(FirstNonNullFatSnfData.First_SNF, FirstMilkWeightData.Org_SNF) AS Org_SNF,FirstMilkWeightData.Org_Manual_Sample,FirstMilkWeightData.Org_Sample_User,    FirstMilkWeightData.Org_Sample_Date,CASE WHEN FirstMilkWeightData.Org_Route_No <> MaxVersionData.Upd_Route_No Or FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> MaxVersionData.Upd_VLC_Code_VLC_Uploader
+                   or FirstMilkWeightData.Org_VLC_Name <> MaxVersionData.Upd_VLC_Name or FirstMilkWeightData.Org_Document_Date <> MaxVersionData.Upd_Document_Date or FirstMilkWeightData.Org_Document_No <> MaxVersionData.Upd_Document_No  or ISNULL(FirstNonNullFatSnfData.First_Milk_Weight, FirstMilkWeightData.Org_Milk_Weight) <> MaxVersionData.Upd_Milk_Weight or  FirstMilkWeightData.Org_Manual_Weight <> MaxVersionData.Upd_Manual_Weight
+                   or ISNULL(FirstNonNullFatSnfData.First_FAT, FirstMilkWeightData.Org_FAT) <> MaxVersionData.Upd_FAT or ISNULL(FirstNonNullFatSnfData.First_SNF, FirstMilkWeightData.Org_SNF) <> MaxVersionData.Upd_SNF or FirstMilkWeightData.Org_Manual_Sample <> MaxVersionData.Upd_Manual_Sample 	THEN MaxVersionData.Upd_Route_No ELSE NULL END AS Upd_Route_No,
+                   CASE WHEN FirstMilkWeightData.Org_Route_No <> MaxVersionData.Upd_Route_No Or FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> MaxVersionData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> MaxVersionData.Upd_VLC_Name or FirstMilkWeightData.Org_Document_Date <> MaxVersionData.Upd_Document_Date or FirstMilkWeightData.Org_Document_No <> MaxVersionData.Upd_Document_No  or ISNULL(FirstNonNullFatSnfData.First_Milk_Weight
+                  , FirstMilkWeightData.Org_Milk_Weight) <> MaxVersionData.Upd_Milk_Weight or  FirstMilkWeightData.Org_Manual_Weight <> MaxVersionData.Upd_Manual_Weight or ISNULL(FirstNonNullFatSnfData.First_FAT, FirstMilkWeightData.Org_FAT) <> MaxVersionData.Upd_FAT or ISNULL(FirstNonNullFatSnfData.First_SNF, FirstMilkWeightData.Org_SNF) <> MaxVersionData.Upd_SNF
+                   or FirstMilkWeightData.Org_Manual_Sample <> MaxVersionData.Upd_Manual_Sample THEN MaxVersionData.Upd_VLC_Code_VLC_Uploader ELSE null END AS Upd_VLC_Code_VLC_Uploader, CASE WHEN FirstMilkWeightData.Org_Route_No <> MaxVersionData.Upd_Route_No Or FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> MaxVersionData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> MaxVersionData.Upd_VLC_Name or 
+                   FirstMilkWeightData.Org_Document_Date <> MaxVersionData.Upd_Document_Date or FirstMilkWeightData.Org_Document_No <> MaxVersionData.Upd_Document_No  or ISNULL(FirstNonNullFatSnfData.First_Milk_Weight, FirstMilkWeightData.Org_Milk_Weight) <> MaxVersionData.Upd_Milk_Weight or  FirstMilkWeightData.Org_Manual_Weight <> MaxVersionData.Upd_Manual_Weight or ISNULL(FirstNonNullFatSnfData.First_FAT, FirstMilkWeightData.Org_FAT) <> MaxVersionData.Upd_FAT or ISNULL(FirstNonNullFatSnfData.First_SNF, FirstMilkWeightData.Org_SNF) <> MaxVersionData.Upd_SNF or FirstMilkWeightData.Org_Manual_Sample <> MaxVersionData.Upd_Manual_Sample	 THEN MaxVersionData.Upd_VLC_Name ELSE NULL END AS Upd_VLC_Name, CASE WHEN FirstMilkWeightData.Org_Route_No <> MaxVersionData.Upd_Route_No Or FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> MaxVersionData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> MaxVersionData.Upd_VLC_Name or 	FirstMilkWeightData.Org_Document_Date <> MaxVersionData.Upd_Document_Date or FirstMilkWeightData.Org_Document_No <> MaxVersionData.Upd_Document_No 
+                 or ISNULL(FirstNonNullFatSnfData.First_Milk_Weight, FirstMilkWeightData.Org_Milk_Weight) <> MaxVersionData.Upd_Milk_Weight or  FirstMilkWeightData.Org_Manual_Weight <> MaxVersionData.Upd_Manual_Weight or	ISNULL(FirstNonNullFatSnfData.First_FAT, FirstMilkWeightData.Org_FAT) <> MaxVersionData.Upd_FAT or ISNULL(FirstNonNullFatSnfData.First_SNF, FirstMilkWeightData.Org_SNF) <> MaxVersionData.Upd_SNF or FirstMilkWeightData.Org_Manual_Sample <> MaxVersionData.Upd_Manual_Sample	 THEN MaxVersionData.Upd_Document_Date ELSE NULL END AS Upd_Document_Date, CASE WHEN FirstMilkWeightData.Org_Route_No <> MaxVersionData.Upd_Route_No Or FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> MaxVersionData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> MaxVersionData.Upd_VLC_Name or FirstMilkWeightData.Org_Document_Date <> MaxVersionData.Upd_Document_Date 
+                   or FirstMilkWeightData.Org_Document_No <> MaxVersionData.Upd_Document_No  or ISNULL(FirstNonNullFatSnfData.First_Milk_Weight, FirstMilkWeightData.Org_Milk_Weight) <> MaxVersionData.Upd_Milk_Weight or  FirstMilkWeightData.Org_Manual_Weight <> MaxVersionData.Upd_Manual_Weight or ISNULL(FirstNonNullFatSnfData.First_FAT, FirstMilkWeightData.Org_FAT) <> MaxVersionData.Upd_FAT or ISNULL(FirstNonNullFatSnfData.First_SNF, FirstMilkWeightData.Org_SNF) <> MaxVersionData.Upd_SNF or FirstMilkWeightData.Org_Manual_Sample <> MaxVersionData.Upd_Manual_Sample	 THEN MaxVersionData.Upd_Document_No ELSE NULL END AS Upd_Document_No,MaxVersionData.SNo as Upd_SNo,CASE WHEN FirstMilkWeightData.Org_Route_No <> MaxVersionData.Upd_Route_No Or FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> MaxVersionData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> MaxVersionData.Upd_VLC_Name or 
+                FirstMilkWeightData.Org_Document_Date <> MaxVersionData.Upd_Document_Date or FirstMilkWeightData.Org_Document_No <> MaxVersionData.Upd_Document_No  or ISNULL(FirstNonNullFatSnfData.First_Milk_Weight, FirstMilkWeightData.Org_Milk_Weight) <> MaxVersionData.Upd_Milk_Weight or  FirstMilkWeightData.Org_Manual_Weight <> MaxVersionData.Upd_Manual_Weight or ISNULL(FirstNonNullFatSnfData.First_FAT, FirstMilkWeightData.Org_FAT) <> MaxVersionData.Upd_FAT or ISNULL(FirstNonNullFatSnfData.First_SNF, FirstMilkWeightData.Org_SNF) <> MaxVersionData.Upd_SNF or FirstMilkWeightData.Org_Manual_Sample <> MaxVersionData.Upd_Manual_Sample	 THEN MaxVersionData.Upd_Milk_Weight ELSE NULL END AS Upd_Milk_Weight,CASE WHEN FirstMilkWeightData.Org_Route_No <> MaxVersionData.Upd_Route_No Or FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> MaxVersionData.Upd_VLC_Code_VLC_Uploader
+                  or FirstMilkWeightData.Org_VLC_Name <> MaxVersionData.Upd_VLC_Name or FirstMilkWeightData.Org_Document_Date <> MaxVersionData.Upd_Document_Date or FirstMilkWeightData.Org_Document_No <> MaxVersionData.Upd_Document_No  or ISNULL(FirstNonNullFatSnfData.First_Milk_Weight, FirstMilkWeightData.Org_Milk_Weight) <> MaxVersionData.Upd_Milk_Weight or  FirstMilkWeightData.Org_Manual_Weight <> MaxVersionData.Upd_Manual_Weight or ISNULL(FirstNonNullFatSnfData.First_FAT, FirstMilkWeightData.Org_FAT) <> MaxVersionData.Upd_FAT or ISNULL(FirstNonNullFatSnfData.First_SNF, FirstMilkWeightData.Org_SNF) <> MaxVersionData.Upd_SNF or FirstMilkWeightData.Org_Manual_Sample <> MaxVersionData.Upd_Manual_Sample	 THEN MaxVersionData.Upd_Manual_Weight ELSE NULL END AS Upd_Manual_Weight, CASE WHEN FirstMilkWeightData.Org_Weighment_User <> MaxVersionData.Upd_Weighment_User or FirstMilkWeightData.Org_Route_No
+                  <> MaxVersionData.Upd_Route_No Or FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> MaxVersionData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> MaxVersionData.Upd_VLC_Name or 	FirstMilkWeightData.Org_Document_Date <> MaxVersionData.Upd_Document_Date or FirstMilkWeightData.Org_Document_No <> MaxVersionData.Upd_Document_No  or ISNULL(FirstNonNullFatSnfData.First_Milk_Weight, FirstMilkWeightData.Org_Milk_Weight) <> MaxVersionData.Upd_Milk_Weight or  FirstMilkWeightData.Org_Manual_Weight <> MaxVersionData.Upd_Manual_Weight or 	ISNULL(FirstNonNullFatSnfData.First_FAT, FirstMilkWeightData.Org_FAT) <> MaxVersionData.Upd_FAT or ISNULL(FirstNonNullFatSnfData.First_SNF, FirstMilkWeightData.Org_SNF) <> MaxVersionData.Upd_SNF or FirstMilkWeightData.Org_Manual_Sample <> MaxVersionData.Upd_Manual_Sample	 THEN MaxVersionData.Upd_Weighment_User ELSE NULL END AS Upd_Weighment_User,
+                  CASE WHEN FirstMilkWeightData.Org_Weighment_Date <> MaxVersionData.Upd_Weighment_Date or FirstMilkWeightData.Org_Route_No <> MaxVersionData.Upd_Route_No Or FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> MaxVersionData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> MaxVersionData.Upd_VLC_Name or FirstMilkWeightData.Org_Document_Date <> MaxVersionData.Upd_Document_Date or FirstMilkWeightData.Org_Document_No <> MaxVersionData.Upd_Document_No  or ISNULL(FirstNonNullFatSnfData.First_Milk_Weight, FirstMilkWeightData.Org_Milk_Weight) <> MaxVersionData.Upd_Milk_Weight or  FirstMilkWeightData.Org_Manual_Weight <> MaxVersionData.Upd_Manual_Weight or ISNULL(FirstNonNullFatSnfData.First_FAT, FirstMilkWeightData.Org_FAT) <> MaxVersionData.Upd_FAT or ISNULL(FirstNonNullFatSnfData.First_SNF, FirstMilkWeightData.Org_SNF) <> MaxVersionData.Upd_SNF
+                  or FirstMilkWeightData.Org_Manual_Sample <> MaxVersionData.Upd_Manual_Sample THEN MaxVersionData.Upd_Weighment_Date ELSE NULL END AS Upd_Weighment_Date, CASE WHEN FirstMilkWeightData.Org_Route_No <> MaxVersionData.Upd_Route_No Or FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> MaxVersionData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> MaxVersionData.Upd_VLC_Name or  FirstMilkWeightData.Org_Document_Date <> MaxVersionData.Upd_Document_Date or FirstMilkWeightData.Org_Document_No <> MaxVersionData.Upd_Document_No  or ISNULL(FirstNonNullFatSnfData.First_Milk_Weight, FirstMilkWeightData.Org_Milk_Weight) <> MaxVersionData.Upd_Milk_Weight or  FirstMilkWeightData.Org_Manual_Weight <> MaxVersionData.Upd_Manual_Weight or ISNULL(FirstNonNullFatSnfData.First_FAT, FirstMilkWeightData.Org_FAT) <> MaxVersionData.Upd_FAT
+                  or ISNULL(FirstNonNullFatSnfData.First_SNF, FirstMilkWeightData.Org_SNF) <> MaxVersionData.Upd_SNF or FirstMilkWeightData.Org_Manual_Sample <> MaxVersionData.Upd_Manual_Sample THEN MaxVersionData.Upd_FAT ELSE NULL END AS Upd_FAT, CASE WHEN FirstMilkWeightData.Org_Route_No <> MaxVersionData.Upd_Route_No Or FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> MaxVersionData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> MaxVersionData.Upd_VLC_Name or FirstMilkWeightData.Org_Document_Date <> MaxVersionData.Upd_Document_Date or FirstMilkWeightData.Org_Document_No <> MaxVersionData.Upd_Document_No  or ISNULL(FirstNonNullFatSnfData.First_Milk_Weight, FirstMilkWeightData.Org_Milk_Weight) <> MaxVersionData.Upd_Milk_Weight or  FirstMilkWeightData.Org_Manual_Weight <> MaxVersionData.Upd_Manual_Weight
+                  or ISNULL(FirstNonNullFatSnfData.First_FAT, FirstMilkWeightData.Org_FAT) <> MaxVersionData.Upd_FAT or ISNULL(FirstNonNullFatSnfData.First_SNF, FirstMilkWeightData.Org_SNF) <> MaxVersionData.Upd_SNF or FirstMilkWeightData.Org_Manual_Sample <> MaxVersionData.Upd_Manual_Sample THEN MaxVersionData.Upd_SNF ELSE NULL END AS Upd_SNF, CASE WHEN FirstMilkWeightData.Org_Route_No <> MaxVersionData.Upd_Route_No Or FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> MaxVersionData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> MaxVersionData.Upd_VLC_Name or FirstMilkWeightData.Org_Document_Date <> MaxVersionData.Upd_Document_Date or FirstMilkWeightData.Org_Document_No <> MaxVersionData.Upd_Document_No  or ISNULL(FirstNonNullFatSnfData.First_Milk_Weight, FirstMilkWeightData.Org_Milk_Weight) <> MaxVersionData.Upd_Milk_Weight or  FirstMilkWeightData.Org_Manual_Weight <> MaxVersionData.Upd_Manual_Weight
+                  or ISNULL(FirstNonNullFatSnfData.First_FAT, FirstMilkWeightData.Org_FAT) <> MaxVersionData.Upd_FAT or ISNULL(FirstNonNullFatSnfData.First_SNF, FirstMilkWeightData.Org_SNF) <> MaxVersionData.Upd_SNF or FirstMilkWeightData.Org_Manual_Sample <> MaxVersionData.Upd_Manual_Sample THEN MaxVersionData.Upd_Manual_Sample ELSE NULL END AS Upd_Manual_Sample,CASE WHEN FirstMilkWeightData.Org_Sample_User <> MaxVersionData.Upd_Sample_User or FirstMilkWeightData.Org_Route_No <> MaxVersionData.Upd_Route_No Or FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> MaxVersionData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> MaxVersionData.Upd_VLC_Name or FirstMilkWeightData.Org_Document_Date <> MaxVersionData.Upd_Document_Date or FirstMilkWeightData.Org_Document_No <> MaxVersionData.Upd_Document_No  or ISNULL(FirstNonNullFatSnfData.First_Milk_Weight, FirstMilkWeightData.Org_Milk_Weight) <> MaxVersionData.Upd_Milk_Weight or  FirstMilkWeightData.Org_Manual_Weight <> 
+                  MaxVersionData.Upd_Manual_Weight or ISNULL(FirstNonNullFatSnfData.First_FAT, FirstMilkWeightData.Org_FAT) <> MaxVersionData.Upd_FAT or ISNULL(FirstNonNullFatSnfData.First_SNF, FirstMilkWeightData.Org_SNF) <> MaxVersionData.Upd_SNF or FirstMilkWeightData.Org_Manual_Sample <> MaxVersionData.Upd_Manual_Sample THEN MaxVersionData.Upd_Sample_User ELSE NULL END AS Upd_Sample_User, CASE WHEN FirstMilkWeightData.Org_Sample_Date <> MaxVersionData.Upd_Sample_Date or FirstMilkWeightData.Org_Route_No <> MaxVersionData.Upd_Route_No Or FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> MaxVersionData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> MaxVersionData.Upd_VLC_Name or FirstMilkWeightData.Org_Document_Date <> MaxVersionData.Upd_Document_Date or FirstMilkWeightData.Org_Document_No <> MaxVersionData.Upd_Document_No  or ISNULL(FirstNonNullFatSnfData.First_Milk_Weight, FirstMilkWeightData.Org_Milk_Weight) <> MaxVersionData.Upd_Milk_Weight or  FirstMilkWeightData.Org_Manual_Weight <> 
+                  MaxVersionData.Upd_Manual_Weight or ISNULL(FirstNonNullFatSnfData.First_FAT, FirstMilkWeightData.Org_FAT) <> MaxVersionData.Upd_FAT or ISNULL(FirstNonNullFatSnfData.First_SNF, FirstMilkWeightData.Org_SNF) <> MaxVersionData.Upd_SNF or FirstMilkWeightData.Org_Manual_Sample <> MaxVersionData.Upd_Manual_Sample	 THEN MaxVersionData.Upd_Sample_Date ELSE NULL END AS Upd_Sample_Date FROM  FirstMilkWeightData LEFT JOIN  FirstNonNullFatSnfData  ON FirstMilkWeightData.Org_Document_No = FirstNonNullFatSnfData.Document_No AND FirstMilkWeightData.SNo = FirstNonNullFatSnfData.SNo  LEFT JOIN  MaxVersionData  ON FirstMilkWeightData.Org_Document_No = MaxVersionData.Document_No AND FirstMilkWeightData.SNo = MaxVersionData.SNo WHERE MaxVersionData.Source_API = 1 "
 
+                If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
+                    qry += "and MaxVersionData.MCC_CODE  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") "
+                End If
+                If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                    qry += " and MaxVersionData.Upd_Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")  "
+                End If
+                If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count > 0 Then
+                    qry += " and MaxVersionData.VLC_CODE in (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ")  "
+                End If
+                qry += " and convert(date,MaxVersionData.Upd_Document_Date,103) >= CONVERT(DATE, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "' , 103) and convert(date,MaxVersionData.Upd_Document_Date,103) <= CONVERT(DATE, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy") + "', 103) "
+
+                If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
+                    qry += " and 2=( case when convert(date,MaxVersionData.Upd_Document_Date ,103) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and convert(date,MaxVersionData.Upd_Document_Date ,103) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and MaxVersionData.Shift ='M' then 3 else 2 end  )"
+                End If
+                If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
+                    qry += " and 2=( case when convert(date,MaxVersionData.Upd_Document_Date ,103) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy") + "' and convert(date,MaxVersionData.Upd_Document_Date ,103) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy") + "' and MaxVersionData.Shift ='E' then 3 else 2 end  )"
+                End If
+                qry += " order by MaxVersionData.Document_No,MaxVersionData.SNo "
+            End If
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
@@ -349,171 +405,251 @@ Public Class rptCollectionDataChangeReport
         'gv1.Columns("Doc Date").IsPinned = True
         'gv1.Columns("Shift").IsPinned = True
 
-        Dim obj1 As New ExpressionFormattingObject("MyCondition1", "[Vlc Uploader Code]<>[Vlc Uploader Code Update]", False)
-        obj1.CellForeColor = Color.Red
-        gv1.Columns("Vlc Uploader Code Update").ConditionalFormattingObjectList.Add(obj1)
+        If rbtnMilkProcUpl.Checked Then
+            gv1.Columns("Org_Route_No").HeaderText = "Route No"
+            gv1.Columns("Upd_Route_No").HeaderText = "Route No"
+            gv1.Columns("Org_VLC_Code_VLC_Uploader").HeaderText = "DCS Code"
+            gv1.Columns("Upd_VLC_Code_VLC_Uploader").HeaderText = "DCS Code"
+            gv1.Columns("Org_VLC_Name").HeaderText = "DCS Name"
+            gv1.Columns("Upd_VLC_Name").HeaderText = "DCS Name"
+            gv1.Columns("Org_Milk_Weight").HeaderText = "Milk Weight"
+            gv1.Columns("Upd_Milk_Weight").HeaderText = "Milk Weight"
+            gv1.Columns("Org_Manual_Weight").HeaderText = "Manual Weight"
+            gv1.Columns("Upd_Manual_Weight").HeaderText = "Manual Weight"
+            gv1.Columns("Upd_SNo").HeaderText = "SNo"
+            gv1.Columns("Org_Weighment_User").HeaderText = "Weighment User"
+            gv1.Columns("Upd_Weighment_User").HeaderText = "Weighment User"
+            gv1.Columns("Org_Weighment_Date").HeaderText = "Weighment Date"
+            gv1.Columns("Upd_Weighment_Date").HeaderText = "Weighment Date"
 
-        Dim obj2 As New ExpressionFormattingObject("MyCondition2", "[Vlc Code]<>[Vlc Code Update]", False)
-        obj2.CellForeColor = Color.Red
-        gv1.Columns("Vlc Code Update").ConditionalFormattingObjectList.Add(obj2)
+            gv1.Columns("Org_FAT").HeaderText = "FAT"
+            gv1.Columns("Upd_FAT").HeaderText = "FAT"
+            gv1.Columns("Org_SNF").HeaderText = "SNF"
+            gv1.Columns("Upd_SNF").HeaderText = "SNF"
 
-        Dim obj3 As New ExpressionFormattingObject("MyCondition3", "[VLC Name]<>[VLC Name Update]", False)
-        obj3.CellForeColor = Color.Red
-        gv1.Columns("VLC Name Update").ConditionalFormattingObjectList.Add(obj3)
+            gv1.Columns("Org_Manual_Sample").HeaderText = "Manual Sample"
+            gv1.Columns("Upd_Manual_Sample").HeaderText = "Manual Sample"
+            gv1.Columns("Org_Sample_User").HeaderText = "Sample User"
+            gv1.Columns("Upd_Sample_User").HeaderText = "Sample User"
 
-        Dim obj4 As New ExpressionFormattingObject("MyCondition4", "[Sample No]<>[Sample No Update]", False)
-        obj4.CellForeColor = Color.Red
-        gv1.Columns("Sample No Update").ConditionalFormattingObjectList.Add(obj4)
+            gv1.Columns("Org_Sample_Date").HeaderText = "Sample Date"
+            gv1.Columns("Upd_Sample_Date").HeaderText = "Sample Date"
 
-        Dim obj5 As New ExpressionFormattingObject("MyCondition5", "[No Of Cans]<>[No Of Cans Update]", False)
-        obj5.CellForeColor = Color.Red
-        gv1.Columns("No Of Cans Update").ConditionalFormattingObjectList.Add(obj5)
+            gv1.Columns("Org_Document_No").HeaderText = "Document No"
+            gv1.Columns("Upd_Document_No").HeaderText = "Document No"
+            gv1.Columns("Org_Document_Date").HeaderText = "Document Date"
+            gv1.Columns("Upd_Document_Date").HeaderText = "Document Date"
 
-        Dim obj6 As New ExpressionFormattingObject("MyCondition6", "[Item Code]<>[Item Code Update]", False)
-        obj6.CellForeColor = Color.Red
-        gv1.Columns("Item Code Update").ConditionalFormattingObjectList.Add(obj6)
+        Else
+            Dim obj1 As New ExpressionFormattingObject("MyCondition1", "[Vlc Uploader Code]<>[Vlc Uploader Code Update]", False)
+            obj1.CellForeColor = Color.Red
+            gv1.Columns("Vlc Uploader Code Update").ConditionalFormattingObjectList.Add(obj1)
 
-        Dim obj7 As New ExpressionFormattingObject("MyCondition7", "[Item Desc]<>[Item Desc Update]", False)
-        obj7.CellForeColor = Color.Red
-        gv1.Columns("Item Desc Update").ConditionalFormattingObjectList.Add(obj7)
+            Dim obj2 As New ExpressionFormattingObject("MyCondition2", "[Vlc Code]<>[Vlc Code Update]", False)
+            obj2.CellForeColor = Color.Red
+            gv1.Columns("Vlc Code Update").ConditionalFormattingObjectList.Add(obj2)
 
-        Dim obj8 As New ExpressionFormattingObject("MyCondition8", "[Milk Weight]<>[Milk Weight Update]", False)
-        obj8.CellForeColor = Color.Red
-        gv1.Columns("Milk Weight Update").ConditionalFormattingObjectList.Add(obj8)
+            Dim obj3 As New ExpressionFormattingObject("MyCondition3", "[VLC Name]<>[VLC Name Update]", False)
+            obj3.CellForeColor = Color.Red
+            gv1.Columns("VLC Name Update").ConditionalFormattingObjectList.Add(obj3)
 
-        Dim obj9 As New ExpressionFormattingObject("MyCondition9", "[FAT(%)]<>[FAT(%) Update]", False)
-        obj9.CellForeColor = Color.Red
-        gv1.Columns("FAT(%) Update").ConditionalFormattingObjectList.Add(obj9)
+            Dim obj4 As New ExpressionFormattingObject("MyCondition4", "[Sample No]<>[Sample No Update]", False)
+            obj4.CellForeColor = Color.Red
+            gv1.Columns("Sample No Update").ConditionalFormattingObjectList.Add(obj4)
 
-        Dim obj10 As New ExpressionFormattingObject("MyCondition10", "[CLR]<>[CLR Update]", False)
-        obj10.CellForeColor = Color.Red
-        gv1.Columns("CLR Update").ConditionalFormattingObjectList.Add(obj10)
+            Dim obj5 As New ExpressionFormattingObject("MyCondition5", "[No Of Cans]<>[No Of Cans Update]", False)
+            obj5.CellForeColor = Color.Red
+            gv1.Columns("No Of Cans Update").ConditionalFormattingObjectList.Add(obj5)
 
-        Dim obj11 As New ExpressionFormattingObject("MyCondition11", "[SNF(%)]<>[SNF(%) Update]", False)
-        obj11.CellForeColor = Color.Red
-        gv1.Columns("SNF(%) Update").ConditionalFormattingObjectList.Add(obj11)
+            Dim obj6 As New ExpressionFormattingObject("MyCondition6", "[Item Code]<>[Item Code Update]", False)
+            obj6.CellForeColor = Color.Red
+            gv1.Columns("Item Code Update").ConditionalFormattingObjectList.Add(obj6)
 
-        Dim obj12 As New ExpressionFormattingObject("MyCondition12", "[FAT(KG)]<>[FAT(KG) Update]", False)
-        obj12.CellForeColor = Color.Red
-        gv1.Columns("FAT(KG) Update").ConditionalFormattingObjectList.Add(obj12)
+            Dim obj7 As New ExpressionFormattingObject("MyCondition7", "[Item Desc]<>[Item Desc Update]", False)
+            obj7.CellForeColor = Color.Red
+            gv1.Columns("Item Desc Update").ConditionalFormattingObjectList.Add(obj7)
 
-        Dim obj13 As New ExpressionFormattingObject("MyCondition13", "[SNF(KG)]<>[SNF(KG) Update]", False)
-        obj13.CellForeColor = Color.Red
-        gv1.Columns("SNF(KG) Update").ConditionalFormattingObjectList.Add(obj13)
+            Dim obj8 As New ExpressionFormattingObject("MyCondition8", "[Milk Weight]<>[Milk Weight Update]", False)
+            obj8.CellForeColor = Color.Red
+            gv1.Columns("Milk Weight Update").ConditionalFormattingObjectList.Add(obj8)
 
-        Dim obj14 As New ExpressionFormattingObject("MyCondition14", "[Milk Type]<>[Milk Type Update]", False)
-        obj14.CellForeColor = Color.Red
-        gv1.Columns("Milk Type Update").ConditionalFormattingObjectList.Add(obj14)
+            Dim obj9 As New ExpressionFormattingObject("MyCondition9", "[FAT(%)]<>[FAT(%) Update]", False)
+            obj9.CellForeColor = Color.Red
+            gv1.Columns("FAT(%) Update").ConditionalFormattingObjectList.Add(obj9)
 
-        Dim obj15 As New ExpressionFormattingObject("MyCondition15", "[SRN No]<>[SRN No Update]", False)
-        obj15.CellForeColor = Color.Red
-        gv1.Columns("SRN No Update").ConditionalFormattingObjectList.Add(obj15)
+            Dim obj10 As New ExpressionFormattingObject("MyCondition10", "[CLR]<>[CLR Update]", False)
+            obj10.CellForeColor = Color.Red
+            gv1.Columns("CLR Update").ConditionalFormattingObjectList.Add(obj10)
 
-        Dim obj16 As New ExpressionFormattingObject("MyCondition16", "[SRN Amount]<>[SRN Amount Update]", False)
-        obj16.CellForeColor = Color.Red
-        gv1.Columns("SRN Amount Update").ConditionalFormattingObjectList.Add(obj16)
+            Dim obj11 As New ExpressionFormattingObject("MyCondition11", "[SNF(%)]<>[SNF(%) Update]", False)
+            obj11.CellForeColor = Color.Red
+            gv1.Columns("SNF(%) Update").ConditionalFormattingObjectList.Add(obj11)
 
-        Dim obj17 As New ExpressionFormattingObject("MyCondition17", "[SRN Qty]<>[SRN Qty Update]", False)
-        obj17.CellForeColor = Color.Red
-        gv1.Columns("SRN Qty Update").ConditionalFormattingObjectList.Add(obj17)
+            Dim obj12 As New ExpressionFormattingObject("MyCondition12", "[FAT(KG)]<>[FAT(KG) Update]", False)
+            obj12.CellForeColor = Color.Red
+            gv1.Columns("FAT(KG) Update").ConditionalFormattingObjectList.Add(obj12)
 
-        Dim obj18 As New ExpressionFormattingObject("MyCondition18", "[SRN Rate]<>[SRN Rate Update]", False)
-        obj18.CellForeColor = Color.Red
-        gv1.Columns("SRN Rate Update").ConditionalFormattingObjectList.Add(obj18)
+            Dim obj13 As New ExpressionFormattingObject("MyCondition13", "[SNF(KG)]<>[SNF(KG) Update]", False)
+            obj13.CellForeColor = Color.Red
+            gv1.Columns("SNF(KG) Update").ConditionalFormattingObjectList.Add(obj13)
 
-        Dim obj19 As New ExpressionFormattingObject("MyCondition19", "[Handling Charges]<>[Handling Charges Update]", False)
-        obj19.CellForeColor = Color.Red
-        gv1.Columns("Handling Charges Update").ConditionalFormattingObjectList.Add(obj19)
+            Dim obj14 As New ExpressionFormattingObject("MyCondition14", "[Milk Type]<>[Milk Type Update]", False)
+            obj14.CellForeColor = Color.Red
+            gv1.Columns("Milk Type Update").ConditionalFormattingObjectList.Add(obj14)
 
-        Dim obj20 As New ExpressionFormattingObject("MyCondition20", "[Price Code]<>[Price Code Update]", False)
-        obj20.CellForeColor = Color.Red
-        gv1.Columns("Price Code Update").ConditionalFormattingObjectList.Add(obj20)
+            Dim obj15 As New ExpressionFormattingObject("MyCondition15", "[SRN No]<>[SRN No Update]", False)
+            obj15.CellForeColor = Color.Red
+            gv1.Columns("SRN No Update").ConditionalFormattingObjectList.Add(obj15)
 
-        gv1.Columns("Vlc Uploader Code Update").HeaderText = "Vlc Uploader Code"
-        gv1.Columns("Vlc Code Update").HeaderText = "Vlc Code"
-        gv1.Columns("VLC Name Update").HeaderText = "VLC Name"
-        gv1.Columns("Sample No Update").HeaderText = "Sample No"
-        gv1.Columns("No Of Cans Update").HeaderText = "No Of Cans"
-        gv1.Columns("Item Code Update").HeaderText = "Item Code"
-        gv1.Columns("Item Desc Update").HeaderText = "Item Desc"
-        gv1.Columns("Milk Weight Update").HeaderText = "Milk Weight"
-        gv1.Columns("FAT(%) Update").HeaderText = "FAT(%)"
-        gv1.Columns("CLR Update").HeaderText = "CLR"
-        gv1.Columns("SNF(%) Update").HeaderText = "SNF(%)"
-        gv1.Columns("FAT(KG) Update").HeaderText = "FAT(KG)"
-        gv1.Columns("SNF(KG) Update").HeaderText = "SNF(KG)"
-        gv1.Columns("Milk Type Update").HeaderText = "Milk Type"
-        gv1.Columns("SRN No Update").HeaderText = "SRN No"
-        gv1.Columns("SRN Amount Update").HeaderText = "SRN Amount"
-        gv1.Columns("SRN Qty Update").HeaderText = "SRN Qty"
-        gv1.Columns("SRN Rate Update").HeaderText = "SRN Rate"
-        gv1.Columns("Handling Charges Update").HeaderText = "Handling Charges"
-        gv1.Columns("Price Code Update").HeaderText = "Price Code"
+            Dim obj16 As New ExpressionFormattingObject("MyCondition16", "[SRN Amount]<>[SRN Amount Update]", False)
+            obj16.CellForeColor = Color.Red
+            gv1.Columns("SRN Amount Update").ConditionalFormattingObjectList.Add(obj16)
+
+            Dim obj17 As New ExpressionFormattingObject("MyCondition17", "[SRN Qty]<>[SRN Qty Update]", False)
+            obj17.CellForeColor = Color.Red
+            gv1.Columns("SRN Qty Update").ConditionalFormattingObjectList.Add(obj17)
+
+            Dim obj18 As New ExpressionFormattingObject("MyCondition18", "[SRN Rate]<>[SRN Rate Update]", False)
+            obj18.CellForeColor = Color.Red
+            gv1.Columns("SRN Rate Update").ConditionalFormattingObjectList.Add(obj18)
+
+            Dim obj19 As New ExpressionFormattingObject("MyCondition19", "[Handling Charges]<>[Handling Charges Update]", False)
+            obj19.CellForeColor = Color.Red
+            gv1.Columns("Handling Charges Update").ConditionalFormattingObjectList.Add(obj19)
+
+            Dim obj20 As New ExpressionFormattingObject("MyCondition20", "[Price Code]<>[Price Code Update]", False)
+            obj20.CellForeColor = Color.Red
+            gv1.Columns("Price Code Update").ConditionalFormattingObjectList.Add(obj20)
+
+            gv1.Columns("Vlc Uploader Code Update").HeaderText = "Vlc Uploader Code"
+            gv1.Columns("Vlc Code Update").HeaderText = "Vlc Code"
+            gv1.Columns("VLC Name Update").HeaderText = "VLC Name"
+            gv1.Columns("Sample No Update").HeaderText = "Sample No"
+            gv1.Columns("No Of Cans Update").HeaderText = "No Of Cans"
+            gv1.Columns("Item Code Update").HeaderText = "Item Code"
+            gv1.Columns("Item Desc Update").HeaderText = "Item Desc"
+            gv1.Columns("Milk Weight Update").HeaderText = "Milk Weight"
+            gv1.Columns("FAT(%) Update").HeaderText = "FAT(%)"
+            gv1.Columns("CLR Update").HeaderText = "CLR"
+            gv1.Columns("SNF(%) Update").HeaderText = "SNF(%)"
+            gv1.Columns("FAT(KG) Update").HeaderText = "FAT(KG)"
+            gv1.Columns("SNF(KG) Update").HeaderText = "SNF(KG)"
+            gv1.Columns("Milk Type Update").HeaderText = "Milk Type"
+            gv1.Columns("SRN No Update").HeaderText = "SRN No"
+            gv1.Columns("SRN Amount Update").HeaderText = "SRN Amount"
+            gv1.Columns("SRN Qty Update").HeaderText = "SRN Qty"
+            gv1.Columns("SRN Rate Update").HeaderText = "SRN Rate"
+            gv1.Columns("Handling Charges Update").HeaderText = "Handling Charges"
+            gv1.Columns("Price Code Update").HeaderText = "Price Code"
+
+        End If
 
     End Sub
     Sub View()
         If gv1.Rows.Count > 0 Then
             Dim view As New ColumnGroupsViewDefinition()
 
-            view.ColumnGroups.Add(New GridViewColumnGroup(""))
-            view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Milk Receipt Code").Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("MCC Code").Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("MCC Name").Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Doc Date").Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Shift").Name)
+            If rbtnMilkProcUpl.Checked Then
+                view.ColumnGroups.Add(New GridViewColumnGroup("Original"))
+                view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
+                For ii As Integer = 0 To 14
+                    view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(ii).Name)
+                Next
+                view.ColumnGroups.Add(New GridViewColumnGroup("Updated"))
+                view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+                For ii As Integer = 15 To gv1.Columns.Count - 1
+                    view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns(ii).Name)
+                Next
+            Else
 
-            view.ColumnGroups.Add(New GridViewColumnGroup("Original"))
-            view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Vlc Uploader Code").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Vlc Code").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("VLC Name").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Sample No").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("No Of Cans").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Item Code").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Item Desc").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Milk Weight").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("FAT(%)").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("CLR").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("SNF(%)").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("FAT(KG)").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("SNF(KG)").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Milk Type").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("SRN No").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("SRN Amount").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("SRN Qty").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("SRN Rate").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Handling Charges").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Price Code").Name)
+                view.ColumnGroups.Add(New GridViewColumnGroup(""))
+                view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Milk Receipt Code").Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("MCC Code").Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("MCC Name").Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Doc Date").Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Shift").Name)
 
-            view.ColumnGroups.Add(New GridViewColumnGroup("Updated"))
-            view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Vlc Uploader Code Update").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Vlc Code Update").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("VLC Name Update").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Sample No Update").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("No Of Cans Update").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Item Code Update").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Item Desc Update").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Milk Weight Update").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("FAT(%) Update").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("CLR Update").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("SNF(%) Update").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("FAT(KG) Update").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("SNF(KG) Update").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Milk Type Update").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("SRN No Update").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("SRN Amount Update").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("SRN Qty Update").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("SRN Rate Update").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Handling Charges Update").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Price Code Update").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Modify By").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Modify Date").Name)
+                view.ColumnGroups.Add(New GridViewColumnGroup("Original"))
+                view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Vlc Uploader Code").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Vlc Code").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("VLC Name").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Sample No").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("No Of Cans").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Item Code").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Item Desc").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Milk Weight").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("FAT(%)").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("CLR").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("SNF(%)").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("FAT(KG)").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("SNF(KG)").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Milk Type").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("SRN No").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("SRN Amount").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("SRN Qty").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("SRN Rate").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Handling Charges").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Price Code").Name)
+
+                view.ColumnGroups.Add(New GridViewColumnGroup("Updated"))
+                view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Vlc Uploader Code Update").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Vlc Code Update").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("VLC Name Update").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Sample No Update").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("No Of Cans Update").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Item Code Update").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Item Desc Update").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Milk Weight Update").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("FAT(%) Update").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("CLR Update").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("SNF(%) Update").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("FAT(KG) Update").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("SNF(KG) Update").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Milk Type Update").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("SRN No Update").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("SRN Amount Update").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("SRN Qty Update").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("SRN Rate Update").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Handling Charges Update").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Price Code Update").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Modify By").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Modify Date").Name)
+
+            End If
             gv1.ViewDefinition = view
         End If
     End Sub
 
+    Private Sub gv1_CellFormatting(sender As Object, e As CellFormattingEventArgs) Handles gv1.CellFormatting
+        Try
+            If rbtnMilkProcUpl.Checked Then
+                If gv1.Rows.Count > 0 Then
+                    Dim ColExist As String = ""
+
+                    For i As Integer = 0 To gv1.Rows.Count - 1
+                        Dim upd As Integer = 15
+                        For org As Integer = 0 To 14
+                            If clsCommon.myCstr(gv1.Rows(i).Cells(org).Value) <> clsCommon.myCstr(gv1.Rows(i).Cells(upd).Value) Then
+                                If clsCommon.myLen(gv1.Rows(i).Cells(upd).Value) > 0 Then
+                                    gv1.Rows(i).Cells(upd).Style.BackColor = System.Drawing.Color.Yellow
+                                    gv1.Rows(i).Cells(upd).Style.ForeColor = Color.Red
+                                End If
+                            End If
+                                upd = upd + 1
+                        Next
+                        ' i = i + 1
+                    Next
+                End If
+
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 
 
     Sub Reset()
