@@ -768,15 +768,6 @@ Public Class frmEmployee_Master
     End Sub
 
 
-    Sub CheckReleivingDate()
-        Try
-
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
-
-
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         BlankAllControl()
         clsEmployeeMaster.UpdateEMPStatusData(strCode, EmployeeRetirementAge, EmployeePFRetirementAge, NavTyep)
@@ -3527,12 +3518,12 @@ Public Class frmEmployee_Master
                     Next
                     trans.Commit()
                     clsCommon.ProgressBarHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 End If
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message & " At Line No : " & i)
+                clsCommon.MyMessageBoxShow(Me, ex.Message & " At Line No : " & i, Me.Text)
             End Try
         End If
 
@@ -4519,5 +4510,21 @@ Public Class frmEmployee_Master
             txtActiveInactiveDate.Visible = True
         End If
         txtActiveInactiveDate.Checked = False
+    End Sub
+
+    Private Sub txtDOB_Validated(sender As Object, e As EventArgs) Handles txtDOB.Validated
+        Try
+            RelevingDate()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Sub RelevingDate()
+        Dim Qry As String = "Select DATEDIFF(year,Convert(Date,'" & txtDOB.Value & "',103),Convert(Date,'" & clsCommon.GETSERVERDATE() & "',103))CurrentAge,EOMONTH(DATEADD(year, " + clsCommon.myCstr(EmployeeRetirementAge) + ", Convert(Date,'" & txtDOB.Value & "',103)))RetirementDate "
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            txtRelevingDate.Value = clsCommon.GetPrintDate(dt.Rows(0)("RetirementDate"), "dd/MM/yyyy")
+        End If
     End Sub
 End Class

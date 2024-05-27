@@ -2268,7 +2268,7 @@ where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ") )x group by VSP_
         Dim whrcls As String = " where 2=2 "
         Dim whrcls1 As String = " where 2=2 "
         Dim whrclsItemWise As String = " where 2=2 "
-        whrcls += "  and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)>=convert(date,('" + fromDate + "'),103) and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) <=convert(date,('" + Todate + "'),103) "
+        whrcls += "  and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)>=convert(date,('" + fromDate + "'),103) and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) <=convert(date,('" + Todate + "'),103) and TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty > 0 "
         If clsCommon.myLen(strVSPCode) > 0 Then
             whrcls += "  and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE  in ( " + strVSPCode + ")"
         End If
