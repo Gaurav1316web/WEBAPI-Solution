@@ -638,9 +638,8 @@ Public Class rptCollectionDataChangeReport
                                     gv1.Rows(i).Cells(upd).Style.ForeColor = Color.Red
                                 End If
                             End If
-                                upd = upd + 1
+                            upd = upd + 1
                         Next
-                        ' i = i + 1
                     Next
                 End If
 
@@ -815,12 +814,12 @@ Public Class rptCollectionDataChangeReport
 
     Private Sub txtRoute__My_Click(sender As Object, e As EventArgs) Handles txtRoute._My_Click
         Try
-            Dim qry As String = "select Route_Code,Route_Name from TSPL_MCC_ROUTE_MASTER where 2=2 "
-            If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
-                qry += "  and MCC_Code in (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
-            End If
+            Dim qry As String = "select ROUTE_NO,Route_Name from TSPL_BULK_ROUTE_MASTER where 2=2 "
+            'If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
+            '    qry += "  and MCC_Code in (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+            'End If
 
-            txtRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("PCURoute", qry, "Route_Code", "Route_Name", txtRoute.arrValueMember, txtRoute.arrDispalyMember)
+            txtRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("PCURoute", qry, "ROUTE_NO", "Route_Name", txtRoute.arrValueMember, txtRoute.arrDispalyMember)
             RefreshVLC()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -829,7 +828,7 @@ Public Class rptCollectionDataChangeReport
 
     Private Sub txtVLC__My_Click(sender As Object, e As EventArgs) Handles txtVLC._My_Click
         Try
-            Dim qry As String = "select TSPL_VLC_MASTER_HEAD.VLC_Code as [Dcs Code],TSPL_VLC_MASTER_HEAD.VLC_Name as [Dcs Name],TSPL_VLC_MASTER_HEAD.Route_Code,TSPL_MCC_ROUTE_MASTER.Route_Name from TSPL_VLC_MASTER_HEAD left outer join TSPL_MCC_ROUTE_MASTER on TSPL_MCC_ROUTE_MASTER.Route_Code=TSPL_VLC_MASTER_HEAD.Route_Code where 2=2 and TSPL_VLC_MASTER_HEAD.Active='1' "
+            Dim qry As String = "select TSPL_VLC_MASTER_HEAD.VLC_Code as [Dcs Code],TSPL_VLC_MASTER_HEAD.VLC_Name as [Dcs Name],TSPL_VLC_MASTER_HEAD.Route_Code,TSPL_BULK_ROUTE_MASTER.Route_Name from TSPL_VLC_MASTER_HEAD left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_VLC_MASTER_HEAD.Route_Code where 2=2 and TSPL_VLC_MASTER_HEAD.Active='1' "
             If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
                 qry += " and TSPL_VLC_MASTER_HEAD.Route_Code in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ") "
             End If
@@ -841,13 +840,14 @@ Public Class rptCollectionDataChangeReport
     End Sub
     Sub RefreshRoute()
         If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
-            Dim qry As String = "select Route_Code from TSPL_MCC_ROUTE_MASTER where Route_Code in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")  and MCC_Code in (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+            Dim qry As String = "select ROUTE_NO from TSPL_BULK_ROUTE_MASTER where ROUTE_NO in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")  "
+            'and MCC_Code in (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             txtRoute.arrValueMember = Nothing
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim arr As New ArrayList
                 For Each dr As DataRow In dt.Rows
-                    arr.Add(clsCommon.myCstr(dr("Route_Code")))
+                    arr.Add(clsCommon.myCstr(dr("ROUTE_NO")))
                 Next
                 txtRoute.arrValueMember = arr
             End If
