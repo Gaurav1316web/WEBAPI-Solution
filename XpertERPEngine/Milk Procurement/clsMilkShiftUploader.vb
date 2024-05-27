@@ -208,8 +208,8 @@ Public Class clsMilkShiftUploaderHead
                     qry += "  ,SNF/4+0.2*FAT+(select Description from TSPL_Fixed_parameter where type='defaultCorrectionFactor' and code='MilkSetting') as [SNF_PER]
                      ,((Milk_Weight* (SNF/4+0.2*FAT+(select Description from TSPL_Fixed_parameter where type='defaultCorrectionFactor' and code='MilkSetting')))/100) as SNF_kg,
                 Convert(Decimal(18, 2), ((Milk_Weight * FAT) / 100)) As [Fat_KG] "
-                Else
-                    qry += " ,case When (isnull(Reject_Type,''))='CURD' then (cast (Milk_Weight*SNF/100 as decimal(18,3))) else 0 end as [CURD SNFKG] "
+                    'Else
+                    '    qry += " ,case When (isnull(Reject_Type,''))='CURD' then (cast (Milk_Weight*SNF/100 as decimal(18,3))) else 0 end as [CURD SNFKG] "
                 End If
 
                 If obj.dtRaj IsNot Nothing AndAlso obj.dtRaj.Rows.Count > 0 Then
@@ -217,14 +217,15 @@ Public Class clsMilkShiftUploaderHead
                         qry += ",case When isnull(Reject_Type,'')='" + clsCommon.myCstr(dr("Reject_Type")) + "' then Milk_Weight else 0 end as [" + clsCommon.myCstr(dr("Reject_Type")) + " Qty]
 ,case When isnull(Reject_Type,'')='" + clsCommon.myCstr(dr("Reject_Type")) + "' then FAT else 0 end as [" + clsCommon.myCstr(dr("Reject_Type")) + " FAT %]
 ,case When isnull(Reject_Type,'')='" + clsCommon.myCstr(dr("Reject_Type")) + "' then cast (Milk_Weight*FAT/100 as decimal(18,3)) else 0 end as [" + clsCommon.myCstr(dr("Reject_Type")) + " FATKg]
-,case When isnull(Reject_Type,'')='" + clsCommon.myCstr(dr("Reject_Type")) + "' then SNF else 0 end as [" + clsCommon.myCstr(dr("Reject_Type")) + " SNF %]"
+,case When isnull(Reject_Type,'')='" + clsCommon.myCstr(dr("Reject_Type")) + "' then SNF else 0 end as [" + clsCommon.myCstr(dr("Reject_Type")) + " SNF %],case When isnull(Reject_Type,'')='" + clsCommon.myCstr(dr("Reject_Type")) + "' then cast (Milk_Weight*SNF/100 as decimal(18,3)) else 0 end as [" + clsCommon.myCstr(dr("Reject_Type")) + " SNFKG]"
                         ',case When isnull(Reject_Type,'')='" + clsCommon.myCstr(dr("Reject_Type")) + "' then cast (Milk_Weight*SNF/100 as decimal(18,3)) else 0 end as [" + clsCommon.myCstr(dr("Reject_Type")) + " SNFKG]"
 
                         DocRejectType += ",  sum ([" + clsCommon.myCstr(dr("Reject_Type")) + " Qty] ) as [" + clsCommon.myCstr(dr("Reject_Type")) + " Qty]
 , isnull (convert(decimal(18,2), ( sum( [" + clsCommon.myCstr(dr("Reject_Type")) + " FATKg]) * 100/ nullif((sum([" + clsCommon.myCstr(dr("Reject_Type")) + " Qty])),0)    )),0)   as [" + clsCommon.myCstr(dr("Reject_Type")) + " FAT %]
-, sum([" + clsCommon.myCstr(dr("Reject_Type")) + " FATKg]) as [" + clsCommon.myCstr(dr("Reject_Type")) + " FATKg]"
-                        ', isnull ( convert(decimal(18,2), ( sum( [" + clsCommon.myCstr(dr("Reject_Type")) + " SNFKG]) * 100/ nullif( (sum([" + clsCommon.myCstr(dr("Reject_Type")) + " Qty])),0)    )),0)   as [" + clsCommon.myCstr(dr("Reject_Type")) + " SNF %]
-                        ', sum ([" + clsCommon.myCstr(dr("Reject_Type")) + " SNFKG]) as [" + clsCommon.myCstr(dr("Reject_Type")) + " SNFKG]"
+, sum([" + clsCommon.myCstr(dr("Reject_Type")) + " FATKg]) as [" + clsCommon.myCstr(dr("Reject_Type")) + " FATKg]
+                        , isnull ( convert(decimal(18,2), ( sum( [" + clsCommon.myCstr(dr("Reject_Type")) + " SNFKG]) * 100/ nullif( (sum([" + clsCommon.myCstr(dr("Reject_Type")) + " Qty])),0)    )),0)   as [" + clsCommon.myCstr(dr("Reject_Type")) + " SNF %]
+, sum ([" + clsCommon.myCstr(dr("Reject_Type")) + " SNFKG]) as [" + clsCommon.myCstr(dr("Reject_Type")) + " SNFKG]"
+
                     Next
                 End If
                 qry += " ,TSPL_MILK_SHIFT_UPLOADER_DETAIL.PageNo from TSPL_MILK_SHIFT_UPLOADER_DETAIL 
@@ -1281,7 +1282,7 @@ and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE='" + clsCommon.myCstr(dtVLC.Rows(0)
                         objMilkSRNDetail.CLR = Math.Truncate(objtr.SNF * 10) / 10
                         objMilkSRNDetail.SNF = clsEkoPro.getSnfOnCalculation(objtr.FAT, objMilkSRNDetail.CLR, corrFactor)
                         If PickPriceFromFATAndSNF Then
-                            objMilkSRNDetail.SNF = clsCommon.myRoundOFF(objtr.SNF, 1, 4)
+                            objMilkSRNDetail.SNF = clsCommon.myRoundOFF(objMilkSRNDetail.SNF, 1, 4)
                             objMilkSRNDetail.RATE = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(objMilkSRNDetail.MILK_Qty, objMilkSRNDetail.Price_Code, objMilkSRNDetail.FAT, objMilkSRNDetail.SNF, obj.MCC_Code, objMilkSRNHead.VLC_CODE, objMilkSRNHead.SHIFT, dtShiftDate, trans, strDockCollectionMilkType, objMilkSRNDetail.QAT_Rate, objMilkSRNDetail.Negative_Rate)
                         Else
                             objMilkSRNDetail.SNF = clsCommon.myRoundOFF(objMilkSRNDetail.SNF, 2, 9)

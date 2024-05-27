@@ -163,7 +163,7 @@ Public Class clsMPIncentiveEntry
           ,TSPL_MP_INCENTIVE_ENTRY_HEAD.Incetive_Rate 
           from TSPL_MP_INCENTIVE_ENTRY_HEAD 
           Left Outer Join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_CODE=TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code  "
-        str = clsCommon.ShowSelectForm("MPInc#F", qry, "Code", whrcls, curcode, "Code", isButtonClicked, "TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Date")
+        str = clsCommon.ShowSelectForm("MPInc#F", qry, "Code", whrcls, curcode, "Code", isButtonClicked, "Document_Date")
         Return str
     End Function
     Public Shared Function PostData(ByVal strDocNo As String) As Boolean

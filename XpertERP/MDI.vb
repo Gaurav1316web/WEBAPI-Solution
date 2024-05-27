@@ -8335,6 +8335,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptPerodicalDispatchReport
                         frm = New rptPerodicalDispatchReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptDBTCappingReport
+                        frm = New rptDBTCappingReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptDcsSecurity
                         frm = New rptDCSSecurity
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)

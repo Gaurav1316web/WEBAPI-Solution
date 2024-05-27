@@ -4441,7 +4441,7 @@ Public Class frmMRN
             whrClas += " and Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
         End If
 
-        LoadData(clsCommon.ShowSelectForm("GRNFilterFND", qry, "Code", whrClas, txtDocNo.Value, "MRN_Date desc", isButtonClicked, "TSPL_MRN_HEAD.MRN_Date"), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("GRNFilterFND", qry, "Code", whrClas, txtDocNo.Value, "MRN_Date desc", isButtonClicked, "MRN_Date"), NavigatorType.Current)
     End Sub
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.F2 AndAlso gv1.CurrentCell IsNot Nothing AndAlso clsCommon.myLen(gv1.CurrentRow.Cells(colGRNNo).Value) <= 0 Then

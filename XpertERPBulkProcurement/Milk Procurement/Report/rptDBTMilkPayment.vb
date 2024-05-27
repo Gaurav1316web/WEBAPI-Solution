@@ -113,7 +113,7 @@ Public Class rptDBTMilkPayment
 
         Dim Qry As String = " select xxx.*  from (
                          select xx.*  from ( 
-                        select max(pp.[MCC Name] )  as [MCC Name],max([VLC Name]) as [VLC Name],max(pp.[Vlc Uploader Code]) AS VLC_Code_VLC_Uploader,sum([Milk Weight(KG)] ) as [Milk Weight(KG)],sum([Milk Weight(LTR)] ) as [Milk Weight(LTR)],
+                        select max(pp.[MCC Name] )  as [MCC Name],max([VLC Name]) as [DCS Name],max(pp.[Vlc Uploader Code]) AS VLC_Code_VLC_Uploader,sum([Milk Weight(KG)] ) as [Milk Weight(KG)],sum([Milk Weight(LTR)] ) as [Milk Weight(LTR)],
                          sum([SRN Qty]) as [SRN Qty],sum([SRN Amount]) as [SRN Amount], max(Incetive_Rate) as Incetive_Rate,
                          max(Conversion_Factor) as Conversion_Factor,MAX(Comp_Name) AS Comp_Name,max(Area_Location_Code)AreaCode,max(AreaName)AreaName   from (
  
@@ -175,7 +175,7 @@ Public Class rptDBTMilkPayment
     Private Sub Load_DBT_Report()
         Try
             Dim IncentiveRate As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MPIncentiveEntryIncentiveRate, clsFixedParameterCode.MPIncentiveEntryIncentiveRate, Nothing))
-            atchqry = "select aa.[MCC Name],aa.AreaCode,aa.AreaName,aa.VLC_Code_VLC_Uploader as [VLC Uploader Code],aa.[VLC Name],
+            atchqry = "select aa.[MCC Name],aa.AreaCode,aa.AreaName,aa.VLC_Code_VLC_Uploader as [DCS Uploader Code],aa.[DCS Name],
                         aa.[SRN Qty],(aa.[SRN Qty]/aa.Conversion_Factor) as[SRN QtyLtr],
                         (Round((aa.[SRN Qty]/aa.Conversion_Factor),2)* " + clsCommon.myCstr(IncentiveRate) + ") as [DBT Amount],
                          aa.Incetive_Rate, aa.Conversion_Factor from ( " + GetAttachQry() + " "

@@ -252,6 +252,12 @@
     <Compile Include="Milk Procurement\Report\rptBMCPerodicalReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\rptDBTCappingReport.Designer.vb">
+      <DependentUpon>rptDBTCappingReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptDBTCappingReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\rptCollectionDataChangeReport.Designer.vb">
       <DependentUpon>rptCollectionDataChangeReport.vb</DependentUpon>
     </Compile>
@@ -937,6 +943,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptDayWiseCollection.resx">
       <DependentUpon>rptDayWiseCollection.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptDBTCappingReport.resx">
+      <DependentUpon>rptDBTCappingReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptDBTMilkPayment.resx">
       <DependentUpon>rptDBTMilkPayment.vb</DependentUpon>

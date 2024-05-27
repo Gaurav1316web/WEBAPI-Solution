@@ -46,7 +46,7 @@ Public Class clsProcessProductionStageProcess
         Else
             whrCls = " TSPL_PP_STAGE_PROCESS_HEAD.comp_code='" + objCommonVar.CurrentCompanyCode + "'"
         End If
-        str = clsCommon.ShowSelectForm("STD", qry, "Code", whrCls, currCode, "Code", isButtonClicked, "TSPL_PP_STAGE_PROCESS_HEAD.STAGE_PROCESS_DATE")
+        str = clsCommon.ShowSelectForm("STD", qry, "Code", whrCls, currCode, "Code", isButtonClicked)
 
         Return str
     End Function

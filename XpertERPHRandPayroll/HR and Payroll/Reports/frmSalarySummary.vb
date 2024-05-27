@@ -17,32 +17,33 @@ Public Class FrmSalarySummary
 #End Region
     Function allowtoCheck()
 
-        If clsCommon.myLen(clsCommon.myCstr(txtFromPP.Value)) <= 0 Then
-            myMessages.blankValue(Me, "Select Pay Period ", Me.Text)
-            txtFromPP.Focus()
-            txtFromPP.Select()
-            Errorcontrol.SetError(txtFromPP, "Select Pay Period ")
-            Return False
-        Else
-            Errorcontrol.ResetError(FndLocationCode)
-        End If
+        'If clsCommon.myLen(clsCommon.myCstr(txtFromPP.Value)) <= 0 Then
+        '    myMessages.blankValue(Me, "Select Pay Period ", Me.Text)
+        '    txtFromPP.Focus()
+        '    txtFromPP.Select()
+        '    Errorcontrol.SetError(txtFromPP, "Select Pay Period ")
+        '    Return False
+        'Else
+        '    Errorcontrol.ResetError(FndLocationCode)
+        'End If
 
-        If clsCommon.myLen(clsCommon.myCstr(FndLocationCode.Value)) <= 0 Then
-            myMessages.blankValue(Me, "Location ", Me.Text)
-            FndLocationCode.Focus()
-            FndLocationCode.Select()
-            Errorcontrol.SetError(FndLocationCode, "Location ")
-            Return False
-        Else
-            Errorcontrol.ResetError(FndLocationCode)
-        End If
+        'If clsCommon.myLen(clsCommon.myCstr(FndLocationCode.Value)) <= 0 Then
+        '    myMessages.blankValue(Me, "Location ", Me.Text)
+        '    FndLocationCode.Focus()
+        '    FndLocationCode.Select()
+        '    Errorcontrol.SetError(FndLocationCode, "Location ")
+        '    Return False
+        'Else
+        '    Errorcontrol.ResetError(FndLocationCode)
+        'End If
 
         Return True
     End Function
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
-        If allowtoCheck() Then
-            PrintData()
-        End If
+        ''If allowtoCheck() Then
+        ''    PrintData()
+        ''End if
+        printView()
 
     End Sub
 
@@ -50,6 +51,10 @@ Public Class FrmSalarySummary
         SetUserMgmtNew()
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+P for Save/Update ")
         ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
+        chkemployee.Checked = False
+        fndEmplyee.Visible = False
+        lblEmployee.Visible = False
+        MyLabel1.Visible = False
     End Sub
 
     Private Sub SetUserMgmtNew()
@@ -65,26 +70,26 @@ Public Class FrmSalarySummary
         Me.Close()
     End Sub
 
-    Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtFromPP._MYValidating
-        'Dim qry As String = "SELECT PAY_PERIOD_CODE AS 'Code',(DATEDIFF(DAY,date_from,date_to)+1) as 'Total days', " _
-        '    & " PAY_PERIOD_NAME as 'Pay Period Name' FROM TSPL_PAYPERIOD_MASTER  "
-        'txtFromPP.Value = clsCommon.ShowSelectForm("TSPL_PAYPERIOD_MASTER", qry, "Code", "POSTED=1 AND FREEZED=0", txtFromPP.Value, "", isButtonClicked)
-        txtFromPP.Value = clsPayPeriodMaster.getFinder("", txtFromPP.Value, isButtonClicked)
-        lblFrompp.Text = clsPayPeriodMaster.GetName(txtFromPP.Value, Nothing)
+    ''Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean)
+    ''    'Dim qry As String = "SELECT PAY_PERIOD_CODE AS 'Code',(DATEDIFF(DAY,date_from,date_to)+1) as 'Total days', " _
+    ''    '    & " PAY_PERIOD_NAME as 'Pay Period Name' FROM TSPL_PAYPERIOD_MASTER  "
+    ''    'txtFromPP.Value = clsCommon.ShowSelectForm("TSPL_PAYPERIOD_MASTER", qry, "Code", "POSTED=1 AND FREEZED=0", txtFromPP.Value, "", isButtonClicked)
+    ''    txtFromPP.Value = clsPayPeriodMaster.getFinder("", txtFromPP.Value, isButtonClicked)
+    ''    lblFrompp.Text = clsPayPeriodMaster.GetName(txtFromPP.Value, Nothing)
 
-    End Sub
+    ''End Sub
 
     Sub PrintData()
         '' changes done by Panch Raj in crystel report:Ticket No - BM00000008036 
         Try
-            If clsCommon.myLen(txtFromPP.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Please Select Pay Period.", Me.Text)
-                Return
-            End If
+            'If clsCommon.myLen(txtFromPP.Value) <= 0 Then
+            '    common.clsCommon.MyMessageBoxShow(Me, "Please Select Pay Period.", Me.Text)
+            '    Return
+            'End If
             Dim DivCond As String = ""
-            If txtDivisionMult.arrValueMember IsNot Nothing AndAlso txtDivisionMult.arrValueMember.Count > 0 Then
-                DivCond = " and EMP.DEVISION_CODE in (" & clsCommon.GetMulcallString(txtDivisionMult.arrValueMember) & " )"
-            End If
+            'If txtDivisionMult.arrValueMember IsNot Nothing AndAlso txtDivisionMult.arrValueMember.Count > 0 Then
+            '    DivCond = " and EMP.DEVISION_CODE in (" & clsCommon.GetMulcallString(txtDivisionMult.arrValueMember) & " )"
+            'End If
             'Dim DivisionAddress As String = ""
             'Dim DivisionFirstTime As Integer = 0
             'If txtDivisionMult.arrValueMember IsNot Nothing AndAlso txtDivisionMult.arrValueMember.Count = 1 Then
@@ -94,18 +99,18 @@ Public Class FrmSalarySummary
             '    DivisionAddress = ""
             'End If
             'Dim LocCode As String = clsDBFuncationality.getSingleValue("select Location_Code   from TSPL_LOCATION_MASTER where Location_Code ='" + FndLocationCode.Value + "'")
-            Dim LocName As String = clsDBFuncationality.getSingleValue("select Location_Desc  from TSPL_LOCATION_MASTER where Location_Code ='" + FndLocationCode.Value + "'")
-            LocName += " " + Environment.NewLine
-            Dim LocAdress As String = clsDBFuncationality.getSingleValue("select TSPL_LOCATION_MASTER.Add1+Case When ISNULL(TSPL_LOCATION_MASTER.Add2,'')='' Then '' else ', '+TSPL_LOCATION_MASTER.Add2+ Case When ISNULL(TSPL_LOCATION_MASTER.Add3,'')='' Then '' Else ', '+TSPL_LOCATION_MASTER.Add3+ Case When ISNULL(City_Code ,'')='' Then '' else '-'+CONVERT(varchar, City_Code)  End End End as Location_Address from TSPL_LOCATION_MASTER where Location_Code ='" + FndLocationCode.Value + "'")
+            ' Dim LocName As String = clsDBFuncationality.getSingleValue("select Location_Desc  from TSPL_LOCATION_MASTER where Location_Code ='" + FndLocationCode.Value + "'")
+            'LocName += " " + Environment.NewLine
+            'Dim LocAdress As String = clsDBFuncationality.getSingleValue("select TSPL_LOCATION_MASTER.Add1+Case When ISNULL(TSPL_LOCATION_MASTER.Add2,'')='' Then '' else ', '+TSPL_LOCATION_MASTER.Add2+ Case When ISNULL(TSPL_LOCATION_MASTER.Add3,'')='' Then '' Else ', '+TSPL_LOCATION_MASTER.Add3+ Case When ISNULL(City_Code ,'')='' Then '' else '-'+CONVERT(varchar, City_Code)  End End End as Location_Address from TSPL_LOCATION_MASTER where Location_Code ='" + FndLocationCode.Value + "'")
             Dim DivisionAddress As String = ""
             Dim DivisionFirstTime As Integer = 0
-            If txtDivisionMult.arrValueMember IsNot Nothing AndAlso txtDivisionMult.arrValueMember.Count = 1 Then
-                DivisionFirstTime += 1
-                LocName += clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select DEVISION_NAME  from  TSPL_DEVISION_MASTER   WHERE DEVISION_CODE in (" + clsCommon.GetMulcallString(txtDivisionMult.arrValueMember) + ")"))
-            End If
+            'If txtDivisionMult.arrValueMember IsNot Nothing AndAlso txtDivisionMult.arrValueMember.Count = 1 Then
+            '    DivisionFirstTime += 1
+            '    LocName += clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select DEVISION_NAME  from  TSPL_DEVISION_MASTER   WHERE DEVISION_CODE in (" + clsCommon.GetMulcallString(txtDivisionMult.arrValueMember) + ")"))
+            'End If
 
 
-            Dim Qry As String = clsSalaryGeneration.GetPFESIQuery(txtFromPP.Value, "('" & FndLocationCode.Value & "' )", DivCond, LocName, LocAdress, "", FndLocationCode.Value)
+            '  Dim Qry As String = clsSalaryGeneration.GetPFESIQuery(txtFromPP.Value, "('" & FndLocationCode.Value & "' )", DivCond, LocName, LocAdress, "", FndLocationCode.Value)
             'Qry = "select '" & LocCode & "' as Location_Code ,'" & LocName & "' as Location_Desc,'" & LocAdress & "' as Location_Address ,Comp_Name as Name,Add1 Address1,Add2 as Address2,Add3 as Address3,"
             'Qry += " (select DATE_FROM from TSPL_PAYPERIOD_MASTER where PAY_PERIOD_CODE ='" + txtFromPP.Value + "')DateFr,"
             'Qry += " (select DATE_TO from TSPL_PAYPERIOD_MASTER where PAY_PERIOD_CODE ='" + txtFromPP.Value + "')DateTo,"
@@ -141,18 +146,18 @@ Public Class FrmSalarySummary
             Qry += " SUM( case when t1.ISEARNING=0 then t3.ACTUAL_AMOUNT else 0 end) Deduction,"
             Qry += " TSPL_LOCATION_MASTER.Location_Code,max(TSPL_LOCATION_MASTER.Add1+Case When ISNULL(TSPL_LOCATION_MASTER.Add2,'')='' Then '' else ', '+TSPL_LOCATION_MASTER.Add2+ Case When ISNULL(TSPL_LOCATION_MASTER.Add3,'')='' Then '' Else ', '+TSPL_LOCATION_MASTER.Add3+ Case When ISNULL(City_Code ,'')='' Then '' else '-'+CONVERT(varchar, City_Code) End End End )as Location_Address,max(TSPL_LOCATION_MASTER.Location_Desc) as Location_Desc"
             Qry += " from TSPL_PAYHEAD_MASTER t1"
-            Qry += " left outer join TSPL_GENERATE_SALARY t2 on  t2.PAY_PERIOD_CODE ='" + txtFromPP.Value + "'"
+            'Qry += " left outer join TSPL_GENERATE_SALARY t2 on  t2.PAY_PERIOD_CODE ='" + txtFromPP.Value + "'"
             Qry += " left outer join TSPL_GENERATE_SALARY_PAYHEADS t3 on t3.SALARY_GENERATION_CODE=t2.SALARY_GENERATION_CODE and "
             Qry += " t3.PAY_HEAD_CODE = t1.PAY_HEAD_CODE"
             Qry += " left outer join TSPL_LOCATION_MASTER  on TSPL_LOCATION_MASTER .Location_Code =t2.LOCATION_CODE "
             Qry += " left outer join TSPL_EMPLOYEE_MASTER EMP on EMP.EMP_CODE =T3.EMP_CODE "
 
-            If clsCommon.myLen(FndLocationCode.Value) > 0 Then
-                Qry += " where TSPL_LOCATION_MASTER .Location_Code='" + FndLocationCode.Value + "' "
-            End If
-            If txtDivisionMult.arrValueMember IsNot Nothing AndAlso txtDivisionMult.arrValueMember.Count > 0 Then
-                Qry += " and EMP.DEVISION_CODE in (" & clsCommon.GetMulcallString(txtDivisionMult.arrValueMember) & " )"
-            End If
+            'If clsCommon.myLen(FndLocationCode.Value) > 0 Then
+            '    Qry += " where TSPL_LOCATION_MASTER .Location_Code='" + FndLocationCode.Value + "' "
+            'End If
+            'If txtDivisionMult.arrValueMember IsNot Nothing AndAlso txtDivisionMult.arrValueMember.Count > 0 Then
+            '    Qry += " and EMP.DEVISION_CODE in (" & clsCommon.GetMulcallString(txtDivisionMult.arrValueMember) & " )"
+            'End If
 
             Qry += " group by t1.PAY_HEAD_CODE,t1.PAY_HEAD_NAME,TSPL_LOCATION_MASTER.Location_Code,ISEARNING,GROUP_SEQ having SUM(t3.ACTUAL_AMOUNT)>0 ORDER BY ISEARNING DESC,GROUP_SEQ"
             Dim DTP As DataTable = clsDBFuncationality.GetDataTable(Qry)
@@ -262,21 +267,76 @@ Public Class FrmSalarySummary
         Return CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(dateTime.Month)
     End Function
 
-    Private Sub txtFromPP_Validating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles txtFromPP.Validating
+    Private Sub txtFromPP_Validating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs)
 
     End Sub
 
-    Private Sub FndLocationCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles FndLocationCode._MYValidating
-        FndLocationCode.Value = clsLocation.getFinder("Location_Type='Physical'", Me.FndLocationCode.Value, isButtonClicked)
-        If clsCommon.myLen(FndLocationCode.Value) > 0 Then
-            lblLocationName.Text = clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" & FndLocationCode.Value & "'")
+    'Private Sub FndLocationCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean)
+    '    FndLocationCode.Value = clsLocation.getFinder("Location_Type='Physical'", Me.FndLocationCode.Value, isButtonClicked)
+    '    If clsCommon.myLen(FndLocationCode.Value) > 0 Then
+    '        lblLocationName.Text = clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" & FndLocationCode.Value & "'")
+    '    Else
+    '        lblLocationName.Text = ""
+    '    End If
+    'End Sub
+
+    'Private Sub txtDivisionMult_My_Click(sender As Object, e As EventArgs)
+    '    Dim qry As String = " select DEVISION_CODE as Code,DEVISION_NAME as Name from TSPL_DEVISION_MASTER"
+    '    txtDivisionMult.arrValueMember = clsCommon.ShowMultipleSelectForm("DivMulSel", qry, "Code", "Name", txtDivisionMult.arrValueMember, txtDivisionMult.arrDispalyMember)
+    'End Sub
+    Sub printView()
+        Dim PMCond As String = "''"
+        Dim dt As DataTable = clsSalaryGeneration.GetSalaryReportData1(txtmultPayperiod.arrValueMember, txtmulLocation.arrValueMember, Nothing, PMCond, fndEmplyee.Value, False)
+        If dt.Rows.Count <= 0 Then
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         Else
-            lblLocationName.Text = ""
+            Dim frmcrystal As New frmCrystalReportViewer()
+            If clsCommon.myLen(fndEmplyee.Value) > 0 Then
+                frmcrystal.funreport(CrystalReportFolder.HRPayroll, dt, "crptSalarySummarynewEMP", "Salary Summary ")
+            Else
+                frmcrystal.funreport(CrystalReportFolder.HRPayroll, dt, "crptSalarySummarynew", "Salary Summary ")
+            End If
         End If
     End Sub
 
-    Private Sub txtDivisionMult_My_Click(sender As Object, e As EventArgs) Handles txtDivisionMult._My_Click
-        Dim qry As String = " select DEVISION_CODE as Code,DEVISION_NAME as Name from TSPL_DEVISION_MASTER"
-        txtDivisionMult.arrValueMember = clsCommon.ShowMultipleSelectForm("DivMulSel", qry, "Code", "Name", txtDivisionMult.arrValueMember, txtDivisionMult.arrDispalyMember)
+    Private Sub SplitContainer1_Panel1_Paint(sender As Object, e As PaintEventArgs) Handles SplitContainer1.Panel1.Paint
+
+    End Sub
+    Private Sub txtmulLocation__My_Click(sender As Object, e As EventArgs) Handles txtmulLocation._My_Click
+        Dim qry As String = " select Location_Code as [Code],Location_Desc as [Description],TSPL_Location_MASTER.Loc_Short_Name as [Short Name],Add1,Add2,Add3,Add4,City_Code as [City Code],State,Pin_Code as [Pin Code],Country,Hoadd1 ,Hoadd2,Telphone,Email,Location_Type as [Location Type],Loc_Status as [Location Status],Status_Date as [Status Date],Excisable,Loc_Segment_Code as [Location Segment Code],Seg.Description as [Location Segment Description],Type,Purchase_Tax_Group as [Purchase Tax Group],Sales_Tax_Group as [Sales Tax Group],Ecc_Number as [ECC Number],Registration_Number as [Registration Number],Commissionerate as [Commission Rate],Range_Code as [Range Code],Range_Name as [Range Name],Range_Address as [Range Address],Division_Code as [Division Code],Division_Name as [Division Name],Division_Address as [Division Address],tspl_location_master.Created_By as [Created By],tspl_location_master.Created_Date as [Created Date],tspl_location_master.Modify_By as [Modify By],tspl_location_master.Modify_Date as [Modify Date],tspl_location_master.Comp_code as [Company Code],TIN_No as [TIN No],TAN_No as [TAN No],TCAN_No as [TCAN No],Service_Tax_Reg_No as [Service Tax Registration No],DutyPaid as [Duty Paid],Purchase_Tax_GroupIS as [Purchase Tax Group Inter State],Sales_Tax_GroupIS as [Sales Tax Group Inter State],Stock_Transfer_Filled_Ac as [Stock Transfer Filled Account],Stock_Transfer_Empty_Ac as [Stock Transfer Empty Account],GIT_Location as [GIT Location],GIT_Type as [GIT Type],Rejected_Type as [Rejected Type],Rejected_Location as [Rejected Location],CSA_Type as [CSA Type],Cust_Code as [Cust Code],CST_No as [CST No],Phone1,Phone2,stock_transfer_ac as [Stock Tranfer A/C],Loss_Ac as [Loss A/C] ,Is_Consumption_Location as [Is Consumption Location],Is_Section as [Is Section],Section_Code as [Section Code],Is_Sub_Location as [Is Sub Location],Main_Location_Code as [Main Location Code],IsSubLocationWise as [Is Sub Location Wise] from TSPL_Location_MASTER  left join TSPL_GL_SEGMENT_CODE as Seg on TSPL_Location_MASTER.Loc_Segment_Code=Seg.Segment_Code   where Location_Type='Physical' "
+        txtmulLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("DivMulSel", qry, "Code", "Code", txtmulLocation.arrValueMember, txtmulLocation.arrDispalyMember)
+    End Sub
+    Private Sub txtmultPayperiod__My_Click(sender As Object, e As EventArgs) Handles txtmultPayperiod._My_Click
+        Dim qry As String = " select TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE as [Code] ,TSPL_PAYPERIOD_MASTER.PAY_PERIOD_NAME as [Pay Period Name] ,TSPL_PAYPERIOD_MASTER.DATE_FROM as [Date From] ,TSPL_PAYPERIOD_MASTER.DATE_TO as [Date To] ,TSPL_PAYPERIOD_MASTER.DESCRIPTION as [Description] ,TSPL_PAYPERIOD_MASTER.POSTED as [Posted] ,TSPL_PAYPERIOD_MASTER.FREEZED as [Freezed] ,TSPL_PAYPERIOD_MASTER.Posting_Date as [Posting Date] ,TSPL_PAYPERIOD_MASTER.Created_By as [Created By] ,TSPL_PAYPERIOD_MASTER.Created_Date as [Created Date] ,TSPL_PAYPERIOD_MASTER.Modified_By as [Modified By] ,TSPL_PAYPERIOD_MASTER.Modified_Date as [Modified Date]  From TSPL_PAYPERIOD_MASTER  "
+        txtmultPayperiod.arrValueMember = clsCommon.ShowMultipleSelectForm("DivMulSel", qry, "Code", "Code", txtmultPayperiod.arrValueMember, txtmultPayperiod.arrDispalyMember)
+    End Sub
+    Private Sub chkemployee_CheckStateChanged(sender As Object, e As EventArgs) Handles chkemployee.CheckStateChanged
+        If chkemployee.Checked = True Then
+            fndEmplyee.Visible = True
+            lblEmployee.Visible = True
+            MyLabel1.Visible = True
+        Else
+            fndEmplyee.Visible = False
+            lblEmployee.Visible = False
+            MyLabel1.Visible = False
+        End If
+    End Sub
+
+    Private Sub fndEmplyee__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndEmplyee._MYValidating
+        Try
+            Dim qry As String = " select EMP_CODE as [Code],Emp_Name as [Employee Name],Designation,Add1,Add2,Pin_Code as [Pin Code],Phone,Birth_date as [Date Of Birth],Cash,Card_No as [Card No],Joining_date as [Joining Date],Emp_type as [Employee Type],ExDate [Expiry Date],Emp_Status as [Employee Status],rel_date as [Releving Date],Payroll_Code as [Payroll Code],Empty_Ex as [Empty Ex],Created_By as [Created By],Created_Date as [Created Date],Modify_By as [Modify By],Modify_Date as [Modify Date],Comp_Code as [Company Code],GL_Account as [GL Account],EMail_ID as [Email ID],SEX,MARITAL_STATUS as [Marital Status],ANNIVERSARY_DATE as [Anniversary Date],DEPARTMENT_CODE as [Department Code],OCCUPATION_CODE as [Occupation Code],DEVISION_CODE as [Division Code],GRADE_CODE as [Grade Code],LOCATION_CODE as [Branch Code],ATTENDANCE_CODE as [Attandance Code],PAYMENT_MODE_NEW as [Payment Mode],BANK_ACC_NO as [Bank Account No],BANK_CODE as [Bank Code],CONFIRMATION_DATE as [Confirmation Date],PROBATION_END_DATE as [Probation End Date],SHIFT_CODE as [Shift Code],RELIEVING_DATE as [Relieving Date],LEAVING_REASON as [Leaving Reason],CAST_CATEGORY_CODE as [Cast Category Code],RELIGION_CODE as [Religion Code],PRESENT_COUNTRY_CODE as [Present Country Code],PRESENT_STATE_CODE as [Present State Code,PRESENT_CITY_CODE as [Present City Code],PRESENT_MOBILE_NO as [Present Mobile No],PERMA_COUNTRY_CODE as [Permanent Country Code],PERMA_STATE_CODE as [Permanent State Code],PERMA_CITY_CODE as [Permanent City Code],PERMA_PHONE_NO as [Permanent Phone No],PERMA_MOBILE_NO as [Permanent Mobile No],PERMA_PIN_CODE as [Permanent Pin Code],PAN_NO as [Pan No],PASPORT_NO as [Passport No],DESCRIPTION as [Description],FATHERS_NAME as [Fathers Name],MOTHERS_NAME as [Mothers Name],SPOUSE_NAME as [Spouse Name],ISESI as [Is ESI],ESI_NO as [ESI No],ESI_DISPENSARY as [ESI Dispensary],ISPF as [Is PF],PF_NO as [PF No],PF_NO_DEPT_FILE as [PF No Department File],WARD_CIRCLE as [Ward Circle],ISRESTRICT_PF as [Is Restrict PF],ISZERO_PENSION as [Is Zero Pension],ISDIRECTOR as [Is Director],ISZERO_PT as [Is Zero PT],EARNING_CODE as [Earning Code],UNIT_COST as [Unit Cost],BILLING_RATE as [Billing Rate],APPLY_ALL_CUST as [Apply All Customer],USER_CODE as [User Code],COMMENTS as [Comments],Franchise_Code as [Franchise Code],RESIGNATION_SUBMIT_DATE as [Resignation Submission Date],NOTICE_PERIOD_IN_DAYS as [Notice Period In Days],EMPLOYMENT_NATURE as [Employment Nature],CONV_TYPE as [Conveyance Type],VENDOR_CODE as [Vendor Code],Agency_Code as [Agency Code],ISNULL(HRApplicant_Code,'') AS [HRApplicant Code],Age_For_Pension AS [Age For Pension] from tspl_employee_master "
+            fndEmplyee.Value = clsCommon.ShowSelectForm("deduction", qry, "Code", " ", fndEmplyee.Value, "code", isButtonClicked)
+            lblEmployee.Text = clsDBFuncationality.getSingleValue("select Emp_Name from tspl_employee_master where EMP_CODE='" & fndEmplyee.Value & "'")
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub RadButton2_Click(sender As Object, e As EventArgs) Handles RadButton2.Click
+        fndEmplyee.Value = ""
+        lblEmployee.Text = ""
+        txtmulLocation.arrValueMember = Nothing
+        txtmultPayperiod.arrValueMember = Nothing
     End Sub
 End Class

@@ -2,6 +2,7 @@
 Imports System.Globalization
 Imports System.Text.RegularExpressions
 Imports common
+Imports System.Runtime.InteropServices
 Public Class frmCustomer
     Inherits FrmMainTranScreen
 #Region "Variable"
@@ -49,6 +50,8 @@ Public Class frmCustomer
     Public SuperUserCustomer As Boolean = False
     Dim OneTimeCheck As Boolean = False
     Public CustomerFormOpens As Boolean = False
+    Dim listBoxLanguages As List(Of String) = New List(Of String)
+    Dim checkLang As Boolean = False
 #End Region
     Public Sub New(ByVal user As String, ByVal company As String)
         InitializeComponent()
@@ -741,7 +744,15 @@ Public Class frmCustomer
             lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + TxtLocation.Value + "' "))
         End If
         createTable()
+        ListInstalledInputLanguages()
     End Sub
+
+    Sub ListInstalledInputLanguages()
+        If Not clsLanguage.ListInstalledInputLanguages() Then
+            clsCommon.MyMessageBoxShow(Me, "Hindi language is not installed in the system !", Me.Text)
+        End If
+    End Sub
+
     Private Sub createTable()
         Dim coll As Dictionary(Of String, String)
         coll = New Dictionary(Of String, String)()
@@ -758,6 +769,7 @@ Public Class frmCustomer
         Catch ex As Exception
         End Try
     End Sub
+
     ''richa  ERO/01/07/21-001425
     Sub VisibleChecboxRelatedToTCSRateImpact()
         If EnableTCSRateValidityFrom01July2021 = True Then
@@ -5738,6 +5750,26 @@ Public Class frmCustomer
     Private Sub rbtnAddSecurity_Click(sender As Object, e As EventArgs) Handles rbtnAddSecurity.Click
         AddSecurity()
     End Sub
+
+    Private Sub txtCustomerNameHindi_Click(sender As Object, e As EventArgs) Handles txtCustomerNameHindi.Click
+        Try
+            If clsLanguage.ListInstalledInputLanguages() Then
+                clsLanguage.SetKeyboardLayout("00000439") ' Hindi
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtCustomerNameHindi_Leave(sender As Object, e As EventArgs) Handles txtCustomerNameHindi.Leave
+        Try
+            clsLanguage.SetKeyboardLayout("00000409") ' US English
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+
 
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
         Dim obj As New clsCancelLog

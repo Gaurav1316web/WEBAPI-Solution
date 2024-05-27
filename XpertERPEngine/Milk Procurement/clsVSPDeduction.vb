@@ -98,7 +98,7 @@ Public Class clsVSPDeduction
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
         Dim qry As String = "select TSPL_VSP_DEDUCTION_MASTER.Deduction_Code,TSPL_VSP_DEDUCTION_MASTER.Deduction_Name from TSPL_VSP_DEDUCTION_MASTER "
-        str = clsCommon.ShowSelectForm("VSPDedfnd", qry, "Deduction_Code", whrcls, curcode, "Deduction_Code", isButtonClicked, "TSPL_VSP_DEDUCTION_MASTER.Created_Date")
+        str = clsCommon.ShowSelectForm("VSPDedfnd", qry, "Deduction_Code", whrcls, curcode, "Deduction_Code", isButtonClicked)
         Return str
 
     End Function

@@ -108,7 +108,7 @@ Public Class clsBOM
             Else
                 whrcls = "" '" tspl_pp_bom_head.comp_code='" + objCommonVar.CurrentCompanyCode + "'"
             End If
-            values = clsCommon.ShowSelectForm("BOMFND", qry, "Code", whrcls, strCurrCode, "Code", isButtonClicked, "TSPL_PP_BOM_HEAD.bom_date")
+            values = clsCommon.ShowSelectForm("BOMFND", qry, "Code", whrcls, strCurrCode, "Code", isButtonClicked, "bom_date")
 
 
         Catch ex As Exception

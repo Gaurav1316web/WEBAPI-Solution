@@ -4656,7 +4656,7 @@ a:                      UcAttachment1.SaveData(obj.PI_No)
             whrClas = " Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
         End If
 
-        LoadData(clsCommon.ShowSelectForm("PICoerFND", qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked, "TSPL_Mcc_Milk_Transport_Invoice_HEAD.Doc_Date"), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("PICoerFND", qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked, "DOc_Date"), NavigatorType.Current)
     End Sub
 
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown

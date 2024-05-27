@@ -210,7 +210,7 @@ Public Class frmDistributorRouteTagging
         If txtCode.MyReadOnly OrElse isButtonClicked Then
             Dim whrClas As String = ""
             Dim qry As String = "select Code,Start_Date As 'Start Date',End_Date As 'End Date',Remarks,Status from TSPL_DISTRIBUTOR_ROUTE"
-            txtCode.Value = clsCommon.ShowSelectForm("DRT", qry, "Code", "", txtCode.Value, "TSPL_DISTRIBUTOR_ROUTE.Code ", isButtonClicked, "TSPL_DISTRIBUTOR_ROUTE.Start_Date")
+            txtCode.Value = clsCommon.ShowSelectForm("DRT", qry, "Code", "", txtCode.Value, "TSPL_DISTRIBUTOR_ROUTE.Code ", isButtonClicked)
             LoadData(txtCode.Value, NavigatorType.Current)
         End If
     End Sub
@@ -285,7 +285,7 @@ Public Class frmDistributorRouteTagging
                         Dim strCustCode As String = String.Empty
                         If rbtnDistributor.IsChecked Then
                             strCustCode = clsDistributorRouteTagging.getFinder(" IsDistributor='Y' ", clsCommon.myCstr(gv1.CurrentRow.Cells(colCustomerCode).Value), False)
-                        Else
+        Else
                             strCustCode = clsDistributorRouteTagging.getFinder(" form_type='TPT'", clsCommon.myCstr(gv1.CurrentRow.Cells(colCustomerCode).Value), False)
                         End If
                         gv1.CurrentRow.Cells(colCustomerCode).Value = strCustCode

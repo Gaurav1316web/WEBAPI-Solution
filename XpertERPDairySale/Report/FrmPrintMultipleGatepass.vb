@@ -128,7 +128,7 @@ Public Class FrmPrintMultipleGatepass
             Dim qry As String = Nothing
             Dim whrcls As String = Nothing
 
-            qry = " select TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode,convert(varchar,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103) as GPDate,
+            qry = " select Cast(1 as BIT) as 'Check',TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode,convert(varchar,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103) as GPDate,
                    TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code,TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,tspl_route_master.Route_Desc,
                    TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number,TSPL_DAIRYSALE_GATEPASS_MASTER.Loading_Slip,
                    TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCrate from TSPL_DAIRYSALE_GATEPASS_MASTER
@@ -201,6 +201,12 @@ Public Class FrmPrintMultipleGatepass
             gv.Columns(ii).ReadOnly = True
             gv.Columns(ii).IsVisible = False
         Next
+
+        gv.Columns("Check").IsVisible = True
+        gv.Columns("Check").Width = 100
+        gv.Columns("Check").HeaderText = " "
+        gv.Columns("Check").ReadOnly = False
+
         gv.Columns("GPCode").IsVisible = True
         gv.Columns("GPCode").Width = 100
         gv.Columns("GPCode").HeaderText = "Document Code"
@@ -260,7 +266,7 @@ Public Class FrmPrintMultipleGatepass
 
     End Sub
 
-    Private Function getattachqry()
+    Private Function getattachqry(ByVal GPCode As String, ByVal docDate As DateTime, ByVal CustCode As String) As String
         Dim qry As String = ""
         Dim Shifttype As String = ""
         Dim shift As String = ""
@@ -309,8 +315,8 @@ Public Class FrmPrintMultipleGatepass
         End If
 
         qry += "     TSPL_DAIRYSALE_GATEPASS_MASTER.DistributorName As 'Distributor', ItemConversionInPouch.Conversion_Factor As 'CFinPouch', ItemConversionInLTR.Conversion_Factor AS 'CFinLTR', ItemConversionInKG.Conversion_Factor AS 'CFinKG', ItemConversionInBox.Conversion_Factor AS 'CFinBOX', CurrentUnit.Conversion_Factor, isnull( TSPL_DAIRYSALE_GATEPASS_MASTER.AgainstTransferNo, '' ) as AgainstTransferNo, TSPL_COMPANY_MASTER.Comp_Code, CASE WHEN TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code <> 'Box' THEN convert( decimal(18, 2), ( TSPL_DAIRYSALE_GATEPASS_DETAIL.qty / CrateUnit.conversion_factor )* StockUnit.conversion_factor * CurrentUnit.conversion_factor ) ELSE 0 END as Crate_Qty, CASE WHEN TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code <> 'Crate' and TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code <> 'Pouch' THEN convert( decimal(18, 2), ( TSPL_DAIRYSALE_GATEPASS_DETAIL.qty / CurrentUnit.conversion_factor )* StockUnit.conversion_factor * CurrentUnit.conversion_factor ) else 0 end as Box_Crate_Qty, TSPL_COMPANY_MASTER.Insurance_No, TSPL_COMPANY_MASTER.Insurance_Comp_Name, TSPL_COMPANY_MASTER.comp_name, TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code, TSPL_DAIRYSALE_GATEPASS_DETAIL.qty, TSPL_COMPANY_MASTER.add1 + case when len(TSPL_COMPANY_MASTER.add2)> 0 then ', ' + TSPL_COMPANY_MASTER.add2 else '' end + case when LEN( isnull(TSPL_COMPANY_MASTER.Add3, '') )> 0 then ', ' + isnull(TSPL_COMPANY_MASTER.Add3, '') else ' ' end as Comp_Address, tspl_location_master.add1 + case when len(tspl_location_master.add2)> 0 then ', ' + tspl_location_master.add2 else '' end + case when LEN( isnull(tspl_location_master.Add3, '') )> 0 then ', ' + isnull(tspl_location_master.Add3, '') else ' ' end as Loc_add, TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No, TSPL_DAIRYSALE_GATEPASS_MASTER.Totalcrate, TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCan, tspl_route_master.Route_Desc, TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode, convert( varchar, TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate, 103 ) as GPDate, FORMAT( TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate, 'hh:mm tt' ) as GPTime, TSPL_DAIRYSALE_GATEPASS_MASTER.GatePass_Date, TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id AS vehicle_id, TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number as VehicleDesc, TSPL_DAIRYSALE_GATEPASS_MASTER.location_code, tspl_location_master.Location_desc, TSPL_DAIRYSALE_GATEPASS_MASTER.transporter, TSPL_DAIRYSALE_GATEPASS_MASTER.remarks, TSPL_DAIRYSALE_GATEPASS_MASTER.comments, TSPL_DAIRYSALE_GATEPASS_MASTER.post, TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_code, tspl_item_master.item_desc, tspl_item_master.short_description, tspl_item_master.sku_seq, TSPL_TRANSPORT_MASTER.Transporter_Name as TranporterNameFromMaster, TSPL_DAIRYSALE_GATEPASS_DETAIL.HSN_Code, TSPL_DAIRYSALE_GATEPASS_MASTER.Salesman, tspl_vehicle_master.Column_Crate, TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No AS Area_Code, TSPL_CUSTOMER_MASTER.Zone_Code, TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType, tspl_company_master.GSTReg_No, TSPL_DAIRYSALE_GATEPASS_MASTER.Loading_Slip,
-				   ( Select Max(Document_Date) from TSPL_SD_SHIPMENT_HEAD where GPCode in (select GPCode from TSPL_DAIRYSALE_GATEPASS_MASTER where convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103)>=convert(date,('" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'),103) and convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103) <=convert(date,('" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'),103) " + whrcls + " "
-        qry += " )) AS 'DispatchDate'
+				   ( Select Max(Document_Date) from TSPL_SD_SHIPMENT_HEAD where GPCode in (" + GPCode + ")"
+        qry += " ) AS 'DispatchDate'
 		           ,xyz.Amount, xyz.AmountWithoutTax,xyz.Margin, xyz.SecurityAmt, xyz.Dist_Commission_Ratewithtax,xyz.RoundOffAmt, xyz.ItemCost,TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_Name,TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_ContactNo from TSPL_DAIRYSALE_GATEPASS_DETAIL 
 				   left outer join TSPL_DAIRYSALE_GATEPASS_MASTER on TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode=TSPL_DAIRYSALE_GATEPASS_DETAIL.GPCode 
 				   left outer join tspl_vehicle_master on tspl_vehicle_master.Vehicle_id=TSPL_DAIRYSALE_GATEPASS_MASTER.vehicle_id 
@@ -337,16 +343,16 @@ Public Class FrmPrintMultipleGatepass
         qry += " left outer join ((select Case When Sum(Isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0))>0 Then  Sum(TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt/TSPL_SD_SHIPMENT_DETAIL.Qty*TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GP_Qty) Else 0 End As Amount,  Case When Sum(Isnull(TSPL_SD_SHIPMENT_DETAIL.Qty, 0))> 0 Then Sum(TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Discount) Else 0 End As AmountWithoutTax, Sum(IsNull(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt,0)/TSPL_SD_SHIPMENT_DETAIL.Qty*TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GP_Qty) AS Margin,sum( IsNull(TSPL_SD_SHIPMENT_DETAIL.Security_Amt,0))as SecurityAmt,TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_SD_SHIPMENT_DETAIL.Unit_code,max(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Rate) as Dist_Commission_Ratewithtax,max(TSPL_SD_SHIPMENT_HEAD.RoundOffAmount) as RoundOffAmt , max(TSPL_SD_SHIPMENT_DETAIL.Item_Cost) as ItemCost,TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode from TSPL_SD_SHIPMENT_DETAIL   
                        Left Outer Join TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE 
 					   Left Outer Join TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL On TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID=TSPL_SD_SHIPMENT_DETAIL.PK_ID
-                     WHERE  TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode  in(select GPCode from TSPL_DAIRYSALE_GATEPASS_MASTER where convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103)>=convert(date,('" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'),103) and convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103) <=convert(date,('" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'),103) " + whrcls + " "
-        qry += " )Group By  TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_SD_SHIPMENT_DETAIL.Unit_code,TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode)
+                     WHERE  TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode  in(" + GPCode + ") "
+        qry += " Group By  TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_SD_SHIPMENT_DETAIL.Unit_code,TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode)
                      Union All
                      (select Case When Sum(Isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0))>0 Then  Sum(TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt) Else 0 End As Amount,  Case When Sum(Isnull(TSPL_SD_SHIPMENT_DETAIL.Qty, 0))> 0 Then Sum(TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Discount) Else 0 End As AmountWithoutTax, 
                      Sum(IsNull(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt,0)) AS Margin,sum( IsNull(TSPL_SD_SHIPMENT_DETAIL.Security_Amt,0))as SecurityAmt,TSPL_SD_SHIPMENT_DETAIL.Item_Code ,TSPL_SD_SHIPMENT_DETAIL.Unit_code ,max(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Rate) as Dist_Commission_Ratewithtax,max(TSPL_SD_SHIPMENT_HEAD.RoundOffAmount) as RoundOffAmt , max(TSPL_SD_SHIPMENT_DETAIL.Item_Cost) as ItemCost,TSPL_SD_SHIPMENT_HEAD.GPCode from TSPL_SD_SHIPMENT_DETAIL   
                      Left Outer Join TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE 
-                     WHERE  TSPL_SD_SHIPMENT_HEAD.GPCode  in(select GPCode from TSPL_SD_SHIPMENT_HEAD where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>=convert(date,('" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'),103) and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <=convert(date,('" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'),103)" + whrcls + shift + " "
-        qry += " )Group By  TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_SD_SHIPMENT_DETAIL.Unit_code, TSPL_SD_SHIPMENT_HEAD.GPCode)
+                     WHERE  TSPL_SD_SHIPMENT_HEAD.GPCode  in(" + GPCode + ") "
+        qry += " Group By  TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_SD_SHIPMENT_DETAIL.Unit_code, TSPL_SD_SHIPMENT_HEAD.GPCode)
                      )xyz ON xyz.GPCode=TSPL_DAIRYSALE_GATEPASS_DETAIL.GPCode And xyz.Unit_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code and xyz.Item_Code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code
-					 where 2=2  and convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103)>=convert(date,('" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'),103) and convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103) <=convert(date,('" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'),103)" + whrcls + " "
+					 where 2=2  and TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode in (" + GPCode + ") "
         qry += " )As Main Group by Item_code,GPCode" + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ",Unit_Code", "") + ")AS Final 
 					 left outer join  ( select Item_Code,max([CATEGORY RM]) as [CATEGORY RM],max([BRAND]) as [BRAND],max([SUB BRAND]) as [SUB BRAND], 
                     max([DESCRP]) as [DESCRP],max([PACK]) as [PACK], max([PACK SIZE]) as [PACK SIZE],max([CATEGORY OT]) as [CATEGORY OT],max([CATEGORY FA]) as [CATEGORY FA], 
@@ -366,8 +372,15 @@ Public Class FrmPrintMultipleGatepass
     End Function
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
-
-            atchqry = getattachqry()
+            Dim lstinvNo As New List(Of String)
+            Dim objMultPrintInvoice As New frmDairyGatePass
+            For Each grow As GridViewRowInfo In gv.Rows
+                If clsCommon.CompairString(clsCommon.myCBool(grow.Cells(0).Value), True) = CompairStringResult.Equal Then
+                    lstinvNo.Add(clsCommon.myCstr(grow.Cells("GPCode").Value))
+                End If
+            Next
+            Dim GPCode As String = clsCommon.GetMulcallString(lstinvNo)
+            atchqry = getattachqry(GPCode, txtFromDate.Value, "")
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(atchqry)
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
@@ -385,9 +398,45 @@ Public Class FrmPrintMultipleGatepass
                 frmCRV = Nothing
             End If
 
-
         Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 
+    Private Sub btnUnSelect_Click(sender As Object, e As EventArgs) Handles btnUnSelect.Click
+        If clsCommon.CompairString(btnUnSelect.Text, "UnSelect All") = CompairStringResult.Equal Then
+            For Each grow As GridViewRowInfo In gv.Rows
+                grow.Cells(0).Value = False
+
+            Next
+            btnUnSelect.Text = "Select All"
+        Else
+            For Each grow As GridViewRowInfo In gv.Rows
+                grow.Cells(0).Value = True
+            Next
+            btnUnSelect.Text = "UnSelect All"
+        End If
+    End Sub
+
+    Private Sub btnPrint2_Click(sender As Object, e As EventArgs) Handles btnPrint2.Click
+        Try
+            Dim lstinvNo As New List(Of String)
+            Dim objMultPrintInvoice As New frmDairyGatePass
+            For Each grow As GridViewRowInfo In gv.Rows
+                If clsCommon.CompairString(clsCommon.myCBool(grow.Cells(0).Value), True) = CompairStringResult.Equal Then
+                    lstinvNo.Add(clsCommon.myCstr(grow.Cells("GPCode").Value))
+                End If
+            Next
+            Dim GPCode As String = clsCommon.GetMulcallString(lstinvNo)
+            atchqry = getattachqry(GPCode, txtFromDate.Value, "")
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(atchqry)
+            If dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleMultipleGatePassEntriesJPR", "Multiple GatePass Entry", clsCommon.myCDate(txtFromDate.Value))
+                frmCRV = Nothing
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class
