@@ -1298,6 +1298,8 @@ where TSPL_MILK_SRN_HEAD.MCC_CODE='" + obj.MCC_Code + "' and TSPL_MILK_SRN_HEAD.
                                     objMilkSRNDetail.RATE = clsEkoPro.getRateFromUploaderShiftWiseCLR(objMilkSRNDetail.FAT, objMilkSRNDetail.CLR, obj.MCC_Code, objtr.VLC_Code, objtr.Shift, dtShiftDate, trans, strDockCollectionMilkType, objMilkSRNDetail.Price_Code)
                                 End If
                             End If
+
+
                             objMilkSRNDetail.MCC_CODE = obj.MCC_Code
                             objMilkSRNDetail.Correction_Factor = corrFactor
                             objMilkSRNDetail.UOM = Unit_CodeApply
