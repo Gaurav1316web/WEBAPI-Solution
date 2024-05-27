@@ -28,6 +28,7 @@ Partial Class frmSeedSelectionEntry
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmimport = New Telerik.WinControls.UI.RadMenuItem()
@@ -35,6 +36,20 @@ Partial Class frmSeedSelectionEntry
         Me.btnDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.RadLabel4 = New common.Controls.MyLabel()
+        Me.txtDate = New common.Controls.MyDateTimePicker()
+        Me.cmbSelectedFlag = New common.Controls.MyComboBox()
+        Me.MyLabel16 = New common.Controls.MyLabel()
+        Me.txtSowingWeekMonth = New common.Controls.MyTextBox()
+        Me.MyLabel15 = New common.Controls.MyLabel()
+        Me.txtArea = New common.Controls.MyTextBox()
+        Me.MyLabel13 = New common.Controls.MyLabel()
+        Me.txtItemCode = New common.UserControls.txtFinder()
+        Me.MyLabel12 = New common.Controls.MyLabel()
+        Me.txtPONo = New common.UserControls.txtFinder()
+        Me.RadLabel24 = New common.Controls.MyLabel()
+        Me.cmbSeason = New common.Controls.MyComboBox()
+        Me.MyLabel10 = New common.Controls.MyLabel()
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.txtLeaseLand = New common.MyNumBox()
         Me.MyLabel4 = New common.Controls.MyLabel()
@@ -44,44 +59,33 @@ Partial Class frmSeedSelectionEntry
         Me.txtFamilyLand = New common.MyNumBox()
         Me.MyLabel23 = New common.Controls.MyLabel()
         Me.MyLabel9 = New common.Controls.MyLabel()
-        Me.MyTextBox4 = New common.Controls.MyTextBox()
+        Me.txtKhasraNo = New common.Controls.MyTextBox()
         Me.MyLabel3 = New common.Controls.MyLabel()
-        Me.MyTextBox3 = New common.Controls.MyTextBox()
+        Me.txtCropLocation = New common.Controls.MyTextBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
-        Me.TxtFinder5 = New common.UserControls.txtFinder()
-        Me.MyLabel40 = New common.Controls.MyLabel()
+        Me.txtDistrict = New common.UserControls.txtFinder()
+        Me.lblDistrict = New common.Controls.MyLabel()
         Me.MyLabel41 = New common.Controls.MyLabel()
-        Me.MyTextBox2 = New common.Controls.MyTextBox()
+        Me.txtCropRegCode = New common.Controls.MyTextBox()
         Me.MyLabel25 = New common.Controls.MyLabel()
         Me.MyLabel26 = New common.Controls.MyLabel()
-        Me.TxtFinder3 = New common.UserControls.txtFinder()
-        Me.MyLabel29 = New common.Controls.MyLabel()
-        Me.UsLock2 = New common.usLock()
-        Me.MyLabel33 = New common.Controls.MyLabel()
+        Me.txtVillage = New common.UserControls.txtFinder()
+        Me.UsLock = New common.usLock()
         Me.MyLabel35 = New common.Controls.MyLabel()
-        Me.TxtFinder4 = New common.UserControls.txtFinder()
+        Me.txtGrower = New common.UserControls.txtFinder()
         Me.MyLabel37 = New common.Controls.MyLabel()
-        Me.TxtNavigator2 = New common.UserControls.txtNavigator()
-        Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
-        Me.txtPolicyNo = New common.Controls.MyTextBox()
-        Me.lblCode = New common.Controls.MyLabel()
-        Me.txtInsType = New common.UserControls.txtFinder()
-        Me.lblInsType = New common.Controls.MyLabel()
-        Me.lblStatus = New common.usLock()
-        Me.lblInsCompName = New common.Controls.MyLabel()
-        Me.MyLabel11 = New common.Controls.MyLabel()
-        Me.txtInsCompany = New common.UserControls.txtFinder()
-        Me.MyLabel6 = New common.Controls.MyLabel()
         Me.txtDocumentNo = New common.UserControls.txtNavigator()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
+        Me.lblCode = New common.Controls.MyLabel()
+        Me.lblVillage = New common.Controls.MyLabel()
+        Me.lblGrower = New common.Controls.MyLabel()
+        Me.MyLabel11 = New common.Controls.MyLabel()
+        Me.MyLabel6 = New common.Controls.MyLabel()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
-        Me.MyTextBox1 = New common.Controls.MyTextBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.TxtFinder1 = New common.UserControls.txtFinder()
         Me.MyLabel14 = New common.Controls.MyLabel()
-        Me.UsLock1 = New common.usLock()
         Me.MyLabel18 = New common.Controls.MyLabel()
         Me.MyLabel20 = New common.Controls.MyLabel()
-        Me.TxtFinder2 = New common.UserControls.txtFinder()
         Me.MyLabel22 = New common.Controls.MyLabel()
         Me.TxtNavigator1 = New common.UserControls.txtNavigator()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
@@ -96,12 +100,22 @@ Partial Class frmSeedSelectionEntry
         Me.txtPolicydate = New common.Controls.MyDateTimePicker()
         Me.txtInsEndDate = New common.Controls.MyDateTimePicker()
         Me.txtInsStartDate = New common.Controls.MyDateTimePicker()
-        Me.cmbUsedAs = New common.Controls.MyComboBox()
-        Me.MyLabel10 = New common.Controls.MyLabel()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbSelectedFlag, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtSowingWeekMonth, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtArea, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel24, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbSeason, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtLeaseLand, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -111,28 +125,24 @@ Partial Class frmSeedSelectionEntry
         CType(Me.txtFamilyLand, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyTextBox4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtKhasraNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyTextBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCropLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel40, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDistrict, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel41, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyTextBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCropRegCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel26, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel33, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel35, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel37, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtPolicyNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblInsType, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblInsCompName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblVillage, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblGrower, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyTextBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -148,8 +158,6 @@ Partial Class frmSeedSelectionEntry
         CType(Me.txtPolicydate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtInsEndDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtInsStartDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cmbUsedAs, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -198,7 +206,19 @@ Partial Class frmSeedSelectionEntry
         '
         'SplitContainer1.Panel1
         '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.cmbUsedAs)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadLabel4)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtDate)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.cmbSelectedFlag)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel16)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtSowingWeekMonth)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel15)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtArea)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel13)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtItemCode)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel12)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtPONo)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadLabel24)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.cmbSeason)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel10)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel5)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtLeaseLand)
@@ -209,44 +229,33 @@ Partial Class frmSeedSelectionEntry
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtFamilyLand)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel23)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel9)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.MyTextBox4)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtKhasraNo)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel3)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.MyTextBox3)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtCropLocation)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel2)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.TxtFinder5)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel40)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtDistrict)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblDistrict)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel41)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.MyTextBox2)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtCropRegCode)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel25)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel26)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.TxtFinder3)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel29)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.UsLock2)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel33)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtVillage)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.UsLock)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel35)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.TxtFinder4)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtGrower)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel37)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.TxtNavigator2)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.RadButton2)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.txtPolicyNo)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.lblCode)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.txtInsType)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.lblInsType)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.lblStatus)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.lblInsCompName)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel11)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.txtInsCompany)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel6)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtDocumentNo)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.btnNew)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblCode)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblVillage)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblGrower)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel11)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel6)
         Me.SplitContainer1.Panel1.Controls.Add(Me.btnAddNew)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.MyTextBox1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel1)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.TxtFinder1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel14)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.UsLock1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel18)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel20)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.TxtFinder2)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel22)
         Me.SplitContainer1.Panel1.Controls.Add(Me.TxtNavigator1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadButton1)
@@ -263,11 +272,269 @@ Partial Class frmSeedSelectionEntry
         Me.SplitContainer1.SplitterDistance = 439
         Me.SplitContainer1.TabIndex = 13
         '
+        'RadLabel4
+        '
+        Me.RadLabel4.FieldName = Nothing
+        Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel4.Location = New System.Drawing.Point(428, 13)
+        Me.RadLabel4.Name = "RadLabel4"
+        Me.RadLabel4.Size = New System.Drawing.Size(30, 16)
+        Me.RadLabel4.TabIndex = 1486
+        Me.RadLabel4.Text = "Date"
+        '
+        'txtDate
+        '
+        Me.txtDate.CalculationExpression = Nothing
+        Me.txtDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtDate.FieldCode = Nothing
+        Me.txtDate.FieldDesc = Nothing
+        Me.txtDate.FieldMaxLength = 0
+        Me.txtDate.FieldName = Nothing
+        Me.txtDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtDate.isCalculatedField = False
+        Me.txtDate.IsSourceFromTable = False
+        Me.txtDate.IsSourceFromValueList = False
+        Me.txtDate.IsUnique = False
+        Me.txtDate.Location = New System.Drawing.Point(462, 12)
+        Me.txtDate.MendatroryField = False
+        Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDate.MyLinkLable1 = Me.RadLabel4
+        Me.txtDate.MyLinkLable2 = Nothing
+        Me.txtDate.Name = "txtDate"
+        Me.txtDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDate.ReferenceFieldDesc = Nothing
+        Me.txtDate.ReferenceFieldName = Nothing
+        Me.txtDate.ReferenceTableName = Nothing
+        Me.txtDate.Size = New System.Drawing.Size(83, 18)
+        Me.txtDate.TabIndex = 1485
+        Me.txtDate.TabStop = False
+        Me.txtDate.Text = "13/06/2011"
+        Me.txtDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'cmbSelectedFlag
+        '
+        Me.cmbSelectedFlag.AutoCompleteDisplayMember = Nothing
+        Me.cmbSelectedFlag.AutoCompleteValueMember = Nothing
+        Me.cmbSelectedFlag.CalculationExpression = Nothing
+        Me.cmbSelectedFlag.DropDownAnimationEnabled = True
+        Me.cmbSelectedFlag.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbSelectedFlag.FieldCode = Nothing
+        Me.cmbSelectedFlag.FieldDesc = Nothing
+        Me.cmbSelectedFlag.FieldMaxLength = 0
+        Me.cmbSelectedFlag.FieldName = Nothing
+        Me.cmbSelectedFlag.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmbSelectedFlag.isCalculatedField = False
+        Me.cmbSelectedFlag.IsSourceFromTable = False
+        Me.cmbSelectedFlag.IsSourceFromValueList = False
+        Me.cmbSelectedFlag.IsUnique = False
+        RadListDataItem1.Text = "YES"
+        RadListDataItem2.Text = "NO"
+        Me.cmbSelectedFlag.Items.Add(RadListDataItem1)
+        Me.cmbSelectedFlag.Items.Add(RadListDataItem2)
+        Me.cmbSelectedFlag.Location = New System.Drawing.Point(143, 234)
+        Me.cmbSelectedFlag.MendatroryField = True
+        Me.cmbSelectedFlag.MyLinkLable1 = Me.MyLabel16
+        Me.cmbSelectedFlag.MyLinkLable2 = Nothing
+        Me.cmbSelectedFlag.Name = "cmbSelectedFlag"
+        Me.cmbSelectedFlag.ReferenceFieldDesc = Nothing
+        Me.cmbSelectedFlag.ReferenceFieldName = Nothing
+        Me.cmbSelectedFlag.ReferenceTableName = Nothing
+        Me.cmbSelectedFlag.Size = New System.Drawing.Size(138, 18)
+        Me.cmbSelectedFlag.TabIndex = 1483
+        '
+        'MyLabel16
+        '
+        Me.MyLabel16.FieldName = Nothing
+        Me.MyLabel16.Location = New System.Drawing.Point(11, 234)
+        Me.MyLabel16.Name = "MyLabel16"
+        Me.MyLabel16.Size = New System.Drawing.Size(72, 18)
+        Me.MyLabel16.TabIndex = 1484
+        Me.MyLabel16.Text = "Selected Flag"
+        '
+        'txtSowingWeekMonth
+        '
+        Me.txtSowingWeekMonth.CalculationExpression = Nothing
+        Me.txtSowingWeekMonth.FieldCode = Nothing
+        Me.txtSowingWeekMonth.FieldDesc = Nothing
+        Me.txtSowingWeekMonth.FieldMaxLength = 0
+        Me.txtSowingWeekMonth.FieldName = Nothing
+        Me.txtSowingWeekMonth.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSowingWeekMonth.isCalculatedField = False
+        Me.txtSowingWeekMonth.IsSourceFromTable = False
+        Me.txtSowingWeekMonth.IsSourceFromValueList = False
+        Me.txtSowingWeekMonth.IsUnique = False
+        Me.txtSowingWeekMonth.Location = New System.Drawing.Point(144, 196)
+        Me.txtSowingWeekMonth.MaxLength = 200
+        Me.txtSowingWeekMonth.MendatroryField = False
+        Me.txtSowingWeekMonth.MyLinkLable1 = Nothing
+        Me.txtSowingWeekMonth.MyLinkLable2 = Nothing
+        Me.txtSowingWeekMonth.Name = "txtSowingWeekMonth"
+        Me.txtSowingWeekMonth.ReferenceFieldDesc = Nothing
+        Me.txtSowingWeekMonth.ReferenceFieldName = Nothing
+        Me.txtSowingWeekMonth.ReferenceTableName = Nothing
+        Me.txtSowingWeekMonth.Size = New System.Drawing.Size(187, 18)
+        Me.txtSowingWeekMonth.TabIndex = 1482
+        '
+        'MyLabel15
+        '
+        Me.MyLabel15.FieldName = Nothing
+        Me.MyLabel15.Location = New System.Drawing.Point(11, 196)
+        Me.MyLabel15.Name = "MyLabel15"
+        Me.MyLabel15.Size = New System.Drawing.Size(108, 18)
+        Me.MyLabel15.TabIndex = 1481
+        Me.MyLabel15.Text = "Sowing week Month"
+        '
+        'txtArea
+        '
+        Me.txtArea.CalculationExpression = Nothing
+        Me.txtArea.FieldCode = Nothing
+        Me.txtArea.FieldDesc = Nothing
+        Me.txtArea.FieldMaxLength = 0
+        Me.txtArea.FieldName = Nothing
+        Me.txtArea.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtArea.isCalculatedField = False
+        Me.txtArea.IsSourceFromTable = False
+        Me.txtArea.IsSourceFromValueList = False
+        Me.txtArea.IsUnique = False
+        Me.txtArea.Location = New System.Drawing.Point(144, 120)
+        Me.txtArea.MaxLength = 200
+        Me.txtArea.MendatroryField = False
+        Me.txtArea.MyLinkLable1 = Nothing
+        Me.txtArea.MyLinkLable2 = Nothing
+        Me.txtArea.Name = "txtArea"
+        Me.txtArea.ReferenceFieldDesc = Nothing
+        Me.txtArea.ReferenceFieldName = Nothing
+        Me.txtArea.ReferenceTableName = Nothing
+        Me.txtArea.Size = New System.Drawing.Size(187, 18)
+        Me.txtArea.TabIndex = 1480
+        '
+        'MyLabel13
+        '
+        Me.MyLabel13.FieldName = Nothing
+        Me.MyLabel13.Location = New System.Drawing.Point(12, 120)
+        Me.MyLabel13.Name = "MyLabel13"
+        Me.MyLabel13.Size = New System.Drawing.Size(29, 18)
+        Me.MyLabel13.TabIndex = 1479
+        Me.MyLabel13.Text = "Area"
+        '
+        'txtItemCode
+        '
+        Me.txtItemCode.CalculationExpression = Nothing
+        Me.txtItemCode.FieldCode = Nothing
+        Me.txtItemCode.FieldDesc = Nothing
+        Me.txtItemCode.FieldMaxLength = 0
+        Me.txtItemCode.FieldName = Nothing
+        Me.txtItemCode.isCalculatedField = False
+        Me.txtItemCode.IsSourceFromTable = False
+        Me.txtItemCode.IsSourceFromValueList = False
+        Me.txtItemCode.IsUnique = False
+        Me.txtItemCode.Location = New System.Drawing.Point(144, 100)
+        Me.txtItemCode.MendatroryField = False
+        Me.txtItemCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtItemCode.MyLinkLable1 = Me.MyLabel12
+        Me.txtItemCode.MyLinkLable2 = Nothing
+        Me.txtItemCode.MyReadOnly = True
+        Me.txtItemCode.MyShowMasterFormButton = False
+        Me.txtItemCode.Name = "txtItemCode"
+        Me.txtItemCode.ReferenceFieldDesc = Nothing
+        Me.txtItemCode.ReferenceFieldName = Nothing
+        Me.txtItemCode.ReferenceTableName = Nothing
+        Me.txtItemCode.Size = New System.Drawing.Size(188, 19)
+        Me.txtItemCode.TabIndex = 1477
+        Me.txtItemCode.Value = ""
+        '
+        'MyLabel12
+        '
+        Me.MyLabel12.FieldName = Nothing
+        Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel12.Location = New System.Drawing.Point(12, 101)
+        Me.MyLabel12.Name = "MyLabel12"
+        Me.MyLabel12.Size = New System.Drawing.Size(58, 16)
+        Me.MyLabel12.TabIndex = 1478
+        Me.MyLabel12.Text = "Item Code"
+        '
+        'txtPONo
+        '
+        Me.txtPONo.CalculationExpression = Nothing
+        Me.txtPONo.FieldCode = Nothing
+        Me.txtPONo.FieldDesc = Nothing
+        Me.txtPONo.FieldMaxLength = 0
+        Me.txtPONo.FieldName = Nothing
+        Me.txtPONo.isCalculatedField = False
+        Me.txtPONo.IsSourceFromTable = False
+        Me.txtPONo.IsSourceFromValueList = False
+        Me.txtPONo.IsUnique = False
+        Me.txtPONo.Location = New System.Drawing.Point(614, 12)
+        Me.txtPONo.MendatroryField = False
+        Me.txtPONo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPONo.MyLinkLable1 = Me.RadLabel24
+        Me.txtPONo.MyLinkLable2 = Nothing
+        Me.txtPONo.MyReadOnly = True
+        Me.txtPONo.MyShowMasterFormButton = False
+        Me.txtPONo.Name = "txtPONo"
+        Me.txtPONo.ReferenceFieldDesc = Nothing
+        Me.txtPONo.ReferenceFieldName = Nothing
+        Me.txtPONo.ReferenceTableName = Nothing
+        Me.txtPONo.Size = New System.Drawing.Size(154, 19)
+        Me.txtPONo.TabIndex = 1475
+        Me.txtPONo.Value = ""
+        '
+        'RadLabel24
+        '
+        Me.RadLabel24.FieldName = Nothing
+        Me.RadLabel24.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel24.Location = New System.Drawing.Point(560, 13)
+        Me.RadLabel24.Name = "RadLabel24"
+        Me.RadLabel24.Size = New System.Drawing.Size(40, 16)
+        Me.RadLabel24.TabIndex = 1476
+        Me.RadLabel24.Text = "PO No"
+        '
+        'cmbSeason
+        '
+        Me.cmbSeason.AutoCompleteDisplayMember = Nothing
+        Me.cmbSeason.AutoCompleteValueMember = Nothing
+        Me.cmbSeason.CalculationExpression = Nothing
+        Me.cmbSeason.DropDownAnimationEnabled = True
+        Me.cmbSeason.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbSeason.FieldCode = Nothing
+        Me.cmbSeason.FieldDesc = Nothing
+        Me.cmbSeason.FieldMaxLength = 0
+        Me.cmbSeason.FieldName = Nothing
+        Me.cmbSeason.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmbSeason.isCalculatedField = False
+        Me.cmbSeason.IsSourceFromTable = False
+        Me.cmbSeason.IsSourceFromValueList = False
+        Me.cmbSeason.IsUnique = False
+        RadListDataItem3.Text = "RABI"
+        RadListDataItem4.Text = "KHARIF"
+        Me.cmbSeason.Items.Add(RadListDataItem3)
+        Me.cmbSeason.Items.Add(RadListDataItem4)
+        Me.cmbSeason.Location = New System.Drawing.Point(143, 216)
+        Me.cmbSeason.MendatroryField = True
+        Me.cmbSeason.MyLinkLable1 = Me.MyLabel10
+        Me.cmbSeason.MyLinkLable2 = Nothing
+        Me.cmbSeason.Name = "cmbSeason"
+        Me.cmbSeason.ReferenceFieldDesc = Nothing
+        Me.cmbSeason.ReferenceFieldName = Nothing
+        Me.cmbSeason.ReferenceTableName = Nothing
+        Me.cmbSeason.Size = New System.Drawing.Size(138, 18)
+        Me.cmbSeason.TabIndex = 1473
+        '
+        'MyLabel10
+        '
+        Me.MyLabel10.FieldName = Nothing
+        Me.MyLabel10.Location = New System.Drawing.Point(12, 216)
+        Me.MyLabel10.Name = "MyLabel10"
+        Me.MyLabel10.Size = New System.Drawing.Size(42, 18)
+        Me.MyLabel10.TabIndex = 1474
+        Me.MyLabel10.Text = "Season"
+        '
         'MyLabel5
         '
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(254, 222)
+        Me.MyLabel5.Location = New System.Drawing.Point(253, 298)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(29, 18)
         Me.MyLabel5.TabIndex = 1472
@@ -286,7 +553,7 @@ Partial Class frmSeedSelectionEntry
         Me.txtLeaseLand.IsSourceFromTable = False
         Me.txtLeaseLand.IsSourceFromValueList = False
         Me.txtLeaseLand.IsUnique = False
-        Me.txtLeaseLand.Location = New System.Drawing.Point(145, 221)
+        Me.txtLeaseLand.Location = New System.Drawing.Point(143, 297)
         Me.txtLeaseLand.MendatroryField = False
         Me.txtLeaseLand.MyLinkLable1 = Nothing
         Me.txtLeaseLand.MyLinkLable2 = Nothing
@@ -304,7 +571,7 @@ Partial Class frmSeedSelectionEntry
         '
         Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(12, 223)
+        Me.MyLabel4.Location = New System.Drawing.Point(11, 299)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(61, 18)
         Me.MyLabel4.TabIndex = 1470
@@ -314,7 +581,7 @@ Partial Class frmSeedSelectionEntry
         '
         Me.MyLabel7.FieldName = Nothing
         Me.MyLabel7.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel7.Location = New System.Drawing.Point(254, 200)
+        Me.MyLabel7.Location = New System.Drawing.Point(253, 276)
         Me.MyLabel7.Name = "MyLabel7"
         Me.MyLabel7.Size = New System.Drawing.Size(29, 18)
         Me.MyLabel7.TabIndex = 1469
@@ -324,7 +591,7 @@ Partial Class frmSeedSelectionEntry
         '
         Me.MyLabel8.FieldName = Nothing
         Me.MyLabel8.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel8.Location = New System.Drawing.Point(254, 178)
+        Me.MyLabel8.Location = New System.Drawing.Point(253, 254)
         Me.MyLabel8.Name = "MyLabel8"
         Me.MyLabel8.Size = New System.Drawing.Size(29, 18)
         Me.MyLabel8.TabIndex = 1466
@@ -343,7 +610,7 @@ Partial Class frmSeedSelectionEntry
         Me.txtOwnLand.IsSourceFromTable = False
         Me.txtOwnLand.IsSourceFromValueList = False
         Me.txtOwnLand.IsUnique = False
-        Me.txtOwnLand.Location = New System.Drawing.Point(145, 177)
+        Me.txtOwnLand.Location = New System.Drawing.Point(143, 253)
         Me.txtOwnLand.MendatroryField = False
         Me.txtOwnLand.MyLinkLable1 = Nothing
         Me.txtOwnLand.MyLinkLable2 = Nothing
@@ -370,7 +637,7 @@ Partial Class frmSeedSelectionEntry
         Me.txtFamilyLand.IsSourceFromTable = False
         Me.txtFamilyLand.IsSourceFromValueList = False
         Me.txtFamilyLand.IsUnique = False
-        Me.txtFamilyLand.Location = New System.Drawing.Point(145, 199)
+        Me.txtFamilyLand.Location = New System.Drawing.Point(143, 275)
         Me.txtFamilyLand.MendatroryField = False
         Me.txtFamilyLand.MyLinkLable1 = Nothing
         Me.txtFamilyLand.MyLinkLable2 = Nothing
@@ -388,7 +655,7 @@ Partial Class frmSeedSelectionEntry
         '
         Me.MyLabel23.FieldName = Nothing
         Me.MyLabel23.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel23.Location = New System.Drawing.Point(12, 179)
+        Me.MyLabel23.Location = New System.Drawing.Point(11, 255)
         Me.MyLabel23.Name = "MyLabel23"
         Me.MyLabel23.Size = New System.Drawing.Size(57, 18)
         Me.MyLabel23.TabIndex = 1464
@@ -398,113 +665,113 @@ Partial Class frmSeedSelectionEntry
         '
         Me.MyLabel9.FieldName = Nothing
         Me.MyLabel9.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel9.Location = New System.Drawing.Point(12, 201)
+        Me.MyLabel9.Location = New System.Drawing.Point(11, 277)
         Me.MyLabel9.Name = "MyLabel9"
         Me.MyLabel9.Size = New System.Drawing.Size(65, 18)
         Me.MyLabel9.TabIndex = 1467
         Me.MyLabel9.Text = "Family Land"
         '
-        'MyTextBox4
+        'txtKhasraNo
         '
-        Me.MyTextBox4.CalculationExpression = Nothing
-        Me.MyTextBox4.FieldCode = Nothing
-        Me.MyTextBox4.FieldDesc = Nothing
-        Me.MyTextBox4.FieldMaxLength = 0
-        Me.MyTextBox4.FieldName = Nothing
-        Me.MyTextBox4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyTextBox4.isCalculatedField = False
-        Me.MyTextBox4.IsSourceFromTable = False
-        Me.MyTextBox4.IsSourceFromValueList = False
-        Me.MyTextBox4.IsUnique = False
-        Me.MyTextBox4.Location = New System.Drawing.Point(144, 137)
-        Me.MyTextBox4.MaxLength = 200
-        Me.MyTextBox4.MendatroryField = False
-        Me.MyTextBox4.MyLinkLable1 = Nothing
-        Me.MyTextBox4.MyLinkLable2 = Nothing
-        Me.MyTextBox4.Name = "MyTextBox4"
-        Me.MyTextBox4.ReferenceFieldDesc = Nothing
-        Me.MyTextBox4.ReferenceFieldName = Nothing
-        Me.MyTextBox4.ReferenceTableName = Nothing
-        Me.MyTextBox4.Size = New System.Drawing.Size(187, 18)
-        Me.MyTextBox4.TabIndex = 75
+        Me.txtKhasraNo.CalculationExpression = Nothing
+        Me.txtKhasraNo.FieldCode = Nothing
+        Me.txtKhasraNo.FieldDesc = Nothing
+        Me.txtKhasraNo.FieldMaxLength = 0
+        Me.txtKhasraNo.FieldName = Nothing
+        Me.txtKhasraNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtKhasraNo.isCalculatedField = False
+        Me.txtKhasraNo.IsSourceFromTable = False
+        Me.txtKhasraNo.IsSourceFromValueList = False
+        Me.txtKhasraNo.IsUnique = False
+        Me.txtKhasraNo.Location = New System.Drawing.Point(144, 177)
+        Me.txtKhasraNo.MaxLength = 200
+        Me.txtKhasraNo.MendatroryField = False
+        Me.txtKhasraNo.MyLinkLable1 = Nothing
+        Me.txtKhasraNo.MyLinkLable2 = Nothing
+        Me.txtKhasraNo.Name = "txtKhasraNo"
+        Me.txtKhasraNo.ReferenceFieldDesc = Nothing
+        Me.txtKhasraNo.ReferenceFieldName = Nothing
+        Me.txtKhasraNo.ReferenceTableName = Nothing
+        Me.txtKhasraNo.Size = New System.Drawing.Size(187, 18)
+        Me.txtKhasraNo.TabIndex = 75
         '
         'MyLabel3
         '
         Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Location = New System.Drawing.Point(12, 137)
+        Me.MyLabel3.Location = New System.Drawing.Point(11, 177)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(58, 18)
         Me.MyLabel3.TabIndex = 74
         Me.MyLabel3.Text = "Khasra No"
         '
-        'MyTextBox3
+        'txtCropLocation
         '
-        Me.MyTextBox3.CalculationExpression = Nothing
-        Me.MyTextBox3.FieldCode = Nothing
-        Me.MyTextBox3.FieldDesc = Nothing
-        Me.MyTextBox3.FieldMaxLength = 0
-        Me.MyTextBox3.FieldName = Nothing
-        Me.MyTextBox3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyTextBox3.isCalculatedField = False
-        Me.MyTextBox3.IsSourceFromTable = False
-        Me.MyTextBox3.IsSourceFromValueList = False
-        Me.MyTextBox3.IsUnique = False
-        Me.MyTextBox3.Location = New System.Drawing.Point(144, 118)
-        Me.MyTextBox3.MaxLength = 200
-        Me.MyTextBox3.MendatroryField = False
-        Me.MyTextBox3.MyLinkLable1 = Nothing
-        Me.MyTextBox3.MyLinkLable2 = Nothing
-        Me.MyTextBox3.Name = "MyTextBox3"
-        Me.MyTextBox3.ReferenceFieldDesc = Nothing
-        Me.MyTextBox3.ReferenceFieldName = Nothing
-        Me.MyTextBox3.ReferenceTableName = Nothing
-        Me.MyTextBox3.Size = New System.Drawing.Size(187, 18)
-        Me.MyTextBox3.TabIndex = 73
+        Me.txtCropLocation.CalculationExpression = Nothing
+        Me.txtCropLocation.FieldCode = Nothing
+        Me.txtCropLocation.FieldDesc = Nothing
+        Me.txtCropLocation.FieldMaxLength = 0
+        Me.txtCropLocation.FieldName = Nothing
+        Me.txtCropLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCropLocation.isCalculatedField = False
+        Me.txtCropLocation.IsSourceFromTable = False
+        Me.txtCropLocation.IsSourceFromValueList = False
+        Me.txtCropLocation.IsUnique = False
+        Me.txtCropLocation.Location = New System.Drawing.Point(144, 158)
+        Me.txtCropLocation.MaxLength = 200
+        Me.txtCropLocation.MendatroryField = False
+        Me.txtCropLocation.MyLinkLable1 = Nothing
+        Me.txtCropLocation.MyLinkLable2 = Nothing
+        Me.txtCropLocation.Name = "txtCropLocation"
+        Me.txtCropLocation.ReferenceFieldDesc = Nothing
+        Me.txtCropLocation.ReferenceFieldName = Nothing
+        Me.txtCropLocation.ReferenceTableName = Nothing
+        Me.txtCropLocation.Size = New System.Drawing.Size(187, 18)
+        Me.txtCropLocation.TabIndex = 73
         '
         'MyLabel2
         '
         Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Location = New System.Drawing.Point(12, 119)
+        Me.MyLabel2.Location = New System.Drawing.Point(12, 158)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(76, 18)
         Me.MyLabel2.TabIndex = 72
         Me.MyLabel2.Text = "Crop Location"
         '
-        'TxtFinder5
+        'txtDistrict
         '
-        Me.TxtFinder5.CalculationExpression = Nothing
-        Me.TxtFinder5.FieldCode = Nothing
-        Me.TxtFinder5.FieldDesc = Nothing
-        Me.TxtFinder5.FieldMaxLength = 0
-        Me.TxtFinder5.FieldName = Nothing
-        Me.TxtFinder5.isCalculatedField = False
-        Me.TxtFinder5.IsSourceFromTable = False
-        Me.TxtFinder5.IsSourceFromValueList = False
-        Me.TxtFinder5.IsUnique = False
-        Me.TxtFinder5.Location = New System.Drawing.Point(145, 79)
-        Me.TxtFinder5.MendatroryField = True
-        Me.TxtFinder5.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtFinder5.MyLinkLable1 = Nothing
-        Me.TxtFinder5.MyLinkLable2 = Nothing
-        Me.TxtFinder5.MyReadOnly = False
-        Me.TxtFinder5.MyShowMasterFormButton = False
-        Me.TxtFinder5.Name = "TxtFinder5"
-        Me.TxtFinder5.ReferenceFieldDesc = Nothing
-        Me.TxtFinder5.ReferenceFieldName = Nothing
-        Me.TxtFinder5.ReferenceTableName = Nothing
-        Me.TxtFinder5.Size = New System.Drawing.Size(187, 19)
-        Me.TxtFinder5.TabIndex = 70
-        Me.TxtFinder5.Value = ""
+        Me.txtDistrict.CalculationExpression = Nothing
+        Me.txtDistrict.FieldCode = Nothing
+        Me.txtDistrict.FieldDesc = Nothing
+        Me.txtDistrict.FieldMaxLength = 0
+        Me.txtDistrict.FieldName = Nothing
+        Me.txtDistrict.isCalculatedField = False
+        Me.txtDistrict.IsSourceFromTable = False
+        Me.txtDistrict.IsSourceFromValueList = False
+        Me.txtDistrict.IsUnique = False
+        Me.txtDistrict.Location = New System.Drawing.Point(145, 78)
+        Me.txtDistrict.MendatroryField = True
+        Me.txtDistrict.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDistrict.MyLinkLable1 = Nothing
+        Me.txtDistrict.MyLinkLable2 = Nothing
+        Me.txtDistrict.MyReadOnly = False
+        Me.txtDistrict.MyShowMasterFormButton = False
+        Me.txtDistrict.Name = "txtDistrict"
+        Me.txtDistrict.ReferenceFieldDesc = Nothing
+        Me.txtDistrict.ReferenceFieldName = Nothing
+        Me.txtDistrict.ReferenceTableName = Nothing
+        Me.txtDistrict.Size = New System.Drawing.Size(187, 19)
+        Me.txtDistrict.TabIndex = 70
+        Me.txtDistrict.Value = ""
         '
-        'MyLabel40
+        'lblDistrict
         '
-        Me.MyLabel40.AutoSize = False
-        Me.MyLabel40.BorderVisible = True
-        Me.MyLabel40.FieldName = Nothing
-        Me.MyLabel40.Location = New System.Drawing.Point(335, 79)
-        Me.MyLabel40.Name = "MyLabel40"
-        Me.MyLabel40.Size = New System.Drawing.Size(169, 19)
-        Me.MyLabel40.TabIndex = 69
+        Me.lblDistrict.AutoSize = False
+        Me.lblDistrict.BorderVisible = True
+        Me.lblDistrict.FieldName = Nothing
+        Me.lblDistrict.Location = New System.Drawing.Point(335, 79)
+        Me.lblDistrict.Name = "lblDistrict"
+        Me.lblDistrict.Size = New System.Drawing.Size(301, 19)
+        Me.lblDistrict.TabIndex = 69
         '
         'MyLabel41
         '
@@ -516,29 +783,29 @@ Partial Class frmSeedSelectionEntry
         Me.MyLabel41.TabIndex = 71
         Me.MyLabel41.Text = "District"
         '
-        'MyTextBox2
+        'txtCropRegCode
         '
-        Me.MyTextBox2.CalculationExpression = Nothing
-        Me.MyTextBox2.FieldCode = Nothing
-        Me.MyTextBox2.FieldDesc = Nothing
-        Me.MyTextBox2.FieldMaxLength = 0
-        Me.MyTextBox2.FieldName = Nothing
-        Me.MyTextBox2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyTextBox2.isCalculatedField = False
-        Me.MyTextBox2.IsSourceFromTable = False
-        Me.MyTextBox2.IsSourceFromValueList = False
-        Me.MyTextBox2.IsUnique = False
-        Me.MyTextBox2.Location = New System.Drawing.Point(144, 99)
-        Me.MyTextBox2.MaxLength = 200
-        Me.MyTextBox2.MendatroryField = False
-        Me.MyTextBox2.MyLinkLable1 = Nothing
-        Me.MyTextBox2.MyLinkLable2 = Nothing
-        Me.MyTextBox2.Name = "MyTextBox2"
-        Me.MyTextBox2.ReferenceFieldDesc = Nothing
-        Me.MyTextBox2.ReferenceFieldName = Nothing
-        Me.MyTextBox2.ReferenceTableName = Nothing
-        Me.MyTextBox2.Size = New System.Drawing.Size(187, 18)
-        Me.MyTextBox2.TabIndex = 68
+        Me.txtCropRegCode.CalculationExpression = Nothing
+        Me.txtCropRegCode.FieldCode = Nothing
+        Me.txtCropRegCode.FieldDesc = Nothing
+        Me.txtCropRegCode.FieldMaxLength = 0
+        Me.txtCropRegCode.FieldName = Nothing
+        Me.txtCropRegCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCropRegCode.isCalculatedField = False
+        Me.txtCropRegCode.IsSourceFromTable = False
+        Me.txtCropRegCode.IsSourceFromValueList = False
+        Me.txtCropRegCode.IsUnique = False
+        Me.txtCropRegCode.Location = New System.Drawing.Point(144, 139)
+        Me.txtCropRegCode.MaxLength = 200
+        Me.txtCropRegCode.MendatroryField = False
+        Me.txtCropRegCode.MyLinkLable1 = Nothing
+        Me.txtCropRegCode.MyLinkLable2 = Nothing
+        Me.txtCropRegCode.Name = "txtCropRegCode"
+        Me.txtCropRegCode.ReferenceFieldDesc = Nothing
+        Me.txtCropRegCode.ReferenceFieldName = Nothing
+        Me.txtCropRegCode.ReferenceTableName = Nothing
+        Me.txtCropRegCode.Size = New System.Drawing.Size(187, 18)
+        Me.txtCropRegCode.TabIndex = 68
         '
         'MyLabel25
         '
@@ -552,67 +819,47 @@ Partial Class frmSeedSelectionEntry
         'MyLabel26
         '
         Me.MyLabel26.FieldName = Nothing
-        Me.MyLabel26.Location = New System.Drawing.Point(12, 99)
+        Me.MyLabel26.Location = New System.Drawing.Point(12, 139)
         Me.MyLabel26.Name = "MyLabel26"
         Me.MyLabel26.Size = New System.Drawing.Size(82, 18)
         Me.MyLabel26.TabIndex = 67
         Me.MyLabel26.Text = "Crop Reg Code"
         '
-        'TxtFinder3
+        'txtVillage
         '
-        Me.TxtFinder3.CalculationExpression = Nothing
-        Me.TxtFinder3.FieldCode = Nothing
-        Me.TxtFinder3.FieldDesc = Nothing
-        Me.TxtFinder3.FieldMaxLength = 0
-        Me.TxtFinder3.FieldName = Nothing
-        Me.TxtFinder3.isCalculatedField = False
-        Me.TxtFinder3.IsSourceFromTable = False
-        Me.TxtFinder3.IsSourceFromValueList = False
-        Me.TxtFinder3.IsUnique = False
-        Me.TxtFinder3.Location = New System.Drawing.Point(145, 57)
-        Me.TxtFinder3.MendatroryField = True
-        Me.TxtFinder3.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtFinder3.MyLinkLable1 = Nothing
-        Me.TxtFinder3.MyLinkLable2 = Nothing
-        Me.TxtFinder3.MyReadOnly = False
-        Me.TxtFinder3.MyShowMasterFormButton = False
-        Me.TxtFinder3.Name = "TxtFinder3"
-        Me.TxtFinder3.ReferenceFieldDesc = Nothing
-        Me.TxtFinder3.ReferenceFieldName = Nothing
-        Me.TxtFinder3.ReferenceTableName = Nothing
-        Me.TxtFinder3.Size = New System.Drawing.Size(187, 19)
-        Me.TxtFinder3.TabIndex = 62
-        Me.TxtFinder3.Value = ""
+        Me.txtVillage.CalculationExpression = Nothing
+        Me.txtVillage.FieldCode = Nothing
+        Me.txtVillage.FieldDesc = Nothing
+        Me.txtVillage.FieldMaxLength = 0
+        Me.txtVillage.FieldName = Nothing
+        Me.txtVillage.isCalculatedField = False
+        Me.txtVillage.IsSourceFromTable = False
+        Me.txtVillage.IsSourceFromValueList = False
+        Me.txtVillage.IsUnique = False
+        Me.txtVillage.Location = New System.Drawing.Point(145, 56)
+        Me.txtVillage.MendatroryField = True
+        Me.txtVillage.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtVillage.MyLinkLable1 = Nothing
+        Me.txtVillage.MyLinkLable2 = Nothing
+        Me.txtVillage.MyReadOnly = False
+        Me.txtVillage.MyShowMasterFormButton = False
+        Me.txtVillage.Name = "txtVillage"
+        Me.txtVillage.ReferenceFieldDesc = Nothing
+        Me.txtVillage.ReferenceFieldName = Nothing
+        Me.txtVillage.ReferenceTableName = Nothing
+        Me.txtVillage.Size = New System.Drawing.Size(187, 19)
+        Me.txtVillage.TabIndex = 62
+        Me.txtVillage.Value = ""
         '
-        'MyLabel29
+        'UsLock
         '
-        Me.MyLabel29.AutoSize = False
-        Me.MyLabel29.BorderVisible = True
-        Me.MyLabel29.FieldName = Nothing
-        Me.MyLabel29.Location = New System.Drawing.Point(335, 57)
-        Me.MyLabel29.Name = "MyLabel29"
-        Me.MyLabel29.Size = New System.Drawing.Size(169, 19)
-        Me.MyLabel29.TabIndex = 44
-        '
-        'UsLock2
-        '
-        Me.UsLock2.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock2.Location = New System.Drawing.Point(429, 11)
-        Me.UsLock2.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.UsLock2.Name = "UsLock2"
-        Me.UsLock2.Size = New System.Drawing.Size(97, 20)
-        Me.UsLock2.Status = common.ERPTransactionStatus.Pending
-        Me.UsLock2.TabIndex = 26
-        '
-        'MyLabel33
-        '
-        Me.MyLabel33.AutoSize = False
-        Me.MyLabel33.BorderVisible = True
-        Me.MyLabel33.FieldName = Nothing
-        Me.MyLabel33.Location = New System.Drawing.Point(335, 35)
-        Me.MyLabel33.Name = "MyLabel33"
-        Me.MyLabel33.Size = New System.Drawing.Size(169, 19)
-        Me.MyLabel33.TabIndex = 24
+        Me.UsLock.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.UsLock.Location = New System.Drawing.Point(794, 13)
+        Me.UsLock.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.UsLock.Name = "UsLock"
+        Me.UsLock.Size = New System.Drawing.Size(97, 20)
+        Me.UsLock.Status = common.ERPTransactionStatus.Pending
+        Me.UsLock.TabIndex = 26
         '
         'MyLabel35
         '
@@ -624,31 +871,31 @@ Partial Class frmSeedSelectionEntry
         Me.MyLabel35.TabIndex = 63
         Me.MyLabel35.Text = "Village"
         '
-        'TxtFinder4
+        'txtGrower
         '
-        Me.TxtFinder4.CalculationExpression = Nothing
-        Me.TxtFinder4.FieldCode = Nothing
-        Me.TxtFinder4.FieldDesc = Nothing
-        Me.TxtFinder4.FieldMaxLength = 0
-        Me.TxtFinder4.FieldName = Nothing
-        Me.TxtFinder4.isCalculatedField = False
-        Me.TxtFinder4.IsSourceFromTable = False
-        Me.TxtFinder4.IsSourceFromValueList = False
-        Me.TxtFinder4.IsUnique = False
-        Me.TxtFinder4.Location = New System.Drawing.Point(145, 35)
-        Me.TxtFinder4.MendatroryField = True
-        Me.TxtFinder4.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtFinder4.MyLinkLable1 = Nothing
-        Me.TxtFinder4.MyLinkLable2 = Nothing
-        Me.TxtFinder4.MyReadOnly = False
-        Me.TxtFinder4.MyShowMasterFormButton = False
-        Me.TxtFinder4.Name = "TxtFinder4"
-        Me.TxtFinder4.ReferenceFieldDesc = Nothing
-        Me.TxtFinder4.ReferenceFieldName = Nothing
-        Me.TxtFinder4.ReferenceTableName = Nothing
-        Me.TxtFinder4.Size = New System.Drawing.Size(187, 19)
-        Me.TxtFinder4.TabIndex = 19
-        Me.TxtFinder4.Value = ""
+        Me.txtGrower.CalculationExpression = Nothing
+        Me.txtGrower.FieldCode = Nothing
+        Me.txtGrower.FieldDesc = Nothing
+        Me.txtGrower.FieldMaxLength = 0
+        Me.txtGrower.FieldName = Nothing
+        Me.txtGrower.isCalculatedField = False
+        Me.txtGrower.IsSourceFromTable = False
+        Me.txtGrower.IsSourceFromValueList = False
+        Me.txtGrower.IsUnique = False
+        Me.txtGrower.Location = New System.Drawing.Point(145, 35)
+        Me.txtGrower.MendatroryField = True
+        Me.txtGrower.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtGrower.MyLinkLable1 = Nothing
+        Me.txtGrower.MyLinkLable2 = Nothing
+        Me.txtGrower.MyReadOnly = False
+        Me.txtGrower.MyShowMasterFormButton = False
+        Me.txtGrower.Name = "txtGrower"
+        Me.txtGrower.ReferenceFieldDesc = Nothing
+        Me.txtGrower.ReferenceFieldName = Nothing
+        Me.txtGrower.ReferenceTableName = Nothing
+        Me.txtGrower.Size = New System.Drawing.Size(187, 19)
+        Me.txtGrower.TabIndex = 19
+        Me.txtGrower.Value = ""
         '
         'MyLabel37
         '
@@ -660,55 +907,31 @@ Partial Class frmSeedSelectionEntry
         Me.MyLabel37.TabIndex = 20
         Me.MyLabel37.Text = "Grower"
         '
-        'TxtNavigator2
+        'txtDocumentNo
         '
-        Me.TxtNavigator2.FieldName = Nothing
-        Me.TxtNavigator2.Location = New System.Drawing.Point(145, 12)
-        Me.TxtNavigator2.MendatroryField = False
-        Me.TxtNavigator2.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
-        Me.TxtNavigator2.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.TxtNavigator2.MyLinkLable1 = Me.MyLabel25
-        Me.TxtNavigator2.MyLinkLable2 = Nothing
-        Me.TxtNavigator2.MyMaxLength = 32767
-        Me.TxtNavigator2.MyReadOnly = False
-        Me.TxtNavigator2.Name = "TxtNavigator2"
-        Me.TxtNavigator2.Size = New System.Drawing.Size(256, 20)
-        Me.TxtNavigator2.TabIndex = 25
-        Me.TxtNavigator2.Value = ""
+        Me.txtDocumentNo.FieldName = Nothing
+        Me.txtDocumentNo.Location = New System.Drawing.Point(145, 12)
+        Me.txtDocumentNo.MendatroryField = False
+        Me.txtDocumentNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
+        Me.txtDocumentNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtDocumentNo.MyLinkLable1 = Me.MyLabel25
+        Me.txtDocumentNo.MyLinkLable2 = Nothing
+        Me.txtDocumentNo.MyMaxLength = 32767
+        Me.txtDocumentNo.MyReadOnly = False
+        Me.txtDocumentNo.Name = "txtDocumentNo"
+        Me.txtDocumentNo.Size = New System.Drawing.Size(256, 20)
+        Me.txtDocumentNo.TabIndex = 25
+        Me.txtDocumentNo.Value = ""
         '
-        'RadButton2
+        'btnNew
         '
-        Me.RadButton2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton2.Image = Global.XpertERPSheed.My.Resources.Resources._new
-        Me.RadButton2.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.RadButton2.Location = New System.Drawing.Point(401, 12)
-        Me.RadButton2.Name = "RadButton2"
-        Me.RadButton2.Size = New System.Drawing.Size(21, 20)
-        Me.RadButton2.TabIndex = 22
-        '
-        'txtPolicyNo
-        '
-        Me.txtPolicyNo.CalculationExpression = Nothing
-        Me.txtPolicyNo.FieldCode = Nothing
-        Me.txtPolicyNo.FieldDesc = Nothing
-        Me.txtPolicyNo.FieldMaxLength = 0
-        Me.txtPolicyNo.FieldName = Nothing
-        Me.txtPolicyNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtPolicyNo.isCalculatedField = False
-        Me.txtPolicyNo.IsSourceFromTable = False
-        Me.txtPolicyNo.IsSourceFromValueList = False
-        Me.txtPolicyNo.IsUnique = False
-        Me.txtPolicyNo.Location = New System.Drawing.Point(145, 99)
-        Me.txtPolicyNo.MaxLength = 200
-        Me.txtPolicyNo.MendatroryField = False
-        Me.txtPolicyNo.MyLinkLable1 = Nothing
-        Me.txtPolicyNo.MyLinkLable2 = Nothing
-        Me.txtPolicyNo.Name = "txtPolicyNo"
-        Me.txtPolicyNo.ReferenceFieldDesc = Nothing
-        Me.txtPolicyNo.ReferenceFieldName = Nothing
-        Me.txtPolicyNo.ReferenceTableName = Nothing
-        Me.txtPolicyNo.Size = New System.Drawing.Size(102, 18)
-        Me.txtPolicyNo.TabIndex = 68
+        Me.btnNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnNew.Image = Global.XpertERPSheed.My.Resources.Resources._new
+        Me.btnNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnNew.Location = New System.Drawing.Point(401, 12)
+        Me.btnNew.Name = "btnNew"
+        Me.btnNew.Size = New System.Drawing.Size(21, 20)
+        Me.btnNew.TabIndex = 22
         '
         'lblCode
         '
@@ -719,61 +942,25 @@ Partial Class frmSeedSelectionEntry
         Me.lblCode.TabIndex = 21
         Me.lblCode.Text = "Document No"
         '
-        'txtInsType
+        'lblVillage
         '
-        Me.txtInsType.CalculationExpression = Nothing
-        Me.txtInsType.FieldCode = Nothing
-        Me.txtInsType.FieldDesc = Nothing
-        Me.txtInsType.FieldMaxLength = 0
-        Me.txtInsType.FieldName = Nothing
-        Me.txtInsType.isCalculatedField = False
-        Me.txtInsType.IsSourceFromTable = False
-        Me.txtInsType.IsSourceFromValueList = False
-        Me.txtInsType.IsUnique = False
-        Me.txtInsType.Location = New System.Drawing.Point(145, 57)
-        Me.txtInsType.MendatroryField = True
-        Me.txtInsType.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtInsType.MyLinkLable1 = Nothing
-        Me.txtInsType.MyLinkLable2 = Nothing
-        Me.txtInsType.MyReadOnly = False
-        Me.txtInsType.MyShowMasterFormButton = False
-        Me.txtInsType.Name = "txtInsType"
-        Me.txtInsType.ReferenceFieldDesc = Nothing
-        Me.txtInsType.ReferenceFieldName = Nothing
-        Me.txtInsType.ReferenceTableName = Nothing
-        Me.txtInsType.Size = New System.Drawing.Size(187, 19)
-        Me.txtInsType.TabIndex = 62
-        Me.txtInsType.Value = ""
+        Me.lblVillage.AutoSize = False
+        Me.lblVillage.BorderVisible = True
+        Me.lblVillage.FieldName = Nothing
+        Me.lblVillage.Location = New System.Drawing.Point(335, 57)
+        Me.lblVillage.Name = "lblVillage"
+        Me.lblVillage.Size = New System.Drawing.Size(301, 19)
+        Me.lblVillage.TabIndex = 44
         '
-        'lblInsType
+        'lblGrower
         '
-        Me.lblInsType.AutoSize = False
-        Me.lblInsType.BorderVisible = True
-        Me.lblInsType.FieldName = Nothing
-        Me.lblInsType.Location = New System.Drawing.Point(335, 57)
-        Me.lblInsType.Name = "lblInsType"
-        Me.lblInsType.Size = New System.Drawing.Size(169, 19)
-        Me.lblInsType.TabIndex = 44
-        '
-        'lblStatus
-        '
-        Me.lblStatus.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.lblStatus.Location = New System.Drawing.Point(429, 11)
-        Me.lblStatus.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblStatus.Name = "lblStatus"
-        Me.lblStatus.Size = New System.Drawing.Size(97, 20)
-        Me.lblStatus.Status = common.ERPTransactionStatus.Pending
-        Me.lblStatus.TabIndex = 26
-        '
-        'lblInsCompName
-        '
-        Me.lblInsCompName.AutoSize = False
-        Me.lblInsCompName.BorderVisible = True
-        Me.lblInsCompName.FieldName = Nothing
-        Me.lblInsCompName.Location = New System.Drawing.Point(335, 35)
-        Me.lblInsCompName.Name = "lblInsCompName"
-        Me.lblInsCompName.Size = New System.Drawing.Size(169, 19)
-        Me.lblInsCompName.TabIndex = 24
+        Me.lblGrower.AutoSize = False
+        Me.lblGrower.BorderVisible = True
+        Me.lblGrower.FieldName = Nothing
+        Me.lblGrower.Location = New System.Drawing.Point(335, 35)
+        Me.lblGrower.Name = "lblGrower"
+        Me.lblGrower.Size = New System.Drawing.Size(301, 19)
+        Me.lblGrower.TabIndex = 24
         '
         'MyLabel11
         '
@@ -785,32 +972,6 @@ Partial Class frmSeedSelectionEntry
         Me.MyLabel11.TabIndex = 63
         Me.MyLabel11.Text = "Village"
         '
-        'txtInsCompany
-        '
-        Me.txtInsCompany.CalculationExpression = Nothing
-        Me.txtInsCompany.FieldCode = Nothing
-        Me.txtInsCompany.FieldDesc = Nothing
-        Me.txtInsCompany.FieldMaxLength = 0
-        Me.txtInsCompany.FieldName = Nothing
-        Me.txtInsCompany.isCalculatedField = False
-        Me.txtInsCompany.IsSourceFromTable = False
-        Me.txtInsCompany.IsSourceFromValueList = False
-        Me.txtInsCompany.IsUnique = False
-        Me.txtInsCompany.Location = New System.Drawing.Point(145, 35)
-        Me.txtInsCompany.MendatroryField = True
-        Me.txtInsCompany.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtInsCompany.MyLinkLable1 = Nothing
-        Me.txtInsCompany.MyLinkLable2 = Nothing
-        Me.txtInsCompany.MyReadOnly = False
-        Me.txtInsCompany.MyShowMasterFormButton = False
-        Me.txtInsCompany.Name = "txtInsCompany"
-        Me.txtInsCompany.ReferenceFieldDesc = Nothing
-        Me.txtInsCompany.ReferenceFieldName = Nothing
-        Me.txtInsCompany.ReferenceTableName = Nothing
-        Me.txtInsCompany.Size = New System.Drawing.Size(187, 19)
-        Me.txtInsCompany.TabIndex = 19
-        Me.txtInsCompany.Value = ""
-        '
         'MyLabel6
         '
         Me.MyLabel6.FieldName = Nothing
@@ -820,22 +981,6 @@ Partial Class frmSeedSelectionEntry
         Me.MyLabel6.Size = New System.Drawing.Size(43, 16)
         Me.MyLabel6.TabIndex = 20
         Me.MyLabel6.Text = "Grower"
-        '
-        'txtDocumentNo
-        '
-        Me.txtDocumentNo.FieldName = Nothing
-        Me.txtDocumentNo.Location = New System.Drawing.Point(145, 12)
-        Me.txtDocumentNo.MendatroryField = False
-        Me.txtDocumentNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
-        Me.txtDocumentNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.txtDocumentNo.MyLinkLable1 = Me.lblCode
-        Me.txtDocumentNo.MyLinkLable2 = Nothing
-        Me.txtDocumentNo.MyMaxLength = 32767
-        Me.txtDocumentNo.MyReadOnly = False
-        Me.txtDocumentNo.Name = "txtDocumentNo"
-        Me.txtDocumentNo.Size = New System.Drawing.Size(256, 20)
-        Me.txtDocumentNo.TabIndex = 25
-        Me.txtDocumentNo.Value = ""
         '
         'btnAddNew
         '
@@ -847,30 +992,6 @@ Partial Class frmSeedSelectionEntry
         Me.btnAddNew.Size = New System.Drawing.Size(21, 20)
         Me.btnAddNew.TabIndex = 22
         '
-        'MyTextBox1
-        '
-        Me.MyTextBox1.CalculationExpression = Nothing
-        Me.MyTextBox1.FieldCode = Nothing
-        Me.MyTextBox1.FieldDesc = Nothing
-        Me.MyTextBox1.FieldMaxLength = 0
-        Me.MyTextBox1.FieldName = Nothing
-        Me.MyTextBox1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyTextBox1.isCalculatedField = False
-        Me.MyTextBox1.IsSourceFromTable = False
-        Me.MyTextBox1.IsSourceFromValueList = False
-        Me.MyTextBox1.IsUnique = False
-        Me.MyTextBox1.Location = New System.Drawing.Point(145, 99)
-        Me.MyTextBox1.MaxLength = 200
-        Me.MyTextBox1.MendatroryField = False
-        Me.MyTextBox1.MyLinkLable1 = Nothing
-        Me.MyTextBox1.MyLinkLable2 = Nothing
-        Me.MyTextBox1.Name = "MyTextBox1"
-        Me.MyTextBox1.ReferenceFieldDesc = Nothing
-        Me.MyTextBox1.ReferenceFieldName = Nothing
-        Me.MyTextBox1.ReferenceTableName = Nothing
-        Me.MyTextBox1.Size = New System.Drawing.Size(102, 18)
-        Me.MyTextBox1.TabIndex = 68
-        '
         'MyLabel1
         '
         Me.MyLabel1.FieldName = Nothing
@@ -879,32 +1000,6 @@ Partial Class frmSeedSelectionEntry
         Me.MyLabel1.Size = New System.Drawing.Size(77, 18)
         Me.MyLabel1.TabIndex = 21
         Me.MyLabel1.Text = "Document No"
-        '
-        'TxtFinder1
-        '
-        Me.TxtFinder1.CalculationExpression = Nothing
-        Me.TxtFinder1.FieldCode = Nothing
-        Me.TxtFinder1.FieldDesc = Nothing
-        Me.TxtFinder1.FieldMaxLength = 0
-        Me.TxtFinder1.FieldName = Nothing
-        Me.TxtFinder1.isCalculatedField = False
-        Me.TxtFinder1.IsSourceFromTable = False
-        Me.TxtFinder1.IsSourceFromValueList = False
-        Me.TxtFinder1.IsUnique = False
-        Me.TxtFinder1.Location = New System.Drawing.Point(145, 57)
-        Me.TxtFinder1.MendatroryField = True
-        Me.TxtFinder1.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtFinder1.MyLinkLable1 = Nothing
-        Me.TxtFinder1.MyLinkLable2 = Nothing
-        Me.TxtFinder1.MyReadOnly = False
-        Me.TxtFinder1.MyShowMasterFormButton = False
-        Me.TxtFinder1.Name = "TxtFinder1"
-        Me.TxtFinder1.ReferenceFieldDesc = Nothing
-        Me.TxtFinder1.ReferenceFieldName = Nothing
-        Me.TxtFinder1.ReferenceTableName = Nothing
-        Me.TxtFinder1.Size = New System.Drawing.Size(187, 19)
-        Me.TxtFinder1.TabIndex = 62
-        Me.TxtFinder1.Value = ""
         '
         'MyLabel14
         '
@@ -915,16 +1010,6 @@ Partial Class frmSeedSelectionEntry
         Me.MyLabel14.Name = "MyLabel14"
         Me.MyLabel14.Size = New System.Drawing.Size(169, 19)
         Me.MyLabel14.TabIndex = 44
-        '
-        'UsLock1
-        '
-        Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(429, 11)
-        Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.UsLock1.Name = "UsLock1"
-        Me.UsLock1.Size = New System.Drawing.Size(97, 20)
-        Me.UsLock1.Status = common.ERPTransactionStatus.Pending
-        Me.UsLock1.TabIndex = 26
         '
         'MyLabel18
         '
@@ -945,32 +1030,6 @@ Partial Class frmSeedSelectionEntry
         Me.MyLabel20.Size = New System.Drawing.Size(40, 16)
         Me.MyLabel20.TabIndex = 63
         Me.MyLabel20.Text = "Village"
-        '
-        'TxtFinder2
-        '
-        Me.TxtFinder2.CalculationExpression = Nothing
-        Me.TxtFinder2.FieldCode = Nothing
-        Me.TxtFinder2.FieldDesc = Nothing
-        Me.TxtFinder2.FieldMaxLength = 0
-        Me.TxtFinder2.FieldName = Nothing
-        Me.TxtFinder2.isCalculatedField = False
-        Me.TxtFinder2.IsSourceFromTable = False
-        Me.TxtFinder2.IsSourceFromValueList = False
-        Me.TxtFinder2.IsUnique = False
-        Me.TxtFinder2.Location = New System.Drawing.Point(145, 35)
-        Me.TxtFinder2.MendatroryField = True
-        Me.TxtFinder2.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtFinder2.MyLinkLable1 = Nothing
-        Me.TxtFinder2.MyLinkLable2 = Nothing
-        Me.TxtFinder2.MyReadOnly = False
-        Me.TxtFinder2.MyShowMasterFormButton = False
-        Me.TxtFinder2.Name = "TxtFinder2"
-        Me.TxtFinder2.ReferenceFieldDesc = Nothing
-        Me.TxtFinder2.ReferenceFieldName = Nothing
-        Me.TxtFinder2.ReferenceTableName = Nothing
-        Me.TxtFinder2.Size = New System.Drawing.Size(187, 19)
-        Me.TxtFinder2.TabIndex = 19
-        Me.TxtFinder2.Value = ""
         '
         'MyLabel22
         '
@@ -1169,48 +1228,6 @@ Partial Class frmSeedSelectionEntry
         Me.txtInsStartDate.Text = "13/06/2011"
         Me.txtInsStartDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
         '
-        'cmbUsedAs
-        '
-        Me.cmbUsedAs.AutoCompleteDisplayMember = Nothing
-        Me.cmbUsedAs.AutoCompleteValueMember = Nothing
-        Me.cmbUsedAs.CalculationExpression = Nothing
-        Me.cmbUsedAs.DropDownAnimationEnabled = True
-        Me.cmbUsedAs.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.cmbUsedAs.FieldCode = Nothing
-        Me.cmbUsedAs.FieldDesc = Nothing
-        Me.cmbUsedAs.FieldMaxLength = 0
-        Me.cmbUsedAs.FieldName = Nothing
-        Me.cmbUsedAs.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmbUsedAs.isCalculatedField = False
-        Me.cmbUsedAs.IsSourceFromTable = False
-        Me.cmbUsedAs.IsSourceFromValueList = False
-        Me.cmbUsedAs.IsUnique = False
-        RadListDataItem1.Text = "Finished Goods"
-        RadListDataItem2.Text = "Promotional Item"
-        RadListDataItem3.Text = "Trading Item"
-        Me.cmbUsedAs.Items.Add(RadListDataItem1)
-        Me.cmbUsedAs.Items.Add(RadListDataItem2)
-        Me.cmbUsedAs.Items.Add(RadListDataItem3)
-        Me.cmbUsedAs.Location = New System.Drawing.Point(145, 157)
-        Me.cmbUsedAs.MendatroryField = True
-        Me.cmbUsedAs.MyLinkLable1 = Me.MyLabel10
-        Me.cmbUsedAs.MyLinkLable2 = Nothing
-        Me.cmbUsedAs.Name = "cmbUsedAs"
-        Me.cmbUsedAs.ReferenceFieldDesc = Nothing
-        Me.cmbUsedAs.ReferenceFieldName = Nothing
-        Me.cmbUsedAs.ReferenceTableName = Nothing
-        Me.cmbUsedAs.Size = New System.Drawing.Size(138, 18)
-        Me.cmbUsedAs.TabIndex = 1473
-        '
-        'MyLabel10
-        '
-        Me.MyLabel10.FieldName = Nothing
-        Me.MyLabel10.Location = New System.Drawing.Point(12, 157)
-        Me.MyLabel10.Name = "MyLabel10"
-        Me.MyLabel10.Size = New System.Drawing.Size(45, 18)
-        Me.MyLabel10.TabIndex = 1474
-        Me.MyLabel10.Text = "Season"
-        '
         'frmSeedSelectionEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1229,6 +1246,18 @@ Partial Class frmSeedSelectionEntry
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbSelectedFlag, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtSowingWeekMonth, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtArea, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel24, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbSeason, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtLeaseLand, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1238,28 +1267,24 @@ Partial Class frmSeedSelectionEntry
         CType(Me.txtFamilyLand, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyTextBox4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtKhasraNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyTextBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCropLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel40, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDistrict, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel41, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyTextBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCropRegCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel26, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel33, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel35, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel37, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtPolicyNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblInsType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblInsCompName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblVillage, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblGrower, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyTextBox1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1275,8 +1300,6 @@ Partial Class frmSeedSelectionEntry
         CType(Me.txtPolicydate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtInsEndDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtInsStartDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cmbUsedAs, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1297,49 +1320,38 @@ Partial Class frmSeedSelectionEntry
     Friend WithEvents btnclose As RadButton
     Friend WithEvents btndelete As RadButton
     Friend WithEvents btnsave As RadButton
-    Friend WithEvents txtPolicyNo As common.Controls.MyTextBox
-    Friend WithEvents txtInsType As common.UserControls.txtFinder
     Friend WithEvents MyLabel11 As common.Controls.MyLabel
-    Friend WithEvents lblInsType As common.Controls.MyLabel
-    Friend WithEvents lblStatus As common.usLock
-    Friend WithEvents lblInsCompName As common.Controls.MyLabel
-    Friend WithEvents txtInsCompany As common.UserControls.txtFinder
+    Friend WithEvents lblVillage As common.Controls.MyLabel
+    Friend WithEvents lblGrower As common.Controls.MyLabel
     Friend WithEvents MyLabel6 As common.Controls.MyLabel
     Friend WithEvents btnAddNew As RadButton
     Friend WithEvents lblCode As common.Controls.MyLabel
-    Friend WithEvents txtDocumentNo As common.UserControls.txtNavigator
     Friend WithEvents txtPolicydate As common.Controls.MyDateTimePicker
     Friend WithEvents txtInsEndDate As common.Controls.MyDateTimePicker
     Friend WithEvents txtInsStartDate As common.Controls.MyDateTimePicker
-    Friend WithEvents TxtFinder5 As common.UserControls.txtFinder
-    Friend WithEvents MyLabel40 As common.Controls.MyLabel
+    Friend WithEvents txtDistrict As common.UserControls.txtFinder
+    Friend WithEvents lblDistrict As common.Controls.MyLabel
     Friend WithEvents MyLabel41 As common.Controls.MyLabel
-    Friend WithEvents MyTextBox2 As common.Controls.MyTextBox
+    Friend WithEvents txtCropRegCode As common.Controls.MyTextBox
     Friend WithEvents MyLabel25 As common.Controls.MyLabel
-    Friend WithEvents TxtFinder3 As common.UserControls.txtFinder
-    Friend WithEvents MyLabel29 As common.Controls.MyLabel
-    Friend WithEvents UsLock2 As common.usLock
-    Friend WithEvents MyLabel33 As common.Controls.MyLabel
+    Friend WithEvents txtVillage As common.UserControls.txtFinder
+    Friend WithEvents UsLock As common.usLock
     Friend WithEvents MyLabel35 As common.Controls.MyLabel
-    Friend WithEvents TxtFinder4 As common.UserControls.txtFinder
+    Friend WithEvents txtGrower As common.UserControls.txtFinder
     Friend WithEvents MyLabel37 As common.Controls.MyLabel
-    Friend WithEvents TxtNavigator2 As common.UserControls.txtNavigator
-    Friend WithEvents RadButton2 As RadButton
-    Friend WithEvents MyTextBox1 As common.Controls.MyTextBox
+    Friend WithEvents txtDocumentNo As common.UserControls.txtNavigator
+    Friend WithEvents btnNew As RadButton
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
-    Friend WithEvents TxtFinder1 As common.UserControls.txtFinder
     Friend WithEvents MyLabel14 As common.Controls.MyLabel
-    Friend WithEvents UsLock1 As common.usLock
     Friend WithEvents MyLabel18 As common.Controls.MyLabel
     Friend WithEvents MyLabel20 As common.Controls.MyLabel
-    Friend WithEvents TxtFinder2 As common.UserControls.txtFinder
     Friend WithEvents MyLabel22 As common.Controls.MyLabel
     Friend WithEvents TxtNavigator1 As common.UserControls.txtNavigator
     Friend WithEvents RadButton1 As RadButton
-    Friend WithEvents MyTextBox3 As common.Controls.MyTextBox
+    Friend WithEvents txtCropLocation As common.Controls.MyTextBox
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents MyLabel26 As common.Controls.MyLabel
-    Friend WithEvents MyTextBox4 As common.Controls.MyTextBox
+    Friend WithEvents txtKhasraNo As common.Controls.MyTextBox
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents txtLeaseLand As common.MyNumBox
@@ -1350,6 +1362,18 @@ Partial Class frmSeedSelectionEntry
     Friend WithEvents txtFamilyLand As common.MyNumBox
     Friend WithEvents MyLabel23 As common.Controls.MyLabel
     Friend WithEvents MyLabel9 As common.Controls.MyLabel
-    Friend WithEvents cmbUsedAs As common.Controls.MyComboBox
+    Friend WithEvents cmbSeason As common.Controls.MyComboBox
     Friend WithEvents MyLabel10 As common.Controls.MyLabel
+    Friend WithEvents txtPONo As common.UserControls.txtFinder
+    Friend WithEvents RadLabel24 As common.Controls.MyLabel
+    Friend WithEvents txtItemCode As common.UserControls.txtFinder
+    Friend WithEvents MyLabel12 As common.Controls.MyLabel
+    Friend WithEvents txtArea As common.Controls.MyTextBox
+    Friend WithEvents MyLabel13 As common.Controls.MyLabel
+    Friend WithEvents txtSowingWeekMonth As common.Controls.MyTextBox
+    Friend WithEvents MyLabel15 As common.Controls.MyLabel
+    Friend WithEvents cmbSelectedFlag As common.Controls.MyComboBox
+    Friend WithEvents MyLabel16 As common.Controls.MyLabel
+    Friend WithEvents RadLabel4 As common.Controls.MyLabel
+    Friend WithEvents txtDate As common.Controls.MyDateTimePicker
 End Class

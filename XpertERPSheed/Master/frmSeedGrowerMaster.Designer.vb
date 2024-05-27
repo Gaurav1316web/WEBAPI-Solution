@@ -1076,13 +1076,13 @@ Partial Class frmSeedGrowerMaster
         Me.btnclose.TabIndex = 8
         Me.btnclose.Text = "Close"
         '
-        'frmSheedGrowerMaster
+        'frmSeedGrowerMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(943, 539)
         Me.Controls.Add(Me.SplitContainer1)
-        Me.Name = "frmSheedGrowerMaster"
+        Me.Name = "frmSeedGrowerMaster"
         '
         '
         '
