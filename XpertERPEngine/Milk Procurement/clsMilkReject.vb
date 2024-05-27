@@ -1156,7 +1156,7 @@ Public Class clsMilkRejectHead
         Dim SetCowFatPer As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, Nothing))
 
         Dim qry As String = "Select final.[Milk Receipt Code] ,final.MCC as [MCC Code] ,final.[MCC Name],final.Short_Description_MCC,final.[MCC Type] ,final.[Chilling Center],final.[Plant Code],final.[Plant Name] ,final.Date ,final.[Doc Date] ,final.Shift ," &
-                "final.[Route Code],final.[Route Name],final.[Zone Code],final.Short_Description_Route ,final.[Vehicle Code] ,final.[Secretary Code],final.[Secretary Name],final.[Vendor Group Code] ,final.[Vendor Group Desc],final.[Vlc Uploader Code] ,final.[DCS Code] ,final.[DCS Name],final.Short_Description_VLC ," &
+                "final.[Route Code],final.[Route Name],final.[Zone Code],final.Short_Description_Route ,final.[Vehicle Code] ,final.[VSP Code],final.[VSP Name],final.[Vendor Group Code] ,final.[Vendor Group Desc],final.[Vlc Uploader Code] ,final.[Vlc Code] ,final.[VLC Name],final.Short_Description_VLC ," &
                 " final.[Sample No] ,final.[No Of Cans] ,final.Item_Code,final.Item_Desc,final.[Milk Weight],final.UOM_Code as [UOM],final.[Milk Weight(KG)]," &
                 " final.[Milk Weight(LTR)]  as [Milk Weight(LTR)],final.[DBT Amount]," &
                 " final.Capping_FAT,final.[FAT(%)]  ,final.CLR,final.Capping_SNF,final.[SNF(%)] ,final.[FAT(KG)],final.[SNF(KG)],final.[FAT(LTR)],final.[SNF(LTR)], final.FAT_Amount , final.SNF_Amount ,final.[Cow Milk Qty (KG)],final.[Cow Milk Qty (Ltr)],final.[Cow FAT(%)], Case When final.[FAT(%)] <= 5 Then final.CLR Else 0 End [Cow CLR],final.[Cow SNF(%)] , Case When final.[FAT(%)] <= 5 Then final.[FAT(KG)] Else 0 End [Cow FAT (KG)], Case When final.[FAT(%)] <= 5 Then final.[SNF(KG)] Else 0 End [Cow SNF (KG)]," &
@@ -1189,8 +1189,8 @@ Public Class clsMilkRejectHead
             qry += " TSPL_MILK_SRN_HEAD.ROUTE_CODE As [Route Code], "
         End If
         qry += " TSPL_BULK_ROUTE_MASTER.Route_Name As [Route Name], TSPL_MILK_SRN_HEAD.VEHICLE_CODE As [Vehicle Code]," &
-                " TSPL_MILK_SRN_HEAD.VSP_CODE As [Secretary Code], TSPL_VENDOR_MASTER.Vendor_Name As [Secretary Name], TSPL_VENDOR_MASTER.Vendor_Group_Code As [Vendor Group Code],TSPL_VENDOR_GROUP.Group_Desc as [Vendor Group Desc],TSPL_VLC_MASTER_HEAD.VLC_Code As [DCS Code]," &
-                " TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code], TSPL_VLC_MASTER_HEAD.VLC_Name As [DCS Name], TSPL_MILK_SRN_HEAD.SAMPLE_NO As [Sample No], " &
+                " TSPL_MILK_SRN_HEAD.VSP_CODE As [VSP Code], TSPL_VENDOR_MASTER.Vendor_Name As [VSP Name], TSPL_VENDOR_MASTER.Vendor_Group_Code As [Vendor Group Code],TSPL_VENDOR_GROUP.Group_Desc as [Vendor Group Desc],TSPL_VLC_MASTER_HEAD.VLC_Code As [Vlc Code]," &
+                " TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code], TSPL_VLC_MASTER_HEAD.VLC_Name As [VLC Name], TSPL_MILK_SRN_HEAD.SAMPLE_NO As [Sample No], " &
                 " Case When TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No IS Null Then TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.No_Of_Cans Else 
                   Case When TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No Is Null Then TSPL_MILK_SHIFT_UPLOADER_DETAIL.No_Of_Cans Else 0 End End As [No Of Cans], TSPL_MILK_SRN_DETAIL.Qty As [Milk Weight],TSPL_MILK_SRN_DETAIL.UOM_Code, TSPL_MILK_SRN_DETAIL.ACC_QTY As [Milk Weight(KG)]," &
                 " convert(decimal(18,2),TSPL_MILK_SRN_DETAIL.ACC_QTY_LTR) As [Milk Weight(LTR)],Convert(decimal(18,2),TSPL_MILK_SRN_DETAIL.ACC_QTY_LTR)*5 as [DBT Amount] , TSPL_MILK_SRN_DETAIL.FAT_PER As [FAT(%)], TSPL_MILK_SRN_DETAIL.SNF_PER As [SNF(%)], TSPL_MILK_SRN_DETAIL.CLR, "
