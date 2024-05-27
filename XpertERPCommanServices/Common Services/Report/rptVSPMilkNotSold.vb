@@ -190,7 +190,7 @@ Public Class rptVSPMilkNotSold
 					    Order  By Cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As int) Asc"
                 End If
             Else
-                qry = "select TSPL_VLC_MASTER_HEAD.VSP_Code as [DCS Code] ,TSPL_VENDOR_MASTER.Vendor_Name as [DCS Name],TSPL_VLC_MASTER_HEAD.MCC ,TSPL_Location_MASTER.Location_Desc as [MCC Name] ,'" + Area + "' as Area ,TSPL_Location_MASTER.Loc_Segment_Code as [SegmentCode],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Uploader Code],  '" + dtpFromDate.Text + "' as PaymentCycleFrom, '" + dtpToDate.Text + "' PaymentCycleTo  from TSPL_VLC_MASTER_HEAD 
+                qry = "select TSPL_VLC_MASTER_HEAD.VSP_Code as [VSP Code] ,TSPL_VENDOR_MASTER.Vendor_Name as [VSP Name],TSPL_VLC_MASTER_HEAD.MCC ,TSPL_Location_MASTER.Location_Desc as [MCC Name] ,'" + Area + "' as Area ,TSPL_Location_MASTER.Loc_Segment_Code as [SegmentCode],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [VLC Uploader Code],  '" + dtpFromDate.Text + "' as PaymentCycleFrom, '" + dtpToDate.Text + "' PaymentCycleTo  from TSPL_VLC_MASTER_HEAD 
                     left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_VLC_MASTER_HEAD.VSP_Code
                     left outer join TSPL_Location_MASTER on TSPL_Location_MASTER.Location_Code = TSPL_VLC_MASTER_HEAD.MCC and TSPL_Location_MASTER.Rejected_Type='N' and TSPL_Location_MASTER.Location_Category='MCC'
                     left outer join TSPL_MCC_MASTER ON TSPL_VLC_MASTER_HEAD.MCC=TSPL_MCC_MASTER.MCC_Code

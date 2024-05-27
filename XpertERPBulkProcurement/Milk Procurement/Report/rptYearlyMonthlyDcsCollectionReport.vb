@@ -31,7 +31,7 @@ Public Class rptYearlyMonthlyDcsCollectionReport
             Dim dt As New DataTable
             Dim strQry As String = "SELECT XXX.*,xxxMPCount.[Count of Farmers],xxxMPCount.[Farmers Milk Qty
 ] FROM (Select 
-TSPL_MILK_SRN_HEAD.VSP_Code as [Secretary Code],MAX(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) as [BMC Uploader code],MAX(TSPL_VLC_MASTER_HEAD.VLC_Name) as [BMC Name],max(TSPL_VLC_MASTER_HEAD.MCC) as [DCS],MAX(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) As [DCS Uploader Code],MAX(TSPL_MILK_SRN_HEAD.Route_code) AS [Route Code],
+TSPL_MILK_SRN_HEAD.VSP_Code,MAX(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) as [BMC Uploader code],MAX(TSPL_VLC_MASTER_HEAD.VLC_Name) as [BMC Name],max(TSPL_VLC_MASTER_HEAD.MCC) as [DCS],MAX(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) As [Vlc Uploader Code],MAX(TSPL_MILK_SRN_HEAD.Route_code) AS [Route Code],
 Sum(TSPL_MILK_SRN_DETAIL.Qty)AS [MILK WEIGHT],sum(TSPL_MILK_SRN_DETAIL.ACC_Qty) As [Milk Weight(KG)], 
 sum(TSPL_MILK_SRN_DETAIL.ACC_Qty_LTR) As [Milk Weight(LTR)],sum(TSPL_MILK_SRN_DETAIL.FAT_PER) As [FAT(%)], sum(TSPL_MILK_SRN_DETAIL.SNF_PER) As [SNF(%)],
 sum(TSPL_MILK_SRN_DETAIL.FAT_kg) As [FAT(KG)], sum(TSPL_MILK_SRN_DETAIL.SNF_kg) As [SNF(KG)]
@@ -58,7 +58,7 @@ where 2=2 and  Convert(Date,TSPL_MILK_SRN_HEAD.DOC_DATE,103)>=Convert(Date,'" + 
                 strQry += " and  TSPL_MILK_SRN_HEAD.VSP_Code in (" + clsCommon.GetMulcallString(txtMultDCS.arrValueMember) + ")"
             End If
             strQry += " Group By TSPL_MILK_SRN_HEAD.MCC_CODE,TSPL_MILK_SRN_HEAD.VSP_Code)XXX
-lEFT oUTER JOIN TSPL_VLC_MASTER_HEAD oN TSPL_VLC_MASTER_HEAD.VSP_Code=xxx.[Secretary Code]"
+lEFT oUTER JOIN TSPL_VLC_MASTER_HEAD oN TSPL_VLC_MASTER_HEAD.VSP_Code=xxx.VSP_CODE"
             strQry += " Left Outer Join(select TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code,sum(TSPL_MP_INCENTIVE_ENTRY_DETAIL.Qty)AS [Farmers Milk Qty
 ],COUNT(Distinct TSPL_MP_MASTER.MP_Code_VLC_Uploader)AS [Count of Farmers],TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code from TSPL_MP_MASTER
 LEFT OUTER JOIN TSPL_MP_INCENTIVE_ENTRY_DETAIL ON TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code=TSPL_MP_MASTER.MP_Code

@@ -69,15 +69,16 @@ Public Class rptBMCCapacityUtilizationReport
                 whrcls += " and TSPL_VLC_MASTER_HEAD.VLC_Code in (" + clsCommon.GetMulcallString(txtBMC.arrValueMember) + ")"
             End If
 
-            Qry = "select ROW_NUMBER() over(order by apply_date)as 'S.NO',  [DCS Name],VLC_Code_VLC_Uploader,Capacity,GSTNO,Total_Qty, Functional_Day ,BMC_Capacity, Payable_Qty,Rate, convert(decimal(18,2),(Rate * Payable_Qty)) as Amount , Zone_Code , convert(decimal(18,2),(Total_Qty/BMC_Capacity)) as Utilization 
-            from ( select Apply_Date,[DCS Name],VLC_Code_VLC_Uploader,Capacity,GSTNO,Total_Qty as Total_Qty, Functional_Day, (Functional_Day* Capacity) as BMC_Capacity,case when  Total_Qty < (Functional_Day* Capacity) then Total_Qty else (Functional_Day * Capacity) end as Payable_Qty  , Rate,Zone_Code  from 
-            ( SELECT  Apply_Date, VLC_Code_VLC_Uploader , [DCS Name],Capacity , (GSTFinalNo) GSTNO ,(Qty)Total_Qty,Rate, Zone_Code, ( select count(*) from ( SELECT TSPL_MILK_PURCHASE_INVOICE_CHILLING_CHARGES.Apply_Date FROM TSPL_MILK_PURCHASE_INVOICE_CHILLING_CHARGES 
+            Qry = "select ROW_NUMBER() over(order by apply_date)as 'S.NO',  VLC_Name,VLC_Code_VLC_Uploader,Capacity,GSTNO,Total_Qty, Functional_Day ,BMC_Capacity, Payable_Qty,Rate, convert(decimal(18,2),(Rate * Payable_Qty)) as Amount , Zone_Code , convert(decimal(18,2),(Total_Qty/BMC_Capacity)) as Utilization 
+            from ( select Apply_Date,VLC_Name,VLC_Code_VLC_Uploader,Capacity,GSTNO,Total_Qty as Total_Qty, Functional_Day, (Functional_Day* Capacity) as BMC_Capacity,case when  Total_Qty < (Functional_Day* Capacity) then Total_Qty else (Functional_Day * Capacity) end as Payable_Qty  , Rate,Zone_Code  from 
+            ( SELECT  Apply_Date, VLC_Code_VLC_Uploader , VLC_Name,Capacity , (GSTFinalNo) GSTNO ,(Qty)Total_Qty,Rate, Zone_Code, ( select count(*) from ( SELECT TSPL_MILK_PURCHASE_INVOICE_CHILLING_CHARGES.Apply_Date FROM TSPL_MILK_PURCHASE_INVOICE_CHILLING_CHARGES 
             where 1 = 1 and CONVERT(DATE, Apply_Date, 103) >= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "', 103) AND CONVERT(DATE, Apply_Date, 103) <= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "', 103)
-            GROUP BY TSPL_MILK_PURCHASE_INVOICE_CHILLING_CHARGES.Apply_Date ) xx ) as Functional_Day  FROM  ( select TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Name AS [DCS Name] ,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_CHILLING_CHARGES_SLAB.Capacity,TSPL_VENDOR_MASTER.GSTFinalNo,TSPL_MILK_PURCHASE_INVOICE_CHILLING_CHARGES.Qty,
+            GROUP BY TSPL_MILK_PURCHASE_INVOICE_CHILLING_CHARGES.Apply_Date ) xx ) as Functional_Day  FROM  ( select TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Name ,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_CHILLING_CHARGES_SLAB.Capacity,TSPL_VENDOR_MASTER.GSTFinalNo,TSPL_MILK_PURCHASE_INVOICE_CHILLING_CHARGES.Qty,
             TSPL_MILK_PURCHASE_INVOICE_CHILLING_CHARGES.Apply_Date,TSPL_MILK_PURCHASE_INVOICE_CHILLING_CHARGES.Rate,TSPL_VENDOR_MASTER.Zone_Code from TSPL_MILK_PURCHASE_INVOICE_CHILLING_CHARGES  left outer join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE = TSPL_MILK_PURCHASE_INVOICE_CHILLING_CHARGES.InvoiceNo
             left outer join TSPL_CHILLING_CHARGES_SLAB on TSPL_CHILLING_CHARGES_SLAB.PK_ID = TSPL_MILK_PURCHASE_INVOICE_CHILLING_CHARGES.Against_Chilling_Slab_PK_ID left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE
             left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_VENDOR_MASTER.Vendor_Code " & whrcls & " ) xx  )xxx )xxxx"
             dt = clsDBFuncationality.GetDataTable(Qry)
+
 
             gv1.DataSource = Nothing
             gv1.Rows.Clear()
