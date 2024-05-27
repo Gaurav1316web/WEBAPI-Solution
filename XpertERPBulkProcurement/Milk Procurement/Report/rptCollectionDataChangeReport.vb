@@ -362,13 +362,18 @@ Public Class rptCollectionDataChangeReport
             End If
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-
+            gv1.DataSource = Nothing
+            gv1.Columns.Clear()
+            gv1.Rows.Clear()
+            gv1.GroupDescriptors.Clear()
+            gv1.MasterTemplate.SummaryRowsBottom.Clear()
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
-                gv1.DataSource = Nothing
-                gv1.Columns.Clear()
-                gv1.Rows.Clear()
-                gv1.GroupDescriptors.Clear()
-                gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                gv1.DataSource = dt
+                CellColorRed()
+                SetGridFormationOFGV1()
+                gv1.BestFitColumns()
+                ReStoreGridLayout()
+                View()
                 gv1.ShowGroupPanel = True
 
                 gv1.EnableFiltering = True
@@ -378,12 +383,7 @@ Public Class rptCollectionDataChangeReport
                 clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
 
-            gv1.DataSource = dt
-            SetGridFormationOFGV1()
 
-            gv1.BestFitColumns()
-            ReStoreGridLayout()
-            View()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -623,7 +623,7 @@ Public Class rptCollectionDataChangeReport
         End If
     End Sub
 
-    Private Sub gv1_CellFormatting(sender As Object, e As CellFormattingEventArgs) Handles gv1.CellFormatting
+    Sub CellColorRed()
         Try
             If rbtnMilkProcUpl.Checked Then
                 If gv1.Rows.Count > 0 Then
