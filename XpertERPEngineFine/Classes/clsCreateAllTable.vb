@@ -14569,13 +14569,19 @@ Public Class clsCreateAllTable
             coll.Add("Longitude", "varchar(20) NULL")
             coll.Add("File_Info", "bigint NULL")
             coll.Add("Is_Default_Grower", "Integer null default 0")
+            coll.Add("Virtual_AC_No", "varchar(28) null")
             Try
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", False)
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", True)
             Catch ex As Exception
 
             End Try
+            Try
+                clsDBFuncationality.ExecuteNonQuery("CREATE UNIQUE INDEX Unique_Virtual_AC_No ON TSPL_CUSTOMER_MASTER (Virtual_AC_No) WHERE Virtual_AC_No IS NOT NULL;")
 
+            Catch ex As Exception
+
+            End Try
 
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("update TSPL_CUSTOMER_MASTER set Created_Date=convert(datetime,Created_Date_XX,103),Modify_Date=convert(datetime,Modified_Date_XX,103)")
