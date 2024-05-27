@@ -1291,7 +1291,12 @@ and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE='" + clsCommon.myCstr(dtVLC.Rows(0)
                     Else
                         objMilkSRNDetail.SNF = objtr.SNF
                         objMilkSRNDetail.CLR = clsEkoPro.getClrOnCalculation(objMilkSRNDetail.FAT, objMilkSRNDetail.SNF, corrFactor)
-                        objMilkSRNDetail.RATE = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(objMilkSRNDetail.MILK_Qty, objMilkSRNDetail.Price_Code, objMilkSRNDetail.FAT, objMilkSRNDetail.SNF, obj.MCC_Code, objtr.VLC_Code, obj.Shift, dtShiftDate, trans, strDockCollectionMilkType, objMilkSRNDetail.QAT_Rate, objMilkSRNDetail.Negative_Rate)
+                        If PickPriceFromFATAndSNF Then
+                            objMilkSRNDetail.RATE = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(objMilkSRNDetail.MILK_Qty, objMilkSRNDetail.Price_Code, objMilkSRNDetail.FAT, objMilkSRNDetail.SNF, obj.MCC_Code, objtr.VLC_Code, obj.Shift, dtShiftDate, trans, strDockCollectionMilkType, objMilkSRNDetail.QAT_Rate, objMilkSRNDetail.Negative_Rate)
+                        Else
+                            objMilkSRNDetail.CLR = clsCommon.myRoundOFF(objMilkSRNDetail.CLR, 0, 4)
+                            objMilkSRNDetail.RATE = clsEkoPro.getRateFromUploaderShiftWiseCLR(objMilkSRNDetail.FAT, objMilkSRNDetail.CLR, obj.MCC_Code, objtr.VLC_Code, obj.Shift, dtShiftDate, trans, strDockCollectionMilkType, objMilkSRNDetail.Price_Code)
+                        End If
                     End If
                     objMilkSRNDetail.MCC_CODE = obj.MCC_Code
                     objMilkSRNDetail.Correction_Factor = corrFactor

@@ -2904,6 +2904,7 @@ left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_FAT_SNF_UPL
         Dim Rate As Double = 0
         Try
             CLR = clsERPFuncationality.myDclInZeroPointFive(CLR)
+
             If Not clsVendorMaster.IsVLCDripSaver(vlcCode, tran) Then
                 Dim qry As String = "select top 1 rate,TSPL_FAT_SNF_UPLOADER_MASTER.Code from TSPL_FAT_SNF_UPLOADER_MASTER "
                 'inner join TSPL_FAT_SNF_UPLOADER_MCC on TSPL_FAT_SNF_UPLOADER_MCC.MCC_Code='" & MccCode & "' and  TSPL_FAT_SNF_UPLOADER_MASTER.Code=TSPL_FAT_SNF_UPLOADER_MCC.Code 
