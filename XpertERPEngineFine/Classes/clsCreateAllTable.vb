@@ -14569,13 +14569,19 @@ Public Class clsCreateAllTable
             coll.Add("Longitude", "varchar(20) NULL")
             coll.Add("File_Info", "bigint NULL")
             coll.Add("Is_Default_Grower", "Integer null default 0")
+            coll.Add("Virtual_AC_No", "varchar(28) null")
             Try
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", False)
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", True)
             Catch ex As Exception
 
             End Try
+            Try
+                clsDBFuncationality.ExecuteNonQuery("CREATE UNIQUE INDEX Unique_Virtual_AC_No ON TSPL_CUSTOMER_MASTER (Virtual_AC_No) WHERE Virtual_AC_No IS NOT NULL;")
 
+            Catch ex As Exception
+
+            End Try
 
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("update TSPL_CUSTOMER_MASTER set Created_Date=convert(datetime,Created_Date_XX,103),Modify_Date=convert(datetime,Modified_Date_XX,103)")
@@ -25065,6 +25071,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Amt", "DECIMAL(18,2) NULL")
             coll.Add("Against_Milk_Collection_MCC_Detail", "integer NULL references TSPL_MILK_COLLECTION_MCC_DETAIL(PK_Id)")
             coll.Add("Against_Milk_Collection_DCS", "Varchar(30) null references TSPL_MILK_COLLECTION_DCS(Document_No)")
+            coll.Add("Against_Milk_Collection_DCS_Multiple_Days", "Varchar(30) null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS(Document_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED", coll, Nothing, False, False, "TSPL_MILK_PURCHASE_INVOICE_HEAD", "InvoiceNo", "")
 
             qry = "alter table TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED alter column SRN_CODE varchar(30) null"
@@ -55467,6 +55474,33 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Modified_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
             coll.Add("Modified_Date", "Datetime NOT NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_SHEED_GROWER_MASTER", coll)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Document_No", "Varchar(30) not null PRIMARY KEY")
+            coll.Add("Document_Date", "datetime not NULL")
+            coll.Add("PO_Code", "varchar(30) null References TSPL_PURCHASE_ORDER_HEAD(PurchaseOrder_No)")
+            coll.Add("Grower_Code", "Varchar(30) null REFERENCES TSPL_SHEED_GROWER_MASTER(Code)")
+            coll.Add("Crop_Reg_Code", "varchar(30) null")
+            coll.Add("Crop_Location", "varchar(30) null")
+            coll.Add("Area", "varchar(30) null")
+            coll.Add("Item_Code", "Varchar(50) NULL References TSPL_ITEM_MASTER(Item_Code)")
+            coll.Add("Khasra_No", "varchar(20) NULL")
+            coll.Add("Season", "Varchar(6) NULL")
+            coll.Add("Village_Code", "varchar(30)  NULL REFERENCES TSPL_VILLAGE_MASTER(Village_code)")
+            coll.Add("DISTRICT_Code", "Varchar(30) null references TSPL_DISTRICT_MASTER (Code)")
+            coll.Add("Own_Land", "decimal(18,2)  NULL")
+            coll.Add("Family_Land", "decimal(18,2) NULL ")
+            coll.Add("Lease_Land", "decimal(18,2)  NULL")
+            coll.Add("Selected_Flag", "char(1) NOT NULL DEFAULT 'N'")
+            coll.Add("Sowing_Week_Month", "varchar(20) NULL")
+            coll.Add("Status", "integer not null default 0")
+            coll.Add("Created_By", "varchar(12) NOT null REFERENCES TSPL_USER_MASTER(User_Code)")
+            coll.Add("Created_Date", "datetime NOT NULL")
+            coll.Add("Modified_By", "varchar(12) NOT  null REFERENCES TSPL_USER_MASTER(User_Code)")
+            coll.Add("Modified_Date", "datetime NOT NULL")
+            coll.Add("Posted_By", "varchar(12) null REFERENCES TSPL_USER_MASTER(User_Code)")
+            coll.Add("Posted_Date", "Datetime NULL")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_SEED_GROWER_SELECTION_ENTRY", coll, "", False)
 
             clsCommon.ProgressBarPercentHide()
         Catch ex As Exception

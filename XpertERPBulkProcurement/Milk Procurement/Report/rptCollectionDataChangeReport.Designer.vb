@@ -22,10 +22,13 @@ Partial Class rptCollectionDataChangeReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnCorrectionData = New System.Windows.Forms.RadioButton()
+        Me.rbtnRetestingData = New System.Windows.Forms.RadioButton()
         Me.txtMCC = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel16 = New common.Controls.MyLabel()
         Me.txtVLC = New common.UserControls.txtMultiSelectFinder()
@@ -51,15 +54,15 @@ Partial Class rptCollectionDataChangeReport
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnRetestingData = New System.Windows.Forms.RadioButton()
-        Me.rbtnCorrectionData = New System.Windows.Forms.RadioButton()
+        Me.rbtnMilkProcUpl = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -79,8 +82,6 @@ Partial Class rptCollectionDataChangeReport
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox2.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -135,6 +136,41 @@ Partial Class rptCollectionDataChangeReport
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1008, 397)
         Me.RadPageViewPage1.Text = "Filter"
         '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rbtnMilkProcUpl)
+        Me.RadGroupBox2.Controls.Add(Me.rbtnCorrectionData)
+        Me.RadGroupBox2.Controls.Add(Me.rbtnRetestingData)
+        Me.RadGroupBox2.HeaderText = ""
+        Me.RadGroupBox2.Location = New System.Drawing.Point(408, 3)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(188, 75)
+        Me.RadGroupBox2.TabIndex = 397
+        '
+        'rbtnCorrectionData
+        '
+        Me.rbtnCorrectionData.AutoSize = True
+        Me.rbtnCorrectionData.Location = New System.Drawing.Point(13, 28)
+        Me.rbtnCorrectionData.Name = "rbtnCorrectionData"
+        Me.rbtnCorrectionData.Size = New System.Drawing.Size(106, 17)
+        Me.rbtnCorrectionData.TabIndex = 1
+        Me.rbtnCorrectionData.TabStop = True
+        Me.rbtnCorrectionData.Text = "Correction Data"
+        Me.rbtnCorrectionData.UseVisualStyleBackColor = True
+        '
+        'rbtnRetestingData
+        '
+        Me.rbtnRetestingData.AutoSize = True
+        Me.rbtnRetestingData.Location = New System.Drawing.Point(13, 5)
+        Me.rbtnRetestingData.Name = "rbtnRetestingData"
+        Me.rbtnRetestingData.Size = New System.Drawing.Size(101, 17)
+        Me.rbtnRetestingData.TabIndex = 0
+        Me.rbtnRetestingData.TabStop = True
+        Me.rbtnRetestingData.Text = "Retesting Data"
+        Me.rbtnRetestingData.UseVisualStyleBackColor = True
+        '
         'txtMCC
         '
         Me.txtMCC.arrDispalyMember = Nothing
@@ -177,7 +213,7 @@ Partial Class rptCollectionDataChangeReport
         Me.MyLabel15.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel15.Location = New System.Drawing.Point(3, 99)
         Me.MyLabel15.Name = "MyLabel15"
-        Me.MyLabel15.Size = New System.Drawing.Size(26, 18)
+        Me.MyLabel15.Size = New System.Drawing.Size(27, 18)
         Me.MyLabel15.TabIndex = 394
         Me.MyLabel15.Text = "DCS"
         '
@@ -344,7 +380,8 @@ Partial Class rptCollectionDataChangeReport
         Me.gv1.MasterTemplate.EnableFiltering = True
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -426,39 +463,16 @@ Partial Class rptCollectionDataChangeReport
         Me.btnGo.TabIndex = 42
         Me.btnGo.Text = ">>>"
         '
-        'RadGroupBox2
+        'rbtnMilkProcUpl
         '
-        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox2.Controls.Add(Me.rbtnCorrectionData)
-        Me.RadGroupBox2.Controls.Add(Me.rbtnRetestingData)
-        Me.RadGroupBox2.HeaderText = ""
-        Me.RadGroupBox2.Location = New System.Drawing.Point(408, 3)
-        Me.RadGroupBox2.Name = "RadGroupBox2"
-        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(156, 50)
-        Me.RadGroupBox2.TabIndex = 397
-        '
-        'rbtnRetestingData
-        '
-        Me.rbtnRetestingData.AutoSize = True
-        Me.rbtnRetestingData.Location = New System.Drawing.Point(13, 5)
-        Me.rbtnRetestingData.Name = "rbtnRetestingData"
-        Me.rbtnRetestingData.Size = New System.Drawing.Size(101, 17)
-        Me.rbtnRetestingData.TabIndex = 0
-        Me.rbtnRetestingData.TabStop = True
-        Me.rbtnRetestingData.Text = "Retesting Data"
-        Me.rbtnRetestingData.UseVisualStyleBackColor = True
-        '
-        'rbtnCorrectionData
-        '
-        Me.rbtnCorrectionData.AutoSize = True
-        Me.rbtnCorrectionData.Location = New System.Drawing.Point(13, 28)
-        Me.rbtnCorrectionData.Name = "rbtnCorrectionData"
-        Me.rbtnCorrectionData.Size = New System.Drawing.Size(106, 17)
-        Me.rbtnCorrectionData.TabIndex = 1
-        Me.rbtnCorrectionData.TabStop = True
-        Me.rbtnCorrectionData.Text = "Correction Data"
-        Me.rbtnCorrectionData.UseVisualStyleBackColor = True
+        Me.rbtnMilkProcUpl.AutoSize = True
+        Me.rbtnMilkProcUpl.Location = New System.Drawing.Point(13, 51)
+        Me.rbtnMilkProcUpl.Name = "rbtnMilkProcUpl"
+        Me.rbtnMilkProcUpl.Size = New System.Drawing.Size(166, 17)
+        Me.rbtnMilkProcUpl.TabIndex = 2
+        Me.rbtnMilkProcUpl.TabStop = True
+        Me.rbtnMilkProcUpl.Text = "Milk Procurement Uploader"
+        Me.rbtnMilkProcUpl.UseVisualStyleBackColor = True
         '
         'rptCollectionDataChangeReport
         '
@@ -480,6 +494,9 @@ Partial Class rptCollectionDataChangeReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
@@ -500,9 +517,6 @@ Partial Class rptCollectionDataChangeReport
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox2.ResumeLayout(False)
-        Me.RadGroupBox2.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -538,5 +552,6 @@ Partial Class rptCollectionDataChangeReport
     Friend WithEvents RadGroupBox2 As RadGroupBox
     Friend WithEvents rbtnCorrectionData As RadioButton
     Friend WithEvents rbtnRetestingData As RadioButton
+    Friend WithEvents rbtnMilkProcUpl As RadioButton
 End Class
 

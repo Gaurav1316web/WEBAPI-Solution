@@ -243,11 +243,11 @@ Public Class rptDBTMilkPayment
 
         gv.Columns("VLC Name").Width = 100
         gv.Columns("VLC Name").IsVisible = True
-        gv.Columns("VLC Name").HeaderText = "VLC Name"
+        gv.Columns("VLC Name").HeaderText = "DCS Name"
 
         gv.Columns("VLC Uploader Code").Width = 100
         gv.Columns("VLC Uploader Code").IsVisible = True
-        gv.Columns("VLC Uploader Code").HeaderText = "VLC Uploader Code"
+        gv.Columns("VLC Uploader Code").HeaderText = "DCS Uploader Code"
 
         gv.Columns("SRN Qty").Width = 100
         gv.Columns("SRN Qty").IsVisible = True

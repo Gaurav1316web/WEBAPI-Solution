@@ -238,6 +238,10 @@ Partial Class frmEmployee_Master
         Me.chkPFApplicable = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtESIDispensary = New common.Controls.MyTextBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.MyLabel47 = New common.Controls.MyLabel()
+        Me.MyLabel46 = New common.Controls.MyLabel()
+        Me.txtmembershipid = New common.Controls.MyTextBox()
+        Me.txtspecialdesc = New common.Controls.MyTextBox()
         Me.MyLabel45 = New common.Controls.MyLabel()
         Me.txtpolicy = New common.Controls.MyTextBox()
         Me.MyLabel44 = New common.Controls.MyLabel()
@@ -298,10 +302,6 @@ Partial Class frmEmployee_Master
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.txtLeavingDate = New common.Controls.MyDateTimePicker()
         Me.dtpJoining = New common.Controls.MyDateTimePicker()
-        Me.MyLabel47 = New common.Controls.MyLabel()
-        Me.MyLabel46 = New common.Controls.MyLabel()
-        Me.txtmembershipid = New common.Controls.MyTextBox()
-        Me.txtspecialdesc = New common.Controls.MyTextBox()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.General.SuspendLayout()
@@ -492,6 +492,10 @@ Partial Class frmEmployee_Master
         CType(Me.chkPFApplicable, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtESIDispensary, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
+        CType(Me.MyLabel47, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel46, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtmembershipid, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtspecialdesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtpolicy, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel44, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -541,10 +545,6 @@ Partial Class frmEmployee_Master
         Me.SplitContainer1.SuspendLayout()
         CType(Me.txtLeavingDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpJoining, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel47, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel46, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtmembershipid, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtspecialdesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -565,7 +565,7 @@ Partial Class frmEmployee_Master
         Me.RadPageView1.Controls.Add(Me.pageOthers)
         Me.RadPageView1.Location = New System.Drawing.Point(5, 35)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.pageOthers
+        Me.RadPageView1.SelectedPage = Me.PageResignation
         Me.RadPageView1.Size = New System.Drawing.Size(866, 460)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -3669,7 +3669,6 @@ Partial Class frmEmployee_Master
         Me.txtRelevingDate.MyLinkLable2 = Nothing
         Me.txtRelevingDate.Name = "txtRelevingDate"
         Me.txtRelevingDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtRelevingDate.ReadOnly = True
         Me.txtRelevingDate.ReferenceFieldDesc = Nothing
         Me.txtRelevingDate.ReferenceFieldName = Nothing
         Me.txtRelevingDate.ReferenceTableName = Nothing
@@ -4291,6 +4290,74 @@ Partial Class frmEmployee_Master
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Other"
+        '
+        'MyLabel47
+        '
+        Me.MyLabel47.FieldName = Nothing
+        Me.MyLabel47.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel47.Location = New System.Drawing.Point(370, 171)
+        Me.MyLabel47.Name = "MyLabel47"
+        Me.MyLabel47.Size = New System.Drawing.Size(75, 16)
+        Me.MyLabel47.TabIndex = 186
+        Me.MyLabel47.Text = "Special Desc "
+        '
+        'MyLabel46
+        '
+        Me.MyLabel46.FieldName = Nothing
+        Me.MyLabel46.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel46.Location = New System.Drawing.Point(368, 150)
+        Me.MyLabel46.Name = "MyLabel46"
+        Me.MyLabel46.Size = New System.Drawing.Size(81, 16)
+        Me.MyLabel46.TabIndex = 185
+        Me.MyLabel46.Text = "Membership Id"
+        '
+        'txtmembershipid
+        '
+        Me.txtmembershipid.CalculationExpression = Nothing
+        Me.txtmembershipid.FieldCode = Nothing
+        Me.txtmembershipid.FieldDesc = Nothing
+        Me.txtmembershipid.FieldMaxLength = 0
+        Me.txtmembershipid.FieldName = Nothing
+        Me.txtmembershipid.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtmembershipid.isCalculatedField = False
+        Me.txtmembershipid.IsSourceFromTable = False
+        Me.txtmembershipid.IsSourceFromValueList = False
+        Me.txtmembershipid.IsUnique = False
+        Me.txtmembershipid.Location = New System.Drawing.Point(470, 149)
+        Me.txtmembershipid.MaxLength = 49
+        Me.txtmembershipid.MendatroryField = False
+        Me.txtmembershipid.MyLinkLable1 = Nothing
+        Me.txtmembershipid.MyLinkLable2 = Nothing
+        Me.txtmembershipid.Name = "txtmembershipid"
+        Me.txtmembershipid.ReferenceFieldDesc = Nothing
+        Me.txtmembershipid.ReferenceFieldName = Nothing
+        Me.txtmembershipid.ReferenceTableName = Nothing
+        Me.txtmembershipid.Size = New System.Drawing.Size(219, 18)
+        Me.txtmembershipid.TabIndex = 184
+        '
+        'txtspecialdesc
+        '
+        Me.txtspecialdesc.CalculationExpression = Nothing
+        Me.txtspecialdesc.FieldCode = Nothing
+        Me.txtspecialdesc.FieldDesc = Nothing
+        Me.txtspecialdesc.FieldMaxLength = 0
+        Me.txtspecialdesc.FieldName = Nothing
+        Me.txtspecialdesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtspecialdesc.isCalculatedField = False
+        Me.txtspecialdesc.IsSourceFromTable = False
+        Me.txtspecialdesc.IsSourceFromValueList = False
+        Me.txtspecialdesc.IsUnique = False
+        Me.txtspecialdesc.Location = New System.Drawing.Point(470, 169)
+        Me.txtspecialdesc.MaxLength = 49
+        Me.txtspecialdesc.MendatroryField = False
+        Me.txtspecialdesc.MyLinkLable1 = Nothing
+        Me.txtspecialdesc.MyLinkLable2 = Nothing
+        Me.txtspecialdesc.Name = "txtspecialdesc"
+        Me.txtspecialdesc.ReferenceFieldDesc = Nothing
+        Me.txtspecialdesc.ReferenceFieldName = Nothing
+        Me.txtspecialdesc.ReferenceTableName = Nothing
+        Me.txtspecialdesc.Size = New System.Drawing.Size(219, 18)
+        Me.txtspecialdesc.TabIndex = 183
         '
         'MyLabel45
         '
@@ -5199,74 +5266,6 @@ Partial Class frmEmployee_Master
         Me.dtpJoining.Text = "03/05/2011"
         Me.dtpJoining.Value = New Date(2011, 5, 3, 0, 0, 0, 0)
         '
-        'MyLabel47
-        '
-        Me.MyLabel47.FieldName = Nothing
-        Me.MyLabel47.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel47.Location = New System.Drawing.Point(370, 171)
-        Me.MyLabel47.Name = "MyLabel47"
-        Me.MyLabel47.Size = New System.Drawing.Size(75, 16)
-        Me.MyLabel47.TabIndex = 186
-        Me.MyLabel47.Text = "Special Desc "
-        '
-        'MyLabel46
-        '
-        Me.MyLabel46.FieldName = Nothing
-        Me.MyLabel46.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel46.Location = New System.Drawing.Point(368, 150)
-        Me.MyLabel46.Name = "MyLabel46"
-        Me.MyLabel46.Size = New System.Drawing.Size(81, 16)
-        Me.MyLabel46.TabIndex = 185
-        Me.MyLabel46.Text = "Membership Id"
-        '
-        'txtmembershipid
-        '
-        Me.txtmembershipid.CalculationExpression = Nothing
-        Me.txtmembershipid.FieldCode = Nothing
-        Me.txtmembershipid.FieldDesc = Nothing
-        Me.txtmembershipid.FieldMaxLength = 0
-        Me.txtmembershipid.FieldName = Nothing
-        Me.txtmembershipid.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtmembershipid.isCalculatedField = False
-        Me.txtmembershipid.IsSourceFromTable = False
-        Me.txtmembershipid.IsSourceFromValueList = False
-        Me.txtmembershipid.IsUnique = False
-        Me.txtmembershipid.Location = New System.Drawing.Point(470, 149)
-        Me.txtmembershipid.MaxLength = 49
-        Me.txtmembershipid.MendatroryField = False
-        Me.txtmembershipid.MyLinkLable1 = Nothing
-        Me.txtmembershipid.MyLinkLable2 = Nothing
-        Me.txtmembershipid.Name = "txtmembershipid"
-        Me.txtmembershipid.ReferenceFieldDesc = Nothing
-        Me.txtmembershipid.ReferenceFieldName = Nothing
-        Me.txtmembershipid.ReferenceTableName = Nothing
-        Me.txtmembershipid.Size = New System.Drawing.Size(219, 18)
-        Me.txtmembershipid.TabIndex = 184
-        '
-        'txtspecialdesc
-        '
-        Me.txtspecialdesc.CalculationExpression = Nothing
-        Me.txtspecialdesc.FieldCode = Nothing
-        Me.txtspecialdesc.FieldDesc = Nothing
-        Me.txtspecialdesc.FieldMaxLength = 0
-        Me.txtspecialdesc.FieldName = Nothing
-        Me.txtspecialdesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtspecialdesc.isCalculatedField = False
-        Me.txtspecialdesc.IsSourceFromTable = False
-        Me.txtspecialdesc.IsSourceFromValueList = False
-        Me.txtspecialdesc.IsUnique = False
-        Me.txtspecialdesc.Location = New System.Drawing.Point(470, 169)
-        Me.txtspecialdesc.MaxLength = 49
-        Me.txtspecialdesc.MendatroryField = False
-        Me.txtspecialdesc.MyLinkLable1 = Nothing
-        Me.txtspecialdesc.MyLinkLable2 = Nothing
-        Me.txtspecialdesc.Name = "txtspecialdesc"
-        Me.txtspecialdesc.ReferenceFieldDesc = Nothing
-        Me.txtspecialdesc.ReferenceFieldName = Nothing
-        Me.txtspecialdesc.ReferenceTableName = Nothing
-        Me.txtspecialdesc.Size = New System.Drawing.Size(219, 18)
-        Me.txtspecialdesc.TabIndex = 183
-        '
         'frmEmployee_Master
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -5477,6 +5476,10 @@ Partial Class frmEmployee_Master
         CType(Me.txtESIDispensary, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        CType(Me.MyLabel47, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel46, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtmembershipid, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtspecialdesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtpolicy, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel44, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5528,10 +5531,6 @@ Partial Class frmEmployee_Master
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.txtLeavingDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpJoining, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel47, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel46, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtmembershipid, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtspecialdesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

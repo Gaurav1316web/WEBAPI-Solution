@@ -79,6 +79,7 @@ Public Class rptBMCCapacityUtilizationReport
             left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_VENDOR_MASTER.Vendor_Code " & whrcls & " ) xx  )xxx )xxxx"
             dt = clsDBFuncationality.GetDataTable(Qry)
 
+
             gv1.DataSource = Nothing
             gv1.Rows.Clear()
             gv1.Columns.Clear()
