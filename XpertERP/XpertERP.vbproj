@@ -989,6 +989,12 @@
     <Compile Include="Milk Procurement\Master\frmCanMaster.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Master\Change_Dock_password.Designer.vb">
+      <DependentUpon>Change_Dock_password.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\Change_Dock_password.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Master\FrmChildParameterRangeMasterForQC1.Designer.vb">
       <DependentUpon>FrmChildParameterRangeMasterForQC1.vb</DependentUpon>
     </Compile>
@@ -5272,6 +5278,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Master\frmCanMaster.resx">
       <DependentUpon>frmCanMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Master\Change_Dock_password.resx">
+      <DependentUpon>Change_Dock_password.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Master\FrmChildParameterRangeMasterForQC1.resx">
       <DependentUpon>FrmChildParameterRangeMasterForQC1.vb</DependentUpon>

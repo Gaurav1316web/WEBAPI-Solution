@@ -1169,6 +1169,8 @@ Public Class clsCreateAllTable
             coll.Add("IsSuspense", "integer not null default 0")
             coll.Add("IsDefault", "bit not null default 0")
             coll.Add("Tub_Capacity", "integer null")
+            coll.Add("Recipt_Password", "varchar(50) NULL")
+            coll.Add("Sample_Password", "varchar(50) NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_MCC_MASTER", coll, "", True)
 
 

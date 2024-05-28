@@ -3,6 +3,8 @@ Imports System.Data.SqlClient
 Imports System.Windows.Forms
 
 Public Class clsMccMaster
+    Public Recipt_Password As String = Nothing
+    Public Sample_Password As String = Nothing
     Public SILOIn_Location As String = Nothing
     Public AutoIn_Location As String = Nothing
     Public AllowAutoMilkIn As Integer = 0
@@ -345,6 +347,10 @@ Public Class clsMccMaster
             rValue = False
         End If
         Return rValue
+    End Function
+    Public Shared Function UpdatePassword(ByVal milksample As String, ByVal receipt As String, ByVal MCC_Code As String, ByVal trans As SqlTransaction) As String
+        Dim qry As String = "Update TSPL_MCC_MASTER set Recipt_Password='" + receipt + "',Sample_Password='" + milksample + "' where MCC_CODE='" & MCC_Code & "'"
+        Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
     End Function
 
     Public Shared Function GetName(ByVal mccCode As String, ByVal trans As SqlTransaction) As String
