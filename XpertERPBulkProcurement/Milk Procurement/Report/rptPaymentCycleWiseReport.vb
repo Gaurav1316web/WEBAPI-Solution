@@ -119,12 +119,24 @@ Public Class rptPaymentCycleWiseReport
             End If
 
             If chkPaymentSummary.Checked = True Then
-
+                Dim date2 As DateTime
+                Dim date1 As DateTime
                 Dim strQry As String = "select min(From_Date) as From_Date,max(To_Date) as To_Date
                                         from TSPL_PAYMENT_PROCESS_HEAD where Doc_No in (" + strDocumentCode + ")"
 
                 Dim PaymentProcessDeatil As DataTable = clsDBFuncationality.GetDataTable(strQry)
-                clsPaymentProcessHead.PaymentProcessDrCrPrint(strDocumentCode, fromDate.Value, ToDate.Value, strLocaton, strDCS, strRoute, "", "", "")
+
+                If PaymentProcessDeatil.Rows.Count > 0 AndAlso PaymentProcessDeatil.Columns.Contains("From_Date") Then
+                    For Each row As DataRow In PaymentProcessDeatil.Rows
+                        If Not row("From_Date") Is DBNull.Value Then
+                            date1 = clsCommon.myCDate(row("From_Date"))
+                        End If
+                        If Not row("To_Date") Is DBNull.Value Then
+                            date2 = clsCommon.myCDate(row("To_Date"))
+                        End If
+                    Next
+                End If
+                clsPaymentProcessHead.PaymentProcessDrCrPrint(strDocumentCode, date1, date2, strLocaton, strDCS, strRoute, "", "", "")
 
             ElseIf chkShowData.Checked = True Then
                 Dim query As String = ""
