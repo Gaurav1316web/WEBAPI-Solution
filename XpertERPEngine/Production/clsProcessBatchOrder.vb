@@ -50,7 +50,7 @@ Public Class clsProcessBatchOrder
         & " left outer join TSPL_CostCenter_MASTER on TSPL_CostCenter_MASTER.Cost_Code =TSPL_PP_BATCH_ORDER_HEAD.CostCenterCode "
         Dim str As String = ""
 
-        str = clsCommon.ShowSelectForm("BTCHFND", qry, "Code", whrCls, strCurrCode, "Code", isButtonClicked, "TSPL_PP_BATCH_ORDER_HEAD.batch_date")
+        str = clsCommon.ShowSelectForm("BTCHFND", qry, "Code", whrCls, strCurrCode, "Code", isButtonClicked)
 
         Return str
     End Function

@@ -210,7 +210,7 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
         " from TSPL_RCDF_STD 
           left join (select * from (   select ROW_NUMBER()  over(partition by Doc_Code order by Product_Type desc, TSPL_RCDF_STD_PRODUCE.Item_Code) as S_no ,Doc_Code as STD_Main,  TSPL_RCDF_STD_PRODUCE.Item_Code as [Main Item Code],Item_Desc as [Item Description],Product_Type as [Product Type]  from TSPL_RCDF_STD_PRODUCE left join TSPL_ITEM_MASTER on TSPL_RCDF_STD_PRODUCE.Item_Code=TSPL_ITEM_MASTER.Item_Code  ) as M_Inner where S_no=1 ) as Main on TSPL_RCDF_STD.Doc_Code=Main.STD_Main"
         Dim str As String = ""
-        str = clsCommon.ShowSelectForm("STD", qry, "Code", whrCls, currCode, "Code", isButtonClicked, "TSPL_RCDF_STD.Doc_Date")
+        str = clsCommon.ShowSelectForm("STD", qry, "Code", whrCls, currCode, "Code", isButtonClicked, "Doc_Date")
         Return str
     End Function
     Public Shared Function PostData(ByVal Form_Id As String, ByVal strCode As String, ByVal arrLoc As String) As Boolean

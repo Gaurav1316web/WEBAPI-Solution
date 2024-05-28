@@ -57,7 +57,7 @@ Public Class rptMultipleDeductionReport
 
         Gv1.Columns("VLC Uploader Code").IsVisible = True
         Gv1.Columns("VLC Uploader Code").Width = 100
-        Gv1.Columns("VLC Uploader Code").HeaderText = "VLC Uploader Code"
+        Gv1.Columns("VLC Uploader Code").HeaderText = "DCS Uploader Code"
 
         Gv1.Columns("Document No").IsVisible = True
         Gv1.Columns("Document No").Width = 100

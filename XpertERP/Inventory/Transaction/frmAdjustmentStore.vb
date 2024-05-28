@@ -2496,7 +2496,7 @@ Public Class frmAdjustmentStore
         'whrClas += " AND ItemType IN ('RM', 'OT')"
 
 
-        txtAdjustmentNo.Value = clsCommon.ShowSelectForm("AdjustmentStoreDo1", qry, "AdjustmentNumber", whrClas, txtAdjustmentNo.Value, "TSPL_ADJUSTMENT_HEADER.Adjustment_Date desc", isButtonClicked, "TSPL_ADJUSTMENT_HEADER.Adjustment_Date")
+        txtAdjustmentNo.Value = clsCommon.ShowSelectForm("AdjustmentStoreDo1", qry, "AdjustmentNumber", whrClas, txtAdjustmentNo.Value, "TSPL_ADJUSTMENT_HEADER.Adjustment_Date desc", isButtonClicked, "Adjustment_Date")
         LoadData(txtAdjustmentNo.Value, NavigatorType.Current)
     End Sub
 

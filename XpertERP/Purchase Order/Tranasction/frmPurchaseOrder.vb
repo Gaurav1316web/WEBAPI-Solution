@@ -7304,7 +7304,7 @@ Public Class frmPurchaseOrder
         End If
 
 
-        LoadData(clsCommon.ShowSelectForm("POOrderNoFndd", qry, "PONO", whrClas, txtDocNo.Value, "PurchaseOrder_Date desc", isButtonClicked, "TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_Date"), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("POOrderNoFndd", qry, "PONO", whrClas, txtDocNo.Value, "PurchaseOrder_Date desc", isButtonClicked, "PurchaseOrder_Date"), NavigatorType.Current)
         btnCopy.Enabled = False
     End Sub
 

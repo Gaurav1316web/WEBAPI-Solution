@@ -321,11 +321,11 @@ Public Class RptLowProcurement
 
         gv.Columns("VLC_Name").IsVisible = True
         gv.Columns("VLC_Name").Width = 100
-        gv.Columns("VLC_Name").HeaderText = "VLC Name"
+        gv.Columns("VLC_Name").HeaderText = "DCS Name"
 
         gv.Columns("VSP_Name").IsVisible = True
         gv.Columns("VSP_Name").Width = 100
-        gv.Columns("VSP_Name").HeaderText = " VSP Name"
+        gv.Columns("VSP_Name").HeaderText = " Secretary Name"
 
         gv.Columns("NewQty").IsVisible = True
         gv.Columns("NewQty").Width = 100

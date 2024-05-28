@@ -400,6 +400,7 @@ Public Class clsDocType
     Public Const BullVaccinationEntry As String = "Bull Vaccination Entry"
     Public Const BullInsurance As String = "Bull Insurance"
     Public Const InsuranceTagAllocation As String = "Insurance Tag Allocation"
+    Public Const SeedSelectionEntry As String = "Seed Selection Entry"
     Public Const VSPMASTER As String = "VSP Master"
     Public Const PTMMASTER As String = "PTM Master"
     Public Const TTMMASTER As String = "TTM Master"

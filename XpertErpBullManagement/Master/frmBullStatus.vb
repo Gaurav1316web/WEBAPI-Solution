@@ -21,7 +21,7 @@ Public Class frmBullStatus
         If txtCode.MyReadOnly OrElse isButtonClicked Then
             Dim whrClas As String = ""
             Dim qry As String = "select STSTUS_Code as Code,Name from TSPL_BULL_STATUS_MASTER"
-            txtCode.Value = clsCommon.ShowSelectForm("RTY", qry, "Code", whrClas, txtCode.Value, "TSPL_BULL_STATUS_MASTER.STSTUS_Code asc", isButtonClicked, "TSPL_BULL_STATUS_MASTER.Created_Date")
+            txtCode.Value = clsCommon.ShowSelectForm("RTY", qry, "Code", whrClas, txtCode.Value, "TSPL_BULL_STATUS_MASTER.STSTUS_Code asc", isButtonClicked)
             LoadData(txtCode.Value, NavigatorType.Current)
         End If
     End Sub

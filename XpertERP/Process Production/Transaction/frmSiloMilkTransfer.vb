@@ -922,7 +922,7 @@ Public Class frmSiloMilkTransfer
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             whrClas += " AND TSPL_SILO_MILK_TRANSFER_HEAD.MainLocation_Code in (" + objCommonVar.strCurrUserLocations + ") "
         End If
-        txtAdjustmentNo.Value = clsCommon.ShowSelectForm("SiloMilkTransfer", qry, "Code", whrClas, txtAdjustmentNo.Value, "Code", isButtonClicked, "TSPL_SILO_MILK_TRANSFER_HEAD.Document_Date")
+        txtAdjustmentNo.Value = clsCommon.ShowSelectForm("SiloMilkTransfer", qry, "Code", whrClas, txtAdjustmentNo.Value, "Code", isButtonClicked, "Document_Date")
         LoadData(txtAdjustmentNo.Value, NavigatorType.Current)
     End Sub
 

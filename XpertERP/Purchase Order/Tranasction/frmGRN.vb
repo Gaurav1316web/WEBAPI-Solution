@@ -3701,7 +3701,14 @@ Public Class frmGRN
                 obj.TransporterDocumentBility = clsCommon.myCstr(txt_transporterdocbility.Text)
                 '====end here===
                 If ShowItemAllStructureWise = True Then
-                    obj.Item_Type = "A"
+                    ' obj.Item_Type = "A"
+                    ' Assuming dgvGrid is your DataGridView control
+                    If gv1.Rows.Count > 0 Then
+                        Dim itemcode As String = clsCommon.myCstr(gv1.Rows(0).Cells(colICode).Value)
+                        Dim itemtype As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 item_type from TSPL_ITEM_MASTER where Item_Code ='" + itemcode + "'"))
+                        obj.Item_Type = itemtype
+                    End If
+
                 End If
                 If ShowItemAllStructureWise = False Then
                     obj.Item_Type = clsCommon.myCstr(cboItemType.SelectedValue)
@@ -5402,7 +5409,7 @@ Public Class frmGRN
             whrClas += " and TSPL_GRN_HEAD.Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
         End If
 
-        LoadData(clsCommon.ShowSelectForm("GRNFND", qry, "Code", whrClas, txtDocNo.Value, "GRN_Date desc", isButtonClicked, "TSPL_GRN_HEAD.GRN_Date"), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("GRNFND", qry, "Code", whrClas, txtDocNo.Value, "GRN_Date desc", isButtonClicked, "GRN_Date"), NavigatorType.Current)
     End Sub
 
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
@@ -5895,6 +5902,9 @@ Public Class frmGRN
                     Else
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = frmPendingPO.Load_discount_for_GRN(obj.PurchaseOrder_No, obj.Item_Code) 'obj.Disc_Per
                     End If
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = obj.Disc_Per
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDetailDisAmt).Value = obj.Disc_Amt
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDetailDisAmt).Value = obj.Detail_Discount_Amount
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colHeaderDiscountPer).Value = obj.Header_Discount_Per
 
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPerUnit).Value = frmPendingPO.Load_discount_per_unit_for_GRN(obj.PurchaseOrder_No, obj.Item_Code) 'obj.Disc_Per'obj.Disc_Per_Unit

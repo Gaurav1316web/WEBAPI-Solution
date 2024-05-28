@@ -653,7 +653,7 @@ Public Class FrmParameterMaster
         End If
         If fndNo.MyReadOnly OrElse isButtonClicked Then
             Dim qry As String = "Select Code,Description,Type,Nature,Param_For as [Applicable For],Case when IsMandatory=0 then CAST(0 as BIT) else CAST(1 as BIT) end as IsMandatory,Case when IsBulkSale=0 then CAST(0 as BIT) else CAST(1 as BIT) end as [Bulk Sale],created_by as [Created By],created_date as [Created Date],modified_by as [Modified By],modified_date as [Modified Date],Parametertype as [Parameter Type] from TSPL_PARAMETER_MASTER"
-            fndNo.Value = clsCommon.ShowSelectForm("PMTFND", qry, "Code", " comp_code='" + objCommonVar.CurrentCompanyCode + "'", fndNo.Value, "Code", isButtonClicked, "TSPL_PARAMETER_MASTER.created_date")
+            fndNo.Value = clsCommon.ShowSelectForm("PMTFND", qry, "Code", " comp_code='" + objCommonVar.CurrentCompanyCode + "'", fndNo.Value, "Code", isButtonClicked)
 
             If clsCommon.myLen(fndNo.Value) > 0 Then
                 LoadData(fndNo.Value, NavigatorType.Current)

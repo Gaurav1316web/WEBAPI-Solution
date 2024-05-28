@@ -114,7 +114,7 @@ Public Class clsIncentiveMaster
         Else
             whrCls = " TSPL_INCENTIVE_MASTER_HEAD.comp_code='" + objCommonVar.CurrentCompanyCode + "'"
         End If
-        str = clsCommon.ShowSelectForm("PP", qry, "Code", whrCls, currCode, "Code", isButtonClicked, "TSPL_INCENTIVE_MASTER_HEAD.START_DATE")
+        str = clsCommon.ShowSelectForm("PP", qry, "Code", whrCls, currCode, "Code", isButtonClicked)
         Return str
     End Function
    

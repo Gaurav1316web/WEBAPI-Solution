@@ -332,6 +332,8 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntry.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntries.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntryNew.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleMultipleGatePassEntriesJPR.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleMultipleGatePassEntryNew.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDispatchProductSale.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDockSummaryReport.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDSummary.rpt" />
@@ -456,6 +458,7 @@
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_Local.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_Local_WithMandi.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_NonTaxable.rpt" />
+    <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_NonTaxables.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMccMilkRate.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\RptMilkJobWorkTransfer.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMilkPurchaseInvoice.rpt" />

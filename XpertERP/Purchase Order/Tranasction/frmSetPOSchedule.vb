@@ -521,7 +521,7 @@ Public Class frmSetPOSchedule
 from TSPL_SET_PO_SCHEDULE  
 LEFT OUTER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code = TSPL_SET_PO_SCHEDULE.Vendor_Code "
         Dim whrClas As String = ""
-        LoadData(clsCommon.ShowSelectForm("Doc@SetPOS", qry, "Code", whrClas, txtCode.Value, "Code", isButtonClicked, "TSPL_SET_PO_SCHEDULE.DDate"), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("Doc@SetPOS", qry, "Code", whrClas, txtCode.Value, "Code", isButtonClicked, "DDate"), NavigatorType.Current)
     End Sub
 
     Private Sub frmPurchaseRequistion_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown

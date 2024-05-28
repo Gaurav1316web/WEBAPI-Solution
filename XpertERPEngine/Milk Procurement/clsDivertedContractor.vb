@@ -13,7 +13,7 @@ Public Class clsDivertedContractor
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
         Dim qry As String = " select TSPL_DIVERTED_CONTRACTOR_MASTER.CONTRACTOR_CODE as [Code] ,TSPL_DIVERTED_CONTRACTOR_MASTER.DESCRIPTION as [Description] ,TSPL_DIVERTED_CONTRACTOR_MASTER.IS_DIVERTED as [Is Diverted] ,TSPL_DIVERTED_CONTRACTOR_MASTER.Created_By as [Created By] ,TSPL_DIVERTED_CONTRACTOR_MASTER.Created_Date as [Created Date] ,TSPL_DIVERTED_CONTRACTOR_MASTER.Modified_By as [Modified By] ,TSPL_DIVERTED_CONTRACTOR_MASTER.Modified_Date as [Modified Date]  From TSPL_DIVERTED_CONTRACTOR_MASTER   "
-        str = clsCommon.ShowSelectForm("DiverContractMST", qry, "Code", whrcls, curcode, "Code", isButtonClicked, "TSPL_DIVERTED_CONTRACTOR_MASTER.Created_Date")
+        str = clsCommon.ShowSelectForm("DiverContractMST", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
         Return str
     End Function
     '----------------End of Code For Get Finder--------------------------------------------------------------'

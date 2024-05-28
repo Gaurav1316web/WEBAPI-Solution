@@ -109,6 +109,7 @@
     <Compile Include="Classes\ClsCostCenter.vb" />
     <Compile Include="Classes\clsDairyInvoice.vb" />
     <Compile Include="Classes\clsEPF.vb" />
+    <Compile Include="clsLanguage.vb" />
     <Compile Include="Common\clsCustomFieldValues.vb" />
     <Compile Include="Common\MIlkComponentType.vb" />
     <Compile Include="Inventory\clsBatchInventory.vb" />
@@ -182,6 +183,7 @@
       <DependentUpon>Application.myapp</DependentUpon>
     </Compile>
     <Compile Include="Sales Distribution\clsEInvoiceHead.vb" />
+    <Compile Include="Seed\clsSeedSelectionEntry.vb" />
     <Compile Include="Share\clsShareAllotment.vb" />
     <Compile Include="Share\ClsShareMaster.vb" />
     <Compile Include="Share\ClsShareMovement.vb" />
@@ -231,7 +233,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Purchase\" />
-    <Folder Include="Sheed\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
