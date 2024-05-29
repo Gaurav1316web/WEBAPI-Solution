@@ -225,15 +225,6 @@ Public Class rptPerformanceReport
 
 
     End Sub
-
-    Private Sub TxtItem__My_Click(sender As Object, e As EventArgs) Handles TxtRAL._My_Click
-
-        Dim qry As String = " SELECT DocumentCode,DocumentDate from TSPL_TENDER_HEADER order by DocumentCode "
-        TxtRAL.arrValueMember = clsCommon.ShowMultipleSelectForm("ItemMulSel", qry, "DocumentCode", "DocumentDate", TxtRAL.arrValueMember, TxtRAL.arrDispalyMember)
-
-
-    End Sub
-
     Private Sub txtBillToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtBillToLocation._MYValidating
 
         Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
@@ -403,5 +394,10 @@ Public Class rptPerformanceReport
         End Try
 
 
+    End Sub
+
+    Private Sub TxtRAL__My_Click(sender As Object, e As EventArgs) Handles TxtRAL._My_Click
+        Dim qry As String = " SELECT DocumentCode,DocumentDate from TSPL_TENDER_HEADER order by DocumentCode "
+        TxtRAL.arrValueMember = clsCommon.ShowMultipleSelectForm("ralMulSel", qry, "DocumentCode", "DocumentDate", TxtRAL.arrValueMember, TxtRAL.arrDispalyMember)
     End Sub
 End Class
