@@ -1283,6 +1283,7 @@ Public Class clsFixedParameterCode
     Public Const WeighingRoundSetting As String = "Weighing Round Setting"
     Public Const AverageDaysForFATSNF As String = "Average Days For FAT SNF"
     Public Const MarqueText As String = "Marque Text"
+    Public Const CustomerVirtualACCounter As String = "Customer Virtual AC Counter"
     Public Const MaxRowsExcelDBTNEFTUploader As String = "Max Rows Excel DBT NEFT Uploader"
     Public Const ShowSampleNoOnBMC As String = "Fill Route Tanker No"
     Public Const ShowTempratureOnBMC As String = "Fill Route Tanker No"
@@ -2777,6 +2778,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAPP, clsFixedParameterCode.StopMPUpdate, "0", "0-OFF, 1:On; Stop To Update Farmer Data By Mobile APP")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAPP, clsFixedParameterCode.ShowForgetPwd, "0", "0-Hide, 1:Show; Show/Hide Forget Password")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAPP, clsFixedParameterCode.MarqueText, "Tecxpert Software Pvt Ltd", "Welcome to Saras Pro App")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAPP, clsFixedParameterCode.CustomerVirtualACCounter, "00001", "Counter of Customer Virtual AC")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPMaster, clsFixedParameterCode.DisableUploaderNo, "0", "MP Regisration Disable(1)/Enable(0) Uploader no")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPMaster, clsFixedParameterCode.JPRDairyMandatoryColumn, "0", "Mandatory Column Account No,IFSC")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPMaster, clsFixedParameterCode.VerifiedJanAadharNo, "0", "0:OFF,1:ON;Pick Farmer only Verified Janaadhar No")

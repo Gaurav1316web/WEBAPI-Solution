@@ -181,7 +181,9 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.CustomerAccountSet, "Customer Account Set", "1.02.01.03", clsUserMgtCode.SubModuleReceivableSetup, 27)
         InsertDefaultValue(clsUserMgtCode.CustomerGroup, "Customer Group", "1.02.01.04", clsUserMgtCode.SubModuleReceivableSetup, 27)
         InsertDefaultValue(clsUserMgtCode.CustomeCategory, "Customer Category", "1.02.01.05", clsUserMgtCode.SubModuleReceivableSetup, 27)
-        InsertDefaultValue(clsUserMgtCode.CustomerMaster, "Customer Master", "1.02.01.06", clsUserMgtCode.SubModuleReceivableSetup, 27)
+        'InsertDefaultValue(clsUserMgtCode.CustomerMaster, "Customer Master", "1.02.01.06", clsUserMgtCode.SubModuleReceivableSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.CustomerMaster, "Customer Master", "1.02.01.06", clsUserMgtCode.SubModuleReceivableSetup, "", 27, False, "", "", "", True, False, False, "", Nothing, "", "", "", "", "", False, "", 0)
+
         InsertDefaultValue(clsUserMgtCode.ShiptoLocation, "Ship To Location", "1.02.01.07", clsUserMgtCode.SubModuleReceivableSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmShipToLocationDetails, "Ship To Location Details", "1.02.01.07", clsUserMgtCode.SubModuleReceivableSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmCustomerCategoryLevel, "Customer Category Level", "1.02.01.08", clsUserMgtCode.SubModuleReceivableSetup, 27)

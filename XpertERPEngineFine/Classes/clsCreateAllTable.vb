@@ -14045,6 +14045,7 @@ Public Class clsCreateAllTable
             coll.Add("OTP_Validity", "Datetime  NULL")
             coll.Add("Entry_UOM", "integer null")
             coll.Add("Entry_UOM_Mobile", "integer null")
+            coll.Add("OTP_TYPE", "varchar(12) null references TSPL_PROGRAM_MASTER(Program_Code)")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_USER_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -14572,6 +14573,7 @@ Public Class clsCreateAllTable
             coll.Add("File_Info", "bigint NULL")
             coll.Add("Is_Default_Grower", "Integer null default 0")
             coll.Add("Virtual_AC_No", "varchar(28) null")
+
             Try
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", False)
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", True)
