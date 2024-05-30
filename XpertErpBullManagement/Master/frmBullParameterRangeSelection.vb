@@ -15,23 +15,23 @@ Public Class frmBullParameterRangeSelection
     Public isOK As Boolean = False
 
 
-    Private Sub frmBullParameterRangeSelection_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Try
-            loadBlankGrid()
-            Dim flag As Boolean = False
-            'For ii As Decimal = 0 To Range Step 1
-            If Range > 0 Then
-                If Range > gvRangeDetails.Rows.Count Then
-                    For ii As Integer = 0 To (Range - gvRangeDetails.Rows.Count) - 1
-                        gvRangeDetails.Rows.AddNew()
-                        LoadData(ArrRangeSelection)
-                    Next
-                End If
-            End If
-        Catch ex As Exception
-            MessageBox.Show(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
+    'Private Sub frmBullParameterRangeSelection_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    '    Try
+    '        loadBlankGrid()
+    '        Dim flag As Boolean = False
+    '        'For ii As Decimal = 0 To Range Step 1
+    '        If Range > 0 Then
+    '            If Range > gvRangeDetails.Rows.Count Then
+    '                For ii As Integer = 0 To (Range - gvRangeDetails.Rows.Count) - 1
+    '                    gvRangeDetails.Rows.AddNew()
+    '                    LoadData(ArrRangeSelection)
+    '                Next
+    '            End If
+    '        End If
+    '    Catch ex As Exception
+    '        MessageBox.Show(Me, ex.Message, Me.Text)
+    '    End Try
+    'End Sub
 
 
     Public Sub AddGridView(ByVal Count As Decimal)
