@@ -139,8 +139,8 @@
   <data name="VPFBG1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\VPFBG11.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="User" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\User.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="C5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\C5.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="C6" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Donut.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -151,14 +151,11 @@
   <data name="SALE" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SALE.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="LogOff" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LogOff1.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="OpenBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\OpenBox.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="INVENTORY" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\INVENTORY.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SARALog512" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SARALog512.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="C1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Chart-Bar-Big-icon.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -169,14 +166,14 @@
   <data name="VPFBG2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\VPFBG2.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="GENERAL_LEDGERS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GENERAL LEDGERS.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Utility" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Utility.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="C2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Line.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="HR_AND_PAYROLL" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\HR AND PAYROLL.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="User" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\User.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Version" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Version.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -190,8 +187,8 @@
   <data name="FIXED_ASSET" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FIXED ASSET.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="C3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\LineArea.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="INVENTORY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\INVENTORY.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="tax_png" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\tax.png.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -199,11 +196,17 @@
   <data name="MSE" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MSE.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ppapap" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ppapap.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Detail" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Detail.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GENERAL_LEDGERS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GENERAL LEDGERS.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pre2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pre2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="HR_AND_PAYROLL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\HR AND PAYROLL.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="BackImage1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BackImage1.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -220,8 +223,8 @@
   <data name="Time" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Time.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CloseBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CloseBox.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="CommonServices" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\globe.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="growth_chart" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\growth-chart.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -232,8 +235,8 @@
   <data name="C4" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PIE.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="PAYMENT" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\PAYMENT.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="C3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LineArea.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Detail_Vertical" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Detail_Vertical.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -241,8 +244,8 @@
   <data name="rcdf1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\rcdf1.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CommonServices" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\globe.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="CloseBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CloseBox.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="search4" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\search4.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -250,35 +253,35 @@
   <data name="BUSINESS_INTELLIGENCE" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BUSINESS INTELLIGENCE.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="C5" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\C5.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="PAYMENT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PAYMENT.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="BackImageDemo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BackImage11.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Ques" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Ques.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ppapap" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ppapap.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Database" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Database.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Utility" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Utility.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="pdf" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pdf.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="BackImageXpertERP" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BackImageXpertERP.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="pre2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\pre2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Ques" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Ques.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="kiwi_fruit-5503" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\kiwi_fruit-5503.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="pdf" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\pdf.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SARALog512" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SARALog512.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="LogOff" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\LogOff1.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="eyeicon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\eyeicon.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
