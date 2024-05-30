@@ -2703,8 +2703,8 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
-        InsertDefaultValueFixedParameter(clsFixedParameterType.EmployeePFRetirementAge, clsFixedParameterCode.EmployeePFRetirementAge, "", "Define PF Retirement Age")
-        InsertDefaultValueFixedParameter(clsFixedParameterType.EmployeeRetirementAge, clsFixedParameterCode.EmployeeRetirementAge, "", "Define Retirement Age")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.EmployeePFRetirementAge, clsFixedParameterCode.EmployeePFRetirementAge, "58", "Define PF Retirement Age")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.EmployeeRetirementAge, clsFixedParameterCode.EmployeeRetirementAge, "60", "Define Retirement Age")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PDAccountPaymanager, clsFixedParameterCode.NoOfRecordForLotNo, "4500", "No of Records to Set Lot No")
         InsertDefaultValueFixedParameter(clsFixedParameterType.BankAdviseRequired, clsFixedParameterCode.BankAdviseRequired, "", "Bank Advise Start Date [dd/MMM/yyyy]")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyMergeForDCSMultipleDays, clsFixedParameterCode.ApplyMergeForDCSMultipleDays, "1", "0:OFF;1:ON")

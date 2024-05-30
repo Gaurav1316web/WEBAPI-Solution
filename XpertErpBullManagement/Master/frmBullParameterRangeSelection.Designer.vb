@@ -101,7 +101,7 @@ Partial Class frmBullParameterRangeSelection
         '
         '
         Me.RootElement.ApplyShapeToControl = True
-        Me.Text = "frmBullParameterRangeSelection"
+        Me.Text = "Bull Parameter Range Selection"
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
