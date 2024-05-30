@@ -52,7 +52,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>ERP.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355,40000</NoWarn>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <Optimize>false</Optimize>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <Prefer32Bit>false</Prefer32Bit>
@@ -987,6 +987,12 @@
       <DependentUpon>frmCanMaster.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Master\frmCanMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\Change_Dock_password.Designer.vb">
+      <DependentUpon>Change_Dock_password.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\Change_Dock_password.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Milk Procurement\Master\FrmChildParameterRangeMasterForQC1.Designer.vb">
@@ -2135,7 +2141,7 @@
     <Compile Include="Modules\TabSchemeProvider.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="My Project\Resources1.Designer.vb">
+    <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -5267,6 +5273,9 @@
     <EmbeddedResource Include="Milk Procurement\Master\frmCanMaster.resx">
       <DependentUpon>frmCanMaster.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Master\Change_Dock_password.resx">
+      <DependentUpon>Change_Dock_password.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Master\FrmChildParameterRangeMasterForQC1.resx">
       <DependentUpon>FrmChildParameterRangeMasterForQC1.vb</DependentUpon>
     </EmbeddedResource>
@@ -7659,7 +7668,7 @@
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
-      <LastGenOutput>Resources1.Designer.vb</LastGenOutput>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Inventory\Report\ReportTransfer.resx">
       <DependentUpon>ReportTransfer.vb</DependentUpon>
@@ -7757,6 +7766,8 @@
     <None Include="Resources\Company.png" />
     <Content Include="Resources\Detail_Vertical.png" />
     <None Include="Resources\firstpanel.jpg" />
+    <None Include="Resources\eyeIcon.png" />
+    <None Include="Resources\eye icon.png" />
     <Content Include="Resources\knight-rider-shelby-mustang-500-gtr-02.jpg" />
     <None Include="Web References\BSWS\BSWS.disco" />
     <None Include="Resources\Line.png" />

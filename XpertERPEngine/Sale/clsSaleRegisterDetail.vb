@@ -467,43 +467,44 @@ Public Class clsSaleRegisterDetail
                        " SELECT DISTINCT 'MCC Tanker Dispatch Return' As Code ,'MCC Tanker Dispatch Return' As Name " & If(DocFinder = False, "", ",Return_NO as [Document Code],Return_Date  as [Document Date],'' as [Customer Code]") & " FROM TSPL_MCC_Tanker_Dispatch_Return_head " & _
                        " ) xxx "
         Else
-            qry = " select 'BS' as Code,'Bulk Sale' as Name " & Environment.NewLine &
-                  " union all" & Environment.NewLine & _
-                  " select 'BSR','Bulk Sale Return' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'BST' as Code,'Bulk Sale Trade' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'CSA' as Code,'CSA Sale' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'CSAR' as Code,'CSA Sale Return' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'EXPEX','Export Sale' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'EXPMT' as Code,'Merchant Trade' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'FS' as Code,'Fresh Sale' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'FSR','Fresh Sale Return' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'MCC','MCC Sale' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                 " select 'MCCR','MCC Sale Return' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'PS' as Code,'Product Sale' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'PSR','Product Sale Return' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'SS' as Code,'Misc Sale' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'MCCFS' as Code,'MCC Sale Farmer' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'MCCFSR' as Code,'MCC Sale Return Farmer' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'DS' as Code,'Dairy Sale' as Name " & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'DSR','Dairy Sale Return' as Name " & Environment.NewLine & _
-              " Union All " & Environment.NewLine & _
-                  " select 'CanSaleInvoice' as Code,'Can Sale' as Name "
+            ' qry = "" & Environment.NewLine &
+            '" select 'BS' as Code,'Bulk Sale' as Name " & Environment.NewLine &
+            ' " union all" & Environment.NewLine & _
+            '" select 'BSR','Bulk Sale Return' as Name " & Environment.NewLine & _
+            '" Union All " & Environment.NewLine & _
+            '" select 'BST' as Code,'Bulk Sale Trade' as Name " & Environment.NewLine & _
+            '" Union All " & Environment.NewLine & _
+            '" select 'CSA' as Code,'CSA Sale' as Name " & Environment.NewLine & _
+            '" Union All " & Environment.NewLine & _
+            '" select 'CSAR' as Code,'CSA Sale Return' as Name " & Environment.NewLine & _
+            '" Union All " & Environment.NewLine & _
+            '" select 'EXPEX','Export Sale' as Name " & Environment.NewLine & _
+            '" Union All " & Environment.NewLine & _
+            '" select 'EXPMT' as Code,'Merchant Trade' as Name " & Environment.NewLine & _
+            '" Union All " & Environment.NewLine & _
+            qry = " select 'FS' as Code,'Fresh Sale' as Name " & Environment.NewLine &
+                  " Union All " & Environment.NewLine &
+                  " select 'FSR','Fresh Sale Return' as Name " & Environment.NewLine &
+                  " Union All " & Environment.NewLine &
+                  " select 'MCC','MCC Sale' as Name " & Environment.NewLine &
+                  " Union All " & Environment.NewLine &
+                 " select 'MCCR','MCC Sale Return' as Name " & Environment.NewLine &
+                  " Union All " & Environment.NewLine &
+                  " select 'PS' as Code,'Product Sale' as Name " & Environment.NewLine &
+                  " Union All " & Environment.NewLine &
+                  " select 'PSR','Product Sale Return' as Name " & Environment.NewLine &
+                  " Union All " & Environment.NewLine &
+                  " select 'SS' as Code,'Misc Sale' as Name " & Environment.NewLine &
+                  " Union All " & Environment.NewLine &
+                  " select 'MCCFS' as Code,'MCC Sale Farmer' as Name " & Environment.NewLine &
+                  " Union All " & Environment.NewLine &
+                  " select 'MCCFSR' as Code,'MCC Sale Return Farmer' as Name " & Environment.NewLine &
+                  " Union All " & Environment.NewLine &
+                  " select 'DS' as Code,'Dairy Sale' as Name " &
+                  " Union All " & Environment.NewLine &
+                  " select 'DSR','Dairy Sale Return' as Name "
+            '" Union All " & Environment.NewLine &
+            '    " select 'CanSaleInvoice' as Code,'Can Sale' as Name "
 
             ''richa agarwal 12 Aug,2019 ERO/05/08/19-000985
             If Donotshowtrasnfertransactionsbydefault = True Then
