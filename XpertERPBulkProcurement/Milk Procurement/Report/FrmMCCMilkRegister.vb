@@ -298,15 +298,15 @@ Public Class FrmMCCMilkRegister
 
                 gv.Columns("VSP_Commission_Amount").IsVisible = True
                 gv.Columns("VSP_Commission_Amount").Width = 100
-                gv.Columns("VSP_Commission_Amount").HeaderText = "VSP Commission Amount"
+                gv.Columns("VSP_Commission_Amount").HeaderText = "Secretary Commission Amount"
 
                 gv.Columns("VSP_Deduction_Amount").IsVisible = True
                 gv.Columns("VSP_Deduction_Amount").Width = 100
-                gv.Columns("VSP_Deduction_Amount").HeaderText = "VSP Quality Deduction Amount"
+                gv.Columns("VSP_Deduction_Amount").HeaderText = "Secretary Quality Deduction Amount"
                 If gv.Columns.Contains("VSP_Day_Wise_Incentive") = True Then
                     gv.Columns("VSP_Day_Wise_Incentive").IsVisible = True
                     gv.Columns("VSP_Day_Wise_Incentive").Width = 100
-                    gv.Columns("VSP_Day_Wise_Incentive").HeaderText = "VSP Day Incentive Amount"
+                    gv.Columns("VSP_Day_Wise_Incentive").HeaderText = "Secretary Day Incentive Amount"
                 End If
 
                 If gv.Columns.Contains("Vehicle") Then
@@ -350,11 +350,11 @@ Public Class FrmMCCMilkRegister
 
                     gv.Columns("VSP Code").IsVisible = True
                     gv.Columns("VSP Code").Width = 100
-                    gv.Columns("VSP Code").HeaderText = " VSP Code"
+                    gv.Columns("VSP Code").HeaderText = " Secretary Code"
 
                     gv.Columns("VSP Name").IsVisible = True
                     gv.Columns("VSP Name").Width = 100
-                    gv.Columns("VSP Name").HeaderText = "VSP Name"
+                    gv.Columns("VSP Name").HeaderText = "Secretary Name"
 
                     gv.Columns("Vendor Group Code").IsVisible = True
                     gv.Columns("Vendor Group Code").Width = 100
@@ -362,15 +362,15 @@ Public Class FrmMCCMilkRegister
 
                     gv.Columns("Vlc Uploader Code").IsVisible = True
                     gv.Columns("Vlc Uploader Code").Width = 100
-                    gv.Columns("Vlc Uploader Code").HeaderText = "Vlc Uploader Code"
+                    gv.Columns("Vlc Uploader Code").HeaderText = "Dcs Uploader Code"
 
                     gv.Columns("Vlc Code").IsVisible = True
                     gv.Columns("Vlc Code").Width = 100
-                    gv.Columns("Vlc Code").HeaderText = " Vlc Code"
+                    gv.Columns("Vlc Code").HeaderText = " Dcs Code"
 
                     gv.Columns("VLC Name").IsVisible = True
                     gv.Columns("VLC Name").Width = 100
-                    gv.Columns("VLC Name").HeaderText = "VLC Name"
+                    gv.Columns("VLC Name").HeaderText = "DCS Name"
 
                     gv.Columns("Item_Code").IsVisible = True
                     gv.Columns("Item_Code").Width = 100
@@ -1489,11 +1489,11 @@ Public Class FrmMCCMilkRegister
 
                     gv.Columns("Vlc Code").IsVisible = True
                     gv.Columns("Vlc Code").Width = 100
-                    gv.Columns("Vlc Code").HeaderText = "VLC Code"
+                    gv.Columns("Vlc Code").HeaderText = "DCS Code"
 
                     gv.Columns("VLC Name").IsVisible = True
                     gv.Columns("VLC Name").Width = 100
-                    gv.Columns("VLC Name").HeaderText = "VLC Name"
+                    gv.Columns("VLC Name").HeaderText = "DCS Name"
 
 
                     gv.Columns("Milk Weight").IsVisible = True
@@ -1971,11 +1971,11 @@ Public Class FrmMCCMilkRegister
 
                     gv.Columns("Vlc Code").IsVisible = True
                     gv.Columns("Vlc Code").Width = 100
-                    gv.Columns("Vlc Code").HeaderText = "VLC Code"
+                    gv.Columns("Vlc Code").HeaderText = "DCS Code"
 
                     gv.Columns("VLC Name").IsVisible = True
                     gv.Columns("VLC Name").Width = 100
-                    gv.Columns("VLC Name").HeaderText = "VLC Name"
+                    gv.Columns("VLC Name").HeaderText = "DCS Name"
 
 
 
@@ -2103,16 +2103,16 @@ Public Class FrmMCCMilkRegister
 
                     gv.Columns("VSP_Commission_Amount").IsVisible = True
                     gv.Columns("VSP_Commission_Amount").Width = 100
-                    gv.Columns("VSP_Commission_Amount").HeaderText = "VSP Commission Amount"
+                    gv.Columns("VSP_Commission_Amount").HeaderText = "Secretary Commission Amount"
 
                     gv.Columns("VSP_Deduction_Amount").IsVisible = True
                     gv.Columns("VSP_Deduction_Amount").Width = 100
-                    gv.Columns("VSP_Deduction_Amount").HeaderText = "VSP Deduction Amount"
+                    gv.Columns("VSP_Deduction_Amount").HeaderText = "Secretary Deduction Amount"
 
 
                     gv.Columns("VSP_Day_Wise_Incentive").IsVisible = True
                     gv.Columns("VSP_Day_Wise_Incentive").Width = 100
-                    gv.Columns("VSP_Day_Wise_Incentive").HeaderText = "VSP Day Wise Incentive"
+                    gv.Columns("VSP_Day_Wise_Incentive").HeaderText = "Secretary Day Wise Incentive"
 
                     If gv.Columns.Contains("DeductionAmt") Then
                         gv.Columns("DeductionAmt").IsVisible = True
@@ -2289,11 +2289,11 @@ Public Class FrmMCCMilkRegister
 
                     gv.Columns("Vlc Code").IsVisible = True
                     gv.Columns("Vlc Code").Width = 100
-                    gv.Columns("Vlc Code").HeaderText = "VLC Code"
+                    gv.Columns("Vlc Code").HeaderText = "DCS Code"
 
                     gv.Columns("VLC Name").IsVisible = True
                     gv.Columns("VLC Name").Width = 100
-                    gv.Columns("VLC Name").HeaderText = "VLC Name"
+                    gv.Columns("VLC Name").HeaderText = "DCS Name"
 
                     '[VLC Uploader Code], [VSP Code],   
 

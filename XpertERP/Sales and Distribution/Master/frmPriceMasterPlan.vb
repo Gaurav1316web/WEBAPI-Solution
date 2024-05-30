@@ -16,6 +16,8 @@ Public Class frmPriceMasterPlan
     Dim ErrorControl As clsErrorControl = New clsErrorControl()
     Dim isNewEntry As Boolean = True
     Dim PricePlanRoundOffTruncate As Boolean = True
+    Dim ApplyPricePlanDigitRule As Boolean = True
+    Dim PricePlanRoundOffDigit As Double = 0
     Const colTRCode As String = "colTRCode"
     Const colSNo As String = "colSNo"
     Const colICode As String = "colICode"
@@ -66,6 +68,8 @@ Public Class frmPriceMasterPlan
         ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
         SettingCalculateTaxRatefromItemwsieTaxOnSale = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CalculateTaxRatefromItemwsieTaxOnSale, clsFixedParameterCode.CalculateTaxRatefromItemwsieTaxOnSale, Nothing)) = 1)
         PricePlanRoundOffTruncate = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PricePlanRoundOffTruncate, clsFixedParameterCode.PricePlanRoundOffTruncate, Nothing)) = 1, True, False)
+        ApplyPricePlanDigitRule = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyPricePlanDigitRule, clsFixedParameterCode.ApplyPricePlanDigitRule, Nothing)) = 1, True, False)
+        PricePlanRoundOffDigit = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PricePlanRoundOffDigit, clsFixedParameterCode.PricePlanRoundOffDigit, Nothing))
         gv1.Enabled = True
     End Sub
 
@@ -1169,7 +1173,7 @@ Public Class frmPriceMasterPlan
                         If PricePlanRoundOffTruncate Then
                             dblcurrComponetnAmt = Math.Truncate((dblMRP * dblCurrComponetnRate / 100) * factor) / factor
                         Else
-                            dblcurrComponetnAmt = clsCommon.myRoundOFF(dblMRP * dblCurrComponetnRate / 100, 2, 4)
+                            dblcurrComponetnAmt = clsCommon.myRoundOFF(dblMRP * dblCurrComponetnRate / 100, PricePlanRoundOffDigit, 4)
 
                         End If
 
@@ -1179,7 +1183,7 @@ Public Class frmPriceMasterPlan
                     dblcurrComponetnAmt = Math.Truncate((dblcurrComponetnAmt) * factor) / factor
 
                 Else
-                    dblcurrComponetnAmt = clsCommon.myRoundOFF(dblcurrComponetnAmt, 2)
+                    dblcurrComponetnAmt = clsCommon.myRoundOFF(dblcurrComponetnAmt, PricePlanRoundOffDigit)
 
                 End If
 
@@ -1191,6 +1195,7 @@ Public Class frmPriceMasterPlan
             gv1.CurrentRow.Cells(colBasicPrice).Value = dblTaxBaseAmt
 
             Dim dblTotalNonTabxableRate As Double = 0
+            Dim dblTotalTabxableRate As Double = 0
             Dim dblTotalNonTabxableAmount As Double = 0
             For ii As Integer = 1 To 10
                 Dim strTaxCode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colTax + clsCommon.myCstr(ii)).Value)
@@ -1198,11 +1203,23 @@ Public Class frmPriceMasterPlan
                     If Not clsCommon.myCBool(gv1.CurrentRow.Cells(colIsTaxable + clsCommon.myCstr(ii)).Value) OrElse (clsCommon.CompairString(strTaxCode, "CGST") = CompairStringResult.Equal Or clsCommon.CompairString(strTaxCode, "SGST") = CompairStringResult.Equal) Then
                         dblTotalNonTabxableRate = dblTotalNonTabxableRate + clsCommon.myCdbl(gv1.CurrentRow.Cells(colTaxRate + clsCommon.myCstr(ii)).Value)
                     End If
+                    If ApplyPricePlanDigitRule Then
+                        If clsCommon.myCBool(gv1.CurrentRow.Cells(colIsTaxable + clsCommon.myCstr(ii)).Value) AndAlso (clsCommon.CompairString(strTaxCode, "CGST") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(strTaxCode, "SGST") <> CompairStringResult.Equal) Then
+                            dblTotalTabxableRate = dblTotalTabxableRate + clsCommon.myCdbl(gv1.CurrentRow.Cells(colTaxRate + clsCommon.myCstr(ii)).Value)
+                        End If
+                    End If
+
                 End If
             Next
             ''richa TEC/30/07/19-000967
             If rbtnBackCalculationWithTax.IsChecked = True Then
-                dblTotalNonTabxableAmount = (dblTaxBaseAmt * 100) / (100 + dblTotalNonTabxableRate)
+                If ApplyPricePlanDigitRule Then
+                    dblTotalNonTabxableAmount = (dblTaxBaseAmt * 100) / ((100 + dblTotalNonTabxableRate + dblTotalTabxableRate) + (dblTotalTabxableRate * (dblTotalNonTabxableRate / 100)))
+
+                Else
+                    dblTotalNonTabxableAmount = (dblTaxBaseAmt * 100) / (100 + dblTotalNonTabxableRate)
+
+                End If
             Else
                 dblTotalNonTabxableAmount = dblTaxBaseAmt
             End If
@@ -1239,15 +1256,15 @@ Public Class frmPriceMasterPlan
                         dblBaseAmt = Math.Truncate((dblBaseAmt) * factor) / factor
                         gv1.CurrentRow.Cells(colTaxBaseAmt + clsCommon.myCstr(ii)).Value = Math.Truncate((dblBaseAmt) * factor) / factor
                     Else
-                        dblBaseAmt = clsCommon.myRoundOFF(dblBaseAmt, 2, 4)
-                        gv1.CurrentRow.Cells(colTaxBaseAmt + clsCommon.myCstr(ii)).Value = clsCommon.myRoundOFF(dblBaseAmt, 2, 4)
+                        dblBaseAmt = clsCommon.myRoundOFF(dblBaseAmt, 6, 4)
+                        gv1.CurrentRow.Cells(colTaxBaseAmt + clsCommon.myCstr(ii)).Value = clsCommon.myRoundOFF(dblBaseAmt, PricePlanRoundOffDigit, 4)
                     End If
 
                     dblTaxAmt = (dblBaseAmt * dblTaxRate) / 100
                     If PricePlanRoundOffTruncate Then
                         dblTaxAmt = Math.Truncate(dblTaxAmt * factor) / factor
                     Else
-                        dblTaxAmt = clsCommon.myRoundOFF(dblTaxAmt, IIf(objCommonVar.IsRoundOffTaxToZeroDecimal, 0, 2), 4)
+                        dblTaxAmt = clsCommon.myRoundOFF(dblTaxAmt, IIf(objCommonVar.IsRoundOffTaxToZeroDecimal, 0, PricePlanRoundOffDigit), 4)
                     End If
                     dblTotTaxAmt += dblTaxAmt
                     gv1.CurrentRow.Cells(colTaxAmt + clsCommon.myCstr(ii)).Value = dblTaxAmt
@@ -1268,7 +1285,7 @@ Public Class frmPriceMasterPlan
 
                 gv1.CurrentRow.Cells(colTotalTaxAmt).Value = Math.Truncate((dblTotTaxAmt) * factor) / factor
             Else
-                gv1.CurrentRow.Cells(colTotalTaxAmt).Value = clsCommon.myRoundOFF(dblTotTaxAmt, 2, 4)
+                gv1.CurrentRow.Cells(colTotalTaxAmt).Value = clsCommon.myRoundOFF(dblTotTaxAmt, PricePlanRoundOffDigit, 4)
 
             End If
             Dim dblSalePrice As Decimal = 0
@@ -1285,7 +1302,13 @@ Public Class frmPriceMasterPlan
                 dblSalePrice = Math.Truncate((dblSalePrice) * factor) / factor
 
             Else
-                dblSalePrice = clsCommon.myRoundOFF(dblSalePrice, 2, 4)
+                If ApplyPricePlanDigitRule Then
+                    dblSalePrice = clsCommon.myRoundOFF(dblTotalNonTabxableAmount, PricePlanRoundOffDigit, 4)
+
+                Else
+                    dblSalePrice = clsCommon.myRoundOFF(dblSalePrice, PricePlanRoundOffDigit, 4)
+
+                End If
 
             End If
             gv1.CurrentRow.Cells(colSaleAmt).Value = dblSalePrice

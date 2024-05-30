@@ -65,7 +65,7 @@ Public Class frmBullParameterRangeSelection
             'repoDeciCol.Step = 0
             'repoDeciCol.ShowUpDownButtons = False
             repoDeciCol.HeaderText = "Range"
-            repoDeciCol.ReadOnly = True
+            repoDeciCol.ReadOnly = False
             gvRangeDetails.MasterTemplate.Columns.Add(repoDeciCol)
 
             Dim gridcolSelection As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -145,6 +145,33 @@ Public Class frmBullParameterRangeSelection
 
     Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnclose.Click
         Me.Close()
+    End Sub
+
+    Private Sub frmBullParameterRangeSelection_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Try
+            loadBlankGrid()
+            Dim flag As Boolean = False
+            ' For ii As Decimal = 1 To Range Step 1
+            For ii As Decimal = 0 To gvRangeDetails.Rows.Count
+                gvRangeDetails.Rows.AddNew()
+                gvRangeDetails.Rows(gvRangeDetails.Rows.Count - 1).Cells(colRange).Value = ii
+
+                'If ArrRange IsNot Nothing Then
+                '    For Each row As GridViewRowInfo In gvRangeDetails.Rows
+                '        ArrRange.Add(clsCommon.myCstr(row.Cells(colSelection).Value))
+                '    Next
+                'End If
+
+                If ArrRangeSelection IsNot Nothing Then
+                    If ArrRangeSelection.ContainsKey(ii) Then
+                        ' gvRangeDetails.Rows(gvRangeDetails.Rows.Count - 1).Cells(colSelection).Value = Math.Abs(ArrRangeSelection(ii))
+                        gvRangeDetails.Rows(gvRangeDetails.Rows.Count - 1).Cells(colSelection).Value = (ArrRangeSelection(ii))
+                    End If
+                End If
+            Next
+        Catch ex As Exception
+            MessageBox.Show(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub gvRangeDetails_KeyDown(sender As Object, e As KeyEventArgs) Handles gvRangeDetails.KeyDown

@@ -67,21 +67,21 @@ Public Class ClsCMUGrouping
 
 
 
-            Dim Qry As String = ""
-            Dim dt As New DataTable
-            Qry = "select TSPL_BULL_CMU_GROUPING_detail.PK_Id from TSPL_BULL_CMU_GROUPING_detail where Document_No='" + obj.Code + "'"
-            dt = clsDBFuncationality.GetDataTable(Qry, trans)
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                obj.arrPKID = New List(Of clsBullCMUGroupingDeatilRange)
-                Dim objTr As clsBullCMUGroupingDeatilRange
-                For Each dr As DataRow In dt.Rows
-                    objTr = New clsBullCMUGroupingDeatilRange
-                    objTr.Against_Detail_PK_Id = clsCommon.myCstr(dr("PK_Id"))
-                    obj.arrPKID.Add(objTr)
-                Next
-            End If
-            'Return obj
-            IsSaved = IsSaved AndAlso clsBullCMUGroupingDeatilRange.SaveData(clsCommon.myCstr(obj.Code), obj.arrSelectionRange, obj.arrPKID, trans)
+            'Dim Qry As String = ""
+            'Dim dt As New DataTable
+            'Qry = "select TSPL_BULL_CMU_GROUPING_detail.PK_Id from TSPL_BULL_CMU_GROUPING_detail where Document_No='" + obj.Code + "'"
+            'dt = clsDBFuncationality.GetDataTable(Qry, trans)
+            'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            '    obj.arrPKID = New List(Of clsBullCMUGroupingDeatilRange)
+            '    Dim objTr As clsBullCMUGroupingDeatilRange
+            '    For Each dr As DataRow In dt.Rows
+            '        objTr = New clsBullCMUGroupingDeatilRange
+            '        objTr.Against_Detail_PK_Id = clsCommon.myCstr(dr("PK_Id"))
+            '        obj.arrPKID.Add(objTr)
+            '    Next
+            'End If
+            ''Return obj
+            'IsSaved = IsSaved AndAlso clsBullCMUGroupingDeatilRange.SaveData(clsCommon.myCstr(obj.Code), obj.Arr, trans)
             'IsSaved = IsSaved AndAlso clsBullCMUGroupingDeatilRange.SaveData(clsCommon.myCstr(obj.Code), obj.arrSelectionRange, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -207,6 +207,7 @@ Public Class ClsCMUGroupingDetail
     Public R_Boolean As String = ""
     Public Alpha_Numeric As String = ""
     Public Range_Selection As Decimal
+    Public RangeArr As Dictionary(Of String, String)
 
 
 
@@ -223,9 +224,11 @@ Public Class ClsCMUGroupingDetail
                     clsCommon.AddColumnsForChange(colm, "R_Boolean", obj.R_Boolean)
                     clsCommon.AddColumnsForChange(colm, "Alpha_Numeric", obj.Alpha_Numeric)
                     clsCommon.AddColumnsForChange(colm, "Range_Selection", obj.Range_Selection)
+                    'clsBullCMUGroupingDeatilRange.SaveData(strDocNo, obj.RangeArr, trans)
                     ' clsCommon.AddColumnsForChange(colm, "Parameter_Code", obj.ParameterCode)
                     'clsCommon.AddColumnsForChange(colm, "Amount", obj.ParameterCode)
                     clsCommonFunctionality.UpdateDataTable(colm, "TSPL_BULL_CMU_GROUPING_Detail", OMInsertOrUpdate.Insert, "", trans)
+                    clsBullCMUGroupingDeatilRange.SaveData(strDocNo, obj.RangeArr, trans)
                 Next
             End If
             Return True
@@ -266,6 +269,7 @@ Public Class ClsCMUGroupingDetail
                     objTr.R_Boolean = clsCommon.myCstr(dr("To_Range"))
                     objTr.Alpha_Numeric = clsCommon.myCstr(dr("Alpha_Numeric"))
                     objTr.Range_Selection = clsCommon.myCstr(dr("Range_Selection"))
+                    objTr.RangeArr = clsBullCMUGroupingDeatilRange.GetData(objTr.Document_No)
 
                     arr.Add(objTr)
                 Next
@@ -282,17 +286,42 @@ Public Class clsBullCMUGroupingDeatilRange
     Public Against_Detail_PK_Id As Decimal
     Public Range_Selection As String
 
-    Public Shared Function SaveData(ByVal strDocNo As String, ByVal arrSelection As List(Of clsBullCMUGroupingDeatilRange), ByVal arrPKID As List(Of clsBullCMUGroupingDeatilRange), ByVal trans As SqlTransaction) As Boolean
-        'Public Shared Function SaveData(ByVal strDocNo As String, ByVal arrSelection As List(Of clsBullCMUGroupingDeatilRange), ByVal trans As SqlTransaction) As Boolean
-        If (arrSelection IsNot Nothing AndAlso arrSelection.Count > 0) Then
-            For Each obj As clsBullCMUGroupingDeatilRange In arrSelection
-                Dim colm As New Hashtable()
-                clsCommon.AddColumnsForChange(colm, "Against_Group_Code", strDocNo)
-                'clsCommon.AddColumnsForChange(colm, "Against_Detail_PK_Id", obj.Against_Detail_PK_Id)
-                clsCommon.AddColumnsForChange(colm, "Against_Detail_PK_Id", arrPKID.Item(0).Against_Detail_PK_Id)
-                clsCommon.AddColumnsForChange(colm, "Range_Selection", obj.Range_Selection)
-                clsCommonFunctionality.UpdateDataTable(colm, "TSPL_BULL_CMU_GROUPING_DETAIL_RANGE", OMInsertOrUpdate.Insert, "", trans)
+    Public Shared Function GetData(ByVal strCode As String) As Dictionary(Of String, String)
+        Return GetData(strCode, Nothing)
+    End Function
+
+    Public Shared Function GetData(ByVal strCode As String, ByVal tran As SqlTransaction) As Dictionary(Of String, String)
+        Dim arr As New Dictionary(Of String, String)
+        Dim qry As String = "Select TSPL_BULL_CMU_GROUPING_DETAIL_RANGE.* from TSPL_BULL_CMU_GROUPING_DETAIL_RANGE Where Against_Group_Code='" + strCode + "'"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            For Each dr As DataRow In dt.Rows
+                arr.Add(clsCommon.myCDecimal(dr("SNF_Per")), clsCommon.myCDecimal(dr("Range_Selection")))
             Next
+        End If
+        Return arr
+    End Function
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As Dictionary(Of String, String), ByVal trans As SqlTransaction) As Boolean
+        'Public Shared Function SaveData(ByVal strDocNo As String, ByVal arrSelection As List(Of clsBullCMUGroupingDeatilRange), ByVal trans As SqlTransaction) As Boolean
+        If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
+            For ii As Integer = 0 To Arr.Count - 1
+                Dim PKID As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select PK_Id from TSPL_BULL_CMU_GROUPING_DETAIL where Document_No= '" + strDocNo + "' "))
+                Dim index As Integer = 1
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "Against_Group_Code", strDocNo)
+                clsCommon.AddColumnsForChange(coll, "Against_Detail_PK_Id", PKID)
+                clsCommon.AddColumnsForChange(coll, "Range_Selection", Arr(Arr.Keys(ii)))
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BULL_CMU_GROUPING_DETAIL_RANGE", OMInsertOrUpdate.Insert, "", trans)
+                index += 1
+            Next
+            'For Each obj As clsBullCMUGroupingDeatilRange In arrSelection
+            '    Dim colm As New Hashtable()
+            '    clsCommon.AddColumnsForChange(colm, "Against_Group_Code", strDocNo)
+            '    'clsCommon.AddColumnsForChange(colm, "Against_Detail_PK_Id", obj.Against_Detail_PK_Id)
+            '    clsCommon.AddColumnsForChange(colm, "Against_Detail_PK_Id", arrPKID.Item(0).Against_Detail_PK_Id)
+            '    clsCommon.AddColumnsForChange(colm, "Range_Selection", Arr.Keys(ii))
+            '    clsCommonFunctionality.UpdateDataTable(colm, "TSPL_BULL_CMU_GROUPING_DETAIL_RANGE", OMInsertOrUpdate.Insert, "", trans)
+            'Next
         End If
         Return True
     End Function

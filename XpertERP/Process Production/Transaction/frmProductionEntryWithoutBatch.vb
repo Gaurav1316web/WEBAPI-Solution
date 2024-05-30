@@ -2046,7 +2046,7 @@ Public Class frmProductionEntryWithoutBatch
     End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
-            If txtImportTemplate.Enabled AndAlso txtImportTemplate.arrValueMember.Count > 0 Then
+            If txtImportTemplate.Enabled AndAlso (txtImportTemplate.arrValueMember IsNot Nothing AndAlso txtImportTemplate.arrValueMember.Count > 0) Then
                 Import = True
                 automateImport()
             Else

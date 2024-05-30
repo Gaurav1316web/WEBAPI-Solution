@@ -42,6 +42,7 @@ Public Class frmVehicleMaster
     Dim Qry As String
     Public Const colSlabUpto As String = "colSlabUpto"
     Public Const colSlabRate As String = "colSlabRate"
+    Dim ErrorControl As New clsErrorControl()
 #End Region
     Public Sub New(ByVal user As String, ByVal company As String)
         InitializeComponent()
@@ -273,6 +274,24 @@ Public Class frmVehicleMaster
                 '    rtxtDescription.Focus()
                 '    Return False
             End If
+            'If clsCommon.myLen(rtxtNumber.Text) <= 0 Then
+            '    clsCommon.MyMessageBoxShow(Me, " Truck number should not blank, It is Mandatory", Me.Text)
+            '    'RadPageView1.SelectedPage = lblBreed2
+            '    rtxtNumber.Focus()
+            '    ErrorControl.SetError(rtxtNumber, "Truck number should not blank, It is Mandatory")
+            '    Return False
+            'Else
+            '    ErrorControl.SetError(rtxtNumber, "")
+            'End If
+        End If
+        If clsCommon.myLen(rtxtNumber.Text) <= 0 Then
+            clsCommon.MyMessageBoxShow(Me, " Truck number can't be left blank, It is Mandatory", Me.Text)
+            'RadPageView1.SelectedPage = lblBreed2
+            rtxtNumber.Focus()
+            ErrorControl.SetError(rtxtNumber, "Truck number  can't be left blank, It is Mandatory")
+            Return False
+        Else
+            ErrorControl.SetError(rtxtNumber, "")
         End If
         If EmployeeNoMandatory Then
             If clsCommon.myLen(clsCommon.myCstr(fndemployee.Value)) <= 0 Then
@@ -466,6 +485,7 @@ Public Class frmVehicleMaster
             rtxtVehicle_registration_No.MendatroryField = True
             rtxtvehicleName.MendatroryField = True
             rtxtvehiclebrand.MendatroryField = True
+            rtxtNumber.MendatroryField = True
             rtxtvehicleNo.MendatroryField = True
             rtxtModel.MendatroryField = True
             rtxtvehicle_Chechis_No.MendatroryField = True
@@ -478,6 +498,8 @@ Public Class frmVehicleMaster
             rtxtVehicle_registration_No.MendatroryField = False
             rtxtvehicleName.MendatroryField = False
             rtxtvehiclebrand.MendatroryField = False
+            rtxtNumber.MendatroryField = False
+
             rtxtvehicleNo.MendatroryField = False
             rtxtModel.MendatroryField = False
             rtxtvehicle_Chechis_No.MendatroryField = False
@@ -573,6 +595,13 @@ Public Class frmVehicleMaster
                         Throw New Exception("Model Can not be greater than 50")
                     End If
                     obj.Model = strmodel
+
+                    Dim strNumbers As String = clsCommon.myCstr(grow.Cells("Number").Value)
+
+                    If clsCommon.myLen(strNumbers) <= 0 Then
+                        Throw New Exception("Truck Number Cannot be Left Blank")
+                    End If
+                    obj.Number = strNumbers
 
                     Dim strNumber As String = clsCommon.myCstr(grow.Cells("Number").Value)
                     If clsCommon.myLen(strNumber) > 50 Then
