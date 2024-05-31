@@ -110,6 +110,8 @@ Public Class ClsCMUGrouping
                 Throw New Exception("Document_No not found to Delete")
             End If
             Dim qry As String = ""
+            qry = "delete from TSPL_BULL_CMU_GROUPING_DETAIL_RANGE where Against_Group_Code='" + StrCode + "'"
+            isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_BULL_CMU_GROUPING_Detail where Document_No='" + StrCode + "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_BULL_CMU_GROUPING where Document_No='" + StrCode + "'"
@@ -228,7 +230,12 @@ Public Class ClsCMUGroupingDetail
                     ' clsCommon.AddColumnsForChange(colm, "Parameter_Code", obj.ParameterCode)
                     'clsCommon.AddColumnsForChange(colm, "Amount", obj.ParameterCode)
                     clsCommonFunctionality.UpdateDataTable(colm, "TSPL_BULL_CMU_GROUPING_Detail", OMInsertOrUpdate.Insert, "", trans)
-                    clsBullCMUGroupingDeatilRange.SaveData(strDocNo, obj.RangeArr, trans)
+                    If clsCommon.myCstr(obj.Range_Selection) IsNot Nothing AndAlso clsCommon.myCdbl(obj.Range_Selection) > 0 Then
+                        Dim pkID As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("Select PK_ID from TSPL_BULL_CMU_GROUPING_Detail Where Document_No ='" + strDocNo + "' And IsNull(Range_Selection,0)>0 ", trans))
+                        clsBullCMUGroupingDeatilRange.SaveData(strDocNo, obj.RangeArr, pkID, trans)
+                        'clsBullCMUGroupingDeatilRange.SaveData(strDocNo, obj.RangeArr, trans)
+                    End If
+
                 Next
             End If
             Return True
@@ -291,28 +298,25 @@ Public Class clsBullCMUGroupingDeatilRange
     End Function
 
     Public Shared Function GetData(ByVal strCode As String, ByVal tran As SqlTransaction) As Dictionary(Of String, String)
-        Dim arr As New Dictionary(Of String, String)
-        Dim qry As String = "Select TSPL_BULL_CMU_GROUPING_DETAIL_RANGE.* from TSPL_BULL_CMU_GROUPING_DETAIL_RANGE Where Against_Group_Code='" + strCode + "'"
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            For Each dr As DataRow In dt.Rows
-                arr.Add(clsCommon.myCDecimal(dr("SNF_Per")), clsCommon.myCDecimal(dr("Range_Selection")))
-            Next
-        End If
-        Return arr
+        'Dim arr As New Dictionary(Of String, String)
+        'Dim qry As String = "Select TSPL_BULL_CMU_GROUPING_DETAIL_RANGE.* from TSPL_BULL_CMU_GROUPING_DETAIL_RANGE Where Against_Group_Code='" + strCode + "'"
+        'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
+        'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+        '    For Each dr As DataRow In dt.Rows
+        '        arr.Add(clsCommon.myCDecimal(dr("SNF_Per")), clsCommon.myCDecimal(dr("Range_Selection")))
+        '    Next
+        'End If
+        'Return arr
     End Function
-    Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As Dictionary(Of String, String), ByVal trans As SqlTransaction) As Boolean
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As Dictionary(Of String, String), ByVal PkID As String, ByVal trans As SqlTransaction) As Boolean
         'Public Shared Function SaveData(ByVal strDocNo As String, ByVal arrSelection As List(Of clsBullCMUGroupingDeatilRange), ByVal trans As SqlTransaction) As Boolean
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For ii As Integer = 0 To Arr.Count - 1
-                Dim PKID As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select PK_Id from TSPL_BULL_CMU_GROUPING_DETAIL where Document_No= '" + strDocNo + "' "))
-                Dim index As Integer = 1
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Against_Group_Code", strDocNo)
-                clsCommon.AddColumnsForChange(coll, "Against_Detail_PK_Id", PKID)
+                clsCommon.AddColumnsForChange(coll, "Against_Detail_PK_Id", PkID)
                 clsCommon.AddColumnsForChange(coll, "Range_Selection", Arr(Arr.Keys(ii)))
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BULL_CMU_GROUPING_DETAIL_RANGE", OMInsertOrUpdate.Insert, "", trans)
-                index += 1
             Next
             'For Each obj As clsBullCMUGroupingDeatilRange In arrSelection
             '    Dim colm As New Hashtable()
