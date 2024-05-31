@@ -24,9 +24,12 @@ Public Class frmBullCMUGrouping
     Const colAlphaNumeric As String = "colAlphaNumeric"
     Const colRS As String = "colRS"
     Const colRangeSelection As String = "colRangeSelection"
+    Const colRangeBtn As String = "colRangeBtn"
     Dim isInsideLoadData As Boolean = False
     Dim isCellValueChangedOpen As Boolean = True
     Dim ErrorControl As New clsErrorControl()
+    Dim frmP As New frmBullParameterRangeSelection()
+    Dim IsLoad As Boolean = False
 #End Region
     Private Sub SetUserMgmtNew()
         Me.Form_ID = clsUserMgtCode.frmDairyGatePass
@@ -207,24 +210,24 @@ Public Class frmBullCMUGrouping
             'gridcolRS.Width = 110
             'gv1.MasterTemplate.Columns.Add(gridcolRS)
 
-            'Dim gridcolRangeSelection As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-            'gridcolRangeSelection.FormatString = ""
-            'gridcolRangeSelection.HeaderText = "Range Selection"
-            'gridcolRangeSelection.Name = colRangeSelection
-            'gridcolRangeSelection.Width = 110
-            'gv1.MasterTemplate.Columns.Add(gridcolRangeSelection)
-            'gridcolRangeSelection.IsVisible = False
+            Dim gridcolRangeSelection As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+            gridcolRangeSelection.FormatString = ""
+            gridcolRangeSelection.HeaderText = "Range Selection"
+            gridcolRangeSelection.Name = colRangeSelection
+            gridcolRangeSelection.Width = 110
+            gv1.MasterTemplate.Columns.Add(gridcolRangeSelection)
+            gridcolRangeSelection.IsVisible = True
 
-            Dim ShowBtn As New GridViewCommandColumn()
-            ShowBtn.FormatString = ""
-            ShowBtn.UseDefaultText = True
-            ShowBtn.DefaultText = "Range Selection"
-            ShowBtn.HeaderText = ""
-            ShowBtn.Name = colRangeSelection
-            ShowBtn.FieldName = colRangeSelection
-            ShowBtn.Width = 100
-            ShowBtn.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-            gv1.MasterTemplate.Columns.Add(ShowBtn)
+            'Dim ShowBtn As New GridViewCommandColumn()
+            'ShowBtn.FormatString = ""
+            'ShowBtn.UseDefaultText = True
+            'ShowBtn.DefaultText = "Range"
+            'ShowBtn.HeaderText = ""
+            'ShowBtn.Name = colRangeBtn
+            'ShowBtn.FieldName = colRangeBtn
+            'ShowBtn.Width = 100
+            'ShowBtn.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+            'gv1.MasterTemplate.Columns.Add(ShowBtn)
 
 
             gv1.AllowAddNewRow = False
@@ -294,6 +297,7 @@ Public Class frmBullCMUGrouping
             isInsideLoadData = True
             fndCode.MyReadOnly = True
             gv1.MasterTemplate.SummaryRowsBottom.Clear()
+            IsLoad = True
 
             Dim obj As ClsCMUGrouping = ClsCMUGrouping.GetData(strCode, NavTyep, Nothing)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0) Then
@@ -342,6 +346,8 @@ Public Class frmBullCMUGrouping
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colRangeSelection).Value = objrow.Range_Selection
                         gv1.Rows.AddNew()
                     Next
+                Else
+                    GetDataSelectionRange()
                 End If
                 If clsCommon.myCdbl(ERPTransactionStatus.Approved) = clsCommon.myCdbl(obj.Status) Then
                     UsLock1.Status = obj.Status
@@ -356,6 +362,7 @@ Public Class frmBullCMUGrouping
                     btnPost.Enabled = True
                 End If
                 isInsideLoadData = False
+                IsLoad = False
 
             Else
                 AddNew()
@@ -455,66 +462,79 @@ Public Class frmBullCMUGrouping
     Private Sub btnsave_Click(sender As Object, e As EventArgs) Handles btnsave.Click
         SaveData()
     End Sub
-
-    Private Function SaveData() As Boolean
-
-        Dim obj As New ClsCMUGrouping()
-        obj.Code = fndCode.Value
-        obj.Remarks = txtremarks.Text
-        obj.Name = TxtName.Text
-        Dim arrGroupType As New List(Of String)
-        If txtMultiGroup.arrValueMember IsNot Nothing Then
-            For i As Integer = 0 To txtMultiGroup.arrValueMember.Count - 1
-                arrGroupType.Add(txtMultiGroup.arrValueMember(i))
-            Next
-        Else
-            clsCommon.MyMessageBoxShow(Me, "Please select atleast one Group type", Me.Text)
+    Private Function AllowToSave() As Boolean
+        If clsCommon.myLen(fndCode.Value) <= 0 Then
+            fndCode.Focus()
+            clsCommon.MyMessageBoxShow(Me, "Code can't be blank", Me.Text)
             Exit Function
+            Return False
         End If
+        Return True
+    End Function
+    Private Function SaveData() As Boolean
+        Try
+            If (AllowToSave()) Then
+                Dim obj As New ClsCMUGrouping()
+                obj.Code = fndCode.Value
+                obj.Remarks = txtremarks.Text
+                obj.Name = TxtName.Text
+                Dim arrGroupType As New List(Of String)
+                If txtMultiGroup.arrValueMember IsNot Nothing Then
+                    For i As Integer = 0 To txtMultiGroup.arrValueMember.Count - 1
+                        arrGroupType.Add(txtMultiGroup.arrValueMember(i))
+                    Next
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "Please select atleast one Group type", Me.Text)
+                    Exit Function
+                End If
 
-        obj.Arr = New List(Of ClsCMUGroupingDetail)
+                obj.Arr = New List(Of ClsCMUGroupingDetail)
 
-        For Each row As GridViewRowInfo In gv1.Rows
-            Dim objTr As New ClsCMUGroupingDetail()
+                For Each row As GridViewRowInfo In gv1.Rows
+                    Dim objTr As New ClsCMUGroupingDetail()
 
-            objTr.GroupCode = clsCommon.myCstr(row.Cells(ColGroupCode).Value)
-            objTr.GroupName = clsCommon.myCstr(row.Cells(ColGroupName).Value)
-            objTr.ParameterCode = clsCommon.myCdbl(row.Cells(ColParameterCode).Value)
-            objTr.Pk_Id = clsCommon.myCdbl(row.Cells(ColPkId).Value)
-            If clsCommon.CompairString(clsCommon.myCstr(row.Cells(ColReqforResult).Value), "True") = CompairStringResult.Equal Then
-                objTr.Required_For_Result = "Y"
-            Else
-                objTr.Required_For_Result = "N"
+                    objTr.GroupCode = clsCommon.myCstr(row.Cells(ColGroupCode).Value)
+                    objTr.GroupName = clsCommon.myCstr(row.Cells(ColGroupName).Value)
+                    objTr.ParameterCode = clsCommon.myCdbl(row.Cells(ColParameterCode).Value)
+                    objTr.Pk_Id = clsCommon.myCdbl(row.Cells(ColPkId).Value)
+                    If clsCommon.CompairString(clsCommon.myCstr(row.Cells(ColReqforResult).Value), "True") = CompairStringResult.Equal Then
+                        objTr.Required_For_Result = "Y"
+                    Else
+                        objTr.Required_For_Result = "N"
+                    End If
+                    objTr.From_Range = clsCommon.myCDecimal(row.Cells(colRangeFrom).Value)
+                    objTr.To_Range = clsCommon.myCDecimal(row.Cells(colRangeTo).Value)
+
+                    If clsCommon.CompairString(clsCommon.myCstr(row.Cells(colBoolean).Value), "True") = CompairStringResult.Equal Then
+                        objTr.R_Boolean = "Y"
+                    Else
+                        objTr.R_Boolean = "N"
+                    End If
+                    objTr.Alpha_Numeric = clsCommon.myCstr(row.Cells(colAlphaNumeric).Value)
+                    objTr.Range_Selection = clsCommon.myCDecimal(row.Cells(colRangeSelection).Value)
+                    objTr.RangeArr = TryCast(row.Cells(colRangeSelection).Tag, Dictionary(Of String, String))
+
+                    If (clsCommon.myLen(objTr.GroupCode) > 0) Then
+                        obj.Arr.Add(objTr)
+                    End If
+                Next
+
+                Dim Sqlqry As String = "select count(1) from TSPL_BULL_CMU_GROUPING where Document_No ='" + fndCode.Value + "'"
+                Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Sqlqry))
+                If count = 0 Then
+                    isNewEntry = True
+                Else
+                    isNewEntry = False
+                End If
+
+                If (ClsCMUGrouping.SaveData(obj, isNewEntry)) Then
+                    clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
+                    LoadData(obj.Code, NavigatorType.Current)
+                End If
             End If
-            objTr.From_Range = clsCommon.myCDecimal(row.Cells(colRangeFrom).Value)
-            objTr.To_Range = clsCommon.myCDecimal(row.Cells(colRangeTo).Value)
-
-            If clsCommon.CompairString(clsCommon.myCstr(row.Cells(colBoolean).Value), "True") = CompairStringResult.Equal Then
-                objTr.R_Boolean = "Y"
-            Else
-                objTr.R_Boolean = "N"
-            End If
-            objTr.Alpha_Numeric = clsCommon.myCstr(row.Cells(colAlphaNumeric).Value)
-            objTr.Range_Selection = clsCommon.myCDecimal(row.Cells(colRangeSelection).Value)
-
-            If (clsCommon.myLen(objTr.GroupCode) > 0) Then
-                obj.Arr.Add(objTr)
-            End If
-        Next
-
-        Dim Sqlqry As String = "select count(1) from TSPL_BULL_CMU_GROUPING where Document_No ='" + fndCode.Value + "'"
-        Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Sqlqry))
-        If count = 0 Then
-            isNewEntry = True
-        Else
-            isNewEntry = False
-        End If
-
-        If (ClsCMUGrouping.SaveData(obj, isNewEntry)) Then
-            clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
-            LoadData(obj.Code, NavigatorType.Current)
-        End If
-
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
         Return True
     End Function
 
@@ -631,12 +651,19 @@ Public Class frmBullCMUGrouping
                     gv1.CurrentRow.Cells(colAlphaNumeric).ReadOnly = True
                 Next
             End If
+            If Not IsLoad AndAlso clsCommon.myCDecimal(gv1.CurrentRow.Cells(colRangeSelection).Value) > 0 Then
+                GetDataSelectionRange()
+            End If
 
             'If clsCommon.myCDecimal(gv1.CurrentRow.Cells(colRangeSelection).Value) > 0 Then
-            '    Dim frmP As New frmBullParameterRangeSelection()
-            '    frmP.AddGridView(clsCommon.myCDecimal(gv1.CurrentRow.Cells(colRangeSelection).Value))
+            '    frmP.ArrRangeSelection = gv1.CurrentRow.Cells(colRangeSelection).Tag
+            '    frmP.Range = gv1.CurrentRow.Cells(colRangeSelection).Value
+            '    'frmP.AddGridView(clsCommon.myCDecimal(gv1.CurrentRow.Cells(colRangeSelection).Value))
             '    frmP.Form_ID = clsUserMgtCode.frmBullCMUGrouping
-            '    frmP.Show()
+            '    frmP.ShowDialog()
+            '    If frmP.isOK Then
+            '        gv1.CurrentRow.Cells(colRangeSelection).Tag = frmP.ArrRangeSelection
+            '    End If
             '    'formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
             'End If
 
@@ -645,30 +672,95 @@ Public Class frmBullCMUGrouping
         End Try
     End Sub
 
-    Private Sub gv1_CommandCellClick(sender As Object, e As GridViewCellEventArgs) Handles gv1.CommandCellClick
+    Private Sub gv1_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellDoubleClick
         Try
-            If gv1.CurrentColumn Is gv1.Columns(colRangeSelection) Then
-                Dim frmP As New frmBullParameterRangeSelection()
-                'frmP.AddGridView(clsCommon.myCDecimal(gv1.CurrentRow.Cells(colRangeSelection).Value))
-                frmP.Form_ID = clsUserMgtCode.frmBullCMUGrouping
-                'frmP.Range = gv1.CurrentRow.Cells(colRS).Value
-                frmP.ArrRangeSelection = gv1.CurrentRow.Cells(colRangeSelection).Tag
-                'frmP.ArrRange = gv1.CurrentRow.Cells(colRangeSelection).Tag
-                'If frmP.ArrRange.Count > 0 Then
-                '    Dim value As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colRangeSelection).Value)
-                '    'frmP.ArrRange = gv1.CurrentRow.Cells(colRangeSelection).Value
-                '    frmP.ArrRange.Add(value)
-                'End If
-                'frmP.ArrRange = gv1.CurrentRow.Cells(colRangeSelection).Value
-                frmP.ShowDialog()
-                If frmP.isOK Then
-                    gv1.CurrentRow.Cells(colRangeSelection).Tag = frmP.ArrRangeSelection
-                    gv1.CurrentRow.Cells(colRangeSelection).Value = frmP.ArrRange
-                End If
-                'frmP.Show()
-            End If
+            GetDataSelectionRange()
+            'If gv1 IsNot Nothing AndAlso gv1.Rows.Count > 0 Then
+            '    If gv1.CurrentRow.Cells(colRangeSelection).Value > 0 Then
+            '        frmP.ShowDialog()
+            '    End If
+            'End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Sub GetDataSelectionRange()
+        If Not IsLoad AndAlso clsCommon.myCstr(gv1.CurrentRow.Cells(ColGroupCode).Value) IsNot Nothing AndAlso clsCommon.myCdbl(gv1.CurrentRow.Cells(colRangeSelection).Value) > 0 Then
+
+            Dim Qry As String = "SELECT TSPL_BULL_CMU_GROUPING_DETAIL_RANGE.* FROM TSPL_BULL_CMU_GROUPING_DETAIL_RANGE " &
+                                "INNER JOIN TSPL_BULL_CMU_GROUPING_DETAIL ON TSPL_BULL_CMU_GROUPING_DETAIL.PK_Id = TSPL_BULL_CMU_GROUPING_DETAIL_RANGE.Against_Detail_PK_Id " &
+                                "WHERE TSPL_BULL_CMU_GROUPING_DETAIL.Document_No = '" + fndCode.Value + "'"
+
+            'And TSPL_BULL_PARAMETER_GROUP_DETAIL.TPCode = '" + clsCommon.myCstr(gv1.CurrentRow.Cells(ColGroupCode).Value) + "'"
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim arrRangeSelection As New Dictionary(Of String, String)()
+                Dim i As Integer = 1
+                For Each row As DataRow In dt.Rows
+                    Dim key As String = clsCommon.myCstr(i)
+                    Dim value As String = clsCommon.myCstr(row("Range_Selection"))
+                    If Not arrRangeSelection.ContainsKey(key) Then
+                        arrRangeSelection.Add(key, value)
+                    End If
+                    i += 1
+                Next
+                frmP.ArrRangeSelection = arrRangeSelection
+            End If
+
+            If Not frmP.isOK Then
+                frmP.ArrRangeSelection = gv1.CurrentRow.Cells(colRangeSelection).Tag
+            End If
+            frmP.Range = gv1.CurrentRow.Cells(colRangeSelection).Value
+            frmP.ShowDialog()
+            If frmP.isOK Then
+                gv1.CurrentRow.Cells(colRangeSelection).Tag = frmP.ArrRangeSelection
+            End If
+            'Else
+            '    If gv1 IsNot Nothing AndAlso gv1.Rows.Count > 0 Then
+            '        frmP.ArrRangeSelection = gv1.CurrentRow.Cells(colRangeSelection).Tag
+            '        frmP.Range = gv1.CurrentRow.Cells(colRangeSelection).Value
+            '        frmP.ShowDialog()
+            '        If frmP.isOK Then
+            '            gv1.CurrentRow.Cells(colRangeSelection).Tag = frmP.ArrRangeSelection
+            '        End If
+            '    End If
+        End If
+
+    End Sub
+
+
+    'Private Sub gv1_CellClick(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellClick
+    '    If clsCommon.myCDecimal(gv1.CurrentRow.Cells(colRangeSelection).Value) > 0 Then
+    '        Dim frmP As New frmBullParameterRangeSelection()
+    '        frmP.ArrRangeSelection = gv1.CurrentRow.Cells(colRangeSelection).Tag
+    '        frmP.Range = gv1.CurrentRow.Cells(colRangeSelection).Value
+    '        frmP.AddGridView(clsCommon.myCDecimal(gv1.CurrentRow.Cells(colRangeSelection).Value))
+    '        frmP.Form_ID = clsUserMgtCode.frmBullCMUGrouping
+    '        frmP.Show()
+    '        If frmP.isOK Then
+    '            gv1.CurrentRow.Cells(colRangeSelection).Tag = frmP.ArrRangeSelection
+    '        End If
+    '        'formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+    '    End If
+    'End Sub
+
+    'Private Sub gv1_CommandCellClick(sender As Object, e As GridViewCellEventArgs) Handles gv1.CommandCellClick
+    '    Try
+    '        If gv1.CurrentColumn Is gv1.Columns(colRangeBtn) Then
+    '            Dim frmP As New frmBullParameterRangeSelection()
+    '            'frmP.AddGridView(clsCommon.myCDecimal(gv1.CurrentRow.Cells(colRangeSelection).Value))
+    '            frmP.Form_ID = clsUserMgtCode.frmBullCMUGrouping
+    '            frmP.ArrRangeSelection = gv1.CurrentRow.Cells(colRangeBtn).Tag
+    '            'frmP.Range = gv1.CurrentRow.Cells(colRangeSelection).Value
+    '            frmP.ShowDialog()
+    '            If frmP.isOK Then
+    '                gv1.CurrentRow.Cells(colRangeBtn).Tag = frmP.ArrRangeSelection
+    '            End If
+    '        End If
+    '    Catch ex As Exception
+    '        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '    End Try
+    'End Sub
 End Class

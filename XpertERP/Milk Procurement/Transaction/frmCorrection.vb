@@ -139,13 +139,25 @@ Public Class frmCorrection
             Else
                 isCorrection = 0
             End If
-
+            LoadReject()
             'RadPageView1.SelectedPage = RadPageViewPage1
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
+    Public Sub LoadReject()
+        Dim qry As String = "select Code,description as Name from TSPL_MILK_REJECT_TYPE order by SNo"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            Dim dr As DataRow = dt.NewRow
+            dr("Code") = ""
+            dr("Name") = "Good"
+            dt.Rows.InsertAt(dr, 0)
+        End If
+        cboRejectType.DataSource = dt
+        cboRejectType.ValueMember = "Code"
+        cboRejectType.DisplayMember = "Name"
+    End Sub
     'Private Sub CreateTable()
     '    Dim coll As Dictionary(Of String, String)
     '    coll = New Dictionary(Of String, String)
@@ -443,7 +455,7 @@ Public Class frmCorrection
                 objTr.FAT = Math.Round(txtFAT.Value, 1, MidpointRounding.ToEven)
                 objTr.SNF = Math.Round(txtSNF.Value, IIf(objCommonVar.MilkProcurementSNF2DecimalPlaces, 2, 1), MidpointRounding.ToEven)
                 'objTr.Reject_Defaulter = clsCommon.myCstr(gv1.Rows(ii).Cells(colRejectDefaulter).Value)
-                'objTr.Reject_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colRejectRejectType).Value)
+                objTr.Reject_Type = clsCommon.myCstr(cboRejectType.SelectedValue)
                 'objTr.arrQCParameter = GetParamCollection(ii)
                 obj.Arr.Add(objTr)
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
@@ -471,6 +483,7 @@ Public Class frmCorrection
                 Dim CorrTypeSRNQty As Boolean = True
                 Dim CorrTypeSRNFATSNF As Boolean = True
                 Dim CorrTypeSRNVLC As Boolean = True
+                Dim CorrTypeRejectType As Boolean = True
                 If clsCommon.myCdbl(txtQty.Tag) = txtQty.Value Then
                     CorrTypeSRNQty = False
                 End If
@@ -479,6 +492,9 @@ Public Class frmCorrection
                 End If
                 If clsCommon.CompairString(clsCommon.myCstr(TxtFinder1.Tag), clsCommon.myCstr(txtVLC.Tag)) = CompairStringResult.Equal Then
                     CorrTypeSRNVLC = False
+                End If
+                If clsCommon.CompairString(clsCommon.myCstr(cboRejectType.SelectedValue), clsCommon.myCstr(cboRejectType.Tag)) = CompairStringResult.Equal Then
+                    CorrTypeRejectType = False
                 End If
                 'If clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkRetesting) = CompairStringResult.Equal Then
                 '    If chkRetesting.Checked Then
@@ -495,9 +511,10 @@ Public Class frmCorrection
                 '        obj.arrList.Add(obj)
                 '    End If
                 'End If
-                clsMilkSRNMCC.Correction(lblSRNNo.Text, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, txtQty.Value, clsCommon.myCstr(cboMilkType.SelectedValue), txtFAT.Value, txtSNF.Value, clsCommon.myCstr(TxtFinder1.Value), Form_ID)
+                clsMilkSRNMCC.Correction(lblSRNNo.Text, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, txtQty.Value, clsCommon.myCstr(cboMilkType.SelectedValue), txtFAT.Value, txtSNF.Value, clsCommon.myCstr(TxtFinder1.Value), False, Nothing, False, Form_ID, CorrTypeRejectType, clsCommon.myCstr(cboRejectType.SelectedValue))
             End If
             clsCommon.MyMessageBoxShow(Me, "Data corrected sucessfully", Me.Text)
+            btnSave.Enabled = False
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -532,12 +549,17 @@ Public Class frmCorrection
                 Throw New Exception("Please enter VLC")
             End If
             Dim qry As String = Nothing
-            qry = "select TSPL_MILK_SRN_HEAD.DOC_CODE as SRNNo,TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type as MilkType,TSPL_MILK_SRN_DETAIL.Qty,TSPL_MILK_SRN_DETAIL.UOM_Code,TSPL_MILK_SRN_DETAIL.FAT_PER,TSPL_MILK_SRN_DETAIL.SNF_PER,TSPL_MILK_SRN_DETAIL.Retesting_FAT,TSPL_MILK_SRN_DETAIL.Retesting_SNF,TSPL_MILK_SRN_DETAIL.Retesting_OR_Correction_Status,(Case When Retesting_OR_Correction_Status=1 Then TSPL_MILK_SRN_DETAIL.Retesting_FAT Else (Case When Retesting_OR_Correction_Status=2 Then TSPL_MILK_SRN_DETAIL.FAT_PER Else TSPL_MILK_SRN_DETAIL.Retesting_FAT End)End) As FAT,
-(Case When Retesting_OR_Correction_Status=1 Then TSPL_MILK_SRN_DETAIL.Retesting_SNF Else (Case When Retesting_OR_Correction_Status=2 Then TSPL_MILK_SRN_DETAIL.SNF_PER Else TSPL_MILK_SRN_DETAIL.Retesting_SNF End) End) As SNF from TSPL_MILK_SRN_DETAIL" + Environment.NewLine +
-                    "left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE"
-
+            qry = "select TSPL_MILK_SRN_HEAD.DOC_CODE as SRNNo,TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type as MilkType
+,TSPL_MILK_SRN_DETAIL.Qty,TSPL_MILK_SRN_DETAIL.UOM_Code,TSPL_MILK_SRN_DETAIL.FAT_PER,TSPL_MILK_SRN_DETAIL.SNF_PER
+,TSPL_MILK_SRN_DETAIL.Retesting_FAT,TSPL_MILK_SRN_DETAIL.Retesting_SNF,TSPL_MILK_SRN_DETAIL.Retesting_OR_Correction_Status
+,(Case When Retesting_OR_Correction_Status=1 Then TSPL_MILK_SRN_DETAIL.Retesting_FAT Else (Case When Retesting_OR_Correction_Status=2 Then TSPL_MILK_SRN_DETAIL.FAT_PER Else TSPL_MILK_SRN_DETAIL.Retesting_FAT End)End) As FAT
+,(Case When Retesting_OR_Correction_Status=1 Then TSPL_MILK_SRN_DETAIL.Retesting_SNF Else (Case When Retesting_OR_Correction_Status=2 Then TSPL_MILK_SRN_DETAIL.SNF_PER Else TSPL_MILK_SRN_DETAIL.Retesting_SNF End) End) As SNF 
+,case when TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No is not null then TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type else TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type end Reject_Type
+from TSPL_MILK_SRN_DETAIL
+left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE
+left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
+left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No"
             Dim whr As String = " convert(date, TSPL_MILK_SRN_HEAD.DOC_DATE,106)='" + clsCommon.GetPrintDate(txtShiftDate.Value, "dd/MMM/yyyy") + "' and TSPL_MILK_SRN_HEAD.SHIFT='" + clsCommon.myCstr(cboShift.SelectedValue) + "' and TSPL_MILK_SRN_HEAD.VLC_CODE='" + clsCommon.myCstr(txtVLC.Tag) + "'"
-
             If Not MultipleFinderFillAuto Then
                 whr += " and TSPL_MILK_SRN_HEAD.MCC_CODE='" + txtMCC.Value + "' "
             End If
@@ -581,6 +603,9 @@ Public Class frmCorrection
                 'txtRetestSNF.Value = clsCommon.myCdbl(dt.Rows(0)("Retesting_FAT"))
                 cboMilkType.SelectedValue = clsCommon.myCstr(dt.Rows(0)("MilkType"))
                 cboMilkType.Tag = clsCommon.myCstr(dt.Rows(0)("MilkType"))
+                cboRejectType.SelectedValue = clsCommon.myCstr(dt.Rows(0)("Reject_Type"))
+                cboRejectType.Tag = clsCommon.myCstr(dt.Rows(0)("Reject_Type"))
+
                 TxtFinder1.Value = txtVLC.Value
                 TxtFinder1.Tag = txtVLC.Tag
                 MyLabel5.Text = lblVLC.Text
@@ -602,6 +627,10 @@ Public Class frmCorrection
         txtSNF.Tag = Nothing
         cboMilkType.SelectedValue = Nothing
         cboMilkType.Tag = Nothing
+        cboRejectType.SelectedValue = Nothing
+        cboRejectType.Tag = Nothing
+
+
         TxtFinder1.Value = Nothing
         TxtFinder1.Tag = Nothing
         MyLabel5.Text = Nothing
@@ -814,8 +843,8 @@ order by  xx.Shift desc,xx.Qty "
                                                                 qry = "update TSPL_MILK_COLLECTION_DCS_DETAIL set Own_Qty= case when Own_Qty is null then Qty else Own_Qty end,Own_FAT= case when Own_FAT is null then FAT else Own_FAT end,Own_SNF= case when Own_SNF is null then SNF else Own_SNF end,Own_FATKG= case when Own_FATKG is null then FATKG else Own_FATKG end,Own_SNFKG= case when Own_SNFKG is null then SNFKG else Own_SNFKG end where PK_Id=" + clsCommon.myCstr(dtDetail.Rows(indx)("PK_Id")) + ""
                                                                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                                                                clsMilkSRNMCC.Correction(clsCommon.myCstr(dtDetail.Rows(indx)("DOC_CODE")), True, True, False, Qty, clsCommon.myCstr(dtDetail.Rows(indx)("Dock_Collection_Milk_Type")), FAT, SNF, "", False, trans, True, Form_ID)
-                                                                Dim coll As New Hashtable()
+                                                            clsMilkSRNMCC.Correction(clsCommon.myCstr(dtDetail.Rows(indx)("DOC_CODE")), True, True, False, Qty, clsCommon.myCstr(dtDetail.Rows(indx)("Dock_Collection_Milk_Type")), FAT, SNF, "", False, trans, True, Form_ID, False, "")
+                                                            Dim coll As New Hashtable()
                                                                 clsCommon.AddColumnsForChange(coll, "Qty", Qty)
                                                                 clsCommon.AddColumnsForChange(coll, "FAT", FAT)
                                                                 clsCommon.AddColumnsForChange(coll, "SNF", SNF)

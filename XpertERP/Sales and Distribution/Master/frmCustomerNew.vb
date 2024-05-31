@@ -2011,6 +2011,7 @@ Public Class frmCustomer
                 Me.txtLstNo.Text = myDr(50).ToString
                 Me.drpformtype.Text = myDr(51).ToString
                 Me.fndChannel.Value = myDr(52).ToString
+                Me.txtVirtualAccNO.Text = clsCommon.myCstr(myDr("Virtual_Ac_no"))
                 txtTxGrp.Text = clsDBFuncationality.getSingleValue("SELECT [Tax_Group_Desc] FROM [TSPL_TAX_GROUP_MASTER] where Tax_Group_Code='" + fndTxGrp.Value + "'")
                 Dim strStatus As String = clsCommon.myCstr(myDr("Status"))
                 If clsCommon.CompairString(strStatus, "N") = CompairStringResult.Equal OrElse Not clsCommon.CompairString(strStatus, "Y") = CompairStringResult.Equal Then
@@ -2399,6 +2400,7 @@ Public Class frmCustomer
         lblPanchayatSamiti.Text = ""
         TxtVidhanSabha.Value = ""
         lblVidhanSabha.Text = ""
+        txtVirtualAccNO.Text = ""
         txtCategoryStructureCode.Value = ""
         lblCategoryStructureCode.Text = ""
         chkTCSnotApplicable.Checked = False
