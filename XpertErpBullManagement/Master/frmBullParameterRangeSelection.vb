@@ -15,23 +15,28 @@ Public Class frmBullParameterRangeSelection
     Public isOK As Boolean = False
 
 
-    'Private Sub frmBullParameterRangeSelection_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-    '    Try
-    '        loadBlankGrid()
-    '        Dim flag As Boolean = False
-    '        'For ii As Decimal = 0 To Range Step 1
-    '        If Range > 0 Then
-    '            If Range > gvRangeDetails.Rows.Count Then
-    '                For ii As Integer = 0 To (Range - gvRangeDetails.Rows.Count) - 1
-    '                    gvRangeDetails.Rows.AddNew()
-    '                    LoadData(ArrRangeSelection)
-    '                Next
-    '            End If
-    '        End If
-    '    Catch ex As Exception
-    '        MessageBox.Show(Me, ex.Message, Me.Text)
-    '    End Try
-    'End Sub
+    Private Sub frmBullParameterRangeSelection_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Try
+            loadBlankGrid()
+            Dim flag As Boolean = False
+            'For ii As Decimal = 0 To Range Step 1
+            If Range > 0 Then
+                Dim i As Integer = 0
+                For ii As Integer = 0 To (Range - 1)
+                    If ArrRangeSelection Is Nothing Then
+                        gvRangeDetails.Rows.AddNew()
+                        If gvRangeDetails.Rows(ii).Cells(colRange).Value Is Nothing Then
+                            gvRangeDetails.Rows(ii).Cells(colRange).Value = (i + 1)
+                        End If
+                    End If
+                    i += 1
+                Next
+                LoadData(ArrRangeSelection)
+            End If
+        Catch ex As Exception
+            MessageBox.Show(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 
 
     Public Sub AddGridView(ByVal Count As Decimal)
@@ -66,6 +71,7 @@ Public Class frmBullParameterRangeSelection
             'repoDeciCol.ShowUpDownButtons = False
             repoDeciCol.HeaderText = "Range"
             repoDeciCol.ReadOnly = False
+            repoDeciCol.IsVisible = False
             gvRangeDetails.MasterTemplate.Columns.Add(repoDeciCol)
 
             Dim gridcolSelection As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -142,41 +148,15 @@ Public Class frmBullParameterRangeSelection
         End Try
     End Sub
 
-
     Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnclose.Click
         Me.Close()
     End Sub
 
-    Private Sub frmBullParameterRangeSelection_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Try
-            loadBlankGrid()
-            Dim flag As Boolean = False
-            ' For ii As Decimal = 1 To Range Step 1
-            For ii As Decimal = 0 To gvRangeDetails.Rows.Count
-                gvRangeDetails.Rows.AddNew()
-                gvRangeDetails.Rows(gvRangeDetails.Rows.Count - 1).Cells(colRange).Value = ii
-
-                'If ArrRange IsNot Nothing Then
-                '    For Each row As GridViewRowInfo In gvRangeDetails.Rows
-                '        ArrRange.Add(clsCommon.myCstr(row.Cells(colSelection).Value))
-                '    Next
-                'End If
-
-                If ArrRangeSelection IsNot Nothing Then
-                    If ArrRangeSelection.ContainsKey(ii) Then
-                        ' gvRangeDetails.Rows(gvRangeDetails.Rows.Count - 1).Cells(colSelection).Value = Math.Abs(ArrRangeSelection(ii))
-                        gvRangeDetails.Rows(gvRangeDetails.Rows.Count - 1).Cells(colSelection).Value = (ArrRangeSelection(ii))
-                    End If
-                End If
-            Next
-        Catch ex As Exception
-            MessageBox.Show(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
-
     Private Sub gvRangeDetails_KeyDown(sender As Object, e As KeyEventArgs) Handles gvRangeDetails.KeyDown
-        If e.KeyCode = Keys.Enter Then
-            gvRangeDetails.Rows.AddNew()
+        If clsCommon.CompairString(Form_ID, "BLL-CMU-GRP") = CompairStringResult.Equal Then
+            If e.KeyCode = Keys.Enter Then
+                gvRangeDetails.Rows.AddNew()
+            End If
         End If
     End Sub
 
@@ -196,10 +176,25 @@ Public Class frmBullParameterRangeSelection
     Public Sub LoadData(ByVal arrSelection As Dictionary(Of String, String))
         Try
             If (arrSelection IsNot Nothing AndAlso arrSelection.Count > 0) Then
-                For ii As Integer = 0 To arrSelection.Count - 1
+                loadBlankGrid()
+                Dim ii As Integer
+                For ii = 0 To arrSelection.Count - 1
+                    gvRangeDetails.Rows.AddNew()
+                    gvRangeDetails.Rows(ii).Cells(colRange).Value = (arrSelection.Keys(ii))
                     gvRangeDetails.Rows(ii).Cells(colSelection).Value = arrSelection(arrSelection.Keys(ii))
-                    ArrRange.Add(gvRangeDetails.Rows(ii).Cells(colSelection).Value)
                 Next
+                If Range > arrSelection.Count Then
+                    For j As Integer = 0 To (Range - arrSelection.Count) - 1
+                        gvRangeDetails.Rows.AddNew()
+                        gvRangeDetails.Rows(ii).Cells(colRange).Value = (ii + 1)
+                        ii += 1
+                    Next
+                ElseIf Range < arrSelection.Count Then
+                    For j As Integer = 0 To (arrSelection.Count - Range) - 1
+                        gvRangeDetails.Rows.RemoveAt(ii - 1)
+                        ii -= 1
+                    Next
+                End If
             Else
 
             End If
