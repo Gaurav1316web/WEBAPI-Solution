@@ -1,6 +1,7 @@
 ﻿Imports System.Data
 Imports System.Data.SqlClient
 Imports common
+Imports common.UserControls
 Imports Telerik.WinControls.UI
 Imports XpertERPEngine
 Imports XpertERPEngineFine
@@ -22,6 +23,8 @@ Public Class frmBullParameterGroup
     Dim isInsideLoadData As Boolean = False
     Dim isCellValueChangedOpen As Boolean = True
     Dim ErrorControl As New clsErrorControl()
+    Public arrSelectionRange As New List(Of String)
+    Dim frmP As New frmBullParameterRangeSelection()
 
     Public Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.frmBookingProductSale)
@@ -42,6 +45,9 @@ Public Class frmBullParameterGroup
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+
+
 
     Sub CreateTable()
         Dim coll As Dictionary(Of String, String)
@@ -240,10 +246,26 @@ Public Class frmBullParameterGroup
                     End If
                     objTr.Alpha_Numeric = clsCommon.myCstr(row.Cells(colAlphaNumeric).Value)
                     objTr.Range_Selection = clsCommon.myCDecimal(row.Cells(colRangeSelection).Value)
+                    objTr.RangeArr = TryCast(row.Cells(colRangeSelection).Tag, Dictionary(Of String, String))
+
                     If (clsCommon.myLen(objTr.Code) > 0) Then
                         obj.Arr.Add(objTr)
                     End If
                 Next
+
+
+                'obj.arrSelectionRange = New List(Of clsBullParameterGroupDeatilRange)
+                'If frmP.ArrRangeSelection.Count > 0 Then
+                '    For Each arr In frmP.ArrRangeSelection
+                '        Dim objTr As New clsBullParameterGroupDeatilRange()
+                '        objTr.Against_Group_Code = txtCode.Value
+                '        objTr.Range_Selection = clsCommon.myCstr(frmP.ArrRangeSelection.Values)
+                '        If (clsCommon.myLen(objTr.Against_Group_Code) > 0) Then
+                '            obj.arrSelectionRange.Add(objTr)
+                '        End If
+                '    Next
+                'End If
+
 
                 Dim Sqlqry As String = "select count(1) from TSPL_BULL_PARAMETER_GROUP_MASTER where Code ='" + txtCode.Value + "'"
                 Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Sqlqry))
@@ -366,7 +388,15 @@ Public Class frmBullParameterGroup
     End Sub
 
 
-    Private Sub gv1_CellValueChanged_1(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellValueChanged
+
+    Public ReadOnly Property MyDataGridView As MyRadGridView
+        Get
+            Return Me.gv1
+        End Get
+    End Property
+
+
+    Private Sub gv1_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellValueChanged
         Try
             If Not isInsideLoadData Then
                 If isCellValueChangedOpen Then
@@ -415,14 +445,13 @@ Public Class frmBullParameterGroup
             End If
 
             If clsCommon.myCDecimal(gv1.CurrentRow.Cells(colRangeSelection).Value) > 0 Then
-                Dim frmP As New frmBullParameterRangeSelection()
-                frmP.AddGridView(clsCommon.myCDecimal(gv1.CurrentRow.Cells(colRangeSelection).Value))
-
-                frmP.Show()
-                'formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                frmP.ArrRangeSelection = gv1.CurrentRow.Cells(colRangeSelection).Tag
+                frmP.Range = gv1.CurrentRow.Cells(colRangeSelection).Value
+                frmP.ShowDialog()
+                If frmP.isOK Then
+                    gv1.CurrentRow.Cells(colRangeSelection).Tag = frmP.ArrRangeSelection
+                End If
             End If
-
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             isCellValueChangedOpen = False
@@ -563,6 +592,18 @@ Public Class frmBullParameterGroup
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub gv1_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellDoubleClick
+        Try
+            If gv1 IsNot Nothing AndAlso gv1.Rows.Count > 0 Then
+                If gv1.CurrentRow.Cells(colRangeSelection).Value > 0 Then
+                    frmP.ShowDialog()
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

@@ -1248,6 +1248,9 @@ Public Class clsFixedParameterType
     Public Const DisableRouteandVehicle = "Disable Route and Vehicle No."
     'Public Const SuperuserViewOnly = "Super User View Only"
     'Public Const DistributorViewOnly = "Distributor View Only"
+    Public Const ApplyPricePlanDigitRule = "Apply Price Plan Digit Rule"
+    Public Const PricePlanRoundOffDigit = "Enter RoundOff Digit"
+
 End Class
 Public Class clsFixedParameterCode
     Public Const EmployeePFRetirementAge As String = "Employee PF Retirement Age"
@@ -1283,6 +1286,7 @@ Public Class clsFixedParameterCode
     Public Const WeighingRoundSetting As String = "Weighing Round Setting"
     Public Const AverageDaysForFATSNF As String = "Average Days For FAT SNF"
     Public Const MarqueText As String = "Marque Text"
+    Public Const CustomerVirtualACCounter As String = "Customer Virtual AC Counter"
     Public Const MaxRowsExcelDBTNEFTUploader As String = "Max Rows Excel DBT NEFT Uploader"
     Public Const ShowSampleNoOnBMC As String = "Fill Route Tanker No"
     Public Const ShowTempratureOnBMC As String = "Fill Route Tanker No"
@@ -2624,6 +2628,8 @@ Public Class clsFixedParameterCode
     Public Const ShowDemandvsDispatch = "Show Demand vs Dispatch"
     Public Const ShowFreshAmbientItems = "Show Fresh Ambient Items"
     Public Const AcknowledgeDispatchQty = "CNF User Acknowledge Dispatch Qty"
+    Public Const ApplyPricePlanDigitRule = "Apply Price Plan Digit Rule"
+    Public Const PricePlanRoundOffDigit = "Enter RoundOff Digit"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -2702,8 +2708,8 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
-        InsertDefaultValueFixedParameter(clsFixedParameterType.EmployeePFRetirementAge, clsFixedParameterCode.EmployeePFRetirementAge, "", "Define PF Retirement Age")
-        InsertDefaultValueFixedParameter(clsFixedParameterType.EmployeeRetirementAge, clsFixedParameterCode.EmployeeRetirementAge, "", "Define Retirement Age")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.EmployeePFRetirementAge, clsFixedParameterCode.EmployeePFRetirementAge, "58", "Define PF Retirement Age")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.EmployeeRetirementAge, clsFixedParameterCode.EmployeeRetirementAge, "60", "Define Retirement Age")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PDAccountPaymanager, clsFixedParameterCode.NoOfRecordForLotNo, "4500", "No of Records to Set Lot No")
         InsertDefaultValueFixedParameter(clsFixedParameterType.BankAdviseRequired, clsFixedParameterCode.BankAdviseRequired, "", "Bank Advise Start Date [dd/MMM/yyyy]")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyMergeForDCSMultipleDays, clsFixedParameterCode.ApplyMergeForDCSMultipleDays, "1", "0:OFF;1:ON")
@@ -2777,6 +2783,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAPP, clsFixedParameterCode.StopMPUpdate, "0", "0-OFF, 1:On; Stop To Update Farmer Data By Mobile APP")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAPP, clsFixedParameterCode.ShowForgetPwd, "0", "0-Hide, 1:Show; Show/Hide Forget Password")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAPP, clsFixedParameterCode.MarqueText, "Tecxpert Software Pvt Ltd", "Welcome to Saras Pro App")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAPP, clsFixedParameterCode.CustomerVirtualACCounter, "00001", "Counter of Customer Virtual AC")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPMaster, clsFixedParameterCode.DisableUploaderNo, "0", "MP Regisration Disable(1)/Enable(0) Uploader no")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPMaster, clsFixedParameterCode.JPRDairyMandatoryColumn, "0", "Mandatory Column Account No,IFSC")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPMaster, clsFixedParameterCode.VerifiedJanAadharNo, "0", "0:OFF,1:ON;Pick Farmer only Verified Janaadhar No")
@@ -4152,6 +4159,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyCommissionRateWithTax, clsFixedParameterCode.ApplyCommissionRateWithTax, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.DisableRouteandVehicle, clsFixedParameterCode.DisableRouteandVehicle, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PricePlanRoundOffTruncate, clsFixedParameterCode.PricePlanRoundOffTruncate, "0", "0:RoundOff, 1:Truncate;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyPricePlanDigitRule, clsFixedParameterCode.ApplyPricePlanDigitRule, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.PricePlanRoundOffDigit, clsFixedParameterCode.PricePlanRoundOffDigit, "2", "Enter Roundoff Digit;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowIncreaseDispatchQty, clsFixedParameterCode.AllowIncreaseDispatchQty, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, "0", "Enter Weight in KG ")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowGatePassDemandTripWise, clsFixedParameterCode.AllowGatePassDemandTripWise, "0", "0:Off, 1:On;")
@@ -5911,6 +5920,8 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyCommissionRateWithTax, clsFixedParameterCode.ApplyCommissionRateWithTax, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.DisableRouteandVehicle, clsFixedParameterCode.DisableRouteandVehicle, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.PricePlan, clsFixedParameterType.PricePlanRoundOffTruncate, clsFixedParameterCode.PricePlanRoundOffTruncate, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.PricePlan, clsFixedParameterType.ApplyPricePlanDigitRule, clsFixedParameterCode.ApplyPricePlanDigitRule, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.PricePlan, clsFixedParameterType.PricePlanRoundOffDigit, clsFixedParameterCode.PricePlanRoundOffDigit, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.AllowIncreaseDispatchQty, clsFixedParameterCode.AllowIncreaseDispatchQty, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.AddPostFunctionality, EnumControlType.CheckBox)

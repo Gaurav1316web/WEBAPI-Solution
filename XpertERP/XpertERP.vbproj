@@ -2141,7 +2141,7 @@
     <Compile Include="Modules\TabSchemeProvider.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="My Project\Resources1.Designer.vb">
+    <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -7668,7 +7668,7 @@
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
-      <LastGenOutput>Resources1.Designer.vb</LastGenOutput>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Inventory\Report\ReportTransfer.resx">
       <DependentUpon>ReportTransfer.vb</DependentUpon>
@@ -7766,6 +7766,8 @@
     <None Include="Resources\Company.png" />
     <Content Include="Resources\Detail_Vertical.png" />
     <None Include="Resources\firstpanel.jpg" />
+    <None Include="Resources\eyeIcon.png" />
+    <None Include="Resources\eye icon.png" />
     <Content Include="Resources\knight-rider-shelby-mustang-500-gtr-02.jpg" />
     <None Include="Web References\BSWS\BSWS.disco" />
     <None Include="Resources\Line.png" />

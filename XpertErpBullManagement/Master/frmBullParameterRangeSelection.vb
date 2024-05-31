@@ -9,9 +9,30 @@ Public Class frmBullParameterRangeSelection
     Public Range As Decimal
     Const colSelection As String = "colSelection"
     Public Const colRange As String = "colRange"
-    Public ArrRangeSelection As New Dictionary(Of Decimal, Decimal)
+    'Public ArrRangeSelection As New Dictionary(Of Decimal, Decimal)
+    Public ArrRangeSelection As New Dictionary(Of String, String)
     Public ArrRange As New List(Of String)
     Public isOK As Boolean = False
+
+
+    'Private Sub frmBullParameterRangeSelection_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    '    Try
+    '        loadBlankGrid()
+    '        Dim flag As Boolean = False
+    '        'For ii As Decimal = 0 To Range Step 1
+    '        If Range > 0 Then
+    '            If Range > gvRangeDetails.Rows.Count Then
+    '                For ii As Integer = 0 To (Range - gvRangeDetails.Rows.Count) - 1
+    '                    gvRangeDetails.Rows.AddNew()
+    '                    LoadData(ArrRangeSelection)
+    '                Next
+    '            End If
+    '        End If
+    '    Catch ex As Exception
+    '        MessageBox.Show(Me, ex.Message, Me.Text)
+    '    End Try
+    'End Sub
+
 
     Public Sub AddGridView(ByVal Count As Decimal)
         Try
@@ -44,7 +65,7 @@ Public Class frmBullParameterRangeSelection
             'repoDeciCol.Step = 0
             'repoDeciCol.ShowUpDownButtons = False
             repoDeciCol.HeaderText = "Range"
-            repoDeciCol.ReadOnly = True
+            repoDeciCol.ReadOnly = False
             gvRangeDetails.MasterTemplate.Columns.Add(repoDeciCol)
 
             Dim gridcolSelection As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -94,30 +115,33 @@ Public Class frmBullParameterRangeSelection
         Try
             If clsCommon.CompairString(Form_ID, "BLL-CMU-GRP") = CompairStringResult.Equal Then
                 isOK = True
-                ArrRangeSelection = New Dictionary(Of Decimal, Decimal)
+                'ArrRangeSelection = New Dictionary(Of Decimal, Decimal)
+                ArrRangeSelection = New Dictionary(Of String, String)
                 ArrRange = New List(Of String)
                 For ii As Integer = 0 To gvRangeDetails.Rows.Count - 1
-                    ArrRangeSelection.Add(clsCommon.myCdbl(gvRangeDetails.Rows(ii).Cells(colRange).Value), clsCommon.myCdbl(gvRangeDetails.Rows(ii).Cells(colSelection).Value))
+                    'ArrRangeSelection.Add(clsCommon.myCdbl(gvRangeDetails.Rows(ii).Cells(colRange).Value), clsCommon.myCdbl(gvRangeDetails.Rows(ii).Cells(colSelection).Value))
+                    ArrRangeSelection.Add(clsCommon.myCstr(gvRangeDetails.Rows(ii).Cells(colRange).Value), clsCommon.myCstr(gvRangeDetails.Rows(ii).Cells(colSelection).Value)) ' Convert to string
                     'ArrRange.Add(clsCommon.myCstr(gvRangeDetails.Rows(ii).Cells(colSelection).Value))
                 Next
                 Me.Close()
             Else
-                Dim obj As New clsBullParameterGroup()
-                obj.arrSelectionRange = New List(Of clsBullParameterGroupDeatilRange)
                 If gvRangeDetails IsNot Nothing AndAlso gvRangeDetails.Rows.Count > 0 Then
-                    Dim objTr As New clsBullParameterGroupDeatilRange()
-                    For Each gvRows As GridViewRowInfo In gvRangeDetails.Rows
-                        objTr.Range_Selection = clsCommon.myCstr(gvRows.Cells(colSelection).Value)
-                        obj.arrSelectionRange.Add(objTr)
+                    ArrRangeSelection = New Dictionary(Of String, String)
+                    For ii As Integer = 0 To gvRangeDetails.Rows.Count - 1
+
+                        ArrRangeSelection.Add(clsCommon.myCstr(gvRangeDetails.Rows(ii).Cells(colRange).Value), clsCommon.myCstr(gvRangeDetails.Rows(ii).Cells(colSelection).Value)) ' Convert to string
+
                     Next
                 End If
+                isOK = True
                 Me.Close()
             End If
 
         Catch ex As Exception
-            MessageBox.Show(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
 
     Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnclose.Click
         Me.Close()
@@ -127,10 +151,10 @@ Public Class frmBullParameterRangeSelection
         Try
             loadBlankGrid()
             Dim flag As Boolean = False
-            'For ii As Decimal = 0 To Range Step 1
+            ' For ii As Decimal = 1 To Range Step 1
             For ii As Decimal = 0 To gvRangeDetails.Rows.Count
                 gvRangeDetails.Rows.AddNew()
-                ' gvRangeDetails.Rows(gvRangeDetails.Rows.Count - 1).Cells(colRange).Value = ii
+                gvRangeDetails.Rows(gvRangeDetails.Rows.Count - 1).Cells(colRange).Value = ii
 
                 'If ArrRange IsNot Nothing Then
                 '    For Each row As GridViewRowInfo In gvRangeDetails.Rows
@@ -140,7 +164,8 @@ Public Class frmBullParameterRangeSelection
 
                 If ArrRangeSelection IsNot Nothing Then
                     If ArrRangeSelection.ContainsKey(ii) Then
-                        gvRangeDetails.Rows(gvRangeDetails.Rows.Count - 1).Cells(colSelection).Value = Math.Abs(ArrRangeSelection(ii))
+                        ' gvRangeDetails.Rows(gvRangeDetails.Rows.Count - 1).Cells(colSelection).Value = Math.Abs(ArrRangeSelection(ii))
+                        gvRangeDetails.Rows(gvRangeDetails.Rows.Count - 1).Cells(colSelection).Value = (ArrRangeSelection(ii))
                     End If
                 End If
             Next
@@ -166,6 +191,21 @@ Public Class frmBullParameterRangeSelection
             ' Assuming the serial number column is at index 0
             clsCommon.myCstr(gvRangeDetails.Rows(i).Cells(colRange).Value = (i + 1))
         Next
+    End Sub
+
+    Public Sub LoadData(ByVal arrSelection As Dictionary(Of String, String))
+        Try
+            If (arrSelection IsNot Nothing AndAlso arrSelection.Count > 0) Then
+                For ii As Integer = 0 To arrSelection.Count - 1
+                    gvRangeDetails.Rows(ii).Cells(colSelection).Value = arrSelection(arrSelection.Keys(ii))
+                    ArrRange.Add(gvRangeDetails.Rows(ii).Cells(colSelection).Value)
+                Next
+            Else
+
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
 End Class
