@@ -27,31 +27,38 @@ Partial Class RptPFStatement
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkpfsno = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkTransPF = New Telerik.WinControls.UI.RadCheckBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.TxtPFSNO = New common.UserControls.txtFinder()
+        Me.lblfromPeriod = New common.Controls.MyLabel()
+        Me.lblFromPeriodName = New common.Controls.MyLabel()
         Me.txtDivisionMult = New common.UserControls.txtMultiSelectFinder()
         Me.lblDivision = New common.Controls.MyLabel()
         Me.txtLocationMult = New common.UserControls.txtMultiSelectFinder()
         Me.lblLocation = New common.Controls.MyLabel()
         Me.fndFromPeriod = New common.UserControls.txtFinder()
-        Me.lblfromPeriod = New common.Controls.MyLabel()
-        Me.lblFromPeriodName = New common.Controls.MyLabel()
+        Me.btnreset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.chkTransPF = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkpfsno, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkTransPF, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
-        CType(Me.lblDivision, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblfromPeriod, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblFromPeriodName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDivision, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkTransPF, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -70,6 +77,7 @@ Partial Class RptPFStatement
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnreset)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
         Me.SplitContainer1.Size = New System.Drawing.Size(1100, 417)
@@ -97,6 +105,7 @@ Partial Class RptPFStatement
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkpfsno)
         Me.RadPageViewPage1.Controls.Add(Me.chkTransPF)
         Me.RadPageViewPage1.Controls.Add(Me.GroupBox1)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(41.0!, 28.0!)
@@ -105,8 +114,26 @@ Partial Class RptPFStatement
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1079, 331)
         Me.RadPageViewPage1.Text = "Filter"
         '
+        'chkpfsno
+        '
+        Me.chkpfsno.Location = New System.Drawing.Point(524, 32)
+        Me.chkpfsno.Name = "chkpfsno"
+        Me.chkpfsno.Size = New System.Drawing.Size(89, 18)
+        Me.chkpfsno.TabIndex = 175
+        Me.chkpfsno.Text = "PF Serial Wise"
+        '
+        'chkTransPF
+        '
+        Me.chkTransPF.Location = New System.Drawing.Point(524, 8)
+        Me.chkTransPF.Name = "chkTransPF"
+        Me.chkTransPF.Size = New System.Drawing.Size(75, 18)
+        Me.chkTransPF.TabIndex = 174
+        Me.chkTransPF.Text = "Transfer PF"
+        '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.MyLabel1)
+        Me.GroupBox1.Controls.Add(Me.TxtPFSNO)
         Me.GroupBox1.Controls.Add(Me.txtDivisionMult)
         Me.GroupBox1.Controls.Add(Me.lblDivision)
         Me.GroupBox1.Controls.Add(Me.txtLocationMult)
@@ -116,9 +143,67 @@ Partial Class RptPFStatement
         Me.GroupBox1.Controls.Add(Me.lblFromPeriodName)
         Me.GroupBox1.Location = New System.Drawing.Point(3, 3)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(508, 91)
+        Me.GroupBox1.Size = New System.Drawing.Size(508, 113)
         Me.GroupBox1.TabIndex = 60
         Me.GroupBox1.TabStop = False
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.MyLabel1.Location = New System.Drawing.Point(14, 89)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(58, 16)
+        Me.MyLabel1.TabIndex = 347
+        Me.MyLabel1.Text = "PF Serial "
+        '
+        'TxtPFSNO
+        '
+        Me.TxtPFSNO.CalculationExpression = Nothing
+        Me.TxtPFSNO.FieldCode = Nothing
+        Me.TxtPFSNO.FieldDesc = Nothing
+        Me.TxtPFSNO.FieldMaxLength = 0
+        Me.TxtPFSNO.FieldName = Nothing
+        Me.TxtPFSNO.isCalculatedField = False
+        Me.TxtPFSNO.IsSourceFromTable = False
+        Me.TxtPFSNO.IsSourceFromValueList = False
+        Me.TxtPFSNO.IsUnique = False
+        Me.TxtPFSNO.Location = New System.Drawing.Point(90, 89)
+        Me.TxtPFSNO.MendatroryField = True
+        Me.TxtPFSNO.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtPFSNO.MyLinkLable1 = Me.lblfromPeriod
+        Me.TxtPFSNO.MyLinkLable2 = Me.lblFromPeriodName
+        Me.TxtPFSNO.MyReadOnly = False
+        Me.TxtPFSNO.MyShowMasterFormButton = False
+        Me.TxtPFSNO.Name = "TxtPFSNO"
+        Me.TxtPFSNO.ReferenceFieldDesc = Nothing
+        Me.TxtPFSNO.ReferenceFieldName = Nothing
+        Me.TxtPFSNO.ReferenceTableName = Nothing
+        Me.TxtPFSNO.Size = New System.Drawing.Size(180, 18)
+        Me.TxtPFSNO.TabIndex = 176
+        Me.TxtPFSNO.Value = ""
+        '
+        'lblfromPeriod
+        '
+        Me.lblfromPeriod.FieldName = Nothing
+        Me.lblfromPeriod.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.lblfromPeriod.Location = New System.Drawing.Point(14, 23)
+        Me.lblfromPeriod.Name = "lblfromPeriod"
+        Me.lblfromPeriod.Size = New System.Drawing.Size(65, 16)
+        Me.lblfromPeriod.TabIndex = 57
+        Me.lblfromPeriod.Text = "Pay Period"
+        '
+        'lblFromPeriodName
+        '
+        Me.lblFromPeriodName.AutoSize = False
+        Me.lblFromPeriodName.BorderVisible = True
+        Me.lblFromPeriodName.FieldName = Nothing
+        Me.lblFromPeriodName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.lblFromPeriodName.Location = New System.Drawing.Point(276, 21)
+        Me.lblFromPeriodName.Name = "lblFromPeriodName"
+        Me.lblFromPeriodName.Size = New System.Drawing.Size(218, 18)
+        Me.lblFromPeriodName.TabIndex = 58
+        Me.lblFromPeriodName.TextWrap = False
         '
         'txtDivisionMult
         '
@@ -192,27 +277,15 @@ Partial Class RptPFStatement
         Me.fndFromPeriod.TabIndex = 56
         Me.fndFromPeriod.Value = ""
         '
-        'lblfromPeriod
+        'btnreset
         '
-        Me.lblfromPeriod.FieldName = Nothing
-        Me.lblfromPeriod.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
-        Me.lblfromPeriod.Location = New System.Drawing.Point(14, 23)
-        Me.lblfromPeriod.Name = "lblfromPeriod"
-        Me.lblfromPeriod.Size = New System.Drawing.Size(65, 16)
-        Me.lblfromPeriod.TabIndex = 57
-        Me.lblfromPeriod.Text = "Pay Period"
-        '
-        'lblFromPeriodName
-        '
-        Me.lblFromPeriodName.AutoSize = False
-        Me.lblFromPeriodName.BorderVisible = True
-        Me.lblFromPeriodName.FieldName = Nothing
-        Me.lblFromPeriodName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
-        Me.lblFromPeriodName.Location = New System.Drawing.Point(276, 21)
-        Me.lblFromPeriodName.Name = "lblFromPeriodName"
-        Me.lblFromPeriodName.Size = New System.Drawing.Size(218, 18)
-        Me.lblFromPeriodName.TabIndex = 58
-        Me.lblFromPeriodName.TextWrap = False
+        Me.btnreset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnreset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnreset.Location = New System.Drawing.Point(85, 6)
+        Me.btnreset.Name = "btnreset"
+        Me.btnreset.Size = New System.Drawing.Size(71, 22)
+        Me.btnreset.TabIndex = 18
+        Me.btnreset.Text = "Reset"
         '
         'btnclose
         '
@@ -234,14 +307,6 @@ Partial Class RptPFStatement
         Me.btnGo.TabIndex = 16
         Me.btnGo.Text = ">>>"
         '
-        'chkTransPF
-        '
-        Me.chkTransPF.Location = New System.Drawing.Point(524, 8)
-        Me.chkTransPF.Name = "chkTransPF"
-        Me.chkTransPF.Size = New System.Drawing.Size(75, 18)
-        Me.chkTransPF.TabIndex = 174
-        Me.chkTransPF.Text = "Transfer PF"
-        '
         'RptPFStatement
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -261,15 +326,18 @@ Partial Class RptPFStatement
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkpfsno, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkTransPF, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
-        CType(Me.lblDivision, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblfromPeriod, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblFromPeriodName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDivision, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkTransPF, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -288,5 +356,9 @@ Partial Class RptPFStatement
     Friend WithEvents lblfromPeriod As common.Controls.MyLabel
     Friend WithEvents lblFromPeriodName As common.Controls.MyLabel
     Friend WithEvents chkTransPF As Telerik.WinControls.UI.RadCheckBox
+    Friend WithEvents chkpfsno As Telerik.WinControls.UI.RadCheckBox
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents TxtPFSNO As common.UserControls.txtFinder
+    Friend WithEvents btnreset As Telerik.WinControls.UI.RadButton
 End Class
 
