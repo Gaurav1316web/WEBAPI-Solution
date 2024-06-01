@@ -87,13 +87,13 @@ Public Class frmVSPFarmerPaymentDetails
         gv3.Columns("VLC_CODE_Uploader").HeaderText = "Uploader No"
 
         gv3.Columns("VLC_Name").Width = 100
-        gv3.Columns("VLC_Name").HeaderText = "VLC Name"
+        gv3.Columns("VLC_Name").HeaderText = "DCS Name"
 
         gv3.Columns("VSP_CODE").Width = 100
-        gv3.Columns("VSP_CODE").HeaderText = "VSP Code"
+        gv3.Columns("VSP_CODE").HeaderText = "Secretary Code"
 
         gv3.Columns("VSP_Name").Width = 100
-        gv3.Columns("VSP_Name").HeaderText = "VSP Name"
+        gv3.Columns("VSP_Name").HeaderText = "Secretary Name"
 
         gv3.Columns("Main_VSP_CODE").Width = 100
         gv3.Columns("Main_VSP_CODE").HeaderText = "Main VSP"

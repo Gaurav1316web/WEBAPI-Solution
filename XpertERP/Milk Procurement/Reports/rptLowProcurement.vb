@@ -227,7 +227,7 @@ Public Class RptLowProcurement
             ''richa agarwal 24 May,2019  TEC/28/03/19-000462 add item structure on setting based
             'Sanjay , Data pick from table(Ltr/Kg)
             '" select State_Code  ,STATE_NAME  ,VLC_CODE  ,VLC_Name ,Vendor_Name ,MCC_CODE ,MCC_NAME  ,DOC_DATE ,Period_days   ,SHIFT  as shift  ,Weight as NewQty from(" & Environment.NewLine &
-            Dim sQuery As String = "select '' as SNo,max(State_Code ) as State_Code,MAX(STATE_NAME ) as STATE_NAME,(VLC_CODE ) as DCS_CODE,MAX(VLC_Name ) as DCS_Name,max(VSP_Name ) as Secretary_Name,MAX(MCC_CODE ) as MCC_CODE,MAX(MCC_NAME ) as MCC_NAME,convert(decimal(18,2),sum(NewQty )) as NewQty,count(shift) as No_of_Shift,convert(DECIMAL(18,2),sum(NewQty )/count(SHIFT)) as [Av.Per Shift],convert(DECIMAL(18,2),sum(NewQty )/MAX(Period_days)) as [Av.Per day] ,max([VLC Uploader Code]) as [VLC Uploader Code]  from (select max(State_Code ) as State_Code,MAX(STATE_NAME ) as STATE_NAME,(VLC_CODE ) as VLC_CODE,MAX(VLC_Name ) as VLC_Name,max(Vendor_Name) as VSP_Name ," & Environment.NewLine &
+            Dim sQuery As String = "select '' as SNo,max(State_Code ) as State_Code,MAX(STATE_NAME ) as STATE_NAME,(VLC_CODE ) as VLC_CODE,MAX(VLC_Name ) as VLC_Name,max(VSP_Name ) as VSP_Name,MAX(MCC_CODE ) as MCC_CODE,MAX(MCC_NAME ) as MCC_NAME,convert(decimal(18,2),sum(NewQty )) as NewQty,count(shift) as No_of_Shift,convert(DECIMAL(18,2),sum(NewQty )/count(SHIFT)) as [Av.Per Shift],convert(DECIMAL(18,2),sum(NewQty )/MAX(Period_days)) as [Av.Per day] ,max([VLC Uploader Code]) as [VLC Uploader Code]  from (select max(State_Code ) as State_Code,MAX(STATE_NAME ) as STATE_NAME,(VLC_CODE ) as VLC_CODE,MAX(VLC_Name ) as VLC_Name,max(Vendor_Name) as VSP_Name ," & Environment.NewLine &
             " MAX(MCC_CODE ) as MCC_CODE,MAX(MCC_NAME ) as MCC_NAME,MAX(DOC_DATE) as Date,sum(NewQty ) as NewQty,shift  ,max(Period_days )as Period_days ,max([VLC Uploader Code]) as [VLC Uploader Code] from (" & Environment.NewLine &
             " select TSPL_MILK_SRN_DETAIL.item_code, TSPL_MCC_MASTER.State_Code  ,TSPL_STATE_MASTER.STATE_NAME ,TSPL_MILK_SRN_head.VLC_CODE ,TSPL_VLC_MASTER_HEAD.VLC_Name  ,TSPL_MILK_SRN_head.VSP_CODE ,TSPL_VENDOR_MASTER.Vendor_Name ,TSPL_MILK_SRN_DETAIL.MCC_CODE,TSPL_MCC_MASTER.MCC_NAME ," & Environment.NewLine &
             " TSPL_MILK_SRN_head.DOC_DATE  ," & Environment.NewLine &
@@ -321,11 +321,11 @@ Public Class RptLowProcurement
 
         gv.Columns("VLC_Name").IsVisible = True
         gv.Columns("VLC_Name").Width = 100
-        gv.Columns("VLC_Name").HeaderText = "VLC Name"
+        gv.Columns("VLC_Name").HeaderText = "DCS Name"
 
         gv.Columns("VSP_Name").IsVisible = True
         gv.Columns("VSP_Name").Width = 100
-        gv.Columns("VSP_Name").HeaderText = " VSP Name"
+        gv.Columns("VSP_Name").HeaderText = " Secretary Name"
 
         gv.Columns("NewQty").IsVisible = True
         gv.Columns("NewQty").Width = 100

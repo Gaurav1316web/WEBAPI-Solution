@@ -971,14 +971,14 @@ Public Class frmGRN
 
 
         repoDisAmt = New GridViewDecimalColumn()
-        repoDisAmt.FormatString = ""
-        repoDisAmt.HeaderText = "Discount Amount"
-        repoDisAmt.WrapText = True
+        repoDisAmt.FormatString = "{0:N2}"
+        repoDisAmt.HeaderText = "Discount Amt"
+        repoDisAmt.Minimum = 0
+        repoDisAmt.Maximum = 100
         repoDisAmt.Name = colDetailDisAmt
         repoDisAmt.Width = 80
-        repoDisAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        repoDisAmt.VisibleInColumnChooser = False
         repoDisAmt.ReadOnly = True
+        repoDisAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoDisAmt)
 
 
@@ -3541,18 +3541,18 @@ Public Class frmGRN
             Dim IsSkip As Boolean = False
             IsSkip = clsDBFuncationality.getSingleValue("select case when isnull( Skip_GST,0)=1 then 1 else 0 end as Skip_GST from tspl_item_master where item_code='" & clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value) & "'")
             If clsERPFuncationality.GetGSTStatus(txtDate.Value) AndAlso IsSkip = False Then
-                If ShowItemAllStructureWise = False Then
-                    If clsCommon.CompairString(cboItemType.SelectedValue, "N") <> CompairStringResult.Equal Then
+                'If ShowItemAllStructureWise = False Then
+                If clsCommon.CompairString(cboItemType.SelectedValue, "N") <> CompairStringResult.Equal Then
                         Dim taxamt As Decimal = clsCommon.myCdbl(gv1.Rows(ii).Cells(colTotTaxAmt).Value)
                         Dim HSNCode As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colHSNNo).Value)
 
-                        If clsCommon.myCdbl(taxamt) > 0 AndAlso clsCommon.myLen(HSNCode) <= 0 Then
-                            clsCommon.MyMessageBoxShow("HSN Code is Mandatory. At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
-                            Return False
-                        End If
-
+                    If clsCommon.myCdbl(taxamt) > 0 AndAlso clsCommon.myLen(HSNCode) <= 0 Then
+                        clsCommon.MyMessageBoxShow("HSN Code is Mandatory. At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
+                        Return False
                     End If
+
                 End If
+                ' End If
             End If
             '' ===== ENd of code===
 
@@ -3701,7 +3701,14 @@ Public Class frmGRN
                 obj.TransporterDocumentBility = clsCommon.myCstr(txt_transporterdocbility.Text)
                 '====end here===
                 If ShowItemAllStructureWise = True Then
-                    obj.Item_Type = "A"
+                    'obj.Item_Type = "A"
+                    ' Assuming dgvGrid is your DataGridView control
+                    If gv1.Rows.Count > 0 Then
+                        Dim itemcode As String = clsCommon.myCstr(gv1.Rows(0).Cells(colICode).Value)
+                        Dim itemtype As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 item_type from TSPL_ITEM_MASTER where Item_Code ='" + itemcode + "'"))
+                        obj.Item_Type = itemtype
+                    End If
+
                 End If
                 If ShowItemAllStructureWise = False Then
                     obj.Item_Type = clsCommon.myCstr(cboItemType.SelectedValue)
@@ -5869,7 +5876,6 @@ Public Class frmGRN
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = obj.Row_Type
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = obj.Item_Code
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = obj.Item_Desc
-
                     If clsCommon.CompairString(obj.Row_Type, clsItemRowType.RowTypeMisc) = CompairStringResult.Equal Then
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colHSNNo).Value = clsAdditionalCharge.GetSACCode(obj.Item_Code, Nothing)
                     Else
@@ -5895,7 +5901,8 @@ Public Class frmGRN
                     Else
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = frmPendingPO.Load_discount_for_GRN(obj.PurchaseOrder_No, obj.Item_Code) 'obj.Disc_Per
                     End If
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colHeaderDiscountPer).Value = obj.Header_Discount_Per
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = obj.Disc_Per
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDetailDisAmt).Value = obj.Detail_Discount_Amount
 
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPerUnit).Value = frmPendingPO.Load_discount_per_unit_for_GRN(obj.PurchaseOrder_No, obj.Item_Code) 'obj.Disc_Per'obj.Disc_Per_Unit
                     'gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPerUnit).Value = obj.Disc_Per_Unit
@@ -5955,6 +5962,8 @@ Public Class frmGRN
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = objTr.Row_Type
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = objTr.Item_Code
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = objTr.Item_Desc
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDetailDisAmt).Value = objTr.Detail_Discount_Amount
+
                         If clsCommon.CompairString(objTr.Row_Type, clsItemRowType.RowTypeMisc) = CompairStringResult.Equal Then
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colHSNNo).Value = clsAdditionalCharge.GetSACCode(objTr.Item_Code, Nothing)
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colIsInsurance).Value = clsAdditionalCharge.GetIsInsurance(objTr.Item_Code, Nothing)

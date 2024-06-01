@@ -67,10 +67,10 @@ Public Class frmFarmerLedgerReport
             gv3.Columns("FARMER_NAME").HeaderText = "Farmer Name"
 
             gv3.Columns("VSP_CODE").Width = 100
-            gv3.Columns("VSP_CODE").HeaderText = "VSP CODE"
+            gv3.Columns("VSP_CODE").HeaderText = "Secretary CODE"
 
             gv3.Columns("VSP_NAME").Width = 100
-            gv3.Columns("VSP_NAME").HeaderText = "VSP Name"
+            gv3.Columns("VSP_NAME").HeaderText = "Secretary Name"
 
             Dim item7 As New GridViewSummaryItem("Opening", "{0:F3}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item7)

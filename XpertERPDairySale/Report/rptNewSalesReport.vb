@@ -160,10 +160,10 @@ Public Class rptNewSalesReport
                 TotalFreshQty += " 0 AS [Total_FreshQty] "
             End If
 
-            MaxQry = " " & FreshItemNameMax & " " & TotalFreshQty & " , " & ProductItemNameMax & " 0 as Amount, 0 as Receipt_Amount, (SUM(Amount) - SUM(Receipt_Amount)) as Bal  from ( " & Environment.NewLine & ""
-            qry1 = "" & FreshItemName & " " & TotalFreshQty & " , " & ProductIemName & " SUM(Amount) Amount, SUM(Receipt_Amount)Receipt_Amount, 0 as Bal  from ( " & Environment.NewLine & ""
-            qry2 = "" & FreshItemName & " " & TotalFreshQty & " , " & ProductIemName & " SUM(Amount) Amount, 0 as Receipt_Amount, 0 as Bal  from ( " & Environment.NewLine & ""
-            qry3 = "" & FreshItemName & " " & TotalFreshQty & " , " & ProductIemName & " max(Amount) Amount, 0 as Receipt_Amount, 0 as Bal  from ( " & Environment.NewLine & ""
+            MaxQry = " " & FreshItemNameMax & " 0 as Total, " & ProductItemNameMax & " 0 as Amount, 0 as Receipt_Amount, (SUM(Amount) - SUM(Receipt_Amount)) as Bal, " & TotalFreshQty & "  from ( " & Environment.NewLine & ""
+            qry1 = "" & FreshItemName & " 0 as Total, " & ProductIemName & " SUM(Amount) Amount, SUM(Receipt_Amount)Receipt_Amount, 0 as Bal ,  " & TotalFreshQty & "  from ( " & Environment.NewLine & ""
+            qry2 = "" & FreshItemName & " 0 as Total , " & ProductIemName & " SUM(Amount) Amount, 0 as Receipt_Amount, 0 as Bal ,  " & TotalFreshQty & "  from ( " & Environment.NewLine & ""
+            qry3 = "" & FreshItemName & " 0 as Total , " & ProductIemName & " max(Amount) Amount, 0 as Receipt_Amount, 0 as Bal, " & TotalFreshQty & "  from ( " & Environment.NewLine & ""
 
             If rbtnDemand.IsChecked Then
 
@@ -207,7 +207,7 @@ Public Class rptNewSalesReport
             End If
 
             qry += "  union all 
-            select 0 as Days, '' as Route_No, TSPL_RECEIPT_HEADER.Receipt_Date as Document_Date,'' AS Shift_Type, '' as UOM,'' as Fresh_Item_Amt,'' AS Fresh_Item,0 AS Qty,0 as Fresh_Qty,0 as Product_Qty,0 as KG_QTY , 0 as LTR_QTY, 0 as Fresh_Amount,0 as Product_Amount,0 as Amount,'' as Product_Item,'' as Product_Item_Amt,(Receipt_Amount)Receipt_Amount
+            select 0 as Days,  TSPL_CUSTOMER_MASTER.Route_No as Route_No, TSPL_RECEIPT_HEADER.Receipt_Date as Document_Date,'' AS Shift_Type, '' as UOM,'' as Fresh_Item_Amt,'' AS Fresh_Item,0 AS Qty,0 as Fresh_Qty,0 as Product_Qty,0 as KG_QTY , 0 as LTR_QTY, 0 as Fresh_Amount,0 as Product_Amount,0 as Amount,'' as Product_Item,'' as Product_Item_Amt,(Receipt_Amount)Receipt_Amount
 	        FROM TSPL_RECEIPT_HEADER  LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_RECEIPT_HEADER.Cust_Code  
 	        WHERE TSPL_RECEIPT_HEADER.Posted = 'Y' AND  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103) >= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "', 103) and convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103) <= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "', 103)"
 
@@ -367,10 +367,15 @@ Public Class rptNewSalesReport
 
 
         gv1.Columns("Shift_Type").IsVisible = False
+        gv1.Columns("Total").IsVisible = False
+
         gv1.Columns("Document_Date").HeaderText = "Date"
-        If clsCommon.myLen(gv1.Columns("Total_FreshQty")) > 0 Then
-            gv1.Columns("Total_FreshQty").IsVisible = False
+        If rbtnRouteSummary.IsChecked = False Then
+            If clsCommon.myLen(gv1.Columns("Total_FreshQty")) > 0 Then
+                gv1.Columns("Total_FreshQty").IsVisible = False
+            End If
         End If
+
         gv1.Columns("Amount").HeaderText = "SHIFT WISE AMOUNT RS."
         gv1.Columns("Receipt_Amount").HeaderText = "CHQ/CASH AMOUNT"
         gv1.Columns("Bal").HeaderText = "BAL. RS."

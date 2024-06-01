@@ -3,6 +3,8 @@ Imports System.Data.SqlClient
 Imports System.Windows.Forms
 
 Public Class clsMccMaster
+    Public Recipt_Password As String = Nothing
+    Public Sample_Password As String = Nothing
     Public SILOIn_Location As String = Nothing
     Public AutoIn_Location As String = Nothing
     Public AllowAutoMilkIn As Integer = 0
@@ -345,6 +347,10 @@ Public Class clsMccMaster
             rValue = False
         End If
         Return rValue
+    End Function
+    Public Shared Function UpdatePassword(ByVal milksample As String, ByVal receipt As String, ByVal MCC_Code As String, ByVal trans As SqlTransaction) As String
+        Dim qry As String = "Update TSPL_MCC_MASTER set Recipt_Password='" + receipt + "',Sample_Password='" + milksample + "' where MCC_CODE='" & MCC_Code & "'"
+        Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
     End Function
 
     Public Shared Function GetName(ByVal mccCode As String, ByVal trans As SqlTransaction) As String
@@ -2904,6 +2910,7 @@ left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_FAT_SNF_UPL
         Dim Rate As Double = 0
         Try
             CLR = clsERPFuncationality.myDclInZeroPointFive(CLR)
+
             If Not clsVendorMaster.IsVLCDripSaver(vlcCode, tran) Then
                 Dim qry As String = "select top 1 rate,TSPL_FAT_SNF_UPLOADER_MASTER.Code from TSPL_FAT_SNF_UPLOADER_MASTER "
                 'inner join TSPL_FAT_SNF_UPLOADER_MCC on TSPL_FAT_SNF_UPLOADER_MCC.MCC_Code='" & MccCode & "' and  TSPL_FAT_SNF_UPLOADER_MASTER.Code=TSPL_FAT_SNF_UPLOADER_MCC.Code 

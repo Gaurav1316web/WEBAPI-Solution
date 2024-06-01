@@ -339,7 +339,7 @@ Partial Class frmVehicleMaster
         Me.rtxtNumber.IsUnique = False
         Me.rtxtNumber.Location = New System.Drawing.Point(159, 39)
         Me.rtxtNumber.MaxLength = 11
-        Me.rtxtNumber.MendatroryField = False
+        Me.rtxtNumber.MendatroryField = True
         Me.rtxtNumber.MyLinkLable1 = Me.rlblNumber
         Me.rtxtNumber.MyLinkLable2 = Nothing
         Me.rtxtNumber.Name = "rtxtNumber"
