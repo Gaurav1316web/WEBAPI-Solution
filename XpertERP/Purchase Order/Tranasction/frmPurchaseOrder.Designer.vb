@@ -22,15 +22,15 @@ Partial Class frmPurchaseOrder
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition19 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition20 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition21 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition22 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition23 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition24 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition25 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition26 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition27 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -365,7 +365,6 @@ Partial Class frmPurchaseOrder
         Me.gvTermsCdtion = New common.UserControls.MyRadGridView()
         Me.SplitPanel2 = New Telerik.WinControls.UI.SplitPanel()
         Me.btnNewHistory = New Telerik.WinControls.UI.RadButton()
-        Me.btnViewTDSDetails = New Telerik.WinControls.UI.RadButton()
         Me.btn_cancel = New Telerik.WinControls.UI.RadButton()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnCopy = New Telerik.WinControls.UI.RadButton()
@@ -378,6 +377,8 @@ Partial Class frmPurchaseOrder
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnViewTDSDetails = New Telerik.WinControls.UI.RadButton()
+        Me.btn_Cancels = New Telerik.WinControls.UI.RadButton()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.ReportFooter = New Telerik.WinControls.UI.RadMenuItem()
         Me.SaveLayoutbtn = New Telerik.WinControls.UI.RadMenuItem()
@@ -704,7 +705,6 @@ Partial Class frmPurchaseOrder
         CType(Me.gvTermsCdtion.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SplitPanel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNewHistory, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnViewTDSDetails, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btn_cancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnCopy, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -716,6 +716,8 @@ Partial Class frmPurchaseOrder
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnViewTDSDetails, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btn_Cancels, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -737,8 +739,8 @@ Partial Class frmPurchaseOrder
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btn_Cancels)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnNewHistory)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnViewTDSDetails)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btn_cancel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnCopy)
@@ -751,6 +753,7 @@ Partial Class frmPurchaseOrder
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnViewTDSDetails)
         Me.SplitContainer1.Size = New System.Drawing.Size(1105, 473)
         Me.SplitContainer1.SplitterDistance = 441
         Me.SplitContainer1.TabIndex = 0
@@ -1635,7 +1638,7 @@ Partial Class frmPurchaseOrder
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition19
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2766,7 +2769,7 @@ Partial Class frmPurchaseOrder
         Me.gv_c_form.MasterTemplate.EnableGrouping = False
         Me.gv_c_form.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_c_form.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_c_form.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv_c_form.MasterTemplate.ViewDefinition = TableViewDefinition20
         Me.gv_c_form.MyStopExport = False
         Me.gv_c_form.Name = "gv_c_form"
         Me.gv_c_form.ShowGroupPanel = False
@@ -2807,7 +2810,7 @@ Partial Class frmPurchaseOrder
         Me.gv_roadpermit.MasterTemplate.EnableGrouping = False
         Me.gv_roadpermit.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_roadpermit.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_roadpermit.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv_roadpermit.MasterTemplate.ViewDefinition = TableViewDefinition21
         Me.gv_roadpermit.MyStopExport = False
         Me.gv_roadpermit.Name = "gv_roadpermit"
         Me.gv_roadpermit.ShowGroupPanel = False
@@ -3416,7 +3419,7 @@ Partial Class frmPurchaseOrder
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition22
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -4860,7 +4863,7 @@ Partial Class frmPurchaseOrder
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition23
         Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -4931,7 +4934,7 @@ Partial Class frmPurchaseOrder
         Me.gvACInsurance.MasterTemplate.AllowDeleteRow = False
         Me.gvACInsurance.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvACInsurance.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvACInsurance.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvACInsurance.MasterTemplate.ViewDefinition = TableViewDefinition24
         Me.gvACInsurance.MyStopExport = False
         Me.gvACInsurance.Name = "gvACInsurance"
         Me.gvACInsurance.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -5635,7 +5638,7 @@ Partial Class frmPurchaseOrder
         Me.gvSchedule.MasterTemplate.AllowDeleteRow = False
         Me.gvSchedule.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSchedule.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSchedule.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvSchedule.MasterTemplate.ViewDefinition = TableViewDefinition25
         Me.gvSchedule.MyStopExport = False
         Me.gvSchedule.Name = "gvSchedule"
         Me.gvSchedule.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -5889,7 +5892,7 @@ Partial Class frmPurchaseOrder
         Me.gvCategoryValue.MasterTemplate.AllowDeleteRow = False
         Me.gvCategoryValue.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCategoryValue.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCategoryValue.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvCategoryValue.MasterTemplate.ViewDefinition = TableViewDefinition26
         Me.gvCategoryValue.MyStopExport = False
         Me.gvCategoryValue.Name = "gvCategoryValue"
         Me.gvCategoryValue.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -5957,7 +5960,7 @@ Partial Class frmPurchaseOrder
         Me.gvTermsCdtion.MasterTemplate.AllowDeleteRow = False
         Me.gvTermsCdtion.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTermsCdtion.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvTermsCdtion.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gvTermsCdtion.MasterTemplate.ViewDefinition = TableViewDefinition27
         Me.gvTermsCdtion.MyStopExport = False
         Me.gvTermsCdtion.Name = "gvTermsCdtion"
         Me.gvTermsCdtion.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -5984,27 +5987,17 @@ Partial Class frmPurchaseOrder
         '
         'btnNewHistory
         '
-        Me.btnNewHistory.Location = New System.Drawing.Point(817, 2)
+        Me.btnNewHistory.Location = New System.Drawing.Point(821, 2)
         Me.btnNewHistory.Name = "btnNewHistory"
         Me.btnNewHistory.Size = New System.Drawing.Size(71, 22)
         Me.btnNewHistory.TabIndex = 41
         Me.btnNewHistory.Text = "&History"
         '
-        'btnViewTDSDetails
-        '
-        Me.btnViewTDSDetails.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnViewTDSDetails.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnViewTDSDetails.Location = New System.Drawing.Point(212, 5)
-        Me.btnViewTDSDetails.Name = "btnViewTDSDetails"
-        Me.btnViewTDSDetails.Size = New System.Drawing.Size(69, 22)
-        Me.btnViewTDSDetails.TabIndex = 13
-        Me.btnViewTDSDetails.Text = "View TDS"
-        '
         'btn_cancel
         '
         Me.btn_cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_cancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_cancel.Location = New System.Drawing.Point(891, 2)
+        Me.btn_cancel.Location = New System.Drawing.Point(893, 2)
         Me.btn_cancel.Name = "btn_cancel"
         Me.btn_cancel.Size = New System.Drawing.Size(69, 22)
         Me.btn_cancel.TabIndex = 12
@@ -6014,7 +6007,7 @@ Partial Class frmPurchaseOrder
         '
         Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(960, 2)
+        Me.btnHistory.Location = New System.Drawing.Point(962, 2)
         Me.btnHistory.Name = "btnHistory"
         Me.btnHistory.Size = New System.Drawing.Size(69, 22)
         Me.btnHistory.TabIndex = 11
@@ -6024,7 +6017,7 @@ Partial Class frmPurchaseOrder
         '
         Me.btnCopy.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnCopy.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnCopy.Location = New System.Drawing.Point(419, 5)
+        Me.btnCopy.Location = New System.Drawing.Point(469, 5)
         Me.btnCopy.Name = "btnCopy"
         Me.btnCopy.Size = New System.Drawing.Size(69, 22)
         Me.btnCopy.TabIndex = 5
@@ -6034,7 +6027,7 @@ Partial Class frmPurchaseOrder
         '
         Me.chkpoclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.chkpoclose.AutoSize = True
-        Me.chkpoclose.Location = New System.Drawing.Point(639, 7)
+        Me.chkpoclose.Location = New System.Drawing.Point(691, 6)
         Me.chkpoclose.Name = "chkpoclose"
         Me.chkpoclose.Size = New System.Drawing.Size(133, 18)
         Me.chkpoclose.TabIndex = 9
@@ -6045,7 +6038,7 @@ Partial Class frmPurchaseOrder
         '
         Me.btnUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnUnpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUnpost.Location = New System.Drawing.Point(281, 5)
+        Me.btnUnpost.Location = New System.Drawing.Point(331, 4)
         Me.btnUnpost.Name = "btnUnpost"
         Me.btnUnpost.Size = New System.Drawing.Size(69, 22)
         Me.btnUnpost.TabIndex = 3
@@ -6055,7 +6048,7 @@ Partial Class frmPurchaseOrder
         '
         Me.btnPrintNew.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrintNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintNew.Location = New System.Drawing.Point(350, 5)
+        Me.btnPrintNew.Location = New System.Drawing.Point(400, 5)
         Me.btnPrintNew.Name = "btnPrintNew"
         Me.btnPrintNew.Size = New System.Drawing.Size(69, 22)
         Me.btnPrintNew.TabIndex = 4
@@ -6064,7 +6057,7 @@ Partial Class frmPurchaseOrder
         'RadSplitButton1
         '
         Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.RadSplitButton1.Location = New System.Drawing.Point(488, 5)
+        Me.RadSplitButton1.Location = New System.Drawing.Point(539, 5)
         Me.RadSplitButton1.Name = "RadSplitButton1"
         Me.RadSplitButton1.Size = New System.Drawing.Size(80, 22)
         Me.RadSplitButton1.TabIndex = 6
@@ -6075,7 +6068,7 @@ Partial Class frmPurchaseOrder
         '
         Me.btnAmendment.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnAmendment.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAmendment.Location = New System.Drawing.Point(568, 5)
+        Me.btnAmendment.Location = New System.Drawing.Point(620, 5)
         Me.btnAmendment.Name = "btnAmendment"
         Me.btnAmendment.Size = New System.Drawing.Size(69, 22)
         Me.btnAmendment.TabIndex = 7
@@ -6086,7 +6079,7 @@ Partial Class frmPurchaseOrder
         '
         Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(143, 5)
+        Me.btnDelete.Location = New System.Drawing.Point(72, 5)
         Me.btnDelete.Name = "btnDelete"
         Me.btnDelete.Size = New System.Drawing.Size(69, 22)
         Me.btnDelete.TabIndex = 2
@@ -6096,7 +6089,7 @@ Partial Class frmPurchaseOrder
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(74, 5)
+        Me.btnPost.Location = New System.Drawing.Point(140, 5)
         Me.btnPost.Name = "btnPost"
         Me.btnPost.Size = New System.Drawing.Size(69, 22)
         Me.btnPost.TabIndex = 1
@@ -6106,7 +6099,7 @@ Partial Class frmPurchaseOrder
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(1029, 2)
+        Me.btnClose.Location = New System.Drawing.Point(1030, 2)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(69, 22)
         Me.btnClose.TabIndex = 10
@@ -6121,6 +6114,24 @@ Partial Class frmPurchaseOrder
         Me.btnSave.Size = New System.Drawing.Size(69, 22)
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
+        '
+        'btnViewTDSDetails
+        '
+        Me.btnViewTDSDetails.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnViewTDSDetails.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnViewTDSDetails.Location = New System.Drawing.Point(262, 5)
+        Me.btnViewTDSDetails.Name = "btnViewTDSDetails"
+        Me.btnViewTDSDetails.Size = New System.Drawing.Size(69, 22)
+        Me.btnViewTDSDetails.TabIndex = 13
+        Me.btnViewTDSDetails.Text = "View TDS"
+        '
+        'btn_Cancels
+        '
+        Me.btn_Cancels.Location = New System.Drawing.Point(208, 5)
+        Me.btn_Cancels.Name = "btn_Cancels"
+        Me.btn_Cancels.Size = New System.Drawing.Size(56, 22)
+        Me.btn_Cancels.TabIndex = 42
+        Me.btn_Cancels.Text = "Cancel"
         '
         'RadMenuItem3
         '
@@ -6525,7 +6536,6 @@ Partial Class frmPurchaseOrder
         CType(Me.gvTermsCdtion, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.SplitPanel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnNewHistory, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnViewTDSDetails, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btn_cancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnCopy, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6537,6 +6547,8 @@ Partial Class frmPurchaseOrder
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnViewTDSDetails, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btn_Cancels, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -6898,5 +6910,6 @@ Partial Class frmPurchaseOrder
     Friend WithEvents txtCmt2 As RichTextBox
     Friend WithEvents txtCmt1 As RichTextBox
     Friend WithEvents txtCmt13 As RichTextBox
+    Friend WithEvents btn_Cancels As RadButton
 End Class
 
