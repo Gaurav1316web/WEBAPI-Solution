@@ -1,6 +1,7 @@
 ﻿Imports System.Data
 Imports System.Data.SqlClient
 Imports common
+Imports common.UserControls
 Imports Telerik.WinControls.UI
 Imports XpertERPEngine
 Imports XpertERPEngineFine
@@ -22,6 +23,9 @@ Public Class frmBullParameterGroup
     Dim isInsideLoadData As Boolean = False
     Dim isCellValueChangedOpen As Boolean = True
     Dim ErrorControl As New clsErrorControl()
+    Public arrSelectionRange As New List(Of String)
+    Dim frmP As New frmBullParameterRangeSelection()
+    Dim IsLoad As Boolean = False
 
     Public Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.frmBookingProductSale)
@@ -42,6 +46,9 @@ Public Class frmBullParameterGroup
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+
+
 
     Sub CreateTable()
         Dim coll As Dictionary(Of String, String)
@@ -240,6 +247,8 @@ Public Class frmBullParameterGroup
                     End If
                     objTr.Alpha_Numeric = clsCommon.myCstr(row.Cells(colAlphaNumeric).Value)
                     objTr.Range_Selection = clsCommon.myCDecimal(row.Cells(colRangeSelection).Value)
+                    objTr.RangeArr = TryCast(row.Cells(colRangeSelection).Tag, Dictionary(Of String, String))
+
                     If (clsCommon.myLen(objTr.Code) > 0) Then
                         obj.Arr.Add(objTr)
                     End If
@@ -270,6 +279,7 @@ Public Class frmBullParameterGroup
             gv1.Refresh()
             isInsideLoadData = True
             txtCode.MyReadOnly = True
+            IsLoad = True
 
             Dim obj As clsBullParameterGroup = clsBullParameterGroup.GetData(strCode, NavTyep)
             If obj IsNot Nothing Then
@@ -304,9 +314,10 @@ Public Class frmBullParameterGroup
                 End If
                 SetGridLayout()
             Else
+                GetDataSelectionRange()
             End If
             isInsideLoadData = False
-
+            IsLoad = False
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -339,6 +350,8 @@ Public Class frmBullParameterGroup
         txtname.Focus()
         txtname.Select()
         loadBlankGrid()
+        frmP.ArrRangeSelection = Nothing
+        frmP.ArrRange = Nothing
     End Sub
 
     Private Sub txtCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCode._MYValidating
@@ -366,7 +379,15 @@ Public Class frmBullParameterGroup
     End Sub
 
 
-    Private Sub gv1_CellValueChanged_1(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellValueChanged
+
+    Public ReadOnly Property MyDataGridView As MyRadGridView
+        Get
+            Return Me.gv1
+        End Get
+    End Property
+
+
+    Private Sub gv1_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellValueChanged
         Try
             If Not isInsideLoadData Then
                 If isCellValueChangedOpen Then
@@ -413,16 +434,9 @@ Public Class frmBullParameterGroup
                     gv1.CurrentRow.Cells(colAlphaNumeric).ReadOnly = True
                 Next
             End If
-
-            If clsCommon.myCDecimal(gv1.CurrentRow.Cells(colRangeSelection).Value) > 0 Then
-                Dim frmP As New frmBullParameterRangeSelection()
-                frmP.AddGridView(clsCommon.myCDecimal(gv1.CurrentRow.Cells(colRangeSelection).Value))
-
-                frmP.Show()
-                'formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+            If Not IsLoad AndAlso clsCommon.myCDecimal(gv1.CurrentRow.Cells(colRangeSelection).Value) > 0 Then
+                GetDataSelectionRange()
             End If
-
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             isCellValueChangedOpen = False
@@ -564,5 +578,57 @@ Public Class frmBullParameterGroup
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub gv1_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellDoubleClick
+        Try
+            GetDataSelectionRange()
+        Catch ex As Exception
+            ' Handle any exceptions that occur
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+    End Sub
+
+    Sub GetDataSelectionRange()
+        If Not IsLoad AndAlso clsCommon.myCstr(gv1.CurrentRow.Cells(ColCode).Value) IsNot Nothing AndAlso clsCommon.myCdbl(gv1.CurrentRow.Cells(colRangeSelection).Value) > 0 Then
+
+            Dim Qry As String = "SELECT TSPL_BULL_PARAMETER_GROUP_DETAIL_RANGE.* FROM TSPL_BULL_PARAMETER_GROUP_DETAIL_RANGE " &
+                                "INNER JOIN TSPL_BULL_PARAMETER_GROUP_DETAIL ON TSPL_BULL_PARAMETER_GROUP_DETAIL.PK_Id = TSPL_BULL_PARAMETER_GROUP_DETAIL_RANGE.Against_Detail_PK_Id " &
+                                "WHERE TSPL_BULL_PARAMETER_GROUP_DETAIL.Code = '" + txtCode.Value + "' AND TSPL_BULL_PARAMETER_GROUP_DETAIL.TPCode = '" + clsCommon.myCstr(gv1.CurrentRow.Cells(ColCode).Value) + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim arrRangeSelection As New Dictionary(Of String, String)()
+                Dim i As Integer = 1
+                For Each row As DataRow In dt.Rows
+                    Dim key As String = clsCommon.myCstr(i)
+                    Dim value As String = clsCommon.myCstr(row("Range_Selection"))
+                    If Not arrRangeSelection.ContainsKey(key) Then
+                        arrRangeSelection.Add(key, value)
+                    End If
+                    i += 1
+                Next
+                frmP.ArrRangeSelection = arrRangeSelection
+            End If
+
+            If Not frmP.isOK Then
+                frmP.ArrRangeSelection = gv1.CurrentRow.Cells(colRangeSelection).Tag
+            End If
+            frmP.Range = gv1.CurrentRow.Cells(colRangeSelection).Value
+            frmP.ShowDialog()
+            If frmP.isOK Then
+                gv1.CurrentRow.Cells(colRangeSelection).Tag = frmP.ArrRangeSelection
+            End If
+            'Else
+            '    If gv1 IsNot Nothing AndAlso gv1.Rows.Count > 0 Then
+            '        frmP.ArrRangeSelection = gv1.CurrentRow.Cells(colRangeSelection).Tag
+            '        frmP.Range = gv1.CurrentRow.Cells(colRangeSelection).Value
+            '        frmP.ShowDialog()
+            '        If frmP.isOK Then
+            '            gv1.CurrentRow.Cells(colRangeSelection).Tag = frmP.ArrRangeSelection
+            '        End If
+            '    End If
+        End If
+
     End Sub
 End Class

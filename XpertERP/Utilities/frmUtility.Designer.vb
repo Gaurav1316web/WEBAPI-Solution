@@ -77,6 +77,7 @@ Partial Class FrmUtility
         Me.Label1 = New System.Windows.Forms.Label()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadScrollablePanel1 = New Telerik.WinControls.UI.RadScrollablePanel()
+        Me.UpdateVirtualCustomerAccount = New Telerik.WinControls.UI.RadButton()
         Me.RadButton348 = New Telerik.WinControls.UI.RadButton()
         Me.txtBlankTransDataDate = New common.Controls.MyDateTimePicker()
         Me.RadButton143 = New Telerik.WinControls.UI.RadButton()
@@ -455,6 +456,9 @@ Partial Class FrmUtility
         Me.TxtMultiSelectFinder20 = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel68 = New common.Controls.MyLabel()
         Me.RadButton353 = New Telerik.WinControls.UI.RadButton()
+        Me.TxtMultiSelectFinder19 = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel67 = New common.Controls.MyLabel()
+        Me.RadButton352 = New Telerik.WinControls.UI.RadButton()
         Me.GroupBox44 = New System.Windows.Forms.GroupBox()
         Me.RadButton113 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton111 = New Telerik.WinControls.UI.RadButton()
@@ -795,9 +799,6 @@ Partial Class FrmUtility
         Me.RadButton285 = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.Timer3 = New System.Windows.Forms.Timer(Me.components)
-        Me.RadButton352 = New Telerik.WinControls.UI.RadButton()
-        Me.TxtMultiSelectFinder19 = New common.UserControls.txtMultiSelectFinder()
-        Me.MyLabel67 = New common.Controls.MyLabel()
         CType(Me.btnCreateAdjustment, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadGroupBox1.SuspendLayout
@@ -846,6 +847,7 @@ Partial Class FrmUtility
         CType(Me.RadScrollablePanel1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadScrollablePanel1.PanelContainer.SuspendLayout
         Me.RadScrollablePanel1.SuspendLayout
+        CType(Me.UpdateVirtualCustomerAccount, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton348, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.txtBlankTransDataDate, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton143, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1223,6 +1225,8 @@ Partial Class FrmUtility
         Me.RadScrollablePanel6.SuspendLayout
         CType(Me.MyLabel68, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton353, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.MyLabel67, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.RadButton352, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox44.SuspendLayout
         CType(Me.RadButton113, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton111, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1546,8 +1550,6 @@ Partial Class FrmUtility
         Me.SplitContainer2.Panel1.SuspendLayout
         Me.SplitContainer2.Panel2.SuspendLayout
         Me.SplitContainer2.SuspendLayout
-        CType(Me.RadButton352, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel67, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
@@ -1943,7 +1945,7 @@ Partial Class FrmUtility
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage6
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1103, 440)
         Me.RadPageView1.TabIndex = 44
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -1985,6 +1987,7 @@ Partial Class FrmUtility
         '
         'RadScrollablePanel1.PanelContainer
         '
+        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.UpdateVirtualCustomerAccount)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.btnCreateTransferJournalEntry)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.btnCreateTransferJournalEntryOtherThanEmpty)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.btnCreateGLReceiptAdjEntry)
@@ -2035,6 +2038,14 @@ Partial Class FrmUtility
         Me.RadScrollablePanel1.PanelContainer.Size = New System.Drawing.Size(1063, 390)
         Me.RadScrollablePanel1.Size = New System.Drawing.Size(1082, 392)
         Me.RadScrollablePanel1.TabIndex = 627
+        '
+        'UpdateVirtualCustomerAccount
+        '
+        Me.UpdateVirtualCustomerAccount.Location = New System.Drawing.Point(822, 498)
+        Me.UpdateVirtualCustomerAccount.Name = "UpdateVirtualCustomerAccount"
+        Me.UpdateVirtualCustomerAccount.Size = New System.Drawing.Size(181, 24)
+        Me.UpdateVirtualCustomerAccount.TabIndex = 387
+        Me.UpdateVirtualCustomerAccount.Text = "Update Virtual Customer Account"
         '
         'RadButton348
         '
@@ -6008,6 +6019,40 @@ Partial Class FrmUtility
         Me.RadButton353.TabIndex = 385
         Me.RadButton353.Text = ">>"
         '
+        'TxtMultiSelectFinder19
+        '
+        Me.TxtMultiSelectFinder19.arrDispalyMember = Nothing
+        Me.TxtMultiSelectFinder19.arrValueMember = Nothing
+        Me.TxtMultiSelectFinder19.Location = New System.Drawing.Point(232, 379)
+        Me.TxtMultiSelectFinder19.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtMultiSelectFinder19.MyLinkLable1 = Nothing
+        Me.TxtMultiSelectFinder19.MyLinkLable2 = Nothing
+        Me.TxtMultiSelectFinder19.MyNullText = "All"
+        Me.TxtMultiSelectFinder19.Name = "TxtMultiSelectFinder19"
+        Me.TxtMultiSelectFinder19.Size = New System.Drawing.Size(243, 19)
+        Me.TxtMultiSelectFinder19.TabIndex = 380
+        Me.TxtMultiSelectFinder19.Visible = False
+        '
+        'MyLabel67
+        '
+        Me.MyLabel67.FieldName = Nothing
+        Me.MyLabel67.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel67.Location = New System.Drawing.Point(4, 379)
+        Me.MyLabel67.Name = "MyLabel67"
+        Me.MyLabel67.Size = New System.Drawing.Size(222, 18)
+        Me.MyLabel67.TabIndex = 381
+        Me.MyLabel67.Text = "RAL Penalty of Security AND QC Deduction"
+        Me.MyLabel67.Visible = False
+        '
+        'RadButton352
+        '
+        Me.RadButton352.Location = New System.Drawing.Point(479, 379)
+        Me.RadButton352.Name = "RadButton352"
+        Me.RadButton352.Size = New System.Drawing.Size(22, 19)
+        Me.RadButton352.TabIndex = 382
+        Me.RadButton352.Text = ">>"
+        Me.RadButton352.Visible = False
+        '
         'GroupBox44
         '
         Me.GroupBox44.Controls.Add(Me.RadButton113)
@@ -9855,40 +9900,6 @@ Partial Class FrmUtility
         '
         Me.Timer3.Interval = 50000
         '
-        'RadButton352
-        '
-        Me.RadButton352.Location = New System.Drawing.Point(479, 379)
-        Me.RadButton352.Name = "RadButton352"
-        Me.RadButton352.Size = New System.Drawing.Size(22, 19)
-        Me.RadButton352.TabIndex = 382
-        Me.RadButton352.Text = ">>"
-        Me.RadButton352.Visible = False
-        '
-        'TxtMultiSelectFinder19
-        '
-        Me.TxtMultiSelectFinder19.arrDispalyMember = Nothing
-        Me.TxtMultiSelectFinder19.arrValueMember = Nothing
-        Me.TxtMultiSelectFinder19.Location = New System.Drawing.Point(232, 379)
-        Me.TxtMultiSelectFinder19.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtMultiSelectFinder19.MyLinkLable1 = Nothing
-        Me.TxtMultiSelectFinder19.MyLinkLable2 = Nothing
-        Me.TxtMultiSelectFinder19.MyNullText = "All"
-        Me.TxtMultiSelectFinder19.Name = "TxtMultiSelectFinder19"
-        Me.TxtMultiSelectFinder19.Size = New System.Drawing.Size(243, 19)
-        Me.TxtMultiSelectFinder19.TabIndex = 380
-        Me.TxtMultiSelectFinder19.Visible = False
-        '
-        'MyLabel67
-        '
-        Me.MyLabel67.FieldName = Nothing
-        Me.MyLabel67.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel67.Location = New System.Drawing.Point(4, 379)
-        Me.MyLabel67.Name = "MyLabel67"
-        Me.MyLabel67.Size = New System.Drawing.Size(222, 18)
-        Me.MyLabel67.TabIndex = 381
-        Me.MyLabel67.Text = "RAL Penalty of Security AND QC Deduction"
-        Me.MyLabel67.Visible = False
-        '
         'FrmUtility
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -9952,6 +9963,7 @@ Partial Class FrmUtility
         Me.RadScrollablePanel1.PanelContainer.PerformLayout
         CType(Me.RadScrollablePanel1, System.ComponentModel.ISupportInitialize).EndInit
         Me.RadScrollablePanel1.ResumeLayout(False)
+        CType(Me.UpdateVirtualCustomerAccount, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton348, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.txtBlankTransDataDate, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton143, System.ComponentModel.ISupportInitialize).EndInit
@@ -10342,6 +10354,8 @@ Partial Class FrmUtility
         Me.RadScrollablePanel6.ResumeLayout(False)
         CType(Me.MyLabel68, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton353, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.MyLabel67, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.RadButton352, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox44.ResumeLayout(False)
         CType(Me.RadButton113, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton111, System.ComponentModel.ISupportInitialize).EndInit
@@ -10680,8 +10694,6 @@ Partial Class FrmUtility
         Me.SplitContainer2.Panel1.ResumeLayout(False)
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
-        CType(Me.RadButton352, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel67, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(False)
 
@@ -11451,5 +11463,6 @@ Partial Class FrmUtility
     Friend WithEvents TxtMultiSelectFinder19 As common.UserControls.txtMultiSelectFinder
     Friend WithEvents MyLabel67 As common.Controls.MyLabel
     Friend WithEvents RadButton352 As RadButton
+    Friend WithEvents UpdateVirtualCustomerAccount As RadButton
 End Class
 

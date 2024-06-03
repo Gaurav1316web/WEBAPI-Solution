@@ -1,6 +1,8 @@
 ﻿Imports common
 Imports System.Data
 Imports System.Data.SqlClient
+Imports System.Threading
+
 Public Class FrmUtility
     Inherits FrmMainTranScreen
     ''Check out richa 23/06/2020
@@ -8,6 +10,8 @@ Public Class FrmUtility
     Public strFormId As String
     'Public strVendorCode As String = ""
     Dim objDocSeq As New clsDocumentSequence
+    Dim iiDeadlockErrors As Integer
+
 #End Region
     Private Sub btnCreateAdjustment_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCreateAdjustment.Click
         CreateAdjustmentForNegativeBalance(False)
@@ -653,8 +657,8 @@ Public Class FrmUtility
             'B
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_BOOKING_DETAIL_Document_No", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX TSPL_BOOKING_DETAIL_Document_No " & _
-                            "ON [dbo].[TSPL_BOOKING_DETAIL] ([Document_No]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX TSPL_BOOKING_DETAIL_Document_No " &
+                            "ON [dbo].[TSPL_BOOKING_DETAIL] ([Document_No]) " &
                             " INCLUDE([Item_Code]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -664,8 +668,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_ITEM_UOM_DETAIL_Default_UOM", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX TSPL_ITEM_UOM_DETAIL_Default_UOM " & _
-                            "ON [dbo].[TSPL_ITEM_UOM_DETAIL] ([Default_UOM]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX TSPL_ITEM_UOM_DETAIL_Default_UOM " &
+                            "ON [dbo].[TSPL_ITEM_UOM_DETAIL] ([Default_UOM]) " &
                             "INCLUDE ([Item_Code],[UOM_Code])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -676,8 +680,8 @@ Public Class FrmUtility
             ''richa 3 jULY 2020
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_JOURNAL_DETAILS_Account_Seg_Code7", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [TSPL_JOURNAL_DETAILS_Account_Seg_Code7]" & _
-                    " ON [dbo].[TSPL_JOURNAL_DETAILS] ([Account_Seg_Code7]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX [TSPL_JOURNAL_DETAILS_Account_Seg_Code7]" &
+                    " ON [dbo].[TSPL_JOURNAL_DETAILS] ([Account_Seg_Code7]) " &
                     " INCLUDE([Voucher_No], [Account_code], [Amount]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -687,8 +691,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_JOURNAL_DETAILS_Voucher_Date", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [TSPL_JOURNAL_DETAILS_Voucher_Date] " & _
-                    " ON [dbo].[TSPL_JOURNAL_DETAILS] ([Voucher_Date]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX [TSPL_JOURNAL_DETAILS_Voucher_Date] " &
+                    " ON [dbo].[TSPL_JOURNAL_DETAILS] ([Voucher_Date]) " &
                     " INCLUDE([Voucher_No], [Account_code], [Amount]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -698,8 +702,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_JOURNAL_DETAILS_Account_code_Voucher_Date", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [TSPL_JOURNAL_DETAILS_Account_code_Voucher_Date] " & _
-                    " ON [dbo].[TSPL_JOURNAL_DETAILS] ([Account_code],[Voucher_Date])" & _
+                    qry = " CREATE NONCLUSTERED INDEX [TSPL_JOURNAL_DETAILS_Account_code_Voucher_Date] " &
+                    " ON [dbo].[TSPL_JOURNAL_DETAILS] ([Account_code],[Voucher_Date])" &
                     " INCLUDE([Voucher_No], [Amount]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -710,8 +714,8 @@ Public Class FrmUtility
             ''richa GKD/14/09/18-000160
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_INVENTORY_MOVEMENT_Location_Code_Item_Code_Punching_Date_Trans_Id_Source_Doc_No", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [TSPL_INVENTORY_MOVEMENT_Location_Code_Item_Code_Punching_Date_Trans_Id_Source_Doc_No] " & _
-                    " ON [dbo].[TSPL_INVENTORY_MOVEMENT] ([Location_Code],[Item_Code],[Punching_Date]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX [TSPL_INVENTORY_MOVEMENT_Location_Code_Item_Code_Punching_Date_Trans_Id_Source_Doc_No] " &
+                    " ON [dbo].[TSPL_INVENTORY_MOVEMENT] ([Location_Code],[Item_Code],[Punching_Date]) " &
                     " INCLUDE ([Trans_Id],[Source_Doc_No]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -721,8 +725,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_INVENTORY_MOVEMENT_Location_Code_Item_Code_Punching_Date_InOut_Avg_Cost_Stock_Qty", Nothing) = 0 Then
-                    qry = "  CREATE NONCLUSTERED INDEX [TSPL_INVENTORY_MOVEMENT_Location_Code_Item_Code_Punching_Date_InOut_Avg_Cost_Stock_Qty] " & _
-                    " ON [dbo].[TSPL_INVENTORY_MOVEMENT] ([Location_Code],[Item_Code],[Punching_Date]) " & _
+                    qry = "  CREATE NONCLUSTERED INDEX [TSPL_INVENTORY_MOVEMENT_Location_Code_Item_Code_Punching_Date_InOut_Avg_Cost_Stock_Qty] " &
+                    " ON [dbo].[TSPL_INVENTORY_MOVEMENT] ([Location_Code],[Item_Code],[Punching_Date]) " &
                     " INCLUDE ([InOut],[Avg_Cost],[Stock_Qty]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -732,8 +736,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_SD_SHIPMENT_HEAD_Status_Screen_Type_Trans_Type", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [TSPL_SD_SHIPMENT_HEAD_Status_Screen_Type_Trans_Type] " & _
-                    " ON [dbo].[TSPL_SD_SHIPMENT_HEAD] ([Status],[Screen_Type],[Trans_Type]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX [TSPL_SD_SHIPMENT_HEAD_Status_Screen_Type_Trans_Type] " &
+                    " ON [dbo].[TSPL_SD_SHIPMENT_HEAD] ([Status],[Screen_Type],[Trans_Type]) " &
                     " INCLUDE ([Document_Code],[Document_Date],[Customer_Code]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -747,8 +751,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_ITEM_MASTER_Is_FreshItem", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX TSPL_ITEM_MASTER_Is_FreshItem " & _
-                            "ON [dbo].[TSPL_ITEM_MASTER] ([Is_FreshItem]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX TSPL_ITEM_MASTER_Is_FreshItem " &
+                            "ON [dbo].[TSPL_ITEM_MASTER] ([Is_FreshItem]) " &
                             "INCLUDE ([Item_Code],[Item_Desc])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -758,8 +762,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_ITEM_UOM_DETAIL_Item_Code_Default_UOM", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX TSPL_ITEM_UOM_DETAIL_Item_Code_Default_UOM " & _
-                            "ON [dbo].[TSPL_ITEM_UOM_DETAIL] ([Item_Code],[Default_UOM]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX TSPL_ITEM_UOM_DETAIL_Item_Code_Default_UOM " &
+                            "ON [dbo].[TSPL_ITEM_UOM_DETAIL] ([Item_Code],[Default_UOM]) " &
                             "INCLUDE ([UOM_Code])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -769,8 +773,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_RECEIPT_HEADER_Receipt_Type_Cust_Code_Posted_SecurityDeposit", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_RECEIPT_HEADER_Receipt_Type_Cust_Code_Posted_SecurityDeposit] " & _
-                            "ON [dbo].[TSPL_RECEIPT_HEADER] ([Receipt_Type],[Cust_Code],[Posted],[SecurityDeposit]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_RECEIPT_HEADER_Receipt_Type_Cust_Code_Posted_SecurityDeposit] " &
+                            "ON [dbo].[TSPL_RECEIPT_HEADER] ([Receipt_Type],[Cust_Code],[Posted],[SecurityDeposit]) " &
                             "INCLUDE ([Receipt_Amount]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -780,8 +784,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_Customer_Invoice_Head_Customer_Code_Against_Sale_No", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_Customer_Invoice_Head_Customer_Code_Against_Sale_No] " & _
-                            "ON [dbo].[TSPL_Customer_Invoice_Head] ([Customer_Code],[Against_Sale_No]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_Customer_Invoice_Head_Customer_Code_Against_Sale_No] " &
+                            "ON [dbo].[TSPL_Customer_Invoice_Head] ([Customer_Code],[Against_Sale_No]) " &
                             "INCLUDE ([Document_No])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -791,8 +795,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_DELIVERY_NOTE_MASTER_FRESHSALE_Customer_Code_Posted_Sampling", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_DELIVERY_NOTE_MASTER_FRESHSALE_Customer_Code_Posted_Sampling] " & _
-                            "ON [dbo].[TSPL_DELIVERY_NOTE_MASTER_FRESHSALE] ([Customer_Code],[Posted],[Sampling],[Document_No]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_DELIVERY_NOTE_MASTER_FRESHSALE_Customer_Code_Posted_Sampling] " &
+                            "ON [dbo].[TSPL_DELIVERY_NOTE_MASTER_FRESHSALE] ([Customer_Code],[Posted],[Sampling],[Document_No]) " &
                             "INCLUDE ([Total_Amt]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -802,8 +806,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_SD_SHIPMENT_HEAD_Status_Trans_Type_DO_Item_Type", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [TSPL_SD_SHIPMENT_HEAD_Status_Trans_Type_DO_Item_Type] " & _
-                            "ON [dbo].[TSPL_SD_SHIPMENT_HEAD] ([Status],[Trans_Type],[DO_Item_Type]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX [TSPL_SD_SHIPMENT_HEAD_Status_Trans_Type_DO_Item_Type] " &
+                            "ON [dbo].[TSPL_SD_SHIPMENT_HEAD] ([Status],[Trans_Type],[DO_Item_Type]) " &
                             " INCLUDE([Document_Code], [Customer_Code], [Salesman_Code], [Cust_PO_No], [cust_po_date])"
 
                     clsDBFuncationality.ExecuteNonQuery(qry)
@@ -814,8 +818,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE_FOC_Item", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE_FOC_Item] " & _
-                            "ON [dbo].[TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE] ([FOC_Item]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX [TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE_FOC_Item] " &
+                            "ON [dbo].[TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE] ([FOC_Item]) " &
                             "INCLUDE([Document_No], [Line_No], [Item_Code], [Unit_code], [Qty], [Conv_Factor], [MRP], [Price_code], [Price_Date], [OrgRate], [Disc_Scheme_Type], [Disc_Scheme_Amount], [Scheme_Item], [Scheme_Code])"
 
                     clsDBFuncationality.ExecuteNonQuery(qry)
@@ -826,8 +830,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE_Item_Code", Nothing) = 0 Then
-                    qry = "  CREATE NONCLUSTERED INDEX [TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE_Item_Code] " & _
-                            "ON [dbo].[TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE] ([Item_Code]) " & _
+                    qry = "  CREATE NONCLUSTERED INDEX [TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE_Item_Code] " &
+                            "ON [dbo].[TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE] ([Item_Code]) " &
                             "INCLUDE([Document_No], [Line_No], [Unit_code], [Qty], [Conv_Factor], [MRP], [Price_code], [Price_Date], [OrgRate], [Disc_Scheme_Type], [Disc_Scheme_Amount], [Scheme_Item], [FOC_Item], [Scheme_Code])"
 
                     clsDBFuncationality.ExecuteNonQuery(qry)
@@ -839,7 +843,7 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE_Document_No", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE_Document_No] " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE_Document_No] " &
                             "ON [dbo].[TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE] ([Document_No]) "
 
                     clsDBFuncationality.ExecuteNonQuery(qry)
@@ -850,7 +854,7 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_DELIVERY_NOTE_MASTER_FRESHSALE_Booking_No", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_DELIVERY_NOTE_MASTER_FRESHSALE_Booking_No] " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_DELIVERY_NOTE_MASTER_FRESHSALE_Booking_No] " &
                             "ON [dbo].[TSPL_DELIVERY_NOTE_MASTER_FRESHSALE] ([Booking_No]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -860,8 +864,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_SD_SHIPMENT_DETAIL_Scheme_Item", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_SD_SHIPMENT_DETAIL_Scheme_Item] " & _
-                            "ON [dbo].[TSPL_SD_SHIPMENT_DETAIL] ([Scheme_Item]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_SD_SHIPMENT_DETAIL_Scheme_Item] " &
+                            "ON [dbo].[TSPL_SD_SHIPMENT_DETAIL] ([Scheme_Item]) " &
                             "INCLUDE ([DOCUMENT_CODE],[Line_No],[Item_Code],[Qty],[Unit_code],[MRP],[Price_code],[Price_Date],[Conv_Factor],[Delivery_Code]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -871,8 +875,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_SD_SHIPMENT_HEAD_Status_Trans_Type", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_SD_SHIPMENT_HEAD_Status_Trans_Type] " & _
-                            "ON [dbo].[TSPL_SD_SHIPMENT_HEAD] ([Status],[Trans_Type]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_SD_SHIPMENT_HEAD_Status_Trans_Type] " &
+                            "ON [dbo].[TSPL_SD_SHIPMENT_HEAD] ([Status],[Trans_Type]) " &
                             "INCLUDE ([Document_Code],[Customer_Code]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -882,8 +886,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_DELIVERY_NOTE_MASTER_FRESHSALE_Posted_OnHold_Short_Close", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_DELIVERY_NOTE_MASTER_FRESHSALE_Posted_OnHold_Short_Close] " & _
-                            "ON [dbo].[TSPL_DELIVERY_NOTE_MASTER_FRESHSALE] ([Posted],[OnHold],[Short_Close]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_DELIVERY_NOTE_MASTER_FRESHSALE_Posted_OnHold_Short_Close] " &
+                            "ON [dbo].[TSPL_DELIVERY_NOTE_MASTER_FRESHSALE] ([Posted],[OnHold],[Short_Close]) " &
                             "INCLUDE ([Document_No],[Document_Date],[Customer_Code],[Location_Code]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -893,8 +897,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_SD_SHIPMENT_DETAIL_Item_Code_Delivery_Code_PS_DOCUMENT_CODE", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_SD_SHIPMENT_DETAIL_Item_Code_Delivery_Code_PS_DOCUMENT_CODE] " & _
-                            "ON [dbo].[TSPL_SD_SHIPMENT_DETAIL] ([Item_Code],[Delivery_Code_PS],[DOCUMENT_CODE]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_SD_SHIPMENT_DETAIL_Item_Code_Delivery_Code_PS_DOCUMENT_CODE] " &
+                            "ON [dbo].[TSPL_SD_SHIPMENT_DETAIL] ([Item_Code],[Delivery_Code_PS],[DOCUMENT_CODE]) " &
                             "INCLUDE ([Qty]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -904,8 +908,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("For_BOoking_detail_NCIndex1", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [For_BOoking_detail_NCIndex1] " & _
-                            "ON [dbo].[TSPL_BOOKING_DETAIL] ([Document_No]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [For_BOoking_detail_NCIndex1] " &
+                            "ON [dbo].[TSPL_BOOKING_DETAIL] ([Document_No]) " &
                             "INCLUDE ([Vehicle_Code]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -915,8 +919,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("fOR_CLIndex_NC1", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [fOR_CLIndex_NC1] " & _
-                            "ON [dbo].[TSPL_PAYMENT_HEADER] ([Payment_Type],[Posted],[Is_Security],[Advance_Against_Salary]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [fOR_CLIndex_NC1] " &
+                            "ON [dbo].[TSPL_PAYMENT_HEADER] ([Payment_Type],[Posted],[Is_Security],[Advance_Against_Salary]) " &
                             "INCLUDE ([Payment_No],[Payment_Date],[Payment_Post_Date],[Vendor_Code],[Vendor_Name],[Entry_Desc],[Reference],[Narration],[Cheque_No],[Cheque_Date],[Payment_Amount],[Comp_Code],[CURRENCY_CODE],[ConvRate]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -926,8 +930,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("fOR_CLIndex_NC2", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [fOR_CLIndex_NC2] " & _
-                            "ON [dbo].[TSPL_PAYMENT_HEADER] ([Payment_Type],[Posted],[Is_Security],[Advance_Against_Salary]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [fOR_CLIndex_NC2] " &
+                            "ON [dbo].[TSPL_PAYMENT_HEADER] ([Payment_Type],[Posted],[Is_Security],[Advance_Against_Salary]) " &
                             "INCLUDE ([Payment_No],[Payment_Date],[Payment_Post_Date],[Vendor_Code],[Vendor_Name],[Entry_Desc],[Reference],[Narration],[Cheque_No],[Cheque_Date],[Payment_Amount],[Comp_Code],[Debit_Account],[CURRENCY_CODE],[ConvRate],[Applied_Payment]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -938,8 +942,8 @@ Public Class FrmUtility
             ''non clustered index for AR REPORT KDI/22/05/18-000329
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_Customer_Invoice_Head_Document_Date", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [TSPL_Customer_Invoice_Head_Document_Date] " & _
-                    " ON [dbo].[TSPL_Customer_Invoice_Head] ([Document_Date]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX [TSPL_Customer_Invoice_Head_Document_Date] " &
+                    " ON [dbo].[TSPL_Customer_Invoice_Head] ([Document_Date]) " &
                     " INCLUDE ([Document_No],[Document_Type],[Customer_Code],[Customer_Name],[Customer_Control_AC],[AgainstScrap],[Against_Sale_No],[Loc_Code],[Against_Sale_Return_No],[Against_MCC_Material_Sale_Return],[Against_VCGL],[AgainstScrapReturn],[Against_Security_Receipt_No])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -951,8 +955,8 @@ Public Class FrmUtility
             '' non clustered index for Purchase invoice finder
             Try
                 If clsPostCreateTable.CheckIndexExists("For_NC_PI_Index1", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [For_NC_PI_Index1]  " & _
-                    " ON [dbo].[TSPL_SRN_DETAIL] ([Status],[Row_Type]) INCLUDE ([SRN_No],[Line_No],[Item_Code],[Item_Desc],[SRN_Qty],[MRN_Id],[Unit_code],[Location],[Item_Cost],[TAX1_Rate],[TAX1_Amt]," & _
+                    qry = "CREATE NONCLUSTERED INDEX [For_NC_PI_Index1]  " &
+                    " ON [dbo].[TSPL_SRN_DETAIL] ([Status],[Row_Type]) INCLUDE ([SRN_No],[Line_No],[Item_Code],[Item_Desc],[SRN_Qty],[MRN_Id],[Unit_code],[Location],[Item_Cost],[TAX1_Rate],[TAX1_Amt]," &
                     " [TAX2_Rate],[TAX2_Amt],[TAX3_Rate],[TAX3_Amt],[TAX4_Rate],[TAX4_Amt],[TAX5_Rate],[TAX5_Amt],[TAX6_Rate],[TAX6_Amt],[TAX7_Rate],[TAX7_Amt],[TAX8_Rate],[TAX8_Amt],[TAX9_Rate],[TAX9_Amt],[TAX10_Rate],[TAX10_Amt],[Amount],[Disc_Per],[MRP],[Batch_No],[MFG_Date],[Expiry_Date],[Rejected_Qty],[Leak_Qty],[Burst_Qty],[Short_Qty],[Is_Mannual_Amt],[Free_Qty],[PO_ID],[AbatementRate],[Bin_No],[Disc_Type],[GRN_ID],[Category],[Emergency],[Capex_Code],[Capex_SubCode]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -963,8 +967,8 @@ Public Class FrmUtility
             '' non clustered index for 
             Try
                 If clsPostCreateTable.CheckIndexExists("FOR_NC_INDEX_JWO_GE1", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [FOR_NC_INDEX_JWO_GE1]" & _
-                    " ON [dbo].[TSPL_ITEM_MASTER] ([Product_Type]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [FOR_NC_INDEX_JWO_GE1]" &
+                    " ON [dbo].[TSPL_ITEM_MASTER] ([Product_Type]) " &
                     " INCLUDE ([Item_Code],[Item_Desc],[Structure_Code],[Structure_Desc],[Purchase_Class_Code],[Sale_Class_Code],[Unit_Code],[Deafult_Price],[Father_Code],[Father_QTy],[Cheapter_Heads],[Mother_Code],[Mother_Qty],[Opening_Balance],[Two_Count_Status],[Three_Count_Status],[Server_Type],[Mfg_Date],[Batch_No],[Best_Befor_UseDate],[Item_Type],[Created_By],[Modify_By],[Comp_Code],[Flavour_Seq],[Pack_Seq],[Sku_Seq],[show],[item_category],[tech_shelf_life],[Cost],[Sub_item_category],[TypeOfItm],[NoMRP],[Morning],[PROD_ITEM_CATEGORY_CODE],[Rate],[Active],[AlternativeItem],[ItemSpecification],[Item_Category_Struct_Code],[SubItemType],[Is_Serial_Item],[Serial_Counter],[WARRANTY_CODE],[Is_Pick_Auto_SrNo],[Weight_UOM],[Weight_Value],[Asset_Life],[Warranty_Period],[Is_MRP],[ITF_CODE],[Is_FreshItem],[Short_Description],[CSA_TYPE],[Is_CrateType],[Item_Used_as],[Part_No],[Drawing_No],[GL_account],[Is_Tax_Exempted],[IsTaxable],[Is_Ambient],[Modify_Date],[Created_Date]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -975,8 +979,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("For_NC_PI_Index2", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [For_NC_PI_Index2] " & _
-                    " ON [dbo].[TSPL_SRN_HEAD] ([Status],[Document_Type],[IsCancel]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [For_NC_PI_Index2] " &
+                    " ON [dbo].[TSPL_SRN_HEAD] ([Status],[Document_Type],[IsCancel]) " &
                     " INCLUDE ([SRN_No],[Vendor_Code],[Tax_Group],[GENo],[GEDate],[SRN_Date],[RGP_Type]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -986,8 +990,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("For_NC_PI_Index3", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [For_NC_PI_Index3] " & _
-                    " ON [dbo].[TSPL_SRN_DETAIL] ([SRN_No],[Status],[Row_Type]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [For_NC_PI_Index3] " &
+                    " ON [dbo].[TSPL_SRN_DETAIL] ([SRN_No],[Status],[Row_Type]) " &
                     " INCLUDE ([Line_No],[Item_Code],[Item_Desc],[SRN_Qty],[MRN_Id],[Unit_code],[Location],[Item_Cost],[TAX1_Rate],[TAX1_Amt],[TAX2_Rate],[TAX2_Amt],[TAX3_Rate],[TAX3_Amt],[TAX4_Rate],[TAX4_Amt],[TAX5_Rate],[TAX5_Amt],[TAX6_Rate],[TAX6_Amt],[TAX7_Rate],[TAX7_Amt],[TAX8_Rate],[TAX8_Amt],[TAX9_Rate],[TAX9_Amt],[TAX10_Rate],[TAX10_Amt],[Amount],[Disc_Per],[MRP],[Batch_No],[MFG_Date],[Expiry_Date],[Rejected_Qty],[Leak_Qty],[Burst_Qty],[Short_Qty],[Is_Mannual_Amt],[Free_Qty],[PO_ID],[AbatementRate],[Bin_No],[Disc_Type],[GRN_ID],[Category],[Emergency],[Capex_Code],[Capex_SubCode])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -998,8 +1002,8 @@ Public Class FrmUtility
             ' '' Non Clustered Regarding Customer reco
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_JOURNAL_DETAILS_Reco_Control_Account", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_JOURNAL_DETAILS_Reco_Control_Account] " & _
-                    " ON [dbo].[TSPL_JOURNAL_DETAILS] ([Reco_Control_Account]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_JOURNAL_DETAILS_Reco_Control_Account] " &
+                    " ON [dbo].[TSPL_JOURNAL_DETAILS] ([Reco_Control_Account]) " &
                     " INCLUDE([Voucher_No], [Account_code], [Amount], [Account_Seg_Code7])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1009,8 +1013,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_RECEIPT_HEADER_UnApplied_No_ConvRate", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_RECEIPT_HEADER_UnApplied_No_ConvRate] " & _
-                    " ON [dbo].[TSPL_RECEIPT_HEADER] ([UnApplied_No]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_RECEIPT_HEADER_UnApplied_No_ConvRate] " &
+                    " ON [dbo].[TSPL_RECEIPT_HEADER] ([UnApplied_No]) " &
                     " INCLUDE([Cust_Code], [CURRENCY_CODE], [ConvRate])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1020,8 +1024,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_Customer_Invoice_Head_Status_Document_Date", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_Customer_Invoice_Head_Status_Document_Date]  " & _
-                    " ON [dbo].[TSPL_Customer_Invoice_Head] ([Status],[Document_Date])" & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_Customer_Invoice_Head_Status_Document_Date]  " &
+                    " ON [dbo].[TSPL_Customer_Invoice_Head] ([Status],[Document_Date])" &
                     " INCLUDE([Document_No], [Document_Type], [Document_Total], [Customer_Code], [Customer_Name], [Loc_Code], [ConvRate])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1033,8 +1037,8 @@ Public Class FrmUtility
             ' '' Non Clustered Regarding Inventory Movement new
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_INVENTORY_MOVEMENT_NEW_InOut_Location_Code_Item_Code_Source_Doc_No_Posting_Date_SNF_Rate", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_INVENTORY_MOVEMENT_NEW_InOut_Location_Code_Item_Code_Source_Doc_No_Posting_Date_SNF_Rate]  " & _
-            " ON [dbo].[TSPL_INVENTORY_MOVEMENT_NEW] ([InOut],[Location_Code],[Item_Code],[Source_Doc_No],[Posting_Date],[SNF_Rate]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_INVENTORY_MOVEMENT_NEW_InOut_Location_Code_Item_Code_Source_Doc_No_Posting_Date_SNF_Rate]  " &
+            " ON [dbo].[TSPL_INVENTORY_MOVEMENT_NEW] ([InOut],[Location_Code],[Item_Code],[Source_Doc_No],[Posting_Date],[SNF_Rate]) " &
             " INCLUDE ([Trans_Id])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1044,8 +1048,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_INVENTORY_MOVEMENT_NEW_InOut_Location_Code_Item_Code_Source_Doc_No_Posting_Date_FAT_Rate", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_INVENTORY_MOVEMENT_NEW_InOut_Location_Code_Item_Code_Source_Doc_No_Posting_Date_FAT_Rate]  " & _
-                    " ON [dbo].[TSPL_INVENTORY_MOVEMENT_NEW] ([InOut],[Location_Code],[Item_Code],[Source_Doc_No],[Posting_Date],[Fat_Rate])  " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_INVENTORY_MOVEMENT_NEW_InOut_Location_Code_Item_Code_Source_Doc_No_Posting_Date_FAT_Rate]  " &
+                    " ON [dbo].[TSPL_INVENTORY_MOVEMENT_NEW] ([InOut],[Location_Code],[Item_Code],[Source_Doc_No],[Posting_Date],[Fat_Rate])  " &
                     " INCLUDE ([Trans_Id])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1055,8 +1059,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_INVENTORY_MOVEMENT_NEW_Location_Code_Item_Code_Source_Doc_No_Posting_Date", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_INVENTORY_MOVEMENT_NEW_Location_Code_Item_Code_Source_Doc_No_Posting_Date]  " & _
-                    " ON [dbo].[TSPL_INVENTORY_MOVEMENT_NEW] ([Location_Code],[Item_Code],[Source_Doc_No],[Posting_Date]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_INVENTORY_MOVEMENT_NEW_Location_Code_Item_Code_Source_Doc_No_Posting_Date]  " &
+                    " ON [dbo].[TSPL_INVENTORY_MOVEMENT_NEW] ([Location_Code],[Item_Code],[Source_Doc_No],[Posting_Date]) " &
                     " INCLUDE ([InOut],[Fat_KG],[SNF_KG],[Fat_Amt],[SNF_Amt])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1066,8 +1070,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_INVENTORY_MOVEMENT_NEW_Location_Code_Item_Code_main_location_Qty", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_INVENTORY_MOVEMENT_NEW_Location_Code_Item_Code_main_location_Qty]" & _
-                    " ON [dbo].[TSPL_INVENTORY_MOVEMENT_NEW] ([Location_Code],[Item_Code],[main_location],[Qty]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_INVENTORY_MOVEMENT_NEW_Location_Code_Item_Code_main_location_Qty]" &
+                    " ON [dbo].[TSPL_INVENTORY_MOVEMENT_NEW] ([Location_Code],[Item_Code],[main_location],[Qty]) " &
                     " INCLUDE ([InOut],[Stock_UOM],[Stock_Qty])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1077,8 +1081,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_INVENTORY_MOVEMENT_NEW_Location_Code_Item_Code_main_location_Stock_Qty_NEW", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_INVENTORY_MOVEMENT_NEW_Location_Code_Item_Code_main_location_Stock_Qty_NEW] " & _
-                    " ON [dbo].[TSPL_INVENTORY_MOVEMENT_NEW] ([Location_Code],[Item_Code],[main_location],[Qty]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_INVENTORY_MOVEMENT_NEW_Location_Code_Item_Code_main_location_Stock_Qty_NEW] " &
+                    " ON [dbo].[TSPL_INVENTORY_MOVEMENT_NEW] ([Location_Code],[Item_Code],[main_location],[Qty]) " &
                     " INCLUDE ([InOut],[Punching_Date],[Stock_UOM],[Stock_Qty])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1089,8 +1093,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_INVENTORY_MOVEMENT_NEW_Location_Code_Item_Code_Punching_Date", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_INVENTORY_MOVEMENT_NEW_Location_Code_Item_Code_Punching_Date] " & _
-                    " ON [dbo].[TSPL_INVENTORY_MOVEMENT_NEW] ([Location_Code],[Item_Code],[Punching_Date]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_INVENTORY_MOVEMENT_NEW_Location_Code_Item_Code_Punching_Date] " &
+                    " ON [dbo].[TSPL_INVENTORY_MOVEMENT_NEW] ([Location_Code],[Item_Code],[Punching_Date]) " &
                     " INCLUDE ([InOut],[Avg_Cost],[Stock_Qty])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1102,8 +1106,8 @@ Public Class FrmUtility
             '' Non Clustered Regarding Customer Reco
             Try
                 If clsPostCreateTable.CheckIndexExists("For_CustReco1", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [For_CustReco1] " & _
-                    " ON [dbo].[TSPL_Customer_Invoice_Head] ([Status],[Document_Date]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [For_CustReco1] " &
+                    " ON [dbo].[TSPL_Customer_Invoice_Head] ([Status],[Document_Date]) " &
                     " INCLUDE([Document_No], [Document_Type], [Document_Total], [Customer_Code], [Loc_Code], [ConvRate]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1113,8 +1117,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("For_CustReco2", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [For_CustReco2] " & _
-                    " ON [dbo].[TSPL_JOURNAL_DETAILS] ([Account_code]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [For_CustReco2] " &
+                    " ON [dbo].[TSPL_JOURNAL_DETAILS] ([Account_code]) " &
                     " INCLUDE([Voucher_No], [Amount], [Reco_Control_Account]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1124,8 +1128,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("For_CustReco3", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [For_CustReco3] " & _
-                    " ON [dbo].[TSPL_JOURNAL_MASTER] ([Authorized],[Voucher_Date]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [For_CustReco3] " &
+                    " ON [dbo].[TSPL_JOURNAL_MASTER] ([Authorized],[Voucher_Date]) " &
                     " INCLUDE([Voucher_No], [Source_Doc_No], [Segment_code]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1138,8 +1142,8 @@ Public Class FrmUtility
             '' NON CLUSTERED REGARDING TRANSFER
             Try
                 If clsPostCreateTable.CheckIndexExists("FOR_TRANSFER_NC_iNDEX1", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [FOR_TRANSFER_NC_iNDEX1]" & _
-                    " ON [dbo].[TSPL_SD_SHIPMENT_DETAIL] ([Item_Code],[DOCUMENT_CODE],[Qty]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [FOR_TRANSFER_NC_iNDEX1]" &
+                    " ON [dbo].[TSPL_SD_SHIPMENT_DETAIL] ([Item_Code],[DOCUMENT_CODE],[Qty]) " &
                     " INCLUDE([Unit_code]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1160,8 +1164,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("FOR_TRANSFER_NC_iNDEX3", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [FOR_TRANSFER_NC_iNDEX3]" & _
-                    " ON [dbo].[TSPL_INVENTORY_MOVEMENT] ([Item_Code],[Qty],[Punching_Date]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX [FOR_TRANSFER_NC_iNDEX3]" &
+                    " ON [dbo].[TSPL_INVENTORY_MOVEMENT] ([Item_Code],[Qty],[Punching_Date]) " &
                     " INCLUDE([InOut], [Location_Code], [Stock_UOM], [Stock_Qty]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1171,8 +1175,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("FOR_TRANSFER_NC_iNDEX4", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [FOR_TRANSFER_NC_iNDEX4] " & _
-                    " ON [dbo].[TSPL_PP_ISSUE_ITEM_DETAIL] ([Item_Code],[Issue_Code]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [FOR_TRANSFER_NC_iNDEX4] " &
+                    " ON [dbo].[TSPL_PP_ISSUE_ITEM_DETAIL] ([Item_Code],[Issue_Code]) " &
                     " INCLUDE([Unit_Code], [Qty]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1182,8 +1186,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_SD_SHIPMENT_DETAIL_GatePass_No", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [TSPL_SD_SHIPMENT_DETAIL_GatePass_No] " & _
-                    " ON [dbo].[TSPL_SD_SHIPMENT_DETAIL] ([GatePass_No]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX [TSPL_SD_SHIPMENT_DETAIL_GatePass_No] " &
+                    " ON [dbo].[TSPL_SD_SHIPMENT_DETAIL] ([GatePass_No]) " &
                     " INCLUDE ([DOCUMENT_CODE]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1193,8 +1197,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_SD_SALE_INVOICE_DETAIL_Shipment_Code", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [TSPL_SD_SALE_INVOICE_DETAIL_Shipment_Code] " & _
-                    " ON [dbo].[TSPL_SD_SALE_INVOICE_DETAIL] ([Shipment_Code]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX [TSPL_SD_SALE_INVOICE_DETAIL_Shipment_Code] " &
+                    " ON [dbo].[TSPL_SD_SALE_INVOICE_DETAIL] ([Shipment_Code]) " &
                     " INCLUDE ([DOCUMENT_CODE]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1204,8 +1208,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_ITEM_MASTER_CSA_TYPE", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [TSPL_ITEM_MASTER_CSA_TYPE] " & _
-                    " ON [dbo].[TSPL_ITEM_MASTER] ([CSA_TYPE]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX [TSPL_ITEM_MASTER_CSA_TYPE] " &
+                    " ON [dbo].[TSPL_ITEM_MASTER] ([CSA_TYPE]) " &
                     " INCLUDE ([Item_Code],[Item_Desc]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1216,8 +1220,8 @@ Public Class FrmUtility
             ''------------------------ richa agarwal
             Try
                 If clsPostCreateTable.CheckIndexExists("FOR_BANKBOOK_NCINDEX1", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [FOR_BANKBOOK_NCINDEX1] " & _
-                    " ON [dbo].[TSPL_BANK_BOOK] ([BANK_CODE],[LOC_CODE],[SOURCEDOC_DATE],[DocType]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX [FOR_BANKBOOK_NCINDEX1] " &
+                    " ON [dbo].[TSPL_BANK_BOOK] ([BANK_CODE],[LOC_CODE],[SOURCEDOC_DATE],[DocType]) " &
                     " INCLUDE([SOURCEDOC_NO], [Debit_Amount], [Credit_Amount]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1228,8 +1232,8 @@ Public Class FrmUtility
             ''-------------------------- indexes  on 10 Nov,2016 by richa agarwal
             Try
                 If clsPostCreateTable.CheckIndexExists("FR_TDS_PAYMEnt_NCINDX1", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [FR_TDS_PAYMEnt_NCINDX1] " & _
-                    " ON [dbo].[TSPL_REMITTANCE] ([Deduction_Code],[Remit_TDS]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX [FR_TDS_PAYMEnt_NCINDX1] " &
+                    " ON [dbo].[TSPL_REMITTANCE] ([Deduction_Code],[Remit_TDS]) " &
                     " INCLUDE ([Vendor_Code],[Vendor_Name],[Document_No],[Document_Date],[Document_Type],[Document_Amount],[Actual_TDS_Base],[Actual_Surcharge],[Actual_Edu_Cess],[Actual_Sec_Educess],[Select_By],[TDS_Per],[Branch_GL_AC]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1240,8 +1244,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("FR_TDS_PAYMEnt_NCINDX2", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [FR_TDS_PAYMEnt_NCINDX2]" & _
-                    " ON [dbo].[TSPL_REMITTANCE] ([Deduction_Code],[Remit_TDS]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX [FR_TDS_PAYMEnt_NCINDX2]" &
+                    " ON [dbo].[TSPL_REMITTANCE] ([Deduction_Code],[Remit_TDS]) " &
                     " INCLUDE ([Vendor_Code],[Vendor_Name],[Document_No],[Document_Date],[Document_Type],[Document_Amount],[Actual_TDS_Base],[Actual_TDS],[Actual_Surcharge],[Actual_Edu_Cess],[Actual_Sec_Educess],[Select_By],[TDS_Per],[Branch_GL_AC]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1252,8 +1256,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("FR_TDS_PAYMEnt_NCINDX3", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [FR_TDS_PAYMEnt_NCINDX3] " & _
-                    " ON [dbo].[TSPL_REMITTANCE] ([Remittance_Code]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX [FR_TDS_PAYMEnt_NCINDX3] " &
+                    " ON [dbo].[TSPL_REMITTANCE] ([Remittance_Code]) " &
                     " INCLUDE ([Document_Type],[Document_Amount],[Actual_Surcharge],[Actual_Edu_Cess],[Actual_Sec_Educess],[Branch_GL_AC])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1269,7 +1273,7 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("FOR_BANKRECO_NCINDEX1", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [FOR_BANKRECO_NCINDEX1] " & _
+                    qry = " CREATE NONCLUSTERED INDEX [FOR_BANKRECO_NCINDEX1] " &
                     " ON [dbo].[tspl_BankReco_Detail] ([Document_No],[Reconciliation_Status],[Document_Type]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1281,8 +1285,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_SD_SHIPMENT_DETAIL_Item_Code_Unit_code_Delivery_Code_Sampling_DOCUMENT_CODE", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [TSPL_SD_SHIPMENT_DETAIL_Item_Code_Unit_code_Delivery_Code_Sampling_DOCUMENT_CODE] " & _
-                    " ON [dbo].[TSPL_SD_SHIPMENT_DETAIL] ([Item_Code],[Unit_code],[Delivery_Code],[Sampling],[DOCUMENT_CODE]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX [TSPL_SD_SHIPMENT_DETAIL_Item_Code_Unit_code_Delivery_Code_Sampling_DOCUMENT_CODE] " &
+                    " ON [dbo].[TSPL_SD_SHIPMENT_DETAIL] ([Item_Code],[Unit_code],[Delivery_Code],[Sampling],[DOCUMENT_CODE]) " &
                     " INCLUDE ([Qty]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1292,8 +1296,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_DELIVERY_NOTE_MASTER_FRESHSALE_Posted_OnHold_Short_Close_Lorry_No", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [TSPL_DELIVERY_NOTE_MASTER_FRESHSALE_Posted_OnHold_Short_Close_Lorry_No] " & _
-                    " ON [dbo].[TSPL_DELIVERY_NOTE_MASTER_FRESHSALE] ([Posted],[OnHold],[Short_Close]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX [TSPL_DELIVERY_NOTE_MASTER_FRESHSALE_Posted_OnHold_Short_Close_Lorry_No] " &
+                    " ON [dbo].[TSPL_DELIVERY_NOTE_MASTER_FRESHSALE] ([Posted],[OnHold],[Short_Close]) " &
                     " INCLUDE ([Document_No],[Document_Date],[Customer_Code],[Location_Code],[Lorry_No]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1303,7 +1307,7 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_SD_SHIPMENT_HEAD_Against_Delivery_Code", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [TSPL_SD_SHIPMENT_HEAD_Against_Delivery_Code] " & _
+                    qry = " CREATE NONCLUSTERED INDEX [TSPL_SD_SHIPMENT_HEAD_Against_Delivery_Code] " &
                     " ON [dbo].[TSPL_SD_SHIPMENT_HEAD] ([Against_Delivery_Code]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1313,8 +1317,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_SD_SHIPMENT_DETAIL_Scheme_Item1", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [TSPL_SD_SHIPMENT_DETAIL_Scheme_Item1] " & _
-                    " ON [dbo].[TSPL_SD_SHIPMENT_DETAIL] ([Scheme_Item]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX [TSPL_SD_SHIPMENT_DETAIL_Scheme_Item1] " &
+                    " ON [dbo].[TSPL_SD_SHIPMENT_DETAIL] ([Scheme_Item]) " &
                     " INCLUDE ([DOCUMENT_CODE],[Line_No],[Item_Code],[Qty],[Unit_code],[MRP],[Price_code],[Price_Date],[Conv_Factor],[GatePass_No]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1324,8 +1328,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_SD_SHIPMENT_DETAIL_Item_Code", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [TSPL_SD_SHIPMENT_DETAIL_Item_Code] " & _
-                    " ON [dbo].[TSPL_SD_SHIPMENT_DETAIL] ([Item_Code]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX [TSPL_SD_SHIPMENT_DETAIL_Item_Code] " &
+                    " ON [dbo].[TSPL_SD_SHIPMENT_DETAIL] ([Item_Code]) " &
                     " INCLUDE ([Order_Code]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1335,7 +1339,7 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_SD_SHIPMENT_DETAIL_Item_Code_Order_Code", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [TSPL_SD_SHIPMENT_DETAIL_Item_Code_Order_Code] " & _
+                    qry = " CREATE NONCLUSTERED INDEX [TSPL_SD_SHIPMENT_DETAIL_Item_Code_Order_Code] " &
                     " ON [dbo].[TSPL_SD_SHIPMENT_DETAIL] ([Item_Code],[Order_Code]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1345,8 +1349,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_INVENTORY_MOVEMENT_Location_Code_Item_Code_Qty_Punching_Date", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [TSPL_INVENTORY_MOVEMENT_Location_Code_Item_Code_Qty_Punching_Date] " & _
-                    " ON [dbo].[TSPL_INVENTORY_MOVEMENT] ([Location_Code],[Item_Code],[Qty],[Punching_Date]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX [TSPL_INVENTORY_MOVEMENT_Location_Code_Item_Code_Qty_Punching_Date] " &
+                    " ON [dbo].[TSPL_INVENTORY_MOVEMENT] ([Location_Code],[Item_Code],[Qty],[Punching_Date]) " &
                     " INCLUDE ([InOut],[Stock_UOM],[Stock_Qty]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1356,8 +1360,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_SD_SHIPMENT_DETAIL_Item_Code_DOCUMENT_CODE_Qty", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_SD_SHIPMENT_DETAIL_Item_Code_DOCUMENT_CODE_Qty] " & _
-                    " ON [dbo].[TSPL_SD_SHIPMENT_DETAIL] ([Item_Code],[DOCUMENT_CODE],[Qty]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_SD_SHIPMENT_DETAIL_Item_Code_DOCUMENT_CODE_Qty] " &
+                    " ON [dbo].[TSPL_SD_SHIPMENT_DETAIL] ([Item_Code],[DOCUMENT_CODE],[Qty]) " &
                     " INCLUDE ([Unit_code]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1369,8 +1373,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_INVENTORY_MOVEMENT_Cust_Code", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_INVENTORY_MOVEMENT_Cust_Code] " & _
-                    " ON [dbo].[TSPL_INVENTORY_MOVEMENT] ([Cust_Code]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_INVENTORY_MOVEMENT_Cust_Code] " &
+                    " ON [dbo].[TSPL_INVENTORY_MOVEMENT] ([Cust_Code]) " &
                     " INCLUDE ([Trans_Id],[Cust_Name]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1380,8 +1384,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_RECEIPT_HEADER_Cust_Code", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_RECEIPT_HEADER_Cust_Code] " & _
-                    " ON [dbo].[TSPL_RECEIPT_HEADER] ([Cust_Code]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_RECEIPT_HEADER_Cust_Code] " &
+                    " ON [dbo].[TSPL_RECEIPT_HEADER] ([Cust_Code]) " &
                     " INCLUDE ([Receipt_No]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1391,7 +1395,7 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_BANK_BOOK_SOURCE_CODE", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_BANK_BOOK_SOURCE_CODE] " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_BANK_BOOK_SOURCE_CODE] " &
                     " ON [dbo].[TSPL_BANK_BOOK] ([SOURCE_CODE]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1401,8 +1405,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_JOURNAL_MASTER_Source_Code_CustVend_Code", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_JOURNAL_MASTER_Source_Code_CustVend_Code] " & _
-                    " ON [dbo].[TSPL_JOURNAL_MASTER] ([Source_Code],[CustVend_Code]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_JOURNAL_MASTER_Source_Code_CustVend_Code] " &
+                    " ON [dbo].[TSPL_JOURNAL_MASTER] ([Source_Code],[CustVend_Code]) " &
                     " INCLUDE ([Voucher_No],[Source_Doc_No],[Voucher_Desc],[CustVend_Name]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1412,8 +1416,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_SD_SALE_INVOICE_HEAD_Customer_Code", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_SD_SALE_INVOICE_HEAD_Customer_Code] " & _
-                    " ON [dbo].[TSPL_SD_SALE_INVOICE_HEAD] ([Customer_Code]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_SD_SALE_INVOICE_HEAD_Customer_Code] " &
+                    " ON [dbo].[TSPL_SD_SALE_INVOICE_HEAD] ([Customer_Code]) " &
                     " INCLUDE ([Document_Code]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1423,8 +1427,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_SD_SHIPMENT_HEAD_Customer_Code", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_SD_SHIPMENT_HEAD_Customer_Code] " & _
-                    " ON [dbo].[TSPL_SD_SHIPMENT_HEAD] ([Customer_Code]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_SD_SHIPMENT_HEAD_Customer_Code] " &
+                    " ON [dbo].[TSPL_SD_SHIPMENT_HEAD] ([Customer_Code]) " &
                     " INCLUDE ([Document_Code]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1434,8 +1438,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_JOURNAL_MASTER_CustVend_Code", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_JOURNAL_MASTER_CustVend_Code] " & _
-                    " ON [dbo].[TSPL_JOURNAL_MASTER] ([CustVend_Code]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_JOURNAL_MASTER_CustVend_Code] " &
+                    " ON [dbo].[TSPL_JOURNAL_MASTER] ([CustVend_Code]) " &
                     " INCLUDE ([Voucher_No],[CustVend_Name]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1568,8 +1572,8 @@ Public Class FrmUtility
             'Added By Nazia
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_ITEM_MASTER_CSA_TYPE", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX TSPL_ITEM_MASTER_CSA_TYPE " & _
-                            "ON [dbo].[TSPL_ITEM_MASTER] ([CSA_TYPE]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX TSPL_ITEM_MASTER_CSA_TYPE " &
+                            "ON [dbo].[TSPL_ITEM_MASTER] ([CSA_TYPE]) " &
                             "INCLUDE ([Item_Code],[Item_Desc])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1580,8 +1584,8 @@ Public Class FrmUtility
             'KUNAL > DATE > 14 - DEC - 2016 : SCREEN : Cost Centre Analysis > Reason : out-of-memory -exception
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_JOURNAL_DETAILS_Journal_No", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_JOURNAL_DETAILS_Journal_No]" & _
-                          "ON [dbo].[TSPL_JOURNAL_DETAILS] ([Journal_No])" & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_JOURNAL_DETAILS_Journal_No]" &
+                          "ON [dbo].[TSPL_JOURNAL_DETAILS] ([Journal_No])" &
                           "INCLUDE ([Amount],[Description],[Account_Seg_Code1],[Account_Seg_Desc1],[Account_Seg_Code7],[Account_Seg_Desc7])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1591,8 +1595,8 @@ Public Class FrmUtility
             'KUNAL > DATE > 14 - DEC - 2016 > SCREEN: Producion issue status report > Reason : slow loading 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_PP_ISSUE_HEAD_Issue_Date", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_PP_ISSUE_HEAD_Issue_Date]" & _
-                            "ON [dbo].[TSPL_PP_ISSUE_HEAD] ([Issue_Date])" & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_PP_ISSUE_HEAD_Issue_Date]" &
+                            "ON [dbo].[TSPL_PP_ISSUE_HEAD] ([Issue_Date])" &
                                 "INCLUDE ([Issue_Code],[Status],[Batch_Code],[From_Loaction_Code],[Section_Code])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1602,8 +1606,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_DELIVERY_NOTE_MASTER_FRESHSALE_Document_Date", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX TSPL_DELIVERY_NOTE_MASTER_FRESHSALE_Document_Date " & _
-                            "ON [dbo].[TSPL_DELIVERY_NOTE_MASTER_FRESHSALE] ([Document_Date]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX TSPL_DELIVERY_NOTE_MASTER_FRESHSALE_Document_Date " &
+                            "ON [dbo].[TSPL_DELIVERY_NOTE_MASTER_FRESHSALE] ([Document_Date]) " &
                             "INCLUDE ([Document_No])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1613,8 +1617,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_SD_SHIPMENT_HEAD_Status", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX TSPL_SD_SHIPMENT_HEAD_Status " & _
-                            "ON [dbo].[TSPL_SD_SHIPMENT_HEAD] ([Status],[Trans_Type]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX TSPL_SD_SHIPMENT_HEAD_Status " &
+                            "ON [dbo].[TSPL_SD_SHIPMENT_HEAD] ([Status],[Trans_Type]) " &
                             "INCLUDE ([Document_Code],[Customer_Code],[Vehicle_Code])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1624,8 +1628,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_INVENTORY_MOVEMENT_Location_Code_Item_Code_Qty_Punching_Date_InOut", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX TSPL_INVENTORY_MOVEMENT_Location_Code_Item_Code_Qty_Punching_Date_InOut " & _
-                            "ON [dbo].[TSPL_INVENTORY_MOVEMENT] ([Location_Code],[Item_Code],[Qty],[Punching_Date]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX TSPL_INVENTORY_MOVEMENT_Location_Code_Item_Code_Qty_Punching_Date_InOut " &
+                            "ON [dbo].[TSPL_INVENTORY_MOVEMENT] ([Location_Code],[Item_Code],[Qty],[Punching_Date]) " &
                             "INCLUDE ([InOut],[Stock_UOM],[Stock_Qty])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1635,7 +1639,7 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_SCHEME_BENEFICIARY_Cust_Code", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX TSPL_SCHEME_BENEFICIARY_Cust_Code " & _
+                    qry = " CREATE NONCLUSTERED INDEX TSPL_SCHEME_BENEFICIARY_Cust_Code " &
                             "ON [dbo].[TSPL_SCHEME_BENEFICIARY] ([Cust_Code]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1645,8 +1649,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_INVENTORY_MOVEMENT_Location_Code_Item_Code_Posting_Date_InOut", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX TSPL_INVENTORY_MOVEMENT_Location_Code_Item_Code_Posting_Date_InOut " & _
-                            "ON [dbo].[TSPL_INVENTORY_MOVEMENT] ([Location_Code],[Item_Code],[Posting_Date]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX TSPL_INVENTORY_MOVEMENT_Location_Code_Item_Code_Posting_Date_InOut " &
+                            "ON [dbo].[TSPL_INVENTORY_MOVEMENT] ([Location_Code],[Item_Code],[Posting_Date]) " &
                             "INCLUDE ([InOut],[Avg_Cost],[Stock_Qty])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1656,7 +1660,7 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_PR_DETAIL_Item_Code_PR_No_PR_Qty", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX TSPL_PR_DETAIL_Item_Code_PR_No_PR_Qty " & _
+                    qry = " CREATE NONCLUSTERED INDEX TSPL_PR_DETAIL_Item_Code_PR_No_PR_Qty " &
                             "ON [dbo].[TSPL_PR_DETAIL] ([Item_Code],[PR_No],[PR_Qty]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1667,7 +1671,7 @@ Public Class FrmUtility
             ''==========================================monika 08/03/2017
             Try
                 If clsPostCreateTable.CheckIndexExists("INDSHPTRANS", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX INDSHPTRANS " & _
+                    qry = " CREATE NONCLUSTERED INDEX INDSHPTRANS " &
                             "ON [dbo].[tspl_sd_shipment_head] ([trans_type]) include ([sale_invoice_no]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1677,7 +1681,7 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("INDMCCRSHPDOC", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX INDMCCRSHPDOC " & _
+                    qry = " CREATE NONCLUSTERED INDEX INDMCCRSHPDOC " &
                             "ON [dbo].[TSPL_MILK_RECEIPT_DETAIL] ([DOC_CODE],[VEHICLE_CODE]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1688,7 +1692,7 @@ Public Class FrmUtility
             ''==========================================monika 10/03/2017
             Try
                 If clsPostCreateTable.CheckIndexExists("INDPRDCNS", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [INDPRDCNS] ON [dbo].[TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL] ([PROD_ENTRY_CODE]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX [INDPRDCNS] ON [dbo].[TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL] ([PROD_ENTRY_CODE]) " &
                           " INCLUDE([CONSM_ITEM_CODE], [CONSM_QTY], [UNIT_CODE], [FAT_KG], [SNF_KG]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1698,7 +1702,7 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("INDPRDENT", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [INDPRDENT] ON [dbo].[TSPL_PP_PRODUCTION_ENTRY_DETAIL] ([PROD_ENTRY_CODE]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX [INDPRDENT] ON [dbo].[TSPL_PP_PRODUCTION_ENTRY_DETAIL] ([PROD_ENTRY_CODE]) " &
                           " INCLUDE([ITEM_CODE], [RECEIPT_QTY], [UNIT_CODE], [FAT_Per], [SNF_Per], [FAT_KG], [SNF_KG]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1717,7 +1721,7 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("INDPPCNSENT", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [INDPPCNSENT] ON [dbo].[TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL] ([Standardization_Code]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX [INDPPCNSENT] ON [dbo].[TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL] ([Standardization_Code]) " &
                           " INCLUDE([CONSM_ITEM_CODE], [CONSM_QTY], [UNIT_CODE], [FAT_KG], [SNF_KG]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1745,7 +1749,7 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_GL_SEGMENT_PERMISSION_User_Code", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [TSPL_GL_SEGMENT_PERMISSION_User_Code] " & _
+                    qry = " CREATE NONCLUSTERED INDEX [TSPL_GL_SEGMENT_PERMISSION_User_Code] " &
                           " ON [dbo].[TSPL_GL_SEGMENT_PERMISSION] ([User_Code])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1755,8 +1759,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_LOCATION_MASTER_Loc_Segment_Code", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [TSPL_LOCATION_MASTER_Loc_Segment_Code] " & _
-                          " ON [dbo].[TSPL_LOCATION_MASTER] ([Loc_Segment_Code])" & _
+                    qry = " CREATE NONCLUSTERED INDEX [TSPL_LOCATION_MASTER_Loc_Segment_Code] " &
+                          " ON [dbo].[TSPL_LOCATION_MASTER] ([Loc_Segment_Code])" &
                           " INCLUDE ([Location_Code])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1766,8 +1770,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_TRANSFER_ORDER_HEAD_Transfer_Type_Is_Status_IN", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_TRANSFER_ORDER_HEAD_Transfer_Type_Is_Status_IN] " & _
-                          " ON [dbo].[TSPL_TRANSFER_ORDER_HEAD] ([Transfer_Type],[Is_Status_IN])" & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_TRANSFER_ORDER_HEAD_Transfer_Type_Is_Status_IN] " &
+                          " ON [dbo].[TSPL_TRANSFER_ORDER_HEAD] ([Transfer_Type],[Is_Status_IN])" &
                           " INCLUDE ([Document_No])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1777,8 +1781,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_IssueReturn_DETAIL_Doc_No", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_IssueReturn_DETAIL_Doc_No]" & _
-                          " ON [dbo].[TSPL_IssueReturn_DETAIL] ([Doc_No])" & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_IssueReturn_DETAIL_Doc_No]" &
+                          " ON [dbo].[TSPL_IssueReturn_DETAIL] ([Doc_No])" &
                           " INCLUDE ([Item_Code],[Item_Desc],[Issued_Qty],[Unit_code],[Cost_Code],[Hirerachy_Code],[Cost_Centre_Code])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1788,7 +1792,7 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_IssueReturn_HEAD_Doc_Type_Status_RequisitionNo", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_IssueReturn_HEAD_Doc_Type_Status_RequisitionNo]" & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_IssueReturn_HEAD_Doc_Type_Status_RequisitionNo]" &
                           " ON [dbo].[TSPL_IssueReturn_HEAD] ([Doc_Type],[Status],[RequisitionNo])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1798,7 +1802,7 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_REQUISITION_DETAIL_Requisition_Id", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_REQUISITION_DETAIL_Requisition_Id]" & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_REQUISITION_DETAIL_Requisition_Id]" &
                           " ON [dbo].[TSPL_REQUISITION_DETAIL] ([Requisition_Id]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1808,8 +1812,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_REQUISITION_HEAD_Status_Is_Internal", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_REQUISITION_HEAD_Status_Is_Internal]" & _
-                          " ON [dbo].[TSPL_REQUISITION_HEAD] ([Status],[Is_Internal])" & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_REQUISITION_HEAD_Status_Is_Internal]" &
+                          " ON [dbo].[TSPL_REQUISITION_HEAD] ([Status],[Is_Internal])" &
                           " INCLUDE ([Requisition_Id],[Requisition_Date])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1820,7 +1824,7 @@ Public Class FrmUtility
             '==================Added by preeti gupta=================
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_ACQUISITION_DETAIL_Asset_Code", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_ACQUISITION_DETAIL_Asset_Code]" & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_ACQUISITION_DETAIL_Asset_Code]" &
                     " ON [dbo].[TSPL_VENDOR_INVOICE_DETAIL] ([Asset_Code])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1889,8 +1893,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_SD_SALE_RETURN_DETAIL_Scheme_Item_DOCUMENT_CODE", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [TSPL_SD_SALE_RETURN_DETAIL_Scheme_Item_DOCUMENT_CODE] " & _
-                    " ON [dbo].[TSPL_SD_SALE_RETURN_DETAIL] ([Scheme_Item],[DOCUMENT_CODE]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX [TSPL_SD_SALE_RETURN_DETAIL_Scheme_Item_DOCUMENT_CODE] " &
+                    " ON [dbo].[TSPL_SD_SALE_RETURN_DETAIL] ([Scheme_Item],[DOCUMENT_CODE]) " &
                     " INCLUDE ([Line_No],[Item_Code],[Qty],[Invoice_Code],[Unit_code],[MRP],[Scheme_Code],[DamageQty]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1900,8 +1904,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_SD_SALE_RETURN_DETAIL_Invoice_Code_Scheme_Item", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX [TSPL_SD_SALE_RETURN_DETAIL_Invoice_Code_Scheme_Item] " & _
-                    " ON [dbo].[TSPL_SD_SALE_RETURN_DETAIL] ([Invoice_Code],[Scheme_Item]) " & _
+                    qry = " CREATE NONCLUSTERED INDEX [TSPL_SD_SALE_RETURN_DETAIL_Invoice_Code_Scheme_Item] " &
+                    " ON [dbo].[TSPL_SD_SALE_RETURN_DETAIL] ([Invoice_Code],[Scheme_Item]) " &
                     " INCLUDE ([DOCUMENT_CODE],[Line_No],[Item_Code],[Qty],[Unit_code],[MRP],[Scheme_Code],[DamageQty]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1911,7 +1915,7 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_PURCHASE_ORDER_DETAIL_PurchaseOrder_No", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_PURCHASE_ORDER_DETAIL_PurchaseOrder_No] " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_PURCHASE_ORDER_DETAIL_PurchaseOrder_No] " &
                     " ON [dbo].[TSPL_PURCHASE_ORDER_DETAIL] ([PurchaseOrder_No]) "
 
                     clsDBFuncationality.ExecuteNonQuery(qry)
@@ -1933,8 +1937,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_INVENTORY_MOVEMENT_Punching_Date", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX TSPL_INVENTORY_MOVEMENT_Punching_Date " & _
-                    " ON [dbo].[TSPL_INVENTORY_MOVEMENT] ([Punching_Date]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX TSPL_INVENTORY_MOVEMENT_Punching_Date " &
+                    " ON [dbo].[TSPL_INVENTORY_MOVEMENT] ([Punching_Date]) " &
                     " INCLUDE ([Trans_Type],[InOut],[Location_Code],[Item_Code],[Item_Desc],[Qty],[UOM],[Source_Doc_No],[Source_Doc_Date],[Rec_Cost],[Add_Cost],[Net_Cost],[Created_By],[MRP],[Batch_No],[FIFO_Cost],[LIFO_Cost],[Avg_Cost],[PI_Cost],[Stock_UOM],[Stock_Qty],[Item_Status],[Assmbly_Status],[IS_CONSUMPTION],[Cust_Code],[Cust_Name],[Vendor_Code],[Vendor_Name],[Other_Location_Code],[Other_Location_Desc],[Fat_Per],[SNF_Per],[Fat_KG],[SNF_KG],[Fat_Rate],[SNF_Rate],[Fat_Amt],[SNF_Amt]) "
 
                     clsDBFuncationality.ExecuteNonQuery(qry)
@@ -1946,8 +1950,8 @@ Public Class FrmUtility
             '===============Added by preeti Gupta==================
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_Customer_Invoice_Detail_Document_No", Nothing) = 0 Then
-                    qry = " CREATE NONCLUSTERED INDEX TSPL_Customer_Invoice_Detail_Document_No" & _
-                          " ON [dbo].[TSPL_Customer_Invoice_Detail] ([Document_No])" & _
+                    qry = " CREATE NONCLUSTERED INDEX TSPL_Customer_Invoice_Detail_Document_No" &
+                          " ON [dbo].[TSPL_Customer_Invoice_Detail] ([Document_No])" &
                           " INCLUDE([SNo], [GL_Account_Code], [GL_Account_Desc], [Amount], [Discount_Per], [Discount], [Amount_less_Discount], [TAX1], [TAX1_Rate], [TAX1_Amt], [TAX2], [TAX2_Rate], [TAX2_Amt], [TAX3], [TAX3_Rate], [TAX3_Amt], [TAX4], [TAX4_Rate], [TAX4_Amt], [TAX5], [TAX5_Rate], [TAX5_Amt], [TAX6], [TAX6_Rate], [TAX6_Amt], [TAX7], [TAX7_Rate], [TAX7_Amt], [TAX8], [TAX8_Rate], [TAX8_Amt], [TAX9], [TAX9_Rate], [TAX9_Amt], [TAX10], [TAX10_Rate], [TAX10_Amt], [Total_Tax], [Total_Amount], [Remarks], [Comments], [TAX1_Base_Amt], [TAX2_Base_Amt], [TAX3_Base_Amt], [TAX4_Base_Amt], [TAX5_Base_Amt], [TAX6_Base_Amt], [TAX7_Base_Amt], [TAX8_Base_Amt], [TAX9_Base_Amt], [TAX10_Base_Amt], [Hirerachy_Code], [Cost_Centre_Code], [Hirerachy_Code3], [Hirerachy_Code4])"
 
                     clsDBFuncationality.ExecuteNonQuery(qry)
@@ -1987,8 +1991,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_MILK_SRN_HEAD_VSP_CODE_Posted_Is_Incentive_Created_DOC_DATE", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_MILK_SRN_HEAD_VSP_CODE_Posted_Is_Incentive_Created_DOC_DATE]" + _
-                    " ON [dbo].[TSPL_MILK_SRN_HEAD] ([VSP_CODE],[Posted],[Is_Incentive_Created],[DOC_DATE]) " + _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_MILK_SRN_HEAD_VSP_CODE_Posted_Is_Incentive_Created_DOC_DATE]" +
+                    " ON [dbo].[TSPL_MILK_SRN_HEAD] ([VSP_CODE],[Posted],[Is_Incentive_Created],[DOC_DATE]) " +
                     " INCLUDE([DOC_CODE], [MCC_CODE], [SHIFT], [VLC_DOC_CODE], [MILK_SAMPLE_CODE], [SAMPLE_NO], [VLC_CODE], [ROUTE_CODE], [VEHICLE_CODE])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -1998,8 +2002,8 @@ Public Class FrmUtility
             '=======Added by (14/06/2018)preetigupta 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_VENDOR_INVOICE_HEAD_Loc_Code", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_VENDOR_INVOICE_HEAD_Loc_Code]" & _
-                        " ON [dbo].[TSPL_VENDOR_INVOICE_HEAD] ([Loc_Code])" & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_VENDOR_INVOICE_HEAD_Loc_Code]" &
+                        " ON [dbo].[TSPL_VENDOR_INVOICE_HEAD] ([Loc_Code])" &
                         " INCLUDE ([Vendor_Code],[Vendor_Name],[Vendor_Invoice_No],[Vendor_Invoice_Date],[Document_No],[Invoice_Entry_Date],[Document_Type],[Vendor_Control_AC],[Against_POInvoice_No],[Against_PurchaseReturn_No],[Against_Acquisition],[Invoice_Type],[Against_MillkPurchaseInvoice_No],[Against_BulkMillkPurchaseInvoice_No],[Against_VSPItemIssue_No],[Against_Asset_Work],[Against_VCGL])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -2009,8 +2013,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_Customer_Invoice_Head_Document_Date", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_Customer_Invoice_Head_Document_Date]" & _
-                        " ON [dbo].[TSPL_Customer_Invoice_Head] ([Document_Date])" & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_Customer_Invoice_Head_Document_Date]" &
+                        " ON [dbo].[TSPL_Customer_Invoice_Head] ([Document_Date])" &
                    " INCLUDE([Document_No], [Document_Type], [Customer_Code], [Customer_Name], [Customer_Control_AC], [AgainstScrap], [Against_Sale_No], [Loc_Code], [Against_Sale_Return_No], [Against_MCC_Material_Sale_Return], [Against_VCGL], [AgainstScrapReturn], [Against_Security_Receipt_No])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -2019,7 +2023,7 @@ Public Class FrmUtility
             End Try
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_Customer_Invoice_Head_Document_Date", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_INDX_TSPL_SD_SALE_INVOICE_HEAD_Against_Shipment_No]" & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_INDX_TSPL_SD_SALE_INVOICE_HEAD_Against_Shipment_No]" &
 "ON [dbo].[TSPL_SD_SALE_INVOICE_HEAD] ([Against_Shipment_No])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -2029,7 +2033,7 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_MP_PAY_PROCESS_DETAIL_Doc_No_VLC_CODE_Uploader_Farmer_Code", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_MP_PAY_PROCESS_DETAIL_Doc_No_VLC_CODE_Uploader_Farmer_Code]" & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_MP_PAY_PROCESS_DETAIL_Doc_No_VLC_CODE_Uploader_Farmer_Code]" &
                         " ON [dbo].[TSPL_MP_PAY_PROCESS_DETAIL] ([Doc_No],[VLC_CODE_Uploader],[Farmer_Code]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -2039,8 +2043,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_VLC_DATA_UPLOADER_Doc_Date_VLC_CODE_Route_No", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_VLC_DATA_UPLOADER_Doc_Date_VLC_CODE_Route_No]" & _
-                        " ON [dbo].[TSPL_VLC_DATA_UPLOADER] ([MP_CODE]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_VLC_DATA_UPLOADER_Doc_Date_VLC_CODE_Route_No]" &
+                        " ON [dbo].[TSPL_VLC_DATA_UPLOADER] ([MP_CODE]) " &
                         " INCLUDE ([Doc_Date],[VLC_CODE],[Route_No],[qty],[fat],[snf],[Comp_Code],[Amount],[Uom_Code])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -2050,8 +2054,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_VLC_DATA_UPLOADER_VLC_CODE_Route_No_MP_CODE", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_VLC_DATA_UPLOADER_VLC_CODE_Route_No_MP_CODE]" & _
-                        " ON [dbo].[TSPL_VLC_DATA_UPLOADER] ([Doc_Date]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_VLC_DATA_UPLOADER_VLC_CODE_Route_No_MP_CODE]" &
+                        " ON [dbo].[TSPL_VLC_DATA_UPLOADER] ([Doc_Date]) " &
                         " INCLUDE ([VLC_CODE],[Route_No],[MP_CODE],[qty],[fat],[snf],[Comp_Code],[Amount],[Uom_Code])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -2061,8 +2065,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_MP_PAY_PROCESS_DETAIL_VLC_CODE_Uploader_Farmer_Code", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_MP_PAY_PROCESS_DETAIL_VLC_CODE_Uploader_Farmer_Code]" & _
-                        " ON [dbo].[TSPL_MP_PAY_PROCESS_DETAIL] ([Doc_No]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_MP_PAY_PROCESS_DETAIL_VLC_CODE_Uploader_Farmer_Code]" &
+                        " ON [dbo].[TSPL_MP_PAY_PROCESS_DETAIL] ([Doc_No]) " &
                         " INCLUDE ([VLC_CODE_Uploader],[Farmer_Code],[Incentive_Amount],[Deduction_Amount])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -2072,8 +2076,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_VLC_DATA_UPLOADER_MASTER_Document_Code_VLC_Code", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_VLC_DATA_UPLOADER_MASTER_Document_Code_VLC_Code]" & _
-                        " ON [dbo].[TSPL_VLC_DATA_UPLOADER_MASTER] ([Document_Date]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_VLC_DATA_UPLOADER_MASTER_Document_Code_VLC_Code]" &
+                        " ON [dbo].[TSPL_VLC_DATA_UPLOADER_MASTER] ([Document_Date]) " &
                         " INCLUDE ([Document_Code],[VLC_Code],[Route_Code],[Comp_Code])"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -2083,8 +2087,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_MP_PAY_PROCESS_DETAIL_VSP_CODE_Farmer_Code", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_MP_PAY_PROCESS_DETAIL_VSP_CODE_Farmer_Code]" & _
-                        " ON [dbo].[TSPL_MP_PAY_PROCESS_DETAIL] ([Doc_No]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_MP_PAY_PROCESS_DETAIL_VSP_CODE_Farmer_Code]" &
+                        " ON [dbo].[TSPL_MP_PAY_PROCESS_DETAIL] ([Doc_No]) " &
                         " INCLUDE ([VSP_CODE],[Farmer_Code],[MP_Adjust_Amount]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -2094,8 +2098,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_SD_SHIPMENT_HEAD_Is_Taxable", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_SD_SHIPMENT_HEAD_Is_Taxable]" & _
-                        " ON [dbo].[TSPL_SD_SHIPMENT_HEAD] ([Is_Taxable]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_SD_SHIPMENT_HEAD_Is_Taxable]" &
+                        " ON [dbo].[TSPL_SD_SHIPMENT_HEAD] ([Is_Taxable]) " &
                         " INCLUDE ([Document_Code]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -2105,8 +2109,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_BOOKING_DETAIL_Scheme_Item", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_BOOKING_DETAIL_Scheme_Item]" & _
-                        " ON [dbo].[TSPL_BOOKING_DETAIL] ([Scheme_Item]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_BOOKING_DETAIL_Scheme_Item]" &
+                        " ON [dbo].[TSPL_BOOKING_DETAIL] ([Scheme_Item]) " &
                         " INCLUDE ([Document_No],[Cust_Code],[Item_Code],[Booking_Qty],[Unit_code],[DocumentAmount],[Vehicle_Code],[route_no]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -2116,8 +2120,8 @@ Public Class FrmUtility
 
             Try
                 If clsPostCreateTable.CheckIndexExists("TSPL_SD_SHIPMENT_DETAIL_DOCUMENT_CODE", Nothing) = 0 Then
-                    qry = "CREATE NONCLUSTERED INDEX [TSPL_SD_SHIPMENT_DETAIL_DOCUMENT_CODE]" & _
-                        " ON [dbo].[TSPL_SD_SHIPMENT_DETAIL] ([DOCUMENT_CODE]) " & _
+                    qry = "CREATE NONCLUSTERED INDEX [TSPL_SD_SHIPMENT_DETAIL_DOCUMENT_CODE]" &
+                        " ON [dbo].[TSPL_SD_SHIPMENT_DETAIL] ([DOCUMENT_CODE]) " &
                         " INCLUDE ([Delivery_Code]) "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
@@ -2928,10 +2932,10 @@ Public Class FrmUtility
         If common.clsCommon.MyMessageBoxShow("Delete Material Sale Invoice's GL-Entry." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
-        Dim QryTableCreate As String = " if not exists (select 1 from sys.objects o where o.name ='TempDelete_MaterialInvoice' and o.type ='U')" & _
-                                       " begin" & _
-                                       " create table TempDelete_MaterialInvoice( " & _
-                                       " Invoice_No varchar(30), Voucher_No varchar(30)) " & _
+        Dim QryTableCreate As String = " if not exists (select 1 from sys.objects o where o.name ='TempDelete_MaterialInvoice' and o.type ='U')" &
+                                       " begin" &
+                                       " create table TempDelete_MaterialInvoice( " &
+                                       " Invoice_No varchar(30), Voucher_No varchar(30)) " &
                                        " end "
         clsDBFuncationality.ExecuteNonQuery(QryTableCreate)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -2953,10 +2957,10 @@ Public Class FrmUtility
 
     Private Sub btnCreateMaterialSAleInvoice_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCreateMaterialSAleInvoice.Click
         Dim trans As SqlTransaction = Nothing
-        Dim QryTableCreate As String = " if not exists (select 1 from sys.objects o where o.name ='TempCreate_MaterialInvoice' and o.type ='U')" & _
-                                      " begin" & _
-                                      " create table TempCreate_MaterialInvoice( " & _
-                                      " Invoice_No varchar(30), Voucher_No varchar(30)) " & _
+        Dim QryTableCreate As String = " if not exists (select 1 from sys.objects o where o.name ='TempCreate_MaterialInvoice' and o.type ='U')" &
+                                      " begin" &
+                                      " create table TempCreate_MaterialInvoice( " &
+                                      " Invoice_No varchar(30), Voucher_No varchar(30)) " &
                                       " end "
         clsDBFuncationality.ExecuteNonQuery(QryTableCreate)
         Try
@@ -3509,78 +3513,78 @@ Public Class FrmUtility
     Public Shared Sub InsertStateOfIndia()
         Try
 
-            Dim qry As String = "  select * from ( " & _
-                            "  select 'AP' as   STATE_CODE , 'Andhra Pradesh' as  STATE_NAME , '37' as  GST_STATE_Code  " & _
-                            "  union all " & _
-                            "  select 'AR' as   STATE_CODE , 'Arunachal Pradesh' as  STATE_NAME , '12' as  GST_STATE_Code  " & _
-                            "  union all    " & _
-                            "  select 'AS' as   STATE_CODE , 'Assam' as  STATE_NAME , '18' as  GST_STATE_Code   " & _
-                            "  union all    " & _
-                            "  select 'BR' as   STATE_CODE , 'Bihar' as  STATE_NAME , '10' as  GST_STATE_Code   " & _
-                            "  union all    " & _
-                            "  select 'CG' as   STATE_CODE , 'Chhattisgarh' as  STATE_NAME , '22' as  GST_STATE_Code   " & _
-                            "  union all    " & _
-                            "  select 'GA' as   STATE_CODE , 'Goa' as  STATE_NAME , '30' as  GST_STATE_Code   " & _
-                            "  union all    " & _
-                            "  select 'GJ' as   STATE_CODE , 'Gujarat' as  STATE_NAME , '24' as  GST_STATE_Code   " & _
-                            "  union all    " & _
-                            "  select 'HR' as   STATE_CODE , 'Haryana' as  STATE_NAME , '06' as  GST_STATE_Code   " & _
-                            "  union all    " & _
-                            "  select 'HP' as   STATE_CODE , 'Himachal Pradesh' as  STATE_NAME , '02' as  GST_STATE_Code   " & _
-                            "  union all    " & _
-                            "  select 'JK' as   STATE_CODE , 'Jammu and Kashmir' as  STATE_NAME , '01' as  GST_STATE_Code   " & _
-                            "  union all   " & _
-                            "  select 'JH' as   STATE_CODE , 'Jharkhand' as  STATE_NAME , '20' as  GST_STATE_Code   " & _
-                            "  union all   " & _
-                            "  select 'KA' as   STATE_CODE , 'Karnataka' as  STATE_NAME , '29' as  GST_STATE_Code   " & _
-                            "  union all   " & _
-                            "  select 'KL' as   STATE_CODE , 'Kerala' as  STATE_NAME , '32' as  GST_STATE_Code   " & _
-                            "  union all   " & _
-                            "  select 'MP' as   STATE_CODE , 'Madhya Pradesh' as  STATE_NAME , '23' as  GST_STATE_Code   " & _
-                            "  union all   " & _
-                            "  select 'MH' as   STATE_CODE , 'Maharashtra' as  STATE_NAME , '27' as  GST_STATE_Code   " & _
-                            "  union all   " & _
-                            "  select 'MN' as   STATE_CODE , 'Manipur' as  STATE_NAME , '14' as  GST_STATE_Code   " & _
-                            "  union all   " & _
-                            "  select 'ML' as   STATE_CODE , 'Meghalaya' as  STATE_NAME , '17' as  GST_STATE_Code   " & _
-                            "  union all   " & _
-                            "  select 'MZ' as   STATE_CODE , 'Mizoram' as  STATE_NAME , '15' as  GST_STATE_Code   " & _
-                            "  union all   " & _
-                            "  select 'NL' as   STATE_CODE , 'Nagaland' as  STATE_NAME , '13' as  GST_STATE_Code   " & _
-                            "  union all   " & _
-                            "  select 'OR' as   STATE_CODE , 'Orissa' as  STATE_NAME , '21' as  GST_STATE_Code   " & _
-                            "  union all   " & _
-                            "  select 'PB' as   STATE_CODE , 'Punjab' as  STATE_NAME , '03' as  GST_STATE_Code   " & _
-                            "  union all   " & _
-                            "  select 'RJ' as   STATE_CODE , 'Rajasthan' as  STATE_NAME , '08' as  GST_STATE_Code   " & _
-                            "  union all   " & _
-                            "  select 'SK' as   STATE_CODE , 'Sikkim' as  STATE_NAME , '11' as  GST_STATE_Code   " & _
-                            "  union all   " & _
-                            "  select 'TR' as   STATE_CODE , 'Tripura' as  STATE_NAME , '16' as  GST_STATE_Code   " & _
-                            "  union all   " & _
-                            "  select 'UK' as   STATE_CODE , 'Uttarakhand' as  STATE_NAME , '05' as  GST_STATE_Code   " & _
-                            "  union all   " & _
-                            "  select 'UP' as   STATE_CODE , 'Uttar Pradesh' as  STATE_NAME , '09' as  GST_STATE_Code   " & _
-                            "  union all   " & _
-                            "  select 'WB' as   STATE_CODE , 'West Bengal' as  STATE_NAME , '19' as  GST_STATE_Code   " & _
-                            "  union all   " & _
-                            "  select 'TN' as   STATE_CODE , 'Tamil Nadu' as  STATE_NAME , '33' as  GST_STATE_Code   " & _
-                            "  union all   " & _
-                            "  select 'TS' as   STATE_CODE , 'TELANGANA' as  STATE_NAME , '36' as  GST_STATE_Code   " & _
-                            "  union all   " & _
-                            "  select 'AN' as   STATE_CODE , 'Andaman and Nicobar Islands' as  STATE_NAME , '35' as  GST_STATE_Code   " & _
-                            "  union all   " & _
-                            "  select 'CH' as   STATE_CODE , 'Chandigarh' as  STATE_NAME , '04' as  GST_STATE_Code   " & _
-                            "  union all   " & _
-                            "  select 'DH' as   STATE_CODE , 'Dadra and Nagar Haveli' as  STATE_NAME , '26' as  GST_STATE_Code   " & _
-                            "  union all   " & _
-                            "  select 'DD' as   STATE_CODE , 'Daman and Diu' as  STATE_NAME , '25' as  GST_STATE_Code   " & _
-                            "  union all   " & _
-                            "  select 'DL' as   STATE_CODE , 'Delhi' as  STATE_NAME , '07' as  GST_STATE_Code   " & _
-                            "  union all   " & _
-                            "  select 'LD' as   STATE_CODE , 'Lakshadweep' as  STATE_NAME , '31' as  GST_STATE_Code   " & _
-                            "  union all   " & _
-                            "  select 'PY' as   STATE_CODE , 'Pondicherry' as  STATE_NAME , '34' as  GST_STATE_Code   " & _
+            Dim qry As String = "  select * from ( " &
+                            "  select 'AP' as   STATE_CODE , 'Andhra Pradesh' as  STATE_NAME , '37' as  GST_STATE_Code  " &
+                            "  union all " &
+                            "  select 'AR' as   STATE_CODE , 'Arunachal Pradesh' as  STATE_NAME , '12' as  GST_STATE_Code  " &
+                            "  union all    " &
+                            "  select 'AS' as   STATE_CODE , 'Assam' as  STATE_NAME , '18' as  GST_STATE_Code   " &
+                            "  union all    " &
+                            "  select 'BR' as   STATE_CODE , 'Bihar' as  STATE_NAME , '10' as  GST_STATE_Code   " &
+                            "  union all    " &
+                            "  select 'CG' as   STATE_CODE , 'Chhattisgarh' as  STATE_NAME , '22' as  GST_STATE_Code   " &
+                            "  union all    " &
+                            "  select 'GA' as   STATE_CODE , 'Goa' as  STATE_NAME , '30' as  GST_STATE_Code   " &
+                            "  union all    " &
+                            "  select 'GJ' as   STATE_CODE , 'Gujarat' as  STATE_NAME , '24' as  GST_STATE_Code   " &
+                            "  union all    " &
+                            "  select 'HR' as   STATE_CODE , 'Haryana' as  STATE_NAME , '06' as  GST_STATE_Code   " &
+                            "  union all    " &
+                            "  select 'HP' as   STATE_CODE , 'Himachal Pradesh' as  STATE_NAME , '02' as  GST_STATE_Code   " &
+                            "  union all    " &
+                            "  select 'JK' as   STATE_CODE , 'Jammu and Kashmir' as  STATE_NAME , '01' as  GST_STATE_Code   " &
+                            "  union all   " &
+                            "  select 'JH' as   STATE_CODE , 'Jharkhand' as  STATE_NAME , '20' as  GST_STATE_Code   " &
+                            "  union all   " &
+                            "  select 'KA' as   STATE_CODE , 'Karnataka' as  STATE_NAME , '29' as  GST_STATE_Code   " &
+                            "  union all   " &
+                            "  select 'KL' as   STATE_CODE , 'Kerala' as  STATE_NAME , '32' as  GST_STATE_Code   " &
+                            "  union all   " &
+                            "  select 'MP' as   STATE_CODE , 'Madhya Pradesh' as  STATE_NAME , '23' as  GST_STATE_Code   " &
+                            "  union all   " &
+                            "  select 'MH' as   STATE_CODE , 'Maharashtra' as  STATE_NAME , '27' as  GST_STATE_Code   " &
+                            "  union all   " &
+                            "  select 'MN' as   STATE_CODE , 'Manipur' as  STATE_NAME , '14' as  GST_STATE_Code   " &
+                            "  union all   " &
+                            "  select 'ML' as   STATE_CODE , 'Meghalaya' as  STATE_NAME , '17' as  GST_STATE_Code   " &
+                            "  union all   " &
+                            "  select 'MZ' as   STATE_CODE , 'Mizoram' as  STATE_NAME , '15' as  GST_STATE_Code   " &
+                            "  union all   " &
+                            "  select 'NL' as   STATE_CODE , 'Nagaland' as  STATE_NAME , '13' as  GST_STATE_Code   " &
+                            "  union all   " &
+                            "  select 'OR' as   STATE_CODE , 'Orissa' as  STATE_NAME , '21' as  GST_STATE_Code   " &
+                            "  union all   " &
+                            "  select 'PB' as   STATE_CODE , 'Punjab' as  STATE_NAME , '03' as  GST_STATE_Code   " &
+                            "  union all   " &
+                            "  select 'RJ' as   STATE_CODE , 'Rajasthan' as  STATE_NAME , '08' as  GST_STATE_Code   " &
+                            "  union all   " &
+                            "  select 'SK' as   STATE_CODE , 'Sikkim' as  STATE_NAME , '11' as  GST_STATE_Code   " &
+                            "  union all   " &
+                            "  select 'TR' as   STATE_CODE , 'Tripura' as  STATE_NAME , '16' as  GST_STATE_Code   " &
+                            "  union all   " &
+                            "  select 'UK' as   STATE_CODE , 'Uttarakhand' as  STATE_NAME , '05' as  GST_STATE_Code   " &
+                            "  union all   " &
+                            "  select 'UP' as   STATE_CODE , 'Uttar Pradesh' as  STATE_NAME , '09' as  GST_STATE_Code   " &
+                            "  union all   " &
+                            "  select 'WB' as   STATE_CODE , 'West Bengal' as  STATE_NAME , '19' as  GST_STATE_Code   " &
+                            "  union all   " &
+                            "  select 'TN' as   STATE_CODE , 'Tamil Nadu' as  STATE_NAME , '33' as  GST_STATE_Code   " &
+                            "  union all   " &
+                            "  select 'TS' as   STATE_CODE , 'TELANGANA' as  STATE_NAME , '36' as  GST_STATE_Code   " &
+                            "  union all   " &
+                            "  select 'AN' as   STATE_CODE , 'Andaman and Nicobar Islands' as  STATE_NAME , '35' as  GST_STATE_Code   " &
+                            "  union all   " &
+                            "  select 'CH' as   STATE_CODE , 'Chandigarh' as  STATE_NAME , '04' as  GST_STATE_Code   " &
+                            "  union all   " &
+                            "  select 'DH' as   STATE_CODE , 'Dadra and Nagar Haveli' as  STATE_NAME , '26' as  GST_STATE_Code   " &
+                            "  union all   " &
+                            "  select 'DD' as   STATE_CODE , 'Daman and Diu' as  STATE_NAME , '25' as  GST_STATE_Code   " &
+                            "  union all   " &
+                            "  select 'DL' as   STATE_CODE , 'Delhi' as  STATE_NAME , '07' as  GST_STATE_Code   " &
+                            "  union all   " &
+                            "  select 'LD' as   STATE_CODE , 'Lakshadweep' as  STATE_NAME , '31' as  GST_STATE_Code   " &
+                            "  union all   " &
+                            "  select 'PY' as   STATE_CODE , 'Pondicherry' as  STATE_NAME , '34' as  GST_STATE_Code   " &
                             "  ) Final order by Final.GST_STATE_Code asc  "
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
@@ -3615,18 +3619,18 @@ Public Class FrmUtility
     End Sub
     Public Shared Sub InsertWeightUomMaster()
         Try
-            Dim qry As String = " Select * from ( " & _
-                                " Select 'KG' as Code , 'KG' as Description , 'KG' as Category " & _
-                                " union  " & _
-                                " Select 'LTR' as Code , 'LTR' as Description , 'LTR' as Category " & _
-                                " union " & _
-                                " Select 'MG' as Code , 'MG' as Description , 'KG' as Category " & _
-                                " union  " & _
-                                " Select 'ML' as Code , 'ML' as Description , 'LTR' as Category " & _
-                                " union " & _
-                                " Select 'MT' as Code , 'MT' as Description , 'KG' as Category " & _
-                                " union " & _
-                                " Select 'GM' as Code , 'GM' as Description , 'KG' as Category " & _
+            Dim qry As String = " Select * from ( " &
+                                " Select 'KG' as Code , 'KG' as Description , 'KG' as Category " &
+                                " union  " &
+                                " Select 'LTR' as Code , 'LTR' as Description , 'LTR' as Category " &
+                                " union " &
+                                " Select 'MG' as Code , 'MG' as Description , 'KG' as Category " &
+                                " union  " &
+                                " Select 'ML' as Code , 'ML' as Description , 'LTR' as Category " &
+                                " union " &
+                                " Select 'MT' as Code , 'MT' as Description , 'KG' as Category " &
+                                " union " &
+                                " Select 'GM' as Code , 'GM' as Description , 'KG' as Category " &
                                 " )Final "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim strCode As String = Nothing
@@ -3818,74 +3822,74 @@ Public Class FrmUtility
 
             'Create Customers from Ship to Location
 
-            Dim query As String = "declare @CreatedBy varchar(12)='" + objCommonVar.CurrentUserCode + "'" & Environment.NewLine & _
-                                  "declare @Created_Date datetime=getdate() " & Environment.NewLine & _
-                                  "declare @CompCode varchar(12)= '" + objCommonVar.CurrentCompanyCode + "' " & Environment.NewLine & _
-                                  "INSERT INTO TSPL_CUSTOMER_MASTER (Cust_Code, Customer_Name,Add1,Add2,Add3,Closing_Date,Cust_Category_Code,Cust_Group_Code,Cust_Type_Code,Route_No,Route_Desc,Price_Code,City_Code,State,Country,Phone1,Phone2,Fax,Email,WebSite,Contact_Person_Name,Contact_Person_Phone,Contact_Person_Fax,Contact_Person_Website,Contact_Person_Email," & Environment.NewLine & _
-                                  "Terms_Code,Cust_Account,Tax_Group,TAX1,TAX1_Rate,TAX2,TAX2_Rate,TAX3, TAX3_Rate, TAX4, TAX4_Rate, TAX5, TAX5_Rate, TAX6, TAX6_Rate, TAX7, TAX7_Rate, TAX8, TAX8_Rate, TAX9, TAX9_Rate, TAX10, TAX10_Rate,CM.Payment_Code, Service_Tax_No, Tin_No, Form_Type, Channel_Code, Channel_Desc, Status, OnHold, Remarks1, Remarks2, Additional1, Additional2, Additional3, Salesman_Code, Salesman_Desc, Visi_Id, Visi_Desc, OutLet_Commossion, Balance_ToDate, Credit_Limit,Parent_Customer_No,Price_Group_Code, Created_By, Created_Date, Modify_By,Modify_Date,Comp_Code ) " & Environment.NewLine & _
-                                  "Select Ship_To_Code, Ship_To_Desc, TSPL_SHIP_TO_LOCATION.Add1, TSPL_SHIP_TO_LOCATION.Add2, TSPL_SHIP_TO_LOCATION.Add3, '' as ClosingDate, CM.Cust_Category_Code, CM.Cust_Group_Code, CM.Cust_Type_Code, CM.Route_No, CM.Route_Desc, CM.Price_Code, TSPL_SHIP_TO_LOCATION.City_Code, TSPL_SHIP_TO_LOCATION.State, TSPL_SHIP_TO_LOCATION.Country, TSPL_SHIP_TO_LOCATION.Telphone as Phone1, '' as Phone2, CM.Fax, TSPL_SHIP_TO_LOCATION.Email, CM.WebSite,  " & Environment.NewLine & _
-                                  "CM.Contact_Person_Name, CM.Contact_Person_Phone, CM.Contact_Person_Fax, CM.Contact_Person_Website, " & Environment.NewLine & _
-                                  "CM.Contact_Person_Email, CM.Terms_Code, CM.Cust_Account, CM.Tax_Group, CM.TAX1, CM.TAX1_Rate, CM.TAX2, " & Environment.NewLine & _
-                                  "CM.TAX2_Rate, CM.TAX3, CM.TAX3_Rate, CM.TAX4, CM.TAX4_Rate, CM.TAX5, CM.TAX5_Rate, CM.TAX6, CM.TAX6_Rate, " & Environment.NewLine & _
-                                  "CM.TAX7, CM.TAX7_Rate, CM.TAX8, CM.TAX8_Rate, CM.TAX9, CM.TAX9_Rate, CM.TAX10, CM.TAX10_Rate, CM.Payment_Code, " & Environment.NewLine & _
-                                  "CM.Service_Tax_No, TSPL_SHIP_TO_LOCATION.Tin_No, CM.Form_Type, CM.Channel_Code, CM.Channel_Desc, CM.Status, CM.OnHold, CM.Remarks1, CM.Remarks2, CM.Additional1, CM.Additional2, CM.Additional3, CM.Salesman_Code, CM.Salesman_Desc, CM.Visi_Id, CM.Visi_Desc, CM.OutLet_Commossion, CM.Balance_ToDate, CM.Credit_Limit, Ship_To_Type_Code,CM.Price_Group_Code, @CreatedBy,@Created_Date,@CreatedBy,@Created_Date,@CompCode " & Environment.NewLine & _
-                                  "from TSPL_SHIP_TO_LOCATION " & Environment.NewLine & _
-                                  "LEFT OUTER JOIN TSPL_CUSTOMER_MASTER CM ON CM.Cust_Code=TSPL_SHIP_TO_LOCATION.Ship_To_Type_Code " & Environment.NewLine & _
+            Dim query As String = "declare @CreatedBy varchar(12)='" + objCommonVar.CurrentUserCode + "'" & Environment.NewLine &
+                                  "declare @Created_Date datetime=getdate() " & Environment.NewLine &
+                                  "declare @CompCode varchar(12)= '" + objCommonVar.CurrentCompanyCode + "' " & Environment.NewLine &
+                                  "INSERT INTO TSPL_CUSTOMER_MASTER (Cust_Code, Customer_Name,Add1,Add2,Add3,Closing_Date,Cust_Category_Code,Cust_Group_Code,Cust_Type_Code,Route_No,Route_Desc,Price_Code,City_Code,State,Country,Phone1,Phone2,Fax,Email,WebSite,Contact_Person_Name,Contact_Person_Phone,Contact_Person_Fax,Contact_Person_Website,Contact_Person_Email," & Environment.NewLine &
+                                  "Terms_Code,Cust_Account,Tax_Group,TAX1,TAX1_Rate,TAX2,TAX2_Rate,TAX3, TAX3_Rate, TAX4, TAX4_Rate, TAX5, TAX5_Rate, TAX6, TAX6_Rate, TAX7, TAX7_Rate, TAX8, TAX8_Rate, TAX9, TAX9_Rate, TAX10, TAX10_Rate,CM.Payment_Code, Service_Tax_No, Tin_No, Form_Type, Channel_Code, Channel_Desc, Status, OnHold, Remarks1, Remarks2, Additional1, Additional2, Additional3, Salesman_Code, Salesman_Desc, Visi_Id, Visi_Desc, OutLet_Commossion, Balance_ToDate, Credit_Limit,Parent_Customer_No,Price_Group_Code, Created_By, Created_Date, Modify_By,Modify_Date,Comp_Code ) " & Environment.NewLine &
+                                  "Select Ship_To_Code, Ship_To_Desc, TSPL_SHIP_TO_LOCATION.Add1, TSPL_SHIP_TO_LOCATION.Add2, TSPL_SHIP_TO_LOCATION.Add3, '' as ClosingDate, CM.Cust_Category_Code, CM.Cust_Group_Code, CM.Cust_Type_Code, CM.Route_No, CM.Route_Desc, CM.Price_Code, TSPL_SHIP_TO_LOCATION.City_Code, TSPL_SHIP_TO_LOCATION.State, TSPL_SHIP_TO_LOCATION.Country, TSPL_SHIP_TO_LOCATION.Telphone as Phone1, '' as Phone2, CM.Fax, TSPL_SHIP_TO_LOCATION.Email, CM.WebSite,  " & Environment.NewLine &
+                                  "CM.Contact_Person_Name, CM.Contact_Person_Phone, CM.Contact_Person_Fax, CM.Contact_Person_Website, " & Environment.NewLine &
+                                  "CM.Contact_Person_Email, CM.Terms_Code, CM.Cust_Account, CM.Tax_Group, CM.TAX1, CM.TAX1_Rate, CM.TAX2, " & Environment.NewLine &
+                                  "CM.TAX2_Rate, CM.TAX3, CM.TAX3_Rate, CM.TAX4, CM.TAX4_Rate, CM.TAX5, CM.TAX5_Rate, CM.TAX6, CM.TAX6_Rate, " & Environment.NewLine &
+                                  "CM.TAX7, CM.TAX7_Rate, CM.TAX8, CM.TAX8_Rate, CM.TAX9, CM.TAX9_Rate, CM.TAX10, CM.TAX10_Rate, CM.Payment_Code, " & Environment.NewLine &
+                                  "CM.Service_Tax_No, TSPL_SHIP_TO_LOCATION.Tin_No, CM.Form_Type, CM.Channel_Code, CM.Channel_Desc, CM.Status, CM.OnHold, CM.Remarks1, CM.Remarks2, CM.Additional1, CM.Additional2, CM.Additional3, CM.Salesman_Code, CM.Salesman_Desc, CM.Visi_Id, CM.Visi_Desc, CM.OutLet_Commossion, CM.Balance_ToDate, CM.Credit_Limit, Ship_To_Type_Code,CM.Price_Group_Code, @CreatedBy,@Created_Date,@CreatedBy,@Created_Date,@CompCode " & Environment.NewLine &
+                                  "from TSPL_SHIP_TO_LOCATION " & Environment.NewLine &
+                                  "LEFT OUTER JOIN TSPL_CUSTOMER_MASTER CM ON CM.Cust_Code=TSPL_SHIP_TO_LOCATION.Ship_To_Type_Code " & Environment.NewLine &
                                   "WHERE Ship_To_Code NOT in (Select Cust_Code from TSPL_CUSTOMER_MASTER) "
 
             clsDBFuncationality.ExecuteNonQuery(query, trans)
 
             'Update Customer Table set flag Parent_Customer_YN
 
-            query = "update TSPL_CUSTOMER_MASTER set Parent_Customer_YN='Y' " & Environment.NewLine & _
+            query = "update TSPL_CUSTOMER_MASTER set Parent_Customer_YN='Y' " & Environment.NewLine &
                     "where Cust_Code in (select Ship_To_Type_Code from TSPL_SHIP_TO_LOCATION) "
 
             clsDBFuncationality.ExecuteNonQuery(query, trans)
 
             'Update Sale Quotation Table
-            query = "update TSPL_SD_SALES_Quotation_HEAD set Customer_Code=Ship_To_Location " & Environment.NewLine & _
+            query = "update TSPL_SD_SALES_Quotation_HEAD set Customer_Code=Ship_To_Location " & Environment.NewLine &
                    "where Document_Code in (select Document_Code from TSPL_SD_SALES_Quotation_HEAD where isnull(Ship_To_Location,'')!='') "
 
             clsDBFuncationality.ExecuteNonQuery(query, trans)
 
             'Update Sale Order Table
-            query = "update TSPL_SD_SALES_ORDER_HEAD set Customer_Code=Ship_To_Location " & Environment.NewLine & _
+            query = "update TSPL_SD_SALES_ORDER_HEAD set Customer_Code=Ship_To_Location " & Environment.NewLine &
                    "where Document_Code in (select Document_Code from TSPL_SD_SALES_ORDER_HEAD where isnull(Ship_To_Location,'')!='') "
 
             clsDBFuncationality.ExecuteNonQuery(query, trans)
 
             'Update Sale Invoice Table
-            query = "update TSPL_SD_SALE_INVOICE_HEAD set Customer_Code=Ship_To_Location " & Environment.NewLine & _
+            query = "update TSPL_SD_SALE_INVOICE_HEAD set Customer_Code=Ship_To_Location " & Environment.NewLine &
                     "where Document_Code in (select Document_Code from TSPL_SD_SALE_INVOICE_HEAD where isnull(Ship_To_Location,'')!='') "
 
             clsDBFuncationality.ExecuteNonQuery(query, trans)
 
             'update ARInvoice table against sale invoice 
-            query = "update TSPL_Customer_Invoice_Head set Customer_Code=t1.Customer_Code, Customer_Name=t1.Customer_Name from " & Environment.NewLine & _
-                    "(select TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name, Against_Sale_No from TSPL_SD_SALE_INVOICE_HEAD " & Environment.NewLine & _
-                    "left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code " & Environment.NewLine & _
-                    "left outer join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No= TSPL_SD_SALE_INVOICE_HEAD.Document_Code) as t1 " & Environment.NewLine & _
+            query = "update TSPL_Customer_Invoice_Head set Customer_Code=t1.Customer_Code, Customer_Name=t1.Customer_Name from " & Environment.NewLine &
+                    "(select TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name, Against_Sale_No from TSPL_SD_SALE_INVOICE_HEAD " & Environment.NewLine &
+                    "left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code " & Environment.NewLine &
+                    "left outer join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No= TSPL_SD_SALE_INVOICE_HEAD.Document_Code) as t1 " & Environment.NewLine &
                     "where(TSPL_Customer_Invoice_Head.Against_Sale_No = t1.Against_Sale_No) "
 
             clsDBFuncationality.ExecuteNonQuery(query, trans)
 
             'Update Shippment Table
-            query = "update TSPL_SD_SHIPMENT_HEAD set Customer_Code=Ship_To_Location " & Environment.NewLine & _
+            query = "update TSPL_SD_SHIPMENT_HEAD set Customer_Code=Ship_To_Location " & Environment.NewLine &
                     "where Document_Code in (select Document_Code from TSPL_SD_SHIPMENT_HEAD where isnull(Ship_To_Location,'')!='') "
 
             clsDBFuncationality.ExecuteNonQuery(query, trans)
 
             'Update Sale Return Table
-            query = "update TSPL_SD_SALE_RETURN_HEAD set Customer_Code=Ship_To_Location " & Environment.NewLine & _
+            query = "update TSPL_SD_SALE_RETURN_HEAD set Customer_Code=Ship_To_Location " & Environment.NewLine &
                     "where Document_Code in (select Document_Code from TSPL_SD_SALE_RETURN_HEAD where isnull(Ship_To_Location,'')!='') "
 
             clsDBFuncationality.ExecuteNonQuery(query, trans)
 
             'Update ARInvoice against Sale Return No
-            query = "update TSPL_Customer_Invoice_Head set Customer_Code=t1.Customer_Code, Customer_Name=t1.Customer_Name from " & Environment.NewLine & _
-                    "(select TSPL_SD_SALE_RETURN_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name, Against_Sale_Return_No from TSPL_SD_SALE_RETURN_HEAD " & Environment.NewLine & _
-                    "left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_RETURN_HEAD.Customer_Code " & Environment.NewLine & _
-                    "left outer join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_Return_No= TSPL_SD_SALE_RETURN_HEAD.Document_Code) as t1 " & Environment.NewLine & _
+            query = "update TSPL_Customer_Invoice_Head set Customer_Code=t1.Customer_Code, Customer_Name=t1.Customer_Name from " & Environment.NewLine &
+                    "(select TSPL_SD_SALE_RETURN_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name, Against_Sale_Return_No from TSPL_SD_SALE_RETURN_HEAD " & Environment.NewLine &
+                    "left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_RETURN_HEAD.Customer_Code " & Environment.NewLine &
+                    "left outer join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_Return_No= TSPL_SD_SALE_RETURN_HEAD.Document_Code) as t1 " & Environment.NewLine &
                     "where TSPL_Customer_Invoice_Head.Against_Sale_Return_No=t1.Against_Sale_Return_No "
 
             clsDBFuncationality.ExecuteNonQuery(query, trans)
@@ -3908,19 +3912,19 @@ Public Class FrmUtility
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             ''Step 1
-            Dim qry As String = "select (select top 1 TSPL_FAT_SNF_UPLOADER_MASTER.code from TSPL_FAT_SNF_UPLOADER_MASTER inner join TSPL_FAT_SNF_UPLOADER_MCC on TSPL_FAT_SNF_UPLOADER_MCC.MCC_Code=TSPL_MILK_SRN_DETAIL.MCC_CODE and  TSPL_FAT_SNF_UPLOADER_MASTER.Code=TSPL_FAT_SNF_UPLOADER_MCC.Code inner join TSPL_FAT_SNF_UPLOADER_VLC on VLC_Code=TSPL_MILK_SRN_head.VLC_CODE and  TSPL_FAT_SNF_UPLOADER_MASTER.Code=TSPL_FAT_SNF_UPLOADER_VLC.Code where TSPL_FAT_SNF_UPLOADER_MASTER.FAT=TSPL_MILK_SRN_DETAIL.FAT_PER  and TSPL_FAT_SNF_UPLOADER_MASTER.SNF=TSPL_MILK_SRN_DETAIL.SNF_PER and TSPL_FAT_SNF_UPLOADER_MASTER.Date<=TSPL_MILK_SRN_head.DOC_DATE  order by date desc ,TSPL_FAT_SNF_UPLOADER_MASTER.code desc) as PriceCodeNew,TSPL_MILK_SRN_DETAIL.DOC_CODE" & _
-            " from TSPL_MILK_SRN_DETAIL " & _
-            " left outer join TSPL_MILK_SRN_head on TSPL_MILK_SRN_head.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE" & _
+            Dim qry As String = "select (select top 1 TSPL_FAT_SNF_UPLOADER_MASTER.code from TSPL_FAT_SNF_UPLOADER_MASTER inner join TSPL_FAT_SNF_UPLOADER_MCC on TSPL_FAT_SNF_UPLOADER_MCC.MCC_Code=TSPL_MILK_SRN_DETAIL.MCC_CODE and  TSPL_FAT_SNF_UPLOADER_MASTER.Code=TSPL_FAT_SNF_UPLOADER_MCC.Code inner join TSPL_FAT_SNF_UPLOADER_VLC on VLC_Code=TSPL_MILK_SRN_head.VLC_CODE and  TSPL_FAT_SNF_UPLOADER_MASTER.Code=TSPL_FAT_SNF_UPLOADER_VLC.Code where TSPL_FAT_SNF_UPLOADER_MASTER.FAT=TSPL_MILK_SRN_DETAIL.FAT_PER  and TSPL_FAT_SNF_UPLOADER_MASTER.SNF=TSPL_MILK_SRN_DETAIL.SNF_PER and TSPL_FAT_SNF_UPLOADER_MASTER.Date<=TSPL_MILK_SRN_head.DOC_DATE  order by date desc ,TSPL_FAT_SNF_UPLOADER_MASTER.code desc) as PriceCodeNew,TSPL_MILK_SRN_DETAIL.DOC_CODE" &
+            " from TSPL_MILK_SRN_DETAIL " &
+            " left outer join TSPL_MILK_SRN_head on TSPL_MILK_SRN_head.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE" &
             " where len( ISNULL( TSPL_MILK_SRN_DETAIL.Price_Code,''))<=0"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 clsCommon.ProgressBarUpdate("Updating blank Price Code " + clsCommon.myCstr(dt.Rows.Count) + " Records")
-                qry = "UPDATE TSPL_MILK_SRN_DETAIL SET TSPL_MILK_SRN_DETAIL.Price_Code=xxx.PriceCodeNew " & _
-                " FROM ( " & _
-                " select (select top 1 TSPL_FAT_SNF_UPLOADER_MASTER.code from TSPL_FAT_SNF_UPLOADER_MASTER inner join TSPL_FAT_SNF_UPLOADER_MCC on TSPL_FAT_SNF_UPLOADER_MCC.MCC_Code=TSPL_MILK_SRN_DETAIL.MCC_CODE and  TSPL_FAT_SNF_UPLOADER_MASTER.Code=TSPL_FAT_SNF_UPLOADER_MCC.Code inner join TSPL_FAT_SNF_UPLOADER_VLC on VLC_Code=TSPL_MILK_SRN_head.VLC_CODE and  TSPL_FAT_SNF_UPLOADER_MASTER.Code=TSPL_FAT_SNF_UPLOADER_VLC.Code where TSPL_FAT_SNF_UPLOADER_MASTER.FAT=TSPL_MILK_SRN_DETAIL.FAT_PER  and TSPL_FAT_SNF_UPLOADER_MASTER.SNF=TSPL_MILK_SRN_DETAIL.SNF_PER and TSPL_FAT_SNF_UPLOADER_MASTER.Date<=TSPL_MILK_SRN_head.DOC_DATE  order by date desc ,TSPL_FAT_SNF_UPLOADER_MASTER.code desc) as PriceCodeNew,TSPL_MILK_SRN_DETAIL.DOC_CODE " & _
-                " from TSPL_MILK_SRN_DETAIL " & _
-                " left outer join TSPL_MILK_SRN_head on TSPL_MILK_SRN_head.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE " & _
-                " where len( ISNULL( TSPL_MILK_SRN_DETAIL.Price_Code,''))<=0" & _
+                qry = "UPDATE TSPL_MILK_SRN_DETAIL SET TSPL_MILK_SRN_DETAIL.Price_Code=xxx.PriceCodeNew " &
+                " FROM ( " &
+                " select (select top 1 TSPL_FAT_SNF_UPLOADER_MASTER.code from TSPL_FAT_SNF_UPLOADER_MASTER inner join TSPL_FAT_SNF_UPLOADER_MCC on TSPL_FAT_SNF_UPLOADER_MCC.MCC_Code=TSPL_MILK_SRN_DETAIL.MCC_CODE and  TSPL_FAT_SNF_UPLOADER_MASTER.Code=TSPL_FAT_SNF_UPLOADER_MCC.Code inner join TSPL_FAT_SNF_UPLOADER_VLC on VLC_Code=TSPL_MILK_SRN_head.VLC_CODE and  TSPL_FAT_SNF_UPLOADER_MASTER.Code=TSPL_FAT_SNF_UPLOADER_VLC.Code where TSPL_FAT_SNF_UPLOADER_MASTER.FAT=TSPL_MILK_SRN_DETAIL.FAT_PER  and TSPL_FAT_SNF_UPLOADER_MASTER.SNF=TSPL_MILK_SRN_DETAIL.SNF_PER and TSPL_FAT_SNF_UPLOADER_MASTER.Date<=TSPL_MILK_SRN_head.DOC_DATE  order by date desc ,TSPL_FAT_SNF_UPLOADER_MASTER.code desc) as PriceCodeNew,TSPL_MILK_SRN_DETAIL.DOC_CODE " &
+                " from TSPL_MILK_SRN_DETAIL " &
+                " left outer join TSPL_MILK_SRN_head on TSPL_MILK_SRN_head.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE " &
+                " where len( ISNULL( TSPL_MILK_SRN_DETAIL.Price_Code,''))<=0" &
                 " )XXX  INNER JOIN  TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=xxx.DOC_CODE"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
@@ -3930,10 +3934,10 @@ Public Class FrmUtility
             qry = "DELETE FROM xxx_Shipment"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             ''Step 3
-            qry = "INSERT INTO xxx_Shipment " & _
-            " SELECT  DOC_CODE from TSPL_MILK_SRN_DETAIL " & _
-            " left outer join TSPL_FAT_SNF_UPLOADER_MASTER on TSPL_FAT_SNF_UPLOADER_MASTER.Code=TSPL_MILK_SRN_DETAIL.Price_Code " & _
-            " where TSPL_FAT_SNF_UPLOADER_MASTER.FAT = TSPL_MILK_SRN_DETAIL.FAT_PER And TSPL_FAT_SNF_UPLOADER_MASTER.SNF = TSPL_MILK_SRN_DETAIL.SNF_PER " & _
+            qry = "INSERT INTO xxx_Shipment " &
+            " SELECT  DOC_CODE from TSPL_MILK_SRN_DETAIL " &
+            " left outer join TSPL_FAT_SNF_UPLOADER_MASTER on TSPL_FAT_SNF_UPLOADER_MASTER.Code=TSPL_MILK_SRN_DETAIL.Price_Code " &
+            " where TSPL_FAT_SNF_UPLOADER_MASTER.FAT = TSPL_MILK_SRN_DETAIL.FAT_PER And TSPL_FAT_SNF_UPLOADER_MASTER.SNF = TSPL_MILK_SRN_DETAIL.SNF_PER " &
             " and TSPL_MILK_SRN_DETAIL.RATE<>TSPL_FAT_SNF_UPLOADER_MASTER.Rate"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -3943,57 +3947,57 @@ Public Class FrmUtility
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 clsCommon.ProgressBarUpdate("Correcting SRN.Effective records " + clsCommon.myCstr(dt.Rows.Count) + "")
                 ''Step 5
-                qry = "update TSPL_MILK_SRN_DETAIL set TSPL_MILK_SRN_DETAIL.RATE=xxx.New_Rate, TSPL_MILK_SRN_DETAIL.AMOUNT=xxx.New_Amount,TSPL_MILK_SRN_DETAIL.EMP_Amount=xxx.New_EMP_Amount,TSPL_MILK_SRN_DETAIL.NET_AMOUNT=xxx.New_NET_AMOUNT" & _
-                " from ( " & _
-                " select DOC_CODE,TSPL_MILK_SRN_DETAIL.RATE as Rate,TSPL_FAT_SNF_UPLOADER_MASTER.Rate as New_Rate,TSPL_MILK_SRN_DETAIL.Qty" & _
-                " ,TSPL_MILK_SRN_DETAIL.AMOUNT,CONVERT(DECIMAL(18,3),(TSPL_MILK_SRN_DETAIL.Qty*TSPL_FAT_SNF_UPLOADER_MASTER.Rate)) as New_Amount ,TSPL_MILK_SRN_DETAIL.EMP_Pers" & _
-                " ,TSPL_MILK_SRN_DETAIL.EMP_Amount,CONVERT(DECIMAL(18,3),((TSPL_MILK_SRN_DETAIL.Qty*TSPL_FAT_SNF_UPLOADER_MASTER.Rate)*EMP_Pers/100)) as New_EMP_Amount" & _
-                " ,TSPL_MILK_SRN_DETAIL.NET_AMOUNT,CONVERT(DECIMAL(18,3),((TSPL_MILK_SRN_DETAIL.Qty*TSPL_FAT_SNF_UPLOADER_MASTER.Rate)+(TSPL_MILK_SRN_DETAIL.Qty*TSPL_FAT_SNF_UPLOADER_MASTER.Rate)*EMP_Pers/100)) as New_NET_AMOUNT" & _
-                " from xxx_Shipment " & _
-                " left outer join TSPL_MILK_SRN_DETAIL  on TSPL_MILK_SRN_DETAIL.DOC_CODE=xxx_Shipment.DocNo" & _
-                " left outer join TSPL_FAT_SNF_UPLOADER_MASTER on TSPL_FAT_SNF_UPLOADER_MASTER.Code=TSPL_MILK_SRN_DETAIL.Price_Code " & _
-                " where " & _
-                " TSPL_FAT_SNF_UPLOADER_MASTER.FAT = TSPL_MILK_SRN_DETAIL.FAT_PER And TSPL_FAT_SNF_UPLOADER_MASTER.SNF = TSPL_MILK_SRN_DETAIL.SNF_PER" & _
-                " )xxx" & _
+                qry = "update TSPL_MILK_SRN_DETAIL set TSPL_MILK_SRN_DETAIL.RATE=xxx.New_Rate, TSPL_MILK_SRN_DETAIL.AMOUNT=xxx.New_Amount,TSPL_MILK_SRN_DETAIL.EMP_Amount=xxx.New_EMP_Amount,TSPL_MILK_SRN_DETAIL.NET_AMOUNT=xxx.New_NET_AMOUNT" &
+                " from ( " &
+                " select DOC_CODE,TSPL_MILK_SRN_DETAIL.RATE as Rate,TSPL_FAT_SNF_UPLOADER_MASTER.Rate as New_Rate,TSPL_MILK_SRN_DETAIL.Qty" &
+                " ,TSPL_MILK_SRN_DETAIL.AMOUNT,CONVERT(DECIMAL(18,3),(TSPL_MILK_SRN_DETAIL.Qty*TSPL_FAT_SNF_UPLOADER_MASTER.Rate)) as New_Amount ,TSPL_MILK_SRN_DETAIL.EMP_Pers" &
+                " ,TSPL_MILK_SRN_DETAIL.EMP_Amount,CONVERT(DECIMAL(18,3),((TSPL_MILK_SRN_DETAIL.Qty*TSPL_FAT_SNF_UPLOADER_MASTER.Rate)*EMP_Pers/100)) as New_EMP_Amount" &
+                " ,TSPL_MILK_SRN_DETAIL.NET_AMOUNT,CONVERT(DECIMAL(18,3),((TSPL_MILK_SRN_DETAIL.Qty*TSPL_FAT_SNF_UPLOADER_MASTER.Rate)+(TSPL_MILK_SRN_DETAIL.Qty*TSPL_FAT_SNF_UPLOADER_MASTER.Rate)*EMP_Pers/100)) as New_NET_AMOUNT" &
+                " from xxx_Shipment " &
+                " left outer join TSPL_MILK_SRN_DETAIL  on TSPL_MILK_SRN_DETAIL.DOC_CODE=xxx_Shipment.DocNo" &
+                " left outer join TSPL_FAT_SNF_UPLOADER_MASTER on TSPL_FAT_SNF_UPLOADER_MASTER.Code=TSPL_MILK_SRN_DETAIL.Price_Code " &
+                " where " &
+                " TSPL_FAT_SNF_UPLOADER_MASTER.FAT = TSPL_MILK_SRN_DETAIL.FAT_PER And TSPL_FAT_SNF_UPLOADER_MASTER.SNF = TSPL_MILK_SRN_DETAIL.SNF_PER" &
+                " )xxx" &
                 " inner join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=xxx.DOC_CODE"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
                 ''step 6
-                qry = " select  TSPL_JOURNAL_DETAILS.Voucher_No,TSPL_JOURNAL_DETAILS.Detail_Line_No,TSPL_JOURNAL_DETAILS.Account_code,TSPL_JOURNAL_DETAILS.AMOUNT, " & _
-                " case when TSPL_JOURNAL_DETAILS.AMOUNT<0 then -1 else 1 end *  TSPL_MILK_SRN_DETAIL.NET_AMOUNT as NewAmount from xxx_Shipment" & _
-                " inner join  TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=xxx_Shipment.DocNo" & _
-                " inner join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=xxx_Shipment.DocNo and TSPL_JOURNAL_MASTER.Source_Code='MI-SR'" & _
+                qry = " select  TSPL_JOURNAL_DETAILS.Voucher_No,TSPL_JOURNAL_DETAILS.Detail_Line_No,TSPL_JOURNAL_DETAILS.Account_code,TSPL_JOURNAL_DETAILS.AMOUNT, " &
+                " case when TSPL_JOURNAL_DETAILS.AMOUNT<0 then -1 else 1 end *  TSPL_MILK_SRN_DETAIL.NET_AMOUNT as NewAmount from xxx_Shipment" &
+                " inner join  TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=xxx_Shipment.DocNo" &
+                " inner join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=xxx_Shipment.DocNo and TSPL_JOURNAL_MASTER.Source_Code='MI-SR'" &
                 " inner join TSPL_JOURNAL_DETAILS on TSPL_JOURNAL_DETAILS.Voucher_No= TSPL_JOURNAL_MASTER.Voucher_No"
                 dt = clsDBFuncationality.GetDataTable(qry, trans)
                 clsCommon.ProgressBarUpdate("Correcting Journal Entry.Effective records " + clsCommon.myCstr(dt.Rows.Count) + "")
 
-                qry = "  update TSPL_JOURNAL_DETAILS set TSPL_JOURNAL_DETAILS.Amount=xxx.NewAmount" & _
-                " from (" & _
-                " select " & _
-                " TSPL_JOURNAL_DETAILS.Voucher_No,TSPL_JOURNAL_DETAILS.Detail_Line_No,TSPL_JOURNAL_DETAILS.Account_code,TSPL_JOURNAL_DETAILS.AMOUNT," & _
-                " case when TSPL_JOURNAL_DETAILS.AMOUNT<0 then -1 else 1 end *  TSPL_MILK_SRN_DETAIL.NET_AMOUNT as NewAmount from xxx_Shipment" & _
-                " inner join  TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=xxx_Shipment.DocNo" & _
-                " inner join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=xxx_Shipment.DocNo and TSPL_JOURNAL_MASTER.Source_Code='MI-SR'" & _
-                " inner join TSPL_JOURNAL_DETAILS on TSPL_JOURNAL_DETAILS.Voucher_No= TSPL_JOURNAL_MASTER.Voucher_No" & _
-                " )xxx" & _
+                qry = "  update TSPL_JOURNAL_DETAILS set TSPL_JOURNAL_DETAILS.Amount=xxx.NewAmount" &
+                " from (" &
+                " select " &
+                " TSPL_JOURNAL_DETAILS.Voucher_No,TSPL_JOURNAL_DETAILS.Detail_Line_No,TSPL_JOURNAL_DETAILS.Account_code,TSPL_JOURNAL_DETAILS.AMOUNT," &
+                " case when TSPL_JOURNAL_DETAILS.AMOUNT<0 then -1 else 1 end *  TSPL_MILK_SRN_DETAIL.NET_AMOUNT as NewAmount from xxx_Shipment" &
+                " inner join  TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=xxx_Shipment.DocNo" &
+                " inner join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=xxx_Shipment.DocNo and TSPL_JOURNAL_MASTER.Source_Code='MI-SR'" &
+                " inner join TSPL_JOURNAL_DETAILS on TSPL_JOURNAL_DETAILS.Voucher_No= TSPL_JOURNAL_MASTER.Voucher_No" &
+                " )xxx" &
                 " inner join  TSPL_JOURNAL_DETAILS on TSPL_JOURNAL_DETAILS.Voucher_No=xxx.Voucher_No and TSPL_JOURNAL_DETAILS.Detail_Line_No=xxx.Detail_Line_No and TSPL_JOURNAL_DETAILS.Account_code=xxx.Account_code  "
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
                 ''step 7
-                qry = " select Trans_Id, xxx_Shipment.DocNo, TSPL_INVENTORY_MOVEMENT_NEW.Basic_Cost,TSPL_INVENTORY_MOVEMENT_NEW.Net_Cost,TSPL_INVENTORY_MOVEMENT_NEW.FIFO_Cost,TSPL_INVENTORY_MOVEMENT_NEW.LIFO_Cost,TSPL_INVENTORY_MOVEMENT_NEW.Avg_Cost,TSPL_MILK_SRN_DETAIL.RATE as Basic_Cost_New,TSPL_MILK_SRN_DETAIL.NET_AMOUNT" & _
-                " from xxx_Shipment " & _
-                " left outer join TSPL_INVENTORY_MOVEMENT_NEW on TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No= xxx_Shipment.DocNo" & _
+                qry = " select Trans_Id, xxx_Shipment.DocNo, TSPL_INVENTORY_MOVEMENT_NEW.Basic_Cost,TSPL_INVENTORY_MOVEMENT_NEW.Net_Cost,TSPL_INVENTORY_MOVEMENT_NEW.FIFO_Cost,TSPL_INVENTORY_MOVEMENT_NEW.LIFO_Cost,TSPL_INVENTORY_MOVEMENT_NEW.Avg_Cost,TSPL_MILK_SRN_DETAIL.RATE as Basic_Cost_New,TSPL_MILK_SRN_DETAIL.NET_AMOUNT" &
+                " from xxx_Shipment " &
+                " left outer join TSPL_INVENTORY_MOVEMENT_NEW on TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No= xxx_Shipment.DocNo" &
                 " left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE= xxx_Shipment.DocNo "
                 dt = clsDBFuncationality.GetDataTable(qry, trans)
 
                 clsCommon.ProgressBarUpdate("Correcting Inventory Movement.Effective records " + clsCommon.myCstr(dt.Rows.Count) + "")
-                qry = "update TSPL_INVENTORY_MOVEMENT_NEW set TSPL_INVENTORY_MOVEMENT_NEW.Basic_Cost=xxx.Basic_Cost_New,TSPL_INVENTORY_MOVEMENT_NEW.Net_Cost=xxx.NET_AMOUNT,TSPL_INVENTORY_MOVEMENT_NEW.FIFO_Cost=xxx.NET_AMOUNT,TSPL_INVENTORY_MOVEMENT_NEW.LIFO_Cost=xxx.NET_AMOUNT,TSPL_INVENTORY_MOVEMENT_NEW.Avg_Cost=xxx.NET_AMOUNT" & _
-                " from( " & _
-                " select Trans_Id, xxx_Shipment.DocNo, TSPL_INVENTORY_MOVEMENT_NEW.Basic_Cost,TSPL_INVENTORY_MOVEMENT_NEW.Net_Cost,TSPL_INVENTORY_MOVEMENT_NEW.FIFO_Cost,TSPL_INVENTORY_MOVEMENT_NEW.LIFO_Cost,TSPL_INVENTORY_MOVEMENT_NEW.Avg_Cost,TSPL_MILK_SRN_DETAIL.RATE as Basic_Cost_New,TSPL_MILK_SRN_DETAIL.NET_AMOUNT" & _
-                " from xxx_Shipment " & _
-                " left outer join TSPL_INVENTORY_MOVEMENT_NEW on TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No= xxx_Shipment.DocNo" & _
-                " left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE= xxx_Shipment.DocNo" & _
-                " )xxx " & _
+                qry = "update TSPL_INVENTORY_MOVEMENT_NEW set TSPL_INVENTORY_MOVEMENT_NEW.Basic_Cost=xxx.Basic_Cost_New,TSPL_INVENTORY_MOVEMENT_NEW.Net_Cost=xxx.NET_AMOUNT,TSPL_INVENTORY_MOVEMENT_NEW.FIFO_Cost=xxx.NET_AMOUNT,TSPL_INVENTORY_MOVEMENT_NEW.LIFO_Cost=xxx.NET_AMOUNT,TSPL_INVENTORY_MOVEMENT_NEW.Avg_Cost=xxx.NET_AMOUNT" &
+                " from( " &
+                " select Trans_Id, xxx_Shipment.DocNo, TSPL_INVENTORY_MOVEMENT_NEW.Basic_Cost,TSPL_INVENTORY_MOVEMENT_NEW.Net_Cost,TSPL_INVENTORY_MOVEMENT_NEW.FIFO_Cost,TSPL_INVENTORY_MOVEMENT_NEW.LIFO_Cost,TSPL_INVENTORY_MOVEMENT_NEW.Avg_Cost,TSPL_MILK_SRN_DETAIL.RATE as Basic_Cost_New,TSPL_MILK_SRN_DETAIL.NET_AMOUNT" &
+                " from xxx_Shipment " &
+                " left outer join TSPL_INVENTORY_MOVEMENT_NEW on TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No= xxx_Shipment.DocNo" &
+                " left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE= xxx_Shipment.DocNo" &
+                " )xxx " &
                 " inner join TSPL_INVENTORY_MOVEMENT_NEW on TSPL_INVENTORY_MOVEMENT_NEW.Trans_Id=xxx.Trans_Id"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
@@ -4375,97 +4379,97 @@ Public Class FrmUtility
     End Sub
 
     Public Sub UpdateInventoryMovementCustomerVendorLocation(ByVal trans As SqlTransaction)
-        Dim qry As String = "update TSPL_INVENTORY_MOVEMENT_NEW set TSPL_INVENTORY_MOVEMENT_NEW.Vendor_Code=xxx.Vendor_Code,TSPL_INVENTORY_MOVEMENT_NEW.Vendor_Name=xxx.Vendor_Name   from( " & _
-        " select TSPL_Bulk_MILK_SRN.Vendor_Code ,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_Bulk_MILK_SRN.SRN_NO from TSPL_Bulk_MILK_SRN" & _
-        " left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_Bulk_MILK_SRN.Vendor_Code" & _
-        " )xxx" & _
+        Dim qry As String = "update TSPL_INVENTORY_MOVEMENT_NEW set TSPL_INVENTORY_MOVEMENT_NEW.Vendor_Code=xxx.Vendor_Code,TSPL_INVENTORY_MOVEMENT_NEW.Vendor_Name=xxx.Vendor_Name   from( " &
+        " select TSPL_Bulk_MILK_SRN.Vendor_Code ,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_Bulk_MILK_SRN.SRN_NO from TSPL_Bulk_MILK_SRN" &
+        " left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_Bulk_MILK_SRN.Vendor_Code" &
+        " )xxx" &
         " inner join TSPL_INVENTORY_MOVEMENT_NEW on TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=xxx.SRN_NO and TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='BulkSRN'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-        qry = "update TSPL_INVENTORY_MOVEMENT_NEW set TSPL_INVENTORY_MOVEMENT_NEW.Vendor_Code=xxx.Vendor_Code,TSPL_INVENTORY_MOVEMENT_NEW.Vendor_Name=xxx.Vendor_Name   from(" & _
-" select TSPL_Bulk_MILK_SRN.Vendor_Code ,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_Bulk_Milk_SRN_Return.SRN_Return_NO from TSPL_Bulk_Milk_SRN_Return" & _
-" inner join TSPL_Bulk_MILK_SRN on TSPL_Bulk_MILK_SRN.SRN_NO=TSPL_Bulk_Milk_SRN_Return.SRN_NO" & _
-" left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_Bulk_MILK_SRN.Vendor_Code" & _
-" )xxx" & _
+        qry = "update TSPL_INVENTORY_MOVEMENT_NEW set TSPL_INVENTORY_MOVEMENT_NEW.Vendor_Code=xxx.Vendor_Code,TSPL_INVENTORY_MOVEMENT_NEW.Vendor_Name=xxx.Vendor_Name   from(" &
+" select TSPL_Bulk_MILK_SRN.Vendor_Code ,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_Bulk_Milk_SRN_Return.SRN_Return_NO from TSPL_Bulk_Milk_SRN_Return" &
+" inner join TSPL_Bulk_MILK_SRN on TSPL_Bulk_MILK_SRN.SRN_NO=TSPL_Bulk_Milk_SRN_Return.SRN_NO" &
+" left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_Bulk_MILK_SRN.Vendor_Code" &
+" )xxx" &
 " inner join TSPL_INVENTORY_MOVEMENT_NEW on TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=xxx.SRN_Return_NO and TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='BulkSRNRet'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-        qry = "update TSPL_INVENTORY_MOVEMENT_NEW set TSPL_INVENTORY_MOVEMENT_NEW.Vendor_Code=xxx.Vendor_Code,TSPL_INVENTORY_MOVEMENT_NEW.Vendor_Name=xxx.Vendor_Name   from(" & _
-" select TSPL_Bulk_MILK_SRN.SRN_NO, TSPL_Bulk_MILK_SRN.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name from TSPL_Bulk_MILK_SRN" & _
-" left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_Bulk_MILK_SRN.Vendor_Code" & _
-" )xxx" & _
-" inner join TSPL_INVENTORY_MOVEMENT_NEW on TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=xxx.SRN_NO and TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='BulkSRNTrade'" & _
+        qry = "update TSPL_INVENTORY_MOVEMENT_NEW set TSPL_INVENTORY_MOVEMENT_NEW.Vendor_Code=xxx.Vendor_Code,TSPL_INVENTORY_MOVEMENT_NEW.Vendor_Name=xxx.Vendor_Name   from(" &
+" select TSPL_Bulk_MILK_SRN.SRN_NO, TSPL_Bulk_MILK_SRN.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name from TSPL_Bulk_MILK_SRN" &
+" left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_Bulk_MILK_SRN.Vendor_Code" &
+" )xxx" &
+" inner join TSPL_INVENTORY_MOVEMENT_NEW on TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=xxx.SRN_NO and TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='BulkSRNTrade'" &
        clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-        qry = "update TSPL_INVENTORY_MOVEMENT_NEW set TSPL_INVENTORY_MOVEMENT_NEW.Cust_Code=xxx.Customer_Code,TSPL_INVENTORY_MOVEMENT_NEW.Cust_Name=xxx.Customer_Name from(" & _
-" select TSPL_Dispatch_BulkSale.Document_No, TSPL_Dispatch_BulkSale.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name from TSPL_Dispatch_BulkSale " & _
-" left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_Dispatch_BulkSale.Customer_Code" & _
-" )xxx" & _
+        qry = "update TSPL_INVENTORY_MOVEMENT_NEW set TSPL_INVENTORY_MOVEMENT_NEW.Cust_Code=xxx.Customer_Code,TSPL_INVENTORY_MOVEMENT_NEW.Cust_Name=xxx.Customer_Name from(" &
+" select TSPL_Dispatch_BulkSale.Document_No, TSPL_Dispatch_BulkSale.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name from TSPL_Dispatch_BulkSale " &
+" left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_Dispatch_BulkSale.Customer_Code" &
+" )xxx" &
 " inner join TSPL_INVENTORY_MOVEMENT_NEW on TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=xxx.Document_No and TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='DispatchBS'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-        qry = "update TSPL_INVENTORY_MOVEMENT_NEW set TSPL_INVENTORY_MOVEMENT_NEW.Cust_Code=xxx.Customer_Code,TSPL_INVENTORY_MOVEMENT_NEW.Cust_Name=xxx.Customer_Name from(" & _
-" select TSPL_Dispatch_BulkSale_Trade.Document_No, TSPL_Dispatch_BulkSale_Trade.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name from TSPL_Dispatch_BulkSale_Trade" & _
-" left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_Dispatch_BulkSale_Trade.Customer_Code " & _
-" )xxx" & _
+        qry = "update TSPL_INVENTORY_MOVEMENT_NEW set TSPL_INVENTORY_MOVEMENT_NEW.Cust_Code=xxx.Customer_Code,TSPL_INVENTORY_MOVEMENT_NEW.Cust_Name=xxx.Customer_Name from(" &
+" select TSPL_Dispatch_BulkSale_Trade.Document_No, TSPL_Dispatch_BulkSale_Trade.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name from TSPL_Dispatch_BulkSale_Trade" &
+" left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_Dispatch_BulkSale_Trade.Customer_Code " &
+" )xxx" &
 " inner join TSPL_INVENTORY_MOVEMENT_NEW on TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=xxx.Document_No and TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='DispatchBSTrade'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-        qry = "update TSPL_INVENTORY_MOVEMENT_NEW set TSPL_INVENTORY_MOVEMENT_NEW.Other_Location_Code=xxx.Mcc_Or_Plant_Code,TSPL_INVENTORY_MOVEMENT_NEW.Other_Location_Desc=xxx.Location_Desc from(" & _
-" select TSPL_MCC_Dispatch_Challan.Chalan_NO, TSPL_MCC_Dispatch_Challan.Mcc_Or_Plant_Code,TSPL_LOCATION_MASTER.Location_Desc from TSPL_MCC_Dispatch_Challan" & _
-" left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_MCC_Dispatch_Challan.Mcc_Or_Plant_Code" & _
-" )xxx " & _
+        qry = "update TSPL_INVENTORY_MOVEMENT_NEW set TSPL_INVENTORY_MOVEMENT_NEW.Other_Location_Code=xxx.Mcc_Or_Plant_Code,TSPL_INVENTORY_MOVEMENT_NEW.Other_Location_Desc=xxx.Location_Desc from(" &
+" select TSPL_MCC_Dispatch_Challan.Chalan_NO, TSPL_MCC_Dispatch_Challan.Mcc_Or_Plant_Code,TSPL_LOCATION_MASTER.Location_Desc from TSPL_MCC_Dispatch_Challan" &
+" left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_MCC_Dispatch_Challan.Mcc_Or_Plant_Code" &
+" )xxx " &
 " inner join TSPL_INVENTORY_MOVEMENT_NEW on TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=xxx.Chalan_NO and TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='DispChallan'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-        qry = "update TSPL_INVENTORY_MOVEMENT_NEW set TSPL_INVENTORY_MOVEMENT_NEW.Vendor_Code=xxx.VSP_CODE,TSPL_INVENTORY_MOVEMENT_NEW.Vendor_Name=xxx.Vendor_Name   from(" & _
-" select TSPL_MILK_SRN_HEAD.VSP_CODE ,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_MILK_SRN_HEAD.DOC_CODE from TSPL_MILK_SRN_HEAD " & _
-" left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_MILK_SRN_HEAD.VSP_CODE" & _
-" )xxx " & _
+        qry = "update TSPL_INVENTORY_MOVEMENT_NEW set TSPL_INVENTORY_MOVEMENT_NEW.Vendor_Code=xxx.VSP_CODE,TSPL_INVENTORY_MOVEMENT_NEW.Vendor_Name=xxx.Vendor_Name   from(" &
+" select TSPL_MILK_SRN_HEAD.VSP_CODE ,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_MILK_SRN_HEAD.DOC_CODE from TSPL_MILK_SRN_HEAD " &
+" left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_MILK_SRN_HEAD.VSP_CODE" &
+" )xxx " &
 " inner join TSPL_INVENTORY_MOVEMENT_NEW on TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=xxx.DOC_CODE and TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type in ('MCC-MSRN','SRN')"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-        qry = "update TSPL_INVENTORY_MOVEMENT_NEW set TSPL_INVENTORY_MOVEMENT_NEW.Other_Location_Code=xxx.MCC_Code,TSPL_INVENTORY_MOVEMENT_NEW.Other_Location_Desc=xxx.Location_Desc from(" & _
-" select tspl_milk_transfer_in.Receipt_Challan_No, TSPL_MCC_Dispatch_Challan.MCC_Code,TSPL_LOCATION_MASTER.Location_Desc from tspl_milk_transfer_in" & _
-" left outer join TSPL_MCC_Dispatch_Challan on TSPL_MCC_Dispatch_Challan.Chalan_NO=tspl_milk_transfer_in.Dispatch_Challan_No" & _
-" left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_MCC_Dispatch_Challan.MCC_Code" & _
-" )xxx" & _
+        qry = "update TSPL_INVENTORY_MOVEMENT_NEW set TSPL_INVENTORY_MOVEMENT_NEW.Other_Location_Code=xxx.MCC_Code,TSPL_INVENTORY_MOVEMENT_NEW.Other_Location_Desc=xxx.Location_Desc from(" &
+" select tspl_milk_transfer_in.Receipt_Challan_No, TSPL_MCC_Dispatch_Challan.MCC_Code,TSPL_LOCATION_MASTER.Location_Desc from tspl_milk_transfer_in" &
+" left outer join TSPL_MCC_Dispatch_Challan on TSPL_MCC_Dispatch_Challan.Chalan_NO=tspl_milk_transfer_in.Dispatch_Challan_No" &
+" left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_MCC_Dispatch_Challan.MCC_Code" &
+" )xxx" &
 " inner join TSPL_INVENTORY_MOVEMENT_NEW on TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=xxx.Receipt_Challan_No and TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='MilkTransferIn'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-        qry = "update TSPL_INVENTORY_MOVEMENT_NEW set TSPL_INVENTORY_MOVEMENT_NEW.Other_Location_Code=(case when TSPL_INVENTORY_MOVEMENT_NEW.InOut='O' then xxx.To_Location_Code else xxx.From_Loaction_Code end) ,TSPL_INVENTORY_MOVEMENT_NEW.Other_Location_Desc=(case when TSPL_INVENTORY_MOVEMENT_NEW.InOut='O' then xxx.ToLOCDesc else xxx.FrmLocDesc end) from( " & _
-" select TSPL_PP_ISSUE_ITEM_DETAIL.Issue_Code,TSPL_PP_ISSUE_ITEM_DETAIL.Item_Code, TSPL_PP_ISSUE_ITEM_DETAIL.To_Location_Code,ToLocation.Location_Desc as ToLOCDesc,TSPL_PP_ISSUE_ITEM_DETAIL.From_Loaction_Code,FrmLocation.Location_Desc as FrmLocDesc from TSPL_PP_ISSUE_ITEM_DETAIL" & _
-" left outer join TSPL_LOCATION_MASTER as ToLocation on ToLocation.Location_Code=TSPL_PP_ISSUE_ITEM_DETAIL.To_Location_Code" & _
-" left outer join TSPL_LOCATION_MASTER as FrmLocation on FrmLocation.Location_Code=TSPL_PP_ISSUE_ITEM_DETAIL.From_Loaction_Code" & _
-" )xxx" & _
+        qry = "update TSPL_INVENTORY_MOVEMENT_NEW set TSPL_INVENTORY_MOVEMENT_NEW.Other_Location_Code=(case when TSPL_INVENTORY_MOVEMENT_NEW.InOut='O' then xxx.To_Location_Code else xxx.From_Loaction_Code end) ,TSPL_INVENTORY_MOVEMENT_NEW.Other_Location_Desc=(case when TSPL_INVENTORY_MOVEMENT_NEW.InOut='O' then xxx.ToLOCDesc else xxx.FrmLocDesc end) from( " &
+" select TSPL_PP_ISSUE_ITEM_DETAIL.Issue_Code,TSPL_PP_ISSUE_ITEM_DETAIL.Item_Code, TSPL_PP_ISSUE_ITEM_DETAIL.To_Location_Code,ToLocation.Location_Desc as ToLOCDesc,TSPL_PP_ISSUE_ITEM_DETAIL.From_Loaction_Code,FrmLocation.Location_Desc as FrmLocDesc from TSPL_PP_ISSUE_ITEM_DETAIL" &
+" left outer join TSPL_LOCATION_MASTER as ToLocation on ToLocation.Location_Code=TSPL_PP_ISSUE_ITEM_DETAIL.To_Location_Code" &
+" left outer join TSPL_LOCATION_MASTER as FrmLocation on FrmLocation.Location_Code=TSPL_PP_ISSUE_ITEM_DETAIL.From_Loaction_Code" &
+" )xxx" &
 " inner join TSPL_INVENTORY_MOVEMENT_NEW on TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=xxx.Issue_Code and TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PP_ISSUE' and TSPL_INVENTORY_MOVEMENT_NEW.Item_Code=xxx.Item_Code"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-        qry = "update TSPL_INVENTORY_MOVEMENT set TSPL_INVENTORY_MOVEMENT.Cust_Code=xxx.Customer_Code,TSPL_INVENTORY_MOVEMENT.Cust_Name=xxx.Customer_Name from(" & _
-" select TSPL_SD_SALE_RETURN_HEAD.Document_Code, TSPL_SD_SALE_RETURN_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name from TSPL_SD_SALE_RETURN_HEAD" & _
-" left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_RETURN_HEAD.Customer_Code" & _
-" )xxx" & _
+        qry = "update TSPL_INVENTORY_MOVEMENT set TSPL_INVENTORY_MOVEMENT.Cust_Code=xxx.Customer_Code,TSPL_INVENTORY_MOVEMENT.Cust_Name=xxx.Customer_Name from(" &
+" select TSPL_SD_SALE_RETURN_HEAD.Document_Code, TSPL_SD_SALE_RETURN_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name from TSPL_SD_SALE_RETURN_HEAD" &
+" left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_RETURN_HEAD.Customer_Code" &
+" )xxx" &
 " inner join TSPL_INVENTORY_MOVEMENT on TSPL_INVENTORY_MOVEMENT.Source_Doc_No=xxx.Document_Code and TSPL_INVENTORY_MOVEMENT.Trans_Type='PS-SR'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-        qry = "update TSPL_INVENTORY_MOVEMENT set TSPL_INVENTORY_MOVEMENT.Cust_Code=xxx.Customer_Code,TSPL_INVENTORY_MOVEMENT.Cust_Name=xxx.Customer_Name from(" & _
-" select TSPL_SD_SALE_RETURN_HEAD.Document_Code, TSPL_SD_SALE_RETURN_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name from TSPL_SD_SALE_RETURN_HEAD" & _
-" left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_RETURN_HEAD.Customer_Code" & _
-" )xxx" & _
+        qry = "update TSPL_INVENTORY_MOVEMENT set TSPL_INVENTORY_MOVEMENT.Cust_Code=xxx.Customer_Code,TSPL_INVENTORY_MOVEMENT.Cust_Name=xxx.Customer_Name from(" &
+" select TSPL_SD_SALE_RETURN_HEAD.Document_Code, TSPL_SD_SALE_RETURN_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name from TSPL_SD_SALE_RETURN_HEAD" &
+" left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_RETURN_HEAD.Customer_Code" &
+" )xxx" &
 " inner join TSPL_INVENTORY_MOVEMENT on TSPL_INVENTORY_MOVEMENT.Source_Doc_No=xxx.Document_Code and TSPL_INVENTORY_MOVEMENT.Trans_Type='FS-SR'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-        qry = "update TSPL_INVENTORY_MOVEMENT set TSPL_INVENTORY_MOVEMENT.Cust_Code=xxx.Customer_Code,TSPL_INVENTORY_MOVEMENT.Cust_Name=xxx.Customer_Name from(" & _
-" select TSPL_SD_SHIPMENT_HEAD.Document_Code, TSPL_SD_SHIPMENT_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name from TSPL_SD_SHIPMENT_HEAD" & _
-" left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code" & _
-" )xxx" & _
+        qry = "update TSPL_INVENTORY_MOVEMENT set TSPL_INVENTORY_MOVEMENT.Cust_Code=xxx.Customer_Code,TSPL_INVENTORY_MOVEMENT.Cust_Name=xxx.Customer_Name from(" &
+" select TSPL_SD_SHIPMENT_HEAD.Document_Code, TSPL_SD_SHIPMENT_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name from TSPL_SD_SHIPMENT_HEAD" &
+" left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code" &
+" )xxx" &
 " inner join TSPL_INVENTORY_MOVEMENT on TSPL_INVENTORY_MOVEMENT.Source_Doc_No=xxx.Document_Code and TSPL_INVENTORY_MOVEMENT.Trans_Type='PS-SH'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-        qry = "update TSPL_INVENTORY_MOVEMENT set TSPL_INVENTORY_MOVEMENT.Vendor_Code=xxx.Issue_To,TSPL_INVENTORY_MOVEMENT.Vendor_Name=xxx.Vendor_Name   from(" & _
-" select TSPL_VSPItem_HEAD.Doc_No,TSPL_VSPItem_HEAD.Issue_To,TSPL_VENDOR_MASTER.Vendor_Name from TSPL_VSPItem_HEAD" & _
-" left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VSPItem_HEAD.Issue_To" & _
-" )xxx" & _
+        qry = "update TSPL_INVENTORY_MOVEMENT set TSPL_INVENTORY_MOVEMENT.Vendor_Code=xxx.Issue_To,TSPL_INVENTORY_MOVEMENT.Vendor_Name=xxx.Vendor_Name   from(" &
+" select TSPL_VSPItem_HEAD.Doc_No,TSPL_VSPItem_HEAD.Issue_To,TSPL_VENDOR_MASTER.Vendor_Name from TSPL_VSPItem_HEAD" &
+" left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VSPItem_HEAD.Issue_To" &
+" )xxx" &
 " inner join TSPL_INVENTORY_MOVEMENT on TSPL_INVENTORY_MOVEMENT.Source_Doc_No=xxx.Doc_No and TSPL_INVENTORY_MOVEMENT.Trans_Type ='MCC-IISSUE'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -4476,79 +4480,79 @@ Public Class FrmUtility
         '" left outer join TSPL_LOCATION_MASTER as ToLOC on ToLOC.Location_Code=TSPL_TRANSFER_ORDER_HEAD.To_Location" & _
         '" )xxx" & _
         '" inner join TSPL_INVENTORY_MOVEMENT on TSPL_INVENTORY_MOVEMENT.Source_Doc_No=xxx.Document_No and TSPL_INVENTORY_MOVEMENT.Trans_Type ='Transfer'"
-        qry = "update TSPL_INVENTORY_MOVEMENT set " & _
-" TSPL_INVENTORY_MOVEMENT.Other_Location_Code = case when TSPL_INVENTORY_MOVEMENT.InOut='O' and xxx.Transfer_Type='O' then xxx.GITMLOCCode else case when TSPL_INVENTORY_MOVEMENT.InOut='O' and xxx.Transfer_Type='I' then xxx.To_Location  else case when TSPL_INVENTORY_MOVEMENT.InOut='I' and xxx.Transfer_Type='O' then xxx.From_Location else case when TSPL_INVENTORY_MOVEMENT.InOut='I' and xxx.Transfer_Type='I' then xxx.TransferInMainLocCode else '' end end end end " & _
-" ,TSPL_INVENTORY_MOVEMENT.Other_Location_Desc = case when TSPL_INVENTORY_MOVEMENT.InOut='O' and xxx.Transfer_Type='O' then xxx.GITMLOCName else case when TSPL_INVENTORY_MOVEMENT.InOut='O' and xxx.Transfer_Type='I' then xxx.ToLOCName  else case when TSPL_INVENTORY_MOVEMENT.InOut='I' and xxx.Transfer_Type='O' then xxx.FrmLOCName else case when TSPL_INVENTORY_MOVEMENT.InOut='I' and xxx.Transfer_Type='I' then xxx.TransferInMainLocdesc else '' end end end end   " & _
-" from (" & _
-" select TSPL_TRANSFER_ORDER_HEAD.Transfer_Type, TSPL_TRANSFER_ORDER_HEAD.Document_No,TSPL_TRANSFER_ORDER_HEAD.From_Location,FrmLOC.Location_Desc as FrmLOCName,TSPL_TRANSFER_ORDER_HEAD.To_Location,ToLOC.Location_Desc as ToLOCName," & _
-" GITMLOC.Location_Code as GITMLOCCode,GITMLOC.Location_Desc as GITMLOCName," & _
-" MainLOC.Location_Code as TransferInMainLocCode,MainLOC.Location_Desc as TransferInMainLocdesc" & _
-" from TSPL_TRANSFER_ORDER_HEAD " & _
-" left outer join TSPL_LOCATION_MASTER as FrmLOC on FrmLOC .Location_Code=TSPL_TRANSFER_ORDER_HEAD.From_Location " & _
-" left outer join TSPL_LOCATION_MASTER as ToLOC on ToLOC.Location_Code=TSPL_TRANSFER_ORDER_HEAD.To_Location" & _
-" left outer join TSPL_LOCATION_MASTER as GITMLOC on GITMLOC.GIT_Location=TSPL_TRANSFER_ORDER_HEAD.To_Location" & _
-" left outer join TSPL_LOCATION_MASTER as MainLOC on MainLOC.Location_Code=(select inn.From_Location from TSPL_TRANSFER_ORDER_HEAD as inn where inn.Document_No=TSPL_TRANSFER_ORDER_HEAD.TransferOutNo)" & _
-"  ) xxx " & _
+        qry = "update TSPL_INVENTORY_MOVEMENT set " &
+" TSPL_INVENTORY_MOVEMENT.Other_Location_Code = case when TSPL_INVENTORY_MOVEMENT.InOut='O' and xxx.Transfer_Type='O' then xxx.GITMLOCCode else case when TSPL_INVENTORY_MOVEMENT.InOut='O' and xxx.Transfer_Type='I' then xxx.To_Location  else case when TSPL_INVENTORY_MOVEMENT.InOut='I' and xxx.Transfer_Type='O' then xxx.From_Location else case when TSPL_INVENTORY_MOVEMENT.InOut='I' and xxx.Transfer_Type='I' then xxx.TransferInMainLocCode else '' end end end end " &
+" ,TSPL_INVENTORY_MOVEMENT.Other_Location_Desc = case when TSPL_INVENTORY_MOVEMENT.InOut='O' and xxx.Transfer_Type='O' then xxx.GITMLOCName else case when TSPL_INVENTORY_MOVEMENT.InOut='O' and xxx.Transfer_Type='I' then xxx.ToLOCName  else case when TSPL_INVENTORY_MOVEMENT.InOut='I' and xxx.Transfer_Type='O' then xxx.FrmLOCName else case when TSPL_INVENTORY_MOVEMENT.InOut='I' and xxx.Transfer_Type='I' then xxx.TransferInMainLocdesc else '' end end end end   " &
+" from (" &
+" select TSPL_TRANSFER_ORDER_HEAD.Transfer_Type, TSPL_TRANSFER_ORDER_HEAD.Document_No,TSPL_TRANSFER_ORDER_HEAD.From_Location,FrmLOC.Location_Desc as FrmLOCName,TSPL_TRANSFER_ORDER_HEAD.To_Location,ToLOC.Location_Desc as ToLOCName," &
+" GITMLOC.Location_Code as GITMLOCCode,GITMLOC.Location_Desc as GITMLOCName," &
+" MainLOC.Location_Code as TransferInMainLocCode,MainLOC.Location_Desc as TransferInMainLocdesc" &
+" from TSPL_TRANSFER_ORDER_HEAD " &
+" left outer join TSPL_LOCATION_MASTER as FrmLOC on FrmLOC .Location_Code=TSPL_TRANSFER_ORDER_HEAD.From_Location " &
+" left outer join TSPL_LOCATION_MASTER as ToLOC on ToLOC.Location_Code=TSPL_TRANSFER_ORDER_HEAD.To_Location" &
+" left outer join TSPL_LOCATION_MASTER as GITMLOC on GITMLOC.GIT_Location=TSPL_TRANSFER_ORDER_HEAD.To_Location" &
+" left outer join TSPL_LOCATION_MASTER as MainLOC on MainLOC.Location_Code=(select inn.From_Location from TSPL_TRANSFER_ORDER_HEAD as inn where inn.Document_No=TSPL_TRANSFER_ORDER_HEAD.TransferOutNo)" &
+"  ) xxx " &
 " inner join TSPL_INVENTORY_MOVEMENT on TSPL_INVENTORY_MOVEMENT.Source_Doc_No=xxx.Document_No and TSPL_INVENTORY_MOVEMENT.Trans_Type ='Transfer'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-        qry = "update TSPL_INVENTORY_MOVEMENT set " & _
-" TSPL_INVENTORY_MOVEMENT.Other_Location_Code= case when TSPL_INVENTORY_MOVEMENT.InOut='O' then xxx.To_Location_Code else xxx.From_Location_Code end ,TSPL_INVENTORY_MOVEMENT.Other_Location_Desc=case when TSPL_INVENTORY_MOVEMENT.InOut='O' then xxx.ToLOCName else xxx.FrmLOCName end  from(" & _
-" select TSPL_CSA_TRANSFER_HEAD.DOC_CODE,TSPL_CSA_TRANSFER_HEAD.From_Location_Code,FrmLOC.Location_Desc as FrmLOCName,TSPL_CSA_TRANSFER_HEAD.To_Location_Code,ToLOC.Location_Desc as ToLOCName from TSPL_CSA_TRANSFER_HEAD" & _
-" left outer join TSPL_LOCATION_MASTER as FrmLOC on FrmLOC .Location_Code=TSPL_CSA_TRANSFER_HEAD.From_Location_Code" & _
-" left outer join TSPL_LOCATION_MASTER as ToLOC on ToLOC.Location_Code=TSPL_CSA_TRANSFER_HEAD.To_Location_Code" & _
-" )xxx" & _
+        qry = "update TSPL_INVENTORY_MOVEMENT set " &
+" TSPL_INVENTORY_MOVEMENT.Other_Location_Code= case when TSPL_INVENTORY_MOVEMENT.InOut='O' then xxx.To_Location_Code else xxx.From_Location_Code end ,TSPL_INVENTORY_MOVEMENT.Other_Location_Desc=case when TSPL_INVENTORY_MOVEMENT.InOut='O' then xxx.ToLOCName else xxx.FrmLOCName end  from(" &
+" select TSPL_CSA_TRANSFER_HEAD.DOC_CODE,TSPL_CSA_TRANSFER_HEAD.From_Location_Code,FrmLOC.Location_Desc as FrmLOCName,TSPL_CSA_TRANSFER_HEAD.To_Location_Code,ToLOC.Location_Desc as ToLOCName from TSPL_CSA_TRANSFER_HEAD" &
+" left outer join TSPL_LOCATION_MASTER as FrmLOC on FrmLOC .Location_Code=TSPL_CSA_TRANSFER_HEAD.From_Location_Code" &
+" left outer join TSPL_LOCATION_MASTER as ToLOC on ToLOC.Location_Code=TSPL_CSA_TRANSFER_HEAD.To_Location_Code" &
+" )xxx" &
 " inner join TSPL_INVENTORY_MOVEMENT on TSPL_INVENTORY_MOVEMENT.Source_Doc_No=xxx.DOC_CODE and TSPL_INVENTORY_MOVEMENT.Trans_Type ='SD-CSATRANS'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-        qry = "update TSPL_INVENTORY_MOVEMENT set TSPL_INVENTORY_MOVEMENT.Vendor_Code=xxx.Vendor_Code,TSPL_INVENTORY_MOVEMENT.Vendor_Name=xxx.Vendor_Name   from(" & _
-" select TSPL_SRN_HEAD.SRN_No,TSPL_SRN_HEAD.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name from TSPL_SRN_HEAD" & _
-" left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_SRN_HEAD.Vendor_Code" & _
-" )xxx" & _
+        qry = "update TSPL_INVENTORY_MOVEMENT set TSPL_INVENTORY_MOVEMENT.Vendor_Code=xxx.Vendor_Code,TSPL_INVENTORY_MOVEMENT.Vendor_Name=xxx.Vendor_Name   from(" &
+" select TSPL_SRN_HEAD.SRN_No,TSPL_SRN_HEAD.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name from TSPL_SRN_HEAD" &
+" left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_SRN_HEAD.Vendor_Code" &
+" )xxx" &
 " inner join TSPL_INVENTORY_MOVEMENT on TSPL_INVENTORY_MOVEMENT.Source_Doc_No=xxx.SRN_No and TSPL_INVENTORY_MOVEMENT.Trans_Type ='SRN'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-        qry = "update TSPL_INVENTORY_MOVEMENT set TSPL_INVENTORY_MOVEMENT.Cust_Code=xxx.Customer_Code,TSPL_INVENTORY_MOVEMENT.Cust_Name=xxx.Customer_Name from(" & _
-" select TSPL_SD_SHIPMENT_HEAD.Document_Code, TSPL_SD_SHIPMENT_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name from TSPL_SD_SHIPMENT_HEAD " & _
-" left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code" & _
-" )xxx" & _
+        qry = "update TSPL_INVENTORY_MOVEMENT set TSPL_INVENTORY_MOVEMENT.Cust_Code=xxx.Customer_Code,TSPL_INVENTORY_MOVEMENT.Cust_Name=xxx.Customer_Name from(" &
+" select TSPL_SD_SHIPMENT_HEAD.Document_Code, TSPL_SD_SHIPMENT_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name from TSPL_SD_SHIPMENT_HEAD " &
+" left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code" &
+" )xxx" &
 " inner join TSPL_INVENTORY_MOVEMENT on TSPL_INVENTORY_MOVEMENT.Source_Doc_No=xxx.Document_Code and TSPL_INVENTORY_MOVEMENT.Trans_Type='MCC-MSALE'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-        qry = "update TSPL_INVENTORY_MOVEMENT set TSPL_INVENTORY_MOVEMENT.Vendor_Code=xxx.Vendor_Code,TSPL_INVENTORY_MOVEMENT.Vendor_Name=xxx.Vendor_Name   from(" & _
-" select TSPL_RGP_HEAD.RGP_No,TSPL_RGP_HEAD.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name from TSPL_RGP_HEAD" & _
-" left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_RGP_HEAD.Vendor_Code" & _
-" )xxx" & _
+        qry = "update TSPL_INVENTORY_MOVEMENT set TSPL_INVENTORY_MOVEMENT.Vendor_Code=xxx.Vendor_Code,TSPL_INVENTORY_MOVEMENT.Vendor_Name=xxx.Vendor_Name   from(" &
+" select TSPL_RGP_HEAD.RGP_No,TSPL_RGP_HEAD.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name from TSPL_RGP_HEAD" &
+" left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_RGP_HEAD.Vendor_Code" &
+" )xxx" &
 " inner join TSPL_INVENTORY_MOVEMENT on TSPL_INVENTORY_MOVEMENT.Source_Doc_No=xxx.RGP_No and TSPL_INVENTORY_MOVEMENT.Trans_Type ='RGP'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-        qry = "update TSPL_INVENTORY_MOVEMENT set TSPL_INVENTORY_MOVEMENT.Cust_Code=xxx.cust_Code,TSPL_INVENTORY_MOVEMENT.Cust_Name=xxx.Customer_Name from(" & _
-" select TSPL_SCRAPINVOICE_HEAD.invoice_No, TSPL_SCRAPINVOICE_HEAD.cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name from TSPL_SCRAPINVOICE_HEAD" & _
-" left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SCRAPINVOICE_HEAD.cust_Code" & _
-" )xxx" & _
+        qry = "update TSPL_INVENTORY_MOVEMENT set TSPL_INVENTORY_MOVEMENT.Cust_Code=xxx.cust_Code,TSPL_INVENTORY_MOVEMENT.Cust_Name=xxx.Customer_Name from(" &
+" select TSPL_SCRAPINVOICE_HEAD.invoice_No, TSPL_SCRAPINVOICE_HEAD.cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name from TSPL_SCRAPINVOICE_HEAD" &
+" left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SCRAPINVOICE_HEAD.cust_Code" &
+" )xxx" &
 " inner join TSPL_INVENTORY_MOVEMENT on TSPL_INVENTORY_MOVEMENT.Source_Doc_No=xxx.invoice_No and TSPL_INVENTORY_MOVEMENT.Trans_Type='ScrapIn'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-        qry = "update TSPL_INVENTORY_MOVEMENT set TSPL_INVENTORY_MOVEMENT.Other_Location_Code=(case when TSPL_INVENTORY_MOVEMENT.InOut='O' then xxx.To_Location_Code else xxx.From_Loaction_Code end) ,TSPL_INVENTORY_MOVEMENT.Other_Location_Desc=(case when TSPL_INVENTORY_MOVEMENT.InOut='O' then xxx.ToLOCDesc else xxx.FrmLocDesc end) from(" & _
-" select TSPL_PP_ISSUE_ITEM_DETAIL.Issue_Code,TSPL_PP_ISSUE_ITEM_DETAIL.Item_Code, TSPL_PP_ISSUE_ITEM_DETAIL.To_Location_Code,ToLocation.Location_Desc as ToLOCDesc,TSPL_PP_ISSUE_ITEM_DETAIL.From_Loaction_Code,FrmLocation.Location_Desc as FrmLocDesc from TSPL_PP_ISSUE_ITEM_DETAIL " & _
-" left outer join TSPL_LOCATION_MASTER as ToLocation on ToLocation.Location_Code=TSPL_PP_ISSUE_ITEM_DETAIL.To_Location_Code " & _
-" left outer join TSPL_LOCATION_MASTER as FrmLocation on FrmLocation.Location_Code=TSPL_PP_ISSUE_ITEM_DETAIL.From_Loaction_Code" & _
-" )xxx" & _
+        qry = "update TSPL_INVENTORY_MOVEMENT set TSPL_INVENTORY_MOVEMENT.Other_Location_Code=(case when TSPL_INVENTORY_MOVEMENT.InOut='O' then xxx.To_Location_Code else xxx.From_Loaction_Code end) ,TSPL_INVENTORY_MOVEMENT.Other_Location_Desc=(case when TSPL_INVENTORY_MOVEMENT.InOut='O' then xxx.ToLOCDesc else xxx.FrmLocDesc end) from(" &
+" select TSPL_PP_ISSUE_ITEM_DETAIL.Issue_Code,TSPL_PP_ISSUE_ITEM_DETAIL.Item_Code, TSPL_PP_ISSUE_ITEM_DETAIL.To_Location_Code,ToLocation.Location_Desc as ToLOCDesc,TSPL_PP_ISSUE_ITEM_DETAIL.From_Loaction_Code,FrmLocation.Location_Desc as FrmLocDesc from TSPL_PP_ISSUE_ITEM_DETAIL " &
+" left outer join TSPL_LOCATION_MASTER as ToLocation on ToLocation.Location_Code=TSPL_PP_ISSUE_ITEM_DETAIL.To_Location_Code " &
+" left outer join TSPL_LOCATION_MASTER as FrmLocation on FrmLocation.Location_Code=TSPL_PP_ISSUE_ITEM_DETAIL.From_Loaction_Code" &
+" )xxx" &
 " inner join TSPL_INVENTORY_MOVEMENT on TSPL_INVENTORY_MOVEMENT.Source_Doc_No=xxx.Issue_Code and TSPL_INVENTORY_MOVEMENT.Trans_Type='PP_ISSUE' and TSPL_INVENTORY_MOVEMENT.Item_Code=xxx.Item_Code"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
 
-        qry = "update TSPL_INVENTORY_MOVEMENT set TSPL_INVENTORY_MOVEMENT.Cust_Code=xxx.Customer_Code,TSPL_INVENTORY_MOVEMENT.Cust_Name=xxx.Customer_Name from(" & _
-" select TSPL_SD_SHIPMENT_HEAD.Document_Code, TSPL_SD_SHIPMENT_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name from TSPL_SD_SHIPMENT_HEAD" & _
-" left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code" & _
-" )xxx" & _
+        qry = "update TSPL_INVENTORY_MOVEMENT set TSPL_INVENTORY_MOVEMENT.Cust_Code=xxx.Customer_Code,TSPL_INVENTORY_MOVEMENT.Cust_Name=xxx.Customer_Name from(" &
+" select TSPL_SD_SHIPMENT_HEAD.Document_Code, TSPL_SD_SHIPMENT_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name from TSPL_SD_SHIPMENT_HEAD" &
+" left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code" &
+" )xxx" &
 " inner join TSPL_INVENTORY_MOVEMENT on TSPL_INVENTORY_MOVEMENT.Source_Doc_No=xxx.Document_Code and TSPL_INVENTORY_MOVEMENT.Trans_Type='FS-SH'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-        qry = "update TSPL_INVENTORY_MOVEMENT set TSPL_INVENTORY_MOVEMENT.Vendor_Code=xxx.Vendor_Code,TSPL_INVENTORY_MOVEMENT.Vendor_Name=xxx.Vendor_Name   from(" & _
-" select TSPL_PR_HEAD.PR_No,TSPL_PR_HEAD.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name from TSPL_PR_HEAD" & _
-" left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_PR_HEAD.Vendor_Code" & _
-" )xxx" & _
+        qry = "update TSPL_INVENTORY_MOVEMENT set TSPL_INVENTORY_MOVEMENT.Vendor_Code=xxx.Vendor_Code,TSPL_INVENTORY_MOVEMENT.Vendor_Name=xxx.Vendor_Name   from(" &
+" select TSPL_PR_HEAD.PR_No,TSPL_PR_HEAD.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name from TSPL_PR_HEAD" &
+" left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_PR_HEAD.Vendor_Code" &
+" )xxx" &
 " inner join TSPL_INVENTORY_MOVEMENT on TSPL_INVENTORY_MOVEMENT.Source_Doc_No=xxx.PR_No and TSPL_INVENTORY_MOVEMENT.Trans_Type ='Purchase Return'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -4750,7 +4754,7 @@ Public Class FrmUtility
             ''and len(isnull( TSPL_VENDOR_INVOICE_HEAD.Against_BulkMillkPurchaseInvoice_No,''))<=0
             'Dim qry As String = " select   TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date, TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_VENDOR_INVOICE_HEAD.Document_Total,TSPL_VENDOR_INVOICE_HEAD.Description,TSPL_JOURNAL_MASTER.Voucher_No   from TSPL_VENDOR_INVOICE_HEAD  inner join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.source_doc_no=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_JOURNAL_MASTER.source_code in ('AP-IN','AP-DN','AP-CN')" & _
             '" where len(isnull( TSPL_VENDOR_INVOICE_HEAD.Against_Acquisition,''))<=0 and len(isnull( TSPL_VENDOR_INVOICE_HEAD.Against_Asset_Work,''))<=0  and len(isnull( TSPL_VENDOR_INVOICE_HEAD.Against_MillkPurchaseInvoice_No,''))<=0 and len(isnull( TSPL_VENDOR_INVOICE_HEAD.Against_POInvoice_No,''))<=0 and len(isnull( TSPL_VENDOR_INVOICE_HEAD.Against_PurchaseReturn_No,''))<=0 and len(isnull( TSPL_VENDOR_INVOICE_HEAD.Against_VCGL,''))<=0 and len(isnull( TSPL_VENDOR_INVOICE_HEAD.Against_VSPItemIssue_No,''))<=0 and TSPL_VENDOR_INVOICE_HEAD.Posting_Date is not null"
-            Dim qry As String = " select TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date, TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_VENDOR_INVOICE_HEAD.Document_Total,TSPL_VENDOR_INVOICE_HEAD.Description,TSPL_JOURNAL_MASTER.Voucher_No   from TSPL_VENDOR_INVOICE_HEAD  inner join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.source_doc_no=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_JOURNAL_MASTER.source_code in ('AP-IN','AP-DN','AP-CN')" & _
+            Dim qry As String = " select TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date, TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_VENDOR_INVOICE_HEAD.Document_Total,TSPL_VENDOR_INVOICE_HEAD.Description,TSPL_JOURNAL_MASTER.Voucher_No   from TSPL_VENDOR_INVOICE_HEAD  inner join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.source_doc_no=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_JOURNAL_MASTER.source_code in ('AP-IN','AP-DN','AP-CN')" &
             " where TSPL_VENDOR_INVOICE_HEAD.Posting_Date is not null "
 
             Dim arr As ArrayList = clsCommon.ShowMultipleSelectForm("APINUti", qry, "Document_No", "", Nothing, Nothing)
@@ -5080,8 +5084,8 @@ Public Class FrmUtility
 
     Private Sub RadButton17_Click(sender As Object, e As EventArgs) Handles RadButton17.Click
         Try
-            Dim qry As String = " select TSPL_ADJUSTMENT_HEADER.Adjustment_No,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,TSPL_ADJUSTMENT_HEADER.Trans_Type ,TSPL_JOURNAL_MASTER.voucher_no " & _
-            " from TSPL_ADJUSTMENT_HEADER" & _
+            Dim qry As String = " select TSPL_ADJUSTMENT_HEADER.Adjustment_No,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,TSPL_ADJUSTMENT_HEADER.Trans_Type ,TSPL_JOURNAL_MASTER.voucher_no " &
+            " from TSPL_ADJUSTMENT_HEADER" &
             " Left join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=TSPL_ADJUSTMENT_HEADER.Adjustment_No and TSPL_JOURNAL_MASTER.Source_Code='IC-AD' where TSPL_ADJUSTMENT_HEADER.Posted='Y'"
             Dim arr As ArrayList = clsCommon.ShowMultipleSelectForm("AdjUti", qry, "Adjustment_No", "", Nothing, Nothing)
             If arr IsNot Nothing AndAlso arr.Count > 0 Then
@@ -5202,9 +5206,9 @@ Public Class FrmUtility
 
     Private Sub RadButton19_Click(sender As Object, e As EventArgs) Handles RadButton19.Click
         Try
-            Dim qry As String = "select TSPL_Dispatch_BulkSale.Document_No,TSPL_Dispatch_BulkSale.Document_Date,TSPL_Dispatch_BulkSale.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_Dispatch_BulkSale.Total_Amt,TSPL_JOURNAL_MASTER.Voucher_No from TSPL_Dispatch_BulkSale " & _
-            " left join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=TSPL_Dispatch_BulkSale.Document_No and TSPL_JOURNAL_MASTER.Source_Code='DS-BS'" & _
-            " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_Dispatch_BulkSale.Customer_Code " & _
+            Dim qry As String = "select TSPL_Dispatch_BulkSale.Document_No,TSPL_Dispatch_BulkSale.Document_Date,TSPL_Dispatch_BulkSale.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_Dispatch_BulkSale.Total_Amt,TSPL_JOURNAL_MASTER.Voucher_No from TSPL_Dispatch_BulkSale " &
+            " left join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=TSPL_Dispatch_BulkSale.Document_No and TSPL_JOURNAL_MASTER.Source_Code='DS-BS'" &
+            " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_Dispatch_BulkSale.Customer_Code " &
             " where Posted=1"
             Dim arr As ArrayList = clsCommon.ShowMultipleSelectForm("BulDisUti", qry, "Document_No", "", Nothing, Nothing)
             If arr IsNot Nothing AndAlso arr.Count > 0 Then
@@ -5312,8 +5316,8 @@ Public Class FrmUtility
 
     Private Sub RadButton24_Click(sender As Object, e As EventArgs) Handles RadButton24.Click
         Try
-            Dim qry As String = "select TSPL_PAYMENT_HEADER.Payment_No,TSPL_PAYMENT_HEADER.Payment_Date,TSPL_PAYMENT_HEADER.Payment_Type,TSPL_PAYMENT_HEADER.Vendor_Code,TSPL_PAYMENT_HEADER.Vendor_Name,TSPL_PAYMENT_HEADER.Payment_Type,TSPL_PAYMENT_HEADER.Payment_Amount,TSPL_JOURNAL_MASTER.Voucher_No from TSPL_PAYMENT_HEADER  " & _
-            " left outer join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=TSPL_PAYMENT_HEADER.Payment_No " & _
+            Dim qry As String = "select TSPL_PAYMENT_HEADER.Payment_No,TSPL_PAYMENT_HEADER.Payment_Date,TSPL_PAYMENT_HEADER.Payment_Type,TSPL_PAYMENT_HEADER.Vendor_Code,TSPL_PAYMENT_HEADER.Vendor_Name,TSPL_PAYMENT_HEADER.Payment_Type,TSPL_PAYMENT_HEADER.Payment_Amount,TSPL_JOURNAL_MASTER.Voucher_No from TSPL_PAYMENT_HEADER  " &
+            " left outer join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=TSPL_PAYMENT_HEADER.Payment_No " &
             " where TSPL_PAYMENT_HEADER.Posted=1 "
             Dim arr As ArrayList = clsCommon.ShowMultipleSelectForm("PaymentUti", qry, "Payment_No", "", Nothing, Nothing)
             If arr IsNot Nothing AndAlso arr.Count > 0 Then
@@ -5657,7 +5661,7 @@ Public Class FrmUtility
                 Dim InvcNo As String = ""
                 Dim BalAmt As Decimal = 0.0
                 Dim PayAmt As Decimal = drtotal
-                Dim strQ As String = "select Document_No,Due_Date ,case when fifo_balance>0 then fifo_balance else   Balance_Amt end as  Balance_Amt  from TSPL_VENDOR_INVOICE_HEAD where Balance_Amt>0  and Vendor_Code='" + obj.Vendor_Code + "' and fifo_knockoff='N'" & _
+                Dim strQ As String = "select Document_No,Due_Date ,case when fifo_balance>0 then fifo_balance else   Balance_Amt end as  Balance_Amt  from TSPL_VENDOR_INVOICE_HEAD where Balance_Amt>0  and Vendor_Code='" + obj.Vendor_Code + "' and fifo_knockoff='N'" &
                                      "order by TSPL_VENDOR_INVOICE_HEAD.Due_Date "
                 Dim Dt1 As DataTable = New DataTable()
                 Dt1 = clsDBFuncationality.GetDataTable(strQ, trans)
@@ -5684,7 +5688,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery("update TSPL_PAYMENT_HEADER set Posted = '1' where Payment_No = '" + strPaymentNo + "'", trans)
                 clsDBFuncationality.ExecuteNonQuery("update TSPL_PAYMENT_DETAIL set Post = '1' where Payment_No = '" + strPaymentNo + "'", trans)
             ElseIf clsCommon.CompairString(clsCommon.myCstr(obj.Payment_Type), "MI") = CompairStringResult.Equal Then
-                qry = "select TSPL_PAYMENT_detail.Account_code,TSPL_PAYMENT_detail.Net_Balance,TSPL_PAYMENT_detail.Remarks,TSPL_PAYMENT_HEADER.ConvRateOld from TSPL_PAYMENT_detail inner join TSPL_PAYMENT_HEADER on " & _
+                qry = "select TSPL_PAYMENT_detail.Account_code,TSPL_PAYMENT_detail.Net_Balance,TSPL_PAYMENT_detail.Remarks,TSPL_PAYMENT_HEADER.ConvRateOld from TSPL_PAYMENT_detail inner join TSPL_PAYMENT_HEADER on " &
                 " TSPL_PAYMENT_detail.payment_no=TSPL_PAYMENT_HEADER.payment_no where TSPL_PAYMENT_detail.Payment_No='" + strPaymentNo + "'"
                 Dim dtNew As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
 
@@ -6246,7 +6250,7 @@ Public Class FrmUtility
                 Dim ESiAmt As Decimal = 0.0
                 Dim MiscAmt As Decimal = 0.0
                 Dim ESI_Percent As Decimal = 0.0
-                qry = "select TSPL_PAYMENT_detail.Account_code,TSPL_PAYMENT_detail.Net_Balance,TSPL_PAYMENT_detail.Remarks,TSPL_PAYMENT_HEADER.ConvRateOld from TSPL_PAYMENT_detail inner join TSPL_PAYMENT_HEADER on " & _
+                qry = "select TSPL_PAYMENT_detail.Account_code,TSPL_PAYMENT_detail.Net_Balance,TSPL_PAYMENT_detail.Remarks,TSPL_PAYMENT_HEADER.ConvRateOld from TSPL_PAYMENT_detail inner join TSPL_PAYMENT_HEADER on " &
                 " TSPL_PAYMENT_detail.payment_no=TSPL_PAYMENT_HEADER.payment_no where TSPL_PAYMENT_detail.Payment_No='" + strPaymentNo + "'"
                 Dim dtNew As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
 
@@ -6499,9 +6503,9 @@ Public Class FrmUtility
 
     Private Sub RadButton32_Click(sender As Object, e As EventArgs) Handles RadButton32.Click
         Try
-            Dim qry As String = "select Chalan_NO,Dispatch_Date,Tanker_Dispatch_To,Mcc_Or_Plant_Code,Tanker_No ,TSPL_JOURNAL_MASTER.Voucher_No" & _
-            " from TSPL_MCC_DISPATCH_CHALLAN " & _
-            " left outer join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=TSPL_MCC_DISPATCH_CHALLAN.Chalan_NO and  TSPL_JOURNAL_MASTER.Source_Code='DI-CH'" & _
+            Dim qry As String = "select Chalan_NO,Dispatch_Date,Tanker_Dispatch_To,Mcc_Or_Plant_Code,Tanker_No ,TSPL_JOURNAL_MASTER.Voucher_No" &
+            " from TSPL_MCC_DISPATCH_CHALLAN " &
+            " left outer join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=TSPL_MCC_DISPATCH_CHALLAN.Chalan_NO and  TSPL_JOURNAL_MASTER.Source_Code='DI-CH'" &
             " where TSPL_MCC_DISPATCH_CHALLAN.isPosted=1"
             Dim arr As ArrayList = clsCommon.ShowMultipleSelectForm("bulkMlkTO", qry, "Chalan_NO", "", Nothing, Nothing)
             If arr IsNot Nothing AndAlso arr.Count > 0 Then
@@ -6563,9 +6567,9 @@ Public Class FrmUtility
 
     Private Sub RadButton31_Click(sender As Object, e As EventArgs) Handles RadButton31.Click
         Try
-            Dim qry As String = " select Receipt_Challan_No,Receipt_Challan_Date,Dispatch_Challan_No,Weighment_No,Qc_No,Gate_Entry_no,location_code ,TSPL_JOURNAL_MASTER.Voucher_No" & _
-            " from TSPL_MILK_TRANSFER_IN " & _
-            " left outer join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=TSPL_MILK_TRANSFER_IN.Receipt_Challan_No and  TSPL_JOURNAL_MASTER.Source_Code='MT-IN' " & _
+            Dim qry As String = " select Receipt_Challan_No,Receipt_Challan_Date,Dispatch_Challan_No,Weighment_No,Qc_No,Gate_Entry_no,location_code ,TSPL_JOURNAL_MASTER.Voucher_No" &
+            " from TSPL_MILK_TRANSFER_IN " &
+            " left outer join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=TSPL_MILK_TRANSFER_IN.Receipt_Challan_No and  TSPL_JOURNAL_MASTER.Source_Code='MT-IN' " &
             " where TSPL_MILK_TRANSFER_IN.isPosted=1"
             Dim arr As ArrayList = clsCommon.ShowMultipleSelectForm("bulkMlkTI", qry, "Receipt_Challan_No", "", Nothing, Nothing)
             If arr IsNot Nothing AndAlso arr.Count > 0 Then
@@ -6628,8 +6632,8 @@ Public Class FrmUtility
 
     Private Sub RadButton37_Click(sender As Object, e As EventArgs) Handles RadButton37.Click
         Try
-            Dim qry As String = "select TSPL_TRANSFER_ORDER_HEAD.Document_No,TSPL_TRANSFER_ORDER_HEAD.Document_Date,TSPL_TRANSFER_ORDER_HEAD.Transfer_Type,TSPL_TRANSFER_ORDER_HEAD.From_Location,TSPL_TRANSFER_ORDER_HEAD.To_Location,TSPL_TRANSFER_ORDER_HEAD.DOC_Total_Amt,TSPL_JOURNAL_MASTER.Voucher_No from TSPL_TRANSFER_ORDER_HEAD " & _
-            " left outer join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.source_doc_no=TSPL_TRANSFER_ORDER_HEAD.document_no and TSPL_JOURNAL_MASTER.Source_Code='MM-TF' " & _
+            Dim qry As String = "select TSPL_TRANSFER_ORDER_HEAD.Document_No,TSPL_TRANSFER_ORDER_HEAD.Document_Date,TSPL_TRANSFER_ORDER_HEAD.Transfer_Type,TSPL_TRANSFER_ORDER_HEAD.From_Location,TSPL_TRANSFER_ORDER_HEAD.To_Location,TSPL_TRANSFER_ORDER_HEAD.DOC_Total_Amt,TSPL_JOURNAL_MASTER.Voucher_No from TSPL_TRANSFER_ORDER_HEAD " &
+            " left outer join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.source_doc_no=TSPL_TRANSFER_ORDER_HEAD.document_no and TSPL_JOURNAL_MASTER.Source_Code='MM-TF' " &
             " where TSPL_TRANSFER_ORDER_HEAD.Status=1"
             Dim arr As ArrayList = clsCommon.ShowMultipleSelectForm("BULKTRANFER", qry, "Document_No", "", Nothing, Nothing)
             If arr IsNot Nothing AndAlso arr.Count > 0 Then
@@ -6829,8 +6833,8 @@ Public Class FrmUtility
                             qry = "delete from TSPL_PJV_Detail where PJV_No in ('" + strPJVNo + "')"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                             Dim Arr As New List(Of clsPJVDetail)
-                            qry = "insert into TSPL_PJV_Detail(PJV_No,Line_No,GL_Account_Code,GL_Account_Desc,PJV_Amount)" & _
-                            " select '" + strPJVNo + "' as PJVNo,Detail_Line_No,Account_code,Account_Desc,Amount from TSPL_JOURNAL_DETAILS where Voucher_No in ( " & _
+                            qry = "insert into TSPL_PJV_Detail(PJV_No,Line_No,GL_Account_Code,GL_Account_Desc,PJV_Amount)" &
+                            " select '" + strPJVNo + "' as PJVNo,Detail_Line_No,Account_code,Account_Desc,Amount from TSPL_JOURNAL_DETAILS where Voucher_No in ( " &
                             " select Voucher_No from TSPL_JOURNAL_MASTER where Source_Doc_No in ( select Document_No from TSPL_VENDOR_INVOICE_HEAD where Against_POInvoice_No in (select Invoice_No from TSPL_PJV_HEAD where PJV_No='" + strPJVNo + "')))"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                             clsDBFuncationality.ExecuteNonQuery("Insert into TEMP_CREATE_PI_PJV values('" + strDocNo + "')", trans)
@@ -6867,15 +6871,15 @@ Public Class FrmUtility
         End Try
 
         Try
-            Dim qry As String = "select TSPL_INVOICE_MASTER_BULKSALE.Document_No,TSPL_INVOICE_MASTER_BULKSALE.Document_Date,TSPL_INVOICE_MASTER_BULKSALE.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,Location_Code,Total_Amt,TSPL_Customer_Invoice_Head.Document_No as ARNo,TSPL_JOURNAL_MASTER.Voucher_No as JVNo" & _
-            " from TSPL_INVOICE_MASTER_BULKSALE " & _
-            "inner join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_INVOICE_MASTER_BULKSALE.Customer_Code" & _
-            " inner join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_INVOICE_MASTER_BULKSALE.Document_No  " & _
-            " inner join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=TSPL_Customer_Invoice_Head.Document_No " & _
+            Dim qry As String = "select TSPL_INVOICE_MASTER_BULKSALE.Document_No,TSPL_INVOICE_MASTER_BULKSALE.Document_Date,TSPL_INVOICE_MASTER_BULKSALE.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,Location_Code,Total_Amt,TSPL_Customer_Invoice_Head.Document_No as ARNo,TSPL_JOURNAL_MASTER.Voucher_No as JVNo" &
+            " from TSPL_INVOICE_MASTER_BULKSALE " &
+            "inner join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_INVOICE_MASTER_BULKSALE.Customer_Code" &
+            " inner join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_INVOICE_MASTER_BULKSALE.Document_No  " &
+            " inner join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=TSPL_Customer_Invoice_Head.Document_No " &
             " where TSPL_INVOICE_MASTER_BULKSALE.Posted=1"
             Dim arr As ArrayList = clsCommon.ShowMultipleSelectForm("BulKSale", qry, "Document_No", "", Nothing, Nothing)
             If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                qry = "select *  into Temp_BSSale from (" & _
+                qry = "select *  into Temp_BSSale from (" &
                   " select TSPL_INVOICE_MASTER_BULKSALE.Document_No as DocumentNo,TSPL_Customer_Invoice_Head.Document_No as ARNo,TSPL_JOURNAL_MASTER.Voucher_No as JVNo from TSPL_INVOICE_MASTER_BULKSALE  inner join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_INVOICE_MASTER_BULKSALE.Customer_Code inner join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_INVOICE_MASTER_BULKSALE.Document_No  inner join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=TSPL_Customer_Invoice_Head.Document_No where TSPL_INVOICE_MASTER_BULKSALE.Posted=1 and TSPL_INVOICE_MASTER_BULKSALE.Document_No in (" + clsCommon.GetMulcallString(arr) + "))xxx"
                 clsDBFuncationality.ExecuteNonQuery(qry)
             Else
@@ -6995,8 +6999,8 @@ Public Class FrmUtility
         Dim qry As String
         Try
             clsCommon.ProgressBarPercentShow()
-            qry = " update TSPL_INVENTORY_MOVEMENT_NEW set Fat_Rate=round((Net_Cost*2/(3*case when Fat_KG=0 then 1 else Fat_KG end)),2)," & _
-             " Fat_Amt=round(round((Net_Cost*2/(3*case when Fat_KG=0 then 1 else Fat_KG end)),2)*Fat_KG,2),SNF_Rate=round((Net_Cost*1/(3*case when SNF_KG=0 then 1 else SNF_KG end)),2)," & _
+            qry = " update TSPL_INVENTORY_MOVEMENT_NEW set Fat_Rate=round((Net_Cost*2/(3*case when Fat_KG=0 then 1 else Fat_KG end)),2)," &
+             " Fat_Amt=round(round((Net_Cost*2/(3*case when Fat_KG=0 then 1 else Fat_KG end)),2)*Fat_KG,2),SNF_Rate=round((Net_Cost*1/(3*case when SNF_KG=0 then 1 else SNF_KG end)),2)," &
              " SNF_Amt=round(round((Net_Cost*1/(3*case when SNF_KG=0 then 1 else SNF_KG end)),2)* SNF_KG ,2) where Trans_Type='IC-Ad' and InOut='I' and (Fat_KG>0 or SNF_KG>0)"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch ex As Exception
@@ -7010,10 +7014,10 @@ Public Class FrmUtility
         Dim qry As String
         Try
             clsCommon.ProgressBarPercentShow()
-            qry = " update TSPL_INVENTORY_MOVEMENT_NEW set Fat_Rate=t1.Fat_Rate,SNF_Rate=t1.SNF_Rate from (select DOC_CODE, round(coalesce(Fat_Ratio,0)*coalesce(Rate,0)/coalesce(FAT_Pers,1),2) as [Fat_Rate],round(coalesce(snf_ratio,0)*coalesce(Rate,0)/coalesce(snf_Pers,1),2) as [SNF_Rate],round((coalesce(Fat_Ratio,0)*coalesce(Rate,0)/coalesce(FAT_Pers,1))*coalesce(fat_per,0),2) as [Fat_Amt],round((coalesce(SNF_Ratio,0)*coalesce(Rate,0)/coalesce(SNF_Pers,1))*coalesce(SNF_per,0),2) as [SNF_Amt] " & _
-                  " from ( select tt.*,TSPL_MILK_SRN_DETAIL.* from TSPL_MILK_SRN_DETAIL inner join tspl_Milk_srn_Head on   TSPL_MILK_SRN_DETAIL.doc_Code=TSPL_MILK_SRN_Head.DOC_CODE " & _
-                  " inner join        (select distinct Ratio as Fat_ratio,Fat_Pers,SNF_Ratio,SNF_Pers,milk_rate,Code from TSPL_FAT_SNF_UPLOADER_MASTER " & _
-                  " inner join tspl_milk_price_master on tspl_milk_price_master.Price_Code=TSPL_FAT_SNF_UPLOADER_MASTER.Price_Code) tt on tt.code=TSPL_MILK_SRN_DETAIL.Price_Code) tt) as t1 " & _
+            qry = " update TSPL_INVENTORY_MOVEMENT_NEW set Fat_Rate=t1.Fat_Rate,SNF_Rate=t1.SNF_Rate from (select DOC_CODE, round(coalesce(Fat_Ratio,0)*coalesce(Rate,0)/coalesce(FAT_Pers,1),2) as [Fat_Rate],round(coalesce(snf_ratio,0)*coalesce(Rate,0)/coalesce(snf_Pers,1),2) as [SNF_Rate],round((coalesce(Fat_Ratio,0)*coalesce(Rate,0)/coalesce(FAT_Pers,1))*coalesce(fat_per,0),2) as [Fat_Amt],round((coalesce(SNF_Ratio,0)*coalesce(Rate,0)/coalesce(SNF_Pers,1))*coalesce(SNF_per,0),2) as [SNF_Amt] " &
+                  " from ( select tt.*,TSPL_MILK_SRN_DETAIL.* from TSPL_MILK_SRN_DETAIL inner join tspl_Milk_srn_Head on   TSPL_MILK_SRN_DETAIL.doc_Code=TSPL_MILK_SRN_Head.DOC_CODE " &
+                  " inner join        (select distinct Ratio as Fat_ratio,Fat_Pers,SNF_Ratio,SNF_Pers,milk_rate,Code from TSPL_FAT_SNF_UPLOADER_MASTER " &
+                  " inner join tspl_milk_price_master on tspl_milk_price_master.Price_Code=TSPL_FAT_SNF_UPLOADER_MASTER.Price_Code) tt on tt.code=TSPL_MILK_SRN_DETAIL.Price_Code) tt) as t1 " &
                   " where TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=t1.DOC_CODE and TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type in ('MCC-MSRN')"
             clsDBFuncationality.ExecuteNonQuery(qry)
             qry = "update  TSPL_INVENTORY_MOVEMENT_NEW set fat_amt=fat_rate*fat_kg,SNF_Amt=SNF_Rate*SNF_KG where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type in ('MCC-MSRN')"
@@ -7044,10 +7048,10 @@ Public Class FrmUtility
         Dim qry As String
         Try
             clsCommon.ProgressBarPercentShow()
-            qry = " with QCFat as (select Param_Field_Value as FATPer,qc_no  from TSPL_QC_Parameter_Detail where Param_Type='FAT' ) " & _
-                  " , QCSNF as (select Param_Field_Value as SNFPer,qc_no  from TSPL_QC_Parameter_Detail where Param_Type='SNF' ) " & _
-                  " , FatSNFData as (select TSPL_MILK_TRANSFER_IN.Weighment_no,TSPL_MILK_TRANSFER_IN.Receipt_Challan_No ,TSPL_Weighment_Detail.Net_Weight,QCFat.FATPer,QCSNF.SNFPer, (TSPL_Weighment_Detail.Net_Weight*QCFat.FATPer/100) as FATKg, (TSPL_Weighment_Detail.Net_Weight*QCSNF.SNFPer/100 ) as SNFKg,TSPL_MCC_Dispatch_Challan.FAT_RATE ,TSPL_MCC_Dispatch_Challan.SNF_RATE    from TSPL_MILK_TRANSFER_IN left outer join TSPL_Weighment_Detail on TSPL_Weighment_Detail.Weighment_No=TSPL_MILK_TRANSFER_IN.Weighment_No left outer join QCFat on TSPL_MILK_TRANSFER_IN.Qc_No=QCFat.QC_No left outer join QCSNF on TSPL_MILK_TRANSFER_IN.Qc_No=QCSNF .QC_No left outer join tspl_mcc_dispatch_challan on tspl_mcc_dispatch_challan.chalan_no=tspl_milk_transfer_in.Dispatch_Challan_No ) " & _
-                  " ,FinalData as(select *,FATKg*FAT_RATE as FatValue,SNFKg*SNF_RATE as SNfValue from FatSNFData ) " & _
+            qry = " with QCFat as (select Param_Field_Value as FATPer,qc_no  from TSPL_QC_Parameter_Detail where Param_Type='FAT' ) " &
+                  " , QCSNF as (select Param_Field_Value as SNFPer,qc_no  from TSPL_QC_Parameter_Detail where Param_Type='SNF' ) " &
+                  " , FatSNFData as (select TSPL_MILK_TRANSFER_IN.Weighment_no,TSPL_MILK_TRANSFER_IN.Receipt_Challan_No ,TSPL_Weighment_Detail.Net_Weight,QCFat.FATPer,QCSNF.SNFPer, (TSPL_Weighment_Detail.Net_Weight*QCFat.FATPer/100) as FATKg, (TSPL_Weighment_Detail.Net_Weight*QCSNF.SNFPer/100 ) as SNFKg,TSPL_MCC_Dispatch_Challan.FAT_RATE ,TSPL_MCC_Dispatch_Challan.SNF_RATE    from TSPL_MILK_TRANSFER_IN left outer join TSPL_Weighment_Detail on TSPL_Weighment_Detail.Weighment_No=TSPL_MILK_TRANSFER_IN.Weighment_No left outer join QCFat on TSPL_MILK_TRANSFER_IN.Qc_No=QCFat.QC_No left outer join QCSNF on TSPL_MILK_TRANSFER_IN.Qc_No=QCSNF .QC_No left outer join tspl_mcc_dispatch_challan on tspl_mcc_dispatch_challan.chalan_no=tspl_milk_transfer_in.Dispatch_Challan_No ) " &
+                  " ,FinalData as(select *,FATKg*FAT_RATE as FatValue,SNFKg*SNF_RATE as SNfValue from FatSNFData ) " &
                   " Update TSPL_INVENTORY_MOVEMENT_NEW set TSPL_INVENTORY_MOVEMENT_NEW.Fat_Rate= FinalData.FAT_RATE, TSPL_INVENTORY_MOVEMENT_NEW.SNF_Rate= FinalData.SNF_RATE, TSPL_INVENTORY_MOVEMENT_NEW.FAT_Amt=FinalData.FatValue, TSPL_INVENTORY_MOVEMENT_NEW.SNF_Amt= FinalData.SNfValue from TSPL_INVENTORY_MOVEMENT_NEW left outer join FinalData  on FinalData.Receipt_Challan_No =TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No where isnull(TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No,'')<>'' and isnull(TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type,'')='MilkTransferIn'"
             clsDBFuncationality.ExecuteNonQuery(qry)
 
@@ -7076,23 +7080,23 @@ Public Class FrmUtility
         Dim qry As String
         Try
             clsCommon.ProgressBarPercentShow()
-            qry = " update TSPL_INVENTORY_MOVEMENT_NEW set Fat_Rate=TSPL_MCC_DISPATCH_CHALLAN.FAT_RATE, SNF_Rate=TSPL_MCC_DISPATCH_CHALLAN.SNF_RATE,Fat_Amt=TSPL_MCC_DISPATCH_CHALLAN.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG ," & _
-                  " SNF_Amt=TSPL_MCC_DISPATCH_CHALLAN.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG from TSPL_MCC_DISPATCH_CHALLAN " & _
-                  " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='DispChallan' and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_MCC_DISPATCH_CHALLAN.Chalan_NO " & _
+            qry = " update TSPL_INVENTORY_MOVEMENT_NEW set Fat_Rate=TSPL_MCC_DISPATCH_CHALLAN.FAT_RATE, SNF_Rate=TSPL_MCC_DISPATCH_CHALLAN.SNF_RATE,Fat_Amt=TSPL_MCC_DISPATCH_CHALLAN.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG ," &
+                  " SNF_Amt=TSPL_MCC_DISPATCH_CHALLAN.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG from TSPL_MCC_DISPATCH_CHALLAN " &
+                  " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='DispChallan' and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_MCC_DISPATCH_CHALLAN.Chalan_NO " &
                   " and TSPL_INVENTORY_MOVEMENT_NEW.Item_Code=TSPL_MCC_DISPATCH_CHALLAN.Item_Code"
 
             clsDBFuncationality.ExecuteNonQuery(qry)
 
             '' update auto adjustment entry
-            qry = " update TSPL_ADJUSTMENT_DETAIL set Fat_Rate=TSPL_MCC_DISPATCH_CHALLAN.FAT_RATE,SNF_Rate=TSPL_MCC_DISPATCH_CHALLAN.SNF_RATE," & _
-                  " Fat_Amt=TSPL_MCC_DISPATCH_CHALLAN.FAT_RATE*TSPL_ADJUSTMENT_DETAIL.FAT_KG,SNF_Amt=TSPL_MCC_DISPATCH_CHALLAN.SNF_RATE* TSPL_ADJUSTMENT_DETAIL.SNF_KG from ( select TSPL_ADJUSTMENT_HEADER.Adjustment_No,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,TSPL_MCC_DISPATCH_CHALLAN.* from TSPL_ADJUSTMENT_HEADER inner join TSPL_MCC_DISPATCH_CHALLAN on TSPL_ADJUSTMENT_HEADER.Against_Tanker_Dispatch_Doc_No =TSPL_MCC_DISPATCH_CHALLAN.Chalan_NO) as TSPL_MCC_DISPATCH_CHALLAN where TSPL_ADJUSTMENT_DETAIL.Adjustment_No=TSPL_MCC_DISPATCH_CHALLAN.Adjustment_No and " & _
+            qry = " update TSPL_ADJUSTMENT_DETAIL set Fat_Rate=TSPL_MCC_DISPATCH_CHALLAN.FAT_RATE,SNF_Rate=TSPL_MCC_DISPATCH_CHALLAN.SNF_RATE," &
+                  " Fat_Amt=TSPL_MCC_DISPATCH_CHALLAN.FAT_RATE*TSPL_ADJUSTMENT_DETAIL.FAT_KG,SNF_Amt=TSPL_MCC_DISPATCH_CHALLAN.SNF_RATE* TSPL_ADJUSTMENT_DETAIL.SNF_KG from ( select TSPL_ADJUSTMENT_HEADER.Adjustment_No,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,TSPL_MCC_DISPATCH_CHALLAN.* from TSPL_ADJUSTMENT_HEADER inner join TSPL_MCC_DISPATCH_CHALLAN on TSPL_ADJUSTMENT_HEADER.Against_Tanker_Dispatch_Doc_No =TSPL_MCC_DISPATCH_CHALLAN.Chalan_NO) as TSPL_MCC_DISPATCH_CHALLAN where TSPL_ADJUSTMENT_DETAIL.Adjustment_No=TSPL_MCC_DISPATCH_CHALLAN.Adjustment_No and " &
                   " TSPL_ADJUSTMENT_DETAIL.Item_Code=TSPL_MCC_DISPATCH_CHALLAN.Item_Code "
             clsDBFuncationality.ExecuteNonQuery(qry)
 
             '' update inventory movement from  auto adjustment entry
-            qry = "  update TSPL_INVENTORY_MOVEMENT_NEW set Fat_Rate=TSPL_ADJUSTMENT_DETAIL.Fat_Rate,SNF_Rate=TSPL_ADJUSTMENT_DETAIL.SNF_Rate,Fat_Amt=TSPL_ADJUSTMENT_DETAIL.Fat_Amt,SNF_Amt=TSPL_ADJUSTMENT_DETAIL.SNF_Amt" & _
-                  " from (select TSPL_ADJUSTMENT_HEADER.Against_Tanker_Dispatch_Doc_No,TSPL_ADJUSTMENT_DETAIL.* from TSPL_ADJUSTMENT_DETAIL inner join TSPL_ADJUSTMENT_HEADER on TSPL_ADJUSTMENT_DETAIL.Adjustment_No=TSPL_ADJUSTMENT_HEADER.Adjustment_No) TSPL_ADJUSTMENT_DETAIL " & _
-                  " where TSPL_ADJUSTMENT_DETAIL.Adjustment_No = TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No And TSPL_ADJUSTMENT_DETAIL.Item_Code = TSPL_INVENTORY_MOVEMENT_NEW.Item_Code " & _
+            qry = "  update TSPL_INVENTORY_MOVEMENT_NEW set Fat_Rate=TSPL_ADJUSTMENT_DETAIL.Fat_Rate,SNF_Rate=TSPL_ADJUSTMENT_DETAIL.SNF_Rate,Fat_Amt=TSPL_ADJUSTMENT_DETAIL.Fat_Amt,SNF_Amt=TSPL_ADJUSTMENT_DETAIL.SNF_Amt" &
+                  " from (select TSPL_ADJUSTMENT_HEADER.Against_Tanker_Dispatch_Doc_No,TSPL_ADJUSTMENT_DETAIL.* from TSPL_ADJUSTMENT_DETAIL inner join TSPL_ADJUSTMENT_HEADER on TSPL_ADJUSTMENT_DETAIL.Adjustment_No=TSPL_ADJUSTMENT_HEADER.Adjustment_No) TSPL_ADJUSTMENT_DETAIL " &
+                  " where TSPL_ADJUSTMENT_DETAIL.Adjustment_No = TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No And TSPL_ADJUSTMENT_DETAIL.Item_Code = TSPL_INVENTORY_MOVEMENT_NEW.Item_Code " &
                   " and TSPL_ADJUSTMENT_DETAIL.Against_Tanker_Dispatch_Doc_No is not null "
             clsDBFuncationality.ExecuteNonQuery(qry)
 
@@ -7107,9 +7111,9 @@ Public Class FrmUtility
         Dim qry As String
         Try
             clsCommon.ProgressBarPercentShow()
-            qry = " update TSPL_INVENTORY_MOVEMENT_NEW set Fat_Rate=DispatcBS.FatRate, SNF_Rate=DispatcBS.SNFRate,Fat_Amt=DispatcBS.FatRate*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG ," & _
-                  " SNF_Amt=DispatcBS.SNFRate*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG from (select TSPL_Dispatch_Detail_BulkSale.* from TSPL_Dispatch_Detail_BulkSale inner join TSPL_Dispatch_BulkSale on TSPL_Dispatch_Detail_BulkSale.Document_No=TSPL_Dispatch_BulkSale.Document_No) DispatcBS " & _
-                  " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='DispatchBS' and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=DispatcBS.Document_No " & _
+            qry = " update TSPL_INVENTORY_MOVEMENT_NEW set Fat_Rate=DispatcBS.FatRate, SNF_Rate=DispatcBS.SNFRate,Fat_Amt=DispatcBS.FatRate*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG ," &
+                  " SNF_Amt=DispatcBS.SNFRate*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG from (select TSPL_Dispatch_Detail_BulkSale.* from TSPL_Dispatch_Detail_BulkSale inner join TSPL_Dispatch_BulkSale on TSPL_Dispatch_Detail_BulkSale.Document_No=TSPL_Dispatch_BulkSale.Document_No) DispatcBS " &
+                  " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='DispatchBS' and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=DispatcBS.Document_No " &
                   " and TSPL_INVENTORY_MOVEMENT_NEW.Item_Code=DispatcBS.Item_Code"
 
             clsDBFuncationality.ExecuteNonQuery(qry)
@@ -7124,9 +7128,9 @@ Public Class FrmUtility
         Dim qry As String
         Try
             clsCommon.ProgressBarPercentShow()
-            qry = " update TSPL_INVENTORY_MOVEMENT_NEW set Fat_Rate=DispatcBSTrade.FatRate, SNF_Rate=DispatcBSTrade.SNFRate,Fat_Amt=DispatcBSTrade.FatRate*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG ," & _
-                  " SNF_Amt=DispatcBSTrade.SNFRate*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG from (select TSPL_Dispatch_Detail_BulkSale_Trade.* from TSPL_Dispatch_Detail_BulkSale_Trade inner join TSPL_Dispatch_BulkSale_Trade on TSPL_Dispatch_Detail_BulkSale_Trade.Document_No=TSPL_Dispatch_BulkSale_Trade.Document_No) DispatcBSTrade " & _
-                  " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='DispatchBSTrade' and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=DispatcBSTrade.Document_No " & _
+            qry = " update TSPL_INVENTORY_MOVEMENT_NEW set Fat_Rate=DispatcBSTrade.FatRate, SNF_Rate=DispatcBSTrade.SNFRate,Fat_Amt=DispatcBSTrade.FatRate*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG ," &
+                  " SNF_Amt=DispatcBSTrade.SNFRate*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG from (select TSPL_Dispatch_Detail_BulkSale_Trade.* from TSPL_Dispatch_Detail_BulkSale_Trade inner join TSPL_Dispatch_BulkSale_Trade on TSPL_Dispatch_Detail_BulkSale_Trade.Document_No=TSPL_Dispatch_BulkSale_Trade.Document_No) DispatcBSTrade " &
+                  " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='DispatchBSTrade' and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=DispatcBSTrade.Document_No " &
                   " and TSPL_INVENTORY_MOVEMENT_NEW.Item_Code=DispatcBSTrade.Item_Code"
 
             clsDBFuncationality.ExecuteNonQuery(qry)
@@ -7143,9 +7147,9 @@ Public Class FrmUtility
         Try
 
             clsCommon.ProgressBarPercentShow()
-            qry = " select Trans_Type,Trans_Id,Location_Code,Item_Code,Qty,Stock_Qty,UOM,Source_Doc_No,convert(date,Source_Doc_Date,103) as Source_Doc_Date,Posting_Date,Net_Cost,Avg_Cost,Fat_Per,SNF_Per,Fat_KG,SNF_KG,Fat_Rate,SNF_Rate,Fat_Amt,SNF_Amt " & _
-                  " from TSPL_INVENTORY_MOVEMENT_NEW where InOut='O'  " & _
-                  " and source_Doc_No not in (select adjustment_No from TSPL_ADJUSTMENT_HEADER where Against_Tanker_Dispatch_Doc_No is not null) " & _
+            qry = " select Trans_Type,Trans_Id,Location_Code,Item_Code,Qty,Stock_Qty,UOM,Source_Doc_No,convert(date,Source_Doc_Date,103) as Source_Doc_Date,Posting_Date,Net_Cost,Avg_Cost,Fat_Per,SNF_Per,Fat_KG,SNF_KG,Fat_Rate,SNF_Rate,Fat_Amt,SNF_Amt " &
+                  " from TSPL_INVENTORY_MOVEMENT_NEW where InOut='O'  " &
+                  " and source_Doc_No not in (select adjustment_No from TSPL_ADJUSTMENT_HEADER where Against_Tanker_Dispatch_Doc_No is not null) " &
                   " order by Punching_Date, Trans_Id"
             ''and Trans_Type not in ('DispChallan','DispatchBS','DispatchBSTrade','PP_ISSUE','PP_STDN','PRD_STG_PROC','PROD_ENTRY')
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
@@ -7206,20 +7210,20 @@ Public Class FrmUtility
         Try
 
             clsCommon.ProgressBarPercentShow()
-            qry = " update TSPL_PP_ISSUE_ITEM_DETAIL set Fat_Rate=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE, SNF_Rate=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE,Fat_Amt=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG ," & _
-                  " SNF_Amt=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG from TSPL_INVENTORY_MOVEMENT_NEW " & _
-                  " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PP_ISSUE' and  TSPL_INVENTORY_MOVEMENT_NEW.InOut='O'  " & _
-                  " and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_ISSUE_ITEM_DETAIL.Issue_Code " & _
-                  " and TSPL_INVENTORY_MOVEMENT_NEW.Location_Code=TSPL_PP_ISSUE_ITEM_DETAIL.From_Loaction_Code " & _
+            qry = " update TSPL_PP_ISSUE_ITEM_DETAIL set Fat_Rate=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE, SNF_Rate=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE,Fat_Amt=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG ," &
+                  " SNF_Amt=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG from TSPL_INVENTORY_MOVEMENT_NEW " &
+                  " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PP_ISSUE' and  TSPL_INVENTORY_MOVEMENT_NEW.InOut='O'  " &
+                  " and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_ISSUE_ITEM_DETAIL.Issue_Code " &
+                  " and TSPL_INVENTORY_MOVEMENT_NEW.Location_Code=TSPL_PP_ISSUE_ITEM_DETAIL.From_Loaction_Code " &
                   " and TSPL_INVENTORY_MOVEMENT_NEW.Item_Code=TSPL_PP_ISSUE_ITEM_DETAIL.Item_Code "
             clsDBFuncationality.ExecuteNonQuery(qry)
 
             '' update to location with same rate
-            qry = " update TSPL_INVENTORY_MOVEMENT_NEW set Fat_Rate=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE, SNF_Rate=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE,Fat_Amt=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG ," & _
-                  " SNF_Amt=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG from TSPL_PP_ISSUE_ITEM_DETAIL " & _
-                  " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PP_ISSUE' and  TSPL_INVENTORY_MOVEMENT_NEW.InOut='I'  " & _
-                  " and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_ISSUE_ITEM_DETAIL.Issue_Code " & _
-                  " and TSPL_INVENTORY_MOVEMENT_NEW.Location_Code=TSPL_PP_ISSUE_ITEM_DETAIL.To_Location_Code " & _
+            qry = " update TSPL_INVENTORY_MOVEMENT_NEW set Fat_Rate=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE, SNF_Rate=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE,Fat_Amt=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG ," &
+                  " SNF_Amt=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG from TSPL_PP_ISSUE_ITEM_DETAIL " &
+                  " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PP_ISSUE' and  TSPL_INVENTORY_MOVEMENT_NEW.InOut='I'  " &
+                  " and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_ISSUE_ITEM_DETAIL.Issue_Code " &
+                  " and TSPL_INVENTORY_MOVEMENT_NEW.Location_Code=TSPL_PP_ISSUE_ITEM_DETAIL.To_Location_Code " &
                   " and TSPL_INVENTORY_MOVEMENT_NEW.Item_Code=TSPL_PP_ISSUE_ITEM_DETAIL.Item_Code "
             clsDBFuncationality.ExecuteNonQuery(qry)
             'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
@@ -7262,28 +7266,28 @@ Public Class FrmUtility
 
             '' update production cost columns from issue table
             clsCommon.ProgressBarPercentShow()
-            qry = " update TSPL_PP_STD_ISSUE_ITEM_DETAIL set Fat_Rate=IssueFinal.Issued_FAT_Rate,SNF_Rate=IssueFinal.Issued_SNF_Rate," & _
-                  " Fat_Amt=IssueFinal.Issued_FAT_Amt,SNF_Amt=IssueFinal.Issued_SNF_Amt from ( " & _
-                  " select Issue.*,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.Item_Type,TSPL_ITEM_MASTER.Product_Type,TSPL_UNIT_MASTER.Unit_Desc,Issue.To_Location_Code as To_Location " & _
-                  " from (select TSPL_PP_ISSUE_HEAD.Standardization_Code,TSPL_PP_ISSUE_HEAD.Batch_Code, TSPL_PP_ISSUE_ITEM_DETAIL.Item_Code,TSPL_PP_ISSUE_ITEM_DETAIL.Unit_Code,TSPL_PP_ISSUE_HEAD.To_Location_Code,sum(TSPL_PP_ISSUE_ITEM_DETAIL.Qty) as Issue_Qty, " & _
-                  " sum(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_KG) as Issued_FAT_KG,(sum(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_KG)/sum(TSPL_PP_ISSUE_ITEM_DETAIL.Qty))*100 as Issued_FAT_Pers, " & _
-                  " sum(TSPL_PP_ISSUE_ITEM_DETAIL.SNF_KG) as Issued_SNF_KG,(sum(TSPL_PP_ISSUE_ITEM_DETAIL.SNF_KG)/sum(TSPL_PP_ISSUE_ITEM_DETAIL.Qty))*100 as Issued_SNF_Pers, " & _
-                  " (sum(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_Amt)/sum(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_KG)) as Issued_FAT_Rate,(sum(TSPL_PP_ISSUE_ITEM_DETAIL.SNF_Amt)/sum(TSPL_PP_ISSUE_ITEM_DETAIL.SNF_KG)) as Issued_SNF_Rate,sum(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_Amt) as Issued_FAT_Amt,sum(TSPL_PP_ISSUE_ITEM_DETAIL.SNF_Amt) as Issued_SNF_Amt " & _
-                  " from TSPL_PP_ISSUE_ITEM_DETAIL " & _
-                  " inner join TSPL_PP_ISSUE_HEAD on TSPL_PP_ISSUE_HEAD.Issue_Code=TSPL_PP_ISSUE_ITEM_DETAIL.Issue_Code " & _
-                  " inner join TSPL_PP_STANDARDIZATION_HEAD on TSPL_PP_ISSUE_HEAD.Standardization_Code=TSPL_PP_STANDARDIZATION_HEAD.Standardization_Code " & _
-                  " and TSPL_PP_ISSUE_HEAD.Batch_Code=TSPL_PP_STANDARDIZATION_HEAD.Child_Batch_Code " & _
-                  " group by TSPL_PP_ISSUE_HEAD.Standardization_Code,TSPL_PP_ISSUE_HEAD.Batch_Code,    TSPL_PP_ISSUE_ITEM_DETAIL.Item_Code,TSPL_PP_ISSUE_ITEM_DETAIL.Unit_Code,TSPL_PP_ISSUE_HEAD.To_Location_Code) as Issue " & _
-                  " left join TSPL_ITEM_MASTER on Issue.Item_Code=TSPL_ITEM_MASTER.Item_Code " & _
+            qry = " update TSPL_PP_STD_ISSUE_ITEM_DETAIL set Fat_Rate=IssueFinal.Issued_FAT_Rate,SNF_Rate=IssueFinal.Issued_SNF_Rate," &
+                  " Fat_Amt=IssueFinal.Issued_FAT_Amt,SNF_Amt=IssueFinal.Issued_SNF_Amt from ( " &
+                  " select Issue.*,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.Item_Type,TSPL_ITEM_MASTER.Product_Type,TSPL_UNIT_MASTER.Unit_Desc,Issue.To_Location_Code as To_Location " &
+                  " from (select TSPL_PP_ISSUE_HEAD.Standardization_Code,TSPL_PP_ISSUE_HEAD.Batch_Code, TSPL_PP_ISSUE_ITEM_DETAIL.Item_Code,TSPL_PP_ISSUE_ITEM_DETAIL.Unit_Code,TSPL_PP_ISSUE_HEAD.To_Location_Code,sum(TSPL_PP_ISSUE_ITEM_DETAIL.Qty) as Issue_Qty, " &
+                  " sum(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_KG) as Issued_FAT_KG,(sum(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_KG)/sum(TSPL_PP_ISSUE_ITEM_DETAIL.Qty))*100 as Issued_FAT_Pers, " &
+                  " sum(TSPL_PP_ISSUE_ITEM_DETAIL.SNF_KG) as Issued_SNF_KG,(sum(TSPL_PP_ISSUE_ITEM_DETAIL.SNF_KG)/sum(TSPL_PP_ISSUE_ITEM_DETAIL.Qty))*100 as Issued_SNF_Pers, " &
+                  " (sum(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_Amt)/sum(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_KG)) as Issued_FAT_Rate,(sum(TSPL_PP_ISSUE_ITEM_DETAIL.SNF_Amt)/sum(TSPL_PP_ISSUE_ITEM_DETAIL.SNF_KG)) as Issued_SNF_Rate,sum(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_Amt) as Issued_FAT_Amt,sum(TSPL_PP_ISSUE_ITEM_DETAIL.SNF_Amt) as Issued_SNF_Amt " &
+                  " from TSPL_PP_ISSUE_ITEM_DETAIL " &
+                  " inner join TSPL_PP_ISSUE_HEAD on TSPL_PP_ISSUE_HEAD.Issue_Code=TSPL_PP_ISSUE_ITEM_DETAIL.Issue_Code " &
+                  " inner join TSPL_PP_STANDARDIZATION_HEAD on TSPL_PP_ISSUE_HEAD.Standardization_Code=TSPL_PP_STANDARDIZATION_HEAD.Standardization_Code " &
+                  " and TSPL_PP_ISSUE_HEAD.Batch_Code=TSPL_PP_STANDARDIZATION_HEAD.Child_Batch_Code " &
+                  " group by TSPL_PP_ISSUE_HEAD.Standardization_Code,TSPL_PP_ISSUE_HEAD.Batch_Code,    TSPL_PP_ISSUE_ITEM_DETAIL.Item_Code,TSPL_PP_ISSUE_ITEM_DETAIL.Unit_Code,TSPL_PP_ISSUE_HEAD.To_Location_Code) as Issue " &
+                  " left join TSPL_ITEM_MASTER on Issue.Item_Code=TSPL_ITEM_MASTER.Item_Code " &
                   " left join TSPL_UNIT_MASTER on Issue.Unit_Code=TSPL_UNIT_MASTER.Unit_Code) as IssueFinal where TSPL_PP_STD_ISSUE_ITEM_DETAIL.Standardization_Code=IssueFinal.Standardization_Code and TSPL_PP_STD_ISSUE_ITEM_DETAIL.Item_Code=IssueFinal.Item_Code"
             clsDBFuncationality.ExecuteNonQuery(qry)
 
             '' update costing columns in add/remove table
-            qry = "update TSPL_PP_STD_ADD_REMOVE_ITEM_DETAIL set Fat_Rate=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE, SNF_Rate=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE,Fat_Amt=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG ," & _
-                  " SNF_Amt=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG from TSPL_INVENTORY_MOVEMENT_NEW " & _
-                  " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PP_STDN' and  TSPL_INVENTORY_MOVEMENT_NEW.InOut='O' " & _
-                  " and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_STD_ADD_REMOVE_ITEM_DETAIL.Standardization_Code " & _
-                  " and TSPL_INVENTORY_MOVEMENT_NEW.Location_Code=TSPL_PP_STD_ADD_REMOVE_ITEM_DETAIL.Loaction_Code " & _
+            qry = "update TSPL_PP_STD_ADD_REMOVE_ITEM_DETAIL set Fat_Rate=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE, SNF_Rate=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE,Fat_Amt=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG ," &
+                  " SNF_Amt=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG from TSPL_INVENTORY_MOVEMENT_NEW " &
+                  " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PP_STDN' and  TSPL_INVENTORY_MOVEMENT_NEW.InOut='O' " &
+                  " and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_STD_ADD_REMOVE_ITEM_DETAIL.Standardization_Code " &
+                  " and TSPL_INVENTORY_MOVEMENT_NEW.Location_Code=TSPL_PP_STD_ADD_REMOVE_ITEM_DETAIL.Loaction_Code " &
                   " and TSPL_INVENTORY_MOVEMENT_NEW.Item_Code=TSPL_PP_STD_ADD_REMOVE_ITEM_DETAIL.Item_Code "
 
             clsDBFuncationality.ExecuteNonQuery(qry)
@@ -7315,10 +7319,10 @@ Public Class FrmUtility
                 clsStandardizationRM.UpdateRM(drSTD.Item("Standardization_Code"), Nothing)
             Next
             '' update In cost
-            qry = " update TSPL_INVENTORY_MOVEMENT_NEW set Fat_Rate=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Fat_Rate,Fat_Amt=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Fat_Amt,SNF_Rate=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.SNF_Rate," & _
-                  " SNF_Amt=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.SNF_Amt from TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL" & _
-                  " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PP_STDN' and InOut='I' and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Standardization_Code " & _
-                  " and TSPL_INVENTORY_MOVEMENT_NEW.Item_Code=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Item_Code " & _
+            qry = " update TSPL_INVENTORY_MOVEMENT_NEW set Fat_Rate=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Fat_Rate,Fat_Amt=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Fat_Amt,SNF_Rate=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.SNF_Rate," &
+                  " SNF_Amt=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.SNF_Amt from TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL" &
+                  " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PP_STDN' and InOut='I' and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Standardization_Code " &
+                  " and TSPL_INVENTORY_MOVEMENT_NEW.Item_Code=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Item_Code " &
                   " and TSPL_INVENTORY_MOVEMENT_NEW.UOM=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Unit_Code"
             clsDBFuncationality.ExecuteNonQuery(qry)
 
@@ -7336,19 +7340,19 @@ Public Class FrmUtility
         Try
             '' update production cost columns from issue table
             clsCommon.ProgressBarPercentShow()
-            qry = " update TSPL_PP_PE_ISSUE_ITEM_DETAIL set Fat_Rate=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE, SNF_Rate=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE,Fat_Amt=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG , " & _
-                  " SNF_Amt=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG from TSPL_INVENTORY_MOVEMENT_NEW " & _
-                  " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PROD_ENTRY' and  TSPL_INVENTORY_MOVEMENT_NEW.InOut='O'  " & _
-                  " and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_PE_ISSUE_ITEM_DETAIL.PROD_ENTRY_CODE " & _
-                  " and TSPL_INVENTORY_MOVEMENT_NEW.Item_Code=TSPL_PP_PE_ISSUE_ITEM_DETAIL.Item_Code " & _
+            qry = " update TSPL_PP_PE_ISSUE_ITEM_DETAIL set Fat_Rate=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE, SNF_Rate=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE,Fat_Amt=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG , " &
+                  " SNF_Amt=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG from TSPL_INVENTORY_MOVEMENT_NEW " &
+                  " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PROD_ENTRY' and  TSPL_INVENTORY_MOVEMENT_NEW.InOut='O'  " &
+                  " and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_PE_ISSUE_ITEM_DETAIL.PROD_ENTRY_CODE " &
+                  " and TSPL_INVENTORY_MOVEMENT_NEW.Item_Code=TSPL_PP_PE_ISSUE_ITEM_DETAIL.Item_Code " &
                   " and TSPL_INVENTORY_MOVEMENT_NEW.UOM=TSPL_PP_PE_ISSUE_ITEM_DETAIL.Unit_Code"
             clsDBFuncationality.ExecuteNonQuery(qry)
 
             '' update costing columns in add/remove flashing table
-            qry = "update TSPL_PP_PE_WRECKAGE_FLASHING set Fat_Rate=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE, SNF_Rate=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE,Fat_Amt=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG , " & _
-                  " SNF_Amt=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG from TSPL_INVENTORY_MOVEMENT_NEW " & _
-                  " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PROD_ENTRY' and  TSPL_INVENTORY_MOVEMENT_NEW.InOut='O' " & _
-                  " and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_PE_WRECKAGE_FLASHING.PROD_ENTRY_CODE " & _
+            qry = "update TSPL_PP_PE_WRECKAGE_FLASHING set Fat_Rate=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE, SNF_Rate=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE,Fat_Amt=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG , " &
+                  " SNF_Amt=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG from TSPL_INVENTORY_MOVEMENT_NEW " &
+                  " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PROD_ENTRY' and  TSPL_INVENTORY_MOVEMENT_NEW.InOut='O' " &
+                  " and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_PE_WRECKAGE_FLASHING.PROD_ENTRY_CODE " &
                   " and TSPL_INVENTORY_MOVEMENT_NEW.Item_Code=TSPL_PP_PE_WRECKAGE_FLASHING.Item_Code "
 
             clsDBFuncationality.ExecuteNonQuery(qry)
@@ -7361,11 +7365,11 @@ Public Class FrmUtility
                 clsCommon.ProgressBarPercentUpdate((dt.Rows.IndexOf(drSTD) + 1) * 100 / dt.Rows.Count, "Update Production Entry Fat/SNF Cost " + clsCommon.myCstr(dt.Rows.IndexOf(drSTD) + 1) + "/" + clsCommon.myCstr(dt.Rows.Count))
                 clsProductionEntryRM.UpdateRM(drSTD.Item("PROD_ENTRY_CODE"), Nothing)
             Next
-            qry = "update TSPL_INVENTORY_MOVEMENT_NEW set Fat_Rate=TSPL_PP_PRODUCTION_ENTRY_DETAIL.Fat_Rate,Fat_Amt=TSPL_PP_PRODUCTION_ENTRY_DETAIL.Fat_Amt," & _
-                  " SNF_Rate=TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Rate,SNF_Amt=TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Amt from TSPL_PP_PRODUCTION_ENTRY_DETAIL " & _
-                  " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PROD_ENTRY' and InOut='I' " & _
-                  " and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE " & _
-                  " and TSPL_INVENTORY_MOVEMENT_NEW.Item_Code=TSPL_PP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE " & _
+            qry = "update TSPL_INVENTORY_MOVEMENT_NEW set Fat_Rate=TSPL_PP_PRODUCTION_ENTRY_DETAIL.Fat_Rate,Fat_Amt=TSPL_PP_PRODUCTION_ENTRY_DETAIL.Fat_Amt," &
+                  " SNF_Rate=TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Rate,SNF_Amt=TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Amt from TSPL_PP_PRODUCTION_ENTRY_DETAIL " &
+                  " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PROD_ENTRY' and InOut='I' " &
+                  " and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE " &
+                  " and TSPL_INVENTORY_MOVEMENT_NEW.Item_Code=TSPL_PP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE " &
                   " and TSPL_INVENTORY_MOVEMENT_NEW.UOM=TSPL_PP_PRODUCTION_ENTRY_DETAIL.Unit_Code"
             clsDBFuncationality.ExecuteNonQuery(qry)
 
@@ -7385,9 +7389,9 @@ Public Class FrmUtility
         Try
             clsCommon.ProgressBarPercentShow()
             '' update cost of standardized milk produced
-            qry = " select * from (" & _
-                  " select'Std' as Prd_Type, Standardization_Code as  Prod_Code,Standardization_Date as Prod_Date,Modified_Date as Posting_Date from TSPL_PP_STANDARDIZATION_HEAD where Posted=1 and Standardization_Date>='" & clsCommon.GetPrintDate(dtpUpdateProdDate.Value, "dd-MMM-yyyy") & "' and Standardization_Date<='" & clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") & "' " & _
-                  " union all " & _
+            qry = " select * from (" &
+                  " select'Std' as Prd_Type, Standardization_Code as  Prod_Code,Standardization_Date as Prod_Date,Modified_Date as Posting_Date from TSPL_PP_STANDARDIZATION_HEAD where Posted=1 and Standardization_Date>='" & clsCommon.GetPrintDate(dtpUpdateProdDate.Value, "dd-MMM-yyyy") & "' and Standardization_Date<='" & clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") & "' " &
+                  " union all " &
                   " select 'PE' as Prd_Type,PROD_ENTRY_CODE as Prod_Code,PROD_DATE  as Prod_Date,POSTING_DATE from TSPL_PP_PRODUCTION_ENTRY where POSTED=1 and PROD_DATE>='" & clsCommon.GetPrintDate(dtpUpdateProdDate.Value, "dd-MMM-yyyy") & "' and PROD_DATE<='" & clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") & "') as Prod  where 2=2 "
             If Not txtMultiDocProd.arrValueMember Is Nothing AndAlso txtMultiDocProd.arrValueMember.Count > 0 Then
                 qry = qry & " and Prod_Code in (" & clsCommon.GetMulcallString(txtMultiDocProd.arrValueMember) & ")"
@@ -7407,9 +7411,9 @@ Public Class FrmUtility
                         clsCommon.MyMessageBoxShow(Me, "Consumption updated successfully", Me.Text)
                         Exit Try
                     End If
-                    qry = " select Trans_Type,Trans_Id,Location_Code,Item_Code,Qty,Stock_Qty,UOM,Source_Doc_No,convert(date,Punching_Date,103) as Source_Doc_Date,Net_Cost,Avg_Cost,Fat_Per,SNF_Per,Fat_KG,SNF_KG,Fat_Rate,SNF_Rate,Fat_Amt,SNF_Amt " & _
-                  " from TSPL_INVENTORY_MOVEMENT_NEW where InOut='O'  " & _
-                  " and source_Doc_No in (select Issue_Code from TSPL_PP_ISSUE_HEAD where Standardization_Code='" & drPrd.Item("Prod_Code") & "' union all select '" & drPrd.Item("Prod_Code") & "') and TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type in ('PP_ISSUE','PP_STDN') " & _
+                    qry = " select Trans_Type,Trans_Id,Location_Code,Item_Code,Qty,Stock_Qty,UOM,Source_Doc_No,convert(date,Punching_Date,103) as Source_Doc_Date,Net_Cost,Avg_Cost,Fat_Per,SNF_Per,Fat_KG,SNF_KG,Fat_Rate,SNF_Rate,Fat_Amt,SNF_Amt " &
+                  " from TSPL_INVENTORY_MOVEMENT_NEW where InOut='O'  " &
+                  " and source_Doc_No in (select Issue_Code from TSPL_PP_ISSUE_HEAD where Standardization_Code='" & drPrd.Item("Prod_Code") & "' union all select '" & drPrd.Item("Prod_Code") & "') and TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type in ('PP_ISSUE','PP_STDN') " &
                   " order by Punching_Date, Trans_Id"
                     Dim dtIssue As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                     For Each drInv As DataRow In dtIssue.Rows
@@ -7449,33 +7453,33 @@ Public Class FrmUtility
 
 
                         '' update production table
-                        qry = " update TSPL_PP_ISSUE_ITEM_DETAIL set Fat_Rate=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE, SNF_Rate=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE,Fat_Amt=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG ," & _
-                 " SNF_Amt=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG from TSPL_INVENTORY_MOVEMENT_NEW " & _
-                 " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PP_ISSUE' and  TSPL_INVENTORY_MOVEMENT_NEW.InOut='O'  " & _
-                 " and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_ISSUE_ITEM_DETAIL.Issue_Code " & _
-                 " and TSPL_INVENTORY_MOVEMENT_NEW.Location_Code=TSPL_PP_ISSUE_ITEM_DETAIL.From_Loaction_Code " & _
+                        qry = " update TSPL_PP_ISSUE_ITEM_DETAIL set Fat_Rate=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE, SNF_Rate=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE,Fat_Amt=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG ," &
+                 " SNF_Amt=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG from TSPL_INVENTORY_MOVEMENT_NEW " &
+                 " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PP_ISSUE' and  TSPL_INVENTORY_MOVEMENT_NEW.InOut='O'  " &
+                 " and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_ISSUE_ITEM_DETAIL.Issue_Code " &
+                 " and TSPL_INVENTORY_MOVEMENT_NEW.Location_Code=TSPL_PP_ISSUE_ITEM_DETAIL.From_Loaction_Code " &
                  " and TSPL_INVENTORY_MOVEMENT_NEW.Item_Code=TSPL_PP_ISSUE_ITEM_DETAIL.Item_Code and  Issue_Code='" & drInv.Item("Source_Doc_No") & "'"
                         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                        qry = " update TSPL_PP_PE_ISSUE_ITEM_DETAIL set Fat_Rate=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE, SNF_Rate=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE,Fat_Amt=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG ," & _
-                 " SNF_Amt=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG from TSPL_INVENTORY_MOVEMENT_NEW " & _
-                 " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PP_ISSUE' and  TSPL_INVENTORY_MOVEMENT_NEW.InOut='O'  " & _
-                 " and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_PE_ISSUE_ITEM_DETAIL.Issue_Code " & _
-                 " and TSPL_INVENTORY_MOVEMENT_NEW.Location_Code=TSPL_PP_PE_ISSUE_ITEM_DETAIL.From_Loaction_Code " & _
+                        qry = " update TSPL_PP_PE_ISSUE_ITEM_DETAIL set Fat_Rate=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE, SNF_Rate=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE,Fat_Amt=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG ," &
+                 " SNF_Amt=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG from TSPL_INVENTORY_MOVEMENT_NEW " &
+                 " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PP_ISSUE' and  TSPL_INVENTORY_MOVEMENT_NEW.InOut='O'  " &
+                 " and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_PE_ISSUE_ITEM_DETAIL.Issue_Code " &
+                 " and TSPL_INVENTORY_MOVEMENT_NEW.Location_Code=TSPL_PP_PE_ISSUE_ITEM_DETAIL.From_Loaction_Code " &
                  " and TSPL_INVENTORY_MOVEMENT_NEW.Item_Code=TSPL_PP_PE_ISSUE_ITEM_DETAIL.Item_Code and  Issue_Code='" & drInv.Item("Source_Doc_No") & "'"
                         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
                         '' update to location with same rate
-                        qry = " update TSPL_INVENTORY_MOVEMENT_NEW set Fat_Rate=TSPL_PP_ISSUE_ITEM_DETAIL.FAT_RATE, SNF_Rate=TSPL_PP_ISSUE_ITEM_DETAIL.SNF_RATE,Fat_Amt=TSPL_PP_ISSUE_ITEM_DETAIL.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG ," & _
-                              " SNF_Amt=TSPL_PP_ISSUE_ITEM_DETAIL.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG, " & _
-                              " Avg_Cost=(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG+TSPL_PP_ISSUE_ITEM_DETAIL.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG)," & _
-                              " FIFO_Cost=(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG+TSPL_PP_ISSUE_ITEM_DETAIL.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG), " & _
-                              " LIFO_Cost=(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG+TSPL_PP_ISSUE_ITEM_DETAIL.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG), " & _
-                              " Basic_Cost=(case when TSPL_INVENTORY_MOVEMENT_NEW.Qty<=0 then 0 else ((TSPL_PP_ISSUE_ITEM_DETAIL.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG+TSPL_PP_ISSUE_ITEM_DETAIL.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG)/(case when TSPL_INVENTORY_MOVEMENT_NEW.Qty<=0 then 1 else TSPL_INVENTORY_MOVEMENT_NEW.Qty end)) end)," & _
-                              " Net_Cost=(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG+TSPL_PP_ISSUE_ITEM_DETAIL.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG) from TSPL_PP_ISSUE_ITEM_DETAIL " & _
-                              " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PP_ISSUE' and  TSPL_INVENTORY_MOVEMENT_NEW.InOut='I'  " & _
-                              " and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_ISSUE_ITEM_DETAIL.Issue_Code " & _
-                              " and TSPL_INVENTORY_MOVEMENT_NEW.Location_Code=TSPL_PP_ISSUE_ITEM_DETAIL.To_Location_Code " & _
+                        qry = " update TSPL_INVENTORY_MOVEMENT_NEW set Fat_Rate=TSPL_PP_ISSUE_ITEM_DETAIL.FAT_RATE, SNF_Rate=TSPL_PP_ISSUE_ITEM_DETAIL.SNF_RATE,Fat_Amt=TSPL_PP_ISSUE_ITEM_DETAIL.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG ," &
+                              " SNF_Amt=TSPL_PP_ISSUE_ITEM_DETAIL.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG, " &
+                              " Avg_Cost=(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG+TSPL_PP_ISSUE_ITEM_DETAIL.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG)," &
+                              " FIFO_Cost=(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG+TSPL_PP_ISSUE_ITEM_DETAIL.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG), " &
+                              " LIFO_Cost=(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG+TSPL_PP_ISSUE_ITEM_DETAIL.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG), " &
+                              " Basic_Cost=(case when TSPL_INVENTORY_MOVEMENT_NEW.Qty<=0 then 0 else ((TSPL_PP_ISSUE_ITEM_DETAIL.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG+TSPL_PP_ISSUE_ITEM_DETAIL.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG)/(case when TSPL_INVENTORY_MOVEMENT_NEW.Qty<=0 then 1 else TSPL_INVENTORY_MOVEMENT_NEW.Qty end)) end)," &
+                              " Net_Cost=(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG+TSPL_PP_ISSUE_ITEM_DETAIL.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG) from TSPL_PP_ISSUE_ITEM_DETAIL " &
+                              " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PP_ISSUE' and  TSPL_INVENTORY_MOVEMENT_NEW.InOut='I'  " &
+                              " and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_ISSUE_ITEM_DETAIL.Issue_Code " &
+                              " and TSPL_INVENTORY_MOVEMENT_NEW.Location_Code=TSPL_PP_ISSUE_ITEM_DETAIL.To_Location_Code " &
                               " and TSPL_INVENTORY_MOVEMENT_NEW.Item_Code=TSPL_PP_ISSUE_ITEM_DETAIL.Item_Code and  TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No='" & drInv.Item("Source_Doc_No") & "' "
                         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -7483,30 +7487,30 @@ Public Class FrmUtility
                     Next
 
                     '' update std issue table
-                    qry = " update TSPL_PP_STD_ISSUE_ITEM_DETAIL set Fat_Rate=IssueFinal.Issued_FAT_Rate,SNF_Rate=IssueFinal.Issued_SNF_Rate," & _
-              " Fat_Amt=IssueFinal.Issued_FAT_Amt,SNF_Amt=IssueFinal.Issued_SNF_Amt from ( " & _
-              " select Issue.*,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.Item_Type,TSPL_ITEM_MASTER.Product_Type,TSPL_UNIT_MASTER.Unit_Desc,Issue.To_Location_Code as To_Location " & _
-              " from (select TSPL_PP_ISSUE_HEAD.Standardization_Code,TSPL_PP_ISSUE_HEAD.Batch_Code, TSPL_PP_ISSUE_ITEM_DETAIL.Item_Code,TSPL_PP_ISSUE_ITEM_DETAIL.Unit_Code,TSPL_PP_ISSUE_HEAD.To_Location_Code,sum(TSPL_PP_ISSUE_ITEM_DETAIL.Qty) as Issue_Qty, " & _
-              " sum(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_KG) as Issued_FAT_KG,(case when sum(TSPL_PP_ISSUE_ITEM_DETAIL.Qty)<=0 then 0 else (sum(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_KG)/sum(TSPL_PP_ISSUE_ITEM_DETAIL.Qty))*100 end) as Issued_FAT_Pers, " & _
-              " sum(TSPL_PP_ISSUE_ITEM_DETAIL.SNF_KG) as Issued_SNF_KG,(case when sum(TSPL_PP_ISSUE_ITEM_DETAIL.Qty)<=0 then 0 else (sum(TSPL_PP_ISSUE_ITEM_DETAIL.SNF_KG)/sum(TSPL_PP_ISSUE_ITEM_DETAIL.Qty))*100 end) as Issued_SNF_Pers, " & _
-              " (case when sum(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_KG)<=0 then 0 else (sum(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_Amt)/sum(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_KG)) end) as Issued_FAT_Rate,(case when sum(TSPL_PP_ISSUE_ITEM_DETAIL.SNF_KG)<=0 then 0 else (sum(TSPL_PP_ISSUE_ITEM_DETAIL.SNF_Amt)/sum(TSPL_PP_ISSUE_ITEM_DETAIL.SNF_KG)) end) as Issued_SNF_Rate,sum(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_Amt) as Issued_FAT_Amt,sum(TSPL_PP_ISSUE_ITEM_DETAIL.SNF_Amt) as Issued_SNF_Amt " & _
-              " from TSPL_PP_ISSUE_ITEM_DETAIL " & _
-              " inner join TSPL_PP_ISSUE_HEAD on TSPL_PP_ISSUE_HEAD.Issue_Code=TSPL_PP_ISSUE_ITEM_DETAIL.Issue_Code " & _
-              " inner join TSPL_PP_STANDARDIZATION_HEAD on TSPL_PP_ISSUE_HEAD.Standardization_Code=TSPL_PP_STANDARDIZATION_HEAD.Standardization_Code " & _
-              " and TSPL_PP_ISSUE_HEAD.Batch_Code=TSPL_PP_STANDARDIZATION_HEAD.Child_Batch_Code " & _
-              " group by TSPL_PP_ISSUE_HEAD.Standardization_Code,TSPL_PP_ISSUE_HEAD.Batch_Code,    TSPL_PP_ISSUE_ITEM_DETAIL.Item_Code,TSPL_PP_ISSUE_ITEM_DETAIL.Unit_Code,TSPL_PP_ISSUE_HEAD.To_Location_Code) as Issue " & _
-              " left join TSPL_ITEM_MASTER on Issue.Item_Code=TSPL_ITEM_MASTER.Item_Code " & _
+                    qry = " update TSPL_PP_STD_ISSUE_ITEM_DETAIL set Fat_Rate=IssueFinal.Issued_FAT_Rate,SNF_Rate=IssueFinal.Issued_SNF_Rate," &
+              " Fat_Amt=IssueFinal.Issued_FAT_Amt,SNF_Amt=IssueFinal.Issued_SNF_Amt from ( " &
+              " select Issue.*,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.Item_Type,TSPL_ITEM_MASTER.Product_Type,TSPL_UNIT_MASTER.Unit_Desc,Issue.To_Location_Code as To_Location " &
+              " from (select TSPL_PP_ISSUE_HEAD.Standardization_Code,TSPL_PP_ISSUE_HEAD.Batch_Code, TSPL_PP_ISSUE_ITEM_DETAIL.Item_Code,TSPL_PP_ISSUE_ITEM_DETAIL.Unit_Code,TSPL_PP_ISSUE_HEAD.To_Location_Code,sum(TSPL_PP_ISSUE_ITEM_DETAIL.Qty) as Issue_Qty, " &
+              " sum(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_KG) as Issued_FAT_KG,(case when sum(TSPL_PP_ISSUE_ITEM_DETAIL.Qty)<=0 then 0 else (sum(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_KG)/sum(TSPL_PP_ISSUE_ITEM_DETAIL.Qty))*100 end) as Issued_FAT_Pers, " &
+              " sum(TSPL_PP_ISSUE_ITEM_DETAIL.SNF_KG) as Issued_SNF_KG,(case when sum(TSPL_PP_ISSUE_ITEM_DETAIL.Qty)<=0 then 0 else (sum(TSPL_PP_ISSUE_ITEM_DETAIL.SNF_KG)/sum(TSPL_PP_ISSUE_ITEM_DETAIL.Qty))*100 end) as Issued_SNF_Pers, " &
+              " (case when sum(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_KG)<=0 then 0 else (sum(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_Amt)/sum(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_KG)) end) as Issued_FAT_Rate,(case when sum(TSPL_PP_ISSUE_ITEM_DETAIL.SNF_KG)<=0 then 0 else (sum(TSPL_PP_ISSUE_ITEM_DETAIL.SNF_Amt)/sum(TSPL_PP_ISSUE_ITEM_DETAIL.SNF_KG)) end) as Issued_SNF_Rate,sum(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_Amt) as Issued_FAT_Amt,sum(TSPL_PP_ISSUE_ITEM_DETAIL.SNF_Amt) as Issued_SNF_Amt " &
+              " from TSPL_PP_ISSUE_ITEM_DETAIL " &
+              " inner join TSPL_PP_ISSUE_HEAD on TSPL_PP_ISSUE_HEAD.Issue_Code=TSPL_PP_ISSUE_ITEM_DETAIL.Issue_Code " &
+              " inner join TSPL_PP_STANDARDIZATION_HEAD on TSPL_PP_ISSUE_HEAD.Standardization_Code=TSPL_PP_STANDARDIZATION_HEAD.Standardization_Code " &
+              " and TSPL_PP_ISSUE_HEAD.Batch_Code=TSPL_PP_STANDARDIZATION_HEAD.Child_Batch_Code " &
+              " group by TSPL_PP_ISSUE_HEAD.Standardization_Code,TSPL_PP_ISSUE_HEAD.Batch_Code,    TSPL_PP_ISSUE_ITEM_DETAIL.Item_Code,TSPL_PP_ISSUE_ITEM_DETAIL.Unit_Code,TSPL_PP_ISSUE_HEAD.To_Location_Code) as Issue " &
+              " left join TSPL_ITEM_MASTER on Issue.Item_Code=TSPL_ITEM_MASTER.Item_Code " &
               " left join TSPL_UNIT_MASTER on Issue.Unit_Code=TSPL_UNIT_MASTER.Unit_Code) as IssueFinal where TSPL_PP_STD_ISSUE_ITEM_DETAIL.Standardization_Code=IssueFinal.Standardization_Code and TSPL_PP_STD_ISSUE_ITEM_DETAIL.Item_Code=IssueFinal.Item_Code and TSPL_PP_STD_ISSUE_ITEM_DETAIL.Standardization_Code='" & drPrd.Item("Prod_Code") & "'"
 
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
                     '' update extra added items cost
 
-                    qry = "update TSPL_PP_STD_ADD_REMOVE_ITEM_DETAIL set Fat_Rate=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE, SNF_Rate=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE,Fat_Amt=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG ," & _
-                 " SNF_Amt=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG from TSPL_INVENTORY_MOVEMENT_NEW " & _
-                 " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PP_STDN' and  TSPL_INVENTORY_MOVEMENT_NEW.InOut='O' " & _
-                 " and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_STD_ADD_REMOVE_ITEM_DETAIL.Standardization_Code " & _
-                 " and TSPL_INVENTORY_MOVEMENT_NEW.Location_Code=TSPL_PP_STD_ADD_REMOVE_ITEM_DETAIL.Loaction_Code " & _
+                    qry = "update TSPL_PP_STD_ADD_REMOVE_ITEM_DETAIL set Fat_Rate=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE, SNF_Rate=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE,Fat_Amt=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG ," &
+                 " SNF_Amt=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG from TSPL_INVENTORY_MOVEMENT_NEW " &
+                 " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PP_STDN' and  TSPL_INVENTORY_MOVEMENT_NEW.InOut='O' " &
+                 " and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_STD_ADD_REMOVE_ITEM_DETAIL.Standardization_Code " &
+                 " and TSPL_INVENTORY_MOVEMENT_NEW.Location_Code=TSPL_PP_STD_ADD_REMOVE_ITEM_DETAIL.Loaction_Code " &
                  " and TSPL_INVENTORY_MOVEMENT_NEW.Item_Code=TSPL_PP_STD_ADD_REMOVE_ITEM_DETAIL.Item_Code and TSPL_PP_STD_ADD_REMOVE_ITEM_DETAIL.Standardization_Code='" & drPrd.Item("Prod_Code") & "'"
 
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -7516,15 +7520,15 @@ Public Class FrmUtility
                     clsStandardizationRM.UpdateRM(drPrd.Item("Prod_Code"), trans)
 
                     '' update In cost
-                    qry = " update TSPL_INVENTORY_MOVEMENT_NEW set Fat_Rate=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Fat_Rate,Fat_Amt=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Fat_Amt,SNF_Rate=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.SNF_Rate," & _
-                          " SNF_Amt=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.SNF_Amt, " & _
-                          " Avg_Cost=(TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Fat_Amt+TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.SNF_Amt)," & _
-                          " FIFO_Cost=(TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Fat_Amt+TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.SNF_Amt)," & _
-                          " LIFO_Cost=(TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Fat_Amt+TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.SNF_Amt), " & _
-                          " Basic_Cost=(case when TSPL_INVENTORY_MOVEMENT_NEW.Qty<=0 then 0 else ((TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Fat_Amt+TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.SNF_Amt)/(case when TSPL_INVENTORY_MOVEMENT_NEW.Qty<=0 then 1 else TSPL_INVENTORY_MOVEMENT_NEW.Qty end)) end), " & _
-                          " Net_Cost=(TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Fat_Amt+TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.SNF_Amt) from TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL" & _
-                          " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PP_STDN' and InOut='I' and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Standardization_Code " & _
-                          " and TSPL_INVENTORY_MOVEMENT_NEW.Item_Code=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Item_Code " & _
+                    qry = " update TSPL_INVENTORY_MOVEMENT_NEW set Fat_Rate=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Fat_Rate,Fat_Amt=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Fat_Amt,SNF_Rate=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.SNF_Rate," &
+                          " SNF_Amt=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.SNF_Amt, " &
+                          " Avg_Cost=(TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Fat_Amt+TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.SNF_Amt)," &
+                          " FIFO_Cost=(TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Fat_Amt+TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.SNF_Amt)," &
+                          " LIFO_Cost=(TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Fat_Amt+TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.SNF_Amt), " &
+                          " Basic_Cost=(case when TSPL_INVENTORY_MOVEMENT_NEW.Qty<=0 then 0 else ((TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Fat_Amt+TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.SNF_Amt)/(case when TSPL_INVENTORY_MOVEMENT_NEW.Qty<=0 then 1 else TSPL_INVENTORY_MOVEMENT_NEW.Qty end)) end), " &
+                          " Net_Cost=(TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Fat_Amt+TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.SNF_Amt) from TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL" &
+                          " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PP_STDN' and InOut='I' and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Standardization_Code " &
+                          " and TSPL_INVENTORY_MOVEMENT_NEW.Item_Code=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Item_Code " &
                           " and TSPL_INVENTORY_MOVEMENT_NEW.UOM=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Unit_Code and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No='" & drPrd.Item("Prod_Code") & "'"
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -7537,9 +7541,9 @@ Public Class FrmUtility
                     End If
                     '' update issue
 
-                    qry = " select Trans_Type,Trans_Id,Location_Code,Item_Code,Qty,Stock_Qty,UOM,Source_Doc_No,convert(date,Punching_Date,103) as Source_Doc_Date,Net_Cost,Avg_Cost,Fat_Per,SNF_Per,Fat_KG,SNF_KG,Fat_Rate,SNF_Rate,Fat_Amt,SNF_Amt " & _
-                  " from TSPL_INVENTORY_MOVEMENT_NEW where InOut='O'  " & _
-                  " and source_Doc_No in (select Issue_Code from TSPL_PP_PE_ISSUE_ITEM_DETAIL where PROD_ENTRY_CODE='" & drPrd.Item("Prod_Code") & "' union all select '" & drPrd.Item("Prod_Code") & "') and TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type in ('PP_ISSUE','PROD_ENTRY') " & _
+                    qry = " select Trans_Type,Trans_Id,Location_Code,Item_Code,Qty,Stock_Qty,UOM,Source_Doc_No,convert(date,Punching_Date,103) as Source_Doc_Date,Net_Cost,Avg_Cost,Fat_Per,SNF_Per,Fat_KG,SNF_KG,Fat_Rate,SNF_Rate,Fat_Amt,SNF_Amt " &
+                  " from TSPL_INVENTORY_MOVEMENT_NEW where InOut='O'  " &
+                  " and source_Doc_No in (select Issue_Code from TSPL_PP_PE_ISSUE_ITEM_DETAIL where PROD_ENTRY_CODE='" & drPrd.Item("Prod_Code") & "' union all select '" & drPrd.Item("Prod_Code") & "') and TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type in ('PP_ISSUE','PROD_ENTRY') " &
                   " order by Punching_Date, Trans_Id"
                     Dim dtIssue As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                     For Each drInv As DataRow In dtIssue.Rows
@@ -7581,34 +7585,34 @@ Public Class FrmUtility
 
 
                         '' update production table
-                        qry = " update TSPL_PP_ISSUE_ITEM_DETAIL set Fat_Rate=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE, SNF_Rate=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE,Fat_Amt=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG ," & _
-                 " SNF_Amt=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG from TSPL_INVENTORY_MOVEMENT_NEW " & _
-                 " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PP_ISSUE' and  TSPL_INVENTORY_MOVEMENT_NEW.InOut='O'  " & _
-                 " and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_ISSUE_ITEM_DETAIL.Issue_Code " & _
-                 " and TSPL_INVENTORY_MOVEMENT_NEW.Location_Code=TSPL_PP_ISSUE_ITEM_DETAIL.From_Loaction_Code " & _
+                        qry = " update TSPL_PP_ISSUE_ITEM_DETAIL set Fat_Rate=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE, SNF_Rate=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE,Fat_Amt=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG ," &
+                 " SNF_Amt=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG from TSPL_INVENTORY_MOVEMENT_NEW " &
+                 " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PP_ISSUE' and  TSPL_INVENTORY_MOVEMENT_NEW.InOut='O'  " &
+                 " and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_ISSUE_ITEM_DETAIL.Issue_Code " &
+                 " and TSPL_INVENTORY_MOVEMENT_NEW.Location_Code=TSPL_PP_ISSUE_ITEM_DETAIL.From_Loaction_Code " &
                  " and TSPL_INVENTORY_MOVEMENT_NEW.Item_Code=TSPL_PP_ISSUE_ITEM_DETAIL.Item_Code and  Issue_Code='" & drInv.Item("Source_Doc_No") & "'"
                         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                        qry = " update TSPL_PP_PE_ISSUE_ITEM_DETAIL set Fat_Rate=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE, SNF_Rate=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE,Fat_Amt=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG ," & _
-                " SNF_Amt=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG from TSPL_INVENTORY_MOVEMENT_NEW " & _
-                " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PP_ISSUE' and  TSPL_INVENTORY_MOVEMENT_NEW.InOut='O'  " & _
-                " and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_PE_ISSUE_ITEM_DETAIL.Issue_Code " & _
-                " and TSPL_INVENTORY_MOVEMENT_NEW.Location_Code=TSPL_PP_PE_ISSUE_ITEM_DETAIL.From_Loaction_Code " & _
+                        qry = " update TSPL_PP_PE_ISSUE_ITEM_DETAIL set Fat_Rate=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE, SNF_Rate=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE,Fat_Amt=TSPL_INVENTORY_MOVEMENT_NEW.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG ," &
+                " SNF_Amt=TSPL_INVENTORY_MOVEMENT_NEW.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG from TSPL_INVENTORY_MOVEMENT_NEW " &
+                " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PP_ISSUE' and  TSPL_INVENTORY_MOVEMENT_NEW.InOut='O'  " &
+                " and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_PE_ISSUE_ITEM_DETAIL.Issue_Code " &
+                " and TSPL_INVENTORY_MOVEMENT_NEW.Location_Code=TSPL_PP_PE_ISSUE_ITEM_DETAIL.From_Loaction_Code " &
                 " and TSPL_INVENTORY_MOVEMENT_NEW.Item_Code=TSPL_PP_PE_ISSUE_ITEM_DETAIL.Item_Code and  Issue_Code='" & drInv.Item("Source_Doc_No") & "'"
                         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
                         '' update to location with same rate
-                        qry = " update TSPL_INVENTORY_MOVEMENT_NEW set Fat_Rate=TSPL_PP_ISSUE_ITEM_DETAIL.FAT_RATE, SNF_Rate=TSPL_PP_ISSUE_ITEM_DETAIL.SNF_RATE,Fat_Amt=TSPL_PP_ISSUE_ITEM_DETAIL.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG ," & _
-                              " SNF_Amt=TSPL_PP_ISSUE_ITEM_DETAIL.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG, " & _
-                              " Avg_Cost=(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG+TSPL_PP_ISSUE_ITEM_DETAIL.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG)," & _
-                              " FIFO_Cost=(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG+TSPL_PP_ISSUE_ITEM_DETAIL.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG), " & _
-                              " LIFO_Cost=(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG+TSPL_PP_ISSUE_ITEM_DETAIL.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG), " & _
-                              " Basic_Cost=(case when TSPL_INVENTORY_MOVEMENT_NEW.Qty<=0 then 0 else ((TSPL_PP_ISSUE_ITEM_DETAIL.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG+TSPL_PP_ISSUE_ITEM_DETAIL.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG)/(case when TSPL_INVENTORY_MOVEMENT_NEW.Qty<=0 then 1 else TSPL_INVENTORY_MOVEMENT_NEW.Qty end)) end)," & _
-                              " Net_Cost=(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG+TSPL_PP_ISSUE_ITEM_DETAIL.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG) " & _
-                              " from TSPL_PP_ISSUE_ITEM_DETAIL " & _
-                              " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PP_ISSUE' and  TSPL_INVENTORY_MOVEMENT_NEW.InOut='I'  " & _
-                              " and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_ISSUE_ITEM_DETAIL.Issue_Code " & _
-                              " and TSPL_INVENTORY_MOVEMENT_NEW.Location_Code=TSPL_PP_ISSUE_ITEM_DETAIL.To_Location_Code " & _
+                        qry = " update TSPL_INVENTORY_MOVEMENT_NEW set Fat_Rate=TSPL_PP_ISSUE_ITEM_DETAIL.FAT_RATE, SNF_Rate=TSPL_PP_ISSUE_ITEM_DETAIL.SNF_RATE,Fat_Amt=TSPL_PP_ISSUE_ITEM_DETAIL.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG ," &
+                              " SNF_Amt=TSPL_PP_ISSUE_ITEM_DETAIL.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG, " &
+                              " Avg_Cost=(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG+TSPL_PP_ISSUE_ITEM_DETAIL.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG)," &
+                              " FIFO_Cost=(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG+TSPL_PP_ISSUE_ITEM_DETAIL.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG), " &
+                              " LIFO_Cost=(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG+TSPL_PP_ISSUE_ITEM_DETAIL.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG), " &
+                              " Basic_Cost=(case when TSPL_INVENTORY_MOVEMENT_NEW.Qty<=0 then 0 else ((TSPL_PP_ISSUE_ITEM_DETAIL.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG+TSPL_PP_ISSUE_ITEM_DETAIL.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG)/(case when TSPL_INVENTORY_MOVEMENT_NEW.Qty<=0 then 1 else TSPL_INVENTORY_MOVEMENT_NEW.Qty end)) end)," &
+                              " Net_Cost=(TSPL_PP_ISSUE_ITEM_DETAIL.FAT_RATE*TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG+TSPL_PP_ISSUE_ITEM_DETAIL.SNF_RATE*TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG) " &
+                              " from TSPL_PP_ISSUE_ITEM_DETAIL " &
+                              " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PP_ISSUE' and  TSPL_INVENTORY_MOVEMENT_NEW.InOut='I'  " &
+                              " and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_ISSUE_ITEM_DETAIL.Issue_Code " &
+                              " and TSPL_INVENTORY_MOVEMENT_NEW.Location_Code=TSPL_PP_ISSUE_ITEM_DETAIL.To_Location_Code " &
                               " and TSPL_INVENTORY_MOVEMENT_NEW.Item_Code=TSPL_PP_ISSUE_ITEM_DETAIL.Item_Code and  TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No='" & drInv.Item("Source_Doc_No") & "' and TSPL_INVENTORY_MOVEMENT_NEW.Item_Code='" & Item_Code & "' and TSPL_INVENTORY_MOVEMENT_NEW.Location_Code='" & Location_Code & "' and TSPL_INVENTORY_MOVEMENT_NEW.Uom='" & UOM & "'"
                         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -7618,9 +7622,9 @@ Public Class FrmUtility
                     ''other item inventory
                     '' update issue
 
-                    qry = " select Trans_Type,Trans_Id,Location_Code,Item_Code,Qty,Stock_Qty,UOM,Source_Doc_No,convert(date,Punching_Date,103) as Source_Doc_Date,Net_Cost,Avg_Cost,Fat_Per,SNF_Per,Fat_KG,SNF_KG,Fat_Rate,SNF_Rate,Fat_Amt,SNF_Amt " & _
-                  " from TSPL_INVENTORY_MOVEMENT where InOut='O'  " & _
-                  " and source_Doc_No in (select Issue_Code from TSPL_PP_PE_ISSUE_ITEM_DETAIL where PROD_ENTRY_CODE='" & drPrd.Item("Prod_Code") & "' union all select '" & drPrd.Item("Prod_Code") & "') and TSPL_INVENTORY_MOVEMENT.Trans_Type in ('PP_ISSUE','PROD_ENTRY') " & _
+                    qry = " select Trans_Type,Trans_Id,Location_Code,Item_Code,Qty,Stock_Qty,UOM,Source_Doc_No,convert(date,Punching_Date,103) as Source_Doc_Date,Net_Cost,Avg_Cost,Fat_Per,SNF_Per,Fat_KG,SNF_KG,Fat_Rate,SNF_Rate,Fat_Amt,SNF_Amt " &
+                  " from TSPL_INVENTORY_MOVEMENT where InOut='O'  " &
+                  " and source_Doc_No in (select Issue_Code from TSPL_PP_PE_ISSUE_ITEM_DETAIL where PROD_ENTRY_CODE='" & drPrd.Item("Prod_Code") & "' union all select '" & drPrd.Item("Prod_Code") & "') and TSPL_INVENTORY_MOVEMENT.Trans_Type in ('PP_ISSUE','PROD_ENTRY') " &
                   " order by Punching_Date, Trans_Id"
                     dtIssue = clsDBFuncationality.GetDataTable(qry, trans)
                     For Each drInv As DataRow In dtIssue.Rows
@@ -7661,34 +7665,34 @@ Public Class FrmUtility
 
 
                         '' update production table
-                        qry = " update TSPL_PP_ISSUE_ITEM_DETAIL set Fat_Rate=TSPL_INVENTORY_MOVEMENT.FAT_RATE, SNF_Rate=TSPL_INVENTORY_MOVEMENT.SNF_RATE,Fat_Amt=TSPL_INVENTORY_MOVEMENT.Fat_Amt ," & _
-                 " SNF_Amt=TSPL_INVENTORY_MOVEMENT.SNF_Amt from TSPL_INVENTORY_MOVEMENT " & _
-                 " where TSPL_INVENTORY_MOVEMENT.Trans_Type='PP_ISSUE' and  TSPL_INVENTORY_MOVEMENT.InOut='O'  " & _
-                 " and TSPL_INVENTORY_MOVEMENT.Source_Doc_No=TSPL_PP_ISSUE_ITEM_DETAIL.Issue_Code " & _
-                 " and TSPL_INVENTORY_MOVEMENT.Location_Code=TSPL_PP_ISSUE_ITEM_DETAIL.From_Loaction_Code " & _
+                        qry = " update TSPL_PP_ISSUE_ITEM_DETAIL set Fat_Rate=TSPL_INVENTORY_MOVEMENT.FAT_RATE, SNF_Rate=TSPL_INVENTORY_MOVEMENT.SNF_RATE,Fat_Amt=TSPL_INVENTORY_MOVEMENT.Fat_Amt ," &
+                 " SNF_Amt=TSPL_INVENTORY_MOVEMENT.SNF_Amt from TSPL_INVENTORY_MOVEMENT " &
+                 " where TSPL_INVENTORY_MOVEMENT.Trans_Type='PP_ISSUE' and  TSPL_INVENTORY_MOVEMENT.InOut='O'  " &
+                 " and TSPL_INVENTORY_MOVEMENT.Source_Doc_No=TSPL_PP_ISSUE_ITEM_DETAIL.Issue_Code " &
+                 " and TSPL_INVENTORY_MOVEMENT.Location_Code=TSPL_PP_ISSUE_ITEM_DETAIL.From_Loaction_Code " &
                  " and TSPL_INVENTORY_MOVEMENT.Item_Code=TSPL_PP_ISSUE_ITEM_DETAIL.Item_Code and  Issue_Code='" & drInv.Item("Source_Doc_No") & "'"
                         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                        qry = " update TSPL_PP_PE_ISSUE_ITEM_DETAIL set Fat_Rate=TSPL_INVENTORY_MOVEMENT.FAT_RATE, SNF_Rate=TSPL_INVENTORY_MOVEMENT.SNF_RATE,Fat_Amt=TSPL_INVENTORY_MOVEMENT.Fat_Amt ," & _
-                " SNF_Amt=TSPL_INVENTORY_MOVEMENT.SNF_Amt from TSPL_INVENTORY_MOVEMENT " & _
-                " where TSPL_INVENTORY_MOVEMENT.Trans_Type='PP_ISSUE' and  TSPL_INVENTORY_MOVEMENT.InOut='O'  " & _
-                " and TSPL_INVENTORY_MOVEMENT.Source_Doc_No=TSPL_PP_PE_ISSUE_ITEM_DETAIL.Issue_Code " & _
-                " and TSPL_INVENTORY_MOVEMENT.Location_Code=TSPL_PP_PE_ISSUE_ITEM_DETAIL.From_Loaction_Code " & _
+                        qry = " update TSPL_PP_PE_ISSUE_ITEM_DETAIL set Fat_Rate=TSPL_INVENTORY_MOVEMENT.FAT_RATE, SNF_Rate=TSPL_INVENTORY_MOVEMENT.SNF_RATE,Fat_Amt=TSPL_INVENTORY_MOVEMENT.Fat_Amt ," &
+                " SNF_Amt=TSPL_INVENTORY_MOVEMENT.SNF_Amt from TSPL_INVENTORY_MOVEMENT " &
+                " where TSPL_INVENTORY_MOVEMENT.Trans_Type='PP_ISSUE' and  TSPL_INVENTORY_MOVEMENT.InOut='O'  " &
+                " and TSPL_INVENTORY_MOVEMENT.Source_Doc_No=TSPL_PP_PE_ISSUE_ITEM_DETAIL.Issue_Code " &
+                " and TSPL_INVENTORY_MOVEMENT.Location_Code=TSPL_PP_PE_ISSUE_ITEM_DETAIL.From_Loaction_Code " &
                 " and TSPL_INVENTORY_MOVEMENT.Item_Code=TSPL_PP_PE_ISSUE_ITEM_DETAIL.Item_Code and  Issue_Code='" & drInv.Item("Source_Doc_No") & "'"
                         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
                         '' update to location with same rate
-                        qry = " update TSPL_INVENTORY_MOVEMENT set Fat_Rate=TSPL_PP_ISSUE_ITEM_DETAIL.FAT_RATE, SNF_Rate=TSPL_PP_ISSUE_ITEM_DETAIL.SNF_RATE,Fat_Amt=TSPL_PP_ISSUE_ITEM_DETAIL.Fat_Amt ," & _
-                              " SNF_Amt=TSPL_PP_ISSUE_ITEM_DETAIL.SNF_Amt, " & _
-                              " Avg_Cost=(TSPL_PP_ISSUE_ITEM_DETAIL.Fat_Amt+TSPL_PP_ISSUE_ITEM_DETAIL.SNF_Amt)," & _
-                              " FIFO_Cost=(TSPL_PP_ISSUE_ITEM_DETAIL.Fat_Amt+TSPL_PP_ISSUE_ITEM_DETAIL.SNF_Amt), " & _
-                              " LIFO_Cost=(TSPL_PP_ISSUE_ITEM_DETAIL.Fat_Amt+TSPL_PP_ISSUE_ITEM_DETAIL.SNF_Amt), " & _
-                              " Basic_Cost=(case when TSPL_INVENTORY_MOVEMENT.Qty<=0 then 0 else ((TSPL_PP_ISSUE_ITEM_DETAIL.Fat_Amt+TSPL_PP_ISSUE_ITEM_DETAIL.SNF_Amt)/(case when TSPL_INVENTORY_MOVEMENT.Qty<=0 then 1 else TSPL_INVENTORY_MOVEMENT.Qty end)) end)," & _
-                              " Net_Cost=(TSPL_PP_ISSUE_ITEM_DETAIL.Fat_Amt+TSPL_PP_ISSUE_ITEM_DETAIL.SNF_Amt) " & _
-                              " from TSPL_PP_ISSUE_ITEM_DETAIL " & _
-                              " where TSPL_INVENTORY_MOVEMENT.Trans_Type='PP_ISSUE' and  TSPL_INVENTORY_MOVEMENT.InOut='I'  " & _
-                              " and TSPL_INVENTORY_MOVEMENT.Source_Doc_No=TSPL_PP_ISSUE_ITEM_DETAIL.Issue_Code " & _
-                              " and TSPL_INVENTORY_MOVEMENT.Location_Code=TSPL_PP_ISSUE_ITEM_DETAIL.To_Location_Code " & _
+                        qry = " update TSPL_INVENTORY_MOVEMENT set Fat_Rate=TSPL_PP_ISSUE_ITEM_DETAIL.FAT_RATE, SNF_Rate=TSPL_PP_ISSUE_ITEM_DETAIL.SNF_RATE,Fat_Amt=TSPL_PP_ISSUE_ITEM_DETAIL.Fat_Amt ," &
+                              " SNF_Amt=TSPL_PP_ISSUE_ITEM_DETAIL.SNF_Amt, " &
+                              " Avg_Cost=(TSPL_PP_ISSUE_ITEM_DETAIL.Fat_Amt+TSPL_PP_ISSUE_ITEM_DETAIL.SNF_Amt)," &
+                              " FIFO_Cost=(TSPL_PP_ISSUE_ITEM_DETAIL.Fat_Amt+TSPL_PP_ISSUE_ITEM_DETAIL.SNF_Amt), " &
+                              " LIFO_Cost=(TSPL_PP_ISSUE_ITEM_DETAIL.Fat_Amt+TSPL_PP_ISSUE_ITEM_DETAIL.SNF_Amt), " &
+                              " Basic_Cost=(case when TSPL_INVENTORY_MOVEMENT.Qty<=0 then 0 else ((TSPL_PP_ISSUE_ITEM_DETAIL.Fat_Amt+TSPL_PP_ISSUE_ITEM_DETAIL.SNF_Amt)/(case when TSPL_INVENTORY_MOVEMENT.Qty<=0 then 1 else TSPL_INVENTORY_MOVEMENT.Qty end)) end)," &
+                              " Net_Cost=(TSPL_PP_ISSUE_ITEM_DETAIL.Fat_Amt+TSPL_PP_ISSUE_ITEM_DETAIL.SNF_Amt) " &
+                              " from TSPL_PP_ISSUE_ITEM_DETAIL " &
+                              " where TSPL_INVENTORY_MOVEMENT.Trans_Type='PP_ISSUE' and  TSPL_INVENTORY_MOVEMENT.InOut='I'  " &
+                              " and TSPL_INVENTORY_MOVEMENT.Source_Doc_No=TSPL_PP_ISSUE_ITEM_DETAIL.Issue_Code " &
+                              " and TSPL_INVENTORY_MOVEMENT.Location_Code=TSPL_PP_ISSUE_ITEM_DETAIL.To_Location_Code " &
                               " and TSPL_INVENTORY_MOVEMENT.Item_Code=TSPL_PP_ISSUE_ITEM_DETAIL.Item_Code and  TSPL_INVENTORY_MOVEMENT.Source_Doc_No='" & drInv.Item("Source_Doc_No") & "' and TSPL_INVENTORY_MOVEMENT.Item_Code='" & Item_Code & "' and TSPL_INVENTORY_MOVEMENT.Location_Code='" & Location_Code & "' and TSPL_INVENTORY_MOVEMENT.Uom='" & UOM & "'"
                         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -7707,9 +7711,9 @@ Public Class FrmUtility
                     'clsDBFuncationality.ExecuteNonQuery(qry)
 
                     '' update costing columns in add/remove flashing table
-                    qry = " update TSPL_PP_PE_WRECKAGE_FLASHING set Fat_Rate=Cost.FAT_RATE, SNF_Rate=Cost.SNF_RATE,Fat_Amt=Cost.FAT_RATE*TSPL_PP_PE_WRECKAGE_FLASHING.Avail_FAT_KG ,  " & _
-                          " SNF_Amt=Cost.SNF_RATE*TSPL_PP_PE_WRECKAGE_FLASHING.Avail_SNF_KG from (select AVG(Fat_Rate) as Fat_Rate,AVG(SNF_Rate) as SNF_Rate,Item_Code,PROD_ENTRY_CODE from TSPL_PP_PE_ISSUE_ITEM_DETAIL where PROD_ENTRY_CODE='" & drPrd.Item("Prod_Code") & "' group by Item_Code,PROD_ENTRY_CODE) as Cost " & _
-                          " where Cost.PROD_ENTRY_CODE=TSPL_PP_PE_WRECKAGE_FLASHING.PROD_ENTRY_CODE " & _
+                    qry = " update TSPL_PP_PE_WRECKAGE_FLASHING set Fat_Rate=Cost.FAT_RATE, SNF_Rate=Cost.SNF_RATE,Fat_Amt=Cost.FAT_RATE*TSPL_PP_PE_WRECKAGE_FLASHING.Avail_FAT_KG ,  " &
+                          " SNF_Amt=Cost.SNF_RATE*TSPL_PP_PE_WRECKAGE_FLASHING.Avail_SNF_KG from (select AVG(Fat_Rate) as Fat_Rate,AVG(SNF_Rate) as SNF_Rate,Item_Code,PROD_ENTRY_CODE from TSPL_PP_PE_ISSUE_ITEM_DETAIL where PROD_ENTRY_CODE='" & drPrd.Item("Prod_Code") & "' group by Item_Code,PROD_ENTRY_CODE) as Cost " &
+                          " where Cost.PROD_ENTRY_CODE=TSPL_PP_PE_WRECKAGE_FLASHING.PROD_ENTRY_CODE " &
                           " and Cost.Item_Code=TSPL_PP_PE_WRECKAGE_FLASHING.Item_Code and TSPL_PP_PE_WRECKAGE_FLASHING.PROD_ENTRY_CODE='" & drPrd.Item("Prod_Code") & "'"
 
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -7717,30 +7721,30 @@ Public Class FrmUtility
                     '' update consumpton cost
                     'clsCommon.ProgressBarPercentUpdate((dt.Rows.IndexOf(drPrd) + 1) * 100 / dt.Rows.Count, "Update Production Entry Fat/SNF Cost " + clsCommon.myCstr(dt.Rows.IndexOf(drPrd) + 1) + "/" + clsCommon.myCstr(dt.Rows.Count))
                     clsProductionEntryRM.UpdateRM(drPrd.Item("Prod_Code"), trans)
-                    qry = " update TSPL_INVENTORY_MOVEMENT_NEW set Fat_Rate=TSPL_PP_PRODUCTION_ENTRY_DETAIL.Fat_Rate,Fat_Amt=TSPL_PP_PRODUCTION_ENTRY_DETAIL.Fat_Amt," & _
-                          " SNF_Rate=TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Rate,SNF_Amt=TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Amt," & _
-                          " Avg_Cost=(TSPL_PP_PRODUCTION_ENTRY_DETAIL.Fat_Amt+TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Amt)," & _
-                          " FIFO_Cost=(TSPL_PP_PRODUCTION_ENTRY_DETAIL.Fat_Amt+TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Amt)," & _
-                          " LIFO_Cost=(TSPL_PP_PRODUCTION_ENTRY_DETAIL.Fat_Amt+TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Amt), " & _
-                          " Basic_Cost=(case when TSPL_INVENTORY_MOVEMENT_NEW.Qty<=0 then 0 else ((TSPL_PP_PRODUCTION_ENTRY_DETAIL.Fat_Amt+TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Amt)/(case when TSPL_INVENTORY_MOVEMENT_NEW.Qty<=0 then 1 else TSPL_INVENTORY_MOVEMENT_NEW.Qty end)) end), " & _
-                          " Net_Cost=(TSPL_PP_PRODUCTION_ENTRY_DETAIL.Fat_Amt+TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Amt) " & _
-                          " from TSPL_PP_PRODUCTION_ENTRY_DETAIL " & _
-                          " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PROD_ENTRY' and InOut='I' " & _
-                          " and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE " & _
-                          " and TSPL_INVENTORY_MOVEMENT_NEW.Item_Code=TSPL_PP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE " & _
+                    qry = " update TSPL_INVENTORY_MOVEMENT_NEW set Fat_Rate=TSPL_PP_PRODUCTION_ENTRY_DETAIL.Fat_Rate,Fat_Amt=TSPL_PP_PRODUCTION_ENTRY_DETAIL.Fat_Amt," &
+                          " SNF_Rate=TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Rate,SNF_Amt=TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Amt," &
+                          " Avg_Cost=(TSPL_PP_PRODUCTION_ENTRY_DETAIL.Fat_Amt+TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Amt)," &
+                          " FIFO_Cost=(TSPL_PP_PRODUCTION_ENTRY_DETAIL.Fat_Amt+TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Amt)," &
+                          " LIFO_Cost=(TSPL_PP_PRODUCTION_ENTRY_DETAIL.Fat_Amt+TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Amt), " &
+                          " Basic_Cost=(case when TSPL_INVENTORY_MOVEMENT_NEW.Qty<=0 then 0 else ((TSPL_PP_PRODUCTION_ENTRY_DETAIL.Fat_Amt+TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Amt)/(case when TSPL_INVENTORY_MOVEMENT_NEW.Qty<=0 then 1 else TSPL_INVENTORY_MOVEMENT_NEW.Qty end)) end), " &
+                          " Net_Cost=(TSPL_PP_PRODUCTION_ENTRY_DETAIL.Fat_Amt+TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Amt) " &
+                          " from TSPL_PP_PRODUCTION_ENTRY_DETAIL " &
+                          " where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='PROD_ENTRY' and InOut='I' " &
+                          " and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_PP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE " &
+                          " and TSPL_INVENTORY_MOVEMENT_NEW.Item_Code=TSPL_PP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE " &
                           " and TSPL_INVENTORY_MOVEMENT_NEW.UOM=TSPL_PP_PRODUCTION_ENTRY_DETAIL.Unit_Code and TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No='" & drPrd.Item("Prod_Code") & "'"
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                    qry = " update TSPL_INVENTORY_MOVEMENT set " & _
-                          " Avg_Cost=(TSPL_PP_PRODUCTION_ENTRY_DETAIL.Fat_Amt+TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Amt)," & _
-                          " FIFO_Cost=(TSPL_PP_PRODUCTION_ENTRY_DETAIL.Fat_Amt+TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Amt)," & _
-                          " LIFO_Cost=(TSPL_PP_PRODUCTION_ENTRY_DETAIL.Fat_Amt+TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Amt), " & _
-                          " Basic_Cost=(case when TSPL_INVENTORY_MOVEMENT.Qty<=0 then 0 else ((TSPL_PP_PRODUCTION_ENTRY_DETAIL.Fat_Amt+TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Amt)/(case when TSPL_INVENTORY_MOVEMENT.Qty<=0 then 1 else TSPL_INVENTORY_MOVEMENT.Qty end)) end), " & _
-                          " Net_Cost=(TSPL_PP_PRODUCTION_ENTRY_DETAIL.Fat_Amt+TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Amt) " & _
-                          " from TSPL_PP_PRODUCTION_ENTRY_DETAIL " & _
-                          " where TSPL_INVENTORY_MOVEMENT.Trans_Type='PROD_ENTRY' and InOut='I' " & _
-                          " and TSPL_INVENTORY_MOVEMENT.Source_Doc_No=TSPL_PP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE " & _
-                          " and TSPL_INVENTORY_MOVEMENT.Item_Code=TSPL_PP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE " & _
+                    qry = " update TSPL_INVENTORY_MOVEMENT set " &
+                          " Avg_Cost=(TSPL_PP_PRODUCTION_ENTRY_DETAIL.Fat_Amt+TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Amt)," &
+                          " FIFO_Cost=(TSPL_PP_PRODUCTION_ENTRY_DETAIL.Fat_Amt+TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Amt)," &
+                          " LIFO_Cost=(TSPL_PP_PRODUCTION_ENTRY_DETAIL.Fat_Amt+TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Amt), " &
+                          " Basic_Cost=(case when TSPL_INVENTORY_MOVEMENT.Qty<=0 then 0 else ((TSPL_PP_PRODUCTION_ENTRY_DETAIL.Fat_Amt+TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Amt)/(case when TSPL_INVENTORY_MOVEMENT.Qty<=0 then 1 else TSPL_INVENTORY_MOVEMENT.Qty end)) end), " &
+                          " Net_Cost=(TSPL_PP_PRODUCTION_ENTRY_DETAIL.Fat_Amt+TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Amt) " &
+                          " from TSPL_PP_PRODUCTION_ENTRY_DETAIL " &
+                          " where TSPL_INVENTORY_MOVEMENT.Trans_Type='PROD_ENTRY' and InOut='I' " &
+                          " and TSPL_INVENTORY_MOVEMENT.Source_Doc_No=TSPL_PP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE " &
+                          " and TSPL_INVENTORY_MOVEMENT.Item_Code=TSPL_PP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE " &
                           " and TSPL_INVENTORY_MOVEMENT.UOM=TSPL_PP_PRODUCTION_ENTRY_DETAIL.Unit_Code and TSPL_INVENTORY_MOVEMENT.Source_Doc_No='" & drPrd.Item("Prod_Code") & "'"
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 End If
@@ -8056,16 +8060,16 @@ Public Class FrmUtility
             qry = "delete from Temp_Invoice_BS "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            qry = "Insert Into Temp_Dispatch_BS select distinct Dispatch_Code from (" & _
-            " select TSPL_INVOICE_DETAIL_BULKSALE.Document_No,TSPL_INVOICE_DETAIL_BULKSALE.Dispatch_Code,TSPL_INVOICE_MASTER_BULKSALE.InvoiceAgainst  from TSPL_INVOICE_DETAIL_BULKSALE " & _
-            " left outer join TSPL_INVOICE_MASTER_BULKSALE on TSPL_INVOICE_MASTER_BULKSALE.Document_No=TSPL_INVOICE_DETAIL_BULKSALE.Document_No" & _
+            qry = "Insert Into Temp_Dispatch_BS select distinct Dispatch_Code from (" &
+            " select TSPL_INVOICE_DETAIL_BULKSALE.Document_No,TSPL_INVOICE_DETAIL_BULKSALE.Dispatch_Code,TSPL_INVOICE_MASTER_BULKSALE.InvoiceAgainst  from TSPL_INVOICE_DETAIL_BULKSALE " &
+            " left outer join TSPL_INVOICE_MASTER_BULKSALE on TSPL_INVOICE_MASTER_BULKSALE.Document_No=TSPL_INVOICE_DETAIL_BULKSALE.Document_No" &
             " where  TSPL_INVOICE_MASTER_BULKSALE.InvoiceAgainst='Against Dispatch Trade' and Dispatch_Code in (sELECT Document_No  FROM TSPL_Dispatch_BulkSale_Trade WHERE Created_Date between '2015-09-18 00:00:00.000' and '2015-10-07 00:00:00.000') )xxx "
 
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            qry = "Insert Into Temp_Invoice_BS select distinct Document_No,Location_Code,0 as Picked from (" & _
-            " select TSPL_INVOICE_DETAIL_BULKSALE.Document_No,TSPL_INVOICE_DETAIL_BULKSALE.Dispatch_Code,TSPL_INVOICE_MASTER_BULKSALE.InvoiceAgainst,TSPL_INVOICE_MASTER_BULKSALE.Location_Code  from TSPL_INVOICE_DETAIL_BULKSALE " & _
-            " left outer join TSPL_INVOICE_MASTER_BULKSALE on TSPL_INVOICE_MASTER_BULKSALE.Document_No=TSPL_INVOICE_DETAIL_BULKSALE.Document_No" & _
+            qry = "Insert Into Temp_Invoice_BS select distinct Document_No,Location_Code,0 as Picked from (" &
+            " select TSPL_INVOICE_DETAIL_BULKSALE.Document_No,TSPL_INVOICE_DETAIL_BULKSALE.Dispatch_Code,TSPL_INVOICE_MASTER_BULKSALE.InvoiceAgainst,TSPL_INVOICE_MASTER_BULKSALE.Location_Code  from TSPL_INVOICE_DETAIL_BULKSALE " &
+            " left outer join TSPL_INVOICE_MASTER_BULKSALE on TSPL_INVOICE_MASTER_BULKSALE.Document_No=TSPL_INVOICE_DETAIL_BULKSALE.Document_No" &
             " where  TSPL_INVOICE_MASTER_BULKSALE.InvoiceAgainst='Against Dispatch Trade' and Dispatch_Code in (sELECT Document_No  FROM TSPL_Dispatch_BulkSale_Trade WHERE Created_Date between '2015-09-18 00:00:00.000' and '2015-10-07 00:00:00.000' ))xxx "
 
 
@@ -8288,9 +8292,9 @@ Public Class FrmUtility
     Private Sub btnPickARNo_Click(sender As Object, e As EventArgs) Handles btnPickARNo.Click
         Try
             ''and len(isnull( TSPL_CUSTOMER_INVOICE_HEAD.Against_BulkMillkPurchaseInvoice_No,''))<=0
-            Dim qry As String = " select   TSPL_CUSTOMER_INVOICE_HEAD.Document_No,TSPL_CUSTOMER_INVOICE_HEAD.Document_Date, TSPL_CUSTOMER_INVOICE_HEAD.Customer_Code, " & _
-                "TSPL_CUSTOMER_INVOICE_HEAD.Customer_Name,TSPL_CUSTOMER_INVOICE_HEAD.Document_Type,TSPL_CUSTOMER_INVOICE_HEAD.Document_Total, " & _
-                "TSPL_CUSTOMER_INVOICE_HEAD.Description,TSPL_JOURNAL_MASTER.Voucher_No   from TSPL_CUSTOMER_INVOICE_HEAD  left join " & _
+            Dim qry As String = " select   TSPL_CUSTOMER_INVOICE_HEAD.Document_No,TSPL_CUSTOMER_INVOICE_HEAD.Document_Date, TSPL_CUSTOMER_INVOICE_HEAD.Customer_Code, " &
+                "TSPL_CUSTOMER_INVOICE_HEAD.Customer_Name,TSPL_CUSTOMER_INVOICE_HEAD.Document_Type,TSPL_CUSTOMER_INVOICE_HEAD.Document_Total, " &
+                "TSPL_CUSTOMER_INVOICE_HEAD.Description,TSPL_JOURNAL_MASTER.Voucher_No   from TSPL_CUSTOMER_INVOICE_HEAD  left join " &
                 "TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.source_doc_no=TSPL_CUSTOMER_INVOICE_HEAD.Document_No where  convert(date,TSPL_Customer_Invoice_Head.document_date,103)  > = '" & clsCommon.GetPrintDate(txtFdate.Value, "dd/MMM/yyyy") & "' and  convert(date,TSPL_Customer_Invoice_Head.document_date,103)  < = '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "'"
             Dim arr As ArrayList = clsCommon.ShowMultipleSelectForm("APINUti", qry, "Document_No", "", Nothing, Nothing)
             If arr IsNot Nothing AndAlso arr.Count > 0 Then
@@ -8672,7 +8676,7 @@ Public Class FrmUtility
             objSerial._MachineCode = CboMachine.SelectedValue
             objSerial.MachineName = clsPortSetting.getMachineMakePrefix(CboMachine.Text, IIf(chkEkoProMachine.IsChecked, 0, 1))
             objSerial.DataForm = obj.Data_Form
-            
+
             objSerial.OpenPort()
             'End If
         Catch ex As Exception
@@ -10843,7 +10847,7 @@ Public Class FrmUtility
 
             clsCommon.MyMessageBoxShow("Wreckage Booking FAT/SNF updated sucessfully.")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -17134,7 +17138,7 @@ line1:
                                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
 
-                                clsMilkPurchaseInvoiceHead.postData("M-PURINV-B", strDocNo, trans, strAPNo, strAPInvVoucherNo)
+                                clsMilkPurchaseInvoiceHead.PostData("M-PURINV-B", strDocNo, trans, strAPNo, strAPInvVoucherNo)
 
                                 qry = "insert into TEMP_CREATED_BMPI_JE_Done values('" + strDocNo + "')"
                                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -21468,8 +21472,8 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
 
 
     Private Sub TxtMultiSelectFinder3__My_Click(sender As Object, e As EventArgs) Handles TxtMultiSelectFinder3._My_Click
-        Dim qry As String = "select Plan_Code,Plan_Date,(select top 1 TSPL_ITEM_MASTER.Item_Type from TSPL_PP_PRODUCTION_PLAN_DETAIL  " + Environment.NewLine + _
-"left outer join TSPL_ITEM_master on TSPL_ITEM_master.item_code=TSPL_PP_PRODUCTION_PLAN_DETAIL.item_code" + Environment.NewLine + _
+        Dim qry As String = "select Plan_Code,Plan_Date,(select top 1 TSPL_ITEM_MASTER.Item_Type from TSPL_PP_PRODUCTION_PLAN_DETAIL  " + Environment.NewLine +
+"left outer join TSPL_ITEM_master on TSPL_ITEM_master.item_code=TSPL_PP_PRODUCTION_PLAN_DETAIL.item_code" + Environment.NewLine +
 "where TSPL_PP_PRODUCTION_PLAN_DETAIL.Plan_Code= TSPL_PP_PRODUCTION_PLAN_HEAD.Plan_Code) as [Item Type],* from TSPL_PP_PRODUCTION_PLAN_HEAD where 2=2"
         TxtMultiSelectFinder3.arrValueMember = clsCommon.ShowMultipleSelectForm("RAndU@ProPln", qry, "Plan_Code", "Plan_Code", TxtMultiSelectFinder3.arrValueMember, TxtMultiSelectFinder3.arrDispalyMember)
     End Sub
@@ -21510,8 +21514,8 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
     End Sub
 
     Private Sub TxtMultiSelectFinder4__My_Click(sender As Object, e As EventArgs) Handles TxtMultiSelectFinder4._My_Click
-        Dim qry As String = "select TSPL_PP_BATCH_ORDER_HEAD.Batch_Code,TSPL_PP_BATCH_ORDER_HEAD.Batch_Date,TSPL_PP_BATCH_ORDER_HEAD.Plan_Code,TSPL_PP_BATCH_ORDER_HEAD.Location_Code,TSPL_ITEM_MASTER.Item_Type from TSPL_PP_BATCH_ORDER_HEAD" + Environment.NewLine + _
-"left outer join TSPL_PP_BATCH_ORDER_BOM_DETAIL on TSPL_PP_BATCH_ORDER_BOM_DETAIL.Batch_Code=TSPL_PP_BATCH_ORDER_HEAD.Batch_Code and TSPL_PP_BATCH_ORDER_BOM_DETAIL.SNO=1" + Environment.NewLine + _
+        Dim qry As String = "select TSPL_PP_BATCH_ORDER_HEAD.Batch_Code,TSPL_PP_BATCH_ORDER_HEAD.Batch_Date,TSPL_PP_BATCH_ORDER_HEAD.Plan_Code,TSPL_PP_BATCH_ORDER_HEAD.Location_Code,TSPL_ITEM_MASTER.Item_Type from TSPL_PP_BATCH_ORDER_HEAD" + Environment.NewLine +
+"left outer join TSPL_PP_BATCH_ORDER_BOM_DETAIL on TSPL_PP_BATCH_ORDER_BOM_DETAIL.Batch_Code=TSPL_PP_BATCH_ORDER_HEAD.Batch_Code and TSPL_PP_BATCH_ORDER_BOM_DETAIL.SNO=1" + Environment.NewLine +
 "left outer join TSPL_ITEM_master on TSPL_ITEM_master.item_code=TSPL_PP_BATCH_ORDER_BOM_DETAIL.Item_Code"
         'If Not MyCheckBox6.Checked Then
         '    qry += " and Is_Post=1"
@@ -21555,8 +21559,8 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
     End Sub
 
     Private Sub TxtMultiSelectFinder5__My_Click(sender As Object, e As EventArgs) Handles TxtMultiSelectFinder5._My_Click
-        Dim qry As String = "select TSPL_PP_ISSUE_HEAD.Issue_Code,TSPL_PP_ISSUE_HEAD.Issue_Date,TSPL_PP_ISSUE_HEAD.Batch_Code,TSPL_PP_ISSUE_HEAD.From_Loaction_Code,TSPL_PP_ISSUE_HEAD.Standardization_Code,TSPL_PP_ISSUE_HEAD.STAGE_PROCESS_CODE,TSPL_ITEM_MASTER.Item_Type from TSPL_PP_ISSUE_HEAD" + Environment.NewLine + _
-"left outer join TSPL_PP_BATCH_ORDER_BOM_DETAIL on TSPL_PP_BATCH_ORDER_BOM_DETAIL.Batch_Code=TSPL_PP_ISSUE_HEAD.Batch_Code and TSPL_PP_BATCH_ORDER_BOM_DETAIL.SNO=1" + Environment.NewLine + _
+        Dim qry As String = "select TSPL_PP_ISSUE_HEAD.Issue_Code,TSPL_PP_ISSUE_HEAD.Issue_Date,TSPL_PP_ISSUE_HEAD.Batch_Code,TSPL_PP_ISSUE_HEAD.From_Loaction_Code,TSPL_PP_ISSUE_HEAD.Standardization_Code,TSPL_PP_ISSUE_HEAD.STAGE_PROCESS_CODE,TSPL_ITEM_MASTER.Item_Type from TSPL_PP_ISSUE_HEAD" + Environment.NewLine +
+"left outer join TSPL_PP_BATCH_ORDER_BOM_DETAIL on TSPL_PP_BATCH_ORDER_BOM_DETAIL.Batch_Code=TSPL_PP_ISSUE_HEAD.Batch_Code and TSPL_PP_BATCH_ORDER_BOM_DETAIL.SNO=1" + Environment.NewLine +
 "left outer join TSPL_ITEM_master on TSPL_ITEM_master.item_code=TSPL_PP_BATCH_ORDER_BOM_DETAIL.Item_Code"
         'If Not MyCheckBox6.Checked Then
         '    qry += " and Is_post=1"
@@ -21936,8 +21940,8 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
 
     Private Sub RadButton249_Click(sender As Object, e As EventArgs) Handles RadButton249.Click
         Try
-            Dim qry As String = " select TSPL_ADJUSTMENT_HEADER.Adjustment_No,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,TSPL_ADJUSTMENT_HEADER.Trans_Type ,TSPL_JOURNAL_MASTER.voucher_no " & _
-            " from TSPL_ADJUSTMENT_HEADER" & _
+            Dim qry As String = " select TSPL_ADJUSTMENT_HEADER.Adjustment_No,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,TSPL_ADJUSTMENT_HEADER.Trans_Type ,TSPL_JOURNAL_MASTER.voucher_no " &
+            " from TSPL_ADJUSTMENT_HEADER" &
             " Left join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=TSPL_ADJUSTMENT_HEADER.Adjustment_No and TSPL_JOURNAL_MASTER.Source_Code='IC-AD' where TSPL_ADJUSTMENT_HEADER.Posted='Y'"
             Dim arr As ArrayList = clsCommon.ShowMultipleSelectForm("AdjUtiD", qry, "Adjustment_No", "", Nothing, Nothing)
             If arr IsNot Nothing AndAlso arr.Count > 0 Then
@@ -22006,10 +22010,10 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
 
     Private Sub RadButton252_Click(sender As Object, e As EventArgs) Handles RadButton252.Click
         Try
-            Dim qry As String = "Select TSPL_CAN_SALE_HEAD.Document_No as Code,Convert(varchar,TSPL_CAN_SALE_HEAD.Document_Date,103) as [Dispatch Date],TSPL_CAN_SALE_HEAD.Customer_Code as [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name],TSPL_CAN_SALE_HEAD.Location_Code as [Location Code],TSPL_LOCATION_MASTER.Location_Desc as [Location Name],TSPL_CAN_SALE_HEAD.Price_Code as [Price Code],tspl_cansale_dispatch_head.Document_No as [Can Sale Dispatch No],TSPL_CANSALE_INVOICE_HEAD.Document_No as [Can Sale Invoice No],TSPL_Customer_Invoice_Head.Document_No as [Can Sale AR Invoice No],TSPL_JOURNAL_MASTER.Voucher_No as [Journal Entry of Invoice], " & Environment.NewLine & _
-            " case when TSPL_CAN_SALE_HEAD.Posted=0 then 'Pending' else 'Approved' end as Status from TSPL_CAN_SALE_HEAD left outer Join TSPL_CUSTOMER_MASTER on TSPL_CAN_SALE_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code Left Outer Join TSPL_LOCATION_MASTER on TSPL_CAN_SALE_HEAD.Location_Code =TSPL_LOCATION_MASTER.Location_Code left outer join tspl_cansale_dispatch_head on tspl_cansale_dispatch_head.CanSale_Doc_No =TSPL_CAN_SALE_HEAD.Document_No " & Environment.NewLine & _
-            " left outer join TSPL_CANSALE_INVOICE_HEAD on TSPL_CANSALE_INVOICE_HEAD.CanSale_Doc_No =TSPL_CAN_SALE_HEAD.Document_No " & Environment.NewLine & _
-            " left outer join TSPL_Customer_Invoice_Head on TSPL_CANSALE_INVOICE_HEAD.Document_No  =TSPL_Customer_Invoice_Head.Against_Sale_No " & Environment.NewLine & _
+            Dim qry As String = "Select TSPL_CAN_SALE_HEAD.Document_No as Code,Convert(varchar,TSPL_CAN_SALE_HEAD.Document_Date,103) as [Dispatch Date],TSPL_CAN_SALE_HEAD.Customer_Code as [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name],TSPL_CAN_SALE_HEAD.Location_Code as [Location Code],TSPL_LOCATION_MASTER.Location_Desc as [Location Name],TSPL_CAN_SALE_HEAD.Price_Code as [Price Code],tspl_cansale_dispatch_head.Document_No as [Can Sale Dispatch No],TSPL_CANSALE_INVOICE_HEAD.Document_No as [Can Sale Invoice No],TSPL_Customer_Invoice_Head.Document_No as [Can Sale AR Invoice No],TSPL_JOURNAL_MASTER.Voucher_No as [Journal Entry of Invoice], " & Environment.NewLine &
+            " case when TSPL_CAN_SALE_HEAD.Posted=0 then 'Pending' else 'Approved' end as Status from TSPL_CAN_SALE_HEAD left outer Join TSPL_CUSTOMER_MASTER on TSPL_CAN_SALE_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code Left Outer Join TSPL_LOCATION_MASTER on TSPL_CAN_SALE_HEAD.Location_Code =TSPL_LOCATION_MASTER.Location_Code left outer join tspl_cansale_dispatch_head on tspl_cansale_dispatch_head.CanSale_Doc_No =TSPL_CAN_SALE_HEAD.Document_No " & Environment.NewLine &
+            " left outer join TSPL_CANSALE_INVOICE_HEAD on TSPL_CANSALE_INVOICE_HEAD.CanSale_Doc_No =TSPL_CAN_SALE_HEAD.Document_No " & Environment.NewLine &
+            " left outer join TSPL_Customer_Invoice_Head on TSPL_CANSALE_INVOICE_HEAD.Document_No  =TSPL_Customer_Invoice_Head.Against_Sale_No " & Environment.NewLine &
             " left outer join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER .Source_Doc_No =TSPL_Customer_Invoice_Head.Document_No where TSPL_CAN_SALE_HEAD.Posted=1 " & Environment.NewLine
 
             Dim arr As ArrayList = clsCommon.ShowMultipleSelectForm("CanSaleUtiDel", qry, "Code", "", Nothing, Nothing)
@@ -22303,10 +22307,10 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                     Dim strMainItemUOM As String = clsCommon.myCstr(dtBOMCode.Rows(0)("Unit_Code"))
                     Dim strMainItemQty As Decimal = clsCommon.myCdbl(dtBOMCode.Rows(0)("Quantity"))
 
-                    qry = "select * from (" + Environment.NewLine + _
-                    "select Revision_No, 'xxx' as History_No,BOM_CODE,PROD_QUANTITY,Prod_Item_Unit_Code from TSPL_PP_BOM_HEAD where bom_code='" + strMainBOMCode + "'" + Environment.NewLine + _
-                    "union all " + Environment.NewLine + _
-                    "select Revision_No,History_No,BOM_CODE,PROD_QUANTITY,Prod_Item_Unit_Code from TSPL_PP_BOM_HEAD_HISTORY  where bom_code='" + strMainBOMCode + "'" + Environment.NewLine + _
+                    qry = "select * from (" + Environment.NewLine +
+                    "select Revision_No, 'xxx' as History_No,BOM_CODE,PROD_QUANTITY,Prod_Item_Unit_Code from TSPL_PP_BOM_HEAD where bom_code='" + strMainBOMCode + "'" + Environment.NewLine +
+                    "union all " + Environment.NewLine +
+                    "select Revision_No,History_No,BOM_CODE,PROD_QUANTITY,Prod_Item_Unit_Code from TSPL_PP_BOM_HEAD_HISTORY  where bom_code='" + strMainBOMCode + "'" + Environment.NewLine +
                     ")xx order by Revision_No desc"
                     Dim dtHis As DataTable = clsDBFuncationality.GetDataTable(qry)
                     If dtHis IsNot Nothing AndAlso dtHis.Rows.Count > 0 Then
@@ -22318,8 +22322,8 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                                 convFact = clsItemMaster.GetConvertionFactor(strMainItemCode, strMainItemUOM, Nothing) / clsItemMaster.GetConvertionFactor(strMainItemCode, clsCommon.myCstr(drHist("Prod_Item_Unit_Code")), Nothing)
                             End If
 
-                            qry = "select Item_Code,unit_code,sum(Quantity*ri) as Quantity  from (" + Environment.NewLine + _
-                            "select Item_Code,unit_code,Quantity,1 as RI from TSPL_PP_BATCH_ORDER_RAW_ITEM_DETAIL where Batch_Code='" + TxtMultiSelectFinder9.arrValueMember(ii) + "'" + Environment.NewLine + _
+                            qry = "select Item_Code,unit_code,sum(Quantity*ri) as Quantity  from (" + Environment.NewLine +
+                            "select Item_Code,unit_code,Quantity,1 as RI from TSPL_PP_BATCH_ORDER_RAW_ITEM_DETAIL where Batch_Code='" + TxtMultiSelectFinder9.arrValueMember(ii) + "'" + Environment.NewLine +
                             "union all" + Environment.NewLine
                             If clsCommon.CompairString(clsCommon.myCstr(drHist("History_No")), "xxx") = CompairStringResult.Equal Then
                                 qry += "select ITEM_CODE,UNIT_CODE," + clsCommon.myCstr(convFact) + "*((Quantity*(100+isnull(ProcessLossPer,0))/100)/" + clsCommon.myCstr(clsCommon.myCdbl(drHist("PROD_QUANTITY"))) + "*" + clsCommon.myCstr(strMainItemQty) + ") as Quantity, -1 as RI from TSPL_PP_BOM_ITEM_DETAIL where BOM_CODE='" + strMainBOMCode + "'" + Environment.NewLine
@@ -22400,8 +22404,8 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
 
     Private Sub RadButton258_Click(sender As Object, e As EventArgs) Handles RadButton258.Click
         Try
-            Dim qry As String = " select TSPL_SD_SHIPMENT_HEAD.Document_Code,TSPL_SD_SHIPMENT_HEAD.Document_Date" + Environment.NewLine + _
-            "from TSPL_SD_SHIPMENT_HEAD" + Environment.NewLine + _
+            Dim qry As String = " select TSPL_SD_SHIPMENT_HEAD.Document_Code,TSPL_SD_SHIPMENT_HEAD.Document_Date" + Environment.NewLine +
+            "from TSPL_SD_SHIPMENT_HEAD" + Environment.NewLine +
             "where TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC' and TSPL_SD_SHIPMENT_HEAD.status=1"
             Dim arr As ArrayList = clsCommon.ShowMultipleSelectForm("MCCSUtiD", qry, "Document_Code", "", Nothing, Nothing)
             If arr IsNot Nothing AndAlso arr.Count > 0 Then
@@ -22584,10 +22588,10 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
 
     Private Sub RadButton265_Click(sender As Object, e As EventArgs) Handles RadButton265.Click
         Try
-            Dim qry As String = "  select  TSPL_MCC_Sale_Farmer_Head.Document_Code,TSPL_MCC_Sale_Farmer_Head.Document_Date  ,TSPL_MCC_Sale_Farmer_Head.Bill_To_Location,TSPL_MCC_Sale_Farmer_Head.Farmer_Code as MP_Code,TSPL_MP_MASTER.MP_Name, TSPL_JOURNAL_MASTER.Voucher_No" + Environment.NewLine + _
-            "from TSPL_MCC_Sale_Farmer_Head" + Environment.NewLine + _
-            "left outer join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=TSPL_MCC_Sale_Farmer_Head.Document_Code and TSPL_JOURNAL_MASTER.Source_Code='MC-FS'" + Environment.NewLine + _
-            "left outer join TSPL_MP_MASTER on TSPL_MP_MASTER.mp_code=TSPL_MCC_Sale_Farmer_Head.Farmer_Code" + Environment.NewLine + _
+            Dim qry As String = "  select  TSPL_MCC_Sale_Farmer_Head.Document_Code,TSPL_MCC_Sale_Farmer_Head.Document_Date  ,TSPL_MCC_Sale_Farmer_Head.Bill_To_Location,TSPL_MCC_Sale_Farmer_Head.Farmer_Code as MP_Code,TSPL_MP_MASTER.MP_Name, TSPL_JOURNAL_MASTER.Voucher_No" + Environment.NewLine +
+            "from TSPL_MCC_Sale_Farmer_Head" + Environment.NewLine +
+            "left outer join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=TSPL_MCC_Sale_Farmer_Head.Document_Code and TSPL_JOURNAL_MASTER.Source_Code='MC-FS'" + Environment.NewLine +
+            "left outer join TSPL_MP_MASTER on TSPL_MP_MASTER.mp_code=TSPL_MCC_Sale_Farmer_Head.Farmer_Code" + Environment.NewLine +
             "where TSPL_MCC_Sale_Farmer_Head.trans_type='MCC' and TSPL_MCC_Sale_Farmer_Head.Status=1"
             Dim arr As ArrayList = clsCommon.ShowMultipleSelectForm("MDSUtilFS", qry, "Document_Code", "", Nothing, Nothing)
             If arr IsNot Nothing AndAlso arr.Count > 0 Then
@@ -22660,14 +22664,14 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
         End Try
 
         Try
-            Dim qry As String = "select TSPL_Dispatch_BulkSale.Document_No,TSPL_Dispatch_BulkSale.Document_Date,TSPL_Dispatch_BulkSale.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name, " & _
-            " Location_Code,Total_Amt,TSPL_JOURNAL_MASTER.Voucher_No as JVNo from TSPL_Dispatch_BulkSale " & _
-            " inner join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_Dispatch_BulkSale.Customer_Code " & _
-            " inner join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=TSPL_Dispatch_BulkSale.Document_No  " & _
+            Dim qry As String = "select TSPL_Dispatch_BulkSale.Document_No,TSPL_Dispatch_BulkSale.Document_Date,TSPL_Dispatch_BulkSale.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name, " &
+            " Location_Code,Total_Amt,TSPL_JOURNAL_MASTER.Voucher_No as JVNo from TSPL_Dispatch_BulkSale " &
+            " inner join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_Dispatch_BulkSale.Customer_Code " &
+            " inner join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=TSPL_Dispatch_BulkSale.Document_No  " &
             " where TSPL_Dispatch_BulkSale.Posted=1"
             Dim arr As ArrayList = clsCommon.ShowMultipleSelectForm("BulKSale", qry, "Document_No", "", Nothing, Nothing)
             If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                qry = "select *  into Temp_BSSale from (" & _
+                qry = "select *  into Temp_BSSale from (" &
                   " select TSPL_Dispatch_BulkSale.Document_No as DocumentNo,NULL as ARNo,TSPL_JOURNAL_MASTER.Voucher_No as JVNo from TSPL_Dispatch_BulkSale  inner join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_Dispatch_BulkSale.Customer_Code inner join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=TSPL_Dispatch_BulkSale.Document_No where TSPL_Dispatch_BulkSale.Posted=1 and TSPL_Dispatch_BulkSale.Document_No in (" + clsCommon.GetMulcallString(arr) + "))xxx"
                 clsDBFuncationality.ExecuteNonQuery(qry)
             Else
@@ -22937,12 +22941,12 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
     End Sub
 
     Sub DispathToTansferInCorrectionWithDoc(ByVal strDocNo As String, ByVal settTankerDispatchAvgFATSNFPer As Boolean, ByVal trans As SqlTransaction)
-        Dim qry As String = "select Chalan_NO,Dispatch_Date,MCC_Code,MCC_Name,Tanker_Dispatch_To,Mcc_Or_Plant_Code,Tanker_No,(select Voucher_No from TSPL_JOURNAL_MASTER     where Source_Doc_No =Chalan_NO and Source_Code='DI-CH') as Voucher_No,TSPL_MILK_TRANSFER_IN.Receipt_Challan_No as TranferIn_Doc_No,(select Voucher_No from TSPL_JOURNAL_MASTER where Source_Doc_No =TSPL_MILK_TRANSFER_IN.Receipt_Challan_No and Source_Code='MT-IN') as TranferIn_Voucher_No,TSPL_ADJUSTMENT_HEADER.Adjustment_No " + Environment.NewLine + _
-        "from TSPL_MCC_Dispatch_Challan" + Environment.NewLine + _
-        "left join TSPL_MILK_TRANSFER_IN on TSPL_MILK_TRANSFER_IN.Dispatch_Challan_No=TSPL_MCC_Dispatch_Challan.Chalan_NO " + Environment.NewLine + _
-        "left join TSPL_ADJUSTMENT_HEADER on TSPL_ADJUSTMENT_HEADER.Against_Tanker_Dispatch_Doc_No=TSPL_MCC_Dispatch_Challan.Chalan_NO " + Environment.NewLine + _
-        "where TSPL_MCC_Dispatch_Challan.isPosted = 1" + Environment.NewLine + _
-        "and 2=(case when TSPL_MILK_TRANSFER_IN.Receipt_Challan_No is null then 2 else case when TSPL_MILK_TRANSFER_IN.isPosted=1 then 2 else 1 end end)" + Environment.NewLine + _
+        Dim qry As String = "select Chalan_NO,Dispatch_Date,MCC_Code,MCC_Name,Tanker_Dispatch_To,Mcc_Or_Plant_Code,Tanker_No,(select Voucher_No from TSPL_JOURNAL_MASTER     where Source_Doc_No =Chalan_NO and Source_Code='DI-CH') as Voucher_No,TSPL_MILK_TRANSFER_IN.Receipt_Challan_No as TranferIn_Doc_No,(select Voucher_No from TSPL_JOURNAL_MASTER where Source_Doc_No =TSPL_MILK_TRANSFER_IN.Receipt_Challan_No and Source_Code='MT-IN') as TranferIn_Voucher_No,TSPL_ADJUSTMENT_HEADER.Adjustment_No " + Environment.NewLine +
+        "from TSPL_MCC_Dispatch_Challan" + Environment.NewLine +
+        "left join TSPL_MILK_TRANSFER_IN on TSPL_MILK_TRANSFER_IN.Dispatch_Challan_No=TSPL_MCC_Dispatch_Challan.Chalan_NO " + Environment.NewLine +
+        "left join TSPL_ADJUSTMENT_HEADER on TSPL_ADJUSTMENT_HEADER.Against_Tanker_Dispatch_Doc_No=TSPL_MCC_Dispatch_Challan.Chalan_NO " + Environment.NewLine +
+        "where TSPL_MCC_Dispatch_Challan.isPosted = 1" + Environment.NewLine +
+        "and 2=(case when TSPL_MILK_TRANSFER_IN.Receipt_Challan_No is null then 2 else case when TSPL_MILK_TRANSFER_IN.isPosted=1 then 2 else 1 end end)" + Environment.NewLine +
         "and Chalan_NO='" + strDocNo + "'"
         If TxtMultiSelectFinder11.arrValueMember IsNot Nothing AndAlso TxtMultiSelectFinder11.arrValueMember.Count > 0 Then
             qry += " and exists ( select 1 from TSPL_MCC_DISPATCH_CHALLAN_DETAIL where TSPL_MCC_DISPATCH_CHALLAN_DETAIL.Chalan_No=TSPL_MCC_Dispatch_Challan.Chalan_NO and TSPL_MCC_DISPATCH_CHALLAN_DETAIL.Qty_Kg>0 and item_code in (" + clsCommon.GetMulcallString(TxtMultiSelectFinder11.arrValueMember) + "))"
@@ -23091,11 +23095,11 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
     End Sub
 
     Sub CanSaleCorrection(ByVal strDocNo As String, ByVal trans As SqlTransaction)
-        Dim qry As String = "select TSPL_CANSALE_INVOICE_HEAD.Document_No as DocumentNo,TSPL_Customer_Invoice_Head.Document_No as ARNo,TSPL_JOURNAL_MASTER.Voucher_No as JVNo,TSPL_CANSALE_INVOICE_HEAD.CanSale_Dispatch_No " + Environment.NewLine + _
-        "from TSPL_CANSALE_INVOICE_HEAD  " + Environment.NewLine + _
-        "inner join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_CANSALE_INVOICE_HEAD.Customer_Code " + Environment.NewLine + _
-        "inner join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_CANSALE_INVOICE_HEAD.Document_No  " + Environment.NewLine + _
-        "inner join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=TSPL_Customer_Invoice_Head.Document_No " + Environment.NewLine + _
+        Dim qry As String = "select TSPL_CANSALE_INVOICE_HEAD.Document_No as DocumentNo,TSPL_Customer_Invoice_Head.Document_No as ARNo,TSPL_JOURNAL_MASTER.Voucher_No as JVNo,TSPL_CANSALE_INVOICE_HEAD.CanSale_Dispatch_No " + Environment.NewLine +
+        "from TSPL_CANSALE_INVOICE_HEAD  " + Environment.NewLine +
+        "inner join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_CANSALE_INVOICE_HEAD.Customer_Code " + Environment.NewLine +
+        "inner join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_CANSALE_INVOICE_HEAD.Document_No  " + Environment.NewLine +
+        "inner join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=TSPL_Customer_Invoice_Head.Document_No " + Environment.NewLine +
         "where TSPL_CANSALE_INVOICE_HEAD.Posted=1 and TSPL_CANSALE_INVOICE_HEAD.Document_No='" + strDocNo + "'"
         If TxtMultiSelectFinder11.arrValueMember IsNot Nothing AndAlso TxtMultiSelectFinder11.arrValueMember.Count > 0 Then
             qry += " and exists ( select 1 from TSPL_CANSALE_INVOICE_DETAIL where TSPL_CANSALE_INVOICE_DETAIL.Document_No=TSPL_CANSALE_INVOICE_HEAD.Document_No and TSPL_CANSALE_INVOICE_DETAIL.ItemCode in (" + clsCommon.GetMulcallString(TxtMultiSelectFinder11.arrValueMember) + "))"
@@ -23367,13 +23371,13 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
 
     Private Sub RadButton275_Click(sender As Object, e As EventArgs) Handles RadButton275.Click
         Try
-            Dim qry As String = " select TSPL_SD_SHIPMENT_HEAD.Document_Code as ShipmentNo,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as ShipmentDate,ShipJVNo.Voucher_No as ShipmentVoucherNo , TSPL_SD_SALE_INVOICE_HEAD.Document_Code as InvoiceNo,TSPL_Customer_Invoice_Head.Document_No as ARInvoiceNo,ARJVNo.Voucher_No as ARVoucherNo,TSPL_SD_SHIPMENT_HEAD.Customer_Code as [Customer Code], TSPL_CUSTOMER_MASTER.Customer_Name as Customer,TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location " + Environment.NewLine + _
-            " from TSPL_SD_SALE_INVOICE_HEAD" + Environment.NewLine + _
-            " left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No" + Environment.NewLine + _
-            " left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code " + Environment.NewLine + _
-            " left join TSPL_JOURNAL_MASTER as ShipJVNo on ShipJVNo.Source_Doc_No=TSPL_SD_SHIPMENT_HEAD.Document_Code" + Environment.NewLine + _
-            " left join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code" + Environment.NewLine + _
-            " left join TSPL_JOURNAL_MASTER as ARJVNo on ARJVNo.Source_Doc_No=TSPL_Customer_Invoice_Head.Document_No" + Environment.NewLine + _
+            Dim qry As String = " select TSPL_SD_SHIPMENT_HEAD.Document_Code as ShipmentNo,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as ShipmentDate,ShipJVNo.Voucher_No as ShipmentVoucherNo , TSPL_SD_SALE_INVOICE_HEAD.Document_Code as InvoiceNo,TSPL_Customer_Invoice_Head.Document_No as ARInvoiceNo,ARJVNo.Voucher_No as ARVoucherNo,TSPL_SD_SHIPMENT_HEAD.Customer_Code as [Customer Code], TSPL_CUSTOMER_MASTER.Customer_Name as Customer,TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location " + Environment.NewLine +
+            " from TSPL_SD_SALE_INVOICE_HEAD" + Environment.NewLine +
+            " left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No" + Environment.NewLine +
+            " left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code " + Environment.NewLine +
+            " left join TSPL_JOURNAL_MASTER as ShipJVNo on ShipJVNo.Source_Doc_No=TSPL_SD_SHIPMENT_HEAD.Document_Code" + Environment.NewLine +
+            " left join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code" + Environment.NewLine +
+            " left join TSPL_JOURNAL_MASTER as ARJVNo on ARJVNo.Source_Doc_No=TSPL_Customer_Invoice_Head.Document_No" + Environment.NewLine +
             " where TSPL_SD_SHIPMENT_HEAD.Trans_Type IN ('FS', 'PS') and TSPL_SD_SHIPMENT_HEAD.Screen_Type='DS' and TSPL_SD_SHIPMENT_HEAD.Status=1 " & Environment.NewLine
 
             Dim qry1 As String = qry
@@ -26462,5 +26466,55 @@ and   not exists (select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PEN
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub RadButton354_Click(sender As Object, e As EventArgs) Handles UpdateVirtualCustomerAccount.Click
+        'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        'Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
+        'If (dt1 Is Nothing OrElse dt1.Rows.Count <= 0) Then
+        '    common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
+        '    'gvData.DataSource = Nothing
+        'End If
+        Dim qry As String = ""
+        Dim dt As New DataTable
+        Dim isUpdated As Boolean = False
+        Dim retryCount As Integer = 0
+        Dim isUnique As Boolean = False
+
+
+        qry = "select Customer_Code from [TSPL_MASTER].[dbo].TSPL_APP_LOCATION where DataBase_Name='" + objCommonVar.CurrDatabase + "'  and Apply_ECollect=1 and len(isnull(Customer_Code,''))>0"
+        dt = clsDBFuncationality.GetDataTable(qry)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            qry = " select Cust_Code from tspl_customer_master where Virtual_AC_No is null"
+            Dim dtCustomer As DataTable = clsDBFuncationality.GetDataTable(qry)
+            For Each rows As DataRow In dtCustomer.Rows
+                Try
+                    Dim VRAccountNo As String = clsCommon.myCstr(dt.Rows(0)("Customer_Code")) + clsCommon.myCstr(clsCommon.HighSecurityGetNumber(100000000, 999999999))
+
+                    '//check generate vr not account exist 
+                    Dim count As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select count(Virtual_AC_No) from tspl_customer_master where  Virtual_AC_No='" + VRAccountNo + "'"))
+
+                    If count > 0 Then
+                        Continue For
+                    End If
+                    qry = "update tspl_customer_master set Virtual_AC_No='" + VRAccountNo + "' where Cust_Code='" + clsCommon.myCstr(rows("Cust_Code")) + "'"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                Catch ex As Exception
+                    If ex.Message.Contains("Unique_Virtual_AC_No") Then
+                        Continue For
+                    Else
+                        Throw New Exception(ex.Message)
+                    End If
+
+                End Try
+            Next
+            clsCommon.MyMessageBoxShow(Me, "Data Save successfully", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+        End If
+    End Sub
+    Public Sub UpdateVirtaulCustomerAcoount(ByVal trans As SqlTransaction)
+        Dim qry As String = ""
+        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
     End Sub
 End Class
