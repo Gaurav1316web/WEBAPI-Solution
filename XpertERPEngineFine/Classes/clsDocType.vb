@@ -655,6 +655,7 @@ Public Class clsDocType
     Public Const MilkGateEntryIn As String = "Milk Gate Entry In"
     Public Const MilkGateEntryOut As String = "Milk Gate Entry Out"
     Public Const MilkGateEntryWeighment As String = "Milk Gate Entry Weighment"
+    Public Const PlantWeighment As String = "Plant Weighment"
 
     'stuti
     Public Const CAPEXMASTER As String = "CAPEX MASTER"
@@ -1876,6 +1877,8 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.MilkGateEntryIn, "", False, True)
             InsertDefaultValue(clsDocType.MilkGateEntryWeighment, "", False, True)
             InsertDefaultValue(clsDocType.MilkGateEntryOut, "", False, True)
+            InsertDefaultValue(clsDocType.PlantWeighment, "", False, True)
+
             '=====================================================
             'STUTI'
             InsertDefaultValue(clsDocType.CAPEXMASTER, "", False, False)
