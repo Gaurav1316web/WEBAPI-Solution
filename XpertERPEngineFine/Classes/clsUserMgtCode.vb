@@ -257,6 +257,7 @@ Public Class clsUserMgtCode
     Public Const rptAvgSaleDetailReport As String = "AVG_SAL_RPT"
     Public Const rptdairydispatch As String = "DRY_DIS_RPT"
     Public Const rptRouteSaleRegister As String = "ROT_SAL_REG"
+    Public Const RptSalesSummaryReport As String = "SAL_SUM_RPT"
     Public Const rptGatePassReport As String = "GAT_PAS_RPT"
     Public Const rptNewSalesReport As String = "NE_SALE_RPT"
     Public Const FrmPrintMultipleGatepass As String = "MUL_PNT_GP"
