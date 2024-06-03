@@ -53,8 +53,8 @@ Public Class rptRMUnloading
                                     left outer join tspl_item_master on TSPL_ITEM_MASTER.Item_Code= TSPL_PO_WEIGHTMENT_DETAIL.Item_Code
                                     left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_PO_WEIGHTMENT_HEAD.Location_Code
                                     where 
-                                    TSPL_PO_WEIGHTMENT_HEAD.Location_Code= '" + clsCommon.myCstr(txtLocation.Value) + "' AND TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date>='" + clsCommon.GetPrintDate(Slot1FD) + "' 
-                                    AND TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date<='" + clsCommon.GetPrintDate(Slot3TD) + "' AND TSPL_GRN_HEAD.IsCancel=0 and TSPL_PO_WEIGHTMENT_HEAD.Status=1
+                                    TSPL_PO_WEIGHTMENT_HEAD.Location_Code= '" + clsCommon.myCstr(txtLocation.Value) + "' AND convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103)>='" + clsCommon.GetPrintDate(Slot1FD) + "' 
+                                    AND convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103)<='" + clsCommon.GetPrintDate(Slot3TD) + "' AND TSPL_GRN_HEAD.IsCancel=0 and TSPL_PO_WEIGHTMENT_HEAD.Status=1
                                     GROUP BY  Weighment_Date,Short_Description"
             'and tspl_item_master.Structure_Code='RM'  ('RM0001','RM0003','RM0004','RM0006','RM0007','RM0008','RM0010','RM0012','RM0014','RM0015','RM0016','RM0018','RM0019')
             Dim dtRMweight As DataTable = clsDBFuncationality.GetDataTable(RMweight)
