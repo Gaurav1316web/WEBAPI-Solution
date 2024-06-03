@@ -6229,7 +6229,7 @@ Public Class frmGRN
                             " left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code = HEAD .TAX9" &
                             " left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code = HEAD .TAX10 " &
                             " left outer join TSPL_COMPANY_MASTER on  tspl_company_Master.Comp_Code = HEAD.comp_code " &
-                            " left outer join TSPL_LOCATION_MASTER ON  ( HEAD.Bill_To_Location = TSPL_LOCATION_MASTER.Location_Code  OR  HEAD.Bill_To_Location = tspl_location_master.Loc_Segment_Code ) " &
+                            " left outer join TSPL_LOCATION_MASTER ON  ( HEAD.Bill_To_Location = TSPL_LOCATION_MASTER.Location_Code  and  HEAD.Bill_To_Location = tspl_location_master.Loc_Segment_Code ) " &
                             " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code= detail.Item_Code  " &
                             " left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = HEAD.Vendor_Code  " &
                             " left outer join tspl_state_master as tspl_state_master_for_location_state on tspl_state_master_for_location_state.state_code=tspl_location_master.state  " &

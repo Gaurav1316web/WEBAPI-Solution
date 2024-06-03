@@ -433,6 +433,12 @@
     <Compile Include="VisualReport\RptComplainfeedback.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="VisualReport\SalesMarketingDashboard.Designer.vb">
+      <DependentUpon>SalesMarketingDashboard.vb</DependentUpon>
+    </Compile>
+    <Compile Include="VisualReport\SalesMarketingDashboard.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="VisualReport\rptDBTDashboard.Designer.vb">
       <DependentUpon>rptDBTDashboard.vb</DependentUpon>
     </Compile>
@@ -539,6 +545,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="VisualReport\RptComplainfeedback.resx">
       <DependentUpon>RptComplainfeedback.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VisualReport\SalesMarketingDashboard.resx">
+      <DependentUpon>SalesMarketingDashboard.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VisualReport\rptDBTDashboard.resx">
       <DependentUpon>rptDBTDashboard.vb</DependentUpon>

@@ -9,4 +9,5 @@ Imports XpertERPEngineFine
 Public Class frmCMUChecklistEntry
     Inherits FrmMainTranScreen
 
+
 End Class
