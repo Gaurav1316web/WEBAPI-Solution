@@ -830,12 +830,10 @@ Public Class clsMilkSRNMCC
         End Try
     End Sub
     Public Shared Sub Correction(ByVal strSRNNo As String, ByVal CorrTypeSRNQty As Boolean, ByVal CorrTypeSRNFATSNF As Boolean, ByVal CorrTypeSRNVLC As Boolean, ByVal dblQty As Decimal, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal strVLCUploaderCode As String, ByVal IsCapping As Boolean, ByVal Trans As SqlTransaction, ByVal Form_ID As String)
-        Correction(strSRNNo, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, dblQty, strType, dblFAT, dblSNF, strVLCUploaderCode, IsCapping, Trans, False, Form_ID)
+        Correction(strSRNNo, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, dblQty, strType, dblFAT, dblSNF, strVLCUploaderCode, IsCapping, Trans, False, Form_ID, False, "")
     End Sub
 
-
-
-    Public Shared Sub Correction(ByVal strSRNNo As String, ByVal CorrTypeSRNQty As Boolean, ByVal CorrTypeSRNFATSNF As Boolean, ByVal CorrTypeSRNVLC As Boolean, ByVal dblQty As Decimal, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal strVLCUploaderCode As String, ByVal IsCapping As Boolean, ByVal Trans As SqlTransaction, ByVal IsOwnBMCAdjustment As Boolean, ByVal Form_ID As String)
+    Public Shared Sub Correction(ByVal strSRNNo As String, ByVal CorrTypeSRNQty As Boolean, ByVal CorrTypeSRNFATSNF As Boolean, ByVal CorrTypeSRNVLC As Boolean, ByVal dblQty As Decimal, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal strVLCUploaderCode As String, ByVal IsCapping As Boolean, ByVal Trans As SqlTransaction, ByVal IsOwnBMCAdjustment As Boolean, ByVal Form_ID As String, ByVal CorrTypeRejectType As Boolean, ByVal strRejectType As String)
         Dim isPickCLRInsteadOfSNF As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Trans)) > 0)
         Dim PickPriceFromFATAndSNF As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.PickPriceFromFATAndSNF, Trans)) > 0)
         Dim corrFactor As Double = clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Trans)
@@ -854,10 +852,6 @@ Public Class clsMilkSRNMCC
             Dim counter As Integer = 0
             Dim Net_amt As Double = 0
             Dim objHead As clsMilkSRNMCC = clsMilkSRNMCC.GetData(strSRNNo, NavigatorType.Current, Trans)
-            'Dim strMilkReceiptCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select MILK_RECEIPT_CODE from tspl_milk_sample_Head where doc_code='" & objHead.MILK_SAMPLE_CODE & "'", Trans))
-            'If clsCommon.myLen(strMilkReceiptCode) <= 0 Then
-            '    Throw New Exception("Milk Receipt No Not found")
-            'End If
             If objHead.Failed_Sample_Status Then
                 Throw New Exception("SRN No -" + objHead.DOC_CODE + ".Approve failed sample so can't apply any correction on it")
             End If
@@ -893,11 +887,6 @@ Public Class clsMilkSRNMCC
 
             Dim strMilkType As String = objHead.Dock_Collection_Milk_Type
             If objCommonVar.DisplayTypeInMilkReceipt Then
-                'qry = "select Type from tspl_milk_sample_detail where doc_code='" & objHead.MILK_SAMPLE_CODE & "' and sample_no='" & clsCommon.myCstr(objHead.SAMPLE_NO) & "' "
-                'strMilkType = clsDBFuncationality.getSingleValue(qry, Trans)
-                'If clsCommon.myLen(strMilkType) <= 0 Then
-                '    Throw New Exception("Type Not found for milk Sample Doc No [" + objHead.MILK_SAMPLE_CODE + "] and Sample No [" + clsCommon.myCstr(objHead.SAMPLE_NO) + "]")
-                'End If
                 objHead.Dock_Collection_Milk_Type = strType
             End If
 
@@ -914,8 +903,6 @@ Public Class clsMilkSRNMCC
                     conv_fac = 1 + (clsMilkSRNMCC.ObjList(0).CLR / 1000)
                 End If
 
-
-
                 If clsCommon.CompairString(Unit_Code, "KG") = CompairStringResult.Equal Then
                     clsMilkSRNMCC.ObjList(0).ACC_Qty = dblQty
                     clsMilkSRNMCC.ObjList(0).MILK_Qty = dblQty
@@ -930,12 +917,8 @@ Public Class clsMilkSRNMCC
                 End If
                 clsMilkSRNMCC.ObjList(0).UOM = Unit_Code
                 Dim NoOfCans As Integer = Math.Ceiling(clsMilkSRNMCC.ObjList(0).ACC_Qty / MilkWeight_Setting)
-
-                'qry = "update TSPL_MILK_RECEIPT_DETAIL set NO_OF_CANS='" + clsCommon.myCstr(NoOfCans) + "', ACC_WEIGHT='" + clsCommon.myCstr(clsMilkSRNMCC.ObjList(0).ACC_Qty) + "',ACC_WEIGHT_LTR='" + clsCommon.myCstr(dblLTRQty) + "',MILK_WEIGHT='" + clsCommon.myCstr(clsMilkSRNMCC.ObjList(0).MILK_Qty) + "',UOM_Code='" + clsMilkSRNMCC.ObjList(0).UOM + "'  where DOC_CODE='" + strMilkReceiptCode + "' and SAMPLE_NO='" + clsCommon.myCstr(objHead.SAMPLE_NO) + "'"
-                'clsDBFuncationality.ExecuteNonQuery(qry, Trans)
-                'qry = " update TSPL_MILK_SAMPLE_DETAIL set Qty='" + clsCommon.myCstr(clsMilkSRNMCC.ObjList(0).MILK_Qty) + "',ACC_Qty='" + clsCommon.myCstr(clsMilkSRNMCC.ObjList(0).ACC_Qty) + "',FAT_KG=" + clsCommon.myCstr(clsMilkSRNMCC.ObjList(0).ACC_Qty) + "*FAT/100,SNF_KG=" + clsCommon.myCstr(clsMilkSRNMCC.ObjList(0).ACC_Qty) + "*SNF/100,UOM_Code='" + clsMilkSRNMCC.ObjList(0).UOM + "' where doc_code= (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where MILK_RECEIPT_CODE='" + strMilkReceiptCode + "')and SAMPLE_NO='" + clsCommon.myCstr(objHead.SAMPLE_NO) + "'"
-                'clsDBFuncationality.ExecuteNonQuery(qry, Trans)
             End If
+
             If CorrTypeSRNVLC Then
                 qry = "select VLC_Code,VSP_Code,Route_Code from TSPL_VLC_MASTER_HEAD where VLC_Code_VLC_Uploader ='" + strVLCUploaderCode + "'   "
                 If Not SettShowAllMCC Then
@@ -952,16 +935,10 @@ Public Class clsMilkSRNMCC
                     Throw New Exception("Not a Valid VLC Uploader Code:" + strVLCUploaderCode)
                 End If
 
-                'qry = "update TSPL_MILK_SAMPLE_DETAIL set VSP_CODE='" + objHead.VSP_CODE + "'  where doc_code= '" + objHead.MILK_SAMPLE_CODE + "' and SAMPLE_NO='" + clsCommon.myCstr(objHead.SAMPLE_NO) + "'"
-                'clsDBFuncationality.ExecuteNonQuery(qry, Trans)
-                'qry = " update TSPL_MILK_RECEIPT_DETAIL set  VLC_CODE='" + objHead.VLC_CODE + "',VSP_CODE='" + objHead.VSP_CODE + "',ROUTE_CODE='" + objHead.ROUTE_CODE + "' where DOC_CODE=(select MILK_RECEIPT_CODE from TSPL_MILK_SAMPLE_HEAD where DOC_CODE='" + objHead.MILK_SAMPLE_CODE + "') and SAMPLE_NO='" + clsCommon.myCstr(objHead.SAMPLE_NO) + "'"
-                'clsDBFuncationality.ExecuteNonQuery(qry, Trans)
                 qry = "update TSPL_MILK_SRN_HEAD set VLC_CODE='" + objHead.VLC_CODE + "',VSP_CODE='" + objHead.VSP_CODE + "',ROUTE_CODE='" + objHead.ROUTE_CODE + "'  where DOC_CODE='" + objHead.DOC_CODE + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, Trans)
-                '
-
-                '
             End If
+
             If CorrTypeSRNFATSNF Then
                 clsMilkSRNMCC.ObjList(0).FAT = Math.Truncate(dblFAT * 10) / 10
                 If isPickCLRInsteadOfSNF Then
@@ -981,7 +958,6 @@ Public Class clsMilkSRNMCC
                     clsMilkSRNMCC.ObjList(0).Retesting_OR_Correction_Status = 2
                 End If
                 If objCommonVar.DisplayTypeInMilkReceipt Then
-                    ''Do not change exception "Milk Type [" by balwinder used in form.
                     If clsCommon.CompairString(strType, "M") = CompairStringResult.Equal Then
                         If objCommonVar.AddValidationofMilkTypeinsample Then
                             If clsMilkSRNMCC.ObjList(0).FAT < objCommonVar.FatMinMix OrElse clsMilkSRNMCC.ObjList(0).FAT > objCommonVar.FatMaxMix Then
@@ -1013,15 +989,7 @@ Public Class clsMilkSRNMCC
                         Throw New Exception("Milk Type should be M/B/C")
                     End If
                     strMilkType = strType
-                    'qry = "update TSPL_MILK_RECEIPT_DETAIL set Item_Code='" + clsMilkSRNMCC.ObjList(0).Item_CODE + "',type='" + strType + "' where DOC_CODE='" + strMilkReceiptCode + "' and SAMPLE_NO='" + clsCommon.myCstr(objHead.SAMPLE_NO) + "'"
-                    'clsDBFuncationality.ExecuteNonQuery(qry, Trans)
-                    'qry = " update TSPL_MILK_SAMPLE_DETAIL set item_code='" + clsMilkSRNMCC.ObjList(0).Item_CODE + "',type='" + strType + "'  where doc_code= (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where MILK_RECEIPT_CODE='" + strMilkReceiptCode + "')and SAMPLE_NO='" + clsCommon.myCstr(objHead.SAMPLE_NO) + "'"
-                    'clsDBFuncationality.ExecuteNonQuery(qry, Trans)
-
-
                 End If
-
-
                 If settMaxReceiveSNFPer > 0 And clsMilkSRNMCC.ObjList(0).SNF > settMaxReceiveSNFPer Then
                     Throw New Exception("SNF % Can't be more than -" + clsCommon.myCstr(settMaxReceiveSNFPer))
                 End If
@@ -1032,7 +1000,6 @@ Public Class clsMilkSRNMCC
                     Throw New Exception("SNF % Can't be more than -" + clsCommon.myCstr(settMaxSNFPerLimit))
                 End If
             End If
-
 
             qry = "select Case when Nature='C' then Actual_charges end as  commision_pers," _
         & " Case when Nature='E' then Actual_charges end as payment_commision_pers,Service_Charge_Type,coalesce(Rate_Head_Load,0) as Rate_Head_Load" _
@@ -1051,31 +1018,15 @@ Public Class clsMilkSRNMCC
             from  TSPL_VENDOR_MASTER where Vendor_Code='" + objHead.VSP_CODE + "'"
             Dim DtMilkReceipt As DataTable = clsDBFuncationality.GetDataTable(qry, Trans)
 
-
-
-            'objHead.VEHICLE_CODE = clsCommon.myCstr(DtMilkReceipt.Rows(0)("VEHICLE_CODE"))
-            'objHead.VLC_CODE = clsCommon.myCstr(DtMilkReceipt.Rows(0)("VLC_CODE"))
-            'objHead.ROUTE_CODE = clsCommon.myCstr(DtMilkReceipt.Rows(0)("ROUTE_CODE"))
-
-            'Dim DtVehicle As DataTable = clsDBFuncationality.GetDataTable("SELECT vm.* FROM TSPL_Primary_Vehicle_Master vm where Vehicle_Code='" & clsCommon.myCstr(DtMilkReceipt.Rows(0)("VEHICLE_CODE")) & "'", Trans)
-            'If DtVehicle IsNot Nothing AndAlso DtVehicle.Rows.Count > 0 Then
-            '    objHead.TransPorter = clsCommon.myCstr(DtVehicle.Rows(0)("Vendor_Code"))
-            'End If
-
             qry = "select max(QAT) as QAT from TSPL_MILK_SHIFT_UPLOADER_DETAIL where TR_No in ('" + objHead.Against_Shift_Uploader_TR_No + "')"
             Dim MilkShiftUploderQAT As Boolean = IIf(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, Trans)) = 1, True, False)
-
-            If isPickCLRInsteadOfSNF Then
-                Dim strPriceCode As String = ""
-                If PickPriceFromFATAndSNF Then
-                    clsMilkSRNMCC.ObjList(0).RATE = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(clsMilkSRNMCC.ObjList(0).MILK_Qty, clsMilkSRNMCC.ObjList(0).Price_Code, clsMilkSRNMCC.ObjList(0).FAT, clsMilkSRNMCC.ObjList(0).SNF, objHead.MCC_CODE, objHead.VLC_CODE, IIf(objHead.SHIFT.Contains("M"), "M", "E"), objHead.DOC_DATE, Trans, strMilkType, clsMilkSRNMCC.ObjList(0).QAT_Rate, clsMilkSRNMCC.ObjList(0).Negative_Rate)
-                Else
-                    clsMilkSRNMCC.ObjList(0).RATE = clsEkoPro.getRateFromUploaderShiftWiseCLR(clsMilkSRNMCC.ObjList(0).FAT, clsMilkSRNMCC.ObjList(0).CLR, objHead.MCC_CODE, objHead.VLC_CODE, IIf(objHead.SHIFT.Contains("M"), "M", "E"), objHead.DOC_DATE, Trans, strMilkType, strPriceCode)
-                    clsMilkSRNMCC.ObjList(0).Price_Code = strPriceCode
-                End If
-            Else
+            clsMilkSRNMCC.ObjList(0).Price_Code = ""
+            If PickPriceFromFATAndSNF Then
                 clsMilkSRNMCC.ObjList(0).RATE = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(clsMilkSRNMCC.ObjList(0).MILK_Qty, clsMilkSRNMCC.ObjList(0).Price_Code, clsMilkSRNMCC.ObjList(0).FAT, clsMilkSRNMCC.ObjList(0).SNF, objHead.MCC_CODE, objHead.VLC_CODE, IIf(objHead.SHIFT.Contains("M"), "M", "E"), objHead.DOC_DATE, Trans, strMilkType, clsMilkSRNMCC.ObjList(0).QAT_Rate, clsMilkSRNMCC.ObjList(0).Negative_Rate)
+            Else
+                clsMilkSRNMCC.ObjList(0).RATE = clsEkoPro.getRateFromUploaderShiftWiseCLR(clsMilkSRNMCC.ObjList(0).FAT, clsMilkSRNMCC.ObjList(0).CLR, objHead.MCC_CODE, objHead.VLC_CODE, IIf(objHead.SHIFT.Contains("M"), "M", "E"), objHead.DOC_DATE, Trans, strMilkType, clsMilkSRNMCC.ObjList(0).Price_Code)
             End If
+
             If Not MilkShiftUploderQAT Then
                 clsMilkSRNMCC.ObjList(0).QAT_Rate = 0
             End If
@@ -1085,6 +1036,37 @@ Public Class clsMilkSRNMCC
             clsMilkSRNMCC.ObjList(0).Commission = clsCommon.myCDecimal(DtMilkReceipt.Rows(0)("commision_pers"))
             clsMilkSRNMCC.ObjList(0).Own_Asset_Rate = clsCommon.myCDecimal(DtMilkReceipt.Rows(0)("Rate_Own_Asset"))
             clsMilkSRNMCC.ObjList(0).Payment_Commission = clsCommon.myCDecimal(DtMilkReceipt.Rows(0)("payment_commision_pers"))
+
+
+            If CorrTypeRejectType AndAlso clsCommon.myLen(strRejectType) > 0 Then
+                Dim objMRT As clsMilkRejectType = clsMilkRejectType.GetData(strRejectType, NavigatorType.Current, Trans)
+                If objMRT Is Nothing Then
+                    Throw New Exception("Invalid rejection type [" + strRejectType + "]")
+                End If
+                clsMilkSRNMCC.ObjList(0).Item_CODE = objMRT.Item_Code
+                Dim dclRate As Decimal = clsMilkSRNMCC.ObjList(0).RATE
+                Dim dclAmt As Decimal = 0
+                Dim CalKG As Decimal = 0
+                If objMRT.Applicable_On = 1 Then  ''RAte
+                    dclRate = objMRT.Applicable_Per
+                    dclAmt = Math.Round((dclRate * clsMilkSRNMCC.ObjList(0).MILK_Qty), 2, MidpointRounding.AwayFromZero)
+                ElseIf objMRT.Applicable_On = 2 Then  ''FAT KG RAte
+                    CalKG = (clsMilkSRNMCC.ObjList(0).MILK_Qty * clsMilkSRNMCC.ObjList(0).FAT) / 100
+                    dclAmt = Math.Round((objMRT.Applicable_Per * CalKG), 2, MidpointRounding.AwayFromZero)
+                    dclRate = clsCommon.myCDivide(dclAmt, clsMilkSRNMCC.ObjList(0).MILK_Qty)
+                ElseIf objMRT.Applicable_On = 3 Then  ''SNF KG RAte
+                    CalKG = (clsMilkSRNMCC.ObjList(0).MILK_Qty * clsMilkSRNMCC.ObjList(0).SNF) / 100
+                    dclAmt = Math.Round((objMRT.Applicable_Per * CalKG), 2, MidpointRounding.AwayFromZero)
+                    dclRate = clsCommon.myCDivide(dclAmt, clsMilkSRNMCC.ObjList(0).MILK_Qty)
+                Else ''%Age
+                    dclRate = Math.Round(dclRate * objMRT.Applicable_Per / 100, 2, MidpointRounding.AwayFromZero)
+                    dclAmt = Math.Round((dclRate * clsMilkSRNMCC.ObjList(0).MILK_Qty), 2, MidpointRounding.AwayFromZero)
+                End If
+                clsMilkSRNMCC.ObjList(0).RATE = dclRate
+                clsMilkSRNMCC.ObjList(0).AMOUNT = dclAmt
+            End If
+
+
             If clsCommon.CompairString(clsCommon.myCstr(DtMilkReceipt.Rows(0)("EMP_Type")), "FP") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(DtMilkReceipt.Rows(0)("EMP_Type")), "FAFP") = CompairStringResult.Equal Then
                 clsMilkSRNMCC.ObjList(0).Payment_Commission = clsCommon.myCDecimal(DtMilkReceipt.Rows(0)("Actual_charges"))
                 If clsCommon.CompairString(clsCommon.myCstr(DtMilkReceipt.Rows(0)("Service_Charge_Type")), "%(Percentage)") = CompairStringResult.Equal Then
@@ -1198,16 +1180,6 @@ Public Class clsMilkSRNMCC
                 If clsMilkSRNMCC.ObjList(0).ACC_Qty_LTR >= MinimumQtyForHeadLoad Then
                     clsMilkSRNMCC.ObjList(0).Head_Load_Amount = Math.Round(clsMilkSRNMCC.ObjList(0).ACC_Qty_LTR * objHeadLoad.Head_Load_Rate * dclDistanceKM, 2)
                 End If
-                'ElseIf clsCommon.CompairString(clsCommon.myCstr(DtMilkReceipt.Rows(0)("Service_Basis_Head_Load")), "W") = CompairStringResult.Equal Then
-                '    qry = "select Ratio,SNF_Ratio,FAT_Pers,SNF_Pers from TSPL_MILK_PRICE_MASTER where Price_Code=(select top 1 Price_Code from TSPL_FAT_SNF_UPLOADER_MASTER where Code='" + clsMilkSRNMCC.ObjList(0).Price_Code + "')"
-                '    Dim dtTemp As DataTable = clsDBFuncationality.GetDataTable(qry, Trans)
-                '    If dtTemp IsNot Nothing AndAlso dtTemp.Rows.Count > 0 Then
-                '        clsMilkSRNMCC.ObjList(0).FAT_KG = Math.Round(clsMilkSRNMCC.ObjList(0).ACC_Qty * clsMilkSRNMCC.ObjList(0).FAT / 100, 3)
-                '        clsMilkSRNMCC.ObjList(0).SNF_KG = Math.Round(clsMilkSRNMCC.ObjList(0).ACC_Qty * clsMilkSRNMCC.ObjList(0).SNF / 100, 3)
-                '        Dim dblFATRate As Decimal = clsMilkSRNMCC.ObjList(0).Head_Load_Rate * clsCommon.myCDecimal(dtTemp.Rows(0)("Ratio")) / clsCommon.myCDecimal(dtTemp.Rows(0)("FAT_Pers"))
-                '        Dim dblSNFRate As Decimal = clsMilkSRNMCC.ObjList(0).Head_Load_Rate * clsCommon.myCDecimal(dtTemp.Rows(0)("SNF_Ratio")) / clsCommon.myCDecimal(dtTemp.Rows(0)("SNF_Pers"))
-                '        clsMilkSRNMCC.ObjList(0).Head_Load_Amount = Math.Round(((clsMilkSRNMCC.ObjList(0).FAT_KG * dblFATRate) + (clsMilkSRNMCC.ObjList(0).SNF_KG * dblSNFRate)) * dclDistanceKM, 2)
-                '    End If
             End If
             clsMilkSRNMCC.ObjList(0).Head_Load_Type = clsCommon.myCstr(objHeadLoad.Head_Load_Basis)
             '============================================
@@ -1272,33 +1244,24 @@ Public Class clsMilkSRNMCC
             clsMilkSRNMCC.ObjList(0).Std_Qty = clsInventoryMovementNew.GetStdQty(Trans, Math.Round(clsMilkSRNMCC.ObjList(0).ACC_Qty * clsMilkSRNMCC.ObjList(0).FAT / 100, 2), Math.Round(clsMilkSRNMCC.ObjList(0).ACC_Qty * clsMilkSRNMCC.ObjList(0).SNF / 100, 2), objHead.DOC_DATE)
             clsMilkSRNMCC.UpdateDataFromSRNFrom(objHead, clsMilkSRNMCC.ObjList, objVSPChargeList, objPriceChargeList, Trans)
             clsMilkSRNMCC.updateJournalEntryWithTran("MI-SR", objHead.DOC_CODE, Trans)
-            'clsMilkSRNMCC.UpdateSample(objHead.MILK_SAMPLE_CODE, objHead.SAMPLE_NO, clsMilkSRNMCC.ObjList(0).FAT, clsMilkSRNMCC.ObjList(0).SNF, clsMilkSRNMCC.ObjList(0).CLR, clsMilkSRNMCC.ObjList(0).RATE, clsMilkSRNMCC.ObjList(0).AMOUNT, Trans, clsMilkSRNMCC.ObjList(0).Price_Code, clsMilkSRNMCC.ObjList(0).QAT_Rate, clsMilkSRNMCC.ObjList(0).Negative_Rate)
 
-            CorrectBackDocs(CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, objHead.DOC_CODE, objHead.VLC_CODE, dblQty, strType, dblFAT, IIf(isPickCLRInsteadOfSNF, clsMilkSRNMCC.ObjList(0).CLR, dblSNF), Trans)
+            CorrectBackDocs(CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, objHead.DOC_CODE, objHead.VLC_CODE, dblQty, strType, dblFAT, IIf(isPickCLRInsteadOfSNF, clsMilkSRNMCC.ObjList(0).CLR, dblSNF), Trans, strRejectType)
             If IsCapping Then
                 qry = "Update TSPL_MILK_SRN_HEAD set Capping_Apply=1 where DOC_CODE='" + objHead.DOC_CODE + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, Trans)
             End If
-
-
-
             objVSPChargeList = Nothing
             objPriceChargeList = Nothing
-
             objHead = Nothing
-
             DtMilkReceipt = Nothing
-            'DtVehicle = Nothing
             DtVSPChargeDetail = Nothing
             DtPriceChargeDetail = Nothing
-            'strMilkReceiptCode = String.Empty
         Catch ex As Exception
-
             Throw New Exception(ex.Message)
         End Try
     End Sub
 
-    Private Shared Function CorrectBackDocs(corrTypeSRNQty As Boolean, corrTypeSRNFATSNF As Boolean, corrTypeSRNVLC As Boolean, strMilkSRN As String, strVLCCode As String, dblQty As Decimal, strType As String, dblFAT As Decimal, dblSNF As Decimal, trans As SqlTransaction) As Boolean
+    Private Shared Function CorrectBackDocs(corrTypeSRNQty As Boolean, corrTypeSRNFATSNF As Boolean, corrTypeSRNVLC As Boolean, strMilkSRN As String, strVLCCode As String, dblQty As Decimal, strType As String, dblFAT As Decimal, dblSNF As Decimal, trans As SqlTransaction, strRejectType As String) As Boolean
         Dim qry As String = "select TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No as Against_Shift_Uploader_DocNo,TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No,
 TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No as Against_Uploader_DocNo ,TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
 from TSPL_MILK_SRN_HEAD 
@@ -1322,6 +1285,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strMilkSRN + "'  "
                         Arr(0).SNF = dblSNF
                     End If
                     intAgainst_Milk_Collection_DCS_Detail = Arr(0).Against_Milk_Collection_DCS_Detail
+                    Arr(0).Reject_Type = strRejectType
                     clsMilkShiftUploaderDetail.SaveData(Arr(0).Document_No, "", Arr, trans, Arr(0).TR_No)
                 End If
             ElseIf clsCommon.myLen(dt.Rows(0)("Against_Uploader_TR_No")) > 0 Then
@@ -1337,6 +1301,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strMilkSRN + "'  "
                         Arr(0).FAT = dblFAT
                         Arr(0).SNF = dblSNF
                     End If
+                    Arr(0).Reject_Type = strRejectType
                     intAgainst_Milk_Collection_DCS_Detail = Arr(0).Against_Milk_Collection_DCS_Detail
                     clsMilkProcurementUploaderDetail.SaveData(Arr(0).Document_No, "", Arr, trans, Arr(0).TR_No)
                 End If
@@ -1360,6 +1325,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strMilkSRN + "'  "
                         Arr(0).FATKG = Math.Round(Arr(0).Qty * Arr(0).FAT / 100, 3, MidpointRounding.ToEven)
                         Arr(0).SNFKG = Math.Round(Arr(0).Qty * Arr(0).SNF / 100, 3, MidpointRounding.ToEven)
                     End If
+                    Arr(0).Milk_Type = strRejectType
                     clsMilkCollectionDCSDetail.SaveData(Arr(0).Document_No, Arr, trans, Arr(0).PK_Id, False)
                 End If
             End If
@@ -1431,6 +1397,21 @@ Public Class clsMilkSRNMCCDetail
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Dock_Collection_Milk_Type As String, ByVal Arr As List(Of clsMilkSRNMCCDetail), ByVal trans As SqlTransaction, ByVal isNewEntry As Boolean, ByVal SAMPLE_NO As Integer) As Boolean
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsMilkSRNMCCDetail In Arr
+                Dim RCDFQCControl As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.RCDFControl, clsFixedParameterCode.MaxFATPerLimit, trans))
+                If RCDFQCControl > 0 Then
+                    If obj.FAT > RCDFQCControl Then
+                        Throw New Exception("As per RCDF QC policy FAT % can't be more than [" + clsCommon.myCstr(RCDFQCControl) + "]")
+                    End If
+                End If
+
+                RCDFQCControl = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.RCDFControl, clsFixedParameterCode.MaxSNFPerLimit, trans))
+                If RCDFQCControl > 0 Then
+                    If obj.SNF > RCDFQCControl Then
+                        Throw New Exception("As per RCDF QC policy SNF % can't be more than [" + clsCommon.myCstr(RCDFQCControl) + "]")
+                    End If
+                End If
+
+
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "DOC_CODE", strDocNo)
                 clsCommon.AddColumnsForChange(coll, "Item_CODE", obj.Item_CODE)

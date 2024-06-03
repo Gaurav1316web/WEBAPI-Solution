@@ -2,6 +2,7 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
+    Public Const RCDFControl As String = "RCDF Control"
     Public Const EmployeePFRetirementAge As String = "Employee PF Retirement Age"
     Public Const EmployeeRetirementAge As String = "Employee Retirement Age"
     Public Const DBTMilkQtyCapping As String = "DBT Milk Qty Capping"
@@ -1286,6 +1287,7 @@ Public Class clsFixedParameterCode
     Public Const WeighingRoundSetting As String = "Weighing Round Setting"
     Public Const AverageDaysForFATSNF As String = "Average Days For FAT SNF"
     Public Const MarqueText As String = "Marque Text"
+    Public Const CustomerVirtualACCounter As String = "Customer Virtual AC Counter"
     Public Const MaxRowsExcelDBTNEFTUploader As String = "Max Rows Excel DBT NEFT Uploader"
     Public Const ShowSampleNoOnBMC As String = "Fill Route Tanker No"
     Public Const ShowTempratureOnBMC As String = "Fill Route Tanker No"
@@ -2707,8 +2709,11 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
-        InsertDefaultValueFixedParameter(clsFixedParameterType.EmployeePFRetirementAge, clsFixedParameterCode.EmployeePFRetirementAge, "", "Define PF Retirement Age")
-        InsertDefaultValueFixedParameter(clsFixedParameterType.EmployeeRetirementAge, clsFixedParameterCode.EmployeeRetirementAge, "", "Define Retirement Age")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.RCDFControl, clsFixedParameterCode.MaxFATPerLimit, "0", "0-OFF.Max FAT % limit on Milk")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.RCDFControl, clsFixedParameterCode.MaxSNFPerLimit, "0", "0-OFF.Max SNF % limit on Milk")
+
+        InsertDefaultValueFixedParameter(clsFixedParameterType.EmployeePFRetirementAge, clsFixedParameterCode.EmployeePFRetirementAge, "58", "Define PF Retirement Age")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.EmployeeRetirementAge, clsFixedParameterCode.EmployeeRetirementAge, "60", "Define Retirement Age")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PDAccountPaymanager, clsFixedParameterCode.NoOfRecordForLotNo, "4500", "No of Records to Set Lot No")
         InsertDefaultValueFixedParameter(clsFixedParameterType.BankAdviseRequired, clsFixedParameterCode.BankAdviseRequired, "", "Bank Advise Start Date [dd/MMM/yyyy]")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyMergeForDCSMultipleDays, clsFixedParameterCode.ApplyMergeForDCSMultipleDays, "1", "0:OFF;1:ON")
@@ -2782,6 +2787,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAPP, clsFixedParameterCode.StopMPUpdate, "0", "0-OFF, 1:On; Stop To Update Farmer Data By Mobile APP")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAPP, clsFixedParameterCode.ShowForgetPwd, "0", "0-Hide, 1:Show; Show/Hide Forget Password")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAPP, clsFixedParameterCode.MarqueText, "Tecxpert Software Pvt Ltd", "Welcome to Saras Pro App")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAPP, clsFixedParameterCode.CustomerVirtualACCounter, "00001", "Counter of Customer Virtual AC")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPMaster, clsFixedParameterCode.DisableUploaderNo, "0", "MP Regisration Disable(1)/Enable(0) Uploader no")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPMaster, clsFixedParameterCode.JPRDairyMandatoryColumn, "0", "Mandatory Column Account No,IFSC")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPMaster, clsFixedParameterCode.VerifiedJanAadharNo, "0", "0:OFF,1:ON;Pick Farmer only Verified Janaadhar No")
@@ -4194,6 +4200,11 @@ Public Class clsFixedParameterProgramMapping
     End Function
     Public Shared Sub SetDefaultValues()
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_FIXED_PARAMETER_PROGRAM_MAPPING")
+
+
+        InsertDefaultValue(clsUserMgtCode.frmMilkSRN, clsFixedParameterType.RCDFControl, clsFixedParameterCode.MaxFATPerLimit, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.frmMilkSRN, clsFixedParameterType.RCDFControl, clsFixedParameterCode.MaxSNFPerLimit, EnumControlType.NumericBox)
+
         InsertDefaultValue(clsUserMgtCode.frmEmployee_Master, clsFixedParameterType.EmployeePFRetirementAge, clsFixedParameterCode.EmployeePFRetirementAge, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.frmEmployee_Master, clsFixedParameterType.EmployeeRetirementAge, clsFixedParameterCode.EmployeeRetirementAge, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.DBTNEFTUploader, clsFixedParameterType.PDAccountPaymanager, clsFixedParameterCode.NoOfRecordForLotNo, EnumControlType.NumericBox)

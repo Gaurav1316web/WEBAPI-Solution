@@ -70,6 +70,8 @@ Public Class clsBullParameterGroup
                 Throw New Exception("Code No. not found to Delete")
             End If
             Dim qry As String = ""
+            qry = "delete from TSPL_BULL_PARAMETER_GROUP_DETAIL_RANGE where Against_Group_Code='" + StrCode + "'"
+            isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_BULL_PARAMETER_GROUP_Detail where Code='" + StrCode + "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_BULL_PARAMETER_GROUP_MASTER where Code='" + StrCode + "'"
@@ -98,7 +100,11 @@ Public Class clsBullParameterGroup
         Try
             IsSaved = True
 
-            Dim StrQry As String = "delete from TSPL_BULL_PARAMETER_GROUP_Detail where Code='" + obj.Code + "'"
+            Dim StrQry As String = "delete from TSPL_BULL_PARAMETER_GROUP_DETAIL_RANGE where Against_Group_Code='" + obj.Code + "'"
+            clsDBFuncationality.ExecuteNonQuery(StrQry, trans)
+
+            StrQry = Nothing
+            StrQry = "delete from TSPL_BULL_PARAMETER_GROUP_Detail where Code='" + obj.Code + "'"
             clsDBFuncationality.ExecuteNonQuery(StrQry, trans)
 
 
@@ -123,7 +129,7 @@ Public Class clsBullParameterGroup
             End If
 
             IsSaved = IsSaved AndAlso clsBullParameterGroupDetail.SaveData(clsCommon.myCstr(obj.Code), obj.Arr, trans)
-            IsSaved = IsSaved AndAlso clsBullParameterGroupDeatilRange.SaveData(clsCommon.myCstr(obj.Code), obj.arrSelectionRange, trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -152,6 +158,8 @@ Public Class clsBullParameterGroupDetail
     Public R_Boolean As String = ""
     Public Alpha_Numeric As String = ""
     Public Range_Selection As Decimal
+    Public RangeArr As Dictionary(Of String, String)
+
 
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsBullParameterGroupDetail), ByVal trans As SqlTransaction) As Boolean
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
@@ -166,6 +174,10 @@ Public Class clsBullParameterGroupDetail
                 clsCommon.AddColumnsForChange(colm, "Alpha_Numeric", obj.Alpha_Numeric)
                 clsCommon.AddColumnsForChange(colm, "Range_Selection", obj.Range_Selection)
                 clsCommonFunctionality.UpdateDataTable(colm, "TSPL_BULL_PARAMETER_GROUP_Detail", OMInsertOrUpdate.Insert, "", trans)
+                If clsCommon.myCstr(obj.Range_Selection) IsNot Nothing AndAlso clsCommon.myCdbl(obj.Range_Selection) > 0 Then
+                    Dim pkID As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("Select PK_ID from TSPL_BULL_PARAMETER_GROUP_DETAIL Where Code='" + strDocNo + "' And IsNull(Range_Selection,0)>0 ", trans))
+                    clsBullParameterGroupDeatilRange.SaveData(strDocNo, obj.RangeArr, pkID, trans)
+                End If
             Next
         End If
         Return True
@@ -176,19 +188,20 @@ Public Class clsBullParameterGroupDeatilRange
     Public Against_Group_Code As String
     Public Against_Detail_PK_Id As Decimal
     Public Range_Selection As String
-
-    Public Shared Function SaveData(ByVal strDocNo As String, ByVal arrSelection As List(Of clsBullParameterGroupDeatilRange), ByVal trans As SqlTransaction) As Boolean
-        If (arrSelection IsNot Nothing AndAlso arrSelection.Count > 0) Then
-            For Each obj As clsBullParameterGroupDeatilRange In arrSelection
+    Public arrSelectionRange As List(Of clsBullParameterGroupDeatilRange) = Nothing
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As Dictionary(Of String, String), ByVal pkID As Decimal, ByVal trans As SqlTransaction) As Boolean
+        If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
+            For ii As Integer = 0 To Arr.Count - 1
+                Dim index As Integer = 1
                 Dim colm As New Hashtable()
-                clsCommon.AddColumnsForChange(colm, "Against_Group_Code", obj.Against_Group_Code)
+                clsCommon.AddColumnsForChange(colm, "Against_Group_Code", strDocNo)
                 'clsCommon.AddColumnsForChange(colm, "Against_Detail_PK_Id", obj.Against_Detail_PK_Id)
-                clsCommon.AddColumnsForChange(colm, "Range_Selection", obj.Range_Selection)
+                clsCommon.AddColumnsForChange(colm, "Against_Detail_PK_Id", pkID)
+                clsCommon.AddColumnsForChange(colm, "Range_Selection", Arr(Arr.Keys(ii)))
                 clsCommonFunctionality.UpdateDataTable(colm, "TSPL_BULL_PARAMETER_GROUP_DETAIL_RANGE", OMInsertOrUpdate.Insert, "", trans)
+                index += 1
             Next
         End If
         Return True
     End Function
-
-
 End Class

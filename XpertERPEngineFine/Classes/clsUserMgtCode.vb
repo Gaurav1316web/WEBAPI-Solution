@@ -635,6 +635,7 @@ Public Class clsUserMgtCode
     Public Const frmDasboardCombine As String = "DAS_BRD_COM"
     'Public Const rptDataEntryTracingReport As String = "RPT_DATA_TRA"
     Public Const frmDocumentCancelledReport As String = "RPT_DOC_CANC"
+    Public Const DashboardMilkProcurement As String = "DAS_MK_PROC"
     '--------------------------------Receivable---------------------------
     '===================Setup====================
 
@@ -2602,6 +2603,7 @@ Public Class clsUserMgtCode
     Public Const Complainfeedback As String = "COMP-FEED"
     Public Const DashboardMilkUnion As String = "UN-DSB"
     Public Const DairySaleDashboard As String = "DAR-DSB"
+    Public Const SalesMarketingDashboard As String = "SAL-MAR-DAS"
     'Public Const CardSale As String = "CRD_SALE"
 
     'Eng. And Plant Management
@@ -2646,6 +2648,7 @@ Public Class clsUserMgtCode
     Public Const XpertAPIMilkSample As String = "API-MLK-SAM"
     Public Const XpertAPIMilkReject As String = "API-MLK-REJ"
     Public Const XpertAPIMilkEmptySample As String = "API-MLK-ETS"
+    Public Const XpertAPIPlantWeighment As String = "API-PLT-WGT"
 
     Public Const XpertAPIMilkMilkRegister As String = "API-MLK-REG"
 

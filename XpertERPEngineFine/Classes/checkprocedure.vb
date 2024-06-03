@@ -61,6 +61,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.Complainfeedback, "Complain feedback", "1.00.03.12", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
         InsertDefaultValue(clsUserMgtCode.DashboardMilkUnion, "Union Dashboard", "1.00.03.13", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
         InsertDefaultValue(clsUserMgtCode.DairySaleDashboard, "Dairy Dashboard", "1.00.03.14", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
+        InsertDefaultValue(clsUserMgtCode.SalesMarketingDashboard, "Sales And Marketing Dashboard", "1.00.03.15", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
 
         '-------------------------------------------------------------------End SYSTEM ADMINISTRATOR---------------------------------------
         '--------------Common Services----------------------------------
@@ -168,6 +169,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmDasboardCombine, "Combine Dash Board", "1.01.03.21", clsUserMgtCode.SubModuleCommonServicesReport, 37)
         'InsertDefaultValue(clsUserMgtCode.rptDataEntryTracingReport, "Data Entry Tracing Report", "1.01.03.27", clsUserMgtCode.SubModuleCommonServicesReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmDocumentCancelledReport, "Document Cancelled Report", "1.01.03.22", clsUserMgtCode.SubModuleCommonServicesReport, 37)
+        InsertDefaultValue(clsUserMgtCode.DashboardMilkProcurement, "Dashboard Milk Procurement", "1.01.03.23", clsUserMgtCode.SubModuleCommonServicesReport, 37)
+
         '--------------Receivable----------------------------------
         InsertDefaultValue(clsUserMgtCode.ModuleReceivable, "Receivable", "1.02", clsUserMgtCode.ExpertERP, "M", 23)
 
@@ -181,7 +184,9 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.CustomerAccountSet, "Customer Account Set", "1.02.01.03", clsUserMgtCode.SubModuleReceivableSetup, 27)
         InsertDefaultValue(clsUserMgtCode.CustomerGroup, "Customer Group", "1.02.01.04", clsUserMgtCode.SubModuleReceivableSetup, 27)
         InsertDefaultValue(clsUserMgtCode.CustomeCategory, "Customer Category", "1.02.01.05", clsUserMgtCode.SubModuleReceivableSetup, 27)
-        InsertDefaultValue(clsUserMgtCode.CustomerMaster, "Customer Master", "1.02.01.06", clsUserMgtCode.SubModuleReceivableSetup, 27)
+        'InsertDefaultValue(clsUserMgtCode.CustomerMaster, "Customer Master", "1.02.01.06", clsUserMgtCode.SubModuleReceivableSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.CustomerMaster, "Customer Master", "1.02.01.06", clsUserMgtCode.SubModuleReceivableSetup, "", 27, False, "", "", "", True, False, False, "", Nothing, "", "", "", "", "", False, "", 0)
+
         InsertDefaultValue(clsUserMgtCode.ShiptoLocation, "Ship To Location", "1.02.01.07", clsUserMgtCode.SubModuleReceivableSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmShipToLocationDetails, "Ship To Location Details", "1.02.01.07", clsUserMgtCode.SubModuleReceivableSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmCustomerCategoryLevel, "Customer Category Level", "1.02.01.08", clsUserMgtCode.SubModuleReceivableSetup, 27)
@@ -2847,6 +2852,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.XpertAPIMilkSample, "Milk Sample", "1.48.02.04", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPIMilkReject, "Milk Reject", "1.48.02.05", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPIMilkEmptySample, "Empty Sample", "1.48.02.06", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
+        InsertDefaultValue(clsUserMgtCode.XpertAPIPlantWeighment, "Weighment", "1.48.02.07", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
 
         InsertDefaultValue(clsUserMgtCode.SubModuleXpertAPIReport, "Report", "1.48.03", clsUserMgtCode.ModuleXpertAPI, "SM", 30, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPIMilkMilkRegister, "Milk Register", "1.48.03.01", clsUserMgtCode.SubModuleXpertAPIReport, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
