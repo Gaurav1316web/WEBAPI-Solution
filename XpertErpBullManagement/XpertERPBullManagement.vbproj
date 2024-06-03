@@ -506,6 +506,9 @@
     <EmbeddedResource Include="Transaction\frmBullMovement.resx">
       <DependentUpon>frmBullMovement.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmCMUChecklistEntry.resx">
+      <DependentUpon>frmCMUChecklistEntry.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmInsuranceTagAllocation.resx">
       <DependentUpon>frmInsuranceTagAllocation.vb</DependentUpon>
     </EmbeddedResource>
