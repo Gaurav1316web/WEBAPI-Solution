@@ -5587,6 +5587,10 @@ Public Class MDI
                         frm = New frmDocumentCancelledReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.DashboardMilkProcurement
+                        frm = New DashboardMilkProcurement()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     'Case clsUserMgtCode.rptDataEntryTracingReport
                     '    frm = New rptDataEntryTracingReport()
                     '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

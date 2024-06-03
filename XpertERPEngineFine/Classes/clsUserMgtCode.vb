@@ -634,6 +634,7 @@ Public Class clsUserMgtCode
     Public Const frmDasboardCombine As String = "DAS_BRD_COM"
     'Public Const rptDataEntryTracingReport As String = "RPT_DATA_TRA"
     Public Const frmDocumentCancelledReport As String = "RPT_DOC_CANC"
+    Public Const DashboardMilkProcurement As String = "DAS_MK_PROC"
     '--------------------------------Receivable---------------------------
     '===================Setup====================
 
