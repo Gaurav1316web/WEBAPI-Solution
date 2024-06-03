@@ -39,6 +39,10 @@ Public Class ClsCMUGrouping
             IsSaved = True
 
             Dim StrQry As String = ""
+
+            StrQry = "delete from TSPL_BULL_CMU_GROUPING_DETAIL_RANGE where Against_Group_Code='" + obj.Code + "'"
+            clsDBFuncationality.ExecuteNonQuery(StrQry, trans)
+
             StrQry = "delete from TSPL_BULL_CMU_GROUPING_Detail where Document_No='" + obj.Code + "'"
             clsDBFuncationality.ExecuteNonQuery(StrQry, trans)
 
@@ -220,6 +224,7 @@ Public Class ClsCMUGroupingDetail
                     Dim colm As New Hashtable()
                     clsCommon.AddColumnsForChange(colm, "Document_No", strDocNo)
                     clsCommon.AddColumnsForChange(colm, "Against_Parameter_Group_Code", obj.Pk_Id)
+                    'clsCommon.AddColumnsForChange(colm, "Against_Parameter_Code", obj.GroupCode)
                     clsCommon.AddColumnsForChange(colm, "Required_For_Result", obj.Required_For_Result)
                     clsCommon.AddColumnsForChange(colm, "From_Range", obj.From_Range)
                     clsCommon.AddColumnsForChange(colm, "To_Range", obj.To_Range)
@@ -248,7 +253,7 @@ Public Class ClsCMUGroupingDetail
         Dim arr As List(Of ClsCMUGroupingDetail) = Nothing
         Try
             Dim dt As New DataTable
-            Dim strQry As String = " select TSPL_BULL_CMU_GROUPING_Detail.*,TSPL_BULL_CMU_GROUPING.Name,TSPL_BULL_CMU_GROUPING.Remarks,TSPL_BULL_SHED_PARAMETER_DETAIL.PK_Id,
+            Dim strQry As String = " select TSPL_BULL_CMU_GROUPING_Detail.*,TSPL_BULL_CMU_GROUPING.Name,TSPL_BULL_CMU_GROUPING.Remarks,TSPL_BULL_SHED_PARAMETER_DETAIL.PK_Id as AgainstPK_Id,
 	                                 TSPL_BULL_SHED_PARAMETER_DETAIL.Code as GroupCode,TSPL_BULL_SHED_PARAMETER_MASTER.Name as GroupName,TSPL_BULL_SHED_PARAMETER_DETAIL.PCode,
                                      TSPL_BULL_SHED_PARAMETER.Name as ParameterName,TSPL_BULL_SHED_PARAMETER.Type as ParameterType  from TSPL_BULL_CMU_GROUPING_Detail
                                      left outer join TSPL_BULL_CMU_GROUPING on TSPL_BULL_CMU_GROUPING.Document_No = TSPL_BULL_CMU_GROUPING_Detail.Document_No
@@ -269,7 +274,7 @@ Public Class ClsCMUGroupingDetail
                     objTr.ParameterCode = clsCommon.myCstr(dr("PCode"))
                     objTr.GroupCode = clsCommon.myCstr(dr("GroupCode"))
                     objTr.GroupName = clsCommon.myCstr(dr("GroupName"))
-                    objTr.Pk_Id = clsCommon.myCstr(dr("PK_Id"))
+                    objTr.Pk_Id = clsCommon.myCstr(dr("AgainstPK_Id"))
                     objTr.Required_For_Result = clsCommon.myCstr(dr("Required_For_Result"))
                     objTr.From_Range = clsCommon.myCDecimal(dr("From_Range"))
                     objTr.To_Range = clsCommon.myCDecimal(dr("To_Range"))

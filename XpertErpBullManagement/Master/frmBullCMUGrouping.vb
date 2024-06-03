@@ -74,6 +74,7 @@ Public Class frmBullCMUGrouping
         coll.Add("R_Boolean", "Char(1) null")
         coll.Add("Alpha_Numeric", "NVARCHAR(20) null")
         coll.Add("Range_Selection", "integer null")
+        'coll.Add("Against_Parameter_Code", " VARCHAR(30) Null REFERENCEs TSPL_BULL_SHED_PARAMETER_DETAIL(Code)")
         'coll.Add("Parameter_Code", "VARCHAR(30) NULL REFERENCES TSPL_BULL_SHED_PARAMETER_MASTER(Code) ")
         ' clsCommonFunctionality.CreateOrAlterTable("TSPL_BULL_CURLING_Detail", coll)
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BULL_CMU_GROUPING_Detail", coll, Nothing, False, False, "TSPL_BULL_CMU_GROUPING", "Document_No", "")

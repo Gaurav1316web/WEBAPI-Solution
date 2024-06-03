@@ -9376,6 +9376,7 @@ Public Class clsCreateAllTable
             coll.Add("Qty_In_Kg", "float not null default 0")
             coll.Add("snf_Per", "float not NULL default 0")
             coll.Add("fat_per", "float not NULL default 0")
+            coll.Add("Against_Plant_Weighment", "Varchar(30) null references TSPL_PLANT_WEIGHMENT(Document_No)")
             coll.Add("Created_By", "varchar(12) NOT NULL")
             coll.Add("Created_Date", "Varchar(30) NOT NULL")
             coll.Add("Modify_By", "varchar(12) NOT NULL")
@@ -35402,6 +35403,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
 
 
 
+
             '-------------------------TSPL_QC_Parameter_Detail_BulkSale----------------------
             coll = New Dictionary(Of String, String)
             coll.Add("QC_No", "varchar(30)  NULL references TSPL_Quality_Check_BulkSale(QC_No) ")
@@ -55539,6 +55541,27 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
         coll.Add("TRANS_QTY", "decimal(28,2) NOT NULL default 0")
 
         coll.Add("In_Fat_KG", "FLOAT NOT NULL default 0")
+        coll.Add("Out_Fat_KG", "FLOAT NOT NULL default 0")
+        coll.Add("Fat_KG", "FLOAT NOT NULL default 0")
+
+        coll.Add("In_SNF_KG", "FLOAT NOT NULL default 0")
+        coll.Add("Out_SNF_KG", "FLOAT NOT NULL default 0")
+        coll.Add("SNF_KG", "FLOAT NOT NULL default 0")
+
+        coll.Add("CL_QTY", "decimal(28,2) NOT NULL default 0")
+        coll.Add("CL_FAT_KG", "FLOAT NOT NULL default 0")
+        coll.Add("CL_SNF_KG", "FLOAT NOT NULL default 0")
+
+        coll.Add("CL_FIFO_Cost", "decimal(28,2) NOT NULL default 0")
+        coll.Add("CL_LIFO_Cost", "decimal(28,2) NOT NULL default 0")
+        coll.Add("CL_Avg_Cost", "decimal(28,2) NOT NULL default 0")
+
+        coll.Add("AGEING_Flag", "bit NOT NULL default 0")
+        coll.Add("AGEING_QTY", "decimal(28,2) NOT NULL default 0")
+
+        coll.Add("QC_In_FAT_KG", "FLOAT NOT NULL default 0")
+        coll.Add("QC_Out_FAT_KG", "FLOAT NOT NULL default 0")
+        coll.Add("QC_FAT_KG", "FLOAT NOT NULL default 0 ")
         coll.Add("Out_Fat_KG", "FLOAT NOT NULL default 0")
         coll.Add("Fat_KG", "FLOAT NOT NULL default 0")
 
