@@ -20074,7 +20074,7 @@ Public Class clsCreateAllTable
             coll.Add("Comment12", "nvarchar(200) NULL")
             coll.Add("Comment13", "nvarchar(200) NULL")
             coll.Add("Comment14", "nvarchar(200) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PURCHASE_ORDER_HEAD", coll, Nothing, True, False, "", "PurchaseOrder_No", "PurchaseOrder_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PURCHASE_ORDER_HEAD", coll, Nothing, True, True, "", "PurchaseOrder_No", "PurchaseOrder_Date")
 
             Try
                 clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_PURCHASE_ORDER_HEAD Alter column Comments nvarchar(500) NULL")
@@ -20253,7 +20253,7 @@ Public Class clsCreateAllTable
             coll.Add("Item_Insurance_Rate", "decimal(18,2) NULL")
             coll.Add("Item_Insurance_Amt", "decimal(18,2) NULL")
             coll.Add("Item_Amt_After_Insurance", "decimal(18,2) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PURCHASE_ORDER_DETAIL", coll, Nothing, True, False, "TSPL_PURCHASE_ORDER_HEAD", "PurchaseOrder_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PURCHASE_ORDER_DETAIL", coll, Nothing, True, True, "TSPL_PURCHASE_ORDER_HEAD", "PurchaseOrder_No", "")
 
 
             '' added by Parteek for UDL Work Order Regarding 
