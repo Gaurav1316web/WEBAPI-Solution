@@ -257,6 +257,7 @@ Public Class clsUserMgtCode
     Public Const rptAvgSaleDetailReport As String = "AVG_SAL_RPT"
     Public Const rptdairydispatch As String = "DRY_DIS_RPT"
     Public Const rptRouteSaleRegister As String = "ROT_SAL_REG"
+    Public Const RptSalesSummaryReport As String = "SAL_SUM_RPT"
     Public Const rptGatePassReport As String = "GAT_PAS_RPT"
     Public Const rptNewSalesReport As String = "NE_SALE_RPT"
     Public Const FrmPrintMultipleGatepass As String = "MUL_PNT_GP"
@@ -634,6 +635,7 @@ Public Class clsUserMgtCode
     Public Const frmDasboardCombine As String = "DAS_BRD_COM"
     'Public Const rptDataEntryTracingReport As String = "RPT_DATA_TRA"
     Public Const frmDocumentCancelledReport As String = "RPT_DOC_CANC"
+    Public Const DashboardMilkProcurement As String = "DAS_MK_PROC"
     '--------------------------------Receivable---------------------------
     '===================Setup====================
 
@@ -2602,6 +2604,7 @@ Public Class clsUserMgtCode
     Public Const DashboardMilkUnion As String = "UN-DSB"
     Public Const DairySaleDashboard As String = "DAR-DSB"
     Public Const SalesMarketingDashboard As String = "SAL-MAR-DAS"
+    Public Const rptDBTDashboard As String = "DBT-DSB"
     'Public Const CardSale As String = "CRD_SALE"
 
     'Eng. And Plant Management
