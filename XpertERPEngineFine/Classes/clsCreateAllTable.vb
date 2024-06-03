@@ -20075,7 +20075,7 @@ Public Class clsCreateAllTable
             coll.Add("Comment12", "nvarchar(200) NULL")
             coll.Add("Comment13", "nvarchar(200) NULL")
             coll.Add("Comment14", "nvarchar(200) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PURCHASE_ORDER_HEAD", coll, Nothing, True, False, "", "PurchaseOrder_No", "PurchaseOrder_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PURCHASE_ORDER_HEAD", coll, Nothing, True, True, "", "PurchaseOrder_No", "PurchaseOrder_Date")
 
             Try
                 clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_PURCHASE_ORDER_HEAD Alter column Comments nvarchar(500) NULL")
@@ -20254,7 +20254,7 @@ Public Class clsCreateAllTable
             coll.Add("Item_Insurance_Rate", "decimal(18,2) NULL")
             coll.Add("Item_Insurance_Amt", "decimal(18,2) NULL")
             coll.Add("Item_Amt_After_Insurance", "decimal(18,2) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PURCHASE_ORDER_DETAIL", coll, Nothing, True, False, "TSPL_PURCHASE_ORDER_HEAD", "PurchaseOrder_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PURCHASE_ORDER_DETAIL", coll, Nothing, True, True, "TSPL_PURCHASE_ORDER_HEAD", "PurchaseOrder_No", "")
 
 
             '' added by Parteek for UDL Work Order Regarding 
@@ -37287,7 +37287,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("LINE_NO", "varchar(30) NULL References TSPL_LINE_MASTER(LINE_NO)")
             coll.Add("CostCenterCode", "varchar(30) NULL References TSPL_CostCenter_MASTER(Cost_Code)")
             coll.Add("ProfitCenterCode", "varchar(30) NULL References TSPL_PROFIT_CENTER_MASTER(Code)")
-            coll.Add("Uploader_TR_No", "Varchar(30) null references TSPL_PRODUCTION_UPLOADER_DETAIL(TR_No)")
+            'coll.Add("Uploader_TR_No", "Varchar(30) null references TSPL_PRODUCTION_UPLOADER_DETAIL(TR_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PP_PRODUCTION_PLAN_HEAD", coll, "", True, True, "", "Plan_Code", "Plan_Date", True)
             'clsCommonFunctionality.CreateOrAlterTable("TSPL_PP_PRODUCTION_PLAN_HEAD", coll)
 

@@ -4592,7 +4592,7 @@ Public Class frmSNSaleInvoice
                 Else
                     clsCommon.MyMessageBoxShow(Me, "E-Mail Send Failed !", Me.Text)
                 End If
-            objEmailH = Nothing
+                objEmailH = Nothing
 
                 If Not clsSMSAtPost_Sales.SMSATPOST_SALE() Then
                     SMSSENDONLY(False)
@@ -4968,7 +4968,7 @@ Public Class frmSNSaleInvoice
                 clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
                 'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
-        '======================Added by preeti Gupta Against Ticket no[TEC/21/05/18-000243]====================
+            '======================Added by preeti Gupta Against Ticket no[TEC/21/05/18-000243]====================
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
                                        "TSPL_SD_SALE_INVOICE_HEAD  " + Environment.NewLine +
@@ -5841,11 +5841,11 @@ select Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
             myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
         Else
-            funPrintNew(txtDocNo.Value)
+            funPrintNew(txtDocNo.Value, True, False)
         End If
     End Sub
 
-    Private Sub funPrintNew(ByVal strDocNo As String, Optional ByVal isPdf As Boolean = False)
+    Private Sub funPrintNew(ByVal strDocNo As String, Optional ByVal printnew As Boolean = False, Optional ByVal btnprint As Boolean = False, Optional ByVal isPdf As Boolean = False)
         Try
             Dim frmCRV As New frmCrystalReportViewer()
             If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.AllowToPrintInvoiceAfterPosting & "'")) = 1 Then
@@ -5980,9 +5980,17 @@ select Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name
                                                         where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" + strDocNo + "'
                                                         group by TSPL_SD_SALE_INVOICE_DETAIL.Item_Code,TSPL_SD_SALE_INVOICE_DETAIL.Unit_code"
                     Dim dtItemSummary As DataTable = clsDBFuncationality.GetDataTable(QryItemSummary)
-                    strrptpath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoiceParty", "Tax Invoice", clsCommon.myCDate(dt.Rows(0)("InvoiceDate")), "rptSubItemSummary.rpt", dtItemSummary)
+                    If printnew = True Then
+                        strrptpath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoiceParty", "Tax Invoice", clsCommon.myCDate(dt.Rows(0)("InvoiceDate")), "rptSubItemSummary.rpt", dtItemSummary)
+                    Else
+                        'strrptpath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoiceParty", "Tax Invoice", clsCommon.myCDate(dt.Rows(0)("InvoiceDate")), "rptSubItemSummary.rpt", dtItemSummary)
+                        If btnprint = True Then
+                            strrptpath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoicePartySummary", "Tax Invoice", clsCommon.myCDate(dt.Rows(0)("InvoiceDate")), "rptSubItemSummary.rpt", dtItemSummary)
+                        Else
+                            strrptpath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoicePartyAnnexure", "Tax Invoice", clsCommon.myCDate(dt.Rows(0)("InvoiceDate")), "rptSubItemSummary.rpt", dtItemSummary)
+                        End If
+                    End If
                 End If
-                Exit Sub
             End If
             frmCRV = Nothing
         Catch ex As Exception
@@ -7488,7 +7496,7 @@ left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=XFinal.Loca
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
             clsCommon.MyMessageBoxShow(Me, "No data found to print", Me.Text)
         Else
-            Print(txtDocNo.Value)
+            print(txtDocNo.Value)
         End If
 
     End Sub
@@ -7592,4 +7600,24 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSP
         End Try
         Return True
     End Function
+
+    Private Sub BtnInvoice_Click(sender As Object, e As EventArgs) Handles BtnInvoice.Click
+        If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+            myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
+        Else
+            funPrintNew(txtDocNo.Value, False, True)
+        End If
+    End Sub
+
+    Private Sub btnAnnexure_Click(sender As Object, e As EventArgs) Handles btnAnnexure.Click
+        If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+            myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
+        Else
+            funPrintNew(txtDocNo.Value, False, False)
+        End If
+    End Sub
+
+    Private Sub btnInvAnnexure_Click(sender As Object, e As EventArgs) Handles btnInvAnnexure.Click
+
+    End Sub
 End Class
