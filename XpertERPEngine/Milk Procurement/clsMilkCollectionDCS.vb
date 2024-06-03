@@ -567,7 +567,7 @@ where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + strDocNo + "'
         clsCommon.AddColumnsForChange(coll, "SNo", obj.SNo)
         clsCommon.AddColumnsForChange(coll, "VLC_Code", obj.VLC_Code)
         clsCommon.AddColumnsForChange(coll, "Shift", obj.Shift)
-        If clsCommon.CompairString(obj.Milk_Type, "Good") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(obj.Milk_Type, "Good") = CompairStringResult.Equal OrElse clsCommon.myLen(obj.Milk_Type) <= 0 Then
             obj.Milk_Type = "Good" ''To Handle Case sensitivity
         End If
         clsCommon.AddColumnsForChange(coll, "Milk_Type", obj.Milk_Type)
