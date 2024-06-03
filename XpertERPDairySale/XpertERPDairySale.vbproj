@@ -375,7 +375,9 @@
     <Compile Include="Report\rptNewSalesReport.Designer.vb">
       <DependentUpon>rptNewSalesReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\rptNewSalesReport.vb" />
+    <Compile Include="Report\rptNewSalesReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\rptProvisionChart.Designer.vb">
       <DependentUpon>rptProvisionChart.vb</DependentUpon>
     </Compile>
@@ -500,6 +502,12 @@
       <DependentUpon>rptSalesLedgerReport.vb</DependentUpon>
     </Compile>
     <Compile Include="Report\rptSalesLedgerReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\RptSalesSummaryReport.Designer.vb">
+      <DependentUpon>RptSalesSummaryReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\RptSalesSummaryReport.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Report\rptSalesVehicleReport.Designer.vb">
@@ -966,6 +974,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptSalesLedgerReport.resx">
       <DependentUpon>rptSalesLedgerReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\RptSalesSummaryReport.resx">
+      <DependentUpon>RptSalesSummaryReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptSalesVehicleReport.resx">
       <DependentUpon>rptSalesVehicleReport.vb</DependentUpon>
