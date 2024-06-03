@@ -9422,6 +9422,9 @@ Public Class MDI
                     Case clsUserMgtCode.DairySaleDashboard
                         frm = New DairySaleDashboard
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptDBTDashboard
+                        frm = New rptDBTDashboard
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.rptSMSDetailsReport
                         frm = New rptSMSDetails
