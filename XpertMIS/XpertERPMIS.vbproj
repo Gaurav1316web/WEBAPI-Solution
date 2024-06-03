@@ -51,6 +51,18 @@
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ActiveDatabaseSoftware.ActiveQueryBuilder2, Version=2.9.6.720, Culture=neutral, PublicKeyToken=3cbcbcc9bf57ecde, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\ActiveDatabaseSoftware.ActiveQueryBuilder2.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveDatabaseSoftware.ExpressionEditor2, Version=2.9.6.720, Culture=neutral, PublicKeyToken=3cbcbcc9bf57ecde, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\ActiveDatabaseSoftware.ExpressionEditor2.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveDatabaseSoftware.MSSQLMetadataProvider2, Version=2.9.6.720, Culture=neutral, PublicKeyToken=3cbcbcc9bf57ecde, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\ActiveDatabaseSoftware.MSSQLMetadataProvider2.dll</HintPath>
+    </Reference>
     <Reference Include="CgtFpAccessCSD200Dotnet, Version=2.4.0.0, Culture=neutral, PublicKeyToken=8c0485f223e60602, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\XPERTERP\XpertERP\bin\Debug\CgtFpAccessCSD200Dotnet.dll</HintPath>
@@ -98,7 +110,7 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Telerik.WinControls">
-      <HintPath>..\XpertERP\bin\Debug\Telerik.WinControls.dll</HintPath>
+      <HintPath>..\XpertERPReco\bin\Debug\Telerik.WinControls.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.WinControls.ChartView, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
