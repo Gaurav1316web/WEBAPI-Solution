@@ -51,6 +51,7 @@ Partial Class frmDBTStatusAndLastDPTStatus
         Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
         Me.btnreset = New Telerik.WinControls.UI.RadButton()
         Me.btnReport = New Telerik.WinControls.UI.RadButton()
+        Me.rdbERPStatusLastEntry = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -114,6 +115,7 @@ Partial Class frmDBTStatusAndLastDPTStatus
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.rdbERPStatusLastEntry)
         Me.RadPageViewPage1.Controls.Add(Me.GroupBox1)
         Me.RadPageViewPage1.Controls.Add(Me.rdbLastDBTStatus)
         Me.RadPageViewPage1.Controls.Add(Me.txtFinYr)
@@ -357,6 +359,17 @@ Partial Class frmDBTStatusAndLastDPTStatus
         Me.btnReport.TabIndex = 6
         Me.btnReport.Text = ">>>"
         '
+        'rdbERPStatusLastEntry
+        '
+        Me.rdbERPStatusLastEntry.AutoSize = True
+        Me.rdbERPStatusLastEntry.Location = New System.Drawing.Point(421, 5)
+        Me.rdbERPStatusLastEntry.Name = "rdbERPStatusLastEntry"
+        Me.rdbERPStatusLastEntry.Size = New System.Drawing.Size(158, 17)
+        Me.rdbERPStatusLastEntry.TabIndex = 322
+        Me.rdbERPStatusLastEntry.TabStop = True
+        Me.rdbERPStatusLastEntry.Text = "ERP Status Last Entry Date"
+        Me.rdbERPStatusLastEntry.UseVisualStyleBackColor = True
+        '
         'frmDBTStatusAndLastDPTStatus
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -424,4 +437,5 @@ Partial Class frmDBTStatusAndLastDPTStatus
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents rbtnTransactionPosted As RadioButton
     Friend WithEvents rbtnTranasctionAll As RadioButton
+    Friend WithEvents rdbERPStatusLastEntry As RadioButton
 End Class

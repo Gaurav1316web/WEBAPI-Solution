@@ -314,6 +314,14 @@ Public Class clsPurchaseOrderHead
         clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PURCHASE_ORDER_HEAD", "PurchaseOrder_No", "TSPL_PURCHASE_ORDER_DETAIL", "PurchaseOrder_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
         Return True
     End Function
+    Public Shared Function CancleUpdate(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
+        clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PURCHASE_ORDER_HEAD", "PurchaseOrder_No", "TSPL_PURCHASE_ORDER_DETAIL", "PurchaseOrder_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
+        Return True
+    End Function
+    Public Shared Function CancelData(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
+        clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PURCHASE_ORDER_HEAD", "PurchaseOrder_No", "TSPL_PURCHASE_ORDER_DETAIL", "PurchaseOrder_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
+        Return True
+    End Function
 
     ''Note Very Important If any change mad in PO Head or PO Detail table allso update it's History table.
     Public Function Clone() As Object Implements System.ICloneable.Clone
@@ -459,12 +467,22 @@ Public Class clsPurchaseOrderHead
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 End If
             End If
-            clsPurchaseOrderAdditionChargeInsurance.DeleteData(obj.PurchaseOrder_No, trans)
 
+            clsPurchaseOrderAdditionChargeInsurance.DeleteData(obj.PurchaseOrder_No, trans)
+            '--varsha add
+            'clsPurchaseOrderHeadHist.SaveCancleData(obj.PurchaseOrder_No, "", trans)
+
+            '--varsha end
 
             If Not isNewEntry Then
                 HistoryUpdate(obj.PurchaseOrder_No, trans)
             End If
+            If not isNewEntry Then
+                CancleUpdate(obj.PurchaseOrder_No, trans)
+            End If
+            'If Not isNewEntry Then
+            '    CancelData(obj.PurchaseOrder_No, trans)
+            'End If
             qry = "delete from TSPL_PI_REMITTANCE where Document_No='" + obj.PurchaseOrder_No + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_PURCHASE_ORDER_DETAIL where PurchaseOrder_No='" + obj.PurchaseOrder_No + "'"
@@ -856,6 +874,8 @@ Public Class clsPurchaseOrderHead
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"))
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PURCHASE_ORDER_HEAD", OMInsertOrUpdate.Insert, "", trans)
+                ' clsCommonFunctionality.SaveCancelData(coll, "TSPL_PURCHASE_ORDER_HEAD_Cancel_Data", OMInsertOrUpdate.Insert, "", trans)
+
             Else
                 If isMakeAbandomentNo Then
                     obj.Abandonment_No = obj.Abandonment_No + 1
@@ -6331,7 +6351,17 @@ End Class
 Public Class clsPurchaseOrderHeadHist
 #Region "Variables"
 #End Region
-
+    'Public Shared Function SaveCancleData(ByVal strCode As String, ByVal intAmbandentNo As Integer, ByVal trans As SqlTransaction) As Boolean
+    '    Dim isSaved As Boolean = True
+    '    Try
+    '        Dim strInvColumns As String = clsERPFuncationality.GetTableColumnNameForQry("TSPL_PURCHASE_ORDER_HEAD", trans)
+    '        Dim qry As String = "INSERT INTO TSPL_PURCHASE_ORDER_HEAD_Cancel_Data (" + strInvColumns + ") SELECT " + strInvColumns + " FROM TSPL_PURCHASE_ORDER_HEAD WHERE PurchaseOrder_No='" + clsCommon.myCstr(strCode) + "'"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+    '    Catch ex As Exception
+    '        Throw New Exception(ex.Message)
+    '    End Try
+    '    Return isSaved
+    'End Function
     Public Shared Function SaveDataForHistory(ByVal strCode As String, ByVal intAmbandentNo As Integer, ByVal trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = True
         Try
