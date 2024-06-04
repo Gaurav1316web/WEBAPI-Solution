@@ -49,10 +49,15 @@ Public Class rptDBTDashboard
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
-        LoadReport_DBT_JanAdh()
+        LoadReport_DBTSummary(False)
         LoadReport_DBT_Mishmatch_Qty()
         LoadReport_PaymentStatus()
-        LoadReport_DBTSummary()
+        LoadReport_DBT_JanAdh()
+
+    End Sub
+
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        LoadReport_DBTSummary(True)
     End Sub
 
     Public Sub LoadReport_DBT_JanAdh()
@@ -243,17 +248,15 @@ Public Class rptDBTDashboard
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    Public Sub LoadReport_DBTSummary()
+    Public Sub LoadReport_DBTSummary(ByVal print As Boolean)
         Try
             Dim query As String
             gvDBTSummary.DataSource = Nothing
-
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
             If (dt Is Nothing OrElse dt.Rows.Count <= 0) Then
                 common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
                 gvDBTSummary.DataSource = Nothing
             End If
-
             query = ""
             dt = clsDBFuncationality.GetDataTable("SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHT','JMBILL') ORDER BY [TSPL_APP_LOCATION].Location_Name")
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -261,7 +264,7 @@ Public Class rptDBTDashboard
                     If ii > 0 Then
                         query += " UNION ALL "
                     End If
-                    query += " select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name], SUM(DISTINCT [DCS Count]) AS [DCS Count] ,SUM(DISTINCT([Farmer Count]))[Farmer Count], IsNull(Sum(final.[DCS Billed Qty]),0)[DCS Billed Qty],IsNull(Sum(final.[Farmer Qty]),0)[Farmer Qty],IsNull(Sum(final.[NEFT Amt]),0)[NEFT Amt] from ( select COUNT(Distinct [DCS Count])  as [DCS Count], SUM(Distinct [Farmer Count])  as [Farmer Count],0 As [DCS Billed Qty],Sum([Farmer Qty])[Farmer Qty],sum(Amount) as [NEFT Amt]  From ( Select sum(TSPL_DBT_NEFT_DETAIL.Amount) as Amount ,sum(TSPL_MP_INCENTIVE_ENTRY_DETAIL.Qty)[Farmer Qty], COUNT(ISNULL (TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,0))  as [Farmer Count],(TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code) as [DCS Count] from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL  Left Outer JOin [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT On TSPL_DBT_NEFT.Document_Code=TSPL_DBT_NEFT_DETAIL.Document_Code
+                    query += " select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'as Todate,'" + objCommonVar.CurrentUser + "' as username, SUM(DISTINCT [DCS Count]) AS [DCS Count] ,SUM(DISTINCT([Farmer Count]))[Farmer Count], IsNull(Sum(final.[DCS Billed Qty]),0)[DCS Billed Qty],IsNull(Sum(final.[Farmer Qty]),0)[Farmer Qty],IsNull(Sum(final.[NEFT Amt]),0)[NEFT Amt] from ( select COUNT(Distinct [DCS Count])  as [DCS Count], SUM(Distinct [Farmer Count])  as [Farmer Count],0 As [DCS Billed Qty],Sum([Farmer Qty])[Farmer Qty],sum(Amount) as [NEFT Amt]  From ( Select sum(TSPL_DBT_NEFT_DETAIL.Amount) as Amount ,sum(TSPL_MP_INCENTIVE_ENTRY_DETAIL.Qty)[Farmer Qty], COUNT(ISNULL (TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,0))  as [Farmer Count],(TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code) as [DCS Count] from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL  Left Outer JOin [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT On TSPL_DBT_NEFT.Document_Code=TSPL_DBT_NEFT_DETAIL.Document_Code
                                 Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL On TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR   
                                 left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code
                                 left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code where TSPL_DBT_NEFT_DETAIL.PK_Id Not In (Select Against_DBT_NEFT_TR From [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_REJECT_DETAIL where TSPL_DBT_NEFT_REJECT_DETAIL.Document_Code Not In (Select Document_Code From [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_REJECT where TSPL_DBT_NEFT_REJECT.Against_DBT_NEFT Not In (TSPL_DBT_NEFT.Document_Code))) and Convert(Date,TSPL_DBT_NEFT.From_Date,103)>=Convert(Date,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "',103) And Convert(Date,TSPL_DBT_NEFT.To_Date,103)<=Convert(Date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "',103) GROUP BY [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code	
@@ -276,21 +279,25 @@ Public Class rptDBTDashboard
                 dtDBTSummary = clsDBFuncationality.GetDataTable(query)
                 Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
                 If (dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0) Then
-                    gvDBTSummary.DataSource = Nothing
-                    gvDBTSummary.Rows.Clear()
-                    gvDBTSummary.Columns.Clear()
-                    gvDBTSummary.GroupDescriptors.Clear()
-                    gvDBTSummary.MasterTemplate.SummaryRowsBottom.Clear()
-                    gvDBTSummary.MasterView.Refresh()
-                    gvDBTSummary.DataSource = dt2
-                    For ii As Integer = 0 To gvDBTSummary.Columns.Count - 1
-                        gvDBTSummary.Columns(ii).ReadOnly = True
-                    Next
-                    RadPageView.SelectedPage = RadPageViewPage2
-                    gvDBTSummary.EnableFiltering = True
-                    gvDBTSummary.AllowAddNewRow = False
-                    gvDBTSummary.ShowGroupPanel = False
-                    gvDBTSummary.BestFitColumns()
+                    If print = False Then
+                        gvDBTSummary.DataSource = Nothing
+                        gvDBTSummary.Rows.Clear()
+                        gvDBTSummary.Columns.Clear()
+                        gvDBTSummary.GroupDescriptors.Clear()
+                        gvDBTSummary.MasterTemplate.SummaryRowsBottom.Clear()
+                        gvDBTSummary.MasterView.Refresh()
+                        gvDBTSummary.DataSource = dt2
+                        For ii As Integer = 0 To gvDBTSummary.Columns.Count - 1
+                            gvDBTSummary.Columns(ii).ReadOnly = True
+                        Next
+                        RadPageView.SelectedPage = RadPageViewPage2
+                        gvDBTSummary.EnableFiltering = True
+                        SetGridFormatDBTSummary()
+                        gvDBTSummary.BestFitColumns()
+                    Else
+                        Dim frmCRV As New frmCrystalReportViewer()
+                        frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptUnionWiseDBT_Summary", "")
+                    End If
                 Else
                     '' clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
                 End If
@@ -298,6 +305,45 @@ Public Class rptDBTDashboard
         Catch ex As Exception
 
         End Try
+    End Sub
+    Sub SetGridFormatDBTSummary()
+        gvDBTSummary.AutoExpandGroups = False
+        gvDBTSummary.ShowGroupPanel = False
+        gvDBTSummary.ShowRowHeaderColumn = False
+        gvDBTSummary.AllowAddNewRow = False
+        gvDBTSummary.AllowDeleteRow = False
+        gvDBTSummary.EnableFiltering = True
+        gvDBTSummary.ShowFilteringRow = True
+        For ii As Integer = 0 To gvDBTSummary.Columns.Count - 1
+            gvDBTSummary.Columns(ii).ReadOnly = True
+            gvDBTSummary.Columns(ii).BestFit()
+        Next
+        gvDBTSummary.Columns("SNo").Name = "SNo"
+        gvDBTSummary.Columns("SNo").IsVisible = True
+        gvDBTSummary.Columns("Union Name").IsVisible = True
+        gvDBTSummary.Columns("Fromdate").IsVisible = False
+        gvDBTSummary.Columns("Todate").IsVisible = False
+        gvDBTSummary.Columns("username").IsVisible = False
+        gvDBTSummary.Columns("DCS Count").IsVisible = True
+        gvDBTSummary.Columns("Farmer Count").IsVisible = True
+        gvDBTSummary.Columns("DCS Billed Qty").IsVisible = True
+        gvDBTSummary.Columns("Farmer Qty").IsVisible = True
+        gvDBTSummary.Columns("NEFT Amt").IsVisible = True
+
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        Dim intCount As Integer = 0
+        Dim item1 As New GridViewSummaryItem("DCS Count", "{0}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        Dim item2 As New GridViewSummaryItem("Farmer Count", "{0}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item2)
+        Dim item3 As New GridViewSummaryItem("DCS Billed Qty", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item3)
+        Dim item4 As New GridViewSummaryItem("Farmer Qty", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item4)
+        Dim item5 As New GridViewSummaryItem("NEFT Amt", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item5)
+        gvDBTSummary.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvDBTSummary.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Sub SetGridFormation()
         gvPaymentStatus.TableElement.TableHeaderHeight = 40
@@ -504,4 +550,5 @@ Public Class rptDBTDashboard
         Print_PaymentStatus(EnumExportTo.PDF)
         Jan_Adh_print(EnumExportTo.PDF)
     End Sub
+
 End Class
