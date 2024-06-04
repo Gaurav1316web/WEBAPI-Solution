@@ -35,6 +35,9 @@ Partial Class frmDBTNEFTReject
         Me.lblCode = New common.Controls.MyLabel()
         Me.txtDocumentNo = New common.UserControls.txtNavigator()
         Me.gvItem = New common.UserControls.MyRadGridView()
+        Me.btnSplitExport = New Telerik.WinControls.UI.RadSplitButton()
+        Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btn_Import = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
@@ -55,6 +58,7 @@ Partial Class frmDBTNEFTReject
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvItem, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvItem.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btn_Import, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -79,6 +83,7 @@ Partial Class frmDBTNEFTReject
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.btn_Import)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnSplitExport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
@@ -289,11 +294,33 @@ Partial Class frmDBTNEFTReject
         Me.gvItem.TabIndex = 0
         Me.gvItem.TabStop = False
         '
+        'btnSplitExport
+        '
+        Me.btnSplitExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnSplitExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
+        Me.btnSplitExport.Location = New System.Drawing.Point(226, 5)
+        Me.btnSplitExport.Name = "btnSplitExport"
+        Me.btnSplitExport.Size = New System.Drawing.Size(95, 22)
+        Me.btnSplitExport.TabIndex = 158
+        Me.btnSplitExport.Text = "Export"
+        '
+        'rmiExcel
+        '
+        Me.rmiExcel.Name = "rmiExcel"
+        Me.rmiExcel.Text = "Excel"
+        Me.rmiExcel.UseCompatibleTextRendering = False
+        '
+        'rmiPDF
+        '
+        Me.rmiPDF.Name = "rmiPDF"
+        Me.rmiPDF.Text = "PDF"
+        Me.rmiPDF.UseCompatibleTextRendering = False
+        '
         'btn_Import
         '
         Me.btn_Import.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btn_Import.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_Import.Location = New System.Drawing.Point(223, 5)
+        Me.btn_Import.Location = New System.Drawing.Point(327, 5)
         Me.btn_Import.Name = "btn_Import"
         Me.btn_Import.Size = New System.Drawing.Size(69, 22)
         Me.btn_Import.TabIndex = 5
@@ -364,6 +391,7 @@ Partial Class frmDBTNEFTReject
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvItem.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvItem, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btn_Import, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
@@ -391,5 +419,8 @@ Partial Class frmDBTNEFTReject
     Friend WithEvents txtDPTNEFT As common.UserControls.txtFinder
     Friend WithEvents RadLabel2 As common.Controls.MyLabel
     Friend WithEvents btn_Import As RadButton
+    Friend WithEvents btnSplitExport As RadSplitButton
+    Friend WithEvents rmiExcel As RadMenuItem
+    Friend WithEvents rmiPDF As RadMenuItem
 End Class
 
