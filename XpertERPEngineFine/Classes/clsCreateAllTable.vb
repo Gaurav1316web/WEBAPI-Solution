@@ -9354,6 +9354,28 @@ Public Class clsCreateAllTable
 
             ' -------------------------------------------End Service And Warranty --------------------------------------
 
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Document_No", "varchar(30) NOT NULL Primary Key")
+            coll.Add("Document_Date", "DateTime not NULL")
+            coll.Add("Gate_Entry_No", "varchar(50) not NULL ")
+            coll.Add("Tanker_No", "varchar(20) not NULL ")
+            coll.Add("Tare_Weight_Date", "datetime null")
+            coll.Add("Type", "char(1) not null  ")
+            coll.Add("Comments", "varchar(200) NULL")
+            coll.Add("Remarks", "Varchar(100) null")
+            coll.Add("Tare_Weight", "Decimal(18,2) NULL")
+            coll.Add("Gross_Weight", "Decimal(18,2) NULL")
+            coll.Add("Net_Weight", "Decimal(18,2) NULL")
+            coll.Add("Status", "integer not null default 0")
+            coll.Add("Created_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE) ")
+            coll.Add("Created_Date", "datetime NOT NULL  ")
+            coll.Add("Modified_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE) ")
+            coll.Add("Modified_Date", "datetime NOT NULL ")
+            coll.Add("Posted_By", "varchar(12) NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
+            coll.Add("Posted_Date", "datetime NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PLANT_WEIGHMENT", coll, "UNIQUE(Gate_Entry_No)", True, False, Nothing, Nothing, Nothing, False)
+
             coll = New Dictionary(Of String, String)()
             coll.Add("Weighment_No", "varchar(30) primary key")
             coll.Add("Weighment_date", "datetime not null")
@@ -55512,26 +55534,6 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Posted_Date", "Datetime NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_SEED_GROWER_SELECTION_ENTRY", coll, "", False)
 
-            coll = New Dictionary(Of String, String)()
-            coll.Add("Document_No", "varchar(30) NOT NULL Primary Key")
-            coll.Add("Document_Date", "DateTime not NULL")
-            coll.Add("Gate_Entry_No", "varchar(50) not NULL ")
-            coll.Add("Tanker_No", "varchar(20) not NULL ")
-            coll.Add("Tare_Weight_Date", "datetime null")
-            coll.Add("Type", "char(1) not null  ")
-            coll.Add("Comments", "varchar(200) NULL")
-            coll.Add("Remarks", "Varchar(100) null")
-            coll.Add("Tare_Weight", "Decimal(18,2) NULL")
-            coll.Add("Gross_Weight", "Decimal(18,2) NULL")
-            coll.Add("Net_Weight", "Decimal(18,2) NULL")
-            coll.Add("Status", "integer not null default 0")
-            coll.Add("Created_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE) ")
-            coll.Add("Created_Date", "datetime NOT NULL  ")
-            coll.Add("Modified_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE) ")
-            coll.Add("Modified_Date", "datetime NOT NULL ")
-            coll.Add("Posted_By", "varchar(12) NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
-            coll.Add("Posted_Date", "datetime NULL")
-            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_PLANT_WEIGHMENT", coll, "UNIQUE(Gate_Entry_No)", True, False, Nothing, Nothing, Nothing, False)
 
             clsCommon.ProgressBarPercentHide()
         Catch ex As Exception
@@ -55563,27 +55565,6 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
         coll.Add("TRANS_QTY", "decimal(28,2) NOT NULL default 0")
 
         coll.Add("In_Fat_KG", "FLOAT NOT NULL default 0")
-        coll.Add("Out_Fat_KG", "FLOAT NOT NULL default 0")
-        coll.Add("Fat_KG", "FLOAT NOT NULL default 0")
-
-        coll.Add("In_SNF_KG", "FLOAT NOT NULL default 0")
-        coll.Add("Out_SNF_KG", "FLOAT NOT NULL default 0")
-        coll.Add("SNF_KG", "FLOAT NOT NULL default 0")
-
-        coll.Add("CL_QTY", "decimal(28,2) NOT NULL default 0")
-        coll.Add("CL_FAT_KG", "FLOAT NOT NULL default 0")
-        coll.Add("CL_SNF_KG", "FLOAT NOT NULL default 0")
-
-        coll.Add("CL_FIFO_Cost", "decimal(28,2) NOT NULL default 0")
-        coll.Add("CL_LIFO_Cost", "decimal(28,2) NOT NULL default 0")
-        coll.Add("CL_Avg_Cost", "decimal(28,2) NOT NULL default 0")
-
-        coll.Add("AGEING_Flag", "bit NOT NULL default 0")
-        coll.Add("AGEING_QTY", "decimal(28,2) NOT NULL default 0")
-
-        coll.Add("QC_In_FAT_KG", "FLOAT NOT NULL default 0")
-        coll.Add("QC_Out_FAT_KG", "FLOAT NOT NULL default 0")
-        coll.Add("QC_FAT_KG", "FLOAT NOT NULL default 0 ")
         coll.Add("Out_Fat_KG", "FLOAT NOT NULL default 0")
         coll.Add("Fat_KG", "FLOAT NOT NULL default 0")
 

@@ -2650,6 +2650,7 @@ Public Class clsUserMgtCode
     Public Const XpertAPIMilkReject As String = "API-MLK-REJ"
     Public Const XpertAPIMilkEmptySample As String = "API-MLK-ETS"
     Public Const XpertAPIPlantWeighment As String = "API-PLT-WGT"
+    Public Const XpertAPIQualityCheck As String = "API-PLT-QC"
 
     Public Const XpertAPIMilkMilkRegister As String = "API-MLK-REG"
 
