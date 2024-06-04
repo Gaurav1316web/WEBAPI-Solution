@@ -317,6 +317,12 @@
     <Compile Include="Administrative Services\frmNotification.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Administrative Services\frmRCDFRateControl.Designer.vb">
+      <DependentUpon>frmRCDFRateControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Administrative Services\frmRCDFRateControl.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Administrative Services\frmReplicationSetting.designer.vb">
       <DependentUpon>frmReplicationSetting.vb</DependentUpon>
     </Compile>
@@ -471,6 +477,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Administrative Services\frmNotification.resx">
       <DependentUpon>frmNotification.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Administrative Services\frmRCDFRateControl.resx">
+      <DependentUpon>frmRCDFRateControl.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Administrative Services\frmReplicationSetting.resx">
       <DependentUpon>frmReplicationSetting.vb</DependentUpon>

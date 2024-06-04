@@ -42,6 +42,7 @@ Public Class ProgramCodeNew
 
         InsertDefaultValue(clsUserMgtCode.SubModuleSystemAdminTransation, "Transaction", "1.00.02", clsUserMgtCode.ModuleSystemAdmin, "SM", 26)
         InsertDefaultValue(clsUserMgtCode.frmSendSMSEmailSetting, "SMS/Email Setting", "1.00.02.01", clsUserMgtCode.SubModuleSystemAdminTransation, "", 8, 0, "", "", "", True, True, Nothing)
+        InsertDefaultValue(clsUserMgtCode.frmRCDFRateControl, "RCDF Rate Control", "1.00.02.02", clsUserMgtCode.SubModuleSystemAdminTransation, 8)
 
 
         '=======Preeti Gupta==========
