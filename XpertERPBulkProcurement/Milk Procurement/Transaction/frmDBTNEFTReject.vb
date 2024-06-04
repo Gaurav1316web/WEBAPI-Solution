@@ -353,6 +353,9 @@ group by xx.PK_Id having sum(RI)>0"
 
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        gvItem.Rows.Clear()
+                        gvItem.Refresh()
+                        gvItem.MasterTemplate.SummaryRowsBottom.Clear()
                         gvItem.DataSource = dt
                         FormatGrid()
                     End If
@@ -379,6 +382,15 @@ group by xx.PK_Id having sum(RI)>0"
             gvItem.Columns("MP Uploader Code").HeaderText = "MP Code"
             gvItem.Columns("AMOUNT").HeaderText = "AMOUNT"
             gvItem.Columns("AMOUNT").FormatString = "{0:n2}"
+
+            Dim summaryRowItem As New GridViewSummaryRowItem()
+            Dim item1 As New GridViewSummaryItem("AMOUNT", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item1)
+            'gvItem.ShowGroupPanel = False
+            'gvItem.MasterTemplate.AutoExpandGroups = True
+            gvItem.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            'gvItem.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+
             gvItem.Columns("AMOUNT").TextAlignment = System.Drawing.ContentAlignment.MiddleRight
             gvItem.Columns("IFSC CODE").HeaderText = "IFSC CODE"
             gvItem.Columns("BENEFICERY ACCOUNT  NO.").HeaderText = "BENEFICERY ACCOUNT  NO."
@@ -474,6 +486,37 @@ group by xx.PK_Id having sum(RI)>0"
         Finally
             Me.Controls.Remove(gv)
         End Try
+    End Sub
+
+    Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
+        Try
+            Dim arrHeader As List(Of String) = New List(Of String)()
+            arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(txtdate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtdate.Value, "dd/MM/yyyy")) + " ")
+            arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+            arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptMobileAppMilkCollection & "'"))
+            transportSql.applyExportTemplate(gvItem, PageSetupReport_ID)
+            clsCommon.MyExportToExcelGrid(Me.Text, gvItem, arrHeader, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Exported Successfully.", Me.Text)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+
+        End Try
+    End Sub
+
+    Private Sub rmiPDF_Click(sender As Object, e As EventArgs) Handles rmiPDF.Click
+        Try
+            Dim arrHeader As List(Of String) = New List(Of String)()
+            arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(txtdate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtdate.Value, "dd/MM/yyyy")) + " ")
+            arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+            arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptMobileAppMilkCollection & "'"))
+
+            transportSql.applyExportTemplate(gvItem, PageSetupReport_ID)
+            clsCommon.MyExportToPDF(Me.Text, gvItem, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+
+        End Try
+
     End Sub
 End Class
 
