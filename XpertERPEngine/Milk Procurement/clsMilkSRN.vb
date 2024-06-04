@@ -1397,6 +1397,21 @@ Public Class clsMilkSRNMCCDetail
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Dock_Collection_Milk_Type As String, ByVal Arr As List(Of clsMilkSRNMCCDetail), ByVal trans As SqlTransaction, ByVal isNewEntry As Boolean, ByVal SAMPLE_NO As Integer) As Boolean
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsMilkSRNMCCDetail In Arr
+                Dim RCDFQCControl As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.RCDFControl, clsFixedParameterCode.MaxFATPerLimit, trans))
+                If RCDFQCControl > 0 Then
+                    If obj.FAT > RCDFQCControl Then
+                        Throw New Exception("As per RCDF QC policy FAT % can't be more than [" + clsCommon.myCstr(RCDFQCControl) + "]")
+                    End If
+                End If
+
+                RCDFQCControl = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.RCDFControl, clsFixedParameterCode.MaxSNFPerLimit, trans))
+                If RCDFQCControl > 0 Then
+                    If obj.SNF > RCDFQCControl Then
+                        Throw New Exception("As per RCDF QC policy SNF % can't be more than [" + clsCommon.myCstr(RCDFQCControl) + "]")
+                    End If
+                End If
+
+
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "DOC_CODE", strDocNo)
                 clsCommon.AddColumnsForChange(coll, "Item_CODE", obj.Item_CODE)

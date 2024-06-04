@@ -5,27 +5,79 @@ Public Class frmDairyProductionUploader
     Inherits FrmMainTranScreen
 #Region "Variables"
     Dim isNewEntry As Boolean = False
-    Const ColTRNo As String = "ColTRNo"
+    Const ColPKID As String = "ColPKID"
     Const ColSNo As String = "ColSNo"
-    Const colDate As String = "colShiftDate"
-    Const colSectionCode As String = "colSectionCode"
-    Const colSectionName As String = "colSectionName"
+    Const colBatchDate As String = "colShiftDate"
+    Const colShift As String = "colShift"
     Const colItemCode As String = "colItemCode"
     Const colItemName As String = "colItemName"
     Const colQty As String = "colQty"
     Const colUOM As String = "colUOM"
-    Const colShift As String = "colShift"
+    Const colBatchNo As String = "colBatchNo"
+    Const ColQCStatus As String = "ColQCStatus"
+
 
     Const ReportID As String = "Produploader"
-
     Dim isInsideLoadData As Boolean = False
     Dim isCellValueChangedOpen As Boolean = False
     Dim arrLoc As String = Nothing
 #End Region
 
-    Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+    Private Sub frmDairyProductionUploader_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim qry As String = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_PRODUCTION_UPLOADER_DETAIL' and COLUMN_NAME='Section_Code'"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            clsERPFuncationality.DropTableKey("TSPL_PP_PRODUCTION_PLAN_HEAD", "Uploader_TR_No", EnumTableKeyType.Foreign)
+            qry = "Drop table TSPL_PRODUCTION_UPLOADER_DETAIL"
+            clsDBFuncationality.ExecuteNonQuery(qry)
+            qry = "Drop table TSPL_PRODUCTION_UPLOADER_HEAD"
+            clsDBFuncationality.ExecuteNonQuery(qry)
+        End If
+
+        Dim coll As New Dictionary(Of String, String)
+        coll = New Dictionary(Of String, String)
+        coll.Add("Document_No", "Varchar(30) not null Primary key")
+        coll.Add("Document_Date", "datetime NOT NULL")
+        coll.Add("Location_FG", "Varchar(12) not null references TSPL_LOCATION_MASTER(Location_Code)")
+        coll.Add("Location_RM", "Varchar(12) not null references TSPL_LOCATION_MASTER(Location_Code)")
+        coll.Add("Location_PK", "Varchar(12) not null references TSPL_LOCATION_MASTER(Location_Code)")
+        coll.Add("Batch_No", "Varchar(200) not null")
+        coll.Add("Batch_Date", "Date not null")
+        coll.Add("Description", "Varchar(200) null")
+        coll.Add("Status", "Integer NOT NULL DEFAULT 0")
+        coll.Add("Created_By", "varchar(12) NOT NULL")
+        coll.Add("Created_Date", "Datetime NOT NULL")
+        coll.Add("Modified_By", "varchar(12) NOT NULL")
+        coll.Add("Modified_Date", "Datetime NOT NULL")
+        coll.Add("Posted_Date", "datetime null")
+        coll.Add("Posted_By", "varchar(12)  NULL")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PRODUCTION_UPLOADER_HEAD", coll, Nothing, True, False, "", "Document_No", "Document_Date", True)
+
+        coll = New Dictionary(Of String, String)
+        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+        coll.Add("Document_No", "Varchar(30) not null references TSPL_PRODUCTION_UPLOADER_HEAD(Document_No)")
+        coll.Add("Batch_No", "Varchar(200) not null")
+        coll.Add("Batch_Date", "Date NOT NULL")
+        coll.Add("Item_Code", "Varchar(50) not null references TSPL_ITEM_MASTER(Item_Code)")
+        coll.Add("Qty", "Decimal(18,2) null")
+        coll.Add("UOM", "Varchar(20) null")
+        coll.Add("Shift_Code", "Varchar(30) not null references tspl_shift_master(SHIFT_CODE)")
+        coll.Add("QC_Status", "Integer NOT NULL DEFAULT 0")
+        coll.Add("BOM_Code", "Varchar(30) null references TSPL_PP_BOM_HEAD(BOM_CODE)")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PRODUCTION_UPLOADER_DETAIL", coll, Nothing, True, False, "TSPL_PRODUCTION_UPLOADER_HEAD", "Document_No", "")
+
+        coll = New Dictionary(Of String, String)
+        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+        coll.Add("Document_No", "Varchar(30) not null references TSPL_PRODUCTION_UPLOADER_HEAD(Document_No)")
+        coll.Add("Against_PKID", "integer not null references TSPL_PRODUCTION_UPLOADER_DETAIL(PK_ID)")
+        coll.Add("Cost_Code", "Varchar(30) not null references TSPL_OVERHEAD_COST(COST_CODE)")
+        coll.Add("Amount", "Decimal(18,2) null")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PRODUCTION_UPLOADER_OVERHEAD_COST_DETAIL", coll, Nothing, True, False, "TSPL_PRODUCTION_UPLOADER_HEAD", "Document_No", "")
+
+
         LOCATIONRIGTHS()
         AddNew()
+        btnReverse.Visible = False
     End Sub
 
     Private Sub LOCATIONRIGTHS()
@@ -53,13 +105,18 @@ Public Class frmDairyProductionUploader
         txtDocNo.Value = ""
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtDesc.Text = ""
-        txtLocation.Value = ""
-        lblLocation.Text = ""
+        txtLocationFG.Value = ""
+        lblLocationFG.Text = ""
+        txtLocationRM.Value = ""
+        lblLocationRM.Text = ""
+        txtLocationPK.Value = ""
+        lblLocationPK.Text = ""
+        txtBatchNo.Text = ""
+        txtBatchDate.Value = txtDate.Value
         isNewEntry = True
         UsLock1.Status = ERPTransactionStatus.Pending
         LoadBlankGrid()
         gv1.Rows.AddNew()
-
     End Sub
 
     Sub LoadBlankGrid()
@@ -68,8 +125,8 @@ Public Class frmDairyProductionUploader
 
         Dim repoTextBox As New GridViewTextBoxColumn()
         repoTextBox.FormatString = ""
-        repoTextBox.HeaderText = "TR Code"
-        repoTextBox.Name = ColTRNo
+        repoTextBox.HeaderText = "PK ID"
+        repoTextBox.Name = ColPKID
         repoTextBox.TextImageRelation = TextImageRelation.TextBeforeImage
         repoTextBox.Width = 200
         repoTextBox.ReadOnly = True
@@ -85,36 +142,6 @@ Public Class frmDairyProductionUploader
         repoNumBox.ReadOnly = True
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoNumBox)
-
-
-        Dim repoDateBox As GridViewDateTimeColumn = New GridViewDateTimeColumn()
-        repoDateBox.Format = DateTimePickerFormat.Custom
-        repoDateBox.CustomFormat = "dd/MM/yyyy"
-        repoDateBox.FormatString = "{0:dd/MM/yyyy}"
-        repoDateBox.HeaderText = "Date"
-        repoDateBox.Name = colDate
-        repoDateBox.ReadOnly = False
-        repoDateBox.IsVisible = True
-        repoDateBox.Width = 100
-        gv1.MasterTemplate.Columns.Add(repoDateBox)
-
-        repoTextBox = New GridViewTextBoxColumn()
-        repoTextBox.FormatString = ""
-        repoTextBox.HeaderText = "Section Code"
-        repoTextBox.Name = colSectionCode
-        repoTextBox.HeaderImage = Global.ERP.My.Resources.Resources.search4
-        repoTextBox.TextImageRelation = TextImageRelation.TextBeforeImage
-        repoTextBox.Width = 100
-        gv1.MasterTemplate.Columns.Add(repoTextBox)
-
-        repoTextBox = New GridViewTextBoxColumn()
-        repoTextBox.FormatString = ""
-        repoTextBox.HeaderText = "Section Name"
-        repoTextBox.Name = colSectionName
-        repoTextBox.Width = 150
-        repoTextBox.ReadOnly = True
-        gv1.MasterTemplate.Columns.Add(repoTextBox)
-
 
         repoTextBox = New GridViewTextBoxColumn()
         repoTextBox.FormatString = ""
@@ -154,6 +181,24 @@ Public Class frmDairyProductionUploader
         repoTextBox.Width = 100
         gv1.MasterTemplate.Columns.Add(repoTextBox)
 
+        repoTextBox = New GridViewTextBoxColumn()
+        repoTextBox.FormatString = ""
+        repoTextBox.HeaderText = "Batch no"
+        repoTextBox.Name = colBatchNo
+        repoTextBox.TextImageRelation = TextImageRelation.TextBeforeImage
+        repoTextBox.Width = 100
+        gv1.MasterTemplate.Columns.Add(repoTextBox)
+
+        Dim repoDateBox As GridViewDateTimeColumn = New GridViewDateTimeColumn()
+        repoDateBox.Format = DateTimePickerFormat.Custom
+        repoDateBox.CustomFormat = "dd/MM/yyyy"
+        repoDateBox.FormatString = "{0:dd/MM/yyyy}"
+        repoDateBox.HeaderText = "Batch Date"
+        repoDateBox.Name = colBatchDate
+        repoDateBox.ReadOnly = False
+        repoDateBox.IsVisible = True
+        repoDateBox.Width = 100
+        gv1.MasterTemplate.Columns.Add(repoDateBox)
 
         repoTextBox = New GridViewTextBoxColumn()
         repoTextBox.FormatString = ""
@@ -163,6 +208,14 @@ Public Class frmDairyProductionUploader
         repoTextBox.TextImageRelation = TextImageRelation.TextBeforeImage
         repoTextBox.Width = 100
         gv1.MasterTemplate.Columns.Add(repoTextBox)
+
+        Dim repoCheck As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
+        repoCheck.FormatString = ""
+        repoCheck.HeaderText = "QC Status"
+        repoCheck.Name = ColQCStatus
+        repoCheck.Width = 60
+        repoCheck.ReadOnly = False
+        gv1.MasterTemplate.Columns.Add(repoCheck)
 
         gv1.AllowAddNewRow = False
         gv1.ShowGroupPanel = False
@@ -187,8 +240,6 @@ Public Class frmDairyProductionUploader
                         OpenItem(False)
                     ElseIf e.Column Is gv1.Columns(colUOM) Then
                         OpenUOM(False)
-                    ElseIf e.Column Is gv1.Columns(colSectionCode) Then
-                        OpenSection(False)
                     ElseIf e.Column Is gv1.Columns(colShift) Then
                         OpenShiftCode(False)
                     End If
@@ -214,11 +265,6 @@ Public Class frmDairyProductionUploader
         gv1.CurrentRow.Cells(colUOM).Value = clsCommon.myCstr(clsCommon.ShowSelectForm("PPUOMFND", qry, "Code", " item_code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colItemCode).Value) + "'", clsCommon.myCstr(gv1.CurrentRow.Cells(colUOM).Value), "Code", isButtonClick))
     End Sub
 
-    Sub OpenSection(ByVal isButtonClicked As Boolean)
-        Dim qry As String = "select Section_Code as Code,Description as Name from TSPL_SECTION_MASTER"
-        gv1.CurrentRow.Cells(colSectionCode).Value = clsCommon.ShowSelectForm("PUSecf", qry, "Code", "", clsCommon.myCstr(gv1.CurrentRow.Cells(colSectionCode).Value), "Code", isButtonClicked)
-        gv1.CurrentRow.Cells(colSectionName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_SECTION_MASTER where Section_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colSectionCode).Value) + "'"))
-    End Sub
 
     Sub OpenShiftCode(ByVal isButtonClicked As Boolean)
         Dim qry As String = "select shift_code as Code,shift_name as Description,from_time as [From Time],to_time as [To Time],interval_time as [Interval Time],fsthalf_adjust_min as [First Half Adjustment],sechalf_adjust_min as [Second Half Adjustment] from tspl_shift_master"
@@ -325,12 +371,17 @@ Public Class frmDairyProductionUploader
             AddNew()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.Escape Then
             CancelPressed()
-        ElseIf e.Alt And e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = clsFixedParameterType.SIRC
-            frm.strCode = clsFixedParameterCode.SIReversAndCreate
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
+        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
+            If MyBase.isReverse Then
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = clsFixedParameterType.SIRC
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
             End If
         End If
     End Sub
@@ -391,10 +442,14 @@ Public Class frmDairyProductionUploader
     End Sub
 
     Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
-        Dim qry As String = "select TSPL_PRODUCTION_UPLOADER_HEAD.Document_No,convert (varchar,TSPL_PRODUCTION_UPLOADER_HEAD.Document_Date,103) as Document_Date,TSPL_PRODUCTION_UPLOADER_HEAD.Description,case when TSPL_PRODUCTION_UPLOADER_HEAD.Status=1 then 'Posted' else 'Pending' end as Status" & _
-        ",TSPL_PRODUCTION_UPLOADER_HEAD.Location_Code as [Location Code]  ,TSPL_LOCATION_MASTER.Location_Desc as [Location Name] " & _
-        " from TSPL_PRODUCTION_UPLOADER_HEAD" & _
-        " LEFT JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=TSPL_PRODUCTION_UPLOADER_HEAD.Location_Code"
+        Dim qry As String = "select TSPL_PRODUCTION_UPLOADER_HEAD.Document_No,convert (varchar,TSPL_PRODUCTION_UPLOADER_HEAD.Document_Date,103) as Document_Date,TSPL_PRODUCTION_UPLOADER_HEAD.Description,case when TSPL_PRODUCTION_UPLOADER_HEAD.Status=1 then 'Posted' else 'Pending' end as Status
+,TSPL_PRODUCTION_UPLOADER_HEAD.Location_FG as [FG Location Code]  ,TSPL_LOCATION_MASTER_FG.Location_Desc as [FG Location Name]  
+,TSPL_PRODUCTION_UPLOADER_HEAD.Location_RM as [RM Location Code]  ,TSPL_LOCATION_MASTER_RM.Location_Desc as [RM Location Name]  
+,TSPL_PRODUCTION_UPLOADER_HEAD.Location_PK as [Packing Location Code]  ,TSPL_LOCATION_MASTER_PK.Location_Desc as [Packing Location Name]  
+from TSPL_PRODUCTION_UPLOADER_HEAD 
+left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION_MASTER_FG.Location_Code=TSPL_PRODUCTION_UPLOADER_HEAD.Location_FG 
+left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_RM on TSPL_LOCATION_MASTER_RM.Location_Code=TSPL_PRODUCTION_UPLOADER_HEAD.Location_RM 
+left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_PK on TSPL_LOCATION_MASTER_PK.Location_Code=TSPL_PRODUCTION_UPLOADER_HEAD.Location_PK "
         LoadData(clsCommon.ShowSelectForm("PUFINDOC", qry, "Document_No", "", txtDocNo.Value, "Document_No", isButtonClicked, "Document_Date"), NavigatorType.Current)
     End Sub
 
@@ -405,18 +460,31 @@ Public Class frmDairyProductionUploader
                 obj.Document_No = txtDocNo.Value
                 obj.Document_Date = txtDate.Value
                 obj.Description = txtDesc.Text
-                obj.Location_Code = txtLocation.Value
+                obj.Location_FG = txtLocationFG.Value
+                obj.Location_RM = txtLocationRM.Value
+                obj.Location_PK = txtLocationPK.Value
+                obj.Batch_No = txtBatchNo.Text
+                obj.Batch_Date = txtBatchDate.Value
                 obj.Arr = New List(Of clsDairyProductionUploaderDetail)
                 For ii As Integer = 0 To gv1.RowCount - 1
                     If clsCommon.myLen(gv1.Rows(ii).Cells(colItemCode).Value) > 0 Then
                         Dim objTr As New clsDairyProductionUploaderDetail()
-                        objTr.SNo = ii + 1
-                        objTr.TR_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colDate).Value)
-                        objTr.Section_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colSectionCode).Value)
+                        If clsCommon.myLen(gv1.Rows(ii).Cells(colBatchNo).Value) <= 0 Then
+                            objTr.Batch_No = txtBatchNo.Text
+                        Else
+                            objTr.Batch_No = clsCommon.myCstr(gv1.Rows(ii).Cells(colBatchNo).Value)
+                        End If
+                        If clsCommon.myLen(gv1.Rows(ii).Cells(colBatchDate).Value) <= 0 Then
+                            objTr.Batch_Date = txtBatchDate.Value
+                        Else
+                            objTr.Batch_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colBatchDate).Value)
+                        End If
+                        'objTr.Batch_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colBatchDate).Value)
                         objTr.Item_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colItemCode).Value)
                         objTr.Qty = clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value)
                         objTr.UOM = clsCommon.myCstr(gv1.Rows(ii).Cells(colUOM).Value)
                         objTr.Shift_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colShift).Value)
+                        objTr.QC_Status = clsCommon.myCBool(gv1.Rows(ii).Cells(ColQCStatus).Value)
                         obj.Arr.Add(objTr)
                     End If
                 Next
@@ -455,21 +523,29 @@ Public Class frmDairyProductionUploader
                 txtDate.Value = obj.Document_Date
                 txtDesc.Text = obj.Description
                 UsLock1.Status = obj.Status
-                txtLocation.Value = obj.Location_Code
-                lblLocation.Text = obj.Location_Name
+                txtLocationFG.Value = obj.Location_FG
+                lblLocationFG.Text = obj.Location_FG_Name
+
+                txtLocationRM.Value = obj.Location_RM
+                lblLocationRM.Text = obj.Location_RM_Name
+
+                txtLocationPK.Value = obj.Location_PK
+                lblLocationPK.Text = obj.Location_PK_Name
+                txtBatchNo.Text = obj.Batch_No
+                txtBatchDate.Value = obj.Batch_Date
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                     For Each objTr As clsDairyProductionUploaderDetail In obj.Arr
                         gv1.Rows.AddNew()
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColTRNo).Value = objTr.TR_No
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColSNo).Value = objTr.SNo
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDate).Value = objTr.TR_Date
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colSectionCode).Value = objTr.Section_Code
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colSectionName).Value = objTr.Section_Name
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColPKID).Value = objTr.PK_ID
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColSNo).Value = gv1.Rows.Count
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colBatchNo).Value = objTr.Batch_No
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colBatchDate).Value = objTr.Batch_Date
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colItemCode).Value = objTr.Item_Code
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colItemName).Value = objTr.Item_Name
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = objTr.Qty
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colUOM).Value = objTr.UOM
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colShift).Value = objTr.Shift_Code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColQCStatus).Value = objTr.QC_Status
                     Next
                 End If
             End If
@@ -513,7 +589,7 @@ Public Class frmDairyProductionUploader
     End Sub
 
     Private Sub RadMenuItem4_Click(sender As Object, e As EventArgs) Handles RadMenuItem4.Click
-        Dim qry As String = "select '01/JAN/2020' as Date,'' as Section,null as 'Item Code',null as 'Qty',null as 'UOM',null as 'Shift'"
+        Dim qry As String = "select '01/JAN/2020' as Date, null as 'Item Code',null as 'Qty',null as 'UOM',null as 'Shift'"
         transportSql.ExporttoExcelWithoutFilter(qry, "", "", Me)
     End Sub
 
@@ -521,7 +597,7 @@ Public Class frmDairyProductionUploader
         Try
             Dim gv1 As New RadGridView()
             Me.Controls.Add(gv1)
-            If transportSql.importExcel(gv1, "Date", "Section", "Item Code", "Qty", "UOM", "Shift") Then
+            If transportSql.importExcel(gv1, "Date", "Item Code", "Qty", "UOM", "Shift") Then
                 Dim Arr As New List(Of clsDairyProductionUploaderDetail)
                 Dim ii As Integer = 0
                 Dim dtt As DataTable = TryCast(gv1.DataSource, DataTable)
@@ -533,22 +609,7 @@ Public Class frmDairyProductionUploader
                     For ii = 0 To gv1.RowCount - 1
                         If clsCommon.myLen(gv1.Rows(ii).Cells("Item Code").Value) > 0 Then
                             Dim objTr As New clsDairyProductionUploaderDetail()
-                            objTr.SNo = ii + 1
-                            objTr.TR_Date = clsCommon.myCDate(gv1.Rows(ii).Cells("Date").Value)
-
-                            objTr.Section_Code = clsCommon.myCstr(gv1.Rows(ii).Cells("Section").Value)
-                            If clsCommon.myLen(objTr.Section_Code) > 0 Then
-                                qry = "select Section_Code from TSPL_SECTION_MASTER where Section_Code='" + objTr.Section_Code + "'"
-                                objTr.Section_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
-                                If clsCommon.myLen(objTr.Section_Code) <= 0 Then
-                                    dtt.Rows(ii)("ErrorDesc") = "Invalid Section code " + clsCommon.myCstr(gv1.Rows(ii).Cells("Section").Value) & " at Line No :" & clsCommon.myCstr(ii + 2) & " "
-                                    ErrCount = ErrCount + 1 : GoTo ExitLOOP
-                                End If
-                            Else
-                                dtt.Rows(ii)("ErrorDesc") = "Pleae enter Section code at Line No :" & clsCommon.myCstr(ii + 2) & " "
-                                ErrCount = ErrCount + 1 : GoTo ExitLOOP
-                            End If
-
+                            objTr.Batch_Date = clsCommon.myCDate(gv1.Rows(ii).Cells("Date").Value)
                             objTr.Item_Code = clsCommon.myCstr(gv1.Rows(ii).Cells("Item Code").Value)
                             If clsCommon.myLen(objTr.Item_Code) > 0 Then
                                 qry = "select item_code from TSPL_ITEM_MASTER where item_code='" + objTr.Item_Code + "'"
@@ -724,12 +785,10 @@ ExitLOOP:
                 Dim ii As Decimal = 1
                 For Each objTr As clsDairyProductionUploaderDetail In Arr
                     gv1.Rows.AddNew()
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(ColSNo).Value = objTr.SNo
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDate).Value = objTr.TR_Date
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colSectionCode).Value = objTr.Section_Code
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colSectionName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_SECTION_MASTER where Section_Code='" + objTr.Section_Code + "'"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(ColSNo).Value = gv1.Rows.Count
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colBatchDate).Value = objTr.Batch_Date
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colItemCode).Value = objTr.Item_Code
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colItemName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Item_Desc from TSPL_ITEM_MASTER where Item_Code='" + objTr.Item_Code + "'"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colItemName).Value = objTr.Item_Name
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = objTr.Qty
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colUOM).Value = objTr.UOM
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colShift).Value = objTr.Shift_Code
@@ -748,13 +807,31 @@ ExitLOOP:
         End Try
     End Sub
 
-    Private Sub txtmain_Loc_Code__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocation._MYValidating
+    Private Sub txtLocationFG__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocationFG._MYValidating
         If clsCommon.myLen(arrLoc) <= 0 Then
             clsCommon.MyMessageBoxShow(Me, "No location rights.", Me.Text)
             Exit Sub
         End If
-        txtLocation.Value = clsLocation.getFinder(" tspl_location_master.location_code in (" + arrLoc + ") and isnull(csa_type,'N')<>'Y' and isnull(Is_Section,'N')<>'Y' and isnull(Is_Sub_Location,'N')<>'Y'", txtLocation.Value, isButtonClicked)
-        lblLocation.Text = clsLocation.GetName(txtLocation.Value, Nothing)
+        txtLocationFG.Value = clsLocation.getFinder(" tspl_location_master.location_code in (" + arrLoc + ") and isnull(csa_type,'N')<>'Y' and isnull(Is_Section,'N')<>'Y' and isnull(Is_Sub_Location,'N')<>'Y' and Location_Category<>'MCC'", txtLocationFG.Value, isButtonClicked)
+        lblLocationFG.Text = clsLocation.GetName(txtLocationFG.Value, Nothing)
+    End Sub
+
+    Private Sub txtLocationRM__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocationRM._MYValidating
+        If clsCommon.myLen(arrLoc) <= 0 Then
+            clsCommon.MyMessageBoxShow(Me, "No location rights.", Me.Text)
+            Exit Sub
+        End If
+        txtLocationRM.Value = clsLocation.getFinder(" tspl_location_master.location_code in (" + arrLoc + ") and isnull(csa_type,'N')<>'Y' and isnull(Is_Section,'N')<>'Y' and isnull(Is_Sub_Location,'N')<>'N' and Location_Category<>'MCC'", txtLocationRM.Value, isButtonClicked)
+        lblLocationRM.Text = clsLocation.GetName(txtLocationRM.Value, Nothing)
+    End Sub
+
+    Private Sub txtLocationPK__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocationPK._MYValidating
+        If clsCommon.myLen(arrLoc) <= 0 Then
+            clsCommon.MyMessageBoxShow(Me, "No location rights.", Me.Text)
+            Exit Sub
+        End If
+        txtLocationPK.Value = clsLocation.getFinder(" tspl_location_master.location_code in (" + arrLoc + ") and isnull(csa_type,'N')<>'Y' and isnull(Is_Section,'N')<>'Y' and isnull(Is_Sub_Location,'N')<>'Y' and Location_Category<>'MCC'", txtLocationPK.Value, isButtonClicked)
+        lblLocationPK.Text = clsLocation.GetName(txtLocationPK.Value, Nothing)
     End Sub
 
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
@@ -767,5 +844,22 @@ ExitLOOP:
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
+    End Sub
+
+    Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
+        Try
+            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsDairyProductionUploader.ReverseAndUnpost(txtDocNo.Value) Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
+                    LoadData(txtDocNo.Value, NavigatorType.Current)
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnShowInventory_Click(sender As Object, e As EventArgs) Handles btnShowInventory.Click
+        clsOpenInventory.ShowInventoryDatails(txtDocNo.Value)
     End Sub
 End Class

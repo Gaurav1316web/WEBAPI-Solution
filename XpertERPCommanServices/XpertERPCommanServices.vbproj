@@ -608,6 +608,12 @@
     <Compile Include="Common Services\Master\frmVidhanSabhaMaster.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Common Services\Report\DashboardMilkProcurement.Designer.vb">
+      <DependentUpon>DashboardMilkProcurement.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Common Services\Report\DashboardMilkProcurement.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Common Services\Report\frmBankBookRecoReport.Designer.vb">
       <DependentUpon>frmBankBookRecoReport.vb</DependentUpon>
     </Compile>
@@ -1126,6 +1132,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Common Services\Master\frmVidhanSabhaMaster.resx">
       <DependentUpon>frmVidhanSabhaMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common Services\Report\DashboardMilkProcurement.resx">
+      <DependentUpon>DashboardMilkProcurement.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Common Services\Report\frmBankBookRecoReport.resx">
       <DependentUpon>frmBankBookRecoReport.vb</DependentUpon>

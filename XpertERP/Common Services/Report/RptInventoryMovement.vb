@@ -26,7 +26,16 @@ Public Class RptInventoryMovement
         Reset()
         If clsCommon.myLen(Me.Tag) > 0 Then
             lblDocumentNo.Text = clsCommon.myCstr(Me.Tag)
-            Dim docDate As Date? = clsCommon.myCDate(clsDBFuncationality.getSingleValue(" select Top 1  XXX.Punching_Date  from ( select Punching_Date from TSPL_INVENTORY_MOVEMENT_NEW where Source_Doc_No = '" + lblDocumentNo.Text + "' union All select Punching_Date from TSPL_INVENTORY_MOVEMENT where Source_Doc_No = '" + lblDocumentNo.Text + "' ) XXX "))
+            Dim docDate As Date? = Nothing
+            Dim q As String = "select Document_Date from TSPL_PRODUCTION_UPLOADER_HEAD where Document_No='" + lblDocumentNo.Text + "'"
+            Dim d As DataTable = clsDBFuncationality.GetDataTable(q)
+            If d IsNot Nothing AndAlso d.Rows.Count > 0 Then
+                docDate = clsCommon.myCDate(d.Rows(0)("Document_Date"))
+            Else
+                docDate = clsCommon.myCDate(clsDBFuncationality.getSingleValue(" select Top 1  XXX.Punching_Date  from ( select Punching_Date from TSPL_INVENTORY_MOVEMENT_NEW where Source_Doc_No = '" + lblDocumentNo.Text + "' union All select Punching_Date from TSPL_INVENTORY_MOVEMENT where Source_Doc_No = '" + lblDocumentNo.Text + "' ) XXX "))
+            End If
+
+
             ToDate.Value = docDate
             fromDate.Value = docDate
             chkBoth.IsChecked = True
@@ -411,7 +420,14 @@ Public Class RptInventoryMovement
                     " ,isnull(Inventory_DrAcc,'') as Inventory_DrAcc,isnull(Inventory_CrAcc,'') as Inventory_CrAcc from tspl_inventory_movement   left outer join TSPL_INVENTORY_SOURCE_CODE on TSPL_INVENTORY_SOURCE_CODE.code=tspl_inventory_movement.Trans_Type  where 2=2 "
                 qry += " and convert(date,Punching_Date,103) >='" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "' AND convert(date,Punching_Date,103) <='" + clsCommon.GetPrintDate(ToDate.Value, "dd-MMM-yyyy") + "' "
                 If clsCommon.myLen(strDocumentNo) > 0 Then
-                    qry += " and Source_Doc_No in ('" + strDocumentNo + "')"
+                    Dim q As String = "select Document_No from TSPL_PRODUCTION_UPLOADER_HEAD where Document_No='" + strDocumentNo + "'"
+                    Dim d As DataTable = clsDBFuncationality.GetDataTable(q)
+                    If d IsNot Nothing AndAlso d.Rows.Count > 0 Then
+                        qry += " and Source_Doc_No in (select cast( PK_ID as varchar) from TSPL_PRODUCTION_UPLOADER_DETAIL where Document_No='" + strDocumentNo + "')"
+                    Else
+                        qry += " and Source_Doc_No in ('" + strDocumentNo + "')"
+                    End If
+
                 End If
 
                 If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
@@ -429,7 +445,13 @@ Public Class RptInventoryMovement
 
                 qry += " and convert(date,Punching_Date,103) >='" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "' AND convert(date,Punching_Date,103) <='" + clsCommon.GetPrintDate(ToDate.Value, "dd-MMM-yyyy") + "' "
                 If clsCommon.myLen(strDocumentNo) > 0 Then
-                    qry += " and Source_Doc_No in ('" + strDocumentNo + "')"
+                    Dim q As String = "select Document_No from TSPL_PRODUCTION_UPLOADER_HEAD where Document_No='" + strDocumentNo + "'"
+                    Dim d As DataTable = clsDBFuncationality.GetDataTable(q)
+                    If d IsNot Nothing AndAlso d.Rows.Count > 0 Then
+                        qry += " and Source_Doc_No in (select cast( PK_ID as varchar) from TSPL_PRODUCTION_UPLOADER_DETAIL where Document_No='" + strDocumentNo + "')"
+                    Else
+                        qry += " and Source_Doc_No in ('" + strDocumentNo + "')"
+                    End If
                 End If
 
                 If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then

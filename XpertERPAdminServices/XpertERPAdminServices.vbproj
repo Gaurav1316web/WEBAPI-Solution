@@ -317,6 +317,12 @@
     <Compile Include="Administrative Services\frmNotification.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Administrative Services\frmRCDFRateControl.Designer.vb">
+      <DependentUpon>frmRCDFRateControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Administrative Services\frmRCDFRateControl.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Administrative Services\frmReplicationSetting.designer.vb">
       <DependentUpon>frmReplicationSetting.vb</DependentUpon>
     </Compile>
@@ -433,6 +439,18 @@
     <Compile Include="VisualReport\RptComplainfeedback.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="VisualReport\SalesMarketingDashboard.Designer.vb">
+      <DependentUpon>SalesMarketingDashboard.vb</DependentUpon>
+    </Compile>
+    <Compile Include="VisualReport\SalesMarketingDashboard.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VisualReport\rptDBTDashboard.Designer.vb">
+      <DependentUpon>rptDBTDashboard.vb</DependentUpon>
+    </Compile>
+    <Compile Include="VisualReport\rptDBTDashboard.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="XtraForms\frmCompany.Designer.vb">
       <DependentUpon>frmCompany.vb</DependentUpon>
     </Compile>
@@ -471,6 +489,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Administrative Services\frmNotification.resx">
       <DependentUpon>frmNotification.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Administrative Services\frmRCDFRateControl.resx">
+      <DependentUpon>frmRCDFRateControl.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Administrative Services\frmReplicationSetting.resx">
       <DependentUpon>frmReplicationSetting.vb</DependentUpon>
@@ -525,11 +546,20 @@
     <EmbeddedResource Include="VisualReport\DairySaleDashboard.resx">
       <DependentUpon>DairySaleDashboard.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="VisualReport\DashboardMilkUnion.resx">
+      <DependentUpon>DashboardMilkUnion.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="VisualReport\RCDFDashboard.resx">
       <DependentUpon>RCDFDashboard.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VisualReport\RptComplainfeedback.resx">
       <DependentUpon>RptComplainfeedback.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VisualReport\SalesMarketingDashboard.resx">
+      <DependentUpon>SalesMarketingDashboard.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VisualReport\rptDBTDashboard.resx">
+      <DependentUpon>rptDBTDashboard.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="XtraForms\frmCompany.resx">
       <DependentUpon>frmCompany.vb</DependentUpon>

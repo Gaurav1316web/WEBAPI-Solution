@@ -22,8 +22,9 @@ Partial Class frmDairyProductionUploader
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
@@ -35,9 +36,19 @@ Partial Class frmDairyProductionUploader
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.lblLocation = New common.Controls.MyLabel()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.txtBatchDate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.txtBatchNo = New common.Controls.MyTextBox()
+        Me.lblLocationPK = New common.Controls.MyLabel()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.txtLocationPK = New common.UserControls.txtFinder()
+        Me.lblLocationRM = New common.Controls.MyLabel()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.txtLocationRM = New common.UserControls.txtFinder()
+        Me.lblLocationFG = New common.Controls.MyLabel()
         Me.MyLabel5 = New common.Controls.MyLabel()
-        Me.txtLocation = New common.UserControls.txtFinder()
+        Me.txtLocationFG = New common.UserControls.txtFinder()
         Me.UsLock1 = New common.usLock()
         Me.RadLabel3 = New common.Controls.MyLabel()
         Me.RadLabel4 = New common.Controls.MyLabel()
@@ -48,14 +59,24 @@ Partial Class frmDairyProductionUploader
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
         Me.Panel2.SuspendLayout()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
-        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtBatchDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtBatchNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblLocationPK, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblLocationRM, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblLocationFG, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -66,11 +87,14 @@ Partial Class frmDairyProductionUploader
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Panel2
         '
+        Me.Panel2.Controls.Add(Me.btnShowInventory)
+        Me.Panel2.Controls.Add(Me.btnReverse)
         Me.Panel2.Controls.Add(Me.btnHistory)
         Me.Panel2.Controls.Add(Me.btnPost)
         Me.Panel2.Controls.Add(Me.btnDelete)
@@ -82,12 +106,23 @@ Partial Class frmDairyProductionUploader
         Me.Panel2.Size = New System.Drawing.Size(784, 26)
         Me.Panel2.TabIndex = 1
         '
+        'btnReverse
+        '
+        Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReverse.Location = New System.Drawing.Point(301, 2)
+        Me.btnReverse.Name = "btnReverse"
+        Me.btnReverse.Size = New System.Drawing.Size(97, 22)
+        Me.btnReverse.TabIndex = 40
+        Me.btnReverse.Text = "Reverse"
+        Me.btnReverse.Visible = False
+        '
         'btnHistory
         '
         Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Location = New System.Drawing.Point(309, 2)
+        Me.btnHistory.Location = New System.Drawing.Point(400, 2)
         Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(71, 22)
+        Me.btnHistory.Size = New System.Drawing.Size(97, 22)
         Me.btnHistory.TabIndex = 39
         Me.btnHistory.Text = "&History"
         '
@@ -95,7 +130,7 @@ Partial Class frmDairyProductionUploader
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(206, 2)
+        Me.btnPost.Location = New System.Drawing.Point(202, 2)
         Me.btnPost.Name = "btnPost"
         Me.btnPost.Size = New System.Drawing.Size(97, 22)
         Me.btnPost.TabIndex = 3
@@ -105,7 +140,7 @@ Partial Class frmDairyProductionUploader
         '
         Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(105, 2)
+        Me.btnDelete.Location = New System.Drawing.Point(103, 2)
         Me.btnDelete.Name = "btnDelete"
         Me.btnDelete.Size = New System.Drawing.Size(97, 22)
         Me.btnDelete.TabIndex = 2
@@ -159,9 +194,19 @@ Partial Class frmDairyProductionUploader
         '
         'Panel1
         '
-        Me.Panel1.Controls.Add(Me.lblLocation)
+        Me.Panel1.Controls.Add(Me.MyLabel3)
+        Me.Panel1.Controls.Add(Me.txtBatchDate)
+        Me.Panel1.Controls.Add(Me.MyLabel1)
+        Me.Panel1.Controls.Add(Me.txtBatchNo)
+        Me.Panel1.Controls.Add(Me.lblLocationPK)
+        Me.Panel1.Controls.Add(Me.MyLabel4)
+        Me.Panel1.Controls.Add(Me.txtLocationPK)
+        Me.Panel1.Controls.Add(Me.lblLocationRM)
+        Me.Panel1.Controls.Add(Me.MyLabel2)
+        Me.Panel1.Controls.Add(Me.txtLocationRM)
+        Me.Panel1.Controls.Add(Me.lblLocationFG)
         Me.Panel1.Controls.Add(Me.MyLabel5)
-        Me.Panel1.Controls.Add(Me.txtLocation)
+        Me.Panel1.Controls.Add(Me.txtLocationFG)
         Me.Panel1.Controls.Add(Me.UsLock1)
         Me.Panel1.Controls.Add(Me.RadLabel3)
         Me.Panel1.Controls.Add(Me.RadLabel4)
@@ -173,59 +218,225 @@ Partial Class frmDairyProductionUploader
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 20)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(784, 76)
+        Me.Panel1.Size = New System.Drawing.Size(784, 135)
         Me.Panel1.TabIndex = 0
         '
-        'lblLocation
+        'MyLabel3
         '
-        Me.lblLocation.AutoSize = False
-        Me.lblLocation.BorderVisible = True
-        Me.lblLocation.FieldName = Nothing
-        Me.lblLocation.Location = New System.Drawing.Point(361, 27)
-        Me.lblLocation.Name = "lblLocation"
-        Me.lblLocation.Size = New System.Drawing.Size(220, 19)
-        Me.lblLocation.TabIndex = 56
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Location = New System.Drawing.Point(356, 90)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(62, 16)
+        Me.MyLabel3.TabIndex = 66
+        Me.MyLabel3.Text = "Batch Date"
+        '
+        'txtBatchDate
+        '
+        Me.txtBatchDate.CalculationExpression = Nothing
+        Me.txtBatchDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtBatchDate.FieldCode = Nothing
+        Me.txtBatchDate.FieldDesc = Nothing
+        Me.txtBatchDate.FieldMaxLength = 0
+        Me.txtBatchDate.FieldName = Nothing
+        Me.txtBatchDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtBatchDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtBatchDate.isCalculatedField = False
+        Me.txtBatchDate.IsSourceFromTable = False
+        Me.txtBatchDate.IsSourceFromValueList = False
+        Me.txtBatchDate.IsUnique = False
+        Me.txtBatchDate.Location = New System.Drawing.Point(421, 89)
+        Me.txtBatchDate.MendatroryField = False
+        Me.txtBatchDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtBatchDate.MyLinkLable1 = Me.MyLabel3
+        Me.txtBatchDate.MyLinkLable2 = Nothing
+        Me.txtBatchDate.Name = "txtBatchDate"
+        Me.txtBatchDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtBatchDate.ReferenceFieldDesc = Nothing
+        Me.txtBatchDate.ReferenceFieldName = Nothing
+        Me.txtBatchDate.ReferenceTableName = Nothing
+        Me.txtBatchDate.Size = New System.Drawing.Size(83, 18)
+        Me.txtBatchDate.TabIndex = 65
+        Me.txtBatchDate.TabStop = False
+        Me.txtBatchDate.Text = "13/06/2011"
+        Me.txtBatchDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(4, 90)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(53, 16)
+        Me.MyLabel1.TabIndex = 64
+        Me.MyLabel1.Text = "Batch No"
+        '
+        'txtBatchNo
+        '
+        Me.txtBatchNo.CalculationExpression = Nothing
+        Me.txtBatchNo.FieldCode = Nothing
+        Me.txtBatchNo.FieldDesc = Nothing
+        Me.txtBatchNo.FieldMaxLength = 0
+        Me.txtBatchNo.FieldName = Nothing
+        Me.txtBatchNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtBatchNo.isCalculatedField = False
+        Me.txtBatchNo.IsSourceFromTable = False
+        Me.txtBatchNo.IsSourceFromValueList = False
+        Me.txtBatchNo.IsUnique = False
+        Me.txtBatchNo.Location = New System.Drawing.Point(113, 89)
+        Me.txtBatchNo.MaxLength = 200
+        Me.txtBatchNo.MendatroryField = False
+        Me.txtBatchNo.MyLinkLable1 = Me.MyLabel1
+        Me.txtBatchNo.MyLinkLable2 = Nothing
+        Me.txtBatchNo.Name = "txtBatchNo"
+        Me.txtBatchNo.ReferenceFieldDesc = Nothing
+        Me.txtBatchNo.ReferenceFieldName = Nothing
+        Me.txtBatchNo.ReferenceTableName = Nothing
+        Me.txtBatchNo.Size = New System.Drawing.Size(209, 18)
+        Me.txtBatchNo.TabIndex = 63
+        '
+        'lblLocationPK
+        '
+        Me.lblLocationPK.AutoSize = False
+        Me.lblLocationPK.BorderVisible = True
+        Me.lblLocationPK.FieldName = Nothing
+        Me.lblLocationPK.Location = New System.Drawing.Point(323, 68)
+        Me.lblLocationPK.Name = "lblLocationPK"
+        Me.lblLocationPK.Size = New System.Drawing.Size(284, 19)
+        Me.lblLocationPK.TabIndex = 62
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel4.Location = New System.Drawing.Point(4, 69)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(92, 16)
+        Me.MyLabel4.TabIndex = 61
+        Me.MyLabel4.Text = "Packing Location"
+        '
+        'txtLocationPK
+        '
+        Me.txtLocationPK.CalculationExpression = Nothing
+        Me.txtLocationPK.FieldCode = Nothing
+        Me.txtLocationPK.FieldDesc = Nothing
+        Me.txtLocationPK.FieldMaxLength = 0
+        Me.txtLocationPK.FieldName = Nothing
+        Me.txtLocationPK.isCalculatedField = False
+        Me.txtLocationPK.IsSourceFromTable = False
+        Me.txtLocationPK.IsSourceFromValueList = False
+        Me.txtLocationPK.IsUnique = False
+        Me.txtLocationPK.Location = New System.Drawing.Point(113, 68)
+        Me.txtLocationPK.MendatroryField = True
+        Me.txtLocationPK.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocationPK.MyLinkLable1 = Me.MyLabel4
+        Me.txtLocationPK.MyLinkLable2 = Me.lblLocationPK
+        Me.txtLocationPK.MyReadOnly = False
+        Me.txtLocationPK.MyShowMasterFormButton = False
+        Me.txtLocationPK.Name = "txtLocationPK"
+        Me.txtLocationPK.ReferenceFieldDesc = Nothing
+        Me.txtLocationPK.ReferenceFieldName = Nothing
+        Me.txtLocationPK.ReferenceTableName = Nothing
+        Me.txtLocationPK.Size = New System.Drawing.Size(209, 19)
+        Me.txtLocationPK.TabIndex = 60
+        Me.txtLocationPK.Value = ""
+        '
+        'lblLocationRM
+        '
+        Me.lblLocationRM.AutoSize = False
+        Me.lblLocationRM.BorderVisible = True
+        Me.lblLocationRM.FieldName = Nothing
+        Me.lblLocationRM.Location = New System.Drawing.Point(323, 47)
+        Me.lblLocationRM.Name = "lblLocationRM"
+        Me.lblLocationRM.Size = New System.Drawing.Size(284, 19)
+        Me.lblLocationRM.TabIndex = 59
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(4, 48)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(103, 16)
+        Me.MyLabel2.TabIndex = 58
+        Me.MyLabel2.Text = "RM Cons. Location"
+        '
+        'txtLocationRM
+        '
+        Me.txtLocationRM.CalculationExpression = Nothing
+        Me.txtLocationRM.FieldCode = Nothing
+        Me.txtLocationRM.FieldDesc = Nothing
+        Me.txtLocationRM.FieldMaxLength = 0
+        Me.txtLocationRM.FieldName = Nothing
+        Me.txtLocationRM.isCalculatedField = False
+        Me.txtLocationRM.IsSourceFromTable = False
+        Me.txtLocationRM.IsSourceFromValueList = False
+        Me.txtLocationRM.IsUnique = False
+        Me.txtLocationRM.Location = New System.Drawing.Point(113, 47)
+        Me.txtLocationRM.MendatroryField = True
+        Me.txtLocationRM.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocationRM.MyLinkLable1 = Me.MyLabel2
+        Me.txtLocationRM.MyLinkLable2 = Me.lblLocationRM
+        Me.txtLocationRM.MyReadOnly = False
+        Me.txtLocationRM.MyShowMasterFormButton = False
+        Me.txtLocationRM.Name = "txtLocationRM"
+        Me.txtLocationRM.ReferenceFieldDesc = Nothing
+        Me.txtLocationRM.ReferenceFieldName = Nothing
+        Me.txtLocationRM.ReferenceTableName = Nothing
+        Me.txtLocationRM.Size = New System.Drawing.Size(209, 19)
+        Me.txtLocationRM.TabIndex = 57
+        Me.txtLocationRM.Value = ""
+        '
+        'lblLocationFG
+        '
+        Me.lblLocationFG.AutoSize = False
+        Me.lblLocationFG.BorderVisible = True
+        Me.lblLocationFG.FieldName = Nothing
+        Me.lblLocationFG.Location = New System.Drawing.Point(324, 26)
+        Me.lblLocationFG.Name = "lblLocationFG"
+        Me.lblLocationFG.Size = New System.Drawing.Size(284, 19)
+        Me.lblLocationFG.TabIndex = 56
         '
         'MyLabel5
         '
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(4, 28)
+        Me.MyLabel5.Location = New System.Drawing.Point(4, 27)
         Me.MyLabel5.Name = "MyLabel5"
-        Me.MyLabel5.Size = New System.Drawing.Size(49, 16)
+        Me.MyLabel5.Size = New System.Drawing.Size(68, 16)
         Me.MyLabel5.TabIndex = 55
-        Me.MyLabel5.Text = "Location"
+        Me.MyLabel5.Text = "FG Location"
         '
-        'txtLocation
+        'txtLocationFG
         '
-        Me.txtLocation.CalculationExpression = Nothing
-        Me.txtLocation.FieldCode = Nothing
-        Me.txtLocation.FieldDesc = Nothing
-        Me.txtLocation.FieldMaxLength = 0
-        Me.txtLocation.FieldName = Nothing
-        Me.txtLocation.isCalculatedField = False
-        Me.txtLocation.IsSourceFromTable = False
-        Me.txtLocation.IsSourceFromValueList = False
-        Me.txtLocation.IsUnique = False
-        Me.txtLocation.Location = New System.Drawing.Point(85, 27)
-        Me.txtLocation.MendatroryField = True
-        Me.txtLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtLocation.MyLinkLable1 = Me.MyLabel5
-        Me.txtLocation.MyLinkLable2 = Me.lblLocation
-        Me.txtLocation.MyReadOnly = False
-        Me.txtLocation.MyShowMasterFormButton = False
-        Me.txtLocation.Name = "txtLocation"
-        Me.txtLocation.ReferenceFieldDesc = Nothing
-        Me.txtLocation.ReferenceFieldName = Nothing
-        Me.txtLocation.ReferenceTableName = Nothing
-        Me.txtLocation.Size = New System.Drawing.Size(270, 19)
-        Me.txtLocation.TabIndex = 54
-        Me.txtLocation.Value = ""
+        Me.txtLocationFG.CalculationExpression = Nothing
+        Me.txtLocationFG.FieldCode = Nothing
+        Me.txtLocationFG.FieldDesc = Nothing
+        Me.txtLocationFG.FieldMaxLength = 0
+        Me.txtLocationFG.FieldName = Nothing
+        Me.txtLocationFG.isCalculatedField = False
+        Me.txtLocationFG.IsSourceFromTable = False
+        Me.txtLocationFG.IsSourceFromValueList = False
+        Me.txtLocationFG.IsUnique = False
+        Me.txtLocationFG.Location = New System.Drawing.Point(113, 26)
+        Me.txtLocationFG.MendatroryField = True
+        Me.txtLocationFG.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocationFG.MyLinkLable1 = Me.MyLabel5
+        Me.txtLocationFG.MyLinkLable2 = Me.lblLocationFG
+        Me.txtLocationFG.MyReadOnly = False
+        Me.txtLocationFG.MyShowMasterFormButton = False
+        Me.txtLocationFG.Name = "txtLocationFG"
+        Me.txtLocationFG.ReferenceFieldDesc = Nothing
+        Me.txtLocationFG.ReferenceFieldName = Nothing
+        Me.txtLocationFG.ReferenceTableName = Nothing
+        Me.txtLocationFG.Size = New System.Drawing.Size(209, 19)
+        Me.txtLocationFG.TabIndex = 54
+        Me.txtLocationFG.Value = ""
         '
         'UsLock1
         '
         Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(483, 3)
+        Me.UsLock1.Location = New System.Drawing.Point(510, 4)
         Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UsLock1.Name = "UsLock1"
         Me.UsLock1.Size = New System.Drawing.Size(98, 20)
@@ -236,7 +447,7 @@ Partial Class frmDairyProductionUploader
         '
         Me.RadLabel3.FieldName = Nothing
         Me.RadLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel3.Location = New System.Drawing.Point(4, 52)
+        Me.RadLabel3.Location = New System.Drawing.Point(4, 110)
         Me.RadLabel3.Name = "RadLabel3"
         Me.RadLabel3.Size = New System.Drawing.Size(63, 16)
         Me.RadLabel3.TabIndex = 4
@@ -246,7 +457,7 @@ Partial Class frmDairyProductionUploader
         '
         Me.RadLabel4.FieldName = Nothing
         Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel4.Location = New System.Drawing.Point(361, 5)
+        Me.RadLabel4.Location = New System.Drawing.Point(388, 6)
         Me.RadLabel4.Name = "RadLabel4"
         Me.RadLabel4.Size = New System.Drawing.Size(30, 16)
         Me.RadLabel4.TabIndex = 9
@@ -256,7 +467,7 @@ Partial Class frmDairyProductionUploader
         '
         Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel1.Location = New System.Drawing.Point(4, 5)
+        Me.RadLabel1.Location = New System.Drawing.Point(4, 6)
         Me.RadLabel1.Name = "RadLabel1"
         Me.RadLabel1.Size = New System.Drawing.Size(75, 16)
         Me.RadLabel1.TabIndex = 7
@@ -265,7 +476,7 @@ Partial Class frmDairyProductionUploader
         'txtDocNo
         '
         Me.txtDocNo.FieldName = Nothing
-        Me.txtDocNo.Location = New System.Drawing.Point(85, 4)
+        Me.txtDocNo.Location = New System.Drawing.Point(113, 4)
         Me.txtDocNo.MendatroryField = False
         Me.txtDocNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
@@ -292,7 +503,7 @@ Partial Class frmDairyProductionUploader
         Me.txtDate.IsSourceFromTable = False
         Me.txtDate.IsSourceFromValueList = False
         Me.txtDate.IsUnique = False
-        Me.txtDate.Location = New System.Drawing.Point(394, 4)
+        Me.txtDate.Location = New System.Drawing.Point(421, 5)
         Me.txtDate.MendatroryField = False
         Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtDate.MyLinkLable1 = Me.RadLabel4
@@ -320,7 +531,7 @@ Partial Class frmDairyProductionUploader
         Me.txtDesc.IsSourceFromTable = False
         Me.txtDesc.IsSourceFromValueList = False
         Me.txtDesc.IsUnique = False
-        Me.txtDesc.Location = New System.Drawing.Point(85, 51)
+        Me.txtDesc.Location = New System.Drawing.Point(113, 109)
         Me.txtDesc.MaxLength = 200
         Me.txtDesc.MendatroryField = False
         Me.txtDesc.MyLinkLable1 = Me.RadLabel3
@@ -337,7 +548,7 @@ Partial Class frmDairyProductionUploader
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnAddNew.Image = Global.ERP.My.Resources.Resources._new
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddNew.Location = New System.Drawing.Point(335, 4)
+        Me.btnAddNew.Location = New System.Drawing.Point(362, 4)
         Me.btnAddNew.Name = "btnAddNew"
         Me.btnAddNew.Size = New System.Drawing.Size(20, 20)
         Me.btnAddNew.TabIndex = 8
@@ -350,7 +561,7 @@ Partial Class frmDairyProductionUploader
         Me.gv1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.gv1.ForeColor = System.Drawing.Color.Black
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.gv1.Location = New System.Drawing.Point(0, 96)
+        Me.gv1.Location = New System.Drawing.Point(0, 155)
         '
         '
         '
@@ -358,13 +569,13 @@ Partial Class frmDairyProductionUploader
         Me.gv1.MasterTemplate.EnableAlternatingRowColor = True
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(784, 263)
+        Me.gv1.Size = New System.Drawing.Size(784, 204)
         Me.gv1.TabIndex = 2
         '
         'RadMenu1
@@ -374,6 +585,16 @@ Partial Class frmDairyProductionUploader
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(784, 20)
         Me.RadMenu1.TabIndex = 3
+        Me.RadMenu1.Visible = False
+        '
+        'btnShowInventory
+        '
+        Me.btnShowInventory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnShowInventory.Location = New System.Drawing.Point(499, 2)
+        Me.btnShowInventory.Name = "btnShowInventory"
+        Me.btnShowInventory.Size = New System.Drawing.Size(95, 22)
+        Me.btnShowInventory.TabIndex = 41
+        Me.btnShowInventory.Text = "Show Inventory"
         '
         'frmDairyProductionUploader
         '
@@ -393,6 +614,7 @@ Partial Class frmDairyProductionUploader
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Dairy Production Uploader"
         Me.Panel2.ResumeLayout(False)
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
@@ -400,7 +622,15 @@ Partial Class frmDairyProductionUploader
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
-        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtBatchDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtBatchNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblLocationPK, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblLocationRM, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblLocationFG, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
@@ -411,6 +641,7 @@ Partial Class frmDairyProductionUploader
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -437,9 +668,21 @@ Partial Class frmDairyProductionUploader
     Friend WithEvents RadMenuItem4 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem5 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenu1 As Telerik.WinControls.UI.RadMenu
-    Friend WithEvents lblLocation As common.Controls.MyLabel
+    Friend WithEvents lblLocationFG As common.Controls.MyLabel
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
-    Friend WithEvents txtLocation As common.UserControls.txtFinder
+    Friend WithEvents txtLocationFG As common.UserControls.txtFinder
     Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
+    Friend WithEvents lblLocationPK As common.Controls.MyLabel
+    Friend WithEvents MyLabel4 As common.Controls.MyLabel
+    Friend WithEvents txtLocationPK As common.UserControls.txtFinder
+    Friend WithEvents lblLocationRM As common.Controls.MyLabel
+    Friend WithEvents MyLabel2 As common.Controls.MyLabel
+    Friend WithEvents txtLocationRM As common.UserControls.txtFinder
+    Friend WithEvents MyLabel3 As common.Controls.MyLabel
+    Friend WithEvents txtBatchDate As common.Controls.MyDateTimePicker
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents txtBatchNo As common.Controls.MyTextBox
+    Friend WithEvents btnReverse As RadButton
+    Friend WithEvents btnShowInventory As RadButton
 End Class
 

@@ -5587,6 +5587,10 @@ Public Class MDI
                         frm = New frmDocumentCancelledReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.DashboardMilkProcurement
+                        frm = New DashboardMilkProcurement()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     'Case clsUserMgtCode.rptDataEntryTracingReport
                     '    frm = New rptDataEntryTracingReport()
                     '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8368,6 +8372,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptRouteSaleRegister
                         frm = New RptRouteSaleRegister
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.RptSalesSummaryReport
+                        frm = New RptSalesSummaryReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptGatePassReport
                         frm = New GatePassReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
@@ -8421,6 +8428,7 @@ Public Class MDI
                     Case clsUserMgtCode.rptExeVersionReport
                         frm = New rptExeVersionReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
 
                     Case clsUserMgtCode.frmPaymentProcessFarmer
                         frm = New frmPaymentProcessFarmer
@@ -9421,6 +9429,14 @@ Public Class MDI
                     Case clsUserMgtCode.DairySaleDashboard
                         frm = New DairySaleDashboard
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptDBTDashboard
+                        frm = New rptDBTDashboard
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.SalesMarketingDashboard
+                        frm = New SalesMarketingDashboard
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
 
                     Case clsUserMgtCode.rptSMSDetailsReport
                         frm = New rptSMSDetails
@@ -9560,6 +9576,9 @@ Public Class MDI
                     '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmSendSMSEmailSetting
                         frm = New FrmSendSMSEmailSetting
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmRCDFRateControl
+                        frm = New frmRCDFRateControl
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.frmLockMPCollectionPC

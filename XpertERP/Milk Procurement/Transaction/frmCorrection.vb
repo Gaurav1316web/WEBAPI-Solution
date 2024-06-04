@@ -514,6 +514,7 @@ Public Class frmCorrection
                 clsMilkSRNMCC.Correction(lblSRNNo.Text, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, txtQty.Value, clsCommon.myCstr(cboMilkType.SelectedValue), txtFAT.Value, txtSNF.Value, clsCommon.myCstr(TxtFinder1.Value), False, Nothing, False, Form_ID, CorrTypeRejectType, clsCommon.myCstr(cboRejectType.SelectedValue))
             End If
             clsCommon.MyMessageBoxShow(Me, "Data corrected sucessfully", Me.Text)
+            btnSave.Enabled = False
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

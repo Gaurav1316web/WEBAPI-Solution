@@ -37,6 +37,9 @@ Public Class frmDBTStatusAndLastDPTStatus
                 gvData.AllowAddNewRow = False
                 gvData.ShowGroupPanel = False
                 'SetGridFormat()
+                If rdbERPStatusLastEntry.Checked Then
+                    View()
+                End If
                 gvData.BestFitColumns()
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
@@ -44,14 +47,6 @@ Public Class frmDBTStatusAndLastDPTStatus
         Catch ex As Exception
 
         End Try
-
-
-        'Try
-
-        '    fillGridReport(False)
-        'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
-        'End Try
     End Sub
     Private Function ReportQry() As String
         Try
@@ -136,6 +131,64 @@ Public Class frmDBTStatusAndLastDPTStatus
 
                     Next
                 End If
+            ElseIf rdbERPStatusLastEntry.Checked Then
+                Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
+                If (dt1 Is Nothing OrElse dt1.Rows.Count <= 0) Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
+                    gvData.DataSource = Nothing
+                End If
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','JMBILL')")
+
+                query = ""
+                Dim Status1 As String = ""
+                Dim PostedY As String = ""
+                Dim POSTED1 As String = ""
+                Dim IsPosted1 As String = ""
+                Dim PostY As String = ""
+                Dim PostingDate As String = ""
+                If rbtnTransactionPosted.Checked Then
+                    Status1 = " and Status = 1 "
+                    PostedY = " and Posted ='Y' "
+                    POSTED1 = " and POSTED = 1 "
+                    IsPosted1 = " and isPosted = 1"
+                    PostY = " and Post ='Y' "
+                    PostingDate = " and Posting_Date is not null "
+                End If
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    For ii As Integer = 0 To dt.Rows.Count - 1
+                        If ii > 0 Then
+                            query += " UNION ALL "
+                        End If
+                        query += " select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name]"
+                        query += ",(select FORMAT(max(DOC_DATE),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SRN_HEAD where 2=2 " + POSTED1 + " ) as [Milk Collection]"
+                        query += ",(select FORMAT(max(DOC_DATE),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_PURCHASE_INVOICE_HEAD where 2=2 " + POSTED1 + " ) as [Bill Process]"
+                        query += ",(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PAYMENT_PROCESS_HEAD where 2=2 " + IsPosted1 + " ) as [Payment Process]"
+                        query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MULTIPLE_DEDUCTION_head where 2=2 " + IsPosted1 + " ) as [Deduction Entry]"
+                        query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BANK_ADVISE where 2=2 " + Status1 + " ) as [Bank Advice]"
+                        query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_MASTER where 2=2 " + POSTED1 + " ) as [Demand]"
+                        query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER where 2=2 " + POSTED1 + " ) as [Dairy Booking Customer]"
+                        query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SHIPMENT_HEAD where 2=2 " + Status1 + " ) as [Dispatch]"
+                        query += ",(select FORMAT(max(GPDate),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DAIRYSALE_GATEPASS_MASTER where 2=2 " + PostY + " ) as [Gate Pass]"
+                        query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CRATE_RECEIVED_HEAD_FRESHSALE where 2=2 " + POSTED1 + " ) as [Crate Receipt]"
+                        query += ",(select FORMAT(max(PurchaseOrder_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PURCHASE_ORDER_HEAD where 2=2 " + Status1 + " ) as [Purchase Order]"
+                        query += ",(select FORMAT(max(GRN_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GRN_HEAD where 2=2 " + Status1 + " ) as [GRN]"
+                        query += ",(select FORMAT(max(SRN_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SRN_HEAD where 2=2 " + Status1 + " ) as [SRN]"
+                        query += ",(select FORMAT(max(PI_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PI_HEAD where 2=2 " + Status1 + " ) as [Purchase Invoice]"
+                        query += ",(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_IssueReturn_HEAD where Doc_Type='Issue' " + Status1 + " ) as [Store Issue]"
+                        query += ",(select FORMAT(max(RGP_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_RGP_HEAD where 2=2 " + Status1 + " ) as [RGP/NRGP]"
+                        query += ",(select FORMAT(max(shipment_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SCRAPSALE_HEAD where 2=2 " + Status1 + " ) as [Scrap Sale]"
+                        query += ",(select FORMAT(max(Date_And_Time),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].Tspl_Gate_Entry_Details where 2=2 " + IsPosted1 + " ) as [Gate Entry]"
+                        query += ",(select FORMAT(max(Weighment_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].tspl_quality_check where 2=2 " + IsPosted1 + " ) as [Quality Check]"
+                        query += ",(select FORMAT(max(Receipt_Challan_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].tspl_milk_transfer_in where 2=2 " + IsPosted1 + " ) as [Milk Transfer In]"
+                        query += ",(select FORMAT(max(PROD_DATE),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PP_PRODUCTION_ENTRY where 2=2 " + POSTED1 + " ) as [Production Entry]"
+                        query += ",(select FORMAT(max(Payment_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PAYMENT_HEADER where 2=2 " + POSTED1 + " ) as [Payment Entry]"
+                        query += ",(select max(Invoice_Entry_Date) from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VENDOR_INVOICE_HEAD where Document_Type='D' " + PostingDate + " ) as [AP Invoice Expence voucher]"
+                        query += ",(select max(Invoice_Entry_Date) from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VENDOR_INVOICE_HEAD where Invoice_Type='VS' " + PostingDate + " ) as [Vendor Service Invoice]"
+                        query += ",(select FORMAT(max(Receipt_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_RECEIPT_HEADER where 2=2 " + PostedY + " ) as [Receipt Entry]"
+
+                    Next
+                End If
+
             Else
                 Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
                 If (dt1 Is Nothing OrElse dt1.Rows.Count <= 0) Then
@@ -226,6 +279,65 @@ Public Class frmDBTStatusAndLastDPTStatus
         MyRadGridView2.BestFitColumns()
     End Sub
 
+    Sub View()
+
+        If gvData.Rows.Count > 0 Then
+            Dim view As New ColumnGroupsViewDefinition()
+
+            view.ColumnGroups.Add(New GridViewColumnGroup(""))
+            view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gvData.Columns("SNo").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gvData.Columns("Union Name").Name)
+
+            view.ColumnGroups.Add(New GridViewColumnGroup("Milk Procurement"))
+            view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gvData.Columns("Milk Collection").Name)
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gvData.Columns("Bill Process").Name)
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gvData.Columns("Payment Process").Name)
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gvData.Columns("Deduction Entry").Name)
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gvData.Columns("Bank Advice").Name)
+
+            view.ColumnGroups.Add(New GridViewColumnGroup("Sales and Marketing"))
+            view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gvData.Columns("Demand").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gvData.Columns("Dairy Booking Customer").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gvData.Columns("Dispatch").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gvData.Columns("Gate Pass").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gvData.Columns("Crate Receipt").Name)
+
+
+            view.ColumnGroups.Add(New GridViewColumnGroup("Purchase & Stores"))
+            view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(3).Rows(0).ColumnNames.Add(gvData.Columns("Purchase Order").Name)
+            view.ColumnGroups(3).Rows(0).ColumnNames.Add(gvData.Columns("GRN").Name)
+            view.ColumnGroups(3).Rows(0).ColumnNames.Add(gvData.Columns("SRN").Name)
+            view.ColumnGroups(3).Rows(0).ColumnNames.Add(gvData.Columns("Purchase Invoice").Name)
+            view.ColumnGroups(3).Rows(0).ColumnNames.Add(gvData.Columns("Store Issue").Name)
+            view.ColumnGroups(3).Rows(0).ColumnNames.Add(gvData.Columns("RGP/NRGP").Name)
+            view.ColumnGroups(3).Rows(0).ColumnNames.Add(gvData.Columns("Scrap Sale").Name)
+
+
+            view.ColumnGroups.Add(New GridViewColumnGroup("Production and Quality Control"))
+            view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(4).Rows(0).ColumnNames.Add(gvData.Columns("Gate Entry").Name)
+            view.ColumnGroups(4).Rows(0).ColumnNames.Add(gvData.Columns("Quality Check").Name)
+            view.ColumnGroups(4).Rows(0).ColumnNames.Add(gvData.Columns("Milk Transfer In").Name)
+            view.ColumnGroups(4).Rows(0).ColumnNames.Add(gvData.Columns("Production Entry").Name)
+
+            view.ColumnGroups.Add(New GridViewColumnGroup("Payment"))
+            view.ColumnGroups(5).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(5).Rows(0).ColumnNames.Add(gvData.Columns("Payment Entry").Name)
+            view.ColumnGroups(5).Rows(0).ColumnNames.Add(gvData.Columns("AP Invoice Expence voucher").Name)
+            view.ColumnGroups(5).Rows(0).ColumnNames.Add(gvData.Columns("Vendor Service Invoice").Name)
+
+            view.ColumnGroups.Add(New GridViewColumnGroup("Receipt"))
+            view.ColumnGroups(6).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(6).Rows(0).ColumnNames.Add(gvData.Columns("Receipt Entry").Name)
+
+            gvData.ViewDefinition = view
+        End If
+    End Sub
+
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
         print(EnumExportTo.Excel)
     End Sub
@@ -234,37 +346,20 @@ Public Class frmDBTStatusAndLastDPTStatus
     End Sub
     Private Sub print(ByVal exporter As EnumExportTo)
         Try
-            Dim arrHeader As List(Of String) = New List(Of String)()
-            'arrHeader.Add("Company : " + objCommonVar.CurrentCompanyName)
-            'arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.FrmERPStatusTrackingReport & "'"))
-            arrHeader.Add("Run Date : " + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Nothing, "dd/MM/yyyy hh:mm tt", False), "dd/MM/yyyy hh:mm tt")) ' clsCommon.myCDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy HH:MM"))
-            arrHeader.Add("User : " + objCommonVar.CurrentUser)
-            If exporter = EnumExportTo.Excel Then
-                transportSql.applyExportTemplate(gvData, PageSetupReport_ID)
-                'transportSql.QuickExportToExcel(MyRadGridView2, "", Label2.Text, , arrHeader)
+            If gvData.Rows.Count > 0 Then
+                Dim arrHeader As List(Of String) = New List(Of String)()
+                arrHeader.Add("Run Date : " + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Nothing, "dd/MM/yyyy hh:mm tt", False), "dd/MM/yyyy hh:mm tt"))
+                arrHeader.Add("User : " + objCommonVar.CurrentUser)
+                If exporter = EnumExportTo.Excel Then
+                    transportSql.applyExportTemplate(gvData, PageSetupReport_ID)
+                    clsCommon.MyExportToExcelGrid(Me.Text, gvData, arrHeader, Me.Text)
+                Else
+                    clsCommon.MyExportToPDF(Me.Text, gvData, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+                End If
             Else
-                'transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
-                'clsCommon.MyExportToPDF(Label1.Text, gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
-                Dim doc As New RadPrintDocument()
-                doc.Margins.Top = 50
-                doc.Margins.Bottom = 50
-                doc.Margins.Left = 50
-                doc.Margins.Right = 50
-                doc.HeaderHeight = 100
-                doc.Landscape = True
-                doc.LeftFooter = "Run Date : " + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Nothing, "dd/MM/yyyy hh:mm tt", False), "dd/MM/yyyy hh:mm tt")
-                doc.RightFooter = "User : " + objCommonVar.CurrentUser
-                doc.AssociatedObject = gvData
-                'Dim strHeader As String = Label2.Text 'Me.Text.Replace("/", "")
-                'doc.MiddleHeader = strHeader
-                doc.HeaderFont = New Font("Verdana", 12, FontStyle.Bold)
-                'doc.Print()
-                Dim dialog As New RadPrintPreviewDialog
-                dialog.Document = doc
-                dialog.ToolMenu.Visible = True
-                dialog.ShowDialog()
-                doc = Nothing
+                clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
             End If
+
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -326,11 +421,13 @@ Public Class frmDBTStatusAndLastDPTStatus
             'Label2.Text = "DBT Status Report At Milk Unions"
             rdbLastDBTStatus.Location = New Point(300, 6)
             txtFinYr.Value = clsDBFuncationality.getSingleValue("select Fiscal_Code as Code from TSPL_Fiscal_Year_Master WHERE Is_Current_Year = 1")
+            rdbERPStatusLastEntry.Location = New Point(421, 6)
         Else
             txtFinYr.Visible = False
             MyLabel1.Visible = False
             'Label2.Text = "ERP Status At Milk Unions"
             rdbLastDBTStatus.Location = New Point(100, 6)
+            rdbERPStatusLastEntry.Location = New Point(250, 6)
         End If
     End Sub
 
