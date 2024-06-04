@@ -23,26 +23,35 @@ Partial Class FrmDasboard
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim CartesianArea1 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim CartesianArea2 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim CartesianArea3 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim CartesianArea4 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim CartesianArea5 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim CartesianArea6 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem14 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem15 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem16 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem17 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
@@ -408,7 +417,6 @@ Partial Class FrmDasboard
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1104, 630)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -436,7 +444,6 @@ Partial Class FrmDasboard
         Me.RadScrollablePanel1.PanelContainer.Size = New System.Drawing.Size(1081, 573)
         Me.RadScrollablePanel1.Size = New System.Drawing.Size(1083, 575)
         Me.RadScrollablePanel1.TabIndex = 0
-        Me.RadScrollablePanel1.Text = "RadScrollablePanel1"
         '
         'RadGroupBox2
         '
@@ -464,7 +471,6 @@ Partial Class FrmDasboard
         Me.RadChartView1.ShowTrackBall = True
         Me.RadChartView1.Size = New System.Drawing.Size(1071, 140)
         Me.RadChartView1.TabIndex = 0
-        Me.RadChartView1.Text = "RadChartView1"
         '
         'RadGroupBox1
         '
@@ -484,15 +490,17 @@ Partial Class FrmDasboard
         Me.gv3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv3.Location = New System.Drawing.Point(2, 18)
         '
-        'gv3
         '
+        '
+        Me.gv3.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv3.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv3.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv3.MyStopExport = False
         Me.gv3.Name = "gv3"
         Me.gv3.ReadOnly = True
         Me.gv3.ShowHeaderCellButtons = True
         Me.gv3.Size = New System.Drawing.Size(1074, 325)
         Me.gv3.TabIndex = 4
-        Me.gv3.Text = "RadGridView1"
         '
         'GroupBox1
         '
@@ -571,6 +579,7 @@ Partial Class FrmDasboard
         Me.cboFigureInGraph_Bank_Cash_Book.AutoCompleteDisplayMember = Nothing
         Me.cboFigureInGraph_Bank_Cash_Book.AutoCompleteValueMember = Nothing
         Me.cboFigureInGraph_Bank_Cash_Book.CalculationExpression = Nothing
+        Me.cboFigureInGraph_Bank_Cash_Book.DropDownAnimationEnabled = True
         Me.cboFigureInGraph_Bank_Cash_Book.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboFigureInGraph_Bank_Cash_Book.FieldCode = Nothing
         Me.cboFigureInGraph_Bank_Cash_Book.FieldDesc = Nothing
@@ -717,7 +726,6 @@ Partial Class FrmDasboard
         Me.RadScrollablePanel2.PanelContainer.Size = New System.Drawing.Size(1081, 573)
         Me.RadScrollablePanel2.Size = New System.Drawing.Size(1083, 575)
         Me.RadScrollablePanel2.TabIndex = 1
-        Me.RadScrollablePanel2.Text = "RadScrollablePanel2"
         '
         'RadGroupBox3
         '
@@ -745,7 +753,6 @@ Partial Class FrmDasboard
         Me.RadChartView2.ShowTrackBall = True
         Me.RadChartView2.Size = New System.Drawing.Size(1073, 140)
         Me.RadChartView2.TabIndex = 0
-        Me.RadChartView2.Text = "RadChartView2"
         '
         'RadGroupBox4
         '
@@ -767,13 +774,15 @@ Partial Class FrmDasboard
         '
         '
         '
+        Me.gv4.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv4.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv4.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv4.MyStopExport = False
         Me.gv4.Name = "gv4"
         Me.gv4.ReadOnly = True
         Me.gv4.ShowHeaderCellButtons = True
         Me.gv4.Size = New System.Drawing.Size(1076, 325)
         Me.gv4.TabIndex = 4
-        Me.gv4.Text = "RadGridView1"
         '
         'GroupBox2
         '
@@ -878,6 +887,7 @@ Partial Class FrmDasboard
         Me.ddlProvMonth.AutoCompleteDisplayMember = Nothing
         Me.ddlProvMonth.AutoCompleteValueMember = Nothing
         Me.ddlProvMonth.CalculationExpression = Nothing
+        Me.ddlProvMonth.DropDownAnimationEnabled = True
         Me.ddlProvMonth.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlProvMonth.FieldCode = Nothing
         Me.ddlProvMonth.FieldDesc = Nothing
@@ -947,7 +957,6 @@ Partial Class FrmDasboard
         Me.RadScrollablePanel3.PanelContainer.Size = New System.Drawing.Size(1081, 573)
         Me.RadScrollablePanel3.Size = New System.Drawing.Size(1083, 575)
         Me.RadScrollablePanel3.TabIndex = 1
-        Me.RadScrollablePanel3.Text = "RadScrollablePanel3"
         '
         'RadGroupBox5
         '
@@ -975,7 +984,6 @@ Partial Class FrmDasboard
         Me.RadChartViewProcurement.ShowTrackBall = True
         Me.RadChartViewProcurement.Size = New System.Drawing.Size(1070, 187)
         Me.RadChartViewProcurement.TabIndex = 0
-        Me.RadChartViewProcurement.Text = "RadChartView3"
         '
         'RadGroupBox6
         '
@@ -997,13 +1005,15 @@ Partial Class FrmDasboard
         '
         '
         '
+        Me.gv_Procurement.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_Procurement.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv_Procurement.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv_Procurement.MyStopExport = False
         Me.gv_Procurement.Name = "gv_Procurement"
         Me.gv_Procurement.ReadOnly = True
         Me.gv_Procurement.ShowHeaderCellButtons = True
         Me.gv_Procurement.Size = New System.Drawing.Size(1072, 289)
         Me.gv_Procurement.TabIndex = 4
-        Me.gv_Procurement.Text = "gv_Procurement"
         '
         'GroupBox3
         '
@@ -1190,6 +1200,7 @@ Partial Class FrmDasboard
         Me.ddlMonthProcurement.AutoCompleteDisplayMember = Nothing
         Me.ddlMonthProcurement.AutoCompleteValueMember = Nothing
         Me.ddlMonthProcurement.CalculationExpression = Nothing
+        Me.ddlMonthProcurement.DropDownAnimationEnabled = True
         Me.ddlMonthProcurement.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlMonthProcurement.FieldCode = Nothing
         Me.ddlMonthProcurement.FieldDesc = Nothing
@@ -1261,7 +1272,6 @@ Partial Class FrmDasboard
         Me.RadScrollablePanel4.PanelContainer.Size = New System.Drawing.Size(1081, 573)
         Me.RadScrollablePanel4.Size = New System.Drawing.Size(1083, 575)
         Me.RadScrollablePanel4.TabIndex = 2
-        Me.RadScrollablePanel4.Text = "RadScrollablePanel4"
         '
         'RadGroupBox8
         '
@@ -1289,7 +1299,6 @@ Partial Class FrmDasboard
         Me.RadChartViewMilkReceived.ShowTrackBall = True
         Me.RadChartViewMilkReceived.Size = New System.Drawing.Size(1073, 195)
         Me.RadChartViewMilkReceived.TabIndex = 0
-        Me.RadChartViewMilkReceived.Text = "RadChartView3"
         '
         'RadGroupBox9
         '
@@ -1311,13 +1320,15 @@ Partial Class FrmDasboard
         '
         '
         '
+        Me.gv_MilkReceived.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_MilkReceived.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv_MilkReceived.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv_MilkReceived.MyStopExport = False
         Me.gv_MilkReceived.Name = "gv_MilkReceived"
         Me.gv_MilkReceived.ReadOnly = True
         Me.gv_MilkReceived.ShowHeaderCellButtons = True
         Me.gv_MilkReceived.Size = New System.Drawing.Size(1074, 261)
         Me.gv_MilkReceived.TabIndex = 4
-        Me.gv_MilkReceived.Text = "RadGridView1"
         '
         'GroupBox4
         '
@@ -1504,6 +1515,7 @@ Partial Class FrmDasboard
         Me.ddlMonthMilkRec.AutoCompleteDisplayMember = Nothing
         Me.ddlMonthMilkRec.AutoCompleteValueMember = Nothing
         Me.ddlMonthMilkRec.CalculationExpression = Nothing
+        Me.ddlMonthMilkRec.DropDownAnimationEnabled = True
         Me.ddlMonthMilkRec.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlMonthMilkRec.FieldCode = Nothing
         Me.ddlMonthMilkRec.FieldDesc = Nothing
@@ -1575,7 +1587,6 @@ Partial Class FrmDasboard
         Me.RadScrollablePanel5.PanelContainer.Size = New System.Drawing.Size(1081, 573)
         Me.RadScrollablePanel5.Size = New System.Drawing.Size(1083, 575)
         Me.RadScrollablePanel5.TabIndex = 3
-        Me.RadScrollablePanel5.Text = "RadScrollablePanel5"
         '
         'RadGroupBox10
         '
@@ -1603,7 +1614,6 @@ Partial Class FrmDasboard
         Me.RadChartViewMilkSale.ShowTrackBall = True
         Me.RadChartViewMilkSale.Size = New System.Drawing.Size(1071, 209)
         Me.RadChartViewMilkSale.TabIndex = 0
-        Me.RadChartViewMilkSale.Text = "RadChartView3"
         '
         'RadGroupBox11
         '
@@ -1625,13 +1635,15 @@ Partial Class FrmDasboard
         '
         '
         '
+        Me.gv_MilkSale.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_MilkSale.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv_MilkSale.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv_MilkSale.MyStopExport = False
         Me.gv_MilkSale.Name = "gv_MilkSale"
         Me.gv_MilkSale.ReadOnly = True
         Me.gv_MilkSale.ShowHeaderCellButtons = True
         Me.gv_MilkSale.Size = New System.Drawing.Size(1074, 256)
         Me.gv_MilkSale.TabIndex = 4
-        Me.gv_MilkSale.Text = "RadGridView1"
         '
         'GroupBox5
         '
@@ -1818,6 +1830,7 @@ Partial Class FrmDasboard
         Me.ddlMonthMilkSale.AutoCompleteDisplayMember = Nothing
         Me.ddlMonthMilkSale.AutoCompleteValueMember = Nothing
         Me.ddlMonthMilkSale.CalculationExpression = Nothing
+        Me.ddlMonthMilkSale.DropDownAnimationEnabled = True
         Me.ddlMonthMilkSale.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlMonthMilkSale.FieldCode = Nothing
         Me.ddlMonthMilkSale.FieldDesc = Nothing
@@ -1889,7 +1902,6 @@ Partial Class FrmDasboard
         Me.RadScrollablePanel6.PanelContainer.Size = New System.Drawing.Size(1081, 573)
         Me.RadScrollablePanel6.Size = New System.Drawing.Size(1083, 575)
         Me.RadScrollablePanel6.TabIndex = 4
-        Me.RadScrollablePanel6.Text = "RadScrollablePanel6"
         '
         'RadGroupBox12
         '
@@ -1917,7 +1929,6 @@ Partial Class FrmDasboard
         Me.RadChartViewProductSale.ShowTrackBall = True
         Me.RadChartViewProductSale.Size = New System.Drawing.Size(1071, 195)
         Me.RadChartViewProductSale.TabIndex = 0
-        Me.RadChartViewProductSale.Text = "RadChartView3"
         '
         'RadGroupBox13
         '
@@ -1939,13 +1950,15 @@ Partial Class FrmDasboard
         '
         '
         '
+        Me.gv_ProductSale.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_ProductSale.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv_ProductSale.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gv_ProductSale.MyStopExport = False
         Me.gv_ProductSale.Name = "gv_ProductSale"
         Me.gv_ProductSale.ReadOnly = True
         Me.gv_ProductSale.ShowHeaderCellButtons = True
         Me.gv_ProductSale.Size = New System.Drawing.Size(1074, 270)
         Me.gv_ProductSale.TabIndex = 4
-        Me.gv_ProductSale.Text = "RadGridView1"
         '
         'GroupBox6
         '
@@ -2132,6 +2145,7 @@ Partial Class FrmDasboard
         Me.ddlMonthProductSale.AutoCompleteDisplayMember = Nothing
         Me.ddlMonthProductSale.AutoCompleteValueMember = Nothing
         Me.ddlMonthProductSale.CalculationExpression = Nothing
+        Me.ddlMonthProductSale.DropDownAnimationEnabled = True
         Me.ddlMonthProductSale.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlMonthProductSale.FieldCode = Nothing
         Me.ddlMonthProductSale.FieldDesc = Nothing
@@ -2200,7 +2214,6 @@ Partial Class FrmDasboard
         Me.RadScrollablePanel7.PanelContainer.Size = New System.Drawing.Size(1081, 580)
         Me.RadScrollablePanel7.Size = New System.Drawing.Size(1083, 582)
         Me.RadScrollablePanel7.TabIndex = 2
-        Me.RadScrollablePanel7.Text = "RadScrollablePanel7"
         '
         'RadGroupBox14
         '
@@ -2222,13 +2235,15 @@ Partial Class FrmDasboard
         '
         '
         '
+        Me.gvTransportcost.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTransportcost.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvTransportcost.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvTransportcost.MyStopExport = False
         Me.gvTransportcost.Name = "gvTransportcost"
         Me.gvTransportcost.ReadOnly = True
         Me.gvTransportcost.ShowHeaderCellButtons = True
         Me.gvTransportcost.Size = New System.Drawing.Size(1076, 498)
         Me.gvTransportcost.TabIndex = 4
-        Me.gvTransportcost.Text = "RadGridView1"
         '
         'GroupBox7
         '
@@ -2415,6 +2430,7 @@ Partial Class FrmDasboard
         Me.ddlTransportMonth.AutoCompleteDisplayMember = Nothing
         Me.ddlTransportMonth.AutoCompleteValueMember = Nothing
         Me.ddlTransportMonth.CalculationExpression = Nothing
+        Me.ddlTransportMonth.DropDownAnimationEnabled = True
         Me.ddlTransportMonth.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlTransportMonth.FieldCode = Nothing
         Me.ddlTransportMonth.FieldDesc = Nothing
@@ -2484,7 +2500,6 @@ Partial Class FrmDasboard
         Me.RadScrollablePanel8.PanelContainer.Size = New System.Drawing.Size(1081, 580)
         Me.RadScrollablePanel8.Size = New System.Drawing.Size(1083, 582)
         Me.RadScrollablePanel8.TabIndex = 3
-        Me.RadScrollablePanel8.Text = "RadScrollablePanel8"
         '
         'RadGroupBox15
         '
@@ -2506,13 +2521,15 @@ Partial Class FrmDasboard
         '
         '
         '
+        Me.gv_store.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_store.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv_store.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gv_store.MyStopExport = False
         Me.gv_store.Name = "gv_store"
         Me.gv_store.ReadOnly = True
         Me.gv_store.ShowHeaderCellButtons = True
         Me.gv_store.Size = New System.Drawing.Size(1072, 224)
         Me.gv_store.TabIndex = 5
-        Me.gv_store.Text = "RadGridView1"
         '
         'RadGroupBox7
         '
@@ -2534,13 +2551,15 @@ Partial Class FrmDasboard
         '
         '
         '
+        Me.gv_po.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_po.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv_po.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gv_po.MyStopExport = False
         Me.gv_po.Name = "gv_po"
         Me.gv_po.ReadOnly = True
         Me.gv_po.ShowHeaderCellButtons = True
         Me.gv_po.Size = New System.Drawing.Size(1072, 250)
         Me.gv_po.TabIndex = 4
-        Me.gv_po.Text = "RadGridView1"
         '
         'GroupBox8
         '
@@ -2748,6 +2767,7 @@ Partial Class FrmDasboard
         Me.ddlStoreMonth.AutoCompleteDisplayMember = Nothing
         Me.ddlStoreMonth.AutoCompleteValueMember = Nothing
         Me.ddlStoreMonth.CalculationExpression = Nothing
+        Me.ddlStoreMonth.DropDownAnimationEnabled = True
         Me.ddlStoreMonth.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlStoreMonth.FieldCode = Nothing
         Me.ddlStoreMonth.FieldDesc = Nothing
