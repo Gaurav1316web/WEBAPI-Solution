@@ -54,7 +54,7 @@ Public Class frmDairyProductionUploader
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PRODUCTION_UPLOADER_HEAD", coll, Nothing, True, False, "", "Document_No", "Document_Date", True)
 
         coll = New Dictionary(Of String, String)
-        coll.Add("PK_ID", "integer NOT NULL  identity NOT FOR REPLICATION")
+        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
         coll.Add("Document_No", "Varchar(30) not null references TSPL_PRODUCTION_UPLOADER_HEAD(Document_No)")
         coll.Add("Batch_No", "Varchar(200) not null")
         coll.Add("Batch_Date", "Date NOT NULL")
@@ -66,9 +66,18 @@ Public Class frmDairyProductionUploader
         coll.Add("BOM_Code", "Varchar(30) null references TSPL_PP_BOM_HEAD(BOM_CODE)")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PRODUCTION_UPLOADER_DETAIL", coll, Nothing, True, False, "TSPL_PRODUCTION_UPLOADER_HEAD", "Document_No", "")
 
+        coll = New Dictionary(Of String, String)
+        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+        coll.Add("Document_No", "Varchar(30) not null references TSPL_PRODUCTION_UPLOADER_HEAD(Document_No)")
+        coll.Add("Against_PKID", "integer not null references TSPL_PRODUCTION_UPLOADER_DETAIL(PK_ID)")
+        coll.Add("Cost_Code", "Varchar(30) not null references TSPL_OVERHEAD_COST(COST_CODE)")
+        coll.Add("Amount", "Decimal(18,2) null")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PRODUCTION_UPLOADER_OVERHEAD_COST_DETAIL", coll, Nothing, True, False, "TSPL_PRODUCTION_UPLOADER_HEAD", "Document_No", "")
+
 
         LOCATIONRIGTHS()
         AddNew()
+        btnReverse.Visible = False
     End Sub
 
     Private Sub LOCATIONRIGTHS()
@@ -200,14 +209,13 @@ Public Class frmDairyProductionUploader
         repoTextBox.Width = 100
         gv1.MasterTemplate.Columns.Add(repoTextBox)
 
-        repoTextBox = New GridViewTextBoxColumn()
-        repoTextBox.FormatString = ""
-        repoTextBox.HeaderText = "QC Status"
-        repoTextBox.Name = ColQCStatus
-        repoTextBox.TextImageRelation = TextImageRelation.TextBeforeImage
-        repoTextBox.Width = 100
-        repoTextBox.ReadOnly = True
-        gv1.MasterTemplate.Columns.Add(repoTextBox)
+        Dim repoCheck As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
+        repoCheck.FormatString = ""
+        repoCheck.HeaderText = "QC Status"
+        repoCheck.Name = ColQCStatus
+        repoCheck.Width = 60
+        repoCheck.ReadOnly = False
+        gv1.MasterTemplate.Columns.Add(repoCheck)
 
         gv1.AllowAddNewRow = False
         gv1.ShowGroupPanel = False
@@ -363,12 +371,17 @@ Public Class frmDairyProductionUploader
             AddNew()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.Escape Then
             CancelPressed()
-        ElseIf e.Alt And e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = clsFixedParameterType.SIRC
-            frm.strCode = clsFixedParameterCode.SIReversAndCreate
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
+        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
+            If MyBase.isReverse Then
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = clsFixedParameterType.SIRC
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
             End If
         End If
     End Sub
@@ -456,13 +469,22 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_PK on TSPL_LOCATION
                 For ii As Integer = 0 To gv1.RowCount - 1
                     If clsCommon.myLen(gv1.Rows(ii).Cells(colItemCode).Value) > 0 Then
                         Dim objTr As New clsDairyProductionUploaderDetail()
-                        objTr.Batch_No = clsCommon.myCstr(gv1.Rows(ii).Cells(colBatchNo).Value)
-                        objTr.Batch_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colBatchDate).Value)
+                        If clsCommon.myLen(gv1.Rows(ii).Cells(colBatchNo).Value) <= 0 Then
+                            objTr.Batch_No = txtBatchNo.Text
+                        Else
+                            objTr.Batch_No = clsCommon.myCstr(gv1.Rows(ii).Cells(colBatchNo).Value)
+                        End If
+                        If clsCommon.myLen(gv1.Rows(ii).Cells(colBatchDate).Value) <= 0 Then
+                            objTr.Batch_Date = txtBatchDate.Value
+                        Else
+                            objTr.Batch_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colBatchDate).Value)
+                        End If
+                        'objTr.Batch_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colBatchDate).Value)
                         objTr.Item_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colItemCode).Value)
                         objTr.Qty = clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value)
                         objTr.UOM = clsCommon.myCstr(gv1.Rows(ii).Cells(colUOM).Value)
                         objTr.Shift_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colShift).Value)
-                        objTr.QC_Status = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColQCStatus).Value)
+                        objTr.QC_Status = clsCommon.myCBool(gv1.Rows(ii).Cells(ColQCStatus).Value)
                         obj.Arr.Add(objTr)
                     End If
                 Next
@@ -821,6 +843,19 @@ ExitLOOP:
             clsERPFuncationalityold.ShowTransHistoryData(txtDocNo.Value, "Document_No", "TSPL_PRODUCTION_UPLOADER_HEAD", "TSPL_PRODUCTION_UPLOADER_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
+        Try
+            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsDairyProductionUploader.ReverseAndUnpost(txtDocNo.Value) Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
+                    LoadData(txtDocNo.Value, NavigatorType.Current)
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

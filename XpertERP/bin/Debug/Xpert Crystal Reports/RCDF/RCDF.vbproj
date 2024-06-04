@@ -1983,6 +1983,9 @@
     <None Include="Crystal Reports\TDS\TDSLedger.rpt" />
     <None Include="Crystal Reports\TDS\TDSLedger6968.rpt" />
     <None Include="Crystal Reports\Union Reports\crptDBT_NEFTUnionReport.rpt" />
+    <None Include="Crystal Reports\Union Reports\crptMilkProcurementDCSWise.rpt" />
+    <None Include="Crystal Reports\Union Reports\crptMilkProcurementRouteWise.rpt" />
+    <None Include="Crystal Reports\Union Reports\crptMilkProcurementUnionWise.rpt" />
     <None Include="Crystal Reports\Union Reports\crptmilkunionreport.rpt" />
     <None Include="Crystal Reports\Union Reports\crptUnionWiseDBT_Summary.rpt" />
     <None Include="Crystal Reports\Utility Reports\DayEntryStatus.rpt" />
