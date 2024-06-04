@@ -21,7 +21,7 @@ Public Class SalesMarketingDashboard
     Private Sub btnExcel_Click(sender As Object, e As EventArgs) Handles btnExcel.Click
         ExportGridgv1(EnumExportTo.Excel)
         ExportGridgv2(EnumExportTo.Excel)
-        'ExportGridgv3(EnumExportTo.Excel)
+        ExportGridgv3(EnumExportTo.Excel)
     End Sub
 
     Private Sub SalesMarketingDashboard_Load_1(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -49,7 +49,7 @@ Public Class SalesMarketingDashboard
 
             Dim docNo As String = ""
             query = " 
-    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL') "
+    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') order by Location_Name "
             '          If chkRJSBNS.Checked Then
             '              query += "union all
             'SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
@@ -255,7 +255,7 @@ Public Class SalesMarketingDashboard
         gv1.Columns("username").IsVisible = False
 
         gv1.Columns("DEMAND_INLTR").HeaderText = "Milk Demand Qty"
-        gv1.Columns("DEMAND_INLTR").FormatString = "{0:n3}"
+        gv1.Columns("DEMAND_INLTR").FormatString = "{0:n2}"
 
         gv1.Columns("Dis_FATKG").HeaderText = " Milk FAT KG"
         gv1.Columns("Dis_FATKG").IsVisible = True
@@ -264,11 +264,11 @@ Public Class SalesMarketingDashboard
 
         gv1.Columns("Dis_SNFKG").HeaderText = "Milk SNF KG"
         gv1.Columns("Dis_SNFKG").IsVisible = True
-        gv1.Columns("Dis_SNFKG").FormatString = ""
+        gv1.Columns("Dis_SNFKG").FormatString = "{0:n3}"
 
         gv1.Columns("DEMANDQTYKG").HeaderText = "Product Demand QTY"
         gv1.Columns("DEMANDQTYKG").IsVisible = True
-        gv1.Columns("DEMANDQTYKG").FormatString = "{0:n3}"
+        gv1.Columns("DEMANDQTYKG").FormatString = "{0:n2}"
 
         gv1.Columns("FATKGPRODUCT").HeaderText = "Product FAT KG"
         gv1.Columns("FATKGPRODUCT").IsVisible = True
@@ -295,7 +295,7 @@ Public Class SalesMarketingDashboard
 
             Dim docNo As String = ""
             query = " 
-    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL') "
+    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') order by Location_Name "
             '          If chkRJSBNS.Checked Then
             '              query += "union all
             'SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
@@ -518,7 +518,7 @@ FROM
 
 
         gv2.Columns("DEMAND_INLTR").HeaderText = "Milk Demand Qty"
-        gv2.Columns("DEMAND_INLTR").FormatString = "{0:n3}"
+        gv2.Columns("DEMAND_INLTR").FormatString = "{0:n2}"
 
         gv2.Columns("Dis_FATKG").HeaderText = " Milk FAT KG"
         gv2.Columns("Dis_FATKG").IsVisible = True
@@ -531,7 +531,7 @@ FROM
 
         gv2.Columns("DEMANDQTYKG").HeaderText = "Product Demand QTY"
         gv2.Columns("DEMANDQTYKG").IsVisible = True
-        gv2.Columns("DEMANDQTYKG").FormatString = "{0:n3}"
+        gv2.Columns("DEMANDQTYKG").FormatString = "{0:n2}"
 
         gv2.Columns("FATKGPRODUCT").HeaderText = "Product FAT KG"
         gv2.Columns("FATKGPRODUCT").IsVisible = True

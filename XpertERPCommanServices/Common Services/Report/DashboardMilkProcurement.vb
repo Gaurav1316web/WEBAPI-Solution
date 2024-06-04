@@ -10,6 +10,8 @@ Public Class DashboardMilkProcurement
     Private Sub DashboardMilkProcurement_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         txtFromDate.Value = clsCommon.GETSERVERDATE()
         txtToDate.Value = clsCommon.GETSERVERDATE().AddMonths(-1)
+        chkRJSBNS.Visible = False
+        chkRJSBNS.Checked = True
     End Sub
 
     Private Sub btngo_Click(sender As Object, e As EventArgs) Handles btngo.Click
@@ -30,7 +32,13 @@ Public Class DashboardMilkProcurement
             Dim docNo As String = ""
             query = " 
     SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL') "
-
+            If chkRJSBNS.Checked Then
+                query += "union all
+  SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
+  union all
+  SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
+  ORDER BY Location_Name"
+            End If
             dt = clsDBFuncationality.GetDataTable(query)
             query = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -161,7 +169,13 @@ Public Class DashboardMilkProcurement
             Dim docNo As String = ""
             query = " 
     SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL') "
-
+            If chkRJSBNS.Checked Then
+                query += "union all
+  SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
+  union all
+  SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
+  ORDER BY Location_Name"
+            End If
             dt = clsDBFuncationality.GetDataTable(query)
             query = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -303,7 +317,13 @@ Public Class DashboardMilkProcurement
             Dim docNo As String = ""
             query = " 
     SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL') "
-
+            If chkRJSBNS.Checked Then
+                query += "union all
+  SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
+  union all
+  SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
+  ORDER BY Location_Name"
+            End If
             dt = clsDBFuncationality.GetDataTable(query)
             query = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -660,7 +680,13 @@ Public Class DashboardMilkProcurement
         Dim docNo As String = ""
         query = " 
     SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL') "
-
+        If chkRJSBNS.Checked Then
+            query += "union all
+  SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
+  union all
+  SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
+  ORDER BY Location_Name"
+        End If
         dt = clsDBFuncationality.GetDataTable(query)
         query = ""
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -733,7 +759,13 @@ Public Class DashboardMilkProcurement
         Dim docNo As String = ""
         query = " 
     SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL') "
-
+        If chkRJSBNS.Checked Then
+            query += "union all
+  SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
+  union all
+  SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
+  ORDER BY Location_Name"
+        End If
         dt = clsDBFuncationality.GetDataTable(query)
         query = ""
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -793,7 +825,13 @@ Public Class DashboardMilkProcurement
         Dim docNo As String = ""
         query = " 
     SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL') "
-
+        If chkRJSBNS.Checked Then
+            query += "union all
+  SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
+  union all
+  SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
+  ORDER BY Location_Name"
+        End If
         dt = clsDBFuncationality.GetDataTable(query)
         query = ""
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
