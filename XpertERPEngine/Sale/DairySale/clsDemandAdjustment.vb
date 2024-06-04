@@ -190,6 +190,17 @@ Public Class clsDemandAdjustment
         End Try
         Return True
     End Function
+    Public Shared Function DeleteData(ByVal strDocNo As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            DeleteData(strDocNo, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
     Public Shared Function DeleteData(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = False
         Try
