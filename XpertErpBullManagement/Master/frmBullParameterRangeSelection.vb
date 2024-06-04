@@ -153,11 +153,11 @@ Public Class frmBullParameterRangeSelection
     End Sub
 
     Private Sub gvRangeDetails_KeyDown(sender As Object, e As KeyEventArgs) Handles gvRangeDetails.KeyDown
-        If clsCommon.CompairString(Form_ID, "BLL-CMU-GRP") = CompairStringResult.Equal Then
-            If e.KeyCode = Keys.Enter Then
-                gvRangeDetails.Rows.AddNew()
-            End If
-        End If
+        'If clsCommon.CompairString(Form_ID, "BLL-CMU-GRP") = CompairStringResult.Equal Then
+        '    If e.KeyCode = Keys.Enter Then
+        '        gvRangeDetails.Rows.AddNew()
+        '    End If
+        'End If
     End Sub
 
 

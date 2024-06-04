@@ -1278,11 +1278,15 @@
     <None Include="Crystal Reports\Kwality Sales Report\rptProductExciseTransferSaleInvoice_Challan.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptProductSaleInvoice - Copy.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptProductSaleInvoice.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\rptProductSaleInvoiceParty.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\rptProductSaleInvoicePartyAnnexure.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\rptProductSaleInvoicePartySummary.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptProductSaleInvoice_Challan.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptRGPNew.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptSGSWaiverLetterMT.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptSubReportExciseTransferSaleInvoice.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptTrustReceiptMT.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\rptVendorServiceInvoice_RCDFCF.rpt" />
     <None Include="Crystal Reports\Milk Procurement\Address.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptAssetDispatchRetailer.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptIncentiveEntryBySRN.rpt" />

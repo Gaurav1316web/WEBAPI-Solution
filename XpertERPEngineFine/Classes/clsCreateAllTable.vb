@@ -9354,6 +9354,28 @@ Public Class clsCreateAllTable
 
             ' -------------------------------------------End Service And Warranty --------------------------------------
 
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Document_No", "varchar(30) NOT NULL Primary Key")
+            coll.Add("Document_Date", "DateTime not NULL")
+            coll.Add("Gate_Entry_No", "varchar(50) not NULL ")
+            coll.Add("Tanker_No", "varchar(20) not NULL ")
+            coll.Add("Tare_Weight_Date", "datetime null")
+            coll.Add("Type", "char(1) not null  ")
+            coll.Add("Comments", "varchar(200) NULL")
+            coll.Add("Remarks", "Varchar(100) null")
+            coll.Add("Tare_Weight", "Decimal(18,2) NULL")
+            coll.Add("Gross_Weight", "Decimal(18,2) NULL")
+            coll.Add("Net_Weight", "Decimal(18,2) NULL")
+            coll.Add("Status", "integer not null default 0")
+            coll.Add("Created_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE) ")
+            coll.Add("Created_Date", "datetime NOT NULL  ")
+            coll.Add("Modified_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE) ")
+            coll.Add("Modified_Date", "datetime NOT NULL ")
+            coll.Add("Posted_By", "varchar(12) NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
+            coll.Add("Posted_Date", "datetime NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PLANT_WEIGHMENT", coll, "UNIQUE(Gate_Entry_No)", True, False, Nothing, Nothing, Nothing, False)
+
             coll = New Dictionary(Of String, String)()
             coll.Add("Weighment_No", "varchar(30) primary key")
             coll.Add("Weighment_date", "datetime not null")
@@ -9376,6 +9398,7 @@ Public Class clsCreateAllTable
             coll.Add("Qty_In_Kg", "float not null default 0")
             coll.Add("snf_Per", "float not NULL default 0")
             coll.Add("fat_per", "float not NULL default 0")
+            coll.Add("Against_Plant_Weighment", "Varchar(30) null references TSPL_PLANT_WEIGHMENT(Document_No)")
             coll.Add("Created_By", "varchar(12) NOT NULL")
             coll.Add("Created_Date", "Varchar(30) NOT NULL")
             coll.Add("Modify_By", "varchar(12) NOT NULL")
@@ -20074,7 +20097,7 @@ Public Class clsCreateAllTable
             coll.Add("Comment12", "nvarchar(200) NULL")
             coll.Add("Comment13", "nvarchar(200) NULL")
             coll.Add("Comment14", "nvarchar(200) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PURCHASE_ORDER_HEAD", coll, Nothing, True, False, "", "PurchaseOrder_No", "PurchaseOrder_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PURCHASE_ORDER_HEAD", coll, Nothing, True, True, "", "PurchaseOrder_No", "PurchaseOrder_Date")
 
             Try
                 clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_PURCHASE_ORDER_HEAD Alter column Comments nvarchar(500) NULL")
@@ -20253,7 +20276,7 @@ Public Class clsCreateAllTable
             coll.Add("Item_Insurance_Rate", "decimal(18,2) NULL")
             coll.Add("Item_Insurance_Amt", "decimal(18,2) NULL")
             coll.Add("Item_Amt_After_Insurance", "decimal(18,2) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PURCHASE_ORDER_DETAIL", coll, Nothing, True, False, "TSPL_PURCHASE_ORDER_HEAD", "PurchaseOrder_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PURCHASE_ORDER_DETAIL", coll, Nothing, True, True, "TSPL_PURCHASE_ORDER_HEAD", "PurchaseOrder_No", "")
 
 
             '' added by Parteek for UDL Work Order Regarding 
@@ -35356,6 +35379,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Tanker_No", "varchar(20) null")
             coll.Add("Location_Code", "VARCHAR(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
             coll.Add("SalesOrder_Code", "VARCHAR(30) NULL REFERENCES TSPL_SALES_ORDER_MASTER_BULKSALE(Document_No)")
+            coll.Add("Against_Plant_Weighment", "Varchar(30) null references TSPL_PLANT_WEIGHMENT(Document_No)")
             coll.Add("Tare_Weight", "decimal(18,2) not null")
             coll.Add("Gross_Weight", "decimal(18,2) not null")
             coll.Add("Net_Weight", "decimal(18,2) not null")
@@ -35398,6 +35422,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("Bulk_SO_No", "varchar(30) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GATEENTRY_SALE_HISTORY", coll, Nothing, False, False)
+
 
 
 
@@ -37284,7 +37309,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("LINE_NO", "varchar(30) NULL References TSPL_LINE_MASTER(LINE_NO)")
             coll.Add("CostCenterCode", "varchar(30) NULL References TSPL_CostCenter_MASTER(Cost_Code)")
             coll.Add("ProfitCenterCode", "varchar(30) NULL References TSPL_PROFIT_CENTER_MASTER(Code)")
-            coll.Add("Uploader_TR_No", "Varchar(30) null references TSPL_PRODUCTION_UPLOADER_DETAIL(TR_No)")
+            'coll.Add("Uploader_TR_No", "Varchar(30) null references TSPL_PRODUCTION_UPLOADER_DETAIL(TR_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PP_PRODUCTION_PLAN_HEAD", coll, "", True, True, "", "Plan_Code", "Plan_Date", True)
             'clsCommonFunctionality.CreateOrAlterTable("TSPL_PP_PRODUCTION_PLAN_HEAD", coll)
 
@@ -55509,6 +55534,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Posted_Date", "Datetime NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_SEED_GROWER_SELECTION_ENTRY", coll, "", False)
 
+
             clsCommon.ProgressBarPercentHide()
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
@@ -55560,6 +55586,27 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
         coll.Add("QC_In_FAT_KG", "FLOAT NOT NULL default 0")
         coll.Add("QC_Out_FAT_KG", "FLOAT NOT NULL default 0")
         coll.Add("QC_FAT_KG", "FLOAT NOT NULL default 0 ")
+        'coll.Add("Out_Fat_KG", "FLOAT NOT NULL default 0")
+        'coll.Add("Fat_KG", "FLOAT NOT NULL default 0")
+
+        'coll.Add("In_SNF_KG", "FLOAT NOT NULL default 0")
+        'coll.Add("Out_SNF_KG", "FLOAT NOT NULL default 0")
+        'coll.Add("SNF_KG", "FLOAT NOT NULL default 0")
+
+        'coll.Add("CL_QTY", "decimal(28,2) NOT NULL default 0")
+        'coll.Add("CL_FAT_KG", "FLOAT NOT NULL default 0")
+        'coll.Add("CL_SNF_KG", "FLOAT NOT NULL default 0")
+
+        'coll.Add("CL_FIFO_Cost", "decimal(28,2) NOT NULL default 0")
+        'coll.Add("CL_LIFO_Cost", "decimal(28,2) NOT NULL default 0")
+        'coll.Add("CL_Avg_Cost", "decimal(28,2) NOT NULL default 0")
+
+        'coll.Add("AGEING_Flag", "bit NOT NULL default 0")
+        'coll.Add("AGEING_QTY", "decimal(28,2) NOT NULL default 0")
+
+        'coll.Add("QC_In_FAT_KG", "FLOAT NOT NULL default 0")
+        'coll.Add("QC_Out_FAT_KG", "FLOAT NOT NULL default 0")
+        'coll.Add("QC_FAT_KG", "FLOAT NOT NULL default 0 ")
 
         coll.Add("QC_In_SNF_KG", "FLOAT NOT NULL default 0")
         coll.Add("QC_Out_SNF_KG", "FLOAT NOT NULL default 0")
