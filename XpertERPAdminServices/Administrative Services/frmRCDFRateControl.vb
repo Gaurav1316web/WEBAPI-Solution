@@ -21,7 +21,6 @@ Public Class frmRCDFRateControl
     Private Sub frmRCDFRateControl_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
             Reset()
-            'createTable()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -156,7 +155,7 @@ Public Class frmRCDFRateControl
                 End If
             End If
         Catch err As Exception
-            MessageBox.Show(Me, err.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, err.Message, Me.Text)
         End Try
     End Sub
 
