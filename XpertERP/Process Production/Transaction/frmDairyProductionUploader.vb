@@ -24,55 +24,6 @@ Public Class frmDairyProductionUploader
 #End Region
 
     Private Sub frmDairyProductionUploader_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim qry As String = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_PRODUCTION_UPLOADER_DETAIL' and COLUMN_NAME='Section_Code'"
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            clsERPFuncationality.DropTableKey("TSPL_PP_PRODUCTION_PLAN_HEAD", "Uploader_TR_No", EnumTableKeyType.Foreign)
-            qry = "Drop table TSPL_PRODUCTION_UPLOADER_DETAIL"
-            clsDBFuncationality.ExecuteNonQuery(qry)
-            qry = "Drop table TSPL_PRODUCTION_UPLOADER_HEAD"
-            clsDBFuncationality.ExecuteNonQuery(qry)
-        End If
-
-        Dim coll As New Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)
-        coll.Add("Document_No", "Varchar(30) not null Primary key")
-        coll.Add("Document_Date", "datetime NOT NULL")
-        coll.Add("Location_FG", "Varchar(12) not null references TSPL_LOCATION_MASTER(Location_Code)")
-        coll.Add("Location_RM", "Varchar(12) not null references TSPL_LOCATION_MASTER(Location_Code)")
-        coll.Add("Location_PK", "Varchar(12) not null references TSPL_LOCATION_MASTER(Location_Code)")
-        coll.Add("Batch_No", "Varchar(200) not null")
-        coll.Add("Batch_Date", "Date not null")
-        coll.Add("Description", "Varchar(200) null")
-        coll.Add("Status", "Integer NOT NULL DEFAULT 0")
-        coll.Add("Created_By", "varchar(12) NOT NULL")
-        coll.Add("Created_Date", "Datetime NOT NULL")
-        coll.Add("Modified_By", "varchar(12) NOT NULL")
-        coll.Add("Modified_Date", "Datetime NOT NULL")
-        coll.Add("Posted_Date", "datetime null")
-        coll.Add("Posted_By", "varchar(12)  NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PRODUCTION_UPLOADER_HEAD", coll, Nothing, True, False, "", "Document_No", "Document_Date", True)
-
-        coll = New Dictionary(Of String, String)
-        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("Document_No", "Varchar(30) not null references TSPL_PRODUCTION_UPLOADER_HEAD(Document_No)")
-        coll.Add("Batch_No", "Varchar(200) not null")
-        coll.Add("Batch_Date", "Date NOT NULL")
-        coll.Add("Item_Code", "Varchar(50) not null references TSPL_ITEM_MASTER(Item_Code)")
-        coll.Add("Qty", "Decimal(18,2) null")
-        coll.Add("UOM", "Varchar(20) null")
-        coll.Add("Shift_Code", "Varchar(30) not null references tspl_shift_master(SHIFT_CODE)")
-        coll.Add("QC_Status", "Integer NOT NULL DEFAULT 0")
-        coll.Add("BOM_Code", "Varchar(30) null references TSPL_PP_BOM_HEAD(BOM_CODE)")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PRODUCTION_UPLOADER_DETAIL", coll, Nothing, True, False, "TSPL_PRODUCTION_UPLOADER_HEAD", "Document_No", "")
-
-        coll = New Dictionary(Of String, String)
-        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("Document_No", "Varchar(30) not null references TSPL_PRODUCTION_UPLOADER_HEAD(Document_No)")
-        coll.Add("Against_PKID", "integer not null references TSPL_PRODUCTION_UPLOADER_DETAIL(PK_ID)")
-        coll.Add("Cost_Code", "Varchar(30) not null references TSPL_OVERHEAD_COST(COST_CODE)")
-        coll.Add("Amount", "Decimal(18,2) null")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PRODUCTION_UPLOADER_OVERHEAD_COST_DETAIL", coll, Nothing, True, False, "TSPL_PRODUCTION_UPLOADER_HEAD", "Document_No", "")
 
 
         LOCATIONRIGTHS()
