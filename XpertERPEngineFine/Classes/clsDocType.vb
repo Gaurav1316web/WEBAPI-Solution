@@ -2,6 +2,7 @@
 Imports System.Reflection
 Imports System.Windows.Forms
 Public Class clsDocType
+    Public Const frmRCDFRateControl As String = "RCDF Rate Control"
     Public Const frmEmployeeDeductionMaster As String = "Employee Deduction Master"
     Public Const TenderPenalty As String = "Tender Penalty"
     Public Const BreakDownEntry As String = "Break Down Entry"
@@ -481,6 +482,7 @@ Public Class clsDocType
     '--------priti 13/07/2016 ------------------
     Public Const frmDairySaleDeliveryOrder As String = "Dairy Sale Delivery Order"
     Public Const frmDemandBooking As String = "Demand Booking"
+    Public Const frmDemandAdjustment As String = "Demand Adjustment"
     Public Const frmDCSDemandBooking As String = "DCS Demand Booking"
     Public Const frmDairySaleBooking As String = "Dairy Sale Booking"
     Public Const frmDairySaleGatePass As String = "Dairy Sale GatePass"
@@ -1176,6 +1178,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.frmPerformaInvoiceBooking, "", False, True)
             InsertDefaultValue(clsDocType.frmDairySaleDeliveryOrder, "", False, True)
             InsertDefaultValue(clsDocType.frmDemandBooking, "", False, True)
+            InsertDefaultValue(clsDocType.frmDemandAdjustment, "", False, False)
             InsertDefaultValue(clsDocType.frmDCSDemandBooking, "", False, True)
             InsertDefaultValue(clsDocType.frmDairySaleGatePass, "", False, True)
             InsertDefaultValue(clsDocType.FrmDairyGatePass, "", False, False)

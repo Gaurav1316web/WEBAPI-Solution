@@ -24,6 +24,7 @@ Partial Class frmDairyProductionUploader
     Private Sub InitializeComponent()
         Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
@@ -58,7 +59,9 @@ Partial Class frmDairyProductionUploader
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
         Me.Panel2.SuspendLayout()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -84,11 +87,14 @@ Partial Class frmDairyProductionUploader
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Panel2
         '
+        Me.Panel2.Controls.Add(Me.btnShowInventory)
+        Me.Panel2.Controls.Add(Me.btnReverse)
         Me.Panel2.Controls.Add(Me.btnHistory)
         Me.Panel2.Controls.Add(Me.btnPost)
         Me.Panel2.Controls.Add(Me.btnDelete)
@@ -100,10 +106,21 @@ Partial Class frmDairyProductionUploader
         Me.Panel2.Size = New System.Drawing.Size(784, 26)
         Me.Panel2.TabIndex = 1
         '
+        'btnReverse
+        '
+        Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReverse.Location = New System.Drawing.Point(301, 2)
+        Me.btnReverse.Name = "btnReverse"
+        Me.btnReverse.Size = New System.Drawing.Size(97, 22)
+        Me.btnReverse.TabIndex = 40
+        Me.btnReverse.Text = "Reverse"
+        Me.btnReverse.Visible = False
+        '
         'btnHistory
         '
         Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Location = New System.Drawing.Point(307, 2)
+        Me.btnHistory.Location = New System.Drawing.Point(400, 2)
         Me.btnHistory.Name = "btnHistory"
         Me.btnHistory.Size = New System.Drawing.Size(97, 22)
         Me.btnHistory.TabIndex = 39
@@ -113,7 +130,7 @@ Partial Class frmDairyProductionUploader
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(206, 2)
+        Me.btnPost.Location = New System.Drawing.Point(202, 2)
         Me.btnPost.Name = "btnPost"
         Me.btnPost.Size = New System.Drawing.Size(97, 22)
         Me.btnPost.TabIndex = 3
@@ -123,7 +140,7 @@ Partial Class frmDairyProductionUploader
         '
         Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(105, 2)
+        Me.btnDelete.Location = New System.Drawing.Point(103, 2)
         Me.btnDelete.Name = "btnDelete"
         Me.btnDelete.Size = New System.Drawing.Size(97, 22)
         Me.btnDelete.TabIndex = 2
@@ -568,6 +585,16 @@ Partial Class frmDairyProductionUploader
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(784, 20)
         Me.RadMenu1.TabIndex = 3
+        Me.RadMenu1.Visible = False
+        '
+        'btnShowInventory
+        '
+        Me.btnShowInventory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnShowInventory.Location = New System.Drawing.Point(499, 2)
+        Me.btnShowInventory.Name = "btnShowInventory"
+        Me.btnShowInventory.Size = New System.Drawing.Size(95, 22)
+        Me.btnShowInventory.TabIndex = 41
+        Me.btnShowInventory.Text = "Show Inventory"
         '
         'frmDairyProductionUploader
         '
@@ -587,6 +614,7 @@ Partial Class frmDairyProductionUploader
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Dairy Production Uploader"
         Me.Panel2.ResumeLayout(False)
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
@@ -613,6 +641,7 @@ Partial Class frmDairyProductionUploader
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -653,5 +682,7 @@ Partial Class frmDairyProductionUploader
     Friend WithEvents txtBatchDate As common.Controls.MyDateTimePicker
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents txtBatchNo As common.Controls.MyTextBox
+    Friend WithEvents btnReverse As RadButton
+    Friend WithEvents btnShowInventory As RadButton
 End Class
 

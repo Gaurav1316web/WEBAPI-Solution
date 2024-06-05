@@ -9577,6 +9577,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmSendSMSEmailSetting
                         frm = New FrmSendSMSEmailSetting
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmRCDFRateControl
+                        frm = New frmRCDFRateControl
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.frmLockMPCollectionPC
                         frm = New frmLockMPCollectionPC

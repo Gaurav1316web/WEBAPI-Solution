@@ -95,7 +95,7 @@ Public Class clsBulkPostingDairySale
                 'Dim strBookingStatus As Integer = 0
                 Dim strBookingPostStatus As Integer = 0
                 Dim dblAmount As Double = 0
-                qry = "select Customer_Name,vehicle_code,TSPL_VEHICLE_MASTER.Vehicle_No,Number,Zone_Code,TSPL_CUSTOMER_MASTER.Route_No from TSPL_CUSTOMER_MASTER left outer join " &
+                qry = "select Customer_Name,vehicle_code,TSPL_VEHICLE_MASTER.Vehicle_No,Number,TSPL_CUSTOMER_MASTER.Zone_Code,TSPL_CUSTOMER_MASTER.Route_No from TSPL_CUSTOMER_MASTER left outer join " &
                        "TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No left outer join TSPL_VEHICLE_MASTER on " &
                        "TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id where Cust_Code='" & clsCommon.myCstr(CustCode) & "'"
                 Dim dt3 As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
