@@ -660,9 +660,18 @@ Public Class frmVSP_VLCMaster
                     fndCusgrp.Value = Nothing
                 End If
                 '==================================================
-                Dim qryPR As String = clsDBFuncationality.getSingleValue("SELECT Registered_PDCS_CLUSTER FROM TSPL_VLC_MASTER_HEAD WHERE VSP_Code='" + fndvendorNo.Value + " '")
-                Dim strRegistered_PDCS_CLUSTER As String = clsCommon.myCstr(qryPR)
+                Dim qryPR As Object = clsDBFuncationality.getSingleValue("SELECT Registered_PDCS_CLUSTER FROM TSPL_VLC_MASTER_HEAD WHERE VSP_Code='" + fndvendorNo.Value + " '")
+                'Dim strRegistered_PDCS_CLUSTER As String = clsCommon.myCstr(myDr(qryPR))
+                Dim strRegistered_PDCS_CLUSTER As String
+                If IsDBNull(qryPR) Then
+                    strRegistered_PDCS_CLUSTER = String.Empty
+                Else
+                    strRegistered_PDCS_CLUSTER = clsCommon.myCstr(qryPR)
 
+                End If
+                'If clsCommon.myLen(qryPR) > 0 Then
+                '    strRegistered_PDCS_CLUSTER = clsCommon.myCstr(myDr(qryPR))
+                'End If
                 'Dim strRegistered_PDCS_CLUSTER As String = clsCommon.myCstr(myDr("Registered_PDCS_CLUSTER"))
                 If clsCommon.CompairString(strRegistered_PDCS_CLUSTER, "Registered") = CompairStringResult.Equal Then
                     chkRegistered.Checked = True
