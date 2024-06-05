@@ -49,6 +49,26 @@ Public Class frmDCSAdditionDeduction
         dr("Name") = "2 Decimal Places"
         dt.Rows.Add(dr)
 
+        dr = dt.NewRow()
+        dr("Code") = "3"
+        dr("Name") = "3 Decimal Places"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "4"
+        dr("Name") = "4 Decimal Places"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "5"
+        dr("Name") = "5 Decimal Places"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "6"
+        dr("Name") = "6 Decimal Places"
+        dt.Rows.Add(dr)
+
         cboRoundOFFDecimalPlaces.DataSource = dt.Copy()
         cboRoundOFFDecimalPlaces.ValueMember = "Code"
         cboRoundOFFDecimalPlaces.DisplayMember = "Name"

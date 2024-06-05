@@ -30,11 +30,13 @@ Public Class SalesMarketingDashboard
         txtToDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MMM/yyyy")
         RadPageView1.SelectedPage = RadPageViewPage1
         Addnew()
+        RadPageViewPage4.Visible = False
+        RadPageView1.Pages("RadPageViewPage4").Item.Visibility = ElementVisibility.Collapsed
     End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         UnionWiseDemand()
         RouteAndBoothWiseDemand()
-        ItemWiseDemand()
+        'ItemWiseDemand()
     End Sub
     Sub UnionWiseDemand()
         Try
@@ -47,7 +49,7 @@ Public Class SalesMarketingDashboard
 
             Dim docNo As String = ""
             query = " 
-    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL') "
+    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') order by Location_Name "
             '          If chkRJSBNS.Checked Then
             '              query += "union all
             'SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
@@ -235,15 +237,15 @@ Public Class SalesMarketingDashboard
         gv1.Columns("SNo").IsVisible = True '
 
         gv1.Columns("Union Name").HeaderText = "Union Name"
-        gv1.Columns("Union Name").Width = 500
+        gv1.Columns("Union Name").Width = 200
         gv1.Columns("Union Name").IsVisible = True
 
         gv1.Columns("Fromdate").HeaderText = "From Date"
-        gv1.Columns("Fromdate").Width = 500
+        gv1.Columns("Fromdate").Width = 200
         gv1.Columns("Fromdate").IsVisible = False
 
         gv1.Columns("Todate").HeaderText = "To Date"
-        gv1.Columns("Todate").Width = 500
+        gv1.Columns("Todate").Width = 200
         gv1.Columns("Todate").IsVisible = False
 
 
@@ -253,7 +255,8 @@ Public Class SalesMarketingDashboard
         gv1.Columns("username").IsVisible = False
 
         gv1.Columns("DEMAND_INLTR").HeaderText = "Milk Demand Qty"
-        gv1.Columns("DEMAND_INLTR").FormatString = "{0:n3}"
+        gv1.Columns("DEMAND_INLTR").FormatString = "{0:n2}"
+
 
         gv1.Columns("Dis_FATKG").HeaderText = " Milk FAT KG"
         gv1.Columns("Dis_FATKG").IsVisible = True
@@ -262,21 +265,48 @@ Public Class SalesMarketingDashboard
 
         gv1.Columns("Dis_SNFKG").HeaderText = "Milk SNF KG"
         gv1.Columns("Dis_SNFKG").IsVisible = True
-        gv1.Columns("Dis_SNFKG").FormatString = ""
+        gv1.Columns("Dis_SNFKG").FormatString = "{0:n3}"
+
 
         gv1.Columns("DEMANDQTYKG").HeaderText = "Product Demand QTY"
         gv1.Columns("DEMANDQTYKG").IsVisible = True
-        gv1.Columns("DEMANDQTYKG").FormatString = "{0:n3}"
+        gv1.Columns("DEMANDQTYKG").FormatString = "{0:n2}"
+
 
         gv1.Columns("FATKGPRODUCT").HeaderText = "Product FAT KG"
         gv1.Columns("FATKGPRODUCT").IsVisible = True
         gv1.Columns("FATKGPRODUCT").FormatString = "{0:n3}"
 
 
+
         gv1.Columns("SNFKGPRODUCT").HeaderText = "Product SNF KG"
         gv1.Columns("SNFKGPRODUCT").IsVisible = True
         gv1.Columns("SNFKGPRODUCT").FormatString = "{0:n3}"
 
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+
+        Dim item3 As New GridViewSummaryItem("DEMAND_INLTR", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item3)
+
+        Dim item4 As New GridViewSummaryItem("Dis_FATKG", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item4)
+
+        Dim item5 As New GridViewSummaryItem("Dis_SNFKG", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item5)
+
+        Dim item6 As New GridViewSummaryItem("DEMANDQTYKG", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item6)
+
+        Dim item7 As New GridViewSummaryItem("FATKGPRODUCT", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item7)
+
+        Dim item8 As New GridViewSummaryItem("SNFKGPRODUCT", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item8)
+
+        'gv1.ShowGroupPanel = True
+        'gv1.MasterTemplate.AutoExpandGroups = True
+        gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         gv1.ShowGroupPanel = True
         gv1.MasterTemplate.AutoExpandGroups = True
 
@@ -293,7 +323,7 @@ Public Class SalesMarketingDashboard
 
             Dim docNo As String = ""
             query = " 
-    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL') "
+    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') order by Location_Name "
             '          If chkRJSBNS.Checked Then
             '              query += "union all
             'SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
@@ -313,8 +343,8 @@ Public Class SalesMarketingDashboard
                     query += " select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
                         '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
                      
-	    COUNT(DISTINCT Dis_Demand.route_no) AS route_no,
-	   count(DISTINCT dis_demand.booth) as Booth,
+	    Max(Dis_Demand.route_no) AS route_no,
+	   MAx(dis_demand.booth) as Booth,
        ISNULL(SUM(Dis_Demand.TotalLtr_ItemWiseDemand), 0) AS DEMAND_INLTR,
        ISNULL(SUM(Dis_Demand.FATKGDemand), 0) AS Dis_FATKG,
        ISNULL(SUM(Dis_Demand.SNFKGDemand), 0) AS Dis_SNFKG,
@@ -327,8 +357,8 @@ FROM
     SELECT SUM(TotalLtr_ItemWiseDemand) AS TotalLtr_ItemWiseDemand,
            SUM(FATKGDemand) AS FATKGDemand,
            SUM(SNFKGDemand) AS SNFKGDemand,
-       route_no,
-	   Booth
+        count(distinct route_no)route_no,
+	   count(distinct Booth)Booth
     FROM 
     (
         SELECT SUM(TotalLtr_ItemWise) AS TotalLtr_ItemWiseDemand,
@@ -368,9 +398,7 @@ FROM
             INNER JOIN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL AS ConvertDiv ON ConvertDiv.Item_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Item_Code AND ConvertDiv.UOM_Code = 'LTR'
             WHERE CONVERT(DATE, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_BulkSale.Document_Date, 103)  BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' and TSPL_Dispatch_BulkSale.Posted=1
         ) xxxx
-        GROUP BY xxxx.route_no,Booth
     ) Dis_Demand
-    GROUP BY route_no,Booth
 ) Dis_Demand,
 
 (
@@ -493,15 +521,15 @@ FROM
         gv2.Columns("SNo").IsVisible = True '
 
         gv2.Columns("Union Name").HeaderText = "Union Name"
-        gv2.Columns("Union Name").Width = 500
+        gv2.Columns("Union Name").Width = 200
         gv2.Columns("Union Name").IsVisible = True
 
         gv2.Columns("Fromdate").HeaderText = "From Date"
-        gv2.Columns("Fromdate").Width = 500
+        gv2.Columns("Fromdate").Width = 200
         gv2.Columns("Fromdate").IsVisible = False
 
         gv2.Columns("Todate").HeaderText = "To Date"
-        gv2.Columns("Todate").Width = 500
+        gv2.Columns("Todate").Width = 200
         gv2.Columns("Todate").IsVisible = False
 
 
@@ -513,25 +541,31 @@ FROM
         gv2.Columns("route_no").HeaderText = "No of Routes"
         gv2.Columns("route_no").Width = 200
 
+
         gv2.Columns("Booth").HeaderText = " No of Booths"
         gv2.Columns("Booth").IsVisible = True
 
 
+
         gv2.Columns("DEMAND_INLTR").HeaderText = "Milk Demand Qty"
-        gv2.Columns("DEMAND_INLTR").FormatString = "{0:n3}"
+        gv2.Columns("DEMAND_INLTR").FormatString = "{0:n2}"
+
 
         gv2.Columns("Dis_FATKG").HeaderText = " Milk FAT KG"
         gv2.Columns("Dis_FATKG").IsVisible = True
         gv2.Columns("Dis_FATKG").FormatString = "{0:n3}"
 
 
+
         gv2.Columns("Dis_SNFKG").HeaderText = "Milk SNF KG"
         gv2.Columns("Dis_SNFKG").IsVisible = True
-        gv2.Columns("Dis_SNFKG").FormatString = ""
+        gv2.Columns("Dis_SNFKG").FormatString = "{0:n3}"
+
 
         gv2.Columns("DEMANDQTYKG").HeaderText = "Product Demand QTY"
         gv2.Columns("DEMANDQTYKG").IsVisible = True
-        gv2.Columns("DEMANDQTYKG").FormatString = "{0:n3}"
+        gv2.Columns("DEMANDQTYKG").FormatString = "{0:n2}"
+
 
         gv2.Columns("FATKGPRODUCT").HeaderText = "Product FAT KG"
         gv2.Columns("FATKGPRODUCT").IsVisible = True
@@ -542,9 +576,38 @@ FROM
         gv2.Columns("SNFKGPRODUCT").IsVisible = True
         gv2.Columns("SNFKGPRODUCT").FormatString = "{0:n3}"
 
+
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        Dim item1 As New GridViewSummaryItem("route_no", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+
+        Dim item2 As New GridViewSummaryItem("Booth", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item2)
+
+        Dim item3 As New GridViewSummaryItem("DEMAND_INLTR", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item3)
+
+        Dim item4 As New GridViewSummaryItem("Dis_FATKG", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item4)
+
+        Dim item5 As New GridViewSummaryItem("Dis_SNFKG", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item5)
+
+        Dim item6 As New GridViewSummaryItem("DEMANDQTYKG", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item6)
+
+        Dim item7 As New GridViewSummaryItem("FATKGPRODUCT", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item7)
+
+        Dim item8 As New GridViewSummaryItem("SNFKGPRODUCT", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item8)
+
+        'gv1.ShowGroupPanel = True
+        'gv1.MasterTemplate.AutoExpandGroups = True
+        gv2.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv2.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         gv2.ShowGroupPanel = True
         gv2.MasterTemplate.AutoExpandGroups = True
-
         ' View()
     End Sub
     Sub ExportGrids3()
@@ -598,7 +661,7 @@ FROM
     Private Sub btnPDF_Click(sender As Object, e As EventArgs) Handles btnPDF.Click
         ExportGrid1()
         ExportGrid2()
-        ExportGrids3()
+        ' ExportGrids3()
     End Sub
     Private Sub ExportGridgv1(ByVal exporter As EnumExportTo)
         Try
@@ -659,6 +722,12 @@ FROM
     Sub ItemWiseDemand()
         Try
             gv3.MasterTemplate.SummaryRowsBottom.Clear()
+            Dim strCreateConv As String = ""
+            Dim strIsMilkPouch As String = ""
+            Dim strGrandTotalWithoutScheme As String = ""
+            'Dim arrItem As String()
+            Dim strItem2WithSum As String = ""
+            Dim strItem2 As String = ""
             Dim MainQuery As String = String.Empty
             Dim strWhrClause As String = String.Empty
             Dim strWhrClause2 As String = String.Empty
@@ -684,7 +753,36 @@ FROM
             '          End If
             dt = clsDBFuncationality.GetDataTable(query)
             query = ""
+
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                For jj As Integer = 0 To dt.Rows.Count - 1
+                    Dim strDate As String = "Document_Date"
+                    strWhrClause2 = " and convert(date, [" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER." + strDate + ",103) >= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and  convert(date, [" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER." + strDate + ",103) <= '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' "
+                    strWhrRoutSummaryPrint = "  and convert(date, [" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER." + strDate + ",103) >= ''" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'' and  convert(date, [" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER." + strDate + ",103) <= ''" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'' "
+                    Dim ItemInUse As String = ""
+                    ItemInUse = " [" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL Left Outer Join [" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER On [" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Document_No = [" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Document_No Left Outer Join [" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER On [" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER.Cust_Code = [" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Cust_Code Left Outer Join [" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER On [" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Item_Code = [" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Item_Code Left Outer Join [" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_VEHICLE_MASTER On [" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_VEHICLE_MASTER.Vehicle_Id = [" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Vehicle_Code Left Outer Join [" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_LOCATION_MASTER On [" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_LOCATION_MASTER.Location_Code = [" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.location_code left outer join [" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_GROUP_MASTER on [" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=[" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER.Cust_Group_Code where ([" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Alies_Name !='' or [" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Alies_Name is null) "
+                    If isSchemeItem = False Then
+                        ItemInUse += " and Scheme_Item='N' "
+                    End If
+                    ItemInUse += "  and [" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Is_Milk_Pouch =1 "
+                    ItemInUse += "  or [" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Is_Milk_Pouch =0 "
+                    Dim strAliasCol As String = "( [" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Alies_Name )"
+                    ItemInUse += strWhrClause2
+                    Dim strItem As String = clsDBFuncationality.getSingleValue("  DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' + '0 as ' + QUOTENAME( " + strAliasCol + ") as Alies_Name FROM " + ItemInUse + "   FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
+
+                    strItem2 += clsDBFuncationality.getSingleValue("  DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' + QUOTENAME( " + strAliasCol + ") as Alies_Name FROM " + ItemInUse + "   FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
+                    'arrItem = strItem2.Split(",")
+                    Dim strItmeHeadingScheme As String = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' +  QUOTENAME( " + strAliasCol + ") +' as ' + QUOTENAME( " + strAliasCol + "+'(S)')  as Alies_Name FROM " + ItemInUse + "  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
+                    Dim strSumItemOnly As String = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' +'Sum(isnull(' + QUOTENAME( " + strAliasCol + ") +',0))' +' as ' + QUOTENAME( " + strAliasCol + ") as Alies_Name  FROM " + ItemInUse + "   FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
+                    Dim strSumItemSchemeOnly As String = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' +'Sum(isnull(' + QUOTENAME( " + strAliasCol + "+'(S)') +',0))' +' as ' + QUOTENAME( " + strAliasCol + "+'(S)') as Alies_Name  FROM " + ItemInUse + "  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
+                    Dim strGrandTotal As String = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct '+' +'Sum(isnull(' + QUOTENAME( " + strAliasCol + ") +',0))' +' + ' + +'Sum(isnull(' + QUOTENAME( " + strAliasCol + "+'(S)') +',0))'  as Alies_Name  FROM " + ItemInUse + "   FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
+                    strGrandTotalWithoutScheme = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct '+' +'Sum(isnull(' + QUOTENAME( " + strAliasCol + ") +',0))'  as Alies_Name  FROM " + ItemInUse + "  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')  ")
+
+                    Dim TempItemInUse As String = ItemInUse + " group by [" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Alies_Name,[" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Sku_Seq order by [" + clsCommon.myCstr(dt.Rows(jj).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Sku_Seq "
+                    'strItem2WithSum = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT ',' +'Sum(isnull(' + QUOTENAME( " + strAliasCol + ") +',0))' + ' as ' + QUOTENAME( " + strAliasCol + ") as Alies_Name FROM " + TempItemInUse + "    FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')  ")
+                    strItem2WithSum += clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT ',' +'Sum(' + QUOTENAME( " + strAliasCol + ") +')' + ' as ' + QUOTENAME( " + strAliasCol + ") as Alies_Name FROM " + TempItemInUse + "    FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')  ")
+
+                Next
                 For ii As Integer = 0 To dt.Rows.Count - 1
                     If ii > 0 Then
                         query += " UNION ALL "
@@ -709,19 +807,7 @@ FROM
                         clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                         Exit Sub
                     End If
-                    Dim strItem As String = clsDBFuncationality.getSingleValue("  DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' + '0 as ' + QUOTENAME( " + strAliasCol + ") as Alies_Name FROM " + ItemInUse + "   FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
-                    Dim strItem2 As String = clsDBFuncationality.getSingleValue("  DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' + QUOTENAME( " + strAliasCol + ") as Alies_Name FROM " + ItemInUse + "   FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
-                    Dim strItmeHeadingScheme As String = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' +  QUOTENAME( " + strAliasCol + ") +' as ' + QUOTENAME( " + strAliasCol + "+'(S)')  as Alies_Name FROM " + ItemInUse + "  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
-                    Dim strSumItemOnly As String = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' +'Sum(isnull(' + QUOTENAME( " + strAliasCol + ") +',0))' +' as ' + QUOTENAME( " + strAliasCol + ") as Alies_Name  FROM " + ItemInUse + "   FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
-                    Dim strSumItemSchemeOnly As String = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' +'Sum(isnull(' + QUOTENAME( " + strAliasCol + "+'(S)') +',0))' +' as ' + QUOTENAME( " + strAliasCol + "+'(S)') as Alies_Name  FROM " + ItemInUse + "  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
-                    Dim strGrandTotal As String = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct '+' +'Sum(isnull(' + QUOTENAME( " + strAliasCol + ") +',0))' +' + ' + +'Sum(isnull(' + QUOTENAME( " + strAliasCol + "+'(S)') +',0))'  as Alies_Name  FROM " + ItemInUse + "   FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
-                    Dim strGrandTotalWithoutScheme As String = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct '+' +'Sum(isnull(' + QUOTENAME( " + strAliasCol + ") +',0))'  as Alies_Name  FROM " + ItemInUse + "  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')  ")
-                    Dim strItem2WithSum As String = ""
-                    Dim TempItemInUse As String = ItemInUse + " group by [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Alies_Name,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Sku_Seq order by [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Sku_Seq "
-                    'strItem2WithSum = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT ',' +'Sum(isnull(' + QUOTENAME( " + strAliasCol + ") +',0))' + ' as ' + QUOTENAME( " + strAliasCol + ") as Alies_Name FROM " + TempItemInUse + "    FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')  ")
-                    strItem2WithSum = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT ',' +'Sum(' + QUOTENAME( " + strAliasCol + ") +')' + ' as ' + QUOTENAME( " + strAliasCol + ") as Alies_Name FROM " + TempItemInUse + "    FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')  ")
-                    Dim strCreateConv As String = ""
-                    Dim strIsMilkPouch As String = ""
+
                     strCreateConv = " convert (decimal(18,2), [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Booking_Qty * TSPL_ITEM_UOM_DETAILUOM.Conversion_Factor / nullif ( TSPL_ITEM_UOM_DETAILLTR.Conversion_Factor,0)) "
                     strIsMilkPouch = "  and [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Is_Milk_Pouch =1 "
 
@@ -735,10 +821,10 @@ FROM
                                               " left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_DETAILLTR on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Item_Code=TSPL_ITEM_UOM_DETAILLTR.Item_Code and TSPL_ITEM_UOM_DETAILLTR.UOM_Code='LTR'  left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_DETAILKG on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Item_Code=TSPL_ITEM_UOM_DETAILKG.Item_Code and TSPL_ITEM_UOM_DETAILKG.UOM_Code='KG' left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_DETAILCREATE on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Item_Code=TSPL_ITEM_UOM_DETAILCREATE.Item_Code and TSPL_ITEM_UOM_DETAILCREATE.UOM_Code='CRATE'  left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_DETAILUOM on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Item_Code=TSPL_ITEM_UOM_DETAILUOM.Item_Code and [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Unit_code =TSPL_ITEM_UOM_DETAILUOM.UOM_Code " &
                                               "  where 2=2  " + strIsMilkPouch + "  " + strWhrClause2 + " )zzz where zzz.Scheme_Item='N' group by zzz.Document_No,zzz.[VEHICLE NO] ,zzz.WdName,zzz.Description,zzz.[Customer Category Code],zzz.Cust_Group_Code,zzz.Zone_Code,zzz.[Route No],zzz.[DO NO],zzz.[Short Close] 	) as s pivot (  sum(Qty) for Description in ( " + strItem2 + " ) ) as zpivot group by zpivot.Document_No,zpivot.[VEHICLE NO],zpivot.[WdName],zpivot.[Group],zpivot.[Cust Group Desc],zpivot.[Customer Category Code],zpivot.[Zone],zpivot.[Route No],zpivot.[DO NO],zpivot.[Short Close] "
 
-                    MainQuery = " select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                    query += " select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
                             '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username, " + strItem2WithSum + " from (select ROW_NUMBER() OVER (PARTITION BY 1 ORDER BY  TSPL_ROUTE_MASTER.Route_Seq_No asc ,XXXFinal.[Route No] asc 
                                                   ,  XXXFinal.[Customer Name] asc) as Sno,XXXFinal.[Route No],max(XXXFinal.[Customer Code]) as [Customer Code],  XXXFinal.[Customer Name], " + strItem2WithSum + " ,sum([Grand Total]) as [Grand Total], max( XXXFinal.[Modified By]) as [Modified By], max(XXXFinal.[Created By]) as  [Created By]  from ( " + MainQuery + " ) XXXFinal left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ROUTE_MASTER on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ROUTE_MASTER.Route_No = XXXFinal.[Route No]	 group by route_seq_no, XXXFinal.[Route No],  XXXFinal.[Customer Name] )ttt "
-                    query = MainQuery
+
                 Next
             End If
             Dim dtgv As New DataTable
@@ -805,4 +891,5 @@ FROM
             clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
+
 End Class
