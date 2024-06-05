@@ -186,15 +186,15 @@ Public Class rptmilkunion
     Public Sub Griddata(ByVal print As Boolean)
         Try
             Dim query As String
+            Dim qry As String
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
             If (dt Is Nothing OrElse dt.Rows.Count <= 0) Then
                 common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
                 Exit Sub
             End If
-            Dim Qry As String = ""
             Dim docNo As String = ""
             query = " 
-    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') "
+    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL') "
             If chkRJSBNS.Checked Then
                 query += "union all
   SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
@@ -204,10 +204,12 @@ Public Class rptmilkunion
             End If
             dt = clsDBFuncationality.GetDataTable(query)
             query = ""
+            Dim dtUnion As DataTable = New DataTable()
+            Dim dt2 As DataTable = New DataTable()
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For ii As Integer = 0 To dt.Rows.Count - 1
                     If ii > 0 Then
-                        query += " UNION ALL "
+                        '  query += " UNION ALL "
                     End If
                     Dim status1 As String
                     Dim status2 As String
@@ -250,10 +252,10 @@ Public Class rptmilkunion
                         status9 = " "
                     End If
                     If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "BKN") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "CHT") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "BNS") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "RJS") = CompairStringResult.Equal Then
-                        query += "  Select max(SNo)As SNo, max([Union Name])[Union Name] , MAX(Fromdate)Fromdate , MAX(Todate)Todate , MAX(username)username , SUM(Dis_QtyInLTR)Dis_QtyInLTR, SUM(Dis_FATKG)Dis_FATKG , SUM(Dis_SNFKG)Dis_SNFKG , SUM(TotalLtr_ItemWiseDemand)TotalLtr_ItemWiseDemand , SUM(FATKGDemand)FATKGDemand , SUM(SNFKGDemand)SNFKGDemand , SUM(Milk_WeightProc)Milk_WeightProc , SUM(FATKGProc)FATKGProc , SUM(SNFKGProc)SNFKGProc ,
+                        qry = "  Select max(SNo)As SNo, max([Union Name])[Union Name] , MAX(Fromdate)Fromdate , MAX(Todate)Todate , MAX(username)username , SUM(Dis_QtyInLTR)Dis_QtyInLTR, SUM(Dis_FATKG)Dis_FATKG , SUM(Dis_SNFKG)Dis_SNFKG , SUM(TotalLtr_ItemWiseDemand)TotalLtr_ItemWiseDemand , SUM(FATKGDemand)FATKGDemand , SUM(SNFKGDemand)SNFKGDemand , SUM(Milk_WeightProc)Milk_WeightProc , SUM(FATKGProc)FATKGProc , SUM(SNFKGProc)SNFKGProc ,
                         SUM(Sale_Voucher)Sale_Voucher , SUM(Purchase_Voucher)Purchase_Voucher , MAX(Last_Salary)Last_Salary from ( " & Environment.NewLine & " "
                     End If
-                    Qry = " select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                    query = " select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
                         '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
                     ISNULL(SUM(Dis_Disbursement.Dis_QtyInLTR), 0) AS Dis_QtyInLTR,
                     ISNULL(SUM(Dis_Disbursement.Dis_FATKG), 0) AS Dis_FATKG,
@@ -427,10 +429,10 @@ WHERE CONVERT(DATE, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "
 left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_HEAD on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_HEAD.Document_Code
 where  CONVERT(DATE, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_HEAD.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + status7 + ") AS Sale_invoice,
 (select SUM(TOTAL_AMOUNT) AS Purchase_Voucher from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_PURCHASE_INVOICE_HEAD where  CONVERT(DATE, DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + status8 + ") AS Milk_Purchase_invoice)final"
-                    query += Qry
+
 
                     If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "BKN") = CompairStringResult.Equal Then
-                        query += " union all " & Environment.NewLine & "  select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                        query = " " & qry & "" & query & " union all " & Environment.NewLine & "  select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
                         '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
                     ISNULL(SUM(Dis_Disbursement.Dis_QtyInLTR), 0) AS Dis_QtyInLTR,
                     ISNULL(SUM(Dis_Disbursement.Dis_FATKG), 0) AS Dis_FATKG,
@@ -609,7 +611,7 @@ where  CONVERT(DATE, [BKNTEST].[dbo].TSPL_SD_SALE_INVOICE_HEAD.Document_Date, 10
 
                     If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "BNS") = CompairStringResult.Equal Then
 
-                        query += " union all " & Environment.NewLine & "  select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                        query = " " & qry & "" & query & " union all " & Environment.NewLine & "  select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
                                             '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
                                         ISNULL(SUM(Dis_Disbursement.Dis_QtyInLTR), 0) AS Dis_QtyInLTR,
                                         ISNULL(SUM(Dis_Disbursement.Dis_FATKG), 0) AS Dis_FATKG,
@@ -786,7 +788,7 @@ where  CONVERT(DATE, [BKNTEST].[dbo].TSPL_SD_SALE_INVOICE_HEAD.Document_Date, 10
                     End If
 
                     If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "CHT") = CompairStringResult.Equal Then
-                        query += " union all " & Environment.NewLine & "  select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                        query = " " & qry & "" & query & " union all " & Environment.NewLine & "  select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
                                             '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
                                         ISNULL(SUM(Dis_Disbursement.Dis_QtyInLTR), 0) AS Dis_QtyInLTR,
                                         ISNULL(SUM(Dis_Disbursement.Dis_FATKG), 0) AS Dis_FATKG,
@@ -961,7 +963,7 @@ where  CONVERT(DATE, [BKNTEST].[dbo].TSPL_SD_SALE_INVOICE_HEAD.Document_Date, 10
                     End If
 
                     If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "RJS") = CompairStringResult.Equal Then
-                        query += " union all " & Environment.NewLine & "  select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                        query = " " & qry & "" & query & " union all " & Environment.NewLine & "  select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
                                             '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
                                         ISNULL(SUM(Dis_Disbursement.Dis_QtyInLTR), 0) AS Dis_QtyInLTR,
                                         ISNULL(SUM(Dis_Disbursement.Dis_FATKG), 0) AS Dis_FATKG,
@@ -1137,9 +1139,10 @@ where  CONVERT(DATE, [BKNTEST].[dbo].TSPL_SD_SALE_INVOICE_HEAD.Document_Date, 10
                     (select SUM(TOTAL_AMOUNT) AS Purchase_Voucher from [Rajsamand].[dbo].TSPL_MILK_PURCHASE_INVOICE_HEAD where  CONVERT(DATE, DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + status8 + ") AS Milk_Purchase_invoice)final ) xx group by SNo "
 
                     End If
+                    dtUnion = clsDBFuncationality.GetDataTable(query)
+                    dt2.Merge(dtUnion)
                 Next
             End If
-            Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
             If dt2 IsNot Nothing OrElse dt2.Rows.Count > 0 Then
                 If print = False Then
                     gv1.DataSource = Nothing
