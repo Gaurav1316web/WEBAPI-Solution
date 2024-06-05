@@ -191,7 +191,7 @@ Public Class rptmilkunion
                 common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
                 Exit Sub
             End If
-
+            Dim Qry As String = ""
             Dim docNo As String = ""
             query = " 
     SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') "
@@ -249,7 +249,11 @@ Public Class rptmilkunion
                         status8 = " "
                         status9 = " "
                     End If
-                    query += " select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                    If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "BKN") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "CHT") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "BNS") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "RJS") = CompairStringResult.Equal Then
+                        query += "  Select max(SNo)As SNo, max([Union Name])[Union Name] , MAX(Fromdate)Fromdate , MAX(Todate)Todate , MAX(username)username , SUM(Dis_QtyInLTR)Dis_QtyInLTR, SUM(Dis_FATKG)Dis_FATKG , SUM(Dis_SNFKG)Dis_SNFKG , SUM(TotalLtr_ItemWiseDemand)TotalLtr_ItemWiseDemand , SUM(FATKGDemand)FATKGDemand , SUM(SNFKGDemand)SNFKGDemand , SUM(Milk_WeightProc)Milk_WeightProc , SUM(FATKGProc)FATKGProc , SUM(SNFKGProc)SNFKGProc ,
+                        SUM(Sale_Voucher)Sale_Voucher , SUM(Purchase_Voucher)Purchase_Voucher , MAX(Last_Salary)Last_Salary from ( " & Environment.NewLine & " "
+                    End If
+                    Qry = " select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
                         '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
                     ISNULL(SUM(Dis_Disbursement.Dis_QtyInLTR), 0) AS Dis_QtyInLTR,
                     ISNULL(SUM(Dis_Disbursement.Dis_FATKG), 0) AS Dis_FATKG,
@@ -423,10 +427,718 @@ WHERE CONVERT(DATE, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "
 left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_HEAD on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_HEAD.Document_Code
 where  CONVERT(DATE, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_HEAD.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + status7 + ") AS Sale_invoice,
 (select SUM(TOTAL_AMOUNT) AS Purchase_Voucher from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_PURCHASE_INVOICE_HEAD where  CONVERT(DATE, DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + status8 + ") AS Milk_Purchase_invoice)final"
+                    query += Qry
 
+                    If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "BKN") = CompairStringResult.Equal Then
+                        query += " union all " & Environment.NewLine & "  select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                        '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
+                    ISNULL(SUM(Dis_Disbursement.Dis_QtyInLTR), 0) AS Dis_QtyInLTR,
+                    ISNULL(SUM(Dis_Disbursement.Dis_FATKG), 0) AS Dis_FATKG,
+                    ISNULL(SUM(Dis_Disbursement.Dis_SNFKG), 0) AS Dis_SNFKG,
+                    ISNULL(SUM(Dis_Demand.TotalLtr_ItemWiseDemand), 0) AS TotalLtr_ItemWiseDemand,
+                    ISNULL(SUM(Dis_Demand.FATKGDemand), 0) AS FATKGDemand,
+                    ISNULL(SUM(Dis_Demand.SNFKGDemand), 0) AS SNFKGDemand,
+                    ISNULL(SUM(Dis_Procurement.Milk_WeightProc), 0) AS Milk_WeightProc,
+                    ISNULL(SUM(Dis_Procurement.FATKGProc), 0) AS FATKGProc,
+                    ISNULL(SUM(Dis_Procurement.SNFKGProc), 0) AS SNFKGProc,
+                    ISNULL(SUM(Sale_invoice.Sale_Voucher),0) AS Sale_Voucher,
+					ISNULL(SUM(Milk_Purchase_invoice.Purchase_Voucher),0) AS Purchase_Voucher,
+                    (SELECT TOP 1 DATENAME(MONTH, [BKNTEST].[dbo].TSPL_PAYPERIOD_MASTER.DATE_TO) + ' ' + CONVERT(VARCHAR(4), YEAR([BKNTEST].[dbo].TSPL_PAYPERIOD_MASTER.DATE_TO)) FROM [BKNTEST].[dbo].TSPL_GENERATE_SALARY
+left join [BKNTEST].[dbo].TSPL_PAYPERIOD_MASTER on [BKNTEST].[dbo].TSPL_GENERATE_SALARY.PAY_PERIOD_CODE = [BKNTEST].[dbo].TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE
+where 2=2" + status6 + " ORDER BY DATE_TO DESC) as Last_Salary
+                FROM 
+(SELECT 
+                     SUM(Dis_QtyInLTR) AS Dis_QtyInLTR,
+                        SUM(Dis_FATKG) AS Dis_FATKG,
+                        SUM(Dis_SNFKG) AS Dis_SNFKG
+                    FROM (
+                    ( SELECT 
+                        SUM(CASE 
+                                WHEN sd.Unit_code = 'POUCH' THEN sd.qty * icp.Conversion_Factor / ilt.Conversion_Factor 
+                                WHEN sd.Unit_code = 'CRATE' THEN sd.qty * icc.Conversion_Factor / ilt.Conversion_Factor
+                                WHEN sd.Unit_code = 'LTR' THEN sd.qty  
+                                ELSE 0 
+                            END) AS Dis_QtyInLTR,
+                        SUM(ISNULL((    
+                            CASE 
+                                WHEN sd.Unit_code = 'POUCH' THEN sd.qty * icp.Conversion_Factor / ilt.Conversion_Factor 
+                                WHEN sd.Unit_code = 'CRATE' THEN sd.qty * icc.Conversion_Factor / ilt.Conversion_Factor
+                                WHEN sd.Unit_code = 'LTR' THEN sd.qty  
+                                ELSE 0 
+                            END
+                        ) * STD_FatPer / 100,
+                        0
+                        )) AS Dis_FATKG,
+                        SUM(ISNULL((
+                            CASE 
+                                WHEN sd.Unit_code = 'POUCH' THEN sd.qty * icp.Conversion_Factor / ilt.Conversion_Factor 
+                                WHEN sd.Unit_code = 'CRATE' THEN sd.qty * icc.Conversion_Factor / ilt.Conversion_Factor
+                                WHEN sd.Unit_code = 'LTR' THEN sd.qty  
+                                ELSE 0 
+                            END
+                        ) * STD_SNFPer / 100,
+                        0
+                        )) AS Dis_SNFKG
+                    FROM 
+                         [BKNTEST].[dbo].TSPL_SD_SHIPMENT_DETAIL sd
+                    LEFT JOIN 
+                        [BKNTEST].[dbo].tspl_item_master im ON im.Item_Code = sd.Item_Code
+                    LEFT JOIN 
+                        [BKNTEST].[dbo].TSPL_SD_SHIPMENT_HEAD sh ON sh.Document_Code = sd.DOCUMENT_CODE
+                    LEFT JOIN 
+                        (SELECT Conversion_factor, Item_code FROM [BKNTEST].[dbo].TSPL_ITEM_UOM_DETAIL WHERE UOM_code = 'Crate') AS icc ON icc.Item_code = sd.Item_Code
+                    LEFT JOIN 
+                        (SELECT Conversion_factor, Item_code FROM [BKNTEST].[dbo].TSPL_ITEM_UOM_DETAIL WHERE UOM_code = 'Pouch') AS icp ON icp.Item_code = sd.Item_Code
+                    LEFT JOIN 
+                        (SELECT Conversion_factor, Item_code FROM [BKNTEST].[dbo].TSPL_ITEM_UOM_DETAIL WHERE UOM_code = 'LTR') AS ilt ON ilt.Item_code = sd.Item_Code
+                    WHERE 
+                        CONVERT(DATE, sh.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                        AND im.IsTaxable = 0 
+                        AND im.Is_FreshItem = 1  
+                        " + status1 + "
+                        union all
+                        SELECT 
+                      cast(  SUM(xxxx.Qty) as decimal(18,2)) AS TotalLtr_ItemWiseDemand,
+                        SUM(xxxx.Fat_KG ) AS FATKGDemand,
+                        SUM(xxxx.SNF_KG) AS SNFKGDemand
+from (
+SELECT case when isnull(ConvertDiv.Conversion_Factor,0)=0 then 0 else  [BKNTEST].[dbo].TSPL_Dispatch_Detail_BulkSale.Qty*ConvertMul.Conversion_Factor/ConvertDiv.Conversion_Factor end as Qty ,[BKNTEST].[dbo].TSPL_Dispatch_Detail_BulkSale.Fat_KG ,[BKNTEST].[dbo].TSPL_Dispatch_Detail_BulkSale.SNF_KG,[BKNTEST].[dbo].TSPL_Dispatch_Detail_BulkSale.Unit_code
+FROM  [BKNTEST].[dbo].TSPL_Dispatch_Detail_BulkSale
+LEFT JOIN  [BKNTEST].[dbo].TSPL_Dispatch_BulkSale  ON [BKNTEST].[dbo].TSPL_Dispatch_BulkSale.Document_No = [BKNTEST].[dbo].TSPL_Dispatch_Detail_BulkSale.Document_No
+inner join [BKNTEST].[dbo].TSPL_ITEM_UOM_DETAIL as ConvertMul on ConvertMul.Item_Code=[BKNTEST].[dbo].TSPL_Dispatch_Detail_BulkSale.Item_Code and ConvertMul.UOM_Code=[BKNTEST].[dbo].TSPL_Dispatch_Detail_BulkSale.Unit_code 
+inner join [BKNTEST].[dbo].TSPL_ITEM_UOM_DETAIL as ConvertDiv on ConvertDiv .Item_Code=[BKNTEST].[dbo].TSPL_Dispatch_Detail_BulkSale.Item_Code and ConvertDiv.UOM_Code='LTR'  
+
+WHERE CONVERT(DATE, [BKNTEST].[dbo].TSPL_Dispatch_BulkSale.Document_Date, 103)  BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                            " + status9 + "
+)xxxx ))Disp_BUlksale
+                    ) AS Dis_Disbursement,
+
+
+                        (SELECT 
+                        SUM(TotalLtr_ItemWiseDemand) AS TotalLtr_ItemWiseDemand,
+                        SUM(FATKGDemand) AS FATKGDemand,
+                        SUM(SNFKGDemand) AS SNFKGDemand
+                    FROM (
+                    (SELECT 
+                        SUM(TotalLtr_ItemWise) AS TotalLtr_ItemWiseDemand,
+                        SUM(TotalLtr_ItemWise * im.STD_FatPer / 100) AS FATKGDemand,
+                        SUM(TotalLtr_ItemWise * im.STD_SNFPer / 100) AS SNFKGDemand
+                    FROM 
+                        [BKNTEST].[dbo].TSPL_DEMAND_BOOKING_DETAIL dbd
+                    LEFT JOIN 
+                        [BKNTEST].[dbo].TSPL_DEMAND_BOOKING_master dbm ON dbm.Document_No = dbd.Document_No
+                    LEFT JOIN 
+                        [BKNTEST].[dbo].TSPL_ITEM_MASTER im ON im.Item_Code = dbd.Item_Code
+                    WHERE 
+                        CONVERT(DATE, dbm.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                        AND im.IsTaxable = 0
+                        AND im.Is_FreshItem = 1
+                        " + status3 + " 
+                        union all
+                        SELECT 
+                      cast(  SUM(xxxx.Qty) as decimal(18,2)) AS TotalLtr_ItemWiseDemand,
+                        SUM(xxxx.Fat_KG ) AS FATKGDemand,
+                        SUM(xxxx.SNF_KG) AS SNFKGDemand
+from (
+SELECT case when isnull(ConvertDiv.Conversion_Factor,0)=0 then 0 else  [BKNTEST].[dbo].TSPL_Dispatch_Detail_BulkSale.Qty*ConvertMul.Conversion_Factor/ConvertDiv.Conversion_Factor end as Qty ,[BKNTEST].[dbo].TSPL_Dispatch_Detail_BulkSale.Fat_KG ,[BKNTEST].[dbo].TSPL_Dispatch_Detail_BulkSale.SNF_KG,[BKNTEST].[dbo].TSPL_Dispatch_Detail_BulkSale.Unit_code
+FROM  [BKNTEST].[dbo].TSPL_Dispatch_Detail_BulkSale
+LEFT JOIN  [BKNTEST].[dbo].TSPL_Dispatch_BulkSale  ON [BKNTEST].[dbo].TSPL_Dispatch_BulkSale.Document_No = [BKNTEST].[dbo].TSPL_Dispatch_Detail_BulkSale.Document_No
+inner join [BKNTEST].[dbo].TSPL_ITEM_UOM_DETAIL as ConvertMul on ConvertMul.Item_Code=[BKNTEST].[dbo].TSPL_Dispatch_Detail_BulkSale.Item_Code and ConvertMul.UOM_Code=[BKNTEST].[dbo].TSPL_Dispatch_Detail_BulkSale.Unit_code 
+inner join [BKNTEST].[dbo].TSPL_ITEM_UOM_DETAIL as ConvertDiv on ConvertDiv .Item_Code=[BKNTEST].[dbo].TSPL_Dispatch_Detail_BulkSale.Item_Code and ConvertDiv.UOM_Code='LTR'  
+
+WHERE CONVERT(DATE, [BKNTEST].[dbo].TSPL_Dispatch_BulkSale.Document_Date, 103)  BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                            " + status9 + "
+)xxxx ))Disp_BUlksale
+                    ) AS Dis_Demand,
+
+
+
+                    (SELECT 
+                        SUM(milk_weight) AS Milk_WeightProc,
+                        SUM(fatkg) AS FATKGProc,
+                        SUM(SNFKG) AS SNFKGProc
+                    FROM (
+                        SELECT 
+                            SUM(Milk_Weight) AS Milk_Weight,
+                            SUM(CAST(Milk_Weight * FAT / 100 AS DECIMAL(18,3))) AS FATKg,
+                            SUM(CAST(Milk_Weight * SNF / 100 AS DECIMAL(18,3))) AS SNFKG
+                        FROM 
+                            [BKNTEST].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL mud
+                        LEFT JOIN 
+                            [BKNTEST].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_HEAD muh ON muh.Document_No = mud.Document_No
+                        WHERE 
+                            CONVERT(DATE, muh.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                            " + status4 + "
+
+                        UNION ALL
+
+                        SELECT 
+                            SUM(Milk_Weight) AS Milk_Weight,
+                            SUM(Milk_Weight * FAT / 100) AS FATKG,
+                            SUM(Milk_Weight * SNF / 100) AS SNFKG
+                        FROM 
+                            [BKNTEST].[dbo].TSPL_MILK_SHIFT_UPLOADER_DETAIL msd
+                        LEFT JOIN 
+                            [BKNTEST].[dbo].TSPL_MILK_SHIFT_UPLOADER_HEAD msh ON msh.Document_No = msd.Document_No
+                        WHERE 
+                            CONVERT(DATE, msh.Shift_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                            " + status5 + "
+
+                        UNION ALL
+
+                        SELECT 
+                            ISNULL(SUM(QTY),0) AS QTY,
+                            ISNULL(SUM(FATKG),0) AS FATKG,
+                            ISNULL(SUM(SNFKG),0) AS SNFKG
+                        FROM 
+                            [BKNTEST].[dbo].TSPL_MILK_COLLECTION_DCS_DETAIL mcd
+                        LEFT JOIN 
+                            [BKNTEST].[dbo].TSPL_MILK_COLLECTION_DCS mcs ON mcs.Document_No = mcd.Document_No
+                        WHERE 
+                           mcs.Status = 0
+                           AND
+                            CONVERT(DATE, mcs.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                        ) AS Procurement
+                    ) AS Dis_Procurement,
+                    (select sum([BKNTEST].[dbo].TSPL_SD_SALE_INVOICE_DETAIL.Total_Basic_Amt) as Sale_Voucher from [BKNTEST].[dbo].TSPL_SD_SALE_INVOICE_DETAIL
+left outer join [BKNTEST].[dbo].TSPL_SD_SALE_INVOICE_HEAD on [BKNTEST].[dbo].TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE = [BKNTEST].[dbo].TSPL_SD_SALE_INVOICE_HEAD.Document_Code
+where  CONVERT(DATE, [BKNTEST].[dbo].TSPL_SD_SALE_INVOICE_HEAD.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + status7 + ") AS Sale_invoice,
+(select SUM(TOTAL_AMOUNT) AS Purchase_Voucher from [BKNTEST].[dbo].TSPL_MILK_PURCHASE_INVOICE_HEAD where  CONVERT(DATE, DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + status8 + ") AS Milk_Purchase_invoice)final ) xx group by SNo "
+
+                    End If
+
+                    If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "BNS") = CompairStringResult.Equal Then
+
+                        query += " union all " & Environment.NewLine & "  select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                                            '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
+                                        ISNULL(SUM(Dis_Disbursement.Dis_QtyInLTR), 0) AS Dis_QtyInLTR,
+                                        ISNULL(SUM(Dis_Disbursement.Dis_FATKG), 0) AS Dis_FATKG,
+                                        ISNULL(SUM(Dis_Disbursement.Dis_SNFKG), 0) AS Dis_SNFKG,
+                                        ISNULL(SUM(Dis_Demand.TotalLtr_ItemWiseDemand), 0) AS TotalLtr_ItemWiseDemand,
+                                        ISNULL(SUM(Dis_Demand.FATKGDemand), 0) AS FATKGDemand,
+                                        ISNULL(SUM(Dis_Demand.SNFKGDemand), 0) AS SNFKGDemand,
+                                        ISNULL(SUM(Dis_Procurement.Milk_WeightProc), 0) AS Milk_WeightProc,
+                                        ISNULL(SUM(Dis_Procurement.FATKGProc), 0) AS FATKGProc,
+                                        ISNULL(SUM(Dis_Procurement.SNFKGProc), 0) AS SNFKGProc,
+                                        ISNULL(SUM(Sale_invoice.Sale_Voucher),0) AS Sale_Voucher,
+                    					ISNULL(SUM(Milk_Purchase_invoice.Purchase_Voucher),0) AS Purchase_Voucher,
+                                        (SELECT TOP 1 DATENAME(MONTH, [Banswara].[dbo].TSPL_PAYPERIOD_MASTER.DATE_TO) + ' ' + CONVERT(VARCHAR(4), YEAR([Banswara].[dbo].TSPL_PAYPERIOD_MASTER.DATE_TO)) FROM [Banswara].[dbo].TSPL_GENERATE_SALARY
+                    left join [Banswara].[dbo].TSPL_PAYPERIOD_MASTER on [Banswara].[dbo].TSPL_GENERATE_SALARY.PAY_PERIOD_CODE = [Banswara].[dbo].TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE
+                    where 2=2" + status6 + " ORDER BY DATE_TO DESC) as Last_Salary
+                                    FROM 
+                    (SELECT 
+                                         SUM(Dis_QtyInLTR) AS Dis_QtyInLTR,
+                                            SUM(Dis_FATKG) AS Dis_FATKG,
+                                            SUM(Dis_SNFKG) AS Dis_SNFKG
+                                        FROM (
+                                        ( SELECT 
+                                            SUM(CASE 
+                                                    WHEN sd.Unit_code = 'POUCH' THEN sd.qty * icp.Conversion_Factor / ilt.Conversion_Factor 
+                                                    WHEN sd.Unit_code = 'CRATE' THEN sd.qty * icc.Conversion_Factor / ilt.Conversion_Factor
+                                                    WHEN sd.Unit_code = 'LTR' THEN sd.qty  
+                                                    ELSE 0 
+                                                END) AS Dis_QtyInLTR,
+                                            SUM(ISNULL((    
+                                                CASE 
+                                                    WHEN sd.Unit_code = 'POUCH' THEN sd.qty * icp.Conversion_Factor / ilt.Conversion_Factor 
+                                                    WHEN sd.Unit_code = 'CRATE' THEN sd.qty * icc.Conversion_Factor / ilt.Conversion_Factor
+                                                    WHEN sd.Unit_code = 'LTR' THEN sd.qty  
+                                                    ELSE 0 
+                                                END
+                                            ) * STD_FatPer / 100,
+                                            0
+                                            )) AS Dis_FATKG,
+                                            SUM(ISNULL((
+                                                CASE 
+                                                    WHEN sd.Unit_code = 'POUCH' THEN sd.qty * icp.Conversion_Factor / ilt.Conversion_Factor 
+                                                    WHEN sd.Unit_code = 'CRATE' THEN sd.qty * icc.Conversion_Factor / ilt.Conversion_Factor
+                                                    WHEN sd.Unit_code = 'LTR' THEN sd.qty  
+                                                    ELSE 0 
+                                                END
+                                            ) * STD_SNFPer / 100,
+                                            0
+                                            )) AS Dis_SNFKG
+                                        FROM 
+                                             [Banswara].[dbo].TSPL_SD_SHIPMENT_DETAIL sd
+                                        LEFT JOIN 
+                                            [Banswara].[dbo].tspl_item_master im ON im.Item_Code = sd.Item_Code
+                                        LEFT JOIN 
+                                            [Banswara].[dbo].TSPL_SD_SHIPMENT_HEAD sh ON sh.Document_Code = sd.DOCUMENT_CODE
+                                        LEFT JOIN 
+                                            (SELECT Conversion_factor, Item_code FROM [Banswara].[dbo].TSPL_ITEM_UOM_DETAIL WHERE UOM_code = 'Crate') AS icc ON icc.Item_code = sd.Item_Code
+                                        LEFT JOIN 
+                                            (SELECT Conversion_factor, Item_code FROM [Banswara].[dbo].TSPL_ITEM_UOM_DETAIL WHERE UOM_code = 'Pouch') AS icp ON icp.Item_code = sd.Item_Code
+                                        LEFT JOIN 
+                                            (SELECT Conversion_factor, Item_code FROM [Banswara].[dbo].TSPL_ITEM_UOM_DETAIL WHERE UOM_code = 'LTR') AS ilt ON ilt.Item_code = sd.Item_Code
+                                        WHERE 
+                                            CONVERT(DATE, sh.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                                            AND im.IsTaxable = 0 
+                                            AND im.Is_FreshItem = 1  
+                                            " + status1 + "
+                                            union all
+                                            SELECT 
+                                          cast(  SUM(xxxx.Qty) as decimal(18,2)) AS TotalLtr_ItemWiseDemand,
+                                            SUM(xxxx.Fat_KG ) AS FATKGDemand,
+                                            SUM(xxxx.SNF_KG) AS SNFKGDemand
+                    from (
+                    SELECT case when isnull(ConvertDiv.Conversion_Factor,0)=0 then 0 else  [Banswara].[dbo].TSPL_Dispatch_Detail_BulkSale.Qty*ConvertMul.Conversion_Factor/ConvertDiv.Conversion_Factor end as Qty ,[Banswara].[dbo].TSPL_Dispatch_Detail_BulkSale.Fat_KG ,[Banswara].[dbo].TSPL_Dispatch_Detail_BulkSale.SNF_KG,[Banswara].[dbo].TSPL_Dispatch_Detail_BulkSale.Unit_code
+                    FROM  [Banswara].[dbo].TSPL_Dispatch_Detail_BulkSale
+                    LEFT JOIN  [Banswara].[dbo].TSPL_Dispatch_BulkSale  ON [Banswara].[dbo].TSPL_Dispatch_BulkSale.Document_No = [Banswara].[dbo].TSPL_Dispatch_Detail_BulkSale.Document_No
+                    inner join [Banswara].[dbo].TSPL_ITEM_UOM_DETAIL as ConvertMul on ConvertMul.Item_Code=[Banswara].[dbo].TSPL_Dispatch_Detail_BulkSale.Item_Code and ConvertMul.UOM_Code=[Banswara].[dbo].TSPL_Dispatch_Detail_BulkSale.Unit_code 
+                    inner join [Banswara].[dbo].TSPL_ITEM_UOM_DETAIL as ConvertDiv on ConvertDiv .Item_Code=[Banswara].[dbo].TSPL_Dispatch_Detail_BulkSale.Item_Code and ConvertDiv.UOM_Code='LTR'  
+
+                    WHERE CONVERT(DATE, [Banswara].[dbo].TSPL_Dispatch_BulkSale.Document_Date, 103)  BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                                                " + status9 + "
+                    )xxxx ))Disp_BUlksale
+                                        ) AS Dis_Disbursement,
+
+
+                                            (SELECT 
+                                            SUM(TotalLtr_ItemWiseDemand) AS TotalLtr_ItemWiseDemand,
+                                            SUM(FATKGDemand) AS FATKGDemand,
+                                            SUM(SNFKGDemand) AS SNFKGDemand
+                                        FROM (
+                                        (SELECT 
+                                            SUM(TotalLtr_ItemWise) AS TotalLtr_ItemWiseDemand,
+                                            SUM(TotalLtr_ItemWise * im.STD_FatPer / 100) AS FATKGDemand,
+                                            SUM(TotalLtr_ItemWise * im.STD_SNFPer / 100) AS SNFKGDemand
+                                        FROM 
+                                            [Banswara].[dbo].TSPL_DEMAND_BOOKING_DETAIL dbd
+                                        LEFT JOIN 
+                                            [Banswara].[dbo].TSPL_DEMAND_BOOKING_master dbm ON dbm.Document_No = dbd.Document_No
+                                        LEFT JOIN 
+                                            [Banswara].[dbo].TSPL_ITEM_MASTER im ON im.Item_Code = dbd.Item_Code
+                                        WHERE 
+                                            CONVERT(DATE, dbm.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                                            AND im.IsTaxable = 0
+                                            AND im.Is_FreshItem = 1
+                                            " + status3 + " 
+                                            union all
+                                            SELECT 
+                                          cast(  SUM(xxxx.Qty) as decimal(18,2)) AS TotalLtr_ItemWiseDemand,
+                                            SUM(xxxx.Fat_KG ) AS FATKGDemand,
+                                            SUM(xxxx.SNF_KG) AS SNFKGDemand
+                    from (
+                    SELECT case when isnull(ConvertDiv.Conversion_Factor,0)=0 then 0 else  [Banswara].[dbo].TSPL_Dispatch_Detail_BulkSale.Qty*ConvertMul.Conversion_Factor/ConvertDiv.Conversion_Factor end as Qty ,[Banswara].[dbo].TSPL_Dispatch_Detail_BulkSale.Fat_KG ,[Banswara].[dbo].TSPL_Dispatch_Detail_BulkSale.SNF_KG,[Banswara].[dbo].TSPL_Dispatch_Detail_BulkSale.Unit_code
+                    FROM  [Banswara].[dbo].TSPL_Dispatch_Detail_BulkSale
+                    LEFT JOIN  [Banswara].[dbo].TSPL_Dispatch_BulkSale  ON [Banswara].[dbo].TSPL_Dispatch_BulkSale.Document_No = [Banswara].[dbo].TSPL_Dispatch_Detail_BulkSale.Document_No
+                    inner join [Banswara].[dbo].TSPL_ITEM_UOM_DETAIL as ConvertMul on ConvertMul.Item_Code=[Banswara].[dbo].TSPL_Dispatch_Detail_BulkSale.Item_Code and ConvertMul.UOM_Code=[Banswara].[dbo].TSPL_Dispatch_Detail_BulkSale.Unit_code 
+                    inner join [Banswara].[dbo].TSPL_ITEM_UOM_DETAIL as ConvertDiv on ConvertDiv .Item_Code=[Banswara].[dbo].TSPL_Dispatch_Detail_BulkSale.Item_Code and ConvertDiv.UOM_Code='LTR'  
+
+                    WHERE CONVERT(DATE, [Banswara].[dbo].TSPL_Dispatch_BulkSale.Document_Date, 103)  BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                                                " + status9 + "
+                    )xxxx ))Disp_BUlksale
+                                        ) AS Dis_Demand,
+
+
+
+                                        (SELECT 
+                                            SUM(milk_weight) AS Milk_WeightProc,
+                                            SUM(fatkg) AS FATKGProc,
+                                            SUM(SNFKG) AS SNFKGProc
+                                        FROM (
+                                            SELECT 
+                                                SUM(Milk_Weight) AS Milk_Weight,
+                                                SUM(CAST(Milk_Weight * FAT / 100 AS DECIMAL(18,3))) AS FATKg,
+                                                SUM(CAST(Milk_Weight * SNF / 100 AS DECIMAL(18,3))) AS SNFKG
+                                            FROM 
+                                                [Banswara].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL mud
+                                            LEFT JOIN 
+                                                [Banswara].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_HEAD muh ON muh.Document_No = mud.Document_No
+                                            WHERE 
+                                                CONVERT(DATE, muh.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                                                " + status4 + "
+
+                                            UNION ALL
+
+                                            SELECT 
+                                                SUM(Milk_Weight) AS Milk_Weight,
+                                                SUM(Milk_Weight * FAT / 100) AS FATKG,
+                                                SUM(Milk_Weight * SNF / 100) AS SNFKG
+                                            FROM 
+                                                [Banswara].[dbo].TSPL_MILK_SHIFT_UPLOADER_DETAIL msd
+                                            LEFT JOIN 
+                                                [Banswara].[dbo].TSPL_MILK_SHIFT_UPLOADER_HEAD msh ON msh.Document_No = msd.Document_No
+                                            WHERE 
+                                                CONVERT(DATE, msh.Shift_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                                                " + status5 + "
+
+                                            UNION ALL
+
+                                            SELECT 
+                                                ISNULL(SUM(QTY),0) AS QTY,
+                                                ISNULL(SUM(FATKG),0) AS FATKG,
+                                                ISNULL(SUM(SNFKG),0) AS SNFKG
+                                            FROM 
+                                                [Banswara].[dbo].TSPL_MILK_COLLECTION_DCS_DETAIL mcd
+                                            LEFT JOIN 
+                                                [Banswara].[dbo].TSPL_MILK_COLLECTION_DCS mcs ON mcs.Document_No = mcd.Document_No
+                                            WHERE 
+                                               mcs.Status = 0
+                                               AND
+                                                CONVERT(DATE, mcs.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                                            ) AS Procurement
+                                        ) AS Dis_Procurement,
+                                        (select sum([Banswara].[dbo].TSPL_SD_SALE_INVOICE_DETAIL.Total_Basic_Amt) as Sale_Voucher from [Banswara].[dbo].TSPL_SD_SALE_INVOICE_DETAIL
+                    left outer join [Banswara].[dbo].TSPL_SD_SALE_INVOICE_HEAD on [Banswara].[dbo].TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE = [Banswara].[dbo].TSPL_SD_SALE_INVOICE_HEAD.Document_Code
+                    where  CONVERT(DATE, [Banswara].[dbo].TSPL_SD_SALE_INVOICE_HEAD.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + status7 + ") AS Sale_invoice,
+                    (select SUM(TOTAL_AMOUNT) AS Purchase_Voucher from [Banswara].[dbo].TSPL_MILK_PURCHASE_INVOICE_HEAD where  CONVERT(DATE, DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + status8 + ") AS Milk_Purchase_invoice)final ) xx group by SNo "
+                    End If
+
+                    If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "CHT") = CompairStringResult.Equal Then
+                        query += " union all " & Environment.NewLine & "  select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                                            '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
+                                        ISNULL(SUM(Dis_Disbursement.Dis_QtyInLTR), 0) AS Dis_QtyInLTR,
+                                        ISNULL(SUM(Dis_Disbursement.Dis_FATKG), 0) AS Dis_FATKG,
+                                        ISNULL(SUM(Dis_Disbursement.Dis_SNFKG), 0) AS Dis_SNFKG,
+                                        ISNULL(SUM(Dis_Demand.TotalLtr_ItemWiseDemand), 0) AS TotalLtr_ItemWiseDemand,
+                                        ISNULL(SUM(Dis_Demand.FATKGDemand), 0) AS FATKGDemand,
+                                        ISNULL(SUM(Dis_Demand.SNFKGDemand), 0) AS SNFKGDemand,
+                                        ISNULL(SUM(Dis_Procurement.Milk_WeightProc), 0) AS Milk_WeightProc,
+                                        ISNULL(SUM(Dis_Procurement.FATKGProc), 0) AS FATKGProc,
+                                        ISNULL(SUM(Dis_Procurement.SNFKGProc), 0) AS SNFKGProc,
+                                        ISNULL(SUM(Sale_invoice.Sale_Voucher),0) AS Sale_Voucher,
+                    					ISNULL(SUM(Milk_Purchase_invoice.Purchase_Voucher),0) AS Purchase_Voucher,
+                                        (SELECT TOP 1 DATENAME(MONTH, [CHITTORGARH].[dbo].TSPL_PAYPERIOD_MASTER.DATE_TO) + ' ' + CONVERT(VARCHAR(4), YEAR([CHITTORGARH].[dbo].TSPL_PAYPERIOD_MASTER.DATE_TO)) FROM [CHITTORGARH].[dbo].TSPL_GENERATE_SALARY
+                    left join [CHITTORGARH].[dbo].TSPL_PAYPERIOD_MASTER on [CHITTORGARH].[dbo].TSPL_GENERATE_SALARY.PAY_PERIOD_CODE = [CHITTORGARH].[dbo].TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE
+                    where 2=2" + status6 + " ORDER BY DATE_TO DESC) as Last_Salary
+                                    FROM 
+                    (SELECT 
+                                         SUM(Dis_QtyInLTR) AS Dis_QtyInLTR,
+                                            SUM(Dis_FATKG) AS Dis_FATKG,
+                                            SUM(Dis_SNFKG) AS Dis_SNFKG
+                                        FROM (
+                                        ( SELECT 
+                                            SUM(CASE 
+                                                    WHEN sd.Unit_code = 'POUCH' THEN sd.qty * icp.Conversion_Factor / ilt.Conversion_Factor 
+                                                    WHEN sd.Unit_code = 'CRATE' THEN sd.qty * icc.Conversion_Factor / ilt.Conversion_Factor
+                                                    WHEN sd.Unit_code = 'LTR' THEN sd.qty  
+                                                    ELSE 0 
+                                                END) AS Dis_QtyInLTR,
+                                            SUM(ISNULL((    
+                                                CASE 
+                                                    WHEN sd.Unit_code = 'POUCH' THEN sd.qty * icp.Conversion_Factor / ilt.Conversion_Factor 
+                                                    WHEN sd.Unit_code = 'CRATE' THEN sd.qty * icc.Conversion_Factor / ilt.Conversion_Factor
+                                                    WHEN sd.Unit_code = 'LTR' THEN sd.qty  
+                                                    ELSE 0 
+                                                END
+                                            ) * STD_FatPer / 100,
+                                            0
+                                            )) AS Dis_FATKG,
+                                            SUM(ISNULL((
+                                                CASE 
+                                                    WHEN sd.Unit_code = 'POUCH' THEN sd.qty * icp.Conversion_Factor / ilt.Conversion_Factor 
+                                                    WHEN sd.Unit_code = 'CRATE' THEN sd.qty * icc.Conversion_Factor / ilt.Conversion_Factor
+                                                    WHEN sd.Unit_code = 'LTR' THEN sd.qty  
+                                                    ELSE 0 
+                                                END
+                                            ) * STD_SNFPer / 100,
+                                            0
+                                            )) AS Dis_SNFKG
+                                        FROM 
+                                             [CHITTORGARH].[dbo].TSPL_SD_SHIPMENT_DETAIL sd
+                                        LEFT JOIN 
+                                            [CHITTORGARH].[dbo].tspl_item_master im ON im.Item_Code = sd.Item_Code
+                                        LEFT JOIN 
+                                            [CHITTORGARH].[dbo].TSPL_SD_SHIPMENT_HEAD sh ON sh.Document_Code = sd.DOCUMENT_CODE
+                                        LEFT JOIN 
+                                            (SELECT Conversion_factor, Item_code FROM [CHITTORGARH].[dbo].TSPL_ITEM_UOM_DETAIL WHERE UOM_code = 'Crate') AS icc ON icc.Item_code = sd.Item_Code
+                                        LEFT JOIN 
+                                            (SELECT Conversion_factor, Item_code FROM [CHITTORGARH].[dbo].TSPL_ITEM_UOM_DETAIL WHERE UOM_code = 'Pouch') AS icp ON icp.Item_code = sd.Item_Code
+                                        LEFT JOIN 
+                                            (SELECT Conversion_factor, Item_code FROM [CHITTORGARH].[dbo].TSPL_ITEM_UOM_DETAIL WHERE UOM_code = 'LTR') AS ilt ON ilt.Item_code = sd.Item_Code
+                                        WHERE 
+                                            CONVERT(DATE, sh.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                                            AND im.IsTaxable = 0 
+                                            AND im.Is_FreshItem = 1  
+                                            " + status1 + "
+                                            union all
+                                            SELECT 
+                                          cast(  SUM(xxxx.Qty) as decimal(18,2)) AS TotalLtr_ItemWiseDemand,
+                                            SUM(xxxx.Fat_KG ) AS FATKGDemand,
+                                            SUM(xxxx.SNF_KG) AS SNFKGDemand
+                    from (
+                    SELECT case when isnull(ConvertDiv.Conversion_Factor,0)=0 then 0 else  [CHITTORGARH].[dbo].TSPL_Dispatch_Detail_BulkSale.Qty*ConvertMul.Conversion_Factor/ConvertDiv.Conversion_Factor end as Qty ,[CHITTORGARH].[dbo].TSPL_Dispatch_Detail_BulkSale.Fat_KG ,[CHITTORGARH].[dbo].TSPL_Dispatch_Detail_BulkSale.SNF_KG,[CHITTORGARH].[dbo].TSPL_Dispatch_Detail_BulkSale.Unit_code
+                    FROM  [CHITTORGARH].[dbo].TSPL_Dispatch_Detail_BulkSale
+                    LEFT JOIN  [CHITTORGARH].[dbo].TSPL_Dispatch_BulkSale  ON [CHITTORGARH].[dbo].TSPL_Dispatch_BulkSale.Document_No = [CHITTORGARH].[dbo].TSPL_Dispatch_Detail_BulkSale.Document_No
+                    inner join [CHITTORGARH].[dbo].TSPL_ITEM_UOM_DETAIL as ConvertMul on ConvertMul.Item_Code=[CHITTORGARH].[dbo].TSPL_Dispatch_Detail_BulkSale.Item_Code and ConvertMul.UOM_Code=[CHITTORGARH].[dbo].TSPL_Dispatch_Detail_BulkSale.Unit_code 
+                    inner join [CHITTORGARH].[dbo].TSPL_ITEM_UOM_DETAIL as ConvertDiv on ConvertDiv .Item_Code=[CHITTORGARH].[dbo].TSPL_Dispatch_Detail_BulkSale.Item_Code and ConvertDiv.UOM_Code='LTR'  
+
+                    WHERE CONVERT(DATE, [CHITTORGARH].[dbo].TSPL_Dispatch_BulkSale.Document_Date, 103)  BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                                                " + status9 + "
+                    )xxxx ))Disp_BUlksale
+                                        ) AS Dis_Disbursement,
+
+
+                                            (SELECT 
+                                            SUM(TotalLtr_ItemWiseDemand) AS TotalLtr_ItemWiseDemand,
+                                            SUM(FATKGDemand) AS FATKGDemand,
+                                            SUM(SNFKGDemand) AS SNFKGDemand
+                                        FROM (
+                                        (SELECT 
+                                            SUM(TotalLtr_ItemWise) AS TotalLtr_ItemWiseDemand,
+                                            SUM(TotalLtr_ItemWise * im.STD_FatPer / 100) AS FATKGDemand,
+                                            SUM(TotalLtr_ItemWise * im.STD_SNFPer / 100) AS SNFKGDemand
+                                        FROM 
+                                            [CHITTORGARH].[dbo].TSPL_DEMAND_BOOKING_DETAIL dbd
+                                        LEFT JOIN 
+                                            [CHITTORGARH].[dbo].TSPL_DEMAND_BOOKING_master dbm ON dbm.Document_No = dbd.Document_No
+                                        LEFT JOIN 
+                                            [CHITTORGARH].[dbo].TSPL_ITEM_MASTER im ON im.Item_Code = dbd.Item_Code
+                                        WHERE 
+                                            CONVERT(DATE, dbm.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                                            AND im.IsTaxable = 0
+                                            AND im.Is_FreshItem = 1
+                                            " + status3 + " 
+                                            union all
+                                            SELECT 
+                                          cast(  SUM(xxxx.Qty) as decimal(18,2)) AS TotalLtr_ItemWiseDemand,
+                                            SUM(xxxx.Fat_KG ) AS FATKGDemand,
+                                            SUM(xxxx.SNF_KG) AS SNFKGDemand
+                    from (
+                    SELECT case when isnull(ConvertDiv.Conversion_Factor,0)=0 then 0 else  [CHITTORGARH].[dbo].TSPL_Dispatch_Detail_BulkSale.Qty*ConvertMul.Conversion_Factor/ConvertDiv.Conversion_Factor end as Qty ,[CHITTORGARH].[dbo].TSPL_Dispatch_Detail_BulkSale.Fat_KG ,[CHITTORGARH].[dbo].TSPL_Dispatch_Detail_BulkSale.SNF_KG,[CHITTORGARH].[dbo].TSPL_Dispatch_Detail_BulkSale.Unit_code
+                    FROM  [CHITTORGARH].[dbo].TSPL_Dispatch_Detail_BulkSale
+                    LEFT JOIN  [CHITTORGARH].[dbo].TSPL_Dispatch_BulkSale  ON [CHITTORGARH].[dbo].TSPL_Dispatch_BulkSale.Document_No = [CHITTORGARH].[dbo].TSPL_Dispatch_Detail_BulkSale.Document_No
+                    inner join [CHITTORGARH].[dbo].TSPL_ITEM_UOM_DETAIL as ConvertMul on ConvertMul.Item_Code=[CHITTORGARH].[dbo].TSPL_Dispatch_Detail_BulkSale.Item_Code and ConvertMul.UOM_Code=[CHITTORGARH].[dbo].TSPL_Dispatch_Detail_BulkSale.Unit_code 
+                    inner join [CHITTORGARH].[dbo].TSPL_ITEM_UOM_DETAIL as ConvertDiv on ConvertDiv .Item_Code=[CHITTORGARH].[dbo].TSPL_Dispatch_Detail_BulkSale.Item_Code and ConvertDiv.UOM_Code='LTR'  
+
+                    WHERE CONVERT(DATE, [CHITTORGARH].[dbo].TSPL_Dispatch_BulkSale.Document_Date, 103)  BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                                                " + status9 + "
+                    )xxxx ))Disp_BUlksale
+                                        ) AS Dis_Demand,
+
+                                        (SELECT 
+                                            SUM(milk_weight) AS Milk_WeightProc,
+                                            SUM(fatkg) AS FATKGProc,
+                                            SUM(SNFKG) AS SNFKGProc
+                                        FROM (
+                                            SELECT 
+                                                SUM(Milk_Weight) AS Milk_Weight,
+                                                SUM(CAST(Milk_Weight * FAT / 100 AS DECIMAL(18,3))) AS FATKg,
+                                                SUM(CAST(Milk_Weight * SNF / 100 AS DECIMAL(18,3))) AS SNFKG
+                                            FROM 
+                                                [CHITTORGARH].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL mud
+                                            LEFT JOIN 
+                                                [CHITTORGARH].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_HEAD muh ON muh.Document_No = mud.Document_No
+                                            WHERE 
+                                                CONVERT(DATE, muh.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                                                " + status4 + "
+
+                                            UNION ALL
+
+                                            SELECT 
+                                                SUM(Milk_Weight) AS Milk_Weight,
+                                                SUM(Milk_Weight * FAT / 100) AS FATKG,
+                                                SUM(Milk_Weight * SNF / 100) AS SNFKG
+                                            FROM 
+                                                [CHITTORGARH].[dbo].TSPL_MILK_SHIFT_UPLOADER_DETAIL msd
+                                            LEFT JOIN 
+                                                [CHITTORGARH].[dbo].TSPL_MILK_SHIFT_UPLOADER_HEAD msh ON msh.Document_No = msd.Document_No
+                                            WHERE 
+                                                CONVERT(DATE, msh.Shift_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                                                " + status5 + "
+
+                                            UNION ALL
+
+                                            SELECT 
+                                                ISNULL(SUM(QTY),0) AS QTY,
+                                                ISNULL(SUM(FATKG),0) AS FATKG,
+                                                ISNULL(SUM(SNFKG),0) AS SNFKG
+                                            FROM 
+                                                [CHITTORGARH].[dbo].TSPL_MILK_COLLECTION_DCS_DETAIL mcd
+                                            LEFT JOIN 
+                                                [CHITTORGARH].[dbo].TSPL_MILK_COLLECTION_DCS mcs ON mcs.Document_No = mcd.Document_No
+                                            WHERE 
+                                               mcs.Status = 0
+                                               AND
+                                                CONVERT(DATE, mcs.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                                            ) AS Procurement
+                                        ) AS Dis_Procurement,
+                                        (select sum([CHITTORGARH].[dbo].TSPL_SD_SALE_INVOICE_DETAIL.Total_Basic_Amt) as Sale_Voucher from [CHITTORGARH].[dbo].TSPL_SD_SALE_INVOICE_DETAIL
+                    left outer join [CHITTORGARH].[dbo].TSPL_SD_SALE_INVOICE_HEAD on [CHITTORGARH].[dbo].TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE = [CHITTORGARH].[dbo].TSPL_SD_SALE_INVOICE_HEAD.Document_Code
+                    where  CONVERT(DATE, [CHITTORGARH].[dbo].TSPL_SD_SALE_INVOICE_HEAD.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + status7 + ") AS Sale_invoice,
+                    (select SUM(TOTAL_AMOUNT) AS Purchase_Voucher from [CHITTORGARH].[dbo].TSPL_MILK_PURCHASE_INVOICE_HEAD where  CONVERT(DATE, DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + status8 + ") AS Milk_Purchase_invoice)final ) xx group by SNo "
+                    End If
+
+                    If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "RJS") = CompairStringResult.Equal Then
+                        query += " union all " & Environment.NewLine & "  select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                                            '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
+                                        ISNULL(SUM(Dis_Disbursement.Dis_QtyInLTR), 0) AS Dis_QtyInLTR,
+                                        ISNULL(SUM(Dis_Disbursement.Dis_FATKG), 0) AS Dis_FATKG,
+                                        ISNULL(SUM(Dis_Disbursement.Dis_SNFKG), 0) AS Dis_SNFKG,
+                                        ISNULL(SUM(Dis_Demand.TotalLtr_ItemWiseDemand), 0) AS TotalLtr_ItemWiseDemand,
+                                        ISNULL(SUM(Dis_Demand.FATKGDemand), 0) AS FATKGDemand,
+                                        ISNULL(SUM(Dis_Demand.SNFKGDemand), 0) AS SNFKGDemand,
+                                        ISNULL(SUM(Dis_Procurement.Milk_WeightProc), 0) AS Milk_WeightProc,
+                                        ISNULL(SUM(Dis_Procurement.FATKGProc), 0) AS FATKGProc,
+                                        ISNULL(SUM(Dis_Procurement.SNFKGProc), 0) AS SNFKGProc,
+                                        ISNULL(SUM(Sale_invoice.Sale_Voucher),0) AS Sale_Voucher,
+                    					ISNULL(SUM(Milk_Purchase_invoice.Purchase_Voucher),0) AS Purchase_Voucher,
+                                        (SELECT TOP 1 DATENAME(MONTH, [Rajsamand].[dbo].TSPL_PAYPERIOD_MASTER.DATE_TO) + ' ' + CONVERT(VARCHAR(4), YEAR([Rajsamand].[dbo].TSPL_PAYPERIOD_MASTER.DATE_TO)) FROM [Rajsamand].[dbo].TSPL_GENERATE_SALARY
+                    left join [Rajsamand].[dbo].TSPL_PAYPERIOD_MASTER on [Rajsamand].[dbo].TSPL_GENERATE_SALARY.PAY_PERIOD_CODE = [Rajsamand].[dbo].TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE
+                    where 2=2" + status6 + " ORDER BY DATE_TO DESC) as Last_Salary
+                                    FROM 
+                    (SELECT 
+                                         SUM(Dis_QtyInLTR) AS Dis_QtyInLTR,
+                                            SUM(Dis_FATKG) AS Dis_FATKG,
+                                            SUM(Dis_SNFKG) AS Dis_SNFKG
+                                        FROM (
+                                        ( SELECT 
+                                            SUM(CASE 
+                                                    WHEN sd.Unit_code = 'POUCH' THEN sd.qty * icp.Conversion_Factor / ilt.Conversion_Factor 
+                                                    WHEN sd.Unit_code = 'CRATE' THEN sd.qty * icc.Conversion_Factor / ilt.Conversion_Factor
+                                                    WHEN sd.Unit_code = 'LTR' THEN sd.qty  
+                                                    ELSE 0 
+                                                END) AS Dis_QtyInLTR,
+                                            SUM(ISNULL((    
+                                                CASE 
+                                                    WHEN sd.Unit_code = 'POUCH' THEN sd.qty * icp.Conversion_Factor / ilt.Conversion_Factor 
+                                                    WHEN sd.Unit_code = 'CRATE' THEN sd.qty * icc.Conversion_Factor / ilt.Conversion_Factor
+                                                    WHEN sd.Unit_code = 'LTR' THEN sd.qty  
+                                                    ELSE 0 
+                                                END
+                                            ) * STD_FatPer / 100,
+                                            0
+                                            )) AS Dis_FATKG,
+                                            SUM(ISNULL((
+                                                CASE 
+                                                    WHEN sd.Unit_code = 'POUCH' THEN sd.qty * icp.Conversion_Factor / ilt.Conversion_Factor 
+                                                    WHEN sd.Unit_code = 'CRATE' THEN sd.qty * icc.Conversion_Factor / ilt.Conversion_Factor
+                                                    WHEN sd.Unit_code = 'LTR' THEN sd.qty  
+                                                    ELSE 0 
+                                                END
+                                            ) * STD_SNFPer / 100,
+                                            0
+                                            )) AS Dis_SNFKG
+                                        FROM 
+                                             [Rajsamand].[dbo].TSPL_SD_SHIPMENT_DETAIL sd
+                                        LEFT JOIN 
+                                            [Rajsamand].[dbo].tspl_item_master im ON im.Item_Code = sd.Item_Code
+                                        LEFT JOIN 
+                                            [Rajsamand].[dbo].TSPL_SD_SHIPMENT_HEAD sh ON sh.Document_Code = sd.DOCUMENT_CODE
+                                        LEFT JOIN 
+                                            (SELECT Conversion_factor, Item_code FROM [Rajsamand].[dbo].TSPL_ITEM_UOM_DETAIL WHERE UOM_code = 'Crate') AS icc ON icc.Item_code = sd.Item_Code
+                                        LEFT JOIN 
+                                            (SELECT Conversion_factor, Item_code FROM [Rajsamand].[dbo].TSPL_ITEM_UOM_DETAIL WHERE UOM_code = 'Pouch') AS icp ON icp.Item_code = sd.Item_Code
+                                        LEFT JOIN 
+                                            (SELECT Conversion_factor, Item_code FROM [Rajsamand].[dbo].TSPL_ITEM_UOM_DETAIL WHERE UOM_code = 'LTR') AS ilt ON ilt.Item_code = sd.Item_Code
+                                        WHERE 
+                                            CONVERT(DATE, sh.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                                            AND im.IsTaxable = 0 
+                                            AND im.Is_FreshItem = 1  
+                                            " + status1 + "
+                                            union all
+                                            SELECT 
+                                          cast(  SUM(xxxx.Qty) as decimal(18,2)) AS TotalLtr_ItemWiseDemand,
+                                            SUM(xxxx.Fat_KG ) AS FATKGDemand,
+                                            SUM(xxxx.SNF_KG) AS SNFKGDemand
+                    from (
+                    SELECT case when isnull(ConvertDiv.Conversion_Factor,0)=0 then 0 else  [Rajsamand].[dbo].TSPL_Dispatch_Detail_BulkSale.Qty*ConvertMul.Conversion_Factor/ConvertDiv.Conversion_Factor end as Qty ,[Rajsamand].[dbo].TSPL_Dispatch_Detail_BulkSale.Fat_KG ,[Rajsamand].[dbo].TSPL_Dispatch_Detail_BulkSale.SNF_KG,[Rajsamand].[dbo].TSPL_Dispatch_Detail_BulkSale.Unit_code
+                    FROM  [Rajsamand].[dbo].TSPL_Dispatch_Detail_BulkSale
+                    LEFT JOIN  [Rajsamand].[dbo].TSPL_Dispatch_BulkSale  ON [Rajsamand].[dbo].TSPL_Dispatch_BulkSale.Document_No = [Rajsamand].[dbo].TSPL_Dispatch_Detail_BulkSale.Document_No
+                    inner join [Rajsamand].[dbo].TSPL_ITEM_UOM_DETAIL as ConvertMul on ConvertMul.Item_Code=[Rajsamand].[dbo].TSPL_Dispatch_Detail_BulkSale.Item_Code and ConvertMul.UOM_Code=[Rajsamand].[dbo].TSPL_Dispatch_Detail_BulkSale.Unit_code 
+                    inner join [Rajsamand].[dbo].TSPL_ITEM_UOM_DETAIL as ConvertDiv on ConvertDiv .Item_Code=[Rajsamand].[dbo].TSPL_Dispatch_Detail_BulkSale.Item_Code and ConvertDiv.UOM_Code='LTR'  
+
+                    WHERE CONVERT(DATE, [Rajsamand].[dbo].TSPL_Dispatch_BulkSale.Document_Date, 103)  BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                                                " + status9 + "
+                    )xxxx ))Disp_BUlksale
+                                        ) AS Dis_Disbursement,
+
+
+                                            (SELECT 
+                                            SUM(TotalLtr_ItemWiseDemand) AS TotalLtr_ItemWiseDemand,
+                                            SUM(FATKGDemand) AS FATKGDemand,
+                                            SUM(SNFKGDemand) AS SNFKGDemand
+                                        FROM (
+                                        (SELECT 
+                                            SUM(TotalLtr_ItemWise) AS TotalLtr_ItemWiseDemand,
+                                            SUM(TotalLtr_ItemWise * im.STD_FatPer / 100) AS FATKGDemand,
+                                            SUM(TotalLtr_ItemWise * im.STD_SNFPer / 100) AS SNFKGDemand
+                                        FROM 
+                                            [Rajsamand].[dbo].TSPL_DEMAND_BOOKING_DETAIL dbd
+                                        LEFT JOIN 
+                                            [Rajsamand].[dbo].TSPL_DEMAND_BOOKING_master dbm ON dbm.Document_No = dbd.Document_No
+                                        LEFT JOIN 
+                                            [Rajsamand].[dbo].TSPL_ITEM_MASTER im ON im.Item_Code = dbd.Item_Code
+                                        WHERE 
+                                            CONVERT(DATE, dbm.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                                            AND im.IsTaxable = 0
+                                            AND im.Is_FreshItem = 1
+                                            " + status3 + " 
+                                            union all
+                                            SELECT 
+                                          cast(  SUM(xxxx.Qty) as decimal(18,2)) AS TotalLtr_ItemWiseDemand,
+                                            SUM(xxxx.Fat_KG ) AS FATKGDemand,
+                                            SUM(xxxx.SNF_KG) AS SNFKGDemand
+                    from (
+                    SELECT case when isnull(ConvertDiv.Conversion_Factor,0)=0 then 0 else  [Rajsamand].[dbo].TSPL_Dispatch_Detail_BulkSale.Qty*ConvertMul.Conversion_Factor/ConvertDiv.Conversion_Factor end as Qty ,[Rajsamand].[dbo].TSPL_Dispatch_Detail_BulkSale.Fat_KG ,[Rajsamand].[dbo].TSPL_Dispatch_Detail_BulkSale.SNF_KG,[Rajsamand].[dbo].TSPL_Dispatch_Detail_BulkSale.Unit_code
+                    FROM  [Rajsamand].[dbo].TSPL_Dispatch_Detail_BulkSale
+                    LEFT JOIN  [Rajsamand].[dbo].TSPL_Dispatch_BulkSale  ON [Rajsamand].[dbo].TSPL_Dispatch_BulkSale.Document_No = [Rajsamand].[dbo].TSPL_Dispatch_Detail_BulkSale.Document_No
+                    inner join [Rajsamand].[dbo].TSPL_ITEM_UOM_DETAIL as ConvertMul on ConvertMul.Item_Code=[Rajsamand].[dbo].TSPL_Dispatch_Detail_BulkSale.Item_Code and ConvertMul.UOM_Code=[Rajsamand].[dbo].TSPL_Dispatch_Detail_BulkSale.Unit_code 
+                    inner join [Rajsamand].[dbo].TSPL_ITEM_UOM_DETAIL as ConvertDiv on ConvertDiv .Item_Code=[Rajsamand].[dbo].TSPL_Dispatch_Detail_BulkSale.Item_Code and ConvertDiv.UOM_Code='LTR'  
+
+                    WHERE CONVERT(DATE, [Rajsamand].[dbo].TSPL_Dispatch_BulkSale.Document_Date, 103)  BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                                                " + status9 + "
+                    )xxxx ))Disp_BUlksale
+                                        ) AS Dis_Demand,
+
+
+
+                                        (SELECT 
+                                            SUM(milk_weight) AS Milk_WeightProc,
+                                            SUM(fatkg) AS FATKGProc,
+                                            SUM(SNFKG) AS SNFKGProc
+                                        FROM (
+                                            SELECT 
+                                                SUM(Milk_Weight) AS Milk_Weight,
+                                                SUM(CAST(Milk_Weight * FAT / 100 AS DECIMAL(18,3))) AS FATKg,
+                                                SUM(CAST(Milk_Weight * SNF / 100 AS DECIMAL(18,3))) AS SNFKG
+                                            FROM 
+                                                [Rajsamand].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL mud
+                                            LEFT JOIN 
+                                                [Rajsamand].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_HEAD muh ON muh.Document_No = mud.Document_No
+                                            WHERE 
+                                                CONVERT(DATE, muh.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                                                " + status4 + "
+
+                                            UNION ALL
+
+                                            SELECT 
+                                                SUM(Milk_Weight) AS Milk_Weight,
+                                                SUM(Milk_Weight * FAT / 100) AS FATKG,
+                                                SUM(Milk_Weight * SNF / 100) AS SNFKG
+                                            FROM 
+                                                [Rajsamand].[dbo].TSPL_MILK_SHIFT_UPLOADER_DETAIL msd
+                                            LEFT JOIN 
+                                                [Rajsamand].[dbo].TSPL_MILK_SHIFT_UPLOADER_HEAD msh ON msh.Document_No = msd.Document_No
+                                            WHERE 
+                                                CONVERT(DATE, msh.Shift_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                                                " + status5 + "
+
+                                            UNION ALL
+
+                                            SELECT 
+                                                ISNULL(SUM(QTY),0) AS QTY,
+                                                ISNULL(SUM(FATKG),0) AS FATKG,
+                                                ISNULL(SUM(SNFKG),0) AS SNFKG
+                                            FROM 
+                                                [Rajsamand].[dbo].TSPL_MILK_COLLECTION_DCS_DETAIL mcd
+                                            LEFT JOIN 
+                                                [Rajsamand].[dbo].TSPL_MILK_COLLECTION_DCS mcs ON mcs.Document_No = mcd.Document_No
+                                            WHERE 
+                                               mcs.Status = 0
+                                               AND
+                                                CONVERT(DATE, mcs.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                                            ) AS Procurement
+                                        ) AS Dis_Procurement,
+                                        (select sum([Rajsamand].[dbo].TSPL_SD_SALE_INVOICE_DETAIL.Total_Basic_Amt) as Sale_Voucher from [Rajsamand].[dbo].TSPL_SD_SALE_INVOICE_DETAIL
+                    left outer join [Rajsamand].[dbo].TSPL_SD_SALE_INVOICE_HEAD on [Rajsamand].[dbo].TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE = [Rajsamand].[dbo].TSPL_SD_SALE_INVOICE_HEAD.Document_Code
+                    where  CONVERT(DATE, [Rajsamand].[dbo].TSPL_SD_SALE_INVOICE_HEAD.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + status7 + ") AS Sale_invoice,
+                    (select SUM(TOTAL_AMOUNT) AS Purchase_Voucher from [Rajsamand].[dbo].TSPL_MILK_PURCHASE_INVOICE_HEAD where  CONVERT(DATE, DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + status8 + ") AS Milk_Purchase_invoice)final ) xx group by SNo "
+
+                    End If
                 Next
             End If
-            'query = "select * from (" + query + ")xx "
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
             If dt2 IsNot Nothing OrElse dt2.Rows.Count > 0 Then
                 If print = False Then

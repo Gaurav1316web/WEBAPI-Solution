@@ -236,6 +236,43 @@ where TSPL_PRODUCTION_UPLOADER_DETAIL.Document_No='" + obj.Document_No + "' and 
                         ArrInventoryMovement = New List(Of clsInventoryMovement)
                         ArrInvetoryMovementNew = New List(Of clsInventoryMovementNew)
                     End If
+
+                    If Not settAllowNegativeStockInDairyProduction Then
+                        Dim strLocation As String = obj.Location_PK
+                        If clsCommon.CompairString(clsCommon.myCstr(drRM("Product_Type")), "MI") = CompairStringResult.Equal Then
+                            strLocation = obj.Location_RM
+                        End If
+                        Dim CheckStockServerDate As Boolean
+                        If clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.CheckLiveStockInProductionDuringTrans, clsFixedParameterCode.CheckLiveStockInProductionDuringTrans, trans)), "1") = CompairStringResult.Equal Then
+                            CheckStockServerDate = True
+                        Else
+                            CheckStockServerDate = False
+                        End If
+                        dt = clsProcessProductionPlanning.GetMilkAndALLItemStockBalance_With_FATSNFKG(clsCommon.myCstr(drRM("ITEM_CODE")), strLocation, "", IIf(CheckStockServerDate = True, clsCommon.GETSERVERDATE(trans), clsCommon.myCDate(drRM("Batch_Date"))), trans, clsCommon.myCstr(drRM("UNIT_CODE")), False)
+                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                            If clsCommon.myCDecimal(drRM("Qty")) > clsCommon.myCdbl(dt.Rows(0)("qty")) Then
+                                If Math.Abs(clsCommon.myCDecimal(drRM("Qty")) - clsCommon.myCdbl(dt.Rows(0)("qty"))) > 0.01 Then
+                                    Throw New Exception("Item [" + clsCommon.myCstr(drRM("ITEM_CODE")) + "] Location [" + strLocation + "] Issue Qty [" + clsCommon.myCstr(clsCommon.myCDecimal(drRM("Qty"))) + "] is more than Balance Qty [" + clsCommon.myCstr(clsCommon.myCdbl(dt.Rows(0)("qty"))) + "]")
+                                End If
+                            End If
+                        End If
+                        'If isCheckFutureBalance Then
+                        '    Dim Product_Type As String = clsItemMaster.GetItemProductType(clsCommon.myCstr(drRM("ITEM_CODE")), trans)
+                        '    Dim FutureBalanceQty As Decimal = 0
+                        '    If clsCommon.CompairString(Product_Type, "MI") = CompairStringResult.Equal Then
+                        '        FutureBalanceQty = clsInventoryMovementNew.getBalance(clsCommon.myCstr(drRM("ITEM_CODE")), clsLocation.GetMainLocationMilk(objtr.frm_loc_code, trans), objtr.frm_loc_code, "", clsCommon.myCDate(drRM("Batch_Date")), trans, clsCommon.myCstr(drRM("UNIT_CODE")))
+                        '    Else
+                        '        FutureBalanceQty = clsItemLocationDetails.getBalance(clsCommon.myCstr(drRM("ITEM_CODE")), objtr.frm_loc_code, "", clsCommon.myCDate(drRM("Batch_Date")), trans, clsCommon.myCstr(drRM("UNIT_CODE")), 0)
+                        '    End If
+                        '    FutureBalanceQty = Math.Round(Math.Round(FutureBalanceQty, 3, MidpointRounding.AwayFromZero), 2, MidpointRounding.AwayFromZero)
+                        '    If clsCommon.myCDecimal(drRM("Qty")) > FutureBalanceQty Then
+                        '        If Math.Abs(clsCommon.myCDecimal(drRM("Qty")) - FutureBalanceQty) > 0.01 Then
+                        '            Throw New Exception("Item [" + clsCommon.myCstr(drRM("ITEM_CODE")) + "] Location [" + objtr.frm_loc_code + "] Issue Qty [" + clsCommon.myCstr(clsCommon.myCDecimal(drRM("Qty"))) + "] is more than Future Mininium Balance Qty [" + clsCommon.myCstr(FutureBalanceQty) + "]")
+                        '        End If
+                        '    End If
+                        'End If
+                    End If
+
                     If clsCommon.CompairString(clsCommon.myCstr(drRM("Product_Type")), "MI") = CompairStringResult.Equal Then
                         Dim objInventoryMovemnt As New clsInventoryMovementNew()
                         objInventoryMovemnt.Source_Doc_Date = clsCommon.myCDate(drRM("Batch_Date"))

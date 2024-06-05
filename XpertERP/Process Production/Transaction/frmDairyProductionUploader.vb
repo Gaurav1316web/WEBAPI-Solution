@@ -858,4 +858,8 @@ ExitLOOP:
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub btnShowInventory_Click(sender As Object, e As EventArgs) Handles btnShowInventory.Click
+        clsOpenInventory.ShowInventoryDatails(txtDocNo.Value)
+    End Sub
 End Class
