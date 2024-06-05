@@ -1251,6 +1251,8 @@ Public Class clsFixedParameterType
     'Public Const DistributorViewOnly = "Distributor View Only"
     Public Const ApplyPricePlanDigitRule = "Apply Price Plan Digit Rule"
     Public Const PricePlanRoundOffDigit = "Enter RoundOff Digit"
+    Public Const DemandIncreaseDecreaseQty = "Demand Increase Decrease Qty"
+    Public Const DemandIncreaseDecreasePer = "Demand Increase Decrease Percentage"
 
 End Class
 Public Class clsFixedParameterCode
@@ -2631,6 +2633,8 @@ Public Class clsFixedParameterCode
     Public Const AcknowledgeDispatchQty = "CNF User Acknowledge Dispatch Qty"
     Public Const ApplyPricePlanDigitRule = "Apply Price Plan Digit Rule"
     Public Const PricePlanRoundOffDigit = "Enter RoundOff Digit"
+    Public Const DemandIncreaseDecreaseQty = "Demand Increase Decrease Qty"
+    Public Const DemandIncreaseDecreasePer = "Demand Increase Decrease Percentage"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4165,6 +4169,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.PricePlanRoundOffTruncate, clsFixedParameterCode.PricePlanRoundOffTruncate, "0", "0:RoundOff, 1:Truncate;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyPricePlanDigitRule, clsFixedParameterCode.ApplyPricePlanDigitRule, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PricePlanRoundOffDigit, clsFixedParameterCode.PricePlanRoundOffDigit, "2", "Enter Roundoff Digit;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.DemandIncreaseDecreaseQty, clsFixedParameterCode.DemandIncreaseDecreaseQty, "10", "Limit Increase/Decrease Qty;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.DemandIncreaseDecreasePer, clsFixedParameterCode.DemandIncreaseDecreasePer, "10", "Limit Increase/Decrease Per;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowIncreaseDispatchQty, clsFixedParameterCode.AllowIncreaseDispatchQty, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, "0", "Enter Weight in KG ")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowGatePassDemandTripWise, clsFixedParameterCode.AllowGatePassDemandTripWise, "0", "0:Off, 1:On;")
@@ -5931,6 +5937,8 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.PricePlan, clsFixedParameterType.PricePlanRoundOffTruncate, clsFixedParameterCode.PricePlanRoundOffTruncate, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.PricePlan, clsFixedParameterType.ApplyPricePlanDigitRule, clsFixedParameterCode.ApplyPricePlanDigitRule, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.PricePlan, clsFixedParameterType.PricePlanRoundOffDigit, clsFixedParameterCode.PricePlanRoundOffDigit, EnumControlType.TextBox)
+        InsertDefaultValue(clsUserMgtCode.frmDemandAdjustment, clsFixedParameterType.DemandIncreaseDecreasePer, clsFixedParameterCode.DemandIncreaseDecreasePer, EnumControlType.TextBox)
+        InsertDefaultValue(clsUserMgtCode.frmDemandAdjustment, clsFixedParameterType.DemandIncreaseDecreaseQty, clsFixedParameterCode.DemandIncreaseDecreaseQty, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.AllowIncreaseDispatchQty, clsFixedParameterCode.AllowIncreaseDispatchQty, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.AddPostFunctionality, EnumControlType.CheckBox)

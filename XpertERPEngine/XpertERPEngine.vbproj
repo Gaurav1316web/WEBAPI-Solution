@@ -546,6 +546,7 @@
     <Compile Include="Sale\DairySale\clsAcknowledgementOfGRN.vb" />
     <Compile Include="Sale\DairySale\clsCustomerDeduction.vb" />
     <Compile Include="Sale\DairySale\clsCustomerIncentiveEntry.vb" />
+    <Compile Include="Sale\DairySale\clsDemandAdjustment.vb" />
     <Compile Include="Sale\DairySale\clsDemandBookingSale.vb" />
     <Compile Include="Sale\DairySale\clsItemProjection.vb" />
     <Compile Include="Sale\DairySale\clsCustCategoryWiseDefaultItemUomMaster.vb" />
