@@ -1,5 +1,9 @@
 ﻿Imports System.Data.SqlClient
 Public Class clsERPFuncationality
+    Public Shared Function GetScopeIdentityValue(ByVal trans As SqlTransaction) As Integer
+        Return clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select SCOPE_IDENTITY()", trans))
+    End Function
+
     Public Shared Function GetGSTStatus(ByVal TransactionDate? As Date) As Boolean
         If objCommonVar.GSTApplicable AndAlso objCommonVar.GSTApplicableDate <= TransactionDate Then
             Return True

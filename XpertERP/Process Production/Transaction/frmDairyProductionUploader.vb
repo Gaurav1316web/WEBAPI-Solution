@@ -24,7 +24,14 @@ Public Class frmDairyProductionUploader
 #End Region
 
     Private Sub frmDairyProductionUploader_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
+        Dim coll As New Dictionary(Of String, String)
+        coll = New Dictionary(Of String, String)
+        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+        coll.Add("Document_No", "Varchar(30) not null references TSPL_PRODUCTION_UPLOADER_HEAD(Document_No)")
+        coll.Add("Against_PKID", "integer not null references TSPL_PRODUCTION_UPLOADER_DETAIL(PK_ID)")
+        coll.Add("QC_Code", "Varchar(30) not null")
+        coll.Add("Value", "Decimal(18,2) null")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PRODUCTION_UPLOADER_QC", coll, Nothing, True, False, "TSPL_PRODUCTION_UPLOADER_HEAD", "Document_No", "")
 
         LOCATIONRIGTHS()
         AddNew()
@@ -165,7 +172,7 @@ Public Class frmDairyProductionUploader
         repoCheck.HeaderText = "QC Status"
         repoCheck.Name = ColQCStatus
         repoCheck.Width = 60
-        repoCheck.ReadOnly = False
+        repoCheck.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoCheck)
 
         gv1.AllowAddNewRow = False
@@ -436,6 +443,8 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_PK on TSPL_LOCATION
                         objTr.UOM = clsCommon.myCstr(gv1.Rows(ii).Cells(colUOM).Value)
                         objTr.Shift_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colShift).Value)
                         objTr.QC_Status = clsCommon.myCBool(gv1.Rows(ii).Cells(ColQCStatus).Value)
+
+                        objTr.ArrQC = TryCast(gv1.CurrentRow.Cells(ColQCStatus).Tag, List(Of clsDairyProductionUploaderQC))
                         obj.Arr.Add(objTr)
                     End If
                 Next
@@ -497,6 +506,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_PK on TSPL_LOCATION
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colUOM).Value = objTr.UOM
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colShift).Value = objTr.Shift_Code
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColQCStatus).Value = objTr.QC_Status
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColQCStatus).Tag = objTr.ArrQC
                     Next
                 End If
             End If
@@ -812,5 +822,60 @@ ExitLOOP:
 
     Private Sub btnShowInventory_Click(sender As Object, e As EventArgs) Handles btnShowInventory.Click
         clsOpenInventory.ShowInventoryDatails(txtDocNo.Value)
+    End Sub
+
+    Private Sub gv1_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellDoubleClick
+        Try
+            Dim qry As String
+            If e.Column Is gv1.Columns(ColQCStatus) Then
+                If clsCommon.myLen(gv1.CurrentRow.Cells(colItemCode).Value) > 0 Then
+                    Dim Arr As List(Of clsDairyProductionUploaderQC) = TryCast(gv1.CurrentRow.Cells(ColQCStatus).Tag, List(Of clsDairyProductionUploaderQC))
+                    qry = "select Code as [QC Code],cast(Actual_Range as varchar) as [Standard Range],'' as [Value] From TSPL_ITEM_QC_PARAMETER_MASTER where Item_Code like '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colItemCode).Value) + "'
+union all
+select 'QC Status' as  [QC Code],'Y/N' as [Standard Range],'" + IIf(clsCommon.myCBool(gv1.CurrentRow.Cells(ColQCStatus).Value), "Y", "N") + "' as [Value] "
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                    If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                        Throw New Exception("QC Parameter not defined for item [" + clsCommon.myCstr(gv1.CurrentRow.Cells(colItemCode).Value) + "]")
+                    End If
+                    If Arr IsNot Nothing AndAlso Arr.Count > 0 Then
+                        For ii As Integer = 0 To dt.Rows.Count - 1
+                            For Each objtr As clsDairyProductionUploaderQC In Arr
+                                If clsCommon.CompairString(objtr.QC_Code, clsCommon.myCstr(dt.Rows(ii)("QC Code"))) = CompairStringResult.Equal Then
+                                    dt.Rows(ii)("Value") = objtr.Value
+                                    Exit For
+                                End If
+                            Next
+                        Next
+                    End If
+                    Dim frm As New FrmFreeGrid
+                    frm.dt = dt
+                    frm.arrEditableColumn = New List(Of String)
+                    frm.arrEditableColumn.Add("Value")
+                    frm.strFormName = "Fill QC Details of item [" + clsCommon.myCstr(gv1.CurrentRow.Cells(colItemCode).Value) + "]"
+                    frm.ReportID = Me.Form_ID
+                    frm.WindowState = FormWindowState.Normal
+                    frm.ShowDialog()
+                    If frm.dt IsNot Nothing AndAlso frm.dt.Rows.Count > 0 Then
+                        Dim ArrTemp As New List(Of clsDairyProductionUploaderQC)
+                        Dim obj As clsDairyProductionUploaderQC = Nothing
+                        For ii As Integer = 0 To frm.dt.Rows.Count - 1
+                            If ii = frm.dt.Rows.Count - 1 Then
+                                gv1.CurrentRow.Cells(ColQCStatus).Value = (clsCommon.CompairString(clsCommon.myCstr(frm.dt.Rows(ii)("Value")), "Y") = CompairStringResult.Equal)
+                                Exit For
+                            End If
+                            obj = New clsDairyProductionUploaderQC()
+                            obj.QC_Code = clsCommon.myCstr(frm.dt.Rows(ii)("QC Code"))
+                            obj.Value = clsCommon.myCstr(frm.dt.Rows(ii)("Value"))
+                            ArrTemp.Add(obj)
+                        Next
+                        gv1.CurrentRow.Cells(ColQCStatus).Tag = ArrTemp
+                    Else
+                        gv1.CurrentRow.Cells(ColQCStatus).Tag = Nothing
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class
