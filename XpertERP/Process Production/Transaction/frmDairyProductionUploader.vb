@@ -24,51 +24,11 @@ Public Class frmDairyProductionUploader
 #End Region
 
     Private Sub frmDairyProductionUploader_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim qry As String = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_PRODUCTION_UPLOADER_DETAIL' and COLUMN_NAME='Section_Code'"
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            clsERPFuncationality.DropTableKey("TSPL_PP_PRODUCTION_PLAN_HEAD", "Uploader_TR_No", EnumTableKeyType.Foreign)
-            qry = "Drop table TSPL_PRODUCTION_UPLOADER_DETAIL"
-            clsDBFuncationality.ExecuteNonQuery(qry)
-            qry = "Drop table TSPL_PRODUCTION_UPLOADER_HEAD"
-            clsDBFuncationality.ExecuteNonQuery(qry)
-        End If
-
-        Dim coll As New Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)
-        coll.Add("Document_No", "Varchar(30) not null Primary key")
-        coll.Add("Document_Date", "datetime NOT NULL")
-        coll.Add("Location_FG", "Varchar(12) not null references TSPL_LOCATION_MASTER(Location_Code)")
-        coll.Add("Location_RM", "Varchar(12) not null references TSPL_LOCATION_MASTER(Location_Code)")
-        coll.Add("Location_PK", "Varchar(12) not null references TSPL_LOCATION_MASTER(Location_Code)")
-        coll.Add("Batch_No", "Varchar(200) not null")
-        coll.Add("Batch_Date", "Date not null")
-        coll.Add("Description", "Varchar(200) null")
-        coll.Add("Status", "Integer NOT NULL DEFAULT 0")
-        coll.Add("Created_By", "varchar(12) NOT NULL")
-        coll.Add("Created_Date", "Datetime NOT NULL")
-        coll.Add("Modified_By", "varchar(12) NOT NULL")
-        coll.Add("Modified_Date", "Datetime NOT NULL")
-        coll.Add("Posted_Date", "datetime null")
-        coll.Add("Posted_By", "varchar(12)  NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PRODUCTION_UPLOADER_HEAD", coll, Nothing, True, False, "", "Document_No", "Document_Date", True)
-
-        coll = New Dictionary(Of String, String)
-        coll.Add("PK_ID", "integer NOT NULL  identity NOT FOR REPLICATION")
-        coll.Add("Document_No", "Varchar(30) not null references TSPL_PRODUCTION_UPLOADER_HEAD(Document_No)")
-        coll.Add("Batch_No", "Varchar(200) not null")
-        coll.Add("Batch_Date", "Date NOT NULL")
-        coll.Add("Item_Code", "Varchar(50) not null references TSPL_ITEM_MASTER(Item_Code)")
-        coll.Add("Qty", "Decimal(18,2) null")
-        coll.Add("UOM", "Varchar(20) null")
-        coll.Add("Shift_Code", "Varchar(30) not null references tspl_shift_master(SHIFT_CODE)")
-        coll.Add("QC_Status", "Integer NOT NULL DEFAULT 0")
-        coll.Add("BOM_Code", "Varchar(30) null references TSPL_PP_BOM_HEAD(BOM_CODE)")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PRODUCTION_UPLOADER_DETAIL", coll, Nothing, True, False, "TSPL_PRODUCTION_UPLOADER_HEAD", "Document_No", "")
 
 
         LOCATIONRIGTHS()
         AddNew()
+        btnReverse.Visible = False
     End Sub
 
     Private Sub LOCATIONRIGTHS()
@@ -200,14 +160,13 @@ Public Class frmDairyProductionUploader
         repoTextBox.Width = 100
         gv1.MasterTemplate.Columns.Add(repoTextBox)
 
-        repoTextBox = New GridViewTextBoxColumn()
-        repoTextBox.FormatString = ""
-        repoTextBox.HeaderText = "QC Status"
-        repoTextBox.Name = ColQCStatus
-        repoTextBox.TextImageRelation = TextImageRelation.TextBeforeImage
-        repoTextBox.Width = 100
-        repoTextBox.ReadOnly = True
-        gv1.MasterTemplate.Columns.Add(repoTextBox)
+        Dim repoCheck As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
+        repoCheck.FormatString = ""
+        repoCheck.HeaderText = "QC Status"
+        repoCheck.Name = ColQCStatus
+        repoCheck.Width = 60
+        repoCheck.ReadOnly = False
+        gv1.MasterTemplate.Columns.Add(repoCheck)
 
         gv1.AllowAddNewRow = False
         gv1.ShowGroupPanel = False
@@ -363,12 +322,17 @@ Public Class frmDairyProductionUploader
             AddNew()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.Escape Then
             CancelPressed()
-        ElseIf e.Alt And e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = clsFixedParameterType.SIRC
-            frm.strCode = clsFixedParameterCode.SIReversAndCreate
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
+        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
+            If MyBase.isReverse Then
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = clsFixedParameterType.SIRC
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
             End If
         End If
     End Sub
@@ -456,13 +420,22 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_PK on TSPL_LOCATION
                 For ii As Integer = 0 To gv1.RowCount - 1
                     If clsCommon.myLen(gv1.Rows(ii).Cells(colItemCode).Value) > 0 Then
                         Dim objTr As New clsDairyProductionUploaderDetail()
-                        objTr.Batch_No = clsCommon.myCstr(gv1.Rows(ii).Cells(colBatchNo).Value)
-                        objTr.Batch_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colBatchDate).Value)
+                        If clsCommon.myLen(gv1.Rows(ii).Cells(colBatchNo).Value) <= 0 Then
+                            objTr.Batch_No = txtBatchNo.Text
+                        Else
+                            objTr.Batch_No = clsCommon.myCstr(gv1.Rows(ii).Cells(colBatchNo).Value)
+                        End If
+                        If clsCommon.myLen(gv1.Rows(ii).Cells(colBatchDate).Value) <= 0 Then
+                            objTr.Batch_Date = txtBatchDate.Value
+                        Else
+                            objTr.Batch_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colBatchDate).Value)
+                        End If
+                        'objTr.Batch_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colBatchDate).Value)
                         objTr.Item_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colItemCode).Value)
                         objTr.Qty = clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value)
                         objTr.UOM = clsCommon.myCstr(gv1.Rows(ii).Cells(colUOM).Value)
                         objTr.Shift_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colShift).Value)
-                        objTr.QC_Status = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColQCStatus).Value)
+                        objTr.QC_Status = clsCommon.myCBool(gv1.Rows(ii).Cells(ColQCStatus).Value)
                         obj.Arr.Add(objTr)
                     End If
                 Next
@@ -822,5 +795,22 @@ ExitLOOP:
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
+    End Sub
+
+    Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
+        Try
+            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsDairyProductionUploader.ReverseAndUnpost(txtDocNo.Value) Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
+                    LoadData(txtDocNo.Value, NavigatorType.Current)
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnShowInventory_Click(sender As Object, e As EventArgs) Handles btnShowInventory.Click
+        clsOpenInventory.ShowInventoryDatails(txtDocNo.Value)
     End Sub
 End Class

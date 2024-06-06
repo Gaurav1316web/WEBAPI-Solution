@@ -3222,6 +3222,7 @@ Public Class clsCreateAllTable
             coll.Add("Route_Seq_No", "integer not null default 0")
             coll.Add("Entry_UOM", "integer null")
             coll.Add("Location_Code", "Varchar(12) null REFERENCES TSPL_LOCATION_MASTER(Location_Code)")
+            coll.Add("Zone_Code", "varchar(30) null references TSPL_ZONE_MASTER(Zone_Code)")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_ROUTE_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -25106,6 +25107,8 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
 
             qry = "alter table TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED alter column SRN_CODE varchar(30) null"
             clsDBFuncationality.ExecuteNonQuery(qry)
+            qry = "alter table TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED alter column Amt decimal(18,6)"
+            clsDBFuncationality.ExecuteNonQuery(qry)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("DOC_CODE", "Varchar(30) not null references TSPL_MILK_PURCHASE_INVOICE_HEAD(DOC_CODE)")
@@ -37261,12 +37264,24 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Comp_code", "varchar(8)  NOT NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_LINE_MASTER", coll)
 
-
+            qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_PRODUCTION_UPLOADER_DETAIL' and COLUMN_NAME='Section_Code'"
+            dt = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                clsERPFuncationality.DropTableKey("TSPL_PP_PRODUCTION_PLAN_HEAD", "Uploader_TR_No", EnumTableKeyType.Foreign)
+                qry = "Drop table TSPL_PRODUCTION_UPLOADER_DETAIL"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+                qry = "Drop table TSPL_PRODUCTION_UPLOADER_HEAD"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+            End If
 
             coll = New Dictionary(Of String, String)
             coll.Add("Document_No", "Varchar(30) not null Primary key")
             coll.Add("Document_Date", "datetime NOT NULL")
-            coll.Add("Location_Code", "Varchar(12) not null references TSPL_LOCATION_MASTER(Location_Code)")
+            coll.Add("Location_FG", "Varchar(12) not null references TSPL_LOCATION_MASTER(Location_Code)")
+            coll.Add("Location_RM", "Varchar(12) not null references TSPL_LOCATION_MASTER(Location_Code)")
+            coll.Add("Location_PK", "Varchar(12) not null references TSPL_LOCATION_MASTER(Location_Code)")
+            coll.Add("Batch_No", "Varchar(200) not null")
+            coll.Add("Batch_Date", "Date not null")
             coll.Add("Description", "Varchar(200) null")
             coll.Add("Status", "Integer NOT NULL DEFAULT 0")
             coll.Add("Created_By", "varchar(12) NOT NULL")
@@ -37278,17 +37293,27 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PRODUCTION_UPLOADER_HEAD", coll, Nothing, True, False, "", "Document_No", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("Document_No", "Varchar(30) not null references TSPL_PRODUCTION_UPLOADER_HEAD(Document_No)")
-            coll.Add("TR_No", "Varchar(30) not null Primary key")
-            coll.Add("TR_Date", "Date NOT NULL")
-            coll.Add("SNo", "Integer NULL")
-            coll.Add("Section_Code", "Varchar(30) not null references TSPL_SECTION_MASTER(Section_Code)")
+            coll.Add("Batch_No", "Varchar(200) not null")
+            coll.Add("Batch_Date", "Date NOT NULL")
             coll.Add("Item_Code", "Varchar(50) not null references TSPL_ITEM_MASTER(Item_Code)")
             coll.Add("Qty", "Decimal(18,2) null")
             coll.Add("UOM", "Varchar(20) null")
             coll.Add("Shift_Code", "Varchar(30) not null references tspl_shift_master(SHIFT_CODE)")
-            coll.Add("Status", "Integer NOT NULL DEFAULT 0")
+            coll.Add("QC_Status", "Integer NOT NULL DEFAULT 0")
+            coll.Add("BOM_Code", "Varchar(30) null references TSPL_PP_BOM_HEAD(BOM_CODE)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PRODUCTION_UPLOADER_DETAIL", coll, Nothing, True, False, "TSPL_PRODUCTION_UPLOADER_HEAD", "Document_No", "")
+
+            coll = New Dictionary(Of String, String)
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Document_No", "Varchar(30) not null references TSPL_PRODUCTION_UPLOADER_HEAD(Document_No)")
+            coll.Add("Against_PKID", "integer not null references TSPL_PRODUCTION_UPLOADER_DETAIL(PK_ID)")
+            coll.Add("Cost_Code", "Varchar(30) not null references TSPL_OVERHEAD_COST(COST_CODE)")
+            coll.Add("Amount", "Decimal(18,2) null")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PRODUCTION_UPLOADER_OVERHEAD_COST_DETAIL", coll, Nothing, True, False, "TSPL_PRODUCTION_UPLOADER_HEAD", "Document_No", "")
+
+
 
             '===================================BM00000003192=======================Process Planning
             coll = New Dictionary(Of String, String)()
