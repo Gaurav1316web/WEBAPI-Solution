@@ -2321,12 +2321,13 @@ where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ") )x group by VSP_
                 BaseQry += " isnull(TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO,'') AS ROUTE_CODE,isnull(TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,'') as Route_Name "
             ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
                 BaseQry += " isnull(TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,'') as Route_Name ,isnull(TSPL_BULK_ROUTE_MASTER.ROUTE_NO,'') AS ROUTE_CODE,isnull(TSPL_BULK_ROUTE_MASTER.ROUTE_NAME_HINDI,'') as ROUTE_NAME_HINDI "
-            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal Then
                 BaseQry += " TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE ,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as Route_Name ,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME_HINDI as ROUTE_NAME_HINDI "
             Else
                 BaseQry += " TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE ,TSPL_MCC_ROUTE_MASTER.Route_Name  "
             End If
         End If
+
 
         'If AreaWiseBilling = True Then
         '    BaseQry += " ,tspl_mcc_master.MCC_NAME where MCC_Code='" & clsCommon.myCstr(strLoc) & "'"
