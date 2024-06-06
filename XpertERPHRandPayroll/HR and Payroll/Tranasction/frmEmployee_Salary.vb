@@ -735,7 +735,7 @@ Public Class frmEmployee_Salary
                         'strarr = strarr.Replace("_", ".")
                         obj1 = New clsEmpSalaryPayHeadDetails
                         'obj1.EMP_CODE = strCode
-                        obj1.PayHeadCode = strarr.Replace("_", ".")
+                        obj1.PayHeadCode = strarr '.Replace("_", ".")
                         obj1.Line_No = intLoop
                         obj1.Formula = clsMapPayHeadsToSalaStructure.GetFormula(strSalStruct, strarr.Replace("_", "."))
                         obj1.Rate_Amount = clsCommon.myCdbl(grow.Cells(strarr.Replace(".", "_")).Value)
@@ -930,11 +930,16 @@ Public Class frmEmployee_Salary
                     i = i + 1
                 Next
 
-
                 '' adding extra columns 
                 For Each payhead As String In arrExtraPayHead
-                    gv.Columns.Add(payhead.Replace(".", "_"))
-
+                    For Each gvColumn As GridViewColumn In gv.Columns
+                        If gvColumn.HeaderText.Contains(clsCommon.myCstr(payhead).Trim()) Then
+                            If clsCommon.CompairString(clsCommon.myCstr(gvColumn.HeaderText), clsCommon.myCstr(payhead).Trim) = CompairStringResult.Equal Then
+                                Continue For
+                            End If
+                            gv.Columns.Add(clsCommon.myCstr(payhead).Replace(".", "_"))
+                        End If
+                    Next
                     '' update amount in extra payheads
                     For Each item As GridViewRowInfo In gv.Rows
                         If clsCommon.CompairString(clsCommon.myCstr(item.Cells("Applicable Date").Value), "") = CompairStringResult.Equal Or IsDate(clsCommon.myCstr(item.Cells("Applicable Date").Value)) = False Then
@@ -945,11 +950,9 @@ Public Class frmEmployee_Salary
                             Throw New Exception("Salary Structure Code can not be blank or incorrect for Emp Id : " + clsCommon.myCstr(item.Cells("Emp ID").Value) + "")
                             Exit Function
                         End If
-                        item.Cells(payhead.Replace(".", "_")).Value = clsEmployeeSalary.getPayHeadAmount(item.Cells("Emp ID").Value, item.Cells("Salary Structure Code").Value, payhead, item.Cells("Applicable Date").Value, item.Cells("Copy Salary Code").Value)
+                        item.Cells(payhead.Replace(".", "_")).Value = clsEmployeeSalary.getPayHeadAmount(clsCommon.myCstr(item.Cells("Emp ID").Value), clsCommon.myCstr(item.Cells("Salary Structure Code").Value), clsCommon.myCstr(payhead), clsCommon.myCstr(item.Cells("Applicable Date").Value), clsCommon.myCstr(item.Cells("Copy Salary Code").Value))
                     Next
                 Next
-
-
                 Return True
             Else
                 common.clsCommon.MyMessageBoxShow(Me, "Excel Sheet is not in expected format. It should have the columns named - " + strfields, Me.Text)
