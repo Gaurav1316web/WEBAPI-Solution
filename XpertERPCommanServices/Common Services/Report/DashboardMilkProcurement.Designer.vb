@@ -27,9 +27,9 @@ Partial Class DashboardMilkProcurement
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -43,13 +43,14 @@ Partial Class DashboardMilkProcurement
         Me.gv2 = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv3 = New common.UserControls.MyRadGridView()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnExp = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnreset = New Telerik.WinControls.UI.RadButton()
         Me.btngo = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.chkRJSBNS = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -69,11 +70,12 @@ Partial Class DashboardMilkProcurement
         Me.RadPageViewPage4.SuspendLayout()
         CType(Me.gv3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv3.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btngo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkRJSBNS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -115,6 +117,7 @@ Partial Class DashboardMilkProcurement
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkRJSBNS)
         Me.RadPageViewPage1.Controls.Add(Me.txtFromDate)
         Me.RadPageViewPage1.Controls.Add(Me.txtToDate)
         Me.RadPageViewPage1.Controls.Add(Me.lblToDate)
@@ -222,7 +225,7 @@ Partial Class DashboardMilkProcurement
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
@@ -250,7 +253,7 @@ Partial Class DashboardMilkProcurement
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowGroupedColumns = True
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.ShowHeaderCellButtons = True
@@ -278,12 +281,21 @@ Partial Class DashboardMilkProcurement
         Me.gv3.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv3.MasterTemplate.ShowGroupedColumns = True
         Me.gv3.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv3.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gv3.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv3.MyStopExport = False
         Me.gv3.Name = "gv3"
         Me.gv3.ShowHeaderCellButtons = True
         Me.gv3.Size = New System.Drawing.Size(773, 359)
         Me.gv3.TabIndex = 3
+        '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Location = New System.Drawing.Point(252, 7)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(77, 18)
+        Me.btnPrint.TabIndex = 337
+        Me.btnPrint.Text = "Print"
         '
         'btnExp
         '
@@ -334,14 +346,13 @@ Partial Class DashboardMilkProcurement
         Me.btnclose.TabIndex = 334
         Me.btnclose.Text = "Close"
         '
-        'btnPrint
+        'chkRJSBNS
         '
-        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrint.Location = New System.Drawing.Point(252, 7)
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(77, 18)
-        Me.btnPrint.TabIndex = 337
-        Me.btnPrint.Text = "Print"
+        Me.chkRJSBNS.Location = New System.Drawing.Point(321, 17)
+        Me.chkRJSBNS.Name = "chkRJSBNS"
+        Me.chkRJSBNS.Size = New System.Drawing.Size(64, 18)
+        Me.chkRJSBNS.TabIndex = 444
+        Me.chkRJSBNS.Text = "RJS & BNS"
         '
         'DashboardMilkProcurement
         '
@@ -375,11 +386,12 @@ Partial Class DashboardMilkProcurement
         Me.RadPageViewPage4.ResumeLayout(False)
         CType(Me.gv3.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btngo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkRJSBNS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -405,4 +417,5 @@ Partial Class DashboardMilkProcurement
     Friend WithEvents rmiExcel As RadMenuItem
     Friend WithEvents rmiPDF As RadMenuItem
     Friend WithEvents btnPrint As RadButton
+    Friend WithEvents chkRJSBNS As RadCheckBox
 End Class

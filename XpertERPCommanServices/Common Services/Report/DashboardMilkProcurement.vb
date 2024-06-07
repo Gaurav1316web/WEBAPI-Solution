@@ -10,6 +10,8 @@ Public Class DashboardMilkProcurement
     Private Sub DashboardMilkProcurement_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         txtFromDate.Value = clsCommon.GETSERVERDATE()
         txtToDate.Value = clsCommon.GETSERVERDATE().AddMonths(-1)
+        chkRJSBNS.Visible = False
+        chkRJSBNS.Checked = True
     End Sub
 
     Private Sub btngo_Click(sender As Object, e As EventArgs) Handles btngo.Click
@@ -29,8 +31,14 @@ Public Class DashboardMilkProcurement
 
             Dim docNo As String = ""
             query = " 
-    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL') "
-
+    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') "
+            If chkRJSBNS.Checked Then
+                query += "union all
+  SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
+  union all
+  SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
+  ORDER BY Location_Name"
+            End If
             dt = clsDBFuncationality.GetDataTable(query)
             query = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -51,45 +59,15 @@ Public Class DashboardMilkProcurement
                         SUM(SNFKG) AS SNFKGProc
                     FROM (
                         SELECT 
-                            SUM(Milk_Weight) AS Milk_Weight,
-                            SUM(CAST(Milk_Weight * FAT / 100 AS DECIMAL(18,3))) AS FATKg,
-                            SUM(CAST(Milk_Weight * SNF / 100 AS DECIMAL(18,3))) AS SNFKG
+                            SUM(Qty) AS Milk_Weight,
+                            SUM(FAT_KG) AS FATKg,
+                            SUM(SNF_KG) AS SNFKG
                         FROM 
-                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL mud
+                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SRN_DETAIL msd
                         LEFT JOIN 
-                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_HEAD muh ON muh.Document_No = mud.Document_No
+                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SRN_HEAD msh ON msh.DOC_CODE = msd.DOC_CODE
                         WHERE 
-                            CONVERT(DATE, muh.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
-                           
-
-                        UNION ALL
-
-                        SELECT 
-                            SUM(Milk_Weight) AS Milk_Weight,
-                            SUM(Milk_Weight * FAT / 100) AS FATKG,
-                            SUM(Milk_Weight * SNF / 100) AS SNFKG
-                        FROM 
-                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SHIFT_UPLOADER_DETAIL msd
-                        LEFT JOIN 
-                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SHIFT_UPLOADER_HEAD msh ON msh.Document_No = msd.Document_No
-                        WHERE 
-                            CONVERT(DATE, msh.Shift_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
-                            
-
-                        UNION ALL
-
-                        SELECT 
-                            ISNULL(SUM(QTY),0) AS QTY,
-                            ISNULL(SUM(FATKG),0) AS FATKG,
-                            ISNULL(SUM(SNFKG),0) AS SNFKG
-                        FROM 
-                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS_DETAIL mcd
-                        LEFT JOIN 
-                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS mcs ON mcs.Document_No = mcd.Document_No
-                        WHERE 
-                           mcs.Status = 0
-                           AND
-                            CONVERT(DATE, mcs.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                            CONVERT(DATE, msh.DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
                         ) AS Procurement
                     ) AS Dis_Procurement)final"
                 Next
@@ -190,8 +168,14 @@ Public Class DashboardMilkProcurement
 
             Dim docNo As String = ""
             query = " 
-    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL') "
-
+    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') "
+            If chkRJSBNS.Checked Then
+                query += "union all
+  SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
+  union all
+  SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
+  ORDER BY Location_Name"
+            End If
             dt = clsDBFuncationality.GetDataTable(query)
             query = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -214,52 +198,18 @@ Public Class DashboardMilkProcurement
 						sum(DISTINCT CASE WHEN MCC IS NOT NULL AND MCC <> 0 THEN MCC END) AS MCCCount
                     FROM (
                         SELECT 
-                            SUM(Milk_Weight) AS Milk_Weight,
-                            SUM(CAST(Milk_Weight * FAT / 100 AS DECIMAL(18,3))) AS FATKg,
-                            SUM(CAST(Milk_Weight * SNF / 100 AS DECIMAL(18,3))) AS SNFKG,
-                        	count(distinct Bulk_Route_Code ) as Route,
-							count(distinct MCC_Code) as MCC
+                             SUM(Qty) AS Milk_Weight,
+                            SUM(FAT_KG) AS FATKg,
+                            SUM(SNF_KG) AS SNFKG,
+                        	count(distinct ROUTE_CODE ) as Route,
+							count(distinct msd.MCC_CODE) as MCC
                         FROM 
-                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL mud
+                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SRN_DETAIL msd
                         LEFT JOIN 
-                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_HEAD muh ON muh.Document_No = mud.Document_No
+                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SRN_HEAD msh ON msh.DOC_CODE = msd.DOC_CODE
                         WHERE 
-                            CONVERT(DATE, muh.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
-                           
-
-                        UNION ALL
-
-                        SELECT 
-                            SUM(Milk_Weight) AS Milk_Weight,
-                            SUM(Milk_Weight * FAT / 100) AS FATKG,
-                            SUM(Milk_Weight * SNF / 100) AS SNFKG,
-                            count(distinct BULK_ROUTE_NO) as Route,
-						    count(DISTINCT MCC_Code) as MCC
-                        FROM 
-                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SHIFT_UPLOADER_DETAIL msd
-                        LEFT JOIN 
-                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SHIFT_UPLOADER_HEAD msh ON msh.Document_No = msd.Document_No
-                        WHERE 
-                            CONVERT(DATE, msh.Shift_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
-                            
-
-                        UNION ALL
-
-                        SELECT 
-                            ISNULL(SUM(QTY),0) AS QTY,
-                            ISNULL(SUM(FATKG),0) AS FATKG,
-                            ISNULL(SUM(SNFKG),0) AS SNFKG,
-                            0 as Route,
-							0 as MCC
-                        FROM 
-                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS_DETAIL mcd
-                        LEFT JOIN 
-                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS mcs ON mcs.Document_No = mcd.Document_No
-                        WHERE 
-                           mcs.Status = 0
-                           AND
-                            CONVERT(DATE, mcs.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
-                        ) AS Procurement
+                            CONVERT(DATE, msh.DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                          ) AS Procurement
                     ) AS Dis_Procurement)final"
                 Next
             End If
@@ -366,8 +316,14 @@ Public Class DashboardMilkProcurement
 
             Dim docNo As String = ""
             query = " 
-    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL') "
-
+    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') "
+            If chkRJSBNS.Checked Then
+                query += "union all
+  SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
+  union all
+  SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
+  ORDER BY Location_Name"
+            End If
             dt = clsDBFuncationality.GetDataTable(query)
             query = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -386,68 +342,35 @@ Public Class DashboardMilkProcurement
 					ISNULL(SUM(Dis_Procurement.TotalFatkg), 0) AS TotalFatkg,ISNULL(SUM(Dis_Procurement.Totalsnfkg), 0) AS Totalsnfkg
                                  FROM 
 (SELECT 
-                         COUNT(CASE WHEN xxx.dcs = 'REGISTERED' THEN 1 ELSE NULL END) as RegCount,
-   ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' THEN Milk_Weight ELSE 0 END), 0) AS DCS_1_QTY,
-    ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' THEN (Milk_Weight * FAT / 100) ELSE 0 END), 0) AS DCS_1_FATKG,
-    ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' THEN (Milk_Weight * SNF / 100) ELSE 0 END), 0) AS DCS_1_SNFKG,
+                         COUNT(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN 1 ELSE NULL END) as RegCount,
+   ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN Milk_Weight ELSE 0 END), 0) AS DCS_1_QTY,
+    ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN FATKG ELSE 0 END), 0) AS DCS_1_FATKG,
+    ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN SNFKG ELSE 0 END), 0) AS DCS_1_SNFKG,
 	COUNT(CASE WHEN xxx.dcs = 'PDCS' THEN 1 ELSE NULL END) as PDCSCount,
     ISNULL(SUM(CASE WHEN xxx.dcs = 'PDCS' THEN Milk_Weight ELSE 0 END), 0) AS DCS_2_QTY,
-    ISNULL(SUM(CASE WHEN xxx.dcs = 'PDCS' THEN (Milk_Weight * FAT / 100) ELSE 0 END), 0) AS DCS_2_FATKG,
-    ISNULL(SUM(CASE WHEN xxx.dcs = 'PDCS' THEN (Milk_Weight * SNF / 100) ELSE 0 END), 0) AS DCS_2_SNFKG,
-	(COUNT(CASE WHEN xxx.dcs = 'PDCS' THEN 1 ELSE NULL END)+COUNT(CASE WHEN xxx.dcs = 'REGISTERED' THEN 1 ELSE NULL END)) AS DCSCount,
-	( ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' THEN Milk_Weight ELSE 0 END), 0)+ISNULL(SUM(CASE WHEN xxx.dcs = 'PDCS' THEN Milk_Weight ELSE 0 END), 0)) as QTY1,
-	(ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' THEN (Milk_Weight * FAT / 100) ELSE 0 END), 0)+ISNULL(SUM(CASE WHEN xxx.dcs='PDCS' THEN (Milk_Weight * FAT / 100) ELSE 0 END), 0)) as TotalFATKG,
-	(ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' THEN (Milk_Weight * SNF / 100) ELSE 0 END), 0)+ISNULL(SUM(CASE WHEN xxx.dcs = 'PDCS' THEN (Milk_Weight * SNF / 100) ELSE 0 END), 0)) as TotalSNFKG,
+    ISNULL(SUM(CASE WHEN xxx.dcs = 'PDCS' THEN FATKG ELSE 0 END), 0) AS DCS_2_FATKG,
+    ISNULL(SUM(CASE WHEN xxx.dcs = 'PDCS' THEN SNFKG ELSE 0 END), 0) AS DCS_2_SNFKG,
+	(COUNT(CASE WHEN xxx.dcs = 'PDCS' THEN 1 ELSE NULL END)+COUNT(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN 1 ELSE NULL END)) AS DCSCount,
+	( ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN Milk_Weight ELSE 0 END), 0)+ISNULL(SUM(CASE WHEN xxx.dcs = 'PDCS' THEN Milk_Weight ELSE 0 END), 0)) as QTY1,
+	(ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN FATKG ELSE 0 END), 0)+ISNULL(SUM(CASE WHEN xxx.dcs='PDCS' THEN FATKG ELSE 0 END), 0)) as TotalFATKG,
+	(ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN  SNFKG ELSE 0 END), 0)+ISNULL(SUM(CASE WHEN xxx.dcs = 'PDCS' THEN SNFKG ELSE 0 END), 0)) as TotalSNFKG,
 		sum(xxx.Milk_Weight)Milk_Weight,sum(xxx.FATKG)FATKG,sum(xxx.SNFKG)SNFKG,count(xxx.dcs)dcs,
 	COUNT(CASE WHEN xxx.dcs = 'REGISTERED' THEN 1 ELSE NULL END ) as Regcounts,
 	COUNT(CASE WHEN xxx.dcs = 'PDCS' THEN 1 ELSE NULL END) as PDCSCsount
 		
-                    FROM (select sum(Milk_Weight)Milk_Weight,sum(FAT)FAT,sum(SNF)SNF,sum((Milk_Weight * FAT / 100)) AS FATKG,sum((Milk_Weight * SNF / 100)) AS SNFKG,
-                        mud.VLC_Code,max(vmh.Registered_PDCS_CLUSTER)dcs,max(VMH.Registered_PDCS_CLUSTER)dcscount
+                    FROM (
+                     select sum(Qty)Milk_Weight,sum(FAT_PER)FAT,sum(SNF_PER)SNF,sum(FAT_KG) AS FATKG,sum(SNF_KG) AS SNFKG,
+                        msh.VSP_Code,max(vm.Registered_PDCS_CLUSTER)dcs,max(VM.Registered_PDCS_CLUSTER)dcscount
 
                         FROM 
-                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL mud
+                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SRN_DETAIL msd
                         LEFT JOIN 
-                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_HEAD muh ON muh.Document_No = mud.Document_No
+                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SRN_HEAD msh ON msh.DOC_CODE = msd.DOC_CODE
                             left join 
-                             [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VLC_MASTER_HEAD vmh on vmh.VLC_Code = mud.VLC_Code
+                             [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VENDOR_MASTER vm on vm.Vendor_Code = msh.VSP_Code
                         WHERE 
-                            CONVERT(DATE, muh.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' group by mud.VLC_Code
-                           
-
-                        UNION ALL
-                                                     
-                        select sum(Milk_Weight)Milk_Weight,sum(FAT)FAT,sum(SNF)SNF,sum((Milk_Weight * FAT / 100)) AS FATKG,sum((Milk_Weight * SNF / 100)) AS SNFKG
-                        ,msd.VLC_Code,max(vm.Registered_PDCS_CLUSTER)dcs,max(VMH.Registered_PDCS_CLUSTER)dcscount
-                        FROM 
-                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SHIFT_UPLOADER_DETAIL msd
-                        LEFT JOIN 
-                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SHIFT_UPLOADER_HEAD msh ON msh.Document_No = msd.Document_No
-                        left join 
-                             [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VLC_MASTER_HEAD vmh on vmh.VLC_Code = msd.VLC_Code
-                       	 left join 
-							 [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VENDOR_MASTER vm on vm.Vendor_Code = vmh.VSP_Code
-                             WHERE 
-                            CONVERT(DATE, msh.Shift_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' group by msd.VLC_Code
-                            
-
-                        UNION ALL
-
-                        SELECT 
-                          sum(Qty)Milk_Weight,sum(FAT)FAT,sum(SNF)SNF,sum((Qty * FAT / 100)) AS FATKG,sum((Qty * SNF / 100)) AS SNFKG,
-                          mcd.VLC_Code,max(vm.Registered_PDCS_CLUSTER)dcs,max(VMH.Registered_PDCS_CLUSTER)dcscount
-                        FROM 
-                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS_DETAIL mcd
-                        LEFT JOIN 
-                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS mcs ON mcs.Document_No = mcd.Document_No
-                            left join 
-                             [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VLC_MASTER_HEAD vmh on vmh.VLC_Code = mcd.VLC_Code
-                              left join 
-							 [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VENDOR_MASTER vm on vm.Vendor_Code = vmh.VSP_Code
-                        WHERE 
-                         
-                            CONVERT(DATE, mcs.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' group by mcd.VLC_Code
-                        ) AS xxx
+                            CONVERT(DATE, msh.DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' group by msh.VSP_Code
+                         ) AS xxx
                     ) AS Dis_Procurement)final"
                 Next
             End If
@@ -589,7 +512,7 @@ Public Class DashboardMilkProcurement
         Try
             If gv1.Rows.Count > 0 Then
                 Dim arrHeader As List(Of String) = New List(Of String)()
-                arrHeader.Add("Union : " & objCommonVar.CurrentCompanyName)
+                'arrHeader.Add("Union : " & objCommonVar.CurrentCompanyName)
                 arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.DashboardMilkProcurement & "'"))
                 arrHeader.Add("Date : " & clsCommon.myCstr(txtFromDate.Text) + "  To " + clsCommon.myCstr(txtToDate.Text))
 
@@ -608,7 +531,7 @@ Public Class DashboardMilkProcurement
         Try
             If gv2.Rows.Count > 0 Then
                 Dim arrHeader As List(Of String) = New List(Of String)()
-                arrHeader.Add("Union : " & objCommonVar.CurrentCompanyName)
+                'arrHeader.Add("Union : " & objCommonVar.CurrentCompanyName)
                 arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.DashboardMilkProcurement & "'"))
                 arrHeader.Add("Date : " & clsCommon.myCstr(txtFromDate.Text) + "  To " + clsCommon.myCstr(txtToDate.Text))
 
@@ -627,7 +550,7 @@ Public Class DashboardMilkProcurement
         Try
             If gv3.Rows.Count > 0 Then
                 Dim arrHeader As List(Of String) = New List(Of String)()
-                arrHeader.Add("Union : " & objCommonVar.CurrentCompanyName)
+                ' arrHeader.Add("Union : " & objCommonVar.CurrentCompanyName)
                 arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.DashboardMilkProcurement & "'"))
                 arrHeader.Add("Date : " & clsCommon.myCstr(txtFromDate.Text) + "  To " + clsCommon.myCstr(txtToDate.Text))
 
@@ -740,9 +663,90 @@ Public Class DashboardMilkProcurement
             Case 3 ' Index of the second tab
                 PrintRoute()
             Case 6 ' Index of the third tab
+                PrintDCS()
                 'ExportGridgv3(EnumExportTo.Excel)
                 ' Add more cases as needed for additional tabs
         End Select
+    End Sub
+
+    Sub PrintDCS()
+        Dim query As String = ""
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
+        If (dt Is Nothing OrElse dt.Rows.Count <= 0) Then
+            common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
+            Exit Sub
+        End If
+
+        Dim docNo As String = ""
+        query = " 
+    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') "
+        If chkRJSBNS.Checked Then
+            query += "union all
+  SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
+  union all
+  SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
+  ORDER BY Location_Name"
+        End If
+        dt = clsDBFuncationality.GetDataTable(query)
+        query = ""
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            For ii As Integer = 0 To dt.Rows.Count - 1
+                If ii > 0 Then
+                    query += " UNION ALL "
+                End If
+
+                query += " select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                        '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
+                    ISNULL(SUM(Dis_Procurement.RegCount), 0) AS RegisteredDCS ,   ISNULL(SUM(Dis_Procurement.DCS_1_QTY), 0) AS DCSQTY1, 
+                    ISNULL(SUM(Dis_Procurement.DCS_1_FATKG), 0) AS FATKG1,ISNULL(SUM(Dis_Procurement.DCS_1_SNFKG), 0) AS SNFKG1,
+					ISNULL(SUM(Dis_Procurement.PDCSCount), 0) AS PDCS,ISNULL(SUM(Dis_Procurement.DCS_2_QTY), 0) AS DCSQTY2,
+					ISNULL(SUM(Dis_Procurement.DCS_2_FATKG), 0) AS FATKG2,ISNULL(SUM(Dis_Procurement.DCS_2_SNFKG), 0) AS SNFKG2,
+					ISNULL(SUM(Dis_Procurement.DCSCount), 0) AS TotalDCS,ISNULL(SUM(Dis_Procurement.QTY1), 0) AS TotalQty,
+					ISNULL(SUM(Dis_Procurement.TotalFatkg), 0) AS TotalFatkg,ISNULL(SUM(Dis_Procurement.Totalsnfkg), 0) AS Totalsnfkg
+                                 FROM 
+(SELECT  
+                        COUNT(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN 1 ELSE NULL END) as RegCount,
+   ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN Milk_Weight ELSE 0 END), 0) AS DCS_1_QTY,
+    ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN FATKG ELSE 0 END), 0) AS DCS_1_FATKG,
+    ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN SNFKG ELSE 0 END), 0) AS DCS_1_SNFKG,
+	COUNT(CASE WHEN xxx.dcs = 'PDCS' THEN 1 ELSE NULL END) as PDCSCount,
+    ISNULL(SUM(CASE WHEN xxx.dcs = 'PDCS' THEN Milk_Weight ELSE 0 END), 0) AS DCS_2_QTY,
+    ISNULL(SUM(CASE WHEN xxx.dcs = 'PDCS' THEN FATKG ELSE 0 END), 0) AS DCS_2_FATKG,
+    ISNULL(SUM(CASE WHEN xxx.dcs = 'PDCS' THEN SNFKG ELSE 0 END), 0) AS DCS_2_SNFKG,
+	(COUNT(CASE WHEN xxx.dcs = 'PDCS' THEN 1 ELSE NULL END)+COUNT(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN 1 ELSE NULL END)) AS DCSCount,
+	( ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN Milk_Weight ELSE 0 END), 0)+ISNULL(SUM(CASE WHEN xxx.dcs = 'PDCS' THEN Milk_Weight ELSE 0 END), 0)) as QTY1,
+	(ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN FATKG ELSE 0 END), 0)+ISNULL(SUM(CASE WHEN xxx.dcs='PDCS' THEN FATKG ELSE 0 END), 0)) as TotalFATKG,
+	(ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN  SNFKG ELSE 0 END), 0)+ISNULL(SUM(CASE WHEN xxx.dcs = 'PDCS' THEN SNFKG ELSE 0 END), 0)) as TotalSNFKG,
+		sum(xxx.Milk_Weight)Milk_Weight,sum(xxx.FATKG)FATKG,sum(xxx.SNFKG)SNFKG,count(xxx.dcs)dcs,
+	COUNT(CASE WHEN xxx.dcs = 'REGISTERED' THEN 1 ELSE NULL END ) as Regcounts,
+	COUNT(CASE WHEN xxx.dcs = 'PDCS' THEN 1 ELSE NULL END) as PDCSCsount
+		
+                    FROM (
+                     select sum(Qty)Milk_Weight,sum(FAT_PER)FAT,sum(SNF_PER)SNF,sum(FAT_KG) AS FATKG,sum(SNF_KG) AS SNFKG,
+                        msh.VSP_Code,max(vm.Registered_PDCS_CLUSTER)dcs,max(VM.Registered_PDCS_CLUSTER)dcscount
+
+                        FROM 
+                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SRN_DETAIL msd
+                        LEFT JOIN 
+                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SRN_HEAD msh ON msh.DOC_CODE = msd.DOC_CODE
+                            left join 
+                             [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VENDOR_MASTER vm on vm.Vendor_Code = msh.VSP_Code
+                        WHERE 
+                            CONVERT(DATE, msh.DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' group by msh.VSP_Code
+                        ) AS xxx
+                    ) AS Dis_Procurement)final"
+            Next
+        End If
+
+        Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
+        If dt2 IsNot Nothing And dt2.Rows.Count > 0 Then
+            Dim frmCRV As New frmCrystalReportViewer()
+            frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptMilkProcurementDCSWise", "")
+            frmCRV = Nothing
+        Else
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
+        End If
+
     End Sub
     Sub PrintRoute()
         Dim query As String = ""
@@ -754,8 +758,14 @@ Public Class DashboardMilkProcurement
 
         Dim docNo As String = ""
         query = " 
-    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL') "
-
+    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') "
+        If chkRJSBNS.Checked Then
+            query += "union all
+  SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
+  union all
+  SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
+  ORDER BY Location_Name"
+        End If
         dt = clsDBFuncationality.GetDataTable(query)
         query = ""
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -778,51 +788,17 @@ Public Class DashboardMilkProcurement
 						sum(DISTINCT CASE WHEN MCC IS NOT NULL AND MCC <> 0 THEN MCC END) AS MCCCount
                     FROM (
                         SELECT 
-                            SUM(Milk_Weight) AS Milk_Weight,
-                            SUM(CAST(Milk_Weight * FAT / 100 AS DECIMAL(18,3))) AS FATKg,
-                            SUM(CAST(Milk_Weight * SNF / 100 AS DECIMAL(18,3))) AS SNFKG,
-                        	count(distinct Bulk_Route_Code ) as Route,
-							count(distinct MCC_Code) as MCC
+                            SUM(Qty) AS Milk_Weight,
+                            SUM(FAT_KG) AS FATKg,
+                            SUM(SNF_KG) AS SNFKG,
+                        	count(distinct ROUTE_CODE ) as Route,
+							count(distinct msd.MCC_CODE) as MCC
                         FROM 
-                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL mud
+                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SRN_DETAIL msd
                         LEFT JOIN 
-                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_HEAD muh ON muh.Document_No = mud.Document_No
+                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SRN_HEAD msh ON msh.DOC_CODE = msd.DOC_CODE
                         WHERE 
-                            CONVERT(DATE, muh.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
-                           
-
-                        UNION ALL
-
-                        SELECT 
-                            SUM(Milk_Weight) AS Milk_Weight,
-                            SUM(Milk_Weight * FAT / 100) AS FATKG,
-                            SUM(Milk_Weight * SNF / 100) AS SNFKG,
-                            count(distinct BULK_ROUTE_NO) as Route,
-						    count(DISTINCT MCC_Code) as MCC
-                        FROM 
-                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SHIFT_UPLOADER_DETAIL msd
-                        LEFT JOIN 
-                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SHIFT_UPLOADER_HEAD msh ON msh.Document_No = msd.Document_No
-                        WHERE 
-                            CONVERT(DATE, msh.Shift_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
-                            
-
-                        UNION ALL
-
-                        SELECT 
-                            ISNULL(SUM(QTY),0) AS QTY,
-                            ISNULL(SUM(FATKG),0) AS FATKG,
-                            ISNULL(SUM(SNFKG),0) AS SNFKG,
-                            0 as Route,
-							0 as MCC
-                        FROM 
-                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS_DETAIL mcd
-                        LEFT JOIN 
-                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS mcs ON mcs.Document_No = mcd.Document_No
-                        WHERE 
-                           mcs.Status = 0
-                           AND
-                            CONVERT(DATE, mcs.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                            CONVERT(DATE, msh.DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
                         ) AS Procurement
                     ) AS Dis_Procurement)final"
             Next
@@ -848,8 +824,14 @@ Public Class DashboardMilkProcurement
 
         Dim docNo As String = ""
         query = " 
-    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL') "
-
+    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') "
+        If chkRJSBNS.Checked Then
+            query += "union all
+  SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
+  union all
+  SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
+  ORDER BY Location_Name"
+        End If
         dt = clsDBFuncationality.GetDataTable(query)
         query = ""
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -866,47 +848,19 @@ Public Class DashboardMilkProcurement
                                  FROM 
 (SELECT 
                         SUM(milk_weight) AS Milk_WeightProc,
-                        SUM(fatkg) AS FATKGProc,
+                        SUM(FATKg) AS FATKGProc,
                         SUM(SNFKG) AS SNFKGProc
                     FROM (
                         SELECT 
-                            SUM(Milk_Weight) AS Milk_Weight,
-                            SUM(CAST(Milk_Weight * FAT / 100 AS DECIMAL(18,3))) AS FATKg,
-                            SUM(CAST(Milk_Weight * SNF / 100 AS DECIMAL(18,3))) AS SNFKG
+                            SUM(Qty) AS Milk_Weight,
+                            SUM(FAT_KG) AS FATKg,
+                            SUM(SNF_KG) AS SNFKG
                         FROM 
-                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL mud
+                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SRN_DETAIL msd
                         LEFT JOIN 
-                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_HEAD muh ON muh.Document_No = mud.Document_No
+                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SRN_HEAD msh ON msh.DOC_CODE = msd.DOC_CODE
                         WHERE 
-                            CONVERT(DATE, muh.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
-                           
-
-                        UNION ALL
-
-                        SELECT 
-                            SUM(Milk_Weight) AS Milk_Weight,
-                            SUM(Milk_Weight * FAT / 100) AS FATKG,
-                            SUM(Milk_Weight * SNF / 100) AS SNFKG
-                        FROM 
-                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SHIFT_UPLOADER_DETAIL msd
-                        LEFT JOIN 
-                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SHIFT_UPLOADER_HEAD msh ON msh.Document_No = msd.Document_No
-                        WHERE 
-                            CONVERT(DATE, msh.Shift_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
-                            
-
-                        UNION ALL
-
-                        SELECT 
-                            ISNULL(SUM(QTY),0) AS QTY,
-                            ISNULL(SUM(FATKG),0) AS FATKG,
-                            ISNULL(SUM(SNFKG),0) AS SNFKG
-                        FROM 
-                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS_DETAIL mcd
-                        LEFT JOIN 
-                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS mcs ON mcs.Document_No = mcd.Document_No
-                        WHERE 
-                            CONVERT(DATE, mcs.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                            CONVERT(DATE, msh.DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
                         ) AS Procurement
                     ) AS Dis_Procurement)final"
             Next

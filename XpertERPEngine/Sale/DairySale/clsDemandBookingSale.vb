@@ -44,6 +44,7 @@ Public Class clsDemandBookingSale
         Try
             Dim ShiftType As String = ""
             Dim isBoothReset As Boolean = False
+            Dim qry As String = ""
             If clsCommon.myLen(clsCommon.myCstr(obj.Document_No)) > 0 Then
 
 

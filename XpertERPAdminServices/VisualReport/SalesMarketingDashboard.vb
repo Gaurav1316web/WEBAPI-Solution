@@ -21,7 +21,7 @@ Public Class SalesMarketingDashboard
     Private Sub btnExcel_Click(sender As Object, e As EventArgs) Handles btnExcel.Click
         ExportGridgv1(EnumExportTo.Excel)
         ExportGridgv2(EnumExportTo.Excel)
-        'ExportGridgv3(EnumExportTo.Excel)
+        ExportGridgv3(EnumExportTo.Excel)
     End Sub
 
     Private Sub SalesMarketingDashboard_Load_1(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -49,7 +49,7 @@ Public Class SalesMarketingDashboard
 
             Dim docNo As String = ""
             query = " 
-    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL') "
+    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') order by Location_Name "
             '          If chkRJSBNS.Checked Then
             '              query += "union all
             'SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
@@ -237,15 +237,15 @@ Public Class SalesMarketingDashboard
         gv1.Columns("SNo").IsVisible = True '
 
         gv1.Columns("Union Name").HeaderText = "Union Name"
-        gv1.Columns("Union Name").Width = 500
+        gv1.Columns("Union Name").Width = 200
         gv1.Columns("Union Name").IsVisible = True
 
         gv1.Columns("Fromdate").HeaderText = "From Date"
-        gv1.Columns("Fromdate").Width = 500
+        gv1.Columns("Fromdate").Width = 200
         gv1.Columns("Fromdate").IsVisible = False
 
         gv1.Columns("Todate").HeaderText = "To Date"
-        gv1.Columns("Todate").Width = 500
+        gv1.Columns("Todate").Width = 200
         gv1.Columns("Todate").IsVisible = False
 
 
@@ -255,7 +255,8 @@ Public Class SalesMarketingDashboard
         gv1.Columns("username").IsVisible = False
 
         gv1.Columns("DEMAND_INLTR").HeaderText = "Milk Demand Qty"
-        gv1.Columns("DEMAND_INLTR").FormatString = "{0:n3}"
+        gv1.Columns("DEMAND_INLTR").FormatString = "{0:n2}"
+
 
         gv1.Columns("Dis_FATKG").HeaderText = " Milk FAT KG"
         gv1.Columns("Dis_FATKG").IsVisible = True
@@ -264,21 +265,48 @@ Public Class SalesMarketingDashboard
 
         gv1.Columns("Dis_SNFKG").HeaderText = "Milk SNF KG"
         gv1.Columns("Dis_SNFKG").IsVisible = True
-        gv1.Columns("Dis_SNFKG").FormatString = ""
+        gv1.Columns("Dis_SNFKG").FormatString = "{0:n3}"
+
 
         gv1.Columns("DEMANDQTYKG").HeaderText = "Product Demand QTY"
         gv1.Columns("DEMANDQTYKG").IsVisible = True
-        gv1.Columns("DEMANDQTYKG").FormatString = "{0:n3}"
+        gv1.Columns("DEMANDQTYKG").FormatString = "{0:n2}"
+
 
         gv1.Columns("FATKGPRODUCT").HeaderText = "Product FAT KG"
         gv1.Columns("FATKGPRODUCT").IsVisible = True
         gv1.Columns("FATKGPRODUCT").FormatString = "{0:n3}"
 
 
+
         gv1.Columns("SNFKGPRODUCT").HeaderText = "Product SNF KG"
         gv1.Columns("SNFKGPRODUCT").IsVisible = True
         gv1.Columns("SNFKGPRODUCT").FormatString = "{0:n3}"
 
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+
+        Dim item3 As New GridViewSummaryItem("DEMAND_INLTR", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item3)
+
+        Dim item4 As New GridViewSummaryItem("Dis_FATKG", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item4)
+
+        Dim item5 As New GridViewSummaryItem("Dis_SNFKG", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item5)
+
+        Dim item6 As New GridViewSummaryItem("DEMANDQTYKG", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item6)
+
+        Dim item7 As New GridViewSummaryItem("FATKGPRODUCT", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item7)
+
+        Dim item8 As New GridViewSummaryItem("SNFKGPRODUCT", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item8)
+
+        'gv1.ShowGroupPanel = True
+        'gv1.MasterTemplate.AutoExpandGroups = True
+        gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         gv1.ShowGroupPanel = True
         gv1.MasterTemplate.AutoExpandGroups = True
 
@@ -295,7 +323,7 @@ Public Class SalesMarketingDashboard
 
             Dim docNo As String = ""
             query = " 
-    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL') "
+    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') order by Location_Name "
             '          If chkRJSBNS.Checked Then
             '              query += "union all
             'SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
@@ -493,15 +521,15 @@ FROM
         gv2.Columns("SNo").IsVisible = True '
 
         gv2.Columns("Union Name").HeaderText = "Union Name"
-        gv2.Columns("Union Name").Width = 500
+        gv2.Columns("Union Name").Width = 200
         gv2.Columns("Union Name").IsVisible = True
 
         gv2.Columns("Fromdate").HeaderText = "From Date"
-        gv2.Columns("Fromdate").Width = 500
+        gv2.Columns("Fromdate").Width = 200
         gv2.Columns("Fromdate").IsVisible = False
 
         gv2.Columns("Todate").HeaderText = "To Date"
-        gv2.Columns("Todate").Width = 500
+        gv2.Columns("Todate").Width = 200
         gv2.Columns("Todate").IsVisible = False
 
 
@@ -513,25 +541,31 @@ FROM
         gv2.Columns("route_no").HeaderText = "No of Routes"
         gv2.Columns("route_no").Width = 200
 
+
         gv2.Columns("Booth").HeaderText = " No of Booths"
         gv2.Columns("Booth").IsVisible = True
 
 
+
         gv2.Columns("DEMAND_INLTR").HeaderText = "Milk Demand Qty"
-        gv2.Columns("DEMAND_INLTR").FormatString = "{0:n3}"
+        gv2.Columns("DEMAND_INLTR").FormatString = "{0:n2}"
+
 
         gv2.Columns("Dis_FATKG").HeaderText = " Milk FAT KG"
         gv2.Columns("Dis_FATKG").IsVisible = True
         gv2.Columns("Dis_FATKG").FormatString = "{0:n3}"
 
 
+
         gv2.Columns("Dis_SNFKG").HeaderText = "Milk SNF KG"
         gv2.Columns("Dis_SNFKG").IsVisible = True
         gv2.Columns("Dis_SNFKG").FormatString = "{0:n3}"
 
+
         gv2.Columns("DEMANDQTYKG").HeaderText = "Product Demand QTY"
         gv2.Columns("DEMANDQTYKG").IsVisible = True
-        gv2.Columns("DEMANDQTYKG").FormatString = "{0:n3}"
+        gv2.Columns("DEMANDQTYKG").FormatString = "{0:n2}"
+
 
         gv2.Columns("FATKGPRODUCT").HeaderText = "Product FAT KG"
         gv2.Columns("FATKGPRODUCT").IsVisible = True
@@ -542,9 +576,38 @@ FROM
         gv2.Columns("SNFKGPRODUCT").IsVisible = True
         gv2.Columns("SNFKGPRODUCT").FormatString = "{0:n3}"
 
+
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        Dim item1 As New GridViewSummaryItem("route_no", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+
+        Dim item2 As New GridViewSummaryItem("Booth", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item2)
+
+        Dim item3 As New GridViewSummaryItem("DEMAND_INLTR", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item3)
+
+        Dim item4 As New GridViewSummaryItem("Dis_FATKG", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item4)
+
+        Dim item5 As New GridViewSummaryItem("Dis_SNFKG", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item5)
+
+        Dim item6 As New GridViewSummaryItem("DEMANDQTYKG", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item6)
+
+        Dim item7 As New GridViewSummaryItem("FATKGPRODUCT", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item7)
+
+        Dim item8 As New GridViewSummaryItem("SNFKGPRODUCT", "{0:f2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item8)
+
+        'gv1.ShowGroupPanel = True
+        'gv1.MasterTemplate.AutoExpandGroups = True
+        gv2.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv2.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         gv2.ShowGroupPanel = True
         gv2.MasterTemplate.AutoExpandGroups = True
-
         ' View()
     End Sub
     Sub ExportGrids3()
