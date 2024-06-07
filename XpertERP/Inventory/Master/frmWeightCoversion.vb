@@ -41,6 +41,7 @@ Public Class FrmWeightCoversion
         SetUserMgmtNew()
         ItemStructureMandatory = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.ItemStructureMandatoryOnWeightConversion & "'")) = 0, False, True)
         gv.AllowAddNewRow = False
+        clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_WEIGHT_CONVERSION ALTER COLUMN Contained_Qty DECIMAL(18,6) ")
         LoadData()
     End Sub
 

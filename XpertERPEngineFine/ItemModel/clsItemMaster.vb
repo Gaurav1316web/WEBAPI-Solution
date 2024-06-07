@@ -108,6 +108,7 @@ Public Class clsItemMaster
     Public STD_SNFPer As Decimal = 0
     Public Chilled_Freezen As Boolean = False
     Public Alies_Name As String = ""
+    Public ReportName As String = ""
     Public Alies_Name2 As String = ""
     Public Alies_Name3 As String = ""
     Public Crate As Boolean = False
@@ -1415,6 +1416,7 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
             clsCommon.AddColumnsForChange(coll, "Short_Description", obj.Item_Short_Desc)
             '=============Added by preeti gupta Against Ticket no[ERO/10/05/18-000302]
             clsCommon.AddColumnsForChange(coll, "Alies_Name", obj.Alies_Name)
+            clsCommon.AddColumnsForChange(coll, "Report_Name", obj.ReportName)
             clsCommon.AddColumnsForChange(coll, "Alies_Name2", obj.Alies_Name2)
             clsCommon.AddColumnsForChange(coll, "Alies_Name3", obj.Alies_Name3)
             '=========================================================================
@@ -1647,6 +1649,7 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
                 obj.Alies_Name = clsCommon.myCstr(dt.Rows(0)("Alies_Name"))
                 obj.Alies_Name_Hindi = clsCommon.myCstr(dt.Rows(0)("Alies_Name_Hindi"))
                 obj.Alies_Name2 = clsCommon.myCstr(dt.Rows(0)("Alies_Name2"))
+                obj.ReportName = clsCommon.myCstr(dt.Rows(0)("Report_Name"))
                 obj.Alies_Name3 = clsCommon.myCstr(dt.Rows(0)("Alies_Name3"))
                 obj.std_pur_rate = clsCommon.myCdbl(dt.Rows(0)("Purchase_Price"))
                 obj.Unit_Code = clsCommon.myCstr(dt.Rows(0)("Unit_Code"))
