@@ -911,14 +911,14 @@ Public Class frmEmployee_Master
                 txtESIDispensary.Text = obj.ESI_DISPENSARY
             End If
             chkPFApplicable.Checked = obj.ISPF
-            If obj.ISPF Then
-                txtPFNo.Text = obj.PF_NO
-                txtEPFRate.Value = obj.EPF_Rate
-                txtEPFMaxLimit.Value = obj.Max_Amount_EPF
-                cboPFCalculatnType.SelectedValue = obj.Pf_Calculation_Type
-                txtPFNoforDeptFile.Text = obj.PF_NO_DEPT_FILE
-                txtUANNo.Text = obj.UANNo
-            End If
+            'If obj.ISPF Then
+            txtPFNo.Text = obj.PF_NO
+            txtEPFRate.Value = obj.EPF_Rate
+            txtEPFMaxLimit.Value = obj.Max_Amount_EPF
+            cboPFCalculatnType.SelectedValue = obj.Pf_Calculation_Type
+            txtPFNoforDeptFile.Text = obj.PF_NO_DEPT_FILE
+            txtUANNo.Text = obj.UANNo
+            'End If
             cboEmpNature.SelectedValue = obj.EMPLOYMENT_NATURE
             cboConveyanceType.SelectedValue = obj.CONV_TYPE
             txtMinBasicSalary.Value = obj.MINIMUM_BASIC_SALARY
@@ -3202,7 +3202,12 @@ Public Class frmEmployee_Master
                         End If
                         obj.RELIEVING_DATE = clsCommon.GetPrintDate(strName, "dd/MMM/yyyy")
                     Else
-                        obj.RELIEVING_DATE = Nothing
+                        Dim Qry As String = "Select DATEDIFF(year,Convert(Date,'" & obj.Birth_date & "',103),Convert(Date,'" & clsCommon.GETSERVERDATE() & "',103))CurrentAge,EOMONTH(DATEADD(year, " + clsCommon.myCstr(EmployeeRetirementAge) + ", Convert(Date,'" & obj.Birth_date & "',103)))RetirementDate "
+                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                            obj.RELIEVING_DATE = clsCommon.GetPrintDate(dt.Rows(0)("RetirementDate"), "dd/MM/yyyy")
+                        End If
+                        'obj.RELIEVING_DATE = Nothing
                     End If
 
 

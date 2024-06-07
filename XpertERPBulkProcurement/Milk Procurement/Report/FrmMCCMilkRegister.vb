@@ -3985,7 +3985,19 @@ Public Class FrmMCCMilkRegister
             Dim BaseQry2 As String = ""
             If chkDateShift.Checked AndAlso rbtnCollectionSummary.Checked = False Then
                 qry = ""
-                BaseQry1 = "Select *,Case When xxx.RejectType='SWEET' Then xxx.ACC_Qty Else 0 End AS [Milk Weight Sweet(KG)],
+                BaseQry1 = "Select *,"
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                    BaseQry1 += "Case When xxx.RejectType='SWEET' or xxx.RejectType='FORFEITED GOOD' Then xxx.ACC_Qty Else 0 End AS [Milk Weight Sweet(KG)],
+		                      Case When xxx.RejectType='SWEET' or xxx.RejectType='FORFEITED GOOD' Then xxx.FAT_KG Else 0 End AS[Sweet FAT(KG)],
+		                      Case When xxx.RejectType='SWEET' or xxx.RejectType='FORFEITED GOOD' Then xxx.SNF_KG Else 0 End AS[Sweet SNF(KG)],
+		                      Case When xxx.RejectType='SOUR' or xxx.RejectType='FORFEITED SOUR' Then xxx.ACC_Qty Else 0 End AS [Milk Weight Sour(KG)],
+		                      Case When xxx.RejectType='SOUR' or xxx.RejectType='FORFEITED SOUR'Then xxx.FAT_KG Else 0 End AS [Sour FAT(KG)],
+		                      Case When xxx.RejectType='SOUR' or xxx.RejectType='FORFEITED SOUR' Then xxx.SNF_KG Else 0 End AS [Sour SNF(KG)],
+		                      Case When xxx.RejectType='CURD' or xxx.RejectType='FORFEITED CURD' Then xxx.ACC_Qty Else 0 End AS [Milk Weight Curd(KG)],
+		                      Case When xxx.RejectType='CURD' or xxx.RejectType='FORFEITED CURD' Then xxx.FAT_KG Else 0 End AS [Curd FAT(KG)],
+		                      Case When xxx.RejectType='CURD' or xxx.RejectType='FORFEITED CURD' Then xxx.SNF_KG Else 0 End AS [Curd SNF(KG)] from ("
+                Else
+                    BaseQry1 += "Case When xxx.RejectType='SWEET' Then xxx.ACC_Qty Else 0 End AS [Milk Weight Sweet(KG)],
 		                      Case When xxx.RejectType='SWEET' Then xxx.FAT_KG Else 0 End AS[Sweet FAT(KG)],
 		                      Case When xxx.RejectType='SWEET' Then xxx.SNF_KG Else 0 End AS[Sweet SNF(KG)],
 		                      Case When xxx.RejectType='SOUR' Then xxx.ACC_Qty Else 0 End AS [Milk Weight Sour(KG)],
@@ -3994,6 +4006,9 @@ Public Class FrmMCCMilkRegister
 		                      Case When xxx.RejectType='CURD' Then xxx.ACC_Qty Else 0 End AS [Milk Weight Curd(KG)],
 		                      Case When xxx.RejectType='CURD' Then xxx.FAT_KG Else 0 End AS [Curd FAT(KG)],
 		                      Case When xxx.RejectType='CURD' Then xxx.SNF_KG Else 0 End AS [Curd SNF(KG)] from ("
+                End If
+
+
                 BaseQry1 += "Select TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type  As [Milk Type], TSPL_MILK_SRN_HEAD.DOC_CODE As [Milk Receipt Code], TSPL_MILK_SRN_HEAD.MCC_CODE As MCC, TSPL_MCC_MASTER.MCC_NAME As [MCC Name], Convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) As Date,  Convert(varchar,TSPL_MILK_SRN_HEAD.DOC_DATE,103) As [Doc Date], Case When TSPL_MILK_SRN_HEAD.SHIFT = 'M' Then 'Morning' Else 'Evening' End As Shift,  TSPL_MILK_SRN_HEAD.ROUTE_CODE As [Route Code], TSPL_MCC_ROUTE_MASTER.Route_Name As [Route Name], TSPL_MILK_SRN_HEAD.VEHICLE_CODE As [Vehicle Code], TSPL_MILK_SRN_HEAD.VSP_CODE As [VSP Code],
                     TSPL_VENDOR_MASTER.Vendor_Name As [VSP Name],TSPL_VLC_MASTER_HEAD.VLC_Code As [Vlc Code], TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code], TSPL_VLC_MASTER_HEAD.VLC_Name As [VLC Name], TSPL_MILK_SRN_HEAD.SAMPLE_NO As [Sample No], TSPL_MILK_SHIFT_UPLOADER_DETAIL.NO_OF_CANS As [No Of Cans], 
                     TSPL_MILK_SRN_DETAIL.ACC_QTY ,   

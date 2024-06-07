@@ -463,19 +463,51 @@ Environment.NewLine + "Company : " & objCommonVar.CurrentCompanyName
             If clsCommon.myLen(fndArea.Value) > 0 Then
                 strQry5 += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
             End If
-
-
-
-            strQry = "  select xx.SNo,xx.company_name,xx.[Vendor Code],xx.[Vendor Name],xx.[VLC Uploader Code],"
-            If AreaWiseBilling = True Then
-                strQry += "xx.mcc_name,"
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                strQry = " select max(xx.company_name)company_name,max(xx.[Vendor Code])[Vendor Code],max(xx.[Vendor Name])[Vendor Name],(xx.[VLC Uploader Code])[VLC Uploader Code],"
             Else
-                strQry += "  xx.MCC_Name,"
+                strQry = "  select xx.SNo,xx.company_name,xx.[Vendor Code],xx.[Vendor Name],xx.[VLC Uploader Code],"
+
             End If
 
-            strQry += "xx.[Document Date],xx.[Document No],
-                        xx.Type,xx.Addition,xx.Deduction,xx.[Deduction Code],xx.Regn_No,xx.[Deduction Desc],xx.[SRN Qty],xx.Phone,xx.Remarks,xx.SRN_AMOUNT,xx.FromDate,xx.ToDate,xx.Reduce_Deduc_Amt,xx.ReduceAmt,xx.User_Name,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2 from
-                        (select round(row_number() over(order by(select 1)),0) as SNo,FINAL3.company_name,FINAL3.[Vendor Code],FINAL3.[Vendor Name],FINAL3.[VLC Uploader Code],"
+
+            'strQry = "  select xx.SNo,xx.company_name,xx.[Vendor Code],xx.[Vendor Name],xx.[VLC Uploader Code],"
+            If AreaWiseBilling = True Then
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                    strQry += "max(xx.MCC_Name)MCC_Name,"
+                Else
+                    strQry += "(xx.MCC_Name)MCC_Name,"
+                End If
+            Else
+
+                'strQry += "max(xx.MCC_Name)MCC_Name,"
+
+                'strQry += "xx.mcc_name,"
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                    strQry += "max(xx.MCC_Name)MCC_Name,"
+                Else
+                    strQry += "(xx.MCC_Name)MCC_Name,"
+                End If
+
+            End If
+                'End If
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                strQry += " max(xx.[Document Date])[Document Date],max(xx.[Document No])[Document No],max(xx.Type)Type,max(xx.Addition)Addition,max(xx.Deduction)Deduction,(xx.[Deduction Code])[Deduction Code],max(xx.Regn_No)Regn_No,max(xx.[Deduction Desc])[Deduction Desc],sum(DISTINCT xx.[SRN Qty]) as [SRN Qty],max(xx.Phone)Phone,max(xx.Remarks)Remarks,sum(DISTINCT xx.[SRN_AMOUNT]) as [SRN_AMOUNT],max(xx.FromDate)FromDate,max(xx.ToDate)ToDate,
+						(xx.Reduce_Deduc_Amt)Reduce_Deduc_Amt,
+						max(DISTINCT xx.ReduceAmt) as ReduceAmt,MAX(xx.User_Name)User_Name  "
+            Else
+                strQry += "xx.[Document Date],xx.[Document No],
+                        xx.Type,xx.Addition,xx.Deduction,xx.[Deduction Code],xx.Regn_No,xx.[Deduction Desc],xx.[SRN Qty],xx.Phone,xx.Remarks,xx.SRN_AMOUNT,xx.FromDate,xx.ToDate,xx.Reduce_Deduc_Amt,xx.ReduceAmt,xx.User_Name,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2"
+
+            End If
+            'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+            strQry += " from   (select round(row_number() over(order by(select 1)),0) as SNo,FINAL3.company_name,FINAL3.[Vendor Code],FINAL3.[Vendor Name],FINAL3.[VLC Uploader Code],FINAL3.[Document Date],FINAL3.[Document No],FINAL3.Type,FINAL3.Addition,FINAL3.Deduction,FINAL3.[Deduction Code],FINAL3.Regn_No,FINAL3.[Deduction Desc],final3.[SRN Qty],FINAL3.Phone,final3.Remarks,final3.SRN_AMOUNT,final3.FromDate, final3.ToDate,"
+
+            'strQry += "FINAL3.[Document Date],FINAL3.[Document No],FINAL3.Type,FINAL3.Addition,FINAL3.Deduction,FINAL3.[Deduction Code],FINAL3.Regn_No,FINAL3.[Deduction Desc],final3.[SRN Qty],FINAL3.Phone,final3.Remarks,final3.SRN_AMOUNT,final3.FromDate, final3.ToDate,"
+
+            'End If
+
+            'strQry += " from  (select round(row_number() over(order by(select 1)),0) as SNo,FINAL3.company_name,FINAL3.[Vendor Code],FINAL3.[Vendor Name],FINAL3.[VLC Uploader Code],"
             If AreaWiseBilling = True Then
 
                 strQry += " max(final3.mcc_name)mcc_name,"
@@ -484,13 +516,22 @@ Environment.NewLine + "Company : " & objCommonVar.CurrentCompanyName
                 strQry += " FINAL3.MCC_Name,"
             End If
 
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                strQry += "sum(XYZ.Reduce_Deduc_Amt) as Reduce_Deduc_Amt
+						,sum(xyz.amt)as ReduceAmt,
+                        CASE
+                          WHEN final3.Type = 'd'  THEN sum(xyz.amt)
+                          WHEN final3.Type = 'a' THEN final3.Addition
+                        END AS 'ReduceAmts','" & objCommonVar.CurrentUser & "' as User_Name,final3.Comp_Code"
+            Else
 
-            strQry += "FINAL3.[Document Date],FINAL3.[Document No],FINAL3.Type,FINAL3.Addition,FINAL3.Deduction,FINAL3.[Deduction Code],FINAL3.Regn_No,FINAL3.[Deduction Desc],final3.[SRN Qty],FINAL3.Phone,final3.Remarks,final3.SRN_AMOUNT,final3.FromDate, final3.ToDate,sum(TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt) as Reduce_Deduc_Amt,
+                strQry += "sum(TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt) as Reduce_Deduc_Amt,
                         CASE
                           WHEN final3.Type = 'd' THEN (FINAL3.Deduction - SUM(TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt))
                           WHEN final3.Type = 'a' THEN final3.Addition
-                        END AS 'ReduceAmt','" & objCommonVar.CurrentUser & "' as User_Name,final3.Comp_Code
-                         from (
+                        END AS 'ReduceAmt','" & objCommonVar.CurrentUser & "' as User_Name,final3.Comp_Code"
+            End If
+            strQry += " from (
                           SELECT  FINAL2.company_name,FINAL2.[Vendor Code],FINAL2.[Vendor Name],FINAL2.[VLC Uploader Code],"
             If AreaWiseBilling = True Then
                 strQry += " max(FINAL2.mcc_name)mcc_name,"
@@ -563,17 +604,34 @@ Environment.NewLine + "Company : " & objCommonVar.CurrentCompanyName
                         GROUP BY 
                         FINAL2.company_name,FINAL2.[Vendor Code],FINAL2.[Vendor Name],FINAL2.[VLC Uploader Code],FINAL2.MCC_Name,FINAL2.[Document Date],
                         FINAL2.[Document No],FINAL2.Type,FINAL2.Addition,FINAL2.Deduction,FINAL2.[Deduction Code],FINAL2.Regn_No,FINAL2.[Deduction Desc],
-                         FINAL2.Phone,final2.remarks,FINAL2.FromDate,FINAL2.ToDate,FINAL2.Comp_Code)final3
+                         FINAL2.Phone,final2.remarks,FINAL2.FromDate,FINAL2.ToDate,FINAL2.Comp_Code)final3"
 
-                        left join TSPL_PAYMENT_PROCESS_DEDUCTION on TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE=final3.[Vendor Code]
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                strQry += "  left outer join
+						(Select TSPL_PAYMENT_PROCESS_DEDUCTION.Amount,TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE,TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt,TSPL_VENDOR_INVOICE_HEAD.Document_No 
+						,(TSPL_PAYMENT_PROCESS_DEDUCTION.Amount-TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt) AS Amt
+						from TSPL_PAYMENT_PROCESS_DEDUCTION
+						 left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
+						 where 2=2  " + strQry4 + "
+						 and convert(date,Posting_Date,103) >=convert(date,('" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "'),103)  and convert(date,Posting_Date,103) <= convert(date,('" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'),103)
+						 )xyz on xyz.Vendor_CODE=final3.[Vendor Code] Where
+convert(date,XYZ.Posting_Date,103) >=convert(date,('" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "'),103) and convert(date,XYZ.Posting_Date,103) <= convert(date,('" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'),103)  and final3.Type = 'D'
+	                        or final3.Type='a'"
+            Else
+                strQry += " left join TSPL_PAYMENT_PROCESS_DEDUCTION on TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE=final3.[Vendor Code]
                         left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
-                        WHERE convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) >=convert(date,('" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "'),103) and convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) <= convert(date,('" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'),103) and final3.Type = 'D'" + strQry4 + " 
-	                        or final3.Type='a'
+WHERE convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) >=convert(date,('" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "'),103) and convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) <= convert(date,('" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'),103) and final3.Type = 'D'" + strQry4 + " 
+	                        or final3.Type='a'"
+            End If
+            strQry += " 
                         group by FINAL3.company_name,FINAL3.[Vendor Code],FINAL3.[Vendor Name],FINAL3.[VLC Uploader Code],FINAL3.MCC_Name,FINAL3.[Document Date],FINAL3.[Document No],
                         FINAL3.Type,FINAL3.Addition,FINAL3.Deduction,FINAL3.[Deduction Code],FINAL3.Regn_No,FINAL3.[Deduction Desc],final3.[SRN Qty],FINAL3.Phone,final3.remarks,
                         final3.SRN_AMOUNT,final3.FromDate, final3.ToDate,final3.Comp_Code)xx 
-                        left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=xx.Comp_Code
-                        order by  [VLC Uploader Code]"
+                        left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=xx.Comp_Code"
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                strQry += " group by [VLC Uploader Code],[Deduction Code],Reduce_Deduc_Amt"
+            End If
+            strQry += " order by  [VLC Uploader Code]"
 
             Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(strQry)
             If dt1.Rows.Count > 0 Then
