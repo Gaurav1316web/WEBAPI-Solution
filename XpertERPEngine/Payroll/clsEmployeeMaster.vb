@@ -242,7 +242,7 @@ Public Class clsEmployeeMaster
                 Qry = "Update TSPL_EMPLOYEE_MASTER Set RELIEVING_DATE='" + clsCommon.GetPrintDate(dt.Rows(0)("RetirementDate"), "dd/MMM/yyyy") + "' where EMP_CODE = '" + strCode + "' And RELIEVING_DATE is null "
                 clsDBFuncationality.ExecuteNonQuery(Qry)
                 If clsCommon.myCdbl(dt.Rows(0)("CurrentAge")) >= EmployeeRetirementAge AndAlso EmployeeRetirementAge > 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Emp_Status")), "Active") = CompairStringResult.Equal Then
-                    Qry = "Update TSPL_EMPLOYEE_MASTER Set Emp_Status='Inactive' where EMP_CODE = '" + strCode + "' And Emp_Status='Active'"
+                    Qry = "Update TSPL_EMPLOYEE_MASTER Set Emp_Status='Inactive' where EMP_CODE = '" + strCode + "' "
                     clsDBFuncationality.ExecuteNonQuery(Qry)
                 End If
                 If clsCommon.myCdbl(dt.Rows(0)("CurrentAge")) >= EmployeePFRetirementAge AndAlso EmployeePFRetirementAge > 0 AndAlso EmployeePFRetirementAge <= EmployeeRetirementAge Then

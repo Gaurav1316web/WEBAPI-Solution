@@ -21,8 +21,12 @@ Public Class clsDairyProductionUploader
     Public Function SaveData(ByVal obj As clsDairyProductionUploader, ByVal isNewEntry As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            Dim qry As String = "delete from TSPL_PRODUCTION_UPLOADER_DETAIL where Document_No='" + obj.Document_No + "'"
+            Dim qry As String = "delete from TSPL_PRODUCTION_UPLOADER_QC where Document_No='" + obj.Document_No + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_PRODUCTION_UPLOADER_DETAIL where Document_No='" + obj.Document_No + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
             If clsCommon.myLen(obj.Location_FG) <= 0 Then
                 Throw New Exception("Please provide FG location")
             End If
@@ -107,8 +111,7 @@ where 2=2 "
         Return obj
     End Function
     Public Shared Function HistoryUpdate(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
-        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PRODUCTION_UPLOADER_HEAD", "Document_No", "TSPL_PRODUCTION_UPLOADER_DETAIL", "Document_No", trans)
-        Return True
+        Return clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PRODUCTION_UPLOADER_HEAD", "Document_No", "TSPL_PRODUCTION_UPLOADER_DETAIL", "Document_No", "TSPL_PRODUCTION_UPLOADER_QC", "Document_No", trans)
     End Function
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
         If (clsCommon.myLen(strCode) <= 0) Then
@@ -128,6 +131,7 @@ where 2=2 "
                 Throw New Exception("Already Posted on :" + clsCommon.GetPrintDate(obj.Posted_Date, "dd/MM/yyyy"))
             End If
             HistoryUpdate(strCode, trans)
+            clsDBFuncationality.ExecuteNonQuery("delete from TSPL_PRODUCTION_UPLOADER_QC where Document_No='" + obj.Document_No + "'", trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_PRODUCTION_UPLOADER_DETAIL where Document_No='" + strCode + "'", trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_PRODUCTION_UPLOADER_HEAD where Document_No='" + strCode + "'", trans)
             Dim qry As String = "update TSPL_PRODUCTION_UPLOADER_HEAD_Delete_Data set Delete_By = '" + objCommonVar.CurrentUserCode + "' where Document_No='" + strCode + "'"
@@ -238,17 +242,23 @@ where TSPL_PRODUCTION_UPLOADER_DETAIL.Document_No='" + obj.Document_No + "' and 
                     End If
 
                     If Not settAllowNegativeStockInDairyProduction Then
-                        Dim strLocation As String = obj.Location_PK
-                        If clsCommon.CompairString(clsCommon.myCstr(drRM("Product_Type")), "MI") = CompairStringResult.Equal Then
-                            strLocation = obj.Location_RM
-                        End If
                         Dim CheckStockServerDate As Boolean
                         If clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.CheckLiveStockInProductionDuringTrans, clsFixedParameterCode.CheckLiveStockInProductionDuringTrans, trans)), "1") = CompairStringResult.Equal Then
                             CheckStockServerDate = True
                         Else
                             CheckStockServerDate = False
                         End If
-                        dt = clsProcessProductionPlanning.GetMilkAndALLItemStockBalance_With_FATSNFKG(clsCommon.myCstr(drRM("ITEM_CODE")), strLocation, "", IIf(CheckStockServerDate = True, clsCommon.GETSERVERDATE(trans), clsCommon.myCDate(drRM("Batch_Date"))), trans, clsCommon.myCstr(drRM("UNIT_CODE")), False)
+                        Dim strLocation As String = ""
+                        If clsCommon.CompairString(clsCommon.myCstr(drRM("Product_Type")), "MI") = CompairStringResult.Equal Then
+                            strLocation = obj.Location_RM
+                            Dim strMainLocation As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select main_location_code from tspl_location_master where Location_Code='" + obj.Location_RM + "'", trans))
+                            dt = clsProcessProductionPlanning.GetMilkAndALLItemStockBalance_With_FATSNFKG(clsCommon.myCstr(drRM("ITEM_CODE")), strMainLocation, obj.Location_RM, IIf(CheckStockServerDate = True, clsCommon.GETSERVERDATE(trans), clsCommon.myCDate(drRM("Batch_Date"))), trans, clsCommon.myCstr(drRM("UNIT_CODE")), 1)
+                        Else
+                            strLocation = obj.Location_PK
+                            dt = clsProcessProductionPlanning.GetMilkAndALLItemStockBalance_With_FATSNFKG(clsCommon.myCstr(drRM("ITEM_CODE")), obj.Location_PK, "", IIf(CheckStockServerDate = True, clsCommon.GETSERVERDATE(trans), clsCommon.myCDate(drRM("Batch_Date"))), trans, clsCommon.myCstr(drRM("UNIT_CODE")), 2)
+                        End If
+
+
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                             If clsCommon.myCDecimal(drRM("Qty")) > clsCommon.myCdbl(dt.Rows(0)("qty")) Then
                                 If Math.Abs(clsCommon.myCDecimal(drRM("Qty")) - clsCommon.myCdbl(dt.Rows(0)("qty"))) > 0.01 Then
@@ -376,11 +386,11 @@ where TSPL_PRODUCTION_UPLOADER_DETAIL.Document_No='" + obj.Document_No + "' and 
                     ArrInvetoryMovementNew = New List(Of clsInventoryMovementNew)
 
                     qry = "select sum(Fat_KG)as Fat_KG,sum(SNF_KG)as SNF_KG,sum(Fat_Amt)as Fat_Amt,sum(SNF_Amt)as SNF_Amt,sum(Avg_Cost) as Avg_Cost  from(
-select Fat_KG,SNF_KG,Fat_Amt,SNF_Amt,Avg_Cost from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" + objtr.PK_ID + "' and Trans_Type='" + clsUserMgtCode.DariyProductionUploader + "'
+select Fat_KG,SNF_KG,Fat_Amt,SNF_Amt,Avg_Cost from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" + clsCommon.myCstr(objtr.PK_ID) + "' and Trans_Type='" + clsUserMgtCode.DariyProductionUploader + "'
 union all
-select Fat_KG,SNF_KG,Fat_Amt,SNF_Amt,Avg_Cost from TSPL_INVENTORY_MOVEMENT_NEW where Source_Doc_No='" + objtr.PK_ID + "' and Trans_Type='" + clsUserMgtCode.DariyProductionUploader + "'
+select Fat_KG,SNF_KG,Fat_Amt,SNF_Amt,Avg_Cost from TSPL_INVENTORY_MOVEMENT_NEW where Source_Doc_No='" + clsCommon.myCstr(objtr.PK_ID) + "' and Trans_Type='" + clsUserMgtCode.DariyProductionUploader + "'
 union all
-select 0 as Fat_KG,0 as SNF_KG,0 as Fat_Amt,0 as SNF_Amt,Amount as Avg_Cost from TSPL_PRODUCTION_UPLOADER_OVERHEAD_COST_DETAIL where Against_PKID='" + objtr.PK_ID + "'
+select 0 as Fat_KG,0 as SNF_KG,0 as Fat_Amt,0 as SNF_Amt,Amount as Avg_Cost from TSPL_PRODUCTION_UPLOADER_OVERHEAD_COST_DETAIL where Against_PKID='" + clsCommon.myCstr(objtr.PK_ID) + "'
 )xx"
                     dt = clsDBFuncationality.GetDataTable(qry, trans)
                     Dim strProductType As String = clsItemMaster.GetItemProductType(objtr.Item_Code, trans)
@@ -613,7 +623,7 @@ End Class
 Public Class clsDairyProductionUploaderDetail
 #Region "Variables"
     Public Document_No As String
-    Public PK_ID As String
+    Public PK_ID As Integer
     Public Batch_Date As Date
     Public Shift_Code As String
     Public Item_Code As String
@@ -622,6 +632,7 @@ Public Class clsDairyProductionUploaderDetail
     Public UOM As String
     Public Batch_No As String
     Public QC_Status As Boolean
+    Public ArrQC As List(Of clsDairyProductionUploaderQC) = Nothing
 #End Region
 
     Public Shared Function SaveData(ByVal obj As clsDairyProductionUploader, ByVal trans As SqlTransaction) As Boolean
@@ -637,6 +648,9 @@ Public Class clsDairyProductionUploaderDetail
                 clsCommon.AddColumnsForChange(coll, "UOM", objTR.UOM)
                 clsCommon.AddColumnsForChange(coll, "QC_Status ", IIf(objTR.QC_Status, 1, 0))
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PRODUCTION_UPLOADER_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+
+
+                clsDairyProductionUploaderQC.SaveData(obj.Document_No, clsERPFuncationality.GetScopeIdentityValue(trans), objTR.ArrQC, trans)
             Next
         End If
         Return True
@@ -671,6 +685,53 @@ Public Class clsDairyProductionUploaderDetail
                 objTr.UOM = clsCommon.myCstr(dr("UOM"))
                 objTr.Shift_Code = clsCommon.myCstr(dr("Shift_Code"))
                 objTr.QC_Status = (clsCommon.myCdbl(dt.Rows(0)("QC_Status")) = 1)
+                objTr.ArrQC = clsDairyProductionUploaderQC.GetData(objTr.PK_ID, trans)
+                arr.Add(objTr)
+            Next
+        End If
+        Return arr
+    End Function
+End Class
+
+Public Class clsDairyProductionUploaderQC
+#Region "Variables"
+    Public Document_No As String
+    Public PK_ID As Integer
+    Public Against_PK_ID As Integer
+    Public QC_Code As String
+    Public Value As String
+
+#End Region
+
+    Public Shared Function SaveData(ByVal DocumentNo As String, ByVal PKID As Integer, ByVal Arr As List(Of clsDairyProductionUploaderQC), ByVal trans As SqlTransaction) As Boolean
+        If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
+            For Each objTR As clsDairyProductionUploaderQC In Arr
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "Document_No", DocumentNo)
+                clsCommon.AddColumnsForChange(coll, "Against_PKID", PKID)
+                clsCommon.AddColumnsForChange(coll, "QC_Code", objTR.QC_Code)
+                clsCommon.AddColumnsForChange(coll, "Value", objTR.Value)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PRODUCTION_UPLOADER_QC", OMInsertOrUpdate.Insert, "", trans)
+            Next
+        End If
+        Return True
+    End Function
+
+    Public Shared Function GetData(ByVal AgainstPKID As Integer, ByVal trans As SqlTransaction) As List(Of clsDairyProductionUploaderQC)
+        Dim arr As List(Of clsDairyProductionUploaderQC) = Nothing
+        Dim qry As String = "SELECT TSPL_PRODUCTION_UPLOADER_QC.*  FROM TSPL_PRODUCTION_UPLOADER_QC where TSPL_PRODUCTION_UPLOADER_QC.Against_PKID=" + clsCommon.myCstr(AgainstPKID) + " "
+        qry += " ORDER BY TSPL_PRODUCTION_UPLOADER_QC.PK_ID"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+            arr = New List(Of clsDairyProductionUploaderQC)
+            Dim objTr As clsDairyProductionUploaderQC
+            For Each dr As DataRow In dt.Rows
+                objTr = New clsDairyProductionUploaderQC
+                objTr.Document_No = clsCommon.myCstr(dr("Document_No"))
+                objTr.PK_ID = clsCommon.myCstr(dr("PK_ID"))
+                objTr.Against_PK_ID = clsCommon.myCDecimal(dr("Against_PKID"))
+                objTr.QC_Code = clsCommon.myCstr(dr("QC_Code"))
+                objTr.Value = clsCommon.myCstr(dr("Value"))
                 arr.Add(objTr)
             Next
         End If
