@@ -1094,7 +1094,7 @@ Partial Class FrmMPMaster
         Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel12.Location = New System.Drawing.Point(362, 80)
         Me.MyLabel12.Name = "MyLabel12"
-        Me.MyLabel12.Size = New System.Drawing.Size(62, 16)
+        Me.MyLabel12.Size = New System.Drawing.Size(88, 16)
         Me.MyLabel12.TabIndex = 147
         Me.MyLabel12.Text = "Secretary Name"
         '
@@ -1127,7 +1127,7 @@ Partial Class FrmMPMaster
         Me.MyLabel11.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel11.Location = New System.Drawing.Point(18, 80)
         Me.MyLabel11.Name = "MyLabel11"
-        Me.MyLabel11.Size = New System.Drawing.Size(108, 16)
+        Me.MyLabel11.Size = New System.Drawing.Size(109, 16)
         Me.MyLabel11.TabIndex = 145
         Me.MyLabel11.Text = "DCS Uploader Code"
         '
@@ -1279,7 +1279,7 @@ Partial Class FrmMPMaster
         '
         Me.chkIsVSP.Location = New System.Drawing.Point(9, 42)
         Me.chkIsVSP.Name = "chkIsVSP"
-        Me.chkIsVSP.Size = New System.Drawing.Size(50, 18)
+        Me.chkIsVSP.Size = New System.Drawing.Size(77, 18)
         Me.chkIsVSP.TabIndex = 46
         Me.chkIsVSP.Text = "Is Secretary"
         '
@@ -1551,7 +1551,7 @@ Partial Class FrmMPMaster
         Me.MyLabel43.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel43.Location = New System.Drawing.Point(368, 14)
         Me.MyLabel43.Name = "MyLabel43"
-        Me.MyLabel43.Size = New System.Drawing.Size(155, 16)
+        Me.MyLabel43.Size = New System.Drawing.Size(157, 16)
         Me.MyLabel43.TabIndex = 128
         Me.MyLabel43.Text = "MP Code (For DCS Uploader)"
         '
@@ -2326,7 +2326,7 @@ Partial Class FrmMPMaster
         Me.lblMCC.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblMCC.Location = New System.Drawing.Point(18, 37)
         Me.lblMCC.Name = "lblMCC"
-        Me.lblMCC.Size = New System.Drawing.Size(97, 16)
+        Me.lblMCC.Size = New System.Drawing.Size(99, 16)
         Me.lblMCC.TabIndex = 18
         Me.lblMCC.Text = "Producer For DCS"
         '
