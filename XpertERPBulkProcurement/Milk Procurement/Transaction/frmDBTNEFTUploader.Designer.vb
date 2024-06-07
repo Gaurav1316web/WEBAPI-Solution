@@ -26,6 +26,7 @@ Partial Class frmDBTNEFTUploader
         Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.chkDBTRevisePayment = New Telerik.WinControls.UI.RadCheckBox()
         Me.BtnBank = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.txtBankLetterDate = New common.Controls.MyDateTimePicker()
@@ -45,6 +46,7 @@ Partial Class frmDBTNEFTUploader
         Me.MyLabel34 = New common.Controls.MyLabel()
         Me.txtVLC = New common.UserControls.txtMultiSelectFinder()
         Me.txtdate = New common.Controls.MyDateTimePicker()
+        Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.lblCode = New common.Controls.MyLabel()
         Me.txtDocumentNo = New common.UserControls.txtNavigator()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
@@ -71,13 +73,13 @@ Partial Class frmDBTNEFTUploader
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.chkDBTRevisePayment, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnBank, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtBankLetterDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -93,6 +95,7 @@ Partial Class frmDBTNEFTUploader
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtdate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
@@ -120,7 +123,6 @@ Partial Class frmDBTNEFTUploader
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -162,6 +164,7 @@ Partial Class frmDBTNEFTUploader
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.chkDBTRevisePayment)
         Me.SplitContainer2.Panel1.Controls.Add(Me.BtnBank)
         Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel4)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtBankLetterDate)
@@ -191,6 +194,15 @@ Partial Class frmDBTNEFTUploader
         Me.SplitContainer2.Size = New System.Drawing.Size(860, 472)
         Me.SplitContainer2.SplitterDistance = 147
         Me.SplitContainer2.TabIndex = 0
+        '
+        'chkDBTRevisePayment
+        '
+        Me.chkDBTRevisePayment.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkDBTRevisePayment.Location = New System.Drawing.Point(313, 55)
+        Me.chkDBTRevisePayment.Name = "chkDBTRevisePayment"
+        Me.chkDBTRevisePayment.Size = New System.Drawing.Size(15, 15)
+        Me.chkDBTRevisePayment.TabIndex = 347
+        Me.chkDBTRevisePayment.Visible = False
         '
         'BtnBank
         '
@@ -498,6 +510,16 @@ Partial Class frmDBTNEFTUploader
         Me.txtdate.Text = "13/06/2011"
         Me.txtdate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
         '
+        'btnReset
+        '
+        Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReset.Image = Global.XpertERPBulkProcurement.My.Resources.Resources._new
+        Me.btnReset.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnReset.Location = New System.Drawing.Point(350, 8)
+        Me.btnReset.Name = "btnReset"
+        Me.btnReset.Size = New System.Drawing.Size(21, 19)
+        Me.btnReset.TabIndex = 8
+        '
         'lblCode
         '
         Me.lblCode.FieldName = Nothing
@@ -540,10 +562,10 @@ Partial Class frmDBTNEFTUploader
         'RadPageViewPage3
         '
         Me.RadPageViewPage3.Controls.Add(Me.gvFarmer)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(80.0!, 24.0!)
-        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 33)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(84.0!, 28.0!)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(839, 277)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(839, 273)
         Me.RadPageViewPage3.Text = "Valid Farmers"
         '
         'gvFarmer
@@ -560,14 +582,14 @@ Partial Class frmDBTNEFTUploader
         Me.gvFarmer.MyStopExport = False
         Me.gvFarmer.Name = "gvFarmer"
         Me.gvFarmer.ShowHeaderCellButtons = True
-        Me.gvFarmer.Size = New System.Drawing.Size(839, 277)
+        Me.gvFarmer.Size = New System.Drawing.Size(839, 273)
         Me.gvFarmer.TabIndex = 1
         Me.gvFarmer.TabStop = False
         '
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.gvItem)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(37.0!, 24.0!)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(41.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(839, 273)
@@ -595,7 +617,7 @@ Partial Class frmDBTNEFTUploader
         '
         Me.RadPageViewPage2.Controls.Add(Me.gvInvalid)
         Me.RadPageViewPage2.Controls.Add(Me.Panel1)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(45.0!, 24.0!)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(49.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(839, 273)
@@ -640,7 +662,7 @@ Partial Class frmDBTNEFTUploader
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.SplitContainer3)
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(71.0!, 24.0!)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 37)
         Me.Attachments.Name = "Attachments"
         Me.Attachments.Size = New System.Drawing.Size(839, 273)
@@ -779,16 +801,6 @@ Partial Class frmDBTNEFTUploader
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
-        'btnReset
-        '
-        Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Image = Global.XpertERPBulkProcurement.My.Resources.Resources._new
-        Me.btnReset.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnReset.Location = New System.Drawing.Point(350, 8)
-        Me.btnReset.Name = "btnReset"
-        Me.btnReset.Size = New System.Drawing.Size(21, 19)
-        Me.btnReset.TabIndex = 8
-        '
         'frmDBTNEFTUploader
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -808,6 +820,7 @@ Partial Class frmDBTNEFTUploader
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.chkDBTRevisePayment, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnBank, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtBankLetterDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -823,6 +836,7 @@ Partial Class frmDBTNEFTUploader
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtdate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
@@ -850,7 +864,6 @@ Partial Class frmDBTNEFTUploader
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -903,5 +916,6 @@ Partial Class frmDBTNEFTUploader
     Friend WithEvents txtBankLetterDate As common.Controls.MyDateTimePicker
     Friend WithEvents BtnBank As RadButton
     Friend WithEvents btnClrApproval As RadButton
+    Friend WithEvents chkDBTRevisePayment As RadCheckBox
 End Class
 
