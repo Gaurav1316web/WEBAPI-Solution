@@ -148,6 +148,7 @@ Public Module myMessages
         End If
         Return True
     End Function
+
     Public Function GLAccountRefreshConfirm() As Boolean
         message = "If you change location then all fill gl Account lost.Do you want to change location."
         If common.clsCommon.MyMessageBoxShow(message, "", MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.No Then
@@ -163,4 +164,11 @@ Public Module myMessages
         Return True
     End Function
 
+    Public Function CancelConfirms(ByVal frm As Telerik.WinControls.UI.RadForm) As Boolean
+        message = "Do you want to Cancel the Current Documnet."
+        If common.clsCommon.MyMessageBoxShow(frm, message, "", MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.No Then
+            Return False
+        End If
+        Return True
+    End Function
 End Module

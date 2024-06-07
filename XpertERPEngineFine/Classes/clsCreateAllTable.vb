@@ -2318,7 +2318,7 @@ Public Class clsCreateAllTable
             coll.Add("BuyBackValue", "Decimal(18,2) null")
             coll.Add("BomBuildQty", "integer Null")
             coll.Add("Item_Sub_Group_Type", "varchar(50) NULL")
-
+            coll.Add("Report_Name", "varchar(50) NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -53355,6 +53355,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("RCDF_Post_By", "varchar(12) NULL")
             coll.Add("RCDF_Post_Date", "Datetime NULL")
             coll.Add("Bank_Letter_Date", "Datetime NULL")
+            coll.Add("DBT_Revise_Payment", "integer null ")
             coll.Add("UKID", "INT IDENTITY(1,1) not null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT", coll, "UNIQUE(UKID)", True, False, "", "Document_Code", "Document_Date")
 
