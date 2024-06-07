@@ -342,18 +342,18 @@ Public Class DashboardMilkProcurement
 					ISNULL(SUM(Dis_Procurement.TotalFatkg), 0) AS TotalFatkg,ISNULL(SUM(Dis_Procurement.Totalsnfkg), 0) AS Totalsnfkg
                                  FROM 
 (SELECT 
-                         COUNT(CASE WHEN xxx.dcs = 'REGISTERED' THEN 1 ELSE NULL END) as RegCount,
-   ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' THEN Milk_Weight ELSE 0 END), 0) AS DCS_1_QTY,
-    ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' THEN FATKG ELSE 0 END), 0) AS DCS_1_FATKG,
-    ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' THEN SNFKG ELSE 0 END), 0) AS DCS_1_SNFKG,
+                         COUNT(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN 1 ELSE NULL END) as RegCount,
+   ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN Milk_Weight ELSE 0 END), 0) AS DCS_1_QTY,
+    ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN FATKG ELSE 0 END), 0) AS DCS_1_FATKG,
+    ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN SNFKG ELSE 0 END), 0) AS DCS_1_SNFKG,
 	COUNT(CASE WHEN xxx.dcs = 'PDCS' THEN 1 ELSE NULL END) as PDCSCount,
     ISNULL(SUM(CASE WHEN xxx.dcs = 'PDCS' THEN Milk_Weight ELSE 0 END), 0) AS DCS_2_QTY,
     ISNULL(SUM(CASE WHEN xxx.dcs = 'PDCS' THEN FATKG ELSE 0 END), 0) AS DCS_2_FATKG,
     ISNULL(SUM(CASE WHEN xxx.dcs = 'PDCS' THEN SNFKG ELSE 0 END), 0) AS DCS_2_SNFKG,
-	(COUNT(CASE WHEN xxx.dcs = 'PDCS' THEN 1 ELSE NULL END)+COUNT(CASE WHEN xxx.dcs = 'REGISTERED' THEN 1 ELSE NULL END)) AS DCSCount,
-	( ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' THEN Milk_Weight ELSE 0 END), 0)+ISNULL(SUM(CASE WHEN xxx.dcs = 'PDCS' THEN Milk_Weight ELSE 0 END), 0)) as QTY1,
-	(ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' THEN FATKG ELSE 0 END), 0)+ISNULL(SUM(CASE WHEN xxx.dcs='PDCS' THEN FATKG ELSE 0 END), 0)) as TotalFATKG,
-	(ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' THEN  SNFKG ELSE 0 END), 0)+ISNULL(SUM(CASE WHEN xxx.dcs = 'PDCS' THEN SNFKG ELSE 0 END), 0)) as TotalSNFKG,
+	(COUNT(CASE WHEN xxx.dcs = 'PDCS' THEN 1 ELSE NULL END)+COUNT(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN 1 ELSE NULL END)) AS DCSCount,
+	( ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN Milk_Weight ELSE 0 END), 0)+ISNULL(SUM(CASE WHEN xxx.dcs = 'PDCS' THEN Milk_Weight ELSE 0 END), 0)) as QTY1,
+	(ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN FATKG ELSE 0 END), 0)+ISNULL(SUM(CASE WHEN xxx.dcs='PDCS' THEN FATKG ELSE 0 END), 0)) as TotalFATKG,
+	(ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN  SNFKG ELSE 0 END), 0)+ISNULL(SUM(CASE WHEN xxx.dcs = 'PDCS' THEN SNFKG ELSE 0 END), 0)) as TotalSNFKG,
 		sum(xxx.Milk_Weight)Milk_Weight,sum(xxx.FATKG)FATKG,sum(xxx.SNFKG)SNFKG,count(xxx.dcs)dcs,
 	COUNT(CASE WHEN xxx.dcs = 'REGISTERED' THEN 1 ELSE NULL END ) as Regcounts,
 	COUNT(CASE WHEN xxx.dcs = 'PDCS' THEN 1 ELSE NULL END) as PDCSCsount
@@ -512,7 +512,7 @@ Public Class DashboardMilkProcurement
         Try
             If gv1.Rows.Count > 0 Then
                 Dim arrHeader As List(Of String) = New List(Of String)()
-                arrHeader.Add("Union : " & objCommonVar.CurrentCompanyName)
+                'arrHeader.Add("Union : " & objCommonVar.CurrentCompanyName)
                 arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.DashboardMilkProcurement & "'"))
                 arrHeader.Add("Date : " & clsCommon.myCstr(txtFromDate.Text) + "  To " + clsCommon.myCstr(txtToDate.Text))
 
@@ -531,7 +531,7 @@ Public Class DashboardMilkProcurement
         Try
             If gv2.Rows.Count > 0 Then
                 Dim arrHeader As List(Of String) = New List(Of String)()
-                arrHeader.Add("Union : " & objCommonVar.CurrentCompanyName)
+                'arrHeader.Add("Union : " & objCommonVar.CurrentCompanyName)
                 arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.DashboardMilkProcurement & "'"))
                 arrHeader.Add("Date : " & clsCommon.myCstr(txtFromDate.Text) + "  To " + clsCommon.myCstr(txtToDate.Text))
 
@@ -550,7 +550,7 @@ Public Class DashboardMilkProcurement
         Try
             If gv3.Rows.Count > 0 Then
                 Dim arrHeader As List(Of String) = New List(Of String)()
-                arrHeader.Add("Union : " & objCommonVar.CurrentCompanyName)
+                ' arrHeader.Add("Union : " & objCommonVar.CurrentCompanyName)
                 arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.DashboardMilkProcurement & "'"))
                 arrHeader.Add("Date : " & clsCommon.myCstr(txtFromDate.Text) + "  To " + clsCommon.myCstr(txtToDate.Text))
 
@@ -705,18 +705,18 @@ Public Class DashboardMilkProcurement
 					ISNULL(SUM(Dis_Procurement.TotalFatkg), 0) AS TotalFatkg,ISNULL(SUM(Dis_Procurement.Totalsnfkg), 0) AS Totalsnfkg
                                  FROM 
 (SELECT  
-                        COUNT(CASE WHEN xxx.dcs = 'REGISTERED' THEN 1 ELSE NULL END) as RegCount,
-   ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' THEN Milk_Weight ELSE 0 END), 0) AS DCS_1_QTY,
-    ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' THEN FATKG ELSE 0 END), 0) AS DCS_1_FATKG,
-    ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' THEN SNFKG ELSE 0 END), 0) AS DCS_1_SNFKG,
+                        COUNT(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN 1 ELSE NULL END) as RegCount,
+   ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN Milk_Weight ELSE 0 END), 0) AS DCS_1_QTY,
+    ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN FATKG ELSE 0 END), 0) AS DCS_1_FATKG,
+    ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN SNFKG ELSE 0 END), 0) AS DCS_1_SNFKG,
 	COUNT(CASE WHEN xxx.dcs = 'PDCS' THEN 1 ELSE NULL END) as PDCSCount,
     ISNULL(SUM(CASE WHEN xxx.dcs = 'PDCS' THEN Milk_Weight ELSE 0 END), 0) AS DCS_2_QTY,
     ISNULL(SUM(CASE WHEN xxx.dcs = 'PDCS' THEN FATKG ELSE 0 END), 0) AS DCS_2_FATKG,
     ISNULL(SUM(CASE WHEN xxx.dcs = 'PDCS' THEN SNFKG ELSE 0 END), 0) AS DCS_2_SNFKG,
-	(COUNT(CASE WHEN xxx.dcs = 'PDCS' THEN 1 ELSE NULL END)+COUNT(CASE WHEN xxx.dcs = 'REGISTERED' THEN 1 ELSE NULL END)) AS DCSCount,
-	( ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' THEN Milk_Weight ELSE 0 END), 0)+ISNULL(SUM(CASE WHEN xxx.dcs = 'PDCS' THEN Milk_Weight ELSE 0 END), 0)) as QTY1,
-	(ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' THEN FATKG ELSE 0 END), 0)+ISNULL(SUM(CASE WHEN xxx.dcs='PDCS' THEN FATKG ELSE 0 END), 0)) as TotalFATKG,
-	(ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' THEN  SNFKG ELSE 0 END), 0)+ISNULL(SUM(CASE WHEN xxx.dcs = 'PDCS' THEN SNFKG ELSE 0 END), 0)) as TotalSNFKG,
+	(COUNT(CASE WHEN xxx.dcs = 'PDCS' THEN 1 ELSE NULL END)+COUNT(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN 1 ELSE NULL END)) AS DCSCount,
+	( ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN Milk_Weight ELSE 0 END), 0)+ISNULL(SUM(CASE WHEN xxx.dcs = 'PDCS' THEN Milk_Weight ELSE 0 END), 0)) as QTY1,
+	(ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN FATKG ELSE 0 END), 0)+ISNULL(SUM(CASE WHEN xxx.dcs='PDCS' THEN FATKG ELSE 0 END), 0)) as TotalFATKG,
+	(ISNULL(SUM(CASE WHEN xxx.dcs = 'REGISTERED' OR xxx.dcs IS NULL OR xxx.dcs = '' THEN  SNFKG ELSE 0 END), 0)+ISNULL(SUM(CASE WHEN xxx.dcs = 'PDCS' THEN SNFKG ELSE 0 END), 0)) as TotalSNFKG,
 		sum(xxx.Milk_Weight)Milk_Weight,sum(xxx.FATKG)FATKG,sum(xxx.SNFKG)SNFKG,count(xxx.dcs)dcs,
 	COUNT(CASE WHEN xxx.dcs = 'REGISTERED' THEN 1 ELSE NULL END ) as Regcounts,
 	COUNT(CASE WHEN xxx.dcs = 'PDCS' THEN 1 ELSE NULL END) as PDCSCsount

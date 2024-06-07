@@ -4769,7 +4769,7 @@ Public Class rptDairyTruckSheetReport
                 whrcls += " And  Main_Final.cust_Code In (" + clsCommon.GetMulcallString(txtInvMultiCust.arrValueMember) + ")"
             End If
 
-            If txtMultItemCodeInv.arrValueMember.Count > 0 Then
+            If txtMultItemCodeInv.arrValueMember IsNot Nothing AndAlso txtMultItemCodeInv.arrValueMember.Count > 0 Then
                 whrcls += " And Main_Final.Structure_Code IN (" + clsCommon.GetMulcallString(txtMultItemCodeInv.arrValueMember) + ")"
             End If
 
