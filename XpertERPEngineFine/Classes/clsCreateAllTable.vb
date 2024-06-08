@@ -29814,6 +29814,10 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("MBRT_Hours", "decimal(18,2) null")
             coll.Add("Gross_Amount", "decimal(18, 2) NULL")
             coll.Add("ParentDocNo", "varchar(30) NULL")
+            coll.Add("Receipt_No", "varchar(30) NULL REFERENCES TSPL_Receipt_Header(Receipt_No)")
+            coll.Add("ReceiptAmt", "decimal(18,2) NULL")
+            coll.Add("ReceiverName", "varchar(50) NULL")
+            coll.Add("TotalSubsidyAmt", "Decimal(18,2) NULL")
 
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
             'Try

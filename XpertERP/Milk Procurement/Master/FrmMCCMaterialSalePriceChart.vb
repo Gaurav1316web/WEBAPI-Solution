@@ -6,6 +6,7 @@ Public Class FrmMCCMaterialSalePriceChart
     Inherits FrmMainTranScreen
 
 #Region "Variables"
+    Dim isNewEntry As Boolean = False
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Dim ErrorControl As clsErrorControl = New clsErrorControl()
     Private isInsideLoadData As Boolean = False
@@ -13,18 +14,20 @@ Public Class FrmMCCMaterialSalePriceChart
 #End Region
 
     Sub Reset()
+        isNewEntry = True
         isInsideLoadData = False
-        fndno.Value = ""
-        chkMCCAll.IsChecked = True
-        cbgMCC.CheckedAll()
-        
-        fndno.MyReadOnly = False
+        txtDocNo.Value = ""
+        txtMCC_Code.arrValueMember = Nothing
+
+        txtDocNo.MyReadOnly = False
         txtdate.Text = clsCommon.GETSERVERDATE()
-        MyDateTimePicker1.Value = clsCommon.GETSERVERDATE()
+        txtEndDate.Value = txtdate.Text
         gv.DataSource = Nothing
         gv.Rows.Clear()
         gv.Columns.Clear()
         LoadGrid()
+        txtdate.Enabled = True
+        txtEndDate.Enabled = True
         'UcAttachment1.Form_ID = Me.Form_ID
         'UcAttachment1.BlankAllControls()
     End Sub
@@ -54,19 +57,6 @@ Public Class FrmMCCMaterialSalePriceChart
 
     End Sub
 
-    Sub LoadMCC()
-        Dim qry As String = Nothing
-        If AllowPlandDeptMCCLocation Then
-            qry = "select Location_Code AS Code, Location_Desc as Name  from TSPL_LOCATION_MASTER where Is_Sub_Location = 'N' AND Location_Category <> 'MCC' and GIT_Type  <> 'Y' order by Code "
-        Else
-            qry = "select MCC_Code as Code ,MCC_NAME as Name from TSPL_MCC_MASTER "
-        End If
-
-        cbgMCC.DataSource = clsDBFuncationality.GetDataTable(qry)
-        cbgMCC.ValueMember = "Code"
-        cbgMCC.DisplayMember = "Name"
-        chkMCCAll.IsChecked = True
-    End Sub
 
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.FrmMCCMaterialSalePriceChart)
@@ -89,10 +79,6 @@ Public Class FrmMCCMaterialSalePriceChart
             Catch ex As Exception
             End Try
         End If
-
-        LoadMCC()
-
-
         Reset()
         SetUserMgmtNew()
 
@@ -106,98 +92,10 @@ Public Class FrmMCCMaterialSalePriceChart
     End Sub
 
     Private Sub btnshow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnshow.Click
-        LoadData()
+        ' LoadData()
     End Sub
 
-    Sub LoadData()
-        If clsCommon.myLen(fndno.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Please Select Code Of Price Chart Uploader", Me.Text)
-            fndno.Focus()
-            fndno.Select()
-            ErrorControl.SetError(fndno, "Please Select Code Of Price Chart Uploader")
-            Return
-        Else
-            ErrorControl.ResetError(fndno)
-        End If
 
-        'If clsCommon.myLen(txtdate.Text) <= 0 Then
-        '    clsCommon.MyMessageBoxShow("Please Fill Date", Me.Text)
-        '    txtdate.Focus()
-        '    txtdate.Select()
-        '    ErrorControl.SetError(txtdate, "Please Fill Date")
-        '    Return
-        'Else
-        '    ErrorControl.ResetError(txtdate)
-        'End If
-
-        'Dim xdate As Date = Nothing
-        'xdate = Convert.ToDateTime(txtdate.Text).ToString("MM/dd/yyyy")
-
-        Dim qry As String = "select count(*) from TSPL_MCC_RATE_UPLOADER_MASTER where code='" + clsCommon.myCstr(fndno.Value) + "'"
-        Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
-
-        If check <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
-            Return
-        End If
-
-        chkMCCAll.IsChecked = True
-
-
-
-        'qry = "select '' as 'Option',aa.fat," + values + " from (select ROW_NUMBER() over(PARTITION by fat order by fat) as sno,rate,snf from tspl_fat_snf_uploader_master where code='" + clsCommon.myCstr(fndno.Value) + "') as s pivot(max(rate) for snf in (" + values + ")) as t left outer join (select ROW_NUMBER() over(order by a.fat) as sno1,a.fat from (select distinct fat from tspl_fat_snf_uploader_master where code='" + clsCommon.myCstr(fndno.Value) + "')a)aa on aa.sno1=sno"
-        qry = "select tspl_item_master.Item_Code as [Item Code],tspl_item_master.Item_Desc as [Item Name],TSPL_UNIT_MASTER. unit_code as [Unit Code]" _
-        & " ,Unit_Desc as [Unit Desc],Price,1 as Issaved from tspl_item_master left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=tspl_item_master.item_code" _
-        & " left join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.UOM_Code left join TSPL_MCC_RATE_UPLOADER_Detail on " _
-        & " TSPL_MCC_RATE_UPLOADER_Detail.item_code=TSPL_ITEM_MASTER.item_code and TSPL_MCC_RATE_UPLOADER_Detail.rate_uom=TSPL_UNIT_MASTER.Unit_Code " _
-        & " where code='" & fndno.Value & "'"
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            gv.DataSource = Nothing
-            gv.Rows.Clear()
-            gv.Columns.Clear()
-            gv.DataSource = dt
-
-            gv.Columns("Item Code").Width = 100
-            gv.Columns("Item Name").Width = 300
-            gv.Columns("Item Name").ReadOnly = True
-            gv.Columns("Unit Code").Width = 100
-            gv.Columns("Unit Desc").Width = 100
-            gv.Columns("Unit Desc").ReadOnly = True
-            gv.Columns("Price").Width = 100
-            gv.Columns("Issaved").Width = 0
-            gv.Columns("Issaved").IsVisible = False
-
-            gv.MasterTemplate.AddNewRowPosition = SystemRowPosition.Bottom
-            'gv.Width = 80
-            ' gv.ReadOnly = False
-            gv.AllowAddNewRow = True
-            gv.AllowDeleteRow = False
-            'gv.AllowAutoSizeColumns = True
-            ' gv.Rows(0).Cells(0).Value = "FAT"
-        End If
-
-
-        '=======================MCC========================
-        qry = "select * from TSPL_MCC_RATE_UPLOADER_MCC where code='" + fndno.Value + "'"
-        dt = New DataTable()
-        dt = clsDBFuncationality.GetDataTable(qry)
-
-        Dim arr As New ArrayList()
-
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            For Each dr As DataRow In dt.Rows
-                arr.Add(clsCommon.myCstr(dr("mcc_code")))
-            Next
-
-            chkMCCSelect.IsChecked = True
-            cbgMCC.CheckedValue = arr
-        End If
-
-
-        
-    End Sub
 
     Private Sub btnrefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnrefresh.Click
         Reset()
@@ -216,241 +114,97 @@ Public Class FrmMCCMaterialSalePriceChart
     End Sub
 
     Private Sub btnimport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnimport.Click
-        If clsCommon.myLen(txtdate.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Please Fill Date", Me.Text)
-            txtdate.Focus()
-            txtdate.Select()
-            Return
-        End If
-        If clsCommon.myCDate(txtdate.Value) > clsCommon.myCDate(MyDateTimePicker1.Value) Then
-            clsCommon.MyMessageBoxShow(Me, "Document Date will be Less then Effective Date", Me.Text)
-            txtdate.Focus()
-            txtdate.Select()
-            Return
-        End If
-
-        
-        '------------------------------------------------------------------
-        '-------------------------------------------
 
         Dim gv1 As New RadGridView()
         Me.Controls.Add(gv1)
         Dim columnsname As String = transportSql.GetExcelColumnsName(gv1)
-
-        Dim currentdate As Date = Nothing
-        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-        Dim isSaved As Boolean = True
-        Dim code As String = ""
-        Dim Item_Code As String = ""
-        Dim Unit_Code As String = ""
-        Dim Price As String = ""
-
-        
-        currentdate = Convert.ToDateTime(txtdate.Text)
-
-        Dim qry As String = "select max(code) from TSPL_MCC_RATE_UPLOADER_MASTER"
-        code = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
-
-        If clsCommon.myLen(code) > 0 Then
-            code = clsCommon.myCstr(clsCommon.incval(code))
-        Else
-            code = "PCU000001"
-        End If
         Try
+            If (AllowToSave()) Then
+                Dim obj As New clsMCCMaterailSalePriceChat()
+                obj.Code = clsCommon.myCstr(txtDocNo.Value)
+                obj.DOCDate = clsCommon.myCDate(txtdate.Value)
+                obj.Effective_Date = clsCommon.myCDate(txtEndDate.Value)
+                If txtMCC_Code.arrValueMember IsNot Nothing AndAlso txtMCC_Code.arrDispalyMember IsNot Nothing Then
+                    obj.ArrMCCRate = txtMCC_Code.arrDispalyMember
+                Else
+                    obj.ArrMCCRate = Nothing
+                End If
+                obj.Arr = New List(Of clsMCCMaterailSalePriceChatDetail)
+                For Each Grow As GridViewRowInfo In gv1.Rows
+                    If clsCommon.myLen(Grow.Cells("Item Code").Value) > 0 Then
 
-            If clsCommon.myLen(columnsname) > 0 Then
-                'Dim dt As New DataTable()
-                'dt.Columns.Add("Price", GetType(String))
-
-                If gv1.Rows.Count > 0 Then
-                    Dim coll As New Hashtable()
-                    clsCommon.AddColumnsForChange(coll, "Code", code)
-                    clsCommon.AddColumnsForChange(coll, "date", clsCommon.GetPrintDate(txtdate.Value, "dd/MMM/yyyy"))
-                    clsCommon.AddColumnsForChange(coll, "Effective_date", clsCommon.GetPrintDate(MyDateTimePicker1.Value, "dd/MMM/yyyy"))
-
-                    clsCommon.AddColumnsForChange(coll, "created_by", clsCommon.myCstr(objCommonVar.CurrentUserCode))
-                    clsCommon.AddColumnsForChange(coll, "created_date", clsCommon.myCstr(clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy")))
-                    clsCommon.AddColumnsForChange(coll, "modified_by", clsCommon.myCstr(objCommonVar.CurrentUserCode))
-                    clsCommon.AddColumnsForChange(coll, "modified_date", clsCommon.myCstr(clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy")))
-
-                    isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MCC_RATE_UPLOADER_MASTER", OMInsertOrUpdate.Insert, "", trans)
-
-                    For Each Grow As GridViewRowInfo In gv1.Rows
-                        '---------------save data-----------------------------
-                        If clsCommon.myCdbl(clsCommon.myCstr(Grow.Cells("Price").Value)) > 0 Then
-
-                            Dim col2 As New Hashtable()
-                            clsCommon.AddColumnsForChange(col2, "Code", code)
-                            clsCommon.AddColumnsForChange(col2, "Item_Code", clsCommon.myCstr(Grow.Cells("Item Code").Value))
-                            clsCommon.AddColumnsForChange(col2, "Rate_UOM", clsCommon.myCstr(Grow.Cells("Unit Code").Value))
-                            clsCommon.AddColumnsForChange(col2, "Price", clsCommon.myCstr(Grow.Cells("Price").Value))
-
-                            isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(col2, "TSPL_MCC_RATE_UPLOADER_Detail", OMInsertOrUpdate.Insert, "", trans)
-                        End If
-                    Next '-snf header value loop
-                End If '--
-            Else
-                Throw New Exception("No Data Found For Transfer")
-            End If
-            trans.Commit()
-            '===============save mcc data======================================
-            If cbgMCC.CheckedValue.Count > 0 Then
-                For Each strvalue As String In cbgMCC.CheckedValue
-                    Dim coll As New Hashtable()
-
-                    clsCommon.AddColumnsForChange(coll, "code", code)
-                    clsCommon.AddColumnsForChange(coll, "mcc_code", strvalue, True)
-
-                    isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MCC_RATE_UPLOADER_MCC", OMInsertOrUpdate.Insert, "", trans)
+                        Dim objTr As New clsMCCMaterailSalePriceChatDetail()
+                        objTr.Item_Code = clsCommon.myCstr(Grow.Cells("Item Code").Value)
+                        objTr.Rate_UOM = clsCommon.myCstr(Grow.Cells("Unit Code").Value)
+                        objTr.Price = clsCommon.myCdbl(Grow.Cells("Price").Value)
+                    End If
                 Next
+                If obj.SaveData(obj, isNewEntry) Then
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully.", Me.Text)
+                    LoadData(obj.Code, NavigatorType.Current)
+                End If
             End If
-            '===============================================================
-            clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
-
-            'UcAttachment1.SaveData(clsCommon.myCstr(fndno.Value))
-            'Reset()
-            fndno.Value = code
-            LoadData()
         Catch ex As Exception
-            trans.Rollback()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Me.Controls.Remove(gv1)
     End Sub
 
-    Private Sub fndno__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndno._MYValidating
-        Dim qry As String = "select distinct Code,Date,Effective_Date as [Effective Date] from TSPL_MCC_RATE_UPLOADER_MASTER"
-        fndno.Value = clsCommon.ShowSelectForm("CHTFND", qry, "Code", "", fndno.Value, "Code", isButtonClicked)
+    Function AllowToSave() As Boolean
+        Try
+            If clsCommon.myLen(txtdate.Text) <= 0 Then
+                txtdate.Focus()
+                txtdate.Select()
+                Throw New Exception("Please Fill Date")
+            End If
+            If clsCommon.myCDate(txtdate.Value) > clsCommon.myCDate(txtEndDate.Value) Then
+                txtdate.Focus()
+                txtdate.Select()
+                Throw New Exception("Document Date will be Less then Effective Date")
+            End If
+            If MyBase.isModifyonPasswordFlag Then
+                If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.frmMCCMaterialSalePriceChart, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
+                Else
+                    Throw New Exception("Invalid Password! ")
 
-        If clsCommon.myLen(fndno.Value) > 0 Then
-            txtdate.Value = clsDBFuncationality.getSingleValue("select distinct Date from TSPL_MCC_RATE_UPLOADER_MASTER where code='" + fndno.Value + "'")
-            MyDateTimePicker1.Value = clsDBFuncationality.getSingleValue("select distinct Effective_Date from TSPL_MCC_RATE_UPLOADER_MASTER where code='" + fndno.Value + "'")
-            LoadData()
-        Else
-            Reset()
-        End If
-    End Sub
-
-    Private Sub chkMCCAll_ToggleStateChanged(ByVal sender As System.Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles chkMCCAll.ToggleStateChanged, chkMCCSelect.ToggleStateChanged
-        cbgMCC.Enabled = chkMCCSelect.IsChecked
-        If chkMCCAll.IsChecked Then
-            cbgMCC.CheckedAll()
-        Else
-            cbgMCC.UnCheckedAll()
-        End If
-    End Sub
+                End If
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
 
     Sub Save()
-        If clsCommon.myLen(txtdate.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Please Fill Date", Me.Text)
-            txtdate.Focus()
-            txtdate.Select()
-            Return
-        End If
-        If clsCommon.myCDate(txtdate.Value) > clsCommon.myCDate(MyDateTimePicker1.Value) Then
-            clsCommon.MyMessageBoxShow(Me, "Document Date will be Less then Effective Date", Me.Text)
-            txtdate.Focus()
-            txtdate.Select()
-            Return
-        End If
-
-
-        If MyBase.isModifyonPasswordFlag Then
-            If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.frmMCCMaterialSalePriceChart, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
-            Else
-                Return
-            End If
-        End If
-        '------------------------------------------------------------------
-        '-------------------------------------------
-        Dim currentdate As Date = Nothing
-        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-        Dim isSaved As Boolean = True
-        Dim code As String = ""
-
-        currentdate = Convert.ToDateTime(txtdate.Text)
-
-        If clsCommon.myLen(fndno.Value) <= 0 Then
-            Dim qry As String = "select max(code) from TSPL_MCC_RATE_UPLOADER_MASTER"
-            code = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
-
-            If clsCommon.myLen(code) > 0 Then
-                code = clsCommon.myCstr(clsCommon.incval(code))
-            Else
-                code = "PCU000001"
-            End If
-
-        Else
-            code = fndno.Value
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndno.Value, "TSPL_MCC_RATE_UPLOADER_master", "Code", "TSPL_MCC_RATE_UPLOADER_Detail", "Code", "TSPL_MCC_RATE_UPLOADER_MCC", "Code", trans)
-        End If
         Try
-
-
-            'Dim dt As New DataTable()
-            'dt.Columns.Add("Price", GetType(String))
-
-            If gv.Rows.Count > 0 Then
-                Dim coll As New Hashtable()
-                clsCommon.AddColumnsForChange(coll, "Code", code)
-                clsCommon.AddColumnsForChange(coll, "date", clsCommon.GetPrintDate(txtdate.Value, "dd/MMM/yyyy"))
-                clsCommon.AddColumnsForChange(coll, "Effective_date", clsCommon.GetPrintDate(MyDateTimePicker1.Value, "dd/MMM/yyyy"))
-
-                clsCommon.AddColumnsForChange(coll, "created_by", clsCommon.myCstr(objCommonVar.CurrentUserCode))
-                clsCommon.AddColumnsForChange(coll, "created_date", clsCommon.myCstr(clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy")))
-                clsCommon.AddColumnsForChange(coll, "modified_by", clsCommon.myCstr(objCommonVar.CurrentUserCode))
-                clsCommon.AddColumnsForChange(coll, "modified_date", clsCommon.myCstr(clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy")))
-
-                If clsCommon.myLen(fndno.Value) <= 0 Then
-                    isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MCC_RATE_UPLOADER_MASTER", OMInsertOrUpdate.Insert, "", trans)
+            If (AllowToSave()) Then
+                Dim obj As New clsMCCMaterailSalePriceChat()
+                obj.Code = clsCommon.myCstr(txtDocNo.Value)
+                obj.DOCDate = clsCommon.myCDate(txtdate.Value)
+                obj.Effective_Date = clsCommon.myCDate(txtEndDate.Value)
+                If txtMCC_Code.arrValueMember IsNot Nothing AndAlso txtMCC_Code.arrDispalyMember IsNot Nothing Then
+                    obj.ArrMCCRate = txtMCC_Code.arrDispalyMember
                 Else
-                    isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MCC_RATE_UPLOADER_MASTER", OMInsertOrUpdate.Update, "TSPL_MCC_RATE_UPLOADER_MASTER.code='" & fndno.Value & "'", trans)
+                    obj.ArrMCCRate = Nothing
                 End If
-
-
-                For Each Grow As GridViewRowInfo In gv.Rows
-
-                    '---------------save data-----------------------------
-                    If clsCommon.myCdbl(clsCommon.myCstr(Grow.Cells("Price").Value)) > 0 Then
-
-                        Dim col2 As New Hashtable()
-                        clsCommon.AddColumnsForChange(col2, "Code", code)
-                        clsCommon.AddColumnsForChange(col2, "Item_Code", clsCommon.myCstr(Grow.Cells("Item Code").Value))
-                        clsCommon.AddColumnsForChange(col2, "Rate_UOM", clsCommon.myCstr(Grow.Cells("Unit Code").Value))
-                        clsCommon.AddColumnsForChange(col2, "Price", clsCommon.myCstr(Grow.Cells("Price").Value))
-                        If clsCommon.myCdbl(Grow.Cells("Issaved").Value) <= 0 Then
-                            isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(col2, "TSPL_MCC_RATE_UPLOADER_Detail", OMInsertOrUpdate.Insert, "", trans)
-                        Else
-                            isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(col2, "TSPL_MCC_RATE_UPLOADER_Detail", OMInsertOrUpdate.Update, "TSPL_MCC_RATE_UPLOADER_Detail.code='" & code & "' and Item_code='" & clsCommon.myCstr(Grow.Cells("Item Code").Value) & "'", trans)
-                        End If
-
+                obj.Arr = New List(Of clsMCCMaterailSalePriceChatDetail)
+                Dim introw As Integer = 0
+                For Each grow As GridViewRowInfo In gv.Rows
+                    If clsCommon.myLen(grow.Cells("Item Code").Value) > 0 Then
+                        Dim objTr As New clsMCCMaterailSalePriceChatDetail()
+                        objTr.Item_Code = clsCommon.myCstr(gv.Rows(introw).Cells("Item Code").Value)
+                        objTr.Rate_UOM = clsCommon.myCstr(gv.Rows(introw).Cells("Unit Code").Value)
+                        objTr.Price = clsCommon.myCdbl(gv.Rows(introw).Cells("Price").Value)
+                        introw += 1
+                        obj.Arr.Add(objTr)
                     End If
-                Next '-snf header value loop
-                'End If '--
-            Else
-                Throw New Exception("No Data Found For Transfer")
-            End If
-            trans.Commit()
-            '===============save mcc data======================================
-            If cbgMCC.CheckedValue.Count > 0 Then
-                For Each strvalue As String In cbgMCC.CheckedValue
-                    Dim coll As New Hashtable()
-
-                    clsCommon.AddColumnsForChange(coll, "code", code)
-                    clsCommon.AddColumnsForChange(coll, "mcc_code", strvalue, True)
-
-                    isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MCC_RATE_UPLOADER_MCC", OMInsertOrUpdate.Insert, "", trans)
                 Next
+                If obj.SaveData(obj, isNewEntry) Then
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully.", Me.Text)
+                    LoadData(obj.Code, NavigatorType.Current)
+                End If
             End If
-            '===============================================================
-            clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
-
-            'UcAttachment1.SaveData(clsCommon.myCstr(fndno.Value))
-            'Reset()
-            fndno.Value = code
-            LoadData()
         Catch ex As Exception
-            trans.Rollback()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
@@ -514,13 +268,111 @@ Public Class FrmMCCMaterialSalePriceChart
 
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
-            If clsCommon.myLen(fndno.Value) <= 0 Then
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                 clsCommon.MyMessageBoxShow(Me, "Select Price Code", Me.Text)
                 Exit Sub
             End If
-            clsERPFuncationalityold.ShowTransHistoryData(fndno.Value, "Code", "TSPL_MCC_RATE_UPLOADER_master", "TSPL_MCC_RATE_UPLOADER_Detail")
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "Code", "TSPL_MCC_RATE_UPLOADER_master", "TSPL_MCC_RATE_UPLOADER_Detail")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
+    End Sub
+
+    Private Sub RadPageView1_SelectedPageChanged(sender As Object, e As EventArgs)
+
+    End Sub
+
+    Private Sub btnAddNew_Click(sender As Object, e As EventArgs) Handles btnAddNew.Click
+        Reset()
+    End Sub
+
+
+
+    Private Sub txtDocNo__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtDocNo._MYNavigator
+        Try
+            Dim qry As String = "select count(*) from TSPL_MCC_RATE_UPLOADER_master where Code='" + txtDocNo.Value + "' "
+            Dim check As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+            If check > 0 Then
+                txtDocNo.MyReadOnly = True
+            ElseIf check <= 0 Then
+                txtDocNo.MyReadOnly = False
+            End If
+            LoadData(txtDocNo.Value, NavType)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
+        Try
+            Dim qry As String = "select TSPL_MCC_RATE_UPLOADER_master.Code as DocumentCode,convert(varchar(12),TSPL_MCC_RATE_UPLOADER_master.Date,103) as DocumentDate from TSPL_MCC_RATE_UPLOADER_master "
+            'Dim whrClas As String = " TSPL_DEMAND_BOOKING_MASTER.comp_code='" + objCommonVar.CurrentCompanyCode + "' "
+            Reset()
+            LoadData(clsCommon.ShowSelectForm("FSBook1DocNo", qry, "DocumentCode", "", txtDocNo.Value, "date DESC", isButtonClicked, " TSPL_MCC_RATE_UPLOADER_master.date "), NavigatorType.Current)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtMCC_Code__My_Click(sender As Object, e As EventArgs) Handles txtMCC_Code._My_Click
+        Try
+            Dim qry As String = Nothing
+            If AllowPlandDeptMCCLocation Then
+                qry = "select Location_Code AS Code, Location_Desc as Name  from TSPL_LOCATION_MASTER where Is_Sub_Location = 'N' AND Location_Category <> 'MCC' and GIT_Type  <> 'Y' order by Code "
+            Else
+                qry = "select MCC_Code as Code ,MCC_NAME as Name from TSPL_MCC_MASTER "
+            End If
+            txtMCC_Code.arrValueMember = clsCommon.ShowMultipleSelectForm("ZoneCodesearch", qry, "Code", "Code", txtMCC_Code.arrValueMember, txtMCC_Code.arrDispalyMember)
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Public Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
+        Try
+            Dim obj As New clsMCCMaterailSalePriceChat
+            obj = clsMCCMaterailSalePriceChat.GetData(strCode, NavTyep)
+            If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0) Then
+                Reset()
+                isNewEntry = False
+                'LoadGrid()
+                isInsideLoadData = True
+
+                txtdate.Enabled = False
+                txtEndDate.Enabled = False
+                txtDocNo.Value = obj.Code
+                txtdate.Value = obj.DOCDate
+                txtEndDate.Value = obj.Effective_Date
+                If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
+                    Dim intRow As Integer = 0
+
+                    For Each Items As clsMCCMaterailSalePriceChatDetail In obj.Arr
+                        gv.Rows.AddNew()
+                        gv.Rows(intRow).Cells("Item Code").Value = Items.Item_Code
+                        gv.Rows(intRow).Cells("Item Name").Value = Items.Item_Name
+                        gv.Rows(intRow).Cells("Unit Code").Value = Items.Rate_UOM
+                        gv.Rows(intRow).Cells("Unit Desc").Value = Items.Unit_DESC
+                        gv.Rows(intRow).Cells("Price").Value = Items.Price
+                        gv.Rows(intRow).Cells("Issaved").Value = Items.issaved
+                        intRow += 1
+
+                    Next
+                End If
+                If obj.ArrMCCRate IsNot Nothing AndAlso obj.ArrMCCRate.Count > 0 Then
+                    txtMCC_Code.arrValueMember = obj.ArrMCCRate
+                End If
+
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        Finally
+            isInsideLoadData = False
+        End Try
+
+
+    End Sub
+
+    Private Sub SplitContainer2_SplitterMoved(sender As Object, e As SplitterEventArgs) Handles SplitContainer2.SplitterMoved
+
     End Sub
 End Class

@@ -1253,6 +1253,7 @@ Public Class clsFixedParameterType
     Public Const PricePlanRoundOffDigit = "Enter RoundOff Digit"
     Public Const DemandIncreaseDecreaseQty = "Demand Increase Decrease Qty"
     Public Const DemandIncreaseDecreasePer = "Demand Increase Decrease Percentage"
+    Public Const CreateAutoMCCPriceChat = "Create Auto MCC Price Chat"
 
 End Class
 Public Class clsFixedParameterCode
@@ -2635,6 +2636,8 @@ Public Class clsFixedParameterCode
     Public Const PricePlanRoundOffDigit = "Enter RoundOff Digit"
     Public Const DemandIncreaseDecreaseQty = "Demand Increase Decrease Qty"
     Public Const DemandIncreaseDecreasePer = "Demand Increase Decrease Percentage"
+    Public Const CreateAutoMCCPriceChat = "Create Auto MCC Price Chat"
+
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4175,6 +4178,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, "0", "Enter Weight in KG ")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowGatePassDemandTripWise, clsFixedParameterCode.AllowGatePassDemandTripWise, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ConvertPouchtoCrate, clsFixedParameterCode.ConvertPouchtoCrate, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.CreateAutoMCCPriceChat, clsFixedParameterCode.CreateAutoMCCPriceChat, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ChangeInventroyMovemnet, clsFixedParameterCode.ChangeInventroyMovemnet, "0", "0:Dispatch, 1:Gatepass;")
         '
         clsFixedParameterProgramMapping.SetDefaultValues()
@@ -5945,6 +5949,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDairyGatePass, clsFixedParameterType.AllowGatePassDemandTripWise, clsFixedParameterCode.AllowGatePassDemandTripWise, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.ConvertPouchtoCrate, clsFixedParameterCode.ConvertPouchtoCrate, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ChangeInventroyMovemnet, clsFixedParameterCode.ChangeInventroyMovemnet, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmMCCMaterial, clsFixedParameterType.CreateAutoMCCPriceChat, clsFixedParameterCode.CreateAutoMCCPriceChat, EnumControlType.CheckBox)
 
     End Sub
 End Class
