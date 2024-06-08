@@ -490,12 +490,22 @@ group by xx.PK_Id having sum(RI)>0"
 
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
         Try
-            Dim arrHeader As List(Of String) = New List(Of String)()
-            arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(txtdate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtdate.Value, "dd/MM/yyyy")) + " ")
-            arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
-            arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptMobileAppMilkCollection & "'"))
-            transportSql.applyExportTemplate(gvItem, PageSetupReport_ID)
-            clsCommon.MyExportToExcelGrid(Me.Text, gvItem, arrHeader, Me.Text)
+            If gvItem.Rows.Count <= 0 Then
+
+                Dim arrHeader As List(Of String) = New List(Of String)()
+                Dim qry As String = " select  '' as [S.no],'' as [SocietyID],'' as [FarmerName],'' as [Farmer account number],'' as [PaymentAmount],'' as [Farmer Code],'' as [Status] "
+                transportSql.ExporttoExcel(qry, Me)
+
+            Else
+                Dim arrHeader As List(Of String) = New List(Of String)()
+                arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(txtdate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtdate.Value, "dd/MM/yyyy")) + " ")
+                arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+                arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptMobileAppMilkCollection & "'"))
+                transportSql.applyExportTemplate(gvItem, PageSetupReport_ID)
+                clsCommon.MyExportToExcelGrid(Me.Text, gvItem, arrHeader, Me.Text)
+
+                'clsCommon.MyExportToExcelGrid("code", qry, arrHeader, Me.Text)
+            End If
             common.clsCommon.MyMessageBoxShow(Me, "Exported Successfully.", Me.Text)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

@@ -29,6 +29,8 @@ Public Class clsFixedParameterType
     Public Const XpertAPI As String = "Xpert API"
     Public Const MaxRowsExcelDBTNEFTUploader As String = "Max Rows Excel DBT NEFT Uploader"
     Public Const ShowSampleNoOnBMC As String = "Show Sample No On BMC"
+    Public Const DBTRevisePayment As String = "DBT Revise Payment"
+    Public Const CycleWiseDBT As String = "Cycle Wise DBT"
     Public Const ShowTempratureOnBMC As String = "Show Temprature On BMC"
     Public Const FillRouteTankerNo As String = "Fill Route Tanker No"
     Public Const PickMilkPurchaseInvoiceQtyOrRecoQty As String = "Pick Milk Purchase Invoice Qty Or Reco Qty"
@@ -1294,6 +1296,8 @@ Public Class clsFixedParameterCode
     Public Const CustomerVirtualACCounter As String = "Customer Virtual AC Counter"
     Public Const MaxRowsExcelDBTNEFTUploader As String = "Max Rows Excel DBT NEFT Uploader"
     Public Const ShowSampleNoOnBMC As String = "Fill Route Tanker No"
+    Public Const DBTRevisePayment As String = "DBT Revise Payment"
+    Public Const CycleWiseDBT As String = "Cycle Wise DBT"
     Public Const ShowTempratureOnBMC As String = "Fill Route Tanker No"
     Public Const FillRouteTankerNo As String = "Fill Route Tanker No"
     Public Const PickMilkPurchaseInvoiceQtyOrRecoQty As String = "Pick Milk Purchase Invoice Qty Or Reco Qty"
@@ -2765,6 +2769,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.XpertAPI, clsFixedParameterCode.AverageDaysForFATSNF, "10", "No of Days to Get Average")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MilkRateRoundOffType, clsFixedParameterCode.MilkRateRoundOffType, "0", "0: MidpointRounding.ToEven 39.825=39.82; 1:MidpointRounding.AwayFromZero 39.825=39.83")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowSampleNoOnBMC, clsFixedParameterCode.ShowSampleNoOnBMC, "0", "0-OFF;1-ON")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.DBTRevisePayment, clsFixedParameterCode.DBTRevisePayment, "0", "0-OFF;1-ON")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.CycleWiseDBT, clsFixedParameterCode.CycleWiseDBT, "0", "0-OFF;1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowTempratureOnBMC, clsFixedParameterCode.ShowTempratureOnBMC, "0", "0-OFF;1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.FillRouteTankerNo, clsFixedParameterCode.FillRouteTankerNo, "1", "0-OFF;1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.RepeatBMCSampleNo, clsFixedParameterCode.RepeatBMCSampleNo, "0", "0-OFF;1-ON")
@@ -4255,6 +4261,8 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.DBTNEFTUploader, clsFixedParameterType.MaxRowsExcelDBTNEFTUploader, clsFixedParameterCode.MaxRowsExcelDBTNEFTUploader, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.rptMccProcurementUploader, clsFixedParameterType.XpertAPI, clsFixedParameterCode.WeighingRoundSetting, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.frmMilkSRN, clsFixedParameterType.MilkRateRoundOffType, clsFixedParameterCode.MilkRateRoundOffType, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.DBTNEFTUploader, clsFixedParameterType.DBTRevisePayment, clsFixedParameterCode.DBTRevisePayment, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.DBTNEFTUploader, clsFixedParameterType.CycleWiseDBT, clsFixedParameterCode.CycleWiseDBT, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.ShowSampleNoOnBMC, clsFixedParameterCode.ShowSampleNoOnBMC, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.ShowTempratureOnBMC, clsFixedParameterCode.ShowTempratureOnBMC, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.FillRouteTankerNo, clsFixedParameterCode.FillRouteTankerNo, EnumControlType.CheckBox)
