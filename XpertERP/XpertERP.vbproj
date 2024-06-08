@@ -1889,6 +1889,12 @@
     <Compile Include="Milk Procurement\Transaction\frmMCCGateEntry.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmMCCMaterialSale.Designer.vb">
+      <DependentUpon>frmMCCMaterialSale.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmMCCMaterialSale.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Transaction\frmMccMaterialSaleReturn.Designer.vb">
       <DependentUpon>frmMccMaterialSaleReturn.vb</DependentUpon>
     </Compile>
@@ -2097,12 +2103,6 @@
       <DependentUpon>frmMccMilkTransferPrice.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Transaction\frmMccMilkTransferPrice.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Milk Procurement\Transaction\frmMCCMaterialSale.Designer.vb">
-      <DependentUpon>frmMCCMaterialSale.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Milk Procurement\Transaction\frmMCCMaterialSale.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Milk Procurement\Transaction\frmVSPAssetIssue.Designer.vb">
@@ -5772,6 +5772,10 @@
     <EmbeddedResource Include="Milk Procurement\Transaction\frmMCCGateEntry.resx">
       <DependentUpon>frmMCCGateEntry.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\frmMCCMaterialSale.resx">
+      <DependentUpon>frmMCCMaterialSale.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmMccMaterialSaleReturn.resx">
       <DependentUpon>frmMccMaterialSaleReturn.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -5892,10 +5896,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmMccMilkTransferPrice.resx">
       <DependentUpon>frmMccMilkTransferPrice.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Milk Procurement\Transaction\frmMCCMaterialSale.resx">
-      <DependentUpon>frmMCCMaterialSale.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmVSPAssetIssue.resx">
