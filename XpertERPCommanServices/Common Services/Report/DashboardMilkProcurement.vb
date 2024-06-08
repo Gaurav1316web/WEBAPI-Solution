@@ -9,7 +9,7 @@ Public Class DashboardMilkProcurement
 
     Private Sub DashboardMilkProcurement_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         txtFromDate.Value = clsCommon.GETSERVERDATE()
-        txtToDate.Value = clsCommon.GETSERVERDATE().AddMonths(-1)
+        txtToDate.Value = clsCommon.GETSERVERDATE()
         chkRJSBNS.Visible = False
         chkRJSBNS.Checked = True
     End Sub
@@ -32,13 +32,13 @@ Public Class DashboardMilkProcurement
             Dim docNo As String = ""
             query = " 
     SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') "
-            If chkRJSBNS.Checked Then
-                query += "union all
-  SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
-  union all
-  SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
-  ORDER BY Location_Name"
-            End If
+            '          If chkRJSBNS.Checked Then
+            '              query += "union all
+            'SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
+            'union all
+            'SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
+            'ORDER BY Location_Name"
+            '          End If
             dt = clsDBFuncationality.GetDataTable(query)
             query = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -51,12 +51,18 @@ Public Class DashboardMilkProcurement
                         '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
                     ISNULL(SUM(Dis_Procurement.Milk_WeightProc), 0) AS Milk_WeightProc,
                     ISNULL(SUM(Dis_Procurement.FATKGProc), 0) AS FATKGProc,
-                    ISNULL(SUM(Dis_Procurement.SNFKGProc), 0) AS SNFKGProc
+                    ISNULL(SUM(Dis_Procurement.SNFKGProc), 0) AS SNFKGProc,
+                    ISNULL(AVG(Dis_Procurement.FATPerProc), 0) AS FATPerProc,
+					ISNULL(AVG(Dis_Procurement.SNFPerProc), 0) AS SNFPerProc
                                  FROM 
 (SELECT 
                         SUM(milk_weight) AS Milk_WeightProc,
                         SUM(fatkg) AS FATKGProc,
-                        SUM(SNFKG) AS SNFKGProc
+                        SUM(SNFKG) AS SNFKGProc,
+                        AVG(CASE WHEN Milk_Weight <> 0 THEN (FATKg) * 100 / (Milk_Weight)
+            ELSE 0 END) AS FATPerProc,
+			AVG(CASE WHEN Milk_Weight <> 0 THEN (SNFKG) * 100 / (Milk_Weight)
+            ELSE 0 END) AS SNFPerProc
                     FROM (
                         SELECT 
                             SUM(Qty) AS Milk_Weight,
@@ -112,21 +118,21 @@ Public Class DashboardMilkProcurement
         For ii As Integer = 0 To gv1.Columns.Count - 1
             gv1.Columns(ii).ReadOnly = True
             gv1.Columns(ii).BestFit()
-            gv1.Columns(ii).Width = 500
+            'gv1.Columns(ii).Width = 200
         Next
         gv1.Columns("SNo").Name = "SNo"
         gv1.Columns("SNo").IsVisible = True '
 
         gv1.Columns("Union Name").HeaderText = "Union Name"
-        gv1.Columns("Union Name").Width = 500
+        gv1.Columns("Union Name").Width = 200
         gv1.Columns("Union Name").IsVisible = True
 
         gv1.Columns("Fromdate").HeaderText = "From Date"
-        gv1.Columns("Fromdate").Width = 500
+        gv1.Columns("Fromdate").Width = 100
         gv1.Columns("Fromdate").IsVisible = False
 
         gv1.Columns("Todate").HeaderText = "To Date"
-        gv1.Columns("Todate").Width = 500
+        gv1.Columns("Todate").Width = 100
         gv1.Columns("Todate").IsVisible = False
 
         gv1.Columns("Milk_WeightProc").HeaderText = "QTY"
@@ -141,14 +147,22 @@ Public Class DashboardMilkProcurement
         gv1.Columns("SNFKGProc").IsVisible = True
         gv1.Columns("SNFKGProc").FormatString = "{0:n3}"
 
+        gv1.Columns("FATPerProc").HeaderText = "FAT%"
+        gv1.Columns("FATPerProc").IsVisible = True
+        gv1.Columns("FATPerProc").FormatString = "{0:n2}"
+
+        gv1.Columns("SNFPerProc").HeaderText = "SNF%"
+        gv1.Columns("SNFPerProc").IsVisible = True
+        gv1.Columns("SNFPerProc").FormatString = "{0:n2}"
+
         Dim summaryRowItem As New GridViewSummaryRowItem()
-        Dim item1 As New GridViewSummaryItem("Milk_WeightProc", "{0:f2}", GridAggregateFunction.Sum)
+        Dim item1 As New GridViewSummaryItem("Milk_WeightProc", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item1)
 
-        Dim item2 As New GridViewSummaryItem("FATKGProc", "{0:f2}", GridAggregateFunction.Sum)
+        Dim item2 As New GridViewSummaryItem("FATKGProc", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item2)
 
-        Dim item3 As New GridViewSummaryItem("SNFKGProc", "{0:f2}", GridAggregateFunction.Sum)
+        Dim item3 As New GridViewSummaryItem("SNFKGProc", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item3)
 
         'gv1.ShowGroupPanel = True
@@ -169,13 +183,13 @@ Public Class DashboardMilkProcurement
             Dim docNo As String = ""
             query = " 
     SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') "
-            If chkRJSBNS.Checked Then
-                query += "union all
-  SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
-  union all
-  SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
-  ORDER BY Location_Name"
-            End If
+            '          If chkRJSBNS.Checked Then
+            '              query += "union all
+            'SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
+            'union all
+            'SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
+            'ORDER BY Location_Name"
+            '          End If
             dt = clsDBFuncationality.GetDataTable(query)
             query = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -252,28 +266,28 @@ Public Class DashboardMilkProcurement
         For ii As Integer = 0 To gv2.Columns.Count - 1
             gv2.Columns(ii).ReadOnly = True
             gv2.Columns(ii).BestFit()
-            gv2.Columns(ii).Width = 500
+            'gv2.Columns(ii).Width = 500
         Next
         gv2.Columns("SNo").Name = "SNo"
         gv2.Columns("SNo").IsVisible = True '
 
         gv2.Columns("Union Name").HeaderText = "Union Name"
-        gv2.Columns("Union Name").Width = 500
+        gv2.Columns("Union Name").Width = 200
         gv2.Columns("Union Name").IsVisible = True
 
         gv2.Columns("Fromdate").HeaderText = "From Date"
-        gv2.Columns("Fromdate").Width = 500
+        gv2.Columns("Fromdate").Width = 100
         gv2.Columns("Fromdate").IsVisible = False
 
         gv2.Columns("Todate").HeaderText = "To Date"
-        gv2.Columns("Todate").Width = 500
+        gv2.Columns("Todate").Width = 100
         gv2.Columns("Todate").IsVisible = False
 
         gv2.Columns("RouteCount").HeaderText = "No. Of Route"
         gv2.Columns("RouteCount").IsVisible = True
         ' gv1.Columns("RouteCount").FormatString = "{0:n3}"
 
-        gv2.Columns("MCCCount").HeaderText = "No. Of MCC"
+        gv2.Columns("MCCCount").HeaderText = "No. Of Chiller"
         gv2.Columns("MCCCount").IsVisible = True
         'gv1.Columns("MCCCount").FormatString = "{0:n3}"
 
@@ -290,13 +304,13 @@ Public Class DashboardMilkProcurement
         gv2.Columns("SNFKGProc").FormatString = "{0:n3}"
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
-        Dim item1 As New GridViewSummaryItem("Milk_WeightProc", "{0:f2}", GridAggregateFunction.Sum)
+        Dim item1 As New GridViewSummaryItem("Milk_WeightProc", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item1)
 
-        Dim item2 As New GridViewSummaryItem("FATKGProc", "{0:f2}", GridAggregateFunction.Sum)
+        Dim item2 As New GridViewSummaryItem("FATKGProc", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item2)
 
-        Dim item3 As New GridViewSummaryItem("SNFKGProc", "{0:f2}", GridAggregateFunction.Sum)
+        Dim item3 As New GridViewSummaryItem("SNFKGProc", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item3)
 
         'gv1.ShowGroupPanel = True
@@ -317,13 +331,13 @@ Public Class DashboardMilkProcurement
             Dim docNo As String = ""
             query = " 
     SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') "
-            If chkRJSBNS.Checked Then
-                query += "union all
-  SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
-  union all
-  SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
-  ORDER BY Location_Name"
-            End If
+            '          If chkRJSBNS.Checked Then
+            '              query += "union all
+            'SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
+            'union all
+            'SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
+            'ORDER BY Location_Name"
+            '          End If
             dt = clsDBFuncationality.GetDataTable(query)
             query = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -413,21 +427,21 @@ Public Class DashboardMilkProcurement
         For ii As Integer = 0 To gv3.Columns.Count - 1
             gv3.Columns(ii).ReadOnly = True
             gv3.Columns(ii).BestFit()
-            gv3.Columns(ii).Width = 500
+            'gv3.Columns(ii).Width = 500
         Next
         gv3.Columns("SNo").Name = "SNo"
         gv3.Columns("SNo").IsVisible = True '
 
         gv3.Columns("Union Name").HeaderText = "Union Name"
-        gv3.Columns("Union Name").Width = 500
+        gv3.Columns("Union Name").Width = 200
         gv3.Columns("Union Name").IsVisible = True
 
         gv3.Columns("Fromdate").HeaderText = "From Date"
-        gv3.Columns("Fromdate").Width = 500
+        gv3.Columns("Fromdate").Width = 100
         gv3.Columns("Fromdate").IsVisible = False
 
         gv3.Columns("Todate").HeaderText = "To Date"
-        gv3.Columns("Todate").Width = 500
+        gv3.Columns("Todate").Width = 100
         gv3.Columns("Todate").IsVisible = False
 
         gv3.Columns("RegisteredDCS").HeaderText = "RegisteredDCS"
@@ -476,31 +490,31 @@ Public Class DashboardMilkProcurement
         gv3.Columns("Totalsnfkg").FormatString = "{0:n3}"
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
-        Dim item1 As New GridViewSummaryItem("Totalsnfkg", "{0:f2}", GridAggregateFunction.Sum)
+        Dim item1 As New GridViewSummaryItem("Totalsnfkg", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item1)
 
-        Dim item2 As New GridViewSummaryItem("TotalFatkg", "{0:f2}", GridAggregateFunction.Sum)
+        Dim item2 As New GridViewSummaryItem("TotalFatkg", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item2)
 
-        Dim item3 As New GridViewSummaryItem("TotalQty", "{0:f2}", GridAggregateFunction.Sum)
+        Dim item3 As New GridViewSummaryItem("TotalQty", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item3)
 
-        Dim item4 As New GridViewSummaryItem("SNFKG2", "{0:f2}", GridAggregateFunction.Sum)
+        Dim item4 As New GridViewSummaryItem("SNFKG2", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item4)
 
-        Dim item5 As New GridViewSummaryItem("FATKG2", "{0:f2}", GridAggregateFunction.Sum)
+        Dim item5 As New GridViewSummaryItem("FATKG2", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item5)
 
-        Dim item6 As New GridViewSummaryItem("QTY2", "{0:f2}", GridAggregateFunction.Sum)
+        Dim item6 As New GridViewSummaryItem("QTY2", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item6)
 
-        Dim item7 As New GridViewSummaryItem("SNFKG1", "{0:f2}", GridAggregateFunction.Sum)
+        Dim item7 As New GridViewSummaryItem("SNFKG1", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item7)
 
-        Dim item8 As New GridViewSummaryItem("FATKG1", "{0:f2}", GridAggregateFunction.Sum)
+        Dim item8 As New GridViewSummaryItem("FATKG1", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item8)
 
-        Dim item9 As New GridViewSummaryItem("QTY1", "{0:f2}", GridAggregateFunction.Sum)
+        Dim item9 As New GridViewSummaryItem("QTY1", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item9)
 
         'gv1.ShowGroupPanel = True
@@ -565,35 +579,23 @@ Public Class DashboardMilkProcurement
         End Try
     End Sub
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
-        Dim selectedTabIndex As Integer = RadPageView1.SelectedPage.TabIndex
-        Select Case selectedTabIndex
-            Case 16 ' Index of the first tab
-                ExportGridgv1(EnumExportTo.Excel)
-            Case 3 ' Index of the second tab
-                ExportGridgv2(EnumExportTo.Excel)
-            Case 6 ' Index of the third tab
-                ExportGridgv3(EnumExportTo.Excel)
-                ' Add more cases as needed for additional tabs
-        End Select
-        'ExportGridgv1(EnumExportTo.Excel)
-        'ExportGridgv2(EnumExportTo.Excel)
-        'ExportGridgv3(EnumExportTo.Excel)
+        If clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage2.Name) = CompairStringResult.Equal Then
+            ExportGridgv1(EnumExportTo.Excel)
+        ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage3.Name) = CompairStringResult.Equal Then
+            ExportGridgv2(EnumExportTo.Excel)
+        ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage4.Name) = CompairStringResult.Equal Then
+            ExportGridgv3(EnumExportTo.Excel)
+        End If
     End Sub
 
     Private Sub rmiPDF_Click(sender As Object, e As EventArgs) Handles rmiPDF.Click
-        Dim selectedTabIndex As Integer = RadPageView1.SelectedPage.TabIndex
-        Select Case selectedTabIndex
-            Case 16 ' Index of the first tab
-                ExportGrid()
-            Case 3 ' Index of the second tab
-                ExportGrids()
-            Case 6 ' Index of the third tab
-                ExportGridss()
-                ' Add more cases as needed for additional tabs
-        End Select
-        'ExportGrid()
-        'ExportGrids()
-        'ExportGridss()
+        If clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage2.Name) = CompairStringResult.Equal Then
+            ExportGrid()
+        ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage3.Name) = CompairStringResult.Equal Then
+            ExportGrids()
+        ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage4.Name) = CompairStringResult.Equal Then
+            ExportGridss()
+        End If
     End Sub
 
     Sub ExportGridss()
@@ -652,21 +654,31 @@ Public Class DashboardMilkProcurement
         gv1.DataSource = Nothing
         gv2.DataSource = Nothing
         gv3.DataSource = Nothing
+        RadPageView1.SelectedPage = RadPageViewPage1
     End Sub
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
-        Dim selectedTabIndex As Integer = RadPageView1.SelectedPage.TabIndex
-        Select Case selectedTabIndex
-            Case 16 ' Index of the first tab
-                'ExportGridgv1(EnumExportTo.Excel)
-                printUnion()
-            Case 3 ' Index of the second tab
-                PrintRoute()
-            Case 6 ' Index of the third tab
-                PrintDCS()
-                'ExportGridgv3(EnumExportTo.Excel)
-                ' Add more cases as needed for additional tabs
-        End Select
+        If clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage2.Name) = CompairStringResult.Equal Then
+            printUnion()
+        ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage3.Name) = CompairStringResult.Equal Then
+            PrintRoute()
+        ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage4.Name) = CompairStringResult.Equal Then
+            PrintDCS()
+        End If
+
+        'Dim selectedTabIndex As Integer = RadPageView1.SelectedPage.TabIndex
+        'Select Case selectedTabIndex
+        '    Case 16 ' Index of the first tab
+        '        'ExportGridgv1(EnumExportTo.Excel)
+
+
+        '    Case 3 ' Index of the second tab
+
+        '    Case 6 ' Index of the third tab
+        '        PrintDCS()
+        '        'ExportGridgv3(EnumExportTo.Excel)
+        '        ' Add more cases as needed for additional tabs
+        'End Select
     End Sub
 
     Sub PrintDCS()
