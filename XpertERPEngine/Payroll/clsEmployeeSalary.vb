@@ -257,20 +257,24 @@ Public Class clsEmployeeSalary
     End Function
     Public Shared Function GetPayHeadCodeString(ByVal SalStructCode As String) As String
         Dim qry As String
-        Dim SalStructStr As String
-        'Dim dt As DataTable
+        Dim SalStructStr As String = ""
+        Try
+            'Dim dt As DataTable
 
-        'qry = " select left(fields,len(fields)-1)  from (select ( select '['+PAY_HEAD_CODE   +'],'   " & _
-        '      " from (select distinct TSPL_EMPLOYEE_SALARY_PAYHEADS.PAY_HEAD_CODE   from TSPL_EMPLOYEE_SALARY_PAYHEADS" & _
-        '      " inner join TSPL_EMPLOYEE_SALARY on TSPL_EMPLOYEE_SALARY_PAYHEADS.EMP_SAL_CODE=TSPL_EMPLOYEE_SALARY.EMP_SAL_CODE " & _
-        '      " where TSPL_EMPLOYEE_SALARY.SALARY_STRUCTURE_CODE='" & SalStructCode & "' " & _
-        '      " ) xx  FOR XML PATH ('')) Fields ) yy"
+            'qry = " select left(fields,len(fields)-1)  from (select ( select '['+PAY_HEAD_CODE   +'],'   " & _
+            '      " from (select distinct TSPL_EMPLOYEE_SALARY_PAYHEADS.PAY_HEAD_CODE   from TSPL_EMPLOYEE_SALARY_PAYHEADS" & _
+            '      " inner join TSPL_EMPLOYEE_SALARY on TSPL_EMPLOYEE_SALARY_PAYHEADS.EMP_SAL_CODE=TSPL_EMPLOYEE_SALARY.EMP_SAL_CODE " & _
+            '      " where TSPL_EMPLOYEE_SALARY.SALARY_STRUCTURE_CODE='" & SalStructCode & "' " & _
+            '      " ) xx  FOR XML PATH ('')) Fields ) yy"
 
-        qry = " select left(fields,len(fields)-1)  from (select ( select '['+PAY_HEAD_CODE   +'],'   " &
+            qry = " select IsNull(left(fields,len(fields)-1),'')  from (select ( select '['+PAY_HEAD_CODE   +'],'   " &
              " from (select distinct TSPL_SALSTRUCT_PAYHEADS.PAY_HEAD_CODE , TSPL_SALSTRUCT_PAYHEADS.LINE_NO  from TSPL_SALSTRUCT_PAYHEADS where TSPL_SALSTRUCT_PAYHEADS.SALARY_STRUCTURE_CODE='" & SalStructCode & "' " &
              " ) xx order by xx.LINE_NO   FOR XML PATH ('')) Fields ) yy"
-        SalStructStr = clsDBFuncationality.getSingleValue(qry)
-        'SalStructStr = SalStructStr.Replace(".", "_")
+            SalStructStr = clsDBFuncationality.getSingleValue(qry)
+            'SalStructStr = SalStructStr.Replace(".", "_")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
         Return SalStructStr
     End Function
     Public Shared Function GetPayHeadCodeStringForSelect(ByVal SalStructCode As String) As String

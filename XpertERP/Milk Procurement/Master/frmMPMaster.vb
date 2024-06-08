@@ -101,6 +101,7 @@ Public Class FrmMPMaster
     Sub reset()
         Try
             LoadAccount_Type()
+            'txtMPCodeVlcUploader.ReadOnly = False
             txtNoOfTotalDependentMember.ReadOnly = True
             txtNoOfBreadableMilkAnimal.TextAlign = HorizontalAlignment.Right
             txtMilkAvlblForSale.TextAlign = HorizontalAlignment.Right
@@ -443,7 +444,17 @@ Public Class FrmMPMaster
             Else
                 errorControl.SetError(txtMPName, "")
             End If
-
+            'If clsCommon.myLen(txtMPCodeVlcUploader.Text) > 0 Then
+            '    Dim mpcode As String = clsDBFuncationality.getSingleValue("Select MP_Uploader_Code
+            '    from TSPL_DBT_NEFT_DETAIL 
+            '    Left Outer Join TSPL_MP_INCENTIVE_ENTRY_DETAIL On TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR   
+            '    left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code
+            '    where  MP_Uploader_Code= '" + txtMPCodeVlcUploader.Text + "'")
+            '    If clsCommon.myLen(mpcode) > 0 Then
+            '        clsCommon.MyMessageBoxShow(Me, "Duplicate MP Code ")
+            '        Return False
+            '    End If
+            'End If
             If clsCommon.myLen(txtMPCodeVlcUploader.Text) <= 0 Then
                 clsCommon.MyMessageBoxShow(Me, " MP Code For VLC Uploader  Must Not be Blank (Under General Tab)", Me.Text)
                 RadPageView1.SelectedPage = RadPageViewPage1
@@ -727,6 +738,7 @@ Public Class FrmMPMaster
             End If
             fndMPCode.Value = obj.MP_Code
             obj.MP_CODE_VLC_UPLOADER = clsCommon.myCstr(txtMPCodeVlcUploader.Text)
+            'txtMPCodeVlcUploader.ReadOnly = True
             obj.MP_Name = clsCommon.myCstr(txtMPName.Text)
             obj.MP_Name_Hindi = clsCommon.myCstr(txtMPNameHindi.Text)
             obj.DISTRICT_Code = clsCommon.myCstr(txtDistrict.Value)
@@ -945,6 +957,7 @@ Public Class FrmMPMaster
                 fndMPCode.Value = obj.MP_Code
                 fndVLCode.Value = obj.MCC_Code
                 txtMPCodeVlcUploader.Text = clsCommon.myCstr(obj.MP_CODE_VLC_UPLOADER)
+                'txtMPCodeVlcUploader.ReadOnly = True
                 txtVLCName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select vlc_name from TSPL_VLC_MASTER_HEAD where vlc_code='" + fndVLCode.Value + "'"))
                 txtMPName.Text = obj.MP_Name
                 txtMPNameHindi.Text = obj.MP_Name_Hindi
@@ -1101,10 +1114,12 @@ Public Class FrmMPMaster
                 btnSave.Text = "&Update"
                 btnDelete.Enabled = True
                 fndMPCode.MyReadOnly = True
+                'txtMPCodeVlcUploader.ReadOnly = True
             Else
                 btnDelete.Enabled = False
                 btnSave.Text = "&Save"
                 fndMPCode.MyReadOnly = False
+                'txtMPCodeVlcUploader.ReadOnly = False
             End If
 
 
@@ -2717,5 +2732,18 @@ Public Class FrmMPMaster
         End If
     End Sub
 
-
+    Private Sub txtMPCodeVlcUploader_Click(sender As Object, e As EventArgs) Handles txtMPCodeVlcUploader.Click
+        If clsCommon.myLen(txtMPCodeVlcUploader.Text) > 0 OrElse clsCommon.myLen(txtMPCodeVlcUploader.Text) <= 0 Then
+            Dim mpcode As String = clsDBFuncationality.getSingleValue("Select MP_Uploader_Code
+                from TSPL_DBT_NEFT_DETAIL 
+                Left Outer Join TSPL_MP_INCENTIVE_ENTRY_DETAIL On TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR   
+                left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code
+                where  MP_Uploader_Code= '" + txtMPCodeVlcUploader.Text + "' ")
+            If clsCommon.myLen(mpcode) > 0 Then
+                txtMPCodeVlcUploader.ReadOnly = True
+            Else
+                txtMPCodeVlcUploader.ReadOnly = False
+            End If
+        End If
+    End Sub
 End Class

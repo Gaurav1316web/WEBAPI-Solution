@@ -5,6 +5,7 @@ Public Class clsDBTNEFT
     Public Document_Code As String = Nothing
     Public Document_Date As Date
     Public From_Date As Date
+    Public DBT_Revise_Payment As Integer
     Public To_Date As Date
     Public Bank_Letter_Date As Date
     Public Remarks As String = ""
@@ -44,6 +45,7 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
             clsCommon.AddColumnsForChange(coll, "From_Date", clsCommon.GetPrintDate(obj.From_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "To_Date", clsCommon.GetPrintDate(obj.To_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
+            clsCommon.AddColumnsForChange(coll, "DBT_Revise_Payment", obj.DBT_Revise_Payment)
             clsCommon.AddColumnsForChange(coll, "Zone_Code", obj.Zone_Code, True)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
@@ -119,6 +121,7 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
             obj.From_Date = clsCommon.myCDate(dt.Rows(0)("From_Date"))
             obj.To_Date = clsCommon.myCDate(dt.Rows(0)("To_Date"))
             obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
+            obj.DBT_Revise_Payment = clsCommon.myCdbl(dt.Rows(0)("DBT_Revise_Payment"))
             obj.Zone_Code = clsCommon.myCstr(dt.Rows(0)("Zone_Code"))
             obj.Status = IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
             obj.RCDF_Status = IIf(clsCommon.myCdbl(dt.Rows(0)("RCDF_Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
@@ -349,7 +352,7 @@ where  TSPL_DBT_NEFT_DETAIL.Document_Code = '" + document_Code + "'  "
         Return True
     End Function
 
-    Public Function funPrintBankLetter(ByVal strDocNo As String, ByVal isPDFPath As Boolean) As String
+    Public Function funPrintBankLetter(ByVal strDocNo As String, ByVal isPDFPath As Boolean, ByVal strText As String, ByVal strCycle As String) As String
         Dim strPAth As String = ""
         Try
             If clsCommon.myLen(strDocNo) <= 0 Then
@@ -358,7 +361,7 @@ where  TSPL_DBT_NEFT_DETAIL.Document_Code = '" + document_Code + "'  "
             Dim reportDateTime As String = (clsDBFuncationality.getSingleValue("select convert(varchar , getdate(),113) as Date_Time"))
             Dim isPending As String = ERPTransactionStatus.Pending
             Dim status As String = ""
-            Dim qry As String = "select Document_Date,Bank_Letter_Date,To_Date,From_Date,TSPL_DBT_NEFT_DETAIL.Amount as Total_Amt,TSPL_DBT_NEFT_DETAIL.DCS,TSPL_DBT_NEFT_DETAIL.[Farmer Code],TSPL_DBT_NEFT_DETAIL.Total_Milk,TSPL_DBT_NEFT_DETAIL.Rate 
+            Dim qry As String = "select  Document_Date,Bank_Letter_Date,To_Date,From_Date,TSPL_DBT_NEFT_DETAIL.Amount as Total_Amt,TSPL_DBT_NEFT_DETAIL.DCS,TSPL_DBT_NEFT_DETAIL.[Farmer Code],TSPL_DBT_NEFT_DETAIL.Total_Milk,TSPL_DBT_NEFT_DETAIL.Rate 
 from TSPL_DBT_NEFT 
 left outer join (select TSPL_DBT_NEFT_DETAIL.document_code,max(TSPL_DBT_NEFT_DETAIL.Rem_Name) as Rem_Name,max(TSPL_DBT_NEFT_DETAIL.Rem_Account_No) as Rem_Account_No,
 sum(TSPL_DBT_NEFT_DETAIL.Amount) as Amount , COUNT( DISTINCT TSPL_DBT_NEFT_DETAIL.VLC_Uploader_Code) AS DCS, Max(TSPL_MP_INCENTIVE_ENTRY_HEAD.Incetive_Rate)as Rate ,
@@ -392,7 +395,7 @@ where TSPL_DBT_NEFT.Document_Code = '" + strDocNo + "' "
                     Throw New Exception("Please select Document No")
                 End If
 
-                qry = "select (select TSPL_USER_MASTER.User_Name from TSPL_APPROVAL_LEVEL_SCREEN LEFT OUTER JOIN TSPL_USER_MASTER ON TSPL_USER_MASTER.User_Code = TSPL_APPROVAL_LEVEL_SCREEN.User_Code where Module_Code = 'MMMProc' and TRANS_Code = 'DBT-NEFT-UPL' and No_Of_Level = 1) as 'P&IIncharge'
+                qry = "select '" & strText & "' as DBTRevisePayment ," & strCycle & "  as PayCycle, ( select TSPL_USER_MASTER.User_Name from TSPL_APPROVAL_LEVEL_SCREEN LEFT OUTER JOIN TSPL_USER_MASTER ON TSPL_USER_MASTER.User_Code = TSPL_APPROVAL_LEVEL_SCREEN.User_Code where Module_Code = 'MMMProc' and TRANS_Code = 'DBT-NEFT-UPL' and No_Of_Level = 1) as 'P&IIncharge'
                 ,(select TSPL_USER_MASTER.User_Name from TSPL_APPROVAL_LEVEL_SCREEN LEFT OUTER JOIN TSPL_USER_MASTER ON TSPL_USER_MASTER.User_Code = TSPL_APPROVAL_LEVEL_SCREEN.User_Code where Module_Code = 'MMMProc' and TRANS_Code = 'DBT-NEFT-UPL' and No_Of_Level = 2) as 'AccountHead',
               (select TSPL_USER_MASTER.User_Name from TSPL_APPROVAL_LEVEL_SCREEN  LEFT OUTER JOIN TSPL_USER_MASTER ON TSPL_USER_MASTER.User_Code = TSPL_APPROVAL_LEVEL_SCREEN.User_Code where Module_Code = 'MMMProc' and TRANS_Code = 'DBT-NEFT-UPL' and No_Of_Level = 3) as 'ManagingDirector', tspl_company_master.Logo_Img , tspl_company_master.Logo_Img2 , tspl_company_master.Comp_Name , tspl_company_master.Add1 , tspl_company_master.Add2, tspl_company_master.Add3,
 tspl_company_master.City_Code, tspl_company_master.Pincode, tspl_company_master.Email,REPLACE( RIGHT( Phone1,11),'_','') as Phone1 ,TSPL_DBT_NEFT.Document_Code as Doc_No ,

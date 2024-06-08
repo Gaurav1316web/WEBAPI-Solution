@@ -394,6 +394,7 @@ Public Class frmPurchaseOrder
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction")
         ButtonToolTip.SetToolTip(btnPost, "Press Alt+P Post Trasnaction")
         ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D Delete Trasnaction")
+        ButtonToolTip.SetToolTip(btn_Cancels, "Press Alt+L Close the Window")
         ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
         ButtonToolTip.SetToolTip(btnAddNew, "Press Alt+N Adding New Trasnaction")
         ButtonToolTip.SetToolTip(btnForm_Update, "Press Alt+U for Update Forms Entry")
@@ -7221,6 +7222,41 @@ Public Class frmPurchaseOrder
         DeleteData()
     End Sub
 
+    Sub CancelData()
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
+                Exit Sub
+            End If
+            If clsPurchaseOrderHead.CheckPOUsedInSRNorGRN(clsCommon.myCstr(txtDocNo.Value), Nothing) Then
+                Throw New Exception("PO can not be cancelled because it is used in SRN/GRN.")
+                'Else
+                '    clsPurchaseOrderHead.ReverseAndUnpost(txtDocNo.Value, MyBase.Form_ID)
+            End If
+            Dim Reason As String = ""
+            If (myMessages.CancelConfirms(Me)) Then
+                clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtDocNo.Value))
+                If clsCancelLog.CheckForReasonOnDelete() Then
+                    '' REASON FOR DELETE 
+                    Dim frm As New FrmFreeTxtBox1
+                    frm.Text = "Remarks for Cancel"
+                    frm.ShowDialog()
+                    If clsCommon.myLen(frm.strRmks) <= 0 Then
+                        Exit Sub
+                    Else
+                        Reason = frm.strRmks
+                    End If
+                End If
+                If (clsPurchaseOrderHead.CancelPOData(txtDocNo.Value, IIf(clsCommon.CompairString(FORMTYPE, clsUserMgtCode.FrmPurchaseOrderMT) = CompairStringResult.Equal, "MT", "PO"))) Then
+                    saveCancelLog(Reason, "Cancel", Nothing)
+                    clsCommon.MyMessageBoxShow(Me, "Data Cancel Successfully ", Me.Text)
+                    AddNew()
+                End If
+            End If
+        Catch ex As Exception
+            myMessages.myExceptions(ex)
+        End Try
+    End Sub
 
     Sub DeleteData()
         Try
@@ -7349,6 +7385,8 @@ Public Class frmPurchaseOrder
             DeleteData()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.L AndAlso MyBase.isCancel_Flag_After_Posting AndAlso btn_Cancels.Enabled Then
+            CancelData()
         ElseIf Not e.Alt AndAlso Not e.Shift AndAlso (e.Control AndAlso e.KeyCode = Keys.F7) Then ''because setting is open at Alt+Shift+Cntl+F7, and after this short-cut works automatically creates problem ,so do change
             SelectRequistionItems()
             ''richa agarwal 08/04/2015
@@ -10975,23 +11013,25 @@ Public Class frmPurchaseOrder
     'End Sub
     Private Sub btn_Cancels_Click(sender As Object, e As EventArgs) Handles btn_Cancels.Click
         Try
-            If clsCommon.myLen(txtDocNo.Value) > 0 Then
-                Dim frm As New FrmPWD(Nothing)
-                frm.strType = "PO Cancel"
-                frm.strCode = "PO Cancel"
-                If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
-                    Exit Sub
-                End If
-                If clsPurchaseOrderHead.CheckPOUsedInSRNorGRN(clsCommon.myCstr(txtDocNo.Value), Nothing) Then
-                    Throw New Exception("PO can not be cancelled because it is used in SRN/GRN.")
-                Else
-                    clsPurchaseOrderHead.ReverseAndUnpost(txtDocNo.Value, MyBase.Form_ID)
-                End If
-                'If clsPurchaseOrderHeadHist.SaveCancleData(txtDocNo.Value, 0, Nothing) Then
-                DeleteData()
-                clsCommon.MyMessageBoxShow(Me, "Data Cancle Successfully ", Me.Text)
-            End If
+            'If clsCommon.myLen(txtDocNo.Value) > 0 Then
+
+            '    If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+            '        clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
+            '        Exit Sub
+            '    End If
+            '    If clsPurchaseOrderHead.CheckPOUsedInSRNorGRN(clsCommon.myCstr(txtDocNo.Value), Nothing) Then
+            '        Throw New Exception("PO can not be cancelled because it is used in SRN/GRN.")
+
+            '    End If
+
+            '    If (myMessages.CancelConfirms(Me)) Then
+
+            CancelData()
+            'clsCommon.MyMessageBoxShow(Me, "Data Cancle Successfully ", Me.Text)
+
+            'End If
+
+            'End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
