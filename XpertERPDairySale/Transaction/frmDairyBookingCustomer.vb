@@ -9,6 +9,7 @@ Imports System.Text.RegularExpressions
 Public Class frmDairyBookingCustomer
     Inherits FrmMainTranScreen
 #Region "Variables"
+    Dim isRCDFRateControl As Boolean = False
     Dim isloadBookingTypeValues As Boolean = True
     Dim EnableLocation As Boolean = True
     Dim ApplyCommission As Boolean = True
@@ -259,6 +260,7 @@ Public Class frmDairyBookingCustomer
         'UcAttachment1.settAutoAttachment = True
         UcAttachment1.MandatoryPDFFileAny = True
         isPageLoadData = True
+        isRCDFRateControl = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.RCDFRateControl, clsFixedParameterCode.RCDFRateControl, Nothing)) = 1, True, False))
         CreateCommonDairyDispatchforFreshAmbient = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateCommonDairyDispatchforFreshAmbient, clsFixedParameterCode.CreateCommonDairyDispatchforFreshAmbient, Nothing))
         CheckOutstandingOnbooking = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CheckOutstandingCreditLimitOnBooking, clsFixedParameterCode.CheckOutstandingCreditLimitOnBooking, Nothing))
         AllowWo_Outstanding = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.AllowDispatchOutstandingFS & "'")) = 0, False, True)
@@ -2893,6 +2895,43 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 End If
                 UcAttachment1.AllowToSave()
             End If
+
+            If isRCDFRateControl Then
+                If gv1 IsNot Nothing AndAlso gv1.Rows.Count > 0 Then
+                    Dim strItem As String = ""
+                    Dim isCheck As Boolean = False
+                    For Each grow As GridViewRowInfo In gv1.Rows
+                        If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colICode).Value)) > 0 Then
+                            Dim Qry As String = "Select TSPL_RCDF_RATE_CONTROL_DETAIL_ALL_UOM.Code,TSPL_RCDF_RATE_CONTROL_DETAIL.Item_Code,TSPL_RCDF_RATE_CONTROL_DETAIL_ALL_UOM.UOM,TSPL_RCDF_RATE_CONTROL_DETAIL_ALL_UOM.Min_Rate,TSPL_RCDF_RATE_CONTROL_DETAIL_ALL_UOM.Max_Rate from TSPL_RCDF_RATE_CONTROL_DETAIL_ALL_UOM
+                                        Inner Join TSPL_RCDF_RATE_CONTROL_DETAIL On TSPL_RCDF_RATE_CONTROL_DETAIL.PK_Id=TSPL_RCDF_RATE_CONTROL_DETAIL_ALL_UOM.Against_PK_Id
+                                        Where TSPL_RCDF_RATE_CONTROL_DETAIL.Item_Code='" + clsCommon.myCstr(grow.Cells(colICode).Value) + "'"
+                            Dim dtt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                            If dtt IsNot Nothing AndAlso dtt.Rows.Count > 0 Then
+                                For Each rows As DataRow In dtt.Rows
+                                    If clsCommon.CompairString(clsCommon.myCstr(rows("Item_Code")), clsCommon.myCstr(grow.Cells(colICode).Value)) = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(rows("UOM")), clsCommon.myCstr(grow.Cells(colUnit).Value)) = CompairStringResult.Equal Then
+                                        If clsCommon.myCDecimal(grow.Cells(colRate).Value) < clsCommon.myCDecimal(rows("Min_Rate")) OrElse clsCommon.myCDecimal(grow.Cells(colRate).Value) > clsCommon.myCDecimal(rows("Max_Rate")) Then
+                                            strItem += "Item : " + clsCommon.myCstr(grow.Cells(colICode).Value) + " " + clsCommon.myCstr(grow.Cells(colIName).Value) + " " + Environment.NewLine
+                                            strItem += "Unit Cost : " + clsCommon.myCstr(grow.Cells(colRate).Value) + " " + Environment.NewLine
+                                            strItem += "According to RCDF Rate Control unit cost should be in range (" + clsCommon.myCstr(rows("Min_Rate")) + " to " + clsCommon.myCstr(rows("Max_Rate")) + ") . " + Environment.NewLine
+                                            isCheck = True
+                                        End If
+                                    End If
+                                Next
+                            End If
+                        End If
+                    Next
+                    If isCheck Then
+                        clsCommon.MyMessageBoxShow(Me, strItem, Me.Text)
+                        Return False
+                    End If
+                    isCheck = False
+                End If
+            End If
+
+
+
+
+
             'UpdateAllTotals()
             'Return True
         Catch ex As Exception

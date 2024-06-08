@@ -467,6 +467,7 @@
     <None Include="Crystal Reports GST\Milk Procurement\rptMilkTransferIn.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMPIDReport.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCre.rpt" />
+    <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreAreawise.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreBKN.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreCHU.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreGNG.rpt" />
@@ -1376,6 +1377,7 @@
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNewRJS.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNewSKR.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNewTNK.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNewTNKBharatpur.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessUDP.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessUDPInHindi.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMobileAppMilkCollectionReport.rpt" />
