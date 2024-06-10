@@ -381,7 +381,7 @@ Public Class frmRCDFRateControl
             obj.Doc_Date = txtDocDate.Value
             obj.From_Date = txtFromDate.Value
             If txtToDate.Checked Then
-                obj.To_Date = clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy")
+                obj.To_Date = txtToDate.Value
             End If
             obj.Remarks = txtRemarks.Text
             obj.Comments = txtComments.Text

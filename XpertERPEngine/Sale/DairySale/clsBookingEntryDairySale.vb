@@ -151,6 +151,11 @@ Public Class clsBookingEntryDairySale
     Public Function SaveData(ByVal obj As clsBookingEntryDairySale, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction, ByVal strBookingDocNo As String) As Boolean
         Dim qry As String = String.Empty
         Try
+            If Arr IsNot Nothing AndAlso Arr.Count > 0 Then
+                For i As Integer = 0 To Arr.Count - 1
+                    clsRCDFRateControl.CheckRCDFRateControl(clsCommon.myCstr(Arr(i).Item_Code), clsCommon.myCstr(Arr(i).Unit_code), clsCommon.myCDecimal(Arr(i).Item_Rate), clsCommon.myCDate(obj.Document_Date), trans)
+                Next
+            End If
             ''richa 4 Aug,2021 optimization related
             'If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             '    For Each obj1 As clsBookingDetailDairySale In Arr

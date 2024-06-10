@@ -1917,6 +1917,7 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
     End Sub
 
     Private Sub rptMccCollectionDetails_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        btnPrint.Visible = False
         ToDate.Value = clsCommon.GETSERVERDATE()
         dtpToDate.Value = clsCommon.GETSERVERDATE()
         fromDate.Value = clsCommon.GETSERVERDATE() 'ToDate.Value.AddMonths(-1)
@@ -1970,6 +1971,12 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
     End Sub
 
     Private Sub rbtnDock_Click(sender As Object, e As EventArgs) Handles rbtnDock.Click
+        If rbtnDock.Checked = True Then
+            btnPrint.Visible = False
+        Else
+            btnPrint.Visible = True
+        End If
+
         MyLabel4.Visible = True
         txtMCC_Code.Visible = True
         MyLabel5.Visible = False
@@ -1991,6 +1998,11 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
     End Sub
 
     Private Sub rdbDetails_Click(sender As Object, e As EventArgs) Handles rdbDetails.Click
+        If rdbDetails.Checked = True Then
+            btnPrint.Visible = False
+        Else
+            btnPrint.Visible = True
+        End If
         MyLabel4.Visible = False
         txtMCC_Code.Visible = False
         MyLabel5.Visible = False
@@ -1999,6 +2011,11 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
     End Sub
 
     Private Sub rdbSummary_Click(sender As Object, e As EventArgs) Handles rdbSummary.Click
+        If rdbSummary.Checked = True Then
+            btnPrint.Visible = False
+        Else
+            btnPrint.Visible = True
+        End If
         MyLabel4.Visible = False
         txtMCC_Code.Visible = False
         MyLabel5.Visible = False
@@ -2007,6 +2024,11 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
     End Sub
 
     Private Sub rbtnTranpoterGainLoss_Click(sender As Object, e As EventArgs) Handles rbtnTranpoterGainLoss.Click
+        If rbtnTranpoterGainLoss.Checked = True Then
+            btnPrint.Visible = True
+        Else
+            btnPrint.Visible = False
+        End If
         MyLabel4.Visible = False
         txtMCC_Code.Visible = False
         MyLabel5.Visible = True
@@ -2370,6 +2392,12 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_V
 
     Private Sub rbtnBMCDock_CheckedChanged(sender As Object, e As EventArgs) Handles rbtnBMCDock.CheckedChanged
         Try
+            If rbtnBMCDock.Checked = True Then
+                btnPrint.Visible = True
+            Else
+                btnPrint.Visible = False
+            End If
+
             If rbtnBMCDock.Checked Then
                 MyLabel4.Visible = True
                 txtMCC_Code.Visible = True
@@ -2395,6 +2423,11 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_V
 
     Private Sub rbtnDockSummary_CheckedChanged(sender As Object, e As EventArgs) Handles rbtnDockSummary.CheckedChanged
         Try
+            If rbtnDockSummary.Checked = True Then
+                btnPrint.Visible = True
+            Else
+                btnPrint.Visible = False
+            End If
             If rbtnDockSummary.Checked Then
                 MyLabel4.Visible = True
                 txtMCC_Code.Visible = True
@@ -2447,6 +2480,11 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_V
 
     Private Sub rbtnSummary_CheckedChanged(sender As Object, e As EventArgs) Handles rbtnSummary.CheckedChanged
         Try
+            If rbtnSummary.Checked = True Then
+                btnPrint.Visible = True
+            Else
+                btnPrint.Visible = False
+            End If
             If rbtnSummary.Checked Then
                 MyLabel4.Visible = True
                 txtMCC_Code.Visible = True
@@ -2581,6 +2619,70 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_V
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub rbtnBmcSummary_Click(sender As Object, e As EventArgs) Handles rbtnBmcSummary.Click
+        If rbtnBmcSummary.Checked = True Then
+            btnPrint.Visible = False
+        Else
+            btnPrint.Visible = True
+        End If
+    End Sub
+
+    Private Sub rdbTankerWise_Click(sender As Object, e As EventArgs) Handles rdbTankerWise.Click
+        If rdbTankerWise.Checked = True Then
+            btnPrint.Visible = False
+        Else
+            btnPrint.Visible = True
+        End If
+    End Sub
+
+    Private Sub rdbMultiple_Click(sender As Object, e As EventArgs) Handles rdbMultiple.Click
+        If rdbMultiple.Checked = True Then
+            btnPrint.Visible = False
+        Else
+            btnPrint.Visible = True
+        End If
+    End Sub
+
+    Private Sub rdbCollectionWise_Click(sender As Object, e As EventArgs) Handles rdbCollectionWise.Click
+        If rdbCollectionWise.Checked = True Then
+            btnPrint.Visible = False
+        Else
+            btnPrint.Visible = True
+        End If
+    End Sub
+
+    Private Sub rbtnBMCTankerCollection_CheckedChanged(sender As Object, e As EventArgs) Handles rbtnBMCTankerCollection.CheckedChanged
+        If rbtnBMCTankerCollection.Checked = True Then
+            btnPrint.Visible = False
+        Else
+            btnPrint.Visible = True
+        End If
+    End Sub
+
+    Private Sub rbtnRouteWise_CheckedChanged(sender As Object, e As EventArgs) Handles rbtnRouteWise.CheckedChanged
+        If rbtnRouteWise.Checked = True Then
+            btnPrint.Visible = False
+        Else
+            btnPrint.Visible = True
+        End If
+    End Sub
+
+    Private Sub rbtnDockDateWise_Click(sender As Object, e As EventArgs) Handles rbtnDockDateWise.Click
+        If rbtnDockDateWise.Checked = True Then
+            btnPrint.Visible = False
+        Else
+            btnPrint.Visible = True
+        End If
+    End Sub
+
+    Private Sub rbtnDockShiftWise_Click(sender As Object, e As EventArgs) Handles rbtnDockShiftWise.Click
+        If rbtnDockShiftWise.Checked = True Then
+            btnPrint.Visible = False
+        Else
+            btnPrint.Visible = True
+        End If
     End Sub
 End Class
 

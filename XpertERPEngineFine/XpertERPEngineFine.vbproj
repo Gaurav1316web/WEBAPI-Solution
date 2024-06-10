@@ -109,6 +109,7 @@
     <Compile Include="Classes\ClsCostCenter.vb" />
     <Compile Include="Classes\clsDairyInvoice.vb" />
     <Compile Include="Classes\clsEPF.vb" />
+    <Compile Include="Classes\clsMCCMaterailSalePriceChat.vb" />
     <Compile Include="Classes\clsRCDFRateControl.vb" />
     <Compile Include="clsLanguage.vb" />
     <Compile Include="Common\clsCustomFieldValues.vb" />

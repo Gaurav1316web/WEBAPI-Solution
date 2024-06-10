@@ -22,9 +22,9 @@ Partial Class SalesMarketingDashboard
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -38,7 +38,8 @@ Partial Class SalesMarketingDashboard
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv2 = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gv3 = New common.UserControls.MyRadGridView()
+        Me.Gv3 = New common.UserControls.MyRadGridView()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnExport = New Telerik.WinControls.UI.RadSplitButton()
         Me.btnExcel = New Telerik.WinControls.UI.RadMenuItem()
@@ -64,8 +65,9 @@ Partial Class SalesMarketingDashboard
         CType(Me.gv2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage4.SuspendLayout()
-        CType(Me.gv3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv3.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Gv3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Gv3.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -86,6 +88,7 @@ Partial Class SalesMarketingDashboard
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnExport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
@@ -103,7 +106,7 @@ Partial Class SalesMarketingDashboard
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(800, 418)
         Me.RadPageView1.TabIndex = 5
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -228,7 +231,7 @@ Partial Class SalesMarketingDashboard
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
@@ -258,7 +261,7 @@ Partial Class SalesMarketingDashboard
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowGroupedColumns = True
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.ShowHeaderCellButtons = True
@@ -267,33 +270,43 @@ Partial Class SalesMarketingDashboard
         '
         'RadPageViewPage4
         '
-        Me.RadPageViewPage4.Controls.Add(Me.gv3)
+        Me.RadPageViewPage4.Controls.Add(Me.Gv3)
         Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(98.0!, 28.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(779, 370)
         Me.RadPageViewPage4.Text = "Item Wise Detail"
         '
-        'gv3
+        'Gv3
         '
-        Me.gv3.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+        Me.Gv3.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.gv3.Location = New System.Drawing.Point(8, 8)
+        Me.Gv3.Location = New System.Drawing.Point(2, 0)
         '
         '
         '
-        Me.gv3.MasterTemplate.AllowAddNewRow = False
-        Me.gv3.MasterTemplate.AllowDeleteRow = False
-        Me.gv3.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gv3.MasterTemplate.ShowGroupedColumns = True
-        Me.gv3.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv3.MasterTemplate.ViewDefinition = TableViewDefinition6
-        Me.gv3.MyStopExport = False
-        Me.gv3.Name = "gv3"
-        Me.gv3.ShowHeaderCellButtons = True
-        Me.gv3.Size = New System.Drawing.Size(779, 370)
-        Me.gv3.TabIndex = 4
+        Me.Gv3.MasterTemplate.AllowAddNewRow = False
+        Me.Gv3.MasterTemplate.AllowDeleteRow = False
+        Me.Gv3.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.Gv3.MasterTemplate.ShowGroupedColumns = True
+        Me.Gv3.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv3.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.Gv3.MyStopExport = False
+        Me.Gv3.Name = "Gv3"
+        Me.Gv3.ShowHeaderCellButtons = True
+        Me.Gv3.Size = New System.Drawing.Size(776, 370)
+        Me.Gv3.TabIndex = 3
+        '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrint.Location = New System.Drawing.Point(250, 1)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(71, 21)
+        Me.btnPrint.TabIndex = 336
+        Me.btnPrint.Text = "Print"
         '
         'btnClose
         '
@@ -379,8 +392,9 @@ Partial Class SalesMarketingDashboard
         CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage4.ResumeLayout(False)
-        CType(Me.gv3.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Gv3.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Gv3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -409,5 +423,6 @@ Partial Class SalesMarketingDashboard
     Friend WithEvents RadPageViewPage3 As RadPageViewPage
     Friend WithEvents RadPageViewPage4 As RadPageViewPage
     Friend WithEvents gv2 As common.UserControls.MyRadGridView
-    Friend WithEvents gv3 As common.UserControls.MyRadGridView
+    Friend WithEvents Gv3 As common.UserControls.MyRadGridView
+    Friend WithEvents btnPrint As RadButton
 End Class

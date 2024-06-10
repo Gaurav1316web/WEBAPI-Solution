@@ -185,6 +185,11 @@ Public Class clsPurchaseInvoiceHead
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
 
         Try
+            If Arr IsNot Nothing AndAlso Arr.Count > 0 Then
+                For i As Integer = 0 To Arr.Count - 1
+                    clsRCDFRateControl.CheckRCDFRateControl(clsCommon.myCstr(Arr(i).Item_Code), clsCommon.myCstr(Arr(i).Unit_code), clsCommon.myCDecimal(Arr(i).Item_Cost), clsCommon.myCDate(obj.PI_Date), trans)
+                Next
+            End If
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Invoice", obj.Bill_To_Location, clsCommon.myCDate(obj.PI_Date), trans)
             If Not isNewEntry Then
                 HistoryUpdate(obj.PI_No, trans)
