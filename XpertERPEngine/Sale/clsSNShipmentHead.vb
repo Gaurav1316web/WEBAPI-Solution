@@ -226,6 +226,11 @@ Public Class clsSNShipmentHead
     Public Function SaveData(ByVal obj As clsSNShipmentHead, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = True
         Try
+            If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
+                For i As Integer = 0 To obj.Arr.Count - 1
+                    clsRCDFRateControl.CheckRCDFRateControl(clsCommon.myCstr(obj.Arr(i).Item_Code), clsCommon.myCstr(obj.Arr(i).Unit_code), clsCommon.myCDecimal(obj.Arr(i).Item_Cost), clsCommon.myCDate(obj.Document_Date), trans)
+                Next
+            End If
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Sales And Distribution", "Shipment/Sale Invoice", obj.Bill_To_Location, obj.Document_Date, trans)
             clsSerializeInvenotry.DeleteData("SD-IN", obj.Document_Code, trans)
             Dim qry1 As String = "delete from TSPL_SD_SHIPMENT_WEIGHMENT_MAPPING where Document_Code='" + obj.Document_Code + "'"

@@ -20,11 +20,20 @@ Public Class frmDBTNEFTUploader
     Dim dtPerforma As DataTable
     Dim settMaxRowExport As Integer = 0
     Dim SettMCCOneDBTOneDoc As String = ""
+    Dim DBTRevisePayment As Boolean = False
+    Dim CycleWiseDBT As Boolean = False
 #End Region
     Public Sub New()
         InitializeComponent()
     End Sub
     Private Sub FrmVLCDataUploaderManual_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+
+        DBTRevisePayment = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DBTRevisePayment, clsFixedParameterCode.DBTRevisePayment, Nothing)) = 1, True, False)
+        CycleWiseDBT = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CycleWiseDBT, clsFixedParameterCode.CycleWiseDBT, Nothing)) = 1, True, False)
+
+        If clsCommon.myCBool(DBTRevisePayment) Then
+            chkDBTRevisePayment.Visible = True
+        End If
         Qry = "select TSPL_BANK_MASTER_NEFT_PERFORMA.* from TSPL_BANK_MASTER_NEFT_PERFORMA 
 left outer join TSPL_BANK_MASTER on TSPL_BANK_MASTER.BANK_CODE=TSPL_BANK_MASTER_NEFT_PERFORMA.BANK_CODE
 where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
@@ -151,6 +160,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
         End If
         txtDocumentNo.Value = ""
         txtdate.Value = dt
+        chkDBTRevisePayment.Checked = False
         txtDocumentNo.MyReadOnly = False
         btnsave.Text = "Save"
         txtMCC.arrValueMember = Nothing
@@ -192,6 +202,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
                 Dim obj As New clsDBTNEFT()
                 obj.Document_Code = txtDocumentNo.Value
                 obj.Document_Date = txtdate.Value
+                obj.DBT_Revise_Payment = IIf(chkDBTRevisePayment.Checked = True, 1, 0)
                 obj.From_Date = txtFromDate.Value
                 obj.To_Date = txtToDate.Value
                 obj.Remarks = txtRemarks.Text
@@ -242,9 +253,18 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
                         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                             UcAttachment1.BlankAllControls()
-                            Dim objP As New clsDBTNEFT()
-                            Dim Filename As String = objP.funPrintBankLetter(obj.Document_Code, True)
-                            Dim SafeFileName As String = "BankLetter.pdf"
+                        Dim objP As New clsDBTNEFT()
+                        Dim strCycle As String = ""
+                        If clsCommon.myCBool(CycleWiseDBT) Then
+                            strCycle = "'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + " To " & " " & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'" & " "
+                        End If
+                        Dim strText As String = ""
+                        If chkDBTRevisePayment.Checked Then
+                            strText = "DCS filling data in saras pro app but payment not paid"
+                        End If
+
+                        Dim Filename As String = objP.funPrintBankLetter(obj.Document_Code, True, strText, strCycle)
+                        Dim SafeFileName As String = "BankLetter.pdf"
                             UcAttachment1.AddAttachment(Filename, SafeFileName)
                             Filename = clsCommon.MyExportToExcelGridPath("NEFT Uploader", gvItem, Nothing, Me.Text, False, "", "")
                             SafeFileName = "NEFTDetail.xls"
@@ -293,6 +313,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
             lblPending.Status = obj.Status
             txtRemarks.Text = obj.Remarks
             txtZone.Value = obj.Zone_Code
+            chkDBTRevisePayment.Checked = IIf(obj.DBT_Revise_Payment = 1, True, False)
             lblZone.Text = ClsZoneMaster.GetName(obj.Zone_Code)
             txtMCC.arrValueMember = obj.arrMCC
             txtVLC.arrValueMember = obj.arrVLC
@@ -894,7 +915,16 @@ where TSPL_DBT_NEFT_DETAIL.Document_Code='" + txtDocumentNo.Value + "' order by 
     End Sub
     Private Sub btnPrintBankLetter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrintBankLetter.Click
         Dim objP As New clsDBTNEFT()
-        objP.funPrintBankLetter(txtDocumentNo.Value, False)
+        Dim strCycle As String = ""
+        If clsCommon.myCBool(CycleWiseDBT) Then
+            strCycle = "'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + " To " & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'" & " "
+        End If
+        Dim strText As String = ""
+        If chkDBTRevisePayment.Checked Then
+            strText = "DCS filling data In saras pro app but payment not paid"
+        End If
+
+        objP.funPrintBankLetter(txtDocumentNo.Value, False, strText, strCycle)
     End Sub
 
     Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click

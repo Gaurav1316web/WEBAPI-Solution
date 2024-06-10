@@ -5006,6 +5006,63 @@ a:
     '    End If
     'End If
 
+    Public Shared Function CancelPOData(ByVal strCode As String, ByVal isMerchantTrade As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            CancelData(strCode, isMerchantTrade, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function CancelData(ByVal strCode As String, ByVal isMerchantTrade As String, ByVal trans As SqlTransaction) As Boolean
+        If (clsCommon.myLen(strCode) <= 0) Then
+            Throw New Exception("Purchase Order No not found to Delete")
+        End If
+        Dim obj As clsPurchaseOrderHead = clsPurchaseOrderHead.GetData(strCode, NavigatorType.Current, "", trans, isMerchantTrade)
+        If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.PurchaseOrder_No) > 0) Then
+            Try
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Order", obj.Bill_To_Location, obj.PurchaseOrder_Date, trans)
+                'If (obj.Status = 1) Then
+                '    Throw New Exception("Already Posted on :" + obj.Posting_Date)
+                'End If
+                clsPurchaseOrderAdditionChargeInsurance.DeleteData(obj.PurchaseOrder_No, trans)
+
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PURCHASE_ORDER_HEAD", "PurchaseOrder_No", "TSPL_PURCHASE_ORDER_DETAIL", "PurchaseOrder_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
+
+                Dim qry As String = "delete from TSPL_PI_REMITTANCE where Document_No='" + strCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "delete from TSPL_PURCHASE_ORDER_DETAIL where PurchaseOrder_No='" + strCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                '==========================reset ref. of po no is any renewal exist============================
+                clsDBFuncationality.ExecuteNonQuery("Update tspl_purchase_order_head set Renewal_Date=null,Against_PO=null where Against_PO='" + obj.PurchaseOrder_No + "'", trans)
+                '==============================================================================================
+
+                qry = "delete from TSPL_PURCHASE_ORDER_WORK_ORDER where PurchaseOrder_No='" + strCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "delete from TSPL_PURCHASE_ORDER_WORK_ORDER_Terms where PurchaseOrder_No='" + strCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "delete from TSPL_PURCHASE_ORDER_HEAD where PurchaseOrder_No='" + strCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                clsCustomFieldValues.DeleteData(obj.Form_ID, strCode, trans)
+
+                qry = "delete from TSPL_CFORM_ISSUE_RECEIVE_DETAIL where purchaseorder_no='" + strCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "delete from TSPL_ROADPERMIT_ISSUE_RECEIVE_DETAIL where purchaseorder_no='" + strCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            Catch ex As Exception
+                Throw New Exception(ex.Message)
+            End Try
+        End If
+        Return True
+    End Function
     Public Shared Function DeleteData(ByVal strCode As String, ByVal isMerchantTrade As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try

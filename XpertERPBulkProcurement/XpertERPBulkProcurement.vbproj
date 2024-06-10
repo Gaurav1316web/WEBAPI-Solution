@@ -348,6 +348,12 @@
     <Compile Include="Milk Procurement\Report\rptDCSSecurity.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\rptHeadLoadReport.Designer.vb">
+      <DependentUpon>rptHeadLoadReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptHeadLoadReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\rptMarginAmount.Designer.vb">
       <DependentUpon>rptMarginAmount.vb</DependentUpon>
     </Compile>
@@ -964,6 +970,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptExeVersionReport.resx">
       <DependentUpon>rptExeVersionReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptHeadLoadReport.resx">
+      <DependentUpon>rptHeadLoadReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptMarginAmount.resx">
       <DependentUpon>rptMarginAmount.vb</DependentUpon>

@@ -126,7 +126,7 @@ left outer join tspl_customer_master on tspl_customer_master.Cust_Code = TSPL_SD
     left join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code 
             left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code 
             left join TSPL_VLC_MASTER_HEAD on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code 
-			where 2 = 2  and convert( date ,TSPL_SD_SHIPMENT_HEAD.Document_Date , 103) >= CONVERT(date, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd-MMM-yyyy") + "', 103)
+			where 2 = 2  and TSPL_ITEM_MASTER.Item_Used_as = 'S' and convert( date ,TSPL_SD_SHIPMENT_HEAD.Document_Date , 103) >= CONVERT(date, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd-MMM-yyyy") + "', 103)
               and convert( date ,TSPL_SD_SHIPMENT_HEAD.Document_Date , 103) <= CONVERT(date, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") + "', 103)"
 
                 If clsCommon.myLen(txtLocation.Value) > 0 Then

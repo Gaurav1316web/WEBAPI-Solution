@@ -39,7 +39,7 @@ Public Class clsRCDFRateControl
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Doc_Date", clsCommon.GetPrintDate(obj.Doc_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "From_Date", clsCommon.GetPrintDate(obj.From_Date, "dd/MMM/yyyy"))
-            clsCommon.AddColumnsForChange(coll, "To_Date", obj.To_Date, True)
+            clsCommon.AddColumnsForChange(coll, "To_Date", clsCommon.GetPrintDate(obj.To_Date, "dd/MMM/yyyy"), True)
             clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
             clsCommon.AddColumnsForChange(coll, "Comments", obj.Comments)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
@@ -159,7 +159,63 @@ Public Class clsRCDFRateControl
         Return isSaved
     End Function
 
+    Public Shared Function CheckRCDFRateControl(ByVal ItemCode As String, ByVal ItemUOM As String, ByVal ItemUnitRate As Decimal, ByVal DocDate As Date, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim isRCDFRateControl As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.RCDFRateControl, clsFixedParameterCode.RCDFRateControl, trans)) = 1, True, False))
+            If isRCDFRateControl Then
+                Dim strMsg As String = ""
+                Dim isCheck As Boolean = False
 
+                Dim Qry As String = "Select TSPL_RCDF_RATE_CONTROL.Code,TSPL_RCDF_RATE_CONTROL.From_Date,TSPL_RCDF_RATE_CONTROL.To_Date,TSPL_RCDF_RATE_CONTROL_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_RCDF_RATE_CONTROL_DETAIL_ALL_UOM.UOM,TSPL_RCDF_RATE_CONTROL_DETAIL_ALL_UOM.Min_Rate,TSPL_RCDF_RATE_CONTROL_DETAIL_ALL_UOM.Max_Rate
+                                     from TSPL_RCDF_RATE_CONTROL_DETAIL_ALL_UOM
+                                     Inner Join TSPL_RCDF_RATE_CONTROL On TSPL_RCDF_RATE_CONTROL.Code=TSPL_RCDF_RATE_CONTROL_DETAIL_ALL_UOM.Code
+                                     Inner Join TSPL_RCDF_RATE_CONTROL_DETAIL On TSPL_RCDF_RATE_CONTROL_DETAIL.PK_Id=TSPL_RCDF_RATE_CONTROL_DETAIL_ALL_UOM.Against_PK_Id
+                                     Inner join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_RCDF_RATE_CONTROL_DETAIL.Item_Code
+                                     Where TSPL_RCDF_RATE_CONTROL.STATUS=1 And TSPL_ITEM_MASTER.Item_Code='" + ItemCode + "'"
+                Dim dtt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
+                If dtt IsNot Nothing AndAlso dtt.Rows.Count > 0 Then
+                    For Each rows As DataRow In dtt.Rows
+                        If clsCommon.myLen(rows("From_Date")) > 0 AndAlso clsCommon.myCDate(DocDate) >= clsCommon.myCDate(rows("From_Date")) AndAlso clsCommon.myLen(rows("To_Date")) <= 0 Then
+                            If clsCommon.CompairString(clsCommon.myCstr(rows("Item_Code")), ItemCode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(rows("UOM")), ItemUOM) = CompairStringResult.Equal Then
+                                If ItemUnitRate < clsCommon.myCDecimal(rows("Min_Rate")) OrElse ItemUnitRate > clsCommon.myCDecimal(rows("Max_Rate")) Then
+                                    strMsg += "Item : " + ItemCode + " " + clsCommon.myCstr(rows("Item_Desc")) + " " + Environment.NewLine
+                                    strMsg += "Unit Rate : " + clsCommon.myCstr(ItemUnitRate) + " " + Environment.NewLine
+                                    strMsg += "According to RCDF Rate Control unit cost should be in range (" + clsCommon.myCstr(rows("Min_Rate")) + " to " + clsCommon.myCstr(rows("Max_Rate")) + ") . " + Environment.NewLine
+                                    isCheck = True
+                                End If
+                            End If
+                        ElseIf clsCommon.myLen(rows("From_Date")) > 0 AndAlso clsCommon.myCDate(DocDate) >= clsCommon.myCDate(rows("From_Date")) AndAlso clsCommon.myLen(rows("To_Date")) > 0 AndAlso clsCommon.myCDate(DocDate) <= clsCommon.myCDate(rows("To_Date")) Then
+                            If clsCommon.CompairString(clsCommon.myCstr(rows("Item_Code")), ItemCode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(rows("UOM")), ItemUOM) = CompairStringResult.Equal Then
+                                If ItemUnitRate < clsCommon.myCDecimal(rows("Min_Rate")) OrElse ItemUnitRate > clsCommon.myCDecimal(rows("Max_Rate")) Then
+                                    strMsg += "Item : " + ItemCode + " " + clsCommon.myCstr(rows("Item_Desc")) + " " + Environment.NewLine
+                                    strMsg += "Unit Rate : " + clsCommon.myCstr(ItemUnitRate) + " " + Environment.NewLine
+                                    strMsg += "According to RCDF Rate Control unit cost should be in range (" + clsCommon.myCstr(rows("Min_Rate")) + " to " + clsCommon.myCstr(rows("Max_Rate")) + ") . " + Environment.NewLine
+                                    isCheck = True
+                                End If
+                            End If
+                        Else
+                            strMsg += "Date : " + clsCommon.GetPrintDate(DocDate, "dd/MM/yyyy") + "" + Environment.NewLine
+                            If clsCommon.myLen(rows("To_Date")) > 0 Then
+                                strMsg += "According to RCDF Rate Control Generation Date should be in (" + clsCommon.GetPrintDate(rows("From_Date"), "dd/MM/yyyy") + " to " + clsCommon.GetPrintDate(rows("To_Date"), "dd/MM/yyyy") + ")." + Environment.NewLine
+                                isCheck = True
+                            Else
+                                strMsg += "According to RCDF Rate Control Generation Date should be greater then or equal to From Date (" + clsCommon.GetPrintDate(rows("From_Date"), "dd/MM/yyyy") + ")." + Environment.NewLine
+                                isCheck = True
+                            End If
+                        End If
+                    Next
+                End If
+                If isCheck Then
+                    Throw New Exception(strMsg)
+                    Return False
+                End If
+                isCheck = False
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
 
 
 End Class

@@ -25,15 +25,13 @@ Partial Class FrmMCCMaterialSalePriceChart
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
-        Me.MyLabel2 = New common.Controls.MyLabel()
-        Me.MyDateTimePicker1 = New common.Controls.MyDateTimePicker()
-        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.cbgMCC = New common.MyCheckBoxGrid()
-        Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.chkMCCSelect = New common.Controls.MyRadioButton()
-        Me.chkMCCAll = New common.Controls.MyRadioButton()
-        Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.fndno = New common.UserControls.txtFinder()
+        Me.txtMCC_Code = New common.UserControls.txtMultiSelectFinder()
+        Me.txtDocNo = New common.UserControls.txtNavigator()
+        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
+        Me.lblMCC = New common.Controls.MyLabel()
+        Me.lblEndDate = New common.Controls.MyLabel()
+        Me.txtEndDate = New common.Controls.MyDateTimePicker()
+        Me.lblCode = New common.Controls.MyLabel()
         Me.lblvandorno = New common.Controls.MyLabel()
         Me.txtdate = New common.Controls.MyDateTimePicker()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
@@ -55,14 +53,11 @@ Partial Class FrmMCCMaterialSalePriceChart
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyDateTimePicker1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox3.SuspendLayout()
-        Me.Panel1.SuspendLayout()
-        CType(Me.chkMCCSelect, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkMCCAll, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblMCC, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblEndDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtEndDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblvandorno, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtdate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -102,8 +97,8 @@ Partial Class FrmMCCMaterialSalePriceChart
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnshow)
         Me.SplitContainer1.Panel2.Padding = New System.Windows.Forms.Padding(3)
-        Me.SplitContainer1.Size = New System.Drawing.Size(728, 482)
-        Me.SplitContainer1.SplitterDistance = 446
+        Me.SplitContainer1.Size = New System.Drawing.Size(728, 406)
+        Me.SplitContainer1.SplitterDistance = 370
         Me.SplitContainer1.TabIndex = 0
         '
         'SplitContainer2
@@ -117,159 +112,128 @@ Partial Class FrmMCCMaterialSalePriceChart
         '
         'SplitContainer2.Panel1
         '
-        Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel2)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.MyDateTimePicker1)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.RadGroupBox3)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel1)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.fndno)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtMCC_Code)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtDocNo)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.btnAddNew)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblMCC)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblEndDate)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtEndDate)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblCode)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblvandorno)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtdate)
-        Me.SplitContainer2.Panel1.Padding = New System.Windows.Forms.Padding(3)
+        Me.SplitContainer2.Panel1.Padding = New System.Windows.Forms.Padding(1)
         '
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.RadPageView1)
         Me.SplitContainer2.Panel2.Padding = New System.Windows.Forms.Padding(1)
-        Me.SplitContainer2.Size = New System.Drawing.Size(728, 446)
-        Me.SplitContainer2.SplitterDistance = 225
-        Me.SplitContainer2.TabIndex = 9
+        Me.SplitContainer2.Size = New System.Drawing.Size(728, 370)
+        Me.SplitContainer2.SplitterDistance = 61
+        Me.SplitContainer2.TabIndex = 2
         '
-        'MyLabel2
+        'txtMCC_Code
         '
-        Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel2.Location = New System.Drawing.Point(412, 14)
-        Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(94, 16)
-        Me.MyLabel2.TabIndex = 16
-        Me.MyLabel2.Text = "Effective Till Date"
+        Me.txtMCC_Code.arrDispalyMember = Nothing
+        Me.txtMCC_Code.arrValueMember = Nothing
+        Me.txtMCC_Code.Location = New System.Drawing.Point(43, 36)
+        Me.txtMCC_Code.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMCC_Code.MyLinkLable1 = Nothing
+        Me.txtMCC_Code.MyLinkLable2 = Nothing
+        Me.txtMCC_Code.MyNullText = "All"
+        Me.txtMCC_Code.Name = "txtMCC_Code"
+        Me.txtMCC_Code.Size = New System.Drawing.Size(249, 18)
+        Me.txtMCC_Code.TabIndex = 1601
         '
-        'MyDateTimePicker1
+        'txtDocNo
         '
-        Me.MyDateTimePicker1.CalculationExpression = Nothing
-        Me.MyDateTimePicker1.CustomFormat = "dd/MM/yyyy"
-        Me.MyDateTimePicker1.FieldCode = Nothing
-        Me.MyDateTimePicker1.FieldDesc = Nothing
-        Me.MyDateTimePicker1.FieldMaxLength = 0
-        Me.MyDateTimePicker1.FieldName = Nothing
-        Me.MyDateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.MyDateTimePicker1.isCalculatedField = False
-        Me.MyDateTimePicker1.IsSourceFromTable = False
-        Me.MyDateTimePicker1.IsSourceFromValueList = False
-        Me.MyDateTimePicker1.IsUnique = False
-        Me.MyDateTimePicker1.Location = New System.Drawing.Point(512, 12)
-        Me.MyDateTimePicker1.MendatroryField = True
-        Me.MyDateTimePicker1.MinDate = New Date(1973, 1, 1, 0, 0, 0, 0)
-        Me.MyDateTimePicker1.MyLinkLable1 = Me.MyLabel2
-        Me.MyDateTimePicker1.MyLinkLable2 = Nothing
-        Me.MyDateTimePicker1.Name = "MyDateTimePicker1"
-        Me.MyDateTimePicker1.ReferenceFieldDesc = Nothing
-        Me.MyDateTimePicker1.ReferenceFieldName = Nothing
-        Me.MyDateTimePicker1.ReferenceTableName = Nothing
-        Me.MyDateTimePicker1.Size = New System.Drawing.Size(95, 20)
-        Me.MyDateTimePicker1.TabIndex = 15
-        Me.MyDateTimePicker1.TabStop = False
-        Me.MyDateTimePicker1.Text = "28/05/2014"
-        Me.MyDateTimePicker1.Value = New Date(2014, 5, 28, 15, 5, 19, 923)
+        Me.txtDocNo.FieldName = Nothing
+        Me.txtDocNo.Location = New System.Drawing.Point(45, 13)
+        Me.txtDocNo.MendatroryField = False
+        Me.txtDocNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
+        Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtDocNo.MyLinkLable1 = Nothing
+        Me.txtDocNo.MyLinkLable2 = Nothing
+        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyReadOnly = False
+        Me.txtDocNo.Name = "txtDocNo"
+        Me.txtDocNo.Size = New System.Drawing.Size(249, 18)
+        Me.txtDocNo.TabIndex = 1599
+        Me.txtDocNo.TabStop = False
+        Me.txtDocNo.Value = ""
         '
-        'RadGroupBox3
+        'btnAddNew
         '
-        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox3.Controls.Add(Me.cbgMCC)
-        Me.RadGroupBox3.Controls.Add(Me.Panel1)
-        Me.RadGroupBox3.HeaderText = "MCC"
-        Me.RadGroupBox3.Location = New System.Drawing.Point(6, 38)
-        Me.RadGroupBox3.Name = "RadGroupBox3"
-        Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox3.Size = New System.Drawing.Size(360, 144)
-        Me.RadGroupBox3.TabIndex = 14
-        Me.RadGroupBox3.Text = "MCC"
+        Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAddNew.Image = Global.ERP.My.Resources.Resources._new
+        Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnAddNew.Location = New System.Drawing.Point(295, 12)
+        Me.btnAddNew.Name = "btnAddNew"
+        Me.btnAddNew.Size = New System.Drawing.Size(20, 20)
+        Me.btnAddNew.TabIndex = 1600
         '
-        'cbgMCC
+        'lblMCC
         '
-        Me.cbgMCC.CheckedValue = Nothing
-        Me.cbgMCC.DataSource = Nothing
-        Me.cbgMCC.DisplayMember = "Name"
-        Me.cbgMCC.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.cbgMCC.Location = New System.Drawing.Point(10, 40)
-        Me.cbgMCC.MyAutoSizeColumnsMode = Telerik.WinControls.UI.GridViewAutoSizeColumnsMode.Fill
-        Me.cbgMCC.MyShowHeadrText = False
-        Me.cbgMCC.Name = "cbgMCC"
-        Me.cbgMCC.Size = New System.Drawing.Size(340, 94)
-        Me.cbgMCC.TabIndex = 2
-        Me.cbgMCC.ValueMember = "Code"
+        Me.lblMCC.FieldName = Nothing
+        Me.lblMCC.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.lblMCC.Location = New System.Drawing.Point(4, 34)
+        Me.lblMCC.Name = "lblMCC"
+        Me.lblMCC.Size = New System.Drawing.Size(32, 16)
+        Me.lblMCC.TabIndex = 17
+        Me.lblMCC.Text = "MCC"
         '
-        'Panel1
+        'lblEndDate
         '
-        Me.Panel1.Controls.Add(Me.chkMCCSelect)
-        Me.Panel1.Controls.Add(Me.chkMCCAll)
-        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
-        Me.Panel1.Location = New System.Drawing.Point(10, 20)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(340, 20)
-        Me.Panel1.TabIndex = 1
+        Me.lblEndDate.FieldName = Nothing
+        Me.lblEndDate.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.lblEndDate.Location = New System.Drawing.Point(519, 12)
+        Me.lblEndDate.Name = "lblEndDate"
+        Me.lblEndDate.Size = New System.Drawing.Size(94, 16)
+        Me.lblEndDate.TabIndex = 16
+        Me.lblEndDate.Text = "Effective Till Date"
         '
-        'chkMCCSelect
+        'txtEndDate
         '
-        Me.chkMCCSelect.Location = New System.Drawing.Point(176, 1)
-        Me.chkMCCSelect.MyLinkLable1 = Nothing
-        Me.chkMCCSelect.MyLinkLable2 = Nothing
-        Me.chkMCCSelect.Name = "chkMCCSelect"
-        Me.chkMCCSelect.Size = New System.Drawing.Size(50, 18)
-        Me.chkMCCSelect.TabIndex = 2
-        Me.chkMCCSelect.Text = "Select"
+        Me.txtEndDate.CalculationExpression = Nothing
+        Me.txtEndDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtEndDate.FieldCode = Nothing
+        Me.txtEndDate.FieldDesc = Nothing
+        Me.txtEndDate.FieldMaxLength = 0
+        Me.txtEndDate.FieldName = Nothing
+        Me.txtEndDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtEndDate.isCalculatedField = False
+        Me.txtEndDate.IsSourceFromTable = False
+        Me.txtEndDate.IsSourceFromValueList = False
+        Me.txtEndDate.IsUnique = False
+        Me.txtEndDate.Location = New System.Drawing.Point(619, 10)
+        Me.txtEndDate.MendatroryField = True
+        Me.txtEndDate.MinDate = New Date(1973, 1, 1, 0, 0, 0, 0)
+        Me.txtEndDate.MyLinkLable1 = Me.lblEndDate
+        Me.txtEndDate.MyLinkLable2 = Nothing
+        Me.txtEndDate.Name = "txtEndDate"
+        Me.txtEndDate.ReferenceFieldDesc = Nothing
+        Me.txtEndDate.ReferenceFieldName = Nothing
+        Me.txtEndDate.ReferenceTableName = Nothing
+        Me.txtEndDate.Size = New System.Drawing.Size(95, 20)
+        Me.txtEndDate.TabIndex = 15
+        Me.txtEndDate.TabStop = False
+        Me.txtEndDate.Text = "28/05/2014"
+        Me.txtEndDate.Value = New Date(2014, 5, 28, 15, 5, 19, 923)
         '
-        'chkMCCAll
+        'lblCode
         '
-        Me.chkMCCAll.Location = New System.Drawing.Point(118, 1)
-        Me.chkMCCAll.MyLinkLable1 = Nothing
-        Me.chkMCCAll.MyLinkLable2 = Nothing
-        Me.chkMCCAll.Name = "chkMCCAll"
-        Me.chkMCCAll.Size = New System.Drawing.Size(33, 18)
-        Me.chkMCCAll.TabIndex = 1
-        Me.chkMCCAll.Text = "All"
-        '
-        'MyLabel1
-        '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel1.Location = New System.Drawing.Point(6, 14)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(33, 16)
-        Me.MyLabel1.TabIndex = 10
-        Me.MyLabel1.Text = "Code"
-        '
-        'fndno
-        '
-        Me.fndno.CalculationExpression = Nothing
-        Me.fndno.FieldCode = Nothing
-        Me.fndno.FieldDesc = Nothing
-        Me.fndno.FieldMaxLength = 0
-        Me.fndno.FieldName = Nothing
-        Me.fndno.isCalculatedField = False
-        Me.fndno.IsSourceFromTable = False
-        Me.fndno.IsSourceFromValueList = False
-        Me.fndno.IsUnique = False
-        Me.fndno.Location = New System.Drawing.Point(45, 13)
-        Me.fndno.MendatroryField = True
-        Me.fndno.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndno.MyLinkLable1 = Me.MyLabel1
-        Me.fndno.MyLinkLable2 = Nothing
-        Me.fndno.MyReadOnly = False
-        Me.fndno.MyShowMasterFormButton = False
-        Me.fndno.Name = "fndno"
-        Me.fndno.ReferenceFieldDesc = Nothing
-        Me.fndno.ReferenceFieldName = Nothing
-        Me.fndno.ReferenceTableName = Nothing
-        Me.fndno.Size = New System.Drawing.Size(187, 19)
-        Me.fndno.TabIndex = 1
-        Me.fndno.Value = ""
+        Me.lblCode.FieldName = Nothing
+        Me.lblCode.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.lblCode.Location = New System.Drawing.Point(4, 12)
+        Me.lblCode.Name = "lblCode"
+        Me.lblCode.Size = New System.Drawing.Size(33, 16)
+        Me.lblCode.TabIndex = 10
+        Me.lblCode.Text = "Code"
         '
         'lblvandorno
         '
         Me.lblvandorno.FieldName = Nothing
         Me.lblvandorno.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.lblvandorno.Location = New System.Drawing.Point(237, 14)
+        Me.lblvandorno.Location = New System.Drawing.Point(344, 12)
         Me.lblvandorno.Name = "lblvandorno"
         Me.lblvandorno.Size = New System.Drawing.Size(57, 16)
         Me.lblvandorno.TabIndex = 7
@@ -288,7 +252,7 @@ Partial Class FrmMCCMaterialSalePriceChart
         Me.txtdate.IsSourceFromTable = False
         Me.txtdate.IsSourceFromValueList = False
         Me.txtdate.IsUnique = False
-        Me.txtdate.Location = New System.Drawing.Point(300, 12)
+        Me.txtdate.Location = New System.Drawing.Point(407, 10)
         Me.txtdate.MendatroryField = True
         Me.txtdate.MinDate = New Date(1973, 1, 1, 0, 0, 0, 0)
         Me.txtdate.MyLinkLable1 = Me.lblvandorno
@@ -311,7 +275,7 @@ Partial Class FrmMCCMaterialSalePriceChart
         Me.RadPageView1.Location = New System.Drawing.Point(1, 1)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(726, 215)
+        Me.RadPageView1.Size = New System.Drawing.Size(726, 303)
         Me.RadPageView1.TabIndex = 1
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -321,7 +285,7 @@ Partial Class FrmMCCMaterialSalePriceChart
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(90.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(705, 167)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(705, 255)
         Me.RadPageViewPage1.Text = "Price Chart List"
         '
         'gv
@@ -341,7 +305,7 @@ Partial Class FrmMCCMaterialSalePriceChart
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
-        Me.gv.Size = New System.Drawing.Size(705, 167)
+        Me.gv.Size = New System.Drawing.Size(705, 255)
         Me.gv.TabIndex = 0
         '
         'RadPageViewPage2
@@ -350,7 +314,7 @@ Partial Class FrmMCCMaterialSalePriceChart
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(705, 167)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(593, 167)
         Me.RadPageViewPage2.Text = "Attachment"
         '
         'UcAttachment1
@@ -358,7 +322,7 @@ Partial Class FrmMCCMaterialSalePriceChart
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
         Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(705, 167)
+        Me.UcAttachment1.Size = New System.Drawing.Size(593, 167)
         Me.UcAttachment1.TabIndex = 2
         '
         'btnHistory
@@ -434,7 +398,7 @@ Partial Class FrmMCCMaterialSalePriceChart
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(728, 482)
+        Me.ClientSize = New System.Drawing.Size(728, 406)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "FrmMCCMaterialSalePriceChart"
         '
@@ -449,15 +413,11 @@ Partial Class FrmMCCMaterialSalePriceChart
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyDateTimePicker1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox3.ResumeLayout(False)
-        Me.Panel1.ResumeLayout(False)
-        Me.Panel1.PerformLayout()
-        CType(Me.chkMCCSelect, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkMCCAll, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblMCC, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblEndDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtEndDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblvandorno, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtdate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -487,21 +447,19 @@ Partial Class FrmMCCMaterialSalePriceChart
     Friend WithEvents btnexport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents btnimport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents SplitContainer2 As System.Windows.Forms.SplitContainer
-    Friend WithEvents MyLabel1 As common.Controls.MyLabel
-    Friend WithEvents fndno As common.UserControls.txtFinder
+    Friend WithEvents lblCode As common.Controls.MyLabel
     Friend WithEvents MyComboBox2 As common.Controls.MyComboBox
     Friend WithEvents RadPageView1 As Telerik.WinControls.UI.RadPageView
     Friend WithEvents RadPageViewPage1 As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents RadPageViewPage2 As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents UcAttachment1 As XpertERPEngine.ucAttachment
-    Friend WithEvents RadGroupBox3 As Telerik.WinControls.UI.RadGroupBox
-    Friend WithEvents cbgMCC As common.MyCheckBoxGrid
-    Friend WithEvents Panel1 As System.Windows.Forms.Panel
-    Friend WithEvents chkMCCSelect As common.Controls.MyRadioButton
-    Friend WithEvents chkMCCAll As common.Controls.MyRadioButton
-    Friend WithEvents MyLabel2 As common.Controls.MyLabel
-    Friend WithEvents MyDateTimePicker1 As common.Controls.MyDateTimePicker
+    Friend WithEvents lblEndDate As common.Controls.MyLabel
+    Friend WithEvents txtEndDate As common.Controls.MyDateTimePicker
     Friend WithEvents BtnSave As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents lblMCC As common.Controls.MyLabel
+    Friend WithEvents txtMCC_Code As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents txtDocNo As common.UserControls.txtNavigator
+    Friend WithEvents btnAddNew As RadButton
 End Class
 

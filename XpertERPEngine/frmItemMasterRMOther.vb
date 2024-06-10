@@ -328,6 +328,7 @@ Public Class FrmItemMasterRMOther
         fndCSA_AC_Code.Value = ""
         txtCSA_AC_Name.Text = ""
         txtBmBdQty.Text = ""
+        txtRptName.Text = ""
         txtRackNo.Text = ""
         txtPartNo.Value = ""
         txtDescription.Text = ""
@@ -1399,6 +1400,7 @@ Public Class FrmItemMasterRMOther
                 obj.Item_Short_Desc_Hindi = txtShortDescHindi.Text
                 '==============Added by preeti Gupta Against Ticket No[ERO/10/05/18-000302]=============
                 obj.Alies_Name = txtAliesName.Text
+                obj.ReportName = txtRptName.Text
                 obj.Alies_Name_Hindi = txtAliesNameHindi.Text
                 obj.Alies_Name2 = txtAliesName2.Text
                 obj.Alies_Name3 = txtAliesName3.Text
@@ -2495,6 +2497,7 @@ Public Class FrmItemMasterRMOther
                 txtShortDescription.Text = obj.Item_Short_Desc
                 txtShortDescHindi.Text = obj.Item_Short_Desc_Hindi
                 txtAliesName.Text = obj.Alies_Name
+                txtRptName.Text = obj.ReportName
                 txtAliesNameHindi.Text = obj.Alies_Name_Hindi
                 txtAliesName2.Text = obj.Alies_Name2
                 txtAliesName3.Text = obj.Alies_Name3
