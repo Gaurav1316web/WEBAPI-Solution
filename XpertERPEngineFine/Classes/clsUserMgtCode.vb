@@ -2191,6 +2191,7 @@ Public Class clsUserMgtCode
     Public Const rptBMCPerodicalReport As String = "BMC_PERO_R"
     Public Const rptPerodicalDispatchReport As String = "PERO_DISP_R"
     Public Const rptDBTCappingReport As String = "DBT_CAP_R"
+    Public Const rptHeadLoadReport As String = "HEAD-LOAD-R"
     Public Const rptDcsSecurity As String = "DCS_SEC_RPT"
     Public Const rptDayWiseCol As String = "DAY_WSE_RPT"
     Public Const rptMarginAmt As String = "MRG_AMT_RPT"
