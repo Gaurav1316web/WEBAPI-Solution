@@ -56,6 +56,7 @@ Public Class frmDemandAdjustment
         txtChangeItemCode.Value = ""
         lblChangeitemDesc.Text = ""
         txtPer.Text = 0
+        txtFixedQty.Text = 0
         ControlGroup(True)
         LoadBlankGrid()
         EnableGroup(False)
@@ -242,11 +243,19 @@ Public Class frmDemandAdjustment
             txtPer.Visible = True
             txtQty.Text = 0
             txtPer.Text = 0
+            lblFixedQty.Visible = False
+            txtFixedQty.Visible = False
+            txtFixedQty.Text = 0
         Else
             lblPer.Visible = False
             txtPer.Visible = False
             txtQty.Text = 0
             txtPer.Text = 0
+            txtFixedQty.Text = 0
+            lblFixedQty.Visible = True
+            txtFixedQty.Visible = True
+            lblFixedQty.Location = New System.Drawing.Point(146, 23)
+            txtFixedQty.Location = New System.Drawing.Point(212, 22)
         End If
     End Sub
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
@@ -434,9 +443,20 @@ where TSPL_DEMAND_BOOKING_MASTER.Posted=0 and convert(date,TSPL_DEMAND_BOOKING_M
                     For Each grow As GridViewRowInfo In gv1.Rows
                         If clsCommon.myCdbl(txtQty.Text) > 0 Then
                             If clsCommon.myLen(grow.Cells(colRouteCode).Value) > 0 Then
-                                dblorderqty = clsCommon.myCdbl(grow.Cells(colDemandQty).Value) + clsCommon.myCdbl(txtQty.Text)
-                                grow.Cells(colAdjustedQty).Value = clsCommon.myCdbl(txtQty.Text)
-                                grow.Cells(colFinalQty).Value = dblorderqty
+                                If clsCommon.myCdbl(txtFixedQty.Text) >= (dbltotalqty + clsCommon.myCdbl(txtQty.Text)) Then
+                                    dblorderqty = clsCommon.myCdbl(grow.Cells(colDemandQty).Value) + clsCommon.myCdbl(txtQty.Text)
+                                    grow.Cells(colAdjustedQty).Value = clsCommon.myCdbl(txtQty.Text)
+                                    grow.Cells(colFinalQty).Value = dblorderqty
+                                    dbltotalqty += clsCommon.myCdbl(txtQty.Text)
+                                Else
+                                    dblbalqty = clsCommon.myCdbl(txtFixedQty.Text) - dbltotalqty
+                                    If clsCommon.myCdbl(txtQty.Text) >= dblbalqty Then
+                                        dblorderqty = clsCommon.myCdbl(grow.Cells(colDemandQty).Value) + clsCommon.myCdbl(dblbalqty)
+                                        grow.Cells(colAdjustedQty).Value = clsCommon.myCdbl(dblbalqty)
+                                        grow.Cells(colFinalQty).Value = dblorderqty
+                                    End If
+                                    Exit For
+                                End If
                             End If
                         End If
                     Next
@@ -523,10 +543,22 @@ where TSPL_DEMAND_BOOKING_MASTER.Posted=0 and convert(date,TSPL_DEMAND_BOOKING_M
                     For Each grow As GridViewRowInfo In gv1.Rows
                         If clsCommon.myCdbl(txtQty.Text) > 0 Then
                             If clsCommon.myLen(grow.Cells(colRouteCode).Value) > 0 Then
-                                dblorderqty = clsCommon.myCdbl(grow.Cells(colDemandQty).Value) - clsCommon.myCdbl(txtQty.Text)
-                                grow.Cells(colAdjustedQty).Value = clsCommon.myCdbl(txtQty.Text)
-                                grow.Cells(colFinalQty).Value = dblorderqty
-                            End If
+                                If clsCommon.myCdbl(txtFixedQty.Text) >= (dbltotalqty + clsCommon.myCdbl(txtQty.Text)) Then
+                                    dblorderqty = clsCommon.myCdbl(grow.Cells(colDemandQty).Value) - clsCommon.myCdbl(txtQty.Text)
+                                    grow.Cells(colAdjustedQty).Value = clsCommon.myCdbl(txtQty.Text)
+                                    grow.Cells(colFinalQty).Value = dblorderqty
+                                    dbltotalqty += clsCommon.myCdbl(txtQty.Text)
+                                Else
+                                    dblbalqty = clsCommon.myCdbl(txtFixedQty.Text) - dbltotalqty
+                                    If clsCommon.myCdbl(txtQty.Text) >= dblbalqty Then
+                                        dblorderqty = clsCommon.myCdbl(grow.Cells(colDemandQty).Value) - clsCommon.myCdbl(dblbalqty)
+                                        grow.Cells(colAdjustedQty).Value = clsCommon.myCdbl(dblbalqty)
+                                        grow.Cells(colFinalQty).Value = dblorderqty
+                                    End If
+                                    Exit For
+                                End If
+
+                                End If
                         End If
                     Next
                     RadPageView1.SelectedPage = RadPageViewPage2
@@ -666,6 +698,7 @@ from(" + mainQry + " )XX  order by xx.Qty desc"
         coll.Add("Is_FixQty", "varchar(20) NOT NULL")
         coll.Add("Increase_Decrease_Qty", "decimal(18,0) NULL")
         coll.Add("Percentage", "decimal(18,2) NULL")
+        coll.Add("FixedQty", "decimal(18,2) NULL")
         coll.Add("Deduct_Qty", "decimal(18,0) NULL")
         coll.Add("Change_Item_Code", "Varchar(50) NULL References TSPL_ITEM_MASTER(Item_Code)")
         coll.Add("Add_Qty", "decimal(18,0) NULL")
@@ -706,6 +739,13 @@ from(" + mainQry + " )XX  order by xx.Qty desc"
     End Function
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         Try
+            SaveData()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Public Sub SaveData()
+        Try
             If (AllowToSave()) Then
                 Dim obj As New clsDemandAdjustment()
                 obj.Document_Date = clsCommon.myCDate(txtDate.Value)
@@ -731,7 +771,12 @@ from(" + mainQry + " )XX  order by xx.Qty desc"
                 obj.Is_Automatic = rbtnAutomatic.IsChecked
                 obj.Is_FixQty = rbtnFix.IsChecked
                 obj.Increase_Decrease_Qty = clsCommon.myCdbl(txtQty.Text)
-                obj.Percentage = clsCommon.myCdbl(txtPer.Text)
+                If rbtnAutomatic.IsChecked Then
+                    obj.Percentage = clsCommon.myCdbl(txtPer.Text)
+
+                ElseIf rbtnFix.IsChecked Then
+                    obj.FixedQty = clsCommon.myCdbl(txtFixedQty.Text)
+                End If
                 obj.Deduct_Qty = clsCommon.myCdbl(txtDeductQty.Text)
                 obj.Add_Qty = clsCommon.myCdbl(txtAddQty.Text)
                 If clsCommon.myLen(txtChangeItemCode.Value) > 0 Then
@@ -760,7 +805,7 @@ from(" + mainQry + " )XX  order by xx.Qty desc"
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            Throw New Exception(ex.Message)
         End Try
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)

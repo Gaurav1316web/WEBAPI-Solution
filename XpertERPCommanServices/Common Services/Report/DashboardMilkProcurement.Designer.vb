@@ -27,12 +27,13 @@ Partial Class DashboardMilkProcurement
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkRJSBNS = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtFromDate = New common.Controls.MyDateTimePicker()
         Me.txtToDate = New common.Controls.MyDateTimePicker()
         Me.lblToDate = New common.Controls.MyLabel()
@@ -50,13 +51,13 @@ Partial Class DashboardMilkProcurement
         Me.btnreset = New Telerik.WinControls.UI.RadButton()
         Me.btngo = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.chkRJSBNS = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkRJSBNS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -75,7 +76,6 @@ Partial Class DashboardMilkProcurement
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btngo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkRJSBNS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -127,6 +127,14 @@ Partial Class DashboardMilkProcurement
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 365)
         Me.RadPageViewPage1.Text = "Filter"
+        '
+        'chkRJSBNS
+        '
+        Me.chkRJSBNS.Location = New System.Drawing.Point(321, 17)
+        Me.chkRJSBNS.Name = "chkRJSBNS"
+        Me.chkRJSBNS.Size = New System.Drawing.Size(64, 18)
+        Me.chkRJSBNS.TabIndex = 444
+        Me.chkRJSBNS.Text = "RJS & BNS"
         '
         'txtFromDate
         '
@@ -225,7 +233,7 @@ Partial Class DashboardMilkProcurement
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
@@ -238,7 +246,7 @@ Partial Class DashboardMilkProcurement
         Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(94.0!, 28.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(773, 359)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(779, 365)
         Me.RadPageViewPage3.Text = "Count Of Route"
         '
         'gv2
@@ -253,11 +261,11 @@ Partial Class DashboardMilkProcurement
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowGroupedColumns = True
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.ShowHeaderCellButtons = True
-        Me.gv2.Size = New System.Drawing.Size(773, 359)
+        Me.gv2.Size = New System.Drawing.Size(779, 365)
         Me.gv2.TabIndex = 3
         '
         'RadPageViewPage4
@@ -281,7 +289,7 @@ Partial Class DashboardMilkProcurement
         Me.gv3.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv3.MasterTemplate.ShowGroupedColumns = True
         Me.gv3.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv3.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv3.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gv3.MyStopExport = False
         Me.gv3.Name = "gv3"
         Me.gv3.ShowHeaderCellButtons = True
@@ -346,14 +354,6 @@ Partial Class DashboardMilkProcurement
         Me.btnclose.TabIndex = 334
         Me.btnclose.Text = "Close"
         '
-        'chkRJSBNS
-        '
-        Me.chkRJSBNS.Location = New System.Drawing.Point(321, 17)
-        Me.chkRJSBNS.Name = "chkRJSBNS"
-        Me.chkRJSBNS.Size = New System.Drawing.Size(64, 18)
-        Me.chkRJSBNS.TabIndex = 444
-        Me.chkRJSBNS.Text = "RJS & BNS"
-        '
         'DashboardMilkProcurement
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -373,6 +373,7 @@ Partial Class DashboardMilkProcurement
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkRJSBNS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -391,7 +392,6 @@ Partial Class DashboardMilkProcurement
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btngo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkRJSBNS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
