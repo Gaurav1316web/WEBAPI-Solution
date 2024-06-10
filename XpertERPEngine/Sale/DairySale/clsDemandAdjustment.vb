@@ -15,6 +15,7 @@ Public Class clsDemandAdjustment
     Public Is_FixQty As Boolean = False
     Public Increase_Decrease_Qty As Double = 0
     Public Percentage As Double = 0
+    Public FixedQty As Double = 0
     Public Deduct_Qty As Double = 0
     Public Change_Item_Code As String = ""
     Public Add_Qty As Double = 0
@@ -54,6 +55,7 @@ Public Class clsDemandAdjustment
             clsCommon.AddColumnsForChange(coll, "Is_FixQty", IIf(obj.Is_FixQty, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Increase_Decrease_Qty", obj.Increase_Decrease_Qty)
             clsCommon.AddColumnsForChange(coll, "Percentage", obj.Percentage)
+            clsCommon.AddColumnsForChange(coll, "FixedQty", obj.FixedQty)
             clsCommon.AddColumnsForChange(coll, "Deduct_Qty", obj.Deduct_Qty)
             clsCommon.AddColumnsForChange(coll, "Change_Item_Code", obj.Change_Item_Code, True)
             clsCommon.AddColumnsForChange(coll, "Add_Qty", obj.Add_Qty)
@@ -114,6 +116,7 @@ Public Class clsDemandAdjustment
             obj.Is_FixQty = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_FixQty")) = 1, True, False)
             obj.Increase_Decrease_Qty = clsCommon.myCdbl(dt.Rows(0)("Increase_Decrease_Qty"))
             obj.Percentage = clsCommon.myCdbl(dt.Rows(0)("Percentage"))
+            obj.FixedQty = clsCommon.myCdbl(dt.Rows(0)("FixedQty"))
             obj.Deduct_Qty = clsCommon.myCdbl(dt.Rows(0)("Deduct_Qty"))
             obj.Change_Item_Code = clsCommon.myCstr(dt.Rows(0)("Change_Item_Code"))
             obj.Add_Qty = clsCommon.myCdbl(dt.Rows(0)("Add_Qty"))
