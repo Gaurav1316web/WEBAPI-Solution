@@ -229,8 +229,9 @@ where TSPL_PRODUCTION_UPLOADER_DETAIL.Document_No='" + obj.Document_No + "' and 
                 Dim settAllowNegativeStockInDairyProduction As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowNegativeStockInDairyProduction, clsFixedParameterCode.AllowNegativeStockInDairyProduction, trans)) > 0)
                 Dim PKID As Decimal = clsCommon.myCDecimal(dtRM.Rows(0)("PK_ID"))
                 Dim PKDate As Date = clsCommon.myCDate(dtRM.Rows(0)("Batch_Date"))
+                ''out the Raw material and Packing Item
                 For Each drRM As DataRow In dtRM.Rows
-                    If PKID <> clsCommon.myCDecimal(dtRM.Rows(0)("PK_ID")) Then
+                    If PKID <> clsCommon.myCDecimal(drRM("PK_ID")) Then
                         If ArrInvetoryMovementNew.Count > 0 Then
                             clsInventoryMovementNew.SaveData(clsUserMgtCode.DariyProductionUploader, clsCommon.myCstr(PKID), PKDate, clsCommon.GetPrintDate(PKDate, "dd/MM/yyyy"), ArrInvetoryMovementNew, trans)
                         End If
@@ -239,6 +240,7 @@ where TSPL_PRODUCTION_UPLOADER_DETAIL.Document_No='" + obj.Document_No + "' and 
                         End If
                         ArrInventoryMovement = New List(Of clsInventoryMovement)
                         ArrInvetoryMovementNew = New List(Of clsInventoryMovementNew)
+                        PKID = clsCommon.myCDecimal(drRM("PK_ID"))
                     End If
 
                     If Not settAllowNegativeStockInDairyProduction Then
@@ -377,10 +379,7 @@ where TSPL_PRODUCTION_UPLOADER_DETAIL.Document_No='" + obj.Document_No + "' and 
                     clsInventoryMovement.SaveData(clsUserMgtCode.DariyProductionUploader, clsCommon.myCstr(PKID), PKDate, clsCommon.GetPrintDate(PKDate, "dd/MM/yyyy"), ArrInventoryMovement, trans)
                 End If
 
-                '//Check for -ve balance
-
-
-
+                ''In the Finish Goods Item
                 For Each objtr As clsDairyProductionUploaderDetail In obj.Arr
                     ArrInventoryMovement = New List(Of clsInventoryMovement)
                     ArrInvetoryMovementNew = New List(Of clsInventoryMovementNew)
@@ -490,15 +489,15 @@ select 0 as Fat_KG,0 as SNF_KG,0 as Fat_Amt,0 as SNF_Amt,Amount as Avg_Cost from
                             If clsCommon.myLen(objBatchItem.Batch_No) > 0 AndAlso objBatchItem.Qty <> 0 Then
                                 arrBatchItem.Add(objBatchItem)
                             End If
-                            clsBatchInventory.SaveData(clsUserMgtCode.DariyProductionUploader, clsCommon.myCstr(PKID), PKDate, "I", objtr.Item_Code, obj.Location_FG, 1, 0, objtr.UOM, arrBatchItem, trans)
+                            clsBatchInventory.SaveData(clsUserMgtCode.DariyProductionUploader, clsCommon.myCstr(objtr.PK_ID), objtr.Batch_Date, "I", objtr.Item_Code, obj.Location_FG, 1, 0, objtr.UOM, arrBatchItem, trans)
                         End If
                     End If
 
                     If ArrInvetoryMovementNew.Count > 0 Then
-                        clsInventoryMovementNew.SaveData(clsUserMgtCode.DariyProductionUploader, clsCommon.myCstr(PKID), PKDate, clsCommon.GetPrintDate(PKDate, "dd/MM/yyyy"), ArrInvetoryMovementNew, trans)
+                        clsInventoryMovementNew.SaveData(clsUserMgtCode.DariyProductionUploader, clsCommon.myCstr(objtr.PK_ID), objtr.Batch_Date, clsCommon.GetPrintDate(PKDate, "dd/MM/yyyy"), ArrInvetoryMovementNew, trans)
                     End If
                     If ArrInventoryMovement.Count > 0 Then
-                        clsInventoryMovement.SaveData(clsUserMgtCode.DariyProductionUploader, clsCommon.myCstr(PKID), PKDate, clsCommon.GetPrintDate(PKDate, "dd/MM/yyyy"), ArrInventoryMovement, trans)
+                        clsInventoryMovement.SaveData(clsUserMgtCode.DariyProductionUploader, clsCommon.myCstr(objtr.PK_ID), objtr.Batch_Date, clsCommon.GetPrintDate(PKDate, "dd/MM/yyyy"), ArrInventoryMovement, trans)
                     End If
                 Next
             End If
@@ -586,6 +585,10 @@ where Document_No='" + obj.Document_No + "'
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
             End If
 
+
+            Qry = "delete from TSPL_PRODUCTION_UPLOADER_OVERHEAD_COST_DETAIL where Document_No='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+
             Dim VoucherNo As String = clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code='PR-UP' and Source_Doc_No='" + strCode + "'", trans)
             If clsCommon.myLen(VoucherNo) > 0 Then
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, VoucherNo, "TSPL_JOURNAL_MASTER", "Voucher_No", "TSPL_JOURNAL_DETAILS", "Voucher_No", trans)
@@ -594,8 +597,6 @@ where Document_No='" + obj.Document_No + "'
                 Qry = "delete from TSPL_JOURNAL_MASTER where Voucher_No ='" + VoucherNo + "'"
                 clsDBFuncationality.ExecuteNonQuery(Qry, trans)
             End If
-
-
 
             Dim arr As List(Of clsDairyProductionUploaderDetail) = clsDairyProductionUploaderDetail.GetData(False, strCode, "", trans)
             If arr IsNot Nothing AndAlso arr.Count > 0 Then
