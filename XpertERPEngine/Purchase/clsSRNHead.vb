@@ -206,7 +206,7 @@ Public Class clsSRNHead
 
             '' transfer data into cancel table
 
-            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Doc_No, "TSPL_SRN_HEAD", "SRN_No", "TSPL_SRN_DETAIL", "SRN_No", trans)
+            'clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Doc_No, "TSPL_SRN_HEAD", "SRN_No", "TSPL_SRN_DETAIL", "SRN_No", trans)
             clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Doc_No, "TSPL_ROADPERMIT_ISSUE_RECEIVE_DETAIL", "SRN_No", trans)
             clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Doc_No, "TSPL_CFORM_ISSUE_RECEIVE_DETAIL", "SRN_No", trans)
 
@@ -525,6 +525,10 @@ Public Class clsSRNHead
             isSaved = isSaved AndAlso clsSRNRoadPermitDetail.SaveData_RoadPermit(obj.SRN_No, obj.Against_PO, obj.Arr_Road, trans)
             isSaved = isSaved AndAlso clsSRNCFORMDetail.SaveData_CFORM(obj.SRN_No, obj.Against_PO, obj.Arr_CFORM, trans)
             isSaved = isSaved AndAlso clsSRNAdditionChargeInsurance.SaveData(obj.SRN_No, obj.SRN_Date, obj.Arr_ACInsurance, trans)
+            If Not isNewEntry Then
+                clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.SRN_No), "TSPL_SRN_HEAD", "SRN_No", "TSPL_SRN_DETAIL", "SRN_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
+
+            End If
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try

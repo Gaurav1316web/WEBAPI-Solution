@@ -146,6 +146,7 @@ Partial Class frmMRN
         Me.RadLabel19 = New common.Controls.MyLabel()
         Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
+        Me.btnhistory = New Telerik.WinControls.UI.RadButton()
         Me.btn_Amendment = New Telerik.WinControls.UI.RadButton()
         Me.btncancel = New Telerik.WinControls.UI.RadButton()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
@@ -154,7 +155,6 @@ Partial Class frmMRN
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.btnhistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -276,6 +276,7 @@ Partial Class frmMRN
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage5.SuspendLayout()
+        CType(Me.btnhistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btn_Amendment, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btncancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -284,7 +285,6 @@ Partial Class frmMRN
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnhistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -2195,11 +2195,20 @@ Partial Class frmMRN
         Me.UcAttachment1.Size = New System.Drawing.Size(967, 358)
         Me.UcAttachment1.TabIndex = 1
         '
+        'btnhistory
+        '
+        Me.btnhistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnhistory.Location = New System.Drawing.Point(561, 3)
+        Me.btnhistory.Name = "btnhistory"
+        Me.btnhistory.Size = New System.Drawing.Size(69, 22)
+        Me.btnhistory.TabIndex = 9
+        Me.btnhistory.Text = "History"
+        '
         'btn_Amendment
         '
         Me.btn_Amendment.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btn_Amendment.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_Amendment.Location = New System.Drawing.Point(380, 3)
+        Me.btn_Amendment.Location = New System.Drawing.Point(481, 3)
         Me.btn_Amendment.Name = "btn_Amendment"
         Me.btn_Amendment.Size = New System.Drawing.Size(69, 22)
         Me.btn_Amendment.TabIndex = 8
@@ -2210,7 +2219,7 @@ Partial Class frmMRN
         '
         Me.btncancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btncancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btncancel.Location = New System.Drawing.Point(826, 4)
+        Me.btncancel.Location = New System.Drawing.Point(297, 4)
         Me.btncancel.Name = "btncancel"
         Me.btncancel.Size = New System.Drawing.Size(69, 22)
         Me.btncancel.TabIndex = 7
@@ -2219,7 +2228,7 @@ Partial Class frmMRN
         'RadButton1
         '
         Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton1.Location = New System.Drawing.Point(305, 3)
+        Me.RadButton1.Location = New System.Drawing.Point(406, 3)
         Me.RadButton1.Name = "RadButton1"
         Me.RadButton1.Size = New System.Drawing.Size(69, 22)
         Me.RadButton1.TabIndex = 4
@@ -2229,7 +2238,7 @@ Partial Class frmMRN
         'btnPrint
         '
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(230, 4)
+        Me.btnPrint.Location = New System.Drawing.Point(223, 4)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(69, 22)
         Me.btnPrint.TabIndex = 3
@@ -2238,7 +2247,7 @@ Partial Class frmMRN
         'btnDelete
         '
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(155, 4)
+        Me.btnDelete.Location = New System.Drawing.Point(151, 4)
         Me.btnDelete.Name = "btnDelete"
         Me.btnDelete.Size = New System.Drawing.Size(69, 22)
         Me.btnDelete.TabIndex = 2
@@ -2247,7 +2256,7 @@ Partial Class frmMRN
         'btnPost
         '
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(80, 4)
+        Me.btnPost.Location = New System.Drawing.Point(79, 4)
         Me.btnPost.Name = "btnPost"
         Me.btnPost.Size = New System.Drawing.Size(69, 22)
         Me.btnPost.TabIndex = 1
@@ -2271,15 +2280,6 @@ Partial Class frmMRN
         Me.btnSave.Size = New System.Drawing.Size(69, 22)
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
-        '
-        'btnhistory
-        '
-        Me.btnhistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnhistory.Location = New System.Drawing.Point(460, 3)
-        Me.btnhistory.Name = "btnhistory"
-        Me.btnhistory.Size = New System.Drawing.Size(69, 22)
-        Me.btnhistory.TabIndex = 9
-        Me.btnhistory.Text = "History"
         '
         'frmMRN
         '
@@ -2423,6 +2423,7 @@ Partial Class frmMRN
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage5.ResumeLayout(False)
+        CType(Me.btnhistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btn_Amendment, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btncancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2431,7 +2432,6 @@ Partial Class frmMRN
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnhistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
