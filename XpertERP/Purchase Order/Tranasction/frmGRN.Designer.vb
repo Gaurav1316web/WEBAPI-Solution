@@ -22,22 +22,22 @@ Partial Class frmGRN
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition17 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition18 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition19 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition20 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem14 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem15 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem16 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem17 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem18 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -210,6 +210,7 @@ Partial Class frmGRN
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.mnuSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.mnuDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.Cancelbtn = New Telerik.WinControls.UI.RadButton()
         Me.btnhistory = New Telerik.WinControls.UI.RadButton()
         Me.btnRejected = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiEnglish = New Telerik.WinControls.UI.RadMenuItem()
@@ -391,6 +392,7 @@ Partial Class frmGRN
         CType(Me.ToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.fromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Cancelbtn, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnhistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnRejected, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -422,6 +424,7 @@ Partial Class frmGRN
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.Cancelbtn)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnhistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnRejected)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadButton1)
@@ -1752,7 +1755,7 @@ Partial Class frmGRN
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition17
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2044,7 +2047,7 @@ Partial Class frmGRN
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition18
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2105,7 +2108,7 @@ Partial Class frmGRN
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition19
         Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2175,7 +2178,7 @@ Partial Class frmGRN
         Me.gvACInsurance.MasterTemplate.AllowDeleteRow = False
         Me.gvACInsurance.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvACInsurance.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvACInsurance.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvACInsurance.MasterTemplate.ViewDefinition = TableViewDefinition20
         Me.gvACInsurance.MyStopExport = False
         Me.gvACInsurance.Name = "gvACInsurance"
         Me.gvACInsurance.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2627,17 +2630,17 @@ Partial Class frmGRN
         Me.cboVisualQCStatusSecond.IsSourceFromTable = False
         Me.cboVisualQCStatusSecond.IsSourceFromValueList = False
         Me.cboVisualQCStatusSecond.IsUnique = False
-        RadListDataItem1.Text = "Select"
-        RadListDataItem2.Text = "Ok"
-        RadListDataItem3.Text = "Not Ok"
-        RadListDataItem4.Text = "Partial Ok"
-        RadListDataItem5.Text = "Hold"
-        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem1)
-        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem2)
-        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem3)
-        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem4)
-        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem5)
-        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem6)
+        RadListDataItem13.Text = "Select"
+        RadListDataItem14.Text = "Ok"
+        RadListDataItem15.Text = "Not Ok"
+        RadListDataItem16.Text = "Partial Ok"
+        RadListDataItem17.Text = "Hold"
+        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem13)
+        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem14)
+        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem15)
+        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem16)
+        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem17)
+        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem18)
         Me.cboVisualQCStatusSecond.Location = New System.Drawing.Point(63, 43)
         Me.cboVisualQCStatusSecond.MendatroryField = True
         Me.cboVisualQCStatusSecond.MyLinkLable1 = Nothing
@@ -2847,17 +2850,17 @@ Partial Class frmGRN
         Me.cboVisualQCStatus.IsSourceFromTable = False
         Me.cboVisualQCStatus.IsSourceFromValueList = False
         Me.cboVisualQCStatus.IsUnique = False
-        RadListDataItem7.Text = "Select"
-        RadListDataItem8.Text = "Ok"
-        RadListDataItem9.Text = "Not Ok"
-        RadListDataItem10.Text = "Partial Ok"
-        RadListDataItem11.Text = "Hold"
-        Me.cboVisualQCStatus.Items.Add(RadListDataItem7)
-        Me.cboVisualQCStatus.Items.Add(RadListDataItem8)
-        Me.cboVisualQCStatus.Items.Add(RadListDataItem9)
-        Me.cboVisualQCStatus.Items.Add(RadListDataItem10)
-        Me.cboVisualQCStatus.Items.Add(RadListDataItem11)
-        Me.cboVisualQCStatus.Items.Add(RadListDataItem12)
+        RadListDataItem1.Text = "Select"
+        RadListDataItem2.Text = "Ok"
+        RadListDataItem3.Text = "Not Ok"
+        RadListDataItem4.Text = "Partial Ok"
+        RadListDataItem5.Text = "Hold"
+        Me.cboVisualQCStatus.Items.Add(RadListDataItem1)
+        Me.cboVisualQCStatus.Items.Add(RadListDataItem2)
+        Me.cboVisualQCStatus.Items.Add(RadListDataItem3)
+        Me.cboVisualQCStatus.Items.Add(RadListDataItem4)
+        Me.cboVisualQCStatus.Items.Add(RadListDataItem5)
+        Me.cboVisualQCStatus.Items.Add(RadListDataItem6)
         Me.cboVisualQCStatus.Location = New System.Drawing.Point(63, 43)
         Me.cboVisualQCStatus.MendatroryField = True
         Me.cboVisualQCStatus.MyLinkLable1 = Nothing
@@ -3142,11 +3145,20 @@ Partial Class frmGRN
         Me.mnuDeleteLayout.Name = "mnuDeleteLayout"
         Me.mnuDeleteLayout.Text = "Delete Layout"
         '
+        'Cancelbtn
+        '
+        Me.Cancelbtn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Cancelbtn.Location = New System.Drawing.Point(220, 5)
+        Me.Cancelbtn.Name = "Cancelbtn"
+        Me.Cancelbtn.Size = New System.Drawing.Size(69, 22)
+        Me.Cancelbtn.TabIndex = 161
+        Me.Cancelbtn.Text = "Cancel"
+        '
         'btnhistory
         '
         Me.btnhistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnhistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnhistory.Location = New System.Drawing.Point(630, 4)
+        Me.btnhistory.Location = New System.Drawing.Point(687, 4)
         Me.btnhistory.Name = "btnhistory"
         Me.btnhistory.Size = New System.Drawing.Size(69, 22)
         Me.btnhistory.TabIndex = 160
@@ -3156,7 +3168,7 @@ Partial Class frmGRN
         '
         Me.btnRejected.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnRejected.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiEnglish, Me.rmiHindi})
-        Me.btnRejected.Location = New System.Drawing.Point(395, 4)
+        Me.btnRejected.Location = New System.Drawing.Point(459, 5)
         Me.btnRejected.Name = "btnRejected"
         Me.btnRejected.Size = New System.Drawing.Size(83, 22)
         Me.btnRejected.TabIndex = 159
@@ -3178,7 +3190,7 @@ Partial Class frmGRN
         '
         Me.RadButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton1.Location = New System.Drawing.Point(297, 4)
+        Me.RadButton1.Location = New System.Drawing.Point(362, 5)
         Me.RadButton1.Name = "RadButton1"
         Me.RadButton1.Size = New System.Drawing.Size(94, 22)
         Me.RadButton1.TabIndex = 8
@@ -3189,7 +3201,7 @@ Partial Class frmGRN
         '
         Me.btn_Amendment.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btn_Amendment.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_Amendment.Location = New System.Drawing.Point(482, 5)
+        Me.btn_Amendment.Location = New System.Drawing.Point(544, 5)
         Me.btn_Amendment.Name = "btn_Amendment"
         Me.btn_Amendment.Size = New System.Drawing.Size(69, 22)
         Me.btn_Amendment.TabIndex = 7
@@ -3210,7 +3222,7 @@ Partial Class frmGRN
         '
         Me.btnUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnUnpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUnpost.Location = New System.Drawing.Point(555, 5)
+        Me.btnUnpost.Location = New System.Drawing.Point(615, 5)
         Me.btnUnpost.Name = "btnUnpost"
         Me.btnUnpost.Size = New System.Drawing.Size(69, 22)
         Me.btnUnpost.TabIndex = 4
@@ -3220,7 +3232,7 @@ Partial Class frmGRN
         'btnPrint
         '
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(224, 4)
+        Me.btnPrint.Location = New System.Drawing.Point(291, 5)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(69, 22)
         Me.btnPrint.TabIndex = 3
@@ -3229,7 +3241,7 @@ Partial Class frmGRN
         'btnDelete
         '
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(151, 4)
+        Me.btnDelete.Location = New System.Drawing.Point(78, 5)
         Me.btnDelete.Name = "btnDelete"
         Me.btnDelete.Size = New System.Drawing.Size(69, 22)
         Me.btnDelete.TabIndex = 2
@@ -3238,7 +3250,7 @@ Partial Class frmGRN
         'btnPost
         '
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(78, 4)
+        Me.btnPost.Location = New System.Drawing.Point(149, 5)
         Me.btnPost.Name = "btnPost"
         Me.btnPost.Size = New System.Drawing.Size(69, 22)
         Me.btnPost.TabIndex = 1
@@ -3459,6 +3471,7 @@ Partial Class frmGRN
         CType(Me.ToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.fromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Cancelbtn, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnhistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnRejected, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3659,5 +3672,6 @@ Partial Class frmGRN
     Friend WithEvents MyLabel62 As common.Controls.MyLabel
     Friend WithEvents TxtRetention As common.Controls.MyTextBox
     Friend WithEvents btnhistory As RadButton
+    Friend WithEvents Cancelbtn As RadButton
 End Class
 

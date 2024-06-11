@@ -22,9 +22,9 @@ Partial Class frmTender
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -97,6 +97,7 @@ Partial Class frmTender
         Me.txtScheduleStartDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel12 = New common.Controls.MyLabel()
         Me.MyLabel38 = New common.Controls.MyLabel()
+        Me.Cancel_btn = New Telerik.WinControls.UI.RadButton()
         Me.chkRalclose = New System.Windows.Forms.CheckBox()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel11 = New common.Controls.MyLabel()
@@ -195,6 +196,7 @@ Partial Class frmTender
         CType(Me.txtScheduleStartDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Cancel_btn, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCreatedByValue, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -224,6 +226,7 @@ Partial Class frmTender
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.Cancel_btn)
         Me.SplitContainer1.Panel2.Controls.Add(Me.chkRalclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.MyLabel11)
@@ -847,7 +850,7 @@ Partial Class frmTender
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -886,7 +889,7 @@ Partial Class frmTender
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1130,7 +1133,7 @@ Partial Class frmTender
         Me.gvSchedule.MasterTemplate.AllowDeleteRow = False
         Me.gvSchedule.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSchedule.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSchedule.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvSchedule.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvSchedule.MyStopExport = False
         Me.gvSchedule.Name = "gvSchedule"
         Me.gvSchedule.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1277,11 +1280,21 @@ Partial Class frmTender
         Me.MyLabel38.TabIndex = 1521
         Me.MyLabel38.Text = "Press F5 To View Penelty Details"
         '
+        'Cancel_btn
+        '
+        Me.Cancel_btn.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Cancel_btn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Cancel_btn.Location = New System.Drawing.Point(203, 3)
+        Me.Cancel_btn.Name = "Cancel_btn"
+        Me.Cancel_btn.Size = New System.Drawing.Size(63, 22)
+        Me.Cancel_btn.TabIndex = 1503
+        Me.Cancel_btn.Text = "Cancel"
+        '
         'chkRalclose
         '
         Me.chkRalclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.chkRalclose.AutoSize = True
-        Me.chkRalclose.Location = New System.Drawing.Point(348, 5)
+        Me.chkRalclose.Location = New System.Drawing.Point(416, 6)
         Me.chkRalclose.Name = "chkRalclose"
         Me.chkRalclose.Size = New System.Drawing.Size(77, 18)
         Me.chkRalclose.TabIndex = 10
@@ -1292,7 +1305,7 @@ Partial Class frmTender
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(202, 2)
+        Me.btnPrint.Location = New System.Drawing.Point(268, 3)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(68, 22)
         Me.btnPrint.TabIndex = 1502
@@ -1336,7 +1349,7 @@ Partial Class frmTender
         '
         Me.btnreverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnreverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnreverse.Location = New System.Drawing.Point(272, 2)
+        Me.btnreverse.Location = New System.Drawing.Point(338, 3)
         Me.btnreverse.Name = "btnreverse"
         Me.btnreverse.Size = New System.Drawing.Size(73, 22)
         Me.btnreverse.TabIndex = 21
@@ -1360,7 +1373,7 @@ Partial Class frmTender
         '
         Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(133, 2)
+        Me.btnDelete.Location = New System.Drawing.Point(69, 3)
         Me.btnDelete.Name = "btnDelete"
         Me.btnDelete.Size = New System.Drawing.Size(67, 22)
         Me.btnDelete.TabIndex = 2
@@ -1370,7 +1383,7 @@ Partial Class frmTender
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(68, 2)
+        Me.btnPost.Location = New System.Drawing.Point(138, 3)
         Me.btnPost.Name = "btnPost"
         Me.btnPost.Size = New System.Drawing.Size(63, 22)
         Me.btnPost.TabIndex = 1
@@ -1594,6 +1607,7 @@ Partial Class frmTender
         CType(Me.txtScheduleStartDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Cancel_btn, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCreatedByValue, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1710,5 +1724,6 @@ Partial Class frmTender
     Friend WithEvents MyLabel17 As common.Controls.MyLabel
     Friend WithEvents cboMode As common.Controls.MyComboBox
     Friend WithEvents chkRalclose As CheckBox
+    Friend WithEvents Cancel_btn As RadButton
 End Class
 

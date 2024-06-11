@@ -274,6 +274,7 @@ Public Class frmGRN
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
         btncancel.Visible = MyBase.isCancel_Flag_After_Posting
+        Cancelbtn.Visible = MyBase.isCancel_Flag_After_Posting
         btnUnpost.Visible = False
         'If MyBase.isReverse Then
         '    btnUnpost.Enabled = True
@@ -299,7 +300,7 @@ Public Class frmGRN
         PurchaseModulePickFixTaxRate = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PurchaseModulePickFixTaxRate, clsFixedParameterCode.PurchaseModulePickFixTaxRate, Nothing)) = 1, True, False)
         AllowPurchaseModulewithUniqueItem = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowPurchaseModulewithUniqueItem, clsFixedParameterCode.AllowPurchaseModulewithUniqueItem, Nothing))
         ShowItemAllStructureWise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, Nothing)) = 1, True, False)
-
+        Cancelbtn.Enabled = False
         SetUserMgmtNew()
         '=============================================================
         'btncancel.Visible = False
@@ -385,6 +386,8 @@ Public Class frmGRN
         ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D Delete Trasnaction")
         ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
         ButtonToolTip.SetToolTip(btnAddNew, "Press Alt+N Adding New Trasnaction")
+        ButtonToolTip.SetToolTip(Cancelbtn, "Press Alt+L Cancel the Trasnaction")
+
         'ButtonToolTip.SetToolTip(btnRequistionItems, "Press Ctrl+F7 for Select Purchase Requistion Items")
 
         RadPageView1.SelectedPage = RadPageViewPage1
@@ -529,6 +532,7 @@ Public Class frmGRN
     End Sub
 
     Sub BlankAllControls()
+        btncancel.Visible = False
         chkSkipPurchaseQc.Enabled = False
         chkSkipPurchaseQc.Checked = False
         'txtRgp_no.Enabled = True
@@ -4183,6 +4187,11 @@ Public Class frmGRN
                     btn_Amendment.Enabled = True
                     btnDelete.Enabled = False
                     repoComplete.IsVisible = True
+                    btncancel.Visible = True
+                    Cancelbtn.Visible = True
+                    Cancelbtn.Enabled = True
+                    'btn_Cancels.Visible = True
+                    'btn_Cancels.Enabled = True
                     'If Not clsGRNHead.CheckGRNUsedInSRNorMRN(clsCommon.myCstr(obj.GRN_No), Nothing) Then
                     '    btncancel.Visible = True
                     'Else
@@ -5431,6 +5440,8 @@ Public Class frmGRN
                 DeleteData()
             ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
                 CloseForm()
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.L AndAlso MyBase.isCancel_Flag_After_Posting AndAlso Cancelbtn.Enabled Then
+                CancelGRNData()
             ElseIf Not e.Alt AndAlso Not e.Shift AndAlso (e.Control AndAlso e.KeyCode = Keys.F7) Then ''because setting is open at Alt+Shift+Cntl+F7, and after this short-cut works automatically creates problem ,so do change
                 SelectPOItems()
             ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F11 Then
@@ -5439,6 +5450,8 @@ Public Class frmGRN
                 Else
                     btn_Amendment.Visible = False
                 End If
+            ElseIf e.Alt AndAlso e.Shift And e.KeyCode = Keys.F12 Then
+                CancelGRNData()
             ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
                 If MyBase.isReverse Then
                     Dim frm As New FrmPWD(Nothing)
@@ -7824,6 +7837,73 @@ inner join tspl_tender_header on tspl_tender_header.DocumentCode=TSPL_GRN_HEAD.R
             clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "GRN_No", "TSPL_GRN_HEAD", "TSPL_GRN_DETAIL")
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Sub CancelGRNData()
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
+                Exit Sub
+            End If
+            If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                If clsCommon.MyMessageBoxShow("Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+                    Exit Sub
+                End If
+                Dim frm1 As New FrmPWD(Nothing)
+                frm1.strType = "PO Cancel"
+                frm1.strCode = "PO Cancel"
+                frm1.ShowDialog()
+                If frm1.isPasswordCorrect Then
+                    Dim iscancel As Boolean = False
+                    If common.clsCommon.MyMessageBoxShow("Do you want to cancel the GRN?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                        Dim qry1 As String = "select distinct MRN_No from TSPL_MRN_DETAIL where GRN_Id ='" + clsCommon.myCstr(txtDocNo.Value) + "'"
+                        If clsGRNHead.CheckGRNUsedInSRNorMRN(clsCommon.myCstr(txtDocNo.Value), Nothing) Then
+                            Throw New Exception("GRN can not be cancelled because it is used in SRN/MRN.")
+                        Else
+                            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry1)
+                            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                qry1 = "GRN is used in following MRN"
+                                For Each dr As DataRow In dt.Rows
+                                    qry1 += Environment.NewLine + clsCommon.myCstr(dr("MRN_No"))
+                                Next
+                                qry1 += Environment.NewLine + "Can't cancel it"
+                                clsCommon.MyMessageBoxShow(qry1)
+                                Exit Sub
+                            End If
+                            Dim Reason As String = ""
+                            If (myMessages.CancelConfirms(Me)) Then
+                                clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtDocNo.Value))
+                                If clsCancelLog.CheckForReasonOnDelete() Then
+                                    '' REASON FOR DELETE 
+                                    Dim frm As New FrmFreeTxtBox1
+                                    frm.Text = "Remarks for Cancel"
+                                    frm.ShowDialog()
+                                    If clsCommon.myLen(frm.strRmks) <= 0 Then
+                                        Exit Sub
+                                    Else
+                                        Reason = frm.strRmks
+                                    End If
+                                End If
+                                If clsGRNHead.GRNCancel(Me.Form_ID, clsCommon.myCstr(txtDocNo.Value)) Then
+                                    saveCancelLog(Reason, "Cancel", Nothing)
+                                    clsCommon.MyMessageBoxShow(Me, "Data Cancel Successfully ", Me.Text)
+                                    AddNew()
+                                End If
+                            End If
+                        End If
+                    End If
+                End If
+                AddNew()
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub Cancelbtn_Click(sender As Object, e As EventArgs) Handles Cancelbtn.Click
+        Try
+            CancelGRNData()
+        Catch ex As Exception
+        common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

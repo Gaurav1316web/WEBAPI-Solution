@@ -20281,7 +20281,6 @@ Public Class clsCreateAllTable
             coll.Add("Item_Amt_After_Insurance", "decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PURCHASE_ORDER_DETAIL", coll, Nothing, True, True, "TSPL_PURCHASE_ORDER_HEAD", "PurchaseOrder_No", "")
 
-
             '' added by Parteek for UDL Work Order Regarding 
             coll = New Dictionary(Of String, String)
             coll.Add("PurchaseOrder_No", "Varchar(30) not null References TSPL_PURCHASE_ORDER_HEAD(PurchaseOrder_No)")
@@ -22037,7 +22036,7 @@ Public Class clsCreateAllTable
             coll.Add("Status", "integer not null default 0")
             coll.Add("Posted_By", "varchar(12) NULL References TSPL_USER_MASTER(User_Code)")
             coll.Add("Posted_Date", "Datetime NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_NIR_QC", coll, Nothing, True, False, "", "Document_No", "Document_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_NIR_QC", coll, Nothing, True, True, "", "Document_No", "Document_Date")
             coll = New Dictionary(Of String, String)
             coll.Add("MRN_No", "Varchar(30) not null ")
             coll.Add("Line_No", "integer not null default 0")
@@ -29816,6 +29815,10 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("MBRT_Hours", "decimal(18,2) null")
             coll.Add("Gross_Amount", "decimal(18, 2) NULL")
             coll.Add("ParentDocNo", "varchar(30) NULL")
+            coll.Add("Receipt_No", "varchar(30) NULL REFERENCES TSPL_Receipt_Header(Receipt_No)")
+            coll.Add("ReceiptAmt", "decimal(18,2) NULL")
+            coll.Add("ReceiverName", "varchar(50) NULL")
+            coll.Add("TotalSubsidyAmt", "Decimal(18,2) NULL")
 
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
             'Try
@@ -41834,7 +41837,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Template_Status", "varchar(1) null") 'A-Accepted,R-Rejected,U-Under Deviation
             coll.Add("IsCancel", "int not null default 0")
             coll.Add("partial_rejected", "int not null default 0")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_QC_CHECK_HEAD", coll, Nothing, False, False, "", "Document_Code", "Document_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_QC_CHECK_HEAD", coll, Nothing, False, True, "", "Document_Code", "Document_Date")
 
             ''QC MRN
             coll = New Dictionary(Of String, String)()
@@ -41866,7 +41869,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Reject_Remarks", "varchar(200) null")
             coll.Add("Additional_Remarks", "varchar(500) null")
             coll.Add("QC_Status", "varchar(20) null") 'accepted,rejected,under deviation
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_QC_CHECK_DETAIL", coll, Nothing, False, False, "TSPL_QC_CHECK_HEAD", "Document_Code", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_QC_CHECK_DETAIL", coll, Nothing, False, True, "TSPL_QC_CHECK_HEAD", "Document_Code", "")
             '=end here=======================================================
 
             ''QC SRN
@@ -53357,6 +53360,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("RCDF_Post_By", "varchar(12) NULL")
             coll.Add("RCDF_Post_Date", "Datetime NULL")
             coll.Add("Bank_Letter_Date", "Datetime NULL")
+            coll.Add("DBT_Revise_Payment", "integer null ")
             coll.Add("UKID", "INT IDENTITY(1,1) not null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT", coll, "UNIQUE(UKID)", True, False, "", "Document_Code", "Document_Date")
 
@@ -53841,7 +53845,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Remarks", "varchar(100) NULL")
             coll.Add("Comments", "varchar(100) NULL")
 
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TENDER_DETAIL", coll, Nothing, True, False, "TSPL_TENDER_HEADER", "DocumentCode", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TENDER_DETAIL", coll, Nothing, True, True, "TSPL_TENDER_HEADER", "DocumentCode", "")
 
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")

@@ -398,8 +398,10 @@ Public Class clsMRNHead
 
 
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.MRN_No), "TSPL_MRN_HEAD", "MRN_No", "TSPL_MRN_DETAIL", "MRN_No", "TSPL_MRN_HEAD_History", "MRN_No", trans)
+            If Not isNewEntry Then
+                clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(MRN_No), "TSPL_MRN_HEAD", "MRN_No", "TSPL_MRN_DETAIL", "MRN_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
 
-
+            End If
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try

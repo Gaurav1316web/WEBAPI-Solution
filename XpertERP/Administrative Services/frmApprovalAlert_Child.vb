@@ -517,6 +517,6 @@ Public Class FrmApprovalAlert_Child
     End Sub
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         Dim objP As New clsDBTNEFT()
-        objP.funPrintBankLetter(txtDoc_Code.Text, False)
+        objP.funPrintBankLetter(txtDoc_Code.Text, False, Nothing, Nothing)
     End Sub
 End Class

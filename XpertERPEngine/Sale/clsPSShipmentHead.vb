@@ -465,6 +465,12 @@ Public Class clsPSShipmentHead
     Public Shared Function SaveData(ByVal obj As clsPSShipmentHead, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction, Optional ByVal IsDairyModule As Boolean = False) As Boolean
         Dim TransType_Str As String = ""
         Try
+            If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
+                For i As Integer = 0 To obj.Arr.Count - 1
+                    clsRCDFRateControl.CheckRCDFRateControl(clsCommon.myCstr(obj.Arr(i).Item_Code), clsCommon.myCstr(obj.Arr(i).Unit_code), clsCommon.myCDecimal(obj.Arr(i).Item_Cost), clsCommon.myCDate(obj.Document_Date), trans)
+                Next
+            End If
+
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmSaleDispatchDairy, obj.Bill_To_Location, obj.Document_Date, trans)
             clsSerializeInvenotry.DeleteData("SD-IN", obj.Document_Code, trans)
             If IsDairyModule = False Then
@@ -829,7 +835,7 @@ Public Class clsPSShipmentHead
             clsCommon.AddColumnsForChange(coll, "Nine_NR_No", obj.Nine_NR_No)
             clsCommon.AddColumnsForChange(coll, "Cash_Customer", obj.CashCustomer)
             clsCommon.AddColumnsForChange(coll, "DO_Item_Type", obj.DO_Item_Type)
-            clsCommon.AddColumnsForChange(coll, "Shift_type", obj.Shift_type, True)
+            clsCommon.AddColumnsForChange(coll, "Shift_type", obj.Shift_Type, True)
             clsCommon.AddColumnsForChange(coll, "Is_CustomerChanged", obj.Is_CustomerChanged)
 
             clsCommon.AddColumnsForChange(coll, "Insurance", obj.Insurance)
