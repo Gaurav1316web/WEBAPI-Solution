@@ -6,7 +6,7 @@ Imports XpertERPEngine
 Imports XpertERPEngineFine
 Public Class DashboardMilkProcurement
     Inherits FrmMainTranScreen
-
+    Dim Slot1FD As DateTime = Nothing
     Private Sub DashboardMilkProcurement_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         txtFromDate.Value = clsCommon.GETSERVERDATE()
         txtToDate.Value = clsCommon.GETSERVERDATE()
@@ -16,10 +16,160 @@ Public Class DashboardMilkProcurement
 
     Private Sub btngo_Click(sender As Object, e As EventArgs) Handles btngo.Click
         UninonWise()
-        RouteWise()
-        DCSWise()
+        'RouteWise()
+        'DCSWise()
+        DaysData()
     End Sub
 
+    Sub DaysData()
+        Try
+            Dim query As String = ""
+            Dim DateQry As String = ""
+            Dim DateTable As DataTable = Nothing
+            Dim DateCode As String = Nothing
+            Dim DateName As String = Nothing
+            Dim DateUnion As String = Nothing
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
+            If (dt Is Nothing OrElse dt.Rows.Count <= 0) Then
+                common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
+                Exit Sub
+            End If
+            Dim docNo As String = ""
+            query = " 
+    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') "
+            'If chkRJSBNS.Checked Then
+            '    query += "union all
+            'SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
+            'union all
+            'SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
+            'ORDER BY Location_Name"
+            'End If
+            dt = clsDBFuncationality.GetDataTable(query)
+            query = ""
+
+            DateQry = "SELECT DISTINCT '[' + CONVERT(VARCHAR(10), CAST(DOC_DATE AS DATE), 120) + ']' AS DOC_DATE 
+                       FROM TSPL_MILK_SRN_HEAD 
+                       WHERE CAST(DOC_DATE AS DATE) BETWEEN DATEADD(day, -6, '" + clsCommon.GetPrintDate(txtToDate.Value) + "') AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' 
+                       ORDER BY DOC_DATE ASC"
+
+
+            ' DateQry = "SELECT DISTINCT CAST(DOC_DATE AS DATE) AS DOC_DATE FROM TSPL_MILK_SRN_HEAD 
+            'WHERE CAST(DOC_DATE AS DATE) BETWEEN DATEADD(day, -6, '" + clsCommon.GetPrintDate(txtToDate.Value) + "') AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' order by DOC_DATE asc"
+            DateTable = clsDBFuncationality.GetDataTable(DateQry)
+
+            If DateTable.Rows.Count > 0 Then
+                For i As Integer = 0 To DateTable.Rows.Count - 1
+                    If clsCommon.myLen(DateCode) > 0 Then
+                        DateCode += "," + clsCommon.myCstr(DateTable.Rows(i)("DOC_DATE"))
+                        DateName += "," + "Sum(" + clsCommon.myCstr(DateTable.Rows(i)("DOC_DATE")) + ") As " + clsCommon.myCstr(DateTable.Rows(i)("DOC_DATE")) + ""
+                        'DateUnion += "," " 0 as  [" + clsCommon.myCstr(DateTable.Rows(i)("DOC_DATE"))+"] "
+                        DateUnion += ", 0 as " & clsCommon.myCstr(DateTable.Rows(i)("DOC_DATE")) & " "
+
+                    Else
+                        DateCode = clsCommon.myCstr(DateTable.Rows(i)("DOC_DATE"))
+                        DateName = " Sum(" + clsCommon.myCstr(DateTable.Rows(i)("DOC_DATE")) + ") As " + clsCommon.myCstr(DateTable.Rows(i)("DOC_DATE")) + ""
+                        DateUnion = " 0 as " & clsCommon.myCstr(DateTable.Rows(i)("DOC_DATE")) & " "
+                    End If
+                Next
+            End If
+
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                For ii As Integer = 0 To dt.Rows.Count - 1
+                    If ii > 0 Then
+                        query += " UNION ALL "
+                    End If
+                    query += "  select max(SNo)SNo,max([Union Name])[Union Name],max(Fromdate)Fromdate,max(Todate)Todate,max(username)username,
+                                " + DateName + "
+                            from (
+
+SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
+                              '" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                                '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as Todate,
+                                '" + objCommonVar.CurrentUser + "' as username,
+                                " + DateCode + "
+                                FROM (SELECT SUM(Qty) AS Milk_Weight,CONVERT(VARCHAR(10), DOC_DATE, 120) AS Dates,max(Comp_Code)Comp_Code
+                                FROM 
+                                        [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SRN_DETAIL msd
+                                    LEFT JOIN 
+                                        [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SRN_HEAD msh ON msh.DOC_CODE = msd.DOC_CODE
+                                    WHERE 
+                                        msh.DOC_DATE BETWEEN '" + clsCommon.GetPrintDate(clsCommon.myCDate(txtToDate.Value, "dd-MMM-yyyy").AddDays(-6)) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                                    GROUP BY 
+                                        CONVERT(VARCHAR(10), DOC_DATE, 120) 
+                                ) AS Procurement
+                                PIVOT (
+                                    SUM(Milk_Weight) 
+                                    FOR Dates IN (" + DateCode + ")) AS Tab2
+                                Left Outer Join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=Tab2.Comp_Code    
+
+                                 union all 
+								select " + clsCommon.myCstr(ii + 1) + " AS SNo,
+                                '" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                                '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as Todate,
+                                 '" + objCommonVar.CurrentUser + "' as username," + DateUnion + "
+								) xx group by SNo
+"
+                Next
+            End If
+
+
+
+            Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
+            If dt2 IsNot Nothing OrElse dt2.Rows.Count > 0 Then
+
+                gv4.DataSource = Nothing
+                gv4.Rows.Clear()
+                gv4.Columns.Clear()
+                gv4.GroupDescriptors.Clear()
+                gv4.MasterTemplate.SummaryRowsBottom.Clear()
+                gv4.MasterView.Refresh()
+                gv4.DataSource = dt2
+                For ii As Integer = 0 To gv4.Columns.Count - 1
+                    gv4.Columns(ii).ReadOnly = True
+                Next
+                'RadPageView1.SelectedPage = RadPageViewPage2
+                gv4.EnableFiltering = True
+                SetGridFormat4()
+                gv4.BestFitColumns()
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                Exit Sub
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Sub SetGridFormat4()
+        gv4.AutoExpandGroups = True
+        gv4.ShowGroupPanel = True
+        gv4.ShowRowHeaderColumn = False
+        gv4.AllowAddNewRow = False
+        gv4.AllowDeleteRow = False
+        gv4.EnableFiltering = True
+        gv4.ShowFilteringRow = True
+
+
+        For ii As Integer = 0 To gv4.Columns.Count - 1
+            gv4.Columns(ii).ReadOnly = True
+            gv4.Columns(ii).BestFit()
+            gv4.Columns(ii).IsVisible = True
+            gv4.Columns(ii).Width = 200
+        Next
+
+        'gv4.Columns("Comp_Code").HeaderText = "Comp_Code"
+        'gv4.Columns("Comp_Code").Width = 100
+        'gv4.Columns("Comp_Code").IsVisible = False
+
+        gv4.Columns("Fromdate").HeaderText = "From Date"
+        gv4.Columns("Fromdate").Width = 100
+        gv4.Columns("Fromdate").IsVisible = False
+
+        gv4.Columns("Todate").HeaderText = "To Date"
+        gv4.Columns("Todate").Width = 100
+        gv4.Columns("Todate").IsVisible = False
+
+    End Sub
     Sub UninonWise()
         Try
             Dim query As String = ""
@@ -32,13 +182,13 @@ Public Class DashboardMilkProcurement
             Dim docNo As String = ""
             query = " 
     SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') "
-            If chkRJSBNS.Checked Then
-                query += "union all
-            SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
-            union all
-            SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
-            ORDER BY Location_Name"
-            End If
+            'If chkRJSBNS.Checked Then
+            '    query += "union all
+            'SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
+            'union all
+            'SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
+            'ORDER BY Location_Name"
+            'End If
             dt = clsDBFuncationality.GetDataTable(query)
             query = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -887,4 +1037,18 @@ Public Class DashboardMilkProcurement
             clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
     End Sub
+
+    'Private Sub txtToDate_ValueChanged(sender As Object, e As EventArgs) Handles txtToDate.ValueChanged
+
+    '    Dim selectedMonth As Integer = txtToDate.Value.Month
+    '    Dim selectedYear As Integer = txtToDate.Value.Year
+
+    '    Dim currentDate As New DateTime(selectedYear, selectedMonth, 1)
+    '    Slot1FD = clsCommon.GetPrintDate(currentDate, "dd/MMM/yyyy")
+    '    'Slot1TD = clsCommon.GetPrintDate(currentDate.AddDays(9), "dd/MMM/yyyy")
+    '    'Slot2FD = clsCommon.GetPrintDate(currentDate.AddDays(10), "dd/MMM/yyyy")
+    '    'Slot2TD = clsCommon.GetPrintDate(currentDate.AddDays(19), "dd/MMM/yyyy")
+    '    'Slot3FD = clsCommon.GetPrintDate(currentDate.AddDays(20), "dd/MMM/yyyy")
+    '    'Slot3TD = clsCommon.GetPrintDate(currentDate.AddMonths(1).AddDays(-1), "dd/MMM/yyyy")
+    'End Sub
 End Class
