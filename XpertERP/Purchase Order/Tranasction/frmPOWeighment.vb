@@ -40,6 +40,7 @@ Public Class frmPOWeighment
 
     Private Sub frmMilkGateEntryIn_Load(sender As Object, e As EventArgs) Handles Me.Load
         Try
+            btnCancel.Visible = False
             SetUserMgmtNew()
             ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
             ButtonToolTip.SetToolTip(btndelete, "Press Alt+D Delete ")
@@ -69,6 +70,7 @@ Public Class frmPOWeighment
         btndelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
         btnPrintWithGunnyBags.Visible = MyBase.isPrintFlag
+        btnCancel.Visible=MyBase.isCancel_Flag_After_Posting
     End Sub
 
     Sub LoadBlankGrid()

@@ -4174,10 +4174,14 @@ Public Class frmPurchaseInvoice
                 obj.Description = txtDesc.Text
                 obj.Vendor_Invoice_No = txtVendorInvoiceNo.Text
                 obj.Tax_Group = txtTaxGroup.Value
-                If ShowItemAllStructureWise = False Then
-                    obj.Item_Type = clsCommon.myCstr(cboItemType.SelectedValue)
+                If ShowItemAllStructureWise = True Then
+                    If gv1.Rows.Count > 0 Then
+                        Dim itemcode As String = clsCommon.myCstr(gv1.Rows(0).Cells(colICode).Value)
+                        Dim itemtype As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 item_type from TSPL_ITEM_MASTER where Item_Code ='" + itemcode + "'"))
+                        obj.Item_Type = itemtype
+                    End If
                 Else
-                    obj.Item_Type = ""
+                    obj.Item_Type = clsCommon.myCstr(cboItemType.SelectedValue)
                 End If
                 obj.Against_C_Form = chkAgainstCForm.Checked
                     obj.Document_Type = clsCommon.myCstr(cmbDocType.SelectedValue)

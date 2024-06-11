@@ -700,6 +700,7 @@ Public Class frmSNSaleInvoice
         repoQty.Name = colQty
         repoQty.Width = 80
         repoQty.Minimum = 0
+        repoQty.ReadOnly = True
         repoQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoQty)
 
@@ -2061,7 +2062,7 @@ Public Class frmSNSaleInvoice
         repoACAmt.Name = colACAmount
         repoACAmt.Width = 100
         repoACAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        repoACAmt.ReadOnly = False
+        repoACAmt.ReadOnly = True
         gvAC.MasterTemplate.Columns.Add(repoACAmt)
 
         gvAC.AllowAddNewRow = False
