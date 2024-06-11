@@ -3463,7 +3463,7 @@ Partial Class frmPurchaseInvoice
         'btnPrintInv
         '
         Me.btnPrintInv.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintInv.Location = New System.Drawing.Point(507, 4)
+        Me.btnPrintInv.Location = New System.Drawing.Point(561, 4)
         Me.btnPrintInv.Name = "btnPrintInv"
         Me.btnPrintInv.Size = New System.Drawing.Size(69, 22)
         Me.btnPrintInv.TabIndex = 47
@@ -3481,7 +3481,7 @@ Partial Class frmPurchaseInvoice
         '
         'btnNewHistory
         '
-        Me.btnNewHistory.Location = New System.Drawing.Point(748, 4)
+        Me.btnNewHistory.Location = New System.Drawing.Point(799, 4)
         Me.btnNewHistory.Name = "btnNewHistory"
         Me.btnNewHistory.Size = New System.Drawing.Size(50, 22)
         Me.btnNewHistory.TabIndex = 42
@@ -3491,16 +3491,16 @@ Partial Class frmPurchaseInvoice
         '
         Me.btncancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btncancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btncancel.Location = New System.Drawing.Point(802, 4)
+        Me.btncancel.Location = New System.Drawing.Point(180, 4)
         Me.btncancel.Name = "btncancel"
-        Me.btncancel.Size = New System.Drawing.Size(44, 22)
+        Me.btncancel.Size = New System.Drawing.Size(61, 22)
         Me.btncancel.TabIndex = 12
         Me.btncancel.Text = "Cancel"
         '
         'btnPurchaseTaxInvoice
         '
         Me.btnPurchaseTaxInvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPurchaseTaxInvoice.Location = New System.Drawing.Point(580, 4)
+        Me.btnPurchaseTaxInvoice.Location = New System.Drawing.Point(632, 4)
         Me.btnPurchaseTaxInvoice.Name = "btnPurchaseTaxInvoice"
         Me.btnPurchaseTaxInvoice.Size = New System.Drawing.Size(95, 22)
         Me.btnPurchaseTaxInvoice.TabIndex = 8
@@ -3509,16 +3509,16 @@ Partial Class frmPurchaseInvoice
         'BtnHistory
         '
         Me.BtnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnHistory.Location = New System.Drawing.Point(437, 4)
+        Me.BtnHistory.Location = New System.Drawing.Point(494, 4)
         Me.BtnHistory.Name = "BtnHistory"
-        Me.BtnHistory.Size = New System.Drawing.Size(69, 22)
+        Me.BtnHistory.Size = New System.Drawing.Size(65, 22)
         Me.BtnHistory.TabIndex = 7
         Me.BtnHistory.Text = "History"
         '
         'btnsetting
         '
         Me.btnsetting.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnpreview, Me.btnsend, Me.btnSendForApproval})
-        Me.btnsetting.Location = New System.Drawing.Point(348, 4)
+        Me.btnsetting.Location = New System.Drawing.Point(405, 4)
         Me.btnsetting.Name = "btnsetting"
         Me.btnsetting.Size = New System.Drawing.Size(87, 22)
         Me.btnsetting.TabIndex = 6
@@ -3542,7 +3542,7 @@ Partial Class frmPurchaseInvoice
         'btnprintjvl
         '
         Me.btnprintjvl.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnprintjvl.Location = New System.Drawing.Point(283, 4)
+        Me.btnprintjvl.Location = New System.Drawing.Point(340, 4)
         Me.btnprintjvl.Name = "btnprintjvl"
         Me.btnprintjvl.Size = New System.Drawing.Size(62, 22)
         Me.btnprintjvl.TabIndex = 4
@@ -3551,7 +3551,7 @@ Partial Class frmPurchaseInvoice
         'btnViewTDSDetails
         '
         Me.btnViewTDSDetails.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnViewTDSDetails.Location = New System.Drawing.Point(211, 4)
+        Me.btnViewTDSDetails.Location = New System.Drawing.Point(270, 4)
         Me.btnViewTDSDetails.Name = "btnViewTDSDetails"
         Me.btnViewTDSDetails.Size = New System.Drawing.Size(69, 22)
         Me.btnViewTDSDetails.TabIndex = 3
@@ -3597,7 +3597,7 @@ Partial Class frmPurchaseInvoice
         'btnReverse
         '
         Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(676, 4)
+        Me.btnReverse.Location = New System.Drawing.Point(728, 4)
         Me.btnReverse.Name = "btnReverse"
         Me.btnReverse.Size = New System.Drawing.Size(66, 22)
         Me.btnReverse.TabIndex = 1

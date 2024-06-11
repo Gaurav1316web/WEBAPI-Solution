@@ -367,6 +367,8 @@ Public Class frmPurchaseInvoice
         ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D Delete Trasnaction")
         ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
         ButtonToolTip.SetToolTip(btnAddNew, "Press Alt+N Adding New Trasnaction")
+        ButtonToolTip.SetToolTip(btncancel, "Press Alt+L Cancel Trasnaction")
+
         'ButtonToolTip.SetToolTip(btnRequistionItems, "Press Ctrl+F7 for Select Purchase Requistion Items")
         is_Load_MRN = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowGRN, clsFixedParameterCode.ShowGRN, Nothing)) = 1 And clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowMRN, clsFixedParameterCode.ShowMRN, Nothing)) = 1, True, False)
         IsAbatementPO = clsPurchaseOrderHead.GetPurchaseSetting().Rows(0).Item("IsAbatementPO")
@@ -4977,6 +4979,7 @@ Public Class frmPurchaseInvoice
                     repoComplete.IsVisible = True
                     repoBalQty.IsVisible = True
                     btncancel.Enabled = True
+                    btncancel.Visible = True
 
                 Else
                     btnprintjvl.Enabled = False
@@ -5953,6 +5956,8 @@ select SRN_No,'RM Late Penalty [ Recalculate ]' as Type,Item_Code,Penalty as Amo
             DeleteData()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.L AndAlso MyBase.isCancel_Flag_After_Posting AndAlso btncancel.Enabled Then
+            CancelPI()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             If MyBase.isReverse Then
 
@@ -8588,8 +8593,7 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
-    Private Sub Btncancel_Click(sender As Object, e As EventArgs) Handles btncancel.Click
+    Sub CancelPI()
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                 Throw New Exception("Code is empty")
@@ -8614,6 +8618,13 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
                 clsCommon.MyMessageBoxShow(Me, "Purchase Invoice cancelled successfully!", Me.Text)
                 AddNew()
             End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub Btncancel_Click(sender As Object, e As EventArgs) Handles btncancel.Click
+        Try
+            CancelPI()
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
