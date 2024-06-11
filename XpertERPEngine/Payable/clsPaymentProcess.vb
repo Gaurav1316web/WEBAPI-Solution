@@ -2296,9 +2296,9 @@ where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ") )x group by VSP_
             whrcls1 += "  and TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE  in ( " + strVSPCode + ")" '  & clsCommon.GetMulcallString(txtVSP.arrValueMember) &
         End If
         whrcls1 += "  and TSPL_PAYMENT_PROCESS_Head.doc_no in ( " + strDocNo + " ) "
-        If clsCommon.myLen(strLoc) > 0 Then
-            whrcls1 += " and TSPL_PAYMENT_PROCESS_Head.loc_seg_code    IN (" + strLoc + ") " 'fndLoc.Value
-        End If
+        'If clsCommon.myLen(strLoc) > 0 Then
+        '    whrcls1 += " and TSPL_PAYMENT_PROCESS_Head.loc_seg_code    IN (" + strLoc + ") " 'fndLoc.Value
+        'End If
         whrclsItemWise += " and final.doc_no in ( " + strDocNo + " )"
         whrclsItemWise += "  and convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + fromDate + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + Todate + "'),103) "
         Dim CycleNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select max(Name) as CycleNo from TSPL_PAYMENT_CYCLE_GENERATED where convert(varchar, From_Date,103) = convert(varchar, '" + fromDate + "',103) "))
