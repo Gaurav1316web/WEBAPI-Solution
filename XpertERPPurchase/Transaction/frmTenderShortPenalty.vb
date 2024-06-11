@@ -21,8 +21,10 @@ Public Class frmTenderShortPenalty
         btnPrint.Visible = MyBase.isPrintFlag
         btnReverse.Visible = False
         btnRecalculate.Visible = False
+        BtnCancel.Visible = MyBase.isCancel_Flag_After_Posting
     End Sub
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        BtnCancel.Enabled = False
         SetUserMgmtNew()
         txtVendorNo.MendatroryField = True
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction")
@@ -30,6 +32,8 @@ Public Class frmTenderShortPenalty
         ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D Delete Trasnaction")
         ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
         ButtonToolTip.SetToolTip(btnAddNew, "Press Alt+N Adding New Trasnaction")
+        ButtonToolTip.SetToolTip(BtnCancel, "Press Alt+L Cancel The Trasnaction")
+
         AddNew()
         SetLength()
         If clsCommon.myLen(Me.Tag) > 0 Then
@@ -42,6 +46,7 @@ Public Class frmTenderShortPenalty
         txtRemarks.MaxLength = 200
     End Sub
     Sub BlankAllControls()
+        BtnCancel.Enabled = False
         txtDocNo.Value = ""
         txtVendorNo.Value = ""
         lblVendorName.Text = ""
@@ -174,6 +179,8 @@ Public Class frmTenderShortPenalty
                     RadButton2.Enabled = False
                     btnReverse.Enabled = True
                     btnRecalculate.Enabled = True
+                    BtnCancel.Enabled = True
+                    BtnCancel.Visible = True
                 End If
                 UsLock1.Status = obj.Status
                 txtDocNo.Value = obj.Document_No
@@ -318,6 +325,8 @@ left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_TENDER_PENAL
             DeleteData()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.L AndAlso MyBase.isCancel_Flag_After_Posting AndAlso BtnCancel.Enabled Then
+            CancelRALPenaltyData()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             If MyBase.isReverse Then
                 Dim frm As New FrmPWD(Nothing)
@@ -753,5 +762,57 @@ and   not exists (select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PEN
         ReCalculate()
     End Sub
 
-
+    Private Sub BtnCancel_Click(sender As Object, e As EventArgs) Handles BtnCancel.Click
+        Try
+            CancelRALPenaltyData()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Sub CancelRALPenaltyData()
+        Dim trans As SqlTransaction = Nothing
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
+                Exit Sub
+            End If
+            If clsCommon.MyMessageBoxShow("Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+                Exit Sub
+            End If
+            Dim frm1 As New FrmPWD(Nothing)
+            frm1.strType = "PO Cancel"
+            frm1.strCode = "PO Cancel"
+            frm1.ShowDialog()
+            If frm1.isPasswordCorrect Then
+                Dim iscancel As Boolean = False
+                If clsTenderPenalty.CheckRALPenaltyUsedPI(clsCommon.myCstr(txtDocNo.Value), Nothing) Then
+                    Throw New Exception("RAL Penalty can not be cancelled because it is used in PI.")
+                    'Else
+                    '    clsPurchaseOrderHead.ReverseAndUnpost(txtDocNo.Value, MyBase.Form_ID)
+                End If
+                Dim Reason As String = ""
+                If (myMessages.CancelConfirms(Me)) Then
+                    clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtDocNo.Value))
+                    If clsCancelLog.CheckForReasonOnDelete() Then
+                        '' REASON FOR DELETE 
+                        Dim frm As New FrmFreeTxtBox1
+                        frm.Text = "Remarks for Cancel"
+                        frm.ShowDialog()
+                        If clsCommon.myLen(frm.strRmks) <= 0 Then
+                            Exit Sub
+                        Else
+                            Reason = frm.strRmks
+                        End If
+                    End If
+                    If (clsTenderPenalty.CancelData(txtDocNo.Value)) Then
+                        saveCancelLog(Reason, "Cancel", Nothing)
+                        clsCommon.MyMessageBoxShow(Me, "Data Cancel Successfully ", Me.Text)
+                        AddNew()
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            myMessages.myExceptions(ex)
+        End Try
+    End Sub
 End Class
