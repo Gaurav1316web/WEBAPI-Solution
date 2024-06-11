@@ -184,6 +184,7 @@ Public Class FrmCompanyMaster
             Else
                 strCform = "N"
             End If
+
             Try
                 Dim com As String = ""
                 If txtCECommissionerate.Text = "" Then
@@ -752,6 +753,14 @@ Public Class FrmCompanyMaster
             dtpInsurance_Valid_Date.Focus()
             dtpInsurance_Valid_Date.Select()
             clsCommon.MyMessageBoxShow(Me, "Please select Insurance Valid Upto with valid date.", Me.Text)
+            Return
+        End If
+        Dim regex As New Regex("^\d+$")
+        Dim match As Match = regex.Match(txtNobelOffMNo.Text)
+
+        If match.Success = False And txtNobelOffMNo.Text <> "" Then
+            common.clsCommon.MyMessageBoxShow(Me, "The mobile number is not numeric", Me.Text)
+            txtNobelOffMNo.Focus()
             Return
         End If
         ''====================================================================
