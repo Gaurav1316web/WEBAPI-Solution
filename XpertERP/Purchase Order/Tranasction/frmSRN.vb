@@ -5209,10 +5209,14 @@ Public Class frmSRN
                 If txtGEDate.Checked Then
                     obj.GEDate = txtGEDate.Value
                 End If
-                If ShowItemAllStructureWise = False Then
-                    obj.Item_Type = clsCommon.myCstr(cboItemType.SelectedValue)
+                If ShowItemAllStructureWise = True Then
+                    If gv1.Rows.Count > 0 Then
+                        Dim itemcode As String = clsCommon.myCstr(gv1.Rows(0).Cells(colICode).Value)
+                        Dim itemtype As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 item_type from TSPL_ITEM_MASTER where Item_Code ='" + itemcode + "'"))
+                        obj.Item_Type = itemtype
+                    End If
                 Else
-                    obj.Item_Type = "A"
+                    obj.Item_Type = clsCommon.myCstr(cboItemType.SelectedValue)
                 End If
                 obj.Dept = txtDept.Value
                     obj.Dept_Desc = lblDept.Text

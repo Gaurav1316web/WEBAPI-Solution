@@ -1988,6 +1988,8 @@
     <None Include="Crystal Reports\Union Reports\crptMilkProcurementUnionWise.rpt" />
     <None Include="Crystal Reports\Union Reports\crptmilkunionreport.rpt" />
     <None Include="Crystal Reports\Union Reports\crptUnionWiseDBT_Summary.rpt" />
+    <None Include="Crystal Reports\Union Reports\rptRoute&amp;BoothWiseDemand.rpt" />
+    <None Include="Crystal Reports\Union Reports\rptUnionWiseDemand.rpt" />
     <None Include="Crystal Reports\Utility Reports\DayEntryStatus.rpt" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>

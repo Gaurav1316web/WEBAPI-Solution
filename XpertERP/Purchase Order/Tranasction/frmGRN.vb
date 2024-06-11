@@ -507,17 +507,17 @@ Public Class frmGRN
     End Function
 
     Sub LoadItemType()
-        If ShowItemAllStructureWise = True Then
-            cboItemType.DataSource = GetItemall()
-            cboItemType.ValueMember = "Code"
-            cboItemType.DisplayMember = "Name"
-        Else
-            'cboItemType.DataSource = clsItemMaster.GetItemType()
-            Dim Whr = " AND IS_NON_INVENTORY=0   AND ITEM_TYPE_CODE NOT IN('J') "
+        'If ShowItemAllStructureWise = True Then
+        '    cboItemType.DataSource = GetItemall()
+        '    cboItemType.ValueMember = "Code"
+        '    cboItemType.DisplayMember = "Name"
+        'Else
+        'cboItemType.DataSource = clsItemMaster.GetItemType()
+        Dim Whr = " AND IS_NON_INVENTORY=0   AND ITEM_TYPE_CODE NOT IN('J') "
             cboItemType.DataSource = clsItemMaster.getItemTypeQuery(Whr)
             cboItemType.ValueMember = "Code"
             cboItemType.DisplayMember = "Name"
-        End If
+        ' End If
     End Sub
 
     Sub LoadGRNType()
@@ -3708,9 +3708,7 @@ Public Class frmGRN
                         Dim itemtype As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 item_type from TSPL_ITEM_MASTER where Item_Code ='" + itemcode + "'"))
                         obj.Item_Type = itemtype
                     End If
-
-                End If
-                If ShowItemAllStructureWise = False Then
+                Else
                     obj.Item_Type = clsCommon.myCstr(cboItemType.SelectedValue)
                 End If
                 obj.Dept = txtDept.Value

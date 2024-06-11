@@ -473,6 +473,8 @@ Public Class clsCreateAllTable
             coll.Add("BankIFSCCode", "Varchar(30) null ")
             coll.Add("BankBranchAddress", "Varchar(100) null ")
             coll.Add("BackgroundImage", "image null")
+            coll.Add("Union_Contact_Person", "Varchar(30) null ")
+            coll.Add("Union_Contact_PhoneNo", "Varchar(30) null ")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_COMPANY_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
