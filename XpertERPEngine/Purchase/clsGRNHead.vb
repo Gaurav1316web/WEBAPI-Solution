@@ -232,6 +232,9 @@ Public Class clsGRNHead
                 End If
 
             End If
+            'If Not isNewEntry Then
+            '    CancleUpdate(obj.GRNo, trans)
+            'End If
             If (clsCommon.myLen(obj.GRN_No) <= 0) Then
                 Throw New Exception("Error in Document Code Generation")
             End If
@@ -445,10 +448,17 @@ Public Class clsGRNHead
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_GRN_HEAD", OMInsertOrUpdate.Update, "TSPL_GRN_HEAD.GRN_No='" + obj.GRN_No + "'", trans)
             End If
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.GRN_No), "TSPL_GRN_HEAD", "GRN_No", "TSPL_GRN_DETAIL", "GRN_No", "TSPL_GRN_RGP_CONVERSION_DETAIL", "GRN_No", trans)
+            If Not isNewEntry Then
+                clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.GRN_No), "TSPL_GRN_HEAD", "GRN_No", "TSPL_GRN_DETAIL", "GRN_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
+            End If
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
         Return isSaved
+    End Function
+    Public Shared Function CancleUpdate(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
+        clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_GRN_HEAD", "GRN_No", "TSPL_GRN_DETAIL", "GRN_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
+        Return True
     End Function
 
     Public Shared Function UpdateData(ByVal obj As clsGRNHead, ByVal trans As SqlTransaction) As Boolean
@@ -1669,7 +1679,7 @@ Public Class clsGRNHead
                 Throw New Exception("Document- " & Doc_No & " not found")
             End If
 
-            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Doc_No, "TSPL_GRN_HEAD", "GRN_NO", "TSPL_GRN_DETAIL", "GRN_NO", trans)
+            'clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Doc_No, "TSPL_GRN_HEAD", "GRN_NO", "TSPL_GRN_DETAIL", "GRN_NO", trans)
 
             '' cancel custom field data
             clsCommonFunctionality.SaveCancelDataMultKey(objCommonVar.CurrentUserCode, Doc_No, "TSPL_CUSTOM_FIELD_VALUES", "Transaction_Code", "Program_Code", Form_Id, trans)

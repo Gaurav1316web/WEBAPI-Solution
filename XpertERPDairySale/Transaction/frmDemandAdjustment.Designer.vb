@@ -106,6 +106,11 @@ Partial Class frmDemandAdjustment
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.lblFixedQty = New common.Controls.MyLabel()
+        Me.MyLabel19 = New common.Controls.MyLabel()
+        Me.MyLabel20 = New common.Controls.MyLabel()
+        Me.TxtFinder9 = New common.UserControls.txtFinder()
+        Me.txtFixedQty = New Telerik.WinControls.UI.RadTextBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -192,6 +197,11 @@ Partial Class frmDemandAdjustment
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblFixedQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.lblFixedQty.SuspendLayout()
+        CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtFixedQty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -215,8 +225,8 @@ Partial Class frmDemandAdjustment
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
-        Me.SplitContainer1.Size = New System.Drawing.Size(826, 450)
-        Me.SplitContainer1.SplitterDistance = 407
+        Me.SplitContainer1.Size = New System.Drawing.Size(826, 482)
+        Me.SplitContainer1.SplitterDistance = 439
         Me.SplitContainer1.TabIndex = 0
         '
         'SplitContainer3
@@ -233,8 +243,8 @@ Partial Class frmDemandAdjustment
         'SplitContainer3.Panel2
         '
         Me.SplitContainer3.Panel2.Controls.Add(Me.RadPageView1)
-        Me.SplitContainer3.Size = New System.Drawing.Size(826, 407)
-        Me.SplitContainer3.SplitterDistance = 25
+        Me.SplitContainer3.Size = New System.Drawing.Size(826, 439)
+        Me.SplitContainer3.SplitterDistance = 26
         Me.SplitContainer3.TabIndex = 1
         '
         'RadMenu1
@@ -270,7 +280,7 @@ Partial Class frmDemandAdjustment
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(826, 378)
+        Me.RadPageView1.Size = New System.Drawing.Size(826, 409)
         Me.RadPageView1.TabIndex = 0
         '
         'RadPageViewPage1
@@ -304,7 +314,7 @@ Partial Class frmDemandAdjustment
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(119.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(805, 330)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(805, 361)
         Me.RadPageViewPage1.Text = "Demand Adjustment"
         '
         'txtRouteCode
@@ -363,7 +373,7 @@ Partial Class frmDemandAdjustment
         Me.rgbChangeItem.Controls.Add(Me.txtDeductQty)
         Me.rgbChangeItem.Controls.Add(Me.lblDeductQty)
         Me.rgbChangeItem.HeaderText = "Change Product"
-        Me.rgbChangeItem.Location = New System.Drawing.Point(360, 122)
+        Me.rgbChangeItem.Location = New System.Drawing.Point(417, 117)
         Me.rgbChangeItem.Name = "rgbChangeItem"
         Me.rgbChangeItem.Size = New System.Drawing.Size(384, 103)
         Me.rgbChangeItem.TabIndex = 1597
@@ -650,6 +660,8 @@ Partial Class frmDemandAdjustment
         'rgbIDOrder
         '
         Me.rgbIDOrder.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.rgbIDOrder.Controls.Add(Me.lblFixedQty)
+        Me.rgbIDOrder.Controls.Add(Me.txtFixedQty)
         Me.rgbIDOrder.Controls.Add(Me.MyLabel16)
         Me.rgbIDOrder.Controls.Add(Me.lblPer)
         Me.rgbIDOrder.Controls.Add(Me.txtPer)
@@ -657,7 +669,7 @@ Partial Class frmDemandAdjustment
         Me.rgbIDOrder.HeaderText = "Increase/Decrease Order"
         Me.rgbIDOrder.Location = New System.Drawing.Point(2, 182)
         Me.rgbIDOrder.Name = "rgbIDOrder"
-        Me.rgbIDOrder.Size = New System.Drawing.Size(288, 52)
+        Me.rgbIDOrder.Size = New System.Drawing.Size(409, 48)
         Me.rgbIDOrder.TabIndex = 1594
         Me.rgbIDOrder.Text = "Increase/Decrease Order"
         '
@@ -1301,11 +1313,77 @@ Partial Class frmDemandAdjustment
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
+        'lblFixedQty
+        '
+        Me.lblFixedQty.Controls.Add(Me.MyLabel19)
+        Me.lblFixedQty.Controls.Add(Me.MyLabel20)
+        Me.lblFixedQty.Controls.Add(Me.TxtFinder9)
+        Me.lblFixedQty.FieldName = Nothing
+        Me.lblFixedQty.Location = New System.Drawing.Point(278, 21)
+        Me.lblFixedQty.Name = "lblFixedQty"
+        Me.lblFixedQty.Size = New System.Drawing.Size(53, 18)
+        Me.lblFixedQty.TabIndex = 1595
+        Me.lblFixedQty.Text = "Fixed Qty"
+        '
+        'MyLabel19
+        '
+        Me.MyLabel19.AutoSize = False
+        Me.MyLabel19.BorderVisible = True
+        Me.MyLabel19.FieldName = Nothing
+        Me.MyLabel19.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel19.Location = New System.Drawing.Point(211, 26)
+        Me.MyLabel19.Name = "MyLabel19"
+        Me.MyLabel19.Size = New System.Drawing.Size(152, 19)
+        Me.MyLabel19.TabIndex = 1542
+        Me.MyLabel19.TextWrap = False
+        '
+        'MyLabel20
+        '
+        Me.MyLabel20.FieldName = Nothing
+        Me.MyLabel20.Location = New System.Drawing.Point(0, 24)
+        Me.MyLabel20.Name = "MyLabel20"
+        Me.MyLabel20.Size = New System.Drawing.Size(54, 18)
+        Me.MyLabel20.TabIndex = 1541
+        Me.MyLabel20.Text = "Route No"
+        '
+        'TxtFinder9
+        '
+        Me.TxtFinder9.CalculationExpression = Nothing
+        Me.TxtFinder9.FieldCode = Nothing
+        Me.TxtFinder9.FieldDesc = Nothing
+        Me.TxtFinder9.FieldMaxLength = 0
+        Me.TxtFinder9.FieldName = Nothing
+        Me.TxtFinder9.isCalculatedField = False
+        Me.TxtFinder9.IsSourceFromTable = False
+        Me.TxtFinder9.IsSourceFromValueList = False
+        Me.TxtFinder9.IsUnique = False
+        Me.TxtFinder9.Location = New System.Drawing.Point(93, 26)
+        Me.TxtFinder9.MendatroryField = False
+        Me.TxtFinder9.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtFinder9.MyLinkLable1 = Me.MyLabel20
+        Me.TxtFinder9.MyLinkLable2 = Nothing
+        Me.TxtFinder9.MyReadOnly = False
+        Me.TxtFinder9.MyShowMasterFormButton = False
+        Me.TxtFinder9.Name = "TxtFinder9"
+        Me.TxtFinder9.ReferenceFieldDesc = Nothing
+        Me.TxtFinder9.ReferenceFieldName = Nothing
+        Me.TxtFinder9.ReferenceTableName = Nothing
+        Me.TxtFinder9.Size = New System.Drawing.Size(115, 19)
+        Me.TxtFinder9.TabIndex = 1540
+        Me.TxtFinder9.Value = ""
+        '
+        'txtFixedQty
+        '
+        Me.txtFixedQty.Location = New System.Drawing.Point(344, 20)
+        Me.txtFixedQty.Name = "txtFixedQty"
+        Me.txtFixedQty.Size = New System.Drawing.Size(60, 20)
+        Me.txtFixedQty.TabIndex = 1594
+        '
         'frmDemandAdjustment
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(826, 450)
+        Me.ClientSize = New System.Drawing.Size(826, 482)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "frmDemandAdjustment"
         '
@@ -1413,6 +1491,12 @@ Partial Class frmDemandAdjustment
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblFixedQty, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.lblFixedQty.ResumeLayout(False)
+        Me.lblFixedQty.PerformLayout()
+        CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtFixedQty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1501,4 +1585,9 @@ Partial Class frmDemandAdjustment
     Friend WithEvents btnGo As RadButton
     Friend WithEvents btnChange As RadButton
     Friend WithEvents btnProceed As RadButton
+    Friend WithEvents lblFixedQty As common.Controls.MyLabel
+    Friend WithEvents MyLabel19 As common.Controls.MyLabel
+    Friend WithEvents MyLabel20 As common.Controls.MyLabel
+    Friend WithEvents TxtFinder9 As common.UserControls.txtFinder
+    Friend WithEvents txtFixedQty As RadTextBox
 End Class
