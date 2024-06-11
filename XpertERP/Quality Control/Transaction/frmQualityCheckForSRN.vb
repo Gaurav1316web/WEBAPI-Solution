@@ -104,6 +104,7 @@ Public Class FrmQualityCheckForSRN
         btndelete.Visible = MyBase.isDeleteFlag
         btnpost.Visible = MyBase.isPostFlag
         btnTemplates.Visible = MyBase.isModifyFlag
+        BtnCancel.Visible = MyBase.isCancel_Flag_After_Posting
     End Sub
 
     Private Sub FrmQualityCheckForSRN_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
@@ -120,6 +121,8 @@ Public Class FrmQualityCheckForSRN
                 btnsave.PerformClick()
             ElseIf e.Alt AndAlso e.KeyCode = Keys.C Then
                 clsERPFuncationality.closeForm(Me)
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.L AndAlso MyBase.isCancel_Flag_After_Posting AndAlso BtnCancel.Enabled Then
+                CancelWetQCData()
             ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
                 If MyBase.isReverse Then
 
@@ -188,7 +191,7 @@ Public Class FrmQualityCheckForSRN
 
     Private Sub FrmQualityCheckForSRN_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         SetUserMgmtNew()
-
+        BtnCancel.Enabled = False
         AllowDeductionPers = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowDeductionPercentOnIncoming, clsFixedParameterCode.AllowDeductionPercentOnIncoming, Nothing)) = "1", True, False)
         SettItemWiseQualityCheckInGeneralPurchase = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ItemWiseQualityCheckInGeneralPurchase, clsFixedParameterCode.ItemWiseQualityCheckInGeneralPurchase, Nothing)) = 1)
 
@@ -204,7 +207,7 @@ Public Class FrmQualityCheckForSRN
         ButtonToolTip.SetToolTip(btnpost, "Press Alt+P for post record.")
         ButtonToolTip.SetToolTip(btnclose, "Press Alt+C for close window.")
         ButtonToolTip.SetToolTip(btnNew, "Press Alt+N for refresh window.")
-
+        ButtonToolTip.SetToolTip(BtnCancel, "Press Alt+L Cancel the Trasnaction")
         txtBillToLocation.Enabled = False
         txtGENo.Enabled = False
         txtGEDate.Enabled = False
@@ -760,6 +763,8 @@ Public Class FrmQualityCheckForSRN
                     btnsave.Enabled = False
                     btndelete.Enabled = False
                     btnpost.Enabled = False
+                    BtnCancel.Enabled = True
+                    BtnCancel.Visible = True
                     'btnTemplates.Enabled = False
                     UsLock1.Status = ERPTransactionStatus.Approved
                     btnSendEmail.Enabled = True
@@ -2395,5 +2400,66 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
             TxtFinderRalPrint.arrValueMember = clsCommon.ShowMultipleSelectForm(False, "RPTRal", qry, "RALNO", "", TxtFinderRalPrint.arrValueMember, Nothing)
         End If
     End Sub
+    Sub CancelWetQCData()
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
+                Exit Sub
+            End If
+            If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                If clsCommon.MyMessageBoxShow("Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+                    Exit Sub
+                End If
+                If clsQualityCheckForSRNHead.CheckQualityCheckForSRN(clsCommon.myCstr(txtDocNo.Value), Nothing) Then
+                    Throw New Exception("WI QC can not be cancelled because it is used in SRN.")
 
+                End If
+
+                '    If (myMessages.CancelConfirms(Me)) Then
+                '                Dim Qry As String = "select distinct TSPL_SRN_DETAIL.SRN_No,TSPL_SRN_HEAD.Status from TSPL_SRN_DETAIL 
+                'left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No where TSPL_SRN_DETAIL.MRN_Id ='" + txtMRNNo.Value + "'"
+                Dim frm1 As New FrmPWD(Nothing)
+                frm1.strType = "PO Cancel"
+                frm1.strCode = "PO Cancel"
+                frm1.ShowDialog()
+                If frm1.isPasswordCorrect Then
+                    Dim iscancel As Boolean = False
+                    'If clsNIRQC.CheckWITQCUsedInSRN(clsCommon.myCstr(txtMRNNo.Value), Nothing) Then
+                    '    Throw New Exception("NIRQC can not be cancelled because it is used in SRN.")
+                    '    'Else
+                    '    '    clsPurchaseOrderHead.ReverseAndUnpost(txtDocNo.Value, MyBase.Form_ID)
+                    'End If
+                    If common.clsCommon.MyMessageBoxShow("Do you want to cancel the WIT QC?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                        Dim Reason As String = ""
+                        If (myMessages.CancelConfirms(Me)) Then
+                            clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtDocNo.Value))
+                            If clsCancelLog.CheckForReasonOnDelete() Then
+                                '' REASON FOR DELETE 
+                                Dim frm As New FrmFreeTxtBox1
+                                frm.Text = "Remarks for Cancel"
+                                frm.ShowDialog()
+                                If clsCommon.myLen(frm.strRmks) <= 0 Then
+                                    Exit Sub
+                                Else
+                                    Reason = frm.strRmks
+                                End If
+                            End If
+                            If clsQualityCheckForSRNHead.CancelData(clsCommon.myCstr(txtDocNo.Value)) Then
+
+                                'If clsNIRQC.CancelData(Me.Form_ID, clsCommon.myCstr(txtCode.Value)) Then
+                                ' saveCancelLog(Reason, "Cancel", Nothing)
+                                clsCommon.MyMessageBoxShow(Me, "Data Cancel Successfully ", Me.Text)
+                                FunReset()
+                            End If
+                        End If
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub BtnCancel_Click(sender As Object, e As EventArgs) Handles BtnCancel.Click
+        CancelWetQCData()
+    End Sub
 End Class

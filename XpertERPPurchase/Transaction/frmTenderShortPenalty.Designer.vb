@@ -22,7 +22,7 @@ Partial Class frmTenderShortPenalty
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
@@ -54,6 +54,7 @@ Partial Class frmTenderShortPenalty
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.BtnCancel = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -85,6 +86,7 @@ Partial Class frmTenderShortPenalty
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnCancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -104,6 +106,7 @@ Partial Class frmTenderShortPenalty
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.BtnCancel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnRecalculate)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
@@ -491,7 +494,7 @@ Partial Class frmTenderShortPenalty
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -503,7 +506,7 @@ Partial Class frmTenderShortPenalty
         'btnRecalculate
         '
         Me.btnRecalculate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnRecalculate.Location = New System.Drawing.Point(364, 4)
+        Me.btnRecalculate.Location = New System.Drawing.Point(435, 4)
         Me.btnRecalculate.Name = "btnRecalculate"
         Me.btnRecalculate.Size = New System.Drawing.Size(134, 22)
         Me.btnRecalculate.TabIndex = 6
@@ -513,7 +516,7 @@ Partial Class frmTenderShortPenalty
         'btnReverse
         '
         Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(293, 4)
+        Me.btnReverse.Location = New System.Drawing.Point(364, 4)
         Me.btnReverse.Name = "btnReverse"
         Me.btnReverse.Size = New System.Drawing.Size(69, 22)
         Me.btnReverse.TabIndex = 4
@@ -523,7 +526,7 @@ Partial Class frmTenderShortPenalty
         'btnPrint
         '
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(222, 4)
+        Me.btnPrint.Location = New System.Drawing.Point(293, 4)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(69, 22)
         Me.btnPrint.TabIndex = 3
@@ -566,6 +569,15 @@ Partial Class frmTenderShortPenalty
         Me.btnSave.Size = New System.Drawing.Size(69, 22)
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
+        '
+        'BtnCancel
+        '
+        Me.BtnCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnCancel.Location = New System.Drawing.Point(222, 4)
+        Me.BtnCancel.Name = "BtnCancel"
+        Me.BtnCancel.Size = New System.Drawing.Size(69, 22)
+        Me.BtnCancel.TabIndex = 7
+        Me.BtnCancel.Text = "Cancel"
         '
         'frmTenderShortPenalty
         '
@@ -611,6 +623,7 @@ Partial Class frmTenderShortPenalty
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnCancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -646,5 +659,6 @@ Partial Class frmTenderShortPenalty
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents SplitContainer2 As SplitContainer
     Friend WithEvents btnRecalculate As RadButton
+    Friend WithEvents BtnCancel As RadButton
 End Class
 

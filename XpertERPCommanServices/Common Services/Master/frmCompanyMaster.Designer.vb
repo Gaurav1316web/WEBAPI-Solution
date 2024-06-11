@@ -28,6 +28,9 @@ Partial Class FrmCompanyMaster
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmCompanyMaster))
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtTelephone2 = New common.Controls.MyTextBox()
+        Me.lblCity = New common.Controls.MyLabel()
+        Me.txtTelephone1 = New common.Controls.MyTextBox()
         Me.txtcomp_code1 = New common.Controls.MyTextBox()
         Me.labcompcode1 = New common.Controls.MyLabel()
         Me.dtPanIssueDate = New common.Controls.MyDateTimePicker()
@@ -108,7 +111,6 @@ Partial Class FrmCompanyMaster
         Me.lblTelephone2 = New common.Controls.MyLabel()
         Me.lblTelephone1 = New common.Controls.MyLabel()
         Me.txtCity = New common.Controls.MyTextBox()
-        Me.lblCity = New common.Controls.MyLabel()
         Me.txtAdd3 = New common.Controls.MyTextBox()
         Me.lblAdress = New common.Controls.MyLabel()
         Me.txtAdd2 = New common.Controls.MyTextBox()
@@ -165,10 +167,15 @@ Partial Class FrmCompanyMaster
         Me.btnBackgroundselect = New Telerik.WinControls.UI.RadButton()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.txtTelephone1 = New common.Controls.MyTextBox()
-        Me.txtTelephone2 = New common.Controls.MyTextBox()
+        Me.txtNodelOffName = New common.Controls.MyTextBox()
+        Me.MyLabel19 = New common.Controls.MyLabel()
+        Me.txtNobelOffMNo = New common.Controls.MyTextBox()
+        Me.MyLabel20 = New common.Controls.MyLabel()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.txtTelephone2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCity, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTelephone1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtcomp_code1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.labcompcode1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtPanIssueDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -246,7 +253,6 @@ Partial Class FrmCompanyMaster
         CType(Me.lblTelephone2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTelephone1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCity, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblCity, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtAdd3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblAdress, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtAdd2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -302,14 +308,20 @@ Partial Class FrmCompanyMaster
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        CType(Me.txtTelephone1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtTelephone2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtNodelOffName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtNobelOffMNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel20)
+        Me.RadGroupBox1.Controls.Add(Me.txtNobelOffMNo)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel19)
+        Me.RadGroupBox1.Controls.Add(Me.txtNodelOffName)
         Me.RadGroupBox1.Controls.Add(Me.txtTelephone2)
         Me.RadGroupBox1.Controls.Add(Me.txtTelephone1)
         Me.RadGroupBox1.Controls.Add(Me.txtcomp_code1)
@@ -403,8 +415,66 @@ Partial Class FrmCompanyMaster
         Me.RadGroupBox1.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(807, 488)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(807, 509)
         Me.RadGroupBox1.TabIndex = 0
+        '
+        'txtTelephone2
+        '
+        Me.txtTelephone2.CalculationExpression = Nothing
+        Me.txtTelephone2.FieldCode = Nothing
+        Me.txtTelephone2.FieldDesc = Nothing
+        Me.txtTelephone2.FieldMaxLength = 0
+        Me.txtTelephone2.FieldName = Nothing
+        Me.txtTelephone2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTelephone2.isCalculatedField = False
+        Me.txtTelephone2.IsSourceFromTable = False
+        Me.txtTelephone2.IsSourceFromValueList = False
+        Me.txtTelephone2.IsUnique = False
+        Me.txtTelephone2.Location = New System.Drawing.Point(167, 148)
+        Me.txtTelephone2.MaxLength = 50
+        Me.txtTelephone2.MendatroryField = False
+        Me.txtTelephone2.MyLinkLable1 = Me.lblCity
+        Me.txtTelephone2.MyLinkLable2 = Nothing
+        Me.txtTelephone2.Name = "txtTelephone2"
+        Me.txtTelephone2.ReferenceFieldDesc = Nothing
+        Me.txtTelephone2.ReferenceFieldName = Nothing
+        Me.txtTelephone2.ReferenceTableName = Nothing
+        Me.txtTelephone2.Size = New System.Drawing.Size(292, 18)
+        Me.txtTelephone2.TabIndex = 7
+        '
+        'lblCity
+        '
+        Me.lblCity.FieldName = Nothing
+        Me.lblCity.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCity.Location = New System.Drawing.Point(12, 109)
+        Me.lblCity.Name = "lblCity"
+        Me.lblCity.Size = New System.Drawing.Size(56, 16)
+        Me.lblCity.TabIndex = 59
+        Me.lblCity.Text = "City Code"
+        '
+        'txtTelephone1
+        '
+        Me.txtTelephone1.CalculationExpression = Nothing
+        Me.txtTelephone1.FieldCode = Nothing
+        Me.txtTelephone1.FieldDesc = Nothing
+        Me.txtTelephone1.FieldMaxLength = 0
+        Me.txtTelephone1.FieldName = Nothing
+        Me.txtTelephone1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTelephone1.isCalculatedField = False
+        Me.txtTelephone1.IsSourceFromTable = False
+        Me.txtTelephone1.IsSourceFromValueList = False
+        Me.txtTelephone1.IsUnique = False
+        Me.txtTelephone1.Location = New System.Drawing.Point(167, 127)
+        Me.txtTelephone1.MaxLength = 50
+        Me.txtTelephone1.MendatroryField = False
+        Me.txtTelephone1.MyLinkLable1 = Me.lblCity
+        Me.txtTelephone1.MyLinkLable2 = Nothing
+        Me.txtTelephone1.Name = "txtTelephone1"
+        Me.txtTelephone1.ReferenceFieldDesc = Nothing
+        Me.txtTelephone1.ReferenceFieldName = Nothing
+        Me.txtTelephone1.ReferenceTableName = Nothing
+        Me.txtTelephone1.Size = New System.Drawing.Size(292, 18)
+        Me.txtTelephone1.TabIndex = 7
         '
         'txtcomp_code1
         '
@@ -532,7 +602,7 @@ Partial Class FrmCompanyMaster
         Me.dtpInsurance_Valid_Date.IsSourceFromTable = False
         Me.dtpInsurance_Valid_Date.IsSourceFromValueList = False
         Me.dtpInsurance_Valid_Date.IsUnique = False
-        Me.dtpInsurance_Valid_Date.Location = New System.Drawing.Point(166, 467)
+        Me.dtpInsurance_Valid_Date.Location = New System.Drawing.Point(166, 491)
         Me.dtpInsurance_Valid_Date.MendatroryField = False
         Me.dtpInsurance_Valid_Date.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpInsurance_Valid_Date.MyLinkLable1 = Me.MyLabel10
@@ -553,7 +623,7 @@ Partial Class FrmCompanyMaster
         '
         Me.MyLabel10.FieldName = Nothing
         Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel10.Location = New System.Drawing.Point(12, 467)
+        Me.MyLabel10.Location = New System.Drawing.Point(12, 491)
         Me.MyLabel10.Name = "MyLabel10"
         Me.MyLabel10.Size = New System.Drawing.Size(111, 16)
         Me.MyLabel10.TabIndex = 81
@@ -606,7 +676,7 @@ Partial Class FrmCompanyMaster
         Me.txtinsuranceno.IsSourceFromTable = False
         Me.txtinsuranceno.IsSourceFromValueList = False
         Me.txtinsuranceno.IsUnique = False
-        Me.txtinsuranceno.Location = New System.Drawing.Point(518, 447)
+        Me.txtinsuranceno.Location = New System.Drawing.Point(545, 448)
         Me.txtinsuranceno.MaxLength = 50
         Me.txtinsuranceno.MendatroryField = False
         Me.txtinsuranceno.MyLinkLable1 = Me.MyLabel8
@@ -615,7 +685,7 @@ Partial Class FrmCompanyMaster
         Me.txtinsuranceno.ReferenceFieldDesc = Nothing
         Me.txtinsuranceno.ReferenceFieldName = Nothing
         Me.txtinsuranceno.ReferenceTableName = Nothing
-        Me.txtinsuranceno.Size = New System.Drawing.Size(262, 18)
+        Me.txtinsuranceno.Size = New System.Drawing.Size(250, 18)
         Me.txtinsuranceno.TabIndex = 77
         Me.txtinsuranceno.Text = " "
         '
@@ -711,7 +781,7 @@ Partial Class FrmCompanyMaster
         Me.TxtIECode.IsSourceFromTable = False
         Me.TxtIECode.IsSourceFromValueList = False
         Me.TxtIECode.IsUnique = False
-        Me.TxtIECode.Location = New System.Drawing.Point(518, 427)
+        Me.TxtIECode.Location = New System.Drawing.Point(545, 427)
         Me.TxtIECode.MaxLength = 30
         Me.TxtIECode.MendatroryField = False
         Me.TxtIECode.MyLinkLable1 = Me.MyLabel4
@@ -720,7 +790,7 @@ Partial Class FrmCompanyMaster
         Me.TxtIECode.ReferenceFieldDesc = Nothing
         Me.TxtIECode.ReferenceFieldName = Nothing
         Me.TxtIECode.ReferenceTableName = Nothing
-        Me.TxtIECode.Size = New System.Drawing.Size(262, 18)
+        Me.TxtIECode.Size = New System.Drawing.Size(250, 18)
         Me.TxtIECode.TabIndex = 71
         Me.TxtIECode.Text = " "
         '
@@ -1758,16 +1828,6 @@ Partial Class FrmCompanyMaster
         Me.txtCity.Size = New System.Drawing.Size(292, 18)
         Me.txtCity.TabIndex = 6
         '
-        'lblCity
-        '
-        Me.lblCity.FieldName = Nothing
-        Me.lblCity.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCity.Location = New System.Drawing.Point(12, 109)
-        Me.lblCity.Name = "lblCity"
-        Me.lblCity.Size = New System.Drawing.Size(56, 16)
-        Me.lblCity.TabIndex = 59
-        Me.lblCity.Text = "City Code"
-        '
         'txtAdd3
         '
         Me.txtAdd3.CalculationExpression = Nothing
@@ -1958,8 +2018,8 @@ Partial Class FrmCompanyMaster
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(1, 1)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage7
-        Me.RadPageView1.Size = New System.Drawing.Size(828, 536)
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.Size = New System.Drawing.Size(828, 557)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
@@ -1972,7 +2032,7 @@ Partial Class FrmCompanyMaster
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(101.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(807, 488)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(807, 509)
         Me.RadPageViewPage1.Text = "Company Details"
         '
         'RadPageViewPage2
@@ -2530,63 +2590,85 @@ Partial Class FrmCompanyMaster
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(830, 567)
-        Me.SplitContainer1.SplitterDistance = 538
+        Me.SplitContainer1.Size = New System.Drawing.Size(830, 588)
+        Me.SplitContainer1.SplitterDistance = 559
         Me.SplitContainer1.TabIndex = 0
         '
-        'txtTelephone1
+        'txtNodelOffName
         '
-        Me.txtTelephone1.CalculationExpression = Nothing
-        Me.txtTelephone1.FieldCode = Nothing
-        Me.txtTelephone1.FieldDesc = Nothing
-        Me.txtTelephone1.FieldMaxLength = 0
-        Me.txtTelephone1.FieldName = Nothing
-        Me.txtTelephone1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtTelephone1.isCalculatedField = False
-        Me.txtTelephone1.IsSourceFromTable = False
-        Me.txtTelephone1.IsSourceFromValueList = False
-        Me.txtTelephone1.IsUnique = False
-        Me.txtTelephone1.Location = New System.Drawing.Point(167, 127)
-        Me.txtTelephone1.MaxLength = 50
-        Me.txtTelephone1.MendatroryField = False
-        Me.txtTelephone1.MyLinkLable1 = Me.lblCity
-        Me.txtTelephone1.MyLinkLable2 = Nothing
-        Me.txtTelephone1.Name = "txtTelephone1"
-        Me.txtTelephone1.ReferenceFieldDesc = Nothing
-        Me.txtTelephone1.ReferenceFieldName = Nothing
-        Me.txtTelephone1.ReferenceTableName = Nothing
-        Me.txtTelephone1.Size = New System.Drawing.Size(292, 18)
-        Me.txtTelephone1.TabIndex = 7
+        Me.txtNodelOffName.CalculationExpression = Nothing
+        Me.txtNodelOffName.FieldCode = Nothing
+        Me.txtNodelOffName.FieldDesc = Nothing
+        Me.txtNodelOffName.FieldMaxLength = 0
+        Me.txtNodelOffName.FieldName = Nothing
+        Me.txtNodelOffName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtNodelOffName.isCalculatedField = False
+        Me.txtNodelOffName.IsSourceFromTable = False
+        Me.txtNodelOffName.IsSourceFromValueList = False
+        Me.txtNodelOffName.IsUnique = False
+        Me.txtNodelOffName.Location = New System.Drawing.Point(167, 467)
+        Me.txtNodelOffName.MaxLength = 200
+        Me.txtNodelOffName.MendatroryField = False
+        Me.txtNodelOffName.MyLinkLable1 = Me.MyLabel9
+        Me.txtNodelOffName.MyLinkLable2 = Nothing
+        Me.txtNodelOffName.Name = "txtNodelOffName"
+        Me.txtNodelOffName.ReferenceFieldDesc = Nothing
+        Me.txtNodelOffName.ReferenceFieldName = Nothing
+        Me.txtNodelOffName.ReferenceTableName = Nothing
+        Me.txtNodelOffName.Size = New System.Drawing.Size(262, 18)
+        Me.txtNodelOffName.TabIndex = 306
+        Me.txtNodelOffName.Text = " "
         '
-        'txtTelephone2
+        'MyLabel19
         '
-        Me.txtTelephone2.CalculationExpression = Nothing
-        Me.txtTelephone2.FieldCode = Nothing
-        Me.txtTelephone2.FieldDesc = Nothing
-        Me.txtTelephone2.FieldMaxLength = 0
-        Me.txtTelephone2.FieldName = Nothing
-        Me.txtTelephone2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtTelephone2.isCalculatedField = False
-        Me.txtTelephone2.IsSourceFromTable = False
-        Me.txtTelephone2.IsSourceFromValueList = False
-        Me.txtTelephone2.IsUnique = False
-        Me.txtTelephone2.Location = New System.Drawing.Point(167, 148)
-        Me.txtTelephone2.MaxLength = 50
-        Me.txtTelephone2.MendatroryField = False
-        Me.txtTelephone2.MyLinkLable1 = Me.lblCity
-        Me.txtTelephone2.MyLinkLable2 = Nothing
-        Me.txtTelephone2.Name = "txtTelephone2"
-        Me.txtTelephone2.ReferenceFieldDesc = Nothing
-        Me.txtTelephone2.ReferenceFieldName = Nothing
-        Me.txtTelephone2.ReferenceTableName = Nothing
-        Me.txtTelephone2.Size = New System.Drawing.Size(292, 18)
-        Me.txtTelephone2.TabIndex = 7
+        Me.MyLabel19.FieldName = Nothing
+        Me.MyLabel19.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel19.Location = New System.Drawing.Point(13, 470)
+        Me.MyLabel19.Name = "MyLabel19"
+        Me.MyLabel19.Size = New System.Drawing.Size(117, 16)
+        Me.MyLabel19.TabIndex = 307
+        Me.MyLabel19.Text = "Union Contact Person"
+        '
+        'txtNobelOffMNo
+        '
+        Me.txtNobelOffMNo.CalculationExpression = Nothing
+        Me.txtNobelOffMNo.FieldCode = Nothing
+        Me.txtNobelOffMNo.FieldDesc = Nothing
+        Me.txtNobelOffMNo.FieldMaxLength = 0
+        Me.txtNobelOffMNo.FieldName = Nothing
+        Me.txtNobelOffMNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtNobelOffMNo.isCalculatedField = False
+        Me.txtNobelOffMNo.IsSourceFromTable = False
+        Me.txtNobelOffMNo.IsSourceFromValueList = False
+        Me.txtNobelOffMNo.IsUnique = False
+        Me.txtNobelOffMNo.Location = New System.Drawing.Point(545, 467)
+        Me.txtNobelOffMNo.MaxLength = 200
+        Me.txtNobelOffMNo.MendatroryField = False
+        Me.txtNobelOffMNo.MyLinkLable1 = Me.MyLabel9
+        Me.txtNobelOffMNo.MyLinkLable2 = Nothing
+        Me.txtNobelOffMNo.Name = "txtNobelOffMNo"
+        Me.txtNobelOffMNo.ReferenceFieldDesc = Nothing
+        Me.txtNobelOffMNo.ReferenceFieldName = Nothing
+        Me.txtNobelOffMNo.ReferenceTableName = Nothing
+        Me.txtNobelOffMNo.Size = New System.Drawing.Size(250, 18)
+        Me.txtNobelOffMNo.TabIndex = 308
+        Me.txtNobelOffMNo.Text = " "
+        '
+        'MyLabel20
+        '
+        Me.MyLabel20.FieldName = Nothing
+        Me.MyLabel20.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel20.Location = New System.Drawing.Point(430, 469)
+        Me.MyLabel20.Name = "MyLabel20"
+        Me.MyLabel20.Size = New System.Drawing.Size(116, 16)
+        Me.MyLabel20.TabIndex = 309
+        Me.MyLabel20.Text = "Union Contact Ph No."
         '
         'FrmCompanyMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(830, 587)
+        Me.ClientSize = New System.Drawing.Size(830, 608)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Name = "FrmCompanyMaster"
@@ -2598,6 +2680,9 @@ Partial Class FrmCompanyMaster
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.txtTelephone2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCity, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTelephone1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtcomp_code1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.labcompcode1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtPanIssueDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2676,7 +2761,6 @@ Partial Class FrmCompanyMaster
         CType(Me.lblTelephone2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTelephone1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtCity, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblCity, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtAdd3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblAdress, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtAdd2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2735,8 +2819,10 @@ Partial Class FrmCompanyMaster
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
-        CType(Me.txtTelephone1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtTelephone2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtNodelOffName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtNobelOffMNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -2882,5 +2968,9 @@ Partial Class FrmCompanyMaster
     Friend WithEvents labcompcode1 As common.Controls.MyLabel
     Friend WithEvents txtTelephone2 As common.Controls.MyTextBox
     Friend WithEvents txtTelephone1 As common.Controls.MyTextBox
+    Friend WithEvents txtNobelOffMNo As common.Controls.MyTextBox
+    Friend WithEvents MyLabel19 As common.Controls.MyLabel
+    Friend WithEvents txtNodelOffName As common.Controls.MyTextBox
+    Friend WithEvents MyLabel20 As common.Controls.MyLabel
 End Class
 
