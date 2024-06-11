@@ -22034,7 +22034,7 @@ Public Class clsCreateAllTable
             coll.Add("Status", "integer not null default 0")
             coll.Add("Posted_By", "varchar(12) NULL References TSPL_USER_MASTER(User_Code)")
             coll.Add("Posted_Date", "Datetime NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_NIR_QC", coll, Nothing, True, False, "", "Document_No", "Document_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_NIR_QC", coll, Nothing, True, True, "", "Document_No", "Document_Date")
             coll = New Dictionary(Of String, String)
             coll.Add("MRN_No", "Varchar(30) not null ")
             coll.Add("Line_No", "integer not null default 0")
@@ -41835,7 +41835,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Template_Status", "varchar(1) null") 'A-Accepted,R-Rejected,U-Under Deviation
             coll.Add("IsCancel", "int not null default 0")
             coll.Add("partial_rejected", "int not null default 0")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_QC_CHECK_HEAD", coll, Nothing, False, False, "", "Document_Code", "Document_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_QC_CHECK_HEAD", coll, Nothing, False, True, "", "Document_Code", "Document_Date")
 
             ''QC MRN
             coll = New Dictionary(Of String, String)()
@@ -41867,7 +41867,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Reject_Remarks", "varchar(200) null")
             coll.Add("Additional_Remarks", "varchar(500) null")
             coll.Add("QC_Status", "varchar(20) null") 'accepted,rejected,under deviation
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_QC_CHECK_DETAIL", coll, Nothing, False, False, "TSPL_QC_CHECK_HEAD", "Document_Code", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_QC_CHECK_DETAIL", coll, Nothing, False, True, "TSPL_QC_CHECK_HEAD", "Document_Code", "")
             '=end here=======================================================
 
             ''QC SRN
