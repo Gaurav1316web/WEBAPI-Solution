@@ -191,7 +191,7 @@ Public Class FrmQualityCheckForSRN
 
     Private Sub FrmQualityCheckForSRN_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         SetUserMgmtNew()
-        'BtnCancel.Enabled = False
+        BtnCancel.Enabled = False
         AllowDeductionPers = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowDeductionPercentOnIncoming, clsFixedParameterCode.AllowDeductionPercentOnIncoming, Nothing)) = "1", True, False)
         SettItemWiseQualityCheckInGeneralPurchase = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ItemWiseQualityCheckInGeneralPurchase, clsFixedParameterCode.ItemWiseQualityCheckInGeneralPurchase, Nothing)) = 1)
 

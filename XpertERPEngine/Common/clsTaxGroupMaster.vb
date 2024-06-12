@@ -339,29 +339,31 @@ Public Class clsTaxMaster
 
     Public Shared Function GetData(ByVal Tax_Code As String, ByVal trans As SqlTransaction) As clsTaxMaster
         Dim obj As clsTaxMaster = Nothing
-        Dim qry As String = "select * from TSPL_TAX_MASTER where Tax_Code='" + Tax_Code + "'"
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            obj = New clsTaxMaster
-            obj.Tax_Code = clsCommon.myCstr(dt.Rows(0)("Tax_Code"))
-            obj.Tax_Code_Desc = clsCommon.myCstr(dt.Rows(0)("Tax_Code_Desc"))
-            obj.Tax_Liability_Account = clsCommon.myCstr(dt.Rows(0)("Tax_Liability_Account"))
-            obj.Tax_Recoverable = IIf(clsCommon.CompairString("Y", clsCommon.myCstr(dt.Rows(0)("Tax_Recoverable"))) = CompairStringResult.Equal, True, False)
-            obj.Tax_Recoverable_Account = clsCommon.myCstr(dt.Rows(0)("Tax_Recoverable_Account"))
-            obj.Tax_Recover_Rate = clsCommon.myCdbl(dt.Rows(0)("Tax_Recover_Rate"))
-            obj.Tax_Net_Payable = clsCommon.myCstr(dt.Rows(0)("Tax_Net_Payable"))
-            obj.Excisable = IIf(clsCommon.CompairString("Y", clsCommon.myCstr(dt.Rows(0)("Excisable"))) = CompairStringResult.Equal, True, False)
-            obj.Type = clsCommon.myCstr(dt.Rows(0)("Type"))
-            obj.Tax_Recoverable_Account2 = clsCommon.myCstr(dt.Rows(0)("Tax_Recoverable_Account2"))
-            obj.Tax_Recover_Rate2 = clsCommon.myCdbl(dt.Rows(0)("Tax_Recover_Rate2"))
-            obj.Tax_Recoverable_Account3 = clsCommon.myCstr(dt.Rows(0)("Tax_Recoverable_Account3"))
-            obj.Tax_Recover_Rate3 = clsCommon.myCdbl(dt.Rows(0)("Tax_Recover_Rate3"))
-            obj.Tax_Recoverable_Account4 = clsCommon.myCstr(dt.Rows(0)("Tax_Recoverable_Account4"))
-            obj.Tax_Recover_Rate4 = clsCommon.myCdbl(dt.Rows(0)("Tax_Recover_Rate4"))
-            obj.Tax_Recoverable_Account5 = clsCommon.myCstr(dt.Rows(0)("Tax_Recoverable_Account5"))
-            obj.Tax_Recover_Rate5 = clsCommon.myCdbl(dt.Rows(0)("Tax_Recover_Rate5"))
-            obj.DepositControl = clsCommon.myCstr(dt.Rows(0)("DepositControl"))
-            obj.PayableControl = clsCommon.myCstr(dt.Rows(0)("PayableControl"))
+        If clsCommon.myLen(Tax_Code) > 0 Then
+            Dim qry As String = "select * from TSPL_TAX_MASTER where Tax_Code='" + Tax_Code + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                obj = New clsTaxMaster
+                obj.Tax_Code = clsCommon.myCstr(dt.Rows(0)("Tax_Code"))
+                obj.Tax_Code_Desc = clsCommon.myCstr(dt.Rows(0)("Tax_Code_Desc"))
+                obj.Tax_Liability_Account = clsCommon.myCstr(dt.Rows(0)("Tax_Liability_Account"))
+                obj.Tax_Recoverable = IIf(clsCommon.CompairString("Y", clsCommon.myCstr(dt.Rows(0)("Tax_Recoverable"))) = CompairStringResult.Equal, True, False)
+                obj.Tax_Recoverable_Account = clsCommon.myCstr(dt.Rows(0)("Tax_Recoverable_Account"))
+                obj.Tax_Recover_Rate = clsCommon.myCdbl(dt.Rows(0)("Tax_Recover_Rate"))
+                obj.Tax_Net_Payable = clsCommon.myCstr(dt.Rows(0)("Tax_Net_Payable"))
+                obj.Excisable = IIf(clsCommon.CompairString("Y", clsCommon.myCstr(dt.Rows(0)("Excisable"))) = CompairStringResult.Equal, True, False)
+                obj.Type = clsCommon.myCstr(dt.Rows(0)("Type"))
+                obj.Tax_Recoverable_Account2 = clsCommon.myCstr(dt.Rows(0)("Tax_Recoverable_Account2"))
+                obj.Tax_Recover_Rate2 = clsCommon.myCdbl(dt.Rows(0)("Tax_Recover_Rate2"))
+                obj.Tax_Recoverable_Account3 = clsCommon.myCstr(dt.Rows(0)("Tax_Recoverable_Account3"))
+                obj.Tax_Recover_Rate3 = clsCommon.myCdbl(dt.Rows(0)("Tax_Recover_Rate3"))
+                obj.Tax_Recoverable_Account4 = clsCommon.myCstr(dt.Rows(0)("Tax_Recoverable_Account4"))
+                obj.Tax_Recover_Rate4 = clsCommon.myCdbl(dt.Rows(0)("Tax_Recover_Rate4"))
+                obj.Tax_Recoverable_Account5 = clsCommon.myCstr(dt.Rows(0)("Tax_Recoverable_Account5"))
+                obj.Tax_Recover_Rate5 = clsCommon.myCdbl(dt.Rows(0)("Tax_Recover_Rate5"))
+                obj.DepositControl = clsCommon.myCstr(dt.Rows(0)("DepositControl"))
+                obj.PayableControl = clsCommon.myCstr(dt.Rows(0)("PayableControl"))
+            End If
         End If
         Return obj
     End Function
@@ -392,8 +394,12 @@ Public Class clsTaxMaster
     End Function
 
     Public Shared Function ISTaxRecoverableAC(ByVal Tax_Code As String, ByVal trans As SqlTransaction) As Boolean
-        Dim qry As String = "select Tax_Recoverable from TSPL_TAX_MASTER where Tax_Code='" + Tax_Code + "'"
-        Dim bool As Boolean = IIf(clsCommon.CompairString(clsDBFuncationality.getSingleValue(qry, trans), "N") = CompairStringResult.Equal, False, True)
+        Dim qry As String = ""
+        If clsCommon.myLen(Tax_Code) > 0 Then
+            qry = "select Tax_Recoverable from TSPL_TAX_MASTER where Tax_Code='" + Tax_Code + "'"
+            qry = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+        End If
+        Dim bool As Boolean = IIf(clsCommon.CompairString(qry, "N") = CompairStringResult.Equal, False, True)
         Return bool
     End Function
 

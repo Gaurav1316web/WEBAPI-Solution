@@ -40,11 +40,13 @@ Public Class frmPOWeighment
 
     Private Sub frmMilkGateEntryIn_Load(sender As Object, e As EventArgs) Handles Me.Load
         Try
+            btnCancel.Visible = False
             SetUserMgmtNew()
             ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
             ButtonToolTip.SetToolTip(btndelete, "Press Alt+D Delete ")
             ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
             ButtonToolTip.SetToolTip(BtnPost, "Press Alt+P Post Trasnaction")
+            ButtonToolTip.SetToolTip(btnCancel, "Press Alt+L Cancel Trasnaction")
 
             UcWeighing1.form_ID = MyBase.Form_ID
             UcWeighing1.LoadPortAndMachine()
@@ -69,6 +71,7 @@ Public Class frmPOWeighment
         btndelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
         btnPrintWithGunnyBags.Visible = MyBase.isPrintFlag
+        btnCancel.Visible=MyBase.isCancel_Flag_After_Posting
     End Sub
 
     Sub LoadBlankGrid()
@@ -366,6 +369,8 @@ Public Class frmPOWeighment
                 DeleteData()
             ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnclose.Enabled Then
                 CloseForm()
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.L AndAlso MyBase.isCancel_Flag_After_Posting AndAlso btnCancel.Enabled Then
+                CancelPOWeighmentData()
             ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
                 ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
                                         "TSPL_PO_WEIGHTMENT_HEAD " + Environment.NewLine +
