@@ -367,6 +367,8 @@ Public Class frmPurchaseInvoice
         ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D Delete Trasnaction")
         ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
         ButtonToolTip.SetToolTip(btnAddNew, "Press Alt+N Adding New Trasnaction")
+        ButtonToolTip.SetToolTip(btncancel, "Press Alt+L Cancel Trasnaction")
+
         'ButtonToolTip.SetToolTip(btnRequistionItems, "Press Ctrl+F7 for Select Purchase Requistion Items")
         is_Load_MRN = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowGRN, clsFixedParameterCode.ShowGRN, Nothing)) = 1 And clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowMRN, clsFixedParameterCode.ShowMRN, Nothing)) = 1, True, False)
         IsAbatementPO = clsPurchaseOrderHead.GetPurchaseSetting().Rows(0).Item("IsAbatementPO")
@@ -4174,10 +4176,14 @@ Public Class frmPurchaseInvoice
                 obj.Description = txtDesc.Text
                 obj.Vendor_Invoice_No = txtVendorInvoiceNo.Text
                 obj.Tax_Group = txtTaxGroup.Value
-                If ShowItemAllStructureWise = False Then
-                    obj.Item_Type = clsCommon.myCstr(cboItemType.SelectedValue)
+                If ShowItemAllStructureWise = True Then
+                    If gv1.Rows.Count > 0 Then
+                        Dim itemcode As String = clsCommon.myCstr(gv1.Rows(0).Cells(colICode).Value)
+                        Dim itemtype As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 item_type from TSPL_ITEM_MASTER where Item_Code ='" + itemcode + "'"))
+                        obj.Item_Type = itemtype
+                    End If
                 Else
-                    obj.Item_Type = ""
+                    obj.Item_Type = clsCommon.myCstr(cboItemType.SelectedValue)
                 End If
                 obj.Against_C_Form = chkAgainstCForm.Checked
                     obj.Document_Type = clsCommon.myCstr(cmbDocType.SelectedValue)
@@ -4973,6 +4979,7 @@ Public Class frmPurchaseInvoice
                     repoComplete.IsVisible = True
                     repoBalQty.IsVisible = True
                     btncancel.Enabled = True
+                    btncancel.Visible = True
 
                 Else
                     btnprintjvl.Enabled = False
@@ -5949,6 +5956,8 @@ select SRN_No,'RM Late Penalty [ Recalculate ]' as Type,Item_Code,Penalty as Amo
             DeleteData()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.L AndAlso MyBase.isCancel_Flag_After_Posting AndAlso btncancel.Enabled Then
+            CancelPI()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             If MyBase.isReverse Then
 
@@ -8584,8 +8593,7 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
-    Private Sub Btncancel_Click(sender As Object, e As EventArgs) Handles btncancel.Click
+    Sub CancelPI()
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                 Throw New Exception("Code is empty")
@@ -8610,6 +8618,13 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
                 clsCommon.MyMessageBoxShow(Me, "Purchase Invoice cancelled successfully!", Me.Text)
                 AddNew()
             End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub Btncancel_Click(sender As Object, e As EventArgs) Handles btncancel.Click
+        Try
+            CancelPI()
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

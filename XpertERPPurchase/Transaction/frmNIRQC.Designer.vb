@@ -57,6 +57,7 @@ Partial Class frmNIRQC
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
+        Me.CancelBtn = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
@@ -97,6 +98,7 @@ Partial Class frmNIRQC
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.CancelBtn, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -133,6 +135,7 @@ Partial Class frmNIRQC
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.CancelBtn)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
@@ -598,6 +601,14 @@ Partial Class frmNIRQC
         Me.btnAddNew.Size = New System.Drawing.Size(22, 19)
         Me.btnAddNew.TabIndex = 0
         '
+        'CancelBtn
+        '
+        Me.CancelBtn.Location = New System.Drawing.Point(287, 6)
+        Me.CancelBtn.Name = "CancelBtn"
+        Me.CancelBtn.Size = New System.Drawing.Size(69, 22)
+        Me.CancelBtn.TabIndex = 7
+        Me.CancelBtn.Text = "Cancel"
+        '
         'btnPrint
         '
         Me.btnPrint.Location = New System.Drawing.Point(217, 6)
@@ -609,7 +620,7 @@ Partial Class frmNIRQC
         'RadButton1
         '
         Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton1.Location = New System.Drawing.Point(288, 6)
+        Me.RadButton1.Location = New System.Drawing.Point(357, 5)
         Me.RadButton1.Name = "RadButton1"
         Me.RadButton1.Size = New System.Drawing.Size(69, 23)
         Me.RadButton1.TabIndex = 5
@@ -708,6 +719,7 @@ Partial Class frmNIRQC
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.CancelBtn, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
@@ -759,5 +771,6 @@ Partial Class frmNIRQC
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents lblVehicleNo As common.Controls.MyLabel
     Friend WithEvents btnPrint As RadButton
+    Friend WithEvents CancelBtn As RadButton
 End Class
 

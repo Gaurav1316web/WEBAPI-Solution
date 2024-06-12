@@ -744,7 +744,7 @@ Public Class frmCustomer
             lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + TxtLocation.Value + "' "))
         End If
         createTable()
-        ListInstalledInputLanguages()
+        'ListInstalledInputLanguages()
     End Sub
 
     Sub ListInstalledInputLanguages()
@@ -2224,56 +2224,68 @@ Public Class frmCustomer
                 End If
                 grdTax.Rows.Clear()
                 If clsCommon.CompairString(clsCommon.myCstr(myDr(27)), "") <> CompairStringResult.Equal Then
-                    grdTax.Rows.AddNew()
-                    Me.grdTax.Rows(0).Cells(0).Value = myDr(27).ToString
-                    Me.grdTax.Rows(0).Cells(1).Value = myDr(28).ToString
+                    Dim rowIndex As Integer = grdTax.Rows.AddNew().Index
+                    'grdTax.Rows.AddNew()
+                    Me.grdTax.Rows(rowIndex).Cells(0).Value = myDr(27).ToString
+                    Me.grdTax.Rows(rowIndex).Cells(1).Value = myDr(28).ToString
                 End If
                 If clsCommon.CompairString(clsCommon.myCstr(myDr(29)), "") <> CompairStringResult.Equal Then
-                    grdTax.Rows.AddNew()
-                    Me.grdTax.Rows(1).Cells(0).Value = myDr(29).ToString
-                    Me.grdTax.Rows(1).Cells(1).Value = myDr(30).ToString
+                    Dim rowIndex As Integer = grdTax.Rows.AddNew().Index ' Add new row and get its index
+                    Me.grdTax.Rows(rowIndex).Cells(0).Value = myDr(29).ToString
+                    Me.grdTax.Rows(rowIndex).Cells(1).Value = myDr(30).ToString
+                    'grdTax.Rows.AddNew()
+                    '    Me.grdTax.Rows(1).Cells(0).Value = myDr(29).ToString
+                    '    Me.grdTax.Rows(1).Cells(1).Value = myDr(30).ToString
                 End If
                 Dim s As String = myDr(31).ToString
                 If clsCommon.CompairString(clsCommon.myCstr(myDr(31)), "") <> CompairStringResult.Equal Then
-                    grdTax.Rows.AddNew()
-                    Me.grdTax.Rows(2).Cells(0).Value = myDr(31).ToString
-                    Me.grdTax.Rows(2).Cells(1).Value = myDr(32).ToString
+                    Dim rowIndex As Integer = grdTax.Rows.AddNew().Index
+                    ' grdTax.Rows.AddNew()
+                    Me.grdTax.Rows(rowIndex).Cells(0).Value = myDr(31).ToString
+                    Me.grdTax.Rows(rowIndex).Cells(1).Value = myDr(32).ToString
                 End If
                 s = myDr(33).ToString
                 If clsCommon.CompairString(clsCommon.myCstr(myDr(33)), "") <> CompairStringResult.Equal Then
-                    grdTax.Rows.AddNew()
-                    Me.grdTax.Rows(3).Cells(0).Value = myDr(33).ToString
-                    Me.grdTax.Rows(3).Cells(1).Value = myDr(34).ToString
+                    Dim rowIndex As Integer = grdTax.Rows.AddNew().Index
+                    'grdTax.Rows.AddNew()
+                    Me.grdTax.Rows(rowIndex).Cells(0).Value = myDr(33).ToString
+                    Me.grdTax.Rows(rowIndex).Cells(1).Value = myDr(34).ToString
                 End If
                 If clsCommon.CompairString(clsCommon.myCstr(myDr(35)), "") <> CompairStringResult.Equal Then
-                    grdTax.Rows.AddNew()
-                    Me.grdTax.Rows(4).Cells(0).Value = myDr(35).ToString
-                    Me.grdTax.Rows(4).Cells(1).Value = myDr(36).ToString
+                    Dim rowIndex As Integer = grdTax.Rows.AddNew().Index
+                    'grdTax.Rows.AddNew()
+                    Me.grdTax.Rows(rowIndex).Cells(0).Value = myDr(35).ToString
+                    Me.grdTax.Rows(rowIndex).Cells(1).Value = myDr(36).ToString
                 End If
                 If clsCommon.CompairString(clsCommon.myCstr(myDr(37)), "") <> CompairStringResult.Equal Then
-                    grdTax.Rows.AddNew()
-                    Me.grdTax.Rows(5).Cells(0).Value = myDr(37).ToString
-                    Me.grdTax.Rows(5).Cells(1).Value = myDr(38).ToString
+                    Dim rowIndex As Integer = grdTax.Rows.AddNew().Index
+                    'grdTax.Rows.AddNew()
+                    Me.grdTax.Rows(rowIndex).Cells(0).Value = myDr(37).ToString
+                    Me.grdTax.Rows(rowIndex).Cells(1).Value = myDr(38).ToString
                 End If
                 If clsCommon.CompairString(clsCommon.myCstr(myDr(39)), "") <> CompairStringResult.Equal Then
-                    grdTax.Rows.AddNew()
-                    Me.grdTax.Rows(6).Cells(0).Value = myDr(39).ToString
-                    Me.grdTax.Rows(6).Cells(1).Value = myDr(40).ToString
+                    Dim rowIndex As Integer = grdTax.Rows.AddNew().Index
+                    'grdTax.Rows.AddNew()
+                    Me.grdTax.Rows(rowIndex).Cells(0).Value = myDr(39).ToString
+                    Me.grdTax.Rows(rowIndex).Cells(1).Value = myDr(40).ToString
                 End If
                 If clsCommon.CompairString(clsCommon.myCstr(myDr(41)), "") <> CompairStringResult.Equal Then
-                    grdTax.Rows.AddNew()
-                    Me.grdTax.Rows(7).Cells(0).Value = myDr(41).ToString
-                    Me.grdTax.Rows(7).Cells(1).Value = myDr(42).ToString
+                    Dim rowIndex As Integer = grdTax.Rows.AddNew().Index
+                    'grdTax.Rows.AddNew()
+                    Me.grdTax.Rows(rowIndex).Cells(0).Value = myDr(41).ToString
+                    Me.grdTax.Rows(rowIndex).Cells(1).Value = myDr(42).ToString
                 End If
                 If clsCommon.CompairString(clsCommon.myCstr(myDr(43)), "") <> CompairStringResult.Equal Then
-                    grdTax.Rows.AddNew()
-                    Me.grdTax.Rows(8).Cells(0).Value = myDr(43).ToString
-                    Me.grdTax.Rows(8).Cells(1).Value = myDr(44).ToString
+                    Dim rowIndex As Integer = grdTax.Rows.AddNew().Index
+                    'grdTax.Rows.AddNew()
+                    Me.grdTax.Rows(rowIndex).Cells(0).Value = myDr(43).ToString
+                    Me.grdTax.Rows(rowIndex).Cells(1).Value = myDr(44).ToString
                 End If
                 If clsCommon.CompairString(clsCommon.myCstr(myDr(45)), "") <> CompairStringResult.Equal Then
-                    grdTax.Rows.AddNew()
-                    Me.grdTax.Rows(9).Cells(0).Value = myDr(45).ToString
-                    Me.grdTax.Rows(9).Cells(1).Value = myDr(46).ToString
+                    Dim rowIndex As Integer = grdTax.Rows.AddNew().Index
+                    'grdTax.Rows.AddNew()
+                    Me.grdTax.Rows(rowIndex).Cells(0).Value = myDr(45).ToString
+                    Me.grdTax.Rows(rowIndex).Cells(1).Value = myDr(46).ToString
                 End If
                 ''========Sanjeet(GST Detail (30/05/2017)=====================
                 Me.txtGSTstateCode.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  GST_STATE_Code  from TSPL_State_MASTER where STATE_CODE ='" + fndstate.Value + "'"))
@@ -4580,15 +4592,31 @@ Public Class frmCustomer
         fndCusCategory.Value = clsCommon.ShowSelectForm("CUSTCATCODEFND", qry, "CustomerCategoryCode", "", fndCusCategory.Value, "", isButtonClicked)
     End Sub
     Private Sub fndRoute__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndRoute._MYValidating
-        Dim qry As String = "SELECT [Route_No] as [RouteNo.],[Route_Desc] as [Description],Type FROM [TSPL_ROUTE_MASTER]"
-        Dim WhrCls As String = " Status='A' "
-        fndRoute.Value = clsCommon.ShowSelectForm("ROUTeNOFND", qry, "RouteNo.", WhrCls, fndRoute.Value, "", isButtonClicked)
-        txtRoute.Text = clsDBFuncationality.getSingleValue("SELECT [Route_Desc] FROM [TSPL_ROUTE_MASTER] where Route_No='" + fndRoute.Value + "' ")
-        'bahul
-        fndSalePerson__MYValidating(sender, e, isButtonClicked)
-        'fnRoute()
-        fndroutegroup.Value = ""
-        txtroutegroup.Text = ""
+
+        Try
+            'Dim qry As String = "SELECT [Route_No] as [RouteNo.],[Route_Desc] as [Description],Type FROM [TSPL_ROUTE_MASTER]"
+            Dim qry As String = "SELECT Route_No,Route_Desc,Type FROM TSPL_ROUTE_MASTER"
+            Dim WhrCls As String = " Status='A' "
+            fndRoute.Value = clsCommon.ShowSelectForm("ROUTeNOFND", qry, "Route_No", WhrCls, fndRoute.Value, "", isButtonClicked)
+            txtRoute.Text = clsDBFuncationality.getSingleValue("SELECT Route_Desc FROM TSPL_ROUTE_MASTER where Route_No='" + fndRoute.Value + "' ")
+            'bahul
+            fndSalePerson__MYValidating(sender, e, isButtonClicked)
+            'fnRoute()
+            fndroutegroup.Value = ""
+            txtroutegroup.Text = ""
+        Catch ex As Exception
+        End Try
+        'txtRoute.Text = clsDBFuncationality.getSingleValue("SELECT [Route_Desc] FROM [TSPL_ROUTE_MASTER] where Route_No='" + fndRoute.Value + "' ")
+        'fndSalePerson__MYValidating(sender, e, isButtonClicked)
+        'Dim qry As String = "SELECT [Route_No] as [RouteNo.],[Route_Desc] as [Description],Type FROM [TSPL_ROUTE_MASTER]"
+        'Dim WhrCls As String = " Status='A' "
+        'fndRoute.Value = clsCommon.ShowSelectForm("ROUTeNOFND", qry, "RouteNo.", WhrCls, fndRoute.Value, "", isButtonClicked)
+        'txtRoute.Text = clsDBFuncationality.getSingleValue("SELECT [Route_Desc] FROM [TSPL_ROUTE_MASTER] where Route_No='" + fndRoute.Value + "' ")
+        ''bahul
+        'fndSalePerson__MYValidating(sender, e, isButtonClicked)
+        ''fnRoute()
+        'fndroutegroup.Value = ""
+        'txtroutegroup.Text = ""
     End Sub
     Private Sub fndCusType__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndCusType._MYValidating
         Dim qry As String = "SELECT  [Cust_Type_Code] as [CustomerTypeCode],[Cust_Type_Desc] as [Description]FROM [TSPL_CUSTOMER_TYPE_MASTER]"
@@ -5755,6 +5783,7 @@ Public Class frmCustomer
 
     Private Sub txtCustomerNameHindi_Click(sender As Object, e As EventArgs) Handles txtCustomerNameHindi.Click
         Try
+            ListInstalledInputLanguages()
             If clsLanguage.ListInstalledInputLanguages() Then
                 clsLanguage.SetKeyboardLayout("00000439") ' Hindi
             End If

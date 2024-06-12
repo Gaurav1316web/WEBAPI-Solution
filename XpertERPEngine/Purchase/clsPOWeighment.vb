@@ -13,7 +13,87 @@ Public Class clsPOWeighment
     Public Arr As List(Of clsPOWeighmentDetail)
     Public ArrGunnyBag As List(Of clsPOWeighmentGunnyBag)
 #End Region
+    'Public Shared Function CancelPOWeighmentData(ByVal strCode As String) As Boolean
+    '    Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+    '    Try
+    '        CancelData(strCode)
+    '        trans.Commit()
+    '    Catch ex As Exception
+    '        trans.Rollback()
+    '        Throw New Exception(ex.Message)
+    '    End Try
+    '    Return True
+    'End Function
+    Public Shared Function CheckPOWeighmentUsedInSRN(ByVal strPONo As String, ByVal trans As SqlTransaction) As Boolean
+        Dim qry As String = "select sum(fin.[cnt]) from (SELECT 1 as [cnt] from TSPL_SRN_DETAIL where TSPL_SRN_DETAIL.GRN_ID ='" + clsCommon.myCstr(strPONo) + "' )fin"
+        Dim count As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
 
+        If count > 0 Then
+            Return True
+        Else
+            Return False
+        End If
+    End Function
+    Public Shared Function CancelData(ByVal strCode As String) As Boolean
+        If (clsCommon.myLen(strCode) <= 0) Then
+            Throw New Exception("Entry No not found to Delete")
+        End If
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Dim obj As clsPOWeighment = clsPOWeighment.GetData(strCode, NavigatorType.Current, trans)
+            If (obj Is Nothing OrElse clsCommon.myLen(obj.Weighment_Code) <= 0) Then
+                Throw New Exception("No Data found to Post")
+            End If
+            'If (obj.Status = ERPTransactionStatus.Approved) Then
+            '    Throw New Exception("Already Posted on :" + clsCommon.GetPrintDate(obj.Posted_Date, "dd/MM/yyyy"))
+            'End If
+
+            'Dim qry As String = "select 1 from TSPL_PO_WEIGHTMENT_DETAIL where Weighment_Code='" + strCode + "' and isnull(Unload_SNo,0)>0 "
+            'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            '    Throw New Exception("Can't delete due to Unload the item")
+            'End If
+            Dim qry As String = ""
+            Dim dt As DataTable = Nothing
+            strCode = obj.Against_GRN_No
+            qry = "select distinct MRN_No from TSPL_MRN_DETAIL where GRN_Id ='" + strCode + "'"
+            dt = clsDBFuncationality.GetDataTable(qry, trans)
+            'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            '    clsCommon.MyMessageBoxShow("MRN is created")
+            '    Return True
+            '    Exit Function
+            '    'Else
+            '    '    clsCommon.MyMessageBoxShow("MRN not created")
+
+            '    'qry = "GRN is used in following MRN"
+            '    'For Each dr As DataRow In dt.Rows
+            '    '    qry += Environment.NewLine + clsCommon.myCstr(dr("MRN_No"))
+            '    'Next
+            '    'qry += Environment.NewLine + "Can't unpost it"
+            '    'Throw New Exception(qry)
+            'End If
+            'Exit Sub
+
+            strCode = obj.Weighment_Code
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_PO_WEIGHTMENT_HEAD", "Weighment_Code", "TSPL_PO_WEIGHTMENT_DETAIL", "Weighment_Code", trans)
+            qry = "delete from  TSPL_PO_WEIGHTMENT_GUNNY where Weighment_Code='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_PO_WEIGHTMENT_DETAIL where Weighment_Code='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_PO_WEIGHTMENT_HEAD where Weighment_Code='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+
+
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
     Public Function SaveData(ByVal obj As clsPOWeighment, ByVal isNewEntry As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
@@ -29,6 +109,9 @@ Public Class clsPOWeighment
             End If
             If Not isNewEntry Then
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Weighment_Code, "TSPL_PO_WEIGHTMENT_HEAD", "Weighment_Code", "TSPL_PO_WEIGHTMENT_DETAIL", "Weighment_Code", trans)
+            End If
+            If Not isNewEntry Then
+                clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, obj.Weighment_Code, "TSPL_PO_WEIGHTMENT_HEAD", "Weighment_Code", "TSPL_PO_WEIGHTMENT_DETAIL", "Weighment_Code", "TSPL_PI_REMITTANCE", "Document_No", trans)
             End If
             qry = "delete from TSPL_PO_WEIGHTMENT_GUNNY where Weighment_Code='" + obj.Weighment_Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)

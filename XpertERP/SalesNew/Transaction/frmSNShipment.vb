@@ -2987,6 +2987,7 @@ Public Class frmSNShipment
                     gv1.CurrentRow.Cells(colTaxRate9).Value = clsCommon.myCdbl(dr("Tax9Rate"))
                     gv1.CurrentRow.Cells(colTaxRate10).Value = clsCommon.myCdbl(dr("Tax10Rate"))
                     gv1.CurrentRow.Cells(ColFOC).Value = 0
+                    gv1.CurrentRow.Cells(colQty).Value = 0
                     gv1.CurrentRow.Cells(colItemWeight).Value = clsCommon.myCdbl(dr("Weight_Value"))
                     Dim dblConvF As Double
                     dblConvF = GetConvFactor(gv1.CurrentRow.Cells(colUnit).Value, gv1.CurrentRow.Cells(colICode).Value)
@@ -3776,9 +3777,7 @@ Public Class frmSNShipment
     End Function
 
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
-        If (AllowToSave()) Then
-            SaveData(False)
-        End If
+        SaveData(False)
     End Sub
     Sub InvoiceType()
         If AllowChangeInvoiceType = False Then
@@ -3824,399 +3823,399 @@ Public Class frmSNShipment
             If Not AllowModifcationByApprovalUser Then
                 clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtDocNo.Value))
             End If
-
-            Dim obj As New clsSNShipmentHead()
-            obj.Form_38_No = txtForm38.Text
-            obj.Cust_PO_No = txtPONo.Text
-            obj.Invoice_Type = ddlInvoiceType.SelectedValue
-            obj.Route_No = txtRouteNo.Value
-            obj.Route_Desc = lblRouteDesc.Text
-            obj.Price_Group_Code = txtPriceGroupCode.Text
-            obj.Price_Code = txtPriceCode.Text
-            obj.HeadDisc_Per = txtDiscPer.Text
-            If obj.HeadDisc_Per > 0 Then
-                obj.HeadDisc_PerAmt = lblInvoiceDiscAmt.Text
-                obj.HeadDisc_Amt = 0
-            Else
-                obj.HeadDisc_Amt = lblInvoiceDiscAmt.Text
-                obj.HeadDisc_PerAmt = 0
-            End If
-            If clsCommon.myLen(txtpodate.Value) > 0 Then
-                obj.Podate = txtpodate.Value
-            End If
-
-            '-----------------richa 27/06/2014 Ticket No .BM00000002982-------  
-            If clsCommon.myCdbl(txtMannaulInvoiceNo.Value) > 0 Then
-                obj.Mannual_Invoice_No = txtMannaulInvoiceNo.Value
-            Else
-                obj.InvoiceManualNowithPrefix = TxtInvoiceManualNoWithPrefix.Text
-            End If
-            '----------------------------------------------------------------
-            obj.Document_Code = txtDocNo.Value
-            obj.Document_Date = txtDate.Value
-            obj.Customer_Code = txtCustomer.Value
-            obj.Customer_Name = lblCustomerName.Text
-            obj.Ref_No = txtRefNo.Text
-            obj.Inv_Date = clsCommon.GetPrintDate(dtpInvoice.Value, "dd/MMM/yyyy")
-            obj.Challan_Date = clsCommon.GetPrintDate(dtpChallan.Value, "dd/MMM/yyyy")
-            obj.Total_Tax_Amt = clsCommon.myCdbl(lblTaxAmt.Text)
-            obj.Inv_No = txtInvNo.Text
-            obj.Bill_To_Location = txtBillToLocation.Value
-            obj.Ship_To_Location = txtShipToLocation.Value
-            obj.Comments = txtComment.Text
-            obj.On_Hold = chkOnHold.Checked
-            obj.Description = txtDesc.Text
-            obj.Tax_Group = txtTaxGroup.Value
-            obj.Salesman_Code = txtSalesman.Value
-            obj.Salesman_Name = lblSalesman.Text
-            obj.Is_Internal = chkInternal.Checked
-            obj.PROJECT_ID = fndProject.Value
-            obj.is_taxable = IIf(chkIsTaxable.Checked, 1, 0)
-            If (gv2.Rows.Count > 0) Then
-                obj.TAX1 = clsCommon.myCstr(gv2.Rows(0).Cells(colTTaxAutCode).Value)
-                obj.TAX1_Rate = clsCommon.myCdbl(gv2.Rows(0).Cells(colTTaxRate).Value)
-                obj.TAX1_Base_Amt = clsCommon.myCdbl(gv2.Rows(0).Cells(colTBaseAmt).Value)
-                obj.TAX1_Amt = clsCommon.myCdbl(gv2.Rows(0).Cells(colTTaxAmt).Value)
-            End If
-            If (gv2.Rows.Count > 1) Then
-                obj.TAX2 = clsCommon.myCstr(gv2.Rows(1).Cells(colTTaxAutCode).Value)
-                obj.TAX2_Rate = clsCommon.myCdbl(gv2.Rows(1).Cells(colTTaxRate).Value)
-                obj.TAX2_Base_Amt = clsCommon.myCdbl(gv2.Rows(1).Cells(colTBaseAmt).Value)
-                obj.TAX2_Amt = clsCommon.myCdbl(gv2.Rows(1).Cells(colTTaxAmt).Value)
-            End If
-            If (gv2.Rows.Count > 2) Then
-                obj.TAX3 = clsCommon.myCstr(gv2.Rows(2).Cells(colTTaxAutCode).Value)
-                obj.TAX3_Rate = clsCommon.myCdbl(gv2.Rows(2).Cells(colTTaxRate).Value)
-                obj.TAX3_Base_Amt = clsCommon.myCdbl(gv2.Rows(2).Cells(colTBaseAmt).Value)
-                obj.TAX3_Amt = clsCommon.myCdbl(gv2.Rows(2).Cells(colTTaxAmt).Value)
-            End If
-            If (gv2.Rows.Count > 3) Then
-                obj.TAX4 = clsCommon.myCstr(gv2.Rows(3).Cells(colTTaxAutCode).Value)
-                obj.TAX4_Rate = clsCommon.myCdbl(gv2.Rows(3).Cells(colTTaxRate).Value)
-                obj.TAX4_Base_Amt = clsCommon.myCdbl(gv2.Rows(3).Cells(colTBaseAmt).Value)
-                obj.TAX4_Amt = clsCommon.myCdbl(gv2.Rows(3).Cells(colTTaxAmt).Value)
-            End If
-            If (gv2.Rows.Count > 4) Then
-                obj.TAX5 = clsCommon.myCstr(gv2.Rows(4).Cells(colTTaxAutCode).Value)
-                obj.TAX5_Rate = clsCommon.myCdbl(gv2.Rows(4).Cells(colTTaxRate).Value)
-                obj.TAX5_Base_Amt = clsCommon.myCdbl(gv2.Rows(4).Cells(colTBaseAmt).Value)
-                obj.TAX5_Amt = clsCommon.myCdbl(gv2.Rows(4).Cells(colTTaxAmt).Value)
-            End If
-            If (gv2.Rows.Count > 5) Then
-                obj.TAX6 = clsCommon.myCstr(gv2.Rows(5).Cells(colTTaxAutCode).Value)
-                obj.TAX6_Rate = clsCommon.myCdbl(gv2.Rows(5).Cells(colTTaxRate).Value)
-                obj.TAX6_Base_Amt = clsCommon.myCdbl(gv2.Rows(5).Cells(colTBaseAmt).Value)
-                obj.TAX6_Amt = clsCommon.myCdbl(gv2.Rows(5).Cells(colTTaxAmt).Value)
-            End If
-            If (gv2.Rows.Count > 6) Then
-                obj.TAX7 = clsCommon.myCstr(gv2.Rows(6).Cells(colTTaxAutCode).Value)
-                obj.TAX7_Rate = clsCommon.myCdbl(gv2.Rows(6).Cells(colTTaxRate).Value)
-                obj.TAX7_Base_Amt = clsCommon.myCdbl(gv2.Rows(6).Cells(colTBaseAmt).Value)
-                obj.TAX7_Amt = clsCommon.myCdbl(gv2.Rows(6).Cells(colTTaxAmt).Value)
-            End If
-            If (gv2.Rows.Count > 7) Then
-                obj.TAX8 = clsCommon.myCstr(gv2.Rows(7).Cells(colTTaxAutCode).Value)
-                obj.TAX8_Rate = clsCommon.myCdbl(gv2.Rows(7).Cells(colTTaxRate).Value)
-                obj.TAX8_Base_Amt = clsCommon.myCdbl(gv2.Rows(7).Cells(colTBaseAmt).Value)
-                obj.TAX8_Amt = clsCommon.myCdbl(gv2.Rows(7).Cells(colTTaxAmt).Value)
-            End If
-            If (gv2.Rows.Count > 8) Then
-                obj.TAX9 = clsCommon.myCstr(gv2.Rows(8).Cells(colTTaxAutCode).Value)
-                obj.TAX9_Rate = clsCommon.myCdbl(gv2.Rows(8).Cells(colTTaxRate).Value)
-                obj.TAX9_Base_Amt = clsCommon.myCdbl(gv2.Rows(8).Cells(colTBaseAmt).Value)
-                obj.TAX9_Amt = clsCommon.myCdbl(gv2.Rows(8).Cells(colTTaxAmt).Value)
-            End If
-            If (gv2.Rows.Count > 9) Then
-                obj.TAX10 = clsCommon.myCstr(gv2.Rows(9).Cells(colTTaxAutCode).Value)
-                obj.TAX10_Rate = clsCommon.myCdbl(gv2.Rows(9).Cells(colTTaxRate).Value)
-                obj.TAX10_Base_Amt = clsCommon.myCdbl(gv2.Rows(9).Cells(colTBaseAmt).Value)
-                obj.TAX10_Amt = clsCommon.myCdbl(gv2.Rows(9).Cells(colTTaxAmt).Value)
-            End If
-
-            obj.Terms_Code = txtTermCode.Value
-            obj.Due_Date = txtDueDate.Value
-            obj.Discount_Base = clsCommon.myCdbl(lblAmtWithDiscount.Text)
-            obj.Discount_Amt = clsCommon.myCdbl(lblDiscountAmt.Text)
-            obj.Amount_Less_Discount = clsCommon.myCdbl(lblAmtAfterDiscount.Text)
-            obj.Total_Amt = clsCommon.myCdbl(lblTotRAmt.Text)
-
-            obj.Carrier = lbltransporter.Text
-            obj.transport_id = fndtransporter.Value
-            obj.VehicleNo = txtVehicleCode.Value
-            'obj.VehicleNo =
-            obj.GRNo = txtGRNo.Text
-            obj.GENo = txtGENo.Text
-
-            If txtGEDate.Checked Then
-                obj.GEDate = txtGEDate.Value
-            End If
-            obj.Item_Type = clsCommon.myCstr(cboItemType.SelectedValue)
-            obj.Dept = txtDept.Value
-            obj.Dept_Desc = lblDept.Text
-
-            obj.Against_Sales_Order = txtReqNo.Value
-
-
-            If (gvAC.Rows.Count > 0) Then
-                If clsCommon.myLen(gvAC.Rows(0).Cells(colACCode).Value) > 0 Then
-                    obj.Add_Charge_Code1 = clsCommon.myCstr(gvAC.Rows(0).Cells(colACCode).Value)
-                    obj.Add_Charge_Name1 = clsCommon.myCstr(gvAC.Rows(0).Cells(colACName).Value)
-                    obj.Add_Charge_Amt1 = clsCommon.myCdbl(gvAC.Rows(0).Cells(colACAmount).Value)
-                End If
-            End If
-            If (gvAC.Rows.Count > 1) Then
-                If clsCommon.myLen(gvAC.Rows(1).Cells(colACCode).Value) > 0 Then
-                    obj.Add_Charge_Code2 = clsCommon.myCstr(gvAC.Rows(1).Cells(colACCode).Value)
-                    obj.Add_Charge_Name2 = clsCommon.myCstr(gvAC.Rows(1).Cells(colACName).Value)
-                    obj.Add_Charge_Amt2 = clsCommon.myCdbl(gvAC.Rows(1).Cells(colACAmount).Value)
-                End If
-            End If
-            If (gvAC.Rows.Count > 2) Then
-                If clsCommon.myLen(gvAC.Rows(2).Cells(colACCode).Value) > 0 Then
-                    obj.Add_Charge_Code3 = clsCommon.myCstr(gvAC.Rows(2).Cells(colACCode).Value)
-                    obj.Add_Charge_Name3 = clsCommon.myCstr(gvAC.Rows(2).Cells(colACName).Value)
-                    obj.Add_Charge_Amt3 = clsCommon.myCdbl(gvAC.Rows(2).Cells(colACAmount).Value)
-                End If
-            End If
-            If (gvAC.Rows.Count > 3) Then
-                If clsCommon.myLen(gvAC.Rows(3).Cells(colACCode).Value) > 0 Then
-                    obj.Add_Charge_Code4 = clsCommon.myCstr(gvAC.Rows(3).Cells(colACCode).Value)
-                    obj.Add_Charge_Name4 = clsCommon.myCstr(gvAC.Rows(3).Cells(colACName).Value)
-                    obj.Add_Charge_Amt4 = clsCommon.myCdbl(gvAC.Rows(3).Cells(colACAmount).Value)
-                End If
-            End If
-            If (gvAC.Rows.Count > 4) Then
-                If clsCommon.myLen(gvAC.Rows(4).Cells(colACCode).Value) > 0 Then
-                    obj.Add_Charge_Code5 = clsCommon.myCstr(gvAC.Rows(4).Cells(colACCode).Value)
-                    obj.Add_Charge_Name5 = clsCommon.myCstr(gvAC.Rows(4).Cells(colACName).Value)
-                    obj.Add_Charge_Amt5 = clsCommon.myCdbl(gvAC.Rows(4).Cells(colACAmount).Value)
-                End If
-            End If
-            If (gvAC.Rows.Count > 5) Then
-                If clsCommon.myLen(gvAC.Rows(5).Cells(colACCode).Value) > 0 Then
-                    obj.Add_Charge_Code6 = clsCommon.myCstr(gvAC.Rows(5).Cells(colACCode).Value)
-                    obj.Add_Charge_Name6 = clsCommon.myCstr(gvAC.Rows(5).Cells(colACName).Value)
-                    obj.Add_Charge_Amt6 = clsCommon.myCdbl(gvAC.Rows(5).Cells(colACAmount).Value)
-                End If
-            End If
-            If (gvAC.Rows.Count > 6) Then
-                If clsCommon.myLen(gvAC.Rows(6).Cells(colACCode).Value) > 0 Then
-                    obj.Add_Charge_Code7 = clsCommon.myCstr(gvAC.Rows(6).Cells(colACCode).Value)
-                    obj.Add_Charge_Name7 = clsCommon.myCstr(gvAC.Rows(6).Cells(colACName).Value)
-                    obj.Add_Charge_Amt7 = clsCommon.myCdbl(gvAC.Rows(6).Cells(colACAmount).Value)
-                End If
-            End If
-            If (gvAC.Rows.Count > 7) Then
-                If clsCommon.myLen(gvAC.Rows(7).Cells(colACCode).Value) > 0 Then
-                    obj.Add_Charge_Code8 = clsCommon.myCstr(gvAC.Rows(7).Cells(colACCode).Value)
-                    obj.Add_Charge_Name8 = clsCommon.myCstr(gvAC.Rows(7).Cells(colACName).Value)
-                    obj.Add_Charge_Amt8 = clsCommon.myCdbl(gvAC.Rows(7).Cells(colACAmount).Value)
-                End If
-            End If
-            If (gvAC.Rows.Count > 8) Then
-                If clsCommon.myLen(gvAC.Rows(8).Cells(colACCode).Value) > 0 Then
-                    obj.Add_Charge_Code9 = clsCommon.myCstr(gvAC.Rows(8).Cells(colACCode).Value)
-                    obj.Add_Charge_Name9 = clsCommon.myCstr(gvAC.Rows(8).Cells(colACName).Value)
-                    obj.Add_Charge_Amt9 = clsCommon.myCdbl(gvAC.Rows(8).Cells(colACAmount).Value)
-                End If
-            End If
-            If (gvAC.Rows.Count > 9) Then
-                If clsCommon.myLen(gvAC.Rows(9).Cells(colACCode).Value) > 0 Then
-                    obj.Add_Charge_Code10 = clsCommon.myCstr(gvAC.Rows(9).Cells(colACCode).Value)
-                    obj.Add_Charge_Name10 = clsCommon.myCstr(gvAC.Rows(9).Cells(colACName).Value)
-                    obj.Add_Charge_Amt10 = clsCommon.myCdbl(gvAC.Rows(9).Cells(colACAmount).Value)
-                End If
-            End If
-            obj.Total_Add_Charge = clsCommon.myCdbl(lblAddCharges.Text)
-            If rbtnTaxCalAutomatic.IsChecked Then
-                obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic
-            ElseIf rbtnTaxCalManual.IsChecked Then
-                obj.Tax_Calculation_Type = EnumTaxCalucationType.Mannual
-            End If
-            obj.Is_Create_Auto_Invoice = chkCreateAutoInvoice.Checked
-            obj.Is_Create_Auto_Receipt = chkCreateAutoInvoice.Checked AndAlso chkCreateAutoReceipt.Checked
-            obj.PROJECT_ID = fndProject.Value
-            obj.Total_Outstanding = clsCommon.myCdbl(lblTotalOutstansing.Text)
-            obj.ArrWeighmentList = txtWeightmentNo.arrValueMember
-            obj.Beejak_No = txtBeejakNo.Text
-            obj.LR_GR_NO = txtLR_GR_No.Text
-            obj.LR_GR_Date = clsCommon.GetPrintDate(dtpLR_GR_Date.Value, "dd/MMM/yyyy")
-            obj.SHIP_TO_DELIVERY_AT = txtShipToDeliveryAt.Text
-            obj.Order_Qty = clsCommon.myCdbl(txtOrderQty.Value)
-            obj.Arr = New List(Of clsSNShipmentDetail)
-            totalqty = 0
-            For Each grow As GridViewRowInfo In gv1.Rows
-                Dim objTr As New clsSNShipmentDetail()
-                objTr.Line_No = clsCommon.myCdbl(grow.Cells(colLineNo).Value)
-                objTr.Row_Type = clsCommon.myCstr(grow.Cells(colRowType).Value)
-                objTr.Item_Code = clsCommon.myCstr(grow.Cells(colICode).Value)
-                objTr.Item_Desc = clsCommon.myCstr(grow.Cells(colIName).Value)
-                objTr.Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
-                totalqty += objTr.Qty
-                objTr.Free_Qty = clsCommon.myCdbl(grow.Cells(colFreeQty).Value)
-                objTr.Unit_code = clsCommon.myCstr(grow.Cells(colUnit).Value)
-                objTr.Order_Code = clsCommon.myCstr(grow.Cells(colOrderNo).Value)
-                objTr.Item_Cost = clsCommon.myCdbl(grow.Cells(colRate).Value)
-                objTr.Amount = clsCommon.myCdbl(grow.Cells(colAmt).Value)
-                objTr.Disc_Per = clsCommon.myCdbl(grow.Cells(colDisPer).Value)
-                objTr.Disc_Amt = clsCommon.myCdbl(grow.Cells(colDisAmt).Value)
-                objTr.Amt_Less_Discount = clsCommon.myCdbl(grow.Cells(colAmtAfterDis).Value)
-                objTr.TAX1 = clsCommon.myCstr(grow.Cells(colTax1).Value)
-                objTr.TAX1_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt1).Value)
-                objTr.TAX1_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate1).Value)
-                objTr.TAX1_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt1).Value)
-                objTr.TAX2 = clsCommon.myCstr(grow.Cells(colTax2).Value)
-                objTr.TAX2_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt2).Value)
-                objTr.TAX2_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate2).Value)
-                objTr.TAX2_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt2).Value)
-                objTr.TAX3 = clsCommon.myCstr(grow.Cells(colTax3).Value)
-                objTr.TAX3_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt3).Value)
-                objTr.TAX3_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate3).Value)
-                objTr.TAX3_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt3).Value)
-                objTr.TAX4 = clsCommon.myCstr(grow.Cells(colTax4).Value)
-                objTr.TAX4_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt4).Value)
-                objTr.TAX4_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate4).Value)
-                objTr.TAX4_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt4).Value)
-                objTr.TAX5 = clsCommon.myCstr(grow.Cells(colTax5).Value)
-                objTr.TAX5_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt5).Value)
-                objTr.TAX5_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate5).Value)
-                objTr.TAX5_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt5).Value)
-                objTr.TAX6 = clsCommon.myCstr(grow.Cells(colTax6).Value)
-                objTr.TAX6_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt6).Value)
-                objTr.TAX6_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate6).Value)
-                objTr.TAX6_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt6).Value)
-                objTr.TAX7 = clsCommon.myCstr(grow.Cells(colTax7).Value)
-                objTr.TAX7_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt7).Value)
-                objTr.TAX7_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate7).Value)
-                objTr.TAX7_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt7).Value)
-                objTr.TAX8 = clsCommon.myCstr(grow.Cells(colTax8).Value)
-                objTr.TAX8_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt8).Value)
-                objTr.TAX8_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate8).Value)
-                objTr.TAX8_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt8).Value)
-                objTr.TAX9 = clsCommon.myCstr(grow.Cells(colTax9).Value)
-                objTr.TAX9_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt9).Value)
-                objTr.TAX9_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate9).Value)
-                objTr.TAX9_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt9).Value)
-                objTr.TAX10 = clsCommon.myCstr(grow.Cells(colTax10).Value)
-                objTr.TAX10_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt10).Value)
-                objTr.TAX10_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate10).Value)
-                objTr.TAX10_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt10).Value)
-                objTr.Total_Tax_Amt = clsCommon.myCdbl(grow.Cells(colTotTaxAmt).Value)
-                objTr.Item_Net_Amt = clsCommon.myCdbl(grow.Cells(colAmtAfterTax).Value)
-                objTr.Location = txtBillToLocation.Value
-                objTr.MRP = clsCommon.myCdbl(grow.Cells(colMRP).Value)
-
-                objTr.Scheme_Applicable = clsCommon.myCstr(grow.Cells(colSchemeApplicable).Value)
-                objTr.Scheme_Code = clsCommon.myCstr(grow.Cells(colFromSchemeCode).Value)
-                objTr.Scheme_Item = clsCommon.myCstr(grow.Cells(colSchemeItem).Value)
-                objTr.Item_Tax = clsCommon.myCdbl(grow.Cells(colTotTaxAmt).Value)
-                objTr.Total_MRP_Amt = clsCommon.myCdbl(grow.Cells(colTotalMRP).Value)
-                objTr.Total_Basic_Amt = clsCommon.myCdbl(grow.Cells(colTotalBasicAmount).Value)
-                objTr.Total_Disc_Amt = clsCommon.myCdbl(grow.Cells(colTotalDiscountAmount).Value)
-                objTr.Cust_Discount = clsCommon.myCdbl(grow.Cells(colcustDiscount).Value)
-                objTr.Total_Cust_Discount = clsCommon.myCdbl(grow.Cells(colTotalCustDiscount).Value)
-                objTr.ActualRate = clsCommon.myCdbl(grow.Cells(colActualCost).Value)
-                objTr.Cust_DiscountQty = clsCommon.myCdbl(grow.Cells(ColCustDiscountQty).Value)
-                objTr.Price_Date = clsCommon.myCDate(grow.Cells(colPriceDateColumn).Value)
-                objTr.Price_code = clsCommon.myCstr(grow.Cells(colPriceCOde).Value)
-                objTr.Abatement_Per = clsCommon.myCdbl(grow.Cells(colAbatementPer).Value)
-                objTr.Abatement_Amt = clsCommon.myCdbl(grow.Cells(colAbatementAmount).Value)
-                objTr.FOC_Item = clsCommon.myCdbl(grow.Cells(ColFOC).Value)
-                objTr.Item_Weight = clsCommon.myCdbl(grow.Cells(colItemWeight).Value)
-                objTr.Conv_Factor = clsCommon.myCdbl(grow.Cells(colConvF).Value)
-                objTr.TotalItem_Weight = clsCommon.myCdbl(grow.Cells(colTotItemWt).Value)
-                objTr.Markup_On = clsCommon.myCstr(grow.Cells(colMarkupOn).Value)
-                objTr.Markup_Percent = clsCommon.myCdbl(grow.Cells(colMarkUpPercentage).Value)
-                objTr.Landing_Cost = clsCommon.myCdbl(grow.Cells(colLandingCost).Value)
-                objTr.CustDiscPer = clsCommon.myCdbl(grow.Cells(colCustDiscPercentage).Value)
-                objTr.HeadDiscAmt = clsCommon.myCdbl(grow.Cells(colHeadDiscamt).Value)
-                objTr.CasdDiscScheme_Code = clsCommon.myCstr(grow.Cells(colCashDiscSchemeCode).Value)
-                objTr.Purchase_Cost = clsCommon.myCdbl(grow.Cells(colPurCost).Value)
-                objTr.OrgRate = clsCommon.myCdbl(grow.Cells(colOrgCost).Value)
-                objTr.PrincipleCode = clsCommon.myCstr(grow.Cells(colPricipleCode).Value)
-                objTr.PrincipleDesc = clsCommon.myCstr(grow.Cells(colPricipleDesc).Value)
-                objTr.vendor_code = clsCommon.myCstr(grow.Cells(colvendorCode).Value)
-                objTr.vendor_desc = clsCommon.myCstr(grow.Cells(colvendorDesc).Value)
-                objTr.HeadDiscPer = clsCommon.myCdbl(grow.Cells(colHeaDDisPer).Value)
-                objTr.HeadDiscPerAmt = clsCommon.myCdbl(grow.Cells(colHeadDisPerAmt).Value)
-                objTr.Batch_No = clsCommon.myCstr(grow.Cells(colBatchNo).Value)
-                objTr.Bin_No = clsCommon.myCstr(grow.Cells(colBinNo).Value)
-                If clsCommon.myLen(grow.Cells(colExpiry).Value) > 0 Then
-                    objTr.Expiry_Date = clsCommon.myCDate(grow.Cells(colExpiry).Value, "dd-MM-yyyy")
-                End If
-                If clsCommon.myLen(grow.Cells(colManufactureDate).Value) > 0 Then
-                    objTr.MFG_Date = clsCommon.myCDate(grow.Cells(colManufactureDate).Value)
-                End If
-                objTr.Specification = clsCommon.myCstr(grow.Cells(colSpecification).Value)
-                objTr.Remarks = clsCommon.myCstr(grow.Cells(colRemarks).Value)
-                objTr.Is_Mannual_Amt = clsCommon.myCdbl(grow.Cells(colIsMannualAmt).Value)
-
-                objTr.Balance_Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
-
-
-                objTr.arrSrItem = TryCast(grow.Tag, List(Of clsSerializeInvenotry))
-                objTr.ItemwiseTaxCode = clsCommon.myCstr(grow.Cells(colItemwiseTaxCode).Value)
-
-                If (clsCommon.myLen(objTr.Item_Code) > 0) Then
-                    obj.Arr.Add(objTr)
-                End If
-            Next
-            If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
-                Return
-            End If
-            ChkDCSItem()
-            obj.ArrDCSItem = New List(Of clsSNShipmentDCSItemDetail)
-            For Each grow As GridViewRowInfo In gvDCS.Rows
-                Dim objTr As New clsSNShipmentDCSItemDetail()
-                objTr.DCS_Code = clsCommon.myCstr(grow.Cells(colDCSCode).Value)
-                objTr.ICode = clsCommon.myCstr(grow.Cells(colDCSICode).Value)
-                objTr.Qty = clsCommon.myCDecimal(grow.Cells(colDCSQty).Value)
-                objTr.UOM = clsCommon.myCstr(grow.Cells(colDCSUOM).Value)
-                objTr.FPKID = clsCommon.myCDecimal(grow.Cells(colDCSFPKID).Value)
-                objTr.Frieght_Rate = clsCommon.myCDecimal(grow.Cells(colDCSFrieghtRate).Value)
-                objTr.Frieght_Amt = clsCommon.myCDecimal(grow.Cells(colDCSFrieghtAmt).Value)
-                If clsCommon.myLen(objTr.DCS_Code) > 0 AndAlso clsCommon.myLen(objTr.ICode) > 0 And objTr.Qty > 0 Then
-                    obj.ArrDCSItem.Add(objTr)
-                End If
-            Next
-            ''For Custom Fields
-            obj.Form_ID = MyBase.Form_ID
-            obj.arrCustomFields = New List(Of clsCustomFieldValues)
-            If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
-                UcCustomFields1.GetData(obj.arrCustomFields)
-            End If
-            If MyBase.ArrDetailFields IsNot Nothing AndAlso MyBase.ArrDetailFields.Count > 0 Then
-                clsCustomFieldGrid.GetData(obj.arrCustomFields, gv1, MyBase.ArrDetailFields, colICode)
-            End If
-            ''End of For Custom Fields
-            '' CurrencConversion
-            If clsModuleCurrencyMapping.CheckMultiCurrency(Me.Module_Code) = True Then
-                obj.CURRENCY_CODE = Me.txtCurrencyCode.Value
-                ''''obj.ConvRate = clsCommon.myCdbl(Me.txtConversionRate.Text)
-                If clsCommon.myLen(txtApplicableFrom.Text) > 0 Then
-                    obj.ApplicableFrom = Me.txtApplicableFrom.Text
+            If (AllowToSave()) Then
+                Dim obj As New clsSNShipmentHead()
+                obj.Form_38_No = txtForm38.Text
+                obj.Cust_PO_No = txtPONo.Text
+                obj.Invoice_Type = ddlInvoiceType.SelectedValue
+                obj.Route_No = txtRouteNo.Value
+                obj.Route_Desc = lblRouteDesc.Text
+                obj.Price_Group_Code = txtPriceGroupCode.Text
+                obj.Price_Code = txtPriceCode.Text
+                obj.HeadDisc_Per = txtDiscPer.Text
+                If obj.HeadDisc_Per > 0 Then
+                    obj.HeadDisc_PerAmt = lblInvoiceDiscAmt.Text
+                    obj.HeadDisc_Amt = 0
                 Else
+                    obj.HeadDisc_Amt = lblInvoiceDiscAmt.Text
+                    obj.HeadDisc_PerAmt = 0
+                End If
+                If clsCommon.myLen(txtpodate.Value) > 0 Then
+                    obj.Podate = txtpodate.Value
+                End If
+
+                '-----------------richa 27/06/2014 Ticket No .BM00000002982-------  
+                If clsCommon.myCdbl(txtMannaulInvoiceNo.Value) > 0 Then
+                    obj.Mannual_Invoice_No = txtMannaulInvoiceNo.Value
+                Else
+                    obj.InvoiceManualNowithPrefix = TxtInvoiceManualNoWithPrefix.Text
+                End If
+                '----------------------------------------------------------------
+                obj.Document_Code = txtDocNo.Value
+                obj.Document_Date = txtDate.Value
+                obj.Customer_Code = txtCustomer.Value
+                obj.Customer_Name = lblCustomerName.Text
+                obj.Ref_No = txtRefNo.Text
+                obj.Inv_Date = clsCommon.GetPrintDate(dtpInvoice.Value, "dd/MMM/yyyy")
+                obj.Challan_Date = clsCommon.GetPrintDate(dtpChallan.Value, "dd/MMM/yyyy")
+                obj.Total_Tax_Amt = clsCommon.myCdbl(lblTaxAmt.Text)
+                obj.Inv_No = txtInvNo.Text
+                obj.Bill_To_Location = txtBillToLocation.Value
+                obj.Ship_To_Location = txtShipToLocation.Value
+                obj.Comments = txtComment.Text
+                obj.On_Hold = chkOnHold.Checked
+                obj.Description = txtDesc.Text
+                obj.Tax_Group = txtTaxGroup.Value
+                obj.Salesman_Code = txtSalesman.Value
+                obj.Salesman_Name = lblSalesman.Text
+                obj.Is_Internal = chkInternal.Checked
+                obj.PROJECT_ID = fndProject.Value
+                obj.is_taxable = IIf(chkIsTaxable.Checked, 1, 0)
+                If (gv2.Rows.Count > 0) Then
+                    obj.TAX1 = clsCommon.myCstr(gv2.Rows(0).Cells(colTTaxAutCode).Value)
+                    obj.TAX1_Rate = clsCommon.myCdbl(gv2.Rows(0).Cells(colTTaxRate).Value)
+                    obj.TAX1_Base_Amt = clsCommon.myCdbl(gv2.Rows(0).Cells(colTBaseAmt).Value)
+                    obj.TAX1_Amt = clsCommon.myCdbl(gv2.Rows(0).Cells(colTTaxAmt).Value)
+                End If
+                If (gv2.Rows.Count > 1) Then
+                    obj.TAX2 = clsCommon.myCstr(gv2.Rows(1).Cells(colTTaxAutCode).Value)
+                    obj.TAX2_Rate = clsCommon.myCdbl(gv2.Rows(1).Cells(colTTaxRate).Value)
+                    obj.TAX2_Base_Amt = clsCommon.myCdbl(gv2.Rows(1).Cells(colTBaseAmt).Value)
+                    obj.TAX2_Amt = clsCommon.myCdbl(gv2.Rows(1).Cells(colTTaxAmt).Value)
+                End If
+                If (gv2.Rows.Count > 2) Then
+                    obj.TAX3 = clsCommon.myCstr(gv2.Rows(2).Cells(colTTaxAutCode).Value)
+                    obj.TAX3_Rate = clsCommon.myCdbl(gv2.Rows(2).Cells(colTTaxRate).Value)
+                    obj.TAX3_Base_Amt = clsCommon.myCdbl(gv2.Rows(2).Cells(colTBaseAmt).Value)
+                    obj.TAX3_Amt = clsCommon.myCdbl(gv2.Rows(2).Cells(colTTaxAmt).Value)
+                End If
+                If (gv2.Rows.Count > 3) Then
+                    obj.TAX4 = clsCommon.myCstr(gv2.Rows(3).Cells(colTTaxAutCode).Value)
+                    obj.TAX4_Rate = clsCommon.myCdbl(gv2.Rows(3).Cells(colTTaxRate).Value)
+                    obj.TAX4_Base_Amt = clsCommon.myCdbl(gv2.Rows(3).Cells(colTBaseAmt).Value)
+                    obj.TAX4_Amt = clsCommon.myCdbl(gv2.Rows(3).Cells(colTTaxAmt).Value)
+                End If
+                If (gv2.Rows.Count > 4) Then
+                    obj.TAX5 = clsCommon.myCstr(gv2.Rows(4).Cells(colTTaxAutCode).Value)
+                    obj.TAX5_Rate = clsCommon.myCdbl(gv2.Rows(4).Cells(colTTaxRate).Value)
+                    obj.TAX5_Base_Amt = clsCommon.myCdbl(gv2.Rows(4).Cells(colTBaseAmt).Value)
+                    obj.TAX5_Amt = clsCommon.myCdbl(gv2.Rows(4).Cells(colTTaxAmt).Value)
+                End If
+                If (gv2.Rows.Count > 5) Then
+                    obj.TAX6 = clsCommon.myCstr(gv2.Rows(5).Cells(colTTaxAutCode).Value)
+                    obj.TAX6_Rate = clsCommon.myCdbl(gv2.Rows(5).Cells(colTTaxRate).Value)
+                    obj.TAX6_Base_Amt = clsCommon.myCdbl(gv2.Rows(5).Cells(colTBaseAmt).Value)
+                    obj.TAX6_Amt = clsCommon.myCdbl(gv2.Rows(5).Cells(colTTaxAmt).Value)
+                End If
+                If (gv2.Rows.Count > 6) Then
+                    obj.TAX7 = clsCommon.myCstr(gv2.Rows(6).Cells(colTTaxAutCode).Value)
+                    obj.TAX7_Rate = clsCommon.myCdbl(gv2.Rows(6).Cells(colTTaxRate).Value)
+                    obj.TAX7_Base_Amt = clsCommon.myCdbl(gv2.Rows(6).Cells(colTBaseAmt).Value)
+                    obj.TAX7_Amt = clsCommon.myCdbl(gv2.Rows(6).Cells(colTTaxAmt).Value)
+                End If
+                If (gv2.Rows.Count > 7) Then
+                    obj.TAX8 = clsCommon.myCstr(gv2.Rows(7).Cells(colTTaxAutCode).Value)
+                    obj.TAX8_Rate = clsCommon.myCdbl(gv2.Rows(7).Cells(colTTaxRate).Value)
+                    obj.TAX8_Base_Amt = clsCommon.myCdbl(gv2.Rows(7).Cells(colTBaseAmt).Value)
+                    obj.TAX8_Amt = clsCommon.myCdbl(gv2.Rows(7).Cells(colTTaxAmt).Value)
+                End If
+                If (gv2.Rows.Count > 8) Then
+                    obj.TAX9 = clsCommon.myCstr(gv2.Rows(8).Cells(colTTaxAutCode).Value)
+                    obj.TAX9_Rate = clsCommon.myCdbl(gv2.Rows(8).Cells(colTTaxRate).Value)
+                    obj.TAX9_Base_Amt = clsCommon.myCdbl(gv2.Rows(8).Cells(colTBaseAmt).Value)
+                    obj.TAX9_Amt = clsCommon.myCdbl(gv2.Rows(8).Cells(colTTaxAmt).Value)
+                End If
+                If (gv2.Rows.Count > 9) Then
+                    obj.TAX10 = clsCommon.myCstr(gv2.Rows(9).Cells(colTTaxAutCode).Value)
+                    obj.TAX10_Rate = clsCommon.myCdbl(gv2.Rows(9).Cells(colTTaxRate).Value)
+                    obj.TAX10_Base_Amt = clsCommon.myCdbl(gv2.Rows(9).Cells(colTBaseAmt).Value)
+                    obj.TAX10_Amt = clsCommon.myCdbl(gv2.Rows(9).Cells(colTTaxAmt).Value)
+                End If
+
+                obj.Terms_Code = txtTermCode.Value
+                obj.Due_Date = txtDueDate.Value
+                obj.Discount_Base = clsCommon.myCdbl(lblAmtWithDiscount.Text)
+                obj.Discount_Amt = clsCommon.myCdbl(lblDiscountAmt.Text)
+                obj.Amount_Less_Discount = clsCommon.myCdbl(lblAmtAfterDiscount.Text)
+                obj.Total_Amt = clsCommon.myCdbl(lblTotRAmt.Text)
+
+                obj.Carrier = lbltransporter.Text
+                obj.transport_id = fndtransporter.Value
+                obj.VehicleNo = txtVehicleCode.Value
+                'obj.VehicleNo =
+                obj.GRNo = txtGRNo.Text
+                obj.GENo = txtGENo.Text
+
+                If txtGEDate.Checked Then
+                    obj.GEDate = txtGEDate.Value
+                End If
+                obj.Item_Type = clsCommon.myCstr(cboItemType.SelectedValue)
+                obj.Dept = txtDept.Value
+                obj.Dept_Desc = lblDept.Text
+
+                obj.Against_Sales_Order = txtReqNo.Value
+
+
+                If (gvAC.Rows.Count > 0) Then
+                    If clsCommon.myLen(gvAC.Rows(0).Cells(colACCode).Value) > 0 Then
+                        obj.Add_Charge_Code1 = clsCommon.myCstr(gvAC.Rows(0).Cells(colACCode).Value)
+                        obj.Add_Charge_Name1 = clsCommon.myCstr(gvAC.Rows(0).Cells(colACName).Value)
+                        obj.Add_Charge_Amt1 = clsCommon.myCdbl(gvAC.Rows(0).Cells(colACAmount).Value)
+                    End If
+                End If
+                If (gvAC.Rows.Count > 1) Then
+                    If clsCommon.myLen(gvAC.Rows(1).Cells(colACCode).Value) > 0 Then
+                        obj.Add_Charge_Code2 = clsCommon.myCstr(gvAC.Rows(1).Cells(colACCode).Value)
+                        obj.Add_Charge_Name2 = clsCommon.myCstr(gvAC.Rows(1).Cells(colACName).Value)
+                        obj.Add_Charge_Amt2 = clsCommon.myCdbl(gvAC.Rows(1).Cells(colACAmount).Value)
+                    End If
+                End If
+                If (gvAC.Rows.Count > 2) Then
+                    If clsCommon.myLen(gvAC.Rows(2).Cells(colACCode).Value) > 0 Then
+                        obj.Add_Charge_Code3 = clsCommon.myCstr(gvAC.Rows(2).Cells(colACCode).Value)
+                        obj.Add_Charge_Name3 = clsCommon.myCstr(gvAC.Rows(2).Cells(colACName).Value)
+                        obj.Add_Charge_Amt3 = clsCommon.myCdbl(gvAC.Rows(2).Cells(colACAmount).Value)
+                    End If
+                End If
+                If (gvAC.Rows.Count > 3) Then
+                    If clsCommon.myLen(gvAC.Rows(3).Cells(colACCode).Value) > 0 Then
+                        obj.Add_Charge_Code4 = clsCommon.myCstr(gvAC.Rows(3).Cells(colACCode).Value)
+                        obj.Add_Charge_Name4 = clsCommon.myCstr(gvAC.Rows(3).Cells(colACName).Value)
+                        obj.Add_Charge_Amt4 = clsCommon.myCdbl(gvAC.Rows(3).Cells(colACAmount).Value)
+                    End If
+                End If
+                If (gvAC.Rows.Count > 4) Then
+                    If clsCommon.myLen(gvAC.Rows(4).Cells(colACCode).Value) > 0 Then
+                        obj.Add_Charge_Code5 = clsCommon.myCstr(gvAC.Rows(4).Cells(colACCode).Value)
+                        obj.Add_Charge_Name5 = clsCommon.myCstr(gvAC.Rows(4).Cells(colACName).Value)
+                        obj.Add_Charge_Amt5 = clsCommon.myCdbl(gvAC.Rows(4).Cells(colACAmount).Value)
+                    End If
+                End If
+                If (gvAC.Rows.Count > 5) Then
+                    If clsCommon.myLen(gvAC.Rows(5).Cells(colACCode).Value) > 0 Then
+                        obj.Add_Charge_Code6 = clsCommon.myCstr(gvAC.Rows(5).Cells(colACCode).Value)
+                        obj.Add_Charge_Name6 = clsCommon.myCstr(gvAC.Rows(5).Cells(colACName).Value)
+                        obj.Add_Charge_Amt6 = clsCommon.myCdbl(gvAC.Rows(5).Cells(colACAmount).Value)
+                    End If
+                End If
+                If (gvAC.Rows.Count > 6) Then
+                    If clsCommon.myLen(gvAC.Rows(6).Cells(colACCode).Value) > 0 Then
+                        obj.Add_Charge_Code7 = clsCommon.myCstr(gvAC.Rows(6).Cells(colACCode).Value)
+                        obj.Add_Charge_Name7 = clsCommon.myCstr(gvAC.Rows(6).Cells(colACName).Value)
+                        obj.Add_Charge_Amt7 = clsCommon.myCdbl(gvAC.Rows(6).Cells(colACAmount).Value)
+                    End If
+                End If
+                If (gvAC.Rows.Count > 7) Then
+                    If clsCommon.myLen(gvAC.Rows(7).Cells(colACCode).Value) > 0 Then
+                        obj.Add_Charge_Code8 = clsCommon.myCstr(gvAC.Rows(7).Cells(colACCode).Value)
+                        obj.Add_Charge_Name8 = clsCommon.myCstr(gvAC.Rows(7).Cells(colACName).Value)
+                        obj.Add_Charge_Amt8 = clsCommon.myCdbl(gvAC.Rows(7).Cells(colACAmount).Value)
+                    End If
+                End If
+                If (gvAC.Rows.Count > 8) Then
+                    If clsCommon.myLen(gvAC.Rows(8).Cells(colACCode).Value) > 0 Then
+                        obj.Add_Charge_Code9 = clsCommon.myCstr(gvAC.Rows(8).Cells(colACCode).Value)
+                        obj.Add_Charge_Name9 = clsCommon.myCstr(gvAC.Rows(8).Cells(colACName).Value)
+                        obj.Add_Charge_Amt9 = clsCommon.myCdbl(gvAC.Rows(8).Cells(colACAmount).Value)
+                    End If
+                End If
+                If (gvAC.Rows.Count > 9) Then
+                    If clsCommon.myLen(gvAC.Rows(9).Cells(colACCode).Value) > 0 Then
+                        obj.Add_Charge_Code10 = clsCommon.myCstr(gvAC.Rows(9).Cells(colACCode).Value)
+                        obj.Add_Charge_Name10 = clsCommon.myCstr(gvAC.Rows(9).Cells(colACName).Value)
+                        obj.Add_Charge_Amt10 = clsCommon.myCdbl(gvAC.Rows(9).Cells(colACAmount).Value)
+                    End If
+                End If
+                obj.Total_Add_Charge = clsCommon.myCdbl(lblAddCharges.Text)
+                If rbtnTaxCalAutomatic.IsChecked Then
+                    obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic
+                ElseIf rbtnTaxCalManual.IsChecked Then
+                    obj.Tax_Calculation_Type = EnumTaxCalucationType.Mannual
+                End If
+                obj.Is_Create_Auto_Invoice = chkCreateAutoInvoice.Checked
+                obj.Is_Create_Auto_Receipt = chkCreateAutoInvoice.Checked AndAlso chkCreateAutoReceipt.Checked
+                obj.PROJECT_ID = fndProject.Value
+                obj.Total_Outstanding = clsCommon.myCdbl(lblTotalOutstansing.Text)
+                obj.ArrWeighmentList = txtWeightmentNo.arrValueMember
+                obj.Beejak_No = txtBeejakNo.Text
+                obj.LR_GR_NO = txtLR_GR_No.Text
+                obj.LR_GR_Date = clsCommon.GetPrintDate(dtpLR_GR_Date.Value, "dd/MMM/yyyy")
+                obj.SHIP_TO_DELIVERY_AT = txtShipToDeliveryAt.Text
+                obj.Order_Qty = clsCommon.myCdbl(txtOrderQty.Value)
+                obj.Arr = New List(Of clsSNShipmentDetail)
+                totalqty = 0
+                For Each grow As GridViewRowInfo In gv1.Rows
+                    Dim objTr As New clsSNShipmentDetail()
+                    objTr.Line_No = clsCommon.myCdbl(grow.Cells(colLineNo).Value)
+                    objTr.Row_Type = clsCommon.myCstr(grow.Cells(colRowType).Value)
+                    objTr.Item_Code = clsCommon.myCstr(grow.Cells(colICode).Value)
+                    objTr.Item_Desc = clsCommon.myCstr(grow.Cells(colIName).Value)
+                    objTr.Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
+                    totalqty += objTr.Qty
+                    objTr.Free_Qty = clsCommon.myCdbl(grow.Cells(colFreeQty).Value)
+                    objTr.Unit_code = clsCommon.myCstr(grow.Cells(colUnit).Value)
+                    objTr.Order_Code = clsCommon.myCstr(grow.Cells(colOrderNo).Value)
+                    objTr.Item_Cost = clsCommon.myCdbl(grow.Cells(colRate).Value)
+                    objTr.Amount = clsCommon.myCdbl(grow.Cells(colAmt).Value)
+                    objTr.Disc_Per = clsCommon.myCdbl(grow.Cells(colDisPer).Value)
+                    objTr.Disc_Amt = clsCommon.myCdbl(grow.Cells(colDisAmt).Value)
+                    objTr.Amt_Less_Discount = clsCommon.myCdbl(grow.Cells(colAmtAfterDis).Value)
+                    objTr.TAX1 = clsCommon.myCstr(grow.Cells(colTax1).Value)
+                    objTr.TAX1_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt1).Value)
+                    objTr.TAX1_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate1).Value)
+                    objTr.TAX1_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt1).Value)
+                    objTr.TAX2 = clsCommon.myCstr(grow.Cells(colTax2).Value)
+                    objTr.TAX2_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt2).Value)
+                    objTr.TAX2_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate2).Value)
+                    objTr.TAX2_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt2).Value)
+                    objTr.TAX3 = clsCommon.myCstr(grow.Cells(colTax3).Value)
+                    objTr.TAX3_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt3).Value)
+                    objTr.TAX3_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate3).Value)
+                    objTr.TAX3_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt3).Value)
+                    objTr.TAX4 = clsCommon.myCstr(grow.Cells(colTax4).Value)
+                    objTr.TAX4_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt4).Value)
+                    objTr.TAX4_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate4).Value)
+                    objTr.TAX4_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt4).Value)
+                    objTr.TAX5 = clsCommon.myCstr(grow.Cells(colTax5).Value)
+                    objTr.TAX5_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt5).Value)
+                    objTr.TAX5_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate5).Value)
+                    objTr.TAX5_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt5).Value)
+                    objTr.TAX6 = clsCommon.myCstr(grow.Cells(colTax6).Value)
+                    objTr.TAX6_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt6).Value)
+                    objTr.TAX6_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate6).Value)
+                    objTr.TAX6_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt6).Value)
+                    objTr.TAX7 = clsCommon.myCstr(grow.Cells(colTax7).Value)
+                    objTr.TAX7_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt7).Value)
+                    objTr.TAX7_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate7).Value)
+                    objTr.TAX7_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt7).Value)
+                    objTr.TAX8 = clsCommon.myCstr(grow.Cells(colTax8).Value)
+                    objTr.TAX8_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt8).Value)
+                    objTr.TAX8_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate8).Value)
+                    objTr.TAX8_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt8).Value)
+                    objTr.TAX9 = clsCommon.myCstr(grow.Cells(colTax9).Value)
+                    objTr.TAX9_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt9).Value)
+                    objTr.TAX9_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate9).Value)
+                    objTr.TAX9_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt9).Value)
+                    objTr.TAX10 = clsCommon.myCstr(grow.Cells(colTax10).Value)
+                    objTr.TAX10_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt10).Value)
+                    objTr.TAX10_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate10).Value)
+                    objTr.TAX10_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt10).Value)
+                    objTr.Total_Tax_Amt = clsCommon.myCdbl(grow.Cells(colTotTaxAmt).Value)
+                    objTr.Item_Net_Amt = clsCommon.myCdbl(grow.Cells(colAmtAfterTax).Value)
+                    objTr.Location = txtBillToLocation.Value
+                    objTr.MRP = clsCommon.myCdbl(grow.Cells(colMRP).Value)
+
+                    objTr.Scheme_Applicable = clsCommon.myCstr(grow.Cells(colSchemeApplicable).Value)
+                    objTr.Scheme_Code = clsCommon.myCstr(grow.Cells(colFromSchemeCode).Value)
+                    objTr.Scheme_Item = clsCommon.myCstr(grow.Cells(colSchemeItem).Value)
+                    objTr.Item_Tax = clsCommon.myCdbl(grow.Cells(colTotTaxAmt).Value)
+                    objTr.Total_MRP_Amt = clsCommon.myCdbl(grow.Cells(colTotalMRP).Value)
+                    objTr.Total_Basic_Amt = clsCommon.myCdbl(grow.Cells(colTotalBasicAmount).Value)
+                    objTr.Total_Disc_Amt = clsCommon.myCdbl(grow.Cells(colTotalDiscountAmount).Value)
+                    objTr.Cust_Discount = clsCommon.myCdbl(grow.Cells(colcustDiscount).Value)
+                    objTr.Total_Cust_Discount = clsCommon.myCdbl(grow.Cells(colTotalCustDiscount).Value)
+                    objTr.ActualRate = clsCommon.myCdbl(grow.Cells(colActualCost).Value)
+                    objTr.Cust_DiscountQty = clsCommon.myCdbl(grow.Cells(ColCustDiscountQty).Value)
+                    objTr.Price_Date = clsCommon.myCDate(grow.Cells(colPriceDateColumn).Value)
+                    objTr.Price_code = clsCommon.myCstr(grow.Cells(colPriceCOde).Value)
+                    objTr.Abatement_Per = clsCommon.myCdbl(grow.Cells(colAbatementPer).Value)
+                    objTr.Abatement_Amt = clsCommon.myCdbl(grow.Cells(colAbatementAmount).Value)
+                    objTr.FOC_Item = clsCommon.myCdbl(grow.Cells(ColFOC).Value)
+                    objTr.Item_Weight = clsCommon.myCdbl(grow.Cells(colItemWeight).Value)
+                    objTr.Conv_Factor = clsCommon.myCdbl(grow.Cells(colConvF).Value)
+                    objTr.TotalItem_Weight = clsCommon.myCdbl(grow.Cells(colTotItemWt).Value)
+                    objTr.Markup_On = clsCommon.myCstr(grow.Cells(colMarkupOn).Value)
+                    objTr.Markup_Percent = clsCommon.myCdbl(grow.Cells(colMarkUpPercentage).Value)
+                    objTr.Landing_Cost = clsCommon.myCdbl(grow.Cells(colLandingCost).Value)
+                    objTr.CustDiscPer = clsCommon.myCdbl(grow.Cells(colCustDiscPercentage).Value)
+                    objTr.HeadDiscAmt = clsCommon.myCdbl(grow.Cells(colHeadDiscamt).Value)
+                    objTr.CasdDiscScheme_Code = clsCommon.myCstr(grow.Cells(colCashDiscSchemeCode).Value)
+                    objTr.Purchase_Cost = clsCommon.myCdbl(grow.Cells(colPurCost).Value)
+                    objTr.OrgRate = clsCommon.myCdbl(grow.Cells(colOrgCost).Value)
+                    objTr.PrincipleCode = clsCommon.myCstr(grow.Cells(colPricipleCode).Value)
+                    objTr.PrincipleDesc = clsCommon.myCstr(grow.Cells(colPricipleDesc).Value)
+                    objTr.vendor_code = clsCommon.myCstr(grow.Cells(colvendorCode).Value)
+                    objTr.vendor_desc = clsCommon.myCstr(grow.Cells(colvendorDesc).Value)
+                    objTr.HeadDiscPer = clsCommon.myCdbl(grow.Cells(colHeaDDisPer).Value)
+                    objTr.HeadDiscPerAmt = clsCommon.myCdbl(grow.Cells(colHeadDisPerAmt).Value)
+                    objTr.Batch_No = clsCommon.myCstr(grow.Cells(colBatchNo).Value)
+                    objTr.Bin_No = clsCommon.myCstr(grow.Cells(colBinNo).Value)
+                    If clsCommon.myLen(grow.Cells(colExpiry).Value) > 0 Then
+                        objTr.Expiry_Date = clsCommon.myCDate(grow.Cells(colExpiry).Value, "dd-MM-yyyy")
+                    End If
+                    If clsCommon.myLen(grow.Cells(colManufactureDate).Value) > 0 Then
+                        objTr.MFG_Date = clsCommon.myCDate(grow.Cells(colManufactureDate).Value)
+                    End If
+                    objTr.Specification = clsCommon.myCstr(grow.Cells(colSpecification).Value)
+                    objTr.Remarks = clsCommon.myCstr(grow.Cells(colRemarks).Value)
+                    objTr.Is_Mannual_Amt = clsCommon.myCdbl(grow.Cells(colIsMannualAmt).Value)
+
+                    objTr.Balance_Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
+
+
+                    objTr.arrSrItem = TryCast(grow.Tag, List(Of clsSerializeInvenotry))
+                    objTr.ItemwiseTaxCode = clsCommon.myCstr(grow.Cells(colItemwiseTaxCode).Value)
+
+                    If (clsCommon.myLen(objTr.Item_Code) > 0) Then
+                        obj.Arr.Add(objTr)
+                    End If
+                Next
+                If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
+                    clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
+                    Return
+                End If
+                ChkDCSItem()
+                obj.ArrDCSItem = New List(Of clsSNShipmentDCSItemDetail)
+                For Each grow As GridViewRowInfo In gvDCS.Rows
+                    Dim objTr As New clsSNShipmentDCSItemDetail()
+                    objTr.DCS_Code = clsCommon.myCstr(grow.Cells(colDCSCode).Value)
+                    objTr.ICode = clsCommon.myCstr(grow.Cells(colDCSICode).Value)
+                    objTr.Qty = clsCommon.myCDecimal(grow.Cells(colDCSQty).Value)
+                    objTr.UOM = clsCommon.myCstr(grow.Cells(colDCSUOM).Value)
+                    objTr.FPKID = clsCommon.myCDecimal(grow.Cells(colDCSFPKID).Value)
+                    objTr.Frieght_Rate = clsCommon.myCDecimal(grow.Cells(colDCSFrieghtRate).Value)
+                    objTr.Frieght_Amt = clsCommon.myCDecimal(grow.Cells(colDCSFrieghtAmt).Value)
+                    If clsCommon.myLen(objTr.DCS_Code) > 0 AndAlso clsCommon.myLen(objTr.ICode) > 0 And objTr.Qty > 0 Then
+                        obj.ArrDCSItem.Add(objTr)
+                    End If
+                Next
+                ''For Custom Fields
+                obj.Form_ID = MyBase.Form_ID
+                obj.arrCustomFields = New List(Of clsCustomFieldValues)
+                If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
+                    UcCustomFields1.GetData(obj.arrCustomFields)
+                End If
+                If MyBase.ArrDetailFields IsNot Nothing AndAlso MyBase.ArrDetailFields.Count > 0 Then
+                    clsCustomFieldGrid.GetData(obj.arrCustomFields, gv1, MyBase.ArrDetailFields, colICode)
+                End If
+                ''End of For Custom Fields
+                '' CurrencConversion
+                If clsModuleCurrencyMapping.CheckMultiCurrency(Me.Module_Code) = True Then
+                    obj.CURRENCY_CODE = Me.txtCurrencyCode.Value
+                    ''''obj.ConvRate = clsCommon.myCdbl(Me.txtConversionRate.Text)
+                    If clsCommon.myLen(txtApplicableFrom.Text) > 0 Then
+                        obj.ApplicableFrom = Me.txtApplicableFrom.Text
+                    Else
+                        obj.ApplicableFrom = Nothing
+                    End If
+                    obj.ConvRate = clsCommon.myCdbl(Me.txtConversionRate.Text)
+                Else
+                    obj.CURRENCY_CODE = Nothing
+                    obj.ConvRate = 1
                     obj.ApplicableFrom = Nothing
                 End If
-                obj.ConvRate = clsCommon.myCdbl(Me.txtConversionRate.Text)
-            Else
-                obj.CURRENCY_CODE = Nothing
-                obj.ConvRate = 1
-                obj.ApplicableFrom = Nothing
-            End If
-            '' end CurrencyConversion
-            If clsSNShipmentHead.checkSaveNotification(obj, Nothing) Then
-                If (obj.SaveData(obj, isNewEntry)) Then
-                    UcAttachment1.SaveData(obj.Document_Code)
-                    If ChekPostBtn = False And IsDataImported = False Then
-                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
+                '' end CurrencyConversion
+                If clsSNShipmentHead.checkSaveNotification(obj, Nothing) Then
+                    If (obj.SaveData(obj, isNewEntry)) Then
+                        UcAttachment1.SaveData(obj.Document_Code)
+                        If ChekPostBtn = False And IsDataImported = False Then
+                            clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
+                        End If
+                        clsApply_Approval.CheckApprovalRequired(MyBase.Form_ID, clsCommon.myCstr(obj.Document_Code), txtDate.Text, clsCommon.myCstr(txtDesc.Text), "", clsCommon.myCdbl(lblTotRAmt.Text), clsCommon.myCdbl(totalqty), obj.Dept)
+                        LoadData(obj.Document_Code, NavigatorType.Current)
                     End If
-                    clsApply_Approval.CheckApprovalRequired(MyBase.Form_ID, clsCommon.myCstr(obj.Document_Code), txtDate.Text, clsCommon.myCstr(txtDesc.Text), "", clsCommon.myCdbl(lblTotRAmt.Text), clsCommon.myCdbl(totalqty), obj.Dept)
-                    LoadData(obj.Document_Code, NavigatorType.Current)
                 End If
             End If
-
         Catch ex As Exception
             If ChekPostBtn = False Then
                 clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -5265,58 +5264,65 @@ Public Class frmSNShipment
                 ''BM00000008148 approval work 16/10/2015
                 clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtDocNo.Value))
                 '=====================end here===================
+                If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                    Throw New Exception("No document found to post")
+                End If
+                If AllowToSave() = True Then
+                    SaveData(True)
 
-                SaveData(True)
-                '' Anubhooti 15-Sep-2014 BM00000003735
-                If FrmMainTranScreen.ValidateTransactionAccToFinYear("Shipment", txtDate.Value) = False Then
-                    Exit Sub
-                End If
-                ''
-                Dim isCreateAutoInvoice As Boolean = chkCreateAutoInvoice.Checked
-                If Not isCreateAutoInvoice Then
-                    msg = "Do you want to create Auto Invoice of Dispatch[" + txtDocNo.Value + "]" + Environment.NewLine + "Are you sure"
-                    If clsCommon.MyMessageBoxShow(Me, msg, Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
-                        isCreateAutoInvoice = True
+
+
+                    '' Anubhooti 15-Sep-2014 BM00000003735
+                    If FrmMainTranScreen.ValidateTransactionAccToFinYear("Shipment", txtDate.Value) = False Then
+                        Exit Sub
                     End If
-                End If
-                If (clsSNShipmentHead.PostData(MyBase.Form_ID, txtDocNo.Value, isCreateAutoInvoice)) Then
-                    msg = "Successfully Posted"
-                Else
-                    qry = "select No_Of_Level, LEVEL from TSPL_APPROVAL_LEVEL_SCREEN where User_Code='" + objCommonVar.CurrentUserCode + "' and Trans_Code='" + MyBase.Form_ID + "' "
-                    dt = clsDBFuncationality.GetDataTable(qry)
-                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                        Dim level As String = dt.Rows(0)("LEVEL").ToString()
-                        Dim NoOflevel As Integer = clsCommon.myCdbl(dt.Rows(0)("No_Of_Level"))
-                        If clsCommon.CompairString(level, "Level1") = CompairStringResult.Equal Then
-                            msg = "Level 1 Approval done. "
-                            If NoOflevel = 1 Then
-                                msg += "Successfully Posted. "
-                            Else
-                                msg += "Level 2 Approval Required."
-                            End If
-                        ElseIf clsCommon.CompairString(level, "Level2") = CompairStringResult.Equal Then
-                            msg = "Level 2 Approval done. "
-                            If NoOflevel = 2 Then
-                                msg += "Successfully Posted "
-                            Else
-                                msg += "Level 3 Approval Required."
-                            End If
-                        Else
-                            msg = "Level 3 Approval done. Successfully Posted"
+                    ''
+                    Dim isCreateAutoInvoice As Boolean = chkCreateAutoInvoice.Checked
+                    If Not isCreateAutoInvoice Then
+                        msg = "Do you want to create Auto Invoice of Dispatch[" + txtDocNo.Value + "]" + Environment.NewLine + "Are you sure"
+                        If clsCommon.MyMessageBoxShow(Me, msg, Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
+                            isCreateAutoInvoice = True
                         End If
                     End If
-                End If
-                clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
-                LoadData(txtDocNo.Value, NavigatorType.Current)
+                    If (clsSNShipmentHead.PostData(MyBase.Form_ID, txtDocNo.Value, isCreateAutoInvoice)) Then
+                        msg = "Successfully Posted"
+                    Else
+                        qry = "select No_Of_Level, LEVEL from TSPL_APPROVAL_LEVEL_SCREEN where User_Code='" + objCommonVar.CurrentUserCode + "' and Trans_Code='" + MyBase.Form_ID + "' "
+                        dt = clsDBFuncationality.GetDataTable(qry)
+                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                            Dim level As String = dt.Rows(0)("LEVEL").ToString()
+                            Dim NoOflevel As Integer = clsCommon.myCdbl(dt.Rows(0)("No_Of_Level"))
+                            If clsCommon.CompairString(level, "Level1") = CompairStringResult.Equal Then
+                                msg = "Level 1 Approval done. "
+                                If NoOflevel = 1 Then
+                                    msg += "Successfully Posted. "
+                                Else
+                                    msg += "Level 2 Approval Required."
+                                End If
+                            ElseIf clsCommon.CompairString(level, "Level2") = CompairStringResult.Equal Then
+                                msg = "Level 2 Approval done. "
+                                If NoOflevel = 2 Then
+                                    msg += "Successfully Posted "
+                                Else
+                                    msg += "Level 3 Approval Required."
+                                End If
+                            Else
+                                msg = "Level 3 Approval done. Successfully Posted"
+                            End If
+                        End If
+                    End If
+                    clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
+                    LoadData(txtDocNo.Value, NavigatorType.Current)
 
-                '===============if setting on then sms send
-                If clsSMSAtPost_Sales.SMSATPOST_SALE() Then
-                    SMSSENDONLY(True)
-                End If
-                '=============================================
+                    '===============if setting on then sms send
+                    If clsSMSAtPost_Sales.SMSATPOST_SALE() Then
+                        SMSSENDONLY(True)
+                    End If
+                    '=============================================
 
-                If (clsCommon.MyMessageBoxShow(Me, "Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
-                    funPrint(True)
+                    If (clsCommon.MyMessageBoxShow(Me, "Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
+                        funPrint(True)
+                    End If
                 End If
             End If
         Catch ex As Exception

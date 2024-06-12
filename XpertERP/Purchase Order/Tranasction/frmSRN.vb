@@ -454,6 +454,8 @@ Public Class frmSRN
         ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
         ButtonToolTip.SetToolTip(btnAddNew, "Press Alt+N Adding New Trasnaction")
         ButtonToolTip.SetToolTip(btnAddNew, "Press Alt+A Create Additional Cost")
+        ButtonToolTip.SetToolTip(btnCancel, "Press Alt+L Cancel the Trasnaction")
+
         'ButtonToolTip.SetToolTip(btnRequistionItems, "Press Ctrl+F7 for Select Purchase Requistion Items")
         IsAbatementPO = clsPurchaseOrderHead.GetPurchaseSetting().Rows(0).Item("IsAbatementPO")
 
@@ -486,7 +488,7 @@ Public Class frmSRN
         ''richa agarwal 15/07/2015 BM00000007399
         Dim WhrCls As String = String.Empty
         If clsCommon.CompairString(FORMTYPE, clsUserMgtCode.FrmSRNMT) = CompairStringResult.Equal Then
-            WhrCls = " and Location_Type='Virtual' "
+            WhrCls = " And Location_Type='Virtual' "
         Else
             WhrCls = " and Location_Type='Physical' or Location_Type='WorkOrder'  "
         End If
@@ -5209,10 +5211,14 @@ Public Class frmSRN
                 If txtGEDate.Checked Then
                     obj.GEDate = txtGEDate.Value
                 End If
-                If ShowItemAllStructureWise = False Then
-                    obj.Item_Type = clsCommon.myCstr(cboItemType.SelectedValue)
+                If ShowItemAllStructureWise = True Then
+                    If gv1.Rows.Count > 0 Then
+                        Dim itemcode As String = clsCommon.myCstr(gv1.Rows(0).Cells(colICode).Value)
+                        Dim itemtype As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 item_type from TSPL_ITEM_MASTER where Item_Code ='" + itemcode + "'"))
+                        obj.Item_Type = itemtype
+                    End If
                 Else
-                    obj.Item_Type = "A"
+                    obj.Item_Type = clsCommon.myCstr(cboItemType.SelectedValue)
                 End If
                 obj.Dept = txtDept.Value
                     obj.Dept_Desc = lblDept.Text
@@ -5678,6 +5684,8 @@ Public Class frmSRN
                     btnSave.Enabled = False
                     btnPost.Enabled = False
                     btnDelete.Enabled = False
+                    btnCancel.Enabled = True
+                    btnCancel.Visible = True
                     repoComplete.IsVisible = True
                     repoBalQty.IsVisible = True
                     btnUpdateRoadPermit.Enabled = True
@@ -5709,6 +5717,8 @@ Public Class frmSRN
                 If obj.Status = "1" Then
                     'If clsCommon.CompairString(clsUserMgtCode.FrmSRNMT, FORMTYPE) = CompairStringResult.Equal Then
                     btnCancel.Enabled = True
+
+
                     'Else
                     '    btnCancel.Visible = False
                     'End If
@@ -6839,6 +6849,10 @@ Public Class frmSRN
             DeleteData()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.L AndAlso MyBase.isCancel_Flag_After_Posting AndAlso btnCancel.Enabled Then
+            CancelData()
+        ElseIf e.Alt AndAlso e.Shift And e.KeyCode = Keys.F12 Then
+            CancelData()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             If MyBase.isReverse Then
 
@@ -11478,30 +11492,38 @@ b:                          ' Next
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                 Throw New Exception("Code is empty")
             End If
+
             If clsCommon.MyMessageBoxShow("Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                 Exit Function
             End If
-            'Dim count As Integer = clsDBFuncationality.getSingleValue("select count(*)  from TSPL_PI_HEAD where Against_SRN ='" + txtDocNo.Value + "' ")
-            'If count > 0 Then
-            '    clsCommon.MyMessageBoxShow("You can't cancelled because this document used in Purchase Invoice")
-            '    Exit Function
-            'End If
+            Dim frm1 As New FrmPWD(Nothing)
+            frm1.strType = "PO Cancel"
+            frm1.strCode = "PO Cancel"
+            frm1.ShowDialog()
+            If frm1.isPasswordCorrect Then
+                Dim iscancel As Boolean = False
+                Dim count As Integer = clsDBFuncationality.getSingleValue("select count(*)  from TSPL_PI_HEAD where Against_SRN ='" + txtDocNo.Value + "' ")
+                If count > 0 Then
+                    clsCommon.MyMessageBoxShow("You can't cancelled because this document used in Purchase Invoice")
+                    Exit Function
+                End If
 
-            ''
-            Dim Qry As String = "select distinct PI_No from TSPL_PI_DETAIL where SRN_Id='" + txtDocNo.Value + "'"
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                Qry = "CURRENT SRN IS USED IN FOLLOWING PURCHASE INVOICE -"
-                For Each DR As DataRow In dt.Rows
-                    Qry += Environment.NewLine + clsCommon.myCstr(DR("PI_NO"))
-                Next
-                clsCommon.MyMessageBoxShow(Qry)
-                Exit Function
+                ''
+                Dim Qry As String = "select distinct PI_No from TSPL_PI_DETAIL where SRN_Id='" + txtDocNo.Value + "'"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    Qry = "CURRENT SRN IS USED IN FOLLOWING PURCHASE INVOICE -"
+                    For Each DR As DataRow In dt.Rows
+                        Qry += Environment.NewLine + clsCommon.myCstr(DR("PI_NO"))
+                    Next
+                    clsCommon.MyMessageBoxShow(Qry)
+                    Exit Function
+                End If
+                ''
+                clsSRNHead.CancelData(Me.Form_ID, txtDocNo.Value, IIf(clsCommon.CompairString(FORMTYPE, clsUserMgtCode.FrmSRNMT) = CompairStringResult.Equal, "MT", "SRN"))
+                clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
+                AddNew()
             End If
-            ''
-            clsSRNHead.CancelData(Me.Form_ID, txtDocNo.Value, IIf(clsCommon.CompairString(FORMTYPE, clsUserMgtCode.FrmSRNMT) = CompairStringResult.Equal, "MT", "SRN"))
-            clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
-            AddNew()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

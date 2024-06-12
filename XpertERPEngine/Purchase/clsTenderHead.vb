@@ -54,7 +54,10 @@ Public Class clsTenderHead
         End Try
         Return True
     End Function
-
+    Public Shared Function CancelData(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
+        clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_TENDER_HEADER", "DocumentCode", "TSPL_TENDER_DETAIL", "DocumentCode", "TSPL_PI_REMITTANCE", "Document_No", trans)
+        Return True
+    End Function
     Public Function SaveData(ByVal obj As clsTenderHead, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
 
@@ -71,7 +74,9 @@ Public Class clsTenderHead
             If (clsCommon.myLen(obj.DocumentCode) <= 0) Then
                 Throw New Exception("Error in Document Code Not Found")
             End If
-
+            'If Not isNewEntry Then
+            '    CancelData(obj.DocumentCode, trans)
+            'End If
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "DocumentCode", obj.DocumentCode)
             clsCommon.AddColumnsForChange(coll, "DocumentDate", clsCommon.GetPrintDate(obj.DocumentDate, "dd/MMM/yyyy hh:mm tt"))
@@ -103,12 +108,15 @@ Public Class clsTenderHead
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TENDER_HEADER", OMInsertOrUpdate.Insert, "", trans)
+                'clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.DocumentCode), "TSPL_TENDER_HEADER", "DocumentCode", "TSPL_TENDER_DETAIL", "DocumentCode", "TSPL_PI_REMITTANCE", "Document_No", trans)
+
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TENDER_HEADER", OMInsertOrUpdate.Update, "tspl_tender_header.DocumentCode='" + obj.DocumentCode + "'", trans)
             End If
             clsTenderDetail.SaveData(obj.DocumentCode, obj.Arr, trans)
             clsTenderSchedule.SaveData(obj.DocumentCode, obj.ArrSchedule, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.DocumentCode), "TSPL_TENDER_HEADER", "DocumentCode", "TSPL_TENDER_DETAIL", "DocumentCode", "TSPL_TENDER_SCHEDULE", "DocumentCode", trans)
+            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.DocumentCode), "TSPL_TENDER_HEADER", "DocumentCode", "TSPL_TENDER_DETAIL", "DocumentCode", "TSPL_PI_REMITTANCE", "Document_No", trans)
 
         Catch err As Exception
             Throw New Exception(err.Message)
@@ -126,7 +134,16 @@ Public Class clsTenderHead
         End Try
         Return True
     End Function
+    Public Shared Function CheckRALUsedInPO(ByVal strDocNo As String, ByVal trans As SqlTransaction) As Boolean
+        Dim qry As String = "select sum(fin.[cnt]) from (SELECT 1 as [cnt] from TSPL_PURCHASE_ORDER_HEAD where TSPL_PURCHASE_ORDER_HEAD.RefTendorNo ='" + clsCommon.myCstr(strDocNo) + "')fin"
+        Dim count As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
 
+        If count > 0 Then
+            Return True
+        Else
+            Return False
+        End If
+    End Function
     Public Shared Function closeRaldata(ByVal trans As SqlTransaction, ByVal strDocNo As String, ByVal isCheckForPosted As Boolean, ByVal cls As String, ByVal strRemarks As String) As Boolean
         Try
             If (clsCommon.myLen(strDocNo) <= 0) Then
@@ -868,7 +885,46 @@ select State_Code from TSPL_VENDOR_MASTER where Vendor_Code='" + objTender.Arr(i
         'End If
         Return True
     End Function
+    Public Shared Function CancelRALData(ByVal strCode As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            CancelRALData(strCode, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function CancelRALData(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
+        If (clsCommon.myLen(strCode) <= 0) Then
+            Throw New Exception("Tender not found to Delete")
+        End If
+        Dim obj As clsTenderHead = clsTenderHead.GetData(strCode, NavigatorType.Current, trans)
+        If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.DocumentCode) > 0) Then
+            Try
+                'If (obj.Posted = 1) Then
+                '    Throw New Exception("Already Posted on :" + obj.Posting_Date)
+                'End If
 
+                Dim qry As String = "delete from tspl_tender_detail where DocumentCode='" + strCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "delete from TSPL_TENDER_SCHEDULE_PENALTY where DocumentCode='" + obj.DocumentCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "delete from TSPL_TENDER_SCHEDULE where DocumentCode='" + obj.DocumentCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+
+                qry = "delete from tspl_tender_header where DocumentCode='" + strCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            Catch ex As Exception
+                Throw New Exception(ex.Message)
+            End Try
+        End If
+        Return True
+    End Function
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try

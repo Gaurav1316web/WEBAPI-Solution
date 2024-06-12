@@ -2299,6 +2299,7 @@ Public Class FrmCrateJaliReport
             txtRoute.arrValueMember = Nothing
             txtVehicle.arrValueMember = Nothing
             fndLocation.Value = Nothing
+            lblLocationName.Text = ""
         Else
             btnPrint.Visible = False
             chkCustomerWise.Visible = True

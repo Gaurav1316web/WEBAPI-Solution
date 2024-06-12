@@ -192,7 +192,9 @@ Public Class FrmCostCetreTypeMaster
             Labdepartmentcost.Text = obj.Department_Cost
             If clsCommon.myLen(Txtdepartmentcost.Value) > 0 Then
                 Txtdepartmentcost.Enabled = False
+                'Txtdepartmentcost.Text = obj.Department_Cost
             End If
+
             'txtlblDepartmentDes.Text = obj.Department
             txtUnitCode.Value = obj.Unit_Code
                 txtCostCenterType.Value = obj.Cost_Code

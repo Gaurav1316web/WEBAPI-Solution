@@ -58,6 +58,7 @@ Public Class frmTender
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
+        Cancel_btn.Visible = MyBase.isCancel_Flag_After_Posting
         'If MyBase.isReverse Then
         '    btnreverse.Enabled = True
         'Else
@@ -68,12 +69,13 @@ Public Class frmTender
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         isPageLoadData = True
         SetUserMgmtNew()
-
+        Cancel_btn.Enabled = False
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction")
         ButtonToolTip.SetToolTip(btnPost, "Press Alt+P Post Trasnaction")
         ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D Delete Trasnaction")
         ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
         ButtonToolTip.SetToolTip(btnAddNew, "Press Alt+N Adding New Trasnaction")
+        ButtonToolTip.SetToolTip(Cancel_btn, "Press Alt+L Cancel the Trasnaction")
 
         RadPageView1.SelectedPage = RadPageViewPage1
         LoadItemType()
@@ -145,6 +147,7 @@ Public Class frmTender
     End Sub
 
     Sub BlankAllControls()
+        Cancel_btn.Visible = False
         txtDocNo.Value = ""
         vaddnew = "Y"
         chkRalclose.Enabled = True
@@ -851,7 +854,56 @@ Public Class frmTender
         End Try
         Return False
     End Function
-
+    Sub CancelRALData()
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
+                Exit Sub
+            End If
+            If clsCommon.MyMessageBoxShow("Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+                Exit Sub
+            End If
+            Dim frm1 As New FrmPWD(Nothing)
+            frm1.strType = "PO Cancel"
+            frm1.strCode = "PO Cancel"
+            frm1.ShowDialog()
+            If frm1.isPasswordCorrect Then
+                Dim iscancel As Boolean = False
+                If clsTenderHead.CheckRALUsedInPO(clsCommon.myCstr(txtDocNo.Value), Nothing) Then
+                    Throw New Exception("RAL can not be cancelled because it is used in PO.")
+                    'Else
+                    '    clsPurchaseOrderHead.ReverseAndUnpost(txtDocNo.Value, MyBase.Form_ID)
+                End If
+                'If clsCommon.myLen(txtDocNo.Value) >= 0 Then
+                '    clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(txtDocNo), "TSPL_PURCHASE_ORDER_HEAD", "PurchaseOrder_No", "TSPL_PURCHASE_ORDER_DETAIL", "PurchaseOrder_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
+                'End If
+                Dim Reason As String = ""
+                If (myMessages.CancelConfirms(Me)) Then
+                    clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtDocNo.Value))
+                    If clsCancelLog.CheckForReasonOnDelete() Then
+                        '' REASON FOR DELETE 
+                        Dim frm As New FrmFreeTxtBox1
+                        frm.Text = "Remarks for Cancel"
+                        frm.ShowDialog()
+                        If clsCommon.myLen(frm.strRmks) <= 0 Then
+                            Exit Sub
+                        Else
+                            Reason = frm.strRmks
+                        End If
+                    End If
+                    'SaveData()
+                    If (clsTenderHead.CancelRALData(txtDocNo.Value)) Then
+                        'If (clsTenderHead.DeleteData(txtDocNo.Value)) Then
+                        saveCancelLogs(Reason, "Cancel", Nothing)
+                        clsCommon.MyMessageBoxShow(Me, "Data Cancel Successfully ", Me.Text)
+                        AddNew()
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            myMessages.myExceptions(ex)
+        End Try
+    End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType, ByVal isLoadCopy As Boolean)
         Try
             Dim dblTotalDocAmt As Decimal = 0
@@ -866,12 +918,16 @@ Public Class frmTender
                 btnPost.Enabled = True
                 btnDelete.Enabled = True
                 isInsideLoadData = True
+
+
                 isNewEntry = False
                 btnSave.Text = "Update"
                 BlankAllControls()
                 LoadBlankGrid1()
                 LoadBlankGrid2()
                 LoadBlankGridSchedule()
+                Cancel_btn.Enabled = True
+                Cancel_btn.Visible = True
                 txtDocNo.MyReadOnly = True
                 txtDocNo.Value = obj.DocumentCode
                 txtDate.Value = obj.DocumentDate
@@ -1046,6 +1102,14 @@ Public Class frmTender
         End Try
 
     End Sub
+    Function saveCancelLogs(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
+        Dim obj As New clsCancelLog
+        obj.Program_Code = Form_ID
+        obj.DOCUMENT_NO = clsCommon.myCstr(Me.txtDocNo.Value)
+        obj.REASON = Reason
+        obj.ACTIVITY_TYPE = Activity_Type
+        Return clsCancelLog.SaveData(obj, True, trans)
+    End Function
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
         Dim obj As New clsCancelLog
         obj.Program_Code = Form_ID
@@ -1125,9 +1189,12 @@ Public Class frmTender
             DeleteData()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.L AndAlso MyBase.isCancel_Flag_After_Posting AndAlso Cancel_btn.Enabled Then
+            CancelRALData()
         ElseIf e.Control AndAlso e.KeyCode = Keys.F7 Then
             'SelectRequistionItems()
-
+        ElseIf e.Alt AndAlso e.Shift And e.KeyCode = Keys.F12 Then
+            CancelRALData()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             If MyBase.isReverse Then
 
@@ -2071,6 +2138,10 @@ Public Class frmTender
             Next
         End If
 
+    End Sub
+
+    Private Sub Cancel_btn_Click(sender As Object, e As EventArgs) Handles Cancel_btn.Click
+        CancelRALData()
     End Sub
 
     Sub closeRal()

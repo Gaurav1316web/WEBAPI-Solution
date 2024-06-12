@@ -54,6 +54,7 @@ Public Enum EnumTableKeyType
     Primary = 0
     Foreign = 1
     Unique = 2
+    Identity = 3
 End Enum
 
 Public Enum EnumConditionType
