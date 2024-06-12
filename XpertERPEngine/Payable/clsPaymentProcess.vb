@@ -185,6 +185,7 @@ Public Class clsPaymentProcessHead
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             ProcessData(DocNo, Desc, True, trans)
+            'Throw New Exception("Balwinder singh premi")
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
