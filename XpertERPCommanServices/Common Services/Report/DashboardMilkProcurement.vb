@@ -6,7 +6,7 @@ Imports XpertERPEngine
 Imports XpertERPEngineFine
 Public Class DashboardMilkProcurement
     Inherits FrmMainTranScreen
-
+    Dim Slot1FD As DateTime = Nothing
     Private Sub DashboardMilkProcurement_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         txtFromDate.Value = clsCommon.GETSERVERDATE()
         txtToDate.Value = clsCommon.GETSERVERDATE()
@@ -18,8 +18,158 @@ Public Class DashboardMilkProcurement
         UninonWise()
         RouteWise()
         DCSWise()
+        DaysData()
     End Sub
 
+    Sub DaysData()
+        Try
+            Dim query As String = ""
+            Dim DateQry As String = ""
+            Dim DateTable As DataTable = Nothing
+            Dim DateCode As String = Nothing
+            Dim DateName As String = Nothing
+            Dim DateUnion As String = Nothing
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
+            If (dt Is Nothing OrElse dt.Rows.Count <= 0) Then
+                common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
+                Exit Sub
+            End If
+            Dim docNo As String = ""
+            query = " 
+    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') "
+            If chkRJSBNS.Checked Then
+                query += "union all
+            SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
+            union all
+            SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
+            ORDER BY Location_Name"
+            End If
+            dt = clsDBFuncationality.GetDataTable(query)
+            query = ""
+
+            DateQry = "SELECT DISTINCT '[' + CONVERT(VARCHAR(10), CAST(DOC_DATE AS DATE), 120) + ']' AS DOC_DATE 
+                       FROM TSPL_MILK_SRN_HEAD 
+                       WHERE CAST(DOC_DATE AS DATE) BETWEEN DATEADD(day, -6, '" + clsCommon.GetPrintDate(txtToDate.Value) + "') AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' 
+                       ORDER BY DOC_DATE ASC"
+
+
+            ' DateQry = "SELECT DISTINCT CAST(DOC_DATE AS DATE) AS DOC_DATE FROM TSPL_MILK_SRN_HEAD 
+            'WHERE CAST(DOC_DATE AS DATE) BETWEEN DATEADD(day, -6, '" + clsCommon.GetPrintDate(txtToDate.Value) + "') AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' order by DOC_DATE asc"
+            DateTable = clsDBFuncationality.GetDataTable(DateQry)
+
+            If DateTable.Rows.Count > 0 Then
+                For i As Integer = 0 To DateTable.Rows.Count - 1
+                    If clsCommon.myLen(DateCode) > 0 Then
+                        DateCode += "," + clsCommon.myCstr(DateTable.Rows(i)("DOC_DATE"))
+                        DateName += "," + "Sum(" + clsCommon.myCstr(DateTable.Rows(i)("DOC_DATE")) + ") As " + clsCommon.myCstr(DateTable.Rows(i)("DOC_DATE")) + ""
+                        'DateUnion += "," " 0 as  [" + clsCommon.myCstr(DateTable.Rows(i)("DOC_DATE"))+"] "
+                        DateUnion += ", 0 as " & clsCommon.myCstr(DateTable.Rows(i)("DOC_DATE")) & " "
+
+                    Else
+                        DateCode = clsCommon.myCstr(DateTable.Rows(i)("DOC_DATE"))
+                        DateName = " Sum(" + clsCommon.myCstr(DateTable.Rows(i)("DOC_DATE")) + ") As " + clsCommon.myCstr(DateTable.Rows(i)("DOC_DATE")) + ""
+                        DateUnion = " 0 as " & clsCommon.myCstr(DateTable.Rows(i)("DOC_DATE")) & " "
+                    End If
+                Next
+            End If
+
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                For ii As Integer = 0 To dt.Rows.Count - 1
+                    If ii > 0 Then
+                        query += " UNION ALL "
+                    End If
+                    query += "  select max(SNo)SNo,max([Union Name])[Union Name],max(Fromdate)Fromdate,max(Todate)Todate,max(username)username,
+                                " + DateName + ",max(Union_Contact_Person)[Nodal Officer],max(Union_Contact_PhoneNo)[Mobile No.]
+                            from (
+
+SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
+                              '" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                                '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as Todate,
+                                '" + objCommonVar.CurrentUser + "' as username,
+                                " + DateCode + "
+                                FROM (SELECT SUM(Qty) AS Milk_Weight,CONVERT(VARCHAR(10), DOC_DATE, 120) AS Dates,max(Comp_Code)Comp_Code
+                                FROM 
+                                        [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SRN_DETAIL msd
+                                    LEFT JOIN 
+                                        [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SRN_HEAD msh ON msh.DOC_CODE = msd.DOC_CODE
+                                    WHERE 
+                                        msh.DOC_DATE BETWEEN '" + clsCommon.GetPrintDate(clsCommon.myCDate(txtToDate.Value, "dd-MMM-yyyy").AddDays(-6)) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                                    GROUP BY 
+                                        CONVERT(VARCHAR(10), DOC_DATE, 120) 
+                                ) AS Procurement
+                                PIVOT (
+                                    SUM(Milk_Weight) 
+                                    FOR Dates IN (" + DateCode + ")) AS Tab2
+                                Left Outer Join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=Tab2.Comp_Code    
+
+                                 union all 
+								select " + clsCommon.myCstr(ii + 1) + " AS SNo,
+                                '" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                                '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as Todate,
+                                 '" + objCommonVar.CurrentUser + "' as username," + DateUnion + "
+								) xx left join TSPL_COMPANY_MASTER ON 2=2 group by SNo
+"
+                Next
+            End If
+
+
+
+            Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
+            If dt2 IsNot Nothing OrElse dt2.Rows.Count > 0 Then
+
+                gv4.DataSource = Nothing
+                gv4.Rows.Clear()
+                gv4.Columns.Clear()
+                gv4.GroupDescriptors.Clear()
+                gv4.MasterTemplate.SummaryRowsBottom.Clear()
+                gv4.MasterView.Refresh()
+                gv4.DataSource = dt2
+                For ii As Integer = 0 To gv4.Columns.Count - 1
+                    gv4.Columns(ii).ReadOnly = True
+                Next
+                'RadPageView1.SelectedPage = RadPageViewPage2
+                gv4.EnableFiltering = True
+                SetGridFormat4()
+                gv4.BestFitColumns()
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                Exit Sub
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Sub SetGridFormat4()
+        gv4.AutoExpandGroups = True
+        gv4.ShowGroupPanel = True
+        gv4.ShowRowHeaderColumn = False
+        gv4.AllowAddNewRow = False
+        gv4.AllowDeleteRow = False
+        gv4.EnableFiltering = True
+        gv4.ShowFilteringRow = True
+
+
+        For ii As Integer = 0 To gv4.Columns.Count - 1
+            gv4.Columns(ii).ReadOnly = True
+            gv4.Columns(ii).BestFit()
+            gv4.Columns(ii).IsVisible = True
+            gv4.Columns(ii).Width = 200
+        Next
+
+        'gv4.Columns("Comp_Code").HeaderText = "Comp_Code"
+        'gv4.Columns("Comp_Code").Width = 100
+        'gv4.Columns("Comp_Code").IsVisible = False
+
+        gv4.Columns("Fromdate").HeaderText = "From Date"
+        gv4.Columns("Fromdate").Width = 100
+        gv4.Columns("Fromdate").IsVisible = False
+
+        gv4.Columns("Todate").HeaderText = "To Date"
+        gv4.Columns("Todate").Width = 100
+        gv4.Columns("Todate").IsVisible = False
+
+    End Sub
     Sub UninonWise()
         Try
             Dim query As String = ""
@@ -47,7 +197,7 @@ Public Class DashboardMilkProcurement
                         query += " UNION ALL "
                     End If
 
-                    query += " select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                    query += " select FINAL.*,TSPL_COMPANY_MASTER.Union_Contact_Person,TSPL_COMPANY_MASTER.Union_Contact_PhoneNo from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
                         '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
                     ISNULL(SUM(Dis_Procurement.Milk_WeightProc), 0) AS Milk_WeightProc,
                     ISNULL(SUM(Dis_Procurement.FATKGProc), 0) AS FATKGProc,
@@ -75,7 +225,7 @@ Public Class DashboardMilkProcurement
                         WHERE 
                             CONVERT(DATE, msh.DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
                         ) AS Procurement
-                    ) AS Dis_Procurement)final"
+                    ) AS Dis_Procurement)final left join TSPL_COMPANY_MASTER ON 2=2 "
                 Next
             End If
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
@@ -155,6 +305,14 @@ Public Class DashboardMilkProcurement
         gv1.Columns("SNFPerProc").IsVisible = True
         gv1.Columns("SNFPerProc").FormatString = "{0:n2}"
 
+        gv1.Columns("Union_Contact_Person").HeaderText = "Nodal Officer"
+        gv1.Columns("Union_Contact_Person").Width = 200
+        gv1.Columns("Union_Contact_Person").IsVisible = True
+
+        gv1.Columns("Union_Contact_PhoneNo").HeaderText = "Mobile No."
+        gv1.Columns("Union_Contact_PhoneNo").Width = 200
+        gv1.Columns("Union_Contact_PhoneNo").IsVisible = True
+
         Dim summaryRowItem As New GridViewSummaryRowItem()
         Dim item1 As New GridViewSummaryItem("Milk_WeightProc", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item1)
@@ -198,9 +356,9 @@ Public Class DashboardMilkProcurement
                         query += " UNION ALL "
                     End If
 
-                    query += " select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                    query += " select final.*,TSPL_COMPANY_MASTER.Union_Contact_Person,TSPL_COMPANY_MASTER.Union_Contact_PhoneNo from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
                         '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
-                    sum(Dis_Procurement.RouteCount)RouteCount,sum(Dis_Procurement.MCCCount)MCCCount,ISNULL(SUM(Dis_Procurement.Milk_WeightProc), 0) AS Milk_WeightProc,
+                    ISNULL(sum(Dis_Procurement.RouteCount),0) AS RouteCount,ISNULL(sum(Dis_Procurement.MCCCount),0) AS MCCCount,ISNULL(SUM(Dis_Procurement.Milk_WeightProc), 0) AS Milk_WeightProc,
                     ISNULL(SUM(Dis_Procurement.FATKGProc), 0) AS FATKGProc,
                     ISNULL(SUM(Dis_Procurement.SNFKGProc), 0) AS SNFKGProc
                                  FROM 
@@ -224,7 +382,7 @@ Public Class DashboardMilkProcurement
                         WHERE 
                             CONVERT(DATE, msh.DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
                           ) AS Procurement
-                    ) AS Dis_Procurement)final"
+                    ) AS Dis_Procurement)final left join TSPL_COMPANY_MASTER ON 2=2 "
                 Next
             End If
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
@@ -303,6 +461,12 @@ Public Class DashboardMilkProcurement
         gv2.Columns("SNFKGProc").IsVisible = True
         gv2.Columns("SNFKGProc").FormatString = "{0:n3}"
 
+        gv2.Columns("Union_Contact_Person").HeaderText = "Nodal Officer"
+        gv2.Columns("Union_Contact_Person").IsVisible = True
+
+        gv2.Columns("Union_Contact_PhoneNo").HeaderText = "Mobile No."
+        gv2.Columns("Union_Contact_PhoneNo").IsVisible = True
+
         Dim summaryRowItem As New GridViewSummaryRowItem()
         Dim item1 As New GridViewSummaryItem("Milk_WeightProc", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item1)
@@ -312,6 +476,7 @@ Public Class DashboardMilkProcurement
 
         Dim item3 As New GridViewSummaryItem("SNFKGProc", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item3)
+
 
         'gv1.ShowGroupPanel = True
         'gv1.MasterTemplate.AutoExpandGroups = True
@@ -346,7 +511,7 @@ Public Class DashboardMilkProcurement
                         query += " UNION ALL "
                     End If
 
-                    query += " select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                    query += " select final.*,TSPL_COMPANY_MASTER.Union_Contact_Person,TSPL_COMPANY_MASTER.Union_Contact_PhoneNo from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
                         '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
                     ISNULL(SUM(Dis_Procurement.RegCount), 0) AS RegisteredDCS ,   ISNULL(SUM(Dis_Procurement.DCS_1_QTY), 0) AS DCSQTY1, 
                     ISNULL(SUM(Dis_Procurement.DCS_1_FATKG), 0) AS FATKG1,ISNULL(SUM(Dis_Procurement.DCS_1_SNFKG), 0) AS SNFKG1,
@@ -385,7 +550,7 @@ Public Class DashboardMilkProcurement
                         WHERE 
                             CONVERT(DATE, msh.DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' group by msh.VSP_Code
                          ) AS xxx
-                    ) AS Dis_Procurement)final"
+                    ) AS Dis_Procurement)final left join TSPL_COMPANY_MASTER ON 2=2 "
                 Next
             End If
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
@@ -489,6 +654,14 @@ Public Class DashboardMilkProcurement
         gv3.Columns("Totalsnfkg").IsVisible = True
         gv3.Columns("Totalsnfkg").FormatString = "{0:n3}"
 
+        gv3.Columns("Union_Contact_Person").HeaderText = "Nodal Officer"
+        gv3.Columns("Union_Contact_Person").Width = 200
+        gv3.Columns("Union_Contact_Person").IsVisible = True
+
+        gv3.Columns("Union_Contact_PhoneNo").HeaderText = "Mobile No."
+        gv3.Columns("Union_Contact_PhoneNo").Width = 200
+        gv3.Columns("Union_Contact_PhoneNo").IsVisible = True
+
         Dim summaryRowItem As New GridViewSummaryRowItem()
         Dim item1 As New GridViewSummaryItem("Totalsnfkg", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item1)
@@ -505,7 +678,7 @@ Public Class DashboardMilkProcurement
         Dim item5 As New GridViewSummaryItem("FATKG2", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item5)
 
-        Dim item6 As New GridViewSummaryItem("QTY2", "{0:f3}", GridAggregateFunction.Sum)
+        Dim item6 As New GridViewSummaryItem("DCSQTY1", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item6)
 
         Dim item7 As New GridViewSummaryItem("SNFKG1", "{0:f3}", GridAggregateFunction.Sum)
@@ -514,7 +687,7 @@ Public Class DashboardMilkProcurement
         Dim item8 As New GridViewSummaryItem("FATKG1", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item8)
 
-        Dim item9 As New GridViewSummaryItem("QTY1", "{0:f3}", GridAggregateFunction.Sum)
+        Dim item9 As New GridViewSummaryItem("DCSQTY2", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item9)
 
         'gv1.ShowGroupPanel = True
@@ -578,6 +751,25 @@ Public Class DashboardMilkProcurement
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub ExportGridgv4(ByVal exporter As EnumExportTo)
+        Try
+            If gv4.Rows.Count > 0 Then
+                Dim arrHeader As List(Of String) = New List(Of String)()
+                ' arrHeader.Add("Union : " & objCommonVar.CurrentCompanyName)
+                arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.DashboardMilkProcurement & "'"))
+                arrHeader.Add("Date : " & clsCommon.myCstr(txtFromDate.Text) + "  To " + clsCommon.myCstr(txtToDate.Text))
+
+
+                transportSql.applyExportTemplate(gv4, PageSetupReport_ID)
+                'transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
+                'transportSql.exportdata(Gv1, "", Me.Text, , arrHeader, False, False, False)
+                clsCommon.MyExportToExcelGrid(Me.Text, gv4, arrHeader, Me.Text, True)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
         If clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage2.Name) = CompairStringResult.Equal Then
             ExportGridgv1(EnumExportTo.Excel)
@@ -585,6 +777,8 @@ Public Class DashboardMilkProcurement
             ExportGridgv2(EnumExportTo.Excel)
         ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage4.Name) = CompairStringResult.Equal Then
             ExportGridgv3(EnumExportTo.Excel)
+        ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage5.Name) = CompairStringResult.Equal Then
+            ExportGridgv4(EnumExportTo.Excel)
         End If
     End Sub
 
@@ -595,9 +789,26 @@ Public Class DashboardMilkProcurement
             ExportGrids()
         ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage4.Name) = CompairStringResult.Equal Then
             ExportGridss()
+        ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage5.Name) = CompairStringResult.Equal Then
+            ExportGridss4()
         End If
     End Sub
 
+    Sub ExportGridss4()
+        Try
+            If gv4.Rows.Count > 0 Then
+                Dim arrHeader As List(Of String) = New List(Of String)()
+                ' arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+                'arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.DashboardMilkProcurement & "'"))
+                arrHeader.Add("Date : " & clsCommon.myCstr(txtFromDate.Text) + "  To " + clsCommon.myCstr(txtToDate.Text))
+
+                transportSql.applyExportTemplate(gv4, PageSetupReport_ID)
+                clsCommon.MyExportToPDF(Me.Text, gv4, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
     Sub ExportGridss()
         Try
             If gv3.Rows.Count > 0 Then
@@ -664,21 +875,9 @@ Public Class DashboardMilkProcurement
             PrintRoute()
         ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage4.Name) = CompairStringResult.Equal Then
             PrintDCS()
+        ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage5.Name) = CompairStringResult.Equal Then
+            ' Print7Days()
         End If
-
-        'Dim selectedTabIndex As Integer = RadPageView1.SelectedPage.TabIndex
-        'Select Case selectedTabIndex
-        '    Case 16 ' Index of the first tab
-        '        'ExportGridgv1(EnumExportTo.Excel)
-
-
-        '    Case 3 ' Index of the second tab
-
-        '    Case 6 ' Index of the third tab
-        '        PrintDCS()
-        '        'ExportGridgv3(EnumExportTo.Excel)
-        '        ' Add more cases as needed for additional tabs
-        'End Select
     End Sub
 
     Sub PrintDCS()
@@ -694,10 +893,10 @@ Public Class DashboardMilkProcurement
     SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') "
         If chkRJSBNS.Checked Then
             query += "union all
-  SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
-  union all
-  SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
-  ORDER BY Location_Name"
+        SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
+        union all
+        SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
+        ORDER BY Location_Name"
         End If
         dt = clsDBFuncationality.GetDataTable(query)
         query = ""
@@ -707,7 +906,7 @@ Public Class DashboardMilkProcurement
                     query += " UNION ALL "
                 End If
 
-                query += " select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                query += " select final.*,TSPL_COMPANY_MASTER.Union_Contact_Person,TSPL_COMPANY_MASTER.Union_Contact_PhoneNo from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
                         '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
                     ISNULL(SUM(Dis_Procurement.RegCount), 0) AS RegisteredDCS ,   ISNULL(SUM(Dis_Procurement.DCS_1_QTY), 0) AS DCSQTY1, 
                     ISNULL(SUM(Dis_Procurement.DCS_1_FATKG), 0) AS FATKG1,ISNULL(SUM(Dis_Procurement.DCS_1_SNFKG), 0) AS SNFKG1,
@@ -746,7 +945,7 @@ Public Class DashboardMilkProcurement
                         WHERE 
                             CONVERT(DATE, msh.DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' group by msh.VSP_Code
                         ) AS xxx
-                    ) AS Dis_Procurement)final"
+                    ) AS Dis_Procurement)final left join TSPL_COMPANY_MASTER ON 2=2 "
             Next
         End If
 
@@ -773,10 +972,10 @@ Public Class DashboardMilkProcurement
     SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') "
         If chkRJSBNS.Checked Then
             query += "union all
-  SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
-  union all
-  SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
-  ORDER BY Location_Name"
+        SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
+        union all
+        SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
+        ORDER BY Location_Name"
         End If
         dt = clsDBFuncationality.GetDataTable(query)
         query = ""
@@ -786,9 +985,9 @@ Public Class DashboardMilkProcurement
                     query += " UNION ALL "
                 End If
 
-                query += " select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                query += " select final.*,TSPL_COMPANY_MASTER.Union_Contact_Person,TSPL_COMPANY_MASTER.Union_Contact_PhoneNo from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
                         '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
-                    sum(Dis_Procurement.RouteCount)RouteCount,sum(Dis_Procurement.MCCCount)MCCCount,ISNULL(SUM(Dis_Procurement.Milk_WeightProc), 0) AS Milk_WeightProc,
+                    ISNULL(sum(Dis_Procurement.RouteCount),0) AS RouteCount,ISNULL(sum(Dis_Procurement.MCCCount),0) AS MCCCount,ISNULL(SUM(Dis_Procurement.Milk_WeightProc), 0) AS Milk_WeightProc,
                     ISNULL(SUM(Dis_Procurement.FATKGProc), 0) AS FATKGProc,
                     ISNULL(SUM(Dis_Procurement.SNFKGProc), 0) AS SNFKGProc
                                  FROM 
@@ -812,7 +1011,7 @@ Public Class DashboardMilkProcurement
                         WHERE 
                             CONVERT(DATE, msh.DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
                         ) AS Procurement
-                    ) AS Dis_Procurement)final"
+                    ) AS Dis_Procurement)final left join TSPL_COMPANY_MASTER ON 2=2 "
             Next
         End If
 
@@ -839,10 +1038,10 @@ Public Class DashboardMilkProcurement
     SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') "
         If chkRJSBNS.Checked Then
             query += "union all
-  SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
-  union all
-  SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
-  ORDER BY Location_Name"
+        SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
+        union all
+        SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
+        ORDER BY Location_Name"
         End If
         dt = clsDBFuncationality.GetDataTable(query)
         query = ""
@@ -852,16 +1051,22 @@ Public Class DashboardMilkProcurement
                     query += " UNION ALL "
                 End If
 
-                query += " select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                query += " select FINAL.*,TSPL_COMPANY_MASTER.Union_Contact_Person,TSPL_COMPANY_MASTER.Union_Contact_PhoneNo from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
                         '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
                     ISNULL(SUM(Dis_Procurement.Milk_WeightProc), 0) AS Milk_WeightProc,
                     ISNULL(SUM(Dis_Procurement.FATKGProc), 0) AS FATKGProc,
-                    ISNULL(SUM(Dis_Procurement.SNFKGProc), 0) AS SNFKGProc
+                    ISNULL(SUM(Dis_Procurement.SNFKGProc), 0) AS SNFKGProc,
+                    ISNULL(AVG(Dis_Procurement.FATPerProc), 0) AS FATPerProc,
+					ISNULL(AVG(Dis_Procurement.SNFPerProc), 0) AS SNFPerProc
                                  FROM 
 (SELECT 
                         SUM(milk_weight) AS Milk_WeightProc,
                         SUM(FATKg) AS FATKGProc,
-                        SUM(SNFKG) AS SNFKGProc
+                        SUM(SNFKG) AS SNFKGProc,
+                        AVG(CASE WHEN Milk_Weight <> 0 THEN (FATKg) * 100 / (Milk_Weight)
+            ELSE 0 END) AS FATPerProc,
+			AVG(CASE WHEN Milk_Weight <> 0 THEN (SNFKG) * 100 / (Milk_Weight)
+            ELSE 0 END) AS SNFPerProc
                     FROM (
                         SELECT 
                             SUM(Qty) AS Milk_Weight,
@@ -874,7 +1079,7 @@ Public Class DashboardMilkProcurement
                         WHERE 
                             CONVERT(DATE, msh.DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
                         ) AS Procurement
-                    ) AS Dis_Procurement)final"
+                    ) AS Dis_Procurement)final left join TSPL_COMPANY_MASTER ON 2=2 "
             Next
         End If
 
@@ -887,4 +1092,5 @@ Public Class DashboardMilkProcurement
             clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
     End Sub
+
 End Class
