@@ -229,8 +229,9 @@ Public Class clsJournalMaster
                         StrVoucher = fnAutoGenerateNo(JEWithOPTables, trans, dt, strLocalPrefixTransType, strLocationCode, isLocationCodeisSegment)
                     End If
                 End If
-                Dim strJrnl As String = "select max(journal_no) from " + strJEHead + " "
-                Dim Jrnl As String = clsCommon.myCstr(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(strJrnl, trans)) + 1)
+                'Dim strJrnl As String = "select max(journal_no) from " + strJEHead + " "
+                'Dim Jrnl As String = clsCommon.myCstr(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(strJrnl, trans)) + 1)
+                Dim Jrnl As String = 0
                 If strReference = Nothing Then
                     strReference = ""
                 End If
@@ -255,9 +256,9 @@ Public Class clsJournalMaster
                 qry += ",IND_AS='" + clsCommon.myCstr(intIND_AS) + "' where Voucher_No='" + StrVoucher + "' "
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                Dim strJrnl1 As String = "select journal_no from " + strJEHead + " where Voucher_No='" + StrVoucher + "'"
-                Dim Jrnl1 As String
-                Jrnl1 = clsDBFuncationality.getSingleValue(strJrnl1, trans)
+                'Dim strJrnl1 As String = "select journal_no from " + strJEHead + " where Voucher_No='" + StrVoucher + "'"
+                'Dim Jrnl1 As String
+                'Jrnl1 = clsDBFuncationality.getSingleValue(strJrnl1, trans)
                 Dim AccountCode As String = ""
                 Dim i As Integer = 1
                 For Each obj As clsJournalDetailTemp In arr
