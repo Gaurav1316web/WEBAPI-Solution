@@ -199,7 +199,7 @@ where  Coalesce(Is_Incentive_Created,'N')='N' and  VSP_CODE='" & VSP & "' "
                             CreateDebitNoteForAdvanceInterestAmt(strMCCCode, VSP, trans, txtToDate) ''by balwinder on 27/04/2017
                             CreateVSPDebitNoteOfTIP(VSP, txtToDate, strMCCCode, trans) ''By Balwinder on 16/12/2019
                         End If
-
+                        'trans.Rollback()
                         'Throw New Exception("Balwinder singh premi")
                         trans.Commit()
                     Catch ex As Exception
