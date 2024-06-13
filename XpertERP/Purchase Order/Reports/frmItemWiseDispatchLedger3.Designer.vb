@@ -22,7 +22,10 @@ Partial Class FrmItemWiseDispatchLedger3
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.ddltype = New Telerik.WinControls.UI.RadDropDownList()
+        Me.MyLabel1 = New common.Controls.MyLabel()
         Me.lblItem = New common.Controls.MyLabel()
         Me.txtItem = New common.UserControls.txtMultiSelectFinder()
         Me.lblCustomer = New common.Controls.MyLabel()
@@ -68,10 +71,10 @@ Partial Class FrmItemWiseDispatchLedger3
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.btnQuickExport = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.ddltype = New Telerik.WinControls.UI.RadDropDownList()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
+        CType(Me.ddltype, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblItem, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -115,8 +118,6 @@ Partial Class FrmItemWiseDispatchLedger3
         Me.SplitContainer1.SuspendLayout()
         CType(Me.btnQuickExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ddltype, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -147,6 +148,24 @@ Partial Class FrmItemWiseDispatchLedger3
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox2.Size = New System.Drawing.Size(760, 388)
         Me.RadGroupBox2.TabIndex = 73
+        '
+        'ddltype
+        '
+        Me.ddltype.DropDownAnimationEnabled = True
+        Me.ddltype.Location = New System.Drawing.Point(98, 38)
+        Me.ddltype.Name = "ddltype"
+        Me.ddltype.Size = New System.Drawing.Size(239, 20)
+        Me.ddltype.TabIndex = 366
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(14, 38)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(30, 18)
+        Me.MyLabel1.TabIndex = 365
+        Me.MyLabel1.Text = "Type"
         '
         'lblItem
         '
@@ -572,16 +591,12 @@ Partial Class FrmItemWiseDispatchLedger3
         '
         'btnExcel
         '
-        Me.btnExcel.AccessibleDescription = "Excel"
-        Me.btnExcel.AccessibleName = "Excel"
         Me.btnExcel.Image = Global.ERP.My.Resources.Resources.MSE
         Me.btnExcel.Name = "btnExcel"
         Me.btnExcel.Text = "Excel"
         '
         'btnPDF
         '
-        Me.btnPDF.AccessibleDescription = "PDF"
-        Me.btnPDF.AccessibleName = "PDF"
         Me.btnPDF.Image = Global.ERP.My.Resources.Resources.pdf
         Me.btnPDF.Name = "btnPDF"
         Me.btnPDF.Text = "PDF"
@@ -624,7 +639,6 @@ Partial Class FrmItemWiseDispatchLedger3
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(784, 440)
         Me.RadPageView1.TabIndex = 74
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -650,16 +664,18 @@ Partial Class FrmItemWiseDispatchLedger3
         Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv.Location = New System.Drawing.Point(0, 0)
         '
-        'gv
+        '
         '
         Me.gv.MasterTemplate.AllowAddNewRow = False
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ReadOnly = True
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(763, 392)
         Me.gv.TabIndex = 0
-        Me.gv.Text = "RadGridView1"
         '
         'SplitContainer1
         '
@@ -703,23 +719,6 @@ Partial Class FrmItemWiseDispatchLedger3
         Me.btnGo.TabIndex = 74
         Me.btnGo.Text = ">>"
         '
-        'MyLabel1
-        '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(14, 38)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(30, 18)
-        Me.MyLabel1.TabIndex = 365
-        Me.MyLabel1.Text = "Type"
-        '
-        'ddltype
-        '
-        Me.ddltype.Location = New System.Drawing.Point(98, 38)
-        Me.ddltype.Name = "ddltype"
-        Me.ddltype.Size = New System.Drawing.Size(239, 20)
-        Me.ddltype.TabIndex = 366
-        '
         'FrmItemWiseDispatchLedger3
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -735,6 +734,8 @@ Partial Class FrmItemWiseDispatchLedger3
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         Me.RadGroupBox2.PerformLayout()
+        CType(Me.ddltype, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblItem, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
@@ -782,8 +783,6 @@ Partial Class FrmItemWiseDispatchLedger3
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.btnQuickExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ddltype, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

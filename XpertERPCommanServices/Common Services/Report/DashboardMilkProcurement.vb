@@ -107,7 +107,7 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
                                 '" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
                                 '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as Todate,
                                  '" + objCommonVar.CurrentUser + "' as username," + DateUnion + "
-								) xx left join TSPL_COMPANY_MASTER ON 2=2 group by SNo
+								) xx left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER ON 2=2 group by SNo
 "
                 Next
             End If
@@ -225,7 +225,7 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
                         WHERE 
                             CONVERT(DATE, msh.DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
                         ) AS Procurement
-                    ) AS Dis_Procurement)final left join TSPL_COMPANY_MASTER ON 2=2 "
+                    ) AS Dis_Procurement)final left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER ON 2=2 "
                 Next
             End If
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
@@ -382,7 +382,7 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
                         WHERE 
                             CONVERT(DATE, msh.DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
                           ) AS Procurement
-                    ) AS Dis_Procurement)final left join TSPL_COMPANY_MASTER ON 2=2 "
+                    ) AS Dis_Procurement)final left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER ON 2=2 "
                 Next
             End If
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
@@ -550,7 +550,7 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
                         WHERE 
                             CONVERT(DATE, msh.DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' group by msh.VSP_Code
                          ) AS xxx
-                    ) AS Dis_Procurement)final left join TSPL_COMPANY_MASTER ON 2=2 "
+                    ) AS Dis_Procurement)final left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER ON 2=2 "
                 Next
             End If
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
@@ -945,7 +945,7 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
                         WHERE 
                             CONVERT(DATE, msh.DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' group by msh.VSP_Code
                         ) AS xxx
-                    ) AS Dis_Procurement)final left join TSPL_COMPANY_MASTER ON 2=2 "
+                    ) AS Dis_Procurement)final left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER ON 2=2 "
             Next
         End If
 
@@ -1011,7 +1011,7 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
                         WHERE 
                             CONVERT(DATE, msh.DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
                         ) AS Procurement
-                    ) AS Dis_Procurement)final left join TSPL_COMPANY_MASTER ON 2=2 "
+                    ) AS Dis_Procurement)final left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER ON 2=2 "
             Next
         End If
 
@@ -1079,7 +1079,7 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
                         WHERE 
                             CONVERT(DATE, msh.DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
                         ) AS Procurement
-                    ) AS Dis_Procurement)final left join TSPL_COMPANY_MASTER ON 2=2 "
+                    ) AS Dis_Procurement)final left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER ON 2=2 "
             Next
         End If
 

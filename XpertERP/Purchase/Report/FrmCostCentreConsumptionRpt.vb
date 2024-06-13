@@ -37,7 +37,7 @@ Public Class FrmCostCentreConsumptionRpt
         'Dim qry As String = " select TSPL_COST_CENTRE_HIRERACHY_DETAIL.COST_CENTRE_HIRERACHY_CODE as Code,TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Name as Name from TSPL_COST_CENTRE_HIRERACHY_DETAIL" + Environment.NewLine & _
         '                    " left outer join TSPL_COST_CENTRE_FINANCIAL on TSPL_COST_CENTRE_HIRERACHY_DETAIL.COST_CENTRE_HIRERACHY_CODE=TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code where TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL=1 "
         'qry += " ORDER BY TSPL_COST_CENTRE_HIRERACHY_DETAIL.COST_CENTRE_HIRERACHY_CODE "
-        Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER where  Location_Type='Physical' "
+        Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER where  Location_Type='Physical' and IsMainPlant='1' and Loc_Segment_Code in (" + objCommonVar.strCurrUserLocationsSegment + ") "
         txtLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("LocMulSel", qry, "Code", "Name", txtLocation.arrValueMember, txtLocation.arrDispalyMember)
     End Sub
 

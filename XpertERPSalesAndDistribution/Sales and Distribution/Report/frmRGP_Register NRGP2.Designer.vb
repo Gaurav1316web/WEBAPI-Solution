@@ -24,6 +24,7 @@ Partial Class FrmRGP_Register_NRGP
     Private Sub InitializeComponent()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.btnExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
@@ -139,16 +140,12 @@ Partial Class FrmRGP_Register_NRGP
         '
         'btnExcel
         '
-        Me.btnExcel.AccessibleDescription = "Excel"
-        Me.btnExcel.AccessibleName = "Excel"
         Me.btnExcel.Image = Global.XpertERPSalesAndDistribution.My.Resources.Resources.MSE
         Me.btnExcel.Name = "btnExcel"
         Me.btnExcel.Text = "Excel"
         '
         'btnPDF
         '
-        Me.btnPDF.AccessibleDescription = "PDF"
-        Me.btnPDF.AccessibleName = "PDF"
         Me.btnPDF.Image = Global.XpertERPSalesAndDistribution.My.Resources.Resources.pdf
         Me.btnPDF.Name = "btnPDF"
         Me.btnPDF.Text = "PDF"
@@ -218,7 +215,6 @@ Partial Class FrmRGP_Register_NRGP
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(799, 460)
         Me.RadPageView1.TabIndex = 1
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -293,6 +289,7 @@ Partial Class FrmRGP_Register_NRGP
         Me.cmbtype.AutoCompleteDisplayMember = Nothing
         Me.cmbtype.AutoCompleteValueMember = Nothing
         Me.cmbtype.CalculationExpression = Nothing
+        Me.cmbtype.DropDownAnimationEnabled = True
         Me.cmbtype.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbtype.FieldCode = Nothing
         Me.cmbtype.FieldDesc = Nothing
@@ -796,14 +793,16 @@ Partial Class FrmRGP_Register_NRGP
         Me.gv.MasterTemplate.AllowAddNewRow = False
         Me.gv.MasterTemplate.AllowDeleteRow = False
         Me.gv.MasterTemplate.EnableFiltering = True
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowGroupPanel = False
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(778, 469)
         Me.gv.TabIndex = 5
-        Me.gv.Text = "gv"
         '
         'SplitContainer2
         '
@@ -835,27 +834,20 @@ Partial Class FrmRGP_Register_NRGP
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(799, 20)
         Me.RadMenu1.TabIndex = 3
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmSaveLayout, Me.rmDeleteLayout})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
         '
         'rmSaveLayout
         '
-        Me.rmSaveLayout.AccessibleDescription = "Save Layout"
-        Me.rmSaveLayout.AccessibleName = "Save Layout"
         Me.rmSaveLayout.Name = "rmSaveLayout"
         Me.rmSaveLayout.Text = "Save Layout"
         '
         'rmDeleteLayout
         '
-        Me.rmDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.rmDeleteLayout.AccessibleName = "Delete Layout"
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
         '
