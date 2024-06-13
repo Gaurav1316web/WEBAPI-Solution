@@ -19619,6 +19619,9 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "datetime null")
             coll.Add("Modify_By", "varchar(12) null")
             coll.Add("Modify_Date", "datetime null")
+            coll.Add("Unit_Code", "varchar(30) null")
+            coll.Add("Cost_Code", "varchar(30) null")
+            coll.Add("Department_Cost", "varchar(30)  null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_COST_CENTER_TYPE_MASTER", coll)
 
             coll = New Dictionary(Of String, String)
