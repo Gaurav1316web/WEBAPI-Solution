@@ -28,6 +28,7 @@ Public Class frmNIRQC
         RadButton1.Visible = False
     End Sub
     Private Sub FrmCapexMaster_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        CancelBtn.Visible = False
         SetUserMgmtNew()
         LoadQCStatus()
         AddNew()
@@ -83,7 +84,7 @@ Public Class frmNIRQC
         BlankAllControls()
     End Sub
     Sub BlankAllControls()
-        'CancelBtn.Visible = False
+        CancelBtn.Visible = False
         txtCode.Value = ""
         txtRemarks.Text = ""
         cboVisualQCStatus.SelectedValue = ""

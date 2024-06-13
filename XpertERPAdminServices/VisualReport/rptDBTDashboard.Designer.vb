@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class rptDBTDashboard
     Inherits FrmMainTranScreen
 
@@ -22,27 +22,18 @@ Partial Class rptDBTDashboard
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Me.RadPageView = New Telerik.WinControls.UI.RadPageView()
-        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gvDBTSummary = New common.UserControls.MyRadGridView()
-        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gvMismatchqty = New common.UserControls.MyRadGridView()
-        Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gvPaymentStatus = New common.UserControls.MyRadGridView()
-        Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gvJanAdh = New common.UserControls.MyRadGridView()
+        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition13 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition14 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition15 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition16 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadPageViewPage6 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.MyRadGridView3 = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage7 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -61,20 +52,6 @@ Partial Class rptDBTDashboard
         Me.ddlTransportMonth = New common.Controls.MyComboBox()
         Me.MyLabel15 = New common.Controls.MyLabel()
         Me.btn_Go_Transport_cost = New Telerik.WinControls.UI.RadButton()
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
-        Me.btnreset = New Telerik.WinControls.UI.RadButton()
-        Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.btnExport = New Telerik.WinControls.UI.RadSplitButton()
-        Me.BCBExcel = New Telerik.WinControls.UI.RadMenuItem()
-        Me.BCBCSV = New Telerik.WinControls.UI.RadMenuItem()
-        Me.BCBPDF = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.txtToDate = New common.Controls.MyDateTimePicker()
-        Me.txtFromDate = New common.Controls.MyDateTimePicker()
-        Me.MyLabel5 = New common.Controls.MyLabel()
-        Me.MyLabel6 = New common.Controls.MyLabel()
-        Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.PanelContainer = New Telerik.WinControls.UI.RadScrollablePanelContainer()
         Me.RadScrollablePanel8 = New Telerik.WinControls.UI.RadScrollablePanel()
         Me.RadGroupBox15 = New Telerik.WinControls.UI.RadGroupBox()
@@ -103,20 +80,29 @@ Partial Class rptDBTDashboard
         Me.dtpTransportYear = New common.Controls.MyDateTimePicker()
         Me.dtpFromDate_Transport = New common.Controls.MyDateTimePicker()
         Me.dtpToDate_Transport = New common.Controls.MyDateTimePicker()
-        CType(Me.RadPageView, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageView.SuspendLayout()
-        Me.RadPageViewPage1.SuspendLayout()
-        CType(Me.gvDBTSummary, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gvDBTSummary.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageViewPage2.SuspendLayout()
-        CType(Me.gvMismatchqty, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gvMismatchqty.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageViewPage3.SuspendLayout()
-        CType(Me.gvPaymentStatus, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gvPaymentStatus.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageViewPage4.SuspendLayout()
-        CType(Me.gvJanAdh, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gvJanAdh.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.btnreset = New Telerik.WinControls.UI.RadButton()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnExport = New Telerik.WinControls.UI.RadSplitButton()
+        Me.BCBExcel = New Telerik.WinControls.UI.RadMenuItem()
+        Me.BCBCSV = New Telerik.WinControls.UI.RadMenuItem()
+        Me.BCBPDF = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.txtToDate = New common.Controls.MyDateTimePicker()
+        Me.txtFromDate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.RadPageView = New Telerik.WinControls.UI.RadPageView()
+        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gvDBTSummary = New common.UserControls.MyRadGridView()
+        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gvMismatchqty = New common.UserControls.MyRadGridView()
+        Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gvPaymentStatus = New common.UserControls.MyRadGridView()
+        Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gvJanAdh = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage6.SuspendLayout()
         CType(Me.MyRadGridView3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyRadGridView3.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -137,16 +123,6 @@ Partial Class rptDBTDashboard
         CType(Me.ddlTransportMonth, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btn_Go_Transport_cost, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox1.SuspendLayout()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadScrollablePanel8, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadScrollablePanel8.PanelContainer.SuspendLayout()
         Me.RadScrollablePanel8.SuspendLayout()
@@ -172,125 +148,35 @@ Partial Class rptDBTDashboard
         CType(Me.dtpTransportYear, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpFromDate_Transport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpToDate_Transport, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer1.Panel1.SuspendLayout()
+        Me.SplitContainer1.Panel2.SuspendLayout()
+        Me.SplitContainer1.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadPageView, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageView.SuspendLayout()
+        Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.gvDBTSummary, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvDBTSummary.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage2.SuspendLayout()
+        CType(Me.gvMismatchqty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvMismatchqty.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage3.SuspendLayout()
+        CType(Me.gvPaymentStatus, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvPaymentStatus.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage4.SuspendLayout()
+        CType(Me.gvJanAdh, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvJanAdh.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
-        '
-        'RadPageView
-        '
-        Me.RadPageView.Controls.Add(Me.RadPageViewPage1)
-        Me.RadPageView.Controls.Add(Me.RadPageViewPage2)
-        Me.RadPageView.Controls.Add(Me.RadPageViewPage3)
-        Me.RadPageView.Controls.Add(Me.RadPageViewPage4)
-        Me.RadPageView.Location = New System.Drawing.Point(0, 68)
-        Me.RadPageView.Name = "RadPageView"
-        Me.RadPageView.SelectedPage = Me.RadPageViewPage4
-        Me.RadPageView.Size = New System.Drawing.Size(1057, 562)
-        Me.RadPageView.TabIndex = 0
-        CType(Me.RadPageView.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
-        '
-        'RadPageViewPage1
-        '
-        Me.RadPageViewPage1.Controls.Add(Me.gvDBTSummary)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(145.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1036, 514)
-        Me.RadPageViewPage1.Text = "Union wise DBT Summary"
-        '
-        'gvDBTSummary
-        '
-        Me.gvDBTSummary.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gvDBTSummary.Location = New System.Drawing.Point(0, 0)
-        '
-        '
-        '
-        Me.gvDBTSummary.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gvDBTSummary.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvDBTSummary.MasterTemplate.ViewDefinition = TableViewDefinition1
-        Me.gvDBTSummary.MyStopExport = False
-        Me.gvDBTSummary.Name = "gvDBTSummary"
-        Me.gvDBTSummary.ReadOnly = True
-        Me.gvDBTSummary.ShowHeaderCellButtons = True
-        Me.gvDBTSummary.Size = New System.Drawing.Size(1036, 514)
-        Me.gvDBTSummary.TabIndex = 8
-        '
-        'RadPageViewPage2
-        '
-        Me.RadPageViewPage2.Controls.Add(Me.gvMismatchqty)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(167.0!, 28.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1036, 514)
-        Me.RadPageViewPage2.Text = "Union wise DBT Mismatch Qty"
-        '
-        'gvMismatchqty
-        '
-        Me.gvMismatchqty.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gvMismatchqty.Location = New System.Drawing.Point(0, 0)
-        '
-        '
-        '
-        Me.gvMismatchqty.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gvMismatchqty.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvMismatchqty.MasterTemplate.ViewDefinition = TableViewDefinition2
-        Me.gvMismatchqty.MyStopExport = False
-        Me.gvMismatchqty.Name = "gvMismatchqty"
-        Me.gvMismatchqty.ReadOnly = True
-        Me.gvMismatchqty.ShowHeaderCellButtons = True
-        Me.gvMismatchqty.Size = New System.Drawing.Size(1036, 514)
-        Me.gvMismatchqty.TabIndex = 7
-        '
-        'RadPageViewPage3
-        '
-        Me.RadPageViewPage3.Controls.Add(Me.gvPaymentStatus)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(117.0!, 28.0!)
-        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(1036, 514)
-        Me.RadPageViewPage3.Text = "DBT Payment Status"
-        '
-        'gvPaymentStatus
-        '
-        Me.gvPaymentStatus.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gvPaymentStatus.Location = New System.Drawing.Point(0, 0)
-        '
-        '
-        '
-        Me.gvPaymentStatus.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gvPaymentStatus.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvPaymentStatus.MasterTemplate.ViewDefinition = TableViewDefinition3
-        Me.gvPaymentStatus.MyStopExport = False
-        Me.gvPaymentStatus.Name = "gvPaymentStatus"
-        Me.gvPaymentStatus.ReadOnly = True
-        Me.gvPaymentStatus.ShowHeaderCellButtons = True
-        Me.gvPaymentStatus.Size = New System.Drawing.Size(1036, 514)
-        Me.gvPaymentStatus.TabIndex = 8
-        '
-        'RadPageViewPage4
-        '
-        Me.RadPageViewPage4.Controls.Add(Me.gvJanAdh)
-        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(176.0!, 28.0!)
-        Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage4.Name = "RadPageViewPage4"
-        Me.RadPageViewPage4.Size = New System.Drawing.Size(1036, 514)
-        Me.RadPageViewPage4.Text = "Union wise Last DBT Jan Aadhar"
-        '
-        'gvJanAdh
-        '
-        Me.gvJanAdh.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gvJanAdh.Location = New System.Drawing.Point(0, 0)
-        '
-        '
-        '
-        Me.gvJanAdh.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gvJanAdh.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvJanAdh.MasterTemplate.ViewDefinition = TableViewDefinition4
-        Me.gvJanAdh.MyStopExport = False
-        Me.gvJanAdh.Name = "gvJanAdh"
-        Me.gvJanAdh.ReadOnly = True
-        Me.gvJanAdh.ShowHeaderCellButtons = True
-        Me.gvJanAdh.Size = New System.Drawing.Size(1036, 514)
-        Me.gvJanAdh.TabIndex = 8
         '
         'RadPageViewPage6
         '
@@ -309,7 +195,7 @@ Partial Class rptDBTDashboard
         '
         Me.MyRadGridView3.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.MyRadGridView3.MasterTemplate.ShowHeaderCellButtons = True
-        Me.MyRadGridView3.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.MyRadGridView3.MasterTemplate.ViewDefinition = TableViewDefinition9
         Me.MyRadGridView3.MyStopExport = False
         Me.MyRadGridView3.Name = "MyRadGridView3"
         Me.MyRadGridView3.ReadOnly = True
@@ -330,12 +216,14 @@ Partial Class rptDBTDashboard
         Me.RadScrollablePanel7.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadScrollablePanel7.Location = New System.Drawing.Point(0, 0)
         Me.RadScrollablePanel7.Name = "RadScrollablePanel7"
+        Me.RadScrollablePanel7.Padding = New System.Windows.Forms.Padding(0)
         '
         'RadScrollablePanel7.PanelContainer
         '
         Me.RadScrollablePanel7.PanelContainer.Controls.Add(Me.RadGroupBox14)
         Me.RadScrollablePanel7.PanelContainer.Controls.Add(Me.GroupBox7)
-        Me.RadScrollablePanel7.PanelContainer.Size = New System.Drawing.Size(1064, 512)
+        Me.RadScrollablePanel7.PanelContainer.Location = New System.Drawing.Point(0, 0)
+        Me.RadScrollablePanel7.PanelContainer.Size = New System.Drawing.Size(1066, 514)
         Me.RadScrollablePanel7.Size = New System.Drawing.Size(1083, 514)
         Me.RadScrollablePanel7.TabIndex = 2
         '
@@ -348,7 +236,7 @@ Partial Class rptDBTDashboard
         Me.RadGroupBox14.HeaderText = "Report"
         Me.RadGroupBox14.Location = New System.Drawing.Point(3, 59)
         Me.RadGroupBox14.Name = "RadGroupBox14"
-        Me.RadGroupBox14.Size = New System.Drawing.Size(1080, 518)
+        Me.RadGroupBox14.Size = New System.Drawing.Size(1082, 518)
         Me.RadGroupBox14.TabIndex = 1
         Me.RadGroupBox14.Text = "Report"
         '
@@ -361,12 +249,12 @@ Partial Class rptDBTDashboard
         '
         Me.gvTransportcost.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTransportcost.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvTransportcost.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvTransportcost.MasterTemplate.ViewDefinition = TableViewDefinition10
         Me.gvTransportcost.MyStopExport = False
         Me.gvTransportcost.Name = "gvTransportcost"
         Me.gvTransportcost.ReadOnly = True
         Me.gvTransportcost.ShowHeaderCellButtons = True
-        Me.gvTransportcost.Size = New System.Drawing.Size(1076, 498)
+        Me.gvTransportcost.Size = New System.Drawing.Size(1078, 498)
         Me.gvTransportcost.TabIndex = 4
         '
         'GroupBox7
@@ -383,7 +271,7 @@ Partial Class rptDBTDashboard
         Me.GroupBox7.Controls.Add(Me.btn_Go_Transport_cost)
         Me.GroupBox7.Location = New System.Drawing.Point(8, 3)
         Me.GroupBox7.Name = "GroupBox7"
-        Me.GroupBox7.Size = New System.Drawing.Size(1071, 50)
+        Me.GroupBox7.Size = New System.Drawing.Size(1073, 50)
         Me.GroupBox7.TabIndex = 0
         Me.GroupBox7.TabStop = False
         Me.GroupBox7.Text = "Filter"
@@ -393,7 +281,7 @@ Partial Class rptDBTDashboard
         Me.Btn_Close7.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Btn_Close7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_Close7.ImageScalingSize = New System.Drawing.Size(68, 14)
-        Me.Btn_Close7.Location = New System.Drawing.Point(983, 20)
+        Me.Btn_Close7.Location = New System.Drawing.Point(985, 20)
         Me.Btn_Close7.Name = "Btn_Close7"
         Me.Btn_Close7.Size = New System.Drawing.Size(82, 21)
         Me.Btn_Close7.TabIndex = 348
@@ -476,10 +364,10 @@ Partial Class rptDBTDashboard
         Me.ddlTransportMonth.IsSourceFromTable = False
         Me.ddlTransportMonth.IsSourceFromValueList = False
         Me.ddlTransportMonth.IsUnique = False
-        RadListDataItem1.Text = "MCC"
-        RadListDataItem2.Text = "PLANT"
-        Me.ddlTransportMonth.Items.Add(RadListDataItem1)
-        Me.ddlTransportMonth.Items.Add(RadListDataItem2)
+        RadListDataItem5.Text = "MCC"
+        RadListDataItem6.Text = "PLANT"
+        Me.ddlTransportMonth.Items.Add(RadListDataItem5)
+        Me.ddlTransportMonth.Items.Add(RadListDataItem6)
         Me.ddlTransportMonth.Location = New System.Drawing.Point(685, 28)
         Me.ddlTransportMonth.MendatroryField = True
         Me.ddlTransportMonth.MyLinkLable1 = Nothing
@@ -513,174 +401,6 @@ Partial Class rptDBTDashboard
         Me.btn_Go_Transport_cost.TabIndex = 329
         Me.btn_Go_Transport_cost.Text = ">>"
         '
-        'GroupBox1
-        '
-        Me.GroupBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.GroupBox1.Controls.Add(Me.btnPrint)
-        Me.GroupBox1.Controls.Add(Me.btnreset)
-        Me.GroupBox1.Controls.Add(Me.btnClose)
-        Me.GroupBox1.Controls.Add(Me.btnExport)
-        Me.GroupBox1.Controls.Add(Me.btnGo)
-        Me.GroupBox1.Controls.Add(Me.txtToDate)
-        Me.GroupBox1.Controls.Add(Me.txtFromDate)
-        Me.GroupBox1.Controls.Add(Me.MyLabel5)
-        Me.GroupBox1.Controls.Add(Me.MyLabel6)
-        Me.GroupBox1.Location = New System.Drawing.Point(18, 12)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(1007, 50)
-        Me.GroupBox1.TabIndex = 0
-        Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Filter"
-        '
-        'btnPrint
-        '
-        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrint.Location = New System.Drawing.Point(398, 17)
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(77, 20)
-        Me.btnPrint.TabIndex = 335
-        Me.btnPrint.Text = "Print"
-        '
-        'btnreset
-        '
-        Me.btnreset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnreset.Location = New System.Drawing.Point(481, 17)
-        Me.btnreset.Name = "btnreset"
-        Me.btnreset.Size = New System.Drawing.Size(82, 21)
-        Me.btnreset.TabIndex = 334
-        Me.btnreset.Text = "Reset"
-        '
-        'btnClose
-        '
-        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.ImageScalingSize = New System.Drawing.Size(68, 14)
-        Me.btnClose.Location = New System.Drawing.Point(917, 18)
-        Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(82, 21)
-        Me.btnClose.TabIndex = 333
-        Me.btnClose.Text = "Close"
-        '
-        'btnExport
-        '
-        Me.btnExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.BCBExcel, Me.BCBCSV, Me.BCBPDF})
-        Me.btnExport.Location = New System.Drawing.Point(748, 18)
-        Me.btnExport.Name = "btnExport"
-        Me.btnExport.Size = New System.Drawing.Size(110, 20)
-        Me.btnExport.TabIndex = 332
-        Me.btnExport.Text = "Export"
-        '
-        'BCBExcel
-        '
-        Me.BCBExcel.AccessibleDescription = "BCBExcel"
-        Me.BCBExcel.AccessibleName = "BCBExcel"
-        Me.BCBExcel.Name = "BCBExcel"
-        Me.BCBExcel.Text = "Excel"
-        Me.BCBExcel.UseCompatibleTextRendering = False
-        '
-        'BCBCSV
-        '
-        Me.BCBCSV.AccessibleDescription = "BCBCSV"
-        Me.BCBCSV.AccessibleName = "BCBCSV"
-        Me.BCBCSV.Name = "BCBCSV"
-        Me.BCBCSV.Text = "CSV"
-        Me.BCBCSV.UseCompatibleTextRendering = False
-        '
-        'BCBPDF
-        '
-        Me.BCBPDF.AccessibleDescription = "BCBPDF"
-        Me.BCBPDF.AccessibleName = "BCBPDF"
-        Me.BCBPDF.Name = "BCBPDF"
-        Me.BCBPDF.Text = "PDF"
-        Me.BCBPDF.UseCompatibleTextRendering = False
-        '
-        'btnGo
-        '
-        Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGo.ImageScalingSize = New System.Drawing.Size(68, 14)
-        Me.btnGo.Location = New System.Drawing.Point(310, 17)
-        Me.btnGo.Name = "btnGo"
-        Me.btnGo.Size = New System.Drawing.Size(82, 21)
-        Me.btnGo.TabIndex = 329
-        Me.btnGo.Text = ">>"
-        '
-        'txtToDate
-        '
-        Me.txtToDate.CalculationExpression = Nothing
-        Me.txtToDate.CustomFormat = "dd-MM-yyyy"
-        Me.txtToDate.FieldCode = Nothing
-        Me.txtToDate.FieldDesc = Nothing
-        Me.txtToDate.FieldMaxLength = 0
-        Me.txtToDate.FieldName = Nothing
-        Me.txtToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtToDate.isCalculatedField = False
-        Me.txtToDate.IsSourceFromTable = False
-        Me.txtToDate.IsSourceFromValueList = False
-        Me.txtToDate.IsUnique = False
-        Me.txtToDate.Location = New System.Drawing.Point(192, 18)
-        Me.txtToDate.MendatroryField = False
-        Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtToDate.MyLinkLable1 = Nothing
-        Me.txtToDate.MyLinkLable2 = Nothing
-        Me.txtToDate.Name = "txtToDate"
-        Me.txtToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtToDate.ReferenceFieldDesc = Nothing
-        Me.txtToDate.ReferenceFieldName = Nothing
-        Me.txtToDate.ReferenceTableName = Nothing
-        Me.txtToDate.Size = New System.Drawing.Size(82, 20)
-        Me.txtToDate.TabIndex = 326
-        Me.txtToDate.TabStop = False
-        Me.txtToDate.Text = "17-12-2011"
-        Me.txtToDate.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
-        '
-        'txtFromDate
-        '
-        Me.txtFromDate.CalculationExpression = Nothing
-        Me.txtFromDate.CustomFormat = "dd-MM-yyyy"
-        Me.txtFromDate.FieldCode = Nothing
-        Me.txtFromDate.FieldDesc = Nothing
-        Me.txtFromDate.FieldMaxLength = 0
-        Me.txtFromDate.FieldName = Nothing
-        Me.txtFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtFromDate.isCalculatedField = False
-        Me.txtFromDate.IsSourceFromTable = False
-        Me.txtFromDate.IsSourceFromValueList = False
-        Me.txtFromDate.IsUnique = False
-        Me.txtFromDate.Location = New System.Drawing.Point(65, 18)
-        Me.txtFromDate.MendatroryField = False
-        Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtFromDate.MyLinkLable1 = Nothing
-        Me.txtFromDate.MyLinkLable2 = Nothing
-        Me.txtFromDate.Name = "txtFromDate"
-        Me.txtFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtFromDate.ReferenceFieldDesc = Nothing
-        Me.txtFromDate.ReferenceFieldName = Nothing
-        Me.txtFromDate.ReferenceTableName = Nothing
-        Me.txtFromDate.Size = New System.Drawing.Size(82, 20)
-        Me.txtFromDate.TabIndex = 325
-        Me.txtFromDate.TabStop = False
-        Me.txtFromDate.Text = "17-12-2011"
-        Me.txtFromDate.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
-        '
-        'MyLabel5
-        '
-        Me.MyLabel5.FieldName = Nothing
-        Me.MyLabel5.Location = New System.Drawing.Point(147, 19)
-        Me.MyLabel5.Name = "MyLabel5"
-        Me.MyLabel5.Size = New System.Drawing.Size(45, 18)
-        Me.MyLabel5.TabIndex = 328
-        Me.MyLabel5.Text = "To Date"
-        '
-        'MyLabel6
-        '
-        Me.MyLabel6.FieldName = Nothing
-        Me.MyLabel6.Location = New System.Drawing.Point(6, 19)
-        Me.MyLabel6.Name = "MyLabel6"
-        Me.MyLabel6.Size = New System.Drawing.Size(59, 18)
-        Me.MyLabel6.TabIndex = 327
-        Me.MyLabel6.Text = "From Date"
-        '
         'PanelContainer
         '
         Me.PanelContainer.AutoScroll = False
@@ -693,13 +413,15 @@ Partial Class rptDBTDashboard
         Me.RadScrollablePanel8.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadScrollablePanel8.Location = New System.Drawing.Point(0, 0)
         Me.RadScrollablePanel8.Name = "RadScrollablePanel8"
+        Me.RadScrollablePanel8.Padding = New System.Windows.Forms.Padding(0)
         '
         'RadScrollablePanel8.PanelContainer
         '
         Me.RadScrollablePanel8.PanelContainer.Controls.Add(Me.RadGroupBox15)
         Me.RadScrollablePanel8.PanelContainer.Controls.Add(Me.RadGroupBox7)
         Me.RadScrollablePanel8.PanelContainer.Controls.Add(Me.GroupBox8)
-        Me.RadScrollablePanel8.PanelContainer.Size = New System.Drawing.Size(1064, 512)
+        Me.RadScrollablePanel8.PanelContainer.Location = New System.Drawing.Point(0, 0)
+        Me.RadScrollablePanel8.PanelContainer.Size = New System.Drawing.Size(1066, 514)
         Me.RadScrollablePanel8.Size = New System.Drawing.Size(1083, 514)
         Me.RadScrollablePanel8.TabIndex = 3
         '
@@ -711,7 +433,7 @@ Partial Class rptDBTDashboard
         Me.RadGroupBox15.HeaderText = "Store"
         Me.RadGroupBox15.Location = New System.Drawing.Point(5, 333)
         Me.RadGroupBox15.Name = "RadGroupBox15"
-        Me.RadGroupBox15.Size = New System.Drawing.Size(1059, 244)
+        Me.RadGroupBox15.Size = New System.Drawing.Size(1061, 244)
         Me.RadGroupBox15.TabIndex = 3
         Me.RadGroupBox15.Text = "Store"
         '
@@ -723,7 +445,7 @@ Partial Class rptDBTDashboard
         Me.RadGroupBox7.HeaderText = "PO"
         Me.RadGroupBox7.Location = New System.Drawing.Point(3, 59)
         Me.RadGroupBox7.Name = "RadGroupBox7"
-        Me.RadGroupBox7.Size = New System.Drawing.Size(1076, 270)
+        Me.RadGroupBox7.Size = New System.Drawing.Size(1078, 270)
         Me.RadGroupBox7.TabIndex = 1
         Me.RadGroupBox7.Text = "PO"
         '
@@ -744,7 +466,7 @@ Partial Class rptDBTDashboard
         Me.GroupBox8.Controls.Add(Me.btn_StoreReport)
         Me.GroupBox8.Location = New System.Drawing.Point(8, 3)
         Me.GroupBox8.Name = "GroupBox8"
-        Me.GroupBox8.Size = New System.Drawing.Size(1069, 50)
+        Me.GroupBox8.Size = New System.Drawing.Size(1071, 50)
         Me.GroupBox8.TabIndex = 0
         Me.GroupBox8.TabStop = False
         Me.GroupBox8.Text = "Filter"
@@ -754,7 +476,7 @@ Partial Class rptDBTDashboard
         Me.Btn_Close8.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Btn_Close8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_Close8.ImageScalingSize = New System.Drawing.Size(68, 14)
-        Me.Btn_Close8.Location = New System.Drawing.Point(985, 20)
+        Me.Btn_Close8.Location = New System.Drawing.Point(987, 20)
         Me.Btn_Close8.Name = "Btn_Close8"
         Me.Btn_Close8.Size = New System.Drawing.Size(82, 21)
         Me.Btn_Close8.TabIndex = 349
@@ -949,10 +671,10 @@ Partial Class rptDBTDashboard
         Me.ddlStoreMonth.IsSourceFromTable = False
         Me.ddlStoreMonth.IsSourceFromValueList = False
         Me.ddlStoreMonth.IsUnique = False
-        RadListDataItem3.Text = "MCC"
-        RadListDataItem4.Text = "PLANT"
-        Me.ddlStoreMonth.Items.Add(RadListDataItem3)
-        Me.ddlStoreMonth.Items.Add(RadListDataItem4)
+        RadListDataItem1.Text = "MCC"
+        RadListDataItem2.Text = "PLANT"
+        Me.ddlStoreMonth.Items.Add(RadListDataItem1)
+        Me.ddlStoreMonth.Items.Add(RadListDataItem2)
         Me.ddlStoreMonth.Location = New System.Drawing.Point(678, 20)
         Me.ddlStoreMonth.MendatroryField = True
         Me.ddlStoreMonth.MyLinkLable1 = Nothing
@@ -995,7 +717,7 @@ Partial Class rptDBTDashboard
         '
         Me.gv_po.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_po.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_po.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gv_po.MasterTemplate.ViewDefinition = TableViewDefinition11
         Me.gv_po.MyStopExport = False
         Me.gv_po.Name = "gv_po"
         Me.gv_po.ReadOnly = True
@@ -1012,7 +734,7 @@ Partial Class rptDBTDashboard
         '
         Me.gv_store.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_store.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_store.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gv_store.MasterTemplate.ViewDefinition = TableViewDefinition12
         Me.gv_store.MyStopExport = False
         Me.gv_store.Name = "gv_store"
         Me.gv_store.ReadOnly = True
@@ -1116,33 +838,334 @@ Partial Class rptDBTDashboard
         Me.dtpToDate_Transport.Text = "17-12-2011"
         Me.dtpToDate_Transport.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
         '
+        'SplitContainer1
+        '
+        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer1.Name = "SplitContainer1"
+        Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer1.Panel1
+        '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.GroupBox1)
+        '
+        'SplitContainer1.Panel2
+        '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.RadPageView)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1054, 630)
+        Me.SplitContainer1.SplitterDistance = 66
+        Me.SplitContainer1.TabIndex = 0
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.btnPrint)
+        Me.GroupBox1.Controls.Add(Me.btnreset)
+        Me.GroupBox1.Controls.Add(Me.btnClose)
+        Me.GroupBox1.Controls.Add(Me.btnExport)
+        Me.GroupBox1.Controls.Add(Me.btnGo)
+        Me.GroupBox1.Controls.Add(Me.txtToDate)
+        Me.GroupBox1.Controls.Add(Me.txtFromDate)
+        Me.GroupBox1.Controls.Add(Me.MyLabel5)
+        Me.GroupBox1.Controls.Add(Me.MyLabel6)
+        Me.GroupBox1.Location = New System.Drawing.Point(12, 15)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(1030, 50)
+        Me.GroupBox1.TabIndex = 391
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Filter"
+        '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Location = New System.Drawing.Point(398, 17)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(77, 20)
+        Me.btnPrint.TabIndex = 335
+        Me.btnPrint.Text = "Print"
+        '
+        'btnreset
+        '
+        Me.btnreset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnreset.Location = New System.Drawing.Point(481, 17)
+        Me.btnreset.Name = "btnreset"
+        Me.btnreset.Size = New System.Drawing.Size(82, 21)
+        Me.btnreset.TabIndex = 334
+        Me.btnreset.Text = "Reset"
+        '
+        'btnClose
+        '
+        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnClose.ImageScalingSize = New System.Drawing.Size(68, 14)
+        Me.btnClose.Location = New System.Drawing.Point(940, 18)
+        Me.btnClose.Name = "btnClose"
+        Me.btnClose.Size = New System.Drawing.Size(82, 21)
+        Me.btnClose.TabIndex = 333
+        Me.btnClose.Text = "Close"
+        '
+        'btnExport
+        '
+        Me.btnExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.BCBExcel, Me.BCBCSV, Me.BCBPDF})
+        Me.btnExport.Location = New System.Drawing.Point(748, 18)
+        Me.btnExport.Name = "btnExport"
+        Me.btnExport.Size = New System.Drawing.Size(110, 20)
+        Me.btnExport.TabIndex = 332
+        Me.btnExport.Text = "Export"
+        '
+        'BCBExcel
+        '
+        Me.BCBExcel.AccessibleDescription = "BCBExcel"
+        Me.BCBExcel.AccessibleName = "BCBExcel"
+        Me.BCBExcel.Name = "BCBExcel"
+        Me.BCBExcel.Text = "Excel"
+        Me.BCBExcel.UseCompatibleTextRendering = False
+        '
+        'BCBCSV
+        '
+        Me.BCBCSV.AccessibleDescription = "BCBCSV"
+        Me.BCBCSV.AccessibleName = "BCBCSV"
+        Me.BCBCSV.Name = "BCBCSV"
+        Me.BCBCSV.Text = "CSV"
+        Me.BCBCSV.UseCompatibleTextRendering = False
+        '
+        'BCBPDF
+        '
+        Me.BCBPDF.AccessibleDescription = "BCBPDF"
+        Me.BCBPDF.AccessibleName = "BCBPDF"
+        Me.BCBPDF.Name = "BCBPDF"
+        Me.BCBPDF.Text = "PDF"
+        Me.BCBPDF.UseCompatibleTextRendering = False
+        '
+        'btnGo
+        '
+        Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnGo.ImageScalingSize = New System.Drawing.Size(68, 14)
+        Me.btnGo.Location = New System.Drawing.Point(310, 17)
+        Me.btnGo.Name = "btnGo"
+        Me.btnGo.Size = New System.Drawing.Size(82, 21)
+        Me.btnGo.TabIndex = 329
+        Me.btnGo.Text = ">>"
+        '
+        'txtToDate
+        '
+        Me.txtToDate.CalculationExpression = Nothing
+        Me.txtToDate.CustomFormat = "dd-MM-yyyy"
+        Me.txtToDate.FieldCode = Nothing
+        Me.txtToDate.FieldDesc = Nothing
+        Me.txtToDate.FieldMaxLength = 0
+        Me.txtToDate.FieldName = Nothing
+        Me.txtToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtToDate.isCalculatedField = False
+        Me.txtToDate.IsSourceFromTable = False
+        Me.txtToDate.IsSourceFromValueList = False
+        Me.txtToDate.IsUnique = False
+        Me.txtToDate.Location = New System.Drawing.Point(192, 18)
+        Me.txtToDate.MendatroryField = False
+        Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtToDate.MyLinkLable1 = Nothing
+        Me.txtToDate.MyLinkLable2 = Nothing
+        Me.txtToDate.Name = "txtToDate"
+        Me.txtToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtToDate.ReferenceFieldDesc = Nothing
+        Me.txtToDate.ReferenceFieldName = Nothing
+        Me.txtToDate.ReferenceTableName = Nothing
+        Me.txtToDate.Size = New System.Drawing.Size(82, 20)
+        Me.txtToDate.TabIndex = 326
+        Me.txtToDate.TabStop = False
+        Me.txtToDate.Text = "17-12-2011"
+        Me.txtToDate.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
+        '
+        'txtFromDate
+        '
+        Me.txtFromDate.CalculationExpression = Nothing
+        Me.txtFromDate.CustomFormat = "dd-MM-yyyy"
+        Me.txtFromDate.FieldCode = Nothing
+        Me.txtFromDate.FieldDesc = Nothing
+        Me.txtFromDate.FieldMaxLength = 0
+        Me.txtFromDate.FieldName = Nothing
+        Me.txtFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtFromDate.isCalculatedField = False
+        Me.txtFromDate.IsSourceFromTable = False
+        Me.txtFromDate.IsSourceFromValueList = False
+        Me.txtFromDate.IsUnique = False
+        Me.txtFromDate.Location = New System.Drawing.Point(65, 18)
+        Me.txtFromDate.MendatroryField = False
+        Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtFromDate.MyLinkLable1 = Nothing
+        Me.txtFromDate.MyLinkLable2 = Nothing
+        Me.txtFromDate.Name = "txtFromDate"
+        Me.txtFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtFromDate.ReferenceFieldDesc = Nothing
+        Me.txtFromDate.ReferenceFieldName = Nothing
+        Me.txtFromDate.ReferenceTableName = Nothing
+        Me.txtFromDate.Size = New System.Drawing.Size(82, 20)
+        Me.txtFromDate.TabIndex = 325
+        Me.txtFromDate.TabStop = False
+        Me.txtFromDate.Text = "17-12-2011"
+        Me.txtFromDate.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Location = New System.Drawing.Point(147, 19)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(45, 18)
+        Me.MyLabel5.TabIndex = 328
+        Me.MyLabel5.Text = "To Date"
+        '
+        'MyLabel6
+        '
+        Me.MyLabel6.FieldName = Nothing
+        Me.MyLabel6.Location = New System.Drawing.Point(6, 19)
+        Me.MyLabel6.Name = "MyLabel6"
+        Me.MyLabel6.Size = New System.Drawing.Size(59, 18)
+        Me.MyLabel6.TabIndex = 327
+        Me.MyLabel6.Text = "From Date"
+        '
+        'RadPageView
+        '
+        Me.RadPageView.Controls.Add(Me.RadPageViewPage1)
+        Me.RadPageView.Controls.Add(Me.RadPageViewPage2)
+        Me.RadPageView.Controls.Add(Me.RadPageViewPage3)
+        Me.RadPageView.Controls.Add(Me.RadPageViewPage4)
+        Me.RadPageView.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RadPageView.Location = New System.Drawing.Point(0, 0)
+        Me.RadPageView.Name = "RadPageView"
+        Me.RadPageView.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView.Size = New System.Drawing.Size(1054, 560)
+        Me.RadPageView.TabIndex = 5
+        CType(Me.RadPageView.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
+        '
+        'RadPageViewPage1
+        '
+        Me.RadPageViewPage1.Controls.Add(Me.gvDBTSummary)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(147.0!, 28.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage1.Name = "RadPageViewPage1"
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1033, 512)
+        Me.RadPageViewPage1.Text = "Union Wise DBT Summary"
+        '
+        'gvDBTSummary
+        '
+        Me.gvDBTSummary.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvDBTSummary.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gvDBTSummary.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvDBTSummary.MasterTemplate.AllowAddNewRow = False
+        Me.gvDBTSummary.MasterTemplate.AllowDeleteRow = False
+        Me.gvDBTSummary.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvDBTSummary.MasterTemplate.ShowGroupedColumns = True
+        Me.gvDBTSummary.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvDBTSummary.MasterTemplate.ViewDefinition = TableViewDefinition13
+        Me.gvDBTSummary.MyStopExport = False
+        Me.gvDBTSummary.Name = "gvDBTSummary"
+        Me.gvDBTSummary.ShowHeaderCellButtons = True
+        Me.gvDBTSummary.Size = New System.Drawing.Size(1033, 512)
+        Me.gvDBTSummary.TabIndex = 3
+        '
+        'RadPageViewPage2
+        '
+        Me.RadPageViewPage2.Controls.Add(Me.gvMismatchqty)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(170.0!, 28.0!)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage2.Name = "RadPageViewPage2"
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1033, 512)
+        Me.RadPageViewPage2.Text = "Union Wise DBT Mismatch Qty"
+        '
+        'gvMismatchqty
+        '
+        Me.gvMismatchqty.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvMismatchqty.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gvMismatchqty.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvMismatchqty.MasterTemplate.AllowAddNewRow = False
+        Me.gvMismatchqty.MasterTemplate.AllowDeleteRow = False
+        Me.gvMismatchqty.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvMismatchqty.MasterTemplate.ShowGroupedColumns = True
+        Me.gvMismatchqty.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvMismatchqty.MasterTemplate.ViewDefinition = TableViewDefinition14
+        Me.gvMismatchqty.MyStopExport = False
+        Me.gvMismatchqty.Name = "gvMismatchqty"
+        Me.gvMismatchqty.ShowHeaderCellButtons = True
+        Me.gvMismatchqty.Size = New System.Drawing.Size(1033, 512)
+        Me.gvMismatchqty.TabIndex = 2
+        '
+        'RadPageViewPage3
+        '
+        Me.RadPageViewPage3.Controls.Add(Me.gvPaymentStatus)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(117.0!, 28.0!)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage3.Name = "RadPageViewPage3"
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(1033, 512)
+        Me.RadPageViewPage3.Text = "DBT Payment Status"
+        '
+        'gvPaymentStatus
+        '
+        Me.gvPaymentStatus.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvPaymentStatus.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gvPaymentStatus.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvPaymentStatus.MasterTemplate.AllowAddNewRow = False
+        Me.gvPaymentStatus.MasterTemplate.AllowDeleteRow = False
+        Me.gvPaymentStatus.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvPaymentStatus.MasterTemplate.ShowGroupedColumns = True
+        Me.gvPaymentStatus.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvPaymentStatus.MasterTemplate.ViewDefinition = TableViewDefinition15
+        Me.gvPaymentStatus.MyStopExport = False
+        Me.gvPaymentStatus.Name = "gvPaymentStatus"
+        Me.gvPaymentStatus.ShowHeaderCellButtons = True
+        Me.gvPaymentStatus.Size = New System.Drawing.Size(1033, 512)
+        Me.gvPaymentStatus.TabIndex = 3
+        '
+        'RadPageViewPage4
+        '
+        Me.RadPageViewPage4.Controls.Add(Me.gvJanAdh)
+        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(178.0!, 28.0!)
+        Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage4.Name = "RadPageViewPage4"
+        Me.RadPageViewPage4.Size = New System.Drawing.Size(1033, 512)
+        Me.RadPageViewPage4.Text = "Union Wise Last DBT Jan Aadhar"
+        '
+        'gvJanAdh
+        '
+        Me.gvJanAdh.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvJanAdh.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gvJanAdh.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvJanAdh.MasterTemplate.AllowAddNewRow = False
+        Me.gvJanAdh.MasterTemplate.AllowDeleteRow = False
+        Me.gvJanAdh.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvJanAdh.MasterTemplate.ShowGroupedColumns = True
+        Me.gvJanAdh.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvJanAdh.MasterTemplate.ViewDefinition = TableViewDefinition16
+        Me.gvJanAdh.MyStopExport = False
+        Me.gvJanAdh.Name = "gvJanAdh"
+        Me.gvJanAdh.ShowHeaderCellButtons = True
+        Me.gvJanAdh.Size = New System.Drawing.Size(1033, 512)
+        Me.gvJanAdh.TabIndex = 3
+        '
         'rptDBTDashboard
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1054, 630)
-        Me.Controls.Add(Me.RadPageView)
-        Me.Controls.Add(Me.GroupBox1)
+        Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "rptDBTDashboard"
         '
         '
         '
         Me.RootElement.ApplyShapeToControl = True
         Me.Text = "DBT Dashboard"
-        CType(Me.RadPageView, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageView.ResumeLayout(False)
-        Me.RadPageViewPage1.ResumeLayout(False)
-        CType(Me.gvDBTSummary.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gvDBTSummary, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageViewPage2.ResumeLayout(False)
-        CType(Me.gvMismatchqty.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gvMismatchqty, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageViewPage3.ResumeLayout(False)
-        CType(Me.gvPaymentStatus.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gvPaymentStatus, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageViewPage4.ResumeLayout(False)
-        CType(Me.gvJanAdh.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gvJanAdh, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage6.ResumeLayout(False)
         CType(Me.MyRadGridView3.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyRadGridView3, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1164,17 +1187,6 @@ Partial Class rptDBTDashboard
         CType(Me.ddlTransportMonth, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btn_Go_Transport_cost, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox1.ResumeLayout(False)
-        Me.GroupBox1.PerformLayout()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadScrollablePanel8.PanelContainer.ResumeLayout(False)
         CType(Me.RadScrollablePanel8, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadScrollablePanel8.ResumeLayout(False)
@@ -1201,31 +1213,43 @@ Partial Class rptDBTDashboard
         CType(Me.dtpTransportYear, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpFromDate_Transport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpToDate_Transport, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainer1.Panel1.ResumeLayout(False)
+        Me.SplitContainer1.Panel2.ResumeLayout(False)
+        Me.SplitContainer1.ResumeLayout(False)
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadPageView, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageView.ResumeLayout(False)
+        Me.RadPageViewPage1.ResumeLayout(False)
+        CType(Me.gvDBTSummary.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvDBTSummary, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage2.ResumeLayout(False)
+        CType(Me.gvMismatchqty.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvMismatchqty, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage3.ResumeLayout(False)
+        CType(Me.gvPaymentStatus.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvPaymentStatus, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage4.ResumeLayout(False)
+        CType(Me.gvJanAdh.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvJanAdh, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents RadPageView As Telerik.WinControls.UI.RadPageView
-    Friend WithEvents RadPageViewPage1 As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents RadThemeManager1 As Telerik.WinControls.RadThemeManager
-    Friend WithEvents RadPageViewPage2 As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents RadPageViewPage6 As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents RadPageViewPage7 As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents RadScrollablePanel7 As Telerik.WinControls.UI.RadScrollablePanel
     Friend WithEvents RadGroupBox14 As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents gvTransportcost As common.UserControls.MyRadGridView
-    Friend WithEvents GroupBox1 As GroupBox
-    Friend WithEvents btnClose As RadButton
-    Friend WithEvents btnExport As RadSplitButton
-    Friend WithEvents BCBExcel As RadMenuItem
-    Friend WithEvents BCBCSV As RadMenuItem
-    Friend WithEvents BCBPDF As RadMenuItem
-    Friend WithEvents btnGo As RadButton
-    Friend WithEvents txtToDate As common.Controls.MyDateTimePicker
-    Friend WithEvents txtFromDate As common.Controls.MyDateTimePicker
-    Friend WithEvents MyLabel5 As common.Controls.MyLabel
-    Friend WithEvents MyLabel6 As common.Controls.MyLabel
-    Friend WithEvents gvMismatchqty As common.UserControls.MyRadGridView
     Friend WithEvents MyRadGridView3 As common.UserControls.MyRadGridView
     Friend WithEvents GroupBox7 As GroupBox
     Friend WithEvents Btn_Close7 As RadButton
@@ -1266,12 +1290,28 @@ Partial Class rptDBTDashboard
     Friend WithEvents dtpTransportYear As common.Controls.MyDateTimePicker
     Friend WithEvents dtpFromDate_Transport As common.Controls.MyDateTimePicker
     Friend WithEvents dtpToDate_Transport As common.Controls.MyDateTimePicker
-    Friend WithEvents RadPageViewPage3 As RadPageViewPage
-    Friend WithEvents gvPaymentStatus As common.UserControls.MyRadGridView
-    Friend WithEvents RadPageViewPage4 As RadPageViewPage
-    Friend WithEvents gvJanAdh As common.UserControls.MyRadGridView
-    Friend WithEvents gvDBTSummary As common.UserControls.MyRadGridView
     Friend WithEvents PanelContainer As RadScrollablePanelContainer
-    Friend WithEvents btnreset As RadButton
+    Friend WithEvents SplitContainer1 As SplitContainer
+    Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents btnPrint As RadButton
+    Friend WithEvents btnreset As RadButton
+    Friend WithEvents btnClose As RadButton
+    Friend WithEvents btnExport As RadSplitButton
+    Friend WithEvents BCBExcel As RadMenuItem
+    Friend WithEvents BCBCSV As RadMenuItem
+    Friend WithEvents BCBPDF As RadMenuItem
+    Friend WithEvents btnGo As RadButton
+    Friend WithEvents txtToDate As common.Controls.MyDateTimePicker
+    Friend WithEvents txtFromDate As common.Controls.MyDateTimePicker
+    Friend WithEvents MyLabel5 As common.Controls.MyLabel
+    Friend WithEvents MyLabel6 As common.Controls.MyLabel
+    Friend WithEvents RadPageView As RadPageView
+    Friend WithEvents RadPageViewPage1 As RadPageViewPage
+    Friend WithEvents gvDBTSummary As common.UserControls.MyRadGridView
+    Friend WithEvents RadPageViewPage2 As RadPageViewPage
+    Friend WithEvents gvMismatchqty As common.UserControls.MyRadGridView
+    Friend WithEvents RadPageViewPage3 As RadPageViewPage
+    Friend WithEvents RadPageViewPage4 As RadPageViewPage
+    Friend WithEvents gvPaymentStatus As common.UserControls.MyRadGridView
+    Friend WithEvents gvJanAdh As common.UserControls.MyRadGridView
 End Class
