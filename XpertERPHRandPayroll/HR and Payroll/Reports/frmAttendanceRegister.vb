@@ -301,7 +301,7 @@ Public Class frmAttendanceRegister
         End Try
     End Sub
     Private Sub fndLocationCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndLocationCode._MYValidating
-        fndLocationCode.Value = clsLocation.getFinder("Location_Type='Physical'", Me.fndLocationCode.Value, isButtonClicked)
+        fndLocationCode.Value = clsLocation.getFinder("Location_Type='Physical' and IsMainPlant='1' and Loc_Segment_Code in (" + objCommonVar.strCurrUserLocationsSegment + ")", Me.fndLocationCode.Value, isButtonClicked)
         If clsCommon.myLen(fndLocationCode.Value) > 0 Then
             lblLocationName.Text = clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" & fndLocationCode.Value & "'")
         Else
