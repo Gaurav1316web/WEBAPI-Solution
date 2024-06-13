@@ -535,49 +535,50 @@ Public Class rptVSPMilkNotSold
             If chkDeduction.Checked Then
 
                 If clsCommon.myLen(txtPaymentCycleCode.Value) > 0 Then
-                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
-                        ''Dim qry As String = "Select Code from TSPL_DEDUCTION_MASTER Where TSPL_DEDUCTION_MASTER.Code In('22','31','33','36')"
-                        Dim Qry As String = "Select Code from TSPL_DEDUCTION_MASTER Where Code In (Select  TSPL_MULTIPLE_DEDUCTION_DETAIL.DeductionCode from TSPL_MULTIPLE_DEDUCTION_DETAIL
+                    'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
+                    ''Dim qry As String = "Select Code from TSPL_DEDUCTION_MASTER Where TSPL_DEDUCTION_MASTER.Code In('22','31','33','36')"
+                    Dim Qry As String = "Select Code from TSPL_DEDUCTION_MASTER Where Code In (Select  TSPL_MULTIPLE_DEDUCTION_DETAIL.DeductionCode from TSPL_MULTIPLE_DEDUCTION_DETAIL
                                         Inner Join TSPL_MULTIPLE_DEDUCTION_HEAD On TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
                                         Inner Join TSPL_VLC_MASTER_HEAD ON  TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_MULTIPLE_DEDUCTION_DETAIL.Vendor_Code"
-                        If AreaWiseBilling = True Then
-                            Qry += " inner join tspl_mcc_master on tspl_mcc_master.MCC_Code=TSPL_VLC_MASTER_HEAD.mcc				"
-                        End If
-                        Qry += " where TSPL_MULTIPLE_DEDUCTION_DETAIL.Amount>0 "
-                        If AreaWiseBilling = True Then
-                            Qry += "  and tspl_mcc_master.Area_Location_Code='" + fndArea.Value + "'"
+                    If AreaWiseBilling = True Then
+                        Qry += " inner join tspl_mcc_master on tspl_mcc_master.MCC_Code=TSPL_VLC_MASTER_HEAD.mcc				"
+                    End If
+                    Qry += " where TSPL_MULTIPLE_DEDUCTION_DETAIL.Amount>0 "
+                    If AreaWiseBilling = True Then
+                        Qry += "  and tspl_mcc_master.Area_Location_Code='" + fndArea.Value + "'"
+                    Else
+                        'If clsCommon.myLen(TxtMCCMultifnd.arrValueMember) > 0 Then
+                        '    Qry += "  and TSPL_VLC_MASTER_HEAD.MCC In (" + clsCommon.GetMulcallString(TxtMCCMultifnd.arrValueMember) + ") "
+                        'Else
+                        '    Qry += "  and TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Text + "' "
+                        'End If
+                        If clsCommon.myLen(StrPermission) > 0 Then
+                            Qry += "  and TSPL_VLC_MASTER_HEAD.MCC In (" & StrPermission & ") "
                         Else
-                            'If clsCommon.myLen(TxtMCCMultifnd.arrValueMember) > 0 Then
-                            '    Qry += "  and TSPL_VLC_MASTER_HEAD.MCC In (" + clsCommon.GetMulcallString(TxtMCCMultifnd.arrValueMember) + ") "
-                            'Else
-                            '    Qry += "  and TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Text + "' "
-                            'End If
-                            If clsCommon.myLen(StrPermission) > 0 Then
-                                Qry += "  and TSPL_VLC_MASTER_HEAD.MCC In (" & StrPermission & ") "
-                            Else
-                                Qry += "  and TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Text + "' "
-                            End If
-                            Qry += "  And TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date >=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' And TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date  <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' and 
+                            Qry += "  and TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Text + "' "
+                        End If
+                        Qry += "  And TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date >=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' And TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date  <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' and 
                                           TSPL_VLC_MASTER_HEAD.VSP_Code Not In(Select VSP_Code from TSPL_MILK_SRN_HEAD where Doc_Date >=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' And Doc_Date  <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "')) "
 
-                            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
-                            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                                Dim arr As New ArrayList
-                                For Each dr As DataRow In dt.Rows
-                                    arr.Add(clsCommon.myCstr(dr("Code")))
-                                Next
-                                txtMultiDeduction.arrValueMember = arr
-                            End If
+                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                            Dim arr As New ArrayList
+                            For Each dr As DataRow In dt.Rows
+                                arr.Add(clsCommon.myCstr(dr("Code")))
+                            Next
+                            txtMultiDeduction.arrValueMember = arr
                         End If
-                        MyLabel3.Visible = True
-                        txtMultiDeduction.Visible = True
-                    Else
-                        clsCommon.MyMessageBoxShow(Me, "Select Payment Cycle", Me.Text)
-                        chkDeduction.Checked = False
-                        MyLabel3.Visible = False
-                        txtMultiDeduction.Visible = False
                     End If
+                    MyLabel3.Visible = True
+                    txtMultiDeduction.Visible = True
+                    'Else
+                    '    clsCommon.MyMessageBoxShow(Me, "Select Payment Cycle", Me.Text)
+                    '    chkDeduction.Checked = False
+                    '    MyLabel3.Visible = False
+                    '    txtMultiDeduction.Visible = False
+                    'End If
                 Else
+                    clsCommon.MyMessageBoxShow(Me, "Select Payment Cycle", Me.Text)
                     MyLabel3.Visible = False
                     txtMultiDeduction.Visible = False
                 End If

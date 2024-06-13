@@ -198,7 +198,7 @@ Public Class frmNIRQC
             PostData()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso MyBase.isPostFlag AndAlso btnPost.Enabled Then
             PostData()
-        ElseIf e.Alt AndAlso e.Shift And e.KeyCode = Keys.F12 Then
+        ElseIf e.Alt And e.KeyCode = Keys.F12 Then
             CancelNIRQCData()
         ElseIf e.Alt And e.KeyCode = Keys.C Then
             Me.Close()
