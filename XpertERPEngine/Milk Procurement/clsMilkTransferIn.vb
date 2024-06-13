@@ -591,8 +591,8 @@ Public Class clsMilkTransferIn
                         objInventoryMovemnt.Fat_Rate = objD.arr(objTr.Line_No - 1).FAT_Rate
                         objInventoryMovemnt.SNF_Rate = objD.arr(objTr.Line_No - 1).SNF_Rate
                     Else
-                        objInventoryMovemnt.Other_Location_Code = objW.Dispatched_From_Mcc
-                        objInventoryMovemnt.Other_Location_Desc = clsLocation.GetName(objW.Dispatched_From_Mcc, trans)
+                        'objInventoryMovemnt.Other_Location_Code = objW.Dispatched_From_Mcc
+                        'objInventoryMovemnt.Other_Location_Desc = clsLocation.GetName(objW.Dispatched_From_Mcc, trans)
                         objInventoryMovemnt.Fat_Rate = objTr.CH_FAT_Rate
                         objInventoryMovemnt.SNF_Rate = objTr.CH_SNF_Rate
                     End If
