@@ -669,7 +669,7 @@ Public Class FrmPurchaseHistory
     End Sub
     'KUNAL > TICKET : 
     Private Sub multiLocationFinder__My_Click(sender As Object, e As EventArgs) Handles multiLocationFinder._My_Click
-        Dim qry As String = "SELECT LOCATION_CODE , Location_Desc  FROM TSPL_LOCATION_MASTER where 1=1"
+        Dim qry As String = "SELECT LOCATION_CODE , Location_Desc  FROM TSPL_LOCATION_MASTER where Location_Type='Physical' and IsMainPlant='1' and Loc_Segment_Code in (" + objCommonVar.strCurrUserLocationsSegment + ")"
         Try
             If objCommonVar.ApplyLocationFilterBasedOnPermission = True AndAlso clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
                 qry += " and TSPL_LOCATION_MASTER.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"

@@ -37,6 +37,19 @@ Public Class FrmCostCetreTypeMaster
         ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D  for Delete ")
         ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
         ButtonToolTip.SetToolTip(btnNew, "Press Alt+N Adding New ")
+        Dim coll As Dictionary(Of String, String)
+        coll = New Dictionary(Of String, String)()
+        coll.Add("Code", "varchar(30) not null primary Key")
+        coll.Add("Description", "varchar(100) null")
+        coll.Add("Department", "varchar(30) null References TSPL_DEPARTMENT_MASTER(DEPARTMENT_CODE)")
+        coll.Add("Created_By", "varchar(12) null")
+        coll.Add("Created_Date", "datetime null")
+        coll.Add("Modify_By", "varchar(12) null")
+        coll.Add("Modify_Date", "datetime null")
+        coll.Add("Unit_Code", "varchar(30) null")
+        coll.Add("Cost_Code", "varchar(30) null")
+        coll.Add("Department_Cost", "integer null")
+        clsCommonFunctionality.CreateOrAlterTable("TSPL_COST_CENTER_TYPE_MASTER", coll)
     End Sub
 
     Private Sub txtCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCode._MYValidating
@@ -164,7 +177,7 @@ Public Class FrmCostCetreTypeMaster
             Return False
         End If
 
-        Dim checkEntry As String = "Select 1 from TSPL_COST_CENTER_TYPE_MASTER where Department_Cost='" + Labdepartmentcost.Text + "' "
+        Dim checkEntry As String = "Select 1 from TSPL_COST_CENTER_TYPE_MASTER where Department_Cost='" + Txtdepartmentcost.Value + "' "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(checkEntry)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             clsCommon.MyMessageBoxShow(Me, "Department already exist", Me.Text)
