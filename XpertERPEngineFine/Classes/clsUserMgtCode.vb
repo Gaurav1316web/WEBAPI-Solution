@@ -261,6 +261,7 @@ Public Class clsUserMgtCode
     Public Const RptSalesSummaryReport As String = "SAL_SUM_RPT"
     Public Const rptGatePassReport As String = "GAT_PAS_RPT"
     Public Const rptNewSalesReport As String = "NE_SALE_RPT"
+    Public Const rptDailyStatementReport As String = "DlY_SALE_RPT"
     Public Const FrmPrintMultipleGatepass As String = "MUL_PNT_GP"
 
     '===Dairy Visual Sales reports  

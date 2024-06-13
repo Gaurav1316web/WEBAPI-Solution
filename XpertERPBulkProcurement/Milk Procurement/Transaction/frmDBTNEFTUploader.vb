@@ -257,6 +257,8 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
                         Dim strCycle As String = ""
                         If clsCommon.myCBool(CycleWiseDBT) Then
                             strCycle = "'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + " To " & " " & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'" & " "
+                        Else
+                            strCycle = "'" & clsCommon.GetPrintDate(txtToDate.Value, "MMM/yyyy") + "'" & ""
                         End If
                         Dim strText As String = ""
                         If chkDBTRevisePayment.Checked Then
@@ -918,6 +920,8 @@ where TSPL_DBT_NEFT_DETAIL.Document_Code='" + txtDocumentNo.Value + "' order by 
         Dim strCycle As String = ""
         If clsCommon.myCBool(CycleWiseDBT) Then
             strCycle = "'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + " To " & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'" & " "
+        Else
+            strCycle = "'" & clsCommon.GetPrintDate(txtToDate.Value, "MMM-yyyy") + "'" & ""
         End If
         Dim strText As String = ""
         If chkDBTRevisePayment.Checked Then
