@@ -108,7 +108,7 @@ Partial Class FrmMilkVSPPayment
         Me.RadGroupBox3.Controls.Add(Me.MyLabel1)
         Me.RadGroupBox3.Controls.Add(Me.txtMonth)
         Me.RadGroupBox3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadGroupBox3.HeaderText = "VSP Payment"
+        Me.RadGroupBox3.HeaderText = "Secretary Payment"
         Me.RadGroupBox3.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox3.Name = "RadGroupBox3"
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
@@ -299,7 +299,7 @@ Partial Class FrmMilkVSPPayment
         Me.lblTankerNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTankerNo.Location = New System.Drawing.Point(13, 48)
         Me.lblTankerNo.Name = "lblTankerNo"
-        Me.lblTankerNo.Size = New System.Drawing.Size(31, 16)
+        Me.lblTankerNo.Size = New System.Drawing.Size(32, 16)
         Me.lblTankerNo.TabIndex = 10
         Me.lblTankerNo.Text = "MCC"
         '
@@ -323,7 +323,7 @@ Partial Class FrmMilkVSPPayment
         Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel4.Location = New System.Drawing.Point(13, 112)
         Me.MyLabel4.Name = "MyLabel4"
-        Me.MyLabel4.Size = New System.Drawing.Size(26, 18)
+        Me.MyLabel4.Size = New System.Drawing.Size(27, 18)
         Me.MyLabel4.TabIndex = 7
         Me.MyLabel4.Text = "DCS"
         '
@@ -531,7 +531,7 @@ Partial Class FrmMilkVSPPayment
         Me.btnDeleteVSPBill.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDeleteVSPBill.Location = New System.Drawing.Point(532, 6)
         Me.btnDeleteVSPBill.Name = "btnDeleteVSPBill"
-        Me.btnDeleteVSPBill.Size = New System.Drawing.Size(254, 23)
+        Me.btnDeleteVSPBill.Size = New System.Drawing.Size(273, 23)
         Me.btnDeleteVSPBill.TabIndex = 283
         Me.btnDeleteVSPBill.Text = "Delete Secretary Bill Not Used in Payment Process"
         Me.btnDeleteVSPBill.Visible = False
