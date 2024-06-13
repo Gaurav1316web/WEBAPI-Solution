@@ -508,7 +508,7 @@ Public Class rptSocietyLedgerReport
                 End If
             End If
 
-            whrCls = whrCls & " and   Rejected_Type='N' and Location_Category='MCC'"
+            whrCls = whrCls & " and   Location_Type='Physical' and IsMainPlant='1' and Loc_Segment_Code in (" + objCommonVar.strCurrUserLocationsSegment + ")"
             Dim dr As DataRow = clsLocation.getLocSegFinderFullRow(whrCls)
             If dr Is Nothing OrElse dr.ItemArray.Count <= 0 Then
                 fndLoc.Value = ""
