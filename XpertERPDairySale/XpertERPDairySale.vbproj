@@ -288,6 +288,12 @@
     <Compile Include="Report\FrmZoneWiseSKUReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\rptDemandReturnReport.Designer.vb">
+      <DependentUpon>rptDemandReturnReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptDemandReturnReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\rptGatePassReport.Designer.vb">
       <DependentUpon>rptGatePassReport.vb</DependentUpon>
     </Compile>
