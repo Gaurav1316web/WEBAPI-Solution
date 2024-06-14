@@ -619,6 +619,8 @@ Public Class frmTender
         txtDocNo.MyReadOnly = False
         lblTenderSeqNo.Text = ""
         cboItemType.SelectedValue = ""
+        gvSchedule.Rows.Clear()
+        gvSchedule.Columns.Clear()
     End Sub
 
     Function AllowToSaveRAL_Type(ByVal trans As SqlTransaction) As Boolean
@@ -1047,7 +1049,6 @@ Public Class frmTender
 
     Sub PostData()
         Try
-
             If AllowToSaveRAL_Type(Nothing) = False Then
                 Exit Sub
             End If
@@ -1056,6 +1057,9 @@ Public Class frmTender
                     Exit Sub
                 End If
             End If
+            SavingData(True)
+            CheckItem()
+            checksheduleitem()
             If (myMessages.postConfirm()) Then
                 If clsCommon.myLen(txtDocNo.Value) > 0 Then
                     clsTenderHead.PostData(txtDocNo.Value)
@@ -1070,7 +1074,71 @@ Public Class frmTender
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
+    Public Sub CheckItem()
+        If gvSchedule IsNot Nothing AndAlso gvSchedule.Rows.Count <= 0 Then
+            For ii As Integer = 0 To gv2.Rows.Count - 1
+                Dim strICode As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colICode).Value)
+                Dim itemcode As String = clsDBFuncationality.getSingleValue("select Item_Code from TSPL_ITEM_MASTER where RAL=1 and Item_Code='" + strICode + "'")
+                If clsCommon.myLen(itemcode) > 0 Then
+                    Throw New Exception("RAL will not allow to post without schedule")
+                    Exit Sub
+                End If
+            Next
+        End If
+    End Sub
+    Public Sub checksheduleitem()
+        'Dim valueFound As Boolean = False
+        'If gvSchedule IsNot Nothing AndAlso gvSchedule.Rows.Count > 0 Then
+        '    For ii As Integer = 0 To gv2.Rows.Count - 1
+        '        Dim strICode As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colICode).Value)
+        '        Dim vendor As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colVCode).Value)
+        '        Dim LOC As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colLCode).Value)
+        '        Dim sno As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colLineNo).Value)
+        '        Dim Line_No As String = clsDBFuncationality.getSingleValue("SELECT Line_No FROM TSPL_TENDER_DETAIL WHERE Line_No='" + sno + "' AND Item_Code='" + strICode + "' AND Vendor_Code='" + vendor + "' AND Location='" + LOC + "' AND DocumentCode='" + txtDocNo.Value + "'")
+        '        For jj As Integer = 0 To gvSchedule.Rows.Count - 1
+        '            Dim psno As String = clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colScheduleParentSNo).Value)
+        '            If Line_No = psno Then
+        '                valueFound = True
+        '                Continue For
+        '            Else
+        '                'If clsCommon.myLen(Line_No) > 0 Then
+        '                Throw New Exception("RAL will not allow to post without schedule")
+        '                '    Exit Sub
+        '            End If
+        '        Next
+        '    Next
+        'End If
+        Dim valueFound As Boolean = False
 
+        If gvSchedule IsNot Nothing AndAlso gvSchedule.Rows.Count > 0 Then
+            For ii As Integer = 0 To gv2.Rows.Count - 1
+                Dim strICode As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colICode).Value)
+                Dim vendor As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colVCode).Value)
+                Dim LOC As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colLCode).Value)
+                Dim sno As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colLineNo).Value)
+                Dim Line_No As String = clsDBFuncationality.getSingleValue("SELECT Line_No FROM TSPL_TENDER_DETAIL WHERE Line_No='" + sno + "' AND Item_Code='" + strICode + "' AND Vendor_Code='" + vendor + "' AND Location='" + LOC + "' AND DocumentCode='" + txtDocNo.Value + "'")
+
+                For jj As Integer = 0 To gvSchedule.Rows.Count - 1
+                    Dim psno As String = clsCommon.myCstr(gvSchedule.Rows(jj).Cells(colScheduleParentSNo).Value)
+                    If Line_No = psno Then
+                        valueFound = True
+                        Exit For
+                    End If
+                Next
+
+                If Not valueFound Then
+                    Throw New Exception("RAL will not allow to post without schedule")
+                End If
+
+                ' Reset valueFound for next iteration
+                valueFound = False
+            Next
+        End If
+        If valueFound Then
+            MessageBox.Show("RAL will not allow to post without schedule")
+        End If
+
+    End Sub
     Private Sub btnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDelete.Click
         DeleteData()
     End Sub
@@ -1805,6 +1873,16 @@ Public Class frmTender
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLateDays).Tag = SetSchedulePenalty(obj.Arr, dtRunningDate)
                         Next
                     End If
+                Else
+                    For kk As Integer = 0 To gv2.Rows.Count - 1
+                        Dim strIName As String = clsCommon.myCstr(gv2.Rows(kk).Cells(colIName).Value)
+                        Dim dblQty As Double = clsCommon.myCdbl(gv2.Rows(ii).Cells(colQty).Value)
+                        If dblQty <= 0 Then
+                            'clsCommon.myCDecimal(dblQty) <= 0 Then
+                            common.clsCommon.MyMessageBoxShow(Me, "Please enter Booked Quantity for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
+                            Exit Sub
+                        End If
+                    Next
                 End If
             Next
         Catch ex As Exception
