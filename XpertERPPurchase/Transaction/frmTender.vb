@@ -1193,8 +1193,6 @@ Public Class frmTender
             CancelRALData()
         ElseIf e.Control AndAlso e.KeyCode = Keys.F7 Then
             'SelectRequistionItems()
-        ElseIf e.Alt AndAlso e.Shift And e.KeyCode = Keys.F12 Then
-            CancelRALData()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             If MyBase.isReverse Then
 
