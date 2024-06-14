@@ -200,7 +200,7 @@ where  Coalesce(Is_Incentive_Created,'N')='N' and  VSP_CODE='" & VSP & "' "
                             CreateVSPDebitNoteOfTIP(VSP, txtToDate, strMCCCode, trans) ''By Balwinder on 16/12/2019
                         End If
                         'trans.Rollback()
-                        Throw New Exception("Balwinder singh premi")
+                        'Throw New Exception("Balwinder singh premi")
                         trans.Commit()
                     Catch ex As Exception
                         trans.Rollback()
