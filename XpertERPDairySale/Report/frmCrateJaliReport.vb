@@ -2509,7 +2509,7 @@ Public Class FrmCrateJaliReport
     End Sub
 
     Private Sub fndLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndLocation._MYValidating
-        fndLocation.Value = clsLocation.getFinder(" Location_Type='Physical'", fndLocation.Value, isButtonClicked)
+        fndLocation.Value = clsLocation.getFinder(" Location_Type='Physical' and IsMainPlant='1' and Loc_Segment_Code in (" + objCommonVar.strCurrUserLocationsSegment + ")", fndLocation.Value, isButtonClicked)
         If clsCommon.myLen(fndLocation.Value) > 0 Then
             lblLocationName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" & fndLocation.Value & "'"))
         Else
