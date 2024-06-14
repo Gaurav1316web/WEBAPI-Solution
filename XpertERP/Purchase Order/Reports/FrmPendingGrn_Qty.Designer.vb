@@ -22,6 +22,7 @@ Partial Class FrmPendingGrn_Qty
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
         Me.cbgVendor = New common.MyCheckBoxGrid()
@@ -864,7 +865,6 @@ Partial Class FrmPendingGrn_Qty
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1168, 569)
         Me.RadPageView1.TabIndex = 11
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -907,12 +907,14 @@ Partial Class FrmPendingGrn_Qty
         '
         '
         Me.Gv1.MasterTemplate.EnableFiltering = True
+        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(1147, 521)
         Me.Gv1.TabIndex = 0
-        Me.Gv1.Text = "RadGridView1"
         '
         'btnExport
         '
@@ -926,15 +928,11 @@ Partial Class FrmPendingGrn_Qty
         '
         'rmiExcel
         '
-        Me.rmiExcel.AccessibleDescription = "Excel"
-        Me.rmiExcel.AccessibleName = "Excel"
         Me.rmiExcel.Name = "rmiExcel"
         Me.rmiExcel.Text = "Excel"
         '
         'rmiPDF
         '
-        Me.rmiPDF.AccessibleDescription = "PDF"
-        Me.rmiPDF.AccessibleName = "PDF"
         Me.rmiPDF.Name = "rmiPDF"
         Me.rmiPDF.Text = "PDF"
         '
@@ -954,27 +952,20 @@ Partial Class FrmPendingGrn_Qty
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1172, 20)
         Me.RadMenu1.TabIndex = 1
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btn_savelayout, Me.btn_deletelayout})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
         '
         'btn_savelayout
         '
-        Me.btn_savelayout.AccessibleDescription = "Save Layout"
-        Me.btn_savelayout.AccessibleName = "Save Layout"
         Me.btn_savelayout.Name = "btn_savelayout"
         Me.btn_savelayout.Text = "Save Layout"
         '
         'btn_deletelayout
         '
-        Me.btn_deletelayout.AccessibleDescription = "Delete Layout"
-        Me.btn_deletelayout.AccessibleName = "Delete Layout"
         Me.btn_deletelayout.Name = "btn_deletelayout"
         Me.btn_deletelayout.Text = "Delete Layout"
         '

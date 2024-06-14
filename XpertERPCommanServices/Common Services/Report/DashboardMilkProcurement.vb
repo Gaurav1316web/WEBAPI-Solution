@@ -12,15 +12,146 @@ Public Class DashboardMilkProcurement
         txtToDate.Value = clsCommon.GETSERVERDATE()
         chkRJSBNS.Visible = False
         chkRJSBNS.Checked = True
+        rbdAllTrans.Checked = True
     End Sub
 
     Private Sub btngo_Click(sender As Object, e As EventArgs) Handles btngo.Click
+        'If rdbPosted.Checked Then
         UninonWise()
-        'RouteWise()
-        'DCSWise()
+        RouteWise()
+        DCSWise()
         DaysData()
+        'ElseIf rdbUnposted.Checked Then
+        'UninonWiseUnp()
+        ' ElseIf rbdAllTrans.Checked Then
+
+        ' End If
+
     End Sub
 
+    Sub UninonWiseUnp()
+        Try
+            Dim qry As String = Nothing
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
+            If (dt Is Nothing OrElse dt.Rows.Count <= 0) Then
+                common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
+                Exit Sub
+            End If
+            Dim docNo As String = ""
+            qry = " 
+            SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') "
+            '          If chkRJSBNS.Checked Then
+            '              query += "union all
+            'SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
+            'union all
+            'SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
+            'ORDER BY Location_Name"
+            'End If
+            dt = clsDBFuncationality.GetDataTable(qry)
+            qry = ""
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                For ii As Integer = 0 To dt.Rows.Count - 1
+                    If ii > 0 Then
+                        qry += " UNION ALL "
+                    End If
+                    Dim status4 As String
+                    Dim status5 As String
+                    If rdbUnposted.Checked Then
+                        status4 = " and muh.Status= 0 "
+                        status5 = "and msh.Status= 0 "
+                    Else
+                        status4 = " "
+                        status5 = " "
+                    End If
+                    qry += " select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                        '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
+                    ISNULL(SUM(Dis_Procurement.Milk_WeightProc), 0) AS Milk_WeightProc,
+                    ISNULL(SUM(Dis_Procurement.FATKGProc), 0) AS FATKGProc,
+                    ISNULL(SUM(Dis_Procurement.SNFKGProc), 0) AS SNFKGProc,
+                    ISNULL(AVG(Dis_Procurement.FATPerProc), 0) AS FATPerProc,
+					ISNULL(AVG(Dis_Procurement.SNFPerProc), 0) AS SNFPerProc
+                FROM 
+                    (SELECT 
+                        SUM(milk_weight) AS Milk_WeightProc,
+                        SUM(fatkg) AS FATKGProc,
+                        SUM(SNFKG) AS SNFKGProc,
+                        AVG(CASE WHEN Milk_Weight <> 0 THEN (FATKg) * 100 / (Milk_Weight)
+            ELSE 0 END) AS FATPerProc,
+			AVG(CASE WHEN Milk_Weight <> 0 THEN (SNFKG) * 100 / (Milk_Weight)
+            ELSE 0 END) AS SNFPerProc
+                    FROM (
+                        SELECT 
+                            SUM(Milk_Weight) AS Milk_Weight,
+                            SUM(CAST(Milk_Weight * FAT / 100 AS DECIMAL(18,3))) AS FATKg,
+                            SUM(CAST(Milk_Weight * SNF / 100 AS DECIMAL(18,3))) AS SNFKG
+                        FROM 
+                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL mud
+                        LEFT JOIN 
+                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_HEAD muh ON muh.Document_No = mud.Document_No
+                        WHERE 
+                            CONVERT(DATE, muh.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                            " + status4 + "
+
+                        UNION ALL
+
+                        SELECT 
+                            SUM(Milk_Weight) AS Milk_Weight,
+                            SUM(Milk_Weight * FAT / 100) AS FATKG,
+                            SUM(Milk_Weight * SNF / 100) AS SNFKG
+                        FROM 
+                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SHIFT_UPLOADER_DETAIL msd
+                        LEFT JOIN 
+                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SHIFT_UPLOADER_HEAD msh ON msh.Document_No = msd.Document_No
+                        WHERE 
+                            CONVERT(DATE, msh.Shift_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                            " + status5 + "
+
+                        UNION ALL
+
+                        SELECT 
+                            ISNULL(SUM(QTY),0) AS QTY,
+                            ISNULL(SUM(FATKG),0) AS FATKG,
+                            ISNULL(SUM(SNFKG),0) AS SNFKG
+                        FROM 
+                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS_DETAIL mcd
+                        LEFT JOIN 
+                            [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS mcs ON mcs.Document_No = mcd.Document_No
+                        WHERE 
+                           mcs.Status = 0
+                           AND
+                            CONVERT(DATE, mcs.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                        ) AS Procurement
+                    ) AS Dis_Procurement)final "
+                Next
+            End If
+
+            Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt2 IsNot Nothing OrElse dt2.Rows.Count > 0 Then
+
+                gv1.DataSource = Nothing
+                gv1.Rows.Clear()
+                gv1.Columns.Clear()
+                gv1.GroupDescriptors.Clear()
+                gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                gv1.MasterView.Refresh()
+                gv1.DataSource = dt2
+                For ii As Integer = 0 To gv1.Columns.Count - 1
+                    gv1.Columns(ii).ReadOnly = True
+                Next
+                RadPageView1.SelectedPage = RadPageViewPage2
+                gv1.EnableFiltering = True
+                SetGridFormat1()
+                gv1.BestFitColumns()
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                Exit Sub
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+    End Sub
     Sub DaysData()
         Try
             Dim query As String = ""
@@ -37,13 +168,13 @@ Public Class DashboardMilkProcurement
             Dim docNo As String = ""
             query = " 
     SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') "
-            'If chkRJSBNS.Checked Then
-            '    query += "union all
-            'SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
-            'union all
-            'SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
-            'ORDER BY Location_Name"
-            'End If
+            If chkRJSBNS.Checked Then
+                query += "union all
+            SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
+            union all
+            SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
+            ORDER BY Location_Name"
+            End If
             dt = clsDBFuncationality.GetDataTable(query)
             query = ""
 
@@ -79,7 +210,7 @@ Public Class DashboardMilkProcurement
                         query += " UNION ALL "
                     End If
                     query += "  select max(SNo)SNo,max([Union Name])[Union Name],max(Fromdate)Fromdate,max(Todate)Todate,max(username)username,
-                                " + DateName + "
+                                " + DateName + ",max(Union_Contact_Person)[Nodal Officer],max(Union_Contact_PhoneNo)[Mobile No.]
                             from (
 
 SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
@@ -107,7 +238,7 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
                                 '" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
                                 '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as Todate,
                                  '" + objCommonVar.CurrentUser + "' as username," + DateUnion + "
-								) xx group by SNo
+								) xx left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER ON 2=2 group by SNo
 "
                 Next
             End If
@@ -182,13 +313,13 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
             Dim docNo As String = ""
             query = " 
     SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') "
-            'If chkRJSBNS.Checked Then
-            '    query += "union all
-            'SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
-            'union all
-            'SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
-            'ORDER BY Location_Name"
-            'End If
+            If chkRJSBNS.Checked Then
+                query += "union all
+            SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
+            union all
+            SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
+            ORDER BY Location_Name"
+            End If
             dt = clsDBFuncationality.GetDataTable(query)
             query = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -197,7 +328,7 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
                         query += " UNION ALL "
                     End If
 
-                    query += " select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                    query += " select FINAL.*,TSPL_COMPANY_MASTER.Union_Contact_Person,TSPL_COMPANY_MASTER.Union_Contact_PhoneNo from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
                         '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
                     ISNULL(SUM(Dis_Procurement.Milk_WeightProc), 0) AS Milk_WeightProc,
                     ISNULL(SUM(Dis_Procurement.FATKGProc), 0) AS FATKGProc,
@@ -225,7 +356,7 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
                         WHERE 
                             CONVERT(DATE, msh.DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
                         ) AS Procurement
-                    ) AS Dis_Procurement)final"
+                    ) AS Dis_Procurement)final left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER ON 2=2 "
                 Next
             End If
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
@@ -305,6 +436,14 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
         gv1.Columns("SNFPerProc").IsVisible = True
         gv1.Columns("SNFPerProc").FormatString = "{0:n2}"
 
+        gv1.Columns("Union_Contact_Person").HeaderText = "Nodal Officer"
+        gv1.Columns("Union_Contact_Person").Width = 200
+        gv1.Columns("Union_Contact_Person").IsVisible = True
+
+        gv1.Columns("Union_Contact_PhoneNo").HeaderText = "Mobile No."
+        gv1.Columns("Union_Contact_PhoneNo").Width = 200
+        gv1.Columns("Union_Contact_PhoneNo").IsVisible = True
+
         Dim summaryRowItem As New GridViewSummaryRowItem()
         Dim item1 As New GridViewSummaryItem("Milk_WeightProc", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item1)
@@ -348,9 +487,9 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
                         query += " UNION ALL "
                     End If
 
-                    query += " select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                    query += " select final.*,TSPL_COMPANY_MASTER.Union_Contact_Person,TSPL_COMPANY_MASTER.Union_Contact_PhoneNo from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
                         '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
-                    sum(Dis_Procurement.RouteCount)RouteCount,sum(Dis_Procurement.MCCCount)MCCCount,ISNULL(SUM(Dis_Procurement.Milk_WeightProc), 0) AS Milk_WeightProc,
+                    ISNULL(sum(Dis_Procurement.RouteCount),0) AS RouteCount,ISNULL(sum(Dis_Procurement.MCCCount),0) AS MCCCount,ISNULL(SUM(Dis_Procurement.Milk_WeightProc), 0) AS Milk_WeightProc,
                     ISNULL(SUM(Dis_Procurement.FATKGProc), 0) AS FATKGProc,
                     ISNULL(SUM(Dis_Procurement.SNFKGProc), 0) AS SNFKGProc
                                  FROM 
@@ -374,7 +513,7 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
                         WHERE 
                             CONVERT(DATE, msh.DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
                           ) AS Procurement
-                    ) AS Dis_Procurement)final"
+                    ) AS Dis_Procurement)final left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER ON 2=2 "
                 Next
             End If
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
@@ -453,6 +592,12 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
         gv2.Columns("SNFKGProc").IsVisible = True
         gv2.Columns("SNFKGProc").FormatString = "{0:n3}"
 
+        gv2.Columns("Union_Contact_Person").HeaderText = "Nodal Officer"
+        gv2.Columns("Union_Contact_Person").IsVisible = True
+
+        gv2.Columns("Union_Contact_PhoneNo").HeaderText = "Mobile No."
+        gv2.Columns("Union_Contact_PhoneNo").IsVisible = True
+
         Dim summaryRowItem As New GridViewSummaryRowItem()
         Dim item1 As New GridViewSummaryItem("Milk_WeightProc", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item1)
@@ -462,6 +607,7 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
 
         Dim item3 As New GridViewSummaryItem("SNFKGProc", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item3)
+
 
         'gv1.ShowGroupPanel = True
         'gv1.MasterTemplate.AutoExpandGroups = True
@@ -496,7 +642,7 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
                         query += " UNION ALL "
                     End If
 
-                    query += " select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                    query += " select final.*,TSPL_COMPANY_MASTER.Union_Contact_Person,TSPL_COMPANY_MASTER.Union_Contact_PhoneNo from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
                         '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
                     ISNULL(SUM(Dis_Procurement.RegCount), 0) AS RegisteredDCS ,   ISNULL(SUM(Dis_Procurement.DCS_1_QTY), 0) AS DCSQTY1, 
                     ISNULL(SUM(Dis_Procurement.DCS_1_FATKG), 0) AS FATKG1,ISNULL(SUM(Dis_Procurement.DCS_1_SNFKG), 0) AS SNFKG1,
@@ -535,7 +681,7 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
                         WHERE 
                             CONVERT(DATE, msh.DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' group by msh.VSP_Code
                          ) AS xxx
-                    ) AS Dis_Procurement)final"
+                    ) AS Dis_Procurement)final left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER ON 2=2 "
                 Next
             End If
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
@@ -639,6 +785,14 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
         gv3.Columns("Totalsnfkg").IsVisible = True
         gv3.Columns("Totalsnfkg").FormatString = "{0:n3}"
 
+        gv3.Columns("Union_Contact_Person").HeaderText = "Nodal Officer"
+        gv3.Columns("Union_Contact_Person").Width = 200
+        gv3.Columns("Union_Contact_Person").IsVisible = True
+
+        gv3.Columns("Union_Contact_PhoneNo").HeaderText = "Mobile No."
+        gv3.Columns("Union_Contact_PhoneNo").Width = 200
+        gv3.Columns("Union_Contact_PhoneNo").IsVisible = True
+
         Dim summaryRowItem As New GridViewSummaryRowItem()
         Dim item1 As New GridViewSummaryItem("Totalsnfkg", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item1)
@@ -655,7 +809,7 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
         Dim item5 As New GridViewSummaryItem("FATKG2", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item5)
 
-        Dim item6 As New GridViewSummaryItem("QTY2", "{0:f3}", GridAggregateFunction.Sum)
+        Dim item6 As New GridViewSummaryItem("DCSQTY1", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item6)
 
         Dim item7 As New GridViewSummaryItem("SNFKG1", "{0:f3}", GridAggregateFunction.Sum)
@@ -664,7 +818,7 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
         Dim item8 As New GridViewSummaryItem("FATKG1", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item8)
 
-        Dim item9 As New GridViewSummaryItem("QTY1", "{0:f3}", GridAggregateFunction.Sum)
+        Dim item9 As New GridViewSummaryItem("DCSQTY2", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item9)
 
         'gv1.ShowGroupPanel = True
@@ -728,6 +882,25 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub ExportGridgv4(ByVal exporter As EnumExportTo)
+        Try
+            If gv4.Rows.Count > 0 Then
+                Dim arrHeader As List(Of String) = New List(Of String)()
+                ' arrHeader.Add("Union : " & objCommonVar.CurrentCompanyName)
+                arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.DashboardMilkProcurement & "'"))
+                arrHeader.Add("Date : " & clsCommon.myCstr(txtFromDate.Text) + "  To " + clsCommon.myCstr(txtToDate.Text))
+
+
+                transportSql.applyExportTemplate(gv4, PageSetupReport_ID)
+                'transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
+                'transportSql.exportdata(Gv1, "", Me.Text, , arrHeader, False, False, False)
+                clsCommon.MyExportToExcelGrid(Me.Text, gv4, arrHeader, Me.Text, True)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
         If clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage2.Name) = CompairStringResult.Equal Then
             ExportGridgv1(EnumExportTo.Excel)
@@ -735,6 +908,8 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
             ExportGridgv2(EnumExportTo.Excel)
         ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage4.Name) = CompairStringResult.Equal Then
             ExportGridgv3(EnumExportTo.Excel)
+        ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage5.Name) = CompairStringResult.Equal Then
+            ExportGridgv4(EnumExportTo.Excel)
         End If
     End Sub
 
@@ -745,9 +920,26 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
             ExportGrids()
         ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage4.Name) = CompairStringResult.Equal Then
             ExportGridss()
+        ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage5.Name) = CompairStringResult.Equal Then
+            ExportGridss4()
         End If
     End Sub
 
+    Sub ExportGridss4()
+        Try
+            If gv4.Rows.Count > 0 Then
+                Dim arrHeader As List(Of String) = New List(Of String)()
+                ' arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+                'arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.DashboardMilkProcurement & "'"))
+                arrHeader.Add("Date : " & clsCommon.myCstr(txtFromDate.Text) + "  To " + clsCommon.myCstr(txtToDate.Text))
+
+                transportSql.applyExportTemplate(gv4, PageSetupReport_ID)
+                clsCommon.MyExportToPDF(Me.Text, gv4, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
     Sub ExportGridss()
         Try
             If gv3.Rows.Count > 0 Then
@@ -814,21 +1006,9 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
             PrintRoute()
         ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage4.Name) = CompairStringResult.Equal Then
             PrintDCS()
+        ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage5.Name) = CompairStringResult.Equal Then
+            ' Print7Days()
         End If
-
-        'Dim selectedTabIndex As Integer = RadPageView1.SelectedPage.TabIndex
-        'Select Case selectedTabIndex
-        '    Case 16 ' Index of the first tab
-        '        'ExportGridgv1(EnumExportTo.Excel)
-
-
-        '    Case 3 ' Index of the second tab
-
-        '    Case 6 ' Index of the third tab
-        '        PrintDCS()
-        '        'ExportGridgv3(EnumExportTo.Excel)
-        '        ' Add more cases as needed for additional tabs
-        'End Select
     End Sub
 
     Sub PrintDCS()
@@ -844,10 +1024,10 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
     SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') "
         If chkRJSBNS.Checked Then
             query += "union all
-  SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
-  union all
-  SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
-  ORDER BY Location_Name"
+        SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
+        union all
+        SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
+        ORDER BY Location_Name"
         End If
         dt = clsDBFuncationality.GetDataTable(query)
         query = ""
@@ -857,7 +1037,7 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
                     query += " UNION ALL "
                 End If
 
-                query += " select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                query += " select final.*,TSPL_COMPANY_MASTER.Union_Contact_Person,TSPL_COMPANY_MASTER.Union_Contact_PhoneNo from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
                         '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
                     ISNULL(SUM(Dis_Procurement.RegCount), 0) AS RegisteredDCS ,   ISNULL(SUM(Dis_Procurement.DCS_1_QTY), 0) AS DCSQTY1, 
                     ISNULL(SUM(Dis_Procurement.DCS_1_FATKG), 0) AS FATKG1,ISNULL(SUM(Dis_Procurement.DCS_1_SNFKG), 0) AS SNFKG1,
@@ -896,7 +1076,7 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
                         WHERE 
                             CONVERT(DATE, msh.DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' group by msh.VSP_Code
                         ) AS xxx
-                    ) AS Dis_Procurement)final"
+                    ) AS Dis_Procurement)final left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER ON 2=2 "
             Next
         End If
 
@@ -923,10 +1103,10 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
     SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') "
         If chkRJSBNS.Checked Then
             query += "union all
-  SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
-  union all
-  SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
-  ORDER BY Location_Name"
+        SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
+        union all
+        SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
+        ORDER BY Location_Name"
         End If
         dt = clsDBFuncationality.GetDataTable(query)
         query = ""
@@ -936,9 +1116,9 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
                     query += " UNION ALL "
                 End If
 
-                query += " select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                query += " select final.*,TSPL_COMPANY_MASTER.Union_Contact_Person,TSPL_COMPANY_MASTER.Union_Contact_PhoneNo from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
                         '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
-                    sum(Dis_Procurement.RouteCount)RouteCount,sum(Dis_Procurement.MCCCount)MCCCount,ISNULL(SUM(Dis_Procurement.Milk_WeightProc), 0) AS Milk_WeightProc,
+                    ISNULL(sum(Dis_Procurement.RouteCount),0) AS RouteCount,ISNULL(sum(Dis_Procurement.MCCCount),0) AS MCCCount,ISNULL(SUM(Dis_Procurement.Milk_WeightProc), 0) AS Milk_WeightProc,
                     ISNULL(SUM(Dis_Procurement.FATKGProc), 0) AS FATKGProc,
                     ISNULL(SUM(Dis_Procurement.SNFKGProc), 0) AS SNFKGProc
                                  FROM 
@@ -962,7 +1142,7 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
                         WHERE 
                             CONVERT(DATE, msh.DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
                         ) AS Procurement
-                    ) AS Dis_Procurement)final"
+                    ) AS Dis_Procurement)final left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER ON 2=2 "
             Next
         End If
 
@@ -989,10 +1169,10 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
     SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') "
         If chkRJSBNS.Checked Then
             query += "union all
-  SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
-  union all
-  SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
-  ORDER BY Location_Name"
+        SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
+        union all
+        SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
+        ORDER BY Location_Name"
         End If
         dt = clsDBFuncationality.GetDataTable(query)
         query = ""
@@ -1002,16 +1182,22 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
                     query += " UNION ALL "
                 End If
 
-                query += " select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                query += " select FINAL.*,TSPL_COMPANY_MASTER.Union_Contact_Person,TSPL_COMPANY_MASTER.Union_Contact_PhoneNo from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
                         '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
                     ISNULL(SUM(Dis_Procurement.Milk_WeightProc), 0) AS Milk_WeightProc,
                     ISNULL(SUM(Dis_Procurement.FATKGProc), 0) AS FATKGProc,
-                    ISNULL(SUM(Dis_Procurement.SNFKGProc), 0) AS SNFKGProc
+                    ISNULL(SUM(Dis_Procurement.SNFKGProc), 0) AS SNFKGProc,
+                    ISNULL(AVG(Dis_Procurement.FATPerProc), 0) AS FATPerProc,
+					ISNULL(AVG(Dis_Procurement.SNFPerProc), 0) AS SNFPerProc
                                  FROM 
 (SELECT 
                         SUM(milk_weight) AS Milk_WeightProc,
                         SUM(FATKg) AS FATKGProc,
-                        SUM(SNFKG) AS SNFKGProc
+                        SUM(SNFKG) AS SNFKGProc,
+                        AVG(CASE WHEN Milk_Weight <> 0 THEN (FATKg) * 100 / (Milk_Weight)
+            ELSE 0 END) AS FATPerProc,
+			AVG(CASE WHEN Milk_Weight <> 0 THEN (SNFKG) * 100 / (Milk_Weight)
+            ELSE 0 END) AS SNFPerProc
                     FROM (
                         SELECT 
                             SUM(Qty) AS Milk_Weight,
@@ -1024,7 +1210,7 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
                         WHERE 
                             CONVERT(DATE, msh.DOC_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
                         ) AS Procurement
-                    ) AS Dis_Procurement)final"
+                    ) AS Dis_Procurement)final left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER ON 2=2 "
             Next
         End If
 
@@ -1038,17 +1224,4 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
         End If
     End Sub
 
-    'Private Sub txtToDate_ValueChanged(sender As Object, e As EventArgs) Handles txtToDate.ValueChanged
-
-    '    Dim selectedMonth As Integer = txtToDate.Value.Month
-    '    Dim selectedYear As Integer = txtToDate.Value.Year
-
-    '    Dim currentDate As New DateTime(selectedYear, selectedMonth, 1)
-    '    Slot1FD = clsCommon.GetPrintDate(currentDate, "dd/MMM/yyyy")
-    '    'Slot1TD = clsCommon.GetPrintDate(currentDate.AddDays(9), "dd/MMM/yyyy")
-    '    'Slot2FD = clsCommon.GetPrintDate(currentDate.AddDays(10), "dd/MMM/yyyy")
-    '    'Slot2TD = clsCommon.GetPrintDate(currentDate.AddDays(19), "dd/MMM/yyyy")
-    '    'Slot3FD = clsCommon.GetPrintDate(currentDate.AddDays(20), "dd/MMM/yyyy")
-    '    'Slot3TD = clsCommon.GetPrintDate(currentDate.AddMonths(1).AddDays(-1), "dd/MMM/yyyy")
-    'End Sub
 End Class

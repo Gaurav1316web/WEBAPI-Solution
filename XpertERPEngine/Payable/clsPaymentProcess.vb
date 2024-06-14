@@ -185,6 +185,7 @@ Public Class clsPaymentProcessHead
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             ProcessData(DocNo, Desc, True, trans)
+            'Throw New Exception("Balwinder singh premi")
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -1711,6 +1712,9 @@ select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
         qry = "delete from TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED where InvoiceNo in " + strWhr + ""
+        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+        qry = "delete from TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE where InvoiceNo in " + strWhr + ""
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
         qry = "delete from TSPL_MILK_PURCHASE_INVOICE_CHILLING_CHARGES where InvoiceNo in " + strWhr + ""

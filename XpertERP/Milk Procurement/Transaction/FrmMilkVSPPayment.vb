@@ -227,13 +227,14 @@ Public Class FrmMilkVSPPayment
 
     Private Sub btnGenerateBill_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGenerateBill.Click
         Try
+            If clsCommon.GetDateWithStartTime(txtFromDate.Value) = clsCommon.GetDateWithStartTime(txtToDate.Value) Then
+                Throw New Exception("From Date and To Date can't be same")
+            End If
             If ApplyUnpaidBank Then
-
                 Dim ChkQryUnpaidBank As String = "select count(*) from TSPL_BANK_MASTER where Unpaid='1' "
                 Dim count As Integer = clsDBFuncationality.getSingleValue(ChkQryUnpaidBank)
                 If count = 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "Please Define Unpaid Bank in Bank Master", Me.Text)
-                    Exit Sub
+                    Throw New Exception("Please Define Unpaid Bank in Bank Master")
                 End If
 
                 Dim strVLC As String = clsCommon.GetMulcallString(txtVSP.arrValueMember)
@@ -249,7 +250,6 @@ Public Class FrmMilkVSPPayment
                         If DCSCountBank2 > 0 Then
                             clsDBFuncationality.ExecuteNonQuery("UPDATE  TSPL_VENDOR_MASTER SET BankCode2 = 'UNPAID' ,BankName2 = 'UNPAID', IFSCCode2 = 'UNPAID', AccNo2 = 'UNPAID' where Form_Type = 'VSP' AND BankCode2 IS NULL or BankCode2 = '' AND Vendor_Code IN (" & strVLC & ")")
                         End If
-
                         GenerateBill()
                     Else
                         Exit Sub
@@ -270,22 +270,30 @@ Public Class FrmMilkVSPPayment
             Dim obj As New clsVSPBillAndIncentiveCalculation()
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkVSPPayment, txtMCC.Value, txtFromDate.Value, Nothing)
             If SettMultipleMCCFinder Then
-                For Each strMCC As String In txtMCCMultiple.arrValueMember
-                    If MultipleFinderFillAuto Then
-                        Dim qry As String = "select VSP_Code from TSPL_VLC_MASTER_HEAD where MCC='" + strMCC + "'"
-                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                            Dim arrVSP As New ArrayList
-                            For Each dr As DataRow In dt.Rows
-                                arrVSP.Add(clsCommon.myCstr(dr("VSP_Code")))
-                            Next
-
-                            obj.BillGenerationMCCWise(Me, strMCC, txtFromDate.Value, txtToDate.Value, Formcode, arrVSP, lblPaymentType.Text, clsCommon.myCdbl(lblPaymentType.Tag))
+                Try
+                    clsCommon.ProgressBarPercentShow()
+                    For ii As Integer = 0 To txtMCCMultiple.arrValueMember.Count - 1
+                        If MultipleFinderFillAuto Then
+                            Dim qry As String = "select VSP_Code from TSPL_VLC_MASTER_HEAD where MCC='" + txtMCCMultiple.arrValueMember(ii) + "'"
+                            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                Dim arrVSP As New ArrayList
+                                For Each dr As DataRow In dt.Rows
+                                    arrVSP.Add(clsCommon.myCstr(dr("VSP_Code")))
+                                Next
+                                clsCommon.ProgressBarPercentUpdate(ii + 1, txtMCCMultiple.arrValueMember.Count, " MCC/BMC - " + txtMCCMultiple.arrValueMember(ii) + " || No of DCS -" + clsCommon.myCstr(arrVSP.Count) + "||   ")
+                                obj.BillGenerationMCCWise(Nothing, txtMCCMultiple.arrValueMember(ii), txtFromDate.Value, txtToDate.Value, Formcode, arrVSP, lblPaymentType.Text, clsCommon.myCdbl(lblPaymentType.Tag))
+                            End If
+                        Else
+                            clsCommon.ProgressBarPercentUpdate(ii + 1, txtMCCMultiple.arrValueMember.Count, " MCC/BMC - " + txtMCCMultiple.arrValueMember(ii) + " || No of DCS -" + clsCommon.myCstr(txtVSP.arrValueMember.Count) + "||   ")
+                            obj.BillGenerationMCCWise(Nothing, txtMCCMultiple.arrValueMember(ii), txtFromDate.Value, txtToDate.Value, Formcode, txtVSP.arrValueMember, lblPaymentType.Text, clsCommon.myCdbl(lblPaymentType.Tag))
                         End If
-                    Else
-                        obj.BillGenerationMCCWise(Me, strMCC, txtFromDate.Value, txtToDate.Value, Formcode, txtVSP.arrValueMember, lblPaymentType.Text, clsCommon.myCdbl(lblPaymentType.Tag))
-                    End If
-                Next
+                    Next
+                    clsCommon.ProgressBarPercentHide()
+                Catch ex As Exception
+                    clsCommon.ProgressBarPercentHide()
+                    Throw New Exception(ex.Message)
+                End Try
             Else
                 obj.BillGenerationMCCWise(Me, txtMCC.Value, txtFromDate.Value, txtToDate.Value, Formcode, txtVSP.arrValueMember, lblPaymentType.Text, clsCommon.myCdbl(lblPaymentType.Tag))
             End If
