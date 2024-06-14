@@ -10,11 +10,6 @@ Public Class frmDCSAdditionDeduction
 #End Region
 
     Private Sub frmJWPriceCodeMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As New Dictionary(Of String, String)()
-        coll = New Dictionary(Of String, String)()
-        coll.Add("Dont_Generate_DR_CR_Note", "integer NULL")
-        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_ADDITION_DEDUCTION", coll, Nothing, True)
-
         SetUserMgmtNew()
         LoadApplyType()
         LoadApplyOn()
