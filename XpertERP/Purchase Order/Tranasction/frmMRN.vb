@@ -4481,8 +4481,6 @@ Public Class frmMRN
             Else
                 btn_Amendment.Visible = False
             End If
-        ElseIf e.Alt AndAlso e.Shift And e.KeyCode = Keys.F12 Then
-            CancelMRNData()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             If MyBase.isReverse Then
                 Dim frm As New FrmPWD(Nothing)

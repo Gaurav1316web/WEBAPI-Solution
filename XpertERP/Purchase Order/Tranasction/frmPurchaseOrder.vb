@@ -27,6 +27,7 @@ Public Class frmPurchaseOrder
     Public isCellValueChangedTaxOpen As Boolean = False
     Dim AllowPurchaseModulewithUniqueItem As Integer = 0
     Public isCellValueChangedOpen As Boolean = False
+    Public isCellValueChangedOpenAC As Boolean = False
     Public IsFormLoad As Boolean = False
     Public IsLoadOk As Boolean = False
     Public isPOTypeLoad As Boolean = False
@@ -36,6 +37,7 @@ Public Class frmPurchaseOrder
     Public isInsideLoadDatamt As Boolean = False
     Public SendMailForAdvancePaymenTerms As Boolean = False
     Dim arrLoc As String = ""
+    'Public isInsideLoadDataAC As Boolean = False
 
     Const colLineNo As String = "COLLNO"
     Const colRowType As String = "COLTYPE"
@@ -7426,9 +7428,6 @@ Public Class frmPurchaseOrder
             Else
                 btnAmendment.Visible = False
             End If
-        ElseIf e.Alt AndAlso e.Shift And e.KeyCode = Keys.F12 Then
-            CancelPOData()
-
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             If MyBase.isReverse Then
 
@@ -8420,8 +8419,8 @@ Public Class frmPurchaseOrder
     Private Sub gvAC_CellValueChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvAC.CellValueChanged
         Try
             If (Not isInsideLoadData) Then
-                If Not isCellValueChangedOpen Then
-                    isCellValueChangedOpen = True
+                If Not isCellValueChangedOpenAC Then
+                    isCellValueChangedOpenAC = True
                     'If e.Column Is gvAC.Columns(colACApplyOn) OrElse e.Column Is gvAC.Columns(colACPer) OrElse e.Column Is gvAC.Columns(colACAmount) Then
                     If e.Column Is gvAC.Columns(colACApplyOn) OrElse e.Column Is gvAC.Columns(colACPer) Then
                         UpdateAllTotals()
@@ -8438,7 +8437,7 @@ Public Class frmPurchaseOrder
                     End If
                 End If
                 setGridFocusAC()
-                isCellValueChangedOpen = False
+                isCellValueChangedOpenAC = False
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
