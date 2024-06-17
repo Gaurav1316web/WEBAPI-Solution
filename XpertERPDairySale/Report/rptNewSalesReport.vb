@@ -341,6 +341,24 @@ Public Class rptNewSalesReport
                 End If
                 FinalQuery += " Group by Route_No ,Item_Sub_Group_Type1  )XXFINAL GROUP BY Route_No "
                 FinalQuery += " order by Route_No"
+            ElseIf rbtProductSale.IsChecked Then
+                FinalQuery = "Select  (Shift_Type)Shift_Type, (convert(varchar,Document_Date,103)) Document_Date, " & qry1 & "  from ( " & Environment.NewLine & " " & qry & " " & Environment.NewLine & ""
+
+                If dtFreshItem.Rows.Count > 0 Then
+                    FinalQuery += " PIVOT (SUM(LTR_QTY)  For Fresh_Item In (" & FreshItemsName & ") ) As pivot_fresh "
+                End If
+                If dtProductItem.Rows.Count > 0 Then
+                    FinalQuery += " PIVOT (SUM(KG_QTY)   For Product_Item In (" & ProductIemsName & ") ) As  pivot_Product "
+                End If
+                FinalQuery += "group by Route_No, Document_Date, Shift_Type "
+                FinalQuery += " " & Environment.NewLine & " ---TTL " & Environment.NewLine & " union all " & Environment.NewLine & " Select   max(Shift_Type)Shift_Type,'TTL' as Document_Date, " & qry1 & " from ( " & Environment.NewLine & " " & qry & " " & Environment.NewLine & ""
+                If dtFreshItem.Rows.Count > 0 Then
+                    FinalQuery += " PIVOT (SUM(LTR_QTY)  For Fresh_Item In (" & FreshItemsName & ") ) As pivot_fresh "
+                End If
+                If dtProductItem.Rows.Count > 0 Then
+                    FinalQuery += " PIVOT (SUM(KG_QTY)   For Product_Item In (" & ProductIemsName & ") ) As  pivot_Product "
+                End If
+                FinalQuery += "order by  Document_Date, Shift_Type "
             End If
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(FinalQuery)
@@ -414,21 +432,23 @@ Public Class rptNewSalesReport
         gv1.Columns("Receipt_Amount").HeaderText = "CHQ/CASH AMOUNT"
         gv1.Columns("Bal").HeaderText = "BAL. RS."
 
-        If rbtnRouteWise.IsChecked OrElse rbtnRouteSummary.IsChecked Then
+        If rbtnRouteWise.IsChecked OrElse rbtnRouteSummary.IsChecked OrElse rbtProductSale.IsChecked Then
             gv1.Columns("Amount").IsVisible = False
             gv1.Columns("Receipt_Amount").IsVisible = False
             gv1.Columns("Bal").IsVisible = False
-            Dim summaryRowItem As New GridViewSummaryRowItem()
-            For ii As Integer = 3 To gv1.Columns.Count - 1
-                summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
-            Next
-            gv1.Columns("Route_No").HeaderText = "Route No"
-            gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            If rbtnRouteWise.IsChecked OrElse rbtnRouteSummary.IsChecked Then
+                Dim summaryRowItem As New GridViewSummaryRowItem()
+                For ii As Integer = 3 To gv1.Columns.Count - 1
+                    summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
+                Next
+                gv1.Columns("Route_No").HeaderText = "Route No"
+                gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            End If
         ElseIf rbtnPartyWise.IsChecked Then
             gv1.Columns("Route_No").IsVisible = False
             gv1.Columns("SNO").IsVisible = False
-        End If
 
+        End If
 
     End Sub
 

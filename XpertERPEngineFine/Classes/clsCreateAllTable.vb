@@ -19619,6 +19619,9 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "datetime null")
             coll.Add("Modify_By", "varchar(12) null")
             coll.Add("Modify_Date", "datetime null")
+            coll.Add("Unit_Code", "varchar(30) null")
+            coll.Add("Cost_Code", "varchar(30) null")
+            coll.Add("Department_Cost", "varchar(30)  null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_COST_CENTER_TYPE_MASTER", coll)
 
             coll = New Dictionary(Of String, String)
@@ -24933,6 +24936,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Conversion", "decimal(18,3) not NULL default 1")
             coll.Add("Description_Hindi", "nvarchar(200) NULL")
             coll.Add("Apply_Formula", "integer NULL")
+            coll.Add("Dont_Generate_DR_CR_Note", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_ADDITION_DEDUCTION", coll, Nothing, True)
             qry = "alter table TSPL_DCS_ADDITION_DEDUCTION alter column Applicable_Value Decimal(18,3) not null"
             clsDBFuncationality.ExecuteNonQuery(qry)
@@ -25105,6 +25109,14 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Against_Milk_Collection_DCS", "Varchar(30) null references TSPL_MILK_COLLECTION_DCS(Document_No)")
             coll.Add("Against_Milk_Collection_DCS_Multiple_Days", "Varchar(30) null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS(Document_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED", coll, Nothing, False, False, "TSPL_MILK_PURCHASE_INVOICE_HEAD", "InvoiceNo", "")
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("InvoiceNo", "Varchar(30) not null references TSPL_MILK_PURCHASE_INVOICE_HEAD(DOC_CODE)")
+            coll.Add("DCS_Addition_Deduction", "Varchar(30) not null references TSPL_DCS_ADDITION_DEDUCTION(Code)")
+            coll.Add("Nature_Type", "char(1) not null")
+            coll.Add("Amount", "DECIMAL(18,2) NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE", coll, Nothing, False, False, "TSPL_MILK_PURCHASE_INVOICE_HEAD", "InvoiceNo", "")
 
             qry = "alter table TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED alter column SRN_CODE varchar(30) null"
             clsDBFuncationality.ExecuteNonQuery(qry)
@@ -53421,7 +53433,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Posted_By", "varchar(12)   NULL")
             coll.Add("Posted_Date", "Datetime   NULL")
             coll.Add("Status", "int Null")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT_REJECT", coll, "unique(Against_DBT_NEFT)", True, False, "", "Document_Code", "Document_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT_REJECT", coll, "", True, False, "", "Document_Code", "Document_Date")
 
             clsERPFuncationality.DropTableKey("TSPL_DBT_NEFT_REJECT", "Against_DBT_NEFT", EnumTableKeyType.Unique)
 

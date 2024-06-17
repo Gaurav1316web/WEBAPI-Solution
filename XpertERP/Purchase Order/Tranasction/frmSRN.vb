@@ -6851,8 +6851,6 @@ Public Class frmSRN
             CloseForm()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.L AndAlso MyBase.isCancel_Flag_After_Posting AndAlso btnCancel.Enabled Then
             CancelData()
-        ElseIf e.Alt AndAlso e.Shift And e.KeyCode = Keys.F12 Then
-            CancelData()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             If MyBase.isReverse Then
 

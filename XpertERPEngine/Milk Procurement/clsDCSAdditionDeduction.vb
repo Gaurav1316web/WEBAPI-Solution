@@ -29,7 +29,7 @@ Public Class clsDCSAdditionDeduction
     Public Posted As ERPTransactionStatus = ERPTransactionStatus.Pending
     Public Check_Saving_AC As Integer = 0
     Public Conversion As Decimal = 0
-
+    Public Dont_Generate_DR_CR_Note As Boolean
     Public Arr As ArrayList = Nothing
     Public ArrDCSExclude As ArrayList = Nothing
 #End Region
@@ -82,6 +82,7 @@ Public Class clsDCSAdditionDeduction
             clsCommon.AddColumnsForChange(coll, "Include_Shortage_Own_BMC", IIf(obj.Include_Shortage_Own_BMC, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Subtract", IIf(obj.Subtract, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Apply_Formula", IIf(obj.Apply_Formula, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "Dont_Generate_DR_CR_Note", IIf(obj.Dont_Generate_DR_CR_Note, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Check_Saving_AC", obj.Check_Saving_AC)
@@ -236,6 +237,7 @@ Public Class clsDCSAdditionDeduction
             obj.Include_Shortage_Own_BMC = IIf(clsCommon.myCdbl(dt.Rows(0)("Include_Shortage_Own_BMC")) = 1, True, False)
             obj.Subtract = IIf(clsCommon.myCdbl(dt.Rows(0)("Subtract")) = 1, True, False)
             obj.Apply_Formula = IIf(clsCommon.myCdbl(dt.Rows(0)("Apply_Formula")) = 1, True, False)
+            obj.Dont_Generate_DR_CR_Note = IIf(clsCommon.myCdbl(dt.Rows(0)("Dont_Generate_DR_CR_Note")) = 1, True, False)
             obj.Check_Saving_AC = clsCommon.myCdbl(dt.Rows(0)("Check_Saving_AC"))
             obj.Conversion = clsCommon.myCdbl(dt.Rows(0)("Conversion"))
 

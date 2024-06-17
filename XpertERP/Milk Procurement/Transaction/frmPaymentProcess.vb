@@ -5010,12 +5010,15 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
         Dim dt As DataTable = Nothing
         clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(fndDocNo.Value))
         Try
-            If Not AllowToSave() Then
-                Exit Sub
+
+            If SettVSPHoldPaymentNotCompanyBank = False Then
+                If Not AllowToSave() Then
+                    Exit Sub
+                End If
+                GC.Collect()
+                GC.WaitForPendingFinalizers()
+                SaveData(True)
             End If
-            GC.Collect()
-            GC.WaitForPendingFinalizers()
-            SaveData(True)
             'AutoFillAllVSP()
             If clsCommon.MyMessageBoxShow("Continue to Process the payment ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button1) = System.Windows.Forms.DialogResult.Yes Then
                 clsPaymentProcessHead.ProcessData(fndDocNo.Value, IIf(clsCommon.myLen(txtNEFTUploaderREFNo.Tag) > 0, txtNEFTUploaderREFNo.Tag, frm.desc))

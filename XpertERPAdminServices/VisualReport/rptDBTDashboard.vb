@@ -87,15 +87,17 @@ Public Class rptDBTDashboard
                     qry += " ORDER BY Document_date DESC"
                     docNo = clsDBFuncationality.getSingleValue(qry)
 
-                    query += " select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],max([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER.Union_Contact_Person) as [Union Contact Person],max([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER.Union_Contact_PhoneNo) as [Union Contact Phone No],'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,COUNT([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER.MP_Code) AS [No Of Farmer],
+                    query += " select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],max([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER.Union_Contact_Person) as [Union Contact Person],max([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER.Union_Contact_PhoneNo) as [Union Contact Phone No],'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,COUNT([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER.MP_Code) AS [No of Farmer],
     SUM(CASE WHEN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER.Jan_Aadhar_No_Verified = 1 THEN 1 ELSE 0 END) AS [Jan Aadhar Verified No],
     SUM(CASE WHEN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER.Aadhar_No_Verified = 1 THEN 1 ELSE 0 END) AS [Addhar Verified],
-    CONVERT(varchar, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.From_Date, 103) + ' - ' + CONVERT(varchar, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.To_Date, 103) AS [Last DBT Cycle],MAX(TSPL_DBT_NEFT_RCDF.Post_By) as [Last DBT Approved by RCDF]
+    CONVERT(varchar, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.From_Date, 103) + ' - ' + CONVERT(varchar, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.To_Date, 103) AS [Last DBT Cycle],MAX(TSPL_DBT_NEFT_RCDF.Post_By) as [Last DBT Approved by RCDF],(
+SELECT Top 1 Post_Date FROM [RCDF].[dbo].TSPL_DBT_NEFT_RCDF where DB_Name='" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "' and Status=1
+ORDER BY Document_date DESC) as [Last DBT App. Month]
     from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL
     left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR
     left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER.MP_Code
     left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Document_Code= [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Document_Code
-    left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_RCDF ON  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Document_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_RCDF.Document_Code
+    left join [RCDF].[dbo].TSPL_DBT_NEFT_RCDF ON  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Document_Code = [RCDF].[dbo].TSPL_DBT_NEFT_RCDF.Document_Code
     left  join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER on 2=2
     where [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Document_Code= '" & docNo & "' group by [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.From_Date, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.To_Date"
 
@@ -240,24 +242,24 @@ Public Class rptDBTDashboard
 
                 gvPaymentStatus.DataSource = Nothing
                 gvPaymentStatus.Rows.Clear()
-                    gvPaymentStatus.Columns.Clear()
-                    gvPaymentStatus.GroupDescriptors.Clear()
-                    gvPaymentStatus.MasterView.Refresh()
-                    gvPaymentStatus.GroupDescriptors.Clear()
-                    gvPaymentStatus.EnableFiltering = True
-                    gvPaymentStatus.MasterTemplate.SummaryRowsBottom.Clear()
-                    If dtPaymentStatus.Rows.Count > 0 Then
-                        gvPaymentStatus.DataSource = dt2
-                        gvPaymentStatus.BestFitColumns()
-                        SetGridFormation()
-                        ReStoreGridLayout()
-                        gvPaymentStatus.MasterTemplate.AutoExpandGroups = True
+                gvPaymentStatus.Columns.Clear()
+                gvPaymentStatus.GroupDescriptors.Clear()
+                gvPaymentStatus.MasterView.Refresh()
+                gvPaymentStatus.GroupDescriptors.Clear()
+                gvPaymentStatus.EnableFiltering = True
+                gvPaymentStatus.MasterTemplate.SummaryRowsBottom.Clear()
+                If dtPaymentStatus.Rows.Count > 0 Then
+                    gvPaymentStatus.DataSource = dt2
+                    gvPaymentStatus.BestFitColumns()
+                    SetGridFormation()
+                    ReStoreGridLayout()
+                    gvPaymentStatus.MasterTemplate.AutoExpandGroups = True
                     RadPageView.SelectedPage = RadPageViewPage1
                     gvPaymentStatus.BestFitColumns()
-                    Else
-                        '' clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                Else
+                    '' clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
 
-                    End If
+                End If
                 If print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptDBTPaymentStatus", "")
@@ -328,6 +330,7 @@ wHERE Convert(Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "]
                         gvDBTSummary.Columns(ii).ReadOnly = True
                     Next
                     RadPageView.SelectedPage = RadPageViewPage1
+
                     gvDBTSummary.EnableFiltering = True
                     SetGridFormatDBTSummary()
                     gvDBTSummary.BestFitColumns()
@@ -680,5 +683,6 @@ wHERE Convert(Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "]
         Print_PaymentStatus(EnumExportTo.PDF)
         Jan_Adh_print(EnumExportTo.PDF)
     End Sub
+
 
 End Class
