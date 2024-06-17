@@ -27,13 +27,17 @@ Partial Class DashboardMilkProcurement
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition13 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition14 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition15 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition16 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbdAllTrans = New System.Windows.Forms.RadioButton()
+        Me.rdbPosted = New System.Windows.Forms.RadioButton()
+        Me.rdbUnposted = New System.Windows.Forms.RadioButton()
         Me.chkRJSBNS = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtFromDate = New common.Controls.MyDateTimePicker()
         Me.txtToDate = New common.Controls.MyDateTimePicker()
@@ -54,16 +58,14 @@ Partial Class DashboardMilkProcurement
         Me.btnreset = New Telerik.WinControls.UI.RadButton()
         Me.btngo = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbdAllTrans = New System.Windows.Forms.RadioButton()
-        Me.rdbPosted = New System.Windows.Forms.RadioButton()
-        Me.rdbUnposted = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
         CType(Me.chkRJSBNS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -86,8 +88,6 @@ Partial Class DashboardMilkProcurement
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btngo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox2.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -141,6 +141,51 @@ Partial Class DashboardMilkProcurement
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 365)
         Me.RadPageViewPage1.Text = "Filter"
+        '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rbdAllTrans)
+        Me.RadGroupBox2.Controls.Add(Me.rdbPosted)
+        Me.RadGroupBox2.Controls.Add(Me.rdbUnposted)
+        Me.RadGroupBox2.HeaderText = ""
+        Me.RadGroupBox2.Location = New System.Drawing.Point(304, 6)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(269, 29)
+        Me.RadGroupBox2.TabIndex = 443
+        '
+        'rbdAllTrans
+        '
+        Me.rbdAllTrans.AutoSize = True
+        Me.rbdAllTrans.Checked = True
+        Me.rbdAllTrans.Location = New System.Drawing.Point(165, 6)
+        Me.rbdAllTrans.Name = "rbdAllTrans"
+        Me.rbdAllTrans.Size = New System.Drawing.Size(95, 17)
+        Me.rbdAllTrans.TabIndex = 439
+        Me.rbdAllTrans.TabStop = True
+        Me.rbdAllTrans.Text = "All Transation"
+        Me.rbdAllTrans.UseVisualStyleBackColor = True
+        '
+        'rdbPosted
+        '
+        Me.rdbPosted.AutoSize = True
+        Me.rdbPosted.Location = New System.Drawing.Point(13, 5)
+        Me.rdbPosted.Name = "rdbPosted"
+        Me.rdbPosted.Size = New System.Drawing.Size(60, 17)
+        Me.rdbPosted.TabIndex = 437
+        Me.rdbPosted.Text = "Posted"
+        Me.rdbPosted.UseVisualStyleBackColor = True
+        '
+        'rdbUnposted
+        '
+        Me.rdbUnposted.AutoSize = True
+        Me.rdbUnposted.Location = New System.Drawing.Point(83, 6)
+        Me.rdbUnposted.Name = "rdbUnposted"
+        Me.rdbUnposted.Size = New System.Drawing.Size(76, 17)
+        Me.rdbUnposted.TabIndex = 438
+        Me.rdbUnposted.Text = "Unposted"
+        Me.rdbUnposted.UseVisualStyleBackColor = True
         '
         'chkRJSBNS
         '
@@ -247,7 +292,7 @@ Partial Class DashboardMilkProcurement
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition13
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
@@ -275,7 +320,7 @@ Partial Class DashboardMilkProcurement
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowGroupedColumns = True
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition14
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.ShowHeaderCellButtons = True
@@ -303,7 +348,7 @@ Partial Class DashboardMilkProcurement
         Me.gv3.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv3.MasterTemplate.ShowGroupedColumns = True
         Me.gv3.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv3.MasterTemplate.ViewDefinition = TableViewDefinition15
+        Me.gv3.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv3.MyStopExport = False
         Me.gv3.Name = "gv3"
         Me.gv3.ShowHeaderCellButtons = True
@@ -331,7 +376,7 @@ Partial Class DashboardMilkProcurement
         Me.gv4.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv4.MasterTemplate.ShowGroupedColumns = True
         Me.gv4.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv4.MasterTemplate.ViewDefinition = TableViewDefinition16
+        Me.gv4.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv4.MyStopExport = False
         Me.gv4.Name = "gv4"
         Me.gv4.ShowHeaderCellButtons = True
@@ -396,52 +441,6 @@ Partial Class DashboardMilkProcurement
         Me.btnclose.TabIndex = 334
         Me.btnclose.Text = "Close"
         '
-        'RadGroupBox2
-        '
-        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox2.Controls.Add(Me.rbdAllTrans)
-        Me.RadGroupBox2.Controls.Add(Me.rdbPosted)
-        Me.RadGroupBox2.Controls.Add(Me.rdbUnposted)
-        Me.RadGroupBox2.HeaderText = ""
-        Me.RadGroupBox2.Location = New System.Drawing.Point(304, 6)
-        Me.RadGroupBox2.Name = "RadGroupBox2"
-        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(269, 29)
-        Me.RadGroupBox2.TabIndex = 443
-        Me.RadGroupBox2.Visible = False
-        '
-        'rbdAllTrans
-        '
-        Me.rbdAllTrans.AutoSize = True
-        Me.rbdAllTrans.Checked = True
-        Me.rbdAllTrans.Location = New System.Drawing.Point(165, 6)
-        Me.rbdAllTrans.Name = "rbdAllTrans"
-        Me.rbdAllTrans.Size = New System.Drawing.Size(95, 17)
-        Me.rbdAllTrans.TabIndex = 439
-        Me.rbdAllTrans.TabStop = True
-        Me.rbdAllTrans.Text = "All Transation"
-        Me.rbdAllTrans.UseVisualStyleBackColor = True
-        '
-        'rdbPosted
-        '
-        Me.rdbPosted.AutoSize = True
-        Me.rdbPosted.Location = New System.Drawing.Point(13, 5)
-        Me.rdbPosted.Name = "rdbPosted"
-        Me.rdbPosted.Size = New System.Drawing.Size(60, 17)
-        Me.rdbPosted.TabIndex = 437
-        Me.rdbPosted.Text = "Posted"
-        Me.rdbPosted.UseVisualStyleBackColor = True
-        '
-        'rdbUnposted
-        '
-        Me.rdbUnposted.AutoSize = True
-        Me.rdbUnposted.Location = New System.Drawing.Point(83, 6)
-        Me.rdbUnposted.Name = "rdbUnposted"
-        Me.rdbUnposted.Size = New System.Drawing.Size(76, 17)
-        Me.rdbUnposted.TabIndex = 438
-        Me.rdbUnposted.Text = "Unposted"
-        Me.rdbUnposted.UseVisualStyleBackColor = True
-        '
         'DashboardMilkProcurement
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -461,6 +460,9 @@ Partial Class DashboardMilkProcurement
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
         CType(Me.chkRJSBNS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -483,9 +485,6 @@ Partial Class DashboardMilkProcurement
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btngo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox2.ResumeLayout(False)
-        Me.RadGroupBox2.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
