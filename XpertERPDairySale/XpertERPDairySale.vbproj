@@ -882,6 +882,9 @@
     <EmbeddedResource Include="Report\rptDailyStatementReport.resx">
       <DependentUpon>rptDailyStatementReport.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptDemandReturnReport.resx">
+      <DependentUpon>rptDemandReturnReport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\rptGatePassReport.resx">
       <DependentUpon>rptGatePassReport.vb</DependentUpon>
     </EmbeddedResource>
