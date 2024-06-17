@@ -18,30 +18,35 @@ Public Class rptDailyStatementReport
         Dim query As String = ""
         Dim BaseQry As String = ""
 
-        BaseQry = ReturnQry()
-        query = "  Select Cust_Code, '" + objCommonVar.CurrentUser + "' as UserName, sum(Final_Qty)Final_Qty, Sku_Seq,max(Phone2)Phone2,max(Phone1)Phone1,max(Circle_No)Circle_No, max(Comp_Name)Comp_Name,max(City_Code)City_Code,max(State)State, max(Add1)Add1,max(Add2)Add2,max(Pincode)Pincode,max(Fax)Fax,max(Date)Date,max(Customer_Name) as Customer_Name,Item_Code,max(Short_Description) AS Short_Description,max(Unit_Desc) as Unit_Desc
+        Try
+            BaseQry = ReturnQry()
+            query = "  Select Cust_Code, '" + objCommonVar.CurrentUser + "' as UserName, sum(Final_Qty)Final_Qty, Sku_Seq,max(Phone2)Phone2,max(Phone1)Phone1,max(Circle_No)Circle_No, max(Comp_Name)Comp_Name,max(City_Code)City_Code,max(State)State, max(Add1)Add1,max(Add2)Add2,max(Pincode)Pincode,max(Fax)Fax,max(Date)Date,max(Customer_Name) as Customer_Name,Item_Code,max(Short_Description) AS Short_Description,max(Unit_Desc) as Unit_Desc
 		,sum(TotalLtr_ItemWise) as TotalLtr_ItemWise,sum(ItemNetAmount) as TotalAmt_ItemWise,sum(ProdQ) as ProdQ ,SUM(MAmt) AS MAmt,SUM(PAmt) AS PAmt,(sum(isnull(MAmt,0))+sum(isnull(PAmt,0))) as [Total Amount]
         from (  " & Environment.NewLine & " " & BaseQry & ""
 
-        If rbtnDistributorWise.IsChecked Then
-            query += " XXXFirst.Cust_Code,	XXXFirst.Item_Code ,XXXFirst.Sku_Seq  order by Sku_Seq "
-        ElseIf rbtnRouteWise.IsChecked Then
-            query += " XXXFirst.Route_No, XXXFirst.Cust_Code,	XXXFirst.Item_Code ,XXXFirst.Sku_Seq  order by Sku_Seq "
-
-        End If
-
-
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(query)
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            Dim frmCRV As New frmCrystalReportViewer()
             If rbtnDistributorWise.IsChecked Then
-                frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDailyStatementDistributorWiseDetail", "")
-            Else
+                query += " XXXFirst.Cust_Code,	XXXFirst.Item_Code ,XXXFirst.Sku_Seq  order by Sku_Seq "
+            ElseIf rbtnRouteWise.IsChecked Then
+                query += " XXXFirst.Route_No, XXXFirst.Cust_Code,	XXXFirst.Item_Code ,XXXFirst.Sku_Seq  order by Sku_Seq "
 
             End If
-        Else
-            clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
-        End If
+
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(query)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                If rbtnDistributorWise.IsChecked Then
+                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDailyStatementDistributorWiseDetail", "")
+                Else
+
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
     End Sub
 
     Private Function ReturnQry() As String
@@ -74,21 +79,26 @@ Public Class rptDailyStatementReport
         Dim BaseQry As String = ""
         Dim query As String = ""
 
-        BaseQry = ReturnQry()
-        query = "  Select case when ShiftType = 'Morning' THEN 1 else 2 end As Shift_Seq, ShiftType + ' Supply' as ShiftType, '" + objCommonVar.CurrentUser + "' as UserName, sum(Final_Qty)Final_Qty, Sku_Seq,max(Phone2)Phone2,max(Phone1)Phone1,max(Circle_No)Circle_No, max(Comp_Name)Comp_Name,max(City_Code)City_Code,max(State)State, max(Add1)Add1,max(Add2)Add2,max(Pincode)Pincode,max(Fax)Fax,max(Date)Date,max(Customer_Name) as Customer_Name,Item_Code,max(Short_Description) AS Short_Description,max(Unit_Desc) as Unit_Desc
+        Try
+            BaseQry = ReturnQry()
+            query = "  Select case when ShiftType = 'Morning' THEN 1 else 2 end As Shift_Seq, ShiftType + ' Supply' as ShiftType, '" + objCommonVar.CurrentUser + "' as UserName, sum(Final_Qty)Final_Qty, Sku_Seq,max(Phone2)Phone2,max(Phone1)Phone1,max(Circle_No)Circle_No, max(Comp_Name)Comp_Name,max(City_Code)City_Code,max(State)State, max(Add1)Add1,max(Add2)Add2,max(Pincode)Pincode,max(Fax)Fax,max(Date)Date,max(Customer_Name) as Customer_Name,Item_Code,max(Short_Description) AS Short_Description,max(Unit_Desc) as Unit_Desc
 		,sum(TotalLtr_ItemWise) as TotalLtr_ItemWise,sum(ItemNetAmount) as TotalAmt_ItemWise,sum(ProdQ) as ProdQ ,SUM(MAmt) AS MAmt,SUM(PAmt) AS PAmt,(sum(isnull(MAmt,0))+sum(isnull(PAmt,0))) as [Total Amount],sum(Kg_Qty)Kg_Qty
         from (  " & Environment.NewLine & " " & BaseQry & "  XXXFirst.ShiftType,	XXXFirst.Item_Code ,XXXFirst.Sku_Seq  order by ShiftType desc,Sku_Seq "
 
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(query)
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            Dim frmCRV As New frmCrystalReportViewer()
-            If rbtnDistributorWise.IsChecked Then
-                frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDailyStatementDistributorWiseSummary", "")
-            Else
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(query)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                If rbtnDistributorWise.IsChecked Then
+                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDailyStatementDistributorWiseSummary", "")
+                Else
 
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
             End If
-        Else
-            clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
-        End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
     End Sub
 End Class
