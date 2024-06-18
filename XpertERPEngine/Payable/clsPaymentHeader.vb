@@ -2880,11 +2880,8 @@ Public Class clsPaymentHeader
             End If
             If obj.TDS_Provision Then
                 qry = "update TSPL_REMITTANCE set Remit_TDS='N',Is_TDS_Provision='Y' where Document_No='" + strPaymentNo + "'"
-
             Else
                 qry = "update TSPL_REMITTANCE set Remit_TDS='N',Is_TDS_Provision='N' where Document_No='" + strPaymentNo + "'"
-
-
             End If
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -3201,7 +3198,7 @@ Public Class clsPaymentHeader
                     Throw New Exception("Please enter Vendor Account in Vendor Account Set for Vendor " + clsCommon.myCstr(obj.Vendor_Code))
                 End If
             End If
-           
+
 
             straccount = clsERPFuncationality.ChangeGLAccountLocationSegment(straccount, BankLocation, True, trans)
             Dim BankTypeOfBank As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select ISNULL(Bank_type,'') AS Bank_Type From TSPL_BANK_MASTER Where BANK_CODE ='" + clsCommon.myCstr(obj.Bank_Code) + "'", trans))
@@ -3731,7 +3728,7 @@ Public Class clsPaymentHeader
                             Dim strDOLocation As String = obj.PO_Location_Code
                             Dim isTaxRecoverable As Boolean = False
                             If clsCommon.myCdbl(obj.TAX1_Amt) <> 0 Then
-                                isTaxRecoverable = clsTaxMaster.IsTaxRecoverableAC(obj.TAX1, trans)
+                                isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.TAX1, trans)
                                 If isTaxRecoverable Then
                                     objTM = clsTaxMaster.GetTaxDetailsForSale(clsCommon.myCstr(obj.TAX1), trans)
                                     If objTM IsNot Nothing Then
@@ -3754,7 +3751,7 @@ Public Class clsPaymentHeader
                             End If
 
                             If clsCommon.myCdbl(obj.TAX2_Amt) <> 0 Then
-                                isTaxRecoverable = clsTaxMaster.IsTaxRecoverableAC(obj.tax2, trans)
+                                isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.tax2, trans)
                                 If isTaxRecoverable Then
                                     objTM = clsTaxMaster.GetTaxDetailsForSale(clsCommon.myCstr(obj.tax2), trans)
                                     If objTM IsNot Nothing Then
@@ -3779,7 +3776,7 @@ Public Class clsPaymentHeader
 
 
                             If clsCommon.myCdbl(obj.TAX3_Amt) <> 0 Then
-                                isTaxRecoverable = clsTaxMaster.IsTaxRecoverableAC(obj.TAX3, trans)
+                                isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.TAX3, trans)
                                 If isTaxRecoverable Then
                                     objTM = clsTaxMaster.GetTaxDetailsForSale(clsCommon.myCstr(obj.TAX3), trans)
                                     If objTM IsNot Nothing Then
@@ -3803,7 +3800,7 @@ Public Class clsPaymentHeader
 
 
                             If clsCommon.myCdbl(obj.TAX4_Amt) <> 0 Then
-                                isTaxRecoverable = clsTaxMaster.IsTaxRecoverableAC(obj.TAX4, trans)
+                                isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.TAX4, trans)
                                 If isTaxRecoverable Then
                                     objTM = clsTaxMaster.GetTaxDetailsForSale(clsCommon.myCstr(obj.TAX4), trans)
                                     If objTM IsNot Nothing Then
@@ -3828,7 +3825,7 @@ Public Class clsPaymentHeader
 
 
                             If clsCommon.myCdbl(obj.TAX5_Amt) <> 0 Then
-                                isTaxRecoverable = clsTaxMaster.IsTaxRecoverableAC(obj.tax5, trans)
+                                isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.tax5, trans)
                                 If isTaxRecoverable Then
                                     objTM = clsTaxMaster.GetTaxDetailsForSale(clsCommon.myCstr(obj.tax5), trans)
                                     If objTM IsNot Nothing Then
@@ -3853,7 +3850,7 @@ Public Class clsPaymentHeader
 
 
                             If clsCommon.myCdbl(obj.TAX6_Amt) <> 0 Then
-                                isTaxRecoverable = clsTaxMaster.IsTaxRecoverableAC(obj.tax6, trans)
+                                isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.tax6, trans)
                                 If isTaxRecoverable Then
                                     objTM = clsTaxMaster.GetTaxDetailsForSale(clsCommon.myCstr(obj.tax6), trans)
                                     If objTM IsNot Nothing Then
@@ -3878,7 +3875,7 @@ Public Class clsPaymentHeader
 
 
                             If clsCommon.myCdbl(obj.TAX7_Amt) <> 0 Then
-                                isTaxRecoverable = clsTaxMaster.IsTaxRecoverableAC(obj.tax7, trans)
+                                isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.tax7, trans)
                                 If isTaxRecoverable Then
                                     objTM = clsTaxMaster.GetTaxDetailsForSale(clsCommon.myCstr(obj.tax7), trans)
                                     If objTM IsNot Nothing Then
@@ -3902,7 +3899,7 @@ Public Class clsPaymentHeader
 
 
                             If clsCommon.myCdbl(obj.TAX8_Amt) <> 0 Then
-                                isTaxRecoverable = clsTaxMaster.IsTaxRecoverableAC(obj.tax8, trans)
+                                isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.tax8, trans)
                                 If isTaxRecoverable Then
                                     objTM = clsTaxMaster.GetTaxDetailsForSale(clsCommon.myCstr(obj.tax8), trans)
                                     If objTM IsNot Nothing Then
@@ -3926,7 +3923,7 @@ Public Class clsPaymentHeader
 
 
                             If clsCommon.myCdbl(obj.TAX9_Amt) <> 0 Then
-                                isTaxRecoverable = clsTaxMaster.IsTaxRecoverableAC(obj.tax9, trans)
+                                isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.tax9, trans)
                                 If isTaxRecoverable Then
                                     objTM = clsTaxMaster.GetTaxDetailsForSale(clsCommon.myCstr(obj.tax9), trans)
                                     If objTM IsNot Nothing Then
@@ -3950,7 +3947,7 @@ Public Class clsPaymentHeader
 
 
                             If clsCommon.myCdbl(obj.TAX10_Amt) <> 0 Then
-                                isTaxRecoverable = clsTaxMaster.IsTaxRecoverableAC(obj.tax10, trans)
+                                isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.tax10, trans)
                                 If isTaxRecoverable Then
                                     objTM = clsTaxMaster.GetTaxDetailsForSale(clsCommon.myCstr(obj.tax10), trans)
                                     If objTM IsNot Nothing Then
@@ -4051,7 +4048,7 @@ Public Class clsPaymentHeader
                             Dim strDOLocation As String = obj.PO_Location_Code
                             Dim isTaxRecoverable As Boolean = False
                             If clsCommon.myCdbl(obj.TAX1_Amt) <> 0 Then
-                                isTaxRecoverable = clsTaxMaster.IsTaxRecoverableAC(obj.TAX1, trans)
+                                isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.TAX1, trans)
                                 If isTaxRecoverable Then
                                     objTM = clsTaxMaster.GetTaxDetailsForSale(clsCommon.myCstr(obj.TAX1), trans)
                                     If objTM IsNot Nothing Then
@@ -4074,7 +4071,7 @@ Public Class clsPaymentHeader
                             End If
 
                             If clsCommon.myCdbl(obj.TAX2_Amt) <> 0 Then
-                                isTaxRecoverable = clsTaxMaster.IsTaxRecoverableAC(obj.tax2, trans)
+                                isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.tax2, trans)
                                 If isTaxRecoverable Then
                                     objTM = clsTaxMaster.GetTaxDetailsForSale(clsCommon.myCstr(obj.tax2), trans)
                                     If objTM IsNot Nothing Then
@@ -4098,7 +4095,7 @@ Public Class clsPaymentHeader
 
 
                             If clsCommon.myCdbl(obj.TAX3_Amt) <> 0 Then
-                                isTaxRecoverable = clsTaxMaster.IsTaxRecoverableAC(obj.TAX3, trans)
+                                isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.TAX3, trans)
                                 If isTaxRecoverable Then
                                     objTM = clsTaxMaster.GetTaxDetailsForSale(clsCommon.myCstr(obj.TAX3), trans)
                                     If objTM IsNot Nothing Then
@@ -4121,7 +4118,7 @@ Public Class clsPaymentHeader
                             End If
 
                             If clsCommon.myCdbl(obj.TAX4_Amt) <> 0 Then
-                                isTaxRecoverable = clsTaxMaster.IsTaxRecoverableAC(obj.TAX4, trans)
+                                isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.TAX4, trans)
                                 If isTaxRecoverable Then
                                     objTM = clsTaxMaster.GetTaxDetailsForSale(clsCommon.myCstr(obj.TAX4), trans)
                                     If objTM IsNot Nothing Then
@@ -4146,7 +4143,7 @@ Public Class clsPaymentHeader
 
 
                             If clsCommon.myCdbl(obj.TAX5_Amt) <> 0 Then
-                                isTaxRecoverable = clsTaxMaster.IsTaxRecoverableAC(obj.tax5, trans)
+                                isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.tax5, trans)
                                 If isTaxRecoverable Then
                                     objTM = clsTaxMaster.GetTaxDetailsForSale(clsCommon.myCstr(obj.tax5), trans)
                                     If objTM IsNot Nothing Then
@@ -4170,7 +4167,7 @@ Public Class clsPaymentHeader
 
 
                             If clsCommon.myCdbl(obj.TAX6_Amt) <> 0 Then
-                                isTaxRecoverable = clsTaxMaster.IsTaxRecoverableAC(obj.tax6, trans)
+                                isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.tax6, trans)
                                 If isTaxRecoverable Then
                                     objTM = clsTaxMaster.GetTaxDetailsForSale(clsCommon.myCstr(obj.tax6), trans)
                                     If objTM IsNot Nothing Then
@@ -4195,7 +4192,7 @@ Public Class clsPaymentHeader
 
 
                             If clsCommon.myCdbl(obj.TAX7_Amt) <> 0 Then
-                                isTaxRecoverable = clsTaxMaster.IsTaxRecoverableAC(obj.tax7, trans)
+                                isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.tax7, trans)
                                 If isTaxRecoverable Then
                                     objTM = clsTaxMaster.GetTaxDetailsForSale(clsCommon.myCstr(obj.tax7), trans)
                                     If objTM IsNot Nothing Then
@@ -4219,7 +4216,7 @@ Public Class clsPaymentHeader
 
 
                             If clsCommon.myCdbl(obj.TAX8_Amt) <> 0 Then
-                                isTaxRecoverable = clsTaxMaster.IsTaxRecoverableAC(obj.tax8, trans)
+                                isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.tax8, trans)
                                 If isTaxRecoverable Then
                                     objTM = clsTaxMaster.GetTaxDetailsForSale(clsCommon.myCstr(obj.tax8), trans)
                                     If objTM IsNot Nothing Then
@@ -4243,7 +4240,7 @@ Public Class clsPaymentHeader
 
 
                             If clsCommon.myCdbl(obj.TAX9_Amt) <> 0 Then
-                                isTaxRecoverable = clsTaxMaster.IsTaxRecoverableAC(obj.tax9, trans)
+                                isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.tax9, trans)
                                 If isTaxRecoverable Then
                                     objTM = clsTaxMaster.GetTaxDetailsForSale(clsCommon.myCstr(obj.tax9), trans)
                                     If objTM IsNot Nothing Then
@@ -4267,7 +4264,7 @@ Public Class clsPaymentHeader
 
 
                             If clsCommon.myCdbl(obj.TAX10_Amt) <> 0 Then
-                                isTaxRecoverable = clsTaxMaster.IsTaxRecoverableAC(obj.tax10, trans)
+                                isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.tax10, trans)
                                 If isTaxRecoverable Then
                                     objTM = clsTaxMaster.GetTaxDetailsForSale(clsCommon.myCstr(obj.tax10), trans)
                                     If objTM IsNot Nothing Then

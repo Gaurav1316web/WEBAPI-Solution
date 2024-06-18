@@ -57,6 +57,8 @@ Public Class clsPaymentProcessHead
     Public ArrPPSkipDoc As List(Of clsPaymentProcessSkipDoc) = Nothing
     Public FarmType As String = "PP"
     Dim SetCowFatPer As Decimal = 0
+
+    Public ArrIndex As Dictionary(Of String, clsPaymentProcessIndex)
 #End Region
 
     Public Shared Function SaveData(ByVal obj As clsPaymentProcessHead, ByVal isNewEntry As Boolean) As Boolean
@@ -194,7 +196,7 @@ Public Class clsPaymentProcessHead
         Return True
     End Function
     Public Shared Function ProcessData(ByVal DocNo As String, ByVal Desc As String, ByVal ShowProgressBAR As Boolean, ByVal trans As SqlTransaction) As Boolean
-        Dim obj As clsPaymentProcessHead = clsPaymentProcessHead.getData(DocNo, NavigatorType.Current, trans)
+        Dim obj As clsPaymentProcessHead = clsPaymentProcessHead.getData(DocNo, NavigatorType.Current, trans, "", False, True)
         Dim i As Integer = 0
         Dim Counter As Integer = 0
         Dim AdjAmt As Decimal = 0
@@ -501,7 +503,7 @@ Public Class clsPaymentProcessHead
                         objPay.Saving = True
                         objPay.ArrTr = New List(Of clsPaymentDetail)
                         If obj.arrclsPaymentProcessSaving IsNot Nothing And obj.arrclsPaymentProcessSaving.Count > 0 Then
-                            For k As Integer = 0 To obj.arrclsPaymentProcessSaving.Count - 1
+                            For k As Integer = obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE).SavingFrom To obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE).SavingTo
                                 If clsCommon.CompairString(obj.arrclsPaymentProcessSaving(k).Vendor_CODE, obj.ArrPPDetail(i).VSP_CODE) = CompairStringResult.Equal Then
                                     Dim tAmt As Decimal = clsCommon.myCdbl(obj.arrclsPaymentProcessSaving.Item(k).Amount)
                                     If tAmt > 0 Then
@@ -532,7 +534,7 @@ Public Class clsPaymentProcessHead
 
                     If obj.ArrPPDetail(i).is_Hold_Payment_Process Then
                         Dim XTotalAmount As Decimal = 0
-                        For Counter = 0 To obj.arrClsPaymentProcessDeductions.Count - 1
+                        For Counter = obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE).DRFrom To obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE).DRTo
                             If clsCommon.CompairString(obj.arrClsPaymentProcessDeductions(Counter).Vendor_CODE, obj.ArrPPDetail(i).VSP_CODE) = CompairStringResult.Equal Then
                                 Dim XAmount As Decimal = obj.arrClsPaymentProcessDeductions(Counter).Amount - obj.arrClsPaymentProcessDeductions(Counter).Reduce_Deduc_Amt
                                 If XAmount > 0 Then
@@ -562,7 +564,7 @@ Public Class clsPaymentProcessHead
                             End If
                         Next
                         If XTotalAmount > 0 Then
-                            For Counter = 0 To obj.arrClsPaymentProcessCreditNote.Count - 1
+                            For Counter = obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE).CRFrom To obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE).CRTo
                                 If clsCommon.CompairString(obj.arrClsPaymentProcessCreditNote(Counter).Vendor_CODE, obj.ArrPPDetail(i).VSP_CODE) = CompairStringResult.Equal Then
                                     Dim XAmount As Decimal = obj.arrClsPaymentProcessCreditNote(Counter).Amount
                                     If XAmount > 0 Then
@@ -736,7 +738,7 @@ Public Class clsPaymentProcessHead
                         Next
                     End If
                     If obj.arrClsPaymentProcessDeductions IsNot Nothing And obj.arrClsPaymentProcessDeductions.Count > 0 Then
-                        For k As Integer = 0 To obj.arrClsPaymentProcessDeductions.Count - 1
+                        For k As Integer = obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE).DRFrom To obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE).DRTo
                             If clsCommon.CompairString(obj.arrClsPaymentProcessDeductions(k).Vendor_CODE, obj.ArrPPDetail(i).VSP_CODE) = CompairStringResult.Equal Then
                                 objTr = New clsPaymentDetail()
                                 objTr.Apply = "1"
@@ -755,7 +757,7 @@ Public Class clsPaymentProcessHead
                     End If
 
                     If obj.arrClsPaymentProcessCreditNote IsNot Nothing And obj.arrClsPaymentProcessCreditNote.Count > 0 Then
-                        For k As Integer = 0 To obj.arrClsPaymentProcessCreditNote.Count - 1
+                        For k As Integer = obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE).CRFrom To obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE).CRTo
                             If clsCommon.CompairString(obj.arrClsPaymentProcessCreditNote(k).Vendor_CODE, obj.ArrPPDetail(i).VSP_CODE) = CompairStringResult.Equal Then
                                 Dim tAmt As Decimal = clsCommon.myCdbl(obj.arrClsPaymentProcessCreditNote.Item(k).Amount)
                                 If arrCreditNoteAdjustAmt.ContainsKey(obj.arrClsPaymentProcessCreditNote.Item(k).AP_Invoice_No) Then
@@ -780,7 +782,7 @@ Public Class clsPaymentProcessHead
                     End If
 
                     If obj.arrclsPaymentProcessCompulsory IsNot Nothing And obj.arrclsPaymentProcessCompulsory.Count > 0 Then
-                        For k As Integer = 0 To obj.arrclsPaymentProcessCompulsory.Count - 1
+                        For k As Integer = obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE).COMPULSORYFrom To obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE).COMPULSORYTo
                             If clsCommon.CompairString(obj.arrclsPaymentProcessCompulsory(k).Vendor_CODE, obj.ArrPPDetail(i).VSP_CODE) = CompairStringResult.Equal Then
                                 Dim tAmt As Decimal = clsCommon.myCdbl(obj.arrclsPaymentProcessCompulsory.Item(k).Amount)
                                 If arrCreditNoteAdjustAmt.ContainsKey(obj.arrclsPaymentProcessCompulsory.Item(k).AP_Invoice_No) Then
@@ -812,6 +814,7 @@ Public Class clsPaymentProcessHead
                     objPay.SaveData(objPay, True, trans, True)
                     clsPaymentHeader.PostData(objPay.Payment_No, "Payable", trans)
                     ''------------------Payment Entry End Here
+                    'Throw New Exception("Balwinder singh premi")
                 Next
                 '==============Add Code for save Mcc Sale Return Document Payment Details==================
                 If obj.arrClsPaymentProcessMccSaleReturn IsNot Nothing AndAlso obj.arrClsPaymentProcessMccSaleReturn.Count > 0 Then
@@ -1237,7 +1240,7 @@ Public Class clsPaymentProcessHead
         Return True
     End Function
 
-    Public Shared Function getData(ByVal strCode As String, ByVal navtype As NavigatorType, Optional ByVal trans As SqlTransaction = Nothing, Optional Vendorcode As String = "", Optional isGetDT As Boolean = False) As clsPaymentProcessHead
+    Public Shared Function getData(ByVal strCode As String, ByVal navtype As NavigatorType, Optional ByVal trans As SqlTransaction = Nothing, Optional Vendorcode As String = "", Optional isGetDT As Boolean = False, Optional ApplyIndex As Boolean = False) As clsPaymentProcessHead
         Dim obj As clsPaymentProcessHead = Nothing
         Try
             Dim whrCls As String = String.Empty
@@ -1295,16 +1298,18 @@ Public Class clsPaymentProcessHead
                     obj.dtPPAdvancePayment = clsPaymentProcessAdvancePayment.getDataDT(obj.Doc_No, trans)
                     obj.dtPPAssetLost = clsPaymentProcessAssetLost.getDataDT(obj.Doc_No, trans)
                 Else
-                    obj.ArrPPDetail = clsPaymentProcessDetail.getData(obj.Doc_No, trans)
+                    obj.ArrIndex = New Dictionary(Of String, clsPaymentProcessIndex)
+
+                    obj.ArrPPDetail = clsPaymentProcessDetail.getData(ApplyIndex, obj.ArrIndex, obj.Doc_No, trans)
                     obj.arrClsPaymentProcessInvoices = clsPaymentProcessInvoices.getData(obj.Doc_No, trans)
                     obj.arrClsPaymentProcessMccSale = clsPaymentProcessMCCSale.getData(obj.Doc_No, trans)
                     obj.arrClsPaymentProcessMccSaleReturn = clsPaymentProcessMCCSaleReturn.getData(obj.Doc_No, trans)
                     obj.arrClsPaymentProcessItemIssue = clsPaymentProcessItemIssue.getData(obj.Doc_No, trans)
                     obj.arrClsPaymentProcessItemIssueReturn = clsPaymentProcessItemIssueReturn.getData(obj.Doc_No, trans)
-                    obj.arrClsPaymentProcessDeductions = clsPaymentProcessDeduction.getData(obj.Doc_No, trans)
-                    obj.arrClsPaymentProcessCreditNote = clsPaymentProcessCreditNote.getData(obj.Doc_No, trans)
-                    obj.arrclsPaymentProcessSaving = clsPaymentProcessSaving.getData(obj.Doc_No, trans)
-                    obj.arrclsPaymentProcessCompulsory = clsPaymentProcessCompulsory.getData(obj.Doc_No, trans)
+                    obj.arrClsPaymentProcessDeductions = clsPaymentProcessDeduction.getData(ApplyIndex, obj.ArrIndex, obj.Doc_No, trans)
+                    obj.arrClsPaymentProcessCreditNote = clsPaymentProcessCreditNote.getData(ApplyIndex, obj.ArrIndex, obj.Doc_No, trans)
+                    obj.arrclsPaymentProcessSaving = clsPaymentProcessSaving.getData(ApplyIndex, obj.ArrIndex, obj.Doc_No, trans)
+                    obj.arrclsPaymentProcessCompulsory = clsPaymentProcessCompulsory.getData(ApplyIndex, obj.ArrIndex, obj.Doc_No, trans)
                     obj.ArrPPAdvancePayment = clsPaymentProcessAdvancePayment.getData(obj.Doc_No, trans)
                     obj.ArrPPAssetLost = clsPaymentProcessAssetLost.getData(obj.Doc_No, trans)
                 End If
@@ -3254,7 +3259,7 @@ where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No ='" & doc_No & "' order by TSPL_PAYMENT
 
 
     End Function
-    Public Shared Function getData(ByVal doc_No As String, Optional ByVal trans As SqlTransaction = Nothing) As List(Of clsPaymentProcessDetail)
+    Public Shared Function getData(ByVal ApplyIndex As Boolean, ByRef ArrIndex As Dictionary(Of String, clsPaymentProcessIndex), ByVal doc_No As String, Optional ByVal trans As SqlTransaction = Nothing) As List(Of clsPaymentProcessDetail)
         Try
             Dim arr As New List(Of clsPaymentProcessDetail)
             Dim obj As New clsPaymentProcessDetail
@@ -3262,7 +3267,12 @@ where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No ='" & doc_No & "' order by TSPL_PAYMENT
                 " left outer join (select DOC_CODE,cast( sum(FATKg) as decimal(18,3)) as FATKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(FATKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as FATPer ,cast( sum(SNFKg) as decimal(18,3)) as SNFKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(SNFKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as SNFPer " +
                 " from (select DOC_CODE, ACC_Qty,FAT_PER,SNF_PER,cast(ACC_Qty*FAT_PER/100 as decimal(18,2)) as FATKg,cast( ACC_Qty*SNF_PER/100 as decimal(18,2)) as SNFKg from TSPL_MILK_PURCHASE_INVOICE_DETAIL )xx group by DOC_CODE " +
                 ") as TabFATSNFDetail on TabFATSNFDetail.DOC_CODE=TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No" + Environment.NewLine +
-                " where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='" & doc_No & "' order by TSPL_PAYMENT_PROCESS_DETAIL.SNo"
+                " where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='" & doc_No & "' "
+            If ApplyIndex Then
+                qry += "  order by TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE "
+            Else
+                qry += "  order by TSPL_PAYMENT_PROCESS_DETAIL.SNo "
+            End If
             Dim dtbl As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             If dtbl IsNot Nothing AndAlso dtbl.Rows.Count > 0 Then
                 For i As Integer = 0 To dtbl.Rows.Count - 1
@@ -3365,6 +3375,14 @@ where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No ='" & doc_No & "' order by TSPL_PAYMENT
                     obj.CalSNFKg = clsCommon.myCdbl(dtbl.Rows(i)("SNFKg"))
                     obj.CalSNFPer = clsCommon.myCdbl(dtbl.Rows(i)("SNFPer"))
                     arr.Add(obj)
+                    If ApplyIndex Then
+                        Dim objidx As New clsPaymentProcessIndex
+                        objidx.COMPULSORYTo = -1
+                        objidx.CRTo = -1
+                        objidx.DRTo = -1
+                        objidx.SavingTo = -1
+                        ArrIndex.Add(clsCommon.myCstr(dtbl.Rows(i)("VSP_CODE")), objidx)
+                    End If
                 Next
             End If
             Return arr
@@ -4006,14 +4024,34 @@ where TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No='" & doc_No & "'order by cast(TSPL_P
             Throw New Exception(ex.Message)
         End Try
     End Function
-    Public Shared Function getData(ByVal doc_No As String, Optional ByVal trans As SqlTransaction = Nothing) As List(Of clsPaymentProcessDeduction)
+    Public Shared Function getData(ByVal ApplyIndex As Boolean, ByRef ArrIndex As Dictionary(Of String, clsPaymentProcessIndex), ByVal doc_No As String, Optional ByVal trans As SqlTransaction = Nothing) As List(Of clsPaymentProcessDeduction)
         Try
             Dim arr As New List(Of clsPaymentProcessDeduction)
             Dim obj As New clsPaymentProcessDeduction
             Dim q As String = "select * from TSPL_PAYMENT_PROCESS_DEDUCTION where Doc_No='" & doc_No & "'"
+            If ApplyIndex Then
+                q += " order by TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE "
+            End If
             Dim dtbl As DataTable = clsDBFuncationality.GetDataTable(q, trans)
             If dtbl IsNot Nothing AndAlso dtbl.Rows.Count > 0 Then
+                Dim IdxVendor As String = clsCommon.myCstr(dtbl.Rows(0)("Vendor_CODE"))
+                Dim IdxFrom As Integer = 0
+                Dim IdxTo As Integer = -1
                 For i As Integer = 0 To dtbl.Rows.Count - 1
+                    If ApplyIndex Then
+                        If i = dtbl.Rows.Count - 1 Then
+                            IdxTo = i
+                            ArrIndex(IdxVendor).DRFrom = IdxFrom
+                            ArrIndex(IdxVendor).DRTo = IdxTo
+                        ElseIf (Not (clsCommon.CompairString(IdxVendor, clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))) = CompairStringResult.Equal)) Then
+                            IdxTo = i - 1
+                            ArrIndex(IdxVendor).DRFrom = IdxFrom
+                            ArrIndex(IdxVendor).DRTo = IdxTo
+                            IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))
+                            IdxFrom = i
+                        End If
+                    End If
+
                     obj = New clsPaymentProcessDeduction
                     obj.Doc_No = clsCommon.myCstr(dtbl.Rows(i)("Doc_No"))
                     obj.SLNO = clsCommon.myCstr(dtbl.Rows(i)("SLNO"))
@@ -4096,14 +4134,35 @@ where TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No='" & doc_No & "' order by cast(TSP
             Throw New Exception(ex.Message)
         End Try
     End Function
-    Public Shared Function getData(ByVal doc_No As String, Optional ByVal trans As SqlTransaction = Nothing) As List(Of clsPaymentProcessCreditNote)
+    Public Shared Function getData(ByVal ApplyIndex As Boolean, ByRef ArrIndex As Dictionary(Of String, clsPaymentProcessIndex), ByVal doc_No As String, Optional ByVal trans As SqlTransaction = Nothing) As List(Of clsPaymentProcessCreditNote)
         Try
             Dim arr As New List(Of clsPaymentProcessCreditNote)
             Dim obj As New clsPaymentProcessCreditNote
             Dim q As String = "select * from TSPL_PAYMENT_PROCESS_CREDIT_NOTE where Doc_No='" & doc_No & "'"
+            If ApplyIndex Then
+                q += " order by TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE "
+            End If
             Dim dtbl As DataTable = clsDBFuncationality.GetDataTable(q, trans)
             If dtbl IsNot Nothing AndAlso dtbl.Rows.Count > 0 Then
+                Dim IdxVendor As String = clsCommon.myCstr(dtbl.Rows(0)("Vendor_CODE"))
+                Dim IdxFrom As Integer = 0
+                Dim IdxTo As Integer = -1
                 For i As Integer = 0 To dtbl.Rows.Count - 1
+                    If ApplyIndex Then
+                        If i = dtbl.Rows.Count - 1 Then
+                            IdxTo = i
+                            ArrIndex(IdxVendor).CRFrom = IdxFrom
+                            ArrIndex(IdxVendor).CRTo = IdxTo
+                        ElseIf (Not (clsCommon.CompairString(IdxVendor, clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))) = CompairStringResult.Equal)) Then
+                            IdxTo = i - 1
+                            ArrIndex(IdxVendor).CRFrom = IdxFrom
+                            ArrIndex(IdxVendor).CRTo = IdxTo
+
+                            IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))
+                            IdxFrom = i
+                        End If
+                    End If
+
                     obj = New clsPaymentProcessCreditNote
                     obj.Doc_No = clsCommon.myCstr(dtbl.Rows(i)("Doc_No"))
                     obj.SLNO = clsCommon.myCstr(dtbl.Rows(i)("SLNO"))
@@ -4579,16 +4638,37 @@ where TSPL_PAYMENT_PROCESS_SAVING.Doc_No='" & doc_No & "' order by cast(TSPL_PAY
             Throw New Exception(ex.Message)
         End Try
     End Function
-    Public Shared Function getData(ByVal doc_No As String, Optional ByVal trans As SqlTransaction = Nothing) As List(Of clsPaymentProcessSaving)
+    Public Shared Function getData(ByVal ApplyIndex As Boolean, ByRef ArrIndex As Dictionary(Of String, clsPaymentProcessIndex), ByVal doc_No As String, Optional ByVal trans As SqlTransaction = Nothing) As List(Of clsPaymentProcessSaving)
         Try
             Dim arr As New List(Of clsPaymentProcessSaving)
             Dim obj As New clsPaymentProcessSaving
             Dim q As String = "select TSPL_PAYMENT_PROCESS_SAVING.*,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Type
 ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.Document_Total
 from TSPL_PAYMENT_PROCESS_SAVING left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_SAVING.AP_Invoice_No where TSPL_PAYMENT_PROCESS_SAVING.Doc_No='" & doc_No & "'"
+            If ApplyIndex Then
+                q += " order by TSPL_VENDOR_INVOICE_HEAD.Vendor_Code "
+            End If
             Dim dtbl As DataTable = clsDBFuncationality.GetDataTable(q, trans)
             If dtbl IsNot Nothing AndAlso dtbl.Rows.Count > 0 Then
+                Dim IdxVendor As String = clsCommon.myCstr(dtbl.Rows(0)("Vendor_Code"))
+                Dim IdxFrom As Integer = 0
+                Dim IdxTo As Integer = -1
                 For i As Integer = 0 To dtbl.Rows.Count - 1
+                    If ApplyIndex Then
+                        If i = dtbl.Rows.Count - 1 Then
+                            IdxTo = i
+                            ArrIndex(IdxVendor).SavingFrom = IdxFrom
+                            ArrIndex(IdxVendor).SavingTo = IdxTo
+                        ElseIf (Not (clsCommon.CompairString(IdxVendor, clsCommon.myCstr(dtbl.Rows(i)("Vendor_Code"))) = CompairStringResult.Equal)) Then
+                            IdxTo = i - 1
+                            ArrIndex(IdxVendor).SavingFrom = IdxFrom
+                            ArrIndex(IdxVendor).SavingTo = IdxTo
+
+                            IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_Code"))
+                            IdxFrom = i
+                        End If
+                    End If
+
                     obj = New clsPaymentProcessSaving
                     obj.Doc_No = clsCommon.myCstr(dtbl.Rows(i)("Doc_No"))
                     obj.SLNO = clsCommon.myCstr(dtbl.Rows(i)("SLNO"))
@@ -4665,7 +4745,7 @@ where TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No='" & doc_No & "' order by cast(TSPL
             Throw New Exception(ex.Message)
         End Try
     End Function
-    Public Shared Function getData(ByVal doc_No As String, Optional ByVal trans As SqlTransaction = Nothing) As List(Of clsPaymentProcessCompulsory)
+    Public Shared Function getData(ByVal ApplyIndex As Boolean, ByRef ArrIndex As Dictionary(Of String, clsPaymentProcessIndex), ByVal doc_No As String, Optional ByVal trans As SqlTransaction = Nothing) As List(Of clsPaymentProcessCompulsory)
         Try
             Dim arr As New List(Of clsPaymentProcessCompulsory)
             Dim obj As New clsPaymentProcessCompulsory
@@ -4674,9 +4754,31 @@ where TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No='" & doc_No & "' order by cast(TSPL
 from TSPL_PAYMENT_PROCESS_COMPULSORY 
 left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_COMPULSORY.AP_Invoice_No 
 where TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No='" & doc_No & "'"
+            If ApplyIndex Then
+                q += " order by TSPL_VENDOR_INVOICE_HEAD.Vendor_Code "
+            End If
             Dim dtbl As DataTable = clsDBFuncationality.GetDataTable(q, trans)
             If dtbl IsNot Nothing AndAlso dtbl.Rows.Count > 0 Then
+                Dim IdxVendor As String = clsCommon.myCstr(dtbl.Rows(0)("Vendor_Code"))
+                Dim IdxFrom As Integer = 0
+                Dim IdxTo As Integer = -1
+
                 For i As Integer = 0 To dtbl.Rows.Count - 1
+                    If ApplyIndex Then
+                        If i = dtbl.Rows.Count - 1 Then
+                            IdxTo = i
+                            ArrIndex(IdxVendor).COMPULSORYFrom = IdxFrom
+                            ArrIndex(IdxVendor).COMPULSORYTo = IdxTo
+                        ElseIf (Not (clsCommon.CompairString(IdxVendor, clsCommon.myCstr(dtbl.Rows(i)("Vendor_Code"))) = CompairStringResult.Equal)) Then
+                            IdxTo = i - 1
+                            ArrIndex(IdxVendor).COMPULSORYFrom = IdxFrom
+                            ArrIndex(IdxVendor).COMPULSORYTo = IdxTo
+
+                            IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_Code"))
+                            IdxFrom = i
+                        End If
+                    End If
+
                     obj = New clsPaymentProcessCompulsory
                     obj.Doc_No = clsCommon.myCstr(dtbl.Rows(i)("Doc_No"))
                     obj.SLNO = clsCommon.myCstr(dtbl.Rows(i)("SLNO"))
@@ -4705,5 +4807,16 @@ where TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No='" & doc_No & "'"
             Throw New Exception(ex.Message)
         End Try
     End Function
+End Class
+
+Public Class clsPaymentProcessIndex
+    Public SavingFrom As Integer
+    Public SavingTo As Integer
+    Public DRFrom As Integer
+    Public DRTo As Integer
+    Public CRFrom As Integer
+    Public CRTo As Integer
+    Public COMPULSORYFrom As Integer
+    Public COMPULSORYTo As Integer
 End Class
 
