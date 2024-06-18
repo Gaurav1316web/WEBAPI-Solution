@@ -168,6 +168,22 @@ Public Class frmStoreRequistion
             'txtDept.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 TSPL_GL_SEGMENT_CODE.Segment_code from TSPL_COST_CENTER_TYPE_MASTER inner  join TSPL_GL_SEGMENT_CODE ON TSPL_GL_SEGMENT_CODE.Segment_code=TSPL_COST_CENTER_TYPE_MASTER.Department_Cost Where TSPL_GL_SEGMENT_CODE.Seg_No=3 Order By TSPL_COST_CENTER_TYPE_MASTER.Created_Date Desc"))
             ' Ticket No : UDL/22/05/18-000172 By Prabhakar
             lblDept.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Description from TSPL_GL_SEGMENT_CODE where Seg_No=3 and Segment_code='" + txtDept.Value + "' "))
+            Dim qry As String = "Select TSPL_GL_SEGMENT_CODE.Segment_code as Code, TSPL_GL_SEGMENT_CODE.Description as Name,TSPL_COST_CENTER_TYPE_MASTER.Unit_Code,TSPL_COST_CENTER_TYPE_MASTER.Code as COST_CENTER_TYPE_Code from TSPL_COST_CENTER_TYPE_MASTER
+            left outer join TSPL_GL_SEGMENT_CODE on TSPL_GL_SEGMENT_CODE.Segment_code = TSPL_COST_CENTER_TYPE_MASTER.Department_Cost where  Segment_code = '" & txtDept.Value & "'"
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            txtUnitCode.Value = dt.Rows(0)("Unit_Code")
+            If clsCommon.myLen(txtUnitCode.Value) > 0 Then
+                lblUnitDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_COST_CENTER_UNIT_MASTER where Code='" + txtUnitCode.Value + "'"))
+            Else
+                lblUnitDesc.Text = ""
+            End If
+            txtCostCenterType.Value = dt.Rows(0)("COST_CENTER_TYPE_Code")
+            If clsCommon.myLen(txtCostCenterType.Value) > 0 Then
+                lblCostcenterTypeDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_COST_CENTER_TYPE_MASTER where Code='" + txtCostCenterType.Value + "'"))
+            Else
+                lblCostcenterTypeDesc.Text = ""
+            End If
         Else
             txtDept.Enabled = True
         End If
@@ -350,6 +366,7 @@ Public Class frmStoreRequistion
         repoVendorCode.HeaderText = "Vendor Code"
         repoVendorCode.Name = colVendorCode
         repoVendorCode.Width = 100
+        repoVendorCode.IsVisible = False
         repoVendorCode.HeaderImage = Global.ERP.My.Resources.Resources.search4
         repoVendorCode.TextImageRelation = TextImageRelation.TextBeforeImage
         gv1.MasterTemplate.Columns.Add(repoVendorCode)
@@ -360,6 +377,7 @@ Public Class frmStoreRequistion
         repoVendorName.HeaderText = "Vendor"
         repoVendorName.Name = colVendorName
         repoVendorName.Width = 150
+        repoVendorName.IsVisible = False
         repoVendorName.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoVendorName)
 
@@ -387,6 +405,7 @@ Public Class frmStoreRequistion
         repoVendroItemNo.FormatString = ""
         repoVendroItemNo.HeaderText = "Vendor Item No"
         repoVendroItemNo.Name = colVendorItemNo
+        repoVendroItemNo.IsVisible = False
         repoVendroItemNo.Width = 100
         gv1.MasterTemplate.Columns.Add(repoVendroItemNo)
 
@@ -396,6 +415,7 @@ Public Class frmStoreRequistion
         repoOrderNo.HeaderText = "Order No"
         repoOrderNo.Name = colOrderNo
         repoOrderNo.Width = 100
+        repoOrderNo.IsVisible = False
         repoOrderNo.HeaderImage = Global.ERP.My.Resources.Resources.search4
         repoOrderNo.TextImageRelation = TextImageRelation.TextBeforeImage
         gv1.MasterTemplate.Columns.Add(repoOrderNo)

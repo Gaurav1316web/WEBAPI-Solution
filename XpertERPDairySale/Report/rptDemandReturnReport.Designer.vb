@@ -22,7 +22,6 @@ Partial Class rptDemandReturnReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -35,14 +34,11 @@ Partial Class rptDemandReturnReport
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.ToDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.fromDate = New Telerik.WinControls.UI.RadDateTimePicker()
-        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.Gv1 = New common.UserControls.MyRadGridView()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnSplitExport = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -57,13 +53,9 @@ Partial Class rptDemandReturnReport
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.fromDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageViewPage2.SuspendLayout()
-        CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -110,7 +102,6 @@ Partial Class rptDemandReturnReport
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSplitExport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
         Me.SplitContainer1.Size = New System.Drawing.Size(692, 376)
         Me.SplitContainer1.SplitterDistance = 326
@@ -119,7 +110,6 @@ Partial Class rptDemandReturnReport
         'RadPageView1
         '
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
@@ -198,42 +188,10 @@ Partial Class rptDemandReturnReport
         Me.fromDate.Text = "24/10/2011"
         Me.fromDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
         '
-        'RadPageViewPage2
-        '
-        Me.RadPageViewPage2.Controls.Add(Me.Gv1)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(671, 278)
-        Me.RadPageViewPage2.Text = "Report"
-        '
-        'Gv1
-        '
-        Me.Gv1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
-        Me.Gv1.Cursor = System.Windows.Forms.Cursors.Default
-        Me.Gv1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Gv1.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.Gv1.ForeColor = System.Drawing.Color.Black
-        Me.Gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.Gv1.Location = New System.Drawing.Point(0, 0)
-        '
-        '
-        '
-        Me.Gv1.MasterTemplate.AllowAddNewRow = False
-        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
-        Me.Gv1.MyStopExport = False
-        Me.Gv1.Name = "Gv1"
-        Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Gv1.ShowHeaderCellButtons = True
-        Me.Gv1.Size = New System.Drawing.Size(671, 278)
-        Me.Gv1.TabIndex = 0
-        '
         'btnPrint
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrint.Location = New System.Drawing.Point(91, 15)
+        Me.btnPrint.Location = New System.Drawing.Point(8, 15)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(77, 22)
         Me.btnPrint.TabIndex = 331
@@ -243,7 +201,7 @@ Partial Class rptDemandReturnReport
         '
         Me.btnSplitExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSplitExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
-        Me.btnSplitExport.Location = New System.Drawing.Point(251, 15)
+        Me.btnSplitExport.Location = New System.Drawing.Point(168, 15)
         Me.btnSplitExport.Name = "btnSplitExport"
         Me.btnSplitExport.Size = New System.Drawing.Size(95, 22)
         Me.btnSplitExport.TabIndex = 156
@@ -269,27 +227,17 @@ Partial Class rptDemandReturnReport
         Me.btnClose.TabIndex = 153
         Me.btnClose.Text = "Close"
         '
-        'btnGo
-        '
-        Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGo.Location = New System.Drawing.Point(14, 15)
-        Me.btnGo.Name = "btnGo"
-        Me.btnGo.Size = New System.Drawing.Size(71, 22)
-        Me.btnGo.TabIndex = 151
-        Me.btnGo.Text = ">>>"
-        '
         'btnReset
         '
         Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Location = New System.Drawing.Point(174, 15)
+        Me.btnReset.Location = New System.Drawing.Point(91, 15)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(71, 22)
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'rptBMCPerodicalReport
+        'rptDemandReturnReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -316,13 +264,9 @@ Partial Class rptDemandReturnReport
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.fromDate, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageViewPage2.ResumeLayout(False)
-        CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -339,10 +283,7 @@ Partial Class rptDemandReturnReport
     Friend WithEvents RadLabel1 As common.Controls.MyLabel
     Friend WithEvents ToDate As Telerik.WinControls.UI.RadDateTimePicker
     Friend WithEvents fromDate As Telerik.WinControls.UI.RadDateTimePicker
-    Friend WithEvents RadPageViewPage2 As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents Gv1 As common.UserControls.MyRadGridView
     Friend WithEvents btnClose As Telerik.WinControls.UI.RadButton
-    Friend WithEvents btnGo As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnReset As Telerik.WinControls.UI.RadButton
     Friend WithEvents rmsaveLayout As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents rmDeleteLayout As Telerik.WinControls.UI.RadMenuItem
