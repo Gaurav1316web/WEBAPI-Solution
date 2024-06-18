@@ -40,11 +40,13 @@ Public Class frmPOWeighment
 
     Private Sub frmMilkGateEntryIn_Load(sender As Object, e As EventArgs) Handles Me.Load
         Try
+            btnCancel.Visible = False
             SetUserMgmtNew()
             ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
             ButtonToolTip.SetToolTip(btndelete, "Press Alt+D Delete ")
             ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
             ButtonToolTip.SetToolTip(BtnPost, "Press Alt+P Post Trasnaction")
+            ButtonToolTip.SetToolTip(btnCancel, "Press Alt+L Cancel Trasnaction")
 
             UcWeighing1.form_ID = MyBase.Form_ID
             UcWeighing1.LoadPortAndMachine()
@@ -69,6 +71,7 @@ Public Class frmPOWeighment
         btndelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
         btnPrintWithGunnyBags.Visible = MyBase.isPrintFlag
+        btnCancel.Visible=MyBase.isCancel_Flag_After_Posting
     End Sub
 
     Sub LoadBlankGrid()
@@ -366,6 +369,8 @@ Public Class frmPOWeighment
                 DeleteData()
             ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnclose.Enabled Then
                 CloseForm()
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.L AndAlso MyBase.isCancel_Flag_After_Posting AndAlso btnCancel.Enabled Then
+                CancelPOWeighmentData()
             ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
                 ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
                                         "TSPL_PO_WEIGHTMENT_HEAD " + Environment.NewLine +
@@ -1217,6 +1222,60 @@ Public Class frmPOWeighment
         Catch ex As Exception
             'Throw New Exception(ex.Message)
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Sub CancelPOWeighmentData()
+        'Dim trans As SqlTransaction = Nothing
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
+                Exit Sub
+            End If
+            If clsCommon.MyMessageBoxShow("Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+                Exit Sub
+            End If
+            Dim frm1 As New FrmPWD(Nothing)
+            frm1.strType = "PO Cancel"
+            frm1.strCode = "PO Cancel"
+            frm1.ShowDialog()
+            If frm1.isPasswordCorrect Then
+                Dim iscancel As Boolean = False
+                If clsPOWeighment.CheckPOWeighmentUsedInSRN(clsCommon.myCstr(txtCode.Value), Nothing) Then
+                    Throw New Exception("PO Weighment can not be cancelled because it is used in SRN/GRN.")
+                    'Else
+                    '    clsPurchaseOrderHead.ReverseAndUnpost(txtDocNo.Value, MyBase.Form_ID)
+                End If
+                Dim Reason As String = ""
+                If (myMessages.CancelConfirms(Me)) Then
+                    clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtCode.Value))
+                    If clsCancelLog.CheckForReasonOnDelete() Then
+                        '' REASON FOR DELETE 
+                        Dim frm As New FrmFreeTxtBox1
+                        frm.Text = "Remarks for Cancel"
+                        frm.ShowDialog()
+                        If clsCommon.myLen(frm.strRmks) <= 0 Then
+                            Exit Sub
+                        Else
+                            Reason = frm.strRmks
+                        End If
+                    End If
+                    If clsPOWeighment.CancelData(txtCode.Value) Then
+                        'saveCancelLog(Reason, "Cancel", Nothing)
+                        clsCommon.MyMessageBoxShow(Me, "Data Cancel Successfully ", Me.Text)
+                        AddNew()
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            myMessages.myExceptions(ex)
+        End Try
+    End Sub
+    Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
+        Try
+            CancelPOWeighmentData()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+
         End Try
     End Sub
 End Class

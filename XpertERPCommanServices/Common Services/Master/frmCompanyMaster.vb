@@ -115,7 +115,7 @@ Public Class FrmCompanyMaster
                 End If
                 ''=============================================
 
-                clsDBFuncationality.ExecuteNonQuery(" UPDATE TSPL_COMPANY_MASTER SET Comp_ESIC_NO = '" & txtESICNO.Text & "' ,Comp_PF_NO ='" & txtPFNO.Text & "',Employer_Name='" & TxtEmployerName.Text & "',Employer_Desg='" & TxtEmployerDesg.Text & "',Employer_Add1='" & TxtEmployerAdd1.Text & "',Employer_Add2='" & TxtEmployerAdd2.Text & "',Employer_Add3='" & TxtEmployerAdd3.Text & "' " + xcheckInsurance + ",Bank_Name='" & txtBankName.Text & "',BankAccountNo='" & TxtBankAccountNo.Text & "',BankIFSCCode='" & txtifsccode.Text & "',BankBranchAddress='" & txtbranchAddress.Text & "' WHERE Comp_Code ='" + fndCompanyCode.Value + "'")
+                clsDBFuncationality.ExecuteNonQuery(" UPDATE TSPL_COMPANY_MASTER SET Comp_ESIC_NO = '" & txtESICNO.Text & "' ,Comp_PF_NO ='" & txtPFNO.Text & "',Employer_Name='" & TxtEmployerName.Text & "',Employer_Desg='" & TxtEmployerDesg.Text & "',Employer_Add1='" & TxtEmployerAdd1.Text & "',Employer_Add2='" & TxtEmployerAdd2.Text & "',Employer_Add3='" & TxtEmployerAdd3.Text & "' " + xcheckInsurance + ",Bank_Name='" & txtBankName.Text & "',BankAccountNo='" & TxtBankAccountNo.Text & "',BankIFSCCode='" & txtifsccode.Text & "',BankBranchAddress='" & txtbranchAddress.Text & "',Union_Contact_Person='" & txtNodelOffName.Text & "',Union_Contact_PhoneNo='" & txtNobelOffMNo.Text & "' WHERE Comp_Code ='" + fndCompanyCode.Value + "'")
                 '===SANJEET(24/11/2016)=TinNo Issue date and PanNo Issue Date=========
                 clsDBFuncationality.ExecuteNonQuery(" UPDATE TSPL_COMPANY_MASTER SET TinNo_Issue_Date = '" & clsCommon.GetPrintDate(dtTinIssueDate.Text, "dd/MMM/yyyy") & "' ,PanNo_Issue_Date ='" & clsCommon.GetPrintDate(dtPanIssueDate.Text, "dd/MMM/yyyy") & "',comp_code1='" & txtcomp_code1.Text & "' WHERE Comp_Code ='" + fndCompanyCode.Value + "'")
                 UpdateCompanyMaster()
@@ -184,6 +184,7 @@ Public Class FrmCompanyMaster
             Else
                 strCform = "N"
             End If
+
             Try
                 Dim com As String = ""
                 If txtCECommissionerate.Text = "" Then
@@ -216,7 +217,7 @@ Public Class FrmCompanyMaster
                 End If
                 ''=============================================
 
-                clsDBFuncationality.ExecuteNonQuery(" UPDATE TSPL_COMPANY_MASTER SET Comp_ESIC_NO = '" & txtESICNO.Text & "' ,Comp_PF_NO ='" & txtPFNO.Text & "',Employer_Name='" & TxtEmployerName.Text & "',Employer_Desg='" & TxtEmployerDesg.Text & "',Employer_Add1='" & TxtEmployerAdd1.Text & "',Employer_Add2='" & TxtEmployerAdd2.Text & "',Employer_Add3='" & TxtEmployerAdd3.Text & "' " + xcheckInsurance + ",Bank_Name='" & txtBankName.Text & "',BankAccountNo='" & TxtBankAccountNo.Text & "',BankIFSCCode='" & txtifsccode.Text & "',BankBranchAddress='" & txtbranchAddress.Text & "'  WHERE Comp_Code ='" + fndCompanyCode.Value + "'")
+                clsDBFuncationality.ExecuteNonQuery(" UPDATE TSPL_COMPANY_MASTER SET Comp_ESIC_NO = '" & txtESICNO.Text & "' ,Comp_PF_NO ='" & txtPFNO.Text & "',Employer_Name='" & TxtEmployerName.Text & "',Employer_Desg='" & TxtEmployerDesg.Text & "',Employer_Add1='" & TxtEmployerAdd1.Text & "',Employer_Add2='" & TxtEmployerAdd2.Text & "',Employer_Add3='" & TxtEmployerAdd3.Text & "' " + xcheckInsurance + ",Bank_Name='" & txtBankName.Text & "',BankAccountNo='" & TxtBankAccountNo.Text & "',BankIFSCCode='" & txtifsccode.Text & "',BankBranchAddress='" & txtbranchAddress.Text & "',Union_Contact_Person='" & txtNodelOffName.Text & "',Union_Contact_PhoneNo='" & txtNobelOffMNo.Text & "'  WHERE Comp_Code ='" + fndCompanyCode.Value + "'")
 
                 '===SANJEET(24/11/2016)=TinNo Issue date and PanNo Issue Date=========
                 clsDBFuncationality.ExecuteNonQuery(" UPDATE TSPL_COMPANY_MASTER SET TinNo_Issue_Date = '" & clsCommon.GetPrintDate(dtTinIssueDate.Text, "dd/MMM/yyyy") & "' ,PanNo_Issue_Date ='" & clsCommon.GetPrintDate(dtPanIssueDate.Text, "dd/MMM/yyyy") & "',comp_code1='" & txtcomp_code1.Text & "' WHERE Comp_Code ='" + fndCompanyCode.Value + "'")
@@ -240,7 +241,7 @@ Public Class FrmCompanyMaster
     ''fill company details
     Private Sub funFill()
         cboDataBase.SelectedIndex = 0
-        dt = clsDBFuncationality.GetDataTable("select  Comp_Name,Add1,Add2,Add3,City_Code ,Phone1 ,Phone2 ,Fax,Email ,Pincode ,State ,Tin_No ,CST_LST ,Regn_No ,Cform ,Mode_of_Trans ,DataBase_Name ,Logo_Img ,Logo_Img2 ,Vat_Reg_No ,ServiceTax_Reg_No ,Ecc_No ,CE_Range ,CE_Commissionerate,CE_Division ,Pan_No ,Tan_No ,Tcan_No ,Circle_No ,Ward_No ,Access_Officer,NameInTally,IntegrateWithTally,BaseCurrencyCode,ApplyMultiCurrency,cust_code,Is_Main_Company,CINNo,IECode ,Comp_PF_NO,Comp_ESIC_NO,ISNULL(Employer_Name,'') AS Employer_Name,ISNULL(Employer_Desg,'') AS Employer_Desg,ISNULL(Employer_Add1,'') AS Employer_Add1,ISNULL(Employer_Add2,'') AS Employer_Add2,ISNULL(Employer_Add3,'') AS Employer_Add3,Insurance_No,insurance_comp_name,insurance_valid_date,TinNo_Issue_Date,PanNo_Issue_Date,GSTINNo,GSTReg_No,Bank_Name,BankAccountNo,BankIFSCCode,BankBranchAddress,comp_code1 from TSPL_COMPANY_MASTER  where Comp_Code='" + fndCompanyCode.Value + "'")
+        dt = clsDBFuncationality.GetDataTable("select  Comp_Name,Add1,Add2,Add3,City_Code ,Phone1 ,Phone2 ,Fax,Email ,Pincode ,State ,Tin_No ,CST_LST ,Regn_No ,Cform ,Mode_of_Trans ,DataBase_Name ,Logo_Img ,Logo_Img2 ,Vat_Reg_No ,ServiceTax_Reg_No ,Ecc_No ,CE_Range ,CE_Commissionerate,CE_Division ,Pan_No ,Tan_No ,Tcan_No ,Circle_No ,Ward_No ,Access_Officer,NameInTally,IntegrateWithTally,BaseCurrencyCode,ApplyMultiCurrency,cust_code,Is_Main_Company,CINNo,IECode ,Comp_PF_NO,Comp_ESIC_NO,ISNULL(Employer_Name,'') AS Employer_Name,ISNULL(Employer_Desg,'') AS Employer_Desg,ISNULL(Employer_Add1,'') AS Employer_Add1,ISNULL(Employer_Add2,'') AS Employer_Add2,ISNULL(Employer_Add3,'') AS Employer_Add3,Insurance_No,insurance_comp_name,insurance_valid_date,TinNo_Issue_Date,PanNo_Issue_Date,GSTINNo,GSTReg_No,Bank_Name,BankAccountNo,BankIFSCCode,BankBranchAddress,comp_code1,Union_Contact_Person,Union_Contact_PhoneNo from TSPL_COMPANY_MASTER  where Comp_Code='" + fndCompanyCode.Value + "'")
         'While dr.Read()
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
 
@@ -323,7 +324,8 @@ Public Class FrmCompanyMaster
                 TxtEmployerAdd1.Text = clsCommon.myCstr(dr("Employer_Add1"))
                 TxtEmployerAdd2.Text = clsCommon.myCstr(dr("Employer_Add2"))
                 TxtEmployerAdd3.Text = clsCommon.myCstr(dr("Employer_Add3"))
-
+                txtNodelOffName.Text = clsCommon.myCstr(dr("Union_Contact_Person"))
+                txtNobelOffMNo.Text = clsCommon.myCstr(dr("Union_Contact_PhoneNo"))
                 btnSave.Text = "Update"
                 btnDelete.Enabled = True
 
@@ -382,6 +384,8 @@ Public Class FrmCompanyMaster
         txtCity.Text = ""
         txtEmail.Text = ""
         txtFax.Text = ""
+        txtNobelOffMNo.Text = ""
+        txtNodelOffName.Text = ""
         txtTelephone1.Text = "(+__)__________"
         txtTelephone2.Text = "(+__)__________"
         fndBaseCurrency.Enabled = True
@@ -749,6 +753,14 @@ Public Class FrmCompanyMaster
             dtpInsurance_Valid_Date.Focus()
             dtpInsurance_Valid_Date.Select()
             clsCommon.MyMessageBoxShow(Me, "Please select Insurance Valid Upto with valid date.", Me.Text)
+            Return
+        End If
+        Dim regex As New Regex("^\d+$")
+        Dim match As Match = regex.Match(txtNobelOffMNo.Text)
+
+        If match.Success = False And txtNobelOffMNo.Text <> "" Then
+            common.clsCommon.MyMessageBoxShow(Me, "The mobile number is not numeric", Me.Text)
+            txtNobelOffMNo.Focus()
             Return
         End If
         ''====================================================================

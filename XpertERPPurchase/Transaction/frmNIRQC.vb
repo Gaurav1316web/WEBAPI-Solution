@@ -19,6 +19,7 @@ Public Class frmNIRQC
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
         btnPost.Visible = MyBase.isPostFlag
+        CancelBtn.Visible = MyBase.isCancel_Flag_After_Posting
         'If MyBase.isReverse Then
         '    RadButton1.Enabled = True
         'Else
@@ -27,6 +28,7 @@ Public Class frmNIRQC
         RadButton1.Visible = False
     End Sub
     Private Sub FrmCapexMaster_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        CancelBtn.Visible = False
         SetUserMgmtNew()
         LoadQCStatus()
         AddNew()
@@ -35,6 +37,7 @@ Public Class frmNIRQC
         ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
         ButtonToolTip.SetToolTip(btnAddNew, "Press Alt+N Adding New ")
         ButtonToolTip.SetToolTip(btnPost, "Press Alt+P for Post ")
+        ButtonToolTip.SetToolTip(CancelBtn, "Press Alt+L for Cancel ")
         If clsCommon.myLen(Me.Tag) > 0 Then
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
@@ -66,6 +69,7 @@ Public Class frmNIRQC
         cboVisualQCStatus.DisplayMember = "Name"
     End Sub
     Sub AddNew()
+
         RadButton1.Visible = False
         isNewEntry = True
         txtCode.Value = Nothing
@@ -80,6 +84,7 @@ Public Class frmNIRQC
         BlankAllControls()
     End Sub
     Sub BlankAllControls()
+        CancelBtn.Visible = False
         txtCode.Value = ""
         txtRemarks.Text = ""
         cboVisualQCStatus.SelectedValue = ""
@@ -119,6 +124,8 @@ Public Class frmNIRQC
                 btnSave.Enabled = False
                 btnPost.Enabled = False
                 btnDelete.Enabled = False
+                CancelBtn.Enabled = True
+                CancelBtn.Visible = True
             Else
                 btnSave.Enabled = True
                 btnPost.Enabled = True
@@ -189,6 +196,10 @@ Public Class frmNIRQC
             funDelete()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso MyBase.isPostFlag AndAlso btnPost.Enabled Then
             PostData()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso MyBase.isPostFlag AndAlso btnPost.Enabled Then
+            PostData()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.L AndAlso MyBase.isCancel_Flag_After_Posting AndAlso CancelBtn.Enabled Then
+            CancelNIRQCData()
         ElseIf e.Alt And e.KeyCode = Keys.C Then
             Me.Close()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
@@ -341,5 +352,67 @@ where TSPL_MRN_DETAIL.MRN_No ='" + txtMRNNo.Value + "' and TSPL_MRN_HEAD.Status=
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+    Sub CancelNIRQCData()
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
+                Exit Sub
+            End If
+            If clsCommon.myLen(txtCode.Value) > 0 Then
+                If clsCommon.MyMessageBoxShow("Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+                    Exit Sub
+                End If
+                '    If clsPurchaseOrderHead.CheckPOUsedInSRNorGRN(clsCommon.myCstr(txtDocNo.Value), Nothing) Then
+                '        Throw New Exception("PO can not be cancelled because it is used in SRN/GRN.")
+
+                '    End If
+
+                '    If (myMessages.CancelConfirms(Me)) Then
+                '                Dim Qry As String = "select distinct TSPL_SRN_DETAIL.SRN_No,TSPL_SRN_HEAD.Status from TSPL_SRN_DETAIL 
+                'left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No where TSPL_SRN_DETAIL.MRN_Id ='" + txtMRNNo.Value + "'"
+                Dim frm1 As New FrmPWD(Nothing)
+                frm1.strType = "PO Cancel"
+                frm1.strCode = "PO Cancel"
+                frm1.ShowDialog()
+                If frm1.isPasswordCorrect Then
+                    Dim iscancel As Boolean = False
+                    If clsNIRQC.CheckNIRQCUsedInSRN(clsCommon.myCstr(txtMRNNo.Value), Nothing) Then
+                        Throw New Exception("NIRQC can not be cancelled because it is used in SRN.")
+                        'Else
+                        '    clsPurchaseOrderHead.ReverseAndUnpost(txtDocNo.Value, MyBase.Form_ID)
+                    End If
+                    If common.clsCommon.MyMessageBoxShow("Do you want to cancel the NIRQC?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                        Dim Reason As String = ""
+                        If (myMessages.CancelConfirms(Me)) Then
+                            clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtCode.Value))
+                            If clsCancelLog.CheckForReasonOnDelete() Then
+                                '' REASON FOR DELETE 
+                                Dim frm As New FrmFreeTxtBox1
+                                frm.Text = "Remarks for Cancel"
+                                frm.ShowDialog()
+                                If clsCommon.myLen(frm.strRmks) <= 0 Then
+                                    Exit Sub
+                                Else
+                                    Reason = frm.strRmks
+                                End If
+                            End If
+                            If clsNIRQC.CancelData(clsCommon.myCstr(txtCode.Value)) Then
+
+                                'If clsNIRQC.CancelData(Me.Form_ID, clsCommon.myCstr(txtCode.Value)) Then
+                                ' saveCancelLog(Reason, "Cancel", Nothing)
+                                clsCommon.MyMessageBoxShow(Me, "Data Cancel Successfully ", Me.Text)
+                                AddNew()
+                            End If
+                        End If
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub CancelBtn_Click(sender As Object, e As EventArgs) Handles CancelBtn.Click
+        CancelNIRQCData()
     End Sub
 End Class

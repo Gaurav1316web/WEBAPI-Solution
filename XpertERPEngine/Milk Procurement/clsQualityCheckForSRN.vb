@@ -25,7 +25,19 @@ Public Class clsQualityCheckForSRNHead
     Public Arr_item As List(Of clsQualityCheckForSRNDetail) = Nothing
     Public Arr_MRN As List(Of clsQualityCheckForSRN_MRNDetail) = Nothing
 #End Region
+    Public Shared Function CheckQualityCheckForSRN(ByVal strdocNo As String, ByVal trans As SqlTransaction) As Boolean
 
+        Dim qry As String = "  select sum(fin.[cnt]) from (Select 1 as [cnt],TSPL_SRN_HEAD.SRN_No
+                                from TSPL_SRN_HEAD 
+                                where TSPL_SRN_HEAD.Against_QC_Code ='" + clsCommon.myCstr(strdocNo) + "'  )fin "
+        Dim count As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
+
+        If count > 0 Then
+            Return True
+        Else
+            Return False
+        End If
+    End Function
     Public Shared Function Getfinder(ByVal whrCls As String, ByVal strCurrCode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
         Dim qry As String = "select TSPL_QC_CHECK_HEAD.document_code as [Code],TSPL_QC_CHECK_HEAD.document_date as [Document Date],TSPL_QC_CHECK_HEAD.qc_type as [QC Type],TSPL_QC_CHECK_HEAD.Description,(case when TSPL_QC_CHECK_HEAD.posted=1 then 'Posted' else 'Unposted' end) as Posted,TSPL_QC_CHECK_HEAD.vendor_code as [Vendor],tspl_vendor_master.vendor_name as [Vendor Name],tspl_location_master.location_desc as [Bill to Location],TSPL_QC_CHECK_HEAD.qc_status as [QC Status],stuff((select distinct  ',' + TSPL_QC_CHECK_DETAIL.MRN_No  from TSPL_QC_CHECK_DETAIL where TSPL_QC_CHECK_DETAIL.Document_Code = TSPL_QC_CHECK_HEAD.Document_Code    for xml path('')  ),1,1,'') [MRN No] 
@@ -118,7 +130,9 @@ Public Class clsQualityCheckForSRNHead
             clsQualityCheckForSRNDetail.SaveData(obj.Document_Code, obj.Arr_item, trans)
             clsQualityCheckForSRN_MRNDetail.SaveData(obj.Document_Code, obj.Arr_MRN, trans)
             clsQualityCheckDetail.SaveData(obj.Document_Code, obj.Arr, trans)
-
+            'If Not isNewEntry Then
+            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_Code), "TSPL_QC_CHECK_HEAD", "Document_Code", "TSPL_QC_CHECK_DETAIL", "Document_Code", "TSPL_PI_REMITTANCE", "Document_No", trans)
+            'End If
             '===Sanjeet(03/01/2017) for notifiaction====
             Dim strNotificationOn As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Notification_On from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.frmQualityCheckForSRN + "'", trans))
             If clsCommon.CompairString(strNotificationOn, "S") = CompairStringResult.Equal Then
@@ -403,6 +417,61 @@ Public Class clsQualityCheckForSRNHead
         End Try
     End Function
 
+
+    Public Shared Function CancelData(ByVal strCode As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            ''qc approval must be deleted.
+            ' Dim qry As String = ""
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_Date,Bill_To_location from TSPL_QC_CHECK_HEAD where document_code='" + strCode + "'", trans)
+            If dt Is Nothing AndAlso dt.Rows.Count > 0 Then
+
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleQualityControl, clsUserMgtCode.frmQualityCheckForSRN, clsCommon.myCstr(dt.Rows(0)("Bill_To_location")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
+
+            End If
+
+            Dim obj As clsQualityCheckForSRNHead = clsQualityCheckForSRNHead.GetData(strCode, Nothing, NavigatorType.Current, trans)
+            'If (obj.Posted = ERPTransactionStatus.Approved) Then
+            '    Throw New Exception("Already Posted Document")
+            'End If
+
+            Dim qry1 As String = ""
+            'Dim dt As DataTable = Nothing
+            'strCode = obj.Document_Code
+            'qry = "select distinct MRN_No from TSPL_MRN_DETAIL where GRN_Id ='" + strCode + "'"
+            qry1 = "Select distinct SRN_No from TSPL_TENDER_PENALTY_DETAIL WHERE SRN_No IN (Select  SRN_No from TSPL_SRN_HEAD WHERE SRN_No IN (SELECT DISTINCT SRN_Id  FROM TSPL_QC_CHECK_MRN_DETAIL WHERE Document_Code='" + strCode + "'))"
+            dt = clsDBFuncationality.GetDataTable(qry1, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                clsCommon.MyMessageBoxShow("First Delete RAL Penalty if created then delete SRN")
+                Return True
+                Exit Function
+            End If
+
+
+            Dim qry As String = "delete from TSPL_QC_CHECK_APPROVAL_ENTRY where document_code='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_QC_CHECK_MRN_DETAIL where document_code='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_QC_CHECK_SRN_DETAIL where document_code='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_QC_CHECK_DETAIL where document_code='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_QC_CHECK_HEAD where document_code='" + strCode + "' "
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            trans.Commit()
+            Return True
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+    End Function
+
+
     Public Shared Function DeleteData(ByVal strCode As String, ByVal QC_Type As String) As Boolean
         Dim trans As SqlTransaction = Nothing
         Try
@@ -468,6 +537,59 @@ Public Class clsQualityCheckForSRNHead
             Throw New Exception(ex.Message)
         End Try
     End Function
+    Public Shared Function CancelData(ByVal strCode As String, ByVal QC_Type As String, ByVal trans As SqlTransaction) As Boolean
+        trans = clsDBFuncationality.GetTransactin()
+        Try
+            ''qc approval must be deleted.
+            ' Dim qry As String = ""
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_Date,Bill_To_location from TSPL_QC_CHECK_HEAD where document_code='" + strCode + "'", trans)
+            If dt Is Nothing AndAlso dt.Rows.Count > 0 Then
+
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleQualityControl, clsUserMgtCode.frmQualityCheckForSRN, clsCommon.myCstr(dt.Rows(0)("Bill_To_location")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
+
+            End If
+
+            Dim obj As clsQualityCheckForSRNHead = clsQualityCheckForSRNHead.GetData(strCode, Nothing, NavigatorType.Current, trans)
+            If (obj.Posted = ERPTransactionStatus.Approved) Then
+                Throw New Exception("Already Posted Document")
+            End If
+
+            Dim qry1 As String = ""
+            'Dim dt As DataTable = Nothing
+            'strCode = obj.Document_Code
+            'qry = "select distinct MRN_No from TSPL_MRN_DETAIL where GRN_Id ='" + strCode + "'"
+            qry1 = "Select distinct SRN_No from TSPL_TENDER_PENALTY_DETAIL WHERE SRN_No IN (Select  SRN_No from TSPL_SRN_HEAD WHERE SRN_No IN (SELECT DISTINCT SRN_Id  FROM TSPL_QC_CHECK_MRN_DETAIL WHERE Document_Code='" + strCode + "'))"
+            dt = clsDBFuncationality.GetDataTable(qry1, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                clsCommon.MyMessageBoxShow("First Delete RAL Penalty if created then delete SRN")
+                Return True
+                Exit Function
+            End If
+
+
+            Dim qry As String = "delete from TSPL_QC_CHECK_APPROVAL_ENTRY where document_code='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_QC_CHECK_MRN_DETAIL where document_code='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_QC_CHECK_SRN_DETAIL where document_code='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_QC_CHECK_DETAIL where document_code='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_QC_CHECK_HEAD where document_code='" + strCode + "' "
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            trans.Commit()
+            Return True
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+    End Function
+
 
     Public Shared Function PostData(ByVal strCode As String, ByVal QC_Type As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()

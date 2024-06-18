@@ -510,17 +510,17 @@ Public Class frmGRN
     End Function
 
     Sub LoadItemType()
-        If ShowItemAllStructureWise = True Then
-            cboItemType.DataSource = GetItemall()
-            cboItemType.ValueMember = "Code"
-            cboItemType.DisplayMember = "Name"
-        Else
-            'cboItemType.DataSource = clsItemMaster.GetItemType()
-            Dim Whr = " AND IS_NON_INVENTORY=0   AND ITEM_TYPE_CODE NOT IN('J') "
+        'If ShowItemAllStructureWise = True Then
+        '    cboItemType.DataSource = GetItemall()
+        '    cboItemType.ValueMember = "Code"
+        '    cboItemType.DisplayMember = "Name"
+        'Else
+        'cboItemType.DataSource = clsItemMaster.GetItemType()
+        Dim Whr = " AND IS_NON_INVENTORY=0   AND ITEM_TYPE_CODE NOT IN('J') "
             cboItemType.DataSource = clsItemMaster.getItemTypeQuery(Whr)
             cboItemType.ValueMember = "Code"
             cboItemType.DisplayMember = "Name"
-        End If
+        ' End If
     End Sub
 
     Sub LoadGRNType()
@@ -3712,9 +3712,7 @@ Public Class frmGRN
                         Dim itemtype As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 item_type from TSPL_ITEM_MASTER where Item_Code ='" + itemcode + "'"))
                         obj.Item_Type = itemtype
                     End If
-
-                End If
-                If ShowItemAllStructureWise = False Then
+                Else
                     obj.Item_Type = clsCommon.myCstr(cboItemType.SelectedValue)
                 End If
                 obj.Dept = txtDept.Value
@@ -5452,8 +5450,7 @@ Public Class frmGRN
                 Else
                     btn_Amendment.Visible = False
                 End If
-            ElseIf e.Alt AndAlso e.Shift And e.KeyCode = Keys.F12 Then
-                CancelGRNData()
+
             ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
                 If MyBase.isReverse Then
                     Dim frm As New FrmPWD(Nothing)

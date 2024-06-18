@@ -22,7 +22,7 @@ Partial Class rptNewSalesReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -36,6 +36,7 @@ Partial Class rptNewSalesReport
         Me.txtCustomer = New common.UserControls.txtFinder()
         Me.lblLocation = New common.Controls.MyLabel()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnRouteSummary = New common.Controls.MyRadioButton()
         Me.rbtnPartyWise = New common.Controls.MyRadioButton()
         Me.rbtnRouteWise = New common.Controls.MyRadioButton()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
@@ -55,7 +56,7 @@ Partial Class rptNewSalesReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.rbtnRouteSummary = New common.Controls.MyRadioButton()
+        Me.rbtProductSale = New common.Controls.MyRadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -71,6 +72,7 @@ Partial Class rptNewSalesReport
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
+        CType(Me.rbtnRouteSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnPartyWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnRouteWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -89,7 +91,7 @@ Partial Class rptNewSalesReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnRouteSummary, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtProductSale, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -238,6 +240,7 @@ Partial Class rptNewSalesReport
         'RadGroupBox3
         '
         Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.rbtProductSale)
         Me.RadGroupBox3.Controls.Add(Me.rbtnRouteSummary)
         Me.RadGroupBox3.Controls.Add(Me.rbtnPartyWise)
         Me.RadGroupBox3.Controls.Add(Me.rbtnRouteWise)
@@ -247,6 +250,17 @@ Partial Class rptNewSalesReport
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox3.Size = New System.Drawing.Size(236, 109)
         Me.RadGroupBox3.TabIndex = 441
+        '
+        'rbtnRouteSummary
+        '
+        Me.rbtnRouteSummary.Location = New System.Drawing.Point(5, 57)
+        Me.rbtnRouteSummary.MyLinkLable1 = Nothing
+        Me.rbtnRouteSummary.MyLinkLable2 = Nothing
+        Me.rbtnRouteSummary.Name = "rbtnRouteSummary"
+        Me.rbtnRouteSummary.Size = New System.Drawing.Size(127, 18)
+        Me.rbtnRouteSummary.TabIndex = 394
+        Me.rbtnRouteSummary.TabStop = False
+        Me.rbtnRouteSummary.Text = "Route Wise Summary"
         '
         'rbtnPartyWise
         '
@@ -428,7 +442,7 @@ Partial Class rptNewSalesReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
@@ -487,16 +501,16 @@ Partial Class rptNewSalesReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'rbtnRouteSummary
+        'rbtProductSale
         '
-        Me.rbtnRouteSummary.Location = New System.Drawing.Point(5, 57)
-        Me.rbtnRouteSummary.MyLinkLable1 = Nothing
-        Me.rbtnRouteSummary.MyLinkLable2 = Nothing
-        Me.rbtnRouteSummary.Name = "rbtnRouteSummary"
-        Me.rbtnRouteSummary.Size = New System.Drawing.Size(127, 18)
-        Me.rbtnRouteSummary.TabIndex = 394
-        Me.rbtnRouteSummary.TabStop = False
-        Me.rbtnRouteSummary.Text = "Route Wise Summary"
+        Me.rbtProductSale.Location = New System.Drawing.Point(5, 81)
+        Me.rbtProductSale.MyLinkLable1 = Nothing
+        Me.rbtProductSale.MyLinkLable2 = Nothing
+        Me.rbtProductSale.Name = "rbtProductSale"
+        Me.rbtProductSale.Size = New System.Drawing.Size(137, 18)
+        Me.rbtProductSale.TabIndex = 395
+        Me.rbtProductSale.TabStop = False
+        Me.rbtProductSale.Text = "Date Wise Product Sale"
         '
         'rptNewSalesReport
         '
@@ -528,6 +542,7 @@ Partial Class rptNewSalesReport
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
         Me.RadGroupBox3.PerformLayout()
+        CType(Me.rbtnRouteSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnPartyWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnRouteWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -547,7 +562,7 @@ Partial Class rptNewSalesReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnRouteSummary, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtProductSale, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -586,5 +601,6 @@ Partial Class rptNewSalesReport
     Friend WithEvents txtCustomer As common.UserControls.txtFinder
     Friend WithEvents chkExcludeGhee As RadCheckBox
     Friend WithEvents rbtnRouteSummary As common.Controls.MyRadioButton
+    Friend WithEvents rbtProductSale As common.Controls.MyRadioButton
 End Class
 

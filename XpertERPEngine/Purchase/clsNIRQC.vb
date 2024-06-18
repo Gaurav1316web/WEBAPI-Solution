@@ -10,6 +10,18 @@ Public Class clsNIRQC
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
     Public Posted_Date As DateTime? = Nothing
 #End Region
+    Public Shared Function CheckNIRQCUsedInSRN(ByVal strSRNNo As String, ByVal trans As SqlTransaction) As Boolean
+        Dim qry As String = "select sum(fin.[cnt]) from (Select 1 as [cnt],TSPL_SRN_DETAIL.SRN_No from TSPL_SRN_DETAIL 
+where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
+        'Dim qry As String = "select sum(fin.[cnt]) from (SELECT 1 as [cnt] from TSPL_SRN_DETAIL where TSPL_SRN_DETAIL.PO_ID ='" + clsCommon.myCstr(strPONo) + "' union all SELECT 1 as [cnt] from TSPL_GRN_DETAIL where TSPL_GRN_DETAIL.PO_ID ='" + clsCommon.myCstr(strPONo) + "')fin"
+        Dim count As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
+
+        If count > 0 Then
+            Return True
+        Else
+            Return False
+        End If
+    End Function
     Public Function SaveData(ByVal obj As clsNIRQC, ByVal isNewEntry As Boolean) As Boolean
         Dim isSaved As Boolean = True
         Try
@@ -36,6 +48,10 @@ Public Class clsNIRQC
                     isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_NIR_QC", OMInsertOrUpdate.Update, "TSPL_NIR_QC.Document_No='" + obj.Document_No + "'", trans)
                 End If
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_NIR_QC", "Document_No", trans)
+
+                'If Not isNewEntry Then
+                clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_No), "TSPL_NIR_QC", "Document_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
+                'End If
                 trans.Commit()
             Catch ex As Exception
                 trans.Rollback()
@@ -90,6 +106,30 @@ Public Class clsNIRQC
             If (obj.Status = 1) Then
                 Throw New Exception("Already Posted on :" + obj.Posted_Date)
             End If
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_NIR_QC", "Document_No", trans)
+            qry = "delete from TSPL_NIR_QC where Document_No='" + obj.Document_No + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function CancelData(ByVal Doc_No As String) As Boolean
+        Dim qry As String
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Dim obj As clsNIRQC = clsNIRQC.GetData(Doc_No, NavigatorType.Current, trans)
+        Try
+            If Not (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
+                Throw New Exception("Document not found")
+            End If
+
+            'If (obj.Status = 1) Then
+            '    Throw New Exception("Already Posted on :" + obj.Posted_Date)
+            'End If
 
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_NIR_QC", "Document_No", trans)
             qry = "delete from TSPL_NIR_QC where Document_No='" + obj.Document_No + "'"

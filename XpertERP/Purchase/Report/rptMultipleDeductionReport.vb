@@ -494,7 +494,7 @@ Environment.NewLine + "Company : " & objCommonVar.CurrentCompanyName
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                 strQry += " max(xx.[Document Date])[Document Date],max(xx.[Document No])[Document No],max(xx.Type)Type,max(xx.Addition)Addition,max(xx.Deduction)Deduction,(xx.[Deduction Code])[Deduction Code],max(xx.Regn_No)Regn_No,max(xx.[Deduction Desc])[Deduction Desc],sum(DISTINCT xx.[SRN Qty]) as [SRN Qty],max(xx.Phone)Phone,max(xx.Remarks)Remarks,sum(DISTINCT xx.[SRN_AMOUNT]) as [SRN_AMOUNT],max(xx.FromDate)FromDate,max(xx.ToDate)ToDate,
 						(xx.Reduce_Deduc_Amt)Reduce_Deduc_Amt,
-						max(DISTINCT xx.ReduceAmt) as ReduceAmt,MAX(xx.User_Name)User_Name  "
+						sum(DISTINCT xx.ReduceAmts) as ReduceAmt,MAX(xx.User_Name)User_Name  "
             Else
                 strQry += "xx.[Document Date],xx.[Document No],
                         xx.Type,xx.Addition,xx.Deduction,xx.[Deduction Code],xx.Regn_No,xx.[Deduction Desc],xx.[SRN Qty],xx.Phone,xx.Remarks,xx.SRN_AMOUNT,xx.FromDate,xx.ToDate,xx.Reduce_Deduc_Amt,xx.ReduceAmt,xx.User_Name,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2"

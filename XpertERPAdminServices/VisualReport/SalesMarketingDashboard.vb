@@ -49,7 +49,7 @@ Public Class SalesMarketingDashboard
 
             Dim docNo As String = ""
             query = " 
-    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL') order by Location_Name "
+    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') order by Location_Name "
             '          If chkRJSBNS.Checked Then
             '              query += "union all
             'SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
@@ -67,7 +67,8 @@ Public Class SalesMarketingDashboard
 
 
                     query += " select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
-                        '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
+                        '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,max(dis_demand.Union_Contact_Person) as Union_Contact_Person,
+						max(dis_demand.Union_Contact_PhoneNo) as Union_Contact_PhoneNo,
                      ISNULL(SUM(Dis_Demand.TotalLtr_ItemWiseDemand), 0) AS DEMAND_INLTR,
                     ISNULL(SUM(Dis_Demand.FATKGDemand), 0) AS Dis_FATKG,
                     ISNULL(SUM(Dis_Demand.SNFKGDemand), 0) AS Dis_SNFKG,
@@ -78,19 +79,24 @@ Public Class SalesMarketingDashboard
 					(SELECT 
                         SUM(TotalLtr_ItemWiseDemand) AS TotalLtr_ItemWiseDemand,
                         SUM(FATKGDemand) AS FATKGDemand,
-                        SUM(SNFKGDemand) AS SNFKGDemand
+                        SUM(SNFKGDemand) AS SNFKGDemand,
+                        max(Union_Contact_Person) as Union_Contact_Person,
+						max(Union_Contact_PhoneNo) as Union_Contact_PhoneNo
 						
                     FROM (
                     (SELECT 
                         SUM(TotalLtr_ItemWise) AS TotalLtr_ItemWiseDemand,
                         SUM(TotalLtr_ItemWise * im.STD_FatPer / 100) AS FATKGDemand,
-                        SUM(TotalLtr_ItemWise * im.STD_SNFPer / 100) AS SNFKGDemand
+                        SUM(TotalLtr_ItemWise * im.STD_SNFPer / 100) AS SNFKGDemand,
+                        max(tspl_company_master.Union_Contact_Person) as Union_Contact_Person,
+						max(tspl_company_master.Union_Contact_PhoneNo) as Union_Contact_PhoneNo
                     FROM 
                         [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL dbd
                     LEFT JOIN 
                         [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_master dbm ON dbm.Document_No = dbd.Document_No
                     LEFT JOIN 
                         [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER im ON im.Item_Code = dbd.Item_Code
+                        	left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].tspl_company_master on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].tspl_company_master.Comp_Code=im.Comp_Code
                     WHERE 
                         CONVERT(DATE, dbm.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
                         AND im.IsTaxable = 0
@@ -100,7 +106,9 @@ Public Class SalesMarketingDashboard
                         SELECT 
                       cast(  SUM(xxxx.Qty) as decimal(18,2)) AS TotalLtr_ItemWiseDemand,
                         SUM(xxxx.Fat_KG ) AS FATKGDemand,
-                        SUM(xxxx.SNF_KG) AS SNFKGDemand
+                        SUM(xxxx.SNF_KG) AS SNFKGDemand,
+                        	'' as Union_Contact_Person,
+						'' as Union_Contact_PhoneNo
 						
                 from (
                 SELECT case when isnull(ConvertDiv.Conversion_Factor,0)=0 then 0 else  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Qty*ConvertMul.Conversion_Factor/ConvertDiv.Conversion_Factor end as Qty ,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Fat_KG ,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.SNF_KG,0 as Route_No,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Unit_code
@@ -240,6 +248,14 @@ Public Class SalesMarketingDashboard
         gv1.Columns("Union Name").Width = 200
         gv1.Columns("Union Name").IsVisible = True
 
+        gv1.Columns("Union_Contact_Person").HeaderText = "Union Contact Person"
+        gv1.Columns("Union_Contact_Person").Width = 200
+        gv1.Columns("Union_Contact_Person").IsVisible = True
+
+        gv1.Columns("Union_Contact_PhoneNo").HeaderText = "Union Contact PhoneNo"
+        gv1.Columns("Union_Contact_PhoneNo").Width = 200
+        gv1.Columns("Union_Contact_PhoneNo").IsVisible = True
+
         gv1.Columns("Fromdate").HeaderText = "From Date"
         gv1.Columns("Fromdate").Width = 200
         gv1.Columns("Fromdate").IsVisible = False
@@ -288,19 +304,19 @@ Public Class SalesMarketingDashboard
         Dim item3 As New GridViewSummaryItem("DEMAND_INLTR", "{0:f2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item3)
 
-        Dim item4 As New GridViewSummaryItem("Dis_FATKG", "{0:f2}", GridAggregateFunction.Sum)
+        Dim item4 As New GridViewSummaryItem("Dis_FATKG", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item4)
 
-        Dim item5 As New GridViewSummaryItem("Dis_SNFKG", "{0:f2}", GridAggregateFunction.Sum)
+        Dim item5 As New GridViewSummaryItem("Dis_SNFKG", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item5)
 
         Dim item6 As New GridViewSummaryItem("DEMANDQTYKG", "{0:f2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item6)
 
-        Dim item7 As New GridViewSummaryItem("FATKGPRODUCT", "{0:f2}", GridAggregateFunction.Sum)
+        Dim item7 As New GridViewSummaryItem("FATKGPRODUCT", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item7)
 
-        Dim item8 As New GridViewSummaryItem("SNFKGPRODUCT", "{0:f2}", GridAggregateFunction.Sum)
+        Dim item8 As New GridViewSummaryItem("SNFKGPRODUCT", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item8)
 
         'gv1.ShowGroupPanel = True
@@ -323,7 +339,7 @@ Public Class SalesMarketingDashboard
 
             Dim docNo As String = ""
             query = " 
-    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL') order by Location_Name "
+    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') order by Location_Name "
             '          If chkRJSBNS.Checked Then
             '              query += "union all
             'SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
@@ -341,7 +357,9 @@ Public Class SalesMarketingDashboard
 
 
                     query += " select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
-                        '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
+                        '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,max(dis_demand.Union_Contact_Person) as Union_Contact_Person,
+						max(dis_demand.Union_Contact_PhoneNo) as Union_Contact_PhoneNo,
+
                      
 	    Max(Dis_Demand.route_no) AS route_no,
 	   MAx(dis_demand.booth) as Booth,
@@ -358,18 +376,22 @@ FROM
            SUM(FATKGDemand) AS FATKGDemand,
            SUM(SNFKGDemand) AS SNFKGDemand,
         count(distinct route_no)route_no,
-	   count(distinct Booth)Booth
+	   count(distinct Booth)Booth,
+                         max(Union_Contact_Person) as Union_Contact_Person,
+			     max(Union_Contact_PhoneNo) as Union_Contact_PhoneNo
     FROM 
     (
         SELECT SUM(TotalLtr_ItemWise) AS TotalLtr_ItemWiseDemand,
                SUM(TotalLtr_ItemWise * im.STD_FatPer / 100) AS FATKGDemand,
                SUM(TotalLtr_ItemWise * im.STD_SNFPer / 100) AS SNFKGDemand,
-
+                        max(TSPL_COMPANY_MASTER.Union_Contact_Person) as Union_Contact_Person,
+			     max(TSPL_COMPANY_MASTER.Union_Contact_PhoneNo) as Union_Contact_PhoneNo,
               dbm.route_no,
 			  dbd.Cust_Code AS Booth
         FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL dbd
         LEFT JOIN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_master dbm ON dbm.Document_No = dbd.Document_No
         LEFT JOIN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER im ON im.Item_Code = dbd.Item_Code
+        left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER.Comp_Code=im.Comp_Code
         WHERE CONVERT(DATE, dbm.Document_Date, 103)  BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
           AND im.IsTaxable = 0
           AND im.Is_FreshItem = 1
@@ -381,6 +403,8 @@ FROM
         SELECT SUM(xxxx.Qty) AS TotalLtr_ItemWiseDemand,
                SUM(xxxx.Fat_KG) AS FATKGDemand,
                SUM(xxxx.SNF_KG) AS SNFKGDemand,
+        '' as Union_Contact_Person,
+			   '' as Union_Contact_PhoneNo,
          NULL AS route_no,
 		 null as Booth
         FROM 
@@ -587,19 +611,19 @@ FROM
         Dim item3 As New GridViewSummaryItem("DEMAND_INLTR", "{0:f2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item3)
 
-        Dim item4 As New GridViewSummaryItem("Dis_FATKG", "{0:f2}", GridAggregateFunction.Sum)
+        Dim item4 As New GridViewSummaryItem("Dis_FATKG", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item4)
 
-        Dim item5 As New GridViewSummaryItem("Dis_SNFKG", "{0:f2}", GridAggregateFunction.Sum)
+        Dim item5 As New GridViewSummaryItem("Dis_SNFKG", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item5)
 
         Dim item6 As New GridViewSummaryItem("DEMANDQTYKG", "{0:f2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item6)
 
-        Dim item7 As New GridViewSummaryItem("FATKGPRODUCT", "{0:f2}", GridAggregateFunction.Sum)
+        Dim item7 As New GridViewSummaryItem("FATKGPRODUCT", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item7)
 
-        Dim item8 As New GridViewSummaryItem("SNFKGPRODUCT", "{0:f2}", GridAggregateFunction.Sum)
+        Dim item8 As New GridViewSummaryItem("SNFKGPRODUCT", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item8)
 
         'gv1.ShowGroupPanel = True
@@ -728,6 +752,8 @@ FROM
             'Dim arrItem As String()
             Dim strItem2WithSum As String = ""
             Dim strItem2 As String = ""
+            Dim itemdesc As String = ""
+            Dim sumitemdesc As String = ""
             Dim MainQuery As String = String.Empty
             Dim strWhrClause As String = String.Empty
             Dim strWhrClause2 As String = String.Empty
@@ -743,7 +769,7 @@ FROM
 
             Dim docNo As String = ""
             query = " 
-        SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL') "
+        SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') "
             '          If chkRJSBNS.Checked Then
             '              query += "union all
             'SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
@@ -755,8 +781,7 @@ FROM
             query = ""
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                Dim itemdesc As String = ""
-                Dim sumitemdesc As String = ""
+
                 Dim dt1 As DataTable = Nothing
                 Dim strqry As String = ""
                 For ii As Integer = 0 To dt.Rows.Count - 1
@@ -765,8 +790,8 @@ FROM
                     End If
 
                     strqry += "SELECT  max(report_name)Short_Description FROM (
-                                    SELECT    [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Item_Code,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.report_name FROM  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Document_No = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Document_No Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER.Cust_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Cust_Code Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Item_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Item_Code Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VEHICLE_MASTER On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VEHICLE_MASTER.Vehicle_Id = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Vehicle_Code Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_LOCATION_MASTER On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_LOCATION_MASTER.Location_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.location_code left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_GROUP_MASTER on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER.Cust_Group_Code where ([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Report_Name !='' or [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Report_Name is not null)  and Scheme_Item='N'   and [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Is_Milk_Pouch =1   or [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Is_Milk_Pouch =0  and convert(date, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Document_Date,103) >= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and  convert(date, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Document_Date,103) <= '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'
-                                     )XX WHERE xx.Report_Name<>''or xx.Report_Name is not null group by Item_Code "
+                                    SELECT    [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Item_Code,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.report_name FROM  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Document_No = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Document_No Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER.Cust_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Cust_Code Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Item_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Item_Code Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VEHICLE_MASTER On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VEHICLE_MASTER.Vehicle_Id = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Vehicle_Code  Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_LOCATION_MASTER On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_LOCATION_MASTER.Location_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.location_code left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_GROUP_MASTER on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER.Cust_Group_Code where ([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Report_Name !='' or [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Report_Name is not null)  and Scheme_Item='N'   and [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Is_Milk_Pouch =1   or [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Is_Milk_Pouch =0  and convert(date, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Document_Date,103) >= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and  convert(date, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Document_Date,103) <= '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'
+                                     )XX WHERE xx.Report_Name<>'' group by Item_Code "
                 Next
                 dt1 = clsDBFuncationality.GetDataTable(strqry)
                 For kk As Integer = 0 To dt1.Rows.Count - 1
@@ -775,9 +800,12 @@ FROM
                         sumitemdesc += ",Sum(IsNull([" + clsCommon.myCstr(dt1.Rows(kk)("Short_Description")) + "],0)) As [" + clsCommon.myCstr(dt1.Rows(kk)("Short_Description")) + "]"
                     Else
                         itemdesc = "[" + clsCommon.myCstr(dt1.Rows(kk)("Short_Description")) + "]"
-                        sumitemdesc = "Sum(isnull([" + clsCommon.myCstr(dt1.Rows(kk)("Short_Description")) + "],0)) As [" + clsCommon.myCstr(dt1.Rows(kk)("Short_Description")) + "]"
+                        sumitemdesc = "Sum(isnull([" + clsCommon.myCstr(dt1.Rows(kk)("Short_Description")) + "],0)) As [" + clsCommon.myCstr(dt1.Rows(kk)("Short_Description")) + "] "
                     End If
                 Next
+            End If
+            If clsCommon.myLen(itemdesc) > 0 AndAlso clsCommon.myLen(sumitemdesc) > 0 Then
+
 
                 For jj As Integer = 0 To dt.Rows.Count - 1
                     Dim strDate As String = "Document_Date"
@@ -835,7 +863,7 @@ FROM
                     strCreateConv = " convert (decimal(18,2), [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Booking_Qty * TSPL_ITEM_UOM_DETAILUOM.Conversion_Factor / nullif ( TSPL_ITEM_UOM_DETAILLTR.Conversion_Factor,0)) "
                     strIsMilkPouch = "  and [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Is_Milk_Pouch =1 "
 
-                    MainQuery = " select  Document_No as [Document No],max(Document_Date) as [Document Date],max([Time])as [Time],[DO No],[Short Close],max ([Dispatch No(NT)]) as [Dispatch No(NT)] ,max( [Invoice No(NT)]) as [Invoice No(NT)],max([Dispatch No(T)]) as [Dispatch No(T)],max([Invoice No(T)]) as [Invoice No(T)], max(Booking_Type) as [Booking Type], max(BookingThrough) as [Booking Through], Case when [Group] in ('Distributor','Other') Or max(AgainstGatePass) =1 then 'NA' else case when  max(TruckSheetGenerate) =1 then 'Yes' else 'No' end end as TruckSheetGenerate, Case when  max(AgainstGatePass) =1 then 'Yes' else '' end as AgainstGatePass,Case when max(is_Cancelled) =1 then 'Yes' else '' end Cancelled,max(Payment_Mode) as [Payment Mode],[VEHICLE NO],max([Customer Code]) as [Customer Code],[WdName] as [Customer Name],max(Booth) as Booth,[Group],[Cust Group Desc],[Customer Category Code],[Zone],[Route No], max([Booking Time(AM/PM)]) as [Booking Time(AM/PM)],Max(Created_By) as [Created By],max(Created_Date) as [Created Date],max(Modified_By) as [Modified By],max(Modified_Date) as [Modified Date],sum(DocumentAmount) as [Amount], max(isnull (Scheme_Booking_Qty,0)) as [Scheme Qty] , " + sumitemdesc + " ,cast(SUM(QtyLtr) as decimal(18,2)) as [Total In Ltr] from (select max(zzz.item_code) as item_code,zzz.Document_No, max(Document_Date) as Document_Date,max([Time]) as [Time]  ,zzz.[DO No], zzz.[Short Close],max([Dispatch No(NT)]) as [Dispatch No(NT)], max([Invoice No(NT)]) as [Invoice No(NT)] ,max([Dispatch No(T)]) as [Dispatch No(T)],max([Invoice No(T)]) as [Invoice No(T)],max(Scheme_Booking_Qty) as Scheme_Booking_Qty,max(Booking_Type) as Booking_Type,max(BookingThrough) as [BookingThrough], max(TruckSheetGenerate) as TruckSheetGenerate, max(AgainstGatePass) as AgainstGatePass,max(is_Cancelled) as is_Cancelled,max(Payment_Mode) as Payment_Mode, max(GatePass_Type) as [Booking Time(AM/PM)],Max(Created_By) as Created_By,max(Created_Date) as Created_Date,max(Modified_By) as Modified_By,max(Modified_Date) as Modified_Date ,sum(Amount_with_Tax) as DocumentAmount,max(Booth) as [Booth] , max([Customer Category Code]) as  [Customer Category Code], max([Customer Code]) as  [Customer Code],zzz.[VEHICLE NO],zzz.[WdName],zzz.Description,zzz.Cust_Group_Code as [Group], max(zzz.[Cust Group Desc]) as [Cust Group Desc],zzz.Zone_Code as [Zone]  ,zzz.[Route No] ,sum(qty) as qty,sum(QtyLtr) as QtyLtr from  (Select isnull([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.GatePass_Type,'') as GatePass_Type,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Document_No, Convert (varchar,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Document_Date,103) as Document_Date, case when LTRIM(RIGHT(CONVERT(VARCHAR(20), [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Document_Date, 100), 7)) = '12:00AM' then LTRIM(RIGHT(CONVERT(VARCHAR(20),[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Created_Date , 100), 7)) else LTRIM(RIGHT(CONVERT(VARCHAR(20), [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Document_Date, 100), 7)) end  as [Time],[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No as [DO No],isnull([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N') as [Short Close],[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Booking_Type,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.BookingThrough,Convert (varchar,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.TruckSheetGenerate) as TruckSheetGenerate , Convert (varchar,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.AgainstGatePass) as AgainstGatePass,Convert (varchar,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.is_Cancelled) as is_Cancelled,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Payment_Mode,( format ( [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Created_Date, 'HH') +'.'+ format ( [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Created_Date, 'mm') ) as Created_Date_Time,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Created_By,convert (varchar,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Created_Date,103) as Created_Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Modified_By, Convert (varchar,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Modified_Date,103) as Modified_Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Amount_with_Tax,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Scheme_Item, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Sku_Seq, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Location_Code, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_LOCATION_MASTER.Location_Desc,isnull([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER.cust_category_code,'') as [Customer Category Code], [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Cust_Code As [Customer Code], [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER.Customer_Name As WdName, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Item_Code as Item_Code,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Unit_code as UOM,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.route_no as [Route No] , [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Report_Name As [Description] ,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VEHICLE_MASTER.Description [Lorry_No],[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER.Cust_Group_Code,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER.Zone_Code ,IsNull([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VEHICLE_MASTER.Description, '''') As [VEHICLE NO], " + strCreateConv + " as Qty, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Document_Date As [Order Date],[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Desc as [Cust Group Desc], [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER.OldName as Booth,TBL_DISPATCH_INVOICE_NON_Taxable.[Dispatch_No] as [Dispatch No(NT)], TBL_DISPATCH_INVOICE_NON_Taxable.[Invoice_No] as [Invoice No(NT)],  TBL_DISPATCH_INVOICE_Taxable.[Dispatch_No] as  [Dispatch No(T)], TBL_DISPATCH_INVOICE_Taxable.[Invoice_No] as [Invoice No(T)],TBL_SCHEME_VALUE.Scheme_Booking_Qty,(CASE WHEN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Booking_Qty=0 THEN 0 ELSE ([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Booking_Qty*TSPL_ITEM_UOM_DETAILUOM.Conversion_Factor)/coalesce(TSPL_ITEM_UOM_DETAILltr.Conversion_Factor,TSPL_ITEM_UOM_DETAILKG.Conversion_Factor) END) AS QtyLtr From [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Document_No = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Document_No Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER.Cust_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Cust_Code Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Item_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Item_Code Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VEHICLE_MASTER On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VEHICLE_MASTER.Vehicle_Id = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Vehicle_Code Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_LOCATION_MASTER On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_LOCATION_MASTER.Location_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.location_code left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_GROUP_MASTER on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER.Cust_Group_Code " &
+                    MainQuery = " select  Document_No as [Document No],max(Document_Date) as [Document Date],max([Time])as [Time],[DO No],[Short Close],max ([Dispatch No(NT)]) as [Dispatch No(NT)] ,max( [Invoice No(NT)]) as [Invoice No(NT)],max([Dispatch No(T)]) as [Dispatch No(T)],max([Invoice No(T)]) as [Invoice No(T)], max(Booking_Type) as [Booking Type], max(BookingThrough) as [Booking Through], Case when [Group] in ('Distributor','Other') Or max(AgainstGatePass) =1 then 'NA' else case when  max(TruckSheetGenerate) =1 then 'Yes' else 'No' end end as TruckSheetGenerate, Case when  max(AgainstGatePass) =1 then 'Yes' else '' end as AgainstGatePass,Case when max(is_Cancelled) =1 then 'Yes' else '' end Cancelled,max(Payment_Mode) as [Payment Mode],[VEHICLE NO],max([Customer Code]) as [Customer Code],[WdName] as [Customer Name],max(Booth) as Booth,[Group],[Cust Group Desc],[Customer Category Code],[Zone],[Route No], max([Booking Time(AM/PM)]) as [Booking Time(AM/PM)],Max(Created_By) as [Created By],max(Created_Date) as [Created Date],max(Modified_By) as [Modified By],max(Modified_Date) as [Modified Date],sum(DocumentAmount) as [Amount], max(isnull (Scheme_Booking_Qty,0)) as [Scheme Qty],  " + sumitemdesc + " ,cast(SUM(QtyLtr) as decimal(18,2)) as [Total In Ltr] ,max(Union_Contact_Person) as Union_Contact_Person,max(Union_Contact_PhoneNo)Union_Contact_PhoneNo from (select max(zzz.item_code) as item_code,zzz.Document_No, max(Document_Date) as Document_Date,max([Time]) as [Time]  ,zzz.[DO No], zzz.[Short Close],max([Dispatch No(NT)]) as [Dispatch No(NT)], max([Invoice No(NT)]) as [Invoice No(NT)] ,max([Dispatch No(T)]) as [Dispatch No(T)],max([Invoice No(T)]) as [Invoice No(T)],max(Scheme_Booking_Qty) as Scheme_Booking_Qty,max(Booking_Type) as Booking_Type,max(BookingThrough) as [BookingThrough], max(TruckSheetGenerate) as TruckSheetGenerate, max(AgainstGatePass) as AgainstGatePass,max(is_Cancelled) as is_Cancelled,max(Payment_Mode) as Payment_Mode, max(GatePass_Type) as [Booking Time(AM/PM)],Max(Created_By) as Created_By,max(Created_Date) as Created_Date,max(Modified_By) as Modified_By,max(Modified_Date) as Modified_Date ,sum(Amount_with_Tax) as DocumentAmount,max(Booth) as [Booth] , max([Customer Category Code]) as  [Customer Category Code], max([Customer Code]) as  [Customer Code],zzz.[VEHICLE NO],zzz.[WdName],zzz.Description,zzz.Cust_Group_Code as [Group], max(zzz.[Cust Group Desc]) as [Cust Group Desc],zzz.Zone_Code as [Zone]  ,zzz.[Route No] ,sum(qty) as qty,sum(QtyLtr) as QtyLtr,max(Union_Contact_Person)Union_Contact_Person,max(Union_Contact_PhoneNo)Union_Contact_PhoneNo from  (Select isnull([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.GatePass_Type,'') as GatePass_Type,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Document_No, Convert (varchar,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Document_Date,103) as Document_Date, case when LTRIM(RIGHT(CONVERT(VARCHAR(20), [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Document_Date, 100), 7)) = '12:00AM' then LTRIM(RIGHT(CONVERT(VARCHAR(20),[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Created_Date , 100), 7)) else LTRIM(RIGHT(CONVERT(VARCHAR(20), [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Document_Date, 100), 7)) end  as [Time],[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No as [DO No],isnull([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N') as [Short Close],[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Booking_Type,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.BookingThrough,Convert (varchar,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.TruckSheetGenerate) as TruckSheetGenerate , Convert (varchar,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.AgainstGatePass) as AgainstGatePass,Convert (varchar,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.is_Cancelled) as is_Cancelled,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Payment_Mode,( format ( [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Created_Date, 'HH') +'.'+ format ( [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Created_Date, 'mm') ) as Created_Date_Time,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Created_By,convert (varchar,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Created_Date,103) as Created_Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Modified_By, Convert (varchar,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Modified_Date,103) as Modified_Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Amount_with_Tax,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Scheme_Item, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Sku_Seq, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Location_Code, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_LOCATION_MASTER.Location_Desc,isnull([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER.cust_category_code,'') as [Customer Category Code], [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Cust_Code As [Customer Code], [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER.Customer_Name As WdName, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Item_Code as Item_Code,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Unit_code as UOM,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.route_no as [Route No] , [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Report_Name As [Description] ,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VEHICLE_MASTER.Description [Lorry_No],[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER.Cust_Group_Code,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER.Zone_Code ,IsNull([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VEHICLE_MASTER.Description, '''') As [VEHICLE NO], " + strCreateConv + " as Qty, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Document_Date As [Order Date],[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Desc as [Cust Group Desc], [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER.OldName as Booth,TBL_DISPATCH_INVOICE_NON_Taxable.[Dispatch_No] as [Dispatch No(NT)], TBL_DISPATCH_INVOICE_NON_Taxable.[Invoice_No] as [Invoice No(NT)],  TBL_DISPATCH_INVOICE_Taxable.[Dispatch_No] as  [Dispatch No(T)], TBL_DISPATCH_INVOICE_Taxable.[Invoice_No] as [Invoice No(T)],TBL_SCHEME_VALUE.Scheme_Booking_Qty,TSPL_COMPANY_MASTER.Union_Contact_Person,TSPL_COMPANY_MASTER.Union_Contact_PhoneNo,(CASE WHEN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Booking_Qty=0 THEN 0 ELSE ([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Booking_Qty*TSPL_ITEM_UOM_DETAILUOM.Conversion_Factor)/coalesce(TSPL_ITEM_UOM_DETAILltr.Conversion_Factor,TSPL_ITEM_UOM_DETAILKG.Conversion_Factor) END) AS QtyLtr From [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Document_No = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Document_No Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER.Cust_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Cust_Code Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Item_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Item_Code Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VEHICLE_MASTER On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VEHICLE_MASTER.Vehicle_Id = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Vehicle_Code left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER.Comp_Code=[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER.Comp_Code Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_LOCATION_MASTER On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_LOCATION_MASTER.Location_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.location_code left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_GROUP_MASTER on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_CUSTOMER_MASTER.Cust_Group_Code " &
                                               " Left Outer Join ( Select [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Booking_No,  STUFF((SELECT ', ' + QUOTENAME (TSPL_SD_SHIPMENT_DETAIL.Document_Code) FROM   [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DELIVERY_NOTE_MASTER_FRESHSALE ThisTableDetail left outer join ( select distinct Document_code,delivery_Code from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SHIPMENT_DETAIL ) as TSPL_SD_SHIPMENT_DETAIL on ThisTableDetail.Document_No =TSPL_SD_SHIPMENT_DETAIL.delivery_Code left outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SHIPMENT_HEAD as ThisTableHead on ThisTableHead.Document_code = TSPL_SD_SHIPMENT_DETAIL .Document_code  WHERE [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Booking_No = ThisTableDetail.Booking_No  and ThisTableHead.Is_Taxable=1  and ThisTableDetail.Posted =1 FOR XML PATH ('')),1,2,'') AS [Dispatch_No],  STUFF((SELECT ', ' + QUOTENAME (ThisTableHead.Sale_Invoice_No)  FROM   [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DELIVERY_NOTE_MASTER_FRESHSALE ThisTableDetail left outer join ( select distinct Document_code,delivery_Code from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SHIPMENT_DETAIL ) as TSPL_SD_SHIPMENT_DETAIL on ThisTableDetail.Document_No =TSPL_SD_SHIPMENT_DETAIL.delivery_Code left outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SHIPMENT_HEAD as ThisTableHead on ThisTableHead.Document_code = TSPL_SD_SHIPMENT_DETAIL .Document_code   WHERE [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Booking_No = ThisTableDetail.Booking_No and ThisTableHead.Is_Taxable=1 and ThisTableDetail.Posted =1 FOR XML PATH ('')),1,2,'') AS [Invoice_No]   from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DELIVERY_NOTE_MASTER_FRESHSALE inner Join  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SHIPMENT_DETAIL on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No =TSPL_SD_SHIPMENT_DETAIL.delivery_Code inner Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SHIPMENT_HEAD on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SHIPMENT_HEAD.Document_code = TSPL_SD_SHIPMENT_DETAIL.Document_code where [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Posted = 1 and [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SHIPMENT_HEAD.Is_Taxable =1  Group by [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Booking_No " &
                                               " ) TBL_DISPATCH_INVOICE_Taxable on TBL_DISPATCH_INVOICE_Taxable.Booking_No = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER.Document_No " &
                                               "  Left Outer Join ( Select [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Booking_No,  STUFF((SELECT ', ' + QUOTENAME (TSPL_SD_SHIPMENT_DETAIL.Document_Code) FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DELIVERY_NOTE_MASTER_FRESHSALE ThisTableDetail left outer join ( select distinct Document_code,delivery_Code from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SHIPMENT_DETAIL ) as TSPL_SD_SHIPMENT_DETAIL on ThisTableDetail.Document_No =TSPL_SD_SHIPMENT_DETAIL.delivery_Code left outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SHIPMENT_HEAD as ThisTableHead on ThisTableHead.Document_code = TSPL_SD_SHIPMENT_DETAIL .Document_code WHERE [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Booking_No = ThisTableDetail.Booking_No and ThisTableHead.Is_Taxable=0 and ThisTableDetail.Posted =1 FOR XML PATH ('')),1,2,'') AS [Dispatch_No],  STUFF((SELECT ', ' + QUOTENAME (ThisTableHead.Sale_Invoice_No)  FROM   [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DELIVERY_NOTE_MASTER_FRESHSALE ThisTableDetail  left outer join ( select distinct Document_code,delivery_Code from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SHIPMENT_DETAIL ) as TSPL_SD_SHIPMENT_DETAIL on ThisTableDetail.Document_No =TSPL_SD_SHIPMENT_DETAIL.delivery_Code left outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SHIPMENT_HEAD as ThisTableHead on ThisTableHead.Document_code = TSPL_SD_SHIPMENT_DETAIL .Document_code   WHERE [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Booking_No = ThisTableDetail.Booking_No and ThisTableHead.Is_Taxable=0 and ThisTableDetail.Posted =1 FOR XML PATH ('')),1,2,'') AS [Invoice_No]   from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DELIVERY_NOTE_MASTER_FRESHSALE inner Join  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SHIPMENT_DETAIL on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No =TSPL_SD_SHIPMENT_DETAIL.delivery_Code inner join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SHIPMENT_HEAD on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SHIPMENT_HEAD.Document_code = TSPL_SD_SHIPMENT_DETAIL.Document_code    where [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Posted = 1 and [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SHIPMENT_HEAD.Is_Taxable =0  Group by [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Booking_No " &
@@ -845,72 +873,73 @@ FROM
                                               " left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_DETAILLTR on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Item_Code=TSPL_ITEM_UOM_DETAILLTR.Item_Code and TSPL_ITEM_UOM_DETAILLTR.UOM_Code='LTR'  left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_DETAILKG on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Item_Code=TSPL_ITEM_UOM_DETAILKG.Item_Code and TSPL_ITEM_UOM_DETAILKG.UOM_Code='KG' left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_DETAILCREATE on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Item_Code=TSPL_ITEM_UOM_DETAILCREATE.Item_Code and TSPL_ITEM_UOM_DETAILCREATE.UOM_Code='CRATE'  left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_DETAILUOM on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Item_Code=TSPL_ITEM_UOM_DETAILUOM.Item_Code and [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_DETAIL.Unit_code =TSPL_ITEM_UOM_DETAILUOM.UOM_Code " &
                                               "  where 2=2  " + strIsMilkPouch + "  " + strWhrClause2 + " )zzz where zzz.Scheme_Item='N' group by zzz.Document_No,zzz.[VEHICLE NO] ,zzz.WdName,zzz.Description,zzz.[Customer Category Code],zzz.Cust_Group_Code,zzz.Zone_Code,zzz.[Route No],zzz.[DO NO],zzz.[Short Close] 	) as s pivot (  sum(Qty) for Description in ( " + itemdesc + " ) ) as zpivot group by zpivot.Document_No,zpivot.[VEHICLE NO],zpivot.[WdName],zpivot.[Group],zpivot.[Cust Group Desc],zpivot.[Customer Category Code],zpivot.[Zone],zpivot.[Route No],zpivot.[DO NO],zpivot.[Short Close] "
 
-                    query += " select '" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                    query += " select '" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],max(Union_Contact_Person)Union_Contact_Person,max(Union_Contact_PhoneNo)Union_Contact_PhoneNo,
                             '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username, " + sumitemdesc + " from (select ROW_NUMBER() OVER (PARTITION BY 1 ORDER BY  TSPL_ROUTE_MASTER.Route_Seq_No asc ,XXXFinal.[Route No] asc 
-                                                  ,  XXXFinal.[Customer Name] asc) as Sno,XXXFinal.[Route No],max(XXXFinal.[Customer Code]) as [Customer Code],  XXXFinal.[Customer Name], " + sumitemdesc + " , max( XXXFinal.[Modified By]) as [Modified By], max(XXXFinal.[Created By]) as  [Created By]  from ( " + MainQuery + " ) XXXFinal left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ROUTE_MASTER on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ROUTE_MASTER.Route_No = XXXFinal.[Route No]	 group by route_seq_no, XXXFinal.[Route No],  XXXFinal.[Customer Name] )ttt "
+                                                  ,  XXXFinal.[Customer Name] asc) as Sno,XXXFinal.[Route No],max(XXXFinal.[Customer Code]) as [Customer Code],  XXXFinal.[Customer Name], " + sumitemdesc + "  ,max( XXXFinal.[Modified By]) as [Modified By], max(XXXFinal.[Created By]) as  [Created By],max(Union_Contact_Person)Union_Contact_Person,max(Union_Contact_PhoneNo)Union_Contact_PhoneNo  from ( " + MainQuery + " ) XXXFinal left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ROUTE_MASTER on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ROUTE_MASTER.Route_No = XXXFinal.[Route No]	 group by route_seq_no, XXXFinal.[Route No],  XXXFinal.[Customer Name] )ttt "
 
                 Next
-            End If
-            Dim dtgv As New DataTable
-            dtgv = clsDBFuncationality.GetDataTable(query)
-            Gv3.DataSource = Nothing
-            Gv3.Rows.Clear()
-            Gv3.Columns.Clear()
-            Gv3.DataSource = dtgv
-            Gv3.GroupDescriptors.Clear()
-            Gv3.MasterTemplate.SummaryRowsBottom.Clear()
-            Gv3.BestFitColumns()
-            If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
-                Exit Sub
-            End If
-            RadPageView1.SelectedPage = RadPageViewPage2
-            Dim item As Integer = 0
-            If Gv3.Rows.Count > 0 Then
-                Dim summaryRowItem As New GridViewSummaryRowItem()
-                For i As Integer = item To Gv3.Columns.Count - 1
-                    Dim aa = Gv3.Columns(i).HeaderText()
-                    Dim item1 As New GridViewSummaryItem(aa, "{0:F2}", GridAggregateFunction.Sum)
-                    If clsCommon.CompairString(aa, "Modified By") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(aa, "Created By") <> CompairStringResult.Equal Then
-                        summaryRowItem.Add(item1)
-                        Gv3.Columns(i).FormatString = "{0:n2}"
-                    End If
-                Next
-                Gv3.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-                Gv3.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
-            End If
-            For i As Integer = item To Gv3.Columns.Count - 5
-                Dim grandTotal As Decimal = 0
-                For j As Integer = 0 To Gv3.Rows.Count - 1
-                    Dim columnValue As Object = String.Empty
-                    columnValue = Gv3.Rows(j).Cells(i).Value
-                    If (Not IsDBNull(Gv3.Rows(j).Cells(i).Value) AndAlso columnValue IsNot Nothing) Then
-                        grandTotal = grandTotal + clsCommon.myCdbl(Gv3.Rows(j).Cells(i).Value)
-                    End If
-                Next
-                If (clsCommon.myCdbl(grandTotal) > 0) Then
-                    Gv3.Columns(i).IsVisible = True
-                Else
-                    Gv3.Columns(i).IsVisible = False
+
+                Dim dtgv As New DataTable
+                dtgv = clsDBFuncationality.GetDataTable(query)
+                Gv3.DataSource = Nothing
+                Gv3.Rows.Clear()
+                Gv3.Columns.Clear()
+                Gv3.DataSource = dtgv
+                Gv3.GroupDescriptors.Clear()
+                Gv3.MasterTemplate.SummaryRowsBottom.Clear()
+                Gv3.BestFitColumns()
+                If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                    Exit Sub
                 End If
-            Next
-            'Try
-            '    Dim strItemFatch() As String = strItem2.Split(",")
-            '    For count As Integer = 0 To strItemFatch.Length - 1
-            '        Dim strCode As String = strItemFatch(count)
-            '        Dim strCode2 As String = Replace(strItemFatch(count), "[", "")
-            '        strCode2 = Replace(strCode2, "]", "")
-            '        Dim sum As Integer = clsCommon.myCdbl(dtgv.Compute("SUM(" + strCode + ")", String.Empty))
-            '        If gv3.Columns.Contains(strCode2) Then
-            '            If sum > 0 Then
-            '                gv3.Columns(strCode2).IsVisible = True
-            '            Else
-            '                gv3.Columns(strCode2).IsVisible = False
-            '            End If
-            '        End If
-            '    Next
-            'Catch ex As Exception
-            'End Try
+                RadPageView1.SelectedPage = RadPageViewPage2
+                Dim item As Integer = 0
+                If Gv3.Rows.Count > 0 Then
+                    Dim summaryRowItem As New GridViewSummaryRowItem()
+                    For i As Integer = item To Gv3.Columns.Count - 1
+                        Dim aa = Gv3.Columns(i).HeaderText()
+                        Dim item1 As New GridViewSummaryItem(aa, "{0:F2}", GridAggregateFunction.Sum)
+                        If clsCommon.CompairString(aa, "Modified By") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(aa, "Created By") <> CompairStringResult.Equal Then
+                            summaryRowItem.Add(item1)
+                            Gv3.Columns(i).FormatString = "{0:n2}"
+                        End If
+                    Next
+                    Gv3.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    Gv3.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+                End If
+                For i As Integer = item To Gv3.Columns.Count - 5
+                    Dim grandTotal As Decimal = 0
+                    For j As Integer = 0 To Gv3.Rows.Count - 1
+                        Dim columnValue As Object = String.Empty
+                        columnValue = Gv3.Rows(j).Cells(i).Value
+                        If (Not IsDBNull(Gv3.Rows(j).Cells(i).Value) AndAlso columnValue IsNot Nothing) Then
+                            grandTotal = grandTotal + clsCommon.myCdbl(Gv3.Rows(j).Cells(i).Value)
+                        End If
+                    Next
+                    If (clsCommon.myCdbl(grandTotal) > 0) Then
+                        Gv3.Columns(i).IsVisible = True
+                    Else
+                        Gv3.Columns(i).IsVisible = False
+                    End If
+                Next
+                'Try
+                '    Dim strItemFatch() As String = strItem2.Split(",")
+                '    For count As Integer = 0 To strItemFatch.Length - 1
+                '        Dim strCode As String = strItemFatch(count)
+                '        Dim strCode2 As String = Replace(strItemFatch(count), "[", "")
+                '        strCode2 = Replace(strCode2, "]", "")
+                '        Dim sum As Integer = clsCommon.myCdbl(dtgv.Compute("SUM(" + strCode + ")", String.Empty))
+                '        If gv3.Columns.Contains(strCode2) Then
+                '            If sum > 0 Then
+                '                gv3.Columns(strCode2).IsVisible = True
+                '            Else
+                '                gv3.Columns(strCode2).IsVisible = False
+                '            End If
+                '        End If
+                '    Next
+                'Catch ex As Exception
+                'End Try
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
@@ -926,7 +955,7 @@ FROM
 
             Dim docNo As String = ""
             query = " 
-    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL') order by Location_Name "
+    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') order by Location_Name "
             '          If chkRJSBNS.Checked Then
             '              query += "union all
             'SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
@@ -944,7 +973,8 @@ FROM
 
 
                     query += " select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
-                        '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
+                        '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,max(dis_demand.Union_Contact_Person) as Union_Contact_Person,
+						max(dis_demand.Union_Contact_PhoneNo) as Union_Contact_PhoneNo,
                      ISNULL(SUM(Dis_Demand.TotalLtr_ItemWiseDemand), 0) AS DEMAND_INLTR,
                     ISNULL(SUM(Dis_Demand.FATKGDemand), 0) AS Dis_FATKG,
                     ISNULL(SUM(Dis_Demand.SNFKGDemand), 0) AS Dis_SNFKG,
@@ -955,19 +985,24 @@ FROM
 					(SELECT 
                         SUM(TotalLtr_ItemWiseDemand) AS TotalLtr_ItemWiseDemand,
                         SUM(FATKGDemand) AS FATKGDemand,
-                        SUM(SNFKGDemand) AS SNFKGDemand
+                        SUM(SNFKGDemand) AS SNFKGDemand,
+                        max(Union_Contact_Person) as Union_Contact_Person,
+						max(Union_Contact_PhoneNo) as Union_Contact_PhoneNo
 						
                     FROM (
                     (SELECT 
                         SUM(TotalLtr_ItemWise) AS TotalLtr_ItemWiseDemand,
                         SUM(TotalLtr_ItemWise * im.STD_FatPer / 100) AS FATKGDemand,
-                        SUM(TotalLtr_ItemWise * im.STD_SNFPer / 100) AS SNFKGDemand
+                        SUM(TotalLtr_ItemWise * im.STD_SNFPer / 100) AS SNFKGDemand,
+                        max(tspl_company_master.Union_Contact_Person) as Union_Contact_Person,
+						max(tspl_company_master.Union_Contact_PhoneNo) as Union_Contact_PhoneNo
                     FROM 
                         [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL dbd
                     LEFT JOIN 
                         [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_master dbm ON dbm.Document_No = dbd.Document_No
                     LEFT JOIN 
                         [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER im ON im.Item_Code = dbd.Item_Code
+                        	left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].tspl_company_master on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].tspl_company_master.Comp_Code=im.Comp_Code
                     WHERE 
                         CONVERT(DATE, dbm.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
                         AND im.IsTaxable = 0
@@ -977,7 +1012,9 @@ FROM
                         SELECT 
                       cast(  SUM(xxxx.Qty) as decimal(18,2)) AS TotalLtr_ItemWiseDemand,
                         SUM(xxxx.Fat_KG ) AS FATKGDemand,
-                        SUM(xxxx.SNF_KG) AS SNFKGDemand
+                        SUM(xxxx.SNF_KG) AS SNFKGDemand,
+                        	'' as Union_Contact_Person,
+						'' as Union_Contact_PhoneNo
 						
                 from (
                 SELECT case when isnull(ConvertDiv.Conversion_Factor,0)=0 then 0 else  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Qty*ConvertMul.Conversion_Factor/ConvertDiv.Conversion_Factor end as Qty ,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Fat_KG ,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.SNF_KG,0 as Route_No,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_Detail_BulkSale.Unit_code
@@ -1074,6 +1111,7 @@ FROM
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
             End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
@@ -1096,7 +1134,7 @@ FROM
 
             Dim docNo As String = ""
             query = " 
-    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL') order by Location_Name "
+    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') order by Location_Name "
             '          If chkRJSBNS.Checked Then
             '              query += "union all
             'SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
@@ -1114,7 +1152,9 @@ FROM
 
 
                     query += " select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
-                        '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
+                        '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,max(dis_demand.Union_Contact_Person) as Union_Contact_Person,
+						max(dis_demand.Union_Contact_PhoneNo) as Union_Contact_PhoneNo,
+
                      
 	    Max(Dis_Demand.route_no) AS route_no,
 	   MAx(dis_demand.booth) as Booth,
@@ -1131,18 +1171,22 @@ FROM
            SUM(FATKGDemand) AS FATKGDemand,
            SUM(SNFKGDemand) AS SNFKGDemand,
         count(distinct route_no)route_no,
-	   count(distinct Booth)Booth
+	   count(distinct Booth)Booth,
+                         max(Union_Contact_Person) as Union_Contact_Person,
+			     max(Union_Contact_PhoneNo) as Union_Contact_PhoneNo
     FROM 
     (
         SELECT SUM(TotalLtr_ItemWise) AS TotalLtr_ItemWiseDemand,
                SUM(TotalLtr_ItemWise * im.STD_FatPer / 100) AS FATKGDemand,
                SUM(TotalLtr_ItemWise * im.STD_SNFPer / 100) AS SNFKGDemand,
-
+                        max(TSPL_COMPANY_MASTER.Union_Contact_Person) as Union_Contact_Person,
+			     max(TSPL_COMPANY_MASTER.Union_Contact_PhoneNo) as Union_Contact_PhoneNo,
               dbm.route_no,
 			  dbd.Cust_Code AS Booth
         FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL dbd
         LEFT JOIN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_master dbm ON dbm.Document_No = dbd.Document_No
         LEFT JOIN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_MASTER im ON im.Item_Code = dbd.Item_Code
+        left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER.Comp_Code=im.Comp_Code
         WHERE CONVERT(DATE, dbm.Document_Date, 103)  BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
           AND im.IsTaxable = 0
           AND im.Is_FreshItem = 1
@@ -1154,6 +1198,8 @@ FROM
         SELECT SUM(xxxx.Qty) AS TotalLtr_ItemWiseDemand,
                SUM(xxxx.Fat_KG) AS FATKGDemand,
                SUM(xxxx.SNF_KG) AS SNFKGDemand,
+        '' as Union_Contact_Person,
+			   '' as Union_Contact_PhoneNo,
          NULL AS route_no,
 		 null as Booth
         FROM 

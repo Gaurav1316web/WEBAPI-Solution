@@ -351,7 +351,6 @@ Public Class FrmDatewiseMilkStock
         'End If
         Dim qry As String = "select Item_Code as Code,Item_Desc as Name from TSPL_ITEM_MASTER where Product_Type='MI'"
         txtItem.arrValueMember = clsCommon.ShowMultipleSelectForm("ItemMulSel", qry, "Code", "Name", txtItem.arrValueMember, txtItem.arrDispalyMember)
-
     End Sub
 
     Private Sub txtTransaction__My_Click(sender As Object, e As EventArgs) Handles txtTransaction._My_Click

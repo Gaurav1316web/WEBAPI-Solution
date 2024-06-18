@@ -196,6 +196,7 @@ Public Class frmDCSAdditionDeduction
                 obj.Include_Shortage_Own_BMC = chkIncludeShortageOwnBMC.Checked
                 obj.Subtract = chkSubtract.Checked
                 obj.Apply_Formula = chkApplyFormula.Checked
+                obj.Dont_Generate_DR_CR_Note = chkDontGenerateDRCRNote.Checked
                 If rbtnQtyUOMRec.IsChecked Then
                     obj.Qty_UOM = 0
                 ElseIf rbtnQtyUOMLtr.IsChecked Then
@@ -304,6 +305,7 @@ Public Class frmDCSAdditionDeduction
                 chkIncludeShortageOwnBMC.Checked = obj.Include_Shortage_Own_BMC
                 chkSubtract.Checked = obj.Subtract
                 chkApplyFormula.Checked = obj.Apply_Formula
+                chkDontGenerateDRCRNote.Checked = obj.Dont_Generate_DR_CR_Note
                 If obj.Check_Saving_AC > 0 Then
                     chkSavingAC.Checked = True
 
@@ -505,6 +507,7 @@ Public Class frmDCSAdditionDeduction
         chkIncludeShortageOwnBMC.Checked = False
         chkSubtract.Checked = False
         chkApplyFormula.Checked = False
+        chkDontGenerateDRCRNote.Checked = False
         chkSavingAC.Checked = False
         rbtnACExists.Visible = False
         rbtnACNotExists.Visible = False

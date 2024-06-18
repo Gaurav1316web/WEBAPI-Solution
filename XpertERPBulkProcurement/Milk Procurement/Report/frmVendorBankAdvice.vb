@@ -26,7 +26,7 @@ Public Class frmVendorBankAdvice
         MultipleFinderFillAuto = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultipleFinderFillAuto, clsFixedParameterCode.MultipleFinderFillAuto, Nothing)) = 1)
         StrPermission = clsERPFuncationality.UserWiseAvailableLocationCode()
         Reset()
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
             btnExportBankWise.Visible = True
         End If
         'RadGroupBox1.Visible = Not MultipleFinderFillAuto

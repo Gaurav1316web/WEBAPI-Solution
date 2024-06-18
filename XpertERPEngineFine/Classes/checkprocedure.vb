@@ -1674,7 +1674,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.DBTNEFTUploader, "DBT NEFT Uploader", "1.17.02.50", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", False, True, Nothing)
         InsertDefaultValue(clsUserMgtCode.FrmCreateBMCDCSbyMobile, "BMC DCS Mobile", "1.17.02.51", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.DBTNEFTReject, "DBT NEFT Reject", "1.17.02.52", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.DBTPayment, "DBT Payment", "1.17.02.53", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.DBTPayment, "DBT Payment", "1.17.02.53", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", True, True, Nothing)
         InsertDefaultValue(clsUserMgtCode.DCSFinancialEntry, "DCS Financial Entry", "1.17.02.54", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, "DCS Milk Collection", "1.17.02.55", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmMakeSavingPayment, "Make Saving Payment", "1.17.02.56", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
@@ -2339,6 +2339,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.RptSalesSummaryReport, "Sales Summary Report", "1.36.03.22", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptGatePassReport, "Gate Pass Report", "1.36.03.23", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptNewSalesReport, "New Sales Report", "1.36.03.24", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDemandReturnReport, "Demand Return Report", "1.36.03.25", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDailyStatementReport, "Daily Statement Report", "1.36.03.25", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         InsertDefaultValue(clsUserMgtCode.frmCarteJaliRpt, "Crate Jali Report", "1.06.03.29", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptCustomerEffective_ItemRate, "Item Effective Price List", "1.06.03.30", clsUserMgtCode.SubModuleSaleDairyReport, 37)

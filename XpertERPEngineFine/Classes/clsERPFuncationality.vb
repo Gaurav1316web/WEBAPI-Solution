@@ -2810,20 +2810,26 @@ WHERE     (TC.TABLE_NAME = '" + strTableName + "') and COLUMN_NAME='" + strColum
     Public Shared Function GetTableKey(ByVal strTableName As String, ByVal strColumnName As String, ByVal Key As EnumTableKeyType) As String
         Dim RetValue As String = ""
         Try
-            Dim qry As String = "SELECT   A.CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS A, INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B  
+            Dim qry As String = ""
+            If Key = EnumTableKeyType.Identity Then
+                qry = "select columnproperty(object_id('" + strTableName + "'),'" + strColumnName + "','IsIdentity')"
+            Else
+                qry = "SELECT   A.CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS A, INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B  
 WHERE A.CONSTRAINT_NAME = B.CONSTRAINT_NAME and a.TABLE_NAME='" + strTableName + "' and b.COLUMN_NAME='" + strColumnName + "' "
-            Select Case Key
+                Select Case Key
 
-                Case EnumTableKeyType.Primary
-                    qry += " AND  CONSTRAINT_TYPE = 'PRIMARY KEY' "
-                Case EnumTableKeyType.Foreign
-                    qry += " AND  CONSTRAINT_TYPE = 'FOREIGN KEY' "
-                Case EnumTableKeyType.Unique
-                    qry += " AND  CONSTRAINT_TYPE = 'UNIQUE' "
-                Case Else
-                    Throw New Exception("Wrong Key Type")
-            End Select
-            RetValue = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
+                    Case EnumTableKeyType.Primary
+                        qry += " AND  CONSTRAINT_TYPE = 'PRIMARY KEY' "
+                    Case EnumTableKeyType.Foreign
+                        qry += " AND  CONSTRAINT_TYPE = 'FOREIGN KEY' "
+                    Case EnumTableKeyType.Unique
+                        qry += " AND  CONSTRAINT_TYPE = 'UNIQUE' "
+                    Case Else
+                        Throw New Exception("Wrong Key Type")
+                End Select
+                RetValue = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
+            End If
+
         Catch ex As Exception
         End Try
         Return RetValue
