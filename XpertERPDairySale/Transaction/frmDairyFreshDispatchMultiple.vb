@@ -56,10 +56,10 @@ Public Class frmDairyFreshDispatchMultiple
                 whrcls += " and TSPL_ITEM_MASTER.IsTaxable=0 "
             End If
             whrcls += " and TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code is not null  and not exists(select 1 from TSPL_SD_SHIPMENT_BOOKING_DETAIL where TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code=TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code) "
-            Dim qry As String = "select TSPL_BOOKING_MATSER.Document_Date,TSPL_BOOKING_DETAIL.route_no,max(TSPL_BOOKING_MATSER.GatePass_Type) as ShiftType,max(TSPL_BOOKING_MATSER.Location_Code) as LocationCode,max(TSPL_ITEM_MASTER.IsTaxable) as IsTaxable
+            Dim qry As String = "select Final.Document_Date,Final.route_no,max(Final.ShiftType) as ShiftType,max(Final.LocationCode) as LocationCode,max(Final.IsTaxable) as IsTaxable from( select convert(date,TSPL_BOOKING_MATSER.Document_Date,103) as Document_Date,TSPL_BOOKING_DETAIL.route_no,max(TSPL_BOOKING_MATSER.GatePass_Type) as ShiftType,max(TSPL_BOOKING_MATSER.Location_Code) as LocationCode,max(TSPL_ITEM_MASTER.IsTaxable) as IsTaxable
 from TSPL_BOOKING_MATSER
 left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No
-left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_BOOKING_DETAIL.Item_Code " & whrcls & " group by TSPL_BOOKING_MATSER.document_date,TSPL_BOOKING_DETAIL.route_no "
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_BOOKING_DETAIL.Item_Code " & whrcls & " group by TSPL_BOOKING_MATSER.document_date,TSPL_BOOKING_DETAIL.route_no )Final  group by Final.Document_Date,Final.route_no "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 clsCommon.ProgressBarShow()
