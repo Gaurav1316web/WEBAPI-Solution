@@ -67,7 +67,7 @@ Public Class rptNewSalesReport
             If rbtnDemand.IsChecked Then
                 qry = " ,TSPL_ITEM_MASTER.Sku_Seq FROM TSPL_BOOKING_DETAIL 
             left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_BOOKING_DETAIL.Item_Code  left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_No = TSPL_BOOKING_DETAIL.Document_No
-            left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_BOOKING_DETAIL.Cust_Code
+            left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_BOOKING_DETAIL.Route_No
             where 2 = 2  AND TSPL_BOOKING_MATSER.Posted = 1 and  convert(date,TSPL_BOOKING_MATSER.Document_Date,103) >= Convert(date,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "',103) and convert(date,TSPL_BOOKING_MATSER.Document_Date,103) 
             <= Convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103) "
 
@@ -76,7 +76,7 @@ Public Class rptNewSalesReport
                 End If
 
                 If clsCommon.myLen(txtCustomer.Value) > 0 Then
-                    qry += " and TSPL_BOOKING_DETAIL.Cust_Code = '" + clsCommon.myCstr(txtCustomer.Value) + "' "
+                    qry += " and TSPL_CUSTOMER_MASTER.Cust_Code = '" + clsCommon.myCstr(txtCustomer.Value) + "' "
                 End If
                 If chkExcludeGhee.Checked Then
                     qry += " and TSPL_ITEM_MASTER.TypeOfItm  <> 'G'"
@@ -86,7 +86,7 @@ Public Class rptNewSalesReport
             FROM TSPL_SD_SHIPMENT_DETAIL 
             left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code 
             left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
-            left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+            left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_SD_SHIPMENT_HEAD.Route_No
             where 2 = 2 and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >=Convert(date,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "',103) 
             and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= Convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103) "
                 If txtRoute.arrValueMember IsNot Nothing Then
@@ -94,13 +94,13 @@ Public Class rptNewSalesReport
                 End If
 
                 If clsCommon.myLen(txtCustomer.Value) > 0 Then
-                    qry += " and TSPL_SD_SHIPMENT_HEAD.Customer_Code = '" + clsCommon.myCstr(txtCustomer.Value) + " '"
+                    qry += " and TSPL_CUSTOMER_MASTER.Cust_Code = '" + clsCommon.myCstr(txtCustomer.Value) + " '"
                 End If
                 If chkExcludeGhee.Checked Then
                     qry += " and TSPL_ITEM_MASTER.TypeOfItm  <> 'G'"
                 End If
             End If
-            dtFreshItem = clsDBFuncationality.GetDataTable("SELECT distinct  TSPL_ITEM_MASTER.Structure_Code, TSPL_ITEM_MASTER.Short_Description as  Fresh_Item " & qry & " and TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0  ORDER BY Structure_Code,Sku_Seq")
+            dtFreshItem = clsDBFuncationality.GetDataTable("SELECT distinct  TSPL_ITEM_MASTER.Structure_Code, TSPL_ITEM_MASTER.Short_Description as  Fresh_Item " & qry & " and  (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 ) or (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 and Is_CrateType = 1)  ORDER BY Structure_Code,Sku_Seq")
             dtProductItem = clsDBFuncationality.GetDataTable("SELECT distinct  TSPL_ITEM_MASTER.Structure_Code, TSPL_ITEM_MASTER.Short_Description as  Product_Item " & qry & " and TSPL_ITEM_MASTER.Is_Ambient = 1 and TSPL_ITEM_MASTER.IsTaxable = 1  ORDER BY Structure_Code,Sku_Seq")
 
             Dim ProductIemName As String = Nothing
@@ -196,15 +196,15 @@ Public Class rptNewSalesReport
 
             If rbtnDemand.IsChecked Then
 
-                qry += " SELECT TSPL_ITEM_MASTER.Item_Code, TSPL_ITEM_MASTER.Item_Sub_Group_Type,TSPL_ITEM_MASTER.Item_Sub_Group_Type AS Item_Sub_Group_Type1, DATEDIFF(day, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "', '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "') as Days, TSPL_BOOKING_DETAIL.Route_No, TSPL_BOOKING_MATSER.Document_Date,CASE WHEN isnull(TSPL_BOOKING_MATSER.GatePass_Type,'') = 'AM' THEN 'AM' else 'PM'  END AS Shift_Type , case when TSPL_ITEM_MASTER.Is_FreshItem = 1 and IsTaxable = 0 then  TSPL_ITEM_MASTER.Short_Description end as Fresh_Item ,
-                case when TSPL_ITEM_MASTER.Is_FreshItem = 1 and IsTaxable = 0 then  TSPL_ITEM_MASTER.Short_Description + 'Amt' end as Fresh_Item_Amt,TSPL_BOOKING_DETAIL.Unit_Code AS UOM ,isnull(TSPL_BOOKING_DETAIL.Booking_Qty,0) AS Qty,
-                case when TSPL_ITEM_MASTER.Is_FreshItem = 1 and IsTaxable = 0 then isnull(TSPL_BOOKING_DETAIL.Booking_Qty,0) end as Fresh_Qty, case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then isnull(TSPL_BOOKING_DETAIL.Booking_Qty,0) end as Product_Qty,round((isnull(TSPL_BOOKING_DETAIL.Booking_Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[KG],2) as KG_QTY ,round((isnull(TSPL_BOOKING_DETAIL.Booking_Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[KG],2) as KG_QTY1
+                qry += " SELECT TSPL_ITEM_MASTER.Item_Code, TSPL_ITEM_MASTER.Item_Sub_Group_Type,TSPL_ITEM_MASTER.Item_Sub_Group_Type AS Item_Sub_Group_Type1, DATEDIFF(day, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "', '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "') as Days, TSPL_BOOKING_DETAIL.Route_No, CONVERT(DATE,TSPL_BOOKING_MATSER.Document_Date,103)Document_Date,CASE WHEN isnull(TSPL_BOOKING_MATSER.GatePass_Type,'') = 'AM' THEN 'AM' else 'PM'  END AS Shift_Type , case when  (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 ) or (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 and Is_CrateType = 1) then  TSPL_ITEM_MASTER.Short_Description end as Fresh_Item ,
+                case when  (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 ) or (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 and Is_CrateType = 1) then  TSPL_ITEM_MASTER.Short_Description + 'Amt' end as Fresh_Item_Amt,TSPL_BOOKING_DETAIL.Unit_Code AS UOM ,isnull(TSPL_BOOKING_DETAIL.Booking_Qty,0) AS Qty,
+                case when (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 ) or (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 and Is_CrateType = 1) then isnull(TSPL_BOOKING_DETAIL.Booking_Qty,0) end as Fresh_Qty, case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then isnull(TSPL_BOOKING_DETAIL.Booking_Qty,0) end as Product_Qty,round((isnull(TSPL_BOOKING_DETAIL.Booking_Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[KG],2) as KG_QTY ,round((isnull(TSPL_BOOKING_DETAIL.Booking_Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[KG],2) as KG_QTY1
                 ,round((isnull(TSPL_BOOKING_DETAIL.Booking_Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[LTR],2) as LTR_QTY ,case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then isnull(TSPL_BOOKING_DETAIL.Amount_with_Tax,0)end as Product_Amount
-		        ,case when TSPL_ITEM_MASTER.Is_FreshItem = 1 and IsTaxable = 0 then isnull(TSPL_BOOKING_DETAIL.Amount_with_Tax,0)end as Fresh_Amount,TSPL_BOOKING_DETAIL.Amount_with_Tax AS Amount, case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then TSPL_ITEM_MASTER.Short_Description  end AS Product_Item
+		        ,case when  (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 ) or (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 and Is_CrateType = 1) then isnull(TSPL_BOOKING_DETAIL.Amount_with_Tax,0)end as Fresh_Amount,TSPL_BOOKING_DETAIL.Amount_with_Tax AS Amount, case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then TSPL_ITEM_MASTER.Short_Description  end AS Product_Item
 		        ,case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then TSPL_ITEM_MASTER.Short_Description + 'Amt' end AS Product_Item_Amt, 0 AS Receipt_Amount
                 FROM TSPL_BOOKING_DETAIL
                 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_BOOKING_DETAIL.Item_Code left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BOOKING_DETAIL.Item_Code   and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BOOKING_DETAIL.Unit_Code 
-		        left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_No = TSPL_BOOKING_DETAIL.Document_No left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_BOOKING_DETAIL.Cust_Code
+		        left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_No = TSPL_BOOKING_DETAIL.Document_No left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_BOOKING_DETAIL.Route_No
                 left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_BOOKING_DETAIL.Item_Code = I.item_code 
                 where 2 = 2 and TSPL_BOOKING_MATSER.Posted = 1   and convert(date,TSPL_BOOKING_MATSER.Document_Date,103) >= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "', 103) and convert(date,TSPL_BOOKING_MATSER.Document_Date,103) <= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "', 103) "
 
@@ -212,18 +212,18 @@ Public Class rptNewSalesReport
                     qry += " and TSPL_BOOKING_DETAIL.Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")  "
                 End If
                 If clsCommon.myLen(txtCustomer.Value) > 0 Then
-                    qry += " and TSPL_BOOKING_DETAIL.Cust_Code = '" + clsCommon.myCstr(txtCustomer.Value) + "'"
+                    qry += " and TSPL_CUSTOMER_MASTER.Cust_Code = '" + clsCommon.myCstr(txtCustomer.Value) + "'"
                 End If
 
             Else
-                qry += "SELECT TSPL_ITEM_MASTER.Item_Code, TSPL_ITEM_MASTER.Item_Sub_Group_Type,TSPL_ITEM_MASTER.Item_Sub_Group_Type AS Item_Sub_Group_Type1, DATEDIFF(day, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "', '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "') as Days, TSPL_SD_SHIPMENT_HEAD.Route_No, TSPL_SD_SHIPMENT_HEAD.Document_Date,CASE WHEN isnull(TSPL_SD_SHIPMENT_HEAD.Shift_Type,'') = 'AM' THEN 'AM' else 'PM'  END AS Shift_Type , case when TSPL_ITEM_MASTER.Is_FreshItem = 1 and IsTaxable = 0 then  TSPL_ITEM_MASTER.Short_Description end as Fresh_Item ,
-                case when TSPL_ITEM_MASTER.Is_FreshItem = 1 and IsTaxable = 0 then  TSPL_ITEM_MASTER.Short_Description + 'Amt' end as Fresh_Item_Amt,TSPL_SD_SHIPMENT_DETAIL.Unit_Code AS UOM ,isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) AS Qty,
-                case when TSPL_ITEM_MASTER.Is_FreshItem = 1 and IsTaxable = 0 then isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0) end as Fresh_Qty, case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) end as Product_Qty,round((isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[KG],2) as KG_QTY ,round((isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[KG],2) as KG_QTY1
+                qry += "SELECT TSPL_ITEM_MASTER.Item_Code, TSPL_ITEM_MASTER.Item_Sub_Group_Type,TSPL_ITEM_MASTER.Item_Sub_Group_Type AS Item_Sub_Group_Type1, DATEDIFF(day, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "', '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "') as Days, TSPL_SD_SHIPMENT_HEAD.Route_No, CONVERT(DATE,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)Document_Date,CASE WHEN isnull(TSPL_SD_SHIPMENT_HEAD.Shift_Type,'') = 'AM' THEN 'AM' else 'PM'  END AS Shift_Type , case when (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 ) or (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 and Is_CrateType = 1) then  TSPL_ITEM_MASTER.Short_Description end as Fresh_Item ,
+                case when (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 ) or (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 and Is_CrateType = 1) then  TSPL_ITEM_MASTER.Short_Description + 'Amt' end as Fresh_Item_Amt,TSPL_SD_SHIPMENT_DETAIL.Unit_Code AS UOM ,isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) AS Qty,
+                case when (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 ) or (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 and Is_CrateType = 1) then isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0) end as Fresh_Qty, case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) end as Product_Qty,round((isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[KG],2) as KG_QTY ,round((isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[KG],2) as KG_QTY1
                 ,round((isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[LTR],2) as LTR_QTY ,case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then isnull(TSPL_SD_SHIPMENT_DETAIL.Amount,0)end as Product_Amount
-		        ,case when TSPL_ITEM_MASTER.Is_FreshItem = 1 and IsTaxable = 0 then isnull(TSPL_SD_SHIPMENT_DETAIL.Amount,0)end as Fresh_Amount,TSPL_SD_SHIPMENT_DETAIL.Amount, case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then TSPL_ITEM_MASTER.Short_Description  end AS Product_Item
+		        ,case when (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 ) or (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 and Is_CrateType = 1) then isnull(TSPL_SD_SHIPMENT_DETAIL.Amount,0)end as Fresh_Amount,TSPL_SD_SHIPMENT_DETAIL.Amount, case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then TSPL_ITEM_MASTER.Short_Description  end AS Product_Item
 		        ,case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then TSPL_ITEM_MASTER.Short_Description + 'Amt' end AS Product_Item_Amt, 0 AS Receipt_Amount
                 FROM TSPL_SD_SHIPMENT_DETAIL left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code   and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_Code 
-		        left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code 
+		        left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_SD_SHIPMENT_HEAD.Route_No 
                 left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_SD_SHIPMENT_DETAIL.Item_Code = I.item_code  where 2 = 2 and TSPL_SD_SHIPMENT_HEAD.Status = 1
                 and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "', 103) and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "', 103) "
 
@@ -231,7 +231,7 @@ Public Class rptNewSalesReport
                     qry += " and TSPL_SD_SHIPMENT_HEAD.Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")  "
                 End If
                 If clsCommon.myLen(txtCustomer.Value) > 0 Then
-                    qry += " and TSPL_SD_SHIPMENT_HEAD.Customer_Code = '" + clsCommon.myCstr(txtCustomer.Value) + "'"
+                    qry += " and TSPL_CUSTOMER_MASTER.Cust_Code = '" + clsCommon.myCstr(txtCustomer.Value) + "'"
                 End If
             End If
             If rbtnPartyWise.IsChecked Then
@@ -325,7 +325,7 @@ Public Class rptNewSalesReport
                     FinalQuery += " PIVOT (SUM(KG_QTY)   For Product_Item In (" & ProductIemsName & ") ) As  pivot_Product "
                 End If
                 FinalQuery += "group by Route_No, Document_Date, Shift_Type "
-                FinalQuery += " order by Route_No, Document_Date, Shift_Type "
+                FinalQuery += " order by  Document_Date, Shift_Type "
             ElseIf rbtnRouteSummary.IsChecked Then
 
                 FinalQuery = " Select  (Route_No)Route_No,max(Shift_Type)Shift_Type, max(convert(varchar,Document_Date,103)) Document_Date," & qry1 & ", " & ItemSubGroup & " " & TotalFreshQty + " + SUM(" & itemNamesProduct & ") AS [Total Qty] , case when cast(sum([Total Milk Qty])as int) = 0 or max(Days) = 0 then 0 else (sum([Total Milk Qty])/max(Days)) end as [Milk Avg] , " & ItemSubGroupAvg & " 0 as OTH " & "   from ( " & Environment.NewLine & " Select  max(Days)Days,  (Route_No)Route_No,max(Shift_Type)Shift_Type, max(convert(varchar,Document_Date,103)) Document_Date, " & qry1 & ", " & ItemSubGroup & "  0 as Total_Qty from ( " & Environment.NewLine & "" & qry & " " & Environment.NewLine & ""
