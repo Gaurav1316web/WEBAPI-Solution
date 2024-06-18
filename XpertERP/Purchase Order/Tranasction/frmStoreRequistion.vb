@@ -987,6 +987,24 @@ Public Class frmStoreRequistion
         End If
 
 
+        If EnableStoreCostCentre = 1 And clsCommon.myLen(txtDept.Value) > 0 Then
+
+            txtUnitCode.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select unit_code from TSPL_COST_CENTER_TYPE_MASTER where Department_Cost='" + txtDept.Value + "'"))
+
+            txtCostCenterType.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select cost_code from TSPL_COST_CENTER_TYPE_MASTER where Department_Cost='" + txtDept.Value + "'"))
+
+            If clsCommon.myLen(txtUnitCode.Value) > 0 Then
+                lblUnitDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_COST_CENTER_UNIT_MASTER where Code='" + txtUnitCode.Value + "'"))
+            Else
+                lblUnitDesc.Text = ""
+            End If
+
+            If clsCommon.myLen(txtCostCenterType.Value) > 0 Then
+                lblCostcenterTypeDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cost_name from TSPL_CostCenter_MASTER where Cost_Code='" + txtCostCenterType.Value + "'"))
+            Else
+                lblCostcenterTypeDesc.Text = ""
+            End If
+        End If
 
         'txtUnitCode.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Unit_Code from TSPL_COST_CENTER_TYPE_MASTER where Department_Cost='" + txtDept.Value + "' "))
         'lblUnitDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_COST_CENTER_UNIT_MASTER WHERE Code='" + txtUnitCode.Value + "'"))
