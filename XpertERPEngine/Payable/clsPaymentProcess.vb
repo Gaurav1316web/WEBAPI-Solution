@@ -1326,7 +1326,7 @@ Public Class clsPaymentProcessHead
                         obj.ArrIndex = New Dictionary(Of String, clsPaymentProcessIndex)
 
                         obj.ArrPPDetail = clsPaymentProcessDetail.getData(ApplyIndex, obj.ArrIndex, obj.Doc_No, trans)
-                        obj.arrClsPaymentProcessInvoices = clsPaymentProcessInvoices.getData(obj.Doc_No, trans)
+                        obj.arrClsPaymentProcessInvoices = clsPaymentProcessInvoices.getData(ApplyIndex, obj.Doc_No, trans)
                         obj.arrClsPaymentProcessMccSale = clsPaymentProcessMCCSale.getData(obj.Doc_No, trans)
                         obj.arrClsPaymentProcessMccSaleReturn = clsPaymentProcessMCCSaleReturn.getData(obj.Doc_No, trans)
                         obj.arrClsPaymentProcessItemIssue = clsPaymentProcessItemIssue.getData(obj.Doc_No, trans)
@@ -3576,7 +3576,7 @@ where TSPL_PAYMENT_PROCESS_INVOICE.Doc_No ='" & doc_No & "' order by cast(TSPL_P
             Throw New Exception(ex.Message)
         End Try
     End Function
-    Public Shared Function getData(ByVal doc_No As String, Optional ByVal trans As SqlTransaction = Nothing) As List(Of clsPaymentProcessInvoices)
+    Public Shared Function getData(ByVal ApplyIndex As Boolean, ByVal doc_No As String, Optional ByVal trans As SqlTransaction = Nothing) As List(Of clsPaymentProcessInvoices)
         Try
             Dim arr As New List(Of clsPaymentProcessInvoices)
             Dim obj As New clsPaymentProcessInvoices
@@ -3585,6 +3585,9 @@ where TSPL_PAYMENT_PROCESS_INVOICE.Doc_No ='" & doc_No & "' order by cast(TSPL_P
             " from (select DOC_CODE, ACC_Qty,FAT_PER,SNF_PER,ACC_Qty*FAT_PER/100 as FATKg,ACC_Qty*SNF_PER/100 as SNFKg from TSPL_MILK_PURCHASE_INVOICE_DETAIL )xx group by DOC_CODE" +
             " ) as TabFATSNFDetail on TabFATSNFDetail.DOC_CODE=TSPL_PAYMENT_PROCESS_INVOICE.Milk_Purchase_Invoice_No" +
             " where TSPL_PAYMENT_PROCESS_INVOICE.Doc_No='" & doc_No & "'"
+            If ApplyIndex Then
+                q += " order by TSPL_PAYMENT_PROCESS_INVOICE.VSP_CODE "
+            End If
             Dim dtbl As DataTable = clsDBFuncationality.GetDataTable(q, trans)
             If dtbl IsNot Nothing AndAlso dtbl.Rows.Count > 0 Then
                 For i As Integer = 0 To dtbl.Rows.Count - 1
