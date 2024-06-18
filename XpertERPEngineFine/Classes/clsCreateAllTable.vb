@@ -10952,6 +10952,7 @@ Public Class clsCreateAllTable
             coll.Add("To_Date", "Datetime NOT NULL")
             coll.Add("Loc_Seg_Code", "varchar(30)  NULL")
             coll.Add("DocRefNoForUploader", "varchar(30)  NULL")
+            coll.Add("isPrePosted", "integer not null default 0")
             coll.Add("isPosted", "integer not null default 0")
             coll.Add("Posting_Date", "date null ")
             coll.Add("Created_By", "varchar(12) NOT NULL")
@@ -10972,6 +10973,8 @@ Public Class clsCreateAllTable
             coll.Add("Area_Location_Code", "VARCHAR(12) NULL references TSPL_LOCATION_MASTER(Location_Code)")
 
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_HEAD", coll, Nothing, True, False, "", "Doc_No", "Doc_Date")
+            qry ="update TSPL_PAYMENT_PROCESS_HEAD set isPrePosted=isPosted where isPosted=1"
+            clsDBFuncationality.ExecuteNonQuery(qry)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Doc_No", "Varchar(30) not null REFERENCES TSPL_PAYMENT_PROCESS_HEAD (Doc_No)")

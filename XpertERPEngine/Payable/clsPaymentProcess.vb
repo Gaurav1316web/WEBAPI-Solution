@@ -44,6 +44,7 @@ Public Class clsPaymentProcessHead
     Public dtPPAssetLost As DataTable = Nothing
 
     Public isPosted As Integer = 0
+    Public isPrePosted As Integer = 0
     Dim Posting_Date As String = ""
     Public PaymentDesc As String = ""
 
@@ -128,6 +129,7 @@ Public Class clsPaymentProcessHead
             clsCommon.AddColumnsForChange(coll, "PaymentDesc", clsCommon.myCstr(obj.PaymentDesc))
             clsCommon.AddColumnsForChange(coll, "MCC_Code_Selected", obj.MCC_Code_Selected, True)
             clsCommon.AddColumnsForChange(coll, "isPosted", 0)
+            clsCommon.AddColumnsForChange(coll, "isPrePosted", 0)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "DocRefNoForUploader", clsCommon.myCstr(obj.DocRefNoForUploader))
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
@@ -183,6 +185,23 @@ Public Class clsPaymentProcessHead
         Return issaved
     End Function
 
+    Public Shared Function PrePostData(ByVal DocNo As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Dim obj As clsPaymentProcessHead = clsPaymentProcessHead.getData(DocNo, NavigatorType.Current, trans, "", True, False, False)
+            If obj.isPrePosted = 1 Then
+                Throw New Exception("Transaction should be pending")
+            End If
+            Dim qry As String = " update TSPL_PAYMENT_PROCESS_HEAD set isPrePosted=1, Posting_Date='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy") & "' where doc_no='" & obj.Doc_No & "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
     Public Shared Function ProcessData(ByVal DocNo As String, ByVal Desc As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
@@ -216,6 +235,10 @@ Public Class clsPaymentProcessHead
 
         Try
             If obj.ArrPPDetail IsNot Nothing And obj.ArrPPDetail.Count > 0 Then
+                If obj.isPrePosted = 0 Then
+                    Throw New Exception("Transaction should be Pre posted")
+                End If
+
                 DisCCodeForArAdj = clsFixedParameter.GetData(clsFixedParameterType.DiscountCodeForArAdj, clsFixedParameterCode.DiscountCodeForArAdj, trans)
                 If clsCommon.myLen(DisCCodeForArAdj) <= 0 Then
                     Throw New Exception("Please Map Discount code from Sale setting")
@@ -1240,7 +1263,7 @@ Public Class clsPaymentProcessHead
         Return True
     End Function
 
-    Public Shared Function getData(ByVal strCode As String, ByVal navtype As NavigatorType, Optional ByVal trans As SqlTransaction = Nothing, Optional Vendorcode As String = "", Optional isGetDT As Boolean = False, Optional ApplyIndex As Boolean = False) As clsPaymentProcessHead
+    Public Shared Function getData(ByVal strCode As String, ByVal navtype As NavigatorType, Optional ByVal trans As SqlTransaction = Nothing, Optional Vendorcode As String = "", Optional isGetDT As Boolean = False, Optional ApplyIndex As Boolean = False, Optional GetDetailsData As Boolean = True) As clsPaymentProcessHead
         Dim obj As clsPaymentProcessHead = Nothing
         Try
             Dim whrCls As String = String.Empty
@@ -1270,6 +1293,7 @@ Public Class clsPaymentProcessHead
                 obj.From_Date = clsCommon.myCDate(dt.Rows(0)("From_Date"))
                 obj.To_Date = clsCommon.myCDate(dt.Rows(0)("To_Date"))
                 obj.Loc_Seg_Code = clsCommon.myCstr(dt.Rows(0)("Loc_Seg_Code"))
+                obj.isPrePosted = clsCommon.myCdbl(dt.Rows(0)("isPrePosted"))
                 obj.isPosted = clsCommon.myCdbl(dt.Rows(0)("isPosted"))
                 obj.PaymentDesc = clsCommon.myCstr(dt.Rows(0)("PaymentDesc"))
                 If obj.isPosted = 1 Then
@@ -1283,37 +1307,38 @@ Public Class clsPaymentProcessHead
                 obj.Is_Skip_Previous_Credit_Note = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Skip_Previous_Credit_Note")) = 1, True, False)
                 obj.Is_Skip_Previous_Debit_Note = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Skip_Previous_Debit_Note")) = 1, True, False)
                 obj.Is_Skip_Previous_Advacee_Payment = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Skip_Previous_Advacee_Payment")) = 1, True, False)
-                If isGetDT Then
-                    obj.dtClsPaymentProcessInvoices = clsPaymentProcessInvoices.getDataDT(obj.Doc_No, trans)
+                If GetDetailsData Then
+                    If isGetDT Then
+                        obj.dtClsPaymentProcessInvoices = clsPaymentProcessInvoices.getDataDT(obj.Doc_No, trans)
 
-                    obj.dtPPDetail = clsPaymentProcessDetail.getDataDT(obj.Doc_No, trans)
-                    obj.dtClsPaymentProcessMccSale = clsPaymentProcessMCCSale.getDataDT(obj.Doc_No, trans)
-                    obj.dtClsPaymentProcessMccSaleReturn = clsPaymentProcessMCCSaleReturn.getDataDT(obj.Doc_No, trans)
-                    obj.dtClsPaymentProcessItemIssue = clsPaymentProcessItemIssue.getDataDT(obj.Doc_No, trans)
-                    obj.dtClsPaymentProcessItemIssueReturn = clsPaymentProcessItemIssueReturn.getDataDT(obj.Doc_No, trans)
-                    obj.dtClsPaymentProcessDeductions = clsPaymentProcessDeduction.getDataDT(obj.Doc_No, trans)
-                    obj.dtClsPaymentProcessCreditNote = clsPaymentProcessCreditNote.getDataDT(obj.Doc_No, trans)
-                    obj.dtclsPaymentProcessSaving = clsPaymentProcessSaving.getDataDT(obj.Doc_No, trans)
-                    obj.dtclsPaymentProcessCompulsory = clsPaymentProcessCompulsory.getDataDT(obj.Doc_No, trans)
-                    obj.dtPPAdvancePayment = clsPaymentProcessAdvancePayment.getDataDT(obj.Doc_No, trans)
-                    obj.dtPPAssetLost = clsPaymentProcessAssetLost.getDataDT(obj.Doc_No, trans)
-                Else
-                    obj.ArrIndex = New Dictionary(Of String, clsPaymentProcessIndex)
+                        obj.dtPPDetail = clsPaymentProcessDetail.getDataDT(obj.Doc_No, trans)
+                        obj.dtClsPaymentProcessMccSale = clsPaymentProcessMCCSale.getDataDT(obj.Doc_No, trans)
+                        obj.dtClsPaymentProcessMccSaleReturn = clsPaymentProcessMCCSaleReturn.getDataDT(obj.Doc_No, trans)
+                        obj.dtClsPaymentProcessItemIssue = clsPaymentProcessItemIssue.getDataDT(obj.Doc_No, trans)
+                        obj.dtClsPaymentProcessItemIssueReturn = clsPaymentProcessItemIssueReturn.getDataDT(obj.Doc_No, trans)
+                        obj.dtClsPaymentProcessDeductions = clsPaymentProcessDeduction.getDataDT(obj.Doc_No, trans)
+                        obj.dtClsPaymentProcessCreditNote = clsPaymentProcessCreditNote.getDataDT(obj.Doc_No, trans)
+                        obj.dtclsPaymentProcessSaving = clsPaymentProcessSaving.getDataDT(obj.Doc_No, trans)
+                        obj.dtclsPaymentProcessCompulsory = clsPaymentProcessCompulsory.getDataDT(obj.Doc_No, trans)
+                        obj.dtPPAdvancePayment = clsPaymentProcessAdvancePayment.getDataDT(obj.Doc_No, trans)
+                        obj.dtPPAssetLost = clsPaymentProcessAssetLost.getDataDT(obj.Doc_No, trans)
+                    Else
+                        obj.ArrIndex = New Dictionary(Of String, clsPaymentProcessIndex)
 
-                    obj.ArrPPDetail = clsPaymentProcessDetail.getData(ApplyIndex, obj.ArrIndex, obj.Doc_No, trans)
-                    obj.arrClsPaymentProcessInvoices = clsPaymentProcessInvoices.getData(obj.Doc_No, trans)
-                    obj.arrClsPaymentProcessMccSale = clsPaymentProcessMCCSale.getData(obj.Doc_No, trans)
-                    obj.arrClsPaymentProcessMccSaleReturn = clsPaymentProcessMCCSaleReturn.getData(obj.Doc_No, trans)
-                    obj.arrClsPaymentProcessItemIssue = clsPaymentProcessItemIssue.getData(obj.Doc_No, trans)
-                    obj.arrClsPaymentProcessItemIssueReturn = clsPaymentProcessItemIssueReturn.getData(obj.Doc_No, trans)
-                    obj.arrClsPaymentProcessDeductions = clsPaymentProcessDeduction.getData(ApplyIndex, obj.ArrIndex, obj.Doc_No, trans)
-                    obj.arrClsPaymentProcessCreditNote = clsPaymentProcessCreditNote.getData(ApplyIndex, obj.ArrIndex, obj.Doc_No, trans)
-                    obj.arrclsPaymentProcessSaving = clsPaymentProcessSaving.getData(ApplyIndex, obj.ArrIndex, obj.Doc_No, trans)
-                    obj.arrclsPaymentProcessCompulsory = clsPaymentProcessCompulsory.getData(ApplyIndex, obj.ArrIndex, obj.Doc_No, trans)
-                    obj.ArrPPAdvancePayment = clsPaymentProcessAdvancePayment.getData(obj.Doc_No, trans)
-                    obj.ArrPPAssetLost = clsPaymentProcessAssetLost.getData(obj.Doc_No, trans)
+                        obj.ArrPPDetail = clsPaymentProcessDetail.getData(ApplyIndex, obj.ArrIndex, obj.Doc_No, trans)
+                        obj.arrClsPaymentProcessInvoices = clsPaymentProcessInvoices.getData(obj.Doc_No, trans)
+                        obj.arrClsPaymentProcessMccSale = clsPaymentProcessMCCSale.getData(obj.Doc_No, trans)
+                        obj.arrClsPaymentProcessMccSaleReturn = clsPaymentProcessMCCSaleReturn.getData(obj.Doc_No, trans)
+                        obj.arrClsPaymentProcessItemIssue = clsPaymentProcessItemIssue.getData(obj.Doc_No, trans)
+                        obj.arrClsPaymentProcessItemIssueReturn = clsPaymentProcessItemIssueReturn.getData(obj.Doc_No, trans)
+                        obj.arrClsPaymentProcessDeductions = clsPaymentProcessDeduction.getData(ApplyIndex, obj.ArrIndex, obj.Doc_No, trans)
+                        obj.arrClsPaymentProcessCreditNote = clsPaymentProcessCreditNote.getData(ApplyIndex, obj.ArrIndex, obj.Doc_No, trans)
+                        obj.arrclsPaymentProcessSaving = clsPaymentProcessSaving.getData(ApplyIndex, obj.ArrIndex, obj.Doc_No, trans)
+                        obj.arrclsPaymentProcessCompulsory = clsPaymentProcessCompulsory.getData(ApplyIndex, obj.ArrIndex, obj.Doc_No, trans)
+                        obj.ArrPPAdvancePayment = clsPaymentProcessAdvancePayment.getData(obj.Doc_No, trans)
+                        obj.ArrPPAssetLost = clsPaymentProcessAssetLost.getData(obj.Doc_No, trans)
+                    End If
                 End If
-
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -1371,14 +1396,14 @@ Public Class clsPaymentProcessHead
             Dim str As String = ""
             Dim qry As String = ""
             If (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowMCCFinderInPaymentProcess, clsFixedParameterCode.ShowMCCFinderInPaymentProcess, Nothing)) = 1) = True Then
-                qry = " select TSPL_PAYMENT_PROCESS_HEAD.Doc_No as [DocumentNo] ,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date as [Doc Date] ,TSPL_PAYMENT_PROCESS_HEAD.From_Date as [From Date] ,TSPL_PAYMENT_PROCESS_HEAD.To_Date as [To Date] ,TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code as [Plant Code],TSPL_GL_SEGMENT_CODE.description as [Plant Name], isnull (TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected,'') as [MCC Code]  , isnull (TSPL_MCC_MASTER.MCC_NAME,'') as [MCC Name] ,TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code as AreaCode,AreaMaster.Location_Desc as AreaName,TSPL_PAYMENT_PROCESS_HEAD.Created_By as [Created By] ,TSPL_PAYMENT_PROCESS_HEAD.Created_Date as [Created Date] ,TSPL_PAYMENT_PROCESS_HEAD.Modified_By as [Modified By] ,TSPL_PAYMENT_PROCESS_HEAD.Modified_Date as [Modified Date] ,TSPL_PAYMENT_PROCESS_HEAD.Comp_Code as [Comp Code] ,case when isnull(TSPL_PAYMENT_PROCESS_HEAD.isPosted,0)=0 then 'NO' else 'YES' end as [Posting Status] ,TSPL_PAYMENT_PROCESS_HEAD.Posting_Date as [Posting Date],TSPL_PAYMENT_PROCESS_HEAD.DocRefNoForUploader as [NEFT Uploader Ref No],PMode.Payment_Mode as [Payment Mode],PMode.Payable_Amount as [Payable Amount] " &
+                qry = " select TSPL_PAYMENT_PROCESS_HEAD.Doc_No as [DocumentNo] ,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date as [Doc Date] ,TSPL_PAYMENT_PROCESS_HEAD.From_Date as [From Date] ,TSPL_PAYMENT_PROCESS_HEAD.To_Date as [To Date] ,TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code as [Plant Code],TSPL_GL_SEGMENT_CODE.description as [Plant Name], isnull (TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected,'') as [MCC Code]  , isnull (TSPL_MCC_MASTER.MCC_NAME,'') as [MCC Name] ,TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code as AreaCode,AreaMaster.Location_Desc as AreaName,TSPL_PAYMENT_PROCESS_HEAD.Created_By as [Created By] ,TSPL_PAYMENT_PROCESS_HEAD.Created_Date as [Created Date] ,TSPL_PAYMENT_PROCESS_HEAD.Modified_By as [Modified By] ,TSPL_PAYMENT_PROCESS_HEAD.Modified_Date as [Modified Date] ,TSPL_PAYMENT_PROCESS_HEAD.Comp_Code as [Comp Code] ,case when isnull(TSPL_PAYMENT_PROCESS_HEAD.isPrePosted,0)=0 then 'NO' else 'YES' end as [Posting Status] ,TSPL_PAYMENT_PROCESS_HEAD.Posting_Date as [Posting Date],TSPL_PAYMENT_PROCESS_HEAD.DocRefNoForUploader as [NEFT Uploader Ref No],PMode.Payment_Mode as [Payment Mode],PMode.Payable_Amount as [Payable Amount] " &
                 " From TSPL_PAYMENT_PROCESS_HEAD 
 left outer join TSPL_LOCATION_MASTER as AreaMaster on AreaMaster.Location_Code=TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code
 left outer join TSPL_GL_SEGMENT_CODE  on TSPL_GL_SEGMENT_CODE.segment_code=TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code 
 left join (select Doc_No as PP_Code,Max(Payment_Mode) as Payment_Mode,sum(Payable_Amount) as Payable_Amount  from TSPL_PAYMENT_PROCESS_DETAIL group by Doc_No) PMode on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=PMode.PP_Code " &
                 " left Outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected   "
             Else
-                qry = " select TSPL_PAYMENT_PROCESS_HEAD.Doc_No as [DocumentNo] ,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date as [Doc Date] ,TSPL_PAYMENT_PROCESS_HEAD.From_Date as [From Date] ,TSPL_PAYMENT_PROCESS_HEAD.To_Date as [To Date] ,TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code as [MCC Code],TSPL_GL_SEGMENT_CODE.description as [MCC Name],TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code as AreaCode,AreaMaster.Location_Desc as AreaName ,TSPL_PAYMENT_PROCESS_HEAD.Created_By as [Created By] ,TSPL_PAYMENT_PROCESS_HEAD.Created_Date as [Created Date] ,TSPL_PAYMENT_PROCESS_HEAD.Modified_By as [Modified By] ,TSPL_PAYMENT_PROCESS_HEAD.Modified_Date as [Modified Date] ,TSPL_PAYMENT_PROCESS_HEAD.Comp_Code as [Comp Code] ,case when isnull(TSPL_PAYMENT_PROCESS_HEAD.isPosted,0)=0 then 'NO' else 'YES' end as [Posting Status] ,TSPL_PAYMENT_PROCESS_HEAD.Posting_Date as [Posting Date],TSPL_PAYMENT_PROCESS_HEAD.DocRefNoForUploader as [NEFT Uploader Ref No],PMode.Payment_Mode as [Payment Mode],PMode.Payable_Amount as [Payable Amount] 
+                qry = " select TSPL_PAYMENT_PROCESS_HEAD.Doc_No as [DocumentNo] ,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date as [Doc Date] ,TSPL_PAYMENT_PROCESS_HEAD.From_Date as [From Date] ,TSPL_PAYMENT_PROCESS_HEAD.To_Date as [To Date] ,TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code as [MCC Code],TSPL_GL_SEGMENT_CODE.description as [MCC Name],TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code as AreaCode,AreaMaster.Location_Desc as AreaName ,TSPL_PAYMENT_PROCESS_HEAD.Created_By as [Created By] ,TSPL_PAYMENT_PROCESS_HEAD.Created_Date as [Created Date] ,TSPL_PAYMENT_PROCESS_HEAD.Modified_By as [Modified By] ,TSPL_PAYMENT_PROCESS_HEAD.Modified_Date as [Modified Date] ,TSPL_PAYMENT_PROCESS_HEAD.Comp_Code as [Comp Code] ,case when isnull(TSPL_PAYMENT_PROCESS_HEAD.isPrePosted,0)=0 then 'NO' else 'YES' end as [Posting Status] ,TSPL_PAYMENT_PROCESS_HEAD.Posting_Date as [Posting Date],TSPL_PAYMENT_PROCESS_HEAD.DocRefNoForUploader as [NEFT Uploader Ref No],PMode.Payment_Mode as [Payment Mode],PMode.Payable_Amount as [Payable Amount] 
 From TSPL_PAYMENT_PROCESS_HEAD 
 left outer join TSPL_LOCATION_MASTER as AreaMaster on AreaMaster.Location_Code=TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code
 left outer join TSPL_GL_SEGMENT_CODE  on TSPL_GL_SEGMENT_CODE.segment_code=TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code 
