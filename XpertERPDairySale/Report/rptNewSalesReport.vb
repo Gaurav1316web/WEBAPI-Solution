@@ -167,7 +167,7 @@ Public Class rptNewSalesReport
 
             If dtItemSubGroup.Rows.Count > 0 Then
                 For i As Integer = 0 To dtItemSubGroup.Rows.Count - 1
-                    ItemSubGroupAvg += " (sum(" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + ")/ max(Days)) as [" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + " Avg] , "
+                    ItemSubGroupAvg += " case when  cast(sum(" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + ") as int ) = 0 or max(Days) = 0 then 0 else (sum(" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + ")/ max(Days)) end as [" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + " Avg] , "
                     ItemSubGroup += "Sum(IsNull([" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + "],0)) As [" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + "]" + ","
                     If i = 0 Then
                         ItemsSubGroup += "[" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + "] "
@@ -305,7 +305,7 @@ Public Class rptNewSalesReport
 
 
                 FinalQuery += " " & Environment.NewLine & " --AVG " & Environment.NewLine & " union all " & Environment.NewLine & " Select 5 As SNO,max(route_no) As Route_No,max(Shift_Type)Shift_Type,'AVG' as Document_Date, " & qry3 & " select Days,route_no,Document_Date,Shift_Type,Fresh_Item,Fresh_Item_Amt,Uom,Qty,Fresh_Qty,Product_Qty,KG_QTY,LTR_QTY,Product_Amount,Fresh_Amount,
-                (" & AmountAvg & ") AS Amount,Product_Item,Product_Item_Amt,Receipt_Amount , convert( decimal(18,2),(LTR_QTY/Days )) as Fresh_Avg ,  convert( decimal(18,2),(KG_QTY /  Days)) as Product_Avg from ( " & qry & " " & Environment.NewLine & " )xxx"
+                (" & AmountAvg & ") AS Amount,Product_Item,Product_Item_Amt,Receipt_Amount , case when cast(LTR_QTY as int) = 0 or Days = 0 then 0 else  convert( decimal(18,2),(LTR_QTY/Days )) end as Fresh_Avg ,  case when cast(KG_QTY as int) = 0 or Days = 0 then 0 else convert( decimal(18,2),(KG_QTY /  Days))end as Product_Avg  from ( " & qry & " " & Environment.NewLine & " )xxx"
 
                 If dtFreshItem.Rows.Count > 0 Then
                     FinalQuery += " pivot (sum(Fresh_Avg) FOR  Fresh_Item IN (" & FreshItemsName & ") ) AS pivot_fresh "
@@ -328,7 +328,7 @@ Public Class rptNewSalesReport
                 FinalQuery += " order by Route_No, Document_Date, Shift_Type "
             ElseIf rbtnRouteSummary.IsChecked Then
 
-                FinalQuery = " Select  (Route_No)Route_No,max(Shift_Type)Shift_Type, max(convert(varchar,Document_Date,103)) Document_Date," & qry1 & ", " & ItemSubGroup & " " & TotalFreshQty + " + SUM(" & itemNamesProduct & ") AS [Total Qty] , (sum([Total Milk Qty])/max(Days)) as [Milk Avg] , " & ItemSubGroupAvg & " 0 as OTH " & "   from ( " & Environment.NewLine & " Select  max(Days)Days,  (Route_No)Route_No,max(Shift_Type)Shift_Type, max(convert(varchar,Document_Date,103)) Document_Date, " & qry1 & ", " & ItemSubGroup & "  0 as Total_Qty from ( " & Environment.NewLine & "" & qry & " " & Environment.NewLine & ""
+                FinalQuery = " Select  (Route_No)Route_No,max(Shift_Type)Shift_Type, max(convert(varchar,Document_Date,103)) Document_Date," & qry1 & ", " & ItemSubGroup & " " & TotalFreshQty + " + SUM(" & itemNamesProduct & ") AS [Total Qty] , case when cast(sum([Total Milk Qty])as int) = 0 or max(Days) = 0 then 0 else (sum([Total Milk Qty])/max(Days)) end as [Milk Avg] , " & ItemSubGroupAvg & " 0 as OTH " & "   from ( " & Environment.NewLine & " Select  max(Days)Days,  (Route_No)Route_No,max(Shift_Type)Shift_Type, max(convert(varchar,Document_Date,103)) Document_Date, " & qry1 & ", " & ItemSubGroup & "  0 as Total_Qty from ( " & Environment.NewLine & "" & qry & " " & Environment.NewLine & ""
 
                 If dtFreshItem.Rows.Count > 0 Then
                     FinalQuery += " PIVOT (SUM(LTR_QTY)  For Fresh_Item In (" & FreshItemsName & ") ) As pivot_fresh "

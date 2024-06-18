@@ -17,6 +17,7 @@ Public Class frmDemandBooking
     Dim LockedByUserName As String = ""
     Dim LockedByUserCode As String = ""
     Dim dr As DataRow
+
     Dim SingleUserParticularDairyBookingEdit As Boolean = False
     Dim UseCutOffTimeonRouteForERP As Boolean = False
     Dim checkCreditLimit As Boolean = False
@@ -109,7 +110,7 @@ Public Class frmDemandBooking
                 lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
             End If
             blnPageLoad = False
-            LoadBlankGrid()
+            'LoadBlankGrid()
             If SettSeprateDemandForMorningEveningShift Then
                 rbtnMorningEveningBoth.Enabled = False
                 rbtnMorningEveningBoth.Visible = False
@@ -667,10 +668,10 @@ Public Class frmDemandBooking
                     isCellValueChangedOpen = True
                     If e.Column.Index >= 9 And e.Column.Name <> colCrate And e.Column.Name <> colAmt And e.Column.Name <> colLitre And e.Column.Name <> colMAmt And e.Column.Name <> colPCount And e.Column.Name <> colPCount Then
                         'If isLoadData = False AndAlso (clsCommon.myLen(clsCommon.myCstr(txtDocNo.Value)) > 0) Then
-                        If isLoadData = False Then
+                        If Not isLoadData Then
                             ''UpdateItemQtyAfterSave(gv1.CurrentRow.Index, gv1.CurrentColumn.Index)
-                            UpdateAllTotals(False)
-                            HideUnhideRowsAndColumnsOFGrid()
+                            ' UpdateAllTotals(False)
+                            'HideUnhideRowsAndColumnsOFGrid()
                         End If
                     End If
                     isCellValueChangedOpen = False
@@ -807,6 +808,8 @@ Public Class frmDemandBooking
     End Function
     Private Sub btnSave_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnSave.Click
         Try
+            UpdateAllTotals(False)
+            HideUnhideRowsAndColumnsOFGrid()
             SaveData(0, False)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -1112,6 +1115,7 @@ Public Class frmDemandBooking
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         Try
+            Dim isLoadData As Boolean = True
             Dim dblTotalDocAmt As Decimal = 0
             Dim qry As String = ""
             Dim obj As New clsDemandBookingSale
@@ -1182,26 +1186,26 @@ Public Class frmDemandBooking
                     rbtn_Fresh.IsChecked = True
                     If SeparateDemandMilkandProduct Then
                         RadGroupBox1.Enabled = False
-                        LoadBlankGrid()
+                        'LoadBlankGrid()
                         HideUnhideRowsAndColumnsOFGrid()
                     End If
                 ElseIf clsCommon.CompairString(obj.ItemType, "Ambient") = CompairStringResult.Equal Then
                     rbtn_Ambient.IsChecked = True
                     If SeparateDemandMilkandProduct Then
                         RadGroupBox1.Enabled = False
-                        LoadBlankGrid()
+                        'LoadBlankGrid()
                         HideUnhideRowsAndColumnsOFGrid()
                     End If
                 Else
                     rdbnFreshAmbientBoth.IsChecked = True
                     If SeparateDemandMilkandProduct Then
                         RadGroupBox1.Enabled = False
-                        LoadBlankGrid()
+                        'LoadBlankGrid()
                         HideUnhideRowsAndColumnsOFGrid()
                     End If
                 End If
                 If Not SeparateDemandMilkandProduct Then
-                    LoadBlankGrid()
+                    'LoadBlankGrid()
 
                 End If
 
@@ -1235,8 +1239,12 @@ Public Class frmDemandBooking
                             End If
                         Next
                         'strCustCode = objTr.Cust_Code
-                        txtVehicleNo.Value = objTr.Vehicle_Code
-                        lblVehicleNo.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Description  from TSPL_VEHICLE_MASTER where Vehicle_Id = '" + Convert.ToString(txtVehicleNo.Value) + "'"))
+                        If isLoadData Then
+                            txtVehicleNo.Value = objTr.Vehicle_Code
+                            lblVehicleNo.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Description  from TSPL_VEHICLE_MASTER where Vehicle_Id = '" & Convert.ToString(txtVehicleNo.Value) & "'"))
+                            isLoadData = False
+                        End If
+
                         If clsCommon.CompairString(objTr.ShiftType, "Evening") = CompairStringResult.Equal Then
                             If clsCommon.CompairString(objTr.IsGatePassGenerated, "Y") = CompairStringResult.Equal OrElse clsCommon.CompairString(objTr.IsTruckSheetGenerated, "Y") = CompairStringResult.Equal Then
                                 chkEveningGatepassTruckSheetGenerated.Checked = True
@@ -2281,7 +2289,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 TotalPAmt += clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colPAmt).Value)
                 TotalPCount += clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colPCount).Value)
                 TotalMAmt += clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colMAmt).Value)
-            Next
+            Next 
             lblTotalCrate.Text = clsCommon.myCdbl(dblDocTotalCrate)
             lblTotalLitre.Text = clsCommon.myCdbl(dblDocTotalLitre)
             txtDocAmt.Text = clsCommon.myCdbl(dblDocTotalAmt)
@@ -2484,9 +2492,9 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
         End If
     End Sub
     Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-            SaveData(0, True)
-        End If
+        'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+        '    SaveData(0, True)
+        'End If
         PostData()
     End Sub
     Sub PostData()
@@ -2549,7 +2557,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
                     If (clsDemandBookingSale.PostData(MyBase.Form_ID, txtDocNo.Value, IIf(rbtnMorning.IsChecked, 1, 2))) Then
                         msg = "Successfully posted"
                         common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
-                        If chkIndividualCustomer.Checked = False Then
+                        If Not chkIndividualCustomer.Checked Then
                             If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandAll, clsFixedParameterCode.ApplyDemandAll, Nothing)) = 1 Or clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, Nothing)) = 1 Then
                                 SaveData(1, True)
                             End If
