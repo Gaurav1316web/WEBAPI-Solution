@@ -696,7 +696,14 @@ Public Class FrmRGP_Register_NRGP
     'End Sub
 
     Private Sub txtLocation__My_Click(sender As Object, e As EventArgs) Handles txtLocation._My_Click
-        Dim qry As String = " select Location_Code as Code, Location_Desc as Name from TSPL_LOCATION_MASTER Where Location_Type='Physical' and IsMainPlant='1' and Loc_Segment_Code in (" + objCommonVar.strCurrUserLocationsSegment + ")"
+        'Dim qry As String = " select Location_Code as Code, Location_Desc as Name from TSPL_LOCATION_MASTER Where Location_Type='Physical' "
+
+        Dim qry As String = ""
+        If objCommonVar.RCDFCFP Then
+            qry = "SELECT LOCATION_CODE , Location_Desc  FROM TSPL_LOCATION_MASTER where Location_Type='Physical'and Loc_Segment_Code in (" + objCommonVar.strCurrUserLocationsSegment + ")"
+        Else
+            qry = "SELECT LOCATION_CODE , Location_Desc  FROM TSPL_LOCATION_MASTER where Location_Type='Physical'and Loc_Segment_Code in (" + objCommonVar.strCurrUserLocationsSegment + ") and IsMainPlant='1' "
+        End If
         If objCommonVar.ApplyLocationFilterBasedOnPermission = True AndAlso clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             qry += " and TSPL_LOCATION_MASTER.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
         End If
