@@ -1444,7 +1444,7 @@ Public Class clsPaymentProcessFarmerHead
                 If obj.isPosted = 1 Then
                     obj.Posting_Date = clsCommon.myCDate(dt.Rows(0)("Posting_Date"))
                 End If
-                obj.ArrVSPPPDetail = clsPaymentProcessDetail.getData(obj.Doc_No, trans)
+                obj.ArrVSPPPDetail = clsPaymentProcessDetail.getData(False, Nothing, obj.Doc_No, trans)
                 obj.ArrPPDetail = clsPaymentProcessFarmerPaymentDetail.getData(obj.Doc_No, trans)
                 obj.arrclsPaymentProcessFarmerInvoices = clsPaymentProcessFarmerInvoices.getData(obj.Doc_No, trans)
 
@@ -2586,7 +2586,7 @@ Public Class clsPaymentProcessFarmerPaymentDetail
                 GLAcDescARAdj = clsGLAccount.GetName(GLAcARAdj, tran)
 
                 Dim objVSPList As New List(Of clsPaymentProcessDetail)
-                objVSPList = clsPaymentProcessDetail.getData(DocNo, tran)
+                objVSPList = clsPaymentProcessDetail.getData(False, Nothing, DocNo, tran)
 
 
                 For Each objVSP As clsPaymentProcessDetail In objVSPList

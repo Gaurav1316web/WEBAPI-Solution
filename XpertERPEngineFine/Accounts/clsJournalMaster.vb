@@ -198,7 +198,6 @@ Public Class clsJournalMaster
                 If objTotal.Amount > 0 Then
                     dblTotal += objTotal.Amount
                 End If
-
             Next
             If dblTotal > 0 Then
                 If clsCommon.myLen(strVourcherNoForRecreateOnly) > 0 Then
@@ -212,6 +211,7 @@ Public Class clsJournalMaster
                     If clsCommon.CompairString(SrcType, "MI-SR") = CompairStringResult.Equal Then
                         strLocalPrefixTransType = clsDocTransactionType.JournalEntryMilkSRN
                         StrVoucher = fnAutoGenerateNo(JEWithOPTables, trans, dt, strLocalPrefixTransType, strLocationCode, isLocationCodeisSegment, objCommonVar.ShowMCCFinderInPaymentProcess)
+
                     ElseIf clsCommon.CompairString(SrcType, "PR-EN") = CompairStringResult.Equal Then
                         If objCommonVar.ShowMCCFinderInPaymentProcess AndAlso clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Prog_Code from tspl_provision_entry where Doc_No='" + SrcDocNo + "'", trans)), clsUserMgtCode.frmMilkShiftEndMCC) = CompairStringResult.Equal Then
                             strLocalPrefixTransType = clsDocTransactionType.JournalEntryMilkSRN
@@ -222,6 +222,9 @@ Public Class clsJournalMaster
                             End If
                             StrVoucher = fnAutoGenerateNo(JEWithOPTables, trans, dt, strLocalPrefixTransType, strLocationCode, isLocationCodeisSegment)
                         End If
+                    ElseIf EntryDesc.Contains("Payment Process") Then
+                        strLocalPrefixTransType = clsDocTransactionType.JournalEntryPaymentProcess
+                        StrVoucher = fnAutoGenerateNo(JEWithOPTables, trans, dt, strLocalPrefixTransType, strLocationCode, isLocationCodeisSegment, objCommonVar.ShowMCCFinderInPaymentProcess)
                     Else
                         If clsCommon.myLen(strPrefixTransType) > 0 Then
                             strLocalPrefixTransType = strPrefixTransType
@@ -229,8 +232,6 @@ Public Class clsJournalMaster
                         StrVoucher = fnAutoGenerateNo(JEWithOPTables, trans, dt, strLocalPrefixTransType, strLocationCode, isLocationCodeisSegment)
                     End If
                 End If
-                'Dim strJrnl As String = "select max(journal_no) from " + strJEHead + " "
-                'Dim Jrnl As String = clsCommon.myCstr(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(strJrnl, trans)) + 1)
                 Dim Jrnl As String = 0
                 If strReference = Nothing Then
                     strReference = ""

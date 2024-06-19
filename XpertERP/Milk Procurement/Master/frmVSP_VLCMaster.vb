@@ -2475,22 +2475,54 @@ Public Class frmVSP_VLCMaster
         End If
 
         Dim strIFSCCode As String = ""
-        If clsCommon.myLen(txtIFSCCode2.Text) > 0 Then
-            strIFSCCode = txtIFSCCode2.Text
-        ElseIf clsCommon.myLen(findTxtIFSCCode2.Value) > 0 Then
-            strIFSCCode = findTxtIFSCCode2.Value
+        If EnableBankFromMaster = True Then
+            If clsCommon.myLen(findTxtIFSCCode2.Value) > 0 Then
+                strIFSCCode = findTxtIFSCCode2.Value
+            Else
+                strIFSCCode = ""
+            End If
+            'findfndbankcode.Value = myDr(31).ToString()
+            'findTxtIFSCCode.Value = myDr("IFSC_Code").ToString()
         Else
-            strIFSCCode = ""
+            If clsCommon.myLen(txtIFSCCode2.Text) > 0 Then
+                strIFSCCode = txtIFSCCode2.Text
+            Else
+                strIFSCCode = ""
+            End If
         End If
+        'Me.fndbankcode.Text = myDr(31).ToString()
+        'Me.TxtIFSCCode.Text = myDr("IFSC_Code").ToString()
+
+        'End If
+        'If clsCommon.myLen(txtIFSCCode2.Text) > 0 Then
+        '    strIFSCCode = txtIFSCCode2.Text
+        'ElseIf clsCommon.myLen(findTxtIFSCCode2.Value) > 0 Then
+        '    strIFSCCode = findTxtIFSCCode2.Value
+        'Else
+        '    strIFSCCode = ""
+        'End If
 
         Dim strbank As String = ""
-        If clsCommon.myLen(fndbankcode2.Text) > 0 Then
-            strbank = fndbankcode2.Text
-        ElseIf clsCommon.myLen(findfndbankcode2.Value) > 0 Then
-            strbank = findfndbankcode2.Value
+        If EnableBankFromMaster = True Then
+            If clsCommon.myLen(findfndbankcode2.Value) > 0 Then
+                strbank = findfndbankcode2.Value
             Else
                 strbank = ""
+            End If
+        Else
+            If clsCommon.myLen(fndbankcode2.Text) > 0 Then
+                strbank = fndbankcode2.Text
+            Else
+                strbank = ""
+            End If
         End If
+        'If clsCommon.myLen(fndbankcode2.Text) > 0 Then
+        '    strbank = fndbankcode2.Text
+        'ElseIf clsCommon.myLen(findfndbankcode2.Value) > 0 Then
+        '    strbank = findfndbankcode2.Value
+        '    Else
+        '        strbank = ""
+        'End If
 
 
         Dim qry As String = " update TSPL_VENDOR_MASTER set "
