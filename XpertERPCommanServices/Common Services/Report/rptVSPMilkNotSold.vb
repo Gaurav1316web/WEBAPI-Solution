@@ -402,7 +402,8 @@ Public Class rptVSPMilkNotSold
                 txtLocName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Description  from TSPL_GL_SEGMENT_CODE WHERE  Segment_code='" & fndLoc.Value & "' "))
             Else
                 Dim whrCls As String = " 1=1 "
-                whrCls = whrCls & " and   Location_Type='Physical' and IsMainPlant='1' and Loc_Segment_Code in (" + objCommonVar.strCurrUserLocationsSegment + ")"
+                whrCls = whrCls & " and   Rejected_Type='N' and Location_Category='MCC'"
+                'whrCls = whrCls & " and   Location_Type='Physical' and IsMainPlant='1' and Loc_Segment_Code in (" + objCommonVar.strCurrUserLocationsSegment + ")"
                 Dim dr As DataRow = clsLocation.getLocSegFinderFullRow(whrCls)
                 If dr Is Nothing OrElse dr.ItemArray.Count <= 0 Then
                     fndLoc.Value = ""

@@ -1,14 +1,9 @@
-﻿Imports common
-Imports XpertERPEngine
-Imports XpertERPEngineFine
-
-<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class DashboardMilkProcurement
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Partial Class JanaadharStatusReport
     'Inherits System.Windows.Forms.Form
     Inherits FrmMainTranScreen
-
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()>
+    <System.Diagnostics.DebuggerNonUserCode()> _
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -25,15 +20,14 @@ Partial Class DashboardMilkProcurement
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()>
+    <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.BtnGo = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel1 = New common.Controls.MyLabel()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbdAllTrans = New System.Windows.Forms.RadioButton()
         Me.rdbPosted = New System.Windows.Forms.RadioButton()
@@ -45,18 +39,11 @@ Partial Class DashboardMilkProcurement
         Me.lblFromdate = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv1 = New common.UserControls.MyRadGridView()
-        Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gv2 = New common.UserControls.MyRadGridView()
-        Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gv3 = New common.UserControls.MyRadGridView()
-        Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gv4 = New common.UserControls.MyRadGridView()
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnExp = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnreset = New Telerik.WinControls.UI.RadButton()
-        Me.btngo = New Telerik.WinControls.UI.RadButton()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -64,6 +51,8 @@ Partial Class DashboardMilkProcurement
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.BtnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.chkRJSBNS, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -74,19 +63,9 @@ Partial Class DashboardMilkProcurement
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageViewPage3.SuspendLayout()
-        CType(Me.gv2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageViewPage4.SuspendLayout()
-        CType(Me.gv3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv3.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageViewPage5.SuspendLayout()
-        CType(Me.gv4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv4.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btngo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -104,32 +83,30 @@ Partial Class DashboardMilkProcurement
         '
         'SplitContainer1.Panel2
         '
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnExp)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnreset)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btngo)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Size = New System.Drawing.Size(800, 450)
-        Me.SplitContainer1.SplitterDistance = 413
+        Me.SplitContainer1.SplitterDistance = 409
         Me.SplitContainer1.TabIndex = 0
         '
         'RadPageView1
         '
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage3)
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage4)
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage5)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(800, 413)
-        Me.RadPageView1.TabIndex = 0
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.Size = New System.Drawing.Size(800, 409)
+        Me.RadPageView1.TabIndex = 1
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.BtnGo)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.chkRJSBNS)
         Me.RadPageViewPage1.Controls.Add(Me.txtFromDate)
@@ -139,8 +116,25 @@ Partial Class DashboardMilkProcurement
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(41.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 365)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 361)
         Me.RadPageViewPage1.Text = "Filter"
+        '
+        'BtnGo
+        '
+        Me.BtnGo.Location = New System.Drawing.Point(86, 10)
+        Me.BtnGo.Name = "BtnGo"
+        Me.BtnGo.Size = New System.Drawing.Size(77, 18)
+        Me.BtnGo.TabIndex = 340
+        Me.BtnGo.Text = ">>>"
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Location = New System.Drawing.Point(7, 10)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(73, 18)
+        Me.MyLabel1.TabIndex = 445
+        Me.MyLabel1.Text = "Farmer Detail"
         '
         'RadGroupBox2
         '
@@ -154,6 +148,7 @@ Partial Class DashboardMilkProcurement
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox2.Size = New System.Drawing.Size(269, 29)
         Me.RadGroupBox2.TabIndex = 443
+        Me.RadGroupBox2.Visible = False
         '
         'rbdAllTrans
         '
@@ -191,9 +186,10 @@ Partial Class DashboardMilkProcurement
         '
         Me.chkRJSBNS.Location = New System.Drawing.Point(653, 17)
         Me.chkRJSBNS.Name = "chkRJSBNS"
-        Me.chkRJSBNS.Size = New System.Drawing.Size(64, 18)
+        Me.chkRJSBNS.Size = New System.Drawing.Size(24, 18)
         Me.chkRJSBNS.TabIndex = 444
-        Me.chkRJSBNS.Text = "RJS & BNS"
+        Me.chkRJSBNS.Text = "f"
+        Me.chkRJSBNS.Visible = False
         '
         'txtFromDate
         '
@@ -208,7 +204,7 @@ Partial Class DashboardMilkProcurement
         Me.txtFromDate.IsSourceFromTable = False
         Me.txtFromDate.IsSourceFromValueList = False
         Me.txtFromDate.IsUnique = False
-        Me.txtFromDate.Location = New System.Drawing.Point(68, 15)
+        Me.txtFromDate.Location = New System.Drawing.Point(553, 132)
         Me.txtFromDate.MendatroryField = False
         Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtFromDate.MyLinkLable1 = Nothing
@@ -223,6 +219,7 @@ Partial Class DashboardMilkProcurement
         Me.txtFromDate.TabStop = False
         Me.txtFromDate.Text = "30/05/2011"
         Me.txtFromDate.Value = New Date(2011, 5, 30, 12, 41, 54, 500)
+        Me.txtFromDate.Visible = False
         '
         'txtToDate
         '
@@ -252,33 +249,36 @@ Partial Class DashboardMilkProcurement
         Me.txtToDate.TabStop = False
         Me.txtToDate.Text = "30/05/2011"
         Me.txtToDate.Value = New Date(2011, 5, 30, 12, 41, 54, 500)
+        Me.txtToDate.Visible = False
         '
         'lblToDate
         '
         Me.lblToDate.FieldName = Nothing
-        Me.lblToDate.Location = New System.Drawing.Point(152, 17)
+        Me.lblToDate.Location = New System.Drawing.Point(481, 98)
         Me.lblToDate.Name = "lblToDate"
         Me.lblToDate.Size = New System.Drawing.Size(45, 18)
         Me.lblToDate.TabIndex = 82
         Me.lblToDate.Text = "To Date"
+        Me.lblToDate.Visible = False
         '
         'lblFromdate
         '
         Me.lblFromdate.FieldName = Nothing
-        Me.lblFromdate.Location = New System.Drawing.Point(3, 15)
+        Me.lblFromdate.Location = New System.Drawing.Point(572, 98)
         Me.lblFromdate.Name = "lblFromdate"
         Me.lblFromdate.Size = New System.Drawing.Size(59, 18)
         Me.lblFromdate.TabIndex = 81
         Me.lblFromdate.Text = "From Date"
+        Me.lblFromdate.Visible = False
         '
         'RadPageViewPage2
         '
         Me.RadPageViewPage2.Controls.Add(Me.gv1)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(70.0!, 28.0!)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(779, 365)
-        Me.RadPageViewPage2.Text = "UnionWise"
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(779, 361)
+        Me.RadPageViewPage2.Text = "Report"
         '
         'gv1
         '
@@ -296,110 +296,17 @@ Partial Class DashboardMilkProcurement
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(779, 365)
+        Me.gv1.Size = New System.Drawing.Size(779, 361)
         Me.gv1.TabIndex = 3
-        '
-        'RadPageViewPage3
-        '
-        Me.RadPageViewPage3.Controls.Add(Me.gv2)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(94.0!, 28.0!)
-        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(779, 365)
-        Me.RadPageViewPage3.Text = "Count Of Route"
-        '
-        'gv2
-        '
-        Me.gv2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gv2.Location = New System.Drawing.Point(0, 0)
-        '
-        '
-        '
-        Me.gv2.MasterTemplate.AllowAddNewRow = False
-        Me.gv2.MasterTemplate.AllowDeleteRow = False
-        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gv2.MasterTemplate.ShowGroupedColumns = True
-        Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
-        Me.gv2.MyStopExport = False
-        Me.gv2.Name = "gv2"
-        Me.gv2.ShowHeaderCellButtons = True
-        Me.gv2.Size = New System.Drawing.Size(779, 365)
-        Me.gv2.TabIndex = 3
-        '
-        'RadPageViewPage4
-        '
-        Me.RadPageViewPage4.Controls.Add(Me.gv3)
-        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(86.0!, 28.0!)
-        Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage4.Name = "RadPageViewPage4"
-        Me.RadPageViewPage4.Size = New System.Drawing.Size(779, 365)
-        Me.RadPageViewPage4.Text = "Count Of DCS"
-        '
-        'gv3
-        '
-        Me.gv3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gv3.Location = New System.Drawing.Point(0, 0)
-        '
-        '
-        '
-        Me.gv3.MasterTemplate.AllowAddNewRow = False
-        Me.gv3.MasterTemplate.AllowDeleteRow = False
-        Me.gv3.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gv3.MasterTemplate.ShowGroupedColumns = True
-        Me.gv3.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv3.MasterTemplate.ViewDefinition = TableViewDefinition3
-        Me.gv3.MyStopExport = False
-        Me.gv3.Name = "gv3"
-        Me.gv3.ShowHeaderCellButtons = True
-        Me.gv3.Size = New System.Drawing.Size(779, 365)
-        Me.gv3.TabIndex = 3
-        '
-        'RadPageViewPage5
-        '
-        Me.RadPageViewPage5.Controls.Add(Me.gv4)
-        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(76.0!, 28.0!)
-        Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage5.Name = "RadPageViewPage5"
-        Me.RadPageViewPage5.Size = New System.Drawing.Size(779, 365)
-        Me.RadPageViewPage5.Text = "7 Days Data"
-        '
-        'gv4
-        '
-        Me.gv4.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gv4.Location = New System.Drawing.Point(0, 0)
-        '
-        '
-        '
-        Me.gv4.MasterTemplate.AllowAddNewRow = False
-        Me.gv4.MasterTemplate.AllowDeleteRow = False
-        Me.gv4.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gv4.MasterTemplate.ShowGroupedColumns = True
-        Me.gv4.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv4.MasterTemplate.ViewDefinition = TableViewDefinition4
-        Me.gv4.MyStopExport = False
-        Me.gv4.Name = "gv4"
-        Me.gv4.ShowHeaderCellButtons = True
-        Me.gv4.Size = New System.Drawing.Size(779, 365)
-        Me.gv4.TabIndex = 4
-        '
-        'btnPrint
-        '
-        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrint.Location = New System.Drawing.Point(252, 7)
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(77, 18)
-        Me.btnPrint.TabIndex = 337
-        Me.btnPrint.Text = "Print"
         '
         'btnExp
         '
         Me.btnExp.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnExp.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
-        Me.btnExp.Location = New System.Drawing.Point(173, 7)
+        Me.btnExp.Location = New System.Drawing.Point(96, 10)
         Me.btnExp.Name = "btnExp"
         Me.btnExp.Size = New System.Drawing.Size(77, 18)
-        Me.btnExp.TabIndex = 337
+        Me.btnExp.TabIndex = 341
         Me.btnExp.Text = "Export"
         '
         'rmiExcel
@@ -417,42 +324,42 @@ Partial Class DashboardMilkProcurement
         'btnreset
         '
         Me.btnreset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnreset.Location = New System.Drawing.Point(93, 7)
+        Me.btnreset.Location = New System.Drawing.Point(13, 10)
         Me.btnreset.Name = "btnreset"
         Me.btnreset.Size = New System.Drawing.Size(77, 18)
-        Me.btnreset.TabIndex = 336
+        Me.btnreset.TabIndex = 340
         Me.btnreset.Text = "Reset"
         '
-        'btngo
+        'btnPrint
         '
-        Me.btngo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btngo.Location = New System.Drawing.Point(11, 7)
-        Me.btngo.Name = "btngo"
-        Me.btngo.Size = New System.Drawing.Size(77, 18)
-        Me.btngo.TabIndex = 335
-        Me.btngo.Text = ">>>"
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Location = New System.Drawing.Point(179, 10)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(77, 18)
+        Me.btnPrint.TabIndex = 338
+        Me.btnPrint.Text = "Print"
         '
         'btnclose
         '
         Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnclose.Location = New System.Drawing.Point(712, 7)
+        Me.btnclose.Location = New System.Drawing.Point(711, 10)
         Me.btnclose.Name = "btnclose"
         Me.btnclose.Size = New System.Drawing.Size(77, 18)
-        Me.btnclose.TabIndex = 334
+        Me.btnclose.TabIndex = 338
         Me.btnclose.Text = "Close"
         '
-        'DashboardMilkProcurement
+        'JanaadharStatusReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
         Me.Controls.Add(Me.SplitContainer1)
-        Me.Name = "DashboardMilkProcurement"
+        Me.Name = "JanaadharStatusReport"
         '
         '
         '
         Me.RootElement.ApplyShapeToControl = True
-        Me.Text = "DashboardMilkProcurement"
+        Me.Text = "JanaadharStatusReport"
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
@@ -460,6 +367,8 @@ Partial Class DashboardMilkProcurement
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.BtnGo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         Me.RadGroupBox2.PerformLayout()
@@ -471,19 +380,9 @@ Partial Class DashboardMilkProcurement
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageViewPage3.ResumeLayout(False)
-        CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageViewPage4.ResumeLayout(False)
-        CType(Me.gv3.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv3, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageViewPage5.ResumeLayout(False)
-        CType(Me.gv4.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btngo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -493,28 +392,23 @@ Partial Class DashboardMilkProcurement
     Friend WithEvents SplitContainer1 As SplitContainer
     Friend WithEvents RadPageView1 As RadPageView
     Friend WithEvents RadPageViewPage1 As RadPageViewPage
-    Friend WithEvents RadPageViewPage2 As RadPageViewPage
-    Friend WithEvents RadPageViewPage3 As RadPageViewPage
-    Friend WithEvents RadPageViewPage4 As RadPageViewPage
-    Friend WithEvents gv1 As common.UserControls.MyRadGridView
-    Friend WithEvents gv2 As common.UserControls.MyRadGridView
-    Friend WithEvents gv3 As common.UserControls.MyRadGridView
-    Friend WithEvents txtFromDate As common.Controls.MyDateTimePicker
-    Friend WithEvents txtToDate As common.Controls.MyDateTimePicker
-    Friend WithEvents lblToDate As common.Controls.MyLabel
-    Friend WithEvents lblFromdate As common.Controls.MyLabel
-    Friend WithEvents btnreset As RadButton
-    Friend WithEvents btngo As RadButton
-    Friend WithEvents btnclose As RadButton
-    Friend WithEvents btnExp As RadSplitButton
-    Friend WithEvents rmiExcel As RadMenuItem
-    Friend WithEvents rmiPDF As RadMenuItem
-    Friend WithEvents btnPrint As RadButton
-    Friend WithEvents chkRJSBNS As RadCheckBox
-    Friend WithEvents RadPageViewPage5 As RadPageViewPage
-    Friend WithEvents gv4 As UserControls.MyRadGridView
     Friend WithEvents RadGroupBox2 As RadGroupBox
     Friend WithEvents rbdAllTrans As RadioButton
     Friend WithEvents rdbPosted As RadioButton
     Friend WithEvents rdbUnposted As RadioButton
+    Friend WithEvents chkRJSBNS As RadCheckBox
+    Friend WithEvents txtFromDate As common.Controls.MyDateTimePicker
+    Friend WithEvents txtToDate As common.Controls.MyDateTimePicker
+    Friend WithEvents lblToDate As common.Controls.MyLabel
+    Friend WithEvents lblFromdate As common.Controls.MyLabel
+    Friend WithEvents RadPageViewPage2 As RadPageViewPage
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
+    Friend WithEvents btnPrint As RadButton
+    Friend WithEvents btnExp As RadSplitButton
+    Friend WithEvents rmiExcel As RadMenuItem
+    Friend WithEvents rmiPDF As RadMenuItem
+    Friend WithEvents btnreset As RadButton
+    Friend WithEvents btnclose As RadButton
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents BtnGo As RadButton
 End Class

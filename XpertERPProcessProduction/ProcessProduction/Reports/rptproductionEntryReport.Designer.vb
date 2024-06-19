@@ -22,6 +22,8 @@ Partial Class RptproductionEntryReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -162,7 +164,6 @@ Partial Class RptproductionEntryReport
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(825, 557)
         Me.RadPageView1.TabIndex = 11
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -201,14 +202,16 @@ Partial Class RptproductionEntryReport
         Me.gvLocation.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvLocation.Location = New System.Drawing.Point(10, 40)
         '
-        'gvLocation
         '
+        '
+        Me.gvLocation.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvLocation.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvLocation.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvLocation.MyStopExport = False
         Me.gvLocation.Name = "gvLocation"
         Me.gvLocation.ShowHeaderCellButtons = True
         Me.gvLocation.Size = New System.Drawing.Size(412, 156)
         Me.gvLocation.TabIndex = 3
-        Me.gvLocation.Text = "RadGridView1"
         '
         'Panel5
         '
@@ -315,7 +318,6 @@ Partial Class RptproductionEntryReport
         Me.tvCategory.Size = New System.Drawing.Size(412, 156)
         Me.tvCategory.SpacingBetweenNodes = -1
         Me.tvCategory.TabIndex = 70
-        Me.tvCategory.Text = "RadTreeView1"
         '
         'Panel4
         '
@@ -606,14 +608,16 @@ Partial Class RptproductionEntryReport
         Me.gv1.MasterTemplate.AllowAddNewRow = False
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.EnableFiltering = True
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(804, 509)
         Me.gv1.TabIndex = 4
-        Me.gv1.Text = "gv"
         '
         'RadMenu1
         '
@@ -622,27 +626,20 @@ Partial Class RptproductionEntryReport
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(825, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmSaveLayout, Me.rmDeleteLayout})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
         '
         'rmSaveLayout
         '
-        Me.rmSaveLayout.AccessibleDescription = "Save Layout"
-        Me.rmSaveLayout.AccessibleName = "Save Layout"
         Me.rmSaveLayout.Name = "rmSaveLayout"
         Me.rmSaveLayout.Text = "Save Layout"
         '
         'rmDeleteLayout
         '
-        Me.rmDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.rmDeleteLayout.AccessibleName = "Delete Layout"
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
         '
@@ -688,15 +685,11 @@ Partial Class RptproductionEntryReport
         '
         'rmExcel
         '
-        Me.rmExcel.AccessibleDescription = "Excel"
-        Me.rmExcel.AccessibleName = "Excel"
         Me.rmExcel.Name = "rmExcel"
         Me.rmExcel.Text = "Excel"
         '
         'rmPDF
         '
-        Me.rmPDF.AccessibleDescription = "PDF"
-        Me.rmPDF.AccessibleName = "PDF"
         Me.rmPDF.Name = "rmPDF"
         Me.rmPDF.Text = "PDF"
         '

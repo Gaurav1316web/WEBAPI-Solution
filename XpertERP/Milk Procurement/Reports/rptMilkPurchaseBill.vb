@@ -776,8 +776,8 @@ Public Class RptMilkPurchaseBill
         cbgVSP.CheckedAll()
     End Sub
     Private Sub fndLoc__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndLoc._MYValidating
-        'Dim whrCls As String = " 1=1 "
-        Dim whrCls As String = " Location_Type='Physical' and IsMainPlant='1' and Loc_Segment_Code in (" + objCommonVar.strCurrUserLocationsSegment + ")  "
+        Dim whrCls As String = " 1=1 "
+        'Dim whrCls As String = " Location_Type='Physical' and IsMainPlant='1' and Loc_Segment_Code in (" + objCommonVar.strCurrUserLocationsSegment + ")  "
         If Not clsMccMaster.isCurrentUserHO() Then
             If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
                 whrCls = "  Location_Code in (" & objCommonVar.strCurrUserLocations & ") "
