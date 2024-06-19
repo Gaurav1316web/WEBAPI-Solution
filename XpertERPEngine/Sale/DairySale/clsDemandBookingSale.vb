@@ -875,11 +875,20 @@ where 2=2 "
             '                '" & objCommonVar.CurrentCompanyCode & "','" & Cust_Code & "','" & obj.Location_Code & "')"
             '                clsDBFuncationality.ExecuteNonQuery(qry, trans)
             '            End If
-            obj.Document_No = ""
-            obj.Document_Date = clsCommon.GetPrintDate(clsCommon.myCDate(obj.Document_Date).AddDays(1))
+            Dim docno As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where convert(date,Document_Date,103)='" + clsCommon.GetPrintDate(clsCommon.myCDate(obj.Document_Date).AddDays(1)) + "' and Route_No='" + obj.Route_No + "' and ShiftType='" + obj.ShiftType + "' and IsIndividualCustomer=0", trans))
+            Dim isNewEntry As Boolean = False
+            If clsCommon.myLen(docno) > 0 Then
+                obj.Document_No = docno
+                obj.Document_Date = clsCommon.GetPrintDate(clsCommon.myCDate(obj.Document_Date).AddDays(1))
+                isNewEntry = False
+            Else
+                obj.Document_No = ""
+                obj.Document_Date = clsCommon.GetPrintDate(clsCommon.myCDate(obj.Document_Date).AddDays(1))
+                isNewEntry = True
+            End If
             If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandAll, clsFixedParameterCode.ApplyDemandAll, trans)) = 1 Then
 
-                SaveData(obj, True, trans)
+                SaveData(obj, isNewEntry, trans)
             ElseIf clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, trans)) = 1 Then
                 For ii As Integer = 0 To obj.Arr.Count - 1
                     If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsReorder  from TSPL_CUSTOMER_MASTER where Cust_Code='" & obj.Arr(ii).Cust_Code & "'", trans)) = 0 Then
@@ -887,7 +896,7 @@ where 2=2 "
                     End If
 
                 Next
-                SaveData(obj, True, trans)
+                SaveData(obj, isNewEntry, trans)
             End If
 
         Catch ex As Exception
