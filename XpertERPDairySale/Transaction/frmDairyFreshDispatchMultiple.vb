@@ -148,7 +148,7 @@ and TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='" + IIf(rbtnNonTaxable.Checked, "NT", "T
                     Dim obj As New clsPSShipmentHead()
                     obj = clsPSShipmentHead.GetData(str, NavigatorType.Current)
                     If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
-                        clsPSShipmentHead.PostData(MyBase.Form_ID, str, True)
+                        clsPSShipmentHead.PostData("DISPATCH-DS", str, True)
                     End If
                 Next
                 clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
