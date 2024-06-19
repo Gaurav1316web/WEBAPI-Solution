@@ -5591,6 +5591,11 @@ Public Class MDI
                         frm = New DashboardMilkProcurement()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+
+                    Case clsUserMgtCode.JanaadharStatusReport
+                        frm = New JanaadharStatusReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     'Case clsUserMgtCode.rptDataEntryTracingReport
                     '    frm = New rptDataEntryTracingReport()
                     '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
