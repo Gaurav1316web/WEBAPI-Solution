@@ -6018,7 +6018,7 @@ Public Class MDI
                         frm = New frmBulkSaleFreightMaster()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmBulkSaleFreightCalculation
-                        frm = New frmBullVaccinationEntry()
+                        frm = New frmBulkSaleFreightCalculation()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.NIRQC
                         frm = New frmNIRQC()

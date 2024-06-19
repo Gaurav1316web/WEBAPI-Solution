@@ -1326,7 +1326,7 @@ Public Class clsPaymentProcessHead
                         obj.ArrIndex = New Dictionary(Of String, clsPaymentProcessIndex)
 
                         obj.ArrPPDetail = clsPaymentProcessDetail.getData(ApplyIndex, obj.ArrIndex, obj.Doc_No, trans)
-                        obj.arrClsPaymentProcessInvoices = clsPaymentProcessInvoices.getData(obj.Doc_No, trans)
+                        obj.arrClsPaymentProcessInvoices = clsPaymentProcessInvoices.getData(ApplyIndex, obj.Doc_No, trans)
                         obj.arrClsPaymentProcessMccSale = clsPaymentProcessMCCSale.getData(obj.Doc_No, trans)
                         obj.arrClsPaymentProcessMccSaleReturn = clsPaymentProcessMCCSaleReturn.getData(obj.Doc_No, trans)
                         obj.arrClsPaymentProcessItemIssue = clsPaymentProcessItemIssue.getData(obj.Doc_No, trans)
@@ -3576,7 +3576,7 @@ where TSPL_PAYMENT_PROCESS_INVOICE.Doc_No ='" & doc_No & "' order by cast(TSPL_P
             Throw New Exception(ex.Message)
         End Try
     End Function
-    Public Shared Function getData(ByVal doc_No As String, Optional ByVal trans As SqlTransaction = Nothing) As List(Of clsPaymentProcessInvoices)
+    Public Shared Function getData(ByVal ApplyIndex As Boolean, ByVal doc_No As String, Optional ByVal trans As SqlTransaction = Nothing) As List(Of clsPaymentProcessInvoices)
         Try
             Dim arr As New List(Of clsPaymentProcessInvoices)
             Dim obj As New clsPaymentProcessInvoices
@@ -3585,6 +3585,9 @@ where TSPL_PAYMENT_PROCESS_INVOICE.Doc_No ='" & doc_No & "' order by cast(TSPL_P
             " from (select DOC_CODE, ACC_Qty,FAT_PER,SNF_PER,ACC_Qty*FAT_PER/100 as FATKg,ACC_Qty*SNF_PER/100 as SNFKg from TSPL_MILK_PURCHASE_INVOICE_DETAIL )xx group by DOC_CODE" +
             " ) as TabFATSNFDetail on TabFATSNFDetail.DOC_CODE=TSPL_PAYMENT_PROCESS_INVOICE.Milk_Purchase_Invoice_No" +
             " where TSPL_PAYMENT_PROCESS_INVOICE.Doc_No='" & doc_No & "'"
+            If ApplyIndex Then
+                q += " order by TSPL_PAYMENT_PROCESS_INVOICE.VSP_CODE "
+            End If
             Dim dtbl As DataTable = clsDBFuncationality.GetDataTable(q, trans)
             If dtbl IsNot Nothing AndAlso dtbl.Rows.Count > 0 Then
                 For i As Integer = 0 To dtbl.Rows.Count - 1
@@ -4064,16 +4067,17 @@ where TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No='" & doc_No & "'order by cast(TSPL_P
                 Dim IdxTo As Integer = -1
                 For i As Integer = 0 To dtbl.Rows.Count - 1
                     If ApplyIndex Then
-                        If i = dtbl.Rows.Count - 1 Then
-                            IdxTo = i
-                            ArrIndex(IdxVendor).DRFrom = IdxFrom
-                            ArrIndex(IdxVendor).DRTo = IdxTo
-                        ElseIf (Not (clsCommon.CompairString(IdxVendor, clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))) = CompairStringResult.Equal)) Then
+                        If (Not (clsCommon.CompairString(IdxVendor, clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))) = CompairStringResult.Equal)) Then
                             IdxTo = i - 1
                             ArrIndex(IdxVendor).DRFrom = IdxFrom
                             ArrIndex(IdxVendor).DRTo = IdxTo
                             IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))
                             IdxFrom = i
+                        End If
+                        If i = dtbl.Rows.Count - 1 Then
+                            IdxTo = i
+                            ArrIndex(IdxVendor).DRFrom = IdxFrom
+                            ArrIndex(IdxVendor).DRTo = IdxTo
                         End If
                     End If
 
@@ -4174,17 +4178,18 @@ where TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No='" & doc_No & "' order by cast(TSP
                 Dim IdxTo As Integer = -1
                 For i As Integer = 0 To dtbl.Rows.Count - 1
                     If ApplyIndex Then
-                        If i = dtbl.Rows.Count - 1 Then
-                            IdxTo = i
-                            ArrIndex(IdxVendor).CRFrom = IdxFrom
-                            ArrIndex(IdxVendor).CRTo = IdxTo
-                        ElseIf (Not (clsCommon.CompairString(IdxVendor, clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))) = CompairStringResult.Equal)) Then
+                        If (Not (clsCommon.CompairString(IdxVendor, clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))) = CompairStringResult.Equal)) Then
                             IdxTo = i - 1
                             ArrIndex(IdxVendor).CRFrom = IdxFrom
                             ArrIndex(IdxVendor).CRTo = IdxTo
 
                             IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))
                             IdxFrom = i
+                        End If
+                        If i = dtbl.Rows.Count - 1 Then
+                            IdxTo = i
+                            ArrIndex(IdxVendor).CRFrom = IdxFrom
+                            ArrIndex(IdxVendor).CRTo = IdxTo
                         End If
                     End If
 
@@ -4680,17 +4685,18 @@ from TSPL_PAYMENT_PROCESS_SAVING left outer join TSPL_VENDOR_INVOICE_HEAD on TSP
                 Dim IdxTo As Integer = -1
                 For i As Integer = 0 To dtbl.Rows.Count - 1
                     If ApplyIndex Then
-                        If i = dtbl.Rows.Count - 1 Then
-                            IdxTo = i
-                            ArrIndex(IdxVendor).SavingFrom = IdxFrom
-                            ArrIndex(IdxVendor).SavingTo = IdxTo
-                        ElseIf (Not (clsCommon.CompairString(IdxVendor, clsCommon.myCstr(dtbl.Rows(i)("Vendor_Code"))) = CompairStringResult.Equal)) Then
+                        If (Not (clsCommon.CompairString(IdxVendor, clsCommon.myCstr(dtbl.Rows(i)("Vendor_Code"))) = CompairStringResult.Equal)) Then
                             IdxTo = i - 1
                             ArrIndex(IdxVendor).SavingFrom = IdxFrom
                             ArrIndex(IdxVendor).SavingTo = IdxTo
 
                             IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_Code"))
                             IdxFrom = i
+                        End If
+                        If i = dtbl.Rows.Count - 1 Then
+                            IdxTo = i
+                            ArrIndex(IdxVendor).SavingFrom = IdxFrom
+                            ArrIndex(IdxVendor).SavingTo = IdxTo
                         End If
                     End If
 
@@ -4790,17 +4796,18 @@ where TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No='" & doc_No & "'"
 
                 For i As Integer = 0 To dtbl.Rows.Count - 1
                     If ApplyIndex Then
-                        If i = dtbl.Rows.Count - 1 Then
-                            IdxTo = i
-                            ArrIndex(IdxVendor).COMPULSORYFrom = IdxFrom
-                            ArrIndex(IdxVendor).COMPULSORYTo = IdxTo
-                        ElseIf (Not (clsCommon.CompairString(IdxVendor, clsCommon.myCstr(dtbl.Rows(i)("Vendor_Code"))) = CompairStringResult.Equal)) Then
+                        If (Not (clsCommon.CompairString(IdxVendor, clsCommon.myCstr(dtbl.Rows(i)("Vendor_Code"))) = CompairStringResult.Equal)) Then
                             IdxTo = i - 1
                             ArrIndex(IdxVendor).COMPULSORYFrom = IdxFrom
                             ArrIndex(IdxVendor).COMPULSORYTo = IdxTo
 
                             IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_Code"))
                             IdxFrom = i
+                        End If
+                        If i = dtbl.Rows.Count - 1 Then
+                            IdxTo = i
+                            ArrIndex(IdxVendor).COMPULSORYFrom = IdxFrom
+                            ArrIndex(IdxVendor).COMPULSORYTo = IdxTo
                         End If
                     End If
 
