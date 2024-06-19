@@ -154,6 +154,7 @@ Partial Class DashboardMilkProcurement
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox2.Size = New System.Drawing.Size(269, 29)
         Me.RadGroupBox2.TabIndex = 443
+        Me.RadGroupBox2.Visible = False
         '
         'rbdAllTrans
         '
