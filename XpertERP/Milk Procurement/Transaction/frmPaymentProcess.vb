@@ -3690,6 +3690,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
         '    btnReverse.Enabled = False
         'End If
         btnReverse.Visible = False
+        btnUnpost.Visible = False
     End Sub
 
     Function AllowToSave() As Boolean
@@ -8392,6 +8393,7 @@ From TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT
                 If frm.isPasswordCorrect Then
                     lblPending.Visible = True
                     btnReverse.Visible = True
+                    btnUnpost.Visible = True
                     btnDeleteVSPBill.Visible = True
                     btnProcess.Visible = True
                 End If
@@ -8416,6 +8418,19 @@ From TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT
         End Try
     End Sub
 
+    Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles btnUnpost.Click
+        Try
+            If clsCommon.myLen(fndDocNo.Value) > 0 Then
+                If clsCommon.MyMessageBoxShow("Unpost The payment Process " + Environment.NewLine + "Are You sure", Me.Text, MessageBoxButtons.YesNo, WinControls.RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                    clsPaymentProcessHead.Unpost(fndDocNo.Value)
+                    clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                    LoadData(fndDocNo.Value, NavigatorType.Current)
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
     Private Sub btnDeleteVSPBill_Click(sender As Object, e As EventArgs) Handles btnDeleteVSPBill.Click
         Try
             If clsCommon.myLen(fndDocNo.Value) > 0 Then
@@ -8753,4 +8768,6 @@ where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='" + fndDocNo.Value + "' and TSPL_MILK_
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+
 End Class

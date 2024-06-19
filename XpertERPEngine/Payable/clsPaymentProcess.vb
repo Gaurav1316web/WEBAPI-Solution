@@ -1416,6 +1416,40 @@ left join (select Doc_No as PP_Code,Max(Payment_Mode) as Payment_Mode,sum(Payabl
         End Try
     End Function
 
+    Public Shared Function Unpost(ByVal strDocNo As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            If clsCommon.myLen(strDocNo) <= 0 Then
+                Throw New Exception("Payment process Document no Not found to  unpost")
+            End If
+            Dim qry As String = "select TSPL_PAYMENT_PROCESS_HEAD.isPosted,TSPL_PAYMENT_PROCESS_HEAD.isPrePosted,TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date from TSPL_PAYMENT_PROCESS_HEAD where Doc_No='" + strDocNo + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                Throw New Exception("Payment process Document no Not found to  unpost")
+            Else
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmPaymentProcess, clsCommon.myCstr(dt.Rows(0)("Loc_Seg_Code")), clsCommon.myCDate(dt.Rows(0)("Doc_Date")), trans)
+            End If
+            If clsCommon.myCdbl(dt.Rows(0)("isPosted")) = 1 Then
+                Throw New Exception("Payment process processed can't unpost it")
+            End If
+            If clsCommon.myCdbl(dt.Rows(0)("isPrePosted")) = 0 Then
+                Throw New Exception("Payment process should be posted to  unpost")
+            End If
+
+
+            qry = "update TSPL_PAYMENT_PROCESS_HEAD set isPrePosted=0, Posting_Date=null where doc_no='" + strDocNo + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "TSPL_PAYMENT_PROCESS_DETAIL", "Doc_No", trans)
+
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
     Public Shared Function ReverseAndUnpost(ByVal strDocNo As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
