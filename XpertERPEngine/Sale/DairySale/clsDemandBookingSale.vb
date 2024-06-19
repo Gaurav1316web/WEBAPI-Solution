@@ -40,7 +40,7 @@ Public Class clsDemandBookingSale
         End Try
         Return True
     End Function
-    Public Function SaveData(ByVal obj As clsDemandBookingSale, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
+    Public Shared Function SaveData(ByVal obj As clsDemandBookingSale, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
             Dim ShiftType As String = ""
             Dim isBoothReset As Boolean = False
@@ -590,6 +590,9 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(GetQryOfBooking(DocNo, strShift, cust_code), trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For Each dr1 As DataRow In dt.Rows
+
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(dr1("document_No")), "TSPL_BOOKING_MATSER", "Document_No", "TSPL_BOOKING_DETAIL", "Document_No", "TSPL_BOOKING_PAYMENT_MODE_DETAIL", "Document_No", trans)
+
                     qry = "delete from TSPL_BOOKING_DETAIL where Document_No='" + clsCommon.myCstr(dr1("document_No")) + "'"
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
                     qry = "delete from TSPL_BOOKING_MATSER where document_No ='" + clsCommon.myCstr(dr1("document_No")) + "'"
@@ -756,7 +759,15 @@ where 2=2 "
                         'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, BMDOC, "TSPL_BOOKING_MATSER", "Document_No", "TSPL_BOOKING_DETAIL", "Document_No", "TSPL_BOOKING_PAYMENT_MODE_DETAIL", "Document_No", trans)
                     Next
                 End If
+                Dim strqry1 As String = "select Document_No from TSPL_BOOKING_DETAIL where Against_DemandBooking_No = '" + strCode + "'"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(strqry1, trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    For Each dr As DataRow In dt.Rows
+                        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(dr("Document_No")), "TSPL_BOOKING_MATSER", "Document_No", "TSPL_BOOKING_DETAIL", "Document_No", "TSPL_BOOKING_PAYMENT_MODE_DETAIL", "Document_No", trans)
 
+                    Next
+
+                End If
                 Dim qry = "delete from TSPL_BOOKING_DETAIL where Against_DemandBooking_No = '" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -864,6 +875,30 @@ where 2=2 "
             '                '" & objCommonVar.CurrentCompanyCode & "','" & Cust_Code & "','" & obj.Location_Code & "')"
             '                clsDBFuncationality.ExecuteNonQuery(qry, trans)
             '            End If
+            Dim docno As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where convert(date,Document_Date,103)='" + clsCommon.GetPrintDate(clsCommon.myCDate(obj.Document_Date).AddDays(1)) + "' and Route_No='" + obj.Route_No + "' and ShiftType='" + obj.ShiftType + "' and IsIndividualCustomer=0", trans))
+            Dim isNewEntry As Boolean = False
+            If clsCommon.myLen(docno) > 0 Then
+                obj.Document_No = docno
+                obj.Document_Date = clsCommon.GetPrintDate(clsCommon.myCDate(obj.Document_Date).AddDays(1))
+                isNewEntry = False
+            Else
+                obj.Document_No = ""
+                obj.Document_Date = clsCommon.GetPrintDate(clsCommon.myCDate(obj.Document_Date).AddDays(1))
+                isNewEntry = True
+            End If
+            If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandAll, clsFixedParameterCode.ApplyDemandAll, trans)) = 1 Then
+
+                SaveData(obj, isNewEntry, trans)
+            ElseIf clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, trans)) = 1 Then
+                For ii As Integer = 0 To obj.Arr.Count - 1
+                    If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsReorder  from TSPL_CUSTOMER_MASTER where Cust_Code='" & obj.Arr(ii).Cust_Code & "'", trans)) = 0 Then
+                        obj.Arr(ii).Qty = 0
+                    End If
+
+                Next
+                SaveData(obj, isNewEntry, trans)
+            End If
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

@@ -1034,7 +1034,8 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.ReverseJournalEntry, clsDocTransactionType.JournalEntryJLJEReverseGeneral, False, True)
             InsertDefaultValue(clsDocType.ReverseJournalEntry, clsDocTransactionType.JournalEntryJLJEReverseMonthly, False, True)
 
-            InsertDefaultValue(clsDocType.JournalEntry, clsDocTransactionType.Others, False, True)
+            InsertDefaultValue(clsDocType.JournalEntry, clsDocTransactionType.JournalEntryOther, False, True)
+            InsertDefaultValue(clsDocType.JournalEntry, clsDocTransactionType.JournalEntryPaymentProcess, False, True)
             InsertDefaultValue(clsDocType.JournalEntry, clsDocTransactionType.JournalEntryMilkSRN, False, True, False, objCommonVar.ShowMCCFinderInPaymentProcess)
             InsertDefaultValue(clsDocType.JournalEntry, clsDocTransactionType.GeneralPurchase, False, True)
             InsertDefaultValue(clsDocType.JournalEntry, clsDocTransactionType.BulkProc, False, True)
@@ -1042,7 +1043,8 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.JournalEntry, clsDocTransactionType.DirectAP, False, True)
             '---------------------------------------------------------------------------------------------
             InsertDefaultValue(clsDocType.JournalEntryOP, clsDocTransactionType.JournalEntryJLJE, False, True)
-            InsertDefaultValue(clsDocType.JournalEntryOP, clsDocTransactionType.Others, False, True)
+            InsertDefaultValue(clsDocType.JournalEntryOP, clsDocTransactionType.JournalEntryOther, False, True)
+            InsertDefaultValue(clsDocType.JournalEntryOP, clsDocTransactionType.JournalEntryPaymentProcess, False, True)
             InsertDefaultValue(clsDocType.JournalEntryOP, clsDocTransactionType.JournalEntryMilkSRN, False, True, False, objCommonVar.ShowMCCFinderInPaymentProcess)
             InsertDefaultValue(clsDocType.JournalEntryOP, clsDocTransactionType.GeneralPurchase, False, True)
             InsertDefaultValue(clsDocType.JournalEntryOP, clsDocTransactionType.BulkProc, False, True)
@@ -2189,6 +2191,7 @@ Public Class clsDocTransactionType
 
     Public Const JournalEntryOther As String = "Others"
     Public Const JournalEntryMilkSRN As String = "MilkSRN"
+    Public Const JournalEntryPaymentProcess As String = "Payment Process"
     Public Const FinishedGoodInternal As String = "Finished Good Internal"
     Public Const FinishedGoodExternal As String = "Finished Good External"
     Public Const SemiFinishedGoodInternal As String = "SemiFinished Good Internal"

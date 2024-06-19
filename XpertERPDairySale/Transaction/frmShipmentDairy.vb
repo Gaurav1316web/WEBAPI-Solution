@@ -7,6 +7,7 @@ Public Class frmShipmentDairy
 #Region "Variables"
     Dim trans As SqlTransaction = Nothing
     Dim ParentDocNo As String = ""
+    Dim IsOnlyCreditCust As Boolean = True
     Dim EnableManualCrateonTaxableDairyDispatch As Integer = 0
     Dim EnableTCSRateValidityFrom01July2021 As Boolean = False
     Dim DisableRouteandVehicle As Boolean = False
@@ -352,8 +353,16 @@ Public Class frmShipmentDairy
     Dim FlagDocumentIsTaxable As Integer = 0
     Dim EInvoiceType As String = ""
     Dim lstobj As List(Of clsPSShipmentDemand) = Nothing
+    Public Property routeno As String
+    Public Property LocationCode As String
+    Public Property Supplydate As Date?
+    Public Property Shifttype As String = Nothing
+    Public Property IsTaxable As String = Nothing
+    Public Property IsAutoClose As Boolean = False
 #End Region
     Public Sub SetUserMgmtNew()
+        Me.Form_ID = clsUserMgtCode.frmSaleDispatchDairy
+        MyBase.SetUserMgmt(clsUserMgtCode.frmSaleDispatchDairy)
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
         End If
@@ -429,7 +438,6 @@ Public Class frmShipmentDairy
         EnableLocation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, Nothing)) = 1, True, False)
         AllowIncreaseDispatchQty = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowIncreaseDispatchQty, clsFixedParameterCode.AllowIncreaseDispatchQty, Nothing)) = 1, True, False)
         DisableRouteandVehicle = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DisableRouteandVehicle, clsFixedParameterCode.DisableRouteandVehicle, Nothing)) = 1, True, False)
-
         btnShowInventory.Visible = True
         IsFormLoad = True
         lblPriceCode.Visible = True
@@ -594,6 +602,29 @@ Public Class frmShipmentDairy
         btnPrintsvl.Enabled = False
         SplitContainer5.Panel2.Visible = False
         'CreateTable()
+        txtBillToLocation.Value = LocationCode
+        txtRouteNo.Value = routeno
+        If Supplydate IsNot Nothing AndAlso clsCommon.myLen(Supplydate) > 0 Then
+            txtSupplyDate.Value = Supplydate
+            txtDate.Value = Supplydate
+        End If
+        If clsCommon.CompairString(Shifttype, "AM") = CompairStringResult.Equal Then
+            cmbShift.SelectedValue = Shifttype
+        ElseIf clsCommon.CompairString(Shifttype, "PM") = CompairStringResult.Equal Then
+            cmbShift.SelectedValue = Shifttype
+        End If
+        If clsCommon.CompairString(IsTaxable, "0") = CompairStringResult.Equal Then
+            cmbDisItemType.SelectedValue = "NT"
+            GetRouteNO(False)
+            btnSave_Click(btnSave, New EventArgs())
+        ElseIf clsCommon.CompairString(IsTaxable, "1") = CompairStringResult.Equal Then
+            cmbDisItemType.SelectedValue = "T"
+            GetRouteNO(False)
+            btnSave_Click(btnSave, New EventArgs())
+        End If
+        If IsAutoClose Then
+            Me.Close()
+        End If
     End Sub
     'Sub CreateTable()
     '    Dim coll As Dictionary(Of String, String)
@@ -6002,6 +6033,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
     Sub AddNew()
         RadPageViewPage5.Item.Visibility = ElementVisibility.Collapsed
         txtPrintDiscountAmt.Text = "0"
+        IsOnlyCreditCust = True
         lstobj = New List(Of clsPSShipmentDemand)
         If clsCommon.myCBool(ShowPrintDisAmt) = True Then
             txtPrintDiscountAmt.Visible = True
@@ -6206,11 +6238,13 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                 txtVendorNo.Focus()
                 Return False
             End If
-            If GSTStatus = False OrElse (cmbDisItemType.SelectedValue = "T" AndAlso GSTStatus = True) Then
-                If clsCommon.myLen(txtTaxGroup.Value) <= 0 Then
-                    Throw New Exception("Please select Tax Group")
-                    txtTaxGroup.Focus()
-                    Return False
+            If Not IsOnlyCreditCust Then
+                If GSTStatus = False OrElse (cmbDisItemType.SelectedValue = "T" AndAlso GSTStatus = True) Then
+                    If clsCommon.myLen(txtTaxGroup.Value) <= 0 Then
+                        Throw New Exception("Please select Tax Group")
+                        txtTaxGroup.Focus()
+                        Return False
+                    End If
                 End If
             End If
             If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
@@ -6543,21 +6577,23 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             UcAttachment1.AllowToSave()
             Dim intx As Integer = 0
             '------------------------Check Item Type Excisable----------------------------------
-            If cmbDisItemType.SelectedValue = "T" AndAlso GSTStatus = True Then
-                If clsLocationWiseTax.IsValidTaxGroup(txtTaxGroup.Value, txtBillToLocation.Value, txtVendorNo.Value, "S", clsCommon.myCDate(txtDate.Value), Nothing) = False Then
-                    Return False
-                End If
-            Else
-                If clsLocation.isLocatinExcisable(txtBillToLocation.Value) Then
-                    intx = clsItemMaster.isItemOfSameExcisable(arrICode)
-                    If Not (intx = arrICode.Count OrElse intx = 0) Then
-                        Throw New Exception("All item should be of Excisable or NonExcisable")
+            If Not IsOnlyCreditCust Then
+                If cmbDisItemType.SelectedValue = "T" AndAlso GSTStatus = True Then
+                    If clsLocationWiseTax.IsValidTaxGroup(txtTaxGroup.Value, txtBillToLocation.Value, txtVendorNo.Value, "S", clsCommon.myCDate(txtDate.Value), Nothing) = False Then
+                        Return False
                     End If
-                End If
-                If intx > 0 Then
-                    Item_TaxType = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select TOP(1) Is_Tax_Exempted from TSPL_ITEM_MASTER where Item_Code in (" + clsCommon.GetMulcallString(arrICode) + ")"))
                 Else
-                    Item_TaxType = 0
+                    If clsLocation.isLocatinExcisable(txtBillToLocation.Value) Then
+                        intx = clsItemMaster.isItemOfSameExcisable(arrICode)
+                        If Not (intx = arrICode.Count OrElse intx = 0) Then
+                            Throw New Exception("All item should be of Excisable or NonExcisable")
+                        End If
+                    End If
+                    If intx > 0 Then
+                        Item_TaxType = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select TOP(1) Is_Tax_Exempted from TSPL_ITEM_MASTER where Item_Code in (" + clsCommon.GetMulcallString(arrICode) + ")"))
+                    Else
+                        Item_TaxType = 0
+                    End If
                 End If
             End If
             '-----------------------------------------------------------------------------------
@@ -6849,8 +6885,15 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         If (AllowToSave(False)) Then
             trans = clsDBFuncationality.GetTransactin()
             Try
-                txtTransNo.Text = txtVendorNo.Value
-                SaveData(False, trans)
+                If Not IsOnlyCreditCust Then
+                    txtTransNo.Text = txtVendorNo.Value
+                    SaveData(False, trans)
+                Else
+                    txtTransNo.Text = txtVendorNo.Value
+                    MergeDistributorItems(True, True, trans)
+                    txtVendorNo.Value = clsCommon.myCstr(gvDistributor.Rows(0).Cells("Cust_Code").Value)
+                    SaveData(False, trans)
+                End If
                 If lstobj IsNot Nothing AndAlso lstobj.Count > 0 Then
                     For Each lst As clsPSShipmentDemand In lstobj
                         Dim strQry As String = "select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code as TR_Code,
@@ -6876,11 +6919,12 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
                     Next
                 End If
                 trans.Commit()
-
                 Dim strupdate As String = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo='" + ParentDocNo + "' where Document_Code='" + ParentDocNo + "'"
                 clsDBFuncationality.ExecuteNonQuery(strupdate)
-                clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
-                LoadData(ParentDocNo, NavigatorType.Current)
+                If Not IsAutoClose Then
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
+                    LoadData(ParentDocNo, NavigatorType.Current)
+                End If
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -7633,7 +7677,6 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
                     txtRouteNo.Enabled = True
                     txtVehicleCode.Enabled = True
                     'cmbShift.Enabled = True
-
                 End If
                 cmbDisItemType.Enabled = False
                 txtOPKM.Value = obj.OPKm
@@ -9005,7 +9048,6 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
                         Next
                     End If
                     trans.Commit()
-
                     Dim strupdate As String = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo='" + ParentDocNo + "' where Document_Code='" + ParentDocNo + "'"
                     clsDBFuncationality.ExecuteNonQuery(strupdate)
                     clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
@@ -11624,6 +11666,9 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
         End If
     End Sub
     Private Sub fndRouteNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtRouteNo._MYValidating
+        GetRouteNO(isButtonClicked)
+    End Sub
+    Public Sub GetRouteNO(ByVal isButtonClicked As Boolean)
         If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "NT") = CompairStringResult.Equal Then
             ' 
             If SettDistributorWiseBilling Then
@@ -14067,6 +14112,11 @@ and TSPL_BOOKING_DETAIL.Route_No='" + txtRouteNo.Value + "' and TSPL_BOOKING_MAT
 order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
                     LoadDistributorGrid(qry, trans)
                     MergeDistributorItems(True, False, trans)
+                    'If Not IsOnlyCreditCust Then
+                    '    MergeDistributorItems(True, False, trans)
+                    'Else
+                    '    MergeDistributorItems(True, True, trans)
+                    'End If
                 End If
             Else
                 Throw New Exception("Please Select Item Type ")
@@ -14166,6 +14216,7 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
                                 IsCreditCustomer = True
                                 'strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Cust_Code").Value)
                             Else
+                                IsOnlyCreditCust = False
                                 strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
                             End If
                             If myDictionary.ContainsKey(strKey) Then
