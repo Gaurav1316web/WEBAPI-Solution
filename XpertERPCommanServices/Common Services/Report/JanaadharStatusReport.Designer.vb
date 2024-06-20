@@ -22,7 +22,7 @@ Partial Class JanaadharStatusReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -39,6 +39,7 @@ Partial Class JanaadharStatusReport
         Me.lblFromdate = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.RadLabel12 = New common.Controls.MyLabel()
         Me.btnExp = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
@@ -63,6 +64,7 @@ Partial Class JanaadharStatusReport
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -83,6 +85,8 @@ Partial Class JanaadharStatusReport
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.BtnGo)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.RadLabel12)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnExp)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnreset)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
@@ -98,14 +102,13 @@ Partial Class JanaadharStatusReport
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(800, 409)
         Me.RadPageView1.TabIndex = 1
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
-        Me.RadPageViewPage1.Controls.Add(Me.BtnGo)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.chkRJSBNS)
@@ -121,7 +124,8 @@ Partial Class JanaadharStatusReport
         '
         'BtnGo
         '
-        Me.BtnGo.Location = New System.Drawing.Point(86, 10)
+        Me.BtnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.BtnGo.Location = New System.Drawing.Point(11, 10)
         Me.BtnGo.Name = "BtnGo"
         Me.BtnGo.Size = New System.Drawing.Size(77, 18)
         Me.BtnGo.TabIndex = 340
@@ -130,11 +134,12 @@ Partial Class JanaadharStatusReport
         'MyLabel1
         '
         Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Location = New System.Drawing.Point(7, 10)
+        Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(7, 37)
         Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(73, 18)
+        Me.MyLabel1.Size = New System.Drawing.Size(160, 21)
         Me.MyLabel1.TabIndex = 445
-        Me.MyLabel1.Text = "Farmer Detail"
+        Me.MyLabel1.Text = "Janaadhar Farmer Detail"
         '
         'RadGroupBox2
         '
@@ -234,7 +239,7 @@ Partial Class JanaadharStatusReport
         Me.txtToDate.IsSourceFromTable = False
         Me.txtToDate.IsSourceFromValueList = False
         Me.txtToDate.IsUnique = False
-        Me.txtToDate.Location = New System.Drawing.Point(203, 15)
+        Me.txtToDate.Location = New System.Drawing.Point(57, 10)
         Me.txtToDate.MendatroryField = False
         Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtToDate.MyLinkLable1 = Nothing
@@ -249,17 +254,15 @@ Partial Class JanaadharStatusReport
         Me.txtToDate.TabStop = False
         Me.txtToDate.Text = "30/05/2011"
         Me.txtToDate.Value = New Date(2011, 5, 30, 12, 41, 54, 500)
-        Me.txtToDate.Visible = False
         '
         'lblToDate
         '
         Me.lblToDate.FieldName = Nothing
-        Me.lblToDate.Location = New System.Drawing.Point(481, 98)
+        Me.lblToDate.Location = New System.Drawing.Point(10, 12)
         Me.lblToDate.Name = "lblToDate"
-        Me.lblToDate.Size = New System.Drawing.Size(45, 18)
+        Me.lblToDate.Size = New System.Drawing.Size(30, 18)
         Me.lblToDate.TabIndex = 82
-        Me.lblToDate.Text = "To Date"
-        Me.lblToDate.Visible = False
+        Me.lblToDate.Text = "Date"
         '
         'lblFromdate
         '
@@ -292,18 +295,30 @@ Partial Class JanaadharStatusReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(779, 361)
         Me.gv1.TabIndex = 3
         '
+        'RadLabel12
+        '
+        Me.RadLabel12.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadLabel12.FieldName = Nothing
+        Me.RadLabel12.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel12.ForeColor = System.Drawing.SystemColors.Highlight
+        Me.RadLabel12.Location = New System.Drawing.Point(478, 12)
+        Me.RadLabel12.Name = "RadLabel12"
+        Me.RadLabel12.Size = New System.Drawing.Size(226, 13)
+        Me.RadLabel12.TabIndex = 27
+        Me.RadLabel12.Text = "Double click on [ Union ] To View Details Of Union"
+        '
         'btnExp
         '
         Me.btnExp.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnExp.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
-        Me.btnExp.Location = New System.Drawing.Point(96, 10)
+        Me.btnExp.Location = New System.Drawing.Point(173, 10)
         Me.btnExp.Name = "btnExp"
         Me.btnExp.Size = New System.Drawing.Size(77, 18)
         Me.btnExp.TabIndex = 341
@@ -324,7 +339,7 @@ Partial Class JanaadharStatusReport
         'btnreset
         '
         Me.btnreset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnreset.Location = New System.Drawing.Point(13, 10)
+        Me.btnreset.Location = New System.Drawing.Point(91, 10)
         Me.btnreset.Name = "btnreset"
         Me.btnreset.Size = New System.Drawing.Size(77, 18)
         Me.btnreset.TabIndex = 340
@@ -333,7 +348,7 @@ Partial Class JanaadharStatusReport
         'btnPrint
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrint.Location = New System.Drawing.Point(179, 10)
+        Me.btnPrint.Location = New System.Drawing.Point(251, 10)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(77, 18)
         Me.btnPrint.TabIndex = 338
@@ -362,6 +377,7 @@ Partial Class JanaadharStatusReport
         Me.Text = "JanaadharStatusReport"
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
+        Me.SplitContainer1.Panel2.PerformLayout()
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
@@ -380,6 +396,7 @@ Partial Class JanaadharStatusReport
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
@@ -411,4 +428,5 @@ Partial Class JanaadharStatusReport
     Friend WithEvents btnclose As RadButton
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents BtnGo As RadButton
+    Friend WithEvents RadLabel12 As common.Controls.MyLabel
 End Class
