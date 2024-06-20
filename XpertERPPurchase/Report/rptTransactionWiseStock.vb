@@ -456,7 +456,7 @@ Public Class rptTransactionWiseStock
     End Sub
     Private Sub txtBillToLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtBillToLocation._MYValidating
         Dim qry As String = " Select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
-        Dim whrcls As String = " Location_Type='Physical' and IsMainPlant='1' and Loc_Segment_Code in (" + objCommonVar.strCurrUserLocationsSegment + ") "
+        Dim whrcls As String = " Location_Type='Physical' "
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             whrcls += " and Location_Code in(" + objCommonVar.strCurrUserLocations + ") "
         End If

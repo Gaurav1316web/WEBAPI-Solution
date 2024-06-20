@@ -483,7 +483,7 @@ Public Class frmCorrection
                 Dim CorrTypeSRNQty As Boolean = True
                 Dim CorrTypeSRNFATSNF As Boolean = True
                 Dim CorrTypeSRNVLC As Boolean = True
-                Dim CorrTypeRejectType As Boolean = True
+
                 If clsCommon.myCdbl(txtQty.Tag) = txtQty.Value Then
                     CorrTypeSRNQty = False
                 End If
@@ -493,9 +493,7 @@ Public Class frmCorrection
                 If clsCommon.CompairString(clsCommon.myCstr(TxtFinder1.Tag), clsCommon.myCstr(txtVLC.Tag)) = CompairStringResult.Equal Then
                     CorrTypeSRNVLC = False
                 End If
-                If clsCommon.CompairString(clsCommon.myCstr(cboRejectType.SelectedValue), clsCommon.myCstr(cboRejectType.Tag)) = CompairStringResult.Equal Then
-                    CorrTypeRejectType = False
-                End If
+
                 'If clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkRetesting) = CompairStringResult.Equal Then
                 '    If chkRetesting.Checked Then
                 '        'Dim obj As New clsMilkSRNMCCDetail()
@@ -511,7 +509,7 @@ Public Class frmCorrection
                 '        obj.arrList.Add(obj)
                 '    End If
                 'End If
-                clsMilkSRNMCC.Correction(lblSRNNo.Text, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, txtQty.Value, clsCommon.myCstr(cboMilkType.SelectedValue), txtFAT.Value, txtSNF.Value, clsCommon.myCstr(TxtFinder1.Value), False, Nothing, False, Form_ID, CorrTypeRejectType, clsCommon.myCstr(cboRejectType.SelectedValue))
+                clsMilkSRNMCC.Correction(lblSRNNo.Text, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, txtQty.Value, clsCommon.myCstr(cboMilkType.SelectedValue), txtFAT.Value, txtSNF.Value, clsCommon.myCstr(TxtFinder1.Value), False, Nothing, False, Form_ID, clsCommon.myCstr(cboRejectType.SelectedValue))
             End If
             clsCommon.MyMessageBoxShow(Me, "Data corrected sucessfully", Me.Text)
             btnSave.Enabled = False
@@ -636,6 +634,7 @@ left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETA
         MyLabel5.Text = Nothing
         RadGroupBox2.Enabled = True
         RadGroupBox1.Enabled = False
+        btnSave.Enabled = True
         If clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkProcurementCorrection) = CompairStringResult.Equal Then
             chkRetesting.Checked = False
             chkRetesting.Visible = False
@@ -843,7 +842,7 @@ order by  xx.Shift desc,xx.Qty "
                                                                 qry = "update TSPL_MILK_COLLECTION_DCS_DETAIL set Own_Qty= case when Own_Qty is null then Qty else Own_Qty end,Own_FAT= case when Own_FAT is null then FAT else Own_FAT end,Own_SNF= case when Own_SNF is null then SNF else Own_SNF end,Own_FATKG= case when Own_FATKG is null then FATKG else Own_FATKG end,Own_SNFKG= case when Own_SNFKG is null then SNFKG else Own_SNFKG end where PK_Id=" + clsCommon.myCstr(dtDetail.Rows(indx)("PK_Id")) + ""
                                                                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                                                            clsMilkSRNMCC.Correction(clsCommon.myCstr(dtDetail.Rows(indx)("DOC_CODE")), True, True, False, Qty, clsCommon.myCstr(dtDetail.Rows(indx)("Dock_Collection_Milk_Type")), FAT, SNF, "", False, trans, True, Form_ID, False, "")
+                                                            clsMilkSRNMCC.Correction(clsCommon.myCstr(dtDetail.Rows(indx)("DOC_CODE")), True, True, False, Qty, clsCommon.myCstr(dtDetail.Rows(indx)("Dock_Collection_Milk_Type")), FAT, SNF, "", False, trans, True, Form_ID, "")
                                                             Dim coll As New Hashtable()
                                                                 clsCommon.AddColumnsForChange(coll, "Qty", Qty)
                                                                 clsCommon.AddColumnsForChange(coll, "FAT", FAT)
