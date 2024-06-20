@@ -326,7 +326,7 @@ Public Class rptPaymentProcessReport
         txtVSP.arrValueMember = clsCommon.ShowMultipleSelectForm("PaymentProcessReport@VSP", qry, "Code", "Name", txtVSP.arrValueMember, txtVSP.arrDispalyMember)
     End Sub
     Private Sub txtLocation__My_Click(sender As Object, e As EventArgs) Handles txtLocation._My_Click
-        Dim qry As String = " select Location_Code as [Code],Location_Desc as [Name],Loc_Segment_Code as [LocationSegmentCode],Add1,Add2,Add3,Add4,City_Code as [City Code],State,Pin_Code as [Pin Code],Country  from TSPL_Location_MASTER   where    Location_Type='Physical' and IsMainPlant='1' and Loc_Segment_Code in (" + objCommonVar.strCurrUserLocationsSegment + ") "
+        Dim qry As String = " select Location_Code as [Code],Location_Desc as [Name],Loc_Segment_Code as [LocationSegmentCode],Add1,Add2,Add3,Add4,City_Code as [City Code],State,Pin_Code as [Pin Code],Country  from TSPL_Location_MASTER   where    Location_Type='Physical' "
         txtLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("PaymentProcessReport@LocFinder", qry, "LocationSegmentCode", "Name", txtLocation.arrValueMember, txtLocation.arrDispalyMember)
     End Sub
     Private Sub rmsaveLayout_Click(sender As Object, e As EventArgs) Handles rmsaveLayout.Click

@@ -521,8 +521,7 @@ Public Class frmDeductionRegister
     Private Sub fndLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndLocation._MYValidating
         Dim qry As String = " Select Location_Code As Code,location_Desc As Name ,Add1 + ' ' + Add2 + Add3 + ' ' + Add4 As [Address],City_Code As [City Code],State As [State],Pin_Code As [Pin Code],
                            Country ,Telphone,Email,Location_Type AS [Location Type],Loc_Status AS [Loc Status] ,Loc_Segment_Code As [Loc Segment Code],Type As [Type] From TSPL_LOCATION_MASTER "
-        'Dim whrcls As String = "   Location_Type='Physical' and IsMainPlant='1' and Loc_Segment_Code in (" + objCommonVar.strCurrUserLocationsSegment + ")"
-        Dim WhrCls As String = " Location_Type='Physical' and IsMainPlant='1' and Loc_Segment_Code in (" + objCommonVar.strCurrUserLocationsSegment + ") "
+        Dim WhrCls As String = " Location_Type='Physical'"
         fndLocation.Value = clsCommon.ShowSelectForm("location", qry, "Code", " ", fndLocation.Value, "Code", isButtonClicked)
         lblLocationName.Text = clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" & fndLocation.Value & "'")
         'SetDiplayMemberSingleFinder(fndLocationCode, "Location_Desc", "TSPL_LOCATION_MASTER", "Location_Code")

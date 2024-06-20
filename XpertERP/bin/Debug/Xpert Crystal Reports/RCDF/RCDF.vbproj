@@ -1272,6 +1272,8 @@
     <None Include="Crystal Reports\Kwality Sales Report\crptBookingNonTaxableChallan.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptBookingTaxableChallan.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptBulkSaleInvAndDispatchJV.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorWiseDetail.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorWiseSummary.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDemandReturn.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptInvoiceDetail.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDairySaleGatePassEntriesTNK.rpt" />
@@ -1986,6 +1988,8 @@
     <None Include="Crystal Reports\TDS\TDSLedger.rpt" />
     <None Include="Crystal Reports\TDS\TDSLedger6968.rpt" />
     <None Include="Crystal Reports\Union Reports\crptDBT_NEFTUnionReport.rpt" />
+    <None Include="Crystal Reports\Union Reports\CrptFarmerDetails.rpt" />
+    <None Include="Crystal Reports\Union Reports\crptJanaadharStatusReport.rpt" />
     <None Include="Crystal Reports\Union Reports\crptMilkProcurementDCSWise.rpt" />
     <None Include="Crystal Reports\Union Reports\crptMilkProcurementRouteWise.rpt" />
     <None Include="Crystal Reports\Union Reports\crptMilkProcurementUnionWise.rpt" />

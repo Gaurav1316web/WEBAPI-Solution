@@ -172,6 +172,7 @@ Public Class ProgramCodeNew
         'InsertDefaultValue(clsUserMgtCode.rptDataEntryTracingReport, "Data Entry Tracing Report", "1.01.03.27", clsUserMgtCode.SubModuleCommonServicesReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmDocumentCancelledReport, "Document Cancelled Report", "1.01.03.22", clsUserMgtCode.SubModuleCommonServicesReport, 37)
         InsertDefaultValue(clsUserMgtCode.DashboardMilkProcurement, "Dashboard Milk Procurement", "1.01.03.23", clsUserMgtCode.SubModuleCommonServicesReport, 37)
+        InsertDefaultValue(clsUserMgtCode.JanaadharStatusReport, "Janaadhar Status Report", "1.01.03.24", clsUserMgtCode.SubModuleCommonServicesReport, 37)
 
         '--------------Receivable----------------------------------
         InsertDefaultValue(clsUserMgtCode.ModuleReceivable, "Receivable", "1.02", clsUserMgtCode.ExpertERP, "M", 23)
@@ -1674,7 +1675,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.DBTNEFTUploader, "DBT NEFT Uploader", "1.17.02.50", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", False, True, Nothing)
         InsertDefaultValue(clsUserMgtCode.FrmCreateBMCDCSbyMobile, "BMC DCS Mobile", "1.17.02.51", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.DBTNEFTReject, "DBT NEFT Reject", "1.17.02.52", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.DBTPayment, "DBT Payment", "1.17.02.53", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.DBTPayment, "DBT Payment", "1.17.02.53", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", True, True, Nothing)
         InsertDefaultValue(clsUserMgtCode.DCSFinancialEntry, "DCS Financial Entry", "1.17.02.54", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, "DCS Milk Collection", "1.17.02.55", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmMakeSavingPayment, "Make Saving Payment", "1.17.02.56", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)

@@ -131,28 +131,28 @@ Public Class FrmProductionAndSaleReport
                           GROUP BY TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE) ProdCumQty
                           ON TSPL_LOCATION_MASTER.LOCATION_CODE =ProdCumQty.LOCATION_CODE
                         LEFT OUTER JOIN
-                        (SELECT SUM((isnull(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS Qty,TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location FROM 
-                        TSPL_SD_SALE_INVOICE_DETAIL left join 
-                        TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.document_code=TSPL_SD_SALE_INVOICE_DETAIL.document_code
-                        LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.ITEM_CODE
-                         left outer join TSPL_ITEM_UOM_DETAIL FromUOM on FromUOM.Item_Code =TSPL_SD_SALE_INVOICE_DETAIL.Item_Code 
-						AND FromUOM.UOM_Code=TSPL_SD_SALE_INVOICE_DETAIL.Unit_code
-						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SALE_INVOICE_DETAIL.item_code and ToUOM.UOM_Code='MT'
-                        WHERE TSPL_Item_Master.FG_for_CF_RPT=1 AND TSPL_SD_SALE_INVOICE_HEAD.Status=1 and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
-                        GROUP BY TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location) SaleDailyQty
+                        (SELECT SUM((isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS Qty,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location FROM 
+                        TSPL_SD_SHIPMENT_DETAIL left join 
+                        TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_SD_SHIPMENT_DETAIL.document_code
+                        LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SD_SHIPMENT_DETAIL.ITEM_CODE
+                         left outer join TSPL_ITEM_UOM_DETAIL FromUOM on FromUOM.Item_Code =TSPL_SD_SHIPMENT_DETAIL.Item_Code 
+						AND FromUOM.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_code
+						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
+                        WHERE TSPL_Item_Master.FG_for_CF_RPT=1 AND TSPL_SD_SHIPMENT_HEAD.Status=1 and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
+                        GROUP BY TSPL_SD_SHIPMENT_HEAD.Bill_To_Location) SaleDailyQty
                         ON TSPL_LOCATION_MASTER.LOCATION_CODE =SaleDailyQty.Bill_To_Location 
                         LEFT OUTER JOIN
-                        (SELECT SUM((isnull(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS Qty,TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location FROM 
-                        TSPL_SD_SALE_INVOICE_DETAIL left join 
-                        TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.document_code=TSPL_SD_SALE_INVOICE_DETAIL.document_code
-                        LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.ITEM_CODE
-                        left outer join TSPL_ITEM_UOM_DETAIL FromUOM on FromUOM.Item_Code =TSPL_SD_SALE_INVOICE_DETAIL.Item_Code 
-						AND FromUOM.UOM_Code=TSPL_SD_SALE_INVOICE_DETAIL.Unit_code
-						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SALE_INVOICE_DETAIL.item_code and ToUOM.UOM_Code='MT'
-                        WHERE TSPL_Item_Master.FG_for_CF_RPT=1 AND TSPL_SD_SALE_INVOICE_HEAD.Status=1 
-                        and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
-                         and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
-                        GROUP BY TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location) SaleCumQty
+                        (SELECT SUM((isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS Qty,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location FROM 
+                        TSPL_SD_SHIPMENT_DETAIL left join 
+                        TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_SD_SHIPMENT_DETAIL.document_code
+                        LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SD_SHIPMENT_DETAIL.ITEM_CODE
+                        left outer join TSPL_ITEM_UOM_DETAIL FromUOM on FromUOM.Item_Code =TSPL_SD_SHIPMENT_DETAIL.Item_Code 
+						AND FromUOM.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_code
+						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
+                        WHERE TSPL_Item_Master.FG_for_CF_RPT=1 AND TSPL_SD_SHIPMENT_HEAD.Status=1 
+                        and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
+                         and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
+                        GROUP BY TSPL_SD_SHIPMENT_HEAD.Bill_To_Location)  SaleCumQty
                         ON TSPL_LOCATION_MASTER.LOCATION_CODE =SaleCumQty.Bill_To_Location 
                          LEFT OUTER JOIN
                         (SELECT SUM(isnull(TSPL_SD_SHIPMENT_HEAD.Order_Qty,0))-SUM((isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS Qty,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location FROM 
