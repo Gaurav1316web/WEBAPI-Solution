@@ -564,7 +564,7 @@ Public Class clsPaymentProcessHead
                                     XTotalAmount += XAmount
                                     objPayAdj = New clsPaymentAdjustmentEntry
                                     objPayAdj.Adjustment_No = "" ''To Be Generated
-                                    objPayAdj.Description = "AP Debit Note Adjustment Against Hold Process"
+                                    objPayAdj.Description = "AP Debit Note Adjustment Against Hold Payment Process"
                                     objPayAdj.Adjustment_Date = clsCommon.myCDate(obj.Doc_Date)
                                     objPayAdj.Vendor_No = clsCommon.myCstr(obj.ArrPPDetail(i).VSP_CODE)
                                     objPayAdj.Vendor_Name = clsCommon.myCstr(obj.ArrPPDetail(i).VSP_NAME)
@@ -594,7 +594,7 @@ Public Class clsPaymentProcessHead
                                         XTotalAmount -= XAmount
                                         objPayAdj = New clsPaymentAdjustmentEntry
                                         objPayAdj.Adjustment_No = "" ''To Be Generated
-                                        objPayAdj.Description = "AP Credit Note Adjustment Against Hold Process"
+                                        objPayAdj.Description = "AP Credit Note Adjustment Against Hold Payment Process"
                                         objPayAdj.Adjustment_Date = clsCommon.myCDate(obj.Doc_Date)
                                         objPayAdj.Vendor_No = clsCommon.myCstr(obj.ArrPPDetail(i).VSP_CODE)
                                         objPayAdj.Vendor_Name = clsCommon.myCstr(obj.ArrPPDetail(i).VSP_NAME)
@@ -621,7 +621,7 @@ Public Class clsPaymentProcessHead
                         If XTotalAmount > 0 Then
                             objPayAdj = New clsPaymentAdjustmentEntry
                             objPayAdj.Adjustment_No = "" ''To Be Generated
-                            objPayAdj.Description = "AP Invoice Adjustment Against Hold Process"
+                            objPayAdj.Description = "AP Invoice Adjustment Against Hold Payment Process"
                             objPayAdj.Adjustment_Date = clsCommon.myCDate(obj.Doc_Date)
                             objPayAdj.Vendor_No = clsCommon.myCstr(obj.ArrPPDetail(i).VSP_CODE)
                             objPayAdj.Vendor_Name = clsCommon.myCstr(obj.ArrPPDetail(i).VSP_NAME)

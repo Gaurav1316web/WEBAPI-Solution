@@ -208,10 +208,12 @@ Public Class clsJournalMaster
                     StrVoucher = strVourcherNoForRecreateOnly
                 Else
                     Dim strLocalPrefixTransType As String = clsDocTransactionType.JournalEntryOther
-                    If clsCommon.CompairString(SrcType, "MI-SR") = CompairStringResult.Equal Then
+                    If EntryDesc.Contains("Payment Process") Then
+                        strLocalPrefixTransType = clsDocTransactionType.JournalEntryPaymentProcess
+                        StrVoucher = fnAutoGenerateNo(JEWithOPTables, trans, dt, strLocalPrefixTransType, strLocationCode, isLocationCodeisSegment, objCommonVar.ShowMCCFinderInPaymentProcess)
+                    ElseIf clsCommon.CompairString(SrcType, "MI-SR") = CompairStringResult.Equal Then
                         strLocalPrefixTransType = clsDocTransactionType.JournalEntryMilkSRN
                         StrVoucher = fnAutoGenerateNo(JEWithOPTables, trans, dt, strLocalPrefixTransType, strLocationCode, isLocationCodeisSegment, objCommonVar.ShowMCCFinderInPaymentProcess)
-
                     ElseIf clsCommon.CompairString(SrcType, "PR-EN") = CompairStringResult.Equal Then
                         If objCommonVar.ShowMCCFinderInPaymentProcess AndAlso clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Prog_Code from tspl_provision_entry where Doc_No='" + SrcDocNo + "'", trans)), clsUserMgtCode.frmMilkShiftEndMCC) = CompairStringResult.Equal Then
                             strLocalPrefixTransType = clsDocTransactionType.JournalEntryMilkSRN
@@ -222,9 +224,6 @@ Public Class clsJournalMaster
                             End If
                             StrVoucher = fnAutoGenerateNo(JEWithOPTables, trans, dt, strLocalPrefixTransType, strLocationCode, isLocationCodeisSegment)
                         End If
-                    ElseIf EntryDesc.Contains("Payment Process") Then
-                        strLocalPrefixTransType = clsDocTransactionType.JournalEntryPaymentProcess
-                        StrVoucher = fnAutoGenerateNo(JEWithOPTables, trans, dt, strLocalPrefixTransType, strLocationCode, isLocationCodeisSegment, objCommonVar.ShowMCCFinderInPaymentProcess)
                     Else
                         If clsCommon.myLen(strPrefixTransType) > 0 Then
                             strLocalPrefixTransType = strPrefixTransType
@@ -232,7 +231,7 @@ Public Class clsJournalMaster
                         StrVoucher = fnAutoGenerateNo(JEWithOPTables, trans, dt, strLocalPrefixTransType, strLocationCode, isLocationCodeisSegment)
                     End If
                 End If
-                Dim Jrnl As String = 0
+                    Dim Jrnl As String = 0
                 If strReference = Nothing Then
                     strReference = ""
                 End If
