@@ -3,8 +3,6 @@ Imports System.Data.SqlClient
 Imports System.IO
 Imports common
 Imports Newtonsoft.Json.Linq
-Imports System.Drawing
-Imports System.Drawing.Text
 
 
 Public Class FrmPaymentProcess
@@ -217,7 +215,7 @@ Public Class FrmPaymentProcess
         ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D To Delete ")
         ButtonToolTip.SetToolTip(btnClose, "Press Alt+C To Close the Window")
         ButtonToolTip.SetToolTip(btnReset, "Press Alt+N For New")
-        'ButtonToolTip.SetToolTip(btnProcess, "Press Alt+P to Post the Transaction")
+        ButtonToolTip.SetToolTip(btnPost, "Press Alt+P to Post the Transaction")
         isPickPendingMilkSRNinNextPaymentCycle = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PickPendingMilkSRNinNextPaymentCycle, clsFixedParameterCode.PickPendingMilkSRNinNextPaymentCycle, Nothing)) = 1
         SettShowMCCFinder = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowMCCFinderInPaymentProcess, clsFixedParameterCode.ShowMCCFinderInPaymentProcess, Nothing)) = 1)
         txtMCC.Visible = SettShowMCCFinder
@@ -3584,8 +3582,10 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
         mfndMcc.arrValueMember = Nothing
         txtLocName.Text = ""
         btnProcess.Enabled = False
+        btnPost.Enabled = False
         btnDelete.Enabled = False
         lblPending.Status = ERPTransactionStatus.Pending
+        lblPrePending.Status = ERPTransactionStatus.Pending
         'btnSave.Visible = False
         'btnProcess.Enabled = True
         'btnDelete.Visible = False
@@ -3671,7 +3671,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
         End If
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
-        btnProcess.Visible = MyBase.isPostFlag
+        btnPost.Visible = MyBase.isPostFlag
         btnPrint.Visible = MyBase.isPrintFlag
         btnExport.Visible = MyBase.isExport
         'RadMenu1.Visible = MyBase.isExport
@@ -3690,6 +3690,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
         '    btnReverse.Enabled = False
         'End If
         btnReverse.Visible = False
+        btnUnpost.Visible = False
     End Sub
 
     Function AllowToSave() As Boolean
@@ -4474,6 +4475,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                 btnSave.Text = "Update"
                 btnDelete.Enabled = True
                 btnProcess.Enabled = True
+                btnPost.Enabled = True
                 fndDocNo.MyReadOnly = True
                 fndDocNo.Value = obj.Doc_No
                 fndLoc.Value = obj.Loc_Seg_Code
@@ -4501,15 +4503,22 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                 chkSkipPreviousDocumentOfAdvancePayment.Checked = obj.Is_Skip_Previous_Advacee_Payment
                 SetTagOFCheckBox()
 
-                If obj.isPosted = 0 Then
-                    lblPending.Status = ERPTransactionStatus.Pending
+                If obj.isPrePosted = 0 Then
+                    lblPrePending.Status = ERPTransactionStatus.Pending
                     btnPrintBillMobUser.Enabled = False
                 Else
                     btnSave.Enabled = False
-                    btnProcess.Enabled = False
+                    btnPost.Enabled = False
                     btnDelete.Enabled = False
-                    lblPending.Status = ERPTransactionStatus.Approved
+                    lblPrePending.Status = ERPTransactionStatus.Approved
                     btnPrintBillMobUser.Enabled = True
+                End If
+
+                If obj.isPosted = 0 Then
+                    lblPending.Status = ERPTransactionStatus.Pending
+                Else
+                    lblPending.Status = ERPTransactionStatus.Approved
+                    btnProcess.Enabled = False
                 End If
                 isLoad = True
                 Dim i As Integer = 0
@@ -4861,11 +4870,11 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                     txtFiscalYear.Text = clsGenratePaymentCycles.GetPaymentFiscalCode(fndLoc.Value, dtpToDate.Value)
                 End If
                 '=====================if document go for approval then no post button visible or if document contain related setting
-                btnProcess.Visible = MyBase.isPostFlag
+                btnPost.Visible = MyBase.isPostFlag
                 If Not clsApply_Approval.Visibility_PostButtonForApproval(fndLoc.Value, "", MyBase.Form_ID, clsCommon.myCstr(fndDocNo.Value), 0, 0, "") Then
-                    btnProcess.Visible = True
-                    If lblPending.Status = ERPTransactionStatus.Pending Then
-                        lblPending.Status = clsApply_Approval.ApprovalCondCheck_Doc(MyBase.Form_ID, clsCommon.myCstr(fndDocNo.Value), Nothing)
+                    btnPost.Visible = True
+                    If lblPrePending.Status = ERPTransactionStatus.Pending Then
+                        lblPrePending.Status = clsApply_Approval.ApprovalCondCheck_Doc(MyBase.Form_ID, clsCommon.myCstr(fndDocNo.Value), Nothing)
                     End If
                 End If
 
@@ -5021,8 +5030,8 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
             End If
             'AutoFillAllVSP()
             If clsCommon.MyMessageBoxShow("Continue to Process the payment ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button1) = System.Windows.Forms.DialogResult.Yes Then
-                clsPaymentProcessHead.ProcessData(fndDocNo.Value, IIf(clsCommon.myLen(txtNEFTUploaderREFNo.Tag) > 0, txtNEFTUploaderREFNo.Tag, frm.desc))
-                clsCommon.MyMessageBoxShow(Me, "Payment Processed", Me.Text)
+                clsPaymentProcessHead.ProcessData(fndDocNo.Value, "Payment Process")
+                clsCommon.MyMessageBoxShow(Me, "Payment Process", Me.Text)
                 LoadData(fndDocNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
@@ -5623,6 +5632,30 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
             'loadGvData()
             isLoad = False
         End If
+    End Sub
+
+    Private Sub btnPost_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPost.Click
+        PostData()
+    End Sub
+    Sub PostData()
+        clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(fndDocNo.Value))
+        Try
+            If SettVSPHoldPaymentNotCompanyBank = False Then
+                If Not AllowToSave() Then
+                    Exit Sub
+                End If
+                GC.Collect()
+                GC.WaitForPendingFinalizers()
+                SaveData(True)
+            End If
+            If clsCommon.MyMessageBoxShow("Continue to Post the payment ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button1) = System.Windows.Forms.DialogResult.Yes Then
+                clsPaymentProcessHead.PrePostData(fndDocNo.Value)
+                clsCommon.MyMessageBoxShow(Me, "Payment Processed", Me.Text)
+                LoadData(fndDocNo.Value, NavigatorType.Current)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub btnProcess_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnProcess.Click
@@ -8353,14 +8386,16 @@ From TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT
     Private Sub FrmPaymentProcess_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             If MyBase.isReverse Then
-
                 Dim frm As New FrmPWD(Nothing)
                 frm.strType = "SIRC"
                 frm.strCode = "SIReversAndCreate"
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
+                    lblPending.Visible = True
                     btnReverse.Visible = True
+                    btnUnpost.Visible = True
                     btnDeleteVSPBill.Visible = True
+                    btnProcess.Visible = True
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
@@ -8383,6 +8418,19 @@ From TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT
         End Try
     End Sub
 
+    Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles btnUnpost.Click
+        Try
+            If clsCommon.myLen(fndDocNo.Value) > 0 Then
+                If clsCommon.MyMessageBoxShow("Unpost The payment Process " + Environment.NewLine + "Are You sure", Me.Text, MessageBoxButtons.YesNo, WinControls.RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                    clsPaymentProcessHead.Unpost(fndDocNo.Value)
+                    clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                    LoadData(fndDocNo.Value, NavigatorType.Current)
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
     Private Sub btnDeleteVSPBill_Click(sender As Object, e As EventArgs) Handles btnDeleteVSPBill.Click
         Try
             If clsCommon.myLen(fndDocNo.Value) > 0 Then
@@ -8720,4 +8768,6 @@ where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='" + fndDocNo.Value + "' and TSPL_MILK_
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+
 End Class

@@ -639,6 +639,7 @@ Public Class clsUserMgtCode
     'Public Const rptDataEntryTracingReport As String = "RPT_DATA_TRA"
     Public Const frmDocumentCancelledReport As String = "RPT_DOC_CANC"
     Public Const DashboardMilkProcurement As String = "DAS_MK_PROC"
+    Public Const JanaadharStatusReport As String = "JAN_STS_RPT"
     '--------------------------------Receivable---------------------------
     '===================Setup====================
 

@@ -5595,6 +5595,11 @@ Public Class MDI
                         frm = New DashboardMilkProcurement()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+
+                    Case clsUserMgtCode.JanaadharStatusReport
+                        frm = New JanaadharStatusReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     'Case clsUserMgtCode.rptDataEntryTracingReport
                     '    frm = New rptDataEntryTracingReport()
                     '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -6017,7 +6022,7 @@ Public Class MDI
                         frm = New frmBulkSaleFreightMaster()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmBulkSaleFreightCalculation
-                        frm = New frmBullVaccinationEntry()
+                        frm = New frmBulkSaleFreightCalculation()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.NIRQC
                         frm = New frmNIRQC()
@@ -8342,6 +8347,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptPerodicalDispatchReport
                         frm = New rptPerodicalDispatchReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptHeadLoadReport
+                        frm = New rptHeadLoadReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptDBTCappingReport
                         frm = New rptDBTCappingReport

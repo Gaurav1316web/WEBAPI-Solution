@@ -1053,7 +1053,7 @@ Public Class frmVSP_VLCMaster
             'Sanjay
             If chkCreateCustomerAlso.Checked = True Then
                 If CreateCustomer(True, trans) = False Then
-                    Exit Sub
+                    Throw New Exception("Error while create customer")
                 End If
             End If
             'Sanjay
@@ -1068,11 +1068,12 @@ Public Class frmVSP_VLCMaster
                 End If
             End If
             UpdateFeild(fndvendorNo.Value, fndvlccode.Text, trans)
+            UcAttachment1.SaveData(fndvendorNo.Value, True, trans)
+            trans.Commit()
+
+            myMessages.insert()
             btnsave.Text = "Update"
             btndelete.Enabled = True
-            trans.Commit()
-            UcAttachment1.SaveData(fndvendorNo.Value)
-            myMessages.insert()
         Catch ex As Exception
             trans.Rollback()
             myMessages.myExceptions(ex)
@@ -1221,9 +1222,12 @@ Public Class frmVSP_VLCMaster
             '''end of Milk Route master
 
             '' Village Master
-            qry = "select count(*) from TSPL_VILLAGE_MASTER where Village_Name='" + StrTempVSPName + "'"
-            check = CInt(clsDBFuncationality.getSingleValue(qry, trans))
-            If check <= 0 Then
+            qry = "select Village_Code,Village_Name from TSPL_VILLAGE_MASTER where Village_Name='" + StrTempVSPName + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                txtvillcode.Value = clsCommon.myCstr(dt.Rows(0)("Village_Code"))
+                txtvillname.Text = clsCommon.myCstr(dt.Rows(0)("Village_Name"))
+            Else
                 Dim objVillage As New clsfrmVillageMaster
                 objVillage.villname = StrTempVSPName
                 objVillage.citycode = fndCity.Value
@@ -1232,6 +1236,7 @@ Public Class frmVSP_VLCMaster
                 clsfrmVillageMaster.SaveData(objVillage, True, trans)
                 txtvillcode.Value = objVillage.villcode
                 txtvillname.Text = objVillage.villname
+
             End If
 
             '' End of Village MAster
@@ -1243,13 +1248,10 @@ Public Class frmVSP_VLCMaster
 
     Sub VLCSaveData(ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction)
         Try
-
             If isNewEntry = True OrElse btnsave.Text = "Update" Then
                 txtvspcode.Value = fndvendorNo.Value
                 txtvsp.Text = txtvendorname.Text
             End If
-
-
             Dim obj As New clsfrmVLCMaster()
             obj.vlcCode = clsCommon.myCstr(fndvlccode.Text)
             obj.VLC_CODE_VLC_UPLOADER = clsCommon.myCstr(txtVLCCodeVlcUploader.Text)
@@ -1274,23 +1276,13 @@ Public Class frmVSP_VLCMaster
                 obj.TFOwnBMC = False
                 obj.OwnBMCDate = Nothing
             End If
-
-
-
-
-
             Dim arr As New List(Of clsfrmVLCMaster)
             obj.Form_ID = MyBase.Form_ID
-            clsfrmVLCMaster.SaveData(obj.vlcCode, isNewEntry, obj, arr, trans)
-
-
-            fndvlccode.Text = obj.vlcCode
-
-
-
-
+            If clsfrmVLCMaster.SaveData(obj.vlcCode, isNewEntry, obj, arr, trans) Then
+                fndvlccode.Text = obj.vlcCode
+            End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            Throw New Exception(ex.Message)
         End Try
     End Sub
 
@@ -2475,22 +2467,54 @@ Public Class frmVSP_VLCMaster
         End If
 
         Dim strIFSCCode As String = ""
-        If clsCommon.myLen(txtIFSCCode2.Text) > 0 Then
-            strIFSCCode = txtIFSCCode2.Text
-        ElseIf clsCommon.myLen(findTxtIFSCCode2.Value) > 0 Then
-            strIFSCCode = findTxtIFSCCode2.Value
+        If EnableBankFromMaster = True Then
+            If clsCommon.myLen(findTxtIFSCCode2.Value) > 0 Then
+                strIFSCCode = findTxtIFSCCode2.Value
+            Else
+                strIFSCCode = ""
+            End If
+            'findfndbankcode.Value = myDr(31).ToString()
+            'findTxtIFSCCode.Value = myDr("IFSC_Code").ToString()
         Else
-            strIFSCCode = ""
+            If clsCommon.myLen(txtIFSCCode2.Text) > 0 Then
+                strIFSCCode = txtIFSCCode2.Text
+            Else
+                strIFSCCode = ""
+            End If
         End If
+        'Me.fndbankcode.Text = myDr(31).ToString()
+        'Me.TxtIFSCCode.Text = myDr("IFSC_Code").ToString()
+
+        'End If
+        'If clsCommon.myLen(txtIFSCCode2.Text) > 0 Then
+        '    strIFSCCode = txtIFSCCode2.Text
+        'ElseIf clsCommon.myLen(findTxtIFSCCode2.Value) > 0 Then
+        '    strIFSCCode = findTxtIFSCCode2.Value
+        'Else
+        '    strIFSCCode = ""
+        'End If
 
         Dim strbank As String = ""
-        If clsCommon.myLen(fndbankcode2.Text) > 0 Then
-            strbank = fndbankcode2.Text
-        ElseIf clsCommon.myLen(findfndbankcode2.Value) > 0 Then
-            strbank = findfndbankcode2.Value
+        If EnableBankFromMaster = True Then
+            If clsCommon.myLen(findfndbankcode2.Value) > 0 Then
+                strbank = findfndbankcode2.Value
             Else
                 strbank = ""
+            End If
+        Else
+            If clsCommon.myLen(fndbankcode2.Text) > 0 Then
+                strbank = fndbankcode2.Text
+            Else
+                strbank = ""
+            End If
         End If
+        'If clsCommon.myLen(fndbankcode2.Text) > 0 Then
+        '    strbank = fndbankcode2.Text
+        'ElseIf clsCommon.myLen(findfndbankcode2.Value) > 0 Then
+        '    strbank = findfndbankcode2.Value
+        '    Else
+        '        strbank = ""
+        'End If
 
 
         Dim qry As String = " update TSPL_VENDOR_MASTER set "

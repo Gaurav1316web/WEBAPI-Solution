@@ -198,7 +198,6 @@ Public Class clsJournalMaster
                 If objTotal.Amount > 0 Then
                     dblTotal += objTotal.Amount
                 End If
-
             Next
             If dblTotal > 0 Then
                 If clsCommon.myLen(strVourcherNoForRecreateOnly) > 0 Then
@@ -209,7 +208,10 @@ Public Class clsJournalMaster
                     StrVoucher = strVourcherNoForRecreateOnly
                 Else
                     Dim strLocalPrefixTransType As String = clsDocTransactionType.JournalEntryOther
-                    If clsCommon.CompairString(SrcType, "MI-SR") = CompairStringResult.Equal Then
+                    If EntryDesc.Contains("Payment Process") Then
+                        strLocalPrefixTransType = clsDocTransactionType.JournalEntryPaymentProcess
+                        StrVoucher = fnAutoGenerateNo(JEWithOPTables, trans, dt, strLocalPrefixTransType, strLocationCode, isLocationCodeisSegment, objCommonVar.ShowMCCFinderInPaymentProcess)
+                    ElseIf clsCommon.CompairString(SrcType, "MI-SR") = CompairStringResult.Equal Then
                         strLocalPrefixTransType = clsDocTransactionType.JournalEntryMilkSRN
                         StrVoucher = fnAutoGenerateNo(JEWithOPTables, trans, dt, strLocalPrefixTransType, strLocationCode, isLocationCodeisSegment, objCommonVar.ShowMCCFinderInPaymentProcess)
                     ElseIf clsCommon.CompairString(SrcType, "PR-EN") = CompairStringResult.Equal Then
@@ -229,9 +231,7 @@ Public Class clsJournalMaster
                         StrVoucher = fnAutoGenerateNo(JEWithOPTables, trans, dt, strLocalPrefixTransType, strLocationCode, isLocationCodeisSegment)
                     End If
                 End If
-                'Dim strJrnl As String = "select max(journal_no) from " + strJEHead + " "
-                'Dim Jrnl As String = clsCommon.myCstr(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(strJrnl, trans)) + 1)
-                Dim Jrnl As String = 0
+                    Dim Jrnl As String = 0
                 If strReference = Nothing Then
                     strReference = ""
                 End If
