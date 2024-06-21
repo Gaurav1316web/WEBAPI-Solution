@@ -1656,12 +1656,16 @@ Public Class FrmCrateJaliReport
                 arrHeader.Add((" Route: All"))
             End If
 
-            If exporter = EnumExportTo.Excel Then
-                'clsCommon.MyExportToExcelGrid("Crate Jali Report", Gv1, arrHeader, Me.Text)
-                transportSql.exportdata(Gv1, "", Me.Text, , arrHeader, False, False, True)
-            Else
-                clsCommon.MyExportToPDF(Me.Text, Gv1, arrHeader, Me.Text, True)
-            End If
+            transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
+            'transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
+            'transportSql.exportdata(Gv1, "", Me.Text, , arrHeader, False, False, False)
+            clsCommon.MyExportToExcelGrid(Me.Text, Gv1, arrHeader, Me.Text, True)
+            'If exporter = EnumExportTo.Excel Then
+            '    'clsCommon.MyExportToExcelGrid("Crate Jali Report", Gv1, arrHeader, Me.Text)
+            '    transportSql.exportdata(Gv1, "", Me.Text, , arrHeader, False, False, True)
+            'Else
+            '    clsCommon.MyExportToPDF(Me.Text, Gv1, arrHeader, Me.Text, True)
+            'End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
