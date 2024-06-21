@@ -432,6 +432,12 @@
     <Compile Include="Transaction\frmRMDemandApproval.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Transaction\frmRMProcessLoss.Designer.vb">
+      <DependentUpon>frmRMProcessLoss.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmRMProcessLoss.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\frmTenderShortPenalty.Designer.vb">
       <DependentUpon>frmTenderShortPenalty.vb</DependentUpon>
     </Compile>
@@ -619,6 +625,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmRMDemandApproval.resx">
       <DependentUpon>frmRMDemandApproval.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmRMProcessLoss.resx">
+      <DependentUpon>frmRMProcessLoss.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmTenderShortPenalty.resx">
       <DependentUpon>frmTenderShortPenalty.vb</DependentUpon>

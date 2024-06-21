@@ -659,8 +659,9 @@ Public Class ProgramCodeNew
         '    InsertDefaultValue(clsUserMgtCode.frmRawMilkConsumtion, "Raw Milk Consumtion", "1.07.02.19", clsUserMgtCode.SubModuleMaterialTransaction, 8)
         'End If
         InsertDefaultValue(clsUserMgtCode.frmGeneralWeighment, "General Weighment", "1.07.02.20", clsUserMgtCode.SubModuleMaterialTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.frmAdjProductionEntry, "Production Entry", "1.07.02.21", clsUserMgtCode.SubModuleMaterialTransaction, 8)
-        'InsertDefaultValue(clsUserMgtCode.frmAdjProductionEntryQC, "Production Entry QC", "1.07.02.22", clsUserMgtCode.SubModuleMaterialTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmRMProcessLoss, "RM Process Loss", "1.07.02.21", clsUserMgtCode.SubModuleMaterialTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmAdjProductionEntry, "Production Entry", "1.07.02.22", clsUserMgtCode.SubModuleMaterialTransaction, 8)
+        'InsertDefaultValue(clsUserMgtCode.frmAdjProductionEntryQC, "Production Entry QC", "1.0 7.02.22", clsUserMgtCode.SubModuleMaterialTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.frmAdjProductionStoreEntry, "Production Store Entry", "1.07.02.23", clsUserMgtCode.SubModuleMaterialTransaction, 8)
 
         ' Reports 

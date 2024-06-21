@@ -4106,6 +4106,10 @@ Public Class MDI
                         frm = New frmGeneralWeighment()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.frmRMProcessLoss
+                        frm = New frmRMProcessLoss()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.frmAdjProductionEntry
                         frm = New frmAdjProductionEntry()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
