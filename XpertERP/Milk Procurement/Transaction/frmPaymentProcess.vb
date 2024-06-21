@@ -5030,8 +5030,8 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
             End If
             'AutoFillAllVSP()
             If clsCommon.MyMessageBoxShow("Continue to Process the payment ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button1) = System.Windows.Forms.DialogResult.Yes Then
-                clsPaymentProcessHead.ProcessData(fndDocNo.Value, IIf(clsCommon.myLen(txtNEFTUploaderREFNo.Tag) > 0, txtNEFTUploaderREFNo.Tag, frm.desc))
-                clsCommon.MyMessageBoxShow(Me, "Payment Processed", Me.Text)
+                clsPaymentProcessHead.ProcessData(fndDocNo.Value, "Payment Process")
+                clsCommon.MyMessageBoxShow(Me, "Payment Process", Me.Text)
                 LoadData(fndDocNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception

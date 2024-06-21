@@ -5267,62 +5267,59 @@ Public Class frmSNShipment
                 If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                     Throw New Exception("No document found to post")
                 End If
-                If AllowToSave() = True Then
-                    SaveData(True)
 
 
 
-                    '' Anubhooti 15-Sep-2014 BM00000003735
-                    If FrmMainTranScreen.ValidateTransactionAccToFinYear("Shipment", txtDate.Value) = False Then
-                        Exit Sub
+                '' Anubhooti 15-Sep-2014 BM00000003735
+                If FrmMainTranScreen.ValidateTransactionAccToFinYear("Shipment", txtDate.Value) = False Then
+                    Exit Sub
+                End If
+                ''
+                Dim isCreateAutoInvoice As Boolean = chkCreateAutoInvoice.Checked
+                If Not isCreateAutoInvoice Then
+                    msg = "Do you want to create Auto Invoice of Dispatch[" + txtDocNo.Value + "]" + Environment.NewLine + "Are you sure"
+                    If clsCommon.MyMessageBoxShow(Me, msg, Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
+                        isCreateAutoInvoice = True
                     End If
-                    ''
-                    Dim isCreateAutoInvoice As Boolean = chkCreateAutoInvoice.Checked
-                    If Not isCreateAutoInvoice Then
-                        msg = "Do you want to create Auto Invoice of Dispatch[" + txtDocNo.Value + "]" + Environment.NewLine + "Are you sure"
-                        If clsCommon.MyMessageBoxShow(Me, msg, Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
-                            isCreateAutoInvoice = True
-                        End If
-                    End If
-                    If (clsSNShipmentHead.PostData(MyBase.Form_ID, txtDocNo.Value, isCreateAutoInvoice)) Then
-                        msg = "Successfully Posted"
-                    Else
-                        qry = "select No_Of_Level, LEVEL from TSPL_APPROVAL_LEVEL_SCREEN where User_Code='" + objCommonVar.CurrentUserCode + "' and Trans_Code='" + MyBase.Form_ID + "' "
-                        dt = clsDBFuncationality.GetDataTable(qry)
-                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                            Dim level As String = dt.Rows(0)("LEVEL").ToString()
-                            Dim NoOflevel As Integer = clsCommon.myCdbl(dt.Rows(0)("No_Of_Level"))
-                            If clsCommon.CompairString(level, "Level1") = CompairStringResult.Equal Then
-                                msg = "Level 1 Approval done. "
-                                If NoOflevel = 1 Then
-                                    msg += "Successfully Posted. "
-                                Else
-                                    msg += "Level 2 Approval Required."
-                                End If
-                            ElseIf clsCommon.CompairString(level, "Level2") = CompairStringResult.Equal Then
-                                msg = "Level 2 Approval done. "
-                                If NoOflevel = 2 Then
-                                    msg += "Successfully Posted "
-                                Else
-                                    msg += "Level 3 Approval Required."
-                                End If
+                End If
+                If (clsSNShipmentHead.PostData(MyBase.Form_ID, txtDocNo.Value, isCreateAutoInvoice)) Then
+                    msg = "Successfully Posted"
+                Else
+                    qry = "select No_Of_Level, LEVEL from TSPL_APPROVAL_LEVEL_SCREEN where User_Code='" + objCommonVar.CurrentUserCode + "' and Trans_Code='" + MyBase.Form_ID + "' "
+                    dt = clsDBFuncationality.GetDataTable(qry)
+                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        Dim level As String = dt.Rows(0)("LEVEL").ToString()
+                        Dim NoOflevel As Integer = clsCommon.myCdbl(dt.Rows(0)("No_Of_Level"))
+                        If clsCommon.CompairString(level, "Level1") = CompairStringResult.Equal Then
+                            msg = "Level 1 Approval done. "
+                            If NoOflevel = 1 Then
+                                msg += "Successfully Posted. "
                             Else
-                                msg = "Level 3 Approval done. Successfully Posted"
+                                msg += "Level 2 Approval Required."
                             End If
+                        ElseIf clsCommon.CompairString(level, "Level2") = CompairStringResult.Equal Then
+                            msg = "Level 2 Approval done. "
+                            If NoOflevel = 2 Then
+                                msg += "Successfully Posted "
+                            Else
+                                msg += "Level 3 Approval Required."
+                            End If
+                        Else
+                            msg = "Level 3 Approval done. Successfully Posted"
                         End If
                     End If
-                    clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
-                    LoadData(txtDocNo.Value, NavigatorType.Current)
+                End If
+                clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
+                LoadData(txtDocNo.Value, NavigatorType.Current)
 
-                    '===============if setting on then sms send
-                    If clsSMSAtPost_Sales.SMSATPOST_SALE() Then
-                        SMSSENDONLY(True)
-                    End If
-                    '=============================================
+                '===============if setting on then sms send
+                If clsSMSAtPost_Sales.SMSATPOST_SALE() Then
+                    SMSSENDONLY(True)
+                End If
+                '=============================================
 
-                    If (clsCommon.MyMessageBoxShow(Me, "Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
-                        funPrint(True)
-                    End If
+                If (clsCommon.MyMessageBoxShow(Me, "Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
+                    funPrint(True)
                 End If
             End If
         Catch ex As Exception

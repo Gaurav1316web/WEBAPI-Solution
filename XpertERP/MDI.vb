@@ -4106,6 +4106,10 @@ Public Class MDI
                         frm = New frmGeneralWeighment()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.frmRMProcessLoss
+                        frm = New frmRMProcessLoss()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.frmAdjProductionEntry
                         frm = New frmAdjProductionEntry()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8343,6 +8347,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptPerodicalDispatchReport
                         frm = New rptPerodicalDispatchReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptHeadLoadReport
+                        frm = New rptHeadLoadReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptDBTCappingReport
                         frm = New rptDBTCappingReport

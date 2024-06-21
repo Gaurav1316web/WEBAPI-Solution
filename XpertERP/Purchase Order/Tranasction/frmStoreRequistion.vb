@@ -172,17 +172,19 @@ Public Class frmStoreRequistion
             left outer join TSPL_GL_SEGMENT_CODE on TSPL_GL_SEGMENT_CODE.Segment_code = TSPL_COST_CENTER_TYPE_MASTER.Department_Cost where  Segment_code = '" & txtDept.Value & "'"
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            txtUnitCode.Value = dt.Rows(0)("Unit_Code")
-            If clsCommon.myLen(txtUnitCode.Value) > 0 Then
-                lblUnitDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_COST_CENTER_UNIT_MASTER where Code='" + txtUnitCode.Value + "'"))
-            Else
-                lblUnitDesc.Text = ""
-            End If
-            txtCostCenterType.Value = dt.Rows(0)("COST_CENTER_TYPE_Code")
-            If clsCommon.myLen(txtCostCenterType.Value) > 0 Then
-                lblCostcenterTypeDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_COST_CENTER_TYPE_MASTER where Code='" + txtCostCenterType.Value + "'"))
-            Else
-                lblCostcenterTypeDesc.Text = ""
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                txtUnitCode.Value = dt.Rows(0)("Unit_Code")
+                If clsCommon.myLen(txtUnitCode.Value) > 0 Then
+                    lblUnitDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_COST_CENTER_UNIT_MASTER where Code='" + txtUnitCode.Value + "'"))
+                Else
+                    lblUnitDesc.Text = ""
+                End If
+                txtCostCenterType.Value = dt.Rows(0)("COST_CENTER_TYPE_Code")
+                If clsCommon.myLen(txtCostCenterType.Value) > 0 Then
+                    lblCostcenterTypeDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_COST_CENTER_TYPE_MASTER where Code='" + txtCostCenterType.Value + "'"))
+                Else
+                    lblCostcenterTypeDesc.Text = ""
+                End If
             End If
         Else
             txtDept.Enabled = True
