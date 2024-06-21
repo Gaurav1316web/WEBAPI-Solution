@@ -1168,6 +1168,7 @@ Public Class clsUserMgtCode
     Public Const GatePassTransfer As String = "GP-TRANSFR"
     Public Const TransferCrateReceived As String = "TRANSFR_CR"
     Public Const frmGeneralWeighment As String = "G-WEIGHT"
+    Public Const frmRMProcessLoss As String = "RMI-PRS-LSS"
     '---------Reports--------------------------
 
     Public Const mbtnItemMovement As String = "ITM-MOV-RPT"
