@@ -52,17 +52,19 @@ Public Class frmProductionUtilityCost
 
         If clsCommon.myLen(strOVERHEAD) > 0 Then
             qry += " left outer Join (select bom_code, " + strOVERHEAD + "   from (
-                                         select bom_code, Description , Sum (overhead_cost) as amount  from (
-                                        SELECT TSPL_PP_COST_WITHOUT_BATCH.bom_code,TSPL_OVERHEAD_COST.Description,TSPL_PP_COST_WITHOUT_BATCH.overhead_cost FROM TSPL_PP_COST_WITHOUT_BATCH
-                                       
-                                        left outer join TSPL_OVERHEAD_COST on TSPL_OVERHEAD_COST.COST_CODE=TSPL_PP_COST_WITHOUT_BATCH.COST_CODE
-                                        WHERE 1=1
-                                         ) XXX_OVERHEAD group by bom_code, Description
-                                         ) XXX_OVERHEAD_FINAL
-                                          pivot
-                                         ( sum(amount)
-                                         for Description in (" + strOVERHEAD + ")
-                                         ) piv) as TBL_OVERHEAD on TBL_OVERHEAD.bom_code = aa.[Code]  "
+select bom_code, Description , Sum (overhead_cost) as amount  from (
+SELECT TSPL_PP_COST_WITHOUT_BATCH.bom_code,TSPL_OVERHEAD_COST.Description,TSPL_PP_COST_WITHOUT_BATCH.overhead_cost 
+FROM TSPL_PP_COST_WITHOUT_BATCH
+left outer join TSPL_OVERHEAD_COST on TSPL_OVERHEAD_COST.COST_CODE=TSPL_PP_COST_WITHOUT_BATCH.COST_CODE
+WHERE 1=1
+union all
+select TSPL_PRODUCTION_UPLOADER_DETAIL.BOM_Code,TSPL_OVERHEAD_COST.Description,TSPL_PRODUCTION_UPLOADER_OVERHEAD_COST_DETAIL.Amount as overhead_cost
+from TSPL_PRODUCTION_UPLOADER_OVERHEAD_COST_DETAIL
+left outer join TSPL_PRODUCTION_UPLOADER_DETAIL on TSPL_PRODUCTION_UPLOADER_DETAIL.PK_ID=TSPL_PRODUCTION_UPLOADER_OVERHEAD_COST_DETAIL.Against_PKID
+left outer join TSPL_OVERHEAD_COST on TSPL_OVERHEAD_COST.COST_CODE=TSPL_PRODUCTION_UPLOADER_OVERHEAD_COST_DETAIL.COST_CODE
+) XXX_OVERHEAD group by bom_code, Description
+) XXX_OVERHEAD_FINAL
+pivot ( sum(amount) for Description in (" + strOVERHEAD + ") ) piv) as TBL_OVERHEAD on TBL_OVERHEAD.bom_code = aa.[Code]"
 
         End If
 
