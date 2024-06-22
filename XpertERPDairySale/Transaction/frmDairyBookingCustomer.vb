@@ -3062,6 +3062,8 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 Dim SCTotalAmt As Double = 0
                 For Each grow As GridViewRowInfo In gv1.Rows
                     Dim objTr As New clsBookingDetailDairySale()
+                    objTr.arrBatchItem = TryCast(grow.Cells(colICode).Tag, List(Of clsBatchInventory))
+
                     objTr.Booking_Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
                     If (objTr.Booking_Qty) > 0 OrElse (AllowZeroQtyOnDairyBooking = True AndAlso clsCommon.myCdbl(lblTotRAmt1.Text) <= 0 AndAlso clsCommon.myLen(clsCommon.myCstr(grow.Cells(colICode).Value)) > 0) Then
                         intLine += 1
@@ -3224,7 +3226,6 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                     TCTotalAmt += objTr.Transporter_Commission_Amt
                     SCTotalAmt += objTr.Security_Amt
                     objTr.Distributor_Commission_RateWithTax = clsCommon.myCdbl(grow.Cells(ColDCRateWithTax).Value)
-                    objTr.arrBatchItem = TryCast(grow.Cells(colICode).Tag, List(Of clsBatchInventory))
 
 
                     'gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + intLine)).Value = Nothing
@@ -7947,6 +7948,7 @@ from
                 obj.Acidity = clsCommon.myCdbl(txtAcidity.Text)
                 obj.Temperature = clsCommon.myCdbl(txtTemp.Text)
                 obj.MBRT_Hours = clsCommon.myCdbl(txtMBRTHours.Text)
+
                 'obj.can
                 obj.Screen_Type = "DS"
                 ' obj.Scheme_Tax_Group = txtSchemeTaxGroup.Value
@@ -8156,6 +8158,7 @@ from
                         objTr.Security_Rate = clsCommon.myCdbl(grow.Cells(ColSCRate).Value)
                         objTr.Distributor_Commission_RateWithTax = clsCommon.myCdbl(grow.Cells(ColDCRateWithTax).Value)
                         objTr.Disc_Amt = clsCommon.myCdbl(grow.Cells(colDisAmt).Value)
+                        objTr.arrBatchItem = TryCast(gv1.CurrentRow.Cells(colICode).Tag, List(Of clsBatchInventory))
                         'objTr.Amt_Less_Discount = clsCommon.myCdbl(grow.Cells(colAmtAfterDis).Value)
                         DCTotalAmt += objTr.Distributor_Commission_Amt
                         TCTotalAmt += objTr.Transporter_Commission_Amt
@@ -8839,7 +8842,7 @@ where  TSPL_BOOKING_DETAIL.Cust_Code='" + strVendorno + "' and convert(date,TSPL
                         If Not frm.isCencelButtonClicked Then
                             gv1.CurrentRow.Cells(colICode).Tag = frm.arr
                             gv1.CurrentRow.Cells(colBatchNo).Value = frm.arr(0).Batch_No
-                            If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                            If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso btnPost.Enabled Then
                                 Dim strQry As String = "delete TSPL_BATCH_ITEM  where Document_Code='" + txtDocNo.Value + "' and Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "' and UOM='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value) + "'"
                                 clsDBFuncationality.ExecuteNonQuery(strQry)
                                 'clsBatchInventory.SaveData(TransType_Str, txtDocNo.Value, txtDate.Value, "O", clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), txtLocation.Value, clsCommon.myCstr(gv1.CurrentRow.Cells(colLineNo).Value), 0, clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), gv1.CurrentRow.Cells(colICode).Tag, Nothing)
@@ -8870,7 +8873,7 @@ where  TSPL_BOOKING_DETAIL.Cust_Code='" + strVendorno + "' and convert(date,TSPL
                     If Not frm.isCencelButtonClicked Then
                         gv1.CurrentRow.Cells(colICode).Tag = frm.arr
                         gv1.CurrentRow.Cells(colBatchNo).Value = frm.arr(0).Batch_No
-                        If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                        If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso btnPost.Enabled Then
                             Dim strQry As String = "delete TSPL_BATCH_ITEM  where Document_Code='" + txtDocNo.Value + "' and Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "' and UOM='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value) + "'"
                             clsDBFuncationality.ExecuteNonQuery(strQry)
                             'clsBatchInventory.SaveData(TransType_Str, txtDocNo.Value, txtDate.Value, "O", clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), txtLocation.Value, clsCommon.myCstr(gv1.CurrentRow.Cells(colLineNo).Value), 0, clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), gv1.CurrentRow.Cells(colICode).Tag, Nothing)
