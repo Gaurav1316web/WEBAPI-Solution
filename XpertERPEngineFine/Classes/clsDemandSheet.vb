@@ -270,45 +270,66 @@ Public Class clsDemandHistoryMaster
             Dim lstStr As List(Of String) = New List(Of String)
             lstobj = New List(Of clsDemandHistoryMaster)
             Dim obj As clsDemandHistoryMaster = Nothing
-            '            Dim StrQry As String = " select TSPL_BOOKING_MATSER.Against_DemandBooking_No as Demand_No,TSPL_BOOKING_MATSER.Document_No as Document_No,
-            'TSPL_BOOKING_DETAIL.route_no as Route_No,
+
+            '            Dim StrQry As String = " Select TSPL_BOOKING_MATSER_Hist_Data.Against_DemandBooking_No As Demand_No,
+            'TSPL_BOOKING_MATSER_Hist_Data.Document_No as Document_No,
+            'TSPL_BOOKING_DETAIL_Hist_Data.route_no as Route_No,
             'TSPL_ITEM_MASTER.Item_Code as Item_Name,
-            ' TSPL_BOOKING_DETAIL.Amount_with_Tax as Amount,
-            'TSPL_BOOKING_DETAIL.Booking_Qty as Qty,
-            'TSPL_BOOKING_DETAIL.Unit_code as Unit_Code,
-            'TSPL_BOOKING_MATSER.Modified_By as  History_By,
-            'TSPL_BOOKING_MATSER.Modified_Date as History_ON,
-            ' TSPL_BOOKING_DETAIL.Cust_Code as Cust_Code,
+            ' TSPL_BOOKING_DETAIL_Hist_Data.Amount_with_Tax as Amount,
+            'TSPL_BOOKING_DETAIL_Hist_Data.Booking_Qty as Qty,
+            'TSPL_BOOKING_DETAIL_Hist_Data.Unit_code as Unit_Code,
+            'TSPL_BOOKING_MATSER_Hist_Data.Modified_By as  History_By,
+            'TSPL_BOOKING_MATSER_Hist_Data.Modified_Date as History_ON,
+            ' TSPL_BOOKING_DETAIL_Hist_Data.Cust_Code as Cust_Code,
             ' TSPL_Customer_Master.Customer_Name as Customer_Name,
-            ' TSPL_BOOKING_MATSER.GatePass_Type as ShiftType,
-            ' TSPL_BOOKING_DETAIL.Item_Code,
+            ' TSPL_BOOKING_MATSER_Hist_Data.GatePass_Type as ShiftType,
+            ' TSPL_BOOKING_DETAIL_Hist_Data.Item_Code,
             ' TSPL_ITEM_MASTER.Short_Description as Item_Desc,
-            '0 as Hist_Version
-            'from TSPL_BOOKING_MATSER
-            'left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No
-            'left join TSPL_ITEM_MASTER on TSPL_BOOKING_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
-            'left join TSPL_CUSTOMER_MASTER on TSPL_BOOKING_DETAIL.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
-            'where Convert(date,TSPL_BOOKING_MATSER.Document_Date,103)='" + clsCommon.GetPrintDate(DocDate) + "'  And TSPL_BOOKING_MATSER.GatePass_Type='" + Shift + "' and TSPL_BOOKING_DETAIL.Cust_Code='" + Booth + "'  union all 
-            Dim StrQry As String = " Select TSPL_BOOKING_MATSER_Hist_Data.Against_DemandBooking_No As Demand_No,
-TSPL_BOOKING_MATSER_Hist_Data.Document_No as Document_No,
-TSPL_BOOKING_DETAIL_Hist_Data.route_no as Route_No,
-TSPL_ITEM_MASTER.Item_Code as Item_Name,
- TSPL_BOOKING_DETAIL_Hist_Data.Amount_with_Tax as Amount,
-TSPL_BOOKING_DETAIL_Hist_Data.Booking_Qty as Qty,
-TSPL_BOOKING_DETAIL_Hist_Data.Unit_code as Unit_Code,
-TSPL_BOOKING_MATSER_Hist_Data.Modified_By as  History_By,
-TSPL_BOOKING_MATSER_Hist_Data.Modified_Date as History_ON,
- TSPL_BOOKING_DETAIL_Hist_Data.Cust_Code as Cust_Code,
- TSPL_Customer_Master.Customer_Name as Customer_Name,
- TSPL_BOOKING_MATSER_Hist_Data.GatePass_Type as ShiftType,
- TSPL_BOOKING_DETAIL_Hist_Data.Item_Code,
- TSPL_ITEM_MASTER.Short_Description as Item_Desc,
- TSPL_BOOKING_MATSER_Hist_Data.Hist_Version as Hist_Version
-from TSPL_BOOKING_MATSER_Hist_Data
-left join TSPL_BOOKING_DETAIL_Hist_Data on TSPL_BOOKING_MATSER_Hist_Data.Document_No=TSPL_BOOKING_DETAIL_Hist_Data.Document_No
-left join TSPL_ITEM_MASTER on TSPL_BOOKING_DETAIL_Hist_Data.Item_Code=TSPL_ITEM_MASTER.Item_Code
-left join TSPL_CUSTOMER_MASTER on TSPL_BOOKING_DETAIL_Hist_Data.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
-where Convert(date,TSPL_BOOKING_MATSER_Hist_Data.Document_Date,103)='" + clsCommon.GetPrintDate(DocDate) + "' and TSPL_BOOKING_MATSER_Hist_Data.GatePass_Type='" + Shift + "' And TSPL_BOOKING_DETAIL_Hist_Data.Cust_Code ='" + Booth + "' order by TSPL_BOOKING_MATSER_Hist_Data.Modified_Date desc "
+            ' TSPL_BOOKING_MATSER_Hist_Data.Hist_Version as Hist_Version
+            'from TSPL_BOOKING_MATSER_Hist_Data
+            'left join TSPL_BOOKING_DETAIL_Hist_Data on TSPL_BOOKING_MATSER_Hist_Data.Document_No=TSPL_BOOKING_DETAIL_Hist_Data.Document_No
+            'left join TSPL_ITEM_MASTER on TSPL_BOOKING_DETAIL_Hist_Data.Item_Code=TSPL_ITEM_MASTER.Item_Code
+            'left join TSPL_CUSTOMER_MASTER on TSPL_BOOKING_DETAIL_Hist_Data.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
+            ''where Convert(date,TSPL_BOOKING_MATSER_Hist_Data.Document_Date,103)='" + clsCommon.GetPrintDate(DocDate) + "' and TSPL_BOOKING_MATSER_Hist_Data.GatePass_Type='" + Shift + "' And TSPL_BOOKING_DETAIL_Hist_Data.Cust_Code ='" + Booth + "' order by TSPL_BOOKING_MATSER_Hist_Data.Modified_Date desc "
+
+            Dim StrQry As String = "WITH MaxHistVersions AS (
+    SELECT 
+        Document_No,
+        MAX(Hist_Version) AS Max_Hist_Version
+    FROM TSPL_BOOKING_MATSER_Hist_Data
+    GROUP BY Document_No
+)
+SELECT 
+    TSPL_BOOKING_MATSER_Hist_Data.Against_DemandBooking_No AS Demand_No,
+    TSPL_BOOKING_MATSER_Hist_Data.Document_No AS Document_No,
+    TSPL_BOOKING_DETAIL_Hist_Data.route_no AS Route_No,
+    TSPL_ITEM_MASTER.Item_Code AS Item_Name,
+    TSPL_BOOKING_DETAIL_Hist_Data.Amount_with_Tax AS Amount,
+    TSPL_BOOKING_DETAIL_Hist_Data.Booking_Qty AS Qty,
+    TSPL_BOOKING_DETAIL_Hist_Data.Unit_code AS Unit_Code,
+    TSPL_BOOKING_MATSER_Hist_Data.Modified_By AS History_By,
+    TSPL_BOOKING_MATSER_Hist_Data.Modified_Date AS History_ON,
+    TSPL_BOOKING_DETAIL_Hist_Data.Cust_Code AS Cust_Code,
+    TSPL_CUSTOMER_MASTER.Customer_Name AS Customer_Name,
+    TSPL_BOOKING_MATSER_Hist_Data.GatePass_Type AS ShiftType,
+    TSPL_BOOKING_DETAIL_Hist_Data.Item_Code,
+    TSPL_ITEM_MASTER.Short_Description AS Item_Desc,
+    TSPL_BOOKING_MATSER_Hist_Data.Hist_Version AS Hist_Version
+FROM TSPL_BOOKING_MATSER_Hist_Data
+LEFT JOIN TSPL_BOOKING_DETAIL_Hist_Data 
+    ON TSPL_BOOKING_MATSER_Hist_Data.Document_No = TSPL_BOOKING_DETAIL_Hist_Data.Document_No
+LEFT JOIN TSPL_ITEM_MASTER 
+    ON TSPL_BOOKING_DETAIL_Hist_Data.Item_Code = TSPL_ITEM_MASTER.Item_Code
+LEFT JOIN TSPL_CUSTOMER_MASTER 
+    ON TSPL_BOOKING_DETAIL_Hist_Data.Cust_Code = TSPL_CUSTOMER_MASTER.Cust_Code
+INNER JOIN MaxHistVersions 
+    ON TSPL_BOOKING_MATSER_Hist_Data.Document_No = MaxHistVersions.Document_No
+    AND TSPL_BOOKING_MATSER_Hist_Data.Hist_Version = MaxHistVersions.Max_Hist_Version
+WHERE CONVERT(date, TSPL_BOOKING_MATSER_Hist_Data.Document_Date, 103) = '" + clsCommon.GetPrintDate(DocDate) + "'
+  AND TSPL_BOOKING_MATSER_Hist_Data.GatePass_Type = '" + Shift + "'
+  AND TSPL_BOOKING_DETAIL_Hist_Data.Cust_Code = '" + Booth + "'
+ORDER BY TSPL_BOOKING_MATSER_Hist_Data.Modified_Date DESC;"
+
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(StrQry, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then

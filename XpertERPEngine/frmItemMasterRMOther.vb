@@ -514,7 +514,8 @@ Public Class FrmItemMasterRMOther
             BlankAllConrols()
 
         ElseIf e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag AndAlso btnSave.Enabled Then
-            Savedata()
+            btnSave.PerformClick()
+            'Savedata()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso MyBase.isDeleteFlag AndAlso btnDelete.Enabled Then
             deletedata()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C Then

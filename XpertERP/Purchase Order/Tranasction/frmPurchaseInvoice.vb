@@ -8674,11 +8674,11 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
                     AND GRN_Date<=(Select MAX(GRN_Date) GRNDATE  from TSPL_GRN_HEAD 
                     WHERE TSPL_GRN_HEAD.GRN_No IN (SELECT GRN_Id FROM TSPL_PI_DETAIL WHERE pi_no='" + txtDocNo.Value + "'))")
 
-                SRNQTTY1stsch = clsDBFuncationality.getSingleValue("select cast(SUM(SRN_Qty) as decimal(18,3)) QTY from TSPL_SRN_HEAD 
+                SRNQTTY1stsch = clsDBFuncationality.getSingleValue("select isnull(cast(SUM(SRN_Qty) as decimal(18,3)),0) QTY from TSPL_SRN_HEAD 
                     left outer join TSPL_SRN_DETAIL on TSPL_SRN_DETAIL.srn_no=TSPL_SRN_head.srn_no
                     LEFT OUTER JOIN TSPL_GRN_HEAD ON TSPL_GRN_HEAD.GRN_NO=TSPL_SRN_HEAD.AGAINST_GRN
 					LEFT OUTER JOIN TSPL_TENDER_SCHEDULE ON TSPL_TENDER_SCHEDULE.DocumentCode='" + txtRefNo.Text + "'
-						and TSPL_TENDER_SCHEDULE.item_code in(" + ItemCode + ") and TSPL_TENDER_SCHEDULE.Location_Code='BIKR' and TSPL_TENDER_SCHEDULE.Vendor_Code ='" + txtVendorNo.Value + "' AND
+						and TSPL_TENDER_SCHEDULE.item_code in(" + ItemCode + ") and TSPL_TENDER_SCHEDULE.Location_Code='" + txtBillToLocation.Value + "' and TSPL_TENDER_SCHEDULE.Vendor_Code ='" + txtVendorNo.Value + "' AND
 						TSPL_TENDER_SCHEDULE.Schedule_No=1
                     where TSPL_SRN_head.Bill_To_Location='" + txtBillToLocation.Value + "' AND TSPL_SRN_DETAIL.Item_Code in (" + ItemCode + ") AND TSPL_SRN_HEAD.Vendor_Code='" + txtVendorNo.Value + "' AND TSPL_GRN_HEAD.REF_NO='" + txtRefNo.Text + "'
                     AND GRN_Date<=(Select MAX(GRN_Date) GRNDATE  from TSPL_GRN_HEAD 
