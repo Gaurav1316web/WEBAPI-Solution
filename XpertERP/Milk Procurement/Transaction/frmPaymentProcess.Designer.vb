@@ -105,6 +105,7 @@ Partial Class FrmPaymentProcess
         Me.gvSaving = New common.UserControls.MyRadGridView()
         Me.RadPageViewCompulsory = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvCompulsory = New common.UserControls.MyRadGridView()
+        Me.btnUnpost = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnPrintHindi = New Telerik.WinControls.UI.RadButton()
         Me.btnDCPrint = New Telerik.WinControls.UI.RadButton()
@@ -202,6 +203,7 @@ Partial Class FrmPaymentProcess
         Me.RadPageViewCompulsory.SuspendLayout()
         CType(Me.gvCompulsory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvCompulsory.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintHindi, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDCPrint, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -953,6 +955,7 @@ Partial Class FrmPaymentProcess
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnUnpost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintHindi)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDCPrint)
@@ -1278,13 +1281,23 @@ Partial Class FrmPaymentProcess
         Me.gvCompulsory.Size = New System.Drawing.Size(924, 425)
         Me.gvCompulsory.TabIndex = 270
         '
+        'btnUnpost
+        '
+        Me.btnUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnUnpost.Location = New System.Drawing.Point(482, 5)
+        Me.btnUnpost.Name = "btnUnpost"
+        Me.btnUnpost.Size = New System.Drawing.Size(50, 18)
+        Me.btnUnpost.TabIndex = 299
+        Me.btnUnpost.Text = "Unpost"
+        Me.btnUnpost.Visible = False
+        '
         'btnPost
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(127, 5)
+        Me.btnPost.Location = New System.Drawing.Point(106, 5)
         Me.btnPost.Name = "btnPost"
-        Me.btnPost.Size = New System.Drawing.Size(60, 18)
+        Me.btnPost.Size = New System.Drawing.Size(51, 18)
         Me.btnPost.TabIndex = 288
         Me.btnPost.Text = "Post"
         '
@@ -1292,7 +1305,7 @@ Partial Class FrmPaymentProcess
         '
         Me.btnPrintHindi.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrintHindi.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintHindi.Location = New System.Drawing.Point(463, 5)
+        Me.btnPrintHindi.Location = New System.Drawing.Point(416, 5)
         Me.btnPrintHindi.Name = "btnPrintHindi"
         Me.btnPrintHindi.Size = New System.Drawing.Size(65, 18)
         Me.btnPrintHindi.TabIndex = 287
@@ -1303,7 +1316,7 @@ Partial Class FrmPaymentProcess
         '
         Me.btnDCPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDCPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDCPrint.Location = New System.Drawing.Point(797, 5)
+        Me.btnDCPrint.Location = New System.Drawing.Point(784, 5)
         Me.btnDCPrint.Name = "btnDCPrint"
         Me.btnDCPrint.Size = New System.Drawing.Size(78, 18)
         Me.btnDCPrint.TabIndex = 286
@@ -1313,7 +1326,7 @@ Partial Class FrmPaymentProcess
         '
         Me.btnJE.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnJE.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnJE.Location = New System.Drawing.Point(187, 5)
+        Me.btnJE.Location = New System.Drawing.Point(158, 5)
         Me.btnJE.Name = "btnJE"
         Me.btnJE.Size = New System.Drawing.Size(52, 18)
         Me.btnJE.TabIndex = 285
@@ -1322,7 +1335,7 @@ Partial Class FrmPaymentProcess
         'btnDeleteVSPBill
         '
         Me.btnDeleteVSPBill.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnDeleteVSPBill.Location = New System.Drawing.Point(692, 5)
+        Me.btnDeleteVSPBill.Location = New System.Drawing.Point(678, 5)
         Me.btnDeleteVSPBill.Name = "btnDeleteVSPBill"
         Me.btnDeleteVSPBill.Size = New System.Drawing.Size(105, 18)
         Me.btnDeleteVSPBill.TabIndex = 282
@@ -1332,19 +1345,19 @@ Partial Class FrmPaymentProcess
         'btnReverse
         '
         Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnReverse.Location = New System.Drawing.Point(588, 5)
+        Me.btnReverse.Location = New System.Drawing.Point(594, 5)
         Me.btnReverse.Name = "btnReverse"
-        Me.btnReverse.Size = New System.Drawing.Size(104, 18)
+        Me.btnReverse.Size = New System.Drawing.Size(83, 18)
         Me.btnReverse.TabIndex = 281
-        Me.btnReverse.Text = "Revese And Unpost"
+        Me.btnReverse.Text = "Revese Process"
         Me.btnReverse.Visible = False
         '
         'btnDocPrint
         '
         Me.btnDocPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnDocPrint.Location = New System.Drawing.Point(391, 5)
+        Me.btnDocPrint.Location = New System.Drawing.Point(355, 5)
         Me.btnDocPrint.Name = "btnDocPrint"
-        Me.btnDocPrint.Size = New System.Drawing.Size(72, 18)
+        Me.btnDocPrint.Size = New System.Drawing.Size(60, 18)
         Me.btnDocPrint.TabIndex = 280
         Me.btnDocPrint.Text = "Doc Print"
         '
@@ -1352,9 +1365,9 @@ Partial Class FrmPaymentProcess
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(326, 5)
+        Me.btnPrint.Location = New System.Drawing.Point(299, 5)
         Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(65, 18)
+        Me.btnPrint.Size = New System.Drawing.Size(55, 18)
         Me.btnPrint.TabIndex = 21
         Me.btnPrint.Text = "Print"
         '
@@ -1362,7 +1375,7 @@ Partial Class FrmPaymentProcess
         '
         Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnExport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnExport.Location = New System.Drawing.Point(239, 5)
+        Me.btnExport.Location = New System.Drawing.Point(211, 5)
         Me.btnExport.Name = "btnExport"
         Me.btnExport.Size = New System.Drawing.Size(87, 18)
         Me.btnExport.TabIndex = 279
@@ -1372,7 +1385,7 @@ Partial Class FrmPaymentProcess
         '
         Me.btnProcess.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnProcess.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnProcess.Location = New System.Drawing.Point(528, 5)
+        Me.btnProcess.Location = New System.Drawing.Point(533, 5)
         Me.btnProcess.Name = "btnProcess"
         Me.btnProcess.Size = New System.Drawing.Size(60, 18)
         Me.btnProcess.TabIndex = 7
@@ -1383,9 +1396,9 @@ Partial Class FrmPaymentProcess
         '
         Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(64, 5)
+        Me.btnDelete.Location = New System.Drawing.Point(54, 5)
         Me.btnDelete.Name = "btnDelete"
-        Me.btnDelete.Size = New System.Drawing.Size(63, 18)
+        Me.btnDelete.Size = New System.Drawing.Size(51, 18)
         Me.btnDelete.TabIndex = 6
         Me.btnDelete.Text = "Delete"
         '
@@ -1393,7 +1406,7 @@ Partial Class FrmPaymentProcess
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(874, 5)
+        Me.btnClose.Location = New System.Drawing.Point(873, 5)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(68, 18)
         Me.btnClose.TabIndex = 8
@@ -1405,7 +1418,7 @@ Partial Class FrmPaymentProcess
         Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnSave.Location = New System.Drawing.Point(2, 5)
         Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(62, 18)
+        Me.btnSave.Size = New System.Drawing.Size(51, 18)
         Me.btnSave.TabIndex = 5
         Me.btnSave.Text = "Save"
         '
@@ -1529,6 +1542,7 @@ Partial Class FrmPaymentProcess
         Me.RadPageViewCompulsory.ResumeLayout(False)
         CType(Me.gvCompulsory.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvCompulsory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnUnpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintHindi, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDCPrint, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1636,5 +1650,6 @@ Partial Class FrmPaymentProcess
     Friend WithEvents btnPrintHindi As RadButton
     Friend WithEvents lblPrePending As common.usLock
     Friend WithEvents btnPost As RadButton
+    Friend WithEvents btnUnpost As RadButton
 End Class
 

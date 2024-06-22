@@ -1183,7 +1183,7 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
             If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                 For Each objtr As clsMilkShiftUploaderDetail In obj.Arr
                     Dim strDockCollectionMilkType As String = objtr.Dock_Collection_Milk_Type
-                    If objCommonVar.DisplayTypeInMilkReceipt Then
+                    If Not objCommonVar.DisplayTypeInMilkReceipt Then
                         strDockCollectionMilkType = "M"
                     End If
                     qry = " select TSPL_Primary_Vehicle_Master.Vehicle_Weight,TSPL_VLC_MASTER_HEAD.Route_Code,TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_MCC_ROUTE_MASTER.Vehicle_Code,TSPL_VENDOR_MASTER.EMP_Type,TSPL_VENDOR_MASTER.EMP_Fixed_Amount ,TSPL_VENDOR_MASTER.Actual_charges_Slab,TSPL_VENDOR_MASTER.Actual_charges,TSPL_VENDOR_MASTER.Actual_charges_Slab2,TSPL_VENDOR_MASTER.Actual_charges2,TSPL_VENDOR_MASTER.Actual_charges_Slab3,TSPL_VENDOR_MASTER.Actual_charges3,TSPL_VENDOR_MASTER.Actual_charges_Slab4,TSPL_VENDOR_MASTER.Actual_charges4 ,TSPL_VENDOR_MASTER.Actual_charges_Slab5,TSPL_VENDOR_MASTER.Actual_charges5,TSPL_VENDOR_MASTER.Service_Charge_Per_Unit,coalesce(TSPL_VENDOR_MASTER.Rate_Head_Load,0) as Rate_Head_Load,coalesce(TSPL_VENDOR_MASTER.Rate_Own_Asset,0) as Rate_Own_Asset,TSPL_VENDOR_MASTER.Service_Basis_Head_Load,TSPL_VENDOR_MASTER.Service_Basis_Own_Asset,TSPL_Primary_Vehicle_Master.Vendor_Code as TransporterCode,TSPL_VENDOR_MASTER.Service_Charge_Type,TSPL_VENDOR_MASTER.TIP_Buffalo,TSPL_VENDOR_MASTER.TIP_Cow,TSPL_VENDOR_MASTER.TIP_Mix,TSPL_VLC_MASTER_HEAD.Milk_Receive_UOM,TSPL_VENDOR_MASTER.DistanceKM_Head_Load " + Environment.NewLine +

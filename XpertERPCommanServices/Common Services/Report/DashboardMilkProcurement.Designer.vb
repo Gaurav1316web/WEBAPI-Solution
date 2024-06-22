@@ -149,12 +149,11 @@ Partial Class DashboardMilkProcurement
         Me.RadGroupBox2.Controls.Add(Me.rdbPosted)
         Me.RadGroupBox2.Controls.Add(Me.rdbUnposted)
         Me.RadGroupBox2.HeaderText = ""
-        Me.RadGroupBox2.Location = New System.Drawing.Point(304, 6)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(304, 10)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox2.Size = New System.Drawing.Size(269, 29)
         Me.RadGroupBox2.TabIndex = 443
-        Me.RadGroupBox2.Visible = False
         '
         'rbdAllTrans
         '
@@ -162,10 +161,10 @@ Partial Class DashboardMilkProcurement
         Me.rbdAllTrans.Checked = True
         Me.rbdAllTrans.Location = New System.Drawing.Point(165, 6)
         Me.rbdAllTrans.Name = "rbdAllTrans"
-        Me.rbdAllTrans.Size = New System.Drawing.Size(95, 17)
+        Me.rbdAllTrans.Size = New System.Drawing.Size(100, 17)
         Me.rbdAllTrans.TabIndex = 439
         Me.rbdAllTrans.TabStop = True
-        Me.rbdAllTrans.Text = "All Transation"
+        Me.rbdAllTrans.Text = "All Transaction"
         Me.rbdAllTrans.UseVisualStyleBackColor = True
         '
         'rdbPosted

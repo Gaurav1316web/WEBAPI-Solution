@@ -264,6 +264,7 @@ Public Class clsUserMgtCode
     Public Const rptDemandReturnReport As String = "DEM_RET_RPT"
     Public Const rptDailyStatementReport As String = "DlY_SALE_RPT"
     Public Const FrmPrintMultipleGatepass As String = "MUL_PNT_GP"
+    Public Const rptCreditCustomerReport As String = "CRD_CST_RPT"
 
     '===Dairy Visual Sales reports  
     Public Const SubModuleVisualSaleReport As String = "SMVSaleR"
@@ -639,6 +640,7 @@ Public Class clsUserMgtCode
     'Public Const rptDataEntryTracingReport As String = "RPT_DATA_TRA"
     Public Const frmDocumentCancelledReport As String = "RPT_DOC_CANC"
     Public Const DashboardMilkProcurement As String = "DAS_MK_PROC"
+    Public Const JanaadharStatusReport As String = "JAN_STS_RPT"
     '--------------------------------Receivable---------------------------
     '===================Setup====================
 
@@ -1168,6 +1170,7 @@ Public Class clsUserMgtCode
     Public Const GatePassTransfer As String = "GP-TRANSFR"
     Public Const TransferCrateReceived As String = "TRANSFR_CR"
     Public Const frmGeneralWeighment As String = "G-WEIGHT"
+    Public Const frmRMProcessLoss As String = "RMI-PRS-LSS"
     '---------Reports--------------------------
 
     Public Const mbtnItemMovement As String = "ITM-MOV-RPT"

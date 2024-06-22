@@ -82,24 +82,29 @@ Public Class rptDBTDashboard
                     If ii > 0 Then
                         query += " UNION ALL "
                     End If
+                    Dim status1 As String
+                    Dim status2 As String
+                    If rdbPosted.Checked Then
+                        status1 = " and [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Status=1 "
+                        status2 = " and [RCDF].[dbo].TSPL_DBT_NEFT_RCDF.Status=1 "
+                    ElseIf rdbUnposted.Checked Then
+                        status1 = " and [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Status=0 OR [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Status IS NULL "
+                        status2 = " and [RCDF].[dbo].TSPL_DBT_NEFT_RCDF.Status IS NULL "
+                    Else
+                        status1 = " "
+                        status2 = " "
+                    End If
 
-                    Dim qry As String = "SELECT Top 1 Document_Code FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT where 2=2 "
-                    qry += " ORDER BY Document_date DESC"
-                    docNo = clsDBFuncationality.getSingleValue(qry)
-
-                    query += " select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],max([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER.Union_Contact_Person) as [Union Contact Person],max([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER.Union_Contact_PhoneNo) as [Union Contact Phone No],'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,COUNT([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER.MP_Code) AS [No of Farmer],
-    SUM(CASE WHEN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER.Jan_Aadhar_No_Verified = 1 THEN 1 ELSE 0 END) AS [Jan Aadhar Verified No],
-    SUM(CASE WHEN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER.Aadhar_No_Verified = 1 THEN 1 ELSE 0 END) AS [Addhar Verified],
-    CONVERT(varchar, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.From_Date, 103) + ' - ' + CONVERT(varchar, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.To_Date, 103) AS [Last DBT Cycle],MAX(TSPL_DBT_NEFT_RCDF.Post_By) as [Last DBT Approved by RCDF],(
-SELECT Top 1 Post_Date FROM [RCDF].[dbo].TSPL_DBT_NEFT_RCDF where DB_Name='" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "' and Status=1
-ORDER BY Document_date DESC) as [Last DBT App. Month]
-    from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL
-    left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR
-    left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER.MP_Code
-    left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Document_Code= [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Document_Code
-    left join [RCDF].[dbo].TSPL_DBT_NEFT_RCDF ON  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Document_Code = [RCDF].[dbo].TSPL_DBT_NEFT_RCDF.Document_Code
-    left  join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER on 2=2
-    where [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Document_Code= '" & docNo & "' group by [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.From_Date, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.To_Date"
+                    query += " SELECT " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],max([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER.Union_Contact_Person) as [Union Contact Person],max([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER.Union_Contact_PhoneNo) as [Union Contact Phone No],'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
+                                    COUNT(DISTINCT X.MP_Code) AS [No of Farmer],
+                                    COALESCE(SUM(CASE WHEN ISNULL(mm.Jan_Aadhar_No_Verified, 0) = 1 THEN 1 ELSE 0 END),0) AS [Jan Aadhar Verified No],
+									 COALESCE(SUM(CASE WHEN ISNULL(mm.Aadhar_No_Verified, 0) = 1 THEN 1 ELSE 0 END),0) AS [Aadhar Verified],
+									  (SELECT  CONVERT(varchar, MAX(From_Date), 23) + ' - ' +  CONVERT(varchar, MAX(To_Date), 23) FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT WHERE 2=2 " + status1 + " ) AS [Last DBT Cycle],
+									  (select MAX(Post_By) from [RCDF].[dbo].TSPL_DBT_NEFT_RCDF where DB_Name='" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "' " + status2 + " ) as [Last DBT Approved by RCDF],
+									  (SELECT MAX(Post_Date) FROM [RCDF].[dbo].TSPL_DBT_NEFT_RCDF where DB_Name='" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "' " + status2 + ") as [Last DBT App. Month]
+                                FROM (SELECT MP_Code FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL GROUP BY MP_Code  ) X
+                                left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER mm ON mm.MP_Code = X.MP_Code
+							   left  join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER on 2=2"
 
                 Next
                 dtJanAdh = clsDBFuncationality.GetDataTable(query)
@@ -149,17 +154,30 @@ ORDER BY Document_date DESC) as [Last DBT App. Month]
                     If ii > 0 Then
                         query += " UNION ALL "
                     End If
+                    Dim status1 As String
+                    Dim status2 As String
+                    If rdbPosted.Checked Then
+                        status1 = " and  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Status=1 "
+                        status2 = " and [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_HEAD.Status=1  "
+                    ElseIf rdbUnposted.Checked Then
+                        status1 = " and  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Status=0 OR [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Status IS NULL "
+                        status2 = " and [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_HEAD.Status=0 OR [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_HEAD.Status IS NULL "
+
+                    Else
+                        status1 = " "
+                        status2 = " "
+                    End If
 
                     query += "select * from ( select '" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,max([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER.Union_Contact_Person) as [Union Contact Person],max([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER.Union_Contact_PhoneNo) as [Union Contact Phone No],isnull(sum(INCENTIVE.MPCount),0) as [Farmer count],isnull(sum(INCENTIVE.RecoQty),0) as [DCS Billed Qty],isnull(sum(INCENTIVE.Qty),0) as [Farmer Qty] ,case when isnull(sum(INCENTIVE.RecoQty),0) -isnull(sum(INCENTIVE.Qty),0) > 0 then isnull(sum(INCENTIVE.RecoQty),0) -isnull(sum(INCENTIVE.Qty),0) else 0 end as [Mismatch Qty]
                       from (select yy.Cycle_Year,yy.Cycle_Month ,isnull(sum(yy.Qty),0) as RecoQty ,0 as MPCount,0 as Qty
-                      from (select Cycle_Year,Cycle_Month, TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Qty from (select * from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_DETAIL union all select * from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID)TSPL_DCS_MP_INCENTIVE_RECO_DETAIL LEFT OUTER JOIN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_HEAD ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Code=TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Document_Code  where CONVERT(date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date_To,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' )yy group by yy.Cycle_Year,yy.Cycle_Month  union all select xx.Cycle_Year,xx.Cycle_Month
+                      from (select Cycle_Year,Cycle_Month, TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Qty from (select * from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_DETAIL union all select * from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID)TSPL_DCS_MP_INCENTIVE_RECO_DETAIL LEFT OUTER JOIN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_HEAD ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Code=TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Document_Code  where CONVERT(date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date_To,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' " + status1 + " )yy group by yy.Cycle_Year,yy.Cycle_Month  union all select xx.Cycle_Year,xx.Cycle_Month
                     ,0 as RecoQty
                     ,isnull(count(distinct xx.MP_Code),0) as MPCount
                     ,isnull(sum(xx.Qty),0) as Qty from (select [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL.Cycle_Year,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL.Cycle_Month
                     ,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL.Qty
                     ,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER.MP_Code from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL 
                     left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_HEAD on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code=[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER.MP_Code=[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code
-                    where CONVERT(date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_HEAD.From_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_HEAD.To_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' )xx group by xx.Cycle_Year,xx.Cycle_Month )INCENTIVE 
+                    where CONVERT(date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_HEAD.From_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_HEAD.To_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' " + status2 + " )xx group by xx.Cycle_Year,xx.Cycle_Month )INCENTIVE 
                        left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER ON 2=2
                     group by INCENTIVE.Cycle_Year,INCENTIVE.Cycle_Month) final"
 
@@ -209,11 +227,20 @@ ORDER BY Document_date DESC) as [Last DBT App. Month]
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
 
+
                 qry = "select ROW_NUMBER() over(order by ([Union Name])) as 'SNO.', [Union Name],MAX(Union_Contact_Person) AS [Union Contact Person],MAX(Union_Contact_PhoneNo) as [Union Contact Phone No] ,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'as Todate,'" + objCommonVar.CurrentUser + "' as username , count(MP_Code)as [Farmer Count] ,sum(Amount)[NEFT Amount] ,sum(Success_Farmer)Success_Farmer, SUM(Success_Amount)Success_Amount,sum(Failure_Farmer)Failure_Farmer , SUM(Failure_Amount)Failure_Amount,sum(Null_Farmer_Count)Null_Farmer_Count,  sum(Null_Farmer_Amount)Null_Farmer_Amount from ("
                 qry += " select ROW_NUMBER() over(order by ([Union Name])) as 'SNO.',* from ( "
                 For ii As Integer = 0 To dt.Rows.Count - 1
                     If ii > 0 Then
                         qry += " UNION ALL "
+                    End If
+                    Dim status1 As String
+                    If rdbPosted.Checked Then
+                        status1 = " and  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Status=1 "
+                    ElseIf rdbUnposted.Checked Then
+                        status1 = " and  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Status=0 OR [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Status IS NULL "
+                    Else
+                        status1 = " "
                     End If
                     qry += " select '" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER.Union_Contact_Person,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER.Union_Contact_PhoneNo,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER.MP_Code AS MP_Code,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER.MP_Code_VLC_Uploader AS MP_Code_VLC_Uploader , [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER.MP_Name AS MP_Name
   ,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.MP_Account_No
@@ -230,7 +257,7 @@ ORDER BY Document_date DESC) as [Last DBT App. Month]
     left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Ref_PK_Id= [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.PK_Id 
     left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER ON 2=2
                  WHERE ISNULL( [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.RCDF_Status,0)=1 and  Convert(Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.From_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' And 
-    Convert(Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.To_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' "
+    Convert(Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.To_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' " + status1 + " "
 
 
                 Next
@@ -293,6 +320,22 @@ ORDER BY Document_date DESC) as [Last DBT App. Month]
                     If ii > 0 Then
                         '  query += " UNION ALL "
                     End If
+                    Dim status1 As String
+                    Dim status2 As String
+                    Dim status3 As String
+                    If rdbPosted.Checked Then
+                        status1 = " and  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Status=1 "
+                        status2 = " and [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Status=1  "
+                        status3 = " and [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Status=1  "
+                    ElseIf rdbUnposted.Checked Then
+                        status1 = " and  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Status=0 OR [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Status IS NULL "
+                        status2 = " and [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Status=0 OR [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Status IS NULL "
+                        status3 = " and [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Status=0 OR [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Status IS NULL "
+                    Else
+                        status1 = " "
+                        status2 = " "
+                        status3 = " "
+                    End If
                     query = "select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,max([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER.Union_Contact_Person) as [Union Contact Person],max([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER.Union_Contact_PhoneNo) as [Union Contact Phone No] ,Sum(DCS) as [DCS Count],Sum([Farmer Code])[Farmer Count],Sum([Billed Qty])[DCS Billed Qty] ,Sum([Farmer Qty])[Farmer Qty],Sum(Amount)[NEFT Amt] from(
 (select sum(TSPL_DBT_NEFT_DETAIL.Amount) as Amount , COUNT( DISTINCT TSPL_DBT_NEFT_DETAIL.VLC_Uploader_Code) AS DCS,
 COUNT( DISTINCT TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code)  as [Farmer Code],sum(TSPL_MP_INCENTIVE_ENTRY_DETAIL.Qty)[Farmer Qty],0 As [Billed Qty]
@@ -301,17 +344,17 @@ left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[d
 Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL On [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR  
 left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_HEAD on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code=[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code
 left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VLC_MASTER_HEAD on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VLC_MASTER_HEAD.VLC_Code=[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code
-where Convert(Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.From_Date,103)>=Convert(Date,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "',103) And Convert(Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.To_Date,103)<=Convert(Date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "',103)
+where Convert(Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.From_Date,103)>=Convert(Date,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "',103) And Convert(Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.To_Date,103)<=Convert(Date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "',103) " + status1 + "
 group by [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.document_code 
 )Union All
 Select 0 As Amount,0 As DCS,0 as [Farmer Code],0 as[Farmer Qty],SUM(Qty)[Billed Qty] from (
 Select TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Qty from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_DETAIL 
 left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_HEAD ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Code=[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Document_Code
-wHERE Convert(Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date,103)>=Convert(Date,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "',103) And Convert(Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date_To,103)<=Convert(Date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "',103)
+wHERE Convert(Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date,103)>=Convert(Date,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "',103) And Convert(Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date_To,103)<=Convert(Date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "',103) " + status2 + "
 Union All
 Select [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID.Qty from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID
 left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_HEAD ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Code=[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID.Document_Code
-wHERE Convert(Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date,103)>=Convert(Date,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "',103) And Convert(Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date_To,103)<=Convert(Date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "',103)) as BilledQty)final
+wHERE Convert(Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date,103)>=Convert(Date,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "',103) And Convert(Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date_To,103)<=Convert(Date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "',103) " + status3 + ") as BilledQty)final
   left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER on 2=2"
                     dtDBTSummary = clsDBFuncationality.GetDataTable(query)
                     dt2.Merge(dtDBTSummary)
@@ -545,7 +588,7 @@ wHERE Convert(Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "]
         gvJanAdh.Columns("username").IsVisible = False
         gvJanAdh.Columns("No Of Farmer").IsVisible = True
         gvJanAdh.Columns("Jan Aadhar Verified No").IsVisible = True
-        gvJanAdh.Columns("Addhar Verified").IsVisible = True
+        gvJanAdh.Columns("Aadhar Verified").IsVisible = True
         gvJanAdh.Columns("Last DBT Cycle").IsVisible = True
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
@@ -554,7 +597,7 @@ wHERE Convert(Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "]
         summaryRowItem.Add(item1)
         Dim item3 As New GridViewSummaryItem("Jan Aadhar Verified No", "{0}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item3)
-        Dim item4 As New GridViewSummaryItem("Addhar Verified", "{0:F2}", GridAggregateFunction.Sum)
+        Dim item4 As New GridViewSummaryItem("Aadhar Verified", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item4)
 
         gvJanAdh.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
@@ -684,5 +727,7 @@ wHERE Convert(Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "]
         Jan_Adh_print(EnumExportTo.PDF)
     End Sub
 
+    Private Sub GroupBox1_Enter(sender As Object, e As EventArgs) Handles GroupBox1.Enter
 
+    End Sub
 End Class

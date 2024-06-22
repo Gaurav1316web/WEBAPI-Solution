@@ -477,6 +477,7 @@ Partial Class FrmPurchaseOrderRegister
         Me.gvCategory.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCategory.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvCategory.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvCategory.MyStopExport = False
         Me.gvCategory.Name = "gvCategory"
         Me.gvCategory.ShowHeaderCellButtons = True
         Me.gvCategory.Size = New System.Drawing.Size(331, 245)
@@ -1051,6 +1052,7 @@ Partial Class FrmPurchaseOrderRegister
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ReadOnly = True
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1099,6 +1101,7 @@ Partial Class FrmPurchaseOrderRegister
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(10, 10)

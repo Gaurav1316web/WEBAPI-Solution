@@ -564,7 +564,7 @@ Public Class clsPaymentProcessHead
                                     XTotalAmount += XAmount
                                     objPayAdj = New clsPaymentAdjustmentEntry
                                     objPayAdj.Adjustment_No = "" ''To Be Generated
-                                    objPayAdj.Description = "AP Debit Note Adjustment Against Hold Process"
+                                    objPayAdj.Description = "AP Debit Note Adjustment Against Hold Payment Process"
                                     objPayAdj.Adjustment_Date = clsCommon.myCDate(obj.Doc_Date)
                                     objPayAdj.Vendor_No = clsCommon.myCstr(obj.ArrPPDetail(i).VSP_CODE)
                                     objPayAdj.Vendor_Name = clsCommon.myCstr(obj.ArrPPDetail(i).VSP_NAME)
@@ -594,7 +594,7 @@ Public Class clsPaymentProcessHead
                                         XTotalAmount -= XAmount
                                         objPayAdj = New clsPaymentAdjustmentEntry
                                         objPayAdj.Adjustment_No = "" ''To Be Generated
-                                        objPayAdj.Description = "AP Credit Note Adjustment Against Hold Process"
+                                        objPayAdj.Description = "AP Credit Note Adjustment Against Hold Payment Process"
                                         objPayAdj.Adjustment_Date = clsCommon.myCDate(obj.Doc_Date)
                                         objPayAdj.Vendor_No = clsCommon.myCstr(obj.ArrPPDetail(i).VSP_CODE)
                                         objPayAdj.Vendor_Name = clsCommon.myCstr(obj.ArrPPDetail(i).VSP_NAME)
@@ -621,7 +621,7 @@ Public Class clsPaymentProcessHead
                         If XTotalAmount > 0 Then
                             objPayAdj = New clsPaymentAdjustmentEntry
                             objPayAdj.Adjustment_No = "" ''To Be Generated
-                            objPayAdj.Description = "AP Invoice Adjustment Against Hold Process"
+                            objPayAdj.Description = "AP Invoice Adjustment Against Hold Payment Process"
                             objPayAdj.Adjustment_Date = clsCommon.myCDate(obj.Doc_Date)
                             objPayAdj.Vendor_No = clsCommon.myCstr(obj.ArrPPDetail(i).VSP_CODE)
                             objPayAdj.Vendor_Name = clsCommon.myCstr(obj.ArrPPDetail(i).VSP_NAME)
@@ -1414,6 +1414,40 @@ left join (select Doc_No as PP_Code,Max(Payment_Mode) as Payment_Mode,sum(Payabl
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
+    End Function
+
+    Public Shared Function Unpost(ByVal strDocNo As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            If clsCommon.myLen(strDocNo) <= 0 Then
+                Throw New Exception("Payment process Document no Not found to  unpost")
+            End If
+            Dim qry As String = "select TSPL_PAYMENT_PROCESS_HEAD.isPosted,TSPL_PAYMENT_PROCESS_HEAD.isPrePosted,TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date from TSPL_PAYMENT_PROCESS_HEAD where Doc_No='" + strDocNo + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                Throw New Exception("Payment process Document no Not found to  unpost")
+            Else
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmPaymentProcess, clsCommon.myCstr(dt.Rows(0)("Loc_Seg_Code")), clsCommon.myCDate(dt.Rows(0)("Doc_Date")), trans)
+            End If
+            If clsCommon.myCdbl(dt.Rows(0)("isPosted")) = 1 Then
+                Throw New Exception("Payment process processed can't unpost it")
+            End If
+            If clsCommon.myCdbl(dt.Rows(0)("isPrePosted")) = 0 Then
+                Throw New Exception("Payment process should be posted to  unpost")
+            End If
+
+
+            qry = "update TSPL_PAYMENT_PROCESS_HEAD set isPrePosted=0, Posting_Date=null where doc_no='" + strDocNo + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "TSPL_PAYMENT_PROCESS_DETAIL", "Doc_No", trans)
+
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
     End Function
 
     Public Shared Function ReverseAndUnpost(ByVal strDocNo As String) As Boolean
@@ -4067,16 +4101,17 @@ where TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No='" & doc_No & "'order by cast(TSPL_P
                 Dim IdxTo As Integer = -1
                 For i As Integer = 0 To dtbl.Rows.Count - 1
                     If ApplyIndex Then
-                        If i = dtbl.Rows.Count - 1 Then
-                            IdxTo = i
-                            ArrIndex(IdxVendor).DRFrom = IdxFrom
-                            ArrIndex(IdxVendor).DRTo = IdxTo
-                        ElseIf (Not (clsCommon.CompairString(IdxVendor, clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))) = CompairStringResult.Equal)) Then
+                        If (Not (clsCommon.CompairString(IdxVendor, clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))) = CompairStringResult.Equal)) Then
                             IdxTo = i - 1
                             ArrIndex(IdxVendor).DRFrom = IdxFrom
                             ArrIndex(IdxVendor).DRTo = IdxTo
                             IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))
                             IdxFrom = i
+                        End If
+                        If i = dtbl.Rows.Count - 1 Then
+                            IdxTo = i
+                            ArrIndex(IdxVendor).DRFrom = IdxFrom
+                            ArrIndex(IdxVendor).DRTo = IdxTo
                         End If
                     End If
 
@@ -4177,17 +4212,18 @@ where TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No='" & doc_No & "' order by cast(TSP
                 Dim IdxTo As Integer = -1
                 For i As Integer = 0 To dtbl.Rows.Count - 1
                     If ApplyIndex Then
-                        If i = dtbl.Rows.Count - 1 Then
-                            IdxTo = i
-                            ArrIndex(IdxVendor).CRFrom = IdxFrom
-                            ArrIndex(IdxVendor).CRTo = IdxTo
-                        ElseIf (Not (clsCommon.CompairString(IdxVendor, clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))) = CompairStringResult.Equal)) Then
+                        If (Not (clsCommon.CompairString(IdxVendor, clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))) = CompairStringResult.Equal)) Then
                             IdxTo = i - 1
                             ArrIndex(IdxVendor).CRFrom = IdxFrom
                             ArrIndex(IdxVendor).CRTo = IdxTo
 
                             IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))
                             IdxFrom = i
+                        End If
+                        If i = dtbl.Rows.Count - 1 Then
+                            IdxTo = i
+                            ArrIndex(IdxVendor).CRFrom = IdxFrom
+                            ArrIndex(IdxVendor).CRTo = IdxTo
                         End If
                     End If
 
@@ -4683,17 +4719,18 @@ from TSPL_PAYMENT_PROCESS_SAVING left outer join TSPL_VENDOR_INVOICE_HEAD on TSP
                 Dim IdxTo As Integer = -1
                 For i As Integer = 0 To dtbl.Rows.Count - 1
                     If ApplyIndex Then
-                        If i = dtbl.Rows.Count - 1 Then
-                            IdxTo = i
-                            ArrIndex(IdxVendor).SavingFrom = IdxFrom
-                            ArrIndex(IdxVendor).SavingTo = IdxTo
-                        ElseIf (Not (clsCommon.CompairString(IdxVendor, clsCommon.myCstr(dtbl.Rows(i)("Vendor_Code"))) = CompairStringResult.Equal)) Then
+                        If (Not (clsCommon.CompairString(IdxVendor, clsCommon.myCstr(dtbl.Rows(i)("Vendor_Code"))) = CompairStringResult.Equal)) Then
                             IdxTo = i - 1
                             ArrIndex(IdxVendor).SavingFrom = IdxFrom
                             ArrIndex(IdxVendor).SavingTo = IdxTo
 
                             IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_Code"))
                             IdxFrom = i
+                        End If
+                        If i = dtbl.Rows.Count - 1 Then
+                            IdxTo = i
+                            ArrIndex(IdxVendor).SavingFrom = IdxFrom
+                            ArrIndex(IdxVendor).SavingTo = IdxTo
                         End If
                     End If
 
@@ -4793,17 +4830,18 @@ where TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No='" & doc_No & "'"
 
                 For i As Integer = 0 To dtbl.Rows.Count - 1
                     If ApplyIndex Then
-                        If i = dtbl.Rows.Count - 1 Then
-                            IdxTo = i
-                            ArrIndex(IdxVendor).COMPULSORYFrom = IdxFrom
-                            ArrIndex(IdxVendor).COMPULSORYTo = IdxTo
-                        ElseIf (Not (clsCommon.CompairString(IdxVendor, clsCommon.myCstr(dtbl.Rows(i)("Vendor_Code"))) = CompairStringResult.Equal)) Then
+                        If (Not (clsCommon.CompairString(IdxVendor, clsCommon.myCstr(dtbl.Rows(i)("Vendor_Code"))) = CompairStringResult.Equal)) Then
                             IdxTo = i - 1
                             ArrIndex(IdxVendor).COMPULSORYFrom = IdxFrom
                             ArrIndex(IdxVendor).COMPULSORYTo = IdxTo
 
                             IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_Code"))
                             IdxFrom = i
+                        End If
+                        If i = dtbl.Rows.Count - 1 Then
+                            IdxTo = i
+                            ArrIndex(IdxVendor).COMPULSORYFrom = IdxFrom
+                            ArrIndex(IdxVendor).COMPULSORYTo = IdxTo
                         End If
                     End If
 

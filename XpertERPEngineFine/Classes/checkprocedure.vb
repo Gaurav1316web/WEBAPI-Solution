@@ -172,6 +172,7 @@ Public Class ProgramCodeNew
         'InsertDefaultValue(clsUserMgtCode.rptDataEntryTracingReport, "Data Entry Tracing Report", "1.01.03.27", clsUserMgtCode.SubModuleCommonServicesReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmDocumentCancelledReport, "Document Cancelled Report", "1.01.03.22", clsUserMgtCode.SubModuleCommonServicesReport, 37)
         InsertDefaultValue(clsUserMgtCode.DashboardMilkProcurement, "Dashboard Milk Procurement", "1.01.03.23", clsUserMgtCode.SubModuleCommonServicesReport, 37)
+        InsertDefaultValue(clsUserMgtCode.JanaadharStatusReport, "Janaadhar Status Report", "1.01.03.24", clsUserMgtCode.SubModuleCommonServicesReport, 37)
 
         '--------------Receivable----------------------------------
         InsertDefaultValue(clsUserMgtCode.ModuleReceivable, "Receivable", "1.02", clsUserMgtCode.ExpertERP, "M", 23)
@@ -658,8 +659,9 @@ Public Class ProgramCodeNew
         '    InsertDefaultValue(clsUserMgtCode.frmRawMilkConsumtion, "Raw Milk Consumtion", "1.07.02.19", clsUserMgtCode.SubModuleMaterialTransaction, 8)
         'End If
         InsertDefaultValue(clsUserMgtCode.frmGeneralWeighment, "General Weighment", "1.07.02.20", clsUserMgtCode.SubModuleMaterialTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.frmAdjProductionEntry, "Production Entry", "1.07.02.21", clsUserMgtCode.SubModuleMaterialTransaction, 8)
-        'InsertDefaultValue(clsUserMgtCode.frmAdjProductionEntryQC, "Production Entry QC", "1.07.02.22", clsUserMgtCode.SubModuleMaterialTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmRMProcessLoss, "RM Process Loss", "1.07.02.21", clsUserMgtCode.SubModuleMaterialTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmAdjProductionEntry, "Production Entry", "1.07.02.22", clsUserMgtCode.SubModuleMaterialTransaction, 8)
+        'InsertDefaultValue(clsUserMgtCode.frmAdjProductionEntryQC, "Production Entry QC", "1.0 7.02.22", clsUserMgtCode.SubModuleMaterialTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.frmAdjProductionStoreEntry, "Production Store Entry", "1.07.02.23", clsUserMgtCode.SubModuleMaterialTransaction, 8)
 
         ' Reports 
@@ -2341,6 +2343,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptNewSalesReport, "New Sales Report", "1.36.03.24", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDemandReturnReport, "Demand Return Report", "1.36.03.25", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDailyStatementReport, "Daily Statement Report", "1.36.03.25", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptCreditCustomerReport, "Credit Customer Report", "1.36.03.26", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         InsertDefaultValue(clsUserMgtCode.frmCarteJaliRpt, "Crate Jali Report", "1.06.03.29", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptCustomerEffective_ItemRate, "Item Effective Price List", "1.06.03.30", clsUserMgtCode.SubModuleSaleDairyReport, 37)
