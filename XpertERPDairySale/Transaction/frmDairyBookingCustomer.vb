@@ -4649,7 +4649,9 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             'Add Tool tip Task No- TEC/18/05/18-000237
         ElseIf e.KeyCode = Keys.F5 Then
             If RunBatchFifowise = 0 OrElse RunBatchFifowisewithmodifyfunctionality = True Then
-                OpenBatchItem()
+                If btnPost.Enabled Then
+                    OpenBatchItem()
+                End If
             Else
                 OpenBatchItemIfFIFIOSettingON()
             End If
@@ -8050,25 +8052,6 @@ from
                     If grow.Cells(colICode).Value IsNot Nothing Then
 
                         Dim objTr As New clsPSShipmentHeadDetail()
-                        objTr.arrBatchItem = New List(Of clsBatchInventory)
-                        If clsCommon.myCBool(grow.Cells(colIsBatchItem).Value) Then
-                            Dim strQry1 As String = "select * from TSPL_BATCH_ITEM where Document_Code='" + clsCommon.myCstr(txtDocNo.Value) + "' and Item_Code='" + clsCommon.myCstr(grow.Cells(colICode).Value) + "' and UOM='" + clsCommon.myCstr(grow.Cells(colUnit).Value) + "' and In_Out_Type='O'"
-                            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(strQry1, trans)
-                            If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
-                                For Each dr As DataRow In dt1.Rows
-                                    Dim objArrBatch As New clsBatchInventory()
-                                    objArrBatch.Batch_No = clsCommon.myCstr(dr("Batch_No"))
-                                    objArrBatch.Manual_BatchNo = clsCommon.myCstr(dr("Manual_BatchNo"))
-                                    objArrBatch.Manufacture_Date = clsCommon.myCstr(dr("Manufacture_Date"))
-                                    objArrBatch.Expiry_Date = clsCommon.myCstr(dr("Expiry_Date"))
-                                    objArrBatch.Qty = clsCommon.myCstr(dr("Qty"))
-                                    objArrBatch.UOM = clsCommon.myCstr(dr("UOM"))
-                                    objArrBatch.Item_Code = clsCommon.myCstr(dr("Item_Code"))
-                                    objArrBatch.Document_Date = clsCommon.myCDate(dr("Document_Date"))
-                                    objTr.arrBatchItem.Add(objArrBatch)
-                                Next
-                            End If
-                        End If
                         If (clsCommon.myLen(clsCommon.myCdbl(grow.Cells(colTax + clsCommon.myCstr(1)).Value)) > 0) Then
                             objTr.TAX1 = clsCommon.myCstr(grow.Cells(colTax + clsCommon.myCstr(1)).Value)
                             objTr.TAX1_Base_Amt = clsCommon.myCdbl(grow.Cells(colTax_Base_Amt + clsCommon.myCstr(1)).Value)
@@ -8158,11 +8141,16 @@ from
                         objTr.Security_Rate = clsCommon.myCdbl(grow.Cells(ColSCRate).Value)
                         objTr.Distributor_Commission_RateWithTax = clsCommon.myCdbl(grow.Cells(ColDCRateWithTax).Value)
                         objTr.Disc_Amt = clsCommon.myCdbl(grow.Cells(colDisAmt).Value)
-                        objTr.arrBatchItem = TryCast(gv1.CurrentRow.Cells(colICode).Tag, List(Of clsBatchInventory))
+                        objTr.arrBatchItem = TryCast(grow.Cells(colICode).Tag, List(Of clsBatchInventory))
                         'objTr.Amt_Less_Discount = clsCommon.myCdbl(grow.Cells(colAmtAfterDis).Value)
                         DCTotalAmt += objTr.Distributor_Commission_Amt
                         TCTotalAmt += objTr.Transporter_Commission_Amt
                         SCTotalAmt += objTr.Security_Amt
+
+                        If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                            Dim strQry As String = "delete TSPL_BATCH_ITEM  where Document_Code='" + txtDocNo.Value + "' and Item_Code='" + objTr.Item_Code + "' and UOM='" + objTr.Unit_code + "'"
+                            clsDBFuncationality.ExecuteNonQuery(strQry, trans)
+                        End If
                         If (clsCommon.myLen(objTr.Item_Code) > 0) Then
                             obj.Arr.Add(objTr)
                         End If
@@ -8178,6 +8166,7 @@ from
                 obj.Document_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SHIPMENT_HEAD where Against_Delivery_Code='" & obj.Against_Delivery_Code & "'  and Customer_Code='" & txtVendorNo.Value & "'", trans))
                 DocCode = obj.Document_Code
                 If clsCommon.myLen(obj.Document_Code) <= 0 Then
+
                     If (clsPSShipmentHead.SaveData(obj, isNewEntry, trans, True)) Then
                         'trans.Commit()
                         clsPSShipmentHead.PostData(MyBase.Form_ID, obj.Document_Code, trans, Nothing, True, "")
