@@ -726,6 +726,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             obj.Against_DCSBooking_No = clsCommon.myCstr(dt.Rows(0)("Against_DCSBooking_No"))
             obj.Arr = clsBookingDetailDairySale.getData(obj.Document_No, Trans)
             obj.arrBookingDetailDairySalePaymentMode = clsBookingDetailDairySalePaymentMode.getData(obj.Document_No, Trans)
+
         End If
         Return obj
 
@@ -796,7 +797,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                     Next
                 End If
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_BOOKING_MATSER", "Document_No", "TSPL_BOOKING_DETAIL", "Document_No", "TSPL_BOOKING_PAYMENT_MODE_DETAIL", "Document_No", trans)
-
+                clsBatchInventory.DeleteData("FS-SH", strCode, trans)
                 'GatePass Entry
                 qry = "delete from TSPL_GATEPASS_DETAIL_DAIRYSALE where Delivery_Code='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -1691,11 +1692,16 @@ Public Class clsBookingDetailDairySale
                     Next
                 End If
                 Dim checkstockmrpwise As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.checkstockMRPwise, clsFixedParameterCode.checkstockMRPwise, trans)) = 0, False, True)
+                If clsCommon.myLen(strDocNo) > 0 Then
+                    Dim strQry As String = "delete TSPL_BATCH_ITEM  where Document_Code='" + strDocNo + "' and Item_Code='" + obj.Item_Code + "' and UOM='" + obj.Unit_code + "'"
+                    clsDBFuncationality.ExecuteNonQuery(strQry, trans)
+                    'clsBatchInventory.SaveData(TransType_Str, txtDocNo.Value, txtDate.Value, "O", clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), txtLocation.Value, clsCommon.myCstr(gv1.CurrentRow.Cells(colLineNo).Value), 0, clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), gv1.CurrentRow.Cells(colICode).Tag, Nothing)
+                End If
                 If IsDairyModule = False Then
                     If checkstockmrpwise Then
                         clsBatchInventory.SaveData("PS-SH", strDocNo, Docdate, "O", obj.Item_Code, obj.Loc_Code, obj.Line_No, obj.Item_Rate, obj.Unit_code, obj.arrBatchItem, trans)
                     Else
-                        clsBatchInventory.SaveData("PS-SH", strDocNo, Docdate, "O", obj.Item_Code, obj.Loc_Code, obj.Line_No, 0, obj.Unit_code, obj.arrBatchItem, trans)
+                        clsBatchInventory.SaveData("FS-SH", strDocNo, Docdate, "O", obj.Item_Code, obj.Loc_Code, obj.Line_No, 0, obj.Unit_code, obj.arrBatchItem, trans)
                     End If
 
                 End If
@@ -1950,6 +1956,8 @@ Public Class clsBookingDetailDairySale
                     obj.Security_Rate = clsCommon.myCdbl(dt.Rows(i)("Security_Rate"))
                     obj.Security_Amt = clsCommon.myCdbl(dt.Rows(i)("Security_Amt"))
                     obj.Batch_No = clsCommon.myCdbl(dt.Rows(i)("Batch_No"))
+                    obj.arrBatchItem = clsBatchInventory.GetData("FS-SH", obj.Document_No, obj.Item_Code, obj.Line_No, trans)
+
                     arrObj.Add(obj)
                 Next
             End If
