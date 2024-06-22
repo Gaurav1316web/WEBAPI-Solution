@@ -2514,6 +2514,12 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAY
                                         End If
                                     Next
                                 End If
+                                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
+                                    newBlankRow1 = dtMain.NewRow
+                                    dtMain.Rows.Add(newBlankRow1)
+                                    newBlankRow2 = dtMain.NewRow
+                                    dtMain.Rows.Add(newBlankRow2)
+                                End If
                                 'newBlankRow1 = dtMain.NewRow
                                 'dtMain.Rows.Add(newBlankRow1)
                                 'newBlankRow2 = dtMain.NewRow
@@ -2521,6 +2527,12 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAY
                             Next
 
                             'Route Total
+                            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
+                                newBlankRow1 = dtMain.NewRow
+                                dtMain.Rows.Add(newBlankRow1)
+                                newBlankRow2 = dtMain.NewRow
+                                dtMain.Rows.Add(newBlankRow2)
+                            End If
                             'newBlankRow1 = dtMain.NewRow
                             'dtMain.Rows.Add(newBlankRow1)
                             'newBlankRow2 = dtMain.NewRow
