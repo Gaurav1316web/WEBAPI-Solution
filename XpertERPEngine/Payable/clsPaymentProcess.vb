@@ -1808,7 +1808,9 @@ select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo
                 clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal OrElse
                 clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal OrElse
                 clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse
-                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal Then
+                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal OrElse
+                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal OrElse
+                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BHR") = CompairStringResult.Equal Then
                 Flag = True
             End If
 
