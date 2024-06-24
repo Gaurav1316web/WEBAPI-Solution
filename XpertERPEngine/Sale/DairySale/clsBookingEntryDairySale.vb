@@ -370,7 +370,7 @@ Public Class clsBookingEntryDairySale
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BOOKING_MATSER", OMInsertOrUpdate.Update, "TSPL_BOOKING_MATSER.Document_No='" + obj.Document_No + "'", trans)
             End If
 
-            isSaved = isSaved AndAlso clsBookingDetailDairySale.SaveData(obj.Document_No, Arr, trans, isNewEntry, obj.Document_Date)
+            isSaved = isSaved AndAlso clsBookingDetailDairySale.SaveData(obj.Document_No, Arr, trans, isNewEntry, obj.Document_Date, obj.Sub_Location_code)
             isSaved = isSaved AndAlso clsBookingDetailDairySalePaymentMode.saveData(obj.arrBookingDetailDairySalePaymentMode, obj.Document_No, obj.Document_Date, trans)
             If isNewEntry Then
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_BOOKING_MATSER", "Document_No", "TSPL_BOOKING_DETAIL", "Document_No", "TSPL_BOOKING_PAYMENT_MODE_DETAIL", "Document_No", trans)
@@ -1504,7 +1504,7 @@ Public Class clsBookingDetailDairySale
     Public Batch_No As String = ""
 #End Region
 
-    Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsBookingDetailDairySale), ByVal trans As SqlTransaction, ByVal isNewEntry As Boolean, ByVal Docdate As String) As Boolean
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsBookingDetailDairySale), ByVal trans As SqlTransaction, ByVal isNewEntry As Boolean, ByVal Docdate As String, ByVal SubLocation As String) As Boolean
         Dim LineNo As Integer = 0
         Dim SchemeType As String = Nothing
         Dim Scheme_Item_Code As String = Nothing
@@ -1699,9 +1699,21 @@ Public Class clsBookingDetailDairySale
                 End If
                 If IsDairyModule = False Then
                     If checkstockmrpwise Then
-                        clsBatchInventory.SaveData("PS-SH", strDocNo, Docdate, "O", obj.Item_Code, obj.Loc_Code, obj.Line_No, obj.Item_Rate, obj.Unit_code, obj.arrBatchItem, trans)
+                        If clsCommon.myLen(SubLocation) > 0 Then
+                            clsBatchInventory.SaveData("PS-SH", strDocNo, Docdate, "O", obj.Item_Code, SubLocation, obj.Line_No, obj.Item_Rate, obj.Unit_code, obj.arrBatchItem, trans)
+
+                        Else
+                            clsBatchInventory.SaveData("PS-SH", strDocNo, Docdate, "O", obj.Item_Code, obj.Loc_Code, obj.Line_No, obj.Item_Rate, obj.Unit_code, obj.arrBatchItem, trans)
+
+                        End If
                     Else
-                        clsBatchInventory.SaveData("FS-SH", strDocNo, Docdate, "O", obj.Item_Code, obj.Loc_Code, obj.Line_No, 0, obj.Unit_code, obj.arrBatchItem, trans)
+                        If clsCommon.myLen(SubLocation) > 0 Then
+                            clsBatchInventory.SaveData("FS-SH", strDocNo, Docdate, "O", obj.Item_Code, SubLocation, obj.Line_No, 0, obj.Unit_code, obj.arrBatchItem, trans)
+
+                        Else
+                            clsBatchInventory.SaveData("FS-SH", strDocNo, Docdate, "O", obj.Item_Code, obj.Loc_Code, obj.Line_No, 0, obj.Unit_code, obj.arrBatchItem, trans)
+
+                        End If
                     End If
 
                 End If

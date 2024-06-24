@@ -6719,6 +6719,12 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         Dim TransType_Str As String = ""
         Dim blnBatchqty As Boolean = False
         Dim isNewDocumentorExistingdoc As Boolean = True
+        Dim isSubLocation As Boolean = False
+        If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select IsSubLocationWise from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'", Nothing)), "Y") = CompairStringResult.Equal Then
+            isSubLocation = True
+        Else
+            isSubLocation = False
+        End If
         If clsERPFuncationality.GetBatchWiseApplicableStatus(txtDate.Value) = True Then
             If RunBatchFifowisewithmodifyfunctionality = True Then
                 If clsCommon.myLen(clsCommon.myCstr(txtDocNo.Value)) > 0 Then
@@ -6761,7 +6767,12 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                             Dim frm As frmBatchItemOut = New frmBatchItemOut()
                             frm.strItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
                             frm.strItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
-                            frm.strLocationCode = txtBillToLocation.Value
+                            If isSubLocation Then
+                                frm.strLocationCode = txtSubLocation.Value
+                            Else
+                                frm.strLocationCode = txtBillToLocation.Value
+                            End If
+                            'frm.strLocationCode = txtBillToLocation.Value
                             frm.strCurrDocNo = txtDocNo.Value
                             frm.strCurrDocType = TransType_Str
                             '"PS-SH"
@@ -6795,7 +6806,11 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                         Dim frm As frmBatchItemOut = New frmBatchItemOut()
                         frm.strItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
                         frm.strItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
-                        frm.strLocationCode = txtBillToLocation.Value
+                        If isSubLocation Then
+                            frm.strLocationCode = txtSubLocation.Value
+                        Else
+                            frm.strLocationCode = txtBillToLocation.Value
+                        End If
                         frm.strCurrDocNo = txtDocNo.Value
                         frm.strCurrDocType = TransType_Str
                         '"PS-SH"
@@ -6825,7 +6840,11 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                     Dim frm As frmBatchItemOut = New frmBatchItemOut()
                     frm.strItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
                     frm.strItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
-                    frm.strLocationCode = txtBillToLocation.Value
+                    If isSubLocation Then
+                        frm.strLocationCode = txtSubLocation.Value
+                    Else
+                        frm.strLocationCode = txtBillToLocation.Value
+                    End If
                     frm.strCurrDocNo = txtDocNo.Value
                     frm.strCurrDocType = TransType_Str
                     '"PS-SH"
@@ -6876,7 +6895,11 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                             Dim frm As frmBatchItemOut = New frmBatchItemOut()
                             frm.strItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
                             frm.strItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
-                            frm.strLocationCode = txtBillToLocation.Value
+                            If isSubLocation Then
+                                frm.strLocationCode = txtSubLocation.Value
+                            Else
+                                frm.strLocationCode = txtBillToLocation.Value
+                            End If
                             frm.strCurrDocNo = txtDocNo.Value
                             frm.strCurrDocType = TransType_Str
                             '"PS-SH"
