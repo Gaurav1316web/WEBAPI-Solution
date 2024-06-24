@@ -22,18 +22,21 @@ Partial Class frmMCCMaterialSale
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.cmbPaymentType = New common.Controls.MyComboBox()
+        Me.MyLabel7 = New common.Controls.MyLabel()
         Me.lblReceiverName = New common.Controls.MyLabel()
+        Me.lblPaymentType = New common.Controls.MyLabel()
         Me.txtReceiverName = New common.Controls.MyTextBox()
         Me.lblVehicleNo = New common.Controls.MyLabel()
         Me.txtVehicleNo = New common.Controls.MyTextBox()
@@ -88,7 +91,6 @@ Partial Class frmMCCMaterialSale
         Me.lblVendorName = New common.Controls.MyLabel()
         Me.lblInvoiceType = New common.Controls.MyLabel()
         Me.ddlInvoiceType = New common.Controls.MyComboBox()
-        Me.MyLabel7 = New common.Controls.MyLabel()
         Me.txtPriceCode = New common.Controls.MyLabel()
         Me.lblPriceCode = New common.Controls.MyLabel()
         Me.RadLabel6 = New common.Controls.MyLabel()
@@ -234,15 +236,16 @@ Partial Class frmMCCMaterialSale
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.cmbPaymentType = New common.Controls.MyComboBox()
-        Me.lblPaymentType = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.cmbPaymentType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblReceiverName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblPaymentType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtReceiverName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblVehicleNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtVehicleNo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -293,7 +296,6 @@ Partial Class frmMCCMaterialSale
         CType(Me.lblVendorName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblInvoiceType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ddlInvoiceType, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPriceCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblPriceCode, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.lblPriceCode.SuspendLayout()
@@ -427,8 +429,6 @@ Partial Class frmMCCMaterialSale
         Me.Panel1.SuspendLayout()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cmbPaymentType, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblPaymentType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -572,6 +572,49 @@ Partial Class frmMCCMaterialSale
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1261, 387)
         Me.RadPageViewPage1.Text = "MCC Material Sale"
         '
+        'cmbPaymentType
+        '
+        Me.cmbPaymentType.AutoCompleteDisplayMember = Nothing
+        Me.cmbPaymentType.AutoCompleteValueMember = Nothing
+        Me.cmbPaymentType.CalculationExpression = Nothing
+        Me.cmbPaymentType.DropDownAnimationEnabled = True
+        Me.cmbPaymentType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbPaymentType.FieldCode = Nothing
+        Me.cmbPaymentType.FieldDesc = Nothing
+        Me.cmbPaymentType.FieldMaxLength = 0
+        Me.cmbPaymentType.FieldName = Nothing
+        Me.cmbPaymentType.isCalculatedField = False
+        Me.cmbPaymentType.IsSourceFromTable = False
+        Me.cmbPaymentType.IsSourceFromValueList = False
+        Me.cmbPaymentType.IsUnique = False
+        RadListDataItem1.Text = "CASH"
+        RadListDataItem2.Text = "NEFT"
+        RadListDataItem3.Text = "RTGS"
+        RadListDataItem4.Text = "CHEQUE"
+        Me.cmbPaymentType.Items.Add(RadListDataItem1)
+        Me.cmbPaymentType.Items.Add(RadListDataItem2)
+        Me.cmbPaymentType.Items.Add(RadListDataItem3)
+        Me.cmbPaymentType.Items.Add(RadListDataItem4)
+        Me.cmbPaymentType.Location = New System.Drawing.Point(1058, 24)
+        Me.cmbPaymentType.MendatroryField = True
+        Me.cmbPaymentType.MyLinkLable1 = Me.MyLabel7
+        Me.cmbPaymentType.MyLinkLable2 = Nothing
+        Me.cmbPaymentType.Name = "cmbPaymentType"
+        Me.cmbPaymentType.ReferenceFieldDesc = Nothing
+        Me.cmbPaymentType.ReferenceFieldName = Nothing
+        Me.cmbPaymentType.ReferenceTableName = Nothing
+        Me.cmbPaymentType.Size = New System.Drawing.Size(108, 20)
+        Me.cmbPaymentType.TabIndex = 39
+        '
+        'MyLabel7
+        '
+        Me.MyLabel7.FieldName = Nothing
+        Me.MyLabel7.Location = New System.Drawing.Point(259, 96)
+        Me.MyLabel7.Name = "MyLabel7"
+        Me.MyLabel7.Size = New System.Drawing.Size(15, 18)
+        Me.MyLabel7.TabIndex = 7
+        Me.MyLabel7.Text = "%"
+        '
         'lblReceiverName
         '
         Me.lblReceiverName.FieldName = Nothing
@@ -581,6 +624,16 @@ Partial Class frmMCCMaterialSale
         Me.lblReceiverName.Size = New System.Drawing.Size(84, 16)
         Me.lblReceiverName.TabIndex = 304
         Me.lblReceiverName.Text = "Receiver Name"
+        '
+        'lblPaymentType
+        '
+        Me.lblPaymentType.FieldName = Nothing
+        Me.lblPaymentType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPaymentType.Location = New System.Drawing.Point(969, 26)
+        Me.lblPaymentType.Name = "lblPaymentType"
+        Me.lblPaymentType.Size = New System.Drawing.Size(79, 16)
+        Me.lblPaymentType.TabIndex = 38
+        Me.lblPaymentType.Text = "Payment Type"
         '
         'txtReceiverName
         '
@@ -1425,15 +1478,6 @@ Partial Class frmMCCMaterialSale
         Me.ddlInvoiceType.TabIndex = 13
         Me.ddlInvoiceType.Visible = False
         '
-        'MyLabel7
-        '
-        Me.MyLabel7.FieldName = Nothing
-        Me.MyLabel7.Location = New System.Drawing.Point(259, 96)
-        Me.MyLabel7.Name = "MyLabel7"
-        Me.MyLabel7.Size = New System.Drawing.Size(15, 18)
-        Me.MyLabel7.TabIndex = 7
-        Me.MyLabel7.Text = "%"
-        '
         'txtPriceCode
         '
         Me.txtPriceCode.AutoSize = False
@@ -1741,9 +1785,9 @@ Partial Class frmMCCMaterialSale
         Me.RadLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel3.Location = New System.Drawing.Point(532, 48)
         Me.RadLabel3.Name = "RadLabel3"
-        Me.RadLabel3.Size = New System.Drawing.Size(63, 16)
+        Me.RadLabel3.Size = New System.Drawing.Size(128, 16)
         Me.RadLabel3.TabIndex = 10
-        Me.RadLabel3.Text = "Description"
+        Me.RadLabel3.Text = "Reference / Cheque No."
         '
         'RadLabel15
         '
@@ -1905,7 +1949,7 @@ Partial Class frmMCCMaterialSale
         Me.txtDesc.IsSourceFromTable = False
         Me.txtDesc.IsSourceFromValueList = False
         Me.txtDesc.IsUnique = False
-        Me.txtDesc.Location = New System.Drawing.Point(610, 47)
+        Me.txtDesc.Location = New System.Drawing.Point(666, 47)
         Me.txtDesc.MaxLength = 200
         Me.txtDesc.MendatroryField = False
         Me.txtDesc.MyLinkLable1 = Me.RadLabel3
@@ -1914,7 +1958,7 @@ Partial Class frmMCCMaterialSale
         Me.txtDesc.ReferenceFieldDesc = Nothing
         Me.txtDesc.ReferenceFieldName = Nothing
         Me.txtDesc.ReferenceTableName = Nothing
-        Me.txtDesc.Size = New System.Drawing.Size(355, 18)
+        Me.txtDesc.Size = New System.Drawing.Size(297, 18)
         Me.txtDesc.TabIndex = 7
         '
         'chkCreateAutoReceipt
@@ -3456,50 +3500,6 @@ Partial Class frmMCCMaterialSale
         Me.RadMenu1.Size = New System.Drawing.Size(1282, 20)
         Me.RadMenu1.TabIndex = 3
         '
-        'cmbPaymentType
-        '
-        Me.cmbPaymentType.AutoCompleteDisplayMember = Nothing
-        Me.cmbPaymentType.AutoCompleteValueMember = Nothing
-        Me.cmbPaymentType.CalculationExpression = Nothing
-        Me.cmbPaymentType.DropDownAnimationEnabled = True
-        Me.cmbPaymentType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.cmbPaymentType.FieldCode = Nothing
-        Me.cmbPaymentType.FieldDesc = Nothing
-        Me.cmbPaymentType.FieldMaxLength = 0
-        Me.cmbPaymentType.FieldName = Nothing
-        Me.cmbPaymentType.isCalculatedField = False
-        Me.cmbPaymentType.IsSourceFromTable = False
-        Me.cmbPaymentType.IsSourceFromValueList = False
-        Me.cmbPaymentType.IsUnique = False
-        RadListDataItem1.Text = "CASH"
-        RadListDataItem2.Text = "NEFT"
-        RadListDataItem3.Text = "RTGS"
-        RadListDataItem4.Text = "CHEQUE"
-        Me.cmbPaymentType.Items.Add(RadListDataItem1)
-        Me.cmbPaymentType.Items.Add(RadListDataItem2)
-        Me.cmbPaymentType.Items.Add(RadListDataItem3)
-        Me.cmbPaymentType.Items.Add(RadListDataItem4)
-        Me.cmbPaymentType.Location = New System.Drawing.Point(1058, 24)
-        Me.cmbPaymentType.MendatroryField = True
-        Me.cmbPaymentType.MyLinkLable1 = Me.MyLabel7
-        Me.cmbPaymentType.MyLinkLable2 = Nothing
-        Me.cmbPaymentType.Name = "cmbPaymentType"
-        Me.cmbPaymentType.ReferenceFieldDesc = Nothing
-        Me.cmbPaymentType.ReferenceFieldName = Nothing
-        Me.cmbPaymentType.ReferenceTableName = Nothing
-        Me.cmbPaymentType.Size = New System.Drawing.Size(108, 20)
-        Me.cmbPaymentType.TabIndex = 39
-        '
-        'lblPaymentType
-        '
-        Me.lblPaymentType.FieldName = Nothing
-        Me.lblPaymentType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPaymentType.Location = New System.Drawing.Point(969, 26)
-        Me.lblPaymentType.Name = "lblPaymentType"
-        Me.lblPaymentType.Size = New System.Drawing.Size(79, 16)
-        Me.lblPaymentType.TabIndex = 38
-        Me.lblPaymentType.Text = "Payment Type"
-        '
         'frmMCCMaterialSale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3522,7 +3522,10 @@ Partial Class frmMCCMaterialSale
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.cmbPaymentType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblReceiverName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblPaymentType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtReceiverName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblVehicleNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtVehicleNo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3575,7 +3578,6 @@ Partial Class frmMCCMaterialSale
         CType(Me.lblVendorName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblInvoiceType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ddlInvoiceType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtPriceCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblPriceCode, System.ComponentModel.ISupportInitialize).EndInit()
         Me.lblPriceCode.ResumeLayout(False)
@@ -3721,8 +3723,6 @@ Partial Class frmMCCMaterialSale
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cmbPaymentType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblPaymentType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
