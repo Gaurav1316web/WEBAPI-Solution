@@ -1,13 +1,9 @@
 ﻿Imports common
-Imports System.Data.SqlClient
-Imports System.IO
-Imports Newtonsoft.Json.Linq
 Public Class frmBankAdvise
 #Region "Variables"
     Dim IsBankAdviseStartDate As String
 #End Region
     Private Sub SetUserMgmtNew()
-        'MyBase.SetUserMgmt(clsUserMgtCode.mbtnMRN)
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
 
@@ -26,22 +22,6 @@ Public Class frmBankAdvise
         End Try
     End Sub
 
-    'Private Sub CreateTable()
-    '    Dim coll As Dictionary(Of String, String)
-    '    coll = New Dictionary(Of String, String)()
-    '    coll.Add("Document_No", "varchar(30) Not NULL Primary key")
-    '    coll.Add("Document_Date", "datetime Not NULL")
-    '    coll.Add("Payment_Process_Document_No", "varchar(30) Not NULL UNIQUE references TSPL_PAYMENT_PROCESS_HEAD(Doc_No)")
-    '    coll.Add("Remarks", "varchar(200) NULL")
-    '    coll.Add("Created_By", "varchar(12)  Not NULL")
-    '    coll.Add("Created_Date", "datetime  Not NULL")
-    '    coll.Add("Modified_By", "varchar(12)  Not NULL")
-    '    coll.Add("Modified_Date", "datetime  Not NULL")
-    '    coll.Add("Status", "integer NULL")
-    '    coll.Add("Posted_By", "varchar(12) NULL")
-    '    coll.Add("Posted_Date", "datetime NULL")
-    '    clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BANK_ADVISE", coll, "", True)
-    'End Sub
 
     Private Sub fndDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndDocNo._MYValidating
         Try

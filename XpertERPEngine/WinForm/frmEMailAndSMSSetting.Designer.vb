@@ -322,6 +322,7 @@ Partial Class frmEMailAndSMSSetting
         Me.txtSubject.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtSubject.CalculationExpression = Nothing
+        Me.txtSubject.ContextMenuStrip = Me.ContextMenuStrip1
         Me.txtSubject.FieldCode = Nothing
         Me.txtSubject.FieldDesc = Nothing
         Me.txtSubject.FieldMaxLength = 0
@@ -332,7 +333,7 @@ Partial Class frmEMailAndSMSSetting
         Me.txtSubject.IsSourceFromValueList = False
         Me.txtSubject.IsUnique = False
         Me.txtSubject.Location = New System.Drawing.Point(53, 27)
-        Me.txtSubject.MaxLength = 50
+        Me.txtSubject.MaxLength = 200
         Me.txtSubject.MendatroryField = False
         Me.txtSubject.MyLinkLable1 = Me.MyLabel11
         Me.txtSubject.MyLinkLable2 = Nothing
@@ -509,7 +510,7 @@ Partial Class frmEMailAndSMSSetting
         Me.txt_NotificationCaption.ReferenceFieldDesc = Nothing
         Me.txt_NotificationCaption.ReferenceFieldName = Nothing
         Me.txt_NotificationCaption.ReferenceTableName = Nothing
-        Me.txt_NotificationCaption.Size = New System.Drawing.Size(488, 0)
+        Me.txt_NotificationCaption.Size = New System.Drawing.Size(488, 18)
         Me.txt_NotificationCaption.TabIndex = 38
         '
         'MyLabel13
