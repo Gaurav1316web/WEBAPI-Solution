@@ -58,7 +58,7 @@ Public Class frmTender
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
-        Cancel_btn.Visible = MyBase.isCancel_Flag_After_Posting
+        Cancel_btn.Visible = MyBase.isCancel_Flag
         'If MyBase.isReverse Then
         '    btnreverse.Enabled = True
         'Else
@@ -69,7 +69,6 @@ Public Class frmTender
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         isPageLoadData = True
         SetUserMgmtNew()
-        Cancel_btn.Enabled = False
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction")
         ButtonToolTip.SetToolTip(btnPost, "Press Alt+P Post Trasnaction")
         ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D Delete Trasnaction")
@@ -85,7 +84,7 @@ Public Class frmTender
         LoadBlankGrid2()
         AddNew()
         isPageLoadData = False
-
+        Cancel_btn.Enabled = False
     End Sub
     Sub LoadMode()
         Dim dt As DataTable = New DataTable()
@@ -147,7 +146,7 @@ Public Class frmTender
     End Sub
 
     Sub BlankAllControls()
-        Cancel_btn.Visible = False
+        'Cancel_btn.Visible = False
         txtDocNo.Value = ""
         vaddnew = "Y"
         chkRalclose.Enabled = True
@@ -929,7 +928,7 @@ Public Class frmTender
                 LoadBlankGrid2()
                 LoadBlankGridSchedule()
                 Cancel_btn.Enabled = True
-                Cancel_btn.Visible = True
+
                 txtDocNo.MyReadOnly = True
                 txtDocNo.Value = obj.DocumentCode
                 txtDate.Value = obj.DocumentDate
@@ -1257,7 +1256,7 @@ Public Class frmTender
             DeleteData()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.L AndAlso MyBase.isCancel_Flag_After_Posting AndAlso Cancel_btn.Enabled Then
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.L AndAlso MyBase.isCancel_Flag AndAlso Cancel_btn.Enabled Then
             CancelRALData()
         ElseIf e.Control AndAlso e.KeyCode = Keys.F7 Then
             'SelectRequistionItems()
@@ -2235,7 +2234,7 @@ Public Class frmTender
                         strRemarks = Reason
                     End If
                     Dim obj As New clsTenderHead()
-                    If (clsTenderHead.closeRaldata(txtDocNo.Value, True, closeyn, strRemarks)) Then
+                    If (clsTenderHead.CancelRALData(txtDocNo.Value)) Then
                         clsCommon.MyMessageBoxShow(Me, "Successfully Closed")
                     End If
 

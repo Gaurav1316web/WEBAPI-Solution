@@ -450,13 +450,13 @@ Public Class frmCrystalReportViewer
                 Me.crptViewer.Refresh()
 
                 Dim strpath = Application.StartupPath
-                If System.IO.File.Exists(Application.StartupPath + "\CrystalReport.Txp") Then
-                    strpath += "\Xpert Crystal Reports\" + objCommonVar.CurrentCompanyCode
-                End If
                 Dim subPath As String = strpath + "\\Mail Reports"
-                Dim IsExists As Boolean = System.IO.Directory.Exists(subPath)
-                If (IsExists = False) Then
+                If (Not System.IO.Directory.Exists(subPath)) Then
                     System.IO.Directory.CreateDirectory(subPath)
+                End If
+                Dim FilePath As String = strpath + "\Mail Reports\" & strReportName & ".pdf"
+                If System.IO.File.Exists(FilePath) Then
+                    System.IO.File.Delete(FilePath)
                 End If
 
                 '------------Done By Monika--------------------------------------------------form mailing
@@ -465,7 +465,7 @@ Public Class frmCrystalReportViewer
                 Dim CrFormatTypeOptions As New PdfRtfWordFormatOptions()
 
 
-                CrDiskFileDestinationOptions.DiskFileName = strpath + "\Mail Reports\" & strReportName & ".pdf"
+                CrDiskFileDestinationOptions.DiskFileName = FilePath
                 pdfpath = CrDiskFileDestinationOptions.DiskFileName
                 CrExportOptions = rpdoc.ExportOptions
 
@@ -479,14 +479,13 @@ Public Class frmCrystalReportViewer
                 rpdoc.Close()
                 rpdoc.Dispose()
             Else
-                common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
+                Throw New Exception("No Data Found")
                 Me.Close()
                 rptshow = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message.ToString())
+            Throw New Exception(ex.Message.ToString())
         End Try
-
         Return pdfpath
     End Function
 

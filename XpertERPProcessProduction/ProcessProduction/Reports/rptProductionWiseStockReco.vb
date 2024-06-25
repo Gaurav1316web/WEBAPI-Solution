@@ -209,53 +209,57 @@ Public Class rptProductionWiseStockReco
             If rdbDetail.Checked = True Then
                 Qry = Qry + " Stocking_Rate as [Stocking Rate] ,  "
             End If
-            Qry = Qry + "  round((coalesce([Opening Qty],RunningBalanceQty-BalanceQty)),2) as [Opening Qty], " & _
-                          "  round([PRODUTION Entry Qty],2) as [PRODUTION Entry Qty], " & _
-                          "  round([ADJUSTMENT Qty],2) as [ADJUSTMENT Qty], " & _
-                          "  round([Sale Qty],2)  as [Sale Qty], " & _
-                          "  round([Disassembly Qty],2)  as [Disassembly Qty], " & _
-                          "  /* round([Other In Qty],2) as [Other In Qty], */ " & _
-                          "  /* round([Other Out Qty],2) as [Other Out Qty], */ " & _
-                          "  round(RunningBalanceQty,2) as [Closing Qty] " & _
-                          "  from (  " & _
-                          "  SELECT * " & _
-                          "  ,(coalesce([Opening Qty],0)+coalesce([PRODUTION Entry Qty],0)+coalesce([ADJUSTMENT Qty],0) /* + coalesce([Other In Qty],0) +coalesce([Other Out Qty],0) */ +coalesce([Sale Qty],0)+coalesce([Disassembly Qty],0)) as BalanceQty, " & _
-                          "  sum(coalesce([Opening Qty],0)+coalesce([PRODUTION Entry Qty],0)+coalesce([ADJUSTMENT Qty],0) /* + coalesce([Other In Qty],0) +coalesce([Other Out Qty],0) */ +coalesce([Sale Qty],0)+coalesce([Disassembly Qty],0)) over (Partition by Location_Code,Item_Code order by Location_Code,Tr_Id) as RunningBalanceQty " & _
-                          "  FROM (  " & _
+            Qry = Qry + "  round((coalesce([Opening Qty],RunningBalanceQty-BalanceQty)),2) as [Opening Qty], " &
+                          "  round([PRODUTION Entry Qty],2) as [PRODUTION Entry Qty], " &
+                          " round([PRODUTION Uploader Qty],2) as [PRODUTION Uploader Qty]," &
+                          "  round([ADJUSTMENT Qty],2) as [ADJUSTMENT Qty], " &
+                          "  round([Sale Qty],2)  as [Sale Qty], " &
+                          "  round([Disassembly Qty],2)  as [Disassembly Qty], " &
+                          "  /* round([Other In Qty],2) as [Other In Qty], */ " &
+                          "  /* round([Other Out Qty],2) as [Other Out Qty], */ " &
+                          "  round(RunningBalanceQty,2) as [Closing Qty] " &
+                          "  from (  " &
+                          "  SELECT * " &
+                          "  ,(coalesce([Opening Qty],0)+coalesce([PRODUTION Entry Qty],0)+coalesce([PRODUTION Uploader Qty],0)+coalesce([ADJUSTMENT Qty],0) /* + coalesce([Other In Qty],0) +coalesce([Other Out Qty],0) */ +coalesce([Sale Qty],0)+coalesce([Disassembly Qty],0)) as BalanceQty, " &
+                          "  sum(coalesce([Opening Qty],0)+coalesce([PRODUTION Entry Qty],0)+coalesce([PRODUTION Uploader Qty],0)+coalesce([ADJUSTMENT Qty],0) /* + coalesce([Other In Qty],0) +coalesce([Other Out Qty],0) */ +coalesce([Sale Qty],0)+coalesce([Disassembly Qty],0)) over (Partition by Location_Code,Item_Code order by Location_Code,Tr_Id) as RunningBalanceQty " &
+                          "  FROM (  " &
                           "  select Item_Code,Location_Code,Location_Desc, "
             If rdbDetail.Checked = True Then
                 Qry = Qry + " Source_Doc_No,  max(Stocking_Rate) as Stocking_Rate,  " ' max(Avg_Cost) as Avg_Cost  ,max(Stock_Qty_Item_Wise)  as Stock_Qty_Item_Wise ,
             End If
-            Qry = Qry + "  convert(varchar,Trans_date,103) as Trans_Date, " & _
-                          "  SUM([Opening Qty]) as [Opening Qty], " & _
-                          "  SUM([PRODUTION Entry Qty]) as [PRODUTION Entry Qty], " & _
-                          "  SUM([Sale Qty]) AS [Sale Qty], " & _
-                          "  SUM([ADJUSTMENT Qty]) AS [ADJUSTMENT Qty], " & _
-                          "  SUM([Disassembly Qty]) AS [Disassembly Qty], " & _
-                          "  SUM([Other Out Qty]) AS [Other Out Qty], " & _
-                          "  SUM([Other In Qty]) AS [Other In Qty], " & _
-                          "  row_number() over (partition by Item_Code,Location_Code, Stock_UOM order by Item_Code,Location_Code,Trans_date) as Tr_id , Stock_UOM   from (  " & _
-                          "  select Loc_Trans.Location_Code,FatStockFinal.Item_Code, FatStockFinal.Stock_UOM,Loc_Trans.Location_Desc,Loc_Trans.Trans_date,Loc_Trans.Trans_Type+' Qty' as Trans_Type_Qty,max(FatStockFinal.Qty) as Qty , FatStockFinal.Source_Doc_No  ,max(FatStockFinal.Avg_Cost) as Avg_Cost ,max( FatStockFinal.Stock_Qty_Item_Wise) as Stock_Qty_Item_Wise ,max( FatStockFinal.Stocking_Rate ) as Stocking_Rate " & _
-                          "  from ( " & _
-                          "  select Loc.Location_Code,Loc.Location_Desc,(case when Seq_No=0 then '" + fromdate + "' else AllDate.thedate end) as Trans_date,Seq_No,Trans_Type from ( select 0 as Seq_No,'Opening' as Trans_Type  " & _
-                          "  union all  " & _
-                          "  select 1 as Seq_No,'PRODUTION Entry' as Trans_Type  " & _
-                          "  union all " & _
-                          "  select 2 as Seq_No,'Sale' as Trans_Type " & _
-                          "  union all " & _
-                          "  select 3 as Seq_No,'ADJUSTMENT' as Trans_Type  " & _
-                          "  union all  " & _
-                          "  select 4 as Seq_No,'Disassembly' as Trans_Type " & _
-                          "  union all " & _
-                          "  select 5 as Seq_No,'Other In' as Trans_Type " & _
-                          "  union all " & _
-                          "  select 6 as Seq_No,'Other Out' as Trans_Type  " & _
-                          "  ) as TransType,TSPL_LOCATION_MASTER as Loc,dbo.ExplodeDates('" + fromdate + "','" + todate + "') as AllDate  " & _
-                          "  where ((Loc.Location_Type IN ('Physical','Logical','Virtual') ) or (Loc.CSA_Type='Y')) ) as Loc_Trans  " & _
-                          "  inner join ( " & _
-                          "  select Item_Code,Stock_UOM,Location_Code,Report_Type,cast('" + fromdate + "' as date) as  Punching_Date,sum(case when InOut='I' then Stock_Qty*Inv_Type else -Stock_Qty*Inv_Type end) as Qty , '' as Source_Doc_No  , 0 as Avg_Cost , 0 as Stock_Qty_Item_Wise , 0 as Stocking_Rate " & _
-                          "  from (  " & _
-                          "  select Final.Inv_Type,Final.Trans_Type,'Opening' as Report_Type, " & _
+            Qry = Qry + "  convert(varchar,Trans_date,103) as Trans_Date, " &
+                          "  SUM([Opening Qty]) as [Opening Qty], " &
+                          "  SUM([PRODUTION Entry Qty]) as [PRODUTION Entry Qty], " &
+                          "  SUM([PRODUTION Uploader Qty]) as [PRODUTION Uploader Qty], " &
+                          "  SUM([Sale Qty]) AS [Sale Qty], " &
+                          "  SUM([ADJUSTMENT Qty]) AS [ADJUSTMENT Qty], " &
+                          "  SUM([Disassembly Qty]) AS [Disassembly Qty], " &
+                          "  SUM([Other Out Qty]) AS [Other Out Qty], " &
+                          "  SUM([Other In Qty]) AS [Other In Qty], " &
+                          "  row_number() over (partition by Item_Code,Location_Code, Stock_UOM order by Item_Code,Location_Code,Trans_date) as Tr_id , Stock_UOM   from (  " &
+                          "  select Loc_Trans.Location_Code,FatStockFinal.Item_Code, FatStockFinal.Stock_UOM,Loc_Trans.Location_Desc,Loc_Trans.Trans_date,Loc_Trans.Trans_Type+' Qty' as Trans_Type_Qty,max(FatStockFinal.Qty) as Qty , FatStockFinal.Source_Doc_No  ,max(FatStockFinal.Avg_Cost) as Avg_Cost ,max( FatStockFinal.Stock_Qty_Item_Wise) as Stock_Qty_Item_Wise ,max( FatStockFinal.Stocking_Rate ) as Stocking_Rate " &
+                          "  from ( " &
+                          "  select Loc.Location_Code,Loc.Location_Desc,(case when Seq_No=0 then '" + fromdate + "' else AllDate.thedate end) as Trans_date,Seq_No,Trans_Type from ( select 0 as Seq_No,'Opening' as Trans_Type  " &
+                          "  union all  " &
+                          "  select 1 as Seq_No,'PRODUTION Entry' as Trans_Type  " &
+                          "  union all " &
+                          "  select 2 as Seq_No,'PRODUCTION Uploader' as Trans_Type " &
+                          "  union all " &
+                          "  select 3 as Seq_No,'Sale' as Trans_Type " &
+                          "  union all " &
+                          "  select 4 as Seq_No,'ADJUSTMENT' as Trans_Type  " &
+                          "  union all  " &
+                          "  select 5 as Seq_No,'Disassembly' as Trans_Type " &
+                          "  union all " &
+                          "  select 6 as Seq_No,'Other In' as Trans_Type " &
+                          "  union all " &
+                          "  select 7 as Seq_No,'Other Out' as Trans_Type  " &
+                          "  ) as TransType,TSPL_LOCATION_MASTER as Loc,dbo.ExplodeDates('" + fromdate + "','" + todate + "') as AllDate  " &
+                          "  where ((Loc.Location_Type IN ('Physical','Logical','Virtual') ) or (Loc.CSA_Type='Y')) ) as Loc_Trans  " &
+                          "  inner join ( " &
+                          "  select Item_Code,Stock_UOM,Location_Code,Report_Type,cast('" + fromdate + "' as date) as  Punching_Date,sum(case when InOut='I' then Stock_Qty*Inv_Type else -Stock_Qty*Inv_Type end) as Qty , '' as Source_Doc_No  , 0 as Avg_Cost , 0 as Stock_Qty_Item_Wise , 0 as Stocking_Rate " &
+                          "  from (  " &
+                          "  select Final.Inv_Type,Final.Trans_Type,'Opening' as Report_Type, " &
                           "  Final.InOut,Final.Location_Code,Final.Item_Code,  "
             If clsCommon.myLen(strUnitCode) > 0 Then
                 Qry = Qry + " ( case when coalesce(StockLtr.Conversion_Factor,0)=0 then 0 else cast((Final.Stock_Qty*Stock_SU.Conversion_Factor)/(coalesce(StockLtr.Conversion_Factor,1)) as Float) end) as Stock_Qty,  "
@@ -263,30 +267,35 @@ Public Class rptProductionWiseStockReco
 
                 Qry = Qry + "  Final.Stock_Qty, "
             End If
-            Qry = Qry + "  Final.Stock_UOM,  " & _
-                          "  Punching_Date " & _
-                          "  from (  " & _
-                          "  select  1 as Inv_Type,TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type,InOut,(case when len(tspl_location_master.Main_Location_Code)>0 then tspl_location_master.Main_Location_Code else TSPL_INVENTORY_MOVEMENT_NEW.Location_Code end) as Location_Code,Source_Doc_No,Item_Code,Stock_Qty,Stock_UOM,cast(Punching_Date as date) as Punching_Date,Other_Location_Code   " & _
-                          "  from TSPL_INVENTORY_MOVEMENT_NEW left join tspl_location_master  on TSPL_INVENTORY_MOVEMENT_NEW.Location_Code=tspl_location_master.Location_Code   where 2=2 and cast(Punching_Date as date) < '" + fromdate + "' and 2=2 and len(coalesce(TSPL_INVENTORY_MOVEMENT_NEW.Location_Code,''))>0   " & _
-                          "  Union All  " & _
-                          "  select  1 as Inv_Type,TSPL_INVENTORY_MOVEMENT.Trans_Type,InOut,(case when len(tspl_location_master.Main_Location_Code)>0 then tspl_location_master.Main_Location_Code else TSPL_INVENTORY_MOVEMENT.Location_Code end) as Location_Code,Source_Doc_No,Item_Code,Stock_Qty,Stock_UOM,cast(Punching_Date as date) as Punching_Date,Other_Location_Code  " & _
-                          "  from TSPL_INVENTORY_MOVEMENT left join tspl_location_master  on TSPL_INVENTORY_MOVEMENT.Location_Code=tspl_location_master.Location_Code   where 2=2 and cast(Punching_Date as date) < '" + fromdate + "' and 2=2 and len(coalesce(TSPL_INVENTORY_MOVEMENT.Location_Code,''))>0  " & _
+            Qry = Qry + "  Final.Stock_UOM,  " &
+                          "  Punching_Date " &
+                          "  from (  " &
+                          "  select  1 as Inv_Type,TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type,InOut,(case when len(tspl_location_master.Main_Location_Code)>0 then tspl_location_master.Main_Location_Code else TSPL_INVENTORY_MOVEMENT_NEW.Location_Code end) as Location_Code,(case when TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type ='DRY-PRO-UPL' then TSPL_PRODUCTION_UPLOADER_DETAIL.Document_No else Source_Doc_No end) as Source_Doc_No,TSPL_INVENTORY_MOVEMENT_NEW.Item_Code,Stock_Qty,Stock_UOM,cast(Punching_Date as date) as Punching_Date,Other_Location_Code   " &
+                          "  from TSPL_INVENTORY_MOVEMENT_NEW left join tspl_location_master  on TSPL_INVENTORY_MOVEMENT_NEW.Location_Code=tspl_location_master.Location_Code 
+                          left join TSPL_PRODUCTION_UPLOADER_DETAIL on cast(TSPL_PRODUCTION_UPLOADER_DETAIL.PK_ID as varchar) = TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No
+                          where 2=2 and cast(Punching_Date as date) < '" + fromdate + "' and 2=2 and len(coalesce(TSPL_INVENTORY_MOVEMENT_NEW.Location_Code,''))>0   " &
+                          "  Union All  " &
+                          "  select  1 as Inv_Type,TSPL_INVENTORY_MOVEMENT.Trans_Type,InOut,(case when len(tspl_location_master.Main_Location_Code)>0 then tspl_location_master.Main_Location_Code else TSPL_INVENTORY_MOVEMENT.Location_Code end) as Location_Code,(case when TSPL_INVENTORY_MOVEMENT.Trans_Type ='DRY-PRO-UPL' then TSPL_PRODUCTION_UPLOADER_DETAIL.Document_No else Source_Doc_No end) as Source_Doc_No,TSPL_INVENTORY_MOVEMENT.Item_Code,Stock_Qty,Stock_UOM,cast(Punching_Date as date) as Punching_Date,Other_Location_Code  " &
+                          "  from TSPL_INVENTORY_MOVEMENT left join tspl_location_master  on TSPL_INVENTORY_MOVEMENT.Location_Code=tspl_location_master.Location_Code 
+                           left join TSPL_PRODUCTION_UPLOADER_DETAIL on cast(TSPL_PRODUCTION_UPLOADER_DETAIL.PK_ID as varchar) = TSPL_INVENTORY_MOVEMENT.Source_Doc_No
+                          where 2=2 and cast(Punching_Date as date) < '" + fromdate + "' and 2=2 and len(coalesce(TSPL_INVENTORY_MOVEMENT.Location_Code,''))>0  " &
                           "  ) as Final "
             If clsCommon.myLen(strUnitCode) > 0 Then
                 Qry = Qry + "  left join (select Item_Code,UOM_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL) as Stock_SU on Final.Item_Code=Stock_SU.Item_Code and Final.Stock_UOM=Stock_SU.UOM_Code "
                 Qry = Qry + "  left join (select Item_Code,UOM_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL where UOM_Code='" + strUnitCode + "') as StockLtr on Final.Item_Code=StockLtr.Item_Code "
             End If
-            Qry = Qry + " " + Wher + " " & _
-                          "  ) as FatSNFStock group by Report_Type,Item_Code,Stock_UOM,Location_Code  " & _
-                          "  Union All " & _
-                          "  select Item_Code,Stock_UOM,Location_Code,Report_Type,Punching_Date  as  Punching_Date,sum(case when InOut='I' then Stock_Qty*Inv_Type else -Stock_Qty*Inv_Type end) as Qty,Source_Doc_No  , max( Avg_Cost) as  Avg_Cost , max(Stock_Qty_Item_Wise) as Stock_Qty_Item_Wise ,max( Stocking_Rate) as Stocking_Rate  " & _
-                          "  from (  " & _
-                          "  select Final.Inv_Type,Final.Trans_Type,(Case  " & _
-                          "  when Final.Trans_Type in ('PROD_ENTRY') then 'PRODUTION Entry'  " & _
-                          "  when Final.Trans_Type in ('CSA-SALE','PS-SH','PS-SR','Sale Return','SD-CSATRANS','SD-CSATRANS-RETURN','DispatchBS','DispatchBSTrade','SaleReturnBS','FS-SH','FS-SR') then 'Sale' " & _
-                          "  when Final.Trans_Type in ('IC-AD')  Then 'ADJUSTMENT'  " & _
-                          "  When final.Trans_Type in ('Disassembly') Then 'Disassembly' " & _
-                          "  When Final.Inout='I' then 'Other In' when Final.Inout='O' then 'Other Out' end) as Report_Type, " & _
+            Qry = Qry + " " + Wher + " " &
+                          "  ) as FatSNFStock group by Report_Type,Item_Code,Stock_UOM,Location_Code  " &
+                          "  Union All " &
+                          "  select Item_Code,Stock_UOM,Location_Code,Report_Type,Punching_Date  as  Punching_Date,sum(case when InOut='I' then Stock_Qty*Inv_Type else -Stock_Qty*Inv_Type end) as Qty,Source_Doc_No  , max( Avg_Cost) as  Avg_Cost , max(Stock_Qty_Item_Wise) as Stock_Qty_Item_Wise ,max( Stocking_Rate) as Stocking_Rate  " &
+                          "  from (  " &
+                          "  select Final.Inv_Type,Final.Trans_Type,(Case  " &
+                          "  when Final.Trans_Type in ('PROD_ENTRY') then 'PRODUTION Entry'  " &
+                          "  when Final.Trans_Type in ('DRY-PRO-UPL') then 'PRODUCTION Uploader' " &
+                          "  when Final.Trans_Type in ('CSA-SALE','PS-SH','PS-SR','Sale Return','SD-CSATRANS','SD-CSATRANS-RETURN','DispatchBS','DispatchBSTrade','SaleReturnBS','FS-SH','FS-SR') then 'Sale' " &
+                          "  when Final.Trans_Type in ('IC-AD')  Then 'ADJUSTMENT'  " &
+                          "  When final.Trans_Type in ('Disassembly') Then 'Disassembly' " &
+                          "  When Final.Inout='I' then 'Other In' when Final.Inout='O' then 'Other Out' end) as Report_Type, " &
                           "  Final.InOut, Final.Location_Code, Final.Item_Code, "
             If clsCommon.myLen(strUnitCode) > 0 Then
                 Qry = Qry + " ( case when coalesce(StockLtr.Conversion_Factor,0)=0 then 0 else cast((Final.Stock_Qty*Stock_SU.Conversion_Factor)/(coalesce(StockLtr.Conversion_Factor,1)) as Float) end) as Stock_Qty,  "
@@ -295,39 +304,44 @@ Public Class rptProductionWiseStockReco
                 Qry = Qry + "  Final.Stock_Qty, "
             End If
 
-            Qry = Qry + "  Final.Stock_UOM, Punching_Date, Final.Source_Doc_No , Final.Avg_Cost,Final.Stock_Qty_Item_Wise , Final.Stocking_Rate " & _
-                   "  from ( " & _
-                   "  select  1 as Inv_Type,TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type,InOut,(case when len(tspl_location_master.Main_Location_Code)>0 then tspl_location_master.Main_Location_Code else TSPL_INVENTORY_MOVEMENT_NEW.Location_Code end) as Location_Code,Source_Doc_No,Item_Code,Stock_Qty,Stock_UOM,cast(Punching_Date as date) as Punching_Date,Other_Location_Code, TSPL_INVENTORY_MOVEMENT_NEW.Avg_Cost, TSPL_INVENTORY_MOVEMENT_NEW. Stock_Qty as Stock_Qty_Item_Wise , CAST ( (TSPL_INVENTORY_MOVEMENT_NEW.Avg_Cost / (nullif(TSPL_INVENTORY_MOVEMENT_NEW. Stock_Qty,0)) ) as Decimal(18,2)) as Stocking_Rate " & _
-                   "  from TSPL_INVENTORY_MOVEMENT_NEW left join tspl_location_master  on TSPL_INVENTORY_MOVEMENT_NEW.Location_Code=tspl_location_master.Location_Code   where 2=2 and cast(Punching_Date as date) between '" + fromdate + "' and '" + todate + "' and 2=2  and len(coalesce(TSPL_INVENTORY_MOVEMENT_NEW.Location_Code,''))>0   " & _
-                   "   and  TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type in ('PROD_ENTRY','CSA-SALE','PS-SH','PS-SR','Sale Return','SD-CSATRANS','SD-CSATRANS-RETURN','DispatchBS','DispatchBSTrade','SaleReturnBS', 'IC-AD','Disassembly','FS-SH','FS-SR') " & _
-                   "  Union All " & _
-                   "  select  1 as Inv_Type,TSPL_INVENTORY_MOVEMENT.Trans_Type,InOut,(case when len(tspl_location_master.Main_Location_Code)>0 then tspl_location_master.Main_Location_Code else TSPL_INVENTORY_MOVEMENT.Location_Code end) as Location_Code,Source_Doc_No,Item_Code,Stock_Qty,Stock_UOM,cast(Punching_Date as date) as Punching_Date,Other_Location_Code , TSPL_INVENTORY_MOVEMENT.Avg_Cost, TSPL_INVENTORY_MOVEMENT. Stock_Qty as  Stock_Qty_Item_Wise ,cast ((TSPL_INVENTORY_MOVEMENT.Avg_Cost / (nullif( TSPL_INVENTORY_MOVEMENT.Stock_Qty,0))) as Decimal (18,2) ) as  Stocking_Rate " & _
-                   "  from TSPL_INVENTORY_MOVEMENT left join tspl_location_master  on TSPL_INVENTORY_MOVEMENT.Location_Code=tspl_location_master.Location_Code   where 2=2 and cast(Punching_Date as date) between '" + fromdate + "' and '" + todate + "' and 2=2  and len(coalesce(TSPL_INVENTORY_MOVEMENT.Location_Code,''))>0  " & _
-                   "   and  TSPL_INVENTORY_MOVEMENT.Trans_Type in ('PROD_ENTRY','CSA-SALE','PS-SH','PS-SR','Sale Return','SD-CSATRANS','SD-CSATRANS-RETURN','DispatchBS','DispatchBSTrade','SaleReturnBS', 'IC-AD','Disassembly','FS-SH','FS-SR') " & _
+            Qry = Qry + "  Final.Stock_UOM, Punching_Date, Final.Source_Doc_No , Final.Avg_Cost,Final.Stock_Qty_Item_Wise , Final.Stocking_Rate " &
+                   "  from ( " &
+                   "  select  1 as Inv_Type,TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type,InOut,(case when len(tspl_location_master.Main_Location_Code)>0 then tspl_location_master.Main_Location_Code else TSPL_INVENTORY_MOVEMENT_NEW.Location_Code end) as Location_Code,(case when TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type ='DRY-PRO-UPL' then TSPL_PRODUCTION_UPLOADER_DETAIL.Document_No else Source_Doc_No end) as Source_Doc_No,TSPL_INVENTORY_MOVEMENT_NEW.Item_Code,Stock_Qty,Stock_UOM,cast(Punching_Date as date) as Punching_Date,Other_Location_Code, TSPL_INVENTORY_MOVEMENT_NEW.Avg_Cost, TSPL_INVENTORY_MOVEMENT_NEW. Stock_Qty as Stock_Qty_Item_Wise , CAST ( (TSPL_INVENTORY_MOVEMENT_NEW.Avg_Cost / (nullif(TSPL_INVENTORY_MOVEMENT_NEW. Stock_Qty,0)) ) as Decimal(18,2)) as Stocking_Rate " &
+                   "  from TSPL_INVENTORY_MOVEMENT_NEW left join tspl_location_master  on TSPL_INVENTORY_MOVEMENT_NEW.Location_Code=tspl_location_master.Location_Code 
+                   left join TSPL_PRODUCTION_UPLOADER_DETAIL on cast(TSPL_PRODUCTION_UPLOADER_DETAIL.PK_ID as varchar) = TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No
+                   where 2=2 and cast(Punching_Date as date) between '" + fromdate + "' and '" + todate + "' and 2=2  and len(coalesce(TSPL_INVENTORY_MOVEMENT_NEW.Location_Code,''))>0   " &
+                   "   and  TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type in ('PROD_ENTRY','DRY-PRO-UPL','CSA-SALE','PS-SH','PS-SR','Sale Return','SD-CSATRANS','SD-CSATRANS-RETURN','DispatchBS','DispatchBSTrade','SaleReturnBS', 'IC-AD','Disassembly','FS-SH','FS-SR') " &
+                   "  Union All " &
+                   "  select  1 as Inv_Type,TSPL_INVENTORY_MOVEMENT.Trans_Type,InOut,(case when len(tspl_location_master.Main_Location_Code)>0 then tspl_location_master.Main_Location_Code else TSPL_INVENTORY_MOVEMENT.Location_Code end) as Location_Code,(case when TSPL_INVENTORY_MOVEMENT.Trans_Type ='DRY-PRO-UPL' then TSPL_PRODUCTION_UPLOADER_DETAIL.Document_No else Source_Doc_No end) as Source_Doc_No,TSPL_INVENTORY_MOVEMENT.Item_Code,Stock_Qty,Stock_UOM,cast(Punching_Date as date) as Punching_Date,Other_Location_Code , TSPL_INVENTORY_MOVEMENT.Avg_Cost, TSPL_INVENTORY_MOVEMENT. Stock_Qty as  Stock_Qty_Item_Wise ,cast ((TSPL_INVENTORY_MOVEMENT.Avg_Cost / (nullif( TSPL_INVENTORY_MOVEMENT.Stock_Qty,0))) as Decimal (18,2) ) as  Stocking_Rate " &
+                   "  from TSPL_INVENTORY_MOVEMENT left join tspl_location_master  on TSPL_INVENTORY_MOVEMENT.Location_Code=tspl_location_master.Location_Code 
+                   left join TSPL_PRODUCTION_UPLOADER_DETAIL on cast(TSPL_PRODUCTION_UPLOADER_DETAIL.PK_ID as varchar) = TSPL_INVENTORY_MOVEMENT.Source_Doc_No
+                   where 2=2 and cast(Punching_Date as date) between '" + fromdate + "' and '" + todate + "' and 2=2  and len(coalesce(TSPL_INVENTORY_MOVEMENT.Location_Code,''))>0  " &
+                   "   and  TSPL_INVENTORY_MOVEMENT.Trans_Type in ('PROD_ENTRY','DRY-PRO-UPL','CSA-SALE','PS-SH','PS-SR','Sale Return','SD-CSATRANS','SD-CSATRANS-RETURN','DispatchBS','DispatchBSTrade','SaleReturnBS', 'IC-AD','Disassembly','FS-SH','FS-SR') " &
                    "  ) as Final "
 
             If clsCommon.myLen(strUnitCode) > 0 Then
                 Qry = Qry + "  left join (select Item_Code,UOM_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL) as Stock_SU on Final.Item_Code=Stock_SU.Item_Code and Final.Stock_UOM=Stock_SU.UOM_Code  "
                 Qry = Qry + "  left join (select Item_Code,UOM_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL where UOM_Code='" + strUnitCode + "') as StockLtr on Final.Item_Code=StockLtr.Item_Code   "
             End If
-            Qry = Qry + " " + Wher + " " & _
-                          "  ) as FatSNFStock group by Report_Type,Item_Code,Stock_UOM,Location_Code,Punching_Date ,Source_Doc_No  " & _
-                          "  ) as FatStockFinal on Loc_Trans.Location_Code=FatStockFinal.Location_Code and Loc_Trans.Trans_Type=FatStockFinal.Report_Type and Loc_Trans.Trans_date=FatStockFinal.Punching_Date  " & _
-                          "  group by Loc_Trans.Location_Code,FatStockFinal.Item_Code,Loc_Trans.Location_Desc,Loc_Trans.Trans_date,Loc_Trans.Trans_Type,Loc_Trans.Seq_No , Source_Doc_No , FatStockFinal.Stock_UOM " & _
-                          "  ) AS FatStockOuter  " & _
-                          "   Pivot " & _
-                          "  (   " & _
-                          "  max(Qty) " & _
-                          "  FOR Trans_Type_Qty  " & _
-                          "  IN ([Opening Qty],  " & _
-                          "  [PRODUTION Entry Qty],  " & _
-                          "  [ADJUSTMENT Qty],  " & _
-                          "  [Sale Qty],  " & _
-                          "  [Disassembly Qty], " & _
-                          "  [Other In Qty],  " & _
-                          "  [Other Out Qty] " & _
-                          "  )  " & _
-                          "  ) AS PIVQty  " & _
+            Qry = Qry + " " + Wher + " " &
+                          "  ) as FatSNFStock group by Report_Type,Item_Code,Stock_UOM,Location_Code,Punching_Date ,Source_Doc_No  " &
+                          "  ) as FatStockFinal on Loc_Trans.Location_Code=FatStockFinal.Location_Code and Loc_Trans.Trans_Type=FatStockFinal.Report_Type and Loc_Trans.Trans_date=FatStockFinal.Punching_Date  " &
+                          "  group by Loc_Trans.Location_Code,FatStockFinal.Item_Code,Loc_Trans.Location_Desc,Loc_Trans.Trans_date,Loc_Trans.Trans_Type,Loc_Trans.Seq_No , Source_Doc_No , FatStockFinal.Stock_UOM " &
+                          "  ) AS FatStockOuter  " &
+                          "   Pivot " &
+                          "  (   " &
+                          "  max(Qty) " &
+                          "  FOR Trans_Type_Qty  " &
+                          "  IN ([Opening Qty],  " &
+                          "  [PRODUTION Entry Qty],  " &
+                          "  [PRODUTION Uploader Qty],  " &
+                          "  [ADJUSTMENT Qty],  " &
+                          "  [Sale Qty],  " &
+                          "  [Disassembly Qty], " &
+                          "  [Other In Qty],  " &
+                          "  [Other Out Qty] " &
+                          "  )  " &
+                          "  ) AS PIVQty  " &
                           "  GROUP BY Item_Code,Location_Code,Location_Desc,Trans_date  ,Stock_UOM "
             If rdbDetail.Checked = True Then
                 Qry = Qry + " ,Source_Doc_No  "

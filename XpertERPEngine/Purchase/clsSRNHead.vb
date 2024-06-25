@@ -190,6 +190,23 @@ Public Class clsSRNHead
         clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_SRN_HEAD", "SRN_No", "TSPL_SRN_DETAIL", "SRN_No", trans)
         Return True
     End Function
+    Public Shared Function CheckRalPenalty(ByVal strcodeNo As String, ByVal trans As SqlTransaction) As Boolean
+        'Dim qry As String = "select sum(fin.[cnt]) from (SELECT 1 as [cnt] from TSPL_SRN_DETAIL where TSPL_SRN_DETAIL.PO_ID ='" + clsCommon.myCstr(strPONo) + "' union all SELECT 1 as [cnt] from TSPL_GRN_DETAIL where TSPL_GRN_DETAIL.PO_ID ='" + clsCommon.myCstr(strPONo) + "')fin"
+        '        Dim qry As String = "select sum(fin.[cnt]) from ( select  1 as [cnt]  from TSPL_TENDER_PENALTY_DETAIL 
+        'inner join TSPL_PI_DETAIL on TSPL_PI_DETAIL.SRN_Id=TSPL_TENDER_PENALTY_DETAIL.SRN_No  
+        'where TSPL_TENDER_PENALTY_DETAIL.Document_No='" + clsCommon.myCstr(strcodeNo) + "')fin"
+        Dim qry As String = "select sum(fin.[cnt]) from ( select  1 as [cnt]  from TSPL_TENDER_PENALTY_DETAIL 
+where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fin
+"
+        Dim count As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
+
+        If count > 0 Then
+            Return True
+        Else
+            Return False
+        End If
+    End Function
+
 
     Public Shared Function CancelData(ByVal Form_Id As String, ByVal Doc_No As String, ByVal Document_Type As String) As Boolean
 
@@ -206,7 +223,7 @@ Public Class clsSRNHead
 
             '' transfer data into cancel table
 
-            'clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Doc_No, "TSPL_SRN_HEAD", "SRN_No", "TSPL_SRN_DETAIL", "SRN_No", trans)
+            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Doc_No, "TSPL_SRN_HEAD", "SRN_No", "TSPL_SRN_DETAIL", "SRN_No", trans)
             clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Doc_No, "TSPL_ROADPERMIT_ISSUE_RECEIVE_DETAIL", "SRN_No", trans)
             clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Doc_No, "TSPL_CFORM_ISSUE_RECEIVE_DETAIL", "SRN_No", trans)
 
@@ -525,10 +542,6 @@ Public Class clsSRNHead
             isSaved = isSaved AndAlso clsSRNRoadPermitDetail.SaveData_RoadPermit(obj.SRN_No, obj.Against_PO, obj.Arr_Road, trans)
             isSaved = isSaved AndAlso clsSRNCFORMDetail.SaveData_CFORM(obj.SRN_No, obj.Against_PO, obj.Arr_CFORM, trans)
             isSaved = isSaved AndAlso clsSRNAdditionChargeInsurance.SaveData(obj.SRN_No, obj.SRN_Date, obj.Arr_ACInsurance, trans)
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.SRN_No), "TSPL_SRN_HEAD", "SRN_No", "TSPL_SRN_DETAIL", "SRN_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
-
-            End If
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
