@@ -1031,17 +1031,17 @@ Public Class FrmItemMasterRMOther
         repoPrintUOM.IsVisible = True
         repoPrintUOM.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvUOM.MasterTemplate.Columns.Add(repoPrintUOM)
-        If objCommonVar.RCDFCFP Then
-            Dim repoRMProcess As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
+
+        Dim repoRMProcess As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
             repoRMProcess.FormatString = ""
             repoRMProcess.HeaderText = "RM Process Loss Unit"
             repoRMProcess.Name = RMProcessloss
             repoRMProcess.Width = 80
             repoRMProcess.ThreeState = False
-            repoRMProcess.IsVisible = True
+            repoRMProcess.IsVisible = objCommonVar.RCDFCFP
             repoRMProcess.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
             gvUOM.MasterTemplate.Columns.Add(repoRMProcess)
-        End If
+
 
 
 
