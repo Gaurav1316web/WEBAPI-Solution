@@ -19,7 +19,7 @@ Public Class frmNIRQC
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
         btnPost.Visible = MyBase.isPostFlag
-        CancelBtn.Visible = MyBase.isCancel_Flag_After_Posting
+        CancelBtn.Visible = MyBase.isCancel_Flag
         'If MyBase.isReverse Then
         '    RadButton1.Enabled = True
         'Else
@@ -28,7 +28,6 @@ Public Class frmNIRQC
         RadButton1.Visible = False
     End Sub
     Private Sub FrmCapexMaster_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        CancelBtn.Visible = False
         SetUserMgmtNew()
         LoadQCStatus()
         AddNew()
@@ -41,6 +40,7 @@ Public Class frmNIRQC
         If clsCommon.myLen(Me.Tag) > 0 Then
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
+        CancelBtn.Enabled = False
     End Sub
     Sub LoadQCStatus()
         Dim dt As New DataTable()
@@ -84,7 +84,6 @@ Public Class frmNIRQC
         BlankAllControls()
     End Sub
     Sub BlankAllControls()
-        CancelBtn.Visible = False
         txtCode.Value = ""
         txtRemarks.Text = ""
         cboVisualQCStatus.SelectedValue = ""
@@ -125,7 +124,7 @@ Public Class frmNIRQC
                 btnPost.Enabled = False
                 btnDelete.Enabled = False
                 CancelBtn.Enabled = True
-                CancelBtn.Visible = True
+                'CancelBtn.Visible = True
             Else
                 btnSave.Enabled = True
                 btnPost.Enabled = True
@@ -133,7 +132,7 @@ Public Class frmNIRQC
             End If
             LoadMRNData()
         End If
-
+        CancelBtn.Enabled = True
     End Sub
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         Save()
@@ -198,7 +197,7 @@ Public Class frmNIRQC
             PostData()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso MyBase.isPostFlag AndAlso btnPost.Enabled Then
             PostData()
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.L AndAlso MyBase.isCancel_Flag_After_Posting AndAlso CancelBtn.Enabled Then
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.L AndAlso MyBase.isCancel_Flag AndAlso CancelBtn.Enabled Then
             CancelNIRQCData()
         ElseIf e.Alt And e.KeyCode = Keys.C Then
             Me.Close()

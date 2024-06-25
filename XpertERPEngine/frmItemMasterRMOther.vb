@@ -30,6 +30,7 @@ Public Class FrmItemMasterRMOther
     Const UOMColStockUnitChangable2 As String = "STOCKUNITCHG2"
     Const UOMDefault As String = "UOMDefault"
     Const PrintUOM As String = "PrintUOM"
+    Const RMProcessloss As String = "RMProcessloss"
     Const UOMPieces As String = "UOMPieces"
     Const UOMGrossWeight As String = "GrossWeight"
     Const UOMNetWeight As String = "UOMNetWeight"
@@ -225,6 +226,7 @@ Public Class FrmItemMasterRMOther
         End If
         lblBBValue.Visible = False
         txtBBValue.Visible = False
+
     End Sub
 
     Sub LoadBlankGridCat()
@@ -833,6 +835,7 @@ Public Class FrmItemMasterRMOther
         gvUOM.Rows(IntRowNo).Cells(UOMColStockUnit).ReadOnly = IIf(clsCommon.myCdbl(gvUOM.Rows(IntRowNo).Cells(UOMColStockUnitChangable2).Value) = "1", True, False)   'False 
         gvUOM.Rows(IntRowNo).Cells(UOMDefault).ReadOnly = False
         gvUOM.Rows(IntRowNo).Cells(PrintUOM).ReadOnly = False
+        gvUOM.Rows(IntRowNo).Cells(RMProcessloss).ReadOnly = False
         gvUOM.Rows(IntRowNo).Cells(UOMPieces).ReadOnly = False
         gvUOM.Rows(IntRowNo).Cells(UOMGrossWeight).ReadOnly = False
         gvUOM.Rows(IntRowNo).Cells(UOMNetWeight).ReadOnly = False
@@ -1028,6 +1031,17 @@ Public Class FrmItemMasterRMOther
         repoPrintUOM.IsVisible = True
         repoPrintUOM.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvUOM.MasterTemplate.Columns.Add(repoPrintUOM)
+        If objCommonVar.RCDFCFP Then
+            Dim repoRMProcess As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
+            repoRMProcess.FormatString = ""
+            repoRMProcess.HeaderText = "RM Process Loss Unit"
+            repoRMProcess.Name = RMProcessloss
+            repoRMProcess.Width = 80
+            repoRMProcess.ThreeState = False
+            repoRMProcess.IsVisible = True
+            repoRMProcess.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+            gvUOM.MasterTemplate.Columns.Add(repoRMProcess)
+        End If
 
 
 
@@ -1542,6 +1556,12 @@ Public Class FrmItemMasterRMOther
                         CountUOMprint = CountUOMprint + 1
                     End If
                 Next
+                Dim CountRMProcessLoss As Integer = 0
+                For ii As Integer = 0 To gvUOM.RowCount - 1
+                    If gvUOM.Rows(ii).Cells(RMProcessloss).Value = True Then
+                        CountRMProcessLoss = CountRMProcessLoss + 1
+                    End If
+                Next
                 ''===========================================
                 Dim CountPieces As Integer = 0
                 For ii As Integer = 0 To gvUOM.RowCount - 1
@@ -1587,6 +1607,11 @@ Public Class FrmItemMasterRMOther
                         objtr.Print_UOM = 1
                     Else
                         objtr.Print_UOM = 0
+                    End If
+                    If clsCommon.CompairString(gvUOM.Rows(ii).Cells(RMProcessloss).Value, True) = CompairStringResult.Equal Then
+                        objtr.RMProcessLoss_UOM = 1
+                    Else
+                        objtr.RMProcessLoss_UOM = 0
                     End If
                     If clsCommon.CompairString(gvUOM.Rows(ii).Cells(UOMPieces).Value, True) = CompairStringResult.Equal And CountPieces = 1 Then
                         objtr.Pieces = 1
@@ -1928,6 +1953,7 @@ Public Class FrmItemMasterRMOther
                 'txtUOM.Value = ""
                 Dim strUOM As String = ""
                 Dim CountDefaultUnit As Integer = 0
+                Dim countRmProcessLoss As Integer = 0
                 Dim isCustomConversion As Boolean = False
                 For ii As Integer = 0 To gvUOM.RowCount - 1
                     If clsCommon.myLen(gvUOM.Rows(ii).Cells(UOMColUnit).Value) > 0 Then
@@ -1958,6 +1984,9 @@ Public Class FrmItemMasterRMOther
                         If gvUOM.Rows(ii).Cells(UOMDefault).Value = True Then
                             CountDefaultUnit = CountDefaultUnit + 1
                         End If
+                        If gvUOM.Rows(ii).Cells(RMProcessloss).Value = True Then
+                            countRmProcessLoss = countRmProcessLoss + 1
+                        End If
                         ''===========================================
                         If clsCommon.myLen(strUOM) > 0 Then
                             strUOM += ","
@@ -1983,6 +2012,10 @@ Public Class FrmItemMasterRMOther
                 If CountDefaultUnit > 1 Then
                     RadPageView1.SelectedPage = RadPageViewPage2
                     Throw New Exception("Default UOM should be 1")
+                End If
+                If countRmProcessLoss > 1 Then
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    Throw New Exception("RM Process Loss UOM should be 1")
                 End If
                 ''===============
                 Dim dt As DataTable
@@ -2706,7 +2739,11 @@ Public Class FrmItemMasterRMOther
                         Else
                             gvUOM.Rows(gvUOM.RowCount - 1).Cells(PrintUOM).Value = False
                         End If
-
+                        If objtr.RMProcessLoss_UOM = 1 Then
+                            gvUOM.Rows(gvUOM.RowCount - 1).Cells(RMProcessloss).Value = True
+                        Else
+                            gvUOM.Rows(gvUOM.RowCount - 1).Cells(RMProcessloss).Value = False
+                        End If
                         ''==============================
                         If objtr.Pieces = 1 Then
                             gvUOM.Rows(gvUOM.RowCount - 1).Cells(UOMPieces).Value = True

@@ -26712,6 +26712,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Item_Cost", "Decimal(18,2) null")
             coll.Add("Custom_Conversion", "integer not null default 0")
             coll.Add("Print_UOM", "integer  null default 0")
+            coll.Add("ProcessLoss_UOM", "integer  null default 0")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_UOM_DETAIL", coll, "", True)
 
 
