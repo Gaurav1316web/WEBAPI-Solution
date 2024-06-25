@@ -38,6 +38,19 @@ Public Class clsQualityCheckForSRNHead
             Return False
         End If
     End Function
+    Public Shared Function CheckQualityCheckForRALPENALTY(ByVal strdocNo As String, ByVal trans As SqlTransaction) As Boolean
+
+        Dim qry As String = "  select sum(fin.[cnt]) from (Select 1 as [cnt],XYZ.SRN_No FROM TSPL_SRN_HEAD
+ inner join (SELECT SRN_No FROM TSPL_TENDER_PENALTY_DETAIL) XYZ ON XYZ.SRN_No= TSPL_SRN_HEAD.SRN_No
+								WHERE Against_QC_Code ='" + clsCommon.myCstr(strdocNo) + "'  )fin "
+        Dim count As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
+
+        If count > 0 Then
+            Return True
+        Else
+            Return False
+        End If
+    End Function
     Public Shared Function Getfinder(ByVal whrCls As String, ByVal strCurrCode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
         Dim qry As String = "select TSPL_QC_CHECK_HEAD.document_code as [Code],TSPL_QC_CHECK_HEAD.document_date as [Document Date],TSPL_QC_CHECK_HEAD.qc_type as [QC Type],TSPL_QC_CHECK_HEAD.Description,(case when TSPL_QC_CHECK_HEAD.posted=1 then 'Posted' else 'Unposted' end) as Posted,TSPL_QC_CHECK_HEAD.vendor_code as [Vendor],tspl_vendor_master.vendor_name as [Vendor Name],tspl_location_master.location_desc as [Bill to Location],TSPL_QC_CHECK_HEAD.qc_status as [QC Status],stuff((select distinct  ',' + TSPL_QC_CHECK_DETAIL.MRN_No  from TSPL_QC_CHECK_DETAIL where TSPL_QC_CHECK_DETAIL.Document_Code = TSPL_QC_CHECK_HEAD.Document_Code    for xml path('')  ),1,1,'') [MRN No] 
@@ -131,7 +144,6 @@ Public Class clsQualityCheckForSRNHead
             clsQualityCheckForSRN_MRNDetail.SaveData(obj.Document_Code, obj.Arr_MRN, trans)
             clsQualityCheckDetail.SaveData(obj.Document_Code, obj.Arr, trans)
             'If Not isNewEntry Then
-            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_Code), "TSPL_QC_CHECK_HEAD", "Document_Code", "TSPL_QC_CHECK_DETAIL", "Document_Code", "TSPL_PI_REMITTANCE", "Document_No", trans)
             'End If
             '===Sanjeet(03/01/2017) for notifiaction====
             Dim strNotificationOn As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Notification_On from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.frmQualityCheckForSRN + "'", trans))
@@ -434,6 +446,7 @@ Public Class clsQualityCheckForSRNHead
             'If (obj.Posted = ERPTransactionStatus.Approved) Then
             '    Throw New Exception("Already Posted Document")
             'End If
+            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_Code), "TSPL_QC_CHECK_HEAD", "Document_Code", "TSPL_QC_CHECK_DETAIL", "Document_Code", "TSPL_PI_REMITTANCE", "Document_No", trans)
 
             Dim qry1 As String = ""
             'Dim dt As DataTable = Nothing

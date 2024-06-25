@@ -1284,7 +1284,7 @@ Partial Class frmTender
         '
         Me.Cancel_btn.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Cancel_btn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Cancel_btn.Location = New System.Drawing.Point(203, 3)
+        Me.Cancel_btn.Location = New System.Drawing.Point(202, 3)
         Me.Cancel_btn.Name = "Cancel_btn"
         Me.Cancel_btn.Size = New System.Drawing.Size(63, 22)
         Me.Cancel_btn.TabIndex = 1503

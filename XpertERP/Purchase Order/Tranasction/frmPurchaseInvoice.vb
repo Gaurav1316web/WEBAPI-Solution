@@ -338,7 +338,7 @@ Public Class frmPurchaseInvoice
         'Else
         '    btnReverse.Enabled = False
         'End If
-        btncancel.Visible = MyBase.isCancel_Flag_After_Posting
+        btncancel.Visible = MyBase.isCancel_Flag
     End Sub
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
@@ -348,7 +348,7 @@ Public Class frmPurchaseInvoice
         'If Not clsCommon.CompairString(objCommonVar.CurrentUserCode, "ADMIN") = CompairStringResult.Equal Then
         '    If funSetUserAccess() = False Then Exit Sub
         'End If
-        btncancel.Enabled = False
+
         btnprintjvl.Enabled = False
         ConsiderPreviousandCurrentFYForTCSTaxCustOutstanding = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConsiderPreviousCurrentFYForTCSTaxVendOutstanding, clsFixedParameterCode.ConsiderPreviousCurrentFYForTCSTaxVendOutstanding, Nothing)) > 0)
         AmountToCheckVendorOutstandingForTCSTax = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AmountToCheckVendorOutstandingForTCSTax, clsFixedParameterCode.AmountToCheckVendorOutstandingForTCSTax, Nothing))
@@ -447,6 +447,7 @@ Public Class frmPurchaseInvoice
         UnitInceaseValue = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.UnitCostIncreasePurchaseInvoice, clsFixedParameterCode.UnitCostIncreasePurchaseInvoice, Nothing)) = 1, True, False)
         SkipJobWorkSRN = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SkipJobWorkSRNInPI, clsFixedParameterCode.SkipJobWorkSRNInPI, Nothing)) = 1, True, False))
         RadMenuItem1.Visibility = ElementVisibility.Collapsed
+        btncancel.Enabled = False
     End Sub
     Sub AllowDepartmentMandatoryOnPurchaseCycle()
         ChkAutoDepOnPurchaseCycle = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AutoDepartmentMendatroryFieldOnPurcahseCycle, clsFixedParameterCode.AutoDepartmentMendatroryFieldOnPurcahseCycle, Nothing)) = "1", True, False)
@@ -768,7 +769,7 @@ Public Class frmPurchaseInvoice
         lblAddChargesForInsurance.Text = ""
         lblAddChargesForInsurance1.Text = ""
         lblTotalInsuranceAmt.Text = ""
-        btncancel.Enabled = False
+        'btncancel.Enabled = False
 
         gvDeduction.DataSource = Nothing
         gvAPInvoice.DataSource = Nothing
@@ -4985,6 +4986,8 @@ Public Class frmPurchaseInvoice
                     btnprintjvl.Enabled = False
                     btncancel.Enabled = False
                 End If
+                btncancel.Visible = True
+
                 chkJobWorkOutward.Checked = IIf(obj.isJobWorkOutward = 1, True, False)
                 cmbDocType.SelectedValue = obj.Document_Type
                 txtVendorInvoiceNo.Text = obj.Vendor_Invoice_No
