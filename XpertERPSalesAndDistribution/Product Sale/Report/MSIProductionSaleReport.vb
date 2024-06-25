@@ -39,25 +39,25 @@ Public Class MSIProductionSaleReport
             End If
 
 
-            Dim DailySalesrptqry As String = "select max(TSPL_SD_SALE_INVOICE_HEAD.Document_Date) as DocDate,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_INVOICE_DETAIL.Qty)/1000 as Qty
-                                          from TSPL_SD_SALE_INVOICE_DETAIL
-                                          left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE
-                                          left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
-                                          left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
-                                          LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code 
-                                          AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SALE_INVOICE_DETAIL.Unit_code
-				                          where convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103) AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')  and FG_for_CF_RPT=1 "
+            Dim DailySalesrptqry As String = "select max(TSPL_SD_SHIPMENT_HEAD.Document_Date) as DocDate,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SHIPMENT_DETAIL.Qty)/1000 as Qty
+                                          from TSPL_SD_SHIPMENT_DETAIL
+                                          left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code =TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
+                                          left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+                                          left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
+                                          LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code 
+                                          AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SHIPMENT_DETAIL.Unit_code
+				                          where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103) AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "')  and FG_for_CF_RPT=1 "
             Dim dtsalesdaily As DataTable = clsDBFuncationality.GetDataTable(DailySalesrptqry)
 
-            Dim DailySalesrptperiodicallyqry As String = "select max(TSPL_SD_SALE_INVOICE_HEAD.Document_Date) as DocDate,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_INVOICE_DETAIL.Qty)/1000 as Qty
-                                                      from TSPL_SD_SALE_INVOICE_DETAIL
-                                                      left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE
-                                                      left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
-                                                      left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
-                                                      LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code 
-                                                      AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SALE_INVOICE_DETAIL.Unit_code
-				                                      where convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(Slot1FD) + "',103) 
-				                                      and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103) AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "') and FG_for_CF_RPT=1 "
+            Dim DailySalesrptperiodicallyqry As String = "select max(TSPL_SD_SHIPMENT_HEAD.Document_Date) as DocDate,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SHIPMENT_DETAIL.Qty)/1000 as Qty
+                                                      from TSPL_SD_SHIPMENT_DETAIL
+                                                      left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code =TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
+                                                      left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+                                                      left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
+                                                      LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code 
+                                                      AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SHIPMENT_DETAIL.Unit_code
+				                                      where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(Slot1FD) + "',103) 
+				                                      and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103) AND Location IN ('" + clsCommon.myCstr(txtLocation.Value) + "') and FG_for_CF_RPT=1 "
             Dim dtsalesperiodically As DataTable = clsDBFuncationality.GetDataTable(DailySalesrptperiodicallyqry)
 
             Dim Inventoryreport As String = "select SUM(CASE WHEN INOUT='I' THEN 1 ELSE -1 END * stock_Qty)/1000 AS QTY from tspl_inventory_movement

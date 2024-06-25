@@ -22,7 +22,6 @@ Partial Class rptDailyStatementReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -30,19 +29,17 @@ Partial Class rptDailyStatementReport
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
+        Me.txtDate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnDistributorWise = New common.Controls.MyRadioButton()
+        Me.rbtnRouteWise = New common.Controls.MyRadioButton()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
         Me.btnDetail = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnSummary = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel3 = New common.Controls.MyLabel()
-        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnRouteWise = New common.Controls.MyRadioButton()
-        Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
-        Me.txtDate = New common.Controls.MyDateTimePicker()
-        Me.rbtnDistributorWise = New common.Controls.MyRadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -50,20 +47,17 @@ Partial Class rptDailyStatementReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
-        Me.RadPageViewPage2.SuspendLayout()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox3.SuspendLayout()
-        CType(Me.rbtnRouteWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPanel1.SuspendLayout()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox3.SuspendLayout()
         CType(Me.rbtnDistributorWise, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnRouteWise, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -116,7 +110,6 @@ Partial Class rptDailyStatementReport
         'RadPageView1
         '
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
@@ -134,34 +127,90 @@ Partial Class rptDailyStatementReport
         Me.RadPageViewPage1.Size = New System.Drawing.Size(671, 343)
         Me.RadPageViewPage1.Text = "Filter"
         '
-        'RadPageViewPage2
+        'RadPanel1
         '
-        Me.RadPageViewPage2.Controls.Add(Me.gv1)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(671, 343)
-        Me.RadPageViewPage2.Text = "Report"
+        Me.RadPanel1.Controls.Add(Me.txtDate)
+        Me.RadPanel1.Controls.Add(Me.RadGroupBox3)
+        Me.RadPanel1.Controls.Add(Me.MyLabel3)
+        Me.RadPanel1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RadPanel1.Location = New System.Drawing.Point(0, 0)
+        Me.RadPanel1.Name = "RadPanel1"
+        Me.RadPanel1.Size = New System.Drawing.Size(671, 343)
+        Me.RadPanel1.TabIndex = 15
         '
-        'gv1
+        'txtDate
         '
-        Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gv1.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gv1.Location = New System.Drawing.Point(0, 0)
+        Me.txtDate.CalculationExpression = Nothing
+        Me.txtDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtDate.FieldCode = Nothing
+        Me.txtDate.FieldDesc = Nothing
+        Me.txtDate.FieldMaxLength = 0
+        Me.txtDate.FieldName = Nothing
+        Me.txtDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtDate.isCalculatedField = False
+        Me.txtDate.IsSourceFromTable = False
+        Me.txtDate.IsSourceFromValueList = False
+        Me.txtDate.IsUnique = False
+        Me.txtDate.Location = New System.Drawing.Point(66, 15)
+        Me.txtDate.MendatroryField = False
+        Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDate.MyLinkLable1 = Me.MyLabel3
+        Me.txtDate.MyLinkLable2 = Nothing
+        Me.txtDate.Name = "txtDate"
+        Me.txtDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDate.ReferenceFieldDesc = Nothing
+        Me.txtDate.ReferenceFieldName = Nothing
+        Me.txtDate.ReferenceTableName = Nothing
+        Me.txtDate.Size = New System.Drawing.Size(81, 20)
+        Me.txtDate.TabIndex = 442
+        Me.txtDate.TabStop = False
+        Me.txtDate.Text = "28/06/2012"
+        Me.txtDate.Value = New Date(2012, 6, 28, 14, 31, 57, 31)
         '
+        'MyLabel3
         '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Location = New System.Drawing.Point(13, 15)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(30, 18)
+        Me.MyLabel3.TabIndex = 364
+        Me.MyLabel3.Text = "Date"
         '
-        Me.gv1.MasterTemplate.AllowAddNewRow = False
-        Me.gv1.MasterTemplate.AllowDeleteRow = False
-        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gv1.MasterTemplate.ShowGroupedColumns = True
-        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition7
-        Me.gv1.MyStopExport = False
-        Me.gv1.Name = "gv1"
-        Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(671, 343)
-        Me.gv1.TabIndex = 2
+        'RadGroupBox3
+        '
+        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.rbtnDistributorWise)
+        Me.RadGroupBox3.Controls.Add(Me.rbtnRouteWise)
+        Me.RadGroupBox3.HeaderText = ""
+        Me.RadGroupBox3.Location = New System.Drawing.Point(10, 42)
+        Me.RadGroupBox3.Name = "RadGroupBox3"
+        Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(139, 55)
+        Me.RadGroupBox3.TabIndex = 441
+        '
+        'rbtnDistributorWise
+        '
+        Me.rbtnDistributorWise.Location = New System.Drawing.Point(4, 29)
+        Me.rbtnDistributorWise.MyLinkLable1 = Nothing
+        Me.rbtnDistributorWise.MyLinkLable2 = Nothing
+        Me.rbtnDistributorWise.Name = "rbtnDistributorWise"
+        Me.rbtnDistributorWise.Size = New System.Drawing.Size(101, 18)
+        Me.rbtnDistributorWise.TabIndex = 394
+        Me.rbtnDistributorWise.TabStop = False
+        Me.rbtnDistributorWise.Text = "Distributor Wise"
+        '
+        'rbtnRouteWise
+        '
+        Me.rbtnRouteWise.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnRouteWise.Location = New System.Drawing.Point(5, 9)
+        Me.rbtnRouteWise.MyLinkLable1 = Nothing
+        Me.rbtnRouteWise.MyLinkLable2 = Nothing
+        Me.rbtnRouteWise.Name = "rbtnRouteWise"
+        Me.rbtnRouteWise.Size = New System.Drawing.Size(77, 18)
+        Me.rbtnRouteWise.TabIndex = 393
+        Me.rbtnRouteWise.Text = "Route Wise"
+        Me.rbtnRouteWise.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'RadSplitButton1
         '
@@ -205,91 +254,6 @@ Partial Class rptDailyStatementReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'MyLabel3
-        '
-        Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(13, 15)
-        Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(30, 18)
-        Me.MyLabel3.TabIndex = 364
-        Me.MyLabel3.Text = "Date"
-        '
-        'RadGroupBox3
-        '
-        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox3.Controls.Add(Me.rbtnDistributorWise)
-        Me.RadGroupBox3.Controls.Add(Me.rbtnRouteWise)
-        Me.RadGroupBox3.HeaderText = ""
-        Me.RadGroupBox3.Location = New System.Drawing.Point(10, 42)
-        Me.RadGroupBox3.Name = "RadGroupBox3"
-        Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox3.Size = New System.Drawing.Size(139, 55)
-        Me.RadGroupBox3.TabIndex = 441
-        '
-        'rbtnRouteWise
-        '
-        Me.rbtnRouteWise.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnRouteWise.Location = New System.Drawing.Point(5, 9)
-        Me.rbtnRouteWise.MyLinkLable1 = Nothing
-        Me.rbtnRouteWise.MyLinkLable2 = Nothing
-        Me.rbtnRouteWise.Name = "rbtnRouteWise"
-        Me.rbtnRouteWise.Size = New System.Drawing.Size(77, 18)
-        Me.rbtnRouteWise.TabIndex = 393
-        Me.rbtnRouteWise.Text = "Route Wise"
-        Me.rbtnRouteWise.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
-        '
-        'RadPanel1
-        '
-        Me.RadPanel1.Controls.Add(Me.txtDate)
-        Me.RadPanel1.Controls.Add(Me.RadGroupBox3)
-        Me.RadPanel1.Controls.Add(Me.MyLabel3)
-        Me.RadPanel1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadPanel1.Location = New System.Drawing.Point(0, 0)
-        Me.RadPanel1.Name = "RadPanel1"
-        Me.RadPanel1.Size = New System.Drawing.Size(671, 343)
-        Me.RadPanel1.TabIndex = 15
-        '
-        'txtDate
-        '
-        Me.txtDate.CalculationExpression = Nothing
-        Me.txtDate.CustomFormat = "dd/MM/yyyy"
-        Me.txtDate.FieldCode = Nothing
-        Me.txtDate.FieldDesc = Nothing
-        Me.txtDate.FieldMaxLength = 0
-        Me.txtDate.FieldName = Nothing
-        Me.txtDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtDate.isCalculatedField = False
-        Me.txtDate.IsSourceFromTable = False
-        Me.txtDate.IsSourceFromValueList = False
-        Me.txtDate.IsUnique = False
-        Me.txtDate.Location = New System.Drawing.Point(66, 15)
-        Me.txtDate.MendatroryField = False
-        Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtDate.MyLinkLable1 = Me.MyLabel3
-        Me.txtDate.MyLinkLable2 = Nothing
-        Me.txtDate.Name = "txtDate"
-        Me.txtDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtDate.ReferenceFieldDesc = Nothing
-        Me.txtDate.ReferenceFieldName = Nothing
-        Me.txtDate.ReferenceTableName = Nothing
-        Me.txtDate.Size = New System.Drawing.Size(81, 20)
-        Me.txtDate.TabIndex = 442
-        Me.txtDate.TabStop = False
-        Me.txtDate.Text = "28/06/2012"
-        Me.txtDate.Value = New Date(2012, 6, 28, 14, 31, 57, 31)
-        '
-        'rbtnDistributorWise
-        '
-        Me.rbtnDistributorWise.Location = New System.Drawing.Point(4, 29)
-        Me.rbtnDistributorWise.MyLinkLable1 = Nothing
-        Me.rbtnDistributorWise.MyLinkLable2 = Nothing
-        Me.rbtnDistributorWise.Name = "rbtnDistributorWise"
-        Me.rbtnDistributorWise.Size = New System.Drawing.Size(101, 18)
-        Me.rbtnDistributorWise.TabIndex = 394
-        Me.rbtnDistributorWise.TabStop = False
-        Me.rbtnDistributorWise.Text = "Distributor Wise"
-        '
         'rptDailyStatementReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -310,22 +274,19 @@ Partial Class rptDailyStatementReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
-        Me.RadPageViewPage2.ResumeLayout(False)
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox3.ResumeLayout(False)
-        Me.RadGroupBox3.PerformLayout()
-        CType(Me.rbtnRouteWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
         Me.RadPanel1.PerformLayout()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox3.ResumeLayout(False)
+        Me.RadGroupBox3.PerformLayout()
         CType(Me.rbtnDistributorWise, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnRouteWise, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -343,8 +304,6 @@ Partial Class rptDailyStatementReport
     Friend WithEvents btnSummary As RadMenuItem
     Friend WithEvents RadPageView1 As RadPageView
     Friend WithEvents RadPageViewPage1 As RadPageViewPage
-    Friend WithEvents RadPageViewPage2 As RadPageViewPage
-    Friend WithEvents gv1 As common.UserControls.MyRadGridView
     Friend WithEvents RadPanel1 As RadPanel
     Friend WithEvents txtDate As common.Controls.MyDateTimePicker
     Friend WithEvents MyLabel3 As common.Controls.MyLabel

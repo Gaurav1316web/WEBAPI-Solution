@@ -10952,6 +10952,7 @@ Public Class clsCreateAllTable
             coll.Add("To_Date", "Datetime NOT NULL")
             coll.Add("Loc_Seg_Code", "varchar(30)  NULL")
             coll.Add("DocRefNoForUploader", "varchar(30)  NULL")
+            coll.Add("isPrePosted", "integer not null default 0")
             coll.Add("isPosted", "integer not null default 0")
             coll.Add("Posting_Date", "date null ")
             coll.Add("Created_By", "varchar(12) NOT NULL")
@@ -10972,6 +10973,8 @@ Public Class clsCreateAllTable
             coll.Add("Area_Location_Code", "VARCHAR(12) NULL references TSPL_LOCATION_MASTER(Location_Code)")
 
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_HEAD", coll, Nothing, True, False, "", "Doc_No", "Doc_Date")
+            qry ="update TSPL_PAYMENT_PROCESS_HEAD set isPrePosted=isPosted where isPosted=1"
+            clsDBFuncationality.ExecuteNonQuery(qry)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Doc_No", "Varchar(30) not null REFERENCES TSPL_PAYMENT_PROCESS_HEAD (Doc_No)")
@@ -25103,8 +25106,8 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("InvoiceNo", "Varchar(30) not null references TSPL_MILK_PURCHASE_INVOICE_HEAD(DOC_CODE)")
             coll.Add("Against_DCS_ADDITION_DEDUCTION", "Varchar(30) not null references TSPL_DCS_ADDITION_DEDUCTION(Code)")
-            coll.Add("SRN_CODE", "Varchar(30) null references TSPL_MILK_SRN_HEAD(DOC_CODE)")
-            coll.Add("Amt", "DECIMAL(18,2) NULL")
+            coll.Add("SRN_CODE", "Varchar(30) null ")
+            coll.Add("Amt", "DECIMAL(18,6) NULL")
             coll.Add("Against_Milk_Collection_MCC_Detail", "integer NULL references TSPL_MILK_COLLECTION_MCC_DETAIL(PK_Id)")
             coll.Add("Against_Milk_Collection_DCS", "Varchar(30) null references TSPL_MILK_COLLECTION_DCS(Document_No)")
             coll.Add("Against_Milk_Collection_DCS_Multiple_Days", "Varchar(30) null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS(Document_No)")
@@ -25117,11 +25120,18 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Nature_Type", "char(1) not null")
             coll.Add("Amount", "DECIMAL(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE", coll, Nothing, False, False, "TSPL_MILK_PURCHASE_INVOICE_HEAD", "InvoiceNo", "")
+            Try
+                qry = "alter table TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED alter column SRN_CODE varchar(30) null"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+            Catch ex As Exception
+            End Try
+            Try
+                qry = "alter table TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED alter column Amt decimal(18,6)"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+            Catch ex As Exception
+            End Try
 
-            qry = "alter table TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED alter column SRN_CODE varchar(30) null"
-            clsDBFuncationality.ExecuteNonQuery(qry)
-            qry = "alter table TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED alter column Amt decimal(18,6)"
-            clsDBFuncationality.ExecuteNonQuery(qry)
+
 
             coll = New Dictionary(Of String, String)()
             coll.Add("DOC_CODE", "Varchar(30) not null references TSPL_MILK_PURCHASE_INVOICE_HEAD(DOC_CODE)")
@@ -26702,6 +26712,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Item_Cost", "Decimal(18,2) null")
             coll.Add("Custom_Conversion", "integer not null default 0")
             coll.Add("Print_UOM", "integer  null default 0")
+            coll.Add("ProcessLoss_UOM", "integer  null default 0")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_UOM_DETAIL", coll, "", True)
 
 

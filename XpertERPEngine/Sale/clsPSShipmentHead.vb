@@ -1053,12 +1053,12 @@ Public Class clsPSShipmentHead
             For Each dr As DataRow In dt.Rows
                 'Criteria, Notification, Validation
                 If clsCommon.CompairString(dr("Criteria"), "Credit days") = CompairStringResult.Equal Then
-                    qry = "Select COUNT(*) from TSPL_SD_SHIPMENT_HEAD" & _
-        " LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code" & _
-        " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code" & _
-        " WHERE TSPL_SD_SHIPMENT_HEAD.Status = 1" & _
-        " AND TSPL_SD_SHIPMENT_HEAD.Customer_Code='" + obj.Customer_Code + "'" & _
-        " AND TSPL_SD_SHIPMENT_HEAD.Due_Date<'" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy") + "'" & _
+                    qry = "Select COUNT(*) from TSPL_SD_SHIPMENT_HEAD" &
+        " LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code" &
+        " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code" &
+        " WHERE TSPL_SD_SHIPMENT_HEAD.Status = 1" &
+        " AND TSPL_SD_SHIPMENT_HEAD.Customer_Code='" + obj.Customer_Code + "'" &
+        " AND TSPL_SD_SHIPMENT_HEAD.Due_Date<'" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy") + "'" &
         " AND ISNULL(TSPL_Customer_Invoice_Head.Balance_Amt,0)<>0"
                     If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans)) > 0 Then
                         If clsCommon.CompairString(dr("Validation"), "Required Approval") = CompairStringResult.Equal Then
@@ -1079,12 +1079,12 @@ Public Class clsPSShipmentHead
                         End If
                     End If
                 ElseIf clsCommon.CompairString(dr("Criteria"), "Credit Amount") = CompairStringResult.Equal Then
-                    qry = "Select SUM(TSPL_Customer_Invoice_Head.Balance_Amt) from TSPL_SD_SHIPMENT_HEAD" & _
-        " LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code" & _
-        " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code" & _
-        " WHERE TSPL_SD_SHIPMENT_HEAD.Status = 1" & _
-        " AND TSPL_SD_SHIPMENT_HEAD.Customer_Code='" + obj.Customer_Code + "'" & _
-        " AND TSPL_SD_SHIPMENT_HEAD.Document_Date<'" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy") + "'" & _
+                    qry = "Select SUM(TSPL_Customer_Invoice_Head.Balance_Amt) from TSPL_SD_SHIPMENT_HEAD" &
+        " LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code" &
+        " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code" &
+        " WHERE TSPL_SD_SHIPMENT_HEAD.Status = 1" &
+        " AND TSPL_SD_SHIPMENT_HEAD.Customer_Code='" + obj.Customer_Code + "'" &
+        " AND TSPL_SD_SHIPMENT_HEAD.Document_Date<'" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy") + "'" &
         " AND ISNULL(TSPL_Customer_Invoice_Head.Balance_Amt,0)<>0"
                     If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans)) > CreditLimit Then
                         If clsCommon.CompairString(dr("Validation"), "Required Approval") = CompairStringResult.Equal Then
@@ -4179,7 +4179,12 @@ Public Class clsPSShipmentHeadDetail
                     If checkstockmrpwise Then
                         clsBatchInventory.SaveData(TransType_Str, strDocNo, DocDate, "O", obj.Item_Code, obj.Location, obj.Line_No, obj.MRP, obj.Unit_code, obj.arrBatchItem, trans)
                     Else
-                        clsBatchInventory.SaveData(TransType_Str, strDocNo, DocDate, "O", obj.Item_Code, obj.Location, obj.Line_No, 0, obj.Unit_code, obj.arrBatchItem, trans)
+                        If clsCommon.myLen(obj.Sub_Location_code) > 0 Then
+                            clsBatchInventory.SaveData(TransType_Str, strDocNo, DocDate, "O", obj.Item_Code, obj.Sub_Location_code, obj.Line_No, 0, obj.Unit_code, obj.arrBatchItem, trans)
+                        Else
+                            clsBatchInventory.SaveData(TransType_Str, strDocNo, DocDate, "O", obj.Item_Code, obj.Location, obj.Line_No, 0, obj.Unit_code, obj.arrBatchItem, trans)
+
+                        End If
                     End If
                 End If
                 If IsDairyModule Then
@@ -4342,7 +4347,7 @@ group by Booth_Code"
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
                 For Each dr As DataRow In dt.Rows
                     obj = New clsPSShipmentDemand()
-                    obj.Booth_Code = clsCommon.myCDecimal(dr("Booth_Code"))
+                    obj.Booth_Code = clsCommon.myCstr(dr("Booth_Code"))
                     Arr.Add(obj)
                 Next
             End If

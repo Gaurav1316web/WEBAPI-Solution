@@ -168,6 +168,24 @@ Public Class frmStoreRequistion
             'txtDept.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 TSPL_GL_SEGMENT_CODE.Segment_code from TSPL_COST_CENTER_TYPE_MASTER inner  join TSPL_GL_SEGMENT_CODE ON TSPL_GL_SEGMENT_CODE.Segment_code=TSPL_COST_CENTER_TYPE_MASTER.Department_Cost Where TSPL_GL_SEGMENT_CODE.Seg_No=3 Order By TSPL_COST_CENTER_TYPE_MASTER.Created_Date Desc"))
             ' Ticket No : UDL/22/05/18-000172 By Prabhakar
             lblDept.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Description from TSPL_GL_SEGMENT_CODE where Seg_No=3 and Segment_code='" + txtDept.Value + "' "))
+            Dim qry As String = "Select TSPL_GL_SEGMENT_CODE.Segment_code as Code, TSPL_GL_SEGMENT_CODE.Description as Name,TSPL_COST_CENTER_TYPE_MASTER.Unit_Code,TSPL_COST_CENTER_TYPE_MASTER.Code as COST_CENTER_TYPE_Code from TSPL_COST_CENTER_TYPE_MASTER
+            left outer join TSPL_GL_SEGMENT_CODE on TSPL_GL_SEGMENT_CODE.Segment_code = TSPL_COST_CENTER_TYPE_MASTER.Department_Cost where  Segment_code = '" & txtDept.Value & "'"
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                txtUnitCode.Value = dt.Rows(0)("Unit_Code")
+                If clsCommon.myLen(txtUnitCode.Value) > 0 Then
+                    lblUnitDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_COST_CENTER_UNIT_MASTER where Code='" + txtUnitCode.Value + "'"))
+                Else
+                    lblUnitDesc.Text = ""
+                End If
+                txtCostCenterType.Value = dt.Rows(0)("COST_CENTER_TYPE_Code")
+                If clsCommon.myLen(txtCostCenterType.Value) > 0 Then
+                    lblCostcenterTypeDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_COST_CENTER_TYPE_MASTER where Code='" + txtCostCenterType.Value + "'"))
+                Else
+                    lblCostcenterTypeDesc.Text = ""
+                End If
+            End If
         Else
             txtDept.Enabled = True
         End If
@@ -199,8 +217,8 @@ Public Class frmStoreRequistion
         Else
             ' cboItemType.DataSource = clsItemMaster.GetItemType()
             Dim Whr = " AND IS_NON_INVENTORY=0   AND ITEM_TYPE_CODE NOT IN('J') "
-        cboItemType.DataSource = clsItemMaster.getItemTypeQuery(Whr)
-        cboItemType.ValueMember = "Code"
+            cboItemType.DataSource = clsItemMaster.getItemTypeQuery(Whr)
+            cboItemType.ValueMember = "Code"
             cboItemType.DisplayMember = "Name"
         End If
     End Sub
@@ -350,6 +368,7 @@ Public Class frmStoreRequistion
         repoVendorCode.HeaderText = "Vendor Code"
         repoVendorCode.Name = colVendorCode
         repoVendorCode.Width = 100
+        repoVendorCode.IsVisible = False
         repoVendorCode.HeaderImage = Global.ERP.My.Resources.Resources.search4
         repoVendorCode.TextImageRelation = TextImageRelation.TextBeforeImage
         gv1.MasterTemplate.Columns.Add(repoVendorCode)
@@ -360,6 +379,7 @@ Public Class frmStoreRequistion
         repoVendorName.HeaderText = "Vendor"
         repoVendorName.Name = colVendorName
         repoVendorName.Width = 150
+        repoVendorName.IsVisible = False
         repoVendorName.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoVendorName)
 
@@ -387,6 +407,7 @@ Public Class frmStoreRequistion
         repoVendroItemNo.FormatString = ""
         repoVendroItemNo.HeaderText = "Vendor Item No"
         repoVendroItemNo.Name = colVendorItemNo
+        repoVendroItemNo.IsVisible = False
         repoVendroItemNo.Width = 100
         gv1.MasterTemplate.Columns.Add(repoVendroItemNo)
 
@@ -396,6 +417,7 @@ Public Class frmStoreRequistion
         repoOrderNo.HeaderText = "Order No"
         repoOrderNo.Name = colOrderNo
         repoOrderNo.Width = 100
+        repoOrderNo.IsVisible = False
         repoOrderNo.HeaderImage = Global.ERP.My.Resources.Resources.search4
         repoOrderNo.TextImageRelation = TextImageRelation.TextBeforeImage
         gv1.MasterTemplate.Columns.Add(repoOrderNo)
@@ -571,9 +593,9 @@ Public Class frmStoreRequistion
             If EnableHirerachyCostCentre = 1 Then
                 Dim DBLevel As String = String.Empty
                 DBLevel = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Hirerachy_Level  FROM TSPL_COST_CENTRE_FINANCIAL WHERE Cost_Center_Fin_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colCostCenterCode).Value) + "' "))
-                Dim QRY As String = "select DISTINCT MAIN.Hierarchy_Level_Code as Code,TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Name AS Descriptiion  from (select TSPL_COST_CENTRE_HIRERACHY_DETAIL.COST_CENTRE_HIRERACHY_CODE, case when '" + DBLevel + "'='4' then  TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL_CODE3 when '" + DBLevel + "'='3' " & _
-                    " then TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL_CODE2 when '" + DBLevel + "'='2' then TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL_CODE1 end as Hierarchy_Level_Code" & _
-                    " from TSPL_COST_CENTRE_HIRERACHY_DETAIL WHERE TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL='" + DBLevel + "') as MAIN  " & _
+                Dim QRY As String = "select DISTINCT MAIN.Hierarchy_Level_Code as Code,TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Name AS Descriptiion  from (select TSPL_COST_CENTRE_HIRERACHY_DETAIL.COST_CENTRE_HIRERACHY_CODE, case when '" + DBLevel + "'='4' then  TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL_CODE3 when '" + DBLevel + "'='3' " &
+                    " then TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL_CODE2 when '" + DBLevel + "'='2' then TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL_CODE1 end as Hierarchy_Level_Code" &
+                    " from TSPL_COST_CENTRE_HIRERACHY_DETAIL WHERE TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL='" + DBLevel + "') as MAIN  " &
                     " LEFT OUTER JOIN TSPL_COST_CENTRE_FINANCIAL  ON MAIN.Hierarchy_Level_Code=TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code "
                 gv1.CurrentRow.Cells(colHierarchyLevel2).Value = clsCommon.ShowSelectForm("Hierarchy", QRY, "Code", " MAIN.COST_CENTRE_HIRERACHY_CODE = '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colCostCenterCode).Value) + "'", clsCommon.myCstr(gv1.CurrentRow.Cells(colHierarchyLevel2).Value), "Code", isButtonClick)
                 OpenDefaultCostCentreLevel3(False)
@@ -587,9 +609,9 @@ Public Class frmStoreRequistion
             If EnableHirerachyCostCentre = 1 Then
                 Dim DBLevel As String = String.Empty
                 DBLevel = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Hirerachy_Level  FROM TSPL_COST_CENTRE_FINANCIAL WHERE Cost_Center_Fin_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colHierarchyLevel2).Value) + "' "))
-                Dim QRY As String = "select DISTINCT MAIN.Hierarchy_Level_Code as Code,TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Name AS Descriptiion  from (select TSPL_COST_CENTRE_HIRERACHY_DETAIL.COST_CENTRE_HIRERACHY_CODE, case when '" + DBLevel + "'='4' then  TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL_CODE3 when '" + DBLevel + "'='3' " & _
-                    " then TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL_CODE2 when '" + DBLevel + "'='2' then TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL_CODE1 end as Hierarchy_Level_Code" & _
-                    " from TSPL_COST_CENTRE_HIRERACHY_DETAIL WHERE TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL='" + DBLevel + "') as MAIN  " & _
+                Dim QRY As String = "select DISTINCT MAIN.Hierarchy_Level_Code as Code,TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Name AS Descriptiion  from (select TSPL_COST_CENTRE_HIRERACHY_DETAIL.COST_CENTRE_HIRERACHY_CODE, case when '" + DBLevel + "'='4' then  TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL_CODE3 when '" + DBLevel + "'='3' " &
+                    " then TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL_CODE2 when '" + DBLevel + "'='2' then TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL_CODE1 end as Hierarchy_Level_Code" &
+                    " from TSPL_COST_CENTRE_HIRERACHY_DETAIL WHERE TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL='" + DBLevel + "') as MAIN  " &
                     " LEFT OUTER JOIN TSPL_COST_CENTRE_FINANCIAL  ON MAIN.Hierarchy_Level_Code=TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code "
                 gv1.CurrentRow.Cells(colHierarchyLevel3).Value = clsCommon.ShowSelectForm("Hierarchy", QRY, "Code", "  MAIN.COST_CENTRE_HIRERACHY_CODE = '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colHierarchyLevel2).Value) + "'", clsCommon.myCstr(gv1.CurrentRow.Cells(colHierarchyLevel3).Value), "Code", isButtonClick)
             End If
@@ -622,9 +644,9 @@ Public Class frmStoreRequistion
                 Dim dt As DataTable = New DataTable()
                 Dim qry As String = Nothing
                 DBLevel = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Hirerachy_Level  FROM TSPL_COST_CENTRE_FINANCIAL WHERE Cost_Center_Fin_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colCostCenterCode).Value) + "' "))
-                qry = "select DISTINCT MAIN.Hierarchy_Level_Code as Code,TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Name AS Descriptiion  from (select TSPL_COST_CENTRE_HIRERACHY_DETAIL.COST_CENTRE_HIRERACHY_CODE, case when '" + DBLevel + "'='4' then  TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL_CODE3 when '" + DBLevel + "'='3' " & _
-                " then TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL_CODE2 when '" + DBLevel + "'='2' then TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL_CODE1 end as Hierarchy_Level_Code" & _
-                " from TSPL_COST_CENTRE_HIRERACHY_DETAIL WHERE TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL='" + DBLevel + "') as MAIN  " & _
+                qry = "select DISTINCT MAIN.Hierarchy_Level_Code as Code,TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Name AS Descriptiion  from (select TSPL_COST_CENTRE_HIRERACHY_DETAIL.COST_CENTRE_HIRERACHY_CODE, case when '" + DBLevel + "'='4' then  TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL_CODE3 when '" + DBLevel + "'='3' " &
+                " then TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL_CODE2 when '" + DBLevel + "'='2' then TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL_CODE1 end as Hierarchy_Level_Code" &
+                " from TSPL_COST_CENTRE_HIRERACHY_DETAIL WHERE TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL='" + DBLevel + "') as MAIN  " &
                 " LEFT OUTER JOIN TSPL_COST_CENTRE_FINANCIAL  ON MAIN.Hierarchy_Level_Code=TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code WHERE MAIN.COST_CENTRE_HIRERACHY_CODE = '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colCostCenterCode).Value) + "'"
                 dt = clsDBFuncationality.GetDataTable(qry)
                 If dt.Rows.Count = 1 Then
@@ -642,9 +664,9 @@ Public Class frmStoreRequistion
                 Dim dt As DataTable = New DataTable()
                 Dim qry As String = Nothing
                 DBLevel = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Hirerachy_Level  FROM TSPL_COST_CENTRE_FINANCIAL WHERE Cost_Center_Fin_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colHierarchyLevel2).Value) + "' "))
-                qry = "select distinct MAIN.Hierarchy_Level_Code as Code,TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Name AS Descriptiion  from (select TSPL_COST_CENTRE_HIRERACHY_DETAIL.COST_CENTRE_HIRERACHY_CODE, case when '" + DBLevel + "'='4' then  TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL_CODE3 when '" + DBLevel + "'='3' " & _
-                " then TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL_CODE2 when '" + DBLevel + "'='2' then TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL_CODE1 end as Hierarchy_Level_Code" & _
-                " from TSPL_COST_CENTRE_HIRERACHY_DETAIL WHERE TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL='" + DBLevel + "') as MAIN  " & _
+                qry = "select distinct MAIN.Hierarchy_Level_Code as Code,TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Name AS Descriptiion  from (select TSPL_COST_CENTRE_HIRERACHY_DETAIL.COST_CENTRE_HIRERACHY_CODE, case when '" + DBLevel + "'='4' then  TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL_CODE3 when '" + DBLevel + "'='3' " &
+                " then TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL_CODE2 when '" + DBLevel + "'='2' then TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL_CODE1 end as Hierarchy_Level_Code" &
+                " from TSPL_COST_CENTRE_HIRERACHY_DETAIL WHERE TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL='" + DBLevel + "') as MAIN  " &
                 " LEFT OUTER JOIN TSPL_COST_CENTRE_FINANCIAL  ON MAIN.Hierarchy_Level_Code=TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code where  MAIN.COST_CENTRE_HIRERACHY_CODE = '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colHierarchyLevel2).Value) + "'"
                 dt = clsDBFuncationality.GetDataTable(qry)
                 If dt.Rows.Count = 1 Then
@@ -1197,106 +1219,106 @@ Public Class frmStoreRequistion
                     obj.Item_Type = "A"
                 End If
                 obj.Dept = txtDept.Value
-                    obj.Dept_Desc = lblDept.Text
-                    obj.Request_By = txtRequestBy.Value
-                    obj.Requisition_Type = ""
-                    obj.PROJECT_ID = fndProject.Value
-                    '====Sanjeet(22/01/2018)===
-                    obj.Capex_Code = fndcapexcode.Value
-                    obj.Capex_SubCode = fndcapexsubcode.Value
-                    obj.CosCenter_Unit = txtUnitCode.Value
-                    obj.CostCenter_Type = txtCostCenterType.Value
-                    '=======================
-                    'Sanjay
-                    obj.SubCapex_Amount = clsCommon.myCdbl(lbl_budgetamt.Text)
-                    obj.SubCapex_AmountWithTol = clsCommon.myCdbl(lbl_budgetamtwithtolerence.Text)
-                    obj.SubCapex_BalAmount = clsCommon.myCdbl(lbl_rebudgetamt.Text)
-                    obj.SubCapex_BalAmountWithTol = clsCommon.myCdbl(lbl_rebudgetamtwithtolerence.Text)
-                    'Sanjay
-                    If chkprclose.Checked = True Then
-                        obj.close_yn = "Y"
-                    ElseIf chkprclose.Checked = False Then
-                        obj.close_yn = "N"
-                    End If
+                obj.Dept_Desc = lblDept.Text
+                obj.Request_By = txtRequestBy.Value
+                obj.Requisition_Type = ""
+                obj.PROJECT_ID = fndProject.Value
+                '====Sanjeet(22/01/2018)===
+                obj.Capex_Code = fndcapexcode.Value
+                obj.Capex_SubCode = fndcapexsubcode.Value
+                obj.CosCenter_Unit = txtUnitCode.Value
+                obj.CostCenter_Type = txtCostCenterType.Value
+                '=======================
+                'Sanjay
+                obj.SubCapex_Amount = clsCommon.myCdbl(lbl_budgetamt.Text)
+                obj.SubCapex_AmountWithTol = clsCommon.myCdbl(lbl_budgetamtwithtolerence.Text)
+                obj.SubCapex_BalAmount = clsCommon.myCdbl(lbl_rebudgetamt.Text)
+                obj.SubCapex_BalAmountWithTol = clsCommon.myCdbl(lbl_rebudgetamtwithtolerence.Text)
+                'Sanjay
+                If chkprclose.Checked = True Then
+                    obj.close_yn = "Y"
+                ElseIf chkprclose.Checked = False Then
+                    obj.close_yn = "N"
+                End If
 
-                    Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select Level1, Level2 from TSPL_REQUISITION_APPROVAL")
-                    If dt.Rows.Count > 0 Then
-                        If clsCommon.myCdbl(lblTotRAmt.Text) <= clsCommon.myCdbl(dt.Rows(0)("Level1")) Then
-                            obj.Approvel_Level_Required = 1
-                        ElseIf clsCommon.myCdbl(lblTotRAmt.Text) > clsCommon.myCdbl(dt.Rows(0)("Level1")) And clsCommon.myCdbl(lblTotRAmt.Text) <= clsCommon.myCdbl(dt.Rows(0)("Level2")) Then
-                            obj.Approvel_Level_Required = 2
-                        Else
-                            obj.Approvel_Level_Required = 3
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select Level1, Level2 from TSPL_REQUISITION_APPROVAL")
+                If dt.Rows.Count > 0 Then
+                    If clsCommon.myCdbl(lblTotRAmt.Text) <= clsCommon.myCdbl(dt.Rows(0)("Level1")) Then
+                        obj.Approvel_Level_Required = 1
+                    ElseIf clsCommon.myCdbl(lblTotRAmt.Text) > clsCommon.myCdbl(dt.Rows(0)("Level1")) And clsCommon.myCdbl(lblTotRAmt.Text) <= clsCommon.myCdbl(dt.Rows(0)("Level2")) Then
+                        obj.Approvel_Level_Required = 2
+                    Else
+                        obj.Approvel_Level_Required = 3
+                    End If
+                End If
+                obj.ArrTr = New List(Of clsRequistionDetail)
+                For Each grow As GridViewRowInfo In gv1.Rows
+                    Dim objTr As New clsRequistionDetail()
+                    objTr.Item_Code = clsCommon.myCstr(grow.Cells(colICode).Value)
+                    objTr.Item_Desc = clsCommon.myCstr(grow.Cells(colIName).Value)
+                    objTr.Vendor_Code = clsCommon.myCstr(grow.Cells(colVendorCode).Value)
+                    objTr.Requisition_Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
+                    objTr.Balance_Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
+                    objTr.Location = txtLocation.Value 'clsCommon.myCstr(grow.Cells(colLocationCode).Value)
+                    objTr.Item_Cost = clsCommon.myCdbl(grow.Cells(colRate).Value)
+                    objTr.Unit_Code = clsCommon.myCstr(grow.Cells(colUnit).Value)
+                    objTr.Item_Net_Amt = clsCommon.myCdbl(grow.Cells(colAmt).Value)
+                    objTr.Vendor_ItemNo = clsCommon.myCstr(grow.Cells(colVendorItemNo).Value)
+                    objTr.Order_No = clsCommon.myCstr(grow.Cells(colOrderNo).Value)
+                    objTr.Status = "N"
+
+                    objTr.Specification = clsCommon.myCstr(grow.Cells(colSpecification).Value)
+                    objTr.Remarks = clsCommon.myCstr(grow.Cells(colRemarks).Value)
+
+                    ''richa agarwal 1 Dec ,2016
+                    If clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowCostCenterAndHierarchyLevelInPurchaseModule, clsFixedParameterCode.ShowCostCenterAndHierarchyLevelInPurchaseModule, Nothing)), "1") = CompairStringResult.Equal Then
+                        objTr.Hirerachy_Code = clsCommon.myCstr(grow.Cells(colHierarchyCode).Value)
+                        objTr.Cost_Centre_Code = clsCommon.myCstr(grow.Cells(colCostCenterCode).Value)
+                        If EnableHirerachyCostCentre = 1 Then
+                            objTr.HirerachyLevelCode3 = clsCommon.myCstr(grow.Cells(colHierarchyLevel2).Value)
+                            objTr.HirerachyLevelCode4 = clsCommon.myCstr(grow.Cells(colHierarchyLevel3).Value)
                         End If
-                    End If
-                    obj.ArrTr = New List(Of clsRequistionDetail)
-                    For Each grow As GridViewRowInfo In gv1.Rows
-                        Dim objTr As New clsRequistionDetail()
-                        objTr.Item_Code = clsCommon.myCstr(grow.Cells(colICode).Value)
-                        objTr.Item_Desc = clsCommon.myCstr(grow.Cells(colIName).Value)
-                        objTr.Vendor_Code = clsCommon.myCstr(grow.Cells(colVendorCode).Value)
-                        objTr.Requisition_Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
-                        objTr.Balance_Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
-                        objTr.Location = txtLocation.Value 'clsCommon.myCstr(grow.Cells(colLocationCode).Value)
-                        objTr.Item_Cost = clsCommon.myCdbl(grow.Cells(colRate).Value)
-                        objTr.Unit_Code = clsCommon.myCstr(grow.Cells(colUnit).Value)
-                        objTr.Item_Net_Amt = clsCommon.myCdbl(grow.Cells(colAmt).Value)
-                        objTr.Vendor_ItemNo = clsCommon.myCstr(grow.Cells(colVendorItemNo).Value)
-                        objTr.Order_No = clsCommon.myCstr(grow.Cells(colOrderNo).Value)
-                        objTr.Status = "N"
-
-                        objTr.Specification = clsCommon.myCstr(grow.Cells(colSpecification).Value)
-                        objTr.Remarks = clsCommon.myCstr(grow.Cells(colRemarks).Value)
-
-                        ''richa agarwal 1 Dec ,2016
-                        If clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowCostCenterAndHierarchyLevelInPurchaseModule, clsFixedParameterCode.ShowCostCenterAndHierarchyLevelInPurchaseModule, Nothing)), "1") = CompairStringResult.Equal Then
-                            objTr.Hirerachy_Code = clsCommon.myCstr(grow.Cells(colHierarchyCode).Value)
-                            objTr.Cost_Centre_Code = clsCommon.myCstr(grow.Cells(colCostCenterCode).Value)
-                            If EnableHirerachyCostCentre = 1 Then
-                                objTr.HirerachyLevelCode3 = clsCommon.myCstr(grow.Cells(colHierarchyLevel2).Value)
-                                objTr.HirerachyLevelCode4 = clsCommon.myCstr(grow.Cells(colHierarchyLevel3).Value)
-                            End If
-                        Else
-                            objTr.CostCode = clsCommon.myCstr(grow.Cells(colCCCode).Value)
-                        End If
-
-
-                        'objTr.Order_No = clsCommon.myCdbl(grow.Cells(colorderno).Value)
-                        If (clsCommon.myLen(objTr.Item_Code) > 0) Then
-                            obj.ArrTr.Add(objTr)
-                        End If
-                    Next
-
-
-                    If (obj.ArrTr Is Nothing OrElse obj.ArrTr.Count <= 0) Then
-                        common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
-                        Return
+                    Else
+                        objTr.CostCode = clsCommon.myCstr(grow.Cells(colCCCode).Value)
                     End If
 
-                    ''For Custom Fields
-                    obj.Form_ID = MyBase.Form_ID
-                    obj.arrCustomFields = New List(Of clsCustomFieldValues)
-                    If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
-                        UcCustomFields1.GetData(obj.arrCustomFields)
-                    End If
-                    If MyBase.ArrDetailFields IsNot Nothing AndAlso MyBase.ArrDetailFields.Count > 0 Then
-                        clsCustomFieldGrid.GetData(obj.arrCustomFields, gv1, MyBase.ArrDetailFields, colICode)
-                    End If
-                    ''End of For Custom Fields
 
-                    If (obj.SaveData(obj, isNewEntry)) Then
-                        UcAttachment1.SaveData(obj.Requisition_Id)
-                        If ChekBtnPost = False Then
-                            common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
-                        End If
-                        LoadData(obj.Requisition_Id, NavigatorType.Current)
-                        'If objCommonVar.IsDemoERP Then
-                        '    SendMail()
-                        'End If
-
+                    'objTr.Order_No = clsCommon.myCdbl(grow.Cells(colorderno).Value)
+                    If (clsCommon.myLen(objTr.Item_Code) > 0) Then
+                        obj.ArrTr.Add(objTr)
                     End If
+                Next
+
+
+                If (obj.ArrTr Is Nothing OrElse obj.ArrTr.Count <= 0) Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
+                    Return
+                End If
+
+                ''For Custom Fields
+                obj.Form_ID = MyBase.Form_ID
+                obj.arrCustomFields = New List(Of clsCustomFieldValues)
+                If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
+                    UcCustomFields1.GetData(obj.arrCustomFields)
+                End If
+                If MyBase.ArrDetailFields IsNot Nothing AndAlso MyBase.ArrDetailFields.Count > 0 Then
+                    clsCustomFieldGrid.GetData(obj.arrCustomFields, gv1, MyBase.ArrDetailFields, colICode)
+                End If
+                ''End of For Custom Fields
+
+                If (obj.SaveData(obj, isNewEntry)) Then
+                    UcAttachment1.SaveData(obj.Requisition_Id)
+                    If ChekBtnPost = False Then
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
+                    End If
+                    LoadData(obj.Requisition_Id, NavigatorType.Current)
+                    'If objCommonVar.IsDemoERP Then
+                    '    SendMail()
+                    'End If
 
                 End If
+
+            End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -1329,33 +1351,33 @@ Public Class frmStoreRequistion
                     Dim StrItemCode = clsCommon.myCstr(grow.Cells(colICode).Value)
                     Dim PurchaseQty = clsCommon.myCdbl(grow.Cells(colQty).Value)
                     Dim Qry As String = ""
-                    Qry = "Select TSPL_ITEM_REORDER_LEVEL_NEW.Item_Code, TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.Unit_Code, FINAL.ActualBalanceQty As StockQty, ISNUll(TSPL_ITEM_REORDER_LEVEL_NEW.Reorder_Level,0) As ReOrder_Level,ISNULL(TSPL_ITEM_REORDER_LEVEL_NEW.Min_Level,0) As Min_Level,ISNULL(TSPL_ITEM_REORDER_LEVEL_NEW.Max_Level,0) As Max_Level  from (" & _
-                  " select ICode,SUM(Qty * case when TransType='' then 1 else 0 end)as BalanceQty,SUM(Qty * case when TransType='' then 0 else 1 end)as CommitQty,SUM(Qty *RI )as ActualBalanceQty from (select  xx.TransType,xx.TransCode,xx.DocNo, xx.ICode,xx.Location,xx.RI ,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,( (xx.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/FinalUOM.Conversion_Factor) as Qty" & _
-                  " from (" & _
-                  " select '' as TransType,'' as TransCode,'' as DocNo, Item_Code as ICode,Location_Code as Location ,SUM(QtyNew*RI) as Qty,1 as RI,UOMNew as UOM  from( select Trans_Id,Item_Code ,Location_Code,case when InOut='I' then 1 else -1 end as RI,Qty as QtyNew,UOMNew from( select TSPL_INVENTORY_MOVEMENT.Trans_Id, TSPL_INVENTORY_MOVEMENT.Item_Code ,TSPL_INVENTORY_MOVEMENT.Location_Code , TSPL_INVENTORY_MOVEMENT.InOut,TSPL_INVENTORY_MOVEMENT.Qty   ,TSPL_INVENTORY_MOVEMENT.UOM as UOMNew  from TSPL_INVENTORY_MOVEMENT  where TSPL_INVENTORY_MOVEMENT.Qty<>0 and 2=(case when TSPL_INVENTORY_MOVEMENT.InOut='O' then 2 else case when TSPL_INVENTORY_MOVEMENT.InOut='I' and TSPL_INVENTORY_MOVEMENT.Punching_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.GETSERVERDATE), "dd/MMM/yyyy hh:mm tt") + "' then 2 else 0 end end)  )xxx   )xxxx group by Item_Code,Location_Code,UOMNew" & _
-                  " union all" & _
-                  " select 'Purchase Return' as TransType,'PurchaseReturn' as TransCode,TSPL_PR_HEAD.PR_No as DocNo, TSPL_PR_DETAIL.Item_Code as ICode,TSPL_PR_DETAIL.Location as Locaion,TSPL_PR_DETAIL.PR_Qty as Qty,-1 as RI,TSPL_PR_DETAIL.Unit_code AS Uom  from TSPL_PR_DETAIL  left outer join TSPL_PR_HEAD on TSPL_PR_HEAD.PR_No=TSPL_PR_DETAIL.PR_No where TSPL_PR_HEAD.Status=0 and TSPL_PR_DETAIL.PR_Qty<>0" & _
-                  " UNION ALL" & _
-                  " select 'IC-AD' as TransType,'ICAdj' as TransCode,TSPL_ADJUSTMENT_HEADER.Adjustment_No as DocNo, TSPL_ADJUSTMENT_DETAIL.Item_Code as ICode,TSPL_ADJUSTMENT_HEADER.Loc_Code as Locaion,TSPL_ADJUSTMENT_DETAIL.Item_Quantity as Qty,-1 as RI,TSPL_ADJUSTMENT_DETAIL.Unit_Code AS Uom  from TSPL_ADJUSTMENT_DETAIL  left outer join TSPL_ADJUSTMENT_HEADER on TSPL_ADJUSTMENT_HEADER.Adjustment_No=TSPL_ADJUSTMENT_DETAIL.Adjustment_No where TSPL_ADJUSTMENT_HEADER.Posted='N' and TSPL_ADJUSTMENT_DETAIL.Item_Quantity<>0  and TSPL_ADJUSTMENT_DETAIL.Adjustment_Type in ('BD','QD')" & _
-                  " UNION ALL" & _
-                  " select 'RGP' as TransType,'RGP' as TransCode,TSPL_RGP_HEAD.RGP_No as DocNo, TSPL_RGP_DETAIL.Item_Code as ICode,TSPL_RGP_HEAD.Location as Locaion,TSPL_RGP_DETAIL.RGP_Qty as Qty,-1 as RI,TSPL_RGP_DETAIL.Unit_code AS Uom  from TSPL_RGP_DETAIL  left outer join TSPL_RGP_HEAD on TSPL_RGP_HEAD.RGP_No=TSPL_RGP_DETAIL.RGP_No where TSPL_RGP_HEAD.Status=0 and TSPL_RGP_DETAIL.RGP_Qty<>0" & _
-                  " union all" & _
-                  " select 'Scrap' as TransType,'ScrapShipment' as TransCode,TSPL_SCRAPSALE_HEAD.shipment_No as DocNo, TSPL_SCRAPSALE_DETAIL.Item_Code as ICode,TSPL_SCRAPSALE_HEAD.Loc_Code as Locaion,TSPL_SCRAPSALE_DETAIL.shipped_Qty as Qty,-1 as RI,TSPL_SCRAPSALE_DETAIL.Unit_code AS Uom  from TSPL_SCRAPSALE_DETAIL  left outer join TSPL_SCRAPSALE_HEAD on TSPL_SCRAPSALE_HEAD.shipment_No=TSPL_SCRAPSALE_DETAIL.shipment_No where TSPL_SCRAPSALE_HEAD.IsPost=0 and TSPL_SCRAPSALE_DETAIL.shipped_Qty<>0" & _
-                  " union all" & _
-                  " select 'Issue/Return/Transfer' as TransType,'IssueReturnTransfer' as TransCode,TSPL_IssueReturn_HEAD.Doc_No as DocNo, TSPL_IssueReturn_DETAIL.Item_Code as ICode,TSPL_IssueReturn_HEAD.From_Location as Locaion,TSPL_IssueReturn_DETAIL.Issued_Qty as Qty,-1 as RI,TSPL_IssueReturn_DETAIL.Unit_code AS Uom  from TSPL_IssueReturn_DETAIL  left outer join TSPL_IssueReturn_HEAD on TSPL_IssueReturn_HEAD.Doc_No=TSPL_IssueReturn_DETAIL.Doc_No where TSPL_IssueReturn_HEAD.Status=0 and TSPL_IssueReturn_DETAIL.Issued_Qty<>0" & _
-                  " union all" & _
-                  " select  'Shipment' as TransType,'SDShipment' as TransCode,TSPL_SD_SHIPMENT_HEAD.Document_Code as DocNo, TSPL_SD_SHIPMENT_DETAIL.Item_Code as ICode,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location as Locaion,TSPL_SD_SHIPMENT_DETAIL.Qty as Qty,-1 as RI,TSPL_SD_SHIPMENT_DETAIL.Unit_code AS Uom   from TSPL_SD_SHIPMENT_DETAIL  left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE where TSPL_SD_SHIPMENT_HEAD.Status=0 and TSPL_SD_SHIPMENT_DETAIL.Qty<>0" & _
-                  " union all" & _
-                  " Select '' AS TransType, '' AS TransCode, TSPL_REQUISITION_DETAIL.Requisition_Id, Case When ISNULL(PurchaseOrder_No,'')='' Then TSPL_REQUISITION_DETAIL.Item_Code Else TSPL_PURCHASE_ORDER_DETAIL.Item_Code End As Item_Code, TSPL_REQUISITION_DETAIL.Location, Case When ISNULL(Requisition_Qty,0)>ISNULL(PurchaseOrder_Qty,0) Then Requisition_Qty Else PurchaseOrder_Qty End as Qty, 1 as RI, TSPL_REQUISITION_DETAIL.Unit_Code from TSPL_REQUISITION_DETAIL LEFT OUTER JOIN TSPL_PURCHASE_ORDER_DETAIL ON TSPL_REQUISITION_DETAIL.Requisition_Id=TSPL_PURCHASE_ORDER_DETAIL.Requisition_Id " + strCondition + " " & _
-                    " union all" & _
-                    " Select '' AS TransType, '' AS TransCode, TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No, Case When ISNULL(PurchaseOrder_No,'')='' Then TSPL_REQUISITION_DETAIL.Item_Code Else TSPL_PURCHASE_ORDER_DETAIL.Item_Code End As Item_Code, TSPL_PURCHASE_ORDER_DETAIL.Location, Case When ISNULL(Requisition_Qty,0)>ISNULL(PurchaseOrder_Qty,0) Then Requisition_Qty Else PurchaseOrder_Qty End as Qty, 1 as RI, TSPL_PURCHASE_ORDER_DETAIL.Unit_code from   TSPL_PURCHASE_ORDER_DETAIL LEFT OUTER JOIN TSPL_REQUISITION_DETAIL ON TSPL_REQUISITION_DETAIL.Requisition_Id=TSPL_PURCHASE_ORDER_DETAIL.Requisition_Id WHERE ISNULL(TSPL_REQUISITION_DETAIL.Requisition_Id,'')='' " & _
-                    " union all" & _
-                  " Select 'SRN' As TransType,'SRN' As TransCode,TSPL_SRN_HEAD.SRN_No  AS DocNo,TSPL_SRN_DETAIL .Item_Code As ICODE,TSPL_SRN_HEAD.Bill_To_Location as Location, TSPL_SRN_DETAIL.SRN_Qty  As Qty,1 as RI,TSPL_SRN_DETAIL.Unit_code As UnitCode from TSPL_SRN_HEAD Left Outer Join TSPL_SRN_DETAIL on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No where TSPL_SRN_HEAD.Status<>1 and ISNULL(TSPL_SRN_HEAD.Against_PO,'')='' and ISNULL(TSPL_SRN_HEAD.Against_Requisition,'')='' " & _
-                  " union all" & _
-                  " select 'Assemblies' as TransType,'Assemblies' as TransCode,TSPL_PJC_ASSEMBLIES.CODE as DocNo, Main_Item_Code as ICode,LOCATION_CODE as Location,QUANTITY,(case when TRANSACTION_TYPE='Assembly' then 1  else -1 end) as RI, BUILD_ITEM_UNIT_CODE as UnitCode from TSPL_PJC_ASSEMBLIES where TSPL_PJC_ASSEMBLIES.POSTED=0" & _
-                  " union all" & _
-                  " select  'Assemblies' as TransType,'Assemblies' as TransCode,TSPL_PJC_ASSEMBLIES.CODE as DocNo, TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE AS ICode,TSPL_PJC_ASSEMBLIES.LOCATION_CODE as Location, TSPL_MF_BOM_DETAIL.CONSM_QUANTITY*(TSPL_PJC_ASSEMBLIES.QUANTITY/TSPL_PJC_ASSEMBLIES.BUILD_QUANTITY) as Qty, (case when TSPL_PJC_ASSEMBLIES.TRANSACTION_TYPE='Assembly' then  -1 else  1 end) AS RI, TSPL_MF_BOM_DETAIL.CONSM_ITEM_UNIT_CODE as UnitCode from TSPL_PJC_ASSEMBLIES  inner join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_PJC_ASSEMBLIES.BOM_CODE inner JOIN TSPL_MF_BOM_DETAIL ON TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_MF_BOM_DETAIL.BOM_CODE  where TSPL_PJC_ASSEMBLIES.POSTED=0)xx" & _
-                  " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=xx.ICode and TSPL_ITEM_UOM_DETAIL.UOM_Code=xx.UOM  left outer join TSPL_ITEM_UOM_DETAIL as FinalUOM on FinalUOM.Item_Code=xx.ICode AND FinalUOM.Stocking_Unit='Y' and xx.Location='" + txtLocation.Value + "')FinalQry group by ICode" & _
+                    Qry = "Select TSPL_ITEM_REORDER_LEVEL_NEW.Item_Code, TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.Unit_Code, FINAL.ActualBalanceQty As StockQty, ISNUll(TSPL_ITEM_REORDER_LEVEL_NEW.Reorder_Level,0) As ReOrder_Level,ISNULL(TSPL_ITEM_REORDER_LEVEL_NEW.Min_Level,0) As Min_Level,ISNULL(TSPL_ITEM_REORDER_LEVEL_NEW.Max_Level,0) As Max_Level  from (" &
+                  " select ICode,SUM(Qty * case when TransType='' then 1 else 0 end)as BalanceQty,SUM(Qty * case when TransType='' then 0 else 1 end)as CommitQty,SUM(Qty *RI )as ActualBalanceQty from (select  xx.TransType,xx.TransCode,xx.DocNo, xx.ICode,xx.Location,xx.RI ,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,( (xx.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/FinalUOM.Conversion_Factor) as Qty" &
+                  " from (" &
+                  " select '' as TransType,'' as TransCode,'' as DocNo, Item_Code as ICode,Location_Code as Location ,SUM(QtyNew*RI) as Qty,1 as RI,UOMNew as UOM  from( select Trans_Id,Item_Code ,Location_Code,case when InOut='I' then 1 else -1 end as RI,Qty as QtyNew,UOMNew from( select TSPL_INVENTORY_MOVEMENT.Trans_Id, TSPL_INVENTORY_MOVEMENT.Item_Code ,TSPL_INVENTORY_MOVEMENT.Location_Code , TSPL_INVENTORY_MOVEMENT.InOut,TSPL_INVENTORY_MOVEMENT.Qty   ,TSPL_INVENTORY_MOVEMENT.UOM as UOMNew  from TSPL_INVENTORY_MOVEMENT  where TSPL_INVENTORY_MOVEMENT.Qty<>0 and 2=(case when TSPL_INVENTORY_MOVEMENT.InOut='O' then 2 else case when TSPL_INVENTORY_MOVEMENT.InOut='I' and TSPL_INVENTORY_MOVEMENT.Punching_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.GETSERVERDATE), "dd/MMM/yyyy hh:mm tt") + "' then 2 else 0 end end)  )xxx   )xxxx group by Item_Code,Location_Code,UOMNew" &
+                  " union all" &
+                  " select 'Purchase Return' as TransType,'PurchaseReturn' as TransCode,TSPL_PR_HEAD.PR_No as DocNo, TSPL_PR_DETAIL.Item_Code as ICode,TSPL_PR_DETAIL.Location as Locaion,TSPL_PR_DETAIL.PR_Qty as Qty,-1 as RI,TSPL_PR_DETAIL.Unit_code AS Uom  from TSPL_PR_DETAIL  left outer join TSPL_PR_HEAD on TSPL_PR_HEAD.PR_No=TSPL_PR_DETAIL.PR_No where TSPL_PR_HEAD.Status=0 and TSPL_PR_DETAIL.PR_Qty<>0" &
+                  " UNION ALL" &
+                  " select 'IC-AD' as TransType,'ICAdj' as TransCode,TSPL_ADJUSTMENT_HEADER.Adjustment_No as DocNo, TSPL_ADJUSTMENT_DETAIL.Item_Code as ICode,TSPL_ADJUSTMENT_HEADER.Loc_Code as Locaion,TSPL_ADJUSTMENT_DETAIL.Item_Quantity as Qty,-1 as RI,TSPL_ADJUSTMENT_DETAIL.Unit_Code AS Uom  from TSPL_ADJUSTMENT_DETAIL  left outer join TSPL_ADJUSTMENT_HEADER on TSPL_ADJUSTMENT_HEADER.Adjustment_No=TSPL_ADJUSTMENT_DETAIL.Adjustment_No where TSPL_ADJUSTMENT_HEADER.Posted='N' and TSPL_ADJUSTMENT_DETAIL.Item_Quantity<>0  and TSPL_ADJUSTMENT_DETAIL.Adjustment_Type in ('BD','QD')" &
+                  " UNION ALL" &
+                  " select 'RGP' as TransType,'RGP' as TransCode,TSPL_RGP_HEAD.RGP_No as DocNo, TSPL_RGP_DETAIL.Item_Code as ICode,TSPL_RGP_HEAD.Location as Locaion,TSPL_RGP_DETAIL.RGP_Qty as Qty,-1 as RI,TSPL_RGP_DETAIL.Unit_code AS Uom  from TSPL_RGP_DETAIL  left outer join TSPL_RGP_HEAD on TSPL_RGP_HEAD.RGP_No=TSPL_RGP_DETAIL.RGP_No where TSPL_RGP_HEAD.Status=0 and TSPL_RGP_DETAIL.RGP_Qty<>0" &
+                  " union all" &
+                  " select 'Scrap' as TransType,'ScrapShipment' as TransCode,TSPL_SCRAPSALE_HEAD.shipment_No as DocNo, TSPL_SCRAPSALE_DETAIL.Item_Code as ICode,TSPL_SCRAPSALE_HEAD.Loc_Code as Locaion,TSPL_SCRAPSALE_DETAIL.shipped_Qty as Qty,-1 as RI,TSPL_SCRAPSALE_DETAIL.Unit_code AS Uom  from TSPL_SCRAPSALE_DETAIL  left outer join TSPL_SCRAPSALE_HEAD on TSPL_SCRAPSALE_HEAD.shipment_No=TSPL_SCRAPSALE_DETAIL.shipment_No where TSPL_SCRAPSALE_HEAD.IsPost=0 and TSPL_SCRAPSALE_DETAIL.shipped_Qty<>0" &
+                  " union all" &
+                  " select 'Issue/Return/Transfer' as TransType,'IssueReturnTransfer' as TransCode,TSPL_IssueReturn_HEAD.Doc_No as DocNo, TSPL_IssueReturn_DETAIL.Item_Code as ICode,TSPL_IssueReturn_HEAD.From_Location as Locaion,TSPL_IssueReturn_DETAIL.Issued_Qty as Qty,-1 as RI,TSPL_IssueReturn_DETAIL.Unit_code AS Uom  from TSPL_IssueReturn_DETAIL  left outer join TSPL_IssueReturn_HEAD on TSPL_IssueReturn_HEAD.Doc_No=TSPL_IssueReturn_DETAIL.Doc_No where TSPL_IssueReturn_HEAD.Status=0 and TSPL_IssueReturn_DETAIL.Issued_Qty<>0" &
+                  " union all" &
+                  " select  'Shipment' as TransType,'SDShipment' as TransCode,TSPL_SD_SHIPMENT_HEAD.Document_Code as DocNo, TSPL_SD_SHIPMENT_DETAIL.Item_Code as ICode,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location as Locaion,TSPL_SD_SHIPMENT_DETAIL.Qty as Qty,-1 as RI,TSPL_SD_SHIPMENT_DETAIL.Unit_code AS Uom   from TSPL_SD_SHIPMENT_DETAIL  left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE where TSPL_SD_SHIPMENT_HEAD.Status=0 and TSPL_SD_SHIPMENT_DETAIL.Qty<>0" &
+                  " union all" &
+                  " Select '' AS TransType, '' AS TransCode, TSPL_REQUISITION_DETAIL.Requisition_Id, Case When ISNULL(PurchaseOrder_No,'')='' Then TSPL_REQUISITION_DETAIL.Item_Code Else TSPL_PURCHASE_ORDER_DETAIL.Item_Code End As Item_Code, TSPL_REQUISITION_DETAIL.Location, Case When ISNULL(Requisition_Qty,0)>ISNULL(PurchaseOrder_Qty,0) Then Requisition_Qty Else PurchaseOrder_Qty End as Qty, 1 as RI, TSPL_REQUISITION_DETAIL.Unit_Code from TSPL_REQUISITION_DETAIL LEFT OUTER JOIN TSPL_PURCHASE_ORDER_DETAIL ON TSPL_REQUISITION_DETAIL.Requisition_Id=TSPL_PURCHASE_ORDER_DETAIL.Requisition_Id " + strCondition + " " &
+                    " union all" &
+                    " Select '' AS TransType, '' AS TransCode, TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No, Case When ISNULL(PurchaseOrder_No,'')='' Then TSPL_REQUISITION_DETAIL.Item_Code Else TSPL_PURCHASE_ORDER_DETAIL.Item_Code End As Item_Code, TSPL_PURCHASE_ORDER_DETAIL.Location, Case When ISNULL(Requisition_Qty,0)>ISNULL(PurchaseOrder_Qty,0) Then Requisition_Qty Else PurchaseOrder_Qty End as Qty, 1 as RI, TSPL_PURCHASE_ORDER_DETAIL.Unit_code from   TSPL_PURCHASE_ORDER_DETAIL LEFT OUTER JOIN TSPL_REQUISITION_DETAIL ON TSPL_REQUISITION_DETAIL.Requisition_Id=TSPL_PURCHASE_ORDER_DETAIL.Requisition_Id WHERE ISNULL(TSPL_REQUISITION_DETAIL.Requisition_Id,'')='' " &
+                    " union all" &
+                  " Select 'SRN' As TransType,'SRN' As TransCode,TSPL_SRN_HEAD.SRN_No  AS DocNo,TSPL_SRN_DETAIL .Item_Code As ICODE,TSPL_SRN_HEAD.Bill_To_Location as Location, TSPL_SRN_DETAIL.SRN_Qty  As Qty,1 as RI,TSPL_SRN_DETAIL.Unit_code As UnitCode from TSPL_SRN_HEAD Left Outer Join TSPL_SRN_DETAIL on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No where TSPL_SRN_HEAD.Status<>1 and ISNULL(TSPL_SRN_HEAD.Against_PO,'')='' and ISNULL(TSPL_SRN_HEAD.Against_Requisition,'')='' " &
+                  " union all" &
+                  " select 'Assemblies' as TransType,'Assemblies' as TransCode,TSPL_PJC_ASSEMBLIES.CODE as DocNo, Main_Item_Code as ICode,LOCATION_CODE as Location,QUANTITY,(case when TRANSACTION_TYPE='Assembly' then 1  else -1 end) as RI, BUILD_ITEM_UNIT_CODE as UnitCode from TSPL_PJC_ASSEMBLIES where TSPL_PJC_ASSEMBLIES.POSTED=0" &
+                  " union all" &
+                  " select  'Assemblies' as TransType,'Assemblies' as TransCode,TSPL_PJC_ASSEMBLIES.CODE as DocNo, TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE AS ICode,TSPL_PJC_ASSEMBLIES.LOCATION_CODE as Location, TSPL_MF_BOM_DETAIL.CONSM_QUANTITY*(TSPL_PJC_ASSEMBLIES.QUANTITY/TSPL_PJC_ASSEMBLIES.BUILD_QUANTITY) as Qty, (case when TSPL_PJC_ASSEMBLIES.TRANSACTION_TYPE='Assembly' then  -1 else  1 end) AS RI, TSPL_MF_BOM_DETAIL.CONSM_ITEM_UNIT_CODE as UnitCode from TSPL_PJC_ASSEMBLIES  inner join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_PJC_ASSEMBLIES.BOM_CODE inner JOIN TSPL_MF_BOM_DETAIL ON TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_MF_BOM_DETAIL.BOM_CODE  where TSPL_PJC_ASSEMBLIES.POSTED=0)xx" &
+                  " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=xx.ICode and TSPL_ITEM_UOM_DETAIL.UOM_Code=xx.UOM  left outer join TSPL_ITEM_UOM_DETAIL as FinalUOM on FinalUOM.Item_Code=xx.ICode AND FinalUOM.Stocking_Unit='Y' and xx.Location='" + txtLocation.Value + "')FinalQry group by ICode" &
                   " ) FINAL RIGHT OUTER JOIN TSPL_ITEM_REORDER_LEVEL_NEW ON TSPL_ITEM_REORDER_LEVEL_NEW.Item_Code=FINAL.ICode LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_ITEM_REORDER_LEVEL_NEW.Item_Code WHERE TSPL_ITEM_REORDER_LEVEL_NEW.Item_Code='" + StrItemCode + "'"
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -1456,89 +1478,89 @@ Public Class frmStoreRequistion
                 txtCostCenterType.Value = obj.Cost
                 lblCostcenterTypeDesc.Text = obj.Cost_Desc
                 txtRequestBy.Value = obj.Request_By
-                    lblRequestBy.Text = clsEmployeeMaster.GetName(obj.Request_By, Nothing)
-                    fndProject.Value = obj.PROJECT_ID
-                    lblProject.Text = clsDBFuncationality.getSingleValue("select SPECIFICATION from TSPL_PJC_PROJECT where PROJECT_CODE='" + fndProject.Value + "'")
-                    ''==Sanjeet (Load CAPEX Detail and check it's amount)======
-                    fndcapexcode.Value = obj.Capex_Code
-                    If clsCommon.myLen(Me.fndcapexcode.Value) > 0 Then
-                        lbl_capexcode.Text = clsCapexMaster.GetName(Me.fndcapexcode.Value, Nothing)
-                    End If
-                    fndcapexsubcode.Value = obj.Capex_SubCode
-                    If clsCommon.myLen(Me.fndcapexsubcode.Value) > 0 Then
-                        lbl_capexsubcode.Text = clsCapexBudget.GetName(Me.fndcapexsubcode.Value, Nothing)
-                        lbl_budgetamt.Text = clsCapexBudget.GetBudget(Me.fndcapexsubcode.Value, Nothing)
-                        lbl_budgetamtwithtolerence.Text = clsCapexBudget.GetBudgetWithTolerence(Me.fndcapexsubcode.Value, Nothing)
-                        lbl_rebudgetamt.Text = clsCapexBudget.GetReBudget(Me.fndcapexsubcode.Value, obj.Requisition_Id, Nothing)
-                        lbl_rebudgetamtwithtolerence.Text = clsCapexBudget.GetReBudgetWithTolerence(Me.fndcapexsubcode.Value, obj.Requisition_Id, Nothing)
-                    End If
-                    'Use if you want to show store balance
-                    'lbl_budgetamt.Text = clsCommon.myCstr(obj.SubCapex_Amount)
-                    'lbl_budgetamtwithtolerence.Text = clsCommon.myCstr(obj.SubCapex_AmountWithTol)
-                    'lbl_rebudgetamt.Text = clsCommon.myCstr(obj.SubCapex_BalAmount)
-                    'lbl_rebudgetamtwithtolerence.Text = clsCommon.myCstr(obj.SubCapex_BalAmountWithTol)
-                    'Use if you want to show store balance
+                lblRequestBy.Text = clsEmployeeMaster.GetName(obj.Request_By, Nothing)
+                fndProject.Value = obj.PROJECT_ID
+                lblProject.Text = clsDBFuncationality.getSingleValue("select SPECIFICATION from TSPL_PJC_PROJECT where PROJECT_CODE='" + fndProject.Value + "'")
+                ''==Sanjeet (Load CAPEX Detail and check it's amount)======
+                fndcapexcode.Value = obj.Capex_Code
+                If clsCommon.myLen(Me.fndcapexcode.Value) > 0 Then
+                    lbl_capexcode.Text = clsCapexMaster.GetName(Me.fndcapexcode.Value, Nothing)
+                End If
+                fndcapexsubcode.Value = obj.Capex_SubCode
+                If clsCommon.myLen(Me.fndcapexsubcode.Value) > 0 Then
+                    lbl_capexsubcode.Text = clsCapexBudget.GetName(Me.fndcapexsubcode.Value, Nothing)
+                    lbl_budgetamt.Text = clsCapexBudget.GetBudget(Me.fndcapexsubcode.Value, Nothing)
+                    lbl_budgetamtwithtolerence.Text = clsCapexBudget.GetBudgetWithTolerence(Me.fndcapexsubcode.Value, Nothing)
+                    lbl_rebudgetamt.Text = clsCapexBudget.GetReBudget(Me.fndcapexsubcode.Value, obj.Requisition_Id, Nothing)
+                    lbl_rebudgetamtwithtolerence.Text = clsCapexBudget.GetReBudgetWithTolerence(Me.fndcapexsubcode.Value, obj.Requisition_Id, Nothing)
+                End If
+                'Use if you want to show store balance
+                'lbl_budgetamt.Text = clsCommon.myCstr(obj.SubCapex_Amount)
+                'lbl_budgetamtwithtolerence.Text = clsCommon.myCstr(obj.SubCapex_AmountWithTol)
+                'lbl_rebudgetamt.Text = clsCommon.myCstr(obj.SubCapex_BalAmount)
+                'lbl_rebudgetamtwithtolerence.Text = clsCommon.myCstr(obj.SubCapex_BalAmountWithTol)
+                'Use if you want to show store balance
 
-                    txtUnitCode.Value = obj.CosCenter_Unit
-                    If clsCommon.myLen(Me.txtUnitCode.Value) > 0 Then
-                        lblUnitDesc.Text = clsUnitMaster.GetName(Me.txtUnitCode.Value)
-                    End If
-                    txtCostCenterType.Value = obj.CostCenter_Type
-                    If clsCommon.myLen(Me.txtCostCenterType.Value) > 0 Then
-                        lblCostcenterTypeDesc.Text = clsCostCenterTypeMaster.GetName(Me.txtCostCenterType.Value)
-                    End If
-                    '======================
-                    For Each objTr As clsRequistionDetail In obj.ArrTr
-                        gv1.Rows.AddNew()
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = objTr.Line_No
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colComplete).Value = objTr.Status
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = objTr.Item_Code
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = objTr.Item_Desc
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colVendorCode).Value = objTr.Vendor_Code
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colVendorName).Value = objTr.VendorName
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = objTr.Balance_Qty
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = objTr.Requisition_Qty
-                        ''gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationCode).Value = objTr.Location
-                        ''gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationName).Value = objTr.LocationName
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = objTr.Item_Cost
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = objTr.Unit_Code
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colAmt).Value = objTr.Item_Net_Amt
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colVendorItemNo).Value = objTr.Vendor_ItemNo
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colOrderNo).Value = objTr.Order_No
+                txtUnitCode.Value = obj.CosCenter_Unit
+                If clsCommon.myLen(Me.txtUnitCode.Value) > 0 Then
+                    lblUnitDesc.Text = clsUnitMaster.GetName(Me.txtUnitCode.Value)
+                End If
+                txtCostCenterType.Value = obj.CostCenter_Type
+                If clsCommon.myLen(Me.txtCostCenterType.Value) > 0 Then
+                    lblCostcenterTypeDesc.Text = clsCostCenterTypeMaster.GetName(Me.txtCostCenterType.Value)
+                End If
+                '======================
+                For Each objTr As clsRequistionDetail In obj.ArrTr
+                    gv1.Rows.AddNew()
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = objTr.Line_No
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colComplete).Value = objTr.Status
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = objTr.Item_Code
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = objTr.Item_Desc
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colVendorCode).Value = objTr.Vendor_Code
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colVendorName).Value = objTr.VendorName
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = objTr.Balance_Qty
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = objTr.Requisition_Qty
+                    ''gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationCode).Value = objTr.Location
+                    ''gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationName).Value = objTr.LocationName
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = objTr.Item_Cost
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = objTr.Unit_Code
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colAmt).Value = objTr.Item_Net_Amt
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colVendorItemNo).Value = objTr.Vendor_ItemNo
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colOrderNo).Value = objTr.Order_No
 
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colSpecification).Value = objTr.Specification
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colRemarks).Value = objTr.Remarks
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colSpecification).Value = objTr.Specification
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colRemarks).Value = objTr.Remarks
 
-                        ''richa agarwal 1 Dec ,2016
-                        If clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowCostCenterAndHierarchyLevelInPurchaseModule, clsFixedParameterCode.ShowCostCenterAndHierarchyLevelInPurchaseModule, Nothing)), "1") = CompairStringResult.Equal Then
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colHierarchyCode).Value = objTr.Hirerachy_Code
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colCostCenterCode).Value = objTr.Cost_Centre_Code
-                            If EnableHirerachyCostCentre = 1 Then
-                                gv1.Rows(gv1.Rows.Count - 1).Cells(colHierarchyLevel2).Value = objTr.HirerachyLevelCode3
-                                gv1.Rows(gv1.Rows.Count - 1).Cells(colHierarchyLevel3).Value = objTr.HirerachyLevelCode4
-                                OpenCostCentreLevelName(False)
-                            End If
-
-                        Else
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colCCCode).Value = objTr.CostCode
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colCCDesc).Value = ClsCostCenter.GetCostCenterDesc(objTr.CostCode)
+                    ''richa agarwal 1 Dec ,2016
+                    If clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowCostCenterAndHierarchyLevelInPurchaseModule, clsFixedParameterCode.ShowCostCenterAndHierarchyLevelInPurchaseModule, Nothing)), "1") = CompairStringResult.Equal Then
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colHierarchyCode).Value = objTr.Hirerachy_Code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colCostCenterCode).Value = objTr.Cost_Centre_Code
+                        If EnableHirerachyCostCentre = 1 Then
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colHierarchyLevel2).Value = objTr.HirerachyLevelCode3
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colHierarchyLevel3).Value = objTr.HirerachyLevelCode4
+                            OpenCostCentreLevelName(False)
                         End If
 
-
-                    Next
-                    If obj.Status = ERPTransactionStatus.Pending Then
-                        gv1.Rows.AddNew()
+                    Else
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colCCCode).Value = objTr.CostCode
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colCCDesc).Value = ClsCostCenter.GetCostCenterDesc(objTr.CostCode)
                     End If
 
-                    ''For Custom Fields
-                    If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
-                        UcCustomFields1.LoadData(obj.Requisition_Id)
-                    End If
-                    clsCustomFieldGrid.FillDataInGrid(obj.Requisition_Id, MyBase.Form_ID, gv1)
-                    ''End of For Custom Fields
-                    UcAttachment1.LoadData(obj.Requisition_Id)
 
+                Next
+                If obj.Status = ERPTransactionStatus.Pending Then
+                    gv1.Rows.AddNew()
                 End If
+
+                ''For Custom Fields
+                If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
+                    UcCustomFields1.LoadData(obj.Requisition_Id)
+                End If
+                clsCustomFieldGrid.FillDataInGrid(obj.Requisition_Id, MyBase.Form_ID, gv1)
+                ''End of For Custom Fields
+                UcAttachment1.LoadData(obj.Requisition_Id)
+
+            End If
 
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -1776,10 +1798,10 @@ Public Class frmStoreRequistion
             CloseForm()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             'Add Tool tip Task No- TEC/22/05/18-000245
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine + _
-                                    "TSPL_REQUISITION_HEAD " + Environment.NewLine + _
-                                    "TSPL_REQUISITION_DETAIL " + Environment.NewLine + _
-                                    "Press Alt+P for Post Trasnaction " + Environment.NewLine + _
+            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                    "TSPL_REQUISITION_HEAD " + Environment.NewLine +
+                                    "TSPL_REQUISITION_DETAIL " + Environment.NewLine +
+                                    "Press Alt+P for Post Trasnaction " + Environment.NewLine +
                                     "TSPL_ITEM_REORDER_LEVEL_NEW(Auto Indent- Update Reorder Qty) ")
             'Add Tool tip Task No- TEC/22/05/18-000245
         End If
@@ -1879,15 +1901,15 @@ Public Class frmStoreRequistion
                     " where(2 = 2)"
 
                 If txtReqNo.Value <> "" Then
-                qry += " and  TSPL_REQUISITION_HEAD.Requisition_Id='" + txtReqNo.Value + "'"
-            End If
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-
-            For i As Integer = 0 To dt.Rows.Count - 1
-                If dt.Rows(i)("vendor_name").ToString() <> "" Then
-                    no = no + 1
+                    qry += " and  TSPL_REQUISITION_HEAD.Requisition_Id='" + txtReqNo.Value + "'"
                 End If
-            Next
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+
+                For i As Integer = 0 To dt.Rows.Count - 1
+                    If dt.Rows(i)("vendor_name").ToString() <> "" Then
+                        no = no + 1
+                    End If
+                Next
 
                 If no = 0 Then
                     If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GUNTUR") = CompairStringResult.Equal Then
@@ -2580,16 +2602,16 @@ Public Class frmStoreRequistion
     End Sub
 
     Public Function GetMailPrintPreview(ByVal strcode As String)
-        Dim atchqry As String = "select TSPL_REQUISITION_HEAD.Requisition_Id ,convert(varchar,TSPL_REQUISITION_HEAD.Requisition_Date,103) as Requisition_Date , " & _
-           "convert(varchar,TSPL_REQUISITION_HEAD.Expire_Date,103) as Expire_Date ,convert(varchar,TSPL_REQUISITION_HEAD.Require_Date,103) as Require_Date , " & _
-           "TSPL_REQUISITION_HEAD.Ref_No ,TSPL_REQUISITION_HEAD.Description,TSPL_REQUISITION_HEAD.Remarks,TSPL_REQUISITION_HEAD.Request_By , " & _
-           "TSPL_REQUISITION_DETAIL.Item_Code ,TSPL_REQUISITION_DETAIL.Item_Desc,TSPL_REQUISITION_DETAIL.Specification, " & _
-           "TSPL_REQUISITION_DETAIL.Remarks as DRemarks ,TSPL_REQUISITION_DETAIL.Unit_Code ,TSPL_REQUISITION_DETAIL.Requisition_Qty, " & _
-           "(select SUM( case when InOut='I' then Qty else  -1* Qty end )from TSPL_INVENTORY_MOVEMENT where Item_Code=TSPL_REQUISITION_DETAIL.Item_Code and TSPL_INVENTORY_MOVEMENT.Location_Code=TSPL_REQUISITION_HEAD.Location) as AvaiQty  , " & _
-           "TSPL_VENDOR_MASTER.Vendor_Name,TSPL_REQUISITION_HEAD.Comments ,TSPL_COMPANY_MASTER.Comp_Name ,TSPL_COMPANY_MASTER.Logo_Img , " & _
-           "TSPL_COMPANY_MASTER.Logo_Img2,user1.User_Name as CreatedBy,'' as AuthorizeBy ,TSPL_REQUISITION_HEAD.Request_By, " & _
-           "TSPL_REQUISITION_HEAD.Require_Date,TSPL_REQUISITION_HEAD.Dept_Desc,TSPL_REQUISITION_HEAD.Location , " & _
-           "TSPL_COMPANY_MASTER.Add1,case when  is_internal ='Y' then 'MATERIAL REQUISITION' else 'PURCHASE INDENT' END AS Heading  " & _
+        Dim atchqry As String = "select TSPL_REQUISITION_HEAD.Requisition_Id ,convert(varchar,TSPL_REQUISITION_HEAD.Requisition_Date,103) as Requisition_Date , " &
+           "convert(varchar,TSPL_REQUISITION_HEAD.Expire_Date,103) as Expire_Date ,convert(varchar,TSPL_REQUISITION_HEAD.Require_Date,103) as Require_Date , " &
+           "TSPL_REQUISITION_HEAD.Ref_No ,TSPL_REQUISITION_HEAD.Description,TSPL_REQUISITION_HEAD.Remarks,TSPL_REQUISITION_HEAD.Request_By , " &
+           "TSPL_REQUISITION_DETAIL.Item_Code ,TSPL_REQUISITION_DETAIL.Item_Desc,TSPL_REQUISITION_DETAIL.Specification, " &
+           "TSPL_REQUISITION_DETAIL.Remarks as DRemarks ,TSPL_REQUISITION_DETAIL.Unit_Code ,TSPL_REQUISITION_DETAIL.Requisition_Qty, " &
+           "(select SUM( case when InOut='I' then Qty else  -1* Qty end )from TSPL_INVENTORY_MOVEMENT where Item_Code=TSPL_REQUISITION_DETAIL.Item_Code and TSPL_INVENTORY_MOVEMENT.Location_Code=TSPL_REQUISITION_HEAD.Location) as AvaiQty  , " &
+           "TSPL_VENDOR_MASTER.Vendor_Name,TSPL_REQUISITION_HEAD.Comments ,TSPL_COMPANY_MASTER.Comp_Name ,TSPL_COMPANY_MASTER.Logo_Img , " &
+           "TSPL_COMPANY_MASTER.Logo_Img2,user1.User_Name as CreatedBy,'' as AuthorizeBy ,TSPL_REQUISITION_HEAD.Request_By, " &
+           "TSPL_REQUISITION_HEAD.Require_Date,TSPL_REQUISITION_HEAD.Dept_Desc,TSPL_REQUISITION_HEAD.Location , " &
+           "TSPL_COMPANY_MASTER.Add1,case when  is_internal ='Y' then 'MATERIAL REQUISITION' else 'PURCHASE INDENT' END AS Heading  " &
            "from TSPL_REQUISITION_HEAD join TSPL_REQUISITION_DETAIL on TSPL_REQUISITION_HEAD.Requisition_Id =TSPL_REQUISITION_DETAIL.Requisition_Id left outer join TSPL_COMPANY_MASTER on  TSPL_REQUISITION_HEAD.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code left outer join TSPL_VENDOR_MASTER on TSPL_REQUISITION_DETAIL.Vendor_Code =TSPL_VENDOR_MASTER.Vendor_Code left outer join TSPL_USER_MASTER as user1 on TSPL_REQUISITION_HEAD.Created_By=user1.User_Code left outer join TSPL_USER_MASTER as user2 on TSPL_REQUISITION_HEAD.Modify_By=user2.User_Code   where(2 = 2)"
 
         If txtReqNo.Value <> "" Then

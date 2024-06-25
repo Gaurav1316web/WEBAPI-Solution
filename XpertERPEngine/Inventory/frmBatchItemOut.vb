@@ -1,4 +1,5 @@
 ﻿Imports common
+Imports System.Data.SqlClient
 Imports System.IO
 ''RICHA UDL/14/05/18-000161
 Public Class frmBatchItemOut
@@ -281,7 +282,7 @@ Public Class frmBatchItemOut
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -426,7 +427,88 @@ Public Class frmBatchItemOut
         Return blnAvailable
     End Function
 
+    Function OpenSerialList(ByVal intRowNo As Integer, ByVal currCode As String, ByVal strUnion As String, ByVal isInternalTransfer As Boolean, ByVal IsApplyLifoForMilkItem As Boolean, ByVal trans As SqlTransaction)
+        Dim qry As String = String.Empty
+        ApplyFEFO = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ApplyFEFO, clsFixedParameterCode.ApplyFEFO, trans)) = 1, True, False))
+        If ApplyFEFO = True AndAlso isInternalTransfer = True Then
+            qry = getQry(True, strUnion, isInternalTransfer, False, trans)
+        Else
+            qry = getQry(True, strUnion, False, IsApplyLifoForMilkItem, trans)
 
+        End If
+
+        Dim dblTotalQty As Double = 0
+        Dim blnAvailable As Boolean = False
+        RunBatchFifowise = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.RunBatchFifowise & "'", trans)) = 0, False, True)
+        Dim RunBatchFifowisewithModifyfunctionality As Boolean = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.RunBatchFifowisewithModifyfunctionality & "'", trans)) = 0, False, True)
+
+        If (RunBatchFifowisewithModifyfunctionality = True AndAlso clsCommon.myLen(clsCommon.myCstr(currCode)) > 0) Then
+            Dim dr As DataRow = clsCommon.ShowSelectFormForRow("BatchNoFinder", qry)
+            If dr IsNot Nothing Then
+                gv1.Rows(intRowNo).Cells(colBatchNo).Value = clsCommon.myCstr(dr("BatchNo"))
+                gv1.Rows(intRowNo).Cells(colManualBatch).Value = clsCommon.myCstr(dr("Manual_BatchNo"))
+                gv1.Rows(intRowNo).Cells(colMfgDate).Value = clsCommon.myCDate(dr("ManufactureDate"))
+                gv1.Rows(intRowNo).Cells(colExpDate).Value = clsCommon.myCDate(dr("ExpiryDate"))
+                gv1.Rows(intRowNo).Cells(colBalance).Value = clsCommon.myCdbl(dr("Qty"))
+            End If
+            blnAvailable = True
+        ElseIf RunBatchFifowise = True OrElse (ApplyFEFO = True AndAlso isInternalTransfer = True) Then
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                arr = New List(Of clsBatchInventory)
+                dblTotalQty = 0
+
+                For Each dr As DataRow In dt.Rows
+                    If dblTotalQty < dblqty Then
+                        Dim obj As clsBatchInventory = New clsBatchInventory()
+                        obj.Batch_No = clsCommon.myCstr(dr("BatchNo"))
+                        obj.Manual_BatchNo = clsCommon.myCstr(dr("Manual_BatchNo"))
+                        obj.Manufacture_Date = clsCommon.myCDate(dr("ManufactureDate"))
+                        obj.Expiry_Date = clsCommon.myCDate(dr("ExpiryDate"))
+                        If dblqty - dblTotalQty >= clsCommon.myCdbl(dr("Qty")) Then
+                            obj.Qty = clsCommon.myCdbl(dr("Qty"))
+                        Else
+                            obj.Qty = dblqty - dblTotalQty
+                        End If
+                        obj.UOM = strUOM
+                        If obj.Qty > 0 Then
+                            arr.Add(obj)
+                        End If
+
+                        dblTotalQty += clsCommon.myCdbl(dr("Qty"))
+
+                    End If
+                Next
+                If dblTotalQty < dblqty Then
+                    blnAvailable = False
+                Else
+                    blnAvailable = True
+                End If
+
+            Else
+                Dim dr As DataRow = clsCommon.ShowSelectFormForRow("BatchNoFinder", qry)
+                If dr IsNot Nothing Then
+                    gv1.Rows(intRowNo).Cells(colBatchNo).Value = clsCommon.myCstr(dr("BatchNo"))
+                    gv1.Rows(intRowNo).Cells(colManualBatch).Value = clsCommon.myCstr(dr("Manual_BatchNo"))
+                    gv1.Rows(intRowNo).Cells(colMfgDate).Value = clsCommon.myCDate(dr("ManufactureDate"))
+                    gv1.Rows(intRowNo).Cells(colExpDate).Value = clsCommon.myCDate(dr("ExpiryDate"))
+                    gv1.Rows(intRowNo).Cells(colBalance).Value = clsCommon.myCdbl(dr("Qty"))
+                End If
+                blnAvailable = True
+            End If
+        Else
+            Dim dr As DataRow = clsCommon.ShowSelectFormForRow("BatchNoFinder", qry)
+            If dr IsNot Nothing Then
+                gv1.Rows(intRowNo).Cells(colBatchNo).Value = clsCommon.myCstr(dr("BatchNo"))
+                gv1.Rows(intRowNo).Cells(colManualBatch).Value = clsCommon.myCstr(dr("Manual_BatchNo"))
+                gv1.Rows(intRowNo).Cells(colMfgDate).Value = clsCommon.myCDate(dr("ManufactureDate"))
+                gv1.Rows(intRowNo).Cells(colExpDate).Value = clsCommon.myCDate(dr("ExpiryDate"))
+                gv1.Rows(intRowNo).Cells(colBalance).Value = clsCommon.myCdbl(dr("Qty"))
+            End If
+            blnAvailable = True
+        End If
+        Return blnAvailable
+    End Function
     Function getQry() As String
         Return getQry(True)
     End Function
@@ -710,7 +792,276 @@ Public Class frmBatchItemOut
         End If
         Return qry
     End Function
+    Public Function getQry(ByVal isOrderBy As Boolean, ByVal strUnion As String, ByVal isInternalTransfer As Boolean, ByVal IsApplyLifoForMilkItem As Boolean, ByVal trans As SqlTransaction) As String
+        Dim qry As String = ""
+        Dim strorderby As String = ""
+        RunBatchFifowise = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.RunBatchFifowise & "'", trans)) = 0, False, True)
+        ApplyFEFO = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ApplyFEFO, clsFixedParameterCode.ApplyFEFO, trans)) = 1, True, False))
+        If RunBatchFifowise Then
+            strorderby = "ManufactureDate"
+        Else
+            strorderby = "ExpiryDate"
+        End If
+        ''richa UDL/24/07/20-001021 
+        If ApplyFEFO = True AndAlso isInternalTransfer = True Then
+            strorderby = "ExpiryDate"
+        End If
+        If clsCommon.myLen(strSplTransaction) > 0 Then
+            If clsCommon.CompairString(strSplTransaction, "TransferIN") = CompairStringResult.Equal Then
+                qry = "select Batch_No as BatchNo,max(Manual_BatchNo) as Manual_BatchNo,Min(Manufacture_Date) as ManufactureDate,MAX(Expiry_Date) as ExpiryDate,sum(Qty * (case when In_Out_Type='I' then 1 else case when In_Out_Type='O' then -1 else 0 end end )) as Qty from (" + Environment.NewLine
+                qry += " select * from (" + Environment.NewLine
+                qry += " select TSPL_BATCH_ITEM.Batch_No,TSPL_BATCH_ITEM.Manual_BatchNo,TSPL_BATCH_ITEM.In_Out_Type,TSPL_BATCH_ITEM.UOM as OrgUOM,TSPL_BATCH_ITEM.Qty as OrgQty,TSPL_BATCH_ITEM.MRP as OrgMRP,TSPL_BATCH_ITEM.Expiry_Date,TSPL_BATCH_ITEM.Manufacture_Date, (TSPL_BATCH_ITEM.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ConvertedUOM.Conversion_Factor as Qty, (TSPL_BATCH_ITEM.MRP*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ConvertedUOM.Conversion_Factor as MRP" + Environment.NewLine
+                qry += " from TSPL_BATCH_ITEM " + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BATCH_ITEM.UOM" + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUOM on ConvertedUOM.Item_Code=TSPL_BATCH_ITEM.Item_Code and ConvertedUOM.UOM_Code='" + strUOM + "'" + Environment.NewLine
+                qry += " where TSPL_BATCH_ITEM.Item_Code='" + strItemCode + "' and TSPL_BATCH_ITEM.Location_Code='" + strLocationCode + "' " + Environment.NewLine
+                qry += " and   TSPL_BATCH_ITEM.Document_Code = '" + strAgaintsDocNo + "' and TSPL_BATCH_ITEM.Document_Type = '" + strCurrDocType + "' " + Environment.NewLine
+                qry += " ) xx where MRP='" + clsCommon.myCstr(dblMRP) + "'" + Environment.NewLine
+                qry += " )xxx" + Environment.NewLine
+                qry += " group by Batch_No having sum(Qty * (case when In_Out_Type='I' then 1 else case when In_Out_Type='O' then -1 else 0 end end )) > 0 " + Environment.NewLine
+            ElseIf clsCommon.CompairString(strSplTransaction, "LoadIn3rdDoc") = CompairStringResult.Equal Then
+                qry = "select Batch_No as BatchNo,max(Manual_BatchNo) as Manual_BatchNo,Min(Manufacture_Date) as ManufactureDate,MAX(Expiry_Date) as ExpiryDate,sum(Qty * (case when In_Out_Type='I' then 1 else case when In_Out_Type='O' then -1 else 0 end end )) as Qty from (" + Environment.NewLine
+                qry += " select * from (" + Environment.NewLine
 
+                qry += " select TSPL_BATCH_ITEM.Batch_No,TSPL_BATCH_ITEM.Manual_BatchNo,'I' as In_Out_Type,TSPL_BATCH_ITEM.UOM as OrgUOM,TSPL_BATCH_ITEM.Qty as OrgQty,TSPL_BATCH_ITEM.MRP as OrgMRP,TSPL_BATCH_ITEM.Expiry_Date,TSPL_BATCH_ITEM.Manufacture_Date, (TSPL_BATCH_ITEM.Qty/TSPL_ITEM_UOM_DETAIL.Conversion_Factor)*ConvertedUOM.Conversion_Factor as Qty, (TSPL_BATCH_ITEM.MRP*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ConvertedUOM.Conversion_Factor as MRP" + Environment.NewLine
+                qry += " from TSPL_BATCH_ITEM " + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BATCH_ITEM.UOM" + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUOM on ConvertedUOM.Item_Code=TSPL_BATCH_ITEM.Item_Code and ConvertedUOM.UOM_Code='" + strUOM + "'" + Environment.NewLine
+                qry += " where TSPL_BATCH_ITEM.Item_Code='" + strItemCode + "' and TSPL_BATCH_ITEM.Document_Code='" + strLoadoutNo + "' " + Environment.NewLine
+                qry += " Union all"
+                qry += " select TSPL_BATCH_ITEM.Batch_No,TSPL_BATCH_ITEM.Manual_BatchNo,'O' as In_Out_Type,TSPL_BATCH_ITEM.UOM as OrgUOM,TSPL_BATCH_ITEM.Qty as OrgQty,TSPL_BATCH_ITEM.MRP as OrgMRP,TSPL_BATCH_ITEM.Expiry_Date,TSPL_BATCH_ITEM.Manufacture_Date, (TSPL_BATCH_ITEM.Qty/TSPL_ITEM_UOM_DETAIL.Conversion_Factor)*ConvertedUOM.Conversion_Factor as Qty, (TSPL_BATCH_ITEM.MRP*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ConvertedUOM.Conversion_Factor as MRP" + Environment.NewLine
+                qry += " from TSPL_BATCH_ITEM " + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BATCH_ITEM.UOM" + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUOM on ConvertedUOM.Item_Code=TSPL_BATCH_ITEM.Item_Code and ConvertedUOM.UOM_Code='" + strUOM + "'" + Environment.NewLine
+                qry += " where TSPL_BATCH_ITEM.Item_Code='" + strItemCode + "' " + Environment.NewLine
+                qry += " and( (TSPL_BATCH_ITEM.Document_Type='Load Out' and TSPL_BATCH_ITEM.Document_Code in (select Shipment_No from TSPL_SHIPMENT_MASTER where Transfer_No='" + strLoadoutNo + "')) or (TSPL_BATCH_ITEM.Document_Type='Transfer' and TSPL_BATCH_ITEM.Document_Code in (select Transfer_No from TSPL_TRANSFER_HEAD where Load_Out_No='" + strLoadoutNo + "'))) "
+                qry += " and not( TSPL_BATCH_ITEM.Document_Code = '" + strCurrDocNo + "' and TSPL_BATCH_ITEM.Document_Type = '" + strCurrDocType + "') " + Environment.NewLine
+
+                qry += " ) xx where MRP='" + clsCommon.myCstr(dblMRP) + "'" + Environment.NewLine
+                qry += " )xxx" + Environment.NewLine
+                qry += " group by Batch_No having sum(Qty * (case when In_Out_Type='I' then 1 else case when In_Out_Type='O' then -1 else 0 end end ))>0  " + Environment.NewLine
+            ElseIf clsCommon.CompairString(strSplTransaction, "SaleReturn") = CompairStringResult.Equal Then
+                qry = "select Batch_No as BatchNo,max(Manual_BatchNo) as Manual_BatchNo,Min(Manufacture_Date) as ManufactureDate,MAX(Expiry_Date) as ExpiryDate,sum(Qty * (case when In_Out_Type='I' then 1 else case when In_Out_Type='O' then -1 else 0 end end )) as Qty from (" + Environment.NewLine
+                qry += " select * from ( " + Environment.NewLine
+                qry += " select TSPL_BATCH_ITEM.Batch_No,TSPL_BATCH_ITEM.Manual_BatchNo,'I' as In_Out_Type,TSPL_BATCH_ITEM.UOM as OrgUOM,TSPL_BATCH_ITEM.Qty as OrgQty,TSPL_BATCH_ITEM.MRP as OrgMRP,TSPL_BATCH_ITEM.Expiry_Date,TSPL_BATCH_ITEM.Manufacture_Date, (TSPL_BATCH_ITEM.Qty/TSPL_ITEM_UOM_DETAIL.Conversion_Factor)*ConvertedUOM.Conversion_Factor as Qty, (TSPL_BATCH_ITEM.MRP*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ConvertedUOM.Conversion_Factor as MRP" + Environment.NewLine
+                qry += " from TSPL_BATCH_ITEM " + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BATCH_ITEM.UOM" + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUOM on ConvertedUOM.Item_Code=TSPL_BATCH_ITEM.Item_Code and ConvertedUOM.UOM_Code='" + strUOM + "'" + Environment.NewLine
+                qry += " where TSPL_BATCH_ITEM.Item_Code='" + strItemCode + "' " + Environment.NewLine
+                qry += " and(TSPL_BATCH_ITEM.Document_Type='PS-SH' and TSPL_BATCH_ITEM.Document_Code in (select Document_Code from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + strLoadoutNo + "'))  " + Environment.NewLine
+                'qry += " union all " + Environment.NewLine
+                'qry += " select TSPL_BATCH_ITEM.Batch_No,'O' as In_Out_Type,TSPL_BATCH_ITEM.UOM as OrgUOM,TSPL_BATCH_ITEM.Qty as OrgQty,TSPL_BATCH_ITEM.MRP as OrgMRP,TSPL_BATCH_ITEM.Expiry_Date,TSPL_BATCH_ITEM.Manufacture_Date, (TSPL_BATCH_ITEM.Qty/TSPL_ITEM_UOM_DETAIL.Conversion_Factor)*ConvertedUOM.Conversion_Factor as Qty, (TSPL_BATCH_ITEM.MRP*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ConvertedUOM.Conversion_Factor as MRP" + Environment.NewLine
+                'qry += " from TSPL_BATCH_ITEM " + Environment.NewLine
+                'qry += " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BATCH_ITEM.UOM" + Environment.NewLine
+                'qry += " left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUOM on ConvertedUOM.Item_Code=TSPL_BATCH_ITEM.Item_Code and ConvertedUOM.UOM_Code='" + strUOM + "'" + Environment.NewLine
+                'qry += " where TSPL_BATCH_ITEM.Item_Code='" + strItemCode + "' " + Environment.NewLine
+                'qry += " and (TSPL_BATCH_ITEM.Document_Type='" + strCurrDocType + "' and TSPL_BATCH_ITEM.Document_Code ='" + strCurrDocNo + "')" + Environment.NewLine
+                'qry += " and not(TSPL_BATCH_ITEM.Document_Type = '" + strCurrDocType + "' and TSPL_BATCH_ITEM.Document_Code = '" + strCurrDocNo + "') " + Environment.NewLine
+                qry += " ) xx where MRP='" + clsCommon.myCstr(dblMRP) + "'" + Environment.NewLine
+                qry += " )xxx" + Environment.NewLine
+                qry += " group by Batch_No having sum(Qty * (case when In_Out_Type='I' then 1 else case when In_Out_Type='O' then -1 else 0 end end ))> 0 " + Environment.NewLine
+            ElseIf clsCommon.CompairString(strSplTransaction, "PSSaleReturn") = CompairStringResult.Equal Then
+                qry = "select Batch_No as BatchNo,max(Manual_BatchNo) as Manual_BatchNo,Min(Manufacture_Date) as ManufactureDate,MAX(Expiry_Date) as ExpiryDate,sum(Qty * (case when In_Out_Type='I' then 1 else case when In_Out_Type='O' then -1 else 0 end end )) as Qty from (" + Environment.NewLine
+                qry += " select * from ( " + Environment.NewLine
+                qry += " select TSPL_BATCH_ITEM.Batch_No,TSPL_BATCH_ITEM.Manual_BatchNo,'I' as In_Out_Type,TSPL_BATCH_ITEM.UOM as OrgUOM,TSPL_BATCH_ITEM.Qty as OrgQty,TSPL_BATCH_ITEM.MRP as OrgMRP,TSPL_BATCH_ITEM.Expiry_Date,TSPL_BATCH_ITEM.Manufacture_Date, (TSPL_BATCH_ITEM.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ConvertedUOM.Conversion_Factor as Qty, (TSPL_BATCH_ITEM.MRP/TSPL_ITEM_UOM_DETAIL.Conversion_Factor)*ConvertedUOM.Conversion_Factor as MRP" + Environment.NewLine
+                qry += " from TSPL_BATCH_ITEM " + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BATCH_ITEM.UOM" + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUOM on ConvertedUOM.Item_Code=TSPL_BATCH_ITEM.Item_Code and ConvertedUOM.UOM_Code='" + strUOM + "'" + Environment.NewLine
+                qry += " where TSPL_BATCH_ITEM.Item_Code='" + strItemCode + "' " + Environment.NewLine
+                qry += " and(TSPL_BATCH_ITEM.Document_Type='PS-SH' and TSPL_BATCH_ITEM.Document_Code in (select Document_Code from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + strShipmentNo + "'))  " + Environment.NewLine
+                'qry += " union all " + Environment.NewLine
+                'qry += " select TSPL_BATCH_ITEM.Batch_No,TSPL_BATCH_ITEM.Manual_BatchNo,'I' as In_Out_Type,TSPL_BATCH_ITEM.UOM as OrgUOM,TSPL_BATCH_ITEM.Qty as OrgQty,TSPL_BATCH_ITEM.MRP as OrgMRP,TSPL_BATCH_ITEM.Expiry_Date,TSPL_BATCH_ITEM.Manufacture_Date, (TSPL_BATCH_ITEM.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ConvertedUOM.Conversion_Factor as Qty, (TSPL_BATCH_ITEM.MRP/TSPL_ITEM_UOM_DETAIL.Conversion_Factor)*ConvertedUOM.Conversion_Factor as MRP" + Environment.NewLine
+                'qry += " from TSPL_BATCH_ITEM " + Environment.NewLine
+                'qry += " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BATCH_ITEM.UOM" + Environment.NewLine
+                'qry += " left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUOM on ConvertedUOM.Item_Code=TSPL_BATCH_ITEM.Item_Code and ConvertedUOM.UOM_Code='" + strUOM + "'" + Environment.NewLine
+                'qry += " where TSPL_BATCH_ITEM.Item_Code='" + strItemCode + "' " + Environment.NewLine
+                'qry += " and TSPL_BATCH_ITEM.Document_Type = '" + strCurrDocType + "'   and TSPL_BATCH_ITEM.Document_Code <> '" + strCurrDocNo + "'  " + Environment.NewLine
+                qry += " " & strUnion & " "
+                qry += " ) xx where MRP='" + clsCommon.myCstr(dblMRP) + "'" + Environment.NewLine
+                qry += " )xxx" + Environment.NewLine
+                qry += " group by Batch_No having sum(Qty * (case when In_Out_Type='I' then 1 else case when In_Out_Type='O' then -1 else 0 end end ))> 0 " + Environment.NewLine
+                'Batch wise item return Ticket No- ALF/22/05/18-000066
+            ElseIf clsCommon.CompairString(strSplTransaction, "DSSaleReturn") = CompairStringResult.Equal Then
+                ' return table data commented by priti for BHA/28/06/18-000113
+                qry = "select Batch_No as BatchNo,max(Manual_BatchNo) as Manual_BatchNo,Min(Manufacture_Date) as ManufactureDate,MAX(Expiry_Date) as ExpiryDate,sum(Qty * (case when In_Out_Type='I' then 1 else case when In_Out_Type='O' then -1 else 0 end end )) as Qty from (" + Environment.NewLine
+                qry += " select * from ( " + Environment.NewLine
+                qry += " select TSPL_BATCH_ITEM.Batch_No,TSPL_BATCH_ITEM.Manual_BatchNo,'I' as In_Out_Type,TSPL_BATCH_ITEM.UOM as OrgUOM,TSPL_BATCH_ITEM.Qty as OrgQty,TSPL_BATCH_ITEM.MRP as OrgMRP,TSPL_BATCH_ITEM.Expiry_Date,TSPL_BATCH_ITEM.Manufacture_Date, (TSPL_BATCH_ITEM.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ConvertedUOM.Conversion_Factor as Qty, (TSPL_BATCH_ITEM.MRP/TSPL_ITEM_UOM_DETAIL.Conversion_Factor)*ConvertedUOM.Conversion_Factor as MRP" + Environment.NewLine
+                qry += " from TSPL_BATCH_ITEM " + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BATCH_ITEM.UOM" + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUOM on ConvertedUOM.Item_Code=TSPL_BATCH_ITEM.Item_Code and ConvertedUOM.UOM_Code='" + strUOM + "'" + Environment.NewLine
+                qry += " where TSPL_BATCH_ITEM.Item_Code='" + strItemCode + "' " + Environment.NewLine
+                qry += " and(TSPL_BATCH_ITEM.Document_Type='" + strCurrDocType.Substring(0, 2) + "-SH" + "' and TSPL_BATCH_ITEM.Document_Code in (select Document_Code from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + strShipmentNo + "'))  " + Environment.NewLine
+                'qry += " union all " + Environment.NewLine
+                'qry += " select TSPL_BATCH_ITEM.Batch_No,TSPL_BATCH_ITEM.Manual_BatchNo,'O' as In_Out_Type,TSPL_BATCH_ITEM.UOM as OrgUOM,TSPL_BATCH_ITEM.Qty as OrgQty,TSPL_BATCH_ITEM.MRP as OrgMRP,TSPL_BATCH_ITEM.Expiry_Date,TSPL_BATCH_ITEM.Manufacture_Date, (TSPL_BATCH_ITEM.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ConvertedUOM.Conversion_Factor as Qty, (TSPL_BATCH_ITEM.MRP/TSPL_ITEM_UOM_DETAIL.Conversion_Factor)*ConvertedUOM.Conversion_Factor as MRP" + Environment.NewLine
+                'qry += " from TSPL_BATCH_ITEM " + Environment.NewLine
+                'qry += " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BATCH_ITEM.UOM" + Environment.NewLine
+                'qry += " left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUOM on ConvertedUOM.Item_Code=TSPL_BATCH_ITEM.Item_Code and ConvertedUOM.UOM_Code='" + strUOM + "'" + Environment.NewLine
+                'qry += " where TSPL_BATCH_ITEM.Item_Code='" + strItemCode + "' " + Environment.NewLine
+                'qry += " and TSPL_BATCH_ITEM.Document_Type = '" + strCurrDocType + "'   and TSPL_BATCH_ITEM.Document_Code <> '" + strCurrDocNo + "'  " + Environment.NewLine
+                qry += " ) xx " + Environment.NewLine ' where MRP='" + clsCommon.myCstr(dblMRP) + "'" + Environment.NewLine
+                qry += " )xxx" + Environment.NewLine
+                qry += " group by Batch_No having sum(Qty * (case when In_Out_Type='I' then 1 else case when In_Out_Type='O' then -1 else 0 end end ))> 0 " + Environment.NewLine
+                'Batch wise item return Ticket No- ALF/22/05/18-000066
+            ElseIf clsCommon.CompairString(strSplTransaction, "ScrapReturn") = CompairStringResult.Equal Then
+                qry = "select Batch_No as BatchNo,max(Manual_BatchNo) as Manual_BatchNo,Min(Manufacture_Date) as ManufactureDate,MAX(Expiry_Date) as ExpiryDate,sum(Qty * (case when In_Out_Type='I' then 1 else case when In_Out_Type='O' then -1 else 0 end end )) as Qty from (" + Environment.NewLine
+                qry += " select * from ( " + Environment.NewLine
+                qry += " select TSPL_BATCH_ITEM.Batch_No,TSPL_BATCH_ITEM.Manual_BatchNo,'I' as In_Out_Type,TSPL_BATCH_ITEM.UOM as OrgUOM,TSPL_BATCH_ITEM.Qty as OrgQty,TSPL_BATCH_ITEM.MRP as OrgMRP,TSPL_BATCH_ITEM.Expiry_Date,TSPL_BATCH_ITEM.Manufacture_Date, (TSPL_BATCH_ITEM.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ConvertedUOM.Conversion_Factor as Qty, (TSPL_BATCH_ITEM.MRP/TSPL_ITEM_UOM_DETAIL.Conversion_Factor)*ConvertedUOM.Conversion_Factor as MRP" + Environment.NewLine
+                qry += " from TSPL_BATCH_ITEM " + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BATCH_ITEM.UOM" + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUOM on ConvertedUOM.Item_Code=TSPL_BATCH_ITEM.Item_Code and ConvertedUOM.UOM_Code='" + strUOM + "'" + Environment.NewLine
+                qry += " where TSPL_BATCH_ITEM.Item_Code='" + strItemCode + "' " + Environment.NewLine
+                qry += " and(TSPL_BATCH_ITEM.Document_Type='ScrapIn' and TSPL_BATCH_ITEM.Document_Code in ('" + strShipmentNo + "'))  " + Environment.NewLine
+                'qry += " union all " + Environment.NewLine
+                'qry += " select TSPL_BATCH_ITEM.Batch_No,TSPL_BATCH_ITEM.Manual_BatchNo,'I' as In_Out_Type,TSPL_BATCH_ITEM.UOM as OrgUOM,TSPL_BATCH_ITEM.Qty as OrgQty,TSPL_BATCH_ITEM.MRP as OrgMRP,TSPL_BATCH_ITEM.Expiry_Date,TSPL_BATCH_ITEM.Manufacture_Date, (TSPL_BATCH_ITEM.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ConvertedUOM.Conversion_Factor as Qty, (TSPL_BATCH_ITEM.MRP/TSPL_ITEM_UOM_DETAIL.Conversion_Factor)*ConvertedUOM.Conversion_Factor as MRP" + Environment.NewLine
+                'qry += " from TSPL_BATCH_ITEM " + Environment.NewLine
+                'qry += " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BATCH_ITEM.UOM" + Environment.NewLine
+                'qry += " left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUOM on ConvertedUOM.Item_Code=TSPL_BATCH_ITEM.Item_Code and ConvertedUOM.UOM_Code='" + strUOM + "'" + Environment.NewLine
+                'qry += " where TSPL_BATCH_ITEM.Item_Code='" + strItemCode + "' " + Environment.NewLine
+                'qry += " and TSPL_BATCH_ITEM.Document_Type = '" + strCurrDocType + "'   and TSPL_BATCH_ITEM.Document_Code <> '" + strCurrDocNo + "'  " + Environment.NewLine
+                qry += " ) xx where MRP='" + clsCommon.myCstr(dblMRP) + "'" + Environment.NewLine
+                qry += " )xxx" + Environment.NewLine
+                qry += " group by Batch_No having sum(Qty * (case when In_Out_Type='I' then 1 else case when In_Out_Type='O' then -1 else 0 end end ))> 0 " + Environment.NewLine
+            ElseIf clsCommon.CompairString(strSplTransaction, "PurchaseReturn") = CompairStringResult.Equal Then
+                qry = "select Batch_No as BatchNo,max(Manual_BatchNo) as Manual_BatchNo,Min(Manufacture_Date) as ManufactureDate,MAX(Expiry_Date) as ExpiryDate,sum(Qty * (case when In_Out_Type='I' then 1 else case when In_Out_Type='O' then -1 else 0 end end )) as Qty from (" + Environment.NewLine
+                qry += " select * from ( " + Environment.NewLine
+                qry += " select TSPL_BATCH_ITEM.Batch_No,TSPL_BATCH_ITEM.Manual_BatchNo,'I' as In_Out_Type,TSPL_BATCH_ITEM.UOM as OrgUOM,TSPL_BATCH_ITEM.Qty as OrgQty,TSPL_BATCH_ITEM.MRP as OrgMRP,TSPL_BATCH_ITEM.Expiry_Date,TSPL_BATCH_ITEM.Manufacture_Date, (TSPL_BATCH_ITEM.Qty/TSPL_ITEM_UOM_DETAIL.Conversion_Factor)*ConvertedUOM.Conversion_Factor as Qty, (TSPL_BATCH_ITEM.MRP*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ConvertedUOM.Conversion_Factor as MRP" + Environment.NewLine
+                qry += " from TSPL_BATCH_ITEM " + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BATCH_ITEM.UOM" + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUOM on ConvertedUOM.Item_Code=TSPL_BATCH_ITEM.Item_Code and ConvertedUOM.UOM_Code='" + strUOM + "'" + Environment.NewLine
+                qry += " where TSPL_BATCH_ITEM.Item_Code='" + strItemCode + "' " + Environment.NewLine
+                qry += " and ( TSPL_BATCH_ITEM.Document_Type='SRN' and TSPL_BATCH_ITEM.Document_Code in (select TSPL_PI_DETAIL.SRN_Id from TSPL_PI_DETAIL where TSPL_PI_DETAIL.PI_No='" + strLoadoutNo + "' and TSPL_PI_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code))  " + Environment.NewLine
+                qry += " union all " + Environment.NewLine
+                qry += " select TSPL_BATCH_ITEM.Batch_No,TSPL_BATCH_ITEM.Manual_BatchNo,'O' as In_Out_Type,TSPL_BATCH_ITEM.UOM as OrgUOM,TSPL_BATCH_ITEM.Qty as OrgQty,TSPL_BATCH_ITEM.MRP as OrgMRP,TSPL_BATCH_ITEM.Expiry_Date,TSPL_BATCH_ITEM.Manufacture_Date, (TSPL_BATCH_ITEM.Qty/TSPL_ITEM_UOM_DETAIL.Conversion_Factor)*ConvertedUOM.Conversion_Factor as Qty, (TSPL_BATCH_ITEM.MRP*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ConvertedUOM.Conversion_Factor as MRP" + Environment.NewLine
+                qry += " from TSPL_BATCH_ITEM " + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BATCH_ITEM.UOM" + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUOM on ConvertedUOM.Item_Code=TSPL_BATCH_ITEM.Item_Code and ConvertedUOM.UOM_Code='" + strUOM + "'" + Environment.NewLine
+                qry += " where TSPL_BATCH_ITEM.Item_Code='" + strItemCode + "' " + Environment.NewLine
+                qry += " and TSPL_BATCH_ITEM.Document_Type = '" + strCurrDocType + "'   and TSPL_BATCH_ITEM.Document_Code <> '" + strCurrDocNo + "'  " + Environment.NewLine
+                qry += " ) xx where MRP='" + clsCommon.myCstr(dblMRP) + "'" + Environment.NewLine
+                qry += " )xxx" + Environment.NewLine
+                qry += " group by Batch_No having sum(Qty * (case when In_Out_Type='I' then 1 else case when In_Out_Type='O' then -1 else 0 end end )) > 0 " + Environment.NewLine
+            ElseIf clsCommon.CompairString(strSplTransaction, "CSATransfer") = CompairStringResult.Equal Then
+
+                qry = "select Batch_No as BatchNo,max(Manual_BatchNo) as Manual_BatchNo,Min(Manufacture_Date) as ManufactureDate,MAX(Expiry_Date) as ExpiryDate,sum(Qty * (case when In_Out_Type='I' then 1 else case when In_Out_Type='O' then -1 else 0 end end )) as Qty from (" + Environment.NewLine
+                qry += " select xx.Batch_No,xx.Manual_BatchNo,xx.In_Out_Type,xx.OrgUOM,sum(isnull(xx.OrgQty,0)) as OrgQty,max(isnull(xx.OrgMRP,0)) as OrgMRP,max(xx.Expiry_Date) as Expiry_Date,max(xx.Manufacture_Date) as Manufacture_Date,sum(isnull(xx.Qty,0)) as Qty,sum(isnull(xx.MRP,0)) as MRP from ( " + Environment.NewLine
+                ''==================Transfer data that In type at CSA
+                qry += " select TSPL_BATCH_ITEM.Batch_No,TSPL_BATCH_ITEM.Manual_BatchNo,'I' as In_Out_Type,TSPL_BATCH_ITEM.UOM as OrgUOM,TSPL_BATCH_ITEM.Qty as OrgQty,TSPL_BATCH_ITEM.MRP as OrgMRP,TSPL_BATCH_ITEM.Expiry_Date,TSPL_BATCH_ITEM.Manufacture_Date, (TSPL_BATCH_ITEM.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ConvertedUOM.Conversion_Factor as Qty, (TSPL_BATCH_ITEM.MRP/TSPL_ITEM_UOM_DETAIL.Conversion_Factor)*ConvertedUOM.Conversion_Factor as MRP" + Environment.NewLine
+                qry += " from TSPL_BATCH_ITEM " + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BATCH_ITEM.UOM" + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUOM on ConvertedUOM.Item_Code=TSPL_BATCH_ITEM.Item_Code and ConvertedUOM.UOM_Code='" + strUOM + "'" + Environment.NewLine
+                qry += " where TSPL_BATCH_ITEM.in_out_type='I' and TSPL_BATCH_ITEM.Item_Code='" + strItemCode + "' " + Environment.NewLine
+                qry += " and TSPL_BATCH_ITEM.Document_Type='SD-CSATRANS' and TSPL_BATCH_ITEM.Document_Code in (" + clsCommon.GetMulcallString(ArrTransferNo) + ")  " + Environment.NewLine
+                qry += " union all " + Environment.NewLine
+
+                ''==================Store Adjustment data that In type at CSA
+                qry += " select TSPL_BATCH_ITEM.Batch_No,TSPL_BATCH_ITEM.Manual_BatchNo,'I' as In_Out_Type,TSPL_BATCH_ITEM.UOM as OrgUOM,TSPL_BATCH_ITEM.Qty as OrgQty,TSPL_BATCH_ITEM.MRP as OrgMRP,TSPL_BATCH_ITEM.Expiry_Date,TSPL_BATCH_ITEM.Manufacture_Date, (TSPL_BATCH_ITEM.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ConvertedUOM.Conversion_Factor as Qty, (TSPL_BATCH_ITEM.MRP/TSPL_ITEM_UOM_DETAIL.Conversion_Factor)*ConvertedUOM.Conversion_Factor as MRP" + Environment.NewLine
+                qry += " from TSPL_BATCH_ITEM " + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BATCH_ITEM.UOM" + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUOM on ConvertedUOM.Item_Code=TSPL_BATCH_ITEM.Item_Code and ConvertedUOM.UOM_Code='" + strUOM + "'" + Environment.NewLine
+                qry += " where TSPL_BATCH_ITEM.in_out_type='I' and TSPL_BATCH_ITEM.Item_Code='" + strItemCode + "' " + Environment.NewLine
+                qry += " and TSPL_BATCH_ITEM.Document_Type='IC-AD'  " + Environment.NewLine
+                qry += " union all " + Environment.NewLine
+                qry += " select TSPL_BATCH_ITEM.Batch_No,TSPL_BATCH_ITEM.Manual_BatchNo,'O' as In_Out_Type,TSPL_BATCH_ITEM.UOM as OrgUOM,TSPL_BATCH_ITEM.Qty as OrgQty,TSPL_BATCH_ITEM.MRP as OrgMRP,TSPL_BATCH_ITEM.Expiry_Date,TSPL_BATCH_ITEM.Manufacture_Date, (TSPL_BATCH_ITEM.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ConvertedUOM.Conversion_Factor as Qty, (TSPL_BATCH_ITEM.MRP/TSPL_ITEM_UOM_DETAIL.Conversion_Factor)*ConvertedUOM.Conversion_Factor as MRP" + Environment.NewLine
+                qry += " from TSPL_BATCH_ITEM " + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BATCH_ITEM.UOM" + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUOM on ConvertedUOM.Item_Code=TSPL_BATCH_ITEM.Item_Code and ConvertedUOM.UOM_Code='" + strUOM + "'" + Environment.NewLine
+                qry += " where TSPL_BATCH_ITEM.in_out_type='O' and TSPL_BATCH_ITEM.Item_Code='" + strItemCode + "' " + Environment.NewLine
+                qry += " and TSPL_BATCH_ITEM.Document_Type='SD-CSATRANS' and TSPL_BATCH_ITEM.Document_Code not in (" + clsCommon.GetMulcallString(ArrTransferNo) + ")  " + Environment.NewLine
+                qry += " union all " + Environment.NewLine
+
+                ''==================CSA Sale Patti Return that In type at CSA
+                qry += " select TSPL_BATCH_ITEM.Batch_No,TSPL_BATCH_ITEM.Manual_BatchNo,'I' as In_Out_Type,TSPL_BATCH_ITEM.UOM as OrgUOM,TSPL_BATCH_ITEM.Qty as OrgQty,TSPL_BATCH_ITEM.MRP as OrgMRP,TSPL_BATCH_ITEM.Expiry_Date,TSPL_BATCH_ITEM.Manufacture_Date, (TSPL_BATCH_ITEM.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ConvertedUOM.Conversion_Factor as Qty, (TSPL_BATCH_ITEM.MRP/TSPL_ITEM_UOM_DETAIL.Conversion_Factor)*ConvertedUOM.Conversion_Factor as MRP" + Environment.NewLine
+                qry += " from TSPL_BATCH_ITEM " + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BATCH_ITEM.UOM" + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUOM on ConvertedUOM.Item_Code=TSPL_BATCH_ITEM.Item_Code and ConvertedUOM.UOM_Code='" + strUOM + "'" + Environment.NewLine
+                qry += " where TSPL_BATCH_ITEM.in_out_type='I' and TSPL_BATCH_ITEM.Item_Code='" + strItemCode + "' " + Environment.NewLine
+                qry += " and TSPL_BATCH_ITEM.Document_Type='CSA-SALEPATTI-RETURN'  " + Environment.NewLine
+                If clsCommon.CompairString(strCurrDocType, "CSA-SALEPATTI-RETURN") = CompairStringResult.Equal Then
+                    qry += " and TSPL_BATCH_ITEM.Document_Code <>'" + strCurrDocNo + "'  "
+                End If
+                qry += " union all " + Environment.NewLine
+
+                ''================Transfer Return Data Out type from CSA
+                qry += " select TSPL_BATCH_ITEM.Batch_No,TSPL_BATCH_ITEM.Manual_BatchNo,'O' as In_Out_Type,TSPL_BATCH_ITEM.UOM as OrgUOM,TSPL_BATCH_ITEM.Qty as OrgQty,0 as OrgMRP,TSPL_BATCH_ITEM.Expiry_Date,TSPL_BATCH_ITEM.Manufacture_Date, (TSPL_BATCH_ITEM.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ConvertedUOM.Conversion_Factor as Qty, 0 as MRP" + Environment.NewLine
+                qry += " from TSPL_BATCH_ITEM " + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BATCH_ITEM.UOM" + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUOM on ConvertedUOM.Item_Code=TSPL_BATCH_ITEM.Item_Code and ConvertedUOM.UOM_Code='" + strUOM + "'" + Environment.NewLine
+                qry += " where TSPL_BATCH_ITEM.in_out_type='O' and TSPL_BATCH_ITEM.Item_Code='" + strItemCode + "' " + Environment.NewLine
+                qry += " and TSPL_BATCH_ITEM.Document_Type='SD-CSATRANS-RETURN' " + Environment.NewLine
+                If clsCommon.CompairString(strCurrDocType, "SD-CSATRANS-RETURN") = CompairStringResult.Equal Then
+                    qry += " and TSPL_BATCH_ITEM.Document_Code <>'" + strCurrDocNo + "'  "
+                End If
+                'qry += " and not(TSPL_BATCH_ITEM.Document_Type = '" + strCurrDocType + "' and TSPL_BATCH_ITEM.Document_Code = '" + strCurrDocNo + "') " + Environment.NewLine
+                qry += " union all " + Environment.NewLine
+
+                ''================Sale Patti Data Out type from CSA
+                qry += " select TSPL_BATCH_ITEM.Batch_No,TSPL_BATCH_ITEM.Manual_BatchNo,'O' as In_Out_Type,TSPL_BATCH_ITEM.UOM as OrgUOM,TSPL_BATCH_ITEM.Qty as OrgQty,0 as OrgMRP,TSPL_BATCH_ITEM.Expiry_Date,TSPL_BATCH_ITEM.Manufacture_Date, (TSPL_BATCH_ITEM.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ConvertedUOM.Conversion_Factor as Qty, 0 as MRP" + Environment.NewLine
+                qry += " from TSPL_BATCH_ITEM " + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BATCH_ITEM.UOM" + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUOM on ConvertedUOM.Item_Code=TSPL_BATCH_ITEM.Item_Code and ConvertedUOM.UOM_Code='" + strUOM + "'" + Environment.NewLine
+                qry += " where TSPL_BATCH_ITEM.in_out_type='O' and TSPL_BATCH_ITEM.Item_Code='" + strItemCode + "' " + Environment.NewLine
+                qry += " and TSPL_BATCH_ITEM.Document_Type='CSA-SALE'  " + Environment.NewLine
+                If clsCommon.CompairString(strCurrDocType, "CSA-SALE") = CompairStringResult.Equal Then
+                    qry += " and TSPL_BATCH_ITEM.Document_Code <>'" + strCurrDocNo + "'  "
+                End If
+                qry += " ) xx  group by xx.Batch_No,xx.Manual_BatchNo,xx.In_Out_Type,xx.OrgUOM " + Environment.NewLine ''where MRP='" + clsCommon.myCstr(dblMRP) + "'
+                qry += " )xxx" + Environment.NewLine
+                qry += " group by Batch_No having sum(Qty * (case when In_Out_Type='I' then 1 else case when In_Out_Type='O' then -1 else 0 end end ))> 0 " + Environment.NewLine
+            ElseIf clsCommon.CompairString(strSplTransaction, "ReturnAgainstIssue") = CompairStringResult.Equal Then '' return condition form isse/return screen
+                qry = "select Batch_No as BatchNo,max(Manual_BatchNo) as Manual_BatchNo,Min(Manufacture_Date) as ManufactureDate,MAX(Expiry_Date) as ExpiryDate,sum(Qty * (case when In_Out_Type='I' then -1 else case when In_Out_Type='O' then 1 else 0 end end )) as Qty from (" + Environment.NewLine
+                qry += " select * from (" + Environment.NewLine
+                qry += " select TSPL_BATCH_ITEM.Batch_No,TSPL_BATCH_ITEM.Manual_BatchNo,TSPL_BATCH_ITEM.In_Out_Type,TSPL_BATCH_ITEM.UOM as OrgUOM,TSPL_BATCH_ITEM.Qty as OrgQty,TSPL_BATCH_ITEM.MRP as OrgMRP,TSPL_BATCH_ITEM.Expiry_Date,TSPL_BATCH_ITEM.Manufacture_Date, (TSPL_BATCH_ITEM.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ConvertedUOM.Conversion_Factor as Qty, (TSPL_BATCH_ITEM.MRP/TSPL_ITEM_UOM_DETAIL.Conversion_Factor)*ConvertedUOM.Conversion_Factor as MRP" + Environment.NewLine
+                qry += " from TSPL_BATCH_ITEM " + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BATCH_ITEM.UOM" + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUOM on ConvertedUOM.Item_Code=TSPL_BATCH_ITEM.Item_Code and ConvertedUOM.UOM_Code='" + strUOM + "'" + Environment.NewLine
+                qry += " where TSPL_BATCH_ITEM.Item_Code='" + strItemCode + "' and TSPL_BATCH_ITEM.Location_Code='" + strLocationCode + "' " + Environment.NewLine
+                qry += " and not( TSPL_BATCH_ITEM.Document_Code = '" + strCurrDocNo + "') and TSPL_BATCH_ITEM.Document_Type = '" + strCurrDocType + "' " + Environment.NewLine
+                qry += " and TSPL_BATCH_ITEM.In_Out_Type='I' "
+                qry += " union all "
+                qry += " select TSPL_BATCH_ITEM.Batch_No,TSPL_BATCH_ITEM.Manual_BatchNo,TSPL_BATCH_ITEM.In_Out_Type,TSPL_BATCH_ITEM.UOM as OrgUOM,TSPL_BATCH_ITEM.Qty as OrgQty,TSPL_BATCH_ITEM.MRP as OrgMRP,TSPL_BATCH_ITEM.Expiry_Date,TSPL_BATCH_ITEM.Manufacture_Date, (TSPL_BATCH_ITEM.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ConvertedUOM.Conversion_Factor as Qty, (TSPL_BATCH_ITEM.MRP/TSPL_ITEM_UOM_DETAIL.Conversion_Factor)*ConvertedUOM.Conversion_Factor as MRP" + Environment.NewLine
+                qry += " from TSPL_BATCH_ITEM " + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BATCH_ITEM.UOM" + Environment.NewLine
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUOM on ConvertedUOM.Item_Code=TSPL_BATCH_ITEM.Item_Code and ConvertedUOM.UOM_Code='" + strUOM + "'" + Environment.NewLine
+                qry += " where TSPL_BATCH_ITEM.Item_Code='" + strItemCode + "' and TSPL_BATCH_ITEM.Location_Code='" + strLocationCode + "' " + Environment.NewLine
+                qry += " and TSPL_BATCH_ITEM.Document_Code = '" + strAgaintsDocNo + "' and TSPL_BATCH_ITEM.Document_Type in ('" + strCurrDocType + "','SRN') " + Environment.NewLine
+                qry += " and 1=(case when TSPL_BATCH_ITEM.In_Out_Type='I' and TSPL_BATCH_ITEM.Against_Inv_Movement_Trans_Id is not null then 1 else case when TSPL_BATCH_ITEM.In_Out_Type='O' then 1 else 0 end end) "
+                qry += " ) xx where 2=2 "
+                If dblMRP > 0 Then
+                    qry += " and MRP='" + clsCommon.myCstr(dblMRP) + "'" + Environment.NewLine
+                End If
+
+                qry += " )xxx" + Environment.NewLine
+                qry += " group by Batch_No having sum(Qty * (case when In_Out_Type='I' then -1 else case when In_Out_Type='O' then 1 else 0 end end ))>0 " + Environment.NewLine
+            End If
+        Else
+
+            qry = "select Batch_No as BatchNo,max(Manual_BatchNo) as Manual_BatchNo,Min(Manufacture_Date) as ManufactureDate,MAX(Expiry_Date) as ExpiryDate,sum(Qty * (case when In_Out_Type='I' then 1 else case when In_Out_Type='O' then -1 else 0 end end )) as Qty from (" + Environment.NewLine
+            qry += " select * from (" + Environment.NewLine
+            qry += " select TSPL_BATCH_ITEM.Batch_No,TSPL_BATCH_ITEM.Manual_BatchNo,TSPL_BATCH_ITEM.In_Out_Type,TSPL_BATCH_ITEM.UOM as OrgUOM,TSPL_BATCH_ITEM.Qty as OrgQty,TSPL_BATCH_ITEM.MRP as OrgMRP,TSPL_BATCH_ITEM.Expiry_Date,TSPL_BATCH_ITEM.Manufacture_Date, convert(decimal(18,2),(TSPL_BATCH_ITEM.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ConvertedUOM.Conversion_Factor) as Qty, (TSPL_BATCH_ITEM.MRP/TSPL_ITEM_UOM_DETAIL.Conversion_Factor)*ConvertedUOM.Conversion_Factor as MRP" + Environment.NewLine
+            qry += " from TSPL_BATCH_ITEM " + Environment.NewLine
+            qry += " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BATCH_ITEM.UOM" + Environment.NewLine
+            qry += " left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUOM on ConvertedUOM.Item_Code=TSPL_BATCH_ITEM.Item_Code and ConvertedUOM.UOM_Code='" + strUOM + "'" + Environment.NewLine
+            qry += " where TSPL_BATCH_ITEM.Item_Code='" + strItemCode + "' and TSPL_BATCH_ITEM.Location_Code='" + strLocationCode + "' " + Environment.NewLine
+            qry += " and not( TSPL_BATCH_ITEM.Document_Code = '" + strCurrDocNo + "' and TSPL_BATCH_ITEM.Document_Type = '" + strCurrDocType + "') " + Environment.NewLine
+            If (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.checkStockOfItemTillTransactionDateOnly, clsFixedParameterCode.checkStockOfItemTillTransactionDateOnly, trans)) = 1) = True AndAlso clsCommon.CompairString(strCurrDocType, "PH-ST") = CompairStringResult.Equal Then
+                qry += " and  TSPL_BATCH_ITEM.Document_Date <= convert(date, '" + strCurrentDocDate + "',103) "
+            End If
+            qry += " and 1=(case when TSPL_BATCH_ITEM.In_Out_Type='I' and TSPL_BATCH_ITEM.Against_Inv_Movement_Trans_Id is not null then 1 else case when TSPL_BATCH_ITEM.In_Out_Type='O' then 1 else 0 end end) AND TSPL_BATCH_ITEM.Document_Code NOT IN (sELECT tspl_transfer_order_head.Document_No FROM tspl_transfer_order_head WHERE STATUS =2) "
+            qry += " " & strUnion & " ) xx where 2=2 "
+            If dblMRP > 0 Then
+                qry += " and MRP='" + clsCommon.myCstr(dblMRP) + "'" + Environment.NewLine
+            End If
+
+            qry += " )xxx" + Environment.NewLine
+            qry += " group by Batch_No having sum(Qty * (case when In_Out_Type='I' then 1 else case when In_Out_Type='O' then -1 else 0 end end ))>0 " + Environment.NewLine
+        End If
+        If IsApplyLifoForMilkItem = True Then
+            qry += IIf(isOrderBy, "order by " & strorderby & " desc", "")
+        Else
+            qry += IIf(isOrderBy, "order by " & strorderby & " asc", "")
+        End If
+        Return qry
+    End Function
     Private Sub RadButton2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadButton2.Click
         CancelPressed()
     End Sub

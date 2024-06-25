@@ -173,15 +173,15 @@ Public Class FrmPriceChartMaster
             End If
 
             ''richa agarwal 27 Sep, 2016 BM00000009819
-            Dim strpricecode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select distinct TSPL_MILK_PRICE_MASTER.Price_Code from TSPL_MILK_PRICE_MASTER left outer join TSPL_FAT_SNF_UPLOADER_MASTER on TSPL_FAT_SNF_UPLOADER_MASTER.Price_Code =TSPL_MILK_PRICE_MASTER.Price_Code left outer join TSPL_MILK_SAMPLE_DETAIL on TSPL_MILK_SAMPLE_DETAIL.Price_Code =TSPL_FAT_SNF_UPLOADER_MASTER.Code where TSPL_MILK_PRICE_MASTER.Price_Code ='" & clsCommon.myCstr(fndcode.Value) & "' and FAT_Pers =" & clsCommon.myCdbl(txtfat.Value) & " and SNF_Pers =" & clsCommon.myCdbl(txtsnf.Value) & " and ISNULL(TSPL_MILK_SAMPLE_DETAIL.Price_Code,'')<>''"))
-            If clsCommon.myLen(strpricecode) > 0 Then
-                If clsCommon.myCDate(clsDBFuncationality.getSingleValue("Select Effective_Date  from TSPL_MILK_PRICE_MASTER where Price_Code ='" & clsCommon.myCstr(fndcode.Value) & "'")) <> clsCommon.myCDate(txtefctdate.Text) Then
-                    ErrorControl.SetError(txtefctdate, "Effective Date cannot be updated because it is used on price chart.")
-                    Throw New Exception("Effective Date cannot be updated because it is used on price chart.")
-                Else
-                    ErrorControl.ResetError(txtefctdate)
-                End If
-            End If
+            'Dim strpricecode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select distinct TSPL_MILK_PRICE_MASTER.Price_Code from TSPL_MILK_PRICE_MASTER left outer join TSPL_FAT_SNF_UPLOADER_MASTER on TSPL_FAT_SNF_UPLOADER_MASTER.Price_Code =TSPL_MILK_PRICE_MASTER.Price_Code left outer join TSPL_MILK_SAMPLE_DETAIL on TSPL_MILK_SAMPLE_DETAIL.Price_Code =TSPL_FAT_SNF_UPLOADER_MASTER.Code where TSPL_MILK_PRICE_MASTER.Price_Code ='" & clsCommon.myCstr(fndcode.Value) & "' and FAT_Pers =" & clsCommon.myCdbl(txtfat.Value) & " and SNF_Pers =" & clsCommon.myCdbl(txtsnf.Value) & " and ISNULL(TSPL_MILK_SAMPLE_DETAIL.Price_Code,'')<>''"))
+            'If clsCommon.myLen(strpricecode) > 0 Then
+            '    If clsCommon.myCDate(clsDBFuncationality.getSingleValue("Select Effective_Date  from TSPL_MILK_PRICE_MASTER where Price_Code ='" & clsCommon.myCstr(fndcode.Value) & "'")) <> clsCommon.myCDate(txtefctdate.Text) Then
+            '        ErrorControl.SetError(txtefctdate, "Effective Date cannot be updated because it is used on price chart.")
+            '        Throw New Exception("Effective Date cannot be updated because it is used on price chart.")
+            '    Else
+            '        ErrorControl.ResetError(txtefctdate)
+            '    End If
+            'End If
 
             'If formtype = "MCC" AndAlso clsCommon.CompairString(cmbratetype.SelectedValue, "") = CompairStringResult.Equal Then
             '    'cmbratetype.Focused()

@@ -103,6 +103,9 @@ Partial Class rptDBTDashboard
         Me.gvPaymentStatus = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvJanAdh = New common.UserControls.MyRadGridView()
+        Me.rbtnAll = New System.Windows.Forms.RadioButton()
+        Me.rdbPosted = New System.Windows.Forms.RadioButton()
+        Me.rdbUnposted = New System.Windows.Forms.RadioButton()
         Me.RadPageViewPage6.SuspendLayout()
         CType(Me.MyRadGridView3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyRadGridView3.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -216,14 +219,12 @@ Partial Class rptDBTDashboard
         Me.RadScrollablePanel7.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadScrollablePanel7.Location = New System.Drawing.Point(0, 0)
         Me.RadScrollablePanel7.Name = "RadScrollablePanel7"
-        Me.RadScrollablePanel7.Padding = New System.Windows.Forms.Padding(0)
         '
         'RadScrollablePanel7.PanelContainer
         '
         Me.RadScrollablePanel7.PanelContainer.Controls.Add(Me.RadGroupBox14)
         Me.RadScrollablePanel7.PanelContainer.Controls.Add(Me.GroupBox7)
-        Me.RadScrollablePanel7.PanelContainer.Location = New System.Drawing.Point(0, 0)
-        Me.RadScrollablePanel7.PanelContainer.Size = New System.Drawing.Size(1066, 514)
+        Me.RadScrollablePanel7.PanelContainer.Size = New System.Drawing.Size(1064, 512)
         Me.RadScrollablePanel7.Size = New System.Drawing.Size(1083, 514)
         Me.RadScrollablePanel7.TabIndex = 2
         '
@@ -236,7 +237,7 @@ Partial Class rptDBTDashboard
         Me.RadGroupBox14.HeaderText = "Report"
         Me.RadGroupBox14.Location = New System.Drawing.Point(3, 59)
         Me.RadGroupBox14.Name = "RadGroupBox14"
-        Me.RadGroupBox14.Size = New System.Drawing.Size(1082, 518)
+        Me.RadGroupBox14.Size = New System.Drawing.Size(1080, 518)
         Me.RadGroupBox14.TabIndex = 1
         Me.RadGroupBox14.Text = "Report"
         '
@@ -254,7 +255,7 @@ Partial Class rptDBTDashboard
         Me.gvTransportcost.Name = "gvTransportcost"
         Me.gvTransportcost.ReadOnly = True
         Me.gvTransportcost.ShowHeaderCellButtons = True
-        Me.gvTransportcost.Size = New System.Drawing.Size(1078, 498)
+        Me.gvTransportcost.Size = New System.Drawing.Size(1076, 498)
         Me.gvTransportcost.TabIndex = 4
         '
         'GroupBox7
@@ -271,7 +272,7 @@ Partial Class rptDBTDashboard
         Me.GroupBox7.Controls.Add(Me.btn_Go_Transport_cost)
         Me.GroupBox7.Location = New System.Drawing.Point(8, 3)
         Me.GroupBox7.Name = "GroupBox7"
-        Me.GroupBox7.Size = New System.Drawing.Size(1073, 50)
+        Me.GroupBox7.Size = New System.Drawing.Size(1071, 50)
         Me.GroupBox7.TabIndex = 0
         Me.GroupBox7.TabStop = False
         Me.GroupBox7.Text = "Filter"
@@ -281,7 +282,7 @@ Partial Class rptDBTDashboard
         Me.Btn_Close7.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Btn_Close7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_Close7.ImageScalingSize = New System.Drawing.Size(68, 14)
-        Me.Btn_Close7.Location = New System.Drawing.Point(985, 20)
+        Me.Btn_Close7.Location = New System.Drawing.Point(983, 20)
         Me.Btn_Close7.Name = "Btn_Close7"
         Me.Btn_Close7.Size = New System.Drawing.Size(82, 21)
         Me.Btn_Close7.TabIndex = 348
@@ -413,15 +414,13 @@ Partial Class rptDBTDashboard
         Me.RadScrollablePanel8.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadScrollablePanel8.Location = New System.Drawing.Point(0, 0)
         Me.RadScrollablePanel8.Name = "RadScrollablePanel8"
-        Me.RadScrollablePanel8.Padding = New System.Windows.Forms.Padding(0)
         '
         'RadScrollablePanel8.PanelContainer
         '
         Me.RadScrollablePanel8.PanelContainer.Controls.Add(Me.RadGroupBox15)
         Me.RadScrollablePanel8.PanelContainer.Controls.Add(Me.RadGroupBox7)
         Me.RadScrollablePanel8.PanelContainer.Controls.Add(Me.GroupBox8)
-        Me.RadScrollablePanel8.PanelContainer.Location = New System.Drawing.Point(0, 0)
-        Me.RadScrollablePanel8.PanelContainer.Size = New System.Drawing.Size(1066, 514)
+        Me.RadScrollablePanel8.PanelContainer.Size = New System.Drawing.Size(1064, 512)
         Me.RadScrollablePanel8.Size = New System.Drawing.Size(1083, 514)
         Me.RadScrollablePanel8.TabIndex = 3
         '
@@ -433,7 +432,7 @@ Partial Class rptDBTDashboard
         Me.RadGroupBox15.HeaderText = "Store"
         Me.RadGroupBox15.Location = New System.Drawing.Point(5, 333)
         Me.RadGroupBox15.Name = "RadGroupBox15"
-        Me.RadGroupBox15.Size = New System.Drawing.Size(1061, 244)
+        Me.RadGroupBox15.Size = New System.Drawing.Size(1059, 244)
         Me.RadGroupBox15.TabIndex = 3
         Me.RadGroupBox15.Text = "Store"
         '
@@ -445,7 +444,7 @@ Partial Class rptDBTDashboard
         Me.RadGroupBox7.HeaderText = "PO"
         Me.RadGroupBox7.Location = New System.Drawing.Point(3, 59)
         Me.RadGroupBox7.Name = "RadGroupBox7"
-        Me.RadGroupBox7.Size = New System.Drawing.Size(1078, 270)
+        Me.RadGroupBox7.Size = New System.Drawing.Size(1076, 270)
         Me.RadGroupBox7.TabIndex = 1
         Me.RadGroupBox7.Text = "PO"
         '
@@ -466,7 +465,7 @@ Partial Class rptDBTDashboard
         Me.GroupBox8.Controls.Add(Me.btn_StoreReport)
         Me.GroupBox8.Location = New System.Drawing.Point(8, 3)
         Me.GroupBox8.Name = "GroupBox8"
-        Me.GroupBox8.Size = New System.Drawing.Size(1071, 50)
+        Me.GroupBox8.Size = New System.Drawing.Size(1069, 50)
         Me.GroupBox8.TabIndex = 0
         Me.GroupBox8.TabStop = False
         Me.GroupBox8.Text = "Filter"
@@ -476,7 +475,7 @@ Partial Class rptDBTDashboard
         Me.Btn_Close8.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Btn_Close8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_Close8.ImageScalingSize = New System.Drawing.Size(68, 14)
-        Me.Btn_Close8.Location = New System.Drawing.Point(987, 20)
+        Me.Btn_Close8.Location = New System.Drawing.Point(985, 20)
         Me.Btn_Close8.Name = "Btn_Close8"
         Me.Btn_Close8.Size = New System.Drawing.Size(82, 21)
         Me.Btn_Close8.TabIndex = 349
@@ -860,7 +859,10 @@ Partial Class rptDBTDashboard
         '
         Me.GroupBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.rdbUnposted)
+        Me.GroupBox1.Controls.Add(Me.rbtnAll)
         Me.GroupBox1.Controls.Add(Me.btnPrint)
+        Me.GroupBox1.Controls.Add(Me.rdbPosted)
         Me.GroupBox1.Controls.Add(Me.btnreset)
         Me.GroupBox1.Controls.Add(Me.btnClose)
         Me.GroupBox1.Controls.Add(Me.btnExport)
@@ -879,7 +881,7 @@ Partial Class rptDBTDashboard
         'btnPrint
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrint.Location = New System.Drawing.Point(398, 17)
+        Me.btnPrint.Location = New System.Drawing.Point(653, 16)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(77, 20)
         Me.btnPrint.TabIndex = 335
@@ -888,7 +890,7 @@ Partial Class rptDBTDashboard
         'btnreset
         '
         Me.btnreset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnreset.Location = New System.Drawing.Point(481, 17)
+        Me.btnreset.Location = New System.Drawing.Point(736, 16)
         Me.btnreset.Name = "btnreset"
         Me.btnreset.Size = New System.Drawing.Size(82, 21)
         Me.btnreset.TabIndex = 334
@@ -908,7 +910,7 @@ Partial Class rptDBTDashboard
         'btnExport
         '
         Me.btnExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.BCBExcel, Me.BCBCSV, Me.BCBPDF})
-        Me.btnExport.Location = New System.Drawing.Point(748, 18)
+        Me.btnExport.Location = New System.Drawing.Point(824, 17)
         Me.btnExport.Name = "btnExport"
         Me.btnExport.Size = New System.Drawing.Size(110, 20)
         Me.btnExport.TabIndex = 332
@@ -942,7 +944,7 @@ Partial Class rptDBTDashboard
         '
         Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnGo.ImageScalingSize = New System.Drawing.Size(68, 14)
-        Me.btnGo.Location = New System.Drawing.Point(310, 17)
+        Me.btnGo.Location = New System.Drawing.Point(565, 16)
         Me.btnGo.Name = "btnGo"
         Me.btnGo.Size = New System.Drawing.Size(82, 21)
         Me.btnGo.TabIndex = 329
@@ -1154,6 +1156,38 @@ Partial Class rptDBTDashboard
         Me.gvJanAdh.Size = New System.Drawing.Size(1033, 512)
         Me.gvJanAdh.TabIndex = 3
         '
+        'rbtnAll
+        '
+        Me.rbtnAll.AutoSize = True
+        Me.rbtnAll.Location = New System.Drawing.Point(426, 20)
+        Me.rbtnAll.Name = "rbtnAll"
+        Me.rbtnAll.Size = New System.Drawing.Size(38, 17)
+        Me.rbtnAll.TabIndex = 12
+        Me.rbtnAll.Text = "All"
+        Me.rbtnAll.UseVisualStyleBackColor = True
+        '
+        'rdbPosted
+        '
+        Me.rdbPosted.AutoSize = True
+        Me.rdbPosted.Checked = True
+        Me.rdbPosted.Location = New System.Drawing.Point(280, 20)
+        Me.rdbPosted.Name = "rdbPosted"
+        Me.rdbPosted.Size = New System.Drawing.Size(60, 17)
+        Me.rdbPosted.TabIndex = 13
+        Me.rdbPosted.TabStop = True
+        Me.rdbPosted.Text = "Posted"
+        Me.rdbPosted.UseVisualStyleBackColor = True
+        '
+        'rdbUnposted
+        '
+        Me.rdbUnposted.AutoSize = True
+        Me.rdbUnposted.Location = New System.Drawing.Point(346, 20)
+        Me.rdbUnposted.Name = "rdbUnposted"
+        Me.rdbUnposted.Size = New System.Drawing.Size(75, 17)
+        Me.rdbUnposted.TabIndex = 336
+        Me.rdbUnposted.Text = "UnPosted"
+        Me.rdbUnposted.UseVisualStyleBackColor = True
+        '
         'rptDBTDashboard
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1314,4 +1348,7 @@ Partial Class rptDBTDashboard
     Friend WithEvents RadPageViewPage4 As RadPageViewPage
     Friend WithEvents gvPaymentStatus As common.UserControls.MyRadGridView
     Friend WithEvents gvJanAdh As common.UserControls.MyRadGridView
+    Friend WithEvents rdbPosted As RadioButton
+    Friend WithEvents rbtnAll As RadioButton
+    Friend WithEvents rdbUnposted As RadioButton
 End Class
