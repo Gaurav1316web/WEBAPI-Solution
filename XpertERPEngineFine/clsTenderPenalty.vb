@@ -55,7 +55,6 @@ Public Class clsTenderPenalty
             clsTenderPenaltyDetail.SaveData(obj.Document_No, obj.Arr, trans)
 
             'If Not isNewEntry Then
-            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_No), "TSPL_TENDER_PENALTY", "Document_No", "TSPL_TENDER_PENALTY_DETAIL", "Document_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
             'End If
             trans.Commit()
         Catch err As Exception
@@ -153,6 +152,8 @@ where 2=2"
                 'If (obj.Status = 1) Then
                 '    Throw New Exception("Already Posted Docuemnt [" + obj.Document_No + "]")
                 'End If
+                clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_No), "TSPL_TENDER_PENALTY", "Document_No", "TSPL_TENDER_PENALTY_DETAIL", "Document_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
+
                 Dim qry As String = ""
 
                 DeleteSRNDeduction(obj.Arr, obj.Item_Code, True, True, True, trans)

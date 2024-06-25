@@ -477,9 +477,9 @@ Public Class clsPurchaseOrderHead
             If Not isNewEntry Then
                 HistoryUpdate(obj.PurchaseOrder_No, trans)
             End If
-            If Not isNewEntry Then
-                CancleUpdate(obj.PurchaseOrder_No, trans)
-            End If
+            'If Not isNewEntry Then
+            '    CancleUpdate(obj.PurchaseOrder_No, trans)
+            'End If
 
             qry = "delete from TSPL_PI_REMITTANCE where Document_No='" + obj.PurchaseOrder_No + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -5025,9 +5025,7 @@ a:
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.PurchaseOrder_No) > 0) Then
             Try
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Order", obj.Bill_To_Location, obj.PurchaseOrder_Date, trans)
-                'If (obj.Status = 1) Then
-                '    Throw New Exception("Already Posted on :" + obj.Posting_Date)
-                'End If
+                CancleUpdate(obj.PurchaseOrder_No, trans)
                 clsPurchaseOrderAdditionChargeInsurance.DeleteData(obj.PurchaseOrder_No, trans)
 
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PURCHASE_ORDER_HEAD", "PurchaseOrder_No", "TSPL_PURCHASE_ORDER_DETAIL", "PurchaseOrder_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
@@ -5047,10 +5045,14 @@ a:
 
                 qry = "delete from TSPL_PURCHASE_ORDER_WORK_ORDER_Terms where PurchaseOrder_No='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                qry = " delete from TSPL_TENDER_SCHEDULE_PENALTY_PO where DocumentCode='" + strCode + " '"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                qry = " delete from TSPL_TENDER_SCHEDULE_PO where DocumentCode='" + strCode + " '"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
                 qry = "delete from TSPL_PURCHASE_ORDER_HEAD where PurchaseOrder_No='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
-                clsCustomFieldValues.DeleteData(obj.Form_ID, strCode, trans)
+                'clsCustomFieldValues.DeleteData(obj.Form_ID, strCode, trans)
 
                 qry = "delete from TSPL_CFORM_ISSUE_RECEIVE_DETAIL where purchaseorder_no='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)

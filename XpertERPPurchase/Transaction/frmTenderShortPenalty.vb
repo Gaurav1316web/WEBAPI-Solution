@@ -21,7 +21,7 @@ Public Class frmTenderShortPenalty
         btnPrint.Visible = MyBase.isPrintFlag
         btnReverse.Visible = False
         btnRecalculate.Visible = False
-        BtnCancel.Visible = MyBase.isCancel_Flag_After_Posting
+        BtnCancel.Visible = MyBase.isCancel_Flag
     End Sub
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         BtnCancel.Enabled = False
@@ -46,7 +46,7 @@ Public Class frmTenderShortPenalty
         txtRemarks.MaxLength = 200
     End Sub
     Sub BlankAllControls()
-        BtnCancel.Enabled = False
+        'BtnCancel.Enabled = False
         txtDocNo.Value = ""
         txtVendorNo.Value = ""
         lblVendorName.Text = ""
@@ -180,8 +180,9 @@ Public Class frmTenderShortPenalty
                     btnReverse.Enabled = True
                     btnRecalculate.Enabled = True
                     BtnCancel.Enabled = True
-                    BtnCancel.Visible = True
+                    'BtnCancel.Visible = True
                 End If
+                BtnCancel.Enabled = True
                 UsLock1.Status = obj.Status
                 txtDocNo.Value = obj.Document_No
                 txtDate.Value = obj.Document_Date
@@ -325,7 +326,7 @@ left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_TENDER_PENAL
             DeleteData()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.L AndAlso MyBase.isCancel_Flag_After_Posting AndAlso BtnCancel.Enabled Then
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.L AndAlso MyBase.isCancel_Flag AndAlso BtnCancel.Enabled Then
             CancelRALPenaltyData()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             If MyBase.isReverse Then

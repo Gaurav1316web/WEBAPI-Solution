@@ -365,9 +365,9 @@ Public Class frmPurchaseOrder
         UcItemBalance1.CommitedQtyLbl = False
         SetUserMgmtNew()
         txtDeliveryDate.ReadOnly = True
-        btn_Cancels.Enabled = False
+        'btn_Cancels.Enabled = False
 
-        btn_cancel.Visible = False
+        'btn_cancel.Visible = False
         ShowCapexCodeandSubCode = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowOptionforSelectingCapex, clsFixedParameterCode.ShowOptionforSelectingCapex, Nothing)) = "1", True, False))
         If ShowCapexCodeandSubCode Then
             SplitContainer2.Panel1Collapsed = False
@@ -585,6 +585,7 @@ Public Class frmPurchaseOrder
         '   txtCmt13.Text = ""  'txtCmt14.Text = "" 'RTComment.Text = ""  txtSubject.Text = ""  txtContentSubject.Text = ""  txtPaymentTerm.Text = ""
         '    txtInsuranceTerms.Text = "" txtPackingForward.Text = ""  txtInsurance.Text = ""
         '   End If
+        btn_Cancels.Enabled = False
     End Sub
 
     Public Sub SetUserMgmtNew()
@@ -600,7 +601,7 @@ Public Class frmPurchaseOrder
         btnPrintNew.Visible = MyBase.isPrintFlag
         btnUnpost.Visible = False
         'btn_cancel.Visible = MyBase.isCancel_Flag
-        btn_Cancels.Visible = MyBase.isCancel_Flag_After_Posting
+        btn_Cancels.Visible = MyBase.isCancel_Flag
         'If MyBase.isReverse Then
         '    btnUnpost.Enabled = True
         'Else
@@ -923,10 +924,11 @@ Public Class frmPurchaseOrder
     End Sub
 
     Sub BlankAllControls()
-        btn_Cancels.Visible = False
+        'btn_Cancels.Visible = False
         chkpoclose.Enabled = True
-        btn_cancel.Visible = False
+        'btn_cancel.Visible = False
         btnPost.Visible = MyBase.isPostFlag
+        'btn_Cancels.Visible = MyBase.isCancel_Flag
         txtBankCode.Value = ""
         lblBankDesc.Text = ""
         txtPaymentMode.Value = ""
@@ -4315,8 +4317,11 @@ Public Class frmPurchaseOrder
         btnSave.Text = "Save"
         btnSave.Enabled = True
         btnPost.Enabled = True
+        btn_cancel.Enabled = True
         btnAmendment.Enabled = False
         btnDelete.Enabled = True
+        'btn_Cancels.Enabled = False
+
         txtDate.Focus()
         txtRefTendorNo.Text = ""
         txtTenderNo.Value = ""
@@ -5322,6 +5327,7 @@ Public Class frmPurchaseOrder
             If ChekBtnPost = False Then
                 clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
                 btnCopy.Enabled = False
+                'btn_Cancels.Enabled = True
             End If
             Return True
         Else
@@ -6106,12 +6112,14 @@ Public Class frmPurchaseOrder
             dtpRenewal.Enabled = True
             btnSave.Enabled = True
             btnPost.Enabled = True
+            btn_Cancels.Enabled = True
             btnAmendment.Enabled = False
             btnDelete.Enabled = True
             isInsideLoadData = True
             cboPOType.Enabled = True
             isNewEntry = False
             btnSave.Text = "Update"
+            'btn_Cancels.Enabled = True
             BlankAllControls()
             LoadBlankGrid()
             LoadBlankGridSchedule()
@@ -6121,14 +6129,16 @@ Public Class frmPurchaseOrder
             IsLoadOk = True
             cboItemType.Enabled = True
             txtBillToLocation.Enabled = True
-            ShowPOCancelButton = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowCancelButtonPO, clsFixedParameterCode.ShowCancelButtonPO, Nothing)) = "1", True, False))
-            If ShowPOCancelButton Then
-                'btn_cancel.Visible = True
-                btn_Cancels.Visible = True
-            Else
-                btn_Cancels.Visible = False
-                'btn_cancel.Visible = False
-            End If
+            'ShowPOCancelButton = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowCancelButtonPO, clsFixedParameterCode.ShowCancelButtonPO, Nothing)) = "1", True, False))
+            'If ShowPOCancelButton Then
+            '    btn_cancel.Visible = True
+            '    'btn_Cancels.Visible = True
+            'Else
+            '    'btn_Cancels.Visible = False
+            '    btn_cancel.Visible = False
+            'End If
+            'btn_Cancels.Visible = True
+
             Dim obj As New clsPurchaseOrderHead()
             obj = clsPurchaseOrderHead.GetData(strCode, NavTyep, arrLoc, IIf(clsCommon.CompairString(FORMTYPE, clsUserMgtCode.FrmPurchaseOrderMT) = CompairStringResult.Equal, "MT", "PO"), FORMTYPE)
 
@@ -6139,7 +6149,7 @@ Public Class frmPurchaseOrder
                     btnDelete.Enabled = False
                     TxtRetention.ReadOnly = True
                     btnAmendment.Enabled = True
-
+                    btn_Cancels.Enabled = True
 
                     'If ShowPOCancelButton AndAlso Not clsPurchaseOrderHead.CheckPOUsedInSRNorGRN(clsCommon.myCstr(obj.PurchaseOrder_No), Nothing) Then
                     '    btn_Cancels.Visible = True
@@ -6147,8 +6157,8 @@ Public Class frmPurchaseOrder
                     '    btn_Cancels.Visible = True
                     'End If
                     repoComplete.IsVisible = True
-                    btn_Cancels.Visible = True
-                    btn_Cancels.Enabled = True
+                    'btn_Cancels.Visible = True
+                    'btn_Cancels.Enabled = True
 
                     'repoBalQty.IsVisible = True
                 End If
@@ -6157,9 +6167,10 @@ Public Class frmPurchaseOrder
                     btnSave.Enabled = False
                     btnPost.Enabled = False
                     btnDelete.Enabled = False
-                'btn_cancel.Visible = False
-                btn_Cancels.Visible = False
-                btnAmendment.Enabled = False
+                    'btn_cancel.Visible = False
+                    'btn_Cancels.Visible = False
+                    btn_Cancels.Enabled = True
+                    btnAmendment.Enabled = False
                 End If
 
                 cboPOType.Enabled = False
@@ -6330,6 +6341,7 @@ Public Class frmPurchaseOrder
                     chkpoclose.Checked = True
                     btnSave.Enabled = False
                     btnPost.Enabled = False
+                    btn_Cancels.Enabled = False
                     btnDelete.Enabled = False
                     btnAmendment.Enabled = False
                     vaddnew = "N"
@@ -7245,7 +7257,7 @@ Public Class frmPurchaseOrder
             If frm1.isPasswordCorrect Then
                 Dim iscancel As Boolean = False
                 If clsPurchaseOrderHead.CheckPOUsedInSRNorGRN(clsCommon.myCstr(txtDocNo.Value), Nothing) Then
-                    Throw New Exception("PO can not be cancelled because it is used in SRN/GRN.")
+                    Throw New Exception("PO can not be cancelled because it is used in GRN.")
                     'Else
                     '    clsPurchaseOrderHead.ReverseAndUnpost(txtDocNo.Value, MyBase.Form_ID)
                 End If
@@ -7265,6 +7277,7 @@ Public Class frmPurchaseOrder
                     End If
                     If (clsPurchaseOrderHead.CancelPOData(txtDocNo.Value, IIf(clsCommon.CompairString(FORMTYPE, clsUserMgtCode.FrmPurchaseOrderMT) = CompairStringResult.Equal, "MT", "PO"))) Then
                         saveCancelLog(Reason, "Cancel", Nothing)
+                        'CancleUpdate(obj.PurchaseOrder_No, trans)
                         clsCommon.MyMessageBoxShow(Me, "Data Cancel Successfully ", Me.Text)
                         AddNew()
                     End If
@@ -7374,6 +7387,7 @@ Public Class frmPurchaseOrder
 
         LoadData(clsCommon.ShowSelectForm("POOrderNoFndd", qry, "PONO", whrClas, txtDocNo.Value, "PurchaseOrder_Date desc", isButtonClicked, "PurchaseOrder_Date"), NavigatorType.Current)
         btnCopy.Enabled = False
+        'btn_Cancels.Enabled = True
     End Sub
 
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
@@ -7402,7 +7416,7 @@ Public Class frmPurchaseOrder
             DeleteData()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.L AndAlso MyBase.isCancel_Flag_After_Posting AndAlso btn_Cancels.Enabled Then
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.L AndAlso MyBase.isCancel_Flag AndAlso btn_Cancels.Enabled Then
             CancelPOData()
         ElseIf Not e.Alt AndAlso Not e.Shift AndAlso (e.Control AndAlso e.KeyCode = Keys.F7) Then ''because setting is open at Alt+Shift+Cntl+F7, and after this short-cut works automatically creates problem ,so do change
             SelectRequistionItems()
@@ -11030,25 +11044,7 @@ Public Class frmPurchaseOrder
     'End Sub
     Private Sub btn_Cancels_Click(sender As Object, e As EventArgs) Handles btn_Cancels.Click
         Try
-            'If clsCommon.myLen(txtDocNo.Value) > 0 Then
-
-            '    If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            '        clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
-            '        Exit Sub
-            '    End If
-            '    If clsPurchaseOrderHead.CheckPOUsedInSRNorGRN(clsCommon.myCstr(txtDocNo.Value), Nothing) Then
-            '        Throw New Exception("PO can not be cancelled because it is used in SRN/GRN.")
-
-            '    End If
-
-            '    If (myMessages.CancelConfirms(Me)) Then
-
             CancelPOData()
-            'clsCommon.MyMessageBoxShow(Me, "Data Cancle Successfully ", Me.Text)
-
-            'End If
-
-            'End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
