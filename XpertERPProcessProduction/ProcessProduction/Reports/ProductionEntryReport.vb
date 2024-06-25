@@ -172,8 +172,7 @@ Public Class ProductionEntryReport
                     left outer join TSPL_ITEM_MASTER ON TSPL_PP_CONSUMPTION_WITHOUT_BATCH.Main_ITEM_CODE=TSPL_ITEM_MASTER.ITEM_CODE
                     left outer join TSPL_LOCATION_MASTER ON TSPL_PP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE=TSPL_LOCATION_MASTER.LOCATION_CODE
                     WHERE convert(date,TSPL_PP_PRODUCTION_ENTRY.PROD_DATE ,103)>=convert(date,'" + fromDate.Value + "',103) and convert(date,TSPL_PP_PRODUCTION_ENTRY.PROD_DATE ,103) <=convert(date,'" + ToDate.Value + "',103) 
-                     " + whr + "
- " + whr + " union all
+                     " + whr + " union all
  select MAX(case when (final.InOut)='I' then final.Document_No end) as Document_No ,
 MAX(case when (final.InOut)='I' then final.Document_Date end) as PROD_DATE ,
 MAX(case when (final.InOut)='I' then final.BOM_Code end) as BOM_CODE ,
