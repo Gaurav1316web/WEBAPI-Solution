@@ -8665,23 +8665,35 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
             Dim qry As String = ""
             Dim dt As DataTable
             Dim SRNQTTY As String = ""
+            Dim SRNQTTY1stsch As String = ""
             If objCommonVar.RCDFCFP Then
                 SRNQTTY = clsDBFuncationality.getSingleValue("select cast(SUM(SRN_Qty) as decimal(18,3)) QTY from TSPL_SRN_HEAD 
                     left outer join TSPL_SRN_DETAIL on TSPL_SRN_DETAIL.srn_no=TSPL_SRN_head.srn_no
                     LEFT OUTER JOIN TSPL_GRN_HEAD ON TSPL_GRN_HEAD.GRN_NO=TSPL_SRN_HEAD.AGAINST_GRN
                     where TSPL_SRN_head.Bill_To_Location='" + txtBillToLocation.Value + "' AND TSPL_SRN_DETAIL.Item_Code in (" + ItemCode + ") AND TSPL_SRN_HEAD.Vendor_Code='" + txtVendorNo.Value + "' AND TSPL_GRN_HEAD.REF_NO='" + txtRefNo.Text + "'
-                    AND SRN_Date<=(Select MAX(SRN_Date) SRNDATE  from TSPL_SRN_HEAD 
+                    AND GRN_Date<=(Select MAX(GRN_Date) GRNDATE  from TSPL_GRN_HEAD 
+                    WHERE TSPL_GRN_HEAD.GRN_No IN (SELECT GRN_Id FROM TSPL_PI_DETAIL WHERE pi_no='" + txtDocNo.Value + "'))")
+
+                SRNQTTY1stsch = clsDBFuncationality.getSingleValue("select isnull(cast(SUM(SRN_Qty) as decimal(18,3)),0) QTY from TSPL_SRN_HEAD 
                     left outer join TSPL_SRN_DETAIL on TSPL_SRN_DETAIL.srn_no=TSPL_SRN_head.srn_no
-                    WHERE TSPL_SRN_DETAIL.SRN_No IN (SELECT SRN_Id FROM TSPL_PI_DETAIL WHERE pi_no='" + txtDocNo.Value + "'))")
+                    LEFT OUTER JOIN TSPL_GRN_HEAD ON TSPL_GRN_HEAD.GRN_NO=TSPL_SRN_HEAD.AGAINST_GRN
+					LEFT OUTER JOIN TSPL_TENDER_SCHEDULE ON TSPL_TENDER_SCHEDULE.DocumentCode='" + txtRefNo.Text + "'
+						and TSPL_TENDER_SCHEDULE.item_code in(" + ItemCode + ") and TSPL_TENDER_SCHEDULE.Location_Code='" + txtBillToLocation.Value + "' and TSPL_TENDER_SCHEDULE.Vendor_Code ='" + txtVendorNo.Value + "' AND
+						TSPL_TENDER_SCHEDULE.Schedule_No=1
+                    where TSPL_SRN_head.Bill_To_Location='" + txtBillToLocation.Value + "' AND TSPL_SRN_DETAIL.Item_Code in (" + ItemCode + ") AND TSPL_SRN_HEAD.Vendor_Code='" + txtVendorNo.Value + "' AND TSPL_GRN_HEAD.REF_NO='" + txtRefNo.Text + "'
+                    AND GRN_Date<=(Select MAX(GRN_Date) GRNDATE  from TSPL_GRN_HEAD 
+                    --left outer join TSPL_SRN_DETAIL on TSPL_SRN_DETAIL.srn_no=TSPL_SRN_head.srn_no
+                    WHERE TSPL_GRN_HEAD.GRN_No IN (SELECT GRN_ID FROM TSPL_PI_DETAIL WHERE pi_no='" + txtDocNo.Value + "'))
+					 AND convert(date,TSPL_GRN_HEAD.GRN_Date,103) BETWEEN dateadd(day,TSPL_TENDER_SCHEDULE.Extension_Days,TSPL_TENDER_SCHEDULE.FROM_DATE) AND dateadd(day,TSPL_TENDER_SCHEDULE.Extension_Days,TSPL_TENDER_SCHEDULE.TO_DATE)")
             End If
             If objCommonVar.RCDFCFP Then
-                qry = " SELECT ss.*," + SRNQTTY + " as SRNQTTY,ss.RALQty - " + SRNQTTY + " as QWNSWNQTY,(select  CAST(sum(TSPL_SRN_DETAIL.SRN_Qty) AS DECIMAL(18,2)) as SRNQtyInQtl from TSPL_PI_DETAIL 
+                qry = " SELECT ss.*," + SRNQTTY + " as SRNQTTY," + SRNQTTY1stsch + " as SRNQtyInQtl1stsch,ss.RALQty - " + SRNQTTY + " as QWNSWNQTY,(select  CAST(sum(TSPL_SRN_DETAIL.SRN_Qty) AS DECIMAL(18,2)) as SRNQtyInQtl from TSPL_PI_DETAIL 
                         left outer join TSPL_SRN_DETAIL on TSPL_SRN_DETAIL.SRN_No = TSPL_PI_DETAIL.SRN_Id and TSPL_SRN_DETAIL.Item_Code = TSPL_PI_DETAIL.Item_Code
                         left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No = TSPL_SRN_DETAIL.SRN_No
                         left outer join TSPL_GRN_HEAD GG on GG.GRN_No = TSPL_SRN_DETAIL.GRN_ID
                         where GG.ref_no=SS.Ref_No
                         and TSPL_SRN_DETAIL.item_code=SS.Item_Code and GG.BILL_TO_LOCATION=SS.BILL_TO_LOCATION and ss.vendor_code =TSPL_SRN_HEAD.vendor_code)as SRNQtyInQtl,
-                           CONVERT(varchar(10), CONVERT(date, ss.schedule_from_date, 111), 105) as schedule_from_date,
+                         CONVERT(varchar(10), CONVERT(date, ss.schedule_from_date, 111), 105) as schedule_from_date,
                           CONVERT(varchar(10), CONVERT(date, ss.schedule_to_date, 111), 105) as schedule_to_date, ss.qc_no,ss.grn_date
                         FROM (select '' as RAL_Period,isnull(TSPL_PI_REMITTANCE.Actual_Total_TDS,0) as Actual_Total_TDS,cast(case when isnull(TSPL_PI_REMITTANCE.Actual_Total_TDS,0)>0 and isnull(TSPL_PI_DETAIL.Taxable_Amount,0)>0 then
                          ( isnull(TSPL_PI_REMITTANCE.Actual_Total_TDS,0) 

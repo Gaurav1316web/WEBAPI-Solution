@@ -288,6 +288,12 @@
     <Compile Include="Report\FrmZoneWiseSKUReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\rptCreditCustomerReport.Designer.vb">
+      <DependentUpon>rptCreditCustomerReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptCreditCustomerReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\rptDemandReturnReport.Designer.vb">
       <DependentUpon>rptDemandReturnReport.vb</DependentUpon>
     </Compile>
@@ -878,6 +884,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\FrmZoneWiseSKUReport.resx">
       <DependentUpon>FrmZoneWiseSKUReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptCreditCustomerReport.resx">
+      <DependentUpon>rptCreditCustomerReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptDailyStatementReport.resx">
       <DependentUpon>rptDailyStatementReport.vb</DependentUpon>

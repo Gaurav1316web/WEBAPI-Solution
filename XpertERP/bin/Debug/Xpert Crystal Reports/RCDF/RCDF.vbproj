@@ -1272,6 +1272,7 @@
     <None Include="Crystal Reports\Kwality Sales Report\crptBookingNonTaxableChallan.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptBookingTaxableChallan.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptBulkSaleInvAndDispatchJV.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\CrptCreditCustomerReport.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorWiseDetail.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorWiseSummary.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDemandReturn.rpt" />
@@ -1344,6 +1345,7 @@
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNewSaving.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNewSWM.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceneww.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptBankAdvicenewwBKN.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviseBankWiseSubReportALW.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviseReportALW.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviseSubReportALW.rpt" />

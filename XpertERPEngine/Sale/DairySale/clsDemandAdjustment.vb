@@ -161,7 +161,8 @@ Public Class clsDemandAdjustment
             Dim obj As New clsDemandAdjustment
             'Dim DocNo As String = ""
             Dim Qry As String = ""
-            'Dim obj1 As New clsDemandBookingSale
+            Dim lstDocNO As New List(Of String)
+
             obj = GetData(strDocNo, NavigatorType.Current, trans)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
@@ -181,9 +182,22 @@ Public Class clsDemandAdjustment
                         'clsDemandBookingSale.SaveData(obj1, False, trans)
                         Qry = "update TSPL_DEMAND_BOOKING_DETAIL set Qty='" + clsCommon.myCstr(objTr.Final_Qty) + "' where TR_Code='" + objTr.TR_Code + "'"
                         clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                        Dim DcoNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select document_no from TSPL_DEMAND_BOOKING_DETAIL where TR_Code='" + objTr.TR_Code + "'", trans))
+                        If Not lstDocNO.Contains(DcoNo) Then
+                            lstDocNO.Add(DcoNo)
+                        End If
                         'Qry = "update TSPL_BOOKING_DETAIL set Booking_Qty='" + clsCommon.myCstr(objTr.Final_Qty) + "' where Against_DemandBooking_TR_Code='" + objTr.TR_Code + "'"
                         'clsDBFuncationality.ExecuteNonQuery(Qry, trans)
                     Next
+                    If lstDocNO IsNot Nothing AndAlso lstDocNO.Count > 0 Then
+                        For Each item As String In lstDocNO
+                            Dim obj1 As New clsDemandBookingSale
+                            obj1 = clsDemandBookingSale.GetData(item, NavigatorType.Current, trans)
+                            clsDemandBookingSale.SaveData(obj1, False, trans)
+
+                        Next
+                    End If
+
                     clsDBFuncationality.ExecuteNonQuery("Update TSPL_Demand_Adjustment_Head set Status=1 where Document_Code='" + obj.Document_Code + "'", trans)
                 End If
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_Demand_Adjustment_Head", "Document_Code", "TSPL_DEMAND_ADJUSTMENT_DETAIL", "Document_Code", trans)

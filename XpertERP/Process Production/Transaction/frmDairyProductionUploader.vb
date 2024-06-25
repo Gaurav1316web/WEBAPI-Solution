@@ -442,6 +442,12 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_PK on TSPL_LOCATION
                         objTr.Qty = clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value)
                         objTr.UOM = clsCommon.myCstr(gv1.Rows(ii).Cells(colUOM).Value)
                         objTr.Shift_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colShift).Value)
+                        If clsCommon.myLen(objTr.UOM) <= 0 Then
+                            Throw New Exception("Please select UOM at line no [" + clsCommon.myCstr(ii + 1) + "]")
+                        End If
+                        If clsCommon.myLen(objTr.Shift_Code) <= 0 Then
+                            Throw New Exception("Please select Shift at line no [" + clsCommon.myCstr(ii + 1) + "]")
+                        End If
                         objTr.QC_Status = clsCommon.myCBool(gv1.Rows(ii).Cells(ColQCStatus).Value)
 
                         objTr.ArrQC = TryCast(gv1.CurrentRow.Cells(ColQCStatus).Tag, List(Of clsDairyProductionUploaderQC))
@@ -773,7 +779,8 @@ ExitLOOP:
             clsCommon.MyMessageBoxShow(Me, "No location rights.", Me.Text)
             Exit Sub
         End If
-        txtLocationFG.Value = clsLocation.getFinder(" tspl_location_master.location_code in (" + arrLoc + ") and isnull(csa_type,'N')<>'Y' and isnull(Is_Section,'N')<>'Y' and isnull(Is_Sub_Location,'N')<>'Y' and Location_Category<>'MCC'", txtLocationFG.Value, isButtonClicked)
+        'txtLocationFG.Value = clsLocation.getFinder(" tspl_location_master.location_code in (" + arrLoc + ") and isnull(csa_type,'N')<>'Y' and isnull(Is_Section,'N')<>'Y' and isnull(Is_Sub_Location,'N')<>'Y' and Location_Category<>'MCC'", txtLocationFG.Value, isButtonClicked)
+        txtLocationFG.Value = clsLocation.getFinder(" tspl_location_master.location_code in (" + arrLoc + ") and isnull(csa_type,'N')<>'Y' and isnull(Is_Section,'N')<>'Y'  and Location_Category<>'MCC'", txtLocationFG.Value, isButtonClicked)
         lblLocationFG.Text = clsLocation.GetName(txtLocationFG.Value, Nothing)
     End Sub
 
@@ -791,7 +798,8 @@ ExitLOOP:
             clsCommon.MyMessageBoxShow(Me, "No location rights.", Me.Text)
             Exit Sub
         End If
-        txtLocationPK.Value = clsLocation.getFinder(" tspl_location_master.location_code in (" + arrLoc + ") and isnull(csa_type,'N')<>'Y' and isnull(Is_Section,'N')<>'Y' and isnull(Is_Sub_Location,'N')<>'Y' and Location_Category<>'MCC'", txtLocationPK.Value, isButtonClicked)
+        'txtLocationPK.Value = clsLocation.getFinder(" tspl_location_master.location_code in (" + arrLoc + ") and isnull(csa_type,'N')<>'Y' and isnull(Is_Section,'N')<>'Y' and isnull(Is_Sub_Location,'N')<>'Y' and Location_Category<>'MCC'", txtLocationPK.Value, isButtonClicked)
+        txtLocationPK.Value = clsLocation.getFinder(" tspl_location_master.location_code in (" + arrLoc + ") and isnull(csa_type,'N')<>'Y' and isnull(Is_Section,'N')<>'Y'  and Location_Category<>'MCC'", txtLocationPK.Value, isButtonClicked)
         lblLocationPK.Text = clsLocation.GetName(txtLocationPK.Value, Nothing)
     End Sub
 
