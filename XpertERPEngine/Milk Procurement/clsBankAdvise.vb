@@ -140,10 +140,11 @@ where Document_No='" + strCode + "'"
 
             If clsCommon.myLen(dtContent.Rows(0)("Email_Text")) > 0 Then
                 Dim qry As String = "select  TSPL_VENDOR_MASTER.Company_Bank_Current,max(TSPL_BANK_MASTER.DESCRIPTION) as Bank_Name,max(TSPL_BANK_MASTER.Email) as Email
- from TSPL_PAYMENT_PROCESS_DETAIL 
+ from TSPL_PAYMENT_PROCESS_DETAIL
+left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
 left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE
 left outer join TSPL_BANK_MASTER on TSPL_BANK_MASTER.BANK_CODE=TSPL_VENDOR_MASTER.Company_Bank_Current
-where Doc_No='" + strPPNo + "' group by TSPL_VENDOR_MASTER.Company_Bank_Current"
+where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='" + strPPNo + "'  and (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0))>0 group by TSPL_VENDOR_MASTER.Company_Bank_Current"
                 Dim dtBank As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                 If dtBank IsNot Nothing AndAlso dtBank.Rows.Count > 0 Then
                     For Each drBank As DataRow In dtBank.Rows
