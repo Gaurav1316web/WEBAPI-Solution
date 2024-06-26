@@ -2,6 +2,7 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
+    Public Const Transactionupdate As String = "Transtion Update"
     Public Const RCDFRateControl As String = "RCDF Rate Control"
     Public Const RCDFControl As String = "RCDF Control"
     Public Const EmployeePFRetirementAge As String = "Employee PF Retirement Age"
@@ -1261,6 +1262,11 @@ Public Class clsFixedParameterType
 
 End Class
 Public Class clsFixedParameterCode
+    'Public Const SecretorydcsMaster As String = "Secretory/DCS Master"
+    Public Const VendorMaster As String = "Vendor Master"
+    Public Const UserMaster As String = "User Master"
+    Public Const ItemMaster As String = "Item Master"
+    Public Const CustomerMaster As String = "Customer Master"
     Public Const RCDFRateControl As String = "RCDF Rate Control"
     Public Const EmployeePFRetirementAge As String = "Employee PF Retirement Age"
     Public Const EmployeeRetirementAge As String = "Employee Retirement Age"
@@ -3190,6 +3196,11 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.GEUpdatePriceChart, clsFixedParameterCode.GEUpdatePriceChart, "UpdatePrice", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SetCSATransferwithZeroOnSalePatti, clsFixedParameterCode.SetCSATransferwithZeroOnSalePatti, "SETZERO", "")
         ''richa agarwal 09/04/2015 create password for PO Amendment
+        'InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.SecretorydcsMasterUpdate, "Secretorydcs@123", "Secretory DCS Master Password")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.VendorMaster, "Vendor@123", "Vendor Master Password")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.ItemMaster, "Item@123", "Item Master Password")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.UserMaster, "User@123", "User Master Password")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.CustomerMaster, "Customer@123", "Customer Master Password")
         InsertDefaultValueFixedParameter(clsFixedParameterType.POAmendmentType, clsFixedParameterCode.POAmendment, "admin@123", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.BulkInvoiceDeleteType, clsFixedParameterCode.BulkInvoiceDelete, "tecxpert@123", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Importbulkdatafromexcelsheet, clsFixedParameterCode.Importbulkdatafromexcelsheet, "RakeshSharma", "")

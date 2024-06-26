@@ -189,6 +189,7 @@ Partial Class rptProductionStatusReport
         Me.RadGroupBox1.Size = New System.Drawing.Size(173, 46)
         Me.RadGroupBox1.TabIndex = 394
         Me.RadGroupBox1.Text = "Item Type"
+        Me.RadGroupBox1.Visible = False
         '
         'rdbFGItem
         '
