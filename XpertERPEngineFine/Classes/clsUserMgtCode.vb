@@ -2200,6 +2200,7 @@ Public Class clsUserMgtCode
     Public Const rptDcsSecurity As String = "DCS_SEC_RPT"
     Public Const rptDayWiseCol As String = "DAY_WSE_RPT"
     Public Const rptMarginAmt As String = "MRG_AMT_RPT"
+    Public Const rptDCSCredit As String = "DCS_CRD_RPT"
     Public Const rptPaymentCycleWiseReport As String = "PYMT_CYCL_R"
     Public Const rptTempTruckSheetCollectionReport As String = "TEMP_TRCK_R"
     Public Const rptMobileAppMilkCollection As String = "MOB-MLK-R"

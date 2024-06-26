@@ -5537,6 +5537,9 @@ a:
             Else
                 strQuery += ",(select max(TSPL_PURCHASE_ORDER_HEAD_Hist.Abandonment_Date) from TSPL_PURCHASE_ORDER_HEAD_Hist where TSPL_PURCHASE_ORDER_HEAD_Hist.Abandonment_No=TSPL_PURCHASE_ORDER_HEAD.Abandonment_No and PurchaseOrder_No=TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No) as Abandonment_Date"
             End If
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
+                strQuery += " ,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo ,TSPL_TENDER_HEADER.DocumentDate as RALDATE"
+            End If
             strQuery += ",TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No as purchase_no ,convert(varchar,TSPL_PURCHASE_ORDER_HEAD .PurchaseOrder_Date,103) as po_date ,case TSPL_PURCHASE_ORDER_HEAD .PurchaseOrder_Type when 'L'then 'Local' when 'I' then 'Import' when 'J' then 'Job Work' when 'O' then 'Open' when 'S' then 'Specific'else 'Null' end as po_type ,tspl_purchase_order_head.vendor_name,TSPL_PURCHASE_ORDER_HEAD .Vendor_Code as vendor_type,TSPL_PURCHASE_ORDER_HEAD .Terms_Code as termscode ,TSPL_PURCHASE_ORDER_HEAD .Ref_No as ref_no ,TSPL_PURCHASE_ORDER_HEAD .Comments as comments ,TSPL_PURCHASE_ORDER_HEAD.Comment1,TSPL_PURCHASE_ORDER_HEAD.Comment2, TSPL_PURCHASE_ORDER_HEAD.Comment3,TSPL_PURCHASE_ORDER_HEAD.Comment4,TSPL_PURCHASE_ORDER_HEAD.Comment5,TSPL_PURCHASE_ORDER_HEAD.Comment6,TSPL_PURCHASE_ORDER_HEAD.Comment7,TSPL_PURCHASE_ORDER_HEAD.Comment8,TSPL_PURCHASE_ORDER_HEAD.Comment9,TSPL_PURCHASE_ORDER_HEAD.Comment10,TSPL_PURCHASE_ORDER_HEAD.Comment11,TSPL_PURCHASE_ORDER_HEAD.Comment12,TSPL_PURCHASE_ORDER_HEAD.Comment13,TSPL_PURCHASE_ORDER_HEAD.Comment14,TSPL_LOCATION_MASTER.Range_Name,TSPL_LOCATION_MASTER.Range_Address,TSPL_PURCHASE_ORDER_HEAD .Discount_Amt as dis_amt,TSPL_PURCHASE_ORDER_DETAIL.Disc_Amt as dis_amt1,TSPL_PURCHASE_ORDER_HEAD.Amount_Less_Discount  as aftrdiscount ,TSPL_PURCHASE_ORDER_HEAD .PO_Total_Amt as Total_amount,TSPL_PURCHASE_ORDER_HEAD.Discount_Base as bfrdisc_amount,tax1.Tax_Code_Desc as tax1name,isnull (TSPL_PURCHASE_ORDER_HEAD.tax1_amt,0) as txt1amt,tax2.Tax_Code_Desc as tax2name,isnull (TSPL_PURCHASE_ORDER_HEAD.tax2_amt,0) as txt2amt,tax3.Tax_Code_Desc as tax3name,isnull (TSPL_PURCHASE_ORDER_HEAD.tax3_amt,0) as txt3amt,tax4.Tax_Code_Desc as tax4name,isnull (TSPL_PURCHASE_ORDER_HEAD.tax4_amt,0) as txt4amt,tax5.Tax_Code_Desc as tax5name,isnull (TSPL_PURCHASE_ORDER_HEAD.tax5_amt,0) as txt5amt,tax6.Tax_Code_Desc as tax6name,isnull (TSPL_PURCHASE_ORDER_HEAD.tax6_amt,0) as txt6amt,tax7.Tax_Code_Desc as tax7name,isnull (TSPL_PURCHASE_ORDER_HEAD.tax7_amt,0) as txt7amt,tax8.Tax_Code_Desc as tax8name,isnull (TSPL_PURCHASE_ORDER_HEAD.tax8_amt,0) as txt8amt,isnull (TSPL_PURCHASE_ORDER_HEAD.tax9_amt,0) as txt9amt,tax10.Tax_Code_Desc as tax10name,isnull (TSPL_PURCHASE_ORDER_HEAD.tax10_amt,0) as txt10amt,isnull(TSPL_PURCHASE_ORDER_HEAD .Total_Tax_Amt,0) as total_tax_amt, TSPL_PURCHASE_ORDER_DETAIL.Amt_Less_Discount,  " &
               " TSPL_LOCATION_MASTER.HOAdd1, TSPL_LOCATION_MASTER.HOAdd2, " &
             " TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name1 as Add1Desc, " &
@@ -5587,7 +5590,11 @@ a:
             " ,isnull(tspl_Gl_segment_code.Email_Department,'') as Email_Department" &
             " ,tspl_vendor_master.Account_No,tspl_vendor_master.bank_name,tspl_vendor_master.IFSC_CODE,tspl_vendor_master.Branch_Name " &
             " from TSPL_PURCHASE_ORDER_DETAIL " & Environment.NewLine +
-            " left outer join TSPL_PURCHASE_ORDER_HEAD  on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No =TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No" & Environment.NewLine +
+            " left outer join TSPL_PURCHASE_ORDER_HEAD  on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No =TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No"
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
+                    strQuery += "   left outer join TSPL_TENDER_HEADER  on TSPL_TENDER_HEADER.DocumentCode =TSPL_PURCHASE_ORDER_HEAD.RefTendorNo"
+             END If
+        strQuery +=
             " left outer join tspl_Gl_segment_code on tspl_Gl_segment_code.Segment_code=TSPL_PURCHASE_ORDER_HEAD.Dept and tspl_Gl_segment_code.Seg_No=3 " & Environment.NewLine +
             " Left Outer Join TSPL_VENDOR_ITEM_DETAIL ON TSPL_VENDOR_ITEM_DETAIL.item_no=TSPL_PURCHASE_ORDER_DETAIL.Item_Code AND TSPL_VENDOR_ITEM_DETAIL.vendor_code=TSPL_PURCHASE_ORDER_HEAD.Vendor_Code AND TSPL_VENDOR_ITEM_DETAIL.Location_Code=TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location" & Environment.NewLine +
             " left outer join TSPL_REQUISITION_HEAD on TSPL_REQUISITION_HEAD.Requisition_Id=TSPL_PURCHASE_ORDER_HEAD.Against_Requisition" & Environment.NewLine +
@@ -5630,7 +5637,7 @@ a:
                 "left outer join tspl_location_master as Ship_Location on TSPL_PURCHASE_ORDER_HEAD.Ship_To_Location =Ship_Location.location_code  " & Environment.NewLine +
                 " left outer join TSPL_Additional_Charges on TSPL_Additional_Charges.Code = TSPL_PURCHASE_ORDER_DETAIL.Item_Code and TSPL_PURCHASE_ORDER_DETAIL.Row_Type='Misc' " & Environment.NewLine +
             " where 2=2"
-            strQuery += " and TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No in ('" + StrDocNo + "') "
+        strQuery += " and TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No in ('" + StrDocNo + "') "
             strQuery += " order by TSPL_PURCHASE_ORDER_HEAD .PurchaseOrder_No ,TSPL_PURCHASE_ORDER_DETAIL .Line_No"
         End If
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQuery, tran)
@@ -5837,6 +5844,9 @@ a:
                     Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-GBKN", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
                     Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-GALW", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
+                    Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-G-SKR", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
+
                 Else
                     Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
                 End If
