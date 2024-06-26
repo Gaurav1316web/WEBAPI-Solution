@@ -5167,6 +5167,9 @@ Public Class MDI
                         ' frm = New FrmSaleRegisterDemo()
                         frm = New RptSaleRegisterReportForAdv(strProgramCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptSalesCancelledRegister
+                        frm = New RptSalesCancelledRegister
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.MISSaleRegisterWithCSASalePatti
                         'frm = New RptSaleRegisterReportWithCSASalePatti(strProgramCode)
                         '' changed by panch raj on 02-05-18 against ticket No: UDL/27/04/18-000143
