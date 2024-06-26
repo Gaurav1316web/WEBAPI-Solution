@@ -5167,8 +5167,8 @@ Public Class MDI
                         ' frm = New FrmSaleRegisterDemo()
                         frm = New RptSaleRegisterReportForAdv(strProgramCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.rptSalesCancelledRegister
-                        'frm = New RptSalesCancelledRegister
+                    Case clsUserMgtCode.rptSalesCancelledRegister2
+                        frm = New RptSalesCancelledRegister2
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.MISSaleRegisterWithCSASalePatti
                         'frm = New RptSaleRegisterReportWithCSASalePatti(strProgramCode)
@@ -9091,6 +9091,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmDemandAdjustment
                         frm = New frmDemandAdjustment
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmDemandUploader
+                        frm = New frmDemandUploader
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmDemandApproval
                         frm = New frmDemandApproval

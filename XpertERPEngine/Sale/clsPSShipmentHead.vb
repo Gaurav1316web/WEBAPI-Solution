@@ -474,7 +474,7 @@ Public Class clsPSShipmentHead
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmSaleDispatchDairy, obj.Bill_To_Location, obj.Document_Date, trans)
             clsSerializeInvenotry.DeleteData("SD-IN", obj.Document_Code, trans)
             If IsDairyModule = False Then
-                clsBatchInventory.DeleteData("PS-SH", obj.Document_Code, trans)
+                clsBatchInventory.DeleteData("FS-SH", obj.Document_Code, trans)
             Else
                 TransType_Str = obj.Trans_Type
                 TransType_Str = TransType_Str & "-SH"
@@ -2249,7 +2249,7 @@ Public Class clsPSShipmentHead
                 End If
             Next
             If IsDairyModule = False Then
-                clsInventoryMovement.SaveData("PS-SH", obj.Document_Code, obj.Document_Date, clsCommon.GetPrintDate(obj.Document_Date, "dd/MM/yyyy"), ArrInventoryMovement, trans, Nothing, ExtraWhrForAvg)
+                clsInventoryMovement.SaveData("FS-SH", obj.Document_Code, obj.Document_Date, clsCommon.GetPrintDate(obj.Document_Date, "dd/MM/yyyy"), ArrInventoryMovement, trans, Nothing, ExtraWhrForAvg)
             Else
                 TransType_Str = obj.Trans_Type
                 TransType_Str = TransType_Str & "-SH"
@@ -2422,7 +2422,7 @@ Public Class clsPSShipmentHead
                         ''richa agarwal 27 Dec,2018 BHA/27/11/18-000718
                         Dim TransType_Str As String = ""
                         If IsDairyModule = False Then
-                            TransType_Str = "PS-SH"
+                            TransType_Str = "FS-SH"
                         Else
                             TransType_Str = obj.Trans_Type & "-SH"
                         End If
@@ -4171,9 +4171,9 @@ Public Class clsPSShipmentHeadDetail
                 Dim checkstockmrpwise As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.checkstockMRPwise, clsFixedParameterCode.checkstockMRPwise, trans)) = 0, False, True)
                 If IsDairyModule = False Then
                     If checkstockmrpwise Then
-                        clsBatchInventory.SaveData("PS-SH", strDocNo, DocDate, "O", obj.Item_Code, obj.Location, obj.Line_No, obj.MRP, obj.Unit_code, obj.arrBatchItem, trans)
+                        clsBatchInventory.SaveData("FS-SH", strDocNo, DocDate, "O", obj.Item_Code, obj.Location, obj.Line_No, obj.MRP, obj.Unit_code, obj.arrBatchItem, trans)
                     Else
-                        clsBatchInventory.SaveData("PS-SH", strDocNo, DocDate, "O", obj.Item_Code, obj.Location, obj.Line_No, 0, obj.Unit_code, obj.arrBatchItem, trans)
+                        clsBatchInventory.SaveData("FS-SH", strDocNo, DocDate, "O", obj.Item_Code, obj.Location, obj.Line_No, 0, obj.Unit_code, obj.arrBatchItem, trans)
                     End If
                 Else
                     If checkstockmrpwise Then
