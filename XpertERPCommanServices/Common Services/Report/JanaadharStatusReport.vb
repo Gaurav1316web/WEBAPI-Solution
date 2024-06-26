@@ -20,13 +20,13 @@ Public Class JanaadharStatusReport
             Dim docNo As String = ""
             query = " 
     SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') "
-            'If chkRJSBNS.Checked Then
-            '    query += "union all
-            'SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
-            'union all
-            'SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
-            'ORDER BY Location_Name"
-            'End If
+            If chkRJSBNS.Checked Then
+                query += "union all
+            SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
+            union all
+            SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
+            ORDER BY Location_Name"
+            End If
             dt = clsDBFuncationality.GetDataTable(query)
             query = ""
 

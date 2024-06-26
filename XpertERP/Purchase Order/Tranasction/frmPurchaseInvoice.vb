@@ -8684,10 +8684,10 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
 						and TSPL_TENDER_SCHEDULE.item_code in(" + ItemCode + ") and TSPL_TENDER_SCHEDULE.Location_Code='" + txtBillToLocation.Value + "' and TSPL_TENDER_SCHEDULE.Vendor_Code ='" + txtVendorNo.Value + "' AND
 						TSPL_TENDER_SCHEDULE.Schedule_No=1
                     where TSPL_SRN_head.Bill_To_Location='" + txtBillToLocation.Value + "' AND TSPL_SRN_DETAIL.Item_Code in (" + ItemCode + ") AND TSPL_SRN_HEAD.Vendor_Code='" + txtVendorNo.Value + "' AND TSPL_GRN_HEAD.REF_NO='" + txtRefNo.Text + "'
-                    AND GRN_Date<=(Select MAX(GRN_Date) GRNDATE  from TSPL_GRN_HEAD 
+                    AND convert(date,GRN_Date,103)<=(Select MAX(convert(date,GRN_Date,103)) GRNDATE  from TSPL_GRN_HEAD 
                     --left outer join TSPL_SRN_DETAIL on TSPL_SRN_DETAIL.srn_no=TSPL_SRN_head.srn_no
                     WHERE TSPL_GRN_HEAD.GRN_No IN (SELECT GRN_ID FROM TSPL_PI_DETAIL WHERE pi_no='" + txtDocNo.Value + "'))
-					 AND convert(date,TSPL_GRN_HEAD.GRN_Date,103) BETWEEN dateadd(day,TSPL_TENDER_SCHEDULE.Extension_Days,TSPL_TENDER_SCHEDULE.FROM_DATE) AND dateadd(day,TSPL_TENDER_SCHEDULE.Extension_Days,TSPL_TENDER_SCHEDULE.TO_DATE)")
+					 AND convert(date,TSPL_GRN_HEAD.GRN_Date,103)<= dateadd(day,TSPL_TENDER_SCHEDULE.Extension_Days,TSPL_TENDER_SCHEDULE.TO_DATE)")
             End If
             If objCommonVar.RCDFCFP Then
                 qry = " SELECT ss.*," + SRNQTTY + " as SRNQTTY," + SRNQTTY1stsch + " as SRNQtyInQtl1stsch,ss.RALQty - " + SRNQTTY + " as QWNSWNQTY,(select  CAST(sum(TSPL_SRN_DETAIL.SRN_Qty) AS DECIMAL(18,2)) as SRNQtyInQtl from TSPL_PI_DETAIL 
