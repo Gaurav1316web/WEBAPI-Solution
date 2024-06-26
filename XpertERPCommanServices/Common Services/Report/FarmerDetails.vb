@@ -21,7 +21,7 @@ Public Class FarmerDetails
                               where [TSPL_APP_LOCATION].DataBase_Name=  '" + Range + "' "))
 
             Dim query As String = ""
-            query = "   SELECT '" + UnionName + "' as Union,X.MP_Code,TSPL_MP_MASTER.MP_Name,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,
+            query = "   SELECT '" + UnionName + "' as UnionName,X.MP_Code,TSPL_MP_MASTER.MP_Name,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,
                         ISNULL(TSPL_MP_MASTER.Jan_Aadhar_No_Verified,0) AS Jan_Aadhar_No_Verified,TSPL_MP_MASTER.Telphone,TSPL_MP_MASTER.BankName,
                         TSPL_MP_MASTER.IFCICode,TSPL_MP_MASTER.AccountNO
                         FROM

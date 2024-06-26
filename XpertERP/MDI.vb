@@ -5167,6 +5167,9 @@ Public Class MDI
                         ' frm = New FrmSaleRegisterDemo()
                         frm = New RptSaleRegisterReportForAdv(strProgramCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptSalesCancelledRegister2
+                        frm = New RptSalesCancelledRegister2
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.MISSaleRegisterWithCSASalePatti
                         'frm = New RptSaleRegisterReportWithCSASalePatti(strProgramCode)
                         '' changed by panch raj on 02-05-18 against ticket No: UDL/27/04/18-000143
@@ -8357,6 +8360,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptDcsSecurity
                         frm = New rptDCSSecurity
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptDCSCredit
+                        frm = New rptDCSCredit
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptDayWiseCol
                         frm = New rptDayWiseCollection
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
@@ -9085,6 +9091,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmDemandAdjustment
                         frm = New frmDemandAdjustment
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmDemandUploader
+                        frm = New frmDemandUploader
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmDemandApproval
                         frm = New frmDemandApproval

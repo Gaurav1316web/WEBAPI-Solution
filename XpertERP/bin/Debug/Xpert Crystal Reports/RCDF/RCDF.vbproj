@@ -1355,6 +1355,7 @@
     <None Include="Crystal Reports\Milk Procurement\crptDBTFarmerWiseBankSummary.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBTNEFTUploader.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBT_NEFTUnionReport.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptDcsCredit.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDCSLedgerReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDcsSecurity.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptIncentiveEntryBySRN.rpt" />
@@ -1557,6 +1558,7 @@
     <None Include="Crystal Reports\Purchase Order\PO-G - Copy.rpt" />
     <None Include="Crystal Reports\Purchase Order\PO-G old1.rpt" />
     <None Include="Crystal Reports\Purchase Order\PO-G-PLI.rpt" />
+    <None Include="Crystal Reports\Purchase Order\PO-G-SKR.rpt" />
     <None Include="Crystal Reports\Purchase Order\PO-G.rpt" />
     <None Include="Crystal Reports\Purchase Order\PO-V.rpt" />
     <None Include="Crystal Reports\Purchase Order\POReport\FrmPurchaseOrderReport-G.rpt" />
@@ -1612,6 +1614,7 @@
     <None Include="Crystal Reports\Purchase Order\SRNReport.rpt" />
     <None Include="Crystal Reports\Purchase Order\SRNReport17042012With out Landed Cost.rpt" />
     <None Include="Crystal Reports\Purchase Order\SRNReportThroughReport-G - Copy.rpt" />
+    <None Include="Crystal Reports\Purchase Order\SRNReportThroughReport-G-SKR.rpt" />
     <None Include="Crystal Reports\Purchase Order\SRNReportThroughReport-G.rpt" />
     <None Include="Crystal Reports\Purchase Order\SRNReportThroughReport.rpt" />
     <None Include="Crystal Reports\Purchase Order\SRNReportThroughReportOLD.rpt" />
