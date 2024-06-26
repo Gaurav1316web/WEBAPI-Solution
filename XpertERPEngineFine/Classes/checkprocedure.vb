@@ -570,11 +570,12 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmClaimReport, "Claim Report", "1.06.03.26", clsUserMgtCode.SubModuleSaleNewReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmDealerManagementReport, "Sales Dealer Report", "1.06.03.27", clsUserMgtCode.SubModuleSaleNewReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmProspectDetailReport, "Prospect Detail Report", "1.06.03.28", clsUserMgtCode.SubModuleSaleNewReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptSaleRegisterForAdv, "Sales Register Report", "1.06.03.28", clsUserMgtCode.SubModuleSaleNewReport, 37)
-        InsertDefaultValue(clsUserMgtCode.AuditTrailSaleAndDistribution, "Sale And Distribution Audit Trail Report", "1.06.03.29", clsUserMgtCode.SubModuleSaleNewReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptSalesReport, "Sales Report", "1.06.03.30", clsUserMgtCode.SubModuleSaleNewReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptDCSSaleRegister, "DCS Sale Register", "1.06.03.31", clsUserMgtCode.SubModuleSaleNewReport, 37)
-        InsertDefaultValue(clsUserMgtCode.saleconsignee, "Sale Consignee", "1.06.03.32", clsUserMgtCode.SubModuleSaleNewReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptSaleRegisterForAdv, "Sales Register Report", "1.06.03.29", clsUserMgtCode.SubModuleSaleNewReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptSalesCancelledRegister, "Sales Cancelled Register", "1.06.03.30", clsUserMgtCode.SubModuleSaleNewReport, 37)
+        InsertDefaultValue(clsUserMgtCode.AuditTrailSaleAndDistribution, "Sale And Distribution Audit Trail Report", "1.06.03.31", clsUserMgtCode.SubModuleSaleNewReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptSalesReport, "Sales Report", "1.06.03.32", clsUserMgtCode.SubModuleSaleNewReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDCSSaleRegister, "DCS Sale Register", "1.06.03.33", clsUserMgtCode.SubModuleSaleNewReport, 37)
+        InsertDefaultValue(clsUserMgtCode.saleconsignee, "Sale Consignee", "1.06.03.34", clsUserMgtCode.SubModuleSaleNewReport, 37)
 
 
 
