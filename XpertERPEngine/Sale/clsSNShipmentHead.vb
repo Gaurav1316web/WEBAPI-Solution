@@ -1091,8 +1091,8 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
                     objTRDID.UOM = clsCommon.myCstr(dr("UOM"))
                     objTRDID.FPKID = clsCommon.myCstr(dr("FPKID"))
                     objTRDID.Frieght_UOM = clsCommon.myCstr(dr("Frieght_UOM"))
-                    objTRDID.Frieght_Rate = clsCommon.myCstr(dr("Frieght_Rate"))
-                    objTRDID.Frieght_Amt = clsCommon.myCstr(dr("Frieght_Amt"))
+                    objTRDID.Frieght_Rate = clsCommon.myCdbl(dr("Frieght_Rate"))
+                    objTRDID.Frieght_Amt = clsCommon.myCdbl(dr("Frieght_Amt"))
                     obj.ArrDCSItem.Add(objTRDID)
                 Next
             End If

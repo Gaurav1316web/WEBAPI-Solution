@@ -1844,6 +1844,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptPerodicalDispatchReport, "Periodical Dispatch Report", "1.17.03.124", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDBTCappingReport, "DBT Capping Report", "1.17.03.125", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptHeadLoadReport, "Head Load  Report", "1.17.03.126", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDCSCredit, "DCS Credit Report", "1.17.03.127", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
 
         '' Anubhooti 05-Aug-2014

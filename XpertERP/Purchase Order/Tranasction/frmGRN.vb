@@ -427,7 +427,7 @@ Public Class frmGRN
         Else
             RadPageViewPage5.Item.Visibility = ElementVisibility.Collapsed
         End If
-
+        Cancelbtn.Enabled = False
     End Sub
 
     Sub AllowDepartmentMandatoryOnPurchaseCycle()
@@ -517,9 +517,9 @@ Public Class frmGRN
         'Else
         'cboItemType.DataSource = clsItemMaster.GetItemType()
         Dim Whr = " AND IS_NON_INVENTORY=0   AND ITEM_TYPE_CODE NOT IN('J') "
-            cboItemType.DataSource = clsItemMaster.getItemTypeQuery(Whr)
-            cboItemType.ValueMember = "Code"
-            cboItemType.DisplayMember = "Name"
+        cboItemType.DataSource = clsItemMaster.getItemTypeQuery(Whr)
+        cboItemType.ValueMember = "Code"
+        cboItemType.DisplayMember = "Name"
         ' End If
     End Sub
 
@@ -3547,8 +3547,8 @@ Public Class frmGRN
             If clsERPFuncationality.GetGSTStatus(txtDate.Value) AndAlso IsSkip = False Then
                 'If ShowItemAllStructureWise = False Then
                 If clsCommon.CompairString(cboItemType.SelectedValue, "N") <> CompairStringResult.Equal Then
-                        Dim taxamt As Decimal = clsCommon.myCdbl(gv1.Rows(ii).Cells(colTotTaxAmt).Value)
-                        Dim HSNCode As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colHSNNo).Value)
+                    Dim taxamt As Decimal = clsCommon.myCdbl(gv1.Rows(ii).Cells(colTotTaxAmt).Value)
+                    Dim HSNCode As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colHSNNo).Value)
 
                     If clsCommon.myCdbl(taxamt) > 0 AndAlso clsCommon.myLen(HSNCode) <= 0 Then
                         clsCommon.MyMessageBoxShow("HSN Code is Mandatory. At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
@@ -4155,7 +4155,7 @@ Public Class frmGRN
             isInsideLoadData = True
             isNewEntry = False
             txtReqNo.Enabled = True
-
+            Cancelbtn.Enabled = True
             txtRgp_no.Enabled = True
             txtSch_No.Enabled = True
             chkRGPNonInventory.Enabled = True
@@ -4187,9 +4187,9 @@ Public Class frmGRN
                     btn_Amendment.Enabled = True
                     btnDelete.Enabled = False
                     repoComplete.IsVisible = True
-                    btncancel.Visible = True
-                    Cancelbtn.Visible = True
                     Cancelbtn.Enabled = True
+                    'btncancel.Visible = True
+                    'Cancelbtn.Visible = True
                     'btn_Cancels.Visible = True
                     'btn_Cancels.Enabled = True
                     'If Not clsGRNHead.CheckGRNUsedInSRNorMRN(clsCommon.myCstr(obj.GRN_No), Nothing) Then
@@ -7844,65 +7844,186 @@ inner join tspl_tender_header on tspl_tender_header.DocumentCode=TSPL_GRN_HEAD.R
                 clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
                 Exit Sub
             End If
-            If clsCommon.myLen(txtDocNo.Value) > 0 Then
-                If clsCommon.MyMessageBoxShow("Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
-                    Exit Sub
-                End If
-                Dim frm1 As New FrmPWD(Nothing)
-                frm1.strType = "PO Cancel"
-                frm1.strCode = "PO Cancel"
-                frm1.ShowDialog()
-                If frm1.isPasswordCorrect Then
-                    Dim iscancel As Boolean = False
-                    If common.clsCommon.MyMessageBoxShow("Do you want to cancel the GRN?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
-                        Dim qry1 As String = "select distinct MRN_No from TSPL_MRN_DETAIL where GRN_Id ='" + clsCommon.myCstr(txtDocNo.Value) + "'"
-                        If clsGRNHead.CheckGRNUsedInSRNorMRN(clsCommon.myCstr(txtDocNo.Value), Nothing) Then
-                            Throw New Exception("GRN can not be cancelled because it is used in SRN/MRN.")
-                        Else
-                            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry1)
-                            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                                qry1 = "GRN is used in following MRN"
-                                For Each dr As DataRow In dt.Rows
-                                    qry1 += Environment.NewLine + clsCommon.myCstr(dr("MRN_No"))
-                                Next
-                                qry1 += Environment.NewLine + "Can't cancel it"
-                                clsCommon.MyMessageBoxShow(qry1)
-                                Exit Sub
-                            End If
-                            Dim Reason As String = ""
-                            If (myMessages.CancelConfirms(Me)) Then
-                                clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtDocNo.Value))
-                                If clsCancelLog.CheckForReasonOnDelete() Then
-                                    '' REASON FOR DELETE 
-                                    Dim frm As New FrmFreeTxtBox1
-                                    frm.Text = "Remarks for Cancel"
-                                    frm.ShowDialog()
-                                    If clsCommon.myLen(frm.strRmks) <= 0 Then
-                                        Exit Sub
-                                    Else
-                                        Reason = frm.strRmks
-                                    End If
-                                End If
-                                If clsGRNHead.GRNCancel(Me.Form_ID, clsCommon.myCstr(txtDocNo.Value)) Then
-                                    saveCancelLog(Reason, "Cancel", Nothing)
-                                    clsCommon.MyMessageBoxShow(Me, "Data Cancel Successfully ", Me.Text)
-                                    AddNew()
-                                End If
-                            End If
-                        End If
+
+            If clsCommon.MyMessageBoxShow("Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = DialogResult.No Then
+                Exit Sub
+            End If
+
+            Dim frm1 As New FrmPWD(Nothing)
+            frm1.strType = "PO Cancel"
+            frm1.strCode = "PO Cancel"
+            frm1.ShowDialog()
+
+            If Not frm1.isPasswordCorrect Then
+                Exit Sub
+            End If
+
+            Dim iscancel As Boolean = False
+
+            Dim qry As String = "select distinct mrn_no as Code from TSPL_mrn_DETAIL where GRN_Id ='" + clsCommon.myCstr(txtDocNo.Value) + "'" &
+                   " UNION " &
+                   "select distinct Weighment_Code as Code from TSPL_PO_WEIGHTMENT_HEAD where Against_GRN_No ='" + clsCommon.myCstr(txtDocNo.Value) + "'"
+            ' Check if there are related MRN records
+            'Dim qry1 As String = "select distinct mrn_no from TSPL_mrn_DETAIL where GRN_Id ='" + clsCommon.myCstr(txtDocNo.Value) + "'"
+            'Dim dtmrn_no As DataTable = clsDBFuncationality.GetDataTable(qry1)
+            'If dtmrn_no IsNot Nothing AndAlso dtmrn_no.Rows.Count > 0 Then
+            '    iscancel = False
+            'Else
+            '    iscancel = True
+            'End If
+
+            ' Check if there are related PO Weighment records
+            'Dim qry As String = "select distinct Weighment_Code from TSPL_PO_WEIGHTMENT_HEAD where Against_GRN_No ='" + clsCommon.myCstr(txtDocNo.Value) + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                iscancel = False
+            Else
+
+                iscancel = True
+            End If
+
+            Dim Reason As String = ""
+
+            If iscancel = False Then
+                Dim item As String = clsDBFuncationality.getSingleValue("select item_code from TSPL_GRN_DETAIL where GRN_No='" + txtDocNo.Value + "'")
+                Dim queryString As String = "select isnull(TSPL_ITEM_MASTER.Is_Auto_Weighment,1) as Is_Auto_Weighment from TSPL_ITEM_MASTER WHERE TSPL_ITEM_MASTER.ITEM_CODE='" + item + "'"
+                Dim DataTable As DataTable = clsDBFuncationality.GetDataTable(queryString)
+
+                If DataTable IsNot Nothing AndAlso DataTable.Rows.Count > 0 Then
+                    Dim isAutoWeighment As Decimal = clsCommon.myCDecimal(DataTable.Rows(0)("Is_Auto_Weighment"))
+
+                    If isAutoWeighment > 0 Then
+                        clsGRNHead.CheckGRNUsedInPOWEIGMNETS(clsCommon.myCstr(txtDocNo.Value), Nothing)
+                        Throw New Exception("GRN cannot be cancelled because it is used in PO Weighment.")
+                    Else
+                        clsGRNHead.CheckGRNUsedInSRNorMRN(clsCommon.myCstr(txtDocNo.Value), Nothing)
+                        Throw New Exception("GRN cannot be cancelled because it is used in MRN.")
                     End If
                 End If
-                AddNew()
+            Else
+
+
+                If (myMessages.CancelConfirms(Me)) Then
+
+                    clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtDocNo.Value))
+
+                    If clsCancelLog.CheckForReasonOnDelete() Then
+                        ' REASON FOR DELETE 
+                        Dim frm As New FrmFreeTxtBox1
+                        frm.Text = "Remarks for Cancel"
+                        frm.ShowDialog()
+
+                        If clsCommon.myLen(frm.strRmks) <= 0 Then
+                            Exit Sub
+                        Else
+                            Reason = frm.strRmks
+                        End If
+                    End If
+
+                    If clsGRNHead.GRNCancel(Me.Form_ID, clsCommon.myCstr(txtDocNo.Value)) Then
+                        saveCancelLog(Reason, "Cancel", Nothing)
+                        clsCommon.MyMessageBoxShow(Me, "Data Cancel Successfully ", Me.Text)
+                        AddNew()
+                    End If
+                End If
+
             End If
+            'AddNew() ' Ensure AddNew is called outside the cancellation block
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+
+    'Sub CancelGRNData()
+    '    Try
+    '        If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+    '            clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
+    '            Exit Sub
+    '        End If
+    '        If clsCommon.myLen(txtDocNo.Value) > 0 Then
+    '            If clsCommon.MyMessageBoxShow("Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+    '                Exit Sub
+    '            End If
+    '            Dim frm1 As New FrmPWD(Nothing)
+    '            frm1.strType = "PO Cancel"
+    '            frm1.strCode = "PO Cancel"
+    '            frm1.ShowDialog()
+    '            If frm1.isPasswordCorrect Then
+    '                Dim iscancel As Boolean = False
+    '                Dim itemcode As Double
+    '                If common.clsCommon.MyMessageBoxShow("Do you want to cancel the GRN?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+    '                    Dim qry1 As String = clsDBFuncationality.getSingleValue("select distinct mrn_no from TSPL_mrn_DETAIL where GRN_Id ='" + clsCommon.myCstr(txtDocNo.Value) + "'")
+    '                    Dim qry As String = clsDBFuncationality.getSingleValue("select distinct Weighment_Code from TSPL_PO_WEIGHTMENT_HEAD where Against_GRN_No ='" + clsCommon.myCstr(txtDocNo.Value) + "'")
+
+
+    '                    Dim dtmrn_no As DataTable = clsDBFuncationality.GetDataTable(qry1)
+    '                    If dtmrn_no IsNot Nothing AndAlso dtmrn_no.Rows.Count > 0 Then
+    '                        iscancel = True
+    '                    Else
+    '                        iscancel = False
+    '                    End If
+
+    '                    Dim dtPO_WEIGHTMENT As DataTable = clsDBFuncationality.GetDataTable(qry)
+    '                    If dtPO_WEIGHTMENT IsNot Nothing AndAlso dtPO_WEIGHTMENT.Rows.Count > 0 Then
+    '                        iscancel = True
+    '                    Else
+    '                        iscancel = False
+    '                    End If
+
+    '                    If iscancel Then 'Dim qry1 As String = "select distinct GRN_No from TSPL_GRN_DETAIL where GRN_No ='" + clsCommon.myCstr(txtDocNo.Value) + "'"
+    '                        Dim item As String = clsDBFuncationality.getSingleValue("select item_code from TSPL_GRN_DETAIL where GRN_No='" + txtDocNo.Value + "'")
+    '                        '--check item Auto_Weighment on item master 
+
+    '                        Dim queryString As String = "select isnull(TSPL_ITEM_MASTER.Is_Auto_Weighment,1) as Is_Auto_Weighment from TSPL_ITEM_MASTER WHERE TSPL_ITEM_MASTER.ITEM_CODE='" + item + "'"
+    '                        Dim DataTable As DataTable = clsDBFuncationality.GetDataTable(queryString)
+    '                        If DataTable IsNot Nothing AndAlso DataTable.Rows.Count > 0 Then
+    '                            If clsCommon.myCDecimal(DataTable.Rows(0)("Is_Auto_Weighment")) > 0 Then
+    '                                clsGRNHead.CheckGRNUsedInPOWEIGMNETS(clsCommon.myCstr(txtDocNo.Value), Nothing)
+    '                                Throw New Exception("GRN can not be cancelled because it is used in PO Weighment.")
+    '                            Else
+    '                                clsGRNHead.CheckGRNUsedInSRNorMRN(clsCommon.myCstr(txtDocNo.Value), Nothing)
+    '                                Throw New Exception("GRN can not be cancelled because it is used in MRN.")
+    '                            End If
+    '                        End If
+    '                    End If
+    '                    Dim Reason As String = ""
+    '                    'If (myMessages.CancelConfirms(Me)) Then
+    '                    If iscancel = True Then
+    '                        If (myMessages.CancelConfirms(Me)) Then
+    '                            clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtDocNo.Value))
+    '                            If clsCancelLog.CheckForReasonOnDelete() Then
+    '                                '' REASON FOR DELETE 
+    '                                Dim frm As New FrmFreeTxtBox1
+    '                                frm.Text = "Remarks for Cancel"
+    '                                frm.ShowDialog()
+    '                                If clsCommon.myLen(frm.strRmks) <= 0 Then
+    '                                    Exit Sub
+    '                                Else
+    '                                    Reason = frm.strRmks
+    '                                End If
+    '                            End If
+    '                            If clsGRNHead.GRNCancel(Me.Form_ID, clsCommon.myCstr(txtDocNo.Value)) Then
+    '                                saveCancelLog(Reason, "Cancel", Nothing)
+    '                                clsCommon.MyMessageBoxShow(Me, "Data Cancel Successfully ", Me.Text)
+    '                                AddNew()
+    '                            End If
+    '                        End If
+    '                    End If
+    '                End If
+    '            End If
+    '            End If
+    '            AddNew()
+    '        'End If
+    '    Catch ex As Exception
+    '        common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '    End Try
+    'End Sub
     Private Sub Cancelbtn_Click(sender As Object, e As EventArgs) Handles Cancelbtn.Click
         Try
             CancelGRNData()
         Catch ex As Exception
-        common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

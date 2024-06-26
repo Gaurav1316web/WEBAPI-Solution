@@ -172,7 +172,70 @@ Public Class ProductionEntryReport
                     left outer join TSPL_ITEM_MASTER ON TSPL_PP_CONSUMPTION_WITHOUT_BATCH.Main_ITEM_CODE=TSPL_ITEM_MASTER.ITEM_CODE
                     left outer join TSPL_LOCATION_MASTER ON TSPL_PP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE=TSPL_LOCATION_MASTER.LOCATION_CODE
                     WHERE convert(date,TSPL_PP_PRODUCTION_ENTRY.PROD_DATE ,103)>=convert(date,'" + fromDate.Value + "',103) and convert(date,TSPL_PP_PRODUCTION_ENTRY.PROD_DATE ,103) <=convert(date,'" + ToDate.Value + "',103) 
-                     " + whr + " "
+                     " + whr + " union all
+                     select MAX(case when (final.InOut)='I' then final.Document_No end) as Document_No ,
+                      MAX(case when (final.InOut)='I' then final.Document_Date end) as PROD_DATE ,
+                      MAX(case when (final.InOut)='I' then final.BOM_Code end) as BOM_CODE ,
+                      MAX(case when (final.InOut)='I' then final.ITEM_CODE end) as ITEM_CODE ,
+                      MAX(case when (final.InOut)='I' then final.Item_Desc end) as Item_Desc ,
+                      MAX(case when (final.InOut)='I' then final.BATCH_QTY end) as BATCH_QTY ,
+                      MAX(case when (final.InOut)='I' then final.Qty end) as Qty ,
+                      MAX(case when (final.InOut)='I' then final.REJ_HEAD end) as REJ_HEAD ,
+                      MAX(case when (final.InOut)='I' then final.REJ_QTY end) as REJ_QTY ,
+                      MAX(case when (final.InOut)='I' then final.BREAKAGE_HEAD end) as BREAKAGE_HEAD ,
+                      MAX(case when (final.InOut)='I' then final.BREAKAGE_QTY end) as BREAKAGE_QTY ,
+                      MAX(case when (final.InOut)='I' then final.LAB_TESTING end) as LAB_TESTING ,
+                      MAX(case when (final.InOut)='I' then final.START_TIME end) as START_TIME ,
+                      MAX(case when (final.InOut)='I' then final.END_TIME end) as END_TIME ,
+                      MAX(case when (final.InOut)='I' then final.Section_Code end) as Section_Code ,
+                      MAX(case when (final.InOut)='I' then final.Fat_Per end) as Fat_Per ,
+                      MAX(case when (final.InOut)='I' then final.SNF_Per end) as SNF_Per ,
+                      MAX(case when (final.InOut)='I' then final.FAT_KG end) as FAT_KG ,
+                      MAX(case when (final.InOut)='I' then final.SNF_KG end) as SNF_KG ,
+                      MAX(case when (final.InOut)='I' then final.Fat_Rate end) as Fat_Rate ,
+                      MAX(case when (final.InOut)='I' then final.Fat_Amt end) as Fat_Amt ,
+                      MAX(case when (final.InOut)='I' then final.SNF_Rate end) as SNF_Rate ,
+                      MAX(case when (final.InOut)='I' then final.SNF_Amt end) as SNF_Amt ,
+                      MAX(case when (final.InOut)='I' then final.FINAL_PRODUCTION_QTY end) as FINAL_PRODUCTION_QTY ,
+                      MAX(case when (final.InOut)='I' then final.Location_Code end) as Location_Code ,
+                      MAX(case when (final.InOut)='O' then final.Item_Code end) as Main_ITEM_CODE ,
+                      MAX(case when (final.InOut)='O' then final.Item_Desc end) as Main_Item_Desc ,
+                      MAX(case when (final.InOut)='O' then final.BOM_CODE end) as BOM_CODE ,
+                      MAX(case when (final.InOut)='O' then final.UOM end) as MAIN_UOM ,
+                      MAX(case when (final.InOut)='O' then final.Qty end )as CONSM_QTY ,
+                      MAX(case when (final.InOut)='O' then final.Location_Code end) as LOCATION_CODE, 
+                      MAX(case when (final.InOut)='O' then final.UNIT_CODE end) as UNIT_CODE ,
+                      MAX(case when (final.InOut)='O' then final.FIFO_Cost end) as FIFO_Cost ,
+                      MAX(case when (final.InOut)='O' then final.LIFO_Cost end) as LIFO_Cost ,
+                      MAX(case when (final.InOut)='O' then final.Avg_Cost end) as Avg_Cost ,
+                      MAX(case when (final.InOut)='O' then final.PP_FAT_Per end) as PP_FAT_Per ,
+                      MAX(case when (final.InOut)='O' then final.PP_FAT_KG end) as PP_FAT_KG,
+                      MAX(case when (final.InOut)='O' then final.PP_Fat_Amt end) as PP_Fat_Amt ,
+                      MAX(case when (final.InOut)='O' then final.PP_Fat_Rate end )as PP_Fat_Rate ,
+                      MAX(case when (final.InOut)='O' then final.PP_SNF_Per end) as PP_SNF_Per ,
+                      MAX(case when (final.InOut)='O' then final.PP_SNF_KG end) as PP_SNF_KG ,
+                      MAX(case when (final.InOut)='O' then final.PP_SNF_Amt end )as PP_SNF_Amt ,
+                      MAX(case when (final.InOut)='O' then final.PP_SNF_Rate end) as PP_SNF_Rate 
+ 
+                     from( 
+                     select TSPL_INVENTORY_MOVEMENT.InOut,TSPL_PRODUCTION_UPLOADER_DETAIL.Document_No,TSPL_PRODUCTION_UPLOADER_HEAD.Document_Date,TSPL_PRODUCTION_UPLOADER_DETAIL.BOM_CODE,TSPL_PRODUCTION_UPLOADER_DETAIL.ITEM_CODE, TSPL_INVENTORY_MOVEMENT.Item_Desc,0 as BATCH_QTY,TSPL_INVENTORY_MOVEMENT.Qty,0 as REJ_HEAD, 0 as REJ_QTY,0 as BREAKAGE_HEAD,0 as BREAKAGE_QTY,'' as LAB_TESTING,'' as START_TIME,'' as END_TIME,'' as Section_Code,TSPL_INVENTORY_MOVEMENT.Fat_Per as FAT_Per,TSPL_INVENTORY_MOVEMENT.SNF_Per as SNF_Per, TSPL_INVENTORY_MOVEMENT.FAT_KG, TSPL_INVENTORY_MOVEMENT.SNF_KG,
+                      0 as Fat_Rate,0 as Fat_Amt,0 as SNF_Rate,0 as SNF_Amt,0 as FINAL_PRODUCTION_QTY,TSPL_INVENTORY_MOVEMENT.Location_Code,TSPL_PRODUCTION_UPLOADER_DETAIL.UOM,TSPL_INVENTORY_MOVEMENT.UOM AS UNIT_CODE,TSPL_INVENTORY_MOVEMENT.FIFO_Cost,TSPL_INVENTORY_MOVEMENT.LIFO_Cost,TSPL_INVENTORY_MOVEMENT.Avg_Cost,TSPL_INVENTORY_MOVEMENT.FAT_Per as PP_FAT_Per,TSPL_INVENTORY_MOVEMENT.FAT_KG as PP_FAT_KG,
+                      TSPL_INVENTORY_MOVEMENT.Fat_Amt as PP_Fat_Amt,TSPL_INVENTORY_MOVEMENT.Fat_Rate as PP_Fat_Rate,TSPL_INVENTORY_MOVEMENT.SNF_Per as PP_SNF_Per,TSPL_INVENTORY_MOVEMENT.SNF_KG as PP_SNF_KG,TSPL_INVENTORY_MOVEMENT.SNF_Amt as PP_SNF_Amt,TSPL_INVENTORY_MOVEMENT.SNF_Rate as PP_SNF_Rate
+                      from TSPL_INVENTORY_MOVEMENT
+                     left join TSPL_PRODUCTION_UPLOADER_DETAIL on TSPL_PRODUCTION_UPLOADER_DETAIL.PK_ID = TSPL_INVENTORY_MOVEMENT.Source_Doc_No 
+                     LEFT OUTER JOIN TSPL_PRODUCTION_UPLOADER_HEAD ON TSPL_PRODUCTION_UPLOADER_HEAD.Document_No = TSPL_PRODUCTION_UPLOADER_DETAIL.Document_No
+                     WHERE convert(date,TSPL_PRODUCTION_UPLOADER_HEAD.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) and convert(date,TSPL_PRODUCTION_UPLOADER_HEAD.Document_Date ,103) <=convert(date,'" + ToDate.Value + "',103) AND TSPL_INVENTORY_MOVEMENT.Trans_Type='DRY-PRO-UPL' )final GROUP BY Document_No
+                     union all select TSPL_PRODUCTION_UPLOADER_DETAIL.Document_No,TSPL_PRODUCTION_UPLOADER_HEAD.Document_Date,TSPL_PRODUCTION_UPLOADER_DETAIL.BOM_CODE,TSPL_INVENTORY_MOVEMENT.Item_Code, TSPL_INVENTORY_MOVEMENT.Item_Desc,0 as BATCH_QTY,TSPL_INVENTORY_MOVEMENT.Qty,0 as REJ_HEAD, 0 as REJ_QTY,0 as BREAKAGE_HEAD,0 as BREAKAGE_QTY,'' as LAB_TESTING,'' as START_TIME,'' as END_TIME,'' as Section_Code,TSPL_INVENTORY_MOVEMENT.Fat_Per as FAT_Per,TSPL_INVENTORY_MOVEMENT.SNF_Per as SNF_Per, TSPL_INVENTORY_MOVEMENT.FAT_KG, TSPL_INVENTORY_MOVEMENT.SNF_KG,
+                      0 as Fat_Rate,0 as Fat_Amt,0 as SNF_Rate,0 as SNF_Amt,0 as FINAL_PRODUCTION_QTY,TSPL_INVENTORY_MOVEMENT.Location_Code
+					
+					,TSPL_INVENTORY_MOVEMENT_NEW.Item_Code as Main_ITEM_CODE,TSPL_INVENTORY_MOVEMENT_NEW.Item_Desc as Main_Item_Desc,TSPL_PRODUCTION_UPLOADER_DETAIL.BOM_CODE,
+                     TSPL_PRODUCTION_UPLOADER_DETAIL.UOM as MAIN_UOM,TSPL_INVENTORY_MOVEMENT_NEW.Qty as CONSM_QTY,TSPL_INVENTORY_MOVEMENT_NEW.Location_Code as PP_LOCATION_CODE,TSPL_INVENTORY_MOVEMENT_NEW.UOM as UNIT_CODE,TSPL_INVENTORY_MOVEMENT_NEW.FIFO_Cost,TSPL_INVENTORY_MOVEMENT_NEW.LIFO_Cost,TSPL_INVENTORY_MOVEMENT_NEW.Avg_Cost, TSPL_INVENTORY_MOVEMENT_NEW.FAT_Per as PP_FAT_Per,TSPL_INVENTORY_MOVEMENT_NEW.FAT_KG as PP_FAT_KG,
+                    TSPL_INVENTORY_MOVEMENT_NEW.Fat_Amt as PP_Fat_Amt,TSPL_INVENTORY_MOVEMENT_NEW.Fat_Rate as PP_Fat_Rate,TSPL_INVENTORY_MOVEMENT_NEW.SNF_Per as PP_SNF_Per,TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG as PP_SNF_KG,TSPL_INVENTORY_MOVEMENT_NEW.SNF_Amt as PP_SNF_Amt,TSPL_INVENTORY_MOVEMENT_NEW.SNF_Rate as PP_SNF_Rate
+                    from TSPL_INVENTORY_MOVEMENT_NEW
+                   left join TSPL_PRODUCTION_UPLOADER_DETAIL on CAST(TSPL_PRODUCTION_UPLOADER_DETAIL.PK_ID AS varchar) =    TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No 
+                    LEFT OUTER JOIN TSPL_PRODUCTION_UPLOADER_HEAD ON TSPL_PRODUCTION_UPLOADER_HEAD.Document_No = TSPL_PRODUCTION_UPLOADER_DETAIL.Document_No
+                     left join TSPL_INVENTORY_MOVEMENT on TSPL_INVENTORY_MOVEMENT.Source_Doc_No = TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No
+                    WHERE convert(date,TSPL_PRODUCTION_UPLOADER_HEAD.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) and convert(date,TSPL_PRODUCTION_UPLOADER_HEAD.Document_Date ,103) <=convert(date,'" + ToDate.Value + "',103) and TSPL_INVENTORY_MOVEMENT_NEW.InOut='O' and TSPL_INVENTORY_MOVEMENT.InOut='I'"
 
             dt = clsDBFuncationality.GetDataTable(qry)
             Gv1.DataSource = Nothing
