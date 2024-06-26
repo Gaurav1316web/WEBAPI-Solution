@@ -1756,6 +1756,7 @@ Public Class clsUserMgtCode
     'Public Const rptDetailedCardReport As String = "DET-CAR-REP"
     Public Const frmPendingSaleInvoiceforChilpPO As String = "PEN-INV-DEMO"
     Public Const rptSaleRegisterForAdv As String = "SAL-REG-Adv"
+    Public Const rptSalesCancelledRegister2 As String = "SAL-CNL-REG"
     '------------------Fresh Sale----------------------------------'
     '------------------Master----------------------------------------'
     Public Const FrmZoneMaster As String = "ZONE-M"
@@ -2642,6 +2643,7 @@ Public Class clsUserMgtCode
     Public Const frmDemand_Sheet As String = "DEM-DEM_SHE"
     Public Const frmDCSDEmandBooking As String = "DCS-DEM-TRN"
     Public Const frmBoothDispatch As String = "BOO-TH-DIS"
+    Public Const frmDemandUploader As String = "DEM_UPL_TRN"
 
     Public Const rptCostCenterReport As String = "RPT_COST_CN"
 

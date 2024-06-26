@@ -45,12 +45,11 @@ Public Class clsERPFuncationality
                 End If
             End If
         End If
-
-        If isLocationCodeisState Then
-            qry = "select 1 from TSPL_STATE_MASTER where STATE_CODE='" + strLocationCode + "'"
+        If isLocationCodeisSegment Then
+            qry = "SELECT 1 from TSPL_GL_SEGMENT_CODE where Seg_No='7' and Segment_code='" + strLocationCode + "'"
             dt = clsDBFuncationality.GetDataTable(qry, trans)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                Throw New Exception(strLocationCode + " is not a state")
+                Throw New Exception(strLocationCode + " is not a Location Segment")
             End If
             strLocatinSegmentCode = strLocationCode
         ElseIf isLocationCodeisMCC Then
@@ -60,11 +59,11 @@ Public Class clsERPFuncationality
                 Throw New Exception(strLocationCode + " is not a MCC")
             End If
             strLocatinSegmentCode = strLocationCode
-        ElseIf isLocationCodeisSegment Then
-            qry = "SELECT 1 from TSPL_GL_SEGMENT_CODE where Seg_No='7' and Segment_code='" + strLocationCode + "'"
+        ElseIf isLocationCodeisState Then
+            qry = "select 1 from TSPL_STATE_MASTER where STATE_CODE='" + strLocationCode + "'"
             dt = clsDBFuncationality.GetDataTable(qry, trans)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                Throw New Exception(strLocationCode + " is not a Location Segment")
+                Throw New Exception(strLocationCode + " is not a state")
             End If
             strLocatinSegmentCode = strLocationCode
         Else

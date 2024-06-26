@@ -1700,10 +1700,10 @@ Public Class clsBookingDetailDairySale
                 If IsDairyModule = False Then
                     If checkstockmrpwise Then
                         If clsCommon.myLen(SubLocation) > 0 Then
-                            clsBatchInventory.SaveData("PS-SH", strDocNo, Docdate, "O", obj.Item_Code, SubLocation, obj.Line_No, obj.Item_Rate, obj.Unit_code, obj.arrBatchItem, trans)
+                            clsBatchInventory.SaveData("FS-SH", strDocNo, Docdate, "O", obj.Item_Code, SubLocation, obj.Line_No, obj.Item_Rate, obj.Unit_code, obj.arrBatchItem, trans)
 
                         Else
-                            clsBatchInventory.SaveData("PS-SH", strDocNo, Docdate, "O", obj.Item_Code, obj.Loc_Code, obj.Line_No, obj.Item_Rate, obj.Unit_code, obj.arrBatchItem, trans)
+                            clsBatchInventory.SaveData("FS-SH", strDocNo, Docdate, "O", obj.Item_Code, obj.Loc_Code, obj.Line_No, obj.Item_Rate, obj.Unit_code, obj.arrBatchItem, trans)
 
                         End If
                     Else
@@ -1717,6 +1717,7 @@ Public Class clsBookingDetailDairySale
                     End If
 
                 End If
+
             Next
 
             'GatePass Entry
@@ -1968,7 +1969,7 @@ Public Class clsBookingDetailDairySale
                     obj.Security_Rate = clsCommon.myCdbl(dt.Rows(i)("Security_Rate"))
                     obj.Security_Amt = clsCommon.myCdbl(dt.Rows(i)("Security_Amt"))
                     obj.Batch_No = clsCommon.myCdbl(dt.Rows(i)("Batch_No"))
-                    obj.arrBatchItem = clsBatchInventory.GetData("FS-SH", obj.Document_No, obj.Item_Code, obj.Line_No, trans)
+                    obj.arrBatchItem = clsBatchInventory.GetData("FS-SH", obj.Document_No, obj.Item_Code, obj.Unit_code, trans)
 
                     arrObj.Add(obj)
                 Next
