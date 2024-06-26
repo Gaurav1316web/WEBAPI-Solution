@@ -1654,7 +1654,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.IncentiveEntry, "Incentive Entry", "1.17.02.34", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmTransferToSaving, "Transfer To Saving", "1.17.02.35", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, "Payment Process", "1.17.02.36", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.frmBankAdvise, "Bank Advice", "1.17.02.37", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmBankAdvise, "Bank Advice", "1.17.02.37", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", False, True, Nothing)
         InsertDefaultValue(clsUserMgtCode.frmSendBillToDCS, "Send Bill To DCS", "1.17.02.38", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", True, True, Nothing)
         'InsertDefaultValue(clsUserMgtCode.FrmMCCMilkTransPortorInvoice, "Milk Recurring Payable Invoice", "1.17.02.31", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.MilkMPPayment, "MP Bills and Incentive Processing", "1.17.02.36", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
@@ -1845,6 +1845,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptPerodicalDispatchReport, "Periodical Dispatch Report", "1.17.03.124", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDBTCappingReport, "DBT Capping Report", "1.17.03.125", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptHeadLoadReport, "Head Load  Report", "1.17.03.126", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDCSCredit, "DCS Credit Report", "1.17.03.127", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
 
         '' Anubhooti 05-Aug-2014
@@ -2344,6 +2345,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptNewSalesReport, "New Sales Report", "1.36.03.24", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDemandReturnReport, "Demand Return Report", "1.36.03.25", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDailyStatementReport, "Daily Statement Report", "1.36.03.25", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptCreditCustomerReport, "Credit Customer Report", "1.36.03.26", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         InsertDefaultValue(clsUserMgtCode.frmCarteJaliRpt, "Crate Jali Report", "1.06.03.29", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptCustomerEffective_ItemRate, "Item Effective Price List", "1.06.03.30", clsUserMgtCode.SubModuleSaleDairyReport, 37)

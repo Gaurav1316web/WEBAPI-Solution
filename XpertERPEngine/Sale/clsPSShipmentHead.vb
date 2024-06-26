@@ -4179,7 +4179,12 @@ Public Class clsPSShipmentHeadDetail
                     If checkstockmrpwise Then
                         clsBatchInventory.SaveData(TransType_Str, strDocNo, DocDate, "O", obj.Item_Code, obj.Location, obj.Line_No, obj.MRP, obj.Unit_code, obj.arrBatchItem, trans)
                     Else
-                        clsBatchInventory.SaveData(TransType_Str, strDocNo, DocDate, "O", obj.Item_Code, obj.Location, obj.Line_No, 0, obj.Unit_code, obj.arrBatchItem, trans)
+                        If clsCommon.myLen(obj.Sub_Location_code) > 0 Then
+                            clsBatchInventory.SaveData(TransType_Str, strDocNo, DocDate, "O", obj.Item_Code, obj.Sub_Location_code, obj.Line_No, 0, obj.Unit_code, obj.arrBatchItem, trans)
+                        Else
+                            clsBatchInventory.SaveData(TransType_Str, strDocNo, DocDate, "O", obj.Item_Code, obj.Location, obj.Line_No, 0, obj.Unit_code, obj.arrBatchItem, trans)
+
+                        End If
                     End If
                 End If
                 If IsDairyModule Then

@@ -370,7 +370,7 @@ Public Class frmSRN
         'Else
         '    btnReverse.Enabled = False
         'End If
-        btnCancel.Visible = MyBase.isCancel_Flag_After_Posting
+        btnCancel.Visible = MyBase.isCancel_Flag
     End Sub
     Private Sub LoadRGPType()
         isInsideLoadData = True
@@ -5684,14 +5684,14 @@ Public Class frmSRN
                     btnSave.Enabled = False
                     btnPost.Enabled = False
                     btnDelete.Enabled = False
-                    btnCancel.Enabled = True
-                    btnCancel.Visible = True
+                    'btnCancel.Enabled = True
                     repoComplete.IsVisible = True
                     repoBalQty.IsVisible = True
                     btnUpdateRoadPermit.Enabled = True
                 Else
                     btnUpdateRoadPermit.Enabled = False
                 End If
+                btnCancel.Enabled = True
                 '-------------------------------------------------------
                 'If obj.isreadytopost = "1" Then
                 '    chkreadytopost.Checked = True
@@ -5716,7 +5716,7 @@ Public Class frmSRN
                 UsLock1.Status = obj.Status
                 If obj.Status = "1" Then
                     'If clsCommon.CompairString(clsUserMgtCode.FrmSRNMT, FORMTYPE) = CompairStringResult.Equal Then
-                    btnCancel.Enabled = True
+                    'btnCancel.Enabled = True
 
 
                     'Else
@@ -5724,7 +5724,7 @@ Public Class frmSRN
                     'End If
                 Else
                     'If clsCommon.CompairString(clsUserMgtCode.FrmSRNMT, FORMTYPE) = CompairStringResult.Equal Then
-                    btnCancel.Enabled = False
+                    'btnCancel.Enabled = False
                     'Else
                     '    btnCancel.Visible = False
                     'End If
@@ -6849,7 +6849,7 @@ Public Class frmSRN
             DeleteData()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.L AndAlso MyBase.isCancel_Flag_After_Posting AndAlso btnCancel.Enabled Then
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.L AndAlso MyBase.isCancel_Flag AndAlso btnCancel.Enabled Then
             CancelData()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             If MyBase.isReverse Then
@@ -8330,15 +8330,23 @@ Public Class frmSRN
                     ElseIf clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
                         If IsSRNReportQtyWise Then
                             frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "SRNReportThroughReportQtyWise", "Store Receipt Report", clsCommon.myCDate(txtDate.Value), "rptCompanyAddress.rpt")
+
                         Else
                             frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "SRNReportThroughReport-G", "Store Receipt Report", clsCommon.myCDate(txtDate.Value))
                         End If
                     Else
                         If IsSRNReportQtyWise Then
                             frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "SRNReportThroughReportQtyWise", "Store Receipt Report", clsCommon.myCDate(txtDate.Value), "rptCompanyAddress.rpt")
-                        Else
-                            frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "SRNReportThroughReport-G", "Store Receipt Report", clsCommon.myCDate(clsCommon.GETSERVERDATE()), "rptCompanyAddress.rpt", "SubRptCmpnyMasterForERODE.rpt", clsERPFuncationality.CompanyAddresShowinHeaderPartForERODE()) 'update by preeti gupta Against Ticket No[ADV/27/07/18-000036]
+                        ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
+
+                            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "SRNReportThroughReport-G-SKR", "Store Receipt Report", clsCommon.myCDate(txtDate.Value))
+                            Else
+                                frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "SRNReportThroughReport-G", "Store Receipt Report", clsCommon.myCDate(clsCommon.GETSERVERDATE()), "rptCompanyAddress.rpt", "SubRptCmpnyMasterForERODE.rpt", clsERPFuncationality.CompanyAddresShowinHeaderPartForERODE()) 'update by preeti gupta Against Ticket No[ADV/27/07/18-000036]
+
+
                         End If
+
+
                         'SRNReportThroughReportQtyWise
                         'PurchaseOrderViewer.funreport(dt, "SRNReportThroughReport-G", "Store Receipt Report")
                     End If
@@ -11500,24 +11508,31 @@ b:                          ' Next
             frm1.ShowDialog()
             If frm1.isPasswordCorrect Then
                 Dim iscancel As Boolean = False
-                Dim count As Integer = clsDBFuncationality.getSingleValue("select count(*)  from TSPL_PI_HEAD where Against_SRN ='" + txtDocNo.Value + "' ")
-                If count > 0 Then
-                    clsCommon.MyMessageBoxShow("You can't cancelled because this document used in Purchase Invoice")
-                    Exit Function
+                If clsSRNHead.CheckRalPenalty(clsCommon.myCstr(txtDocNo.Value), Nothing) Then
+                    Throw New Exception("SRN can not be cancelled because it is used in RAL Penalty")
+                    'Else
+                    '    clsPurchaseOrderHead.ReverseAndUnpost(txtDocNo.Value, MyBase.Form_ID)
                 End If
+                'Dim count As Integer = clsDBFuncationality.getSingleValue("select count(*)  from TSPL_PI_HEAD where Against_SRN ='" + txtDocNo.Value + "' ")
+                'If count > 0 Then
+                '    clsCommon.MyMessageBoxShow("You can't cancelled because this document used in Purchase Invoice")
+                '    Exit Function
+                'End If
 
                 ''
-                Dim Qry As String = "select distinct PI_No from TSPL_PI_DETAIL where SRN_Id='" + txtDocNo.Value + "'"
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
-                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                    Qry = "CURRENT SRN IS USED IN FOLLOWING PURCHASE INVOICE -"
-                    For Each DR As DataRow In dt.Rows
-                        Qry += Environment.NewLine + clsCommon.myCstr(DR("PI_NO"))
-                    Next
-                    clsCommon.MyMessageBoxShow(Qry)
-                    Exit Function
+                'Dim Qry As String = "select distinct PI_No from TSPL_PI_DETAIL where SRN_Id='" + txtDocNo.Value + "'"
+                'Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                '    Qry = "CURRENT SRN IS USED IN FOLLOWING PURCHASE INVOICE -"
+                '    For Each DR As DataRow In dt.Rows
+                '        Qry += Environment.NewLine + clsCommon.myCstr(DR("PI_NO"))
+                '    Next
+                '    clsCommon.MyMessageBoxShow(Qry)
+                '    Exit Function
+                'End If
+                If (myMessages.CancelConfirms(Me)) Then
+                    clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtDocNo.Value))
                 End If
-                ''
                 clsSRNHead.CancelData(Me.Form_ID, txtDocNo.Value, IIf(clsCommon.CompairString(FORMTYPE, clsUserMgtCode.FrmSRNMT) = CompairStringResult.Equal, "MT", "SRN"))
                 clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
                 AddNew()

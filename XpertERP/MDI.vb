@@ -8360,6 +8360,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptDcsSecurity
                         frm = New rptDCSSecurity
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptDCSCredit
+                        frm = New rptDCSCredit
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptDayWiseCol
                         frm = New rptDayWiseCollection
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
@@ -8401,6 +8404,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptDailyStatementReport
                         frm = New rptDailyStatementReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptCreditCustomerReport
+                        frm = New rptCreditCustomerReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptPaymentCycleWiseReport
                         frm = New rptPaymentCycleWiseReport

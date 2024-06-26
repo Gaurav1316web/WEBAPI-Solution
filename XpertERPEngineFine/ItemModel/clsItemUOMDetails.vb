@@ -13,6 +13,7 @@ Public Class clsItemUOMDetails
     Public Item_Cost As Decimal
     Public Custom_Conversion As Boolean
     Public Print_UOM As Integer = 0
+    Public RMProcessLoss_UOM As Integer = 0
 
 
     Public Shared Function GetEntryUOM() As DataTable
@@ -63,6 +64,7 @@ Public Class clsItemUOMDetails
             clsCommon.AddColumnsForChange(coll, "Job_Work_Rate", obj.Job_Work_Rate)
             clsCommon.AddColumnsForChange(coll, "Custom_Conversion", IIf(obj.Custom_Conversion, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Print_UOM", obj.Print_UOM)
+            clsCommon.AddColumnsForChange(coll, "ProcessLoss_UOM", obj.RMProcessLoss_UOM)
             clsCommon.AddColumnsForChange(coll, "Item_Cost", Math.Round(StockUnitItemCost * obj.Conversion_Factor, 2, MidpointRounding.AwayFromZero))
 
             isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTableInSelectedDatabase(coll, ArrDatabase, "TSPL_ITEM_UOM_DETAIL", OMInsertOrUpdate.Insert, "", trans)

@@ -333,6 +333,7 @@ where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and TSPL_PAYMENT_PROCESS_HEAD.Fr
             End If
 
             If rbtnBankAdvice.IsChecked OrElse rbtnBankWiseSummary.IsChecked Then
+                ''Note IF You do any changes than change in function clsBankAdvise.CreateEmailContent(ByVal strDateRange As String, trans As SqlTransaction)
                 If rbtnSaving.IsChecked = False AndAlso rbtnCompulsory.IsChecked = False AndAlso rbtnCompulsoryWiseSummary.IsChecked = False Then
                     BaseQry = "select  '" + strCycleRange + "' AS CycleRange,"
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
@@ -448,10 +449,11 @@ where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and  TSPL_PAYMENT_PROCESS_HEAD.F
 
             Dim FinalQuery As String = ""
             If rbtnBankAdvice.IsChecked OrElse rbtnSaving.IsChecked Then
+                ''Note IF You do any changes than change in function clsBankAdvise.CreateEmailContent(ByVal strDateRange As String, trans As SqlTransaction)
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                     FinalQuery = BaseQry + " order by Payee_Joint_Account_No asc"
                 Else
-                    FinalQuery = BaseQry + " order by TSPL_Vendor_MASTER.Bank_Code"
+                    FinalQuery = BaseQry + " order by TSPL_Vendor_MASTER.Bank_Code,VLC_CODE_Uploader"
                 End If
             ElseIf rbtnBankWiseSummary.IsChecked Then
                 FinalQuery += "select ROW_NUMBER() over ( order by GRPColumn) as SNO , * from ( select max(CycleRange) as CycleRange, max(GRPColumn) as GRPColumn,max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address, max(From_Date) as From_Date,max(GSTReg_No) as GSTReg_No,max(Fiscal_Name) as Fiscal_Name,max(CycleNo) as CycleNo,max(Date_Range) as Date_Range,Bank_Code,Branch_Name,max(Bank_Code_Desc) as Bank_Code_Desc, max (Payee_Joint_IFSC_Code) as Payee_Joint_IFSC_Code,max(Payee_Joint_Account_No) as Payee_Joint_Account_No ,sum(Payable_Amount) as Payable_Amount
@@ -517,6 +519,7 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
 
             If isPrint Then
                 If rbtnBankAdvice.IsChecked Then
+                    ''Note IF You do any changes than change in function clsBankAdvise.CreateEmailContent(ByVal strDateRange As String, trans As SqlTransaction)
                     Dim frmCRV As New frmCrystalReportViewer()
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                         frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankAdvice", "Bank Advice")

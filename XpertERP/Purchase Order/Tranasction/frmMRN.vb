@@ -257,7 +257,7 @@ Public Class frmMRN
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
-        btncancel.Visible = MyBase.isCancel_Flag_After_Posting
+        btncancel.Visible = MyBase.isCancel_Flag
         RadButton1.Visible = False
         'If MyBase.isReverse Then
         '    RadButton1.Enabled = True
@@ -266,10 +266,8 @@ Public Class frmMRN
         'End If
     End Sub
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        'btncancel.Visible = False
-        btncancel.Enabled = False
         IsQCColumnRequiredonMRN = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IsQCColumnRequiredonMRN, clsFixedParameterCode.IsQCColumnRequiredonMRN, Nothing)) = 1, True, False)
-         ShowItemAllStructureWise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, Nothing)) = 1, True, False)
+        ShowItemAllStructureWise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, Nothing)) = 1, True, False)
         SetUserMgmtNew()
         PurchaseModulePickFixTaxRate = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PurchaseModulePickFixTaxRate, clsFixedParameterCode.PurchaseModulePickFixTaxRate, Nothing)) = 1, True, False)
         ShowCapexCodeandSubCode = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowOptionforSelectingCapex, clsFixedParameterCode.ShowOptionforSelectingCapex, Nothing)) = "1", True, False))
@@ -314,6 +312,7 @@ Public Class frmMRN
         ' Attachment 1
         UcAttachment1.Form_ID = MyBase.Form_ID
         'RadPageView1.Pages("Attachments").Item.Visibility = ElementVisibility.Visible
+        btncancel.Enabled = False
     End Sub
     Sub AllowDepartmentMandatoryOnPurchaseCycle()
         ChkAutoDepOnPurchaseCycle = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AutoDepartmentMendatroryFieldOnPurcahseCycle, clsFixedParameterCode.AutoDepartmentMendatroryFieldOnPurcahseCycle, Nothing)) = "1", True, False)
@@ -411,7 +410,6 @@ Public Class frmMRN
     Sub BlankAllControls()
         chkJobWorkOutward.Checked = False
         'btncancel.Visible = False
-        btncancel.Enabled = False
         txtinvoiceno.Text = ""
         txt_invdate.Value = clsCommon.GETSERVERDATE()
         txtDocNo.Value = ""
@@ -3707,7 +3705,7 @@ Public Class frmMRN
             isInsideLoadData = False
             isNewEntry = True
             btnSave.Text = "Save"
-
+            btncancel.Enabled = True
             cboItemType.Enabled = True
             cboMRNType.Enabled = True
 
@@ -3743,18 +3741,19 @@ Public Class frmMRN
                     'Else
                     '    btncancel.Visible = False
                     'End If
-                    btncancel.Enabled = True
-                    btncancel.Visible = True
+                    'btncancel.Enabled = True
+                    'btncancel.Visible = True
 
                 Else
-                    btncancel.Enabled = False
+                    'btncancel.Enabled = False
                 End If
-
+                btncancel.Enabled = True
                 If CInt(obj.IsCancel) = CInt(1) Then
                     btnSave.Enabled = False
                     btnPost.Enabled = False
                     btnDelete.Enabled = False
-                    btncancel.Visible = False
+                    'btncancel.Visible = False
+                    btncancel.Enabled = True
                     btn_Amendment.Enabled = False
                 End If
 
@@ -4471,7 +4470,7 @@ Public Class frmMRN
             DeleteData()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.L AndAlso MyBase.isCancel_Flag_After_Posting AndAlso btncancel.Enabled Then
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.L AndAlso MyBase.isCancel_Flag AndAlso btncancel.Enabled Then
             CancelMRNData()
         ElseIf e.Control AndAlso e.KeyCode = Keys.F7 Then
             SelectGRNItems()
@@ -5783,31 +5782,88 @@ Public Class frmMRN
                 frm1.ShowDialog()
                 If frm1.isPasswordCorrect Then
                     Dim iscancel As Boolean = False
-                    If common.clsCommon.MyMessageBoxShow("Do you want to cancel the MRN?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
-                        If clsMRNHead.CheckMRNUsedInSRN(clsCommon.myCstr(txtDocNo.Value), Nothing) Then
-                            Throw New Exception("MRN can not be cancelled because it is used in SRN.")
-                        Else
+                    Dim qry As String = "select distinct MRN_No as Code from TSPL_NIR_QC where MRN_No ='" + clsCommon.myCstr(txtDocNo.Value) + "'" &
+                   " UNION " &
+                   "select distinct MRN_No as Code from TSPL_QC_CHECK_DETAIL where MRN_No ='" + clsCommon.myCstr(txtDocNo.Value) + "'"
 
-                            Dim qry As String = "select distinct SRN_No from TSPL_SRN_DETAIL where MRN_Id ='" + clsCommon.myCstr(txtDocNo.Value) + "'"
-                            Dim dt As DataTable
-                            dt = clsDBFuncationality.GetDataTable(qry)
-                            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                                qry = "MRN is used in following SRN"
-                                For Each dr As DataRow In dt.Rows
-                                    qry += Environment.NewLine + clsCommon.myCstr(dr("SRN_No"))
-                                Next
-                                qry += Environment.NewLine + "Can't unpost it"
-                                clsCommon.MyMessageBoxShow(qry)
-                                Exit Sub
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        iscancel = False
+                    Else
+
+                        iscancel = True
+                    End If
+
+                    Dim Reason As String = ""
+
+                    If iscancel = False Then
+                        Dim item As String = clsDBFuncationality.getSingleValue("select item_code from TSPL_MRN_detail where MRN_No='" + txtDocNo.Value + "'")
+                        Dim queryString As String = "select isnull(TSPL_ITEM_MASTER.NIR_QC,0) as NIR_QC from TSPL_ITEM_MASTER WHERE TSPL_ITEM_MASTER.ITEM_CODE='" + item + "'"
+                        Dim DataTable As DataTable = clsDBFuncationality.GetDataTable(queryString)
+
+                        If DataTable IsNot Nothing AndAlso DataTable.Rows.Count > 0 Then
+                            Dim isAutoWeighment As Decimal = clsCommon.myCDecimal(DataTable.Rows(0)("NIR_QC"))
+
+                            If isAutoWeighment > 0 Then
+                                clsMRNHead.CheckMRNUsedInNIRQC(clsCommon.myCstr(txtDocNo.Value), Nothing)
+                                Throw New Exception("MRN cannot be cancelled because it is used in NIRQC")
+                            Else
+                                clsMRNHead.CheckMRNUsedInWITQC(clsCommon.myCstr(txtDocNo.Value), Nothing)
+                                Throw New Exception("MRN cannot be cancelled because it is used in WIT QC.")
+                            End If
+                        End If
+                    Else
+
+                        If (myMessages.CancelConfirms(Me)) Then
+
+                            clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtDocNo.Value))
+
+                            If clsCancelLog.CheckForReasonOnDelete() Then
+                                ' REASON FOR DELETE 
+                                Dim frm As New FrmFreeTxtBox1
+                                frm.Text = "Remarks for Cancel"
+                                frm.ShowDialog()
+
+                                If clsCommon.myLen(frm.strRmks) <= 0 Then
+                                    Exit Sub
+                                Else
+                                    Reason = frm.strRmks
+                                End If
                             End If
 
                             If clsMRNHead.MRNCancel(Me.Form_ID, clsCommon.myCstr(txtDocNo.Value)) Then
-                                clsCommon.MyMessageBoxShow(Me, "MRN cancelled successfully!", Me.Text)
+                                saveCancelLog(Reason, "Cancel", Nothing)
+                                clsCommon.MyMessageBoxShow(Me, "Data Cancel Successfully ", Me.Text)
+                                AddNew()
                             End If
-
-                            AddNew()
                         End If
+
                     End If
+                    'If common.clsCommon.MyMessageBoxShow("Do you want to cancel the MRN?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                    ' If clsMRNHead.CheckMRNUsedInSRN(clsCommon.myCstr(txtDocNo.Value), Nothing) Then
+                    '    '    Throw New Exception("MRN can not be cancelled because it is used in SRN.")
+
+                    'Else
+                    '        Dim qry As String = "select distinct SRN_No from TSPL_SRN_DETAIL where MRN_Id ='" + clsCommon.myCstr(txtDocNo.Value) + "'"
+                    '        Dim dt As DataTable
+                    'dt = clsDBFuncationality.GetDataTable(qry)
+                    '        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    '            qry = "MRN is used in following SRN"
+                    '            For Each dr As DataRow In dt.Rows
+                    '                qry += Environment.NewLine + clsCommon.myCstr(dr("SRN_No"))
+                    '            Next
+                    '            qry += Environment.NewLine + "Can't unpost it"
+                    '            clsCommon.MyMessageBoxShow(qry)
+                    '            Exit Sub
+                    '        End If
+
+                    'If clsMRNHead.MRNCancel(Me.Form_ID, clsCommon.myCstr(txtDocNo.Value)) Then
+                    '            clsCommon.MyMessageBoxShow(Me, "MRN cancelled successfully!", Me.Text)
+                    '        End If
+
+                    '        AddNew()
+                    '    End If
+                    'End If
                 End If
             End If
         Catch ex As Exception
@@ -5818,7 +5874,6 @@ Public Class frmMRN
     Private Sub btncancel_Click(sender As Object, e As EventArgs) Handles btncancel.Click
         Try
             CancelMRNData()
-
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

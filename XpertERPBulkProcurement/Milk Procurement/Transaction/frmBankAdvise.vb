@@ -1,13 +1,9 @@
 ﻿Imports common
-Imports System.Data.SqlClient
-Imports System.IO
-Imports Newtonsoft.Json.Linq
 Public Class frmBankAdvise
 #Region "Variables"
     Dim IsBankAdviseStartDate As String
 #End Region
     Private Sub SetUserMgmtNew()
-        'MyBase.SetUserMgmt(clsUserMgtCode.mbtnMRN)
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
 
@@ -19,34 +15,20 @@ Public Class frmBankAdvise
     End Sub
     Private Sub frmBankAdvise_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
+        Reset()
         Try
             IsBankAdviseStartDate = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.BankAdviseRequired, clsFixedParameterCode.BankAdviseRequired, Nothing))
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+
     End Sub
 
-    'Private Sub CreateTable()
-    '    Dim coll As Dictionary(Of String, String)
-    '    coll = New Dictionary(Of String, String)()
-    '    coll.Add("Document_No", "varchar(30) Not NULL Primary key")
-    '    coll.Add("Document_Date", "datetime Not NULL")
-    '    coll.Add("Payment_Process_Document_No", "varchar(30) Not NULL UNIQUE references TSPL_PAYMENT_PROCESS_HEAD(Doc_No)")
-    '    coll.Add("Remarks", "varchar(200) NULL")
-    '    coll.Add("Created_By", "varchar(12)  Not NULL")
-    '    coll.Add("Created_Date", "datetime  Not NULL")
-    '    coll.Add("Modified_By", "varchar(12)  Not NULL")
-    '    coll.Add("Modified_Date", "datetime  Not NULL")
-    '    coll.Add("Status", "integer NULL")
-    '    coll.Add("Posted_By", "varchar(12) NULL")
-    '    coll.Add("Posted_Date", "datetime NULL")
-    '    clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BANK_ADVISE", coll, "", True)
-    'End Sub
 
     Private Sub fndDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndDocNo._MYValidating
         Try
-            Dim Qry As String = "Select Document_No As [Document Code], Document_Date As [Document Date],Case When Status ='' Then 'Pending' Else 'Approved' End As [Status] from TSPL_BANK_ADVISE"
-            fndDocNo.Value = clsCommon.ShowSelectForm("fndDocNo", Qry, "Document Code", "", "", "Document_No", isButtonClicked, "Document_Date")
+            Dim Qry As String = "Select Document_No As  Code, Document_Date As [Document Date],Case When Status ='' Then 'Pending' Else 'Approved' End As [Status] from TSPL_BANK_ADVISE"
+            fndDocNo.Value = clsCommon.ShowSelectForm("fndDocNo", Qry, "Code", "", fndDocNo.Value, "TSPL_BANK_ADVISE.Document_No", isButtonClicked, "Document_Date")
             If clsCommon.myLen(fndDocNo.Value) > 0 Then
                 LoadData(fndDocNo.Value, NavigatorType.Current)
             End If

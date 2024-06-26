@@ -398,10 +398,7 @@ Public Class clsMRNHead
 
 
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.MRN_No), "TSPL_MRN_HEAD", "MRN_No", "TSPL_MRN_DETAIL", "MRN_No", "TSPL_MRN_HEAD_History", "MRN_No", trans)
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(MRN_No), "TSPL_MRN_HEAD", "MRN_No", "TSPL_MRN_DETAIL", "MRN_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
 
-            End If
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -1018,17 +1015,53 @@ where TSPL_MRN_DETAIL.MRN_No='" + strDocNo + "' and ISNULL( TSPL_ITEM_MASTER.NIR
         Return True
     End Function
 
-    Public Shared Function CheckMRNUsedInSRN(ByVal strMRNNo As String, ByVal trans As SqlTransaction) As Boolean
+    '   Public Shared Function CheckMRNUsedInSRN(ByVal strMRNNo As String, ByVal trans As SqlTransaction) As Boolean
+    '       ''richa agarwal 13 Dec, 2016
+    '       '  Dim qry As String = "select sum(fin.[cnt]) from (SELECT 1 as [cnt] from TSPL_SRN_DETAIL where TSPL_SRN_DETAIL.MRN_Id ='" + clsCommon.myCstr(strMRNNo) + "')fin"
+    '       'Dim qry As String = " select isnull(sum(fin.[cnt]),0) from (SELECT 1 as [cnt] from TSPL_SRN_DETAIL left outer join TSPL_SRN_RETURN on TSPL_SRN_RETURN.SRN_No =TSPL_SRN_DETAIL.SRN_No " & _
+    '       '" where TSPL_SRN_DETAIL.MRN_Id ='" + clsCommon.myCstr(strMRNNo) + "' and TSPL_SRN_RETURN.SRN_No <>TSPL_SRN_DETAIL.SRN_No)fin "
+    '       Dim qry As String = "  select isnull(sum(fin.[cnt]),0) from ( " &
+    '" Select 1 as [cnt] from TSPL_SRN_HEAD left outer join TSPL_SRN_DETAIL ON TSPL_SRN_HEAD.SRN_No =TSPL_SRN_DETAIL.SRN_No  where TSPL_SRN_DETAIL.MRN_Id ='" + clsCommon.myCstr(strMRNNo) + "' " &
+    '" AND TSPL_SRN_HEAD .SRN_No not  IN ( sELECT SRN_No FROM TSPL_SRN_RETURN WHERE SRN_No IN ( SELECT SRN_No FROM TSPL_SRN_DETAIL WHERE TSPL_SRN_DETAIL.MRN_Id ='" + clsCommon.myCstr(strMRNNo) + "') )) " &
+    '" fin "
+    '       Dim count As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
+
+    '       If count > 0 Then
+    '           Return True
+    '       Else
+    '           Return False
+    '       End If
+    '   End Function
+    Public Shared Function CheckMRNUsedInNIRQC(ByVal strMRNNo As String, ByVal trans As SqlTransaction) As Boolean
         ''richa agarwal 13 Dec, 2016
         '  Dim qry As String = "select sum(fin.[cnt]) from (SELECT 1 as [cnt] from TSPL_SRN_DETAIL where TSPL_SRN_DETAIL.MRN_Id ='" + clsCommon.myCstr(strMRNNo) + "')fin"
         'Dim qry As String = " select isnull(sum(fin.[cnt]),0) from (SELECT 1 as [cnt] from TSPL_SRN_DETAIL left outer join TSPL_SRN_RETURN on TSPL_SRN_RETURN.SRN_No =TSPL_SRN_DETAIL.SRN_No " & _
         '" where TSPL_SRN_DETAIL.MRN_Id ='" + clsCommon.myCstr(strMRNNo) + "' and TSPL_SRN_RETURN.SRN_No <>TSPL_SRN_DETAIL.SRN_No)fin "
-        Dim qry As String = "  select isnull(sum(fin.[cnt]),0) from ( " &
- " Select 1 as [cnt] from TSPL_SRN_HEAD left outer join TSPL_SRN_DETAIL ON TSPL_SRN_HEAD.SRN_No =TSPL_SRN_DETAIL.SRN_No  where TSPL_SRN_DETAIL.MRN_Id ='" + clsCommon.myCstr(strMRNNo) + "' " &
- " AND TSPL_SRN_HEAD .SRN_No not  IN ( sELECT SRN_No FROM TSPL_SRN_RETURN WHERE SRN_No IN ( SELECT SRN_No FROM TSPL_SRN_DETAIL WHERE TSPL_SRN_DETAIL.MRN_Id ='" + clsCommon.myCstr(strMRNNo) + "') )) " &
- " fin "
+        '       Dim qry As String = "  select isnull(sum(fin.[cnt]),0) from ( " &
+        '" Select 1 as [cnt] from TSPL_SRN_HEAD left outer join TSPL_SRN_DETAIL ON TSPL_SRN_HEAD.SRN_No =TSPL_SRN_DETAIL.SRN_No  where TSPL_SRN_DETAIL.MRN_Id ='" + clsCommon.myCstr(strMRNNo) + "' " &
+        '" AND TSPL_SRN_HEAD .SRN_No not  IN ( sELECT SRN_No FROM TSPL_SRN_RETURN WHERE SRN_No IN ( SELECT SRN_No FROM TSPL_SRN_DETAIL WHERE TSPL_SRN_DETAIL.MRN_Id ='" + clsCommon.myCstr(strMRNNo) + "') )) " &
+        '" fin "
+        Dim qry As String = " select isnull(sum(fin.[cnt]),0) from (  Select 1 as [cnt] from TSPL_NIR_QC where TSPL_NIR_QC.MRN_No ='" + clsCommon.myCstr(strMRNNo) + "'  )fin "
+
         Dim count As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
 
+        If count > 0 Then
+            Return True
+        Else
+            Return False
+        End If
+    End Function
+    Public Shared Function CheckMRNUsedInWITQC(ByVal strMRNNo As String, ByVal trans As SqlTransaction) As Boolean
+        ''richa agarwal 13 Dec, 2016
+        '  Dim qry As String = "select sum(fin.[cnt]) from (SELECT 1 as [cnt] from TSPL_SRN_DETAIL where TSPL_SRN_DETAIL.MRN_Id ='" + clsCommon.myCstr(strMRNNo) + "')fin"
+        'Dim qry As String = " select isnull(sum(fin.[cnt]),0) from (SELECT 1 as [cnt] from TSPL_SRN_DETAIL left outer join TSPL_SRN_RETURN on TSPL_SRN_RETURN.SRN_No =TSPL_SRN_DETAIL.SRN_No " & _
+        '" where TSPL_SRN_DETAIL.MRN_Id ='" + clsCommon.myCstr(strMRNNo) + "' and TSPL_SRN_RETURN.SRN_No <>TSPL_SRN_DETAIL.SRN_No)fin "
+        '       Dim qry As String = "  select isnull(sum(fin.[cnt]),0) from ( " &
+        '" Select 1 as [cnt] from TSPL_SRN_HEAD left outer join TSPL_SRN_DETAIL ON TSPL_SRN_HEAD.SRN_No =TSPL_SRN_DETAIL.SRN_No  where TSPL_SRN_DETAIL.MRN_Id ='" + clsCommon.myCstr(strMRNNo) + "' " &
+        '" AND TSPL_SRN_HEAD .SRN_No not  IN ( sELECT SRN_No FROM TSPL_SRN_RETURN WHERE SRN_No IN ( SELECT SRN_No FROM TSPL_SRN_DETAIL WHERE TSPL_SRN_DETAIL.MRN_Id ='" + clsCommon.myCstr(strMRNNo) + "') )) " &
+        '" fin "
+        Dim qry As String = "  Select isnull(sum(fin.[cnt]),0) from (  Select 1 As [cnt] from TSPL_NIR_QC where TSPL_NIR_QC.MRN_No ='" + clsCommon.myCstr(strMRNNo) + "'  )fin "
+        Dim count As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
         If count > 0 Then
             Return True
         Else
@@ -1054,9 +1087,7 @@ where TSPL_MRN_DETAIL.MRN_No='" + strDocNo + "' and ISNULL( TSPL_ITEM_MASTER.NIR
             If obj Is Nothing OrElse clsCommon.myLen(obj.MRN_No) <= 0 Then
                 Throw New Exception("Document- " & Doc_No & " not found")
             End If
-
             clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Doc_No, "TSPL_MRN_HEAD", "MRN_NO", "TSPL_MRN_DETAIL", "MRN_NO", trans)
-
             '' cancel custom field data
             clsCommonFunctionality.SaveCancelDataMultKey(objCommonVar.CurrentUserCode, Doc_No, "TSPL_CUSTOM_FIELD_VALUES", "Transaction_Code", "Program_Code", Form_Id, trans)
             '' delete data from original table

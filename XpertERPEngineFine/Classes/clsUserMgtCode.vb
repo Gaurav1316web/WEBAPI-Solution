@@ -264,6 +264,7 @@ Public Class clsUserMgtCode
     Public Const rptDemandReturnReport As String = "DEM_RET_RPT"
     Public Const rptDailyStatementReport As String = "DlY_SALE_RPT"
     Public Const FrmPrintMultipleGatepass As String = "MUL_PNT_GP"
+    Public Const rptCreditCustomerReport As String = "CRD_CST_RPT"
 
     '===Dairy Visual Sales reports  
     Public Const SubModuleVisualSaleReport As String = "SMVSaleR"
@@ -2200,6 +2201,7 @@ Public Class clsUserMgtCode
     Public Const rptDcsSecurity As String = "DCS_SEC_RPT"
     Public Const rptDayWiseCol As String = "DAY_WSE_RPT"
     Public Const rptMarginAmt As String = "MRG_AMT_RPT"
+    Public Const rptDCSCredit As String = "DCS_CRD_RPT"
     Public Const rptPaymentCycleWiseReport As String = "PYMT_CYCL_R"
     Public Const rptTempTruckSheetCollectionReport As String = "TEMP_TRCK_R"
     Public Const rptMobileAppMilkCollection As String = "MOB-MLK-R"

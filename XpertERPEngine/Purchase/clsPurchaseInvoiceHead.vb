@@ -7131,7 +7131,7 @@ select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') 
             Dim Str_PJVNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select TSPL_PJV_HEAD.PJV_No from TSPL_PJV_HEAD where TSPL_PJV_HEAD.Invoice_No='" + Doc_No + "'", trans))
 
 
-            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Doc_No, "TSPL_PI_HEAD", "PI_No", "TSPL_PI_DETAIL", "PI_No", trans)
+            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Doc_No, "TSPL_PI_HEAD", "PI_No", "TSPL_PI_DETAIL", "PI_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
             clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Str_PJVNo, "TSPL_PJV_HEAD", "PJV_No", "TSPL_PJV_Detail", "PJV_No", trans)
             clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Doc_No, "TSPL_PO_ADVANCE_ADJUSTMENT_KNOCKOFF", "PI_No", trans)
             clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Doc_No, "TSPL_PI_REMITTANCE", "Document_No", trans)

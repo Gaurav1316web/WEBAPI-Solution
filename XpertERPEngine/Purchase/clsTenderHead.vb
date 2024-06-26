@@ -54,10 +54,10 @@ Public Class clsTenderHead
         End Try
         Return True
     End Function
-    Public Shared Function CancelData(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
-        clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_TENDER_HEADER", "DocumentCode", "TSPL_TENDER_DETAIL", "DocumentCode", "TSPL_PI_REMITTANCE", "Document_No", trans)
-        Return True
-    End Function
+    'Public Shared Function CancelData(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
+    '    clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_TENDER_HEADER", "DocumentCode", "TSPL_TENDER_DETAIL", "DocumentCode", "TSPL_PI_REMITTANCE", "Document_No", trans)
+    '    Return True
+    'End Function
     Public Function SaveData(ByVal obj As clsTenderHead, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
 
@@ -116,8 +116,6 @@ Public Class clsTenderHead
             clsTenderDetail.SaveData(obj.DocumentCode, obj.Arr, trans)
             clsTenderSchedule.SaveData(obj.DocumentCode, obj.ArrSchedule, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.DocumentCode), "TSPL_TENDER_HEADER", "DocumentCode", "TSPL_TENDER_DETAIL", "DocumentCode", "TSPL_TENDER_SCHEDULE", "DocumentCode", trans)
-            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.DocumentCode), "TSPL_TENDER_HEADER", "DocumentCode", "TSPL_TENDER_DETAIL", "DocumentCode", "TSPL_PI_REMITTANCE", "Document_No", trans)
-
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -906,6 +904,7 @@ select State_Code from TSPL_VENDOR_MASTER where Vendor_Code='" + objTender.Arr(i
                 'If (obj.Posted = 1) Then
                 '    Throw New Exception("Already Posted on :" + obj.Posting_Date)
                 'End If
+                clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.DocumentCode), "TSPL_TENDER_HEADER", "DocumentCode", "TSPL_TENDER_DETAIL", "DocumentCode", "TSPL_PI_REMITTANCE", "Document_No", trans)
 
                 Dim qry As String = "delete from tspl_tender_detail where DocumentCode='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)

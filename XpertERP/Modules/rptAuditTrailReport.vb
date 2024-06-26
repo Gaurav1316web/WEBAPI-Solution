@@ -976,6 +976,12 @@ Public Class rptAuditTrailReport
                          " ,Modified_By as [Modified By],convert(varchar, Modified_Date,103) as [Modified Date],case when isPosted = 1 then 'Posted' else 'Pending'  end as [Status] from TSPL_MILK_TRANSFER_IN_RETURN  " &
                          " where 2= 2  and Convert (date,Receipt_Challan_Return_Date,103)  > = Convert (date, '" + txtFromDate.Value + "'  ,103) and Convert (date, Receipt_Challan_Return_Date,103)  < = convert ( date, '" + txtToDate.Value + "',103) "
                     StrOrderBy = " order by Convert (datetime, zz.[Document Date],103)  "
+                ElseIf clsCommon.CompairString(fndScreen.Value, clsUserMgtCode.DariyProductionUploader) = CompairStringResult.Equal Then
+                    qry = " select '" + strMoudleName + "' as [Module Name],'" + ScrScreenName + "' as [Screen Name] , '" + ScreenType + "' as [Screen Type],Document_No as [Document Code],Description as Description ,convert(varchar,Document_Date,103) as [Document Date],Created_By as [Created By],convert(varchar,Created_Date,103) as [Created Date]" &
+                     ",Modified_By as [Modified By],convert(varchar,Modified_Date ,103) as [Modified Date],case when Status=1 then 'Posted' else 'Pending' end   as [Status] from TSPL_PRODUCTION_UPLOADER_HEAD" &
+                    " where   Convert (date,Document_Date,103)  > = Convert (date, '" + txtFromDate.Value + "'  ,103) and Convert (date, Document_Date,103)  < = convert ( date, '" + txtToDate.Value + "',103) "
+                    StrOrderBy = " order by Convert (datetime, zz.[Document Date],103)  "
+
                 End If
 
                 '--------Dairy Production-------------------------
@@ -2967,7 +2973,7 @@ Public Class rptAuditTrailReport
             "','" + clsUserMgtCode.mbtnAPInvoiceEntryTDS + "','" + clsUserMgtCode.TDSPAYMENT + "" &
             "','" + clsUserMgtCode.FAAcquisitionEntry + "','" + clsUserMgtCode.FAAssetDepreciation + "','" + clsUserMgtCode.FADisposalEntry + "','" + clsUserMgtCode.frmAsset_Issue_Return + "','" + clsUserMgtCode.frmAssetStoreRequistion + "','" + clsUserMgtCode.frmIssueItemsToAsset + "','" + clsUserMgtCode.FAAssetWork + "','" + clsUserMgtCode.FAMergeAcquisitionEntry + "" &
             "','" + clsUserMgtCode.frmEXSalesQuotation + "','" + clsUserMgtCode.frmEXSalesOrder + "','" + clsUserMgtCode.frmEXPorformaInvoice + "','" + clsUserMgtCode.frmEXCommercialInvoice + "','" + clsUserMgtCode.frmEXSalesInvoice + "','" + clsUserMgtCode.frmEXSalesReturn + "','" + clsUserMgtCode.frmsaleReturnGateEntryExportSAle + "" &
-            "')  "
+            "','" + clsUserMgtCode.DariyProductionUploader + "')  "
         End If
 
         'strQuery = "select distinct Bill_To_Location as Code,Location_Desc as Description from TSPL_SD_SALE_INVOICE_HEAD left outer join TSPL_LOCATION_MASTER on TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location=TSPL_LOCATION_MASTER.Location_Code"

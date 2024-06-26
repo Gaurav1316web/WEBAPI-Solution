@@ -142,29 +142,39 @@ Public Class RptproductionEntryReport
             'If rbtnCategorySelect.IsChecked AndAlso tvCategory.CheckedValue.Count <= 0 Then
             '    Throw New Exception("Please select atleast one Location")
             'End If
-
+            Dim strFromDate As String = clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtfromDate.Value), "dd/MMM/yyyy hh:mm:ss tt")
+            Dim strToDate As String = clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt")
 
 
             '' Work done byb Parteek agaist ticket no.BHA/05/09/18-000514
             Dim str As String = ""
             Dim str_UOM As String = ""
-            Dim Sql As String = "select (select DISTINCT ',['+UOM_Code+']' " &
-            " FROM (SELECT DISTINCT UOM_CODE from TSPL_ITEM_UOM_DETAIL " &
-            " inner join TSPL_PP_PRODUCTION_ENTRY_DETAIL on TSPL_PP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE=TSPL_ITEM_UOM_DETAIL.ITEM_CODE " &
-            " left join TSPL_PP_PRODUCTION_ENTRY on TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_PP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE " &
-            " where convert(date,TSPL_PP_PRODUCTION_ENTRY.PROD_DATE,103) >= convert(date,('" + txtfromDate.Value + "'),103) and convert(date,TSPL_PP_PRODUCTION_ENTRY.PROD_DATE,103) <= convert(date,('" & txtToDate.Value & "'),103) "
+            Dim Sql As String = "select (select DISTINCT ',['+UOM_Code+']'  FROM (
+SELECT DISTINCT UOM_CODE from TSPL_ITEM_UOM_DETAIL  
+inner join TSPL_PP_PRODUCTION_ENTRY_DETAIL on TSPL_PP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE=TSPL_ITEM_UOM_DETAIL.ITEM_CODE  
+left join TSPL_PP_PRODUCTION_ENTRY on TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_PP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE  
+where  TSPL_PP_PRODUCTION_ENTRY.PROD_DATE >= '" + strFromDate + "' and  TSPL_PP_PRODUCTION_ENTRY.PROD_DATE  <=  '" & strToDate & "' "
             If ChkItemSelect.IsChecked And cbgItem.CheckedValue.Count > 0 Then
                 Sql += "and TSPL_ITEM_UOM_DETAIL.Item_Code IN (" + clsCommon.GetMulcallString(cbgItem.CheckedValue) + ") "
             End If
             Sql += " UNION ALL
-                select DISTINCT UOM_Code 
-                from TSPL_ITEM_UOM_DETAIL  inner join TSPL_PP_STD_FINALQC_DETAIL on TSPL_PP_STD_FINALQC_DETAIL.ITEM_CODE=TSPL_ITEM_UOM_DETAIL.ITEM_CODE  
-                left join TSPL_PP_STD_FINALQC_HEAD on TSPL_PP_STD_FINALQC_HEAD.QC_CODE=TSPL_PP_STD_FINALQC_DETAIL.QC_CODE  where
-                 convert(date,TSPL_PP_STD_FINALQC_HEAD.QC_DATE,103) >= convert(date,('" + txtfromDate.Value + "'),103) and convert(date,TSPL_PP_STD_FINALQC_HEAD.QC_DATE,103) <= convert(date,('" & txtToDate.Value & "'),103)"
+select DISTINCT UOM_Code 
+from TSPL_ITEM_UOM_DETAIL  
+inner join TSPL_PP_STD_FINALQC_DETAIL on TSPL_PP_STD_FINALQC_DETAIL.ITEM_CODE=TSPL_ITEM_UOM_DETAIL.ITEM_CODE
+left join TSPL_PP_STD_FINALQC_HEAD on TSPL_PP_STD_FINALQC_HEAD.QC_CODE=TSPL_PP_STD_FINALQC_DETAIL.QC_CODE  
+where  TSPL_PP_STD_FINALQC_HEAD.QC_DATE >=  '" + strFromDate + "' and  TSPL_PP_STD_FINALQC_HEAD.QC_DATE <=  '" & strToDate & "' "
             If ChkItemSelect.IsChecked And cbgItem.CheckedValue.Count > 0 Then
                 Sql += "and TSPL_ITEM_UOM_DETAIL.Item_Code IN (" + clsCommon.GetMulcallString(cbgItem.CheckedValue) + ") "
             End If
-
+            Sql += "UNION ALL
+SELECT DISTINCT UOM_CODE 
+from TSPL_ITEM_UOM_DETAIL  
+inner join TSPL_PRODUCTION_UPLOADER_DETAIL on TSPL_PRODUCTION_UPLOADER_DETAIL.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code  
+inner join TSPL_PRODUCTION_UPLOADER_HEAD on TSPL_PRODUCTION_UPLOADER_HEAD.Document_No=TSPL_PRODUCTION_UPLOADER_DETAIL.Document_No
+where  TSPL_PRODUCTION_UPLOADER_HEAD.Document_Date  >=  '" + strFromDate + "' and  TSPL_PRODUCTION_UPLOADER_HEAD.Document_Date <=  '" + strToDate + "'"
+            If ChkItemSelect.IsChecked And cbgItem.CheckedValue.Count > 0 Then
+                Sql += "and TSPL_ITEM_UOM_DETAIL.Item_Code IN (" + clsCommon.GetMulcallString(cbgItem.CheckedValue) + ") "
+            End If
             Sql += ")XX for xml path('')) "
             str_UOM = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Sql))
             If String.IsNullOrEmpty(str_UOM) = True Then
@@ -175,16 +185,11 @@ Public Class RptproductionEntryReport
 
             Dim array() As String = str_UOM.Split(",")
 
-            'Dim obj As clsSaleRegisterParameterType = ReturnFilterData()
-
             ArrLocation = GetLocation()
-
-
 
             ''richa BHA/16/07/18-000168 show manual batch no 
             '=update by preeti gupta Against ticket No[BHA/12/09/18-000539]
             Dim qry As String = "select * from (select final.*,max(convert(varchar,TSPL_PP_PRODUCTION_PLAN_HEAD.Plan_Date,103)) as Plan_Date, max(TSPL_PP_STAGE_PROCESS_HEAD.STAGE_PROCESS_CODE) as STAGE_PROCESS_CODE,max(convert(varchar,TSPL_PP_STAGE_PROCESS_HEAD.STAGE_PROCESS_DATE,103))  as STAGE_PROCESS_DATE,max(TSPL_PP_ISSUE_HEAD.Issue_Code) as Issue_Code ,max(convert(varchar,TSPL_PP_ISSUE_HEAD.Issue_Date,103)) as Issue_Date,max(TSPL_PP_ISSUE_HEAD.ManualBatchNo ) as ManualBatchNo  from ( "
-
             qry += " select  TSPL_ITEM_MASTER.Item_Code ,TSPL_ITEM_MASTER.Item_Desc,main_location.Location_Code as main_loc_code,main_location.Location_Desc as main_loc_desc,TSPL_PP_PRODUCTION_ENTRY.CONSM_SECTION_CODE,TSPL_SECTION_MASTER.description as Section_Desc ,TSPL_PP_PRODUCTION_ENTRY.Batch_Code ,convert(varchar,TSPL_PP_PRODUCTION_ENTRY.BATCH_DATE,103) as BATCH_DATE  ,TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE ,convert(varchar,TSPL_PP_PRODUCTION_ENTRY.PROD_DATE,103)  as PROD_DATE, 'Production' as Doc_type"
             If chk_stockingunit.Checked Then
                 qry += " ,stockunitconv. UOM_Code as unit_code,((isnull(unitconv.Conversion_Factor,1)*TSPL_PP_PRODUCTION_ENTRY_DETAIL.BATCH_QTY)/isnull(stockunitconv.Conversion_Factor,1)) as BATCH_QTY,((isnull(unitconv.Conversion_Factor,1)*TSPL_PP_PRODUCTION_ENTRY_DETAIL.Receipt_QTY)/isnull(stockunitconv.Conversion_Factor,1)) as RECEIPT_QTY"
@@ -197,44 +202,30 @@ Public Class RptproductionEntryReport
                 qry += ",2) ) end  as "
                 qry += clsCommon.myCstr(value)
             Next
-
-            qry += " ,TSPL_PP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE as Batch_location_code,Batch_location.Location_Desc as Batch_location_desc," &
-                   " main_location.Is_Section ,main_location .Is_Sub_Location ,case when main_location.Is_Section='y'then 'Section wise Tanker'  when main_location .Is_Sub_Location='Y' then 'Sub Location' else 'Main Location' end as Production_Location_type,TSPL_PP_PRODUCTION_ENTRY_DETAIL.FAT_Per ,TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Per,TSPL_PP_PRODUCTION_ENTRY_DETAIL.FAT_Per + TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Per as TS_Per ,TSPL_PP_PRODUCTION_ENTRY_DETAIL.FAT_KG ,TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_KG,TSPL_PP_PRODUCTION_ENTRY_DETAIL.FAT_KG + TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_KG as TS_KG ,TSPL_PP_BATCH_ORDER_HEAD.Plan_Code " &
-                   " from TSPL_PP_PRODUCTION_ENTRY " &
-                   " left outer join TSPL_PP_PRODUCTION_ENTRY_DETAIL on TSPL_PP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE =TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE " &
-                   " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER .Item_Code =TSPL_PP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE " &
-                   " left outer join TSPL_LOCATION_MASTER as main_location on main_location.Location_Code =TSPL_PP_PRODUCTION_ENTRY.LOCATION_CODE " &
-                   " left outer join TSPL_LOCATION_MASTER as Batch_location on Batch_location.Location_Code =TSPL_PP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE " &
-                   " left outer join TSPL_SECTION_MASTER on TSPL_SECTION_MASTER.Section_Code =TSPL_PP_PRODUCTION_ENTRY.CONSM_SECTION_CODE " &
-                   " left join TSPL_PP_BATCH_ORDER_HEAD on TSPL_PP_BATCH_ORDER_HEAD.Batch_Code =TSPL_PP_PRODUCTION_ENTRY.Batch_Code "
-
-
-            '' Work done byb Parteek agaist ticket no.BHA/05/09/18-000514
-            qry += "  left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_PP_PRODUCTION_ENTRY_DETAIL.Item_Code "
-            qry += "and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_PP_PRODUCTION_ENTRY_DETAIL.Unit_Code "
-            qry += " left join (SELECT item_code,conversion_factor from TSPL_ITEM_UOM_DETAIL where Default_UOM=1) J ON J.item_code=TSPL_PP_PRODUCTION_ENTRY_DETAIL.Item_Code" &
-               " left join ( " &
-               " SELECT * FROM (select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I " &
-               " PIVOT (Max(conversion_factor) FOR uom_code IN ( "
-            qry += str_UOM
-            qry += " )) P ) I ON TSPL_PP_PRODUCTION_ENTRY_DETAIL.Item_Code = I.item_code "
-
+            qry += " ,TSPL_PP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE as Batch_location_code,Batch_location.Location_Desc as Batch_location_desc,main_location.Is_Section ,main_location .Is_Sub_Location ,case when main_location.Is_Section='y'then 'Section wise Tanker'  when main_location .Is_Sub_Location='Y' then 'Sub Location' else 'Main Location' end as Production_Location_type,TSPL_PP_PRODUCTION_ENTRY_DETAIL.FAT_Per ,TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Per,TSPL_PP_PRODUCTION_ENTRY_DETAIL.FAT_Per + TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Per as TS_Per ,TSPL_PP_PRODUCTION_ENTRY_DETAIL.FAT_KG ,TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_KG,TSPL_PP_PRODUCTION_ENTRY_DETAIL.FAT_KG + TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_KG as TS_KG ,TSPL_PP_BATCH_ORDER_HEAD.Plan_Code  
+from TSPL_PP_PRODUCTION_ENTRY 
+left outer join TSPL_PP_PRODUCTION_ENTRY_DETAIL on TSPL_PP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE =TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE 
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER .Item_Code =TSPL_PP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE 
+left outer join TSPL_LOCATION_MASTER as main_location on main_location.Location_Code =TSPL_PP_PRODUCTION_ENTRY.LOCATION_CODE 
+left outer join TSPL_LOCATION_MASTER as Batch_location on Batch_location.Location_Code =TSPL_PP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE 
+left outer join TSPL_SECTION_MASTER on TSPL_SECTION_MASTER.Section_Code =TSPL_PP_PRODUCTION_ENTRY.CONSM_SECTION_CODE 
+left join TSPL_PP_BATCH_ORDER_HEAD on TSPL_PP_BATCH_ORDER_HEAD.Batch_Code =TSPL_PP_PRODUCTION_ENTRY.Batch_Code 
+left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_PP_PRODUCTION_ENTRY_DETAIL.Item_Code  and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_PP_PRODUCTION_ENTRY_DETAIL.Unit_Code 
+left join (SELECT item_code,conversion_factor from TSPL_ITEM_UOM_DETAIL where Default_UOM=1) J ON J.item_code=TSPL_PP_PRODUCTION_ENTRY_DETAIL.Item_Code
+left join (  SELECT * FROM (select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( "
+            qry += str_UOM + " )) P ) I ON TSPL_PP_PRODUCTION_ENTRY_DETAIL.Item_Code = I.item_code "
             If chk_stockingunit.Checked Then
-                qry += " left outer join (select Item_Code,max(UOM_Code) as UOM_Code,max(Conversion_Factor) as Conversion_Factor from TSPL_ITEM_UOM_DETAIL where  Stocking_Unit='Y'  group by Item_Code) as stockunitconv on stockunitconv.Item_Code=TSPL_PP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE " &
-                       " left outer join TSPL_ITEM_UOM_DETAIL unitconv on unitconv.Item_Code=TSPL_PP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE and unitconv.UOM_Code=TSPL_PP_PRODUCTION_ENTRY_DETAIL.unit_code"
+                qry += " left outer join (select Item_Code,max(UOM_Code) as UOM_Code,max(Conversion_Factor) as Conversion_Factor from TSPL_ITEM_UOM_DETAIL where  Stocking_Unit='Y'  group by Item_Code) as stockunitconv on stockunitconv.Item_Code=TSPL_PP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE  
+left outer join TSPL_ITEM_UOM_DETAIL unitconv on unitconv.Item_Code=TSPL_PP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE and unitconv.UOM_Code=TSPL_PP_PRODUCTION_ENTRY_DETAIL.unit_code"
             End If
             qry += " where 2=2 "
             If chkPosted.Checked Then
                 qry += " and TSPL_PP_PRODUCTION_ENTRY.POSTED=1 "
             End If
-
             qry += " and convert(date,TSPL_PP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + txtfromDate.Value + "',103) and convert(date,TSPL_PP_PRODUCTION_ENTRY.PROD_DATE,103) <=convert(date,'" + txtToDate.Value + "' ,103)"
             If ChkItemSelect.IsChecked And cbgItem.CheckedValue.Count > 0 Then
                 qry += "and TSPL_ITEM_MASTER.Item_Code IN (" + clsCommon.GetMulcallString(cbgItem.CheckedValue) + ") "
             End If
-            'If chkSelectLocation.IsChecked And cbgLocation.CheckedValue.Count > 0 Then
-            '    qry += " and main_location.Location_Code in (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ")  "
-            'End If
             If ArrLocation IsNot Nothing AndAlso ArrLocation.Count > 0 Then
                 qry += " and Batch_location.Location_Code in (" + clsCommon.GetMulcallString(ArrLocation) + ")  "
             End If
@@ -242,8 +233,8 @@ Public Class RptproductionEntryReport
                 qry += " and TSPL_PP_PRODUCTION_ENTRY.CONSM_SECTION_CODE in (" + clsCommon.GetMulcallString(cbgSection.CheckedValue) + ")  "
             End If
 
-            qry += " Union all" &
-                   " select  TSPL_ITEM_MASTER.Item_Code ,TSPL_ITEM_MASTER.Item_Desc,main_location.Location_Code as main_loc_code,main_location.Location_Desc as main_loc_desc,TSPL_PP_PRODUCTION_ENTRY.CONSM_SECTION_CODE,TSPL_SECTION_MASTER.description as Section_Desc ,TSPL_PP_PRODUCTION_ENTRY.Batch_Code ,convert(varchar,TSPL_PP_PRODUCTION_ENTRY.BATCH_DATE,103) as BATCH_DATE  ,TSPL_PP_PRODUCTION_RETURN.PROD_RETURN_CODE ,convert(varchar,TSPL_PP_PRODUCTION_RETURN.RETURN_DATE,103)  as PROD_DATE, 'Production Return' as Doc_type"
+            qry += " Union all 
+select  TSPL_ITEM_MASTER.Item_Code ,TSPL_ITEM_MASTER.Item_Desc,main_location.Location_Code as main_loc_code,main_location.Location_Desc as main_loc_desc,TSPL_PP_PRODUCTION_ENTRY.CONSM_SECTION_CODE,TSPL_SECTION_MASTER.description as Section_Desc ,TSPL_PP_PRODUCTION_ENTRY.Batch_Code ,convert(varchar,TSPL_PP_PRODUCTION_ENTRY.BATCH_DATE,103) as BATCH_DATE  ,TSPL_PP_PRODUCTION_RETURN.PROD_RETURN_CODE ,convert(varchar,TSPL_PP_PRODUCTION_RETURN.RETURN_DATE,103)  as PROD_DATE, 'Production Return' as Doc_type"
             If chk_stockingunit.Checked Then
                 qry += " ,stockunitconv. UOM_Code as unit_code,((isnull(unitconv.Conversion_Factor,1)*TSPL_PP_PRODUCTION_ENTRY_DETAIL.BATCH_QTY)/isnull(stockunitconv.Conversion_Factor,1)) as BATCH_QTY,-((isnull(unitconv.Conversion_Factor,1)*TSPL_PP_PRODUCTION_ENTRY_DETAIL.Receipt_QTY)/isnull(stockunitconv.Conversion_Factor,1)) as RECEIPT_QTY"
             Else
@@ -255,22 +246,17 @@ Public Class RptproductionEntryReport
                 qry += ",2)) end  as "
                 qry += clsCommon.myCstr(value)
             Next
-            qry += " ,TSPL_PP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE as Batch_location_code,Batch_location.Location_Desc as Batch_location_desc," &
-                   " main_location.Is_Section ,main_location .Is_Sub_Location ,case when main_location.Is_Section='y'then 'Section wise Tanker'  when main_location .Is_Sub_Location='Y' then 'Sub Location' else 'Main Location' end as Production_Location_type,TSPL_PP_PRODUCTION_ENTRY_DETAIL.FAT_Per ,TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Per,TSPL_PP_PRODUCTION_ENTRY_DETAIL.FAT_Per + TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Per as TS_Per ,-TSPL_PP_PRODUCTION_ENTRY_DETAIL.FAT_KG as FAT_KG ,-TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_KG as SNF_KG,-(TSPL_PP_PRODUCTION_ENTRY_DETAIL.FAT_KG  + TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_KG) as TS_KG ,TSPL_PP_BATCH_ORDER_HEAD.Plan_Code " &
-                   " from TSPL_PP_PRODUCTION_ENTRY inner join TSPL_PP_PRODUCTION_RETURN on TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_PP_PRODUCTION_RETURN.PROD_ENTRY_CODE " &
-                   " left outer join TSPL_PP_PRODUCTION_ENTRY_DETAIL on TSPL_PP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE =TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE " &
-                   " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER .Item_Code =TSPL_PP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE " &
-                   " left outer join TSPL_LOCATION_MASTER as main_location on main_location.Location_Code =TSPL_PP_PRODUCTION_ENTRY.LOCATION_CODE " &
-                   " left outer join TSPL_LOCATION_MASTER as Batch_location on Batch_location.Location_Code =TSPL_PP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE " &
-                   " left outer join TSPL_SECTION_MASTER on TSPL_SECTION_MASTER.Section_Code =TSPL_PP_PRODUCTION_ENTRY.CONSM_SECTION_CODE " &
-                   " left join TSPL_PP_BATCH_ORDER_HEAD on TSPL_PP_BATCH_ORDER_HEAD.Batch_Code =TSPL_PP_PRODUCTION_ENTRY.Batch_Code "
-            '' work done by parteek on 07/09/2018
-            qry += "  left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_PP_PRODUCTION_ENTRY_DETAIL.Item_Code "
-            qry += "and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_PP_PRODUCTION_ENTRY_DETAIL.Unit_Code "
-            qry += " left join (SELECT item_code,conversion_factor from TSPL_ITEM_UOM_DETAIL where Default_UOM=1) J ON J.item_code=TSPL_PP_PRODUCTION_ENTRY_DETAIL.Item_Code" &
-                   " left join ( " &
-                   " SELECT * FROM (select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I " &
-                   " PIVOT (Max(conversion_factor) FOR uom_code IN ( "
+            qry += " ,TSPL_PP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE as Batch_location_code,Batch_location.Location_Desc as Batch_location_desc, main_location.Is_Section ,main_location .Is_Sub_Location ,case when main_location.Is_Section='y'then 'Section wise Tanker'  when main_location .Is_Sub_Location='Y' then 'Sub Location' else 'Main Location' end as Production_Location_type,TSPL_PP_PRODUCTION_ENTRY_DETAIL.FAT_Per ,TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Per,TSPL_PP_PRODUCTION_ENTRY_DETAIL.FAT_Per + TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_Per as TS_Per ,-TSPL_PP_PRODUCTION_ENTRY_DETAIL.FAT_KG as FAT_KG ,-TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_KG as SNF_KG,-(TSPL_PP_PRODUCTION_ENTRY_DETAIL.FAT_KG  + TSPL_PP_PRODUCTION_ENTRY_DETAIL.SNF_KG) as TS_KG ,TSPL_PP_BATCH_ORDER_HEAD.Plan_Code 
+from TSPL_PP_PRODUCTION_ENTRY inner join TSPL_PP_PRODUCTION_RETURN on TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_PP_PRODUCTION_RETURN.PROD_ENTRY_CODE  
+left outer join TSPL_PP_PRODUCTION_ENTRY_DETAIL on TSPL_PP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE =TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE  
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER .Item_Code =TSPL_PP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE  
+left outer join TSPL_LOCATION_MASTER as main_location on main_location.Location_Code =TSPL_PP_PRODUCTION_ENTRY.LOCATION_CODE  
+left outer join TSPL_LOCATION_MASTER as Batch_location on Batch_location.Location_Code =TSPL_PP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE  
+left outer join TSPL_SECTION_MASTER on TSPL_SECTION_MASTER.Section_Code =TSPL_PP_PRODUCTION_ENTRY.CONSM_SECTION_CODE 
+left join TSPL_PP_BATCH_ORDER_HEAD on TSPL_PP_BATCH_ORDER_HEAD.Batch_Code =TSPL_PP_PRODUCTION_ENTRY.Batch_Code  
+left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_PP_PRODUCTION_ENTRY_DETAIL.Item_Code  and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_PP_PRODUCTION_ENTRY_DETAIL.Unit_Code  
+left join (SELECT item_code,conversion_factor from TSPL_ITEM_UOM_DETAIL where Default_UOM=1) J ON J.item_code=TSPL_PP_PRODUCTION_ENTRY_DETAIL.Item_Code 
+left join (  SELECT * FROM (select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( "
             qry += str_UOM
             qry += " )) P ) I ON TSPL_PP_PRODUCTION_ENTRY_DETAIL.Item_Code = I.item_code "
             If chk_stockingunit.Checked Then
@@ -281,14 +267,10 @@ Public Class RptproductionEntryReport
             If chkPosted.Checked Then
                 qry += " and TSPL_PP_PRODUCTION_RETURN.POSTED=1 "
             End If
-
-            qry += " and convert(date,TSPL_PP_PRODUCTION_RETURN.RETURN_DATE,103)>=convert(date,'" + txtfromDate.Value + "',103) and convert(date,TSPL_PP_PRODUCTION_RETURN.RETURN_DATE,103) <=convert(date,'" + txtToDate.Value + "' ,103)"
+            qry += " and  TSPL_PP_PRODUCTION_RETURN.RETURN_DATE >='" + strFromDate + "' and  TSPL_PP_PRODUCTION_RETURN.RETURN_DATE <= '" + strToDate + "'"
             If ChkItemSelect.IsChecked And cbgItem.CheckedValue.Count > 0 Then
                 qry += " and TSPL_ITEM_MASTER.Item_Code IN (" + clsCommon.GetMulcallString(cbgItem.CheckedValue) + ") "
             End If
-            'If chkSelectLocation.IsChecked And cbgLocation.CheckedValue.Count > 0 Then
-            '    qry += " and main_location.Location_Code in (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ")  "
-            'End If
             If ArrLocation IsNot Nothing AndAlso ArrLocation.Count > 0 Then
                 qry += " and Batch_location.Location_Code in (" + clsCommon.GetMulcallString(ArrLocation) + ")  "
             End If
@@ -297,10 +279,7 @@ Public Class RptproductionEntryReport
             End If
 
             qry += " Union all"
-
             qry += " select "
-
-
             qry += " TSPL_ITEM_MASTER.Item_Code ,TSPL_ITEM_MASTER.Item_Desc,main_location.Location_Code as main_loc_code,main_location.Location_Desc as main_loc_desc,TSPL_PP_STANDARDIZATION_HEAD.CONSM_SECTION_CODE,TSPL_SECTION_MASTER.description as Section_Desc ,TSPL_PP_STANDARDIZATION_HEAD.Child_Batch_Code  ,convert(varchar,TSPL_PP_BATCH_ORDER_HEAD.BATCH_DATE,103) as BATCH_DATE  ,TSPL_PP_STANDARDIZATION_HEAD.Standardization_Code  as PROD_ENTRY_CODE ,convert(varchar,TSPL_PP_STANDARDIZATION_HEAD.Standardization_Date ,103)  as PROD_DATE, 'Standardization' as Doc_type"
             If chk_stockingunit.Checked Then
                 qry += " ,stockunitconv. UOM_Code as unit_code,((isnull(unitconv.Conversion_Factor,1)*TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Quantity)/isnull(stockunitconv.Conversion_Factor,1)) as BATCH_QTY,((isnull(unitconv.Conversion_Factor,1)*TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Produced_Qty)/isnull(stockunitconv.Conversion_Factor,1)) as Produced_Qty"
@@ -313,8 +292,7 @@ Public Class RptproductionEntryReport
                 qry += ",2)) end as "
                 qry += clsCommon.myCstr(value)
             Next
-            qry += " ,TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.STD_Loaction_Code  as Batch_location_code,Batch_location.Location_Desc as Batch_location_desc,"
-            qry += " main_location.Is_Section ,main_location .Is_Sub_Location ,case when main_location.Is_Section='y'then 'Section wise Tanker'  when main_location .Is_Sub_Location='Y' then 'Sub Location' else 'Main Location' end as Production_Location_type "
+            qry += " ,TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.STD_Loaction_Code  as Batch_location_code,Batch_location.Location_Desc as Batch_location_desc,main_location.Is_Section ,main_location .Is_Sub_Location ,case when main_location.Is_Section='y'then 'Section wise Tanker'  when main_location .Is_Sub_Location='Y' then 'Sub Location' else 'Main Location' end as Production_Location_type "
             If RequiredFinalQCofstandardization = True Then
                 qry += ",TSPL_PP_STD_FINALQC_detail.fat_per as FAT_Per,TSPL_PP_STD_FINALQC_detail.SNF_Per as SNF_Per
                     ,TSPL_PP_STD_FINALQC_detail.fat_per+TSPL_PP_STD_FINALQC_detail.SNF_Per as TS_Per
@@ -323,29 +301,21 @@ Public Class RptproductionEntryReport
             Else
                 qry += ",TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Requir_FAT_per   as FAT_Per ,TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Requir_SNF_Per  as SNF_Per,TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Requir_FAT_per+TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Requir_SNF_Per as TS_Per ,TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Requir_FAT_KG  as FAT_KG ,TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Requir_SNF_KG  as SNF_KG ,TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Requir_FAT_KG+TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Requir_SNF_KG  as TS_KG"
             End If
-
-
-
-            qry += ", TSPL_PP_BATCH_ORDER_HEAD.Plan_Code "
-
-            qry += " from TSPL_PP_STANDARDIZATION_HEAD"
-            qry += " left outer join TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL on TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Standardization_Code =TSPL_PP_STANDARDIZATION_HEAD.Standardization_Code "
-            qry += " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER .Item_Code =TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.ITEM_CODE "
-            qry += " left outer join TSPL_LOCATION_MASTER as main_location on main_location.Location_Code =TSPL_PP_STANDARDIZATION_HEAD.Loaction_Code  "
-            qry += " left outer join TSPL_LOCATION_MASTER as Batch_location on Batch_location.Location_Code =TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.STD_Loaction_Code   "
-            qry += " left outer join TSPL_SECTION_MASTER on TSPL_SECTION_MASTER.Section_Code =TSPL_PP_STANDARDIZATION_HEAD.CONSM_SECTION_CODE "
-            qry += " left outer join TSPL_PP_BATCH_ORDER_HEAD on TSPL_PP_BATCH_ORDER_HEAD.Batch_Code =TSPL_PP_STANDARDIZATION_HEAD.Child_Batch_Code"
+            qry += ", TSPL_PP_BATCH_ORDER_HEAD.Plan_Code  
+from TSPL_PP_STANDARDIZATION_HEAD
+left outer join TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL on TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Standardization_Code =TSPL_PP_STANDARDIZATION_HEAD.Standardization_Code  
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER .Item_Code =TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.ITEM_CODE  
+left outer join TSPL_LOCATION_MASTER as main_location on main_location.Location_Code =TSPL_PP_STANDARDIZATION_HEAD.Loaction_Code  
+left outer join TSPL_LOCATION_MASTER as Batch_location on Batch_location.Location_Code =TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.STD_Loaction_Code   
+left outer join TSPL_SECTION_MASTER on TSPL_SECTION_MASTER.Section_Code =TSPL_PP_STANDARDIZATION_HEAD.CONSM_SECTION_CODE 
+left outer join TSPL_PP_BATCH_ORDER_HEAD on TSPL_PP_BATCH_ORDER_HEAD.Batch_Code =TSPL_PP_STANDARDIZATION_HEAD.Child_Batch_Code"
             If RequiredFinalQCofstandardization = True Then
                 qry += "  left outer join TSPL_PP_STD_FINALQC_HEAD on  TSPL_PP_STD_FINALQC_HEAD.Child_Batch_Code = TSPL_PP_STANDARDIZATION_HEAD.Child_Batch_Code
-                      left outer join TSPL_PP_STD_FINALQC_detail on TSPL_PP_STD_FINALQC_detail.QC_Code=TSPL_PP_STD_FINALQC_HEAD.QC_Code "
+left outer join TSPL_PP_STD_FINALQC_detail on TSPL_PP_STD_FINALQC_detail.QC_Code=TSPL_PP_STD_FINALQC_HEAD.QC_Code "
             End If
-            qry += "  left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Item_Code "
-            qry += "and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Unit_Code "
-            '' work done by parteek on 07/09/2018
-            qry += " left join (SELECT item_code,conversion_factor from TSPL_ITEM_UOM_DETAIL where Default_UOM=1) J ON J.item_code=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Item_Code" &
-                   " left join ( " &
-                   " SELECT * FROM (select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I " &
-                   " PIVOT (Max(conversion_factor) FOR uom_code IN ( "
+            qry += "  left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Item_Code  and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Unit_Code  
+left join (SELECT item_code,conversion_factor from TSPL_ITEM_UOM_DETAIL where Default_UOM=1) J ON J.item_code=TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Item_Code 
+left join (  SELECT * FROM (select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( "
             qry += str_UOM
             qry += " )) P ) I ON TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Item_Code = I.item_code "
             If chk_stockingunit.Checked Then
@@ -356,19 +326,58 @@ Public Class RptproductionEntryReport
             If chkPosted.Checked Then
                 qry += " and TSPL_PP_STANDARDIZATION_HEAD.POSTED=1 "
             End If
-
-            qry += " and convert(date,TSPL_PP_STANDARDIZATION_HEAD.Standardization_Date,103)>=convert(date,'" + txtfromDate.Value + "',103) and convert(date,TSPL_PP_STANDARDIZATION_HEAD.Standardization_Date,103) <=convert(date,'" + txtToDate.Value + "' ,103)"
+            qry += " and  TSPL_PP_STANDARDIZATION_HEAD.Standardization_Date >= '" + strFromDate + "' and  TSPL_PP_STANDARDIZATION_HEAD.Standardization_Date <= '" + strToDate + "'"
             If ChkItemSelect.IsChecked And cbgItem.CheckedValue.Count > 0 Then
                 qry += " and TSPL_ITEM_MASTER.Item_Code IN (" + clsCommon.GetMulcallString(cbgItem.CheckedValue) + ") "
             End If
-            'If chkSelectLocation.IsChecked And cbgLocation.CheckedValue.Count > 0 Then
-            '    qry += " and main_location.Location_Code in (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ")  "
-            'End If
             If ArrLocation IsNot Nothing AndAlso ArrLocation.Count > 0 Then
                 qry += " and Batch_location.Location_Code in (" + clsCommon.GetMulcallString(ArrLocation) + ")  "
             End If
             If chkSectionSelect.IsChecked And cbgSection.CheckedValue.Count > 0 Then
                 qry += " and TSPL_PP_STANDARDIZATION_HEAD.CONSM_SECTION_CODE in (" + clsCommon.GetMulcallString(cbgSection.CheckedValue) + ")  "
+            End If
+
+            qry += "union all
+select  TSPL_ITEM_MASTER.Item_Code ,TSPL_ITEM_MASTER.Item_Desc,TabLocationFG.Location_Code as main_loc_code,TabLocationFG.Location_Desc as main_loc_desc,TabLocationRM.Location_Code as CONSM_SECTION_CODE,TabLocationRM.Location_Desc as Section_Desc ,TSPL_PRODUCTION_UPLOADER_DETAIL.Batch_No as Child_Batch_Code  ,TSPL_PRODUCTION_UPLOADER_DETAIL.Batch_Date as BATCH_DATE  ,TSPL_PRODUCTION_UPLOADER_HEAD.Document_No  as PROD_ENTRY_CODE ,convert(varchar,TSPL_PRODUCTION_UPLOADER_HEAD.Document_Date,103)  as PROD_DATE, 'Production Uploader' as Doc_type "
+            If chk_stockingunit.Checked Then
+                qry += " ,stockunitconv.UOM_Code as unit_code,((isnull(unitconv.Conversion_Factor,1)*TSPL_PRODUCTION_UPLOADER_DETAIL.Qty)/isnull(stockunitconv.Conversion_Factor,1)) as BATCH_QTY,((isnull(unitconv.Conversion_Factor,1)*TSPL_PRODUCTION_UPLOADER_DETAIL.Qty)/isnull(stockunitconv.Conversion_Factor,1)) as Produced_Qty"
+            Else
+                qry += " ,TSPL_PRODUCTION_UPLOADER_DETAIL.UOM as  unit_code,TSPL_PRODUCTION_UPLOADER_DETAIL.Qty as BATCH_QTY,TSPL_PRODUCTION_UPLOADER_DETAIL.Qty as Produced_Qty"
+            End If
+            For Each value As String In array
+                qry += ",case when I." & clsCommon.myCstr(value) & "=0 then 0 else ( round((isnull(TSPL_PRODUCTION_UPLOADER_DETAIL.Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I."
+                qry += clsCommon.myCstr(value)
+                qry += ",2)) end as "
+                qry += clsCommon.myCstr(value)
+            Next
+
+            qry += ",TabLocationFG.Location_Code  as Batch_location_code,TabLocationFG.Location_Desc as Batch_location_desc, TabLocationFG.Is_Section ,TabLocationFG .Is_Sub_Location ,case when TabLocationFG.Is_Section='y'then 'Section wise Tanker'  when TabLocationFG .Is_Sub_Location='Y' then 'Sub Location' else 'Main Location' end as Production_Location_type ,TABFAT.Value as FAT_Per ,TABSNF.Value as SNF_Per,TABFAT.Value +TABSNF.Value as TS_Per ,TSPL_PRODUCTION_UPLOADER_DETAIL.Qty*TABFAT.Value /100 as FAT_KG ,TSPL_PRODUCTION_UPLOADER_DETAIL.Qty*TABSNF.Value/100   as SNF_KG ,((TSPL_PRODUCTION_UPLOADER_DETAIL.Qty*TABFAT.Value /100)+(TSPL_PRODUCTION_UPLOADER_DETAIL.Qty*TABSNF.Value/100)) as TS_KG, '' as Plan_Code  
+from TSPL_PRODUCTION_UPLOADER_DETAIL
+left outer join TSPL_PRODUCTION_UPLOADER_HEAD  on TSPL_PRODUCTION_UPLOADER_HEAD.Document_No=TSPL_PRODUCTION_UPLOADER_DETAIL.Document_No   
+left outer join TSPL_PRODUCTION_UPLOADER_QC as TABFAT on TABFAT.Against_PKID=TSPL_PRODUCTION_UPLOADER_DETAIL.PK_ID and TABFAT.QC_Code='FAT'
+left outer join TSPL_PRODUCTION_UPLOADER_QC as TABSNF on TABSNF.Against_PKID=TSPL_PRODUCTION_UPLOADER_DETAIL.PK_ID and TABSNF.QC_Code='SNF'
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_PRODUCTION_UPLOADER_DETAIL.ITEM_CODE  
+left outer join TSPL_LOCATION_MASTER as TabLocationFG on TabLocationFG.Location_Code =TSPL_PRODUCTION_UPLOADER_HEAD.Location_FG   
+left outer join TSPL_LOCATION_MASTER as TabLocationPK on TabLocationPK.Location_Code =TSPL_PRODUCTION_UPLOADER_HEAD.Location_RM
+left outer join TSPL_LOCATION_MASTER as TabLocationRM on TabLocationRM.Location_Code =TSPL_PRODUCTION_UPLOADER_HEAD.Location_PK
+left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_PRODUCTION_UPLOADER_DETAIL.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_PRODUCTION_UPLOADER_DETAIL.UOM
+left join (SELECT item_code,conversion_factor from TSPL_ITEM_UOM_DETAIL where Default_UOM=1) J ON J.item_code=TSPL_PRODUCTION_UPLOADER_DETAIL.Item_Code 
+left join (SELECT * FROM (select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( " + str_UOM + " )) P ) I ON TSPL_PRODUCTION_UPLOADER_DETAIL.Item_Code = I.item_code"
+            If chk_stockingunit.Checked Then
+                qry += " left outer join (select Item_Code,max(UOM_Code) as UOM_Code,max(Conversion_Factor) as Conversion_Factor from TSPL_ITEM_UOM_DETAIL where  Stocking_Unit='Y'  group by Item_Code) as stockunitconv on stockunitconv.Item_Code=TSPL_PRODUCTION_UPLOADER_DETAIL.Item_Code   "
+                qry += " left outer join TSPL_ITEM_UOM_DETAIL unitconv on unitconv.Item_Code=TSPL_PRODUCTION_UPLOADER_DETAIL.ITEM_CODE and unitconv.UOM_Code=TSPL_PRODUCTION_UPLOADER_DETAIL.UOM "
+            End If
+
+            qry += "  where 2=2  "
+             If chkPosted.Checked Then
+                qry += " and TSPL_PRODUCTION_UPLOADER_HEAD.Status=1 "
+             End If
+            qry += " and TSPL_PRODUCTION_UPLOADER_DETAIL.QC_Status=1  and  TSPL_PRODUCTION_UPLOADER_HEAD.Document_Date >= '" + strFromDate + "' and  TSPL_PRODUCTION_UPLOADER_HEAD.Document_Date <= '" + strToDate + "'  "
+            If ChkItemSelect.IsChecked And cbgItem.CheckedValue.Count > 0 Then
+                qry += " and TSPL_ITEM_MASTER.Item_Code IN (" + clsCommon.GetMulcallString(cbgItem.CheckedValue) + ") "
+            End If
+            If ArrLocation IsNot Nothing AndAlso ArrLocation.Count > 0 Then
+                qry += " and TabLocationFG.Location_Code in (" + clsCommon.GetMulcallString(ArrLocation) + ")  "
             End If
             qry += " ) as Final"
             qry += " left join TSPL_PP_PRODUCTION_PLAN_HEAD on TSPL_PP_PRODUCTION_PLAN_HEAD.Plan_Code  =final.Plan_Code  "

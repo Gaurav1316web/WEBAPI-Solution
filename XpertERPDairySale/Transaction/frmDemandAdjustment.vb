@@ -528,7 +528,10 @@ where TSPL_DEMAND_BOOKING_MASTER.Posted=0 and convert(date,TSPL_DEMAND_BOOKING_M
                                         dblbalqty = clsCommon.myCdbl(txtQty.Text)
                                         If dblbalqty > 0 Then
                                             grow.Cells(colAdjustedQty).Value = dblbalqty
-                                            grow.Cells(colFinalQty).Value = clsCommon.myCdbl(grow.Cells(colDemandQty).Value) - dblbalqty
+                                            If (clsCommon.myCdbl(grow.Cells(colDemandQty).Value) - dblbalqty) > 0 Then
+                                                grow.Cells(colFinalQty).Value = clsCommon.myCdbl(grow.Cells(colDemandQty).Value) - dblbalqty
+
+                                            End If
                                         End If
                                         Exit For
                                     End If
@@ -537,7 +540,10 @@ where TSPL_DEMAND_BOOKING_MASTER.Posted=0 and convert(date,TSPL_DEMAND_BOOKING_M
                                     dblbalqty = dbltotalqty - clsCommon.myCdbl(txtQty.Text)
                                     If dblbalqty > 0 Then
                                         grow.Cells(colAdjustedQty).Value = dblbalqty
-                                        grow.Cells(colFinalQty).Value = clsCommon.myCdbl(grow.Cells(colDemandQty).Value) - dblbalqty
+                                        If (clsCommon.myCdbl(grow.Cells(colDemandQty).Value) - dblbalqty) > 0 Then
+                                            grow.Cells(colFinalQty).Value = clsCommon.myCdbl(grow.Cells(colDemandQty).Value) - dblbalqty
+
+                                        End If
                                     End If
                                     Exit For
                                 Else
@@ -545,7 +551,10 @@ where TSPL_DEMAND_BOOKING_MASTER.Posted=0 and convert(date,TSPL_DEMAND_BOOKING_M
                                         dblbalqty = clsCommon.myCdbl(txtQty.Text) - dbltotalqty
                                         If dblbalqty > 0 Then
                                             grow.Cells(colAdjustedQty).Value = dblbalqty
-                                            grow.Cells(colFinalQty).Value = clsCommon.myCdbl(grow.Cells(colDemandQty).Value) - dblbalqty
+                                            If (clsCommon.myCdbl(grow.Cells(colDemandQty).Value) - dblbalqty) > 0 Then
+                                                grow.Cells(colFinalQty).Value = clsCommon.myCdbl(grow.Cells(colDemandQty).Value) - dblbalqty
+
+                                            End If
                                         End If
                                         Exit For
                                     End If
@@ -581,13 +590,20 @@ where TSPL_DEMAND_BOOKING_MASTER.Posted=0 and convert(date,TSPL_DEMAND_BOOKING_M
                                     dblorderqty = clsCommon.myCdbl(grow.Cells(colDemandQty).Value) - clsCommon.myCdbl(txtQty.Text)
                                     grow.Cells(colAdjustedQty).Value = clsCommon.myCdbl(txtQty.Text)
                                     grow.Cells(colFinalQty).Value = dblorderqty
+                                    If dblorderqty < 0 Then
+                                        grow.Cells(colFinalQty).Value = 0
+                                        grow.Cells(colAdjustedQty).Value = 0
+                                    End If
                                     dbltotalqty += clsCommon.myCdbl(txtQty.Text)
                                 Else
                                     dblbalqty = clsCommon.myCdbl(txtFixedQty.Text) - dbltotalqty
                                     If clsCommon.myCdbl(txtQty.Text) >= dblbalqty Then
                                         dblorderqty = clsCommon.myCdbl(grow.Cells(colDemandQty).Value) - clsCommon.myCdbl(dblbalqty)
                                         grow.Cells(colAdjustedQty).Value = clsCommon.myCdbl(dblbalqty)
-                                        grow.Cells(colFinalQty).Value = dblorderqty
+                                        If dblorderqty > 0 Then
+                                            grow.Cells(colFinalQty).Value = dblorderqty
+
+                                        End If
                                     End If
                                     Exit For
                                 End If
