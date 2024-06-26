@@ -570,11 +570,12 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmClaimReport, "Claim Report", "1.06.03.26", clsUserMgtCode.SubModuleSaleNewReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmDealerManagementReport, "Sales Dealer Report", "1.06.03.27", clsUserMgtCode.SubModuleSaleNewReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmProspectDetailReport, "Prospect Detail Report", "1.06.03.28", clsUserMgtCode.SubModuleSaleNewReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptSaleRegisterForAdv, "Sales Register Report", "1.06.03.28", clsUserMgtCode.SubModuleSaleNewReport, 37)
-        InsertDefaultValue(clsUserMgtCode.AuditTrailSaleAndDistribution, "Sale And Distribution Audit Trail Report", "1.06.03.29", clsUserMgtCode.SubModuleSaleNewReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptSalesReport, "Sales Report", "1.06.03.30", clsUserMgtCode.SubModuleSaleNewReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptDCSSaleRegister, "DCS Sale Register", "1.06.03.31", clsUserMgtCode.SubModuleSaleNewReport, 37)
-        InsertDefaultValue(clsUserMgtCode.saleconsignee, "Sale Consignee", "1.06.03.32", clsUserMgtCode.SubModuleSaleNewReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptSaleRegisterForAdv, "Sales Register Report", "1.06.03.29", clsUserMgtCode.SubModuleSaleNewReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptSalesCancelledRegister2, "Sales Cancelled Register", "1.06.03.30", clsUserMgtCode.SubModuleSaleNewReport, 37)
+        InsertDefaultValue(clsUserMgtCode.AuditTrailSaleAndDistribution, "Sale And Distribution Audit Trail Report", "1.06.03.31", clsUserMgtCode.SubModuleSaleNewReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptSalesReport, "Sales Report", "1.06.03.32", clsUserMgtCode.SubModuleSaleNewReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDCSSaleRegister, "DCS Sale Register", "1.06.03.33", clsUserMgtCode.SubModuleSaleNewReport, 37)
+        InsertDefaultValue(clsUserMgtCode.saleconsignee, "Sale Consignee", "1.06.03.34", clsUserMgtCode.SubModuleSaleNewReport, 37)
 
 
 
@@ -1844,6 +1845,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptPerodicalDispatchReport, "Periodical Dispatch Report", "1.17.03.124", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDBTCappingReport, "DBT Capping Report", "1.17.03.125", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptHeadLoadReport, "Head Load  Report", "1.17.03.126", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDCSCredit, "DCS Credit Report", "1.17.03.127", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
 
         '' Anubhooti 05-Aug-2014
@@ -2313,6 +2315,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmDemand_Sheet, "Demand Sheet", "1.36.02.28", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmDCSDEmandBooking, "DCS Demand", "1.36.02.29", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmBoothDispatch, "Booth Dispatch", "1.36.02.29", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmDemandUploader, "Demand Uploader", "1.36.02.30", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
 
         '' end of transaction
 

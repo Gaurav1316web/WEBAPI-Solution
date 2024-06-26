@@ -11,6 +11,7 @@ Public Class clsNIRQC
     Public Posted_Date As DateTime? = Nothing
 #End Region
     Public Shared Function CheckNIRQCUsedInSRN(ByVal strSRNNo As String, ByVal trans As SqlTransaction) As Boolean
+
         Dim qry As String = "select sum(fin.[cnt]) from (Select 1 as [cnt],TSPL_SRN_DETAIL.SRN_No from TSPL_SRN_DETAIL 
 where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
         'Dim qry As String = "select sum(fin.[cnt]) from (SELECT 1 as [cnt] from TSPL_SRN_DETAIL where TSPL_SRN_DETAIL.PO_ID ='" + clsCommon.myCstr(strPONo) + "' union all SELECT 1 as [cnt] from TSPL_GRN_DETAIL where TSPL_GRN_DETAIL.PO_ID ='" + clsCommon.myCstr(strPONo) + "')fin"
@@ -50,7 +51,6 @@ where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_NIR_QC", "Document_No", trans)
 
                 'If Not isNewEntry Then
-                clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_No), "TSPL_NIR_QC", "Document_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
                 'End If
                 trans.Commit()
             Catch ex As Exception
@@ -130,6 +130,7 @@ where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
             'If (obj.Status = 1) Then
             '    Throw New Exception("Already Posted on :" + obj.Posted_Date)
             'End If
+            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_No), "TSPL_NIR_QC", "Document_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
 
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_NIR_QC", "Document_No", trans)
             qry = "delete from TSPL_NIR_QC where Document_No='" + obj.Document_No + "'"

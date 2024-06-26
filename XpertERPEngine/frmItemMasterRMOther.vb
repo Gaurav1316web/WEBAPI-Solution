@@ -1031,17 +1031,17 @@ Public Class FrmItemMasterRMOther
         repoPrintUOM.IsVisible = True
         repoPrintUOM.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvUOM.MasterTemplate.Columns.Add(repoPrintUOM)
-        If objCommonVar.RCDFCFP Then
-            Dim repoRMProcess As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
+
+        Dim repoRMProcess As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
             repoRMProcess.FormatString = ""
             repoRMProcess.HeaderText = "RM Process Loss Unit"
             repoRMProcess.Name = RMProcessloss
             repoRMProcess.Width = 80
             repoRMProcess.ThreeState = False
-            repoRMProcess.IsVisible = True
+            repoRMProcess.IsVisible = objCommonVar.RCDFCFP
             repoRMProcess.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
             gvUOM.MasterTemplate.Columns.Add(repoRMProcess)
-        End If
+
 
 
 
@@ -1381,8 +1381,8 @@ Public Class FrmItemMasterRMOther
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         If btnSave.Text = "Update" AndAlso OneTimeCheck = False Then
             Dim frm As New FrmPWD(Nothing)
-            frm.strType = clsFixedParameterType.SIRC
-            frm.strCode = clsFixedParameterCode.UpdatePassword
+            frm.strType = clsFixedParameterType.Transactionupdate
+            frm.strCode = clsFixedParameterCode.ItemMaster
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 ShowRemarks()

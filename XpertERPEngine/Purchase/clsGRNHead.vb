@@ -448,9 +448,7 @@ Public Class clsGRNHead
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_GRN_HEAD", OMInsertOrUpdate.Update, "TSPL_GRN_HEAD.GRN_No='" + obj.GRN_No + "'", trans)
             End If
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.GRN_No), "TSPL_GRN_HEAD", "GRN_No", "TSPL_GRN_DETAIL", "GRN_No", "TSPL_GRN_RGP_CONVERSION_DETAIL", "GRN_No", trans)
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.GRN_No), "TSPL_GRN_HEAD", "GRN_No", "TSPL_GRN_DETAIL", "GRN_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
-            End If
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -1641,10 +1639,21 @@ Public Class clsGRNHead
         End Try
         Return tolerence
     End Function
+    Public Shared Function CheckItemWeighment(ByVal ItemCode As String, ByVal trans As SqlTransaction) As Double
+        Dim qry As String = " "
+        Dim count As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
+
+        If count > 0 Then
+            Return True
+        Else
+            Return False
+        End If
+    End Function
 
     'stuti--------------
     Public Shared Function CheckGRNUsedInSRNorMRN(ByVal strGRNNo As String, ByVal trans As SqlTransaction) As Boolean
-        '' richa agarwal 13 dec,2016
+
+        'Dim qry As String = " select sum(fin.[cnt])from (Select 1 as [cnt] from tspl_mrn_detail where where Grn_id='" + clsCommon.myCstr(strGRNNo) + "')fin"
         'Dim qry As String = "select sum(fin.[cnt]) from (SELECT 1 as [cnt] from TSPL_SRN_DETAIL where TSPL_SRN_DETAIL.GRN_Id ='" + clsCommon.myCstr(strGRNNo) + "' union all SELECT 1 as [cnt] from TSPL_MRN_DETAIL where TSPL_MRN_DETAIL.GRN_Id ='" + clsCommon.myCstr(strGRNNo) + "')fin"
         Dim qry As String = "  select isnull(sum(fin.[cnt]),0) from (" &
         "  Select 1 as [cnt] from TSPL_SRN_HEAD left outer join TSPL_SRN_DETAIL ON TSPL_SRN_HEAD.SRN_No =TSPL_SRN_DETAIL.SRN_No  where TSPL_SRN_DETAIL.GRN_Id ='" + clsCommon.myCstr(strGRNNo) + "'" &
@@ -1658,7 +1667,20 @@ Public Class clsGRNHead
             Return False
         End If
     End Function
+    Public Shared Function CheckGRNUsedInPOWEIGMNETS(ByVal strGRNNo As String, ByVal trans As SqlTransaction) As Boolean
 
+
+        'Dim qry As String = "select sum(fin.[cnt]) from (SELECT 1 as [cnt] from TSPL_SRN_DETAIL where TSPL_SRN_DETAIL.GRN_Id ='" + clsCommon.myCstr(strGRNNo) + "' union all SELECT 1 as [cnt] from TSPL_MRN_DETAIL where TSPL_MRN_DETAIL.GRN_Id ='" + clsCommon.myCstr(strGRNNo) + "')fin"
+        Dim qry As String = "select isnull(sum(fin.[cnt]),0) from 
+	(Select 1 as [cnt] from TSPL_PO_WEIGHTMENT_HEAD where TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No ='" + clsCommon.myCstr(strGRNNo) + "' )fin  "
+        Dim count As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
+
+        If count > 0 Then
+            Return True
+        Else
+            Return False
+        End If
+    End Function
     Public Shared Function GRNCancel(ByVal Form_Id As String, ByVal Doc_No As String) As Boolean
         'Dim iscancel As Boolean = True
         'Dim qry As String = ""
@@ -1684,6 +1706,12 @@ Public Class clsGRNHead
             '' cancel custom field data
             clsCommonFunctionality.SaveCancelDataMultKey(objCommonVar.CurrentUserCode, Doc_No, "TSPL_CUSTOM_FIELD_VALUES", "Transaction_Code", "Program_Code", Form_Id, trans)
             '' delete data from original table
+            
+                clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.GRN_No), "TSPL_GRN_HEAD", "GRN_No", "TSPL_GRN_DETAIL", "GRN_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
+            qry = "   delete from tspl_mrn_detail where Grn_id = '" & Doc_No & "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = " delete from TSPL_MRN_HEAD where Against_grn = '" & Doc_No & "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_GRN_DETAIL where GRN_NO='" & Doc_No & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 

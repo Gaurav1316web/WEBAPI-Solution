@@ -1190,41 +1190,42 @@ Public Class frmDairyBookingCustomer
                             'If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Is_Batch_Item from TSPL_ITEM_MASTER where Item_Code='" + strICode + "'")) = 1 Then
                             '    OpenBatchItem()
                             'End If
-                            If RunBatchFifowise = 1 Then
-                                ItemBatchFIFOWiseOnly()
-                            ElseIf RunBatchFifowise = 0 OrElse RunBatchFifowisewithmodifyfunctionality = True Then
-                                OpenBatchItem()
+                            If RunBatchFifowise = 0 OrElse RunBatchFifowisewithmodifyfunctionality = True Then
+                                If gv1.CurrentRow.Cells(colIsBatchItem).Value = True Then
+                                    OpenBatchItem()
+
+                                End If
 
                             End If
                             'If RunBatchFifowise = 0 OrElse RunBatchFifowisewithmodifyfunctionality = True Then
                             '        OpenBatchItem()
                             '    End If
                             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
-                                    UpdateCurrentRow1(gv1.CurrentRow.Index)
-                                Else
-                                    UpdateCurrentRow(gv1.CurrentRow.Index)
-                                End If
-                                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
-                                    IsTotalQtyinKG = False
-                                    gv1.CurrentRow.Cells(colCF).Value = clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where UOM_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value) + "' and Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "'")
-                                    gv1.CurrentRow.Cells(colCFKG).Value = clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where UOM_Code='KG' and Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "'")
-                                    If gv1.CurrentRow.Cells(colCFKG).Value IsNot Nothing AndAlso clsCommon.myCdbl(gv1.CurrentRow.Cells(colCFKG).Value) > 0 Then
-                                        gv1.CurrentRow.Cells(colQtyinKG).Value = (clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value) * clsCommon.myCdbl(gv1.CurrentRow.Cells(colCF).Value)) / clsCommon.myCdbl(gv1.CurrentRow.Cells(colCFKG).Value)
-                                        If clsCommon.myCdbl(gv1.CurrentRow.Cells(colQtyinKG).Value) > FORPRICE Then
-                                            ItemPrice(strICode, strIUOM, clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value), gv1.CurrentRow.Index, True)
-                                            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
-                                                UpdateCurrentRow1(gv1.CurrentRow.Index)
-                                            Else
-                                                UpdateCurrentRow(gv1.CurrentRow.Index)
-                                            End If
-                                            IsTotalQtyinKG = True
+                                UpdateCurrentRow1(gv1.CurrentRow.Index)
+                            Else
+                                UpdateCurrentRow(gv1.CurrentRow.Index)
+                            End If
+                            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                                IsTotalQtyinKG = False
+                                gv1.CurrentRow.Cells(colCF).Value = clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where UOM_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value) + "' and Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "'")
+                                gv1.CurrentRow.Cells(colCFKG).Value = clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where UOM_Code='KG' and Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "'")
+                                If gv1.CurrentRow.Cells(colCFKG).Value IsNot Nothing AndAlso clsCommon.myCdbl(gv1.CurrentRow.Cells(colCFKG).Value) > 0 Then
+                                    gv1.CurrentRow.Cells(colQtyinKG).Value = (clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value) * clsCommon.myCdbl(gv1.CurrentRow.Cells(colCF).Value)) / clsCommon.myCdbl(gv1.CurrentRow.Cells(colCFKG).Value)
+                                    If clsCommon.myCdbl(gv1.CurrentRow.Cells(colQtyinKG).Value) > FORPRICE Then
+                                        ItemPrice(strICode, strIUOM, clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value), gv1.CurrentRow.Index, True)
+                                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                                            UpdateCurrentRow1(gv1.CurrentRow.Index)
+                                        Else
+                                            UpdateCurrentRow(gv1.CurrentRow.Index)
                                         End If
+                                        IsTotalQtyinKG = True
                                     End If
                                 End If
-                                UpdateCurrentRowAvgQty(gv1.CurrentRow.Index)
-                                UpdateAllTotals()
-                            ElseIf e.Column Is gv1.Columns(colRate) Then
-                                If ShowMulMRPOfSameItemOnDairyBookingCustomer Then
+                            End If
+                            UpdateCurrentRowAvgQty(gv1.CurrentRow.Index)
+                            UpdateAllTotals()
+                        ElseIf e.Column Is gv1.Columns(colRate) Then
+                            If ShowMulMRPOfSameItemOnDairyBookingCustomer Then
                                 If clsCommon.myLen(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)) <= 0 Then
                                     common.clsCommon.MyMessageBoxShow(Me, "Please select Item First", Me.Text)
                                     isCellValueChangedOpen = False
@@ -2745,7 +2746,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                         common.clsCommon.MyMessageBoxShow(Me, "Please enter Booked Quantity UOM for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
                         Return False
                     End If
-                    If clsCommon.myLen(gv1.Rows(ii).Cells(colBatchNo)) <= 0 Then
+                    If clsCommon.myLen(gv1.Rows(ii).Cells(colBatchNo).Value) <= 0 Then
                         If dblQty > 0 AndAlso clsCommon.myCBool(gv1.Rows(ii).Cells(colIsBatchItem).Value) AndAlso clsERPFuncationality.GetBatchWiseApplicableStatus(txtDate.Value, trans) = True Then
                             'If RunBatchFifowise = 1 Then
                             '    gv1.CurrentRow = gv1.Rows(ii)
@@ -2767,66 +2768,66 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                     End If
 
                     If ShowBookingTypeDropDownonDairyBookingCustomer = True Then
-                            If dblQty > 0 AndAlso dblrate <= 0 Then
-                                clsCommon.MyMessageBoxShow(Me, "Please enter Booked Rate for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
-                                Return False
-                            End If
-                        Else
-                            If dblQty <= 0 Then
-                                common.clsCommon.MyMessageBoxShow(Me, "Please enter Booked Quantity for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
-                                Return False
-                            End If
-                            If dblrate <= 0 Then
-                                clsCommon.MyMessageBoxShow(Me, "Please enter Booked Rate for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
-                                Return False
-                            End If
+                        If dblQty > 0 AndAlso dblrate <= 0 Then
+                            clsCommon.MyMessageBoxShow(Me, "Please enter Booked Rate for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
+                            Return False
                         End If
-                        'Sanjay Ticket No- BHA/28/06/18-000106 Client- Bharat Dairy, Setting for check Average Quantity ''richa this check will not be worked for those booking which are created through Mobile app ERO/27/08/19-001005
-                        ' If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(BookingThrough,'')  from TSPL_BOOKING_MATSER   where Document_No ='" & txtDocNo.Value & "' ", trans)), "App") <> CompairStringResult.Equal Then
-                        If clsCommon.CompairString(strBookingType, "App") <> CompairStringResult.Equal Then
-                            If CheckAvgQtyOnDairyBooking = True Then
-                                If (FlagCreateDo = False) And (FlagFirstRecord = False) Then 'And (AvgQty > 0)
-                                    ''  ERO/29/07/19-000971 by Balwinder on 30/07/2019
-                                    If Math.Abs(dblQty - AvgQty) > SettDairyBookingTolleranceQty Then
-                                        If common.clsCommon.MyMessageBoxShow(Me, "Booking Quantity Should be in Average Quantity [" + clsCommon.myCstr(IIf(AvgQty - SettDairyBookingTolleranceQty < 0, 0, (AvgQty - SettDairyBookingTolleranceQty))) + " - " + clsCommon.myCstr(AvgQty + SettDairyBookingTolleranceQty) + " ] for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1) + vbNewLine + " Do you want to continue? ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
-                                            Return False
-                                        Else
-                                            Dim frm As New FrmFreeTxtBox1
-                                            frm.Text = "Remarks"
-                                            frm.strRmks = strRemarks
-                                            frm.ShowDialog()
-                                            gv1.Rows(ii).Cells(colRemarks).Value = frm.strRmks
-                                        End If
+                    Else
+                        If dblQty <= 0 Then
+                            common.clsCommon.MyMessageBoxShow(Me, "Please enter Booked Quantity for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
+                            Return False
+                        End If
+                        If dblrate <= 0 Then
+                            clsCommon.MyMessageBoxShow(Me, "Please enter Booked Rate for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
+                            Return False
+                        End If
+                    End If
+                    'Sanjay Ticket No- BHA/28/06/18-000106 Client- Bharat Dairy, Setting for check Average Quantity ''richa this check will not be worked for those booking which are created through Mobile app ERO/27/08/19-001005
+                    ' If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(BookingThrough,'')  from TSPL_BOOKING_MATSER   where Document_No ='" & txtDocNo.Value & "' ", trans)), "App") <> CompairStringResult.Equal Then
+                    If clsCommon.CompairString(strBookingType, "App") <> CompairStringResult.Equal Then
+                        If CheckAvgQtyOnDairyBooking = True Then
+                            If (FlagCreateDo = False) And (FlagFirstRecord = False) Then 'And (AvgQty > 0)
+                                ''  ERO/29/07/19-000971 by Balwinder on 30/07/2019
+                                If Math.Abs(dblQty - AvgQty) > SettDairyBookingTolleranceQty Then
+                                    If common.clsCommon.MyMessageBoxShow(Me, "Booking Quantity Should be in Average Quantity [" + clsCommon.myCstr(IIf(AvgQty - SettDairyBookingTolleranceQty < 0, 0, (AvgQty - SettDairyBookingTolleranceQty))) + " - " + clsCommon.myCstr(AvgQty + SettDairyBookingTolleranceQty) + " ] for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1) + vbNewLine + " Do you want to continue? ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+                                        Return False
+                                    Else
+                                        Dim frm As New FrmFreeTxtBox1
+                                        frm.Text = "Remarks"
+                                        frm.strRmks = strRemarks
+                                        frm.ShowDialog()
+                                        gv1.Rows(ii).Cells(colRemarks).Value = frm.strRmks
                                     End If
-                                    'If dblQty > AvgQty Then
-                                    '    If common.clsCommon.MyMessageBoxShow("Booking Quantity is more than Average Quantity for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1) + vbNewLine + " Do you want to continue? ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
-                                    '        Return False
-                                    '    Else
-                                    '        Dim frm As New FrmFreeTxtBox1
-                                    '        frm.Text = "Remarks"
-                                    '        frm.strRmks = strRemarks
-                                    '        frm.ShowDialog()
-                                    '        gv1.Rows(ii).Cells(colRemarks).Value = frm.strRmks
-                                    '    End If
-                                    'End If
-                                    ''Sanjay Ticket No- ERO/12/07/18-000371  Client - Erode, Message on Less Qty than Average
-                                    'If dblQty < AvgQty Then
-                                    '    If common.clsCommon.MyMessageBoxShow("Booking Quantity is less than Average Quantity for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1) + vbNewLine + " Do you want to continue? ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
-                                    '        Return False
-                                    '    Else
-                                    '        Dim frm As New FrmFreeTxtBox1
-                                    '        frm.Text = "Remarks"
-                                    '        frm.strRmks = strRemarks
-                                    '        frm.ShowDialog()
-                                    '        gv1.Rows(ii).Cells(colRemarks).Value = frm.strRmks
-                                    '    End If
-                                    'End If
-                                    ''Sanjay Ticket No- ERO/12/07/18-000371  Client - Erode
                                 End If
+                                'If dblQty > AvgQty Then
+                                '    If common.clsCommon.MyMessageBoxShow("Booking Quantity is more than Average Quantity for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1) + vbNewLine + " Do you want to continue? ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+                                '        Return False
+                                '    Else
+                                '        Dim frm As New FrmFreeTxtBox1
+                                '        frm.Text = "Remarks"
+                                '        frm.strRmks = strRemarks
+                                '        frm.ShowDialog()
+                                '        gv1.Rows(ii).Cells(colRemarks).Value = frm.strRmks
+                                '    End If
+                                'End If
+                                ''Sanjay Ticket No- ERO/12/07/18-000371  Client - Erode, Message on Less Qty than Average
+                                'If dblQty < AvgQty Then
+                                '    If common.clsCommon.MyMessageBoxShow("Booking Quantity is less than Average Quantity for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1) + vbNewLine + " Do you want to continue? ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+                                '        Return False
+                                '    Else
+                                '        Dim frm As New FrmFreeTxtBox1
+                                '        frm.Text = "Remarks"
+                                '        frm.strRmks = strRemarks
+                                '        frm.ShowDialog()
+                                '        gv1.Rows(ii).Cells(colRemarks).Value = frm.strRmks
+                                '    End If
+                                'End If
+                                ''Sanjay Ticket No- ERO/12/07/18-000371  Client - Erode
                             End If
                         End If
                     End If
-                    Dim dblBalQty As Double = 0
+                End If
+                Dim dblBalQty As Double = 0
                 If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtLocation.Value) & "'", trans)), "Y") = CompairStringResult.Equal Then
                     If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(txtVendorNo.Value) & "' ", trans)), "Others") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(txtVendorNo.Value) & "' ", trans)), "") = CompairStringResult.Equal Then
                         dblBalQty = clsItemLocationDetails.getBalance(strICode, IIf(clsCommon.myLen(clsCommon.myCstr(txtSubLocation.Value)) > 0, txtSubLocation.Value, txtLocation.Value), txtDocNo.Value, txtDate.Value, trans, strUOM, dblMRP)
@@ -3786,7 +3787,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                 txtVendorNo.Value = clsCommon.myCstr(dt2.Rows(0)("Cust_Code"))
                 lblVendorName.Text = clsCommon.myCstr(dt2.Rows(0)("Customer_Name"))
                 txtVehicleCode.Value = clsCommon.myCstr(dt2.Rows(0)("Vehicle_Code"))
-                txtVehicleName.Text = clsDBFuncationality.getSingleValue("select Vehicle_Name from TSPL_VEHICLE_MASTER where Vehicle_id='" + txtVehicleCode.Value + "'")
+                txtVehicleName.Text = clsDBFuncationality.getSingleValue("select Number from TSPL_VEHICLE_MASTER where Vehicle_id='" + txtVehicleCode.Value + "'")
                 If clsCommon.CompairString(obj.Booking_Type, "") = CompairStringResult.Equal Then
                     cmbcashcredit.Text = ""
                 ElseIf clsCommon.CompairString(obj.Booking_Type, "PS") = CompairStringResult.Equal Then
@@ -4195,81 +4196,81 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                     Next
                 End If
                 lblTotalDocAmt.Text = obj.Total_Amt 'Math.Round(clsCommon.myCdbl(dblTotalDocAmt), 2)
-                    txtTCSBaseAmt.Text = obj.TCSBaseAmt
-                    lblTCSAmount.Text = obj.TCSAmount
-                    'Try
-                    '    lblTCSAmount.Text = Math.Round(Math.Round(clsCommon.myCdbl(dblTotalDocAmt), 2) * GetTCSRate(txtVendorNo.Value) / 100, 2)
-                    'Catch ex As Exception
-                    'End Try
-                    ''to show all items other than booking in case of customer type other than others 25 Feb,2020
-                    'If clsCommon.CompairString(txtBOstatus.Text, "Posted") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(txtBOstatus.Text, "Rejected") <> CompairStringResult.Equal Then
-                    '    If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(txtVendorNo.Value) & "' ")), "Others") <> CompairStringResult.Equal Then
-                    '        qry = "  select tspl_item_master.item_code,tspl_item_master.Item_Desc,tspl_item_master.Short_Description ,TSPL_ITEM_UOM_DETAIL.UOM_Code ,tspl_item_master.IsTaxable," & Environment.NewLine &
-                    '        " case when tspl_item_master.Is_Ambient=1 then 'PS' WHEN tspl_item_master.Is_FreshItem=1 THEN 'FS' ELSE '' END  IsFreshAmbient,tspl_item_master.HSN_Code,0 as Booking_Qty,tspl_item_master.Sku_Seq   from tspl_item_master " & Environment.NewLine &
-                    '        " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code =tspl_item_master.Item_Code " & Environment.NewLine &
-                    '        " where isnull(tspl_item_master.Chilled_Freezen,0)=1 and isnull(TSPL_ITEM_MASTER.item_type,'')='F'  and tspl_item_master.Active=1 and TSPL_ITEM_UOM_DETAIL.Default_UOM=1 " & Environment.NewLine &
-                    '        " and tspl_item_master.Item_Code not in ( select tspl_booking_detail.item_code from tspl_booking_detail" & Environment.NewLine &
-                    '        " LEFT OUTER JOIN tspl_item_master ON tspl_item_master.item_code=tspl_booking_detail.iTEM_CODE " & Environment.NewLine &
-                    '        " where tspl_booking_detail.Document_No='" & clsCommon.myCstr(txtDocNo.Value) & "' AND tspl_booking_detail.Scheme_Item ='N') order by Sku_Seq" & Environment.NewLine
-                    '        dt2 = clsDBFuncationality.GetDataTable(qry)
-                    '        If dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0 Then
-                    '            For Each dr As DataRow In dt2.Rows
-                    '                isCellValueChangedOpen = True
-                    '                gv1.Rows.AddNew()
-                    '                gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = gv1.Rows.Count
-                    '                gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = clsCommon.myCstr(dr("item_code"))
-                    '                gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = clsCommon.myCstr(dr("Item_Desc"))
-                    '                gv1.Rows(gv1.Rows.Count - 1).Cells(colIShortName).Value = clsCommon.myCstr(dr("Short_Description"))
-                    '                gv1.Rows(gv1.Rows.Count - 1).Cells(colIHSN).Value = clsCommon.myCstr(dr("HSN_Code"))
-                    '                gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = clsCommon.myCstr(dr("UOM_Code"))
-                    '                gv1.Rows(gv1.Rows.Count - 1).Cells(colTax_NonTax).Value = clsCommon.myCstr(dr("IsTaxable"))
-                    '                gv1.Rows(gv1.Rows.Count - 1).Cells(colFreshAmbient).Value = clsCommon.myCstr(dr("IsFreshAmbient"))
-                    '                gv1.Rows(gv1.Rows.Count - 1).Cells(colPreviousQty).Value = clsCommon.myCdbl(dr("Booking_Qty"))
-                    '                gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = clsCommon.myCdbl(dr("Booking_Qty"))
-                    '                If clsCommon.myCdbl(clsCommon.myCdbl(dr("Booking_Qty"))) > 0 Then
-                    '                    ItemPrice(clsCommon.myCstr(dr("item_code")), clsCommon.myCstr(dr("Unit_code")), clsCommon.myCdbl(dr("Booking_Qty")), gv1.Rows.Count - 1)
-                    '                End If
-                    '                isCellValueChangedOpen = False
-                    '            Next
-                    '        End If
-                    '    Else
-                    '        qry = " select tspl_item_master.item_code,tspl_item_master.Item_Desc,tspl_item_master.Short_Description ,TSPL_ITEM_UOM_DETAIL.UOM_Code ,tspl_item_master.IsTaxable," & Environment.NewLine &
-                    '      " case when tspl_item_master.Is_Ambient=1 then 'PS' WHEN tspl_item_master.Is_FreshItem=1 THEN 'FS' ELSE '' END  IsFreshAmbient,tspl_item_master.HSN_Code,0 as Booking_Qty,tspl_item_master.Marketing_Seq   from tspl_item_master " & Environment.NewLine &
-                    '      " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code =tspl_item_master.Item_Code " & Environment.NewLine &
-                    '      " where isnull(tspl_item_master.Item_Type,'')='F' and isnull(tspl_item_master.TypeOfItm,'')='A' and tspl_item_master.Active=1 and TSPL_ITEM_UOM_DETAIL.Default_UOM=1 " & Environment.NewLine &
-                    '      " and tspl_item_master.Item_Code not in ( select tspl_booking_detail.item_code from tspl_booking_detail" & Environment.NewLine &
-                    '      " LEFT OUTER JOIN tspl_item_master ON tspl_item_master.item_code=tspl_booking_detail.iTEM_CODE " & Environment.NewLine &
-                    '      " where tspl_booking_detail.Document_No='" & clsCommon.myCstr(txtDocNo.Value) & "' AND tspl_booking_detail.Scheme_Item ='N')" & Environment.NewLine &
-                    '      " order by Marketing_Seq"
-                    '        dt2 = clsDBFuncationality.GetDataTable(qry)
-                    '        If dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0 Then
-                    '            For Each dr As DataRow In dt2.Rows
-                    '                isCellValueChangedOpen = True
-                    '                gv1.Rows.AddNew()
-                    '                gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = gv1.Rows.Count
-                    '                gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = clsCommon.myCstr(dr("item_code"))
-                    '                gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = clsCommon.myCstr(dr("Item_Desc"))
-                    '                gv1.Rows(gv1.Rows.Count - 1).Cells(colIShortName).Value = clsCommon.myCstr(dr("Short_Description"))
-                    '                gv1.Rows(gv1.Rows.Count - 1).Cells(colIHSN).Value = clsCommon.myCstr(dr("HSN_Code"))
-                    '                gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = clsCommon.myCstr(dr("UOM_Code"))
-                    '                gv1.Rows(gv1.Rows.Count - 1).Cells(colTax_NonTax).Value = clsCommon.myCstr(dr("IsTaxable"))
-                    '                gv1.Rows(gv1.Rows.Count - 1).Cells(colFreshAmbient).Value = clsCommon.myCstr(dr("IsFreshAmbient"))
-                    '                gv1.Rows(gv1.Rows.Count - 1).Cells(colPreviousQty).Value = clsCommon.myCdbl(dr("Booking_Qty"))
-                    '                gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = clsCommon.myCdbl(dr("Booking_Qty"))
-                    '                If clsCommon.myCdbl(clsCommon.myCdbl(dr("Booking_Qty"))) > 0 Then
-                    '                    ItemPrice(clsCommon.myCstr(dr("item_code")), clsCommon.myCstr(dr("Unit_code")), clsCommon.myCdbl(dr("Booking_Qty")), gv1.Rows.Count - 1)
-                    '                End If
-                    '                isCellValueChangedOpen = False
-                    '            Next
-                    '        End If
-                    '    End If
-                    'End If
-                    ItemTypePanel.Enabled = False
-                    If chkBPL.Checked Then
-                        UcAttachment1.LoadData(obj.Document_No)
-                    End If
+                txtTCSBaseAmt.Text = obj.TCSBaseAmt
+                lblTCSAmount.Text = obj.TCSAmount
+                'Try
+                '    lblTCSAmount.Text = Math.Round(Math.Round(clsCommon.myCdbl(dblTotalDocAmt), 2) * GetTCSRate(txtVendorNo.Value) / 100, 2)
+                'Catch ex As Exception
+                'End Try
+                ''to show all items other than booking in case of customer type other than others 25 Feb,2020
+                'If clsCommon.CompairString(txtBOstatus.Text, "Posted") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(txtBOstatus.Text, "Rejected") <> CompairStringResult.Equal Then
+                '    If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(txtVendorNo.Value) & "' ")), "Others") <> CompairStringResult.Equal Then
+                '        qry = "  select tspl_item_master.item_code,tspl_item_master.Item_Desc,tspl_item_master.Short_Description ,TSPL_ITEM_UOM_DETAIL.UOM_Code ,tspl_item_master.IsTaxable," & Environment.NewLine &
+                '        " case when tspl_item_master.Is_Ambient=1 then 'PS' WHEN tspl_item_master.Is_FreshItem=1 THEN 'FS' ELSE '' END  IsFreshAmbient,tspl_item_master.HSN_Code,0 as Booking_Qty,tspl_item_master.Sku_Seq   from tspl_item_master " & Environment.NewLine &
+                '        " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code =tspl_item_master.Item_Code " & Environment.NewLine &
+                '        " where isnull(tspl_item_master.Chilled_Freezen,0)=1 and isnull(TSPL_ITEM_MASTER.item_type,'')='F'  and tspl_item_master.Active=1 and TSPL_ITEM_UOM_DETAIL.Default_UOM=1 " & Environment.NewLine &
+                '        " and tspl_item_master.Item_Code not in ( select tspl_booking_detail.item_code from tspl_booking_detail" & Environment.NewLine &
+                '        " LEFT OUTER JOIN tspl_item_master ON tspl_item_master.item_code=tspl_booking_detail.iTEM_CODE " & Environment.NewLine &
+                '        " where tspl_booking_detail.Document_No='" & clsCommon.myCstr(txtDocNo.Value) & "' AND tspl_booking_detail.Scheme_Item ='N') order by Sku_Seq" & Environment.NewLine
+                '        dt2 = clsDBFuncationality.GetDataTable(qry)
+                '        If dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0 Then
+                '            For Each dr As DataRow In dt2.Rows
+                '                isCellValueChangedOpen = True
+                '                gv1.Rows.AddNew()
+                '                gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = gv1.Rows.Count
+                '                gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = clsCommon.myCstr(dr("item_code"))
+                '                gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = clsCommon.myCstr(dr("Item_Desc"))
+                '                gv1.Rows(gv1.Rows.Count - 1).Cells(colIShortName).Value = clsCommon.myCstr(dr("Short_Description"))
+                '                gv1.Rows(gv1.Rows.Count - 1).Cells(colIHSN).Value = clsCommon.myCstr(dr("HSN_Code"))
+                '                gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = clsCommon.myCstr(dr("UOM_Code"))
+                '                gv1.Rows(gv1.Rows.Count - 1).Cells(colTax_NonTax).Value = clsCommon.myCstr(dr("IsTaxable"))
+                '                gv1.Rows(gv1.Rows.Count - 1).Cells(colFreshAmbient).Value = clsCommon.myCstr(dr("IsFreshAmbient"))
+                '                gv1.Rows(gv1.Rows.Count - 1).Cells(colPreviousQty).Value = clsCommon.myCdbl(dr("Booking_Qty"))
+                '                gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = clsCommon.myCdbl(dr("Booking_Qty"))
+                '                If clsCommon.myCdbl(clsCommon.myCdbl(dr("Booking_Qty"))) > 0 Then
+                '                    ItemPrice(clsCommon.myCstr(dr("item_code")), clsCommon.myCstr(dr("Unit_code")), clsCommon.myCdbl(dr("Booking_Qty")), gv1.Rows.Count - 1)
+                '                End If
+                '                isCellValueChangedOpen = False
+                '            Next
+                '        End If
+                '    Else
+                '        qry = " select tspl_item_master.item_code,tspl_item_master.Item_Desc,tspl_item_master.Short_Description ,TSPL_ITEM_UOM_DETAIL.UOM_Code ,tspl_item_master.IsTaxable," & Environment.NewLine &
+                '      " case when tspl_item_master.Is_Ambient=1 then 'PS' WHEN tspl_item_master.Is_FreshItem=1 THEN 'FS' ELSE '' END  IsFreshAmbient,tspl_item_master.HSN_Code,0 as Booking_Qty,tspl_item_master.Marketing_Seq   from tspl_item_master " & Environment.NewLine &
+                '      " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code =tspl_item_master.Item_Code " & Environment.NewLine &
+                '      " where isnull(tspl_item_master.Item_Type,'')='F' and isnull(tspl_item_master.TypeOfItm,'')='A' and tspl_item_master.Active=1 and TSPL_ITEM_UOM_DETAIL.Default_UOM=1 " & Environment.NewLine &
+                '      " and tspl_item_master.Item_Code not in ( select tspl_booking_detail.item_code from tspl_booking_detail" & Environment.NewLine &
+                '      " LEFT OUTER JOIN tspl_item_master ON tspl_item_master.item_code=tspl_booking_detail.iTEM_CODE " & Environment.NewLine &
+                '      " where tspl_booking_detail.Document_No='" & clsCommon.myCstr(txtDocNo.Value) & "' AND tspl_booking_detail.Scheme_Item ='N')" & Environment.NewLine &
+                '      " order by Marketing_Seq"
+                '        dt2 = clsDBFuncationality.GetDataTable(qry)
+                '        If dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0 Then
+                '            For Each dr As DataRow In dt2.Rows
+                '                isCellValueChangedOpen = True
+                '                gv1.Rows.AddNew()
+                '                gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = gv1.Rows.Count
+                '                gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = clsCommon.myCstr(dr("item_code"))
+                '                gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = clsCommon.myCstr(dr("Item_Desc"))
+                '                gv1.Rows(gv1.Rows.Count - 1).Cells(colIShortName).Value = clsCommon.myCstr(dr("Short_Description"))
+                '                gv1.Rows(gv1.Rows.Count - 1).Cells(colIHSN).Value = clsCommon.myCstr(dr("HSN_Code"))
+                '                gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = clsCommon.myCstr(dr("UOM_Code"))
+                '                gv1.Rows(gv1.Rows.Count - 1).Cells(colTax_NonTax).Value = clsCommon.myCstr(dr("IsTaxable"))
+                '                gv1.Rows(gv1.Rows.Count - 1).Cells(colFreshAmbient).Value = clsCommon.myCstr(dr("IsFreshAmbient"))
+                '                gv1.Rows(gv1.Rows.Count - 1).Cells(colPreviousQty).Value = clsCommon.myCdbl(dr("Booking_Qty"))
+                '                gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = clsCommon.myCdbl(dr("Booking_Qty"))
+                '                If clsCommon.myCdbl(clsCommon.myCdbl(dr("Booking_Qty"))) > 0 Then
+                '                    ItemPrice(clsCommon.myCstr(dr("item_code")), clsCommon.myCstr(dr("Unit_code")), clsCommon.myCdbl(dr("Booking_Qty")), gv1.Rows.Count - 1)
+                '                End If
+                '                isCellValueChangedOpen = False
+                '            Next
+                '        End If
+                '    End If
+                'End If
+                ItemTypePanel.Enabled = False
+                If chkBPL.Checked Then
+                    UcAttachment1.LoadData(obj.Document_No)
                 End If
-                If (clsCommon.myCdbl(lblTotRAmt1.Text)) > 0 Then
+            End If
+            If (clsCommon.myCdbl(lblTotRAmt1.Text)) > 0 Then
                 If AllowWo_Outstanding = False Then
                     If CheckOutstandingOnbooking = 1 AndAlso ((BookingStatus = 1 OrElse BookingStatus = 2) AndAlso (BookingStatus <> 5)) Then
                         CustomerOutstandingAmount(txtVendorNo.Value, Nothing)
@@ -8769,7 +8770,7 @@ where  TSPL_BOOKING_DETAIL.Cust_Code='" + strVendorno + "' and convert(date,TSPL
                     isNewDocumentorExistingdoc = True
                 End If
                 If isNewDocumentorExistingdoc = True Then
-                    TransType_Str = IIf(rbtn_Fresh.IsChecked = True, "FS", "PS")
+                    TransType_Str = "FS"
                     TransType_Str = TransType_Str & "-SH"
                     For ii As Integer = 0 To gv1.Rows.Count - 1
                         If gv1.Rows(ii).Cells(colIsBatchItem).Value = True Then
@@ -8777,27 +8778,27 @@ where  TSPL_BOOKING_DETAIL.Cust_Code='" + strVendorno + "' and convert(date,TSPL
                             'If RunBatchFifowise = 1 Then
                             If ii > 0 Then
                                 Dim strICodeOuter As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value)
-                                For jj As Integer = 0 To ii - 1
-                                    Dim strICodeInner As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colICode).Value)
-                                    If clsCommon.CompairString(strICodeOuter, strICodeInner) = CompairStringResult.Equal Then
-                                        Dim arr As List(Of clsBatchInventory) = Nothing
-                                        arr = TryCast(gv1.Rows(jj).Cells(colICode).Tag, List(Of clsBatchInventory))
-                                        If arr IsNot Nothing Then
-                                            For Each obj As clsBatchInventory In arr
-                                                Dim dblqty As Double = obj.Qty
-                                                If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(jj).Cells(colUnit).Value), clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value)) <> CompairStringResult.Equal Then
-                                                    dblqty = GetConvQuantity(strICodeInner, clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value), clsCommon.myCstr(gv1.Rows(jj).Cells(colUnit).Value), obj.Qty)
-                                                End If
-                                                strBatchunion += " union all select '" & clsCommon.myCstr(obj.Batch_No) & "' as Batch_No, " &
-                                                        "'" & clsCommon.myCstr(obj.Manual_BatchNo) & "' as Manual_BatchNo,'O' as In_Out_Type, " &
-                                                        "'" & clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value) & "' as OrgUOM," & dblqty & " as OrgQty,0 as OrgMRP, " &
-                                                        "'" & clsCommon.GetPrintDate(obj.Expiry_Date, "dd/MMM/yyyy") & "' as Expiry_Date, " &
-                                                        "'" & clsCommon.GetPrintDate(obj.Manufacture_Date, "dd/MMM/yyyy") & "' as Manufacture_Date, " &
-                                                        "" & dblqty & " as Qty, 0 as MRP "
-                                            Next
-                                        End If
+                                'For jj As Integer = 0 To ii - 1
+                                'Dim strICodeInner As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colICode).Value)
+                                'If clsCommon.CompairString(strICodeOuter, strICodeInner) = CompairStringResult.Equal Then
+                                Dim arr As List(Of clsBatchInventory) = Nothing
+                                arr = TryCast(gv1.Rows(ii).Cells(colICode).Tag, List(Of clsBatchInventory))
+                                If arr IsNot Nothing Then
+                                        For Each obj As clsBatchInventory In arr
+                                            Dim dblqty As Double = obj.Qty
+                                        'If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(jj).Cells(colUnit).Value), clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value)) <> CompairStringResult.Equal Then
+                                        dblqty = GetConvQuantity(strICodeOuter, clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value), clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value), obj.Qty)
+                                        'End If
+                                        strBatchunion += " union all select '" & clsCommon.myCstr(obj.Batch_No) & "' as Batch_No, " &
+                                                    "'" & clsCommon.myCstr(obj.Manual_BatchNo) & "' as Manual_BatchNo,'O' as In_Out_Type, " &
+                                                    "'" & clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value) & "' as OrgUOM," & dblqty & " as OrgQty,0 as OrgMRP, " &
+                                                    "'" & clsCommon.GetPrintDate(obj.Expiry_Date, "dd/MMM/yyyy") & "' as Expiry_Date, " &
+                                                    "'" & clsCommon.GetPrintDate(obj.Manufacture_Date, "dd/MMM/yyyy") & "' as Manufacture_Date, " &
+                                                    "" & dblqty & " as Qty, 0 as MRP "
+                                        Next
                                     End If
-                                Next
+                                'End If
+                                'Next
                             End If
                             gv1.CurrentRow = gv1.Rows(ii)
                             Dim frm As frmBatchItemOut = New frmBatchItemOut()
@@ -8810,27 +8811,27 @@ where  TSPL_BOOKING_DETAIL.Cust_Code='" + strVendorno + "' and convert(date,TSPL
                             End If
 
                             frm.strCurrDocNo = txtDocNo.Value
-                                frm.strCurrDocType = TransType_Str
-                                '"PS-SH"
-                                frm.strUOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
-                                'frm.dblMRP = clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value) comment by balwinder on UDL on 02/12/2016
-                                frm.dblqty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value)
-                                frm.arr = TryCast(gv1.CurrentRow.Cells(colICode).Tag, List(Of clsBatchInventory))
-                                Dim isMilkItem As Boolean = IIf(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Is_Milk_Pouch  from TSPL_ITEM_MASTER where item_code='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) & "'")) = 0, False, True)
-                                If frm.OpenSerialList(0, "", strBatchunion, False, IIf(isMilkItem = True, True, False)) Then
-                                    gv1.CurrentRow.Cells(colICode).Tag = frm.arr
-                                    blnBatchqty = True
-                                Else
-                                    Dim batchQty As Double = 0
-                                    For Each obj As clsBatchInventory In frm.arr
-                                        batchQty += obj.Qty
-                                    Next
-                                    clsCommon.MyMessageBoxShow(Me, "Please increase stock Item Code - " & frm.strItemCode & " , Entered Qty - " & clsCommon.myCstr(frm.dblqty) & " Batch Qty - " & clsCommon.myCstr(batchQty), Me.Text)
-                                    blnBatchqty = False
-                                    Exit Sub
-                                End If
-                                'End If
+                            frm.strCurrDocType = TransType_Str
+                            '"PS-SH"
+                            frm.strUOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
+                            'frm.dblMRP = clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value) comment by balwinder on UDL on 02/12/2016
+                            frm.dblqty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value)
+                            frm.arr = TryCast(gv1.CurrentRow.Cells(colICode).Tag, List(Of clsBatchInventory))
+                            Dim isMilkItem As Boolean = IIf(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Is_Milk_Pouch  from TSPL_ITEM_MASTER where item_code='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) & "'")) = 0, False, True)
+                            If frm.OpenSerialList(0, "", strBatchunion, False, IIf(isMilkItem = True, True, False)) Then
+                                gv1.CurrentRow.Cells(colICode).Tag = frm.arr
+                                blnBatchqty = True
+                            Else
+                                Dim batchQty As Double = 0
+                                For Each obj As clsBatchInventory In frm.arr
+                                    batchQty += obj.Qty
+                                Next
+                                clsCommon.MyMessageBoxShow(Me, "Please increase stock Item Code - " & frm.strItemCode & " , Entered Qty - " & clsCommon.myCstr(frm.dblqty) & " Batch Qty - " & clsCommon.myCstr(batchQty), Me.Text)
+                                blnBatchqty = False
+                                Exit Sub
                             End If
+                            'End If
+                        End If
                     Next
                 Else
                     If clsCommon.myCBool(gv1.CurrentRow.Cells(colIsBatchItem).Value) Then
