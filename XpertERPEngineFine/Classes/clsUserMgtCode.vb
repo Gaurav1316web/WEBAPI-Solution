@@ -1756,7 +1756,7 @@ Public Class clsUserMgtCode
     'Public Const rptDetailedCardReport As String = "DET-CAR-REP"
     Public Const frmPendingSaleInvoiceforChilpPO As String = "PEN-INV-DEMO"
     Public Const rptSaleRegisterForAdv As String = "SAL-REG-Adv"
-    Public Const rptSalesCancelledRegister1 As String = "SAL-CNL-REG"
+    Public Const rptSalesCancelledRegister2 As String = "SAL-CNL-REG"
     '------------------Fresh Sale----------------------------------'
     '------------------Master----------------------------------------'
     Public Const FrmZoneMaster As String = "ZONE-M"
