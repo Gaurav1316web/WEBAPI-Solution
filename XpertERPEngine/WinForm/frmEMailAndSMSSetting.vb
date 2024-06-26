@@ -214,6 +214,7 @@ Public Class frmEMailAndSMSSetting
     Public Const SOURAmt As String = "$#SOURAmount#$"
 
     Public Const DateRange As String = "$#DateRange#$"
+    Public Const Bank As String = "$#Bank#$"
 #End Region
 
     Private Sub frmEMailAndSMSSetting_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -238,6 +239,7 @@ Public Class frmEMailAndSMSSetting
         ContextMenuStrip2.Items.Add(SMSStringConstSMSText)
         If clsCommon.CompairString(Form_ID, clsUserMgtCode.frmBankAdvise) = CompairStringResult.Equal Then
             ContextMenuStrip1.Items.Add(DateRange)
+            ContextMenuStrip1.Items.Add(Bank)
         ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.ChangePwd) = CompairStringResult.Equal Then
             ContextMenuStrip1.Items.Add(OTP)
         ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkCollectionMCCSample) = CompairStringResult.Equal Then
@@ -1360,3 +1362,4 @@ Public Class frmEMailAndSMSSetting
 
 
 End Class
+

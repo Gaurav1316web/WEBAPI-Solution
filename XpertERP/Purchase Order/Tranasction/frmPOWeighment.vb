@@ -56,6 +56,7 @@ Public Class frmPOWeighment
             AllowtoEnterNetWeightManuallyinPOWeighmentScreen = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowtoEnterNetWeightManuallyinPOWeighmentScreen, clsFixedParameterCode.AllowtoEnterNetWeightManuallyinPOWeighmentScreen, Nothing)) = 1
             AddNew()
             RefreshSNo()
+            btnCancel.Enabled = False
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -71,7 +72,7 @@ Public Class frmPOWeighment
         btndelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
         btnPrintWithGunnyBags.Visible = MyBase.isPrintFlag
-        btnCancel.Visible=MyBase.isCancel_Flag_After_Posting
+        btnCancel.Visible = MyBase.isCancel_Flag
     End Sub
 
     Sub LoadBlankGrid()
@@ -369,7 +370,7 @@ Public Class frmPOWeighment
                 DeleteData()
             ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnclose.Enabled Then
                 CloseForm()
-            ElseIf e.Alt AndAlso e.KeyCode = Keys.L AndAlso MyBase.isCancel_Flag_After_Posting AndAlso btnCancel.Enabled Then
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.L AndAlso MyBase.isCancel_Flag AndAlso btnCancel.Enabled Then
                 CancelPOWeighmentData()
             ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
                 ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
@@ -530,6 +531,7 @@ Public Class frmPOWeighment
                     BtnPost.Enabled = False
                     btnSave.Enabled = False
                 End If
+                btnCancel.Enabled = True
                 UsGrossWeight.Status = obj.Status
 
                 IsAutoWeighment.Checked = obj.Is_Auto_Weighment
@@ -1241,7 +1243,7 @@ Public Class frmPOWeighment
             If frm1.isPasswordCorrect Then
                 Dim iscancel As Boolean = False
                 If clsPOWeighment.CheckPOWeighmentUsedInSRN(clsCommon.myCstr(txtCode.Value), Nothing) Then
-                    Throw New Exception("PO Weighment can not be cancelled because it is used in SRN/GRN.")
+                    Throw New Exception("PO Weighment can not be cancelled because it is used in MRN.")
                     'Else
                     '    clsPurchaseOrderHead.ReverseAndUnpost(txtDocNo.Value, MyBase.Form_ID)
                 End If

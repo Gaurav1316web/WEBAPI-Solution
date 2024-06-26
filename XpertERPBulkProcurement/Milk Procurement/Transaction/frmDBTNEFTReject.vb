@@ -367,6 +367,7 @@ group by xx.PK_Id having sum(RI)>0"
     End Sub
     Private Sub FormatGrid()
         Try
+            gvItem.MasterTemplate.SummaryRowsBottom.Clear()
             For ii As Integer = 1 To gvItem.Columns.Count - 1
                 gvItem.Columns(ii).ReadOnly = True
                 gvItem.Columns(ii).FormatString = ""

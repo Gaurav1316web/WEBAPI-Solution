@@ -24,8 +24,11 @@ Public Class clsPOWeighment
     '    End Try
     '    Return True
     'End Function
-    Public Shared Function CheckPOWeighmentUsedInSRN(ByVal strPONo As String, ByVal trans As SqlTransaction) As Boolean
-        Dim qry As String = "select sum(fin.[cnt]) from (SELECT 1 as [cnt] from TSPL_SRN_DETAIL where TSPL_SRN_DETAIL.GRN_ID ='" + clsCommon.myCstr(strPONo) + "' )fin"
+    Public Shared Function CheckPOWeighmentUsedInSRN(ByVal strPOWNo As String, ByVal trans As SqlTransaction) As Boolean
+        'Dim qry As String = "select sum(fin.[cnt]) from (SELECT 1 as [cnt] from TSPL_SRN_DETAIL where TSPL_SRN_DETAIL.GRN_ID ='" + clsCommon.myCstr(strPONo) + "' )fin"
+        'Dim qry As String = "select sum(fin.[cnt]) from (SELECT 1 as [cnt] from tspl_mrn_detail where tspl_mrn_detail.Mrn_no='" + clsCommon.myCstr(strPONo) + "' )fin"
+        Dim qry As String = "select sum(fin.[cnt]) from (SELECT 1 as [cnt],Against_GRN from tspl_mrn_head where Against_GRN in (
+select Against_GRN_No from TSPL_PO_WEIGHTMENT_HEAD where Weighment_Code='" + clsCommon.myCstr(strPOWNo) + "' ))fin"
         Dim count As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
 
         If count > 0 Then
@@ -53,6 +56,8 @@ Public Class clsPOWeighment
             'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             '    Throw New Exception("Can't delete due to Unload the item")
             'End If
+            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, obj.Weighment_Code, "TSPL_PO_WEIGHTMENT_HEAD", "Weighment_Code", "TSPL_PO_WEIGHTMENT_DETAIL", "Weighment_Code", "TSPL_PI_REMITTANCE", "Document_No", trans)
+
             Dim qry As String = ""
             Dim dt As DataTable = Nothing
             strCode = obj.Against_GRN_No
@@ -110,9 +115,7 @@ Public Class clsPOWeighment
             If Not isNewEntry Then
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Weighment_Code, "TSPL_PO_WEIGHTMENT_HEAD", "Weighment_Code", "TSPL_PO_WEIGHTMENT_DETAIL", "Weighment_Code", trans)
             End If
-            If Not isNewEntry Then
-                clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, obj.Weighment_Code, "TSPL_PO_WEIGHTMENT_HEAD", "Weighment_Code", "TSPL_PO_WEIGHTMENT_DETAIL", "Weighment_Code", "TSPL_PI_REMITTANCE", "Document_No", trans)
-            End If
+
             qry = "delete from TSPL_PO_WEIGHTMENT_GUNNY where Weighment_Code='" + obj.Weighment_Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
