@@ -111,8 +111,8 @@ Public Class FrmProductionAndSaleReport
                         Left outer join 
 						(select count (TSPL_SPP_PRODUCTION_ENTRY.Shift_Code) as NoOfShift,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE  from TSPL_SPP_PRODUCTION_ENTRY 
 						WHERE CONVERT (DATE,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103) BETWEEN CONVERT(DATE,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103) AND CONVERT(DATE,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)  
-                        AND TSPL_SPP_PRODUCTION_ENTRY.Shift_Code <>'WHOLEDAY'
-                           Group By LOCATION_CODE) NoOfShift
+                        AND TSPL_SPP_PRODUCTION_ENTRY.Shift_Code in ('A-SHIFT','B-SHIFT','C-SHIFT') 
+                           Group By LOCATION_CODE,CONVERT(DATE,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)) NoOfShift
 						   ON TSPL_LOCATION_MASTER.LOCATION_CODE = NoOfShift.LOCATION_CODE
 
                          LEFT OUTER JOIN
