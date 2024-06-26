@@ -108,6 +108,7 @@
     <Compile Include="Classes\clsBullRating.vb" />
     <Compile Include="Classes\ClsCostCenter.vb" />
     <Compile Include="Classes\clsDairyInvoice.vb" />
+    <Compile Include="Classes\clsDemandUploader.vb" />
     <Compile Include="Classes\clsEPF.vb" />
     <Compile Include="Classes\clsMCCMaterailSalePriceChat.vb" />
     <Compile Include="Classes\clsRCDFRateControl.vb" />

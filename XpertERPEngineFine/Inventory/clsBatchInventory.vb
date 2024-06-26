@@ -144,7 +144,42 @@ Public Class clsBatchInventory
         End If
         Return Arr
     End Function
+    Public Shared Function GetData(ByVal strDocType As String, ByVal strDocNo As String, ByVal strICode As String, ByVal Unit_Code As String, ByVal trans As SqlTransaction) As List(Of clsBatchInventory)
+        Dim qry As String = ""
+        qry = "select * from TSPL_BATCH_ITEM where Document_Type='" + strDocType + "' and Document_Code='" + strDocNo + "' and Item_Code='" + strICode + "' and UOM='" + Unit_Code + "'"
 
+        qry += " and TSPL_BATCH_ITEM.In_Out_Type ='O' "
+
+        qry += " order by Line_No"
+
+
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+        Dim Arr As List(Of clsBatchInventory) = Nothing
+        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+            Arr = New List(Of clsBatchInventory)
+            For Each dr As DataRow In dt.Rows
+                Dim objTr As clsBatchInventory = New clsBatchInventory()
+                objTr.Manual_BatchNo = clsCommon.myCstr(dr("Manual_BatchNo"))
+                objTr.Code = clsCommon.myCstr(dr("Code"))
+                objTr.Line_No = clsCommon.myCdbl(dr("Line_No"))
+                objTr.Parent_Line_No = clsCommon.myCdbl(dr("Parent_Line_No"))
+                objTr.Batch_No = clsCommon.myCstr(dr("Batch_No"))
+                objTr.Manufacture_Date = clsCommon.myCDate(dr("Manufacture_Date"))
+                objTr.Expiry_Date = clsCommon.myCDate(dr("Expiry_Date"))
+                objTr.MRP = clsCommon.myCdbl(dr("MRP"))
+                objTr.UOM = clsCommon.myCstr(dr("UOM"))
+                objTr.Qty = clsCommon.myCdbl(dr("Qty"))
+                objTr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
+                objTr.Document_Code = clsCommon.myCstr(dr("Document_Code"))
+                objTr.In_Out_Type = clsCommon.myCstr(dr("In_Out_Type"))
+                objTr.Against_Inv_Movement_Trans_Id = clsCommon.myCdbl(dr("Against_Inv_Movement_Trans_Id"))
+                objTr.Location_Code = clsCommon.myCstr(dr("Location_Code"))
+                objTr.Document_Date = clsCommon.myCDate(dr("Document_Date"))
+                Arr.Add(objTr)
+            Next
+        End If
+        Return Arr
+    End Function
     Public Shared Function DeleteData(ByVal strDocType As String, ByVal strDocNo As String, ByVal trans As SqlTransaction)
         clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BATCH_ITEM", "Document_Code", trans)
         Dim qry As String = "Delete from TSPL_BATCH_ITEM where Document_Type='" + strDocType + "' and Document_Code='" + strDocNo + "'"

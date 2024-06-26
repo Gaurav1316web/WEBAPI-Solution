@@ -9092,6 +9092,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmDemandAdjustment
                         frm = New frmDemandAdjustment
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmDemandUploader
+                        frm = New frmDemandUploader
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmDemandApproval
                         frm = New frmDemandApproval
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
