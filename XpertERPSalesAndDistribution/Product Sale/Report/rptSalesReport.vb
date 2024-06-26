@@ -30,6 +30,8 @@ Public Class rptSalesReport
         lblBillToLocation.Text = ""
         'TxtMultiLocation.arrValueMember = Nothing
         Gv1.DataSource = Nothing
+        rbnCustgroup.Checked = False
+        rbnPricegroup.Checked = True
     End Sub
 
     Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnclose.Click
@@ -41,59 +43,100 @@ Public Class rptSalesReport
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
-        Load_Sales_Report()
+        Load_Sales_Report(False)
     End Sub
 
-    Private Sub Load_Sales_Report()
+    Private Sub Load_Sales_Report(ByVal PCGroup As Boolean)
 
         Dim qry As String = ""
         Dim dt As New DataTable()
         Try
             Dim whr As String = ""
             If txtBillToLocation.Value IsNot Nothing AndAlso txtBillToLocation.Value.Count > 0 Then
-                whr += " and TSPL_SD_SALE_INVOICE_DETAIL.Location In  ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
+                whr += " and TSPL_SD_SHIPMENT_DETAIL.Location In  ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
             Else
                 'whr += " and TSPL_LOCATION_MASTER.Location_Type='Physical'  "
                 'If clsCommon.myLen(arrLoc) > 0 Then
                 'whr += "  and  LOCATION_CODE IN (" + clsCommon.GetMulcallStringWithComma(TxtMultiLocation.arrValueMember) + ") "
                 'End If
             End If
-            qry = "   Select * from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date,ISNULL ([MILKUNION], 0) as [MILKUNION] ,ISNULL ([GOSHALA], 0) as [GOSHALA] ,ISNULL ([DCS], 0) as [DCS],ISNULL ([GOVT], 0) as [GOVT],ISNULL ([KVSS], 0) as [KVSS], ISNULL ([OTHER], 0) as [OTHER],
+            If rbnPricegroup.Checked Then
+                qry = "   Select * from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date,ISNULL ([MILKUNION], 0) as [MILKUNION] ,ISNULL ([GOSHALA], 0) as [GOSHALA] ,ISNULL ([DCS], 0) as [DCS],ISNULL ([GOVT], 0) as [GOVT],ISNULL ([KVSS], 0) as [KVSS], ISNULL ([OTHER], 0) as [OTHER],
   (ISNULL ([MILKUNION], 0) + ISNULL ([GOSHALA], 0) + ISNULL ([DCS], 0) + ISNULL ([GOVT], 0) + ISNULL ([KVSS], 0) + ISNULL ([OTHER], 0)) as [Total Sale],
 ((ISNULL ([MILKUNION], 0) + ISNULL ([GOSHALA], 0) + ISNULL ([DCS], 0) + ISNULL ([GOVT], 0) + ISNULL ([KVSS], 0) + ISNULL ([OTHER], 0))/50)*100 as [Total BagSale]
   FROM
-                                   (SELECT TSPL_SD_SALE_INVOICE_DETAIL.Location,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4,convert (date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Document_Date,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_INVOICE_DETAIL.Qty)/100 as Quantity,price_CodeNon								   
-								   FROM TSPL_SD_SALE_INVOICE_DETAIL
-								     left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE
-                                     left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
+                                   (SELECT TSPL_SD_SHIPMENT_DETAIL.Location,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4,convert (date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SHIPMENT_DETAIL.Qty/TSPL_ITEM_UOM_QTL.Conversion_Factor) as Quantity,price_CodeNon								   
+								   FROM TSPL_SD_SHIPMENT_DETAIL
+								     left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code =TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
+                                     left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
                                      LEFT OUTER JOIN TSPL_PRICE_COMPONENT_MAPPING ON TSPL_PRICE_COMPONENT_MAPPING.Price_Code=TSPL_CUSTOMER_MASTER.price_CodeNon
-                                     left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
-                                     LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code 
-                                     AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SALE_INVOICE_DETAIL.Unit_code
-						      		 left outer join TSPL_SD_SALE_INVOICE_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE                            
-									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_DETAIL.Location
-	                                 WHERE  TSPL_SD_SALE_INVOICE_HEAD.Document_Date >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  and  TSPL_SD_SALE_INVOICE_HEAD.Document_Date <= '" + clsCommon.GetPrintDate(txtToDate.Value) + "'" + whr + "
+                                     left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
+                                     LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code 
+                                     AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SHIPMENT_DETAIL.Unit_code
+                                     LEFT JOIN  TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_QTL ON  TSPL_ITEM_UOM_QTL.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code 
+                                     AND TSPL_ITEM_UOM_QTL.UOM_Code= 'QTL'   
+						      		 left outer join TSPL_SD_SHIPMENT_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE                            
+									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_DETAIL.Location
+	                                 WHERE  TSPL_SD_SHIPMENT_HEAD.Document_Date >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  and  TSPL_SD_SHIPMENT_HEAD.Document_Date <= '" + clsCommon.GetPrintDate(txtToDate.Value) + "'" + whr + "  AND TSPL_ITEM_MASTER.FG_for_CF_RPT=1
 
-									 group by convert (date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103),price_CodeNon,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4,Location)Tab1
+									 group by convert (date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103),price_CodeNon,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4,Location)Tab1
                                     PIVOT (SUM(Quantity) FOR price_CodeNon IN ([MILKUNION],[GOSHALA],[DCS],[GOVT],[KVSS],[OTHER]))AS Tab2)tmp  "
 
+            Else
+                qry = "  Select * from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'as ToDate,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date,ISNULL ([UNION], 0) as [MILKUNION] ,ISNULL ([DEALER], 0) as [DEALER],ISNULL ([GOSHAL], 0) as [GOSHALA] ,ISNULL ([DCS], 0) as [DCS],ISNULL ([GOV], 0) as [GOVT],ISNULL ([KVSS], 0) as [KVSS], ISNULL ([AGENCY],0) AS [AGENCY],ISNULL ([RETAIL], 0) AS [RETAIL],ISNULL ([CFP], 0) AS [CFP],ISNULL ([MISC], 0) as [OTHER],
+  (ISNULL ([UNION], 0) +ISNULL ([DEALER], 0)+ ISNULL ([GOSHAL], 0) + ISNULL ([DCS], 0) + ISNULL ([GOV], 0) + ISNULL ([KVSS], 0) + ISNULL ([RETAIL], 0)+ ISNULL ([CFP], 0)+ ISNULL ([AGENCY], 0)+ ISNULL ([MISC], 0)) as [Total Sale],
+((ISNULL ([UNION], 0) +ISNULL ([DEALER], 0)+ ISNULL ([GOSHAL], 0) + ISNULL ([DCS], 0) + ISNULL ([GOV], 0) + ISNULL ([KVSS], 0) + ISNULL ([RETAIL], 0)+ ISNULL ([CFP], 0)+ ISNULL ([AGENCY], 0)+ ISNULL ([MISC], 0))/50)*100 as [Total BagSale]
+  FROM
+  
+                                   (SELECT TSPL_SD_SHIPMENT_DETAIL.Location,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4,convert (date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SHIPMENT_DETAIL.Qty/TSPL_ITEM_UOM_QTL.Conversion_Factor) as Quantity,Cust_Group_Code								   
+								   FROM TSPL_SD_SHIPMENT_DETAIL
+								     left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code =TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
+                                     left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+                                     LEFT OUTER JOIN TSPL_PRICE_COMPONENT_MAPPING ON TSPL_PRICE_COMPONENT_MAPPING.Price_Code=TSPL_CUSTOMER_MASTER.price_CodeNon
+                                     left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
+                                     LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code 
+                                     AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SHIPMENT_DETAIL.Unit_code
+                                     LEFT JOIN  TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_QTL ON  TSPL_ITEM_UOM_QTL.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code 
+                                     AND TSPL_ITEM_UOM_QTL.UOM_Code= 'QTL'    
+						      		 left outer join TSPL_SD_SHIPMENT_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE                            
+									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_DETAIL.Location
+	                                 WHERE  TSPL_SD_SHIPMENT_HEAD.Document_Date >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  and  TSPL_SD_SHIPMENT_HEAD.Document_Date <= '" + clsCommon.GetPrintDate(txtToDate.Value) + "'" + whr + " AND TSPL_ITEM_MASTER.FG_for_CF_RPT=1
+
+									 group by convert (date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103),Cust_Group_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4,Location)Tab1
+                                    PIVOT (SUM(Quantity) FOR Cust_Group_Code IN ([UNION],[DEALER],[GOSHAL],[DCS],[GOV],[KVSS],[AGENCY],[RETAIL],[CFP],[MISC]))AS Tab2)tmp  
+									
+"
+            End If
             If clsCommon.myLen(qry) > 0 Then
                 dt = clsDBFuncationality.GetDataTable(qry)
             End If
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                Gv1.DataSource = Nothing
-                Gv1.GroupDescriptors.Clear()
-                Gv1.SummaryRowsBottom.Clear()
-                Gv1.DataSource = dt
-                'gv1.Columns("TransType").IsVisible = False
-                'gv1.Columns("PROD_ENTRY_CODE").IsVisible = False
-                RadPageView1.SelectedPage = RadPageViewPage2
-                Gv1.BestFitColumns()
-                FormatGrid()
-                'ReStoreGridLayout()
-            Else
-                clsCommon.MyMessageBoxShow("No data found to display.", "Sales Report")
+                If PCGroup = False Then
+                    Gv1.DataSource = Nothing
+                    Gv1.GroupDescriptors.Clear()
+                    Gv1.SummaryRowsBottom.Clear()
+                    Gv1.DataSource = dt
+                    'gv1.Columns("TransType").IsVisible = False
+                    'gv1.Columns("PROD_ENTRY_CODE").IsVisible = False
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    Gv1.BestFitColumns()
+                    FormatGrid()
+                    'ReStoreGridLayout()
+                Else
+                    If rbnPricegroup.Checked Then
+                        Dim frmCRV As New frmCrystalReportViewer()
+                        frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "rptSalesReport", "")
+                        frmCRV = Nothing
+                    Else
+                        Dim frmCRV As New frmCrystalReportViewer()
+                        frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "rptSalesReportCustGroup", "")
+                        frmCRV = Nothing
+                    End If
+
+                End If
+                    Else
+                    clsCommon.MyMessageBoxShow("No data found to display.", "Sales Report")
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
@@ -138,6 +181,24 @@ Public Class rptSalesReport
         Gv1.Columns("MILKUNION").Width = 150
         Gv1.Columns("MILKUNION").IsVisible = True
         Gv1.Columns("MILKUNION").HeaderText = "MILK UNION(Qtl)"
+
+        If rbnCustgroup.Checked Then
+            Gv1.Columns("DEALER").Width = 150
+            Gv1.Columns("DEALER").IsVisible = True
+            Gv1.Columns("DEALER").HeaderText = "DEALER(Qtl)"
+
+            Gv1.Columns("AGENCY").Width = 150
+            Gv1.Columns("AGENCY").IsVisible = True
+            Gv1.Columns("AGENCY").HeaderText = "AGENCY(Qtl)"
+
+            Gv1.Columns("RETAIL").Width = 150
+            Gv1.Columns("RETAIL").IsVisible = True
+            Gv1.Columns("RETAIL").HeaderText = "RETAIL(Qtl)"
+
+            Gv1.Columns("CFP").Width = 150
+            Gv1.Columns("CFP").IsVisible = True
+            Gv1.Columns("CFP").HeaderText = "CFP(Qtl)"
+        End If
 
         Gv1.Columns("GOSHALA").Width = 150
         Gv1.Columns("GOSHALA").IsVisible = True
@@ -192,6 +253,19 @@ Public Class rptSalesReport
 
         Dim item8 As New GridViewSummaryItem("Total BagSale", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item8)
+        If rbnCustgroup.Checked = True Then
+            Dim item11 As New GridViewSummaryItem("DEALER", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item11)
+
+            Dim item12 As New GridViewSummaryItem("AGENCY", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item12)
+
+            Dim item13 As New GridViewSummaryItem("RETAIL", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item13)
+
+            Dim item14 As New GridViewSummaryItem("CFP", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item14)
+        End If
 
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
@@ -260,47 +334,48 @@ Public Class rptSalesReport
     End Sub
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
-        Try
-            Dim whr As String = ""
-            If txtBillToLocation.Value IsNot Nothing AndAlso txtBillToLocation.Value.Count > 0 Then
-                whr += " and TSPL_SD_SALE_INVOICE_DETAIL.Location In   ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
-            Else
-                'whr += " and TSPL_LOCATION_MASTER.Location_Type='Physical'  "
-                'If clsCommon.myLen(arrLoc) > 0 Then
-                'whr += "  and  LOCATION_CODE IN (" + clsCommon.GetMulcallStringWithComma(TxtMultiLocation.arrValueMember) + ") "
-                'End If
-            End If
+        Load_Sales_Report(True)
+        '        Try
+        '            Dim whr As String = ""
+        '            If txtBillToLocation.Value IsNot Nothing AndAlso txtBillToLocation.Value.Count > 0 Then
+        '                whr += " and TSPL_SD_SALE_INVOICE_DETAIL.Location In   ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
+        '            Else
+        '                'whr += " and TSPL_LOCATION_MASTER.Location_Type='Physical'  "
+        '                'If clsCommon.myLen(arrLoc) > 0 Then
+        '                'whr += "  and  LOCATION_CODE IN (" + clsCommon.GetMulcallStringWithComma(TxtMultiLocation.arrValueMember) + ") "
+        '                'End If
+        '            End If
 
-            Dim qry As String = "  Select * from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date,ISNULL ([MILKUNION], 0) as [MILKUNION] ,ISNULL ([GOSHALA], 0) as [GOSHALA] ,ISNULL ([DCS], 0) as [DCS],ISNULL ([GOVT], 0) as [GOVT],ISNULL ([KVSS], 0) as [KVSS], ISNULL ([OTHER], 0) as [OTHER],
-  (ISNULL ([MILKUNION], 0) + ISNULL ([GOSHALA], 0) + ISNULL ([DCS], 0) + ISNULL ([GOVT], 0) + ISNULL ([KVSS], 0) + ISNULL ([OTHER], 0)) as [Total Sale],
-((ISNULL ([MILKUNION], 0) + ISNULL ([GOSHALA], 0) + ISNULL ([DCS], 0) + ISNULL ([GOVT], 0) + ISNULL ([KVSS], 0) + ISNULL ([OTHER], 0))/50)*100 as [Total BagSale]
-  FROM
-                                   (SELECT TSPL_SD_SALE_INVOICE_DETAIL.Location,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4,convert (date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Document_Date,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_INVOICE_DETAIL.Qty)/100 as Quantity,price_CodeNon								   
-								   FROM TSPL_SD_SALE_INVOICE_DETAIL
-								     left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE
-                                     left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
-                                     LEFT OUTER JOIN TSPL_PRICE_COMPONENT_MAPPING ON TSPL_PRICE_COMPONENT_MAPPING.Price_Code=TSPL_CUSTOMER_MASTER.price_CodeNon
-                                     left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
-                                     LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code 
-                                     AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SALE_INVOICE_DETAIL.Unit_code
-						      		 left outer join TSPL_SD_SALE_INVOICE_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE                            
-									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_DETAIL.Location
-	                                 WHERE  TSPL_SD_SALE_INVOICE_HEAD.Document_Date >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  and  TSPL_SD_SALE_INVOICE_HEAD.Document_Date <= '" + clsCommon.GetPrintDate(txtToDate.Value) + "'" + whr + "
+        '            Dim qry As String = "  Select * from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,Location_Desc as [Location Description],Add1,Add4,FORMAT(Document_Date, 'dd/MM/yyyy')as Document_Date,ISNULL ([MILKUNION], 0) as [MILKUNION] ,ISNULL ([GOSHALA], 0) as [GOSHALA] ,ISNULL ([DCS], 0) as [DCS],ISNULL ([GOVT], 0) as [GOVT],ISNULL ([KVSS], 0) as [KVSS], ISNULL ([OTHER], 0) as [OTHER],
+        '  (ISNULL ([MILKUNION], 0) + ISNULL ([GOSHALA], 0) + ISNULL ([DCS], 0) + ISNULL ([GOVT], 0) + ISNULL ([KVSS], 0) + ISNULL ([OTHER], 0)) as [Total Sale],
+        '((ISNULL ([MILKUNION], 0) + ISNULL ([GOSHALA], 0) + ISNULL ([DCS], 0) + ISNULL ([GOVT], 0) + ISNULL ([KVSS], 0) + ISNULL ([OTHER], 0))/50)*100 as [Total BagSale]
+        '  FROM
+        '                                   (SELECT TSPL_SD_SALE_INVOICE_DETAIL.Location,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4,convert (date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Document_Date,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_INVOICE_DETAIL.Qty)/100 as Quantity,price_CodeNon								   
+        '								   FROM TSPL_SD_SALE_INVOICE_DETAIL
+        '								     left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE
+        '                                     left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
+        '                                     LEFT OUTER JOIN TSPL_PRICE_COMPONENT_MAPPING ON TSPL_PRICE_COMPONENT_MAPPING.Price_Code=TSPL_CUSTOMER_MASTER.price_CodeNon
+        '                                     left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
+        '                                     LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code 
+        '                                     AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SALE_INVOICE_DETAIL.Unit_code
+        '						      		 left outer join TSPL_SD_SALE_INVOICE_HEAD as LO_SD_SALE_INVOICE_HEAD on LO_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE                            
+        '									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_DETAIL.Location
+        '	                                 WHERE  TSPL_SD_SALE_INVOICE_HEAD.Document_Date >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  and  TSPL_SD_SALE_INVOICE_HEAD.Document_Date <= '" + clsCommon.GetPrintDate(txtToDate.Value) + "'" + whr + "
 
-									 group by convert (date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103),price_CodeNon,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4,Location)Tab1
-                                    PIVOT (SUM(Quantity) FOR price_CodeNon IN ([MILKUNION],[GOSHALA],[DCS],[GOVT],[KVSS],[OTHER]))AS Tab2)tmp  "
+        '									 group by convert (date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103),price_CodeNon,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4,Location)Tab1
+        '                                    PIVOT (SUM(Quantity) FOR price_CodeNon IN ([MILKUNION],[GOSHALA],[DCS],[GOVT],[KVSS],[OTHER]))AS Tab2)tmp  "
 
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            If dt IsNot Nothing And dt.Rows.Count > 0 Then
-                Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "rptSalesReport", "")
-                frmCRV = Nothing
-            Else
-                clsCommon.MyMessageBoxShow("No Data Found")
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
+        '            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        '            If dt IsNot Nothing And dt.Rows.Count > 0 Then
+        '                Dim frmCRV As New frmCrystalReportViewer()
+        '                frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "rptSalesReport", "")
+        '                frmCRV = Nothing
+        '            Else
+        '                clsCommon.MyMessageBoxShow("No Data Found")
+        '            End If
+        '        Catch ex As Exception
+        '            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        '        End Try
     End Sub
 
     Private Sub txtBillToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtBillToLocation._MYValidating
@@ -324,6 +399,7 @@ Public Class rptSalesReport
         If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
             lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtBillToLocation.Value + "' "))
         End If
-
+        rbnPricegroup.Checked = True
+        rbnCustgroup.Checked = False
     End Sub
 End Class

@@ -22,7 +22,7 @@ Partial Class rptSalesReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -43,6 +43,9 @@ Partial Class rptSalesReport
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbnPricegroup = New System.Windows.Forms.RadioButton()
+        Me.rbnCustgroup = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -62,6 +65,8 @@ Partial Class rptSalesReport
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -101,6 +106,7 @@ Partial Class rptSalesReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.lblBillToLocation)
         Me.RadPageViewPage1.Controls.Add(Me.txtBillToLocation)
         Me.RadPageViewPage1.Controls.Add(Me.Label3)
@@ -263,8 +269,12 @@ Partial Class rptSalesReport
         '
         '
         '
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
+        Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(779, 357)
         Me.Gv1.TabIndex = 0
         '
@@ -330,6 +340,39 @@ Partial Class rptSalesReport
         Me.btnGo.TabIndex = 43
         Me.btnGo.Text = ">>"
         '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rbnCustgroup)
+        Me.RadGroupBox2.Controls.Add(Me.rbnPricegroup)
+        Me.RadGroupBox2.HeaderText = ""
+        Me.RadGroupBox2.Location = New System.Drawing.Point(381, 16)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Size = New System.Drawing.Size(219, 36)
+        Me.RadGroupBox2.TabIndex = 45
+        '
+        'rbnPricegroup
+        '
+        Me.rbnPricegroup.AutoSize = True
+        Me.rbnPricegroup.Location = New System.Drawing.Point(14, 9)
+        Me.rbnPricegroup.Name = "rbnPricegroup"
+        Me.rbnPricegroup.Size = New System.Drawing.Size(85, 17)
+        Me.rbnPricegroup.TabIndex = 0
+        Me.rbnPricegroup.TabStop = True
+        Me.rbnPricegroup.Text = "Price Group"
+        Me.rbnPricegroup.UseVisualStyleBackColor = True
+        '
+        'rbnCustgroup
+        '
+        Me.rbnCustgroup.AutoSize = True
+        Me.rbnCustgroup.Location = New System.Drawing.Point(103, 9)
+        Me.rbnCustgroup.Name = "rbnCustgroup"
+        Me.rbnCustgroup.Size = New System.Drawing.Size(110, 17)
+        Me.rbnCustgroup.TabIndex = 46
+        Me.rbnCustgroup.TabStop = True
+        Me.rbnCustgroup.Text = "Customer Group"
+        Me.rbnCustgroup.UseVisualStyleBackColor = True
+        '
         'rptSalesReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -363,6 +406,9 @@ Partial Class rptSalesReport
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -388,4 +434,7 @@ Partial Class rptSalesReport
     Friend WithEvents Gv1 As common.UserControls.MyRadGridView
     Friend WithEvents lblBillToLocation As common.Controls.MyLabel
     Friend WithEvents txtBillToLocation As common.UserControls.txtFinder
+    Friend WithEvents RadGroupBox2 As RadGroupBox
+    Friend WithEvents rbnCustgroup As RadioButton
+    Friend WithEvents rbnPricegroup As RadioButton
 End Class
