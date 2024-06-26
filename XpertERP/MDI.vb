@@ -5168,7 +5168,7 @@ Public Class MDI
                         frm = New RptSaleRegisterReportForAdv(strProgramCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptSalesCancelledRegister
-                        frm = New RptSalesCancelledRegister
+                        'frm = New RptSalesCancelledRegister
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.MISSaleRegisterWithCSASalePatti
                         'frm = New RptSaleRegisterReportWithCSASalePatti(strProgramCode)
