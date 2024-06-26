@@ -3940,8 +3940,8 @@ Public Class frmVendorMaster
     Private Sub btnsave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnsave.Click
         If btnsave.Text = "Update" AndAlso OneTimeCheck = False Then
             Dim frm As New FrmPWD(Nothing)
-            frm.strType = clsFixedParameterType.SIRC
-            frm.strCode = clsFixedParameterCode.UpdatePassword
+            frm.strType = clsFixedParameterType.Transactionupdate
+            frm.strCode = clsFixedParameterCode.VendorMaster
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 ShowRemarks()
