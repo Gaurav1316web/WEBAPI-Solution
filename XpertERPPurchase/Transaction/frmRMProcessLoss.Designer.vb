@@ -22,7 +22,7 @@ Partial Class frmRMProcessLoss
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -34,8 +34,6 @@ Partial Class frmRMProcessLoss
         Me.lblloc = New common.Controls.MyLabel()
         Me.txtLoc = New common.UserControls.txtFinder()
         Me.txtFromDate = New common.Controls.MyDateTimePicker()
-        Me.txtToDate = New common.Controls.MyDateTimePicker()
-        Me.lblToDate = New common.Controls.MyLabel()
         Me.lblFromdate = New common.Controls.MyLabel()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
@@ -60,8 +58,6 @@ Partial Class frmRMProcessLoss
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblloc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblFromdate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -124,8 +120,6 @@ Partial Class frmRMProcessLoss
         Me.RadPanel1.Controls.Add(Me.lblloc)
         Me.RadPanel1.Controls.Add(Me.txtLoc)
         Me.RadPanel1.Controls.Add(Me.txtFromDate)
-        Me.RadPanel1.Controls.Add(Me.txtToDate)
-        Me.RadPanel1.Controls.Add(Me.lblToDate)
         Me.RadPanel1.Controls.Add(Me.lblFromdate)
         Me.RadPanel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPanel1.Location = New System.Drawing.Point(0, 0)
@@ -163,7 +157,7 @@ Partial Class frmRMProcessLoss
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -258,52 +252,14 @@ Partial Class frmRMProcessLoss
         Me.txtFromDate.Text = "30/05/2011"
         Me.txtFromDate.Value = New Date(2011, 5, 30, 12, 41, 54, 500)
         '
-        'txtToDate
-        '
-        Me.txtToDate.CalculationExpression = Nothing
-        Me.txtToDate.CustomFormat = "dd/MM/yyyy"
-        Me.txtToDate.FieldCode = Nothing
-        Me.txtToDate.FieldDesc = Nothing
-        Me.txtToDate.FieldMaxLength = 0
-        Me.txtToDate.FieldName = Nothing
-        Me.txtToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtToDate.isCalculatedField = False
-        Me.txtToDate.IsSourceFromTable = False
-        Me.txtToDate.IsSourceFromValueList = False
-        Me.txtToDate.IsUnique = False
-        Me.txtToDate.Location = New System.Drawing.Point(218, 18)
-        Me.txtToDate.MendatroryField = False
-        Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtToDate.MyLinkLable1 = Nothing
-        Me.txtToDate.MyLinkLable2 = Nothing
-        Me.txtToDate.Name = "txtToDate"
-        Me.txtToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtToDate.ReferenceFieldDesc = Nothing
-        Me.txtToDate.ReferenceFieldName = Nothing
-        Me.txtToDate.ReferenceTableName = Nothing
-        Me.txtToDate.Size = New System.Drawing.Size(82, 20)
-        Me.txtToDate.TabIndex = 80
-        Me.txtToDate.TabStop = False
-        Me.txtToDate.Text = "30/05/2011"
-        Me.txtToDate.Value = New Date(2011, 5, 30, 12, 41, 54, 500)
-        '
-        'lblToDate
-        '
-        Me.lblToDate.FieldName = Nothing
-        Me.lblToDate.Location = New System.Drawing.Point(167, 20)
-        Me.lblToDate.Name = "lblToDate"
-        Me.lblToDate.Size = New System.Drawing.Size(45, 18)
-        Me.lblToDate.TabIndex = 82
-        Me.lblToDate.Text = "To Date"
-        '
         'lblFromdate
         '
         Me.lblFromdate.FieldName = Nothing
         Me.lblFromdate.Location = New System.Drawing.Point(18, 18)
         Me.lblFromdate.Name = "lblFromdate"
-        Me.lblFromdate.Size = New System.Drawing.Size(59, 18)
+        Me.lblFromdate.Size = New System.Drawing.Size(30, 18)
         Me.lblFromdate.TabIndex = 81
-        Me.lblFromdate.Text = "From Date"
+        Me.lblFromdate.Text = "Date"
         '
         'btnReset
         '
@@ -423,8 +379,6 @@ Partial Class frmRMProcessLoss
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblloc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblFromdate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
@@ -454,8 +408,6 @@ Partial Class frmRMProcessLoss
     Friend WithEvents lblloc As common.Controls.MyLabel
     Friend WithEvents txtLoc As common.UserControls.txtFinder
     Friend WithEvents txtFromDate As common.Controls.MyDateTimePicker
-    Friend WithEvents txtToDate As common.Controls.MyDateTimePicker
-    Friend WithEvents lblToDate As common.Controls.MyLabel
     Friend WithEvents lblFromdate As common.Controls.MyLabel
     Friend WithEvents RadGroupBox2 As RadGroupBox
     Friend WithEvents gv1 As common.UserControls.MyRadGridView
