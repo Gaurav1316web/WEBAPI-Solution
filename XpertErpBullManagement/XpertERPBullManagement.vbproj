@@ -125,7 +125,7 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Telerik.WinControls">
-      <HintPath>..\XpertERP\bin\Debug\Telerik.WinControls.dll</HintPath>
+      <HintPath>..\XpertERPReco\bin\Debug\Telerik.WinControls.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.WinControls.ChartView">
       <HintPath>..\XpertERP\bin\Debug\Telerik.WinControls.ChartView.dll</HintPath>
