@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class rptSMSDetails
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,9 +20,9 @@ Partial Class rptSMSDetails
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -50,12 +50,7 @@ Partial Class rptSMSDetails
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
-        Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
-        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
-        Me.UcAttachment2 = New XpertERPEngine.ucAttachment()
+        Me.Label1 = New System.Windows.Forms.Label()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -76,15 +71,10 @@ Partial Class rptSMSDetails
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Gv1.SuspendLayout()
         CType(Me.btnExp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox1.SuspendLayout()
-        CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox2.SuspendLayout()
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -127,6 +117,7 @@ Partial Class rptSMSDetails
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.Label1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnExp)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
@@ -142,14 +133,13 @@ Partial Class rptSMSDetails
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(692, 326)
         Me.RadPageView1.TabIndex = 11
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
-        Me.RadPageViewPage1.Controls.Add(Me.GroupBox1)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
@@ -309,7 +299,6 @@ Partial Class rptSMSDetails
         'Gv1
         '
         Me.Gv1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
-        Me.Gv1.Controls.Add(Me.GroupBox2)
         Me.Gv1.Cursor = System.Windows.Forms.Cursors.Default
         Me.Gv1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Gv1.Font = New System.Drawing.Font("Segoe UI", 8.25!)
@@ -322,7 +311,7 @@ Partial Class rptSMSDetails
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -380,69 +369,15 @@ Partial Class rptSMSDetails
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'GroupBox1
+        'Label1
         '
-        Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.GroupBox1.Controls.Add(Me.RadButton2)
-        Me.GroupBox1.Controls.Add(Me.UcAttachment1)
-        Me.GroupBox1.Location = New System.Drawing.Point(93, 106)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(471, 145)
-        Me.GroupBox1.TabIndex = 447
-        Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Visible = False
-        '
-        'RadButton2
-        '
-        Me.RadButton2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.RadButton2.Location = New System.Drawing.Point(386, 26)
-        Me.RadButton2.Name = "RadButton2"
-        Me.RadButton2.Size = New System.Drawing.Size(75, 20)
-        Me.RadButton2.TabIndex = 3
-        Me.RadButton2.Text = "Close"
-        '
-        'UcAttachment1
-        '
-        Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcAttachment1.Location = New System.Drawing.Point(3, 18)
-        Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(465, 124)
-        Me.UcAttachment1.TabIndex = 2
-        Me.UcAttachment1.TabStop = False
-        '
-        'GroupBox2
-        '
-        Me.GroupBox2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.GroupBox2.Controls.Add(Me.RadButton1)
-        Me.GroupBox2.Controls.Add(Me.UcAttachment2)
-        Me.GroupBox2.Location = New System.Drawing.Point(115, 58)
-        Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(471, 145)
-        Me.GroupBox2.TabIndex = 447
-        Me.GroupBox2.TabStop = False
-        Me.GroupBox2.Visible = False
-        '
-        'RadButton1
-        '
-        Me.RadButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.RadButton1.Location = New System.Drawing.Point(386, 26)
-        Me.RadButton1.Name = "RadButton1"
-        Me.RadButton1.Size = New System.Drawing.Size(75, 20)
-        Me.RadButton1.TabIndex = 3
-        Me.RadButton1.Text = "Close"
-        '
-        'UcAttachment2
-        '
-        Me.UcAttachment2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcAttachment2.Location = New System.Drawing.Point(3, 18)
-        Me.UcAttachment2.Name = "UcAttachment2"
-        Me.UcAttachment2.Size = New System.Drawing.Size(465, 124)
-        Me.UcAttachment2.TabIndex = 2
-        Me.UcAttachment2.TabStop = False
+        Me.Label1.AutoSize = True
+        Me.Label1.ForeColor = System.Drawing.Color.DodgerBlue
+        Me.Label1.Location = New System.Drawing.Point(599, -2)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(232, 13)
+        Me.Label1.TabIndex = 158
+        Me.Label1.Text = "Duble Click On Attchament Then show PDF "
         '
         'rptSMSDetails
         '
@@ -460,6 +395,7 @@ Partial Class rptSMSDetails
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
+        Me.SplitContainer1.Panel2.PerformLayout()
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
@@ -480,16 +416,10 @@ Partial Class rptSMSDetails
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Gv1.ResumeLayout(False)
-        Me.Gv1.PerformLayout()
         CType(Me.btnExp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox1.ResumeLayout(False)
-        CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox2.ResumeLayout(False)
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -522,11 +452,6 @@ Partial Class rptSMSDetails
     Friend WithEvents btnExp As Telerik.WinControls.UI.RadSplitButton
     Friend WithEvents rmiExcel As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents rmiPDF As Telerik.WinControls.UI.RadMenuItem
-    Friend WithEvents GroupBox1 As GroupBox
-    Friend WithEvents RadButton2 As RadButton
-    Friend WithEvents UcAttachment1 As ucAttachment
-    Friend WithEvents GroupBox2 As GroupBox
-    Friend WithEvents RadButton1 As RadButton
-    Friend WithEvents UcAttachment2 As ucAttachment
+    Friend WithEvents Label1 As Label
 End Class
 
