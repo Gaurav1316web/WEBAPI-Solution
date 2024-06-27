@@ -21,8 +21,10 @@ Public Class FarmerDetails
                               where [TSPL_APP_LOCATION].DataBase_Name=  '" + Range + "' "))
 
             Dim query As String = ""
-            query = "   SELECT '" + UnionName + "' as UnionName,X.MP_Code,TSPL_MP_MASTER.MP_Name,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,
-                        ISNULL(TSPL_MP_MASTER.Jan_Aadhar_No_Verified,0) AS Jan_Aadhar_No_Verified,TSPL_MP_MASTER.Telphone,TSPL_MP_MASTER.BankName,
+            query = "   SELECT '" + UnionName + "' as UnionName,X.MP_Code,TSPL_MP_MASTER.MP_Name,TSPL_MP_MASTER.Father_Name,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,
+                        CASE WHEN TSPL_MP_MASTER.Jan_Aadhar_No_Verified IS NULL OR TSPL_MP_MASTER.Jan_Aadhar_No_Verified = 0 THEN 'No' ELSE 'Yes' END AS Jan_Aadhar_No_Verified,
+                        isnull(TSPL_MP_MASTER.JA_janaadhaarId,'')JA_janaadhaarId,isnull(TSPL_MP_MASTER.JA_aadhar,'')JA_aadhar,
+                        TSPL_MP_MASTER.Telphone,TSPL_MP_MASTER.BankName,
                         TSPL_MP_MASTER.IFCICode,TSPL_MP_MASTER.AccountNO
                         FROM
                         (Select MP_Code from [" + Range + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL  GROUP BY MP_Code
@@ -73,39 +75,51 @@ Public Class FarmerDetails
 
         gvFarmerDetails.Columns("MP_Code").HeaderText = "MP Code"
         gvFarmerDetails.Columns("MP_Code").IsVisible = True
-        gvFarmerDetails.Width = 200
+        'gvFarmerDetails.Width = 200
 
         gvFarmerDetails.Columns("MP_Name").HeaderText = "MP Name"
         gvFarmerDetails.Columns("MP_Name").IsVisible = True
-        gvFarmerDetails.Width = 200
+        'gvFarmerDetails.Width = 200
+
+        gvFarmerDetails.Columns("Father_Name").HeaderText = "Father Name"
+        gvFarmerDetails.Columns("Father_Name").IsVisible = True
+        'gvFarmerDetails.Width = 200
 
         gvFarmerDetails.Columns("VLC_Name").HeaderText = "DCS Name"
         gvFarmerDetails.Columns("VLC_Name").IsVisible = True
-        gvFarmerDetails.Width = 200
+        'gvFarmerDetails.Width = 200
 
         gvFarmerDetails.Columns("VLC_Code_VLC_Uploader").HeaderText = "DCS Code"
         gvFarmerDetails.Columns("VLC_Code_VLC_Uploader").IsVisible = True
-        gvFarmerDetails.Width = 200
+        'gvFarmerDetails.Width = 200
 
         gvFarmerDetails.Columns("Jan_Aadhar_No_Verified").HeaderText = "Jan Aadhar No.Verified"
         gvFarmerDetails.Columns("Jan_Aadhar_No_Verified").IsVisible = True
-        gvFarmerDetails.Width = 200
+        ' gvFarmerDetails.Width = 200
+
+        gvFarmerDetails.Columns("JA_janaadhaarId").HeaderText = "Jan Aadhar No."
+        gvFarmerDetails.Columns("JA_janaadhaarId").IsVisible = True
+        ' gvFarmerDetails.Width = 200
+
+        gvFarmerDetails.Columns("JA_aadhar").HeaderText = "Aadhar No."
+        gvFarmerDetails.Columns("JA_aadhar").IsVisible = True
+        ' gvFarmerDetails.Width = 200
 
         gvFarmerDetails.Columns("Telphone").HeaderText = "Telphone"
         gvFarmerDetails.Columns("Telphone").IsVisible = True
-        gvFarmerDetails.Width = 200
+        ' gvFarmerDetails.Width = 200
 
         gvFarmerDetails.Columns("BankName").HeaderText = "Bank Name"
         gvFarmerDetails.Columns("BankName").IsVisible = True
-        gvFarmerDetails.Width = 200
+        ' gvFarmerDetails.Width = 200
 
         gvFarmerDetails.Columns("IFCICode").HeaderText = "IFSC Code"
         gvFarmerDetails.Columns("IFCICode").IsVisible = True
-        gvFarmerDetails.Width = 200
+        ' gvFarmerDetails.Width = 200
 
         gvFarmerDetails.Columns("AccountNO").HeaderText = "Account NO."
         gvFarmerDetails.Columns("AccountNO").IsVisible = True
-        gvFarmerDetails.Width = 200
+        ' gvFarmerDetails.Width = 200
 
     End Sub
 
@@ -152,7 +166,7 @@ Public Class FarmerDetails
 
         Dim query As String = ""
         query = "   SELECT X.MP_Code,TSPL_MP_MASTER.MP_Name,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,
-                        ISNULL(TSPL_MP_MASTER.Jan_Aadhar_No_Verified,0) AS Jan_Aadhar_No_Verified,TSPL_MP_MASTER.Telphone,TSPL_MP_MASTER.BankName,
+                        CASE WHEN TSPL_MP_MASTER.Jan_Aadhar_No_Verified IS NULL OR TSPL_MP_MASTER.Jan_Aadhar_No_Verified = 0 THEN 'No' ELSE 'Yes' END AS Jan_Aadhar_No_Verified,TSPL_MP_MASTER.Telphone,TSPL_MP_MASTER.BankName,
                         TSPL_MP_MASTER.IFCICode,TSPL_MP_MASTER.AccountNO
                         FROM
                         (Select MP_Code from [" + Range + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL  GROUP BY MP_Code

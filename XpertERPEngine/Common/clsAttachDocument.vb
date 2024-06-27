@@ -122,6 +122,12 @@ where 1=1 "
         Dim data As Byte() = dt.Rows(0)("FileData")
         Return dt
     End Function
+    Public Shared Function GetDocumentByteForEmail(ByVal strCode As String) As DataTable
+        Dim qry As String = " select * from TSPL_EMAIL_HEAD where CODE='" + strCode + "' "
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        Dim data As Byte() = dt.Rows(0)("Attachment_1")
+        Return dt
+    End Function
 
 
     Public Shared Function GetGRNQCDocumentByte(ByVal strGRNNo As String) As DataTable
