@@ -20,13 +20,13 @@ Public Class JanaadharStatusReport
             Dim docNo As String = ""
             query = " 
     SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') "
-            If chkRJSBNS.Checked Then
-                query += "union all
-            SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
-            union all
-            SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
-            ORDER BY Location_Name"
-            End If
+            'If chkRJSBNS.Checked Then
+            '    query += "union all
+            'SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
+            'union all
+            'SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
+            'ORDER BY Location_Name"
+            'End If
             dt = clsDBFuncationality.GetDataTable(query)
             query = ""
 
@@ -39,6 +39,7 @@ Public Class JanaadharStatusReport
                     query += "  SELECT " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
                                     COUNT(DISTINCT X.MP_Code) AS Total_MP_Codes,
 	                                count(ISNULL(mm.Jan_Aadhar_No_Verified,0)) as Jan_Aadhar_No_Verified, 
+                                    count(ISNULL(mm.JA_aadhar,0)) as JA_aadhar,
                                     COALESCE(SUM(CASE WHEN ISNULL(mm.Jan_Aadhar_No_Verified, 0) = 0 THEN 1 ELSE 0 END),0) AS Jan_Aadhar_Unverified_Count,
                                     COALESCE(SUM(CASE WHEN ISNULL(mm.Jan_Aadhar_No_Verified, 0) = 1 THEN 1 ELSE 0 END),0) AS Jan_Aadhar_Verified_Count
                                 FROM (SELECT MP_Code FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL GROUP BY MP_Code ) X
@@ -102,6 +103,9 @@ Public Class JanaadharStatusReport
         gv1.Columns("Jan_Aadhar_No_Verified").HeaderText = "Jan_Aadhar_No_Verified"
         gv1.Columns("Jan_Aadhar_No_Verified").IsVisible = False
 
+        gv1.Columns("JA_aadhar").HeaderText = "Count Of AADHAR"
+        gv1.Columns("JA_aadhar").IsVisible = True
+
         gv1.Columns("Jan_Aadhar_Unverified_Count").HeaderText = "Count Of Unverified Farmer"
         gv1.Columns("Jan_Aadhar_Unverified_Count").IsVisible = True
 
@@ -118,6 +122,8 @@ Public Class JanaadharStatusReport
         Dim item3 As New GridViewSummaryItem("Jan_Aadhar_Verified_Count", "{0:f0}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item3)
 
+        Dim item4 As New GridViewSummaryItem("JA_aadhar", "{0:f0}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item4)
         'gv1.ShowGroupPanel = True
         'gv1.MasterTemplate.AutoExpandGroups = True
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
@@ -142,6 +148,7 @@ Public Class JanaadharStatusReport
 
         'Dim frm As New FrmFreeGrid
         frmP.Range = clsCommon.myCstr(Union)
+        frmP.WindowState = FormWindowState.Maximized
         'frmP.Show()
         frmP.ShowDialog()
 

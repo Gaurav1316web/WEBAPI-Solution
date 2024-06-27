@@ -43,61 +43,83 @@ Public Class rptProductionStatusReport
             TemplateGridview = Gv1
             Dim qry As String = ""
             Dim whr As String = " and 2=2"
+            Dim whrPro As String = " "
+            Dim whrSTD As String = " "
             Dim dt As New DataTable
 
             If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
-                whr += " and TSPL_PP_PRODUCTION_PLAN_HEAD.Location_Code in (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
+                whr += " and TSPL_PP_PRODUCTION_ENTRY.LOCATION_CODE in (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
+                whrPro += " and TSPL_PRODUCTION_UPLOADER_HEAD.Location_FG in (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
+                whrSTD += "and  TSPL_RCDF_STD.Location_Code in (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
             End If
-            If txtBatchNo.arrValueMember IsNot Nothing AndAlso txtBatchNo.arrValueMember.Count > 0 Then
-                whr += " and TSPL_PP_BATCH_ORDER_HEAD.Batch_Code  in (" + clsCommon.GetMulcallString(txtBatchNo.arrValueMember) + ")"
-            End If
+            'If txtBatchNo.arrValueMember IsNot Nothing AndAlso txtBatchNo.arrValueMember.Count > 0 Then
+            '    whr += " and TSPL_PP_BATCH_ORDER_HEAD.Batch_Code  in (" + clsCommon.GetMulcallString(txtBatchNo.arrValueMember) + ")"
+            'End If
             If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
-                whr += " and TSPL_PP_PRODUCTION_PLAN_DETAIL.Item_Code  in (" + clsCommon.GetMulcallString(txtItem.arrValueMember) + ")"
+                whr += " and TSPL_PP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE  in (" + clsCommon.GetMulcallString(txtItem.arrValueMember) + ")"
+                whrPro += " and TSPL_PRODUCTION_UPLOADER_DETAIL.Item_Code in (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
+                whrSTD += "and  TSPL_RCDF_STD_PRODUCE.Item_Code in (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
             End If
-            If rdbSFGItem.Checked = True Then
-                whr += " and TSPL_ITEM_MASTER.Item_Category_Struct_Code ='SFG'"
-            Else
-                whr += " and TSPL_ITEM_MASTER.Item_Category_Struct_Code ='FG'"
-            End If
+            'If rdbSFGItem.Checked = True Then
+            '    whr += " and TSPL_ITEM_MASTER.Item_Category_Struct_Code ='SFG'"
+            'Else
+            '    whr += " and TSPL_ITEM_MASTER.Item_Category_Struct_Code ='FG'"
+            'End If
 
-            qry = " Select  Plan_Date, Plan_Code ,Item_Code,Item_Desc, case when RowNumberByPlanCode = 1 then   Plan_Qty else 0 end  as Plan_Qty, Unit_Code , Plan_Status," &
-                  " Batch_Date, Batch_Code ,  Batch_Order_Item_Code, case when RowNumberByBatchCode = 1 then  Batch_Order_Qty else 0 end Batch_Order_Qty  , Batch_Order_Unit_Code, Batch_Order_Status, " &
-                  " Issue_Date,Issue_Code, Issue_Item_Code,  case when RowNumberByIssueCode = 1 then  Issue_Qty else 0 end as Issue_Qty,  Issue_Unit_Code, Issue_Status,  " &
-                  " Standardization_Date,Standardization_Code,  Standardization_Item_Code, case when RowNumberByStandardizationCode = 1 then Standardization_Qty else 0 end as Standardization_Qty, Standardization_Unit_Code,Standardization_Status," &
-                  " QC_Date, QC_Code,QC_Item_Code, case when RowNumberByQCCode = 1 then QC_Qty else 0 end as QC_Qty , QC_Unit_Code,QC_Status, " &
-                  " STAGE_Date,STAGE_PROCESS_CODE,STAGE_Item_Code ,case when RowNumberByStageProcessCode =1 then  STAGE_Qty else 0 end as STAGE_Qty ,STAGE_Unit_Code,STAGE_Status, " &
-                  " PROD_Date,PROD_ENTRY_CODE,PROD_Item_Code,case when RowNumberByProdEntry =1 then PROD_Qty else 0 end PROD_Qty,PROD_Unit_Code,PROD_Status  " &
-                  "  from ( " &
-                  " select row_number() over (partition by TSPL_PP_PRODUCTION_PLAN_HEAD.Plan_Code order by TSPL_PP_PRODUCTION_PLAN_HEAD.Plan_Code) as RowNumberByPlanCode," &
-                  " row_number() over (partition by  TSPL_PP_BATCH_ORDER_HEAD.Batch_Code order by TSPL_PP_BATCH_ORDER_HEAD.Batch_Code) as RowNumberByBatchCode, " &
-                  " row_number() over (partition by TSPL_PP_ISSUE_HEAD.Issue_Code order by TSPL_PP_ISSUE_HEAD.Issue_Code) as RowNumberByIssueCode, " &
-                  " row_number() over (partition by TSPL_PP_STANDARDIZATION_HEAD.Standardization_Code order by TSPL_PP_STANDARDIZATION_HEAD.Standardization_Code) as RowNumberByStandardizationCode, " &
-                  " row_number() over (partition by TSPL_PP_STD_FINALQC_HEAD.QC_Code order by TSPL_PP_STD_FINALQC_HEAD.QC_Code) as RowNumberByQCCode, " &
-                  " row_number() over (partition by TSPL_PP_STAGE_PROCESS_HEAD.STAGE_PROCESS_CODE order by TSPL_PP_STAGE_PROCESS_HEAD.STAGE_PROCESS_CODE) as RowNumberByStageProcessCode, " &
-                  " row_number() over (partition by  TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE  order by  TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE ) as RowNumberByProdEntry, " &
-                  " convert (varchar, TSPL_PP_PRODUCTION_PLAN_HEAD.Plan_Date,103) as Plan_Date ,TSPL_PP_PRODUCTION_PLAN_HEAD.Plan_Code ,TSPL_PP_PRODUCTION_PLAN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_PP_PRODUCTION_PLAN_DETAIL.Final_Qty as Plan_Qty, TSPL_PP_PRODUCTION_PLAN_DETAIL.Unit_Code, case when  TSPL_PP_PRODUCTION_PLAN_HEAD.Is_Post  = 1 then 'APPROVED' else 'UN-APPROVED' end  as Plan_Status, " &
-                  " case when len (TSPL_PP_BATCH_ORDER_HEAD.Batch_Code) > 0 then convert (varchar, TSPL_PP_BATCH_ORDER_HEAD.Batch_Date,103) else '' end  as  Batch_Date , TSPL_PP_BATCH_ORDER_HEAD.Batch_Code,TSPL_PP_BATCH_ORDER_BOM_DETAIL.Item_Code as Batch_Order_Item_Code ,TSPL_PP_BATCH_ORDER_BOM_DETAIL.Quantity as Batch_Order_Qty, TSPL_PP_BATCH_ORDER_BOM_DETAIL.Unit_Code as Batch_Order_Unit_Code, case when len (TSPL_PP_BATCH_ORDER_HEAD.Batch_Code) > 0 then  case when  TSPL_PP_BATCH_ORDER_HEAD.Is_Post  = 1 then 'APPROVED' else 'UN-APPROVED' end  else '' end as Batch_Order_Status  " &
-                  " , Case when len (TSPL_PP_ISSUE_HEAD.Issue_Code ) > 0 then Convert (varchar,TSPL_PP_ISSUE_HEAD.Issue_Date,103) else '' end  as Issue_Date , TSPL_PP_ISSUE_HEAD.Issue_Code ,Case when len (TSPL_PP_ISSUE_HEAD.Issue_Code ) > 0 then TSPL_PP_BATCH_ORDER_BOM_DETAIL.Item_Code else '' end as Issue_Item_Code ,Case when len (TSPL_PP_ISSUE_HEAD.Issue_Code ) > 0 then  TSPL_PP_BATCH_ORDER_BOM_DETAIL.Quantity else '' end as Issue_Qty, Case when len (TSPL_PP_ISSUE_HEAD.Issue_Code ) > 0 then  TSPL_PP_BATCH_ORDER_BOM_DETAIL.Unit_Code else '' end as Issue_Unit_Code, Case when len (TSPL_PP_ISSUE_HEAD.Issue_Code ) > 0  then  case when  TSPL_PP_ISSUE_HEAD.Is_Post  = 1 then 'APPROVED' else 'UN-APPROVED' end else '' end as Issue_Status  " &
-                  " , case when len (TSPL_PP_STANDARDIZATION_HEAD.Standardization_Code)> 0 then Convert (varchar, TSPL_PP_STANDARDIZATION_HEAD.Standardization_Date,103) else '' end as Standardization_Date , TSPL_PP_STANDARDIZATION_HEAD.Standardization_Code  , TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Item_Code as Standardization_Item_Code , TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Produced_Qty as Standardization_Qty, TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Unit_Code as Standardization_Unit_Code, case when len (TSPL_PP_STANDARDIZATION_HEAD.Standardization_Code)> 0 then  case when  TSPL_PP_STANDARDIZATION_HEAD.Posted  = 1 then 'APPROVED' else 'UN-APPROVED' end else '' end  as Standardization_Status  " &
-                  " , Case when len(TSPL_PP_STD_FINALQC_HEAD.QC_Code) > 0 then Convert (varchar, TSPL_PP_STD_FINALQC_HEAD.QC_Date,103) else '' end  QC_Date, TSPL_PP_STD_FINALQC_HEAD.QC_Code ,TSPL_PP_STD_FINALQC_BATCH_ITEM_DETAIL.Item_Code as QC_Item_Code  ,TSPL_PP_STD_FINALQC_BATCH_ITEM_DETAIL.Produced_Qty as QC_Qty , TSPL_PP_STD_FINALQC_BATCH_ITEM_DETAIL.Unit_Code as QC_Unit_Code , Case when len(TSPL_PP_STD_FINALQC_HEAD.QC_Code) > 0 then  case when  TSPL_PP_STD_FINALQC_HEAD.Posted  = 1 then 'APPROVED' else 'UN-APPROVED' end else '' end as QC_Status  " &
-                  " , Case when len(TSPL_PP_STAGE_PROCESS_HEAD.STAGE_PROCESS_CODE) > 0 then Convert (varchar, TSPL_PP_STAGE_PROCESS_HEAD.STAGE_PROCESS_DATE,103) else '' end  STAGE_Date, TSPL_PP_STAGE_PROCESS_HEAD.STAGE_PROCESS_CODE,TSPL_PP_SP_BATCH_ITEM_PRODUCTION_DETAIL.Item_Code as STAGE_Item_Code  ,TSPL_PP_SP_BATCH_ITEM_PRODUCTION_DETAIL.FINAL_PROD_Qty as STAGE_Qty , TSPL_PP_SP_BATCH_ITEM_PRODUCTION_DETAIL.Unit_Code as STAGE_Unit_Code , Case when len(TSPL_PP_STAGE_PROCESS_HEAD.STAGE_PROCESS_CODE) > 0 then  case when  TSPL_PP_STAGE_PROCESS_HEAD.Posted  = 1 then 'APPROVED' else 'UN-APPROVED' end else '' end  as STAGE_Status " &
-                  " , Case when len(TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE) > 0 then Convert (varchar, TSPL_PP_PRODUCTION_ENTRY.PROD_DATE,103) else '' end  PROD_Date, TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE,TSPL_PP_PRODUCTION_ENTRY_DETAIL.Item_Code as PROD_Item_Code  ,TSPL_PP_PRODUCTION_ENTRY_DETAIL.Final_Production_Qty as PROD_Qty , TSPL_PP_PRODUCTION_ENTRY_DETAIL.Unit_Code as PROD_Unit_Code , Case when len(TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE) > 0 then  case when  TSPL_PP_PRODUCTION_ENTRY.Posted  = 1 then 'APPROVED' else 'UN-APPROVED' end  else '' end as PROD_Status " &
-                  " from TSPL_PP_PRODUCTION_PLAN_DETAIL " &
-                  " inner join TSPL_PP_PRODUCTION_PLAN_HEAD on TSPL_PP_PRODUCTION_PLAN_DETAIL.Plan_Code = TSPL_PP_PRODUCTION_PLAN_HEAD.Plan_Code " &
-                  " left outer Join TSPL_PP_BATCH_ORDER_HEAD on TSPL_PP_BATCH_ORDER_HEAD.Plan_Code = TSPL_PP_PRODUCTION_PLAN_HEAD.Plan_Code " &
-                  " left outer Join TSPL_PP_BATCH_ORDER_BOM_DETAIL on TSPL_PP_BATCH_ORDER_BOM_DETAIL.Batch_Code = TSPL_PP_BATCH_ORDER_HEAD.Batch_Code " &
-                  " left outer join TSPL_PP_ISSUE_HEAD on TSPL_PP_ISSUE_HEAD.Batch_Code = TSPL_PP_BATCH_ORDER_HEAD.Batch_Code " &
-                  " left outer join TSPL_PP_STANDARDIZATION_HEAD on TSPL_PP_STANDARDIZATION_HEAD.Child_Batch_Code = TSPL_PP_BATCH_ORDER_HEAD.Batch_Code " &
-                  " left Outer Join TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL on TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Standardization_Code = TSPL_PP_STANDARDIZATION_HEAD.Standardization_Code  " &
-                  " left outer join TSPL_PP_STD_FINALQC_HEAD on TSPL_PP_STD_FINALQC_HEAD.Child_Batch_Code = TSPL_PP_BATCH_ORDER_HEAD.Batch_Code And TSPL_PP_STD_FINALQC_HEAD.Against_STD_Code = TSPL_PP_STANDARDIZATION_HEAD.Standardization_Code  " &
-                  " left Outer Join TSPL_PP_STD_FINALQC_BATCH_ITEM_DETAIL on TSPL_PP_STD_FINALQC_BATCH_ITEM_DETAIL.QC_Code = TSPL_PP_STD_FINALQC_HEAD.QC_Code " &
-                  " left Outer Join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_PP_PRODUCTION_PLAN_DETAIL.Item_Code " &
-                  " left outer join TSPL_PP_STAGE_PROCESS_HEAD on TSPL_PP_STAGE_PROCESS_HEAD.Main_Batch_Code = TSPL_PP_BATCH_ORDER_HEAD.Batch_Code " &
-                  " left outer join TSPL_PP_SP_BATCH_ITEM_PRODUCTION_DETAIL on TSPL_PP_SP_BATCH_ITEM_PRODUCTION_DETAIL.STAGE_PROCESS_CODE = TSPL_PP_STAGE_PROCESS_HEAD.STAGE_PROCESS_CODE " &
-                  " left outer join TSPL_PP_PRODUCTION_ENTRY on TSPL_PP_PRODUCTION_ENTRY.Batch_Code = TSPL_PP_BATCH_ORDER_HEAD.Batch_Code " &
-                  " left outer join TSPL_PP_PRODUCTION_ENTRY_DETAIL on TSPL_PP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE = TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE " &
-                  " where convert(date,TSPL_PP_PRODUCTION_PLAN_HEAD.Plan_Date ,103)>=convert(date,'" + fromDate.Value + "',103) and convert(date,TSPL_PP_PRODUCTION_PLAN_HEAD.Plan_Date ,103) <=convert(date,'" + ToDate.Value + "' ,103) " &
-                  " " + whr + "  ) final Order by convert (date,final.Plan_Date ,103),final.Plan_Code,final.Batch_Code,final.Issue_Code,final.Standardization_Code,final.QC_Code,final.STAGE_PROCESS_CODE,final.PROD_ENTRY_CODE  asc  "
+            'qry = " Select  Plan_Date, Plan_Code ,Item_Code,Item_Desc, case when RowNumberByPlanCode = 1 then   Plan_Qty else 0 end  as Plan_Qty, Unit_Code , Plan_Status," &
+            '      " Batch_Date, Batch_Code ,  Batch_Order_Item_Code, case when RowNumberByBatchCode = 1 then  Batch_Order_Qty else 0 end Batch_Order_Qty  , Batch_Order_Unit_Code, Batch_Order_Status, " &
+            '      " Issue_Date,Issue_Code, Issue_Item_Code,  case when RowNumberByIssueCode = 1 then  Issue_Qty else 0 end as Issue_Qty,  Issue_Unit_Code, Issue_Status,  " &
+            '      " Standardization_Date,Standardization_Code,  Standardization_Item_Code, case when RowNumberByStandardizationCode = 1 then Standardization_Qty else 0 end as Standardization_Qty, Standardization_Unit_Code,Standardization_Status," &
+            '      " QC_Date, QC_Code,QC_Item_Code, case when RowNumberByQCCode = 1 then QC_Qty else 0 end as QC_Qty , QC_Unit_Code,QC_Status, " &
+            '      " STAGE_Date,STAGE_PROCESS_CODE,STAGE_Item_Code ,case when RowNumberByStageProcessCode =1 then  STAGE_Qty else 0 end as STAGE_Qty ,STAGE_Unit_Code,STAGE_Status, " &
+            '      " PROD_Date,PROD_ENTRY_CODE,PROD_Item_Code,case when RowNumberByProdEntry =1 then PROD_Qty else 0 end PROD_Qty,PROD_Unit_Code,PROD_Status  " &
+            '      "  from ( " &
+            '      " select row_number() over (partition by TSPL_PP_PRODUCTION_PLAN_HEAD.Plan_Code order by TSPL_PP_PRODUCTION_PLAN_HEAD.Plan_Code) as RowNumberByPlanCode," &
+            '      " row_number() over (partition by  TSPL_PP_BATCH_ORDER_HEAD.Batch_Code order by TSPL_PP_BATCH_ORDER_HEAD.Batch_Code) as RowNumberByBatchCode, " &
+            '      " row_number() over (partition by TSPL_PP_ISSUE_HEAD.Issue_Code order by TSPL_PP_ISSUE_HEAD.Issue_Code) as RowNumberByIssueCode, " &
+            '      " row_number() over (partition by TSPL_PP_STANDARDIZATION_HEAD.Standardization_Code order by TSPL_PP_STANDARDIZATION_HEAD.Standardization_Code) as RowNumberByStandardizationCode, " &
+            '      " row_number() over (partition by TSPL_PP_STD_FINALQC_HEAD.QC_Code order by TSPL_PP_STD_FINALQC_HEAD.QC_Code) as RowNumberByQCCode, " &
+            '      " row_number() over (partition by TSPL_PP_STAGE_PROCESS_HEAD.STAGE_PROCESS_CODE order by TSPL_PP_STAGE_PROCESS_HEAD.STAGE_PROCESS_CODE) as RowNumberByStageProcessCode, " &
+            '      " row_number() over (partition by  TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE  order by  TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE ) as RowNumberByProdEntry, " &
+            '      " convert (varchar, TSPL_PP_PRODUCTION_PLAN_HEAD.Plan_Date,103) as Plan_Date ,TSPL_PP_PRODUCTION_PLAN_HEAD.Plan_Code ,TSPL_PP_PRODUCTION_PLAN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_PP_PRODUCTION_PLAN_DETAIL.Final_Qty as Plan_Qty, TSPL_PP_PRODUCTION_PLAN_DETAIL.Unit_Code, case when  TSPL_PP_PRODUCTION_PLAN_HEAD.Is_Post  = 1 then 'APPROVED' else 'UN-APPROVED' end  as Plan_Status, " &
+            '      " case when len (TSPL_PP_BATCH_ORDER_HEAD.Batch_Code) > 0 then convert (varchar, TSPL_PP_BATCH_ORDER_HEAD.Batch_Date,103) else '' end  as  Batch_Date , TSPL_PP_BATCH_ORDER_HEAD.Batch_Code,TSPL_PP_BATCH_ORDER_BOM_DETAIL.Item_Code as Batch_Order_Item_Code ,TSPL_PP_BATCH_ORDER_BOM_DETAIL.Quantity as Batch_Order_Qty, TSPL_PP_BATCH_ORDER_BOM_DETAIL.Unit_Code as Batch_Order_Unit_Code, case when len (TSPL_PP_BATCH_ORDER_HEAD.Batch_Code) > 0 then  case when  TSPL_PP_BATCH_ORDER_HEAD.Is_Post  = 1 then 'APPROVED' else 'UN-APPROVED' end  else '' end as Batch_Order_Status  " &
+            '      " , Case when len (TSPL_PP_ISSUE_HEAD.Issue_Code ) > 0 then Convert (varchar,TSPL_PP_ISSUE_HEAD.Issue_Date,103) else '' end  as Issue_Date , TSPL_PP_ISSUE_HEAD.Issue_Code ,Case when len (TSPL_PP_ISSUE_HEAD.Issue_Code ) > 0 then TSPL_PP_BATCH_ORDER_BOM_DETAIL.Item_Code else '' end as Issue_Item_Code ,Case when len (TSPL_PP_ISSUE_HEAD.Issue_Code ) > 0 then  TSPL_PP_BATCH_ORDER_BOM_DETAIL.Quantity else '' end as Issue_Qty, Case when len (TSPL_PP_ISSUE_HEAD.Issue_Code ) > 0 then  TSPL_PP_BATCH_ORDER_BOM_DETAIL.Unit_Code else '' end as Issue_Unit_Code, Case when len (TSPL_PP_ISSUE_HEAD.Issue_Code ) > 0  then  case when  TSPL_PP_ISSUE_HEAD.Is_Post  = 1 then 'APPROVED' else 'UN-APPROVED' end else '' end as Issue_Status  " &
+            '      " , case when len (TSPL_PP_STANDARDIZATION_HEAD.Standardization_Code)> 0 then Convert (varchar, TSPL_PP_STANDARDIZATION_HEAD.Standardization_Date,103) else '' end as Standardization_Date , TSPL_PP_STANDARDIZATION_HEAD.Standardization_Code  , TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Item_Code as Standardization_Item_Code , TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Produced_Qty as Standardization_Qty, TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Unit_Code as Standardization_Unit_Code, case when len (TSPL_PP_STANDARDIZATION_HEAD.Standardization_Code)> 0 then  case when  TSPL_PP_STANDARDIZATION_HEAD.Posted  = 1 then 'APPROVED' else 'UN-APPROVED' end else '' end  as Standardization_Status  " &
+            '      " , Case when len(TSPL_PP_STD_FINALQC_HEAD.QC_Code) > 0 then Convert (varchar, TSPL_PP_STD_FINALQC_HEAD.QC_Date,103) else '' end  QC_Date, TSPL_PP_STD_FINALQC_HEAD.QC_Code ,TSPL_PP_STD_FINALQC_BATCH_ITEM_DETAIL.Item_Code as QC_Item_Code  ,TSPL_PP_STD_FINALQC_BATCH_ITEM_DETAIL.Produced_Qty as QC_Qty , TSPL_PP_STD_FINALQC_BATCH_ITEM_DETAIL.Unit_Code as QC_Unit_Code , Case when len(TSPL_PP_STD_FINALQC_HEAD.QC_Code) > 0 then  case when  TSPL_PP_STD_FINALQC_HEAD.Posted  = 1 then 'APPROVED' else 'UN-APPROVED' end else '' end as QC_Status  " &
+            '      " , Case when len(TSPL_PP_STAGE_PROCESS_HEAD.STAGE_PROCESS_CODE) > 0 then Convert (varchar, TSPL_PP_STAGE_PROCESS_HEAD.STAGE_PROCESS_DATE,103) else '' end  STAGE_Date, TSPL_PP_STAGE_PROCESS_HEAD.STAGE_PROCESS_CODE,TSPL_PP_SP_BATCH_ITEM_PRODUCTION_DETAIL.Item_Code as STAGE_Item_Code  ,TSPL_PP_SP_BATCH_ITEM_PRODUCTION_DETAIL.FINAL_PROD_Qty as STAGE_Qty , TSPL_PP_SP_BATCH_ITEM_PRODUCTION_DETAIL.Unit_Code as STAGE_Unit_Code , Case when len(TSPL_PP_STAGE_PROCESS_HEAD.STAGE_PROCESS_CODE) > 0 then  case when  TSPL_PP_STAGE_PROCESS_HEAD.Posted  = 1 then 'APPROVED' else 'UN-APPROVED' end else '' end  as STAGE_Status " &
+            '      " , Case when len(TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE) > 0 then Convert (varchar, TSPL_PP_PRODUCTION_ENTRY.PROD_DATE,103) else '' end  PROD_Date, TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE,TSPL_PP_PRODUCTION_ENTRY_DETAIL.Item_Code as PROD_Item_Code  ,TSPL_PP_PRODUCTION_ENTRY_DETAIL.Final_Production_Qty as PROD_Qty , TSPL_PP_PRODUCTION_ENTRY_DETAIL.Unit_Code as PROD_Unit_Code , Case when len(TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE) > 0 then  case when  TSPL_PP_PRODUCTION_ENTRY.Posted  = 1 then 'APPROVED' else 'UN-APPROVED' end  else '' end as PROD_Status " &
+            '      " from TSPL_PP_PRODUCTION_PLAN_DETAIL " &
+            '      " inner join TSPL_PP_PRODUCTION_PLAN_HEAD on TSPL_PP_PRODUCTION_PLAN_DETAIL.Plan_Code = TSPL_PP_PRODUCTION_PLAN_HEAD.Plan_Code " &
+            '      " left outer Join TSPL_PP_BATCH_ORDER_HEAD on TSPL_PP_BATCH_ORDER_HEAD.Plan_Code = TSPL_PP_PRODUCTION_PLAN_HEAD.Plan_Code " &
+            '      " left outer Join TSPL_PP_BATCH_ORDER_BOM_DETAIL on TSPL_PP_BATCH_ORDER_BOM_DETAIL.Batch_Code = TSPL_PP_BATCH_ORDER_HEAD.Batch_Code " &
+            '      " left outer join TSPL_PP_ISSUE_HEAD on TSPL_PP_ISSUE_HEAD.Batch_Code = TSPL_PP_BATCH_ORDER_HEAD.Batch_Code " &
+            '      " left outer join TSPL_PP_STANDARDIZATION_HEAD on TSPL_PP_STANDARDIZATION_HEAD.Child_Batch_Code = TSPL_PP_BATCH_ORDER_HEAD.Batch_Code " &
+            '      " left Outer Join TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL on TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL.Standardization_Code = TSPL_PP_STANDARDIZATION_HEAD.Standardization_Code  " &
+            '      " left outer join TSPL_PP_STD_FINALQC_HEAD on TSPL_PP_STD_FINALQC_HEAD.Child_Batch_Code = TSPL_PP_BATCH_ORDER_HEAD.Batch_Code And TSPL_PP_STD_FINALQC_HEAD.Against_STD_Code = TSPL_PP_STANDARDIZATION_HEAD.Standardization_Code  " &
+            '      " left Outer Join TSPL_PP_STD_FINALQC_BATCH_ITEM_DETAIL on TSPL_PP_STD_FINALQC_BATCH_ITEM_DETAIL.QC_Code = TSPL_PP_STD_FINALQC_HEAD.QC_Code " &
+            '      " left Outer Join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_PP_PRODUCTION_PLAN_DETAIL.Item_Code " &
+            '      " left outer join TSPL_PP_STAGE_PROCESS_HEAD on TSPL_PP_STAGE_PROCESS_HEAD.Main_Batch_Code = TSPL_PP_BATCH_ORDER_HEAD.Batch_Code " &
+            '      " left outer join TSPL_PP_SP_BATCH_ITEM_PRODUCTION_DETAIL on TSPL_PP_SP_BATCH_ITEM_PRODUCTION_DETAIL.STAGE_PROCESS_CODE = TSPL_PP_STAGE_PROCESS_HEAD.STAGE_PROCESS_CODE " &
+            '      " left outer join TSPL_PP_PRODUCTION_ENTRY on TSPL_PP_PRODUCTION_ENTRY.Batch_Code = TSPL_PP_BATCH_ORDER_HEAD.Batch_Code " &
+            '      " left outer join TSPL_PP_PRODUCTION_ENTRY_DETAIL on TSPL_PP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE = TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE " &
+            '      " where convert(date,TSPL_PP_PRODUCTION_PLAN_HEAD.Plan_Date ,103)>=convert(date,'" + fromDate.Value + "',103) and convert(date,TSPL_PP_PRODUCTION_PLAN_HEAD.Plan_Date ,103) <=convert(date,'" + ToDate.Value + "' ,103) " &
+            '      " " + whr + "  ) final Order by convert (date,final.Plan_Date ,103),final.Plan_Code,final.Batch_Code,final.Issue_Code,final.Standardization_Code,final.QC_Code,final.STAGE_PROCESS_CODE,final.PROD_ENTRY_CODE  asc  "
+            qry = " Select    Batch_Date, Batch_Code ,  Batch_Order_Item_Code, case when RowNumberByBatchCode = 1 then  Batch_Order_Qty else 0 end Batch_Order_Qty  , Batch_Order_Unit_Code, Batch_Order_Status, QC_Date, QC_Code,QC_Item_Code, case when RowNumberByQCCode = 1 then QC_Qty else 0 end as QC_Qty , QC_Unit_Code,QC_Status,PROD_Date,PROD_ENTRY_CODE,PROD_Item_Code,case when RowNumberByProdEntry =1 then PROD_Qty else 0 end PROD_Qty,PROD_Unit_Code,PROD_Status,PRO_Uploader_Date,PRO_Uploader_Code,PROD_Uplod_ItemCode,PRO_Upload_Qty,PRO_Upload_Unit_Code,PROD_Uploader_Status,Standardization_Date,Standardization_Code,Standardization_Item_Code,Standardization_Qty,Standardization_Unit_Code,Standardization_Status  from (  select     row_number() over (partition by  TSPL_PP_BATCH_ORDER_HEAD.Batch_Code order by TSPL_PP_BATCH_ORDER_HEAD.Batch_Code) as RowNumberByBatchCode,row_number() over (partition by TSPL_PP_STD_FINALQC_HEAD.QC_Code order by TSPL_PP_STD_FINALQC_HEAD.QC_Code) as RowNumberByQCCode,  row_number() over (partition by  TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE  order by  TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE ) as RowNumberByProdEntry, case when len (TSPL_PP_BATCH_ORDER_HEAD.Batch_Code) > 0 then convert (varchar, TSPL_PP_BATCH_ORDER_HEAD.Batch_Date,103) else '' end  as  Batch_Date , TSPL_PP_BATCH_ORDER_HEAD.Batch_Code,TSPL_PP_BATCH_ORDER_BOM_DETAIL.Item_Code as Batch_Order_Item_Code ,TSPL_PP_BATCH_ORDER_BOM_DETAIL.Quantity as Batch_Order_Qty, TSPL_PP_BATCH_ORDER_BOM_DETAIL.Unit_Code as Batch_Order_Unit_Code, case when len (TSPL_PP_BATCH_ORDER_HEAD.Batch_Code) > 0 then  case when  TSPL_PP_BATCH_ORDER_HEAD.Is_Post  = 1 then 'APPROVED' else 'UN-APPROVED' end  else '' end as Batch_Order_Status , Case when len(TSPL_PP_STD_FINALQC_HEAD.QC_Code) > 0 then Convert (varchar, TSPL_PP_STD_FINALQC_HEAD.QC_Date,103) else '' end  QC_Date, TSPL_PP_STD_FINALQC_HEAD.QC_Code ,TSPL_PP_STD_FINALQC_BATCH_ITEM_DETAIL.Item_Code as QC_Item_Code  ,TSPL_PP_STD_FINALQC_BATCH_ITEM_DETAIL.Produced_Qty as QC_Qty , TSPL_PP_STD_FINALQC_BATCH_ITEM_DETAIL.Unit_Code as QC_Unit_Code , Case when len(TSPL_PP_STD_FINALQC_HEAD.QC_Code) > 0 then  case when  TSPL_PP_STD_FINALQC_HEAD.Posted  = 1 then 'APPROVED' else 'UN-APPROVED' end else '' end as QC_Status  ,Case when len(TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE) > 0 then Convert (varchar, TSPL_PP_PRODUCTION_ENTRY.PROD_DATE,103) else '' end  PROD_Date, TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE,TSPL_PP_PRODUCTION_ENTRY_DETAIL.Item_Code as PROD_Item_Code  ,TSPL_PP_PRODUCTION_ENTRY_DETAIL.Final_Production_Qty as PROD_Qty , TSPL_PP_PRODUCTION_ENTRY_DETAIL.Unit_Code as PROD_Unit_Code , Case when len(TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE) > 0 then  case when  TSPL_PP_PRODUCTION_ENTRY.Posted  = 1 then 'APPROVED' else 'UN-APPROVED' end  else '' end as PROD_Status,'' as PRO_Uploader_Date,'' as PRO_Uploader_Code,'' as PROD_Uplod_ItemCode,0 as PRO_Upload_Qty, '' as PRO_Upload_Unit_Code,'' as PROD_Uploader_Status,'' as Standardization_Date,'' as Standardization_Code,'' as Standardization_Item_Code,0 as Standardization_Qty,'' as Standardization_Unit_Code,'' as Standardization_Status   from TSPL_PP_PRODUCTION_ENTRY_DETAIL  left join TSPL_PP_PRODUCTION_ENTRY on TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE = TSPL_PP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE  left outer Join TSPL_PP_BATCH_ORDER_HEAD on TSPL_PP_BATCH_ORDER_HEAD.Batch_Code = TSPL_PP_PRODUCTION_ENTRY.Batch_Code left outer Join TSPL_PP_BATCH_ORDER_BOM_DETAIL on TSPL_PP_BATCH_ORDER_BOM_DETAIL.Batch_Code = TSPL_PP_BATCH_ORDER_HEAD.Batch_Code 
+            left outer Join TSPL_SECTION_STAGE_MAPPING_HEAD on TSPL_SECTION_STAGE_MAPPING_HEAD.Doc_Code = TSPL_PP_PRODUCTION_ENTRY.Section_Stage_Map_Code  left outer join TSPL_PP_STD_FINALQC_HEAD on TSPL_PP_STD_FINALQC_HEAD.Section_Stage_Map_Code = TSPL_SECTION_STAGE_MAPPING_HEAD.Doc_Code  left Outer Join TSPL_PP_STD_FINALQC_BATCH_ITEM_DETAIL on TSPL_PP_STD_FINALQC_BATCH_ITEM_DETAIL.QC_Code = TSPL_PP_STD_FINALQC_HEAD.QC_Code
+            where convert(date,TSPL_PP_PRODUCTION_ENTRY.PROD_DATE ,103)>=convert(date,'" + fromDate.Value + "',103) and convert(date,TSPL_PP_PRODUCTION_ENTRY.PROD_DATE ,103) <=convert(date,'" + ToDate.Value + "' ,103)   and 2=2 " + whr + " 
+            union all
+            select '' as RowNumberByBatchCode,'' as RowNumberByQCCode, '' as RowNumberByProdEntry,
+            '' as Batch_Date,'' as Batch_Code, '' as Batch_Order_Item_Code,'' as Batch_Order_Qty,'' as Batch_Order_Unit_Code,'' as Batch_Order_Status, '' as QC_Date,'' as QC_Code,'' as QC_Item_Code, 0  as QC_Qty ,'' AS QC_Unit_Code,'' as QC_Status,'' as PROD_Date,'' as PROD_ENTRY_CODE,'' as PROD_Item_Code, 0 as PROD_Qty ,'' as PROD_Unit_Code,'' as PROD_Status,Convert (varchar, TSPL_PRODUCTION_UPLOADER_HEAD.Document_Date,103) as PRO_Uploader_Date,TSPL_PRODUCTION_UPLOADER_HEAD.Document_No as PRO_Uploader_Code,TSPL_PRODUCTION_UPLOADER_DETAIL.Item_Code as PROD_Uplod_ItemCode,TSPL_PRODUCTION_UPLOADER_DETAIL.Qty as PRO_Upload_Qty,TSPL_PRODUCTION_UPLOADER_DETAIL.UOM as PRO_Upload_Unit_Code, Case when len(TSPL_PRODUCTION_UPLOADER_HEAD.Document_No) > 0 then  case when  TSPL_PRODUCTION_UPLOADER_HEAD.Status  = 1 then 'APPROVED' else 'UN-APPROVED' end  else '' end as PROD_Uploader_Status ,'' as Standardization_Date,'' as Standardization_Code,'' as Standardization_Item_Code,0 as Standardization_Qty,'' as Standardization_Unit_Code,'' as Standardization_Status
+             from TSPL_PRODUCTION_UPLOADER_DETAIL
+             left outer join TSPL_PRODUCTION_UPLOADER_HEAD on TSPL_PRODUCTION_UPLOADER_HEAD.Document_No = TSPL_PRODUCTION_UPLOADER_DETAIL.Document_No
+            where convert(date,TSPL_PRODUCTION_UPLOADER_HEAD.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) and convert(date,TSPL_PRODUCTION_UPLOADER_HEAD.Document_Date ,103) <=convert(date,'" + ToDate.Value + "' ,103) " + whrPro + "
+            union  all
+            select '' as RowNumberByBatchCode,'' as RowNumberByQCCode, '' as RowNumberByProdEntry,
+            '' as Batch_Date,'' as Batch_Code, '' as Batch_Order_Item_Code,'' as Batch_Order_Qty,'' as Batch_Order_Unit_Code,'' as Batch_Order_Status, '' as QC_Date,'' as QC_Code,'' as QC_Item_Code, 0  as QC_Qty ,'' AS QC_Unit_Code,'' as QC_Status,'' as PROD_Date,'' as PROD_ENTRY_CODE,'' as PROD_Item_Code, 0 as PROD_Qty ,'' as PROD_Unit_Code,'' as PROD_Status,'' as PRO_Uploader_Date,'' as PRO_Uploader_Code,'' as PROD_Uplod_ItemCode,0 as PRO_Upload_Qty, '' as PRO_Upload_Unit_Code,'' as PROD_Uploader_Status,Convert (varchar, TSPL_RCDF_STD.Doc_Date,103) as Standardization_Date,TSPL_RCDF_STD.Doc_Code as Standardization_Code,TSPL_RCDF_STD_PRODUCE.Item_Code as Standardization_Item_Code,TSPL_RCDF_STD_PRODUCE.Qty as Standardization_Qty,TSPL_RCDF_STD_PRODUCE.Unit_Code as Standardization_Unit_Code,case when len (TSPL_RCDF_STD.Doc_Code)> 0 then  case when  TSPL_RCDF_STD.Status  = 1 then 'APPROVED' else 'UN-APPROVED' end else '' end  as Standardization_Status
+             from TSPL_RCDF_STD_PRODUCE
+             left outer join TSPL_RCDF_STD on TSPL_RCDF_STD.Doc_Code = TSPL_RCDF_STD_PRODUCE.Doc_Code
+            where convert(date,TSPL_RCDF_STD.Doc_Date ,103)>=convert(date,'" + fromDate.Value + "',103) and convert(date,TSPL_RCDF_STD.Doc_Date ,103) <=convert(date,'" + ToDate.Value + "' ,103) " + whrSTD + " 
+             ) final Order by final.Batch_Code,final.QC_Code,final.PROD_ENTRY_CODE  asc"
 
 
 
@@ -247,7 +269,8 @@ Public Class rptProductionStatusReport
 
     Private Sub txtItem__My_Click(sender As Object, e As EventArgs) Handles txtItem._My_Click
         Dim qry As String
-        qry = " select TSPL_ITEM_MASTER.Item_Code as Code , TSPL_ITEM_MASTER.Item_Desc as Description from TSPL_ITEM_MASTER where TSPL_ITEM_MASTER.Item_Category_Struct_Code in ('SFG','FG') "
+        qry = " select TSPL_ITEM_MASTER.Item_Code as Code , TSPL_ITEM_MASTER.Item_Desc as Description from TSPL_ITEM_MASTER "
+        '  where TSPL_ITEM_MASTER.Item_Category_Struct_Code in ('SFG','FG') 
         txtItem.arrValueMember = clsCommon.ShowMultipleSelectForm("ItemMulSel@ItemcodeForProdStatRPT", qry, "Code", "Description", txtItem.arrValueMember, txtItem.arrDispalyMember)
     End Sub
 
@@ -264,38 +287,7 @@ Public Class rptProductionStatusReport
         'Gv1.Columns("RowNumber").Width = 100
         'Gv1.Columns("RowNumber").HeaderText = "RowNumber"
         ' Plan_Date, Plan_Code , Plan_Qty, Item_Code, Unit_Code , Plan_Status
-        Gv1.Columns("Plan_Date").IsVisible = True
-        Gv1.Columns("Plan_Date").Width = 100
-        Gv1.Columns("Plan_Date").HeaderText = "Date"
 
-        Gv1.Columns("Item_Code").IsVisible = True
-        Gv1.Columns("Item_Code").Width = 100
-        Gv1.Columns("Item_Code").HeaderText = "Item Code"
-
-        Gv1.Columns("Item_Desc").IsVisible = True
-        Gv1.Columns("Item_Desc").Width = 140
-        Gv1.Columns("Item_Desc").HeaderText = "Item Description"
-
-        Gv1.Columns("Plan_Code").IsVisible = True
-        Gv1.Columns("Plan_Code").Width = 140
-        Gv1.Columns("Plan_Code").HeaderText = "Code"
-
-       
-
-
-        Gv1.Columns("Plan_Qty").IsVisible = True
-        Gv1.Columns("Plan_Qty").Width = 100
-        Gv1.Columns("Plan_Qty").HeaderText = "Qty"
-
-        
-
-        Gv1.Columns("Unit_Code").IsVisible = True
-        Gv1.Columns("Unit_Code").Width = 100
-        Gv1.Columns("Unit_Code").HeaderText = "Unit"
-
-        Gv1.Columns("Plan_Status").IsVisible = True
-        Gv1.Columns("Plan_Status").Width = 100
-        Gv1.Columns("Plan_Status").HeaderText = "Status"
 
         ' Batch_Date, Batch_Code , Batch_Order_Qty , Batch_Order_Item_Code , Batch_Order_Unit_Code, Batch_Order_Status
         Gv1.Columns("Batch_Date").IsVisible = True
@@ -324,60 +316,6 @@ Public Class rptProductionStatusReport
         Gv1.Columns("Batch_Order_Status").Width = 100
         Gv1.Columns("Batch_Order_Status").HeaderText = "Status"
 
-        ' Issue_Date, Issue_Code, Issue_Qty, Issue_Item_Code, Issue_Unit_Code, Issue_Status
-        Gv1.Columns("Issue_Date").IsVisible = True
-        Gv1.Columns("Issue_Date").Width = 100
-        Gv1.Columns("Issue_Date").HeaderText = "Date"
-
-        Gv1.Columns("Issue_Code").IsVisible = True
-        Gv1.Columns("Issue_Code").Width = 140
-        Gv1.Columns("Issue_Code").HeaderText = "Code"
-
-        Gv1.Columns("Issue_Item_Code").IsVisible = True
-        Gv1.Columns("Issue_Item_Code").Width = 100
-        Gv1.Columns("Issue_Item_Code").HeaderText = "Item Code"
-
-        Gv1.Columns("Issue_Qty").IsVisible = True
-        Gv1.Columns("Issue_Qty").Width = 100
-        Gv1.Columns("Issue_Qty").HeaderText = "Qty"
-
-       
-
-
-        Gv1.Columns("Issue_Unit_Code").IsVisible = True
-        Gv1.Columns("Issue_Unit_Code").Width = 100
-        Gv1.Columns("Issue_Unit_Code").HeaderText = "Unit"
-
-        Gv1.Columns("Issue_Status").IsVisible = True
-        Gv1.Columns("Issue_Status").Width = 100
-        Gv1.Columns("Issue_Status").HeaderText = "Status"
-
-        ' Standardization_Date, Standardization_Code,Standardization_Qty,Standardization_Item_Code, Standardization_Unit_Code,Standardization_Status
-        Gv1.Columns("Standardization_Date").IsVisible = True
-        Gv1.Columns("Standardization_Date").Width = 100
-        Gv1.Columns("Standardization_Date").HeaderText = "Date"
-
-        Gv1.Columns("Standardization_Code").IsVisible = True
-        Gv1.Columns("Standardization_Code").Width = 140
-        Gv1.Columns("Standardization_Code").HeaderText = "Code"
-
-        Gv1.Columns("Standardization_Item_Code").IsVisible = True
-        Gv1.Columns("Standardization_Item_Code").Width = 100
-        Gv1.Columns("Standardization_Item_Code").HeaderText = "Item Code"
-
-        Gv1.Columns("Standardization_Qty").IsVisible = True
-        Gv1.Columns("Standardization_Qty").Width = 100
-        Gv1.Columns("Standardization_Qty").HeaderText = "Qty"
-
-        
-
-        Gv1.Columns("Standardization_Unit_Code").IsVisible = True
-        Gv1.Columns("Standardization_Unit_Code").Width = 100
-        Gv1.Columns("Standardization_Unit_Code").HeaderText = "Unit"
-
-        Gv1.Columns("Standardization_Status").IsVisible = True
-        Gv1.Columns("Standardization_Status").Width = 100
-        Gv1.Columns("Standardization_Status").HeaderText = "Status"
 
         ' QC_Date, QC_Code,QC_Qty , QC_Item_Code, QC_Unit_Code,QC_Status
         Gv1.Columns("QC_Date").IsVisible = True
@@ -396,9 +334,6 @@ Public Class rptProductionStatusReport
         Gv1.Columns("QC_Qty").Width = 100
         Gv1.Columns("QC_Qty").HeaderText = "Qty"
 
-        
-
-
         Gv1.Columns("QC_Unit_Code").IsVisible = True
         Gv1.Columns("QC_Unit_Code").Width = 100
         Gv1.Columns("QC_Unit_Code").HeaderText = "Unit"
@@ -407,33 +342,6 @@ Public Class rptProductionStatusReport
         Gv1.Columns("QC_Status").Width = 100
         Gv1.Columns("QC_Status").HeaderText = "Status"
 
-        ' STAGE_Date,STAGE_PROCESS_CODE ,STAGE_Qty, STAGE_Item_Code,STAGE_Unit_Code,STAGE_Status
-        Gv1.Columns("STAGE_Date").IsVisible = True
-        Gv1.Columns("STAGE_Date").Width = 100
-        Gv1.Columns("STAGE_Date").HeaderText = "Date"
-
-
-        Gv1.Columns("STAGE_PROCESS_CODE").IsVisible = True
-        Gv1.Columns("STAGE_PROCESS_CODE").Width = 140
-        Gv1.Columns("STAGE_PROCESS_CODE").HeaderText = "Code"
-
-
-        Gv1.Columns("STAGE_Item_Code").IsVisible = True
-        Gv1.Columns("STAGE_Item_Code").Width = 100
-        Gv1.Columns("STAGE_Item_Code").HeaderText = "Item Code"
-
-        Gv1.Columns("STAGE_Qty").IsVisible = True
-        Gv1.Columns("STAGE_Qty").Width = 100
-        Gv1.Columns("STAGE_Qty").HeaderText = "Qty"
-
-
-        Gv1.Columns("STAGE_Unit_Code").IsVisible = True
-        Gv1.Columns("STAGE_Unit_Code").Width = 100
-        Gv1.Columns("STAGE_Unit_Code").HeaderText = "Unit"
-
-        Gv1.Columns("STAGE_Status").IsVisible = True
-        Gv1.Columns("STAGE_Status").Width = 100
-        Gv1.Columns("STAGE_Status").HeaderText = "Status"
 
         ' PROD_Date,PROD_ENTRY_CODE,PROD_Qty,PROD_Item_Code,PROD_Unit_Code,PROD_Status
         Gv1.Columns("PROD_Date").IsVisible = True
@@ -463,17 +371,57 @@ Public Class rptProductionStatusReport
         Gv1.Columns("PROD_Status").Width = 100
         Gv1.Columns("PROD_Status").HeaderText = "Status"
 
+        Gv1.Columns("PRO_Uploader_Date").IsVisible = True
+        Gv1.Columns("PRO_Uploader_Date").Width = 100
+        Gv1.Columns("PRO_Uploader_Date").HeaderText = "Date"
+
+        Gv1.Columns("PRO_Uploader_Code").IsVisible = True
+        Gv1.Columns("PRO_Uploader_Code").Width = 140
+        Gv1.Columns("PRO_Uploader_Code").HeaderText = "Code"
+
+        Gv1.Columns("PROD_Uplod_ItemCode").IsVisible = True
+        Gv1.Columns("PROD_Uplod_ItemCode").Width = 100
+        Gv1.Columns("PROD_Uplod_ItemCode").HeaderText = "Item Code"
 
 
+        Gv1.Columns("PRO_Upload_Qty").IsVisible = True
+        Gv1.Columns("PRO_Upload_Qty").Width = 100
+        Gv1.Columns("PRO_Upload_Qty").HeaderText = "Qty"
+
+        Gv1.Columns("PRO_Upload_Unit_Code").IsVisible = True
+        Gv1.Columns("PRO_Upload_Unit_Code").Width = 100
+        Gv1.Columns("PRO_Upload_Unit_Code").HeaderText = "Unit"
+
+        Gv1.Columns("PROD_Uploader_Status").IsVisible = True
+        Gv1.Columns("PROD_Uploader_Status").Width = 100
+        Gv1.Columns("PROD_Uploader_Status").HeaderText = "Status"
+
+        ' Standardization_Date, Standardization_Code,Standardization_Qty,Standardization_Item_Code, Standardization_Unit_Code,Standardization_Status
+        Gv1.Columns("Standardization_Date").IsVisible = True
+        Gv1.Columns("Standardization_Date").Width = 100
+        Gv1.Columns("Standardization_Date").HeaderText = "Date"
+
+        Gv1.Columns("Standardization_Code").IsVisible = True
+        Gv1.Columns("Standardization_Code").Width = 140
+        Gv1.Columns("Standardization_Code").HeaderText = "Code"
+
+        Gv1.Columns("Standardization_Item_Code").IsVisible = True
+        Gv1.Columns("Standardization_Item_Code").Width = 100
+        Gv1.Columns("Standardization_Item_Code").HeaderText = "Item Code"
+
+        Gv1.Columns("Standardization_Qty").IsVisible = True
+        Gv1.Columns("Standardization_Qty").Width = 100
+        Gv1.Columns("Standardization_Qty").HeaderText = "Qty"
+
+        Gv1.Columns("Standardization_Unit_Code").IsVisible = True
+        Gv1.Columns("Standardization_Unit_Code").Width = 100
+        Gv1.Columns("Standardization_Unit_Code").HeaderText = "Unit"
+
+        Gv1.Columns("Standardization_Status").IsVisible = True
+        Gv1.Columns("Standardization_Status").Width = 100
+        Gv1.Columns("Standardization_Status").HeaderText = "Status"
 
 
-
-        'Gv1.Columns("OpencrateQty").IsVisible = True
-        'Gv1.Columns("OpencrateQty").Width = 100
-        'Gv1.Columns("OpencrateQty").HeaderText = "Crate"
-        'Gv1.Columns("OpencrateQty").FormatString = "{0:F0}"
-
-        
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
         'Dim intCount As Integer = 0
@@ -584,20 +532,18 @@ Public Class rptProductionStatusReport
         'Dim item20 As New GridViewSummaryItem("CanAdjQty", "{0:F0}", GridAggregateFunction.Sum)
         'summaryRowItem.Add(item20)
 
-        Dim item21 As New GridViewSummaryItem("Plan_Qty", "{0:F0}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item21)
+
         Dim item22 As New GridViewSummaryItem("Batch_Order_Qty", "{0:F0}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item22)
-        Dim item23 As New GridViewSummaryItem("Issue_Qty", "{0:F0}", GridAggregateFunction.Sum)
+        Dim item25 As New GridViewSummaryItem("QC_Qty", "{0:F0}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item25)
+        Dim item27 As New GridViewSummaryItem("PROD_Qty", "{0:F0}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item27)
+        Dim item23 As New GridViewSummaryItem("PRO_Upload_Qty", "{0:F0}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item23)
         Dim item24 As New GridViewSummaryItem("Standardization_Qty", "{0:F0}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item24)
-        Dim item25 As New GridViewSummaryItem("QC_Qty", "{0:F0}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item25)
-        Dim item26 As New GridViewSummaryItem("STAGE_Qty", "{0:F0}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item26)
-        Dim item27 As New GridViewSummaryItem("PROD_Qty", "{0:F0}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item27)
+
 
         Gv1.ShowGroupPanel = False
         Gv1.MasterTemplate.AutoExpandGroups = True
@@ -609,79 +555,57 @@ Public Class rptProductionStatusReport
     Sub View()
         If Gv1.Rows.Count > 0 Then
             Dim view As New ColumnGroupsViewDefinition()
-            view.ColumnGroups.Add(New GridViewColumnGroup("Production Planning"))
-            view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
-            'Plan_Date, Plan_Code , Plan_Qty, Item_Code, Unit_Code , Plan_Status
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Plan_Date").Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Plan_Code").Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Item_Code").Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Item_Desc").Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Plan_Qty").Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Unit_Code").Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Plan_Status").Name)
-
             view.ColumnGroups.Add(New GridViewColumnGroup("Batch Order"))
-            view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
             ' Batch_Date, Batch_Code , Batch_Order_Qty , Batch_Order_Item_Code , Batch_Order_Unit_Code, Batch_Order_Status
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("Batch_Date").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("Batch_Code").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("Batch_Order_Item_Code").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("Batch_Order_Qty").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("Batch_Order_Unit_Code").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("Batch_Order_Status").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Batch_Date").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Batch_Code").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Batch_Order_Item_Code").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Batch_Order_Qty").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Batch_Order_Unit_Code").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Batch_Order_Status").Name)
 
-            view.ColumnGroups.Add(New GridViewColumnGroup("Production Issue Entry"))
+            ' QC_Date, QC_Code,QC_Qty , QC_Item_Code, QC_Unit_Code,QC_Status
+            view.ColumnGroups.Add(New GridViewColumnGroup("Production Standardization Final QC"))
+            view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("QC_Date").Name)
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("QC_Code").Name)
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("QC_Item_Code").Name)
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("QC_Qty").Name)
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("QC_Unit_Code").Name)
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("QC_Status").Name)
+
+            ' ' PROD_Date,PROD_ENTRY_CODE,PROD_Qty,PROD_Item_Code,PROD_Unit_Code,PROD_Status
+            view.ColumnGroups.Add(New GridViewColumnGroup("Production Entry"))
             view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
-            ' Issue_Date, Issue_Code, Issue_Qty, Issue_Item_Code, Issue_Unit_Code, Issue_Status
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("Issue_Date").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("Issue_Code").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("Issue_Item_Code").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("Issue_Qty").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("Issue_Unit_Code").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("Issue_Status").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("PROD_Date").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("PROD_ENTRY_CODE").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("PROD_Item_Code").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("PROD_Qty").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("PROD_Unit_Code").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("PROD_Status").Name)
+
+            ' ' PROD_Date,PROD_ENTRY_CODE,PROD_Qty,PROD_Item_Code,PROD_Unit_Code,PROD_Status
+            view.ColumnGroups.Add(New GridViewColumnGroup("Production Uploader"))
+            view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("PRO_Uploader_Date").Name)
+            view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("PRO_Uploader_Code").Name)
+            view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("PROD_Uplod_ItemCode").Name)
+            view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("PRO_Upload_Qty").Name)
+            view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("PRO_Upload_Unit_Code").Name)
+            view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("PROD_Uploader_Status").Name)
 
 
-            If rdbSFGItem.Checked = True Then
-                ' Standardization_Date, Standardization_Code,Standardization_Qty,Standardization_Item_Code, Standardization_Unit_Code,Standardization_Status
-                view.ColumnGroups.Add(New GridViewColumnGroup("Production Standardization"))
-                view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
-                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("Standardization_Date").Name)
-                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("Standardization_Code").Name)
-                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("Standardization_Item_Code").Name)
-                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("Standardization_Qty").Name)
-                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("Standardization_Unit_Code").Name)
-                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("Standardization_Status").Name)
+            ' Standardization_Date, Standardization_Code,Standardization_Qty,Standardization_Item_Code, Standardization_Unit_Code,Standardization_Status
+            view.ColumnGroups.Add(New GridViewColumnGroup("Production Standardization"))
+            view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("Standardization_Date").Name)
+            view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("Standardization_Code").Name)
+            view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("Standardization_Item_Code").Name)
+            view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("Standardization_Qty").Name)
+            view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("Standardization_Unit_Code").Name)
+            view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("Standardization_Status").Name)
 
-                ' QC_Date, QC_Code,QC_Qty , QC_Item_Code, QC_Unit_Code,QC_Status
-                view.ColumnGroups.Add(New GridViewColumnGroup("Production Standardization Final QC"))
-                view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
-                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("QC_Date").Name)
-                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("QC_Code").Name)
-                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("QC_Item_Code").Name)
-                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("QC_Qty").Name)
-                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("QC_Unit_Code").Name)
-                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("QC_Status").Name)
-            Else
-                ' STAGE_Date,STAGE_PROCESS_CODE ,STAGE_Qty, STAGE_Item_Code,STAGE_Unit_Code,STAGE_Status
-                view.ColumnGroups.Add(New GridViewColumnGroup("Stage Process"))
-                view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
-                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("STAGE_Date").Name)
-                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("STAGE_PROCESS_CODE").Name)
-                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("STAGE_Item_Code").Name)
-                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("STAGE_Qty").Name)
-                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("STAGE_Unit_Code").Name)
-                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("STAGE_Status").Name)
-
-                ' ' PROD_Date,PROD_ENTRY_CODE,PROD_Qty,PROD_Item_Code,PROD_Unit_Code,PROD_Status
-                view.ColumnGroups.Add(New GridViewColumnGroup("Production Entry"))
-                view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
-                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("PROD_Date").Name)
-                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("PROD_ENTRY_CODE").Name)
-                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("PROD_Item_Code").Name)
-                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("PROD_Qty").Name)
-                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("PROD_Unit_Code").Name)
-                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("PROD_Status").Name)
-            End If
 
             Gv1.ViewDefinition = view
         End If

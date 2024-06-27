@@ -1700,10 +1700,10 @@ Public Class clsBookingDetailDairySale
                 If IsDairyModule = False Then
                     If checkstockmrpwise Then
                         If clsCommon.myLen(SubLocation) > 0 Then
-                            clsBatchInventory.SaveData("PS-SH", strDocNo, Docdate, "O", obj.Item_Code, SubLocation, obj.Line_No, obj.Item_Rate, obj.Unit_code, obj.arrBatchItem, trans)
+                            clsBatchInventory.SaveData("FS-SH", strDocNo, Docdate, "O", obj.Item_Code, SubLocation, obj.Line_No, obj.Item_Rate, obj.Unit_code, obj.arrBatchItem, trans)
 
                         Else
-                            clsBatchInventory.SaveData("PS-SH", strDocNo, Docdate, "O", obj.Item_Code, obj.Loc_Code, obj.Line_No, obj.Item_Rate, obj.Unit_code, obj.arrBatchItem, trans)
+                            clsBatchInventory.SaveData("FS-SH", strDocNo, Docdate, "O", obj.Item_Code, obj.Loc_Code, obj.Line_No, obj.Item_Rate, obj.Unit_code, obj.arrBatchItem, trans)
 
                         End If
                     Else

@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class rptSMSDetails
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,8 +20,9 @@ Partial Class rptSMSDetails
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -44,11 +45,12 @@ Partial Class rptSMSDetails
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.Gv1 = New common.UserControls.MyRadGridView()
         Me.btnExp = New Telerik.WinControls.UI.RadSplitButton()
+        Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
-        Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
+        Me.Label1 = New System.Windows.Forms.Label()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -83,27 +85,20 @@ Partial Class rptSMSDetails
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(692, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmsaveLayout, Me.rmDeleteLayout})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
         '
         'rmsaveLayout
         '
-        Me.rmsaveLayout.AccessibleDescription = "Save Layout"
-        Me.rmsaveLayout.AccessibleName = "Save Layout"
         Me.rmsaveLayout.Name = "rmsaveLayout"
         Me.rmsaveLayout.Text = "Save Layout"
         '
         'rmDeleteLayout
         '
-        Me.rmDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.rmDeleteLayout.AccessibleName = "Delete Layout"
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
         '
@@ -122,6 +117,7 @@ Partial Class rptSMSDetails
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.Label1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnExp)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
@@ -140,7 +136,6 @@ Partial Class rptSMSDetails
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(692, 326)
         Me.RadPageView1.TabIndex = 11
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -205,7 +200,7 @@ Partial Class rptSMSDetails
         Me.rdbBoth.Checked = True
         Me.rdbBoth.Location = New System.Drawing.Point(5, 5)
         Me.rdbBoth.Name = "rdbBoth"
-        Me.rdbBoth.Size = New System.Drawing.Size(50, 17)
+        Me.rdbBoth.Size = New System.Drawing.Size(49, 17)
         Me.rdbBoth.TabIndex = 2
         Me.rdbBoth.TabStop = True
         Me.rdbBoth.Text = "Both"
@@ -314,13 +309,15 @@ Partial Class rptSMSDetails
         '
         '
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
+        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(671, 278)
         Me.Gv1.TabIndex = 0
-        Me.Gv1.Text = "RadGridView1"
         '
         'btnExp
         '
@@ -331,6 +328,16 @@ Partial Class rptSMSDetails
         Me.btnExp.Size = New System.Drawing.Size(83, 22)
         Me.btnExp.TabIndex = 157
         Me.btnExp.Text = "Export"
+        '
+        'rmiExcel
+        '
+        Me.rmiExcel.Name = "rmiExcel"
+        Me.rmiExcel.Text = "Excel"
+        '
+        'rmiPDF
+        '
+        Me.rmiPDF.Name = "rmiPDF"
+        Me.rmiPDF.Text = "PDF"
         '
         'btnClose
         '
@@ -362,19 +369,15 @@ Partial Class rptSMSDetails
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'rmiExcel
+        'Label1
         '
-        Me.rmiExcel.AccessibleDescription = "Excel"
-        Me.rmiExcel.AccessibleName = "Excel"
-        Me.rmiExcel.Name = "rmiExcel"
-        Me.rmiExcel.Text = "Excel"
-        '
-        'rmiPDF
-        '
-        Me.rmiPDF.AccessibleDescription = "PDF"
-        Me.rmiPDF.AccessibleName = "PDF"
-        Me.rmiPDF.Name = "rmiPDF"
-        Me.rmiPDF.Text = "PDF"
+        Me.Label1.AutoSize = True
+        Me.Label1.ForeColor = System.Drawing.Color.DodgerBlue
+        Me.Label1.Location = New System.Drawing.Point(599, -2)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(232, 13)
+        Me.Label1.TabIndex = 158
+        Me.Label1.Text = "Duble Click On Attchament Then show PDF "
         '
         'rptSMSDetails
         '
@@ -392,6 +395,7 @@ Partial Class rptSMSDetails
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
+        Me.SplitContainer1.Panel2.PerformLayout()
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
@@ -448,5 +452,6 @@ Partial Class rptSMSDetails
     Friend WithEvents btnExp As Telerik.WinControls.UI.RadSplitButton
     Friend WithEvents rmiExcel As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents rmiPDF As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents Label1 As Label
 End Class
 

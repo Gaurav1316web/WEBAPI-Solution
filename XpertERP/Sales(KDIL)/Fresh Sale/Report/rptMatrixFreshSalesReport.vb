@@ -2797,9 +2797,8 @@ select
     0 as PrevItemNetAmount,
   TSPL_DEMAND_BOOKING_MASTER.Route_No, 
   TSPL_ROUTE_MASTER.Route_Desc, 
-  Isnull(
-    TSPL_COMPANY_MASTER.Comp_Name, 'Jaipur Zila Dugdh Utpadak Sahakari Sangh Ltd.'
-  ) as CompanyName, 
+  
+    TSPL_COMPANY_MASTER.Comp_Name as CompanyName, 
   TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName, 
   TSPL_VEHICLE_MASTER.DriverName,TSPL_VEHICLE_MASTER.Number as Vehicle_No, 
   TSPL_DEMAND_BOOKING_DETAIL.Item_Rate, 
@@ -2829,7 +2828,7 @@ from
   Left Join TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code = TSPL_VEHICLE_MASTER.Vehicle_Id 
   Left Join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No = TSPL_ROUTE_MASTER.Route_No 
   Left Join TSPL_TRANSPORT_MASTER on TSPL_VEHICLE_MASTER.Transport_Id = TSPL_TRANSPORT_MASTER.Transport_Id 
-  Left Join TSPL_COMPANY_MASTER on TSPL_DEMAND_BOOKING_MASTER.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code
+  Left Join TSPL_COMPANY_MASTER on 2=2
 where 
   TSPL_DEMAND_BOOKING_DETAIL.ShiftType = '" + ddlPTSShift.Text + "' 
   and (
@@ -2869,9 +2868,8 @@ where
     NetAmount as PrevItemNetAmount,
   TSPL_DEMAND_BOOKING_MASTER.Route_No, 
   TSPL_ROUTE_MASTER.Route_Desc, 
-  Isnull(
-    TSPL_COMPANY_MASTER.Comp_Name, 'Jaipur Zila Dugdh Utpadak Sahakari Sangh Ltd.'
-  ) as CompanyName, 
+  
+    TSPL_COMPANY_MASTER.Comp_Name as CompanyName, 
   TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName, 
   TSPL_VEHICLE_MASTER.DriverName,TSPL_VEHICLE_MASTER.Number as Vehicle_No, 
   TSPL_DEMAND_BOOKING_DETAIL.Item_Rate, 
@@ -2936,7 +2934,7 @@ inner join (select Against_DemandBooking_No,sum(isnull(TCSAmount,0)) as tcs_amt 
   Left Join TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code = TSPL_VEHICLE_MASTER.Vehicle_Id 
   Left Join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No = TSPL_ROUTE_MASTER.Route_No 
   Left Join TSPL_TRANSPORT_MASTER on TSPL_VEHICLE_MASTER.Transport_Id = TSPL_TRANSPORT_MASTER.Transport_Id 
-  Left Join TSPL_COMPANY_MASTER on TSPL_DEMAND_BOOKING_MASTER.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code "
+  Left Join TSPL_COMPANY_MASTER on 2=2 "
             If clsCommon.myLen(txtMultPTSRoute.arrValueMember) > 0 Then
                 Qry += " where TSPL_DEMAND_BOOKING_MASTER.Route_No IN (" + clsCommon.GetMulcallString(txtMultPTSRoute.arrValueMember) + ")"
             End If
@@ -3948,9 +3946,8 @@ where  TSPL_DEMAND_BOOKING_DETAIL.ShiftType = '" + ddlPTSShift.Text + "'  and ( 
         0 as PrevItemNetAmount,
       TSPL_DEMAND_BOOKING_MASTER.Route_No, 
       TSPL_ROUTE_MASTER.Route_Desc, 
-      Isnull(
-        TSPL_COMPANY_MASTER.Comp_Name, 'Jaipur Zila Dugdh Utpadak Sahakari Sangh Ltd.'
-      ) as CompanyName, 
+      
+        TSPL_COMPANY_MASTER.Comp_Name as CompanyName, 
       TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName, 
       TSPL_VEHICLE_MASTER.DriverName,TSPL_VEHICLE_MASTER.Number as Vehicle_No, 
       TSPL_DEMAND_BOOKING_DETAIL.Item_Rate, 

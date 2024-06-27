@@ -93,8 +93,8 @@ Public Class frmCustomer
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         If btnSave.Text = "Update" AndAlso OneTimeCheck = False Then
             Dim frm As New FrmPWD(Nothing)
-            frm.strType = clsFixedParameterType.SIRC
-            frm.strCode = clsFixedParameterCode.UpdatePassword
+            frm.strType = clsFixedParameterType.Transactionupdate
+            frm.strCode = clsFixedParameterCode.CustomerMaster
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 ShowRemarks()
