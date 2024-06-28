@@ -22,9 +22,9 @@ Partial Class frmStanderdProductionEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.CboShift = New common.Controls.MyComboBox()
@@ -72,7 +72,6 @@ Partial Class frmStanderdProductionEntry
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
-        Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnunpost = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
@@ -133,7 +132,6 @@ Partial Class frmStanderdProductionEntry
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnunpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -161,7 +159,6 @@ Partial Class frmStanderdProductionEntry
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnShowInventory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadButton1)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnunpost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
@@ -769,7 +766,7 @@ Partial Class frmStanderdProductionEntry
         Me.gvBatch.MasterTemplate.AllowAddNewRow = False
         Me.gvBatch.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBatch.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvBatch.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvBatch.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvBatch.MyStopExport = False
         Me.gvBatch.Name = "gvBatch"
         Me.gvBatch.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -818,7 +815,7 @@ Partial Class frmStanderdProductionEntry
         Me.gvConsumption.MasterTemplate.AllowDeleteRow = False
         Me.gvConsumption.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvConsumption.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvConsumption.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvConsumption.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gvConsumption.MyStopExport = False
         Me.gvConsumption.Name = "gvConsumption"
         Me.gvConsumption.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -867,7 +864,7 @@ Partial Class frmStanderdProductionEntry
         Me.gvProductionCost.MasterTemplate.AllowDeleteRow = False
         Me.gvProductionCost.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvProductionCost.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvProductionCost.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvProductionCost.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvProductionCost.MyStopExport = False
         Me.gvProductionCost.Name = "gvProductionCost"
         Me.gvProductionCost.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -897,7 +894,7 @@ Partial Class frmStanderdProductionEntry
         'btnShowInventory
         '
         Me.btnShowInventory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnShowInventory.Location = New System.Drawing.Point(357, 8)
+        Me.btnShowInventory.Location = New System.Drawing.Point(300, 8)
         Me.btnShowInventory.Name = "btnShowInventory"
         Me.btnShowInventory.Size = New System.Drawing.Size(105, 24)
         Me.btnShowInventory.TabIndex = 48
@@ -906,26 +903,17 @@ Partial Class frmStanderdProductionEntry
         'RadButton1
         '
         Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton1.Location = New System.Drawing.Point(544, 8)
+        Me.RadButton1.Location = New System.Drawing.Point(487, 8)
         Me.RadButton1.Name = "RadButton1"
         Me.RadButton1.Size = New System.Drawing.Size(76, 24)
         Me.RadButton1.TabIndex = 36
         Me.RadButton1.Text = "Re Create JE"
         Me.RadButton1.Visible = False
         '
-        'btnGo
-        '
-        Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGo.Location = New System.Drawing.Point(11, 8)
-        Me.btnGo.Name = "btnGo"
-        Me.btnGo.Size = New System.Drawing.Size(55, 24)
-        Me.btnGo.TabIndex = 35
-        Me.btnGo.Text = ">>"
-        '
         'btnunpost
         '
         Me.btnunpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnunpost.Location = New System.Drawing.Point(465, 8)
+        Me.btnunpost.Location = New System.Drawing.Point(408, 8)
         Me.btnunpost.Name = "btnunpost"
         Me.btnunpost.Size = New System.Drawing.Size(76, 24)
         Me.btnunpost.TabIndex = 34
@@ -935,7 +923,7 @@ Partial Class frmStanderdProductionEntry
         'btnPrint
         '
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(285, 8)
+        Me.btnPrint.Location = New System.Drawing.Point(228, 8)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(69, 24)
         Me.btnPrint.TabIndex = 3
@@ -944,7 +932,7 @@ Partial Class frmStanderdProductionEntry
         'btnDelete
         '
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(141, 8)
+        Me.btnDelete.Location = New System.Drawing.Point(84, 8)
         Me.btnDelete.Name = "btnDelete"
         Me.btnDelete.Size = New System.Drawing.Size(69, 24)
         Me.btnDelete.TabIndex = 1
@@ -953,7 +941,7 @@ Partial Class frmStanderdProductionEntry
         'btnPost
         '
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(213, 8)
+        Me.btnPost.Location = New System.Drawing.Point(156, 8)
         Me.btnPost.Name = "btnPost"
         Me.btnPost.Size = New System.Drawing.Size(69, 24)
         Me.btnPost.TabIndex = 2
@@ -973,7 +961,7 @@ Partial Class frmStanderdProductionEntry
         'btnSave
         '
         Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSave.Location = New System.Drawing.Point(69, 8)
+        Me.btnSave.Location = New System.Drawing.Point(12, 8)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(69, 24)
         Me.btnSave.TabIndex = 0
@@ -1069,7 +1057,6 @@ Partial Class frmStanderdProductionEntry
         Me.RadPageViewPage1.ResumeLayout(False)
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnunpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1119,7 +1106,6 @@ Partial Class frmStanderdProductionEntry
     Friend WithEvents RadGroupBox3 As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents gvProductionCost As common.UserControls.MyRadGridView
     Friend WithEvents txtBatchNo As common.Controls.MyTextBox
-    Friend WithEvents btnGo As Telerik.WinControls.UI.RadButton
     Friend WithEvents TxtCategory As common.Controls.MyLabel
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents fndItemCategory As common.UserControls.txtFinder
