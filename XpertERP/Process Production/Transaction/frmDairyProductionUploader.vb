@@ -21,6 +21,7 @@ Public Class frmDairyProductionUploader
     Dim isInsideLoadData As Boolean = False
     Dim isCellValueChangedOpen As Boolean = False
     Dim arrLoc As String = Nothing
+    Dim atchqry As String = ""
 #End Region
 
     Private Sub frmDairyProductionUploader_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -886,4 +887,27 @@ select 'QC Status' as  [QC Code],'Y/N' as [Standard Range],'" + IIf(clsCommon.my
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub btnPrintNew_Click(sender As Object, e As EventArgs) Handles btnPrintNew.Click
+        If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+            clsCommon.MyMessageBoxShow(Me, "No data found to Print", Me.Text)
+        Else
+            funPrint(txtDocNo.Value)
+        End If
+    End Sub
+    Public Sub funPrint(ByVal StrCode As String)
+        Try
+            Dim Qry = clsDairyProductionUploader.GetAttachQry(StrCode)
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+            If dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funreport(CrystalReportFolder.PRODUCTION, dt, "crptProductionUploaderPrint", "")
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No data found to Print", Me.Text)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
 End Class
