@@ -24,6 +24,8 @@ Partial Class frmDairyProductionUploader
     Private Sub InitializeComponent()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.btnPrintNew = New Telerik.WinControls.UI.RadButton()
+        Me.RadLabel12 = New common.Controls.MyLabel()
         Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
@@ -60,8 +62,9 @@ Partial Class frmDairyProductionUploader
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.RadLabel12 = New common.Controls.MyLabel()
         Me.Panel2.SuspendLayout()
+        CType(Me.btnPrintNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -89,12 +92,12 @@ Partial Class frmDairyProductionUploader
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Panel2
         '
+        Me.Panel2.Controls.Add(Me.btnPrintNew)
         Me.Panel2.Controls.Add(Me.RadLabel12)
         Me.Panel2.Controls.Add(Me.btnShowInventory)
         Me.Panel2.Controls.Add(Me.btnReverse)
@@ -109,10 +112,32 @@ Partial Class frmDairyProductionUploader
         Me.Panel2.Size = New System.Drawing.Size(784, 37)
         Me.Panel2.TabIndex = 1
         '
+        'btnPrintNew
+        '
+        Me.btnPrintNew.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrintNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrintNew.Location = New System.Drawing.Point(400, 13)
+        Me.btnPrintNew.Name = "btnPrintNew"
+        Me.btnPrintNew.Size = New System.Drawing.Size(69, 22)
+        Me.btnPrintNew.TabIndex = 68
+        Me.btnPrintNew.Text = "Print"
+        '
+        'RadLabel12
+        '
+        Me.RadLabel12.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadLabel12.FieldName = Nothing
+        Me.RadLabel12.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel12.ForeColor = System.Drawing.SystemColors.Highlight
+        Me.RadLabel12.Location = New System.Drawing.Point(579, 0)
+        Me.RadLabel12.Name = "RadLabel12"
+        Me.RadLabel12.Size = New System.Drawing.Size(197, 13)
+        Me.RadLabel12.TabIndex = 67
+        Me.RadLabel12.Text = "Double Click on QC Status to fill QC Details"
+        '
         'btnShowInventory
         '
         Me.btnShowInventory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnShowInventory.Location = New System.Drawing.Point(499, 13)
+        Me.btnShowInventory.Location = New System.Drawing.Point(571, 13)
         Me.btnShowInventory.Name = "btnShowInventory"
         Me.btnShowInventory.Size = New System.Drawing.Size(95, 22)
         Me.btnShowInventory.TabIndex = 41
@@ -132,7 +157,7 @@ Partial Class frmDairyProductionUploader
         'btnHistory
         '
         Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Location = New System.Drawing.Point(400, 13)
+        Me.btnHistory.Location = New System.Drawing.Point(471, 13)
         Me.btnHistory.Name = "btnHistory"
         Me.btnHistory.Size = New System.Drawing.Size(97, 22)
         Me.btnHistory.TabIndex = 39
@@ -599,18 +624,6 @@ Partial Class frmDairyProductionUploader
         Me.RadMenu1.TabIndex = 3
         Me.RadMenu1.Visible = False
         '
-        'RadLabel12
-        '
-        Me.RadLabel12.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.RadLabel12.FieldName = Nothing
-        Me.RadLabel12.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel12.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel12.Location = New System.Drawing.Point(579, 0)
-        Me.RadLabel12.Name = "RadLabel12"
-        Me.RadLabel12.Size = New System.Drawing.Size(197, 13)
-        Me.RadLabel12.TabIndex = 67
-        Me.RadLabel12.Text = "Double Click on QC Status to fill QC Details"
-        '
         'frmDairyProductionUploader
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -630,6 +643,8 @@ Partial Class frmDairyProductionUploader
         Me.Text = "Dairy Production Uploader"
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
+        CType(Me.btnPrintNew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
@@ -658,7 +673,6 @@ Partial Class frmDairyProductionUploader
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -702,5 +716,6 @@ Partial Class frmDairyProductionUploader
     Friend WithEvents btnReverse As RadButton
     Friend WithEvents btnShowInventory As RadButton
     Friend WithEvents RadLabel12 As common.Controls.MyLabel
+    Friend WithEvents btnPrintNew As RadButton
 End Class
 
