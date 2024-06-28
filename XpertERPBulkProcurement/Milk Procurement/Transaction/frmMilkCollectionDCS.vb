@@ -186,7 +186,6 @@ Public Class frmMilkCollectionDCS
         btnAddMissing.Enabled = False
         txtDate.Enabled = True
         txtMCC.Focus()
-
         gv2.DataSource = Nothing
     End Sub
 
@@ -1235,6 +1234,8 @@ select max(UploaderNo) as UploaderNo,max(MCC_NAME) as MCC_NAME,MCC_Code,max(Tank
 " + Baseqry + "
 )xx group by MCC_Code )xxx"
             txtMCC.Value = clsCommon.ShowSelectForm("dd22ShUp", qry, "UploaderNo", "", txtMCC.Value, "UploaderNo", isButtonClicked)
+
+
             Dim strMilkType As String = ""
             If clsCommon.myLen(txtMCC.Value) > 0 Then
                 qry = "select Milk_Type as Code from ( " + Baseqry + " and TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader='" + txtMCC.Value + "' )xx group by Milk_Type"
@@ -1264,16 +1265,7 @@ select max(UploaderNo) as UploaderNo,max(MCC_NAME) as MCC_NAME,MCC_Code,max(Tank
                 txtMCC.Tag = Nothing
             End If
 
-            'Dim dr As DataRow = clsCommon.ShowSelectFormForRow("dd22ShUp", qry)
-            'If dr IsNot Nothing AndAlso dr.ItemArray.Count > 0 Then
-            '    txtMCC.Value = clsCommon.myCstr(dr("UploaderNo"))
-            '    lblMCC.Text = ""
-            '    txtMCC.Tag = Nothing
-            '    If clsCommon.myLen(txtMCC.Value) > 0 Then
-            '        RefreshMCCCollectionDetail(txtMCC.Value, clsCommon.myCstr(dr("Milk_Type")), Nothing)
-            '    End If
-            '    LoadTransactionData(clsCommon.myCstr(dr("Milk_Type")))
-            'End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -1306,6 +1298,7 @@ where 2=2 "
             gv2.DataSource = Nothing
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                txtDate.Enabled = False
                 Dim dclQty As Decimal = 0
                 Dim dclFATKg As Decimal = 0
                 Dim dclSNFKg As Decimal = 0

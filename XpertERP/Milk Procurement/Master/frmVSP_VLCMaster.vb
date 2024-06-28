@@ -9,6 +9,7 @@ Public Class frmVSP_VLCMaster
 #Region "Variables"
     Dim userCode, companyCode As String
     Dim str As String
+    Dim OneTimeCheck As Boolean = False
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Dim Errorcontrol As clsErrorControl = New clsErrorControl()
     Dim checkPan As New System.Text.RegularExpressions.Regex("^([A-Z]){5}([0-9]){4}([A-Z]){1}")
@@ -3454,8 +3455,54 @@ Public Class frmVSP_VLCMaster
     End Sub
 
     Private Sub btnsave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnsave.Click
-        SaveData()
+        Try
+            If btnsave.Text = "Update" AndAlso OneTimeCheck = False Then
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = clsFixedParameterType.Transactionupdate
+                frm.strCode = clsFixedParameterCode.VendorMaster
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    ShowRemarks()
+                    OneTimeCheck = True
+                End If
+            ElseIf btnsave.Text = "Update" AndAlso OneTimeCheck Then
+                ShowRemarks()
+            Else
+                SaveData()
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+        'SaveData()
     End Sub
+
+    Private Sub ShowRemarks()
+        Try
+            Dim Reason As String = ""
+            Dim frm As New FrmFreeTxtBox1
+            frm.Text = "Remarks for Update"
+            frm.ShowDialog()
+            If clsCommon.myLen(frm.strRmks) <= 0 Then
+                Exit Sub
+            Else
+                Reason = frm.strRmks
+            End If
+            SaveData()
+            saveCancelLog(Reason, "Updated", Nothing)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
+        Dim obj As New clsCancelLog
+        obj.Program_Code = Form_ID
+        obj.DOCUMENT_NO = clsCommon.myCstr(Me.fndvendorNo.Value)
+        obj.REASON = Reason
+        obj.ACTIVITY_TYPE = Activity_Type
+        Return clsCancelLog.SaveData(obj, True, trans)
+    End Function
+
     Sub SaveData()
         Try
             If AllowVSPMasterAutoPrefix = 0 Then
@@ -3773,7 +3820,6 @@ Public Class frmVSP_VLCMaster
                 End If
             End If
 
-
             If objCommonVar.GSTApplicable Then
                 If clsCommon.myCdbl(Rchkregistered.Checked) > 0 Then
                     Dim GSTFinal As String = clsCommon.myCstr(txtGSTStateCode.Text) + clsCommon.myCstr(txtGST_PanCode.Text) + clsCommon.myCstr(txtEntity.Text) + clsCommon.myCstr(txtFixxed.Text) + clsCommon.myCstr(MyTextBox2.Text)
@@ -4083,7 +4129,8 @@ Public Class frmVSP_VLCMaster
 
     Private Sub frmVSP_VLCMaster_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag AndAlso btnsave.Enabled Then
-            SaveData()
+            btnsave.PerformClick()
+            'SaveData()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso MyBase.isPostFlag Then
             'PostData()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso MyBase.isDeleteFlag AndAlso btndelete.Enabled Then
