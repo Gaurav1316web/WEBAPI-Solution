@@ -36,7 +36,7 @@ Public Class frmSendBillToDCS
         cboShift.DisplayMember = "Name"
     End Sub
     Private Sub fndPaymentProcessDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndPaymentProcessDocNo._MYValidating
-        fndPaymentProcessDocNo.Value = clsPaymentProcessHead.getFinder("FarmType='PP' And isPosted=1", fndPaymentProcessDocNo.Value, isButtonClicked)
+        fndPaymentProcessDocNo.Value = clsPaymentProcessHead.getFinder("FarmType='PP' And isPrePosted=1", fndPaymentProcessDocNo.Value, isButtonClicked)
         If clsCommon.myLen(fndPaymentProcessDocNo.Value) > 0 Then
             CalculateSendOrRemainingBill()
         End If
