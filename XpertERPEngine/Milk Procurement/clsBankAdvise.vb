@@ -211,13 +211,19 @@ left outer join TSPL_BANK_ADVISE On TSPL_BANK_ADVISE.Payment_Process_Document_No
 " + IIf(MultipleFinderFillAuto = True, "    ", " left outer join TSPL_Location_MASTER on TSPL_Location_MASTER.Loc_Segment_Code=TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code and  TSPL_Location_MASTER.Rejected_Type='N' and TSPL_Location_MASTER.Location_Category='MCC' ") + "
 left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert(date, TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103)<=convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert(date,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103)>=convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) " + IIf(MultipleFinderFillAuto = True, "  and TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code = TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected  ", " and TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code=TSPL_Location_MASTER.Location_Code ") + " 
 where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and TSPL_BANK_MASTER.BANK_CODE='" + clsCommon.myCstr(drBank("Company_Bank_Current")) + "' 
-and   TSPL_PAYMENT_PROCESS_HEAD.Doc_No='" + strPPNo + "'   and (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0))>0 "
+and   TSPL_PAYMENT_PROCESS_HEAD.Doc_No='" + strPPNo + "'  "
+
+                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") <> CompairStringResult.Equal Then
+                            BaseQry += "And (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0))>0"
+                        End If
+
+                        'And (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0))>0 "
 
                         Dim FinalQuery As String = ""
                         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                             FinalQuery = BaseQry + " order by Payee_Joint_Account_No asc"
                         Else
-                            FinalQuery = BaseQry + " order by TSPL_Vendor_MASTER.Bank_Code"
+                            FinalQuery = BaseQry + " order by TSPL_Vendor_MASTER.Bank_Code,cast(VLC_CODE_Uploader as Int) "
                         End If
                         Dim dt As DataTable = clsDBFuncationality.GetDataTable(FinalQuery, trans)
 

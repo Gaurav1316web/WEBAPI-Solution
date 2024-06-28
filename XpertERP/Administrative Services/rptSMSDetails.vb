@@ -22,6 +22,8 @@ Public Class rptSMSDetails
     Private Sub RptInventoryMovement_Load(sender As Object, e As EventArgs) Handles Me.Load
         ToDate.Value = clsCommon.GETSERVERDATE()
         fromDate.Value = ToDate.Value.AddMonths(-1)
+        'UcAttachment1.Form_ID = MyBase.Form_ID
+
     End Sub
     Sub Reset()
         ToDate.Value = clsCommon.GETSERVERDATE()
@@ -184,5 +186,59 @@ Public Class rptSMSDetails
 
     Private Sub rmiPDF_Click(sender As Object, e As EventArgs) Handles rmiPDF.Click
         ExportGrid(EnumExportTo.PDF)
+    End Sub
+
+    Private Sub Gv1_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles Gv1.CellDoubleClick
+        Try
+            Dim Code As String = clsCommon.myCstr(Gv1.CurrentRow.Cells("Email Code").Value)
+            If clsCommon.myLen(Code) > 0 Then
+                FunShow(Code)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Public Sub FunShow(ByVal strCode As String)
+        If (clsCommon.myLen(strCode) <= 0) Then
+            clsCommon.MyMessageBoxShow(Me, "Document not found to View.", Me.Text)
+            Return
+        End If
+        Dim ds_attachment As DataTable
+        Dim filename As String = ""
+        Dim file_path As String = ""
+        Dim file_extn As String = ""
+        Try
+
+            ds_attachment = New DataTable
+            ds_attachment = clsAttachDocument.GetDocumentByteForEmail(strCode)
+            filename = clsCommon.myCstr(ds_attachment.Rows(0)("Attachment_1_File_Name"))
+
+            'filename = clsCommon.myCstr(ds_attachment.Rows(0)("FileName"))
+            'filename = clsCommon.myCstr(Gv1.CurrentRow.Cells("Attachment_1_File_Name").Value)
+            Dim blob As Byte() = ds_attachment.Rows(0)("Attachment_1")
+            file_path = "C:\ERPTempFolder"
+            Dim dir As DirectoryInfo = New DirectoryInfo(file_path)
+            If dir.Exists = False Then
+                dir.Create()
+            End If
+            Dim index As Int16 = filename.LastIndexOf(".")
+            file_extn = filename.Substring(index)
+            filename = filename.Remove(index)
+            filename += (clsCommon.myCDate(clsCommon.GETSERVERDATE(), "dd/MM/yy hh:mm:ss")).ToString()
+            filename = filename.Replace(" ", "")
+            filename = filename.Replace("/", "_")
+            filename = filename.Replace(":", "_")
+            Dim fs As FileStream = File.Create(file_path + "\\" + filename + file_extn)
+            fs.Write(blob, 0, blob.Length)
+            fs.Close()
+            System.Diagnostics.Process.Start(file_path + "\\" + filename + file_extn)
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, "Error in Downloading Documnet.", Me.Text)
+        End Try
+    End Sub
+
+    Private Sub RadButton2_Click(sender As Object, e As EventArgs)
+
     End Sub
 End Class

@@ -51,6 +51,9 @@ Partial Class FrmItemMasterRMOther
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtRptName = New common.Controls.MyTextBox()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.MyLabel46 = New common.Controls.MyLabel()
         Me.cboItemSubGroupType = New common.Controls.MyComboBox()
         Me.MyLabel10 = New common.Controls.MyLabel()
         Me.chkFGforCFRPT = New common.Controls.MyCheckBox()
@@ -59,7 +62,6 @@ Partial Class FrmItemMasterRMOther
         Me.chkqcprod = New common.Controls.MyCheckBox()
         Me.chkExcludeInApp = New common.Controls.MyCheckBox()
         Me.txtBmBdQty = New common.Controls.MyTextBox()
-        Me.MyLabel2 = New common.Controls.MyLabel()
         Me.MyLabelL = New common.Controls.MyLabel()
         Me.gbBuyBack = New System.Windows.Forms.GroupBox()
         Me.txtBBValue = New common.MyNumBox()
@@ -301,14 +303,15 @@ Partial Class FrmItemMasterRMOther
         Me.rmiClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.txtRptName = New common.Controls.MyTextBox()
-        Me.MyLabel46 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.txtRptName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel46, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboItemSubGroupType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkFGforCFRPT, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -317,7 +320,6 @@ Partial Class FrmItemMasterRMOther
         CType(Me.chkqcprod, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkExcludeInApp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtBmBdQty, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabelL, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbBuyBack.SuspendLayout()
         CType(Me.txtBBValue, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -533,8 +535,6 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtRptName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel46, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -576,7 +576,7 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(1142, 601)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -726,6 +726,46 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1121, 553)
         Me.RadPageViewPage1.Text = "Item Detail"
         '
+        'txtRptName
+        '
+        Me.txtRptName.CalculationExpression = Nothing
+        Me.txtRptName.FieldCode = Nothing
+        Me.txtRptName.FieldDesc = Nothing
+        Me.txtRptName.FieldMaxLength = 0
+        Me.txtRptName.FieldName = Nothing
+        Me.txtRptName.isCalculatedField = False
+        Me.txtRptName.IsSourceFromTable = False
+        Me.txtRptName.IsSourceFromValueList = False
+        Me.txtRptName.IsUnique = False
+        Me.txtRptName.Location = New System.Drawing.Point(937, 277)
+        Me.txtRptName.MendatroryField = False
+        Me.txtRptName.MyLinkLable1 = Me.MyLabel2
+        Me.txtRptName.MyLinkLable2 = Nothing
+        Me.txtRptName.Name = "txtRptName"
+        Me.txtRptName.ReferenceFieldDesc = Nothing
+        Me.txtRptName.ReferenceFieldName = Nothing
+        Me.txtRptName.ReferenceTableName = Nothing
+        Me.txtRptName.Size = New System.Drawing.Size(146, 20)
+        Me.txtRptName.TabIndex = 213
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Location = New System.Drawing.Point(3, 28)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(89, 18)
+        Me.MyLabel2.TabIndex = 61
+        Me.MyLabel2.Text = "Item Description"
+        '
+        'MyLabel46
+        '
+        Me.MyLabel46.FieldName = Nothing
+        Me.MyLabel46.Location = New System.Drawing.Point(860, 278)
+        Me.MyLabel46.Name = "MyLabel46"
+        Me.MyLabel46.Size = New System.Drawing.Size(73, 18)
+        Me.MyLabel46.TabIndex = 212
+        Me.MyLabel46.Text = "Report Name"
+        '
         'cboItemSubGroupType
         '
         Me.cboItemSubGroupType.AutoCompleteDisplayMember = Nothing
@@ -860,15 +900,6 @@ Partial Class FrmItemMasterRMOther
         Me.txtBmBdQty.Size = New System.Drawing.Size(96, 20)
         Me.txtBmBdQty.TabIndex = 205
         Me.txtBmBdQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'MyLabel2
-        '
-        Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Location = New System.Drawing.Point(3, 28)
-        Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(89, 18)
-        Me.MyLabel2.TabIndex = 61
-        Me.MyLabel2.Text = "Item Description"
         '
         'MyLabelL
         '
@@ -3080,7 +3111,7 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(106.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1087, 553)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1121, 553)
         Me.RadPageViewPage2.Text = "Conversion Factor"
         '
         'gvUOM
@@ -3096,7 +3127,7 @@ Partial Class FrmItemMasterRMOther
         Me.gvUOM.MyStopExport = False
         Me.gvUOM.Name = "gvUOM"
         Me.gvUOM.ShowHeaderCellButtons = True
-        Me.gvUOM.Size = New System.Drawing.Size(1087, 553)
+        Me.gvUOM.Size = New System.Drawing.Size(1121, 553)
         Me.gvUOM.TabIndex = 0
         Me.gvUOM.TabStop = False
         '
@@ -4355,37 +4386,6 @@ Partial Class FrmItemMasterRMOther
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         Me.OpenFileDialog1.Filter = "Image Files(*.BMP;*.JPG;*.JEPG;*.GIF)|*.BMP;*.JPG;*.JEPG;*.GIF"
         '
-        'txtRptName
-        '
-        Me.txtRptName.CalculationExpression = Nothing
-        Me.txtRptName.FieldCode = Nothing
-        Me.txtRptName.FieldDesc = Nothing
-        Me.txtRptName.FieldMaxLength = 0
-        Me.txtRptName.FieldName = Nothing
-        Me.txtRptName.isCalculatedField = False
-        Me.txtRptName.IsSourceFromTable = False
-        Me.txtRptName.IsSourceFromValueList = False
-        Me.txtRptName.IsUnique = False
-        Me.txtRptName.Location = New System.Drawing.Point(937, 277)
-        Me.txtRptName.MendatroryField = False
-        Me.txtRptName.MyLinkLable1 = Me.MyLabel2
-        Me.txtRptName.MyLinkLable2 = Nothing
-        Me.txtRptName.Name = "txtRptName"
-        Me.txtRptName.ReferenceFieldDesc = Nothing
-        Me.txtRptName.ReferenceFieldName = Nothing
-        Me.txtRptName.ReferenceTableName = Nothing
-        Me.txtRptName.Size = New System.Drawing.Size(146, 20)
-        Me.txtRptName.TabIndex = 213
-        '
-        'MyLabel46
-        '
-        Me.MyLabel46.FieldName = Nothing
-        Me.MyLabel46.Location = New System.Drawing.Point(860, 278)
-        Me.MyLabel46.Name = "MyLabel46"
-        Me.MyLabel46.Size = New System.Drawing.Size(73, 18)
-        Me.MyLabel46.TabIndex = 212
-        Me.MyLabel46.Text = "Report Name"
-        '
         'FrmItemMasterRMOther
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4406,6 +4406,9 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.txtRptName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel46, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboItemSubGroupType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkFGforCFRPT, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4414,7 +4417,6 @@ Partial Class FrmItemMasterRMOther
         CType(Me.chkqcprod, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkExcludeInApp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtBmBdQty, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabelL, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbBuyBack.ResumeLayout(False)
         Me.gbBuyBack.PerformLayout()
@@ -4642,8 +4644,6 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtRptName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel46, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

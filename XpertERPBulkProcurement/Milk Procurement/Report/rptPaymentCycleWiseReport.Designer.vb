@@ -22,11 +22,11 @@ Partial Class rptPaymentCycleWiseReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim GridViewTextBoxColumn1 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn2 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewCheckBoxColumn1 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim GridViewTextBoxColumn7 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn8 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewCheckBoxColumn4 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -63,12 +63,14 @@ Partial Class rptPaymentCycleWiseReport
         Me.fromDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.btnPrintCHT = New Telerik.WinControls.UI.RadButton()
         Me.btnExp = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.rdbNegativeAmt = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -102,10 +104,12 @@ Partial Class rptPaymentCycleWiseReport
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrintCHT, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbNegativeAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -149,6 +153,7 @@ Partial Class rptPaymentCycleWiseReport
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintCHT)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnExp)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -171,6 +176,7 @@ Partial Class rptPaymentCycleWiseReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.rdbNegativeAmt)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel4)
         Me.RadPageViewPage1.Controls.Add(Me.txtZone)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox4)
@@ -250,24 +256,24 @@ Partial Class rptPaymentCycleWiseReport
         '
         '
         Me.dgv_Groupmapping.MasterTemplate.AllowAddNewRow = False
-        GridViewTextBoxColumn1.HeaderText = "Payment Cycle"
-        GridViewTextBoxColumn1.Name = "PaymentCycle"
-        GridViewTextBoxColumn1.ReadOnly = True
-        GridViewTextBoxColumn1.Width = 180
-        GridViewTextBoxColumn2.HeaderText = "From Date - To Date"
-        GridViewTextBoxColumn2.Name = "Description"
-        GridViewTextBoxColumn2.ReadOnly = True
-        GridViewTextBoxColumn2.Width = 197
-        GridViewCheckBoxColumn1.HeaderText = "Status"
-        GridViewCheckBoxColumn1.MinWidth = 20
-        GridViewCheckBoxColumn1.Name = "Status"
-        GridViewCheckBoxColumn1.Width = 169
-        Me.dgv_Groupmapping.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn1, GridViewTextBoxColumn2, GridViewCheckBoxColumn1})
+        GridViewTextBoxColumn7.HeaderText = "Payment Cycle"
+        GridViewTextBoxColumn7.Name = "PaymentCycle"
+        GridViewTextBoxColumn7.ReadOnly = True
+        GridViewTextBoxColumn7.Width = 180
+        GridViewTextBoxColumn8.HeaderText = "From Date - To Date"
+        GridViewTextBoxColumn8.Name = "Description"
+        GridViewTextBoxColumn8.ReadOnly = True
+        GridViewTextBoxColumn8.Width = 197
+        GridViewCheckBoxColumn4.HeaderText = "Status"
+        GridViewCheckBoxColumn4.MinWidth = 20
+        GridViewCheckBoxColumn4.Name = "Status"
+        GridViewCheckBoxColumn4.Width = 169
+        Me.dgv_Groupmapping.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn7, GridViewTextBoxColumn8, GridViewCheckBoxColumn4})
         Me.dgv_Groupmapping.MasterTemplate.EnableFiltering = True
         Me.dgv_Groupmapping.MasterTemplate.EnableGrouping = False
         Me.dgv_Groupmapping.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgv_Groupmapping.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgv_Groupmapping.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.dgv_Groupmapping.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.dgv_Groupmapping.MyStopExport = False
         Me.dgv_Groupmapping.Name = "dgv_Groupmapping"
         Me.dgv_Groupmapping.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -555,7 +561,7 @@ Partial Class rptPaymentCycleWiseReport
         Me.gv1.MasterTemplate.EnableFiltering = True
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -563,6 +569,17 @@ Partial Class rptPaymentCycleWiseReport
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(794, 404)
         Me.gv1.TabIndex = 6
+        '
+        'btnPrintCHT
+        '
+        Me.btnPrintCHT.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrintCHT.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrintCHT.Location = New System.Drawing.Point(255, 15)
+        Me.btnPrintCHT.Name = "btnPrintCHT"
+        Me.btnPrintCHT.Size = New System.Drawing.Size(71, 22)
+        Me.btnPrintCHT.TabIndex = 431
+        Me.btnPrintCHT.Text = "Print"
+        Me.btnPrintCHT.Visible = False
         '
         'btnExp
         '
@@ -616,6 +633,15 @@ Partial Class rptPaymentCycleWiseReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
+        'rdbNegativeAmt
+        '
+        Me.rdbNegativeAmt.Location = New System.Drawing.Point(516, 38)
+        Me.rdbNegativeAmt.Name = "rdbNegativeAmt"
+        Me.rdbNegativeAmt.Size = New System.Drawing.Size(108, 18)
+        Me.rdbNegativeAmt.TabIndex = 1519
+        Me.rdbNegativeAmt.Text = "Negative Amount"
+        Me.rdbNegativeAmt.Visible = False
+        '
         'rptPaymentCycleWiseReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -666,10 +692,12 @@ Partial Class rptPaymentCycleWiseReport
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrintCHT, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbNegativeAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -717,5 +745,7 @@ Partial Class rptPaymentCycleWiseReport
     Friend WithEvents dgv_Groupmapping As common.UserControls.MyRadGridView
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
     Friend WithEvents txtZone As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents btnPrintCHT As RadButton
+    Friend WithEvents rdbNegativeAmt As RadCheckBox
 End Class
 
