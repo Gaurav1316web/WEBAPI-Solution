@@ -23,6 +23,9 @@ Public Class rptPaymentCycleWiseReport
         RadGroupBox1.Visible = True
         fun_gridfill()
         isLoad = False
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
+            rdbNegativeAmt.Visible = True
+        End If
     End Sub
     Private Sub fun_gridfill()
         dgv_Groupmapping.AutoGenerateColumns = False
@@ -426,6 +429,47 @@ Public Class rptPaymentCycleWiseReport
         Try
             Dim qry As String = " select Zone_Code as Zone ,Description as Name from TSPL_ZONE_MASTER"
             txtZone.arrValueMember = clsCommon.ShowMultipleSelectForm("ZONEFinder", qry, "Zone", "Name", txtZone.arrValueMember, txtZone.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub rdbNegativeAmt_CheckStateChanged(sender As Object, e As EventArgs) Handles rdbNegativeAmt.CheckStateChanged
+        If rdbNegativeAmt.Checked = True Then
+            btnPrintCHT.Visible = True
+        Else
+            btnPrintCHT.Visible = False
+        End If
+    End Sub
+
+    Private Sub btnPrintCHT_Click(sender As Object, e As EventArgs) Handles btnPrintCHT.Click
+        Try
+
+            Dim qry As String = " select '" + fromDate.Value + "' as Fromdate,'" + ToDate.Value + "' as ToDate,'" + objCommonVar.CurrentUser + "' as username,TSPL_COMPANY_MASTER.Comp_Name,TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
+                                    ,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No ,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_Date ,TSPL_PAYMENT_PROCESS_DETAIL.AP_Invoice_No 
+                                    ,TSPL_PAYMENT_PROCESS_DETAIL.AP_Invoice_Date ,TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.VLC_Name ,TSPL_PAYMENT_PROCESS_DETAIL.MCC_Code 
+                                    ,TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE ,TSPL_PAYMENT_PROCESS_DETAIL.VSP_NAME,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Qty,TSPL_PAYMENT_PROCESS_DETAIL.VSP_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Amount,TSPL_PAYMENT_PROCESS_DETAIL.SRN_Net_Amount,
+                                    TSPL_PAYMENT_PROCESS_DETAIL.Total_Invoice_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount,
+                                    TSPL_PAYMENT_PROCESS_DETAIL.Deduction_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Reduce_Deduc_Amt,TSPL_PAYMENT_PROCESS_DETAIL.Deduction_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Credit_Note_Amount 
+                                    ,TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount
+                                    ,TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME
+                                    from   TSPL_PAYMENT_PROCESS_DETAIL  
+                                    left outer join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE=TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No
+                                    left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE
+                                    left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_MILK_PURCHASE_INVOICE_HEAD.Comp_Code
+                                    where CONVERT(DATE, TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_Date, 103) >= CONVERT(DATE,'" + clsCommon.GetPrintDate(fromDate.Value) + "', 103) 
+                                    AND CONVERT(DATE, TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_Date, 103) <= CONVERT(DATE,'" + clsCommon.GetPrintDate(ToDate.Value) + "', 103) and Payable_Amount <=0
+                                    order by cast(TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader as int) "
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+
+            If dt IsNot Nothing And dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptNegativeAmtCHT", "")
+                frmCRV = Nothing
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

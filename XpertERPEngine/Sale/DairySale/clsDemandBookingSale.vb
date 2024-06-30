@@ -795,7 +795,7 @@ where 2=2 "
     Public Shared Function PostData(ByVal FormId As String, ByVal strDocNo As String, ByVal intShift As Integer) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            PostData(FormId, strDocNo, intShift, trans)
+            PostData(FormId, strDocNo, intShift, True, trans)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -803,7 +803,7 @@ where 2=2 "
         End Try
         Return True
     End Function
-    Public Shared Function PostData(ByVal FormId As String, ByVal strDocNo As String, ByVal intShift As Integer, ByVal trans As SqlTransaction) As Boolean
+    Public Shared Function PostData(ByVal FormId As String, ByVal strDocNo As String, ByVal intShift As Integer, ByVal IsRepertOrder As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
             If (clsCommon.myLen(strDocNo) <= 0) Then
                 Throw New Exception("Demand Booking No not found to Post")
@@ -875,29 +875,36 @@ where 2=2 "
             '                '" & objCommonVar.CurrentCompanyCode & "','" & Cust_Code & "','" & obj.Location_Code & "')"
             '                clsDBFuncationality.ExecuteNonQuery(qry, trans)
             '            End If
-            Dim docno As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where convert(date,Document_Date,103)='" + clsCommon.GetPrintDate(clsCommon.myCDate(obj.Document_Date).AddDays(1)) + "' and Route_No='" + obj.Route_No + "' and ShiftType='" + obj.ShiftType + "' and IsIndividualCustomer=0", trans))
-            Dim isNewEntry As Boolean = False
-            If clsCommon.myLen(docno) > 0 Then
-                obj.Document_No = docno
-                obj.Document_Date = clsCommon.GetPrintDate(clsCommon.myCDate(obj.Document_Date).AddDays(1))
-                isNewEntry = False
-            Else
-                obj.Document_No = ""
-                obj.Document_Date = clsCommon.GetPrintDate(clsCommon.myCDate(obj.Document_Date).AddDays(1))
-                isNewEntry = True
-            End If
-            If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandAll, clsFixedParameterCode.ApplyDemandAll, trans)) = 1 Then
+            If IsRepertOrder Then
+                Dim docno As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where convert(date,Document_Date,103)='" + clsCommon.GetPrintDate(clsCommon.myCDate(obj.Document_Date).AddDays(1)) + "' and Route_No='" + obj.Route_No + "' and ShiftType='" + obj.ShiftType + "' and IsIndividualCustomer=0", trans))
+                Dim isNewEntry As Boolean = False
+                If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Posted from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + docno + "' ", trans)) = 0 Then
 
-                SaveData(obj, isNewEntry, trans)
-            ElseIf clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, trans)) = 1 Then
-                For ii As Integer = 0 To obj.Arr.Count - 1
-                    If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsReorder  from TSPL_CUSTOMER_MASTER where Cust_Code='" & obj.Arr(ii).Cust_Code & "'", trans)) = 0 Then
-                        obj.Arr(ii).Qty = 0
+
+                    If clsCommon.myLen(docno) > 0 Then
+                        obj.Document_No = docno
+                        obj.Document_Date = clsCommon.GetPrintDate(clsCommon.myCDate(obj.Document_Date).AddDays(1))
+                        isNewEntry = False
+                    Else
+                        obj.Document_No = ""
+                        obj.Document_Date = clsCommon.GetPrintDate(clsCommon.myCDate(obj.Document_Date).AddDays(1))
+                        isNewEntry = True
                     End If
+                    If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandAll, clsFixedParameterCode.ApplyDemandAll, trans)) = 1 Then
 
-                Next
-                SaveData(obj, isNewEntry, trans)
+                        SaveData(obj, isNewEntry, trans)
+                    ElseIf clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, trans)) = 1 Then
+                        For ii As Integer = 0 To obj.Arr.Count - 1
+                            If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsReorder  from TSPL_CUSTOMER_MASTER where Cust_Code='" & obj.Arr(ii).Cust_Code & "'", trans)) = 0 Then
+                                obj.Arr(ii).Qty = 0
+                            End If
+
+                        Next
+                        SaveData(obj, isNewEntry, trans)
+                    End If
+                End If
             End If
+
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

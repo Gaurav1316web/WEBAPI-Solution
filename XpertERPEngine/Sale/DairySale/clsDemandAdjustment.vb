@@ -89,9 +89,9 @@ Public Class clsDemandAdjustment
         Dim whrCls As String = ""
         Select Case NavType
             Case NavigatorType.First
-                qry += " and TSPL_DEMAND_ADJUSTMENT_HEAD.Document_Code = (select MIN(Document_No) from TSPL_DEMAND_ADJUSTMENT_HEAD WHERE 1=1 " + whrCls + ")"
+                qry += " and TSPL_DEMAND_ADJUSTMENT_HEAD.Document_Code = (select MIN(Document_Code) from TSPL_DEMAND_ADJUSTMENT_HEAD WHERE 1=1 " + whrCls + ")"
             Case NavigatorType.Last
-                qry += " and TSPL_DEMAND_ADJUSTMENT_HEAD.Document_Code = (select Max(Document_No) from TSPL_DEMAND_ADJUSTMENT_HEAD WHERE 1=1 " + whrCls + ")"
+                qry += " and TSPL_DEMAND_ADJUSTMENT_HEAD.Document_Code = (select Max(Document_Code) from TSPL_DEMAND_ADJUSTMENT_HEAD WHERE 1=1 " + whrCls + ")"
             Case NavigatorType.Current
                 qry += " and TSPL_DEMAND_ADJUSTMENT_HEAD.Document_Code = '" + strDocNo + "'"
             Case NavigatorType.Next

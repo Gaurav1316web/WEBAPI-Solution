@@ -1390,6 +1390,7 @@
     <None Include="Crystal Reports\Milk Procurement\crptMPWiseMilkCollectionAtPoolingPoint.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMultpleDeductionNewGNG.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMultpleDeductionNewJPR.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptNegativeAmtCHT.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptPaymentProcessFarmer.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptPaymentProcessFarmerPredefineFormate.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptPaymentProcessFarmerPredefineFormate2.rpt" />
@@ -1505,6 +1506,7 @@
     <None Include="Crystal Reports\PRODUCTION\crptLineProductivity1.rpt" />
     <None Include="Crystal Reports\PRODUCTION\crptPPBOMPrint.rpt" />
     <None Include="Crystal Reports\PRODUCTION\crptProductionPlan.rpt" />
+    <None Include="Crystal Reports\PRODUCTION\crptProductionUploaderPrint.rpt" />
     <None Include="Crystal Reports\PRODUCTION\ProductionIssue.rpt" />
     <None Include="Crystal Reports\PRODUCTION\ProductionRequisition.rpt" />
     <None Include="Crystal Reports\PRODUCTION\ProductionReturn.rpt" />
