@@ -1145,7 +1145,6 @@ Public Class frmStanderdProductionEntry
         'lblConsmSectionCode.Text = ""
         'lblConsmSectionLocCode.Text = ""        
         txtCode.MyReadOnly = False
-        btnGo.Enabled = True
         LOCATIONRIGTHS()
         gvBatch.Rows.Clear()
         gvBatch.Rows.AddNew()
@@ -1324,11 +1323,6 @@ Public Class frmStanderdProductionEntry
     End Sub
     Function SaveData(ByVal ChekBtnPost As Boolean) As Boolean
         Try
-            If ClickGo = True Then
-                clsCommon.MyMessageBoxShow("Please click Go Button.")
-                btnGo.Focus()
-                Exit Function
-            End If
             '' Anubhooti 09-Sep-2014 BM00000003735
             If ChekBtnPost = False Then
                 If FrmMainTranScreen.ValidateTransactionAccToFinYear("Production Entry", dtpDate.Value) = False Then
@@ -1527,13 +1521,11 @@ Public Class frmStanderdProductionEntry
         If obj IsNot Nothing Then
             isNewEntry = False
             btnSave.Text = "Update"
-            'btnGo.Enabled = btnunpost.Visible
             If obj.POSTED Then
                 btnSave.Enabled = False
                 btnPost.Enabled = False
                 btnDelete.Enabled = False
                 UsLock1.Status = ERPTransactionStatus.Approved
-                btnGo.Enabled = False
             Else
                 btnSave.Enabled = True
                 btnDelete.Enabled = True
@@ -1708,7 +1700,6 @@ Public Class frmStanderdProductionEntry
 
                 End If
             Next
-            'btnGo.Enabled = False
             UcAttachment1.LoadData(obj.PROD_ENTRY_CODE)
             '' load section 
             'FillSection()
@@ -1969,6 +1960,7 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
                         UpdateCurrentRow(gvBatch.CurrentRow.Index)
                         ClickGo = True
                     End If
+                    ProductionQtyChanged()
                     isCellValueChanged = False
                 End If
             End If
@@ -2492,7 +2484,8 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
             Throw New Exception(ex.Message)
         End Try
     End Sub
-    Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+
+    Public Sub ProductionQtyChanged()
         Try
             If txtImportTemplate.Enabled AndAlso txtImportTemplate.arrValueMember.Count > 0 Then
                 Import = True
@@ -2505,9 +2498,10 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
-        ClickGo = False
-        RadPageView1.SelectedPage = pageConsumption
+        'ClickGo = False
+        'RadPageView1.SelectedPage = pageConsumption
     End Sub
+
     Private Sub fndItemCategory__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndItemCategory._MYValidating
         Try
             Dim qry As String = "select Structure_Code as Code,Structure_Descq as Description,Item_Structure as Structure,Total_Length as [Length],Default_Struct as [Default Structure] from TSPL_STRUCTURE_MASTER"
