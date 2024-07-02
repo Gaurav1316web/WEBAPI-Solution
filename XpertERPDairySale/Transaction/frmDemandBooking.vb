@@ -708,7 +708,7 @@ Public Class frmDemandBooking
                 End If
             End If
             isInsideLoadData = True
-            'UpdateAllTotals(False)
+            UpdateAllTotals(False)
             isInsideLoadData = False
             Dim dblQuantityCount As Double = 0
             Dim dblQuantityMORNINGCount As Double = 0
@@ -1536,72 +1536,6 @@ Public Class frmDemandBooking
         Try
             Dim qry As String = String.Empty
             Dim ItemType As String = ""
-            If SeparateDemandMilkandProduct Then
-                qry = "Select TSPL_ROUTE_MASTER.Route_No as Code,Route_Desc as Description,Type,Employee_Code as 'Employee Code',Off_Day as 'Off Day' from TSPL_ROUTE_MASTER"
-            Else
-                qry = "Select TSPL_ROUTE_MASTER.Route_No as Code,Route_Desc as Description,Type,Employee_Code as 'Employee Code',Off_Day as 'Off Day' from TSPL_ROUTE_MASTER"
-            End If
-            If Not isQuickDemand Then
-                txtRouteNo.Value = clsCommon.ShowSelectForm("DSRouteFinder", qry, "Code", "", txtRouteNo.Value, "", isClicked)
-            End If
-            If SeparateDemandMilkandProduct Then
-                If rbtn_Fresh.IsChecked Then
-                    ItemType = "Milk"
-                ElseIf rbtn_Ambient.IsChecked Then
-                    ItemType = "Product"
-                ElseIf rdbnFreshAmbientBoth.IsChecked Then
-                    ItemType = "Both"
-                End If
-                qry = " select  top 1 x.ItemType 
-                from(
-                select TSPL_DISTRIBUTOR_ROUTE.Code as Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DISTRIBUTOR_ROUTE.Remarks,max(TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code) as cust_code,TSPL_DISTRIBUTOR_ROUTE.ItemType
-                from TSPL_DISTRIBUTOR_ROUTE
-                left join TSPL_DISTRIBUTOR_ROUTE_CUSTOMER on TSPL_DISTRIBUTOR_ROUTE.Code=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code
-                where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No='" + txtRouteNo.Value + "' and TSPL_DISTRIBUTOR_ROUTE.ItemType='" + ItemType + "'
-                 Group by TSPL_DISTRIBUTOR_ROUTE.Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DISTRIBUTOR_ROUTE.Remarks,TSPL_DISTRIBUTOR_ROUTE.ItemType
-                ) X "
-                Dim DRTItem As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
-                If clsCommon.myLen(DRTItem) > 0 Then
-                    If clsCommon.CompairString(DRTItem, "Milk") = CompairStringResult.Equal Then
-                        rbtn_Fresh.IsChecked = True
-                        RadGroupBox1.Enabled = False
-                        LoadBlankGrid()
-                        HideUnhideRowsAndColumnsOFGrid()
-                    ElseIf clsCommon.CompairString(DRTItem, "Product") = CompairStringResult.Equal Then
-                        rbtn_Ambient.IsChecked = True
-                        RadGroupBox1.Enabled = False
-                        LoadBlankGrid()
-                        HideUnhideRowsAndColumnsOFGrid()
-                    ElseIf clsCommon.CompairString(DRTItem, "Both") = CompairStringResult.Equal Then
-                        rdbnFreshAmbientBoth.IsChecked = True
-                        RadGroupBox1.Enabled = False
-                        LoadBlankGrid()
-                        HideUnhideRowsAndColumnsOFGrid()
-                    End If
-                Else
-                    Throw New Exception("Distributor Route Not Tagged!")
-                End If
-            End If
-            lblRouteDesc.Text = clsCommon.myCstr(clsRouteMaster.GetName(txtRouteNo.Value, Nothing))
-            If EnableLocation Then
-                txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_Route_Master where Route_No='" + txtRouteNo.Value + "' "))
-                txtLocation.Enabled = False
-            Else
-                txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
-            End If
-            If clsCommon.myLen(txtLocation.Value) > 0 Then
-                lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
-            End If
-            If clsCommon.myLen(clsCommon.myCstr(txtRouteNo.Value)) > 0 Then
-                setRouteVehicleCityDetail()
-            End If
-            If DisableRouteandVehicle Then
-                txtRouteNo.Enabled = False
-                txtVehicleNo.Enabled = False
-            Else
-                txtRouteNo.Enabled = True
-                txtVehicleNo.Enabled = True
-            End If
             Dim shiftType As String = ""
             If rbtnMorning.IsChecked Then
                 shiftType = "Morning"
@@ -1623,7 +1557,75 @@ Public Class frmDemandBooking
                 LoadData(DocNo, NavigatorType.Current)
             Else
                 txtDate.Enabled = False
+                If SeparateDemandMilkandProduct Then
+                    qry = "Select TSPL_ROUTE_MASTER.Route_No as Code,Route_Desc as Description,Type,Employee_Code as 'Employee Code',Off_Day as 'Off Day' from TSPL_ROUTE_MASTER"
+                Else
+                    qry = "Select TSPL_ROUTE_MASTER.Route_No as Code,Route_Desc as Description,Type,Employee_Code as 'Employee Code',Off_Day as 'Off Day' from TSPL_ROUTE_MASTER"
+                End If
+                If Not isQuickDemand Then
+                    txtRouteNo.Value = clsCommon.ShowSelectForm("DSRouteFinder", qry, "Code", "", txtRouteNo.Value, "", isClicked)
+                End If
+                If SeparateDemandMilkandProduct Then
+                    If rbtn_Fresh.IsChecked Then
+                        ItemType = "Milk"
+                    ElseIf rbtn_Ambient.IsChecked Then
+                        ItemType = "Product"
+                    ElseIf rdbnFreshAmbientBoth.IsChecked Then
+                        ItemType = "Both"
+                    End If
+                    qry = " select  top 1 x.ItemType 
+                from(
+                select TSPL_DISTRIBUTOR_ROUTE.Code as Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DISTRIBUTOR_ROUTE.Remarks,max(TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code) as cust_code,TSPL_DISTRIBUTOR_ROUTE.ItemType
+                from TSPL_DISTRIBUTOR_ROUTE
+                left join TSPL_DISTRIBUTOR_ROUTE_CUSTOMER on TSPL_DISTRIBUTOR_ROUTE.Code=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code
+                where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No='" + txtRouteNo.Value + "' and TSPL_DISTRIBUTOR_ROUTE.ItemType='" + ItemType + "'
+                 Group by TSPL_DISTRIBUTOR_ROUTE.Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DISTRIBUTOR_ROUTE.Remarks,TSPL_DISTRIBUTOR_ROUTE.ItemType
+                ) X "
+                    Dim DRTItem As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
+                    If clsCommon.myLen(DRTItem) > 0 Then
+                        If clsCommon.CompairString(DRTItem, "Milk") = CompairStringResult.Equal Then
+                            rbtn_Fresh.IsChecked = True
+                            RadGroupBox1.Enabled = False
+                            LoadBlankGrid()
+                            HideUnhideRowsAndColumnsOFGrid()
+                        ElseIf clsCommon.CompairString(DRTItem, "Product") = CompairStringResult.Equal Then
+                            rbtn_Ambient.IsChecked = True
+                            RadGroupBox1.Enabled = False
+                            LoadBlankGrid()
+                            HideUnhideRowsAndColumnsOFGrid()
+                        ElseIf clsCommon.CompairString(DRTItem, "Both") = CompairStringResult.Equal Then
+                            rdbnFreshAmbientBoth.IsChecked = True
+                            RadGroupBox1.Enabled = False
+                            LoadBlankGrid()
+                            HideUnhideRowsAndColumnsOFGrid()
+                        End If
+                    Else
+                        Throw New Exception("Distributor Route Not Tagged!")
+                    End If
+                End If
+                lblRouteDesc.Text = clsCommon.myCstr(clsRouteMaster.GetName(txtRouteNo.Value, Nothing))
+                If EnableLocation Then
+                    txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_Route_Master where Route_No='" + txtRouteNo.Value + "' "))
+                    txtLocation.Enabled = False
+                Else
+                    txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+                End If
+                If clsCommon.myLen(txtLocation.Value) > 0 Then
+                    lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
+                End If
+                If clsCommon.myLen(clsCommon.myCstr(txtRouteNo.Value)) > 0 Then
+                    setRouteVehicleCityDetail()
+                End If
+                If DisableRouteandVehicle Then
+                    txtRouteNo.Enabled = False
+                    txtVehicleNo.Enabled = False
+                Else
+                    txtRouteNo.Enabled = True
+                    txtVehicleNo.Enabled = True
+                End If
             End If
+
+
             SetRouteColumns()
             RefreshFormName()
         Catch ex As Exception
@@ -1691,7 +1693,7 @@ Public Class frmDemandBooking
         Try
             Dim MainQry As String = ""
             Dim qry As String = ""
-            qry = "select cust_code,Customer_name,display_seq from TSPL_CUSTOMER_MASTER where route_no='" + strtRouteCode + "' and City_code='" + strCityCode + "' and  TSPL_CUSTOMER_MASTER.Status='N' "
+            qry = "select cust_code,Customer_name,display_seq from TSPL_CUSTOMER_MASTER where route_no='" + strtRouteCode + "'  and  TSPL_CUSTOMER_MASTER.Status='N' "
             If chkIndividualCustomer.Checked = True Then
                 qry += " and TSPL_CUSTOMER_MASTER.Cust_Code ='" & txtCustomerNo.Value & "'"
             End If
