@@ -670,7 +670,10 @@ Public Class frmDCSDemandBooking
         Try
             If clsCommon.myLen(RouteNo) > 0 Then
                 Dim dbrow As Double = 0
-                Dim StrQry As String = "select VLC_Code_VLC_Uploader,VLC_Name,VSP_Code from TSPL_VLC_master_Head  where Route_Code='" + RouteNo + "'"
+                ' Dim StrQry As String = "select VLC_Code_VLC_Uploader,VLC_Name,VSP_Code from TSPL_VLC_master_Head  where Route_Code='" + RouteNo + "'"
+
+                Dim StrQry As String = "select VLC_Code_VLC_Uploader,VLC_Name,VSP_Code from TSPL_VLC_master_Head left outer join tspl_vendor_master on tspl_vendor_master.Vendor_Code=TSPL_VLC_master_Head.VSP_Code
+left outer join TSPL_USER_CUSTOMER_ZONE on TSPL_USER_CUSTOMER_ZONE.Zone_code=  tspl_vendor_master.zone_code where Route_Code= '" + RouteNo + "' and TSPL_USER_CUSTOMER_ZONE.user_code= ('" + objCommonVar.CurrentUserCode + "')"
                 If chkIndividualCustomer.Checked Then
                     StrQry += " and VLC_Code_VLC_Uploader='" + txtCustomerNo.Value + "'"
                 End If
