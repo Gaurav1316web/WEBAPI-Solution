@@ -3208,11 +3208,19 @@ Public Class frmSNSaleInvoice
             RefreshReqNo()
 
             UpdateAllTotals()
+
             If clsCommon.myCDate(txtDate.Value).Date() > clsCommon.GETSERVERDATE().Date() Then
                 clsCommon.MyMessageBoxShow(Me, "Cannot allow future date -  " & clsCommon.myCDate(txtDate.Value).Date())
                 txtDate.Focus()
                 Return False
             End If
+            Dim invDate As Date = txtDate.Value
+            Dim dispdate As Date = clsDBFuncationality.getSingleValue("Select max(convert(date,Document_Date,103)) Document_Date from tspl_sd_shipment_head where Document_Code in ('" + txtReqNo.Value + "') ")
+            If dispdate > txtDate.Value Then
+                common.clsCommon.MyMessageBoxShow("Invoice Date cannot be less then Dispath Date")
+                Return False
+            End If
+
             If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
                 common.clsCommon.MyMessageBoxShow("Please select Customer")
                 txtVendorNo.Focus()

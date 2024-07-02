@@ -1274,6 +1274,7 @@
     <None Include="Crystal Reports\Kwality Sales Report\crptBulkSaleInvAndDispatchJV.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\CrptCreditCustomerReport.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorWiseDetail.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorWiseDetailcredit.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorWiseSummary.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDemandReturn.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptInvoiceDetail.rpt" />

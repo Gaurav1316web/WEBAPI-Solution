@@ -112,6 +112,7 @@
     <Compile Include="Classes\clsEPF.vb" />
     <Compile Include="Classes\clsMCCMaterailSalePriceChat.vb" />
     <Compile Include="Classes\clsRCDFRateControl.vb" />
+    <Compile Include="Classes\clsRMProcessLoss.vb" />
     <Compile Include="clsLanguage.vb" />
     <Compile Include="Common\clsCustomFieldValues.vb" />
     <Compile Include="Common\MIlkComponentType.vb" />

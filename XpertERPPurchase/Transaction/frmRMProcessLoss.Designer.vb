@@ -22,14 +22,20 @@ Partial Class frmRMProcessLoss
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
+        Me.UsLock1 = New common.usLock()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.docDate = New common.Controls.MyDateTimePicker()
+        Me.txtTodate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.txtFromDate = New common.Controls.MyDateTimePicker()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel3 = New common.Controls.MyLabel()
-        Me.txtLR_GR_No = New common.Controls.MyTextBox()
+        Me.txtComments = New common.Controls.MyTextBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.txtDocNo = New common.UserControls.txtNavigator()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
@@ -38,19 +44,14 @@ Partial Class frmRMProcessLoss
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.lblloc = New common.Controls.MyLabel()
         Me.txtLoc = New common.UserControls.txtFinder()
-        Me.txtFromDate = New common.Controls.MyDateTimePicker()
         Me.lblFromdate = New common.Controls.MyLabel()
-        Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.txtDate = New common.Controls.MyDateTimePicker()
-        Me.MyLabel4 = New common.Controls.MyLabel()
-        Me.txtTodate = New common.Controls.MyDateTimePicker()
-        Me.docDate = New common.Controls.MyDateTimePicker()
-        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -59,9 +60,14 @@ Partial Class frmRMProcessLoss
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPanel1.SuspendLayout()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.docDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTodate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtLR_GR_No, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtComments, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
@@ -70,19 +76,14 @@ Partial Class frmRMProcessLoss
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblloc, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblFromdate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtTodate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.docDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -99,7 +100,7 @@ Partial Class frmRMProcessLoss
         '
         'SplitContainer1.Panel2
         '
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
@@ -131,6 +132,7 @@ Partial Class frmRMProcessLoss
         '
         'RadPanel1
         '
+        Me.RadPanel1.Controls.Add(Me.UsLock1)
         Me.RadPanel1.Controls.Add(Me.MyLabel5)
         Me.RadPanel1.Controls.Add(Me.docDate)
         Me.RadPanel1.Controls.Add(Me.txtTodate)
@@ -138,7 +140,7 @@ Partial Class frmRMProcessLoss
         Me.RadPanel1.Controls.Add(Me.txtFromDate)
         Me.RadPanel1.Controls.Add(Me.btnAddNew)
         Me.RadPanel1.Controls.Add(Me.MyLabel3)
-        Me.RadPanel1.Controls.Add(Me.txtLR_GR_No)
+        Me.RadPanel1.Controls.Add(Me.txtComments)
         Me.RadPanel1.Controls.Add(Me.MyLabel2)
         Me.RadPanel1.Controls.Add(Me.txtDocNo)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox2)
@@ -152,6 +154,122 @@ Partial Class frmRMProcessLoss
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(779, 369)
         Me.RadPanel1.TabIndex = 15
+        '
+        'UsLock1
+        '
+        Me.UsLock1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.UsLock1.Location = New System.Drawing.Point(562, 10)
+        Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.UsLock1.Name = "UsLock1"
+        Me.UsLock1.Size = New System.Drawing.Size(107, 20)
+        Me.UsLock1.Status = common.ERPTransactionStatus.Pending
+        Me.UsLock1.TabIndex = 1474
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Location = New System.Drawing.Point(356, 58)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(30, 18)
+        Me.MyLabel5.TabIndex = 1430
+        Me.MyLabel5.Text = "Date"
+        '
+        'docDate
+        '
+        Me.docDate.CalculationExpression = Nothing
+        Me.docDate.CustomFormat = "dd/MM/yyyy"
+        Me.docDate.FieldCode = Nothing
+        Me.docDate.FieldDesc = Nothing
+        Me.docDate.FieldMaxLength = 0
+        Me.docDate.FieldName = Nothing
+        Me.docDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.docDate.isCalculatedField = False
+        Me.docDate.IsSourceFromTable = False
+        Me.docDate.IsSourceFromValueList = False
+        Me.docDate.IsUnique = False
+        Me.docDate.Location = New System.Drawing.Point(390, 56)
+        Me.docDate.MendatroryField = False
+        Me.docDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.docDate.MyLinkLable1 = Nothing
+        Me.docDate.MyLinkLable2 = Nothing
+        Me.docDate.Name = "docDate"
+        Me.docDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.docDate.ReferenceFieldDesc = Nothing
+        Me.docDate.ReferenceFieldName = Nothing
+        Me.docDate.ReferenceTableName = Nothing
+        Me.docDate.Size = New System.Drawing.Size(78, 20)
+        Me.docDate.TabIndex = 1429
+        Me.docDate.TabStop = False
+        Me.docDate.Text = "30/05/2011"
+        Me.docDate.Value = New Date(2011, 5, 30, 12, 41, 54, 500)
+        '
+        'txtTodate
+        '
+        Me.txtTodate.CalculationExpression = Nothing
+        Me.txtTodate.CustomFormat = "dd/MM/yyyy"
+        Me.txtTodate.FieldCode = Nothing
+        Me.txtTodate.FieldDesc = Nothing
+        Me.txtTodate.FieldMaxLength = 0
+        Me.txtTodate.FieldName = Nothing
+        Me.txtTodate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtTodate.isCalculatedField = False
+        Me.txtTodate.IsSourceFromTable = False
+        Me.txtTodate.IsSourceFromValueList = False
+        Me.txtTodate.IsUnique = False
+        Me.txtTodate.Location = New System.Drawing.Point(226, 11)
+        Me.txtTodate.MendatroryField = False
+        Me.txtTodate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtTodate.MyLinkLable1 = Nothing
+        Me.txtTodate.MyLinkLable2 = Nothing
+        Me.txtTodate.Name = "txtTodate"
+        Me.txtTodate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtTodate.ReferenceFieldDesc = Nothing
+        Me.txtTodate.ReferenceFieldName = Nothing
+        Me.txtTodate.ReferenceTableName = Nothing
+        Me.txtTodate.Size = New System.Drawing.Size(78, 20)
+        Me.txtTodate.TabIndex = 80
+        Me.txtTodate.TabStop = False
+        Me.txtTodate.Text = "30/05/2011"
+        Me.txtTodate.Value = New Date(2011, 5, 30, 12, 41, 54, 500)
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Location = New System.Drawing.Point(169, 12)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(45, 18)
+        Me.MyLabel4.TabIndex = 1428
+        Me.MyLabel4.Text = "To Date"
+        '
+        'txtFromDate
+        '
+        Me.txtFromDate.CalculationExpression = Nothing
+        Me.txtFromDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtFromDate.FieldCode = Nothing
+        Me.txtFromDate.FieldDesc = Nothing
+        Me.txtFromDate.FieldMaxLength = 0
+        Me.txtFromDate.FieldName = Nothing
+        Me.txtFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtFromDate.isCalculatedField = False
+        Me.txtFromDate.IsSourceFromTable = False
+        Me.txtFromDate.IsSourceFromValueList = False
+        Me.txtFromDate.IsUnique = False
+        Me.txtFromDate.Location = New System.Drawing.Point(78, 11)
+        Me.txtFromDate.MendatroryField = False
+        Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtFromDate.MyLinkLable1 = Nothing
+        Me.txtFromDate.MyLinkLable2 = Nothing
+        Me.txtFromDate.Name = "txtFromDate"
+        Me.txtFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtFromDate.ReferenceFieldDesc = Nothing
+        Me.txtFromDate.ReferenceFieldName = Nothing
+        Me.txtFromDate.ReferenceTableName = Nothing
+        Me.txtFromDate.Size = New System.Drawing.Size(78, 20)
+        Me.txtFromDate.TabIndex = 79
+        Me.txtFromDate.TabStop = False
+        Me.txtFromDate.Text = "30/05/2011"
+        Me.txtFromDate.Value = New Date(2011, 5, 30, 12, 41, 54, 500)
         '
         'btnAddNew
         '
@@ -172,29 +290,29 @@ Partial Class frmRMProcessLoss
         Me.MyLabel3.TabIndex = 1426
         Me.MyLabel3.Text = "Comment"
         '
-        'txtLR_GR_No
+        'txtComments
         '
-        Me.txtLR_GR_No.CalculationExpression = Nothing
-        Me.txtLR_GR_No.FieldCode = Nothing
-        Me.txtLR_GR_No.FieldDesc = Nothing
-        Me.txtLR_GR_No.FieldMaxLength = 0
-        Me.txtLR_GR_No.FieldName = Nothing
-        Me.txtLR_GR_No.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtLR_GR_No.isCalculatedField = False
-        Me.txtLR_GR_No.IsSourceFromTable = False
-        Me.txtLR_GR_No.IsSourceFromValueList = False
-        Me.txtLR_GR_No.IsUnique = False
-        Me.txtLR_GR_No.Location = New System.Drawing.Point(77, 80)
-        Me.txtLR_GR_No.MaxLength = 50
-        Me.txtLR_GR_No.MendatroryField = False
-        Me.txtLR_GR_No.MyLinkLable1 = Nothing
-        Me.txtLR_GR_No.MyLinkLable2 = Nothing
-        Me.txtLR_GR_No.Name = "txtLR_GR_No"
-        Me.txtLR_GR_No.ReferenceFieldDesc = Nothing
-        Me.txtLR_GR_No.ReferenceFieldName = Nothing
-        Me.txtLR_GR_No.ReferenceTableName = Nothing
-        Me.txtLR_GR_No.Size = New System.Drawing.Size(391, 18)
-        Me.txtLR_GR_No.TabIndex = 1425
+        Me.txtComments.CalculationExpression = Nothing
+        Me.txtComments.FieldCode = Nothing
+        Me.txtComments.FieldDesc = Nothing
+        Me.txtComments.FieldMaxLength = 0
+        Me.txtComments.FieldName = Nothing
+        Me.txtComments.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtComments.isCalculatedField = False
+        Me.txtComments.IsSourceFromTable = False
+        Me.txtComments.IsSourceFromValueList = False
+        Me.txtComments.IsUnique = False
+        Me.txtComments.Location = New System.Drawing.Point(77, 80)
+        Me.txtComments.MaxLength = 50
+        Me.txtComments.MendatroryField = False
+        Me.txtComments.MyLinkLable1 = Nothing
+        Me.txtComments.MyLinkLable2 = Nothing
+        Me.txtComments.Name = "txtComments"
+        Me.txtComments.ReferenceFieldDesc = Nothing
+        Me.txtComments.ReferenceFieldName = Nothing
+        Me.txtComments.ReferenceTableName = Nothing
+        Me.txtComments.Size = New System.Drawing.Size(391, 18)
+        Me.txtComments.TabIndex = 1425
         '
         'MyLabel2
         '
@@ -252,7 +370,7 @@ Partial Class frmRMProcessLoss
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -318,35 +436,6 @@ Partial Class frmRMProcessLoss
         Me.txtLoc.TabIndex = 83
         Me.txtLoc.Value = ""
         '
-        'txtFromDate
-        '
-        Me.txtFromDate.CalculationExpression = Nothing
-        Me.txtFromDate.CustomFormat = "dd/MM/yyyy"
-        Me.txtFromDate.FieldCode = Nothing
-        Me.txtFromDate.FieldDesc = Nothing
-        Me.txtFromDate.FieldMaxLength = 0
-        Me.txtFromDate.FieldName = Nothing
-        Me.txtFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtFromDate.isCalculatedField = False
-        Me.txtFromDate.IsSourceFromTable = False
-        Me.txtFromDate.IsSourceFromValueList = False
-        Me.txtFromDate.IsUnique = False
-        Me.txtFromDate.Location = New System.Drawing.Point(78, 11)
-        Me.txtFromDate.MendatroryField = False
-        Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtFromDate.MyLinkLable1 = Nothing
-        Me.txtFromDate.MyLinkLable2 = Nothing
-        Me.txtFromDate.Name = "txtFromDate"
-        Me.txtFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtFromDate.ReferenceFieldDesc = Nothing
-        Me.txtFromDate.ReferenceFieldName = Nothing
-        Me.txtFromDate.ReferenceTableName = Nothing
-        Me.txtFromDate.Size = New System.Drawing.Size(78, 20)
-        Me.txtFromDate.TabIndex = 79
-        Me.txtFromDate.TabStop = False
-        Me.txtFromDate.Text = "30/05/2011"
-        Me.txtFromDate.Value = New Date(2011, 5, 30, 12, 41, 54, 500)
-        '
         'lblFromdate
         '
         Me.lblFromdate.FieldName = Nothing
@@ -355,16 +444,6 @@ Partial Class frmRMProcessLoss
         Me.lblFromdate.Size = New System.Drawing.Size(59, 18)
         Me.lblFromdate.TabIndex = 81
         Me.lblFromdate.Text = "From Date"
-        '
-        'btnReset
-        '
-        Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Location = New System.Drawing.Point(298, 3)
-        Me.btnReset.Name = "btnReset"
-        Me.btnReset.Size = New System.Drawing.Size(75, 20)
-        Me.btnReset.TabIndex = 89
-        Me.btnReset.Text = "Reset"
         '
         'btnclose
         '
@@ -445,81 +524,16 @@ Partial Class frmRMProcessLoss
         Me.txtDate.Text = "28/06/2012"
         Me.txtDate.Value = New Date(2012, 6, 28, 14, 31, 57, 31)
         '
-        'MyLabel4
+        'btnReverse
         '
-        Me.MyLabel4.FieldName = Nothing
-        Me.MyLabel4.Location = New System.Drawing.Point(169, 12)
-        Me.MyLabel4.Name = "MyLabel4"
-        Me.MyLabel4.Size = New System.Drawing.Size(45, 18)
-        Me.MyLabel4.TabIndex = 1428
-        Me.MyLabel4.Text = "To Date"
-        '
-        'txtTodate
-        '
-        Me.txtTodate.CalculationExpression = Nothing
-        Me.txtTodate.CustomFormat = "dd/MM/yyyy"
-        Me.txtTodate.FieldCode = Nothing
-        Me.txtTodate.FieldDesc = Nothing
-        Me.txtTodate.FieldMaxLength = 0
-        Me.txtTodate.FieldName = Nothing
-        Me.txtTodate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtTodate.isCalculatedField = False
-        Me.txtTodate.IsSourceFromTable = False
-        Me.txtTodate.IsSourceFromValueList = False
-        Me.txtTodate.IsUnique = False
-        Me.txtTodate.Location = New System.Drawing.Point(226, 11)
-        Me.txtTodate.MendatroryField = False
-        Me.txtTodate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtTodate.MyLinkLable1 = Nothing
-        Me.txtTodate.MyLinkLable2 = Nothing
-        Me.txtTodate.Name = "txtTodate"
-        Me.txtTodate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtTodate.ReferenceFieldDesc = Nothing
-        Me.txtTodate.ReferenceFieldName = Nothing
-        Me.txtTodate.ReferenceTableName = Nothing
-        Me.txtTodate.Size = New System.Drawing.Size(78, 20)
-        Me.txtTodate.TabIndex = 80
-        Me.txtTodate.TabStop = False
-        Me.txtTodate.Text = "30/05/2011"
-        Me.txtTodate.Value = New Date(2011, 5, 30, 12, 41, 54, 500)
-        '
-        'docDate
-        '
-        Me.docDate.CalculationExpression = Nothing
-        Me.docDate.CustomFormat = "dd/MM/yyyy"
-        Me.docDate.FieldCode = Nothing
-        Me.docDate.FieldDesc = Nothing
-        Me.docDate.FieldMaxLength = 0
-        Me.docDate.FieldName = Nothing
-        Me.docDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.docDate.isCalculatedField = False
-        Me.docDate.IsSourceFromTable = False
-        Me.docDate.IsSourceFromValueList = False
-        Me.docDate.IsUnique = False
-        Me.docDate.Location = New System.Drawing.Point(390, 56)
-        Me.docDate.MendatroryField = False
-        Me.docDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.docDate.MyLinkLable1 = Nothing
-        Me.docDate.MyLinkLable2 = Nothing
-        Me.docDate.Name = "docDate"
-        Me.docDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.docDate.ReferenceFieldDesc = Nothing
-        Me.docDate.ReferenceFieldName = Nothing
-        Me.docDate.ReferenceTableName = Nothing
-        Me.docDate.Size = New System.Drawing.Size(78, 20)
-        Me.docDate.TabIndex = 1429
-        Me.docDate.TabStop = False
-        Me.docDate.Text = "30/05/2011"
-        Me.docDate.Value = New Date(2011, 5, 30, 12, 41, 54, 500)
-        '
-        'MyLabel5
-        '
-        Me.MyLabel5.FieldName = Nothing
-        Me.MyLabel5.Location = New System.Drawing.Point(356, 58)
-        Me.MyLabel5.Name = "MyLabel5"
-        Me.MyLabel5.Size = New System.Drawing.Size(30, 18)
-        Me.MyLabel5.TabIndex = 1430
-        Me.MyLabel5.Text = "Date"
+        Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReverse.Location = New System.Drawing.Point(298, 3)
+        Me.btnReverse.Name = "btnReverse"
+        Me.btnReverse.Size = New System.Drawing.Size(70, 20)
+        Me.btnReverse.TabIndex = 441
+        Me.btnReverse.Text = "Reverse"
+        Me.btnReverse.Visible = False
         '
         'frmRMProcessLoss
         '
@@ -542,9 +556,14 @@ Partial Class frmRMProcessLoss
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
         Me.RadPanel1.PerformLayout()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.docDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTodate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtLR_GR_No, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtComments, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
@@ -553,19 +572,14 @@ Partial Class frmRMProcessLoss
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblloc, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblFromdate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtTodate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.docDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -578,7 +592,6 @@ Partial Class frmRMProcessLoss
     Friend WithEvents btnSave As RadButton
     Friend WithEvents btnDelete As RadButton
     Friend WithEvents btnPost As RadButton
-    Friend WithEvents btnReset As RadButton
     Friend WithEvents RadPageView1 As RadPageView
     Friend WithEvents RadPageViewPage1 As RadPageViewPage
     Friend WithEvents RadPanel1 As RadPanel
@@ -593,10 +606,12 @@ Partial Class frmRMProcessLoss
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents txtDocNo As common.UserControls.txtNavigator
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
-    Friend WithEvents txtLR_GR_No As common.Controls.MyTextBox
+    Friend WithEvents txtComments As common.Controls.MyTextBox
     Friend WithEvents btnAddNew As RadButton
     Friend WithEvents txtTodate As common.Controls.MyDateTimePicker
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents docDate As common.Controls.MyDateTimePicker
+    Friend WithEvents UsLock1 As common.usLock
+    Friend WithEvents btnReverse As RadButton
 End Class
