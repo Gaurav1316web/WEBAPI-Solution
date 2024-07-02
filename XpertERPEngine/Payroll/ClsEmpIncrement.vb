@@ -159,7 +159,7 @@ Public Class ClsEmpIncrement
 
         objSal.APPLICABLE_FROM = clsCommon.GetPrintDate(obj.APPLICABLE_FROM, "dd/MMM/yyyy")
         objSal.SALARY_STRUCT_CODE = obj.SALARY_STRUCTURE_CODE 'lblSalaryStructCode.Text
-
+        objSal.Location_Code = obj.location_Code
         Dim objt As clsEmpSalaryPayHeadDetails
         ObjList = New List(Of clsEmpSalaryPayHeadDetails)
         For Each objTr As clsEmpIncrementDetail In obj.Arr
@@ -264,7 +264,7 @@ Public Class ClsEmpIncrement
                 objtr.MAX_AMOUNT = clsCommon.myCdbl(dr("MAX_AMOUNT"))
                 objtr.PAYPERIOD_AMOUNT = clsCommon.myCdbl(dr("PAYPERIOD_AMOUNT"))
                 objtr.Increment_Type = clsCommon.myCstr(dr("Increment_Type"))
-                objtr.IncrementAmt = clsCommon.myCstr(dr("IncrementAmt"))
+                objtr.IncrementAmt = clsCommon.myCdbl(dr("IncrementAmt"))
                 objtr.IncrementedRate_Amt = clsCommon.myCdbl(dr("IncrementedRate_Amt"))
                 objtr.IncrementRate_Amt = clsCommon.myCdbl(dr("IncrementRate_Amt"))
                 objtr.TotalExperience = clsCommon.myCdbl(dr("TotalExperience"))
