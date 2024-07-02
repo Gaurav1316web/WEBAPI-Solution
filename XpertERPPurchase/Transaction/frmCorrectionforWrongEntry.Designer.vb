@@ -22,6 +22,7 @@ Partial Class frmCorrectionforWrongEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -142,6 +143,12 @@ Partial Class frmCorrectionforWrongEntry
         Me.btnUpdatee = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.DispatchBox = New Telerik.WinControls.UI.RadGroupBox()
+        Me.Gv2 = New common.UserControls.MyRadGridView()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.Opendiscode = New Telerik.WinControls.UI.RadButton()
+        Me.Unpostdiscode = New Telerik.WinControls.UI.RadButton()
+        Me.Deletediscode = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -261,6 +268,15 @@ Partial Class frmCorrectionforWrongEntry
         CType(Me.DeleteDispatch, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnUpdatee, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.DispatchBox, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.DispatchBox.SuspendLayout()
+        CType(Me.Gv2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
+        CType(Me.Opendiscode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Unpostdiscode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Deletediscode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -291,7 +307,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
         Me.RadPageView1.Size = New System.Drawing.Size(1020, 674)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -1626,6 +1642,8 @@ Partial Class frmCorrectionforWrongEntry
         '
         'RadPageViewPage4
         '
+        Me.RadPageViewPage4.Controls.Add(Me.RadGroupBox1)
+        Me.RadPageViewPage4.Controls.Add(Me.DispatchBox)
         Me.RadPageViewPage4.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage4.Controls.Add(Me.RadGroupBox3)
         Me.RadPageViewPage4.Controls.Add(Me.RadGroupBox4)
@@ -2155,6 +2173,78 @@ Partial Class frmCorrectionforWrongEntry
         Me.RadPageViewPage2.Size = New System.Drawing.Size(200, 100)
         Me.RadPageViewPage2.Text = "Weighment"
         '
+        'DispatchBox
+        '
+        Me.DispatchBox.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.DispatchBox.Controls.Add(Me.Gv2)
+        Me.DispatchBox.HeaderText = "Dispatch Documents"
+        Me.DispatchBox.Location = New System.Drawing.Point(406, 199)
+        Me.DispatchBox.Name = "DispatchBox"
+        Me.DispatchBox.Size = New System.Drawing.Size(346, 218)
+        Me.DispatchBox.TabIndex = 153
+        Me.DispatchBox.Text = "Dispatch Documents"
+        Me.DispatchBox.Visible = False
+        '
+        'Gv2
+        '
+        Me.Gv2.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.Gv2.Cursor = System.Windows.Forms.Cursors.Default
+        Me.Gv2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Gv2.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.Gv2.ForeColor = System.Drawing.Color.Black
+        Me.Gv2.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.Gv2.Location = New System.Drawing.Point(2, 18)
+        '
+        '
+        '
+        Me.Gv2.MasterTemplate.AllowAddNewRow = False
+        Me.Gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.Gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.Gv2.MyStopExport = False
+        Me.Gv2.Name = "Gv2"
+        Me.Gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.Gv2.ShowHeaderCellButtons = True
+        Me.Gv2.Size = New System.Drawing.Size(342, 198)
+        Me.Gv2.TabIndex = 1
+        '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.Opendiscode)
+        Me.RadGroupBox1.Controls.Add(Me.Unpostdiscode)
+        Me.RadGroupBox1.Controls.Add(Me.Deletediscode)
+        Me.RadGroupBox1.HeaderText = ""
+        Me.RadGroupBox1.Location = New System.Drawing.Point(406, 417)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Size = New System.Drawing.Size(346, 34)
+        Me.RadGroupBox1.TabIndex = 154
+        Me.RadGroupBox1.Visible = False
+        '
+        'Opendiscode
+        '
+        Me.Opendiscode.Location = New System.Drawing.Point(264, 7)
+        Me.Opendiscode.Name = "Opendiscode"
+        Me.Opendiscode.Size = New System.Drawing.Size(69, 22)
+        Me.Opendiscode.TabIndex = 154
+        Me.Opendiscode.Text = "Open"
+        '
+        'Unpostdiscode
+        '
+        Me.Unpostdiscode.Location = New System.Drawing.Point(138, 7)
+        Me.Unpostdiscode.Name = "Unpostdiscode"
+        Me.Unpostdiscode.Size = New System.Drawing.Size(69, 22)
+        Me.Unpostdiscode.TabIndex = 155
+        Me.Unpostdiscode.Text = "UnPost"
+        '
+        'Deletediscode
+        '
+        Me.Deletediscode.Location = New System.Drawing.Point(12, 7)
+        Me.Deletediscode.Name = "Deletediscode"
+        Me.Deletediscode.Size = New System.Drawing.Size(69, 22)
+        Me.Deletediscode.TabIndex = 156
+        Me.Deletediscode.Text = "Delete"
+        '
         'frmCorrectionforWrongEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2292,6 +2382,15 @@ Partial Class frmCorrectionforWrongEntry
         CType(Me.DeleteDispatch, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnUpdatee, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.DispatchBox, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.DispatchBox.ResumeLayout(False)
+        CType(Me.Gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Gv2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        CType(Me.Opendiscode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Unpostdiscode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Deletediscode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -2417,4 +2516,10 @@ Partial Class frmCorrectionforWrongEntry
     Friend WithEvents btnUpdate As RadButton
     Friend WithEvents MyTextBox1 As common.Controls.MyTextBox
     Friend WithEvents txtGEDate As common.Controls.MyDateTimePicker
+    Friend WithEvents DispatchBox As RadGroupBox
+    Friend WithEvents Gv2 As common.UserControls.MyRadGridView
+    Friend WithEvents RadGroupBox1 As RadGroupBox
+    Friend WithEvents Opendiscode As RadButton
+    Friend WithEvents Unpostdiscode As RadButton
+    Friend WithEvents Deletediscode As RadButton
 End Class
