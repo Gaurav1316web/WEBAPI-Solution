@@ -611,12 +611,12 @@ Public Class clsGRNHead
         Try
             Dim obj As clsGRNHead = Nothing
             Dim qry As String = "SELECT TSPL_GRN_HEAD.*,TSPL_LOCATION_MASTER.Location_Desc as BillToLocationName,TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipToLocationName, " &
-            " TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as TaxGroupName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_LOCATION_MASTER_SubLocation.Location_Desc as SubLocationName FROM TSPL_GRN_HEAD " &
+            " TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as TaxGroupName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_LOCATION_MASTER_SubLocation.Location_Desc as SubLocationName,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo FROM TSPL_GRN_HEAD " &
             " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_GRN_HEAD.Bill_To_Location " &
             " left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_GRN_HEAD.Ship_To_Location " &
             " left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_SubLocation  on TSPL_LOCATION_MASTER_SubLocation.Location_Code=TSPL_GRN_HEAD.Sublocation_Code " &
             " left outer join  TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code= TSPL_GRN_HEAD.Tax_Group " &
-            " left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=TSPL_GRN_HEAD.Terms_Code where 2=2"
+            " left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=TSPL_GRN_HEAD.Terms_Code left outer join TSPL_PURCHASE_ORDER_HEAD ON TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No = TSPL_GRN_HEAD.Against_PO where 2=2"
             Dim WhrCls As String = ""
             If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
                 WhrCls = " AND Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
@@ -656,7 +656,8 @@ Public Class clsGRNHead
                 obj.Vendor_Name = clsCommon.myCstr(dt.Rows(0)("Vendor_Name"))
                 obj.Status = IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 1 AndAlso clsCommon.myCdbl(dt.Rows(0)("iscancel")) <> 1, ERPTransactionStatus.Approved, IIf(clsCommon.myCdbl(dt.Rows(0)("iscancel")) = 1, ERPTransactionStatus.Cancel, ERPTransactionStatus.Pending))
                 obj.On_Hold = IIf(clsCommon.myCdbl(dt.Rows(0)("On_Hold")) = 1, True, False)
-                obj.Ref_No = clsCommon.myCstr(dt.Rows(0)("Ref_No"))
+                'obj.Ref_No = clsCommon.myCstr(dt.Rows(0)("Ref_No"))
+                obj.Ref_No = clsCommon.myCstr(dt.Rows(0)("RefTendorNo"))
                 obj.Description = clsCommon.myCstr(dt.Rows(0)("Description"))
                 obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
                 obj.Bill_To_Location = clsCommon.myCstr(dt.Rows(0)("Bill_To_Location"))

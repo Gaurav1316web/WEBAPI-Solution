@@ -303,7 +303,7 @@ Public Class frmCorrectionforWrongEntry
         If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
             lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtBillToLocation.Value + "' "))
         End If
-        FormatGrid()
+        'FormatGrid()
     End Sub
 
     Private Sub LOCATIONRIGTHS()
@@ -833,31 +833,31 @@ Public Class frmCorrectionforWrongEntry
 
             For Each row As DataRow In dt1.Rows
                 'Gv2.Rows.AddNew()
-                Gv2.Rows(Gv2.Rows.Count - 1).Cells(colCheckCode).Value = False
+                'Gv2.Rows(Gv2.Rows.Count - 1).Cells(colCheckCode).Value = False
                 Gv2.Rows(Gv2.Rows.Count - 1).Cells(colDocCode).Value = clsCommon.myCstr(row("DOCUMENT_CODE"))
                 Gv2.Rows(Gv2.Rows.Count - 1).Cells(colShipmentCode).Value = clsCommon.myCstr(row("Shipment_Code"))
             Next
-            FormatGrid()
+            'FormatGrid()
         Else
             Gv2.DataSource = Nothing
             Gv2.Rows.Clear()
         End If
     End Sub
-    Sub FormatGrid()
+    'Sub FormatGrid()
 
-        Gv2.Rows.Clear()
-        Gv2.Columns.Clear()
+    '    Gv2.Rows.Clear()
+    '    Gv2.Columns.Clear()
 
-        Dim repocolCheckBox As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
-        repocolCheckBox.FormatString = ""
-        repocolCheckBox.HeaderText = "Check"
-        repocolCheckBox.Name = colCheckCode
-        repocolCheckBox.Width = 100
-        repocolCheckBox.ReadOnly = False
-        Gv2.MasterTemplate.Columns.Add(repocolCheckBox)
+    '    Dim repocolCheckBox As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
+    '    repocolCheckBox.FormatString = ""
+    '    repocolCheckBox.HeaderText = "Check"
+    '    repocolCheckBox.Name = colCheckCode
+    '    repocolCheckBox.Width = 100
+    '    repocolCheckBox.ReadOnly = False
+    '    Gv2.MasterTemplate.Columns.Add(repocolCheckBox)
 
-        Gv2.AllowAddNewRow = False
-    End Sub
+    '    Gv2.AllowAddNewRow = False
+    'End Sub
     Private Sub TxtDispatch__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles TxtDispatch._MYNavigator
         Try
             Dim strwherecls As String = ""
@@ -986,7 +986,8 @@ Public Class frmCorrectionforWrongEntry
 
     Private Sub DeleteSI_Click(sender As Object, e As EventArgs) Handles DeleteSI.Click
         DeleteDataSI()
-        RadGroupBox1.Visible = False
+        'RadGroupBox1.Visible = False
+        'DispatchBox.Visible = False
     End Sub
 
     Sub DeleteDataSI()

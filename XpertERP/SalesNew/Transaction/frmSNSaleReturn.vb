@@ -14,7 +14,7 @@ Imports XpertERPSalesAndDistribution
 Public Class frmSNSaleReturn
     Inherits FrmMainTranScreen
 #Region "Variables"
-  
+
     Const colIHSN As String = "colIHSN"
     Dim GSTStatus As Boolean = False
     Private StrSql As String
@@ -857,7 +857,7 @@ Public Class frmSNSaleReturn
         repoAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoAmt)
 
-      
+
 
         Dim repoDisPer As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoDisPer = New GridViewDecimalColumn()
@@ -2271,14 +2271,38 @@ Public Class frmSNSaleReturn
                                 Dim dblPendingQty As Double = 0
                                 If (clsCommon.myLen(gv1.CurrentRow.Cells(colOrderNo).Value) > 0) Then
                                     dblPendingQty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colPendingQty).Value)
-
+                                End If
+                                Dim convFact As Double = 1
+                                Dim Qry As String = "Select 
+                                                    ((Conversion_Factor)/xxx.ConvInBag) As 'Bag', 
+                                                    ((Conversion_Factor)/xxx.ConvInKG ) As 'KG',
+                                                    ((Conversion_Factor)/xxx.ConvInMT ) As 'MT',
+                                                    ((Conversion_Factor)/xxx.ConvInQtl) As 'Qtl'
+                                                    from (
+                                                    Select TSPL_ITEM_UOM_DETAIL.Item_Code,TSPL_ITEM_UOM_DETAIL.UOM_Code,TSPL_ITEM_UOM_DETAIL.Default_UOM,Conversion_Factor,CInBag.ConvInBag,CInKG.ConvInKG,CInMT.ConvInMT,CInQtl.ConvInQtl from TSPL_ITEM_UOM_DETAIL 
+                                                    Left Outer Join (Select Item_Code, Conversion_Factor As 'ConvInBag' from TSPL_ITEM_UOM_DETAIL Where Item_Code='FG0003' And UOM_Code='BAG')CInBag ON CInBag.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code
+                                                    Left Outer Join (Select Item_Code, Conversion_Factor As 'ConvInKG' from TSPL_ITEM_UOM_DETAIL Where Item_Code='FG0003' And UOM_Code='KG')CInKG ON CInKG.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code
+                                                    Left Outer Join (Select Item_Code, Conversion_Factor As 'ConvInMT' from TSPL_ITEM_UOM_DETAIL Where Item_Code='FG0003' And UOM_Code='MT')CInMT ON CInMT.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code
+                                                    Left Outer Join (Select Item_Code, Conversion_Factor As 'ConvInQtl' from TSPL_ITEM_UOM_DETAIL Where Item_Code='FG0003' And UOM_Code='Qtl')CInQtl ON CInQtl.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code
+                                                    where TSPL_ITEM_UOM_DETAIL.Default_UOM=1 And TSPL_ITEM_UOM_DETAIL.Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "')xxx"
+                                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                    If clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), "BAG") = CompairStringResult.Equal Then
+                                        convFact = clsCommon.myCdbl(dt.Rows(0)("Bag"))
+                                    ElseIf clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), "KG") = CompairStringResult.Equal Then
+                                        convFact = clsCommon.myCdbl(dt.Rows(0)("KG"))
+                                    ElseIf clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), "MT") = CompairStringResult.Equal Then
+                                        convFact = clsCommon.myCdbl(dt.Rows(0)("MT"))
+                                    ElseIf clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), "Qtl") = CompairStringResult.Equal Then
+                                        convFact = clsCommon.myCdbl(dt.Rows(0)("Qtl"))
+                                    End If
                                 End If
 
                                 If (clsCommon.myLen(gv1.CurrentRow.Cells(colOrderNo).Value) > 0) Then
                                     Dim dblEnteredQty As Double = clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value)
                                     Dim dblDamageQty As Double = 0 'clsCommon.myCdbl(gv1.CurrentRow.Cells(colLeakQty).Value) + clsCommon.myCdbl(gv1.CurrentRow.Cells(colBurstQty).Value) + clsCommon.myCdbl(gv1.CurrentRow.Cells(colShortQty).Value)
-                                    If (dblEnteredQty + dblDamageQty) > dblPendingQty Then
-                                        common.clsCommon.MyMessageBoxShow("Entered Quantity Can't be more than Pending Quantity." + Environment.NewLine + "Entered Quantity : " + clsCommon.myCstr(dblEnteredQty) + ". Pending Quantity : " + clsCommon.myCstr(dblPendingQty) + ". Damage Quantity : " + clsCommon.myCstr(dblDamageQty))
+                                    If (dblEnteredQty + dblDamageQty) > (dblPendingQty * convFact) Then
+                                        common.clsCommon.MyMessageBoxShow("Entered Quantity Can't be more than Pending Quantity." + Environment.NewLine + "Entered Quantity : " + clsCommon.myCstr(dblEnteredQty) + ". Pending Quantity : " + clsCommon.myCstr(dblPendingQty * convFact) + ". Damage Quantity : " + clsCommon.myCstr(dblDamageQty))
                                         gv1.CurrentCell.Value = 0
                                     End If
                                 End If
@@ -2362,9 +2386,15 @@ Public Class frmSNSaleReturn
             gv1.CurrentRow.Cells(colConvF).Value = dblConvF
 
         End If
+        If gv1.CurrentRow.Cells(colUnit).Value IsNot Nothing AndAlso clsCommon.myLen(gv1.CurrentRow.Cells(colUnit).Value) > 0 Then
+            OpenICodeList(False)
+            UpdateCurrentRow(gv1.CurrentRow.Index) ''-1 is for current row
+            UpdateAllTotals()
+        End If
+
     End Sub
 
-     
+
 
     Private Sub setGridFocus()
         Try
@@ -2422,25 +2452,25 @@ Public Class frmSNSaleReturn
             Dim qry As String = ""
             If clsCommon.myLen(pivotheader) <= 0 Then
                 If PurchaseOneItemOneVendor = True Then
-                    qry = "select TSPL_CUSTOMER_ITEM_DETAIL.item_no as Item,TSPL_CUSTOMER_ITEM_DETAIL.item_desc as [ItemDesc],TSPL_CUSTOMER_ITEM_DETAIL.uom as Unit , " & _
-                    "TSPL_CUSTOMER_ITEM_DETAIL.item_rate as BasicRate,TSPL_CUSTOMER_ITEM_DETAIL.Item_MRP as MRP, " & _
-                    "TSPL_CUSTOMER_ITEM_DETAIL.Start_Date as [Start Date],vendor_code as [Vendor code],vendor_desc as [Vendor Desc]  , " & _
-                    "TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE as PrincipleCode,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as PrincipleDesc, " & _
-                    "Weight_Value as [Weight Value] from TSPL_CUSTOMER_ITEM_DETAIL left outer join TSPL_ITEM_MASTER on " & _
-                    "TSPL_ITEM_MASTER.Item_Code=TSPL_CUSTOMER_ITEM_DETAIL.item_no left outer join " & _
-                    "TSPL_VENDOR_ITEM_DETAIL on TSPL_CUSTOMER_ITEM_DETAIL.item_no=TSPL_VENDOR_ITEM_DETAIL.item_no  left  outer join " & _
-                    "TSPL_ITEM_MASTER_CATEGORY on TSPL_ITEM_MASTER_CATEGORY.Item_code=TSPL_ITEM_MASTER.Item_Code and " & _
-                    "TSPL_ITEM_MASTER_CATEGORY.SNO=1 left outer join " & _
-                    "TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values " & _
+                    qry = "select TSPL_CUSTOMER_ITEM_DETAIL.item_no as Item,TSPL_CUSTOMER_ITEM_DETAIL.item_desc as [ItemDesc],TSPL_CUSTOMER_ITEM_DETAIL.uom as Unit , " &
+                    "TSPL_CUSTOMER_ITEM_DETAIL.item_rate as BasicRate,TSPL_CUSTOMER_ITEM_DETAIL.Item_MRP as MRP, " &
+                    "TSPL_CUSTOMER_ITEM_DETAIL.Start_Date as [Start Date],vendor_code as [Vendor code],vendor_desc as [Vendor Desc]  , " &
+                    "TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE as PrincipleCode,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as PrincipleDesc, " &
+                    "Weight_Value as [Weight Value] from TSPL_CUSTOMER_ITEM_DETAIL left outer join TSPL_ITEM_MASTER on " &
+                    "TSPL_ITEM_MASTER.Item_Code=TSPL_CUSTOMER_ITEM_DETAIL.item_no left outer join " &
+                    "TSPL_VENDOR_ITEM_DETAIL on TSPL_CUSTOMER_ITEM_DETAIL.item_no=TSPL_VENDOR_ITEM_DETAIL.item_no  left  outer join " &
+                    "TSPL_ITEM_MASTER_CATEGORY on TSPL_ITEM_MASTER_CATEGORY.Item_code=TSPL_ITEM_MASTER.Item_Code and " &
+                    "TSPL_ITEM_MASTER_CATEGORY.SNO=1 left outer join " &
+                    "TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values " &
                     "where Customer_Code='" & txtVendorNo.Value & "' and TSPL_ITEM_MASTER.Active=1  "
                 Else
 
-                    qry = "select TSPL_CUSTOMER_ITEM_DETAIL.item_no as Item,TSPL_CUSTOMER_ITEM_DETAIL.item_desc as [ItemDesc],TSPL_CUSTOMER_ITEM_DETAIL.uom as Unit , " & _
-                    "TSPL_CUSTOMER_ITEM_DETAIL.item_rate as BasicRate,TSPL_CUSTOMER_ITEM_DETAIL.Item_MRP as MRP, " & _
-                    "TSPL_CUSTOMER_ITEM_DETAIL.Start_Date as [Start Date], " & _
-                    "'' as [Vendor code],'' as [Vendor Desc],'' as PrincipleCode,'' as PrincipleDesc, " & _
-                    "Weight_Value as [Weight Value] from TSPL_CUSTOMER_ITEM_DETAIL left outer join TSPL_ITEM_MASTER on " & _
-                    "TSPL_ITEM_MASTER.Item_Code=TSPL_CUSTOMER_ITEM_DETAIL.item_no  " & _
+                    qry = "select TSPL_CUSTOMER_ITEM_DETAIL.item_no as Item,TSPL_CUSTOMER_ITEM_DETAIL.item_desc as [ItemDesc],TSPL_CUSTOMER_ITEM_DETAIL.uom as Unit , " &
+                    "TSPL_CUSTOMER_ITEM_DETAIL.item_rate as BasicRate,TSPL_CUSTOMER_ITEM_DETAIL.Item_MRP as MRP, " &
+                    "TSPL_CUSTOMER_ITEM_DETAIL.Start_Date as [Start Date], " &
+                    "'' as [Vendor code],'' as [Vendor Desc],'' as PrincipleCode,'' as PrincipleDesc, " &
+                    "Weight_Value as [Weight Value] from TSPL_CUSTOMER_ITEM_DETAIL left outer join TSPL_ITEM_MASTER on " &
+                    "TSPL_ITEM_MASTER.Item_Code=TSPL_CUSTOMER_ITEM_DETAIL.item_no  " &
                     "where Customer_Code='" & txtVendorNo.Value & "' and TSPL_ITEM_MASTER.Active=1  "
                 End If
             End If
@@ -2448,26 +2478,26 @@ Public Class frmSNSaleReturn
             '-------------------------cate. in columns---------------------------------
             If clsCommon.myLen(pivotheader) > 0 Then
                 If PurchaseOneItemOneVendor = True Then
-                    qry = "select * from (select a.DESCRIPTION,a.cat_value, TSPL_CUSTOMER_ITEM_DETAIL.item_no as Item,TSPL_CUSTOMER_ITEM_DETAIL.item_desc as [ItemDesc],TSPL_CUSTOMER_ITEM_DETAIL.uom as Unit , " & _
-                    "TSPL_CUSTOMER_ITEM_DETAIL.item_rate as BasicRate,TSPL_CUSTOMER_ITEM_DETAIL.Item_MRP as MRP, " & _
-                    "TSPL_CUSTOMER_ITEM_DETAIL.Start_Date as [Start Date],vendor_code as [Vendor code],vendor_desc as [Vendor Desc]  , " & _
-                    "TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE as PrincipleCode,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as PrincipleDesc, " & _
-                    "Weight_Value as [Weight Value] from TSPL_CUSTOMER_ITEM_DETAIL left outer join TSPL_ITEM_MASTER on " & _
-                    "TSPL_ITEM_MASTER.Item_Code=TSPL_CUSTOMER_ITEM_DETAIL.item_no left outer join " & _
-                    "TSPL_VENDOR_ITEM_DETAIL on TSPL_CUSTOMER_ITEM_DETAIL.item_no=TSPL_VENDOR_ITEM_DETAIL.item_no  left  outer join " & _
-                    "TSPL_ITEM_MASTER_CATEGORY on TSPL_ITEM_MASTER_CATEGORY.Item_code=TSPL_ITEM_MASTER.Item_Code and " & _
-                    "TSPL_ITEM_MASTER_CATEGORY.SNO=1 left outer join " & _
-                    "TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values " & _
-                    " left outer join (select TSPL_ITEM_MASTER_CATEGORY.Item_code,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code,TSPL_ITEM_CATEGORY_LEVEL.DESCRIPTION,TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as cat_value from TSPL_ITEM_MASTER_CATEGORY left outer join TSPL_ITEM_CATEGORY_LEVEL on TSPL_ITEM_CATEGORY_LEVEL.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and ISNULL(TSPL_ITEM_CATEGORY_LEVEL.Form_Type,'item')='item' left outer join TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values  and ISNULL(TSPL_ITEM_CATEGORY_LEVEL_VALUES.Form_Type,'item')='item')a on a.Item_code=TSPL_ITEM_MASTER.Item_Code and TSPL_CUSTOMER_ITEM_DETAIL.item_no=a.item_code " & _
+                    qry = "select * from (select a.DESCRIPTION,a.cat_value, TSPL_CUSTOMER_ITEM_DETAIL.item_no as Item,TSPL_CUSTOMER_ITEM_DETAIL.item_desc as [ItemDesc],TSPL_CUSTOMER_ITEM_DETAIL.uom as Unit , " &
+                    "TSPL_CUSTOMER_ITEM_DETAIL.item_rate as BasicRate,TSPL_CUSTOMER_ITEM_DETAIL.Item_MRP as MRP, " &
+                    "TSPL_CUSTOMER_ITEM_DETAIL.Start_Date as [Start Date],vendor_code as [Vendor code],vendor_desc as [Vendor Desc]  , " &
+                    "TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE as PrincipleCode,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as PrincipleDesc, " &
+                    "Weight_Value as [Weight Value] from TSPL_CUSTOMER_ITEM_DETAIL left outer join TSPL_ITEM_MASTER on " &
+                    "TSPL_ITEM_MASTER.Item_Code=TSPL_CUSTOMER_ITEM_DETAIL.item_no left outer join " &
+                    "TSPL_VENDOR_ITEM_DETAIL on TSPL_CUSTOMER_ITEM_DETAIL.item_no=TSPL_VENDOR_ITEM_DETAIL.item_no  left  outer join " &
+                    "TSPL_ITEM_MASTER_CATEGORY on TSPL_ITEM_MASTER_CATEGORY.Item_code=TSPL_ITEM_MASTER.Item_Code and " &
+                    "TSPL_ITEM_MASTER_CATEGORY.SNO=1 left outer join " &
+                    "TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values " &
+                    " left outer join (select TSPL_ITEM_MASTER_CATEGORY.Item_code,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code,TSPL_ITEM_CATEGORY_LEVEL.DESCRIPTION,TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as cat_value from TSPL_ITEM_MASTER_CATEGORY left outer join TSPL_ITEM_CATEGORY_LEVEL on TSPL_ITEM_CATEGORY_LEVEL.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and ISNULL(TSPL_ITEM_CATEGORY_LEVEL.Form_Type,'item')='item' left outer join TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values  and ISNULL(TSPL_ITEM_CATEGORY_LEVEL_VALUES.Form_Type,'item')='item')a on a.Item_code=TSPL_ITEM_MASTER.Item_Code and TSPL_CUSTOMER_ITEM_DETAIL.item_no=a.item_code " &
                     "where Customer_Code='" & txtVendorNo.Value & "' and TSPL_ITEM_MASTER.Active=1) as s pivot(max(cat_value) for description in (" + pivotheader + "))t  "
                 Else
-                    qry = "select * from (select a.DESCRIPTION,a.cat_value,TSPL_CUSTOMER_ITEM_DETAIL.item_no as Item,TSPL_CUSTOMER_ITEM_DETAIL.item_desc as [ItemDesc],TSPL_CUSTOMER_ITEM_DETAIL.uom as Unit , " & _
-                    "TSPL_CUSTOMER_ITEM_DETAIL.item_rate as BasicRate,TSPL_CUSTOMER_ITEM_DETAIL.Item_MRP as MRP, " & _
-                    "TSPL_CUSTOMER_ITEM_DETAIL.Start_Date as [Start Date], " & _
-                    "'' as [Vendor code],'' as [Vendor Desc],'' as PrincipleCode,'' as PrincipleDesc, " & _
-                    "Weight_Value as [Weight Value] from TSPL_CUSTOMER_ITEM_DETAIL left outer join TSPL_ITEM_MASTER on " & _
-                    "TSPL_ITEM_MASTER.Item_Code=TSPL_CUSTOMER_ITEM_DETAIL.item_no  " & _
-                    " left outer join (select TSPL_ITEM_MASTER_CATEGORY.Item_code,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code,TSPL_ITEM_CATEGORY_LEVEL.DESCRIPTION,TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as cat_value from TSPL_ITEM_MASTER_CATEGORY left outer join TSPL_ITEM_CATEGORY_LEVEL on TSPL_ITEM_CATEGORY_LEVEL.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and ISNULL(TSPL_ITEM_CATEGORY_LEVEL.Form_Type,'item')='item' left outer join TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values  and ISNULL(TSPL_ITEM_CATEGORY_LEVEL_VALUES.Form_Type,'item')='item')a on a.Item_code=TSPL_ITEM_MASTER.Item_Code and TSPL_CUSTOMER_ITEM_DETAIL.item_no=a.item_code " & _
+                    qry = "select * from (select a.DESCRIPTION,a.cat_value,TSPL_CUSTOMER_ITEM_DETAIL.item_no as Item,TSPL_CUSTOMER_ITEM_DETAIL.item_desc as [ItemDesc],TSPL_CUSTOMER_ITEM_DETAIL.uom as Unit , " &
+                    "TSPL_CUSTOMER_ITEM_DETAIL.item_rate as BasicRate,TSPL_CUSTOMER_ITEM_DETAIL.Item_MRP as MRP, " &
+                    "TSPL_CUSTOMER_ITEM_DETAIL.Start_Date as [Start Date], " &
+                    "'' as [Vendor code],'' as [Vendor Desc],'' as PrincipleCode,'' as PrincipleDesc, " &
+                    "Weight_Value as [Weight Value] from TSPL_CUSTOMER_ITEM_DETAIL left outer join TSPL_ITEM_MASTER on " &
+                    "TSPL_ITEM_MASTER.Item_Code=TSPL_CUSTOMER_ITEM_DETAIL.item_no  " &
+                    " left outer join (select TSPL_ITEM_MASTER_CATEGORY.Item_code,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code,TSPL_ITEM_CATEGORY_LEVEL.DESCRIPTION,TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as cat_value from TSPL_ITEM_MASTER_CATEGORY left outer join TSPL_ITEM_CATEGORY_LEVEL on TSPL_ITEM_CATEGORY_LEVEL.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and ISNULL(TSPL_ITEM_CATEGORY_LEVEL.Form_Type,'item')='item' left outer join TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values  and ISNULL(TSPL_ITEM_CATEGORY_LEVEL_VALUES.Form_Type,'item')='item')a on a.Item_code=TSPL_ITEM_MASTER.Item_Code and TSPL_CUSTOMER_ITEM_DETAIL.item_no=a.item_code " &
                     "where Customer_Code='" & txtVendorNo.Value & "' and TSPL_ITEM_MASTER.Active=1) as s pivot(max(cat_value) for description in (" + pivotheader + "))t  "
                 End If
             End If
@@ -2595,63 +2625,63 @@ Public Class frmSNSaleReturn
             If clsCommon.myLen(pivotheader) <= 0 Then
                 If PurchaseOneItemOneVendor = True Then
                     repID = "RetPurOneItm1"
-                    qry = "SELECT Item_Code as Item,Item_Desc as ItemDesc,Customer_item_no as [Customer Item Code],PrincipleCode,PrincipleDesc,vendor_code as [Vendor code],vendor_desc as [Vendor Desc],Price_Code,Start_Date AS Start_Date,UOM as Unit,Item_Basic_Net as MRP,abatement_rate, " & _
-                    "Item_Basic_Price as BasicRate,ITF_CODE as [ITF CODE], " & _
-             "Weight_Value,markup_on,markup_percent,landing_cost,Purchase_Cost,TAX1_Rate as Tax1Rate,TAX2_Rate as  Tax2Rate,TAX3_Rate as Tax3Rate,TAX4_Rate as Tax4Rate, " & _
-             "TAX5_Rate as Tax5Rate,TAX6_Rate as Tax6Rate,TAX7_Rate as Tax7Rate,TAX8_Rate as Tax8Rate, " & _
-             "TAX9_Rate as Tax9Rate,TAX10_Rate as Tax10Rate,TAX1 ,TAX2,TAX3,TAX4,TAX5,TAX6,TAX7, TAX8,TAX9,TAX10  " & _
-             "FROM ( SELECT distinct TSPL_VENDOR_ITEM_DETAIL.vendor_code,TSPL_VENDOR_ITEM_DETAIL.vendor_desc,Customer_item_no,TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE as PrincipleCode,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as PrincipleDesc," & strPriceGrpStatus & " as PriceGroupStatus," & strPriceGrp & " as priceGroup,TSPL_ITEM_PRICE_MASTER.Purchase_Cost,TSPL_ITEM_MASTER.Weight_Value,TSPL_ITEM_PRICE_MASTER.abatement_rate,TSPL_ITEM_MASTER.Item_Code, TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.ITF_CODE,  " & _
-             "CONVERT(varchar(10), TSPL_ITEM_PRICE_MASTER.Start_Date, 103) AS Start_Date, TSPL_ITEM_PRICE_MASTER.UOM, " & _
-             "TSPL_ITEM_PRICE_MASTER.Price_Code, TSPL_ITEM_PRICE_MASTER.Item_Basic_Net,TSPL_ITEM_MASTER.Batch_No , TSPL_ITEM_PRICE_MASTER.Tax_group  , " & _
-             "TSPL_ITEM_PRICE_MASTER.Item_Basic_Price, markup_on,markup_percent,landing_cost, " & _
-             "TSPL_ITEM_MASTER.Item_Type, TSPL_ITEM_MASTER.show, TSPL_ITEM_MASTER.Sku_Seq, TSPL_ITEM_PRICE_MASTER.TAX1_Rate, " & _
-             "TSPL_ITEM_PRICE_MASTER.TAX2_Rate,TSPL_ITEM_PRICE_MASTER.TAX3_Rate,TSPL_ITEM_PRICE_MASTER.TAX4_Rate,TSPL_ITEM_PRICE_MASTER.TAX5_Rate, " & _
-             "TSPL_ITEM_PRICE_MASTER.TAX6_Rate,TSPL_ITEM_PRICE_MASTER.TAX7_Rate,TSPL_ITEM_PRICE_MASTER.TAX8_Rate,TSPL_ITEM_PRICE_MASTER.TAX9_Rate, " & _
-             "TSPL_ITEM_PRICE_MASTER.TAX10_Rate,TSPL_ITEM_PRICE_MASTER.TAX1 ,TSPL_ITEM_PRICE_MASTER.TAX2,TSPL_ITEM_PRICE_MASTER.TAX3, " & _
-             "TSPL_ITEM_PRICE_MASTER.TAX4,TSPL_ITEM_PRICE_MASTER.TAX5,TSPL_ITEM_PRICE_MASTER.TAX6,TSPL_ITEM_PRICE_MASTER.TAX7, " & _
-             "TSPL_ITEM_PRICE_MASTER.TAX8,TSPL_ITEM_PRICE_MASTER.TAX9,TSPL_ITEM_PRICE_MASTER.TAX10   FROM TSPL_ITEM_PRICE_MASTER " & _
-             "INNER Join  (SELECT     Item_Code, UOM, MAX(Start_Date) AS MaxDateTime, Item_Basic_Net,  Price_Code, Tax_group  FROM  " & _
-             "TSPL_ITEM_PRICE_MASTER  where Start_Date<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' AND (End_Date  >='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' OR End_Date IS NULL) GROUP BY Item_Code, UOM, Item_Basic_Net,  Price_Code, Tax_group   " & _
-             ")  AS groupedP  ON TSPL_ITEM_PRICE_MASTER.Item_Code = groupedP.Item_Code AND  TSPL_ITEM_PRICE_MASTER.Start_Date = groupedP.MaxDateTime AND " & _
-             "TSPL_ITEM_PRICE_MASTER.UOM = groupedP.UOM AND TSPL_ITEM_PRICE_MASTER.Item_Basic_Net = groupedP.Item_Basic_Net  AND  " & _
-             "TSPL_ITEM_PRICE_MASTER.Price_Code = groupedP.Price_Code and TSPL_ITEM_PRICE_MASTER.Tax_group = groupedP.Tax_group  left outer join TSPL_PRICE_GROUP_MAPPING on TSPL_ITEM_PRICE_MASTER.Price_Code=TSPL_PRICE_GROUP_MAPPING.price_code " & _
-             "INNER JOIN TSPL_ITEM_MASTER AS TSPL_ITEM_MASTER ON TSPL_ITEM_PRICE_MASTER.Item_Code = TSPL_ITEM_MASTER.Item_Code " & _
-             "left outer join TSPL_VENDOR_ITEM_DETAIL on TSPL_VENDOR_ITEM_DETAIL.item_no=TSPL_ITEM_MASTER.Item_Code left  outer join " & _
-             "TSPL_ITEM_MASTER_CATEGORY on TSPL_ITEM_MASTER_CATEGORY.Item_code=TSPL_ITEM_MASTER.Item_Code and TSPL_ITEM_MASTER_CATEGORY.SNO=1 left outer join " & _
-             "TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values " & _
-             "left outer join TSPL_CUSTOMER_ITEM_MAPPING on TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_CUSTOMER_ITEM_MAPPING.item_no and TSPL_CUSTOMER_ITEM_MAPPING.Customer_Code='" & txtVendorNo.Value & "' " & _
-             "where TSPL_ITEM_MASTER.Active=1 " & strTax & ")xxx Where  Tax_group='" & txtTaxGroup.Value & "' " & strPriceCondition & " " & _
-             "" & strTaxRate & " " & _
+                    qry = "SELECT Item_Code as Item,Item_Desc as ItemDesc,Customer_item_no as [Customer Item Code],PrincipleCode,PrincipleDesc,vendor_code as [Vendor code],vendor_desc as [Vendor Desc],Price_Code,Start_Date AS Start_Date,UOM as Unit,Item_Basic_Net as MRP,abatement_rate, " &
+                    "Item_Basic_Price as BasicRate,ITF_CODE as [ITF CODE], " &
+             "Weight_Value,markup_on,markup_percent,landing_cost,Purchase_Cost,TAX1_Rate as Tax1Rate,TAX2_Rate as  Tax2Rate,TAX3_Rate as Tax3Rate,TAX4_Rate as Tax4Rate, " &
+             "TAX5_Rate as Tax5Rate,TAX6_Rate as Tax6Rate,TAX7_Rate as Tax7Rate,TAX8_Rate as Tax8Rate, " &
+             "TAX9_Rate as Tax9Rate,TAX10_Rate as Tax10Rate,TAX1 ,TAX2,TAX3,TAX4,TAX5,TAX6,TAX7, TAX8,TAX9,TAX10  " &
+             "FROM ( SELECT distinct TSPL_VENDOR_ITEM_DETAIL.vendor_code,TSPL_VENDOR_ITEM_DETAIL.vendor_desc,Customer_item_no,TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE as PrincipleCode,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as PrincipleDesc," & strPriceGrpStatus & " as PriceGroupStatus," & strPriceGrp & " as priceGroup,TSPL_ITEM_PRICE_MASTER.Purchase_Cost,TSPL_ITEM_MASTER.Weight_Value,TSPL_ITEM_PRICE_MASTER.abatement_rate,TSPL_ITEM_MASTER.Item_Code, TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.ITF_CODE,  " &
+             "CONVERT(varchar(10), TSPL_ITEM_PRICE_MASTER.Start_Date, 103) AS Start_Date, TSPL_ITEM_PRICE_MASTER.UOM, " &
+             "TSPL_ITEM_PRICE_MASTER.Price_Code, TSPL_ITEM_PRICE_MASTER.Item_Basic_Net,TSPL_ITEM_MASTER.Batch_No , TSPL_ITEM_PRICE_MASTER.Tax_group  , " &
+             "TSPL_ITEM_PRICE_MASTER.Item_Basic_Price, markup_on,markup_percent,landing_cost, " &
+             "TSPL_ITEM_MASTER.Item_Type, TSPL_ITEM_MASTER.show, TSPL_ITEM_MASTER.Sku_Seq, TSPL_ITEM_PRICE_MASTER.TAX1_Rate, " &
+             "TSPL_ITEM_PRICE_MASTER.TAX2_Rate,TSPL_ITEM_PRICE_MASTER.TAX3_Rate,TSPL_ITEM_PRICE_MASTER.TAX4_Rate,TSPL_ITEM_PRICE_MASTER.TAX5_Rate, " &
+             "TSPL_ITEM_PRICE_MASTER.TAX6_Rate,TSPL_ITEM_PRICE_MASTER.TAX7_Rate,TSPL_ITEM_PRICE_MASTER.TAX8_Rate,TSPL_ITEM_PRICE_MASTER.TAX9_Rate, " &
+             "TSPL_ITEM_PRICE_MASTER.TAX10_Rate,TSPL_ITEM_PRICE_MASTER.TAX1 ,TSPL_ITEM_PRICE_MASTER.TAX2,TSPL_ITEM_PRICE_MASTER.TAX3, " &
+             "TSPL_ITEM_PRICE_MASTER.TAX4,TSPL_ITEM_PRICE_MASTER.TAX5,TSPL_ITEM_PRICE_MASTER.TAX6,TSPL_ITEM_PRICE_MASTER.TAX7, " &
+             "TSPL_ITEM_PRICE_MASTER.TAX8,TSPL_ITEM_PRICE_MASTER.TAX9,TSPL_ITEM_PRICE_MASTER.TAX10   FROM TSPL_ITEM_PRICE_MASTER " &
+             "INNER Join  (SELECT     Item_Code, UOM, MAX(Start_Date) AS MaxDateTime, Item_Basic_Net,  Price_Code, Tax_group  FROM  " &
+             "TSPL_ITEM_PRICE_MASTER  where Start_Date<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' AND (End_Date  >='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' OR End_Date IS NULL) GROUP BY Item_Code, UOM, Item_Basic_Net,  Price_Code, Tax_group   " &
+             ")  AS groupedP  ON TSPL_ITEM_PRICE_MASTER.Item_Code = groupedP.Item_Code AND  TSPL_ITEM_PRICE_MASTER.Start_Date = groupedP.MaxDateTime AND " &
+             "TSPL_ITEM_PRICE_MASTER.UOM = groupedP.UOM AND TSPL_ITEM_PRICE_MASTER.Item_Basic_Net = groupedP.Item_Basic_Net  AND  " &
+             "TSPL_ITEM_PRICE_MASTER.Price_Code = groupedP.Price_Code and TSPL_ITEM_PRICE_MASTER.Tax_group = groupedP.Tax_group  left outer join TSPL_PRICE_GROUP_MAPPING on TSPL_ITEM_PRICE_MASTER.Price_Code=TSPL_PRICE_GROUP_MAPPING.price_code " &
+             "INNER JOIN TSPL_ITEM_MASTER AS TSPL_ITEM_MASTER ON TSPL_ITEM_PRICE_MASTER.Item_Code = TSPL_ITEM_MASTER.Item_Code " &
+             "left outer join TSPL_VENDOR_ITEM_DETAIL on TSPL_VENDOR_ITEM_DETAIL.item_no=TSPL_ITEM_MASTER.Item_Code left  outer join " &
+             "TSPL_ITEM_MASTER_CATEGORY on TSPL_ITEM_MASTER_CATEGORY.Item_code=TSPL_ITEM_MASTER.Item_Code and TSPL_ITEM_MASTER_CATEGORY.SNO=1 left outer join " &
+             "TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values " &
+             "left outer join TSPL_CUSTOMER_ITEM_MAPPING on TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_CUSTOMER_ITEM_MAPPING.item_no and TSPL_CUSTOMER_ITEM_MAPPING.Customer_Code='" & txtVendorNo.Value & "' " &
+             "where TSPL_ITEM_MASTER.Active=1 " & strTax & ")xxx Where  Tax_group='" & txtTaxGroup.Value & "' " & strPriceCondition & " " &
+             "" & strTaxRate & " " &
              "Order By Item_Code,Start_Date,UOM desc"
                     dr = clsCommon.ShowSelectFormForRow(repID, qry)
                 Else
                     repID = "RetPurOneItm2"
-                    qry = "SELECT Item_Code as Item,Item_Desc as ItemDesc,Customer_item_no as [Customer Item Code],PrincipleCode,PrincipleDesc,Price_Code,Start_Date AS Start_Date,UOM as Unit,Item_Basic_Net as MRP,abatement_rate,Item_Basic_Price as BasicRate,ITF_CODE as [ITF CODE], " & _
-             "Weight_Value,markup_on,markup_percent,landing_cost,Purchase_Cost,TAX1_Rate as Tax1Rate,TAX2_Rate as  Tax2Rate,TAX3_Rate as Tax3Rate,TAX4_Rate as Tax4Rate, " & _
-             "TAX5_Rate as Tax5Rate,TAX6_Rate as Tax6Rate,TAX7_Rate as Tax7Rate,TAX8_Rate as Tax8Rate, " & _
-             "TAX9_Rate as Tax9Rate,TAX10_Rate as Tax10Rate,TAX1 ,TAX2,TAX3,TAX4,TAX5,TAX6,TAX7, TAX8,TAX9,TAX10  " & _
-             "FROM ( SELECT distinct Customer_item_no,TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE as PrincipleCode,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as PrincipleDesc," & strPriceGrpStatus & " as PriceGroupStatus," & strPriceGrp & " as priceGroup,TSPL_ITEM_PRICE_MASTER.Purchase_Cost,TSPL_ITEM_MASTER.Weight_Value,TSPL_ITEM_PRICE_MASTER.abatement_rate,TSPL_ITEM_MASTER.Item_Code, TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.ITF_CODE,  " & _
-             "CONVERT(varchar(10), TSPL_ITEM_PRICE_MASTER.Start_Date, 103) AS Start_Date, TSPL_ITEM_PRICE_MASTER.UOM, " & _
-             "TSPL_ITEM_PRICE_MASTER.Price_Code, TSPL_ITEM_PRICE_MASTER.Item_Basic_Net,TSPL_ITEM_MASTER.Batch_No , TSPL_ITEM_PRICE_MASTER.Tax_group  , " & _
-             "TSPL_ITEM_PRICE_MASTER.Item_Basic_Price, markup_on,markup_percent,landing_cost, " & _
-             "TSPL_ITEM_MASTER.Item_Type, TSPL_ITEM_MASTER.show, TSPL_ITEM_MASTER.Sku_Seq, TSPL_ITEM_PRICE_MASTER.TAX1_Rate, " & _
-             "TSPL_ITEM_PRICE_MASTER.TAX2_Rate,TSPL_ITEM_PRICE_MASTER.TAX3_Rate,TSPL_ITEM_PRICE_MASTER.TAX4_Rate,TSPL_ITEM_PRICE_MASTER.TAX5_Rate, " & _
-             "TSPL_ITEM_PRICE_MASTER.TAX6_Rate,TSPL_ITEM_PRICE_MASTER.TAX7_Rate,TSPL_ITEM_PRICE_MASTER.TAX8_Rate,TSPL_ITEM_PRICE_MASTER.TAX9_Rate, " & _
-             "TSPL_ITEM_PRICE_MASTER.TAX10_Rate,TSPL_ITEM_PRICE_MASTER.TAX1 ,TSPL_ITEM_PRICE_MASTER.TAX2,TSPL_ITEM_PRICE_MASTER.TAX3, " & _
-             "TSPL_ITEM_PRICE_MASTER.TAX4,TSPL_ITEM_PRICE_MASTER.TAX5,TSPL_ITEM_PRICE_MASTER.TAX6,TSPL_ITEM_PRICE_MASTER.TAX7, " & _
-             "TSPL_ITEM_PRICE_MASTER.TAX8,TSPL_ITEM_PRICE_MASTER.TAX9,TSPL_ITEM_PRICE_MASTER.TAX10   FROM TSPL_ITEM_PRICE_MASTER " & _
-             "INNER Join  (SELECT     Item_Code, UOM, MAX(Start_Date) AS MaxDateTime, Item_Basic_Net,  Price_Code, Tax_group  FROM  " & _
-             "TSPL_ITEM_PRICE_MASTER  where Start_Date<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' AND (End_Date  >='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' OR End_Date IS NULL) GROUP BY Item_Code, UOM, Item_Basic_Net,  Price_Code, Tax_group   " & _
-             ")  AS groupedP  ON TSPL_ITEM_PRICE_MASTER.Item_Code = groupedP.Item_Code AND  TSPL_ITEM_PRICE_MASTER.Start_Date = groupedP.MaxDateTime AND " & _
-             "TSPL_ITEM_PRICE_MASTER.UOM = groupedP.UOM AND TSPL_ITEM_PRICE_MASTER.Item_Basic_Net = groupedP.Item_Basic_Net  AND  " & _
-             "TSPL_ITEM_PRICE_MASTER.Price_Code = groupedP.Price_Code and TSPL_ITEM_PRICE_MASTER.Tax_group = groupedP.Tax_group  left outer join TSPL_PRICE_GROUP_MAPPING on TSPL_ITEM_PRICE_MASTER.Price_Code=TSPL_PRICE_GROUP_MAPPING.price_code " & _
-             "INNER JOIN TSPL_ITEM_MASTER AS TSPL_ITEM_MASTER ON TSPL_ITEM_PRICE_MASTER.Item_Code = TSPL_ITEM_MASTER.Item_Code " & _
-             "left  outer join " & _
-             "TSPL_ITEM_MASTER_CATEGORY on TSPL_ITEM_MASTER_CATEGORY.Item_code=TSPL_ITEM_MASTER.Item_Code and TSPL_ITEM_MASTER_CATEGORY.SNO=1 left outer join " & _
-             "TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values " & _
-             "left outer join TSPL_CUSTOMER_ITEM_MAPPING on TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_CUSTOMER_ITEM_MAPPING.item_no and TSPL_CUSTOMER_ITEM_MAPPING.Customer_Code='" & txtVendorNo.Value & "' " & _
-             "where TSPL_ITEM_MASTER.Active=1 " & strTax & ")xxx Where Tax_group='" & txtTaxGroup.Value & "' " & strPriceCondition & " " & _
-             "" & strTaxRate & " " & _
+                    qry = "SELECT Item_Code as Item,Item_Desc as ItemDesc,Customer_item_no as [Customer Item Code],PrincipleCode,PrincipleDesc,Price_Code,Start_Date AS Start_Date,UOM as Unit,Item_Basic_Net as MRP,abatement_rate,Item_Basic_Price as BasicRate,ITF_CODE as [ITF CODE], " &
+             "Weight_Value,markup_on,markup_percent,landing_cost,Purchase_Cost,TAX1_Rate as Tax1Rate,TAX2_Rate as  Tax2Rate,TAX3_Rate as Tax3Rate,TAX4_Rate as Tax4Rate, " &
+             "TAX5_Rate as Tax5Rate,TAX6_Rate as Tax6Rate,TAX7_Rate as Tax7Rate,TAX8_Rate as Tax8Rate, " &
+             "TAX9_Rate as Tax9Rate,TAX10_Rate as Tax10Rate,TAX1 ,TAX2,TAX3,TAX4,TAX5,TAX6,TAX7, TAX8,TAX9,TAX10  " &
+             "FROM ( SELECT distinct Customer_item_no,TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE as PrincipleCode,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as PrincipleDesc," & strPriceGrpStatus & " as PriceGroupStatus," & strPriceGrp & " as priceGroup,TSPL_ITEM_PRICE_MASTER.Purchase_Cost,TSPL_ITEM_MASTER.Weight_Value,TSPL_ITEM_PRICE_MASTER.abatement_rate,TSPL_ITEM_MASTER.Item_Code, TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.ITF_CODE,  " &
+             "CONVERT(varchar(10), TSPL_ITEM_PRICE_MASTER.Start_Date, 103) AS Start_Date, TSPL_ITEM_PRICE_MASTER.UOM, " &
+             "TSPL_ITEM_PRICE_MASTER.Price_Code, TSPL_ITEM_PRICE_MASTER.Item_Basic_Net,TSPL_ITEM_MASTER.Batch_No , TSPL_ITEM_PRICE_MASTER.Tax_group  , " &
+             "TSPL_ITEM_PRICE_MASTER.Item_Basic_Price, markup_on,markup_percent,landing_cost, " &
+             "TSPL_ITEM_MASTER.Item_Type, TSPL_ITEM_MASTER.show, TSPL_ITEM_MASTER.Sku_Seq, TSPL_ITEM_PRICE_MASTER.TAX1_Rate, " &
+             "TSPL_ITEM_PRICE_MASTER.TAX2_Rate,TSPL_ITEM_PRICE_MASTER.TAX3_Rate,TSPL_ITEM_PRICE_MASTER.TAX4_Rate,TSPL_ITEM_PRICE_MASTER.TAX5_Rate, " &
+             "TSPL_ITEM_PRICE_MASTER.TAX6_Rate,TSPL_ITEM_PRICE_MASTER.TAX7_Rate,TSPL_ITEM_PRICE_MASTER.TAX8_Rate,TSPL_ITEM_PRICE_MASTER.TAX9_Rate, " &
+             "TSPL_ITEM_PRICE_MASTER.TAX10_Rate,TSPL_ITEM_PRICE_MASTER.TAX1 ,TSPL_ITEM_PRICE_MASTER.TAX2,TSPL_ITEM_PRICE_MASTER.TAX3, " &
+             "TSPL_ITEM_PRICE_MASTER.TAX4,TSPL_ITEM_PRICE_MASTER.TAX5,TSPL_ITEM_PRICE_MASTER.TAX6,TSPL_ITEM_PRICE_MASTER.TAX7, " &
+             "TSPL_ITEM_PRICE_MASTER.TAX8,TSPL_ITEM_PRICE_MASTER.TAX9,TSPL_ITEM_PRICE_MASTER.TAX10   FROM TSPL_ITEM_PRICE_MASTER " &
+             "INNER Join  (SELECT     Item_Code, UOM, MAX(Start_Date) AS MaxDateTime, Item_Basic_Net,  Price_Code, Tax_group  FROM  " &
+             "TSPL_ITEM_PRICE_MASTER  where Start_Date<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' AND (End_Date  >='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' OR End_Date IS NULL) GROUP BY Item_Code, UOM, Item_Basic_Net,  Price_Code, Tax_group   " &
+             ")  AS groupedP  ON TSPL_ITEM_PRICE_MASTER.Item_Code = groupedP.Item_Code AND  TSPL_ITEM_PRICE_MASTER.Start_Date = groupedP.MaxDateTime AND " &
+             "TSPL_ITEM_PRICE_MASTER.UOM = groupedP.UOM AND TSPL_ITEM_PRICE_MASTER.Item_Basic_Net = groupedP.Item_Basic_Net  AND  " &
+             "TSPL_ITEM_PRICE_MASTER.Price_Code = groupedP.Price_Code and TSPL_ITEM_PRICE_MASTER.Tax_group = groupedP.Tax_group  left outer join TSPL_PRICE_GROUP_MAPPING on TSPL_ITEM_PRICE_MASTER.Price_Code=TSPL_PRICE_GROUP_MAPPING.price_code " &
+             "INNER JOIN TSPL_ITEM_MASTER AS TSPL_ITEM_MASTER ON TSPL_ITEM_PRICE_MASTER.Item_Code = TSPL_ITEM_MASTER.Item_Code " &
+             "left  outer join " &
+             "TSPL_ITEM_MASTER_CATEGORY on TSPL_ITEM_MASTER_CATEGORY.Item_code=TSPL_ITEM_MASTER.Item_Code and TSPL_ITEM_MASTER_CATEGORY.SNO=1 left outer join " &
+             "TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values " &
+             "left outer join TSPL_CUSTOMER_ITEM_MAPPING on TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_CUSTOMER_ITEM_MAPPING.item_no and TSPL_CUSTOMER_ITEM_MAPPING.Customer_Code='" & txtVendorNo.Value & "' " &
+             "where TSPL_ITEM_MASTER.Active=1 " & strTax & ")xxx Where Tax_group='" & txtTaxGroup.Value & "' " & strPriceCondition & " " &
+             "" & strTaxRate & " " &
              "Order By Item_Code,Start_Date,UOM desc"
 
                     dr = clsCommon.ShowSelectFormForRow(repID, qry)
@@ -2662,68 +2692,74 @@ Public Class frmSNSaleReturn
             If clsCommon.myLen(pivotheader) > 0 Then
                 If PurchaseOneItemOneVendor = True Then
                     repID = "RetPurOneItm3"
-                    qry = "select * from (select a.DESCRIPTION,a.cat_value,b.* from (SELECT Item_Code as Item,Item_Desc as ItemDesc,Customer_item_no as [Customer Item Code],PrincipleCode,PrincipleDesc,vendor_code as [Vendor code],vendor_desc as [Vendor Desc],Price_Code,Start_Date AS Start_Date,UOM as Unit,Item_Basic_Net as MRP,abatement_rate, " & _
-                    "Item_Basic_Price as BasicRate,ITF_CODE as [ITF CODE], " & _
-             "Weight_Value,markup_on,markup_percent,landing_cost,Purchase_Cost,TAX1_Rate as Tax1Rate,TAX2_Rate as  Tax2Rate,TAX3_Rate as Tax3Rate,TAX4_Rate as Tax4Rate, " & _
-             "TAX5_Rate as Tax5Rate,TAX6_Rate as Tax6Rate,TAX7_Rate as Tax7Rate,TAX8_Rate as Tax8Rate, " & _
-             "TAX9_Rate as Tax9Rate,TAX10_Rate as Tax10Rate,TAX1 ,TAX2,TAX3,TAX4,TAX5,TAX6,TAX7, TAX8,TAX9,TAX10  " & _
-             "FROM ( SELECT distinct TSPL_VENDOR_ITEM_DETAIL.vendor_code,TSPL_VENDOR_ITEM_DETAIL.vendor_desc,Customer_item_no,TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE as PrincipleCode,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as PrincipleDesc," & strPriceGrpStatus & " as PriceGroupStatus," & strPriceGrp & " as priceGroup,TSPL_ITEM_PRICE_MASTER.Purchase_Cost,TSPL_ITEM_MASTER.Weight_Value,TSPL_ITEM_PRICE_MASTER.abatement_rate,TSPL_ITEM_MASTER.Item_Code, TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.ITF_CODE,  " & _
-             "CONVERT(varchar(10), TSPL_ITEM_PRICE_MASTER.Start_Date, 103) AS Start_Date, TSPL_ITEM_PRICE_MASTER.UOM, " & _
-             "TSPL_ITEM_PRICE_MASTER.Price_Code, TSPL_ITEM_PRICE_MASTER.Item_Basic_Net,TSPL_ITEM_MASTER.Batch_No , TSPL_ITEM_PRICE_MASTER.Tax_group  , " & _
-             "TSPL_ITEM_PRICE_MASTER.Item_Basic_Price, markup_on,markup_percent,landing_cost, " & _
-             "TSPL_ITEM_MASTER.Item_Type, TSPL_ITEM_MASTER.show, TSPL_ITEM_MASTER.Sku_Seq, TSPL_ITEM_PRICE_MASTER.TAX1_Rate, " & _
-             "TSPL_ITEM_PRICE_MASTER.TAX2_Rate,TSPL_ITEM_PRICE_MASTER.TAX3_Rate,TSPL_ITEM_PRICE_MASTER.TAX4_Rate,TSPL_ITEM_PRICE_MASTER.TAX5_Rate, " & _
-             "TSPL_ITEM_PRICE_MASTER.TAX6_Rate,TSPL_ITEM_PRICE_MASTER.TAX7_Rate,TSPL_ITEM_PRICE_MASTER.TAX8_Rate,TSPL_ITEM_PRICE_MASTER.TAX9_Rate, " & _
-             "TSPL_ITEM_PRICE_MASTER.TAX10_Rate,TSPL_ITEM_PRICE_MASTER.TAX1 ,TSPL_ITEM_PRICE_MASTER.TAX2,TSPL_ITEM_PRICE_MASTER.TAX3, " & _
-             "TSPL_ITEM_PRICE_MASTER.TAX4,TSPL_ITEM_PRICE_MASTER.TAX5,TSPL_ITEM_PRICE_MASTER.TAX6,TSPL_ITEM_PRICE_MASTER.TAX7, " & _
-             "TSPL_ITEM_PRICE_MASTER.TAX8,TSPL_ITEM_PRICE_MASTER.TAX9,TSPL_ITEM_PRICE_MASTER.TAX10   FROM TSPL_ITEM_PRICE_MASTER " & _
-             "INNER Join  (SELECT     Item_Code, UOM, MAX(Start_Date) AS MaxDateTime, Item_Basic_Net,  Price_Code, Tax_group  FROM  " & _
-             "TSPL_ITEM_PRICE_MASTER  where Start_Date<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' AND (End_Date  >='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' OR End_Date IS NULL) GROUP BY Item_Code, UOM, Item_Basic_Net,  Price_Code, Tax_group   " & _
-             ")  AS groupedP  ON TSPL_ITEM_PRICE_MASTER.Item_Code = groupedP.Item_Code AND  TSPL_ITEM_PRICE_MASTER.Start_Date = groupedP.MaxDateTime AND " & _
-             "TSPL_ITEM_PRICE_MASTER.UOM = groupedP.UOM AND TSPL_ITEM_PRICE_MASTER.Item_Basic_Net = groupedP.Item_Basic_Net  AND  " & _
-             "TSPL_ITEM_PRICE_MASTER.Price_Code = groupedP.Price_Code and TSPL_ITEM_PRICE_MASTER.Tax_group = groupedP.Tax_group  left outer join TSPL_PRICE_GROUP_MAPPING on TSPL_ITEM_PRICE_MASTER.Price_Code=TSPL_PRICE_GROUP_MAPPING.price_code " & _
-             "INNER JOIN TSPL_ITEM_MASTER AS TSPL_ITEM_MASTER ON TSPL_ITEM_PRICE_MASTER.Item_Code = TSPL_ITEM_MASTER.Item_Code " & _
-             "left outer join TSPL_VENDOR_ITEM_DETAIL on TSPL_VENDOR_ITEM_DETAIL.item_no=TSPL_ITEM_MASTER.Item_Code left  outer join " & _
-             "TSPL_ITEM_MASTER_CATEGORY on TSPL_ITEM_MASTER_CATEGORY.Item_code=TSPL_ITEM_MASTER.Item_Code and TSPL_ITEM_MASTER_CATEGORY.SNO=1 left outer join " & _
-             "TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values " & _
-             "left outer join TSPL_CUSTOMER_ITEM_MAPPING on TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_CUSTOMER_ITEM_MAPPING.item_no and TSPL_CUSTOMER_ITEM_MAPPING.Customer_Code='" & txtVendorNo.Value & "' " & _
-             "where TSPL_ITEM_MASTER.Active=1 " & strTax & " )xxx Where  Tax_group='" & txtTaxGroup.Value & "' " & strPriceCondition & " " & _
-             "" & strTaxRate & " " & _
+                    qry = "select * from (select a.DESCRIPTION,a.cat_value,b.* from (SELECT Item_Code as Item,Item_Desc as ItemDesc,Customer_item_no as [Customer Item Code],PrincipleCode,PrincipleDesc,vendor_code as [Vendor code],vendor_desc as [Vendor Desc],Price_Code,Start_Date AS Start_Date,UOM as Unit,Item_Basic_Net as MRP,abatement_rate, " &
+                    "Item_Basic_Price as BasicRate,ITF_CODE as [ITF CODE], " &
+             "Weight_Value,markup_on,markup_percent,landing_cost,Purchase_Cost,TAX1_Rate as Tax1Rate,TAX2_Rate as  Tax2Rate,TAX3_Rate as Tax3Rate,TAX4_Rate as Tax4Rate, " &
+             "TAX5_Rate as Tax5Rate,TAX6_Rate as Tax6Rate,TAX7_Rate as Tax7Rate,TAX8_Rate as Tax8Rate, " &
+             "TAX9_Rate as Tax9Rate,TAX10_Rate as Tax10Rate,TAX1 ,TAX2,TAX3,TAX4,TAX5,TAX6,TAX7, TAX8,TAX9,TAX10  " &
+             "FROM ( SELECT distinct TSPL_VENDOR_ITEM_DETAIL.vendor_code,TSPL_VENDOR_ITEM_DETAIL.vendor_desc,Customer_item_no,TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE as PrincipleCode,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as PrincipleDesc," & strPriceGrpStatus & " as PriceGroupStatus," & strPriceGrp & " as priceGroup,TSPL_ITEM_PRICE_MASTER.Purchase_Cost,TSPL_ITEM_MASTER.Weight_Value,TSPL_ITEM_PRICE_MASTER.abatement_rate,TSPL_ITEM_MASTER.Item_Code, TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.ITF_CODE,  " &
+             "CONVERT(varchar(10), TSPL_ITEM_PRICE_MASTER.Start_Date, 103) AS Start_Date, TSPL_ITEM_PRICE_MASTER.UOM, " &
+             "TSPL_ITEM_PRICE_MASTER.Price_Code, TSPL_ITEM_PRICE_MASTER.Item_Basic_Net,TSPL_ITEM_MASTER.Batch_No , TSPL_ITEM_PRICE_MASTER.Tax_group  , " &
+             "TSPL_ITEM_PRICE_MASTER.Item_Basic_Price, markup_on,markup_percent,landing_cost, " &
+             "TSPL_ITEM_MASTER.Item_Type, TSPL_ITEM_MASTER.show, TSPL_ITEM_MASTER.Sku_Seq, TSPL_ITEM_PRICE_MASTER.TAX1_Rate, " &
+             "TSPL_ITEM_PRICE_MASTER.TAX2_Rate,TSPL_ITEM_PRICE_MASTER.TAX3_Rate,TSPL_ITEM_PRICE_MASTER.TAX4_Rate,TSPL_ITEM_PRICE_MASTER.TAX5_Rate, " &
+             "TSPL_ITEM_PRICE_MASTER.TAX6_Rate,TSPL_ITEM_PRICE_MASTER.TAX7_Rate,TSPL_ITEM_PRICE_MASTER.TAX8_Rate,TSPL_ITEM_PRICE_MASTER.TAX9_Rate, " &
+             "TSPL_ITEM_PRICE_MASTER.TAX10_Rate,TSPL_ITEM_PRICE_MASTER.TAX1 ,TSPL_ITEM_PRICE_MASTER.TAX2,TSPL_ITEM_PRICE_MASTER.TAX3, " &
+             "TSPL_ITEM_PRICE_MASTER.TAX4,TSPL_ITEM_PRICE_MASTER.TAX5,TSPL_ITEM_PRICE_MASTER.TAX6,TSPL_ITEM_PRICE_MASTER.TAX7, " &
+             "TSPL_ITEM_PRICE_MASTER.TAX8,TSPL_ITEM_PRICE_MASTER.TAX9,TSPL_ITEM_PRICE_MASTER.TAX10   FROM TSPL_ITEM_PRICE_MASTER " &
+             "INNER Join  (SELECT     Item_Code, UOM, MAX(Start_Date) AS MaxDateTime, Item_Basic_Net,  Price_Code, Tax_group  FROM  " &
+             "TSPL_ITEM_PRICE_MASTER  where Start_Date<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' AND (End_Date  >='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' OR End_Date IS NULL) GROUP BY Item_Code, UOM, Item_Basic_Net,  Price_Code, Tax_group   " &
+             ")  AS groupedP  ON TSPL_ITEM_PRICE_MASTER.Item_Code = groupedP.Item_Code AND  TSPL_ITEM_PRICE_MASTER.Start_Date = groupedP.MaxDateTime AND " &
+             "TSPL_ITEM_PRICE_MASTER.UOM = groupedP.UOM AND TSPL_ITEM_PRICE_MASTER.Item_Basic_Net = groupedP.Item_Basic_Net  AND  " &
+             "TSPL_ITEM_PRICE_MASTER.Price_Code = groupedP.Price_Code and TSPL_ITEM_PRICE_MASTER.Tax_group = groupedP.Tax_group  left outer join TSPL_PRICE_GROUP_MAPPING on TSPL_ITEM_PRICE_MASTER.Price_Code=TSPL_PRICE_GROUP_MAPPING.price_code " &
+             "INNER JOIN TSPL_ITEM_MASTER AS TSPL_ITEM_MASTER ON TSPL_ITEM_PRICE_MASTER.Item_Code = TSPL_ITEM_MASTER.Item_Code " &
+             "left outer join TSPL_VENDOR_ITEM_DETAIL on TSPL_VENDOR_ITEM_DETAIL.item_no=TSPL_ITEM_MASTER.Item_Code left  outer join " &
+             "TSPL_ITEM_MASTER_CATEGORY on TSPL_ITEM_MASTER_CATEGORY.Item_code=TSPL_ITEM_MASTER.Item_Code and TSPL_ITEM_MASTER_CATEGORY.SNO=1 left outer join " &
+             "TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values " &
+             "left outer join TSPL_CUSTOMER_ITEM_MAPPING on TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_CUSTOMER_ITEM_MAPPING.item_no and TSPL_CUSTOMER_ITEM_MAPPING.Customer_Code='" & txtVendorNo.Value & "' " &
+             "where TSPL_ITEM_MASTER.Active=1 " & strTax & " )xxx Where  Tax_group='" & txtTaxGroup.Value & "' " & strPriceCondition & " " &
+             "" & strTaxRate & " " &
              ")b left outer join (select TSPL_ITEM_MASTER_CATEGORY.Item_code,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code,TSPL_ITEM_CATEGORY_LEVEL.DESCRIPTION,TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as cat_value from TSPL_ITEM_MASTER_CATEGORY left outer join TSPL_ITEM_CATEGORY_LEVEL on TSPL_ITEM_CATEGORY_LEVEL.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and ISNULL(TSPL_ITEM_CATEGORY_LEVEL.Form_Type,'item')='item' left outer join TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values  and ISNULL(TSPL_ITEM_CATEGORY_LEVEL_VALUES.Form_Type,'item')='item')a on a.Item_code=b.Item) as s pivot(max(cat_value) for description in (" + pivotheader + "))t"
                     '"Order By Item_Code,Start_Date,UOM desc"
                     dr = clsCommon.ShowSelectFormForRow(repID, qry)
                 Else
                     repID = "RetPurOneItm4"
-                    qry = "select * from (select a.DESCRIPTION,a.cat_value,b.* from (SELECT Item_Code as Item,Item_Desc as ItemDesc,Customer_item_no as [Customer Item Code],PrincipleCode,PrincipleDesc,Price_Code,Start_Date AS Start_Date,UOM as Unit,Item_Basic_Net as MRP,abatement_rate,Item_Basic_Price as BasicRate,ITF_CODE as [ITF CODE], " & _
-             "Weight_Value,markup_on,markup_percent,landing_cost,Purchase_Cost,TAX1_Rate as Tax1Rate,TAX2_Rate as  Tax2Rate,TAX3_Rate as Tax3Rate,TAX4_Rate as Tax4Rate, " & _
-             "TAX5_Rate as Tax5Rate,TAX6_Rate as Tax6Rate,TAX7_Rate as Tax7Rate,TAX8_Rate as Tax8Rate, " & _
-             "TAX9_Rate as Tax9Rate,TAX10_Rate as Tax10Rate,TAX1 ,TAX2,TAX3,TAX4,TAX5,TAX6,TAX7, TAX8,TAX9,TAX10  " & _
-             "FROM ( SELECT distinct Customer_item_no,TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE as PrincipleCode,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as PrincipleDesc," & strPriceGrpStatus & " as PriceGroupStatus," & strPriceGrp & " as priceGroup,TSPL_ITEM_PRICE_MASTER.Purchase_Cost,TSPL_ITEM_MASTER.Weight_Value,TSPL_ITEM_PRICE_MASTER.abatement_rate,TSPL_ITEM_MASTER.Item_Code, TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.ITF_CODE,  " & _
-             "CONVERT(varchar(10), TSPL_ITEM_PRICE_MASTER.Start_Date, 103) AS Start_Date, TSPL_ITEM_PRICE_MASTER.UOM, " & _
-             "TSPL_ITEM_PRICE_MASTER.Price_Code, TSPL_ITEM_PRICE_MASTER.Item_Basic_Net,TSPL_ITEM_MASTER.Batch_No , TSPL_ITEM_PRICE_MASTER.Tax_group  , " & _
-             "TSPL_ITEM_PRICE_MASTER.Item_Basic_Price, markup_on,markup_percent,landing_cost, " & _
-             "TSPL_ITEM_MASTER.Item_Type, TSPL_ITEM_MASTER.show, TSPL_ITEM_MASTER.Sku_Seq, TSPL_ITEM_PRICE_MASTER.TAX1_Rate, " & _
-             "TSPL_ITEM_PRICE_MASTER.TAX2_Rate,TSPL_ITEM_PRICE_MASTER.TAX3_Rate,TSPL_ITEM_PRICE_MASTER.TAX4_Rate,TSPL_ITEM_PRICE_MASTER.TAX5_Rate, " & _
-             "TSPL_ITEM_PRICE_MASTER.TAX6_Rate,TSPL_ITEM_PRICE_MASTER.TAX7_Rate,TSPL_ITEM_PRICE_MASTER.TAX8_Rate,TSPL_ITEM_PRICE_MASTER.TAX9_Rate, " & _
-             "TSPL_ITEM_PRICE_MASTER.TAX10_Rate,TSPL_ITEM_PRICE_MASTER.TAX1 ,TSPL_ITEM_PRICE_MASTER.TAX2,TSPL_ITEM_PRICE_MASTER.TAX3, " & _
-             "TSPL_ITEM_PRICE_MASTER.TAX4,TSPL_ITEM_PRICE_MASTER.TAX5,TSPL_ITEM_PRICE_MASTER.TAX6,TSPL_ITEM_PRICE_MASTER.TAX7, " & _
-             "TSPL_ITEM_PRICE_MASTER.TAX8,TSPL_ITEM_PRICE_MASTER.TAX9,TSPL_ITEM_PRICE_MASTER.TAX10   FROM TSPL_ITEM_PRICE_MASTER " & _
-             "INNER Join  (SELECT     Item_Code, UOM, MAX(Start_Date) AS MaxDateTime, Item_Basic_Net,  Price_Code, Tax_group  FROM  " & _
-             "TSPL_ITEM_PRICE_MASTER  where Start_Date<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' AND (End_Date  >='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' OR End_Date IS NULL) GROUP BY Item_Code, UOM, Item_Basic_Net,  Price_Code, Tax_group   " & _
-             ")  AS groupedP  ON TSPL_ITEM_PRICE_MASTER.Item_Code = groupedP.Item_Code AND  TSPL_ITEM_PRICE_MASTER.Start_Date = groupedP.MaxDateTime AND " & _
-             "TSPL_ITEM_PRICE_MASTER.UOM = groupedP.UOM AND TSPL_ITEM_PRICE_MASTER.Item_Basic_Net = groupedP.Item_Basic_Net  AND  " & _
-             "TSPL_ITEM_PRICE_MASTER.Price_Code = groupedP.Price_Code and TSPL_ITEM_PRICE_MASTER.Tax_group = groupedP.Tax_group  left outer join TSPL_PRICE_GROUP_MAPPING on TSPL_ITEM_PRICE_MASTER.Price_Code=TSPL_PRICE_GROUP_MAPPING.price_code " & _
-             "INNER JOIN TSPL_ITEM_MASTER AS TSPL_ITEM_MASTER ON TSPL_ITEM_PRICE_MASTER.Item_Code = TSPL_ITEM_MASTER.Item_Code " & _
-             "left  outer join " & _
-             "TSPL_ITEM_MASTER_CATEGORY on TSPL_ITEM_MASTER_CATEGORY.Item_code=TSPL_ITEM_MASTER.Item_Code and TSPL_ITEM_MASTER_CATEGORY.SNO=1 left outer join " & _
-             "TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values " & _
-             "left outer join TSPL_CUSTOMER_ITEM_MAPPING on TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_CUSTOMER_ITEM_MAPPING.item_no and TSPL_CUSTOMER_ITEM_MAPPING.Customer_Code='" & txtVendorNo.Value & "' " & _
-             "where TSPL_ITEM_MASTER.Active=1 " & strTax & " )xxx Where Tax_group='" & txtTaxGroup.Value & "' " & strPriceCondition & " " & _
-             "" & strTaxRate & " " & _
+                    qry = "select * from (select a.DESCRIPTION,a.cat_value,b.* from (SELECT Item_Code as Item,Item_Desc as ItemDesc,Customer_item_no as [Customer Item Code],PrincipleCode,PrincipleDesc,Price_Code,Start_Date AS Start_Date,UOM as Unit,Item_Basic_Net as MRP,abatement_rate,Item_Basic_Price as BasicRate,ITF_CODE as [ITF CODE], " &
+             "Weight_Value,markup_on,markup_percent,landing_cost,Purchase_Cost,TAX1_Rate as Tax1Rate,TAX2_Rate as  Tax2Rate,TAX3_Rate as Tax3Rate,TAX4_Rate as Tax4Rate, " &
+             "TAX5_Rate as Tax5Rate,TAX6_Rate as Tax6Rate,TAX7_Rate as Tax7Rate,TAX8_Rate as Tax8Rate, " &
+             "TAX9_Rate as Tax9Rate,TAX10_Rate as Tax10Rate,TAX1 ,TAX2,TAX3,TAX4,TAX5,TAX6,TAX7, TAX8,TAX9,TAX10  " &
+             "FROM ( SELECT distinct Customer_item_no,TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE as PrincipleCode,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as PrincipleDesc," & strPriceGrpStatus & " as PriceGroupStatus," & strPriceGrp & " as priceGroup,TSPL_ITEM_PRICE_MASTER.Purchase_Cost,TSPL_ITEM_MASTER.Weight_Value,TSPL_ITEM_PRICE_MASTER.abatement_rate,TSPL_ITEM_MASTER.Item_Code, TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.ITF_CODE,  " &
+             "CONVERT(varchar(10), TSPL_ITEM_PRICE_MASTER.Start_Date, 103) AS Start_Date, TSPL_ITEM_PRICE_MASTER.UOM, " &
+             "TSPL_ITEM_PRICE_MASTER.Price_Code, TSPL_ITEM_PRICE_MASTER.Item_Basic_Net,TSPL_ITEM_MASTER.Batch_No , TSPL_ITEM_PRICE_MASTER.Tax_group  , " &
+             "TSPL_ITEM_PRICE_MASTER.Item_Basic_Price, markup_on,markup_percent,landing_cost, " &
+             "TSPL_ITEM_MASTER.Item_Type, TSPL_ITEM_MASTER.show, TSPL_ITEM_MASTER.Sku_Seq, TSPL_ITEM_PRICE_MASTER.TAX1_Rate, " &
+             "TSPL_ITEM_PRICE_MASTER.TAX2_Rate,TSPL_ITEM_PRICE_MASTER.TAX3_Rate,TSPL_ITEM_PRICE_MASTER.TAX4_Rate,TSPL_ITEM_PRICE_MASTER.TAX5_Rate, " &
+             "TSPL_ITEM_PRICE_MASTER.TAX6_Rate,TSPL_ITEM_PRICE_MASTER.TAX7_Rate,TSPL_ITEM_PRICE_MASTER.TAX8_Rate,TSPL_ITEM_PRICE_MASTER.TAX9_Rate, " &
+             "TSPL_ITEM_PRICE_MASTER.TAX10_Rate,TSPL_ITEM_PRICE_MASTER.TAX1 ,TSPL_ITEM_PRICE_MASTER.TAX2,TSPL_ITEM_PRICE_MASTER.TAX3, " &
+             "TSPL_ITEM_PRICE_MASTER.TAX4,TSPL_ITEM_PRICE_MASTER.TAX5,TSPL_ITEM_PRICE_MASTER.TAX6,TSPL_ITEM_PRICE_MASTER.TAX7, " &
+             "TSPL_ITEM_PRICE_MASTER.TAX8,TSPL_ITEM_PRICE_MASTER.TAX9,TSPL_ITEM_PRICE_MASTER.TAX10   FROM TSPL_ITEM_PRICE_MASTER " &
+             "INNER Join  (SELECT     Item_Code, UOM, MAX(Start_Date) AS MaxDateTime, Item_Basic_Net,  Price_Code, Tax_group  FROM  " &
+             "TSPL_ITEM_PRICE_MASTER  where Start_Date<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' AND (End_Date  >='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' OR End_Date IS NULL) GROUP BY Item_Code, UOM, Item_Basic_Net,  Price_Code, Tax_group   " &
+             ")  AS groupedP  ON TSPL_ITEM_PRICE_MASTER.Item_Code = groupedP.Item_Code AND  TSPL_ITEM_PRICE_MASTER.Start_Date = groupedP.MaxDateTime AND " &
+             "TSPL_ITEM_PRICE_MASTER.UOM = groupedP.UOM AND TSPL_ITEM_PRICE_MASTER.Item_Basic_Net = groupedP.Item_Basic_Net  AND  " &
+             "TSPL_ITEM_PRICE_MASTER.Price_Code = groupedP.Price_Code and TSPL_ITEM_PRICE_MASTER.Tax_group = groupedP.Tax_group  left outer join TSPL_PRICE_GROUP_MAPPING on TSPL_ITEM_PRICE_MASTER.Price_Code=TSPL_PRICE_GROUP_MAPPING.price_code " &
+             "INNER JOIN TSPL_ITEM_MASTER AS TSPL_ITEM_MASTER ON TSPL_ITEM_PRICE_MASTER.Item_Code = TSPL_ITEM_MASTER.Item_Code " &
+             "left  outer join " &
+             "TSPL_ITEM_MASTER_CATEGORY on TSPL_ITEM_MASTER_CATEGORY.Item_code=TSPL_ITEM_MASTER.Item_Code and TSPL_ITEM_MASTER_CATEGORY.SNO=1 left outer join " &
+             "TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values " &
+             "left outer join TSPL_CUSTOMER_ITEM_MAPPING on TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_CUSTOMER_ITEM_MAPPING.item_no and TSPL_CUSTOMER_ITEM_MAPPING.Customer_Code='" & txtVendorNo.Value & "' " &
+             "where TSPL_ITEM_MASTER.Active=1 " & strTax & " )xxx Where Tax_group='" & txtTaxGroup.Value & "' " & strPriceCondition & " " &
+             "" & strTaxRate & " " &
              ")b left outer join (select TSPL_ITEM_MASTER_CATEGORY.Item_code,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code,TSPL_ITEM_CATEGORY_LEVEL.DESCRIPTION,TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as cat_value from TSPL_ITEM_MASTER_CATEGORY left outer join TSPL_ITEM_CATEGORY_LEVEL on TSPL_ITEM_CATEGORY_LEVEL.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and ISNULL(TSPL_ITEM_CATEGORY_LEVEL.Form_Type,'item')='item' left outer join TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values  and ISNULL(TSPL_ITEM_CATEGORY_LEVEL_VALUES.Form_Type,'item')='item')a on a.Item_code=b.Item) as s pivot(max(cat_value) for description in (" + pivotheader + "))t"
                     '"Order By Item_Code,Start_Date,UOM desc"
-
-                    dr = clsCommon.ShowSelectFormForRow(repID, qry)
+                    If gv1.CurrentRow.Cells(colICode).Value IsNot Nothing AndAlso clsCommon.myLen(gv1.CurrentRow.Cells(colICode).Value) > 0 AndAlso gv1.CurrentRow.Cells(colUnit).Value IsNot Nothing AndAlso clsCommon.myLen(gv1.CurrentRow.Cells(colUnit).Value) > 0 Then
+                        qry += " where Item='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "' And convert(date,Start_Date,103)=convert(date,'" + clsCommon.myCstr(gv1.CurrentRow.Cells(colPriceDateColumn).Value) + "',103) And Unit='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value) + "'"
+                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                        dr = dt.Rows(0)
+                    Else
+                        dr = clsCommon.ShowSelectFormForRow(repID, qry)
+                    End If
+                    'dr = clsCommon.ShowSelectFormForRow(repID, qry)
                 End If
             End If
 
@@ -3692,7 +3728,7 @@ Public Class frmSNSaleReturn
 
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         Try
-         
+
             Dim obj As New clsSNSalesReturnHead()
             obj = clsSNSalesReturnHead.GetData(strCode, NavTyep)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
@@ -4244,7 +4280,7 @@ Public Class frmSNSaleReturn
                     'End If
                 End If
                 SetitemWiseTaxOnlySetting()
-              
+
                 ' ''RefreshReqNo()
                 ' ''RefreshGRPNo()
 
@@ -4778,9 +4814,9 @@ Public Class frmSNSaleReturn
         End If
 
         '''' priti change start here
-        qry = "SELECT TSPL_LOCATION_MASTER.Excisable,TSPL_LOCATION_MASTER.State, " & _
-        "TSPL_LOCATION_MASTER.Sales_Tax_Group as LocalTaxGroup,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as Local_Tax_GroupName, " & _
-        "TSPL_LOCATION_MASTER.Sales_Tax_GroupIS as InterstateTaxGroup,TSPL_TAX_GROUP_MASTERIS.Tax_Group_Desc as Interstate_Tax_GroupName " & _
+        qry = "SELECT TSPL_LOCATION_MASTER.Excisable,TSPL_LOCATION_MASTER.State, " &
+        "TSPL_LOCATION_MASTER.Sales_Tax_Group as LocalTaxGroup,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as Local_Tax_GroupName, " &
+        "TSPL_LOCATION_MASTER.Sales_Tax_GroupIS as InterstateTaxGroup,TSPL_TAX_GROUP_MASTERIS.Tax_Group_Desc as Interstate_Tax_GroupName " &
         "FROM TSPL_LOCATION_MASTER left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_LOCATION_MASTER.Sales_Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S' left outer join TSPL_TAX_GROUP_MASTER as TSPL_TAX_GROUP_MASTERIS on TSPL_TAX_GROUP_MASTERIS.Tax_Group_Code=TSPL_LOCATION_MASTER.Sales_Tax_GroupIS and TSPL_TAX_GROUP_MASTERIS.Tax_Group_Type='S' WHERE TSPL_LOCATION_MASTER.Location_Code = '" + Convert.ToString(txtBillToLocation.Value) + "'"
         Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable(qry)
         Dim loc As String = clsCommon.myCstr(dtLocation.Rows(0)("Excisable"))
@@ -4837,7 +4873,7 @@ Public Class frmSNSaleReturn
         End Try
     End Sub
     Private Sub txtBillToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtBillToLocation._MYValidating
-    
+
 
         Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
         Dim WhrCls As String = " Location_Type='Physical'  "
@@ -5316,26 +5352,26 @@ Public Class frmSNSaleReturn
 
     Function GetTaxRateTypeDT(ByVal DocNo As String, Optional ByVal trans As SqlTransaction = Nothing) As DataTable
         Dim qry As String = ""
-        qry = " select distinct * from (" & _
-              " select distinct TAX1 as Tax_RateType_Name,TAX1_Rate as Tax_RateType_Rate,sum(TAX1_Amt) as Tax_RateType_Amount  from TSPL_SD_SALE_RETURN_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX1,TAX1_Rate " & _
-              " union all " & _
-              " select distinct TAX2,TAX2_Rate,sum(TAX2_Amt) as TAX2_Amt  from TSPL_SD_SALE_RETURN_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX2,TAX2_Rate " & _
-              " union all " & _
-              " select distinct TAX3,TAX3_Rate,sum(TAX3_Amt) as TAX3_Amt  from TSPL_SD_SALE_RETURN_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX3,TAX3_Rate " & _
-              " union all " & _
-              " select distinct TAX4,TAX4_Rate,sum(TAX4_Amt) as TAX4_Amt  from TSPL_SD_SALE_RETURN_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX4,TAX4_Rate " & _
-              " union all " & _
-              " select distinct TAX5,TAX5_Rate,sum(TAX5_Amt) as TAX5_Amt  from TSPL_SD_SALE_RETURN_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX5,TAX5_Rate " & _
-              " union all " & _
-              " select distinct TAX6,TAX6_Rate,sum(TAX6_Amt) as TAX6_Amt  from TSPL_SD_SALE_RETURN_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX6,TAX6_Rate " & _
-              " union all " & _
-              " select distinct TAX7,TAX7_Rate,sum(TAX7_Amt) as TAX7_Amt  from TSPL_SD_SALE_RETURN_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX7,TAX7_Rate " & _
-              " union all " & _
-              " select distinct TAX8,TAX8_Rate,sum(TAX8_Amt) as TAX8_Amt  from TSPL_SD_SALE_RETURN_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX8,TAX8_Rate " & _
-              " union all " & _
-              " select distinct TAX9,TAX9_Rate,sum(TAX9_Amt) as TAX9_Amt  from TSPL_SD_SALE_RETURN_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX9,TAX9_Rate " & _
-              " union all " & _
-              " select distinct TAX10,TAX10_Rate,sum(TAX10_Amt) as TAX1_Amt  from TSPL_SD_SALE_RETURN_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX10,TAX10_Rate " & _
+        qry = " select distinct * from (" &
+              " select distinct TAX1 as Tax_RateType_Name,TAX1_Rate as Tax_RateType_Rate,sum(TAX1_Amt) as Tax_RateType_Amount  from TSPL_SD_SALE_RETURN_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX1,TAX1_Rate " &
+              " union all " &
+              " select distinct TAX2,TAX2_Rate,sum(TAX2_Amt) as TAX2_Amt  from TSPL_SD_SALE_RETURN_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX2,TAX2_Rate " &
+              " union all " &
+              " select distinct TAX3,TAX3_Rate,sum(TAX3_Amt) as TAX3_Amt  from TSPL_SD_SALE_RETURN_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX3,TAX3_Rate " &
+              " union all " &
+              " select distinct TAX4,TAX4_Rate,sum(TAX4_Amt) as TAX4_Amt  from TSPL_SD_SALE_RETURN_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX4,TAX4_Rate " &
+              " union all " &
+              " select distinct TAX5,TAX5_Rate,sum(TAX5_Amt) as TAX5_Amt  from TSPL_SD_SALE_RETURN_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX5,TAX5_Rate " &
+              " union all " &
+              " select distinct TAX6,TAX6_Rate,sum(TAX6_Amt) as TAX6_Amt  from TSPL_SD_SALE_RETURN_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX6,TAX6_Rate " &
+              " union all " &
+              " select distinct TAX7,TAX7_Rate,sum(TAX7_Amt) as TAX7_Amt  from TSPL_SD_SALE_RETURN_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX7,TAX7_Rate " &
+              " union all " &
+              " select distinct TAX8,TAX8_Rate,sum(TAX8_Amt) as TAX8_Amt  from TSPL_SD_SALE_RETURN_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX8,TAX8_Rate " &
+              " union all " &
+              " select distinct TAX9,TAX9_Rate,sum(TAX9_Amt) as TAX9_Amt  from TSPL_SD_SALE_RETURN_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX9,TAX9_Rate " &
+              " union all " &
+              " select distinct TAX10,TAX10_Rate,sum(TAX10_Amt) as TAX1_Amt  from TSPL_SD_SALE_RETURN_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX10,TAX10_Rate " &
               " ) as tax where Tax_RateType_Name is not null and Tax_RateType_Amount>0"
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
@@ -5347,49 +5383,49 @@ Public Class frmSNSaleReturn
             Dim frmCRV As New frmCrystalReportViewer()
             Dim colsTaxRateType As String = GetColumnsForTaxRateType(GetTaxRateTypeDT(txtDocNo.Value))
 
-            Dim Qry As String = "  select TSPL_SD_SALE_INVOICE_HEAD.Cust_PO_No ,convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)  as Sale_Invoice_Date,TSPL_SD_SALE_RETURN_DETAIL.Item_Net_Amt as Total_Item_Net_amt,TSPL_SD_SALE_RETURN_DETAIL.disc_Amt," & _
-                                " TSPL_LOCATION_MASTER .Add1 as loc_add1 ,TSPL_LOCATION_MASTER .Add2 as loc_add2 ,TSPL_LOCATION_MASTER .Add3 as loc_add3 ," & _
-                                " tax1.type as TaxType1,tax2.type as TaxType2,tax3.type as TaxType3,tax4.type as TaxType4,tax5.type as TaxType5,tax6.type as TaxType6,   " & _
-                                " tax7.type as TaxType7,tax8.type as TaxType8,tax9.type as TaxType9,tax10.type as TaxType10,TSPL_SD_SALE_RETURN_DETAIL.TAX1_Amt as dTAX1_Amt ,  " & _
-                                  "  TSPL_SD_SALE_RETURN_DETAIL.TAX2_Amt as dTAX2_Amt  ,TSPL_SD_SALE_RETURN_DETAIL.TAX3_Amt as dTAX3_Amt ,TSPL_SD_SALE_RETURN_DETAIL.TAX4_Amt as dTAX4_Amt  ,  " & _
-                                 " TSPL_SD_SALE_RETURN_DETAIL.TAX5_Amt as dTAX5_Amt  ,TSPL_SD_SALE_RETURN_DETAIL.TAX6_Amt as dTAX6_Amt ,TSPL_SD_SALE_RETURN_DETAIL.TAX7_Amt as dTAX7_Amt , " & _
-                                 " TSPL_SD_SALE_RETURN_DETAIL.TAX8_Amt as dTAX8_Amt ,TSPL_SD_SALE_RETURN_DETAIL.TAX9_Amt as dTAX9_Amt ,TSPL_SD_SALE_RETURN_DETAIL.TAX10_Amt as dTAX10_Amt , " & _
-                                 " TSPL_SD_SALE_RETURN_DETAIL.TAX1_Rate as dTAX1_Rate ,TSPL_SD_SALE_RETURN_DETAIL.TAX2_Rate as dTAX2_Rate ,TSPL_SD_SALE_RETURN_DETAIL.TAX3_Rate as dTAX3_Rate , " & _
-                                 " TSPL_SD_SALE_RETURN_DETAIL.TAX4_Rate as dTAX4_Rate ,TSPL_SD_SALE_RETURN_DETAIL.TAX5_Rate as dTAX5_Rate ,TSPL_SD_SALE_RETURN_DETAIL.TAX6_Rate as dTAX6_Rate , " & _
-                                 " TSPL_SD_SALE_RETURN_DETAIL.TAX7_Rate as dTAX7_Rate ,TSPL_SD_SALE_RETURN_DETAIL.TAX8_Rate as dTAX8_Rate ,TSPL_CUSTOMER_MASTER.State as Cust_Sate_Code , " & _
-                                  " TSPL_LOCATION_MASTER.State as Loc_Sate_Code,Cust_State.STATE_NAME as Cust_State_Name,Cust_State.GST_STATE_Code as Cust_GST_State_Code,  " & _
-                                 " Loc_State.STATE_NAME as Loc_State_Name, Loc_State.GST_STATE_Code as Loc_GST_State_Code,TSPL_SD_SALE_RETURN_HEAD.Is_Taxable , Cust_State.Is_GST_UT as Cust_Is_UT, " & _
-                                 " Loc_State.Is_GST_UT as Loc_Is_UT, TSPL_LOCATION_MASTER.Location_Code as Loc_Code,TSPL_LOCATION_MASTER.Location_Desc , TSPL_CUSTOMER_MASTER.Cust_Code, " & _
-                                 " TSPL_CUSTOMER_MASTER.Add1 as Cust_Add1,TSPL_CUSTOMER_MASTER.Add2 as Cust_Add2,TSPL_CUSTOMER_MASTER.Add3 as Cust_Add3, TSPL_CUSTOMER_MASTER.PAN as Cust_Pan_no," & _
-                                " convert(varchar,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) as Document_Date, Cust_City.City_Name , TSPL_ITEM_MASTER .HSN_Code  , " & _
-                                " TSPL_SD_SALE_RETURN_HEAD.Price_code ,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt1 , TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt2," & _
-                                " TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt3,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt4,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt5,  TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt6," & _
-                                " TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt7,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt8, TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt9, " & _
-                                 " TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt10,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name1 , TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name2 , " & _
-                                " TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name3 ,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name4 ,  TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name5 , " & _
-                            " TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name6 ,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name7 , TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name8 ," & _
-                             " TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name9 ,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name10  ,'1' as CopyType ," & _
-                            " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Add1  when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_cust_add1 end as P_Add1, " & _
-                            " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Add2  when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_cust_add2 end as P_Add2, " & _
-            " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Add3  when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_cust_add3 end as P_Add3," & _
-             " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .PIN_Code   when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_Pin_No  end as P_PinNo, " & _
-            " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .CST    when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_CST_No   end as P_CstNo," & _
-            " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Tin_No     when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .p_Tin_No   end as P_TinNo,  " & _
-            " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .State     when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .p_State   end as p_State,   " & _
-            " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Email    when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_Email  end as P_Email, " & _
-             " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Fax     when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_Fax   end as P_Fax,  " & _
-            " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER.Lst_No when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_LST_No    end as P_LstNo,  " & _
-            " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER.GSTNO when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_GST_No    end as P_GST_No, " & _
-             " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Cust_Code      when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_cust_code   end as P_CustCode, " & _
-            " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Customer_Name       when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_cust_name    " & _
-            " end as P_Cust_Name,  case when coalesce(p_cust.P_cust_code,'')='' then Cust_City    .City_Name       when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_City_Name   " & _
-            " end as P_City_Name,  case when coalesce(p_cust.P_cust_code,'')='' then Cust_State .state_Name       when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_state_Name  " & _
-             " end as P_State_Name, case when coalesce(p_cust.P_cust_code,'')='' then     case when ISNULL(TSPL_CUSTOMER_MASTER.Phone1,'')='(+__)__________' then '' " & _
-            " else TSPL_CUSTOMER_MASTER.Phone1 end +  Case When   ISNULL(TSPL_CUSTOMER_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_CUSTOMER_MASTER.Phone2 Else'' End " & _
-             " when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_Phn    end as P_Cust_Phn, case when coalesce(p_cust.P_Pan,'')='' then TSPL_CUSTOMER_MASTER  .PAN      " & _
-            " when coalesce(p_cust.P_Pan,'')<>'' then p_cust.P_Pan   end as P_Pan, TSPL_LOCATION_MASTER .GSTNO as Loc_GSTIN, TSPL_CUSTOMER_MASTER.GSTNO as Cust_GSTIN, " & _
-            " TSPL_SD_SALE_RETURN_HEAD.Total_Amt,TSPL_TAX_GROUP_MASTER.Is_Tax_Exempted , TSPL_SD_SALE_RETURN_DETAIL.line_no, TSPL_SD_SALE_INVOICE_HEAD.ewaybillno, " & _
-            "  convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.ewaybillDate,103) as ewaybillDate, TSPL_SD_SALE_INVOICE_HEAD.electronic_ref_no,  " & _
+            Dim Qry As String = "  select TSPL_SD_SALE_INVOICE_HEAD.Cust_PO_No ,convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)  as Sale_Invoice_Date,TSPL_SD_SALE_RETURN_DETAIL.Item_Net_Amt as Total_Item_Net_amt,TSPL_SD_SALE_RETURN_DETAIL.disc_Amt," &
+                                " TSPL_LOCATION_MASTER .Add1 as loc_add1 ,TSPL_LOCATION_MASTER .Add2 as loc_add2 ,TSPL_LOCATION_MASTER .Add3 as loc_add3 ," &
+                                " tax1.type as TaxType1,tax2.type as TaxType2,tax3.type as TaxType3,tax4.type as TaxType4,tax5.type as TaxType5,tax6.type as TaxType6,   " &
+                                " tax7.type as TaxType7,tax8.type as TaxType8,tax9.type as TaxType9,tax10.type as TaxType10,TSPL_SD_SALE_RETURN_DETAIL.TAX1_Amt as dTAX1_Amt ,  " &
+                                  "  TSPL_SD_SALE_RETURN_DETAIL.TAX2_Amt as dTAX2_Amt  ,TSPL_SD_SALE_RETURN_DETAIL.TAX3_Amt as dTAX3_Amt ,TSPL_SD_SALE_RETURN_DETAIL.TAX4_Amt as dTAX4_Amt  ,  " &
+                                 " TSPL_SD_SALE_RETURN_DETAIL.TAX5_Amt as dTAX5_Amt  ,TSPL_SD_SALE_RETURN_DETAIL.TAX6_Amt as dTAX6_Amt ,TSPL_SD_SALE_RETURN_DETAIL.TAX7_Amt as dTAX7_Amt , " &
+                                 " TSPL_SD_SALE_RETURN_DETAIL.TAX8_Amt as dTAX8_Amt ,TSPL_SD_SALE_RETURN_DETAIL.TAX9_Amt as dTAX9_Amt ,TSPL_SD_SALE_RETURN_DETAIL.TAX10_Amt as dTAX10_Amt , " &
+                                 " TSPL_SD_SALE_RETURN_DETAIL.TAX1_Rate as dTAX1_Rate ,TSPL_SD_SALE_RETURN_DETAIL.TAX2_Rate as dTAX2_Rate ,TSPL_SD_SALE_RETURN_DETAIL.TAX3_Rate as dTAX3_Rate , " &
+                                 " TSPL_SD_SALE_RETURN_DETAIL.TAX4_Rate as dTAX4_Rate ,TSPL_SD_SALE_RETURN_DETAIL.TAX5_Rate as dTAX5_Rate ,TSPL_SD_SALE_RETURN_DETAIL.TAX6_Rate as dTAX6_Rate , " &
+                                 " TSPL_SD_SALE_RETURN_DETAIL.TAX7_Rate as dTAX7_Rate ,TSPL_SD_SALE_RETURN_DETAIL.TAX8_Rate as dTAX8_Rate ,TSPL_CUSTOMER_MASTER.State as Cust_Sate_Code , " &
+                                  " TSPL_LOCATION_MASTER.State as Loc_Sate_Code,Cust_State.STATE_NAME as Cust_State_Name,Cust_State.GST_STATE_Code as Cust_GST_State_Code,  " &
+                                 " Loc_State.STATE_NAME as Loc_State_Name, Loc_State.GST_STATE_Code as Loc_GST_State_Code,TSPL_SD_SALE_RETURN_HEAD.Is_Taxable , Cust_State.Is_GST_UT as Cust_Is_UT, " &
+                                 " Loc_State.Is_GST_UT as Loc_Is_UT, TSPL_LOCATION_MASTER.Location_Code as Loc_Code,TSPL_LOCATION_MASTER.Location_Desc , TSPL_CUSTOMER_MASTER.Cust_Code, " &
+                                 " TSPL_CUSTOMER_MASTER.Add1 as Cust_Add1,TSPL_CUSTOMER_MASTER.Add2 as Cust_Add2,TSPL_CUSTOMER_MASTER.Add3 as Cust_Add3, TSPL_CUSTOMER_MASTER.PAN as Cust_Pan_no," &
+                                " convert(varchar,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) as Document_Date, Cust_City.City_Name , TSPL_ITEM_MASTER .HSN_Code  , " &
+                                " TSPL_SD_SALE_RETURN_HEAD.Price_code ,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt1 , TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt2," &
+                                " TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt3,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt4,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt5,  TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt6," &
+                                " TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt7,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt8, TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt9, " &
+                                 " TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt10,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name1 , TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name2 , " &
+                                " TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name3 ,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name4 ,  TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name5 , " &
+                            " TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name6 ,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name7 , TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name8 ," &
+                             " TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name9 ,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name10  ,'1' as CopyType ," &
+                            " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Add1  when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_cust_add1 end as P_Add1, " &
+                            " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Add2  when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_cust_add2 end as P_Add2, " &
+            " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Add3  when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_cust_add3 end as P_Add3," &
+             " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .PIN_Code   when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_Pin_No  end as P_PinNo, " &
+            " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .CST    when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_CST_No   end as P_CstNo," &
+            " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Tin_No     when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .p_Tin_No   end as P_TinNo,  " &
+            " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .State     when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .p_State   end as p_State,   " &
+            " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Email    when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_Email  end as P_Email, " &
+             " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Fax     when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_Fax   end as P_Fax,  " &
+            " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER.Lst_No when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_LST_No    end as P_LstNo,  " &
+            " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER.GSTNO when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_GST_No    end as P_GST_No, " &
+             " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Cust_Code      when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_cust_code   end as P_CustCode, " &
+            " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Customer_Name       when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_cust_name    " &
+            " end as P_Cust_Name,  case when coalesce(p_cust.P_cust_code,'')='' then Cust_City    .City_Name       when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_City_Name   " &
+            " end as P_City_Name,  case when coalesce(p_cust.P_cust_code,'')='' then Cust_State .state_Name       when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_state_Name  " &
+             " end as P_State_Name, case when coalesce(p_cust.P_cust_code,'')='' then     case when ISNULL(TSPL_CUSTOMER_MASTER.Phone1,'')='(+__)__________' then '' " &
+            " else TSPL_CUSTOMER_MASTER.Phone1 end +  Case When   ISNULL(TSPL_CUSTOMER_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_CUSTOMER_MASTER.Phone2 Else'' End " &
+             " when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_Phn    end as P_Cust_Phn, case when coalesce(p_cust.P_Pan,'')='' then TSPL_CUSTOMER_MASTER  .PAN      " &
+            " when coalesce(p_cust.P_Pan,'')<>'' then p_cust.P_Pan   end as P_Pan, TSPL_LOCATION_MASTER .GSTNO as Loc_GSTIN, TSPL_CUSTOMER_MASTER.GSTNO as Cust_GSTIN, " &
+            " TSPL_SD_SALE_RETURN_HEAD.Total_Amt,TSPL_TAX_GROUP_MASTER.Is_Tax_Exempted , TSPL_SD_SALE_RETURN_DETAIL.line_no, TSPL_SD_SALE_INVOICE_HEAD.ewaybillno, " &
+            "  convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.ewaybillDate,103) as ewaybillDate, TSPL_SD_SALE_INVOICE_HEAD.electronic_ref_no,  " &
             "   '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy") + "' as RunDate, TSPL_SD_SALE_RETURN_HEAD.Inv_No, TSPL_SD_SALE_RETURN_HEAD.Dept_Desc ,   TSPL_SD_SALE_RETURN_HEAD.Terms_Code,TSPL_SD_SALE_RETURN_HEAD.VehicleNo , "
             Qry += " TSPL_SD_SALE_RETURN_DETAIL .Specification as  specification,   TSPL_SD_SALE_RETURN_HEAD.Document_Code as DocNo , TSPL_SD_SALE_RETURN_HEAD.Description, "
             Qry += " TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No, TSPL_SD_SALE_INVOICE_HEAD.Total_Amt as SaleInvoiceAmt , TSPL_SD_SALE_RETURN_HEAD.Item_Type ,  TSPL_SD_SALE_RETURN_HEAD.Customer_Code, "
@@ -5409,12 +5445,12 @@ Public Class frmSNSaleReturn
             Qry += " tax10.Tax_Code_Desc as tax10name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax10_amt,0) as txt10amt, TSPL_SD_SALE_RETURN_HEAD. TAX1_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX2_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX3_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX4_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX5_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX6_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX7_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX8_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX9_Rate ,TSPL_SD_SALE_RETURN_HEAD.TAX10_Rate, "
             Qry += " isnull(TSPL_SD_SALE_RETURN_HEAD .Total_Tax_Amt,0) as total_tax_amt, TSPL_SD_SALE_RETURN_HEAD.Total_Amt as DocAmt,  TSPL_COMPANY_MASTER.Comp_Name as compname,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,ISNULL(tspl_company_Master.ADD1,'') as address1,"
             Qry += " TSPL_SD_SALE_RETURN_DETAIL.item_code as item_code, TSPL_ITEM_MASTER.Item_Desc   as itemdesc, TSPL_SD_SALE_RETURN_DETAIL.Row_Type,TSPL_SD_SALE_RETURN_DETAIL.Qty as qty,TSPL_SD_SALE_RETURN_DETAIL.unit_code as uom,TSPL_SD_SALE_RETURN_DETAIL.item_cost as itemcost,TSPL_SD_SALE_RETURN_HEAD.TAX1,TSPL_SD_SALE_RETURN_HEAD.TAX2,TSPL_SD_SALE_RETURN_HEAD.TAX3,TSPL_SD_SALE_RETURN_HEAD.TAX4,TSPL_SD_SALE_RETURN_HEAD.TAX5,TSPL_SD_SALE_RETURN_HEAD.Total_Add_Charge, "
-            Qry += " TSPL_SD_SALES_ORDER_HEAD.Document_Code as SalesOrderNo, TSPL_SD_SALES_ORDER_HEAD.Remarks as SO_Head_Remarks, TSPL_SD_SHIPMENT_HEAD.Document_Code as ShippmentNo, convert(varchar(15),TSPL_SD_SHIPMENT_HEAD.Document_Date,106) as ShippmentDate, TSPL_Customer_Invoice_Head.Document_No as CustomerInvoiceNo, " & _
-                   " convert(varchar(15),TSPL_Customer_Invoice_Head.Document_Date,106) as CustomerInvoiceDate,TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No as SaleInvoiceNo, " & _
-                   " convert(varchar(15),TSPL_SD_SALE_INVOICE_HEAD.Inv_Date,106) as SaleInvoiceDate, TSPL_CUSTOMER_MASTER.Customer_Name, (case when ISNULL(TSPL_CUSTOMER_MASTER.ADD1,'')<> '' then TSPL_CUSTOMER_MASTER.ADD1 else '' end + case when ISNULL(TSPL_CUSTOMER_MASTER.ADD2,'')<> '' then ', ' +TSPL_CUSTOMER_MASTER.ADD2 else '' end + case when ISNULL(TSPL_CUSTOMER_MASTER.ADD3,'')<> '' then ', ' +TSPL_CUSTOMER_MASTER.ADD3 else '' end ) as CustAddress,	" & _
-                   " TSPL_COMPANY_MASTER.Tin_No as TinNo, TSPL_COMPANY_MASTER.CST_LST as CstNo, (case when ISNULL(TSPL_COMPANY_MASTER.ADD1,'')<> '' then TSPL_COMPANY_MASTER.ADD1 else '' end + case when ISNULL(TSPL_COMPANY_MASTER.ADD2,'')<> '' then ', ' +TSPL_COMPANY_MASTER.ADD2 else '' end + " & _
-                   " case when ISNULL(TSPL_COMPANY_MASTER.ADD3,'')<> '' then ', ' +TSPL_COMPANY_MASTER.ADD3 else '' end ) as CompAddress, " & _
-                   " COALESCE(TSPL_SD_SALES_ORDER_DETAIL.Qty,0) as OrdQty, COALESCE(TSPL_SD_SALE_RETURN_DETAIL.MRP,0) AS MRP,  " & _
+            Qry += " TSPL_SD_SALES_ORDER_HEAD.Document_Code as SalesOrderNo, TSPL_SD_SALES_ORDER_HEAD.Remarks as SO_Head_Remarks, TSPL_SD_SHIPMENT_HEAD.Document_Code as ShippmentNo, convert(varchar(15),TSPL_SD_SHIPMENT_HEAD.Document_Date,106) as ShippmentDate, TSPL_Customer_Invoice_Head.Document_No as CustomerInvoiceNo, " &
+                   " convert(varchar(15),TSPL_Customer_Invoice_Head.Document_Date,106) as CustomerInvoiceDate,TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No as SaleInvoiceNo, " &
+                   " convert(varchar(15),TSPL_SD_SALE_INVOICE_HEAD.Inv_Date,106) as SaleInvoiceDate, TSPL_CUSTOMER_MASTER.Customer_Name, (case when ISNULL(TSPL_CUSTOMER_MASTER.ADD1,'')<> '' then TSPL_CUSTOMER_MASTER.ADD1 else '' end + case when ISNULL(TSPL_CUSTOMER_MASTER.ADD2,'')<> '' then ', ' +TSPL_CUSTOMER_MASTER.ADD2 else '' end + case when ISNULL(TSPL_CUSTOMER_MASTER.ADD3,'')<> '' then ', ' +TSPL_CUSTOMER_MASTER.ADD3 else '' end ) as CustAddress,	" &
+                   " TSPL_COMPANY_MASTER.Tin_No as TinNo, TSPL_COMPANY_MASTER.CST_LST as CstNo, (case when ISNULL(TSPL_COMPANY_MASTER.ADD1,'')<> '' then TSPL_COMPANY_MASTER.ADD1 else '' end + case when ISNULL(TSPL_COMPANY_MASTER.ADD2,'')<> '' then ', ' +TSPL_COMPANY_MASTER.ADD2 else '' end + " &
+                   " case when ISNULL(TSPL_COMPANY_MASTER.ADD3,'')<> '' then ', ' +TSPL_COMPANY_MASTER.ADD3 else '' end ) as CompAddress, " &
+                   " COALESCE(TSPL_SD_SALES_ORDER_DETAIL.Qty,0) as OrdQty, COALESCE(TSPL_SD_SALE_RETURN_DETAIL.MRP,0) AS MRP,  " &
                    " COALESCE(TSPL_SD_SALE_RETURN_DETAIL.Qty,0) as ReturnQty, COALESCE(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0) as CustInvQty, (COALESCE(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0) - COALESCE(TSPL_SD_SALE_RETURN_DETAIL.Qty,0)) as Difference, TSPL_SD_SALE_RETURN_DETAIL.Remarks, TSPL_ITEM_BARCODE.Bar_Code "
             Qry += " " & colsTaxRateType & ",TSPL_SD_SALE_RETURN_DETAIL.Amount,TSPL_SD_SALE_RETURN_DETAIL.tax1_rate as VAT,TSPL_SD_SALE_RETURN_DETAIL.tax1_amt as VAT_Amt  from TSPL_SD_SALE_RETURN_DETAIL  "
             Qry += " LEFT outer join TSPL_SD_SALE_RETURN_HEAD  on TSPL_SD_SALE_RETURN_HEAD.Document_Code  =TSPL_SD_SALE_RETURN_DETAIL.Document_Code   "
@@ -5433,12 +5469,12 @@ Public Class frmSNSaleReturn
             Qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code=  TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location "
             Qry += " Left Outer Join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code "
             Qry += " LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No "
-            Qry += " LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE = TSPL_SD_SALE_INVOICE_HEAD.Document_Code and TSPL_SD_SALE_INVOICE_DETAIL.LINE_NO = TSPL_SD_SALE_RETURN_DETAIL.LINE_NO  and TSPL_SD_SALE_INVOICE_DETAIL.Item_Code= TSPL_SD_SALE_RETURN_DETAIL.Item_Code " & _
-                   " LEFT OUTER JOIN TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No   " & _
-                   " LEFT OUTER JOIN TSPL_SD_SALES_ORDER_HEAD ON TSPL_SD_SALES_ORDER_HEAD.Document_Code= TSPL_SD_SHIPMENT_HEAD.Against_Sales_Order " & _
-                   " LEFT OUTER JOIN TSPL_SD_SALES_ORDER_DETAIL on TSPL_SD_SALES_ORDER_DETAIL.Document_Code = TSPL_SD_SALES_ORDER_HEAD.Document_Code and TSPL_SD_SALES_ORDER_DETAIL.LINE_NO = TSPL_SD_SALE_RETURN_DETAIL.LINE_NO and TSPL_SD_SALES_ORDER_DETAIL.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code " & _
-                   " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Against_Sale_Return_No = TSPL_SD_SALE_RETURN_HEAD.Document_Code " & _
-                   " LEFT OUTER JOIN TSPL_ITEM_BARCODE ON TSPL_ITEM_BARCODE.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code AND " & _
+            Qry += " LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE = TSPL_SD_SALE_INVOICE_HEAD.Document_Code and TSPL_SD_SALE_INVOICE_DETAIL.LINE_NO = TSPL_SD_SALE_RETURN_DETAIL.LINE_NO  and TSPL_SD_SALE_INVOICE_DETAIL.Item_Code= TSPL_SD_SALE_RETURN_DETAIL.Item_Code " &
+                   " LEFT OUTER JOIN TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No   " &
+                   " LEFT OUTER JOIN TSPL_SD_SALES_ORDER_HEAD ON TSPL_SD_SALES_ORDER_HEAD.Document_Code= TSPL_SD_SHIPMENT_HEAD.Against_Sales_Order " &
+                   " LEFT OUTER JOIN TSPL_SD_SALES_ORDER_DETAIL on TSPL_SD_SALES_ORDER_DETAIL.Document_Code = TSPL_SD_SALES_ORDER_HEAD.Document_Code and TSPL_SD_SALES_ORDER_DETAIL.LINE_NO = TSPL_SD_SALE_RETURN_DETAIL.LINE_NO and TSPL_SD_SALES_ORDER_DETAIL.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code " &
+                   " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Against_Sale_Return_No = TSPL_SD_SALE_RETURN_HEAD.Document_Code " &
+                   " LEFT OUTER JOIN TSPL_ITEM_BARCODE ON TSPL_ITEM_BARCODE.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code AND " &
                    " TSPL_ITEM_BARCODE.Item_MRP = TSPL_SD_SALE_RETURN_DETAIL.MRP "
             Qry += " left outer join TSPL_CITY_MASTER as Cust_City on Cust_City.City_Code =TSPL_CUSTOMER_MASTER.City_Code  "
             Qry += " left join TSPL_STATE_MASTER as Cust_State on Cust_State.STATE_CODE =TSPL_CUSTOMER_MASTER.State   "
@@ -5623,7 +5659,7 @@ Public Class frmSNSaleReturn
                                 gv1.CurrentRow.Cells(colRate).ReadOnly = Not chkRateUserCustomer.Checked
                             End If
                         End If
-                       
+
                     Else
                         gv1.CurrentRow.Cells(colRate).ReadOnly = True
                     End If
@@ -5840,7 +5876,7 @@ Public Class frmSNSaleReturn
 
             Dim dblFAmt As Double = 0
 
-           
+
             'If chkVendorGrossReceipt.Checked OrElse clsCommon.CompairString(cboItemType.SelectedValue, "F") = CompairStringResult.Equal Then
             '    dblQty = dblQty
             'End If
@@ -5856,22 +5892,22 @@ Public Class frmSNSaleReturn
             Dim dblItemWeight As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colItemWeight).Value)
             Dim dblheadDiscamt As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colHeadDiscamt).Value)
             Dim dblOrgBasicRate As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colOrgCost).Value)
-            Dim dblConvBasicRate As Double = dblOrgBasicRate * dblConvF
+            Dim dblConvBasicRate As Double = dblOrgBasicRate * dblQty 'dblConvF
             Dim dblMRPAmt As Double = dblQty * dblMRP
             If clsCommon.CompairString(ddlReturnType.SelectedValue, "P") = CompairStringResult.Equal Then
                 If dblConvF = 1 And dblOrgBasicRate Then
                     dblConvBasicRate = dblRate
                 Else
-                    dblConvBasicRate = dblRate * dblConvF
+                    dblConvBasicRate = dblRate * dblQty 'dblConvF
                 End If
             Else
                 If dblConvF = 1 And dblOrgBasicRate Then
                     dblConvBasicRate = dblOrgBasicRate
                 Else
-                    dblConvBasicRate = dblOrgBasicRate * dblConvF
+                    dblConvBasicRate = dblOrgBasicRate * dblQty 'dblConvF
                 End If
             End If
-           
+
             Dim dblBasicAmt As Double = 0 'dblQty * dblConvBasicRate
             'dblBasicRate = dblConvBasicRate
             'dblRate = dblBasicRate
@@ -5882,16 +5918,16 @@ Public Class frmSNSaleReturn
             If clsCommon.CompairString(ddlReturnType.SelectedValue, "P") = CompairStringResult.Equal Then
                 dblBasicAmt = dblConvBasicRate
                 dblBasicRate = dblConvBasicRate
-                dblRate = dblConvBasicRate
+                'dblRate = dblRate 'dblConvBasicRate
                 dblReturnAmt = dblConvBasicRate
                 dblDamageAmt = 0
                 dblAmt = dblBasicAmt
             Else
-                dblBasicAmt = dblQty * dblConvBasicRate
+                dblBasicAmt = dblConvBasicRate 'dblQty * dblConvBasicRate
                 dblBasicRate = dblConvBasicRate
-                dblRate = dblBasicRate
-                dblReturnAmt = (dblQty * dblRate)
-                dblDamageAmt = (dblDamageQty * dblRate)
+                'dblRate = dblRate 'dblBasicRate
+                dblReturnAmt = dblQty * dblMRP '(dblQty * dblRate)
+                dblDamageAmt = dblDamageQty * dblMRP '(dblDamageQty * dblRate)
                 dblAmt = dblReturnAmt + dblDamageAmt
             End If
             If clsCommon.CompairString(ddlReturnType.SelectedValue, "P") = CompairStringResult.Equal Then
@@ -5907,7 +5943,7 @@ Public Class frmSNSaleReturn
                     dblAmt = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colAmt).Value)
                 End If
             End If
-           
+
             Dim dblDisPer As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colDisPer).Value)
             Dim dblDisAmt As Double = (dblAmt * dblDisPer) / 100
             Dim dblHeadDisPer As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colHeaDDisPer).Value)
@@ -5917,7 +5953,7 @@ Public Class frmSNSaleReturn
             Dim dblAmtAfterDis As Double = dblAmt - dblDisAmt - dblheadDiscamt - dblHeadPerDisAmt
             Dim dblAbatementRate As Double = gv1.CurrentRow.Cells(colAbatementPer).Value
             Dim dblAbatementAmt As Double = ((dblMRP * dblAbatementRate) / 100) * dblQty
-            
+
 
             For ii As Integer = 1 To 10
                 Dim Strii As String = clsCommon.myCstr(ii)
@@ -5989,7 +6025,7 @@ Public Class frmSNSaleReturn
             gv1.Rows(IntRowNo).Cells(colTotalBasicAmount).Value = Math.Round(dblBasicAmt, 2)
             gv1.Rows(IntRowNo).Cells(colTotItemWt).Value = Math.Round(dblConvF * dblItemWeight * dblQty, 2)
             'gv1.Rows(IntRowNo).Cells(colTotalCustDiscount).Value = Math.Round(dblTotCustDisc, 2)
-            gv1.Rows(IntRowNo).Cells(colRate).Value = dblConvBasicRate
+            gv1.Rows(IntRowNo).Cells(colRate).Value = dblRate 'dblConvBasicRate
             gv1.Rows(IntRowNo).Cells(colHeadDisPerAmt).Value = Math.Round(dblHeadPerDisAmt, 2)
             gv1.Rows(IntRowNo).Cells(colTotalDiscountAmount).Value = Math.Round(dblTotDiscAmt, 2)
         Catch ex As Exception
@@ -6008,7 +6044,7 @@ Public Class frmSNSaleReturn
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage
@@ -6207,12 +6243,12 @@ Public Class frmSNSaleReturn
         atchmntqry += " tax10.Tax_Code_Desc as tax10name,isnull (TSPL_SD_SALE_RETURN_HEAD.tax10_amt,0) as txt10amt,  "
         atchmntqry += " isnull(TSPL_SD_SALE_RETURN_HEAD .Total_Tax_Amt,0) as total_tax_amt, TSPL_SD_SALE_RETURN_HEAD.Total_Amt as DocAmt,  TSPL_COMPANY_MASTER.Comp_Name as compname,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,ISNULL(tspl_company_Master.ADD1,'') as address1,"
         atchmntqry += " TSPL_SD_SALE_RETURN_DETAIL.item_code as item_code, TSPL_ITEM_MASTER.Item_Desc   as itemdesc, TSPL_SD_SALE_RETURN_DETAIL.Row_Type,TSPL_SD_SALE_RETURN_DETAIL.Qty as qty,TSPL_SD_SALE_RETURN_DETAIL.unit_code as uom,TSPL_SD_SALE_RETURN_DETAIL.item_cost as itemcost,TSPL_SD_SALE_RETURN_DETAIL.amount as amount,TSPL_SD_SALE_RETURN_HEAD.TAX1,TSPL_SD_SALE_RETURN_HEAD.TAX2,TSPL_SD_SALE_RETURN_HEAD.TAX3,TSPL_SD_SALE_RETURN_HEAD.TAX4,TSPL_SD_SALE_RETURN_HEAD.TAX5,TSPL_SD_SALE_RETURN_HEAD.Total_Add_Charge, "
-        atchmntqry += " TSPL_SD_SALES_ORDER_HEAD.Document_Code as SalesOrderNo, TSPL_SD_SALES_ORDER_HEAD.Remarks as SO_Head_Remarks, TSPL_SD_SHIPMENT_HEAD.Document_Code as ShippmentNo, convert(varchar(15),TSPL_SD_SHIPMENT_HEAD.Document_Date,106) as ShippmentDate, TSPL_Customer_Invoice_Head.Document_No as CustomerInvoiceNo, " & _
-               " convert(varchar(15),TSPL_Customer_Invoice_Head.Document_Date,106) as CustomerInvoiceDate,TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No as SaleInvoiceNo, " & _
-               " convert(varchar(15),TSPL_SD_SALE_INVOICE_HEAD.Inv_Date,106) as SaleInvoiceDate, TSPL_CUSTOMER_MASTER.Customer_Name, (case when ISNULL(TSPL_CUSTOMER_MASTER.ADD1,'')<> '' then TSPL_CUSTOMER_MASTER.ADD1 else '' end + case when ISNULL(TSPL_CUSTOMER_MASTER.ADD2,'')<> '' then ', ' +TSPL_CUSTOMER_MASTER.ADD2 else '' end + case when ISNULL(TSPL_CUSTOMER_MASTER.ADD3,'')<> '' then ', ' +TSPL_CUSTOMER_MASTER.ADD3 else '' end ) as CustAddress,	" & _
-               " TSPL_COMPANY_MASTER.Tin_No as TinNo, TSPL_COMPANY_MASTER.CST_LST as CstNo, (case when ISNULL(TSPL_COMPANY_MASTER.ADD1,'')<> '' then TSPL_COMPANY_MASTER.ADD1 else '' end + case when ISNULL(TSPL_COMPANY_MASTER.ADD2,'')<> '' then ', ' +TSPL_COMPANY_MASTER.ADD2 else '' end + " & _
-               " case when ISNULL(TSPL_COMPANY_MASTER.ADD3,'')<> '' then ', ' +TSPL_COMPANY_MASTER.ADD3 else '' end ) as CompAddress, " & _
-               " COALESCE(TSPL_SD_SALES_ORDER_DETAIL.Qty,0) as OrdQty, COALESCE(TSPL_SD_SALE_RETURN_DETAIL.MRP,0) AS MRP, TSPL_SD_SALE_RETURN_DETAIL.unit_code as UOM, " & _
+        atchmntqry += " TSPL_SD_SALES_ORDER_HEAD.Document_Code as SalesOrderNo, TSPL_SD_SALES_ORDER_HEAD.Remarks as SO_Head_Remarks, TSPL_SD_SHIPMENT_HEAD.Document_Code as ShippmentNo, convert(varchar(15),TSPL_SD_SHIPMENT_HEAD.Document_Date,106) as ShippmentDate, TSPL_Customer_Invoice_Head.Document_No as CustomerInvoiceNo, " &
+               " convert(varchar(15),TSPL_Customer_Invoice_Head.Document_Date,106) as CustomerInvoiceDate,TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No as SaleInvoiceNo, " &
+               " convert(varchar(15),TSPL_SD_SALE_INVOICE_HEAD.Inv_Date,106) as SaleInvoiceDate, TSPL_CUSTOMER_MASTER.Customer_Name, (case when ISNULL(TSPL_CUSTOMER_MASTER.ADD1,'')<> '' then TSPL_CUSTOMER_MASTER.ADD1 else '' end + case when ISNULL(TSPL_CUSTOMER_MASTER.ADD2,'')<> '' then ', ' +TSPL_CUSTOMER_MASTER.ADD2 else '' end + case when ISNULL(TSPL_CUSTOMER_MASTER.ADD3,'')<> '' then ', ' +TSPL_CUSTOMER_MASTER.ADD3 else '' end ) as CustAddress,	" &
+               " TSPL_COMPANY_MASTER.Tin_No as TinNo, TSPL_COMPANY_MASTER.CST_LST as CstNo, (case when ISNULL(TSPL_COMPANY_MASTER.ADD1,'')<> '' then TSPL_COMPANY_MASTER.ADD1 else '' end + case when ISNULL(TSPL_COMPANY_MASTER.ADD2,'')<> '' then ', ' +TSPL_COMPANY_MASTER.ADD2 else '' end + " &
+               " case when ISNULL(TSPL_COMPANY_MASTER.ADD3,'')<> '' then ', ' +TSPL_COMPANY_MASTER.ADD3 else '' end ) as CompAddress, " &
+               " COALESCE(TSPL_SD_SALES_ORDER_DETAIL.Qty,0) as OrdQty, COALESCE(TSPL_SD_SALE_RETURN_DETAIL.MRP,0) AS MRP, TSPL_SD_SALE_RETURN_DETAIL.unit_code as UOM, " &
                " COALESCE(TSPL_SD_SALE_RETURN_DETAIL.Qty,0) as ReturnQty, COALESCE(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0) as CustInvQty, (COALESCE(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0) - COALESCE(TSPL_SD_SALE_RETURN_DETAIL.Qty,0)) as Difference, TSPL_SD_SALE_RETURN_DETAIL.Remarks, TSPL_ITEM_BARCODE.Bar_Code "
         atchmntqry += " from TSPL_SD_SALE_RETURN_DETAIL  "
         atchmntqry += " LEFT outer join TSPL_SD_SALE_RETURN_HEAD  on TSPL_SD_SALE_RETURN_HEAD.Document_Code  =TSPL_SD_SALE_RETURN_DETAIL.Document_Code   "
@@ -6231,12 +6267,12 @@ Public Class frmSNSaleReturn
         atchmntqry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code=  TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location "
         atchmntqry += " Left Outer Join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code "
         atchmntqry += " LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No "
-        atchmntqry += " LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE = TSPL_SD_SALE_INVOICE_HEAD.Document_Code and TSPL_SD_SALE_INVOICE_DETAIL.LINE_NO = TSPL_SD_SALE_RETURN_DETAIL.LINE_NO  and TSPL_SD_SALE_INVOICE_DETAIL.Item_Code= TSPL_SD_SALE_RETURN_DETAIL.Item_Code " & _
-               " LEFT OUTER JOIN TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No = TSPL_SD_SALE_INVOICE_HEAD.Document_Code " & _
-               " LEFT OUTER JOIN TSPL_SD_SALES_ORDER_HEAD ON TSPL_SD_SALES_ORDER_HEAD.Document_Code= TSPL_SD_SHIPMENT_HEAD.Against_Sales_Order " & _
-               " LEFT OUTER JOIN TSPL_SD_SALES_ORDER_DETAIL on TSPL_SD_SALES_ORDER_DETAIL.Document_Code = TSPL_SD_SALES_ORDER_HEAD.Document_Code and TSPL_SD_SALES_ORDER_DETAIL.LINE_NO = TSPL_SD_SALE_RETURN_DETAIL.LINE_NO and TSPL_SD_SALES_ORDER_DETAIL.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code " & _
-               " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Against_Sale_Return_No = TSPL_SD_SALE_RETURN_HEAD.Document_Code " & _
-               " LEFT OUTER JOIN TSPL_ITEM_BARCODE ON TSPL_ITEM_BARCODE.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code AND " & _
+        atchmntqry += " LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE = TSPL_SD_SALE_INVOICE_HEAD.Document_Code and TSPL_SD_SALE_INVOICE_DETAIL.LINE_NO = TSPL_SD_SALE_RETURN_DETAIL.LINE_NO  and TSPL_SD_SALE_INVOICE_DETAIL.Item_Code= TSPL_SD_SALE_RETURN_DETAIL.Item_Code " &
+               " LEFT OUTER JOIN TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No = TSPL_SD_SALE_INVOICE_HEAD.Document_Code " &
+               " LEFT OUTER JOIN TSPL_SD_SALES_ORDER_HEAD ON TSPL_SD_SALES_ORDER_HEAD.Document_Code= TSPL_SD_SHIPMENT_HEAD.Against_Sales_Order " &
+               " LEFT OUTER JOIN TSPL_SD_SALES_ORDER_DETAIL on TSPL_SD_SALES_ORDER_DETAIL.Document_Code = TSPL_SD_SALES_ORDER_HEAD.Document_Code and TSPL_SD_SALES_ORDER_DETAIL.LINE_NO = TSPL_SD_SALE_RETURN_DETAIL.LINE_NO and TSPL_SD_SALES_ORDER_DETAIL.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code " &
+               " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Against_Sale_Return_No = TSPL_SD_SALE_RETURN_HEAD.Document_Code " &
+               " LEFT OUTER JOIN TSPL_ITEM_BARCODE ON TSPL_ITEM_BARCODE.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code AND " &
                " TSPL_ITEM_BARCODE.Item_MRP = TSPL_SD_SALE_RETURN_DETAIL.MRP "
         atchmntqry += " where 2=2  and  TSPL_SD_SALE_RETURN_HEAD.Document_Code = '" + strcode + "'"
         SetItemWiseTax(clsDBFuncationality.GetDataTable(atchmntqry), txtDocNo.Value)

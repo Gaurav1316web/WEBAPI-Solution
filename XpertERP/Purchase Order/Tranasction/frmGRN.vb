@@ -5754,7 +5754,7 @@ Public Class frmGRN
                 lblSubLocation.Text = clsLocation.GetName(objPO.Sublocation_Code, Nothing)
                 txtSubLocation.Enabled = False
                 TxtRetention.Text = objPO.Retention
-                'End If
+                'End If 
                 If (clsCommon.myLen(txtDesc.Text) <= 0) Then
                     txtDesc.Text = objPO.Description
                 End If
@@ -5762,7 +5762,8 @@ Public Class frmGRN
                     txtRemarks.Text = objPO.Remarks
                 End If
                 If (clsCommon.myLen(txtRefNo.Text) <= 0) Then
-                    txtRefNo.Text = objPO.Ref_No
+                    'txtRefNo.Text = objPO.Ref_No
+                    txtRefNo.Text = objPO.RefTendorNo
                 End If
 
                 cmbGRNType.SelectedValue = objPO.PurchaseOrder_Type
