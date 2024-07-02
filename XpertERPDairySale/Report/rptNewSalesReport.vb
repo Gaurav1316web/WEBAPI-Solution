@@ -63,23 +63,24 @@ Public Class rptNewSalesReport
                     Exit Sub
                 End If
             End If
-
+            Dim whrcls As String = ""
             If rbtnDemand.IsChecked Then
                 qry = " ,TSPL_ITEM_MASTER.Sku_Seq FROM TSPL_BOOKING_DETAIL 
             left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_BOOKING_DETAIL.Item_Code  left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_No = TSPL_BOOKING_DETAIL.Document_No
             left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_BOOKING_DETAIL.Route_No
-            where 2 = 2  AND TSPL_BOOKING_MATSER.Posted = 1 and  convert(date,TSPL_BOOKING_MATSER.Document_Date,103) >= Convert(date,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "',103) and convert(date,TSPL_BOOKING_MATSER.Document_Date,103) 
+            where 2 = 2 "
+                whrcls = " AND TSPL_BOOKING_MATSER.Posted = 1 and  convert(date,TSPL_BOOKING_MATSER.Document_Date,103) >= Convert(date,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "',103) and convert(date,TSPL_BOOKING_MATSER.Document_Date,103) 
             <= Convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103) "
 
                 If txtRoute.arrValueMember IsNot Nothing Then
-                    qry += " and TSPL_BOOKING_DETAIL.Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
+                    whrcls += " and TSPL_BOOKING_DETAIL.Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
                 End If
 
                 If clsCommon.myLen(txtCustomer.Value) > 0 Then
-                    qry += " and TSPL_CUSTOMER_MASTER.Cust_Code = '" + clsCommon.myCstr(txtCustomer.Value) + "' "
+                    whrcls += " and TSPL_CUSTOMER_MASTER.Cust_Code = '" + clsCommon.myCstr(txtCustomer.Value) + "' "
                 End If
                 If chkExcludeGhee.Checked Then
-                    qry += " and TSPL_ITEM_MASTER.TypeOfItm  <> 'G'"
+                    whrcls += " and TSPL_ITEM_MASTER.TypeOfItm  <> 'G'"
                 End If
             Else
                 qry = " ,TSPL_ITEM_MASTER.Sku_Seq
@@ -87,21 +88,23 @@ Public Class rptNewSalesReport
             left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code 
             left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
             left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_SD_SHIPMENT_HEAD.Route_No
-            where 2 = 2 and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >=Convert(date,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "',103) 
+            where 2 = 2"
+
+                whrcls = " and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >=Convert(date,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "',103) 
             and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= Convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103) "
                 If txtRoute.arrValueMember IsNot Nothing Then
-                    qry += " and TSPL_SD_SHIPMENT_HEAD.Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
+                    whrcls += " and TSPL_SD_SHIPMENT_HEAD.Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
                 End If
 
                 If clsCommon.myLen(txtCustomer.Value) > 0 Then
-                    qry += " and TSPL_CUSTOMER_MASTER.Cust_Code = '" + clsCommon.myCstr(txtCustomer.Value) + " '"
+                    whrcls += " and TSPL_CUSTOMER_MASTER.Cust_Code = '" + clsCommon.myCstr(txtCustomer.Value) + " '"
                 End If
                 If chkExcludeGhee.Checked Then
-                    qry += " and TSPL_ITEM_MASTER.TypeOfItm  <> 'G'"
+                    whrcls += " and TSPL_ITEM_MASTER.TypeOfItm  <> 'G'"
                 End If
             End If
-            dtFreshItem = clsDBFuncationality.GetDataTable("SELECT distinct  TSPL_ITEM_MASTER.Structure_Code, TSPL_ITEM_MASTER.Short_Description as  Fresh_Item " & qry & " and  (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 ) or (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 and Is_CrateType = 1)  ORDER BY Structure_Code,Sku_Seq")
-            dtProductItem = clsDBFuncationality.GetDataTable("SELECT distinct  TSPL_ITEM_MASTER.Structure_Code, TSPL_ITEM_MASTER.Short_Description as  Product_Item " & qry & " and TSPL_ITEM_MASTER.Is_Ambient = 1 and TSPL_ITEM_MASTER.IsTaxable = 1  ORDER BY Structure_Code,Sku_Seq")
+            dtFreshItem = clsDBFuncationality.GetDataTable("SELECT distinct  TSPL_ITEM_MASTER.Structure_Code, TSPL_ITEM_MASTER.Short_Description as  Fresh_Item " & qry & " " & whrcls & " and  (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 ) or ( 2 = 2  " & whrcls & " and (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 and Is_CrateType = 1))  ORDER BY Structure_Code,Sku_Seq")
+            dtProductItem = clsDBFuncationality.GetDataTable("SELECT distinct  TSPL_ITEM_MASTER.Structure_Code, TSPL_ITEM_MASTER.Short_Description as  Product_Item " & qry & " " & whrcls & "  and TSPL_ITEM_MASTER.Is_Ambient = 1 and TSPL_ITEM_MASTER.IsTaxable = 1  ORDER BY Structure_Code,Sku_Seq")
 
             Dim ProductIemName As String = Nothing
             Dim FreshItemName As String = Nothing
@@ -236,7 +239,7 @@ Public Class rptNewSalesReport
             End If
             If rbtnPartyWise.IsChecked Then
                 qry += "  union all 
-            select '' as Item_Code,'' as Cust_Code  '' as Item_Sub_Group_Type, '' AS Item_Sub_Group_Type1,  DATEDIFF(day, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "', '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "') as Days,  TSPL_CUSTOMER_MASTER.Route_No as Route_No, TSPL_RECEIPT_HEADER.Receipt_Date as Document_Date,'' AS Shift_Type, '' as UOM,'' as Fresh_Item_Amt,'' AS Fresh_Item,0 AS Qty,0 as Fresh_Qty,0 as Product_Qty,0 as KG_QTY,0 as KG_QTY1 , 0 as LTR_QTY, 0 as Fresh_Amount,0 as Product_Amount,0 as Amount,'' as Product_Item,'' as Product_Item_Amt,(Receipt_Amount)Receipt_Amount
+            select '' as Item_Code,'' as Cust_Code  , '' as Item_Sub_Group_Type, '' AS Item_Sub_Group_Type1,  DATEDIFF(day, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "', '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "') as Days,  TSPL_CUSTOMER_MASTER.Route_No as Route_No, TSPL_RECEIPT_HEADER.Receipt_Date as Document_Date,'' AS Shift_Type, '' as UOM,'' as Fresh_Item_Amt,'' AS Fresh_Item,0 AS Qty,0 as Fresh_Qty,0 as Product_Qty,0 as KG_QTY,0 as KG_QTY1 , 0 as LTR_QTY, 0 as Fresh_Amount,0 as Product_Amount,0 as Amount,'' as Product_Item,'' as Product_Item_Amt,(Receipt_Amount)Receipt_Amount
 	        FROM TSPL_RECEIPT_HEADER  LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_RECEIPT_HEADER.Cust_Code  
 	        WHERE TSPL_RECEIPT_HEADER.Posted = 'Y' AND  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103) >= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "', 103) and convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103) <= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "', 103)"
 
@@ -254,12 +257,12 @@ Public Class rptNewSalesReport
 
 
             If rbtnPartyWise.IsChecked Then
-                Dim AmountavgQry As String = "Select SUM(" & itemNamesFresh & ""
+                Dim AmountavgQry As String = "Select isnull(SUM(" & itemNamesFresh & ""
 
                 If dtFreshItem.Rows.Count > 0 AndAlso dtProductItem.Rows.Count > 0 Then
-                    AmountavgQry += " + " & itemNamesProduct & ") AS [Total_Qty] "
+                    AmountavgQry += " + " & itemNamesProduct & "),0) AS [Total_Qty] "
                 Else
-                    AmountavgQry += " " & itemNamesProduct & ") AS [Total_Qty] "
+                    AmountavgQry += " " & itemNamesProduct & "),0) AS [Total_Qty] "
                 End If
                 AmountavgQry += "from ( " & qry & " " & Environment.NewLine & ""
                 If dtFreshItem.Rows.Count > 0 Then
@@ -552,8 +555,9 @@ Public Class rptNewSalesReport
 
     Private Sub txtCustomer__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCustomer._MYValidating
         Try
-            Dim sQuery As String = " Select Cust_Code as Code , Customer_Name as Name  from TSPL_CUSTOMER_MASTER "
-            txtCustomer.Value = clsCommon.ShowSelectForm("SalesNewReportCust", sQuery, "Code", "", txtCustomer.Value, "Code", isButtonClicked)
+            Dim sQuery As String = " Select Cust_Code as Code , Customer_Name as Name  from TSPL_CUSTOMER_MASTER  "
+            Dim whrcls As String = " IsDistributor = 'Y'"
+            txtCustomer.Value = clsCommon.ShowSelectForm("SalesNewReportCust", sQuery, "Code", whrcls, txtCustomer.Value, "Code", isButtonClicked)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.ToString)
         End Try

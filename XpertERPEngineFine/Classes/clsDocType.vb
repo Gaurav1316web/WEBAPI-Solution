@@ -239,6 +239,7 @@ Public Class clsDocType
     Public Const SRN As String = "Store Receipt Note"
     Public Const GTOut As String = "Gate Out"
     Public Const OutgoingProduction As String = "Outgoing Production"
+    Public Const RMProcessLoss As String = "RM Process Loss"
     Public Const EPF As String = "EP Fund"
     Public Const SRNReturn As String = "Store Receipt Note Return"
     Public Const NIRQC As String = "NIR QC"
@@ -483,6 +484,7 @@ Public Class clsDocType
     Public Const frmDairySaleDeliveryOrder As String = "Dairy Sale Delivery Order"
     Public Const frmDemandBooking As String = "Demand Booking"
     Public Const frmDemandAdjustment As String = "Demand Adjustment"
+    Public Const frmDemandUploader As String = "Demand Uploader"
     Public Const FrmMCCMaterialSalePriceChart As String = "MCC Material Sale Price Chart"
     Public Const frmDCSDemandBooking As String = "DCS Demand Booking"
     Public Const frmDairySaleBooking As String = "Dairy Sale Booking"
@@ -915,6 +917,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.SRN, clsDocTransactionType.POTrading, False, True)
             InsertDefaultValue(clsDocType.EPF, "", False, False)
             InsertDefaultValue(clsDocType.OutgoingProduction, "", False, False)
+            InsertDefaultValue(clsDocType.RMProcessLoss, "", False, False)
             InsertDefaultValue(clsDocType.SRNReturn, "", False, True)
             InsertDefaultValue(clsDocType.TransferReturn, "", False, True)
             InsertDefaultValue(clsDocType.GatePasstransfer, "", False, True)
@@ -1182,6 +1185,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.frmDairySaleDeliveryOrder, "", False, True)
             InsertDefaultValue(clsDocType.frmDemandBooking, "", False, True)
             InsertDefaultValue(clsDocType.frmDemandAdjustment, "", False, False)
+            InsertDefaultValue(clsDocType.frmDemandUploader, "", False, False)
             InsertDefaultValue(clsDocType.FrmMCCMaterialSalePriceChart, "", False, False)
             InsertDefaultValue(clsDocType.frmDCSDemandBooking, "", False, True)
             InsertDefaultValue(clsDocType.frmDairySaleGatePass, "", False, True)

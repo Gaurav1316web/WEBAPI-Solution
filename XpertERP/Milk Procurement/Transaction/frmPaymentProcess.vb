@@ -2737,15 +2737,24 @@ and TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0 "
             If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
                 whrCls += "and 2=(case when TSPL_VENDOR_INVOICE_HEAD.isDeduction='1' and TSPL_VENDOR_INVOICE_DETAIL.DeductionCode='SECURITY DED' then" + Environment.NewLine +
                   " case when convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) >= '" + clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") + "' then 2 " + Environment.NewLine +
-                  " else 0 end else 2 end )"
+                  " else 0 end else 2 end ) "
             End If
-            Dim strMCCcode = ""
+
             If MultipleFinderFillAuto Then
-                strMCCcode = " select distinct Loc_Segment_Code from TSPL_LOCATION_MASTER where location_code in (" + clsCommon.GetMulcallString(mfndMcc.arrValueMember) + ")"
+                Dim dtSeg As DataTable = clsDBFuncationality.GetDataTable("select distinct Loc_Segment_Code from TSPL_LOCATION_MASTER where location_code in (" + clsCommon.GetMulcallString(mfndMcc.arrValueMember) + ")")
+                If dtSeg IsNot Nothing AndAlso dtSeg.Rows.Count > 0 Then
+                    Dim ArrSeg As New ArrayList
+                    For Each drSeg As DataRow In dtSeg.Rows
+                        ArrSeg.Add(drSeg("Loc_Segment_Code"))
+                    Next
+                    whrCls += " and TSPL_VENDOR_INVOICE_HEAD.Loc_Code in ( " + clsCommon.GetMulcallString(ArrSeg) + ") "
+                Else
+                    whrCls += " and 2=3 "
+                End If
             Else
-                strMCCcode = "'" + fndLoc.Value + "' "
+                whrCls += "  and TSPL_VENDOR_INVOICE_HEAD.Loc_Code in ( '" & fndLoc.Value & "' )'"
             End If
-            qry = qry & whrCls & "  and TSPL_VENDOR_INVOICE_HEAD.Loc_Code in ( " & strMCCcode & " ) and " & IIf(chkSkipPrevDeduction.Checked, " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) between '" & clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") & "' and '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'", " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) <= '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "' ")
+            qry = qry & whrCls & "  and   " & IIf(chkSkipPrevDeduction.Checked, " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) between '" & clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") & "' and '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'", " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) <= '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "' ")
             qry += " )xxx group by Document_No "
             If PayableAmountZeroForMCCSale Then
                 qry += " order by Vendor_Code,Sequence_No,Posting_Date,Sequence_No2  "
@@ -2785,14 +2794,23 @@ where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and  TSPL_VENDOR_INVOICE_HEAD
             Else
                 whrCls += " and TSPL_VENDOR_INVOICE_HEAD.Vendor_Code  in ( " & strVendorCode & ")   and  coalesce(Posting_Date,'')<>''"
             End If
-            Dim strMCCcode = ""
+
             If MultipleFinderFillAuto Then
-                strMCCcode = " select distinct Loc_Segment_Code from TSPL_LOCATION_MASTER where location_code in (" + clsCommon.GetMulcallString(mfndMcc.arrValueMember) + ") "
+                Dim dtSeg As DataTable = clsDBFuncationality.GetDataTable("select distinct Loc_Segment_Code from TSPL_LOCATION_MASTER where location_code in (" + clsCommon.GetMulcallString(mfndMcc.arrValueMember) + ")")
+                If dtSeg IsNot Nothing AndAlso dtSeg.Rows.Count > 0 Then
+                    Dim ArrSeg As New ArrayList
+                    For Each drSeg As DataRow In dtSeg.Rows
+                        ArrSeg.Add(drSeg("Loc_Segment_Code"))
+                    Next
+                    whrCls += " and TSPL_VENDOR_INVOICE_HEAD.Loc_Code in ( " + clsCommon.GetMulcallString(ArrSeg) + ") "
+                Else
+                    whrCls += " and 2=3 "
+                End If
             Else
-                strMCCcode = "'" + fndLoc.Value + "' "
+                whrCls += " and TSPL_VENDOR_INVOICE_HEAD.Loc_Code  in ( '" & fndLoc.Value & "' ) "
             End If
 
-            qry = qry & whrCls & " and isnull(TSPL_VENDOR_INVOICE_HEAD.Saving,0)=0 and TSPL_VENDOR_INVOICE_HEAD.Loc_Code  in ( " & strMCCcode & " ) and " & IIf(chkSkipPrevCreditNote.Checked, " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) between '" & clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") & "' and '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'", " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) <= '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "' ")
+            qry = qry & whrCls & " and isnull(TSPL_VENDOR_INVOICE_HEAD.Saving,0)=0  and " & IIf(chkSkipPrevCreditNote.Checked, " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) between '" & clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") & "' and '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'", " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) <= '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "' ")
             qry = "select * from (" + qry + ")xx"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -3008,14 +3026,21 @@ where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and  TSPL_VENDOR_INVOICE_HEAD
             Else
                 whrCls += " and TSPL_VENDOR_INVOICE_HEAD.Vendor_Code  in ( " & strVendorCode & ")   and  coalesce(Posting_Date,'')<>''"
             End If
-            Dim strMCCcode = ""
             If MultipleFinderFillAuto Then
-                strMCCcode = " select distinct Loc_Segment_Code from TSPL_LOCATION_MASTER where location_code in (" + clsCommon.GetMulcallString(mfndMcc.arrValueMember) + ") "
+                Dim dtSeg As DataTable = clsDBFuncationality.GetDataTable(" select distinct Loc_Segment_Code from TSPL_LOCATION_MASTER where location_code in (" + clsCommon.GetMulcallString(mfndMcc.arrValueMember) + ") ")
+                If dtSeg IsNot Nothing AndAlso dtSeg.Rows.Count > 0 Then
+                    Dim ArrSeg As New ArrayList
+                    For Each drSeg As DataRow In dtSeg.Rows
+                        ArrSeg.Add(drSeg("Loc_Segment_Code"))
+                    Next
+                    whrCls += " and TSPL_VENDOR_INVOICE_HEAD.Loc_Code in ( " + clsCommon.GetMulcallString(ArrSeg) + ") "
+                Else
+                    whrCls += " and 2=3 "
+                End If
             Else
-                strMCCcode = "'" + fndLoc.Value + "' "
+                whrCls += " and  TSPL_VENDOR_INVOICE_HEAD.Loc_Code  in ( '" + fndLoc.Value + "' ) "
             End If
-            qry = qry & whrCls & " and isnull(TSPL_VENDOR_INVOICE_HEAD.Saving,0)=1 and TSPL_VENDOR_INVOICE_HEAD.Loc_Code  in ( " & strMCCcode & " ) and " & IIf(chkSkipPrevCreditNote.Checked, " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) between '" & clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") & "' and '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'", " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) <= '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "' ")
-
+            qry = qry & whrCls & " and isnull(TSPL_VENDOR_INVOICE_HEAD.Saving,0)=1 and " & IIf(chkSkipPrevCreditNote.Checked, " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) between '" & clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") & "' and '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'", " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) <= '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "' ")
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 gvSaving.DataSource = Nothing
@@ -3046,13 +3071,21 @@ where TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and  TSPL_VENDOR_INVOICE_HEAD.B
             Else
                 whrCls += " and TSPL_VENDOR_INVOICE_HEAD.Vendor_Code  in ( " & strVendorCode & ")   and  coalesce(Posting_Date,'')<>''"
             End If
-            Dim strMCCcode = ""
             If MultipleFinderFillAuto Then
-                strMCCcode = " select distinct Loc_Segment_Code from TSPL_LOCATION_MASTER where location_code in (" + clsCommon.GetMulcallString(mfndMcc.arrValueMember) + ") "
+                Dim dtSeg As DataTable = clsDBFuncationality.GetDataTable("select distinct Loc_Segment_Code from TSPL_LOCATION_MASTER where location_code in (" + clsCommon.GetMulcallString(mfndMcc.arrValueMember) + ") ")
+                If dtSeg IsNot Nothing AndAlso dtSeg.Rows.Count > 0 Then
+                    Dim ArrSeg As New ArrayList
+                    For Each drSeg As DataRow In dtSeg.Rows
+                        ArrSeg.Add(drSeg("Loc_Segment_Code"))
+                    Next
+                    whrCls += " and TSPL_VENDOR_INVOICE_HEAD.Loc_Code in ( " + clsCommon.GetMulcallString(ArrSeg) + ") "
+                Else
+                    whrCls += " and 2=3 "
+                End If
             Else
-                strMCCcode = "'" + fndLoc.Value + "' "
+                whrCls += " and TSPL_VENDOR_INVOICE_HEAD.Loc_Code  in ( '" + fndLoc.Value + "' ) "
             End If
-            qry = qry & whrCls & " and isnull(TSPL_VENDOR_INVOICE_HEAD.Saving,0)=2 and TSPL_VENDOR_INVOICE_HEAD.Loc_Code  in ( " & strMCCcode & " ) and " & IIf(chkSkipPrevCreditNote.Checked, " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) between '" & clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") & "' and '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'", " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) <= '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "' ")
+            qry = qry & whrCls & " and isnull(TSPL_VENDOR_INVOICE_HEAD.Saving,0)=2  and " & IIf(chkSkipPrevCreditNote.Checked, " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) between '" & clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") & "' and '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'", " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) <= '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "' ")
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -5273,14 +5306,23 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
         getMCCs()
         getVendors()
 
-        Dim strMCCcode = ""
+        Dim strWhr As String = ""
         If MultipleFinderFillAuto Then
-            strMCCcode = "Loc_Segment_Code in (select distinct Loc_Segment_Code from TSPL_LOCATION_MASTER where location_code in (" + clsCommon.GetMulcallString(mfndMcc.arrValueMember) + ") ) "
+            Dim dtSeg As DataTable = clsDBFuncationality.GetDataTable("select distinct Loc_Segment_Code from TSPL_LOCATION_MASTER where location_code in (" + clsCommon.GetMulcallString(mfndMcc.arrValueMember) + ") ")
+            If dtSeg IsNot Nothing AndAlso dtSeg.Rows.Count > 0 Then
+                Dim ArrSeg As New ArrayList
+                For Each drSeg As DataRow In dtSeg.Rows
+                    ArrSeg.Add(drSeg("Loc_Segment_Code"))
+                Next
+                strWhr = " and Loc_Segment_Code in ( " + clsCommon.GetMulcallString(ArrSeg) + ") "
+            Else
+                strWhr = " and 2=3 "
+            End If
         Else
-            strMCCcode = "Loc_Segment_Code = '" & fndLoc.Value & "' "
+            strWhr = " and Loc_Segment_Code = '" & fndLoc.Value & "' "
         End If
 
-        isEmpOnAmtOnly = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" select isnull(TSPL_MCC_MASTER.empOnAmountOnly,0) as empOnAmountOnly  from TSPL_MCC_MASTER left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle   where TSPL_MCC_MASTER.MCC_Code in (select Location_Code  from TSPL_LOCATION_MASTER where  " + strMCCcode + " and Location_Category='MCC' and Rejected_Type='N') ")) = 0, False, True)
+        isEmpOnAmtOnly = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" select isnull(TSPL_MCC_MASTER.empOnAmountOnly,0) as empOnAmountOnly  from TSPL_MCC_MASTER left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle   where TSPL_MCC_MASTER.MCC_Code in (select Location_Code  from TSPL_LOCATION_MASTER where  2=2  " + strWhr + " and Location_Category='MCC' and Rejected_Type='N') ")) = 0, False, True)
         If gvInvoice.Rows.Count > 0 Then
             Is_gv_Rows_Clear = True
             For i As Integer = 0 To gvInvoice.Rows.Count - 1
@@ -6490,21 +6532,29 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
 
     Private Sub txtVSP__My_Click(sender As Object, e As EventArgs) Handles txtVSP._My_Click
         Try
-            Dim strLocation As String = ""
+            Dim strWhr As String = ""
             If clsCommon.myLen(fndLoc.Value) <= 0 AndAlso MultipleFinderFillAuto = False Then
                 fndLoc.Focus()
                 Throw New Exception("Please select Location")
             End If
             If MultipleFinderFillAuto Then
-                'strLocation = " TSPL_LOCATION_MASTER.Location_Code in (" + clsCommon.GetMulcallString(mfndMcc.arrValueMember) + " ) "
-                strLocation = " TSPL_LOCATION_MASTER.Loc_Segment_Code in ( select distinct Loc_Segment_Code from TSPL_LOCATION_MASTER where location_code in (" + clsCommon.GetMulcallString(mfndMcc.arrValueMember) + ")) "
+                Dim dtSeg As DataTable = clsDBFuncationality.GetDataTable("select distinct Loc_Segment_Code from TSPL_LOCATION_MASTER where location_code in (" + clsCommon.GetMulcallString(mfndMcc.arrValueMember) + ")")
+                If dtSeg IsNot Nothing AndAlso dtSeg.Rows.Count > 0 Then
+                    Dim ArrSeg As New ArrayList
+                    For Each drSeg As DataRow In dtSeg.Rows
+                        ArrSeg.Add(drSeg("Loc_Segment_Code"))
+                    Next
+                    strWhr = " and TSPL_LOCATION_MASTER.Loc_Segment_Code in ( " + clsCommon.GetMulcallString(ArrSeg) + ") "
+                Else
+                    strWhr = "  and 2=3 "
+                End If
             Else
-                strLocation = " TSPL_LOCATION_MASTER.Loc_Segment_Code ='" + fndLoc.Value + "' "
+                strWhr = " and TSPL_LOCATION_MASTER.Loc_Segment_Code ='" + fndLoc.Value + "' "
             End If
 
             Dim qry As String = "select xx.VSP_CODE as Code,TSPL_VENDOR_MASTER.Vendor_Name as Name,xx.VLC_CODE,TSPL_VLC_MASTER_HEAD.VLC_Name from (" + Environment.NewLine +
             " select VSP_CODE,max(VLC_CODE)as VLC_CODE from (" + Environment.NewLine +
-            " select VSP_CODE,VLC_CODE from TSPL_MILK_SRN_Head left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_MILK_SRN_Head.MCC_CODE where " + strLocation + " "
+            " select VSP_CODE,VLC_CODE from TSPL_MILK_SRN_Head left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_MILK_SRN_Head.MCC_CODE where 2=2 " + strWhr + " "
             If Not isPickPendingMilkSRNinNextPaymentCycle Then
                 qry += " and DOC_DATE>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' "
             End If

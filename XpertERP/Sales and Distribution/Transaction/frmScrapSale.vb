@@ -382,6 +382,7 @@ Public Class frmScrapSale
         EInvoiceIRNNo.Text = ""
         EInvoiceQrCode.Text = ""
         txtAckDate.Value = clsCommon.GETSERVERDATE()
+        lblTotalOutstansing.Text = ""
         ''For Custom Fields
         If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
             UcCustomFields1.BlankAllControls()
@@ -2175,6 +2176,15 @@ Public Class frmScrapSale
                 End If
             End If
         End If
+        If (clsCommon.myCdbl(lblDocAmount.Text)) > 0 Then
+            Dim isValidAmt As Boolean = CustomerOutstandingAmount(fndcustNo.Value, Nothing)
+            Dim isUNIONCust As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count ( * )  from TSPL_CUSTOMER_MASTER where Credit_Customer = 'Y' and  Cust_Code = '" + fndcustNo.Value + "' "))
+            If (clsCommon.myCdbl(lblDocAmount.Text)) > (clsCommon.myCdbl(lblTotalOutstansing.Text)) AndAlso isUNIONCust = 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Document amount should be less then avaliable credit amount for customer " + fndcustNo.Value + ".", Me.Text)
+                Return False
+            End If
+
+        End If
         ''----------------------------
 
         UcCustomFields1.AllowToSave()
@@ -2598,6 +2608,7 @@ Public Class frmScrapSale
 
                 obj.Total_Gross_Weight = clsCommon.myCdbl(lblGrossWeight.Text)
                 obj.Total_Net_Weight = clsCommon.myCdbl(lblNetWeight.Text)
+                obj.Total_Outstanding = clsCommon.myCdbl(lblTotalOutstansing.Text)
                 obj.Arr = New List(Of ClsScrapSaleDetail)
                 For Each grow As GridViewRowInfo In gv1.Rows
                     Dim objTr As New ClsScrapSaleDetail()
@@ -2829,6 +2840,7 @@ Public Class frmScrapSale
                 chkInterBranch.Checked = obj.Inter_Branch
                 chkTaxable.Checked = obj.Is_Taxable
                 chkBuyBack.Checked = obj.IsBuyBack
+                lblTotalOutstansing.Text = obj.Total_Outstanding
 
                 '' If clsCommon.myLen(obj.EWayBillNo) > 0 Then
                 'txtEWayBillNo.Text = obj.EWayBillNo
@@ -3508,7 +3520,7 @@ Public Class frmScrapSale
         End If
         'SetTaxDetails()
         SetTermDetails()
-
+        CustomerOutstandingAmount(fndcustNo.Value, Nothing)
 
     End Sub
     Private Sub SetTax()
@@ -4247,7 +4259,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
         Else
             txtRoundOff.Text = 0
         End If
-
+        lblDocAmount.Text = lbldocamt.Text
         lblGrossWeight.Text = clsCommon.myCstr(Math.Round(dblGrossWeight, 3, MidpointRounding.AwayFromZero))
         lblNetWeight.Text = clsCommon.myCstr(Math.Round(dblNetWeight, 3, MidpointRounding.AwayFromZero))
 
@@ -4450,6 +4462,42 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
             lblTermName.Text = ""
         End If
     End Sub
+    Private Function CustomerOutstandingAmount(ByVal strCustomer As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim strIsParent As String = clsDBFuncationality.getSingleValue("select Parent_Customer_YN from TSPL_CUSTOMER_MASTER where Cust_Code='" & strCustomer & "' ", trans)
+            Dim strParentCust As String = clsDBFuncationality.getSingleValue("select Parent_Customer_No from TSPL_CUSTOMER_MASTER where Parent_Customer_YN='N' and Parent_Customer_No <> '' and Cust_Code='" & strCustomer & "'   and Credit_Limit=0", trans)
+            If clsCommon.CompairString(strIsParent, "Y") = CompairStringResult.Equal Then
+                strParentCust = strCustomer
+            End If
+            Dim strcustomerfilter As String = String.Empty
+            strcustomerfilter = "'" + strCustomer + "'"
+            Dim dblOutstandingAmt As Double = 0
+            Dim qry As String = "Select  ( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))  as BalAmt From ( " &
+                   "Select MAX(TSPL_CUSTOMER_MASTER.Cust_Group_Code) as Cust_Group_Code, ACode, MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as AName, '' as CurrencyCode,  " &
+                   "null as ConvRate, SUM(DrAmt* Final.ConvRate)-SUM(CrAmt) as OpngBal, 0 as DrAmt, 0 as CrAmt, 0 as [Sales], 0 as CollectionRefund, 0 as DrNote,  " &
+                   "0 as CrNote, MAX(tspl_customer_master.Cust_Category_Code) as Cust_Category_Code,MAX(CUST_CATEGORY_DESC) as Cust_Category_Desc,  " &
+                   "MAX(tspl_customer_master.Cust_Type_Code) As Cust_Type_Code,MAX(Cust_Type_Desc) As Cust_Type_Desc from   " &
+                   "(" & clsCustomerMaster.GetCustomerBaseQry(False, False, "", False, "ConvRate", strcustomerfilter, True, clsCommon.GetPrintDate(dtpshipment.Value.AddDays(1), "dd/MMM/yyyy"), "", False, False, True, trans, False) & "   " &
+                   " ) Final left outer join TSPL_CUSTOMER_MASTER on final.ACode=TSPL_CUSTOMER_MASTER.Cust_Code LEFT OUTER JOIN TSPL_CUSTOMER_GROUP_MASTER ON TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code " &
+                   "Left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =Final.DocNo  LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE=Final.Bank_Code " &
+                   "where  CONVERT(DATE,final.DocDate,103) <= '" & clsCommon.GetPrintDate(dtpshipment.Value, "dd/MMM/yyyy") & "' AND LEN(ACode)>0 and ACode in ('" & strCustomer & "')   AND TSPL_CUSTOMER_MASTER.Status='N' GROUP BY ACode " &
+                   ") XXX GROUP BY ACode ORDER BY ACode"
+
+
+            dblOutstandingAmt = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
+            Dim isUNIONCust As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count ( * )  from TSPL_CUSTOMER_MASTER where Credit_Customer = 'Y' and  Cust_Code = '" + fndcustNo.Value + "' "))
+            If isUNIONCust = 0 Then
+                lblTotalOutstansing.Text = -1 * dblOutstandingAmt
+            Else
+                lblTotalOutstansing.Text = 0
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            Return False
+        End Try
+        Return True
+    End Function
 
     Private Sub btnPost_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPost.Click
         PostData()

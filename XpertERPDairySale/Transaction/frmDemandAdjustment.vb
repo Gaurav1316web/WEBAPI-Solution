@@ -23,10 +23,19 @@ Public Class frmDemandAdjustment
     Const colAdjustedQty As String = "colAdjustedQty"
     Const colFinalQty As String = "colFinalQty"
 #End Region
+    Public Sub SetUserMgmtNew()
+        'MyBase.SetUserMgmt(clsUserMgtCode.frmBookingProductSale)
+        If Not (MyBase.isReadFlag) Then
+            Throw New Exception("Permission Denied")
+        End If
+
+
+    End Sub
     Private Sub frmDemandAdjustment_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         CreateTable()
         LimitIncreaseDecreseQty = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DemandIncreaseDecreaseQty, clsFixedParameterCode.DemandIncreaseDecreaseQty, Nothing))
         LimitIncreaseDecresePer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DemandIncreaseDecreasePer, clsFixedParameterCode.DemandIncreaseDecreasePer, Nothing))
+        SetUserMgmtNew()
         AddNew()
     End Sub
     Private Sub btnAddNew_Click(sender As Object, e As EventArgs) Handles btnAddNew.Click

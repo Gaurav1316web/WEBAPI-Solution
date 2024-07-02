@@ -25,21 +25,22 @@ Public Class frmMPIncetiveEntryReport
             ddlType.Visible = False
         End If
         Reset()
-        If clsCommon.myLen(objCommonVar.strCurrUserZones) > 0 Then
-            Dim qry As String = " select TSPL_ZONE_MASTER.Zone_Code as Code , TSPL_ZONE_MASTER.Description as Name from TSPL_ZONE_MASTER where 2=2 "
-            If clsCommon.myLen(objCommonVar.strCurrUserZones) > 0 Then
-                qry += "  and TSPL_ZONE_MASTER.Zone_Code in (" + objCommonVar.strCurrUserZones + ") "
-            End If
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                Dim arr As New ArrayList
-                For Each dr As DataRow In dt.Rows
-                    arr.Add(dr("Code"))
-                Next
-                txtZone.arrValueMember = arr
-                txtZone.Enabled = False
-            End If
-        End If
+        '       If clsCommon.myLen(objCommonVar.strCurrUserZones) > 0 Then
+        '           Dim qry As String = " select TSPL_USER_CUSTOMER_ZONE.Zone_Code as Code , TSPL_ZONE_MASTER.Description as Name from TSPL_ZONE_MASTER  left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_USER_CUSTOMER_ZONE.Zone_Code
+        'where 2=2 "
+        '           If clsCommon.myLen(objCommonVar.strCurrUserZones) > 0 Then
+        '               qry += "  and TSPL_ZONE_MASTER.Zone_Code in (" + objCommonVar.strCurrUserZones + ") "
+        '           End If
+        '           Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        '           If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+        '               Dim arr As New ArrayList
+        '               For Each dr As DataRow In dt.Rows
+        '                   arr.Add(dr("Code"))
+        '               Next
+        '               txtZone.arrValueMember = arr
+        '               txtZone.Enabled = False
+        '           End If
+        '       End If
 
     End Sub
 

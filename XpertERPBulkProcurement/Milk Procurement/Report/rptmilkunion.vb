@@ -75,6 +75,18 @@ Public Class rptmilkunion
         gv1.Columns("Dis_SNFKG").IsVisible = True
         gv1.Columns("Dis_SNFKG").FormatString = "{0:n3}"
 
+        gv1.Columns("Prod_QTY").HeaderText = "Prod QTY"
+        gv1.Columns("Prod_QTY").IsVisible = True
+        gv1.Columns("Prod_QTY").FormatString = ""
+
+        gv1.Columns("Prod_FATkg").HeaderText = "Prod FATKG"
+        gv1.Columns("Prod_FATkg").IsVisible = True
+        gv1.Columns("Prod_FATkg").FormatString = "{0:n3}"
+
+        gv1.Columns("Prod_SNFkg").HeaderText = "Prod SNFKG"
+        gv1.Columns("Prod_SNFkg").IsVisible = True
+        gv1.Columns("Prod_SNFkg").FormatString = "{0:n3}"
+
 
         gv1.Columns("TotalLtr_ItemWiseDemand").HeaderText = "Demand QTY"
         gv1.Columns("TotalLtr_ItemWiseDemand").IsVisible = True
@@ -149,33 +161,40 @@ Public Class rptmilkunion
             view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Union Name").Name)
 
+
             view.ColumnGroups.Add(New GridViewColumnGroup(" Milk Procurement"))
             view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
             view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Milk_WeightProc").Name)
             view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("FATKGProc").Name)
             view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("SNFKGProc").Name)
 
+            view.ColumnGroups.Add(New GridViewColumnGroup("Production"))
+            view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Prod_QTY").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Prod_FATkg").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Prod_SNFkg").Name)
+
 
             view.ColumnGroups.Add(New GridViewColumnGroup("Demand"))
-            view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("TotalLtr_ItemWiseDemand").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("FATKGDemand").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("SNFKGDemand").Name)
+            view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns("TotalLtr_ItemWiseDemand").Name)
+            view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns("FATKGDemand").Name)
+            view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns("SNFKGDemand").Name)
 
             view.ColumnGroups.Add(New GridViewColumnGroup("Dispatch"))
-            view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
-            view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns("Dis_QtyInLTR").Name)
-            view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns("Dis_FATKG").Name)
-            view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns("Dis_SNFKG").Name)
+            view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns("Dis_QtyInLTR").Name)
+            view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns("Dis_FATKG").Name)
+            view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns("Dis_SNFKG").Name)
 
             view.ColumnGroups.Add(New GridViewColumnGroup("Accounts"))
-            view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
-            view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns("Sale_Voucher").Name)
-            view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns("Purchase_Voucher").Name)
+            view.ColumnGroups(5).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(5).Rows(0).ColumnNames.Add(gv1.Columns("Sale_Voucher").Name)
+            view.ColumnGroups(5).Rows(0).ColumnNames.Add(gv1.Columns("Purchase_Voucher").Name)
 
             view.ColumnGroups.Add(New GridViewColumnGroup("PayRoll"))
-            view.ColumnGroups(5).Rows.Add(New GridViewColumnGroupRow())
-            view.ColumnGroups(5).Rows(0).ColumnNames.Add(gv1.Columns("Last_Salary").Name)
+            view.ColumnGroups(6).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(6).Rows(0).ColumnNames.Add(gv1.Columns("Last_Salary").Name)
 
             gv1.ViewDefinition = view
         End If
@@ -260,6 +279,9 @@ Public Class rptmilkunion
                     ISNULL(SUM(Dis_Disbursement.Dis_QtyInLTR), 0) AS Dis_QtyInLTR,
                     ISNULL(SUM(Dis_Disbursement.Dis_FATKG), 0) AS Dis_FATKG,
                     ISNULL(SUM(Dis_Disbursement.Dis_SNFKG), 0) AS Dis_SNFKG,
+                    ISNULL(SUM(Dis_Production.Prod_QTY), 0) AS Prod_QTY,
+                    ISNULL(SUM(Dis_Production.Prod_FATkg), 0) AS Prod_FATkg,
+                    ISNULL(SUM(Dis_Production.Prod_SNFkg), 0) AS Prod_SNFkg,
                     ISNULL(SUM(Dis_Demand.TotalLtr_ItemWiseDemand), 0) AS TotalLtr_ItemWiseDemand,
                     ISNULL(SUM(Dis_Demand.FATKGDemand), 0) AS FATKGDemand,
                     ISNULL(SUM(Dis_Demand.SNFKGDemand), 0) AS SNFKGDemand,
@@ -337,6 +359,22 @@ WHERE CONVERT(DATE, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "
                             " + status9 + "
 )xxxx ))Disp_BUlksale
                     ) AS Dis_Disbursement,
+                            (SELECT 
+                        SUM(RECEIPT_QTY) AS Prod_QTY,
+                        SUM(RECEIPT_QTY * im.STD_FatPer / 100) AS Prod_FATkg,
+                        SUM(RECEIPT_QTY * im.STD_SNFPer / 100) AS Prod_SNFkg
+                    FROM 
+                        [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PP_PRODUCTION_ENTRY pe
+                    LEFT JOIN 
+                        [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PP_PRODUCTION_ENTRY_DETAIL ped ON ped.PROD_ENTRY_CODE = pe.PROD_ENTRY_CODE
+                    LEFT JOIN 
+                        [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_master im ON im.Item_Code = ped.ITEM_CODE
+                    WHERE 
+                        CONVERT(DATE, pe.PROD_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                        " + status2 + "
+                        AND im.Is_FreshItem = 1
+                        AND im.IsTaxable = 0
+                    ) AS Dis_Production,
 
 
                         (SELECT 

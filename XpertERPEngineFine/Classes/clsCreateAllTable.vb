@@ -2264,6 +2264,7 @@ Public Class clsCreateAllTable
             coll.Add("Flavour_Seq", "decimal (18,2) NULL")
             coll.Add("Pack_Seq", "decimal (18,2) NULL")
             coll.Add("Sku_Seq", "decimal (18,2) NULL")
+            coll.Add("Uploader_Seq", "decimal (18,2) NULL")
             coll.Add("DcsSeqNo", "decimal (18,2) NULL")
             coll.Add("Warranty_Applied_From", "Varchar(5) null")
             coll.Add("Cust_Account", "varchar(12) NULL REFERENCES TSPL_CUSTOMER_ACCOUNT_SET (Cust_Account)")
@@ -8106,6 +8107,15 @@ Public Class clsCreateAllTable
             'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_OPEN_MCC_SHIFT", coll, Nothing, False, False, "", "MCC_SHIFT_CODE", "MCC_SHIFT_DATE")
             'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_OPEN_MCC_SHIFT_SYNC", coll, Nothing, False, False)
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Document_No", "VARCHAR(30) NOT NULL PRIMARY KEY")
+            coll.Add("Document_Date", "Datetime NOT NULL")
+            coll.Add("ShiftType", "VARCHAR(30) NOT NULL")
+            coll.Add("Location_Code", "VARCHAR(30) NOT NULL")
+            coll.Add("Created_By", "varchar(20)  NULL ")
+            coll.Add("Created_Date", "Datetime  NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_UPLOADER", coll, Nothing, True, False, "", "Document_No", "")
+
             qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_DEMAND_BOOKING_MASTER' and COLUMN_NAME='Posted_Morning'"
             dt = clsDBFuncationality.GetDataTable(qry)
 
@@ -8135,6 +8145,7 @@ Public Class clsCreateAllTable
             coll.Add("Posted_Evening", "integer null")
             coll.Add("Posted_Evening_By", "varchar(12) NULL")
             coll.Add("Posted_Evening_Date", "Datetime NULL")
+            coll.Add("UploderDocNo", "Varchar(30) null references TSPL_DEMAND_UPLOADER(Document_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_MASTER", coll, "", False, False, "", "Document_No", "Document_Date")
 
             coll = New Dictionary(Of String, String)()
@@ -29844,11 +29855,13 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("TotalSubsidyAmt", "Decimal(18,2) NULL")
 
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
-            'Try
-            '    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SHIPMENT_HEAD alter column Insurance varchar(30)")
-            'Catch ex As Exception
+            Try
+                qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo=Document_Code where ParentDocNo is null "
+                clsDBFuncationality.ExecuteNonQuery(qry)
+            Catch ex As Exception
 
-            'End Try
+            End Try
+
             clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_SD_SHIPMENT_HEAD alter column Comments  varchar(2000) Not NULL")
             coll = New Dictionary(Of String, String)
             coll.Add("DOCUMENT_CODE", "Varchar(30) not null References TSPL_SD_SHIPMENT_HEAD(DOCUMENT_CODE)")
@@ -32693,6 +32706,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             'coll.Add("BarCode_Img", "image null")
             coll.Add("ActualTCSBaseAmount", "float null")
             coll.Add("ChangedTCSBaseAmount", "float null")
+            coll.Add("Total_Outstanding", "decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SCRAPSALE_HEAD", coll, Nothing, True, True, "", "shipment_No", "shipment_Date", True)
 
             qry = "alter table TSPL_SCRAPSALE_HEAD alter column AddCode1 varchar(35) null "
