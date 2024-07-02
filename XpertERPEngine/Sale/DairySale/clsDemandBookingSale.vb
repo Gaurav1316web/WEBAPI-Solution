@@ -62,8 +62,8 @@ Public Class clsDemandBookingSale
                             qry = "delete from TSPL_BOOKING_MATSER where Against_DemandBooking_No='" + obj.Document_No + "'  and GatePass_Type ='AM'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                            'qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where tr_code in (select tr_code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + obj.Document_No + "' and ShiftType='Morning' ) "
-                            qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + obj.Document_No + "' "
+                            qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where tr_code in (select tr_code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + obj.Document_No + "' and ShiftType='Morning' ) "
+                            'qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + obj.Document_No + "' "
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                             ShiftType = "Morning"
                         End If
@@ -74,8 +74,8 @@ Public Class clsDemandBookingSale
                             qry = "delete from TSPL_BOOKING_MATSER where Against_DemandBooking_No='" + obj.Document_No + "'  and GatePass_Type ='PM'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                            'qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where tr_code in (select tr_code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + obj.Document_No + "' and ShiftType='Evening' ) "
-                            qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + obj.Document_No + "'"
+                            qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where tr_code in (select tr_code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + obj.Document_No + "' and ShiftType='Evening' ) "
+                            'qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + obj.Document_No + "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                             ShiftType = "Evening"
                         End If
@@ -87,8 +87,8 @@ Public Class clsDemandBookingSale
                     qry = "delete from TSPL_BOOKING_MATSER where Against_DemandBooking_No='" + obj.Document_No + "'"
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                    ' qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where tr_code in (select tr_code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + obj.Document_No + "' ) "
-                    qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + obj.Document_No + "'"
+                    qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where tr_code in (select tr_code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + obj.Document_No + "' ) "
+                    'qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + obj.Document_No + "'"
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 End If
             End If
