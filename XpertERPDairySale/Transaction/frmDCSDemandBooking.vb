@@ -645,28 +645,35 @@ Public Class frmDCSDemandBooking
         Return arrloc
     End Function
     Private Sub txtLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocation._MYValidating
-        Dim qry As String = Nothing
-        Dim WhrCls As String = Nothing
-        If AllowPlandDeptMCCLocation Then
-            qry = "select Location_Code AS Code,Location_Desc as Name  from TSPL_LOCATION_MASTER"
-            WhrCls = " Is_Sub_Location = 'N' AND Location_Category <> 'MCC' and GIT_Type  <> 'Y' "
-        Else
-            'qry = "select Location_Code as Code,Location_Desc as Name , tspl_mcc_master.Mcc_Code_VLC_Uploader as [MCC Code For VLC Uploder] from TSPL_LOCATION_MASTER left outer join tspl_mcc_master on tspl_mcc_master.MCC_Code = TSPL_LOCATION_MASTER.Location_Code  "
-            qry = "select Location_Desc as Code , tspl_mcc_master.Mcc_Code_VLC_Uploader as [MCC Code For VLC Uploder] from TSPL_LOCATION_MASTER left outer join tspl_mcc_master on tspl_mcc_master.MCC_Code = TSPL_LOCATION_MASTER.Location_Code  "
-            WhrCls = " Location_Type='Physical' and CSA_Type='N' and Is_Section='N' and Is_Sub_Location='N' "
-            WhrCls += "  and location_category='MCC' and  Location_Code in (" + MCCLOCATIONFINDER() + ")"
-        End If
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ") "
-        End If
-        txtLocation.Value = clsCommon.ShowSelectForm("DCSDemandLocFnd", qry, "Code", WhrCls, txtLocation.Value, "Code", isButtonClicked, " TSPL_GATEPASS_MASTER_DAIRYSALE.Document_date ")
-        lblLocationDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
+        Try
+            Dim qry As String = Nothing
+            Dim WhrCls As String = Nothing
+            If AllowPlandDeptMCCLocation Then
+                qry = "select Location_Code AS Code,Location_Desc as Name  from TSPL_LOCATION_MASTER"
+                WhrCls = " Is_Sub_Location = 'N' AND Location_Category <> 'MCC' and GIT_Type  <> 'Y' "
+            Else
+                'qry = "select Location_Code as Code,Location_Desc as Name , tspl_mcc_master.Mcc_Code_VLC_Uploader as [MCC Code For VLC Uploder] from TSPL_LOCATION_MASTER left outer join tspl_mcc_master on tspl_mcc_master.MCC_Code = TSPL_LOCATION_MASTER.Location_Code  "
+                qry = "select Location_Desc as Code , tspl_mcc_master.Mcc_Code_VLC_Uploader as [MCC Code For VLC Uploder] from TSPL_LOCATION_MASTER left outer join tspl_mcc_master on tspl_mcc_master.MCC_Code = TSPL_LOCATION_MASTER.Location_Code  "
+                WhrCls = " Location_Type='Physical' and CSA_Type='N' and Is_Section='N' and Is_Sub_Location='N' "
+                WhrCls += "  and location_category='MCC' and  Location_Code in (" + MCCLOCATIONFINDER() + ")"
+            End If
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ") "
+            End If
+            txtLocation.Value = clsCommon.ShowSelectForm("DCSDemandLocFnd", qry, "Code", WhrCls, txtLocation.Value, "Code", isButtonClicked)
+            lblLocationDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Public Sub LoadDCS(ByVal RouteNo As String)
         Try
             If clsCommon.myLen(RouteNo) > 0 Then
                 Dim dbrow As Double = 0
-                Dim StrQry As String = "select VLC_Code_VLC_Uploader,VLC_Name,VSP_Code from TSPL_VLC_master_Head  where Route_Code='" + RouteNo + "'"
+                ' Dim StrQry As String = "select VLC_Code_VLC_Uploader,VLC_Name,VSP_Code from TSPL_VLC_master_Head  where Route_Code='" + RouteNo + "'"
+
+                Dim StrQry As String = "select VLC_Code_VLC_Uploader,VLC_Name,VSP_Code from TSPL_VLC_master_Head left outer join tspl_vendor_master on tspl_vendor_master.Vendor_Code=TSPL_VLC_master_Head.VSP_Code
+left outer join TSPL_USER_CUSTOMER_ZONE on TSPL_USER_CUSTOMER_ZONE.Zone_code=  tspl_vendor_master.zone_code where Route_Code= '" + RouteNo + "' and TSPL_USER_CUSTOMER_ZONE.user_code= ('" + objCommonVar.CurrentUserCode + "')"
                 If chkIndividualCustomer.Checked Then
                     StrQry += " and VLC_Code_VLC_Uploader='" + txtCustomerNo.Value + "'"
                 End If

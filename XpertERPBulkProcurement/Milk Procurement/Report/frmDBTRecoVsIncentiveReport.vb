@@ -477,10 +477,16 @@ Public Class frmDBTRecoVsIncentiveReport
 
 
     Private Sub txtZone__My_Click(sender As Object, e As EventArgs) Handles txtZone._My_Click
-        Dim qry As String = " select TSPL_ZONE_MASTER.Zone_Code as Code , TSPL_ZONE_MASTER.Description as Name from TSPL_ZONE_MASTER where 2=2 "
-        If clsCommon.myLen(objCommonVar.strCurrUserZones) > 0 Then
-            qry += "  and TSPL_ZONE_MASTER.Zone_Code in (" + objCommonVar.strCurrUserZones + ") "
+        Dim qry As String
+        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            qry = "select TSPL_USER_CUSTOMER_ZONE.Zone_Code as Code , TSPL_ZONE_MASTER.Description as Name from TSPL_USER_CUSTOMER_ZONE 
+ left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_USER_CUSTOMER_ZONE.Zone_Code
+where 2=2 and TSPL_USER_CUSTOMER_ZONE.USER_Code= ('" + objCommonVar.CurrentUserCode + "')"
         End If
+        'Dim qry As String = " select TSPL_ZONE_MASTER.Zone_Code as Code , TSPL_ZONE_MASTER.Description as Name from TSPL_ZONE_MASTER where 2=2 "
+        'If clsCommon.myLen(objCommonVar.strCurrUserZones) > 0 Then
+        '    qry += "  and TSPL_ZONE_MASTER.Zone_Code in (" + objCommonVar.strCurrUserZones + ") "
+        'End If
         txtZone.arrValueMember = clsCommon.ShowMultipleSelectForm("MulSelZone@MPIncentiveEntryRPT", qry, "Code", "Code", txtZone.arrValueMember, txtZone.arrDispalyMember)
     End Sub
 

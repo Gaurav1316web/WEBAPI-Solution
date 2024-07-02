@@ -146,11 +146,35 @@ Public Class clsMPDCSInsentiveReco
         Return True
     End Function
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
+        Dim arrZone As New List(Of String)
+        Dim ZoneQry As String = " SELECT DISTINCT v.Zone_Code FROM tspl_user_master u JOIN (
+    SELECT Zone_Code, Vendor_Code FROM tspl_vendor_master  WHERE Vendor_code = (
+        SELECT Vendor_Code   FROM TSPL_CUSTOMER_VENDOR_MAPPING  WHERE Cust_Code IN (
+            SELECT Customer_Code FROM TSPL_SD_SHIPMENT_HEAD  ))
+) v ON u.Vendor_Code = v.Vendor_Code
+LEFT OUTER JOIN tspl_vendor_master vm ON v.Zone_Code = vm.Zone_Code"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(ZoneQry)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            For Each row As DataRow In dt.Rows
+                arrZone.Add(row("Zone_Code"))
+            Next
+        End If
         Dim str As String = ""
-        Dim qry As String = "Select TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Code as Code,Convert(varchar,TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Date,103) as Date
-           , SUBSTRING( REPLACE(convert(varchar, TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date,106),' ',' /'),5,10) as [Reco Date],Convert(varchar,TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date,103) as [From Date],Convert(varchar,TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date_To,103) as [To Date],zone_code as Zone
-          ,case when isnull(Status,0)=0 then 'Pending' else 'Approved' end as Status 
-          from TSPL_DCS_MP_INCENTIVE_RECO_HEAD  "
+        Dim qry As String = "Select DISTINCT TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Code as Code,Convert(varchar,TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Date,103) as Date
+           , SUBSTRING( REPLACE(convert(varchar, TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date,106),' ',' /'),5,10) as [Reco Date],Convert(varchar,TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date,103) as [From Date],Convert(varchar,TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date_To,103) as [To Date],TSPL_ZONE_MASTER.zone_code as Zone
+          ,case when isnull(TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Status,0)=0 then 'Pending' else 'Approved' end as Status 
+          from TSPL_DCS_MP_INCENTIVE_RECO_HEAD    left outer join TSPL_DCS_MP_INCENTIVE_RECO_DETAIL on TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Document_Code=TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Code
+		  left outer join TSPL_VLC_MASTER_HEAD on TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.VLC_Code=TSPL_VLC_MASTER_HEAD.VLC_Code
+		  left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code
+		  left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Zone_Code"
+        'Dim qry As String = "Select TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Code as Code,Convert(varchar,TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Date,103) as Date
+        '   , SUBSTRING( REPLACE(convert(varchar, TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date,106),' ',' /'),5,10) as [Reco Date],Convert(varchar,TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date,103) as [From Date],Convert(varchar,TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date_To,103) as [To Date],zone_code as Zone
+        '  ,case when isnull(Status,0)=0 then 'Pending' else 'Approved' end as Status 
+        '  from TSPL_DCS_MP_INCENTIVE_RECO_HEAD  "
+        If arrZone IsNot Nothing AndAlso arrZone.Count > 0 Then
+            whrcls += " TSPL_VENDOR_MASTER.Zone_Code In (" + clsCommon.GetMulcallString(arrZone) + ") "
+        End If
+        ' 
         str = clsCommon.ShowSelectForm("DCMPInc#F", qry, "Code", whrcls, curcode, "Code", isButtonClicked, "Document_Date")
         Return str
     End Function

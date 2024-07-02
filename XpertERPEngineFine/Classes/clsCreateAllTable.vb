@@ -2264,6 +2264,7 @@ Public Class clsCreateAllTable
             coll.Add("Flavour_Seq", "decimal (18,2) NULL")
             coll.Add("Pack_Seq", "decimal (18,2) NULL")
             coll.Add("Sku_Seq", "decimal (18,2) NULL")
+            coll.Add("Uploader_Seq", "decimal (18,2) NULL")
             coll.Add("DcsSeqNo", "decimal (18,2) NULL")
             coll.Add("Warranty_Applied_From", "Varchar(5) null")
             coll.Add("Cust_Account", "varchar(12) NULL REFERENCES TSPL_CUSTOMER_ACCOUNT_SET (Cust_Account)")
@@ -32705,6 +32706,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             'coll.Add("BarCode_Img", "image null")
             coll.Add("ActualTCSBaseAmount", "float null")
             coll.Add("ChangedTCSBaseAmount", "float null")
+            coll.Add("Total_Outstanding", "decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SCRAPSALE_HEAD", coll, Nothing, True, True, "", "shipment_No", "shipment_Date", True)
 
             qry = "alter table TSPL_SCRAPSALE_HEAD alter column AddCode1 varchar(35) null "
