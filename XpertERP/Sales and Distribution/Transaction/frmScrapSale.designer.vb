@@ -32,6 +32,8 @@ Partial Class frmScrapSale
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel21111 = New common.Controls.MyLabel()
+        Me.lblTotalOutstansing = New common.Controls.MyLabel()
         Me.chkBuyBack = New Telerik.WinControls.UI.RadCheckBox()
         Me.lblTransporter = New common.Controls.MyLabel()
         Me.txtTransporter_Code = New common.UserControls.txtFinder()
@@ -109,7 +111,6 @@ Partial Class frmScrapSale
         Me.RadLabel4 = New common.Controls.MyLabel()
         Me.txtaddamt = New common.Controls.MyTextBox()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -178,12 +179,15 @@ Partial Class frmScrapSale
         Me.rmiImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.MyLabel21111, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTotalOutstansing, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkBuyBack, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTransporter, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTransporter_desc, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -348,8 +352,8 @@ Partial Class frmScrapSale
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1092, 517)
-        Me.SplitContainer1.SplitterDistance = 485
+        Me.SplitContainer1.Size = New System.Drawing.Size(1092, 503)
+        Me.SplitContainer1.SplitterDistance = 471
         Me.SplitContainer1.TabIndex = 1
         '
         'RadPageView1
@@ -366,7 +370,7 @@ Partial Class frmScrapSale
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(1092, 485)
+        Me.RadPageView1.Size = New System.Drawing.Size(1092, 471)
         Me.RadPageView1.TabIndex = 0
         Me.RadPageView1.TabStop = False
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -375,6 +379,8 @@ Partial Class frmScrapSale
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel21111)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotalOutstansing)
         Me.RadPageViewPage1.Controls.Add(Me.chkBuyBack)
         Me.RadPageViewPage1.Controls.Add(Me.lblTransporter)
         Me.RadPageViewPage1.Controls.Add(Me.txtTransporter_Code)
@@ -431,11 +437,35 @@ Partial Class frmScrapSale
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.btnAddNew)
         Me.RadPageViewPage1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(64.0!, 26.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(60.0!, 22.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 31)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1071, 439)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1071, 429)
         Me.RadPageViewPage1.Text = "Shipment"
+        '
+        'MyLabel21111
+        '
+        Me.MyLabel21111.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.MyLabel21111.FieldName = Nothing
+        Me.MyLabel21111.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel21111.Location = New System.Drawing.Point(889, 112)
+        Me.MyLabel21111.Name = "MyLabel21111"
+        Me.MyLabel21111.Size = New System.Drawing.Size(63, 16)
+        Me.MyLabel21111.TabIndex = 1477
+        Me.MyLabel21111.Text = "Credit Limit"
+        '
+        'lblTotalOutstansing
+        '
+        Me.lblTotalOutstansing.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblTotalOutstansing.AutoSize = False
+        Me.lblTotalOutstansing.BorderVisible = True
+        Me.lblTotalOutstansing.FieldName = Nothing
+        Me.lblTotalOutstansing.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTotalOutstansing.Location = New System.Drawing.Point(955, 110)
+        Me.lblTotalOutstansing.Name = "lblTotalOutstansing"
+        Me.lblTotalOutstansing.Size = New System.Drawing.Size(113, 18)
+        Me.lblTotalOutstansing.TabIndex = 1476
+        Me.lblTotalOutstansing.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
         'chkBuyBack
         '
@@ -508,7 +538,7 @@ Partial Class frmScrapSale
         Me.txtFreightDistance.IsSourceFromTable = False
         Me.txtFreightDistance.IsSourceFromValueList = False
         Me.txtFreightDistance.IsUnique = False
-        Me.txtFreightDistance.Location = New System.Drawing.Point(962, 152)
+        Me.txtFreightDistance.Location = New System.Drawing.Point(956, 154)
         Me.txtFreightDistance.MendatroryField = False
         Me.txtFreightDistance.MyLinkLable1 = Nothing
         Me.txtFreightDistance.MyLinkLable2 = Nothing
@@ -526,7 +556,7 @@ Partial Class frmScrapSale
         '
         Me.MyLabel59.FieldName = Nothing
         Me.MyLabel59.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel59.Location = New System.Drawing.Point(868, 154)
+        Me.MyLabel59.Location = New System.Drawing.Point(865, 156)
         Me.MyLabel59.Name = "MyLabel59"
         Me.MyLabel59.Size = New System.Drawing.Size(89, 16)
         Me.MyLabel59.TabIndex = 1472
@@ -574,7 +604,7 @@ Partial Class frmScrapSale
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel3.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.MyLabel3.Location = New System.Drawing.Point(965, 353)
+        Me.MyLabel3.Location = New System.Drawing.Point(965, 343)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(102, 16)
         Me.MyLabel3.TabIndex = 1
@@ -636,7 +666,7 @@ Partial Class frmScrapSale
         Me.lblSecondryInvNo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblSecondryInvNo.FieldName = Nothing
         Me.lblSecondryInvNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblSecondryInvNo.Location = New System.Drawing.Point(713, 428)
+        Me.lblSecondryInvNo.Location = New System.Drawing.Point(713, 413)
         Me.lblSecondryInvNo.Name = "lblSecondryInvNo"
         Me.lblSecondryInvNo.Size = New System.Drawing.Size(62, 16)
         Me.lblSecondryInvNo.TabIndex = 16
@@ -651,7 +681,7 @@ Partial Class frmScrapSale
         Me.UcItemBalance1.ItemCode = ""
         Me.UcItemBalance1.ItemMRP = 0R
         Me.UcItemBalance1.ItemName = ""
-        Me.UcItemBalance1.Location = New System.Drawing.Point(0, 364)
+        Me.UcItemBalance1.Location = New System.Drawing.Point(0, 354)
         Me.UcItemBalance1.LocationCode = ""
         Me.UcItemBalance1.LocationName = ""
         Me.UcItemBalance1.MaximumSize = New System.Drawing.Size(710, 75)
@@ -813,7 +843,7 @@ Partial Class frmScrapSale
         '
         Me.lblInvoiceType.FieldName = Nothing
         Me.lblInvoiceType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblInvoiceType.Location = New System.Drawing.Point(606, 154)
+        Me.lblInvoiceType.Location = New System.Drawing.Point(606, 156)
         Me.lblInvoiceType.Name = "lblInvoiceType"
         Me.lblInvoiceType.Size = New System.Drawing.Size(70, 16)
         Me.lblInvoiceType.TabIndex = 35
@@ -834,7 +864,7 @@ Partial Class frmScrapSale
         Me.ddlInvoiceType.IsSourceFromTable = False
         Me.ddlInvoiceType.IsSourceFromValueList = False
         Me.ddlInvoiceType.IsUnique = False
-        Me.ddlInvoiceType.Location = New System.Drawing.Point(716, 152)
+        Me.ddlInvoiceType.Location = New System.Drawing.Point(716, 154)
         Me.ddlInvoiceType.MendatroryField = True
         Me.ddlInvoiceType.MyLinkLable1 = Nothing
         Me.ddlInvoiceType.MyLinkLable2 = Nothing
@@ -852,20 +882,20 @@ Partial Class frmScrapSale
         Me.txtVatInvNo.BorderVisible = True
         Me.txtVatInvNo.FieldName = Nothing
         Me.txtVatInvNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtVatInvNo.Location = New System.Drawing.Point(781, 422)
+        Me.txtVatInvNo.Location = New System.Drawing.Point(781, 407)
         Me.txtVatInvNo.Name = "txtVatInvNo"
-        Me.txtVatInvNo.Size = New System.Drawing.Size(133, 18)
+        Me.txtVatInvNo.Size = New System.Drawing.Size(125, 18)
         Me.txtVatInvNo.TabIndex = 14
         Me.txtVatInvNo.Visible = False
         '
         'lblDocAmount
         '
-        Me.lblDocAmount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblDocAmount.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblDocAmount.AutoSize = False
         Me.lblDocAmount.BorderVisible = True
         Me.lblDocAmount.FieldName = Nothing
         Me.lblDocAmount.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDocAmount.Location = New System.Drawing.Point(957, 422)
+        Me.lblDocAmount.Location = New System.Drawing.Point(955, 134)
         Me.lblDocAmount.Name = "lblDocAmount"
         Me.lblDocAmount.Size = New System.Drawing.Size(113, 18)
         Me.lblDocAmount.TabIndex = 14
@@ -908,10 +938,10 @@ Partial Class frmScrapSale
         '
         'MyLabel4
         '
-        Me.MyLabel4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.MyLabel4.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(912, 424)
+        Me.MyLabel4.Location = New System.Drawing.Point(910, 136)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(45, 16)
         Me.MyLabel4.TabIndex = 15
@@ -1311,7 +1341,7 @@ Partial Class frmScrapSale
         Me.RadGroupBox2.Location = New System.Drawing.Point(0, 179)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(1071, 176)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1071, 166)
         Me.RadGroupBox2.TabIndex = 19
         Me.RadGroupBox2.Text = "Item Details"
         '
@@ -1337,7 +1367,7 @@ Partial Class frmScrapSale
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(1051, 146)
+        Me.gv1.Size = New System.Drawing.Size(1051, 136)
         Me.gv1.TabIndex = 0
         '
         'btnAddNew
@@ -1360,7 +1390,7 @@ Partial Class frmScrapSale
         Me.RadPageViewPage2.Controls.Add(Me.gv2)
         Me.RadPageViewPage2.Controls.Add(Me.RadLabel11)
         Me.RadPageViewPage2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(47.0!, 26.0!)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(43.0!, 22.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(1071, 439)
@@ -1595,7 +1625,7 @@ Partial Class frmScrapSale
         'RadPageViewPage3
         '
         Me.RadPageViewPage3.Controls.Add(Me.RadGroupBox3)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(112.0!, 26.0!)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(108.0!, 22.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
         Me.RadPageViewPage3.Size = New System.Drawing.Size(1071, 439)
@@ -1690,24 +1720,16 @@ Partial Class frmScrapSale
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(89.0!, 26.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(85.0!, 22.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 35)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(1071, 439)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
-        'UcCustomFields1
-        '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1071, 439)
-        Me.UcCustomFields1.TabIndex = 2
-        '
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 26.0!)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 22.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 35)
         Me.Attachments.Name = "Attachments"
         Me.Attachments.Size = New System.Drawing.Size(1071, 439)
@@ -1751,10 +1773,10 @@ Partial Class frmScrapSale
         Me.RadPageViewPage4.Controls.Add(Me.RadLabel22)
         Me.RadPageViewPage4.Controls.Add(Me.RadLabel19)
         Me.RadPageViewPage4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(41.0!, 26.0!)
+        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(37.0!, 22.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
-        Me.RadPageViewPage4.Size = New System.Drawing.Size(1071, 439)
+        Me.RadPageViewPage4.Size = New System.Drawing.Size(1071, 425)
         Me.RadPageViewPage4.Text = "Total"
         '
         'txtTCSTaxRate
@@ -2077,7 +2099,7 @@ Partial Class frmScrapSale
         '
         Me.RadPageViewPage5.Controls.Add(Me.RadGroupBox6)
         Me.RadPageViewPage5.Controls.Add(Me.RadGroupBox4)
-        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(121.0!, 26.0!)
+        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(117.0!, 22.0!)
         Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
         Me.RadPageViewPage5.Size = New System.Drawing.Size(1071, 439)
@@ -2576,14 +2598,22 @@ Partial Class frmScrapSale
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel1.Location = New System.Drawing.Point(0, 20)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1092, 517)
+        Me.Panel1.Size = New System.Drawing.Size(1092, 503)
         Me.Panel1.TabIndex = 3
+        '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1071, 439)
+        Me.UcCustomFields1.TabIndex = 2
         '
         'frmScrapSale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1092, 537)
+        Me.ClientSize = New System.Drawing.Size(1092, 523)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.RadMenu1)
         Me.MinimumSize = New System.Drawing.Size(890, 467)
@@ -2600,6 +2630,8 @@ Partial Class frmScrapSale
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.MyLabel21111, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTotalOutstansing, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkBuyBack, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTransporter, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTransporter_desc, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2839,7 +2871,6 @@ Partial Class frmScrapSale
     Friend WithEvents UcAttachment1 As XpertERPEngine.ucAttachment
     Friend WithEvents RadMenuItem1 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents lblDocAmount As common.Controls.MyLabel
-    Friend WithEvents MyLabel4 As common.Controls.MyLabel
     Friend WithEvents lblInvoiceType As common.Controls.MyLabel
     Friend WithEvents ddlInvoiceType As common.Controls.MyComboBox
     Friend WithEvents lblTransporter As common.Controls.MyLabel
@@ -2899,6 +2930,9 @@ Partial Class frmScrapSale
     '=======
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents RadButton1 As RadButton
+    Friend WithEvents lblTotalOutstansing As common.Controls.MyLabel
+    Friend WithEvents MyLabel4 As common.Controls.MyLabel
+    Friend WithEvents MyLabel21111 As common.Controls.MyLabel
     '>>>>>>> d1ec586fa3c5d6f2c6903ff02c7d5301aea8f361
 End Class
 

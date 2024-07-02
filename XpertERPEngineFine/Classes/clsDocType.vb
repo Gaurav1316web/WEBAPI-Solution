@@ -239,6 +239,7 @@ Public Class clsDocType
     Public Const SRN As String = "Store Receipt Note"
     Public Const GTOut As String = "Gate Out"
     Public Const OutgoingProduction As String = "Outgoing Production"
+    Public Const RMProcessLoss As String = "RM Process Loss"
     Public Const EPF As String = "EP Fund"
     Public Const SRNReturn As String = "Store Receipt Note Return"
     Public Const NIRQC As String = "NIR QC"
@@ -916,6 +917,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.SRN, clsDocTransactionType.POTrading, False, True)
             InsertDefaultValue(clsDocType.EPF, "", False, False)
             InsertDefaultValue(clsDocType.OutgoingProduction, "", False, False)
+            InsertDefaultValue(clsDocType.RMProcessLoss, "", False, False)
             InsertDefaultValue(clsDocType.SRNReturn, "", False, True)
             InsertDefaultValue(clsDocType.TransferReturn, "", False, True)
             InsertDefaultValue(clsDocType.GatePasstransfer, "", False, True)
