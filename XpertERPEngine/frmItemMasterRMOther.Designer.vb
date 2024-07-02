@@ -303,6 +303,8 @@ Partial Class FrmItemMasterRMOther
         Me.rmiClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.txtUploaderSeq = New common.MyNumBox()
+        Me.lblUploaderSeq = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -535,6 +537,8 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtUploaderSeq, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblUploaderSeq, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -576,13 +580,15 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1142, 601)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.txtUploaderSeq)
+        Me.RadPageViewPage1.Controls.Add(Me.lblUploaderSeq)
         Me.RadPageViewPage1.Controls.Add(Me.txtRptName)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel46)
         Me.RadPageViewPage1.Controls.Add(Me.cboItemSubGroupType)
@@ -4386,6 +4392,42 @@ Partial Class FrmItemMasterRMOther
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         Me.OpenFileDialog1.Filter = "Image Files(*.BMP;*.JPG;*.JEPG;*.GIF)|*.BMP;*.JPG;*.JEPG;*.GIF"
         '
+        'txtUploaderSeq
+        '
+        Me.txtUploaderSeq.BackColor = System.Drawing.Color.White
+        Me.txtUploaderSeq.CalculationExpression = Nothing
+        Me.txtUploaderSeq.DecimalPlaces = 2
+        Me.txtUploaderSeq.FieldCode = Nothing
+        Me.txtUploaderSeq.FieldDesc = Nothing
+        Me.txtUploaderSeq.FieldMaxLength = 0
+        Me.txtUploaderSeq.FieldName = Nothing
+        Me.txtUploaderSeq.isCalculatedField = False
+        Me.txtUploaderSeq.IsSourceFromTable = False
+        Me.txtUploaderSeq.IsSourceFromValueList = False
+        Me.txtUploaderSeq.IsUnique = False
+        Me.txtUploaderSeq.Location = New System.Drawing.Point(955, 301)
+        Me.txtUploaderSeq.MendatroryField = False
+        Me.txtUploaderSeq.MyLinkLable1 = Me.lblUploaderSeq
+        Me.txtUploaderSeq.MyLinkLable2 = Nothing
+        Me.txtUploaderSeq.Name = "txtUploaderSeq"
+        Me.txtUploaderSeq.ReferenceFieldDesc = Nothing
+        Me.txtUploaderSeq.ReferenceFieldName = Nothing
+        Me.txtUploaderSeq.ReferenceTableName = Nothing
+        Me.txtUploaderSeq.Size = New System.Drawing.Size(96, 20)
+        Me.txtUploaderSeq.TabIndex = 215
+        Me.txtUploaderSeq.Text = "0"
+        Me.txtUploaderSeq.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtUploaderSeq.Value = 0R
+        '
+        'lblUploaderSeq
+        '
+        Me.lblUploaderSeq.FieldName = Nothing
+        Me.lblUploaderSeq.Location = New System.Drawing.Point(858, 302)
+        Me.lblUploaderSeq.Name = "lblUploaderSeq"
+        Me.lblUploaderSeq.Size = New System.Drawing.Size(92, 18)
+        Me.lblUploaderSeq.TabIndex = 214
+        Me.lblUploaderSeq.Text = "Uploader Seq No"
+        '
         'FrmItemMasterRMOther
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4644,6 +4686,8 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtUploaderSeq, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblUploaderSeq, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -4904,5 +4948,7 @@ Partial Class FrmItemMasterRMOther
     Friend WithEvents cboItemSubGroupType As Controls.MyComboBox
     Friend WithEvents txtRptName As Controls.MyTextBox
     Friend WithEvents MyLabel46 As Controls.MyLabel
+    Friend WithEvents txtUploaderSeq As MyNumBox
+    Friend WithEvents lblUploaderSeq As Controls.MyLabel
 End Class
 

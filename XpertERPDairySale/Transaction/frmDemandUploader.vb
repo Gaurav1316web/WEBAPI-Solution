@@ -6,7 +6,6 @@ Imports System.Text.RegularExpressions
 'Imports Microsoft.Office.Interop
 Imports System.Runtime.InteropServices
 Imports Newtonsoft.Json.Linq
-
 Public Class frmDemandUploader
     Inherits FrmMainTranScreen
 #Region "Variable"
@@ -38,8 +37,6 @@ Public Class frmDemandUploader
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
         End If
-
-
     End Sub
     Private Sub frmDemandUploader_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         UcAttachment1.Form_ID = MyBase.Form_ID
@@ -89,7 +86,27 @@ Public Class frmDemandUploader
             Dim obj As New List(Of clsDemandUploader)
             lstObj = New List(Of clsDemandUploader)
             Dim currentdate As Date = Date.Today
-            If transportSql.importExcel(gv, "S.No.", "DATE", "Shift", "Qty In", "Route", "Booth", "TM 500", "TM 1LT", "SM 500", "SM 1LT", "GM 500", "GM 1LT", "CHHACH", "TM 6LT", "GM 6LT", "SL400", "SL6 LT", "Total Amount") Then
+            Dim strS As String = ""
+            Dim lstItem As New List(Of String)
+            lstItem.Add("S.No.")
+            lstItem.Add("DATE")
+            lstItem.Add("Shift")
+            lstItem.Add("Qty In")
+            lstItem.Add("Route")
+            lstItem.Add("Booth")
+            Dim strqry As String = "select tspl_item_master.Item_Code,tspl_item_master.Short_Description ,tspl_item_master.Item_Desc ,tspl_item_master.Uploader_Seq   from tspl_item_master 
+    left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL .item_code=tspl_item_master.Item_Code 
+    where  tspl_item_master.Is_FreshItem =1 AND TSPL_ITEM_MASTER.Is_Milk_Pouch =1 and isnull(TSPL_ITEM_MASTER.CAN,0)=0  and isnull(TSPL_ITEM_MASTER.CRATE,0)=0  and Item_Type ='F' and tspl_item_master.Active=1 and tspl_item_master.Is_DisplayDemand=1
+    and TSPL_ITEM_UOM_DETAIL.Uom_code ='Crate'
+		order by Uploader_Seq"
+            Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(strqry)
+            If dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0 Then
+                For Each dr As DataRow In dt2.Rows
+                    lstItem.Add(clsCommon.myCstr(dr("Short_Description")))
+                Next
+            End If
+            lstItem.Add("Total Amount")
+            If transportSql.importExcel(gv, lstItem) Then
                 Dim linno As Integer = 0
                 Dim TempNewRecord As Boolean = False
                 Try
@@ -200,7 +217,6 @@ Public Class frmDemandUploader
                                             Else
                                                 dblTotalLitreRowWise = 0
                                             End If
-
                                         End If
                                         objtr.TotalLtr_ItemWise = 0
                                         If clsCommon.CompairString(objtr.Unit_Code, "Crate") = CompairStringResult.Equal Then
@@ -211,15 +227,11 @@ Public Class frmDemandUploader
                                 Next
                             Else
                                 mess += " Error at Line No:" + clsCommon.myCstr(lineNo) + " Shift Type Mismatched " & Environment.NewLine
-
                             End If
                         Else
                             mess += " Error at Line No:" + clsCommon.myCstr(lineNo) + " Date Mismatched " & Environment.NewLine
-
                         End If
                         'objtr.Sno = lineNo
-
-
                     Else
                         mess += " Error at Line No:" + clsCommon.myCstr(lineNo) + " Route: [ " + clsCommon.myCstr(grow.Cells("Route").Value) + " ] Booth: [ " + clsCommon.myCstr(grow.Cells("Booth").Value) + " ] does not exist in ERP" & Environment.NewLine
                     End If
@@ -234,11 +246,9 @@ Public Class frmDemandUploader
                 btnSavePost.Enabled = True
                 btnValidate.Enabled = False
                 clsCommon.MyMessageBoxShow(Me, "Validate Successfully.", Me.Text)
-
             End If
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-
             Throw New Exception(ex.Message)
         End Try
     End Sub
@@ -256,17 +266,14 @@ Public Class frmDemandUploader
     Public Function ValidateShift(ByVal Shift As String) As Boolean
         Try
             Dim ShiftType As String = ""
-
             If rbtnMorning.IsChecked Then
                 ShiftType = "M"
             ElseIf rbtnEvening.IsChecked Then
                 ShiftType = "E"
-
             End If
             If Not (clsCommon.CompairString(Shift, ShiftType) = CompairStringResult.Equal) Then
                 Return False
             End If
-
             Return True
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -278,7 +285,6 @@ Public Class frmDemandUploader
                 Return True
             End If
             Return False
-
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -292,9 +298,6 @@ Public Class frmDemandUploader
     End Sub
     Public Sub SaveData()
         Try
-
-
-
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -312,7 +315,6 @@ Public Class frmDemandUploader
                 Dim shift As Integer = 0
                 Dim items As IEnumerable(Of clsDemandUploaderDetails) = routeGroup.Group
                 clsCommon.ProgressBarUpdate("Saving Data for Route No - " & route & ", Please Wait...")
-
                 obj.Route_No = route
                 obj.Document_Date = txtDate.Value
                 obj.Location_Code = txtLocation.Value
@@ -326,7 +328,6 @@ Public Class frmDemandUploader
                 obj.ItemType = "Fresh"
                 obj.IsIndividualCustomer = 0
                 obj.City_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select City_Code from TSPL_ROUTE_MASTER where Route_No='" & route & "'", trans))
-
                 obj.Arr = New List(Of clsDemandBookingSaleDetail)
                 Dim docamt As Double = 0
                 Dim LineNo As Integer = 1
@@ -357,7 +358,6 @@ Public Class frmDemandUploader
                     Throw New Exception("Error : Route :" + route)
                 End If
             Next
-
             If Docno IsNot Nothing AndAlso Docno.Count > 0 Then
                 Dim obj As clsDemandUploaderSave
                 If isNewEntry Then
@@ -372,28 +372,22 @@ Public Class frmDemandUploader
                         obj.ShiftType = "Evening"
                     End If
                     obj.Location_Code = txtLocation.Value
-
                     obj.SaveData(obj, isNewEntry, trans)
                     UcAttachment1.SaveData(obj.Document_No, False, trans)
                     DU_No = obj.Document_No
                     txtDocNo.Value = DU_No
-
                 End If
                 If clsCommon.myLen(DU_No) > 0 Then
                     Dim updateDoc As String = "update TSPL_DEMAND_BOOKING_MASTER set UploderDocNo='" + DU_No + "' where Document_No in(" + clsCommon.GetMulcallString(Docno) + ")"
                     clsDBFuncationality.ExecuteNonQuery(updateDoc, trans)
                 End If
             End If
-
             clsCommon.ProgressBarHide()
             trans.Commit()
-
-
             clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             btnSavePost.Enabled = False
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-
             trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
@@ -448,7 +442,6 @@ Public Class frmDemandUploader
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub RadButton1_Click(sender As Object, e As EventArgs)
         '        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         '        Try
@@ -457,7 +450,6 @@ Public Class frmDemandUploader
         'TSPL_BOOKING_DETAIL_Hist_Data.Unit_code,
         'max(TSPL_BOOKING_DETAIL_Hist_Data.Booking_Qty) as Booking_Qty,
         'max(TSPL_BOOKING_DETAIL_Hist_Data.route_no) as Route_No
-
         'from TSPL_BOOKING_MATSER_Hist_Data
         'left join TSPL_BOOKING_DETAIL_Hist_Data on TSPL_BOOKING_MATSER_Hist_Data.Document_No=TSPL_BOOKING_DETAIL_Hist_Data.Document_No
         'left join TSPL_ITEM_MASTER on TSPL_BOOKING_DETAIL_Hist_Data.Item_Code=TSPL_ITEM_MASTER.Item_Code
@@ -488,11 +480,8 @@ Public Class frmDemandUploader
         '            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         '        End Try
     End Sub
-
     Private Sub SplitContainer1_Panel1_Paint(sender As Object, e As PaintEventArgs) Handles SplitContainer1.Panel1.Paint
-
     End Sub
-
     Private Sub btnAddNew_Click(sender As Object, e As EventArgs) Handles btnAddNew.Click
         AddNew()
     End Sub
@@ -506,7 +495,6 @@ Public Class frmDemandUploader
         coll.Add("Created_By", "varchar(20)  NULL ")
         coll.Add("Created_Date", "Datetime  NULL")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_UPLOADER", coll, Nothing, True, False, "", "Document_No", "")
-
     End Sub
     Private Sub txtDocNo__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtDocNo._MYNavigator
         Try
@@ -538,7 +526,6 @@ Public Class frmDemandUploader
             'Dim intRow As Integer
             obj = clsDemandUploaderSave.GetData(strCode, NavTyep)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
-
                 AddNew()
                 'EnableDisable(False)
                 isNewEntry = False
@@ -548,7 +535,6 @@ Public Class frmDemandUploader
                     rbtnMorning.IsChecked = True
                 ElseIf clsCommon.CompairString(obj.ShiftType, "Evening") = CompairStringResult.Equal Then
                     rbtnEvening.IsChecked = True
-
                 End If
                 txtLocation.Value = obj.Location_Code
                 UcAttachment1.LoadData(obj.Document_No)
@@ -557,5 +543,4 @@ Public Class frmDemandUploader
             Throw New Exception(ex.Message)
         End Try
     End Sub
-
 End Class
