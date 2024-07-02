@@ -38,7 +38,8 @@ Public Class frmRMProcessLoss
     'Private isInsideLoadData As Boolean = False
     Private isCellValueChangedOpen As Boolean = False
     Sub LoadBlankGrid()
-
+        gv1.Rows.Clear()
+        gv1.Columns.Clear()
 
         Dim repoStr As New GridViewTextBoxColumn()
         Dim repoInt As New GridViewDecimalColumn()
@@ -59,7 +60,7 @@ Public Class frmRMProcessLoss
         repoStr.FormatString = ""
         repoStr.HeaderText = "Item Code"
         repoStr.Name = colitemcode
-        repoStr.Width = 130
+        repoStr.Width = 70
         repoStr.ReadOnly = True
         repoStr.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoStr)
@@ -68,7 +69,7 @@ Public Class frmRMProcessLoss
         repoStr.FormatString = ""
         repoStr.HeaderText = "Type"
         repoStr.Name = colItemType
-        repoStr.Width = 130
+        repoStr.Width = 70
         repoStr.ReadOnly = True
         repoStr.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoStr)
@@ -88,7 +89,7 @@ Public Class frmRMProcessLoss
         repoStr.FormatString = ""
         repoStr.HeaderText = "UOM"
         repoStr.Name = coluom
-        repoStr.Width = 100
+        repoStr.Width = 70
         repoStr.IsVisible = True
         repoStr.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoStr)
@@ -97,7 +98,7 @@ Public Class frmRMProcessLoss
         repoStr.FormatString = "{0:F2}"
         repoStr.HeaderText = "Quantity"
         repoStr.Name = colopQty
-        repoStr.Width = 180
+        repoStr.Width = 70
         repoStr.ReadOnly = True
         repoStr.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoStr)
@@ -106,7 +107,7 @@ Public Class frmRMProcessLoss
         repoStr.FormatString = ""
         repoStr.HeaderText = "Amount"
         repoStr.Name = colopAmt
-        repoStr.Width = 120
+        repoStr.Width = 90
         repoStr.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoStr)
 
@@ -114,7 +115,7 @@ Public Class frmRMProcessLoss
         repoStr.FormatString = "{0:F2}"
         repoStr.HeaderText = "Quantity"
         repoStr.Name = colRecQty
-        repoStr.Width = 120
+        repoStr.Width = 70
         repoStr.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoStr)
 
@@ -122,7 +123,7 @@ Public Class frmRMProcessLoss
         repoStr.FormatString = ""
         repoStr.HeaderText = "Amount"
         repoStr.Name = colRecAmt
-        repoStr.Width = 150
+        repoStr.Width = 90
         repoStr.ReadOnly = True
         repoStr.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoStr)
@@ -131,7 +132,7 @@ Public Class frmRMProcessLoss
         repoStr.FormatString = "{0:F2}"
         repoStr.HeaderText = "Quantity"
         repoStr.Name = colIssProdQty
-        repoStr.Width = 120
+        repoStr.Width = 70
         repoStr.ReadOnly = True
         repoStr.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoStr)
@@ -140,7 +141,7 @@ Public Class frmRMProcessLoss
         repoStr.FormatString = ""
         repoStr.HeaderText = "Amount"
         repoStr.Name = colIssProdAmt
-        repoStr.Width = 150
+        repoStr.Width = 90
         repoStr.ReadOnly = True
         repoStr.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoStr)
@@ -149,7 +150,7 @@ Public Class frmRMProcessLoss
         repoStr.FormatString = "{0:F2}"
         repoStr.HeaderText = "Quantity"
         repoStr.Name = colOtherIssQty
-        repoStr.Width = 150
+        repoStr.Width = 70
         repoStr.ReadOnly = True
         repoStr.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoStr)
@@ -158,7 +159,7 @@ Public Class frmRMProcessLoss
         repoStr.FormatString = ""
         repoStr.HeaderText = "Amount"
         repoStr.Name = colOtherIssAmt
-        repoStr.Width = 150
+        repoStr.Width = 90
         repoStr.ReadOnly = True
         repoStr.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoStr)
@@ -167,7 +168,7 @@ Public Class frmRMProcessLoss
         repoStr.FormatString = "{0:F2}"
         repoStr.HeaderText = "Quantity"
         repoStr.Name = colStockTransferQty
-        repoStr.Width = 150
+        repoStr.Width = 70
         repoStr.ReadOnly = True
         repoStr.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoStr)
@@ -176,7 +177,7 @@ Public Class frmRMProcessLoss
         repoStr.FormatString = ""
         repoStr.HeaderText = "Amount"
         repoStr.Name = colStockTransferAmt
-        repoStr.Width = 150
+        repoStr.Width = 90
         repoStr.ReadOnly = True
         repoStr.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoStr)
@@ -186,7 +187,7 @@ Public Class frmRMProcessLoss
         repoStr.FormatString = "{0:F2}"
         repoStr.HeaderText = "Quantity"
         repoStr.Name = colClQty
-        repoStr.Width = 150
+        repoStr.Width = 70
         repoStr.ReadOnly = True
         repoStr.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoStr)
@@ -195,7 +196,7 @@ Public Class frmRMProcessLoss
         repoStr.FormatString = ""
         repoStr.HeaderText = "Amount"
         repoStr.Name = colClAmt
-        repoStr.Width = 150
+        repoStr.Width = 90
         repoStr.ReadOnly = True
         repoStr.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoStr)
@@ -204,7 +205,7 @@ Public Class frmRMProcessLoss
         repoStr.FormatString = "{0:F2}"
         repoStr.HeaderText = "Quantity"
         repoStr.Name = colPLQty
-        repoStr.Width = 150
+        repoStr.Width = 70
         repoStr.ReadOnly = False
         repoStr.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoStr)
@@ -213,7 +214,7 @@ Public Class frmRMProcessLoss
         repoStr.FormatString = "{0:F2}"
         repoStr.HeaderText = "%AGE"
         repoStr.Name = colPLper
-        repoStr.Width = 150
+        repoStr.Width = 90
         repoStr.ReadOnly = False
         repoStr.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoStr)
@@ -222,7 +223,7 @@ Public Class frmRMProcessLoss
         repoStr.FormatString = "{0:F2}"
         repoStr.HeaderText = "Rate"
         repoStr.Name = colRate
-        repoStr.Width = 150
+        repoStr.Width = 70
         repoStr.ReadOnly = True
         repoStr.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoStr)
@@ -231,7 +232,7 @@ Public Class frmRMProcessLoss
         repoStr.FormatString = "{0:F2}"
         repoStr.HeaderText = "Final"
         repoStr.Name = colFinalClStock
-        repoStr.Width = 150
+        repoStr.Width = 90
         repoStr.ReadOnly = True
         repoStr.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoStr)
@@ -322,15 +323,8 @@ Public Class frmRMProcessLoss
         Me.Close()
     End Sub
 
-    Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
-        AddNew()
-    End Sub
-    Sub AddNew()
-        txtFromDate.Value = clsCommon.GETSERVERDATE()
-        txtLoc.Value = ""
-        lblloc.Text = ""
-        gv1.DataSource = Nothing
-    End Sub
+
+
     Private Sub txtLoc__MYValidating_1(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLoc._MYValidating
         Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
         Dim WhrCls As String = " Location_Type='Physical'  "
@@ -346,6 +340,44 @@ Public Class frmRMProcessLoss
     Private Sub frmRMProcessLoss_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         AddNew()
         LoadBlankGrid()
+
+        Dim coll As Dictionary(Of String, String)
+        coll = New Dictionary(Of String, String)
+        coll.Add("Document_Code", "varchar(30) NOT NULL Primary Key")
+        coll.Add("Document_Date", "datetime  NULL")
+        coll.Add("Comment", "varchar(30) NULL")
+        coll.Add("Location", "varchar(12) null references TSPL_LOCATION_MASTER(Location_Code)")
+        coll.Add("From_Date", "datetime  NULL")
+        coll.Add("To_Date", "datetime  NULL")
+        coll.Add("Created_By", "varchar(12)  Not NULL")
+        coll.Add("Created_Date", "datetime  Not NULL")
+        coll.Add("Modify_By", "varchar(12)  Not NULL")
+        coll.Add("Modify_Date", "datetime  Not NULL")
+        coll.Add("Posted_By", "varchar(12)  Not NULL")
+        coll.Add("Posted_Date", "datetime  Not NULL")
+        coll.Add("Status", "integer not null default 0")
+        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_RM_PROCESS_LOSS", coll, "", True)
+        coll = New Dictionary(Of String, String)()
+        coll.Add("Document_Code", "varchar(30) Not NULL References TSPL_RM_PROCESS_LOSS(Document_Code)")
+        coll.Add("Item_Code", "Varchar(50) Not NULL References TSPL_ITEM_MASTER(Item_Code)")
+        coll.Add("Uom", "varchar(30) null")
+        coll.Add("OP_Qty", "decimal(18,2)  Null")
+        coll.Add("OP_Cost", "decimal(18,2)  Null")
+        coll.Add("Rec_Qty", "decimal(18,2)  Null")
+        coll.Add("Rec_Cost", "decimal(18,2)  Null")
+        coll.Add("IssProd_Qty", "decimal(18,2) Null")
+        coll.Add("IssProd_Cost", "decimal(18,2)  Null")
+        coll.Add("OtherIss_Qty", "decimal(18,2) Null")
+        coll.Add("OtherIss_Cost", "decimal(18,2)  Null")
+        coll.Add("StkTrns_Qty", "decimal(18,2)  Null")
+        coll.Add("StkTrns_Cost", "decimal(18,2)  Null")
+        coll.Add("CL_Qty", "decimal(18,2)  Null")
+        coll.Add("Cl_Cost", "decimal(18,2)  Null")
+        coll.Add("PL_Qty", "decimal(18,2)  Null")
+        coll.Add("PL_Per", "decimal(18,2)  Null")
+        coll.Add("Rate", "decimal(18,2)  Null")
+        coll.Add("FnlStk_Qty", "decimal(18,2) Not Null")
+        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_RM_PROCESS_LOSS_DETAIL", coll, "", True)
     End Sub
 
     Private Sub txtFromDate_ValueChanged(sender As Object, e As EventArgs) Handles txtFromDate.ValueChanged
@@ -848,15 +880,38 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
 
     Private Sub gv1_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellValueChanged
         Try
+
             If (Not isInsideLoadData) Then
                 'If Not isCellValueChangedOpen Then
                 isCellValueChangedOpen = True
-                UpdateCurrentRow(gv1.CurrentRow)
-                ' End If
+                    If e.Column Is gv1.Columns(colPLQty) Then
+                    gv1.CurrentRow.Cells(colPLper).Value = (clsCommon.myCdbl(gv1.CurrentRow.Cells(colIssProdQty).Value) * clsCommon.myCdbl(gv1.CurrentRow.Cells(colPLQty).Value)) / 100
+                    If clsCommon.myCdbl(gv1.CurrentRow.Cells(colPLper).Value) > 0 Then
+                        gv1.CurrentRow.Cells(colFinalClStock).Value = clsCommon.myCdbl(gv1.CurrentRow.Cells(colopQty).Value) + clsCommon.myCdbl(gv1.CurrentRow.Cells(colRecQty).Value) - clsCommon.myCdbl(gv1.CurrentRow.Cells(colIssProdQty).Value) - clsCommon.myCdbl(gv1.CurrentRow.Cells(colPLper).Value)
+                    Else
+                        gv1.CurrentRow.Cells(colFinalClStock).Value = 0
+                    End If
+                End If
+                    'End If
 
-            End If
+                End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub btnAddNew_Click(sender As Object, e As EventArgs) Handles btnAddNew.Click
+        AddNew()
+    End Sub
+    Sub AddNew()
+        txtFromDate.Value = clsCommon.GETSERVERDATE()
+        txtLoc.Value = ""
+        lblloc.Text = ""
+        gv1.DataSource = Nothing
+        LoadBlankGrid()
+    End Sub
+
+    Private Sub MyLabel2_Click(sender As Object, e As EventArgs) Handles MyLabel2.Click
+
     End Sub
 End Class

@@ -3531,28 +3531,28 @@ Public Class frmMCCMaterialSale
                 If CreateAutoMCCPriceChat Then
 
                     Dim qry As String = Nothing
-                        Dim count As Integer = 0
-                        qry = "select count(*) from TSPL_MCC_RATE_UPLOADER_master   left join TSPL_MCC_RATE_UPLOADER_Detail on TSPL_MCC_RATE_UPLOADER_Detail.Code=TSPL_MCC_RATE_UPLOADER_MASTER.code where Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "'  and TSPL_MCC_RATE_UPLOADER_Detail.RATE_UOM='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value) + "' and convert(date,TSPL_MCC_RATE_UPLOADER_Master.Date,103) <=convert(date,'" + clsCommon.GetPrintDate(txtDate.Value) + "',103) and convert(date,TSPL_MCC_RATE_UPLOADER_Master.Effective_date,103) >=convert(date,'" + clsCommon.GetPrintDate(txtDate.Value) + "',103) "
-                        count = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
-                        If count <= 0 Then
-                            Dim objPrice As New clsMCCMaterailSalePriceChat
-                            objPrice.DOCDate = clsCommon.GetPrintDate(txtDate.Value)
-                            objPrice.Effective_Date = clsCommon.GetPrintDate(txtDate.Value.AddDays(365))
-                            'Dim qry As String = Nothing
-                            If AllowPlandDeptMCCLocation Then
-                                qry = "select Location_Code AS Code, Location_Desc as Name  from TSPL_LOCATION_MASTER where Is_Sub_Location = 'N' AND Location_Category <> 'MCC' and GIT_Type  <> 'Y' order by Code "
-                            Else
-                                qry = "select MCC_Code as Code ,MCC_NAME as Name from TSPL_MCC_MASTER "
-                            End If
-                            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry)
-                            Dim MccRate As New ArrayList()
-                            If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
-                                For Each dr As DataRow In dt1.Rows
-                                    MccRate.Add(dr("Code"))
-                                Next
-                            End If
-                            objPrice.ArrMCCRate = MccRate
-                            objPrice.Arr = New List(Of clsMCCMaterailSalePriceChatDetail)
+                    Dim count As Integer = 0
+                    qry = "select count(*) from TSPL_MCC_RATE_UPLOADER_master   left join TSPL_MCC_RATE_UPLOADER_Detail on TSPL_MCC_RATE_UPLOADER_Detail.Code=TSPL_MCC_RATE_UPLOADER_MASTER.code where Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "'  and TSPL_MCC_RATE_UPLOADER_Detail.RATE_UOM='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value) + "' and convert(date,TSPL_MCC_RATE_UPLOADER_Master.Date,103) <=convert(date,'" + clsCommon.GetPrintDate(txtDate.Value) + "',103) and convert(date,TSPL_MCC_RATE_UPLOADER_Master.Effective_date,103) >=convert(date,'" + clsCommon.GetPrintDate(txtDate.Value) + "',103) "
+                    count = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+                    If count <= 0 Then
+                        Dim objPrice As New clsMCCMaterailSalePriceChat
+                        objPrice.DOCDate = clsCommon.GetPrintDate(txtDate.Value)
+                        objPrice.Effective_Date = clsCommon.GetPrintDate(txtDate.Value.AddDays(365))
+                        'Dim qry As String = Nothing
+                        If AllowPlandDeptMCCLocation Then
+                            qry = "select Location_Code AS Code, Location_Desc as Name  from TSPL_LOCATION_MASTER where Is_Sub_Location = 'N' AND Location_Category <> 'MCC' and GIT_Type  <> 'Y' order by Code "
+                        Else
+                            qry = "select MCC_Code as Code ,MCC_NAME as Name from TSPL_MCC_MASTER "
+                        End If
+                        Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry)
+                        Dim MccRate As New ArrayList()
+                        If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
+                            For Each dr As DataRow In dt1.Rows
+                                MccRate.Add(dr("Code"))
+                            Next
+                        End If
+                        objPrice.ArrMCCRate = MccRate
+                        objPrice.Arr = New List(Of clsMCCMaterailSalePriceChatDetail)
                         For Each gorw As GridViewRowInfo In gv1.Rows
                             If clsCommon.myCdbl(gorw.Cells(colRate).Value) > 0 Then
                                 Dim objTrprice As New clsMCCMaterailSalePriceChatDetail()
@@ -3565,7 +3565,7 @@ Public Class frmMCCMaterialSale
                         Next
                         objPrice.SaveData(objPrice, True)
 
-                        End If
+                    End If
 
 
                 End If
@@ -4885,24 +4885,48 @@ Public Class frmMCCMaterialSale
     End Sub
     Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDocNo._MYValidating
         ''-------richa 30/07/2014 Ticket No. BM00000003242---------
+        '        Dim arrZone As New List(Of String)
+        '        Dim ZoneQry As String = " SELECT DISTINCT v.Zone_Code FROM tspl_user_master u JOIN (
+        '    SELECT Zone_Code, Vendor_Code FROM tspl_vendor_master  WHERE Vendor_code = (
+        '        SELECT Vendor_Code   FROM TSPL_CUSTOMER_VENDOR_MAPPING  WHERE Cust_Code IN (
+        '            SELECT Customer_Code FROM TSPL_SD_SHIPMENT_HEAD  ))
+        ') v ON u.Vendor_Code = v.Vendor_Code
+        'LEFT OUTER JOIN tspl_vendor_master vm ON v.Zone_Code = vm.Zone_Code"
+        '        Dim dt As DataTable = clsDBFuncationality.GetDataTable(ZoneQry)
+        '        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+        '            For Each row As DataRow In dt.Rows
+        '                arrZone.Add(row("Zone_Code"))
+        '            Next
+        '        End If
+
+
+
         Dim strwherecls As String = ""
         strwherecls = Xtra.CustomerPermission()
         '-----------------------------------------------------
-        Dim qry As String = "select Document_Code as Code,SALE_INVOICE_NO AS [Invoice No],CONVERT(varchar(10), Document_Date,103)+' '+ CONVERT(varchar(5), Document_Date,114) as Date,Customer_Code as [Customer Code], Customer_Name as Customer,TSPL_SD_SHIPMENT_HEAD.Comments,Total_Amt as Amount,case when TSPL_SD_SHIPMENT_HEAD.Status=0 then 'Pending' else 'Approved' end as [Status],Direct_Dispatch as [Direct Dispatch] from TSPL_SD_SHIPMENT_HEAD left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code "
+        Dim qry As String = "select Document_Code as Code,SALE_INVOICE_NO AS [Invoice No],CONVERT(varchar(10), Document_Date,103)+' '+ CONVERT(varchar(5), Document_Date,114) as Date,Customer_Code as [Customer Code], Customer_Name as Customer,TSPL_SD_SHIPMENT_HEAD.Comments,Total_Amt as Amount,case when TSPL_SD_SHIPMENT_HEAD.Status=0 then 'Pending' else 'Approved' end as [Status],Direct_Dispatch as [Direct Dispatch] from TSPL_SD_SHIPMENT_HEAD left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code left outer join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
+left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code"
         Dim whrClas As String = ""
         '-------richa 30/07/2014 Ticket No. BM00000003242---------
         'If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
         '    whrClas = " Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
         'End If
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 And clsCommon.myLen(strwherecls) > 0 Then
-            whrClas = " Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and  TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC' and TSPL_SD_SHIPMENT_HEAD.Customer_Code in (" + strwherecls + ") "
+            whrClas = " Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and  TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC' and TSPL_SD_SHIPMENT_HEAD.Customer_Code in (" + strwherecls + ")  "
         ElseIf clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrClas = " Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and  TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC'"
+            whrClas = " Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and  TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC'  "
         ElseIf clsCommon.myLen(strwherecls) > 0 Then
-            whrClas = " TSPL_SD_SHIPMENT_HEAD.Customer_Code in (" + strwherecls + ") and  TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC' "
+            whrClas = " TSPL_SD_SHIPMENT_HEAD.Customer_Code in (" + strwherecls + ") and  TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC'   "
         Else
-            whrClas = " TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC'"
+            whrClas = " TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC' "
         End If
+
+        'If arrZone IsNot Nothing AndAlso arrZone.Count > 0 Then
+        '    whrClas += " TSPL_VENDOR_MASTER.Zone_Code In (" + clsCommon.GetMulcallString(arrZone) + ") "
+        'End If
+        '' 
+
+
         '-----------------------------------------------------
         LoadData(clsCommon.ShowSelectForm("ShipmentCofnd", qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked, "Document_Date"), NavigatorType.Current)
     End Sub
@@ -5184,6 +5208,7 @@ Public Class frmMCCMaterialSale
                 Exit Sub
             End If
         End If
+
         Dim qry As String = ""
         If AllowPlandDeptMCCLocation Then
             qry = "select TSPL_CUSTOMER_MASTER.Cust_Code as Code,Customer_Name as Name,TSPL_CUSTOMER_MASTER.add1 +case when len(TSPL_CUSTOMER_MASTER.add2)>0 then ', '+TSPL_CUSTOMER_MASTER.add2 else '' end +case when LEN(isnull(TSPL_CUSTOMER_MASTER.Add3,''))>0 then ', '+isnull(TSPL_CUSTOMER_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER.City_Name)>0 then ', '+TSPL_CITY_MASTER.City_Name else ' ' end + case when len(TSPL_CUSTOMER_MASTER.State )>0 then TSPL_CUSTOMER_MASTER.State else '' end  as Address
@@ -5193,11 +5218,12 @@ Public Class frmMCCMaterialSale
             left outer join TSPL_VEHICLE_MASTER on TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id 
             left join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code 
             left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code 
-            left join TSPL_VLC_MASTER_HEAD on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code "
+            left join TSPL_VLC_MASTER_HEAD on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code 
+			left join TSPL_USER_CUSTOMER_ZONE on TSPL_USER_CUSTOMER_ZONE.Zone_Code=TSPL_VENDOR_MASTER.Zone_Code"
             Dim WhrCls As String = " 2=2 and TSPL_VENDOR_MASTER.Is_Inactive_In_Milk_Procurement=0
-            and TSPL_CUSTOMER_MASTER.CUSTOMER_FORM_TYPE='VSP'"
+            and TSPL_CUSTOMER_MASTER.CUSTOMER_FORM_TYPE='VSP' and TSPL_USER_CUSTOMER_ZONE.USER_Code= ('" + objCommonVar.CurrentUserCode + "')"
             txtVendorNo.Value = clsCommon.ShowSelectForm("AllCustomerInsteadMcc", qry, "Vlc_Code", WhrCls, txtVendorNo.Value, "Code", isButtonClicked)
-            qry += "where 2=2 and TSPL_VENDOR_MASTER.Is_Inactive_In_Milk_Procurement=0 and TSPL_CUSTOMER_MASTER.CUSTOMER_FORM_TYPE='VSP' and TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader  ='" + txtVendorNo.Value + "'"
+            qry += " where 2=2 and TSPL_VENDOR_MASTER.Is_Inactive_In_Milk_Procurement=0 and TSPL_CUSTOMER_MASTER.CUSTOMER_FORM_TYPE='VSP' and TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader  ='" + txtVendorNo.Value + "'"
         Else
             If ShowAllCustomer = True AndAlso chkcashsale.Checked = True AndAlso chkOther.Checked = True Then
                 qry = "select TSPL_CUSTOMER_MASTER.Cust_Code as Code,Customer_Name as Name,TSPL_CUSTOMER_MASTER.add1 +case when len(TSPL_CUSTOMER_MASTER.add2)>0 then ', '+TSPL_CUSTOMER_MASTER.add2 else '' end +case when LEN(isnull(TSPL_CUSTOMER_MASTER.Add3,''))>0 then ', '+isnull(TSPL_CUSTOMER_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER.City_Name)>0 then ', '+TSPL_CITY_MASTER.City_Name else ' ' end + case when len(TSPL_CUSTOMER_MASTER.State )>0 then TSPL_CUSTOMER_MASTER.State else '' end  as Address,TSPL_CUSTOMER_MASTER.Terms_Code as [Term Code] , TSPL_TERMS_MASTER.Terms_Desc as [Term Description] ,TSPL_CUSTOMER_MASTER.Tax_Group as [Tax Group],TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as [Tax Group Description],Salesman_Code as [Salesman Code],Salesman_Desc as Salesman  " &
