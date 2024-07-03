@@ -24,6 +24,7 @@ Public Class objCommonVar
     Private Shared _CalculateFIFOAndLIFOCosting As Boolean = False
     Private Shared _currUserLevel As Integer = 0
     Private Shared _IsDemoERP As Boolean = False
+    Private Shared _SystemClockStatus As Boolean = True
     Private Shared _IsKDIL As Boolean = False
     Private Shared _IsSendToTally As Boolean = False
     Private Shared _IsPromptForTally As Boolean = False
@@ -948,6 +949,15 @@ Public Class objCommonVar
         End Get
         Set(ByVal Value As Boolean)
             _IsKDIL = Value
+        End Set
+    End Property
+
+    Public Shared Property SystemClockStatus() As Boolean
+        Get
+            Return _SystemClockStatus
+        End Get
+        Set(ByVal Value As Boolean)
+            _SystemClockStatus = Value
         End Set
     End Property
 
