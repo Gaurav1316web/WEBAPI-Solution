@@ -22,6 +22,8 @@ Partial Class frmPendingSaleInvoice
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.gvHead = New common.UserControls.MyRadGridView()
@@ -103,32 +105,37 @@ Partial Class frmPendingSaleInvoice
         Me.gvHead.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvHead.Location = New System.Drawing.Point(0, 0)
         '
-        'gvHead
         '
+        '
+        Me.gvHead.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvHead.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvHead.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvHead.MyStopExport = False
         Me.gvHead.Name = "gvHead"
         Me.gvHead.ShowHeaderCellButtons = True
         Me.gvHead.Size = New System.Drawing.Size(266, 404)
         Me.gvHead.TabIndex = 0
-        Me.gvHead.Text = "RadGridView1"
         '
         'gv1
         '
         Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv1.Location = New System.Drawing.Point(0, 0)
         '
-        'gv1
         '
+        '
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(755, 404)
         Me.gv1.TabIndex = 0
-        Me.gv1.Text = "RadGridView1"
         '
         'RadLabel12
         '
         Me.RadLabel12.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadLabel12.FieldName = Nothing
         Me.RadLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel12.ForeColor = System.Drawing.SystemColors.Highlight
         Me.RadLabel12.Location = New System.Drawing.Point(659, 10)
@@ -180,8 +187,17 @@ Partial Class frmPendingSaleInvoice
         '
         'txtToDate
         '
+        Me.txtToDate.CalculationExpression = Nothing
         Me.txtToDate.CustomFormat = "dd-MM-yyyy"
+        Me.txtToDate.FieldCode = Nothing
+        Me.txtToDate.FieldDesc = Nothing
+        Me.txtToDate.FieldMaxLength = 0
+        Me.txtToDate.FieldName = Nothing
         Me.txtToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtToDate.isCalculatedField = False
+        Me.txtToDate.IsSourceFromTable = False
+        Me.txtToDate.IsSourceFromValueList = False
+        Me.txtToDate.IsUnique = False
         Me.txtToDate.Location = New System.Drawing.Point(293, 7)
         Me.txtToDate.MendatroryField = False
         Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -189,6 +205,9 @@ Partial Class frmPendingSaleInvoice
         Me.txtToDate.MyLinkLable2 = Nothing
         Me.txtToDate.Name = "txtToDate"
         Me.txtToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtToDate.ReferenceFieldDesc = Nothing
+        Me.txtToDate.ReferenceFieldName = Nothing
+        Me.txtToDate.ReferenceTableName = Nothing
         Me.txtToDate.Size = New System.Drawing.Size(85, 20)
         Me.txtToDate.TabIndex = 2
         Me.txtToDate.TabStop = False
@@ -197,6 +216,7 @@ Partial Class frmPendingSaleInvoice
         '
         'RadLabel2
         '
+        Me.RadLabel2.FieldName = Nothing
         Me.RadLabel2.Location = New System.Drawing.Point(233, 8)
         Me.RadLabel2.Name = "RadLabel2"
         Me.RadLabel2.Size = New System.Drawing.Size(45, 18)
@@ -205,8 +225,17 @@ Partial Class frmPendingSaleInvoice
         '
         'txtFromDate
         '
+        Me.txtFromDate.CalculationExpression = Nothing
         Me.txtFromDate.CustomFormat = "dd-MM-yyyy"
+        Me.txtFromDate.FieldCode = Nothing
+        Me.txtFromDate.FieldDesc = Nothing
+        Me.txtFromDate.FieldMaxLength = 0
+        Me.txtFromDate.FieldName = Nothing
         Me.txtFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtFromDate.isCalculatedField = False
+        Me.txtFromDate.IsSourceFromTable = False
+        Me.txtFromDate.IsSourceFromValueList = False
+        Me.txtFromDate.IsUnique = False
         Me.txtFromDate.Location = New System.Drawing.Point(82, 7)
         Me.txtFromDate.MendatroryField = False
         Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -214,6 +243,9 @@ Partial Class frmPendingSaleInvoice
         Me.txtFromDate.MyLinkLable2 = Nothing
         Me.txtFromDate.Name = "txtFromDate"
         Me.txtFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtFromDate.ReferenceFieldDesc = Nothing
+        Me.txtFromDate.ReferenceFieldName = Nothing
+        Me.txtFromDate.ReferenceTableName = Nothing
         Me.txtFromDate.Size = New System.Drawing.Size(85, 20)
         Me.txtFromDate.TabIndex = 1
         Me.txtFromDate.TabStop = False
@@ -222,6 +254,7 @@ Partial Class frmPendingSaleInvoice
         '
         'RadLabel1
         '
+        Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Location = New System.Drawing.Point(9, 8)
         Me.RadLabel1.Name = "RadLabel1"
         Me.RadLabel1.Size = New System.Drawing.Size(59, 18)
