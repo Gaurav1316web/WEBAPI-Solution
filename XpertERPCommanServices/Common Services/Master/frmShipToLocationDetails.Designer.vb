@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class FrmShipToLocationDetails
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,42 +20,44 @@ Partial Class FrmShipToLocationDetails
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmShipToLocationDetails))
-        Dim GridViewTextBoxColumn1 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn2 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn3 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn4 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn5 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn6 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn7 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn8 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn9 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn10 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn11 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn12 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn13 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn14 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn15 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn16 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn17 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn18 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn19 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn20 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn21 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn22 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn23 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn24 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn25 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn26 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn27 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn28 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn29 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn30 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn31 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn32 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn65 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn66 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn67 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn68 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn69 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn70 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn71 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn72 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn73 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn74 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn75 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn76 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn77 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn78 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn79 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn80 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn81 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn82 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn83 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn84 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn85 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn86 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn87 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn88 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn89 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn90 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn91 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn92 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn93 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn94 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn95 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn96 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.grpShipToLocation = New Telerik.WinControls.UI.RadGroupBox()
         Me.lblLocationDesc = New common.Controls.MyLabel()
         Me.MyLabel4 = New common.Controls.MyLabel()
@@ -153,6 +155,7 @@ Partial Class FrmShipToLocationDetails
         Me.txtGstPanNo = New Telerik.WinControls.UI.RadTextBox()
         Me.txtGSTstateCode = New Telerik.WinControls.UI.RadTextBox()
         Me.MyLabel13 = New common.Controls.MyLabel()
+        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         CType(Me.grpShipToLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpShipToLocation.SuspendLayout()
         CType(Me.lblLocationDesc, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -246,6 +249,7 @@ Partial Class FrmShipToLocationDetails
         CType(Me.txtGstPanNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtGSTstateCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -280,7 +284,6 @@ Partial Class FrmShipToLocationDetails
         Me.lblLocationDesc.Name = "lblLocationDesc"
         Me.lblLocationDesc.Size = New System.Drawing.Size(329, 19)
         Me.lblLocationDesc.TabIndex = 6
-        Me.lblLocationDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel4
         '
@@ -1000,34 +1003,25 @@ Partial Class FrmShipToLocationDetails
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1106, 20)
         Me.RadMenu1.TabIndex = 1
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'menuImport
         '
-        Me.menuImport.AccessibleDescription = "File"
-        Me.menuImport.AccessibleName = "File"
         Me.menuImport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.menuImport1, Me.menuExport, Me.menuClose, Me.menuPrint})
         Me.menuImport.Name = "menuImport"
         Me.menuImport.Text = "File"
         '
         'menuImport1
         '
-        Me.menuImport1.AccessibleDescription = "Import.."
-        Me.menuImport1.AccessibleName = "Import.."
         Me.menuImport1.Name = "menuImport1"
         Me.menuImport1.Text = "Import.."
         '
         'menuExport
         '
-        Me.menuExport.AccessibleDescription = "Export.."
-        Me.menuExport.AccessibleName = "Export.."
         Me.menuExport.Name = "menuExport"
         Me.menuExport.Text = "Export.."
         '
         'menuClose
         '
-        Me.menuClose.AccessibleDescription = "Close"
-        Me.menuClose.AccessibleName = "Close"
         Me.menuClose.Name = "menuClose"
         Me.menuClose.Text = "Close"
         '
@@ -1221,6 +1215,7 @@ Partial Class FrmShipToLocationDetails
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.btnAddNew)
         Me.RadGroupBox1.Controls.Add(Me.lblShipToType)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel1)
         Me.RadGroupBox1.Controls.Add(Me.txtcustomer)
@@ -1310,128 +1305,131 @@ Partial Class FrmShipToLocationDetails
         Me.MasterTemplate.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.MasterTemplate.Location = New System.Drawing.Point(6, 68)
         '
-        'MasterTemplate
+        '
         '
         Me.MasterTemplate.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
-        GridViewTextBoxColumn1.EnableExpressionEditor = False
-        GridViewTextBoxColumn1.HeaderText = "Ship-To  Location"
-        GridViewTextBoxColumn1.Name = "column1"
-        GridViewTextBoxColumn1.ReadOnly = True
-        GridViewTextBoxColumn1.Width = 80
-        GridViewTextBoxColumn2.EnableExpressionEditor = False
-        GridViewTextBoxColumn2.HeaderText = "Description"
-        GridViewTextBoxColumn2.Name = "column2"
-        GridViewTextBoxColumn2.ReadOnly = True
-        GridViewTextBoxColumn2.Width = 80
-        GridViewTextBoxColumn3.EnableExpressionEditor = False
-        GridViewTextBoxColumn3.HeaderText = "Address1"
-        GridViewTextBoxColumn3.Name = "column4"
-        GridViewTextBoxColumn3.ReadOnly = True
-        GridViewTextBoxColumn3.Width = 80
-        GridViewTextBoxColumn4.EnableExpressionEditor = False
-        GridViewTextBoxColumn4.HeaderText = "Address2"
-        GridViewTextBoxColumn4.Name = "column5"
-        GridViewTextBoxColumn4.ReadOnly = True
-        GridViewTextBoxColumn4.Width = 80
-        GridViewTextBoxColumn5.EnableExpressionEditor = False
-        GridViewTextBoxColumn5.HeaderText = "Address3"
-        GridViewTextBoxColumn5.Name = "column6"
-        GridViewTextBoxColumn5.ReadOnly = True
-        GridViewTextBoxColumn5.Width = 80
-        GridViewTextBoxColumn6.EnableExpressionEditor = False
-        GridViewTextBoxColumn6.HeaderText = "Address4"
-        GridViewTextBoxColumn6.Name = "column7"
-        GridViewTextBoxColumn6.ReadOnly = True
-        GridViewTextBoxColumn6.Width = 80
-        GridViewTextBoxColumn7.EnableExpressionEditor = False
-        GridViewTextBoxColumn7.HeaderText = "City"
-        GridViewTextBoxColumn7.Name = "column8"
-        GridViewTextBoxColumn7.ReadOnly = True
-        GridViewTextBoxColumn7.Width = 80
-        GridViewTextBoxColumn8.EnableExpressionEditor = False
-        GridViewTextBoxColumn8.HeaderText = "State/Province"
-        GridViewTextBoxColumn8.Name = "column9"
-        GridViewTextBoxColumn8.ReadOnly = True
-        GridViewTextBoxColumn8.Width = 80
-        GridViewTextBoxColumn9.EnableExpressionEditor = False
-        GridViewTextBoxColumn9.HeaderText = "ZipPostalCode"
-        GridViewTextBoxColumn9.Name = "column10"
-        GridViewTextBoxColumn9.ReadOnly = True
-        GridViewTextBoxColumn9.Width = 80
-        GridViewTextBoxColumn10.EnableExpressionEditor = False
-        GridViewTextBoxColumn10.HeaderText = "Country"
-        GridViewTextBoxColumn10.Name = "column11"
-        GridViewTextBoxColumn10.ReadOnly = True
-        GridViewTextBoxColumn10.Width = 80
-        GridViewTextBoxColumn11.EnableExpressionEditor = False
-        GridViewTextBoxColumn11.HeaderText = "Telephone"
-        GridViewTextBoxColumn11.Name = "column12"
-        GridViewTextBoxColumn11.ReadOnly = True
-        GridViewTextBoxColumn11.Width = 80
-        GridViewTextBoxColumn12.EnableExpressionEditor = False
-        GridViewTextBoxColumn12.HeaderText = "Email"
-        GridViewTextBoxColumn12.Name = "column3"
-        GridViewTextBoxColumn12.ReadOnly = True
-        GridViewTextBoxColumn12.Width = 80
-        GridViewTextBoxColumn13.EnableExpressionEditor = False
-        GridViewTextBoxColumn13.HeaderText = "Tin No"
-        GridViewTextBoxColumn13.Name = "colTinNo"
-        GridViewTextBoxColumn13.ReadOnly = True
-        GridViewTextBoxColumn14.EnableExpressionEditor = False
-        GridViewTextBoxColumn14.HeaderText = "CST No"
-        GridViewTextBoxColumn14.Name = "colCST"
-        GridViewTextBoxColumn14.ReadOnly = True
-        GridViewTextBoxColumn15.HeaderText = "Loc_Code"
-        GridViewTextBoxColumn15.Name = "colLoc"
-        GridViewTextBoxColumn16.HeaderText = "Contact Person Name"
-        GridViewTextBoxColumn16.Name = "ConPerName"
-        GridViewTextBoxColumn17.HeaderText = "Contact Person Fax"
-        GridViewTextBoxColumn17.Name = "ConPerFax"
-        GridViewTextBoxColumn18.HeaderText = "Contact Person Email"
-        GridViewTextBoxColumn18.Name = "ConPerEmail"
-        GridViewTextBoxColumn19.HeaderText = "Contact Person Phone"
-        GridViewTextBoxColumn19.Name = "ConPerPhone"
-        GridViewTextBoxColumn20.HeaderText = "Contact Person Website"
-        GridViewTextBoxColumn20.Name = "ConPerWeb"
-        GridViewTextBoxColumn21.HeaderText = "Vehicle No"
-        GridViewTextBoxColumn21.Name = "VehicleNo"
-        GridViewTextBoxColumn22.HeaderText = "Driver Name"
-        GridViewTextBoxColumn22.Name = "DriverName"
-        GridViewTextBoxColumn23.HeaderText = "Driver Mobile"
-        GridViewTextBoxColumn23.Name = "Drivermobile"
-        GridViewTextBoxColumn24.HeaderText = "PanNo"
-        GridViewTextBoxColumn24.Name = "Pan"
-        GridViewTextBoxColumn25.HeaderText = "Other For Pan"
-        GridViewTextBoxColumn25.Name = "OtherForPan"
-        GridViewTextBoxColumn26.HeaderText = "GST No"
-        GridViewTextBoxColumn26.Name = "GstNo"
-        GridViewTextBoxColumn27.HeaderText = "GST Entity"
-        GridViewTextBoxColumn27.Name = "GstEntity"
-        GridViewTextBoxColumn28.HeaderText = "GST Blank"
-        GridViewTextBoxColumn28.Name = "GstBlank"
-        GridViewTextBoxColumn29.HeaderText = "Gst Digit"
-        GridViewTextBoxColumn29.Name = "GstDigit"
-        GridViewTextBoxColumn30.HeaderText = "Region Type"
-        GridViewTextBoxColumn30.Name = "RegionType"
-        GridViewTextBoxColumn31.HeaderText = "GST Registered"
-        GridViewTextBoxColumn31.Name = "GstReg"
-        GridViewTextBoxColumn32.HeaderText = "GST Composition"
-        GridViewTextBoxColumn32.Name = "GSTComp"
-        Me.MasterTemplate.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn1, GridViewTextBoxColumn2, GridViewTextBoxColumn3, GridViewTextBoxColumn4, GridViewTextBoxColumn5, GridViewTextBoxColumn6, GridViewTextBoxColumn7, GridViewTextBoxColumn8, GridViewTextBoxColumn9, GridViewTextBoxColumn10, GridViewTextBoxColumn11, GridViewTextBoxColumn12, GridViewTextBoxColumn13, GridViewTextBoxColumn14, GridViewTextBoxColumn15, GridViewTextBoxColumn16, GridViewTextBoxColumn17, GridViewTextBoxColumn18, GridViewTextBoxColumn19, GridViewTextBoxColumn20, GridViewTextBoxColumn21, GridViewTextBoxColumn22, GridViewTextBoxColumn23, GridViewTextBoxColumn24, GridViewTextBoxColumn25, GridViewTextBoxColumn26, GridViewTextBoxColumn27, GridViewTextBoxColumn28, GridViewTextBoxColumn29, GridViewTextBoxColumn30, GridViewTextBoxColumn31, GridViewTextBoxColumn32})
+        GridViewTextBoxColumn65.EnableExpressionEditor = False
+        GridViewTextBoxColumn65.HeaderText = "Ship-To  Location"
+        GridViewTextBoxColumn65.Name = "column1"
+        GridViewTextBoxColumn65.ReadOnly = True
+        GridViewTextBoxColumn65.Width = 80
+        GridViewTextBoxColumn66.EnableExpressionEditor = False
+        GridViewTextBoxColumn66.HeaderText = "Description"
+        GridViewTextBoxColumn66.Name = "column2"
+        GridViewTextBoxColumn66.ReadOnly = True
+        GridViewTextBoxColumn66.Width = 80
+        GridViewTextBoxColumn67.EnableExpressionEditor = False
+        GridViewTextBoxColumn67.HeaderText = "Address1"
+        GridViewTextBoxColumn67.Name = "column4"
+        GridViewTextBoxColumn67.ReadOnly = True
+        GridViewTextBoxColumn67.Width = 80
+        GridViewTextBoxColumn68.EnableExpressionEditor = False
+        GridViewTextBoxColumn68.HeaderText = "Address2"
+        GridViewTextBoxColumn68.Name = "column5"
+        GridViewTextBoxColumn68.ReadOnly = True
+        GridViewTextBoxColumn68.Width = 80
+        GridViewTextBoxColumn69.EnableExpressionEditor = False
+        GridViewTextBoxColumn69.HeaderText = "Address3"
+        GridViewTextBoxColumn69.Name = "column6"
+        GridViewTextBoxColumn69.ReadOnly = True
+        GridViewTextBoxColumn69.Width = 80
+        GridViewTextBoxColumn70.EnableExpressionEditor = False
+        GridViewTextBoxColumn70.HeaderText = "Address4"
+        GridViewTextBoxColumn70.Name = "column7"
+        GridViewTextBoxColumn70.ReadOnly = True
+        GridViewTextBoxColumn70.Width = 80
+        GridViewTextBoxColumn71.EnableExpressionEditor = False
+        GridViewTextBoxColumn71.HeaderText = "City"
+        GridViewTextBoxColumn71.Name = "column8"
+        GridViewTextBoxColumn71.ReadOnly = True
+        GridViewTextBoxColumn71.Width = 80
+        GridViewTextBoxColumn72.EnableExpressionEditor = False
+        GridViewTextBoxColumn72.HeaderText = "State/Province"
+        GridViewTextBoxColumn72.Name = "column9"
+        GridViewTextBoxColumn72.ReadOnly = True
+        GridViewTextBoxColumn72.Width = 80
+        GridViewTextBoxColumn73.EnableExpressionEditor = False
+        GridViewTextBoxColumn73.HeaderText = "ZipPostalCode"
+        GridViewTextBoxColumn73.Name = "column10"
+        GridViewTextBoxColumn73.ReadOnly = True
+        GridViewTextBoxColumn73.Width = 80
+        GridViewTextBoxColumn74.EnableExpressionEditor = False
+        GridViewTextBoxColumn74.HeaderText = "Country"
+        GridViewTextBoxColumn74.Name = "column11"
+        GridViewTextBoxColumn74.ReadOnly = True
+        GridViewTextBoxColumn74.Width = 80
+        GridViewTextBoxColumn75.EnableExpressionEditor = False
+        GridViewTextBoxColumn75.HeaderText = "Telephone"
+        GridViewTextBoxColumn75.Name = "column12"
+        GridViewTextBoxColumn75.ReadOnly = True
+        GridViewTextBoxColumn75.Width = 80
+        GridViewTextBoxColumn76.EnableExpressionEditor = False
+        GridViewTextBoxColumn76.HeaderText = "Email"
+        GridViewTextBoxColumn76.Name = "column3"
+        GridViewTextBoxColumn76.ReadOnly = True
+        GridViewTextBoxColumn76.Width = 80
+        GridViewTextBoxColumn77.EnableExpressionEditor = False
+        GridViewTextBoxColumn77.HeaderText = "Tin No"
+        GridViewTextBoxColumn77.Name = "colTinNo"
+        GridViewTextBoxColumn77.ReadOnly = True
+        GridViewTextBoxColumn78.EnableExpressionEditor = False
+        GridViewTextBoxColumn78.HeaderText = "CST No"
+        GridViewTextBoxColumn78.Name = "colCST"
+        GridViewTextBoxColumn78.ReadOnly = True
+        GridViewTextBoxColumn79.HeaderText = "Loc_Code"
+        GridViewTextBoxColumn79.Name = "colLoc"
+        GridViewTextBoxColumn80.HeaderText = "Contact Person Name"
+        GridViewTextBoxColumn80.Name = "ConPerName"
+        GridViewTextBoxColumn81.HeaderText = "Contact Person Fax"
+        GridViewTextBoxColumn81.Name = "ConPerFax"
+        GridViewTextBoxColumn82.HeaderText = "Contact Person Email"
+        GridViewTextBoxColumn82.Name = "ConPerEmail"
+        GridViewTextBoxColumn83.HeaderText = "Contact Person Phone"
+        GridViewTextBoxColumn83.Name = "ConPerPhone"
+        GridViewTextBoxColumn84.HeaderText = "Contact Person Website"
+        GridViewTextBoxColumn84.Name = "ConPerWeb"
+        GridViewTextBoxColumn85.HeaderText = "Vehicle No"
+        GridViewTextBoxColumn85.Name = "VehicleNo"
+        GridViewTextBoxColumn86.HeaderText = "Driver Name"
+        GridViewTextBoxColumn86.Name = "DriverName"
+        GridViewTextBoxColumn87.HeaderText = "Driver Mobile"
+        GridViewTextBoxColumn87.Name = "Drivermobile"
+        GridViewTextBoxColumn88.HeaderText = "PanNo"
+        GridViewTextBoxColumn88.Name = "Pan"
+        GridViewTextBoxColumn89.HeaderText = "Other For Pan"
+        GridViewTextBoxColumn89.Name = "OtherForPan"
+        GridViewTextBoxColumn90.HeaderText = "GST No"
+        GridViewTextBoxColumn90.Name = "GstNo"
+        GridViewTextBoxColumn91.HeaderText = "GST Entity"
+        GridViewTextBoxColumn91.Name = "GstEntity"
+        GridViewTextBoxColumn92.HeaderText = "GST Blank"
+        GridViewTextBoxColumn92.Name = "GstBlank"
+        GridViewTextBoxColumn93.HeaderText = "Gst Digit"
+        GridViewTextBoxColumn93.Name = "GstDigit"
+        GridViewTextBoxColumn94.HeaderText = "Region Type"
+        GridViewTextBoxColumn94.Name = "RegionType"
+        GridViewTextBoxColumn95.HeaderText = "GST Registered"
+        GridViewTextBoxColumn95.Name = "GstReg"
+        GridViewTextBoxColumn96.HeaderText = "GST Composition"
+        GridViewTextBoxColumn96.Name = "GSTComp"
+        Me.MasterTemplate.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn65, GridViewTextBoxColumn66, GridViewTextBoxColumn67, GridViewTextBoxColumn68, GridViewTextBoxColumn69, GridViewTextBoxColumn70, GridViewTextBoxColumn71, GridViewTextBoxColumn72, GridViewTextBoxColumn73, GridViewTextBoxColumn74, GridViewTextBoxColumn75, GridViewTextBoxColumn76, GridViewTextBoxColumn77, GridViewTextBoxColumn78, GridViewTextBoxColumn79, GridViewTextBoxColumn80, GridViewTextBoxColumn81, GridViewTextBoxColumn82, GridViewTextBoxColumn83, GridViewTextBoxColumn84, GridViewTextBoxColumn85, GridViewTextBoxColumn86, GridViewTextBoxColumn87, GridViewTextBoxColumn88, GridViewTextBoxColumn89, GridViewTextBoxColumn90, GridViewTextBoxColumn91, GridViewTextBoxColumn92, GridViewTextBoxColumn93, GridViewTextBoxColumn94, GridViewTextBoxColumn95, GridViewTextBoxColumn96})
         Me.MasterTemplate.MasterTemplate.EnableFiltering = True
         Me.MasterTemplate.MasterTemplate.EnableGrouping = False
+        Me.MasterTemplate.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.MasterTemplate.MasterTemplate.ShowHeaderCellButtons = True
+        Me.MasterTemplate.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.MasterTemplate.MyStopExport = False
         Me.MasterTemplate.Name = "MasterTemplate"
         Me.MasterTemplate.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.MasterTemplate.ShowHeaderCellButtons = True
         Me.MasterTemplate.Size = New System.Drawing.Size(1072, 186)
         Me.MasterTemplate.TabIndex = 3
         Me.MasterTemplate.TabStop = False
-        Me.MasterTemplate.Text = "RadGridView1"
         '
         'ddlShipToType
         '
         Me.ddlShipToType.CalculationExpression = Nothing
+        Me.ddlShipToType.DropDownAnimationEnabled = True
         Me.ddlShipToType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlShipToType.FieldCode = Nothing
         Me.ddlShipToType.FieldDesc = Nothing
@@ -1444,7 +1442,9 @@ Partial Class FrmShipToLocationDetails
         Me.ddlShipToType.IsUnique = False
         RadListDataItem1.Selected = True
         RadListDataItem1.Text = "Sales"
+        RadListDataItem2.Text = "Purchase"
         Me.ddlShipToType.Items.Add(RadListDataItem1)
+        Me.ddlShipToType.Items.Add(RadListDataItem2)
         Me.ddlShipToType.Location = New System.Drawing.Point(99, 20)
         Me.ddlShipToType.MendatroryField = False
         Me.ddlShipToType.MyLinkLable1 = Me.lblShipToType
@@ -1468,7 +1468,6 @@ Partial Class FrmShipToLocationDetails
         Me.RadPageView1.SelectedPage = Me.Details
         Me.RadPageView1.Size = New System.Drawing.Size(837, 318)
         Me.RadPageView1.TabIndex = 1
-        Me.RadPageView1.Text = "Ship To Location"
         '
         'Details
         '
@@ -1517,7 +1516,7 @@ Partial Class FrmShipToLocationDetails
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(92.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(802, 270)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(816, 270)
         Me.RadPageViewPage1.Text = "Contact Person"
         '
         'MyLabel12
@@ -1957,6 +1956,16 @@ Partial Class FrmShipToLocationDetails
         Me.MyLabel13.TabIndex = 83
         Me.MyLabel13.Text = "GSTIN No"
         '
+        'btnAddNew
+        '
+        Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAddNew.Image = Global.XpertERPCommanServices.My.Resources.Resources._new
+        Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnAddNew.Location = New System.Drawing.Point(230, 20)
+        Me.btnAddNew.Name = "btnAddNew"
+        Me.btnAddNew.Size = New System.Drawing.Size(17, 19)
+        Me.btnAddNew.TabIndex = 4
+        '
         'FrmShipToLocationDetails
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2068,6 +2077,7 @@ Partial Class FrmShipToLocationDetails
         CType(Me.txtGstPanNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtGSTstateCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -2170,5 +2180,6 @@ Partial Class FrmShipToLocationDetails
     Friend WithEvents lblpan As common.Controls.MyLabel
     Friend WithEvents txtpan As common.Controls.MyTextBox
     Friend WithEvents ChkOther As common.Controls.MyCheckBox
+    Friend WithEvents btnAddNew As RadButton
 End Class
 
