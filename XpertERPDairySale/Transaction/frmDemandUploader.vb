@@ -416,7 +416,7 @@ Public Class frmDemandUploader
                    ") XXXE WHERE RowNo=1  "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                ItemRate = clsCommon.myCdbl(dt.Rows(0).Item("Item_Selling_Price"))
+                ItemRate = clsCommon.myCdbl(dt.Rows(0).Item("Item_Basic_Price"))
                 If ItemRate = 0 Then
                     Throw New Exception("Please Fill Selling Price for Location " & txtLocation.Value & "  for item " & clsCommon.myCstr(ItemDesc) & " at LineNo -" & clsCommon.myCstr(LineNo) & Environment.NewLine)
                 End If
