@@ -67,7 +67,9 @@ Public Class rptNewSalesReport
             If rbtnDemand.IsChecked Then
                 qry = " ,TSPL_ITEM_MASTER.Sku_Seq FROM TSPL_BOOKING_DETAIL 
             left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_BOOKING_DETAIL.Item_Code  left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_No = TSPL_BOOKING_DETAIL.Document_No
-            left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_BOOKING_DETAIL.Route_No
+            left join ( SELECT  TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No, TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code, TSPL_DISTRIBUTOR_ROUTE.Start_Date FROM  TSPL_DISTRIBUTOR_ROUTE_CUSTOMER LEFT JOIN  TSPL_DISTRIBUTOR_ROUTE ON TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.code = TSPL_DISTRIBUTOR_ROUTE.code 
+            JOIN ( SELECT Route_No,MAX(Start_Date) AS Max_Start_Date FROM TSPL_DISTRIBUTOR_ROUTE_CUSTOMER  LEFT JOIN  TSPL_DISTRIBUTOR_ROUTE  ON TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.code = TSPL_DISTRIBUTOR_ROUTE.code GROUP BY Route_No) AS LatestDates ON TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No = LatestDates.Route_No AND TSPL_DISTRIBUTOR_ROUTE.Start_Date = LatestDates.Max_Start_Date 
+			  ) as  dist on dist.Route_No = TSPL_BOOKING_DETAIL.route_no left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = dist.Cust_Code
             where 2 = 2 "
                 whrcls = " AND TSPL_BOOKING_MATSER.Posted = 1 and  convert(date,TSPL_BOOKING_MATSER.Document_Date,103) >= Convert(date,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "',103) and convert(date,TSPL_BOOKING_MATSER.Document_Date,103) 
             <= Convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103) "
@@ -87,8 +89,11 @@ Public Class rptNewSalesReport
             FROM TSPL_SD_SHIPMENT_DETAIL 
             left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code 
             left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
-            left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_SD_SHIPMENT_HEAD.Route_No
-            where 2 = 2"
+             left join ( SELECT  TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No, TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code, TSPL_DISTRIBUTOR_ROUTE.Start_Date FROM  TSPL_DISTRIBUTOR_ROUTE_CUSTOMER LEFT JOIN  TSPL_DISTRIBUTOR_ROUTE ON TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.code = TSPL_DISTRIBUTOR_ROUTE.code
+           JOIN ( SELECT Route_No,MAX(Start_Date) AS Max_Start_Date FROM TSPL_DISTRIBUTOR_ROUTE_CUSTOMER  LEFT JOIN  TSPL_DISTRIBUTOR_ROUTE  ON TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.code = TSPL_DISTRIBUTOR_ROUTE.code
+              GROUP BY Route_No) AS LatestDates ON TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No = LatestDates.Route_No AND TSPL_DISTRIBUTOR_ROUTE.Start_Date = LatestDates.Max_Start_Date 
+			  ) as  dist on dist.Route_No = TSPL_SD_SHIPMENT_HEAD.route_no
+             left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = dist.Cust_Code where 2 = 2"
 
                 whrcls = " and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >=Convert(date,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "',103) 
             and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= Convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103) "
@@ -103,8 +108,8 @@ Public Class rptNewSalesReport
                     whrcls += " and TSPL_ITEM_MASTER.TypeOfItm  <> 'G'"
                 End If
             End If
-            dtFreshItem = clsDBFuncationality.GetDataTable("SELECT distinct  TSPL_ITEM_MASTER.Structure_Code, TSPL_ITEM_MASTER.Short_Description as  Fresh_Item " & qry & " " & whrcls & " and  (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 ) or ( 2 = 2  " & whrcls & " and (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 and Is_CrateType = 1))  ORDER BY Structure_Code,Sku_Seq")
-            dtProductItem = clsDBFuncationality.GetDataTable("SELECT distinct  TSPL_ITEM_MASTER.Structure_Code, TSPL_ITEM_MASTER.Short_Description as  Product_Item " & qry & " " & whrcls & "  and TSPL_ITEM_MASTER.Is_Ambient = 1 and TSPL_ITEM_MASTER.IsTaxable = 1  ORDER BY Structure_Code,Sku_Seq")
+            dtFreshItem = clsDBFuncationality.GetDataTable("SELECT max(TSPL_ITEM_MASTER.Short_Description) as  Fresh_Item " & qry & " " & whrcls & " and  (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 ) or ( 2 = 2  " & whrcls & " and (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 and Is_CrateType = 1)) group by TSPL_ITEM_MASTER.Item_Code,Sku_Seq  ORDER BY Sku_Seq")
+            dtProductItem = clsDBFuncationality.GetDataTable("SELECT max(TSPL_ITEM_MASTER.Short_Description) as  Product_Item " & qry & " " & whrcls & "  and TSPL_ITEM_MASTER.Is_Ambient = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 group by TSPL_ITEM_MASTER.Item_Code,Sku_Seq ORDER BY Sku_Seq")
 
             Dim ProductIemName As String = Nothing
             Dim FreshItemName As String = Nothing
@@ -167,24 +172,27 @@ Public Class rptNewSalesReport
             End If
             dtItemSubGroup = clsDBFuncationality.GetDataTable(ItemSubQry)
 
-
-            If dtItemSubGroup.Rows.Count > 0 Then
-                For i As Integer = 0 To dtItemSubGroup.Rows.Count - 1
-                    ItemSubGroupAvg += " case when  cast(sum(" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + ") as int ) = 0 or max(Days) = 0 then 0 else (sum(" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + ")/ max(Days)) end as [" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + " Avg] , "
-                    ItemSubGroup += "Sum(IsNull([" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + "],0)) As [" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + "]" + ","
-                    If i = 0 Then
-                        ItemsSubGroup += "[" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + "] "
-                    Else
-                        ItemsSubGroup += ", [" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + "] "
-                    End If
-                Next
+            If dtProductItem.Rows.Count > 0 Then
+                If dtItemSubGroup.Rows.Count > 0 Then
+                    For i As Integer = 0 To dtItemSubGroup.Rows.Count - 1
+                        ItemSubGroupAvg += " case when  cast(sum(" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + ") as int ) = 0 or max(Days) = 0 then 0 else (sum(" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + ")/ max(Days)) end as [" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + " Avg] , "
+                        ItemSubGroup += "Sum(IsNull([" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + "],0)) As [" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + "]" + ","
+                        If i = 0 Then
+                            ItemsSubGroup += "[" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + "] "
+                        Else
+                            ItemsSubGroup += ", [" + clsCommon.myCstr(dtItemSubGroup.Rows(i)("Item_Sub_Group_Type")) + "] "
+                        End If
+                    Next
+                End If
             End If
+
             Dim MaxQry As String = ""
             Dim qry1 As String = ""
             Dim qry2 As String = ""
             Dim qry3 As String = ""
             qry = ""
             Dim TotalFreshQty As String = ""
+            Dim TotalProdQty As String = ""
             Dim FinalQuery As String = ""
             If dtFreshItem.Rows.Count > 0 Then
                 TotalFreshQty = " SUM(" & itemNamesFresh & ")  "
@@ -192,6 +200,11 @@ Public Class rptNewSalesReport
                 TotalFreshQty += " 0  "
             End If
 
+            If dtProductItem.Rows.Count > 0 Then
+                TotalProdQty = " SUM(" & itemNamesProduct & ")  "
+            Else
+                TotalProdQty += " 0  "
+            End If
             MaxQry = " " & FreshItemNameMax & " 0 as Total, " & ProductItemNameMax & " 0 as Amount, 0 as Receipt_Amount, (SUM(Amount) - SUM(Receipt_Amount)) as Bal, " & TotalFreshQty & " AS [Total Milk Qty] from ( " & Environment.NewLine & ""
             qry1 = "" & FreshItemName & " 0 as Total, " & ProductIemName & " SUM(Amount) Amount, SUM(Receipt_Amount)Receipt_Amount, 0 as Bal ,  " & TotalFreshQty & "  AS [Total Milk Qty] "
             qry2 = "" & FreshItemName & " 0 as Total , " & ProductIemName & " SUM(Amount) Amount, 0 as Receipt_Amount, 0 as Bal ,  " & TotalFreshQty & " AS [Total Milk Qty]  from ( " & Environment.NewLine & ""
@@ -207,7 +220,10 @@ Public Class rptNewSalesReport
 		        ,case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then TSPL_ITEM_MASTER.Short_Description + 'Amt' end AS Product_Item_Amt, 0 AS Receipt_Amount
                 FROM TSPL_BOOKING_DETAIL
                 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_BOOKING_DETAIL.Item_Code left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BOOKING_DETAIL.Item_Code   and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BOOKING_DETAIL.Unit_Code 
-		        left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_No = TSPL_BOOKING_DETAIL.Document_No left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_BOOKING_DETAIL.Route_No
+		        left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_No = TSPL_BOOKING_DETAIL.Document_No  left join ( SELECT  TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No, TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code, TSPL_DISTRIBUTOR_ROUTE.Start_Date FROM  TSPL_DISTRIBUTOR_ROUTE_CUSTOMER LEFT JOIN  TSPL_DISTRIBUTOR_ROUTE ON TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.code = TSPL_DISTRIBUTOR_ROUTE.code
+              JOIN ( SELECT Route_No,MAX(Start_Date) AS Max_Start_Date FROM TSPL_DISTRIBUTOR_ROUTE_CUSTOMER  LEFT JOIN  TSPL_DISTRIBUTOR_ROUTE  ON TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.code = TSPL_DISTRIBUTOR_ROUTE.code
+              GROUP BY Route_No) AS LatestDates ON TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No = LatestDates.Route_No AND TSPL_DISTRIBUTOR_ROUTE.Start_Date = LatestDates.Max_Start_Date 
+			  ) as  dist on dist.Route_No = TSPL_BOOKING_DETAIL.route_no left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = dist.Cust_Code
                 left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_BOOKING_DETAIL.Item_Code = I.item_code 
                 where 2 = 2 and TSPL_BOOKING_MATSER.Posted = 1   and convert(date,TSPL_BOOKING_MATSER.Document_Date,103) >= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "', 103) and convert(date,TSPL_BOOKING_MATSER.Document_Date,103) <= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "', 103) "
 
@@ -226,7 +242,10 @@ Public Class rptNewSalesReport
 		        ,case when (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 ) or (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 and Is_CrateType = 1) then isnull(TSPL_SD_SHIPMENT_DETAIL.Amount,0)end as Fresh_Amount,TSPL_SD_SHIPMENT_DETAIL.Amount, case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then TSPL_ITEM_MASTER.Short_Description  end AS Product_Item
 		        ,case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then TSPL_ITEM_MASTER.Short_Description + 'Amt' end AS Product_Item_Amt, 0 AS Receipt_Amount
                 FROM TSPL_SD_SHIPMENT_DETAIL left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code   and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_Code 
-		        left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_SD_SHIPMENT_HEAD.Route_No 
+		        left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE left join ( SELECT  TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No, TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code, TSPL_DISTRIBUTOR_ROUTE.Start_Date FROM  TSPL_DISTRIBUTOR_ROUTE_CUSTOMER LEFT JOIN  TSPL_DISTRIBUTOR_ROUTE ON TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.code = TSPL_DISTRIBUTOR_ROUTE.code
+           JOIN ( SELECT Route_No,MAX(Start_Date) AS Max_Start_Date FROM TSPL_DISTRIBUTOR_ROUTE_CUSTOMER  LEFT JOIN  TSPL_DISTRIBUTOR_ROUTE  ON TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.code = TSPL_DISTRIBUTOR_ROUTE.code
+              GROUP BY Route_No) AS LatestDates ON TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No = LatestDates.Route_No AND TSPL_DISTRIBUTOR_ROUTE.Start_Date = LatestDates.Max_Start_Date 
+			  ) as  dist on dist.Route_No = TSPL_SD_SHIPMENT_HEAD.route_no left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=dist.Cust_Code 
                 left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_SD_SHIPMENT_DETAIL.Item_Code = I.item_code  where 2 = 2 and TSPL_SD_SHIPMENT_HEAD.Status = 1
                 and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "', 103) and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "', 103) "
 
@@ -300,7 +319,7 @@ Public Class rptNewSalesReport
 
                 FinalQuery += " " & Environment.NewLine & " --AMT " & Environment.NewLine & " union all " & Environment.NewLine & " Select 4 as SNO,max(route_no) as Route_No,max(Shift_Type)Shift_Type,'AMT' as Document_Date, " & qry2 & "" & qry & " " & Environment.NewLine & ""
                 If dtFreshItem.Rows.Count > 0 Then
-                    FinalQuery += " pivot (sum(Fresh_Amount) For  Fresh_Item_Amt In (" & FreshItemsName & ") ) As pivot_fresh "
+                    FinalQuery += " pivot (sum(Fresh_Amount) For  Fresh_Item In (" & FreshItemsName & ") ) As pivot_fresh "
                 End If
                 If dtProductItem.Rows.Count > 0 Then
                     FinalQuery += " PIVOT(SUM(Product_Amount)   For Product_Item In(" & ProductIemsName & ") ) As  pivot_Product"
@@ -331,7 +350,7 @@ Public Class rptNewSalesReport
                 FinalQuery += " order by  Document_Date, Shift_Type "
             ElseIf rbtnRouteSummary.IsChecked Then
 
-                FinalQuery = " Select  (Route_No)Route_No,max(Shift_Type)Shift_Type, max(convert(varchar,Document_Date,103)) Document_Date," & qry1 & ", " & ItemSubGroup & " " & TotalFreshQty + " + SUM(" & itemNamesProduct & ") AS [Total Qty] , case when cast(sum([Total Milk Qty])as int) = 0 or max(Days) = 0 then 0 else (sum([Total Milk Qty])/max(Days)) end as [Milk Avg] , " & ItemSubGroupAvg & " 0 as OTH " & "   from ( " & Environment.NewLine & " Select  max(Days)Days,  (Route_No)Route_No,max(Shift_Type)Shift_Type, max(convert(varchar,Document_Date,103)) Document_Date, " & qry1 & ", " & ItemSubGroup & "  0 as Total_Qty from ( " & Environment.NewLine & "" & qry & " " & Environment.NewLine & ""
+                FinalQuery = " Select  (Route_No)Route_No,max(Shift_Type)Shift_Type, max(convert(varchar,Document_Date,103)) Document_Date," & qry1 & ", " & ItemSubGroup & " " & TotalFreshQty + " + " & TotalProdQty & " AS [Total Qty] , case when cast(sum([Total Milk Qty])as int) = 0 or max(Days) = 0 then 0 else (sum([Total Milk Qty])/max(Days)) end as [Milk Avg] , " & ItemSubGroupAvg & " 0 as OTH " & "   from ( " & Environment.NewLine & " Select  max(Days)Days,  (Route_No)Route_No,max(Shift_Type)Shift_Type, max(convert(varchar,Document_Date,103)) Document_Date, " & qry1 & ", " & ItemSubGroup & "  0 as Total_Qty from ( " & Environment.NewLine & "" & qry & " " & Environment.NewLine & ""
 
                 If dtFreshItem.Rows.Count > 0 Then
                     FinalQuery += " PIVOT (SUM(LTR_QTY)  For Fresh_Item In (" & FreshItemsName & ") ) As pivot_fresh "
@@ -389,7 +408,7 @@ Public Class rptNewSalesReport
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-
+                
         End Try
     End Sub
 
@@ -427,6 +446,8 @@ Public Class rptNewSalesReport
         gv1.Columns("Document_Date").HeaderText = "Date"
         If rbtnRouteSummary.IsChecked Then
             gv1.Columns("OTH").IsVisible = False
+            gv1.Columns("Document_Date").IsVisible = False
+
         Else
             gv1.Columns("Total Milk Qty").IsVisible = False
         End If
