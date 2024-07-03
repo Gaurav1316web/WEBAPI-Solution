@@ -439,7 +439,7 @@ Public Class frmCrystalReportViewer
     Public Function EmailAttachment(ByVal crpfolder As CrystalReportFolder, ByVal dt As DataTable, ByVal strReportName As String, ByVal strCaption As String) As String
         Dim pdfpath As String = ""
         Try
-
+            objCommonVar.SystemClockStatus = False
             Dim rptshow As Boolean
             If dt.Rows.Count > 0 Then
                 Dim strReportPath As String = GetReportPath(crpfolder, strReportName)
@@ -485,6 +485,8 @@ Public Class frmCrystalReportViewer
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message.ToString())
+        Finally
+            objCommonVar.SystemClockStatus = True
         End Try
         Return pdfpath
     End Function
