@@ -841,6 +841,9 @@ Public Class frmPendingSaleInvoice
                     gv1.Rows.RemoveAt(ii)
                 End If
             Next
+            If gv1.Rows.Count <= 0 Then
+                VendorCode = ""
+            End If
         End If
     End Sub
 
@@ -850,5 +853,7 @@ Public Class frmPendingSaleInvoice
         Dim strToDate As String = clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy")
         LoadData(strFromDate, strToDate, "N")
     End Sub
+
+
 End Class
 
