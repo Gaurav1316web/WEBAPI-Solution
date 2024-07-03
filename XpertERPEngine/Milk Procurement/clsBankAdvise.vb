@@ -137,7 +137,6 @@ where Document_No='" + strCode + "'"
         Dim Form_ID As String = clsUserMgtCode.frmBankAdvise
         Dim dtContent As DataTable = clsDBFuncationality.GetDataTable("SELECT SMS_Text,Email_Text,Email_subject from TSPL_ES_Content where Form_ID='" + Form_ID + "'", trans)
         If dtContent IsNot Nothing AndAlso dtContent.Rows.Count > 0 Then
-
             If clsCommon.myLen(dtContent.Rows(0)("Email_Text")) > 0 Then
                 Dim qry As String = "select  TSPL_VENDOR_MASTER.Company_Bank_Current,max(TSPL_BANK_MASTER.DESCRIPTION) as Bank_Name,max(TSPL_BANK_MASTER.Email) as Email
  from TSPL_PAYMENT_PROCESS_DETAIL
@@ -237,7 +236,10 @@ and   TSPL_PAYMENT_PROCESS_HEAD.Doc_No='" + strPPNo + "'  "
                         Else
                             objSMSH.Attachment_1_Path = frmCRViewer.EmailAttachment(CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNew", "Bank Advice")
                         End If
+
                         objSMSH.arrEMail = New List(Of String)()
+                        objSMSH.arrEMail.Add(clsCommon.myCstr(drBank("Email")))
+
                         objSMSH.SaveData(Form_ID, objSMSH, trans)
                         objSMSH = Nothing
                         frmCRViewer = Nothing
