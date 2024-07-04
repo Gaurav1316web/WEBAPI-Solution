@@ -919,7 +919,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.SRN, clsDocTransactionType.All, False, True)
             InsertDefaultValue(clsDocType.EPF, "", False, False)
             InsertDefaultValue(clsDocType.OutgoingProduction, "", False, False)
-            InsertDefaultValue(clsDocType.RMProcessLoss, "", False, False)
+            InsertDefaultValue(clsDocType.RMProcessLoss, "", False, True)
             InsertDefaultValue(clsDocType.SRNReturn, "", False, True)
             InsertDefaultValue(clsDocType.TransferReturn, "", False, True)
             InsertDefaultValue(clsDocType.GatePasstransfer, "", False, True)

@@ -2611,7 +2611,7 @@ Public Class frmMCCMaterialSale
                 qry += " and TSPL_ITEM_MASTER.IsTaxable='" + IIf(chkTaxable.Checked, "1", "0") + "'"
             End If
             qry += " ) as s pivot(max(cat_value) for description in ([BRAND],[ITEM TYPE1],[MAIN GROUP],[PACKING],[PRODUCT CATEGORY],[SKU],[SUB GROUP]))t  "
-            Dim dr As DataRow = clsCommon.ShowSelectFormForRow("MSA@Item", qry)
+            Dim dr As DataRow = clsCommon.ShowSelectFormForRow("MSA@Items", qry)
             If Not dr Is Nothing Then
                 If clsCommon.myLen(clsCommon.myCstr(dr("Item"))) > 0 Then
                     gv1.CurrentRow.Cells(colRowType).Value = RowTypeItem
@@ -3334,7 +3334,7 @@ Public Class frmMCCMaterialSale
                     obj.HeadDisc_PerAmt = 0
                 End If
                 obj.RateDiff_Per = txtRatePer.Text
-                obj.RateDiff_Amt = txtRateAmt.Text
+                obj.RateDiff_Amt = clsCommon.myCdbl(txtRateAmt.Text)
                 obj.Gross_Amount = lblGrossAmount.Text
                 '-----------------richa 27/06/2014 Ticket No .BM00000002982-------  
                 If clsCommon.myCdbl(txtMannaulInvoiceNo.Value) > 0 Then

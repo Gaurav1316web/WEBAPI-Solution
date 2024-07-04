@@ -188,9 +188,11 @@ Public Class MDI
         End If
 
     End Sub
-    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer4.Tick
+    Private Sub Timer4_Tick(sender As Object, e As EventArgs) Handles Timer4.Tick
         Try
-            lblServerDate.Text = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Nothing, "dd/MM/yyyy hh:mm tt", False), "dd/MM/yyyy hh:mm tt")
+            If objCommonVar.SystemClockStatus Then
+                lblServerDate.Text = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Nothing, "dd/MM/yyyy hh:mm tt", False), "dd/MM/yyyy hh:mm tt")
+            End If
         Catch ex As Exception
         End Try
     End Sub
