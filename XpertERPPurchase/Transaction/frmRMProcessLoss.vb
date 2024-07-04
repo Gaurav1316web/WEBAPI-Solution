@@ -5,6 +5,9 @@ Public Class frmRMProcessLoss
     Const colItemType As String = "ItemType"
     Const colitemcode As String = "ItemCode"
     Const colitemname As String = "itemname"
+    Const colitemcodeProduction As String = "ItemCodeProduction"
+    Const colitemnameProduction As String = "itemnameProduction"
+    Const colQtyProduction As String = "QtyProduction"
     Const coluom As String = "Uom"
     Const colopQty As String = "opQty"
     Const colopAmt As String = "OpAmt"
@@ -37,6 +40,61 @@ Public Class frmRMProcessLoss
     Dim Slot3TD As DateTime = Nothing
     'Private isInsideLoadData As Boolean = False
     Private isCellValueChangedOpen As Boolean = False
+    Sub LoadBlankGridProduction()
+        Gv2.Rows.Clear()
+        Gv2.Columns.Clear()
+
+        Dim repoStr As New GridViewTextBoxColumn()
+        Dim repoInt As New GridViewDecimalColumn()
+        Dim repoChk As New GridViewCheckBoxColumn()
+        Dim repoDate As New GridViewDateTimeColumn()
+
+
+
+        repoStr = New GridViewTextBoxColumn()
+        repoStr.FormatString = ""
+        repoStr.HeaderText = "Item Code"
+        repoStr.Name = colitemcodeProduction
+        repoStr.Width = 100
+        repoStr.ReadOnly = True
+        repoStr.IsVisible = True
+        Gv2.MasterTemplate.Columns.Add(repoStr)
+        repoStr = New GridViewTextBoxColumn()
+        repoStr.FormatString = ""
+        repoStr.HeaderText = "Item Name"
+        repoStr.Name = colitemnameProduction
+        repoStr.Width = 150
+        repoStr.ReadOnly = True
+        repoStr.IsVisible = True
+        Gv2.MasterTemplate.Columns.Add(repoStr)
+
+        repoInt = New GridViewDecimalColumn()
+        repoInt.FormatString = "{0:F2}"
+        repoInt.HeaderText = "Quantity(QTL)"
+        repoInt.Name = colQtyProduction
+        repoInt.Width = 70
+        repoInt.ReadOnly = True
+        repoInt.IsVisible = True
+        repoInt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Gv2.MasterTemplate.Columns.Add(repoInt)
+
+        Gv2.AllowAddNewRow = False
+        Gv2.AllowDeleteRow = False
+        Gv2.ShowGroupPanel = False
+        Gv2.AllowColumnReorder = True
+        Gv2.AllowRowReorder = False
+        Gv2.EnableSorting = False
+        Gv2.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
+        Gv2.MasterTemplate.ShowRowHeaderColumn = False
+        Gv2.TableElement.TableHeaderHeight = 40
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        Dim intCount As Integer = 0
+
+        repoStr = Nothing
+        repoInt = Nothing
+        repoChk = Nothing
+    End Sub
+
     Sub LoadBlankGrid()
         gv1.Rows.Clear()
         gv1.Columns.Clear()
@@ -94,148 +152,164 @@ Public Class frmRMProcessLoss
         repoStr.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoStr)
 
-        repoStr = New GridViewTextBoxColumn()
-        repoStr.FormatString = "{0:F2}"
-        repoStr.HeaderText = "Quantity"
-        repoStr.Name = colopQty
-        repoStr.Width = 70
-        repoStr.ReadOnly = True
-        repoStr.IsVisible = True
-        gv1.MasterTemplate.Columns.Add(repoStr)
+        repoInt = New GridViewDecimalColumn()
+        repoInt.FormatString = "{0:F2}"
+        repoInt.HeaderText = "Quantity"
+        repoInt.Name = colopQty
+        repoInt.Width = 70
+        repoInt.ReadOnly = True
+        repoInt.IsVisible = True
+        repoInt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoInt)
 
-        repoStr = New GridViewTextBoxColumn()
-        repoStr.FormatString = ""
-        repoStr.HeaderText = "Amount"
-        repoStr.Name = colopAmt
-        repoStr.Width = 90
-        repoStr.ReadOnly = True
-        gv1.MasterTemplate.Columns.Add(repoStr)
+        repoInt = New GridViewDecimalColumn()
+        repoInt.FormatString = ""
+        repoInt.HeaderText = "Amount"
+        repoInt.Name = colopAmt
+        repoInt.Width = 90
+        repoInt.ReadOnly = True
+        repoInt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoInt)
 
-        repoStr = New GridViewTextBoxColumn()
-        repoStr.FormatString = "{0:F2}"
-        repoStr.HeaderText = "Quantity"
-        repoStr.Name = colRecQty
-        repoStr.Width = 70
-        repoStr.ReadOnly = True
-        gv1.MasterTemplate.Columns.Add(repoStr)
+        repoInt = New GridViewDecimalColumn()
+        repoInt.FormatString = "{0:F2}"
+        repoInt.HeaderText = "Quantity"
+        repoInt.Name = colRecQty
+        repoInt.Width = 70
+        repoInt.ReadOnly = True
+        repoInt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoInt)
 
-        repoStr = New GridViewTextBoxColumn()
-        repoStr.FormatString = ""
-        repoStr.HeaderText = "Amount"
-        repoStr.Name = colRecAmt
-        repoStr.Width = 90
-        repoStr.ReadOnly = True
-        repoStr.IsVisible = True
-        gv1.MasterTemplate.Columns.Add(repoStr)
+        repoInt = New GridViewDecimalColumn()
+        repoInt.FormatString = ""
+        repoInt.HeaderText = "Amount"
+        repoInt.Name = colRecAmt
+        repoInt.Width = 90
+        repoInt.ReadOnly = True
+        repoInt.IsVisible = True
+        repoInt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoInt)
 
-        repoStr = New GridViewTextBoxColumn()
-        repoStr.FormatString = "{0:F2}"
-        repoStr.HeaderText = "Quantity"
-        repoStr.Name = colIssProdQty
-        repoStr.Width = 70
-        repoStr.ReadOnly = True
-        repoStr.IsVisible = True
-        gv1.MasterTemplate.Columns.Add(repoStr)
+        repoInt = New GridViewDecimalColumn()
+        repoInt.FormatString = "{0:F2}"
+        repoInt.HeaderText = "Quantity"
+        repoInt.Name = colIssProdQty
+        repoInt.Width = 70
+        repoInt.ReadOnly = True
+        repoInt.IsVisible = True
+        repoInt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoInt)
 
-        repoStr = New GridViewTextBoxColumn()
-        repoStr.FormatString = ""
-        repoStr.HeaderText = "Amount"
-        repoStr.Name = colIssProdAmt
-        repoStr.Width = 90
-        repoStr.ReadOnly = True
-        repoStr.IsVisible = True
-        gv1.MasterTemplate.Columns.Add(repoStr)
+        repoInt = New GridViewDecimalColumn()
+        repoInt.FormatString = ""
+        repoInt.HeaderText = "Amount"
+        repoInt.Name = colIssProdAmt
+        repoInt.Width = 90
+        repoInt.ReadOnly = True
+        repoInt.IsVisible = True
+        repoInt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoInt)
 
-        repoStr = New GridViewTextBoxColumn()
-        repoStr.FormatString = "{0:F2}"
-        repoStr.HeaderText = "Quantity"
-        repoStr.Name = colOtherIssQty
-        repoStr.Width = 70
-        repoStr.ReadOnly = True
-        repoStr.IsVisible = True
-        gv1.MasterTemplate.Columns.Add(repoStr)
+        repoInt = New GridViewDecimalColumn()
+        repoInt.FormatString = "{0:F2}"
+        repoInt.HeaderText = "Quantity"
+        repoInt.Name = colOtherIssQty
+        repoInt.Width = 70
+        repoInt.ReadOnly = True
+        repoInt.IsVisible = True
+        repoInt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoInt)
 
-        repoStr = New GridViewTextBoxColumn()
-        repoStr.FormatString = ""
-        repoStr.HeaderText = "Amount"
-        repoStr.Name = colOtherIssAmt
-        repoStr.Width = 90
-        repoStr.ReadOnly = True
-        repoStr.IsVisible = True
-        gv1.MasterTemplate.Columns.Add(repoStr)
+        repoInt = New GridViewDecimalColumn()
+        repoInt.FormatString = ""
+        repoInt.HeaderText = "Amount"
+        repoInt.Name = colOtherIssAmt
+        repoInt.Width = 90
+        repoInt.ReadOnly = True
+        repoInt.IsVisible = True
+        repoInt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoInt)
 
-        repoStr = New GridViewTextBoxColumn()
-        repoStr.FormatString = "{0:F2}"
-        repoStr.HeaderText = "Quantity"
-        repoStr.Name = colStockTransferQty
-        repoStr.Width = 70
-        repoStr.ReadOnly = True
-        repoStr.IsVisible = True
-        gv1.MasterTemplate.Columns.Add(repoStr)
+        repoInt = New GridViewDecimalColumn()
+        repoInt.FormatString = "{0:F2}"
+        repoInt.HeaderText = "Quantity"
+        repoInt.Name = colStockTransferQty
+        repoInt.Width = 70
+        repoInt.ReadOnly = True
+        repoInt.IsVisible = True
+        repoInt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoInt)
 
-        repoStr = New GridViewTextBoxColumn()
-        repoStr.FormatString = ""
-        repoStr.HeaderText = "Amount"
-        repoStr.Name = colStockTransferAmt
-        repoStr.Width = 90
-        repoStr.ReadOnly = True
-        repoStr.IsVisible = True
-        gv1.MasterTemplate.Columns.Add(repoStr)
+        repoInt = New GridViewDecimalColumn()
+        repoInt.FormatString = ""
+        repoInt.HeaderText = "Amount"
+        repoInt.Name = colStockTransferAmt
+        repoInt.Width = 90
+        repoInt.ReadOnly = True
+        repoInt.IsVisible = True
+        repoInt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoInt)
 
 
-        repoStr = New GridViewTextBoxColumn()
-        repoStr.FormatString = "{0:F2}"
-        repoStr.HeaderText = "Quantity"
-        repoStr.Name = colClQty
-        repoStr.Width = 70
-        repoStr.ReadOnly = True
-        repoStr.IsVisible = True
-        gv1.MasterTemplate.Columns.Add(repoStr)
+        repoInt = New GridViewDecimalColumn()
+        repoInt.FormatString = "{0:F2}"
+        repoInt.HeaderText = "Quantity"
+        repoInt.Name = colClQty
+        repoInt.Width = 70
+        repoInt.ReadOnly = True
+        repoInt.IsVisible = True
+        repoInt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoInt)
 
-        repoStr = New GridViewTextBoxColumn()
-        repoStr.FormatString = ""
-        repoStr.HeaderText = "Amount"
-        repoStr.Name = colClAmt
-        repoStr.Width = 90
-        repoStr.ReadOnly = True
-        repoStr.IsVisible = True
-        gv1.MasterTemplate.Columns.Add(repoStr)
+        repoInt = New GridViewDecimalColumn()
+        repoInt.FormatString = ""
+        repoInt.HeaderText = "Amount"
+        repoInt.Name = colClAmt
+        repoInt.Width = 90
+        repoInt.ReadOnly = True
+        repoInt.IsVisible = True
+        repoInt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoInt)
 
-        repoStr = New GridViewTextBoxColumn()
-        repoStr.FormatString = "{0:F2}"
-        repoStr.HeaderText = "Quantity"
-        repoStr.Name = colPLQty
-        repoStr.Width = 70
-        repoStr.ReadOnly = False
-        repoStr.IsVisible = True
-        gv1.MasterTemplate.Columns.Add(repoStr)
+        repoInt = New GridViewDecimalColumn()
+        repoInt.FormatString = ""
+        repoInt.HeaderText = "Quantity"
+        repoInt.Name = colPLQty
+        repoInt.Width = 70
+        repoInt.ReadOnly = False
+        repoInt.IsVisible = True
+        repoInt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoInt)
 
-        repoStr = New GridViewTextBoxColumn()
-        repoStr.FormatString = "{0:F2}"
-        repoStr.HeaderText = "%AGE"
-        repoStr.Name = colPLper
-        repoStr.Width = 90
-        repoStr.ReadOnly = True
-        repoStr.IsVisible = True
-        gv1.MasterTemplate.Columns.Add(repoStr)
+        repoInt = New GridViewDecimalColumn()
+        repoInt.FormatString = "{0:F2}"
+        repoInt.HeaderText = "%AGE"
+        repoInt.Name = colPLper
+        repoInt.Width = 90
+        repoInt.ReadOnly = True
+        repoInt.IsVisible = True
+        repoInt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoInt)
 
-        repoStr = New GridViewTextBoxColumn()
-        repoStr.FormatString = "{0:F2}"
-        repoStr.HeaderText = "Rate"
-        repoStr.Name = colRate
-        repoStr.Width = 70
-        repoStr.ReadOnly = True
-        repoStr.IsVisible = True
-        gv1.MasterTemplate.Columns.Add(repoStr)
+        repoInt = New GridViewDecimalColumn()
+        repoInt.FormatString = "{0:F2}"
+        repoInt.HeaderText = "Rate"
+        repoInt.Name = colRate
+        repoInt.Width = 70
+        repoInt.ReadOnly = True
+        repoInt.IsVisible = True
+        repoInt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoInt)
 
-        repoStr = New GridViewTextBoxColumn()
-        repoStr.FormatString = "{0:F2}"
-        repoStr.HeaderText = "Final"
-        repoStr.Name = colFinalClStock
-        repoStr.Width = 90
-        repoStr.ReadOnly = True
-        repoStr.IsVisible = True
-        gv1.MasterTemplate.Columns.Add(repoStr)
+        repoInt = New GridViewDecimalColumn()
+        repoInt.FormatString = "{0:F2}"
+        repoInt.HeaderText = "Final"
+        repoInt.Name = colFinalClStock
+        repoInt.Width = 90
+        repoInt.ReadOnly = True
+        repoInt.IsVisible = True
+        repoInt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoInt)
 
 
 
@@ -344,7 +418,9 @@ Public Class frmRMProcessLoss
     Private Sub frmRMProcessLoss_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         AddNew()
         LoadBlankGrid()
+        LoadBlankGridProduction()
         SetUserMgmtNew()
+        RadPageView1.SelectedPage = RadPageViewPage1
         Dim coll As Dictionary(Of String, String)
         coll = New Dictionary(Of String, String)
         coll.Add("Document_Code", "varchar(30) NOT NULL Primary Key")
@@ -382,27 +458,36 @@ Public Class frmRMProcessLoss
         coll.Add("Rate", "decimal(18,2)  Null")
         coll.Add("FnlStk_Qty", "decimal(18,2) Not Null")
         clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_RM_PROCESS_LOSS_DETAIL", coll, "", True)
+
     End Sub
 
     Private Sub txtFromDate_ValueChanged(sender As Object, e As EventArgs) Handles txtFromDate.ValueChanged
         Dim selectedMonth As Integer = txtFromDate.Value.Month
         Dim selectedYear As Integer = txtFromDate.Value.Year
-
         Dim currentDate As New DateTime(selectedYear, selectedMonth, 1)
         Slot1FD = clsCommon.GetPrintDate(currentDate, "dd/MMM/yyyy")
         Slot1TD = clsCommon.GetPrintDate(currentDate.AddDays(9), "dd/MMM/yyyy")
         Slot2FD = clsCommon.GetPrintDate(currentDate.AddDays(10), "dd/MMM/yyyy")
         Slot2TD = clsCommon.GetPrintDate(currentDate.AddDays(19), "dd/MMM/yyyy")
         Slot3FD = clsCommon.GetPrintDate(currentDate.AddDays(20), "dd/MMM/yyyy")
-        Slot3TD = clsCommon.GetPrintDate(currentDate.AddMonths(1).AddDays(-1), "dd/MMM/yyyy")
-
+        txtTodate.Value = clsCommon.GetPrintDate(currentDate.AddMonths(1).AddDays(-1), "dd/MMM/yyyy")
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Dim dt As New DataTable
         Try
-            gv1.Rows.Clear()
-            Dim Qry As String = "  select ROW_NUMBER() OVER (ORDER BY Item_Code) AS SNo,left(final1.Item_Code,2)Item_type,final1.Item_Code,final1.Item_Desc,max(final1.conuom)conuom,
+
+            If clsCommon.myLen(txtLoc.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select location")
+                Exit Sub
+            End If
+            Dim DocNo As String = clsDBFuncationality.getSingleValue("select Document_code from TSPL_RM_PROCESS_LOSS where convert(date,'" + txtFromDate.Value + "' ,103) between convert(date,From_date,103)  and convert(date,to_date,103) AND  LOCATION='" + txtLoc.Value + "'")
+            Dim DocNo2 As String = clsDBFuncationality.getSingleValue("select Document_code from TSPL_RM_PROCESS_LOSS where convert(date,'" + txtTodate.Value + "' ,103) between convert(date,From_date,103)  and convert(date,to_date,103) AND LOCATION='" + txtLoc.Value + "'")
+            If clsCommon.myLen(DocNo) > 0 And clsCommon.myLen(DocNo2) > 0 Then
+                Throw New Exception("Please select correct period")
+            Else
+                gv1.Rows.Clear()
+                Dim Qry As String = "  select ROW_NUMBER() OVER (ORDER BY Item_Code) AS SNo,left(final1.Item_Code,2)Item_type,final1.Item_Code,final1.Item_Desc,max(final1.conuom)conuom,
                                                                                                                            CAST(
     CASE 
         WHEN max(final1.Stock_UOM) = 'KG' THEN sum(final1.OPQty) / 1000.0
@@ -491,10 +576,14 @@ AS DECIMAL(18,2)) AS OPQty,
                      max(Category_Value_Desc) for Item_Category_CodeDesc in ([FINISHFOODDESC],[RAWMATERIALDESC],[OTHERDESC],[PACKINGMATDESC],[FIXEDASSTDESC],[MAKEDESC],[KVDESC])
                      ) Pivt1 
                      ) xxx group by Item_Code ) as VirtualCategoryTabel on  VirtualCategoryTabel.Item_Code=InventroyMovement.Item_Code left outer join ( select Struct.Structure_Code,Structure_Descq,Struct_Val.Value as Item_Group,StructDtl.Description as Group_Description from TSPL_STRUCTURE_MASTER Struct left join ( select Custom_field_Code,Transaction_code,Value from TSPL_CUSTOM_FIELD_VALUES where Program_Code='ITEM-STRUCT'   and Custom_Field_Code='') as Struct_Val  on Struct.Structure_Code=Struct_Val.Transaction_Code left join (select Custom_Field_Code,SNo,Value,Description from TSPL_CUSTOM_FIELD_DETAIL where Custom_Field_Code='') as StructDtl on Struct_Val.Value=StructDtl.Value ) as Item_Group on Item_Group.Structure_Code =TSPL_ITEM_MASTER.Structure_Code  left outer join ( SELECT ITEM_TYPE_CODE AS Code, ITEM_TYPE_NAME  as Name FROM TSPL_ITEM_TYPE_MASTER  ) as VirtualTableItemType on VirtualTableItemType.Code = TSPL_ITEM_MASTER.Item_Type  left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code =TSPL_PURCHASE_ACCOUNTS .Inv_Control_Account   left outer join TSPL_GL_ACCOUNTS gl1 on gl1.Account_Seg_Code1 =TSPL_GL_ACCOUNTS.Account_Seg_Code1  and gl1.Account_Seg_Code7 =  tspl_location_master.Loc_Segment_Code  Where 2=2  and TSPL_LOCATION_MASTER.GIT_Type<>'Y' and MainLocationTable.GIT_Type<>'Y'  ) xxxxx  where 2=2    and Item_Code in (select distinct TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
+
 left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
 left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
 left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
-where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103))    
+where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "' UNION ALL
+SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
+LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0)    
                      and ( ((case when Is_Section='N' and Is_Sub_Location='N' then Location_Code else Main_Location_Code end) = '" + clsCommon.myCstr(txtLoc.Value) + "') )) xxx 
                      where Punching_Date < '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' group by xxx.Item_Code,xxx.Location_Code 
                      union all  select Trans_Id,Trans_Type,Trans_Type_Name,Source_Doc_No,cast(Punching_Date as date) as Punching_Date,InOutView, InOut,Location_Code,[Loc Desp], [LocAddress],SourceCode,SourceName,SourceType ,Item_Type, Item_Type_Name,Item_Group,Group_Description,[FINISHFOOD],[RAWMATERIAL],[OTHER],[PACKINGMAT],[FIXEDASST],[MAKE],[KV],[FINISHFOODDESC],[RAWMATERIALDESC],[OTHERDESC],[PACKINGMATDESC],[FIXEDASSTDESC],[MAKEDESC],[KVDESC],Item_Code ,Item_Desc,Item_Category_Struct_Code,Stock_UOM,itf_code , ( Stock_Qty * case when InOut='I' then 1 else -1 end) as Stock_Qty,(QtyKG * case when InOut='I' then 1 else -1 end) as Balance_QTYKG,  convert(decimal(28,3),case when Stock_Qty=0 then 0 else Cost/Stock_Qty end) as Rate,(Cost * case when InOut='I' then 1 else -1 end) as Cost, ( (case when IsFromMilk=1 then MilkFATKG else (Stock_Qty*FatPer) end) * case when InOut='I' then 1 else -1 end) as Balance_FAT,  ( (case when IsFromMilk=1 then MilkSNFKG else (Stock_Qty*SNFPer) end ) * case when InOut='I' then 1 else -1 end) as Balance_SNF
@@ -538,10 +627,15 @@ where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txt
                      max(Category_Value_Desc) for Item_Category_CodeDesc in ([FINISHFOODDESC],[RAWMATERIALDESC],[OTHERDESC],[PACKINGMATDESC],[FIXEDASSTDESC],[MAKEDESC],[KVDESC])
                      ) Pivt1 
                      ) xxx group by Item_Code ) as VirtualCategoryTabel on  VirtualCategoryTabel.Item_Code=InventroyMovement.Item_Code left outer join ( select Struct.Structure_Code,Structure_Descq,Struct_Val.Value as Item_Group,StructDtl.Description as Group_Description from TSPL_STRUCTURE_MASTER Struct left join ( select Custom_field_Code,Transaction_code,Value from TSPL_CUSTOM_FIELD_VALUES where Program_Code='ITEM-STRUCT'   and Custom_Field_Code='') as Struct_Val  on Struct.Structure_Code=Struct_Val.Transaction_Code left join (select Custom_Field_Code,SNo,Value,Description from TSPL_CUSTOM_FIELD_DETAIL where Custom_Field_Code='') as StructDtl on Struct_Val.Value=StructDtl.Value ) as Item_Group on Item_Group.Structure_Code =TSPL_ITEM_MASTER.Structure_Code  left outer join ( SELECT ITEM_TYPE_CODE AS Code, ITEM_TYPE_NAME  as Name FROM TSPL_ITEM_TYPE_MASTER  ) as VirtualTableItemType on VirtualTableItemType.Code = TSPL_ITEM_MASTER.Item_Type  left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code =TSPL_PURCHASE_ACCOUNTS .Inv_Control_Account   left outer join TSPL_GL_ACCOUNTS gl1 on gl1.Account_Seg_Code1 =TSPL_GL_ACCOUNTS.Account_Seg_Code1  and gl1.Account_Seg_Code7 =  tspl_location_master.Loc_Segment_Code  Where 2=2  and TSPL_LOCATION_MASTER.GIT_Type<>'Y' and MainLocationTable.GIT_Type<>'Y'  ) xxxxx  where 2=2    and Item_Code in (select distinct TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
+
+
 left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
 left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
 left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
-where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103))   
+where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "' UNION ALL
+SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
+LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0 )   
                      and ( ((case when Is_Section='N' and Is_Sub_Location='N' then Location_Code else Main_Location_Code end) = '" + clsCommon.myCstr(txtLoc.Value) + "') )) xxx 
                      where Punching_Date>= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and Punching_Date<= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtTodate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
                      union  all 
@@ -549,10 +643,15 @@ where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txt
                     ,0 as FATAmount
                     ,0 as SNFAmount
                      ,In_Category,Out_Category,(case when ConvertedUnitp.processLoss_Uom=1 then ConvertedUnitp.UOM_Code else ConvertedUnits.UOM_Code end) as CONuom from (SELECT 0 as Trans_Id,null as Trans_Type,null as Trans_Type_Name, null as Source_Doc_No, thedate as Punching_Date,'In' as InOutView,'I' as InOut,TSPL_LOCATION_MASTER.Location_Code as Location_Code,TSPL_LOCATION_MASTER.Location_Desc as [Loc Desp],null as [LocAddress],null as SourceCode,null as SourceName,null as SourceType ,TSPL_ITEM_MASTER.Item_Type,null as Item_Type_Name,null as Item_Group,null as Group_Description,null as [FINISHFOOD],null as [RAWMATERIAL],null as [OTHER],null as [PACKINGMAT],null as [FIXEDASST],null as [MAKE],null as [KV],null as [FINISHFOODDESC],null as [RAWMATERIALDESC],null as [OTHERDESC],null as [PACKINGMATDESC],null as [FIXEDASSTDESC],null as [MAKEDESC],null as [KVDESC],TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Item_Desc,null as Item_Category_Struct_Code,TSPL_ITEM_UOM_DETAIL.UOM_Code as Stock_UOM ,null as  itf_code ,0 as Stock_Qty,0 as Balance_QTYKG,0 as Rate,0 as Cost,0 as Balance_FAT, 0 as Balance_SNF ,null as In_Category,null as Out_Category,TSPL_ITEM_MASTER.Product_Type   FROM ExplodeDates( '" + clsCommon.GetPrintDate(txtFromDate.Value) + "','" + clsCommon.GetPrintDate(txtTodate.Value) + "') as d,TSPL_ITEM_MASTER,TSPL_LOCATION_MASTER,TSPL_ITEM_UOM_DETAIL where 2=2  and TSPL_ITEM_MASTER.Item_Code in (select distinct TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
+
+
 left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
 left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
 left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
-where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103))   and ( ((case when Is_Section='N' and Is_Sub_Location='N' then Location_Code else Main_Location_Code end) = '" + clsCommon.myCstr(txtLoc.Value) + "') )  and TSPL_ITEM_UOM_DETAIL.Stocking_Unit='Y' and TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code) Items
+where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "' UNION ALL
+SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
+LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0)   and ( ((case when Is_Section='N' and Is_Sub_Location='N' then Location_Code else Main_Location_Code end) = '" + clsCommon.myCstr(txtLoc.Value) + "') )  and TSPL_ITEM_UOM_DETAIL.Stocking_Unit='Y' and TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code) Items
 left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUnitP on ConvertedUnitp.Item_Code=Items.Item_Code and 
 					 isnull(ConvertedUnitP.processLoss_Uom,0)=1
 					 left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUnitS on ConvertedUnitS.Item_Code=Items.Item_Code and 
@@ -626,10 +725,14 @@ select * from
                      max(Category_Value_Desc) for Item_Category_CodeDesc in ([FINISHFOODDESC],[RAWMATERIALDESC],[OTHERDESC],[PACKINGMATDESC],[FIXEDASSTDESC],[MAKEDESC],[KVDESC])
                      ) Pivt1 
                      ) xxx group by Item_Code ) as VirtualCategoryTabel on  VirtualCategoryTabel.Item_Code=InventroyMovement.Item_Code left outer join ( select Struct.Structure_Code,Structure_Descq,Struct_Val.Value as Item_Group,StructDtl.Description as Group_Description from TSPL_STRUCTURE_MASTER Struct left join ( select Custom_field_Code,Transaction_code,Value from TSPL_CUSTOM_FIELD_VALUES where Program_Code='ITEM-STRUCT'   and Custom_Field_Code='') as Struct_Val  on Struct.Structure_Code=Struct_Val.Transaction_Code left join (select Custom_Field_Code,SNo,Value,Description from TSPL_CUSTOM_FIELD_DETAIL where Custom_Field_Code='') as StructDtl on Struct_Val.Value=StructDtl.Value ) as Item_Group on Item_Group.Structure_Code =TSPL_ITEM_MASTER.Structure_Code  left outer join ( SELECT ITEM_TYPE_CODE AS Code, ITEM_TYPE_NAME  as Name FROM TSPL_ITEM_TYPE_MASTER  ) as VirtualTableItemType on VirtualTableItemType.Code = TSPL_ITEM_MASTER.Item_Type  left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code =TSPL_PURCHASE_ACCOUNTS .Inv_Control_Account   left outer join TSPL_GL_ACCOUNTS gl1 on gl1.Account_Seg_Code1 =TSPL_GL_ACCOUNTS.Account_Seg_Code1  and gl1.Account_Seg_Code7 =  tspl_location_master.Loc_Segment_Code  Where 2=2  and TSPL_LOCATION_MASTER.GIT_Type<>'Y' and MainLocationTable.GIT_Type<>'Y'  ) xxxxx  where 2=2    and Item_Code in (select distinct TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
+
 left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
 left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
 left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
-where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103))   
+where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "' UNION ALL
+SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
+LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0)   
                      and ( ((case when Is_Section='N' and Is_Sub_Location='N' then Location_Code else Main_Location_Code end) = '" + clsCommon.myCstr(txtLoc.Value) + "') )) xxx 
                      where Punching_Date < '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' group by xxx.Item_Code,xxx.Location_Code 
                      union all 
@@ -672,10 +775,14 @@ where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txt
                      max(Category_Value_Desc) for Item_Category_CodeDesc in ([FINISHFOODDESC],[RAWMATERIALDESC],[OTHERDESC],[PACKINGMATDESC],[FIXEDASSTDESC],[MAKEDESC],[KVDESC])
                      ) Pivt1 
                      ) xxx group by Item_Code ) as VirtualCategoryTabel on  VirtualCategoryTabel.Item_Code=InventroyMovement.Item_Code left outer join ( select Struct.Structure_Code,Structure_Descq,Struct_Val.Value as Item_Group,StructDtl.Description as Group_Description from TSPL_STRUCTURE_MASTER Struct left join ( select Custom_field_Code,Transaction_code,Value from TSPL_CUSTOM_FIELD_VALUES where Program_Code='ITEM-STRUCT'   and Custom_Field_Code='') as Struct_Val  on Struct.Structure_Code=Struct_Val.Transaction_Code left join (select Custom_Field_Code,SNo,Value,Description from TSPL_CUSTOM_FIELD_DETAIL where Custom_Field_Code='') as StructDtl on Struct_Val.Value=StructDtl.Value ) as Item_Group on Item_Group.Structure_Code =TSPL_ITEM_MASTER.Structure_Code  left outer join ( SELECT ITEM_TYPE_CODE AS Code, ITEM_TYPE_NAME  as Name FROM TSPL_ITEM_TYPE_MASTER  ) as VirtualTableItemType on VirtualTableItemType.Code = TSPL_ITEM_MASTER.Item_Type  left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code =TSPL_PURCHASE_ACCOUNTS .Inv_Control_Account   left outer join TSPL_GL_ACCOUNTS gl1 on gl1.Account_Seg_Code1 =TSPL_GL_ACCOUNTS.Account_Seg_Code1  and gl1.Account_Seg_Code7 =  tspl_location_master.Loc_Segment_Code  Where 2=2  and TSPL_LOCATION_MASTER.GIT_Type<>'Y' and MainLocationTable.GIT_Type<>'Y'  ) xxxxx  where 2=2    and Item_Code in (select distinct TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
+
 left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
 left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
 left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
-where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103))    
+where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103)and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "'UNION ALL
+SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
+LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0)    
                      and ( ((case when Is_Section='N' and Is_Sub_Location='N' then Location_Code else Main_Location_Code end) = '" + clsCommon.myCstr(txtLoc.Value) + "') )) xxx 
                      where Punching_Date>= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and Punching_Date<= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtTodate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
                      union  
@@ -683,10 +790,14 @@ where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txt
                     ,0 as FATAmount
                     ,0 as SNFAmount
                      ,In_Category,Out_Category,(case when ConvertedUnitp.processLoss_Uom=1 then ConvertedUnitp.UOM_Code else ConvertedUnits.UOM_Code end) as CONuom  from (SELECT 0 as Trans_Id,null as Trans_Type,null as Trans_Type_Name, null as Source_Doc_No, thedate as Punching_Date,'In' as InOutView,'I' as InOut,TSPL_LOCATION_MASTER.Location_Code as Location_Code,TSPL_LOCATION_MASTER.Location_Desc as [Loc Desp],null as [LocAddress],null as SourceCode,null as SourceName,null as SourceType ,TSPL_ITEM_MASTER.Item_Type,null as Item_Type_Name,null as Item_Group,null as Group_Description,null as [FINISHFOOD],null as [RAWMATERIAL],null as [OTHER],null as [PACKINGMAT],null as [FIXEDASST],null as [MAKE],null as [KV],null as [FINISHFOODDESC],null as [RAWMATERIALDESC],null as [OTHERDESC],null as [PACKINGMATDESC],null as [FIXEDASSTDESC],null as [MAKEDESC],null as [KVDESC],TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Item_Desc,null as Item_Category_Struct_Code,TSPL_ITEM_UOM_DETAIL.UOM_Code as Stock_UOM ,null as  itf_code ,0 as Stock_Qty,0 as Balance_QTYKG,0 as Rate,0 as Cost,0 as Balance_FAT, 0 as Balance_SNF ,null as In_Category,null as Out_Category,TSPL_ITEM_MASTER.Product_Type   FROM ExplodeDates(  '" + clsCommon.GetPrintDate(txtFromDate.Value) + "','" + clsCommon.GetPrintDate(txtTodate.Value) + "') as d,TSPL_ITEM_MASTER,TSPL_LOCATION_MASTER,TSPL_ITEM_UOM_DETAIL where 2=2  and TSPL_ITEM_MASTER.Item_Code in (select distinct TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
+
 left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
 left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
 left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
-where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103))   and ( ((case when Is_Section='N' and Is_Sub_Location='N' then Location_Code else Main_Location_Code end) = '" + clsCommon.myCstr(txtLoc.Value) + "') )  and TSPL_ITEM_UOM_DETAIL.Stocking_Unit='Y' and TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code) Items 
+where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103)and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "' UNION ALL
+SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
+LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0)   and ( ((case when Is_Section='N' and Is_Sub_Location='N' then Location_Code else Main_Location_Code end) = '" + clsCommon.myCstr(txtLoc.Value) + "') )  and TSPL_ITEM_UOM_DETAIL.Stocking_Unit='Y' and TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code) Items 
 left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUnitP on ConvertedUnitp.Item_Code=Items.Item_Code and 
 					 isnull(ConvertedUnitP.processLoss_Uom,0)=1
 					 left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUnitS on ConvertedUnitS.Item_Code=Items.Item_Code and 
@@ -760,7 +871,10 @@ select * from
 left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
 left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
 left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
-where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103))   
+where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "' UNION ALL
+SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
+LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0)   
                      and ( ((case when Is_Section='N' and Is_Sub_Location='N' then Location_Code else Main_Location_Code end) = '" + clsCommon.myCstr(txtLoc.Value) + "') )) xxx 
                      where Punching_Date < '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' group by xxx.Item_Code,xxx.Location_Code 
                      union all  select Trans_Id,Trans_Type,Trans_Type_Name,Source_Doc_No,cast(Punching_Date as date) as Punching_Date,InOutView, InOut,Location_Code,[Loc Desp], [LocAddress],SourceCode,SourceName,SourceType ,Item_Type, Item_Type_Name,Item_Group,Group_Description,[FINISHFOOD],[RAWMATERIAL],[OTHER],[PACKINGMAT],[FIXEDASST],[MAKE],[KV],[FINISHFOODDESC],[RAWMATERIALDESC],[OTHERDESC],[PACKINGMATDESC],[FIXEDASSTDESC],[MAKEDESC],[KVDESC],Item_Code ,Item_Desc,Item_Category_Struct_Code,Stock_UOM,itf_code , ( Stock_Qty * case when InOut='I' then 1 else -1 end) as Stock_Qty,(QtyKG * case when InOut='I' then 1 else -1 end) as Balance_QTYKG,  convert(decimal(28,3),case when Stock_Qty=0 then 0 else Cost/Stock_Qty end) as Rate,(Cost * case when InOut='I' then 1 else -1 end) as Cost, ( (case when IsFromMilk=1 then MilkFATKG else (Stock_Qty*FatPer) end) * case when InOut='I' then 1 else -1 end) as Balance_FAT,  ( (case when IsFromMilk=1 then MilkSNFKG else (Stock_Qty*SNFPer) end ) * case when InOut='I' then 1 else -1 end) as Balance_SNF
@@ -801,10 +915,14 @@ where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txt
                      max(Category_Value_Desc) for Item_Category_CodeDesc in ([FINISHFOODDESC],[RAWMATERIALDESC],[OTHERDESC],[PACKINGMATDESC],[FIXEDASSTDESC],[MAKEDESC],[KVDESC])
                      ) Pivt1 
                      ) xxx group by Item_Code ) as VirtualCategoryTabel on  VirtualCategoryTabel.Item_Code=InventroyMovement.Item_Code left outer join ( select Struct.Structure_Code,Structure_Descq,Struct_Val.Value as Item_Group,StructDtl.Description as Group_Description from TSPL_STRUCTURE_MASTER Struct left join ( select Custom_field_Code,Transaction_code,Value from TSPL_CUSTOM_FIELD_VALUES where Program_Code='ITEM-STRUCT'   and Custom_Field_Code='') as Struct_Val  on Struct.Structure_Code=Struct_Val.Transaction_Code left join (select Custom_Field_Code,SNo,Value,Description from TSPL_CUSTOM_FIELD_DETAIL where Custom_Field_Code='') as StructDtl on Struct_Val.Value=StructDtl.Value ) as Item_Group on Item_Group.Structure_Code =TSPL_ITEM_MASTER.Structure_Code  left outer join ( SELECT ITEM_TYPE_CODE AS Code, ITEM_TYPE_NAME  as Name FROM TSPL_ITEM_TYPE_MASTER  ) as VirtualTableItemType on VirtualTableItemType.Code = TSPL_ITEM_MASTER.Item_Type  left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code =TSPL_PURCHASE_ACCOUNTS .Inv_Control_Account   left outer join TSPL_GL_ACCOUNTS gl1 on gl1.Account_Seg_Code1 =TSPL_GL_ACCOUNTS.Account_Seg_Code1  and gl1.Account_Seg_Code7 =  tspl_location_master.Loc_Segment_Code  Where 2=2  and TSPL_LOCATION_MASTER.GIT_Type<>'Y' and MainLocationTable.GIT_Type<>'Y'  ) xxxxx  where 2=2    and Item_Code in (select distinct TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
+
 left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
 left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
 left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
-where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103))   
+where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "' UNION ALL
+SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
+LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0)   
                      and ( ((case when Is_Section='N' and Is_Sub_Location='N' then Location_Code else Main_Location_Code end) = '" + clsCommon.myCstr(txtLoc.Value) + "') )) xxx 
                      where Punching_Date>= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and Punching_Date<= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtTodate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'
                      union  all 
@@ -812,10 +930,14 @@ where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txt
                     ,0 as FATAmount
                     ,0 as SNFAmount
                      ,In_Category,Out_Category,(case when ConvertedUnitp.processLoss_Uom=1 then ConvertedUnitp.UOM_Code else ConvertedUnits.UOM_Code end) as CONuom   from (SELECT 0 as Trans_Id,null as Trans_Type,null as Trans_Type_Name, null as Source_Doc_No, thedate as Punching_Date,'In' as InOutView,'I' as InOut,TSPL_LOCATION_MASTER.Location_Code as Location_Code,TSPL_LOCATION_MASTER.Location_Desc as [Loc Desp],null as [LocAddress],null as SourceCode,null as SourceName,null as SourceType ,TSPL_ITEM_MASTER.Item_Type,null as Item_Type_Name,null as Item_Group,null as Group_Description,null as [FINISHFOOD],null as [RAWMATERIAL],null as [OTHER],null as [PACKINGMAT],null as [FIXEDASST],null as [MAKE],null as [KV],null as [FINISHFOODDESC],null as [RAWMATERIALDESC],null as [OTHERDESC],null as [PACKINGMATDESC],null as [FIXEDASSTDESC],null as [MAKEDESC],null as [KVDESC],TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Item_Desc,null as Item_Category_Struct_Code,TSPL_ITEM_UOM_DETAIL.UOM_Code as Stock_UOM ,null as  itf_code ,0 as Stock_Qty,0 as Balance_QTYKG,0 as Rate,0 as Cost,0 as Balance_FAT, 0 as Balance_SNF ,null as In_Category,null as Out_Category,TSPL_ITEM_MASTER.Product_Type   FROM ExplodeDates( '" + clsCommon.GetPrintDate(txtFromDate.Value) + "','" + clsCommon.GetPrintDate(txtTodate.Value) + "') as d,TSPL_ITEM_MASTER,TSPL_LOCATION_MASTER,TSPL_ITEM_UOM_DETAIL where 2=2  and TSPL_ITEM_MASTER.Item_Code in (select distinct TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
+
 left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
 left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
 left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
-where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103))   and ( ((case when Is_Section='N' and Is_Sub_Location='N' then Location_Code else Main_Location_Code end) = '" + clsCommon.myCstr(txtLoc.Value) + "') )  and TSPL_ITEM_UOM_DETAIL.Stocking_Unit='Y' and TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code) Items
+where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "' UNION ALL
+SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
+LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0)   and ( ((case when Is_Section='N' and Is_Sub_Location='N' then Location_Code else Main_Location_Code end) = '" + clsCommon.myCstr(txtLoc.Value) + "') )  and TSPL_ITEM_UOM_DETAIL.Stocking_Unit='Y' and TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code) Items
 
 left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUnitP on ConvertedUnitp.Item_Code=Items.Item_Code and 
 					 isnull(ConvertedUnitP.processLoss_Uom,0)=1
@@ -826,32 +948,53 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
                      AND Punching_Date= '" + clsCommon.GetPrintDate((txtFromDate.Value), "dd/MM/yyyy") + "'
 					 )  final1 group by final1.Item_Code,final1.Item_Desc "
 
-            dt = clsDBFuncationality.GetDataTable(Qry)
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                For Each dr As DataRow In dt.Rows
-                    gv1.Rows.AddNew()
-                    ' gv1.Rows(gv1.Rows.Count - 1).Cells(colSelect).Value = False
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colSno).Value = clsCommon.myCstr(dr("SNo"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colItemType).Value = clsCommon.myCstr(dr("Item_type"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colitemcode).Value = clsCommon.myCstr(dr("Item_Code"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colitemname).Value = clsCommon.myCstr(dr("Item_Desc"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(coluom).Value = clsCommon.myCstr(dr("conuom"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colopQty).Value = clsCommon.myCstr(dr("OPQty"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colopAmt).Value = clsCommon.myCstr(dr("OPCost"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colRecQty).Value = clsCommon.myCstr(dr("RecPurQty"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colRecAmt).Value = clsCommon.myCstr(dr("RecPurCost"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colIssProdQty).Value = clsCommon.myCstr(dr("ProdIssQty"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colIssProdAmt).Value = clsCommon.myCstr(dr("ProdIssCost"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colOtherIssQty).Value = clsCommon.myCstr(dr("OtherIssQty"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colOtherIssAmt).Value = clsCommon.myCstr(dr("OtherIssCost"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colClQty).Value = clsCommon.myCstr(dr("CLQty"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colClAmt).Value = clsCommon.myCstr(dr("CLCost"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colStockTransferQty).Value = clsCommon.myCstr(dr("ScrabSaleQty"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colStockTransferAmt).Value = clsCommon.myCstr(dr("ScrabSaleAmt"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = clsCommon.myCstr(dr("IssRate"))
-                Next
-            Else
-                clsCommon.MyMessageBoxShow(Me, "No data found to display ", Me.Text)
+                dt = clsDBFuncationality.GetDataTable(Qry)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    For Each dr As DataRow In dt.Rows
+                        gv1.Rows.AddNew()
+                        ' gv1.Rows(gv1.Rows.Count - 1).Cells(colSelect).Value = False
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colSno).Value = clsCommon.myCstr(dr("SNo"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colItemType).Value = clsCommon.myCstr(dr("Item_type"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colitemcode).Value = clsCommon.myCstr(dr("Item_Code"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colitemname).Value = clsCommon.myCstr(dr("Item_Desc"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(coluom).Value = clsCommon.myCstr(dr("conuom"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colopQty).Value = clsCommon.myCstr(dr("OPQty"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colopAmt).Value = clsCommon.myCstr(dr("OPCost"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colRecQty).Value = clsCommon.myCstr(dr("RecPurQty"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colRecAmt).Value = clsCommon.myCstr(dr("RecPurCost"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colIssProdQty).Value = clsCommon.myCstr(dr("ProdIssQty"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colIssProdAmt).Value = clsCommon.myCstr(dr("ProdIssCost"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colOtherIssQty).Value = clsCommon.myCstr(dr("OtherIssQty"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colOtherIssAmt).Value = clsCommon.myCstr(dr("OtherIssCost"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colClQty).Value = clsCommon.myCstr(dr("CLQty"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colClAmt).Value = clsCommon.myCstr(dr("CLCost"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colStockTransferQty).Value = clsCommon.myCstr(dr("ScrabSaleQty"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colStockTransferAmt).Value = clsCommon.myCstr(dr("ScrabSaleAmt"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = clsCommon.myCstr(dr("IssRate"))
+                    Next
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "No data found to display ", Me.Text)
+                End If
+                Gv2.Rows.Clear()
+                Dim Query As String = " SELECT TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE,Item_Desc,SUM(FINAL_PRODUCTION_QTY)/1000 AS QTY FROM TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
+                                         LEFT OUTER JOIN TSPL_SPP_PRODUCTION_ENTRY ON TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
+                                         INNER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Item_Code AND FG_for_CF=1 AND TSPL_SPP_PRODUCTION_ENTRY.POSTED=1
+                                         WHERE convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) AND convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103)
+                                         AND TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE IN ('" + txtLoc.Value + "') GROUP BY  TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE,Item_Desc"
+                Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(Query)
+                If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
+                    For Each drp As DataRow In dt1.Rows
+                        Gv2.Rows.AddNew()
+                        ' gv1.Rows(gv1.Rows.Count - 1).Cells(colSelect).Value = False
+                        Gv2.Rows(Gv2.Rows.Count - 1).Cells(colitemcodeProduction).Value = clsCommon.myCstr(drp("ITEM_CODE"))
+                        Gv2.Rows(Gv2.Rows.Count - 1).Cells(colitemnameProduction).Value = clsCommon.myCstr(drp("Item_Desc"))
+                        Gv2.Rows(Gv2.Rows.Count - 1).Cells(colQtyProduction).Value = clsCommon.myCstr(drp("QTY"))
+                    Next
+                End If
+                CostofFeed()
+                txtFromDate.Enabled = False
+                txtTodate.Enabled = False
+
             End If
             ' End If
         Catch ex As Exception
@@ -860,6 +1003,33 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
             isInsideLoadData = False
             dt = Nothing
         End Try
+    End Sub
+    Sub CostofFeed()
+        Dim arrpd As New List(Of String)
+        Dim arr As New List(Of String)
+        Dim icode As String = ""
+        Dim status As Integer = 0
+        Dim PLAvg As Decimal = 0
+        Dim AvgPer As Double = 0
+        Dim cost As Double = 0
+        Dim ProdQty As Double = 0
+        For ii As Integer = 0 To gv1.Rows.Count - 1
+            icode = clsCommon.myCstr(gv1.Rows(ii).Cells(colItemType).Value)
+            If clsCommon.CompairString(icode, "RM") = CompairStringResult.Equal Then
+                Dim PL As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colIssProdAmt).Value)
+                If PL > 0 Then
+                    PLAvg += clsCommon.myCDecimal(gv1.Rows(ii).Cells(colIssProdAmt).Value)
+                End If
+            End If
+        Next
+        For jj As Integer = 0 To Gv2.Rows.Count - 1
+            cost = clsCommon.myCdbl(Gv2.Rows(jj).Cells(colQtyProduction).Value)
+            If cost > 0 Then
+                ProdQty += clsCommon.myCDecimal(Gv2.Rows(jj).Cells(colQtyProduction).Value)
+            End If
+        Next
+        AvgPer = PLAvg / ProdQty
+        txtCostofFeed.Text = Math.Round(AvgPer, 2)
     End Sub
     Private Sub UpdateCurrentRow(ByVal grow As GridViewRowInfo)
         Try
@@ -889,14 +1059,20 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
             If (Not isInsideLoadData) Then
                 'If Not isCellValueChangedOpen Then
                 isCellValueChangedOpen = True
-                    If e.Column Is gv1.Columns(colPLQty) Then
-                    gv1.CurrentRow.Cells(colPLper).Value = (clsCommon.myCdbl(gv1.CurrentRow.Cells(colIssProdQty).Value) * clsCommon.myCdbl(gv1.CurrentRow.Cells(colPLQty).Value)) / 100
-                    If clsCommon.myCdbl(gv1.CurrentRow.Cells(colPLper).Value) > 0 Then
-                        gv1.CurrentRow.Cells(colFinalClStock).Value = clsCommon.myCdbl(gv1.CurrentRow.Cells(colopQty).Value) + clsCommon.myCdbl(gv1.CurrentRow.Cells(colRecQty).Value) - clsCommon.myCdbl(gv1.CurrentRow.Cells(colIssProdQty).Value) - clsCommon.myCdbl(gv1.CurrentRow.Cells(colPLper).Value)
+                If e.Column Is gv1.Columns(colPLQty) Then
+                    Dim PlQty As Double = clsCommon.myCdbl(gv1.CurrentRow.Cells(colPLQty).Value)
+                    Dim IssProd As Double = clsCommon.myCdbl(gv1.CurrentRow.Cells(colIssProdQty).Value)
+                    If IssProd > 0 AndAlso PlQty > 0 Then
+                        gv1.CurrentRow.Cells(colPLper).Value = (PlQty * 100) / (IssProd)
                     Else
-                        gv1.CurrentRow.Cells(colFinalClStock).Value = 0
+                        gv1.CurrentRow.Cells(colPLper).Value = 0
                     End If
-                End If
+                    If clsCommon.myCdbl(gv1.CurrentRow.Cells(colPLper).Value) > 0 Then
+                            gv1.CurrentRow.Cells(colFinalClStock).Value = clsCommon.myCdbl(gv1.CurrentRow.Cells(colClQty).Value) - clsCommon.myCdbl(gv1.CurrentRow.Cells(colPLQty).Value)
+                        Else
+                            gv1.CurrentRow.Cells(colFinalClStock).Value = 0
+                        End If
+                    End If
                     'End If
 
                 End If
@@ -914,9 +1090,12 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
         txtLoc.Value = ""
         lblloc.Text = ""
         isNewEntry = True
+        txtFromDate.Enabled = True
+        txtTodate.Enabled = True
         txtDocNo.Value = ""
         gv1.DataSource = Nothing
         LoadBlankGrid()
+        LoadBlankGridProduction()
         btnReverse.Visible = False
         docDate.Value = clsCommon.GETSERVERDATE()
         gv1.MasterTemplate.FilterDescriptors.Clear()
@@ -927,6 +1106,7 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
         txtComments.Text = ""
         gv1.MasterTemplate.FilterDescriptors.Clear()
         UsLock1.Status = ERPTransactionStatus.Pending
+        txtCostofFeed.Text = ""
     End Sub
 
     Private Sub MyLabel2_Click(sender As Object, e As EventArgs) Handles MyLabel2.Click
@@ -943,7 +1123,7 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
         Try
             If AllowToSave() Then
                 obj.document_code = clsCommon.myCstr(txtDocNo.Value)
-                obj.document_date = clsCommon.myCDate(docDate.Text)
+                obj.document_date = clsCommon.myCDate(docDate.Value)
                 obj.Location = clsCommon.myCstr(txtLoc.Value)
                 obj.Comments = clsCommon.myCstr(txtComments.Text)
                 obj.Fromdate = clsCommon.myCDate(txtFromDate.Value)
@@ -1013,6 +1193,8 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
                     btnDelete.Enabled = False
                     UsLock1.Status = ERPTransactionStatus.Approved
                 End If
+                txtFromDate.Enabled = False
+                txtTodate.Enabled = False
                 If obj.Arr_Pd IsNot Nothing AndAlso obj.Arr_Pd.Count > 0 Then
                     For Each objtr As ClsRmProcessLossDetail In obj.Arr_Pd
                         gv1.Rows.AddNew()
@@ -1039,14 +1221,23 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colFinalClStock).Value = objtr.FnlStk_Qty
                     Next
                 End If
-                'If obj.Arr_Prod IsNot Nothing AndAlso obj.Arr_Prod.Count > 0 Then
-                '    For Each objPRD As clsProductionEntry In obj.Arr_Prod
-                '        For i As Integer = 0 To txtprodCode.arrValueMember.Count - 1
-                '            ' Assuming Arr_Prod is a List(Of String)
-                '            Arr_Prod.Add(txtprodCode.arrValueMember(i))
-                '        Next
-                '    Next
-
+                Gv2.Rows.Clear()
+                Dim Query As String = " SELECT TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE,Item_Desc,SUM(FINAL_PRODUCTION_QTY)/1000 AS QTY FROM TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
+                                         LEFT OUTER JOIN TSPL_SPP_PRODUCTION_ENTRY ON TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
+                                         INNER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Item_Code AND FG_for_CF=1 AND TSPL_SPP_PRODUCTION_ENTRY.POSTED=1
+                                         WHERE convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(obj.Fromdate) + "' ,103) AND convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(obj.Todate) + "' ,103)
+                                         AND TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE IN ('" + obj.Location + "') GROUP BY  TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE,Item_Desc"
+                Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(Query)
+                If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
+                    For Each drp As DataRow In dt1.Rows
+                        Gv2.Rows.AddNew()
+                        ' gv1.Rows(gv1.Rows.Count - 1).Cells(colSelect).Value = False
+                        Gv2.Rows(Gv2.Rows.Count - 1).Cells(colitemcodeProduction).Value = clsCommon.myCstr(drp("ITEM_CODE"))
+                        Gv2.Rows(Gv2.Rows.Count - 1).Cells(colitemnameProduction).Value = clsCommon.myCstr(drp("Item_Desc"))
+                        Gv2.Rows(Gv2.Rows.Count - 1).Cells(colQtyProduction).Value = clsCommon.myCstr(drp("QTY"))
+                    Next
+                End If
+                CostofFeed()
             End If
         Catch ex As Exception
             isNewEntry = True
@@ -1058,7 +1249,7 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
     End Sub
 
     Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
-        Dim qry As String = "  select Document_Code as Code,Document_Date,Case when status=0 then 'Pending' else 'Approved' end as 'Status' from TSPL_RM_PROCESS_LOSS "
+        Dim qry As String = "   select Document_Code as Code,convert(varchar,Document_Date,103)DocumentDate,Case when status=0 then 'Pending' else 'Approved' end as 'Status',convert(varchar,from_date,103)FromDate,convert(varchar,to_date,103)ToDate from TSPL_RM_PROCESS_LOSS"
         LoadData(clsCommon.ShowSelectForm("OutgoingQC", qry, "Code", "", txtDocNo.Value, "Code", isButtonClicked), NavigatorType.Current)
     End Sub
 
@@ -1122,6 +1313,15 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
                 docDate.Focus()
                 Return False
             End If
+            If AllowFutureDateTransaction(txtFromDate.Value, Nothing) = False Then
+                txtFromDate.Focus()
+                Return False
+            End If
+            If AllowFutureDateTransaction(txtTodate.Value, Nothing) = False Then
+                txtTodate.Focus()
+                Return False
+            End If
+
             ' If QCEnddate.Value  QcStartdata.Value Then
             'If obj.QC_end_date > clsCommon.GETSERVERDATE Then
             '    QCEnddate.Focus()
@@ -1153,16 +1353,22 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
             For ii As Integer = 0 To gv1.Rows.Count - 1
                 icode = clsCommon.myCstr(gv1.Rows(ii).Cells(colItemType).Value)
                 If clsCommon.CompairString(icode, "RM") = CompairStringResult.Equal Then
-                    status += 1
-                    PLAvg += clsCommon.myCstr(gv1.Rows(ii).Cells(colPLper).Value)
-                    'PLAvg += PLAvg
+                    Dim PL As Decimal = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colPLper).Value)
+                    If PL > 0 Then
+                        status += 1
+                        PLAvg += clsCommon.myCDecimal(gv1.Rows(ii).Cells(colPLper).Value)
+                        'PLAvg += PLAvg
+                    End If
                 End If
                 'If clsCommon.myLen(icode) > 0 Then
                 '    status += 1
                 'End If
                 arrpd.Add(icode)
             Next
-            AvgPer = PLAvg / status
+            If PLAvg > 0 AndAlso status > 0 Then
+                AvgPer = PLAvg / status
+            End If
+
             If AvgPer > 0.6 Then
                 If clsCommon.MyMessageBoxShow(Me, ",The average process loss %age of RM material is greater than allowed %age 0.60" + Environment.NewLine + "Do you want to save ?", Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
                     Return True
@@ -1222,5 +1428,62 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
                 'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
+    End Sub
+
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        Dim dt As DataTable = Nothing
+        Dim dt1 As DataTable = Nothing
+        Dim dt2 As DataTable = Nothing
+        Dim arrpd As New List(Of String)
+        Dim arr As New List(Of String)
+
+        Dim icode As String = ""
+        Dim status As Integer = 0
+        Dim PLAvg As Decimal = 0
+        Dim AvgPer As Decimal = 0
+        Try
+            For ii As Integer = 0 To gv1.Rows.Count - 1
+                icode = clsCommon.myCstr(gv1.Rows(ii).Cells(colItemType).Value)
+                If clsCommon.CompairString(icode, "RM") = CompairStringResult.Equal Then
+                    Dim PL As Decimal = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colPLper).Value)
+                    If PL > 0 Then
+                        status += 1
+                        PLAvg += clsCommon.myCDecimal(gv1.Rows(ii).Cells(colPLper).Value)
+                        'PLAvg += PLAvg
+                    End If
+                End If
+                'If clsCommon.myLen(icode) > 0 Then
+                '    status += 1
+                'End If
+                arrpd.Add(icode)
+            Next
+            If PLAvg > 0 AndAlso status > 0 Then
+                AvgPer = PLAvg / status
+            End If
+
+            Dim frmCRV As New frmCrystalReportViewer()
+            Dim qry As String = "select '" + txtCostofFeed.Text + "' as CostOfRM,'" + clsCommon.myCstr(AvgPer) + "' as AvgPer,left(tspl_rm_process_loss_detail.item_code,2) as itemtype,from_date,to_Date,location,tspl_rm_process_loss.document_code,document_date,tspl_rm_process_loss_detail.item_code,item_desc,tspl_rm_process_loss_detail.uom,op_qty,op_cost,rec_qty,rec_cost,cl_qty,cl_cost,issprod_qty,issprod_cost,otheriss_qty,otherIss_cost,stktrns_qty,stktrns_cost,pl_qty,pl_per,tspl_rm_process_loss_detail.rate,fnlstk_qty from tspl_rm_process_loss_detail
+            left outer join tspl_rm_process_loss on tspl_rm_process_loss.document_code=tspl_rm_process_loss_detail.document_code
+            left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=tspl_rm_process_loss_detail.item_code where tspl_rm_process_loss.document_code='" + txtDocNo.Value + "' and tspl_rm_process_loss_detail.uom<>'NOS'"
+            dt = clsDBFuncationality.GetDataTable(qry)
+            Dim query As String = "select left(tspl_rm_process_loss_detail.item_code,2) as itemtype,from_date,to_Date,location,tspl_rm_process_loss.document_code,document_date,tspl_rm_process_loss_detail.item_code,item_desc,tspl_rm_process_loss_detail.uom,op_qty,op_cost,rec_qty,rec_cost,cl_qty,cl_cost,issprod_qty,issprod_cost,otheriss_qty,otherIss_cost,stktrns_qty,stktrns_cost,pl_qty,pl_per,tspl_rm_process_loss_detail.rate,fnlstk_qty from tspl_rm_process_loss_detail
+            left outer join tspl_rm_process_loss on tspl_rm_process_loss.document_code=tspl_rm_process_loss_detail.document_code
+            left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=tspl_rm_process_loss_detail.item_code where tspl_rm_process_loss.document_code='" + txtDocNo.Value + "' and tspl_rm_process_loss_detail.uom='NOS'"
+            dt1 = clsDBFuncationality.GetDataTable(query)
+            Dim strqry As String = " SELECT TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE,Item_Desc,SUM(FINAL_PRODUCTION_QTY)/1000 AS QTY FROM TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
+                                         LEFT OUTER JOIN TSPL_SPP_PRODUCTION_ENTRY ON TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
+                                         INNER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Item_Code AND FG_for_CF=1 AND TSPL_SPP_PRODUCTION_ENTRY.POSTED=1
+                                         WHERE convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) AND convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103)
+                                         AND TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE IN ('" + txtLoc.Value + "') GROUP BY  TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE,Item_Desc"
+            dt2 = clsDBFuncationality.GetDataTable(strqry)
+            If dt Is Nothing OrElse dt.Rows.Count > 0 Then
+                frmCRV.funsubreportWithdt(Nothing, CrystalReportFolder.SalesReport, dt, dt1, "rptRMProcessLossreport", "", Nothing, "PMstockConsumption.rpt", "Production.rpt", dt2)
+
+            Else
+                common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

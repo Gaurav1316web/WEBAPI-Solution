@@ -7,6 +7,7 @@ Imports System.Data.SqlClient
 Public Class clsSRNHead
 #Region "Variables"
     Public isExemptSecurityDedution As Integer = 0
+    Public ShowItemAllStructureWise As Boolean = False
     Public isJobWorkOutward As Integer = 0
     Public RGP_Type As String = Nothing
     Public Against_QC_Code As String = Nothing
@@ -276,6 +277,8 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
     End Function
     '=======================================
     Public Function SaveData(ByVal obj As clsSRNHead, ByVal isNewEntry As Boolean) As Boolean
+        ShowItemAllStructureWise = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, Nothing)) = "1", True, False))
+
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             SaveData(obj, isNewEntry, trans)
@@ -324,8 +327,13 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
                             If clsCommon.myLen(obj.Against_RGP) > 0 Then
                                 obj.SRN_No = clsERPFuncationality.GetNextCode(trans, obj.SRN_Date, clsDocType.SRN, clsDocTransactionType.SRNRGP, IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location))
                             Else
-                                Dim TransType = clsDBFuncationality.getSingleValue("SELECT PREFIX_CODE FROM TSPL_ITEM_TYPE_MASTER WHERE ITEM_TYPE_CODE='" + obj.Item_Type + "'", trans)
-                                obj.SRN_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.SRN_Date), clsDocType.SRN, TransType, obj.Bill_To_Location)
+                                If ShowItemAllStructureWise Then
+                                    obj.SRN_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.SRN_Date), clsDocType.SRN, clsDocTransactionType.All, obj.Bill_To_Location)
+                                Else
+                                    Dim TransType = clsDBFuncationality.getSingleValue("SELECT PREFIX_CODE FROM TSPL_ITEM_TYPE_MASTER WHERE ITEM_TYPE_CODE='" + obj.Item_Type + "'", trans)
+                                    obj.SRN_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.SRN_Date), clsDocType.SRN, TransType, obj.Bill_To_Location)
+                                End If
+
                                 If clsCommon.CompairString(obj.SRN_No, String.Empty) = CompairStringResult.Equal Then
                                     Throw New Exception("Item Type is Not Correct To Generate the Transaction Code")
                                 End If

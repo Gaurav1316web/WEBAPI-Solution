@@ -6,6 +6,7 @@ Public Class clsGRNHead
 #Region "Variables"
     Public IsSkipPurchaseQC As Integer = 0
     Public isJobWorkOutward As Integer = 0
+    Public ShowItemAllStructureWise As Boolean = False
     Public Amendment_No As Double = 0
     Public IsCancel As Integer = Nothing
     Public RGP_Type As String = Nothing
@@ -162,6 +163,7 @@ Public Class clsGRNHead
     Public Retention As Decimal = 0
 #End Region
     Public Function SaveData(ByVal obj As clsGRNHead, ByVal isNewEntry As Boolean, Optional ByVal isamendment As Boolean = False) As Boolean
+        ShowItemAllStructureWise = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, Nothing)) = "1", True, False))
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             SaveData(obj, isNewEntry, trans, isamendment)
@@ -223,8 +225,13 @@ Public Class clsGRNHead
                         End If
 
                     Else
-                        Dim TransType = clsDBFuncationality.getSingleValue("SELECT PREFIX_CODE FROM TSPL_ITEM_TYPE_MASTER WHERE ITEM_TYPE_CODE='" + obj.Item_Type + "'", trans)
-                        obj.GRN_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.GRN_Date), clsDocType.GRN, TransType, obj.Bill_To_Location)
+                        If ShowItemAllStructureWise Then
+                            obj.GRN_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.GRN_Date), clsDocType.GRN, clsDocTransactionType.All, obj.Bill_To_Location)
+                        Else
+                            Dim TransType = clsDBFuncationality.getSingleValue("SELECT PREFIX_CODE FROM TSPL_ITEM_TYPE_MASTER WHERE ITEM_TYPE_CODE='" + obj.Item_Type + "'", trans)
+                            obj.GRN_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.GRN_Date), clsDocType.GRN, TransType, obj.Bill_To_Location)
+
+                        End If
                         If clsCommon.CompairString(obj.GRN_No, String.Empty) = CompairStringResult.Equal Then
                             Throw New Exception("Item Type is Not Correct To Generate the Transaction Code")
                         End If

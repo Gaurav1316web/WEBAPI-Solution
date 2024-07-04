@@ -18,6 +18,7 @@ Public Class clsPurchaseOrderHead
     Public Emergency As Integer = Nothing
     Public strScheduleNo As String = Nothing
     Public IsPOSeriesWithoutItemwise As Boolean = False
+    Public ShowItemAllStructureWise As Boolean = False
     Public Delivery_Terms_Code As String = Nothing
     Public Payment_Terms As String = Nothing
     Public Insurance_Terms As String = Nothing
@@ -431,6 +432,7 @@ Public Class clsPurchaseOrderHead
     Public Function SaveData(ByVal obj As clsPurchaseOrderHead, ByVal isNewEntry As Boolean, ByVal isMakeAbandomentNo As Boolean) As Boolean
         Dim isSaved As Boolean = True
         IsPOSeriesWithoutItemwise = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.POSeriesWithoutItemTypewise, clsFixedParameterCode.POSeriesWithoutItemTypewise, Nothing)) = "1", True, False))
+        ShowItemAllStructureWise = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, Nothing)) = "1", True, False))
 
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
@@ -526,8 +528,12 @@ Public Class clsPurchaseOrderHead
                             If clsCommon.CompairString(obj.PurchaseOrder_Type, "J") = CompairStringResult.Equal Then
                                 obj.PurchaseOrder_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.PurchaseOrder_Date), clsDocType.PurchaserOrder, clsDocTransactionType.POJobWork, obj.Bill_To_Location)
                             Else
-                                Dim TransType = clsDBFuncationality.getSingleValue("SELECT PREFIX_CODE FROM TSPL_ITEM_TYPE_MASTER WHERE ITEM_TYPE_CODE='" + obj.Item_Type + "'", trans)
-                                obj.PurchaseOrder_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.PurchaseOrder_Date), clsDocType.PurchaserOrder, TransType, obj.Bill_To_Location)
+                                If ShowItemAllStructureWise Then
+                                    obj.PurchaseOrder_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.PurchaseOrder_Date), clsDocType.PurchaserOrder, clsDocTransactionType.All, obj.Bill_To_Location)
+                                Else
+                                    Dim TransType = clsDBFuncationality.getSingleValue("SELECT PREFIX_CODE FROM TSPL_ITEM_TYPE_MASTER WHERE ITEM_TYPE_CODE='" + obj.Item_Type + "'", trans)
+                                    obj.PurchaseOrder_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.PurchaseOrder_Date), clsDocType.PurchaserOrder, TransType, obj.Bill_To_Location)
+                                End If
                                 If clsCommon.CompairString(obj.PurchaseOrder_No, String.Empty) = CompairStringResult.Equal Then
                                     Throw New Exception("Item Type is Not Correct To Generate the Transaction Code")
                                 End If
