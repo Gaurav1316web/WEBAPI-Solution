@@ -21,6 +21,7 @@ Public Class frmTender
     Const colQty As String = "COLQTY"
     Const colUnit As String = "COLUNIT"
     Const colRate As String = "COLRATE"
+    Const colTaxExclusive As String = "colTaxExclusive"
     Const colAmt As String = "COLAMT"
     Const colRemarks As String = "colRemarks"
     Const colComments As String = "colComments"
@@ -50,6 +51,10 @@ Public Class frmTender
 
 #End Region
     Public Sub SetUserMgmtNew()
+        Dim coll As New Dictionary(Of String, String)()
+        coll.Add("Tax_Exclusive", "integer null")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TENDER_DETAIL", coll, Nothing, True, True, "TSPL_TENDER_HEADER", "DocumentCode", "")
+
 
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
@@ -67,6 +72,7 @@ Public Class frmTender
         btnreverse.Visible = False
     End Sub
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
         isPageLoadData = True
         SetUserMgmtNew()
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction")
@@ -289,6 +295,14 @@ Public Class frmTender
         repoRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoRate)
 
+        Dim repoSelect As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
+        repoSelect.FormatString = ""
+        repoSelect.HeaderText = "Tax Exclusive"
+        repoSelect.Name = colTaxExclusive
+        repoSelect.Width = 80
+        repoSelect.IsVisible = True
+        gv1.MasterTemplate.Columns.Add(repoSelect)
+
         Dim repoDiscount As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoDiscount = New GridViewDecimalColumn()
         repoDiscount.FormatString = ""
@@ -454,6 +468,14 @@ Public Class frmTender
         repoRate.IsVisible = True
         repoRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv2.MasterTemplate.Columns.Add(repoRate)
+
+        Dim repoSelect As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
+        repoSelect.FormatString = ""
+        repoSelect.HeaderText = "Tax Exclusive"
+        repoSelect.Name = colTaxExclusive
+        repoSelect.Width = 80
+        repoSelect.IsVisible = True
+        gv2.MasterTemplate.Columns.Add(repoSelect)
 
         Dim repoDiscount As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoDiscount = New GridViewDecimalColumn()
@@ -792,6 +814,7 @@ Public Class frmTender
                     Dim objTr As New clsTenderDetail()
                     objTr.Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
                     objTr.Rate = clsCommon.myCdbl(grow.Cells(colRate).Value)
+                    objTr.Tax_Exclusive = clsCommon.myCBool(grow.Cells(colTaxExclusive).Value)
                     objTr.Discount = clsCommon.myCdbl(grow.Cells(colDiscount).Value)
                     'If clsCommon.myCdbl(grow.Cells(colQty).Value) > 0 Then
                     If ((objTr.Qty) > 0 OrElse clsCommon.myCDecimal(cboTenderType.SelectedValue) = 2 OrElse clsCommon.myCDecimal(cboTenderType.SelectedValue) = 3) AndAlso clsCommon.myCdbl(objTr.Rate) OrElse clsCommon.myCdbl(grow.Cells(colDiscount).Value) > 0 Then
@@ -804,6 +827,7 @@ Public Class frmTender
                         objTr.Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
                         objTr.Unit_code = clsCommon.myCstr(grow.Cells(colUnit).Value)
                         objTr.Rate = clsCommon.myCdbl(grow.Cells(colRate).Value)
+                        objTr.Tax_Exclusive = clsCommon.myCBool(grow.Cells(colTaxExclusive).Value)
                         objTr.Discount = clsCommon.myCdbl(grow.Cells(colDiscount).Value)
                         objTr.Item_Cost = clsCommon.myCdbl(grow.Cells(colAmt).Value)
                         objTr.Remarks = clsCommon.myCstr(grow.Cells(colRemarks).Value)
@@ -988,6 +1012,7 @@ Public Class frmTender
 
                         gv2.Rows(gv2.Rows.Count - 1).Cells(colQty).Value = objTr.Qty
                         gv2.Rows(gv2.Rows.Count - 1).Cells(colRate).Value = objTr.Rate
+                        gv2.Rows(gv2.Rows.Count - 1).Cells(colTaxExclusive).Value = objTr.Tax_Exclusive
                         gv2.Rows(gv2.Rows.Count - 1).Cells(colDiscount).Value = objTr.Discount
                         gv2.Rows(gv2.Rows.Count - 1).Cells(colAmt).Value = objTr.Item_Cost
                         gv2.Rows(gv2.Rows.Count - 1).Cells(colRemarks).Value = objTr.Remarks
@@ -1380,6 +1405,7 @@ Public Class frmTender
 
                     gv2.Rows(gv2.Rows.Count - 1).Cells(colQty).Value = clsCommon.myCdbl(grow.Cells(colQty).Value)
                     gv2.Rows(gv2.Rows.Count - 1).Cells(colRate).Value = clsCommon.myCdbl(grow.Cells(colRate).Value)
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTaxExclusive).Value = clsCommon.myCdbl(grow.Cells(colTaxExclusive).Value)
                     gv2.Rows(gv2.Rows.Count - 1).Cells(colQty).Value = clsCommon.myCdbl(grow.Cells(colQty).Value)
                     gv2.Rows(gv2.Rows.Count - 1).Cells(colDiscount).Value = clsCommon.myCdbl(grow.Cells(colDiscount).Value)
                     gv2.Rows(gv2.Rows.Count - 1).Cells(colAmt).Value = clsCommon.myCdbl(grow.Cells(colAmt).Value)
