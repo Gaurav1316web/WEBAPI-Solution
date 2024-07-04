@@ -51,11 +51,6 @@ Public Class frmTender
 
 #End Region
     Public Sub SetUserMgmtNew()
-        Dim coll As New Dictionary(Of String, String)()
-        coll.Add("Tax_Exclusive", "integer null")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TENDER_DETAIL", coll, Nothing, True, True, "TSPL_TENDER_HEADER", "DocumentCode", "")
-
-
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
         End If
