@@ -3693,6 +3693,10 @@ Public Class MDI
                         frm = New rptTransactionWiseStock()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.Rptralwisematerialreceivedandpayment
+                        frm = New Rptralwisematerialreceivedandpayment()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.frmHSNMaster
                         frm = New frmHSNMaster()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
