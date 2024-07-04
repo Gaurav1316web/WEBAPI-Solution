@@ -856,6 +856,7 @@ Public Class clsDocType
                 InsertDefaultValue(clsDocType.PurchaserOrder, clsDocTransactionType.POAsset, False, True)
                 InsertDefaultValue(clsDocType.PurchaserOrder, clsDocTransactionType.PONonInvntry, False, True)
                 InsertDefaultValue(clsDocType.PurchaserOrder, clsDocTransactionType.POTrading, False, True)
+                InsertDefaultValue(clsDocType.PurchaserOrder, clsDocTransactionType.All, False, True)
             End If
             InsertDefaultValue(clsDocType.JobWkDebit, "", False, True)
             InsertDefaultValue(clsDocType.GRN, clsDocTransactionType.POJobWork, False, True)
@@ -871,7 +872,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.GRN, clsDocTransactionType.PORawMaterial, False, True)
             InsertDefaultValue(clsDocType.GRN, clsDocTransactionType.POAsset, False, True)
             InsertDefaultValue(clsDocType.GRN, clsDocTransactionType.POTrading, False, True)
-
+            InsertDefaultValue(clsDocType.GRN, clsDocTransactionType.All, False, True)
 
             'clsDBFuncationality.ExecuteNonQuery("update TSPL_DOCPREFIX_MASTER set Doc_Trans_Type='" + clsDocTransactionType.NA + "'  where Doc_Type='" + clsDocType.POWeightment + "' and len(Doc_Trans_Type)<=0")
             InsertDefaultValue(clsDocType.POWeightment, clsDocTransactionType.NA, False, True)
@@ -896,7 +897,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.MRN, clsDocTransactionType.PORawMaterial, False, True)
             InsertDefaultValue(clsDocType.MRN, clsDocTransactionType.POAsset, False, True)
             InsertDefaultValue(clsDocType.MRN, clsDocTransactionType.POTrading, False, True)
-
+            InsertDefaultValue(clsDocType.MRN, clsDocTransactionType.All, False, True)
 
             InsertDefaultValue(clsDocType.TenderShortPenalty, "", False, True)
 
@@ -915,6 +916,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.SRN, clsDocTransactionType.PORawMaterial, False, True)
             InsertDefaultValue(clsDocType.SRN, clsDocTransactionType.POAsset, False, True)
             InsertDefaultValue(clsDocType.SRN, clsDocTransactionType.POTrading, False, True)
+            InsertDefaultValue(clsDocType.SRN, clsDocTransactionType.All, False, True)
             InsertDefaultValue(clsDocType.EPF, "", False, False)
             InsertDefaultValue(clsDocType.OutgoingProduction, "", False, False)
             InsertDefaultValue(clsDocType.RMProcessLoss, "", False, True)
@@ -938,6 +940,8 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.POInvoice, clsDocTransactionType.POAsset, False, True)
             InsertDefaultValue(clsDocType.POInvoice, clsDocTransactionType.POTrading, False, True)
             InsertDefaultValue(clsDocType.POInvoice, clsDocTransactionType.POJobWorkOutward, False, True)
+            InsertDefaultValue(clsDocType.POInvoice, clsDocTransactionType.POJobWorkOutward, False, True)
+            InsertDefaultValue(clsDocType.POInvoice, clsDocTransactionType.All, False, True)
 
             InsertDefaultValue(clsDocType.PurchaseTaxInvoice, clsDocTransactionType.GeneralPurchase, False, True)
             InsertDefaultValue(clsDocType.PurchaseTaxInvoice, clsDocTransactionType.MilkPurchase, False, True)
@@ -956,12 +960,14 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.MT_POInvoice, clsDocTransactionType.PORawMaterial, False, True)
             InsertDefaultValue(clsDocType.MT_POInvoice, clsDocTransactionType.POAsset, False, True)
             InsertDefaultValue(clsDocType.MT_POInvoice, clsDocTransactionType.POTrading, False, True)
+            InsertDefaultValue(clsDocType.MT_POInvoice, clsDocTransactionType.All, False, True)
 
             InsertDefaultValue(clsDocType.PurchaseReturn, clsDocTransactionType.POFinishedGoods, False, True)
             InsertDefaultValue(clsDocType.PurchaseReturn, clsDocTransactionType.POSemiFinishedGoods, False, True)
             InsertDefaultValue(clsDocType.PurchaseReturn, clsDocTransactionType.POOther, False, True)
             InsertDefaultValue(clsDocType.PurchaseReturn, clsDocTransactionType.POTrading, False, True)
             InsertDefaultValue(clsDocType.PurchaseReturn, clsDocTransactionType.POAsset, False, True)
+            InsertDefaultValue(clsDocType.PurchaseReturn, clsDocTransactionType.All, False, True)
             'InsertDefaultValue(clsDocType.GPEntry, "", False)
             InsertDefaultValue(clsDocType.Payment, clsDocTransactionType.Bank, False, True)
             InsertDefaultValue(clsDocType.Payment, clsDocTransactionType.Cash, False, True)

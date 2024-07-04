@@ -641,12 +641,15 @@ Public Class frmSRN
             cboItemType.DataSource = GetItemall()
             cboItemType.ValueMember = "Code"
             cboItemType.DisplayMember = "Name"
+            cboItemType.Enabled = False
         Else
             'cboItemType.DataSource = clsItemMaster.GetItemType()
             Dim Whr = " AND IS_NON_INVENTORY=0   AND ITEM_TYPE_CODE NOT IN('J') "
         cboItemType.DataSource = clsItemMaster.getItemTypeQuery(Whr)
         cboItemType.ValueMember = "Code"
             cboItemType.DisplayMember = "Name"
+            cboItemType.Enabled = True
+
         End If
     End Sub
     Sub BlankAllControls()
@@ -712,7 +715,12 @@ Public Class frmSRN
         txtDept.Value = ""
         lblDept.Text = ""
         cboItemType.SelectedIndex = 0
-        cboItemType.Enabled = True
+        If ShowItemAllStructureWise Then
+            cboItemType.Enabled = False
+        Else
+            cboItemType.Enabled = True
+
+        End If
         txtBillToLocation.Enabled = True
         txtPONo.Value = ""
         txtPONo.Tag = ""
@@ -5211,15 +5219,15 @@ Public Class frmSRN
                 If txtGEDate.Checked Then
                     obj.GEDate = txtGEDate.Value
                 End If
-                If ShowItemAllStructureWise = True Then
-                    If gv1.Rows.Count > 0 Then
-                        Dim itemcode As String = clsCommon.myCstr(gv1.Rows(0).Cells(colICode).Value)
-                        Dim itemtype As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 item_type from TSPL_ITEM_MASTER where Item_Code ='" + itemcode + "'"))
-                        obj.Item_Type = itemtype
-                    End If
-                Else
-                    obj.Item_Type = clsCommon.myCstr(cboItemType.SelectedValue)
-                End If
+                'If ShowItemAllStructureWise = True Then
+                '    If gv1.Rows.Count > 0 Then
+                '        Dim itemcode As String = clsCommon.myCstr(gv1.Rows(0).Cells(colICode).Value)
+                '        Dim itemtype As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 item_type from TSPL_ITEM_MASTER where Item_Code ='" + itemcode + "'"))
+                '        obj.Item_Type = itemtype
+                '    End If
+                'Else
+                obj.Item_Type = clsCommon.myCstr(cboItemType.SelectedValue)
+                'End If
                 obj.Dept = txtDept.Value
                     obj.Dept_Desc = lblDept.Text
 
