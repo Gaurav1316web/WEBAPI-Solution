@@ -271,7 +271,7 @@ Public Class rptmilkunion
                         status9 = " "
                     End If
                     If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "BKN") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "CHT") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "BNS") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "RJS") = CompairStringResult.Equal Then
-                        qry = "  Select max(SNo)As SNo, max([Union Name])[Union Name] , MAX(Fromdate)Fromdate , MAX(Todate)Todate , MAX(username)username , SUM(Dis_QtyInLTR)Dis_QtyInLTR, SUM(Dis_FATKG)Dis_FATKG , SUM(Dis_SNFKG)Dis_SNFKG , SUM(TotalLtr_ItemWiseDemand)TotalLtr_ItemWiseDemand , SUM(FATKGDemand)FATKGDemand , SUM(SNFKGDemand)SNFKGDemand , SUM(Milk_WeightProc)Milk_WeightProc , SUM(FATKGProc)FATKGProc , SUM(SNFKGProc)SNFKGProc ,
+                        qry = "  Select max(SNo)As SNo, max([Union Name])[Union Name] , MAX(Fromdate)Fromdate , MAX(Todate)Todate , MAX(username)username , SUM(Dis_QtyInLTR)Dis_QtyInLTR, SUM(Dis_FATKG)Dis_FATKG , SUM(Dis_SNFKG)Dis_SNFKG ,SUM(Prod_QTY)Prod_QTY,SUM(Prod_FATkg)Prod_FATkg,SUM(Prod_SNFkg)Prod_SNFkg , SUM(TotalLtr_ItemWiseDemand)TotalLtr_ItemWiseDemand , SUM(FATKGDemand)FATKGDemand , SUM(SNFKGDemand)SNFKGDemand , SUM(Milk_WeightProc)Milk_WeightProc , SUM(FATKGProc)FATKGProc , SUM(SNFKGProc)SNFKGProc ,
                         SUM(Sale_Voucher)Sale_Voucher , SUM(Purchase_Voucher)Purchase_Voucher , MAX(Last_Salary)Last_Salary from ( " & Environment.NewLine & " "
                     End If
                     query = " select * from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
@@ -475,6 +475,9 @@ where  CONVERT(DATE, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + 
                     ISNULL(SUM(Dis_Disbursement.Dis_QtyInLTR), 0) AS Dis_QtyInLTR,
                     ISNULL(SUM(Dis_Disbursement.Dis_FATKG), 0) AS Dis_FATKG,
                     ISNULL(SUM(Dis_Disbursement.Dis_SNFKG), 0) AS Dis_SNFKG,
+                    ISNULL(SUM(Dis_Production.Prod_QTY), 0) AS Prod_QTY,
+                    ISNULL(SUM(Dis_Production.Prod_FATkg), 0) AS Prod_FATkg,
+                    ISNULL(SUM(Dis_Production.Prod_SNFkg), 0) AS Prod_SNFkg,
                     ISNULL(SUM(Dis_Demand.TotalLtr_ItemWiseDemand), 0) AS TotalLtr_ItemWiseDemand,
                     ISNULL(SUM(Dis_Demand.FATKGDemand), 0) AS FATKGDemand,
                     ISNULL(SUM(Dis_Demand.SNFKGDemand), 0) AS SNFKGDemand,
@@ -552,6 +555,22 @@ WHERE CONVERT(DATE, [BKNTEST].[dbo].TSPL_Dispatch_BulkSale.Document_Date, 103)  
                             " + status9 + "
 )xxxx ))Disp_BUlksale
                     ) AS Dis_Disbursement,
+                            (SELECT 
+                        SUM(RECEIPT_QTY) AS Prod_QTY,
+                        SUM(RECEIPT_QTY * im.STD_FatPer / 100) AS Prod_FATkg,
+                        SUM(RECEIPT_QTY * im.STD_SNFPer / 100) AS Prod_SNFkg
+                    FROM 
+                        [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PP_PRODUCTION_ENTRY pe
+                    LEFT JOIN 
+                        [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PP_PRODUCTION_ENTRY_DETAIL ped ON ped.PROD_ENTRY_CODE = pe.PROD_ENTRY_CODE
+                    LEFT JOIN 
+                        [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_master im ON im.Item_Code = ped.ITEM_CODE
+                    WHERE 
+                        CONVERT(DATE, pe.PROD_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                        " + status2 + "
+                        AND im.Is_FreshItem = 1
+                        AND im.IsTaxable = 0
+                    ) AS Dis_Production,
 
 
                         (SELECT 
@@ -654,6 +673,9 @@ where  CONVERT(DATE, [BKNTEST].[dbo].TSPL_SD_SALE_INVOICE_HEAD.Document_Date, 10
                                         ISNULL(SUM(Dis_Disbursement.Dis_QtyInLTR), 0) AS Dis_QtyInLTR,
                                         ISNULL(SUM(Dis_Disbursement.Dis_FATKG), 0) AS Dis_FATKG,
                                         ISNULL(SUM(Dis_Disbursement.Dis_SNFKG), 0) AS Dis_SNFKG,
+                                        ISNULL(SUM(Dis_Production.Prod_QTY), 0) AS Prod_QTY,
+                                        ISNULL(SUM(Dis_Production.Prod_FATkg), 0) AS Prod_FATkg,
+                                        ISNULL(SUM(Dis_Production.Prod_SNFkg), 0) AS Prod_SNFkg,
                                         ISNULL(SUM(Dis_Demand.TotalLtr_ItemWiseDemand), 0) AS TotalLtr_ItemWiseDemand,
                                         ISNULL(SUM(Dis_Demand.FATKGDemand), 0) AS FATKGDemand,
                                         ISNULL(SUM(Dis_Demand.SNFKGDemand), 0) AS SNFKGDemand,
@@ -731,6 +753,22 @@ where  CONVERT(DATE, [BKNTEST].[dbo].TSPL_SD_SALE_INVOICE_HEAD.Document_Date, 10
                                                 " + status9 + "
                     )xxxx ))Disp_BUlksale
                                         ) AS Dis_Disbursement,
+                                                (SELECT 
+                        SUM(RECEIPT_QTY) AS Prod_QTY,
+                        SUM(RECEIPT_QTY * im.STD_FatPer / 100) AS Prod_FATkg,
+                        SUM(RECEIPT_QTY * im.STD_SNFPer / 100) AS Prod_SNFkg
+                    FROM 
+                        [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PP_PRODUCTION_ENTRY pe
+                    LEFT JOIN 
+                        [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PP_PRODUCTION_ENTRY_DETAIL ped ON ped.PROD_ENTRY_CODE = pe.PROD_ENTRY_CODE
+                    LEFT JOIN 
+                        [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_master im ON im.Item_Code = ped.ITEM_CODE
+                    WHERE 
+                        CONVERT(DATE, pe.PROD_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                        " + status2 + "
+                        AND im.Is_FreshItem = 1
+                        AND im.IsTaxable = 0
+                    ) AS Dis_Production,
 
 
                                             (SELECT 
@@ -831,6 +869,9 @@ where  CONVERT(DATE, [BKNTEST].[dbo].TSPL_SD_SALE_INVOICE_HEAD.Document_Date, 10
                                         ISNULL(SUM(Dis_Disbursement.Dis_QtyInLTR), 0) AS Dis_QtyInLTR,
                                         ISNULL(SUM(Dis_Disbursement.Dis_FATKG), 0) AS Dis_FATKG,
                                         ISNULL(SUM(Dis_Disbursement.Dis_SNFKG), 0) AS Dis_SNFKG,
+                                        ISNULL(SUM(Dis_Production.Prod_QTY), 0) AS Prod_QTY,
+                                        ISNULL(SUM(Dis_Production.Prod_FATkg), 0) AS Prod_FATkg,
+                                        ISNULL(SUM(Dis_Production.Prod_SNFkg), 0) AS Prod_SNFkg,
                                         ISNULL(SUM(Dis_Demand.TotalLtr_ItemWiseDemand), 0) AS TotalLtr_ItemWiseDemand,
                                         ISNULL(SUM(Dis_Demand.FATKGDemand), 0) AS FATKGDemand,
                                         ISNULL(SUM(Dis_Demand.SNFKGDemand), 0) AS SNFKGDemand,
@@ -908,6 +949,22 @@ where  CONVERT(DATE, [BKNTEST].[dbo].TSPL_SD_SALE_INVOICE_HEAD.Document_Date, 10
                                                 " + status9 + "
                     )xxxx ))Disp_BUlksale
                                         ) AS Dis_Disbursement,
+                                                (SELECT 
+                        SUM(RECEIPT_QTY) AS Prod_QTY,
+                        SUM(RECEIPT_QTY * im.STD_FatPer / 100) AS Prod_FATkg,
+                        SUM(RECEIPT_QTY * im.STD_SNFPer / 100) AS Prod_SNFkg
+                    FROM 
+                        [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PP_PRODUCTION_ENTRY pe
+                    LEFT JOIN 
+                        [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PP_PRODUCTION_ENTRY_DETAIL ped ON ped.PROD_ENTRY_CODE = pe.PROD_ENTRY_CODE
+                    LEFT JOIN 
+                        [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_master im ON im.Item_Code = ped.ITEM_CODE
+                    WHERE 
+                        CONVERT(DATE, pe.PROD_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                        " + status2 + "
+                        AND im.Is_FreshItem = 1
+                        AND im.IsTaxable = 0
+                    ) AS Dis_Production,
 
 
                                             (SELECT 
@@ -1006,6 +1063,9 @@ where  CONVERT(DATE, [BKNTEST].[dbo].TSPL_SD_SALE_INVOICE_HEAD.Document_Date, 10
                                         ISNULL(SUM(Dis_Disbursement.Dis_QtyInLTR), 0) AS Dis_QtyInLTR,
                                         ISNULL(SUM(Dis_Disbursement.Dis_FATKG), 0) AS Dis_FATKG,
                                         ISNULL(SUM(Dis_Disbursement.Dis_SNFKG), 0) AS Dis_SNFKG,
+                                        ISNULL(SUM(Dis_Production.Prod_QTY), 0) AS Prod_QTY,
+                                        ISNULL(SUM(Dis_Production.Prod_FATkg), 0) AS Prod_FATkg,
+                                        ISNULL(SUM(Dis_Production.Prod_SNFkg), 0) AS Prod_SNFkg,
                                         ISNULL(SUM(Dis_Demand.TotalLtr_ItemWiseDemand), 0) AS TotalLtr_ItemWiseDemand,
                                         ISNULL(SUM(Dis_Demand.FATKGDemand), 0) AS FATKGDemand,
                                         ISNULL(SUM(Dis_Demand.SNFKGDemand), 0) AS SNFKGDemand,
@@ -1083,6 +1143,22 @@ where  CONVERT(DATE, [BKNTEST].[dbo].TSPL_SD_SALE_INVOICE_HEAD.Document_Date, 10
                                                 " + status9 + "
                     )xxxx ))Disp_BUlksale
                                         ) AS Dis_Disbursement,
+                                                (SELECT 
+                        SUM(RECEIPT_QTY) AS Prod_QTY,
+                        SUM(RECEIPT_QTY * im.STD_FatPer / 100) AS Prod_FATkg,
+                        SUM(RECEIPT_QTY * im.STD_SNFPer / 100) AS Prod_SNFkg
+                    FROM 
+                        [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PP_PRODUCTION_ENTRY pe
+                    LEFT JOIN 
+                        [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PP_PRODUCTION_ENTRY_DETAIL ped ON ped.PROD_ENTRY_CODE = pe.PROD_ENTRY_CODE
+                    LEFT JOIN 
+                        [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ITEM_master im ON im.Item_Code = ped.ITEM_CODE
+                    WHERE 
+                        CONVERT(DATE, pe.PROD_DATE, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "'
+                        " + status2 + "
+                        AND im.Is_FreshItem = 1
+                        AND im.IsTaxable = 0
+                    ) AS Dis_Production,
 
 
                                             (SELECT 
