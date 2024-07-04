@@ -4,6 +4,7 @@ Imports System.Data.SqlClient
 Public Class clsPurchaseInvoiceHead
 #Region "Variables"
     Public isJobWorkOutward As Integer = 0
+    Public ShowItemAllStructureWise As Boolean = False
     Public PROJECT_ID As String = Nothing
     Public PI_No As String = Nothing
     Public Vendor_Invoice_No As String = Nothing
@@ -180,8 +181,9 @@ Public Class clsPurchaseInvoiceHead
         Return True
     End Function
     Public Function SaveData(ByVal obj As clsPurchaseInvoiceHead, ByVal isNewEntry As Boolean) As Boolean
-
+        ShowItemAllStructureWise = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, Nothing)) = "1", True, False))
         Dim isSaved As Boolean = True
+
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
 
         Try
@@ -206,14 +208,22 @@ Public Class clsPurchaseInvoiceHead
                     obj.PI_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.PI_Date), clsDocType.POInvoice, clsDocTransactionType.POJobWorkOutward, obj.Sublocation_Code)
                 Else
                     If clsCommon.CompairString(obj.Document_Type, "PI") = CompairStringResult.Equal Then
-                        Dim TransType = clsDBFuncationality.getSingleValue("SELECT PREFIX_CODE FROM TSPL_ITEM_TYPE_MASTER WHERE ITEM_TYPE_CODE='" + obj.Item_Type + "'", trans)
-                        obj.PI_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.PI_Date), clsDocType.POInvoice, TransType, obj.Bill_To_Location)
+                        If ShowItemAllStructureWise Then
+                            obj.PI_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.PI_Date), clsDocType.POInvoice, clsDocTransactionType.All, obj.Bill_To_Location)
+                        Else
+                            Dim TransType = clsDBFuncationality.getSingleValue("SELECT PREFIX_CODE FROM TSPL_ITEM_TYPE_MASTER WHERE ITEM_TYPE_CODE='" + obj.Item_Type + "'", trans)
+                            obj.PI_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.PI_Date), clsDocType.POInvoice, TransType, obj.Bill_To_Location)
+                        End If
                         If clsCommon.CompairString(obj.PI_No, String.Empty) = CompairStringResult.Equal Then
                             Throw New Exception("Item Type is Not Correct To Generate the Transaction Code")
                         End If
                     ElseIf clsCommon.CompairString(obj.Document_Type, "MT") = CompairStringResult.Equal Then
-                        Dim TransType = clsDBFuncationality.getSingleValue("SELECT PREFIX_CODE FROM TSPL_ITEM_TYPE_MASTER WHERE ITEM_TYPE_CODE='" + obj.Item_Type + "'", trans)
-                        obj.PI_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.PI_Date), clsDocType.MT_POInvoice, TransType, obj.Bill_To_Location)
+                        If ShowItemAllStructureWise Then
+                            obj.PI_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.PI_Date), clsDocType.MT_POInvoice, clsDocTransactionType.All, obj.Bill_To_Location)
+                        Else
+                            Dim TransType = clsDBFuncationality.getSingleValue("SELECT PREFIX_CODE FROM TSPL_ITEM_TYPE_MASTER WHERE ITEM_TYPE_CODE='" + obj.Item_Type + "'", trans)
+                            obj.PI_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.PI_Date), clsDocType.MT_POInvoice, TransType, obj.Bill_To_Location)
+                        End If
                         If clsCommon.CompairString(obj.PI_No, String.Empty) = CompairStringResult.Equal Then
                             Throw New Exception("Item Type is Not Correct To Generate the Transaction Code")
                         End If

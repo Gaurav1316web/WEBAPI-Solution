@@ -68,6 +68,7 @@ Public Class frmDemandUploader
         btnUpload.Enabled = Not flag
         btnValidate.Enabled = flag
         btnSavePost.Enabled = flag
+        btnSave.Enabled = flag
         txtDate.Enabled = Not flag
         txtLocation.Enabled = Not flag
         rgbShift.Enabled = Not flag
@@ -179,6 +180,7 @@ Public Class frmDemandUploader
     Public Sub ValidateGrid()
         Try
             btnSavePost.Enabled = False
+            btnSave.Enabled = False
             Dim mess As String = ""
             Dim lineNo As Integer = 1
             lstDUD = New List(Of clsDemandUploaderDetails)
@@ -242,8 +244,10 @@ Public Class frmDemandUploader
             If Not String.IsNullOrEmpty(mess) Then
                 Throw New Exception(mess)
                 btnSavePost.Enabled = False
+                btnSave.Enabled = False
             Else
                 btnSavePost.Enabled = True
+                btnSave.Enabled = True
                 btnValidate.Enabled = False
                 clsCommon.MyMessageBoxShow(Me, "Validate Successfully.", Me.Text)
             End If
@@ -291,12 +295,18 @@ Public Class frmDemandUploader
     End Function
     Private Sub btnSavePost_Click(sender As Object, e As EventArgs) Handles btnSavePost.Click
         Try
-            SaveData()
+            Dim msg As String = "Do you want to Save and Post" + Environment.NewLine + "Are you sure"
+            If clsCommon.MyMessageBoxShow(Me, msg, Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
+                SaveData(True)
+                btnSave.Enabled = False
+                btnSavePost.Enabled = False
+            End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    Public Sub SaveData()
+    Public Sub SaveData(ByVal isPost As Boolean)
         Try
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -353,7 +363,9 @@ Public Class frmDemandUploader
                 obj.DocumentAmount = docamt
                 If clsDemandBookingSale.SaveData(obj, True, trans) Then
                     Docno.Add(obj.Document_No)
-                    status = clsDemandBookingSale.PostData(Me.Form_ID, obj.Document_No, shift, False, trans)
+                    If isPost Then
+                        status = clsDemandBookingSale.PostData(Me.Form_ID, obj.Document_No, shift, False, trans)
+                    End If
                 Else
                     Throw New Exception("Error : Route :" + route)
                 End If
@@ -385,7 +397,7 @@ Public Class frmDemandUploader
             clsCommon.ProgressBarHide()
             trans.Commit()
             clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
-            btnSavePost.Enabled = False
+            'btnSavePost.Enabled = False
         Catch ex As Exception
             clsCommon.ProgressBarHide()
             trans.Rollback()
@@ -541,6 +553,24 @@ Public Class frmDemandUploader
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
+        Try
+            Try
+                Dim msg As String = "Do you want to Save." + Environment.NewLine + "Are you sure"
+                If clsCommon.MyMessageBoxShow(Me, msg, Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
+                    SaveData(False)
+                    btnSave.Enabled = False
+                    btnSavePost.Enabled = False
+                End If
+
+            Catch ex As Exception
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            End Try
+        Catch ex As Exception
+
         End Try
     End Sub
 End Class

@@ -30,6 +30,12 @@ Public Class FrmItemTypeMaster
             txtTolerancePer.Focus()
             Return
         End If
+
+        If clsCommon.CompairString(clsCommon.myCstr(fndItemType.Value), "Z") = CompairStringResult.Equal Then
+            clsCommon.MyMessageBoxShow(Me, "Item Type Code is already used for All Item Type. So please use another Item Type Code", Me.Text)
+            fndItemType.Focus()
+            Return
+        End If
         If MyBase.isModifyonPasswordFlag Then
             If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.chapterhead, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
             Else
