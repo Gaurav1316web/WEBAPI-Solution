@@ -82,21 +82,6 @@ Public Class frmStanderdProductionEntry
     Dim SettGunnyBagTollerance As Decimal = 10
 #End Region
     Private Sub frmProductionEntryWithoutBatch_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As New Dictionary(Of String, String)()
-
-        coll = New Dictionary(Of String, String)()
-        coll.Add("Gunny_Bags", "INTEGER NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SPP_CONSUMPTION_WITHOUT_BATCH", coll, Nothing, False, False, "TSPL_SPP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", "")
-
-        coll = New Dictionary(Of String, String)()
-        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("PROD_ENTRY_CODE", "Varchar(30)  NULL REFERENCES TSPL_SPP_PRODUCTION_ENTRY(PROD_ENTRY_CODE)")
-        coll.Add("Item_Code", "Varchar(50) not null references TSPL_ITEM_MASTER(Item_Code)")
-        coll.Add("UOM", "varchar(12) NULL")
-        coll.Add("Qty", "Decimal(18,2) null")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SPP_GUNNY_BAG_WITHOUT_BATCH", coll, Nothing, False, False, "TSPL_SPP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", "")
-
-
         SetUserMgmtNew()
         DecimalPointQty = CInt(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ProductionQtyDecimalPoint, clsFixedParameterCode.ProductionQtyDecimalPoint, Nothing)))
         If DecimalPointQty <= 0 Then
