@@ -906,6 +906,7 @@ Public Class frmPurchaseOrder
             cboItemType.DataSource = GetItemall()
             cboItemType.ValueMember = "Code"
             cboItemType.DisplayMember = "Name"
+            cboItemType.Enabled = False
         Else
             cboItemType.DataSource = Nothing
             'cboItemType.DataSource = clsItemMaster.GetItemTypeWithNON_Inventory()
@@ -913,6 +914,7 @@ Public Class frmPurchaseOrder
             cboItemType.DataSource = clsItemMaster.getItemTypeQuery(Whr)
             cboItemType.ValueMember = "Code"
             cboItemType.DisplayMember = "Name"
+            cboItemType.Enabled = True
         End If
     End Sub
 
@@ -1049,7 +1051,12 @@ Public Class frmPurchaseOrder
         lblDept.Text = ""
         cboItemType.SelectedIndex = 0
         txtReqNo.Value = ""
-        cboItemType.Enabled = True
+        If ShowItemAllStructureWise Then
+            cboItemType.Enabled = False
+        Else
+            cboItemType.Enabled = True
+
+        End If
         txtBillToLocation.Enabled = True
         lblAmbendmentNoCaption.Visible = False
         lblAbandonmentNo.Text = ""
@@ -1103,7 +1110,6 @@ Public Class frmPurchaseOrder
         ''richa agarwal 08/04/2015
         txtVendorNo.Enabled = True
         cboPOType.Enabled = True
-        cboItemType.Enabled = True
         txtPINo.Enabled = True
         TxtBeneficiary.Enabled = True
         txtBillToLocation.Enabled = True
@@ -5446,15 +5452,9 @@ Public Class frmPurchaseOrder
                 If (clsCommon.CompairString(obj.PurchaseOrder_Type, "J") = CompairStringResult.Equal) Then
                     obj.Against_RGP = clsCommon.myCdbl(chkAgainst_RGP.Checked)
                 End If
-                If ShowItemAllStructureWise = True Then
-                    If gv1.Rows.Count > 0 Then
-                        Dim itemcode As String = clsCommon.myCstr(gv1.Rows(0).Cells(colICode).Value)
-                        Dim itemtype As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 item_type from TSPL_ITEM_MASTER where Item_Code ='" + itemcode + "'"))
-                        obj.Item_Type = itemtype
-                    End If
-                Else
-                    obj.Item_Type = clsCommon.myCstr(cboItemType.SelectedValue)
-                End If
+                ' If ShowItemAllStructureWise = True Then
+                obj.Item_Type = clsCommon.myCstr(cboItemType.SelectedValue)
+                ' End If
                 obj.Dept = txtDept.Value
                 obj.Dept_Desc = lblDept.Text
                 If (gv2.Rows.Count > 0) Then
@@ -9881,7 +9881,12 @@ Public Class frmPurchaseOrder
         TxtBuyerPONo.Text = ""
         fndCountry_Origin.Enabled = True
         txtCarrier.Enabled = True
-        cboItemType.Enabled = True
+        If ShowItemAllStructureWise Then
+            cboItemType.Enabled = False
+        Else
+            cboItemType.Enabled = True
+
+        End If
         ''richa agarwal 15/04/2015
         TxtHSClassificationNo.Enabled = True
         fndPaymenttermsGroup.Enabled = True
