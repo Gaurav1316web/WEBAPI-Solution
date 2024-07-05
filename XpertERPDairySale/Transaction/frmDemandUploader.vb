@@ -37,6 +37,8 @@ Public Class frmDemandUploader
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
         End If
+        btnSave.Visible = MyBase.isModifyFlag
+        btnSavePost.Visible = MyBase.isPostFlag
     End Sub
     Private Sub frmDemandUploader_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         UcAttachment1.Form_ID = MyBase.Form_ID

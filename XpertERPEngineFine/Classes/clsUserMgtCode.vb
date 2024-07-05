@@ -2482,6 +2482,7 @@ Public Class clsUserMgtCode
     Public Const rptPerformanceReport As String = "PERF-RPT"
     Public Const VehicleUnloadingReport As String = "VEH-UNL-RPT"
     Public Const rptTransactionWiseStock As String = "TRAN-STCK"
+    Public Const Rptralwisematerialreceivedandpayment As String = "RAL-REC-RPT"
     Public Const rptRMUnloading As String = "RM-UNL-RPT"
     Public Const RptPOAgainstDocument As String = "PO_AGT"
     Public Const frmBillChecklist As String = "PO_BCL"

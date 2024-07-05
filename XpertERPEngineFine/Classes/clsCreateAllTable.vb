@@ -53881,7 +53881,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Item_Cost", "decimal(18, 3) NULL")
             coll.Add("Remarks", "varchar(100) NULL")
             coll.Add("Comments", "varchar(100) NULL")
-
+            coll.Add("Tax_Exclusive", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TENDER_DETAIL", coll, Nothing, True, True, "TSPL_TENDER_HEADER", "DocumentCode", "")
 
             coll = New Dictionary(Of String, String)()
@@ -54465,7 +54465,16 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("FINAL_PRODUCTION_QTY_MIN", "FLOAT NOT NULL default 0")
             coll.Add("FINAL_PRODUCTION_QTY_MAX", "FLOAT NOT NULL default 0")
             coll.Add("CONSM_QTY_Original", "FLOAT NOT NULL default 0")
+            coll.Add("Gunny_Bags", "INTEGER NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SPP_CONSUMPTION_WITHOUT_BATCH", coll, Nothing, False, False, "TSPL_SPP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", "")
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("PROD_ENTRY_CODE", "Varchar(30)  NULL REFERENCES TSPL_SPP_PRODUCTION_ENTRY(PROD_ENTRY_CODE)")
+            coll.Add("Item_Code", "Varchar(50) not null references TSPL_ITEM_MASTER(Item_Code)")
+            coll.Add("UOM", "varchar(12) NULL")
+            coll.Add("Qty", "Decimal(18,2) null")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SPP_GUNNY_BAG_WITHOUT_BATCH", coll, Nothing, False, False, "TSPL_SPP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", "")
 
             coll = New Dictionary(Of String, String)()
             coll.Add("CONSM_CODE", "INTEGER NOT NULL IDENTITY PRIMARY KEY")

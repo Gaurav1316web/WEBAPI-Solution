@@ -2405,6 +2405,7 @@ Public Class frmSNShipment
                                 Next
                             End If
                             UpdateAllTotals()
+                            SetTaxDetails()
                         ElseIf e.Column Is gv1.Columns(colICode) Then
                             If blnBackCalculation = True Then
                                 OpenICodeList(False)
@@ -3296,8 +3297,8 @@ Public Class frmSNShipment
                     Case 1
                         If (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code='" & clsCommon.myCstr(gv2.Rows(ii - 1).Cells(colTTaxAutCode).Value) & "' AND Is_TCS ='Y'")) > 0) Then 'AndAlso clsCommon.myCdbl(txttcstaxbaseamount.Value) > 0 AndAlso AllowtoChangeTCSBaseAmount = True Then
                             lblActualTCSTaxBaseAmt.Text = clsCommon.myFormat(dblTaxBaseAmt1)
-                            'dblTaxBaseAmt1 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
-                            dblTaxBaseAmt1 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
+                            dblTaxBaseAmt1 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
+                            'dblTaxBaseAmt1 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
                             dblTaxAmt1 = (dblTaxBaseAmt1 * clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)) / 100
                             dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt1
                             gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt1, 2)
@@ -3316,8 +3317,8 @@ Public Class frmSNShipment
                     Case 2
                         If (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code='" & clsCommon.myCstr(gv2.Rows(ii - 1).Cells(colTTaxAutCode).Value) & "' AND Is_TCS ='Y'")) > 0) Then ' AndAlso clsCommon.myCdbl(txttcstaxbaseamount.Value) > 0 AndAlso AllowtoChangeTCSBaseAmount = True Then
                             lblActualTCSTaxBaseAmt.Text = clsCommon.myFormat(dblTaxBaseAmt1 + dblTaxAmt1)
-                            'dblTaxBaseAmt2 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
-                            dblTaxBaseAmt2 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
+                            dblTaxBaseAmt2 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
+                            'dblTaxBaseAmt2 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
                             dblTaxAmt2 = (dblTaxBaseAmt2 * clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)) / 100
                             dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt2
                             gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt2, 2)
@@ -3335,8 +3336,8 @@ Public Class frmSNShipment
                     Case 3
                         If (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code='" & clsCommon.myCstr(gv2.Rows(ii - 1).Cells(colTTaxAutCode).Value) & "' AND Is_TCS ='Y'")) > 0) Then ' AndAlso clsCommon.myCdbl(txttcstaxbaseamount.Value) > 0 AndAlso AllowtoChangeTCSBaseAmount = True Then
                             lblActualTCSTaxBaseAmt.Text = clsCommon.myFormat(dblTaxBaseAmt1 + dblTaxAmt1 + dblTaxAmt2)
-                            'dblTaxBaseAmt3 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
-                            dblTaxBaseAmt3 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
+                            dblTaxBaseAmt3 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
+                            'dblTaxBaseAmt3 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
                             dblTaxAmt3 = (dblTaxBaseAmt3 * clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)) / 100
                             dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt3
                             gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt3, 2)
@@ -3354,8 +3355,8 @@ Public Class frmSNShipment
                     Case 4
                         If (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code='" & clsCommon.myCstr(gv2.Rows(ii - 1).Cells(colTTaxAutCode).Value) & "' AND Is_TCS ='Y'")) > 0) Then ' AndAlso clsCommon.myCdbl(txttcstaxbaseamount.Value) > 0 AndAlso AllowtoChangeTCSBaseAmount = True Then
                             lblActualTCSTaxBaseAmt.Text = clsCommon.myFormat(dblTaxBaseAmt1 + dblTaxAmt1 + dblTaxAmt2 + dblTaxAmt3)
-                            'dblTaxBaseAmt4 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
-                            dblTaxBaseAmt4 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
+                            dblTaxBaseAmt4 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
+                            'dblTaxBaseAmt4 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
                             dblTaxAmt4 = (dblTaxBaseAmt4 * clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)) / 100
                             dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt4
                             gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt4, 2)
@@ -5607,6 +5608,9 @@ Public Class frmSNShipment
                                             txttcstaxbaseamount.Value = Math.Round(clsCommon.myCdbl(dblOutstandingAmount - AmountToCheckCustomerOutstandingForTCSTax), 3)
                                         End If
                                     End If
+                                Else
+                                    txttcstaxbaseamount.Value = Math.Round(clsCommon.myCdbl(clsCommon.myFormat(lblActualTCSTaxBaseAmt.Text)), 3)
+
                                 End If
                                 If dblOutstandingAmount > AmountToCheckCustomerOutstandingForTCSTax Then
                                     If EnableTCSRateValidityFrom01July2021 Then
@@ -5655,7 +5659,9 @@ Public Class frmSNShipment
         UpdateAllTotals()
         'isInsideLoadData = False
     End Sub
+    Public Sub UpdateTaxdetail()
 
+    End Sub
     Sub SetitemWiseTaxSetting(ByVal isChangeRate As Boolean, ByVal isForCurrentRow As Boolean)
         Dim dt As DataTable = clsTaxGroupMaster.GetTaxDetailsByLocation(txtTaxGroup.Value, "S", txtCustomer.Value, txtBillToLocation.Value)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
