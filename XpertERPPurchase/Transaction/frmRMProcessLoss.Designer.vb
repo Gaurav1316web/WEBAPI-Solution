@@ -47,6 +47,8 @@ Partial Class frmRMProcessLoss
         Me.txtLoc = New common.UserControls.txtFinder()
         Me.lblFromdate = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel7 = New common.Controls.MyLabel()
+        Me.txtCostofFeed = New common.Controls.MyLabel()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Gv2 = New common.UserControls.MyRadGridView()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
@@ -56,8 +58,8 @@ Partial Class frmRMProcessLoss
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.txtDate = New common.Controls.MyDateTimePicker()
-        Me.txtCostofFeed = New common.Controls.MyLabel()
-        Me.MyLabel7 = New common.Controls.MyLabel()
+        Me.txtITotalssQty = New common.Controls.MyLabel()
+        Me.MyLabel6 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -84,6 +86,8 @@ Partial Class frmRMProcessLoss
         CType(Me.lblloc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblFromdate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCostofFeed, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         CType(Me.Gv2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -94,8 +98,8 @@ Partial Class frmRMProcessLoss
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtCostofFeed, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtITotalssQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -129,7 +133,7 @@ Partial Class frmRMProcessLoss
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(800, 417)
         Me.RadPageView1.TabIndex = 6
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -460,6 +464,8 @@ Partial Class frmRMProcessLoss
         '
         'RadPageViewPage2
         '
+        Me.RadPageViewPage2.Controls.Add(Me.MyLabel6)
+        Me.RadPageViewPage2.Controls.Add(Me.txtITotalssQty)
         Me.RadPageViewPage2.Controls.Add(Me.MyLabel7)
         Me.RadPageViewPage2.Controls.Add(Me.txtCostofFeed)
         Me.RadPageViewPage2.Controls.Add(Me.GroupBox1)
@@ -468,6 +474,27 @@ Partial Class frmRMProcessLoss
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(779, 369)
         Me.RadPageViewPage2.Text = "Production"
+        '
+        'MyLabel7
+        '
+        Me.MyLabel7.FieldName = Nothing
+        Me.MyLabel7.Location = New System.Drawing.Point(370, 44)
+        Me.MyLabel7.Name = "MyLabel7"
+        Me.MyLabel7.Size = New System.Drawing.Size(103, 18)
+        Me.MyLabel7.TabIndex = 86
+        Me.MyLabel7.Text = "Cost of feed per qtl"
+        '
+        'txtCostofFeed
+        '
+        Me.txtCostofFeed.AutoSize = False
+        Me.txtCostofFeed.BorderVisible = True
+        Me.txtCostofFeed.FieldName = Nothing
+        Me.txtCostofFeed.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCostofFeed.Location = New System.Drawing.Point(501, 44)
+        Me.txtCostofFeed.Name = "txtCostofFeed"
+        Me.txtCostofFeed.Size = New System.Drawing.Size(112, 18)
+        Me.txtCostofFeed.TabIndex = 85
+        Me.txtCostofFeed.TextWrap = False
         '
         'GroupBox1
         '
@@ -594,26 +621,26 @@ Partial Class frmRMProcessLoss
         Me.txtDate.Text = "28/06/2012"
         Me.txtDate.Value = New Date(2012, 6, 28, 14, 31, 57, 31)
         '
-        'txtCostofFeed
+        'txtITotalssQty
         '
-        Me.txtCostofFeed.AutoSize = False
-        Me.txtCostofFeed.BorderVisible = True
-        Me.txtCostofFeed.FieldName = Nothing
-        Me.txtCostofFeed.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCostofFeed.Location = New System.Drawing.Point(484, 44)
-        Me.txtCostofFeed.Name = "txtCostofFeed"
-        Me.txtCostofFeed.Size = New System.Drawing.Size(112, 18)
-        Me.txtCostofFeed.TabIndex = 85
-        Me.txtCostofFeed.TextWrap = False
+        Me.txtITotalssQty.AutoSize = False
+        Me.txtITotalssQty.BorderVisible = True
+        Me.txtITotalssQty.FieldName = Nothing
+        Me.txtITotalssQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtITotalssQty.Location = New System.Drawing.Point(502, 68)
+        Me.txtITotalssQty.Name = "txtITotalssQty"
+        Me.txtITotalssQty.Size = New System.Drawing.Size(112, 18)
+        Me.txtITotalssQty.TabIndex = 87
+        Me.txtITotalssQty.TextWrap = False
         '
-        'MyLabel7
+        'MyLabel6
         '
-        Me.MyLabel7.FieldName = Nothing
-        Me.MyLabel7.Location = New System.Drawing.Point(370, 44)
-        Me.MyLabel7.Name = "MyLabel7"
-        Me.MyLabel7.Size = New System.Drawing.Size(103, 18)
-        Me.MyLabel7.TabIndex = 86
-        Me.MyLabel7.Text = "Cost of feed per qtl"
+        Me.MyLabel6.FieldName = Nothing
+        Me.MyLabel6.Location = New System.Drawing.Point(370, 68)
+        Me.MyLabel6.Name = "MyLabel6"
+        Me.MyLabel6.Size = New System.Drawing.Size(118, 18)
+        Me.MyLabel6.TabIndex = 88
+        Me.MyLabel6.Text = "Total RM item amount"
         '
         'frmRMProcessLoss
         '
@@ -655,6 +682,8 @@ Partial Class frmRMProcessLoss
         CType(Me.lblFromdate, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
         Me.RadPageViewPage2.PerformLayout()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCostofFeed, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         CType(Me.Gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -665,8 +694,8 @@ Partial Class frmRMProcessLoss
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtCostofFeed, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtITotalssQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -706,4 +735,6 @@ Partial Class frmRMProcessLoss
     Friend WithEvents Gv2 As common.UserControls.MyRadGridView
     Friend WithEvents txtCostofFeed As common.Controls.MyLabel
     Friend WithEvents MyLabel7 As common.Controls.MyLabel
+    Friend WithEvents MyLabel6 As common.Controls.MyLabel
+    Friend WithEvents txtITotalssQty As common.Controls.MyLabel
 End Class

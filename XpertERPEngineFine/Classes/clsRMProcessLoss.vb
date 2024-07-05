@@ -201,44 +201,47 @@ left outer join tspl_location_master on tspl_location_master.location_code=TSPL_
     Public Shared Function HitInventory(obj As clsRMProcessLoss, trans As SqlTransaction) As Boolean
         Dim ArrInventoryMovement As List(Of clsInventoryMovement) = New List(Of clsInventoryMovement)
         For Each objTr As ClsRmProcessLossDetail In obj.Arr_Pd
-            Dim strItemType As String = clsItemMaster.GetItemType(objTr.item_code, trans)
-            Dim strItemTypeToSave As String = ""
-            If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
-                strItemTypeToSave = "RM"
-            ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
-                strItemTypeToSave = "OT"
-            ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
-                strItemTypeToSave = "FT"
-            Else
-                strItemTypeToSave = strItemType
-                'Throw New Exception("Item Type not found: " + strItemType)
-            End If
-            Dim ConvFac As Double = clsItemMaster.GetConvertionFactor(objTr.item_code, objTr.UOM, trans)
-            If ConvFac = 0 Then
-                Throw New Exception("Conversion Factor found zero for item :" + objTr.item_code + " and Uom:'" + objTr.UOM)
-            End If
 
-            Dim objInventoryMovemnt As New clsInventoryMovement()
-            objInventoryMovemnt.InOut = "O"
-            objInventoryMovemnt.Location_Code = obj.Location
-            objInventoryMovemnt.Item_Code = objTr.item_code
-            objInventoryMovemnt.Item_Desc = clsDBFuncationality.getSingleValue("Select Item_desc from tspl_item_master where item_code='" + objTr.item_code + "'", trans)
-            objInventoryMovemnt.Qty = objTr.PL_Qty
-            objInventoryMovemnt.UOM = objTr.UOM
-            objInventoryMovemnt.Basic_Cost = objTr.Rate
-            objInventoryMovemnt.MRP = objTr.Rate
-            objInventoryMovemnt.Add_Cost = objTr.Rate
-            objInventoryMovemnt.Net_Cost = objTr.Rate * objTr.PL_Qty
-            If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
-                objInventoryMovemnt.ItemType = "RM"
-            ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
-                objInventoryMovemnt.ItemType = "OT"
-            ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
-                objInventoryMovemnt.ItemType = "FT"
-            End If
+            Dim strItemType As String = clsItemMaster.GetItemType(objTr.item_code, trans)
+                Dim strItemTypeToSave As String = ""
+                If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
+                    strItemTypeToSave = "RM"
+                ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
+                    strItemTypeToSave = "OT"
+                ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
+                    strItemTypeToSave = "FT"
+                Else
+                    strItemTypeToSave = strItemType
+                    'Throw New Exception("Item Type not found: " + strItemType)
+                End If
+                Dim ConvFac As Double = clsItemMaster.GetConvertionFactor(objTr.item_code, objTr.UOM, trans)
+                If ConvFac = 0 Then
+                    Throw New Exception("Conversion Factor found zero for item :" + objTr.item_code + " and Uom:'" + objTr.UOM)
+                End If
+                Dim objInventoryMovemnt As New clsInventoryMovement()
+                objInventoryMovemnt.InOut = "O"
+                objInventoryMovemnt.Location_Code = obj.Location
+                objInventoryMovemnt.Item_Code = objTr.item_code
+                objInventoryMovemnt.Item_Desc = clsDBFuncationality.getSingleValue("Select Item_desc from tspl_item_master where item_code='" + objTr.item_code + "'", trans)
+                objInventoryMovemnt.Qty = objTr.PL_Qty
+                objInventoryMovemnt.UOM = objTr.UOM
+                objInventoryMovemnt.Basic_Cost = objTr.Rate
+                objInventoryMovemnt.MRP = objTr.Rate
+                objInventoryMovemnt.Add_Cost = objTr.Rate
+                objInventoryMovemnt.Net_Cost = objTr.Rate * objTr.PL_Qty
+                If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
+                    objInventoryMovemnt.ItemType = "RM"
+                ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
+                    objInventoryMovemnt.ItemType = "OT"
+                ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
+                    objInventoryMovemnt.ItemType = "FT"
+                End If
             objInventoryMovemnt.ItemType = strItemTypeToSave
-            ArrInventoryMovement.Add(objInventoryMovemnt)
+            If clsCommon.myCdbl(objTr.PL_Qty) > 0 Then
+                ArrInventoryMovement.Add(objInventoryMovemnt)
+            End If
         Next
+
         clsInventoryMovement.SaveData("RM-PL", obj.document_code, obj.document_date, clsCommon.GetPrintDate(obj.document_date, "dd/MM/yyyy"), ArrInventoryMovement, trans)
         Return True
     End Function
