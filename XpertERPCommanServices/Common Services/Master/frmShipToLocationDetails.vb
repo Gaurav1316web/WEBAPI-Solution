@@ -311,6 +311,12 @@ Public Class FrmShipToLocationDetails
 
     Sub SaveData()
         Try
+            If clsCommon.myLen(txtState.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please Enter State ", Me.Text)
+                txtState.Focus()
+                txtState.Select()
+                Exit Sub
+            End If
             If MyBase.isModifyonPasswordFlag Then
                 If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.frmShipToLocationDetails, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
                 Else
@@ -325,6 +331,7 @@ Public Class FrmShipToLocationDetails
                         txtpan.Select()
                         Exit Sub
                     End If
+
                     txtGstInNo.Text = clsCommon.myCstr(txtGSTstateCode.Text) + clsCommon.myCstr(txtGstPanNo.Text) + clsCommon.myCstr(txtGstEntityNo.Text) + clsCommon.myCstr(txtGstDefaultValue.Text) + clsCommon.myCstr(txtGstLastNo.Text)
                     Dim StrMsg As String = clsERPFuncationality.ValidationGSTNO(txtGSTstateCode.Text, txtGstPanNo.Text, clsCommon.myCstr(txtGstInNo.Text), Nothing)
                     If clsCommon.myCstr(StrMsg) = "False" Then
