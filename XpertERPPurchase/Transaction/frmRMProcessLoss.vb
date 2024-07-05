@@ -976,7 +976,7 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
                     clsCommon.MyMessageBoxShow(Me, "No data found to display ", Me.Text)
                 End If
                 Gv2.Rows.Clear()
-                Dim Query As String = " SELECT TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE,Item_Desc,SUM(FINAL_PRODUCTION_QTY)/1000 AS QTY FROM TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
+                Dim Query As String = " SELECT TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE,Item_Desc,SUM(FINAL_PRODUCTION_QTY)/100 AS QTY FROM TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
                                          LEFT OUTER JOIN TSPL_SPP_PRODUCTION_ENTRY ON TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
                                          INNER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Item_Code AND FG_for_CF=1 AND TSPL_SPP_PRODUCTION_ENTRY.POSTED=1
                                          WHERE convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) AND convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103)
@@ -1030,6 +1030,25 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
         Next
         AvgPer = PLAvg / ProdQty
         txtCostofFeed.Text = Math.Round(AvgPer, 2)
+
+
+        Dim code As String = ""
+        Dim status1 As Integer = 0
+        Dim PLAvg1 As Decimal = 0
+        Dim AvgPer1 As Decimal = 0
+        For ii As Integer = 0 To gv1.Rows.Count - 1
+            code = clsCommon.myCstr(gv1.Rows(ii).Cells(colItemType).Value)
+            If clsCommon.CompairString(code, "RM") = CompairStringResult.Equal Then
+                Dim PL As Decimal = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colIssProdAmt).Value)
+                If PL > 0 Then
+                    PLAvg1 += clsCommon.myCDecimal(gv1.Rows(ii).Cells(colIssProdAmt).Value)
+                    'PLAvg += PLAvg
+                End If
+            End If
+        Next
+        If PLAvg1 > 0 Then
+            txtITotalssQty.Text = PLAvg1
+        End If
     End Sub
     Private Sub UpdateCurrentRow(ByVal grow As GridViewRowInfo)
         Try
@@ -1222,7 +1241,7 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
                     Next
                 End If
                 Gv2.Rows.Clear()
-                Dim Query As String = " SELECT TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE,Item_Desc,SUM(FINAL_PRODUCTION_QTY)/1000 AS QTY FROM TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
+                Dim Query As String = " SELECT TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE,Item_Desc,SUM(FINAL_PRODUCTION_QTY)/100 AS QTY FROM TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
                                          LEFT OUTER JOIN TSPL_SPP_PRODUCTION_ENTRY ON TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
                                          INNER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Item_Code AND FG_for_CF=1 AND TSPL_SPP_PRODUCTION_ENTRY.POSTED=1
                                          WHERE convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(obj.Fromdate) + "' ,103) AND convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(obj.Todate) + "' ,103)
@@ -1470,7 +1489,7 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
             left outer join tspl_rm_process_loss on tspl_rm_process_loss.document_code=tspl_rm_process_loss_detail.document_code
             left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=tspl_rm_process_loss_detail.item_code where tspl_rm_process_loss.document_code='" + txtDocNo.Value + "' and tspl_rm_process_loss_detail.uom='NOS'"
             dt1 = clsDBFuncationality.GetDataTable(query)
-            Dim strqry As String = " SELECT TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE,Item_Desc,SUM(FINAL_PRODUCTION_QTY)/1000 AS QTY FROM TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
+            Dim strqry As String = " SELECT 'Qtl' as UOM,TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE,Item_Desc,SUM(FINAL_PRODUCTION_QTY)/100 AS QTY FROM TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
                                          LEFT OUTER JOIN TSPL_SPP_PRODUCTION_ENTRY ON TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
                                          INNER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Item_Code AND FG_for_CF=1 AND TSPL_SPP_PRODUCTION_ENTRY.POSTED=1
                                          WHERE convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) AND convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103)
