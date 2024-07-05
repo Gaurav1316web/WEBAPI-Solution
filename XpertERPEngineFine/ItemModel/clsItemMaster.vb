@@ -1837,6 +1837,19 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
         End Try
         Return obj
     End Function
+
+    Public Shared Function GetGunnyBag(iTEM_CODE As String, uNIT_CODE As String, qUANTITY As Decimal) As Integer
+        Dim retValue As Integer = 0
+        Try
+            Dim qry As String = "select cast(" + clsCommon.myCstr(qUANTITY) + "*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/BagCF as int) from  (
+select Item_Code,Conversion_Factor as BagCF from TSPL_ITEM_UOM_DETAIL where UOM_Code='BAG' and Item_Code='" + iTEM_CODE + "'
+)x left outer join TSPL_ITEM_UOM_DETAIL  on TSPL_ITEM_UOM_DETAIL.Item_Code=x.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code='" + uNIT_CODE + "'"
+            retValue = clsDBFuncationality.getSingleValue(qry)
+        Catch ex As Exception
+        End Try
+        Return retValue
+    End Function
+
     Public Shared Function GetStoreAdjustmentItemType(ByVal strICode As String)
         Dim qry As String = "select Case when  Item_Type='O' or Item_Type='0'  then 'OT' else  case when Item_Type='R' then 'RM' else '' end end as StoreAdjustmentItemType    from tspl_item_master where Item_Code='" + strICode + "'"
         Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))

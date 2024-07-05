@@ -2,6 +2,7 @@
 Imports System.Data.SqlClient
 Public Class clsSNSalesReturnHead
 #Region "Variables"
+    Public Trans_Type As String
     Public is_taxable As Double = 0
     Public Return_Type As String = Nothing
     Public Cust_PO_No As String = Nothing
@@ -334,7 +335,7 @@ Public Class clsSNSalesReturnHead
 
     Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsSNSalesReturnHead
         Dim obj As clsSNSalesReturnHead = Nothing
-        Dim qry As String = "SELECT TSPL_SD_SALE_RETURN_HEAD.is_taxable, TSPL_SD_SALE_RETURN_HEAD.Return_Type,TSPL_SD_SALE_RETURN_HEAD.HeadDisc_PerAmt,TSPL_SD_SALE_RETURN_HEAD.Cust_PO_No,TSPL_SD_SALE_RETURN_HEAD.VehicleNo, TSPL_SD_SALE_RETURN_HEAD.Vehicle_Code,TSPL_SD_SALE_RETURN_HEAD.price_group_code , " & _
+        Dim qry As String = "SELECT TSPL_SD_SALE_RETURN_HEAD.Trans_Type,TSPL_SD_SALE_RETURN_HEAD.is_taxable, TSPL_SD_SALE_RETURN_HEAD.Return_Type,TSPL_SD_SALE_RETURN_HEAD.HeadDisc_PerAmt,TSPL_SD_SALE_RETURN_HEAD.Cust_PO_No,TSPL_SD_SALE_RETURN_HEAD.VehicleNo, TSPL_SD_SALE_RETURN_HEAD.Vehicle_Code,TSPL_SD_SALE_RETURN_HEAD.price_group_code , " &
         "TSPL_SD_SALE_RETURN_HEAD.Invoice_Type,TSPL_SD_SALE_RETURN_HEAD.HeadDisc_Per,TSPL_SD_SALE_RETURN_HEAD.HeadDisc_Amt,TSPL_SD_SALE_RETURN_HEAD.TotCashDiscAmt,TSPL_SD_SALE_RETURN_HEAD.Route_No,TSPL_SD_SALE_RETURN_HEAD.Route_Desc,TSPL_SD_SALE_RETURN_HEAD.Price_Code, TSPL_SD_SALE_RETURN_HEAD.Document_Code,TSPL_SD_SALE_RETURN_HEAD.Document_Date,TSPL_SD_SALE_RETURN_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SALE_RETURN_HEAD.Status,TSPL_SD_SALE_RETURN_HEAD.On_Hold,TSPL_SD_SALE_RETURN_HEAD.Ref_No,TSPL_SD_SALE_RETURN_HEAD.Description,TSPL_SD_SALE_RETURN_HEAD.Remarks,TSPL_SD_SALE_RETURN_HEAD.Tax_Group,TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location,TSPL_SD_SALE_RETURN_HEAD.Ship_To_Location,TSPL_SD_SALE_RETURN_HEAD.TAX1,TSPL_SD_SALE_RETURN_HEAD.TAX1_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX1_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX1_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX2,TSPL_SD_SALE_RETURN_HEAD.TAX2_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX2_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX2_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX3,TSPL_SD_SALE_RETURN_HEAD.TAX3_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX3_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX3_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX4,TSPL_SD_SALE_RETURN_HEAD.TAX4_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX4_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX4_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX5,TSPL_SD_SALE_RETURN_HEAD.TAX5_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX5_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX5_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX6,TSPL_SD_SALE_RETURN_HEAD.TAX6_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX6_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX6_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX7,TSPL_SD_SALE_RETURN_HEAD.TAX7_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX7_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX7_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX8,TSPL_SD_SALE_RETURN_HEAD.TAX8_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX8_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX8_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX9,TSPL_SD_SALE_RETURN_HEAD.TAX9_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX9_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX9_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX10,TSPL_SD_SALE_RETURN_HEAD.TAX10_Rate,TSPL_SD_SALE_RETURN_HEAD.TAX10_Amt,TSPL_SD_SALE_RETURN_HEAD.TAX10_Base_Amt,TSPL_SD_SALE_RETURN_HEAD.Discount_Base,TSPL_SD_SALE_RETURN_HEAD.Discount_Amt,TSPL_SD_SALE_RETURN_HEAD.Amount_Less_Discount,TSPL_SD_SALE_RETURN_HEAD.Total_Tax_Amt,TSPL_SD_SALE_RETURN_HEAD.Comments,TSPL_SD_SALE_RETURN_HEAD.Comp_Code,TSPL_SD_SALE_RETURN_HEAD.Terms_Code,TSPL_SD_SALE_RETURN_HEAD.Due_Date ,TSPL_LOCATION_MASTER.Location_Desc as BillToLocationName,TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipToLocationName,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as TaxGroupName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_SD_SALE_RETURN_HEAD.Posting_Date,TSPL_SD_SALE_RETURN_HEAD.Total_Amt,TSPL_SD_SALE_RETURN_HEAD.Carrier,TSPL_SD_SALE_RETURN_HEAD.VehicleNo,TSPL_SD_SALE_RETURN_HEAD.GRNo,TSPL_SD_SALE_RETURN_HEAD.GENo,TSPL_SD_SALE_RETURN_HEAD.GEDate, TSPL_SD_SALE_RETURN_HEAD.Dept,TSPL_SD_SALE_RETURN_HEAD.Dept_Desc,TSPL_SD_SALE_RETURN_HEAD.Item_Type,TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No ,TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code1,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name1,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt1,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code2,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name2,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt2,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code3,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name3,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt3,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code4,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name4,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt4,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code5,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name5,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt5,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code6,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name6,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt6,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code7,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name7,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt7,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code8,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name8,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt8,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code9 ,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name9,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt9 ,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Code10 ,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Name10,TSPL_SD_SALE_RETURN_HEAD.Add_Charge_Amt10,TSPL_SD_SALE_RETURN_HEAD.Total_Add_Charge,TSPL_SD_SALE_RETURN_HEAD.Tax_Calculation_Type,TSPL_SD_SALE_RETURN_HEAD.Challan_No, TSPL_SD_SALE_RETURN_HEAD.Challan_Date, TSPL_SD_SALE_RETURN_HEAD.Inv_Date,TSPL_SD_SALE_RETURN_HEAD.Inv_No,TSPL_SD_SALE_RETURN_HEAD.Is_Internal ,TSPL_SD_SALE_RETURN_HEAD.Salesman_Code ,TSPL_SD_SALE_RETURN_HEAD.Salesman_Name,"
         qry += " TSPL_SD_SALE_RETURN_HEAD.CURRENCY_CODE,TSPL_SD_SALE_RETURN_HEAD.CONVRATE,TSPL_SD_SALE_RETURN_HEAD.APPLICABLEFROM,TSPL_SD_SALE_RETURN_HEAD.PROJECT_ID "
         qry += " FROM TSPL_SD_SALE_RETURN_HEAD"
@@ -381,6 +382,7 @@ Public Class clsSNSalesReturnHead
 
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             obj = New clsSNSalesReturnHead()
+            obj.Trans_Type = clsCommon.myCstr(dt.Rows(0)("Trans_Type"))
             obj.Invoice_Type = clsCommon.myCstr(dt.Rows(0)("Invoice_Type"))
             obj.Cust_PO_No = clsCommon.myCstr(dt.Rows(0)("Cust_PO_No"))
             obj.Price_Group_Code = clsCommon.myCstr(dt.Rows(0)("Price_Group_Code"))
@@ -741,7 +743,52 @@ Public Class clsSNSalesReturnHead
             trans.Commit()
             Return isSaved
         Catch ex As Exception
+            'trans.Rollback()
+
+            Dim strEx As String = ex.Message
+            Dim qry As String = "select IRN_No,qr_code,ack_no,ack_date,WayBillNo, wayBillDate,EwayBillValidDate,EWayBillRemarks from TSPL_SD_SALE_RETURN_HEAD where Document_Code='" + strDocNo + "'"
+            Dim dtPortalInfo As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             trans.Rollback()
+            Try
+                If dtPortalInfo IsNot Nothing AndAlso dtPortalInfo.Rows.Count > 0 Then
+                    Dim coll As New Hashtable()
+                    If clsCommon.myLen(dtPortalInfo.Rows(0)("IRN_No")) > 0 Then
+                        clsCommon.AddColumnsForChange(coll, "IRN_No", clsCommon.myCstr(dtPortalInfo.Rows(0)("IRN_No")))
+                        clsCommon.AddColumnsForChange(coll, "qr_code", clsCommon.myCstr(dtPortalInfo.Rows(0)("qr_code")))
+                        clsCommon.AddColumnsForChange(coll, "ack_no", dtPortalInfo.Rows(0)("ack_no"))
+                        If dtPortalInfo.Rows(0)("ack_date") IsNot DBNull.Value Then
+                            clsCommon.AddColumnsForChange(coll, "ack_date", clsCommon.GetPrintDate(clsCommon.myCDate(dtPortalInfo.Rows(0)("ack_date")), "dd/MMM/yyyy hh:mm:ss tt"))
+                        End If
+                    End If
+
+                    'If clsCommon.myLen(dtPortalInfo.Rows(0)("WayBillNo")) > 0 Then
+                    '    clsCommon.AddColumnsForChange(coll, "WayBillNo", clsCommon.myCstr(dtPortalInfo.Rows(0)("WayBillNo")))
+                    '    If dtPortalInfo.Rows(0)("EwayBillDate") IsNot DBNull.Value Then
+                    '        clsCommon.AddColumnsForChange(coll, "EwayBillDate", clsCommon.GetPrintDate(clsCommon.myCDate(dtPortalInfo.Rows(0)("EwayBillDate")), "dd/MMM/yyyy hh:mm:ss tt"))
+                    '    End If
+                    '    If dtPortalInfo.Rows(0)("EwayBillValidDate") IsNot DBNull.Value Then
+                    '        clsCommon.AddColumnsForChange(coll, "EwayBillValidDate", clsCommon.GetPrintDate(clsCommon.myCDate(dtPortalInfo.Rows(0)("EwayBillValidDate")), "dd/MMM/yyyy hh:mm:ss tt"))
+                    '    End If
+                    '    clsCommon.AddColumnsForChange(coll, "EWayBillRemarks", clsCommon.myCstr(dtPortalInfo.Rows(0)("EWayBillRemarks")))
+                    'End If
+
+                    If coll.Count > 0 Then
+                        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SALE_RETURN_HEAD", OMInsertOrUpdate.Update, "Document_Code='" + strDocNo + "'")
+                    End If
+                End If
+            Catch ex2 As Exception
+                strEx += Environment.NewLine + "Portal Info [" + ex2.Message + "]"
+            End Try
+            Try
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "Document_Code", strDocNo)
+                clsCommon.AddColumnsForChange(coll, "Error_Msg", strEx)
+                clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
+                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SALE_INVOICE_EXCEPTION", OMInsertOrUpdate.Insert, "")
+            Catch ex1 As Exception
+            End Try
+
             Throw New Exception(ex.Message)
         End Try
     End Function
@@ -817,10 +864,10 @@ Public Class clsSNSalesReturnHead
                     If Not objInv Is Nothing Then
                         For Each objInvDetail As clsSNInvoiceDetail In objInv.Arr
                             If objInvDetail.Item_Code = objTr.Item_Code Then
-                                dblCogsBasicCost = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select sum(case when Costing_Method=0 then Avg_Cost when Costing_Method=1 then Avg_Cost when Costing_Method=2 then FIFO_Cost " & _
-                            "when Costing_Method=3 then LIFO_Cost end)/sum(Qty) as COst from TSPL_INVENTORY_MOVEMENT left outer join " & _
-                            "TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code left outer join TSPL_PURCHASE_ACCOUNTS on " & _
-                            "TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code where " & _
+                                dblCogsBasicCost = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select sum(case when Costing_Method=0 then Avg_Cost when Costing_Method=1 then Avg_Cost when Costing_Method=2 then FIFO_Cost " &
+                            "when Costing_Method=3 then LIFO_Cost end)/sum(Qty) as COst from TSPL_INVENTORY_MOVEMENT left outer join " &
+                            "TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code left outer join TSPL_PURCHASE_ACCOUNTS on " &
+                            "TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code where " &
                             "Source_Doc_No='" & objInvDetail.Shipment_Code & "' And TSPL_INVENTORY_MOVEMENT.Item_Code='" & objTr.Item_Code & "'  and  TSPL_INVENTORY_MOVEMENT.MRP=" & objTr.MRP & " ", trans))
                             End If
                         Next
@@ -882,12 +929,147 @@ Public Class clsSNSalesReturnHead
             qry += " where Document_Code='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
+            'E-Invoice No
+            Dim ECustomerType = clsERPFuncationality.GetCustomerEInvoiceType(obj.Customer_Code, trans)
+            If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True AndAlso obj.is_taxable = 1 Then ''
+                If clsCommon.myLen(GetSaleReturnIRNNo(strDocNo, trans)) <= 0 Then
+                    EInvoice_Implementation(obj.Document_Code, obj.Bill_To_Location, trans, False)
+                    If clsCommon.myLen(GetSaleReturnIRNNo(strDocNo, trans)) <= 0 Then
+                        Throw New Exception("IRN No For Sales Invoice No [" + strDocNo + "] is not generated")
+                    End If
+                End If
+            ElseIf clsCommon.CompairString(ECustomerType, "BC") = CompairStringResult.Equal AndAlso clsCommon.CompairString(obj.Trans_type, "MCC") = CompairStringResult.Equal Then
+                Dim EnableDynamicQRCodeForB2CInvoice As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.EnableDynamicQRCodeForB2CInvoice, clsFixedParameterCode.EnableDynamicQRCodeForB2CInvoice, trans)) = 1, True, False))
+                If EnableDynamicQRCodeForB2CInvoice = True AndAlso clsERPFuncationality.GetQRCodeStatus(obj.Document_Date, trans) = True Then
+                    EInvoice_ImplementationFor_CustomerType_BC(obj.Document_Code, obj.Bill_To_Location, trans)
+                End If
+            End If
+            '-----------------------
+
             Return isSaved
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
 
     End Function
+
+    Public Shared Function GetSaleReturnIRNNo(strDocNo As String, trans As SqlTransaction) As String
+        Return clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  isnull(IRN_No,'') from TSPL_SD_SALE_RETURN_HEAD where Document_Code='" + strDocNo + "'", trans))
+    End Function
+
+    Public Shared Function EInvoice_ImplementationFor_CustomerType_BC(ByVal strDocNo As String, ByVal strLocation As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim isSaved As Boolean = True
+            If (clsCommon.myLen(strDocNo) <= 0) Then
+                Throw New Exception("Code not found to Post")
+            End If
+
+            Dim strQry As String = "select TSPL_SD_SALE_RETURN_HEAD.Document_Code as docno,convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) as docdate,
+            TSPL_SD_SALE_RETURN_HEAD.Total_Amt as totinvval,TSPL_LOCATION_MASTER.bankaccno ,TSPL_LOCATION_MASTER.bankifsccode,TSPL_LOCATION_MASTER.accountholdername,
+            case when TSPL_SD_SALE_RETURN_HEAD .TAX1 ='CGST' AND TSPL_SD_SALE_RETURN_HEAD .TAX2  ='SGST' then TSPL_SD_SALE_RETURN_HEAD.TAX1_Amt when TSPL_SD_SALE_RETURN_HEAD .TAX1 ='SGST' AND TSPL_SD_SALE_RETURN_HEAD .TAX2  ='CGST' then TSPL_SD_SALE_RETURN_HEAD.TAX2_Amt else 0 end cgstamount, case when TSPL_SD_SALE_RETURN_HEAD .TAX1 ='SGST' AND TSPL_SD_SALE_RETURN_HEAD .TAX2  ='CGST' then TSPL_SD_SALE_RETURN_HEAD.TAX1_Amt when TSPL_SD_SALE_RETURN_HEAD .TAX1 ='CGST' AND TSPL_SD_SALE_RETURN_HEAD .TAX2  ='SGST' then TSPL_SD_SALE_RETURN_HEAD.TAX2_Amt else 0 end sgstamount,case when TSPL_SD_SALE_RETURN_HEAD .TAX1 ='IGST' then TSPL_SD_SALE_RETURN_HEAD.TAX1_Amt else 0 end igstamount,
+            0 as cessamount ,TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location,TSPL_LOCATION_MASTER.BankUPI_ID as upiid 
+            from TSPL_SD_SALE_RETURN_HEAD
+            Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_Return_No =TSPL_SD_SALE_RETURN_HEAD.Document_Code
+            Left Outer Join TSPL_Customer_master on TSPL_Customer_master.Cust_Code  =TSPL_SD_SALE_RETURN_HEAD.Customer_Code
+            left Outer Join TSPL_LOCATION_MASTER  on TSPL_LOCATION_MASTER.Location_Code =TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location 
+            left outer join tspl_tax_master as TCS1 on TCS1.Tax_Code =TSPL_SD_SALE_RETURN_HEAD.Tax2
+            left outer join tspl_tax_master as TCS2 on TCS2.Tax_Code =TSPL_SD_SALE_RETURN_HEAD.Tax3
+            where TSPL_SD_SALE_RETURN_HEAD.Document_Code ='" & strDocNo & "'"
+
+
+            Dim objResult As Object = ClsEInvoiceOFAPIs.PostAuthTokenNo_withInvoiceData_ForCustomerType_BC(objCommonVar.CurrentCompanyCode, "", strQry, strLocation, trans)
+            If objResult IsNot Nothing Then
+                'assign to variable
+                Dim dynamicQrCode As String = objResult.SelectToken("dynamicQrCode").ToString
+
+                Dim TempByte As Byte() = clsERPFuncationalityOLD.GenerateMyQCCode(dynamicQrCode)
+                clsDBFuncationality.UpdateImage("BarCode_Img", TempByte, "TSPL_SD_SALE_RETURN_HEAD", "TSPL_SD_SALE_RETURN_HEAD.document_code='" & strDocNo & "'", trans)
+            Else
+                Throw New Exception("Invalid JSON Value")
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
+    Public Shared Function EInvoice_Implementation(ByVal strDocNo As String, ByVal strLocation As String, ByVal trans As SqlTransaction, ByVal OnlyEWayBill As Boolean) As Boolean
+        Try
+            Dim isSaved As Boolean = True
+            If (clsCommon.myLen(strDocNo) <= 0) Then
+                Throw New Exception("Code not found to Post")
+            End If
+            If Not clsCommon.myInternetWork() Then
+                Throw New Exception("Internet is not working while uploading Invoice on portal")
+            End If
+            Dim strtoken As String = ClsEInvoiceOFAPIs.IsGenerateAuthTokenNo_Required(objCommonVar.CurrentCompanyCode, strLocation, trans)
+            If clsCommon.myLen(strtoken) > 0 Then
+                Dim strQry As String = "select TSPL_Customer_master .Cust_Code ,TSPL_SD_SALE_RETURN_HEAD.Document_Code as DocNo,convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) as DocDate,case when TSPL_Customer_Invoice_Head.Document_Type='D' then 'DBN' when TSPL_Customer_Invoice_Head.Document_Type ='C' then 'CRN' else 'INV' end as DocType ,'B2B' as SupTyp, 'N'  as IgstOnIntra,Bill_To_Location.GSTNO as SellerGSTINNo ,Bill_To_Location.location_desc as SellerLglNm,TSPL_COMPANY_MASTER.Comp_Name as SellerTrdNm,Bill_To_Location.Add1 as SellerAdd1,Bill_To_Location.Add2 as SellerAdd2 ,Bill_To_Location.City_Code  as SellerLoc,Bill_To_Location.Pin_Code  as SellerPincode,BillToLocation_State_Master.GST_STATE_Code as SellerStcd,Bill_To_Location.Phone1 as SellerPhone,Bill_To_Location.Email as SellerEmail,TSPL_Customer_master.GSTNo as BuyerGSTINNo ,TSPL_Customer_master.Customer_Name as BuyerLglNm,TSPL_Customer_master.Alies_name as BuyerTrdNm,case when isnull(TSPL_SD_SALE_RETURN_HEAD.Ship_To_Location,'')='' then Customer_State_Master.GST_STATE_Code else Ship_To_Location_State_Master.GST_STATE_Code end as BuyerPOS,TSPL_Customer_master.Add1 as BuyerAdd1,TSPL_Customer_master.Add2 as BuyerAdd2 ,tspl_city_master.City_Name as BuyerLoc,cast(TSPL_Customer_master.PIN_NO as int) as BuyerPincode,Customer_State_Master.GST_STATE_Code as BuyerStcd,TSPL_Customer_master.Phone1 as BuyerPhone,TSPL_Customer_master.Email as BuyerEmail,TSPL_SD_SALE_RETURN_DETAIL.Line_No as ItemSlNo,case when isnull(TSPL_SD_SALE_RETURN_DETAIL.Row_Type,'') ='Item' then 'N' else 'Y' end as ItemIsServc,COAlESCE(TSPL_ITEM_MASTER.Item_Desc,TSPL_Additional_Charges.DESCRIPTION ) AS ItemPrdDesc,COAlESCE(TSPL_ITEM_MASTER.HSN_Code,TSPL_Additional_Charges.SAC_CODE) AS ItemHsnCd,TSPL_SD_SALE_RETURN_DETAIL.Qty as ItemQty, TSPL_SD_SALE_RETURN_DETAIL.Unit_code as ItemUnit,TSPL_SD_SALE_RETURN_DETAIL.Item_Cost as ItemUnitPrice,TSPL_SD_SALE_RETURN_DETAIL.Amount as ItemTotAmt,TSPL_SD_SALE_RETURN_DETAIL.total_disc_amt as ItemDiscount,(TSPL_SD_SALE_RETURN_DETAIL.Amt_Less_Discount -(case when isnull(TSPL_SD_SALE_RETURN_DETAIL.FOC_Item,0)=1 then TSPL_SD_SALE_RETURN_DETAIL.total_disc_amt else 0 end )) as ItemAssAmt,case when ISNULL(TSPL_SD_SALE_RETURN_DETAIL .tax1,'') ='IGST' THEN TSPL_SD_SALE_RETURN_DETAIL.TAX1_Rate when ISNULL(TSPL_SD_SALE_RETURN_DETAIL .tax1,'') ='CGST' AND   ISNULL(TSPL_SD_SALE_RETURN_DETAIL .tax2,'') ='SGST'  THEN TSPL_SD_SALE_RETURN_DETAIL.TAX1_Rate+TSPL_SD_SALE_RETURN_DETAIL.TAX2_Rate  ELSE 0 end as ItemGstRt, case when TSPL_SD_SALE_RETURN_DETAIL .TAX1 ='SGST' AND TSPL_SD_SALE_RETURN_DETAIL .TAX2  ='CGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX1_Amt when TSPL_SD_SALE_RETURN_DETAIL .TAX1 ='CGST' AND TSPL_SD_SALE_RETURN_DETAIL .TAX2  ='SGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX2_Amt else 0 end ItemSgstAmt,case when TSPL_SD_SALE_RETURN_DETAIL .TAX1 ='IGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX1_Amt else 0 end ItemIgstAmt,
+                case when TSPL_SD_SALE_RETURN_DETAIL .TAX1 ='CGST' AND TSPL_SD_SALE_RETURN_DETAIL .TAX2  ='SGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX1_Amt when TSPL_SD_SALE_RETURN_DETAIL .TAX1 ='SGST' AND TSPL_SD_SALE_RETURN_DETAIL .TAX2  ='CGST' then TSPL_SD_SALE_RETURN_DETAIL.TAX2_Amt else 0 end ItemCgstAmt,0 as ItemOthChrg,(TSPL_SD_SALE_RETURN_DETAIL.Amt_Less_Discount -(case when isnull(TSPL_SD_SALE_RETURN_DETAIL.FOC_Item,0)=1 then TSPL_SD_SALE_RETURN_DETAIL.total_disc_amt else 0 end ))+TSPL_SD_SALE_RETURN_DETAIL.TAX1_AMT +case when isnull(TCS1.is_tcs,'')<>'Y' THEN  TSPL_SD_SALE_RETURN_DETAIL.TAX2_AMT  ELSE 0 END  +case when isnull(TCS2.is_tcs,'')<>'Y' THEN  TSPL_SD_SALE_RETURN_DETAIL.TAX3_AMT  ELSE 0 END  as ItemTotItemVal,TSPL_SD_SALE_RETURN_HEAD .Amount_Less_Discount as ValDtlsAssVal,case when TSPL_SD_SALE_RETURN_HEAD .TAX1 ='CGST' AND TSPL_SD_SALE_RETURN_HEAD .TAX2  ='SGST' then TSPL_SD_SALE_RETURN_HEAD.TAX1_Amt when TSPL_SD_SALE_RETURN_HEAD .TAX1 ='SGST' AND TSPL_SD_SALE_RETURN_HEAD .TAX2  ='CGST' then TSPL_SD_SALE_RETURN_HEAD.TAX2_Amt else 0 end ValDtlsCgstVal, case when TSPL_SD_SALE_RETURN_HEAD .TAX1 ='SGST' AND TSPL_SD_SALE_RETURN_HEAD .TAX2  ='CGST' then TSPL_SD_SALE_RETURN_HEAD.TAX1_Amt when TSPL_SD_SALE_RETURN_HEAD .TAX1 ='CGST' AND TSPL_SD_SALE_RETURN_HEAD .TAX2  ='SGST' then TSPL_SD_SALE_RETURN_HEAD.TAX2_Amt else 0 end ValDtlsSgstVal,case when TSPL_SD_SALE_RETURN_HEAD .TAX1 ='IGST' then TSPL_SD_SALE_RETURN_HEAD.TAX1_Amt else 0 end ValDtlsIgstVal,0 as ValDtlsDiscount,case when isnull(TCS1.is_tcs,'')='Y' THEN  TSPL_SD_SALE_RETURN_HEAD.TAX2_AMT when isnull(TCS2.is_tcs,'')='Y' THEN  TSPL_SD_SALE_RETURN_HEAD.TAX3_AMT ELSE 0 END as ValDtlsOthChrg,TSPL_SD_SALE_RETURN_HEAD.Total_Amt as ValDtlsTotInvVal,TSPL_SD_SALE_RETURN_HEAD.RoundOffAmount  as ValDtlsRndOffAmt 
+                ,ISNULL(tspl_vendor_master.GSTFinalNo,'') AS EwbTransId,ISNULL(tspl_vendor_master.Vendor_Name,'') AS EwbTransName,isnull(TSPL_SD_SALE_RETURN_HEAD.VehicleNo,'') as EwbVehNo " ',TSPL_SD_SALE_RETURN_HEAD.Freight_Distance as EwbDistance
+                strQry +=" from TSPL_SD_SALE_RETURN_HEAD
+                Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_Return_No =TSPL_SD_SALE_RETURN_HEAD.Document_Code
+                Left Outer Join TSPL_COMPANY_MASTER  on TSPL_COMPANY_MASTER.Comp_Code  ='" & objCommonVar.CurrentCompanyCode & "'
+                Left Outer Join TSPL_Customer_master on TSPL_Customer_master.Cust_Code  =TSPL_SD_SALE_RETURN_HEAD.Customer_Code
+                left Outer Join TSPL_LOCATION_MASTER as Bill_To_Location on Bill_To_Location.Location_Code =TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location 
+                left Outer Join TSPL_SHIP_TO_LOCATION as Ship_To_Location on Ship_To_Location.Ship_To_Code  =TSPL_SD_SALE_RETURN_HEAD.Ship_To_Location    
+                left outer join TSPL_SD_SALE_RETURN_DETAIL on TSPL_SD_SALE_RETURN_DETAIL.document_code=TSPL_SD_SALE_RETURN_HEAD.document_code
+                left outer join tspl_item_master on tspl_item_master.Item_code=TSPL_SD_SALE_RETURN_DETAIL.Item_code
+                left outer join TSPL_ADDITIONAL_CHARGES on TSPL_ADDITIONAL_CHARGES.CODE=TSPL_SD_SALE_RETURN_DETAIL.Item_code
+                left outer join TSPL_STATE_MASTER as BillToLocation_State_Master on BillToLocation_State_Master.STATE_CODE  =Bill_To_Location.State
+                left outer join TSPL_STATE_MASTER as Ship_To_Location_State_Master on Ship_To_Location_State_Master.STATE_CODE  =Ship_To_Location.State
+                left outer join TSPL_STATE_MASTER as Customer_State_Master on Customer_State_Master.STATE_CODE  =TSPL_Customer_master.State 
+                left outer join tspl_city_master on tspl_city_master.city_code=TSPL_Customer_master.City_Code
+                left outer join tspl_tax_master as TCS1 on TCS1.Tax_Code =TSPL_SD_SALE_RETURN_HEAD.Tax2
+                left outer join tspl_tax_master as TCS2 on TCS2.Tax_Code =TSPL_SD_SALE_RETURN_HEAD.Tax3
+                Left Outer Join tspl_vendor_master on tspl_vendor_master.vendor_code  =TSPL_SD_SALE_RETURN_HEAD.Customer_Code
+                where TSPL_SD_SALE_RETURN_HEAD.Document_Code ='" & strDocNo & "'"
+                Dim objResult As Object = Nothing
+                If Not OnlyEWayBill Then
+                    'objResult = ClsEInvoiceOFAPIs.PostAuthTokenNo_EWAYBillOnly(objCommonVar.CurrentCompanyCode, strtoken, strQry, strLocation, trans, GetSaleReturnIRNNo(strDocNo, trans))
+                    'Else
+                    objResult = ClsEInvoiceOFAPIs.PostAuthTokenNo_withInvoiceData(objCommonVar.CurrentCompanyCode, strtoken, strQry, strLocation, trans, True)
+                End If
+
+                If objResult IsNot Nothing Then
+                    If Not OnlyEWayBill Then
+                        'assign to variable
+                        Dim AckNo As String = objResult.SelectToken("AckNo").ToString
+                        Dim AckDt As String = objResult.SelectToken("AckDt").ToString
+                        Dim Irn As String = objResult.SelectToken("Irn").ToString
+                        Dim SignedQRCode As String = objResult.SelectToken("SignedQRCode").ToString
+                        clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SALE_RETURN_HEAD set  IRN_No ='" & Irn & "',qr_code='" & SignedQRCode & "',ack_no='" & AckNo & "',ack_date='" & clsCommon.GetPrintDate(AckDt, "dd/MMM/yyyy hh:mm tt") & "' where Document_Code ='" & strDocNo & "'", trans)
+
+                        Dim TempByte As Byte() = clsERPFuncationalityOLD.GenerateMyQCCode(SignedQRCode)
+                        clsDBFuncationality.UpdateImage("BarCode_Img", TempByte, "TSPL_SD_SALE_RETURN_HEAD", "TSPL_SD_SALE_RETURN_HEAD.document_code='" & strDocNo & "'", trans)
+                    End If
+
+                    'If objCommonVar.GenerateEWayBillWithEInvoice = True Then
+                    '    Dim EwbNo As String = objResult.SelectToken("EwbNo").ToString
+                    '    Dim EwbDt As String = objResult.SelectToken("EwbDt").ToString
+                    '    Dim EwbValidTill As String = objResult.SelectToken("EwbValidTill").ToString
+                    '    Dim Remarks As String = objResult.SelectToken("Remarks").ToString
+                    '    If clsCommon.myLen(EwbDt) > 0 Then
+                    '        EwbDt = clsCommon.GetPrintDate(EwbDt, "dd/MMM/yyyy hh:mm tt")
+                    '    End If
+                    '    If clsCommon.myLen(EwbValidTill) > 0 Then
+                    '        EwbValidTill = clsCommon.GetPrintDate(EwbValidTill, "dd/MMM/yyyy hh:mm tt")
+                    '    End If
+                    '    clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SALE_RETURN_HEAD set  EWayBillNo ='" & EwbNo & "',EwayBillDate=(CASE WHEN LEN('" & EwbDt & "')>0   THEN '" & EwbDt & "' ELSE NULL END) ,EwayBillValidDate=(CASE WHEN LEN('" & EwbValidTill & "')>0   THEN '" & EwbValidTill & "' ELSE NULL END)  , EWayBillRemarks = '" & Remarks & "'  where DOCUMENT_CODE ='" & strDocNo & "' ", trans)
+                    'End If
+                Else
+                    Throw New Exception("EInvoice- Invalid JSON Value")
+                End If
+            Else
+                Throw New Exception("EInvoice- Token No Not found")
+            End If
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
 
     Private Shared Function createARInvoice(ByVal obj As clsSNSalesReturnHead, ByVal trans As SqlTransaction, Optional ByVal strARInvNoForRecreatedOnly As String = Nothing, Optional ByVal strVoucherNoForRecreatedOnly As String = Nothing) As Boolean
         ''''''''''''''''''''''''''''''''''For Making AR Invoice
@@ -917,7 +1099,7 @@ Public Class clsSNSalesReturnHead
         objCustInv.TAX1 = obj.TAX1
         objCustInv.TAX1_Rate = obj.TAX1_Rate
         objCustInv.TAX1_Amt = obj.TAX1_Amt
-        objCustInv.TAX2 = obj.TAX2_Amt
+        objCustInv.TAX2 = obj.TAX2
         objCustInv.TAX2_Rate = obj.TAX2_Rate
         objCustInv.TAX2_Amt = obj.TAX2_Amt
         objCustInv.TAX3 = obj.TAX3

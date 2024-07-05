@@ -1,5 +1,7 @@
 ﻿Imports common
+Imports System.Data
 Imports System.Data.SqlClient
+Imports Telerik.WinControls.UI
 Public Class clsRMProcessLoss
 #Region "variables"
     Public Location As String = Nothing
@@ -33,7 +35,7 @@ Public Class clsRMProcessLoss
         Dim coll As New Hashtable()
         Try
             If isNewEntry Then
-                obj.document_code = clsERPFuncationality.GetNextCode(trans, obj.document_date, clsDocType.RMProcessLoss, "", "")
+                obj.document_code = clsERPFuncationality.GetNextCode(trans, obj.document_date, clsDocType.RMProcessLoss, "", obj.Location)
             End If
 
             clsCommon.AddColumnsForChange(coll, "Document_Code", obj.document_code)
@@ -184,6 +186,8 @@ left outer join tspl_location_master on tspl_location_master.location_code=TSPL_
             If (obj.Status = "1") Then
                 Throw New Exception("Already Posted")
             End If
+            HitInventory(obj, trans)
+            CreateJournalEntry(obj.document_code, trans)
             Dim qry As String = "Update TSPL_RM_PROCESS_LOSS set Status=1, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "'  where Document_code ='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             'clsDBFuncationality.ExecuteNonQuery("Update TSPL_PROD_QC_CHECK_HEAD set posted='1', Modified_By = '" + objCommonVar.CurrentUserCode + "',Modified_Date = '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "yyyy-MM-dd") + "'  where document_code='" & obj.document_code & "'", trans)
@@ -194,6 +198,93 @@ left outer join tspl_location_master on tspl_location_master.location_code=TSPL_
         End Try
         Return True
     End Function
+    Public Shared Function HitInventory(obj As clsRMProcessLoss, trans As SqlTransaction) As Boolean
+        Dim ArrInventoryMovement As List(Of clsInventoryMovement) = New List(Of clsInventoryMovement)
+        For Each objTr As ClsRmProcessLossDetail In obj.Arr_Pd
+
+            Dim strItemType As String = clsItemMaster.GetItemType(objTr.item_code, trans)
+                Dim strItemTypeToSave As String = ""
+                If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
+                    strItemTypeToSave = "RM"
+                ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
+                    strItemTypeToSave = "OT"
+                ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
+                    strItemTypeToSave = "FT"
+                Else
+                    strItemTypeToSave = strItemType
+                    'Throw New Exception("Item Type not found: " + strItemType)
+                End If
+                Dim ConvFac As Double = clsItemMaster.GetConvertionFactor(objTr.item_code, objTr.UOM, trans)
+                If ConvFac = 0 Then
+                    Throw New Exception("Conversion Factor found zero for item :" + objTr.item_code + " and Uom:'" + objTr.UOM)
+                End If
+                Dim objInventoryMovemnt As New clsInventoryMovement()
+                objInventoryMovemnt.InOut = "O"
+                objInventoryMovemnt.Location_Code = obj.Location
+                objInventoryMovemnt.Item_Code = objTr.item_code
+                objInventoryMovemnt.Item_Desc = clsDBFuncationality.getSingleValue("Select Item_desc from tspl_item_master where item_code='" + objTr.item_code + "'", trans)
+                objInventoryMovemnt.Qty = objTr.PL_Qty
+                objInventoryMovemnt.UOM = objTr.UOM
+                objInventoryMovemnt.Basic_Cost = objTr.Rate
+                objInventoryMovemnt.MRP = objTr.Rate
+                objInventoryMovemnt.Add_Cost = objTr.Rate
+                objInventoryMovemnt.Net_Cost = objTr.Rate * objTr.PL_Qty
+                If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
+                    objInventoryMovemnt.ItemType = "RM"
+                ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
+                    objInventoryMovemnt.ItemType = "OT"
+                ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
+                    objInventoryMovemnt.ItemType = "FT"
+                End If
+            objInventoryMovemnt.ItemType = strItemTypeToSave
+            If clsCommon.myCdbl(objTr.PL_Qty) > 0 Then
+                ArrInventoryMovement.Add(objInventoryMovemnt)
+            End If
+        Next
+
+        clsInventoryMovement.SaveData("RM-PL", obj.document_code, obj.document_date, clsCommon.GetPrintDate(obj.document_date, "dd/MM/yyyy"), ArrInventoryMovement, trans)
+        Return True
+    End Function
+    Public Shared Sub CreateJournalEntry(ByVal strCode As String, ByVal trans As SqlTransaction, Optional ByVal strVoucherNoRecreatedOnly As String = Nothing)
+        Dim obj As New clsRMProcessLoss
+        obj = clsRMProcessLoss.GetData(strCode, NavigatorType.Current, trans)
+        Dim ArryLstGLAC As ArrayList = New ArrayList()
+        Dim strInventoryControlAc As String = ""
+        Dim strShipmentClearingAC As String = ""
+        Dim dblTotalCost As Double = 0
+
+        strShipmentClearingAC = clsDBFuncationality.getSingleValue("SELECT PA.Shipment_Clearing FROM TSPL_ITEM_MASTER AS IM INNER JOIN " &
+          " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " &
+           " TSPL_GL_ACCOUNTS AS GLA ON PA.Inv_Control_Account = GLA.Account_Code WHERE IM.Item_Code='" + obj.Arr_Pd.Item(0).item_code.ToString() + "'", trans)
+        strShipmentClearingAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strShipmentClearingAC, obj.Location, trans)
+
+        If clsCommon.myLen(strShipmentClearingAC) = 0 Then
+            Throw New Exception("Please set Shipment clearing Account for first item")
+        End If
+
+        Dim dblCogsCost As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select sum(case when Costing_Method=0 then Avg_Cost when Costing_Method=1 then Avg_Cost when Costing_Method=2 then FIFO_Cost when Costing_Method=3 then LIFO_Cost end) as COst from TSPL_INVENTORY_MOVEMENT left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code where Source_Doc_No='" & obj.Document_Code & "'", trans))
+
+        Dim Acc() As String = {strShipmentClearingAC, dblCogsCost}
+        ArryLstGLAC.Add(Acc)
+
+        Dim strSql As String = "select TSPL_INVENTORY_MOVEMENT.Item_Code,case when Costing_Method=0 then Avg_Cost when Costing_Method=1 then Avg_Cost when Costing_Method=2 then FIFO_Cost when Costing_Method=3 then LIFO_Cost end as Cost from TSPL_INVENTORY_MOVEMENT left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code  where Source_Doc_No='" & obj.Document_Code & "'"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(strSql, trans)
+        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+            For Each dr As DataRow In dt.Rows
+                strInventoryControlAc = clsDBFuncationality.getSingleValue("SELECT PA.Inv_Control_Account FROM TSPL_ITEM_MASTER AS IM INNER JOIN " &
+                " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " &
+                " TSPL_GL_ACCOUNTS AS GLA ON PA.Inv_Control_Account = GLA.Account_Code WHERE IM.Item_Code='" + clsCommon.myCstr(dr("Item_Code")) + "'", trans)
+                strInventoryControlAc = clsERPFuncationality.ChangeGLAccountLocationSegment(strInventoryControlAc, obj.Location, trans)
+
+                If clsCommon.myLen(strInventoryControlAc) = 0 Then
+                    Throw New Exception("Please set Inventory Control Account for first item")
+                End If
+                Dim Acc1() As String = {strInventoryControlAc, -1 * clsCommon.myCdbl(dr("Cost"))}
+                ArryLstGLAC.Add(Acc1)
+            Next
+        End If
+        clsJournalMaster.FunGrnlEntryWithTrans(obj.Location, False, trans, obj.document_date, obj.Comments, "RM-PL", "RMProcessLoss", obj.document_code, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , "", obj.Comments)
+    End Sub
     Public Shared Function ReverseAndUnpost(ByVal strCode As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try

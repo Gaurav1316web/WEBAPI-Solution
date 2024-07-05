@@ -1490,19 +1490,22 @@ Public Class frmDemandBooking
                         Throw New Exception("Demand cannot be reverse because Next Day Demand Gate Pass has generated.")
                     End If
                 End If
-                If clsDemandBookingSale.ReverseAndUnpost(txtDocNo.Value) Then
-                    saveCancelLog(Reason, "Reverse And Recreate", Nothing)
-                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
-                    If clsCommon.myLen(NextDayDocNo) > 0 Then
-                        qry = "delete from TSPL_BOOKING_DETAIL where document_No in (select document_No from tspl_booking_matser where Against_DemandBooking_No='" + NextDayDocNo + "') "
-                        clsDBFuncationality.ExecuteNonQuery(qry)
-                        qry = "delete from TSPL_BOOKING_MATSER where Against_DemandBooking_No='" + NextDayDocNo + "'"
-                        clsDBFuncationality.ExecuteNonQuery(qry)
-                        qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where tr_code in (select tr_code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + NextDayDocNo + "'  ) "
-                        clsDBFuncationality.ExecuteNonQuery(qry)
+                If clsCommon.myLen(NextDayDocNo) > 0 Then
+                    If clsDemandBookingSale.DeleteData(NextDayDocNo) Then
+                        If clsDemandBookingSale.ReverseAndUnpost(txtDocNo.Value) Then
+                            saveCancelLog(Reason, "Reverse And Recreate", Nothing)
+                            common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
+                            LoadData(txtDocNo.Value, NavigatorType.Current)
+                        End If
                     End If
-                    LoadData(txtDocNo.Value, NavigatorType.Current)
+                Else
+                    If clsDemandBookingSale.ReverseAndUnpost(txtDocNo.Value) Then
+                        saveCancelLog(Reason, "Reverse And Recreate", Nothing)
+                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
+                        LoadData(txtDocNo.Value, NavigatorType.Current)
+                    End If
                 End If
+
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -1537,6 +1540,16 @@ Public Class frmDemandBooking
             Dim qry As String = String.Empty
             Dim ItemType As String = ""
             Dim shiftType As String = ""
+            If SeparateDemandMilkandProduct Then
+                qry = "Select TSPL_ROUTE_MASTER.Route_No as Code,Route_Desc as Description,Type,Employee_Code as 'Employee Code',Off_Day as 'Off Day' from TSPL_ROUTE_MASTER"
+            Else
+                qry = "Select TSPL_ROUTE_MASTER.Route_No as Code,Route_Desc as Description,Type,Employee_Code as 'Employee Code',Off_Day as 'Off Day' from TSPL_ROUTE_MASTER"
+            End If
+            If Not isQuickDemand Then
+                txtRouteNo.Value = clsCommon.ShowSelectForm("DSRouteFinder", qry, "Code", "", txtRouteNo.Value, "", isClicked)
+                lblRouteDesc.Text = clsCommon.myCstr(clsRouteMaster.GetName(txtRouteNo.Value, Nothing))
+
+            End If
             If rbtnMorning.IsChecked Then
                 shiftType = "Morning"
             Else
@@ -1557,14 +1570,7 @@ Public Class frmDemandBooking
                 LoadData(DocNo, NavigatorType.Current)
             Else
                 txtDate.Enabled = False
-                If SeparateDemandMilkandProduct Then
-                    qry = "Select TSPL_ROUTE_MASTER.Route_No as Code,Route_Desc as Description,Type,Employee_Code as 'Employee Code',Off_Day as 'Off Day' from TSPL_ROUTE_MASTER"
-                Else
-                    qry = "Select TSPL_ROUTE_MASTER.Route_No as Code,Route_Desc as Description,Type,Employee_Code as 'Employee Code',Off_Day as 'Off Day' from TSPL_ROUTE_MASTER"
-                End If
-                If Not isQuickDemand Then
-                    txtRouteNo.Value = clsCommon.ShowSelectForm("DSRouteFinder", qry, "Code", "", txtRouteNo.Value, "", isClicked)
-                End If
+
                 If SeparateDemandMilkandProduct Then
                     If rbtn_Fresh.IsChecked Then
                         ItemType = "Milk"
@@ -1603,7 +1609,6 @@ Public Class frmDemandBooking
                         Throw New Exception("Distributor Route Not Tagged!")
                     End If
                 End If
-                lblRouteDesc.Text = clsCommon.myCstr(clsRouteMaster.GetName(txtRouteNo.Value, Nothing))
                 If EnableLocation Then
                     txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_Route_Master where Route_No='" + txtRouteNo.Value + "' "))
                     txtLocation.Enabled = False

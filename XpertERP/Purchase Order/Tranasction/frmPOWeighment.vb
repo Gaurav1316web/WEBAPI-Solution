@@ -506,10 +506,18 @@ Public Class frmPOWeighment
                         obj.ArrGunnyBag.Add(objtr)
                     End If
                 Next
-                obj.SaveData(obj, isNewEntry)
-                clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
-                chkSave = False
-                LoadData(obj.Weighment_Code, NavigatorType.Current)
+                Dim flag As Boolean = True
+                If obj.ArrGunnyBag Is Nothing OrElse obj.ArrGunnyBag.Count <= 0 Then
+                    If clsCommon.MyMessageBoxShow(Me, "No gunny bag entred.Do you want to save document without gunny bag", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.No Then
+                        flag = False
+                    End If
+                End If
+                If flag Then
+                    obj.SaveData(obj, isNewEntry)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
+                    chkSave = False
+                    LoadData(obj.Weighment_Code, NavigatorType.Current)
+                End If
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

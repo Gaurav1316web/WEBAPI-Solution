@@ -400,9 +400,10 @@ Public Class frmGRN
         LoadBlankGrid()
         LoadBlankGridTax()
         LoadItemType()
+        AddNew()
         LoadBlankGridAC()
         LoadBlankGridACInsurance()
-        AddNew()
+
         SetLength()
         ''End of For Custom Fields
         '==========Added by Preeti Gupta==
@@ -510,17 +511,19 @@ Public Class frmGRN
     End Function
 
     Sub LoadItemType()
-        'If ShowItemAllStructureWise = True Then
-        '    cboItemType.DataSource = GetItemall()
-        '    cboItemType.ValueMember = "Code"
-        '    cboItemType.DisplayMember = "Name"
-        'Else
-        'cboItemType.DataSource = clsItemMaster.GetItemType()
-        Dim Whr = " AND IS_NON_INVENTORY=0   AND ITEM_TYPE_CODE NOT IN('J') "
-        cboItemType.DataSource = clsItemMaster.getItemTypeQuery(Whr)
-        cboItemType.ValueMember = "Code"
-        cboItemType.DisplayMember = "Name"
-        ' End If
+        If ShowItemAllStructureWise = True Then
+            cboItemType.DataSource = GetItemall()
+            cboItemType.ValueMember = "Code"
+            cboItemType.DisplayMember = "Name"
+            cboItemType.ReadOnly = True
+        Else
+            'cboItemType.DataSource = clsItemMaster.GetItemType()
+            Dim Whr = " AND IS_NON_INVENTORY=0   AND ITEM_TYPE_CODE NOT IN('J') "
+            cboItemType.DataSource = clsItemMaster.getItemTypeQuery(Whr)
+            cboItemType.ValueMember = "Code"
+            cboItemType.DisplayMember = "Name"
+            cboItemType.Enabled = True
+        End If
     End Sub
 
     Sub LoadGRNType()
@@ -599,7 +602,12 @@ Public Class frmGRN
         GBVisualQC.Enabled = False
         GBVisualQCSecond.Enabled = False
         txtReqNo.Value = ""
-        cboItemType.Enabled = True
+        If ShowItemAllStructureWise Then
+            cboItemType.Enabled = False
+        Else
+            cboItemType.Enabled = True
+
+        End If
         txtBillToLocation.Enabled = True
         chkVendorGrossReceipt.Checked = False
         lblAddCharges1.Text = ""
@@ -3606,9 +3614,7 @@ Public Class frmGRN
 
         If ShowItemAllStructureWise = False Then
             clsItemMaster.isItemOfSameType(clsCommon.myCstr(cboItemType.SelectedValue), cboItemType.Text, arrICode)
-        Else
-            Dim itemtype As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 item_type from TSPL_ITEM_MASTER where Item_Code in (" + clsCommon.GetMulcallString(arrICode) + ") "))
-            cboItemType.SelectedValue = itemtype
+
 
         End If
 
@@ -3704,17 +3710,17 @@ Public Class frmGRN
                 obj.InvoiceDate = clsCommon.GetPrintDate(txt_invdate.Value, "dd/MMM/yyyy")
                 obj.TransporterDocumentBility = clsCommon.myCstr(txt_transporterdocbility.Text)
                 '====end here===
-                If ShowItemAllStructureWise = True Then
-                    'obj.Item_Type = "A"
-                    ' Assuming dgvGrid is your DataGridView control
-                    If gv1.Rows.Count > 0 Then
-                        Dim itemcode As String = clsCommon.myCstr(gv1.Rows(0).Cells(colICode).Value)
-                        Dim itemtype As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 item_type from TSPL_ITEM_MASTER where Item_Code ='" + itemcode + "'"))
-                        obj.Item_Type = itemtype
-                    End If
-                Else
-                    obj.Item_Type = clsCommon.myCstr(cboItemType.SelectedValue)
-                End If
+                'If ShowItemAllStructureWise = True Then
+                '    'obj.Item_Type = "A"
+                '    ' Assuming dgvGrid is your DataGridView control
+                '    If gv1.Rows.Count > 0 Then
+                '        Dim itemcode As String = clsCommon.myCstr(gv1.Rows(0).Cells(colICode).Value)
+                '        Dim itemtype As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 item_type from TSPL_ITEM_MASTER where Item_Code ='" + itemcode + "'"))
+                '        obj.Item_Type = itemtype
+                '    End If
+                'Else
+                obj.Item_Type = clsCommon.myCstr(cboItemType.SelectedValue)
+                ' End If
                 obj.Dept = txtDept.Value
                 obj.Dept_Desc = lblDept.Text
 

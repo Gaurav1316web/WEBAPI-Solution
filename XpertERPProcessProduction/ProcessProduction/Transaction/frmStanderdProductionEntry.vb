@@ -59,25 +59,73 @@ Public Class frmStanderdProductionEntry
     Const colMainUOM As String = "colMainUOM"
     Const colMainUOMDesc As String = "colMainUOMDesc"
     Const colProductType As String = "colProductType"
+    Const colConGunnyBag As String = "colConGunnyBag"
     Dim AllBomCode As String = ""
     Dim ClickGo As Boolean = False
-    '' End Scrap
     Dim ButtonToolTip As ToolTip = New ToolTip()
-
-
     Public strDocumentNo As String = ""
-    'Dim objList As New List(Of clsProductionEntryWithoutBatchDetail)
     Dim obj As New clsStanderdProductionEntry
     Public Const strCostTransaction As String = "Production Entry"
     Public MOActive As Boolean = False
-
     Dim arrLoc As String = Nothing
     Dim isCellValueChanged As Boolean = False
     Dim Import As Boolean = False
-
     Dim SettConsumptionQtyTollerance As Decimal = 0.6
     Dim SettCheckBalanceOnSave As Boolean = False
+
+    Const colGunnySNo As String = "colGunnySNo"
+    Const colGunnyICode As String = "colGunnyICode"
+    Const colGunnyIName As String = "colGunnyIName"
+    Const colGunnyUOM As String = "colGunnyUOM"
+    Const colGunnyQty As String = "colGunnyQty"
+    Dim isCellValueChangedOpenGunny As Boolean = False
+    Dim SettGunnyBagTollerance As Decimal = 10
 #End Region
+    Private Sub frmProductionEntryWithoutBatch_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        SetUserMgmtNew()
+        DecimalPointQty = CInt(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ProductionQtyDecimalPoint, clsFixedParameterCode.ProductionQtyDecimalPoint, Nothing)))
+        If DecimalPointQty <= 0 Then
+            DecimalPointQty = 3
+        End If
+        DecimalPointFatSNFPer = CInt(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ProductionFATSNFPerDecimalPoint, clsFixedParameterCode.ProductionFATSNFPerDecimalPoint, Nothing)))
+        If DecimalPointFatSNFPer <= 0 Then
+            DecimalPointFatSNFPer = 3
+        End If
+
+        SettConsumptionQtyTollerance = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ConsumptionQtyTollerance, clsFixedParameterCode.ConsumptionQtyTollerance, Nothing))
+        SettGunnyBagTollerance = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.GunnyBagTollerance, clsFixedParameterCode.GunnyBagTollerance, Nothing))
+        SettCheckBalanceOnSave = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.CheckBalanceOnSave, clsFixedParameterCode.RCDFCFProductionEntry, Nothing))
+
+        ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction")
+        ButtonToolTip.SetToolTip(btnPost, "Press Alt+P Post Trasnaction")
+        ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D Delete Trasnaction")
+        ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
+        ButtonToolTip.SetToolTip(btnAddNew, "Press Alt+N Adding New Trasnaction")
+        RadPageView1.SelectedPage = pageBatchProduction
+
+        LoadBlankGrid()
+        LoadBlankGridGunny()
+        LoadBlankGridConsumption()
+        LoadBlankGridCost()
+        LoadShift()
+        funReset()
+        SetLength()
+        txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from tspl_user_master where user_code='" + objCommonVar.CurrentUserCode + "'"))
+        If clsCommon.myLen(strDocumentNo) > 0 Then
+            LoadData(strDocumentNo, NavigatorType.Current)
+        End If
+        If clsCommon.myLen(Me.Tag) > 0 Then
+            LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
+        End If
+        UcAttachment1.Form_ID = MyBase.Form_ID
+        If clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select count(*) from TSPL_SPP_PRODUCTION_IMPORT where Import_Status='N'")) > 0 Then
+            txtImportTemplate.Enabled = True
+        Else
+            txtImportTemplate.Enabled = False
+        End If
+        txtConsmLocOther.Value = txtLocation.Value
+    End Sub
+
     Private Sub LOCATIONRIGTHS()
         Try
             Dim obj As New clsMCCCodes()
@@ -119,63 +167,6 @@ Public Class frmStanderdProductionEntry
         'Else
         '    btnunpost.Enabled = False
         'End If
-    End Sub
-    Private Sub frmProductionEntryWithoutBatch_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        SetUserMgmtNew()
-        '' get mo setting
-        'MOActive = ClsMFSeetings.Get_MO_BO_Setting()
-        '' get decimal point for qty
-        DecimalPointQty = CInt(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ProductionQtyDecimalPoint, clsFixedParameterCode.ProductionQtyDecimalPoint, Nothing)))
-        If DecimalPointQty <= 0 Then
-            DecimalPointQty = 3
-        End If
-        '' get decimal point for fat snf percentage
-        DecimalPointFatSNFPer = CInt(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ProductionFATSNFPerDecimalPoint, clsFixedParameterCode.ProductionFATSNFPerDecimalPoint, Nothing)))
-        If DecimalPointFatSNFPer <= 0 Then
-            DecimalPointFatSNFPer = 3
-        End If
-
-        SettConsumptionQtyTollerance = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ConsumptionQtyTollerance, clsFixedParameterCode.ConsumptionQtyTollerance, Nothing))
-        SettCheckBalanceOnSave = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.CheckBalanceOnSave, clsFixedParameterCode.RCDFCFProductionEntry, Nothing))
-
-        ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction")
-        ButtonToolTip.SetToolTip(btnPost, "Press Alt+P Post Trasnaction")
-        ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D Delete Trasnaction")
-        ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
-        ButtonToolTip.SetToolTip(btnAddNew, "Press Alt+N Adding New Trasnaction")
-        RadPageView1.SelectedPage = pageBatchProduction
-
-        LoadBlankGrid()
-        LoadBlankGridConsumption()
-        LoadBlankGridCost()
-        LoadShift()
-        'LoadBlankIssueGrid()
-        'LoadSPBlankGrid()
-        'LoadQCBlankGrid()
-        'LoadBlankWreckageGrid()
-        'LoadBlankScrapGrid()
-        'gvSectionStock.AutoGenerateColumns = True
-        funReset()
-        SetLength()
-        txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from tspl_user_master where user_code='" + objCommonVar.CurrentUserCode + "'"))
-        If clsCommon.myLen(strDocumentNo) > 0 Then
-            LoadData(strDocumentNo, NavigatorType.Current)
-        End If
-        If clsCommon.myLen(Me.Tag) > 0 Then
-            LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
-        End If
-        UcAttachment1.Form_ID = MyBase.Form_ID
-        'txtReceivedBy.Visible = False
-        'lblReceivedBy.Visible = False
-        'lblEmpName.Visible = False
-        '' disable enable import template control
-        If clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select count(*) from TSPL_SPP_PRODUCTION_IMPORT where Import_Status='N'")) > 0 Then
-            txtImportTemplate.Enabled = True
-        Else
-            txtImportTemplate.Enabled = False
-        End If
-
-        txtConsmLocOther.Value = txtLocation.Value
     End Sub
     Sub SetLength()
         txtCode.MyMaxLength = 30
@@ -934,6 +925,17 @@ Public Class frmStanderdProductionEntry
         AvgCost.DecimalPlaces = 2
         gvConsumption.Columns.Add(AvgCost)
 
+        AvgCost = New GridViewDecimalColumn()
+        AvgCost.FormatString = ""
+        AvgCost.HeaderText = "Gunny Bags"
+        AvgCost.Name = colConGunnyBag
+        AvgCost.Width = 100
+        AvgCost.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        AvgCost.IsVisible = False
+        AvgCost.ReadOnly = True
+        AvgCost.DecimalPlaces = 0
+        gvConsumption.Columns.Add(AvgCost)
+
         gvConsumption.EnableFiltering = False
     End Sub
     Sub LoadBlankGridCost()
@@ -1043,6 +1045,71 @@ Public Class frmStanderdProductionEntry
 
         gvProductionCost.EnableFiltering = False
     End Sub
+
+    Sub LoadBlankGridGunny()
+        gvGunny.Rows.Clear()
+        gvGunny.Columns.Clear()
+
+        Dim repoNum As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.HeaderText = "SNo"
+        repoNum.Name = colGunnySNo
+        repoNum.Width = 50
+        repoNum.ReadOnly = True
+        repoNum.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvGunny.MasterTemplate.Columns.Add(repoNum)
+
+
+        Dim repoTxt As New GridViewTextBoxColumn()
+        repoTxt.FormatString = ""
+        repoTxt.HeaderText = "Item Code"
+        repoTxt.Width = 100
+        repoTxt.Name = colGunnyICode
+        repoTxt.ReadOnly = False
+        repoTxt.IsVisible = True
+        gvGunny.MasterTemplate.Columns.Add(repoTxt)
+
+        repoTxt = New GridViewTextBoxColumn()
+        repoTxt.FormatString = ""
+        repoTxt.HeaderText = "Item"
+        repoTxt.Width = 200
+        repoTxt.Name = colGunnyIName
+        repoTxt.ReadOnly = True
+        repoTxt.IsVisible = True
+        gvGunny.MasterTemplate.Columns.Add(repoTxt)
+
+        repoTxt = New GridViewTextBoxColumn()
+        repoTxt.FormatString = ""
+        repoTxt.HeaderText = "UOM"
+        repoTxt.Width = 100
+        repoTxt.Name = colGunnyUOM
+        repoTxt.ReadOnly = True
+        repoTxt.IsVisible = True
+        gvGunny.MasterTemplate.Columns.Add(repoTxt)
+
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = "{0:n0}"
+        repoNum.HeaderText = "Qty"
+        repoNum.Name = colGunnyQty
+        repoNum.Width = 100
+        repoNum.ReadOnly = False
+        repoNum.DecimalPlaces = 0
+        repoNum.ShowUpDownButtons = False
+        repoNum.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvGunny.MasterTemplate.Columns.Add(repoNum)
+
+        gvGunny.AllowDeleteRow = True
+        gvGunny.AllowAddNewRow = False
+        gvGunny.ShowGroupPanel = False
+        gvGunny.AllowColumnReorder = False
+        gvGunny.AllowRowReorder = False
+        gvGunny.EnableSorting = False
+        gvGunny.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
+        gvGunny.MasterTemplate.ShowRowHeaderColumn = False
+        gvGunny.TableElement.TableHeaderHeight = 40
+        gvGunny.AutoSizeRows = False
+        gvGunny.Rows.AddNew()
+    End Sub
     Public Shared Function GetARType() As DataTable
         Dim dt As DataTable = New DataTable()
         dt.Columns.Add("Code", GetType(String))
@@ -1149,17 +1216,12 @@ Public Class frmStanderdProductionEntry
         gvBatch.Rows.Clear()
         gvBatch.Rows.AddNew()
         ClickGo = False
+        isCellValueChangedOpenGunny = False
     End Sub
     Function AllowToSave(Optional ByVal isPost As Boolean = False) As Boolean
-
         If AllowFutureDateTransaction(dtpDate.Value, Nothing) = False Then
             Return False
         End If
-        'If clsCommon.myLen(txtBatchNo.Text) <= 0 Then
-        '    myMessages.blankValue("Batch Order Code")
-        '    txtBatchNo.Focus()
-        '    Return False
-        'End If
         If clsCommon.myLen(CboShift.SelectedValue) <= 0 Then
             myMessages.blankValue(Me, "Shift", Me.Text)
             CboShift.Focus()
@@ -1175,23 +1237,10 @@ Public Class frmStanderdProductionEntry
             txtConsmLocOther.Focus()
             Return False
         End If
-
-        'If clsCommon.myLen(lblConsmSectionLocCode.Text) <= 0 Then
-        '    myMessages.blankValue("Consumption Location Code")
-        '    txtBatchNo.Focus()
-        '    Return False
-        'End If
-        'If clsCommon.myLen(lblConsmSectionCode.Text) <= 0 Then
-        '    myMessages.blankValue("Consumption Section Code")
-        '    txtBatchNo.Focus()
-        '    Return False
-        'End If
-
         If Me.gvBatch.Rows.Count = 0 Then
             myMessages.blankValue(Me, "Batch List is Empty", Me.Text)
             Return False
         End If
-        'Dim ii As Int16 = 0
         Dim countItem As Integer = 0
         For Each grow As GridViewRowInfo In gvBatch.Rows
             If clsCommon.myLen(grow.Cells(colBOMCode).Value) > 0 Then
@@ -1213,7 +1262,8 @@ Public Class frmStanderdProductionEntry
             End If
             UpdateCurrentRow(grow.Index)
         Next
-
+        Dim intGunnyBagConsumption As Integer = 0
+        Dim intConsGunnyEntered As Integer = 0
         For Each grow As GridViewRowInfo In gvConsumption.Rows
             If clsCommon.myLen(grow.Cells(colItemCode).Value) > 0 Then
                 If clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty).Value) > 0 Then
@@ -1260,9 +1310,24 @@ Public Class frmStanderdProductionEntry
                         Return False
                     End If
                 End If
+                intGunnyBagConsumption += clsCommon.myCDecimal(grow.Cells(colConGunnyBag).Value)
             End If
-
         Next
+
+        For Each grow As GridViewRowInfo In gvGunny.Rows
+            If clsCommon.myLen(grow.Cells(colGunnyICode).Value) > 0 Then
+                intConsGunnyEntered += clsCommon.myCDecimal(grow.Cells(colGunnyQty).Value)
+            End If
+        Next
+
+        If intGunnyBagConsumption > 0 OrElse intConsGunnyEntered > 0 Then
+            Dim intGunnyBagConsumptionMin As Integer = intGunnyBagConsumption - (intGunnyBagConsumption * SettGunnyBagTollerance / 100)
+            Dim intGunnyBagConsumptionMax As Integer = intGunnyBagConsumption + (intGunnyBagConsumption * SettGunnyBagTollerance / 100)
+            If intConsGunnyEntered < intGunnyBagConsumptionMin OrElse intConsGunnyEntered > intGunnyBagConsumptionMax Then
+                clsCommon.MyMessageBoxShow(Me, "Enter gunny Bag [" + clsCommon.myCstr(intConsGunnyEntered) + "] It should be [" + clsCommon.myCstr(intGunnyBagConsumptionMin) + "-" + clsCommon.myCstr(intGunnyBagConsumptionMax) + "] ", Me.Text)
+                Return False
+            End If
+        End If
 
         '' check fat/snf control
         If clsCommon.CompairString(clsFixedParameter.GetData(clsFixedParameterType.FatSNFControlOnProductionConsumption, clsFixedParameterCode.FatSNFControlOnProductionConsumption, Nothing), "1") = CompairStringResult.Equal Then
@@ -1442,6 +1507,7 @@ Public Class frmStanderdProductionEntry
                         obj2.SNF_Per = clsCommon.myCDecimal(grow.Cells(colSNF_Per).Value)
                         obj2.SNF_Rate = clsCommon.myCDecimal(grow.Cells(colSNF_Rate).Value)
                         obj2.UNIT_CODE = clsCommon.myCstr(grow.Cells(colUOM).Value)
+                        obj2.Gunny_Bags = clsCommon.myCDecimal(grow.Cells(colConGunnyBag).Value)
                         obj.ArrConsm.Add(obj2)
                     End If
                 Next
@@ -1464,6 +1530,17 @@ Public Class frmStanderdProductionEntry
                         obj3.OverHead_Cost = clsCommon.myCDecimal(grow.Cells(colAVG_Cost).Value)
 
                         obj.ArrConsmCost.Add(obj3)
+                    End If
+                Next
+
+                obj.ArrGunny = New List(Of clsStanderdProductionEntryGunnyBag)
+                For ii As Integer = 0 To gvGunny.Rows.Count - 1
+                    Dim objtr As New clsStanderdProductionEntryGunnyBag
+                    objtr.Item_Code = clsCommon.myCstr(gvGunny.Rows(ii).Cells(colGunnyICode).Value)
+                    objtr.UOM = clsCommon.myCstr(gvGunny.Rows(ii).Cells(colGunnyUOM).Value)
+                    objtr.Qty = clsCommon.myCdbl(gvGunny.Rows(ii).Cells(colGunnyQty).Value)
+                    If clsCommon.myLen(objtr.Item_Code) > 0 AndAlso objtr.Qty > 0 Then
+                        obj.ArrGunny.Add(objtr)
                     End If
                 Next
 
@@ -1534,6 +1611,7 @@ Public Class frmStanderdProductionEntry
             End If
             Dim ii As Int16 = 0
             LoadBlankGrid()
+            LoadBlankGridGunny()
             txtCode.Value = obj.PROD_ENTRY_CODE
             Me.txtDesc.Text = clsCommon.myCstr(obj.DESCRIPTION)
             Me.txtComment.Text = clsCommon.myCstr(obj.COMMENTS)
@@ -1679,6 +1757,7 @@ Public Class frmStanderdProductionEntry
                 End If
                 gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colFINAL_PROD_Qty_Stock).Value = BalanceQty
 
+                gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colConGunnyBag).Value = obj2.Gunny_Bags
             Next
 
             'Dim obj3 As New clsConsumptionCostWithoutBatch
@@ -1700,6 +1779,17 @@ Public Class frmStanderdProductionEntry
 
                 End If
             Next
+
+            If obj.ArrGunny IsNot Nothing AndAlso obj.ArrGunny.Count > 0 Then
+                For Each objtr As clsStanderdProductionEntryGunnyBag In obj.ArrGunny
+                    gvGunny.Rows(gvGunny.Rows.Count - 1).Cells(colGunnySNo).Value = gvGunny.Rows.Count
+                    gvGunny.Rows(gvGunny.Rows.Count - 1).Cells(colGunnyICode).Value = objtr.Item_Code
+                    gvGunny.Rows(gvGunny.Rows.Count - 1).Cells(colGunnyIName).Value = objtr.Item_Name
+                    gvGunny.Rows(gvGunny.Rows.Count - 1).Cells(colGunnyUOM).Value = objtr.UOM
+                    gvGunny.Rows(gvGunny.Rows.Count - 1).Cells(colGunnyQty).Value = objtr.Qty
+                    gvGunny.Rows.AddNew()
+                Next
+            End If
             UcAttachment1.LoadData(obj.PROD_ENTRY_CODE)
             '' load section 
             'FillSection()
@@ -2399,6 +2489,8 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
                             gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colSP_Loaction_Code).Value = txtConsmLocOther.Value
                             gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colSP_Loaction_Desc).Value = lblConsmLocOtherDesc.Text
                         End If
+
+                        gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colConGunnyBag).Value = clsItemMaster.GetGunnyBag(objtr.ITEM_CODE, objtr.UNIT_CODE, objtr.QUANTITY)
                         '' check stock for import only
                         If import Then
                             If clsCommon.CompairString(Product_Type, "MI") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(Product_Type, "MP") <> CompairStringResult.Equal Then
@@ -2429,6 +2521,9 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
         Next
 
     End Sub
+
+
+
     Public Shared Function GetBOMDesc(ByVal strCode As String, ByVal trans As SqlClient.SqlTransaction) As String
         Dim qry As String = "select Description from TSPL_PP_BOM_HEAD where BOM_Code='" + strCode + "' "
         Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
@@ -2959,4 +3054,49 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
     Private Sub btnShowInventory_Click(sender As Object, e As EventArgs) Handles btnShowInventory.Click
         clsOpenInventory.ShowInventoryDatails(txtCode.Value)
     End Sub
+
+
+    Private Sub gvGinny_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gvGunny.CellValueChanged
+        Try
+            If (Not isInsideLoadData) Then
+                If Not isCellValueChangedOpenGunny Then
+                    isCellValueChangedOpenGunny = True
+                    If e.Column Is gvGunny.Columns(colGunnyICode) Then
+                        Dim qry As String = "select TSPL_ITEM_MASTER.Item_Code as ICode,Item_Desc as IName,TSPL_ITEM_UOM_DETAIL.UOM_Code as [UOM],cast(TSPL_ITEM_UOM_DETAIL.Net_Weight as varchar) as [Weight], TSPL_ITEM_MASTER.Short_Description as [Short Description],TSPL_ITEM_MASTER.Structure_Code as [Structure Code] ,TSPL_ITEM_MASTER.Structure_Desc as [Structure Desc],TSPL_ITEM_UOM_DETAIL.Conversion_Factor 
+from TSPL_ITEM_MASTER 
+left outer join TSPL_Item_Category on TSPL_Item_Category.Category_Code = TSPL_ITEM_MASTER.item_category
+left outer join TSPL_ITEM_SUB_CATEGORY on TSPL_ITEM_SUB_CATEGORY.Sub_Category_Code = TSPL_ITEM_MASTER.Sub_item_category 
+left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_ITEM_MASTER.Item_Code 
+where TSPL_ITEM_UOM_DETAIL.Net_Weight > 0"
+                        Dim dr As DataRow = clsCommon.ShowSelectFormForRow("spF@gn", qry, "ICode", "")
+                        If dr IsNot Nothing Then
+                            gvGunny.CurrentRow.Cells(colGunnyICode).Value = clsCommon.myCstr(dr("ICode"))
+                            gvGunny.CurrentRow.Cells(colGunnyIName).Value = clsCommon.myCstr(dr("IName"))
+                            gvGunny.CurrentRow.Cells(colGunnyUOM).Value = clsCommon.myCstr(dr("UOM"))
+                        Else
+                            gvGunny.CurrentRow.Cells(colGunnyICode).Value = ""
+                            gvGunny.CurrentRow.Cells(colGunnyIName).Value = ""
+                            gvGunny.CurrentRow.Cells(colGunnyUOM).Value = ""
+                            gvGunny.CurrentRow.Cells(colGunnyQty).Value = 0
+                        End If
+                    End If
+                End If
+                isCellValueChangedOpenGunny = False
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub gvGunny_CurrentColumnChanged(sender As Object, e As CurrentColumnChangedEventArgs) Handles gvGunny.CurrentColumnChanged
+        If gvGunny.RowCount > 0 Then
+            Dim intCurrRow As Integer = gvGunny.CurrentRow.Index
+            gvGunny.CurrentRow.Cells(colGunnySNo).Value = clsCommon.myCdbl(intCurrRow + 1)
+            If intCurrRow = gvGunny.Rows.Count - 1 Then
+                gvGunny.Rows.AddNew()
+                gvGunny.CurrentRow = gvGunny.Rows(intCurrRow)
+            End If
+        End If
+    End Sub
 End Class
+

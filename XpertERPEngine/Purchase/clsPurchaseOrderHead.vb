@@ -18,6 +18,7 @@ Public Class clsPurchaseOrderHead
     Public Emergency As Integer = Nothing
     Public strScheduleNo As String = Nothing
     Public IsPOSeriesWithoutItemwise As Boolean = False
+    Public ShowItemAllStructureWise As Boolean = False
     Public Delivery_Terms_Code As String = Nothing
     Public Payment_Terms As String = Nothing
     Public Insurance_Terms As String = Nothing
@@ -51,6 +52,8 @@ Public Class clsPurchaseOrderHead
     Public BillToLocationName As String = Nothing
     Public Ship_To_Location As String = Nothing
     Public ShipToLocationName As String = Nothing
+    Public Ship_From_Location As String = Nothing
+    Public ShipFromLocationName As String = Nothing
     Public Tax_Group As String = Nothing
 
     Public close_yn As String
@@ -431,6 +434,7 @@ Public Class clsPurchaseOrderHead
     Public Function SaveData(ByVal obj As clsPurchaseOrderHead, ByVal isNewEntry As Boolean, ByVal isMakeAbandomentNo As Boolean) As Boolean
         Dim isSaved As Boolean = True
         IsPOSeriesWithoutItemwise = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.POSeriesWithoutItemTypewise, clsFixedParameterCode.POSeriesWithoutItemTypewise, Nothing)) = "1", True, False))
+        ShowItemAllStructureWise = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, Nothing)) = "1", True, False))
 
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
@@ -526,8 +530,12 @@ Public Class clsPurchaseOrderHead
                             If clsCommon.CompairString(obj.PurchaseOrder_Type, "J") = CompairStringResult.Equal Then
                                 obj.PurchaseOrder_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.PurchaseOrder_Date), clsDocType.PurchaserOrder, clsDocTransactionType.POJobWork, obj.Bill_To_Location)
                             Else
-                                Dim TransType = clsDBFuncationality.getSingleValue("SELECT PREFIX_CODE FROM TSPL_ITEM_TYPE_MASTER WHERE ITEM_TYPE_CODE='" + obj.Item_Type + "'", trans)
-                                obj.PurchaseOrder_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.PurchaseOrder_Date), clsDocType.PurchaserOrder, TransType, obj.Bill_To_Location)
+                                If ShowItemAllStructureWise Then
+                                    obj.PurchaseOrder_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.PurchaseOrder_Date), clsDocType.PurchaserOrder, clsDocTransactionType.All, obj.Bill_To_Location)
+                                Else
+                                    Dim TransType = clsDBFuncationality.getSingleValue("SELECT PREFIX_CODE FROM TSPL_ITEM_TYPE_MASTER WHERE ITEM_TYPE_CODE='" + obj.Item_Type + "'", trans)
+                                    obj.PurchaseOrder_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.PurchaseOrder_Date), clsDocType.PurchaserOrder, TransType, obj.Bill_To_Location)
+                                End If
                                 If clsCommon.CompairString(obj.PurchaseOrder_No, String.Empty) = CompairStringResult.Equal Then
                                     Throw New Exception("Item Type is Not Correct To Generate the Transaction Code")
                                 End If
@@ -559,6 +567,7 @@ Public Class clsPurchaseOrderHead
             clsCommon.AddColumnsForChange(coll, "Bill_To_Location", obj.Bill_To_Location, True)
             clsCommon.AddColumnsForChange(coll, "Ship_To_Location", obj.Ship_To_Location, True)
             clsCommon.AddColumnsForChange(coll, "Sublocation_Code", obj.Sublocation_Code, True)
+            clsCommon.AddColumnsForChange(coll, "Ship_From_Location", obj.Ship_From_Location, True)
             clsCommon.AddColumnsForChange(coll, "Confirmatory_PO_SRN_No", obj.Confirmatory_PO_SRN_No, True)
             clsCommon.AddColumnsForChange(coll, "isJobWorkOutward", IIf(obj.isJobWorkOutward, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Tax_Group", obj.Tax_Group)
@@ -928,7 +937,7 @@ Public Class clsPurchaseOrderHead
 
     Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal arrLoc As String, ByVal trans As SqlTransaction, Optional ByVal IsMerchantTrade As String = "", Optional ByVal FORMTYPE As String = "") As clsPurchaseOrderHead
         Dim obj As clsPurchaseOrderHead = Nothing
-        Dim qry As String = "SELECT TSPL_PURCHASE_ORDER_HEAD.*,TSPL_LOCATION_MASTER.Location_Desc as BillToLocationName,TSPL_LOCATION_MASTER_SubLocation.Location_Desc as SubLocationName,TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipToLocationName, " &
+        Dim qry As String = "SELECT TSPL_PURCHASE_ORDER_HEAD.*,TSPL_LOCATION_MASTER.Location_Desc as BillToLocationName,TSPL_LOCATION_MASTER_SubLocation.Location_Desc as SubLocationName,TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipToLocationName, TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipFromLocationName," &
         " TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as TaxGroupName,TSPL_TERMS_MASTER.Terms_Desc as TermsName  " &
         " FROM TSPL_PURCHASE_ORDER_HEAD " &
         " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location " &
@@ -992,6 +1001,7 @@ Public Class clsPurchaseOrderHead
             obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
             obj.Bill_To_Location = clsCommon.myCstr(dt.Rows(0)("Bill_To_Location"))
             obj.Ship_To_Location = clsCommon.myCstr(dt.Rows(0)("Ship_To_Location"))
+            obj.Ship_From_Location = clsCommon.myCstr(dt.Rows(0)("Ship_From_Location"))
             obj.Sublocation_Code = clsCommon.myCstr(dt.Rows(0)("Sublocation_Code"))
             obj.Against_RGP_NO = clsCommon.myCstr(dt.Rows(0)("Against_RGP_NO"))
             obj.Tax_Group = clsCommon.myCstr(dt.Rows(0)("Tax_Group"))
@@ -1064,6 +1074,7 @@ Public Class clsPurchaseOrderHead
             obj.Due_Date = clsCommon.myCstr(dt.Rows(0)("Due_Date"))
             obj.BillToLocationName = clsCommon.myCstr(dt.Rows(0)("BillToLocationName"))
             obj.ShipToLocationName = clsCommon.myCstr(dt.Rows(0)("ShipToLocationName")) 'SubLocationName
+            obj.ShipFromLocationName = clsCommon.myCstr(dt.Rows(0)("ShipFromLocationName"))
             obj.SubLocationName = clsCommon.myCstr(dt.Rows(0)("SubLocationName"))
             obj.TaxGroupName = clsCommon.myCstr(dt.Rows(0)("TaxGroupName"))
             obj.TermsName = clsCommon.myCstr(dt.Rows(0)("TermsName"))

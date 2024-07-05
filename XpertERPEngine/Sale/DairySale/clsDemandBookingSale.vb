@@ -25,6 +25,7 @@ Public Class clsDemandBookingSale
 
     Public Posted_Morning As Integer = 0
     Public Posted_Evening As Integer = 0
+    Public UploderDocNo As String = String.Empty
 
     Public Arr As List(Of clsDemandBookingSaleDetail) = Nothing
 #End Region
@@ -719,6 +720,7 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
             obj.TotalQtyInCrates = clsCommon.myCdbl(dt.Rows(0)("TotalQtyInCrates"))
             obj.DocumentAmount = clsCommon.myCdbl(dt.Rows(0)("DocumentAmount"))
             obj.TotalQtyInLtr = clsCommon.myCdbl(dt.Rows(0)("TotalQtyInLtr"))
+            obj.UploderDocNo = clsCommon.myCdbl(dt.Rows(0)("UploderDocNo"))
             'If dt.Rows(0)("Posting_Date") IsNot DBNull.Value Then
             '    obj.Posting_Date = clsCommon.myCDate(dt.Rows(0)("Posting_Date"))
             'End If
@@ -849,7 +851,12 @@ where 2=2 "
     Public Shared Function PostData(ByVal FormId As String, ByVal strDocNo As String, ByVal intShift As Integer) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            PostData(FormId, strDocNo, intShift, True, trans)
+            Dim UploderDocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select UploderDocNo from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + strDocNo + "'", trans))
+            If clsCommon.myLen(UploderDocNo) > 0 Then
+                PostData(FormId, strDocNo, intShift, False, trans)
+            Else
+                PostData(FormId, strDocNo, intShift, True, trans)
+            End If
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
