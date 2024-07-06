@@ -718,9 +718,9 @@ left outer join TSPL_DBT_CAPING_DETAIL on TSPL_DBT_CAPING_DETAIL.Document_Code=T
 and 2=(case when ISNULL(TSPL_DCS_MP_INCENTIVE_RECO_HEAD.DBT_Capping_Apply,0)=1 then ((case when ISNULL(TSPL_DBT_CAPING_DETAIL.Capping_Status,0)=1 then 2 else 3 end)) else 2 end)"
         End If
         If IsPickValid Then
-            BaseQry += " and (len(isnull(TSPL_MP_MASTER.AccountNO,''))>0 and len(isnull(TSPL_MP_MASTER.IFCICode,''))=11 )"
+            BaseQry += " and (len(isnull(TSPL_MP_MASTER.AccountNO,''))>0 and len(isnull(TSPL_MP_MASTER.IFCICode,''))=11 and len(isnull(TSPL_MP_MASTER.PayeeName,''))>0 )"
         Else
-            BaseQry += " and (len(isnull(TSPL_MP_MASTER.AccountNO,''))=0 or len(isnull(TSPL_MP_MASTER.IFCICode,''))<>11 )"
+            BaseQry += " and (len(isnull(TSPL_MP_MASTER.AccountNO,''))=0 or len(isnull(TSPL_MP_MASTER.IFCICode,''))<>11 or len(isnull(TSPL_MP_MASTER.PayeeName,''))<=0 )"
         End If
         BaseQry += " and TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code in (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") and  TSPL_MP_INCENTIVE_ENTRY_HEAD.From_Date >='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code in (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ") and  TSPL_MP_INCENTIVE_ENTRY_HEAD.To_Date <='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' 
     and not exists(select 1 from TSPL_DBT_NEFT_DETAIL where TSPL_DBT_NEFT_DETAIL.Document_Code not in ('" + txtDocumentNo.Value + "') and TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR=TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id
