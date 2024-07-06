@@ -43,14 +43,10 @@ Public Class frmRMProcessLoss
     Sub LoadBlankGridProduction()
         Gv2.Rows.Clear()
         Gv2.Columns.Clear()
-
         Dim repoStr As New GridViewTextBoxColumn()
         Dim repoInt As New GridViewDecimalColumn()
         Dim repoChk As New GridViewCheckBoxColumn()
         Dim repoDate As New GridViewDateTimeColumn()
-
-
-
         repoStr = New GridViewTextBoxColumn()
         repoStr.FormatString = ""
         repoStr.HeaderText = "Item Code"
@@ -59,6 +55,7 @@ Public Class frmRMProcessLoss
         repoStr.ReadOnly = True
         repoStr.IsVisible = True
         Gv2.MasterTemplate.Columns.Add(repoStr)
+
         repoStr = New GridViewTextBoxColumn()
         repoStr.FormatString = ""
         repoStr.HeaderText = "Item Name"
@@ -396,71 +393,25 @@ Public Class frmRMProcessLoss
             gv1.ViewDefinition = view
         End If
     End Sub
-
     Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnclose.Click
         Me.Close()
     End Sub
-
-
-
     Private Sub txtLoc__MYValidating_1(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLoc._MYValidating
         Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
         Dim WhrCls As String = " Location_Type='Physical'  "
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
-            'Else
-            '    WhrCls += "  and  Location_Code in ('RCDF')"
         End If
         txtLoc.Value = clsCommon.ShowSelectForm("ShipmentMasteidfndr", qry, "Code", WhrCls, txtLoc.Value, "Code", isButtonClicked)
         lblloc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLoc.Value + "'"))
     End Sub
-
     Private Sub frmRMProcessLoss_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         AddNew()
         LoadBlankGrid()
         LoadBlankGridProduction()
         SetUserMgmtNew()
         RadPageView1.SelectedPage = RadPageViewPage1
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)
-        coll.Add("Document_Code", "varchar(30) NOT NULL Primary Key")
-        coll.Add("Document_Date", "datetime  NULL")
-        coll.Add("Comment", "varchar(30) NULL")
-        coll.Add("Location", "varchar(12) null references TSPL_LOCATION_MASTER(Location_Code)")
-        coll.Add("From_Date", "datetime  NULL")
-        coll.Add("To_Date", "datetime  NULL")
-        coll.Add("Created_By", "varchar(12)   NULL")
-        coll.Add("Created_Date", "datetime   NULL")
-        coll.Add("Modify_By", "varchar(12)   NULL")
-        coll.Add("Modify_Date", "datetime   NULL")
-        coll.Add("Posted_By", "varchar(12)   NULL")
-        coll.Add("Posted_Date", "datetime   NULL")
-        coll.Add("Status", "integer not null default 0")
-        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_RM_PROCESS_LOSS", coll, "", True)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("Document_Code", "varchar(30) Not NULL References TSPL_RM_PROCESS_LOSS(Document_Code)")
-        coll.Add("Item_Code", "Varchar(50) Not NULL References TSPL_ITEM_MASTER(Item_Code)")
-        coll.Add("Uom", "varchar(30) null")
-        coll.Add("OP_Qty", "decimal(18,2)  Null")
-        coll.Add("OP_Cost", "decimal(18,2)  Null")
-        coll.Add("Rec_Qty", "decimal(18,2)  Null")
-        coll.Add("Rec_Cost", "decimal(18,2)  Null")
-        coll.Add("IssProd_Qty", "decimal(18,2) Null")
-        coll.Add("IssProd_Cost", "decimal(18,2)  Null")
-        coll.Add("OtherIss_Qty", "decimal(18,2) Null")
-        coll.Add("OtherIss_Cost", "decimal(18,2)  Null")
-        coll.Add("StkTrns_Qty", "decimal(18,2)  Null")
-        coll.Add("StkTrns_Cost", "decimal(18,2)  Null")
-        coll.Add("CL_Qty", "decimal(18,2)  Null")
-        coll.Add("Cl_Cost", "decimal(18,2)  Null")
-        coll.Add("PL_Qty", "decimal(18,2)  Null")
-        coll.Add("PL_Per", "decimal(18,2)  Null")
-        coll.Add("Rate", "decimal(18,2)  Null")
-        coll.Add("FnlStk_Qty", "decimal(18,2) Not Null")
-        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_RM_PROCESS_LOSS_DETAIL", coll, "", True)
-
     End Sub
-
     Private Sub txtFromDate_ValueChanged(sender As Object, e As EventArgs) Handles txtFromDate.ValueChanged
         Dim selectedMonth As Integer = txtFromDate.Value.Month
         Dim selectedYear As Integer = txtFromDate.Value.Year
@@ -472,11 +423,9 @@ Public Class frmRMProcessLoss
         Slot3FD = clsCommon.GetPrintDate(currentDate.AddDays(20), "dd/MMM/yyyy")
         txtTodate.Value = clsCommon.GetPrintDate(currentDate.AddMonths(1).AddDays(-1), "dd/MMM/yyyy")
     End Sub
-
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Dim dt As New DataTable
         Try
-
             If clsCommon.myLen(txtLoc.Value) <= 0 Then
                 clsCommon.MyMessageBoxShow(Me, "Please select location")
                 Exit Sub
@@ -489,14 +438,14 @@ Public Class frmRMProcessLoss
                 gv1.Rows.Clear()
                 Dim Qry As String = "  select ROW_NUMBER() OVER (ORDER BY Item_Code) AS SNo,left(final1.Item_Code,2)Item_type,final1.Item_Code,final1.Item_Desc,max(final1.conuom)conuom,
                                                                                                                            CAST(
-    CASE 
-        WHEN max(final1.Stock_UOM) = 'KG' THEN sum(final1.OPQty) / 1000.0
-        ELSE CASE 
-            WHEN max(final1.Stock_UOM) = 'GM' THEN sum(final1.OPQty) / 10000.0
-            ELSE sum(final1.OPQty) 
-        END 
-    END 
-AS DECIMAL(18,2)) AS OPQty,
+                                                CASE 
+                                                    WHEN max(final1.Stock_UOM) = 'KG' THEN sum(final1.OPQty) / 1000.0
+                                                    ELSE CASE 
+                                                        WHEN max(final1.Stock_UOM) = 'GM' THEN sum(final1.OPQty) / 10000.0
+                                                        ELSE sum(final1.OPQty) 
+                                                    END 
+                                                END 
+                                            AS DECIMAL(18,2)) AS OPQty,
 
                                                 sum(final1.OPRate)      as OPRate,cast(sum(final1.OPCost) as decimal(18,0)) as  OPCost,           
 												cast(case when max(final1.Stock_UOM)='KG' THEN sum(final1.RecPurQty)/1000 ELSE CASE WHEN max(final1.Stock_UOM)='GM' THEN sum(final1.RecPurQty)/10000  ELSE sum(final1.RecPurQty)  END END as Decimal(18,2)) as RecPurQty,
@@ -577,13 +526,13 @@ AS DECIMAL(18,2)) AS OPQty,
                      ) Pivt1 
                      ) xxx group by Item_Code ) as VirtualCategoryTabel on  VirtualCategoryTabel.Item_Code=InventroyMovement.Item_Code left outer join ( select Struct.Structure_Code,Structure_Descq,Struct_Val.Value as Item_Group,StructDtl.Description as Group_Description from TSPL_STRUCTURE_MASTER Struct left join ( select Custom_field_Code,Transaction_code,Value from TSPL_CUSTOM_FIELD_VALUES where Program_Code='ITEM-STRUCT'   and Custom_Field_Code='') as Struct_Val  on Struct.Structure_Code=Struct_Val.Transaction_Code left join (select Custom_Field_Code,SNo,Value,Description from TSPL_CUSTOM_FIELD_DETAIL where Custom_Field_Code='') as StructDtl on Struct_Val.Value=StructDtl.Value ) as Item_Group on Item_Group.Structure_Code =TSPL_ITEM_MASTER.Structure_Code  left outer join ( SELECT ITEM_TYPE_CODE AS Code, ITEM_TYPE_NAME  as Name FROM TSPL_ITEM_TYPE_MASTER  ) as VirtualTableItemType on VirtualTableItemType.Code = TSPL_ITEM_MASTER.Item_Type  left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code =TSPL_PURCHASE_ACCOUNTS .Inv_Control_Account   left outer join TSPL_GL_ACCOUNTS gl1 on gl1.Account_Seg_Code1 =TSPL_GL_ACCOUNTS.Account_Seg_Code1  and gl1.Account_Seg_Code7 =  tspl_location_master.Loc_Segment_Code  Where 2=2  and TSPL_LOCATION_MASTER.GIT_Type<>'Y' and MainLocationTable.GIT_Type<>'Y'  ) xxxxx  where 2=2    and Item_Code in (select distinct TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
 
-left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
-left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
-left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
-where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "' UNION ALL
-SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
-LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
-WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0)    
+                        left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
+                        left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
+                        left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
+                        where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "' UNION ALL
+                        SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
+                        LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+                        WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0)    
                      and ( ((case when Is_Section='N' and Is_Sub_Location='N' then Location_Code else Main_Location_Code end) = '" + clsCommon.myCstr(txtLoc.Value) + "') )) xxx 
                      where Punching_Date < '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' group by xxx.Item_Code,xxx.Location_Code 
                      union all  select Trans_Id,Trans_Type,Trans_Type_Name,Source_Doc_No,cast(Punching_Date as date) as Punching_Date,InOutView, InOut,Location_Code,[Loc Desp], [LocAddress],SourceCode,SourceName,SourceType ,Item_Type, Item_Type_Name,Item_Group,Group_Description,[FINISHFOOD],[RAWMATERIAL],[OTHER],[PACKINGMAT],[FIXEDASST],[MAKE],[KV],[FINISHFOODDESC],[RAWMATERIALDESC],[OTHERDESC],[PACKINGMATDESC],[FIXEDASSTDESC],[MAKEDESC],[KVDESC],Item_Code ,Item_Desc,Item_Category_Struct_Code,Stock_UOM,itf_code , ( Stock_Qty * case when InOut='I' then 1 else -1 end) as Stock_Qty,(QtyKG * case when InOut='I' then 1 else -1 end) as Balance_QTYKG,  convert(decimal(28,3),case when Stock_Qty=0 then 0 else Cost/Stock_Qty end) as Rate,(Cost * case when InOut='I' then 1 else -1 end) as Cost, ( (case when IsFromMilk=1 then MilkFATKG else (Stock_Qty*FatPer) end) * case when InOut='I' then 1 else -1 end) as Balance_FAT,  ( (case when IsFromMilk=1 then MilkSNFKG else (Stock_Qty*SNFPer) end ) * case when InOut='I' then 1 else -1 end) as Balance_SNF
@@ -629,13 +578,13 @@ WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0)
                      ) xxx group by Item_Code ) as VirtualCategoryTabel on  VirtualCategoryTabel.Item_Code=InventroyMovement.Item_Code left outer join ( select Struct.Structure_Code,Structure_Descq,Struct_Val.Value as Item_Group,StructDtl.Description as Group_Description from TSPL_STRUCTURE_MASTER Struct left join ( select Custom_field_Code,Transaction_code,Value from TSPL_CUSTOM_FIELD_VALUES where Program_Code='ITEM-STRUCT'   and Custom_Field_Code='') as Struct_Val  on Struct.Structure_Code=Struct_Val.Transaction_Code left join (select Custom_Field_Code,SNo,Value,Description from TSPL_CUSTOM_FIELD_DETAIL where Custom_Field_Code='') as StructDtl on Struct_Val.Value=StructDtl.Value ) as Item_Group on Item_Group.Structure_Code =TSPL_ITEM_MASTER.Structure_Code  left outer join ( SELECT ITEM_TYPE_CODE AS Code, ITEM_TYPE_NAME  as Name FROM TSPL_ITEM_TYPE_MASTER  ) as VirtualTableItemType on VirtualTableItemType.Code = TSPL_ITEM_MASTER.Item_Type  left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code =TSPL_PURCHASE_ACCOUNTS .Inv_Control_Account   left outer join TSPL_GL_ACCOUNTS gl1 on gl1.Account_Seg_Code1 =TSPL_GL_ACCOUNTS.Account_Seg_Code1  and gl1.Account_Seg_Code7 =  tspl_location_master.Loc_Segment_Code  Where 2=2  and TSPL_LOCATION_MASTER.GIT_Type<>'Y' and MainLocationTable.GIT_Type<>'Y'  ) xxxxx  where 2=2    and Item_Code in (select distinct TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
 
 
-left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
-left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
-left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
-where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "' UNION ALL
-SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
-LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
-WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0 )   
+                    left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
+                    left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
+                    left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
+                    where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "' UNION ALL
+                    SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
+                    LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+                    WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0 )   
                      and ( ((case when Is_Section='N' and Is_Sub_Location='N' then Location_Code else Main_Location_Code end) = '" + clsCommon.myCstr(txtLoc.Value) + "') )) xxx 
                      where Punching_Date>= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and Punching_Date<= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtTodate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
                      union  all 
@@ -645,32 +594,32 @@ WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0 )
                      ,In_Category,Out_Category,(case when ConvertedUnitp.processLoss_Uom=1 then ConvertedUnitp.UOM_Code else ConvertedUnits.UOM_Code end) as CONuom from (SELECT 0 as Trans_Id,null as Trans_Type,null as Trans_Type_Name, null as Source_Doc_No, thedate as Punching_Date,'In' as InOutView,'I' as InOut,TSPL_LOCATION_MASTER.Location_Code as Location_Code,TSPL_LOCATION_MASTER.Location_Desc as [Loc Desp],null as [LocAddress],null as SourceCode,null as SourceName,null as SourceType ,TSPL_ITEM_MASTER.Item_Type,null as Item_Type_Name,null as Item_Group,null as Group_Description,null as [FINISHFOOD],null as [RAWMATERIAL],null as [OTHER],null as [PACKINGMAT],null as [FIXEDASST],null as [MAKE],null as [KV],null as [FINISHFOODDESC],null as [RAWMATERIALDESC],null as [OTHERDESC],null as [PACKINGMATDESC],null as [FIXEDASSTDESC],null as [MAKEDESC],null as [KVDESC],TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Item_Desc,null as Item_Category_Struct_Code,TSPL_ITEM_UOM_DETAIL.UOM_Code as Stock_UOM ,null as  itf_code ,0 as Stock_Qty,0 as Balance_QTYKG,0 as Rate,0 as Cost,0 as Balance_FAT, 0 as Balance_SNF ,null as In_Category,null as Out_Category,TSPL_ITEM_MASTER.Product_Type   FROM ExplodeDates( '" + clsCommon.GetPrintDate(txtFromDate.Value) + "','" + clsCommon.GetPrintDate(txtTodate.Value) + "') as d,TSPL_ITEM_MASTER,TSPL_LOCATION_MASTER,TSPL_ITEM_UOM_DETAIL where 2=2  and TSPL_ITEM_MASTER.Item_Code in (select distinct TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
 
 
-left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
-left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
-left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
-where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "' UNION ALL
-SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
-LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
-WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0)   and ( ((case when Is_Section='N' and Is_Sub_Location='N' then Location_Code else Main_Location_Code end) = '" + clsCommon.myCstr(txtLoc.Value) + "') )  and TSPL_ITEM_UOM_DETAIL.Stocking_Unit='Y' and TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code) Items
-left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUnitP on ConvertedUnitp.Item_Code=Items.Item_Code and 
+                        left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
+                        left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
+                        left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
+                        where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "' UNION ALL
+                        SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
+                        LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+                        WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0)   and ( ((case when Is_Section='N' and Is_Sub_Location='N' then Location_Code else Main_Location_Code end) = '" + clsCommon.myCstr(txtLoc.Value) + "') )  and TSPL_ITEM_UOM_DETAIL.Stocking_Unit='Y' and TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code) Items
+                        left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUnitP on ConvertedUnitp.Item_Code=Items.Item_Code and 
 					 isnull(ConvertedUnitP.processLoss_Uom,0)=1
 					 left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUnitS on ConvertedUnitS.Item_Code=Items.Item_Code and 
 					 ConvertedUnitS.Stocking_Unit='Y'
 					 					 left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUnit on ConvertedUnit.Item_Code=Items.Item_Code and ConvertedUnit.UOM_Code=Items.Stock_UOM
 
 
-left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range as Fat_Per  from TSPL_ITEM_QC_PARAMETER_MASTER  left join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where TSPL_PARAMETER_MASTER.Type='FAT') Fat on Items.Item_Code=Fat.Item_Code  left join  (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range as SNF_Per  from TSPL_ITEM_QC_PARAMETER_MASTER  left join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where TSPL_PARAMETER_MASTER.Type='SNF') as SNF on Items.Item_Code=SNF.Item_Code where 2=2  )xxxxxx Group by  Item_Code,Location_Code,Punching_Date )xxxxxxx left outer join tspl_location_master on tspl_location_master.Location_Code=xxxxxxx.Location_code where Punching_Date is not null )x )final where Location_Code= '" + clsCommon.myCstr(txtLoc.Value) + "'
+                     left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range as Fat_Per  from TSPL_ITEM_QC_PARAMETER_MASTER  left join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where TSPL_PARAMETER_MASTER.Type='FAT') Fat on Items.Item_Code=Fat.Item_Code  left join  (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range as SNF_Per  from TSPL_ITEM_QC_PARAMETER_MASTER  left join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where TSPL_PARAMETER_MASTER.Type='SNF') as SNF on Items.Item_Code=SNF.Item_Code where 2=2  )xxxxxx Group by  Item_Code,Location_Code,Punching_Date )xxxxxxx left outer join tspl_location_master on tspl_location_master.Location_Code=xxxxxxx.Location_code where Punching_Date is not null )x )final where Location_Code= '" + clsCommon.myCstr(txtLoc.Value) + "'
                      AND Punching_Date= '" + clsCommon.GetPrintDate((txtFromDate.Value), "dd/MM/yyyy") + "'
 					 
 					 --Order by  convert(date,  Punching_Date,103),Location_Code
----PURCHASE RECEIVED AND ISSUE FOR PRODUCITON
-UNION ALL
-select max(convert(varchar, Punching_Date,103)) as Punching_Date,max(Item_Code) as item_cdoe ,max(Item_Desc) item_desc,MAX(Stock_UOM) AS Stock_UOM,0 AS OPQTY,0 AS OPRate,0 AS OPCost , sum(RecOthQty) as RecPurQty,sum((RecOthRate)*(RecOthQty))/case when sum(RecOthQty)=0 then 1 else sum(RecOthQty) end  as RecPurRate,sum((RecOthRate)*(RecOthQty)) as RecPurCost,sum(IssQty) as Issqty, (sum((IssRate)* (IssQty)) /case when sum(IssQty)=0 then 1 else sum(IssQty) end  ) as IssRate, sum((IssRate)* (IssQty)) as IssuCost,
-0 AS CLQty,0 AS CLRate,0 AS CLCost,Sum(ProdIssQty) as ProdIssQty,sum(OtherIssQty)OtherIssQty,sum(ScrabSaleQty) as ScrabSaleQty,sum(stock_qty)stock_qty,MAX(FINAL.HeadName) AS HeadName,MAX(FINAL.Location_Code) AS Location_Code,max(FINAL.[Loc Desp]) AS [Loc Desp],MAX(FINAL.Add1) AS ADD1,MAX(FINAL.Add2) AS ADD2 ,MAX(FINAL.Add3) ADD3,MAX(FINAL.Add4) AS ADD4,max(conuom) as conuom
-from (
-select * from 
-(select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName,xxxxxxx.Location_Code,[Loc Desp],Add1,Add2,Add3,Add4,convert(varchar, Punching_Date,103) as Punching_Date  ,Item_Code ,Item_Desc,Stock_UOM, case when ( abs(cast((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))as  decimal(18,2)))<=0.11 or (abs(cast((ISNULL(CLCost,0) - isnull(RecCost,0)+isnull(IssCost,0))as  decimal(18,2)))<0.11 and tspl_location_master.Is_jobWork=0) ) then 0 else  Convert(decimal(18,3),(ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))) end as OPQty,
-                    case when ( abs(cast((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))as  decimal(18,2)))<=0.11 or abs(cast((ISNULL(CLCost,0) - isnull(RecCost,0)+isnull(IssCost,0))as  decimal(18,2)))<0.11) then 0 else  Convert(decimal(18,2),((isnull(CLCost,0)-isnull(RecCost,0)+isnull(IssCost,0))/((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))))) end as OPRate ,case when ( abs(cast((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))as  decimal(18,2)))<=0.11 or (abs(cast((ISNULL(CLCost,0) - isnull(RecCost,0)+isnull(IssCost,0))as  decimal(18,2)))<0.11 and tspl_location_master.Is_jobWork=0) ) then 0 else Convert(decimal(18,2),(isnull(CLCost,0)-isnull(RecCost,0)+ isnull(IssCost,0))) end as OPCost, RecPurQty,RecPurRate,RecPurCost ,RecProQty, RecProRate ,RecProCost,RecAdjQty,RecAdjRate ,RecAdjCost ,RecOthQty,RecOthRate ,RecOthCost,RecQty,RecRate,RecCost  ,IssTransferQty ,IssTransferRate ,IssTransferCost ,IssSaleQty ,IssSaleRate  ,IssSaleCost , IssIssAdjQty , IssIssAdjRate ,IssIssAdjCost , IssOthQty , IssOthRate ,IssOthCost ,IssQty,IssRate,IssCost ,case when (ABS(isnull(cast(CLQty as decimal(18,2)),0))<=0.11 or (ABS(isnull(cast(CLCost as decimal(18,2)),0))<0.11 and tspl_location_master.Is_jobWork=0) ) then 0 else CLQty end as CLQty,
+                        ---PURCHASE RECEIVED AND ISSUE FOR PRODUCITON
+                        UNION ALL
+                        select max(convert(varchar, Punching_Date,103)) as Punching_Date,max(Item_Code) as item_cdoe ,max(Item_Desc) item_desc,MAX(Stock_UOM) AS Stock_UOM,0 AS OPQTY,0 AS OPRate,0 AS OPCost , sum(RecOthQty) as RecPurQty,sum((RecOthRate)*(RecOthQty))/case when sum(RecOthQty)=0 then 1 else sum(RecOthQty) end  as RecPurRate,sum((RecOthRate)*(RecOthQty)) as RecPurCost,sum(IssQty) as Issqty, (sum((IssRate)* (IssQty)) /case when sum(IssQty)=0 then 1 else sum(IssQty) end  ) as IssRate, sum((IssRate)* (IssQty)) as IssuCost,
+                        0 AS CLQty,0 AS CLRate,0 AS CLCost,Sum(ProdIssQty) as ProdIssQty,sum(OtherIssQty)OtherIssQty,sum(ScrabSaleQty) as ScrabSaleQty,sum(stock_qty)stock_qty,MAX(FINAL.HeadName) AS HeadName,MAX(FINAL.Location_Code) AS Location_Code,max(FINAL.[Loc Desp]) AS [Loc Desp],MAX(FINAL.Add1) AS ADD1,MAX(FINAL.Add2) AS ADD2 ,MAX(FINAL.Add3) ADD3,MAX(FINAL.Add4) AS ADD4,max(conuom) as conuom
+                        from (
+                        select * from 
+                        (select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName,xxxxxxx.Location_Code,[Loc Desp],Add1,Add2,Add3,Add4,convert(varchar, Punching_Date,103) as Punching_Date  ,Item_Code ,Item_Desc,Stock_UOM, case when ( abs(cast((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))as  decimal(18,2)))<=0.11 or (abs(cast((ISNULL(CLCost,0) - isnull(RecCost,0)+isnull(IssCost,0))as  decimal(18,2)))<0.11 and tspl_location_master.Is_jobWork=0) ) then 0 else  Convert(decimal(18,3),(ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))) end as OPQty,
+                        case when ( abs(cast((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))as  decimal(18,2)))<=0.11 or abs(cast((ISNULL(CLCost,0) - isnull(RecCost,0)+isnull(IssCost,0))as  decimal(18,2)))<0.11) then 0 else  Convert(decimal(18,2),((isnull(CLCost,0)-isnull(RecCost,0)+isnull(IssCost,0))/((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))))) end as OPRate ,case when ( abs(cast((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))as  decimal(18,2)))<=0.11 or (abs(cast((ISNULL(CLCost,0) - isnull(RecCost,0)+isnull(IssCost,0))as  decimal(18,2)))<0.11 and tspl_location_master.Is_jobWork=0) ) then 0 else Convert(decimal(18,2),(isnull(CLCost,0)-isnull(RecCost,0)+ isnull(IssCost,0))) end as OPCost, RecPurQty,RecPurRate,RecPurCost ,RecProQty, RecProRate ,RecProCost,RecAdjQty,RecAdjRate ,RecAdjCost ,RecOthQty,RecOthRate ,RecOthCost,RecQty,RecRate,RecCost  ,IssTransferQty ,IssTransferRate ,IssTransferCost ,IssSaleQty ,IssSaleRate  ,IssSaleCost , IssIssAdjQty , IssIssAdjRate ,IssIssAdjCost , IssOthQty , IssOthRate ,IssOthCost ,IssQty,IssRate,IssCost ,case when (ABS(isnull(cast(CLQty as decimal(18,2)),0))<=0.11 or (ABS(isnull(cast(CLCost as decimal(18,2)),0))<0.11 and tspl_location_master.Is_jobWork=0) ) then 0 else CLQty end as CLQty,
                     case when (ABS(isnull(cast(CLQty as decimal(18,2)),0))<=0.11 or ABS(isnull(cast(CLCost as decimal(18,2)),0))<0.11 ) then 0 else CLCost/CLQty end as CLRate, CLCost ,ProdIssQty, OtherIssQty,ScrabSaleQty,stock_qty,conuom
                      
                     from 
@@ -726,13 +675,13 @@ select * from
                      ) Pivt1 
                      ) xxx group by Item_Code ) as VirtualCategoryTabel on  VirtualCategoryTabel.Item_Code=InventroyMovement.Item_Code left outer join ( select Struct.Structure_Code,Structure_Descq,Struct_Val.Value as Item_Group,StructDtl.Description as Group_Description from TSPL_STRUCTURE_MASTER Struct left join ( select Custom_field_Code,Transaction_code,Value from TSPL_CUSTOM_FIELD_VALUES where Program_Code='ITEM-STRUCT'   and Custom_Field_Code='') as Struct_Val  on Struct.Structure_Code=Struct_Val.Transaction_Code left join (select Custom_Field_Code,SNo,Value,Description from TSPL_CUSTOM_FIELD_DETAIL where Custom_Field_Code='') as StructDtl on Struct_Val.Value=StructDtl.Value ) as Item_Group on Item_Group.Structure_Code =TSPL_ITEM_MASTER.Structure_Code  left outer join ( SELECT ITEM_TYPE_CODE AS Code, ITEM_TYPE_NAME  as Name FROM TSPL_ITEM_TYPE_MASTER  ) as VirtualTableItemType on VirtualTableItemType.Code = TSPL_ITEM_MASTER.Item_Type  left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code =TSPL_PURCHASE_ACCOUNTS .Inv_Control_Account   left outer join TSPL_GL_ACCOUNTS gl1 on gl1.Account_Seg_Code1 =TSPL_GL_ACCOUNTS.Account_Seg_Code1  and gl1.Account_Seg_Code7 =  tspl_location_master.Loc_Segment_Code  Where 2=2  and TSPL_LOCATION_MASTER.GIT_Type<>'Y' and MainLocationTable.GIT_Type<>'Y'  ) xxxxx  where 2=2    and Item_Code in (select distinct TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
 
-left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
-left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
-left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
-where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "' UNION ALL
-SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
-LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
-WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0)   
+                        left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
+                        left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
+                        left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
+                        where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "' UNION ALL
+                        SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
+                        LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+                        WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0)   
                      and ( ((case when Is_Section='N' and Is_Sub_Location='N' then Location_Code else Main_Location_Code end) = '" + clsCommon.myCstr(txtLoc.Value) + "') )) xxx 
                      where Punching_Date < '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' group by xxx.Item_Code,xxx.Location_Code 
                      union all 
@@ -776,13 +725,13 @@ WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0)
                      ) Pivt1 
                      ) xxx group by Item_Code ) as VirtualCategoryTabel on  VirtualCategoryTabel.Item_Code=InventroyMovement.Item_Code left outer join ( select Struct.Structure_Code,Structure_Descq,Struct_Val.Value as Item_Group,StructDtl.Description as Group_Description from TSPL_STRUCTURE_MASTER Struct left join ( select Custom_field_Code,Transaction_code,Value from TSPL_CUSTOM_FIELD_VALUES where Program_Code='ITEM-STRUCT'   and Custom_Field_Code='') as Struct_Val  on Struct.Structure_Code=Struct_Val.Transaction_Code left join (select Custom_Field_Code,SNo,Value,Description from TSPL_CUSTOM_FIELD_DETAIL where Custom_Field_Code='') as StructDtl on Struct_Val.Value=StructDtl.Value ) as Item_Group on Item_Group.Structure_Code =TSPL_ITEM_MASTER.Structure_Code  left outer join ( SELECT ITEM_TYPE_CODE AS Code, ITEM_TYPE_NAME  as Name FROM TSPL_ITEM_TYPE_MASTER  ) as VirtualTableItemType on VirtualTableItemType.Code = TSPL_ITEM_MASTER.Item_Type  left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code =TSPL_PURCHASE_ACCOUNTS .Inv_Control_Account   left outer join TSPL_GL_ACCOUNTS gl1 on gl1.Account_Seg_Code1 =TSPL_GL_ACCOUNTS.Account_Seg_Code1  and gl1.Account_Seg_Code7 =  tspl_location_master.Loc_Segment_Code  Where 2=2  and TSPL_LOCATION_MASTER.GIT_Type<>'Y' and MainLocationTable.GIT_Type<>'Y'  ) xxxxx  where 2=2    and Item_Code in (select distinct TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
 
-left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
-left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
-left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
-where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103)and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "'UNION ALL
-SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
-LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
-WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0)    
+                        left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
+                        left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
+                        left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
+                        where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103)and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "'UNION ALL
+                        SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
+                        LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+                        WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0)    
                      and ( ((case when Is_Section='N' and Is_Sub_Location='N' then Location_Code else Main_Location_Code end) = '" + clsCommon.myCstr(txtLoc.Value) + "') )) xxx 
                      where Punching_Date>= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and Punching_Date<= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtTodate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
                      union  
@@ -791,29 +740,29 @@ WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0)
                     ,0 as SNFAmount
                      ,In_Category,Out_Category,(case when ConvertedUnitp.processLoss_Uom=1 then ConvertedUnitp.UOM_Code else ConvertedUnits.UOM_Code end) as CONuom  from (SELECT 0 as Trans_Id,null as Trans_Type,null as Trans_Type_Name, null as Source_Doc_No, thedate as Punching_Date,'In' as InOutView,'I' as InOut,TSPL_LOCATION_MASTER.Location_Code as Location_Code,TSPL_LOCATION_MASTER.Location_Desc as [Loc Desp],null as [LocAddress],null as SourceCode,null as SourceName,null as SourceType ,TSPL_ITEM_MASTER.Item_Type,null as Item_Type_Name,null as Item_Group,null as Group_Description,null as [FINISHFOOD],null as [RAWMATERIAL],null as [OTHER],null as [PACKINGMAT],null as [FIXEDASST],null as [MAKE],null as [KV],null as [FINISHFOODDESC],null as [RAWMATERIALDESC],null as [OTHERDESC],null as [PACKINGMATDESC],null as [FIXEDASSTDESC],null as [MAKEDESC],null as [KVDESC],TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Item_Desc,null as Item_Category_Struct_Code,TSPL_ITEM_UOM_DETAIL.UOM_Code as Stock_UOM ,null as  itf_code ,0 as Stock_Qty,0 as Balance_QTYKG,0 as Rate,0 as Cost,0 as Balance_FAT, 0 as Balance_SNF ,null as In_Category,null as Out_Category,TSPL_ITEM_MASTER.Product_Type   FROM ExplodeDates(  '" + clsCommon.GetPrintDate(txtFromDate.Value) + "','" + clsCommon.GetPrintDate(txtTodate.Value) + "') as d,TSPL_ITEM_MASTER,TSPL_LOCATION_MASTER,TSPL_ITEM_UOM_DETAIL where 2=2  and TSPL_ITEM_MASTER.Item_Code in (select distinct TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
 
-left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
-left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
-left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
-where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103)and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "' UNION ALL
-SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
-LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
-WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0)   and ( ((case when Is_Section='N' and Is_Sub_Location='N' then Location_Code else Main_Location_Code end) = '" + clsCommon.myCstr(txtLoc.Value) + "') )  and TSPL_ITEM_UOM_DETAIL.Stocking_Unit='Y' and TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code) Items 
-left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUnitP on ConvertedUnitp.Item_Code=Items.Item_Code and 
+                        left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
+                        left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
+                        left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
+                        where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103)and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "' UNION ALL
+                        SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
+                        LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+                        WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0)   and ( ((case when Is_Section='N' and Is_Sub_Location='N' then Location_Code else Main_Location_Code end) = '" + clsCommon.myCstr(txtLoc.Value) + "') )  and TSPL_ITEM_UOM_DETAIL.Stocking_Unit='Y' and TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code) Items 
+                        left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUnitP on ConvertedUnitp.Item_Code=Items.Item_Code and 
 					 isnull(ConvertedUnitP.processLoss_Uom,0)=1
 					 left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUnitS on ConvertedUnitS.Item_Code=Items.Item_Code and 
 					 ConvertedUnitS.Stocking_Unit='Y'
 					 					 left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUnit on ConvertedUnit.Item_Code=Items.Item_Code and ConvertedUnit.UOM_Code=Items.Stock_UOM
 				
-left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range as Fat_Per  from TSPL_ITEM_QC_PARAMETER_MASTER  left join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where TSPL_PARAMETER_MASTER.Type='FAT') Fat on Items.Item_Code=Fat.Item_Code  left join  (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range as SNF_Per  from TSPL_ITEM_QC_PARAMETER_MASTER  left join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where TSPL_PARAMETER_MASTER.Type='SNF') as SNF on Items.Item_Code=SNF.Item_Code where 2=2  )xxxxxx Group by  Item_Code,Location_Code,Punching_Date )xxxxxxx left outer join tspl_location_master on tspl_location_master.Location_Code=xxxxxxx.Location_code where Punching_Date is not null )x )final  where Location_Code='" + clsCommon.myCstr(txtLoc.Value) + "'
+                    left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range as Fat_Per  from TSPL_ITEM_QC_PARAMETER_MASTER  left join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where TSPL_PARAMETER_MASTER.Type='FAT') Fat on Items.Item_Code=Fat.Item_Code  left join  (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range as SNF_Per  from TSPL_ITEM_QC_PARAMETER_MASTER  left join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where TSPL_PARAMETER_MASTER.Type='SNF') as SNF on Items.Item_Code=SNF.Item_Code where 2=2  )xxxxxx Group by  Item_Code,Location_Code,Punching_Date )xxxxxxx left outer join tspl_location_master on tspl_location_master.Location_Code=xxxxxxx.Location_code where Punching_Date is not null )x )final  where Location_Code='" + clsCommon.myCstr(txtLoc.Value) + "'
 					 group by Item_Code
 					 --Order by  convert(date,  Punching_Date,103),Location_Code
 					--CLOSING BALANCE
 					 UNION ALL
-select convert(varchar, Punching_Date,103) as Punching_Date  ,Item_Code ,Item_Desc,Stock_UOM, 
-0 as OPQty ,0 AS OPRate,0 AS OPCost ,0 as RecPurQty,0 as RecPurRate,0 as RecPurCost,0 as Issqty, 0as IssRate, 0 as IssuCost, CLQty, CLRate, CLCost,0 as ProdIssQty,0 as OtherIssQty,0 as ScrabSaleQty,0 as Stock_qty,FINAL.HeadName,FINAL.Location_Code,FINAL.[Loc Desp],FINAL.Add1,FINAL.Add2,FINAL.Add3,FINAL.Add4,final.conuom
-from (
-select * from 
-(select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName,xxxxxxx.Location_Code,[Loc Desp],Add1,Add2,Add3,Add4,convert(varchar, Punching_Date,103) as Punching_Date  ,Item_Code ,Item_Desc,Stock_UOM, case when ( abs(cast((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))as  decimal(18,2)))<=0.11 or (abs(cast((ISNULL(CLCost,0) - isnull(RecCost,0)+isnull(IssCost,0))as  decimal(18,2)))<0.11 and tspl_location_master.Is_jobWork=0) ) then 0 else  Convert(decimal(18,3),(ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))) end as OPQty,
+                    select convert(varchar, Punching_Date,103) as Punching_Date  ,Item_Code ,Item_Desc,Stock_UOM, 
+                    0 as OPQty ,0 AS OPRate,0 AS OPCost ,0 as RecPurQty,0 as RecPurRate,0 as RecPurCost,0 as Issqty, 0as IssRate, 0 as IssuCost, CLQty, CLRate, CLCost,0 as ProdIssQty,0 as OtherIssQty,0 as ScrabSaleQty,0 as Stock_qty,FINAL.HeadName,FINAL.Location_Code,FINAL.[Loc Desp],FINAL.Add1,FINAL.Add2,FINAL.Add3,FINAL.Add4,final.conuom
+                    from (
+                    select * from 
+                    (select 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName,xxxxxxx.Location_Code,[Loc Desp],Add1,Add2,Add3,Add4,convert(varchar, Punching_Date,103) as Punching_Date  ,Item_Code ,Item_Desc,Stock_UOM, case when ( abs(cast((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))as  decimal(18,2)))<=0.11 or (abs(cast((ISNULL(CLCost,0) - isnull(RecCost,0)+isnull(IssCost,0))as  decimal(18,2)))<0.11 and tspl_location_master.Is_jobWork=0) ) then 0 else  Convert(decimal(18,3),(ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))) end as OPQty,
                     case when ( abs(cast((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))as  decimal(18,2)))<=0.11 or abs(cast((ISNULL(CLCost,0) - isnull(RecCost,0)+isnull(IssCost,0))as  decimal(18,2)))<0.11) then 0 else  Convert(decimal(18,2),((isnull(CLCost,0)-isnull(RecCost,0)+isnull(IssCost,0))/((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))))) end as OPRate ,case when ( abs(cast((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))as  decimal(18,2)))<=0.11 or (abs(cast((ISNULL(CLCost,0) - isnull(RecCost,0)+isnull(IssCost,0))as  decimal(18,2)))<0.11 and tspl_location_master.Is_jobWork=0) ) then 0 else Convert(decimal(18,2),(isnull(CLCost,0)-isnull(RecCost,0)+ isnull(IssCost,0))) end as OPCost, RecPurQty,RecPurRate,RecPurCost ,RecProQty, RecProRate ,RecProCost,RecAdjQty,RecAdjRate ,RecAdjCost ,RecOthQty,RecOthRate ,RecOthCost,RecQty,RecRate,RecCost  ,IssTransferQty ,IssTransferRate ,IssTransferCost ,IssSaleQty ,IssSaleRate  ,IssSaleCost , IssIssAdjQty , IssIssAdjRate ,IssIssAdjCost , IssOthQty , IssOthRate ,IssOthCost ,IssQty,IssRate,IssCost ,case when (ABS(isnull(cast(CLQty as decimal(18,2)),0))<=0.11 or (ABS(isnull(cast(CLCost as decimal(18,2)),0))<0.11 and tspl_location_master.Is_jobWork=0) ) then 0 else CLQty end as CLQty,
                     case when (ABS(isnull(cast(CLQty as decimal(18,2)),0))<=0.11 or ABS(isnull(cast(CLCost as decimal(18,2)),0))<0.11 ) then 0 else CLCost/CLQty end as CLRate, CLCost ,conuom
                      
@@ -868,13 +817,13 @@ select * from
                      max(Category_Value_Desc) for Item_Category_CodeDesc in ([FINISHFOODDESC],[RAWMATERIALDESC],[OTHERDESC],[PACKINGMATDESC],[FIXEDASSTDESC],[MAKEDESC],[KVDESC])
                      ) Pivt1 
                      ) xxx group by Item_Code ) as VirtualCategoryTabel on  VirtualCategoryTabel.Item_Code=InventroyMovement.Item_Code left outer join ( select Struct.Structure_Code,Structure_Descq,Struct_Val.Value as Item_Group,StructDtl.Description as Group_Description from TSPL_STRUCTURE_MASTER Struct left join ( select Custom_field_Code,Transaction_code,Value from TSPL_CUSTOM_FIELD_VALUES where Program_Code='ITEM-STRUCT'   and Custom_Field_Code='') as Struct_Val  on Struct.Structure_Code=Struct_Val.Transaction_Code left join (select Custom_Field_Code,SNo,Value,Description from TSPL_CUSTOM_FIELD_DETAIL where Custom_Field_Code='') as StructDtl on Struct_Val.Value=StructDtl.Value ) as Item_Group on Item_Group.Structure_Code =TSPL_ITEM_MASTER.Structure_Code  left outer join ( SELECT ITEM_TYPE_CODE AS Code, ITEM_TYPE_NAME  as Name FROM TSPL_ITEM_TYPE_MASTER  ) as VirtualTableItemType on VirtualTableItemType.Code = TSPL_ITEM_MASTER.Item_Type  left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code =TSPL_PURCHASE_ACCOUNTS .Inv_Control_Account   left outer join TSPL_GL_ACCOUNTS gl1 on gl1.Account_Seg_Code1 =TSPL_GL_ACCOUNTS.Account_Seg_Code1  and gl1.Account_Seg_Code7 =  tspl_location_master.Loc_Segment_Code  Where 2=2  and TSPL_LOCATION_MASTER.GIT_Type<>'Y' and MainLocationTable.GIT_Type<>'Y'  ) xxxxx  where 2=2    and Item_Code in (select distinct TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
-left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
-left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
-left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
-where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "' UNION ALL
-SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
-LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
-WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0)   
+                        left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
+                        left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
+                        left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
+                        where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "' UNION ALL
+                        SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
+                        LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+                        WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0)   
                      and ( ((case when Is_Section='N' and Is_Sub_Location='N' then Location_Code else Main_Location_Code end) = '" + clsCommon.myCstr(txtLoc.Value) + "') )) xxx 
                      where Punching_Date < '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' group by xxx.Item_Code,xxx.Location_Code 
                      union all  select Trans_Id,Trans_Type,Trans_Type_Name,Source_Doc_No,cast(Punching_Date as date) as Punching_Date,InOutView, InOut,Location_Code,[Loc Desp], [LocAddress],SourceCode,SourceName,SourceType ,Item_Type, Item_Type_Name,Item_Group,Group_Description,[FINISHFOOD],[RAWMATERIAL],[OTHER],[PACKINGMAT],[FIXEDASST],[MAKE],[KV],[FINISHFOODDESC],[RAWMATERIALDESC],[OTHERDESC],[PACKINGMATDESC],[FIXEDASSTDESC],[MAKEDESC],[KVDESC],Item_Code ,Item_Desc,Item_Category_Struct_Code,Stock_UOM,itf_code , ( Stock_Qty * case when InOut='I' then 1 else -1 end) as Stock_Qty,(QtyKG * case when InOut='I' then 1 else -1 end) as Balance_QTYKG,  convert(decimal(28,3),case when Stock_Qty=0 then 0 else Cost/Stock_Qty end) as Rate,(Cost * case when InOut='I' then 1 else -1 end) as Cost, ( (case when IsFromMilk=1 then MilkFATKG else (Stock_Qty*FatPer) end) * case when InOut='I' then 1 else -1 end) as Balance_FAT,  ( (case when IsFromMilk=1 then MilkSNFKG else (Stock_Qty*SNFPer) end ) * case when InOut='I' then 1 else -1 end) as Balance_SNF
@@ -916,13 +865,13 @@ WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0)
                      ) Pivt1 
                      ) xxx group by Item_Code ) as VirtualCategoryTabel on  VirtualCategoryTabel.Item_Code=InventroyMovement.Item_Code left outer join ( select Struct.Structure_Code,Structure_Descq,Struct_Val.Value as Item_Group,StructDtl.Description as Group_Description from TSPL_STRUCTURE_MASTER Struct left join ( select Custom_field_Code,Transaction_code,Value from TSPL_CUSTOM_FIELD_VALUES where Program_Code='ITEM-STRUCT'   and Custom_Field_Code='') as Struct_Val  on Struct.Structure_Code=Struct_Val.Transaction_Code left join (select Custom_Field_Code,SNo,Value,Description from TSPL_CUSTOM_FIELD_DETAIL where Custom_Field_Code='') as StructDtl on Struct_Val.Value=StructDtl.Value ) as Item_Group on Item_Group.Structure_Code =TSPL_ITEM_MASTER.Structure_Code  left outer join ( SELECT ITEM_TYPE_CODE AS Code, ITEM_TYPE_NAME  as Name FROM TSPL_ITEM_TYPE_MASTER  ) as VirtualTableItemType on VirtualTableItemType.Code = TSPL_ITEM_MASTER.Item_Type  left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code =TSPL_PURCHASE_ACCOUNTS .Inv_Control_Account   left outer join TSPL_GL_ACCOUNTS gl1 on gl1.Account_Seg_Code1 =TSPL_GL_ACCOUNTS.Account_Seg_Code1  and gl1.Account_Seg_Code7 =  tspl_location_master.Loc_Segment_Code  Where 2=2  and TSPL_LOCATION_MASTER.GIT_Type<>'Y' and MainLocationTable.GIT_Type<>'Y'  ) xxxxx  where 2=2    and Item_Code in (select distinct TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
 
-left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
-left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
-left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
-where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "' UNION ALL
-SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
-LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
-WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0)   
+                    left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
+                    left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
+                    left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
+                    where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "' UNION ALL
+                    SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
+                    LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+                    WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0)   
                      and ( ((case when Is_Section='N' and Is_Sub_Location='N' then Location_Code else Main_Location_Code end) = '" + clsCommon.myCstr(txtLoc.Value) + "') )) xxx 
                      where Punching_Date>= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and Punching_Date<= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtTodate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'
                      union  all 
@@ -931,20 +880,20 @@ WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0)
                     ,0 as SNFAmount
                      ,In_Category,Out_Category,(case when ConvertedUnitp.processLoss_Uom=1 then ConvertedUnitp.UOM_Code else ConvertedUnits.UOM_Code end) as CONuom   from (SELECT 0 as Trans_Id,null as Trans_Type,null as Trans_Type_Name, null as Source_Doc_No, thedate as Punching_Date,'In' as InOutView,'I' as InOut,TSPL_LOCATION_MASTER.Location_Code as Location_Code,TSPL_LOCATION_MASTER.Location_Desc as [Loc Desp],null as [LocAddress],null as SourceCode,null as SourceName,null as SourceType ,TSPL_ITEM_MASTER.Item_Type,null as Item_Type_Name,null as Item_Group,null as Group_Description,null as [FINISHFOOD],null as [RAWMATERIAL],null as [OTHER],null as [PACKINGMAT],null as [FIXEDASST],null as [MAKE],null as [KV],null as [FINISHFOODDESC],null as [RAWMATERIALDESC],null as [OTHERDESC],null as [PACKINGMATDESC],null as [FIXEDASSTDESC],null as [MAKEDESC],null as [KVDESC],TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Item_Desc,null as Item_Category_Struct_Code,TSPL_ITEM_UOM_DETAIL.UOM_Code as Stock_UOM ,null as  itf_code ,0 as Stock_Qty,0 as Balance_QTYKG,0 as Rate,0 as Cost,0 as Balance_FAT, 0 as Balance_SNF ,null as In_Category,null as Out_Category,TSPL_ITEM_MASTER.Product_Type   FROM ExplodeDates( '" + clsCommon.GetPrintDate(txtFromDate.Value) + "','" + clsCommon.GetPrintDate(txtTodate.Value) + "') as d,TSPL_ITEM_MASTER,TSPL_LOCATION_MASTER,TSPL_ITEM_UOM_DETAIL where 2=2  and TSPL_ITEM_MASTER.Item_Code in (select distinct TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
 
-left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
-left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
-left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
-where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "' UNION ALL
-SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
-LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
-WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0)   and ( ((case when Is_Section='N' and Is_Sub_Location='N' then Location_Code else Main_Location_Code end) = '" + clsCommon.myCstr(txtLoc.Value) + "') )  and TSPL_ITEM_UOM_DETAIL.Stocking_Unit='Y' and TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code) Items
+                    left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
+                    left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
+                    left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
+                    where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' ,103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(txtTodate.Value) + "' ,103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "' UNION ALL
+                    SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
+                    LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+                    WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0)   and ( ((case when Is_Section='N' and Is_Sub_Location='N' then Location_Code else Main_Location_Code end) = '" + clsCommon.myCstr(txtLoc.Value) + "') )  and TSPL_ITEM_UOM_DETAIL.Stocking_Unit='Y' and TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code) Items
 
-left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUnitP on ConvertedUnitp.Item_Code=Items.Item_Code and 
+                    left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUnitP on ConvertedUnitp.Item_Code=Items.Item_Code and 
 					 isnull(ConvertedUnitP.processLoss_Uom,0)=1
 					 left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUnitS on ConvertedUnitS.Item_Code=Items.Item_Code and 
 					 ConvertedUnitS.Stocking_Unit='Y'
 					 					 left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUnit on ConvertedUnit.Item_Code=Items.Item_Code and ConvertedUnit.UOM_Code=Items.Stock_UOM
-left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range as Fat_Per  from TSPL_ITEM_QC_PARAMETER_MASTER  left join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where TSPL_PARAMETER_MASTER.Type='FAT') Fat on Items.Item_Code=Fat.Item_Code  left join  (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range as SNF_Per  from TSPL_ITEM_QC_PARAMETER_MASTER  left join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where TSPL_PARAMETER_MASTER.Type='SNF') as SNF on Items.Item_Code=SNF.Item_Code where 2=2  )xxxxxx Group by  Item_Code,Location_Code,Punching_Date )xxxxxxx left outer join tspl_location_master on tspl_location_master.Location_Code=xxxxxxx.Location_code where Punching_Date is not null )x )final where Location_Code= '" + clsCommon.myCstr(txtLoc.Value) + "' 
+                       left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range as Fat_Per  from TSPL_ITEM_QC_PARAMETER_MASTER  left join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where TSPL_PARAMETER_MASTER.Type='FAT') Fat on Items.Item_Code=Fat.Item_Code  left join  (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range as SNF_Per  from TSPL_ITEM_QC_PARAMETER_MASTER  left join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where TSPL_PARAMETER_MASTER.Type='SNF') as SNF on Items.Item_Code=SNF.Item_Code where 2=2  )xxxxxx Group by  Item_Code,Location_Code,Punching_Date )xxxxxxx left outer join tspl_location_master on tspl_location_master.Location_Code=xxxxxxx.Location_code where Punching_Date is not null )x )final where Location_Code= '" + clsCommon.myCstr(txtLoc.Value) + "' 
                      AND Punching_Date= '" + clsCommon.GetPrintDate((txtFromDate.Value), "dd/MM/yyyy") + "'
 					 )  final1 group by final1.Item_Code,final1.Item_Desc "
 
@@ -1074,7 +1023,6 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
 
     Private Sub gv1_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellValueChanged
         Try
-
             If (Not isInsideLoadData) Then
                 'If Not isCellValueChangedOpen Then
                 isCellValueChangedOpen = True
@@ -1087,14 +1035,12 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
                         gv1.CurrentRow.Cells(colPLper).Value = 0
                     End If
                     If clsCommon.myCdbl(gv1.CurrentRow.Cells(colPLper).Value) > 0 Then
-                            gv1.CurrentRow.Cells(colFinalClStock).Value = clsCommon.myCdbl(gv1.CurrentRow.Cells(colClQty).Value) - clsCommon.myCdbl(gv1.CurrentRow.Cells(colPLQty).Value)
-                        Else
-                            gv1.CurrentRow.Cells(colFinalClStock).Value = 0
-                        End If
+                        gv1.CurrentRow.Cells(colFinalClStock).Value = clsCommon.myCdbl(gv1.CurrentRow.Cells(colClQty).Value) - clsCommon.myCdbl(gv1.CurrentRow.Cells(colPLQty).Value)
+                    Else
+                        gv1.CurrentRow.Cells(colFinalClStock).Value = 0
                     End If
-                    'End If
-
                 End If
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -1127,18 +1073,12 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
         UsLock1.Status = ERPTransactionStatus.Pending
         txtCostofFeed.Text = ""
     End Sub
-
-    Private Sub MyLabel2_Click(sender As Object, e As EventArgs) Handles MyLabel2.Click
-
-    End Sub
-
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         SaveData(False)
     End Sub
     Private Sub SaveData(ByVal isPost As Boolean)
         Dim obj As New clsRMProcessLoss()
         Dim objpd As New ClsRmProcessLossDetail
-        'isInsideLoadData = True
         Try
             If AllowToSave() Then
                 obj.document_code = clsCommon.myCstr(txtDocNo.Value)
@@ -1147,7 +1087,6 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
                 obj.Comments = clsCommon.myCstr(txtComments.Text)
                 obj.Fromdate = clsCommon.myCDate(txtFromDate.Value)
                 obj.Todate = clsCommon.myCDate(txtTodate.Value)
-                'obj.QC_Status = clsCommon.myCstr(txtAccept.Text)
                 obj.Arr_Pd = New List(Of ClsRmProcessLossDetail)
                 For Each grow As GridViewRowInfo In gv1.Rows
                     objpd = New ClsRmProcessLossDetail()
@@ -1217,7 +1156,6 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
                 If obj.Arr_Pd IsNot Nothing AndAlso obj.Arr_Pd.Count > 0 Then
                     For Each objtr As ClsRmProcessLossDetail In obj.Arr_Pd
                         gv1.Rows.AddNew()
-
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colitemcode).Value = objtr.item_code
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colitemname).Value = objtr.item_Desc
                         gv1.Rows(gv1.Rows.Count - 1).Cells(coluom).Value = objtr.UOM
@@ -1266,12 +1204,10 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
             isInsideLoadData = False
         End Try
     End Sub
-
     Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
         Dim qry As String = "   select Document_Code as Code,convert(varchar,Document_Date,103)DocumentDate,Case when status=0 then 'Pending' else 'Approved' end as 'Status',convert(varchar,from_date,103)FromDate,convert(varchar,to_date,103)ToDate from TSPL_RM_PROCESS_LOSS"
         LoadData(clsCommon.ShowSelectForm("OutgoingQC", qry, "Code", "", txtDocNo.Value, "Code", isButtonClicked), NavigatorType.Current)
     End Sub
-
     Private Sub txtDocNo__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtDocNo._MYNavigator
         Try
             Dim qry As String = "select count(*) from TSPL_RM_PROCESS_LOSS where Document_Code ='" + txtDocNo.Value + "' "
@@ -1286,7 +1222,6 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
         Try
             If myMessages.postConfirm() Then
@@ -1321,7 +1256,6 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
         End If
         funDelete()
     End Sub
-
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
         DeleteData()
     End Sub
@@ -1340,31 +1274,14 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
                 txtTodate.Focus()
                 Return False
             End If
-
-            ' If QCEnddate.Value  QcStartdata.Value Then
-            'If obj.QC_end_date > clsCommon.GETSERVERDATE Then
-            '    QCEnddate.Focus()
-            '    Throw New Exception("QC End date should be less than Server Date")
-            'Else
-            '    obj.QC_end_date = clsCommon.myCDate(QCEnddate.Value, "dd/MM/yyyy")
-            'End If
-            'If obj.QC_Start_date > clsCommon.GETSERVERDATE Then
-            '    QcStartdata.Focus()
-            '    Throw New Exception("QC End date should be less than Server Date")
-            'Else
-            '    obj.QC_Start_date = clsCommon.myCDate(QcStartdata.Value, "dd/MM/yyyy")
-            'End If
             If clsCommon.myLen(txtLoc.Value) <= 0 Then
                 txtLoc.Focus()
                 txtLoc.Select()
                 clsCommon.MyMessageBoxShow(Me, "Select Location", Me.Text)
                 Return False
             End If
-
-
             Dim arrpd As New List(Of String)
             Dim arr As New List(Of String)
-
             Dim icode As String = ""
             Dim status As Integer = 0
             Dim PLAvg As Decimal = 0
@@ -1376,18 +1293,13 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
                     If PL > 0 Then
                         status += 1
                         PLAvg += clsCommon.myCDecimal(gv1.Rows(ii).Cells(colPLper).Value)
-                        'PLAvg += PLAvg
                     End If
                 End If
-                'If clsCommon.myLen(icode) > 0 Then
-                '    status += 1
-                'End If
                 arrpd.Add(icode)
             Next
             If PLAvg > 0 AndAlso status > 0 Then
                 AvgPer = PLAvg / status
             End If
-
             If AvgPer > 0.6 Then
                 If clsCommon.MyMessageBoxShow(Me, ",The average process loss %age of RM material is greater than allowed %age 0.60" + Environment.NewLine + "Do you want to save ?", Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
                     Return True
@@ -1401,23 +1313,15 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
         Return True
     End Function
     Private Sub SetUserMgmtNew()
-        'MyBase.SetUserMgmt(clsUserMgtCode.mbtnMRN)
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
-
         End If
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
         btnReverse.Visible = False
-        'If MyBase.isReverse Then
-        '    btnReverse.Enabled = True
-        'Else
-        '    btnReverse.Enabled = False
-        'End If
     End Sub
-
     Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
@@ -1431,7 +1335,6 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub frmRMProcessLoss_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             If MyBase.isReverse Then
@@ -1444,11 +1347,9 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
-                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub
-
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Dim dt As DataTable = Nothing
         Dim dt1 As DataTable = Nothing
@@ -1468,18 +1369,13 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
                     If PL > 0 Then
                         status += 1
                         PLAvg += clsCommon.myCDecimal(gv1.Rows(ii).Cells(colPLper).Value)
-                        'PLAvg += PLAvg
                     End If
                 End If
-                'If clsCommon.myLen(icode) > 0 Then
-                '    status += 1
-                'End If
                 arrpd.Add(icode)
             Next
             If PLAvg > 0 AndAlso status > 0 Then
                 AvgPer = PLAvg / status
             End If
-
             Dim frmCRV As New frmCrystalReportViewer()
             Dim qry As String = "select '" + txtCostofFeed.Text + "' as CostOfRM,'" + clsCommon.myCstr(AvgPer) + "' as AvgPer,left(tspl_rm_process_loss_detail.item_code,2) as itemtype,from_date,to_Date,location,tspl_rm_process_loss.document_code,document_date,tspl_rm_process_loss_detail.item_code,item_desc,tspl_rm_process_loss_detail.uom,op_qty,op_cost,rec_qty,rec_cost,cl_qty,cl_cost,issprod_qty,issprod_cost,otheriss_qty,otherIss_cost,stktrns_qty,stktrns_cost,pl_qty,pl_per,tspl_rm_process_loss_detail.rate,fnlstk_qty from tspl_rm_process_loss_detail
             left outer join tspl_rm_process_loss on tspl_rm_process_loss.document_code=tspl_rm_process_loss_detail.document_code
@@ -1497,7 +1393,6 @@ left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER
             dt2 = clsDBFuncationality.GetDataTable(strqry)
             If dt Is Nothing OrElse dt.Rows.Count > 0 Then
                 frmCRV.funsubreportWithdt(Nothing, CrystalReportFolder.SalesReport, dt, dt1, "rptRMProcessLossreport", "", Nothing, "PMstockConsumption.rpt", "Production.rpt", dt2)
-
             Else
                 common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
             End If

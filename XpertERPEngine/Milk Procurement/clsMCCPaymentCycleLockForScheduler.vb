@@ -59,7 +59,6 @@ End Class
 
 Public Class clsVSPBillAndIncentiveCalculation
     Public Function BillGenerationMCCWise(ByVal frmBillGen As RadForm, ByVal strMCCCode As String, ByVal txtFromDate As DateTime, ByVal txtToDate As DateTime, ByVal Formcode As String, ByVal arrVSP As ArrayList, ByVal PaymentType As String, ByVal PaymentValue As Integer) As Boolean
-        'UpdateSTDQtyOFSRN(txtFromDate, strMCCCode)
         Dim strMCCName As String = clsMccMaster.GetName(strMCCCode, Nothing)
         If clsCommon.myLen(strMCCCode) <= 0 Then
             Throw New Exception("Please Select MCC To Generate Bill")
@@ -68,13 +67,6 @@ Public Class clsVSPBillAndIncentiveCalculation
             Throw New Exception("Please Select VSP To Generate Bill")
         End If
         Dim qry As String
-        '        Dim qry As String = "update TSPL_DCS_ADDITION_DEDUCTION set TSPL_DCS_ADDITION_DEDUCTION.Mapping_Matching=xx.MappingCode from (
-        'select Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where len(isnull( MappingCode,''))>0 and TSPL_DCS_ADDITION_DEDUCTION.Posted=1
-        'union all
-        'select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where len(isnull( MappingCode,''))>0 and TSPL_DCS_ADDITION_DEDUCTION.Posted=1
-        ')xx inner join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=xx.Code"
-        '        clsDBFuncationality.ExecuteNonQuery(qry)
-
         If clsCommon.CompairString(Formcode, clsUserMgtCode.MPBillGeneration) = CompairStringResult.Equal Then
             qry = "SELECT LOCK_CODE FROM TSPL_LOCK_MP_PC WHERE MCC_Code='" & strMCCCode & "' AND Posted='Y' AND FROM_DATE='" & clsCommon.GetPrintDate(txtFromDate, "dd-MMM-yyyy") & "' AND TO_DATE='" & clsCommon.GetPrintDate(txtToDate, "dd-MMM-yyyy") & "'"
             Dim Lock_Code As String = clsDBFuncationality.getSingleValue(qry)
@@ -1661,19 +1653,23 @@ where  TSPL_MILK_SRN_HEAD.Posted=1 and tspl_Milk_Srn_Head.is_incentive_Created='
                         If clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff_Document")) <= 0 AndAlso clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff")) <= 0 Then
                             isApplyTDS = True
                         Else
-                            qry = "select sum( " + IIf(clsCommon.CompairString(IncludeTax, "N") = CompairStringResult.Equal, "TSPL_VENDOR_INVOICE_HEAD.Amount_Less_Discount", "TSPL_VENDOR_INVOICE_HEAD.Document_Total") + ") as Document_Total from TSPL_VENDOR_INVOICE_HEAD where Vendor_Code='" + VendorCode + "' and Document_Type in ('I','C') and Document_No not in ('" + DocNo + "') and TSPL_VENDOR_INVOICE_HEAD.ISProcurementDeduction=0 and  convert(date, Invoice_Entry_Date,103)>='" + clsCommon.GetPrintDate(clsCommon.myCDate(dtFY.Rows(0)("Start_Date")), "dd/MMM/yyyy") + "' and  convert(date, Invoice_Entry_Date,103)<='" + clsCommon.GetPrintDate(clsCommon.myCDate(dtFY.Rows(0)("End_Date")), "dd/MMM/yyyy") + "' and TSPL_VENDOR_INVOICE_HEAD.Posting_Date is not null "
+                            qry = "select sum( " + IIf(clsCommon.CompairString(IncludeTax, "N") = CompairStringResult.Equal, "TSPL_VENDOR_INVOICE_HEAD.Amount_Less_Discount", "TSPL_VENDOR_INVOICE_HEAD.Document_Total") + ") as Document_Total from TSPL_VENDOR_INVOICE_HEAD where Vendor_Code='" + VendorCode + "' and Document_Type in ('I'"
+                            If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.TDSOpeningBalanceConsiderCreditNote, clsFixedParameterCode.TDSOpeningBalanceConsiderCreditNote, trans)) = 1 Then
+                                qry += " ,'C' "
+                            End If
+                            qry += " ) and Document_No not in ('" + DocNo + "') and TSPL_VENDOR_INVOICE_HEAD.ISProcurementDeduction=0 and  convert(date, Invoice_Entry_Date,103)>='" + clsCommon.GetPrintDate(clsCommon.myCDate(dtFY.Rows(0)("Start_Date")), "dd/MMM/yyyy") + "' and  convert(date, Invoice_Entry_Date,103)<='" + clsCommon.GetPrintDate(clsCommon.myCDate(dtFY.Rows(0)("End_Date")), "dd/MMM/yyyy") + "' and TSPL_VENDOR_INVOICE_HEAD.Posting_Date is not null "
                             dblPreviousTDSAmt = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, trans))
-                            If appAmt >= clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff_Document")) AndAlso clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff_Document")) > 0 Then
-                                isApplyTDS = True
-                            ElseIf (dblPreviousTDSAmt + appAmt) >= clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff")) AndAlso clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff")) > 0 Then
-                                isApplyTDS = True
-                                appAmt = ((dblPreviousTDSAmt + appAmt) - clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff")))
-                                dblPreviousTDSAmt = 0
-                                TaxableAmt = appAmt
-                                TotalAmt = appAmt
+                                If appAmt >= clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff_Document")) AndAlso clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff_Document")) > 0 Then
+                                    isApplyTDS = True
+                                ElseIf (dblPreviousTDSAmt + appAmt) >= clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff")) AndAlso clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff")) > 0 Then
+                                    isApplyTDS = True
+                                    appAmt = ((dblPreviousTDSAmt + appAmt) - clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff")))
+                                    dblPreviousTDSAmt = 0
+                                    TaxableAmt = appAmt
+                                    TotalAmt = appAmt
+                                End If
                             End If
                         End If
-                    End If
                 End If
 
                 If isApplyTDS Then

@@ -131,7 +131,11 @@ Public Class clsLocationWiseTax
         Return clsDBFuncationality.GetDataTable(qry)
     End Function
 
-    Public Shared Function FinderForTaxGroup(ByVal strTransLocation As String, ByVal strVendorCustomerCode As String, ByVal strTaxType As String, ByVal strCurrCode As String, ByVal isButtonClicked As Boolean, Optional ByVal Without_State_Condition As Boolean = False) As String
+    Public Shared Function FinderForTaxGroup(ByVal strTransLocation As String, ByVal strVendorCustomerCode As String, ByVal strTaxType As String, ByVal strCurrCode As String, ByVal isButtonClicked As Boolean, Optional ByVal Without_State_Condition As Boolean = False)
+        Return FinderForTaxGroup(strTransLocation, strVendorCustomerCode, strTaxType, strCurrCode, isButtonClicked, "", Without_State_Condition)
+    End Function
+
+    Public Shared Function FinderForTaxGroup(ByVal strTransLocation As String, ByVal strVendorCustomerCode As String, ByVal strTaxType As String, ByVal strCurrCode As String, ByVal isButtonClicked As Boolean, ByVal strVendorShipFromLocation As String, Optional ByVal Without_State_Condition As Boolean = False) As String
         If clsCommon.myLen(strTransLocation) <= 0 Then
             Throw New Exception("Please first select Transaction location")
         End If
@@ -156,7 +160,11 @@ Public Class clsLocationWiseTax
             If clsCommon.CompairString("S", strTaxType) = CompairStringResult.Equal Then
                 qry += "  select   State from TSPL_CUSTOMER_MASTER where Cust_Code='" + strVendorCustomerCode + "' "
             ElseIf clsCommon.CompairString("P", strTaxType) = CompairStringResult.Equal Then
-                qry += "   select  State_Code as State from TSPL_VENDOR_MASTER where Vendor_Code='" + strVendorCustomerCode + "' "
+                If clsCommon.myLen(strVendorShipFromLocation) > 0 Then
+                    qry += "   select  State from TSPL_SHIP_TO_LOCATION where Ship_To_Type_Code = '" + strVendorCustomerCode + " ' and  Ship_To_Code='" + strVendorShipFromLocation + "' "
+                Else
+                    qry += "   select  State_Code as State from TSPL_VENDOR_MASTER where Vendor_Code='" + strVendorCustomerCode + "' "
+                End If
             Else
                 Throw New Exception("Please enter valid Tax Type it should be 'P' or 'S'")
             End If
@@ -321,10 +329,16 @@ Public Class clsLocationWiseTax
     End Function
 
     Public Shared Function GetDefaultTaxGroup(ByVal strTransLocation As String, ByVal strVendorCustomerCode As String, ByVal strTaxType As String) As String
-        Return GetDefaultTaxGroup(strTransLocation, strVendorCustomerCode, strTaxType, Nothing)
+        Return GetDefaultTaxGroup(strTransLocation, strVendorCustomerCode, strTaxType, Nothing, "")
+    End Function
+    Public Shared Function GetDefaultTaxGroup(ByVal strTransLocation As String, ByVal strVendorCustomerCode As String, ByVal strTaxType As String, ByVal tranDate As Date?)
+        Return GetDefaultTaxGroup(strTransLocation, strVendorCustomerCode, strTaxType, Nothing, "")
+    End Function
+    Public Shared Function GetDefaultTaxGroup(ByVal strTransLocation As String, ByVal strVendorCustomerCode As String, ByVal strTaxType As String, ByVal strVendorShipFromLocation As String)
+        Return GetDefaultTaxGroup(strTransLocation, strVendorCustomerCode, strTaxType, Nothing, strVendorShipFromLocation)
     End Function
 
-    Public Shared Function GetDefaultTaxGroup(ByVal strTransLocation As String, ByVal strVendorCustomerCode As String, ByVal strTaxType As String, ByVal tranDate As Date?) As String
+    Public Shared Function GetDefaultTaxGroup(ByVal strTransLocation As String, ByVal strVendorCustomerCode As String, ByVal strTaxType As String, ByVal tranDate As Date?, ByVal strVendorShipFromLocation As String)
         Dim qry As String = " Select Tax_Group_Code"
         qry += " from TSPL_LOCATION_WISE_TAX_MASTER "
         qry += " where 2=2 and  Location_Code = '" + strTransLocation + "' and Tax_Type='" + strTaxType + "'  "
@@ -339,7 +353,11 @@ Public Class clsLocationWiseTax
         If clsCommon.CompairString("S", strTaxType) = CompairStringResult.Equal Then
             qry += "  select   State from TSPL_CUSTOMER_MASTER where Cust_Code='" + strVendorCustomerCode + "' "
         ElseIf clsCommon.CompairString("P", strTaxType) = CompairStringResult.Equal Then
-            qry += "   select  State_Code as State from TSPL_VENDOR_MASTER where Vendor_Code='" + strVendorCustomerCode + "' "
+            If clsCommon.myLen(strVendorShipFromLocation) > 0 Then
+                qry += "   select  State from TSPL_SHIP_TO_LOCATION where Ship_To_Type_Code = '" + strVendorCustomerCode + " ' and  Ship_To_Code='" + strVendorShipFromLocation + "' "
+            Else
+                qry += "   select  State_Code as State from TSPL_VENDOR_MASTER where Vendor_Code='" + strVendorCustomerCode + "' "
+            End If
         Else
             Throw New Exception("Please enter valid Tax Type it should be 'P' or 'S'")
         End If
@@ -494,14 +512,22 @@ Public Class clsLocationWiseTax
         End If
         Return True
     End Function
-    Public Shared Function IsValidTaxGroup(ByVal strTaxGroup As String, ByVal strTransLocation As String, ByVal strVendorCustomerCode As String, ByVal strTaxType As String, ByVal tranDate As Date?, ByVal tran As SqlTransaction) As Boolean
+
+    Public Shared Function IsValidTaxGroup(ByVal strTaxGroup As String, ByVal strTransLocation As String, ByVal strVendorCustomerCode As String, ByVal strTaxType As String, ByVal tranDate As Date?, ByVal trans As SqlTransaction)
+        Return IsValidTaxGroup(strTaxGroup, strTransLocation, strVendorCustomerCode, strTaxType, tranDate, trans, "")
+    End Function
+    Public Shared Function IsValidTaxGroup(ByVal strTaxGroup As String, ByVal strTransLocation As String, ByVal strVendorCustomerCode As String, ByVal strTaxType As String, ByVal tranDate As Date?, ByVal tran As SqlTransaction, ByVal strVendorShipFromLocation As String) As Boolean
         If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.chkGSTTaxGroupValidity, clsFixedParameterCode.chkGSTTaxGroupValidity, tran)) > 0 Then
             If clsERPFuncationality.GetGSTStatus(tranDate) Then
                 Dim qry As String = "select case when MIN(xx.State)=MAX(xx.State) then 'L' else 'I' end as LocalOrInterState,max(Is_GST_UT)  as Is_GST_UT from  ( select x.*,TSPL_STATE_MASTER.Is_GST_UT from ( select State  from TSPL_LOCATION_MASTER where Location_Code='" + strTransLocation + "'  union all"
                 If clsCommon.CompairString("S", strTaxType) = CompairStringResult.Equal Then
                     qry += "  select State from TSPL_CUSTOMER_MASTER where Cust_Code='" + strVendorCustomerCode + "' "
                 ElseIf clsCommon.CompairString("P", strTaxType) = CompairStringResult.Equal Then
-                    qry += "   select  State_Code as State from TSPL_VENDOR_MASTER where Vendor_Code='" + strVendorCustomerCode + "' "
+                    If clsCommon.myLen(strVendorShipFromLocation) > 0 Then
+                        qry += "   select  State from TSPL_SHIP_TO_LOCATION where Ship_To_Type_Code = '" + strVendorCustomerCode + " ' and  Ship_To_Code='" + strVendorShipFromLocation + "' "
+                    Else
+                        qry += "   select  State_Code as State from TSPL_VENDOR_MASTER where Vendor_Code='" + strVendorCustomerCode + "' "
+                    End If
                 Else
                     Throw New Exception("Please enter valid Tax Type it should be 'P' or 'S'")
                 End If
@@ -555,7 +581,7 @@ Public Class clsLocationWiseTax
     End Function
     '===============Added by preeti gupta =================
     Public Shared Function GetDefaultTaxGroupforTransfer(ByVal strTransLocation As String, ByVal strTransToLocation As String, ByVal strTaxType As String) As String
-        Return GetDefaultTaxGroup(strTransLocation, strTransToLocation, strTaxType, Nothing)
+        Return GetDefaultTaxGroup(strTransLocation, strTransToLocation, strTaxType, Nothing, "")
     End Function
 
     Public Shared Function GetDefaultTaxGroupforTransfer(ByVal strTransLocation As String, ByVal strTransToLocation As String, ByVal strTaxType As String, ByVal tranDate As Date?) As String

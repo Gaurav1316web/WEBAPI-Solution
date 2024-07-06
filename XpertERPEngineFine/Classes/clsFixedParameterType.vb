@@ -45,6 +45,7 @@ Public Class clsFixedParameterType
     Public Const DailyQtyReport As String = "Daily Qty Report"
     Public Const ShowOwnBMCDCS As String = "Show Own BMC DCS"
     Public Const OwnBMCCreateDRCRNote As String = "Own BMC Create DR CR Note"
+    Public Const TDSOpeningBalanceConsiderCreditNote As String = "TDS Opening Balance Consider Credit Note"
     Public Const OwnBMCApplicationFATRatio As String = "Own BMC Application FAT Ratio"
     Public Const OwnBMCApplicationSNFRatio As String = "Own BMC Application SNF Ratio"
     Public Const FATSNFNoDecimalMCC As String = "FAT SNF No Decimal MCC"
@@ -1319,6 +1320,7 @@ Public Class clsFixedParameterCode
     Public Const HideShiftCollection As String = "Hide Shift Collection"
     Public Const MilkCollectionPickBulkRoute As String = "Milk Collection Pick Bulk Route"
     Public Const OwnBMCCreateDRCRNote As String = "Own BMC Create DR CR Note"
+    Public Const TDSOpeningBalanceConsiderCreditNote As String = "TDS Opening Balance Consider Credit Note"
     Public Const OwnBMCApplicationFATRatio As String = "Own BMC Application FAT Ratio"
     Public Const OwnBMCApplicationSNFRatio As String = "Own BMC Application SNF Ratio"
     Public Const FATSNFNoDecimalMCC As String = "FAT SNF No Decimal MCC"
@@ -2777,6 +2779,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.OwnBMCApplicationFATRatio, clsFixedParameterCode.OwnBMCApplicationFATRatio, "100", "Applicable Ratio")
         InsertDefaultValueFixedParameter(clsFixedParameterType.OwnBMCApplicationSNFRatio, clsFixedParameterCode.OwnBMCApplicationSNFRatio, "100", "Applicable Ratio")
         InsertDefaultValueFixedParameter(clsFixedParameterType.OwnBMCCreateDRCRNote, clsFixedParameterCode.OwnBMCCreateDRCRNote, "1", "0-OFF;1-ON")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.TDSOpeningBalanceConsiderCreditNote, clsFixedParameterCode.TDSOpeningBalanceConsiderCreditNote, "1", "0-OFF;1-ON Include AP Invoice Credit Note for TDS Opening balance")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MaxRowsExcelDBTNEFTUploader, clsFixedParameterCode.MaxRowsExcelDBTNEFTUploader, "0", "0-All;No. of Rows To Export")
         InsertDefaultValueFixedParameter(clsFixedParameterType.XpertAPI, clsFixedParameterCode.WeighingRoundSetting, "NA", "NA;+1(Round Up Decimal Places);-1(Round Down Decimal Places)")
         InsertDefaultValueFixedParameter(clsFixedParameterType.XpertAPI, clsFixedParameterCode.AverageDaysForFATSNF, "10", "No of Days to Get Average")
@@ -4277,6 +4280,7 @@ Public Class clsFixedParameterProgramMapping
         'InsertDefaultValue(clsUserMgtCode.MilkMPPayment, clsFixedParameterType.OwnBMCApplicationFATRatio, clsFixedParameterCode.OwnBMCApplicationFATRatio, EnumControlType.NumericBox)
         'InsertDefaultValue(clsUserMgtCode.MilkMPPayment, clsFixedParameterType.OwnBMCApplicationSNFRatio, clsFixedParameterCode.OwnBMCApplicationSNFRatio, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.MilkVSPPayment, clsFixedParameterType.OwnBMCCreateDRCRNote, clsFixedParameterCode.OwnBMCCreateDRCRNote, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.MilkVSPPayment, clsFixedParameterType.TDSOpeningBalanceConsiderCreditNote, clsFixedParameterCode.TDSOpeningBalanceConsiderCreditNote, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.FATSNFNoDecimalDCS, clsFixedParameterCode.FATSNFNoDecimalDCS, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.ShowAllDCS, clsFixedParameterCode.ShowAllDCS, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.DBTNEFTUploader, clsFixedParameterType.MaxRowsExcelDBTNEFTUploader, clsFixedParameterCode.MaxRowsExcelDBTNEFTUploader, EnumControlType.NumericBox)
