@@ -67,6 +67,7 @@ Partial Class RptMatrixFreshSalesReport
         Me.txtCreditDateTo = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.txtCreditDateFrom = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtfndBooth = New common.UserControls.txtFinder()
         Me.btnPrintRoutBoothwise = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnBoth = New System.Windows.Forms.RadioButton()
@@ -136,7 +137,6 @@ Partial Class RptMatrixFreshSalesReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.txtfndBooth = New common.UserControls.txtFinder()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -654,6 +654,33 @@ Partial Class RptMatrixFreshSalesReport
         Me.RadGroupBox2.TabIndex = 435
         Me.RadGroupBox2.Text = "Print Truck Sheet"
         '
+        'txtfndBooth
+        '
+        Me.txtfndBooth.CalculationExpression = Nothing
+        Me.txtfndBooth.FieldCode = Nothing
+        Me.txtfndBooth.FieldDesc = Nothing
+        Me.txtfndBooth.FieldMaxLength = 0
+        Me.txtfndBooth.FieldName = Nothing
+        Me.txtfndBooth.isCalculatedField = False
+        Me.txtfndBooth.IsSourceFromTable = False
+        Me.txtfndBooth.IsSourceFromValueList = False
+        Me.txtfndBooth.IsUnique = False
+        Me.txtfndBooth.Location = New System.Drawing.Point(66, 84)
+        Me.txtfndBooth.MendatroryField = True
+        Me.txtfndBooth.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtfndBooth.MyLinkLable1 = Nothing
+        Me.txtfndBooth.MyLinkLable2 = Nothing
+        Me.txtfndBooth.MyReadOnly = False
+        Me.txtfndBooth.MyShowMasterFormButton = False
+        Me.txtfndBooth.Name = "txtfndBooth"
+        Me.txtfndBooth.ReferenceFieldDesc = Nothing
+        Me.txtfndBooth.ReferenceFieldName = Nothing
+        Me.txtfndBooth.ReferenceTableName = Nothing
+        Me.txtfndBooth.Size = New System.Drawing.Size(171, 19)
+        Me.txtfndBooth.TabIndex = 443
+        Me.txtfndBooth.Value = ""
+        Me.txtfndBooth.Visible = False
+        '
         'btnPrintRoutBoothwise
         '
         Me.btnPrintRoutBoothwise.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -1081,6 +1108,7 @@ Partial Class RptMatrixFreshSalesReport
         Me.chkSaleInvoiceWise.Size = New System.Drawing.Size(106, 18)
         Me.chkSaleInvoiceWise.TabIndex = 395
         Me.chkSaleInvoiceWise.Text = "Sale Invoice Wise"
+        Me.chkSaleInvoiceWise.Visible = False
         '
         'TxtUOM
         '
@@ -1357,6 +1385,7 @@ Partial Class RptMatrixFreshSalesReport
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ReadOnly = True
         Me.Gv1.ShowHeaderCellButtons = True
@@ -1422,33 +1451,6 @@ Partial Class RptMatrixFreshSalesReport
         Me.btnReset.Size = New System.Drawing.Size(71, 22)
         Me.btnReset.TabIndex = 147
         Me.btnReset.Text = "Reset"
-        '
-        'txtfndBooth
-        '
-        Me.txtfndBooth.CalculationExpression = Nothing
-        Me.txtfndBooth.FieldCode = Nothing
-        Me.txtfndBooth.FieldDesc = Nothing
-        Me.txtfndBooth.FieldMaxLength = 0
-        Me.txtfndBooth.FieldName = Nothing
-        Me.txtfndBooth.isCalculatedField = False
-        Me.txtfndBooth.IsSourceFromTable = False
-        Me.txtfndBooth.IsSourceFromValueList = False
-        Me.txtfndBooth.IsUnique = False
-        Me.txtfndBooth.Location = New System.Drawing.Point(66, 84)
-        Me.txtfndBooth.MendatroryField = True
-        Me.txtfndBooth.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtfndBooth.MyLinkLable1 = Nothing
-        Me.txtfndBooth.MyLinkLable2 = Nothing
-        Me.txtfndBooth.MyReadOnly = False
-        Me.txtfndBooth.MyShowMasterFormButton = False
-        Me.txtfndBooth.Name = "txtfndBooth"
-        Me.txtfndBooth.ReferenceFieldDesc = Nothing
-        Me.txtfndBooth.ReferenceFieldName = Nothing
-        Me.txtfndBooth.ReferenceTableName = Nothing
-        Me.txtfndBooth.Size = New System.Drawing.Size(171, 19)
-        Me.txtfndBooth.TabIndex = 443
-        Me.txtfndBooth.Value = ""
-        Me.txtfndBooth.Visible = False
         '
         'RptMatrixFreshSalesReport
         '
