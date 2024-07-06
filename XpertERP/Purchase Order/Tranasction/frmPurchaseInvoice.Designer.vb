@@ -174,6 +174,16 @@ Partial Class frmPurchaseInvoice
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel28 = New common.Controls.MyLabel()
+        Me.lblPIAmt = New common.Controls.MyLabel()
+        Me.MyLabel26 = New common.Controls.MyLabel()
+        Me.lblTdsAmt = New common.Controls.MyLabel()
+        Me.MyLabel27 = New common.Controls.MyLabel()
+        Me.lblRMLate = New common.Controls.MyLabel()
+        Me.MyLabel25 = New common.Controls.MyLabel()
+        Me.lblQualityDeduction = New common.Controls.MyLabel()
+        Me.MyLabel24 = New common.Controls.MyLabel()
+        Me.lblSecurityDeduction = New common.Controls.MyLabel()
         Me.MyLabel58 = New common.Controls.MyLabel()
         Me.lblTotalInsuranceAmt = New common.Controls.MyLabel()
         Me.MyLabel57 = New common.Controls.MyLabel()
@@ -245,6 +255,8 @@ Partial Class frmPurchaseInvoice
         Me.DeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.MyLabel29 = New common.Controls.MyLabel()
+        Me.dbltotamtafterded = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -387,6 +399,16 @@ Partial Class frmPurchaseInvoice
         Me.pvpCustomFields.SuspendLayout()
         Me.Attachments.SuspendLayout()
         Me.RadPageViewPage4.SuspendLayout()
+        CType(Me.MyLabel28, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblPIAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel26, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTdsAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblRMLate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblQualityDeduction, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSecurityDeduction, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel58, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTotalInsuranceAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel57, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -453,6 +475,8 @@ Partial Class frmPurchaseInvoice
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dbltotamtafterded, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -503,7 +527,7 @@ Partial Class frmPurchaseInvoice
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
         Me.RadPageView1.Size = New System.Drawing.Size(974, 484)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -2307,9 +2331,9 @@ Partial Class frmPurchaseInvoice
         Me.RadPageViewPage2.Controls.Add(Me.RadLabel11)
         Me.RadPageViewPage2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(43.0!, 22.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 31)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(953, 442)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(953, 438)
         Me.RadPageViewPage2.Text = "Taxes"
         '
         'chkExciseOnQty
@@ -2406,7 +2430,7 @@ Partial Class frmPurchaseInvoice
         Me.RadLabel10.FieldName = Nothing
         Me.RadLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel10.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel10.Location = New System.Drawing.Point(795, 338)
+        Me.RadLabel10.Location = New System.Drawing.Point(795, 334)
         Me.RadLabel10.Name = "RadLabel10"
         Me.RadLabel10.Size = New System.Drawing.Size(155, 16)
         Me.RadLabel10.TabIndex = 6
@@ -2426,7 +2450,7 @@ Partial Class frmPurchaseInvoice
         Me.RadGroupBox1.Controls.Add(Me.lblTermName)
         Me.RadGroupBox1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox1.HeaderText = "Terms"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(1, 351)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(1, 347)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(953, 87)
@@ -2581,7 +2605,7 @@ Partial Class frmPurchaseInvoice
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
-        Me.gv2.Size = New System.Drawing.Size(948, 300)
+        Me.gv2.Size = New System.Drawing.Size(948, 296)
         Me.gv2.TabIndex = 4
         Me.gv2.TabStop = False
         '
@@ -2589,9 +2613,9 @@ Partial Class frmPurchaseInvoice
         '
         Me.RadPageViewPage3.Controls.Add(Me.SplitContainer2)
         Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(108.0!, 22.0!)
-        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 31)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(953, 442)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(953, 438)
         Me.RadPageViewPage3.Text = "Additional Charges"
         '
         'SplitContainer2
@@ -2607,7 +2631,7 @@ Partial Class frmPurchaseInvoice
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.GroupBox4)
-        Me.SplitContainer2.Size = New System.Drawing.Size(953, 442)
+        Me.SplitContainer2.Size = New System.Drawing.Size(953, 438)
         Me.SplitContainer2.SplitterDistance = 608
         Me.SplitContainer2.TabIndex = 1
         '
@@ -2618,7 +2642,7 @@ Partial Class frmPurchaseInvoice
         Me.GroupBox2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupBox2.Location = New System.Drawing.Point(0, 0)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(608, 442)
+        Me.GroupBox2.Size = New System.Drawing.Size(608, 438)
         Me.GroupBox2.TabIndex = 0
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Additional Charges"
@@ -2644,7 +2668,7 @@ Partial Class frmPurchaseInvoice
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAC.ShowGroupPanel = False
         Me.gvAC.ShowHeaderCellButtons = True
-        Me.gvAC.Size = New System.Drawing.Size(602, 397)
+        Me.gvAC.Size = New System.Drawing.Size(602, 393)
         Me.gvAC.TabIndex = 0
         Me.gvAC.TabStop = False
         '
@@ -2653,7 +2677,7 @@ Partial Class frmPurchaseInvoice
         Me.Panel2.Controls.Add(Me.RadLabel31)
         Me.Panel2.Controls.Add(Me.lblAddCharges)
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Panel2.Location = New System.Drawing.Point(3, 413)
+        Me.Panel2.Location = New System.Drawing.Point(3, 409)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(602, 26)
         Me.Panel2.TabIndex = 0
@@ -2689,7 +2713,7 @@ Partial Class frmPurchaseInvoice
         Me.GroupBox4.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupBox4.Location = New System.Drawing.Point(0, 0)
         Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(341, 442)
+        Me.GroupBox4.Size = New System.Drawing.Size(341, 438)
         Me.GroupBox4.TabIndex = 5
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Additional Charges For Insurance"
@@ -2715,7 +2739,7 @@ Partial Class frmPurchaseInvoice
         Me.gvACInsurance.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvACInsurance.ShowGroupPanel = False
         Me.gvACInsurance.ShowHeaderCellButtons = True
-        Me.gvACInsurance.Size = New System.Drawing.Size(335, 396)
+        Me.gvACInsurance.Size = New System.Drawing.Size(335, 392)
         Me.gvACInsurance.TabIndex = 3
         Me.gvACInsurance.TabStop = False
         '
@@ -2724,7 +2748,7 @@ Partial Class frmPurchaseInvoice
         Me.RadPanel2.Controls.Add(Me.MyLabel56)
         Me.RadPanel2.Controls.Add(Me.lblAddChargesForInsurance)
         Me.RadPanel2.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.RadPanel2.Location = New System.Drawing.Point(3, 412)
+        Me.RadPanel2.Location = New System.Drawing.Point(3, 408)
         Me.RadPanel2.Name = "RadPanel2"
         Me.RadPanel2.Size = New System.Drawing.Size(335, 27)
         Me.RadPanel2.TabIndex = 2
@@ -2782,6 +2806,18 @@ Partial Class frmPurchaseInvoice
         '
         'RadPageViewPage4
         '
+        Me.RadPageViewPage4.Controls.Add(Me.MyLabel29)
+        Me.RadPageViewPage4.Controls.Add(Me.dbltotamtafterded)
+        Me.RadPageViewPage4.Controls.Add(Me.MyLabel28)
+        Me.RadPageViewPage4.Controls.Add(Me.lblPIAmt)
+        Me.RadPageViewPage4.Controls.Add(Me.MyLabel26)
+        Me.RadPageViewPage4.Controls.Add(Me.lblTdsAmt)
+        Me.RadPageViewPage4.Controls.Add(Me.MyLabel27)
+        Me.RadPageViewPage4.Controls.Add(Me.lblRMLate)
+        Me.RadPageViewPage4.Controls.Add(Me.MyLabel25)
+        Me.RadPageViewPage4.Controls.Add(Me.lblQualityDeduction)
+        Me.RadPageViewPage4.Controls.Add(Me.MyLabel24)
+        Me.RadPageViewPage4.Controls.Add(Me.lblSecurityDeduction)
         Me.RadPageViewPage4.Controls.Add(Me.MyLabel58)
         Me.RadPageViewPage4.Controls.Add(Me.lblTotalInsuranceAmt)
         Me.RadPageViewPage4.Controls.Add(Me.MyLabel57)
@@ -2822,10 +2858,130 @@ Partial Class frmPurchaseInvoice
         Me.RadPageViewPage4.Controls.Add(Me.RadLabel19)
         Me.RadPageViewPage4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(37.0!, 22.0!)
-        Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 31)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
-        Me.RadPageViewPage4.Size = New System.Drawing.Size(953, 438)
+        Me.RadPageViewPage4.Size = New System.Drawing.Size(953, 442)
         Me.RadPageViewPage4.Text = "Total"
+        '
+        'MyLabel28
+        '
+        Me.MyLabel28.FieldName = Nothing
+        Me.MyLabel28.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel28.Location = New System.Drawing.Point(123, 403)
+        Me.MyLabel28.Name = "MyLabel28"
+        Me.MyLabel28.Size = New System.Drawing.Size(59, 16)
+        Me.MyLabel28.TabIndex = 16
+        Me.MyLabel28.Text = "PI Amount"
+        Me.MyLabel28.Visible = False
+        '
+        'lblPIAmt
+        '
+        Me.lblPIAmt.AutoSize = False
+        Me.lblPIAmt.BorderVisible = True
+        Me.lblPIAmt.FieldName = Nothing
+        Me.lblPIAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPIAmt.Location = New System.Drawing.Point(223, 401)
+        Me.lblPIAmt.Name = "lblPIAmt"
+        Me.lblPIAmt.Size = New System.Drawing.Size(110, 18)
+        Me.lblPIAmt.TabIndex = 15
+        Me.lblPIAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblPIAmt.Visible = False
+        '
+        'MyLabel26
+        '
+        Me.MyLabel26.FieldName = Nothing
+        Me.MyLabel26.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel26.Location = New System.Drawing.Point(123, 359)
+        Me.MyLabel26.Name = "MyLabel26"
+        Me.MyLabel26.Size = New System.Drawing.Size(71, 16)
+        Me.MyLabel26.TabIndex = 14
+        Me.MyLabel26.Text = "TDS Amount"
+        Me.MyLabel26.Visible = False
+        '
+        'lblTdsAmt
+        '
+        Me.lblTdsAmt.AutoSize = False
+        Me.lblTdsAmt.BorderVisible = True
+        Me.lblTdsAmt.FieldName = Nothing
+        Me.lblTdsAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTdsAmt.Location = New System.Drawing.Point(223, 358)
+        Me.lblTdsAmt.Name = "lblTdsAmt"
+        Me.lblTdsAmt.Size = New System.Drawing.Size(110, 18)
+        Me.lblTdsAmt.TabIndex = 13
+        Me.lblTdsAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblTdsAmt.Visible = False
+        '
+        'MyLabel27
+        '
+        Me.MyLabel27.FieldName = Nothing
+        Me.MyLabel27.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel27.Location = New System.Drawing.Point(123, 337)
+        Me.MyLabel27.Name = "MyLabel27"
+        Me.MyLabel27.Size = New System.Drawing.Size(91, 16)
+        Me.MyLabel27.TabIndex = 12
+        Me.MyLabel27.Text = "RM Late Amount"
+        Me.MyLabel27.Visible = False
+        '
+        'lblRMLate
+        '
+        Me.lblRMLate.AutoSize = False
+        Me.lblRMLate.BorderVisible = True
+        Me.lblRMLate.FieldName = Nothing
+        Me.lblRMLate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblRMLate.Location = New System.Drawing.Point(223, 336)
+        Me.lblRMLate.Name = "lblRMLate"
+        Me.lblRMLate.Size = New System.Drawing.Size(110, 18)
+        Me.lblRMLate.TabIndex = 11
+        Me.lblRMLate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblRMLate.Visible = False
+        '
+        'MyLabel25
+        '
+        Me.MyLabel25.FieldName = Nothing
+        Me.MyLabel25.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel25.Location = New System.Drawing.Point(123, 315)
+        Me.MyLabel25.Name = "MyLabel25"
+        Me.MyLabel25.Size = New System.Drawing.Size(84, 16)
+        Me.MyLabel25.TabIndex = 12
+        Me.MyLabel25.Text = "Quality Amount"
+        Me.MyLabel25.Visible = False
+        '
+        'lblQualityDeduction
+        '
+        Me.lblQualityDeduction.AutoSize = False
+        Me.lblQualityDeduction.BorderVisible = True
+        Me.lblQualityDeduction.FieldName = Nothing
+        Me.lblQualityDeduction.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblQualityDeduction.Location = New System.Drawing.Point(223, 314)
+        Me.lblQualityDeduction.Name = "lblQualityDeduction"
+        Me.lblQualityDeduction.Size = New System.Drawing.Size(110, 18)
+        Me.lblQualityDeduction.TabIndex = 11
+        Me.lblQualityDeduction.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblQualityDeduction.Visible = False
+        '
+        'MyLabel24
+        '
+        Me.MyLabel24.FieldName = Nothing
+        Me.MyLabel24.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel24.Location = New System.Drawing.Point(123, 293)
+        Me.MyLabel24.Name = "MyLabel24"
+        Me.MyLabel24.Size = New System.Drawing.Size(89, 16)
+        Me.MyLabel24.TabIndex = 10
+        Me.MyLabel24.Text = "Security Amount"
+        Me.MyLabel24.Visible = False
+        '
+        'lblSecurityDeduction
+        '
+        Me.lblSecurityDeduction.AutoSize = False
+        Me.lblSecurityDeduction.BorderVisible = True
+        Me.lblSecurityDeduction.FieldName = Nothing
+        Me.lblSecurityDeduction.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSecurityDeduction.Location = New System.Drawing.Point(223, 292)
+        Me.lblSecurityDeduction.Name = "lblSecurityDeduction"
+        Me.lblSecurityDeduction.Size = New System.Drawing.Size(110, 18)
+        Me.lblSecurityDeduction.TabIndex = 9
+        Me.lblSecurityDeduction.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblSecurityDeduction.Visible = False
         '
         'MyLabel58
         '
@@ -3007,7 +3163,7 @@ Partial Class frmPurchaseInvoice
         '
         Me.RadButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton1.Location = New System.Drawing.Point(661, 111)
+        Me.RadButton1.Location = New System.Drawing.Point(661, 115)
         Me.RadButton1.Name = "RadButton1"
         Me.RadButton1.Size = New System.Drawing.Size(267, 22)
         Me.RadButton1.TabIndex = 33
@@ -3641,6 +3797,30 @@ Partial Class frmPurchaseInvoice
         Me.UcCustomFields1.Size = New System.Drawing.Size(953, 438)
         Me.UcCustomFields1.TabIndex = 1
         '
+        'MyLabel29
+        '
+        Me.MyLabel29.FieldName = Nothing
+        Me.MyLabel29.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel29.Location = New System.Drawing.Point(123, 381)
+        Me.MyLabel29.Name = "MyLabel29"
+        Me.MyLabel29.Size = New System.Drawing.Size(74, 16)
+        Me.MyLabel29.TabIndex = 18
+        Me.MyLabel29.Text = "Total Amount"
+        Me.MyLabel29.Visible = False
+        '
+        'dbltotamtafterded
+        '
+        Me.dbltotamtafterded.AutoSize = False
+        Me.dbltotamtafterded.BorderVisible = True
+        Me.dbltotamtafterded.FieldName = Nothing
+        Me.dbltotamtafterded.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.dbltotamtafterded.Location = New System.Drawing.Point(223, 379)
+        Me.dbltotamtafterded.Name = "dbltotamtafterded"
+        Me.dbltotamtafterded.Size = New System.Drawing.Size(110, 18)
+        Me.dbltotamtafterded.TabIndex = 17
+        Me.dbltotamtafterded.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.dbltotamtafterded.Visible = False
+        '
         'frmPurchaseInvoice
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3809,6 +3989,16 @@ Partial Class frmPurchaseInvoice
         Me.Attachments.ResumeLayout(False)
         Me.RadPageViewPage4.ResumeLayout(False)
         Me.RadPageViewPage4.PerformLayout()
+        CType(Me.MyLabel28, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblPIAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel26, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTdsAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblRMLate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblQualityDeduction, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSecurityDeduction, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel58, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTotalInsuranceAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel57, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3876,6 +4066,8 @@ Partial Class frmPurchaseInvoice
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dbltotamtafterded, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -4093,5 +4285,17 @@ Partial Class frmPurchaseInvoice
     Friend WithEvents TxtRetention As common.Controls.MyTextBox
     Friend WithEvents SplitContainer3 As SplitContainer
     Friend WithEvents gvAPInvoice As common.UserControls.MyRadGridView
+    Friend WithEvents MyLabel24 As common.Controls.MyLabel
+    Friend WithEvents lblSecurityDeduction As common.Controls.MyLabel
+    Friend WithEvents MyLabel27 As common.Controls.MyLabel
+    Friend WithEvents lblRMLate As common.Controls.MyLabel
+    Friend WithEvents MyLabel25 As common.Controls.MyLabel
+    Friend WithEvents lblQualityDeduction As common.Controls.MyLabel
+    Friend WithEvents MyLabel28 As common.Controls.MyLabel
+    Friend WithEvents lblPIAmt As common.Controls.MyLabel
+    Friend WithEvents MyLabel26 As common.Controls.MyLabel
+    Friend WithEvents lblTdsAmt As common.Controls.MyLabel
+    Friend WithEvents MyLabel29 As common.Controls.MyLabel
+    Friend WithEvents dbltotamtafterded As common.Controls.MyLabel
 End Class
 

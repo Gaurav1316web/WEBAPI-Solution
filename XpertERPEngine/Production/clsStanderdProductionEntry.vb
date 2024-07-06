@@ -39,12 +39,8 @@ Public Class clsStanderdProductionEntry
         Return GetData(strCode, arrloc, NavType, Nothing)
     End Function
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
-        Dim isSaved As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-        Dim obj As New clsStanderdProductionEntry
         Try
-            isSaved = False
-
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
@@ -53,8 +49,7 @@ Public Class clsStanderdProductionEntry
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmProductionEntry, clsCommon.myCstr(dt.Rows(0)("LOCATION_CODE")), clsCommon.myCDate(dt.Rows(0)("PROD_DATE")), trans)
             End If
 
-            'Dim obj As New clsStanderdProductionEntry
-            obj = clsStanderdProductionEntry.GetData(strCode, "", NavigatorType.Current, trans)
+            Dim obj As clsStanderdProductionEntry = clsStanderdProductionEntry.GetData(strCode, "", NavigatorType.Current, trans)
 
             If (obj.POSTED = True) Then
                 Throw New Exception("Already Posted on :" + obj.Posting_Date)
@@ -62,46 +57,48 @@ Public Class clsStanderdProductionEntry
 
             clsSerializeInvenotry.DeleteData("Production", strCode, trans)
 
-            Dim qry As String
-            qry = "delete from TSPL_SPP_PRODUCTION_ENTRY_DETAIL where PROD_ENTRY_CODE ='" + strCode + "'"
-            isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            Dim qry As String = "delete from TSPL_SPP_PRODUCTION_ENTRY_DETAIL where PROD_ENTRY_CODE ='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL where PROD_ENTRY_CODE ='" + strCode + "'"
-            isSaved = isSaved And clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "DELETE FROM TSPL_SPP_GUNNY_BAG_WITHOUT_BATCH WHERE PROD_ENTRY_CODE='" & strCode & "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "DELETE FROM TSPL_SPP_CONSUMPTION_WITHOUT_BATCH WHERE PROD_ENTRY_CODE='" & strCode & "'"
-            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "DELETE FROM TSPL_SPP_COST_WITHOUT_BATCH WHERE PROD_ENTRY_CODE='" & strCode & "'"
-            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from TSPL_SPP_PE_ISSUE_ITEM_DETAIL where PROD_ENTRY_CODE ='" + strCode + "'"
-            isSaved = isSaved And clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from TSPL_SPP_PE_STAGE_DETAIL where PROD_ENTRY_CODE ='" + strCode + "'"
-            isSaved = isSaved And clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from TSPL_SPP_PE_STAGE_QC_LOG_SHEET where PROD_ENTRY_CODE ='" + strCode + "'"
-            isSaved = isSaved And clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from TSPL_SPP_PE_WRECKAGE_FLASHING where PROD_ENTRY_CODE ='" + strCode + "'"
-            isSaved = isSaved And clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from TSPL_SPP_PE_QC_DETAIL where PROD_ENTRY_CODE ='" + strCode + "'"
-            isSaved = isSaved And clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from TSPL_SPP_PE_SCRAP_DETAIL where PROD_ENTRY_CODE ='" + strCode + "'"
-            isSaved = isSaved And clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from TSPL_SPP_PRODUCTION_ENTRY where PROD_ENTRY_CODE ='" + strCode + "'"
-            isSaved = isSaved And clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
             Throw New Exception(ex.Message.ToString())
         End Try
-        Return isSaved
+        Return True
     End Function
     Public Shared Function GetData(ByVal strCode As String, ByVal arrloc As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsStanderdProductionEntry
         Dim obj As New clsStanderdProductionEntry()
