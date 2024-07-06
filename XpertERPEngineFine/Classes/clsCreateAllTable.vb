@@ -19866,6 +19866,7 @@ Public Class clsCreateAllTable
             coll.Add("Tax_Group", "varchar(12) NOT NULL")
             coll.Add("Bill_To_Location", "varchar(12) NULL")
             coll.Add("Ship_To_Location", "varchar(12) NULL")
+            coll.Add("Ship_From_Location", "varchar(12) NULL")
             coll.Add("TAX1", "varchar(12) NULL")
             coll.Add("TAX1_Rate", "decimal(18, 2) NULL")
             coll.Add("TAX1_Amt", "decimal(18, 2) NULL")
