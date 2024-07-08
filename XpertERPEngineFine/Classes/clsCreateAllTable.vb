@@ -53415,6 +53415,20 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MP_INCENTIVE_ENTRY_VLC_STATUS", coll, "", True, False, "TSPL_MP_INCENTIVE_ENTRY_HEAD", "Document_Code", "")
 
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Document_Code", "varchar(30) not NULL references TSPL_MP_INCENTIVE_ENTRY_HEAD (Document_Code) ")
+            coll.Add("VLC_Code", "Varchar(30) not null REFERENCES TSPL_VLC_MASTER_HEAD (VLC_Code)")
+            coll.Add("Total_Farmers", "integer not NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MP_INCENTIVE_ENTRY_VLC_REGISTER", coll, "", True, False, "TSPL_MP_INCENTIVE_ENTRY_HEAD", "Document_Code", "")
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Document_Code", "varchar(30) not NULL references TSPL_MP_INCENTIVE_ENTRY_HEAD (Document_Code) ")
+            coll.Add("Ref_PK_ID", "integer not NULL references TSPL_MP_INCENTIVE_ENTRY_VLC_REGISTER (PK_Id) ")
+            coll.Add("FILE_INFO", "bigint not NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MP_INCENTIVE_ENTRY_VLC_REGISTER_ATTACHMENT", coll, "", True, False, "TSPL_MP_INCENTIVE_ENTRY_HEAD", "Document_Code", "")
+
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_Code", "Varchar(30) NOT NULL primary key")
