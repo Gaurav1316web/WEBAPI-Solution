@@ -316,6 +316,8 @@ Public Class FrmSalarySummary
             lblEmployee.Visible = True
             MyLabel1.Visible = True
         Else
+            fndEmplyee.Value = Nothing
+            lblEmployee.Text = Nothing
             fndEmplyee.Visible = False
             lblEmployee.Visible = False
             MyLabel1.Visible = False

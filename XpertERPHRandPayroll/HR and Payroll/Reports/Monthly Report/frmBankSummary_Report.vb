@@ -95,17 +95,17 @@ Public Class frmBankSummary_Report
             Dim InnerQry As String = ""
             'InnerQry = " select '" + Comp_Logo + "' as Logo_Img, (case when " & PM & "=1 then PM.Name else T3.Bank_Name end) as Bank_Name,max(TSPL_LOCATION_MASTER.Add1+Case When ISNULL(TSPL_LOCATION_MASTER.Add2,'')='' Then '' else ', '+TSPL_LOCATION_MASTER.Add2+ Case When ISNULL(TSPL_LOCATION_MASTER.Add3,'')='' Then '' Else ', '+TSPL_LOCATION_MASTER.Add3+ Case When ISNULL(TSPL_STATE_MASTER.State_Name ,'')='' Then '' else '-'+CONVERT(varchar, TSPL_STATE_MASTER.State_Name) End End End ) as Loc_Add" & _
             '           " ,COUNT (T3.EMP_CODE) AS 'No of Emp',  SUM(T1.NET_SALARY) as 'sum amt' , max(T2.PAY_PERIOD_CODE) as PAY_PERIOD_CODE,  '" + objCommonVar.CurrentCompanyName + "' as Company_Name,max(TSPL_DEVISION_MASTER.DEVISION_CODE) as DEVISION_CODE,max(TSPL_DEVISION_MASTER.DEVISION_NAME)  as DEVISION_NAME ,max(Location_Desc)as Location_Desc ,max(T2.Location_Code) as Location_Code,'" + objCommonVar.CurrentCompanyCode + "' as Comp_Code " & _
-            InnerQry = "select  '" + Comp_Logo + "'  as Logo_Img,max(TSPL_LOCATION_MASTER.Add1+Case When ISNULL(TSPL_LOCATION_MASTER.Add2,'')='' Then '' else ', '+TSPL_LOCATION_MASTER.Add2+ Case When ISNULL(TSPL_LOCATION_MASTER.Add3,'')='' Then '' Else ', '+TSPL_LOCATION_MASTER.Add3+ Case When ISNULL(TSPL_STATE_MASTER.State_Name ,'')='' Then '' else '-'+CONVERT(varchar, TSPL_STATE_MASTER.State_Name) End End End ) as Loc_Add,sum( case when TSPL_PAYHEAD_MASTER.isearning=1 then  TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT else -TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT end  )as 'sum amt', max(TSPL_GENERATE_SALARY.PAY_PERIOD_CODE) as pay_period, '" + objCommonVar.CurrentCompanyName + "'  as Company_Name,'" + objCommonVar.CurrentCompanyCode + "' as Comp_Code ,(TSPL_LOCATION_MASTER.Location_Code) as Location_Code, (case when " & PM & "=1 then isnull(PM.Name,'') else TSPL_EMPLOYEE_MASTER.Bank_Name end) as Bank_Name " & _
-             " from TSPL_GENERATE_SALARY_PAYHEADS left outer join TSPL_GENERATE_SALARY on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE =TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE " & _
-             " left join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.Pay_HEAD_Code=TSPL_GENERATE_SALARY_PAYHEADS.Pay_HEAD_Code " & _
-             " left outer join TSPL_PAYPERIOD_MASTER on TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE =TSPL_GENERATE_SALARY.PAY_PERIOD_CODE  " & _
-             " left outer join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.EMP_CODE =TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE " & _
-             " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code =TSPL_GENERATE_SALARY.LOCATION_CODE  " & _
-             " left join TSPL_STATE_MASTER on TSPL_STATE_MASTER.State_Code=TSPL_LOCATION_MASTER.State " & _
-             " left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER  .Comp_Code =TSPL_LOCATION_MASTER.Comp_code  " & _
-             " left join TSPL_DESIGNATION_MASTER on TSPL_DESIGNATION_MASTER .Designation_id =TSPL_EMPLOYEE_MASTER.Designation " & _
-             " left outer join TSPL_DEVISION_MASTER   on TSPL_DEVISION_MASTER .DEVISION_CODE  =TSPL_GENERATE_SALARY.DEVISION_CODE " & _
-             " left outer join TSPL_PAYMENT_MODE PM on TSPL_EMPLOYEE_MASTER.PAYMENT_MODE_New  = PM.Code WHERE " & _
+            InnerQry = "select  '" + Comp_Logo + "'  as Logo_Img,max(TSPL_LOCATION_MASTER.Add1+Case When ISNULL(TSPL_LOCATION_MASTER.Add2,'')='' Then '' else ', '+TSPL_LOCATION_MASTER.Add2+ Case When ISNULL(TSPL_LOCATION_MASTER.Add3,'')='' Then '' Else ', '+TSPL_LOCATION_MASTER.Add3+ Case When ISNULL(TSPL_STATE_MASTER.State_Name ,'')='' Then '' else '-'+CONVERT(varchar, TSPL_STATE_MASTER.State_Name) End End End ) as Loc_Add,sum( case when TSPL_PAYHEAD_MASTER.isearning=1 then  TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT else -TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT end  )as 'sum amt', max(TSPL_GENERATE_SALARY.PAY_PERIOD_CODE) as pay_period, '" + objCommonVar.CurrentCompanyName + "'  as Company_Name,'" + objCommonVar.CurrentCompanyCode + "' as Comp_Code ,(TSPL_LOCATION_MASTER.Location_Code) as Location_Code, (case when " & PM & "=1 then isnull(PM.Name,'') else TSPL_EMPLOYEE_MASTER.Bank_Name end) as Bank_Name " &
+             " from TSPL_GENERATE_SALARY_PAYHEADS left outer join TSPL_GENERATE_SALARY on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE =TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE " &
+             " left join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.Pay_HEAD_Code=TSPL_GENERATE_SALARY_PAYHEADS.Pay_HEAD_Code " &
+             " left outer join TSPL_PAYPERIOD_MASTER on TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE =TSPL_GENERATE_SALARY.PAY_PERIOD_CODE  " &
+             " left outer join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.EMP_CODE =TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE " &
+             " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code =TSPL_GENERATE_SALARY.LOCATION_CODE  " &
+             " left join TSPL_STATE_MASTER on TSPL_STATE_MASTER.State_Code=TSPL_LOCATION_MASTER.State " &
+             " left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER  .Comp_Code =TSPL_LOCATION_MASTER.Comp_code  " &
+             " left join TSPL_DESIGNATION_MASTER on TSPL_DESIGNATION_MASTER .Designation_id =TSPL_EMPLOYEE_MASTER.Designation " &
+             " left outer join TSPL_DEVISION_MASTER   on TSPL_DEVISION_MASTER .DEVISION_CODE  =TSPL_GENERATE_SALARY.DEVISION_CODE " &
+             " left outer join TSPL_PAYMENT_MODE PM on TSPL_EMPLOYEE_MASTER.PAYMENT_MODE_New  = PM.Code WHERE " &
              " TSPL_GENERATE_SALARY.PAY_PERIOD_CODE = '" + txtFromPP.Value + "' "
             If txtLocationMult.arrValueMember IsNot Nothing AndAlso txtLocationMult.arrValueMember.Count > 0 Then
                 InnerQry += " AND TSPL_LOCATION_MASTER.LOCATION_CODE  in (" + clsCommon.GetMulcallString(txtLocationMult.arrValueMember) + ") "
@@ -114,10 +114,21 @@ Public Class frmBankSummary_Report
                 InnerQry += " AND TSPL_DEVISION_MASTER.Devision_Code  in (" + clsCommon.GetMulcallString(txtDivisionMult.arrValueMember) + ") "
             End If
             InnerQry += " GROUP BY (case when " & PM & "=1 then PM.Name else TSPL_EMPLOYEE_MASTER.Bank_Name end), TSPL_LOCATION_MASTER.Location_Code"
+
+
             If is_Print = True Then
-                Qry = "select * from (" & InnerQry & ") XXX WHERE 2=2"
+                'Qry = "select * from (" & InnerQry & ") XXX WHERE 2=2"
+                Qry = "(select ROW_NUMBER() Over(Order By (Select 1)) As 'SNo',* from ((" & InnerQry & ")as ll left join " &
+                " (select count (TSPL_EMPLOYEE_MASTER.EMP_CODE) as No_of_employee ,Bank_Name  as Bank  from TSPL_EMPLOYEE_MASTER left join TSPL_GENERATE_SALARY_ATTENDANCE  on TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE =TSPL_EMPLOYEE_MASTER.EMP_CODE left join TSPL_GENERATE_SALARY on TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE = TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE  where  TSPL_GENERATE_SALARY.PAY_PERIOD_CODE = '" + txtFromPP.Value + "' "
+                If txtLocationMult.arrValueMember IsNot Nothing AndAlso txtLocationMult.arrValueMember.Count > 0 Then
+                    InnerQry += " and  TSPL_GENERATE_SALARY.LOCATION_CODE  in (" + clsCommon.GetMulcallString(txtLocationMult.arrValueMember) + ") "
+                End If
+                If txtDivisionMult.arrValueMember IsNot Nothing AndAlso txtDivisionMult.arrValueMember.Count > 0 Then
+                    InnerQry += " AND TSPL_GENERATE_SALARY.Devision_Code  in (" + clsCommon.GetMulcallString(txtDivisionMult.arrValueMember) + ") "
+                End If
+                Qry += " group by Bank_Name)as mm on mm.Bank = ll.Bank_Name ))"
             Else
-                Qry = "select Bank_Name as [Bank Name],No_of_employee as [No of Employees],[sum amt] as [Amount Transferred] from (select * from ((" & InnerQry & ")as ll left join " & _
+                Qry = "select Bank_Name as [Bank Name],No_of_employee as [No of Employees],[sum amt] as [Amount Transferred] from (select * from ((" & InnerQry & ")as ll left join " &
                 " (select count (TSPL_EMPLOYEE_MASTER.EMP_CODE) as No_of_employee ,Bank_Name  as Bank  from TSPL_EMPLOYEE_MASTER left join TSPL_GENERATE_SALARY_ATTENDANCE  on TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE =TSPL_EMPLOYEE_MASTER.EMP_CODE left join TSPL_GENERATE_SALARY on TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE = TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE  where  TSPL_GENERATE_SALARY.PAY_PERIOD_CODE = '" + txtFromPP.Value + "' "
                 If txtLocationMult.arrValueMember IsNot Nothing AndAlso txtLocationMult.arrValueMember.Count > 0 Then
                     InnerQry += " and  TSPL_GENERATE_SALARY.LOCATION_CODE  in (" + clsCommon.GetMulcallString(txtLocationMult.arrValueMember) + ") "
@@ -136,22 +147,21 @@ Public Class frmBankSummary_Report
 
             'Qry += "and Bank_Name <> '' "
             Dim DT As DataTable = clsDBFuncationality.GetDataTable(Qry)
-
-            Gv1.DataSource = Nothing
-            Gv1.DataSource = DT
-            SetGridFormationOFGV1()
-            ReStoreGridLayout()
-            RadPageView1.SelectedPage = RadPageViewPage2
-            If is_Print = True Then
-                If DT.Rows.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
+            If DT IsNot Nothing AndAlso DT.Rows.Count > 0 Then
+                If Not is_Print Then
+                    Gv1.DataSource = Nothing
+                    Gv1.DataSource = DT
+                    SetGridFormationOFGV1()
+                    ReStoreGridLayout()
+                    RadPageView1.SelectedPage = RadPageViewPage2
                 Else
-                    formatgrid()
+                    'formatgrid()
                     Dim frmcrystal As New frmCrystalReportViewer()
                     frmcrystal.funreport(CrystalReportFolder.HRPayroll, DT, "crptBankSummary", "Bank Summary Report")
                 End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
             End If
-
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -265,10 +275,10 @@ Public Class frmBankSummary_Report
         If rbtnPM.CheckState = CheckState.Checked Then
             Qry = "select Code , Name  from TSPL_PAYMENT_MODE "
         Else
-            Qry = " SELECT DISTINCT TSPL_EMPLOYEE_MASTER .Bank_Name  as Code  FROM TSPL_GENERATE_SALARY  " & _
-             " LEFT OUTER JOIN TSPL_GENERATE_SALARY_ATTENDANCE  ON TSPL_GENERATE_SALARY_ATTENDANCE  .SALARY_GENERATION_CODE = TSPL_GENERATE_SALARY .SALARY_GENERATION_CODE  " & _
-             " left outer join TSPL_EMPLOYEE_MASTER on TSPL_GENERATE_SALARY_ATTENDANCE .EMP_CODE= TSPL_EMPLOYEE_MASTER .EMP_CODE   " & _
-             " Left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code= TSPL_GENERATE_SALARY.Location_Code " & _
+            Qry = " SELECT DISTINCT TSPL_EMPLOYEE_MASTER .Bank_Name  as Code  FROM TSPL_GENERATE_SALARY  " &
+             " LEFT OUTER JOIN TSPL_GENERATE_SALARY_ATTENDANCE  ON TSPL_GENERATE_SALARY_ATTENDANCE  .SALARY_GENERATION_CODE = TSPL_GENERATE_SALARY .SALARY_GENERATION_CODE  " &
+             " left outer join TSPL_EMPLOYEE_MASTER on TSPL_GENERATE_SALARY_ATTENDANCE .EMP_CODE= TSPL_EMPLOYEE_MASTER .EMP_CODE   " &
+             " Left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code= TSPL_GENERATE_SALARY.Location_Code " &
              " where TSPL_GENERATE_SALARY.PAY_PERIOD_CODE ='" + txtFromPP.Value + "' and Bank_Name <> '' "
         End If
 
@@ -340,14 +350,14 @@ Public Class frmBankSummary_Report
             If clsCommon.myLen(PageSetupReport_ID) > 0 Then
                 Dim obj As clsGridLayout = New clsGridLayout()
                 obj = CType(obj.GetData(PageSetupReport_ID, "", objCommonVar.CurrentUserCode), clsGridLayout)
-                If Not obj Is Nothing AndAlso obj.GridColumns >= gv1.ColumnCount Then
+                If Not obj Is Nothing AndAlso obj.GridColumns >= Gv1.ColumnCount Then
                     Dim ii As Integer
-                    For ii = 0 To gv1.Columns.Count - 1 Step ii + 1
-                        gv1.Columns(ii).IsVisible = False
-                        gv1.Columns(ii).VisibleInColumnChooser = True
+                    For ii = 0 To Gv1.Columns.Count - 1 Step ii + 1
+                        Gv1.Columns(ii).IsVisible = False
+                        Gv1.Columns(ii).VisibleInColumnChooser = True
                     Next
 
-                    gv1.LoadLayout(obj.GridLayout)
+                    Gv1.LoadLayout(obj.GridLayout)
                     obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 End If
             End If
@@ -368,7 +378,7 @@ Public Class frmBankSummary_Report
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = Gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
