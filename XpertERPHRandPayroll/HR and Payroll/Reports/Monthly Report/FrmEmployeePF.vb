@@ -51,12 +51,10 @@ Public Class FrmEmployeePF
         Try
             Dim DivCond As String = ""
             Dim Location_Code As String = ""
-            If txtLocationMult.arrValueMember IsNot Nothing AndAlso txtLocationMult.arrValueMember.Count > 0 Then
-
-            Else
-                clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
-                Exit Sub
-            End If
+            'If txtLocationMult.arrValueMember Is Nothing AndAlso txtLocationMult.arrValueMember.Count <= 0 Then
+            '    clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
+            '    Exit Sub
+            'End If
             'If clsCommon.myLen(txtFromPP.Value) <= 0 Then
             '    common.clsCommon.MyMessageBoxShow("Please Select Pay Period.")
             '    Return
@@ -110,12 +108,11 @@ Public Class FrmEmployeePF
             End If
             If txtLocationMult.arrValueMember IsNot Nothing AndAlso txtLocationMult.arrValueMember.Count > 0 Then
                 Location_Code += "(" + clsCommon.GetMulcallString(txtLocationMult.arrValueMember) + ")"
-           
+
             End If
             Dim LocDesc As String = ""
             Qry = clsSalaryGeneration.GetPFESIQuery(txtFromPP.Value, Location_Code, DivCond, LblLocName.Text, LocAddress, FirmPf, LocDesc)
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
-
             If dt.Rows.Count <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Else

@@ -31982,6 +31982,9 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("BarCode_Img", "image null")
             coll.Add("EInvoice_Posting_Date", "Datetime NULL")
             coll.Add("IsSampling", "Integer not null default 0")
+            coll.Add("Distributor_Commission_TotalAmt", "decimal(18,2) null")
+            coll.Add("Transporter_Commission_TotalAmt", "decimal(18,2) null")
+            coll.Add("Security_TotalAmt", "decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_RETURN_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
 
 
@@ -32149,6 +32152,16 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("ItemwiseTaxCode", "varchar(30) null ")
             coll.Add("CAN", "float  null default 0")
             coll.Add("ItemLeakageAmount", "decimal(18,2) NULL")
+            coll.Add("Distributor_Commission_PKID", "int null References TSPL_DISTRIBUTOR_COMMISSION_DETAIL(PK_ID)")
+            coll.Add("Distributor_Commission_Rate", "decimal(18,4) NULL")
+            coll.Add("Distributor_Commission_RateWithTax", "decimal(18,4) NULL")
+            coll.Add("Distributor_Commission_Amt", "decimal(18,4) NULL")
+            coll.Add("Transporter_Commission_Rate", "decimal(18,4) NULL")
+            coll.Add("Transporter_Commission_Amt", "decimal(18,4) NULL")
+            coll.Add("Security_Rate", "decimal(18,2) NULL")
+            coll.Add("Security_Amt", "decimal(18,2) NULL")
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Transporter", "varchar(12) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_RETURN_DETAIL", coll, Nothing, True, True, "TSPL_SD_SALE_RETURN_HEAD", "DOCUMENT_CODE", "")
 
 
@@ -53415,6 +53428,20 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Created_Date", "Datetime not NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MP_INCENTIVE_ENTRY_VLC_STATUS", coll, "", True, False, "TSPL_MP_INCENTIVE_ENTRY_HEAD", "Document_Code", "")
 
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Document_Code", "varchar(30) not NULL references TSPL_MP_INCENTIVE_ENTRY_HEAD (Document_Code) ")
+            coll.Add("VLC_Code", "Varchar(30) not null REFERENCES TSPL_VLC_MASTER_HEAD (VLC_Code)")
+            coll.Add("Total_Farmers", "integer not NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MP_INCENTIVE_ENTRY_VLC_REGISTER", coll, "", True, False, "TSPL_MP_INCENTIVE_ENTRY_HEAD", "Document_Code", "")
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Document_Code", "varchar(30) not NULL references TSPL_MP_INCENTIVE_ENTRY_HEAD (Document_Code) ")
+            coll.Add("Ref_PK_ID", "integer not NULL references TSPL_MP_INCENTIVE_ENTRY_VLC_REGISTER (PK_Id) ")
+            coll.Add("FILE_INFO", "bigint not NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MP_INCENTIVE_ENTRY_VLC_REGISTER_ATTACHMENT", coll, "", True, False, "TSPL_MP_INCENTIVE_ENTRY_HEAD", "Document_Code", "")
 
 
             coll = New Dictionary(Of String, String)()
