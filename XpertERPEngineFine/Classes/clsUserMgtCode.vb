@@ -2483,6 +2483,7 @@ Public Class clsUserMgtCode
     Public Const VehicleUnloadingReport As String = "VEH-UNL-RPT"
     Public Const rptTransactionWiseStock As String = "TRAN-STCK"
     Public Const Rptralwisematerialreceivedandpayment As String = "RAL-REC-RPT"
+    Public Const RmSecurityDeduction As String = "RM-SRT-DED"
     Public Const rptRMUnloading As String = "RM-UNL-RPT"
     Public Const RptPOAgainstDocument As String = "PO_AGT"
     Public Const frmBillChecklist As String = "PO_BCL"
