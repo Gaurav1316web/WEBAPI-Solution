@@ -1130,6 +1130,7 @@
     <None Include="Crystal Reports\HR_Payroll\crptBankSummary.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptBonusStatement.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptDamageLoss.rpt" />
+    <None Include="Crystal Reports\HR_Payroll\crptEmployeeDeductionMaster.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptEmployeeGratuityReport.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptEmployeeIdCard.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptESCIForm6%28Apr-Sep%29.rpt" />

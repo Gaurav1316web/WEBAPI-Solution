@@ -1563,6 +1563,7 @@
     <None Include="Crystal Reports\Purchase\PaymentEntryReport4VIZAG.rpt" />
     <None Include="Crystal Reports\Purchase\PaymentRTGS.rpt" />
     <None Include="Crystal Reports\Purchase\QuickSettlement.rpt" />
+    <None Include="Crystal Reports\Purchase\RmSecurityDeduction.rpt" />
     <None Include="Crystal Reports\Purchase\rptAPInvoice.rpt" />
     <None Include="Crystal Reports\Purchase\rptAPInvoice_old.rpt" />
     <None Include="Crystal Reports\Purchase\rptPerformanceReport.rpt" />
