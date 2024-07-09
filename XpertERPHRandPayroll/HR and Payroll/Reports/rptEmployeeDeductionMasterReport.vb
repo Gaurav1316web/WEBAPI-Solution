@@ -75,12 +75,13 @@ Public Class rptEmployeeDeductionMasterReport
                     Gv1.Rows.Clear()
                     Gv1.Refresh()
                     Gv1.DataSource = dt
-                    SetGridData()
+                    SetSummaryRow()
                     Gv1.AllowAddNewRow = False
                     Gv1.ShowGroupPanel = True
                     Gv1.ReadOnly = True
                     Gv1.EnableFiltering = True
                     Gv1.EnableGrouping = True
+                    'View()
                     Gv1.BestFitColumns()
                     RadPageView1.SelectedPage = RadPageViewPage2
                 End If
@@ -91,10 +92,30 @@ Public Class rptEmployeeDeductionMasterReport
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+    Sub View()
+        If Gv1 IsNot Nothing AndAlso Gv1.Rows.Count > 0 Then
 
-    Sub SetGridData()
-
+        End If
     End Sub
+    Sub SetSummaryRow()
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        Dim item1 As New GridViewSummaryItem("LIC Premium Amt.", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+
+        Dim item2 As New GridViewSummaryItem("Bank Instalment", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item2)
+
+        Dim item3 As New GridViewSummaryItem("KKK Instalment", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item3)
+
+        Dim item4 As New GridViewSummaryItem("KKK Total Loan", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item4)
+
+        Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+        Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+    End Sub
+
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         PrintReport(True)
     End Sub
