@@ -780,6 +780,8 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
 
         Dim obj As clsDemandBookingSale = clsDemandBookingSale.GetData(strCode, NavigatorType.Current)
         clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Dairy Sale", "Demand Booking", obj.Location_Code, obj.Document_Date, Nothing)
+        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmbookingdairy, obj.Location_Code, obj.Document_Date, Nothing)
+
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
 
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
@@ -877,6 +879,9 @@ where 2=2 "
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Dairy Sale", "Demand Booking", obj.Location_Code, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmbookingdairy, obj.Location_Code, obj.Document_Date, trans)
+
             Dim StrGatePassType As String = ""
             Dim StrShiftType As String = ""
             If obj.Posted = 1 Then

@@ -675,6 +675,12 @@
     <Compile Include="HR and Payroll\Reports\rptEmployeeAdvanceLedger.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="HR and Payroll\Reports\rptEmployeeDeductionMasterReport.Designer.vb">
+      <DependentUpon>rptEmployeeDeductionMasterReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="HR and Payroll\Reports\rptEmployeeDeductionMasterReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="HR and Payroll\Reports\rptLoanstatement.Designer.vb">
       <DependentUpon>rptLoanstatement.vb</DependentUpon>
     </Compile>
@@ -1990,6 +1996,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HR and Payroll\Reports\rptEmployeeAdvanceLedger.resx">
       <DependentUpon>rptEmployeeAdvanceLedger.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HR and Payroll\Reports\rptEmployeeDeductionMasterReport.resx">
+      <DependentUpon>rptEmployeeDeductionMasterReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HR and Payroll\Reports\rptLoanstatement.resx">
       <DependentUpon>rptLoanstatement.vb</DependentUpon>

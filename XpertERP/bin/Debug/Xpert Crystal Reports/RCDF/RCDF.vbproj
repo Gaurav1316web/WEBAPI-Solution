@@ -326,6 +326,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptCrateAccountingForDetail.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptCrateAccountingForSummary.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairyDeliveryOrder.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntriesJDP.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntriesJPR.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntriesGNG.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntriesUDP.rpt" />
@@ -474,6 +475,7 @@
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreJAL.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreJPR.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreRJS.rpt" />
+    <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreTNK.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreUDP.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessJ-V.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptQualityCheck.rpt" />
@@ -1274,7 +1276,8 @@
     <None Include="Crystal Reports\Kwality Sales Report\crptBulkSaleInvAndDispatchJV.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\CrptCreditCustomerReport.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorWiseDetail.rpt" />
-    <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorWiseDetailcredit.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorWiseDetailcreditMilk.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorWiseDetailcreditProduct.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorWiseSummary.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDemandReturn.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptInvoiceDetail.rpt" />

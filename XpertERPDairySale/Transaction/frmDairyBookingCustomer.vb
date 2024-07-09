@@ -1416,14 +1416,14 @@ Public Class frmDairyBookingCustomer
         If dt.Rows.Count > 0 Then
             gv1.Rows(introw).Cells(colSellingRate).Value = clsCommon.myCdbl(dt.Rows(0).Item("Item_Selling_Price"))
             gv1.Rows(introw).Cells(colOrgRate).Value = clsCommon.myCdbl(dt.Rows(0).Item("Item_Selling_Price"))
-            gv1.Rows(introw).Cells(colMRP).Value = clsCommon.myCdbl(dt.Rows(0).Item("Item_Basic_Net"))
+            gv1.Rows(introw).Cells(colMRP).Value = clsCommon.myCdbl(dt.Rows(0).Item("Item_Selling_Price"))
             gv1.Rows(introw).Cells(colPriceId).Value = clsCommon.myCstr(dt.Rows(0).Item("Item_Price_ID"))
             gv1.Rows(introw).Cells(colPriceIDAppDate).Value = clsCommon.myCstr(dt.Rows(0).Item("Start_date"))
             gv1.Rows(introw).Cells(colPricePlanNo).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Plan_Code  from TSPL_ITEM_PRICE_PLAN_DETAIL WHERE PLAN_TR_CODE='" & clsCommon.myCstr(dt.Rows(0).Item("Against_Plan_TR_Code")) & "'"))
             If ShowMulMRPOfSameItemOnDairyBookingCustomer = True Then
                 isCellValueChangedOpen = True
             End If
-            gv1.Rows(introw).Cells(colRate).Value = dblRate
+            gv1.Rows(introw).Cells(colRate).Value = clsCommon.myCdbl(dt.Rows(0).Item("Item_Selling_Price"))
             If ShowMulMRPOfSameItemOnDairyBookingCustomer = True Then
                 isCellValueChangedOpen = False
             End If
@@ -8143,7 +8143,7 @@ from
                             objTr.Item_Desc = clsCommon.myCstr(grow.Cells(colIName).Value)
                             objTr.Qty = clsCommon.myCDecimal(grow.Cells(colQty).Value)
                             objTr.Crate = clsCommon.myCDecimal(grow.Cells(colQty).Value)
-                            objTr.Item_Cost = clsCommon.myCDecimal(grow.Cells(colRate).Value)
+                            objTr.Item_Cost = clsCommon.myCDecimal(grow.Cells(colOrgRate).Value)
                             objTr.Amount = clsCommon.myCDecimal(grow.Cells(colAmt).Value)
                             objTr.Unit_code = clsCommon.myCstr(grow.Cells(colUnit).Value)
                             objTr.Sampling = IIf(chkSampling.Checked, 1, 0)
