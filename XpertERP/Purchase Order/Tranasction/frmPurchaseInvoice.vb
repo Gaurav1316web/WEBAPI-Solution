@@ -462,6 +462,7 @@ Public Class frmPurchaseInvoice
             lblTdsAmt.Visible = True
             lblPIAmt.Visible = True
             dbltotamtafterded.Visible = True
+            MyLabel3.Text = "P.I. Amount"
         End If
     End Sub
     Sub AllowDepartmentMandatoryOnPurchaseCycle()
@@ -3504,13 +3505,16 @@ Public Class frmPurchaseInvoice
         lblRMLate.Text = clsCommon.myFormat(dblRMLate)
 
         Dim dblTdsAmt As Double = 0
+        Dim dblTdsAmts As Double = 0
         Dim qry As String = " Select Is_TDS_Applicable from TSPL_VENDOR_MASTER WHERE VENDOR_CODE='" + txtVendorNo.Value + "' "
         Dim TDS As Integer = clsDBFuncationality.getSingleValue(qry)
 
         If TDS = 1 Then
             'lblSecurityDeduction.Text = clsCommon.myFormat(dblSecurityDed)
             dblTdsAmt = clsCommon.myFormat(lblAmtAfterDiscount.Text) * 0.1 / 100
-            lblTdsAmt.Text = dblTdsAmt
+            dblTdsAmts = Math.Round(dblTdsAmt, 0, MidpointRounding.AwayFromZero)
+            'lblTdsAmt.Text = dblTdsAmt
+            lblTdsAmt.Text = Math.Round(dblTdsAmt, 0, MidpointRounding.AwayFromZero)
             'lblTdsAmt.Text = lblAmtAfterDiscount * 0.1 / 100
         Else
             lblTdsAmt.Text = clsCommon.myFormat(0)
@@ -3526,35 +3530,62 @@ Public Class frmPurchaseInvoice
         lblAddCharges1.Text = clsCommon.myFormat(dblACAmount)
         dblNetAmt = dblNetAmt + dblACAmount
 
-
         Dim Totalamtafded As Decimal = 0
-        Totalamtafded = dblNetAmt - (dblSecurityDed + dblQualityDed + dblRMLate + dblTdsAmt)
+        Totalamtafded = dblNetAmt - (dblSecurityDed + dblQualityDed + dblRMLate + dblTdsAmts)
         Dim dclROAmt As Decimal = 0
         Dim dblpiamt As Decimal = 0
+
+        'If objCommonVar.RCDFCFP Then
         If SettingAutoRoundOffSeprateAccountOnVendorTransaction AndAlso objCommonVar.RCDFCFP Then
             'dclROAmt = Math.Round(dblNetAmt, 0, MidpointRounding.AwayFromZero) - dblNetAmt
             dclROAmt = Math.Round(Totalamtafded, 0, MidpointRounding.AwayFromZero) - Totalamtafded
             'dblNetAmt = Math.Round(dblNetAmt, 0, MidpointRounding.AwayFromZero)
             dblpiamt = Math.Round(Totalamtafded, 0, MidpointRounding.AwayFromZero)
-        Else
+        ElseIf SettingAutoRoundOffSeprateAccountOnVendorTransaction Then
             dclROAmt = Math.Round(dblNetAmt, 0, MidpointRounding.AwayFromZero) - dblNetAmt
             dblNetAmt = Math.Round(dblNetAmt, 0, MidpointRounding.AwayFromZero)
+        Else
+            '    'dclROAmt = Math.Round(dblNetAmt, 0, MidpointRounding.AwayFromZero) - dblNetAmt
+            ' dblNetAmt = Math.Round(dblNetAmt, 0, MidpointRounding.AwayFromZero)
+            dblpiamt = Math.Round(Totalamtafded, 0, MidpointRounding.AwayFromZero)
         End If
+        'End If
 
 
-        If objCommonVar.RCDFCFP Then
+        'If objCommonVar.RCDFCFP AndAlso SettingAutoRoundOffSeprateAccountOnVendorTransaction Then
+        'If objCommonVar.RCDFCFP Then
+        If SettingAutoRoundOffSeprateAccountOnVendorTransaction AndAlso objCommonVar.RCDFCFP Then
             lblRoundOff.Text = clsCommon.myFormat(dclROAmt)
             lblTotRAmt.Text = clsCommon.myFormat(dblNetAmt)
             'lblDocAmount.Text = lblTotRAmt.Text
             lblDocAmount.Text = clsCommon.myFormat(dblpiamt)
             lblPIAmt.Text = clsCommon.myFormat(dblpiamt)
             dbltotamtafterded.Text = clsCommon.myFormat(Totalamtafded)
-        Else
+        ElseIf SettingAutoRoundOffSeprateAccountOnVendorTransaction Then
             lblRoundOff.Text = clsCommon.myFormat(dclROAmt)
             lblTotRAmt.Text = clsCommon.myFormat(dblNetAmt)
             lblDocAmount.Text = lblTotRAmt.Text
-        End If
 
+        Else
+            lblRoundOff.Text = clsCommon.myFormat(dclROAmt)
+            lblTotRAmt.Text = clsCommon.myFormat(dblNetAmt)
+            'lblDocAmount.Text = lblTotRAmt.Text
+            lblDocAmount.Text = clsCommon.myFormat(Totalamtafded)
+            'lblPIAmt.Text = clsCommon.myFormat(dblpiamt)
+            lblPIAmt.Text = clsCommon.myFormat(Totalamtafded)
+            dbltotamtafterded.Text = clsCommon.myFormat(Totalamtafded)
+        End If
+        ' End If
+
+        'If objCommonVar.RCDFDB Then
+        '    If SettingAutoRoundOffSeprateAccountOnVendorTransaction Then
+        '        dclROAmt = Math.Round(dblNetAmt, 0, MidpointRounding.AwayFromZero) - dblNetAmt
+        '        dblNetAmt = Math.Round(dblNetAmt, 0, MidpointRounding.AwayFromZero)
+        '    End If
+        '    lblRoundOff.Text = clsCommon.myFormat(dclROAmt)
+        '    lblTotRAmt.Text = clsCommon.myFormat(dblNetAmt)
+        '    lblDocAmount.Text = lblTotRAmt.Text
+        'End If
 
         Calc_AddtionalCharge_Itemwise(dblTotalQuantity)
     End Sub

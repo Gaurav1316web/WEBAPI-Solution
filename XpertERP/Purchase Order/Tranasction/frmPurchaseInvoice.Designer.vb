@@ -174,6 +174,8 @@ Partial Class frmPurchaseInvoice
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel29 = New common.Controls.MyLabel()
+        Me.dbltotamtafterded = New common.Controls.MyLabel()
         Me.MyLabel28 = New common.Controls.MyLabel()
         Me.lblPIAmt = New common.Controls.MyLabel()
         Me.MyLabel26 = New common.Controls.MyLabel()
@@ -255,8 +257,6 @@ Partial Class frmPurchaseInvoice
         Me.DeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.UcCustomFields1 = New ERP.ucCustomFields()
-        Me.MyLabel29 = New common.Controls.MyLabel()
-        Me.dbltotamtafterded = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -399,6 +399,8 @@ Partial Class frmPurchaseInvoice
         Me.pvpCustomFields.SuspendLayout()
         Me.Attachments.SuspendLayout()
         Me.RadPageViewPage4.SuspendLayout()
+        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dbltotamtafterded, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel28, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblPIAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel26, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -475,8 +477,6 @@ Partial Class frmPurchaseInvoice
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dbltotamtafterded, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -527,7 +527,7 @@ Partial Class frmPurchaseInvoice
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(974, 484)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -2863,6 +2863,30 @@ Partial Class frmPurchaseInvoice
         Me.RadPageViewPage4.Size = New System.Drawing.Size(953, 442)
         Me.RadPageViewPage4.Text = "Total"
         '
+        'MyLabel29
+        '
+        Me.MyLabel29.FieldName = Nothing
+        Me.MyLabel29.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel29.Location = New System.Drawing.Point(123, 381)
+        Me.MyLabel29.Name = "MyLabel29"
+        Me.MyLabel29.Size = New System.Drawing.Size(74, 16)
+        Me.MyLabel29.TabIndex = 18
+        Me.MyLabel29.Text = "Total Amount"
+        Me.MyLabel29.Visible = False
+        '
+        'dbltotamtafterded
+        '
+        Me.dbltotamtafterded.AutoSize = False
+        Me.dbltotamtafterded.BorderVisible = True
+        Me.dbltotamtafterded.FieldName = Nothing
+        Me.dbltotamtafterded.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.dbltotamtafterded.Location = New System.Drawing.Point(223, 379)
+        Me.dbltotamtafterded.Name = "dbltotamtafterded"
+        Me.dbltotamtafterded.Size = New System.Drawing.Size(110, 18)
+        Me.dbltotamtafterded.TabIndex = 17
+        Me.dbltotamtafterded.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.dbltotamtafterded.Visible = False
+        '
         'MyLabel28
         '
         Me.MyLabel28.FieldName = Nothing
@@ -3797,30 +3821,6 @@ Partial Class frmPurchaseInvoice
         Me.UcCustomFields1.Size = New System.Drawing.Size(953, 438)
         Me.UcCustomFields1.TabIndex = 1
         '
-        'MyLabel29
-        '
-        Me.MyLabel29.FieldName = Nothing
-        Me.MyLabel29.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel29.Location = New System.Drawing.Point(123, 381)
-        Me.MyLabel29.Name = "MyLabel29"
-        Me.MyLabel29.Size = New System.Drawing.Size(74, 16)
-        Me.MyLabel29.TabIndex = 18
-        Me.MyLabel29.Text = "Total Amount"
-        Me.MyLabel29.Visible = False
-        '
-        'dbltotamtafterded
-        '
-        Me.dbltotamtafterded.AutoSize = False
-        Me.dbltotamtafterded.BorderVisible = True
-        Me.dbltotamtafterded.FieldName = Nothing
-        Me.dbltotamtafterded.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.dbltotamtafterded.Location = New System.Drawing.Point(223, 379)
-        Me.dbltotamtafterded.Name = "dbltotamtafterded"
-        Me.dbltotamtafterded.Size = New System.Drawing.Size(110, 18)
-        Me.dbltotamtafterded.TabIndex = 17
-        Me.dbltotamtafterded.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        Me.dbltotamtafterded.Visible = False
-        '
         'frmPurchaseInvoice
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3989,6 +3989,8 @@ Partial Class frmPurchaseInvoice
         Me.Attachments.ResumeLayout(False)
         Me.RadPageViewPage4.ResumeLayout(False)
         Me.RadPageViewPage4.PerformLayout()
+        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dbltotamtafterded, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel28, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblPIAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel26, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4066,8 +4068,6 @@ Partial Class frmPurchaseInvoice
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dbltotamtafterded, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

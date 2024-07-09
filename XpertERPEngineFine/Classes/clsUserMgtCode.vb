@@ -1,5 +1,6 @@
 ﻿Imports common
 Public Class clsUserMgtCode
+    Public Const rptEmployeeDeductionMasterReport As String = "EMP-DED-RPT"
     Public Const frmRCDFRateControl As String = "RCDF-RT-CNT"
     Public Const frmEmployeeDeductionMaster As String = "EMP-DED-MST"
     'Public Const FrmReceiptInvoiceMapping As String = "REC-INV-MAP"
