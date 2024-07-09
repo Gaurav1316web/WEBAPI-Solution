@@ -19866,6 +19866,7 @@ Public Class clsCreateAllTable
             coll.Add("Tax_Group", "varchar(12) NOT NULL")
             coll.Add("Bill_To_Location", "varchar(12) NULL")
             coll.Add("Ship_To_Location", "varchar(12) NULL")
+            coll.Add("Ship_From_Location", "varchar(12) NULL")
             coll.Add("TAX1", "varchar(12) NULL")
             coll.Add("TAX1_Rate", "decimal(18, 2) NULL")
             coll.Add("TAX1_Amt", "decimal(18, 2) NULL")
@@ -53427,6 +53428,20 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Created_Date", "Datetime not NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MP_INCENTIVE_ENTRY_VLC_STATUS", coll, "", True, False, "TSPL_MP_INCENTIVE_ENTRY_HEAD", "Document_Code", "")
 
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Document_Code", "varchar(30) not NULL references TSPL_MP_INCENTIVE_ENTRY_HEAD (Document_Code) ")
+            coll.Add("VLC_Code", "Varchar(30) not null REFERENCES TSPL_VLC_MASTER_HEAD (VLC_Code)")
+            coll.Add("Total_Farmers", "integer not NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MP_INCENTIVE_ENTRY_VLC_REGISTER", coll, "", True, False, "TSPL_MP_INCENTIVE_ENTRY_HEAD", "Document_Code", "")
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Document_Code", "varchar(30) not NULL references TSPL_MP_INCENTIVE_ENTRY_HEAD (Document_Code) ")
+            coll.Add("Ref_PK_ID", "integer not NULL references TSPL_MP_INCENTIVE_ENTRY_VLC_REGISTER (PK_Id) ")
+            coll.Add("FILE_INFO", "bigint not NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MP_INCENTIVE_ENTRY_VLC_REGISTER_ATTACHMENT", coll, "", True, False, "TSPL_MP_INCENTIVE_ENTRY_HEAD", "Document_Code", "")
 
 
             coll = New Dictionary(Of String, String)()
