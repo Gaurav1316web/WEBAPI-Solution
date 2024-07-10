@@ -84,7 +84,7 @@ Public Class frmSalaryAbstractReport
             End If
 
             Qry = ""
-            Qry += " select Logo_Img,* from("
+            Qry += " select '" + objCommonVar.CurrentUser + "' As PrintBy,Logo_Img,* from("
             Qry += " SELECT '" & LocAddress & "' as  Location_Desc,T2.PAY_PERIOD_CODE,T3.PAY_HEAD_NAME AS EARNING_HEAD,SUM(T1.ACTUAL_AMOUNT) AS EARNING_AMOUNT  ,max(TSPL_EMPLOYEE_MASTER.Comp_Code)as  Comp_Code FROM TSPL_GENERATE_SALARY_PAYHEADS T1 INNER JOIN "
             Qry += " TSPL_GENERATE_SALARY T2 ON T1.SALARY_GENERATION_CODE=T2.SALARY_GENERATION_CODE "
             Qry += " INNER JOIN TSPL_PAYHEAD_MASTER T3 ON T1.PAY_HEAD_CODE=T3.PAY_HEAD_CODE "
@@ -110,6 +110,7 @@ Public Class frmSalaryAbstractReport
                 common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Else
                 Dim dtFinal As DataTable = New DataTable
+                dtFinal.Columns.Add("PrintBy", GetType(String))
                 dtFinal.Columns.Add("Company_Name", GetType(String))
                 dtFinal.Columns.Add("Logo_Img", GetType(Byte()))
                 dtFinal.Columns.Add("PAY_PERIOD_CODE", GetType(String))
@@ -127,7 +128,7 @@ Public Class frmSalaryAbstractReport
               
 
                 Qry = ""
-                Qry += " select Logo_Img,* from("
+                Qry += " select '" + objCommonVar.CurrentUser + "' As PrintBy,Logo_Img,* from("
                 Qry += " SELECT '" & LocAddress & "' as Location_Desc,T2.PAY_PERIOD_CODE,T3.PAY_HEAD_NAME AS EARNING_HEAD,SUM(T1.ACTUAL_AMOUNT) AS EARNING_AMOUNT,max(TSPL_EMPLOYEE_MASTER.Comp_Code)as  Comp_Code FROM TSPL_GENERATE_SALARY_PAYHEADS T1 INNER JOIN "
                 Qry += " TSPL_GENERATE_SALARY T2 ON T1.SALARY_GENERATION_CODE=T2.SALARY_GENERATION_CODE"
                 Qry += " INNER JOIN TSPL_PAYHEAD_MASTER T3 ON T1.PAY_HEAD_CODE=T3.PAY_HEAD_CODE "
@@ -150,7 +151,7 @@ Public Class frmSalaryAbstractReport
                 
 
                 Qry = ""
-                Qry += " select Logo_Img,* from("
+                Qry += " select '" + objCommonVar.CurrentUser + "' As PrintBy,Logo_Img,* from("
                 Qry += " SELECT '" & LocAddress & "' as Location_Desc,T2.PAY_PERIOD_CODE,T3.PAY_HEAD_NAME AS DEDUCTION_HEAD,SUM(T1.ACTUAL_AMOUNT) AS DEDUCTION_AMOUNT,max(TSPL_EMPLOYEE_MASTER.Comp_Code)as  Comp_Code FROM TSPL_GENERATE_SALARY_PAYHEADS T1 INNER JOIN "
                 Qry += " TSPL_GENERATE_SALARY T2 ON T1.SALARY_GENERATION_CODE=T2.SALARY_GENERATION_CODE"
                 Qry += " INNER JOIN TSPL_PAYHEAD_MASTER T3 ON T1.PAY_HEAD_CODE=T3.PAY_HEAD_CODE "
@@ -191,7 +192,7 @@ Public Class frmSalaryAbstractReport
                     End If
 
                     DrFinal = dtFinal.NewRow()
-
+                    DrFinal.Item("PrintBy") = objCommonVar.CurrentUser
                     DrFinal.Item("PAY_PERIOD_CODE") = txtFromPP.Value
                     DrFinal.Item("Company_Name") = objCommonVar.CurrentCompanyName
                     If clsCommon.myLen(DrDT("Logo_Img")) > 0 Then

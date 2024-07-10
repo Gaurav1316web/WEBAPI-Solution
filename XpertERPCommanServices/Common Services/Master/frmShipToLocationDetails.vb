@@ -110,7 +110,7 @@ Public Class FrmShipToLocationDetails
         'btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
     End Sub
-   
+
     Private Sub FrmShipToLocationDetails_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         EnableAutoDocNoShipToLocation = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableAutoDocNoShipToLocation, clsFixedParameterCode.EnableAutoDocNoShipToLocation, Nothing))
         If EnableAutoDocNoShipToLocation = 1 Then
@@ -149,7 +149,6 @@ Public Class FrmShipToLocationDetails
             grpboxGST.Enabled = False
         End If
         ''==========================================================
-
     End Sub
 
     Private Sub ApplyReadOnly()
@@ -175,7 +174,7 @@ Public Class FrmShipToLocationDetails
 
     End Sub
 #End Region
-    
+
 #Region "TextChanged Event"
 
     Private Sub txtCustomer_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -219,20 +218,20 @@ Public Class FrmShipToLocationDetails
 
             If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
                 MasterTemplate.ReadOnly = True
-            Else
-                MasterTemplate.ReadOnly = False
-                MasterTemplate.CurrentRow.Cells(1).ReadOnly = True
-                MasterTemplate.CurrentRow.Cells(2).ReadOnly = True
-                MasterTemplate.CurrentRow.Cells(3).ReadOnly = True
-                MasterTemplate.CurrentRow.Cells(4).ReadOnly = True
-                MasterTemplate.CurrentRow.Cells(5).ReadOnly = True
-                MasterTemplate.CurrentRow.Cells(6).ReadOnly = True
-                MasterTemplate.CurrentRow.Cells(7).ReadOnly = True
-                MasterTemplate.CurrentRow.Cells(8).ReadOnly = True
-                MasterTemplate.CurrentRow.Cells(9).ReadOnly = True
-                MasterTemplate.CurrentRow.Cells(10).ReadOnly = True
-                MasterTemplate.CurrentRow.Cells(11).ReadOnly = True
-                ' MasterTemplate.CurrentRow.Cells(12).ReadOnly = True
+                'Else
+                '    MasterTemplate.ReadOnly = False
+                '    MasterTemplate.CurrentRow.Cells(1).ReadOnly = True
+                '    MasterTemplate.CurrentRow.Cells(2).ReadOnly = True
+                '    MasterTemplate.CurrentRow.Cells(3).ReadOnly = True
+                '    MasterTemplate.CurrentRow.Cells(4).ReadOnly = True
+                '    MasterTemplate.CurrentRow.Cells(5).ReadOnly = True
+                '    MasterTemplate.CurrentRow.Cells(6).ReadOnly = True
+                '    MasterTemplate.CurrentRow.Cells(7).ReadOnly = True
+                '    MasterTemplate.CurrentRow.Cells(8).ReadOnly = True
+                '    MasterTemplate.CurrentRow.Cells(9).ReadOnly = True
+                '    MasterTemplate.CurrentRow.Cells(10).ReadOnly = True
+                '    MasterTemplate.CurrentRow.Cells(11).ReadOnly = True
+                '    ' MasterTemplate.CurrentRow.Cells(12).ReadOnly = True
             End If
             If str <> txtcustomer.Value Then
                 ' txtCustomerName.Text = ""
@@ -312,6 +311,12 @@ Public Class FrmShipToLocationDetails
 
     Sub SaveData()
         Try
+            If clsCommon.myLen(txtState.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please Enter State ", Me.Text)
+                txtState.Focus()
+                txtState.Select()
+                Exit Sub
+            End If
             If MyBase.isModifyonPasswordFlag Then
                 If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.frmShipToLocationDetails, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
                 Else
@@ -326,6 +331,7 @@ Public Class FrmShipToLocationDetails
                         txtpan.Select()
                         Exit Sub
                     End If
+
                     txtGstInNo.Text = clsCommon.myCstr(txtGSTstateCode.Text) + clsCommon.myCstr(txtGstPanNo.Text) + clsCommon.myCstr(txtGstEntityNo.Text) + clsCommon.myCstr(txtGstDefaultValue.Text) + clsCommon.myCstr(txtGstLastNo.Text)
                     Dim StrMsg As String = clsERPFuncationality.ValidationGSTNO(txtGSTstateCode.Text, txtGstPanNo.Text, clsCommon.myCstr(txtGstInNo.Text), Nothing)
                     If clsCommon.myCstr(StrMsg) = "False" Then
@@ -370,19 +376,19 @@ Public Class FrmShipToLocationDetails
                     fndLocation.Focus()
                     Exit Sub
                 End If
-                    If funUpdate() Then
-                        ''For Custom Fields
-                        Dim arrCustomFields As New List(Of clsCustomFieldValues)
-                        If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
-                            UcCustomFields1.GetData(arrCustomFields)
-                        End If
-                        clsCustomFieldValues.SaveData(MyBase.Form_ID, txtShipToLocation.Text, arrCustomFields, Nothing)
+                If funUpdate() Then
+                    ''For Custom Fields
+                    Dim arrCustomFields As New List(Of clsCustomFieldValues)
+                    If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
+                        UcCustomFields1.GetData(arrCustomFields)
+                    End If
+                    clsCustomFieldValues.SaveData(MyBase.Form_ID, txtShipToLocation.Text, arrCustomFields, Nothing)
                     InsertLocations(txtShipToLocation.Text, cbgLocation.CheckedValue, txtcustomer.Value)
                     '''''' end of custom field
                     funFill()
-                        resetshipdetail()
-                        myMessages.update()
-                    End If
+                    resetshipdetail()
+                    myMessages.update()
+                End If
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -444,14 +450,14 @@ Public Class FrmShipToLocationDetails
                 End If
 
                 'done by priti KDI/24/04/18-000273
-                Dim qry = "update TSPL_SHIP_TO_LOCATION set Contact_Person_Name='" & clsCommon.myCstr(txtContactName.Text) & "', " & _
-                        "Contact_Person_Fax='" & clsCommon.myCstr(txtContactFax.Text) & "',Contact_Person_Email='" & clsCommon.myCstr(txtContactEmail.Text) & "', " & _
-                        "Contact_Person_Phone='" & clsCommon.myCstr(txtContPhone.Text) & "',Contact_Person_Website='" & clsCommon.myCstr(txtContactWeb.Text) & "', " & _
-                        "[VehicleNo ]='" & clsCommon.myCstr(txtVehicleNo.Text) & "',[Driver_Name ]='" & clsCommon.myCstr(txtDriverFinder.Value) & "',[Driver_Mobile_No ]='" & clsCommon.myCstr(txtDriverMobileNo.Text) & "', " & _
-                        "GSTNO='" & clsCommon.myCstr(txtGstInNo.Text) & "',GSTEntity='" & clsCommon.myCstr(txtGstEntityNo.Text) & "', " & _
-                        "GSTBlank='" & clsCommon.myCstr(txtGstDefaultValue.Text) & "',GSTDigit='" & clsCommon.myCstr(txtGstLastNo.Text) & "', " & _
-                        "Region_Type='" & strRegion_Type & "',GST_Registered='" & intGSTRegistered & "',GST_COMPOSITION='" & intGSTCOMPOSITION & "', " & _
-                        "Pan='" & txtpan.Text & "',Other_For_PAN='" & intOtherForPAN & "',Add3='" & txtAddress3.Text & "'" & _
+                Dim qry = "update TSPL_SHIP_TO_LOCATION set Contact_Person_Name='" & clsCommon.myCstr(txtContactName.Text) & "', " &
+                        "Contact_Person_Fax='" & clsCommon.myCstr(txtContactFax.Text) & "',Contact_Person_Email='" & clsCommon.myCstr(txtContactEmail.Text) & "', " &
+                        "Contact_Person_Phone='" & clsCommon.myCstr(txtContPhone.Text) & "',Contact_Person_Website='" & clsCommon.myCstr(txtContactWeb.Text) & "', " &
+                        "[VehicleNo ]='" & clsCommon.myCstr(txtVehicleNo.Text) & "',[Driver_Name ]='" & clsCommon.myCstr(txtDriverFinder.Value) & "',[Driver_Mobile_No ]='" & clsCommon.myCstr(txtDriverMobileNo.Text) & "', " &
+                        "GSTNO='" & clsCommon.myCstr(txtGstInNo.Text) & "',GSTEntity='" & clsCommon.myCstr(txtGstEntityNo.Text) & "', " &
+                        "GSTBlank='" & clsCommon.myCstr(txtGstDefaultValue.Text) & "',GSTDigit='" & clsCommon.myCstr(txtGstLastNo.Text) & "', " &
+                        "Region_Type='" & strRegion_Type & "',GST_Registered='" & intGSTRegistered & "',GST_COMPOSITION='" & intGSTCOMPOSITION & "', " &
+                        "Pan='" & txtpan.Text & "',Other_For_PAN='" & intOtherForPAN & "',Add3='" & txtAddress3.Text & "'" &
                         "where Ship_To_Type_Code='" & fndCustomer.Text & "' and Ship_To_Code='" & txtShipToLocation.Text & "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 trans.Commit()
@@ -504,14 +510,14 @@ Public Class FrmShipToLocationDetails
                     intOtherForPAN = 0
                 End If
 
-                Dim qry = "update TSPL_SHIP_TO_LOCATION set Contact_Person_Name='" & clsCommon.myCstr(txtContactName.Text) & "', " & _
-                          "Contact_Person_Fax='" & clsCommon.myCstr(txtContactFax.Text) & "',Contact_Person_Email='" & clsCommon.myCstr(txtContactEmail.Text) & "', " & _
-                          "Contact_Person_Phone='" & clsCommon.myCstr(txtContPhone.Text) & "',Contact_Person_Website='" & clsCommon.myCstr(txtContactWeb.Text) & "', " & _
-                          "[VehicleNo ]='" & clsCommon.myCstr(txtVehicleNo.Text) & "',[Driver_Name ]='" & clsCommon.myCstr(txtDriverFinder.Value) & "',[Driver_Mobile_No ]='" & clsCommon.myCstr(txtDriverMobileNo.Text) & "', " & _
-                          "GSTNO='" & clsCommon.myCstr(txtGstInNo.Text) & "',GSTEntity='" & clsCommon.myCstr(txtGstEntityNo.Text) & "', " & _
-                          "GSTBlank='" & clsCommon.myCstr(txtGstDefaultValue.Text) & "',GSTDigit='" & clsCommon.myCstr(txtGstLastNo.Text) & "', " & _
-                          "Region_Type='" & strRegion_Type & "',GST_Registered='" & intGSTRegistered & "',GST_COMPOSITION='" & intGSTCOMPOSITION & "', " & _
-                          "Pan='" & txtpan.Text & "',Other_For_PAN='" & intOtherForPAN & "'" & _
+                Dim qry = "update TSPL_SHIP_TO_LOCATION set Contact_Person_Name='" & clsCommon.myCstr(txtContactName.Text) & "', " &
+                          "Contact_Person_Fax='" & clsCommon.myCstr(txtContactFax.Text) & "',Contact_Person_Email='" & clsCommon.myCstr(txtContactEmail.Text) & "', " &
+                          "Contact_Person_Phone='" & clsCommon.myCstr(txtContPhone.Text) & "',Contact_Person_Website='" & clsCommon.myCstr(txtContactWeb.Text) & "', " &
+                          "[VehicleNo ]='" & clsCommon.myCstr(txtVehicleNo.Text) & "',[Driver_Name ]='" & clsCommon.myCstr(txtDriverFinder.Value) & "',[Driver_Mobile_No ]='" & clsCommon.myCstr(txtDriverMobileNo.Text) & "', " &
+                          "GSTNO='" & clsCommon.myCstr(txtGstInNo.Text) & "',GSTEntity='" & clsCommon.myCstr(txtGstEntityNo.Text) & "', " &
+                          "GSTBlank='" & clsCommon.myCstr(txtGstDefaultValue.Text) & "',GSTDigit='" & clsCommon.myCstr(txtGstLastNo.Text) & "', " &
+                          "Region_Type='" & strRegion_Type & "',GST_Registered='" & intGSTRegistered & "',GST_COMPOSITION='" & intGSTCOMPOSITION & "', " &
+                          "Pan='" & txtpan.Text & "',Other_For_PAN='" & intOtherForPAN & "'" &
                           "where Ship_To_Type_Code='" & fndCustomer.Text & "' and Ship_To_Code='" & txtShipToLocation.Text & "'"
                 clsDBFuncationality.ExecuteNonQuery(qry)
 
@@ -620,9 +626,9 @@ Public Class FrmShipToLocationDetails
         MasterTemplate.Columns(30).FieldName = "GST_Registered"
         MasterTemplate.Columns(31).FieldName = "GST_COMPOSITION"
 
-       
 
-    
+
+
 
         'MasterTemplate.ReadOnly = True
         ' MasterTemplate.AllowEditRow = False
@@ -1133,22 +1139,35 @@ Public Class FrmShipToLocationDetails
         Else
             txtcustomer.MyReadOnly = True
         End If
-        If txtcustomer.MyReadOnly OrElse isButtonClicked Then
-            'Dim qry As String = "select Cust_Code as Code,Customer_Name as [Customer Name] from TSPL_CUSTOMER_MASTER "
-            'txtcustomer.Value = clsCommon.ShowSelectForm("fmCUST_CODE", qry, "Code", "", txtcustomer.Value, "", isButtonClicked)
-            txtcustomer.Value = clsCustomerMaster.getFinder("", txtcustomer.Value, isButtonClicked)
-            txtcustomerdesc.Text = clsDBFuncationality.getSingleValue("select Customer_Name  from TSPL_CUSTOMER_MASTER where Cust_Code ='" + txtcustomer.Value + "'")
-            LoadData()
-        End If
-        If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from tspl_customer_master where cust_code='" & txtcustomer.Value & "'")) = 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Customer Not Found", Me.Text)
-            txtcustomer.Value = ""
-            txtcustomerdesc.Text = ""
-            LoadData()
-            MasterTemplate.DataSource = Nothing
-            txtcustomer.Focus()
-        End If
-        resetshipdetail()
+        If ddlShipToType.SelectedIndex = "0" Then
+            If ddlShipToType.SelectedItem.ToString() = "Sales" Then
+
+                If txtcustomer.MyReadOnly OrElse isButtonClicked Then
+                    'Dim qry As String = "select Cust_Code as Code,Customer_Name as [Customer Name] from TSPL_CUSTOMER_MASTER "
+                    'txtcustomer.Value = clsCommon.ShowSelectForm("fmCUST_CODE", qry, "Code", "", txtcustomer.Value, "", isButtonClicked)
+                    txtcustomer.Value = clsCustomerMaster.getFinder("", txtcustomer.Value, isButtonClicked)
+                    txtcustomerdesc.Text = clsDBFuncationality.getSingleValue("select Customer_Name  from TSPL_CUSTOMER_MASTER where Cust_Code ='" + txtcustomer.Value + "'")
+                    LoadData()
+                End If
+            End If
+        Else
+                If ddlShipToType.SelectedItem.ToString() = "Purchase" Then
+                If txtcustomer.MyReadOnly OrElse isButtonClicked Then
+                    txtcustomer.Value = clsCustomerMaster.getFinderVendor("", txtcustomer.Value, isButtonClicked)
+                    txtcustomerdesc.Text = clsDBFuncationality.getSingleValue("select Vendor_Name from TSPL_VENDOR_MASTER where Vendor_Code ='" + txtcustomer.Value + "'")
+                    LoadData()
+                End If
+            End If
+            If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from tspl_customer_master where cust_code='" & txtcustomer.Value & "'")) = 0 Then
+                    clsCommon.MyMessageBoxShow(Me, "Customer Not Found", Me.Text)
+                    txtcustomer.Value = ""
+                    txtcustomerdesc.Text = ""
+                    LoadData()
+                    MasterTemplate.DataSource = Nothing
+                    txtcustomer.Focus()
+                End If
+            End If
+            resetshipdetail()
 
     End Sub
 
@@ -1473,6 +1492,52 @@ Public Class FrmShipToLocationDetails
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub ddlShipToType_SelectedIndexChanged(sender As Object, e As Data.PositionChangedEventArgs) Handles ddlShipToType.SelectedIndexChanged
+        If ddlShipToType.SelectedItem.ToString() = "Purchase" Then
+            'lblVendor.Visible = True
+            MyLabel1.Text = "Vendor"
+        Else
+            MyLabel1.Text = "Customer"
+            'MyLabel1.Visible = False
+        End If
+
+    End Sub
+
+
+    Private Sub btnAddNew_Click(sender As Object, e As EventArgs) Handles btnAddNew.Click
+        'funReset()
+        txtcustomer.Value = ""
+        txtcustomerdesc.Text = ""
+        'MasterTemplate.Rows.Clear()
+        'MasterTemplate.Columns.Clear()
+
+        'MasterTemplate.Rows.Clear()
+        MasterTemplate.DataSource = Nothing
+        'MasterTemplate.Rows.AddNew()
+        fndCustomer.Text = ""
+        txtShipToLocation.Text = ""
+        fndLocation.Value = ""
+        txtAddress1.Text = ""
+        txtAddress22.Text = ""
+        txtAddress3.Text = ""
+        txtAddress4.Text = ""
+        txtCountry.Value = ""
+        txtState.Value = ""
+        txtCity.Value = ""
+        txtEmail.Text = ""
+        txtCustomerName.Text = ""
+        txtShipToLocationDesc.Text = ""
+        TxtCountryName.Text = ""
+        txtStateName.Text = ""
+        txtCityName.Text = ""
+        txtTelephone.Text = ""
+        txtPostalCode.Text = ""
+        txtCSTNo.Text = ""
+        txtTinNo.Text = ""
+        'MasterTemplate.Rows.Clear()
+        'MasterTemplate.Columns.Clear()
     End Sub
 
     Private Sub txtShipToLocation_Leave(sender As Object, e As EventArgs) Handles txtShipToLocation.Leave

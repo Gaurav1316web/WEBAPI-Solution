@@ -3,6 +3,7 @@ Imports System.Data.SqlClient
 Public Class clsPurchasReturnHead
 #Region "Variables"
     Public Sub_Location_code As String = String.Empty
+    Public ShowItemAllStructureWise As Boolean = False
     Public Project_Id As String = Nothing
     Public PR_No As String = Nothing
     Public Vendor_Invoice_No As String = Nothing
@@ -151,6 +152,7 @@ Public Class clsPurchasReturnHead
     End Function
 
     Public Function SaveData(ByVal obj As clsPurchasReturnHead, ByVal isNewEntry As Boolean) As Boolean
+        ShowItemAllStructureWise = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, Nothing)) = "1", True, False))
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             SaveData(obj, isNewEntry, trans)
@@ -178,17 +180,23 @@ Public Class clsPurchasReturnHead
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             Dim strDocNo As String = ""
             If isNewEntry Then
-                If clsCommon.CompairString(obj.Item_Type, "R") = CompairStringResult.Equal OrElse clsCommon.CompairString(obj.Item_Type, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(obj.Item_Type, "O") = CompairStringResult.Equal Then
-                    obj.PR_No = clsERPFuncationality.GetNextCode(trans, obj.PR_Date, clsDocType.PurchaseReturn, clsDocTransactionType.POOther, obj.Bill_To_Location)
+                If ShowItemAllStructureWise Then
+                    obj.PR_No = clsERPFuncationality.GetNextCode(trans, obj.PR_Date, clsDocType.PurchaseReturn, clsDocTransactionType.All, obj.Bill_To_Location)
                 Else
-                    Dim TransType = clsDBFuncationality.getSingleValue("SELECT PREFIX_CODE FROM TSPL_ITEM_TYPE_MASTER WHERE ITEM_TYPE_CODE='" + obj.Item_Type + "'", trans)
-                    obj.PR_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.PR_Date), clsDocType.PurchaseReturn, TransType, obj.Bill_To_Location)
+                    If clsCommon.CompairString(obj.Item_Type, "R") = CompairStringResult.Equal OrElse clsCommon.CompairString(obj.Item_Type, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(obj.Item_Type, "O") = CompairStringResult.Equal Then
+                        obj.PR_No = clsERPFuncationality.GetNextCode(trans, obj.PR_Date, clsDocType.PurchaseReturn, clsDocTransactionType.POOther, obj.Bill_To_Location)
+                    Else
+                        Dim TransType = clsDBFuncationality.getSingleValue("SELECT PREFIX_CODE FROM TSPL_ITEM_TYPE_MASTER WHERE ITEM_TYPE_CODE='" + obj.Item_Type + "'", trans)
+                        obj.PR_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.PR_Date), clsDocType.PurchaseReturn, TransType, obj.Bill_To_Location)
+                    End If
+
                 End If
+
                 If clsCommon.CompairString(obj.PR_No, String.Empty) = CompairStringResult.Equal Then
                     Throw New Exception("Item Type is Not Correct To Generate the Transaction Code")
                 End If
             End If
-            If (clsCommon.myLen(obj.PR_No) <= 0) Then
+                If (clsCommon.myLen(obj.PR_No) <= 0) Then
                 Throw New Exception("Error in Document Code Generation")
             End If
             Dim coll As New Hashtable()

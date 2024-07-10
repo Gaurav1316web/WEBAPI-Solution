@@ -550,6 +550,7 @@ Public Class frmSNShipment
         lblRefund.Text = ""
         lblReverseRefund.Text = ""
         lblTotalOutstansing.Text = ""
+        lblDocCreditLimit.Text = ""
         txtLR_GR_No.Text = ""
         txtShipToDeliveryAt.Text = ""
     End Sub
@@ -2405,6 +2406,7 @@ Public Class frmSNShipment
                                 Next
                             End If
                             UpdateAllTotals()
+                            SetTaxDetails()
                         ElseIf e.Column Is gv1.Columns(colICode) Then
                             If blnBackCalculation = True Then
                                 OpenICodeList(False)
@@ -2933,7 +2935,7 @@ Public Class frmSNShipment
              "left outer join TSPL_CUSTOMER_ITEM_MAPPING on TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_CUSTOMER_ITEM_MAPPING.item_no and TSPL_CUSTOMER_ITEM_MAPPING.Customer_Code='" & txtCustomer.Value & "' " &
              " where TSPL_ITEM_MASTER.Active=1 " & strTax & ")xxx Where Tax_group='" & txtTaxGroup.Value & "' " & strPriceCondition & " " &
              " " & strTaxRate & " " &
-             ")b left outer join (select TSPL_ITEM_MASTER_CATEGORY.Item_code,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code,TSPL_ITEM_CATEGORY_LEVEL.DESCRIPTION,TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as cat_value from TSPL_ITEM_MASTER_CATEGORY left outer join TSPL_ITEM_CATEGORY_LEVEL on TSPL_ITEM_CATEGORY_LEVEL.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and ISNULL(TSPL_ITEM_CATEGORY_LEVEL.Form_Type,'item')='item' left outer join TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values  and ISNULL(TSPL_ITEM_CATEGORY_LEVEL_VALUES.Form_Type,'item')='item')a on a.Item_code=b.Item  inner join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = b.Item and TSPL_ITEM_UOM_DETAIL.UOM_Code = b.Unit) as s pivot(max(cat_value) for description in (" + pivotheader + "))t"
+             ")b left outer join (select TSPL_ITEM_MASTER_CATEGORY.Item_code,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code,TSPL_ITEM_CATEGORY_LEVEL.DESCRIPTION,TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as cat_value from TSPL_ITEM_MASTER_CATEGORY left outer join TSPL_ITEM_CATEGORY_LEVEL on TSPL_ITEM_CATEGORY_LEVEL.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and ISNULL(TSPL_ITEM_CATEGORY_LEVEL.Form_Type,'item')='item' left outer join TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values  and ISNULL(TSPL_ITEM_CATEGORY_LEVEL_VALUES.Form_Type,'item')='item')a on a.Item_code=b.Item  inner join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = b.Item and TSPL_ITEM_UOM_DETAIL.UOM_Code = b.Unit where Default_UOM=1) as s pivot(max(cat_value) for description in (" + pivotheader + "))t"
                     If isUOMChange = False Then
                         dr = clsCommon.ShowSelectFormForRow(repID, qry)
                     End If
@@ -3296,8 +3298,8 @@ Public Class frmSNShipment
                     Case 1
                         If (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code='" & clsCommon.myCstr(gv2.Rows(ii - 1).Cells(colTTaxAutCode).Value) & "' AND Is_TCS ='Y'")) > 0) Then 'AndAlso clsCommon.myCdbl(txttcstaxbaseamount.Value) > 0 AndAlso AllowtoChangeTCSBaseAmount = True Then
                             lblActualTCSTaxBaseAmt.Text = clsCommon.myFormat(dblTaxBaseAmt1)
-                            'dblTaxBaseAmt1 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
-                            dblTaxBaseAmt1 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
+                            dblTaxBaseAmt1 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
+                            'dblTaxBaseAmt1 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
                             dblTaxAmt1 = (dblTaxBaseAmt1 * clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)) / 100
                             dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt1
                             gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt1, 2)
@@ -3316,8 +3318,8 @@ Public Class frmSNShipment
                     Case 2
                         If (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code='" & clsCommon.myCstr(gv2.Rows(ii - 1).Cells(colTTaxAutCode).Value) & "' AND Is_TCS ='Y'")) > 0) Then ' AndAlso clsCommon.myCdbl(txttcstaxbaseamount.Value) > 0 AndAlso AllowtoChangeTCSBaseAmount = True Then
                             lblActualTCSTaxBaseAmt.Text = clsCommon.myFormat(dblTaxBaseAmt1 + dblTaxAmt1)
-                            'dblTaxBaseAmt2 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
-                            dblTaxBaseAmt2 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
+                            dblTaxBaseAmt2 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
+                            'dblTaxBaseAmt2 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
                             dblTaxAmt2 = (dblTaxBaseAmt2 * clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)) / 100
                             dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt2
                             gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt2, 2)
@@ -3335,8 +3337,8 @@ Public Class frmSNShipment
                     Case 3
                         If (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code='" & clsCommon.myCstr(gv2.Rows(ii - 1).Cells(colTTaxAutCode).Value) & "' AND Is_TCS ='Y'")) > 0) Then ' AndAlso clsCommon.myCdbl(txttcstaxbaseamount.Value) > 0 AndAlso AllowtoChangeTCSBaseAmount = True Then
                             lblActualTCSTaxBaseAmt.Text = clsCommon.myFormat(dblTaxBaseAmt1 + dblTaxAmt1 + dblTaxAmt2)
-                            'dblTaxBaseAmt3 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
-                            dblTaxBaseAmt3 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
+                            dblTaxBaseAmt3 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
+                            'dblTaxBaseAmt3 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
                             dblTaxAmt3 = (dblTaxBaseAmt3 * clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)) / 100
                             dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt3
                             gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt3, 2)
@@ -3354,8 +3356,8 @@ Public Class frmSNShipment
                     Case 4
                         If (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code='" & clsCommon.myCstr(gv2.Rows(ii - 1).Cells(colTTaxAutCode).Value) & "' AND Is_TCS ='Y'")) > 0) Then ' AndAlso clsCommon.myCdbl(txttcstaxbaseamount.Value) > 0 AndAlso AllowtoChangeTCSBaseAmount = True Then
                             lblActualTCSTaxBaseAmt.Text = clsCommon.myFormat(dblTaxBaseAmt1 + dblTaxAmt1 + dblTaxAmt2 + dblTaxAmt3)
-                            'dblTaxBaseAmt4 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
-                            dblTaxBaseAmt4 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
+                            dblTaxBaseAmt4 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
+                            'dblTaxBaseAmt4 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
                             dblTaxAmt4 = (dblTaxBaseAmt4 * clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)) / 100
                             dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt4
                             gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt4, 2)
@@ -3750,14 +3752,13 @@ Public Class frmSNShipment
             End If
             If (clsCommon.myCdbl(lblTotRAmt1.Text)) > 0 Then
                 Dim isValidAmt As Boolean = CustomerOutstandingAmount(txtCustomer.Value, Nothing)
-                'If isValidAmt = False Then
+
                 Dim isUNIONCust As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count ( * )  from TSPL_CUSTOMER_MASTER where Credit_Customer = 'Y' and  Cust_Code = '" + txtCustomer.Value + "' "))
                 If (clsCommon.myCdbl(lblTotRAmt1.Text)) > (clsCommon.myCdbl(lblTotalOutstansing.Text)) AndAlso isUNIONCust = 0 Then
                     clsCommon.MyMessageBoxShow(Me, "Document amount should be less then avaliable credit amount for customer " + txtCustomer.Value + ".", Me.Text)
                     Return False
                 End If
 
-                'End If
             End If
 
             If clsCommon.myLen(txtLR_GR_No.Text) > 0 Then
@@ -3777,8 +3778,21 @@ Public Class frmSNShipment
     End Function
 
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
-        SaveData(False)
+        SavingData(False)
     End Sub
+    Private Function SavingData(ByVal ChekBtnPost As Boolean) As Boolean
+        If (SaveData(False)) Then
+            If ChekBtnPost = False And IsDataImported = False Then
+                clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
+                'If ChekPostBtn = False And IsDataImported = False Then
+                '    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
+                'End If
+            End If
+            Return True
+        Else
+            Return False
+        End If
+    End Function
     Sub InvoiceType()
         If AllowChangeInvoiceType = False Then
             Dim dt As DataTable
@@ -3812,11 +3826,11 @@ Public Class frmSNShipment
             ddlInvoiceType.SelectedValue = ""
         End If
     End Sub
-    Sub SaveData(ByVal ChekPostBtn As Boolean)
+    Public Function SaveData(ByVal ChekPostBtn As Boolean) As Boolean
         Try
             If ChekPostBtn = False Then
                 If FrmMainTranScreen.ValidateTransactionAccToFinYear("Shipment", txtDate.Value) = False Then
-                    Exit Sub
+                    Return False
                 End If
             End If
             Dim totalqty As Decimal = 0
@@ -4162,7 +4176,7 @@ Public Class frmSNShipment
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
                     clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
-                    Return
+                    Return False
                 End If
                 ChkDCSItem()
                 obj.ArrDCSItem = New List(Of clsSNShipmentDCSItemDetail)
@@ -4208,13 +4222,14 @@ Public Class frmSNShipment
                 If clsSNShipmentHead.checkSaveNotification(obj, Nothing) Then
                     If (obj.SaveData(obj, isNewEntry)) Then
                         UcAttachment1.SaveData(obj.Document_Code)
-                        If ChekPostBtn = False And IsDataImported = False Then
-                            clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
-                        End If
+                        'If ChekPostBtn = False And IsDataImported = False Then
+                        '    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
+                        'End If
                         clsApply_Approval.CheckApprovalRequired(MyBase.Form_ID, clsCommon.myCstr(obj.Document_Code), txtDate.Text, clsCommon.myCstr(txtDesc.Text), "", clsCommon.myCdbl(lblTotRAmt.Text), clsCommon.myCdbl(totalqty), obj.Dept)
                         LoadData(obj.Document_Code, NavigatorType.Current)
                     End If
                 End If
+                Return True
             End If
         Catch ex As Exception
             If ChekPostBtn = False Then
@@ -4223,7 +4238,7 @@ Public Class frmSNShipment
                 Throw New Exception(ex.Message)
             End If
         End Try
-    End Sub
+    End Function
 
     Private Sub fndProject__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndProject._MYValidating
         Dim qry As String = "select PROJECT_CODE as Code,SPECIFICATION,PROJECT_STATUS as Status from TSPL_PJC_PROJECT"
@@ -4359,7 +4374,14 @@ Public Class frmSNShipment
                 txtPriceGroupCode.Text = obj.Price_Group_Code
                 txtDiscPer.Text = obj.HeadDisc_Per
                 txtDiscAmt.Text = obj.HeadDisc_Amt
-                lblTotalOutstansing.Text = obj.Total_Outstanding
+                lblDocCreditLimit.Text = obj.Total_Outstanding
+                ' lblTotalOutstansing.Text = obj.Total_Outstanding
+                CustomerOutstandingAmount(obj.Customer_Code, Nothing)
+                If obj.Status <> ERPTransactionStatus.Approved Then
+                    Dim totalamt As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Total_Amt from TSPL_SD_SHIPMENT_head where Document_Code='" + obj.Document_Code + "'"))
+                    Dim creditlimit As Decimal = totalamt - (lblTotalOutstansing.Text)
+                    lblTotalOutstansing.Text = (-1 * creditlimit).ToString("F2")
+                End If
                 txtOrderQty.Text = obj.Order_Qty
                 If clsCommon.myLen(txtDiscAmt.Text) <= 0 OrElse clsCommon.myLen(txtDiscPer.Text) <= 0 OrElse clsCommon.myCdbl(txtDiscAmt.Text) = 0 OrElse clsCommon.myCdbl(txtDiscPer.Text) = 0 Then
                     txtDiscPer.Text = obj.HeadDisc_Per
@@ -5261,66 +5283,69 @@ Public Class frmSNShipment
             Dim qry As String = ""
             Dim dt As DataTable = Nothing
             If (myMessages.postConfirm()) Then
+
                 ''BM00000008148 approval work 16/10/2015
                 clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtDocNo.Value))
-                '=====================end here===================
-                If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                    Throw New Exception("No document found to post")
-                End If
-
-
-
-                '' Anubhooti 15-Sep-2014 BM00000003735
-                If FrmMainTranScreen.ValidateTransactionAccToFinYear("Shipment", txtDate.Value) = False Then
-                    Exit Sub
-                End If
-                ''
-                Dim isCreateAutoInvoice As Boolean = chkCreateAutoInvoice.Checked
-                If Not isCreateAutoInvoice Then
-                    msg = "Do you want to create Auto Invoice of Dispatch[" + txtDocNo.Value + "]" + Environment.NewLine + "Are you sure"
-                    If clsCommon.MyMessageBoxShow(Me, msg, Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
-                        isCreateAutoInvoice = True
+                    '=====================end here===================
+                    If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                        Throw New Exception("No document found to post")
                     End If
-                End If
-                If (clsSNShipmentHead.PostData(MyBase.Form_ID, txtDocNo.Value, isCreateAutoInvoice)) Then
-                    msg = "Successfully Posted"
-                Else
-                    qry = "select No_Of_Level, LEVEL from TSPL_APPROVAL_LEVEL_SCREEN where User_Code='" + objCommonVar.CurrentUserCode + "' and Trans_Code='" + MyBase.Form_ID + "' "
-                    dt = clsDBFuncationality.GetDataTable(qry)
-                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                        Dim level As String = dt.Rows(0)("LEVEL").ToString()
-                        Dim NoOflevel As Integer = clsCommon.myCdbl(dt.Rows(0)("No_Of_Level"))
-                        If clsCommon.CompairString(level, "Level1") = CompairStringResult.Equal Then
-                            msg = "Level 1 Approval done. "
-                            If NoOflevel = 1 Then
-                                msg += "Successfully Posted. "
-                            Else
-                                msg += "Level 2 Approval Required."
-                            End If
-                        ElseIf clsCommon.CompairString(level, "Level2") = CompairStringResult.Equal Then
-                            msg = "Level 2 Approval done. "
-                            If NoOflevel = 2 Then
-                                msg += "Successfully Posted "
-                            Else
-                                msg += "Level 3 Approval Required."
-                            End If
-                        Else
-                            msg = "Level 3 Approval done. Successfully Posted"
+
+
+
+                    '' Anubhooti 15-Sep-2014 BM00000003735
+                    If FrmMainTranScreen.ValidateTransactionAccToFinYear("Shipment", txtDate.Value) = False Then
+                        Exit Sub
+                    End If
+                    ''
+                    Dim isCreateAutoInvoice As Boolean = chkCreateAutoInvoice.Checked
+                    If Not isCreateAutoInvoice Then
+                        msg = "Do you want to create Auto Invoice of Dispatch[" + txtDocNo.Value + "]" + Environment.NewLine + "Are you sure"
+                        If clsCommon.MyMessageBoxShow(Me, msg, Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
+                            isCreateAutoInvoice = True
                         End If
                     End If
-                End If
-                clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
-                LoadData(txtDocNo.Value, NavigatorType.Current)
+                    If (clsSNShipmentHead.PostData(MyBase.Form_ID, txtDocNo.Value, isCreateAutoInvoice)) Then
+                        msg = "Successfully Posted"
+                    Else
+                        qry = "select No_Of_Level, LEVEL from TSPL_APPROVAL_LEVEL_SCREEN where User_Code='" + objCommonVar.CurrentUserCode + "' and Trans_Code='" + MyBase.Form_ID + "' "
+                        dt = clsDBFuncationality.GetDataTable(qry)
+                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                            Dim level As String = dt.Rows(0)("LEVEL").ToString()
+                            Dim NoOflevel As Integer = clsCommon.myCdbl(dt.Rows(0)("No_Of_Level"))
+                            If clsCommon.CompairString(level, "Level1") = CompairStringResult.Equal Then
+                                msg = "Level 1 Approval done. "
+                                If NoOflevel = 1 Then
+                                    msg += "Successfully Posted. "
+                                Else
+                                    msg += "Level 2 Approval Required."
+                                End If
+                            ElseIf clsCommon.CompairString(level, "Level2") = CompairStringResult.Equal Then
+                                msg = "Level 2 Approval done. "
+                                If NoOflevel = 2 Then
+                                    msg += "Successfully Posted "
+                                Else
+                                    msg += "Level 3 Approval Required."
+                                End If
+                            Else
+                                msg = "Level 3 Approval done. Successfully Posted"
+                            End If
+                        End If
+                    End If
+                    clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
+                    LoadData(txtDocNo.Value, NavigatorType.Current)
 
-                '===============if setting on then sms send
-                If clsSMSAtPost_Sales.SMSATPOST_SALE() Then
-                    SMSSENDONLY(True)
-                End If
-                '=============================================
+                    '===============if setting on then sms send
+                    If clsSMSAtPost_Sales.SMSATPOST_SALE() Then
+                        SMSSENDONLY(True)
+                    End If
+                    '=============================================
 
-                If (clsCommon.MyMessageBoxShow(Me, "Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
-                    funPrint(True)
-                End If
+                    If (clsCommon.MyMessageBoxShow(Me, "Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
+                        funPrint(True)
+                    End If
+
+
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -5607,6 +5632,9 @@ Public Class frmSNShipment
                                             txttcstaxbaseamount.Value = Math.Round(clsCommon.myCdbl(dblOutstandingAmount - AmountToCheckCustomerOutstandingForTCSTax), 3)
                                         End If
                                     End If
+                                Else
+                                    txttcstaxbaseamount.Value = Math.Round(clsCommon.myCdbl(clsCommon.myFormat(lblActualTCSTaxBaseAmt.Text)), 3)
+
                                 End If
                                 If dblOutstandingAmount > AmountToCheckCustomerOutstandingForTCSTax Then
                                     If EnableTCSRateValidityFrom01July2021 Then
@@ -5655,7 +5683,9 @@ Public Class frmSNShipment
         UpdateAllTotals()
         'isInsideLoadData = False
     End Sub
+    Public Sub UpdateTaxdetail()
 
+    End Sub
     Sub SetitemWiseTaxSetting(ByVal isChangeRate As Boolean, ByVal isForCurrentRow As Boolean)
         Dim dt As DataTable = clsTaxGroupMaster.GetTaxDetailsByLocation(txtTaxGroup.Value, "S", txtCustomer.Value, txtBillToLocation.Value)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
@@ -9085,7 +9115,7 @@ a:          End If
                    "null as ConvRate, SUM(DrAmt* Final.ConvRate)-SUM(CrAmt) as OpngBal, 0 as DrAmt, 0 as CrAmt, 0 as [Sales], 0 as CollectionRefund, 0 as DrNote,  " &
                    "0 as CrNote, MAX(tspl_customer_master.Cust_Category_Code) as Cust_Category_Code,MAX(CUST_CATEGORY_DESC) as Cust_Category_Desc,  " &
                    "MAX(tspl_customer_master.Cust_Type_Code) As Cust_Type_Code,MAX(Cust_Type_Desc) As Cust_Type_Desc from   " &
-                   "(" & clsCustomerMaster.GetCustomerBaseQry(False, False, "", False, "ConvRate", strcustomerfilter, True, clsCommon.GetPrintDate(txtDate.Value.AddDays(1), "dd/MMM/yyyy"), "", False, False, True, trans, False) & "   " &
+                   "(" & clsCustomerMaster.GetCustomerBaseQry(False, False, "", False, "ConvRate", strcustomerfilter, True, clsCommon.GetPrintDate(txtDate.Value.AddDays(1), "dd/MMM/yyyy"), "", False, False, True, trans, False, txtDocNo.Value) & "   " &
                    " ) Final left outer join TSPL_CUSTOMER_MASTER on final.ACode=TSPL_CUSTOMER_MASTER.Cust_Code LEFT OUTER JOIN TSPL_CUSTOMER_GROUP_MASTER ON TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code " &
                    "Left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =Final.DocNo  LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE=Final.Bank_Code " &
                    "where  CONVERT(DATE,final.DocDate,103) <= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' AND LEN(ACode)>0 and ACode in ('" & strCustomer & "')   AND TSPL_CUSTOMER_MASTER.Status='N' GROUP BY ACode " &

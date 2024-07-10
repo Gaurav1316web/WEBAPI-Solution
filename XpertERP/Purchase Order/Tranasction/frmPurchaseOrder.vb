@@ -906,6 +906,7 @@ Public Class frmPurchaseOrder
             cboItemType.DataSource = GetItemall()
             cboItemType.ValueMember = "Code"
             cboItemType.DisplayMember = "Name"
+            cboItemType.Enabled = False
         Else
             cboItemType.DataSource = Nothing
             'cboItemType.DataSource = clsItemMaster.GetItemTypeWithNON_Inventory()
@@ -913,6 +914,7 @@ Public Class frmPurchaseOrder
             cboItemType.DataSource = clsItemMaster.getItemTypeQuery(Whr)
             cboItemType.ValueMember = "Code"
             cboItemType.DisplayMember = "Name"
+            cboItemType.Enabled = True
         End If
     End Sub
 
@@ -1024,6 +1026,8 @@ Public Class frmPurchaseOrder
         lblBillToLocation.Text = ""
         txtShipToLocation.Value = ""
         lblShipToLocation.Text = ""
+        txtShipFromLocation.Value = ""
+        lblShipFromLocation.Text = ""
         txtDesc.Text = ""
         txtRemarks.Text = ""
         txtTaxGroup.Value = ""
@@ -1049,7 +1053,12 @@ Public Class frmPurchaseOrder
         lblDept.Text = ""
         cboItemType.SelectedIndex = 0
         txtReqNo.Value = ""
-        cboItemType.Enabled = True
+        If ShowItemAllStructureWise Then
+            cboItemType.Enabled = False
+        Else
+            cboItemType.Enabled = True
+
+        End If
         txtBillToLocation.Enabled = True
         lblAmbendmentNoCaption.Visible = False
         lblAbandonmentNo.Text = ""
@@ -1103,7 +1112,6 @@ Public Class frmPurchaseOrder
         ''richa agarwal 08/04/2015
         txtVendorNo.Enabled = True
         cboPOType.Enabled = True
-        cboItemType.Enabled = True
         txtPINo.Enabled = True
         TxtBeneficiary.Enabled = True
         txtBillToLocation.Enabled = True
@@ -5099,7 +5107,11 @@ Public Class frmPurchaseOrder
             End If
             dt = Nothing
             If (Not isSkipGST) AndAlso (clsCommon.CompairString(FORMTYPE, clsUserMgtCode.mbtnPurchaseOrder) = CompairStringResult.Equal OrElse clsCommon.CompairString(FORMTYPE, clsUserMgtCode.WorkOrderEng) = CompairStringResult.Equal) Then
-                clsLocationWiseTax.IsValidTaxGroup(txtTaxGroup.Value, txtBillToLocation.Value, txtVendorNo.Value, "P", txtDate.Value, Nothing)
+                If clsCommon.myLen(txtShipFromLocation.Value) > 0 Then
+                    clsLocationWiseTax.IsValidTaxGroup(txtTaxGroup.Value, txtBillToLocation.Value, txtVendorNo.Value, "P", txtDate.Value, Nothing, txtShipFromLocation.Value)
+                Else
+                    clsLocationWiseTax.IsValidTaxGroup(txtTaxGroup.Value, txtBillToLocation.Value, txtVendorNo.Value, "P", txtDate.Value, Nothing)
+                End If
             End If
             ''End of For GST Skip
             UcCustomFields1.AllowToSave()
@@ -5391,6 +5403,8 @@ Public Class frmPurchaseOrder
                 obj.Remarks = txtRemarks.Text
                 obj.Bill_To_Location = txtBillToLocation.Value
                 obj.Ship_To_Location = txtShipToLocation.Value
+                obj.Ship_From_Location = txtShipFromLocation.Value
+                obj.ShipToLocationName = lblShipFromLocation.Text
                 obj.Sublocation_Code = txtSubLocation.Value
 
                 ' Convert the RTF formatted text to HTML
@@ -5446,15 +5460,9 @@ Public Class frmPurchaseOrder
                 If (clsCommon.CompairString(obj.PurchaseOrder_Type, "J") = CompairStringResult.Equal) Then
                     obj.Against_RGP = clsCommon.myCdbl(chkAgainst_RGP.Checked)
                 End If
-                If ShowItemAllStructureWise = True Then
-                    If gv1.Rows.Count > 0 Then
-                        Dim itemcode As String = clsCommon.myCstr(gv1.Rows(0).Cells(colICode).Value)
-                        Dim itemtype As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 item_type from TSPL_ITEM_MASTER where Item_Code ='" + itemcode + "'"))
-                        obj.Item_Type = itemtype
-                    End If
-                Else
-                    obj.Item_Type = clsCommon.myCstr(cboItemType.SelectedValue)
-                End If
+                ' If ShowItemAllStructureWise = True Then
+                obj.Item_Type = clsCommon.myCstr(cboItemType.SelectedValue)
+                ' End If
                 obj.Dept = txtDept.Value
                 obj.Dept_Desc = lblDept.Text
                 If (gv2.Rows.Count > 0) Then
@@ -6267,6 +6275,8 @@ Public Class frmPurchaseOrder
                 'RTComment.Rtf = obj.Comments
                 txtShipToLocation.Value = obj.Ship_To_Location
                 txtBillToLocation.Value = obj.Bill_To_Location
+                txtShipFromLocation.Value = obj.Ship_From_Location
+                lblShipFromLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Ship_To_Desc as Name from TSPL_SHIP_TO_LOCATION where Ship_To_Code ='" + txtShipFromLocation.Value + "'"))
                 txtSubLocation.Value = obj.Sublocation_Code
                 TxtRetention.Text = obj.Retention
                 chkJobWorkOutward.Checked = obj.isJobWorkOutward
@@ -7506,7 +7516,11 @@ Public Class frmPurchaseOrder
         Try
             'Dim qry As String = "select Tax_Group_Code as Code,Tax_Group_Desc as Description from TSPL_TAX_GROUP_MASTER "
             'txtTaxGroup.Value = clsCommon.ShowSelectForm("POTaxGroupfndd", qry, "Code", "Tax_Group_Type='P'", txtTaxGroup.Value, "Code", isButtonClicked)
-            txtTaxGroup.Value = clsLocationWiseTax.FinderForTaxGroup(IIf(clsCommon.myLen(clsCommon.myCstr(txtShipToLocation.Value)) <= 0, txtBillToLocation.Value, txtShipToLocation.Value), txtVendorNo.Value, "P", txtTaxGroup.Value, isButtonClicked)
+            If clsCommon.myLen(txtShipFromLocation.Value) > 0 Then
+                txtTaxGroup.Value = clsLocationWiseTax.FinderForTaxGroup(IIf(clsCommon.myLen(clsCommon.myCstr(txtShipToLocation.Value)) <= 0, txtBillToLocation.Value, txtShipToLocation.Value), txtVendorNo.Value, "P", txtTaxGroup.Value, isButtonClicked, txtShipFromLocation.Value)
+            Else
+                txtTaxGroup.Value = clsLocationWiseTax.FinderForTaxGroup(IIf(clsCommon.myLen(clsCommon.myCstr(txtShipToLocation.Value)) <= 0, txtBillToLocation.Value, txtShipToLocation.Value), txtVendorNo.Value, "P", txtTaxGroup.Value, isButtonClicked)
+            End If
             SetTaxDetails()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -7516,13 +7530,17 @@ Public Class frmPurchaseOrder
     Private Sub SetTax()
         If clsCommon.myLen(clsCommon.myCstr(txtShipToLocation.Value)) <= 0 Then
             txtTaxGroup.Value = clsLocationWiseTax.GetDefaultTaxGroup(txtBillToLocation.Value, txtVendorNo.Value, "P", txtDate.Value)
+            txtTaxGroup.Value = clsLocationWiseTax.GetDefaultTaxGroup(txtBillToLocation.Value, txtVendorNo.Value, "P", txtDate.Value, txtShipFromLocation.Value)
             lblTaxGrpName.Text = clsTaxGroupMaster.GetNameOfPurchaseType(txtTaxGroup.Value, Nothing)
             SetTaxDetails()
         Else
             txtTaxGroup.Value = clsLocationWiseTax.GetDefaultTaxGroup(txtShipToLocation.Value, txtVendorNo.Value, "P", txtDate.Value)
+            txtTaxGroup.Value = clsLocationWiseTax.GetDefaultTaxGroup(txtShipToLocation.Value, txtVendorNo.Value, "P", txtDate.Value, txtShipFromLocation.Value)
             lblTaxGrpName.Text = clsTaxGroupMaster.GetNameOfPurchaseType(txtTaxGroup.Value, Nothing)
             SetTaxDetails()
         End If
+
+
     End Sub
 
     Sub SetTaxDetails()
@@ -9881,7 +9899,12 @@ Public Class frmPurchaseOrder
         TxtBuyerPONo.Text = ""
         fndCountry_Origin.Enabled = True
         txtCarrier.Enabled = True
-        cboItemType.Enabled = True
+        If ShowItemAllStructureWise Then
+            cboItemType.Enabled = False
+        Else
+            cboItemType.Enabled = True
+
+        End If
         ''richa agarwal 15/04/2015
         TxtHSClassificationNo.Enabled = True
         fndPaymenttermsGroup.Enabled = True
@@ -11048,6 +11071,23 @@ Public Class frmPurchaseOrder
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub txtShipFromLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtShipFromLocation._MYValidating
+        If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
+            clsCommon.MyMessageBoxShow(Me, "Please select vendor", Me.Text)
+            Exit Sub
+        End If
+        Dim qry As String = " select Ship_To_Code as Code,Ship_To_Desc as Name from TSPL_SHIP_TO_LOCATION  "
+        Dim WhrCls As String = "  Ship_To_Type_Code = '" & txtVendorNo.Value & "' "
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+        End If
+        txtShipFromLocation.Value = clsCommon.ShowSelectForm("SHIPFROMLOCPO", qry, "Code", WhrCls, txtShipFromLocation.Value, "Code", isButtonClicked)
+        lblShipFromLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Ship_To_Desc as Name from TSPL_SHIP_TO_LOCATION where Ship_To_Code ='" + txtShipFromLocation.Value + "'"))
+        If Not chkIsMerchantTrade.Checked Then
+            SetTax()
+        End If
     End Sub
 End Class
 

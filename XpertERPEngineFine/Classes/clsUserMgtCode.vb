@@ -1,5 +1,6 @@
 ﻿Imports common
 Public Class clsUserMgtCode
+    Public Const rptEmployeeDeductionMasterReport As String = "EMP-DED-RPT"
     Public Const frmRCDFRateControl As String = "RCDF-RT-CNT"
     Public Const frmEmployeeDeductionMaster As String = "EMP-DED-MST"
     'Public Const FrmReceiptInvoiceMapping As String = "REC-INV-MAP"
@@ -2482,6 +2483,8 @@ Public Class clsUserMgtCode
     Public Const rptPerformanceReport As String = "PERF-RPT"
     Public Const VehicleUnloadingReport As String = "VEH-UNL-RPT"
     Public Const rptTransactionWiseStock As String = "TRAN-STCK"
+    Public Const Rptralwisematerialreceivedandpayment As String = "RAL-REC-RPT"
+    Public Const RmSecurityDeduction As String = "RM-SRT-DED"
     Public Const rptRMUnloading As String = "RM-UNL-RPT"
     Public Const RptPOAgainstDocument As String = "PO_AGT"
     Public Const frmBillChecklist As String = "PO_BCL"

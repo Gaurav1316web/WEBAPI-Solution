@@ -15,6 +15,8 @@ Public Class clsItemMaster
     Public Is_QC_SNF_Based As Integer = 0
     Public Is_AllowQC_ON_Production As Integer = 0
     Public FG_for_CF_RPT As Integer = 0
+    Public FG_for_CF_PL As Integer = 0
+    Public SFG_for_CF As Integer = 0
     Public Cust_Account As String = Nothing
     Public Cust_Account_Name As String = Nothing
     Public Part_No As String = Nothing
@@ -65,6 +67,7 @@ Public Class clsItemMaster
     Public Is_FreshAmbient As Boolean = False
     Public Tax_Exempted As Integer = 0
     Public Sku_Seq As Int64 = 0
+    Public Uploader_Seq As Int64 = 0
     Public Is_DisplayDemand As Boolean = False
     Public Is_ExcludeAPP As Boolean = False
     Public shelflife As String = Nothing
@@ -1450,6 +1453,7 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
             clsCommon.AddColumnsForChange(coll, "Active", IIf(obj.Active, 1, 0))
             clsCommon.AddColumnsForChange(coll, "AlternativeItem", obj.AlternativeItem)
             clsCommon.AddColumnsForChange(coll, "Sku_Seq", clsCommon.myCdbl(obj.Sku_Seq))
+            clsCommon.AddColumnsForChange(coll, "Uploader_Seq", clsCommon.myCdbl(obj.Uploader_Seq))
             clsCommon.AddColumnsForChange(coll, "DcsSeqNo", clsCommon.myCdbl(obj.DcsSeqNo))
             clsCommon.AddColumnsForChange(coll, "Is_DisplayDemand", clsCommon.myCdbl(obj.Is_DisplayDemand))
             clsCommon.AddColumnsForChange(coll, "Is_ExcludeAPP", clsCommon.myCdbl(obj.Is_ExcludeAPP))
@@ -1477,6 +1481,8 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
             clsCommon.AddColumnsForChange(coll, "Is_QC_SNF_Based", obj.Is_QC_SNF_Based)
             clsCommon.AddColumnsForChange(coll, "Is_AllowQC_ON_Production", obj.Is_AllowQC_ON_Production)
             clsCommon.AddColumnsForChange(coll, "FG_for_CF_RPT", obj.FG_for_CF_RPT)
+            clsCommon.AddColumnsForChange(coll, "FG_for_CF_PL", obj.FG_for_CF_PL)
+            clsCommon.AddColumnsForChange(coll, "SFG_for_CF", obj.SFG_for_CF)
             clsCommon.AddColumnsForChange(coll, "AllowSRNWithoutShortReject", obj.AllowSRNWithoutShortReject)
             clsCommon.AddColumnsForChange(coll, "Is_Ambient", IIf(obj.Is_Ambient, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Is_Tax_Exempted", obj.Tax_Exempted)
@@ -1688,6 +1694,7 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
                 obj.Weight_UOM = clsCommon.myCstr(dt.Rows(0)("Weight_UOM"))
                 obj.Weight_Value = clsCommon.myCdbl(dt.Rows(0)("Weight_Value"))
                 obj.Sku_Seq = clsCommon.myCdbl(dt.Rows(0)("Sku_Seq"))
+                obj.Uploader_Seq = clsCommon.myCdbl(dt.Rows(0)("Uploader_Seq"))
                 obj.DcsSeqNo = clsCommon.myCdbl(dt.Rows(0)("DcsSeqNo"))
                 obj.Is_DisplayDemand = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_DisplayDemand")) = 1, True, False)
                 obj.Is_ExcludeAPP = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_ExcludeAPP")) = 1, True, False)
@@ -1712,6 +1719,8 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
                 obj.FG_for_CF = clsCommon.myCdbl(dt.Rows(0)("FG_for_CF"))
                 obj.Is_AllowQC_ON_Production = clsCommon.myCdbl(dt.Rows(0)("Is_AllowQC_ON_Production"))
                 obj.FG_for_CF_RPT = clsCommon.myCdbl(dt.Rows(0)("FG_for_CF_RPT"))
+                obj.FG_for_CF_PL = clsCommon.myCdbl(dt.Rows(0)("FG_for_CF_PL"))
+                obj.SFG_for_CF = clsCommon.myCdbl(dt.Rows(0)("SFG_for_CF"))
                 obj.BomBuildQty = clsCommon.myCdbl(dt.Rows(0)("BomBuildQty"))
                 obj.NIR_QC = (clsCommon.myCdbl(dt.Rows(0)("NIR_QC")) = 1)
                 obj.Cust_Account = clsCommon.myCstr(dt.Rows(0)("Cust_Account"))
@@ -1834,6 +1843,19 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
         End Try
         Return obj
     End Function
+
+    Public Shared Function GetGunnyBag(iTEM_CODE As String, uNIT_CODE As String, qUANTITY As Decimal) As Integer
+        Dim retValue As Integer = 0
+        Try
+            Dim qry As String = "select cast(" + clsCommon.myCstr(qUANTITY) + "*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/BagCF as int) from  (
+select Item_Code,Conversion_Factor as BagCF from TSPL_ITEM_UOM_DETAIL where UOM_Code='BAG' and Item_Code='" + iTEM_CODE + "'
+)x left outer join TSPL_ITEM_UOM_DETAIL  on TSPL_ITEM_UOM_DETAIL.Item_Code=x.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code='" + uNIT_CODE + "'"
+            retValue = clsDBFuncationality.getSingleValue(qry)
+        Catch ex As Exception
+        End Try
+        Return retValue
+    End Function
+
     Public Shared Function GetStoreAdjustmentItemType(ByVal strICode As String)
         Dim qry As String = "select Case when  Item_Type='O' or Item_Type='0'  then 'OT' else  case when Item_Type='R' then 'RM' else '' end end as StoreAdjustmentItemType    from tspl_item_master where Item_Code='" + strICode + "'"
         Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))

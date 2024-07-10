@@ -173,7 +173,7 @@ where TSPL_Cleaning.Doc_No ='" + StrDocNo + "'", trans))
         Dim str As String = ""
         Try
             Dim qry As String = " select TSpl_Cleaning.Doc_No as [DocumentNo] ,TSpl_Cleaning.Start_Date_Time as [Start Date Time] ,TSpl_Cleaning.End_Date_Time as [End Date Time] ,TSpl_Cleaning.Gate_Entry_No as [Gate Entry No] ,TSpl_Cleaning.Weighment_No as [Weighment No] ,TSpl_Cleaning.QC_No as [Qc No] ,TSpl_Cleaning.Tanker_No as [Tanker No] , case when isnull (TSPL_Cleaning.isPosted,0)=0 then 'No' else 'Yes' end as [Is Posted] ,TSpl_Cleaning.Posting_Date as [Posting Date] ,TSpl_Cleaning.Done_by as [Cleaning Done By] ,TSpl_Cleaning.Checked_by as [Checked By] ,TSpl_Cleaning.Status as [Status] ,TSpl_Cleaning.Created_By as [Created By] ,TSpl_Cleaning.Created_Date as [Created Date] ,TSpl_Cleaning.Modify_By as [Modify By] ,TSpl_Cleaning.Modify_Date as [Modify Date] ,TSpl_Cleaning.comp_code as [Company Code] From TSpl_Cleaning left outer join Tspl_Gate_Entry_Details on Tspl_Gate_Entry_Details.Gate_Entry_No=TSpl_Cleaning.Gate_Entry_No  "
-            str = clsCommon.ShowSelectForm("CLNFND", qry, "DocumentNo", whrcls, curcode, "DocumentNo", isButtonClicked)
+            str = clsCommon.ShowSelectForm("CLNFND", qry, "DocumentNo", whrcls, curcode, "DocumentNo", isButtonClicked, "Start_Date_Time")
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try

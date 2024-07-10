@@ -13,6 +13,7 @@ Public Class frmPurchaseReturn
 
 #Region "Variables"
     Dim ShowCapexCodeandSubCode As Boolean = False
+    Public ShowItemAllStructureWise As Boolean = False
     Public atchqry As String = ""
     Private isCellValueChangedOpen As Boolean = False
     Private objRemittance As clsRemittance
@@ -311,7 +312,7 @@ Public Class frmPurchaseReturn
         SettingAutoRoundOffSeprateAccountOnVendorTransaction = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AutoRoundOffSeprateAccountOnVendorTransaction, clsFixedParameterCode.AutoRoundOffSeprateAccountOnVendorTransaction, Nothing)) = 1)
         ShowCapexCodeandSubCode = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowOptionforSelectingCapex, clsFixedParameterCode.ShowOptionforSelectingCapex, Nothing)) = "1", True, False))
         PurchaseModulePickFixTaxRate = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PurchaseModulePickFixTaxRate, clsFixedParameterCode.PurchaseModulePickFixTaxRate, Nothing)) = 1, True, False)
-
+        ShowItemAllStructureWise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, Nothing)) = 1, True, False)
         'If Not clsCommon.CompairString(objCommonVar.CurrentUserCode, "ADMIN") = CompairStringResult.Equal Then
         '    If funSetUserAccess() = False Then Exit Sub
         'End If
@@ -452,14 +453,32 @@ Public Class frmPurchaseReturn
     End Sub
 
     Sub LoadItemType()
-        ' cboItemType.DataSource = clsItemMaster.GetItemType()
-        Dim Whr = " AND IS_NON_INVENTORY=0   AND ITEM_TYPE_CODE NOT IN('J') "
+        If ShowItemAllStructureWise = True Then
+            cboItemType.DataSource = GetItemall()
+            cboItemType.ValueMember = "Code"
+            cboItemType.DisplayMember = "Name"
+            cboItemType.Enabled = False
+        Else
+            ' cboItemType.DataSource = clsItemMaster.GetItemType()
+            Dim Whr = " AND IS_NON_INVENTORY=0   AND ITEM_TYPE_CODE NOT IN('J') "
         cboItemType.DataSource = clsItemMaster.getItemTypeQuery(Whr)
         cboItemType.ValueMember = "Code"
-        cboItemType.DisplayMember = "Name"
+            cboItemType.DisplayMember = "Name"
+            cboItemType.Enabled = True
+        End If
     End Sub
 
-
+    Public Shared Function GetItemall() As DataTable
+        Dim dt As DataTable = New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+        dt.Columns.Add("Name", GetType(String))
+        Dim dr As DataRow = dt.NewRow()
+        dr("Code") = "Z"
+        dr("Name") = "All"
+        dt.Rows.Add(dr)
+        dr = dt.NewRow()
+        Return dt
+    End Function
     Public Sub LoadNoteType()
         Dim dt As DataTable = New DataTable()
         dt.Columns.Add("Code", GetType(String))
@@ -549,9 +568,13 @@ Public Class frmPurchaseReturn
         cboItemType.SelectedIndex = 0
         CboNoteType.SelectedIndex = 0
         cboTrType.SelectedIndex = 0
-        cboItemType.Enabled = True
+        If ShowItemAllStructureWise Then
+            cboItemType.Enabled = False
+        Else
+            cboItemType.Enabled = True
+
+        End If
         txtReqNo.Value = ""
-        cboItemType.Enabled = True
         txtBillToLocation.Enabled = True
         rbtnTaxCalAutomatic.IsChecked = True
         chkExciseOnQty.Checked = False
@@ -3642,7 +3665,9 @@ Public Class frmPurchaseReturn
                     End If
                 End If
             Next
-            clsItemMaster.isItemOfSameType(clsCommon.myCstr(cboItemType.SelectedValue), cboItemType.Text, arrICode)
+            If ShowItemAllStructureWise = False Then
+                clsItemMaster.isItemOfSameType(clsCommon.myCstr(cboItemType.SelectedValue), cboItemType.Text, arrICode)
+            End If
             clsPurchaseInvoiceHead.IsValidVendorForPI(arrReqNo, txtVendorNo.Value)
             clsPurchaseInvoiceHead.IsValidJobWorkOutwordForPR(arrReqNo, chkJobWorkOutward.Checked)
 
@@ -4411,7 +4436,11 @@ Public Class frmPurchaseReturn
                     btnSave.Enabled = False
                     btnPost.Enabled = False
                     btnDelete.Enabled = False
-
+                    If ShowItemAllStructureWise = False Then
+                        cboItemType.SelectedValue = obj.Item_Type
+                    Else
+                        LoadItemType()
+                    End If
                     repoComplete.IsVisible = True
                     repoBalQty.IsVisible = True
                     btncancel.Enabled = True

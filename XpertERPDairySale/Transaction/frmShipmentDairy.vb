@@ -8653,7 +8653,7 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "'"
                 qry += " order by TSPL_DEMAND_BOOKING_DETAIL.TR_Code"
                 LoadDistributorGrid(qry, Nothing)
             End If
-            txtCrate.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select sum(Qty) as Qty from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Document_Code='" + ParentDocNo + "' and Unit_code='Crate' group by Unit_code"))
+            'txtCrate.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select sum(Qty) as Qty from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Document_Code='" + ParentDocNo + "' and Unit_code='Crate' group by Unit_code"))
             If clsCommon.myLen(txtInvoiceNo.Text) > 0 Then
                 btnInvoiceJE.Visible = True
             Else
@@ -10980,7 +10980,7 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                     End If
                     Dim TotalCrate As Integer = 0
                     For i As Integer = 0 To gv1.Rows.Count - 1
-                        TotalCrate = TotalCrate + gv1.Rows(i).Cells(colCrate).Value
+                        TotalCrate = TotalCrate + clsCommon.myRoundOFF(clsCommon.myCdbl(gv1.Rows(i).Cells(colCrate).Value), 0, 6)
                     Next
                     If Not (EnableManualCrateonTaxableDairyDispatch = 1 AndAlso clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal) Then
                         If clsCommon.myCdbl(TotalCrate) > 0 Then

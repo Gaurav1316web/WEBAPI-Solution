@@ -23,17 +23,17 @@ Public Class RptDetailOfWelfareFundAmount
     End Sub
 #End Region
     Public Sub funPrint()
-
-        'Dim FromDate As String = clsCommon.myCDate(txtfromDate.Value, "dd/MMM/YYYY")
-        'Dim ToDate As String = clsCommon.myCDate(txtTodate.Value, "dd/MMM/yyyy")
-        Dim FromDate As String = txtfromDate.Value
-        Dim ToDate As String = txtTodate.Value
-        Dim CompCode As String = clsDBFuncationality.getSingleValue("select TSPL_COMPANY_MASTER.Comp_Code from tspl_company_master where Comp_Code='" + objCommonVar.CurrentCompanyCode + "' ")
-
-        Dim CompName As String = clsDBFuncationality.getSingleValue("select TSPL_COMPANY_MASTER.Comp_Name from tspl_company_master where Comp_Code='" + objCommonVar.CurrentCompanyCode + "' ")
-        Dim CompanyAdress As String = clsDBFuncationality.getSingleValue(" select  TSPL_COMPANY_MASTER.Add1+Case When ISNULL(TSPL_COMPANY_MASTER.Add2,'')='' Then '' else ', '+TSPL_COMPANY_MASTER.Add2+ Case When ISNULL(TSPL_COMPANY_MASTER.Add3,'')='' Then '' Else ', '+TSPL_COMPANY_MASTER.Add3+ Case When ISNULL(TSPL_COMPANY_MASTER.City_Code ,'')='' Then '' else '-'+CONVERT(varchar, TSPL_COMPANY_MASTER.City_Code) End End End as Comp_Address from tspl_company_master where Comp_Code='" + objCommonVar.CurrentCompanyCode + "' ")
-
         Try
+            'Dim FromDate As String = clsCommon.myCDate(txtfromDate.Value, "dd/MMM/YYYY")
+            'Dim ToDate As String = clsCommon.myCDate(txtTodate.Value, "dd/MMM/yyyy")
+            Dim FromDate As String = txtfromDate.Value
+            Dim ToDate As String = txtTodate.Value
+            Dim CompCode As String = clsDBFuncationality.getSingleValue("select TSPL_COMPANY_MASTER.Comp_Code from tspl_company_master where Comp_Code='" + objCommonVar.CurrentCompanyCode + "' ")
+
+            Dim CompName As String = clsDBFuncationality.getSingleValue("select TSPL_COMPANY_MASTER.Comp_Name from tspl_company_master where Comp_Code='" + objCommonVar.CurrentCompanyCode + "' ")
+            Dim CompanyAdress As String = clsDBFuncationality.getSingleValue(" select  TSPL_COMPANY_MASTER.Add1+Case When ISNULL(TSPL_COMPANY_MASTER.Add2,'')='' Then '' else ', '+TSPL_COMPANY_MASTER.Add2+ Case When ISNULL(TSPL_COMPANY_MASTER.Add3,'')='' Then '' Else ', '+TSPL_COMPANY_MASTER.Add3+ Case When ISNULL(TSPL_COMPANY_MASTER.City_Code ,'')='' Then '' else '-'+CONVERT(varchar, TSPL_COMPANY_MASTER.City_Code) End End End as Comp_Address from tspl_company_master where Comp_Code='" + objCommonVar.CurrentCompanyCode + "' ")
+
+
             'Dim qry As String = " select substring(datename(MONTH,convert(date,case when convert(date,Joining_date,103)<=convert(date,'" + txtfromDate.Value + "',103) then '" + txtfromDate.Value + "' else  Joining_date end,103)),1,3) + ', ' + datename(YEAR,convert(date,case when convert(date,Joining_date,103)<=convert(date,'" + txtfromDate.Value + "',103) then '" + txtfromDate.Value + "' else  Joining_date end,103)) "
             'qry += " + ' to ' + substring(datename(month,cast(TSPL_PAYPERIOD_MASTER.DATE_FROM as date)),1,3) + ', ' + datename(YEAR,cast(TSPL_PAYPERIOD_MASTER.DATE_FROM as date)) as Period, '" + CompCode + "' as Comp_Code,'" + CompName + "' as Comp_Name,'" + CompanyAdress + "' as Comp_Address,'" + clsCommon.myCDate(FromDate, "dd/MMM/yyyy") + "' as FromDate,'" + clsCommon.myCDate(ToDate, "dd/MMM/yyyy") + "' as ToDate,"
 
@@ -60,7 +60,7 @@ Public Class RptDetailOfWelfareFundAmount
             qry += " ,'" + CompCode + "' as Comp_Code,'" + CompanyName + "' as Comp_Name,'" + CompanyAdress + "' as Comp_Address,'" + clsCommon.myCDate(FromDate, "dd/MMM/yyyy") + "' as FromDate,'" + clsCommon.myCDate(ToDate, "dd/MMM/yyyy") + "' as ToDate, TSPL_LOCATION_MASTER.Location_Code ,TSPL_LOCATION_MASTER.Location_Desc ,TSPL_LOCATION_MASTER.Add1+Case When ISNULL(TSPL_LOCATION_MASTER.Add2,'')='' Then '' else ', '+TSPL_LOCATION_MASTER.Add2+ Case When ISNULL(TSPL_LOCATION_MASTER.Add3,'')='' Then '' Else ', '+TSPL_LOCATION_MASTER.Add3+ Case When ISNULL(TSPL_LOCATION_MASTER.City_Code ,'')='' Then '' "
             qry += " else '-'+CONVERT(varchar, TSPL_LOCATION_MASTER.City_Code) End End End as Loc_Address,TSPL_EMPLOYEE_MASTER.EMP_CODE ,TSPL_EMPLOYEE_MASTER.Emp_Name ,TSPL_EMPLOYEE_MASTER.FATHERS_NAME ,TSPL_EMPLOYEE_MASTER.Designation ,TSPL_EMPLOYEE_MASTER.Joining_date ,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE ,isnull(TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT,0) as ACTUAL_AMOUNT,TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE ,datepart(dd,TSPL_PAYPERIOD_MASTER.DATE_FROM) as Datewise,datename(month,TSPL_PAYPERIOD_MASTER.DATE_FROM) as Monthwise ,datepart(yy,TSPL_PAYPERIOD_MASTER.DATE_FROM) as Yearwise"
             qry += " from TSPL_GENERATE_SALARY_ATTENDANCE inner JOIN  TSPL_GENERATE_SALARY on TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE =TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE  left outer join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.EMP_CODE =TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE left join (select SALARY_GENERATION_CODE,EMP_CODE,SUB_HEAD_TYPE,PAY_HEAD_CODE,ACTUAL_AMOUNT from TSPL_GENERATE_SALARY_PAYHEADS where SUB_HEAD_TYPE='LWF') TSPL_GENERATE_SALARY_PAYHEADS on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE =TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE and "
-            qry += " TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE = TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE  left outer join TSPL_PAYPERIOD_MASTER on TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE =TSPL_GENERATE_SALARY.PAY_PERIOD_CODE   left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code =TSPL_GENERATE_SALARY.LOCATION_CODE  where convert(date,TSPL_PAYPERIOD_MASTER.DATE_FROM,103)>=convert(date,('" + txtfromDate.Value + "'),103) and convert(date,TSPL_PAYPERIOD_MASTER.DATE_FROM,103) <=convert(date,('" + txtTodate.Value + "'),103)  and ACTUAL_AMOUNT >0 and TSPL_LOCATION_MASTER.LOCATION_CODE  in (" + clsCommon.myCstr(fndLocationCode.Value) + ")"
+            qry += " TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE = TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE  left outer join TSPL_PAYPERIOD_MASTER on TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE =TSPL_GENERATE_SALARY.PAY_PERIOD_CODE   left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code =TSPL_GENERATE_SALARY.LOCATION_CODE  where convert(date,TSPL_PAYPERIOD_MASTER.DATE_FROM,103)>=convert(date,('" + txtfromDate.Value + "'),103) and convert(date,TSPL_PAYPERIOD_MASTER.DATE_FROM,103) <=convert(date,('" + txtTodate.Value + "'),103)  and ACTUAL_AMOUNT >0 and TSPL_LOCATION_MASTER.LOCATION_CODE  in ('" + clsCommon.myCstr(fndLocationCode.Value) + "')"
             If txtDivisionMult.arrValueMember IsNot Nothing AndAlso txtDivisionMult.arrValueMember.Count > 0 Then
                 qry += " and TSPL_EMPLOYEE_MASTER.Devision_Code  in (" + clsCommon.GetMulcallString(txtDivisionMult.arrValueMember) + ") "
             End If
@@ -70,16 +70,12 @@ Public Class RptDetailOfWelfareFundAmount
             qry += " ) as mm group by EMP_CODE ,Location_Code ) AS  MM"
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-
             If dt.Rows.Count > 0 Then
-
                 Dim frmcrystal As New frmCrystalReportViewer()
                 frmcrystal.funreport(CrystalReportFolder.HRPayroll, dt, "rptDetailOfWelfareFundAmount", "Detail Of Welfare Fund Amount")
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
-
             End If
-
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -92,30 +88,37 @@ Public Class RptDetailOfWelfareFundAmount
             Exit Sub
         End If
         funPrint()
-
     End Sub
 
-   
+
 
     Private Sub RptDetailOfWelfareFundAmount_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        SetUserMgmtNew()
-        ButtonToolTip.SetToolTip(btnPrint, "Press Alt+P for Print ")
-        ButtonToolTip.SetToolTip(btnClosee, "Press Alt+C Close the Window")
-        txtfromDate.Value = clsCommon.GETSERVERDATE()
-        txtTodate.Value = clsCommon.GETSERVERDATE()
+        Try
+            SetUserMgmtNew()
+            ButtonToolTip.SetToolTip(btnPrint, "Press Alt+P for Print ")
+            ButtonToolTip.SetToolTip(btnClosee, "Press Alt+C Close the Window")
+            txtfromDate.Value = clsCommon.GETSERVERDATE()
+            txtTodate.Value = clsCommon.GETSERVERDATE()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub RptDetailOfWelfareFundAmount_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
 
     End Sub
 
-   
+
 
     Private Sub txtDivisionMult__My_Click(sender As Object, e As EventArgs) Handles txtDivisionMult._My_Click
-        Dim qry As String = " select DEVISION_CODE as Code,DEVISION_NAME as Name from TSPL_DEVISION_MASTER"
-        txtDivisionMult.arrValueMember = clsCommon.ShowMultipleSelectForm("DivMulSel", qry, "Code", "Name", txtDivisionMult.arrValueMember, txtDivisionMult.arrDispalyMember)
+        Try
+            Dim qry As String = " select DEVISION_CODE as Code,DEVISION_NAME as Name from TSPL_DEVISION_MASTER"
+            txtDivisionMult.arrValueMember = clsCommon.ShowMultipleSelectForm("DivMulSel", qry, "Code", "Name", txtDivisionMult.arrValueMember, txtDivisionMult.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
- 
+
     'Private Sub txtEmployeeMult__My_Click(sender As Object, e As EventArgs) Handles txtEmployeeMult._My_Click
     '    Dim qry As String = GetEmploeeQry()
     '    txtEmployeeMult.arrValueMember = clsCommon.ShowMultipleSelectForm("EMPMulSel", qry, "Code", "Name", txtEmployeeMult.arrValueMember, txtEmployeeMult.arrDispalyMember)
@@ -125,13 +128,17 @@ Public Class RptDetailOfWelfareFundAmount
         Me.close()
     End Sub
 
-    
+
     Private Sub fndLocationCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndLocationCode._MYValidating
-        fndLocationCode.Value = clsLocation.getFinder("Location_Type='Physical'", Me.fndLocationCode.Value, isButtonClicked)
-        If clsCommon.myLen(fndLocationCode.Value) > 0 Then
-            lblLocationName.Text = clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" & fndLocationCode.Value & "'")
-        Else
-            lblLocationName.Text = ""
-        End If
+        Try
+            fndLocationCode.Value = clsLocation.getFinder("Location_Type='Physical'", Me.fndLocationCode.Value, isButtonClicked)
+            If clsCommon.myLen(fndLocationCode.Value) > 0 Then
+                lblLocationName.Text = clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" & fndLocationCode.Value & "'")
+            Else
+                lblLocationName.Text = ""
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

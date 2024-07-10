@@ -326,6 +326,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptCrateAccountingForDetail.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptCrateAccountingForSummary.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairyDeliveryOrder.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntriesJDP.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntriesJPR.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntriesGNG.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntriesUDP.rpt" />
@@ -474,6 +475,7 @@
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreJAL.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreJPR.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreRJS.rpt" />
+    <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreTNK.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreUDP.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessJ-V.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptQualityCheck.rpt" />
@@ -1128,6 +1130,7 @@
     <None Include="Crystal Reports\HR_Payroll\crptBankSummary.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptBonusStatement.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptDamageLoss.rpt" />
+    <None Include="Crystal Reports\HR_Payroll\crptEmployeeDeductionMaster.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptEmployeeGratuityReport.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptEmployeeIdCard.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptESCIForm6%28Apr-Sep%29.rpt" />
@@ -1275,7 +1278,11 @@
     <None Include="Crystal Reports\Kwality Sales Report\crptBookingTaxableChallan.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptBulkSaleInvAndDispatchJV.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\CrptCreditCustomerReport.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorRouteWiseDetailcreditMilk.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorRouteWiseDetailcreditProduct.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorWiseDetail.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorWiseDetailcreditMilk.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorWiseDetailcreditProduct.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorWiseSummary.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDemandReturn.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptInvoiceDetail.rpt" />
@@ -1375,6 +1382,7 @@
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNew.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNewALW.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNewBKN.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNewBNS.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNewGNG.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNewJAL.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNewJDH.rpt" />
@@ -1508,6 +1516,7 @@
     <None Include="Crystal Reports\PRODUCTION\crptLineProductivity1.rpt" />
     <None Include="Crystal Reports\PRODUCTION\crptPPBOMPrint.rpt" />
     <None Include="Crystal Reports\PRODUCTION\crptProductionPlan.rpt" />
+    <None Include="Crystal Reports\PRODUCTION\crptProductionUploaderPrint.rpt" />
     <None Include="Crystal Reports\PRODUCTION\ProductionIssue.rpt" />
     <None Include="Crystal Reports\PRODUCTION\ProductionRequisition.rpt" />
     <None Include="Crystal Reports\PRODUCTION\ProductionReturn.rpt" />

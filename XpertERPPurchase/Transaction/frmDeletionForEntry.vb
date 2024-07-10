@@ -156,6 +156,36 @@ Public Class frmDeletionForEntry
                     Gv2.DataSource = Nothing
                     Gv2.Rows.Clear()
                 End If
+            ElseIf String.IsNullOrEmpty(txtRefNo.Text) Then
+                Dim qrypurinv As String = ""
+                Dim dt7 As New DataTable()
+                qrypurinv = "SELECT Distinct TSPL_PI_DETAIL.PI_No,PI_Date FROM TSPL_PI_DETAIL left outer join TSPL_PI_HEAD on TSPL_PI_DETAIL.PI_No = TSPL_PI_HEAD.PI_No
+                     WHERE TSPL_PI_HEAD.Bill_To_Location='" + txtBillToLocation.Value + "' AND TSPL_PI_DETAIL.Item_Code='" + txtItemCode.Text + "' 
+                     AND TSPL_PI_HEAD.Vendor_Code='" + txtVendorNo.Value + "' and SRN_Id= '" + txttSRN.Text + "' order by TSPL_PI_DETAIL.PI_No desc "
+
+                If clsCommon.myLen(qrypurinv) > 0 Then
+                    dt7 = clsDBFuncationality.GetDataTable(qrypurinv)
+                End If
+
+                If dt7 IsNot Nothing AndAlso dt7.Rows.Count > 0 Then
+                    Gv2.DataSource = Nothing
+                    Gv2.GroupDescriptors.Clear()
+                    Gv2.SummaryRowsBottom.Clear()
+                    Gv2.DataSource = dt7
+                    Gv2.BestFitColumns()
+
+                    For Each row As DataRow In dt7.Rows
+                        'Gv2.Rows.AddNew()
+                        Gv2.Rows(Gv2.Rows.Count - 1).Cells(colCheckPI).Value = False
+                        Gv2.Rows(Gv2.Rows.Count - 1).Cells(colPI_No).Value = clsCommon.myCstr(row("PI_No"))
+                        Gv2.Rows(Gv2.Rows.Count - 1).Cells(colPI_Date).Value = clsCommon.myCstr(row("PI_Date"))
+                    Next
+                    FormatGridGv2()
+                Else
+                    Gv2.DataSource = Nothing
+                    Gv2.Rows.Clear()
+
+                End If
             End If
         Catch ex As Exception
         End Try

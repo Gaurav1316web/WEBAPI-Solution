@@ -29,6 +29,7 @@ Public Class clsStanderdProductionEntry
     Public ArrBatchItem As New List(Of clsStanderdProductionEntryDetail)
     Public ArrConsm As New List(Of clsStanderdProductionEntryConsumption)
     Public ArrConsmCost As New List(Of clsStanderdProductionEntryConsumptionCost)
+    Public ArrGunny As New List(Of clsStanderdProductionEntryGunnyBag)
 
 #End Region
 
@@ -38,12 +39,8 @@ Public Class clsStanderdProductionEntry
         Return GetData(strCode, arrloc, NavType, Nothing)
     End Function
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
-        Dim isSaved As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-        Dim obj As New clsStanderdProductionEntry
         Try
-            isSaved = False
-
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
@@ -52,8 +49,7 @@ Public Class clsStanderdProductionEntry
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmProductionEntry, clsCommon.myCstr(dt.Rows(0)("LOCATION_CODE")), clsCommon.myCDate(dt.Rows(0)("PROD_DATE")), trans)
             End If
 
-            'Dim obj As New clsStanderdProductionEntry
-            obj = clsStanderdProductionEntry.GetData(strCode, "", NavigatorType.Current, trans)
+            Dim obj As clsStanderdProductionEntry = clsStanderdProductionEntry.GetData(strCode, "", NavigatorType.Current, trans)
 
             If (obj.POSTED = True) Then
                 Throw New Exception("Already Posted on :" + obj.Posting_Date)
@@ -61,46 +57,48 @@ Public Class clsStanderdProductionEntry
 
             clsSerializeInvenotry.DeleteData("Production", strCode, trans)
 
-            Dim qry As String
-            qry = "delete from TSPL_SPP_PRODUCTION_ENTRY_DETAIL where PROD_ENTRY_CODE ='" + strCode + "'"
-            isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            Dim qry As String = "delete from TSPL_SPP_PRODUCTION_ENTRY_DETAIL where PROD_ENTRY_CODE ='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL where PROD_ENTRY_CODE ='" + strCode + "'"
-            isSaved = isSaved And clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "DELETE FROM TSPL_SPP_GUNNY_BAG_WITHOUT_BATCH WHERE PROD_ENTRY_CODE='" & strCode & "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "DELETE FROM TSPL_SPP_CONSUMPTION_WITHOUT_BATCH WHERE PROD_ENTRY_CODE='" & strCode & "'"
-            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "DELETE FROM TSPL_SPP_COST_WITHOUT_BATCH WHERE PROD_ENTRY_CODE='" & strCode & "'"
-            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from TSPL_SPP_PE_ISSUE_ITEM_DETAIL where PROD_ENTRY_CODE ='" + strCode + "'"
-            isSaved = isSaved And clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from TSPL_SPP_PE_STAGE_DETAIL where PROD_ENTRY_CODE ='" + strCode + "'"
-            isSaved = isSaved And clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from TSPL_SPP_PE_STAGE_QC_LOG_SHEET where PROD_ENTRY_CODE ='" + strCode + "'"
-            isSaved = isSaved And clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from TSPL_SPP_PE_WRECKAGE_FLASHING where PROD_ENTRY_CODE ='" + strCode + "'"
-            isSaved = isSaved And clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from TSPL_SPP_PE_QC_DETAIL where PROD_ENTRY_CODE ='" + strCode + "'"
-            isSaved = isSaved And clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from TSPL_SPP_PE_SCRAP_DETAIL where PROD_ENTRY_CODE ='" + strCode + "'"
-            isSaved = isSaved And clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from TSPL_SPP_PRODUCTION_ENTRY where PROD_ENTRY_CODE ='" + strCode + "'"
-            isSaved = isSaved And clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
             Throw New Exception(ex.Message.ToString())
         End Try
-        Return isSaved
+        Return True
     End Function
     Public Shared Function GetData(ByVal strCode As String, ByVal arrloc As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsStanderdProductionEntry
         Dim obj As New clsStanderdProductionEntry()
@@ -164,6 +162,7 @@ Public Class clsStanderdProductionEntry
         obj.ArrBatchItem = clsStanderdProductionEntryDetail.GetProductionEntryDetail(strCode, trans)
         obj.ArrConsm = clsStanderdProductionEntryConsumption.GetConsumption(strCode, trans)
         obj.ArrConsmCost = clsStanderdProductionEntryConsumptionCost.GetConsumptionCost(strCode, trans)
+        obj.ArrGunny = clsStanderdProductionEntryGunnyBag.GetData(strCode, trans)
 
         Return obj
     End Function
@@ -200,6 +199,9 @@ Public Class clsStanderdProductionEntry
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from TSPL_SPP_COST_WITHOUT_BATCH where PROD_ENTRY_CODE='" & obj.PROD_ENTRY_CODE & "'"
+            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_SPP_GUNNY_BAG_WITHOUT_BATCH where PROD_ENTRY_CODE='" & obj.PROD_ENTRY_CODE & "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             Dim coll As New Hashtable()
@@ -244,6 +246,7 @@ Public Class clsStanderdProductionEntry
             isSaved = isSaved AndAlso clsStanderdProductionEntryDetail.SaveDetailData(obj.PROD_ENTRY_CODE, obj, objList, trans)
             isSaved = isSaved AndAlso clsStanderdProductionEntryConsumption.SaveConsumption(obj.PROD_ENTRY_CODE, obj.PROD_DATE, obj.ArrConsm, trans)
             isSaved = isSaved AndAlso clsStanderdProductionEntryConsumptionCost.SaveConsumptionCost(obj.PROD_ENTRY_CODE, obj.ArrConsmCost, trans)
+            isSaved = isSaved AndAlso clsStanderdProductionEntryGunnyBag.SaveData(obj.PROD_ENTRY_CODE, obj.ArrGunny, trans)
             trans.Commit()
 
         Catch err As Exception
@@ -1534,8 +1537,55 @@ Public Class clsStanderdProductionEntryRM
                     obj.MRP = 0
                     obj.IS_CONSUMPTION = 1
                     ArrInventoryMovement.Add(obj)
-
                 End If
+            Next
+
+
+            For Each objGunny As clsStanderdProductionEntryGunnyBag In objRec.ArrGunny
+                obj = New clsInventoryMovement
+                obj.Trans_Type = "GunnyBag"
+                obj.InOut = "I"
+                obj.Location_Code = objRec.LOCATION_CODE 'objProd.LOCATION_CODE
+                obj.Item_Code = objGunny.Item_Code
+                obj.Item_Desc = objGunny.Item_Name
+                obj.Qty = objGunny.Qty
+                obj.UOM = objGunny.UOM
+                obj.Source_Doc_No = objRec.PROD_ENTRY_CODE
+                obj.Source_Doc_Date = objRec.PROD_DATE
+
+                Dim strItemType As String = clsItemMaster.GetItemType(objGunny.Item_Code, trans)
+                Dim strItemTypeToSave As String = ""
+                If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
+                    strItemTypeToSave = "RM"
+                ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
+                    strItemTypeToSave = "OT"
+                ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
+                    strItemTypeToSave = "FT"
+                Else
+                    strItemTypeToSave = strItemType
+                    'Throw New Exception("Item Type not found: " + strItemType)
+                End If
+                obj.ItemType = strItemTypeToSave
+                obj.Batch_No = ""
+
+                ''===========================================================
+                obj.FAT_Per = 0
+                obj.SNF_Per = 0
+                obj.FAT_KG = 0
+                obj.SNF_KG = 0
+
+                obj.Fat_Rate = 0
+                obj.SNF_Amt = 0
+                obj.Fat_Amt = 0
+                obj.SNF_Rate = 0
+                ''==================================================================
+
+                obj.Avg_Cost = 0
+                obj.FIFO_Cost = 0
+                obj.LIFO_Cost = 0
+
+
+                ArrInventoryMovement.Add(obj)
 
             Next
 
@@ -1591,6 +1641,7 @@ Public Class clsStanderdProductionEntryConsumption
     Public SNF_Amt As Decimal = 0
     Public FINAL_PRODUCTION_QTY_Min As Decimal = 0
     Public FINAL_PRODUCTION_QTY_Max As Decimal = 0
+    Public Gunny_Bags As Integer = 0
 #End Region
     Public Shared Function GetConsumption(ByVal ReceiptCode As String, Optional ByVal trans As SqlTransaction = Nothing) As List(Of clsStanderdProductionEntryConsumption)
         Dim qry As String = ""
@@ -1598,7 +1649,7 @@ Public Class clsStanderdProductionEntryConsumption
         Dim objtr As New clsStanderdProductionEntryConsumption
         qry = "select PP.FINAL_PRODUCTION_QTY_MIN, PP.FINAL_PRODUCTION_QTY_MAX, PP.PROD_ENTRY_CODE,PP.AVG_COST,PP.BOM_CODE,PP.CONSM_ITEM_CODE,Consm_Item.Item_Desc as Consm_Item_Desc,Consm_Item.Product_Type as Consm_Product_Type,PP.CONSM_QTY,PP.CONSM_QTY_Original
 ,PP.Fat_Amt,PP.FAT_KG,PP.FAT_Per,PP.Fat_Rate,PP.FIFO_COST,PP.LIFO_COST,PP.LOCATION_CODE,TSPL_LOCATION_MASTER.Location_Desc," &
-            " PP.Main_ITEM_CODE,PP.MAIN_UOM,PP.SNF_Amt,PP.SNF_KG,PP.SNF_Per,PP.SNF_Rate,PP.UNIT_CODE,TSPL_ITEM_MASTER.ITEM_DESC AS Main_ITEM_Desc,TSPL_MF_BOM_HEAD.DESCRIPTION AS BOM_Desc,TSPL_UNIT_MASTER.UNIT_DESC AS  MAIN_UOM_Desc from TSPL_SPP_CONSUMPTION_WITHOUT_BATCH PP " &
+            " PP.Main_ITEM_CODE,PP.MAIN_UOM,PP.SNF_Amt,PP.SNF_KG,PP.SNF_Per,PP.SNF_Rate,PP.UNIT_CODE,TSPL_ITEM_MASTER.ITEM_DESC AS Main_ITEM_Desc,TSPL_MF_BOM_HEAD.DESCRIPTION AS BOM_Desc,TSPL_UNIT_MASTER.UNIT_DESC AS  MAIN_UOM_Desc,PP.Gunny_Bags from TSPL_SPP_CONSUMPTION_WITHOUT_BATCH PP " &
             " LEFT JOIN TSPL_ITEM_MASTER ON PP.Main_ITEM_CODE=TSPL_ITEM_MASTER.ITEM_CODE " &
             " LEFT JOIN TSPL_MF_BOM_HEAD ON PP.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE " &
             " LEFT JOIN TSPL_UNIT_MASTER ON PP.MAIN_UOM=TSPL_UNIT_MASTER.UNIT_CODE " &
@@ -1637,6 +1688,7 @@ Public Class clsStanderdProductionEntryConsumption
             objtr.UNIT_CODE = clsCommon.myCstr(dr.Item("UNIT_CODE"))
             objtr.FINAL_PRODUCTION_QTY_Min = clsCommon.myCdbl(dr.Item("FINAL_PRODUCTION_QTY_Min"))
             objtr.FINAL_PRODUCTION_QTY_Max = clsCommon.myCdbl(dr.Item("FINAL_PRODUCTION_QTY_Max"))
+            objtr.Gunny_Bags = clsCommon.myCDecimal(dr.Item("Gunny_Bags"))
             objList.Add(objtr)
         Next
         Return objList
@@ -1673,6 +1725,7 @@ Public Class clsStanderdProductionEntryConsumption
 
             clsCommon.AddColumnsForChange(coll, "FINAL_PRODUCTION_QTY_MIN", objtr.FINAL_PRODUCTION_QTY_Min)
             clsCommon.AddColumnsForChange(coll, "FINAL_PRODUCTION_QTY_MAX", objtr.FINAL_PRODUCTION_QTY_Max)
+            clsCommon.AddColumnsForChange(coll, "Gunny_Bags", objtr.Gunny_Bags)
 
             Dim BalanceQty As Decimal = 0
 
@@ -1829,6 +1882,54 @@ Public Class clsStanderdProductionEntryImportTemplate
     End Function
 End Class
 
+Public Class clsStanderdProductionEntryGunnyBag
+#Region "Variables"
+    Public PK_ID As Integer
+    Public PROD_ENTRY_CODE As String = Nothing
+    Public Item_Code As String = Nothing
+    Public Item_Name As String = Nothing
+    Public UOM As String = Nothing
+    Public Qty As Decimal
+
+#End Region
+    Public Shared Function SaveData(ByVal ReceiptCode As String, ByVal arr As List(Of clsStanderdProductionEntryGunnyBag), Optional ByVal trans As SqlTransaction = Nothing) As Boolean
+        If arr IsNot Nothing AndAlso arr.Count > 0 Then
+            For Each objtr As clsStanderdProductionEntryGunnyBag In arr
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "PROD_ENTRY_CODE", ReceiptCode)
+                clsCommon.AddColumnsForChange(coll, "Item_Code", objtr.Item_Code)
+                clsCommon.AddColumnsForChange(coll, "UOM", objtr.UOM)
+                clsCommon.AddColumnsForChange(coll, "Qty", objtr.Qty)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SPP_GUNNY_BAG_WITHOUT_BATCH", OMInsertOrUpdate.Insert, "", trans)
+            Next
+        End If
+        Return True
+    End Function
+
+    Public Shared Function GetData(ByVal ReceiptCode As String, Optional ByVal trans As SqlTransaction = Nothing) As List(Of clsStanderdProductionEntryGunnyBag)
+        Dim qry As String = ""
+        Dim objList As New List(Of clsStanderdProductionEntryGunnyBag)
+        Dim objtr As New clsStanderdProductionEntryGunnyBag
+        qry = "select TSPL_SPP_GUNNY_BAG_WITHOUT_BATCH.*,TSPL_ITEM_MASTER.ITEM_DESC 
+from TSPL_SPP_GUNNY_BAG_WITHOUT_BATCH  
+LEFT JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.ITEM_CODE=TSPL_SPP_GUNNY_BAG_WITHOUT_BATCH.Item_Code
+where TSPL_SPP_GUNNY_BAG_WITHOUT_BATCH.PROD_ENTRY_CODE='" & ReceiptCode & "'"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+        For Each dr As DataRow In dt.Rows
+            objtr = New clsStanderdProductionEntryGunnyBag
+            objtr.PK_ID = clsCommon.myCDecimal(dr.Item("PK_ID"))
+            objtr.PROD_ENTRY_CODE = clsCommon.myCstr(dr.Item("PROD_ENTRY_CODE"))
+            objtr.Item_Code = clsCommon.myCstr(dr.Item("Item_Code"))
+            objtr.Item_Name = clsCommon.myCstr(dr.Item("ITEM_DESC"))
+            objtr.UOM = clsCommon.myCstr(dr.Item("UOM"))
+            objtr.Qty = clsCommon.myCDecimal(dr.Item("Qty"))
+            objList.Add(objtr)
+        Next
+        Return objList
+    End Function
+
+
+End Class
 Public Class clsBOMRecursiveitems
 
 #Region "Variables"

@@ -16,7 +16,7 @@ Public Class frmHeadLoadMaster
     Const colBMCName As String = "BMC Name"
     Const colHeadLoadBasis As String = "Head Load Basis"
     Const colHeadLoadRate As String = "Head Load Rate"
-    Dim HeadLoadBasis As String = Nothing
+    Const colCycleFrequency As String = "Cycle Frequency"
     Dim isLoadData As Boolean = False
     Dim isCopyData As Boolean = False
     Dim OwnBMCDCS As Boolean = False
@@ -34,6 +34,9 @@ Public Class frmHeadLoadMaster
         If clsCommon.myLen(txtDocumentNo.Value) > 0 Then
             LoadData(clsCommon.myCstr(txtDocumentNo.Value), NavigatorType.Current)
         End If
+        loadHeadLoadBasisCombo()
+        lblCycleFrequency.Visible = False
+        txtCycleFrequency.Visible = False
     End Sub
 
 
@@ -114,7 +117,7 @@ Public Class frmHeadLoadMaster
         repoHeadLoadBasis.Width = 130
         repoHeadLoadBasis.DataSource = loadHeadLoadBasis()
         repoHeadLoadBasis.DisplayMember = "Name"
-        repoHeadLoadBasis.ValueMember = "Name"
+        repoHeadLoadBasis.ValueMember = "Code"
         repoHeadLoadBasis.ReadOnly = False
 
         gv1.MasterTemplate.Columns.Add(repoHeadLoadBasis)
@@ -129,6 +132,16 @@ Public Class frmHeadLoadMaster
         repoHeadLoadRate.ShowUpDownButtons = False
 
         gv1.MasterTemplate.Columns.Add(repoHeadLoadRate)
+
+        Dim repoCycleFrequency As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoCycleFrequency.FormatString = ""
+        repoCycleFrequency.HeaderText = "Cycle Frequency"
+        repoCycleFrequency.Name = colCycleFrequency
+        repoCycleFrequency.Width = 130
+        repoCycleFrequency.Minimum = 0
+        repoCycleFrequency.ReadOnly = False
+
+        gv1.MasterTemplate.Columns.Add(repoCycleFrequency)
 
         gv1.AllowDeleteRow = True
         gv1.AllowAddNewRow = False
@@ -169,6 +182,13 @@ Public Class frmHeadLoadMaster
             txtDescription.Focus()
             Throw New Exception("Description can't be blank.")
         End If
+
+        If clsCommon.CompairString(cmbHeadLoadBasis.SelectedValue, "CK") = CompairStringResult.Equal OrElse clsCommon.CompairString(cmbHeadLoadBasis.SelectedValue, "CL") = CompairStringResult.Equal Then
+            If txtCycleFrequency.Value = 0 Then
+                txtCycleFrequency.Focus()
+                Throw New Exception("Cycle Frequency can't be blank.")
+            End If
+        End If
         Return True
     End Function
 
@@ -186,17 +206,20 @@ Public Class frmHeadLoadMaster
 
                     Dim objTr As New clsHeadLoadDCS()
                     objTr.VLC_CODE = clsCommon.myCstr((grow.Cells("DCS Code").Value))
-                    If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("Head Load Basis").Value), "Rate/Kg") = CompairStringResult.Equal Then
-                        objTr.Head_Load_Basis = "K"
-                    Else
-                        objTr.Head_Load_Basis = "L"
-                    End If
+                    objTr.Head_Load_Basis = clsCommon.myCstr(grow.Cells("Head Load Basis").Value)
+                    'If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("Head Load Basis").Value), "Rate/Kg") = CompairStringResult.Equal Then
+                    '    objTr.Head_Load_Basis = "K"
+                    'Else
+                    '    objTr.Head_Load_Basis = "L"
+                    'End If
                     If grow.Cells("Head Load Rate").Value IsNot Nothing Then
                         objTr.Head_Load_Rate = clsCommon.myCDecimal((grow.Cells("Head Load Rate").Value))
 
                         obj.Arr.Add(objTr)
                     End If
-
+                    If clsCommon.myLen(grow.Cells("Head Load Rate").Value) > 0 Then
+                        objTr.Cycle_Frequency = clsCommon.myCDecimal((grow.Cells("Cycle Frequency").Value))
+                    End If
 
                 Next
 
@@ -221,13 +244,15 @@ Public Class frmHeadLoadMaster
         btnSave.Text = "Save"
         txtRate.Value = 0
         txtRate.Enabled = False
+        txtCycleFrequency.Enabled = True
+        txtRate.Value = 0
         chkRate.Checked = False
         LoadBlankGrid()
         isInsideLoadData = False
         btnDelete.Enabled = True
         lblStatus.Status = ERPTransactionStatus.Pending
         ReStoreGridLayout()
-        cmbHeadLoadBasis.Text = ""
+        cmbHeadLoadBasis.SelectedValue = ""
     End Sub
 
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
@@ -327,7 +352,6 @@ Public Class frmHeadLoadMaster
                 txtDate.Value = obj.Document_date
                 txtstartDate.Value = obj.Start_Date
                 txtDescription.Text = obj.Description
-
                 cmbHeadLoadBasis.SelectedIndex = 0
             End If
 
@@ -372,7 +396,7 @@ Public Class frmHeadLoadMaster
 
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
-        If cmbHeadLoadBasis.Text = "Select" Then
+        If cmbHeadLoadBasis.SelectedIndex = 0 Then
             clsCommon.MyMessageBoxShow(Me, "Please Select Head Load Basis", Me.Text)
             Exit Sub
         End If
@@ -398,7 +422,7 @@ Public Class frmHeadLoadMaster
             End If
             If txtDocumentNo.Value = "Default" Then
                 str = "select TSPL_HEAD_LOAD_DCS.Document_No as Document_No, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Uploader No], TSPL_VLC_MASTER_HEAD.VLC_CODE as [DCS Code], TSPL_VLC_MASTER_HEAD.VLC_Name as [DCS Name] ,
-        TSPL_MCC_MASTER.MCC_Code_VLC_Uploader as [BMC Uploader No] ,TSPL_MCC_MASTER.MCC_Code as [BMC Code] , TSPL_MCC_MASTER.MCC_NAME as [BMC Name],(case when TSPL_HEAD_LOAD_DCS.Head_Load_Basis = '' then 'Rate/Kg' else (case when TSPL_HEAD_LOAD_DCS.Head_Load_Basis = 'K' then 'Rate/Kg' else 'Rate/Ltr' end) end) as [Head Load Basis] , TSPL_HEAD_LOAD_DCS.Head_Load_Rate as [Head Load Rate]
+        TSPL_MCC_MASTER.MCC_Code_VLC_Uploader as [BMC Uploader No] ,TSPL_MCC_MASTER.MCC_Code as [BMC Code] , TSPL_MCC_MASTER.MCC_NAME as [BMC Name],Head_Load_Basis  as [Head Load Basis] , TSPL_HEAD_LOAD_DCS.Head_Load_Rate as [Head Load Rate]
           from TSPL_HEAD_LOAD_DCS  left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_CODE = TSPL_HEAD_LOAD_DCS.VLC_CODE
          left  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_VLC_MASTER_HEAD.MCC where TSPL_HEAD_LOAD_DCS.Document_No = '" + txtDocumentNo.Value + "' order by Document_No "
             Else
@@ -455,7 +479,7 @@ Public Class frmHeadLoadMaster
             repoHeadLoadBasis.Width = 130
             repoHeadLoadBasis.DataSource = loadHeadLoadBasis()
             repoHeadLoadBasis.DisplayMember = "Name"
-            repoHeadLoadBasis.ValueMember = "Name"
+            repoHeadLoadBasis.ValueMember = "Code"
             repoHeadLoadBasis.ReadOnly = False
 
             Dim repoHeadLoadRate As GridViewDecimalColumn = New GridViewDecimalColumn()
@@ -466,27 +490,39 @@ Public Class frmHeadLoadMaster
             repoHeadLoadRate.ShowUpDownButtons = False
             repoHeadLoadRate.FormatString = ""
 
+            Dim repoCycleFrequency As GridViewDecimalColumn = New GridViewDecimalColumn()
+            repoCycleFrequency.HeaderText = "Cycle Frequency"
+            repoCycleFrequency.Name = "Cycle Frequency"
+            repoCycleFrequency.Width = 130
+            repoCycleFrequency.ReadOnly = False
+            repoCycleFrequency.ShowUpDownButtons = False
+            repoCycleFrequency.FormatString = ""
+
             If isLoadData = False Then
                 gv1.MasterTemplate.Columns.Insert(6, repoHeadLoadBasis)
 
                 gv1.MasterTemplate.Columns.Insert(7, repoHeadLoadRate)
+                gv1.MasterTemplate.Columns.Insert(8, repoCycleFrequency)
             Else
                 gv1.MasterTemplate.Columns.Insert(7, repoHeadLoadBasis)
                 gv1.MasterTemplate.Columns.Insert(8, repoHeadLoadRate)
+                gv1.MasterTemplate.Columns.Insert(9, repoCycleFrequency)
             End If
 
 
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select case when Head_Load_Basis = 'K' then 'Rate/Kg' else 'Rate/Ltr' end as Head_Load_Basis, Head_Load_Rate as [Head Load Rate] ,VLC_CODE from TSPL_HEAD_LOAD_DCS where Document_No = '" & txtDocumentNo.Value & "'")
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select  Head_Load_Basis, Head_Load_Rate as [Head Load Rate], Cycle_Frequency as [Cycle Frequency] ,VLC_CODE from TSPL_HEAD_LOAD_DCS where Document_No = '" & txtDocumentNo.Value & "'")
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For ii As Integer = 0 To gv1.Rows.Count - 1
                     For jj As Integer = 0 To dt.Rows.Count - 1
                         If clsCommon.CompairString(gv1.Rows(ii).Cells("DCS Code").Value, dt.Rows(jj)("VLC_CODE")) = CompairStringResult.Equal Then
                             gv1.Rows(ii).Cells("Head Load Basis").Value = clsCommon.myCstr(dt.Rows(jj)("Head_Load_Basis"))
                             gv1.Rows(ii).Cells("Head Load Rate").Value = clsCommon.myCstr(dt.Rows(jj)("Head Load Rate"))
+                            gv1.Rows(ii).Cells("Cycle Frequency").Value = clsCommon.myCstr(dt.Rows(jj)("Cycle Frequency"))
                             Exit For
                         Else
 
-                            gv1.Rows(ii).Cells("Head Load Basis").Value = cmbHeadLoadBasis.Text
+                            gv1.Rows(ii).Cells("Head Load Basis").Value = cmbHeadLoadBasis.SelectedValue
+                            gv1.Rows(ii).Cells("Cycle Frequency").Value = txtCycleFrequency.Value
                             If chkRate.Checked Then
                                 gv1.Rows(ii).Cells("Head Load Rate").Value = txtRate.Value
 
@@ -502,7 +538,8 @@ Public Class frmHeadLoadMaster
             Else
                 For ii As Integer = 0 To gv1.Rows.Count - 1
 
-                    gv1.Rows(ii).Cells("Head Load Basis").Value = cmbHeadLoadBasis.Text
+                    gv1.Rows(ii).Cells("Head Load Basis").Value = cmbHeadLoadBasis.SelectedValue
+                    gv1.Rows(ii).Cells("Cycle Frequency").Value = txtCycleFrequency.Value
                     If chkRate.Checked Then
                         gv1.Rows(ii).Cells("Head Load Rate").Value = txtRate.Value
 
@@ -513,12 +550,22 @@ Public Class frmHeadLoadMaster
         ReStoreGridLayout()
     End Sub
 
+    Sub loadHeadLoadBasisCombo()
+        cmbHeadLoadBasis.DataSource = loadHeadLoadBasis()
+        cmbHeadLoadBasis.ValueMember = "Code"
+        cmbHeadLoadBasis.DisplayMember = "Name"
+    End Sub
     Private Function loadHeadLoadBasis() As DataTable
         Dim dt As New DataTable()
         dt.Columns.Add("Code", GetType(String))
         dt.Columns.Add("Name", GetType(String))
 
         Dim dr As DataRow = dt.NewRow()
+        dr("Code") = ""
+        dr("Name") = "Select"
+
+        dt.Rows.Add(dr)
+        dr = dt.NewRow()
         dr("Code") = "K"
         dr("Name") = "Rate/Kg"
         dt.Rows.Add(dr)
@@ -527,19 +574,33 @@ Public Class frmHeadLoadMaster
         dr("Code") = "L"
         dr("Name") = "Rate/Ltr"
         dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "CK"
+        dr("Name") = "Cycle Wise Rate/Kg"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "CL"
+        dr("Name") = "Cycle Wise Rate/Ltr"
+        dt.Rows.Add(dr)
         Return dt
     End Function
 
     Private Sub cmbHeadLoadBasis_SelectedIndexChanged(sender As Object, e As UI.Data.PositionChangedEventArgs) Handles cmbHeadLoadBasis.SelectedIndexChanged
+        If cmbHeadLoadBasis.SelectedIndex > 0 Then
 
-        If cmbHeadLoadBasis.SelectedIndex = 1 Then
-            HeadLoadBasis = "K"
-            cmbHeadLoadBasis.Text = "Rate/Kg"
-        ElseIf cmbHeadLoadBasis.SelectedIndex = 2 Then
-            cmbHeadLoadBasis.Text = "Rate/Ltr"
-            HeadLoadBasis = "L"
+            If clsCommon.CompairString(cmbHeadLoadBasis.SelectedValue, "CK") = CompairStringResult.Equal OrElse clsCommon.CompairString(cmbHeadLoadBasis.SelectedValue, "CL") = CompairStringResult.Equal Then
+                lblCycleFrequency.Visible = True
+                txtCycleFrequency.Visible = True
+            Else
+                lblCycleFrequency.Visible = False
+                txtCycleFrequency.Visible = False
+            End If
+        Else
+            lblCycleFrequency.Visible = False
+            txtCycleFrequency.Visible = False
         End If
-
     End Sub
 
     Private Sub btnExport_Click(sender As Object, e As EventArgs) Handles btnExport.Click

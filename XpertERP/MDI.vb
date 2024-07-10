@@ -188,9 +188,11 @@ Public Class MDI
         End If
 
     End Sub
-    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer4.Tick
+    Private Sub Timer4_Tick(sender As Object, e As EventArgs) Handles Timer4.Tick
         Try
-            lblServerDate.Text = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Nothing, "dd/MM/yyyy hh:mm tt", False), "dd/MM/yyyy hh:mm tt")
+            If objCommonVar.SystemClockStatus Then
+                lblServerDate.Text = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Nothing, "dd/MM/yyyy hh:mm tt", False), "dd/MM/yyyy hh:mm tt")
+            End If
         Catch ex As Exception
         End Try
     End Sub
@@ -3693,6 +3695,14 @@ Public Class MDI
                         frm = New rptTransactionWiseStock()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.Rptralwisematerialreceivedandpayment
+                        frm = New Rptralwisematerialreceivedandpayment()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.RmSecurityDeduction
+                        frm = New RmSecurityDeduction()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.frmHSNMaster
                         frm = New frmHSNMaster()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -6729,6 +6739,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmActiveInactiveEmpRegister
                         frm = New frmActiveInactiveEmpRegister
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptEmployeeDeductionMasterReport
+                        frm = New rptEmployeeDeductionMasterReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmPF_ESI_Reports
                         frm = New frmPF_ESI_Reports

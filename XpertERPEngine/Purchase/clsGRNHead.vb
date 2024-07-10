@@ -6,6 +6,7 @@ Public Class clsGRNHead
 #Region "Variables"
     Public IsSkipPurchaseQC As Integer = 0
     Public isJobWorkOutward As Integer = 0
+    Public ShowItemAllStructureWise As Boolean = False
     Public Amendment_No As Double = 0
     Public IsCancel As Integer = Nothing
     Public RGP_Type As String = Nothing
@@ -162,6 +163,7 @@ Public Class clsGRNHead
     Public Retention As Decimal = 0
 #End Region
     Public Function SaveData(ByVal obj As clsGRNHead, ByVal isNewEntry As Boolean, Optional ByVal isamendment As Boolean = False) As Boolean
+        ShowItemAllStructureWise = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, Nothing)) = "1", True, False))
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             SaveData(obj, isNewEntry, trans, isamendment)
@@ -223,8 +225,13 @@ Public Class clsGRNHead
                         End If
 
                     Else
-                        Dim TransType = clsDBFuncationality.getSingleValue("SELECT PREFIX_CODE FROM TSPL_ITEM_TYPE_MASTER WHERE ITEM_TYPE_CODE='" + obj.Item_Type + "'", trans)
-                        obj.GRN_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.GRN_Date), clsDocType.GRN, TransType, obj.Bill_To_Location)
+                        If ShowItemAllStructureWise Then
+                            obj.GRN_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.GRN_Date), clsDocType.GRN, clsDocTransactionType.All, obj.Bill_To_Location)
+                        Else
+                            Dim TransType = clsDBFuncationality.getSingleValue("SELECT PREFIX_CODE FROM TSPL_ITEM_TYPE_MASTER WHERE ITEM_TYPE_CODE='" + obj.Item_Type + "'", trans)
+                            obj.GRN_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.GRN_Date), clsDocType.GRN, TransType, obj.Bill_To_Location)
+
+                        End If
                         If clsCommon.CompairString(obj.GRN_No, String.Empty) = CompairStringResult.Equal Then
                             Throw New Exception("Item Type is Not Correct To Generate the Transaction Code")
                         End If
@@ -611,12 +618,12 @@ Public Class clsGRNHead
         Try
             Dim obj As clsGRNHead = Nothing
             Dim qry As String = "SELECT TSPL_GRN_HEAD.*,TSPL_LOCATION_MASTER.Location_Desc as BillToLocationName,TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipToLocationName, " &
-            " TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as TaxGroupName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_LOCATION_MASTER_SubLocation.Location_Desc as SubLocationName FROM TSPL_GRN_HEAD " &
+            " TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as TaxGroupName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_LOCATION_MASTER_SubLocation.Location_Desc as SubLocationName,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo FROM TSPL_GRN_HEAD " &
             " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_GRN_HEAD.Bill_To_Location " &
             " left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_GRN_HEAD.Ship_To_Location " &
             " left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_SubLocation  on TSPL_LOCATION_MASTER_SubLocation.Location_Code=TSPL_GRN_HEAD.Sublocation_Code " &
             " left outer join  TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code= TSPL_GRN_HEAD.Tax_Group " &
-            " left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=TSPL_GRN_HEAD.Terms_Code where 2=2"
+            " left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=TSPL_GRN_HEAD.Terms_Code left outer join TSPL_PURCHASE_ORDER_HEAD ON TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No = TSPL_GRN_HEAD.Against_PO where 2=2"
             Dim WhrCls As String = ""
             If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
                 WhrCls = " AND Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
@@ -656,7 +663,8 @@ Public Class clsGRNHead
                 obj.Vendor_Name = clsCommon.myCstr(dt.Rows(0)("Vendor_Name"))
                 obj.Status = IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 1 AndAlso clsCommon.myCdbl(dt.Rows(0)("iscancel")) <> 1, ERPTransactionStatus.Approved, IIf(clsCommon.myCdbl(dt.Rows(0)("iscancel")) = 1, ERPTransactionStatus.Cancel, ERPTransactionStatus.Pending))
                 obj.On_Hold = IIf(clsCommon.myCdbl(dt.Rows(0)("On_Hold")) = 1, True, False)
-                obj.Ref_No = clsCommon.myCstr(dt.Rows(0)("Ref_No"))
+                'obj.Ref_No = clsCommon.myCstr(dt.Rows(0)("Ref_No"))
+                obj.Ref_No = clsCommon.myCstr(dt.Rows(0)("RefTendorNo"))
                 obj.Description = clsCommon.myCstr(dt.Rows(0)("Description"))
                 obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
                 obj.Bill_To_Location = clsCommon.myCstr(dt.Rows(0)("Bill_To_Location"))

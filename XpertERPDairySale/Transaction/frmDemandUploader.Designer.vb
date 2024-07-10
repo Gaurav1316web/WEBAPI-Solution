@@ -22,7 +22,7 @@ Partial Class frmDemandUploader
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -47,6 +47,7 @@ Partial Class frmDemandUploader
         Me.btnValidate = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnUpload = New Telerik.WinControls.UI.RadButton()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -75,6 +76,7 @@ Partial Class frmDemandUploader
         CType(Me.btnValidate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnUpload, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -92,6 +94,7 @@ Partial Class frmDemandUploader
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSavePost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnValidate)
@@ -335,7 +338,7 @@ Partial Class frmDemandUploader
         '
         '
         '
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.Name = "gv1"
         Me.gv1.Size = New System.Drawing.Size(946, 293)
         Me.gv1.TabIndex = 0
@@ -370,11 +373,11 @@ Partial Class frmDemandUploader
         'btnSavePost
         '
         Me.btnSavePost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSavePost.Location = New System.Drawing.Point(294, 7)
+        Me.btnSavePost.Location = New System.Drawing.Point(386, 8)
         Me.btnSavePost.Name = "btnSavePost"
         Me.btnSavePost.Size = New System.Drawing.Size(91, 24)
         Me.btnSavePost.TabIndex = 3
-        Me.btnSavePost.Text = "Save/Post"
+        Me.btnSavePost.Text = "Save and Post"
         '
         'btnValidate
         '
@@ -402,6 +405,15 @@ Partial Class frmDemandUploader
         Me.btnUpload.Size = New System.Drawing.Size(91, 24)
         Me.btnUpload.TabIndex = 0
         Me.btnUpload.Text = "Upload Excel"
+        '
+        'btnSave
+        '
+        Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnSave.Location = New System.Drawing.Point(293, 8)
+        Me.btnSave.Name = "btnSave"
+        Me.btnSave.Size = New System.Drawing.Size(91, 24)
+        Me.btnSave.TabIndex = 4
+        Me.btnSave.Text = "Save"
         '
         'frmDemandUploader
         '
@@ -445,6 +457,7 @@ Partial Class frmDemandUploader
         CType(Me.btnValidate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnUpload, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -474,4 +487,5 @@ Partial Class frmDemandUploader
     Friend WithEvents txtDocNo As common.UserControls.txtNavigator
     Friend WithEvents btnAddNew As RadButton
     Friend WithEvents UcAttachment1 As ucAttachment
+    Friend WithEvents btnSave As RadButton
 End Class

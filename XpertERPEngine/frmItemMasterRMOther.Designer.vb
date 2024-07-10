@@ -51,6 +51,8 @@ Partial Class FrmItemMasterRMOther
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtUploaderSeq = New common.MyNumBox()
+        Me.lblUploaderSeq = New common.Controls.MyLabel()
         Me.txtRptName = New common.Controls.MyTextBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.MyLabel46 = New common.Controls.MyLabel()
@@ -303,12 +305,16 @@ Partial Class FrmItemMasterRMOther
         Me.rmiClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.chkFGPL = New common.Controls.MyCheckBox()
+        Me.chkSFGCF = New common.Controls.MyCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.txtUploaderSeq, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblUploaderSeq, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRptName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel46, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -535,6 +541,8 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkFGPL, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkSFGCF, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -557,7 +565,7 @@ Partial Class FrmItemMasterRMOther
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1142, 630)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1207, 630)
         Me.SplitContainer1.SplitterDistance = 601
         Me.SplitContainer1.TabIndex = 0
         '
@@ -576,13 +584,17 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
-        Me.RadPageView1.Size = New System.Drawing.Size(1142, 601)
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.Size = New System.Drawing.Size(1207, 601)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkSFGCF)
+        Me.RadPageViewPage1.Controls.Add(Me.chkFGPL)
+        Me.RadPageViewPage1.Controls.Add(Me.txtUploaderSeq)
+        Me.RadPageViewPage1.Controls.Add(Me.lblUploaderSeq)
         Me.RadPageViewPage1.Controls.Add(Me.txtRptName)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel46)
         Me.RadPageViewPage1.Controls.Add(Me.cboItemSubGroupType)
@@ -723,8 +735,44 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(71.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1121, 553)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1186, 553)
         Me.RadPageViewPage1.Text = "Item Detail"
+        '
+        'txtUploaderSeq
+        '
+        Me.txtUploaderSeq.BackColor = System.Drawing.Color.White
+        Me.txtUploaderSeq.CalculationExpression = Nothing
+        Me.txtUploaderSeq.DecimalPlaces = 2
+        Me.txtUploaderSeq.FieldCode = Nothing
+        Me.txtUploaderSeq.FieldDesc = Nothing
+        Me.txtUploaderSeq.FieldMaxLength = 0
+        Me.txtUploaderSeq.FieldName = Nothing
+        Me.txtUploaderSeq.isCalculatedField = False
+        Me.txtUploaderSeq.IsSourceFromTable = False
+        Me.txtUploaderSeq.IsSourceFromValueList = False
+        Me.txtUploaderSeq.IsUnique = False
+        Me.txtUploaderSeq.Location = New System.Drawing.Point(955, 301)
+        Me.txtUploaderSeq.MendatroryField = False
+        Me.txtUploaderSeq.MyLinkLable1 = Me.lblUploaderSeq
+        Me.txtUploaderSeq.MyLinkLable2 = Nothing
+        Me.txtUploaderSeq.Name = "txtUploaderSeq"
+        Me.txtUploaderSeq.ReferenceFieldDesc = Nothing
+        Me.txtUploaderSeq.ReferenceFieldName = Nothing
+        Me.txtUploaderSeq.ReferenceTableName = Nothing
+        Me.txtUploaderSeq.Size = New System.Drawing.Size(96, 20)
+        Me.txtUploaderSeq.TabIndex = 215
+        Me.txtUploaderSeq.Text = "0"
+        Me.txtUploaderSeq.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtUploaderSeq.Value = 0R
+        '
+        'lblUploaderSeq
+        '
+        Me.lblUploaderSeq.FieldName = Nothing
+        Me.lblUploaderSeq.Location = New System.Drawing.Point(858, 302)
+        Me.lblUploaderSeq.Name = "lblUploaderSeq"
+        Me.lblUploaderSeq.Size = New System.Drawing.Size(92, 18)
+        Me.lblUploaderSeq.TabIndex = 214
+        Me.lblUploaderSeq.Text = "Uploader Seq No"
         '
         'txtRptName
         '
@@ -4245,7 +4293,7 @@ Partial Class FrmItemMasterRMOther
         'btnClose
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnClose.Location = New System.Drawing.Point(1061, 2)
+        Me.btnClose.Location = New System.Drawing.Point(1126, 2)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(71, 21)
         Me.btnClose.TabIndex = 2
@@ -4378,7 +4426,7 @@ Partial Class FrmItemMasterRMOther
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(1142, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(1207, 20)
         Me.RadMenu1.TabIndex = 1
         '
         'OpenFileDialog1
@@ -4386,11 +4434,33 @@ Partial Class FrmItemMasterRMOther
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         Me.OpenFileDialog1.Filter = "Image Files(*.BMP;*.JPG;*.JEPG;*.GIF)|*.BMP;*.JPG;*.JEPG;*.GIF"
         '
+        'chkFGPL
+        '
+        Me.chkFGPL.Location = New System.Drawing.Point(1052, 22)
+        Me.chkFGPL.MyLinkLable1 = Nothing
+        Me.chkFGPL.MyLinkLable2 = Nothing
+        Me.chkFGPL.Name = "chkFGPL"
+        Me.chkFGPL.Size = New System.Drawing.Size(83, 18)
+        Me.chkFGPL.TabIndex = 197
+        Me.chkFGPL.Tag1 = Nothing
+        Me.chkFGPL.Text = "FG For CF PL"
+        '
+        'chkSFGCF
+        '
+        Me.chkSFGCF.Location = New System.Drawing.Point(1114, 4)
+        Me.chkSFGCF.MyLinkLable1 = Nothing
+        Me.chkSFGCF.MyLinkLable2 = Nothing
+        Me.chkSFGCF.Name = "chkSFGCF"
+        Me.chkSFGCF.Size = New System.Drawing.Size(77, 18)
+        Me.chkSFGCF.TabIndex = 216
+        Me.chkSFGCF.Tag1 = Nothing
+        Me.chkSFGCF.Text = "SFG For CF "
+        '
         'FrmItemMasterRMOther
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1142, 650)
+        Me.ClientSize = New System.Drawing.Size(1207, 650)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Name = "FrmItemMasterRMOther"
@@ -4406,6 +4476,8 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.txtUploaderSeq, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblUploaderSeq, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRptName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel46, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4644,6 +4716,8 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkFGPL, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkSFGCF, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -4904,5 +4978,9 @@ Partial Class FrmItemMasterRMOther
     Friend WithEvents cboItemSubGroupType As Controls.MyComboBox
     Friend WithEvents txtRptName As Controls.MyTextBox
     Friend WithEvents MyLabel46 As Controls.MyLabel
+    Friend WithEvents txtUploaderSeq As MyNumBox
+    Friend WithEvents lblUploaderSeq As Controls.MyLabel
+    Friend WithEvents chkFGPL As Controls.MyCheckBox
+    Friend WithEvents chkSFGCF As Controls.MyCheckBox
 End Class
 

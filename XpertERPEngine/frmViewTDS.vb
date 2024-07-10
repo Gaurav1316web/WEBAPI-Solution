@@ -54,7 +54,8 @@ Public Class FrmViewTDS
             txtHCessAmtAct.Value = Math.Round(ObjIn.Actual_Sec_Educess, 2)
 
             txtTotTDSCal.Value = Math.Round(ObjIn.Calculated_Total_TDS, 2)
-            txtTotTDSAct.Value = Math.Round(ObjIn.Actual_Total_TDS, 2)
+            'txtTotTDSAct.Value = Math.Round(ObjIn.Actual_Total_TDS, 2)
+            txtTotTDSAct.Value = Math.Round(ObjIn.Actual_Total_TDS, 0, MidpointRounding.AwayFromZero)
             chkApplyTDS.Checked = ObjIn.IsApplyTDS
             If (Not ObjIn.IsApplyTDS) Then
                 'RadGroupBox2.Enabled = chkApplyTDS.Checked
@@ -262,6 +263,7 @@ Public Class FrmViewTDS
     End Sub
 
     Sub CalculateActualTDS()
+        Dim TDSAMOUNT As Double = 0
         txtTDSAmtAct.Value = Math.Round((txtTDSBaseAct.Value * txtTDSPerAct.Value) / 100, 2)
         txtTDSAmtCal.Value = Math.Round((txtTDSBaseCal.Value * txtTDSPerCal.Value) / 100, 2)
         txtSurchargeAmtAct.Value = Math.Round((txtTDSBaseAct.Value * txtSurchargePerAct.Value) / 100, 2)
@@ -270,7 +272,9 @@ Public Class FrmViewTDS
         txtEcessAmtCal.Value = Math.Round((txtTDSBaseCal.Value * txtEcessPerCal.Value) / 100, 2)
         txtHCessAmtAct.Value = Math.Round((txtTDSBaseAct.Value * txtHCessPerAct.Value) / 100, 2)
         txtHCessAmtCal.Value = Math.Round((txtTDSBaseCal.Value * txtHCessPerCal.Value) / 100, 2)
-        txtTotTDSAct.Value = Math.Round((txtTDSAmtAct.Value + txtSurchargeAmtAct.Value + txtEcessAmtAct.Value + txtHCessAmtAct.Value), 2)
+        'txtTotTDSAct.Value = Math.Round((txtTDSAmtAct.Value + txtSurchargeAmtAct.Value + txtEcessAmtAct.Value + txtHCessAmtAct.Value), 2)
+        TDSAMOUNT = Math.Round((txtTDSAmtAct.Value + txtSurchargeAmtAct.Value + txtEcessAmtAct.Value + txtHCessAmtAct.Value), 2)
+        txtTotTDSAct.Value = Math.Round(TDSAMOUNT, 0, MidpointRounding.AwayFromZero)
         txtTotTDSCal.Value = Math.Round((txtTDSAmtCal.Value + txtSurchargeAmtCal.Value + txtEcessAmtCal.Value + txtHCessAmtCal.Value), 2)
     End Sub
 

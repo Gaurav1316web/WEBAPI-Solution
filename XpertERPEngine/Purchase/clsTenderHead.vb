@@ -255,6 +255,7 @@ Public Class clsTenderHead
                         objTr.Discount = clsCommon.myCdbl(dr("Discount"))
 
                         objTr.Rate = clsCommon.myCdbl(dr("Rate"))
+                        objTr.Tax_Exclusive = (clsCommon.myCdbl(dr("Tax_Exclusive")) = 1)
                         objTr.Item_Cost = clsCommon.myCdbl(dr("Item_Cost"))
                         objTr.Remarks = clsCommon.myCstr(dr("Remarks"))
                         objTr.Comments = clsCommon.myCstr(dr("Comments"))
@@ -717,23 +718,16 @@ select State_Code from TSPL_VENDOR_MASTER where Vendor_Code='" + objTender.Arr(i
                     objTr.TAX10_Base_Amt = objTender.Arr(ii).Item_Cost
                     objTr.TAX10_Amt = 0
                 End If
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 Dim BaseAmt As Decimal = ((objTender.Arr(ii).Item_Cost * 100) / (100 + TotalTaxRate))
-                objTr.Item_Cost = clsCommon.myCDivide(BaseAmt, objTender.Arr(ii).Qty)
+                If objTender.Arr(ii).Tax_Exclusive Then
+                    objTr.Item_Cost = objTender.Arr(ii).Rate
+                    BaseAmt = (objTender.Arr(ii).Rate * objTender.Arr(ii).Qty)
+                Else
+                    BaseAmt = ((objTender.Arr(ii).Item_Cost * 100) / (100 + TotalTaxRate))
+                    objTr.Item_Cost = clsCommon.myCDivide(BaseAmt, objTender.Arr(ii).Qty)
+                End If
+
+
                 objTr.Amt_Less_Discount = BaseAmt
 
                 objTr.Item_Insurance_Base_Amt = BaseAmt
@@ -1038,9 +1032,11 @@ Public Class clsTenderDetail
     Public Discount As Double = 0
 
     Public Rate As Double = 0
+    Public Tax_Exclusive As Boolean = False
     Public Item_Cost As Double = 0
     Public Remarks As String = Nothing
     Public Comments As String = Nothing
+
 #End Region
 
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsTenderDetail), ByVal trans As SqlTransaction) As Boolean
@@ -1060,6 +1056,7 @@ Public Class clsTenderDetail
                 clsCommon.AddColumnsForChange(coll, "Unit_code", obj.Unit_code)
                 clsCommon.AddColumnsForChange(coll, "Location", obj.Location)
                 clsCommon.AddColumnsForChange(coll, "Rate", obj.Rate)
+                clsCommon.AddColumnsForChange(coll, "Tax_Exclusive", IIf(obj.Tax_Exclusive, 1, 0))
                 clsCommon.AddColumnsForChange(coll, "Item_Cost", obj.Item_Cost)
                 clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks, True)
                 clsCommon.AddColumnsForChange(coll, "Comments", obj.Comments, True)
@@ -1071,7 +1068,7 @@ Public Class clsTenderDetail
 
     Public Shared Function GetFinder(ByVal strTenderNo As String, ByVal strVendorCode As String, ByVal strLocation As String) As clsTenderDetail
         Dim obj As clsTenderDetail = Nothing
-        Dim qry As String = " select TSPL_TENDER_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_TENDER_DETAIL.Unit_code,TSPL_TENDER_DETAIL.Rate,TSPL_TENDER_DETAIL.Discount,TSPL_TENDER_DETAIL.Location from TSPL_TENDER_DETAIL
+        Dim qry As String = " select TSPL_TENDER_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_TENDER_DETAIL.Unit_code,TSPL_TENDER_DETAIL.Rate,TSPL_TENDER_DETAIL.Discount,TSPL_TENDER_DETAIL.Location,TSPL_TENDER_DETAIL.Tax_Exclusive from TSPL_TENDER_DETAIL
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.ITEM_CODE=TSPL_TENDER_DETAIL.Item_Code
  where DocumentCode='" + strTenderNo + "' and Vendor_Code='" + strVendorCode + "'and Location='" + strLocation + "'"
         Dim dr As DataRow = clsCommon.ShowSelectFormForRow("TenVedItm", qry)
@@ -1081,6 +1078,7 @@ left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.ITEM_CODE=TSPL_TENDER_DETAI
             obj.Item_Name = clsCommon.myCstr(dr("Item_Desc"))
             obj.Unit_code = clsCommon.myCstr(dr("Unit_code"))
             obj.Rate = clsCommon.myCdbl(dr("Rate"))
+            obj.Tax_Exclusive = (clsCommon.myCdbl(dr("Tax_Exclusive")) = 1)
             obj.Discount = clsCommon.myCdbl(dr("Discount"))
             obj.Location = clsCommon.myCdbl(dr("Location"))
         End If
