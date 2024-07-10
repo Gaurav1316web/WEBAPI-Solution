@@ -327,8 +327,8 @@ Public Class clsHeadLoadDCS
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 obj.PK_Id = (dt.Rows(0)("PK_Id"))
                 obj.Head_Load_Basis = clsCommon.myCstr(dt.Rows(0)("Head_Load_Basis"))
-                obj.Head_Load_Rate = clsCommon.myCstr(dt.Rows(0)("Head_Load_Rate"))
-                obj.Cycle_Frequency = clsCommon.myCstr(dt.Rows(0)("Cycle_Frequency"))
+                obj.Head_Load_Rate = clsCommon.myCDecimal(dt.Rows(0)("Head_Load_Rate"))
+                obj.Cycle_Frequency = clsCommon.myCDecimal(dt.Rows(0)("Cycle_Frequency"))
             End If
 
         Catch ex As Exception

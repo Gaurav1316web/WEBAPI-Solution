@@ -92,9 +92,12 @@ Public Class RptPFChallanStatement
             MainQry += " ,SUM(DecemberAcc02) AS DecemberAcc02 ,SUM(JanuaryAcc02) AS  JanuaryAcc02,SUM(FebruaryAcc02 ) AS FebruaryAcc02,SUM(MarchAcc02) AS MarchAcc02 ,SUM(AprilAcc10) AS AprilAcc10 ,SUM(MayAcc10) AS MayAcc10 ,SUM(JuneAcc10)AS  JuneAcc10,SUM(JulyAcc10) AS JulyAcc10,SUM(AugustAcc10) AS  AugustAcc10,SUM(SeptemberAcc10)AS SeptemberAcc10 ,SUM(OctoberAcc10)AS OctoberAcc10,SUM(NovemberAcc10) AS NovemberAcc10 ,SUM(DecemberAcc10) AS DecemberAcc10 ,SUM(JanuaryAcc10) AS JanuaryAcc10 ,SUM(FebruaryAcc10) AS FebruaryAcc10 ,SUM(MarchAcc10) AS  MarchAcc10,SUM(AprilAcc21) AS AprilAcc21 ,SUM(MayAcc21) AS MayAcc21 ,SUM(JuneAcc21) AS  JuneAcc21,SUM(JulyAcc21) AS  JulyAcc21,SUM(AugustAcc21)AS AugustAcc21 ,SUM(SeptemberAcc21) AS SeptemberAcc21 ,SUM(OctoberAcc21) AS OctoberAcc21 ,SUM(NovemberAcc21) AS NovemberAcc21,SUM(DecemberAcc21) AS DecemberAcc21 ,SUM(JanuaryAcc21) AS JanuaryAcc21 ,SUM(FebruaryAcc21) AS FebruaryAcc21 ,SUM(MarchAcc21) AS MarchAcc21 ,SUM(AprilAcc22) AS  AprilAcc22,SUM(MayAcc22) AS  MayAcc22,SUM(JuneAcc22) AS  JuneAcc22,SUM(JulyAcc22) AS JulyAcc22 ,SUM(AugustAcc22) AS  AugustAcc22,SUM(SeptemberAcc22) AS SeptemberAcc22 ,SUM(OctoberAcc22) AS OctoberAcc22 ,SUM(NovemberAcc22) AS  NovemberAcc22,SUM(DecemberAcc22) AS DecemberAcc22 ,SUM(JanuaryAcc22) AS JanuaryAcc22 ,SUM(FebruaryAcc22) AS  FebruaryAcc22,SUM(MarchAcc22 ) AS MarchAcc22,MAX(April_Date) AS April_Date ,MAX(May_Date) AS May_Date ,MAX(June_Date) AS June_Date ,MAX(July_Date) AS July_Date ,MAX(August_Date) AS  August_Date,MAX(September_Date) AS September_Date,MAX(October_Date) AS October_Date,MAX(November_Date) AS  November_Date,MAX(December_Date) AS December_Date ,MAX(January_Date) AS January_Date ,MAX(February_Date) AS February_Date ,MAX(March_Date) AS March_Date,sum(AprilPFEmp) as AprilPFEmp ,sum(MayPFEmp) as MayPFEmp ,sum(JunePFEmp) as JunePFEmp ,sum(JulyPFEmp)as  JulyPFEmp ,sum(AugustPFEmp) as AugustPFEmp ,sum(SeptemberPFEmp) as SeptemberPFEmp ,sum(OctoberPFEmp) as OctoberPFEmp,sum(NovemberPFEmp) as  NovemberPFEmp ,sum(DecemberPFEmp) as DecemberPFEmp ,sum(JanuaryPFEmp)as JanuaryPFEmp ,sum(FebruaryPFEmp) as  FebruaryPFEmp,sum(MarchPFEmp)as MarchPFEmp ,max(PF_No)as PF_No, sum(TotalApril) as TotalApril,sum(TotalMay) as TotalMay,sum(TotalJune) as TotalJune,sum(TotalJuly) as TotalJuly, sum(TotalAugust) as TotalAugust,sum(TotalSeptember) as TotalSeptember,sum(TotalOctober) as TotalOctober,sum(TotalNovember) as TotalNovember,sum(TotalDecember) as TotalDecember,sum(TotalJanuary) as TotalJanuary,sum(TotalFebruary) as TotalFebruary, sum(TotalMarch) as TotalMarch, sum( TotalHead) as TotalHead , sum(TotalAcc01) as TotalAcc01, sum(TotalAcc02) as TotalAcc02, sum(TotalAcc10 ) as TotalAcc10, sum(TotalAcc21) as  TotalAcc21, sum( TotalAcc22)as  TotalAcc22,sum(  Total) as  Total from (select ( convert(decimal(18,2),AprilPFEmp) + convert(decimal(18,2), MayPFEmp ) + convert(decimal(18,2), JunePFEmp) + convert(decimal(18,2), JulyPFEmp) + convert(decimal(18,2), AugustPFEmp) + convert(decimal(18,2), SeptemberPFEmp) + convert(decimal(18,2), OctoberPFEmp) + convert(decimal(18,2), NovemberPFEmp) +convert(decimal(18,2), JanuaryPFEmp) +convert(decimal(18,2),FebruaryPFEmp) + convert(decimal(18,2),MarchPFEmp) + convert(decimal(18,2), DecemberPFEmp) ) as TotalPFEmp,From_Year,To_Year,Aprilhead ,Mayhead ,Junehead ,Julyhead ,Augusthead ,Septemberhead ,Octoberhead ,Novemberhead ,Decemberhead ,Januaryhead ,Februaryhead ,Marchhead ,AprilAcc01 ,MayAcc01 ,JuneAcc01 ,JulyAcc01 ,AugustAcc01,SeptemberAcc01 ,OctoberAcc01,NovemberAcc01 ,DecemberAcc01,JanuaryAcc01 ,FebruaryAcc01 ,MarchAcc01 ,AprilAcc02,MayAcc02,JuneAcc02 ,JulyAcc02 ,AugustAcc02 ,SeptemberAcc02 ,OctoberAcc02 ,NovemberAcc02 ,DecemberAcc02 ,JanuaryAcc02 ,FebruaryAcc02 ,MarchAcc02 ,AprilAcc10 ,MayAcc10 ,JuneAcc10 ,JulyAcc10,AugustAcc10 ,SeptemberAcc10 ,OctoberAcc10 ,NovemberAcc10 ,DecemberAcc10 ,JanuaryAcc10 ,FebruaryAcc10 ,MarchAcc10 ,AprilAcc21 ,MayAcc21 ,JuneAcc21 ,JulyAcc21 ,AugustAcc21 ,SeptemberAcc21 ,OctoberAcc21 ,NovemberAcc21 ,DecemberAcc21 ,JanuaryAcc21 ,FebruaryAcc21 ,MarchAcc21 ,AprilAcc22 ,MayAcc22 ,JuneAcc22 ,JulyAcc22 ,AugustAcc22 ,SeptemberAcc22 ,OctoberAcc22 ,NovemberAcc22 ,DecemberAcc22 ,JanuaryAcc22 ,FebruaryAcc22 ,MarchAcc22 ,April_Date ,May_Date ,June_Date ,July_Date ,August_Date ,September_Date ,October_Date ,November_Date ,December_Date ,January_Date ,February_Date ,March_Date ,AprilPFEmp ,MayPFEmp ,JunePFEmp ,JulyPFEmp ,AugustPFEmp ,SeptemberPFEmp ,OctoberPFEmp ,NovemberPFEmp ,DecemberPFEmp ,JanuaryPFEmp ,FebruaryPFEmp ,MarchPFEmp  ,Location,Location_Address,PF_No, TotalApril,TotalMay,TotalJune,TotalJuly, TotalAugust,TotalSeptember,TotalOctober,TotalNovember,TotalDecember,TotalJanuary,TotalFebruary, TotalMarch, (isnull(Aprilhead,0)+isnull(Mayhead,0)+isnull(Junehead,0) +isnull(Julyhead,0)+isnull(Augusthead,0)+isnull(Septemberhead,0)+isnull(Octoberhead,0)+isnull(Novemberhead,0)+isnull(Decemberhead,0)+isnull(Januaryhead,0)+isnull(Februaryhead,0)+isnull(Marchhead,0))as TotalHead,(isnull(AprilAcc01,0)+isnull(MayAcc01,0)+isnull(JuneAcc01,0) +isnull(JulyAcc01,0)+isnull(AugustAcc01,0)+isnull(SeptemberAcc01,0)+isnull(OctoberAcc01,0)+isnull(NovemberAcc01,0)+isnull(DecemberAcc01,0)+isnull(JanuaryAcc01,0)+isnull(FebruaryAcc01,0)+isnull(MarchAcc01,0))as TotalAcc01,(isnull(AprilAcc02,0)+isnull(MayAcc02,0)+isnull(JuneAcc02,0) +isnull(JulyAcc02,0)+isnull(AugustAcc02,0)+isnull(SeptemberAcc02,0)+isnull(OctoberAcc02,0)+isnull(NovemberAcc02,0)+isnull(DecemberAcc02,0)+isnull(JanuaryAcc02,0)+isnull(FebruaryAcc02,0)+isnull(MarchAcc02,0))as TotalAcc02,(isnull(AprilAcc10,0)+isnull(MayAcc10,0)+isnull(JuneAcc10,0) +isnull(JulyAcc10,0)+isnull(AugustAcc10,0)+isnull(SeptemberAcc10,0)+isnull(OctoberAcc10,0)+isnull(NovemberAcc10,0)+isnull(DecemberAcc10,0)+isnull(JanuaryAcc10,0)+isnull(FebruaryAcc10,0)+isnull(MarchAcc10,0))as TotalAcc10 ,(isnull(AprilAcc21,0)+isnull(MayAcc21,0)+isnull(JuneAcc21,0) +isnull(JulyAcc21,0)+isnull(AugustAcc21,0)+isnull(SeptemberAcc21,0)+isnull(OctoberAcc21,0)+isnull(NovemberAcc21,0)+isnull(DecemberAcc21,0)+isnull(JanuaryAcc21,0)+isnull(FebruaryAcc21,0)+isnull(MarchAcc21,0))as TotalAcc21 , (isnull(AprilAcc22,0)+isnull(MayAcc22,0)+isnull(JuneAcc22,0) +isnull(JulyAcc22,0)+isnull(AugustAcc22,0)+isnull(SeptemberAcc22,0)+isnull(OctoberAcc22,0)+isnull(NovemberAcc22,0)+isnull(DecemberAcc22,0)+isnull(JanuaryAcc22,0)+isnull(FebruaryAcc22,0)+isnull(MarchAcc22,0))as TotalAcc22 , ( TotalApril +  TotalMay +  TotalJune +  TotalJuly +  TotalAugust +  TotalSeptember +  TotalOctober +  TotalNovember + TotalJanuary + TotalFebruary + TotalMarch +  TotalDecember) as Total  from (" & Qry & ") as lll)tt"
             Dim dtgv As New DataTable
             dtgv = clsDBFuncationality.GetDataTable(MainQry)
-
-            Dim frmcrystal As New frmCrystalReportViewer()
-            frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtgv, "crptPFChallanStatement", "PF Challan Statement")
+            If dtgv IsNot Nothing AndAlso dtgv.Rows.Count > 0 Then
+                Dim frmcrystal As New frmCrystalReportViewer()
+                frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtgv, "crptPFChallanStatement", "PF Challan Statement")
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -112,40 +115,59 @@ Public Class RptPFChallanStatement
     End Sub
 
     Private Sub RptPFChallanStatement_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        SetUserMgmtNew()
-        ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
-        ButtonToolTip.SetToolTip(btnGo, "Press Alt+N Refresh ")
-        txtFromYear.Text = clsCommon.GETSERVERDATE
+        Try
+            SetUserMgmtNew()
+            ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
+            ButtonToolTip.SetToolTip(btnGo, "Press Alt+N Refresh ")
+            txtFromYear.Text = clsCommon.GETSERVERDATE
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub RptPFChallanStatement_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
-        If e.Alt AndAlso e.KeyCode = Keys.N Then
-            LoadData()
-        ElseIf e.Alt And e.KeyCode = Keys.C Then
-            Me.Close()
-
-        End If
+        Try
+            If e.Alt AndAlso e.KeyCode = Keys.N Then
+                LoadData()
+            ElseIf e.Alt And e.KeyCode = Keys.C Then
+                Me.Close()
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub fndLocationCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndLocationCode._MYValidating
-        fndLocationCode.Value = clsLocation.getFinder("Location_Type='Physical'", Me.fndLocationCode.Value, isButtonClicked)
-        If clsCommon.myLen(fndLocationCode.Value) > 0 Then
-            lblLocationName.Text = clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" & fndLocationCode.Value & "'")
-        Else
-            lblLocationName.Text = ""
-        End If
+        Try
+            fndLocationCode.Value = clsLocation.getFinder("Location_Type='Physical'", Me.fndLocationCode.Value, isButtonClicked)
+            If clsCommon.myLen(fndLocationCode.Value) > 0 Then
+                lblLocationName.Text = clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" & fndLocationCode.Value & "'")
+            Else
+                lblLocationName.Text = ""
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
 
     Private Sub txtLocCode__My_Click(sender As Object, e As EventArgs) Handles txtLocCode._My_Click
-        Dim qry As String = " Select Location_Code As Code,location_Desc As Name ,Add1 + ' ' + Add2 + Add3 + ' ' + Add4 As [Address],City_Code As [City Code],State As [State],Pin_Code As [Pin Code]," & _
+        Try
+            Dim qry As String = " Select Location_Code As Code,location_Desc As Name ,Add1 + ' ' + Add2 + Add3 + ' ' + Add4 As [Address],City_Code As [City Code],State As [State],Pin_Code As [Pin Code]," &
                            " Country ,Telphone,Email,Location_Type AS [Location Type],Loc_Status AS [Loc Status] ,Loc_Segment_Code As [Loc Segment Code],Type As [Type] From TSPL_LOCATION_MASTER "
 
-        txtLocCode.arrValueMember = clsCommon.ShowMultipleSelectForm("LocMulPF", qry, "Code", "Name", txtLocCode.arrValueMember, txtLocCode.arrDispalyMember)
+            txtLocCode.arrValueMember = clsCommon.ShowMultipleSelectForm("LocMulPF", qry, "Code", "Name", txtLocCode.arrValueMember, txtLocCode.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub txtDivisionMult__My_Click(sender As Object, e As EventArgs) Handles txtDivisionMult._My_Click
-        Dim qry As String = " select DEVISION_CODE as Code,DEVISION_NAME as Name from TSPL_DEVISION_MASTER"
-        txtDivisionMult.arrValueMember = clsCommon.ShowMultipleSelectForm("DivMulSel", qry, "Code", "Name", txtDivisionMult.arrValueMember, txtDivisionMult.arrDispalyMember)
+        Try
+            Dim qry As String = " select DEVISION_CODE as Code,DEVISION_NAME as Name from TSPL_DEVISION_MASTER"
+            txtDivisionMult.arrValueMember = clsCommon.ShowMultipleSelectForm("DivMulSel", qry, "Code", "Name", txtDivisionMult.arrValueMember, txtDivisionMult.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

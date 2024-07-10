@@ -1276,6 +1276,8 @@
     <None Include="Crystal Reports\Kwality Sales Report\crptBookingTaxableChallan.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptBulkSaleInvAndDispatchJV.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\CrptCreditCustomerReport.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorRouteWiseDetailcreditMilk.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorRouteWiseDetailcreditProduct.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorWiseDetail.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorWiseDetailcreditMilk.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorWiseDetailcreditProduct.rpt" />

@@ -18460,6 +18460,7 @@ Public Class clsCreateAllTable
             coll.Add("Against_RCDF_Loadin", "Varchar(30) null references TSPL_RCDF_LOAD_IN(Document_Code)")
             coll.Add("Online_Transaction_ID", "varchar(50) NULL")
             coll.Add("TDS_Recoverable_Amt", "decimal (18,2) NULL")
+            coll.Add("Against_ECollect", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RECEIPT_HEADER", coll, Nothing, True, False, "", "Receipt_No", "Receipt_Date", True)
 
             coll = New Dictionary(Of String, String)()
