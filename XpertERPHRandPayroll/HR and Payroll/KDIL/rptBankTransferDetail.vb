@@ -125,7 +125,7 @@ Public Class RptBankTransferDetail
                 End If
             End If
         Catch err As Exception
-            MessageBox.Show(err.Message)
+            clsCommon.MyMessageBoxShow(Me, err.Message, Me.Text)
         End Try
     End Sub
     Sub FormatGrid()
@@ -249,15 +249,18 @@ Public Class RptBankTransferDetail
     End Sub
 
     Private Sub txtpayPeriod__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtpayPeriod._MYValidating
-        Dim qry As String = "SELECT PAY_PERIOD_CODE AS 'Code',(DATEDIFF(DAY,date_from,date_to)+1) as 'Total days', " _
+        Try
+            Dim qry As String = "SELECT PAY_PERIOD_CODE AS 'Code',(DATEDIFF(DAY,date_from,date_to)+1) as 'Total days', " _
            & " PAY_PERIOD_NAME as 'Pay Period Name' FROM TSPL_PAYPERIOD_MASTER  "
-        txtpayPeriod.Value = clsCommon.ShowSelectForm("TSPL_PAYPERIOD_MASTER", qry, "Code", "POSTED=1 AND FREEZED=0", txtpayPeriod.Value, "", isButtonClicked)
-        If clsCommon.myLen(txtpayPeriod.Value) > 0 Then
-            lblFrompp.Text = clsPayPeriodMaster.GetName(txtpayPeriod.Value, Nothing)
-        Else
-            lblFrompp.Text = ""
-        End If
-
+            txtpayPeriod.Value = clsCommon.ShowSelectForm("TSPL_PAYPERIOD_MASTER", qry, "Code", "POSTED=1 AND FREEZED=0", txtpayPeriod.Value, "", isButtonClicked)
+            If clsCommon.myLen(txtpayPeriod.Value) > 0 Then
+                lblFrompp.Text = clsPayPeriodMaster.GetName(txtpayPeriod.Value, Nothing)
+            Else
+                lblFrompp.Text = ""
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         btnReferesh = False
@@ -269,45 +272,69 @@ Public Class RptBankTransferDetail
     End Sub
 
     Private Sub RptBankTransferDetail_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        SetUserMgmtNew()
-        ButtonToolTip.SetToolTip(btnSave, "Press Alt+P for Print ")
-        ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
+        Try
+            SetUserMgmtNew()
+            ButtonToolTip.SetToolTip(btnSave, "Press Alt+P for Print ")
+            ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub RptBankTransferDetail_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
-        If e.Alt AndAlso e.KeyCode = Keys.P AndAlso MyBase.isModifyFlag Then
-            PrintData()
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso MyBase.isPostFlag Then
-            'DeleteData()
-        ElseIf e.Alt And e.KeyCode = Keys.C Then
-            Close()
-        End If
+        Try
+            If e.Alt AndAlso e.KeyCode = Keys.P AndAlso MyBase.isModifyFlag Then
+                PrintData()
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso MyBase.isPostFlag Then
+                'DeleteData()
+            ElseIf e.Alt And e.KeyCode = Keys.C Then
+                Close()
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
 
     Private Sub txtLocationMult__My_Click(sender As Object, e As EventArgs) Handles txtLocationMult._My_Click
-        Dim qry As String = " select Location_Code as Code,Location_Desc as [Name] from TSPL_LOCATION_MASTER where LOCATION_CODE IN (select DISTINCT LOCATION_CODE from TSPL_GENERATE_SALARY where PAY_PERIOD_CODE='" & txtpayPeriod.Value & "') "
-        txtLocationMult.arrValueMember = clsCommon.ShowMultipleSelectForm("LocMulSel", qry, "Code", "Name", txtLocationMult.arrValueMember, txtLocationMult.arrDispalyMember)
-        Dim frmpending As New FrmPendingRequisitionQty()
-        frmpending.SetDiplayMember(txtLocationMult, "Location_Desc", "TSPL_LOCATION_MASTER", "Location_Code")
+        Try
+            Dim qry As String = " select Location_Code as Code,Location_Desc as [Name] from TSPL_LOCATION_MASTER where LOCATION_CODE IN (select DISTINCT LOCATION_CODE from TSPL_GENERATE_SALARY where PAY_PERIOD_CODE='" & txtpayPeriod.Value & "') "
+            txtLocationMult.arrValueMember = clsCommon.ShowMultipleSelectForm("LocMulSel", qry, "Code", "Name", txtLocationMult.arrValueMember, txtLocationMult.arrDispalyMember)
+            Dim frmpending As New FrmPendingRequisitionQty()
+            frmpending.SetDiplayMember(txtLocationMult, "Location_Desc", "TSPL_LOCATION_MASTER", "Location_Code")
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub txtBankMult__My_Click(sender As Object, e As EventArgs) Handles txtBankMult._My_Click
-        Dim qry As String = "select distinct  TSPL_EMPLOYEE_MASTER.Bank_Name as [Code],TSPL_EMPLOYEE_MASTER.Bank_Name as Name from TSPL_EMPLOYEE_MASTER left join TSPL_BANK_MASTER on TSPL_BANK_MASTER .BANK_CODE =TSPL_EMPLOYEE_MASTER.BANK_CODE where TSPL_EMPLOYEE_MASTER.Bank_Name<>''"
-        txtBankMult.arrValueMember = clsCommon.ShowMultipleSelectForm("BankMulSel", qry, "Code", "Name", txtBankMult.arrValueMember, txtBankMult.arrDispalyMember)
+        Try
+            Dim qry As String = "select distinct  TSPL_EMPLOYEE_MASTER.Bank_Name as [Code],TSPL_EMPLOYEE_MASTER.Bank_Name as Name from TSPL_EMPLOYEE_MASTER left join TSPL_BANK_MASTER on TSPL_BANK_MASTER .BANK_CODE =TSPL_EMPLOYEE_MASTER.BANK_CODE where TSPL_EMPLOYEE_MASTER.Bank_Name<>''"
+            txtBankMult.arrValueMember = clsCommon.ShowMultipleSelectForm("BankMulSel", qry, "Code", "Name", txtBankMult.arrValueMember, txtBankMult.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub txtDivisionMult__My_Click(sender As Object, e As EventArgs) Handles txtDivisionMult._My_Click
-        Dim qry As String = " select DEVISION_CODE as Code,DEVISION_NAME as Name from TSPL_DEVISION_MASTER"
-        txtDivisionMult.arrValueMember = clsCommon.ShowMultipleSelectForm("DivMulSel", qry, "Code", "Name", txtDivisionMult.arrValueMember, txtDivisionMult.arrDispalyMember)
+        Try
+            Dim qry As String = " select DEVISION_CODE as Code,DEVISION_NAME as Name from TSPL_DEVISION_MASTER"
+            txtDivisionMult.arrValueMember = clsCommon.ShowMultipleSelectForm("DivMulSel", qry, "Code", "Name", txtDivisionMult.arrValueMember, txtDivisionMult.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
 
     Private Sub btnRefresh_Click(sender As Object, e As EventArgs) Handles btnRefresh.Click
-        btnReferesh = True
-        PageSetupReport_ID = MyBase.Form_ID
-        TemplateGridview = gv1
-        PrintData()
+        Try
+            btnReferesh = True
+            PageSetupReport_ID = MyBase.Form_ID
+            TemplateGridview = gv1
+            PrintData()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub ExportGrid(ByVal exporter As EnumExportTo)
@@ -358,34 +385,50 @@ Public Class RptBankTransferDetail
     End Sub
 
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
-        ExportGrid(EnumExportTo.Excel)
+        Try
+            ExportGrid(EnumExportTo.Excel)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub rmiPDF_Click(sender As Object, e As EventArgs) Handles rmiPDF.Click
-        ExportGrid(EnumExportTo.PDF)
+        Try
+            ExportGrid(EnumExportTo.PDF)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub rmSaveLayout_Click(sender As Object, e As EventArgs) Handles rmSaveLayout.Click
-        If clsCommon.myLen(PageSetupReport_ID) > 0 Then
-            gv1.MasterTemplate.FilterDescriptors.Clear()
-            Dim obj As New clsGridLayout()
-            obj.ReportID = PageSetupReport_ID
-            obj.UserID = objCommonVar.CurrentUserCode
-            obj.GridLayout = New MemoryStream()
-            gv1.SaveLayout(obj.GridLayout)
-            obj.UserID = objCommonVar.CurrentUserCode
-            obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
-            obj.GridColumns = gv1.ColumnCount
-            If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
+        Try
+            If clsCommon.myLen(PageSetupReport_ID) > 0 Then
+                gv1.MasterTemplate.FilterDescriptors.Clear()
+                Dim obj As New clsGridLayout()
+                obj.ReportID = PageSetupReport_ID
+                obj.UserID = objCommonVar.CurrentUserCode
+                obj.GridLayout = New MemoryStream()
+                gv1.SaveLayout(obj.GridLayout)
+                obj.UserID = objCommonVar.CurrentUserCode
+                obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
+                obj.GridColumns = gv1.ColumnCount
+                If obj.SaveData() Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
+                End If
+                obj.GridLayout.Close()
+                obj.GridLayout.Dispose()
             End If
-            obj.GridLayout.Close()
-            obj.GridLayout.Dispose()
-        End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
-        clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
+        Try
+            clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
+            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

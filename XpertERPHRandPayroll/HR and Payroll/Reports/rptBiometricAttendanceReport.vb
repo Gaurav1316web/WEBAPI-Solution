@@ -78,13 +78,17 @@ Public Class rptBiometricAttendanceReport
         'gv3.Columns("Duration In Minute").IsVisible = False
     End Sub
     Private Sub frmLeaveRegisterReport_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        SetUserMgmtNew()
-        txtToDate.Value = clsCommon.GETSERVERDATE()
-        txtFromDate.Value = txtToDate.Value.AddMonths(-1)
+        Try
+            SetUserMgmtNew()
+            txtToDate.Value = clsCommon.GETSERVERDATE()
+            txtFromDate.Value = txtToDate.Value.AddMonths(-1)
 
-        ButtonToolTip.SetToolTip(btnGenrate, "Press Alt+S for Save/Update ")
-        ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
-        ButtonToolTip.SetToolTip(btnReset, "Press Alt+N Adding New ")
+            ButtonToolTip.SetToolTip(btnGenrate, "Press Alt+S for Save/Update ")
+            ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
+            ButtonToolTip.SetToolTip(btnReset, "Press Alt+N Adding New ")
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub SetUserMgmtNew()
@@ -126,36 +130,44 @@ Public Class rptBiometricAttendanceReport
 
 
     Private Sub frmLeaveRegisterReport_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
-        If e.Alt And e.KeyCode = Keys.C Then
-            funClose()
-        ElseIf e.Alt And e.KeyCode = Keys.N Then
-            funReset()
-        End If
+        Try
+            If e.Alt And e.KeyCode = Keys.C Then
+                funClose()
+            ElseIf e.Alt And e.KeyCode = Keys.N Then
+                funReset()
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub btnGenrate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGenrate.Click
         LoadData()
     End Sub
     Private Sub RadMenuItemSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItemSave.Click
-        If clsCommon.myLen(ReportID) > 0 Then
-            gv3.MasterTemplate.FilterDescriptors.Clear()
-            Dim obj As New clsGridLayout()
-            obj.ReportID = ReportID
-            obj.UserID = objCommonVar.CurrentUserCode
-            obj.GridLayout = New MemoryStream()
-            gv3.SaveLayout(obj.GridLayout)
-            obj.UserID = objCommonVar.CurrentUserCode
-            obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
-            obj.GridColumns = gv3.ColumnCount
-            If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
-            End If
+        Try
+            If clsCommon.myLen(ReportID) > 0 Then
+                gv3.MasterTemplate.FilterDescriptors.Clear()
+                Dim obj As New clsGridLayout()
+                obj.ReportID = ReportID
+                obj.UserID = objCommonVar.CurrentUserCode
+                obj.GridLayout = New MemoryStream()
+                gv3.SaveLayout(obj.GridLayout)
+                obj.UserID = objCommonVar.CurrentUserCode
+                obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
+                obj.GridColumns = gv3.ColumnCount
+                If obj.SaveData() Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
+                End If
 
-            ''richa agarwal regarding memory leakage
-            obj.GridLayout.Close()
-            obj.GridLayout.Dispose()
-            ''---------------
-        End If
+                ''richa agarwal regarding memory leakage
+                obj.GridLayout.Close()
+                obj.GridLayout.Dispose()
+                ''---------------
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Private Sub ReStoreGridLayout()
         Try
@@ -173,29 +185,41 @@ Public Class rptBiometricAttendanceReport
                     obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 End If
             End If
-        Catch err As Exception
-            MessageBox.Show(err.Message)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub RadMenuItemDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItemDelete.Click
-        clsGridLayout.DeleteData(ReportID, objCommonVar.CurrentUserCode)
+        Try
+            clsGridLayout.DeleteData(ReportID, objCommonVar.CurrentUserCode)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub btnExpoExl_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        Dim arr As New List(Of String)()
-        arr.Add(objCommonVar.CurrentCompanyName)
-        arr.Add("Biometric Attendance Report")
-        arr.Add("as on :-" + clsCommon.GETSERVERDATE() + " ")
-        clsCommon.MyExportToExcelGrid("Biometric Attendance Report", gv3, arr, "Biometric Attendance Report", False)
+        Try
+            Dim arr As New List(Of String)()
+            arr.Add(objCommonVar.CurrentCompanyName)
+            arr.Add("Biometric Attendance Report")
+            arr.Add("as on :-" + clsCommon.GETSERVERDATE() + " ")
+            clsCommon.MyExportToExcelGrid("Biometric Attendance Report", gv3, arr, "Biometric Attendance Report", False)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub btnExpoPDF_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        Dim arr As New List(Of String)()
-        arr.Add(objCommonVar.CurrentCompanyName)
-        arr.Add("Biometric Attendance Report")
-        arr.Add("as on :-" + clsCommon.GETSERVERDATE() + " ")
-        clsCommon.MyExportToPDF("Attendance Report", gv3, arr, "Biometric Attendance Report", False)
+        Try
+            Dim arr As New List(Of String)()
+            arr.Add(objCommonVar.CurrentCompanyName)
+            arr.Add("Biometric Attendance Report")
+            arr.Add("as on :-" + clsCommon.GETSERVERDATE() + " ")
+            clsCommon.MyExportToPDF("Attendance Report", gv3, arr, "Biometric Attendance Report", False)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
 #Region "grid operations"
@@ -224,34 +248,41 @@ Public Class rptBiometricAttendanceReport
 #End Region
 
     Private Sub btnExcel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        Dim arr As New List(Of String)()
-        arr.Add(objCommonVar.CurrentCompanyName)
+        Try
+            Dim arr As New List(Of String)()
+            arr.Add(objCommonVar.CurrentCompanyName)
 
-        arr.Add("Biometric Attendance Report")
-        'arr.Add("as on :-" + clsCommon.GETSERVERDATE() + " ")
-        If TxtMultiEmployee.arrValueMember IsNot Nothing AndAlso TxtMultiEmployee.arrValueMember.Count > 0 Then
-            arr.Add(" Employee : " + clsCommon.GetMulcallStringWithComma(TxtMultiEmployee.arrDispalyMember))
-        End If
+            arr.Add("Biometric Attendance Report")
+            'arr.Add("as on :-" + clsCommon.GETSERVERDATE() + " ")
+            If TxtMultiEmployee.arrValueMember IsNot Nothing AndAlso TxtMultiEmployee.arrValueMember.Count > 0 Then
+                arr.Add(" Employee : " + clsCommon.GetMulcallStringWithComma(TxtMultiEmployee.arrDispalyMember))
+            End If
 
-        If gv3.Rows.Count <= 0 Then
-            gv3.Focus()
-            clsCommon.MyMessageBoxShow(Me, "Data not found.", Me.Text)
-        Else
-            clsCommon.MyExportToExcelGrid("Biometric Attendance Report", gv3, arr, "Biometric Attendance Report", False)
-        End If
-
+            If gv3.Rows.Count <= 0 Then
+                gv3.Focus()
+                clsCommon.MyMessageBoxShow(Me, "Data not found.", Me.Text)
+            Else
+                clsCommon.MyExportToExcelGrid("Biometric Attendance Report", gv3, arr, "Biometric Attendance Report", False)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub btnPDF_Click(ByVal sender As Object, ByVal e As System.EventArgs)
-        Dim arr As New List(Of String)()
-        arr.Add(objCommonVar.CurrentCompanyName)
+        Try
+            Dim arr As New List(Of String)()
+            arr.Add(objCommonVar.CurrentCompanyName)
 
-        arr.Add("Biometric Attendance Report")
-        'arr.Add("as on :-" + clsCommon.GETSERVERDATE() + " ")
-        If TxtMultiEmployee.arrValueMember IsNot Nothing AndAlso TxtMultiEmployee.arrValueMember.Count > 0 Then
-            arr.Add(" Employee : " + clsCommon.GetMulcallStringWithComma(TxtMultiEmployee.arrDispalyMember))
-        End If
-        clsCommon.MyExportToPDF("Biometric Attendance Report", gv3, arr, "Biometric Attendance Report", False)
+            arr.Add("Biometric Attendance Report")
+            'arr.Add("as on :-" + clsCommon.GETSERVERDATE() + " ")
+            If TxtMultiEmployee.arrValueMember IsNot Nothing AndAlso TxtMultiEmployee.arrValueMember.Count > 0 Then
+                arr.Add(" Employee : " + clsCommon.GetMulcallStringWithComma(TxtMultiEmployee.arrDispalyMember))
+            End If
+            clsCommon.MyExportToPDF("Biometric Attendance Report", gv3, arr, "Biometric Attendance Report", False)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub btnQuickExport_Click(sender As Object, e As EventArgs) Handles btnQuickExport.Click
@@ -272,10 +303,14 @@ Public Class rptBiometricAttendanceReport
 
 
     Private Sub TxtMultiEmployee__My_Click(sender As Object, e As EventArgs) Handles TxtMultiEmployee._My_Click
-        Dim qry As String = "select EMP_CODE AS [Code],Emp_Name as [Name],tspl_employee_MASTER.Location_Code as Loaction, tspl_employee_MASTER.Devision_Code as Division " & _
+        Try
+            Dim qry As String = "select EMP_CODE AS [Code],Emp_Name as [Name],tspl_employee_MASTER.Location_Code as Loaction, tspl_employee_MASTER.Devision_Code as Division " &
             " from tspl_employee_MASTER left join tspl_location_master on tspl_location_master.Location_Code =tspl_employee_MASTER.LOCATION_CODE  "
 
-        TxtMultiEmployee.arrValueMember = clsCommon.ShowMultipleSelectForm("DivMulSel", qry, "Code", "Name", TxtMultiEmployee.arrValueMember, TxtMultiEmployee.arrDispalyMember)
+            TxtMultiEmployee.arrValueMember = clsCommon.ShowMultipleSelectForm("DivMulSel", qry, "Code", "Name", TxtMultiEmployee.arrValueMember, TxtMultiEmployee.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click

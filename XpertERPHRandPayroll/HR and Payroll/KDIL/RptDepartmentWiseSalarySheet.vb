@@ -65,207 +65,208 @@ Public Class RptDepartmentWiseSalarySheet
     End Sub
 
     Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtFromPP._MYValidating
-        Dim qry As String = "SELECT PAY_PERIOD_CODE AS 'Code',(DATEDIFF(DAY,date_from,date_to)+1) as 'Total days', " _
+        Try
+            Dim qry As String = "SELECT PAY_PERIOD_CODE AS 'Code',(DATEDIFF(DAY,date_from,date_to)+1) as 'Total days', " _
             & " PAY_PERIOD_NAME as 'Pay Period Name' FROM TSPL_PAYPERIOD_MASTER  "
-        txtFromPP.Value = clsCommon.ShowSelectForm("TSPL_PAYPERIOD_MASTER", qry, "Code", "POSTED=1 AND FREEZED=0", txtFromPP.Value, "", isButtonClicked)
-        lblFrompp.Text = clsPayPeriodMaster.GetName(txtFromPP.Value, Nothing)
-
+            txtFromPP.Value = clsCommon.ShowSelectForm("TSPL_PAYPERIOD_MASTER", qry, "Code", "POSTED=1 AND FREEZED=0", txtFromPP.Value, "", isButtonClicked)
+            lblFrompp.Text = clsPayPeriodMaster.GetName(txtFromPP.Value, Nothing)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Sub PrintData()
-        'Try
-        Dim font As System.Drawing.Font = Gv1.Font
-        'font.Size = 8.25
-        Gv1.DataSource = Nothing
-        If clsCommon.myLen(txtFromPP.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please Select Pay Period.", Me.Text)
-            Return
-        End If
-        NoOfPayHeadsInEachCol = Me.txtNum.Value
-        'If clsCommon.myLen(txtLocationMult.Value) <= 0 Then
-        '    common.clsCommon.MyMessageBoxShow("Please Select Location.")
-        '    Return
-        'End If
+        Try
+            Dim font As System.Drawing.Font = Gv1.Font
+            'font.Size = 8.25
+            Gv1.DataSource = Nothing
+            If clsCommon.myLen(txtFromPP.Value) <= 0 Then
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Pay Period.", Me.Text)
+                Return
+            End If
+            NoOfPayHeadsInEachCol = Me.txtNum.Value
+            'If clsCommon.myLen(txtLocationMult.Value) <= 0 Then
+            '    common.clsCommon.MyMessageBoxShow("Please Select Location.")
+            '    Return
+            'End If
 
-        'If cbgDepartment.CheckedValue.Count <= 0 Then
-        '    common.clsCommon.MyMessageBoxShow("Please Select AtLeast Single Department Or Select All")
-        '    Return
-        'End If
-        'If cbgPayHeads.CheckedValue.Count <= 0 Then
-        '    common.clsCommon.MyMessageBoxShow("Please Select AtLeast Single Pay Head Or Select All")
-        '    Return
-        'End If
+            'If cbgDepartment.CheckedValue.Count <= 0 Then
+            '    common.clsCommon.MyMessageBoxShow("Please Select AtLeast Single Department Or Select All")
+            '    Return
+            'End If
+            'If cbgPayHeads.CheckedValue.Count <= 0 Then
+            '    common.clsCommon.MyMessageBoxShow("Please Select AtLeast Single Pay Head Or Select All")
+            '    Return
+            'End If
 
-        '' variables
-        Dim PayHeadUpperSelect As String = ""
-        Dim PayHeadUpperSelect1 As String = ""
-        Dim PayHeadPivot As String = ""
-        Dim objPFRule As clsPFRulesMaster
-        Dim objESIRule As clsESIRulesMaster
-        Dim Cond As String = ""
-        Dim EarningTotal As String = ""
-        'Dim DedTotal As String = ""
-        Dim NetAmountSelect As String = ""
+            '' variables
+            Dim PayHeadUpperSelect As String = ""
+            Dim PayHeadUpperSelect1 As String = ""
+            Dim PayHeadPivot As String = ""
+            Dim objPFRule As clsPFRulesMaster
+            Dim objESIRule As clsESIRulesMaster
+            Dim Cond As String = ""
+            Dim EarningTotal As String = ""
+            'Dim DedTotal As String = ""
+            Dim NetAmountSelect As String = ""
 
-        '' get pf rule 
-        objPFRule = clsPFRulesMaster.GetRecentPFRule(txtFromPP.Value)
-        If objPFRule Is Nothing Then
-            Exit Sub
-        End If
-        '' get ESI rule 
-        objESIRule = clsESIRulesMaster.GetRecentESIRule(txtFromPP.Value)
-        If objESIRule Is Nothing Then
-            Exit Sub
-        End If
+            '' get pf rule 
+            objPFRule = clsPFRulesMaster.GetRecentPFRule(txtFromPP.Value)
+            If objPFRule Is Nothing Then
+                Exit Sub
+            End If
+            '' get ESI rule 
+            objESIRule = clsESIRulesMaster.GetRecentESIRule(txtFromPP.Value)
+            If objESIRule Is Nothing Then
+                Exit Sub
+            End If
 
-        Dim PHQuery As String = " SELECT DISTINCT  PAY_HEAD_CODE FROM TSPL_SALSTRUCT_PAYHEADS WHERE SALARY_STRUCTURE_CODE IN (select distinct SALARY_STRUCTURE_CODE from TSPL_GENERATE_SALARY_ATTENDANCE GSA INNER JOIN TSPL_GENERATE_SALARY GS ON GSA.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE WHERE GS.PAY_PERIOD_CODE='" & txtFromPP.Value & "') "
-        PHQuery = " select Pay_Head_Code,IsEarning,Head_Type,(ROW_NUMBER() over (partition by IsEarning order by Group_Seq)) Group_Seq,(Group_Seq % " & NoOfPayHeadsInEachCol & ") as Seq from ( select PAY_HEAD_CODE,PAY_HEAD_NAME,ISEARNING,Head_Type,PRINT_GROUP_SEQ AS  Group_Seq " & _
-                  " from TSPL_PAYHEAD_MASTER) TSPL_PAYHEAD_MASTER WHERE PAY_HEAD_CODE IN (" & PHQuery & ")  "
+            Dim PHQuery As String = " SELECT DISTINCT  PAY_HEAD_CODE FROM TSPL_SALSTRUCT_PAYHEADS WHERE SALARY_STRUCTURE_CODE IN (select distinct SALARY_STRUCTURE_CODE from TSPL_GENERATE_SALARY_ATTENDANCE GSA INNER JOIN TSPL_GENERATE_SALARY GS ON GSA.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE WHERE GS.PAY_PERIOD_CODE='" & txtFromPP.Value & "') "
+            PHQuery = " select Pay_Head_Code,IsEarning,Head_Type,(ROW_NUMBER() over (partition by IsEarning order by Group_Seq)) Group_Seq,(Group_Seq % " & NoOfPayHeadsInEachCol & ") as Seq from ( select PAY_HEAD_CODE,PAY_HEAD_NAME,ISEARNING,Head_Type,PRINT_GROUP_SEQ AS  Group_Seq " &
+                      " from TSPL_PAYHEAD_MASTER) TSPL_PAYHEAD_MASTER WHERE PAY_HEAD_CODE IN (" & PHQuery & ")  "
 
 
-        Dim CompName As String = clsCommon.myCstr(objCommonVar.CurrentCompanyName)
-        Dim LocAdd As String = ""
-        Dim LocationFirstTime1 As Integer = 0
-        If txtLocationMult.arrValueMember IsNot Nothing AndAlso txtLocationMult.arrValueMember.Count = 1 Then
-            LocationFirstTime1 += 1
-            LocAdd = clsDBFuncationality.getSingleValue("select TSPL_LOCATION_MASTER.Add1+Case When ISNULL(TSPL_LOCATION_MASTER.Add2,'')='' Then '' else ', '+TSPL_LOCATION_MASTER.Add2+ Case When ISNULL(TSPL_LOCATION_MASTER.Add3,'')='' Then '' Else ', '+TSPL_LOCATION_MASTER.Add3+ Case When ISNULL(TSPL_LOCATION_MASTER.City_Code ,'')='' Then '' else '-'+CONVERT(varchar, TSPL_LOCATION_MASTER.City_Code) End End End as Location_Address from tspl_location_master where Location_Code  in (" & clsCommon.GetMulcallString(txtLocationMult.arrValueMember) & ")")
-        Else
-            LocAdd = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Comp_Name +','+ TSPL_COMPANY_MASTER.Add1+Case When ISNULL(TSPL_COMPANY_MASTER.Add2,'')='' Then '' else ', '+TSPL_COMPANY_MASTER.Add2+ Case When ISNULL(TSPL_COMPANY_MASTER.Add3,'')='' Then '' Else ', '+TSPL_COMPANY_MASTER.Add3 + Case When ISNULL(TSPL_COMPANY_MASTER.City_Code ,'')='' Then '' else '-'+CONVERT(varchar, TSPL_COMPANY_MASTER.City_Code) End End End as Comp_Address from TSPL_COMPANY_MASTER "))
-        End If
-        'Dim LocAdd As String = clsDBFuncationality.getSingleValue("select TSPL_LOCATION_MASTER.Add1+Case When ISNULL(TSPL_LOCATION_MASTER.Add2,'')='' Then '' else ', '+TSPL_LOCATION_MASTER.Add2+ Case When ISNULL(TSPL_LOCATION_MASTER.Add3,'')='' Then '' Else ', '+TSPL_LOCATION_MASTER.Add3+ Case When ISNULL(TSPL_LOCATION_MASTER.City_Code ,'')='' Then '' else '-'+CONVERT(varchar, TSPL_LOCATION_MASTER.City_Code) End End End as Location_Address from tspl_location_master where Location_Code  in (" & clsCommon.GetMulcallString(txtLocationMult.arrValueMember) & ")")
-        Dim PayPeriod As String = clsCommon.myCstr(txtFromPP.Value)
-        Dim LocDesc As String = ""
-        Dim LocationFirstTime As Integer = 0
-        If txtLocationMult.arrValueMember IsNot Nothing AndAlso txtLocationMult.arrValueMember.Count = 1 Then
-            LocationFirstTime += 1
-            LocDesc = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Location_Desc FROM TSPL_LOCATION_MASTER WHERE Location_Code in (" + clsCommon.GetMulcallString(txtLocationMult.arrValueMember) + ")"))
-        Else
-            LocDesc = "All"
-        End If
-        Dim DivDes As String = ""
-        Dim DivisionFirstTime As Integer = 0
-        If txtDivisionMult.arrValueMember IsNot Nothing AndAlso txtDivisionMult.arrValueMember.Count = 1 Then
-            DivisionFirstTime += 1
-            DivDes = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  DEVISION_NAME  from TSPL_DEVISION_MASTER WHERE DEVISION_CODE in (" + clsCommon.GetMulcallString(txtDivisionMult.arrValueMember) + ")"))
-        Else
-            DivDes = "All"
-        End If
-
-        Dim dtFinal As DataTable = GetCommonDT(PHQuery, Me.ddlReportType.Text, txtDepartmentMult.arrValueMember)
-        Dim GrandTotal As Decimal = 0.0
-
-        For Each row As DataRow In dtFinal.Rows
-            GrandTotal = GrandTotal + clsCommon.myCdbl(row.Item("Net_Payment"))
-        Next
-        Dim drGrand As DataRow = dtFinal.NewRow
-        drGrand(0) = "Total:"
-        drGrand(dtFinal.Columns.Count - 1) = GrandTotal
-        dtFinal.Rows.Add(drGrand)
-        Gv1.DataSource = Nothing
-        Gv1.DataSource = dtFinal
-        '' changes by shivani[8265]
-        If Print = False Then
-            If clsCommon.CompairString(ddlReportType.Text, "Departmentwise") = CompairStringResult.Equal Then
-                Dim dtFinalCR As New DataTable
-                dtFinalCR = GetFinalDtCR("", dtFinalCR, dtFinal)
-                dtFinalCR.Merge(dtFinal)
-                dtFinalCR.Columns.Add("CompName", GetType(String))
-                dtFinalCR.Columns.Add("LocAdd", GetType(String))
-                dtFinalCR.Columns.Add("PayPeriod", GetType(String))
-                For ix As Integer = 0 To dtFinalCR.Rows.Count - 1
-                    dtFinalCR.Rows(ix).Item("CompName") = clsCommon.myCstr(CompName)
-                    dtFinalCR.Rows(ix).Item("LocAdd") = clsCommon.myCstr(LocAdd)
-                    dtFinalCR.Rows(ix).Item("PayPeriod") = clsCommon.myCstr(PayPeriod)
-
-                Next
-                Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtFinalCR, "DepartmentWiseSalarySlip", "DepartmentWise Salary Sheet Report")
+            Dim CompName As String = clsCommon.myCstr(objCommonVar.CurrentCompanyName)
+            Dim LocAdd As String = ""
+            Dim LocationFirstTime1 As Integer = 0
+            If txtLocationMult.arrValueMember IsNot Nothing AndAlso txtLocationMult.arrValueMember.Count = 1 Then
+                LocationFirstTime1 += 1
+                LocAdd = clsDBFuncationality.getSingleValue("select TSPL_LOCATION_MASTER.Add1+Case When ISNULL(TSPL_LOCATION_MASTER.Add2,'')='' Then '' else ', '+TSPL_LOCATION_MASTER.Add2+ Case When ISNULL(TSPL_LOCATION_MASTER.Add3,'')='' Then '' Else ', '+TSPL_LOCATION_MASTER.Add3+ Case When ISNULL(TSPL_LOCATION_MASTER.City_Code ,'')='' Then '' else '-'+CONVERT(varchar, TSPL_LOCATION_MASTER.City_Code) End End End as Location_Address from tspl_location_master where Location_Code  in (" & clsCommon.GetMulcallString(txtLocationMult.arrValueMember) & ")")
             Else
-                'Dim dtFinalCR As DataTable = GetFinalDtCR(dtFinal)
+                LocAdd = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Comp_Name +','+ TSPL_COMPANY_MASTER.Add1+Case When ISNULL(TSPL_COMPANY_MASTER.Add2,'')='' Then '' else ', '+TSPL_COMPANY_MASTER.Add2+ Case When ISNULL(TSPL_COMPANY_MASTER.Add3,'')='' Then '' Else ', '+TSPL_COMPANY_MASTER.Add3 + Case When ISNULL(TSPL_COMPANY_MASTER.City_Code ,'')='' Then '' else '-'+CONVERT(varchar, TSPL_COMPANY_MASTER.City_Code) End End End as Comp_Address from TSPL_COMPANY_MASTER "))
+            End If
+            'Dim LocAdd As String = clsDBFuncationality.getSingleValue("select TSPL_LOCATION_MASTER.Add1+Case When ISNULL(TSPL_LOCATION_MASTER.Add2,'')='' Then '' else ', '+TSPL_LOCATION_MASTER.Add2+ Case When ISNULL(TSPL_LOCATION_MASTER.Add3,'')='' Then '' Else ', '+TSPL_LOCATION_MASTER.Add3+ Case When ISNULL(TSPL_LOCATION_MASTER.City_Code ,'')='' Then '' else '-'+CONVERT(varchar, TSPL_LOCATION_MASTER.City_Code) End End End as Location_Address from tspl_location_master where Location_Code  in (" & clsCommon.GetMulcallString(txtLocationMult.arrValueMember) & ")")
+            Dim PayPeriod As String = clsCommon.myCstr(txtFromPP.Value)
+            Dim LocDesc As String = ""
+            Dim LocationFirstTime As Integer = 0
+            If txtLocationMult.arrValueMember IsNot Nothing AndAlso txtLocationMult.arrValueMember.Count = 1 Then
+                LocationFirstTime += 1
+                LocDesc = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Location_Desc FROM TSPL_LOCATION_MASTER WHERE Location_Code in (" + clsCommon.GetMulcallString(txtLocationMult.arrValueMember) + ")"))
+            Else
+                LocDesc = "All"
+            End If
+            Dim DivDes As String = ""
+            Dim DivisionFirstTime As Integer = 0
+            If txtDivisionMult.arrValueMember IsNot Nothing AndAlso txtDivisionMult.arrValueMember.Count = 1 Then
+                DivisionFirstTime += 1
+                DivDes = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  DEVISION_NAME  from TSPL_DEVISION_MASTER WHERE DEVISION_CODE in (" + clsCommon.GetMulcallString(txtDivisionMult.arrValueMember) + ")"))
+            Else
+                DivDes = "All"
+            End If
 
-                Dim dtFinalCRR As New DataTable
-                Dim ArrDepartment As New ArrayList
+            Dim dtFinal As DataTable = GetCommonDT(PHQuery, Me.ddlReportType.Text, txtDepartmentMult.arrValueMember)
+            Dim GrandTotal As Decimal = 0.0
 
-                If txtDepartmentMult.arrValueMember Is Nothing Then
-                    ArrDepartment = GetAllDepartment()
-
-                ElseIf txtDepartmentMult.arrValueMember.Count = 0 Then
-                    ArrDepartment = GetAllDepartment()
+            For Each row As DataRow In dtFinal.Rows
+                GrandTotal = GrandTotal + clsCommon.myCdbl(row.Item("Net_Payment"))
+            Next
+            Dim drGrand As DataRow = dtFinal.NewRow
+            drGrand(0) = "Total:"
+            drGrand(dtFinal.Columns.Count - 1) = GrandTotal
+            dtFinal.Rows.Add(drGrand)
+            Gv1.DataSource = Nothing
+            Gv1.DataSource = dtFinal
+            '' changes by shivani[8265]
+            If Print = False Then
+                If clsCommon.CompairString(ddlReportType.Text, "Departmentwise") = CompairStringResult.Equal Then
+                    Dim dtFinalCR As New DataTable
+                    dtFinalCR = GetFinalDtCR("", dtFinalCR, dtFinal)
+                    dtFinalCR.Merge(dtFinal)
+                    dtFinalCR.Columns.Add("CompName", GetType(String))
+                    dtFinalCR.Columns.Add("LocAdd", GetType(String))
+                    dtFinalCR.Columns.Add("PayPeriod", GetType(String))
+                    For ix As Integer = 0 To dtFinalCR.Rows.Count - 1
+                        dtFinalCR.Rows(ix).Item("CompName") = clsCommon.myCstr(CompName)
+                        dtFinalCR.Rows(ix).Item("LocAdd") = clsCommon.myCstr(LocAdd)
+                        dtFinalCR.Rows(ix).Item("PayPeriod") = clsCommon.myCstr(PayPeriod)
+                    Next
+                    Dim frmcrystal As New frmCrystalReportViewer()
+                    frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtFinalCR, "DepartmentWiseSalarySlip", "DepartmentWise Salary Sheet Report")
                 Else
-                    ArrDepartment = txtDepartmentMult.arrValueMember
-                End If
-                For Each Department As String In ArrDepartment
-                    Dim arrlstDept As New ArrayList
-                    arrlstDept.Add(Department)
-                    Dim dtEmp As DataTable = GetCommonDT(PHQuery, "Employeewise", arrlstDept)
-                    If dtEmp.Rows.Count > 0 Then
-                        dtFinalCRR = GetFinalDtCR(clsDepartmentMaster.GetName(Department, Nothing), dtFinalCRR, dtEmp)
-                        dtFinalCRR.Merge(dtEmp)
+                    'Dim dtFinalCR As DataTable = GetFinalDtCR(dtFinal)
+                    Dim dtFinalCRR As New DataTable
+                    Dim ArrDepartment As New ArrayList
+                    If txtDepartmentMult.arrValueMember Is Nothing Then
+                        ArrDepartment = GetAllDepartment()
 
-                        Dim dtDept As DataTable = GetCommonDT(PHQuery, "Departmentwise", arrlstDept)
-                        If dtDept.Rows.Count > 0 Then
-                            Dim drDEpt As DataRow = dtDept.Rows(0)
-                            drDEpt("Serial_No") = ""
-                            drDEpt("Employees") = "Total"
-                            dtFinalCRR.Rows.Add(drDEpt.ItemArray)
-                        End If
+                    ElseIf txtDepartmentMult.arrValueMember.Count = 0 Then
+                        ArrDepartment = GetAllDepartment()
+                    Else
+                        ArrDepartment = txtDepartmentMult.arrValueMember
                     End If
-                Next
-                dtFinalCRR.Columns.Add("CompName", GetType(String))
-                dtFinalCRR.Columns.Add("LocAdd", GetType(String))
-                dtFinalCRR.Columns.Add("PayPeriod", GetType(String))
-                dtFinalCRR.Columns.Add("LocDesc", GetType(String))
-                dtFinalCRR.Columns.Add("DivDes", GetType(String))
-                For ix As Integer = 0 To dtFinalCRR.Rows.Count - 1
-                    dtFinalCRR.Rows(ix).Item("CompName") = clsCommon.myCstr(CompName)
-                    dtFinalCRR.Rows(ix).Item("LocAdd") = clsCommon.myCstr(LocAdd)
-                    dtFinalCRR.Rows(ix).Item("PayPeriod") = clsCommon.myCstr(PayPeriod)
-                    dtFinalCRR.Rows(ix).Item("LocDesc") = clsCommon.myCstr(LocDesc)
-                    dtFinalCRR.Rows(ix).Item("DivDes") = clsCommon.myCstr(DivDes)
-                Next
-
-                Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtFinalCRR, "EmployeeWiseSalarySlip", "EmployeeWise Salary Sheet Report")
-
+                    For Each Department As String In ArrDepartment
+                        Dim arrlstDept As New ArrayList
+                        arrlstDept.Add(Department)
+                        Dim dtEmp As DataTable = GetCommonDT(PHQuery, "Employeewise", arrlstDept)
+                        If dtEmp.Rows.Count > 0 Then
+                            dtFinalCRR = GetFinalDtCR(clsDepartmentMaster.GetName(Department, Nothing), dtFinalCRR, dtEmp)
+                            dtFinalCRR.Merge(dtEmp)
+                            Dim dtDept As DataTable = GetCommonDT(PHQuery, "Departmentwise", arrlstDept)
+                            If dtDept.Rows.Count > 0 Then
+                                Dim drDEpt As DataRow = dtDept.Rows(0)
+                                drDEpt("Serial_No") = ""
+                                drDEpt("Employees") = "Total"
+                                dtFinalCRR.Rows.Add(drDEpt.ItemArray)
+                            End If
+                        End If
+                    Next
+                    dtFinalCRR.Columns.Add("CompName", GetType(String))
+                    dtFinalCRR.Columns.Add("LocAdd", GetType(String))
+                    dtFinalCRR.Columns.Add("PayPeriod", GetType(String))
+                    dtFinalCRR.Columns.Add("LocDesc", GetType(String))
+                    dtFinalCRR.Columns.Add("DivDes", GetType(String))
+                    For ix As Integer = 0 To dtFinalCRR.Rows.Count - 1
+                        dtFinalCRR.Rows(ix).Item("CompName") = clsCommon.myCstr(CompName)
+                        dtFinalCRR.Rows(ix).Item("LocAdd") = clsCommon.myCstr(LocAdd)
+                        dtFinalCRR.Rows(ix).Item("PayPeriod") = clsCommon.myCstr(PayPeriod)
+                        dtFinalCRR.Rows(ix).Item("LocDesc") = clsCommon.myCstr(LocDesc)
+                        dtFinalCRR.Rows(ix).Item("DivDes") = clsCommon.myCstr(DivDes)
+                    Next
+                    Dim frmcrystal As New frmCrystalReportViewer()
+                    frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtFinalCRR, "EmployeeWiseSalarySlip", "EmployeeWise Salary Sheet Report")
+                End If
             End If
+            For ii As Integer = 0 To Gv1.Columns.Count - 1
+                Gv1.Columns(ii).ReadOnly = True
+                Gv1.Columns(ii).BestFit()
+                If Gv1.Columns(ii).Index > 1 Then
+                    Gv1.Columns(ii).TextAlignment = ContentAlignment.MiddleRight
+                Else
+                    Gv1.Columns(ii).TextAlignment = ContentAlignment.MiddleLeft
+                End If
 
+            Next
 
-        End If
-        For ii As Integer = 0 To Gv1.Columns.Count - 1
-            Gv1.Columns(ii).ReadOnly = True
-            Gv1.Columns(ii).BestFit()
-            If Gv1.Columns(ii).Index > 1 Then
-                Gv1.Columns(ii).TextAlignment = ContentAlignment.MiddleRight
-            Else
-                Gv1.Columns(ii).TextAlignment = ContentAlignment.MiddleLeft
-            End If
+            Gv1.AllowAddNewRow = False
+            Gv1.AutoSizeRows = True
+            Gv1.AllowAutoSizeColumns = True
+            RadPageView1.SelectedPage = RadPageViewPage2
+            Gv1.EnableGrouping = True
+            Gv1.EnableSorting = True
+            Gv1.EnableFiltering = True
+            'Gv1.EnablePaging = True
+            'Gv1.ReadOnly = True
 
-        Next
-
-        Gv1.AllowAddNewRow = False
-        Gv1.AutoSizeRows = True
-        Gv1.AllowAutoSizeColumns = True
-        RadPageView1.SelectedPage = RadPageViewPage2
-        Gv1.EnableGrouping = True
-        Gv1.EnableSorting = True
-        Gv1.EnableFiltering = True
-        'Gv1.EnablePaging = True
-        'Gv1.ReadOnly = True
-
-        'Catch ex As Exception
-        '    common.clsCommon.MyMessageBoxShow(ex.Message)
-        'End Try
-
+            'Catch ex As Exception
+            '    common.clsCommon.MyMessageBoxShow(ex.Message)
+            'End Try
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Function GetAllDepartment() As ArrayList
-        Dim qry As String
         Dim ArrDept As New ArrayList
-        qry = "select Department_Code,DEPARTMENT_NAME from tspl_department_master "
-        Dim dt As DataTable
-        dt = clsDBFuncationality.GetDataTable(qry)
-        For Each dr As DataRow In dt.Rows
-            ArrDept.Add(dr.Item("Department_Code"))
-        Next
+        Try
+            Dim qry As String
+            qry = "select Department_Code,DEPARTMENT_NAME from tspl_department_master "
+            Dim dt As DataTable
+            dt = clsDBFuncationality.GetDataTable(qry)
+            For Each dr As DataRow In dt.Rows
+                ArrDept.Add(dr.Item("Department_Code"))
+            Next
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
         Return ArrDept
     End Function
     Function GetCommonDT(ByVal PHQuery As String, ByVal ReportType As String, ByVal ArrDepartments As ArrayList) As DataTable
@@ -289,38 +290,38 @@ Public Class RptDepartmentWiseSalarySheet
         dtPH = GetPayHeadDT()
         Dim SalQry As String = ""
         Dim InnerQry As String = ""
-        SalQry = "select GSA.EMP_CODE,coalesce(EMP.DEPARTMENT_CODE,'') as DEPARTMENT_CODE,coalesce(DPT.DEPARTMENT_NAME,'') as DEPARTMENT_NAME,GSP.PAY_HEAD_CODE,PHM.ISEARNING,PHM.Head_Type,PHM.Group_Seq,(PHM.Group_Seq % " & NoOfPayHeadsInEachCol & ") as Seq,count(GSA.EMP_CODE) AS Total, " & _
-            " SUM(case when GSP.SUB_HEAD_TYPE='EPF' AND ACTUAL_AMOUNT>0 THEN 1 ELSE 0 END) AS PF_Count, " & _
-            " SUM(case when GSP.SUB_HEAD_TYPE='EMPESI' AND ACTUAL_AMOUNT>0 THEN 1 ELSE 0 END) AS ESI_Count, " & _
-            " SUM(case when GSP.SUB_HEAD_TYPE='EPF' and ACTUAL_AMOUNT>0 THEN CoEPS_AMT_AC10 ELSE 0 END) AS Pension, " & _
-            " SUM(case when GSP.SUB_HEAD_TYPE='EPF' and ACTUAL_AMOUNT>0 THEN CoEPF_AMT_AC01 ELSE 0 END) as Comp_PF, " & _
-            " SUM(case when GSP.SUB_HEAD_TYPE='EMPESI' and ACTUAL_AMOUNT>0 THEN Co_ESI_AMT ELSE 0 END) " & _
-            " as Comp_ESI,SUM(case when GSP.SUB_HEAD_TYPE='LWF' AND ACTUAL_AMOUNT>0 THEN 2*ACTUAL_AMOUNT ELSE 0 END) AS LWFER ,SUM(GSP.ACTUAL_AMOUNT) AS ACTUAL_AMOUNT,SUM(Payable_Amount) AS Payable_Amount " & _
-            " from TSPL_GENERATE_SALARY_PAYHEADS GSP " & _
-            " INNER JOIN TSPL_GENERATE_SALARY GS ON GS.SALARY_GENERATION_CODE=GSP.SALARY_GENERATION_CODE " & _
-            " INNER JOIN TSPL_GENERATE_SALARY_ATTENDANCE GSA ON GSA.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE AND GSA.EMP_CODE=GSP.EMP_CODE " & _
-            " INNER JOIN (" & PHQuery & ") PHM ON GSP.PAY_HEAD_CODE=PHM.PAY_HEAD_CODE " & _
-            " INNER JOIN TSPL_EMPLOYEE_MASTER EMP ON GSA.EMP_CODE=EMP.EMP_CODE " & _
-            " INNER JOIN TSPL_DEPARTMENT_MASTER DPT ON EMP.DEPARTMENT_CODE=DPT.DEPARTMENT_CODE where 2=2 " & Cond & "" & _
+        SalQry = "select GSA.EMP_CODE,coalesce(EMP.DEPARTMENT_CODE,'') as DEPARTMENT_CODE,coalesce(DPT.DEPARTMENT_NAME,'') as DEPARTMENT_NAME,GSP.PAY_HEAD_CODE,PHM.ISEARNING,PHM.Head_Type,PHM.Group_Seq,(PHM.Group_Seq % " & NoOfPayHeadsInEachCol & ") as Seq,count(GSA.EMP_CODE) AS Total, " &
+            " SUM(case when GSP.SUB_HEAD_TYPE='EPF' AND ACTUAL_AMOUNT>0 THEN 1 ELSE 0 END) AS PF_Count, " &
+            " SUM(case when GSP.SUB_HEAD_TYPE='EMPESI' AND ACTUAL_AMOUNT>0 THEN 1 ELSE 0 END) AS ESI_Count, " &
+            " SUM(case when GSP.SUB_HEAD_TYPE='EPF' and ACTUAL_AMOUNT>0 THEN CoEPS_AMT_AC10 ELSE 0 END) AS Pension, " &
+            " SUM(case when GSP.SUB_HEAD_TYPE='EPF' and ACTUAL_AMOUNT>0 THEN CoEPF_AMT_AC01 ELSE 0 END) as Comp_PF, " &
+            " SUM(case when GSP.SUB_HEAD_TYPE='EMPESI' and ACTUAL_AMOUNT>0 THEN Co_ESI_AMT ELSE 0 END) " &
+            " as Comp_ESI,SUM(case when GSP.SUB_HEAD_TYPE='LWF' AND ACTUAL_AMOUNT>0 THEN 2*ACTUAL_AMOUNT ELSE 0 END) AS LWFER ,SUM(GSP.ACTUAL_AMOUNT) AS ACTUAL_AMOUNT,SUM(Payable_Amount) AS Payable_Amount " &
+            " from TSPL_GENERATE_SALARY_PAYHEADS GSP " &
+            " INNER JOIN TSPL_GENERATE_SALARY GS ON GS.SALARY_GENERATION_CODE=GSP.SALARY_GENERATION_CODE " &
+            " INNER JOIN TSPL_GENERATE_SALARY_ATTENDANCE GSA ON GSA.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE AND GSA.EMP_CODE=GSP.EMP_CODE " &
+            " INNER JOIN (" & PHQuery & ") PHM ON GSP.PAY_HEAD_CODE=PHM.PAY_HEAD_CODE " &
+            " INNER JOIN TSPL_EMPLOYEE_MASTER EMP ON GSA.EMP_CODE=EMP.EMP_CODE " &
+            " INNER JOIN TSPL_DEPARTMENT_MASTER DPT ON EMP.DEPARTMENT_CODE=DPT.DEPARTMENT_CODE where 2=2 " & Cond & "" &
             " GROUP BY GSA.EMP_CODE,EMP.DEPARTMENT_CODE,DPT.DEPARTMENT_NAME,GSP.PAY_HEAD_CODE,PHM.Group_Seq,PHM.ISEARNING,PHM.Head_Type "
 
-        InnerQry = " SELECT InnerFinal.EMP_CODE,Emp_Name,Joining_date,EMP.FATHERS_NAME,DESG.Designation_Desc,EMP.PF_NO,EMP.ESI_NO,EMP.BANK_ACC_NO,BANK.DESCRIPTION AS BANK_NAME, " & _
-            " EMP.Bank_Branch AS IFSC,InnerFinal.DEPARTMENT_CODE,InnerFinal.DEPARTMENT_NAME,PAY_HEAD_CODE,ISEARNING,Head_Type,Group_Seq,Seq,Total,PF_Count,ESI_Count, " & _
-            " cast(round(Pension,0) as int) as  Pension , cast(round(Comp_PF,0) as int) as Comp_PF,cast(round(Comp_ESI,0) as int) as Comp_ESI,cast(round(LWFER,0) as int) as LWFER,cast(round(ACTUAL_AMOUNT,0) as int) as ACTUAL_AMOUNT,cast(round(Payable_Amount,0) as int) as  Payable_Amount " & _
-            " FROM ( " & SalQry & " ) AS InnerFinal " & _
-            " LEFT join TSPL_EMPLOYEE_MASTER EMP ON InnerFinal.EMP_CODE=EMP.EMP_CODE " & _
-            " LEFT JOIN TSPL_DESIGNATION_MASTER DESG ON EMP.Designation=DESG.DESIGNATION_ID " & _
+        InnerQry = " SELECT InnerFinal.EMP_CODE,Emp_Name,Joining_date,EMP.FATHERS_NAME,DESG.Designation_Desc,EMP.PF_NO,EMP.ESI_NO,EMP.BANK_ACC_NO,BANK.DESCRIPTION AS BANK_NAME, " &
+            " EMP.Bank_Branch AS IFSC,InnerFinal.DEPARTMENT_CODE,InnerFinal.DEPARTMENT_NAME,PAY_HEAD_CODE,ISEARNING,Head_Type,Group_Seq,Seq,Total,PF_Count,ESI_Count, " &
+            " cast(round(Pension,0) as int) as  Pension , cast(round(Comp_PF,0) as int) as Comp_PF,cast(round(Comp_ESI,0) as int) as Comp_ESI,cast(round(LWFER,0) as int) as LWFER,cast(round(ACTUAL_AMOUNT,0) as int) as ACTUAL_AMOUNT,cast(round(Payable_Amount,0) as int) as  Payable_Amount " &
+            " FROM ( " & SalQry & " ) AS InnerFinal " &
+            " LEFT join TSPL_EMPLOYEE_MASTER EMP ON InnerFinal.EMP_CODE=EMP.EMP_CODE " &
+            " LEFT JOIN TSPL_DESIGNATION_MASTER DESG ON EMP.Designation=DESG.DESIGNATION_ID " &
             " LEFT JOIN TSPL_BANK_MASTER BANK ON EMP.BANK_CODE=BANK.BANK_CODE "
 
-        InnerQry = "select * from (" & InnerQry & " Union All " & _
-            " select EMP.EMP_CODE,EMP.EMP_NAME,null as Joining_date,'' AS FATHERS_NAME,'' AS Designation_Desc,'' as PF_NO, '' as ESI_NO,'' as BANK_ACC_NO,'' as BANK_NAME, " & _
-            " '' as IFSC,EMP.DEPARTMENT_CODE as DEPARTMENT_CODE,EMP.DEPARTMENT_CODE as DEPARTMENT_NAME,'Total' as PAY_HEAD_CODE,'True' as ISEARNING,'' as Head_Type," & EarningTotalColNo & " as Group_Seq," & (NoOfPayHeadsInEachCol - 1) & " as Seq,0 as Total," & _
-            " 0 as PF_Count,0 as ESI_Count,0 as Pension,0 as Comp_PF,0 as Comp_ESI,0 as LWFER,0 as ACTUAL_AMOUNT,0 AS Payable_Amount " & _
-            " from TSPL_EMPLOYEE_MASTER EMP WHERE EMP_CODE IN (select distinct EMP_CODE from (" & InnerQry & ") as Dept) " & _
-            " union all " & _
-            " select EMP.EMP_CODE,EMP.EMP_NAME,null as Joining_date,'' AS FATHERS_NAME,'' AS Designation_Desc,'' as PF_NO, '' as ESI_NO,'' as BANK_ACC_NO,'' as BANK_NAME, " & _
-            " '' as IFSC, EMP.DEPARTMENT_CODE,EMP.DEPARTMENT_CODE AS DEPARTMENT_NAME,'Total' as PAY_HEAD_CODE,'False' as ISEARNING,'' as Head_Type," & DeductionTotalColNo & " as Group_Seq," & (NoOfPayHeadsInEachCol - 1) & " as Seq,0 as Total, " & _
-            " 0 as PF_Count,0 as ESI_Count,0 as Pension,0 as Comp_PF,0 as Comp_ESI,0 as LWFER,0 as ACTUAL_AMOUNT,0 AS Payable_Amount " & _
+        InnerQry = "select * from (" & InnerQry & " Union All " &
+            " select EMP.EMP_CODE,EMP.EMP_NAME,null as Joining_date,'' AS FATHERS_NAME,'' AS Designation_Desc,'' as PF_NO, '' as ESI_NO,'' as BANK_ACC_NO,'' as BANK_NAME, " &
+            " '' as IFSC,EMP.DEPARTMENT_CODE as DEPARTMENT_CODE,EMP.DEPARTMENT_CODE as DEPARTMENT_NAME,'Total' as PAY_HEAD_CODE,'True' as ISEARNING,'' as Head_Type," & EarningTotalColNo & " as Group_Seq," & (NoOfPayHeadsInEachCol - 1) & " as Seq,0 as Total," &
+            " 0 as PF_Count,0 as ESI_Count,0 as Pension,0 as Comp_PF,0 as Comp_ESI,0 as LWFER,0 as ACTUAL_AMOUNT,0 AS Payable_Amount " &
+            " from TSPL_EMPLOYEE_MASTER EMP WHERE EMP_CODE IN (select distinct EMP_CODE from (" & InnerQry & ") as Dept) " &
+            " union all " &
+            " select EMP.EMP_CODE,EMP.EMP_NAME,null as Joining_date,'' AS FATHERS_NAME,'' AS Designation_Desc,'' as PF_NO, '' as ESI_NO,'' as BANK_ACC_NO,'' as BANK_NAME, " &
+            " '' as IFSC, EMP.DEPARTMENT_CODE,EMP.DEPARTMENT_CODE AS DEPARTMENT_NAME,'Total' as PAY_HEAD_CODE,'False' as ISEARNING,'' as Head_Type," & DeductionTotalColNo & " as Group_Seq," & (NoOfPayHeadsInEachCol - 1) & " as Seq,0 as Total, " &
+            " 0 as PF_Count,0 as ESI_Count,0 as Pension,0 as Comp_PF,0 as Comp_ESI,0 as LWFER,0 as ACTUAL_AMOUNT,0 AS Payable_Amount " &
             " from TSPL_EMPLOYEE_MASTER EMP WHERE EMP_CODE IN (select distinct EMP_CODE from (" & InnerQry & ") as Dept)) as Final "
         '" select EMP.EMP_CODE,EMP.EMP_NAME,null as Joining_date,'' AS FATHERS_NAME,'' AS Designation_Desc,'' as PF_NO, '' as ESI_NO,'' as BANK_ACC_NO,'' as BANK_NAME, " & _
         '    " '' as IFSC,EMP.DEPARTMENT_CODE as DEPARTMENT_CODE,EMP.DEPARTMENT_CODE as DEPARTMENT_NAME,'Total' as PAY_HEAD_CODE,'True' as ISEARNING,'ATTN' as Head_Type," & EarningRateTotalColNo & " as Group_Seq,2 as Seq,0 as Total," & _
@@ -362,8 +363,8 @@ Public Class RptDepartmentWiseSalarySheet
 
 
         If clsCommon.CompairString(ReportType, "Departmentwise") = CompairStringResult.Equal Then
-            Qry = "select DEPARTMENT_CODE,DEPARTMENT_NAME,PAY_HEAD_CODE,ISEARNING,Group_Seq,Seq,sum(Total) as Total,sum(PF_Count) as PF_Count,sum(ESI_Count) as ESI_Count,sum(Pension) as Pension," & _
-                " sum(Comp_PF) as Comp_PF,sum(Comp_ESI) as Comp_ESI,sum(LWFER) as LWFER,sum(ACTUAL_AMOUNT) as ACTUAL_AMOUNT,SUM(Payable_Amount) AS Payable_Amount from (" & InnerQry & ") InnerTable " & _
+            Qry = "select DEPARTMENT_CODE,DEPARTMENT_NAME,PAY_HEAD_CODE,ISEARNING,Group_Seq,Seq,sum(Total) as Total,sum(PF_Count) as PF_Count,sum(ESI_Count) as ESI_Count,sum(Pension) as Pension," &
+                " sum(Comp_PF) as Comp_PF,sum(Comp_ESI) as Comp_ESI,sum(LWFER) as LWFER,sum(ACTUAL_AMOUNT) as ACTUAL_AMOUNT,SUM(Payable_Amount) AS Payable_Amount from (" & InnerQry & ") InnerTable " &
                 " GROUP BY DEPARTMENT_CODE,DEPARTMENT_NAME,PAY_HEAD_CODE,Group_Seq,Seq,ISEARNING order by DEPARTMENT_CODE,ISEARNING desc,Group_Seq "
 
             'Qry = " SELECT MAIN.*,LEAVE.PAYPERIOD_DAYS,LEAVE.PRESENT_DAYS,LEAVE.ABSENT_DAYS,LEAVE.HOLIDAY_DAYS,LEAVE.WEEKLY_OFF, " & _
@@ -371,27 +372,27 @@ Public Class RptDepartmentWiseSalarySheet
             '    " LEFT JOIN (" & LEAVE_QRY & ") LEAVE ON MAIN.DEPARTMENT_CODE=LEAVE.DEPARTMENT_CODE order by MAIN.DEPARTMENT_CODE,MAIN.ISEARNING desc,MAIN.Group_Seq "
         Else
 
-            Qry = "select EMP_CODE,Emp_Name,Joining_date,FATHERS_NAME,Designation_Desc as Designation,PF_NO,ESI_NO,BANK_ACC_NO,BANK_NAME, " & _
-               " IFSC,DEPARTMENT_CODE,DEPARTMENT_NAME,PAY_HEAD_CODE,ISEARNING,Head_Type,Group_Seq,Seq,sum(Total) as Total,sum(PF_Count) as PF_Count,sum(ESI_Count) as ESI_Count,sum(Pension) as Pension," & _
-               " sum(Comp_PF) as Comp_PF,sum(Comp_ESI) as Comp_ESI,sum(LWFER) as LWFER,sum(ACTUAL_AMOUNT) as ACTUAL_AMOUNT,SUM(Payable_Amount) AS Payable_Amount from (" & InnerQry & ") InnerTable " & _
-               " GROUP BY EMP_CODE,Emp_Name,Joining_date,FATHERS_NAME,Designation_Desc,PF_NO,ESI_NO,BANK_ACC_NO,BANK_NAME, " & _
+            Qry = "select EMP_CODE,Emp_Name,Joining_date,FATHERS_NAME,Designation_Desc as Designation,PF_NO,ESI_NO,BANK_ACC_NO,BANK_NAME, " &
+               " IFSC,DEPARTMENT_CODE,DEPARTMENT_NAME,PAY_HEAD_CODE,ISEARNING,Head_Type,Group_Seq,Seq,sum(Total) as Total,sum(PF_Count) as PF_Count,sum(ESI_Count) as ESI_Count,sum(Pension) as Pension," &
+               " sum(Comp_PF) as Comp_PF,sum(Comp_ESI) as Comp_ESI,sum(LWFER) as LWFER,sum(ACTUAL_AMOUNT) as ACTUAL_AMOUNT,SUM(Payable_Amount) AS Payable_Amount from (" & InnerQry & ") InnerTable " &
+               " GROUP BY EMP_CODE,Emp_Name,Joining_date,FATHERS_NAME,Designation_Desc,PF_NO,ESI_NO,BANK_ACC_NO,BANK_NAME, " &
                " IFSC,DEPARTMENT_CODE,DEPARTMENT_NAME,PAY_HEAD_CODE,ISEARNING,Head_Type,Group_Seq,Seq "
 
-            Qry = " SELECT MAIN.*,LEAVE.PAYPERIOD_DAYS,cast(LEAVE.PRESENT_DAYS as Float) as PRESENT_DAYS,cast(LEAVE.ABSENT_DAYS as Float) as ABSENT_DAYS,cast(LEAVE.HOLIDAY_DAYS as Float) as HOLIDAY_DAYS,cast(LEAVE.WEEKLY_OFF as Float) as WEEKLY_OFF, " & _
-                " cast(LEAVE.PAYABLE_DAYS as Float) as PAYABLE_DAYS,cast(LEAVE.EL as Float) as EL,cast(LEAVE.CL as Float) as CL,cast(LEAVE.SL as Float) as SL,cast(LEAVE.CH as Float) as CH,cast(LEAVE.ML as Float) as ML,cast(LEAVE.OTHER as Float) as OTHER FROM (" & Qry & ") AS MAIN " & _
+            Qry = " SELECT MAIN.*,LEAVE.PAYPERIOD_DAYS,cast(LEAVE.PRESENT_DAYS as Float) as PRESENT_DAYS,cast(LEAVE.ABSENT_DAYS as Float) as ABSENT_DAYS,cast(LEAVE.HOLIDAY_DAYS as Float) as HOLIDAY_DAYS,cast(LEAVE.WEEKLY_OFF as Float) as WEEKLY_OFF, " &
+                " cast(LEAVE.PAYABLE_DAYS as Float) as PAYABLE_DAYS,cast(LEAVE.EL as Float) as EL,cast(LEAVE.CL as Float) as CL,cast(LEAVE.SL as Float) as SL,cast(LEAVE.CH as Float) as CH,cast(LEAVE.ML as Float) as ML,cast(LEAVE.OTHER as Float) as OTHER FROM (" & Qry & ") AS MAIN " &
                 " LEFT JOIN (" & LEAVE_QRY & ") LEAVE ON MAIN.EMP_CODE=LEAVE.EMP_CODE order by MAIN.DEPARTMENT_CODE,MAIN.EMP_CODE,MAIN.ISEARNING desc,MAIN.Group_Seq "
         End If
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
 
         If clsCommon.CompairString(ReportType, "Departmentwise") = CompairStringResult.Equal Then
-            Qry = " select 0 as Serial_No,'' as Department_Code,'' as Department_Name,'' as Employees,'' as Earnings1,'' as Earnings2,'' as Earnings3," & _
-              " '' as Earnings4,'' as Earnings5,'' as Earnings6,'' as Deductions1,'' as Deductions2,'' as Deductions3,'' as Deductions4, " & _
+            Qry = " select 0 as Serial_No,'' as Department_Code,'' as Department_Name,'' as Employees,'' as Earnings1,'' as Earnings2,'' as Earnings3," &
+              " '' as Earnings4,'' as Earnings5,'' as Earnings6,'' as Deductions1,'' as Deductions2,'' as Deductions3,'' as Deductions4, " &
               " '' as Deductions5,'' as Deductions6,'' as EmployerShare1,'' as EmployerShare2, '' as Net_Payment"
         Else
-            Qry = " select 0 as Serial_No,'' as Employees,'' as Department_Name,'' as EarningsRate1,'' as EarningsRate2,'' as EarningsRate3," & _
-              " '' as EarningsRate4,'' as EarningsRate5,'' as EarningsRate6,'' as Attendance1,'' as Attendance2,'' as Earnings1,'' as Earnings2,'' as Earnings3," & _
-              " '' as Earnings4,'' as Earnings5,'' as Earnings6,'' as Deductions1,'' as Deductions2,'' as Deductions3,'' as Deductions4, " & _
+            Qry = " select 0 as Serial_No,'' as Employees,'' as Department_Name,'' as EarningsRate1,'' as EarningsRate2,'' as EarningsRate3," &
+              " '' as EarningsRate4,'' as EarningsRate5,'' as EarningsRate6,'' as Attendance1,'' as Attendance2,'' as Earnings1,'' as Earnings2,'' as Earnings3," &
+              " '' as Earnings4,'' as Earnings5,'' as Earnings6,'' as Deductions1,'' as Deductions2,'' as Deductions3,'' as Deductions4, " &
               " '' as Deductions5,'' as Deductions6,'' as EmployerShare1,'' as EmployerShare2, '' as Net_Payment"
         End If
 
@@ -1236,13 +1237,21 @@ Public Class RptDepartmentWiseSalarySheet
         ExportGrid(EnumExportTo.PDF)
     End Sub
     Private Sub txtLocationMult_My_Click(sender As Object, e As EventArgs) Handles txtLocationMult._My_Click
-        Dim qry As String = " select Location_Code as Code,Location_Desc as [Name] from TSPL_LOCATION_MASTER where LOCATION_CODE IN (select DISTINCT LOCATION_CODE from TSPL_GENERATE_SALARY where PAY_PERIOD_CODE='" & txtFromPP.Value & "') "
-        txtLocationMult.arrValueMember = clsCommon.ShowMultipleSelectForm("ItemMulSel", qry, "Code", "Name", txtLocationMult.arrValueMember, txtLocationMult.arrDispalyMember)
+        Try
+            Dim qry As String = " select Location_Code as Code,Location_Desc as [Name] from TSPL_LOCATION_MASTER where LOCATION_CODE IN (select DISTINCT LOCATION_CODE from TSPL_GENERATE_SALARY where PAY_PERIOD_CODE='" & txtFromPP.Value & "') "
+            txtLocationMult.arrValueMember = clsCommon.ShowMultipleSelectForm("ItemMulSel", qry, "Code", "Name", txtLocationMult.arrValueMember, txtLocationMult.arrDispalyMember)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub txtDepartmentMult__My_Click(sender As Object, e As EventArgs) Handles txtDepartmentMult._My_Click
-        Dim qry As String = " select DEPARTMENT_CODE as Code,DEPARTMENT_NAME as [Name] from TSPL_DEPARTMENT_MASTER  "
-        txtDepartmentMult.arrValueMember = clsCommon.ShowMultipleSelectForm("DeptMulSel", qry, "Code", "Name", txtDepartmentMult.arrValueMember, txtDepartmentMult.arrDispalyMember)
+        Try
+            Dim qry As String = " select DEPARTMENT_CODE as Code,DEPARTMENT_NAME as [Name] from TSPL_DEPARTMENT_MASTER  "
+            txtDepartmentMult.arrValueMember = clsCommon.ShowMultipleSelectForm("DeptMulSel", qry, "Code", "Name", txtDepartmentMult.arrValueMember, txtDepartmentMult.arrDispalyMember)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub txtPayHeadMult__My_Click(sender As Object, e As EventArgs) Handles txtPayHeadMult._My_Click
@@ -1250,16 +1259,24 @@ Public Class RptDepartmentWiseSalarySheet
         txtPayHeadMult.arrValueMember = clsCommon.ShowMultipleSelectForm("PHtMulSel", qry, "Code", "Name", txtPayHeadMult.arrValueMember, txtPayHeadMult.arrDispalyMember)
     End Sub
     Private Sub txtDivisionMult_My_Click(sender As Object, e As EventArgs) Handles txtDivisionMult._My_Click
-        Dim qry As String = " select DEVISION_CODE as Code,DEVISION_NAME as Name from TSPL_DEVISION_MASTER"
-        txtDivisionMult.arrValueMember = clsCommon.ShowMultipleSelectForm("DivMulSel", qry, "Code", "Name", txtDivisionMult.arrValueMember, txtDivisionMult.arrDispalyMember)
+        Try
+            Dim qry As String = " select DEVISION_CODE as Code,DEVISION_NAME as Name from TSPL_DEVISION_MASTER"
+            txtDivisionMult.arrValueMember = clsCommon.ShowMultipleSelectForm("DivMulSel", qry, "Code", "Name", txtDivisionMult.arrValueMember, txtDivisionMult.arrDispalyMember)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub ddlReportType_SelectedIndexChanged(sender As Object, e As UI.Data.PositionChangedEventArgs) Handles ddlReportType.SelectedIndexChanged
-        If clsCommon.CompairString(ddlReportType.Text, "Employeewise") = CompairStringResult.Equal Then
-            Me.txtNum.Value = 4
-        Else
-            Me.txtNum.Value = 3
-        End If
+        Try
+            If clsCommon.CompairString(ddlReportType.Text, "Employeewise") = CompairStringResult.Equal Then
+                Me.txtNum.Value = 4
+            Else
+                Me.txtNum.Value = 3
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
