@@ -22,11 +22,15 @@ Public Class RptKDILSalarySlip
     End Sub
 
     Private Sub frmPaySlip_Reports_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        SetUserMgmtNew()
-        ChangeLeaveDescriptionOnSalarySlip = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ChangeLeaveDescriptionOnSalarySlip, clsFixedParameterCode.ChangeLeaveDescriptionOnSalarySlip, Nothing)) = 1, True, False)
-        SalarySlipLeaveStatusOnTheBasisOfCalendarYear = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SalarySlipLeaveStatusOnTheBasisOfCalendarYear, clsFixedParameterCode.SalarySlipLeaveStatusOnTheBasisOfCalendarYear, Nothing)) = 1, True, False)
-        ButtonToolTip.SetToolTip(btnSave, "Press Alt+P for Save/Update ")
-        ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
+        Try
+            SetUserMgmtNew()
+            ChangeLeaveDescriptionOnSalarySlip = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ChangeLeaveDescriptionOnSalarySlip, clsFixedParameterCode.ChangeLeaveDescriptionOnSalarySlip, Nothing)) = 1, True, False)
+            SalarySlipLeaveStatusOnTheBasisOfCalendarYear = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SalarySlipLeaveStatusOnTheBasisOfCalendarYear, clsFixedParameterCode.SalarySlipLeaveStatusOnTheBasisOfCalendarYear, Nothing)) = 1, True, False)
+            ButtonToolTip.SetToolTip(btnSave, "Press Alt+P for Save/Update ")
+            ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub SetUserMgmtNew()
@@ -46,15 +50,16 @@ Public Class RptKDILSalarySlip
         Me.Close()
     End Sub
 
-
-
-
     Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtFromPP._MYValidating
-        Dim qry As String = "SELECT PAY_PERIOD_CODE AS 'Code',(DATEDIFF(DAY,date_from,date_to)+1) as 'Total days', " _
+        Try
+            Dim qry As String = "SELECT PAY_PERIOD_CODE AS 'Code',(DATEDIFF(DAY,date_from,date_to)+1) as 'Total days', " _
             & " PAY_PERIOD_NAME as 'Pay Period Name' FROM TSPL_PAYPERIOD_MASTER  "
-        txtFromPP.Value = clsCommon.ShowSelectForm("TSPL_PAYPERIOD_MASTER", qry, "Code", "POSTED=1 AND FREEZED=0", txtFromPP.Value, "", isButtonClicked)
-        lblFrompp.Text = clsPayPeriodMaster.GetName(txtFromPP.Value, Nothing)
-        'Loaddata()
+            txtFromPP.Value = clsCommon.ShowSelectForm("TSPL_PAYPERIOD_MASTER", qry, "Code", "POSTED=1 AND FREEZED=0", txtFromPP.Value, "", isButtonClicked)
+            lblFrompp.Text = clsPayPeriodMaster.GetName(txtFromPP.Value, Nothing)
+            'Loaddata()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     '==========Update by preeti gupta Against ticket no[MIL/17/04/19-000064,BHA/07/05/19-000882]
     Sub PrintData()
@@ -397,7 +402,6 @@ Public Class RptKDILSalarySlip
                         'End If
                         dtFinal.Rows.Add(DrFinal)
                     Next
-
                 Next
                 dtFinal.AcceptChanges()
                 If Print = True Then
@@ -409,25 +413,34 @@ Public Class RptKDILSalarySlip
                     frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtFinal, "crptKDILSalarySlip ForSingleEmployee", "Employee Salary Slip Report")
                     frmcrystal = Nothing
                 End If
-
-
-
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtLocationMult_My_Click(sender As Object, e As EventArgs) Handles txtLocationMult._My_Click
-        Dim qry As String = " select Location_Code as Code,Location_Desc as [Name] from TSPL_LOCATION_MASTER where LOCATION_CODE IN (select DISTINCT LOCATION_CODE from TSPL_GENERATE_SALARY where PAY_PERIOD_CODE='" & txtFromPP.Value & "') "
-        txtLocationMult.arrValueMember = clsCommon.ShowMultipleSelectForm("LocMulSel", qry, "Code", "Name", txtLocationMult.arrValueMember, txtLocationMult.arrDispalyMember)
+        Try
+            Dim qry As String = " select Location_Code as Code,Location_Desc as [Name] from TSPL_LOCATION_MASTER where LOCATION_CODE IN (select DISTINCT LOCATION_CODE from TSPL_GENERATE_SALARY where PAY_PERIOD_CODE='" & txtFromPP.Value & "') "
+            txtLocationMult.arrValueMember = clsCommon.ShowMultipleSelectForm("LocMulSel", qry, "Code", "Name", txtLocationMult.arrValueMember, txtLocationMult.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Private Sub txtDivisionMult_My_Click(sender As Object, e As EventArgs) Handles txtDivisionMult._My_Click
-        Dim qry As String = " select DEVISION_CODE as Code,DEVISION_NAME as Name from TSPL_DEVISION_MASTER"
-        txtDivisionMult.arrValueMember = clsCommon.ShowMultipleSelectForm("DivMulSel", qry, "Code", "Name", txtDivisionMult.arrValueMember, txtDivisionMult.arrDispalyMember)
+        Try
+            Dim qry As String = " select DEVISION_CODE as Code,DEVISION_NAME as Name from TSPL_DEVISION_MASTER"
+            txtDivisionMult.arrValueMember = clsCommon.ShowMultipleSelectForm("DivMulSel", qry, "Code", "Name", txtDivisionMult.arrValueMember, txtDivisionMult.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Private Sub txtEmployeeMult_My_Click(sender As Object, e As EventArgs) Handles txtEmployeeMult._My_Click
-        Dim qry As String = GetEmploeeQry()
-        txtEmployeeMult.arrValueMember = clsCommon.ShowMultipleSelectForm("EMPMulSel", qry, "Code", "Name", txtEmployeeMult.arrValueMember, txtEmployeeMult.arrDispalyMember)
+        Try
+            Dim qry As String = GetEmploeeQry()
+            txtEmployeeMult.arrValueMember = clsCommon.ShowMultipleSelectForm("EMPMulSel", qry, "Code", "Name", txtEmployeeMult.arrValueMember, txtEmployeeMult.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     'Private Sub FndLocationCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean)
     '    FndLocationCode.Value = clsLocation.getFinder("Location_Type='Physical'", Me.FndLocationCode.Value, isButtonClicked)
@@ -461,12 +474,16 @@ Public Class RptKDILSalarySlip
     End Sub
 
     Private Sub txtDepartment__My_Click(sender As Object, e As EventArgs) Handles txtDepartment._My_Click
-        Dim Qry As String = ""
-        Qry = "		select distinct TSPL_EMPLOYEE_MASTER.Department_Code as Code,DEPARTMENT_NAME as Name from TSPL_DEPARTMENT_MASTER left join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.DEPARTMENT_CODE =TSPL_DEPARTMENT_MASTER.DEPARTMENT_CODE left join TSPL_GENERATE_SALARY_ATTENDANCE on"
-        Qry += " TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE =TSPL_EMPLOYEE_MASTER .EMP_CODE  LEFT OUTER JOIN TSPL_GENERATE_SALARY  ON TSPL_GENERATE_SALARY  .SALARY_GENERATION_CODE = TSPL_GENERATE_SALARY_ATTENDANCE .SALARY_GENERATION_CODE   where TSPL_GENERATE_SALARY.PAY_PERIOD_CODE ='" + txtFromPP.Value + "' "
-        If txtEmployeeMult.arrValueMember IsNot Nothing AndAlso txtEmployeeMult.arrValueMember.Count > 0 Then
-            Qry += " and TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE in (" & clsCommon.GetMulcallString(txtEmployeeMult.arrValueMember) & " )"
-        End If
-        txtDepartment.arrValueMember = clsCommon.ShowMultipleSelectForm("DEPMulSel", Qry, "Code", "Name", txtDepartment.arrValueMember, txtDepartment.arrDispalyMember)
+        Try
+            Dim Qry As String = ""
+            Qry = "		select distinct TSPL_EMPLOYEE_MASTER.Department_Code as Code,DEPARTMENT_NAME as Name from TSPL_DEPARTMENT_MASTER left join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.DEPARTMENT_CODE =TSPL_DEPARTMENT_MASTER.DEPARTMENT_CODE left join TSPL_GENERATE_SALARY_ATTENDANCE on"
+            Qry += " TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE =TSPL_EMPLOYEE_MASTER .EMP_CODE  LEFT OUTER JOIN TSPL_GENERATE_SALARY  ON TSPL_GENERATE_SALARY  .SALARY_GENERATION_CODE = TSPL_GENERATE_SALARY_ATTENDANCE .SALARY_GENERATION_CODE   where TSPL_GENERATE_SALARY.PAY_PERIOD_CODE ='" + txtFromPP.Value + "' "
+            If txtEmployeeMult.arrValueMember IsNot Nothing AndAlso txtEmployeeMult.arrValueMember.Count > 0 Then
+                Qry += " and TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE in (" & clsCommon.GetMulcallString(txtEmployeeMult.arrValueMember) & " )"
+            End If
+            txtDepartment.arrValueMember = clsCommon.ShowMultipleSelectForm("DEPMulSel", Qry, "Code", "Name", txtDepartment.arrValueMember, txtDepartment.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class
