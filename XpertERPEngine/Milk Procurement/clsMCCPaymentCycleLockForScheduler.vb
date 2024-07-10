@@ -3382,8 +3382,8 @@ and TSPL_DCS_ADDITION_DEDUCTION.Milk_Type like '%'''+trim(isnull(TAB_TSPL_MILK_C
 select '" + objHead.DOC_CODE + "' as InvoiceNo,Code,null as SRN_CODE,null as PK_Id,((((case when Applicable_On=0 then Qty else AMOUNT end) * Applicable_Value) / (case when Applicable_Type=0 then 1 else 100 end ))*Conversion) as Amt,null as Against_Milk_Collection_DCS ,Document_No as Against_Milk_Collection_DCS_Multiple_Days from (
 select  TAB_TSPL_MILK_COLLECTION_DCS.Document_No,TAB_TSPL_MILK_COLLECTION_DCS.Document_Date,TAB_TSPL_MILK_COLLECTION_DCS.Qty,0 as AMOUNT, TSPL_DCS_ADDITION_DEDUCTION.Code,TSPL_DCS_ADDITION_DEDUCTION.Applicable_On,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value ,TSPL_DCS_ADDITION_DEDUCTION.Conversion  from (
 select Document_No,max(Document_Date) as Document_Date,Milk_Type,sum(Qty) as Qty from (
-select TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Entered_Qty as Qty,null as Milk_Type
-from  TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS  
+select TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Qty,null as Milk_Type from  TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL
+left outer join TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS  on TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No=TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Document_No  
 where TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code='" + objHead.MCC_CODE + "' and CONVERT(date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date,103)>='" + clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date,103)<='" + clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") + "'
 ) x Group by Document_No,Milk_Type
 ) TAB_TSPL_MILK_COLLECTION_DCS

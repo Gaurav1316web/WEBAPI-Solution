@@ -269,6 +269,7 @@ Public Class clsHeadLoadDCS
     Public Head_Load_Basis As String = Nothing
     Public Head_Load_Rate As Decimal
 
+
 #End Region
 
     Public Shared Function SaveData(ByVal strCode As String, ByVal Arr As List(Of clsHeadLoadDCS), ByVal trans As SqlTransaction) As Boolean
@@ -316,7 +317,7 @@ Public Class clsHeadLoadDCS
         Dim obj As New clsHeadLoadDCS()
         Try
 
-            Dim qry As String = "select top 1 TSPL_HEAD_LOAD.Start_Date ,TSPL_HEAD_LOAD_DCS .PK_Id, TSPL_HEAD_LOAD_DCS.Head_Load_Basis ,TSPL_HEAD_LOAD_DCS .Head_Load_Rate from TSPL_HEAD_LOAD 
+            Dim qry As String = "select top 1 TSPL_HEAD_LOAD.Start_Date ,TSPL_HEAD_LOAD_DCS .PK_Id, TSPL_HEAD_LOAD_DCS.Head_Load_Basis ,TSPL_HEAD_LOAD_DCS.Head_Load_Rate,TSPL_HEAD_LOAD_DCS.Cycle_Frequency from TSPL_HEAD_LOAD 
             left outer join TSPL_HEAD_LOAD_DCS on TSPL_HEAD_LOAD_DCS.Document_No = TSPL_HEAD_LOAD.Document_No where  TSPL_HEAD_LOAD.status = 1 and TSPL_HEAD_LOAD_DCS.VLC_CODE  = '" & VLC_CODE & "'  
             and TSPL_HEAD_LOAD.Start_Date <= '" & clsCommon.GetPrintDate(DcsDate, "dd/MMM/yyyy") & "' order by TSPL_HEAD_LOAD.Start_Date desc,PK_Id desc"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
@@ -324,6 +325,7 @@ Public Class clsHeadLoadDCS
                 obj.PK_Id = (dt.Rows(0)("PK_Id"))
                 obj.Head_Load_Basis = clsCommon.myCstr(dt.Rows(0)("Head_Load_Basis"))
                 obj.Head_Load_Rate = clsCommon.myCstr(dt.Rows(0)("Head_Load_Rate"))
+                obj.Cycle_Frequency = clsCommon.myCstr(dt.Rows(0)("Cycle_Frequency"))
             End If
 
         Catch ex As Exception
@@ -333,6 +335,7 @@ Public Class clsHeadLoadDCS
     End Function
 
 End Class
+
 
 
 
