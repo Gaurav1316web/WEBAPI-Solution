@@ -59,7 +59,6 @@ End Class
 
 Public Class clsVSPBillAndIncentiveCalculation
     Public Function BillGenerationMCCWise(ByVal frmBillGen As RadForm, ByVal strMCCCode As String, ByVal txtFromDate As DateTime, ByVal txtToDate As DateTime, ByVal Formcode As String, ByVal arrVSP As ArrayList, ByVal PaymentType As String, ByVal PaymentValue As Integer) As Boolean
-        'UpdateSTDQtyOFSRN(txtFromDate, strMCCCode)
         Dim strMCCName As String = clsMccMaster.GetName(strMCCCode, Nothing)
         If clsCommon.myLen(strMCCCode) <= 0 Then
             Throw New Exception("Please Select MCC To Generate Bill")
@@ -68,13 +67,6 @@ Public Class clsVSPBillAndIncentiveCalculation
             Throw New Exception("Please Select VSP To Generate Bill")
         End If
         Dim qry As String
-        '        Dim qry As String = "update TSPL_DCS_ADDITION_DEDUCTION set TSPL_DCS_ADDITION_DEDUCTION.Mapping_Matching=xx.MappingCode from (
-        'select Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where len(isnull( MappingCode,''))>0 and TSPL_DCS_ADDITION_DEDUCTION.Posted=1
-        'union all
-        'select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where len(isnull( MappingCode,''))>0 and TSPL_DCS_ADDITION_DEDUCTION.Posted=1
-        ')xx inner join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=xx.Code"
-        '        clsDBFuncationality.ExecuteNonQuery(qry)
-
         If clsCommon.CompairString(Formcode, clsUserMgtCode.MPBillGeneration) = CompairStringResult.Equal Then
             qry = "SELECT LOCK_CODE FROM TSPL_LOCK_MP_PC WHERE MCC_Code='" & strMCCCode & "' AND Posted='Y' AND FROM_DATE='" & clsCommon.GetPrintDate(txtFromDate, "dd-MMM-yyyy") & "' AND TO_DATE='" & clsCommon.GetPrintDate(txtToDate, "dd-MMM-yyyy") & "'"
             Dim Lock_Code As String = clsDBFuncationality.getSingleValue(qry)
@@ -1661,19 +1653,23 @@ where  TSPL_MILK_SRN_HEAD.Posted=1 and tspl_Milk_Srn_Head.is_incentive_Created='
                         If clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff_Document")) <= 0 AndAlso clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff")) <= 0 Then
                             isApplyTDS = True
                         Else
-                            qry = "select sum( " + IIf(clsCommon.CompairString(IncludeTax, "N") = CompairStringResult.Equal, "TSPL_VENDOR_INVOICE_HEAD.Amount_Less_Discount", "TSPL_VENDOR_INVOICE_HEAD.Document_Total") + ") as Document_Total from TSPL_VENDOR_INVOICE_HEAD where Vendor_Code='" + VendorCode + "' and Document_Type in ('I','C') and Document_No not in ('" + DocNo + "') and TSPL_VENDOR_INVOICE_HEAD.ISProcurementDeduction=0 and  convert(date, Invoice_Entry_Date,103)>='" + clsCommon.GetPrintDate(clsCommon.myCDate(dtFY.Rows(0)("Start_Date")), "dd/MMM/yyyy") + "' and  convert(date, Invoice_Entry_Date,103)<='" + clsCommon.GetPrintDate(clsCommon.myCDate(dtFY.Rows(0)("End_Date")), "dd/MMM/yyyy") + "' and TSPL_VENDOR_INVOICE_HEAD.Posting_Date is not null "
+                            qry = "select sum( " + IIf(clsCommon.CompairString(IncludeTax, "N") = CompairStringResult.Equal, "TSPL_VENDOR_INVOICE_HEAD.Amount_Less_Discount", "TSPL_VENDOR_INVOICE_HEAD.Document_Total") + ") as Document_Total from TSPL_VENDOR_INVOICE_HEAD where Vendor_Code='" + VendorCode + "' and Document_Type in ('I'"
+                            If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.TDSOpeningBalanceConsiderCreditNote, clsFixedParameterCode.TDSOpeningBalanceConsiderCreditNote, trans)) = 1 Then
+                                qry += " ,'C' "
+                            End If
+                            qry += " ) and Document_No not in ('" + DocNo + "') and TSPL_VENDOR_INVOICE_HEAD.ISProcurementDeduction=0 and  convert(date, Invoice_Entry_Date,103)>='" + clsCommon.GetPrintDate(clsCommon.myCDate(dtFY.Rows(0)("Start_Date")), "dd/MMM/yyyy") + "' and  convert(date, Invoice_Entry_Date,103)<='" + clsCommon.GetPrintDate(clsCommon.myCDate(dtFY.Rows(0)("End_Date")), "dd/MMM/yyyy") + "' and TSPL_VENDOR_INVOICE_HEAD.Posting_Date is not null "
                             dblPreviousTDSAmt = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, trans))
-                            If appAmt >= clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff_Document")) AndAlso clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff_Document")) > 0 Then
-                                isApplyTDS = True
-                            ElseIf (dblPreviousTDSAmt + appAmt) >= clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff")) AndAlso clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff")) > 0 Then
-                                isApplyTDS = True
-                                appAmt = ((dblPreviousTDSAmt + appAmt) - clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff")))
-                                dblPreviousTDSAmt = 0
-                                TaxableAmt = appAmt
-                                TotalAmt = appAmt
+                                If appAmt >= clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff_Document")) AndAlso clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff_Document")) > 0 Then
+                                    isApplyTDS = True
+                                ElseIf (dblPreviousTDSAmt + appAmt) >= clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff")) AndAlso clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff")) > 0 Then
+                                    isApplyTDS = True
+                                    appAmt = ((dblPreviousTDSAmt + appAmt) - clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff")))
+                                    dblPreviousTDSAmt = 0
+                                    TaxableAmt = appAmt
+                                    TotalAmt = appAmt
+                                End If
                             End If
                         End If
-                    End If
                 End If
 
                 If isApplyTDS Then
@@ -3406,6 +3402,35 @@ isnull(TSPL_DCS_ADDITION_DEDUCTION.Inactive,0)=0 and TSPL_VLC_MASTER_HEAD.VLC_Co
 and (2= case when ISNULL(TSPL_DCS_ADDITION_DEDUCTION.Check_Saving_AC,0)=0 then 2 else (case when TSPL_DCS_ADDITION_DEDUCTION.Check_Saving_AC=1 and len(isnull(TSPL_VENDOR_MASTER.AccNo2,''))>0 then 2 else (case when TSPL_DCS_ADDITION_DEDUCTION.Check_Saving_AC=2 and len(isnull(TSPL_VENDOR_MASTER.AccNo2,''))<=0 then 2 else 3 end ) end ) end )
 and (2= case when TSPL_DCS_ADDITION_DEDUCTION.End_Date is null then 2 else case when CONVERT(date, TAB_TSPL_MILK_COLLECTION_DCS.Document_Date,103)<= TSPL_DCS_ADDITION_DEDUCTION.End_Date then 2 else 3 end end) 
 and (2=(case when TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=7 and isnull(TSPL_VLC_MASTER_HEAD.isOwnBMC,0)=1 and TSPL_VLC_MASTER_HEAD.MCC='" + objHead.MCC_CODE + "'  then 2  else 1 end))
+and TSPL_DCS_ADDITION_DEDUCTION.Milk_Type like '%'''+trim(isnull(TAB_TSPL_MILK_COLLECTION_DCS.Milk_Type,'Good'))+'''%'
+)x"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+
+                qry = "insert into TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED (InvoiceNo,Against_DCS_ADDITION_DEDUCTION,SRN_CODE,Against_Milk_Collection_MCC_Detail,Amt,Against_Milk_Collection_DCS,Against_Milk_Collection_DCS_Multiple_Days)
+select '" + objHead.DOC_CODE + "' as InvoiceNo,Code,null as SRN_CODE,null as PK_Id,((((case when Applicable_On=0 then Qty else AMOUNT end) * Applicable_Value) / (case when Applicable_Type=0 then 1 else 100 end ))*Conversion) as Amt,null as Against_Milk_Collection_DCS ,Document_No as Against_Milk_Collection_DCS_Multiple_Days from (
+select  TAB_TSPL_MILK_COLLECTION_DCS.Document_No,TAB_TSPL_MILK_COLLECTION_DCS.Document_Date,TAB_TSPL_MILK_COLLECTION_DCS.Qty,0 as AMOUNT, TSPL_DCS_ADDITION_DEDUCTION.Code,TSPL_DCS_ADDITION_DEDUCTION.Applicable_On,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value ,TSPL_DCS_ADDITION_DEDUCTION.Conversion  from (
+select Document_No,max(Document_Date) as Document_Date,Milk_Type,sum(Qty) as Qty from (
+select TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Qty,null as Milk_Type from  TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL
+left outer join TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS  on TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No=TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Document_No  
+where TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code='" + objHead.MCC_CODE + "' and CONVERT(date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date,103)>='" + clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date,103)<='" + clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") + "'
+) x Group by Document_No,Milk_Type
+) TAB_TSPL_MILK_COLLECTION_DCS
+inner join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.MCC='" + objHead.MCC_CODE + "' and isnull(TSPL_VLC_MASTER_HEAD.isOwnBMC,0)=1
+inner join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code
+inner join TSPL_DCS_ADDITION_DEDUCTION on CONVERT(date, TAB_TSPL_MILK_COLLECTION_DCS.Document_Date,103)>=TSPL_DCS_ADDITION_DEDUCTION.Start_Date
+inner join (select Code,VLC_Code from (
+select TSPL_DCS_ADDITION_DEDUCTION.Code ,TSPL_VLC_MASTER_HEAD.VLC_Code,1 as RI
+from TSPL_DCS_ADDITION_DEDUCTION,TSPL_VLC_MASTER_HEAD where TSPL_VLC_MASTER_HEAD.VLC_Code='" + strVLCCode + "'
+union all
+select TSPL_DCS_ADDITION_DEDUCTION_DCS_EXCLUDE.Code,TSPL_DCS_ADDITION_DEDUCTION_DCS_EXCLUDE.DCS_Exclude as VLC_Code,-1 RI
+from TSPL_DCS_ADDITION_DEDUCTION_DCS_EXCLUDE
+)x Group by Code,VLC_Code having sum(RI)>0) as TAB_DCS_ADDITION_DEDUCTION_DCS on TAB_DCS_ADDITION_DEDUCTION_DCS.Code=TSPL_DCS_ADDITION_DEDUCTION.Code and TAB_DCS_ADDITION_DEDUCTION_DCS.VLC_Code=TSPL_VLC_MASTER_HEAD.VLC_Code
+where TSPL_DCS_ADDITION_DEDUCTION.Posted=1 and 
+isnull(TSPL_DCS_ADDITION_DEDUCTION.Inactive,0)=0 and TSPL_VLC_MASTER_HEAD.VLC_Code='" + strVLCCode + "'
+and (2= case when ISNULL(TSPL_DCS_ADDITION_DEDUCTION.Check_Saving_AC,0)=0 then 2 else (case when TSPL_DCS_ADDITION_DEDUCTION.Check_Saving_AC=1 and len(isnull(TSPL_VENDOR_MASTER.AccNo2,''))>0 then 2 else (case when TSPL_DCS_ADDITION_DEDUCTION.Check_Saving_AC=2 and len(isnull(TSPL_VENDOR_MASTER.AccNo2,''))<=0 then 2 else 3 end ) end ) end )
+and (2= case when TSPL_DCS_ADDITION_DEDUCTION.End_Date is null then 2 else case when CONVERT(date, TAB_TSPL_MILK_COLLECTION_DCS.Document_Date,103)<= TSPL_DCS_ADDITION_DEDUCTION.End_Date then 2 else 3 end end) 
+and (2=(case when TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=8 and isnull(TSPL_VLC_MASTER_HEAD.isOwnBMC,0)=1 and TSPL_VLC_MASTER_HEAD.MCC='" + objHead.MCC_CODE + "'  then 2  else 1 end))
 and TSPL_DCS_ADDITION_DEDUCTION.Milk_Type like '%'''+trim(isnull(TAB_TSPL_MILK_COLLECTION_DCS.Milk_Type,'Good'))+'''%'
 )x"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)

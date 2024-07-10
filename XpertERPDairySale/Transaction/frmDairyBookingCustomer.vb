@@ -165,6 +165,7 @@ Public Class frmDairyBookingCustomer
     Dim AutoCalculateCrate As Integer = 0
     Public Property custname As String
     Public Property txtloc As String
+    Dim dblOutstandingAmount As Double = 0
     'Dim Tax1_code As String = ""
     'Dim Tax1_Rate As Decimal = 0
     'Dim Tax1_Base_Amt As Decimal = 0
@@ -1415,14 +1416,14 @@ Public Class frmDairyBookingCustomer
         If dt.Rows.Count > 0 Then
             gv1.Rows(introw).Cells(colSellingRate).Value = clsCommon.myCdbl(dt.Rows(0).Item("Item_Selling_Price"))
             gv1.Rows(introw).Cells(colOrgRate).Value = clsCommon.myCdbl(dt.Rows(0).Item("Item_Selling_Price"))
-            gv1.Rows(introw).Cells(colMRP).Value = clsCommon.myCdbl(dt.Rows(0).Item("Item_Basic_Net"))
+            gv1.Rows(introw).Cells(colMRP).Value = clsCommon.myCdbl(dt.Rows(0).Item("Item_Selling_Price"))
             gv1.Rows(introw).Cells(colPriceId).Value = clsCommon.myCstr(dt.Rows(0).Item("Item_Price_ID"))
             gv1.Rows(introw).Cells(colPriceIDAppDate).Value = clsCommon.myCstr(dt.Rows(0).Item("Start_date"))
             gv1.Rows(introw).Cells(colPricePlanNo).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Plan_Code  from TSPL_ITEM_PRICE_PLAN_DETAIL WHERE PLAN_TR_CODE='" & clsCommon.myCstr(dt.Rows(0).Item("Against_Plan_TR_Code")) & "'"))
             If ShowMulMRPOfSameItemOnDairyBookingCustomer = True Then
                 isCellValueChangedOpen = True
             End If
-            gv1.Rows(introw).Cells(colRate).Value = dblRate
+            gv1.Rows(introw).Cells(colRate).Value = clsCommon.myCdbl(dt.Rows(0).Item("Item_Selling_Price"))
             If ShowMulMRPOfSameItemOnDairyBookingCustomer = True Then
                 isCellValueChangedOpen = False
             End If
@@ -1996,8 +1997,15 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                         ElseIf clsCommon.CompairString(strTaxCode, "IGST") = CompairStringResult.Equal Then
                             gv1.Rows(IntRowNo).Cells("colTax_Amt" + clsCommon.myCstr(ii)).Value = dblGSTTaxValue1
                             gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Base_Amt" + Strii)).Value = Math.Round(dblTaxableValue, 2)
+
+                        ElseIf clsCommon.CompairString(strTaxCode, "TCS") = CompairStringResult.Equal Then
+                            If dblOutstandingAmount > AmountToCheckCustomerOutstandingForTCSTax Then
+                                gv1.Rows(IntRowNo).Cells("colTax_Amt" + clsCommon.myCstr(ii)).Value = Math.Round(dblTaxableValue + dblGSTTaxValue1 + dblGSTTaxValue2, 2) * (clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells("colTax_Rate" + clsCommon.myCstr(ii)).Value) / 100)
+                                gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Base_Amt" + Strii)).Value = Math.Round(dblTaxableValue + dblGSTTaxValue1 + dblGSTTaxValue2, 2)
+                            End If
+
                         End If
-                    Else
+                Else
                         gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value = Nothing
                         gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Base_Amt" + Strii)).Value = Nothing
                         gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Rate" + Strii)).Value = Nothing
@@ -8135,7 +8143,7 @@ from
                             objTr.Item_Desc = clsCommon.myCstr(grow.Cells(colIName).Value)
                             objTr.Qty = clsCommon.myCDecimal(grow.Cells(colQty).Value)
                             objTr.Crate = clsCommon.myCDecimal(grow.Cells(colQty).Value)
-                            objTr.Item_Cost = clsCommon.myCDecimal(grow.Cells(colRate).Value)
+                            objTr.Item_Cost = clsCommon.myCDecimal(grow.Cells(colOrgRate).Value)
                             objTr.Amount = clsCommon.myCDecimal(grow.Cells(colAmt).Value)
                             objTr.Unit_code = clsCommon.myCstr(grow.Cells(colUnit).Value)
                             objTr.Sampling = IIf(chkSampling.Checked, 1, 0)
@@ -8362,7 +8370,7 @@ from
                     If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Is_TCS  from tspl_tax_master where tax_code ='" & clsCommon.myCstr(dr("Tax_Code")) & "' ")), "Y") = CompairStringResult.Equal Then
                         If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsTCSnotApplicable ,0) from TSPL_CUSTOMER_MASTER where Cust_Code ='" & txtVendorNo.Value & "'")), "0") = CompairStringResult.Equal Then
                             If AmountToCheckCustomerOutstandingForTCSTax > 0 Then
-                                Dim dblOutstandingAmount As Double = clsCommon.myCdbl(clsCustomerMaster.GetCustomerOutstandingForTCSTaxApplicableOnFY(txtVendorNo.Value, txtDate.Value))
+                                dblOutstandingAmount = clsCommon.myCdbl(clsCustomerMaster.GetCustomerOutstandingForTCSTaxApplicableOnFY(txtVendorNo.Value, txtDate.Value))
                                 If dblOutstandingAmount < AmountToCheckCustomerOutstandingForTCSTax Then
                                     dblOutstandingAmount = dblOutstandingAmount + clsCommon.myCdbl(clsCommon.myFormat(lblActualTCSTaxBaseAmt.Text))
                                     If dblOutstandingAmount > AmountToCheckCustomerOutstandingForTCSTax Then
