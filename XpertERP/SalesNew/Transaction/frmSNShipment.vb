@@ -550,6 +550,7 @@ Public Class frmSNShipment
         lblRefund.Text = ""
         lblReverseRefund.Text = ""
         lblTotalOutstansing.Text = ""
+        lblDocCreditLimit.Text = ""
         txtLR_GR_No.Text = ""
         txtShipToDeliveryAt.Text = ""
     End Sub
@@ -4373,11 +4374,14 @@ Public Class frmSNShipment
                 txtPriceGroupCode.Text = obj.Price_Group_Code
                 txtDiscPer.Text = obj.HeadDisc_Per
                 txtDiscAmt.Text = obj.HeadDisc_Amt
+                lblDocCreditLimit.Text = obj.Total_Outstanding
                 ' lblTotalOutstansing.Text = obj.Total_Outstanding
                 CustomerOutstandingAmount(obj.Customer_Code, Nothing)
-                Dim totalamt As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Total_Amt from TSPL_SD_SHIPMENT_head where Document_Code='" + obj.Document_Code + "'"))
-                Dim creditlimit As Decimal = totalamt - (lblTotalOutstansing.Text)
-                lblTotalOutstansing.Text = (-1 * creditlimit).ToString("F2")
+                If obj.Status <> ERPTransactionStatus.Approved Then
+                    Dim totalamt As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Total_Amt from TSPL_SD_SHIPMENT_head where Document_Code='" + obj.Document_Code + "'"))
+                    Dim creditlimit As Decimal = totalamt - (lblTotalOutstansing.Text)
+                    lblTotalOutstansing.Text = (-1 * creditlimit).ToString("F2")
+                End If
                 txtOrderQty.Text = obj.Order_Qty
                 If clsCommon.myLen(txtDiscAmt.Text) <= 0 OrElse clsCommon.myLen(txtDiscPer.Text) <= 0 OrElse clsCommon.myCdbl(txtDiscAmt.Text) = 0 OrElse clsCommon.myCdbl(txtDiscPer.Text) = 0 Then
                     txtDiscPer.Text = obj.HeadDisc_Per
@@ -5279,9 +5283,9 @@ Public Class frmSNShipment
             Dim qry As String = ""
             Dim dt As DataTable = Nothing
             If (myMessages.postConfirm()) Then
-                If SaveData(True) Then
-                    ''BM00000008148 approval work 16/10/2015
-                    clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtDocNo.Value))
+
+                ''BM00000008148 approval work 16/10/2015
+                clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtDocNo.Value))
                     '=====================end here===================
                     If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                         Throw New Exception("No document found to post")
@@ -5340,7 +5344,7 @@ Public Class frmSNShipment
                     If (clsCommon.MyMessageBoxShow(Me, "Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
                         funPrint(True)
                     End If
-                End If
+
 
             End If
         Catch ex As Exception
