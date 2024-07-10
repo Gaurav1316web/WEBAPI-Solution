@@ -58,6 +58,7 @@ Public Class clsMilkCollectionMCC
     End Function
     Public Function SaveData(ByVal obj As clsMilkCollectionMCC, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
+
             'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkShiftUploader, obj.MCC_Code, obj.Document_Date, trans)
             'clsMCCPaymentCycleLockForScheduler.CheckForSchedulerLock(obj.MCC_Code, obj.Document_Date, trans)
             If isNewEntry = False Then
@@ -66,6 +67,10 @@ Public Class clsMilkCollectionMCC
                 End If
 
                 HistoryUpdate(obj.Document_No, trans)
+            End If
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select TSPL_MILK_COLLECTION_MCC.Document_Date,TSPL_MILK_COLLECTION_MCC_DETAIL.Mcc_Code from TSPL_MILK_COLLECTION_MCC left outer join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No= TSPL_MILK_COLLECTION_MCC.Document_No where TSPL_MILK_COLLECTION_MCC.Document_No='" + Document_No + "'", trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmCleaning, clsCommon.myCstr(dt.Rows(0)("Mcc_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
             End If
             Dim qry As String = "delete from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No='" + obj.Document_No + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -188,10 +193,10 @@ where 2=2"
 
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            'Dim dt As DataTable = clsDBFuncationality.GetDataTable("select TSPL_MILK_COLLECTION_MCC.Document_Date,TSPL_MILK_COLLECTION_MCC.MCC_Code from TSPL_MILK_COLLECTION_MCC where Document_No='" + strCode + "'", trans)
-            'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            '    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkShiftUploader, clsCommon.myCstr(dt.Rows(0)("MCC_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
-            'End If
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select TSPL_MILK_COLLECTION_MCC.Document_Date,TSPL_MILK_COLLECTION_MCC_DETAIL.Mcc_Code from TSPL_MILK_COLLECTION_MCC left outer join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No= TSPL_MILK_COLLECTION_MCC.Document_No where TSPL_MILK_COLLECTION_MCC.Document_No='" + strCode + "'", trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmCleaning, clsCommon.myCstr(dt.Rows(0)("Mcc_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
+            End If
 
             Dim obj As clsMilkCollectionMCC = clsMilkCollectionMCC.GetData(strCode, NavigatorType.Current, trans)
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
@@ -228,6 +233,10 @@ where 2=2"
                 Throw New Exception("Document No not found to Post")
             End If
             Dim obj As clsMilkCollectionMCC = clsMilkCollectionMCC.GetData(strCode, NavigatorType.Current, trans)
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select TSPL_MILK_COLLECTION_MCC.Document_Date,TSPL_MILK_COLLECTION_MCC_DETAIL.Mcc_Code from TSPL_MILK_COLLECTION_MCC left outer join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No= TSPL_MILK_COLLECTION_MCC.Document_No where TSPL_MILK_COLLECTION_MCC.Document_No='" + strCode + "'", trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmCleaning, clsCommon.myCstr(dt.Rows(0)("Mcc_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
+            End If
             'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkShiftUploader, obj.MCC_Code, obj.Document_Date, trans)
 
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then

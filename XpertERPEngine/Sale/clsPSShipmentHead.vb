@@ -374,6 +374,9 @@ Public Class clsPSShipmentHead
             '' transfer data into cancel table
             clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Doc_No, "tspl_sd_shipment_head", "Document_Code", "tspl_sd_shipment_DETAIL", "Document_Code", trans)
             clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, InvoiceNo, "TSPL_SD_SALE_INVOICE_HEAD", "Document_Code", "TSPL_SD_SALE_INVOICE_DETAIL", "Document_Code", trans)
+            '' Cancel TSPL_DAIRYSALE_GATEPASS_MASTER 
+            Dim strDairyGAtePassCount As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select gpcode from TSPL_SD_SHIPMENT_HEAD where document_code='" & Doc_No & "' ", trans))
+            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, strDairyGAtePassCount, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "TSPL_DAIRYSALE_GATEPASS_DETAIL", "GPCode", "TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL", "GPCode", trans)
 
 
             '' cancel customer invoice data
@@ -399,6 +402,7 @@ Public Class clsPSShipmentHead
 
             '' cancel custom field data
             clsCommonFunctionality.SaveCancelDataMultKey(objCommonVar.CurrentUserCode, InvoiceNo, "TSPL_CUSTOM_FIELD_VALUES", "Transaction_Code", "Program_Code", Form_Id, trans)
+
 
 
             ''delete data from multiple tables
@@ -439,10 +443,31 @@ Public Class clsPSShipmentHead
             qry = "delete from TSPL_JOURNAL_MASTER where Source_Doc_No  ='" & Doc_No & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
+            ''Delete GatePass"
+            qry = "delete from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL where GPCode='" & strDairyGAtePassCount & "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            If IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateGatePassFromDemand, clsFixedParameterCode.CreateGatePassFromDemand, trans)) = 0, False, True) = True Then
+                qry = "Update TSPL_DEMAND_BOOKING_DETAIL set GPCode = null where GPCode='" & strDairyGAtePassCount & "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            Else
+                qry = "Update TSPL_SD_SHIPMENT_HEAD set GPCode = null where GPCode='" & strDairyGAtePassCount & "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strDairyGAtePassCount), "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "TSPL_DAIRYSALE_GATEPASS_DETAIL", "GPCode", trans)
+
+            qry = "delete from TSPL_DAIRYSALE_GATEPASS_DETAIL where GPCode='" & strDairyGAtePassCount & "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_DAIRYSALE_GATEPASS_MASTER where GPCode='" & strDairyGAtePassCount & "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
             qry = "delete from TSPL_SD_SALE_INVOICE_DETAIL where Document_Code='" & InvoiceNo & "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" & InvoiceNo & "' "
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Document_Code='" & Doc_No & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from tspl_sd_shipment_detail where Document_Code='" & Doc_No & "' "

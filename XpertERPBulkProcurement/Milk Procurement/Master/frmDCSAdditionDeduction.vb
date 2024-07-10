@@ -176,6 +176,8 @@ Public Class frmDCSAdditionDeduction
                     obj.Applicable_DCS_Type = 6
                 ElseIf rbtnDCSTypeDCSTruckSheetMultipleDays.IsChecked Then
                     obj.Applicable_DCS_Type = 7
+                ElseIf rbtnDCSTypeDCSTruckSheetMultipleDaysDetail.IsChecked Then
+                    obj.Applicable_DCS_Type = 8
                 End If
                 obj.Conversion = txtConvertsion.Value
                 obj.Saving = 0
@@ -285,6 +287,8 @@ Public Class frmDCSAdditionDeduction
                     rbtnDCSTypeDCSTruckSheet.IsChecked = True
                 ElseIf obj.Applicable_DCS_Type = 7 Then
                     rbtnDCSTypeDCSTruckSheetMultipleDays.IsChecked = True
+                ElseIf obj.Applicable_DCS_Type = 8 Then
+                    rbtnDCSTypeDCSTruckSheetMultipleDaysDetail.IsChecked = True
                 End If
                 txtConvertsion.Value = obj.Conversion
                 If obj.Nature_Type = 0 Then
@@ -402,7 +406,7 @@ Public Class frmDCSAdditionDeduction
             txtGLAccount.Focus()
             Return False
         End If
-        If rbtnDCSTypeBMCTruckSheet.IsChecked OrElse rbtnDCSTypeDCSTruckSheet.IsChecked OrElse rbtnDCSTypeDCSTruckSheetMultipleDays.IsChecked Then
+        If rbtnDCSTypeBMCTruckSheet.IsChecked OrElse rbtnDCSTypeDCSTruckSheet.IsChecked OrElse rbtnDCSTypeDCSTruckSheetMultipleDays.IsChecked OrElse rbtnDCSTypeDCSTruckSheetMultipleDaysDetail.IsChecked Then
             If clsCommon.CompairString(clsCommon.myCstr(cboApplyOn.SelectedValue), "0") = CompairStringResult.Equal Then
                 If rbtnQtyUOMKG.IsChecked Then
                     clsCommon.MyMessageBoxShow(Me, "Application for DCS Type [BMC Truck Sheet] Apply on [Qty] not for UOM [KG]", Me.Text)
