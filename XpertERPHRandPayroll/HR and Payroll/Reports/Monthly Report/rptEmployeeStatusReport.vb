@@ -17,31 +17,28 @@ Public Class rptEmployeeStatusReport
     End Sub
     Sub Print(ByVal IsPrint As Exporter)
         Try
-
             If clsCommon.GetDateWithEndTime(txtToDate.Value) < clsCommon.GetDateWithStartTime(txtFromDate.Value) Then
                 clsCommon.MyMessageBoxShow(Me, "To Date cant be less than from date", Me.Text)
                 Exit Sub
             End If
-
             Dim qry As String = Nothing
-
-            qry = " Select TSPL_EMPLOYEE_MASTER.EMP_CODE as [EMP CODE], TSPL_EMPLOYEE_MASTER.Emp_Name as [Emp Name] ,TSPL_EMPLOYEE_MASTER.Designation as [Designation Code],TSPL_DESIGNATION_MASTER.Designation_Desc as [Designation Name], TSPL_EMPLOYEE_MASTER.DEPARTMENT_CODE as [Department Code] ,TSPL_DEPARTMENT_MASTER.DEPARTMENT_NAME as [Department Name],convert (varchar, TSPL_EMPLOYEE_MASTER.Joining_Date ,103) as [Joining Date] , convert ( varchar, TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103) as [Relieving Date], " & _
-                  " CASE " & _
-                  " WHEN DATEDIFF(YEAR, Convert (date,TSPL_EMPLOYEE_MASTER.Joining_Date,103), Convert (date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103)) < 1 THEN CAST(DATEDIFF(mm, Convert (date,TSPL_EMPLOYEE_MASTER.Joining_Date,103), Convert (date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103)) AS VARCHAR)+' Months & '+CAST(DATEDIFF(dd, DATEADD(mm, DATEDIFF(mm, Convert (date,TSPL_EMPLOYEE_MASTER.Joining_Date,103), Convert (date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103)), Convert (date,TSPL_EMPLOYEE_MASTER.Joining_Date,103)), Convert (date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103)) AS VARCHAR)+' Days' " & _
-                  " WHEN DATEDIFF(YEAR, Convert (date,TSPL_EMPLOYEE_MASTER.Joining_Date,103), Convert (date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103)) BETWEEN 1 AND 5 THEN CAST(DATEDIFF(mm, Convert (date,TSPL_EMPLOYEE_MASTER.Joining_Date,103), Convert (date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103)) / 12 AS VARCHAR)+' Years & '+CAST(DATEDIFF(mm, Convert (date,TSPL_EMPLOYEE_MASTER.Joining_Date,103), Convert (date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103)) % 12 AS VARCHAR)+' Months & '+CAST(DATEDIFF(dd, DATEADD(mm, DATEDIFF(mm, Convert (date,TSPL_EMPLOYEE_MASTER.Joining_Date,103), Convert (date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103)), Convert (date,TSPL_EMPLOYEE_MASTER.Joining_Date,103)), Convert (date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103)) AS VARCHAR)+' Days' " & _
-                  " WHEN DATEDIFF(YEAR, Convert (date,TSPL_EMPLOYEE_MASTER.Joining_Date,103), Convert (date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103)) >= 6 THEN CAST(DATEDIFF(YEAR, Convert (date,TSPL_EMPLOYEE_MASTER.Joining_Date,103), Convert (date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103)) AS VARCHAR)+' Years & '+CAST(DATEDIFF(mm, Convert (date,TSPL_EMPLOYEE_MASTER.Joining_Date,103), Convert (date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103)) % 12 AS VARCHAR)+' Months & '+CAST(DATEDIFF(dd, DATEADD(mm, DATEDIFF(mm, Convert (date,TSPL_EMPLOYEE_MASTER.Joining_Date,103), Convert (date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103)), Convert (date,TSPL_EMPLOYEE_MASTER.Joining_Date,103)), Convert (date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103)) AS VARCHAR)+' Days'  " & _
+            qry = " Select TSPL_EMPLOYEE_MASTER.EMP_CODE as [EMP CODE], TSPL_EMPLOYEE_MASTER.Emp_Name as [Emp Name] ,TSPL_EMPLOYEE_MASTER.Designation as [Designation Code],TSPL_DESIGNATION_MASTER.Designation_Desc as [Designation Name], TSPL_EMPLOYEE_MASTER.DEPARTMENT_CODE as [Department Code] ,TSPL_DEPARTMENT_MASTER.DEPARTMENT_NAME as [Department Name],convert (varchar, TSPL_EMPLOYEE_MASTER.Joining_Date ,103) as [Joining Date] , convert ( varchar, TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103) as [Relieving Date], " &
+                  " CASE " &
+                  " WHEN DATEDIFF(YEAR, Convert (date,TSPL_EMPLOYEE_MASTER.Joining_Date,103), Convert (date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103)) < 1 THEN CAST(DATEDIFF(mm, Convert (date,TSPL_EMPLOYEE_MASTER.Joining_Date,103), Convert (date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103)) AS VARCHAR)+' Months & '+CAST(DATEDIFF(dd, DATEADD(mm, DATEDIFF(mm, Convert (date,TSPL_EMPLOYEE_MASTER.Joining_Date,103), Convert (date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103)), Convert (date,TSPL_EMPLOYEE_MASTER.Joining_Date,103)), Convert (date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103)) AS VARCHAR)+' Days' " &
+                  " WHEN DATEDIFF(YEAR, Convert (date,TSPL_EMPLOYEE_MASTER.Joining_Date,103), Convert (date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103)) BETWEEN 1 AND 5 THEN CAST(DATEDIFF(mm, Convert (date,TSPL_EMPLOYEE_MASTER.Joining_Date,103), Convert (date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103)) / 12 AS VARCHAR)+' Years & '+CAST(DATEDIFF(mm, Convert (date,TSPL_EMPLOYEE_MASTER.Joining_Date,103), Convert (date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103)) % 12 AS VARCHAR)+' Months & '+CAST(DATEDIFF(dd, DATEADD(mm, DATEDIFF(mm, Convert (date,TSPL_EMPLOYEE_MASTER.Joining_Date,103), Convert (date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103)), Convert (date,TSPL_EMPLOYEE_MASTER.Joining_Date,103)), Convert (date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103)) AS VARCHAR)+' Days' " &
+                  " WHEN DATEDIFF(YEAR, Convert (date,TSPL_EMPLOYEE_MASTER.Joining_Date,103), Convert (date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103)) >= 6 THEN CAST(DATEDIFF(YEAR, Convert (date,TSPL_EMPLOYEE_MASTER.Joining_Date,103), Convert (date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103)) AS VARCHAR)+' Years & '+CAST(DATEDIFF(mm, Convert (date,TSPL_EMPLOYEE_MASTER.Joining_Date,103), Convert (date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103)) % 12 AS VARCHAR)+' Months & '+CAST(DATEDIFF(dd, DATEADD(mm, DATEDIFF(mm, Convert (date,TSPL_EMPLOYEE_MASTER.Joining_Date,103), Convert (date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103)), Convert (date,TSPL_EMPLOYEE_MASTER.Joining_Date,103)), Convert (date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103)) AS VARCHAR)+' Days'  " &
                   " END as [Duration Worked with Us] "
             If isShowEmployeeCurrentSalary = True Then
                 qry += " ,TBL_LATEST_SALARY.Latest_Salary as [Latest Salary]  "
             End If
-            qry += " from TSPL_EMPLOYEE_MASTER " & _
-                  " Left Outer Join TSPL_DESIGNATION_MASTER on TSPL_DESIGNATION_MASTER.Designation_id = TSPL_EMPLOYEE_MASTER.Designation " & _
+            qry += " from TSPL_EMPLOYEE_MASTER " &
+                  " Left Outer Join TSPL_DESIGNATION_MASTER on TSPL_DESIGNATION_MASTER.Designation_id = TSPL_EMPLOYEE_MASTER.Designation " &
                   " Left Outer Join TSPL_DEPARTMENT_MASTER on TSPL_DEPARTMENT_MASTER.DEPARTMENT_CODE = TSPL_EMPLOYEE_MASTER.DEPARTMENT_CODE "
             If isShowEmployeeCurrentSalary = True Then
-                qry += "  left outer join (  select Sal.EMP_CODE ,Sal.Latest_Salary from (select Sal.*,Latest_Sal.Latest_Salary from TSPL_EMPLOYEE_SALARY Sal inner join  (select TSPL_EMPLOYEE_SALARY.EMP_CODE,max(TSPL_EMPLOYEE_SALARY.REVISION_NO) as REVISION_NO,Sum (RATE_AMOUNT)  as Latest_Salary from TSPL_EMPLOYEE_SALARY  " & _
-                      "  inner join TSPL_EMPLOYEE_SALARY_PAYHEADS on TSPL_EMPLOYEE_SALARY_PAYHEADS.EMP_SAL_CODE = TSPL_EMPLOYEE_SALARY.EMP_SAL_CODE  " & _
-                      "  inner join  ( select  Emp_Code, max(REVISION_NO) as REVISION_NO from TSPL_EMPLOYEE_SALARY group by TSPL_EMPLOYEE_SALARY.Emp_Code) as TBL_Revision on TBL_Revision.Emp_Code = TSPL_EMPLOYEE_SALARY.EMP_CODE and TSPL_EMPLOYEE_SALARY.REVISION_NO = TBL_Revision.REVISION_NO   " & _
-                      "  group by TSPL_EMPLOYEE_SALARY.EMP_CODE) as Latest_Sal  on Sal.EMP_CODE=Latest_Sal.EMP_CODE and Sal.REVISION_NO=Latest_Sal.REVISION_NO  " & _
+                qry += "  left outer join (  select Sal.EMP_CODE ,Sal.Latest_Salary from (select Sal.*,Latest_Sal.Latest_Salary from TSPL_EMPLOYEE_SALARY Sal inner join  (select TSPL_EMPLOYEE_SALARY.EMP_CODE,max(TSPL_EMPLOYEE_SALARY.REVISION_NO) as REVISION_NO,Sum (RATE_AMOUNT)  as Latest_Salary from TSPL_EMPLOYEE_SALARY  " &
+                      "  inner join TSPL_EMPLOYEE_SALARY_PAYHEADS on TSPL_EMPLOYEE_SALARY_PAYHEADS.EMP_SAL_CODE = TSPL_EMPLOYEE_SALARY.EMP_SAL_CODE  " &
+                      "  inner join  ( select  Emp_Code, max(REVISION_NO) as REVISION_NO from TSPL_EMPLOYEE_SALARY group by TSPL_EMPLOYEE_SALARY.Emp_Code) as TBL_Revision on TBL_Revision.Emp_Code = TSPL_EMPLOYEE_SALARY.EMP_CODE and TSPL_EMPLOYEE_SALARY.REVISION_NO = TBL_Revision.REVISION_NO   " &
+                      "  group by TSPL_EMPLOYEE_SALARY.EMP_CODE) as Latest_Sal  on Sal.EMP_CODE=Latest_Sal.EMP_CODE and Sal.REVISION_NO=Latest_Sal.REVISION_NO  " &
                       "  ) Sal  LEFT JOIN TSPL_EMPLOYEE_MASTER Emp ON Sal.EMP_CODE=Emp.EMP_CODE   LEFT JOIN TSPL_SALARY_STRUCTURE Struct ON Sal.SALARY_STRUCTURE_CODE=Struct.SALARY_STRUCTURE_CODE) TBL_LATEST_SALARY on TBL_LATEST_SALARY.EMP_CODE = TSPL_EMPLOYEE_MASTER.EMP_CODE   "
             End If
 
@@ -57,7 +54,6 @@ Public Class rptEmployeeStatusReport
             End If
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 gv1.DataSource = Nothing
                 gv1.Columns.Clear()
@@ -65,24 +61,17 @@ Public Class rptEmployeeStatusReport
                 gv1.GroupDescriptors.Clear()
                 gv1.MasterTemplate.SummaryRowsBottom.Clear()
                 gv1.ShowGroupPanel = True
-
                 gv1.EnableFiltering = True
-
-
                 RadPageView1.SelectedPage = RadPageViewPage2
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
-
             gv1.DataSource = dt
             SetGridFormationOFGV1()
             gv1.BestFitColumns()
-
             ReStoreGridLayout()
-
-
         Catch ex As Exception
-
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -102,8 +91,8 @@ Public Class rptEmployeeStatusReport
                     obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 End If
             End If
-        Catch err As Exception
-            MessageBox.Show(err.Message)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -145,24 +134,31 @@ Public Class rptEmployeeStatusReport
     End Sub
 
     Private Sub rptTankerStatusReport_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
-        If e.Alt And e.KeyCode = Keys.R Then
-            Print(Exporter.Refresh)
-        ElseIf e.Alt And e.KeyCode = Keys.C Then
-            Me.Close()
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.N Then
-            Reset()
-        End If
+        Try
+            If e.Alt And e.KeyCode = Keys.R Then
+                Print(Exporter.Refresh)
+            ElseIf e.Alt And e.KeyCode = Keys.C Then
+                Me.Close()
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.N Then
+                Reset()
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
 
     Private Sub rptTankerStatusReport_Load(sender As Object, e As EventArgs) Handles Me.Load
-        SetUserMgmtNew()
-
-        ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
-        ButtonToolTip.SetToolTip(btnGo, "Press Alt+R Refresh ")
-        ButtonToolTip.SetToolTip(BtnReset, "Press Alt+N Adding New")
-        Reset()
-        isShowEmployeeCurrentSalary = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowEmpCurrentSalaryOnEmployeeSatatusReport, clsFixedParameterCode.ShowEmpCurrentSalaryOnEmployeeSatatusReport, Nothing)) = "1", True, False))
+        Try
+            SetUserMgmtNew()
+            ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
+            ButtonToolTip.SetToolTip(btnGo, "Press Alt+R Refresh ")
+            ButtonToolTip.SetToolTip(BtnReset, "Press Alt+N Adding New")
+            Reset()
+            isShowEmployeeCurrentSalary = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowEmpCurrentSalaryOnEmployeeSatatusReport, clsFixedParameterCode.ShowEmpCurrentSalaryOnEmployeeSatatusReport, Nothing)) = "1", True, False))
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
 
@@ -172,21 +168,25 @@ Public Class rptEmployeeStatusReport
     'End Sub
 
     Private Sub rmSaveLayout_Click(sender As Object, e As EventArgs) Handles rmSaveLayout.Click
-        If clsCommon.myLen(PageSetupReport_ID) > 0 Then
-            gv1.MasterTemplate.FilterDescriptors.Clear()
-            Dim obj As New clsGridLayout()
-            obj.ReportID = PageSetupReport_ID
-            obj.UserID = objCommonVar.CurrentUserCode
-            obj.GridLayout = New MemoryStream()
-            gv1.SaveLayout(obj.GridLayout)
-            obj.GridColumns = gv1.ColumnCount
-            obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
-            If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
+        Try
+            If clsCommon.myLen(PageSetupReport_ID) > 0 Then
+                gv1.MasterTemplate.FilterDescriptors.Clear()
+                Dim obj As New clsGridLayout()
+                obj.ReportID = PageSetupReport_ID
+                obj.UserID = objCommonVar.CurrentUserCode
+                obj.GridLayout = New MemoryStream()
+                gv1.SaveLayout(obj.GridLayout)
+                obj.GridColumns = gv1.ColumnCount
+                obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
+                If obj.SaveData() Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
+                End If
+                obj.GridLayout.Close()
+                obj.GridLayout.Dispose()
             End If
-            obj.GridLayout.Close()
-            obj.GridLayout.Dispose()
-        End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
@@ -251,8 +251,12 @@ Public Class rptEmployeeStatusReport
     'End Sub
 
     Private Sub txtEmployee__My_Click(sender As Object, e As EventArgs) Handles txtEmployee._My_Click
-        Dim qry As String = "select TSPL_EMPLOYEE_MASTER.EMP_CODE as [Code] ,TSPL_EMPLOYEE_MASTER.Emp_Name as [Name] from TSPL_EMPLOYEE_MASTER "
-        txtEmployee.arrValueMember = clsCommon.ShowMultipleSelectForm("MulSel@Employee", qry, "Code", "Name", txtEmployee.arrValueMember, txtEmployee.arrDispalyMember)
+        Try
+            Dim qry As String = "select TSPL_EMPLOYEE_MASTER.EMP_CODE as [Code] ,TSPL_EMPLOYEE_MASTER.Emp_Name as [Name] from TSPL_EMPLOYEE_MASTER "
+            txtEmployee.arrValueMember = clsCommon.ShowMultipleSelectForm("MulSel@Employee", qry, "Code", "Name", txtEmployee.arrValueMember, txtEmployee.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub rbnAll_CheckedChanged(sender As Object, e As EventArgs) Handles rbnAll.CheckedChanged

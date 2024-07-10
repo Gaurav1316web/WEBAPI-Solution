@@ -1130,6 +1130,7 @@
     <None Include="Crystal Reports\HR_Payroll\crptBankSummary.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptBonusStatement.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptDamageLoss.rpt" />
+    <None Include="Crystal Reports\HR_Payroll\crptEmployeeDeductionMaster.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptEmployeeGratuityReport.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptEmployeeIdCard.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptESCIForm6%28Apr-Sep%29.rpt" />
@@ -1276,8 +1277,8 @@
     <None Include="Crystal Reports\Kwality Sales Report\crptBulkSaleInvAndDispatchJV.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\CrptCreditCustomerReport.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorWiseDetail.rpt" />
-    <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorWiseDetailcredit.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorWiseDetailcreditMilk.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorWiseDetailcreditProduct.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorWiseSummary.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDemandReturn.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptInvoiceDetail.rpt" />
