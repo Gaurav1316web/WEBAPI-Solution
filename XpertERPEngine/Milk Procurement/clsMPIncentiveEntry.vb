@@ -145,7 +145,10 @@ Public Class clsMPIncentiveEntry
                 Next
             End If
 
-
+            qry = "delete from TSPL_MP_INCENTIVE_ENTRY_VLC_REGISTER_ATTACHMENT where Document_Code='" + strDocNo + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_MP_INCENTIVE_ENTRY_VLC_REGISTER where Document_Code='" + strDocNo + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_MP_INCENTIVE_ENTRY_DETAIL where Document_Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_MP_INCENTIVE_ENTRY_HEAD where Document_Code='" + strDocNo + "'"
