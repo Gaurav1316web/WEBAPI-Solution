@@ -2325,6 +2325,20 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                         If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 AndAlso clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) > 0 Then
                             If clsCommon.CompairString(clsCommon.myCstr(obj1.IsFreshAmbient), "Fresh") = CompairStringResult.Equal Then
                                 If clsCommon.CompairString(clsCommon.myCstr(obj1.Unit_code), "Crate") = CompairStringResult.Equal Then
+                                    Dim cellValue As String = clsCommon.myCstr(gv1.Rows(dblrows).Cells(dblcolumns).Value)
+                                    If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(AllowEntryInDecimal) from TSPL_ITEM_MASTER where Item_Code='" + obj1.itemCode + "' and  AllowEntryInDecimal=1")) = 0 Then
+                                        If cellValue.Contains(".") OrElse cellValue.Contains(",") Then
+                                            gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+
+                                            Throw New Exception("Decimal values are not allowed.")
+                                        End If
+                                    Else
+                                        If clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) Mod 0.5 <> 0 Then
+                                            gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+
+                                            Throw New Exception("Should be in multiple of 0.5")
+                                        End If
+                                    End If
                                     TotalCrate = TotalCrate + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
                                     obj1.FreshItem_QtyInCrates = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
                                     'gv1.Rows(gv1.Rows.Count - 1).Cells(dblcolumns).Value = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
@@ -4424,6 +4438,15 @@ order  by TSPL_CUSTOMER_MASTER.Display_Seq "
     End Sub
     Private Sub txtCustomerNo_Load(sender As Object, e As EventArgs) Handles txtCustomerNo.Load
     End Sub
+    'Private Sub gv1_CellValidating(sender As Object, e As CellValidatingEventArgs) Handles gv1.CellValidating
+    '    Dim cellValue As String = e.Value
+    '    If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(Is_PouchEntry) from TSPL_ITEM_MASTER where Item_Code='' and  Is_PouchEntry=1")) = 0 Then
+    '        If cellValue.Contains(".") OrElse cellValue.Contains(",") Then
+    '            clsCommon.MyMessageBoxShow(Me, "Decimal values are not allowed.", Me.Text)
+    '            e.Cancel = True
+    '        End If
+    '    End If
+    'End Sub
 End Class
 Public Class ItemValueClass
     Public itemCode As String = String.Empty
