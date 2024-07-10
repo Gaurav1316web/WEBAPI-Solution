@@ -445,6 +445,9 @@ Public Class clsMilkCollectionDCSDetail
         Return SaveData(strDocNo, Arr, trans, -1, False)
     End Function
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsMilkCollectionDCSDetail), ByVal trans As SqlTransaction, ByVal intPKID As Integer, ByVal isMissingOnly As Boolean) As Boolean
+        Return SaveData(strDocNo, Arr, trans, intPKID, isMissingOnly, False)
+    End Function
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsMilkCollectionDCSDetail), ByVal trans As SqlTransaction, ByVal intPKID As Integer, ByVal isMissingOnly As Boolean, ByVal isForCorrection As Boolean) As Boolean
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsMilkCollectionDCSDetail In Arr
                 If obj.Qty > 0 Then
@@ -456,9 +459,10 @@ Public Class clsMilkCollectionDCSDetail
                     SaveDataTRData(strDocNo, obj, intPKID, trans)
                 End If
             Next
-            Dim SettAdjQty As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AdjustFATSNFINOwnVSP, clsFixedParameterCode.AdjustQtyINOwnVSP, trans)) = 1)
-            If SettAdjQty Then
-                Dim qry As String = "select * from (
+            If Not isForCorrection Then
+                Dim SettAdjQty As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AdjustFATSNFINOwnVSP, clsFixedParameterCode.AdjustQtyINOwnVSP, trans)) = 1)
+                If SettAdjQty Then
+                    Dim qry As String = "select * from (
 select case when isnull(TSPL_VLC_MASTER_HEAD.isOwnBMC,0)=1 and TSPL_VLC_MASTER_HEAD.MCC=Tab.MCC_Code then 1 else 0 end as isOwnBMC 
 from TSPL_MILK_COLLECTION_DCS_DETAIL
 left outer join TSPL_MILK_COLLECTION_DCS on  TSPL_MILK_COLLECTION_DCS.Document_No=TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
@@ -466,38 +470,38 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_
 left outer join (select Document_No,max(MCC_Code) as MCC_Code from (select TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No,TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL inner join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail )xx group by Document_No )Tab on Tab.Document_No= TSPL_MILK_COLLECTION_DCS.Document_No
 where TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No='" + strDocNo + "' 
 )x where isOwnBMC=1"
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-                If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    qry = "(select Document_No,max(MCC_Code) as MCC_Code from (
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                    If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                        qry = "(select Document_No,max(MCC_Code) as MCC_Code from (
 select TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No,TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL inner join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail 
 where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + strDocNo + "' 
 )xx group by Document_No )"
-                    dt = clsDBFuncationality.GetDataTable(qry, trans)
-                    If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                        Throw New Exception("No mcc detail found")
+                        dt = clsDBFuncationality.GetDataTable(qry, trans)
+                        If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                            Throw New Exception("No mcc detail found")
+                        End If
+                        Dim obj As New clsMilkCollectionDCSDetail
+                        obj.VLC_Code = clsfrmVLCMaster.OwnBMCCodeByMCC(clsCommon.myCstr(dt.Rows(0)("MCC_Code")), trans)
+                        If clsCommon.myLen(obj.VLC_Code) <= 0 Then
+                            Throw New Exception("Please defince own BMC for BMC [" + clsCommon.myCstr(dt.Rows(0)("MCC_Code")) + "]")
+                        End If
+                        obj.SNo = (Arr(Arr.Count - 1).SNo + 1)
+                        obj.Shift = Arr(Arr.Count - 1).Shift
+                        obj.Milk_Type = Arr(Arr.Count - 1).Milk_Type
+                        obj.Dock_Collection_Milk_Type = Arr(Arr.Count - 1).Dock_Collection_Milk_Type
+                        obj.Qty = 0
+                        obj.FAT = 0
+                        obj.SNF = 0
+                        obj.FATKG = 0
+                        obj.SNFKG = 0
+                        SaveDataTRData(strDocNo, obj, 0, trans)
                     End If
-                    Dim obj As New clsMilkCollectionDCSDetail
-                    obj.VLC_Code = clsfrmVLCMaster.OwnBMCCodeByMCC(clsCommon.myCstr(dt.Rows(0)("MCC_Code")), trans)
-                    If clsCommon.myLen(obj.VLC_Code) <= 0 Then
-                        Throw New Exception("Please defince own BMC for BMC [" + clsCommon.myCstr(dt.Rows(0)("MCC_Code")) + "]")
-                    End If
-                    obj.SNo = (Arr(Arr.Count - 1).SNo + 1)
-                    obj.Shift = Arr(Arr.Count - 1).Shift
-                    obj.Milk_Type = Arr(Arr.Count - 1).Milk_Type
-                    obj.Dock_Collection_Milk_Type = Arr(Arr.Count - 1).Dock_Collection_Milk_Type
-                    obj.Qty = 0
-                    obj.FAT = 0
-                    obj.SNF = 0
-                    obj.FATKG = 0
-                    obj.SNFKG = 0
-                    SaveDataTRData(strDocNo, obj, 0, trans)
                 End If
-            End If
 
-            If Not isMissingOnly Then
-                If SettAdjQty OrElse (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AdjustFATSNFINOwnVSP, clsFixedParameterCode.AdjustFATSNFINOwnVSP, trans)) = 1) Then
-                    Dim settSNFDecimalPlace As Integer = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.SNFDecimalPlaces, clsFixedParameterCode.SNFDecimalPlaces, trans))
-                    Dim qry As String = "select max(isOwnBMC) as isOwnBMC, 
+                If Not isMissingOnly Then
+                    If SettAdjQty OrElse (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AdjustFATSNFINOwnVSP, clsFixedParameterCode.AdjustFATSNFINOwnVSP, trans)) = 1) Then
+                        Dim settSNFDecimalPlace As Integer = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.SNFDecimalPlaces, clsFixedParameterCode.SNFDecimalPlaces, trans))
+                        Dim qry As String = "select max(isOwnBMC) as isOwnBMC, 
 sum(MCCQty) as MCCQty,sum(Qty) as TotQty,sum(Qty)-sum(MCCQty) as DiffQty,
 sum(MCCFATKG) as MCCFATKG,sum(FATKG) as TotFATKG,sum(FATKG)-sum(MCCFATKG) as DiffFATKG,
 sum(MCCSNFKG) as MCCSNFKG,sum(SNFKG) as TotSNFKG,sum(SNFKG)-sum(MCCSNFKG) as DiffSNFKG,
@@ -515,42 +519,73 @@ from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL
 left outer join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail
 where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + strDocNo + "' 
 )x"
-                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                        If clsCommon.myCdbl(dt.Rows(0)("isOwnBMC")) = 1 Then
-                            If (SettAdjQty AndAlso Math.Abs(clsCommon.myCdbl(dt.Rows(0)("DiffQty"))) > 0) OrElse Math.Abs(clsCommon.myCdbl(dt.Rows(0)("DiffFATKG"))) > 0 OrElse Math.Abs(clsCommon.myCdbl(dt.Rows(0)("DiffSNFKG"))) > 0 Then
-                                qry = "select PK_Id,Qty,FATKG,SNFKG from TSPL_MILK_COLLECTION_DCS_DETAIL where Document_No='" + strDocNo + "'  and VLC_Code='" + clsCommon.myCstr(dt.Rows(0)("VLC_Code")) + "' order by Shift desc,FATKG,SNFKG"
-                                Dim dtDetail As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-                                If dtDetail IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                                    Dim coll As New Hashtable()
-                                    Dim ii As Integer
-                                    Dim Qty As Decimal = (clsCommon.myCDecimal(dtDetail.Rows(ii)("Qty")) - clsCommon.myCDecimal(dt.Rows(0)("DiffQty")))
-                                    Dim FATKG As Decimal = 0
-                                    Dim SNFKG As Decimal = 0
-                                    Dim FAT As Decimal = 0
-                                    Dim SNF As Decimal = 0
-                                    If SettAdjQty AndAlso Qty > 0 Then
-                                        clsCommon.AddColumnsForChange(coll, "Qty", Qty)
-                                        FATKG = Math.Abs(clsCommon.myCDecimal(dtDetail.Rows(ii)("FATKG")) - clsCommon.myCDecimal(dt.Rows(0)("DiffFATKG")))
-                                        SNFKG = Math.Abs(clsCommon.myCDecimal(dtDetail.Rows(ii)("SNFKG")) - clsCommon.myCDecimal(dt.Rows(0)("DiffSNFKG")))
-                                        FAT = clsCommon.myRoundOFF((100 * FATKG) / Qty, 1, 6)
-                                        SNF = clsCommon.myRoundOFF((100 * SNFKG) / Qty, settSNFDecimalPlace, 6)
-                                        FATKG = ((Qty * FAT) / 100)
-                                        SNFKG = ((Qty * SNF) / 100)
-                                    Else
-                                        Qty = clsCommon.myCDecimal(dtDetail.Rows(ii)("Qty"))
-                                        If Qty > 0 Then
-                                            FATKG = Math.Abs(clsCommon.myCDecimal(dtDetail.Rows(ii)("FATKG")) - clsCommon.myCDecimal(dt.Rows(0)("DiffFATKG")))
-                                            SNFKG = Math.Abs(clsCommon.myCDecimal(dtDetail.Rows(ii)("SNFKG")) - clsCommon.myCDecimal(dt.Rows(0)("DiffSNFKG")))
-                                            FAT = Math.Round((100 * FATKG) / Qty, 1, MidpointRounding.ToEven)
-                                            SNF = Math.Round((100 * SNFKG) / Qty, settSNFDecimalPlace, MidpointRounding.ToEven)
+                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                            If clsCommon.myCdbl(dt.Rows(0)("isOwnBMC")) = 1 Then
+                                If (SettAdjQty AndAlso Math.Abs(clsCommon.myCdbl(dt.Rows(0)("DiffQty"))) > 0) OrElse Math.Abs(clsCommon.myCdbl(dt.Rows(0)("DiffFATKG"))) > 0 OrElse Math.Abs(clsCommon.myCdbl(dt.Rows(0)("DiffSNFKG"))) > 0 Then
+                                    qry = "select PK_Id,Qty,FATKG,SNFKG from TSPL_MILK_COLLECTION_DCS_DETAIL where Document_No='" + strDocNo + "'  and VLC_Code='" + clsCommon.myCstr(dt.Rows(0)("VLC_Code")) + "' order by Shift desc,FATKG,SNFKG"
+                                    Dim dtDetail As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                                    If dtDetail IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                        Dim coll As New Hashtable()
+                                        Dim ii As Integer
+                                        Dim Qty As Decimal = (clsCommon.myCDecimal(dtDetail.Rows(ii)("Qty")) - clsCommon.myCDecimal(dt.Rows(0)("DiffQty")))
+                                        Dim FATKG As Decimal = 0
+                                        Dim SNFKG As Decimal = 0
+                                        Dim FAT As Decimal = 0
+                                        Dim SNF As Decimal = 0
+                                        If SettAdjQty AndAlso Qty > 0 Then
+                                            clsCommon.AddColumnsForChange(coll, "Qty", Qty)
+                                            If (clsCommon.myCDecimal(dtDetail.Rows(ii)("FATKG")) - clsCommon.myCDecimal(dt.Rows(0)("DiffFATKG"))) > 0 Then
+                                                FATKG = Math.Abs(clsCommon.myCDecimal(dtDetail.Rows(ii)("FATKG")) - clsCommon.myCDecimal(dt.Rows(0)("DiffFATKG")))
+                                            Else
+                                                FATKG = 0
+                                            End If
+                                            If (clsCommon.myCDecimal(dtDetail.Rows(ii)("SNFKG")) - clsCommon.myCDecimal(dt.Rows(0)("DiffSNFKG"))) > 0 Then
+                                                SNFKG = Math.Abs(clsCommon.myCDecimal(dtDetail.Rows(ii)("SNFKG")) - clsCommon.myCDecimal(dt.Rows(0)("DiffSNFKG")))
+                                            Else
+                                                SNFKG = 0
+                                            End If
+                                            FAT = clsCommon.myRoundOFF(clsCommon.myCDivide((100 * FATKG), Qty), 1, 6)
+                                            SNF = clsCommon.myRoundOFF(clsCommon.myCDivide((100 * SNFKG), Qty), settSNFDecimalPlace, 6)
+                                            FATKG = ((Qty * FAT) / 100)
+                                            SNFKG = ((Qty * SNF) / 100)
+                                        Else
+                                            Qty = clsCommon.myCDecimal(dtDetail.Rows(ii)("Qty"))
+                                            If Qty > 0 Then
+                                                If (clsCommon.myCDecimal(dtDetail.Rows(ii)("FATKG")) - clsCommon.myCDecimal(dt.Rows(0)("DiffFATKG"))) > 0 Then
+                                                    FATKG = Math.Abs(clsCommon.myCDecimal(dtDetail.Rows(ii)("FATKG")) - clsCommon.myCDecimal(dt.Rows(0)("DiffFATKG")))
+                                                Else
+                                                    FATKG = 0
+                                                End If
+                                                If (clsCommon.myCDecimal(dtDetail.Rows(ii)("SNFKG")) - clsCommon.myCDecimal(dt.Rows(0)("DiffSNFKG"))) > 0 Then
+                                                    SNFKG = Math.Abs(clsCommon.myCDecimal(dtDetail.Rows(ii)("SNFKG")) - clsCommon.myCDecimal(dt.Rows(0)("DiffSNFKG")))
+                                                Else
+                                                    SNFKG = 0
+                                                End If
+                                                FAT = Math.Round(clsCommon.myCDivide((100 * FATKG), Qty), 1, MidpointRounding.ToEven)
+                                                SNF = Math.Round(clsCommon.myCDivide((100 * SNFKG), Qty), settSNFDecimalPlace, MidpointRounding.ToEven)
+                                            End If
                                         End If
+                                        Dim SettMax As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MaxFATPerLimit, clsFixedParameterCode.MaxFATPerLimit, trans))
+                                        If SettMax > 0 Then
+                                            If FAT > SettMax Then
+                                                FAT = SettMax
+                                                FATKG = Math.Round(clsCommon.myCDivide((Qty * FAT), 100), 3, MidpointRounding.ToEven)
+                                            End If
+                                        End If
+                                        SettMax = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MaxSNFPerLimit, clsFixedParameterCode.MaxSNFPerLimit, trans))
+                                        If SettMax > 0 Then
+                                            If SNF > SettMax Then
+                                                SNF = SettMax
+                                                SNFKG = Math.Round(clsCommon.myCDivide((Qty * SNF), 100), 3, MidpointRounding.ToEven)
+                                            End If
+                                        End If
+                                        clsCommon.AddColumnsForChange(coll, "FAT", FAT)
+                                        clsCommon.AddColumnsForChange(coll, "SNF", SNF)
+                                        clsCommon.AddColumnsForChange(coll, "FATKG", FATKG)
+                                        clsCommon.AddColumnsForChange(coll, "SNFKG", SNFKG)
+                                        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_DETAIL", OMInsertOrUpdate.Update, "PK_Id='" + clsCommon.myCstr(dtDetail.Rows(ii)("PK_Id")) + "'", trans)
                                     End If
-                                    clsCommon.AddColumnsForChange(coll, "FAT", FAT)
-                                    clsCommon.AddColumnsForChange(coll, "SNF", SNF)
-                                    clsCommon.AddColumnsForChange(coll, "FATKG", FATKG)
-                                    clsCommon.AddColumnsForChange(coll, "SNFKG", SNFKG)
-                                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_DETAIL", OMInsertOrUpdate.Update, "PK_Id='" + clsCommon.myCstr(dtDetail.Rows(ii)("PK_Id")) + "'", trans)
                                 End If
                             End If
                         End If

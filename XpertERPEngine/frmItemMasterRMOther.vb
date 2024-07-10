@@ -316,6 +316,8 @@ Public Class FrmItemMasterRMOther
         chkFGforCFRPT.Checked = False
         chkqcprod.Checked = False
         chkFGforCF.Checked = False
+        chkFGPL.Checked = False
+        chkSFGCF.Checked = False
         chkNIRQC.Checked = False
         chkAllowSRNwoShort.Checked = False
         chkIsReqBatch.Checked = False
@@ -1534,7 +1536,8 @@ Public Class FrmItemMasterRMOther
                 obj.Is_AllowQC_ON_Production = IIf(chkqcprod.Checked = True, 1, 0)
                 obj.FG_for_CF_RPT = IIf(chkFGforCFRPT.Checked = True, 1, 0)
                 obj.Is_Advance_Required = chkAdvanceRequired.Checked
-
+                obj.FG_for_CF_PL = IIf(chkFGPL.Checked = True, 1, 0)
+                obj.SFG_for_CF = IIf(chkSFGCF.Checked = True, 1, 0)
                 If clsCommon.myLen(fndGLAcc.Value) > 0 Then
                     obj.GL_Account = fndGLAcc.Value
                 End If
@@ -2668,6 +2671,8 @@ Public Class FrmItemMasterRMOther
                 chkQCSNFBssed.Checked = IIf(clsCommon.myCstr(obj.Is_QC_SNF_Based) = "1", True, False)
                 chkqcprod.Checked = IIf((obj.Is_AllowQC_ON_Production) = 1, True, False)
                 chkFGforCFRPT.Checked = IIf((obj.FG_for_CF_RPT) = 1, True, False)
+                chkFGPL.Checked = IIf((obj.FG_for_CF_PL) = 1, True, False)
+                chkSFGCF.Checked = IIf((obj.SFG_for_CF) = 1, True, False)
                 chkInsurance.Checked = IIf(clsCommon.myCstr(obj.Is_Insurance) = "1", True, False)
                 If chkInsurance.Checked = True Then
                     txtInsurance.Text = clsCommon.myCstr(obj.InsuranceNo)

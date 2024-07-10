@@ -22,10 +22,10 @@ Partial Class frmHeadLoadMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
@@ -49,6 +49,8 @@ Partial Class frmHeadLoadMaster
         Me.txtstartDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel7 = New common.Controls.MyLabel()
         Me.ApplyInGrid = New System.Windows.Forms.GroupBox()
+        Me.lblCycleFrequency = New common.Controls.MyLabel()
+        Me.txtCycleFrequency = New common.MyNumBox()
         Me.txtRate = New common.MyNumBox()
         Me.chkRate = New Telerik.WinControls.UI.RadCheckBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
@@ -79,6 +81,8 @@ Partial Class frmHeadLoadMaster
         CType(Me.txtstartDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ApplyInGrid.SuspendLayout()
+        CType(Me.lblCycleFrequency, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCycleFrequency, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -102,7 +106,7 @@ Partial Class frmHeadLoadMaster
         '
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -333,7 +337,7 @@ Partial Class frmHeadLoadMaster
         'btnGo
         '
         Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGo.Location = New System.Drawing.Point(396, 3)
+        Me.btnGo.Location = New System.Drawing.Point(641, 51)
         Me.btnGo.Name = "btnGo"
         Me.btnGo.Size = New System.Drawing.Size(48, 18)
         Me.btnGo.TabIndex = 155
@@ -346,6 +350,7 @@ Partial Class frmHeadLoadMaster
         Me.Panel1.Controls.Add(Me.ApplyInGrid)
         Me.Panel1.Controls.Add(Me.txtDate)
         Me.Panel1.Controls.Add(Me.btnCC)
+        Me.Panel1.Controls.Add(Me.btnGo)
         Me.Panel1.Controls.Add(Me.lblStatus)
         Me.Panel1.Controls.Add(Me.RadLabel3)
         Me.Panel1.Controls.Add(Me.RadLabel4)
@@ -402,16 +407,56 @@ Partial Class frmHeadLoadMaster
         '
         'ApplyInGrid
         '
+        Me.ApplyInGrid.Controls.Add(Me.lblCycleFrequency)
+        Me.ApplyInGrid.Controls.Add(Me.txtCycleFrequency)
         Me.ApplyInGrid.Controls.Add(Me.txtRate)
         Me.ApplyInGrid.Controls.Add(Me.chkRate)
         Me.ApplyInGrid.Controls.Add(Me.MyLabel1)
         Me.ApplyInGrid.Controls.Add(Me.cmbHeadLoadBasis)
-        Me.ApplyInGrid.Controls.Add(Me.btnGo)
         Me.ApplyInGrid.Location = New System.Drawing.Point(6, 46)
         Me.ApplyInGrid.Name = "ApplyInGrid"
-        Me.ApplyInGrid.Size = New System.Drawing.Size(523, 22)
+        Me.ApplyInGrid.Size = New System.Drawing.Size(615, 34)
         Me.ApplyInGrid.TabIndex = 1090
         Me.ApplyInGrid.TabStop = False
+        '
+        'lblCycleFrequency
+        '
+        Me.lblCycleFrequency.FieldName = Nothing
+        Me.lblCycleFrequency.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCycleFrequency.Location = New System.Drawing.Point(400, 3)
+        Me.lblCycleFrequency.Name = "lblCycleFrequency"
+        Me.lblCycleFrequency.Size = New System.Drawing.Size(91, 16)
+        Me.lblCycleFrequency.TabIndex = 1094
+        Me.lblCycleFrequency.Text = "Cycle Frequency"
+        '
+        'txtCycleFrequency
+        '
+        Me.txtCycleFrequency.BackColor = System.Drawing.Color.Transparent
+        Me.txtCycleFrequency.CalculationExpression = Nothing
+        Me.txtCycleFrequency.DecimalPlaces = 2
+        Me.txtCycleFrequency.FieldCode = Nothing
+        Me.txtCycleFrequency.FieldDesc = Nothing
+        Me.txtCycleFrequency.FieldMaxLength = 0
+        Me.txtCycleFrequency.FieldName = Nothing
+        Me.txtCycleFrequency.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.txtCycleFrequency.isCalculatedField = False
+        Me.txtCycleFrequency.IsSourceFromTable = False
+        Me.txtCycleFrequency.IsSourceFromValueList = False
+        Me.txtCycleFrequency.IsUnique = False
+        Me.txtCycleFrequency.Location = New System.Drawing.Point(504, 2)
+        Me.txtCycleFrequency.MaxLength = 6
+        Me.txtCycleFrequency.MendatroryField = False
+        Me.txtCycleFrequency.MyLinkLable1 = Nothing
+        Me.txtCycleFrequency.MyLinkLable2 = Nothing
+        Me.txtCycleFrequency.Name = "txtCycleFrequency"
+        Me.txtCycleFrequency.ReferenceFieldDesc = Nothing
+        Me.txtCycleFrequency.ReferenceFieldName = Nothing
+        Me.txtCycleFrequency.ReferenceTableName = Nothing
+        Me.txtCycleFrequency.Size = New System.Drawing.Size(101, 21)
+        Me.txtCycleFrequency.TabIndex = 1093
+        Me.txtCycleFrequency.Text = "0"
+        Me.txtCycleFrequency.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtCycleFrequency.Value = 0R
         '
         'txtRate
         '
@@ -475,12 +520,12 @@ Partial Class frmHeadLoadMaster
         Me.cmbHeadLoadBasis.IsSourceFromTable = False
         Me.cmbHeadLoadBasis.IsSourceFromValueList = False
         Me.cmbHeadLoadBasis.IsUnique = False
-        RadListDataItem1.Text = "Select"
-        RadListDataItem2.Text = "Rate/Kg"
-        RadListDataItem3.Text = "Rate/Ltr"
-        Me.cmbHeadLoadBasis.Items.Add(RadListDataItem1)
-        Me.cmbHeadLoadBasis.Items.Add(RadListDataItem2)
-        Me.cmbHeadLoadBasis.Items.Add(RadListDataItem3)
+        RadListDataItem4.Text = "Select"
+        RadListDataItem5.Text = "Rate/Kg"
+        RadListDataItem6.Text = "Rate/Ltr"
+        Me.cmbHeadLoadBasis.Items.Add(RadListDataItem4)
+        Me.cmbHeadLoadBasis.Items.Add(RadListDataItem5)
+        Me.cmbHeadLoadBasis.Items.Add(RadListDataItem6)
         Me.cmbHeadLoadBasis.Location = New System.Drawing.Point(100, 2)
         Me.cmbHeadLoadBasis.MendatroryField = True
         Me.cmbHeadLoadBasis.MyLinkLable1 = Me.MyLabel1
@@ -578,6 +623,8 @@ Partial Class frmHeadLoadMaster
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ApplyInGrid.ResumeLayout(False)
         Me.ApplyInGrid.PerformLayout()
+        CType(Me.lblCycleFrequency, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCycleFrequency, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkRate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -617,6 +664,8 @@ Partial Class frmHeadLoadMaster
     Friend WithEvents txtstartDate As common.Controls.MyDateTimePicker
     Friend WithEvents MyLabel7 As common.Controls.MyLabel
     Friend WithEvents btnReverseUnpost As RadButton
+    Friend WithEvents txtCycleFrequency As common.MyNumBox
+    Friend WithEvents lblCycleFrequency As common.Controls.MyLabel
 End Class
 
 
