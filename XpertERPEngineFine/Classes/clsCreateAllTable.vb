@@ -55193,6 +55193,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("VLC_CODE", "VARCHAR(30) Not NULL REFERENCES TSPL_VLC_MASTER_HEAD(VLC_CODE)")
             coll.Add("Head_Load_Basis", "varchar(1) NULL")
             coll.Add("Head_Load_Rate", "Decimal(18,2) NULL")
+            coll.Add("Cycle_Frequency", "integer null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_Head_Load_DCS", coll)
 
             Dim isRecordExist As Integer = clsDBFuncationality.getSingleValue("select count(1) from TSPL_HEAD_LOAD")
@@ -55200,7 +55201,11 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
                 Dim obj As New clsHeadLoadMaster
                 obj.SaveAutoData()
             End If
+            Try
+                clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_HEAD_LOAD_DCS ALTER COLUMN  Head_Load_Basis VARCHAR(2)")
+            Catch ex As Exception
 
+            End Try
             coll = New Dictionary(Of String, String)()
             coll.Add("Doc_Code", "varchar(30) NOT NULL Primary Key")
             coll.Add("Doc_Date", "Datetime NOT NULL")

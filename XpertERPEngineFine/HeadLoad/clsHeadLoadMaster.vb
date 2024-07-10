@@ -268,6 +268,7 @@ Public Class clsHeadLoadDCS
     Public BMC_Name As String = Nothing
     Public Head_Load_Basis As String = Nothing
     Public Head_Load_Rate As Decimal
+    Public Cycle_Frequency As Integer
 
 
 #End Region
@@ -280,6 +281,7 @@ Public Class clsHeadLoadDCS
                 clsCommon.AddColumnsForChange(coll, "VLC_CODE", obj.VLC_CODE)
                 clsCommon.AddColumnsForChange(coll, "Head_Load_Basis", obj.Head_Load_Basis)
                 clsCommon.AddColumnsForChange(coll, "Head_Load_Rate", obj.Head_Load_Rate)
+                clsCommon.AddColumnsForChange(coll, "Cycle_Frequency", obj.Cycle_Frequency)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_HEAD_LOAD_DCS", OMInsertOrUpdate.Insert, "", trans)
             Next
         End If
@@ -290,7 +292,7 @@ Public Class clsHeadLoadDCS
         Dim arr As List(Of clsHeadLoadDCS) = Nothing
         Dim qry As String = "select TSPL_HEAD_LOAD_DCS.Document_No, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as Dcs_Uploader_No, TSPL_VLC_MASTER_HEAD.VLC_CODE as VLC_CODE, TSPL_VLC_MASTER_HEAD.VLC_Name as DCS_Name ,
         TSPL_MCC_MASTER.MCC_Code_VLC_Uploader as BMC_Uploader_No ,TSPL_MCC_MASTER.MCC_Code as BMC_Code , TSPL_MCC_MASTER.MCC_NAME as BMC_Name , TSPL_HEAD_LOAD_DCS.Head_Load_Basis , 
-        TSPL_HEAD_LOAD_DCS.Head_Load_Rate from TSPL_HEAD_LOAD_DCS  left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_CODE = TSPL_VLC_MASTER_HEAD.VLC_CODE
+        TSPL_HEAD_LOAD_DCS.Head_Load_Rate,TSPL_HEAD_LOAD_DCS.Cycle_Frequency from TSPL_HEAD_LOAD_DCS  left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_CODE = TSPL_VLC_MASTER_HEAD.VLC_CODE
          left  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_VLC_MASTER_HEAD.MCC where  TSPL_HEAD_LOAD_DCS.Document_No = '" + strCode + "' order by Document_No "
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
@@ -307,6 +309,7 @@ Public Class clsHeadLoadDCS
                 obj.BMC_Name = clsCommon.myCstr(dr("BMC_Name"))
                 obj.Head_Load_Basis = clsCommon.myCstr(dr("Head_Load_Basis"))
                 obj.Head_Load_Rate = clsCommon.myCstr(dr("Head_Load_Rate"))
+                obj.Cycle_Frequency = clsCommon.myCstr(dr("Cycle_Frequency"))
                 arr.Add(obj)
             Next
         End If
