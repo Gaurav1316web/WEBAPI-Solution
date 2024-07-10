@@ -200,12 +200,24 @@ Public Class frmDemandUploader
                                 For i As Integer = 6 To lstObj.Count - 2
                                     Dim objtr As New clsDemandUploaderDetails
                                     objtr.Qty = clsCommon.myCdbl(grow.Cells(clsCommon.myCstr(lstObj(i).Key)).Value)
+                                    objtr.Item_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Item_Code from TSPL_ITEM_MASTER where Short_Description='" + lstObj(i).Key + "'"))
+                                    Dim cellValue As String = clsCommon.myCstr(objtr.Qty)
+                                    If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(AllowEntryInDecimal) from TSPL_ITEM_MASTER where Item_Code='" + objtr.Item_Code + "' and  AllowEntryInDecimal=1")) = 0 Then
+                                        If cellValue.Contains(".") OrElse cellValue.Contains(",") Then
+
+                                            Throw New Exception(" Error at Line No:" + clsCommon.myCstr(lineNo) + ", Decimal values are not allowed.")
+                                        End If
+                                    Else
+                                        If clsCommon.myCdbl(objtr.Qty) Mod 0.5 <> 0 Then
+                                            Throw New Exception(" Error at Line No:" + clsCommon.myCstr(lineNo) + ", Should be in multiple of 0.5")
+                                        End If
+                                    End If
                                     If objtr.Qty > 0 Then
                                         objtr.Unit_Code = clsCommon.myCstr(grow.Cells("Qty In").Value)
                                         objtr.Route = clsCommon.myCstr(grow.Cells("Route").Value)
                                         objtr.Booth = clsCommon.myCstr(grow.Cells("Booth").Value)
                                         objtr.Vehicle_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select vehicle_id from TSPL_VEHICLE_MASTER left join tspl_route_master on tspl_route_master.vehicle_code=TSPL_VEHICLE_MASTER.vehicle_id where tspl_route_master.route_no ='" & objtr.Route & "'"))
-                                        objtr.Item_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Item_Code from TSPL_ITEM_MASTER where Short_Description='" + lstObj(i).Key + "'"))
+                                        'objtr.Item_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Item_Code from TSPL_ITEM_MASTER where Short_Description='" + lstObj(i).Key + "'"))
                                         'objtr.Qty = clsCommon.myCdbl(grow.Cells(clsCommon.myCstr(lstObj(i).Key)).Value)
                                         objtr.Price_code = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select price_CodeNon from TSPL_CUSTOMER_MASTER where Cust_Code='" & objtr.Booth & "'"))
                                         objtr.Item_Rate = GetItemRate(objtr.Price_code, objtr.Unit_Code, objtr.Item_Code, lineNo, objtr.Booth, clsCommon.myCstr(lstObj(i).Key))
@@ -363,7 +375,7 @@ Public Class frmDemandUploader
                     obj.Arr.Add(objTr)
                 Next
                 obj.DocumentAmount = docamt
-                If clsDemandBookingSale.SaveData(obj, True, trans) Then
+                If clsDemandBookingSale.SaveData(obj, True, True, trans) Then
                     Docno.Add(obj.Document_No)
                     If isPost Then
                         status = clsDemandBookingSale.PostData(Me.Form_ID, obj.Document_No, shift, False, trans)
