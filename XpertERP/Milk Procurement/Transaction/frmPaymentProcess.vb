@@ -2752,7 +2752,7 @@ and TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0 "
                     whrCls += " and 2=3 "
                 End If
             Else
-                whrCls += "  and TSPL_VENDOR_INVOICE_HEAD.Loc_Code in ( '" & fndLoc.Value & "' )'"
+                whrCls += "  and TSPL_VENDOR_INVOICE_HEAD.Loc_Code in ( '" & fndLoc.Value & "' ) "
             End If
             qry = qry & whrCls & "  and   " & IIf(chkSkipPrevDeduction.Checked, " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) between '" & clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") & "' and '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'", " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) <= '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "' ")
             qry += " )xxx group by Document_No "
