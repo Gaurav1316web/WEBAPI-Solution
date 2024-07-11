@@ -483,11 +483,13 @@ Public Class clsDocType
     '--------priti 13/07/2016 ------------------
     Public Const frmDairySaleDeliveryOrder As String = "Dairy Sale Delivery Order"
     Public Const frmDemandBooking As String = "Demand Booking"
+    Public Const frmDemandBookingUploader As String = "Demand Booking Uploader"
     Public Const frmDemandAdjustment As String = "Demand Adjustment"
     Public Const frmDemandUploader As String = "Demand Uploader"
     Public Const FrmMCCMaterialSalePriceChart As String = "MCC Material Sale Price Chart"
     Public Const frmDCSDemandBooking As String = "DCS Demand Booking"
     Public Const frmDairySaleBooking As String = "Dairy Sale Booking"
+    Public Const frmDairySaleBookingUploader As String = "Dairy Sale Booking Uploader"
     Public Const frmDairySaleGatePass As String = "Dairy Sale GatePass"
     Public Const frmDairySaleShipment As String = "Dairy Sale Shipment"
     Public Const frmDairySaleInvoice As String = "Dairy Sale Invoice"
@@ -1186,10 +1188,12 @@ Public Class clsDocType
                 InsertDefaultValue(clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.SaleInvoiceInterstate, False, True)
             End If
             InsertDefaultValue(clsDocType.frmDairySaleBooking, "", False, True)
+            InsertDefaultValue(clsDocType.frmDairySaleBookingUploader, "", False, True)
             'added by preeti gupta===06/10/2016
             InsertDefaultValue(clsDocType.frmPerformaInvoiceBooking, "", False, True)
             InsertDefaultValue(clsDocType.frmDairySaleDeliveryOrder, "", False, True)
             InsertDefaultValue(clsDocType.frmDemandBooking, "", False, True)
+            InsertDefaultValue(clsDocType.frmDemandBookingUploader, "", False, True)
             InsertDefaultValue(clsDocType.frmDemandAdjustment, "", False, False)
             InsertDefaultValue(clsDocType.frmDemandUploader, "", False, False)
             InsertDefaultValue(clsDocType.FrmMCCMaterialSalePriceChart, "", False, False)
