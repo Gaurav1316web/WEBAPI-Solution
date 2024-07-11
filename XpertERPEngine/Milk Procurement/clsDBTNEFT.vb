@@ -182,7 +182,7 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
           ,TSPL_DBT_NEFT.Remarks as [Remarks],Convert(varchar,TSPL_DBT_NEFT.From_Date,103) as [From Date],Convert(varchar,TSPL_DBT_NEFT.To_Date,103) as [To Date],Zone_code as Zone
           ,case when isnull(Status,0)=0 then 'Pending' else 'Approved' end as Status,case when isnull(RCDF_Status,0)=0 then 'Pending' else 'Approved' end as [RCDF Status]
           from TSPL_DBT_NEFT "
-        str = clsCommon.ShowSelectForm("DPTNeft#F", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
+        str = clsCommon.ShowSelectForm("DPTNeft#F", qry, "Code", whrcls, curcode, "Code", isButtonClicked, "Document_Date")
         Return str
     End Function
     Public Shared Function PostData(ByVal strDocNo As String, ByVal excelPath As String) As Boolean
