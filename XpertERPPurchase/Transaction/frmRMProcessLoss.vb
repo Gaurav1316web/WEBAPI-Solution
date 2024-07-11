@@ -549,9 +549,14 @@ Public Class frmRMProcessLoss
                 ProdQty += clsCommon.myCDecimal(Gv2.Rows(jj).Cells(colQtyProduction).Value)
             End If
         Next
-        AvgPer = PLAvg / ProdQty
-        txtCostofFeed.Text = Math.Round(AvgPer, 2)
-
+        If ProdQty > 0 Then
+            AvgPer = PLAvg / ProdQty
+            If AvgPer > 0 Then
+                txtCostofFeed.Text = Math.Round(AvgPer, 2)
+            Else
+                txtCostofFeed.Text = 0
+            End If
+        End If
 
         Dim code As String = ""
         Dim status1 As Integer = 0
