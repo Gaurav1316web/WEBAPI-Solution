@@ -24,7 +24,7 @@ Partial Class frmRouteMaster
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.rlblRouteid = New common.Controls.MyLabel()
         Me.rlblDescription = New common.Controls.MyLabel()
         Me.rlblType = New common.Controls.MyLabel()
@@ -93,6 +93,7 @@ Partial Class frmRouteMaster
         Me.txtLocation = New common.UserControls.txtFinder()
         Me.lblLocation = New common.Controls.MyLabel()
         Me.txtLocationDesc = New common.Controls.MyTextBox()
+        Me.btnStatus = New Telerik.WinControls.UI.RadButton()
         CType(Me.rlblRouteid, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rlblDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rlblType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -148,6 +149,7 @@ Partial Class frmRouteMaster
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtLocationDesc, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnStatus, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -969,7 +971,8 @@ Partial Class frmRouteMaster
         Me.dgv.MasterTemplate.EnableFiltering = True
         Me.dgv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.dgv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.dgv.MyStopExport = False
         Me.dgv.Name = "dgv"
         Me.dgv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgv.ShowGroupPanel = False
@@ -1209,11 +1212,22 @@ Partial Class frmRouteMaster
         Me.txtLocationDesc.TabIndex = 1404
         Me.txtLocationDesc.TabStop = False
         '
+        'btnStatus
+        '
+        Me.btnStatus.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnStatus.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnStatus.Location = New System.Drawing.Point(243, 492)
+        Me.btnStatus.Name = "btnStatus"
+        Me.btnStatus.Size = New System.Drawing.Size(68, 18)
+        Me.btnStatus.TabIndex = 1406
+        Me.btnStatus.Text = "Status"
+        '
         'frmRouteMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(671, 511)
+        Me.Controls.Add(Me.btnStatus)
         Me.Controls.Add(Me.txtLocation)
         Me.Controls.Add(Me.txtLocationDesc)
         Me.Controls.Add(Me.lblLocation)
@@ -1336,6 +1350,7 @@ Partial Class frmRouteMaster
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtLocationDesc, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnStatus, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1409,5 +1424,6 @@ Partial Class frmRouteMaster
     Friend WithEvents txtLocation As common.UserControls.txtFinder
     Friend WithEvents lblLocation As common.Controls.MyLabel
     Friend WithEvents txtLocationDesc As common.Controls.MyTextBox
+    Friend WithEvents btnStatus As RadButton
 End Class
 

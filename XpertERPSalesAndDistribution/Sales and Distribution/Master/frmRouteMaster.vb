@@ -1396,6 +1396,11 @@ Public Class frmRouteMaster
         End Try
     End Sub
 
+    Private Sub btnStatus_Click(sender As Object, e As EventArgs) Handles btnStatus.Click
+        Dim rptlockStatus As New rptLockStatus()
+        rptlockStatus.Show()
+    End Sub
+
     Private Sub dgv_CurrentRowChanged(sender As Object, e As CurrentRowChangedEventArgs) Handles dgv.CurrentRowChanged
         If dgv.RowCount > 0 Then
             Dim intCurrRow As Integer = dgv.CurrentRow.Index
