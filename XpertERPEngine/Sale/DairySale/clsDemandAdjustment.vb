@@ -193,7 +193,7 @@ Public Class clsDemandAdjustment
                         For Each item As String In lstDocNO
                             Dim obj1 As New clsDemandBookingSale
                             obj1 = clsDemandBookingSale.GetData(item, NavigatorType.Current, trans)
-                            clsDemandBookingSale.SaveData(obj1, False, trans)
+                            clsDemandBookingSale.SaveData(obj1, False, False, trans)
 
                         Next
                     End If

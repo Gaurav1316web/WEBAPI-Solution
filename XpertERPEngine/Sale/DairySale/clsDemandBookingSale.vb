@@ -33,7 +33,7 @@ Public Class clsDemandBookingSale
     Public Function SaveData(ByVal obj As clsDemandBookingSale, ByVal isNewEntry As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            SaveData(obj, isNewEntry, trans)
+            SaveData(obj, isNewEntry, False, trans)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -41,7 +41,7 @@ Public Class clsDemandBookingSale
         End Try
         Return True
     End Function
-    Public Shared Function SaveData(ByVal obj As clsDemandBookingSale, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
+    Public Shared Function SaveData(ByVal obj As clsDemandBookingSale, ByVal isNewEntry As Boolean, ByVal IsDemandUploader As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
             Dim ShiftType As String = ""
             Dim isBoothReset As Boolean = False
@@ -163,7 +163,13 @@ where TSPL_BOOKING_MATSER.Against_DemandBooking_No='" + obj.Document_No + "'"
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
 
             If isNewEntry Then
-                obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmDemandBooking, "", obj.Location_Code)
+                If IsDemandUploader Then
+                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmDemandBookingUploader, "", obj.Location_Code)
+
+                Else
+                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmDemandBooking, "", obj.Location_Code)
+
+                End If
                 If (clsCommon.myLen(obj.Document_No) <= 0) Then
                     Throw New Exception("Error in Document Code Generation")
                 End If
@@ -176,14 +182,14 @@ where TSPL_BOOKING_MATSER.Against_DemandBooking_No='" + obj.Document_No + "'"
             End If
 
             clsDemandBookingSaleDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, trans, obj.Location_Code, ShiftType, isNewEntry)
-            createDairyBookingDoc(obj.Document_No, trans, isNewEntry, ShiftType, obj.Document_Date, "", False)
+            createDairyBookingDoc(obj.Document_No, trans, isNewEntry, ShiftType, obj.Document_Date, "", False, IsDemandUploader)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
         Return True
     End Function
-    Public Shared Function createDairyBookingDoc(ByVal strDemandBookingNo As String, ByVal trans As SqlTransaction, ByVal isDemandBookingNewEntry As Boolean, ByVal UpdatedShiftType As String, ByVal strDocumentDate As Date, ByVal CustCode As String, ByVal isReset As Boolean)
+    Public Shared Function createDairyBookingDoc(ByVal strDemandBookingNo As String, ByVal trans As SqlTransaction, ByVal isDemandBookingNewEntry As Boolean, ByVal UpdatedShiftType As String, ByVal strDocumentDate As Date, ByVal CustCode As String, ByVal isReset As Boolean, ByVal IsDemandUploader As Boolean)
         Dim obj As New clsBookingEntryDairySale()
         Dim objTr As New clsBookingDetailDairySale()
         Try
@@ -618,7 +624,7 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
 
                         obj.TCSAmount = TCSAmount
                         obj.Total_Amt = DocuAmount + TCSAmount
-                        obj.SaveData(obj, True, trans, "")
+                        obj.SaveData(obj, True, trans, "", IsDemandUploader)
                         clsDBFuncationality.ExecuteNonQuery("update TSPL_BOOKING_DETAIL set DocumentAmount =" & DocuAmount & ", Total_Qty =" & totalQty & " where Document_No ='" & obj.Document_No & "' and Scheme_Item='N'", trans)
                         clsDBFuncationality.ExecuteNonQuery("update TSPL_BOOKING_MATSER set Created_Date ='" & clsCommon.GetPrintDate(clsCommon.myCDate(dr1("Document_Date")), "dd/MMM/yyyy hh:mm tt") & "',Created_By ='" & clsCommon.myCstr(dr1("Created_By")) & "' where Document_No ='" & obj.Document_No & "'", trans)
                     End If
@@ -635,7 +641,7 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
         Try
             Dim qry As String = ""
             Dim strDocDate As DateTime = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select Document_Date from TSPL_Demand_Booking_Master where  Document_No='" + DocNo + "'", trans))
-            createDairyBookingDoc(DocNo, trans, True, ShiftType, strDocDate, cust_code, True)
+            createDairyBookingDoc(DocNo, trans, True, ShiftType, strDocDate, cust_code, True, False)
             Dim strShift As String = ""
             If clsCommon.CompairString(ShiftType, "Morning") = CompairStringResult.Equal Then
                 strShift = "AM"
@@ -958,7 +964,7 @@ where 2=2 "
                     End If
                     If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandAll, clsFixedParameterCode.ApplyDemandAll, trans)) = 1 Then
 
-                        SaveData(obj, isNewEntry, trans)
+                        SaveData(obj, isNewEntry, False, trans)
                     ElseIf clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, trans)) = 1 Then
                         'For ii As Integer = 0 To obj.Arr.Count - 1
                         '    If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsReorder  from TSPL_CUSTOMER_MASTER where Cust_Code='" & obj.Arr(ii).Cust_Code & "'", trans)) = 0 Then
@@ -980,7 +986,7 @@ where 2=2 "
                             End If
                         Next
                         If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
-                            SaveData(obj, isNewEntry, trans)
+                            SaveData(obj, isNewEntry, False, trans)
                         End If
 
                         '                     If clsCommon.myLen(docno) > 0 Then

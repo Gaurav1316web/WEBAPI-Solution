@@ -75,7 +75,7 @@ where TSPL_Gate_Out.Doc_No='" + strDocNo + "'", trans)
         Dim str As String = ""
         Try
             Dim qry As String = " select TSpl_Gate_Out.Doc_No as [DocumentNo] ,TSpl_Gate_Out.Doc_Date as [Doc Date] ,TSpl_Gate_Out.Gate_Entry_No as [Gate Entry No] ,TSpl_Gate_Out.Weighment_No as [Weighment No] ,TSpl_Gate_Out.QC_No as [Qc No] ,TSpl_Gate_Out.Tanker_No as [Tanker No] ,TSpl_Gate_Out.Created_By as [Created By] ,TSpl_Gate_Out.Created_Date as [Created Date] ,TSpl_Gate_Out.Modify_By as [Modify By] ,TSpl_Gate_Out.Modify_Date as [Modify Date] ,TSpl_Gate_Out.comp_code as [Company Code] From TSpl_Gate_Out  left outer join Tspl_Gate_Entry_Details on Tspl_Gate_Entry_Details.Gate_Entry_No =TSpl_Gate_Out.Gate_Entry_No "
-            str = clsCommon.ShowSelectForm("GTOUT", qry, "DocumentNo", whrcls, curcode, "TSpl_Gate_Out.Doc_Date desc", isButtonClicked)
+            str = clsCommon.ShowSelectForm("GTOUT", qry, "DocumentNo", whrcls, curcode, "TSpl_Gate_Out.Doc_Date desc", isButtonClicked, "Doc_Date")
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
