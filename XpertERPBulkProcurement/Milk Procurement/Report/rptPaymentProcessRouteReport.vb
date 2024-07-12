@@ -2096,7 +2096,7 @@ left outer join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HE
             legerMainQuery += " ) as pp group by VSP_CODE,VLC_Code,PPNo 
 ) as PaymentProcess left join (  " + BaseQry + " ) Invoice on   PaymentProcess.vsp_code = Invoice.vsp_code And PaymentProcess.VLC_Code = Invoice.VLC_NO and PaymentProcess.PPNo = Invoice.DOCNO "
 
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                 legerMainQuery += " order by CAST(VLC_Code_VLC_Uploader AS int) asc"
             End If
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
