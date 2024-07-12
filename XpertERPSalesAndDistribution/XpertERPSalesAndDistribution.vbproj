@@ -406,6 +406,12 @@
     <Compile Include="Bulk Sale\Report\RptBulkSaleRegister.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Bulk Sale\Report\rptLockStatus.Designer.vb">
+      <DependentUpon>rptLockStatus.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Report\rptLockStatus.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Bulk Sale\Transaction\FrmBulkDispatchReturnSale.Designer.vb">
       <DependentUpon>FrmBulkDispatchReturnSale.vb</DependentUpon>
     </Compile>
@@ -1983,6 +1989,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Bulk Sale\Report\RptBulkSaleRegister.resx">
       <DependentUpon>RptBulkSaleRegister.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Sale\Report\rptLockStatus.resx">
+      <DependentUpon>rptLockStatus.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Bulk Sale\Transaction\FrmBulkDispatchReturnSale.resx">
       <DependentUpon>FrmBulkDispatchReturnSale.vb</DependentUpon>
