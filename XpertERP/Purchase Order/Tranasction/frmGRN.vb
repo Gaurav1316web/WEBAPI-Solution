@@ -3643,6 +3643,8 @@ Public Class frmGRN
         End If
         ''End of For GST Skip
 
+        'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Gate Received Note", IIf(clsCommon.myLen(txtShipToLocation.Value) <= 0, txtBillToLocation.Value, txtShipToLocation.Value), txtDate.Value, Nothing)
+
         'Check Slab
         If SettPurchaseSlabApplyRange Then
             Dim qry As String = "Select 1 from TSPL_VENDOR_MASTER where vendor_code='" + txtVendorNo.Value + "' and isnull(OEM,0)=1"
@@ -3671,7 +3673,13 @@ Public Class frmGRN
     End Function
 
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
-        SaveData(False)
+        Try
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Gate Received Note", IIf(clsCommon.myLen(txtShipToLocation.Value) <= 0, txtBillToLocation.Value, txtShipToLocation.Value), txtDate.Value, Nothing)
+            SaveData(False)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
     End Sub
 
     Sub SaveData(ByVal ChekPostBtn As Boolean, Optional ByVal isamendment As Boolean = False)
@@ -4855,7 +4863,14 @@ Public Class frmGRN
     End Sub
 
     Private Sub btnPost_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPost.Click
-        PostData()
+        Try
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Gate Received Note", IIf(clsCommon.myLen(txtShipToLocation.Value) <= 0, txtBillToLocation.Value, txtShipToLocation.Value), txtDate.Value, Nothing)
+
+            PostData()
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
     End Sub
 
     Sub PostData()
@@ -5302,6 +5317,8 @@ Public Class frmGRN
     Sub DeleteData()
         Try
             Dim Reason As String = ""
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Gate Received Note", IIf(clsCommon.myLen(txtShipToLocation.Value) <= 0, txtBillToLocation.Value, txtShipToLocation.Value), txtDate.Value, Nothing)
+
             If (myMessages.deleteConfirm()) Then
                 If clsCancelLog.CheckForReasonOnDelete() Then
                     '' REASON FOR DELETE 
