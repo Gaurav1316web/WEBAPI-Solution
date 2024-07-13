@@ -2324,6 +2324,7 @@ Public Class clsCreateAllTable
             coll.Add("BomBuildQty", "integer Null")
             coll.Add("Item_Sub_Group_Type", "varchar(50) NULL")
             coll.Add("Report_Name", "varchar(50) NULL")
+            coll.Add("AllowEntryInDecimal", "Integer null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()

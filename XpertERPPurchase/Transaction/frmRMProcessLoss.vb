@@ -549,9 +549,14 @@ Public Class frmRMProcessLoss
                 ProdQty += clsCommon.myCDecimal(Gv2.Rows(jj).Cells(colQtyProduction).Value)
             End If
         Next
-        AvgPer = PLAvg / ProdQty
-        txtCostofFeed.Text = Math.Round(AvgPer, 2)
-
+        If ProdQty > 0 Then
+            AvgPer = PLAvg / ProdQty
+            If AvgPer > 0 Then
+                txtCostofFeed.Text = Math.Round(AvgPer, 2)
+            Else
+                txtCostofFeed.Text = 0
+            End If
+        End If
 
         Dim code As String = ""
         Dim status1 As Integer = 0
@@ -929,6 +934,7 @@ Public Class frmRMProcessLoss
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Dim dt As DataTable = Nothing
         Dim dt1 As DataTable = Nothing
+        Dim PLPERC As Decimal
         Dim dt2 As DataTable = Nothing
         Dim arrpd As New List(Of String)
         Dim arr As New List(Of String)
@@ -951,9 +957,10 @@ Public Class frmRMProcessLoss
             Next
             If PLAvg > 0 AndAlso status > 0 Then
                 AvgPer = PLAvg / status
+                PLPERC = Math.Round(AvgPer, 2)
             End If
             Dim frmCRV As New frmCrystalReportViewer()
-            Dim qry As String = "select '" + txtCostofFeed.Text + "' as CostOfRM,'" + clsCommon.myCstr(AvgPer) + "' as AvgPer,left(tspl_rm_process_loss_detail.item_code,2) as itemtype,from_date,to_Date,location,tspl_rm_process_loss.document_code,document_date,tspl_rm_process_loss_detail.item_code,item_desc,tspl_rm_process_loss_detail.uom,op_qty,op_cost,rec_qty,rec_cost,cl_qty,cl_cost,issprod_qty,issprod_cost,otheriss_qty,otherIss_cost,stktrns_qty,stktrns_cost,pl_qty,pl_per,tspl_rm_process_loss_detail.rate,fnlstk_qty from tspl_rm_process_loss_detail
+            Dim qry As String = "select '" + txtCostofFeed.Text + "' as CostOfRM,'" + clsCommon.myCstr(PLPERC) + "' as AvgPer,left(tspl_rm_process_loss_detail.item_code,2) as itemtype,from_date,to_Date,location,tspl_rm_process_loss.document_code,document_date,tspl_rm_process_loss_detail.item_code,item_desc,tspl_rm_process_loss_detail.uom,op_qty,op_cost,rec_qty,rec_cost,cl_qty,cl_cost,issprod_qty,issprod_cost,otheriss_qty,otherIss_cost,stktrns_qty,stktrns_cost,pl_qty,pl_per,tspl_rm_process_loss_detail.rate,fnlstk_qty from tspl_rm_process_loss_detail
             left outer join tspl_rm_process_loss on tspl_rm_process_loss.document_code=tspl_rm_process_loss_detail.document_code
             left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=tspl_rm_process_loss_detail.item_code where tspl_rm_process_loss.document_code='" + txtDocNo.Value + "' and tspl_rm_process_loss_detail.uom<>'NOS'"
             dt = clsDBFuncationality.GetDataTable(qry)

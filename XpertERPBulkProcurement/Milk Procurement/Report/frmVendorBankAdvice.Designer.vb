@@ -22,7 +22,7 @@ Partial Class frmVendorBankAdvice
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -62,6 +62,7 @@ Partial Class frmVendorBankAdvice
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.Gv1 = New common.UserControls.MyRadGridView()
+        Me.btnExportBankWise = New Telerik.WinControls.UI.RadButton()
         Me.btnPrintSWM = New Telerik.WinControls.UI.RadButton()
         Me.btnExp = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
@@ -71,7 +72,7 @@ Partial Class frmVendorBankAdvice
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.btnExportBankWise = New Telerik.WinControls.UI.RadButton()
+        Me.btnBankSummary = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -106,12 +107,13 @@ Partial Class frmVendorBankAdvice
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnExportBankWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintSWM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnExportBankWise, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnBankSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -154,6 +156,7 @@ Partial Class frmVendorBankAdvice
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnBankSummary)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnExportBankWise)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintSWM)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnExp)
@@ -659,13 +662,24 @@ Partial Class frmVendorBankAdvice
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(794, 278)
         Me.Gv1.TabIndex = 0
+        '
+        'btnExportBankWise
+        '
+        Me.btnExportBankWise.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnExportBankWise.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnExportBankWise.Location = New System.Drawing.Point(340, 15)
+        Me.btnExportBankWise.Name = "btnExportBankWise"
+        Me.btnExportBankWise.Size = New System.Drawing.Size(107, 22)
+        Me.btnExportBankWise.TabIndex = 159
+        Me.btnExportBankWise.Text = "Export Bank Wise"
+        Me.btnExportBankWise.Visible = False
         '
         'btnPrintSWM
         '
@@ -738,16 +752,16 @@ Partial Class frmVendorBankAdvice
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'btnExportBankWise
+        'btnBankSummary
         '
-        Me.btnExportBankWise.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnExportBankWise.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnExportBankWise.Location = New System.Drawing.Point(340, 15)
-        Me.btnExportBankWise.Name = "btnExportBankWise"
-        Me.btnExportBankWise.Size = New System.Drawing.Size(107, 22)
-        Me.btnExportBankWise.TabIndex = 159
-        Me.btnExportBankWise.Text = "Export Bank Wise"
-        Me.btnExportBankWise.Visible = False
+        Me.btnBankSummary.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnBankSummary.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnBankSummary.Location = New System.Drawing.Point(453, 15)
+        Me.btnBankSummary.Name = "btnBankSummary"
+        Me.btnBankSummary.Size = New System.Drawing.Size(71, 22)
+        Me.btnBankSummary.TabIndex = 159
+        Me.btnBankSummary.Text = "Print"
+        Me.btnBankSummary.Visible = False
         '
         'frmVendorBankAdvice
         '
@@ -798,12 +812,13 @@ Partial Class frmVendorBankAdvice
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnExportBankWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintSWM, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnExportBankWise, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnBankSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -858,5 +873,6 @@ Partial Class frmVendorBankAdvice
     Friend WithEvents MyLabel7 As common.Controls.MyLabel
     Friend WithEvents rbtnSavingSummary As common.Controls.MyRadioButton
     Friend WithEvents btnExportBankWise As RadButton
+    Friend WithEvents btnBankSummary As RadButton
 End Class
 
