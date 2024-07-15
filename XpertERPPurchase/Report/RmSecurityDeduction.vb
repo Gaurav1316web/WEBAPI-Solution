@@ -6,7 +6,14 @@ Imports System.IO
 Public Class RmSecurityDeduction
 
     Private Sub txtVendor__My_Click(sender As Object, e As EventArgs) Handles txtVendor._My_Click
-        Dim qry As String = " select Vendor_Code as Code,Vendor_name as Name from TSPL_VENDOR_master  WHERE  Status='N'  "
+        Dim qry As String = " select distinct TSPL_VENDOR_MASTER.Vendor_Code as Code,TSPL_VENDOR_MASTER.Vendor_name as Name from TSPL_VENDOR_MASTER 
+									 left join TSPL_PI_HEAD on TSPL_PI_HEAD.Vendor_Code=TSPL_VENDOR_MASTER.Vendor_Code "
+        'WHERE  Status='N'  "
+        If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+            qry += " where Bill_To_Location in (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
+            qry += " group by TSPL_VENDOR_MASTER.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_name "
+        End If
+
         txtVendor.arrValueMember = clsCommon.ShowMultipleSelectForm("VenMulSel", qry, "Code", "Code", txtVendor.arrValueMember, txtVendor.arrDispalyMember)
     End Sub
 
@@ -19,7 +26,12 @@ Public Class RmSecurityDeduction
         txtLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("LocMulSel", qry, "Code", "Code", txtLocation.arrValueMember, txtLocation.arrDispalyMember)
     End Sub
     Private Sub TxtMultiSelectFinder1__My_Click_1(sender As Object, e As EventArgs) Handles TxtMultiSelectFinder1._My_Click
-        Dim qry As String = " select DocumentCode as Ral from tspl_tender_header  "
+        Dim qry As String = "  select distinct tspl_tender_header.DocumentCode as Ral from tspl_tender_header  
+										  left join TSPL_TENDER_DETAIL on TSPL_TENDER_DETAIL.DocumentCode=tspl_tender_header.DocumentCode "
+        If txtVendor.arrValueMember IsNot Nothing AndAlso txtVendor.arrValueMember.Count > 0 Then
+            qry += "  where Vendor_Code in (" + clsCommon.GetMulcallString(txtVendor.arrValueMember) + ")"
+        End If
+
         TxtMultiSelectFinder1.arrValueMember = clsCommon.ShowMultipleSelectForm("VenMulSel", qry, "Ral", "Ral", TxtMultiSelectFinder1.arrValueMember, TxtMultiSelectFinder1.arrDispalyMember)
     End Sub
 
@@ -128,13 +140,13 @@ Public Class RmSecurityDeduction
             PageSetupReport_ID = MyBase.Form_ID
             TemplateGridview = gv1
 
-            Dim strqry As String = " select Location,TSPL_PI_HEAD.Ref_No,TSPL_PI_HEAD.PI_No,TSPL_PI_HEAD.PI_Date,Vendor_Code,TSPL_PI_DETAIL.Item_Code,SUM(TSPL_SRN_DEDUCTION_SECURITY.Ded_Amt) AS SECURITY_AMT from TSPL_PI_HEAD
+            Dim strqry As String = " select Location,TSPL_PI_HEAD.Ref_No as Tendor,TSPL_PI_HEAD.PI_No,TSPL_PI_HEAD.PI_Date,Vendor_Code,Vendor_name,TSPL_PI_DETAIL.Item_Code,Item_Desc as Item_name,SUM(TSPL_SRN_DEDUCTION_SECURITY.Ded_Amt) AS SECURITY_AMT from TSPL_PI_HEAD
                                      left outer join TSPL_PI_DETAIL on TSPL_PI_DETAIL.PI_No=TSPL_PI_HEAD.PI_No
                                      left outer join TSPL_SRN_TENDER_CALC on TSPL_SRN_TENDER_CALC.SRN_No=TSPL_PI_DETAIL.SRN_Id
                                      left outer join TSPL_SRN_DEDUCTION_SECURITY on TSPL_SRN_DEDUCTION_SECURITY.SRN_No=TSPL_PI_DETAIL.SRN_Id
                                      where 2=2 "
             If txtVendor.arrValueMember IsNot Nothing AndAlso txtVendor.arrValueMember.Count > 0 Then
-                strqry += " and TSPL_VENDOR_MASTER.Vendor_Code in (" + clsCommon.GetMulcallString(txtVendor.arrValueMember) + ")"
+                strqry += " and TSPL_PI_HEAD.Vendor_Code in (" + clsCommon.GetMulcallString(txtVendor.arrValueMember) + ")"
             End If
             If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
                 strqry += " and TSPL_PI_DETAIL.Location in (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
@@ -142,8 +154,8 @@ Public Class RmSecurityDeduction
             If TxtMultiSelectFinder1.arrValueMember IsNot Nothing AndAlso TxtMultiSelectFinder1.arrValueMember.Count > 0 Then
                 strqry += " and TSPL_PI_HEAD.Ref_No in (" + clsCommon.GetMulcallString(TxtMultiSelectFinder1.arrValueMember) + ")"
             End If
-            strqry += " and CONVERT(DATE,TSPL_PI_HEAD.PI_Date,103)>=CONVERT(DATE,'01/04/2022',103) AND CONVERT(DATE,TSPL_PI_HEAD.PI_Date,103)<=CONVERT(DATE,'31/05/2024',103)
-                                     GROUP BY Location,TSPL_PI_HEAD.Ref_No,TSPL_PI_HEAD.PI_Date,TSPL_PI_HEAD.PI_No,Vendor_Code,TSPL_PI_DETAIL.Item_Code
+            strqry += " and CONVERT(DATE,TSPL_PI_HEAD.PI_Date,103)>= convert(date,('" + txtFromDate.Value + "'),103) AND CONVERT(DATE,TSPL_PI_HEAD.PI_Date,103)<= convert(date,('" + txtToDate.Value + "'),103)
+                                     GROUP BY Location,TSPL_PI_HEAD.Ref_No,TSPL_PI_HEAD.PI_Date,TSPL_PI_HEAD.PI_No,Vendor_Code,Vendor_name,TSPL_PI_DETAIL.Item_Code,Item_Desc
                                      ORDER BY Location,TSPL_PI_HEAD.Ref_No,TSPL_PI_HEAD.PI_Date,TSPL_PI_HEAD.PI_No,Vendor_Code,TSPL_PI_DETAIL.Item_Code "
 
 
@@ -234,14 +246,14 @@ Public Class RmSecurityDeduction
         Dim qry As String = " "
 
         Try
-            qry = " select Location,Location_Desc,Add1,Add2,Add3,TSPL_PI_HEAD.Ref_No,TSPL_PI_HEAD.PI_No,TSPL_PI_HEAD.PI_Date,TSPL_PI_HEAD.Vendor_Code,TSPL_PI_DETAIL.Item_Code,SUM(TSPL_SRN_DEDUCTION_SECURITY.Ded_Amt) AS SECURITY_AMT from TSPL_PI_HEAD
+            qry = " select  convert(date,('" + txtFromDate.Value + "'),103) as from_date, convert(date,('" + txtToDate.Value + "'),103) as To_date,Location,Location_Desc,Add1,Add2,Add3,TSPL_PI_HEAD.Ref_No,TSPL_PI_HEAD.PI_No,TSPL_PI_HEAD.PI_Date,TSPL_PI_HEAD.Vendor_Code,Vendor_Name,TSPL_PI_DETAIL.Item_Code,Item_Desc,SUM(TSPL_SRN_DEDUCTION_SECURITY.Ded_Amt) AS SECURITY_AMT from TSPL_PI_HEAD
                                      left outer join TSPL_PI_DETAIL on TSPL_PI_DETAIL.PI_No=TSPL_PI_HEAD.PI_No
                                      left outer join TSPL_SRN_TENDER_CALC on TSPL_SRN_TENDER_CALC.SRN_No=TSPL_PI_DETAIL.SRN_Id
                                      left outer join TSPL_SRN_DEDUCTION_SECURITY on TSPL_SRN_DEDUCTION_SECURITY.SRN_No=TSPL_PI_DETAIL.SRN_Id
                                      left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_PI_HEAD.Bill_To_Location
                                      where 2=2 "
             If txtVendor.arrValueMember IsNot Nothing AndAlso txtVendor.arrValueMember.Count > 0 Then
-                qry += " and TSPL_VENDOR_MASTER.Vendor_Code in (" + clsCommon.GetMulcallString(txtVendor.arrValueMember) + ")"
+                qry += " and TSPL_PI_HEAD.Vendor_Code in (" + clsCommon.GetMulcallString(txtVendor.arrValueMember) + ")"
             End If
             If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
                 qry += " and TSPL_PI_DETAIL.Location in (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
@@ -249,8 +261,8 @@ Public Class RmSecurityDeduction
             If TxtMultiSelectFinder1.arrValueMember IsNot Nothing AndAlso TxtMultiSelectFinder1.arrValueMember.Count > 0 Then
                 qry += " and TSPL_PI_HEAD.Ref_No in (" + clsCommon.GetMulcallString(TxtMultiSelectFinder1.arrValueMember) + ")"
             End If
-            qry += " and CONVERT(DATE,TSPL_PI_HEAD.PI_Date,103)>=CONVERT(DATE,'01/04/2022',103) AND CONVERT(DATE,TSPL_PI_HEAD.PI_Date,103)<=CONVERT(DATE,'31/05/2024',103)
-                                     GROUP BY Location,TSPL_PI_HEAD.Ref_No,TSPL_PI_HEAD.PI_Date,TSPL_PI_HEAD.PI_No,TSPL_PI_HEAD.Vendor_Code,TSPL_PI_DETAIL.Item_Code,Location_Desc,Add1,Add2,Add3
+            qry += " and CONVERT(DATE,TSPL_PI_HEAD.PI_Date,103)>= convert(date,('" + txtFromDate.Value + "'),103) AND CONVERT(DATE,TSPL_PI_HEAD.PI_Date,103)<= convert(date,('" + txtToDate.Value + "'),103)
+                                     GROUP BY Location,TSPL_PI_HEAD.Ref_No,TSPL_PI_HEAD.PI_Date,TSPL_PI_HEAD.PI_No,TSPL_PI_HEAD.Vendor_Code,Vendor_Name,TSPL_PI_DETAIL.Item_Code,Item_Desc,Location_Desc,Add1,Add2,Add3
                                      ORDER BY Location,TSPL_PI_HEAD.Ref_No,TSPL_PI_HEAD.PI_Date,TSPL_PI_HEAD.PI_No,TSPL_PI_HEAD.Vendor_Code,TSPL_PI_DETAIL.Item_Code "
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
