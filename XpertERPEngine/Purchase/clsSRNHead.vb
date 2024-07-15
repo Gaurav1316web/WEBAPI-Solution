@@ -217,6 +217,7 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
             Dim Doc_Type As String = Nothing
 
             Dim obj As clsSRNHead = clsSRNHead.GetData(Doc_No, NavigatorType.Current, trans, Document_Type)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Store Receipt Note", IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location), obj.SRN_Date, trans)
             If obj Is Nothing OrElse clsCommon.myLen(obj.SRN_No) <= 0 Then
                 Throw New Exception("Document- " & Doc_No & " not found")
             End If
@@ -276,6 +277,8 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
         Return True
     End Function
     '=======================================
+
+
     Public Function SaveData(ByVal obj As clsSRNHead, ByVal isNewEntry As Boolean) As Boolean
         ShowItemAllStructureWise = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, Nothing)) = "1", True, False))
 
@@ -1203,11 +1206,14 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
                 Throw New Exception("SRN No not found to Post")
             End If
             Dim obj As clsSRNHead = clsSRNHead.GetData(strDocNo, NavigatorType.Current, trans)
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Store Receipt Note", IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location), obj.SRN_Date, trans)
 
             If (obj Is Nothing OrElse clsCommon.myLen(obj.SRN_No) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase", "Store receipt Note", obj.Bill_To_Location, obj.SRN_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnSRN, obj.Ship_To_Location, obj.SRN_Date, trans)
+
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase", "Store receipt Note", obj.Bill_To_Location, obj.SRN_Date, trans)
             If (obj.Status = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
             End If
@@ -2470,7 +2476,8 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
 
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.SRN_No) > 0) Then
             Try
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase", "Store receipt Note", obj.Bill_To_Location, obj.SRN_Date, trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Store Receipt Note", IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location), obj.SRN_Date, trans)
+                'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase", "Store receipt Note", obj.Bill_To_Location, obj.SRN_Date, trans)
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
                 End If

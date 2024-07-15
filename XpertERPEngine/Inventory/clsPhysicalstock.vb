@@ -65,7 +65,7 @@ Public Class clsPhysicalstock
         qry += "left outer join tspl_location_master on tspl_location_master.location_code=TSPL_PHYSICAL_STOCK.location group by TSPL_PHYSICAL_STOCK.physical_no ) xx "
 
         Dim str As String = ""
-        str = clsCommon.ShowSelectForm("PHYDOCFND", qry, "Code", whrCls, strCurrCode, "Code", isButtonClicked)
+        str = clsCommon.ShowSelectForm("PHYDOCFND", qry, "Code", whrCls, strCurrCode, "Code", isButtonClicked, "Date")
 
         Return str
     End Function
@@ -98,6 +98,7 @@ Public Class clsPhysicalstock
                         physicalNo = "PHYSTK0000000000000000001"
                     End If
                 End If
+
                 If Not isNewEntry Then
                     clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, physicalNo, "tspl_physical_stock", "Physical_No", "TSPL_ADJUSTMENT_HEADER", "against_physical_stock_no", trans)
                 End If
@@ -113,6 +114,7 @@ Public Class clsPhysicalstock
                 For Each obj As clsPhysicalstock In obj1.Arr
                     Dim coll As New Hashtable()
                     Dim Entrydate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt")
+                    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Empty Transactions", obj.Main_Location, obj.Stock_Date, trans)
 
                     If isNewEntry Then
                         obj.Physical_No = physicalNo
@@ -177,6 +179,7 @@ Public Class clsPhysicalstock
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows
                     Dim VoucherNo As String = clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code in('IC-AD', 'GL-JE') and Source_Doc_No='" + clsCommon.myCstr(dr("adjustment_no")) + "'", tran)
+
                     If clsCommon.myLen(VoucherNo) > 0 Then
                         clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, VoucherNo, "TSPL_JOURNAL_MASTER", "Voucher_No", "TSPL_JOURNAL_DETAILS", "Voucher_No", tran)
                         qry = "delete from TSPL_JOURNAL_DETAILS where Voucher_No ='" + VoucherNo + "'"
@@ -184,7 +187,11 @@ Public Class clsPhysicalstock
                         qry = "delete from TSPL_JOURNAL_MASTER where Voucher_No ='" + VoucherNo + "'"
                         clsDBFuncationality.ExecuteNonQuery(qry, tran)
                     End If
+                    Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select Location ,Stock_Date from  tspl_physical_stock where physical_no='" + strDocNo + "'", tran)
+                    If dts IsNot Nothing AndAlso dts.Rows.Count > 0 Then
 
+                        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Empty Transactions", clsCommon.myCstr(dts.Rows(0)("Location")), clsCommon.myCDate(dts.Rows(0)("Stock_Date")), tran)
+                    End If
                     qry = "update TSPL_BATCH_ITEM set Against_Inv_Movement_Trans_Id=null where Against_Inv_Movement_Trans_Id in (select Trans_Id from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" + clsCommon.myCstr(dr("adjustment_no")) + "' and Trans_Type='IC-AD')"
                     clsDBFuncationality.ExecuteNonQuery(qry, tran)
                     qry = " update TSPL_BATCH_ITEM_New set Against_Inv_Movement_New_Trans_Id=null where Against_Inv_Movement_New_Trans_Id in (select Trans_Id from TSPL_INVENTORY_MOVEMENT_NEW where Source_Doc_No='" + clsCommon.myCstr(dr("adjustment_no")) + "' and Trans_Type='IC-AD') "
@@ -275,15 +282,17 @@ Public Class clsPhysicalstock
             Dim strPostDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt")
             Dim arr As New List(Of clsPhysicalstock)
             arr = clsPhysicalstock.GetData(strDocNo, location, sublocation, is_Milk, NavigatorType.Current, trans, "")
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Empty Transactions", "Main_Location", "Stock_Date", trans)
+
             For Each obj As clsPhysicalstock In arr
                 If (arr Is Nothing OrElse clsCommon.myLen(obj.Physical_No) <= 0) Then
-                    Throw New Exception("No Data found to Post")
+                    Throw New Exception("No Data found To Post")
                 End If
                 If (isCheckForPosted AndAlso obj.Is_Posted = 1) Then
                     Throw New Exception("Already Posted ")
                 End If
 
-                qry = "Update TSPL_PHYSICAL_STOCK set Is_Posted=1, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Physical_No ='" + strDocNo + "'"
+                qry = "Update TSPL_PHYSICAL_STOCK Set Is_Posted=1, Posted_Date ='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Physical_No ='" + strDocNo + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "tspl_physical_stock", "Physical_No", trans)
                 Exit For
@@ -948,8 +957,17 @@ Public Class clsPhysicalstock
             If (clsCommon.myLen(strDocNo) <= 0) Then
                 Throw New Exception("Code not found to Post")
             End If
+            Dim arr As New List(Of clsPhysicalstock)
+
+            'arr = clsPhysicalstock.GetData("Physical_no", t.Value, txtsubLoc.Value, chkMilk.Checked, NavType, dtpdate.Value.ToString())
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "tspl_physical_stock", "Physical_No", tran)
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(" select Location ,Stock_Date from  tspl_physical_stock where physical_no='" + strDocNo + "'", tran)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Empty Transactions", clsCommon.myCstr(dt.Rows(0)("Location")), clsCommon.myCDate(dt.Rows(0)("Stock_Date")), tran)
+            End If
             clsDBFuncationality.ExecuteNonQuery("delete from tspl_physical_stock where physical_no='" + strDocNo + "'", tran)
+
             clsBatchInventory.DeleteData("PH-ST", strDocNo, tran)
             tran.Commit()
         Catch ex As Exception
