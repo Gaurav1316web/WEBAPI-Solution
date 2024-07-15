@@ -199,6 +199,7 @@ Public Class clsMilkSRNMCC
 
 
                 objtr.Head_Load_Rate = clsCommon.myCDecimal(dr("Head_Load_Rate"))
+                objtr.Head_Load_Cycle = clsCommon.myCDecimal(dr("Head_Load_Cycle"))
                 objtr.Own_Asset_Rate = clsCommon.myCDecimal(dr("Own_Asset_Rate"))
                 objtr.Head_Load_Type = clsCommon.myCDecimal(dr("Head_Load_Type"))
                 objtr.Own_Asset_Type = clsCommon.myCDecimal(dr("Own_Asset_Type"))
@@ -1170,7 +1171,8 @@ Public Class clsMilkSRNMCC
             Dim objHeadLoad As New clsHeadLoadDCS()
             objHeadLoad = clsHeadLoadDCS.GetDcsData(objHead.VLC_CODE, objHead.DOC_DATE, Trans)
             clsMilkSRNMCC.ObjList(0).Head_Load_Rate = clsCommon.myCDecimal(objHeadLoad.Head_Load_Rate)
-
+            clsMilkSRNMCC.ObjList(0).Head_Load_Type = clsCommon.myCstr(objHeadLoad.Head_Load_Basis)
+            clsMilkSRNMCC.ObjList(0).Head_Load_Cycle = 0
             clsMilkSRNMCC.ObjList(0).Head_Load_Amount = 0
             If clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "K") = CompairStringResult.Equal Then
                 If clsMilkSRNMCC.ObjList(0).ACC_Qty >= MinimumQtyForHeadLoad Then
@@ -1180,8 +1182,14 @@ Public Class clsMilkSRNMCC
                 If clsMilkSRNMCC.ObjList(0).ACC_Qty_LTR >= MinimumQtyForHeadLoad Then
                     clsMilkSRNMCC.ObjList(0).Head_Load_Amount = Math.Round(clsMilkSRNMCC.ObjList(0).ACC_Qty_LTR * objHeadLoad.Head_Load_Rate * dclDistanceKM, 2)
                 End If
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CK") = CompairStringResult.Equal Then
+                clsMilkSRNMCC.ObjList(0).Head_Load_Cycle = Math.Ceiling(clsCommon.myCDivide(clsMilkSRNMCC.ObjList(0).ACC_Qty, objHeadLoad.Cycle_Frequency))
+                clsMilkSRNMCC.ObjList(0).Head_Load_Amount = Math.Round(clsMilkSRNMCC.ObjList(0).Head_Load_Cycle * objHeadLoad.Head_Load_Rate, 2)
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CL") = CompairStringResult.Equal Then
+                clsMilkSRNMCC.ObjList(0).Head_Load_Cycle = Math.Ceiling(clsCommon.myCDivide(clsMilkSRNMCC.ObjList(0).ACC_Qty_LTR, objHeadLoad.Cycle_Frequency))
+                clsMilkSRNMCC.ObjList(0).Head_Load_Amount = Math.Round(clsMilkSRNMCC.ObjList(0).Head_Load_Cycle * objHeadLoad.Head_Load_Rate, 2)
             End If
-            clsMilkSRNMCC.ObjList(0).Head_Load_Type = clsCommon.myCstr(objHeadLoad.Head_Load_Basis)
+
             '============================================
             '==================Own Asset==========================
             If clsCommon.CompairString(clsCommon.myCstr(DtMilkReceipt.Rows(0)("Service_Basis_Own_Asset")), "K") = CompairStringResult.Equal Then
@@ -1380,6 +1388,7 @@ Public Class clsMilkSRNMCCDetail
     Public Own_Asset_Rate As Decimal = 0
     Public Head_Load_Amount As Decimal = 0
     Public Own_Asset_Amount As Decimal = 0
+    Public Head_Load_Cycle As Integer = 0
     Public Head_Load_Type As String
     Public Own_Asset_Type As String
     Public Std_Qty As Decimal
@@ -1463,7 +1472,7 @@ Public Class clsMilkSRNMCCDetail
 
                 clsCommon.AddColumnsForChange(coll, "Head_Load_Rate", obj.Head_Load_Rate)
                 clsCommon.AddColumnsForChange(coll, "Head_Load_Amount", obj.Head_Load_Amount)
-
+                clsCommon.AddColumnsForChange(coll, "Head_Load_Cycle", obj.Head_Load_Cycle)
 
                 clsCommon.AddColumnsForChange(coll, "Own_Asset_Amount", obj.Own_Asset_Amount)
 

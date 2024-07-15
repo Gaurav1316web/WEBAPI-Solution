@@ -18,6 +18,7 @@ Public Class rptEmployeeDeductionMasterReport
         Gv1.DataSource = Nothing
         Gv1.Rows.Clear()
         Gv1.Refresh()
+        listDeduction.Text = "All"
         RadPageView1.SelectedPage = RadPageViewPage1
     End Sub
 
@@ -81,7 +82,7 @@ Public Class rptEmployeeDeductionMasterReport
                     Gv1.ReadOnly = True
                     Gv1.EnableFiltering = True
                     Gv1.EnableGrouping = True
-                    'View()
+                    SetGroup()
                     Gv1.BestFitColumns()
                     RadPageView1.SelectedPage = RadPageViewPage2
                 End If
@@ -92,9 +93,42 @@ Public Class rptEmployeeDeductionMasterReport
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    Sub View()
+    Sub SetGroup()
         If Gv1 IsNot Nothing AndAlso Gv1.Rows.Count > 0 Then
+            If clsCommon.CompairString(listDeduction.Text, "All") = CompairStringResult.Equal Then
+                Dim view As New ColumnGroupsViewDefinition()
+                view.ColumnGroups.Add(New GridViewColumnGroup(" "))
+                view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
 
+                view.ColumnGroups.Add(New GridViewColumnGroup("Employee"))
+                View.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("Emp. Code").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("Emp. Name").Name)
+
+
+                view.ColumnGroups.Add(New GridViewColumnGroup("LIC"))
+                view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("LIC Policy No").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("LIC Premium Amt.").Name)
+
+                view.ColumnGroups.Add(New GridViewColumnGroup("Bank"))
+                view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("Bank Account No").Name)
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("Bank Instalment").Name)
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("Bank Name").Name)
+
+                view.ColumnGroups.Add(New GridViewColumnGroup("Quarter"))
+                view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("Quarter Type").Name)
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("Quarter Alloted Date").Name)
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("Quarter Left Date").Name)
+
+                view.ColumnGroups.Add(New GridViewColumnGroup("KKK"))
+                view.ColumnGroups(5).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(5).Rows(0).ColumnNames.Add(Gv1.Columns("KKK Instalment").Name)
+                view.ColumnGroups(5).Rows(0).ColumnNames.Add(Gv1.Columns("KKK Total Loan").Name)
+                Gv1.ViewDefinition = view
+            End If
         End If
     End Sub
     Sub SetSummaryRow()

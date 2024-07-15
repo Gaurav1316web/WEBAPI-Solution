@@ -716,9 +716,6 @@ Public Class FrmTransferKDIL
         repoRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoRate)
 
-
-
-
         Dim repoOutQty As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoOutQty = New GridViewDecimalColumn()
         repoOutQty.FormatString = ""
@@ -2661,8 +2658,8 @@ Public Class FrmTransferKDIL
             fndPriceCode.Visible = True
         Else
             GatePassPanel.Visible = False
-            lblpricecode.Visible = False
-            fndPriceCode.Visible = False
+            lblpricecode.Visible = True
+            fndPriceCode.Visible = True
         End If
 
         FndGatePassNo.Value = ""
@@ -2757,6 +2754,9 @@ Public Class FrmTransferKDIL
                 If clsCommon.myCDate(txtDate.Value, "dd/MMM/yyyy") < clsCommon.myCDate(clsDBFuncationality.getSingleValue(Qry), "dd/MMM/yyyy") Then
                     Throw New Exception("Transfer In Date can't be less than transferout Date")
                 End If
+            End If
+            If clsCommon.myLen(fndPriceCode.Value) <= 0 Then
+                Throw New Exception("Please select Price Code")
             End If
             '=====================Added by preeti Gupta==================
             If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
@@ -5977,8 +5977,8 @@ Public Class FrmTransferKDIL
                     FndGatePassNo.Value = ""
                     fndPriceCode.Value = ""
                     GatePassPanel.Visible = False
-                    lblpricecode.Visible = False
-                    fndPriceCode.Visible = False
+                    lblpricecode.Visible = True
+                    fndPriceCode.Visible = True
                 End If
                 LoadGPItemType()
                 ''-------------
@@ -6014,8 +6014,8 @@ Public Class FrmTransferKDIL
                     FndGatePassNo.Value = ""
                     fndPriceCode.Value = ""
                     GatePassPanel.Visible = False
-                    lblpricecode.Visible = False
-                    fndPriceCode.Visible = False
+                    lblpricecode.Visible = True
+                    fndPriceCode.Visible = True
                     LoadBlankGrid()
                 End If
                 LoadGPItemType()
@@ -6050,8 +6050,8 @@ Public Class FrmTransferKDIL
                     FndGatePassNo.Value = ""
                     fndPriceCode.Value = ""
                     GatePassPanel.Visible = False
-                    lblpricecode.Visible = False
-                    fndPriceCode.Visible = False
+                    lblpricecode.Visible = True
+                    fndPriceCode.Visible = True
                     LoadBlankGrid()
                 End If
                 LoadGPItemType()
@@ -6059,7 +6059,6 @@ Public Class FrmTransferKDIL
             End If
         End If
     End Sub
-
     Private Sub rbtnTaxCalAutomatic_ToggleStateChanged(ByVal sender As System.Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles rbtnTaxCalAutomatic.ToggleStateChanged, rbtnTaxCalManual.ToggleStateChanged
         If Not isInsideLoadData Then
             If rbtnTaxCalAutomatic.IsChecked Then
@@ -6159,51 +6158,9 @@ Public Class FrmTransferKDIL
                 Dim BitmapConverter As System.ComponentModel.TypeConverter = System.ComponentModel.TypeDescriptor.GetConverter(clsCommon.MyBarcodeImage(txtDocNo.Value, 1, False).[GetType]())
                 bytes = DirectCast(BitmapConverter.ConvertTo(clsCommon.MyBarcodeImage(txtDocNo.Value, 1, False), GetType(Byte())), Byte())
 
-                'Dim strQuery As String
-                strQuery = "select tspl_item_master.hsn_code,tspl_location_master.GSTNo,TSPL_LOCATION_MASTER_1.GSTNo as To_Location_GSTNo,TSPL_TRANSFER_ORDER_HEAD.Remarks ,tspl_location_master.HOAdd1 ,TSPL_LOCATION_MASTER .HOAdd2,TSPL_TRANSFER_ORDER_HEAD.GR_No,TSPL_TRANSFER_ORDER_HEAD.document_type ,convert(varchar,TSPL_TRANSFER_ORDER_HEAD.GR_Date,103) as GR_Date,TSPL_TRANSFER_ORDER_HEAD.Transport_Id ,ISNULL(TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual,'') AS Transporter_Name_Manual,TSPL_TRANSFER_ORDER_HEAD.WayBill_No ,convert(varchar,TSPL_TRANSFER_ORDER_HEAD.WayBill_Date,103) as WayBill_Date,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Mannual_No,tspl_location_master_For_Location.City_Code as Location_City_Name, coalesce(cast(convert(decimal(18,0),(TSPL_TRANSFER_ORDER_DETAIL.Out_Qty * tspl_item_uom_detail.conversion_factor)/alt_convrsn.conversion_factor) as varchar)+' '+TSPL_TRANSFER_ORDER_DETAIL.Alt_Unit_Code,'') as Alt_Unit_Code,TSPL_TRANSPORT_MASTER.Transporter_Name,(case when TSPL_TRANSFER_ORDER_HEAD.Is_AgainstFormF=1 then 'Against F-Form Due' else '' end) as Is_AgainstFormF,TSPL_TRANSFER_ORDER_HEAD.Document_No  as[STN_NO] , tspl_transfer_order_head.Document_Date as [Date_N_Time_issue],"
-                strQuery += "  TSPL_TRANSFER_ORDER_HEAD.Discount_Amt  as Discount , TSPL_TRANSFER_ORDER_DETAIL .Document_No as ref_doc_no ,"
-                strQuery += " TSPL_TRANSFER_ORDER_HEAD.From_Location, TSPL_TRANSFER_ORDER_HEAD.To_Location ,TSPL_TRANSFER_ORDER_HEAD.Vehicle_No,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Mannual_No,TSPL_TRANSFER_ORDER_DETAIL.item_code,TSPL_TRANSFER_ORDER_DETAIL.mrp,TSPL_TRANSFER_ORDER_DETAIL.Item_Desc ,"
-                strQuery += " TSPL_TRANSFER_ORDER_DETAIL.Item_Cost AS Item_Cost,  TSPL_TRANSFER_ORDER_DETAIL.Out_Qty as Quantity ,TSPL_TRANSFER_ORDER_DETAIL.Unit_code as UOM1,"
-                strQuery += " TSPL_LOCATION_MASTER.Location_Code as From_Location_Code,  TSPL_LOCATION_MASTER.Location_Desc as From_Location_Dec,TSPL_LOCATION_MASTER.Add1 as From_Location_Add1 ,"
-                strQuery += " TSPL_LOCATION_MASTER.Add2 as From_Location_Add2 , TSPL_LOCATION_MASTER.Add3 as From_Location_Add3,TSPL_LOCATION_MASTER.Add4  as From_Location_Add4,TSPL_LOCATION_MASTER.City_Code as From_Location_City_Code , "
-                strQuery += " TSPL_STATE_MASTER.STATE_NAME  as From_Location_State,TSPL_LOCATION_MASTER.Pin_Code as From_Location_Pin_Code ,TSPL_LOCATION_MASTER.Country as From_Location_Country,  TSPL_LOCATION_MASTER.Telphone "
-                strQuery += " as From_Location_Telphone,TSPL_LOCATION_MASTER.Email as From_Location_Email,TSPL_LOCATION_MASTER.TIN_No AS From_Location_tin_no, TSPL_LOCATION_MASTER.CST_No AS From_Location_cstNo,TSPL_ITEM_MASTER.Weight_UOM as UOM2,"
-                strQuery += " TSPL_ITEM_MASTER.Weight_Value as Weight, TSPL_LOCATION_MASTER_1.Location_Code AS To_Location_Code,TSPL_LOCATION_MASTER.add1 as transpotor,TSPL_LOCATION_MASTER_1.Add1 AS To_Location_Add1, "
-                strQuery += " TSPL_LOCATION_MASTER_1.Add2 as To_Location_Add2 ,TSPL_LOCATION_MASTER_1.Add3 as To_Location_Add3,TSPL_LOCATION_MASTER_1.Add4 as To_Location_Add4, TSPL_LOCATION_MASTER_1.Location_Desc as To_Location_Desc  ,"
-                strQuery += " TSPL_LOCATION_MASTER_1.City_Code as To_Location_City_Code, StateMaster_ToLocation.State_Name as To_Location_State, TSPL_LOCATION_MASTER_1.Pin_Code as To_Location_Pin_Code,  TSPL_LOCATION_MASTER_1.Country as To_Location_Country,"
-                strQuery += " TSPL_LOCATION_MASTER_1.Telphone as To_Location_Telphone, TSPL_LOCATION_MASTER_1.Email as To_Location_Email ,  TSPL_LOCATION_MASTER_1 .TIN_No as to_location_tin_no, TSPL_LOCATION_MASTER_1 .CST_No as to_location_cstno,TSPL_TRANSFER_ORDER_HEAD.TAX1,TSPL_TRANSFER_ORDER_HEAD.TAX2,TSPL_TRANSFER_ORDER_HEAD.TAX3,TSPL_TRANSFER_ORDER_HEAD.TAX4,TSPL_TRANSFER_ORDER_HEAD.TAX5,TSPL_TRANSFER_ORDER_HEAD.TAX6 "
-                strQuery += ",TSPL_COMPANY_MASTER.Comp_Name AS CompName "
-                strQuery += ",TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER_fOR_Comp.City_Name)>0 then ', '+TSPL_CITY_MASTER_fOR_Comp.City_Name else ' ' end + case when len(TSPL_STATE_MASTER_For_Comp.STATE_NAME  )>0 then ', '+ TSPL_STATE_MASTER_For_Comp.STATE_NAME else ' ' end + case when len(TSPL_COMPANY_MASTER.Pincode    )>0 then ', Pin Code - '+ cast(TSPL_COMPANY_MASTER.Pincode as varchar)  else ' ' end +"
-                strQuery += " case when len(TSPL_COMPANY_MASTER.Tin_No     )>0 then ', Tin No - '+ cast(TSPL_COMPANY_MASTER.Tin_No as varchar)  else ' ' end +"
-                strQuery += " case when len(TSPL_COMPANY_MASTER.CINNo      )>0 then ', CIN No - '+ cast(TSPL_COMPANY_MASTER.CINNo as varchar)  else ' ' end +"
-                strQuery += " case when len(TSPL_COMPANY_MASTER.Fax     )>0 then ',Fax '+ TSPL_COMPANY_MASTER.Fax else '' end +"
-                strQuery += " Case when len(ISNULL(TSPL_COMPANY_MASTER.Phone1,''))>0 and TSPL_COMPANY_MASTER.Phone1='(+__)__________' then '' else ' ,Phone'+TSPL_COMPANY_MASTER.Phone1 end + Case When   ISNULL(TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then '  '+ TSPL_COMPANY_MASTER.Phone2 Else'' End +"
-                strQuery += " case when len(TSPL_COMPANY_MASTER.Email    )>0 then ',Email - '+ TSPL_COMPANY_MASTER.Email else '' end "
-                strQuery += " as Company_Address, TSPL_TRANSFER_ORDER_HEAD.DOC_Total_Amt,TSPL_TRANSFER_ORDER_DETAIL.Amount,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Mannual_No,TSPL_COMPANY_MASTER .Logo_Img ,TSPL_COMPANY_MASTER.Logo_Img2,tspl_company_master.GSTReg_No ,  tspl_company_master.Pan_No,tspl_company_master.State,TSPL_TRANSFER_ORDER_HEAD.Requisition_Id, "
-                strQuery += " InCrate.Conversion_Factor As [ConversionInCrate],case when coalesce(InCrate.Conversion_factor,0)=0 then 0 else convert(Decimal(18,2),  TSPL_TRANSFER_ORDER_DETAIL.Out_Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/coalesce(InCrate.Conversion_factor,1)) end as QtyInCrate,
-                              case when coalesce(InPouch.Conversion_factor,0)=0 then 0 else convert(Decimal(18,2),  TSPL_TRANSFER_ORDER_DETAIL.Out_Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/coalesce(InPouch.Conversion_factor,1)) end as QtyInPouch "
-                strQuery += " from TSPL_TRANSFER_ORDER_DETAIL"
-                strQuery += " left outer join TSPL_TRANSFER_ORDER_HEAD  on TSPL_TRANSFER_ORDER_HEAD.Document_No   =TSPL_TRANSFER_ORDER_DETAIL.Document_No"
-                strQuery += "  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code=  TSPL_TRANSFER_ORDER_HEAD.From_Location  "
-                strQuery += " left outer join TSPL_LOCATION_MASTER AS TSPL_LOCATION_MASTER_1 on TSPL_LOCATION_MASTER_1.GIT_Location =  TSPL_TRANSFER_ORDER_HEAD.To_Location "
-                strQuery += " INNER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.ITEM_CODE = TSPL_TRANSFER_ORDER_DETAIL.iTEM_CODE "
-                strQuery += " Left Outer Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code =TSPL_TRANSFER_ORDER_HEAD.Comp_Code "
-                strQuery += " LEFT OUTER JOIN TSPL_CITY_MASTER  AS TSPL_CITY_MASTER_fOR_Comp ON TSPL_CITY_MASTER_fOR_Comp.City_Code =TSPL_COMPANY_MASTER.City_Code "
-                strQuery += " LEFT OUTER JOIN TSPL_STATE_MASTER AS TSPL_STATE_MASTER_For_Comp  ON TSPL_STATE_MASTER_For_Comp.STATE_CODE  =TSPL_COMPANY_MASTER.State "
-                strQuery += " left outer join tspl_item_uom_detail on tspl_item_uom_detail.item_code=TSPL_TRANSFER_ORDER_DETAIL.item_code and tspl_item_uom_detail.uom_code=TSPL_TRANSFER_ORDER_DETAIL.unit_code "
-                strQuery += " left outer join tspl_item_uom_detail alt_convrsn on alt_convrsn.item_code=TSPL_TRANSFER_ORDER_DETAIL.item_code and alt_convrsn.uom_code=TSPL_TRANSFER_ORDER_DETAIL.alt_unit_code "
-                strQuery += " left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL 	  left outer join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.UNIT_CODE= TSPL_ITEM_UOM_DETAIL.UOM_CODE where TSPL_UNIT_MaSTER.Crate_type='Y') as InCrate on InCrate.Item_code=TSPL_TRANSFER_ORDER_DETAIL.Item_Code "
-                strQuery += " left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL left outer join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.UNIT_CODE= TSPL_ITEM_UOM_DETAIL.UOM_CODE where TSPL_UNIT_MaSTER.Packet_Type='Y') as InPouch on InPouch.Item_code=TSPL_TRANSFER_ORDER_DETAIL.Item_Code "
-                strQuery += " left outer join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.transport_id=TSPL_TRANSFER_ORDER_HEAD.transport_id "
-                strQuery += " LEFT OUTER JOIN tspl_location_master  AS tspl_location_master_For_Location ON tspl_location_master_For_Location.GIT_Location =TSPL_TRANSFER_ORDER_HEAD.To_Location "
-                strQuery += " left outer join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE=TSPL_LOCATION_MASTER.State " &
-                " LEFT OUTER JOIN TSPL_STATE_MASTER StateMaster_ToLocation ON StateMaster_ToLocation.State_Code=TSPL_LOCATION_MASTER_1.State"
-                strQuery += " where 2=2   "
 
 
-                strQuery += "  and  TSPL_TRANSFER_ORDER_HEAD. Document_No = '" + txtDocNo.Value + "'"
-                strQuery += " order by TSPL_TRANSFER_ORDER_DETAIL .line_no"
-
+                strQuery = clsTransferDCC.GetAttachQry(txtDocNo.Value)
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQuery)
 
                 dt.Columns.Add("BarCodeImage", GetType(Byte()))
@@ -6222,12 +6179,20 @@ Public Class FrmTransferKDIL
                     If objCommonVar.IsKDIL = True Then
                         'frmInventoryReportViewer.funreport(dt, "crptStockTransferChallanInvoiceInterState", "Transfer")
                         frmCRV.funsubreportWithdt(CrystalReportFolder.InventoryReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptStockTransferChallanInvoiceInterState_Challan", "Challan", "rptCompanyAddress.rpt")
+                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal AndAlso dt.Rows(0)("Taxable").ToString() = "T" Then
+                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptStockTransferChallanInvoice_ChallanNew_Product", "Challan", dtDocdate)
+                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal AndAlso dt.Rows(0)("Taxable").ToString() = "NT" Then
+                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptStockTransferChallanInvoice_ChallanNew_Milk", "Challan", dtDocdate)
                     Else
                         frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptStockTransferChallanInvoice_ChallanNew", "Challan", dtDocdate)
                     End If
                     frmCRV = Nothing
                 End If
             End If
+
+
+
+
             'If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Transfer_Type")), "J") = CompairStringResult.Equal Then
             '    If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GUNTUR") = CompairStringResult.Equal Then
             '        PurchaseOrderViewer.funreport(dt, "WO-G", "Work Order")
@@ -7394,20 +7359,21 @@ Public Class FrmTransferKDIL
 
     Private Sub fndPriceCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndPriceCode._MYValidating
         Try
-            If clsCommon.myLen(FndGatePassNo.Value) > 0 AndAlso clsCommon.myLen(txtToLoc.Value) > 0 Then
-                Dim qry As String = " Select  DISTINCT TSPL_ITEM_PRICE_MASTER.Price_Code,TSPL_ITEM_PRICE_MASTER.Price_Code_Desc from TSPL_ITEM_PRICE_MASTER  "
-                If isButtonClicked Then
-                    fndPriceCode.Value = clsCommon.ShowSelectForm("GatePassPriceCode", qry, "Price_Code", " isnull(TSPL_ITEM_PRICE_MASTER.Type  ,'')='T' ", fndPriceCode.Value, " ", isButtonClicked)
-                    LoadRateForGatePassTransfer()
-                End If
-            Else
-                If clsCommon.myLen(txtToLoc.Value) = 0 Then
-                    Throw New Exception("Please Select To Location")
-                Else
-                    Throw New Exception("Please Select GP No.")
-                End If
-
+            'If clsCommon.myLen(FndGatePassNo.Value) > 0 AndAlso clsCommon.myLen(txtToLoc.Value) > 0 Then
+            Dim qry As String = " Select DISTINCT TSPL_ITEM_PRICE_MASTER.Price_Code,TSPL_ITEM_PRICE_MASTER.Price_Code_Desc from TSPL_ITEM_PRICE_MASTER  "
+            If isButtonClicked Then
+                'fndPriceCode.Value = clsCommon.ShowSelectForm("GatePassPriceCode", qry, "Price_Code", " isnull(TSPL_ITEM_PRICE_MASTER.Type  ,'')='T' ", fndPriceCode.Value, " ", isButtonClicked)
+                fndPriceCode.Value = clsCommon.ShowSelectForm("GatePassPriceCode", qry, "Price_Code", Nothing, fndPriceCode.Value, " ", isButtonClicked)
+                ''LoadRateForGatePassTransfer()
             End If
+            'Else
+            '    If clsCommon.myLen(txtToLoc.Value) = 0 Then
+            '        Throw New Exception("Please Select To Location")
+            '    Else
+            '        Throw New Exception("Please Select GP No.")
+            '    End If
+
+            'End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -7415,7 +7381,7 @@ Public Class FrmTransferKDIL
     Sub LoadRateForGatePassTransfer()
         If gv1.Rows.Count > 0 Then
             Dim qry As String = String.Empty
-            Dim strLocation As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Branch_Code  from TSPL_GATEPASS_TRANSFER_HEAD  where Document_No ='" & clsCommon.myCstr(FndGatePassNo.Value) & "' "))
+            Dim strLocation As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Branch_Code from TSPL_GATEPASS_TRANSFER_HEAD  where Document_No ='" & clsCommon.myCstr(FndGatePassNo.Value) & "' "))
             For i As Integer = 0 To gv1.Rows.Count - 1
                 If clsCommon.myLen(clsCommon.myCstr(gv1.Rows(i).Cells(colICode).Value)) > 0 Then
                     qry = "Select RowNo, Item_Price_ID, XXXE.Item_Code, UOM, Start_Date, Item_Basic_Price,Item_Basic_Net,Price_Code,Item_Selling_Price from ( " &
@@ -8026,7 +7992,7 @@ Public Class FrmTransferKDIL
         Try
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
                 Dim Qry As String = Nothing
-                Qry = "select TSPL_TRANSFER_ORDER_HEAD.Tax_Group,ISNULL(TSPL_TAX_GROUP_MASTER.Is_Tax_Exempted,0) AS Is_Tax_Exempted ,TSPL_TRANSFER_ORDER_HEAD.Is_MandiTax, TSPL_TRANSFER_ORDER_HEAD.Electronic_Ref_No,
+                Qry = "Select * from (select TSPL_TRANSFER_ORDER_HEAD.Tax_Group,ISNULL(TSPL_TAX_GROUP_MASTER.Is_Tax_Exempted,0) AS Is_Tax_Exempted ,TSPL_TRANSFER_ORDER_HEAD.Is_MandiTax, TSPL_TRANSFER_ORDER_HEAD.Electronic_Ref_No,
                        TSPL_LOCATION_MASTER.GSTNO as GSTIN_No ,TSPL_STATE_MASTER.GST_STATE_Code as From_Gst_StateCode,StateMaster_ToLocation.GST_STATE_Code as To_Loc_GSTStateCode,TSPL_LOCATION_MASTER_1.GSTNO as To_Loc_GSTINNo, 
                        TSPL_TRANSFER_ORDER_DETAIL.item_Net_Amt ,TSPL_ITEM_MASTER.HSN_Code ,TSPL_LOCATION_MASTER.GSTNO as frm_GSTINNo ,TSPL_STATE_MASTER.GST_STATE_Code as Frm_StateGST,StateMaster_ToLocation.GST_STATE_Code as To_StateGST,
                        TSPL_LOCATION_MASTER_1.GSTNO as To_GSTINNo,TSPL_TRANSFER_ORDER_HEAD.EWayBillNo ,convert(varchar,TSPL_TRANSFER_ORDER_HEAD.EWayBillDate,103) as EWayBillDate ,convert(varchar(10),TSPL_COMPANY_MASTER.insurance_valid_date,103) as insurance_valid_date,
@@ -8043,7 +8009,7 @@ Public Class FrmTransferKDIL
                         left outer join  TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_2 on TSPL_LOCATION_MASTER_2.Location_Code=TSPL_TRANSFER_ORDER_HEAD.To_Location
                         INNER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.ITEM_CODE = TSPL_TRANSFER_ORDER_DETAIL.iTEM_CODE  
                         Left Outer Join (Select Item_Code,Conversion_Factor,UOM_Code from tspl_item_uom_detail where UOM_Code='LTR') As CFinLTR On CFinLTR.Item_Code=TSPL_ITEM_MASTER.Item_Code
-                        Left Outer Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code =TSPL_TRANSFER_ORDER_HEAD.Comp_Code  
+                        Left Outer Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code =TSPL_TRANSFER_ORDER_HEAD.Comp_Code 
                         LEFT OUTER JOIN TSPL_CITY_MASTER  AS TSPL_CITY_MASTER_fOR_Comp ON TSPL_CITY_MASTER_fOR_Comp.City_Code =TSPL_COMPANY_MASTER.City_Code 
                         LEFT OUTER JOIN TSPL_STATE_MASTER AS TSPL_STATE_MASTER_For_Comp  ON TSPL_STATE_MASTER_For_Comp.STATE_CODE  =TSPL_COMPANY_MASTER.State  
                         left outer join tspl_item_uom_detail on tspl_item_uom_detail.item_code=TSPL_TRANSFER_ORDER_DETAIL.item_code and tspl_item_uom_detail.uom_code=TSPL_TRANSFER_ORDER_DETAIL.unit_code  
@@ -8078,11 +8044,53 @@ Public Class FrmTransferKDIL
                         left outer join TSPL_TAX_MASTER as dtax9 on dtax9.Tax_Code =TSPL_TRANSFER_ORDER_DETAIL .TAX9    
                         left outer join TSPL_TAX_MASTER as dtax10 on dtax10.Tax_Code =TSPL_TRANSFER_ORDER_DETAIL .TAX10  
                         LEFT JOIN TSPL_TAX_GROUP_MASTER ON TSPL_TRANSFER_ORDER_HEAD.Tax_Group=TSPL_TAX_GROUP_MASTER.Tax_Group_Code and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='T' 
-                        where 2=2 and TSPL_TRANSFER_ORDER_HEAD. Document_No = '" + clsCommon.myCstr(txtDocNo.Value) + "'"
+                        where 2=2 and TSPL_TRANSFER_ORDER_HEAD. Document_No = '" + clsCommon.myCstr(txtDocNo.Value) + "')xxx"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
                 If dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "StockTransferSTA", "Stock Transfer Advice", Nothing)
+                    'frmCRV.Close()
+                Else
+                    clsCommon.MyMessageBoxShow("Data not found to print.", Me.Text)
+                End If
+            Else
+                clsCommon.MyMessageBoxShow("Select document.", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnSTAMilkPrint_Click(sender As Object, e As EventArgs) Handles btnSTAMilkPrint.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                Dim Qry As String = Nothing
+                Qry = clsTransferDCC.GetSTAMlkPrint(txtDocNo.Value)
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                If dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "StockTransferSTAMilk", "Stock Transfer Advice", Nothing)
+                    'frmCRV.Close()
+                Else
+                    clsCommon.MyMessageBoxShow("Data not found to print.", Me.Text)
+                End If
+            Else
+                clsCommon.MyMessageBoxShow("Select document.", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnSTAProductPrint_Click(sender As Object, e As EventArgs) Handles btnSTAProductPrint.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                Dim Qry As String = Nothing
+                Qry = clsTransferDCC.GetSTAProductQry(txtDocNo.Value)
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                If dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "StockTransferSTAProduct", "Stock Transfer Advice", Nothing)
                     'frmCRV.Close()
                 Else
                     clsCommon.MyMessageBoxShow("Data not found to print.", Me.Text)

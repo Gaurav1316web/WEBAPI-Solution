@@ -146,9 +146,9 @@ Public Class clsBookingEntryDairySale
         Return True
     End Function
     Public Function SaveData(ByVal obj As clsBookingEntryDairySale, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
-        Return SaveData(obj, isNewEntry, trans, "")
+        Return SaveData(obj, isNewEntry, trans, "", False)
     End Function
-    Public Function SaveData(ByVal obj As clsBookingEntryDairySale, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction, ByVal strBookingDocNo As String) As Boolean
+    Public Function SaveData(ByVal obj As clsBookingEntryDairySale, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction, ByVal strBookingDocNo As String, ByVal IsDemandUploader As Boolean) As Boolean
         Dim qry As String = String.Empty
         Try
             If Arr IsNot Nothing AndAlso Arr.Count > 0 Then
@@ -189,7 +189,11 @@ Public Class clsBookingEntryDairySale
             If isNewEntry AndAlso clsCommon.myLen(clsCommon.myCstr(strBookingDocNo)) > 0 Then
                 obj.Document_No = strBookingDocNo
             ElseIf isNewEntry = True Then
-                obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmDairySaleBooking, "", obj.location_code)
+                If IsDemandUploader Then
+                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmDairySaleBookingUploader, "", obj.location_code)
+                Else
+                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmDairySaleBooking, "", obj.location_code)
+                End If
             End If
 
             If (clsCommon.myLen(obj.Document_No) <= 0) Then

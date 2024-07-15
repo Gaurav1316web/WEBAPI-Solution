@@ -2225,6 +2225,8 @@ Public Class clsCreateAllTable
             coll.Add("Is_AllowQC_ON_Purchase", "Varchar(1) null")
             coll.Add("Is_AllowQC_ON_Production", "Varchar(1) null")
             coll.Add("FG_for_CF_RPT", "Varchar(1) null")
+            coll.Add("FG_for_CF_PL", "Varchar(1) null")
+            coll.Add("SFG_for_CF", "Varchar(1) null")
             coll.Add("Item_Image", "Varbinary(Max) null")
             coll.Add("CSA_TYPE", "VARCHAR(30) NOT NULL DEFAULT 'None'")
             coll.Add("Is_CrateType", "integer not NULL default 0")
@@ -2322,6 +2324,7 @@ Public Class clsCreateAllTable
             coll.Add("BomBuildQty", "integer Null")
             coll.Add("Item_Sub_Group_Type", "varchar(50) NULL")
             coll.Add("Report_Name", "varchar(50) NULL")
+            coll.Add("AllowEntryInDecimal", "Integer null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -6603,7 +6606,7 @@ Public Class clsCreateAllTable
             coll.Add("Supply_Date", "Date NULL")
             coll.Add("FILE_INFO", "bigint NULL")
             coll.Add("Trip_No", "int NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", coll, Nothing, True, False, "", "GPCode", "GPDate")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", coll, Nothing, True, True, "", "GPCode", "GPDate")
             Try
 
                 clsDBFuncationality.ExecuteNonQuery("alter table TSPL_DAIRYSALE_GATEPASS_MASTER alter COLUMN DistributorName varchar(100)")
@@ -6619,7 +6622,7 @@ Public Class clsCreateAllTable
             coll.Add("Unit_Code", "Varchar(12) NULL")
             coll.Add("Qty", "FLOAT NOT NULL DEFAULT 0")
             coll.Add("HSN_Code", "varchar(30)  NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_DETAIL", coll, Nothing, True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_DETAIL", coll, Nothing, True, True, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "")
             '=====================
 
 
@@ -18458,6 +18461,7 @@ Public Class clsCreateAllTable
             coll.Add("Against_RCDF_Loadin", "Varchar(30) null references TSPL_RCDF_LOAD_IN(Document_Code)")
             coll.Add("Online_Transaction_ID", "varchar(50) NULL")
             coll.Add("TDS_Recoverable_Amt", "decimal (18,2) NULL")
+            coll.Add("Against_ECollect", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RECEIPT_HEADER", coll, Nothing, True, False, "", "Receipt_No", "Receipt_Date", True)
 
             coll = New Dictionary(Of String, String)()
@@ -24802,6 +24806,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Retesting_SNF", "DECIMAL(10,3)  NULL DEFAULT 0")
             coll.Add("Retesting_OR_Correction_Status", "Integer NULL DEFAULT 0")
             coll.Add("ACC_Qty_LTR", "DECIMAL(18,3) NOT NULL DEFAULT 0")
+            coll.Add("Head_Load_Cycle", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_DETAIL", coll, "Primary Key (DOC_CODE,PK_Id)", True, False, "TSPL_MILK_SRN_HEAD", "DOC_CODE", "")
             coll.Item("DOC_CODE") = "varchar(30)  NOT NULL "
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_DETAIL_SYNC", coll, "Primary Key (DOC_CODE,PK_Id)", False, False)
@@ -30046,7 +30051,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Unit_Code", "Varchar(12) NULL")
             coll.Add("GP_Qty", "Decimal(18,2) NULL")
             coll.Add("Trip_No", "int NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL", coll, Nothing, True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL", coll, Nothing, True, True, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "")
 
             coll = New Dictionary(Of String, String)()
             coll.Add("DOCUMENT_CODE", "Varchar(30) not null References TSPL_SD_SHIPMENT_HEAD(DOCUMENT_CODE)")
@@ -55192,6 +55197,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("VLC_CODE", "VARCHAR(30) Not NULL REFERENCES TSPL_VLC_MASTER_HEAD(VLC_CODE)")
             coll.Add("Head_Load_Basis", "varchar(1) NULL")
             coll.Add("Head_Load_Rate", "Decimal(18,2) NULL")
+            coll.Add("Cycle_Frequency", "integer null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_Head_Load_DCS", coll)
 
             Dim isRecordExist As Integer = clsDBFuncationality.getSingleValue("select count(1) from TSPL_HEAD_LOAD")
@@ -55199,7 +55205,11 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
                 Dim obj As New clsHeadLoadMaster
                 obj.SaveAutoData()
             End If
+            Try
+                clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_HEAD_LOAD_DCS ALTER COLUMN  Head_Load_Basis VARCHAR(2)")
+            Catch ex As Exception
 
+            End Try
             coll = New Dictionary(Of String, String)()
             coll.Add("Doc_Code", "varchar(30) NOT NULL Primary Key")
             coll.Add("Doc_Date", "Datetime NOT NULL")

@@ -30,6 +30,7 @@ Partial Class FrmTransferKDIL
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmTransferKDIL))
         Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.pnlRMDA = New System.Windows.Forms.Panel()
         Me.MyLabel5 = New common.Controls.MyLabel()
@@ -104,6 +105,8 @@ Partial Class FrmTransferKDIL
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.chkProductionRequest = New Telerik.WinControls.UI.RadCheckBox()
+        Me.fndPriceCode = New common.UserControls.txtFinder()
+        Me.lblpricecode = New common.Controls.MyLabel()
         Me.txtFreightDistance = New common.MyNumBox()
         Me.MyLabel59 = New common.Controls.MyLabel()
         Me.MyLabel10 = New common.Controls.MyLabel()
@@ -112,9 +115,7 @@ Partial Class FrmTransferKDIL
         Me.MyLabel9 = New common.Controls.MyLabel()
         Me.txtLoadingAdviceNo = New common.Controls.MyTextBox()
         Me.fndSRNO = New common.UserControls.txtFinder()
-        Me.lblpricecode = New common.Controls.MyLabel()
         Me.lblSRNO = New common.Controls.MyLabel()
-        Me.txtglvoucher = New common.Controls.MyLabel()
         Me.chkInternalTransfer = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkForRepair = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkIsManditax = New Telerik.WinControls.UI.RadCheckBox()
@@ -141,9 +142,9 @@ Partial Class FrmTransferKDIL
         Me.lblJaaliOut = New common.Controls.MyLabel()
         Me.lblBoxIn = New common.Controls.MyLabel()
         Me.txtjaaliout = New common.MyNumBox()
-        Me.fndPriceCode = New common.UserControls.txtFinder()
         Me.GatePassPanel = New System.Windows.Forms.Panel()
         Me.MyLabel8 = New common.Controls.MyLabel()
+        Me.txtglvoucher = New common.Controls.MyLabel()
         Me.cmbGPItemType = New common.Controls.MyComboBox()
         Me.MyLabel7 = New common.Controls.MyLabel()
         Me.FndGatePassNo = New common.UserControls.txtFinder()
@@ -208,6 +209,8 @@ Partial Class FrmTransferKDIL
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
+        Me.btnSTAProductPrint = New Telerik.WinControls.UI.RadButton()
+        Me.btnSTAMilkPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnSTAPrint = New Telerik.WinControls.UI.RadButton()
         Me.BtnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
@@ -294,15 +297,14 @@ Partial Class FrmTransferKDIL
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.chkProductionRequest, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblpricecode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFreightDistance, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel59, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkJobWork, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtLoadingAdviceNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblpricecode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSRNO, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtglvoucher, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkInternalTransfer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkForRepair, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkIsManditax, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -332,6 +334,7 @@ Partial Class FrmTransferKDIL
         CType(Me.txtjaaliout, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GatePassPanel.SuspendLayout()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtglvoucher, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cmbGPItemType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -389,6 +392,8 @@ Partial Class FrmTransferKDIL
         CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pvpCustomFields.SuspendLayout()
         Me.Attachments.SuspendLayout()
+        CType(Me.btnSTAProductPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnSTAMilkPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSTAPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -750,9 +755,9 @@ Partial Class FrmTransferKDIL
         '
         Me.btnReverseAndUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReverseAndUnpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverseAndUnpost.Location = New System.Drawing.Point(853, 3)
+        Me.btnReverseAndUnpost.Location = New System.Drawing.Point(1024, 4)
         Me.btnReverseAndUnpost.Name = "btnReverseAndUnpost"
-        Me.btnReverseAndUnpost.Size = New System.Drawing.Size(136, 20)
+        Me.btnReverseAndUnpost.Size = New System.Drawing.Size(99, 20)
         Me.btnReverseAndUnpost.TabIndex = 2
         Me.btnReverseAndUnpost.Text = "Reverse and Unpost"
         Me.btnReverseAndUnpost.Visible = False
@@ -957,7 +962,7 @@ Partial Class FrmTransferKDIL
         Me.pnlLoadIn.Controls.Add(Me.txtTransferOutNo)
         Me.pnlLoadIn.Controls.Add(Me.MyLabel1)
         Me.pnlLoadIn.Controls.Add(Me.txtOutDate)
-        Me.pnlLoadIn.Location = New System.Drawing.Point(475, 21)
+        Me.pnlLoadIn.Location = New System.Drawing.Point(754, 19)
         Me.pnlLoadIn.Name = "pnlLoadIn"
         Me.pnlLoadIn.Size = New System.Drawing.Size(350, 22)
         Me.pnlLoadIn.TabIndex = 7
@@ -967,7 +972,7 @@ Partial Class FrmTransferKDIL
         '
         Me.RadLabel23.FieldName = Nothing
         Me.RadLabel23.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel23.Location = New System.Drawing.Point(4, 3)
+        Me.RadLabel23.Location = New System.Drawing.Point(4, 5)
         Me.RadLabel23.Name = "RadLabel23"
         Me.RadLabel23.Size = New System.Drawing.Size(87, 16)
         Me.RadLabel23.TabIndex = 2
@@ -1073,7 +1078,7 @@ Partial Class FrmTransferKDIL
         Me.cboTransferType.IsSourceFromTable = False
         Me.cboTransferType.IsSourceFromValueList = False
         Me.cboTransferType.IsUnique = False
-        Me.cboTransferType.Location = New System.Drawing.Point(559, 1)
+        Me.cboTransferType.Location = New System.Drawing.Point(561, 1)
         Me.cboTransferType.MendatroryField = True
         Me.cboTransferType.MyLinkLable1 = Me.RadLabel8
         Me.cboTransferType.MyLinkLable2 = Nothing
@@ -1249,9 +1254,9 @@ Partial Class FrmTransferKDIL
         '
         Me.rbtnPrintExcisable.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.rbtnPrintExcisable.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnprint, Me.btnpreprint})
-        Me.rbtnPrintExcisable.Location = New System.Drawing.Point(487, 3)
+        Me.rbtnPrintExcisable.Location = New System.Drawing.Point(693, 3)
         Me.rbtnPrintExcisable.Name = "rbtnPrintExcisable"
-        Me.rbtnPrintExcisable.Size = New System.Drawing.Size(98, 22)
+        Me.rbtnPrintExcisable.Size = New System.Drawing.Size(60, 22)
         Me.rbtnPrintExcisable.TabIndex = 4
         Me.rbtnPrintExcisable.Text = "Print Excisable"
         Me.rbtnPrintExcisable.Visible = False
@@ -1341,9 +1346,9 @@ Partial Class FrmTransferKDIL
         'btnAmendment
         '
         Me.btnAmendment.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAmendment.Location = New System.Drawing.Point(594, 2)
+        Me.btnAmendment.Location = New System.Drawing.Point(716, 2)
         Me.btnAmendment.Name = "btnAmendment"
-        Me.btnAmendment.Size = New System.Drawing.Size(69, 22)
+        Me.btnAmendment.Size = New System.Drawing.Size(53, 22)
         Me.btnAmendment.TabIndex = 5
         Me.btnAmendment.Text = "Amendment"
         Me.btnAmendment.Visible = False
@@ -1373,6 +1378,8 @@ Partial Class FrmTransferKDIL
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnSTAProductPrint)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnSTAMilkPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSTAPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.BtnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverseAndUnpost)
@@ -1411,6 +1418,8 @@ Partial Class FrmTransferKDIL
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.chkProductionRequest)
+        Me.RadPageViewPage1.Controls.Add(Me.fndPriceCode)
+        Me.RadPageViewPage1.Controls.Add(Me.lblpricecode)
         Me.RadPageViewPage1.Controls.Add(Me.txtFreightDistance)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel59)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel10)
@@ -1420,7 +1429,6 @@ Partial Class FrmTransferKDIL
         Me.RadPageViewPage1.Controls.Add(Me.txtLoadingAdviceNo)
         Me.RadPageViewPage1.Controls.Add(Me.fndSRNO)
         Me.RadPageViewPage1.Controls.Add(Me.lblSRNO)
-        Me.RadPageViewPage1.Controls.Add(Me.txtglvoucher)
         Me.RadPageViewPage1.Controls.Add(Me.chkInternalTransfer)
         Me.RadPageViewPage1.Controls.Add(Me.chkForRepair)
         Me.RadPageViewPage1.Controls.Add(Me.chkIsManditax)
@@ -1440,8 +1448,6 @@ Partial Class FrmTransferKDIL
         Me.RadPageViewPage1.Controls.Add(Me.lblJaaliOut)
         Me.RadPageViewPage1.Controls.Add(Me.lblBoxIn)
         Me.RadPageViewPage1.Controls.Add(Me.txtjaaliout)
-        Me.RadPageViewPage1.Controls.Add(Me.lblpricecode)
-        Me.RadPageViewPage1.Controls.Add(Me.fndPriceCode)
         Me.RadPageViewPage1.Controls.Add(Me.GatePassPanel)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel6)
         Me.RadPageViewPage1.Controls.Add(Me.Panel2)
@@ -1504,6 +1510,42 @@ Partial Class FrmTransferKDIL
         Me.chkProductionRequest.TabIndex = 1475
         Me.chkProductionRequest.Text = "Production Request"
         Me.chkProductionRequest.Visible = False
+        '
+        'fndPriceCode
+        '
+        Me.fndPriceCode.CalculationExpression = Nothing
+        Me.fndPriceCode.FieldCode = Nothing
+        Me.fndPriceCode.FieldDesc = Nothing
+        Me.fndPriceCode.FieldMaxLength = 0
+        Me.fndPriceCode.FieldName = Nothing
+        Me.fndPriceCode.isCalculatedField = False
+        Me.fndPriceCode.IsSourceFromTable = False
+        Me.fndPriceCode.IsSourceFromValueList = False
+        Me.fndPriceCode.IsUnique = False
+        Me.fndPriceCode.Location = New System.Drawing.Point(561, 23)
+        Me.fndPriceCode.MendatroryField = False
+        Me.fndPriceCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndPriceCode.MyLinkLable1 = Me.lblpricecode
+        Me.fndPriceCode.MyLinkLable2 = Nothing
+        Me.fndPriceCode.MyReadOnly = True
+        Me.fndPriceCode.MyShowMasterFormButton = False
+        Me.fndPriceCode.Name = "fndPriceCode"
+        Me.fndPriceCode.ReferenceFieldDesc = Nothing
+        Me.fndPriceCode.ReferenceFieldName = Nothing
+        Me.fndPriceCode.ReferenceTableName = Nothing
+        Me.fndPriceCode.Size = New System.Drawing.Size(187, 19)
+        Me.fndPriceCode.TabIndex = 1424
+        Me.fndPriceCode.Value = ""
+        '
+        'lblpricecode
+        '
+        Me.lblpricecode.FieldName = Nothing
+        Me.lblpricecode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblpricecode.Location = New System.Drawing.Point(480, 26)
+        Me.lblpricecode.Name = "lblpricecode"
+        Me.lblpricecode.Size = New System.Drawing.Size(62, 16)
+        Me.lblpricecode.TabIndex = 1425
+        Me.lblpricecode.Text = "Price Code"
         '
         'txtFreightDistance
         '
@@ -1648,16 +1690,6 @@ Partial Class FrmTransferKDIL
         Me.fndSRNO.TabIndex = 1446
         Me.fndSRNO.Value = ""
         '
-        'lblpricecode
-        '
-        Me.lblpricecode.FieldName = Nothing
-        Me.lblpricecode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblpricecode.Location = New System.Drawing.Point(827, 24)
-        Me.lblpricecode.Name = "lblpricecode"
-        Me.lblpricecode.Size = New System.Drawing.Size(62, 16)
-        Me.lblpricecode.TabIndex = 1425
-        Me.lblpricecode.Text = "Price Code"
-        '
         'lblSRNO
         '
         Me.lblSRNO.FieldName = Nothing
@@ -1667,19 +1699,6 @@ Partial Class FrmTransferKDIL
         Me.lblSRNO.Size = New System.Drawing.Size(40, 16)
         Me.lblSRNO.TabIndex = 1445
         Me.lblSRNO.Text = "SR No"
-        '
-        'txtglvoucher
-        '
-        Me.txtglvoucher.AutoSize = False
-        Me.txtglvoucher.BorderVisible = True
-        Me.txtglvoucher.FieldName = Nothing
-        Me.txtglvoucher.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtglvoucher.Location = New System.Drawing.Point(1063, 23)
-        Me.txtglvoucher.Name = "txtglvoucher"
-        Me.txtglvoucher.Size = New System.Drawing.Size(154, 18)
-        Me.txtglvoucher.TabIndex = 1444
-        Me.txtglvoucher.TextWrap = False
-        Me.txtglvoucher.Visible = False
         '
         'chkInternalTransfer
         '
@@ -2101,35 +2120,10 @@ Partial Class FrmTransferKDIL
         Me.txtjaaliout.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.txtjaaliout.Value = 0R
         '
-        'fndPriceCode
-        '
-        Me.fndPriceCode.CalculationExpression = Nothing
-        Me.fndPriceCode.FieldCode = Nothing
-        Me.fndPriceCode.FieldDesc = Nothing
-        Me.fndPriceCode.FieldMaxLength = 0
-        Me.fndPriceCode.FieldName = Nothing
-        Me.fndPriceCode.isCalculatedField = False
-        Me.fndPriceCode.IsSourceFromTable = False
-        Me.fndPriceCode.IsSourceFromValueList = False
-        Me.fndPriceCode.IsUnique = False
-        Me.fndPriceCode.Location = New System.Drawing.Point(893, 23)
-        Me.fndPriceCode.MendatroryField = False
-        Me.fndPriceCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndPriceCode.MyLinkLable1 = Me.lblpricecode
-        Me.fndPriceCode.MyLinkLable2 = Nothing
-        Me.fndPriceCode.MyReadOnly = True
-        Me.fndPriceCode.MyShowMasterFormButton = False
-        Me.fndPriceCode.Name = "fndPriceCode"
-        Me.fndPriceCode.ReferenceFieldDesc = Nothing
-        Me.fndPriceCode.ReferenceFieldName = Nothing
-        Me.fndPriceCode.ReferenceTableName = Nothing
-        Me.fndPriceCode.Size = New System.Drawing.Size(164, 19)
-        Me.fndPriceCode.TabIndex = 1424
-        Me.fndPriceCode.Value = ""
-        '
         'GatePassPanel
         '
         Me.GatePassPanel.Controls.Add(Me.MyLabel8)
+        Me.GatePassPanel.Controls.Add(Me.txtglvoucher)
         Me.GatePassPanel.Controls.Add(Me.cmbGPItemType)
         Me.GatePassPanel.Controls.Add(Me.MyLabel7)
         Me.GatePassPanel.Controls.Add(Me.FndGatePassNo)
@@ -2148,6 +2142,19 @@ Partial Class FrmTransferKDIL
         Me.MyLabel8.Size = New System.Drawing.Size(57, 16)
         Me.MyLabel8.TabIndex = 36
         Me.MyLabel8.Text = "Item Type"
+        '
+        'txtglvoucher
+        '
+        Me.txtglvoucher.AutoSize = False
+        Me.txtglvoucher.BorderVisible = True
+        Me.txtglvoucher.FieldName = Nothing
+        Me.txtglvoucher.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtglvoucher.Location = New System.Drawing.Point(264, 21)
+        Me.txtglvoucher.Name = "txtglvoucher"
+        Me.txtglvoucher.Size = New System.Drawing.Size(131, 18)
+        Me.txtglvoucher.TabIndex = 1444
+        Me.txtglvoucher.TextWrap = False
+        Me.txtglvoucher.Visible = False
         '
         'cmbGPItemType
         '
@@ -2449,7 +2456,7 @@ Partial Class FrmTransferKDIL
         '
         Me.MyLabel13.FieldName = Nothing
         Me.MyLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel13.Location = New System.Drawing.Point(479, 2)
+        Me.MyLabel13.Location = New System.Drawing.Point(481, 2)
         Me.MyLabel13.Name = "MyLabel13"
         Me.MyLabel13.Size = New System.Drawing.Size(65, 16)
         Me.MyLabel13.TabIndex = 1417
@@ -2899,7 +2906,7 @@ Partial Class FrmTransferKDIL
         'btnAddNew
         '
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAddNew.Image = Global.ERP.My.Resources.Resources._new
+        Me.btnAddNew.Image = CType(resources.GetObject("btnAddNew.Image"), System.Drawing.Image)
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnAddNew.Location = New System.Drawing.Point(341, 1)
         Me.btnAddNew.Name = "btnAddNew"
@@ -3200,7 +3207,7 @@ Partial Class FrmTransferKDIL
         Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(85.0!, 22.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 35)
         Me.pvpCustomFields.Name = "pvpCustomFields"
-        Me.pvpCustomFields.Size = New System.Drawing.Size(1061, 408)
+        Me.pvpCustomFields.Size = New System.Drawing.Size(1251, 388)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
         'Attachments
@@ -3221,11 +3228,31 @@ Partial Class FrmTransferKDIL
         Me.UcAttachment1.TabIndex = 0
         Me.UcAttachment1.TabStop = False
         '
+        'btnSTAProductPrint
+        '
+        Me.btnSTAProductPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnSTAProductPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnSTAProductPrint.Location = New System.Drawing.Point(569, 2)
+        Me.btnSTAProductPrint.Name = "btnSTAProductPrint"
+        Me.btnSTAProductPrint.Size = New System.Drawing.Size(104, 22)
+        Me.btnSTAProductPrint.TabIndex = 54
+        Me.btnSTAProductPrint.Text = "STA Product Print"
+        '
+        'btnSTAMilkPrint
+        '
+        Me.btnSTAMilkPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnSTAMilkPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnSTAMilkPrint.Location = New System.Drawing.Point(482, 2)
+        Me.btnSTAMilkPrint.Name = "btnSTAMilkPrint"
+        Me.btnSTAMilkPrint.Size = New System.Drawing.Size(83, 22)
+        Me.btnSTAMilkPrint.TabIndex = 53
+        Me.btnSTAMilkPrint.Text = "STA Milk Print"
+        '
         'btnSTAPrint
         '
         Me.btnSTAPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSTAPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSTAPrint.Location = New System.Drawing.Point(410, 2)
+        Me.btnSTAPrint.Location = New System.Drawing.Point(408, 2)
         Me.btnSTAPrint.Name = "btnSTAPrint"
         Me.btnSTAPrint.Size = New System.Drawing.Size(69, 22)
         Me.btnSTAPrint.TabIndex = 52
@@ -3244,7 +3271,7 @@ Partial Class FrmTransferKDIL
         'btnShowInventory
         '
         Me.btnShowInventory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnShowInventory.Location = New System.Drawing.Point(749, 3)
+        Me.btnShowInventory.Location = New System.Drawing.Point(857, 2)
         Me.btnShowInventory.Name = "btnShowInventory"
         Me.btnShowInventory.Size = New System.Drawing.Size(96, 20)
         Me.btnShowInventory.TabIndex = 46
@@ -3253,9 +3280,9 @@ Partial Class FrmTransferKDIL
         'btnCancel
         '
         Me.btnCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnCancel.Location = New System.Drawing.Point(673, 2)
+        Me.btnCancel.Location = New System.Drawing.Point(773, 2)
         Me.btnCancel.Name = "btnCancel"
-        Me.btnCancel.Size = New System.Drawing.Size(69, 22)
+        Me.btnCancel.Size = New System.Drawing.Size(82, 21)
         Me.btnCancel.TabIndex = 8
         Me.btnCancel.Text = "Cancel"
         '
@@ -3263,7 +3290,7 @@ Partial Class FrmTransferKDIL
         '
         Me.BtnPrintChallan.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.BtnPrintChallan.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnPrintChallan.Location = New System.Drawing.Point(305, 3)
+        Me.BtnPrintChallan.Location = New System.Drawing.Point(305, 2)
         Me.BtnPrintChallan.Name = "BtnPrintChallan"
         Me.BtnPrintChallan.Size = New System.Drawing.Size(98, 22)
         Me.BtnPrintChallan.TabIndex = 7
@@ -3340,7 +3367,7 @@ Partial Class FrmTransferKDIL
         Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
         Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1061, 408)
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1251, 388)
         Me.UcCustomFields1.TabIndex = 1
         '
         'FrmTransferKDIL
@@ -3433,15 +3460,14 @@ Partial Class FrmTransferKDIL
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
         CType(Me.chkProductionRequest, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblpricecode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFreightDistance, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel59, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkJobWork, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtLoadingAdviceNo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblpricecode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSRNO, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtglvoucher, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkInternalTransfer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkForRepair, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkIsManditax, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3473,6 +3499,7 @@ Partial Class FrmTransferKDIL
         Me.GatePassPanel.ResumeLayout(False)
         Me.GatePassPanel.PerformLayout()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtglvoucher, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cmbGPItemType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3534,6 +3561,8 @@ Partial Class FrmTransferKDIL
         CType(Me.gv2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pvpCustomFields.ResumeLayout(False)
         Me.Attachments.ResumeLayout(False)
+        CType(Me.btnSTAProductPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnSTAMilkPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSTAPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3740,5 +3769,7 @@ Partial Class FrmTransferKDIL
     Friend WithEvents txtFreightDistance As common.MyNumBox
     Friend WithEvents chkProductionRequest As RadCheckBox
     Friend WithEvents btnSTAPrint As RadButton
+    Friend WithEvents btnSTAMilkPrint As RadButton
+    Friend WithEvents btnSTAProductPrint As RadButton
 End Class
 

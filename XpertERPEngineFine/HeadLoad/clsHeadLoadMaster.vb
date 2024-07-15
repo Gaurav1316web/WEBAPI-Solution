@@ -268,6 +268,8 @@ Public Class clsHeadLoadDCS
     Public BMC_Name As String = Nothing
     Public Head_Load_Basis As String = Nothing
     Public Head_Load_Rate As Decimal
+    Public Cycle_Frequency As Integer
+
 
 #End Region
 
@@ -279,6 +281,7 @@ Public Class clsHeadLoadDCS
                 clsCommon.AddColumnsForChange(coll, "VLC_CODE", obj.VLC_CODE)
                 clsCommon.AddColumnsForChange(coll, "Head_Load_Basis", obj.Head_Load_Basis)
                 clsCommon.AddColumnsForChange(coll, "Head_Load_Rate", obj.Head_Load_Rate)
+                clsCommon.AddColumnsForChange(coll, "Cycle_Frequency", obj.Cycle_Frequency)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_HEAD_LOAD_DCS", OMInsertOrUpdate.Insert, "", trans)
             Next
         End If
@@ -289,7 +292,7 @@ Public Class clsHeadLoadDCS
         Dim arr As List(Of clsHeadLoadDCS) = Nothing
         Dim qry As String = "select TSPL_HEAD_LOAD_DCS.Document_No, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as Dcs_Uploader_No, TSPL_VLC_MASTER_HEAD.VLC_CODE as VLC_CODE, TSPL_VLC_MASTER_HEAD.VLC_Name as DCS_Name ,
         TSPL_MCC_MASTER.MCC_Code_VLC_Uploader as BMC_Uploader_No ,TSPL_MCC_MASTER.MCC_Code as BMC_Code , TSPL_MCC_MASTER.MCC_NAME as BMC_Name , TSPL_HEAD_LOAD_DCS.Head_Load_Basis , 
-        TSPL_HEAD_LOAD_DCS.Head_Load_Rate from TSPL_HEAD_LOAD_DCS  left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_CODE = TSPL_VLC_MASTER_HEAD.VLC_CODE
+        TSPL_HEAD_LOAD_DCS.Head_Load_Rate,TSPL_HEAD_LOAD_DCS.Cycle_Frequency from TSPL_HEAD_LOAD_DCS  left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_CODE = TSPL_VLC_MASTER_HEAD.VLC_CODE
          left  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_VLC_MASTER_HEAD.MCC where  TSPL_HEAD_LOAD_DCS.Document_No = '" + strCode + "' order by Document_No "
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
@@ -306,6 +309,7 @@ Public Class clsHeadLoadDCS
                 obj.BMC_Name = clsCommon.myCstr(dr("BMC_Name"))
                 obj.Head_Load_Basis = clsCommon.myCstr(dr("Head_Load_Basis"))
                 obj.Head_Load_Rate = clsCommon.myCstr(dr("Head_Load_Rate"))
+                obj.Cycle_Frequency = clsCommon.myCstr(dr("Cycle_Frequency"))
                 arr.Add(obj)
             Next
         End If
@@ -316,14 +320,15 @@ Public Class clsHeadLoadDCS
         Dim obj As New clsHeadLoadDCS()
         Try
 
-            Dim qry As String = "select top 1 TSPL_HEAD_LOAD.Start_Date ,TSPL_HEAD_LOAD_DCS .PK_Id, TSPL_HEAD_LOAD_DCS.Head_Load_Basis ,TSPL_HEAD_LOAD_DCS .Head_Load_Rate from TSPL_HEAD_LOAD 
+            Dim qry As String = "select top 1 TSPL_HEAD_LOAD.Start_Date ,TSPL_HEAD_LOAD_DCS .PK_Id, TSPL_HEAD_LOAD_DCS.Head_Load_Basis ,TSPL_HEAD_LOAD_DCS.Head_Load_Rate,TSPL_HEAD_LOAD_DCS.Cycle_Frequency from TSPL_HEAD_LOAD 
             left outer join TSPL_HEAD_LOAD_DCS on TSPL_HEAD_LOAD_DCS.Document_No = TSPL_HEAD_LOAD.Document_No where  TSPL_HEAD_LOAD.status = 1 and TSPL_HEAD_LOAD_DCS.VLC_CODE  = '" & VLC_CODE & "'  
             and TSPL_HEAD_LOAD.Start_Date <= '" & clsCommon.GetPrintDate(DcsDate, "dd/MMM/yyyy") & "' order by TSPL_HEAD_LOAD.Start_Date desc,PK_Id desc"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 obj.PK_Id = (dt.Rows(0)("PK_Id"))
                 obj.Head_Load_Basis = clsCommon.myCstr(dt.Rows(0)("Head_Load_Basis"))
-                obj.Head_Load_Rate = clsCommon.myCstr(dt.Rows(0)("Head_Load_Rate"))
+                obj.Head_Load_Rate = clsCommon.myCDecimal(dt.Rows(0)("Head_Load_Rate"))
+                obj.Cycle_Frequency = clsCommon.myCDecimal(dt.Rows(0)("Cycle_Frequency"))
             End If
 
         Catch ex As Exception
@@ -333,6 +338,7 @@ Public Class clsHeadLoadDCS
     End Function
 
 End Class
+
 
 
 
