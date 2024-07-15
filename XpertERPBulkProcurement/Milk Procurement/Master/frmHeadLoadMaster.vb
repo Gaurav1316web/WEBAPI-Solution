@@ -212,13 +212,13 @@ Public Class frmHeadLoadMaster
                     'Else
                     '    objTr.Head_Load_Basis = "L"
                     'End If
+                    If clsCommon.myLen(grow.Cells("Cycle Frequency").Value) > 0 Then
+                        objTr.Cycle_Frequency = clsCommon.myCdbl((grow.Cells("Cycle Frequency").Value))
+                    End If
                     If grow.Cells("Head Load Rate").Value IsNot Nothing Then
                         objTr.Head_Load_Rate = clsCommon.myCDecimal((grow.Cells("Head Load Rate").Value))
 
                         obj.Arr.Add(objTr)
-                    End If
-                    If clsCommon.myLen(grow.Cells("Head Load Rate").Value) > 0 Then
-                        objTr.Cycle_Frequency = clsCommon.myCDecimal((grow.Cells("Cycle Frequency").Value))
                     End If
 
                 Next
@@ -516,8 +516,8 @@ Public Class frmHeadLoadMaster
                     For jj As Integer = 0 To dt.Rows.Count - 1
                         If clsCommon.CompairString(gv1.Rows(ii).Cells("DCS Code").Value, dt.Rows(jj)("VLC_CODE")) = CompairStringResult.Equal Then
                             gv1.Rows(ii).Cells("Head Load Basis").Value = clsCommon.myCstr(dt.Rows(jj)("Head_Load_Basis"))
-                            gv1.Rows(ii).Cells("Head Load Rate").Value = clsCommon.myCstr(dt.Rows(jj)("Head Load Rate"))
-                            gv1.Rows(ii).Cells("Cycle Frequency").Value = clsCommon.myCstr(dt.Rows(jj)("Cycle Frequency"))
+                            gv1.Rows(ii).Cells("Head Load Rate").Value = clsCommon.myCDecimal(dt.Rows(jj)("Head Load Rate"))
+                            gv1.Rows(ii).Cells("Cycle Frequency").Value = clsCommon.myCdbl(dt.Rows(jj)("Cycle Frequency"))
                             Exit For
                         Else
 
@@ -604,12 +604,8 @@ Public Class frmHeadLoadMaster
     End Sub
 
     Private Sub btnExport_Click(sender As Object, e As EventArgs) Handles btnExport.Click
-        If gv1.Rows.Count > 1 Then
 
-            clsCommon.MyExportToExcelGrid("", gv1, Nothing, "Head Load Master")
-        Else
-            clsCommon.MyMessageBoxShow(Me, "No record found", Me.Text)
-        End If
+        clsCommon.MyExportToExcelGrid("", gv1, Nothing, "Head Load Master")
     End Sub
 
     Private Sub btnCC_Click(sender As Object, e As EventArgs) Handles btnCC.Click
@@ -628,12 +624,13 @@ Public Class frmHeadLoadMaster
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
     Private Sub btnImport_Click(sender As Object, e As EventArgs) Handles btnImport.Click
         Dim gvImport As New RadGridView()
 
         Me.Controls.Add(gvImport)
         Dim currentdate As Date = Date.Today
-        If transportSql.importExcel(gvImport, "DCS Uploader No", "DCS Code", "DCS Name", "BMC Uploader No", "BMC Name", "Head Load Basis", "Head Load Rate") Then
+        If transportSql.importExcel(gvImport, "DCS Uploader No", "DCS Code", "DCS Name", "BMC Uploader No", "BMC Name", "Head Load Basis", "Head Load Rate", "Cycle Frequency") Then
             Try
                 clsCommon.ProgressBarPercentShow()
                 For ii As Integer = 0 To gvImport.Rows.Count - 1
@@ -647,8 +644,24 @@ Public Class frmHeadLoadMaster
                             gv1.Rows(ii).Cells("DCS Name").Value = clsCommon.myCstr(gvImport.Rows(ii).Cells("DCS Name").Value)
                             gv1.Rows(ii).Cells("BMC Uploader No").Value = clsCommon.myCstr(gvImport.Rows(ii).Cells("BMC Uploader No").Value)
                             gv1.Rows(ii).Cells("BMC Name").Value = clsCommon.myCstr(gvImport.Rows(ii).Cells("BMC Name").Value)
-                            gv1.Rows(ii).Cells("Head Load Basis").Value = clsCommon.myCstr(gvImport.Rows(ii).Cells("Head Load Basis").Value)
-                            gv1.Rows(ii).Cells("Head Load Rate").Value = Math.Round(clsCommon.myCdbl(gvImport.Rows(ii).Cells("Head Load Rate").Value), 2)
+                            If clsCommon.CompairString(gvImport.Rows(ii).Cells("Head Load Basis").Value, "Rate/Kg") = CompairStringResult.Equal OrElse clsCommon.CompairString(gvImport.Rows(ii).Cells("Head Load Basis").Value, "Rate/Ltr") = CompairStringResult.Equal OrElse clsCommon.CompairString(gvImport.Rows(ii).Cells("Head Load Basis").Value, "Cycle Wise Rate/Kg") = CompairStringResult.Equal OrElse clsCommon.CompairString(gvImport.Rows(ii).Cells("Head Load Basis").Value, "Cycle Wise Rate/Ltr") = CompairStringResult.Equal Then
+                                If clsCommon.CompairString(gvImport.Rows(ii).Cells("Head Load Basis").Value, "Rate/Kg") = CompairStringResult.Equal Then
+                                    gv1.Rows(ii).Cells("Head Load Basis").Value = "K"
+                                ElseIf clsCommon.CompairString(gvImport.Rows(ii).Cells("Head Load Basis").Value, "Rate/Ltr") = CompairStringResult.Equal Then
+                                    gv1.Rows(ii).Cells("Head Load Basis").Value = "L"
+                                ElseIf clsCommon.CompairString(gvImport.Rows(ii).Cells("Head Load Basis").Value, "Cycle Wise Rate/Kg") = CompairStringResult.Equal Then
+                                    gv1.Rows(ii).Cells("Head Load Basis").Value = "CK"
+                                ElseIf clsCommon.CompairString(gvImport.Rows(ii).Cells("Head Load Basis").Value, "Cycle Wise Rate/Ltr") = CompairStringResult.Equal Then
+                                    gv1.Rows(ii).Cells("Head Load Basis").Value = "CL"
+                                End If
+                            Else
+                                clsCommon.MyMessageBoxShow(Me, " This Head load basis does not exist in Head Load Master", Me.Text)
+                                Exit Sub
+                            End If
+                            gv1.Rows(ii).Cells("Head Load Rate").Value = Math.Round(clsCommon.myCDecimal(gvImport.Rows(ii).Cells("Head Load Rate").Value), 2)
+
+                            gv1.Rows(ii).Cells("Cycle Frequency").Value = clsCommon.myCdbl(gvImport.Rows(ii).Cells("Cycle Frequency").Value)
+
                             If clsCommon.myLen(txtDocumentNo.Value) = 0 Then
                                 If gv1.Rows.Count = gvImport.Rows.Count Then
                                 Else
@@ -668,12 +681,11 @@ Public Class frmHeadLoadMaster
                 common.clsCommon.MyMessageBoxShow(Me, "Data imported successfully", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarPercentHide()
-                Throw New Exception(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
         Me.Controls.Remove(gvImport)
     End Sub
-
     Private Sub chkRate_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkRate.ToggleStateChanged
         If chkRate.Checked Then
             txtRate.Enabled = True

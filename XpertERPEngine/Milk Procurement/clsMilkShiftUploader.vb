@@ -770,23 +770,12 @@ and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE='" + clsCommon.myCstr(dtVLC.Rows(0)
                                 objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkSRNDetail.ACC_Qty_LTR * objHeadLoad.Head_Load_Rate * dclDistanceKM, 2)
                             End If
                         ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CK") = CompairStringResult.Equal Then
-                            If objHeadLoad.Cycle_Frequency > 0 Then
-                                objMilkSRNDetail.Head_Load_Cycle = clsCommon.myCDivide(objMilkSRNDetail.ACC_Qty, objHeadLoad.Cycle_Frequency)
-                                If Not objMilkSRNDetail.ACC_Qty Mod objHeadLoad.Cycle_Frequency = 0 Then
-                                    objMilkSRNDetail.Head_Load_Cycle += 1
-                                End If
-                                objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkSRNDetail.Head_Load_Cycle * objHeadLoad.Head_Load_Rate, 2)
-                            End If
+                            objMilkSRNDetail.Head_Load_Cycle = Math.Ceiling(clsCommon.myCDivide(objMilkSRNDetail.ACC_Qty, objHeadLoad.Cycle_Frequency))
+                            objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkSRNDetail.Head_Load_Cycle * objHeadLoad.Head_Load_Rate, 2)
                         ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CL") = CompairStringResult.Equal Then
-                            If objHeadLoad.Cycle_Frequency > 0 Then
-                                objMilkSRNDetail.Head_Load_Cycle = clsCommon.myCDivide(objMilkSRNDetail.ACC_Qty_LTR, objHeadLoad.Cycle_Frequency)
-                                If Not objMilkSRNDetail.ACC_Qty_LTR Mod objHeadLoad.Cycle_Frequency = 0 Then
-                                    objMilkSRNDetail.Head_Load_Cycle += 1
-                                End If
-                                objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkSRNDetail.Head_Load_Cycle * objHeadLoad.Head_Load_Rate, 2)
-                            End If
+                            objMilkSRNDetail.Head_Load_Cycle = Math.Ceiling(clsCommon.myCDivide(objMilkSRNDetail.ACC_Qty_LTR, objHeadLoad.Cycle_Frequency))
+                            objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkSRNDetail.Head_Load_Cycle * objHeadLoad.Head_Load_Rate, 2)
                         End If
-
                     End If
 
                     '============================================

@@ -192,6 +192,790 @@ Public Class clsSNShipmentHead
         End Try
         Return True
     End Function
+    Public Shared Function GetCustomerBaseQry(ByVal ItemWisecheck As Boolean, ByVal IsSecurity As Boolean, ByVal SecurityType As String, ByVal Docwise As Boolean, ByVal CurrencyType As String, ByVal strCustomer As String, ByVal isOpening As Boolean, ByVal strfromdate As String, ByVal strtodate As String, Optional ByVal IsCSA As Boolean = False, Optional ByVal IsMISDebtorReport As Boolean = False, Optional ByVal IsShowApplyDocument As Boolean = False, Optional ByVal trans As SqlTransaction = Nothing) As String
+        Return GetCustomerBaseQry(ItemWisecheck, IsSecurity, SecurityType, Docwise, CurrencyType, strCustomer, isOpening, strfromdate, strtodate, IsCSA, IsMISDebtorReport, IsShowApplyDocument, trans, True, Nothing)
+    End Function
+
+    Public Shared Function GetCustomerBaseQry(ByVal ItemWisecheck As Boolean, ByVal IsSecurity As Boolean, ByVal SecurityType As String, ByVal Docwise As Boolean, ByVal CurrencyType As String, ByVal strCustomer As String, ByVal isOpening As Boolean, ByVal strfromdate As String, ByVal strtodate As String, ByVal IsCSA As Boolean, ByVal IsMISDebtorReport As Boolean, ByVal IsShowApplyDocument As Boolean, ByVal trans As SqlTransaction, ByVal IsIncludecardIndent As Boolean) As String
+        Return GetCustomerBaseQry(ItemWisecheck, IsSecurity, SecurityType, Docwise, CurrencyType, strCustomer, isOpening, strfromdate, strtodate, IsCSA, IsMISDebtorReport, IsShowApplyDocument, trans, IsIncludecardIndent, "")
+    End Function
+    Public Shared Function GetCustomerBaseQry(ByVal ItemWisecheck As Boolean, ByVal IsSecurity As Boolean, ByVal SecurityType As String, ByVal Docwise As Boolean, ByVal CurrencyType As String, ByVal strCustomer As String, ByVal isOpening As Boolean, ByVal strfromdate As String, ByVal strtodate As String, ByVal IsCSA As Boolean, ByVal IsMISDebtorReport As Boolean, ByVal IsShowApplyDocument As Boolean, ByVal trans As SqlTransaction, ByVal IsIncludecardIndent As Boolean, ByVal DocNo As String) As String
+        Dim strtempBaseQryforopening As String = ""
+        Dim strtempBaseQry As String = ""
+        strtempBaseQryforopening = GetCustomerBaseQryForOpening(ItemWisecheck, IsSecurity, SecurityType, Docwise, CurrencyType, strCustomer, isOpening, strfromdate, strtodate, IsCSA, IsShowApplyDocument, trans, IsIncludecardIndent, DocNo)
+        Dim strExcludeEXcforApplyDocumnets As String = " and InnQuery.DocNo not in ( Select Receipt_No  from TSPL_RECEIPT_HEADER where TSPL_RECEIPT_HEADER.Receipt_Type ='A' and   TSPL_RECEIPT_HEADER.Posted='Y' and (TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT >0 or TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_AMT >0)   "
+        If isOpening = True Then
+            strExcludeEXcforApplyDocumnets += "  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <'" + strfromdate + "'  " + Environment.NewLine
+        Else
+            strExcludeEXcforApplyDocumnets += "  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  >='" + strfromdate + "' and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <='" + strtodate + "' " + Environment.NewLine
+        End If
+        If clsCommon.myLen(strCustomer) > 0 Then
+            strExcludeEXcforApplyDocumnets += " and TSPL_RECEIPT_HEADER.Cust_Code in (" & strCustomer & ")"
+        End If
+        strExcludeEXcforApplyDocumnets += Environment.NewLine & " Union All" & Environment.NewLine &
+        " Select Reverse_Code  from TSPL_BANK_REVERSE where Document_No in ( Select Receipt_No  from TSPL_RECEIPT_HEADER where TSPL_RECEIPT_HEADER.Receipt_Type ='A' and   TSPL_RECEIPT_HEADER.Posted='Y' and (TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT >0 or TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_AMT >0)   "
+        If isOpening = True Then
+            strExcludeEXcforApplyDocumnets += "  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <'" + strfromdate + "'  " + Environment.NewLine
+        Else
+            strExcludeEXcforApplyDocumnets += "  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  >='" + strfromdate + "' and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <='" + strtodate + "' " + Environment.NewLine
+        End If
+        If clsCommon.myLen(strCustomer) > 0 Then
+            strExcludeEXcforApplyDocumnets += " and TSPL_RECEIPT_HEADER.Cust_Code in (" & strCustomer & ")"
+        End If
+
+        strExcludeEXcforApplyDocumnets += "  ) ) "
+        Dim strExcludeCardIndentAdvanceDoc As String = Nothing
+        If IsIncludecardIndent = False Then
+            strExcludeCardIndentAdvanceDoc = " and InnQuery.DocNo not in ( " & Environment.NewLine &
+        " Select tspl_receipt_header.receipt_no  from tspl_receipt_header where tspl_receipt_header.receipt_no in (select distinct Against_Receipt_No  from TSPL_BOOKING_PAYMENT_MODE_DETAIL ) and tspl_receipt_header.Receipt_Type ='P' and tspl_receipt_header.Posted ='Y' and isnull(tspl_receipt_header.IsChkReverse,'')='N'  "
+            If isOpening = True Then
+                strExcludeCardIndentAdvanceDoc += "  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <'" + strfromdate + "'  " + Environment.NewLine
+            Else
+                strExcludeCardIndentAdvanceDoc += "  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  >='" + strfromdate + "' and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <='" + strtodate + "' " + Environment.NewLine
+            End If
+            If clsCommon.myLen(strCustomer) > 0 Then
+                strExcludeCardIndentAdvanceDoc += " and TSPL_RECEIPT_HEADER.Cust_Code in (" & strCustomer & ")"
+            End If
+            strExcludeCardIndentAdvanceDoc += "  ) "
+        End If
+
+        If Docwise = True Then
+            strtempBaseQry = "  Select InnQuery.ACode AS ACode,InnQuery.Child AS Child, tspl_customer_master.customer_name AS AName,InnQuery.DocNo as DocNo,InnQuery.AgainstInvoiceNo AS AgainstInvoiceNo,InnQuery.DocDate ,InnQuery.DocType ,InnQuery.DocNarr ,InnQuery.ChequeDetails ,InnQuery.Currency_Code ,InnQuery.ConvRate,InnQuery.DrAmt ," + Environment.NewLine &
+            "case when len( (isnull(TSPL_RECEIPT_HEADER.Location_GL_Code,'')))<=0 then " + Environment.NewLine &
+            " case when (RIGHT(TSPL_BANK_MASTER.BANKACC,3))=(InnQuery.Location) then " + Environment.NewLine &
+            " case when isnull((TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT),0)>0 AND (DocType)<>'EXC' then  (CrAmt*  " & IIf(clsCommon.myCstr(CurrencyType) = "1", 1, " InnQuery." & CurrencyType & "") & " ) +isnull((TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT),0) else " + Environment.NewLine &
+            " case when isnull((CrAmt),0)>0 then (CrAmt* " & IIf(clsCommon.myCstr(CurrencyType) = "1", 1, " InnQuery." & CurrencyType & "") & ") -isnull((TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_AMT ),0) else 0 end end else " + Environment.NewLine &
+            " case when isnull((TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT),0)>0 AND DocType<>'IM'  then  (CrAmt* " & IIf(clsCommon.myCstr(CurrencyType) = "1", 1, " InnQuery." & CurrencyType & "") & ") +isnull((TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT),0) else (CrAmt*  " & IIf(clsCommon.myCstr(CurrencyType) = "1", 1, " InnQuery." & CurrencyType & "") & ") -isnull((TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_AMT ),0)  end end else " + Environment.NewLine &
+            " case when (RIGHT(TSPL_BANK_MASTER.BANKACC,3))=isnull(TSPL_RECEIPT_HEADER.Location_GL_Code,'') then " + Environment.NewLine &
+            " case when isnull((TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT),0)>0 then   (CrAmt* " & IIf(clsCommon.myCstr(CurrencyType) = "1", 1, " InnQuery." & CurrencyType & "") & ") +isnull((TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT),0) else  (CrAmt* " & IIf(clsCommon.myCstr(CurrencyType) = "1", 1, " InnQuery." & CurrencyType & "") & ") -isnull((TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_AMT ),0) end else " + Environment.NewLine &
+            " case when isnull((TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT),0)>0 then  (CrAmt* " & IIf(clsCommon.myCstr(CurrencyType) = "1", 1, " InnQuery." & CurrencyType & "") & ") +isnull((TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT),0) else  (CrAmt*  " & IIf(clsCommon.myCstr(CurrencyType) = "1", 1, " InnQuery." & CurrencyType & "") & ") -isnull((TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_AMT ),0) end end end as CrAmt, " + Environment.NewLine &
+            " InnQuery.SecurityDrAmt ,InnQuery.SecurityCrAmt ,InnQuery.Sales ,InnQuery.CollectionRefund,InnQuery.DrNote,InnQuery.CrNote,InnQuery.Location,InnQuery.SourceCode ,InnQuery.Item_Code,InnQuery.Item_Desc,InnQuery.Receipt_Type,InnQuery.Bank_Code,InnQuery.Cust_Type_Code ,InnQuery.Cust_Type_Desc,InnQuery.Cust_Category_Code ,InnQuery.CUST_CATEGORY_DESC    from  (" & strtempBaseQryforopening & " ) InnQuery " + Environment.NewLine &
+            "  LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE=InnQuery.Bank_Code left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =InnQuery.DocNo  "
+        Else
+            strtempBaseQry = "Select InnQuery.ACode AS ACode,InnQuery.Child AS Child, tspl_customer_master.customer_name AS AName,InnQuery.DocNo as DocNo,InnQuery.AgainstInvoiceNo AS AgainstInvoiceNo,InnQuery.DocDate ,InnQuery.DocType ,InnQuery.DocNarr ,InnQuery.ChequeDetails ,InnQuery.Currency_Code ,InnQuery.ConvRate,"
+
+            If IsMISDebtorReport = True Then
+                strtempBaseQry += " case when InnQuery.DocType NOT IN  ('IN','RF','RV-TA') THEN convert(decimal(18,2),InnQuery.DrAmt) ELSE 0 END AS DrAmt,case when InnQuery.DocType NOT IN ('OA','RC','PR','RV-TA') THEN convert(decimal(18,2),InnQuery.CrAmt) ELSE 0 END AS CrAmt,case when InnQuery.DocType='IN' THEN convert(decimal(18,2),InnQuery.Sales) ELSE 0 END AS Sales,case when InnQuery.DocType in ('OA','RC','PR','RF','RV-TA') THEN CASE WHEN InnQuery.DocType ='RV-TA' AND (sELECT Receipt_Type FROM TSPL_RECEIPT_HEADER WHERE Receipt_No =InnQuery.DocNarr )='F' THEN convert(decimal(18,2),InnQuery.CollectionRefund) * -1 ELSE convert(decimal(18,2),InnQuery.CollectionRefund) END ELSE 0 END AS CollectionRefund , " + Environment.NewLine
+            Else
+                strtempBaseQry += " convert(decimal(18,2),InnQuery.DrAmt) as DrAmt,convert(decimal(18,2),InnQuery.CrAmt) as CrAmt,convert(decimal(18,2),InnQuery.Sales) as Sales,case when InnQuery.DocType='IM' then case when InnQuery.CrAmt>0 then  convert(decimal(18,2),InnQuery.CrAmt) else convert(decimal(18,2),InnQuery.DrAmt) * -1 end  else convert(decimal(18,2),InnQuery.CollectionRefund) end  as CollectionRefund , " + Environment.NewLine
+            End If
+            strtempBaseQry += " InnQuery.SecurityDrAmt ,InnQuery.SecurityCrAmt ,InnQuery.DrNote,InnQuery.CrNote,InnQuery.Location,InnQuery.SourceCode ,InnQuery.Item_Code,InnQuery.Item_Desc,InnQuery.Receipt_Type,InnQuery.Bank_Code,InnQuery.Cust_Type_Code ,InnQuery.Cust_Type_Desc,InnQuery.Cust_Category_Code ,InnQuery.CUST_CATEGORY_DESC,InnQuery .EXCHANGE_GAIN_AMT ,InnQuery .EXCHANGE_LOSS_AMT  " &
+     " from (Select InnQuery.ACode AS ACode,InnQuery.Child  , InnQuery.AName AS AName,InnQuery.DocNo as DocNo,InnQuery.AgainstInvoiceNo AS AgainstInvoiceNo,InnQuery.DocDate ,InnQuery.DocType ,InnQuery.DocNarr ,InnQuery.ChequeDetails ,InnQuery.Currency_Code ,InnQuery.ConvRate,InnQuery.DrAmt ," + Environment.NewLine &
+     "case when len( (isnull(TSPL_RECEIPT_HEADER.Location_GL_Code,'')))<=0 then " + Environment.NewLine &
+     " case when (RIGHT(TSPL_BANK_MASTER.BANKACC,3))=(InnQuery.Location) then " + Environment.NewLine &
+     " case when isnull((TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT),0)>0 AND (DocType)<>'EXC' and (DocType)<>'IM' AND  (InnQuery.Receipt_Type )<>'U'  then  (CrAmt* " & IIf(clsCommon.myCstr(CurrencyType) = "1", 1, " InnQuery." & CurrencyType & "") & ") else " + Environment.NewLine &
+     " case when isnull((CrAmt),0)>0 AND (DocType)<>'IM' then (CrAmt* " & IIf(clsCommon.myCstr(CurrencyType) = "1", 1, " InnQuery." & CurrencyType & "") & ") when isnull((CrAmt),0)>0  AND (DocType)='IM'  then (CrAmt* " & IIf(clsCommon.myCstr(CurrencyType) = "1", 1, " InnQuery." & CurrencyType & "") & ") WHEN isnull((CrAmt),0)<0  AND (DocType)='IM'  then (CrAmt* " & IIf(clsCommon.myCstr(CurrencyType) = "1", 1, " InnQuery." & CurrencyType & "") & ")  else 0 end end else " + Environment.NewLine &
+     " case when isnull((TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT),0)>0 then  (CrAmt* " & IIf(clsCommon.myCstr(CurrencyType) = "1", 1, " InnQuery." & CurrencyType & "") & ")  else (CrAmt* " & IIf(clsCommon.myCstr(CurrencyType) = "1", 1, " InnQuery." & CurrencyType & "") & ")  end end else " + Environment.NewLine &
+     " case when (RIGHT(TSPL_BANK_MASTER.BANKACC,3))=isnull(TSPL_RECEIPT_HEADER.Location_GL_Code,'') then " + Environment.NewLine &
+     " case when isnull((TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT),0)>0 then   (CrAmt* " & IIf(clsCommon.myCstr(CurrencyType) = "1", 1, " InnQuery." & CurrencyType & "") & ") +isnull((TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT),0) else  (CrAmt* " & IIf(clsCommon.myCstr(CurrencyType) = "1", 1, " InnQuery." & CurrencyType & "") & ") -isnull((TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_AMT ),0) end else " + Environment.NewLine &
+     " case when isnull((TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT),0)>0 then  (CrAmt* " & IIf(clsCommon.myCstr(CurrencyType) = "1", 1, " InnQuery." & CurrencyType & "") & ")  else  (CrAmt* " & IIf(clsCommon.myCstr(CurrencyType) = "1", 1, " InnQuery." & CurrencyType & "") & ")  end end end as CrAmt, " + Environment.NewLine &
+     " InnQuery.SecurityDrAmt ,InnQuery.SecurityCrAmt ,InnQuery.Sales ,InnQuery.CollectionRefund,InnQuery.DrNote,InnQuery.CrNote,InnQuery.Location,InnQuery.SourceCode ,InnQuery.Item_Code,InnQuery.Item_Desc,InnQuery.Receipt_Type,InnQuery.Bank_Code,InnQuery.Cust_Type_Code ,InnQuery.Cust_Type_Desc,InnQuery.Cust_Category_Code ,InnQuery.CUST_CATEGORY_DESC,isnull(TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT,0) as EXCHANGE_LOSS_AMT,isnull(TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_AMT ,0) as EXCHANGE_GAIN_AMT    from  (" & strtempBaseQryforopening & " ) InnQuery " + Environment.NewLine &
+     " LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE=InnQuery.Bank_Code left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =InnQuery.DocNo where 1=1 " & strExcludeCardIndentAdvanceDoc & " " & IIf(IsShowApplyDocument = False, " and InnQuery.DocType<>'IM' " & strExcludeEXcforApplyDocumnets & " ", "") & "  )InnQuery   "
+        End If
+        If IsCSA = True Then
+            strtempBaseQry += " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code =InnQuery.ACode WHERE TSPL_CUSTOMER_MASTER.CSA_Type ='Y'"
+        Else
+            strtempBaseQry += " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code =InnQuery.ACode"
+        End If
+        Return strtempBaseQry
+    End Function
+    Public Shared Function GetCustomerBaseQryForOpening(ByVal ItemWisecheck As Boolean, ByVal IsSecurity As Boolean, ByVal SecurityType As String, ByVal Docwise As Boolean, ByVal CurrencyType As String, ByVal strCustomer As String, ByVal isOpening As Boolean, ByVal strfromdate As String, ByVal strtodate As String, Optional ByVal IsCSA As Boolean = False, Optional ByVal IsShowApplyDocument As Boolean = False, Optional ByVal trans As SqlTransaction = Nothing, Optional ByVal IsIncludecardIndent As Boolean = True, Optional ByVal DocNo As String = "") As String
+        Dim strtempBaseQry As String = String.Empty
+        Dim AllowtoSHOWParentChildCustomer As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowtoSHOWParentChildCustomer, clsFixedParameterCode.AllowtoSHOWParentChildCustomer, trans)) = 1, True, False))
+        Try
+            Dim STRsecurityfilterquery As String = "AND ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='N'"
+            If IsSecurity Then
+                If clsCommon.myLen(SecurityType) > 0 Then
+                    STRsecurityfilterquery = " And ISNULL(TSPL_RECEIPT_HEADER.SecurityDepositType,'') IN (" & clsCommon.myCstr(SecurityType) & ") "
+                Else
+                    STRsecurityfilterquery = ""
+                End If
+            End If
+            If Not ItemWisecheck Then
+                strtempBaseQry = "SELECT " + Environment.NewLine
+
+                If Docwise Then
+                    strtempBaseQry += "Max(ACode) AS ACode,max(Child) as Child,  " + Environment.NewLine
+                Else
+                    strtempBaseQry += " ACode AS ACode,max(Child) as Child, " + Environment.NewLine
+                End If
+
+                strtempBaseQry += "MAX(AName) AS AName,MAX(DocNo) AS DocNo,MAX(AgainstInvoiceNo) AS AgainstInvoiceNo,MAX(DocDate) AS DocDate,MAX(DocType) AS DocType " &
+                                " ,MAX(DocNarr) AS DocNarr,MAX(ChequeDetails) AS ChequeDetails, MAX(Currency_Code) as Currency_Code, MAX(ConvRate) as ConvRate, SUM(DrAmt) AS DrAmt, SUM(CrAmt) AS CrAmt, SUM(SecurityDrAmt) as SecurityDrAmt, SUM(SecurityCrAmt) as SecurityCrAmt, SUM(Sales) as Sales,"
+
+                strtempBaseQry += "case when MAX(DocType)='IM' then case when SUM(CrAmt)>0 then  SUM(CrAmt) else  0 end  else  Sum(CollectionRefund) end  as CollectionRefund , SUM(DrNote) as DrNote,case when MAX(DocType)='IM' then 0 else  Sum(CrNote) end  as CrNote," '' SUM(CrNote) as CrNote,"
+
+                If Docwise Then
+                    strtempBaseQry += "MAX(Location) AS Location,  " + Environment.NewLine
+                Else
+                    strtempBaseQry += " Location AS Location, " + Environment.NewLine
+                End If
+                strtempBaseQry += " MAX(SourceCode) AS SourceCode,MAX(Item_Code) AS Item_Code,MAX(Item_Desc) AS Item_Desc,MAX(Receipt_Type) AS Receipt_Type,MAX(Bank_Code) AS Bank_Code, MAX(Cust_Type_Code) AS Cust_Type_Code,MAX(Cust_Type_Desc) AS Cust_Type_Desc,MAX(Cust_Category_Code) AS Cust_Category_Code,MAX(CUST_CATEGORY_DESC) AS CUST_CATEGORY_DESC  FROM ( "
+                If AllowtoSHOWParentChildCustomer = True Then
+                    strtempBaseQry += " Select TSPL_CUSTOMER_MASTER.Cust_Code as ACode,case when TSPL_RECEIPT_HEADER.Receipt_Type='R' then TSPL_RECEIPT_DETAIL.Child_Cust_Code else TSPL_CUSTOMER_MASTER.Cust_Code end as Child, TSPL_CUSTOMER_MASTER.Customer_Name as AName, TSPL_RECEIPT_HEADER.Receipt_No as DocNo, TSPL_Customer_Invoice_Head.Document_No as AgainstInvoiceNo, Receipt_Date as DocDate,case when TSPL_RECEIPT_HEADER.Receipt_Type='R' then 'RC' when TSPL_RECEIPT_HEADER.Receipt_Type='f' then 'RF' when TSPL_RECEIPT_HEADER.Receipt_Type='U' then 'UR' when TSPL_RECEIPT_HEADER.Receipt_Type='P' then 'PR' when TSPL_RECEIPT_HEADER.Receipt_Type='O' then 'OA' else null end as DocType,"
+                Else
+                    strtempBaseQry += " Select TSPL_CUSTOMER_MASTER.Cust_Code as ACode,TSPL_CUSTOMER_MASTER.Cust_Code as Child, TSPL_CUSTOMER_MASTER.Customer_Name as AName, TSPL_RECEIPT_HEADER.Receipt_No as DocNo, TSPL_Customer_Invoice_Head.Document_No as AgainstInvoiceNo, Receipt_Date as DocDate,case when TSPL_RECEIPT_HEADER.Receipt_Type='R' then 'RC' when TSPL_RECEIPT_HEADER.Receipt_Type='f' then 'RF' when TSPL_RECEIPT_HEADER.Receipt_Type='U' then 'UR' when TSPL_RECEIPT_HEADER.Receipt_Type='P' then 'PR' when TSPL_RECEIPT_HEADER.Receipt_Type='O' then 'OA' else null end as DocType,"
+                End If
+
+                If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Description FROM TSPL_FIXED_PARAMETER WHERE TYPE='Industry Type'", trans)), "D") = CompairStringResult.Equal Then
+                    strtempBaseQry += "case when ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='Y' Then CASE WHEN ISNULL(TSPL_RECEIPT_HEADER.SecurityDepositType,'')='S' THEN 'Security' ELSE CASE WHEN ISNULL(TSPL_RECEIPT_HEADER.SecurityDepositType,'')='C' THEN 'Crate Security' ELSE  CASE WHEN ISNULL(TSPL_RECEIPT_HEADER.SecurityDepositType,'')='R' THEN 'Refrigerator' ELSE CASE WHEN ISNULL(TSPL_RECEIPT_HEADER.SecurityDepositType,'')='O' THEN 'Others' END END END END Else '' + TSPL_RECEIPT_HEADER.Entry_Desc end as DocNarr,"
+                Else
+                    strtempBaseQry += " case when ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='Y' Then 'Security' Else '' + TSPL_RECEIPT_HEADER.Entry_Desc end as DocNarr,"
+                End If
+
+                strtempBaseQry += " (rtrim(Entry_Desc) + (case when len(RTRIM(Entry_Desc))>0 and len(RTRIM(Cheque_No))>0  then ' / ' else '' end)  + (case when LEN(ISNULL(Cheque_No,''))>0 then 'Cheque No. - ' + Cheque_No +  ' - '+Cheque_Date else '' end)) as ChequeDetails, TSPL_RECEIPT_HEADER.Currency_Code, TSPL_RECEIPT_HEADER.ConvRate, " &
+                " Case When TSPL_RECEIPT_HEADER.SecurityDeposit<>'Y' Then (case when TSPL_RECEIPT_HEADER.Receipt_Type='F' then Receipt_Amount else 0 end) Else 0 End as DrAmt," &
+                " Case When TSPL_RECEIPT_HEADER.SecurityDeposit<>'Y' Then (CASE WHEN   TSPL_RECEIPT_HEADER.Receipt_Type='R' AND TSPL_RECEIPT_DETAIL.Receipt_Type<>'C' THEN TSPL_RECEIPT_DETAIL.Applied_Amount  WHEN TSPL_RECEIPT_HEADER.Receipt_Type ='R' AND TSPL_RECEIPT_DETAIL.Receipt_Type='C' THEN  -1 * TSPL_RECEIPT_DETAIL.Applied_Amount when TSPL_RECEIPT_HEADER.Receipt_Type='F' then 0 else Receipt_Amount END) Else 0 End AS CrAmt," &
+                " Case When TSPL_RECEIPT_HEADER.SecurityDeposit='Y' Then (case when TSPL_RECEIPT_HEADER.Receipt_Type='F' then Receipt_Amount else 0 end) Else 0 End as SecurityDrAmt," &
+                " Case When TSPL_RECEIPT_HEADER.SecurityDeposit='Y' Then (CASE WHEN TSPL_RECEIPT_HEADER.Receipt_Type='R' THEN TSPL_RECEIPT_DETAIL.Applied_Amount when TSPL_RECEIPT_HEADER.Receipt_Type='F' then 0 else Receipt_Amount END) Else 0 End AS SecurityCrAmt," &
+                " 0 as [Sales], case when TSPL_RECEIPT_HEADER.Receipt_Type IN ('F') Then Receipt_Amount*-1 When TSPL_RECEIPT_HEADER.Receipt_Type IN ('R') AND TSPL_RECEIPT_DETAIL.Receipt_Type<>'C' Then TSPL_RECEIPT_DETAIL.Applied_Amount WHEN TSPL_RECEIPT_HEADER.Receipt_Type ='R' AND TSPL_RECEIPT_DETAIL.Receipt_Type='C' THEN  -1 * TSPL_RECEIPT_DETAIL.Applied_Amount Else Receipt_Amount end as [CollectionRefund], 0 as [DrNote], 0 as [CrNote]," &
+                " CASE WHEN TSPL_RECEIPT_HEADER.Receipt_Type='R' THEN TSPL_Customer_Invoice_Head.Loc_Code  WHEN TSPL_RECEIPT_HEADER.Receipt_Type IN ('O','P','F') THEN CASE WHEN ISNULL(TSPL_RECEIPT_HEADER.Location_GL_Code,'')<>'' THEN TSPL_RECEIPT_HEADER.Location_GL_Code ELSE substring(TSPL_RECEIPT_HEADER.Dr_Account, len(TSPL_RECEIPT_HEADER.Dr_Account)-2,3) END  ELSE substring(TSPL_RECEIPT_HEADER.Dr_Account, len(TSPL_RECEIPT_HEADER.Dr_Account)-2,3) END as [Location], (Case when TSPL_RECEIPT_HEADER.Receipt_Type='R' then 'AR-RC' when TSPL_RECEIPT_HEADER.Receipt_Type='f' then 'AR-RF' when TSPL_RECEIPT_HEADER.Receipt_Type='U' then 'AR-UN' when TSPL_RECEIPT_HEADER.Receipt_Type='P' then 'AR-PY' when TSPL_RECEIPT_HEADER.Receipt_Type='O' then 'AR-OA' end) as SourceCode, '' as Item_Code, '' as Item_Desc" &
+                ",TSPL_RECEIPT_HEADER.Receipt_Type  As Receipt_Type, TSPL_RECEIPT_HEADER.Bank_Code, TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC  " &
+                " from  TSPL_RECEIPT_HEADER " &
+                " LEFT OUTER JOIN TSPL_RECEIPT_DETAIL ON TSPL_RECEIPT_DETAIL.Receipt_No  =  TSPL_RECEIPT_HEADER.Receipt_No " &
+                " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Document_No =TSPL_RECEIPT_DETAIL.Document_No "
+                If AllowtoSHOWParentChildCustomer = True Then
+                    strtempBaseQry += " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_RECEIPT_HEADER.Cust_Code"
+                Else
+                    strtempBaseQry += " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=Case When TSPL_RECEIPT_HEADER.Receipt_Type='R' Then TSPL_Customer_Invoice_Head.Customer_Code Else TSPL_RECEIPT_HEADER.Cust_Code End"
+                End If
+                strtempBaseQry += " LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code  " &
+                " LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE " &
+                " where  TSPL_RECEIPT_HEADER.Posted='Y' " &
+                "  and  TSPL_RECEIPT_HEADER.Receipt_Type not in ('M','A','U','K') " & STRsecurityfilterquery & " "
+                If isOpening = True Then
+                    strtempBaseQry += "  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <'" + strfromdate + "'  " + Environment.NewLine
+                Else
+                    strtempBaseQry += "  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  >='" + strfromdate + "' and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <='" + strtodate + "' " + Environment.NewLine
+                End If
+                If clsCommon.myLen(strCustomer) > 0 Then
+                    If AllowtoSHOWParentChildCustomer = True Then
+                        strtempBaseQry += " and (TSPL_CUSTOMER_MASTER.Cust_Code in (" & strCustomer & ") or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
+                    Else
+                        strtempBaseQry += " and TSPL_CUSTOMER_MASTER.Cust_Code in (" & strCustomer & ")"
+                    End If
+                End If
+
+                strtempBaseQry += Environment.NewLine + "----------------- Apply Document --------------------------------" + Environment.NewLine
+                strtempBaseQry += Environment.NewLine + " UNION ALL " + Environment.NewLine &
+                              "select TSPL_SD_SHIPMENT_head.Customer_Code as ACode,(TSPL_SD_SHIPMENT_head.Customer_Code) as Child,'' as AName,TSPL_SD_SHIPMENT_head.Document_Code as DocNo,'' as AgainstInvoiceNo,(CONVERT(DATE, TSPL_SD_SHIPMENT_head.Document_Date ,103)) as DocDate,'MI' as docType,(TSPL_SD_SHIPMENT_head.Remarks) as DocNarr,'' as ChequeDetails,
+                             'INR' as Currency_Code, 1 as ConvRate,case when isnull(TSPL_SD_SALE_INVOICE_HEAD.Total_Amt,0)=0 then TSPL_SD_SHIPMENT_head.Total_Amt else  TSPL_SD_SALE_INVOICE_HEAD.Total_Amt end as  DrAmt,0 as CrAmt, 0 as SecurityDrAmt, 0 as SecurityCrAmt, 0 as [Sales], 0 as [CollectionRefund], 0 as [DrNote],0 as [CrNote],(TSPL_SD_SHIPMENT_head.Bill_To_Location) as Location,'' as SourceCode,'' as Item_Code, '' as Item_Desc  ,'' As Receipt_Type, '' as Bank_Code,(TSPL_CUSTOMER_MASTER.Cust_Type_Code) as Cust_Type_Code,(TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc) as  Cust_Type_Desc,(TSPL_CUSTOMER_MASTER.Cust_Category_Code) as Cust_Category_Code,(TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC ) as  CUST_CATEGORY_DESC
+                             from TSPL_SD_SHIPMENT_head
+                             left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_head.Customer_Code
+                             LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE
+                             LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code   
+							 left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_head.Document_Code
+                             where (TSPL_SD_SHIPMENT_head.Document_Code  not in (select TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code from TSPL_SD_SALE_INVOICE_DETAIL )
+							 or  TSPL_SD_SALE_INVOICE_HEAD.Document_Code not in (select Against_Sale_No from TSPL_Customer_Invoice_Head)) "
+                If clsCommon.myLen(strCustomer) > 0 Then
+                    strtempBaseQry += " and  TSPL_SD_SHIPMENT_head.Customer_Code  in(" & strCustomer & ")"
+
+                End If
+                strtempBaseQry += "    and (CONVERT(DATE, TSPL_SD_SHIPMENT_head.Document_Date ,103)) <'" + strfromdate + "'  " + Environment.NewLine
+                strtempBaseQry += "    and TSPL_SD_SHIPMENT_head.Document_Code not in ('" + DocNo + "') "
+                If Docwise = False Then
+                    strtempBaseQry += Environment.NewLine + " UNION ALL " + Environment.NewLine &
+                    "  Select TSPL_CUSTOMER_MASTER.Cust_Code as ACode,TSPL_CUSTOMER_MASTER.Cust_Code as Child, TSPL_CUSTOMER_MASTER.Customer_Name as AName, TSPL_RECEIPT_HEADER.Receipt_No as DocNo, ''  as AgainstInvoiceNo, Receipt_Date as DocDate,'EXC'  as DocType  , case when ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='Y' Then 'Security' Else '' + 'Exchange Gain/Loss against Journal Entry No  '+isnull(TSPL_JOURNAL_MASTER.Voucher_No,'')    end as DocNarr, (rtrim(Entry_Desc) + (case when len(RTRIM(Entry_Desc))>0 and len(RTRIM(Cheque_No))>0  then ' / ' else '' end)  + (case when LEN(ISNULL(Cheque_No,''))>0 then 'Cheque No. - ' + Cheque_No +  ' - '+Cheque_Date else '' end)) as ChequeDetails, TSPL_RECEIPT_HEADER.Currency_Code, 1 as ConvRate,   TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_AMT as DrAmt, TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT AS CrAmt, 0  as SecurityDrAmt, 0 AS SecurityCrAmt  , 0 as [Sales], 0  as [CollectionRefund], 0 as [DrNote], 0 as [CrNote], isnull( TSPL_Customer_Invoice_Head.Loc_Code,'') as [Location],  (Case when TSPL_RECEIPT_HEADER.Receipt_Type='R' then 'AR-RC' when TSPL_RECEIPT_HEADER.Receipt_Type='f' then 'AR-RF' when TSPL_RECEIPT_HEADER.Receipt_Type='U' then 'AR-UN' when TSPL_RECEIPT_HEADER.Receipt_Type='P' then 'AR-PY' when TSPL_RECEIPT_HEADER.Receipt_Type='O' then 'AR-OA' when TSPL_RECEIPT_HEADER.Receipt_Type='A' then 'AR-IM' end) as SourceCode, '' as Item_Code, '' as Item_Desc,TSPL_RECEIPT_HEADER.Receipt_Type  As Receipt_Type, TSPL_RECEIPT_HEADER.Bank_Code, TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC    from TSPL_RECEIPT_HEADER   " + Environment.NewLine &
+                    " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_RECEIPT_HEADER.Cust_Code  " + Environment.NewLine &
+                    " LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code  " + Environment.NewLine &
+                    " LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE   " + Environment.NewLine &
+                    " left outer join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No =TSPL_RECEIPT_HEADER.Receipt_No " + Environment.NewLine &
+                    " LEFT OUTER JOIN TSPL_RECEIPT_DETAIL ON TSPL_RECEIPT_DETAIL.Receipt_No  =  TSPL_RECEIPT_HEADER.Receipt_No and TSPL_RECEIPT_DETAIL.Receipt_Line_No =1 " + Environment.NewLine &
+                    " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Document_No =TSPL_RECEIPT_DETAIL.Document_No " + Environment.NewLine &
+                    " where  TSPL_RECEIPT_HEADER.Posted='Y' and  TSPL_RECEIPT_HEADER.Receipt_Type in ('R','A') " + Environment.NewLine &
+                    " AND ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='N' and (TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT<>0 or TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_AMT  <>0) " + Environment.NewLine
+                    If isOpening = True Then
+                        strtempBaseQry += "  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <'" + strfromdate + "'  " + Environment.NewLine
+                    Else
+                        strtempBaseQry += "  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  >='" + strfromdate + "' and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <='" + strtodate + "' " + Environment.NewLine
+                    End If
+                    If clsCommon.myLen(strCustomer) > 0 Then
+                        If AllowtoSHOWParentChildCustomer = True Then
+                            strtempBaseQry += " and (TSPL_CUSTOMER_MASTER.Cust_Code in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
+                        Else
+                            strtempBaseQry += " and TSPL_CUSTOMER_MASTER.Cust_Code in (" & strCustomer & ") "
+                        End If
+                    End If
+
+                    strtempBaseQry += Environment.NewLine + "----------------------to find gain or loss amount FOR RECEIPT ---------------" + Environment.NewLine &
+                    " UNION ALL " + Environment.NewLine &
+                    " Select TSPL_CUSTOMER_MASTER.Cust_Code as ACode,TSPL_CUSTOMER_MASTER.Cust_Code as Child, TSPL_CUSTOMER_MASTER.Customer_Name as AName, TSPL_BANK_REVERSE.Reverse_Code as DocNo, ''  as AgainstInvoiceNo, Reversal_Date as DocDate,'EXC'  as DocType  , case when ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='Y' Then 'Security' Else '' + 'Exchange Gain/Loss against Journal Entry No  '+isnull(TSPL_JOURNAL_MASTER.Voucher_No,'')    end as DocNarr, (rtrim(Entry_Desc) + (case when len(RTRIM(Entry_Desc))>0 and len(RTRIM(TSPL_RECEIPT_HEADER.Cheque_No))>0  then ' / ' else '' end)  + (case when LEN(ISNULL(TSPL_BANK_REVERSE.Cheque_No,''))>0 then 'Cheque No. - ' + TSPL_BANK_REVERSE.Cheque_No +  ' - '+Cheque_Date else '' end)) as ChequeDetails, TSPL_RECEIPT_HEADER.Currency_Code, 1 as ConvRate,   TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT as DrAmt, TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_AMT AS CrAmt, 0  as SecurityDrAmt, 0 AS SecurityCrAmt  , 0 as [Sales], 0  as [CollectionRefund], 0 as [DrNote], 0 as [CrNote],isnull( TSPL_Customer_Invoice_Head.Loc_Code,'') as [Location],  (Case when TSPL_RECEIPT_HEADER.Receipt_Type='R' then 'AR-RC' when TSPL_RECEIPT_HEADER.Receipt_Type='f' then 'AR-RF' when TSPL_RECEIPT_HEADER.Receipt_Type='U' then 'AR-UN' when TSPL_RECEIPT_HEADER.Receipt_Type='P' then 'AR-PY' when TSPL_RECEIPT_HEADER.Receipt_Type='O' then 'AR-OA' when TSPL_RECEIPT_HEADER.Receipt_Type='A' then 'AR-IM' end) as SourceCode, '' as Item_Code, '' as Item_Desc,TSPL_BANK_REVERSE.Source_Type As Receipt_Type, TSPL_BANK_REVERSE.Bank_Code, TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC from TSPL_BANK_REVERSE  " + Environment.NewLine &
+                    " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_BANK_REVERSE.Cust_Code  " + Environment.NewLine &
+                    " LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code  " + Environment.NewLine &
+                    " LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE   " + Environment.NewLine &
+                    " left outer join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No =TSPL_BANK_REVERSE.Reverse_Code  " + Environment.NewLine &
+                    " LEFT OUTER JOIN TSPL_RECEIPT_HEADER ON TSPL_RECEIPT_HEADER.Receipt_No =TSPL_BANK_REVERSE.Document_No " + Environment.NewLine &
+                    " LEFT OUTER JOIN TSPL_RECEIPT_DETAIL ON TSPL_RECEIPT_DETAIL.Receipt_No  =  TSPL_RECEIPT_HEADER.Receipt_No and TSPL_RECEIPT_DETAIL.Receipt_Line_No =1 " + Environment.NewLine &
+                    " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Document_No =TSPL_RECEIPT_DETAIL.Document_No " + Environment.NewLine &
+                    " where  TSPL_BANK_REVERSE.Reverse_Document='Receipts' AND TSPL_BANK_REVERSE.Post ='P'" + Environment.NewLine &
+                    " and (TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT<>0 or TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_AMT  <>0) " + Environment.NewLine
+                    If isOpening = True Then
+                        strtempBaseQry += "  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <'" + strfromdate + "'  " + Environment.NewLine
+                    Else
+                        strtempBaseQry += "  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  >='" + strfromdate + "' and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <='" + strtodate + "' " + Environment.NewLine
+                    End If
+                    If clsCommon.myLen(strCustomer) > 0 Then
+                        If AllowtoSHOWParentChildCustomer = True Then
+                            strtempBaseQry += " and (TSPL_CUSTOMER_MASTER.Cust_Code in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
+                        Else
+                            strtempBaseQry += " and TSPL_CUSTOMER_MASTER.Cust_Code in (" & strCustomer & ") "
+                        End If
+                    End If
+                    strtempBaseQry += "----------------------to find gain or loss amount FOR BANK REVERSE ---------------" + Environment.NewLine
+
+                End If
+                ''richa agarwal 13 Feb,2019 skip in case of parent child functionlity when include apply document check box is on ERO/05/02/19-000485
+                If AllowtoSHOWParentChildCustomer = True AndAlso IsShowApplyDocument = True Then
+                Else
+                    strtempBaseQry += Environment.NewLine + " UNION ALL " + Environment.NewLine &
+                  " Select TSPL_CUSTOMER_MASTER.Cust_Code as ACode,TSPL_CUSTOMER_MASTER.Cust_Code as Child, TSPL_CUSTOMER_MASTER.Customer_Name as AName, TSPL_RECEIPT_HEADER.Receipt_No as DocNo, ''  as AgainstInvoiceNo, Receipt_Date as DocDate,CASE WHEN TSPL_RECEIPT_HEADER.Receipt_Type='A' THEN 'IM' else null end as DocType " &
+                  " , case when ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='Y' Then 'Security' Else '' + TSPL_RECEIPT_HEADER.Entry_Desc end as DocNarr, (rtrim(Entry_Desc) + (case when len(RTRIM(Entry_Desc))>0 and len(RTRIM(Cheque_No))>0  then ' / ' else '' end)  + (case when LEN(ISNULL(Cheque_No,''))>0 then 'Cheque No. - ' + Cheque_No +  ' - '+Cheque_Date else '' end)) as ChequeDetails, TSPL_RECEIPT_HEADER.Currency_Code, TSPL_RECEIPT_HEADER.ConvRate,  "   'Receipt_Amount  as DrAmt,
+
+                    strtempBaseQry += "  case when RD.Receipt_Type='C' then 0 else RD.Applied_Amount  end as DrAmt,case when RD.Receipt_Type='C' then RD.Applied_Amount  else 0  end  AS CrAmt, Receipt_Amount as SecurityDrAmt, 0 AS SecurityCrAmt " &
+                     " , 0 as [Sales], 0  as [CollectionRefund], 0 as [DrNote], 0 as [CrNote],  " &
+                     "   CASE WHEN (SELECT ISNULL(TRH.Location_GL_Code,'') FROM TSPL_RECEIPT_HEADER TRH WHERE TRH.Receipt_No =TSPL_RECEIPT_HEADER.Applied_Receipt )<>'' THEN (SELECT ISNULL(TRH.Location_GL_Code,'') FROM TSPL_RECEIPT_HEADER TRH WHERE TRH.Receipt_No =TSPL_RECEIPT_HEADER.Applied_Receipt ) ELSE  CASE WHEN (SELECT ISNULL( TSPL_Customer_Invoice_Head.Loc_Code,'') FROM TSPL_Customer_Invoice_Head  WHERE TSPL_Customer_Invoice_Head.Document_No  =TSPL_RECEIPT_HEADER.Applied_Receipt )<>''  THEN  (SELECT ISNULL( TSPL_Customer_Invoice_Head.Loc_Code,'') FROM TSPL_Customer_Invoice_Head  WHERE TSPL_Customer_Invoice_Head.Document_No  =TSPL_RECEIPT_HEADER.Applied_Receipt) ELSE  substring(TSPL_BANK_MASTER.BANKACC, len( TSPL_BANK_MASTER.BANKACC)-2,3) END END AS [Location],  " & Environment.NewLine &
+                     " (Case when TSPL_RECEIPT_HEADER.Receipt_Type='R' then 'AR-RC' when TSPL_RECEIPT_HEADER.Receipt_Type='f' then 'AR-RF' when TSPL_RECEIPT_HEADER.Receipt_Type='U' then 'AR-UN' when TSPL_RECEIPT_HEADER.Receipt_Type='P' then 'AR-PY' when TSPL_RECEIPT_HEADER.Receipt_Type='O' then 'AR-OA' when TSPL_RECEIPT_HEADER.Receipt_Type='A' then 'AR-IM' end) as SourceCode, '' as Item_Code, '' as Item_Desc,TSPL_RECEIPT_HEADER.Receipt_Type  As Receipt_Type, TSPL_RECEIPT_HEADER.Bank_Code, TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC   " &
+                     " from TSPL_RECEIPT_HEADER  " &
+                     " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_RECEIPT_HEADER.Cust_Code " &
+                     " LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code " &
+                     " LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE  " &
+                     " LEFT OUTER JOIN TSPL_RECEIPT_DETAIL RD ON TSPL_RECEIPT_HEADER.Receipt_No =RD.Receipt_No " &
+                     " LEFT OUTER JOIN TSPL_Customer_Invoice_Head CIH ON CIH.Document_No=RD.Document_No " &
+                     " left outer join TSPL_BANK_MASTER on TSPL_BANK_MASTER.bank_Code=TSPL_RECEIPT_HEADER.Bank_Code " + Environment.NewLine &
+                     " where  TSPL_RECEIPT_HEADER.Posted='Y' and  TSPL_RECEIPT_HEADER.Receipt_Type ='A' AND CIH.Customer_Code = TSPL_RECEIPT_HEADER.Cust_Code AND ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='N' " & IIf(IsShowApplyDocument = False, " AND TSPL_RECEIPT_HEADER.Receipt_Type <>'A' ", "") & "  "
+                    If isOpening = True Then
+                        strtempBaseQry += "  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <'" + strfromdate + "'  " + Environment.NewLine
+                    Else
+                        strtempBaseQry += "  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  >='" + strfromdate + "' and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <='" + strtodate + "' " + Environment.NewLine
+                    End If
+                    If clsCommon.myLen(strCustomer) > 0 Then
+                        If AllowtoSHOWParentChildCustomer = True Then
+                            strtempBaseQry += " and (TSPL_CUSTOMER_MASTER.Cust_Code in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
+                        Else
+                            strtempBaseQry += " and TSPL_CUSTOMER_MASTER.Cust_Code in (" & strCustomer & ") "
+                        End If
+                    End If
+                End If
+                strtempBaseQry += Environment.NewLine + " ----------------- Invoices Against Apply Document --------------------------------" + Environment.NewLine &
+                 " UNION ALL " + Environment.NewLine &
+                 " SELECT MAX(ACode) AS Cust_Code,max(Child) as Child,MAX(AName) as AName,DocNo AS DocNo,MAX(AgainstInvoiceNo) AS AgainstInvoiceNo,MAX(DocDate) AS DocDate,MAX(DocType) AS DocType,MAX(DocNarr) AS DocNarr,MAX(ChequeDetails) AS ChequeDetails " &
+                 " ,MAX(Currency_Code) AS Currency_Code,MAX(ConvRate) AS ConvRate,SUM(DrAmt) AS DrAmt,SUM(CrAmt) AS CrAmt,MAX(SecurityDrAmt) AS SecurityDrAmt,SUM(SecurityCrAmt) AS SecurityCrAmt " &
+                 " ,MAX([Sales]) AS [Sales],MAX([CollectionRefund]) AS [CollectionRefund],MAX([DrNote]),MAX([CrNote]) AS [CrNote], "
+                If Docwise Then
+                    strtempBaseQry += "MAX([Location]) as Location , " + Environment.NewLine
+                Else
+                    strtempBaseQry += "   [Location], " + Environment.NewLine
+                End If
+                strtempBaseQry += " MAX(SourceCode) AS SourceCode,MAX(Item_Code) AS Item_Code,MAX(Item_Desc) AS Item_Desc,MAX(Receipt_Type) AS Receipt_Type,MAX(Bank_Code) AS Bank_Code,MAX(Cust_Type_Code) AS Cust_Type_Code " &
+                 " ,MAX(Cust_Type_Desc) AS Cust_Type_Desc,MAX(Cust_Category_Code) AS Cust_Category_Code,MAX(CUST_CATEGORY_DESC) AS CUST_CATEGORY_DESC " &
+                 " FROM ( " &
+                 " Select TSPL_CUSTOMER_MASTER.Cust_Code as ACode,TSPL_CUSTOMER_MASTER.Cust_Code as Child, TSPL_CUSTOMER_MASTER.Customer_Name as AName, TSPL_RECEIPT_HEADER.Receipt_No as DocNo, TSPL_RECEIPT_DETAIL.Document_No   as AgainstInvoiceNo, Receipt_Date as DocDate,CASE WHEN TSPL_RECEIPT_HEADER.Receipt_Type='A' THEN 'IM' else null end as DocType , case when ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='Y' Then 'Security' Else '' + TSPL_RECEIPT_HEADER.Entry_Desc end as DocNarr, (rtrim(Entry_Desc) + (case when len(RTRIM(Entry_Desc))>0 and len(RTRIM(Cheque_No))>0  then ' / ' else '' end)  + (case when LEN(ISNULL(Cheque_No,''))>0 then 'Cheque No. - ' + Cheque_No +  ' - '+Cheque_Date else '' end)) as ChequeDetails, TSPL_RECEIPT_HEADER.Currency_Code, TSPL_RECEIPT_HEADER.ConvRate,    " 'TSPL_RECEIPT_DETAIL.Applied_Amount AS CrAmt, 
+                strtempBaseQry += "case when TSPL_RECEIPT_DETAIL.Receipt_Type='C' then  TSPL_RECEIPT_DETAIL.Applied_Amount ELSE 0  end  as DrAmt,  case when TSPL_RECEIPT_DETAIL.Receipt_Type='C' then 0 else TSPL_RECEIPT_DETAIL.Applied_Amount  end as CrAmt,  0 as SecurityDrAmt,TSPL_RECEIPT_DETAIL.Applied_Amount  AS SecurityCrAmt , 0 as [Sales], 0  as [CollectionRefund], 0 as [DrNote], 0 as [CrNote], " &
+                 " ISNULL(TSPL_Customer_Invoice_Head.Loc_Code ,'') AS [Location], " &
+                 " (Case when TSPL_RECEIPT_HEADER.Receipt_Type='R' then 'AR-RC' when TSPL_RECEIPT_HEADER.Receipt_Type='f' then 'AR-RF' when TSPL_RECEIPT_HEADER.Receipt_Type='U' then 'AR-UN' when TSPL_RECEIPT_HEADER.Receipt_Type='P' then 'AR-PY' when TSPL_RECEIPT_HEADER.Receipt_Type='O' then 'AR-OA' when TSPL_RECEIPT_HEADER.Receipt_Type='A' then 'AR-IM' end) as SourceCode, '' as Item_Code, '' as Item_Desc,TSPL_RECEIPT_DETAIL.Receipt_Type  As Receipt_Type, TSPL_RECEIPT_HEADER.Bank_Code, TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC    from TSPL_RECEIPT_HEADER   " &
+                 " LEFT OUTER JOIN TSPL_RECEIPT_DETAIL ON TSPL_RECEIPT_HEADER.Receipt_No =TSPL_RECEIPT_DETAIL.Receipt_No  " &
+                 " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_RECEIPT_HEADER.Cust_Code  " &
+                 " LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code    " &
+                 " LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE   " &
+                 " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Document_No  =TSPL_RECEIPT_DETAIL.Document_No  " &
+                 " where TSPL_RECEIPT_HEADER.Posted='Y' and  TSPL_RECEIPT_HEADER.Receipt_Type ='A' AND TSPL_Customer_Invoice_Head.Customer_Code = TSPL_RECEIPT_HEADER.Cust_Code  AND TSPL_Customer_Invoice_Head.Customer_Code = TSPL_RECEIPT_HEADER.Cust_Code  AND ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='N' " & IIf(IsShowApplyDocument = False, " AND TSPL_RECEIPT_HEADER.Receipt_Type <>'A' ", "") & "  "
+
+                If isOpening = True Then
+                    strtempBaseQry += "  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <'" + strfromdate + "'  " + Environment.NewLine
+                Else
+                    strtempBaseQry += "  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  >='" + strfromdate + "' and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <='" + strtodate + "' " + Environment.NewLine
+                End If
+                If clsCommon.myLen(strCustomer) > 0 Then
+                    If AllowtoSHOWParentChildCustomer = True Then
+                        strtempBaseQry += " and (TSPL_CUSTOMER_MASTER.Cust_Code in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
+                    Else
+                        strtempBaseQry += " and TSPL_CUSTOMER_MASTER.Cust_Code in (" & strCustomer & ") "
+                    End If
+                End If
+                strtempBaseQry += " )INV "
+                If Docwise Then
+                    strtempBaseQry += " GROUP BY  DocNo " + Environment.NewLine
+                Else
+                    strtempBaseQry += " GROUP BY  DocNo,Location " + Environment.NewLine
+                End If
+
+                strtempBaseQry += Environment.NewLine + " ----------------- Invoices Against Set Off--------------------------------" + Environment.NewLine &
+                 " UNION ALL " + Environment.NewLine &
+                 " SELECT MAX(ACode) AS Cust_Code,max(Child) as Child,MAX(AName) as AName,DocNo AS DocNo,MAX(AgainstInvoiceNo) AS AgainstInvoiceNo,MAX(DocDate) AS DocDate,MAX(DocType) AS DocType,MAX(DocNarr) AS DocNarr,MAX(ChequeDetails) AS ChequeDetails " &
+                 " ,MAX(Currency_Code) AS Currency_Code,MAX(ConvRate) AS ConvRate,SUM(DrAmt) AS DrAmt,SUM(CrAmt) AS CrAmt,MAX(SecurityDrAmt) AS SecurityDrAmt,SUM(SecurityCrAmt) AS SecurityCrAmt " &
+                 " ,MAX([Sales]) AS [Sales],MAX([CollectionRefund]) AS [CollectionRefund],MAX([DrNote]),MAX([CrNote]) AS [CrNote], "
+                If Docwise Then
+                    strtempBaseQry += "MAX([Location]) as Location , " + Environment.NewLine
+                Else
+                    strtempBaseQry += "   [Location], " + Environment.NewLine
+                End If
+                strtempBaseQry += " MAX(SourceCode) AS SourceCode,MAX(Item_Code) AS Item_Code,MAX(Item_Desc) AS Item_Desc,MAX(Receipt_Type) AS Receipt_Type,MAX(Bank_Code) AS Bank_Code,MAX(Cust_Type_Code) AS Cust_Type_Code " &
+                 " ,MAX(Cust_Type_Desc) AS Cust_Type_Desc,MAX(Cust_Category_Code) AS Cust_Category_Code,MAX(CUST_CATEGORY_DESC) AS CUST_CATEGORY_DESC " &
+                 " FROM ( " &
+                 " Select TSPL_CUSTOMER_MASTER.Cust_Code as ACode,TSPL_CUSTOMER_MASTER.Cust_Code as Child, TSPL_CUSTOMER_MASTER.Customer_Name as AName, TSPL_RECEIPT_HEADER.Receipt_No as DocNo, TSPL_RECEIPT_DETAIL.Document_No   as AgainstInvoiceNo, Receipt_Date as DocDate,CASE WHEN TSPL_RECEIPT_HEADER.Receipt_Type='A' THEN 'IM'  WHEN TSPL_RECEIPT_HEADER.Receipt_Type='K' THEN 'KN' else null end as DocType , case when ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='Y' Then 'Security' Else '' + TSPL_RECEIPT_HEADER.Entry_Desc end as DocNarr, (rtrim(Entry_Desc) + (case when len(RTRIM(Entry_Desc))>0 and len(RTRIM(Cheque_No))>0  then ' / ' else '' end)  + (case when LEN(ISNULL(Cheque_No,''))>0 then 'Cheque No. - ' + Cheque_No +  ' - '+Cheque_Date else '' end)) as ChequeDetails, TSPL_RECEIPT_HEADER.Currency_Code, TSPL_RECEIPT_HEADER.ConvRate,    " 'TSPL_RECEIPT_DETAIL.Applied_Amount AS CrAmt, 
+
+                strtempBaseQry += "case when TSPL_RECEIPT_DETAIL.Receipt_Type='C' then  TSPL_RECEIPT_DETAIL.Applied_Amount ELSE case when TSPL_RECEIPT_DETAIL.Applied_Amount>0 then 0 else TSPL_RECEIPT_DETAIL.Applied_Amount *-1  end  end  as DrAmt,  case when TSPL_RECEIPT_DETAIL.Receipt_Type='C' then 0 else case when TSPL_RECEIPT_DETAIL.Applied_Amount>0 then TSPL_RECEIPT_DETAIL.Applied_Amount else 0 end  end as CrAmt,  0 as SecurityDrAmt,TSPL_RECEIPT_DETAIL.Applied_Amount  AS SecurityCrAmt , 0 as [Sales], 0  as [CollectionRefund], 0 as [DrNote], 0 as [CrNote], " &
+                 " ISNULL(TSPL_Customer_Invoice_Head.Loc_Code ,'') AS [Location], " &
+                 " (Case when TSPL_RECEIPT_HEADER.Receipt_Type='R' then 'AR-RC' when TSPL_RECEIPT_HEADER.Receipt_Type='f' then 'AR-RF' when TSPL_RECEIPT_HEADER.Receipt_Type='U' then 'AR-UN' when TSPL_RECEIPT_HEADER.Receipt_Type='P' then 'AR-PY' when TSPL_RECEIPT_HEADER.Receipt_Type='O' then 'AR-OA' when TSPL_RECEIPT_HEADER.Receipt_Type='A' then 'AR-IM' when TSPL_RECEIPT_HEADER.Receipt_Type='K' then 'AR-KN' end) as SourceCode, '' as Item_Code, '' as Item_Desc,TSPL_RECEIPT_DETAIL.Receipt_Type  As Receipt_Type, TSPL_RECEIPT_HEADER.Bank_Code, TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC    from TSPL_RECEIPT_HEADER   " &
+                 " LEFT OUTER JOIN TSPL_RECEIPT_DETAIL ON TSPL_RECEIPT_HEADER.Receipt_No =TSPL_RECEIPT_DETAIL.Receipt_No  " &
+                 " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_RECEIPT_HEADER.Cust_Code  " &
+                 " LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code    " &
+                 " LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE   " &
+                 " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Document_No  =TSPL_RECEIPT_DETAIL.Document_No  " &
+                 " where TSPL_RECEIPT_HEADER.Posted='Y'  AND TSPL_Customer_Invoice_Head.Customer_Code = TSPL_RECEIPT_HEADER.Cust_Code  AND TSPL_Customer_Invoice_Head.Customer_Code = TSPL_RECEIPT_HEADER.Cust_Code  AND ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='N' " & IIf(IsShowApplyDocument = False, " AND TSPL_RECEIPT_HEADER.Receipt_Type <>'K' ", " and  TSPL_RECEIPT_HEADER.Receipt_Type ='K' ") & "  "
+
+                If isOpening = True Then
+                    strtempBaseQry += "  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <'" + strfromdate + "'  " + Environment.NewLine
+                Else
+                    strtempBaseQry += "  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  >='" + strfromdate + "' and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <='" + strtodate + "' " + Environment.NewLine
+                End If
+                If clsCommon.myLen(strCustomer) > 0 Then
+                    If AllowtoSHOWParentChildCustomer = True Then
+                        strtempBaseQry += " and (TSPL_CUSTOMER_MASTER.Cust_Code in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
+                    Else
+                        strtempBaseQry += " and TSPL_CUSTOMER_MASTER.Cust_Code in (" & strCustomer & ") "
+                    End If
+                End If
+                strtempBaseQry += " )INV "
+                If Docwise Then
+                    strtempBaseQry += " GROUP BY  DocNo " + Environment.NewLine
+                Else
+                    strtempBaseQry += " GROUP BY  DocNo,Location " + Environment.NewLine
+                End If
+                strtempBaseQry += Environment.NewLine + " UNION ALL " &
+             " Select TSPL_RECEIPT_HEADER.Cust_Code as ACode,TSPL_RECEIPT_HEADER.Cust_Code as Child,TSPL_RECEIPT_HEADER.Customer_Name as AName, (Select r1.Receipt_No from TSPL_RECEIPT_HEADER r1 where r1 .UnApplied_No  =TSPL_RECEIPT_HEADER.Receipt_No)  as DocNo,'' as AgainstInvoiceNo,TSPL_RECEIPT_HEADER.Receipt_Date as DocDate,'RC' as DocType,'' as DocNarr,(rtrim(TSPL_RECEIPT_HEADER.Entry_Desc) + (case when len(RTRIM(TSPL_RECEIPT_HEADER.Entry_Desc))>0 and len(RTRIM(TSPL_RECEIPT_HEADER.Cheque_No))>0  then ' / ' else '' end)  + (case when LEN(ISNULL(TSPL_RECEIPT_HEADER.Cheque_No,''))>0 then 'Cheque No. - ' + TSPL_RECEIPT_HEADER.Cheque_No +  ' - '+TSPL_RECEIPT_HEADER.Cheque_Date else '' end)) as ChequeDetails, RH.Currency_Code, RH.ConvRate, 0 as DrAmt, " &
+             " TSPL_RECEIPT_HEADER.Receipt_Amount  AS CrAmt, 0 as SecurityDrAmt, Case When TSPL_RECEIPT_HEADER.SecurityDeposit='Y' Then TSPL_RECEIPT_HEADER.Receipt_Amount Else 0 End  AS SecurityCrAmt, 0 as [Sales], TSPL_RECEIPT_HEADER.Receipt_Amount as [CollectionRefund], 0 as [DrNote], 0 as [CrNote], Right(TSPL_RECEIPT_HEADER.Dr_Account,3) as [Location], " &
+             " 'AR-RC' as SourceCode, '' as Item_Code, '' as Item_Desc, TSPL_RECEIPT_HEADER.Receipt_Type As Receipt_Type, TSPL_RECEIPT_HEADER.Bank_Code," &
+             " TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC  " &
+             " from  TSPL_RECEIPT_HEADER " &
+             " LEFT OUTER JOIN TSPL_RECEIPT_HEADER RH ON TSPL_RECEIPT_HEADER.Receipt_No =RH.UnApplied_No  " &
+             " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON RH.Cust_Code = TSPL_CUSTOMER_MASTER.Cust_Code  " &
+             " LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code  " &
+             " LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE " &
+             " where  TSPL_RECEIPT_HEADER.Posted='Y' and  TSPL_RECEIPT_HEADER.Receipt_Type in ('U') " & STRsecurityfilterquery & ""
+                If isOpening = True Then
+                    strtempBaseQry += "  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <'" + strfromdate + "'  " + Environment.NewLine
+                Else
+                    strtempBaseQry += "  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  >='" + strfromdate + "' and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <='" + strtodate + "' " + Environment.NewLine
+                End If
+                If clsCommon.myLen(strCustomer) > 0 Then
+                    If AllowtoSHOWParentChildCustomer = True Then
+                        strtempBaseQry += " and (TSPL_RECEIPT_HEADER.Cust_Code in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
+                    Else
+                        strtempBaseQry += " and TSPL_RECEIPT_HEADER.Cust_Code in (" & strCustomer & ") "
+                    End If
+                End If
+                strtempBaseQry += " )XX GROUP BY XX.ACode, XX.Location, XX.DocNo,XX.DocType " + Environment.NewLine
+                strtempBaseQry += "  UNION ALL" + Environment.NewLine &
+                " Select ACode,Child, AName, DocNo, AgainstInvoiceNo, DocDate, DocType, Narration, ChequeDetails, CURRENCY_CODE, ConvRate, DrAmt, CrAmt, SecurityDrAmt, SecurityCrAmt, Sales, Collectionrefund, DrNote, CrNote, Location, SourceCode, Item_Code, Item_Desc, Receipt_Type, Bank_Code, Cust_Type_Code, Cust_Type_Desc, Cust_Category_Code, CUST_CATEGORY_DESC from (" + Environment.NewLine &
+                " Select TSPL_RECEIPT_HEADER.Cust_Code as ACode,TSPL_RECEIPT_HEADER.Cust_Code as Child, CIH.Customer_Code, CM.Customer_Name as AName, TSPL_RECEIPT_HEADER.Receipt_No as DocNo, '' as AgainstInvoiceNo, TSPL_RECEIPT_HEADER.Receipt_Date as DocDate, 'IM' as DocType, TSPL_RECEIPT_HEADER.Narration, Case WHEN ISNULL(TSPL_RECEIPT_HEADER.Cheque_No,'')<>'' Then TSPL_RECEIPT_HEADER.Cheque_No+' - '+CONVERT(VARCHAR,TSPL_RECEIPT_HEADER.Cheque_Date,103) Else '' End as ChequeDetails, TSPL_RECEIPT_HEADER.CURRENCY_CODE, TSPL_RECEIPT_HEADER.ConvRate, Case When TSPL_RECEIPT_HEADER.SecurityDeposit<>'Y' Then RD.Applied_Amount Else 0 end as DrAmt, 0 as CrAmt, Case When TSPL_RECEIPT_HEADER.SecurityDeposit='Y' Then TSPL_RECEIPT_HEADER.Receipt_Amount Else 0 end as SecurityDrAmt, 0 as SecurityCrAmt, 0 as Sales, 0 as Collectionrefund, TSPL_RECEIPT_HEADER.Receipt_Amount as DrNote, 0 as CrNote, " & Environment.NewLine &
+                "  CASE WHEN (SELECT ISNULL(TRH.Location_GL_Code,'') FROM TSPL_RECEIPT_HEADER TRH WHERE TRH.Receipt_No =TSPL_RECEIPT_HEADER.Applied_Receipt )<>'' THEN (SELECT ISNULL(TRH.Location_GL_Code,'') FROM TSPL_RECEIPT_HEADER TRH WHERE TRH.Receipt_No =TSPL_RECEIPT_HEADER.Applied_Receipt ) ELSE substring(TSPL_BANK_MASTER.BANKACC, len( TSPL_BANK_MASTER.BANKACC)-2,3) END  AS [Location], 'AR-IM' as SourceCode, '' as Item_Code, '' as Item_Desc, 'A' as Receipt_Type, TSPL_RECEIPT_HEADER.Bank_Code, CM.Cust_Type_Code, CTM.Cust_Type_Desc, CM.Cust_Category_Code, CCM.CUST_CATEGORY_DESC, ROW_NUMBER() OVER (Partition By TSPL_RECEIPT_HEADER.Receipt_No ORDER BY TSPL_RECEIPT_HEADER.Receipt_No) as RowNo  from TSPL_RECEIPT_HEADER TSPL_RECEIPT_HEADER" + Environment.NewLine &
+                " LEFT OUTER JOIN TSPL_RECEIPT_DETAIL RD ON RD.Receipt_No=TSPL_RECEIPT_HEADER.Receipt_No" + Environment.NewLine &
+                " LEFT OUTER JOIN TSPL_Customer_Invoice_Head CIH ON CIH.Document_No=RD.Document_No" + Environment.NewLine &
+                " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER CM ON CM.Cust_Code=TSPL_RECEIPT_HEADER.Cust_Code" + Environment.NewLine &
+                " LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER CTM ON CTM.Cust_Type_Code = CM.Cust_Type_Code" + Environment.NewLine &
+                " LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER CCM ON CCM.Cust_Category_Code = CM.CUST_CATEGORY_CODE" + Environment.NewLine &
+                " left outer join TSPL_BANK_MASTER on TSPL_BANK_MASTER.bank_Code=TSPL_RECEIPT_HEADER.Bank_Code " + Environment.NewLine &
+                " WHERE TSPL_RECEIPT_HEADER.Receipt_Type='A'  AND ISNULL(CIH.Customer_Code,'')<>TSPL_RECEIPT_HEADER.Cust_Code "
+
+                strtempBaseQry += "" & STRsecurityfilterquery & "" + Environment.NewLine
+                If isOpening = True Then
+                    strtempBaseQry += "  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <'" + strfromdate + "'  " + Environment.NewLine
+                Else
+                    strtempBaseQry += "  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  >='" + strfromdate + "' and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <='" + strtodate + "' " + Environment.NewLine
+                End If
+                If clsCommon.myLen(strCustomer) > 0 Then
+                    If AllowtoSHOWParentChildCustomer = True Then
+                        strtempBaseQry += " and (TSPL_RECEIPT_HEADER.Cust_Code in (" & strCustomer & ")  or isnull(CM.Parent_Customer_No,'')  in (" & strCustomer & ") )"
+                    Else
+                        strtempBaseQry += " and TSPL_RECEIPT_HEADER.Cust_Code in (" & strCustomer & ") "
+                    End If
+                End If
+                strtempBaseQry += " ) XX --WHERE RowNo=1" + Environment.NewLine &
+         " UNION ALL" + Environment.NewLine &
+          " Select max(ACode) as ACode ,max(Child) as Child , max(AName) as AName, max(DocNo) as DocNo, max(AgainstInvoiceNo) as AgainstInvoiceNo,max( DocDate) as DocDate, max(DocType) as DocType, max(Narration) as Narration, max(ChequeDetails) as Narration, max(CURRENCY_CODE) as CURRENCY_CODE, max(ConvRate) as ConvRate, Sum(DrAmt) as Dramt, Sum(CrAmt) as CrAmt, sum(SecurityDrAmt) as SecurityDrAmt, sum(SecurityCrAmt) as SecurityCrAmt, sum(Sales) as Sales, Sum(Collectionrefund) as Collectionrefund, Sum(DrNote) as DrNote, sum(CrNote) as CrNote, max(Location) as Location, max(SourceCode) as SourceCode, max(Item_Code) as Item_Code,max( Item_Desc) as Item_Desc, max(Receipt_Type) as Receipt_Type , max(Bank_Code) as Bank_Code, max(Cust_Type_Code) as Cust_Type_Code, max(Cust_Type_Desc) as Cust_Type_Desc, max(Cust_Category_Code) as Cust_Category_Code,max( CUST_CATEGORY_DESC) as  CUST_CATEGORY_DESC from (" & Environment.NewLine &
+           " Select  isnull(CIH.Customer_Code,TSPL_RECEIPT_HEADER.Cust_Code )  as ACode,case when TSPL_RECEIPT_HEADER.Receipt_Type='A' then RD.Child_Cust_Code else CIH.Customer_Code end as Child, CM.Customer_Name as AName, TSPL_RECEIPT_HEADER.Receipt_No as DocNo, CIH.Document_No as AgainstInvoiceNo, TSPL_RECEIPT_HEADER.Receipt_Date as DocDate, 'IM' as DocType, TSPL_RECEIPT_HEADER.Narration, Case WHEN ISNULL(TSPL_RECEIPT_HEADER.Cheque_No,'')<>'' Then TSPL_RECEIPT_HEADER.Cheque_No+' - '+CONVERT(VARCHAR,TSPL_RECEIPT_HEADER.Cheque_Date,103) Else '' End as ChequeDetails, TSPL_RECEIPT_HEADER.CURRENCY_CODE, TSPL_RECEIPT_HEADER.ConvRate, 0 as DrAmt, RD.Applied_Amount as CrAmt, 0 as SecurityDrAmt, 0 as SecurityCrAmt, 0 as Sales," &
+           "RD.Applied_Amount as CollectionRefund,0 as DrNote, 0 as CrNote," + Environment.NewLine &
+          " CASE WHEN (SELECT ISNULL(TRH.Location_GL_Code,'') FROM TSPL_RECEIPT_HEADER TRH WHERE TRH.Receipt_No =TSPL_RECEIPT_HEADER.Applied_Receipt )<>'' THEN (SELECT ISNULL(TRH.Location_GL_Code,'') FROM TSPL_RECEIPT_HEADER TRH WHERE TRH.Receipt_No =TSPL_RECEIPT_HEADER.Applied_Receipt ) ELSE substring(TSPL_BANK_MASTER.BANKACC, len( TSPL_BANK_MASTER.BANKACC)-2,3) END  AS [Location], 'AR-IM' as SourceCode, '' as Item_Code, '' as Item_Desc, 'A' as Receipt_Type, TSPL_RECEIPT_HEADER.Bank_Code, CM.Cust_Type_Code, CTM.Cust_Type_Desc, CM.Cust_Category_Code, CCM.CUST_CATEGORY_DESC   from TSPL_RECEIPT_HEADER TSPL_RECEIPT_HEADER LEFT OUTER JOIN TSPL_RECEIPT_DETAIL RD ON RD.Receipt_No=TSPL_RECEIPT_HEADER.Receipt_No" + Environment.NewLine &
+         " LEFT OUTER JOIN TSPL_Customer_Invoice_Head CIH ON CIH.Document_No=RD.Document_No" + Environment.NewLine &
+         " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER CM ON CM.Cust_Code=TSPL_RECEIPT_HEADER.Cust_Code" + Environment.NewLine &
+         " LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER CTM ON CTM.Cust_Type_Code = CM.Cust_Type_Code" + Environment.NewLine &
+         " LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER CCM ON CCM.Cust_Category_Code = CM.CUST_CATEGORY_CODE" + Environment.NewLine &
+         " left outer join TSPL_BANK_MASTER on TSPL_BANK_MASTER.bank_Code=TSPL_RECEIPT_HEADER.Bank_Code " + Environment.NewLine &
+         " WHERE TSPL_RECEIPT_HEADER.Receipt_Type='A' AND isnull(CIH.Customer_Code,'')<>TSPL_RECEIPT_HEADER.Cust_Code "
+                strtempBaseQry += "" & STRsecurityfilterquery & ""
+                If isOpening = True Then
+                    strtempBaseQry += "  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <'" + strfromdate + "'  " + Environment.NewLine
+                Else
+                    strtempBaseQry += "  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  >='" + strfromdate + "' and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <='" + strtodate + "' " + Environment.NewLine
+                End If
+                If clsCommon.myLen(strCustomer) > 0 Then
+                    If AllowtoSHOWParentChildCustomer = True Then
+                        strtempBaseQry += " and (CM.Cust_Code in (" & strCustomer & ")  or isnull(CM.Parent_Customer_No,'')  in (" & strCustomer & ") )"
+                    Else
+                        strtempBaseQry += " and isnull(CIH.Customer_Code,TSPL_RECEIPT_HEADER.Cust_Code ) in (" & strCustomer & ") "
+                    End If
+                End If
+                strtempBaseQry += " )z group by DocNo ,Location,ACode" & Environment.NewLine
+
+                strtempBaseQry += Environment.NewLine + " UNION ALL" + Environment.NewLine &
+                  " SELECT max( TSPL_ADJUSTMENT_HEADER.Customer_CODE) as ACode,max( TSPL_ADJUSTMENT_HEADER.Customer_CODE) as Child,max( TSPL_ADJUSTMENT_HEADER.Customer_NAME ) as AName, Final.Adjustment_No AS DocNo,'' as AgainstInvoiceNo,  CONVERT(DATE,MAX(Final.Adjustment_Date),103) AS DocDate, 'AD' AS DocType, MAX(Final.Description) AS DocNarr, '' AS ChequeDetails, 'INR' as Currency_Code, 1 as ConvRate, case when max(Final.Trans_Type) = 'In' then 0 else  SUM(Final.Cost)  end  AS DrAmt , case when max(Final.Trans_Type) ='In' then  SUM(Final.Cost) else 0 end AS CrAmt, 0 as SecurityDrAmt, 0 as SecurityCrAmt, 0 as [Sales], case when max(Final.Trans_Type) ='In' then  SUM(Final.Cost)*-1 else SUM(Final.Cost) end as Collectionrefund, 0 as [drNote], 0 as [CrNote], max(Final.Location) as [Location], Max(SourceCode)as SourceCode, Item_Code, MAX(Item_Description) as Item_Desc " &
+                  " ,MAX(Receipt_Type) As Receipt_Type, '' as Bank_Code,MAX(Cust_Type_Code) as Cust_Type_Code,MAX(Cust_Type_Desc) AS Cust_Type_Desc,MAX(Cust_Category_Code) AS Cust_Category_Code,MAX(CUST_CATEGORY_DESC) AS CUST_CATEGORY_DESC " &
+                  " FROM (SELECT  TSPL_ADJUSTMENT_HEADER.Adjustment_No,  TSPL_ADJUSTMENT_HEADER.Adjustment_Date,  TSPL_ADJUSTMENT_HEADER.Description + (CASE WHEN  TSPL_ADJUSTMENT_HEADER.Description = '' THEN '' ELSE ' - ' END) AS Description, case when tspl_customer_master.cust_type_code ='F' or tspl_customer_master.cust_type_code ='S' then 0 else  ISNULL( TSPL_ADJUSTMENT_DETAIL.Breakage_Cost, 0) end  + ISNULL( TSPL_ADJUSTMENT_DETAIL.Item_Cost, 0) AS Cost,  TSPL_ADJUSTMENT_HEADER.Document_No , TSPL_LOCATION_MASTER.Loc_Segment_Code as [Location],TSPL_ADJUSTMENT_HEADER.Trans_Type ,'IC-AD' as SourceCode, TSPL_ADJUSTMENT_DETAIL.Item_Code, TSPL_ADJUSTMENT_DETAIL.Item_Description " &
+                  " ,'' As Receipt_Type , TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC   " &
+                  " FROM TSPL_ADJUSTMENT_HEADER " &
+                  " LEFT OUTER JOIN  TSPL_ADJUSTMENT_DETAIL ON  TSPL_ADJUSTMENT_HEADER.Adjustment_No =  TSPL_ADJUSTMENT_DETAIL.Adjustment_No Left OUTER JOIN  TSPL_LOCATION_MASTER on  TSPL_ADJUSTMENT_DETAIL.Location_Code= TSPL_LOCATION_MASTER.Location_Code inner join  tspl_customer_master on  tspl_adjustment_header.customer_code= tspl_customer_master.cust_code " &
+                  " LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code  " &
+                  " LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE  " &
+                  " WHERE ( ( TSPL_ADJUSTMENT_HEADER.Reference_Document = '') AND ( TSPL_ADJUSTMENT_HEADER.Document_No= '' and  TSPL_ADJUSTMENT_HEADER.Customer_CODE <> '') or TSPL_ADJUSTMENT_HEADER.Reference_Document='Sale Invoice')  AND (ISNULL( TSPL_ADJUSTMENT_DETAIL.Breakage_Cost, 0) + ISNULL( TSPL_ADJUSTMENT_DETAIL.Item_Cost, 0) <> 0)and  TSPL_ADJUSTMENT_HEADER.Posted='Y' "
+                If isOpening = True Then
+                    strtempBaseQry += "  and  convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103)  <'" + strfromdate + "'  " + Environment.NewLine
+                Else
+                    strtempBaseQry += "  and  convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103)  >='" + strfromdate + "' and  convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103)  <='" + strtodate + "' " + Environment.NewLine
+                End If
+                If clsCommon.myLen(strCustomer) > 0 Then
+                    If AllowtoSHOWParentChildCustomer = True Then
+                        strtempBaseQry += " and (TSPL_ADJUSTMENT_HEADER.Customer_CODE in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
+                    Else
+                        strtempBaseQry += " and TSPL_ADJUSTMENT_HEADER.Customer_CODE in (" & strCustomer & ") "
+                    End If
+                End If
+                strtempBaseQry += " ) AS Final INNER JOIN  TSPL_ADJUSTMENT_HEADER  ON Final.Adjustment_No =  TSPL_ADJUSTMENT_HEADER.Adjustment_No  GROUP BY Final.Adjustment_No, Final.Item_Code" &
+                Environment.NewLine + " UNION ALL" + Environment.NewLine
+                If IsCSA = True Then
+                    strtempBaseQry += "select TSPL_Customer_Invoice_Head.Customer_Code,TSPL_Customer_Invoice_Head.Customer_Code as Child, TSPL_Customer_Invoice_Head.Customer_Name ,case when len(TSPL_Customer_Invoice_Head.AgainstScrap)>0 then  TSPL_Customer_Invoice_Head.AgainstScrap  else  TSPL_Customer_Invoice_Head.Document_No  end DocNo," &
+                   " CASE WHEN TSPL_Customer_Invoice_Head.Document_Type ='C' AND len(TSPL_CUSTOMER_Invoice_Head.Against_Sale_Return_No)>0 THEN (Select Top 1 TSPL_SD_SALE_RETURN_HEAD.Document_Code  FROM TSPL_SD_SALE_RETURN_HEAD where TSPL_SD_SALE_RETURN_HEAD.Document_Code =TSPL_CUSTOMER_Invoice_Head.Against_Sale_Return_No) WHEN (TSPL_Customer_Invoice_Head.Document_Type ='D' OR  TSPL_Customer_Invoice_Head.Document_Type ='I') AND LEN(TSPL_Customer_Invoice_Head.Against_Sale_No)>0 THEN (Select Top 1 TSPL_SD_SALE_INVOICE_HEAD.Document_Code  FROM TSPL_SD_SALE_INVOICE_HEAD where TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_CUSTOMER_Invoice_Head.Against_Sale_No ) END AS AgainstInvoiceNo," &
+                   " CONVERT(Date,TSPL_Customer_Invoice_Head.Document_Date,103) as DocDate ,(case when TSPL_Customer_Invoice_Head.Document_Type ='I' then 'IN'  when TSPL_Customer_Invoice_Head.Document_Type ='C' then 'CR'  when TSPL_Customer_Invoice_Head.Document_Type ='D' then 'DR' end) as [DocType], TSPL_Customer_Invoice_Head.Description ,'' AS ChequeDetails,'INR' AS Currency_Code, 1 AS ConvRate,case when TSPL_Customer_Invoice_Head.Document_Type ='C' AND len(TSPL_CUSTOMER_Invoice_Head.Against_Sale_Return_No)<=0 then 0 when TSPL_Customer_Invoice_Head.Document_Type ='C' AND len(TSPL_CUSTOMER_Invoice_Head.Against_Sale_Return_No)>0 then TSPL_Customer_Invoice_Head.Document_Total else (case when TSPL_Customer_Invoice_Head.Document_Type ='I' and len(InvGainLoss.Document_Code)>0 Then coalesce(InvGainLoss.CSA_Gain_Loss,0) else TSPL_Customer_Invoice_Head.Document_Total end) end as [DRAmt],case when TSPL_Customer_Invoice_Head.Document_Type ='C' AND len(TSPL_CUSTOMER_Invoice_Head.Against_Sale_Return_No)<=0 then TSPL_Customer_Invoice_Head.Document_Total else 0 end as [CRAmt],0 as SecurityDr,0 as SecurityCr, (case when TSPL_Customer_Invoice_Head.Document_Type ='I' then (case when  len(InvGainLoss.Document_Code)>0 Then coalesce(InvGainLoss.CSA_Gain_Loss,0) Else TSPL_Customer_Invoice_Head.Document_Total End) else 0 end) as [Sales], 0 as [CollectionRefund],0 as DrNote, case when (TSPL_Customer_Invoice_Head.Document_Type ='D' or TSPL_Customer_Invoice_Head.Document_Type ='C' AND len(TSPL_CUSTOMER_Invoice_Head.Against_Sale_Return_No)>0) Then TSPL_Customer_Invoice_Head.Document_Total when TSPL_Customer_Invoice_Head.Document_Type ='C' Then TSPL_Customer_Invoice_Head.Document_Total*-1 Else 0 End as [DrCrNote], TSPL_Customer_Invoice_Head.Loc_Code, case when TSPL_Customer_Invoice_Head.Document_Type ='I' then 'AR-IN'  when TSPL_Customer_Invoice_Head.Document_Type ='C' then 'AR-CR'  when TSPL_Customer_Invoice_Head.Document_Type ='D' then 'AR-DN' end as SourceCode, '' as Item_Code, '' as Item_Desc " &
+                   " ,'' As Receipt_Type, '' as Bank_Code, TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC " &
+                   " from  TSPL_Customer_Invoice_Head " &
+                   " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_Customer_Invoice_Head.Customer_Code = TSPL_CUSTOMER_MASTER.Cust_Code  " &
+                   " LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code  " &
+                   " LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE " &
+                   " LEFT OUTER JOIN (select Inv.Document_Code,sum(Invd.CSA_Gain_Loss) as CSA_Gain_Loss  from TSPL_SD_SALE_INVOICE_HEAD Inv " &
+                   " inner join TSPL_SD_SALE_INVOICE_DETAIL Invd on Inv.Document_Code=Invd.DOCUMENT_CODE " &
+                   " where Trans_Type='CSA' group by Inv.Document_Code) AS InvGainLoss on TSPL_Customer_Invoice_Head.Against_Sale_No=InvGainLoss.Document_Code " &
+                   " where TSPL_Customer_Invoice_Head.Status=1  AND ISNULL(Against_VCGL ,'') ='' and TSPL_CUSTOMER_MASTER.CSA_TYPE='Y'"
+                    If isOpening = True Then
+                        strtempBaseQry += "  and  convert(date,TSPL_Customer_Invoice_Head.Document_Date,103)  <'" + strfromdate + "'  " + Environment.NewLine
+                    Else
+                        strtempBaseQry += "  and  convert(date,TSPL_Customer_Invoice_Head.Document_Date,103)  >='" + strfromdate + "' and  convert(date,TSPL_Customer_Invoice_Head.Document_Date,103)  <='" + strtodate + "' " + Environment.NewLine
+                    End If
+                    If clsCommon.myLen(strCustomer) > 0 Then
+                        If AllowtoSHOWParentChildCustomer = True Then
+                            strtempBaseQry += " and (TSPL_Customer_Invoice_Head.Customer_Code in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
+                        Else
+                            strtempBaseQry += " and TSPL_Customer_Invoice_Head.Customer_Code in (" & strCustomer & ") "
+                        End If
+                    End If
+                    ''richa remove total tax amount with document amount becuase tax amount already included with document amt. 12 Sep,2018 KDI/13/09/18-000428
+                    strtempBaseQry += Environment.NewLine & " UNION ALL" & Environment.NewLine &
+                    " select TSPL_CSA_TRANSFER_HEAD.Cust_Code AS Customer_Code,TSPL_CSA_TRANSFER_HEAD.Cust_Code AS Child, TSPL_CUSTOMER_MASTER.Customer_Name ,TSPL_CSA_TRANSFER_HEAD.DOC_CODE DocNo,'' AS AgainstInvoiceNo, " &
+                    " CONVERT(Date,TSPL_CSA_TRANSFER_HEAD.Transfer_Date,103) as DocDate ,TSPL_CSA_TRANSFER_HEAD.Document_Type as [DocType], TSPL_CSA_TRANSFER_HEAD.Description ,'' AS ChequeDetails,TSPL_CSA_TRANSFER_HEAD.CURRENCY_CODE,(case when TSPL_CSA_TRANSFER_HEAD.ConvRate=0 then 1 else coalesce(TSPL_CSA_TRANSFER_HEAD.ConvRate,1) end) as ConvRate," &
+                    " TSPL_CSA_TRANSFER_HEAD.Document_Amount as [DRAmt],0 as [CRAmt],0 as SecurityDr,0 as SecurityCr, TSPL_CSA_TRANSFER_HEAD.Document_Amount as [Sales], 0 as [CollectionRefund],0 as DrNote, " &
+                    " 0 as [DrCrNote], TSPL_CSA_TRANSFER_HEAD.From_Location_Code AS Loc_Code, 'SD-CSATRANS' as SourceCode, '' as Item_Code, " &
+                    " '' as Item_Desc ,'' As Receipt_Type, '' as Bank_Code, TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ," &
+                    " TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC from TSPL_CSA_TRANSFER_HEAD " &
+                    " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CSA_TRANSFER_HEAD.Cust_Code = TSPL_CUSTOMER_MASTER.Cust_Code  " &
+                    " LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code " &
+                    " LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE " &
+                    " where TSPL_CSA_TRANSFER_HEAD.Status=1 "
+                    If isOpening = True Then
+                        strtempBaseQry += "  and  convert(date,TSPL_CSA_TRANSFER_HEAD.Transfer_Date,103)  <'" + strfromdate + "'  " + Environment.NewLine
+                    Else
+                        strtempBaseQry += "  and  convert(date,TSPL_CSA_TRANSFER_HEAD.Transfer_Date,103)  >='" + strfromdate + "' and  convert(date,TSPL_CSA_TRANSFER_HEAD.Transfer_Date,103)  <='" + strtodate + "' " + Environment.NewLine
+                    End If
+                    If clsCommon.myLen(strCustomer) > 0 Then
+                        If AllowtoSHOWParentChildCustomer = True Then
+                            strtempBaseQry += " and (TSPL_CSA_TRANSFER_HEAD.Cust_Code in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
+                        Else
+                            strtempBaseQry += " and TSPL_CSA_TRANSFER_HEAD.Cust_Code in (" & strCustomer & ") "
+                        End If
+                    End If
+                    strtempBaseQry += Environment.NewLine & " UNION ALL" & Environment.NewLine &
+                     " select TSPL_SD_SALE_RETURN_HEAD.Customer_Code, TSPL_SD_SALE_RETURN_HEAD.Customer_Code as Child,TSPL_CUSTOMER_MASTER.Customer_Name ,TSPL_SD_SALE_RETURN_HEAD.Document_Code DocNo,'' AS AgainstInvoiceNo, " &
+                     " CONVERT(Date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) as DocDate ,'CSA Transfer Return' as [DocType], TSPL_SD_SALE_RETURN_HEAD.Description,'' AS ChequeDetails,TSPL_SD_SALE_RETURN_HEAD.CURRENCY_CODE,(case when TSPL_SD_SALE_RETURN_HEAD.ConvRate=0 then 1 else coalesce(TSPL_SD_SALE_RETURN_HEAD.ConvRate,1) end) as ConvRate , " &
+                     " 0 as [DRAmt],TSPL_SD_SALE_RETURN_HEAD.Total_Amt as [CRAmt],0 as SecurityDr,0 as SecurityCr, 0 as [Sales], 0 as [CollectionRefund],0 as DrNote,  -TSPL_SD_SALE_RETURN_HEAD.Total_Amt as [DrCrNote], " &
+                     " TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location AS Loc_Code, 'SD-CSATRANS-RETURN' as SourceCode, '' as Item_Code,  " &
+                     " '' as Item_Desc ,'' As Receipt_Type, '' as Bank_Code, TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc , " &
+                     " TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC from TSPL_SD_SALE_RETURN_HEAD  " &
+                     " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_SD_SALE_RETURN_HEAD.Customer_Code = TSPL_CUSTOMER_MASTER.Cust_Code   " &
+                     " LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code  " &
+                     " LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE " &
+                     " where TSPL_SD_SALE_RETURN_HEAD.Status=1  and TSPL_SD_SALE_RETURN_HEAD.trans_type='CSA'  "
+                    If isOpening = True Then
+                        strtempBaseQry += "  and  convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)  <'" + strfromdate + "'  " + Environment.NewLine
+                    Else
+                        strtempBaseQry += "  and  convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)  >='" + strfromdate + "' and  convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)  <='" + strtodate + "' " + Environment.NewLine
+                    End If
+                    If clsCommon.myLen(strCustomer) > 0 Then
+                        If AllowtoSHOWParentChildCustomer = True Then
+                            strtempBaseQry += " and (TSPL_SD_SALE_RETURN_HEAD.Customer_Code in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
+                        Else
+                            strtempBaseQry += " and TSPL_SD_SALE_RETURN_HEAD.Customer_Code in (" & strCustomer & ") "
+                        End If
+                    End If
+
+                    strtempBaseQry += Environment.NewLine & " UNION ALL" & Environment.NewLine &
+                    " select TSPL_VCGL_Head.VC_Code as ACode,TSPL_VCGL_Head.VC_Code as Child, TSPL_VCGL_Head.VC_Name as AName, TSPL_VCGL_Head.Document_No as DocNo,'' as AgainstInvoiceNo, CONVERT(DATE, TSPL_VCGL_Head.Document_Date,103) as DocDate,'VCGL' as docType,  TSPL_VCGL_Head.Remarks as DocNarr,'' as ChequeDetails,'' as CURRENCY_CODE,1 as ConvRate,case when  TSPL_CUSTOMER_INVOICE_HEAD.Document_Type='D' then  TSPL_VCGL_Head.Amount else 0 end  as DrAmt,case when  TSPL_CUSTOMER_INVOICE_HEAD.Document_Type='C' then  TSPL_VCGL_Head.Amount else 0 end as CrAmt,0 as SecurityDr,0 as SecurityCr , 0 as [Sales], 0 as [CollectionRefund],0 as DrNote, case when TSPL_CUSTOMER_INVOICE_HEAD.Document_Type='D' then  TSPL_VCGL_Head.Amount Else TSPL_VCGL_Head.Amount*-1 End as [DrCrNote], TSPL_VCGL_Head.Location_Segment as Location, 'VC-GL' as SourceCode, '' as Item_Code, '' as Item_Desc " &
+                    " ,'' As Receipt_Type, '' as Bank_Code,TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC " &
+                    " from TSPL_VCGL_Head " &
+                    " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_VCGL_Head.VC_Code = TSPL_CUSTOMER_MASTER.Cust_Code " &
+                    " LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code  " &
+                    " LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE " &
+                    " left outer join TSPL_CUSTOMER_INVOICE_HEAD on TSPL_VCGL_Head.Document_No=TSPL_CUSTOMER_INVOICE_HEAD.Against_VCGL " &
+                    " and TSPL_CUSTOMER_INVOICE_HEAD.Customer_Code=TSPL_VCGL_Head.VC_Code " &
+                    " where TSPL_VCGL_Head.Document_Type='C' and  TSPL_VCGL_Head.Status=1 and TSPL_CUSTOMER_MASTER.CSA_TYPE='Y' "
+                    If isOpening = True Then
+                        strtempBaseQry += "  and  convert(date,TSPL_VCGL_Head.Document_Date,103)  <'" + strfromdate + "'  " + Environment.NewLine
+                    Else
+                        strtempBaseQry += "  and  convert(date,TSPL_VCGL_Head.Document_Date,103)  >='" + strfromdate + "' and  convert(date,TSPL_VCGL_Head.Document_Date,103)  <='" + strtodate + "' " + Environment.NewLine
+                    End If
+                    If clsCommon.myLen(strCustomer) > 0 Then
+                        If AllowtoSHOWParentChildCustomer = True Then
+                            strtempBaseQry += " and  (TSPL_VCGL_Head.VC_Code in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
+                        Else
+                            strtempBaseQry += " and  TSPL_VCGL_Head.VC_Code in (" & strCustomer & ") "
+                        End If
+                    End If
+                    strtempBaseQry += Environment.NewLine & " UNION ALL" & Environment.NewLine &
+                   " select TSPL_VCGL_Detail.VCGL_Code as ACode,TSPL_VCGL_Detail.VCGL_Code as Child, TSPL_VCGL_Detail.VCGL_Name as AName, TSPL_VCGL_Head.Document_No as DocNo,'' as AgainstInvoiceNo, CONVERT(DATE, TSPL_VCGL_Head.Document_Date,103) as DocDate,'VCGL' as docType,  TSPL_VCGL_Detail.Remarks as DocNarr,'' as ChequeDetails,'' as CURRENCY_CODE,1 as ConvRate, TSPL_VCGL_Detail.Dr_Amount as DrAmt , TSPL_VCGL_Detail.Cr_Amount as CrAmt,0 as SecurityDr,0 as SecurityCr, 0 as [Sales], 0 as [CollectionRefund],0 as DrNote, (TSPL_VCGL_Detail.Dr_Amount-TSPL_VCGL_Detail.Cr_Amount) as [DrCrNote], TSPL_VCGL_Head.Location_Segment as Location, 'VC-GL' as SourceCode, '' as Item_Code, '' as Item_Desc " &
+                   " ,'' As Receipt_Type,'' as Bank_Code,TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC " &
+                   " from  TSPL_VCGL_Detail" &
+                   " left outer join  TSPL_VCGL_Head on  TSPL_VCGL_Head .Document_No= TSPL_VCGL_Detail.Document_No " &
+                   " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_VCGL_Detail.VCGL_Code = TSPL_CUSTOMER_MASTER.Cust_Code " &
+                   " LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code  " &
+                   " LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE  " &
+                   " where TSPL_VCGL_Head.Status=1 and  TSPL_VCGL_Detail.Row_Type='Customer' and TSPL_CUSTOMER_MASTER.CSA_TYPE='Y'"
+                    If isOpening = True Then
+                        strtempBaseQry += "  and  convert(date,TSPL_VCGL_Head.Document_Date,103)  <'" + strfromdate + "'  " + Environment.NewLine
+                    Else
+                        strtempBaseQry += "  and  convert(date,TSPL_VCGL_Head.Document_Date,103)  >='" + strfromdate + "' and  convert(date,TSPL_VCGL_Head.Document_Date,103)  <='" + strtodate + "' " + Environment.NewLine
+                    End If
+                    If clsCommon.myLen(strCustomer) > 0 Then
+                        If AllowtoSHOWParentChildCustomer = True Then
+                            strtempBaseQry += " and ( TSPL_VCGL_Detail.VCGL_Code in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
+                        Else
+                            strtempBaseQry += " and TSPL_VCGL_Detail.VCGL_Code in (" & strCustomer & ")  "
+                        End If
+                    End If
+                    strtempBaseQry += Environment.NewLine & " UNION ALL" & Environment.NewLine
+
+                Else
+                    strtempBaseQry += "select TSPL_Customer_Invoice_Head.Customer_Code, TSPL_Customer_Invoice_Head.Customer_Code as Child,TSPL_Customer_Invoice_Head.Customer_Name , TSPL_Customer_Invoice_Head.Document_No  AS DocNo," &
+                      " CASE WHEN TSPL_Customer_Invoice_Head.Document_Type ='C' AND len(TSPL_CUSTOMER_Invoice_Head.Against_Sale_Return_No)>0 THEN (Select Top 1 TSPL_SD_SALE_RETURN_HEAD.Document_Code  FROM TSPL_SD_SALE_RETURN_HEAD where TSPL_SD_SALE_RETURN_HEAD.Document_Code =TSPL_CUSTOMER_Invoice_Head.Against_Sale_Return_No) WHEN (TSPL_Customer_Invoice_Head.Document_Type ='D' OR  TSPL_Customer_Invoice_Head.Document_Type ='I') AND LEN(TSPL_Customer_Invoice_Head.Against_Sale_No)>0 THEN "
+                    strtempBaseQry += " CASE WHEN LEN(ISNULL( (Select Top 1 ISNULL(TSPL_SD_SALE_INVOICE_HEAD.Document_Code,'')  FROM TSPL_SD_SALE_INVOICE_HEAD where TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_CUSTOMER_Invoice_Head.Against_Sale_No),''))>0 THEN (Select Top 1 ISNULL(TSPL_SD_SALE_INVOICE_HEAD.Document_Code,'')  FROM TSPL_SD_SALE_INVOICE_HEAD where TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_CUSTOMER_Invoice_Head.Against_Sale_No) ELSE (Select Top 1 ISNULL(TSPL_INVOICE_MASTER_BULKSALE.Document_No,'')  FROM TSPL_INVOICE_MASTER_BULKSALE  where TSPL_INVOICE_MASTER_BULKSALE.Document_No  =TSPL_CUSTOMER_Invoice_Head.Against_Sale_No) END   WHEN TSPL_Customer_Invoice_Head.Document_Type ='I' AND len(TSPL_Customer_Invoice_Head.AgainstScrap)>0 THEN (Select Top 1 TSPL_SCRAPINVOICE_HEAD.invoice_No  FROM TSPL_SCRAPINVOICE_HEAD where TSPL_SCRAPINVOICE_HEAD.invoice_No  =TSPL_CUSTOMER_Invoice_Head.AgainstScrap ) END AS AgainstInvoiceNo, " &
+                    " CONVERT(Date,TSPL_Customer_Invoice_Head.Document_Date,103) as DocDate ,(case when TSPL_Customer_Invoice_Head.Document_Type ='I' then 'IN'  when TSPL_Customer_Invoice_Head.Document_Type ='C' then 'CR'  when TSPL_Customer_Invoice_Head.Document_Type ='D' then 'DR' end) as [DocType], TSPL_Customer_Invoice_Head.Description ,'', TSPL_Customer_Invoice_Head.Currency_Code, TSPL_Customer_Invoice_Head.ConvRate, case when TSPL_Customer_Invoice_Head.Document_Type ='C' then 0 else TSPL_Customer_Invoice_Head.Document_Total end as [DRAmt],case when TSPL_Customer_Invoice_Head.Document_Type ='C' then TSPL_Customer_Invoice_Head.Document_Total else 0 end as [CRAmt], 0 as SecurityDrAmt, 0 as SecurityCrAmt, case when TSPL_Customer_Invoice_Head.Document_Type ='I' Then TSPL_Customer_Invoice_Head.Document_Total Else 0 End as [Sales], 0 as [CollectionRefund], case when TSPL_Customer_Invoice_Head.Document_Type ='D' Then TSPL_Customer_Invoice_Head.Document_Total Else 0 End as [DrNote], Case when TSPL_Customer_Invoice_Head.Document_Type ='C' Then TSPL_Customer_Invoice_Head.Document_Total*-1 Else 0 End as [CrNote], TSPL_Customer_Invoice_Head.Loc_Code, case when TSPL_Customer_Invoice_Head.Document_Type ='I' then 'AR-IN'  when TSPL_Customer_Invoice_Head.Document_Type ='C' then 'AR-CR'  when TSPL_Customer_Invoice_Head.Document_Type ='D' then 'AR-DN' end as SourceCode, '' as Item_Code, '' as Item_Desc " &
+                    " ,'' As Receipt_Type, '' as Bank_Code, TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC  " &
+                    " from  TSPL_Customer_Invoice_Head " &
+                    " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_Customer_Invoice_Head.Customer_Code = TSPL_CUSTOMER_MASTER.Cust_Code  " &
+                    " LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code  " &
+                    " LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE " &
+                    " where TSPL_Customer_Invoice_Head.Status=1  "
+                    If isOpening = True Then
+                        strtempBaseQry += "  and  convert(date,TSPL_Customer_Invoice_Head.Document_Date,103)  <'" + strfromdate + "'  " + Environment.NewLine
+                    Else
+                        strtempBaseQry += "  and  convert(date,TSPL_Customer_Invoice_Head.Document_Date,103)  >='" + strfromdate + "' and  convert(date,TSPL_Customer_Invoice_Head.Document_Date,103)  <='" + strtodate + "' " + Environment.NewLine
+                    End If
+                    If clsCommon.myLen(strCustomer) > 0 Then
+                        If AllowtoSHOWParentChildCustomer = True Then
+                            strtempBaseQry += " and (TSPL_Customer_Invoice_Head.Customer_Code in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
+                        Else
+                            strtempBaseQry += " and TSPL_Customer_Invoice_Head.Customer_Code in (" & strCustomer & ") "
+                        End If
+                    End If
+                    strtempBaseQry += Environment.NewLine + " UNION ALL" + Environment.NewLine
+                End If
+                strtempBaseQry += " select TSPL_Receipt_Adjustment_Header.Customer_No  as ACode,TSPL_Receipt_Adjustment_Header.Customer_No as Child, TSPL_Receipt_Adjustment_Header.Customer_Name  as AName, TSPL_Receipt_Adjustment_Header.Adjustment_No  as DocNo, " &
+                " TSPL_Receipt_Adjustment_Header.ARInvoiceNo as AgainstInvoiceNo, CONVERT(DATE, TSPL_Receipt_Adjustment_Header.Adjustment_Date ,103) as DocDate,'Adjustment' as docType,  TSPL_Receipt_Adjustment_Header.Remarks as DocNarr, " &
+                " '' as ChequeDetails, 'INR' as Currency_Code, 1 as ConvRate, case when TSPL_Customer_Invoice_Head.Document_Type='C' then TSPL_Receipt_Adjustment_Header.Adjustment_Amount else 0 end   as DrAmt ,case when TSPL_Customer_Invoice_Head.Document_Type<>'C' then TSPL_Receipt_Adjustment_Header.Adjustment_Amount else 0 end   as CrAmt, 0 as SecurityDrAmt, 0 as SecurityCrAmt, 0 as [Sales], 0 as [CollectionRefund],  case when TSPL_Customer_Invoice_Head.Document_Type='C' then TSPL_Receipt_Adjustment_Header.Adjustment_Amount else 0 end *-1 as [DrNote], " &
+                " case when TSPL_Customer_Invoice_Head.Document_Type<>'C' then TSPL_Receipt_Adjustment_Header.Adjustment_Amount else 0 end  * -1 as [CrNote], TSPL_Customer_Invoice_Head.Loc_Code as Location, '' as SourceCode, '' as Item_Code, '' as Item_Desc  ,'' As Receipt_Type, '' as Bank_Code, " &
+                " TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC    " &
+                "  from TSPL_Receipt_Adjustment_Header  LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_Receipt_Adjustment_Header.Customer_No = TSPL_CUSTOMER_MASTER.Cust_Code  " &
+                " LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code  " &
+                " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON ISNULL(TSPL_Customer_Invoice_Head.Document_No ,'') = TSPL_Receipt_Adjustment_Header.ARInvoiceNo  " &
+                " LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE  " &
+                " where isnull(TSPL_Receipt_Adjustment_Header.Is_Post,'')='Y' "
+                If isOpening = True Then
+                    strtempBaseQry += "  and  convert(date,TSPL_Receipt_Adjustment_Header.Adjustment_Date,103)  <'" + strfromdate + "'  " + Environment.NewLine
+                Else
+                    strtempBaseQry += "  and  convert(date,TSPL_Receipt_Adjustment_Header.Adjustment_Date,103)  >='" + strfromdate + "' and  convert(date,TSPL_Receipt_Adjustment_Header.Adjustment_Date,103)  <='" + strtodate + "' " + Environment.NewLine
+                End If
+                If clsCommon.myLen(strCustomer) > 0 Then
+                    If AllowtoSHOWParentChildCustomer = True Then
+                        strtempBaseQry += " and (TSPL_Receipt_Adjustment_Header.Customer_No  in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
+                    Else
+                        strtempBaseQry += " and TSPL_Receipt_Adjustment_Header.Customer_No  in (" & strCustomer & ") "
+                    End If
+                End If
+                strtempBaseQry += Environment.NewLine + " UNION ALL" + Environment.NewLine &
+                     " ---------- INVOICES AGAINST BANK REVERSE --------- " + Environment.NewLine &
+              " select (" & IIf(IsCSA = True Or Docwise = True, "TSPL_BANK_REVERSE.Cust_Code", "coalesce(TSPL_Customer_Invoice_Head.Customer_Code,TSPL_BANK_REVERSE.Cust_Code)") & ")   as ACode,(" & IIf(IsCSA = True Or Docwise = True, "TSPL_BANK_REVERSE.Cust_Code", "coalesce(TSPL_Customer_Invoice_Head.Customer_Code,TSPL_BANK_REVERSE.Cust_Code)") & ")   as Child,(" & IIf(IsCSA = True Or Docwise = True, "TSPL_BANK_REVERSE.Cust_Name", "coalesce( TSPL_Customer_Invoice_Head.Customer_Name,TSPL_BANK_REVERSE.Cust_Name)") & ")  as AName, TSPL_BANK_REVERSE.Reverse_Code as DocNo, " + Environment.NewLine
+
+                If Docwise = True Then
+                    strtempBaseQry += " '' as AgainstInvoiceNo, "
+                Else
+                    strtempBaseQry += " TSPL_Customer_Invoice_Head.Document_No as AgainstInvoiceNo, "
+                End If
+                strtempBaseQry += "TSPL_BANK_REVERSE.Reversal_Date as DocDate , 'RV-TA' as DocType,  TSPL_BANK_REVERSE.Document_No as DocNarr, TSPL_BANK_REVERSE.Cheque_No as ChequeDetails, TSPL_Receipt_Header.Currency_Code, TSPL_Receipt_Header.ConvRate, "
+                If Docwise = True Then
+                    strtempBaseQry += " CASE WHEN TSPL_RECEIPT_HEADER.Receipt_Type<>'F' THEN TSPL_BANK_REVERSE.Amount  ELSE 0  END , "
+                Else
+                    strtempBaseQry += " Case When TSPL_RECEIPT_HEADER.Receipt_Type IN ('R') Then CASE WHEN TSPL_RECEIPT_DETAIL.Receipt_Type ='C' THEN  TSPL_RECEIPT_DETAIL.Applied_Amount * -1 ELSE TSPL_RECEIPT_DETAIL.Applied_Amount END When TSPL_RECEIPT_HEADER.Receipt_Type IN ('A') Then CASE WHEN TSPL_RECEIPT_DETAIL.Receipt_Type ='C' THEN  0 ELSE TSPL_RECEIPT_DETAIL.Applied_Amount END Else CASE WHEN TSPL_RECEIPT_HEADER.Receipt_Type<>'F' THEN TSPL_BANK_REVERSE.Amount  ELSE 0  END End as DrAmt, "
+                End If
+                strtempBaseQry += " CASE WHEN TSPL_RECEIPT_HEADER.Receipt_Type='F' THEN TSPL_BANK_REVERSE.Amount When TSPL_RECEIPT_HEADER.Receipt_Type IN ('A') Then CASE WHEN TSPL_RECEIPT_DETAIL.Receipt_Type ='C' THEN  TSPL_RECEIPT_DETAIL.Applied_Amount ELSE 0 END ELSE 0 END as CrAmt, 0 as SecurityDrAmt, 0 as SecurityCrAmt, 0 as [Sales]," + Environment.NewLine
+
+                If Docwise = True Then
+                    strtempBaseQry += " TSPL_BANK_REVERSE.Amount *-1  as [CollectionRefund], "
+                Else
+                    strtempBaseQry += " Case When TSPL_RECEIPT_HEADER.Receipt_Type IN ('R','A') Then CASE WHEN TSPL_RECEIPT_DETAIL.Receipt_Type ='C' THEN  TSPL_RECEIPT_DETAIL.Applied_Amount * -1 ELSE TSPL_RECEIPT_DETAIL.Applied_Amount END Else TSPL_BANK_REVERSE.Amount End*-1 as [CollectionRefund], "
+                End If
+
+                strtempBaseQry += " 0 as [DrNote], 0 as [CrNote]," + Environment.NewLine
+
+                If Docwise = True Then
+                    strtempBaseQry += " '' AS [Location], "
+                Else
+                    strtempBaseQry += " CASE WHEN ISNULL(TSPL_RECEIPT_HEADER.Location_GL_Code,'')<>'' THEN  CASE WHEN TSPL_RECEIPT_HEADER.Receipt_Type IN ('O','P','F') THEN TSPL_RECEIPT_HEADER.Location_GL_Code END WHEN TSPL_RECEIPT_HEADER.Receipt_Type IN ('R','A') THEN TSPL_Customer_Invoice_Head.Loc_Code  ELSE substring(TSPL_BANK_MASTER.BANKACC, len( TSPL_BANK_MASTER.BANKACC)-2,3) END AS [Location], " + Environment.NewLine
+                End If
+
+                strtempBaseQry += " 'RV-TA'as SourceCode, '' as Item_Code, '' as Item_Desc " &
+                " ,'' As Receipt_Type, TSPL_BANK_REVERSE.Bank_Code, TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC     " &
+                " from  TSPL_BANK_REVERSE  left outer join  TSPL_BANK_MASTER on  TSPL_BANK_REVERSE .Bank_Code = TSPL_BANK_MASTER.BANK_CODE " &
+                    " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_BANK_REVERSE.Cust_Code = TSPL_CUSTOMER_MASTER.Cust_Code  " &
+                    " LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code  " &
+                    " LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE " &
+                    " LEFT OUTER JOIN TSPL_RECEIPT_HEADER ON TSPL_RECEIPT_HEADER.Receipt_No = TSPL_BANK_REVERSE.Document_No " + Environment.NewLine
+
+                If Docwise = False Then
+                    strtempBaseQry += " LEFT OUTER JOIN TSPL_RECEIPT_DETAIL On TSPL_RECEIPT_DETAIL.Receipt_No=TSPL_RECEIPT_HEADER.Receipt_No   LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Document_No=TSPL_RECEIPT_DETAIL.Document_No "
+                End If
+
+                strtempBaseQry += " where  TSPL_BANK_REVERSE.Source_Type='AR' and  TSPL_BANK_REVERSE.post='P'" &
+                    " AND  ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit ,'')='N' " & IIf(IsShowApplyDocument = False, " AND TSPL_RECEIPT_HEADER.Receipt_Type <>'A' ", "") & " " + Environment.NewLine
+
+                If isOpening = True Then
+                    strtempBaseQry += "  and  convert(date,TSPL_BANK_REVERSE.Reversal_Date,103)  <'" + strfromdate + "'  " + Environment.NewLine
+                Else
+                    strtempBaseQry += "  and  convert(date,TSPL_BANK_REVERSE.Reversal_Date,103)  >='" + strfromdate + "' and  convert(date,TSPL_BANK_REVERSE.Reversal_Date,103)  <='" + strtodate + "' " + Environment.NewLine
+                End If
+                If clsCommon.myLen(strCustomer) > 0 Then
+                    If AllowtoSHOWParentChildCustomer = True Then
+                        strtempBaseQry += " and ((coalesce(TSPL_Customer_Invoice_Head.Customer_Code,TSPL_BANK_REVERSE.Cust_Code))  in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
+                    Else
+                        strtempBaseQry += " and (coalesce(TSPL_Customer_Invoice_Head.Customer_Code,TSPL_BANK_REVERSE.Cust_Code))  in (" & strCustomer & ") "
+                    End If
+
+                End If
+
+
+                If IsShowApplyDocument = True Then
+                    strtempBaseQry += " union all" + Environment.NewLine &
+                " select TSPL_BANK_REVERSE.Cust_Code as ACode,TSPL_BANK_REVERSE.Cust_Code as Child, TSPL_BANK_REVERSE.Cust_Name as AName, TSPL_BANK_REVERSE.Reverse_Code as DocNo, " + Environment.NewLine &
+                " TSPL_RECEIPT_HEADER.UnApplied_No as AgainstInvoiceNo, TSPL_BANK_REVERSE.Reversal_Date as DocDate , 'RV-TA' as DocType,  TSPL_BANK_REVERSE.Document_No as DocNarr, TSPL_BANK_REVERSE.Cheque_No as ChequeDetails, TSPL_Receipt_Header.Currency_Code, TSPL_Receipt_Header.ConvRate, Case When TSPL_RECEIPT_HEADER.Receipt_Type IN ('A') Then CASE WHEN TSPL_RECEIPT_DETAIL.Receipt_Type ='C' THEN  TSPL_RECEIPT_DETAIL.Applied_Amount ELSE 0 END " + Environment.NewLine &
+ " Else 0 End as DrAmt, CASE When TSPL_RECEIPT_HEADER.Receipt_Type IN ('A') Then CASE WHEN TSPL_RECEIPT_DETAIL.Receipt_Type ='C' THEN  0 ELSE TSPL_RECEIPT_DETAIL.Applied_Amount END ELSE TSPL_BANK_REVERSE.Amount END as CrAmt, 0 as SecurityDrAmt, 0 as SecurityCrAmt, 0 as [Sales],TSPL_RECEIPT_HEADER.UnApplied_Balance as [CollectionRefund],  0 as [DrNote], 0 as [CrNote]," + Environment.NewLine &
+                " CASE WHEN ISNULL(TSPL_RECEIPT_HEADER.Location_GL_Code,'')<>'' THEN  CASE WHEN TSPL_RECEIPT_HEADER.Receipt_Type IN ('O','P','F') THEN TSPL_RECEIPT_HEADER.Location_GL_Code END WHEN TSPL_RECEIPT_HEADER.Receipt_Type IN ('R','A') THEN TSPL_Customer_Invoice_Head.Loc_Code  ELSE substring(TSPL_BANK_MASTER.BANKACC, len( TSPL_BANK_MASTER.BANKACC)-2,3) END AS [Location] ,    'AR-UN' as SourceCode, '' as Item_Code, '' as Item_Desc  ,'' As Receipt_Type, TSPL_BANK_REVERSE.Bank_Code,TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC from  TSPL_BANK_REVERSE  left outer join  TSPL_BANK_MASTER on  TSPL_BANK_REVERSE .Bank_Code = TSPL_BANK_MASTER.BANK_CODE  " + Environment.NewLine &
+                " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_BANK_REVERSE.Cust_Code = TSPL_CUSTOMER_MASTER.Cust_Code  " + Environment.NewLine &
+                " LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code  " + Environment.NewLine &
+                " LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE  " + Environment.NewLine &
+                " LEFT OUTER JOIN TSPL_RECEIPT_HEADER ON TSPL_RECEIPT_HEADER.Receipt_No = TSPL_BANK_REVERSE.Document_No " + Environment.NewLine &
+                "LEFT OUTER JOIN TSPL_RECEIPT_DETAIL On TSPL_RECEIPT_DETAIL.Receipt_No=TSPL_RECEIPT_HEADER.Receipt_No " + Environment.NewLine &
+                " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Document_No=TSPL_RECEIPT_DETAIL.Document_No " + Environment.NewLine &
+                " where  TSPL_BANK_REVERSE.Source_Type='AR' and  TSPL_BANK_REVERSE.post='P' AND  ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit ,'')='N' and TSPL_RECEIPT_HEADER .Receipt_Type ='A' and isnull(TSPL_RECEIPT_HEADER.Receipt_No ,'')<>''  " + Environment.NewLine
+                    If isOpening = True Then
+                        strtempBaseQry += "  and  convert(date,TSPL_BANK_REVERSE.Reversal_Date,103)  <'" + strfromdate + "'  " + Environment.NewLine
+                    Else
+                        strtempBaseQry += "  and  convert(date,TSPL_BANK_REVERSE.Reversal_Date,103)  >='" + strfromdate + "' and  convert(date,TSPL_BANK_REVERSE.Reversal_Date,103)  <='" + strtodate + "' " + Environment.NewLine
+                    End If
+                    If clsCommon.myLen(strCustomer) > 0 Then
+                        If AllowtoSHOWParentChildCustomer = True Then
+                            strtempBaseQry += " and (TSPL_BANK_REVERSE.Cust_Code  in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
+                        Else
+                            strtempBaseQry += " and TSPL_BANK_REVERSE.Cust_Code  in (" & strCustomer & ") "
+                        End If
+                    End If
+                    strtempBaseQry += Environment.NewLine + " ------------- BANK REVERSE ENTRY AGAINST APPLY DOCUMENT" + Environment.NewLine
+                End If
+
+
+                ' '' ------- unapplied entry
+                If Docwise = False Then
+                    strtempBaseQry += " union all" + Environment.NewLine &
+                    "select TSPL_BANK_REVERSE.Cust_Code as ACode,TSPL_BANK_REVERSE.Cust_Code as Child, TSPL_BANK_REVERSE.Cust_Name as AName, TSPL_BANK_REVERSE.Reverse_Code as DocNo," + Environment.NewLine &
+                    "TSPL_RECEIPT_HEADER.UnApplied_No as AgainstInvoiceNo, TSPL_BANK_REVERSE.Reversal_Date as DocDate , 'UA' as DocType,  TSPL_BANK_REVERSE.Document_No as DocNarr, TSPL_BANK_REVERSE.Cheque_No as ChequeDetails, TSPL_Receipt_Header.Currency_Code, TSPL_Receipt_Header.ConvRate,  TSPL_RECEIPT_HEADER.UnApplied_Balance as DrAmt,  0 as CrAmt, 0 as SecurityDrAmt, 0 as SecurityCrAmt, 0 as [Sales]," + Environment.NewLine &
+                    "TSPL_RECEIPT_HEADER.UnApplied_Balance as [CollectionRefund],  0 as [DrNote], 0 as [CrNote]," + Environment.NewLine &
+                    "substring(TSPL_BANK_MASTER.BANKACC, len( TSPL_BANK_MASTER.BANKACC)-2,3) AS [Location], " + Environment.NewLine &
+                    " 'AR-UN' as SourceCode, '' as Item_Code, '' as Item_Desc  ,'' As Receipt_Type, TSPL_BANK_REVERSE.Bank_Code, TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC      from  TSPL_BANK_REVERSE  left outer join  TSPL_BANK_MASTER on  TSPL_BANK_REVERSE .Bank_Code = TSPL_BANK_MASTER.BANK_CODE  " + Environment.NewLine &
+                    " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_BANK_REVERSE.Cust_Code = TSPL_CUSTOMER_MASTER.Cust_Code  " + Environment.NewLine &
+                    " LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code  " + Environment.NewLine &
+                    " LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE  " + Environment.NewLine &
+                    " LEFT OUTER JOIN TSPL_RECEIPT_HEADER ON TSPL_RECEIPT_HEADER.Receipt_No = TSPL_BANK_REVERSE.Document_No " + Environment.NewLine &
+                    " LEFT OUTER JOIN TSPL_RECEIPT_HEADER as UnappliedReceipt ON UnappliedReceipt.Receipt_No = TSPL_RECEIPT_HEADER .UnApplied_No  " + Environment.NewLine &
+                    " where  TSPL_BANK_REVERSE.Source_Type='AR' and  TSPL_BANK_REVERSE.post='P' AND  ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit ,'')='N' and UnappliedReceipt.Receipt_Type ='U' and isnull(TSPL_RECEIPT_HEADER.Receipt_No ,'')<>'' " + Environment.NewLine
+                    If isOpening = True Then
+                        strtempBaseQry += "  and  convert(date,TSPL_BANK_REVERSE.Reversal_Date,103)  <'" + strfromdate + "'  " + Environment.NewLine
+                    Else
+                        strtempBaseQry += "  and  convert(date,TSPL_BANK_REVERSE.Reversal_Date,103)  >='" + strfromdate + "' and  convert(date,TSPL_BANK_REVERSE.Reversal_Date,103)  <='" + strtodate + "' " + Environment.NewLine
+                    End If
+                    If clsCommon.myLen(strCustomer) > 0 Then
+                        If AllowtoSHOWParentChildCustomer = True Then
+                            strtempBaseQry += " and (TSPL_BANK_REVERSE.Cust_Code  in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
+                        Else
+                            strtempBaseQry += " and TSPL_BANK_REVERSE.Cust_Code  in (" & strCustomer & ") "
+                        End If
+                    End If
+                End If
+
+                strtempBaseQry += Environment.NewLine + " UNION ALL" + Environment.NewLine &
+                        " select TSPL_VCGL_Head.VC_Code as ACode,TSPL_VCGL_Head.VC_Code as Child, TSPL_VCGL_Head.VC_Name as AName, TSPL_VCGL_Head.Document_No as DocNo,'' as AgainstInvoiceNo, CONVERT(DATE, TSPL_VCGL_Head.Document_Date,103) as DocDate,'VCGL' as docType,  TSPL_VCGL_Head.Remarks as DocNarr,'' as ChequeDetails, 'INR' as Currency_Code, 1 as ConvRate, case when  TSPL_VCGL_Head.Amount_Type='Cr' then  TSPL_VCGL_Head.Amount else 0 end  as DrAmt ,case when  TSPL_VCGL_Head.Amount_Type='Dr' then  TSPL_VCGL_Head.Amount else 0 end as CrAmt, 0 as SecurityDrAmt, 0 as SecurityCrAmt, 0 as [Sales], 0 as [CollectionRefund], case when TSPL_VCGL_Head.Amount_Type='Dr' then TSPL_VCGL_Head.Amount Else 0 End as [DrNote], case when TSPL_VCGL_Head.Amount_Type='Cr' then TSPL_VCGL_Head.Amount*-1 Else 0 End as [CrNote], TSPL_VCGL_Head.Location_Segment as Location, 'VC-GL' as SourceCode, '' as Item_Code, '' as Item_Desc " &
+                    " ,'' As Receipt_Type, '' as Bank_Code,TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC     " &
+                    " from TSPL_VCGL_Head " &
+                        " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_VCGL_Head.VC_Code = TSPL_CUSTOMER_MASTER.Cust_Code " &
+                        " LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code  " &
+                        " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Against_VCGL = TSPL_VCGL_Head.Document_No" &
+                        " LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE " &
+                        " where TSPL_VCGL_Head.Document_Type='C' and  TSPL_VCGL_Head.Status=1 AND ISNULL(TSPL_Customer_Invoice_Head.Against_VCGL,'') ='' "
+                If isOpening = True Then
+                    strtempBaseQry += "  and  convert(date,TSPL_VCGL_Head.Document_Date,103)  <'" + strfromdate + "'  " + Environment.NewLine
+                Else
+                    strtempBaseQry += "  and  convert(date,TSPL_VCGL_Head.Document_Date,103)  >='" + strfromdate + "' and  convert(date,TSPL_VCGL_Head.Document_Date,103)  <='" + strtodate + "' " + Environment.NewLine
+                End If
+                If clsCommon.myLen(strCustomer) > 0 Then
+                    If AllowtoSHOWParentChildCustomer = True Then
+                        strtempBaseQry += " and  (TSPL_VCGL_Head.VC_Code  in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
+                    Else
+                        strtempBaseQry += " and  TSPL_VCGL_Head.VC_Code  in (" & strCustomer & ") "
+                    End If
+                End If
+                strtempBaseQry += Environment.NewLine + " UNION ALL" + Environment.NewLine &
+                   " select TSPL_VCGL_Detail.VCGL_Code as ACode,TSPL_VCGL_Detail.VCGL_Code as Child, TSPL_VCGL_Detail.VCGL_Name as AName, TSPL_VCGL_Head.Document_No as DocNo,'' as AgainstInvoiceNo, CONVERT(DATE, TSPL_VCGL_Head.Document_Date,103) as DocDate,'VCGL' as docType,  TSPL_VCGL_Detail.Remarks as DocNarr,'' as ChequeDetails, 'INR' as Currency_Code, 1 as ConvRate, TSPL_VCGL_Detail.Dr_Amount as DrAmt , TSPL_VCGL_Detail.Cr_Amount as CrAmt, 0 as SecurityDrAmt, 0 as SecurityCrAmt, 0 as [Sales], 0 as [CollectionRefund], TSPL_VCGL_Detail.Dr_Amount as DrNote, TSPL_VCGL_Detail.Cr_Amount as [CrNote], TSPL_VCGL_Head.Location_Segment as Location, 'VC-GL' as SourceCode, '' as Item_Code, '' as Item_Desc " &
+                   " ,'' As Receipt_Type,'' as Bank_Code,TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC    " &
+                   " from  TSPL_VCGL_Detail" &
+                       " left outer join  TSPL_VCGL_Head on  TSPL_VCGL_Head .Document_No= TSPL_VCGL_Detail.Document_No " &
+                       " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_VCGL_Detail.VCGL_Code = TSPL_CUSTOMER_MASTER.Cust_Code " &
+                       " LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code  " &
+                       " LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE  " &
+                       " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Against_VCGL = TSPL_VCGL_Detail.Document_No      " &
+                       " where TSPL_VCGL_Head.Status=1 and  TSPL_VCGL_Detail.Row_Type='Customer' AND ISNULL(TSPL_Customer_Invoice_Head.Against_VCGL,'') ='' "
+                If isOpening = True Then
+                    strtempBaseQry += "  and  convert(date,TSPL_VCGL_Head.Document_Date,103)  <'" + strfromdate + "'  " + Environment.NewLine
+                Else
+                    strtempBaseQry += "  and  convert(date,TSPL_VCGL_Head.Document_Date,103)  >='" + strfromdate + "' and  convert(date,TSPL_VCGL_Head.Document_Date,103)  <='" + strtodate + "' " + Environment.NewLine
+                End If
+                If clsCommon.myLen(strCustomer) > 0 Then
+                    If AllowtoSHOWParentChildCustomer = True Then
+                        strtempBaseQry += " and  (TSPL_VCGL_Detail.VCGL_Code  in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
+                    Else
+                        strtempBaseQry += " and  TSPL_VCGL_Detail.VCGL_Code  in (" & strCustomer & ")  "
+                    End If
+                End If
+            End If
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return strtempBaseQry
+    End Function
+
     Public Function GetInvoiceType(ByVal strCustCode As String, ByVal strLocation As String, ByVal strType As String, ByVal trans As SqlTransaction)
         Dim dt As DataTable
 

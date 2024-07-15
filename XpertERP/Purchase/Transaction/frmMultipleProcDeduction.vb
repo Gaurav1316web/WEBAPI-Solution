@@ -493,6 +493,7 @@ Public Class FrmMultipleProcDeduction
     End Sub
 
     Function AllowToSave() As Boolean
+
         Try
             If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
                 txtDate.Focus()
@@ -535,7 +536,13 @@ Public Class FrmMultipleProcDeduction
             End If
 
             UcAttachment1.AllowToSave()
+            Dim mcc As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select TSPL_VLC_MASTER_HEAD.MCC from TSPL_MULTIPLE_DEDUCTION_Detail
+                   Left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_DETAIL.Vendor_Code
+        where Document_No ='" + txtDocNo.Value + "'"))
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmPaymentProcess, mcc, txtDate.Value, Nothing)
+
             Return True
+
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
