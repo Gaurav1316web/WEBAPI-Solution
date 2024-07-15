@@ -9011,6 +9011,7 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
                           ,TSPL_TENDER_SCHEDULE.schedule_from_date					
 					      ,TSPL_TENDER_SCHEDULE.schedule_to_date
                           ,TSPL_QC_CHECK_HEAD.Document_Code as QC_NO
+                          ,TSPL_PO_WEIGHTMENT_DETAIL.Extra_Weight
                           from TSPL_PI_DETAIL 
                     left outer join TSPL_PI_HEAD on TSPL_PI_DETAIL.PI_No = TSPL_PI_HEAD.PI_No
                     left outer join TSPL_SRN_DETAIL on TSPL_SRN_DETAIL.SRN_No = TSPL_PI_DETAIL.SRN_Id and TSPL_SRN_DETAIL.Item_Code = TSPL_PI_DETAIL.Item_Code
@@ -9037,7 +9038,7 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
                     left outer join TSPL_PI_REMITTANCE on TSPL_PI_REMITTANCE.Document_No=TSPL_PI_HEAD.pi_no
                     left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=TSPL_GRN_HEAD.Against_PO
                     left outer join TSPL_LOCATION_MASTER on TSPL_PI_HEAD.Bill_To_Location =TSPL_LOCATION_MASTER.Location_Code
-                    left join (SELECT Weighment_Code, ISNULL([PM0001],0) AS 'JuteBagWeight',ISNULL([PM0002],0) AS 'PPBagWeight'  FROM (SELECT TSPL_PO_WEIGHTMENT_GUNNY.Weighment_Code,TSPL_PO_WEIGHTMENT_GUNNY.Item_Code,CAST(ISNULL(TSPL_PO_WEIGHTMENT_GUNNY.Qty,0)*ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,0)/100 AS decimal(18,2)) AS QTY FROM   TSPL_PO_WEIGHTMENT_GUNNY
+                    left join (SELECT Weighment_Code, ISNULL([PM0001],0) AS 'JuteBagWeight',ISNULL([PM0002],0) AS 'PPBagWeight'  FROM (SELECT TSPL_PO_WEIGHTMENT_GUNNY.Weighment_Code,TSPL_PO_WEIGHTMENT_GUNNY.Item_Code,ROUND(CAST(ISNULL(TSPL_PO_WEIGHTMENT_GUNNY.Qty,0)/ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,0)/100 AS decimal(18,3)),2) AS QTY FROM   TSPL_PO_WEIGHTMENT_GUNNY
 					left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_PO_WEIGHTMENT_GUNNY.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code='KG' ) AS PO_WEIGHTMENT_GUNNY
 					PIVOT (SUM(QTY) FOR ITEM_CODE IN ([PM0001],[PM0002])) AS TSPL_PO_WEIGHTMENT_GUNNY) TSPL_PO_WEIGHTMENT_GUNNY on TSPL_PO_WEIGHTMENT_GUNNY.Weighment_Code=TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code
                     --left join TSPL_ITEM_MASTER as GUNNY_TSPL_ITEM_MASTER ON GUNNY_TSPL_ITEM_MASTER.ITEM_CODE=TSPL_PO_WEIGHTMENT_GUNNY.ITEM_CODE

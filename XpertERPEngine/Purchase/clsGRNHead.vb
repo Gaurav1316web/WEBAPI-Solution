@@ -165,6 +165,7 @@ Public Class clsGRNHead
     Public Function SaveData(ByVal obj As clsGRNHead, ByVal isNewEntry As Boolean, Optional ByVal isamendment As Boolean = False) As Boolean
         ShowItemAllStructureWise = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, Nothing)) = "1", True, False))
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "PO Weighment", IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location), obj.GRN_Date, trans)
         Try
             SaveData(obj, isNewEntry, trans, isamendment)
             trans.Commit()
@@ -178,7 +179,8 @@ Public Class clsGRNHead
     Public Function SaveData(ByVal obj As clsGRNHead, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction, Optional ByVal isamendment As Boolean = False) As Boolean
         Dim isSaved As Boolean = True
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Gate Received Note", obj.Bill_To_Location, obj.GRN_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Gate Received Note", IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location), obj.GRN_Date, trans)
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Gate Received Note", obj.Bill_To_Location, obj.GRN_Date, trans)
             clsGRNAdditionChargeInsurance.DeleteData(obj.GRN_No, trans)
             Dim qry As String = "delete from TSPL_GRN_DETAIL where GRN_No='" + obj.GRN_No + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -1018,6 +1020,7 @@ Public Class clsGRNHead
             Dim strPostDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy  hh:mm tt")
 
             Dim obj As clsGRNHead = clsGRNHead.GetData(strDocNo, NavigatorType.Current, trans)
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Gate Received Note", IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location), obj.GRN_Date, trans)
 
             If (obj Is Nothing OrElse clsCommon.myLen(obj.GRN_No) <= 0) Then
                 Throw New Exception("No Data found to Post")
@@ -1705,6 +1708,9 @@ Public Class clsGRNHead
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             Dim obj As clsGRNHead = clsGRNHead.GetData(Doc_No, NavigatorType.Current, trans)
+
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Gate Received Note", IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location), obj.GRN_Date, trans)
+
             If obj Is Nothing OrElse clsCommon.myLen(obj.GRN_No) <= 0 Then
                 Throw New Exception("Document- " & Doc_No & " not found")
             End If
