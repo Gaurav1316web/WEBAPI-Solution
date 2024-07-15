@@ -228,11 +228,11 @@ Public Class clsTransferDCC
     '' TEPORARY WORK DUE TO UMVAALABOLITY OF CLSTAGGROUPMASTER CLASS
     Public Shared Function getFinder_ExcisableTaxGroup(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
-        Dim qry As String = " SELECT distinct TSPL_TAX_GROUP_MASTER.TAX_Group_Code as 'Code'," & _
-                            " (CASE WHEN TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S' THEN 'Sales' " & _
-                            " when TSPL_TAX_GROUP_MASTER.Tax_Group_Type='P' then  'Purchase' else 'Transfer' END) as 'Transaction Type', " & _
-                            " Tax_Group_Desc as Description,TSPL_TAX_GROUP_MASTER.Currency_Code From TSPL_TAX_GROUP_MASTER " & _
-                            " inner join TSPL_TAX_GROUP_DETAILS on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_TAX_GROUP_DETAILS.Tax_Group_Code " & _
+        Dim qry As String = " SELECT distinct TSPL_TAX_GROUP_MASTER.TAX_Group_Code as 'Code'," &
+                            " (CASE WHEN TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S' THEN 'Sales' " &
+                            " when TSPL_TAX_GROUP_MASTER.Tax_Group_Type='P' then  'Purchase' else 'Transfer' END) as 'Transaction Type', " &
+                            " Tax_Group_Desc as Description,TSPL_TAX_GROUP_MASTER.Currency_Code From TSPL_TAX_GROUP_MASTER " &
+                            " inner join TSPL_TAX_GROUP_DETAILS on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_TAX_GROUP_DETAILS.Tax_Group_Code " &
                             " inner join TSPL_TAX_MASTER on TSPL_TAX_MASTER.Tax_Code=    TSPL_TAX_GROUP_DETAILS.Tax_Code "
         str = clsCommon.ShowSelectForm("RPTTXGRPFND", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
         Return str
@@ -2190,12 +2190,12 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
                     'End If
                     Inventory_Control_Ac_ToLoc = clsERPFuncationality.ChangeGLAccountLocationSegment(Inventory_Control_Ac, ToLocationSegment, True, trans)
                     Inventory_Control_Ac_FromLoc = clsERPFuncationality.ChangeGLAccountLocationSegment(Inventory_Control_Ac, FromLocationSegment, True, False, trans)
-                
+
 
                     ''richa agarwal 16 Jan,2020
                     If PickTCAForStockTransferAndTankerDispatch = True Then
-                        Branch_Ac = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT PA.transfer_clearing FROM TSPL_ITEM_MASTER AS IM INNER JOIN " & _
-                        " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " & _
+                        Branch_Ac = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT PA.transfer_clearing FROM TSPL_ITEM_MASTER AS IM INNER JOIN " &
+                        " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " &
                         " TSPL_GL_ACCOUNTS AS GLA ON PA.Inv_Control_Account = GLA.Account_Code WHERE IM.Item_Code='" + obj.Arr(i).Item_Code + "'", trans))
                         If clsCommon.myLen(Branch_Ac) <= 0 Then
                             Throw New Exception("Please Map Transfer Clearing Account For  for item " + obj.Arr(i).Item_Code + "  (" & obj.Arr(i).Item_Desc & ")")
@@ -2496,16 +2496,16 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
 
                     ''richa agarwal 16 Jan,2020
                     If PickTCAForStockTransferAndTankerDispatch = True Then
-                        Branch_Ac_FromLoc = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT PA.transfer_clearing FROM TSPL_ITEM_MASTER AS IM INNER JOIN " & _
-                        " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " & _
+                        Branch_Ac_FromLoc = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT PA.transfer_clearing FROM TSPL_ITEM_MASTER AS IM INNER JOIN " &
+                        " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " &
                         " TSPL_GL_ACCOUNTS AS GLA ON PA.Inv_Control_Account = GLA.Account_Code WHERE IM.Item_Code='" + obj.Arr(i).Item_Code + "'", trans))
                         If clsCommon.myLen(Branch_Ac_FromLoc) <= 0 Then
                             Throw New Exception("Please Map Transfer Clearing Account For  for item " + obj.Arr(i).Item_Code + "  (" & obj.Arr(i).Item_Desc & ")")
                         End If
                         Branch_Ac_FromLoc = clsERPFuncationality.ChangeGLAccountLocationSegment(Branch_Ac_FromLoc, FromLocationSegment, True, trans)
 
-                        Branch_Ac_ToLoc = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT PA.transfer_clearing FROM TSPL_ITEM_MASTER AS IM INNER JOIN " & _
-                    " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " & _
+                        Branch_Ac_ToLoc = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT PA.transfer_clearing FROM TSPL_ITEM_MASTER AS IM INNER JOIN " &
+                    " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " &
                     " TSPL_GL_ACCOUNTS AS GLA ON PA.Inv_Control_Account = GLA.Account_Code WHERE IM.Item_Code='" + obj.Arr(i).Item_Code + "'", trans))
                         If clsCommon.myLen(Branch_Ac_ToLoc) <= 0 Then
                             Throw New Exception("Please Map Transfer Clearing Account For  for item " + obj.Arr(i).Item_Code + "  (" & obj.Arr(i).Item_Desc & ")")
@@ -2524,7 +2524,7 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
                             Throw New Exception("Please Map Account For Branch Account Mapping For Location From  " & clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Loc_segment_code from tspl_location_master where Location_Code='" & ToLocSeg & "'", trans)) & " To " & clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Loc_segment_code from tspl_location_master where Location_Code='" & FromLocSeg & "'", trans)))
                         End If
                     End If
-                  
+
 
                     Stock_Transfer_Ac_ToLoc = clsERPFuncationality.ChangeGLAccountLocationSegment(Stock_Transfer_AcIn, ToLocationSegment, True, False, trans) ''UDL/24/07/19-000308 by balwinder on 31/07/2019
                     Stock_Transfer_Ac_FromLoc = clsERPFuncationality.ChangeGLAccountLocationSegment(Stock_Transfer_AcOut, FromLocationSegment, True, trans)
@@ -2546,7 +2546,7 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
                         clsInventoryMovement.UpdateInvControlAccount(obj.Document_No, "Transfer", obj.Arr(i).Item_Code, Stock_Transfer_Ac_ToLoc, "", "I", trans)
                     End If
                     ''------------------
-                   
+
                     ArryLst.Add(New String() {Branch_Ac_FromLoc, BranchAmt})
                     ArryLst.Add(New String() {Branch_Ac_ToLoc, BranchAmt * -1})
                 Next
@@ -2584,8 +2584,8 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
         Dim fromLocSegCode As String = connectSql.RunScalar(trans, Sql)
         Sql = "SELECT Loc_Segment_Code from TSPL_LOCATION_MASTER WHERE Location_Code='" + Convert.ToString(obj.To_Location) + "'"
         Dim toLocSegCode As String = connectSql.RunScalar(trans, Sql)
-        Sql = "SELECT PA.Inv_Control_Account FROM TSPL_ITEM_MASTER AS IM INNER JOIN " & _
-       " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " & _
+        Sql = "SELECT PA.Inv_Control_Account FROM TSPL_ITEM_MASTER AS IM INNER JOIN " &
+       " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " &
         " TSPL_GL_ACCOUNTS AS GLA ON PA.Inv_Control_Account = GLA.Account_Code WHERE IM.Item_Code='" + obj.Arr.Item(0).Item_Code.ToString() + "'"
         strFromInvAcc = clsERPFuncationality.ChangeGLAccountLocationSegment(strFromInvAcc, obj.From_Location, trans)
         strToInvAcc = clsERPFuncationality.ChangeGLAccountLocationSegment(strFromInvAcc, obj.To_Location, trans)
@@ -2781,30 +2781,30 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
 
     Public Shared Function JE_Excisable_Common(ByVal obj As clsTransferDCC, ByVal arrlist As ArrayList, ByVal strLocationSegment As String, ByVal trans As SqlTransaction) As Boolean
         Dim qry As String = ""
-        qry = " select Doc.Document_No,TaxM1.Tax_Liability_Account as Tax1_GLAC,TaxM2.Tax_Liability_Account as Tax2_GLAC," & _
-                 " TaxM3.Tax_Liability_Account as Tax3_GLAC,TaxM4.Tax_Liability_Account as Tax4_GLAC," & _
-                 " TaxM5.Tax_Liability_Account as Tax5_GLAC,TaxM6.Tax_Liability_Account as Tax6_GLAC, " & _
-                 " TaxM7.Tax_Liability_Account as Tax7_GLAC,TaxM8.Tax_Liability_Account as Tax8_GLAC, " & _
-                 " TaxM9.Tax_Liability_Account as Tax9_GLAC,TaxM10.Tax_Liability_Account as Tax10_GLAC, " & _
-                 " TaxM1.Tax_Net_Payable as Tax1_GLAC_Payable,TaxM2.Tax_Net_Payable as Tax2_GLAC_Payable, " & _
-                 " TaxM3.Tax_Net_Payable as Tax3_GLAC_Payable,TaxM4.Tax_Net_Payable as Tax4_GLAC_Payable, " & _
-                 " TaxM5.Tax_Net_Payable as Tax5_GLAC_Payable,TaxM6.Tax_Net_Payable as Tax6_GLAC_Payable, " & _
-                 " TaxM7.Tax_Net_Payable as Tax7_GLAC_Payable,TaxM8.Tax_Net_Payable as Tax8_GLAC_Payable, " & _
-                 " TaxM9.Tax_Net_Payable as Tax9_GLAC_Payable,TaxM10.Tax_Net_Payable as Tax10_GLAC_Payable, " & _
-                 " TaxM1.Tax_Recoverable_Account as Tax1_RecovAct,TaxM2.Tax_Recoverable_Account as Tax2_RecovAct, " & _
-                 " TaxM3.Tax_Recoverable_Account as Tax3_RecovAct,TaxM4.Tax_Recoverable_Account as Tax4_RecovAct, " & _
-                 " TaxM5.Tax_Recoverable_Account as Tax5_RecovAct,TaxM6.Tax_Recoverable_Account as Tax6_RecovAct, " & _
-                 " TaxM7.Tax_Recoverable_Account as Tax7_RecovAct,TaxM8.Tax_Recoverable_Account as Tax8_RecovAct, " & _
-                 " TaxM9.Tax_Recoverable_Account as Tax9_RecovAct,TaxM10.Tax_Recoverable_Account as Tax10_RecovAct from TSPL_TRANSFER_ORDER_HEAD doc " & _
-                 " left join TSPL_TAX_MASTER TaxM1 on Doc.TAX1=TaxM1.Tax_Code " & _
-                 " left join TSPL_TAX_MASTER TaxM2 on Doc.TAX2=TaxM2.Tax_Code " & _
-                 " left join TSPL_TAX_MASTER TaxM3 on Doc.TAX3=TaxM3.Tax_Code " & _
-                 " left join TSPL_TAX_MASTER TaxM4 on Doc.TAX4=TaxM4.Tax_Code " & _
-                 " left join TSPL_TAX_MASTER TaxM5 on Doc.TAX5=TaxM5.Tax_Code " & _
-                 " left join TSPL_TAX_MASTER TaxM6 on Doc.TAX6=TaxM6.Tax_Code " & _
-                 " left join TSPL_TAX_MASTER TaxM7 on Doc.TAX7=TaxM7.Tax_Code " & _
-                 " left join TSPL_TAX_MASTER TaxM8 on Doc.TAX8=TaxM8.Tax_Code " & _
-                 " left join TSPL_TAX_MASTER TaxM9 on Doc.TAX9=TaxM9.Tax_Code " & _
+        qry = " select Doc.Document_No,TaxM1.Tax_Liability_Account as Tax1_GLAC,TaxM2.Tax_Liability_Account as Tax2_GLAC," &
+                 " TaxM3.Tax_Liability_Account as Tax3_GLAC,TaxM4.Tax_Liability_Account as Tax4_GLAC," &
+                 " TaxM5.Tax_Liability_Account as Tax5_GLAC,TaxM6.Tax_Liability_Account as Tax6_GLAC, " &
+                 " TaxM7.Tax_Liability_Account as Tax7_GLAC,TaxM8.Tax_Liability_Account as Tax8_GLAC, " &
+                 " TaxM9.Tax_Liability_Account as Tax9_GLAC,TaxM10.Tax_Liability_Account as Tax10_GLAC, " &
+                 " TaxM1.Tax_Net_Payable as Tax1_GLAC_Payable,TaxM2.Tax_Net_Payable as Tax2_GLAC_Payable, " &
+                 " TaxM3.Tax_Net_Payable as Tax3_GLAC_Payable,TaxM4.Tax_Net_Payable as Tax4_GLAC_Payable, " &
+                 " TaxM5.Tax_Net_Payable as Tax5_GLAC_Payable,TaxM6.Tax_Net_Payable as Tax6_GLAC_Payable, " &
+                 " TaxM7.Tax_Net_Payable as Tax7_GLAC_Payable,TaxM8.Tax_Net_Payable as Tax8_GLAC_Payable, " &
+                 " TaxM9.Tax_Net_Payable as Tax9_GLAC_Payable,TaxM10.Tax_Net_Payable as Tax10_GLAC_Payable, " &
+                 " TaxM1.Tax_Recoverable_Account as Tax1_RecovAct,TaxM2.Tax_Recoverable_Account as Tax2_RecovAct, " &
+                 " TaxM3.Tax_Recoverable_Account as Tax3_RecovAct,TaxM4.Tax_Recoverable_Account as Tax4_RecovAct, " &
+                 " TaxM5.Tax_Recoverable_Account as Tax5_RecovAct,TaxM6.Tax_Recoverable_Account as Tax6_RecovAct, " &
+                 " TaxM7.Tax_Recoverable_Account as Tax7_RecovAct,TaxM8.Tax_Recoverable_Account as Tax8_RecovAct, " &
+                 " TaxM9.Tax_Recoverable_Account as Tax9_RecovAct,TaxM10.Tax_Recoverable_Account as Tax10_RecovAct from TSPL_TRANSFER_ORDER_HEAD doc " &
+                 " left join TSPL_TAX_MASTER TaxM1 on Doc.TAX1=TaxM1.Tax_Code " &
+                 " left join TSPL_TAX_MASTER TaxM2 on Doc.TAX2=TaxM2.Tax_Code " &
+                 " left join TSPL_TAX_MASTER TaxM3 on Doc.TAX3=TaxM3.Tax_Code " &
+                 " left join TSPL_TAX_MASTER TaxM4 on Doc.TAX4=TaxM4.Tax_Code " &
+                 " left join TSPL_TAX_MASTER TaxM5 on Doc.TAX5=TaxM5.Tax_Code " &
+                 " left join TSPL_TAX_MASTER TaxM6 on Doc.TAX6=TaxM6.Tax_Code " &
+                 " left join TSPL_TAX_MASTER TaxM7 on Doc.TAX7=TaxM7.Tax_Code " &
+                 " left join TSPL_TAX_MASTER TaxM8 on Doc.TAX8=TaxM8.Tax_Code " &
+                 " left join TSPL_TAX_MASTER TaxM9 on Doc.TAX9=TaxM9.Tax_Code " &
                  " left join TSPL_TAX_MASTER TaxM10 on Doc.TAX10=TaxM10.Tax_Code where doc.Document_No='" & obj.Document_No & "'"
         Dim dtTax As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If dtTax.Rows.Count = 0 Then
@@ -3224,8 +3224,8 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
                 ''richa agarwal 24 Jan,2020
                 Dim PickTCAForStockTransferAndTankerDispatch As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PickTCAForStockTransferAndTankerDispatch, clsFixedParameterCode.PickTCAForStockTransferAndTankerDispatch, trans)) = 0, False, True)
                 If PickTCAForStockTransferAndTankerDispatch = True Then
-                    Branch_Ac = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT PA.transfer_clearing FROM TSPL_ITEM_MASTER AS IM INNER JOIN " & _
-                    " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " & _
+                    Branch_Ac = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT PA.transfer_clearing FROM TSPL_ITEM_MASTER AS IM INNER JOIN " &
+                    " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " &
                     " TSPL_GL_ACCOUNTS AS GLA ON PA.Inv_Control_Account = GLA.Account_Code WHERE IM.Item_Code='" + obj.Arr(0).Item_Code + "'", trans))
                     If clsCommon.myLen(Branch_Ac) <= 0 Then
                         Throw New Exception("Please Map Transfer Clearing Account For  for item " + obj.Arr(0).Item_Code + "  (" & obj.Arr(0).Item_Desc & ")")
@@ -3237,14 +3237,14 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
                         Throw New Exception("Please Map Account For Branch Account Mapping For Location From  " & clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Loc_segment_code from tspl_location_master where Location_Code='" & ToLocSeg & "'", trans)) & " To " & clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Loc_segment_code from tspl_location_master where Location_Code='" & FromLocSeg & "'", trans)))
                     End If
                 End If
-               
-           
+
+
             Else
                 ''richa agarwal 24 Jan,2020
                 Dim PickTCAForStockTransferAndTankerDispatch As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PickTCAForStockTransferAndTankerDispatch, clsFixedParameterCode.PickTCAForStockTransferAndTankerDispatch, trans)) = 0, False, True)
                 If PickTCAForStockTransferAndTankerDispatch = True Then
-                    Branch_Ac = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT PA.transfer_clearing FROM TSPL_ITEM_MASTER AS IM INNER JOIN " & _
-                    " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " & _
+                    Branch_Ac = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT PA.transfer_clearing FROM TSPL_ITEM_MASTER AS IM INNER JOIN " &
+                    " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " &
                     " TSPL_GL_ACCOUNTS AS GLA ON PA.Inv_Control_Account = GLA.Account_Code WHERE IM.Item_Code='" + obj.Arr(0).Item_Code + "'", trans))
                     If clsCommon.myLen(Branch_Ac) <= 0 Then
                         Throw New Exception("Please Map Transfer Clearing Account For  for item " + obj.Arr(0).Item_Code + "  (" & obj.Arr(0).Item_Desc & ")")
@@ -3257,7 +3257,7 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
                     End If
                 End If
 
-             
+
             End If
 
             If obj.TAX1_Amt > 0 Then
@@ -3276,15 +3276,15 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
                     Dim accCR() As String = {strTemp, -1 * obj.TAX1_Amt}
                     arrlist.Add(accCR)
 
-                
+
                 Else
                     strTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(TAX1_GLAC, strLocationSegment, True, trans)
                     Dim accDR() As String = {strTemp, -1 * obj.TAX1_Amt}
                     arrlist.Add(accDR)
                     ''credit
                     strTemp = Branch_Ac
-                        Dim accCR() As String = {strTemp, 1 * obj.TAX1_Amt}
-                        arrlist.Add(accCR)
+                    Dim accCR() As String = {strTemp, 1 * obj.TAX1_Amt}
+                    arrlist.Add(accCR)
 
 
                 End If
@@ -3293,211 +3293,211 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
                 ''credit
 
 
-        End If
-        If obj.TAX2_Amt > 0 Then
-            '' debit
-            Dim strTemp As String = ""
-            If clsCommon.CompairString(obj.Transfer_Type, "I") = CompairStringResult.Equal Then
-                If clsCommon.CompairString(obj.TAX2, "MANDI") = CompairStringResult.Equal Then
-                    strTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(TAX2_GLAC_Payable, strLocationSegment, True, trans)
+            End If
+            If obj.TAX2_Amt > 0 Then
+                '' debit
+                Dim strTemp As String = ""
+                If clsCommon.CompairString(obj.Transfer_Type, "I") = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(obj.TAX2, "MANDI") = CompairStringResult.Equal Then
+                        strTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(TAX2_GLAC_Payable, strLocationSegment, True, trans)
+                    Else
+                        strTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(Tax2_RecovAct, strLocationSegment, True, trans)
+                    End If
+                    Dim accDR() As String = {strTemp, 1 * obj.TAX2_Amt}
+                    arrlist.Add(accDR)
+
+                    ''credit
+                    strTemp = Branch_Ac
+                    Dim accCR() As String = {strTemp, -1 * obj.TAX2_Amt}
+                    arrlist.Add(accCR)
                 Else
-                    strTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(Tax2_RecovAct, strLocationSegment, True, trans)
+                    strTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(TAX2_GLAC, strLocationSegment, True, trans)
+                    Dim accDR() As String = {strTemp, -1 * obj.TAX2_Amt}
+                    arrlist.Add(accDR)
+
+                    ''credit
+                    strTemp = Branch_Ac
+                    Dim accCR() As String = {strTemp, 1 * obj.TAX2_Amt}
+                    arrlist.Add(accCR)
                 End If
-                Dim accDR() As String = {strTemp, 1 * obj.TAX2_Amt}
+
+
+            End If
+            If obj.TAX3_Amt > 0 Then
+                '' debit
+                Dim strTemp As String = ""
+                If clsCommon.CompairString(obj.Transfer_Type, "I") = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(obj.TAX3, "MANDI") = CompairStringResult.Equal Then
+                        strTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(TAX3_GLAC_Payable, strLocationSegment, True, trans)
+                    Else
+                        strTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(Tax3_RecovAct, strLocationSegment, True, trans)
+                    End If
+                    Dim accDR() As String = {strTemp, 1 * obj.TAX3_Amt}
+                    arrlist.Add(accDR)
+
+                    ''credit
+                    strTemp = Branch_Ac
+                    Dim accCR() As String = {strTemp, -1 * obj.TAX3_Amt}
+                    arrlist.Add(accCR)
+                Else
+                    strTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(TAX3_GLAC, strLocationSegment, True, trans)
+                    Dim accDR() As String = {strTemp, -1 * obj.TAX3_Amt}
+                    arrlist.Add(accDR)
+
+                    ''credit
+                    strTemp = Branch_Ac
+                    Dim accCR() As String = {strTemp, obj.TAX3_Amt}
+                    arrlist.Add(accCR)
+                End If
+
+
+            End If
+            If obj.TAX4_Amt > 0 Then
+                '' debit
+                Dim strTemp As String = ""
+                If clsCommon.CompairString(obj.Transfer_Type, "I") = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(obj.TAX4, "MANDI") = CompairStringResult.Equal Then
+                        strTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(TAX4_GLAC_Payable, strLocationSegment, True, trans)
+                    Else
+                        strTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(Tax4_RecovAct, strLocationSegment, True, trans)
+                    End If
+                    Dim accDR() As String = {strTemp, 1 * obj.TAX4_Amt}
+                    arrlist.Add(accDR)
+
+                    ''credit
+                    strTemp = Branch_Ac
+                    Dim accCR() As String = {strTemp, -1 * obj.TAX4_Amt}
+                    arrlist.Add(accCR)
+                Else
+                    strTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(TAX4_GLAC, strLocationSegment, True, trans)
+                    Dim accDR() As String = {strTemp, -1 * obj.TAX4_Amt}
+                    arrlist.Add(accDR)
+
+                    ''credit
+                    strTemp = Branch_Ac
+                    Dim accCR() As String = {strTemp, obj.TAX4_Amt}
+                    arrlist.Add(accCR)
+                End If
+
+
+            End If
+            If obj.TAX5_Amt > 0 Then
+                '' debit
+                Dim strTemp As String = ""
+                If clsCommon.CompairString(obj.Transfer_Type, "I") = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(obj.TAX5, "MANDI") = CompairStringResult.Equal Then
+                        strTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(TAX5_GLAC_Payable, strLocationSegment, True, trans)
+                    Else
+                        strTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(Tax5_RecovAct, strLocationSegment, True, trans)
+                    End If
+                    Dim accDR() As String = {strTemp, 1 * obj.TAX5_Amt}
+                    arrlist.Add(accDR)
+
+                    ''credit
+                    strTemp = Branch_Ac
+                    Dim accCR() As String = {strTemp, -1 * obj.TAX5_Amt}
+                    arrlist.Add(accCR)
+                Else
+                    strTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(TAX5_GLAC, strLocationSegment, True, trans)
+                    Dim accDR() As String = {strTemp, -1 * obj.TAX5_Amt}
+                    arrlist.Add(accDR)
+
+                    ''credit
+                    strTemp = Branch_Ac
+                    Dim accCR() As String = {strTemp, obj.TAX5_Amt}
+                    arrlist.Add(accCR)
+                End If
+
+            End If
+            If obj.TAX6_Amt > 0 Then
+                '' debit
+                Dim strTemp As String = clsERPFuncationality.ChangeGLAccountLocationSegment(TAX6_GLAC, strLocationSegment, True, trans)
+                Dim accDR() As String = {strTemp, -1 * obj.TAX6_Amt}
                 arrlist.Add(accDR)
 
                 ''credit
                 strTemp = Branch_Ac
-                Dim accCR() As String = {strTemp, -1 * obj.TAX2_Amt}
+                Dim accCR() As String = {strTemp, -1 * obj.TAX6_Amt}
                 arrlist.Add(accCR)
-            Else
-                strTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(TAX2_GLAC, strLocationSegment, True, trans)
-                Dim accDR() As String = {strTemp, -1 * obj.TAX2_Amt}
+            End If
+
+            If obj.TAX7_Amt > 0 Then
+                '' debit
+                Dim strTemp As String = clsERPFuncationality.ChangeGLAccountLocationSegment(TAX7_GLAC, strLocationSegment, True, trans)
+                Dim accDR() As String = {strTemp, -1 * obj.TAX7_Amt}
                 arrlist.Add(accDR)
 
                 ''credit
                 strTemp = Branch_Ac
-                Dim accCR() As String = {strTemp, 1 * obj.TAX2_Amt}
+                Dim accCR() As String = {strTemp, obj.TAX7_Amt}
+                arrlist.Add(accCR)
+            End If
+
+            If obj.TAX8_Amt > 0 Then
+                '' debit
+                Dim strTemp As String = clsERPFuncationality.ChangeGLAccountLocationSegment(TAX8_GLAC, strLocationSegment, True, trans)
+                Dim accDR() As String = {strTemp, -1 * obj.TAX8_Amt}
+                arrlist.Add(accDR)
+
+                ''credit
+                strTemp = Branch_Ac
+                Dim accCR() As String = {strTemp, obj.TAX8_Amt}
+                arrlist.Add(accCR)
+            End If
+
+            If obj.TAX9_Amt > 0 Then
+                '' debit
+                Dim strTemp As String = clsERPFuncationality.ChangeGLAccountLocationSegment(TAX9_GLAC, strLocationSegment, True, trans)
+                Dim accDR() As String = {strTemp, -1 * obj.TAX9_Amt}
+                arrlist.Add(accDR)
+
+                ''credit
+                strTemp = Branch_Ac
+                Dim accCR() As String = {strTemp, obj.TAX9_Amt}
                 arrlist.Add(accCR)
             End If
 
 
-        End If
-        If obj.TAX3_Amt > 0 Then
-            '' debit
-            Dim strTemp As String = ""
-            If clsCommon.CompairString(obj.Transfer_Type, "I") = CompairStringResult.Equal Then
-                If clsCommon.CompairString(obj.TAX3, "MANDI") = CompairStringResult.Equal Then
-                    strTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(TAX3_GLAC_Payable, strLocationSegment, True, trans)
-                Else
-                    strTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(Tax3_RecovAct, strLocationSegment, True, trans)
-                End If
-                Dim accDR() As String = {strTemp, 1 * obj.TAX3_Amt}
+            If obj.TAX10_Amt > 0 Then
+                '' debit
+                Dim strTemp As String = clsERPFuncationality.ChangeGLAccountLocationSegment(TAX10_GLAC, strLocationSegment, True, trans)
+                Dim accDR() As String = {strTemp, -1 * obj.TAX10_Amt}
                 arrlist.Add(accDR)
 
                 ''credit
                 strTemp = Branch_Ac
-                Dim accCR() As String = {strTemp, -1 * obj.TAX3_Amt}
-                arrlist.Add(accCR)
-            Else
-                strTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(TAX3_GLAC, strLocationSegment, True, trans)
-                Dim accDR() As String = {strTemp, -1 * obj.TAX3_Amt}
-                arrlist.Add(accDR)
-
-                ''credit
-                strTemp = Branch_Ac
-                Dim accCR() As String = {strTemp, obj.TAX3_Amt}
+                Dim accCR() As String = {strTemp, obj.TAX10_Amt}
                 arrlist.Add(accCR)
             End If
-
-
-        End If
-        If obj.TAX4_Amt > 0 Then
-            '' debit
-            Dim strTemp As String = ""
-            If clsCommon.CompairString(obj.Transfer_Type, "I") = CompairStringResult.Equal Then
-                If clsCommon.CompairString(obj.TAX4, "MANDI") = CompairStringResult.Equal Then
-                    strTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(TAX4_GLAC_Payable, strLocationSegment, True, trans)
-                Else
-                    strTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(Tax4_RecovAct, strLocationSegment, True, trans)
-                End If
-                Dim accDR() As String = {strTemp, 1 * obj.TAX4_Amt}
-                arrlist.Add(accDR)
-
-                ''credit
-                strTemp = Branch_Ac
-                Dim accCR() As String = {strTemp, -1 * obj.TAX4_Amt}
-                arrlist.Add(accCR)
-            Else
-                strTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(TAX4_GLAC, strLocationSegment, True, trans)
-                Dim accDR() As String = {strTemp, -1 * obj.TAX4_Amt}
-                arrlist.Add(accDR)
-
-                ''credit
-                strTemp = Branch_Ac
-                Dim accCR() As String = {strTemp, obj.TAX4_Amt}
-                arrlist.Add(accCR)
-            End If
-
-
-        End If
-        If obj.TAX5_Amt > 0 Then
-            '' debit
-            Dim strTemp As String = ""
-            If clsCommon.CompairString(obj.Transfer_Type, "I") = CompairStringResult.Equal Then
-                If clsCommon.CompairString(obj.TAX5, "MANDI") = CompairStringResult.Equal Then
-                    strTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(TAX5_GLAC_Payable, strLocationSegment, True, trans)
-                Else
-                    strTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(Tax5_RecovAct, strLocationSegment, True, trans)
-                End If
-                Dim accDR() As String = {strTemp, 1 * obj.TAX5_Amt}
-                arrlist.Add(accDR)
-
-                ''credit
-                strTemp = Branch_Ac
-                Dim accCR() As String = {strTemp, -1 * obj.TAX5_Amt}
-                arrlist.Add(accCR)
-            Else
-                strTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(TAX5_GLAC, strLocationSegment, True, trans)
-                Dim accDR() As String = {strTemp, -1 * obj.TAX5_Amt}
-                arrlist.Add(accDR)
-
-                ''credit
-                strTemp = Branch_Ac
-                Dim accCR() As String = {strTemp, obj.TAX5_Amt}
-                arrlist.Add(accCR)
-            End If
-
-        End If
-        If obj.TAX6_Amt > 0 Then
-            '' debit
-            Dim strTemp As String = clsERPFuncationality.ChangeGLAccountLocationSegment(TAX6_GLAC, strLocationSegment, True, trans)
-            Dim accDR() As String = {strTemp, -1 * obj.TAX6_Amt}
-            arrlist.Add(accDR)
-
-            ''credit
-            strTemp = Branch_Ac
-            Dim accCR() As String = {strTemp, -1 * obj.TAX6_Amt}
-            arrlist.Add(accCR)
-        End If
-
-        If obj.TAX7_Amt > 0 Then
-            '' debit
-            Dim strTemp As String = clsERPFuncationality.ChangeGLAccountLocationSegment(TAX7_GLAC, strLocationSegment, True, trans)
-            Dim accDR() As String = {strTemp, -1 * obj.TAX7_Amt}
-            arrlist.Add(accDR)
-
-            ''credit
-            strTemp = Branch_Ac
-            Dim accCR() As String = {strTemp, obj.TAX7_Amt}
-            arrlist.Add(accCR)
-        End If
-
-        If obj.TAX8_Amt > 0 Then
-            '' debit
-            Dim strTemp As String = clsERPFuncationality.ChangeGLAccountLocationSegment(TAX8_GLAC, strLocationSegment, True, trans)
-            Dim accDR() As String = {strTemp, -1 * obj.TAX8_Amt}
-            arrlist.Add(accDR)
-
-            ''credit
-            strTemp = Branch_Ac
-            Dim accCR() As String = {strTemp, obj.TAX8_Amt}
-            arrlist.Add(accCR)
-        End If
-
-        If obj.TAX9_Amt > 0 Then
-            '' debit
-            Dim strTemp As String = clsERPFuncationality.ChangeGLAccountLocationSegment(TAX9_GLAC, strLocationSegment, True, trans)
-            Dim accDR() As String = {strTemp, -1 * obj.TAX9_Amt}
-            arrlist.Add(accDR)
-
-            ''credit
-            strTemp = Branch_Ac
-            Dim accCR() As String = {strTemp, obj.TAX9_Amt}
-            arrlist.Add(accCR)
-        End If
-
-
-        If obj.TAX10_Amt > 0 Then
-            '' debit
-            Dim strTemp As String = clsERPFuncationality.ChangeGLAccountLocationSegment(TAX10_GLAC, strLocationSegment, True, trans)
-            Dim accDR() As String = {strTemp, -1 * obj.TAX10_Amt}
-            arrlist.Add(accDR)
-
-            ''credit
-            strTemp = Branch_Ac
-            Dim accCR() As String = {strTemp, obj.TAX10_Amt}
-            arrlist.Add(accCR)
-        End If
         End If
         Return True
     End Function
     Public Shared Function JE_Excisable_CommonReturnTransfer(ByVal obj As clsTransferDCC, ByVal arrlist As ArrayList, ByVal strFromLocationSegment As String, ByVal strToLocationSegment As String, ByVal trans As SqlTransaction) As Boolean
         Dim qry As String = ""
-        qry = " select Doc.Document_No,TaxM1.Tax_Liability_Account as Tax1_GLAC,TaxM2.Tax_Liability_Account as Tax2_GLAC," & _
-                 " TaxM3.Tax_Liability_Account as Tax3_GLAC,TaxM4.Tax_Liability_Account as Tax4_GLAC," & _
-                 " TaxM5.Tax_Liability_Account as Tax5_GLAC,TaxM6.Tax_Liability_Account as Tax6_GLAC, " & _
-                 " TaxM7.Tax_Liability_Account as Tax7_GLAC,TaxM8.Tax_Liability_Account as Tax8_GLAC, " & _
-                 " TaxM9.Tax_Liability_Account as Tax9_GLAC,TaxM10.Tax_Liability_Account as Tax10_GLAC, " & _
-                 " TaxM1.Tax_Net_Payable as Tax1_GLAC_Payable,TaxM2.Tax_Net_Payable as Tax2_GLAC_Payable, " & _
-                 " TaxM3.Tax_Net_Payable as Tax3_GLAC_Payable,TaxM4.Tax_Net_Payable as Tax4_GLAC_Payable, " & _
-                 " TaxM5.Tax_Net_Payable as Tax5_GLAC_Payable,TaxM6.Tax_Net_Payable as Tax6_GLAC_Payable, " & _
-                 " TaxM7.Tax_Net_Payable as Tax7_GLAC_Payable,TaxM8.Tax_Net_Payable as Tax8_GLAC_Payable, " & _
-                 " TaxM9.Tax_Net_Payable as Tax9_GLAC_Payable,TaxM10.Tax_Net_Payable as Tax10_GLAC_Payable, " & _
-                 " TaxM1.Tax_Recoverable_Account as Tax1_RecovAct,TaxM2.Tax_Recoverable_Account as Tax2_RecovAct, " & _
-                 " TaxM3.Tax_Recoverable_Account as Tax3_RecovAct,TaxM4.Tax_Recoverable_Account as Tax4_RecovAct, " & _
-                 " TaxM5.Tax_Recoverable_Account as Tax5_RecovAct,TaxM6.Tax_Recoverable_Account as Tax6_RecovAct, " & _
-                 " TaxM7.Tax_Recoverable_Account as Tax7_RecovAct,TaxM8.Tax_Recoverable_Account as Tax8_RecovAct, " & _
-                 " TaxM9.Tax_Recoverable_Account as Tax9_RecovAct,TaxM10.Tax_Recoverable_Account as Tax10_RecovAct from TSPL_TRANSFER_ORDER_HEAD doc " & _
-                 " left join TSPL_TAX_MASTER TaxM1 on Doc.TAX1=TaxM1.Tax_Code " & _
-                 " left join TSPL_TAX_MASTER TaxM2 on Doc.TAX2=TaxM2.Tax_Code " & _
-                 " left join TSPL_TAX_MASTER TaxM3 on Doc.TAX3=TaxM3.Tax_Code " & _
-                 " left join TSPL_TAX_MASTER TaxM4 on Doc.TAX4=TaxM4.Tax_Code " & _
-                 " left join TSPL_TAX_MASTER TaxM5 on Doc.TAX5=TaxM5.Tax_Code " & _
-                 " left join TSPL_TAX_MASTER TaxM6 on Doc.TAX6=TaxM6.Tax_Code " & _
-                 " left join TSPL_TAX_MASTER TaxM7 on Doc.TAX7=TaxM7.Tax_Code " & _
-                 " left join TSPL_TAX_MASTER TaxM8 on Doc.TAX8=TaxM8.Tax_Code " & _
-                 " left join TSPL_TAX_MASTER TaxM9 on Doc.TAX9=TaxM9.Tax_Code " & _
+        qry = " select Doc.Document_No,TaxM1.Tax_Liability_Account as Tax1_GLAC,TaxM2.Tax_Liability_Account as Tax2_GLAC," &
+                 " TaxM3.Tax_Liability_Account as Tax3_GLAC,TaxM4.Tax_Liability_Account as Tax4_GLAC," &
+                 " TaxM5.Tax_Liability_Account as Tax5_GLAC,TaxM6.Tax_Liability_Account as Tax6_GLAC, " &
+                 " TaxM7.Tax_Liability_Account as Tax7_GLAC,TaxM8.Tax_Liability_Account as Tax8_GLAC, " &
+                 " TaxM9.Tax_Liability_Account as Tax9_GLAC,TaxM10.Tax_Liability_Account as Tax10_GLAC, " &
+                 " TaxM1.Tax_Net_Payable as Tax1_GLAC_Payable,TaxM2.Tax_Net_Payable as Tax2_GLAC_Payable, " &
+                 " TaxM3.Tax_Net_Payable as Tax3_GLAC_Payable,TaxM4.Tax_Net_Payable as Tax4_GLAC_Payable, " &
+                 " TaxM5.Tax_Net_Payable as Tax5_GLAC_Payable,TaxM6.Tax_Net_Payable as Tax6_GLAC_Payable, " &
+                 " TaxM7.Tax_Net_Payable as Tax7_GLAC_Payable,TaxM8.Tax_Net_Payable as Tax8_GLAC_Payable, " &
+                 " TaxM9.Tax_Net_Payable as Tax9_GLAC_Payable,TaxM10.Tax_Net_Payable as Tax10_GLAC_Payable, " &
+                 " TaxM1.Tax_Recoverable_Account as Tax1_RecovAct,TaxM2.Tax_Recoverable_Account as Tax2_RecovAct, " &
+                 " TaxM3.Tax_Recoverable_Account as Tax3_RecovAct,TaxM4.Tax_Recoverable_Account as Tax4_RecovAct, " &
+                 " TaxM5.Tax_Recoverable_Account as Tax5_RecovAct,TaxM6.Tax_Recoverable_Account as Tax6_RecovAct, " &
+                 " TaxM7.Tax_Recoverable_Account as Tax7_RecovAct,TaxM8.Tax_Recoverable_Account as Tax8_RecovAct, " &
+                 " TaxM9.Tax_Recoverable_Account as Tax9_RecovAct,TaxM10.Tax_Recoverable_Account as Tax10_RecovAct from TSPL_TRANSFER_ORDER_HEAD doc " &
+                 " left join TSPL_TAX_MASTER TaxM1 on Doc.TAX1=TaxM1.Tax_Code " &
+                 " left join TSPL_TAX_MASTER TaxM2 on Doc.TAX2=TaxM2.Tax_Code " &
+                 " left join TSPL_TAX_MASTER TaxM3 on Doc.TAX3=TaxM3.Tax_Code " &
+                 " left join TSPL_TAX_MASTER TaxM4 on Doc.TAX4=TaxM4.Tax_Code " &
+                 " left join TSPL_TAX_MASTER TaxM5 on Doc.TAX5=TaxM5.Tax_Code " &
+                 " left join TSPL_TAX_MASTER TaxM6 on Doc.TAX6=TaxM6.Tax_Code " &
+                 " left join TSPL_TAX_MASTER TaxM7 on Doc.TAX7=TaxM7.Tax_Code " &
+                 " left join TSPL_TAX_MASTER TaxM8 on Doc.TAX8=TaxM8.Tax_Code " &
+                 " left join TSPL_TAX_MASTER TaxM9 on Doc.TAX9=TaxM9.Tax_Code " &
                  " left join TSPL_TAX_MASTER TaxM10 on Doc.TAX10=TaxM10.Tax_Code where doc.Document_No='" & obj.Document_No & "'"
         Dim dtTax As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If dtTax.Rows.Count = 0 Then
@@ -3909,7 +3909,7 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
             End If
         Else
 
-            
+
             Dim strToTemp As String = ""
             Dim strFromTemp As String = ""
             'Dim Branch_Ac_FromLoc As String = ""
@@ -3926,7 +3926,7 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
             'End If
 
             If obj.TAX1_Amt > 0 Then
-               
+
                 If clsCommon.CompairString(obj.Transfer_Type, "T") = CompairStringResult.Equal Then
                     strToTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(Tax1_RecovAct, strToLocationSegment, True, trans)
                     strFromTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(TAX1_GLAC, strFromLocationSegment, True, trans)
@@ -3937,7 +3937,7 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
                 End If
             End If
             If obj.TAX2_Amt > 0 Then
-               
+
                 If clsCommon.CompairString(obj.Transfer_Type, "T") = CompairStringResult.Equal Then
                     strToTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(Tax1_RecovAct, strToLocationSegment, True, trans)
                     strFromTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(TAX1_GLAC, strFromLocationSegment, True, trans)
@@ -3960,7 +3960,7 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
                 End If
             End If
             If obj.TAX4_Amt > 0 Then
-               
+
                 If clsCommon.CompairString(obj.Transfer_Type, "T") = CompairStringResult.Equal Then
                     strToTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(Tax1_RecovAct, strToLocationSegment, True, trans)
                     strFromTemp = clsERPFuncationality.ChangeGLAccountLocationSegment(TAX1_GLAC, strFromLocationSegment, True, trans)
@@ -4083,9 +4083,9 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
             'Else
             itemcost = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select DISTINCT Amount from TSPL_TRANSFER_ORDER_DETAIL  left outer join TSPL_TRANSFER_ORDER_HEAD  on TSPL_TRANSFER_ORDER_HEAD.Document_No=TSPL_TRANSFER_ORDER_DETAIL.Document_No" &
                          " where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" + obj.Document_No + "'  and TSPL_TRANSFER_ORDER_DETAIL.Item_Code ='" + objTr.Item_Code + "' ", trans))
-                If itemcost = 0 Then
-                    itemcost = clsCommon.myCdbl(objTr.Amount)
-                End If
+            If itemcost = 0 Then
+                itemcost = clsCommon.myCdbl(objTr.Amount)
+            End If
             'End If
 
             Dim reccost As Double = 0.0
@@ -4394,10 +4394,182 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
         End Try
     End Function
 
+    Public Shared Function GetAttachQry(ByVal StrCode As String) As String
 
+        Dim strQuery As String = "select * from (select TSPL_TRANSFER_ORDER_DETAIL.line_no,TSPL_TRANSFER_ORDER_HEAD.Price_Code, CASE WHEN TSPL_ITEM_MASTER.IsTaxable = 1 THEN 'T' ELSE 'NT' end as Taxable, tspl_item_master.hsn_code,tspl_location_master.GSTNo,TSPL_LOCATION_MASTER_1.GSTNo as To_Location_GSTNo,TSPL_TRANSFER_ORDER_HEAD.Remarks ,tspl_location_master.HOAdd1 ,TSPL_LOCATION_MASTER .HOAdd2,TSPL_TRANSFER_ORDER_HEAD.GR_No,TSPL_TRANSFER_ORDER_HEAD.document_type ,convert(varchar,TSPL_TRANSFER_ORDER_HEAD.GR_Date,103) as GR_Date,TSPL_TRANSFER_ORDER_HEAD.Transport_Id ,ISNULL(TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual,'') AS Transporter_Name_Manual,TSPL_TRANSFER_ORDER_HEAD.WayBill_No ,convert(varchar,TSPL_TRANSFER_ORDER_HEAD.WayBill_Date,103) as WayBill_Date,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Mannual_No,tspl_location_master_For_Location.City_Code as Location_City_Name, coalesce(cast(convert(decimal(18,0),(TSPL_TRANSFER_ORDER_DETAIL.Out_Qty * tspl_item_uom_detail.conversion_factor)/alt_convrsn.conversion_factor) as varchar)+' '+TSPL_TRANSFER_ORDER_DETAIL.Alt_Unit_Code,'') as Alt_Unit_Code,TSPL_TRANSPORT_MASTER.Transporter_Name,(case when TSPL_TRANSFER_ORDER_HEAD.Is_AgainstFormF=1 then 'Against F-Form Due' else '' end) as Is_AgainstFormF,TSPL_TRANSFER_ORDER_HEAD.Document_No  as[STN_NO] , tspl_transfer_order_head.Document_Date as [Date_N_Time_issue],"
+        strQuery += "  TSPL_TRANSFER_ORDER_HEAD.Discount_Amt  as Discount , TSPL_TRANSFER_ORDER_DETAIL .Document_No as ref_doc_no ,"
+        strQuery += " TSPL_TRANSFER_ORDER_HEAD.From_Location, TSPL_TRANSFER_ORDER_HEAD.To_Location ,TSPL_TRANSFER_ORDER_HEAD.Vehicle_No,TSPL_TRANSFER_ORDER_DETAIL.item_code,TSPL_TRANSFER_ORDER_DETAIL.mrp,TSPL_TRANSFER_ORDER_DETAIL.Item_Desc ,"
+        strQuery += " TSPL_TRANSFER_ORDER_DETAIL.Item_Cost AS Item_Cost,  TSPL_TRANSFER_ORDER_DETAIL.Out_Qty as Quantity ,TSPL_TRANSFER_ORDER_DETAIL.Unit_code as UOM1,"
+        strQuery += " TSPL_LOCATION_MASTER.Location_Code as From_Location_Code,  TSPL_LOCATION_MASTER.Location_Desc as From_Location_Dec,TSPL_LOCATION_MASTER.Add1 as From_Location_Add1 ,"
+        strQuery += " TSPL_LOCATION_MASTER.Add2 as From_Location_Add2 , TSPL_LOCATION_MASTER.Add3 as From_Location_Add3,TSPL_LOCATION_MASTER.Add4  as From_Location_Add4,TSPL_LOCATION_MASTER.City_Code as From_Location_City_Code , "
+        strQuery += " TSPL_STATE_MASTER.STATE_NAME  as From_Location_State,TSPL_LOCATION_MASTER.Pin_Code as From_Location_Pin_Code ,TSPL_LOCATION_MASTER.Country as From_Location_Country,  TSPL_LOCATION_MASTER.Telphone "
+        strQuery += " as From_Location_Telphone,TSPL_LOCATION_MASTER.Email as From_Location_Email,TSPL_LOCATION_MASTER.TIN_No AS From_Location_tin_no, TSPL_LOCATION_MASTER.CST_No AS From_Location_cstNo,TSPL_ITEM_MASTER.Weight_UOM as UOM2,"
+        strQuery += " TSPL_ITEM_MASTER.Weight_Value as Weight, TSPL_LOCATION_MASTER_1.Location_Code AS To_Location_Code,TSPL_LOCATION_MASTER.add1 as transpotor,TSPL_LOCATION_MASTER_1.Add1 AS To_Location_Add1, "
+        strQuery += " TSPL_LOCATION_MASTER_1.Add2 as To_Location_Add2 ,TSPL_LOCATION_MASTER_1.Add3 as To_Location_Add3,TSPL_LOCATION_MASTER_1.Add4 as To_Location_Add4, TSPL_LOCATION_MASTER_1.Location_Desc as To_Location_Desc  ,"
+        strQuery += " TSPL_LOCATION_MASTER_1.City_Code as To_Location_City_Code, StateMaster_ToLocation.State_Name as To_Location_State, TSPL_LOCATION_MASTER_1.Pin_Code as To_Location_Pin_Code,  TSPL_LOCATION_MASTER_1.Country as To_Location_Country,"
+        strQuery += " TSPL_LOCATION_MASTER_1.Telphone as To_Location_Telphone, TSPL_LOCATION_MASTER_1.Email as To_Location_Email ,  TSPL_LOCATION_MASTER_1 .TIN_No as to_location_tin_no, TSPL_LOCATION_MASTER_1 .CST_No as to_location_cstno,TSPL_TRANSFER_ORDER_HEAD.TAX1,TSPL_TRANSFER_ORDER_HEAD.TAX2,TSPL_TRANSFER_ORDER_HEAD.TAX3,TSPL_TRANSFER_ORDER_HEAD.TAX4,TSPL_TRANSFER_ORDER_HEAD.TAX5,TSPL_TRANSFER_ORDER_HEAD.TAX6 "
+        strQuery += ",TSPL_COMPANY_MASTER.Comp_Name AS CompName "
+        strQuery += ",TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER_fOR_Comp.City_Name)>0 then ', '+TSPL_CITY_MASTER_fOR_Comp.City_Name else ' ' end + case when len(TSPL_STATE_MASTER_For_Comp.STATE_NAME  )>0 then ', '+ TSPL_STATE_MASTER_For_Comp.STATE_NAME else ' ' end + case when len(TSPL_COMPANY_MASTER.Pincode    )>0 then ', Pin Code - '+ cast(TSPL_COMPANY_MASTER.Pincode as varchar)  else ' ' end +"
+        strQuery += " case when len(TSPL_COMPANY_MASTER.Tin_No     )>0 then ', Tin No - '+ cast(TSPL_COMPANY_MASTER.Tin_No as varchar)  else ' ' end +"
+        strQuery += " case when len(TSPL_COMPANY_MASTER.CINNo      )>0 then ', CIN No - '+ cast(TSPL_COMPANY_MASTER.CINNo as varchar)  else ' ' end +"
+        strQuery += " case when len(TSPL_COMPANY_MASTER.Fax     )>0 then ',Fax '+ TSPL_COMPANY_MASTER.Fax else '' end +"
+        strQuery += " Case when len(ISNULL(TSPL_COMPANY_MASTER.Phone1,''))>0 and TSPL_COMPANY_MASTER.Phone1='(+__)__________' then '' else ' ,Phone'+TSPL_COMPANY_MASTER.Phone1 end + Case When   ISNULL(TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then '  '+ TSPL_COMPANY_MASTER.Phone2 Else'' End +"
+        strQuery += " case when len(TSPL_COMPANY_MASTER.Email    )>0 then ',Email - '+ TSPL_COMPANY_MASTER.Email else '' end "
+        strQuery += " as Company_Address, TSPL_TRANSFER_ORDER_HEAD.DOC_Total_Amt,TSPL_TRANSFER_ORDER_DETAIL.Amount,TSPL_COMPANY_MASTER .Logo_Img ,TSPL_COMPANY_MASTER.Logo_Img2,tspl_company_master.GSTReg_No ,  tspl_company_master.Pan_No,tspl_company_master.State,TSPL_TRANSFER_ORDER_HEAD.Requisition_Id, "
+        strQuery += " InCrate.Conversion_Factor As [ConversionInCrate],case when coalesce(InCrate.Conversion_factor,0)=0 then 0 else convert(Decimal(18,2),  TSPL_TRANSFER_ORDER_DETAIL.Out_Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/coalesce(InCrate.Conversion_factor,1)) end as QtyInCrate,
+                              case when coalesce(InPouch.Conversion_factor,0)=0 then 0 else convert(Decimal(18,2),  TSPL_TRANSFER_ORDER_DETAIL.Out_Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/coalesce(InPouch.Conversion_factor,1)) end as QtyInPouch "
+        strQuery += " from TSPL_TRANSFER_ORDER_DETAIL"
+        strQuery += " left outer join TSPL_TRANSFER_ORDER_HEAD  on TSPL_TRANSFER_ORDER_HEAD.Document_No   =TSPL_TRANSFER_ORDER_DETAIL.Document_No"
+        strQuery += "  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code=  TSPL_TRANSFER_ORDER_HEAD.From_Location  "
+        strQuery += " left outer join TSPL_LOCATION_MASTER AS TSPL_LOCATION_MASTER_1 on TSPL_LOCATION_MASTER_1.GIT_Location =  TSPL_TRANSFER_ORDER_HEAD.To_Location "
+        strQuery += " INNER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.ITEM_CODE = TSPL_TRANSFER_ORDER_DETAIL.iTEM_CODE "
+        strQuery += " Left Outer Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code =TSPL_TRANSFER_ORDER_HEAD.Comp_Code "
+        strQuery += " LEFT OUTER JOIN TSPL_CITY_MASTER  AS TSPL_CITY_MASTER_fOR_Comp ON TSPL_CITY_MASTER_fOR_Comp.City_Code =TSPL_COMPANY_MASTER.City_Code "
+        strQuery += " LEFT OUTER JOIN TSPL_STATE_MASTER AS TSPL_STATE_MASTER_For_Comp  ON TSPL_STATE_MASTER_For_Comp.STATE_CODE  =TSPL_COMPANY_MASTER.State "
+        strQuery += " left outer join tspl_item_uom_detail on tspl_item_uom_detail.item_code=TSPL_TRANSFER_ORDER_DETAIL.item_code and tspl_item_uom_detail.uom_code=TSPL_TRANSFER_ORDER_DETAIL.unit_code "
+        strQuery += " left outer join tspl_item_uom_detail alt_convrsn on alt_convrsn.item_code=TSPL_TRANSFER_ORDER_DETAIL.item_code and alt_convrsn.uom_code=TSPL_TRANSFER_ORDER_DETAIL.alt_unit_code "
+        strQuery += " left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL 	  left outer join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.UNIT_CODE= TSPL_ITEM_UOM_DETAIL.UOM_CODE where TSPL_UNIT_MaSTER.Crate_type='Y') as InCrate on InCrate.Item_code=TSPL_TRANSFER_ORDER_DETAIL.Item_Code "
+        strQuery += " left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL left outer join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.UNIT_CODE= TSPL_ITEM_UOM_DETAIL.UOM_CODE where TSPL_UNIT_MaSTER.Packet_Type='Y') as InPouch on InPouch.Item_code=TSPL_TRANSFER_ORDER_DETAIL.Item_Code "
+        strQuery += " left outer join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.transport_id=TSPL_TRANSFER_ORDER_HEAD.transport_id "
+        strQuery += " LEFT OUTER JOIN tspl_location_master  AS tspl_location_master_For_Location ON tspl_location_master_For_Location.GIT_Location =TSPL_TRANSFER_ORDER_HEAD.To_Location "
+        strQuery += " left outer join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE=TSPL_LOCATION_MASTER.State " &
+        " LEFT OUTER JOIN TSPL_STATE_MASTER StateMaster_ToLocation ON StateMaster_ToLocation.State_Code=TSPL_LOCATION_MASTER_1.State"
+        strQuery += " where 2=2   "
+
+
+        strQuery += "  and  TSPL_TRANSFER_ORDER_HEAD. Document_No = '" + StrCode + "' )xx cross apply ("
+        strQuery += " select top 1 TSPL_ITEM_PRICE_PLAN_DETAIL.Item_MRP,TSPL_ITEM_PRICE_PLAN_DETAIL.Item_Basic_Price from TSPL_ITEM_PRICE_PLAN_DETAIL
+                  left outer join TSPL_ITEM_PRICE_PLAN_HEADER on TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code = TSPL_ITEM_PRICE_PLAN_DETAIL.Plan_Code 
+                  where xx.Price_Code = TSPL_ITEM_PRICE_PLAN_DETAIL.Price_Code and xx.Item_Code = TSPL_ITEM_PRICE_PLAN_DETAIL.Item_Code
+                  order by TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Date desc)
+                  as price"
+        strQuery += " order by xx .line_no"
+
+        Return strQuery
+    End Function
+    Public Shared Function GetSTAMlkPrint(ByVal StrCode As String) As String
+        Dim Qry As String = "Select * from (select TSPL_TRANSFER_ORDER_HEAD.Price_Code,TSPL_TRANSFER_ORDER_HEAD.Tax_Group,ISNULL(TSPL_TAX_GROUP_MASTER.Is_Tax_Exempted,0) AS Is_Tax_Exempted ,TSPL_TRANSFER_ORDER_HEAD.Is_MandiTax, TSPL_TRANSFER_ORDER_HEAD.Electronic_Ref_No,
+                       TSPL_LOCATION_MASTER.GSTNO as GSTIN_No ,TSPL_STATE_MASTER.GST_STATE_Code as From_Gst_StateCode,StateMaster_ToLocation.GST_STATE_Code as To_Loc_GSTStateCode,TSPL_LOCATION_MASTER_1.GSTNO as To_Loc_GSTINNo, 
+                       TSPL_TRANSFER_ORDER_DETAIL.item_Net_Amt ,TSPL_ITEM_MASTER.HSN_Code ,TSPL_LOCATION_MASTER.GSTNO as frm_GSTINNo ,TSPL_STATE_MASTER.GST_STATE_Code as Frm_StateGST,StateMaster_ToLocation.GST_STATE_Code as To_StateGST,
+                       TSPL_LOCATION_MASTER_1.GSTNO as To_GSTINNo,TSPL_TRANSFER_ORDER_HEAD.EWayBillNo ,convert(varchar,TSPL_TRANSFER_ORDER_HEAD.EWayBillDate,103) as EWayBillDate ,convert(varchar(10),TSPL_COMPANY_MASTER.insurance_valid_date,103) as insurance_valid_date,
+                       TSPL_COMPANY_MASTER.Pan_No as ToLoc_PANNO,  TSPL_TRANSFER_ORDER_HEAD.Is_taxable,TSPL_TRANSFER_ORDER_HEAD.For_Repair,TSPL_TRANSFER_ORDER_HEAD.InternalTransfer, TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt, TSPL_TRANSFER_ORDER_DETAIL.TAX1 as dTAX1, TSPL_TRANSFER_ORDER_DETAIL.TAX2 as dTAX2, TSPL_TRANSFER_ORDER_DETAIL.TAX3 as  dTAX3, TSPL_TRANSFER_ORDER_DETAIL.TAX4 as  dTAX4, TSPL_TRANSFER_ORDER_DETAIL.TAX5 as  dTAX5, TSPL_TRANSFER_ORDER_DETAIL.TAX6 as  dTAX6, TSPL_TRANSFER_ORDER_DETAIL.TAX7 as  dTAX7, TSPL_TRANSFER_ORDER_DETAIL.TAX8 as dTAX8, TSPL_TRANSFER_ORDER_DETAIL.TAX9 as dTAX9, TSPL_TRANSFER_ORDER_DETAIL.TAX10 as  dTAX10, TSPL_TRANSFER_ORDER_DETAIL.TAX1_Amt, TSPL_TRANSFER_ORDER_DETAIL.TAX2_Amt, TSPL_TRANSFER_ORDER_DETAIL.TAX3_Amt, TSPL_TRANSFER_ORDER_DETAIL.TAX4_Amt, TSPL_TRANSFER_ORDER_DETAIL.TAX5_Amt, TSPL_TRANSFER_ORDER_DETAIL.TAX6_Amt, TSPL_TRANSFER_ORDER_DETAIL.TAX7_Amt, TSPL_TRANSFER_ORDER_DETAIL.TAX8_Amt, TSPL_TRANSFER_ORDER_DETAIL.TAX9_Amt, TSPL_TRANSFER_ORDER_DETAIL.TAX10_Amt, TSPL_TRANSFER_ORDER_DETAIL.TAX1_Rate as dTAX1_Rate, TSPL_TRANSFER_ORDER_DETAIL.TAX2_Rate as dTAX2_Rate, TSPL_TRANSFER_ORDER_DETAIL.TAX3_Rate as dTAX3_Rate ,TSPL_TRANSFER_ORDER_DETAIL.TAX4_Rate as dTAX4_Rate ,TSPL_TRANSFER_ORDER_DETAIL.TAX5_Rate as dTAX5_Rate  ,TSPL_TRANSFER_ORDER_DETAIL.TAX6_Rate as dTAX6_Rate ,TSPL_TRANSFER_ORDER_DETAIL.TAX7_Rate as dTAX7_Rate ,TSPL_TRANSFER_ORDER_DETAIL.TAX8_Rate as dTAX8_Rate ,TSPL_TRANSFER_ORDER_DETAIL.TAX9_Rate as dTAX9_Rate ,TSPL_TRANSFER_ORDER_DETAIL.TAX10_Rate as dTAX10_Rate,  dtax1.Type as tax1Type,dtax2.Type as tax2Type,dtax3.Type as tax3Type,dtax4.Type as tax4Type,dtax5.Type as tax5Type,dtax6.Type as tax6Type,dtax7.Type as tax7Type,dtax8.Type as tax8Type,dtax9.Type as tax9Type,dtax10.Type as tax10Type, case when TSPL_TRANSFER_ORDER_HEAD.transfer_type = 'I' then TSPL_TRANSFER_ORDER_HEAD.crate_In else TSPL_TRANSFER_ORDER_HEAD.crate_out end as crate,case when TSPL_TRANSFER_ORDER_HEAD.transfer_type = 'I' then TSPL_TRANSFER_ORDER_HEAD.jaali_in else TSPL_TRANSFER_ORDER_HEAD.jaali_Out end as jaali,case when TSPL_TRANSFER_ORDER_HEAD.transfer_type = 'I' then TSPL_TRANSFER_ORDER_HEAD.box_in else TSPL_TRANSFER_ORDER_HEAD.box_Out end as box,TSPL_TRANSFER_ORDER_DETAIL.Line_No, '1' as CopyType,0 as Alter_UnitQty ,tax1.Tax_Code_Desc as tax1name,isnull (TSPL_TRANSFER_ORDER_HEAD.tax1_amt,0) as txt1amt,   tax2.Tax_Code_Desc as tax2name,isnull (TSPL_TRANSFER_ORDER_HEAD.tax2_amt,0) as txt2amt,   tax3.Tax_Code_Desc as tax3name,   isnull (TSPL_TRANSFER_ORDER_HEAD.tax3_amt,0) as txt3amt,   tax4.Tax_Code_Desc as tax4name,   isnull (TSPL_TRANSFER_ORDER_HEAD.tax4_amt,0) as txt4amt,   tax5.Tax_Code_Desc as tax5name,  isnull (TSPL_TRANSFER_ORDER_HEAD.tax5_amt,0) as txt5amt,   tax6.Tax_Code_Desc as tax6name,  isnull (TSPL_TRANSFER_ORDER_HEAD.tax6_amt,0) as txt6amt,   tax7.Tax_Code_Desc as tax7name, isnull (TSPL_TRANSFER_ORDER_HEAD.tax7_amt,0) as txt7amt,   tax8.Tax_Code_Desc as tax8name, isnull (TSPL_TRANSFER_ORDER_HEAD.tax8_amt,0) as txt8amt, tax9.Tax_Code_Desc as tax9name,  isnull (TSPL_TRANSFER_ORDER_HEAD.tax9_amt,0) as txt9amt,   tax10.Tax_Code_Desc as tax10name,  isnull (TSPL_TRANSFER_ORDER_HEAD.tax10_amt,0) as txt10amt,TSPL_TRANSFER_ORDER_HEAD.TAX1_Rate ,TSPL_TRANSFER_ORDER_HEAD.TAX2_Rate ,TSPL_TRANSFER_ORDER_HEAD.TAX3_Rate,TSPL_TRANSFER_ORDER_HEAD.TAX4_Rate,TSPL_TRANSFER_ORDER_HEAD.TAX5_Rate,TSPL_TRANSFER_ORDER_HEAD.TAX6_Rate,TSPL_TRANSFER_ORDER_HEAD.TAX7_Rate,TSPL_TRANSFER_ORDER_HEAD.TAX8_Rate,TSPL_TRANSFER_ORDER_HEAD.TAX9_Rate,TSPL_TRANSFER_ORDER_HEAD.TAX10_Rate, From_GP_Location.add1 +case when len(From_GP_Location.add2)>0 then ', '+From_GP_Location.add2 else '' end +case when LEN(isnull(From_GP_Location.Add3,''))>0 then ', '+isnull(From_GP_Location.Add3,'') else ' ' end  + case when len(From_GP_Location_State.STATE_NAME   )>0 then ', '+ From_GP_Location_State.STATE_NAME  else ' ' end    as From_Location_Address_GP, TSPL_TRANSFER_ORDER_HEAD.Transfer_Type, From_GP_Location.Location_Code as From_Location_GP_Code,From_GP_Location.Location_Desc as From_Location_GP_Name,From_GP_Location.Add1 as From_GP_Add1,From_GP_Location.Add2 as From_GP_Add2,From_GP_Location.Add3 as From_GP_Add3,From_GP_Location.Add4 as From_GP_Add4,From_GP_Location_State.STATE_NAME as From_GP_State_Name, From_GP_Location.TIN_No as From_GP_TINNO, case when TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='I' then To_GP_Location.Location_Code else TSPL_LOCATION_MASTER_1.Location_Code end as To_location_GP_Code, case when TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='I' then To_GP_Location.Location_Desc else TSPL_LOCATION_MASTER_1.Location_Desc end as To_Location_GP_Name, case when TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='I' then To_GP_Location.Add1 else TSPL_LOCATION_MASTER_1.Add1 end as To_GP_Add1, case when TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='I' then To_GP_Location.Add2 else TSPL_LOCATION_MASTER_1.Add2 end as To_GP_Add2, case when TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='I' then To_GP_Location.Add3 else TSPL_LOCATION_MASTER_1.Add3 end as To_GP_Add3, case when TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='I' then To_GP_Location.Add4 else TSPL_LOCATION_MASTER_1.Add4 end as To_GP_Add4, case when TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='I' then To_GP_Location_State.STATE_NAME else StateMaster_ToLocation.STATE_NAME end as TO_GP_State_Name, case when TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='I' then To_GP_Location.TIN_No else TSPL_LOCATION_MASTER_1.TIN_No end  as To_GP_TINNO , case when TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='I' then To_GP_Location.TAN_No else TSPL_LOCATION_MASTER_1.TAN_No end as TO_GP_FAX, case when TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='I' then isnull(To_GP_Location.Pin_Code,0) else isnull(TSPL_LOCATION_MASTER_1.Pin_Code,0) end as To_GP_Loc_Pin, case when TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='I' then To_GP_Location.City_Code else TSPL_LOCATION_MASTER_1.City_Code end as To_GP_City_Code, case when TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='I' then Case when len(ISNULL(To_GP_Location.Phone1,''))>0 and To_GP_Location.Phone1='(+__)__________' then '' else To_GP_Location.Phone1 end + Case When   ISNULL(To_GP_Location.Phone2,'')<>'(+__)__________' Then '  '+ To_GP_Location.Phone2 Else'' end else Case when len(ISNULL(TSPL_LOCATION_MASTER_1.Phone1,''))>0 and TSPL_LOCATION_MASTER_1.Phone1='(+__)__________' then '' else TSPL_LOCATION_MASTER_1.Phone1 end + Case When   ISNULL(TSPL_LOCATION_MASTER_1.Phone2,'')<>'(+__)__________' Then '  '+ TSPL_LOCATION_MASTER_1.Phone2 Else'' end end To_GP_Phn, TSPL_LOCATION_MASTER.TIN_No as Loc_Tin_No,TSPL_LOCATION_MASTER.add1 +case when len(TSPL_LOCATION_MASTER.add2)>0 then ', '+TSPL_LOCATION_MASTER.add2 else '' end +case when LEN(isnull(TSPL_LOCATION_MASTER.Add3,''))>0 then ', '+isnull(TSPL_LOCATION_MASTER.Add3,'') else ' ' end  + case when len(TSPL_STATE_MASTER.STATE_NAME   )>0 then ', '+ TSPL_STATE_MASTER.STATE_NAME  else ' ' end    as Location_Address_GP,TSPL_COMPANY_MASTER.CINNo as CompCinNo,TSPL_COMPANY_MASTER.logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ' , '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ' , '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when LEN(TSPL_COMPANY_MASTER.tin_no)>0 then ' , TIN No '+TSPL_COMPANY_MASTER.tin_no else ' ' end as Comp_Add_GP,TSPL_COMPANY_MASTER.CE_Division as GP_Division,TSPL_COMPANY_MASTER.ServiceTax_Reg_No +case when len(TSPL_COMPANY_MASTER.Ecc_No)>0 then ''+TSPL_COMPANY_MASTER.Ecc_No else '' end as GP_ECC_No,TSPL_COMPANY_MASTER.CE_Range as GP_CE_Range, TSPL_TRANSFER_ORDER_HEAD.Remarks,TSPL_STATE_MASTER.state_code as frm_State_code,tspl_location_master.HOAdd1 ,TSPL_LOCATION_MASTER .HOAdd2,TSPL_TRANSFER_ORDER_HEAD.GR_No,TSPL_TRANSFER_ORDER_HEAD.document_type ,case when coalesce(TSPL_TRANSFER_ORDER_HEAD.GR_No,'')='' then null else convert(varchar,TSPL_TRANSFER_ORDER_HEAD.GR_Date,103) end as GR_Date ,TSPL_TRANSFER_ORDER_HEAD.WayBill_No ,convert(varchar,TSPL_TRANSFER_ORDER_HEAD.EWayBillDate,103) as WayBill_Date,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Mannual_No,tspl_location_master_For_Location.City_Code as Location_City_Name, coalesce(cast(convert(decimal(18,0),(TSPL_TRANSFER_ORDER_DETAIL.Out_Qty * tspl_item_uom_detail.conversion_factor)/alt_convrsn.conversion_factor) as varchar)+' '+TSPL_TRANSFER_ORDER_DETAIL.Alt_Unit_Code,'') as Alt_Unit_Code,TSPL_TRANSPORT_MASTER.Transporter_Name,TSPL_TRANSFER_ORDER_HEAD.transport_id,TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual ,(case when TSPL_TRANSFER_ORDER_HEAD.Is_AgainstFormF=1 then 'Against F-Form Due' else '' end) as Is_AgainstFormF,TSPL_TRANSFER_ORDER_HEAD.Document_No  as[STN_NO] ,
+                       tspl_transfer_order_head.Document_Date as [Date_N_Time_issue],  TSPL_TRANSFER_ORDER_HEAD.Discount_Amt  as Discount , TSPL_TRANSFER_ORDER_DETAIL .Document_No as ref_doc_no , TSPL_TRANSFER_ORDER_HEAD.From_Location, TSPL_LOCATION_MASTER.Location_Desc as From_LocationName,TSPL_LOCATION_MASTER_2.Location_Desc as To_LocationName,TSPL_TRANSFER_ORDER_HEAD.To_Location ,
+                       TSPL_TRANSFER_ORDER_HEAD.Vehicle_No,TSPL_TRANSFER_ORDER_DETAIL.item_code,TSPL_TRANSFER_ORDER_DETAIL.mrp,TSPL_TRANSFER_ORDER_DETAIL.Item_Desc , TSPL_TRANSFER_ORDER_DETAIL.Item_Cost AS Item_Cost,  TSPL_TRANSFER_ORDER_DETAIL.Out_Qty as Quantity ,TSPL_TRANSFER_ORDER_DETAIL.Unit_code as UOM1, TSPL_LOCATION_MASTER.Location_Code as From_Location_Code,  TSPL_LOCATION_MASTER.Location_Desc as From_Location_Dec,TSPL_LOCATION_MASTER.Add1 as From_Location_Add1 , TSPL_LOCATION_MASTER.Add2 as From_Location_Add2 , TSPL_LOCATION_MASTER.Add3 as From_Location_Add3,TSPL_LOCATION_MASTER.Add4  as From_Location_Add4,TSPL_LOCATION_MASTER.City_Code as From_Location_City_Code ,  TSPL_STATE_MASTER.STATE_NAME  as From_Location_State,TSPL_LOCATION_MASTER.Pin_Code as From_Location_Pin_Code ,TSPL_LOCATION_MASTER.Country as From_Location_Country,  TSPL_LOCATION_MASTER.Telphone  as From_Location_Telphone,TSPL_LOCATION_MASTER.Email as From_Location_Email,TSPL_LOCATION_MASTER.TIN_No AS From_Location_tin_no, TSPL_LOCATION_MASTER.CST_No AS From_Location_cstNo,TSPL_ITEM_MASTER.Weight_UOM as UOM2, TSPL_ITEM_MASTER.Weight_Value as Weight,((TSPL_TRANSFER_ORDER_DETAIL.Out_Qty*tspl_item_uom_detail.Conversion_Factor)/CFinLTR.Conversion_Factor ) As TotalQty, CFinLTR.UOM_Code As TotalQtyUOM,TSPL_LOCATION_MASTER_1.Location_Code AS To_Location_Code,TSPL_LOCATION_MASTER.add1 as transpotor,TSPL_LOCATION_MASTER_1.Add1 AS To_Location_Add1,  TSPL_LOCATION_MASTER_1.Add2 as To_Location_Add2 ,TSPL_LOCATION_MASTER_1.Add3 as To_Location_Add3,TSPL_LOCATION_MASTER_1.Add4 as To_Location_Add4, TSPL_LOCATION_MASTER_1.Location_Desc as To_Location_Desc  , TSPL_LOCATION_MASTER_1.City_Code as To_Location_City_Code , StateMaster_ToLocation.State_Name as To_Location_State, TSPL_LOCATION_MASTER_1.Pin_Code as To_Location_Pin_Code,  TSPL_LOCATION_MASTER_1.Country as To_Location_Country, TSPL_LOCATION_MASTER_1.Telphone as To_Location_Telphone, TSPL_LOCATION_MASTER_1.Email as To_Location_Email ,  TSPL_LOCATION_MASTER_1 .TIN_No as to_location_tin_no, TSPL_LOCATION_MASTER_1 .CST_No as to_location_cstno,TSPL_TRANSFER_ORDER_HEAD.TAX1,TSPL_TRANSFER_ORDER_HEAD.TAX2,TSPL_TRANSFER_ORDER_HEAD.TAX3,TSPL_TRANSFER_ORDER_HEAD.TAX4,TSPL_TRANSFER_ORDER_HEAD.TAX5,TSPL_TRANSFER_ORDER_HEAD.TAX6 ,TSPL_COMPANY_MASTER.Comp_Name AS CompName ,
+                        TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER_fOR_Comp.City_Name)>0 then ', '+TSPL_CITY_MASTER_fOR_Comp.City_Name else ' ' end + case when len(TSPL_STATE_MASTER_For_Comp.STATE_NAME  )>0 then ', '+ TSPL_STATE_MASTER_For_Comp.STATE_NAME else ' ' end + case when len(TSPL_COMPANY_MASTER.Pincode    )>0 then ', Pin Code - '+ cast(TSPL_COMPANY_MASTER.Pincode as varchar)  else ' ' end + case when len(TSPL_COMPANY_MASTER.Tin_No     )>0 then ', Tin No - '+ cast(TSPL_COMPANY_MASTER.Tin_No as varchar)  else ' ' end + case when len(TSPL_COMPANY_MASTER.CINNo      )>0 then ', CIN No - '+ cast(TSPL_COMPANY_MASTER.CINNo as varchar)  else ' ' end + case when len(TSPL_COMPANY_MASTER.Fax     )>0 then ',Fax '+ TSPL_COMPANY_MASTER.Fax else '' end + Case when len(ISNULL(TSPL_COMPANY_MASTER.Phone1,''))>0 and TSPL_COMPANY_MASTER.Phone1='(+__)__________' then '' else ' ,Phone'+TSPL_COMPANY_MASTER.Phone1 end + Case When   ISNULL(TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then '  '+ TSPL_COMPANY_MASTER.Phone2 Else'' End + case when len(TSPL_COMPANY_MASTER.Email    )>0 then ',Email - '+ TSPL_COMPANY_MASTER.Email else '' end as Company_Address,'PAN No - '+TSPL_COMPANY_MASTER.Pan_No +',GSTIN - '+TSPL_COMPANY_MASTER.GSTReg_No As CompPanGST,
+                        TSPL_TRANSFER_ORDER_HEAD.DOC_Total_Amt,TSPL_TRANSFER_ORDER_DETAIL.Amount ,  tspl_company_master.Pan_No,
+                        tspl_company_master.State,TSPL_TRANSFER_ORDER_HEAD.Requisition_Id,TSPL_COMPANY_MASTER.GSTReg_No ,TSPL_COMPANY_MASTER.add1,TSPL_COMPANY_MASTER.add2,TSPL_COMPANY_MASTER.Add3,TSPL_COMPANY_MASTER.Phone1,TSPL_COMPANY_MASTER.Phone2
+                        from TSPL_TRANSFER_ORDER_DETAIL 
+                        join TSPL_TRANSFER_ORDER_HEAD  on TSPL_TRANSFER_ORDER_HEAD.Document_No   =TSPL_TRANSFER_ORDER_DETAIL.Document_No  
+                        left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code=  TSPL_TRANSFER_ORDER_HEAD.From_Location   
+                        left outer join TSPL_LOCATION_MASTER AS TSPL_LOCATION_MASTER_1 on TSPL_LOCATION_MASTER_1.GIT_LOCATION =  TSPL_TRANSFER_ORDER_HEAD.To_Location  
+                        left outer join  TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_2 on TSPL_LOCATION_MASTER_2.Location_Code=TSPL_TRANSFER_ORDER_HEAD.To_Location
+                        INNER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.ITEM_CODE = TSPL_TRANSFER_ORDER_DETAIL.iTEM_CODE  
+                        Left Outer Join (Select Item_Code,Conversion_Factor,UOM_Code from tspl_item_uom_detail where UOM_Code='LTR') As CFinLTR On CFinLTR.Item_Code=TSPL_ITEM_MASTER.Item_Code
+                        Left Outer Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code =TSPL_TRANSFER_ORDER_HEAD.Comp_Code 
+                        LEFT OUTER JOIN TSPL_CITY_MASTER  AS TSPL_CITY_MASTER_fOR_Comp ON TSPL_CITY_MASTER_fOR_Comp.City_Code =TSPL_COMPANY_MASTER.City_Code 
+                        LEFT OUTER JOIN TSPL_STATE_MASTER AS TSPL_STATE_MASTER_For_Comp  ON TSPL_STATE_MASTER_For_Comp.STATE_CODE  =TSPL_COMPANY_MASTER.State  
+                        left outer join tspl_item_uom_detail on tspl_item_uom_detail.item_code=TSPL_TRANSFER_ORDER_DETAIL.item_code and tspl_item_uom_detail.uom_code=TSPL_TRANSFER_ORDER_DETAIL.unit_code  
+                        left outer join tspl_item_uom_detail alt_convrsn on alt_convrsn.item_code=TSPL_TRANSFER_ORDER_DETAIL.item_code and alt_convrsn.uom_code=TSPL_TRANSFER_ORDER_DETAIL.alt_unit_code  
+                        left outer join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.transport_id=TSPL_TRANSFER_ORDER_HEAD.transport_id  
+                        LEFT OUTER JOIN tspl_location_master  AS tspl_location_master_For_Location ON tspl_location_master_For_Location.GIT_Location =TSPL_TRANSFER_ORDER_HEAD.To_Location  
+                        left outer join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE=TSPL_LOCATION_MASTER.State  
+                        LEFT OUTER JOIN TSPL_STATE_MASTER StateMaster_ToLocation ON StateMaster_ToLocation.State_Code=TSPL_LOCATION_MASTER_1.State 
+                        left join TSPL_TRANSFER_ORDER_HEAD GP on GP.document_no=TSPL_TRANSFER_ORDER_HEAD.transferoutno 
+                        left join tspl_location_master as From_GP_Location on From_GP_Location.Location_Code =GP.From_Location 
+                        left join TSPL_STATE_MASTER as From_GP_Location_State on From_GP_Location_State.STATE_CODE =From_GP_Location.State  
+                        left outer join TSPL_LOCATION_MASTER AS To_GP_Location on To_GP_Location.GIT_Location =  GP.To_Location  
+                        left join TSPL_STATE_MASTER as To_GP_Location_State on To_GP_Location_State.STATE_CODE =To_GP_Location.State  
+                        left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_TRANSFER_ORDER_HEAD.tax1 
+                        left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_TRANSFER_ORDER_HEAD.tax2    
+                        left outer join tspl_tax_master as tax3 on tax3.Tax_Code=TSPL_TRANSFER_ORDER_HEAD .TAX3   
+                        left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= TSPL_TRANSFER_ORDER_HEAD .tax4   
+                        left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=TSPL_TRANSFER_ORDER_HEAD .tax5   
+                        left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =TSPL_TRANSFER_ORDER_HEAD .TAX6    
+                        left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =TSPL_TRANSFER_ORDER_HEAD .TAX7    
+                        left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =TSPL_TRANSFER_ORDER_HEAD .TAX8  
+                        left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =TSPL_TRANSFER_ORDER_HEAD .TAX9    
+                        left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_TRANSFER_ORDER_HEAD .TAX10    
+                        left outer join TSPL_TAX_MASTER as dtax1 on dtax1.tax_code =TSPL_TRANSFER_ORDER_DETAIL .tax1 
+                        left outer join tspl_tax_master as dtax2 on dtax2.tax_code = TSPL_TRANSFER_ORDER_DETAIL.tax2    
+                        left outer join tspl_tax_master as dtax3 on dtax3.Tax_Code=TSPL_TRANSFER_ORDER_DETAIL .TAX3   
+                        left outer join TSPL_TAX_MASTER as dtax4 on tax4.Tax_Code= TSPL_TRANSFER_ORDER_DETAIL .tax4   
+                        left outer join TSPL_TAX_MASTER as dtax5 on dtax5.Tax_Code=TSPL_TRANSFER_ORDER_DETAIL .tax5   
+                        left outer join TSPL_TAX_MASTER as dtax6 on dtax6.Tax_Code =TSPL_TRANSFER_ORDER_DETAIL .TAX6    
+                        left outer join TSPL_TAX_MASTER as dtax7 on dtax7.Tax_Code =TSPL_TRANSFER_ORDER_DETAIL .TAX7    
+                        left outer join TSPL_TAX_MASTER as dtax8 on dtax8.Tax_Code =TSPL_TRANSFER_ORDER_DETAIL .TAX8  
+                        left outer join TSPL_TAX_MASTER as dtax9 on dtax9.Tax_Code =TSPL_TRANSFER_ORDER_DETAIL .TAX9    
+                        left outer join TSPL_TAX_MASTER as dtax10 on dtax10.Tax_Code =TSPL_TRANSFER_ORDER_DETAIL .TAX10  
+                        LEFT JOIN TSPL_TAX_GROUP_MASTER ON TSPL_TRANSFER_ORDER_HEAD.Tax_Group=TSPL_TAX_GROUP_MASTER.Tax_Group_Code and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='T' 
+                        where 2=2 and TSPL_TRANSFER_ORDER_HEAD. Document_No = '" + StrCode + "' and TSPL_ITEM_MASTER.IsTaxable =0)xxx
+						cross apply ( select top 1 ((xxx.Quantity)*Item_Basic_Price) as TotalAmount,TSPL_ITEM_PRICE_PLAN_DETAIL.Item_MRP,TSPL_ITEM_PRICE_PLAN_DETAIL.Item_Basic_Price from TSPL_ITEM_PRICE_PLAN_DETAIL
+                        left outer join TSPL_ITEM_PRICE_PLAN_HEADER on TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code = TSPL_ITEM_PRICE_PLAN_DETAIL.Plan_Code 
+                        where xxx.Price_Code = TSPL_ITEM_PRICE_PLAN_DETAIL.Price_Code and xxx.Item_Code = TSPL_ITEM_PRICE_PLAN_DETAIL.Item_Code
+                        order by TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Date desc)  as price
+						LEFT OUTER JOIN (Select 1 as COL1, 1 as COL2,  'ORIGINAL' as CopyType1 UNION Select 1 as COL1, 2 as COL2,  'DUPLICATE' as CopyType1 UNION Select 1 as COL1, 3 as COL2,  'TRIPLICATE' as CopyType1 UNION Select 1 as COL1, 4 as COL2,  'QUADRUPLICATE' as CopyType1 ) YYY ON YYY.COL1=XXX.CopyType ORDER BY Line_No,YYY.CopyType1  "
+        Return Qry
+    End Function
+    Public Shared Function GetSTAProductQry(ByVal StrCode As String) As String
+        Dim Qry As String = "Select * from (select TSPL_TRANSFER_ORDER_HEAD.Price_Code,TSPL_TRANSFER_ORDER_HEAD.Tax_Group,ISNULL(TSPL_TAX_GROUP_MASTER.Is_Tax_Exempted,0) AS Is_Tax_Exempted ,TSPL_TRANSFER_ORDER_HEAD.Is_MandiTax, TSPL_TRANSFER_ORDER_HEAD.Electronic_Ref_No,
+                       TSPL_LOCATION_MASTER.GSTNO as GSTIN_No ,TSPL_STATE_MASTER.GST_STATE_Code as From_Gst_StateCode,StateMaster_ToLocation.GST_STATE_Code as To_Loc_GSTStateCode,TSPL_LOCATION_MASTER_1.GSTNO as To_Loc_GSTINNo, 
+                       TSPL_TRANSFER_ORDER_DETAIL.item_Net_Amt ,TSPL_ITEM_MASTER.HSN_Code ,TSPL_LOCATION_MASTER.GSTNO as frm_GSTINNo ,TSPL_STATE_MASTER.GST_STATE_Code as Frm_StateGST,StateMaster_ToLocation.GST_STATE_Code as To_StateGST,
+                       TSPL_LOCATION_MASTER_1.GSTNO as To_GSTINNo,TSPL_TRANSFER_ORDER_HEAD.EWayBillNo ,convert(varchar,TSPL_TRANSFER_ORDER_HEAD.EWayBillDate,103) as EWayBillDate ,convert(varchar(10),TSPL_COMPANY_MASTER.insurance_valid_date,103) as insurance_valid_date,
+                       TSPL_COMPANY_MASTER.Pan_No as ToLoc_PANNO,  TSPL_TRANSFER_ORDER_HEAD.Is_taxable,TSPL_TRANSFER_ORDER_HEAD.For_Repair,TSPL_TRANSFER_ORDER_HEAD.InternalTransfer, TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt, TSPL_TRANSFER_ORDER_DETAIL.TAX1 as dTAX1, TSPL_TRANSFER_ORDER_DETAIL.TAX2 as dTAX2, TSPL_TRANSFER_ORDER_DETAIL.TAX3 as  dTAX3, TSPL_TRANSFER_ORDER_DETAIL.TAX4 as  dTAX4, TSPL_TRANSFER_ORDER_DETAIL.TAX5 as  dTAX5, TSPL_TRANSFER_ORDER_DETAIL.TAX6 as  dTAX6, TSPL_TRANSFER_ORDER_DETAIL.TAX7 as  dTAX7, TSPL_TRANSFER_ORDER_DETAIL.TAX8 as dTAX8, TSPL_TRANSFER_ORDER_DETAIL.TAX9 as dTAX9, TSPL_TRANSFER_ORDER_DETAIL.TAX10 as  dTAX10, TSPL_TRANSFER_ORDER_DETAIL.TAX1_Amt, TSPL_TRANSFER_ORDER_DETAIL.TAX2_Amt, TSPL_TRANSFER_ORDER_DETAIL.TAX3_Amt, TSPL_TRANSFER_ORDER_DETAIL.TAX4_Amt, TSPL_TRANSFER_ORDER_DETAIL.TAX5_Amt, TSPL_TRANSFER_ORDER_DETAIL.TAX6_Amt, TSPL_TRANSFER_ORDER_DETAIL.TAX7_Amt, TSPL_TRANSFER_ORDER_DETAIL.TAX8_Amt, TSPL_TRANSFER_ORDER_DETAIL.TAX9_Amt, TSPL_TRANSFER_ORDER_DETAIL.TAX10_Amt, TSPL_TRANSFER_ORDER_DETAIL.TAX1_Rate as dTAX1_Rate, TSPL_TRANSFER_ORDER_DETAIL.TAX2_Rate as dTAX2_Rate, TSPL_TRANSFER_ORDER_DETAIL.TAX3_Rate as dTAX3_Rate ,TSPL_TRANSFER_ORDER_DETAIL.TAX4_Rate as dTAX4_Rate ,TSPL_TRANSFER_ORDER_DETAIL.TAX5_Rate as dTAX5_Rate  ,TSPL_TRANSFER_ORDER_DETAIL.TAX6_Rate as dTAX6_Rate ,TSPL_TRANSFER_ORDER_DETAIL.TAX7_Rate as dTAX7_Rate ,TSPL_TRANSFER_ORDER_DETAIL.TAX8_Rate as dTAX8_Rate ,TSPL_TRANSFER_ORDER_DETAIL.TAX9_Rate as dTAX9_Rate ,TSPL_TRANSFER_ORDER_DETAIL.TAX10_Rate as dTAX10_Rate,  dtax1.Type as tax1Type,dtax2.Type as tax2Type,dtax3.Type as tax3Type,dtax4.Type as tax4Type,dtax5.Type as tax5Type,dtax6.Type as tax6Type,dtax7.Type as tax7Type,dtax8.Type as tax8Type,dtax9.Type as tax9Type,dtax10.Type as tax10Type, case when TSPL_TRANSFER_ORDER_HEAD.transfer_type = 'I' then TSPL_TRANSFER_ORDER_HEAD.crate_In else TSPL_TRANSFER_ORDER_HEAD.crate_out end as crate,case when TSPL_TRANSFER_ORDER_HEAD.transfer_type = 'I' then TSPL_TRANSFER_ORDER_HEAD.jaali_in else TSPL_TRANSFER_ORDER_HEAD.jaali_Out end as jaali,case when TSPL_TRANSFER_ORDER_HEAD.transfer_type = 'I' then TSPL_TRANSFER_ORDER_HEAD.box_in else TSPL_TRANSFER_ORDER_HEAD.box_Out end as box,TSPL_TRANSFER_ORDER_DETAIL.Line_No, '1' as CopyType,0 as Alter_UnitQty ,tax1.Tax_Code_Desc as tax1name,isnull (TSPL_TRANSFER_ORDER_HEAD.tax1_amt,0) as txt1amt,   tax2.Tax_Code_Desc as tax2name,isnull (TSPL_TRANSFER_ORDER_HEAD.tax2_amt,0) as txt2amt,   tax3.Tax_Code_Desc as tax3name,   isnull (TSPL_TRANSFER_ORDER_HEAD.tax3_amt,0) as txt3amt,   tax4.Tax_Code_Desc as tax4name,   isnull (TSPL_TRANSFER_ORDER_HEAD.tax4_amt,0) as txt4amt,   tax5.Tax_Code_Desc as tax5name,  isnull (TSPL_TRANSFER_ORDER_HEAD.tax5_amt,0) as txt5amt,   tax6.Tax_Code_Desc as tax6name,  isnull (TSPL_TRANSFER_ORDER_HEAD.tax6_amt,0) as txt6amt,   tax7.Tax_Code_Desc as tax7name, isnull (TSPL_TRANSFER_ORDER_HEAD.tax7_amt,0) as txt7amt,   tax8.Tax_Code_Desc as tax8name, isnull (TSPL_TRANSFER_ORDER_HEAD.tax8_amt,0) as txt8amt, tax9.Tax_Code_Desc as tax9name,  isnull (TSPL_TRANSFER_ORDER_HEAD.tax9_amt,0) as txt9amt,   tax10.Tax_Code_Desc as tax10name,  isnull (TSPL_TRANSFER_ORDER_HEAD.tax10_amt,0) as txt10amt,TSPL_TRANSFER_ORDER_HEAD.TAX1_Rate ,TSPL_TRANSFER_ORDER_HEAD.TAX2_Rate ,TSPL_TRANSFER_ORDER_HEAD.TAX3_Rate,TSPL_TRANSFER_ORDER_HEAD.TAX4_Rate,TSPL_TRANSFER_ORDER_HEAD.TAX5_Rate,TSPL_TRANSFER_ORDER_HEAD.TAX6_Rate,TSPL_TRANSFER_ORDER_HEAD.TAX7_Rate,TSPL_TRANSFER_ORDER_HEAD.TAX8_Rate,TSPL_TRANSFER_ORDER_HEAD.TAX9_Rate,TSPL_TRANSFER_ORDER_HEAD.TAX10_Rate, From_GP_Location.add1 +case when len(From_GP_Location.add2)>0 then ', '+From_GP_Location.add2 else '' end +case when LEN(isnull(From_GP_Location.Add3,''))>0 then ', '+isnull(From_GP_Location.Add3,'') else ' ' end  + case when len(From_GP_Location_State.STATE_NAME   )>0 then ', '+ From_GP_Location_State.STATE_NAME  else ' ' end    as From_Location_Address_GP, TSPL_TRANSFER_ORDER_HEAD.Transfer_Type, From_GP_Location.Location_Code as From_Location_GP_Code,From_GP_Location.Location_Desc as From_Location_GP_Name,From_GP_Location.Add1 as From_GP_Add1,From_GP_Location.Add2 as From_GP_Add2,From_GP_Location.Add3 as From_GP_Add3,From_GP_Location.Add4 as From_GP_Add4,From_GP_Location_State.STATE_NAME as From_GP_State_Name, From_GP_Location.TIN_No as From_GP_TINNO, case when TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='I' then To_GP_Location.Location_Code else TSPL_LOCATION_MASTER_1.Location_Code end as To_location_GP_Code, case when TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='I' then To_GP_Location.Location_Desc else TSPL_LOCATION_MASTER_1.Location_Desc end as To_Location_GP_Name, case when TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='I' then To_GP_Location.Add1 else TSPL_LOCATION_MASTER_1.Add1 end as To_GP_Add1, case when TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='I' then To_GP_Location.Add2 else TSPL_LOCATION_MASTER_1.Add2 end as To_GP_Add2, case when TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='I' then To_GP_Location.Add3 else TSPL_LOCATION_MASTER_1.Add3 end as To_GP_Add3, case when TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='I' then To_GP_Location.Add4 else TSPL_LOCATION_MASTER_1.Add4 end as To_GP_Add4, case when TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='I' then To_GP_Location_State.STATE_NAME else StateMaster_ToLocation.STATE_NAME end as TO_GP_State_Name, case when TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='I' then To_GP_Location.TIN_No else TSPL_LOCATION_MASTER_1.TIN_No end  as To_GP_TINNO , case when TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='I' then To_GP_Location.TAN_No else TSPL_LOCATION_MASTER_1.TAN_No end as TO_GP_FAX, case when TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='I' then isnull(To_GP_Location.Pin_Code,0) else isnull(TSPL_LOCATION_MASTER_1.Pin_Code,0) end as To_GP_Loc_Pin, case when TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='I' then To_GP_Location.City_Code else TSPL_LOCATION_MASTER_1.City_Code end as To_GP_City_Code, case when TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='I' then Case when len(ISNULL(To_GP_Location.Phone1,''))>0 and To_GP_Location.Phone1='(+__)__________' then '' else To_GP_Location.Phone1 end + Case When   ISNULL(To_GP_Location.Phone2,'')<>'(+__)__________' Then '  '+ To_GP_Location.Phone2 Else'' end else Case when len(ISNULL(TSPL_LOCATION_MASTER_1.Phone1,''))>0 and TSPL_LOCATION_MASTER_1.Phone1='(+__)__________' then '' else TSPL_LOCATION_MASTER_1.Phone1 end + Case When   ISNULL(TSPL_LOCATION_MASTER_1.Phone2,'')<>'(+__)__________' Then '  '+ TSPL_LOCATION_MASTER_1.Phone2 Else'' end end To_GP_Phn, TSPL_LOCATION_MASTER.TIN_No as Loc_Tin_No,TSPL_LOCATION_MASTER.add1 +case when len(TSPL_LOCATION_MASTER.add2)>0 then ', '+TSPL_LOCATION_MASTER.add2 else '' end +case when LEN(isnull(TSPL_LOCATION_MASTER.Add3,''))>0 then ', '+isnull(TSPL_LOCATION_MASTER.Add3,'') else ' ' end  + case when len(TSPL_STATE_MASTER.STATE_NAME   )>0 then ', '+ TSPL_STATE_MASTER.STATE_NAME  else ' ' end    as Location_Address_GP,TSPL_COMPANY_MASTER.CINNo as CompCinNo,TSPL_COMPANY_MASTER.logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ' , '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ' , '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when LEN(TSPL_COMPANY_MASTER.tin_no)>0 then ' , TIN No '+TSPL_COMPANY_MASTER.tin_no else ' ' end as Comp_Add_GP,TSPL_COMPANY_MASTER.CE_Division as GP_Division,TSPL_COMPANY_MASTER.ServiceTax_Reg_No +case when len(TSPL_COMPANY_MASTER.Ecc_No)>0 then ''+TSPL_COMPANY_MASTER.Ecc_No else '' end as GP_ECC_No,TSPL_COMPANY_MASTER.CE_Range as GP_CE_Range, TSPL_TRANSFER_ORDER_HEAD.Remarks,TSPL_STATE_MASTER.state_code as frm_State_code,tspl_location_master.HOAdd1 ,TSPL_LOCATION_MASTER .HOAdd2,TSPL_TRANSFER_ORDER_HEAD.GR_No,TSPL_TRANSFER_ORDER_HEAD.document_type ,case when coalesce(TSPL_TRANSFER_ORDER_HEAD.GR_No,'')='' then null else convert(varchar,TSPL_TRANSFER_ORDER_HEAD.GR_Date,103) end as GR_Date ,TSPL_TRANSFER_ORDER_HEAD.WayBill_No ,convert(varchar,TSPL_TRANSFER_ORDER_HEAD.EWayBillDate,103) as WayBill_Date,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Mannual_No,tspl_location_master_For_Location.City_Code as Location_City_Name, coalesce(cast(convert(decimal(18,0),(TSPL_TRANSFER_ORDER_DETAIL.Out_Qty * tspl_item_uom_detail.conversion_factor)/alt_convrsn.conversion_factor) as varchar)+' '+TSPL_TRANSFER_ORDER_DETAIL.Alt_Unit_Code,'') as Alt_Unit_Code,TSPL_TRANSPORT_MASTER.Transporter_Name,TSPL_TRANSFER_ORDER_HEAD.transport_id,TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual ,(case when TSPL_TRANSFER_ORDER_HEAD.Is_AgainstFormF=1 then 'Against F-Form Due' else '' end) as Is_AgainstFormF,TSPL_TRANSFER_ORDER_HEAD.Document_No  as[STN_NO] ,
+                       tspl_transfer_order_head.Document_Date as [Date_N_Time_issue],  TSPL_TRANSFER_ORDER_HEAD.Discount_Amt  as Discount , TSPL_TRANSFER_ORDER_DETAIL .Document_No as ref_doc_no , TSPL_TRANSFER_ORDER_HEAD.From_Location, TSPL_LOCATION_MASTER.Location_Desc as From_LocationName,TSPL_LOCATION_MASTER_2.Location_Desc as To_LocationName,TSPL_TRANSFER_ORDER_HEAD.To_Location ,
+                       TSPL_TRANSFER_ORDER_HEAD.Vehicle_No,TSPL_TRANSFER_ORDER_DETAIL.item_code,TSPL_TRANSFER_ORDER_DETAIL.mrp,TSPL_TRANSFER_ORDER_DETAIL.Item_Desc , TSPL_TRANSFER_ORDER_DETAIL.Item_Cost AS Item_Cost,  TSPL_TRANSFER_ORDER_DETAIL.Out_Qty as Quantity ,TSPL_TRANSFER_ORDER_DETAIL.Unit_code as UOM1, TSPL_LOCATION_MASTER.Location_Code as From_Location_Code,  TSPL_LOCATION_MASTER.Location_Desc as From_Location_Dec,TSPL_LOCATION_MASTER.Add1 as From_Location_Add1 , TSPL_LOCATION_MASTER.Add2 as From_Location_Add2 , TSPL_LOCATION_MASTER.Add3 as From_Location_Add3,TSPL_LOCATION_MASTER.Add4  as From_Location_Add4,TSPL_LOCATION_MASTER.City_Code as From_Location_City_Code ,  TSPL_STATE_MASTER.STATE_NAME  as From_Location_State,TSPL_LOCATION_MASTER.Pin_Code as From_Location_Pin_Code ,TSPL_LOCATION_MASTER.Country as From_Location_Country,  TSPL_LOCATION_MASTER.Telphone  as From_Location_Telphone,TSPL_LOCATION_MASTER.Email as From_Location_Email,TSPL_LOCATION_MASTER.TIN_No AS From_Location_tin_no, TSPL_LOCATION_MASTER.CST_No AS From_Location_cstNo,TSPL_ITEM_MASTER.Weight_UOM as UOM2, TSPL_ITEM_MASTER.Weight_Value as Weight,((TSPL_TRANSFER_ORDER_DETAIL.Out_Qty*tspl_item_uom_detail.Conversion_Factor)/CFinLTR.Conversion_Factor ) As TotalQty, CFinLTR.UOM_Code As TotalQtyUOM,TSPL_LOCATION_MASTER_1.Location_Code AS To_Location_Code,TSPL_LOCATION_MASTER.add1 as transpotor,TSPL_LOCATION_MASTER_1.Add1 AS To_Location_Add1,  TSPL_LOCATION_MASTER_1.Add2 as To_Location_Add2 ,TSPL_LOCATION_MASTER_1.Add3 as To_Location_Add3,TSPL_LOCATION_MASTER_1.Add4 as To_Location_Add4, TSPL_LOCATION_MASTER_1.Location_Desc as To_Location_Desc  , TSPL_LOCATION_MASTER_1.City_Code as To_Location_City_Code , StateMaster_ToLocation.State_Name as To_Location_State, TSPL_LOCATION_MASTER_1.Pin_Code as To_Location_Pin_Code,  TSPL_LOCATION_MASTER_1.Country as To_Location_Country, TSPL_LOCATION_MASTER_1.Telphone as To_Location_Telphone, TSPL_LOCATION_MASTER_1.Email as To_Location_Email ,  TSPL_LOCATION_MASTER_1 .TIN_No as to_location_tin_no, TSPL_LOCATION_MASTER_1 .CST_No as to_location_cstno,TSPL_TRANSFER_ORDER_HEAD.TAX1,TSPL_TRANSFER_ORDER_HEAD.TAX2,TSPL_TRANSFER_ORDER_HEAD.TAX3,TSPL_TRANSFER_ORDER_HEAD.TAX4,TSPL_TRANSFER_ORDER_HEAD.TAX5,TSPL_TRANSFER_ORDER_HEAD.TAX6 ,TSPL_COMPANY_MASTER.Comp_Name AS CompName ,
+                        TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER_fOR_Comp.City_Name)>0 then ', '+TSPL_CITY_MASTER_fOR_Comp.City_Name else ' ' end + case when len(TSPL_STATE_MASTER_For_Comp.STATE_NAME  )>0 then ', '+ TSPL_STATE_MASTER_For_Comp.STATE_NAME else ' ' end + case when len(TSPL_COMPANY_MASTER.Pincode    )>0 then ', Pin Code - '+ cast(TSPL_COMPANY_MASTER.Pincode as varchar)  else ' ' end + case when len(TSPL_COMPANY_MASTER.Tin_No     )>0 then ', Tin No - '+ cast(TSPL_COMPANY_MASTER.Tin_No as varchar)  else ' ' end + case when len(TSPL_COMPANY_MASTER.CINNo      )>0 then ', CIN No - '+ cast(TSPL_COMPANY_MASTER.CINNo as varchar)  else ' ' end + case when len(TSPL_COMPANY_MASTER.Fax     )>0 then ',Fax '+ TSPL_COMPANY_MASTER.Fax else '' end + Case when len(ISNULL(TSPL_COMPANY_MASTER.Phone1,''))>0 and TSPL_COMPANY_MASTER.Phone1='(+__)__________' then '' else ' ,Phone'+TSPL_COMPANY_MASTER.Phone1 end + Case When   ISNULL(TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then '  '+ TSPL_COMPANY_MASTER.Phone2 Else'' End + case when len(TSPL_COMPANY_MASTER.Email    )>0 then ',Email - '+ TSPL_COMPANY_MASTER.Email else '' end as Company_Address,'PAN No - '+TSPL_COMPANY_MASTER.Pan_No +',GSTIN - '+TSPL_COMPANY_MASTER.GSTReg_No As CompPanGST,
+                        TSPL_TRANSFER_ORDER_HEAD.DOC_Total_Amt,TSPL_TRANSFER_ORDER_DETAIL.Amount ,  tspl_company_master.Pan_No,
+                        tspl_company_master.State,TSPL_TRANSFER_ORDER_HEAD.Requisition_Id,TSPL_COMPANY_MASTER.GSTReg_No ,TSPL_COMPANY_MASTER.add1,TSPL_COMPANY_MASTER.add2,TSPL_COMPANY_MASTER.Add3,TSPL_COMPANY_MASTER.Phone1,TSPL_COMPANY_MASTER.Phone2
+                        from TSPL_TRANSFER_ORDER_DETAIL 
+                        join TSPL_TRANSFER_ORDER_HEAD  on TSPL_TRANSFER_ORDER_HEAD.Document_No   =TSPL_TRANSFER_ORDER_DETAIL.Document_No  
+                        left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code=  TSPL_TRANSFER_ORDER_HEAD.From_Location   
+                        left outer join TSPL_LOCATION_MASTER AS TSPL_LOCATION_MASTER_1 on TSPL_LOCATION_MASTER_1.GIT_LOCATION =  TSPL_TRANSFER_ORDER_HEAD.To_Location  
+                        left outer join  TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_2 on TSPL_LOCATION_MASTER_2.Location_Code=TSPL_TRANSFER_ORDER_HEAD.To_Location
+                        INNER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.ITEM_CODE = TSPL_TRANSFER_ORDER_DETAIL.iTEM_CODE  
+                        Left Outer Join (Select Item_Code,Conversion_Factor,UOM_Code from tspl_item_uom_detail where UOM_Code='LTR') As CFinLTR On CFinLTR.Item_Code=TSPL_ITEM_MASTER.Item_Code
+                        Left Outer Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code =TSPL_TRANSFER_ORDER_HEAD.Comp_Code 
+                        LEFT OUTER JOIN TSPL_CITY_MASTER  AS TSPL_CITY_MASTER_fOR_Comp ON TSPL_CITY_MASTER_fOR_Comp.City_Code =TSPL_COMPANY_MASTER.City_Code 
+                        LEFT OUTER JOIN TSPL_STATE_MASTER AS TSPL_STATE_MASTER_For_Comp  ON TSPL_STATE_MASTER_For_Comp.STATE_CODE  =TSPL_COMPANY_MASTER.State  
+                        left outer join tspl_item_uom_detail on tspl_item_uom_detail.item_code=TSPL_TRANSFER_ORDER_DETAIL.item_code and tspl_item_uom_detail.uom_code=TSPL_TRANSFER_ORDER_DETAIL.unit_code  
+                        left outer join tspl_item_uom_detail alt_convrsn on alt_convrsn.item_code=TSPL_TRANSFER_ORDER_DETAIL.item_code and alt_convrsn.uom_code=TSPL_TRANSFER_ORDER_DETAIL.alt_unit_code  
+                        left outer join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.transport_id=TSPL_TRANSFER_ORDER_HEAD.transport_id  
+                        LEFT OUTER JOIN tspl_location_master  AS tspl_location_master_For_Location ON tspl_location_master_For_Location.GIT_Location =TSPL_TRANSFER_ORDER_HEAD.To_Location  
+                        left outer join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE=TSPL_LOCATION_MASTER.State  
+                        LEFT OUTER JOIN TSPL_STATE_MASTER StateMaster_ToLocation ON StateMaster_ToLocation.State_Code=TSPL_LOCATION_MASTER_1.State 
+                        left join TSPL_TRANSFER_ORDER_HEAD GP on GP.document_no=TSPL_TRANSFER_ORDER_HEAD.transferoutno 
+                        left join tspl_location_master as From_GP_Location on From_GP_Location.Location_Code =GP.From_Location 
+                        left join TSPL_STATE_MASTER as From_GP_Location_State on From_GP_Location_State.STATE_CODE =From_GP_Location.State  
+                        left outer join TSPL_LOCATION_MASTER AS To_GP_Location on To_GP_Location.GIT_Location =  GP.To_Location  
+                        left join TSPL_STATE_MASTER as To_GP_Location_State on To_GP_Location_State.STATE_CODE =To_GP_Location.State  
+                        left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_TRANSFER_ORDER_HEAD.tax1 
+                        left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_TRANSFER_ORDER_HEAD.tax2    
+                        left outer join tspl_tax_master as tax3 on tax3.Tax_Code=TSPL_TRANSFER_ORDER_HEAD .TAX3   
+                        left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= TSPL_TRANSFER_ORDER_HEAD .tax4   
+                        left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=TSPL_TRANSFER_ORDER_HEAD .tax5   
+                        left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =TSPL_TRANSFER_ORDER_HEAD .TAX6    
+                        left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =TSPL_TRANSFER_ORDER_HEAD .TAX7    
+                        left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =TSPL_TRANSFER_ORDER_HEAD .TAX8  
+                        left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =TSPL_TRANSFER_ORDER_HEAD .TAX9    
+                        left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_TRANSFER_ORDER_HEAD .TAX10    
+                        left outer join TSPL_TAX_MASTER as dtax1 on dtax1.tax_code =TSPL_TRANSFER_ORDER_DETAIL .tax1 
+                        left outer join tspl_tax_master as dtax2 on dtax2.tax_code = TSPL_TRANSFER_ORDER_DETAIL.tax2    
+                        left outer join tspl_tax_master as dtax3 on dtax3.Tax_Code=TSPL_TRANSFER_ORDER_DETAIL .TAX3   
+                        left outer join TSPL_TAX_MASTER as dtax4 on tax4.Tax_Code= TSPL_TRANSFER_ORDER_DETAIL .tax4   
+                        left outer join TSPL_TAX_MASTER as dtax5 on dtax5.Tax_Code=TSPL_TRANSFER_ORDER_DETAIL .tax5   
+                        left outer join TSPL_TAX_MASTER as dtax6 on dtax6.Tax_Code =TSPL_TRANSFER_ORDER_DETAIL .TAX6    
+                        left outer join TSPL_TAX_MASTER as dtax7 on dtax7.Tax_Code =TSPL_TRANSFER_ORDER_DETAIL .TAX7    
+                        left outer join TSPL_TAX_MASTER as dtax8 on dtax8.Tax_Code =TSPL_TRANSFER_ORDER_DETAIL .TAX8  
+                        left outer join TSPL_TAX_MASTER as dtax9 on dtax9.Tax_Code =TSPL_TRANSFER_ORDER_DETAIL .TAX9    
+                        left outer join TSPL_TAX_MASTER as dtax10 on dtax10.Tax_Code =TSPL_TRANSFER_ORDER_DETAIL .TAX10  
+                        LEFT JOIN TSPL_TAX_GROUP_MASTER ON TSPL_TRANSFER_ORDER_HEAD.Tax_Group=TSPL_TAX_GROUP_MASTER.Tax_Group_Code and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='T' 
+                        where 2=2 and TSPL_TRANSFER_ORDER_HEAD. Document_No = '" + StrCode + "' and TSPL_ITEM_MASTER.IsTaxable =1)xxx
+                        cross apply ( select top 1 ((xxx.Quantity)*Item_Basic_Price) as TotalAmount,TSPL_ITEM_PRICE_PLAN_DETAIL.Item_MRP,TSPL_ITEM_PRICE_PLAN_DETAIL.Item_Basic_Price from TSPL_ITEM_PRICE_PLAN_DETAIL
+                  left outer join TSPL_ITEM_PRICE_PLAN_HEADER on TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code = TSPL_ITEM_PRICE_PLAN_DETAIL.Plan_Code 
+                  where xxx.Price_Code = TSPL_ITEM_PRICE_PLAN_DETAIL.Price_Code and xxx.Item_Code = TSPL_ITEM_PRICE_PLAN_DETAIL.Item_Code
+                  order by TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Date desc)  as price
+						LEFT OUTER JOIN (Select 1 as COL1, 1 as COL2,  'ORIGINAL' as CopyType1 UNION Select 1 as COL1, 2 as COL2,  'DUPLICATE' as CopyType1 UNION Select 1 as COL1, 3 as COL2,  'TRIPLICATE' as CopyType1 UNION Select 1 as COL1, 4 as COL2,  'QUADRUPLICATE' as CopyType1) YYY ON YYY.COL1=XXX.CopyType ORDER BY Line_No,YYY.CopyType1 "
+        Return Qry
+    End Function
 End Class
-
-
 
 Public Class clsTransferDCCDetail
 #Region "Variables"
