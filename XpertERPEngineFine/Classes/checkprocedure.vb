@@ -2350,6 +2350,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptDemandReturnReport, "Demand Return Report", "1.36.03.25", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDailyStatementReport, "Daily Statement Report", "1.36.03.25", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptCreditCustomerReport, "Credit Customer Report", "1.36.03.26", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptD1D2Report, "D1D2 Report", "1.36.03.27", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         InsertDefaultValue(clsUserMgtCode.frmCarteJaliRpt, "Crate Jali Report", "1.06.03.29", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptCustomerEffective_ItemRate, "Item Effective Price List", "1.06.03.30", clsUserMgtCode.SubModuleSaleDairyReport, 37)
