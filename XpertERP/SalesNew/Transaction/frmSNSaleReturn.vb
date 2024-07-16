@@ -2737,10 +2737,16 @@ Public Class frmSNSaleReturn
              "TSPL_ITEM_PRICE_MASTER.TAX6_Rate,TSPL_ITEM_PRICE_MASTER.TAX7_Rate,TSPL_ITEM_PRICE_MASTER.TAX8_Rate,TSPL_ITEM_PRICE_MASTER.TAX9_Rate, " &
              "TSPL_ITEM_PRICE_MASTER.TAX10_Rate,TSPL_ITEM_PRICE_MASTER.TAX1 ,TSPL_ITEM_PRICE_MASTER.TAX2,TSPL_ITEM_PRICE_MASTER.TAX3, " &
              "TSPL_ITEM_PRICE_MASTER.TAX4,TSPL_ITEM_PRICE_MASTER.TAX5,TSPL_ITEM_PRICE_MASTER.TAX6,TSPL_ITEM_PRICE_MASTER.TAX7, " &
-             "TSPL_ITEM_PRICE_MASTER.TAX8,TSPL_ITEM_PRICE_MASTER.TAX9,TSPL_ITEM_PRICE_MASTER.TAX10   FROM TSPL_ITEM_PRICE_MASTER " &
-             "INNER Join  (SELECT     Item_Code, UOM, MAX(Start_Date) AS MaxDateTime, Item_Basic_Net,  Price_Code, Tax_group  FROM  " &
-             "TSPL_ITEM_PRICE_MASTER  where Start_Date<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' AND (End_Date  >='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' OR End_Date IS NULL) GROUP BY Item_Code, UOM, Item_Basic_Net,  Price_Code, Tax_group   " &
-             ")  AS groupedP  ON TSPL_ITEM_PRICE_MASTER.Item_Code = groupedP.Item_Code AND  TSPL_ITEM_PRICE_MASTER.Start_Date = groupedP.MaxDateTime AND " &
+             "TSPL_ITEM_PRICE_MASTER.TAX8,TSPL_ITEM_PRICE_MASTER.TAX9,TSPL_ITEM_PRICE_MASTER.TAX10   FROM TSPL_ITEM_PRICE_MASTER "
+                    qry += "INNER Join  ("
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") = CompairStringResult.Equal Then
+                        qry += " SELECT     Item_Code, UOM, (Start_Date) AS MaxDateTime, Item_Basic_Net,  Price_Code, Tax_group  FROM  
+             TSPL_ITEM_PRICE_MASTER  where Start_Date<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' AND (End_Date  >='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' OR End_Date IS NULL) GROUP BY Item_Code,Start_Date, UOM, Item_Basic_Net,  Price_Code, Tax_group   "
+                    Else
+                        qry += " SELECT     Item_Code, UOM, MAX(Start_Date) AS MaxDateTime, Item_Basic_Net,  Price_Code, Tax_group  FROM  
+             TSPL_ITEM_PRICE_MASTER  where Start_Date<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' AND (End_Date  >='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' OR End_Date IS NULL) GROUP BY Item_Code, UOM, Item_Basic_Net,  Price_Code, Tax_group   "
+                    End If
+                    qry += ")  AS groupedP  ON TSPL_ITEM_PRICE_MASTER.Item_Code = groupedP.Item_Code AND  TSPL_ITEM_PRICE_MASTER.Start_Date = groupedP.MaxDateTime AND " &
              "TSPL_ITEM_PRICE_MASTER.UOM = groupedP.UOM AND TSPL_ITEM_PRICE_MASTER.Item_Basic_Net = groupedP.Item_Basic_Net  AND  " &
              "TSPL_ITEM_PRICE_MASTER.Price_Code = groupedP.Price_Code and TSPL_ITEM_PRICE_MASTER.Tax_group = groupedP.Tax_group  left outer join TSPL_PRICE_GROUP_MAPPING on TSPL_ITEM_PRICE_MASTER.Price_Code=TSPL_PRICE_GROUP_MAPPING.price_code " &
              "INNER JOIN TSPL_ITEM_MASTER AS TSPL_ITEM_MASTER ON TSPL_ITEM_PRICE_MASTER.Item_Code = TSPL_ITEM_MASTER.Item_Code " &
@@ -2755,7 +2761,11 @@ Public Class frmSNSaleReturn
                     If gv1.CurrentRow.Cells(colICode).Value IsNot Nothing AndAlso clsCommon.myLen(gv1.CurrentRow.Cells(colICode).Value) > 0 AndAlso gv1.CurrentRow.Cells(colUnit).Value IsNot Nothing AndAlso clsCommon.myLen(gv1.CurrentRow.Cells(colUnit).Value) > 0 Then
                         qry += " where Item='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "' And convert(date,Start_Date,103)=convert(date,'" + clsCommon.myCstr(gv1.CurrentRow.Cells(colPriceDateColumn).Value) + "',103) And Unit='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value) + "'"
                         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                        dr = dt.Rows(0)
+                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                            dr = dt.Rows(0)
+                        Else
+                            Throw New Exception("Data Not Found")
+                        End If
                     Else
                         dr = clsCommon.ShowSelectFormForRow(repID, qry)
                     End If
@@ -2792,32 +2802,48 @@ Public Class frmSNSaleReturn
                     gv1.CurrentRow.Cells(colSchemeApplicable).Value = "No"
                     gv1.CurrentRow.Cells(colSchemeItem).Value = "No"
                     gv1.CurrentRow.Cells(colActualCost).Value = clsCommon.myCdbl(dr("BasicRate"))
-                    gv1.CurrentRow.Cells(colTaxRate1).Value = clsCommon.myCdbl(dr("Tax1Rate"))
-                    gv1.CurrentRow.Cells(colTaxRate2).Value = clsCommon.myCdbl(dr("Tax2Rate"))
-                    gv1.CurrentRow.Cells(colTaxRate3).Value = clsCommon.myCdbl(dr("Tax3Rate"))
-                    gv1.CurrentRow.Cells(colTaxRate4).Value = clsCommon.myCdbl(dr("Tax4Rate"))
-                    gv1.CurrentRow.Cells(colTaxRate5).Value = clsCommon.myCdbl(dr("Tax5Rate"))
-                    gv1.CurrentRow.Cells(colTaxRate6).Value = clsCommon.myCdbl(dr("Tax6Rate"))
-                    gv1.CurrentRow.Cells(colTaxRate7).Value = clsCommon.myCdbl(dr("Tax7Rate"))
-                    gv1.CurrentRow.Cells(colTaxRate8).Value = clsCommon.myCdbl(dr("Tax8Rate"))
-                    gv1.CurrentRow.Cells(colTaxRate9).Value = clsCommon.myCdbl(dr("Tax9Rate"))
-                    gv1.CurrentRow.Cells(colTaxRate10).Value = clsCommon.myCdbl(dr("Tax10Rate"))
-
+                    If clsCommon.myLen(txtReqNo.Value) > 0 Then
+                        Dim strQry As String = "Select * from TSPL_SD_SALE_INVOICE_DETAIL Where DOCUMENT_CODE='" + clsCommon.myCstr(txtReqNo.Value) + "' And Item_Code='" + clsCommon.myCstr(dr("Item")) + "'"
+                        Dim strDT As DataTable = clsDBFuncationality.GetDataTable(strQry)
+                        If strDT IsNot Nothing AndAlso strDT.Rows.Count > 0 Then
+                            gv1.CurrentRow.Cells(colTaxRate1).Value = clsCommon.myCdbl(strDT.Rows(0)("Tax1_Rate"))
+                            gv1.CurrentRow.Cells(colTaxRate2).Value = clsCommon.myCdbl(strDT.Rows(0)("Tax2_Rate"))
+                            gv1.CurrentRow.Cells(colTaxRate3).Value = clsCommon.myCdbl(strDT.Rows(0)("Tax3_Rate"))
+                            gv1.CurrentRow.Cells(colTaxRate4).Value = clsCommon.myCdbl(strDT.Rows(0)("Tax4_Rate"))
+                            gv1.CurrentRow.Cells(colTaxRate5).Value = clsCommon.myCdbl(strDT.Rows(0)("Tax5_Rate"))
+                            gv1.CurrentRow.Cells(colTaxRate6).Value = clsCommon.myCdbl(strDT.Rows(0)("Tax6_Rate"))
+                            gv1.CurrentRow.Cells(colTaxRate7).Value = clsCommon.myCdbl(strDT.Rows(0)("Tax7_Rate"))
+                            gv1.CurrentRow.Cells(colTaxRate8).Value = clsCommon.myCdbl(strDT.Rows(0)("Tax8_Rate"))
+                            gv1.CurrentRow.Cells(colTaxRate9).Value = clsCommon.myCdbl(strDT.Rows(0)("Tax9_Rate"))
+                            gv1.CurrentRow.Cells(colTaxRate10).Value = clsCommon.myCdbl(strDT.Rows(0)("Tax10_Rate"))
+                        End If
+                    Else
+                        gv1.CurrentRow.Cells(colTaxRate1).Value = clsCommon.myCdbl(dr("Tax1Rate"))
+                        gv1.CurrentRow.Cells(colTaxRate2).Value = clsCommon.myCdbl(dr("Tax2Rate"))
+                        gv1.CurrentRow.Cells(colTaxRate3).Value = clsCommon.myCdbl(dr("Tax3Rate"))
+                        gv1.CurrentRow.Cells(colTaxRate4).Value = clsCommon.myCdbl(dr("Tax4Rate"))
+                        gv1.CurrentRow.Cells(colTaxRate5).Value = clsCommon.myCdbl(dr("Tax5Rate"))
+                        gv1.CurrentRow.Cells(colTaxRate6).Value = clsCommon.myCdbl(dr("Tax6Rate"))
+                        gv1.CurrentRow.Cells(colTaxRate7).Value = clsCommon.myCdbl(dr("Tax7Rate"))
+                        gv1.CurrentRow.Cells(colTaxRate8).Value = clsCommon.myCdbl(dr("Tax8Rate"))
+                        gv1.CurrentRow.Cells(colTaxRate9).Value = clsCommon.myCdbl(dr("Tax9Rate"))
+                        gv1.CurrentRow.Cells(colTaxRate10).Value = clsCommon.myCdbl(dr("Tax10Rate"))
+                    End If
                     gv1.CurrentRow.Cells(ColFOC).Value = 0
-                    gv1.CurrentRow.Cells(colItemWeight).Value = clsCommon.myCdbl(dr("Weight_Value"))
-                    Dim dblConvF As Double
-                    dblConvF = GetConvFactor(gv1.CurrentRow.Cells(colUnit).Value, gv1.CurrentRow.Cells(colICode).Value)
-                    gv1.CurrentRow.Cells(colConvF).Value = dblConvF
+                        gv1.CurrentRow.Cells(colItemWeight).Value = clsCommon.myCdbl(dr("Weight_Value"))
+                        Dim dblConvF As Double
+                        dblConvF = GetConvFactor(gv1.CurrentRow.Cells(colUnit).Value, gv1.CurrentRow.Cells(colICode).Value)
+                        gv1.CurrentRow.Cells(colConvF).Value = dblConvF
 
-                    gv1.CurrentRow.Cells(colMarkupOn).Value = clsCommon.myCstr(dr("markup_on"))
-                    gv1.CurrentRow.Cells(colMarkUpPercentage).Value = clsCommon.myCdbl(dr("markup_percent"))
-                    gv1.CurrentRow.Cells(colLandingCost).Value = clsCommon.myCdbl(dr("landing_cost"))
-                    gv1.CurrentRow.Cells(colPurCost).Value = clsCommon.myCdbl(dr("Purchase_Cost"))
-                    gv1.CurrentRow.Cells(colOrgCost).Value = clsCommon.myCdbl(dr("BasicRate"))
+                        gv1.CurrentRow.Cells(colMarkupOn).Value = clsCommon.myCstr(dr("markup_on"))
+                        gv1.CurrentRow.Cells(colMarkUpPercentage).Value = clsCommon.myCdbl(dr("markup_percent"))
+                        gv1.CurrentRow.Cells(colLandingCost).Value = clsCommon.myCdbl(dr("landing_cost"))
+                        gv1.CurrentRow.Cells(colPurCost).Value = clsCommon.myCdbl(dr("Purchase_Cost"))
+                        gv1.CurrentRow.Cells(colOrgCost).Value = clsCommon.myCdbl(dr("BasicRate"))
 
 
-                End If
-            Else
+                    End If
+                Else
                 SetBlankOfItemColumns()
             End If
 
@@ -5497,7 +5523,7 @@ Public Class frmSNSaleReturn
                             If clsCommon.myCdbl(dt1.Rows(0)("Cust_Is_UT")) = 1 OrElse clsCommon.myCdbl(dt1.Rows(0)("Loc_Is_UT")) = 1 Then
                                 strPdfAttachmentPath = frmCRV.funsubreportWithdt(IsPdf, CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptSaleReturn_IntrastateUGST", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
                             Else
-                                strPdfAttachmentPath = frmCRV.funsubreportWithdt(IsPdf, CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptSaleReturn_Intrastate", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                                strPdfAttachmentPath = frmCRV.funsubreportWithdt(IsPdf, CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptSaleReturn_Interstate", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
                             End If
 
                         Else
@@ -6034,25 +6060,29 @@ Public Class frmSNSaleReturn
     End Sub
 
     Private Sub RadMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem1.Click
-        If clsCommon.myLen(ReportID) > 0 Then
-            gv1.MasterTemplate.FilterDescriptors.Clear()
-            Dim obj As New clsGridLayout()
-            obj.ReportID = ReportID
-            obj.UserID = objCommonVar.CurrentUserCode
-            obj.GridLayout = New MemoryStream()
-            gv1.SaveLayout(obj.GridLayout)
-            obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
-            obj.GridColumns = gv1.ColumnCount
-            If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
-            End If
+        Try
+            If clsCommon.myLen(ReportID) > 0 Then
+                gv1.MasterTemplate.FilterDescriptors.Clear()
+                Dim obj As New clsGridLayout()
+                obj.ReportID = ReportID
+                obj.UserID = objCommonVar.CurrentUserCode
+                obj.GridLayout = New MemoryStream()
+                gv1.SaveLayout(obj.GridLayout)
+                obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
+                obj.GridColumns = gv1.ColumnCount
+                If obj.SaveData() Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
+                End If
 
-            ''richa agarwal regarding memory leakage
-            obj = Nothing
-            obj.GridLayout.Close()
-            obj.GridLayout.Dispose()
-            ''---------------
-        End If
+                ''richa agarwal regarding memory leakage
+                obj = Nothing
+                obj.GridLayout.Close()
+                obj.GridLayout.Dispose()
+                ''---------------
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub gvAC_CellValueChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvAC.CellValueChanged
