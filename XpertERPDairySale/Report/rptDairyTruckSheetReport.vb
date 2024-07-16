@@ -4758,15 +4758,19 @@ Public Class rptDairyTruckSheetReport
             Dim frmCRV As New frmCrystalReportViewer()
             Dim objMultPrintInvoice As New FrmPrintFreshInvoice
             Dim whrcls As String = " where Main_Final.TaxableNonTaxable='NT' "
+            Dim whrcls2 As String = ""
 
             If clsCommon.myLen(txtInvFromDate.Value) > 0 AndAlso clsCommon.myLen(txtInvToDate.Value) Then
                 whrcls += " And Main_Final.Invoice_Date>='" + txtInvFromDate.Value + "' And Main_Final.Invoice_Date<='" + txtInvToDate.Value + "' "
+                whrcls2 += "  And Convert(Date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>=Convert(Date,'" + txtInvFromDate.Value + "',103)
+                              And Convert(Date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)<=Convert(Date,'" + txtInvToDate.Value + "',103) "
             Else
                 Throw New Exception("Fill From Date and To Date")
             End If
 
             If clsCommon.myLen(txtInvMultiCust.arrValueMember) > 0 Then
                 whrcls += " And  Main_Final.cust_Code In (" + clsCommon.GetMulcallString(txtInvMultiCust.arrValueMember) + ")"
+                whrcls2 += " And TSPL_SD_SALE_INVOICE_HEAD.Customer_Code In (" + clsCommon.GetMulcallString(txtInvMultiCust.arrValueMember) + ") "
             End If
 
             If txtMultItemCodeInv.arrValueMember IsNot Nothing AndAlso txtMultItemCodeInv.arrValueMember.Count > 0 Then
@@ -4774,10 +4778,14 @@ Public Class rptDairyTruckSheetReport
             End If
 
             If clsCommon.myLen(txtInvFromDate.Value) > 0 AndAlso clsCommon.myLen(txtInvToDate.Value) Then
-                Qry = objMultPrintInvoice.PrintInvoiceForTruckSheetReport(txtInvFromDate.Value, txtInvToDate.Value, whrcls)
+                Qry = objMultPrintInvoice.PrintInvoiceForTruckSheetReport(txtInvFromDate.Value, txtInvToDate.Value, whrcls, whrcls2)
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
-                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoice", "Bill of Supply", Nothing, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                frmCRV = Nothing
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoice", "Bill of Supply", Nothing, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    frmCRV = Nothing
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
+                End If
             Else
                 myMessages.blankValue(Me, "No data found", Me.Text)
             End If
