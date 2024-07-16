@@ -612,17 +612,19 @@ Public Class frmDemandUploader
 
             Dim strqry As String = ""
         Dim count As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT count(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = 'TSPL_TEMP_Demand_Booking_Master'"))
-        If count = 0 Then
-            strqry = " drop table TSPL_TEMP_BOOKING_PAYMENT_MODE_DETAIL "
-            clsDBFuncationality.ExecuteNonQuery(strqry)
-            strqry = "  drop table TSPL_TEMP_BOOKING_DETAIL"
-            clsDBFuncationality.ExecuteNonQuery(strqry)
-            strqry = "drop table TSPL_TEMP_BOOKING_MATSER  "
-            clsDBFuncationality.ExecuteNonQuery(strqry)
-            strqry = "drop table TSPL_TEMP_DEMAND_BOOKING_DETAIL"
-            clsDBFuncationality.ExecuteNonQuery(strqry)
-            strqry = "drop table TSPL_TEMP_DEMAND_BOOKING_MASTER"
-            clsDBFuncationality.ExecuteNonQuery(strqry)
+            If count > 0 Then
+                strqry = " drop table TSPL_TEMP_BOOKING_PAYMENT_MODE_DETAIL "
+                clsDBFuncationality.ExecuteNonQuery(strqry)
+                strqry = "  drop table TSPL_TEMP_BOOKING_DETAIL"
+                clsDBFuncationality.ExecuteNonQuery(strqry)
+                strqry = "drop table TSPL_TEMP_BOOKING_MATSER  "
+                clsDBFuncationality.ExecuteNonQuery(strqry)
+                strqry = "drop table TSPL_TEMP_DEMAND_BOOKING_DETAIL"
+                clsDBFuncationality.ExecuteNonQuery(strqry)
+                strqry = "drop table TSPL_TEMP_DEMAND_BOOKING_MASTER"
+                clsDBFuncationality.ExecuteNonQuery(strqry)
+
+            End If
             strqry = "SELECT * INTO TSPL_TEMP_DEMAND_BOOKING_MASTER FROM TSPL_DEMAND_BOOKING_MASTER"
             clsDBFuncationality.ExecuteNonQuery(strqry)
             strqry = "SELECT * INTO TSPL_TEMP_DEMAND_BOOKING_DETAIL FROM TSPL_DEMAND_BOOKING_DETAIL"
@@ -633,10 +635,8 @@ Public Class frmDemandUploader
             clsDBFuncationality.ExecuteNonQuery(strqry)
             strqry = "SELECT * INTO TSPL_TEMP_BOOKING_PAYMENT_MODE_DETAIL FROM TSPL_BOOKING_PAYMENT_MODE_DETAIL"
             clsDBFuncationality.ExecuteNonQuery(strqry)
-        End If
 
-
-        strqry = " delete TSPL_TEMP_BOOKING_PAYMENT_MODE_DETAIL"
+            strqry = " delete TSPL_TEMP_BOOKING_PAYMENT_MODE_DETAIL"
         clsDBFuncationality.ExecuteNonQuery(strqry)
         strqry = "delete TSPL_TEMP_BOOKING_DETAIL "
         clsDBFuncationality.ExecuteNonQuery(strqry)
