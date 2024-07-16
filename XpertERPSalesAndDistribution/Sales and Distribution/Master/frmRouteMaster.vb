@@ -259,6 +259,7 @@ Public Class frmRouteMaster
                 txtpricecodedescription.Text = ""
                 fndcity_id.Value = ""
                 fndDepot.Value = ""
+                fndZone.Value = ""
                 rbtnSave.Text = "Save"
                 rbtnDelete.Enabled = False
                 fndRouteid.Enabled = True
@@ -279,7 +280,7 @@ Public Class frmRouteMaster
     'This is Funfill Function Used To Fill All Fields of Current Windows Form.
     Private Sub funfill()
         Try
-            Dim strQuery As String = "select Route_Desc,Type,Employee_Code,Off_Day,City_Code,District,Category_Code,Length,Employee_Name,Depot_Id,Price_Code,Price_Code_Desc ,vehicle_code,NonPrice_Code,status,SDate,RoutePrice_Code ,Route_time,isnull(Distance,0) as Distance,isnull(TOLL_Amount,0) as TOLL_Amount,IsEarlyRoute,MorningCutOff_Time,EveningCutOff_Time,Route_Seq_No,isnull(Entry_UOM,0) as Entry_UOM,Location_Code  from TSPL_Route_Master where Route_No='" + fndRouteid.Value + "'"
+            Dim strQuery As String = "select Route_Desc,Type,Employee_Code,Off_Day,City_Code,District,Category_Code,Length,Employee_Name,Depot_Id,Price_Code,Price_Code_Desc ,vehicle_code,NonPrice_Code,status,SDate,RoutePrice_Code ,Route_time,isnull(Distance,0) as Distance,isnull(TOLL_Amount,0) as TOLL_Amount,IsEarlyRoute,MorningCutOff_Time,EveningCutOff_Time,Route_Seq_No,isnull(Entry_UOM,0) as Entry_UOM,Location_Code,Area_Code  from TSPL_Route_Master where Route_No='" + fndRouteid.Value + "'"
             fnd_saleman_code.arrValueMember = Nothing
             fnd_saleman_code.arrDispalyMember = Nothing
             Dim arrempcode As New ArrayList()
@@ -321,6 +322,7 @@ Public Class frmRouteMaster
                     chkIsEarlyRoute.Checked = IIf(clsCommon.myCdbl(dt.Rows(i)("IsEarlyRoute")) = 1, True, False)
                     txtLocation.Value = clsCommon.myCstr(dt.Rows(i)("Location_Code"))
                     txtLocationDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc  from TSPL_LOCATION_MASTER Where Location_Code='" + txtLocation.Value + "'"))
+                    fndZone.Value = clsCommon.myCstr(dt.Rows(i)("Area_Code"))
                     If String.IsNullOrEmpty(clsCommon.myCstr(dt.Rows(i)("Route_Time"))) = True Then
                         txtRouteTime.Value = Nothing
                         txtRouteTime.Checked = False
@@ -397,6 +399,7 @@ Public Class frmRouteMaster
             rbtnSave.Text = "Save"
             'rtxtSalesman_name.Text = ""
             fndDepot.Value = ""
+            fndZone.Value = ""
             'fndSalesman_code.Enabled = True
             rbtnDelete.Enabled = False
             fndRouteid.Enabled = True
@@ -566,6 +569,7 @@ Public Class frmRouteMaster
         clsCommon.AddColumnsForChange(coll1, "Route_Seq_No", txtSeqNo.Value)
         clsCommon.AddColumnsForChange(coll1, "City_Code", fndcity_id.Value, True)
         clsCommon.AddColumnsForChange(coll1, "Entry_UOM", clsCommon.myCDecimal(cboEntryUOM.SelectedValue), True)
+        clsCommon.AddColumnsForChange(coll1, "Area_Code", fndZone.Value, True)
         clsCommonFunctionality.UpdateDataTable(coll1, "TSPL_ROUTE_MASTER", OMInsertOrUpdate.Update, "TSPL_ROUTE_MASTER.Route_No='" + fndRouteid.Value + "' ", trans)
     End Sub
     'This is Update Function Used To Update Records In TSPL_ROUTE_MASTER
@@ -1401,6 +1405,11 @@ Public Class frmRouteMaster
         rptlockStatus.Show()
     End Sub
 
+    Private Sub fndZone__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndZone._MYValidating
+        Dim qry As String = "select TSPL_AREA_MASTER.Code,TSPL_AREA_MASTER.Name,TSPL_AREA_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description as ZoneName from TSPL_AREA_MASTER  left outer join  TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_AREA_MASTER.Zone_Code"
+        fndZone.Value = clsCommon.ShowSelectForm("ZoneFND", qry, "Code", "", fndZone.Value, "", isButtonClicked)
+
+    End Sub
     Private Sub dgv_CurrentRowChanged(sender As Object, e As CurrentRowChangedEventArgs) Handles dgv.CurrentRowChanged
         If dgv.RowCount > 0 Then
             Dim intCurrRow As Integer = dgv.CurrentRow.Index

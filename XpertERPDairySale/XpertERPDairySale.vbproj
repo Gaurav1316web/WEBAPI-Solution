@@ -552,6 +552,12 @@
     <Compile Include="Report\rptUnpostedDocumentReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\rptZoneWiseReport1.Designer.vb">
+      <DependentUpon>rptZoneWiseReport1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptZoneWiseReport1.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\FrmAcknowledgeOfGRN.Designer.vb">
       <DependentUpon>FrmAcknowledgeOfGRN.vb</DependentUpon>
     </Compile>
@@ -1028,6 +1034,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptUnpostedDocumentReport.resx">
       <DependentUpon>rptUnpostedDocumentReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptZoneWiseReport1.resx">
+      <DependentUpon>rptZoneWiseReport1.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\FrmAcknowledgeOfGRN.resx">
       <DependentUpon>FrmAcknowledgeOfGRN.vb</DependentUpon>

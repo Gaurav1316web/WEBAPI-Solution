@@ -1980,6 +1980,7 @@ Public Class clsDocType
 
             InsertDefaultValue(clsDocType.IncentiveEntry, clsDocTransactionType.Transaction, False, True)
             InsertDefaultValue(clsDocType.Detail, clsDocTransactionType.Detail, False, False)
+            InsertDefaultValue(clsDocType.Detail, clsDocTransactionType.Uploader, False, False)
             InsertDefaultValue(clsDocType.CustomerDeduction, "", False, False)
             InsertDefaultValue(clsDocType.CustomerIncentiveEntry, clsDocTransactionType.Transaction, False, True)
             InsertDefaultValue(clsDocType.IncomeTaxSlab, "", False, False)
@@ -2260,6 +2261,7 @@ Public Class clsDocTransactionType
     Public Const LoanReceipt As String = "Receipt"
     Public Const Transaction As String = "Transaction"
     Public Const Detail As String = "Detail"
+    Public Const Uploader As String = "Uploader"
 
     'Sanjay
     Public Const All As String = "All"
