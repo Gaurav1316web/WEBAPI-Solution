@@ -282,10 +282,10 @@ Public Class clsPhysicalstock
             Dim strPostDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt")
             Dim arr As New List(Of clsPhysicalstock)
             arr = clsPhysicalstock.GetData(strDocNo, location, sublocation, is_Milk, NavigatorType.Current, trans, "")
-            Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select Location ,Stock_Date from  tspl_physical_stock where physical_no='" + strDocNo + "'", tran)
+            Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select Location ,Stock_Date from  tspl_physical_stock where physical_no='" + strDocNo + "'", trans)
             If dts IsNot Nothing AndAlso dts.Rows.Count > 0 Then
 
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Empty Transactions", clsCommon.myCstr(dts.Rows(0)("Location")), clsCommon.myCDate(dts.Rows(0)("Stock_Date")), tran)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Empty Transactions", clsCommon.myCstr(dts.Rows(0)("Location")), clsCommon.myCDate(dts.Rows(0)("Stock_Date")), trans)
             End If
             'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Empty Transactions", "Main_Location", obj.Stock_Date, trans)
 
