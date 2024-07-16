@@ -8424,6 +8424,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptD1D2Report
                         frm = New rptD1D2Report
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptZoneWiseReport1
+                        frm = New rptZoneWiseReport1
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptPaymentCycleWiseReport
                         frm = New rptPaymentCycleWiseReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
