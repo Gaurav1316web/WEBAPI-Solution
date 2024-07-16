@@ -3229,6 +3229,7 @@ Public Class clsCreateAllTable
             coll.Add("Entry_UOM", "integer null")
             coll.Add("Location_Code", "Varchar(12) null REFERENCES TSPL_LOCATION_MASTER(Location_Code)")
             coll.Add("Zone_Code", "varchar(30) null references TSPL_ZONE_MASTER(Zone_Code)")
+            coll.Add("Area_Code", "varchar(12) null references TSPL_AREA_MASTER(Code)")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_ROUTE_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
