@@ -93,6 +93,9 @@ Partial Class frmRouteMaster
         Me.txtLocation = New common.UserControls.txtFinder()
         Me.lblLocation = New common.Controls.MyLabel()
         Me.txtLocationDesc = New common.Controls.MyTextBox()
+        Me.btnStatus = New Telerik.WinControls.UI.RadButton()
+        Me.fndZone = New common.UserControls.txtFinder()
+        Me.MyLabel8 = New common.Controls.MyLabel()
         CType(Me.rlblRouteid, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rlblDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rlblType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -148,6 +151,8 @@ Partial Class frmRouteMaster
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtLocationDesc, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnStatus, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -366,7 +371,7 @@ Partial Class frmRouteMaster
         '
         Me.rbtnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.rbtnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtnClose.Location = New System.Drawing.Point(603, 492)
+        Me.rbtnClose.Location = New System.Drawing.Point(819, 492)
         Me.rbtnClose.Name = "rbtnClose"
         Me.rbtnClose.Size = New System.Drawing.Size(68, 18)
         Me.rbtnClose.TabIndex = 3
@@ -852,7 +857,7 @@ Partial Class frmRouteMaster
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(671, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(887, 20)
         Me.RadMenu1.TabIndex = 0
         '
         'txtDistance
@@ -950,7 +955,7 @@ Partial Class frmRouteMaster
         Me.RadGroupBox1.Location = New System.Drawing.Point(10, 351)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(654, 136)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(870, 136)
         Me.RadGroupBox1.TabIndex = 358
         '
         'dgv
@@ -970,11 +975,12 @@ Partial Class frmRouteMaster
         Me.dgv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgv.MasterTemplate.ShowHeaderCellButtons = True
         Me.dgv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.dgv.MyStopExport = False
         Me.dgv.Name = "dgv"
         Me.dgv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgv.ShowGroupPanel = False
         Me.dgv.ShowHeaderCellButtons = True
-        Me.dgv.Size = New System.Drawing.Size(634, 106)
+        Me.dgv.Size = New System.Drawing.Size(850, 106)
         Me.dgv.TabIndex = 1
         Me.dgv.TabStop = False
         '
@@ -1209,11 +1215,60 @@ Partial Class frmRouteMaster
         Me.txtLocationDesc.TabIndex = 1404
         Me.txtLocationDesc.TabStop = False
         '
+        'btnStatus
+        '
+        Me.btnStatus.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnStatus.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnStatus.Location = New System.Drawing.Point(243, 492)
+        Me.btnStatus.Name = "btnStatus"
+        Me.btnStatus.Size = New System.Drawing.Size(68, 18)
+        Me.btnStatus.TabIndex = 1406
+        Me.btnStatus.Text = "Status"
+        '
+        'fndZone
+        '
+        Me.fndZone.CalculationExpression = Nothing
+        Me.fndZone.FieldCode = Nothing
+        Me.fndZone.FieldDesc = Nothing
+        Me.fndZone.FieldMaxLength = 0
+        Me.fndZone.FieldName = Nothing
+        Me.fndZone.isCalculatedField = False
+        Me.fndZone.IsSourceFromTable = False
+        Me.fndZone.IsSourceFromValueList = False
+        Me.fndZone.IsUnique = False
+        Me.fndZone.Location = New System.Drawing.Point(715, 47)
+        Me.fndZone.MendatroryField = False
+        Me.fndZone.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndZone.MyLinkLable1 = Me.MyLabel8
+        Me.fndZone.MyLinkLable2 = Nothing
+        Me.fndZone.MyReadOnly = False
+        Me.fndZone.MyShowMasterFormButton = False
+        Me.fndZone.Name = "fndZone"
+        Me.fndZone.ReferenceFieldDesc = Nothing
+        Me.fndZone.ReferenceFieldName = Nothing
+        Me.fndZone.ReferenceTableName = Nothing
+        Me.fndZone.Size = New System.Drawing.Size(167, 19)
+        Me.fndZone.TabIndex = 1408
+        Me.fndZone.Value = ""
+        '
+        'MyLabel8
+        '
+        Me.MyLabel8.FieldName = Nothing
+        Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel8.Location = New System.Drawing.Point(665, 50)
+        Me.MyLabel8.Name = "MyLabel8"
+        Me.MyLabel8.Size = New System.Drawing.Size(32, 16)
+        Me.MyLabel8.TabIndex = 1407
+        Me.MyLabel8.Text = "Zone"
+        '
         'frmRouteMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(671, 511)
+        Me.ClientSize = New System.Drawing.Size(887, 511)
+        Me.Controls.Add(Me.fndZone)
+        Me.Controls.Add(Me.MyLabel8)
+        Me.Controls.Add(Me.btnStatus)
         Me.Controls.Add(Me.txtLocation)
         Me.Controls.Add(Me.txtLocationDesc)
         Me.Controls.Add(Me.lblLocation)
@@ -1336,6 +1391,8 @@ Partial Class frmRouteMaster
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtLocationDesc, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnStatus, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1409,5 +1466,8 @@ Partial Class frmRouteMaster
     Friend WithEvents txtLocation As common.UserControls.txtFinder
     Friend WithEvents lblLocation As common.Controls.MyLabel
     Friend WithEvents txtLocationDesc As common.Controls.MyTextBox
+    Friend WithEvents btnStatus As RadButton
+    Friend WithEvents fndZone As common.UserControls.txtFinder
+    Friend WithEvents MyLabel8 As common.Controls.MyLabel
 End Class
 

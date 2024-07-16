@@ -148,6 +148,8 @@ Public Class clsMilkProcurementUploaderHead
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("Document No: " + strCode + " not found to Delete")
             End If
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMilkReceipt, obj.MCC_Code, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMilkSample, obj.MCC_Code, obj.Document_Date, trans)
 
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Posted on :" + obj.Posting_Date)
@@ -236,6 +238,9 @@ Public Class clsMilkProcurementUploaderHead
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("Document No: " + strCode + " not found to Post")
             End If
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMilkReceipt, obj.MCC_Code, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMilkSample, obj.MCC_Code, obj.Document_Date, trans)
+
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Posted on :" + obj.Posting_Date)
             End If
@@ -773,21 +778,11 @@ where TSPL_MILK_SRN_HEAD.MCC_CODE='" + obj.MCC_Code + "' and TSPL_MILK_SRN_HEAD.
                                         objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkSRNDetail.ACC_Qty_LTR * objHeadLoad.Head_Load_Rate * dclDistanceKM, 2)
                                     End If
                                 ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CK") = CompairStringResult.Equal Then
-                                    If objHeadLoad.Cycle_Frequency > 0 Then
-                                        objMilkSRNDetail.Head_Load_Cycle = clsCommon.myCDivide(objMilkSRNDetail.ACC_Qty, objHeadLoad.Cycle_Frequency)
-                                        If Not objMilkSRNDetail.ACC_Qty Mod objHeadLoad.Cycle_Frequency = 0 Then
-                                            objMilkSRNDetail.Head_Load_Cycle += 1
-                                        End If
-                                        objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkSRNDetail.Head_Load_Cycle * objHeadLoad.Head_Load_Rate, 2)
-                                    End If
+                                    objMilkSRNDetail.Head_Load_Cycle = Math.Ceiling(clsCommon.myCDivide(objMilkSRNDetail.ACC_Qty, objHeadLoad.Cycle_Frequency))
+                                    objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkSRNDetail.Head_Load_Cycle * objHeadLoad.Head_Load_Rate, 2)
                                 ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CL") = CompairStringResult.Equal Then
-                                    If objHeadLoad.Cycle_Frequency > 0 Then
-                                        objMilkSRNDetail.Head_Load_Cycle = clsCommon.myCDivide(objMilkSRNDetail.ACC_Qty_LTR, objHeadLoad.Cycle_Frequency)
-                                        If Not objMilkSRNDetail.ACC_Qty_LTR Mod objHeadLoad.Cycle_Frequency = 0 Then
-                                            objMilkSRNDetail.Head_Load_Cycle += 1
-                                        End If
-                                        objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkSRNDetail.Head_Load_Cycle * objHeadLoad.Head_Load_Rate, 2)
-                                    End If
+                                    objMilkSRNDetail.Head_Load_Cycle = Math.Ceiling(clsCommon.myCDivide(objMilkSRNDetail.ACC_Qty_LTR, objHeadLoad.Cycle_Frequency))
+                                    objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkSRNDetail.Head_Load_Cycle * objHeadLoad.Head_Load_Rate, 2)
                                 End If
                             End If
 

@@ -1097,10 +1097,13 @@ Public Class frmTender
         If gvSchedule IsNot Nothing AndAlso gvSchedule.Rows.Count <= 0 Then
             For ii As Integer = 0 To gv2.Rows.Count - 1
                 Dim strICode As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colICode).Value)
+                Dim Qty As Double = clsCommon.myCdbl(gv2.Rows(ii).Cells(colQty).Value)
                 Dim itemcode As String = clsDBFuncationality.getSingleValue("select Item_Code from TSPL_ITEM_MASTER where RAL=1 and Item_Code='" + strICode + "'")
-                If clsCommon.myLen(itemcode) > 0 Then
-                    Throw New Exception("RAL will not allow to post without schedule")
-                    Exit Sub
+                If clsCommon.myCdbl(Qty) > 0 Then
+                    If clsCommon.myLen(itemcode) > 0 Then
+                        Throw New Exception("RAL will not allow to post without schedule")
+                        Exit Sub
+                    End If
                 End If
             Next
         End If

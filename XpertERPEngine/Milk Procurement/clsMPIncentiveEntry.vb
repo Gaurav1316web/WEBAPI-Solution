@@ -43,6 +43,10 @@ Public Class clsMPIncentiveEntry
             If arrPKID IsNot Nothing AndAlso arrPKID.Count > 0 Then
                 qry += " And PK_Id Not in (" + clsCommon.GetMulcallString(arrPKID) + ")"
             End If
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select top 1 Document_Date,MCC_Code from TSPL_MP_INCENTIVE_ENTRY_HEAD  where Document_Code='" + obj.Document_Code + "'", trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.DBTNEFTUploader, clsCommon.myCstr(dt.Rows(0)("MCC_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
+            End If
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
 
@@ -135,7 +139,7 @@ Public Class clsMPIncentiveEntry
         Try
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select top 1 Document_Date,MCC_Code from TSPL_MP_INCENTIVE_ENTRY_HEAD  where Document_Code='" + strDocNo + "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MPIncentiveEntry, clsCommon.myCstr(dt.Rows(0)("MCC_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.DBTNEFTUploader, clsCommon.myCstr(dt.Rows(0)("MCC_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
             End If
             Dim qry As String = "select PK_Id from TSPL_MP_INCENTIVE_ENTRY_DETAIL where Document_Code ='" + strDocNo + "'"
             dt = clsDBFuncationality.GetDataTable(qry, trans)
@@ -180,8 +184,11 @@ Public Class clsMPIncentiveEntry
             Dim strPostDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt")
 
             Dim obj As clsMPIncentiveEntry = clsMPIncentiveEntry.GetData(strDocNo, NavigatorType.Current, trans)
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MPIncentiveEntry, obj.MCC_Code, obj.Document_Date, trans)
-
+            ' clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MPIncentiveEntry, obj.MCC_Code, obj.Document_Date, trans)
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select top 1 Document_Date,MCC_Code from TSPL_MP_INCENTIVE_ENTRY_HEAD  where Document_Code='" + strDocNo + "'", trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.DBTNEFTUploader, clsCommon.myCstr(dt.Rows(0)("MCC_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
+            End If
 
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0) Then
                 Throw New Exception("No Data found to Post")

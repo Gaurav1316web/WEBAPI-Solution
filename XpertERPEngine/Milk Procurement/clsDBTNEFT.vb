@@ -3,6 +3,7 @@ Imports common
 Public Class clsDBTNEFT
 #Region "variables"
     Public Document_Code As String = Nothing
+    Dim CycleWiseDBT As Boolean = False
     Public Document_Date As Date
     Public From_Date As Date
     Public DBT_Revise_Payment As Integer
@@ -182,7 +183,7 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
           ,TSPL_DBT_NEFT.Remarks as [Remarks],Convert(varchar,TSPL_DBT_NEFT.From_Date,103) as [From Date],Convert(varchar,TSPL_DBT_NEFT.To_Date,103) as [To Date],Zone_code as Zone
           ,case when isnull(Status,0)=0 then 'Pending' else 'Approved' end as Status,case when isnull(RCDF_Status,0)=0 then 'Pending' else 'Approved' end as [RCDF Status]
           from TSPL_DBT_NEFT "
-        str = clsCommon.ShowSelectForm("DPTNeft#F", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
+        str = clsCommon.ShowSelectForm("DPTNeft#F", qry, "Code", whrcls, curcode, "Code", isButtonClicked, "Document_Date")
         Return str
     End Function
     Public Shared Function PostData(ByVal strDocNo As String, ByVal excelPath As String) As Boolean
@@ -352,9 +353,10 @@ where  TSPL_DBT_NEFT_DETAIL.Document_Code = '" + document_Code + "'  "
         Return True
     End Function
 
-    Public Function funPrintBankLetter(ByVal strDocNo As String, ByVal isPDFPath As Boolean, ByVal strText As String, ByVal strCycle As String) As String
+    Public Function funPrintBankLetter(ByVal strDocNo As String, ByVal isPDFPath As Boolean) As String
         Dim strPAth As String = ""
         Try
+            CycleWiseDBT = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CycleWiseDBT, clsFixedParameterCode.CycleWiseDBT, Nothing)) = 1, True, False)
             If clsCommon.myLen(strDocNo) <= 0 Then
                 Throw New Exception("Doument not found to Print")
             End If
@@ -395,12 +397,17 @@ where TSPL_DBT_NEFT.Document_Code = '" + strDocNo + "' "
                     Throw New Exception("Please select Document No")
                 End If
 
-                qry = "select '" & strText & "' as DBTRevisePayment ," & strCycle & "  as PayCycle, ( select TSPL_USER_MASTER.User_Name from TSPL_APPROVAL_LEVEL_SCREEN LEFT OUTER JOIN TSPL_USER_MASTER ON TSPL_USER_MASTER.User_Code = TSPL_APPROVAL_LEVEL_SCREEN.User_Code where Module_Code = 'MMMProc' and TRANS_Code = 'DBT-NEFT-UPL' and No_Of_Level = 1) as 'P&IIncharge'
+                qry = "select case when DBT_Revise_Payment = 1 then 'DCS filling data in saras pro app but payment not paid' else '' end as DBTRevisePayment, ( select TSPL_USER_MASTER.User_Name from TSPL_APPROVAL_LEVEL_SCREEN LEFT OUTER JOIN TSPL_USER_MASTER ON TSPL_USER_MASTER.User_Code = TSPL_APPROVAL_LEVEL_SCREEN.User_Code where Module_Code = 'MMMProc' and TRANS_Code = 'DBT-NEFT-UPL' and No_Of_Level = 1) as 'P&IIncharge'
                 ,(select TSPL_USER_MASTER.User_Name from TSPL_APPROVAL_LEVEL_SCREEN LEFT OUTER JOIN TSPL_USER_MASTER ON TSPL_USER_MASTER.User_Code = TSPL_APPROVAL_LEVEL_SCREEN.User_Code where Module_Code = 'MMMProc' and TRANS_Code = 'DBT-NEFT-UPL' and No_Of_Level = 2) as 'AccountHead',
               (select TSPL_USER_MASTER.User_Name from TSPL_APPROVAL_LEVEL_SCREEN  LEFT OUTER JOIN TSPL_USER_MASTER ON TSPL_USER_MASTER.User_Code = TSPL_APPROVAL_LEVEL_SCREEN.User_Code where Module_Code = 'MMMProc' and TRANS_Code = 'DBT-NEFT-UPL' and No_Of_Level = 3) as 'ManagingDirector', tspl_company_master.Logo_Img , tspl_company_master.Logo_Img2 , tspl_company_master.Comp_Name , tspl_company_master.Add1 , tspl_company_master.Add2, tspl_company_master.Add3,
-tspl_company_master.City_Code, tspl_company_master.Pincode, tspl_company_master.Email,REPLACE( RIGHT( Phone1,11),'_','') as Phone1 ,TSPL_DBT_NEFT.Document_Code as Doc_No ,
-DATENAME(MONTH, CONVERT(date, '" & ToDate & "', 103)) + ' ' + DATENAME(YEAR, CONVERT(date, '" & ToDate & "', 103)) as Month,
-'" & Doc_Date & "' as Date, '" & reportDateTime & "' as Date_Time , '" & status & "' as Pending , '" & User_Name & "' as User_Name
+tspl_company_master.City_Code, tspl_company_master.Pincode, tspl_company_master.Email,REPLACE( RIGHT( Phone1,11),'_','') as Phone1 ,TSPL_DBT_NEFT.Document_Code as Doc_No ,"
+
+                If CycleWiseDBT Then
+                    qry += " '" + clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") + "'  + ' To ' + '" + clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") + "'  as PayCycle,"
+                Else
+                    qry += "DATENAME(MONTH, CONVERT(date, '" & ToDate & "', 103)) + '-' + DATENAME(YEAR, CONVERT(date, '" & ToDate & "', 103)) as PayCycle,"
+                End If
+                qry += " '" & Doc_Date & "' as Date, '" & reportDateTime & "' as Date_Time , '" & status & "' as Pending , '" & User_Name & "' as User_Name
 ," + strRate + " AS Rate,'" + strFarmerCode + "' as  [Farmer Code],'" + strDCS + "' as DCS,'" + strTotal_Milk + "' as Total_Milk," + strTotal_Amt + " as Total_Amt, '" + strTotal_Amt_Format + "' as Total_Amt_Format ,'" & FromDate & "' as From_Date, '" & ToDate & "' as To_Date, TSPL_DBT_NEFT.To_Date
 ,TSPL_BANK_BRANCH_MASTER.BRANCH_NAME,TSPL_BANK_MASTER.ADD1 as BankADD1,TSPL_BANK_MASTER.ADD2 as BankADD2,TSPL_BANK_MASTER.ADD3 as BankADD3,TSPL_BANK_MASTER.ADD4 as BankADD4,TSPL_BANK_MASTER.BANKACCNUMBER,TSPL_BANK_MASTER.DESCRIPTION as BankName
 from TSPL_DBT_NEFT  
