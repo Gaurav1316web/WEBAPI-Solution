@@ -19,6 +19,7 @@ Public Class clsPaymentAdjustmentEntry
     Public Is_Post As Char = "N"
     Public Arr As List(Of clsPaymentAdjustmentEntryDetail) = Nothing
     Public Adjust_Type As String = "P"
+    Public Against_Payment_Process As String = Nothing
 #End Region
     Public Function SaveData(ByVal obj As clsPaymentAdjustmentEntry, ByVal isNewEntry As Boolean) As Boolean
         Dim isSaved As Boolean = True
@@ -49,6 +50,8 @@ Public Class clsPaymentAdjustmentEntry
             clsCommon.AddColumnsForChange(coll, "Doc_No", obj.Doc_No)
             clsCommon.AddColumnsForChange(coll, "Doc_Amount", obj.Doc_Amount)
             clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
+            clsCommon.AddColumnsForChange(coll, "Against_Payment_Process", obj.Against_Payment_Process, True)
+
             obj.Adjustment_Amount_Before_RO = obj.Adjustment_Amount
             obj.Round_Off_Amount = 0
             If (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AutoRoundOffSeprateAccountOnVendorTransaction, clsFixedParameterCode.AutoRoundOffSeprateAccountOnVendorTransaction, trans)) = 1) Then
@@ -93,7 +96,7 @@ Public Class clsPaymentAdjustmentEntry
         Dim obj As clsPaymentAdjustmentEntry = Nothing
         Dim qry As String = "SELECT [Adjustment_No], [TSPL_Payment_Adjustment_Header].[Description], [Adjustment_Date], [Post_Date],[Vendor_No], [TSPL_Payment_Adjustment_Header].[Vendor_Name],[Doc_No],[Doc_Amount]," &
        "  0 as BalanceAmt," &
-       " [TSPL_Payment_Adjustment_Header].[Remarks], [Adjustment_Amount], ISNULL([Is_Post],'N') as Is_Post,[TSPL_Payment_Adjustment_Header].Adjust_Type,TSPL_Payment_Adjustment_Header.Adjustment_Amount_Before_RO,TSPL_Payment_Adjustment_Header.Round_Off_Amount FROM [TSPL_Payment_Adjustment_Header]" &
+       " [TSPL_Payment_Adjustment_Header].[Remarks], [Adjustment_Amount], ISNULL([Is_Post],'N') as Is_Post,[TSPL_Payment_Adjustment_Header].Adjust_Type,TSPL_Payment_Adjustment_Header.Adjustment_Amount_Before_RO,TSPL_Payment_Adjustment_Header.Round_Off_Amount,TSPL_Payment_Adjustment_Header.Against_Payment_Process FROM [TSPL_Payment_Adjustment_Header]" &
        " LEFT OUTER JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_HEAD.Document_No= TSPL_Payment_Adjustment_Header.Doc_No where 2=2"
 
         Select Case NavType
@@ -127,7 +130,7 @@ Public Class clsPaymentAdjustmentEntry
             obj.Adjust_Type = clsCommon.myCstr(dt.Rows(0)("Adjust_Type"))
             obj.Adjustment_Amount_Before_RO = clsCommon.myCdbl(dt.Rows(0)("Adjustment_Amount_Before_RO"))
             obj.Round_Off_Amount = clsCommon.myCdbl(dt.Rows(0)("Round_Off_Amount"))
-
+            obj.Against_Payment_Process = clsCommon.myCstr(dt.Rows(0)("Against_Payment_Process"))
 
             qry = "SELECT [TSPL_Payment_Adjustment_Detail].[Adjustment_No],[TSPL_Payment_Adjustment_Detail].[Line_No],[TSPL_Payment_Adjustment_Detail].[Account_No],[TSPL_Payment_Adjustment_Detail].[Account_Description],[TSPL_Payment_Adjustment_Detail].[Amount],[TSPL_Payment_Adjustment_Detail].[Remarks],[TSPL_Payment_Adjustment_Detail].[Discount_Code],[TSPL_Payment_Adjustment_Detail].[Discount_Description],[TSPL_Payment_Adjustment_Detail].FarmerCode,[TSPL_Payment_Adjustment_Detail].FarmerName,TSPL_MP_PAY_PROCESS_DETAIL.Farmer_Invoice_No  " &
             " FROM [TSPL_Payment_Adjustment_Detail] left join TSPL_MP_PAY_PROCESS_DETAIL on TSPL_MP_PAY_PROCESS_DETAIL.AP_Adjustment_No  =[TSPL_Payment_Adjustment_Detail].Adjustment_No   and TSPL_MP_PAY_PROCESS_DETAIL.Farmer_Code =[TSPL_Payment_Adjustment_Detail].FarmerCode  WHERE [TSPL_Payment_Adjustment_Detail].[Adjustment_No]='" + obj.Adjustment_No + "'"

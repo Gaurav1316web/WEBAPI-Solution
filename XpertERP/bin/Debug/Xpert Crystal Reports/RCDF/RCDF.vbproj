@@ -1342,6 +1342,7 @@
     <None Include="Crystal Reports\Milk Procurement\Address.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptAssetDispatchRetailer.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptAutoAdditionDeductionNewGNG.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptAutoAdditionDeductionNewTNK.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdvice.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNew.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNewJPR.rpt" />
@@ -1393,6 +1394,7 @@
     <None Include="Crystal Reports\Milk Procurement\crptMPWiseMilkCollectionAtPoolingPoint.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMultpleDeductionNewGNG.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMultpleDeductionNewJPR.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptMultpleDeductionNewTNK.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptNegativeAmtCHT.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptPaymentProcessFarmer.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptPaymentProcessFarmerPredefineFormate.rpt" />

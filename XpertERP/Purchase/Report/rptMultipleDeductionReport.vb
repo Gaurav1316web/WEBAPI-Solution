@@ -638,6 +638,8 @@ WHERE convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) >=convert(date,('"
                 Dim frmCRV As New frmCrystalReportViewer()
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                     frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt1, "crptMultpleDeductionNewJPR", "MD Print")
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt1, "crptMultpleDeductionNewTNK", "MD Print")
                 Else
                     frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt1, "crptMultpleDeductionNewGNG", "MD Print")
                 End If
