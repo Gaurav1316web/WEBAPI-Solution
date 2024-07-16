@@ -572,6 +572,7 @@ Public Class clsPaymentProcessHead
                                     objPayAdj.Doc_Amount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Document_Total from TSPL_Vendor_Invoice_Head where Document_No='" + obj.arrClsPaymentProcessDeductions(Counter).AP_Invoice_No + "'", trans))
                                     objPayAdj.Remarks = clsCommon.myCstr("")
                                     objPayAdj.Adjustment_Amount = XAmount
+                                    objPayAdj.Against_Payment_Process = DocNo
                                     objPayAdj.Arr = New List(Of clsPaymentAdjustmentEntryDetail)
                                     Dim objTrPay As New clsPaymentAdjustmentEntryDetail()
                                     objTrPay.Discount_Code = clsCommon.myCstr(DisCCodeForArAdj)
@@ -602,6 +603,7 @@ Public Class clsPaymentProcessHead
                                         objPayAdj.Doc_Amount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Document_Total from TSPL_Vendor_Invoice_Head where Document_No='" + obj.arrClsPaymentProcessCreditNote(Counter).AP_Invoice_No + "'", trans))
                                         objPayAdj.Remarks = clsCommon.myCstr("")
                                         objPayAdj.Adjustment_Amount = XAmount
+                                        objPayAdj.Against_Payment_Process = DocNo
                                         objPayAdj.Arr = New List(Of clsPaymentAdjustmentEntryDetail)
                                         Dim objTrPay As New clsPaymentAdjustmentEntryDetail()
                                         objTrPay.Discount_Code = clsCommon.myCstr(DisCCodeForArAdj)
@@ -629,6 +631,7 @@ Public Class clsPaymentProcessHead
                             objPayAdj.Doc_Amount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Document_Total from TSPL_Vendor_Invoice_Head where Document_No='" + obj.ArrPPDetail(i).AP_Invoice_No + "'", trans))
                             objPayAdj.Remarks = clsCommon.myCstr("")
                             objPayAdj.Adjustment_Amount = XTotalAmount
+                            objPayAdj.Against_Payment_Process = DocNo
                             objPayAdj.Arr = New List(Of clsPaymentAdjustmentEntryDetail)
                             Dim objTrPay As New clsPaymentAdjustmentEntryDetail()
                             objTrPay.Discount_Code = clsCommon.myCstr(DisCCodeForArAdj)
@@ -1504,13 +1507,13 @@ left join (select Doc_No as PP_Code,Max(Payment_Mode) as Payment_Mode,sum(Payabl
 
 
             '---------Payable adjustment
-            qry = "Delete from TSPL_JOURNAL_DETAILS where Voucher_No in ( select Voucher_No from TSPL_JOURNAL_MASTER where Source_Doc_No in ( select Adjustment_No from TSPL_Payment_Adjustment_Header where Doc_No in (select AP_Invoice_No from TSPL_PAYMENT_PROCESS_DETAIL where Doc_No='" + strDocNo + "')))"
+            qry = "Delete from TSPL_JOURNAL_DETAILS where Voucher_No in ( select Voucher_No from TSPL_JOURNAL_MASTER where Source_Doc_No in ( select Adjustment_No from TSPL_Payment_Adjustment_Header  where Against_Payment_Process in ('" + strDocNo + "')))"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            qry = "Delete from TSPL_JOURNAL_MASTER where Source_Doc_No in ( select Adjustment_No from TSPL_Payment_Adjustment_Header where Doc_No in (select AP_Invoice_No from TSPL_PAYMENT_PROCESS_DETAIL where Doc_No='" + strDocNo + "'))"
+            qry = "Delete from TSPL_JOURNAL_MASTER where Source_Doc_No in ( select Adjustment_No from TSPL_Payment_Adjustment_Header where Against_Payment_Process in ('" + strDocNo + "') )"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            qry = "Delete from  TSPL_Payment_Adjustment_Detail where Adjustment_No in ( select Adjustment_No from TSPL_Payment_Adjustment_Header where Doc_No in (select AP_Invoice_No from TSPL_PAYMENT_PROCESS_DETAIL where Doc_No='" + strDocNo + "'))"
+            qry = "Delete from  TSPL_Payment_Adjustment_Detail where Adjustment_No in ( select Adjustment_No from TSPL_Payment_Adjustment_Header where Against_Payment_Process in ('" + strDocNo + "') )"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            qry = "Delete from TSPL_Payment_Adjustment_Header where Doc_No in (select AP_Invoice_No from TSPL_PAYMENT_PROCESS_DETAIL where Doc_No='" + strDocNo + "')"
+            qry = "Delete from TSPL_Payment_Adjustment_Header where Against_Payment_Process in ('" + strDocNo + "')"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             '---------End of Payable adjustment
 

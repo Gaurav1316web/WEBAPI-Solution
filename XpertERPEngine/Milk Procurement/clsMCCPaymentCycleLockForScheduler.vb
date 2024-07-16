@@ -1506,6 +1506,7 @@ where  TSPL_MILK_SRN_HEAD.Posted=1 and tspl_Milk_Srn_Head.is_incentive_Created='
             Dim totAmountIncentiveEMP As Double = 0
             Dim totBasicAmount As Double = 0
             objHead.Total_Head_Load_Amount = 0
+            objHead.MCC_CODE = strMCCCode
             For Each drPendingSRN As DataRow In dtPendingSRN.Rows
                 objDetail = New clsMilkPurchaseInvoiceMCCDetail
                 objDetail.DOC_CODE = ""
@@ -1541,8 +1542,8 @@ where  TSPL_MILK_SRN_HEAD.Posted=1 and tspl_Milk_Srn_Head.is_incentive_Created='
                 objDetail.SRN_CODE = clsCommon.myCstr(drPendingSRN("code"))
                 objDetail.VEHICLE_NO = clsCommon.myCstr(obj_SRN.VEHICLE_CODE)
                 objDetail.VLC_NO = clsCommon.myCstr(drPendingSRN("VLC_Code"))
-                objHead.MCC_CODE = clsMilkPurchaseInvoiceMCC.GetIrregular_Location(objDetail.SRN_CODE, trans)
-                objDetail.MCC_CODE = objHead.MCC_CODE
+
+                objDetail.MCC_CODE = clsMilkPurchaseInvoiceMCC.GetIrregular_Location(objDetail.SRN_CODE, trans)
                 If clsCommon.CompairString(objHead.MCC_CODE, objHead.Irregular_MCC_CODE) = CompairStringResult.Equal Then
                     objHead.Irregular_MCC_CODE = ""
                 End If
