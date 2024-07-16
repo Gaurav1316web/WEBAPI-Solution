@@ -294,6 +294,12 @@
     <Compile Include="Report\rptCreditCustomerReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\rptD1D2Report.Designer.vb">
+      <DependentUpon>rptD1D2Report.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptD1D2Report.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\rptDemandReturnReport.Designer.vb">
       <DependentUpon>rptDemandReturnReport.vb</DependentUpon>
     </Compile>
@@ -544,6 +550,12 @@
       <DependentUpon>rptUnpostedDocumentReport.vb</DependentUpon>
     </Compile>
     <Compile Include="Report\rptUnpostedDocumentReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\rptZoneWiseReport1.Designer.vb">
+      <DependentUpon>rptZoneWiseReport1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptZoneWiseReport1.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Transaction\FrmAcknowledgeOfGRN.Designer.vb">
@@ -894,6 +906,9 @@
     <EmbeddedResource Include="Report\rptCreditCustomerReport.resx">
       <DependentUpon>rptCreditCustomerReport.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptD1D2Report.resx">
+      <DependentUpon>rptD1D2Report.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\rptDailyStatementReport.resx">
       <DependentUpon>rptDailyStatementReport.vb</DependentUpon>
     </EmbeddedResource>
@@ -1019,6 +1034,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptUnpostedDocumentReport.resx">
       <DependentUpon>rptUnpostedDocumentReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptZoneWiseReport1.resx">
+      <DependentUpon>rptZoneWiseReport1.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\FrmAcknowledgeOfGRN.resx">
       <DependentUpon>FrmAcknowledgeOfGRN.vb</DependentUpon>

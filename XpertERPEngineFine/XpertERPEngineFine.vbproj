@@ -116,6 +116,8 @@
     <Compile Include="clsLanguage.vb" />
     <Compile Include="Common\clsCustomFieldValues.vb" />
     <Compile Include="Common\MIlkComponentType.vb" />
+    <Compile Include="DemandUploaderClass\clsDairyBookingCustomerbyUploader.vb" />
+    <Compile Include="DemandUploaderClass\clsDemandBookingUploader.vb" />
     <Compile Include="Inventory\clsBatchInventory.vb" />
     <Compile Include="Inventory\clsBatchInventoryNew.vb" />
     <Compile Include="Inventory\clsCode.vb" />

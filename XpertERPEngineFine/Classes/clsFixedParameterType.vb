@@ -2648,6 +2648,7 @@ Public Class clsFixedParameterCode
     Public Const DistributorViewOnly = "Distributor View Only"
     Public Const ShowDemandvsDispatch = "Show Demand vs Dispatch"
     Public Const ShowFreshAmbientItems = "Show Fresh Ambient Items"
+    Public Const CustomerReorder = "Customer Reorder"
     Public Const AcknowledgeDispatchQty = "CNF User Acknowledge Dispatch Qty"
     Public Const ApplyPricePlanDigitRule = "Apply Price Plan Digit Rule"
     Public Const PricePlanRoundOffDigit = "Enter RoundOff Digit"
@@ -2835,6 +2836,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.DistributorViewOnly, "0", "0:OFF,1:ON;Distributor Type Use View Report Only")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.ShowDemandvsDispatch, "0", "0:OFF,1:ON;Show Demand VS Dispatch")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.ShowFreshAmbientItems, "0", "0:OFF,1:ON;Show Fresh Ambient Items")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.CustomerReorder, "0", "0:OFF,1:ON;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.AcknowledgeDispatchQty, "0", "0:OFF,1:ON;CNF User Acknowledge Dispatch Qty")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceQty, "100", "Tollerance % of Qty")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceFAT, "100", "Tollerance % of FAT")
