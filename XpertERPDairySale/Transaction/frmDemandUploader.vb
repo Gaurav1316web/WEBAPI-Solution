@@ -47,6 +47,7 @@ Public Class frmDemandUploader
         'UcAttachment1.MandatoryPDFFileAny = True
         'CreateTable()
         SetUserMgmtNew()
+        createTabs()
         AddNew()
     End Sub
     Public Sub AddNew()
@@ -155,6 +156,7 @@ Public Class frmDemandUploader
                     'Next
                     EnableDisable(True)
                     btnSavePost.Enabled = False
+                    btnSave.Enabled = False
                     common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                     clsCommon.ProgressBarHide()
                 Catch ex As Exception
@@ -321,10 +323,7 @@ Public Class frmDemandUploader
         End Try
     End Sub
     Public Sub SaveData(ByVal isPost As Boolean)
-        Try
-        Catch ex As Exception
-            Throw New Exception(ex.Message)
-        End Try
+
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             Dim Docno As New List(Of String)
@@ -334,7 +333,7 @@ Public Class frmDemandUploader
                                  Select Route, Group
             clsCommon.ProgressBarShow()
             For Each routeGroup In groupedByRoute
-                Dim obj As New clsDemandBookingSale()
+                Dim obj As New clsDemandBookingUploader()
                 Dim route As String = routeGroup.Route
                 Dim shift As Integer = 0
                 Dim items As IEnumerable(Of clsDemandUploaderDetails) = routeGroup.Group
@@ -352,11 +351,11 @@ Public Class frmDemandUploader
                 obj.ItemType = "Fresh"
                 obj.IsIndividualCustomer = 0
                 obj.City_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select City_Code from TSPL_ROUTE_MASTER where Route_No='" & route & "'", trans))
-                obj.Arr = New List(Of clsDemandBookingSaleDetail)
+                obj.Arr = New List(Of clsDemandBookingUploaderDetail)
                 Dim docamt As Double = 0
                 Dim LineNo As Integer = 1
                 For Each item In items
-                    Dim objTr As New clsDemandBookingSaleDetail()
+                    Dim objTr As New clsDemandBookingUploaderDetail()
                     objTr.Line_No = LineNo
                     objTr.Trip_No = 1
                     objTr.Cust_Code = item.Booth
@@ -375,11 +374,11 @@ Public Class frmDemandUploader
                     obj.Arr.Add(objTr)
                 Next
                 obj.DocumentAmount = docamt
-                If clsDemandBookingSale.SaveData(obj, True, True, trans) Then
+                If clsDemandBookingUploader.SaveData(obj, True, True, trans) Then
                     Docno.Add(obj.Document_No)
-                    If isPost Then
-                        status = clsDemandBookingSale.PostData(Me.Form_ID, obj.Document_No, shift, False, trans)
-                    End If
+                    'If isPost Then
+                    '    status = clsDemandBookingSale.PostData(Me.Form_ID, obj.Document_No, shift, False, trans)
+                    'End If
                 Else
                     Throw New Exception("Error : Route :" + route)
                 End If
@@ -404,9 +403,32 @@ Public Class frmDemandUploader
                     txtDocNo.Value = DU_No
                 End If
                 If clsCommon.myLen(DU_No) > 0 Then
-                    Dim updateDoc As String = "update TSPL_DEMAND_BOOKING_MASTER set UploderDocNo='" + DU_No + "' where Document_No in(" + clsCommon.GetMulcallString(Docno) + ")"
+                    Dim updateDoc As String = "update TSPL_TEMP_DEMAND_BOOKING_MASTER set UploderDocNo='" + DU_No + "' where Document_No in(" + clsCommon.GetMulcallString(Docno) + ")"
                     clsDBFuncationality.ExecuteNonQuery(updateDoc, trans)
                 End If
+                Dim strTQery As String = ""
+                strTQery = " insert INTO  TSPL_DEMAND_BOOKING_MASTER SELECT * FROM TSPL_TEMP_DEMAND_BOOKING_MASTER"
+                clsDBFuncationality.ExecuteNonQuery(strTQery, trans)
+                strTQery = " insert INTO  TSPL_DEMAND_BOOKING_DETAIL SELECT * FROM TSPL_TEMP_DEMAND_BOOKING_DETAIL"
+                clsDBFuncationality.ExecuteNonQuery(strTQery, trans)
+                strTQery = " insert INTO  TSPL_BOOKING_MATSER SELECT * FROM TSPL_TEMP_BOOKING_MATSER"
+                clsDBFuncationality.ExecuteNonQuery(strTQery, trans)
+                strTQery = " insert INTO  TSPL_BOOKING_DETAIL SELECT * FROM TSPL_TEMP_BOOKING_DETAIL"
+                clsDBFuncationality.ExecuteNonQuery(strTQery, trans)
+                strTQery = " insert INTO  TSPL_BOOKING_PAYMENT_MODE_DETAIL SELECT * FROM TSPL_TEMP_BOOKING_PAYMENT_MODE_DETAIL"
+                clsDBFuncationality.ExecuteNonQuery(strTQery, trans)
+
+                strTQery = " truncate table TSPL_TEMP_BOOKING_PAYMENT_MODE_DETAIL"
+                clsDBFuncationality.ExecuteNonQuery(strTQery, trans)
+                strTQery = "truncate table TSPL_TEMP_BOOKING_DETAIL "
+                clsDBFuncationality.ExecuteNonQuery(strTQery, trans)
+                strTQery = " delete TSPL_TEMP_BOOKING_MATSER"
+                clsDBFuncationality.ExecuteNonQuery(strTQery, trans)
+                strTQery = " delete TSPL_TEMP_DEMAND_BOOKING_DETAIL"
+                clsDBFuncationality.ExecuteNonQuery(strTQery, trans)
+                strTQery = " delete TSPL_TEMP_DEMAND_BOOKING_MASTER"
+                clsDBFuncationality.ExecuteNonQuery(strTQery, trans)
+
             End If
             clsCommon.ProgressBarHide()
             trans.Commit()
@@ -571,8 +593,8 @@ Public Class frmDemandUploader
     End Sub
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
+
         Try
-            Try
                 Dim msg As String = "Do you want to Save." + Environment.NewLine + "Are you sure"
                 If clsCommon.MyMessageBoxShow(Me, msg, Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
                     SaveData(False)
@@ -583,8 +605,382 @@ Public Class frmDemandUploader
             Catch ex As Exception
                 clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
+
+    End Sub
+    Public Sub createTabs()
+        Try
+
+            Dim strqry As String = ""
+        Dim count As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT count(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = 'TSPL_TEMP_Demand_Booking_Master'"))
+        If count = 0 Then
+            strqry = " drop table TSPL_TEMP_BOOKING_PAYMENT_MODE_DETAIL "
+            clsDBFuncationality.ExecuteNonQuery(strqry)
+            strqry = "  drop table TSPL_TEMP_BOOKING_DETAIL"
+            clsDBFuncationality.ExecuteNonQuery(strqry)
+            strqry = "drop table TSPL_TEMP_BOOKING_MATSER  "
+            clsDBFuncationality.ExecuteNonQuery(strqry)
+            strqry = "drop table TSPL_TEMP_DEMAND_BOOKING_DETAIL"
+            clsDBFuncationality.ExecuteNonQuery(strqry)
+            strqry = "drop table TSPL_TEMP_DEMAND_BOOKING_MASTER"
+            clsDBFuncationality.ExecuteNonQuery(strqry)
+            strqry = "SELECT * INTO TSPL_TEMP_DEMAND_BOOKING_MASTER FROM TSPL_DEMAND_BOOKING_MASTER"
+            clsDBFuncationality.ExecuteNonQuery(strqry)
+            strqry = "SELECT * INTO TSPL_TEMP_DEMAND_BOOKING_DETAIL FROM TSPL_DEMAND_BOOKING_DETAIL"
+            clsDBFuncationality.ExecuteNonQuery(strqry)
+            strqry = "SELECT * INTO TSPL_TEMP_BOOKING_MATSER FROM TSPL_BOOKING_MATSER"
+            clsDBFuncationality.ExecuteNonQuery(strqry)
+            strqry = "SELECT * INTO TSPL_TEMP_BOOKING_DETAIL FROM TSPL_BOOKING_DETAIL"
+            clsDBFuncationality.ExecuteNonQuery(strqry)
+            strqry = "SELECT * INTO TSPL_TEMP_BOOKING_PAYMENT_MODE_DETAIL FROM TSPL_BOOKING_PAYMENT_MODE_DETAIL"
+            clsDBFuncationality.ExecuteNonQuery(strqry)
+        End If
+
+
+        strqry = " delete TSPL_TEMP_BOOKING_PAYMENT_MODE_DETAIL"
+        clsDBFuncationality.ExecuteNonQuery(strqry)
+        strqry = "delete TSPL_TEMP_BOOKING_DETAIL "
+        clsDBFuncationality.ExecuteNonQuery(strqry)
+        strqry = " delete TSPL_TEMP_BOOKING_MATSER"
+        clsDBFuncationality.ExecuteNonQuery(strqry)
+        strqry = " delete TSPL_TEMP_DEMAND_BOOKING_DETAIL"
+        clsDBFuncationality.ExecuteNonQuery(strqry)
+        strqry = " delete TSPL_TEMP_DEMAND_BOOKING_MASTER"
+        clsDBFuncationality.ExecuteNonQuery(strqry)
+
+
         Catch ex As Exception
 
         End Try
+        'Dim coll As Dictionary(Of String, String)
+        'coll = New Dictionary(Of String, String)()
+        'coll.Add("Document_No", "varchar(30) NOT NULL Primary key")
+        'coll.Add("Document_Date", "datetime not NULL")
+        'coll.Add("Route_No", "varchar(12) NULL REFERENCES TSPL_ROUTE_MASTER (Route_No)")
+        'coll.Add("Location_Code", "Varchar(12) NULL  References TSPL_LOCATION_MASTER(Location_Code) ")
+        'coll.Add("City_Code", "Varchar(50) NULL REFERENCES TSPL_CITY_MASTER(CITY_CODE)")
+        'coll.Add("ShiftType", "Varchar(20) null")
+        'coll.Add("ItemType", "Varchar(20) null")
+        'coll.Add("TripNo", "Varchar(50) null")
+        'coll.Add("Posted", "integer not null default 0")
+        'coll.Add("Comp_Code", "varchar(8) NULL")
+        'coll.Add("Created_By", "varchar(12) NOT NULL")
+        'coll.Add("Created_Date", "Datetime NOT NULL")
+        'coll.Add("Modified_By", "varchar(12) NOT NULL")
+        'coll.Add("Modified_Date", "Datetime NOT NULL")
+        'coll.Add("IsIndividualCustomer", "int not null default 0")
+        'coll.Add("TotalQtyInCrates", "decimal(18,2) null")
+        'coll.Add("TotalQtyInLtr", "decimal(18,2) null")
+        'coll.Add("DocumentAmount", "decimal(18,2) null")
+        'coll.Add("Posting_Date", "Datetime NULL")
+        'coll.Add("Posted_Morning", "integer null")
+        'coll.Add("Posted_Morning_By", "varchar(12) NULL")
+        'coll.Add("Posted_Morning_Date", "Datetime NULL")
+        'coll.Add("Posted_Evening", "integer null")
+        'coll.Add("Posted_Evening_By", "varchar(12) NULL")
+        'coll.Add("Posted_Evening_Date", "Datetime NULL")
+        'coll.Add("UploderDocNo", "Varchar(30) null references TSPL_DEMAND_UPLOADER(Document_No)")
+        'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TEMP_DEMAND_BOOKING_MASTER", coll, "", False, False, "", "Document_No", "Document_Date")
+
+        'coll = New Dictionary(Of String, String)()
+        'coll.Add("TR_Code", "varchar(30) NOT NULL primary Key")
+        'coll.Add("Document_No", "varchar(30) NOT NULL REFERENCES TSPL_TEMP_DEMAND_BOOKING_MASTER(Document_No)")
+        'coll.Add("Line_No", "integer not null default 0")
+        'coll.Add("Cust_Code", "Varchar(12) null references TSPL_CUSTOMER_MASTER(Cust_Code)")
+        'coll.Add("Item_Code", "Varchar(50) null references TSPL_Item_MASTER(Item_Code)")
+        'coll.Add("Qty", "decimal(18,2) null")
+        'coll.Add("Unit_code", "Varchar(12) null")
+        'coll.Add("Vehicle_Code", "Varchar(12) null")
+        'coll.Add("Item_Rate", "decimal(18,2) not null default 0")
+        'coll.Add("Price_code", "varchar(12) NULL")
+        'coll.Add("ShiftType", "varchar(20) NULL")
+        'coll.Add("IsItemUpdate", "int not null default 0")
+        'coll.Add("TotalCrates_ItemWise", "decimal(18,2) null")
+        'coll.Add("TotalLtr_ItemWise", "decimal(18,2) null")
+        'coll.Add("ItemNetAmount", "decimal(18,2) null")
+        'coll.Add("IsGatePassGenerated", "char(1) not null default 'N'")
+        'coll.Add("IsTruckSheetGenerated", "char(1) not null default 'N'")
+        'coll.Add("Production_Remarks", "varchar(200) NULL")
+        'coll.Add("GPCode", "varchar(30) NULL")
+        'coll.Add("Is_Posted", "char(1) not null default 'N'")
+        'coll.Add("Trip_No", "integer null")
+
+        'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TEMP_DEMAND_BOOKING_DETAIL", coll, "", False, False, "TSPL_TEMP_DEMAND_BOOKING_MASTER", "Document_No", "")
+
+        'If dt Is Nothing AndAlso dt.Rows.Count <= 0 Then
+        '    qry = "Update TSPL_TEMP_DEMAND_BOOKING_MASTER set Posted_Morning=Posted,Posted_Evening=Posted "
+        '    clsDBFuncationality.ExecuteNonQuery(qry)
+
+        '    qry = "Update TSPL_TEMP_DEMAND_BOOKING_DETAIL set Is_Posted=(select case when TSPL_TEMP_DEMAND_BOOKING_MASTER.Posted=1 then 'Y' else 'N' end from TSPL_TEMP_DEMAND_BOOKING_MASTER where TSPL_TEMP_DEMAND_BOOKING_MASTER.Document_No=TSPL_TEMP_DEMAND_BOOKING_DETAIL.Document_No ) "
+        '    clsDBFuncationality.ExecuteNonQuery(qry)
+        'End If
+
+
+        'coll = New Dictionary(Of String, String)()
+        'coll.Add("Document_No", "varchar(30) NOT NULL Primary key")
+        'coll.Add("Document_Date", "datetime not NULL")
+        'coll.Add("Posted", "integer not null default 0")
+        'coll.Add("Comp_Code", "varchar(8) NULL")
+        'coll.Add("Created_By", "varchar(12) NOT NULL")
+        'coll.Add("Created_Date", "Datetime NOT NULL")
+        'coll.Add("Modified_By", "varchar(12) NOT NULL")
+        'coll.Add("Modified_Date", "Datetime NOT NULL")
+        'coll.Add("CreateDO_Automatic", "integer not null default 0")
+        'coll.Add("location_code", "varchar(12) NULL")
+        'coll.Add("BookingThrough", "varchar(12) NULL") '' possible Values 1. Mobile 2. Direct 3. Web
+        'coll.Add("Main_Booking_No", "varchar(30) NULL")
+        'coll.Add("Cust_Group_Code", "varchar(30) NULL")
+        'coll.Add("Is_Taxable", "Integer not null default 0")
+        'coll.Add("TRANSACTION_TYPE", "varchar(2) NULL")
+        'coll.Add("ManualVehicle", "varchar(20) NULL")
+        'coll.Add("Ex_Factory_Date", "Date NULL")
+        'coll.Add("From_Screen_Code", "varchar(12)  NOT NULL DEFAULT ''")
+        'coll.Add("CustPO_No", "varchar(200)  NULL ")
+        'coll.Add("custpo_date", "datetime  NULL ")
+        'coll.Add("SalesmanCode", "varchar(12) NULL")
+        'coll.Add("Total_CAN", "decimal(18,2) null")
+        'coll.Add("Total_Box", "decimal(18,2) null")
+        'coll.Add("Total_CRATE", "decimal(18,2) null")
+        'coll.Add("User_Lock_For_Edit", "Integer not null default 0")
+        'coll.Add("LockedBy_UserCode", "varchar(20) NOT NULL DEFAULT ''")
+        'coll.Add("IsSampling", "Integer not null default 0")
+        'coll.Add("Is_Cancelled", "Integer not null default 0")
+        'coll.Add("Booking_Type", "Varchar(15) null")
+        'coll.Add("Card_SALE_No", "varchar(30) NULL REFERENCES Tspl_Card_Sale(Card_No)")
+        'coll.Add("CardSale_FROM_DATE", "Datetime NULL")
+        'coll.Add("CardSale_TO_DATE", "Datetime NULL")
+        'coll.Add("Payment_Mode", "varchar(12) NULL")
+        'coll.Add("Reference_No", "varchar(100) NUll")
+        'coll.Add("Counter_No", "varchar(100) NUll")
+        'coll.Add("Against_Booking_No", "varchar(30) NUll")
+        'coll.Add("Against_Receipt_No", "varchar(30) NULL REFERENCES TSPL_Receipt_Header(Receipt_No)")
+        'coll.Add("AdvanceAmount", "float not null default 0")
+        'coll.Add("TruckSheetGenerate", "Integer not null default 0")
+        'coll.Add("AgainstGatePass", "Integer not null default 0")
+        'coll.Add("Credit_Limit", "decimal(18,2) null")
+        'coll.Add("Advance_Security", "decimal(18,2) null")
+        'coll.Add("Revese_Adv_Security", "decimal(18,2) null")
+        'coll.Add("AR_Credit_Security", "decimal(18,2) null")
+        'coll.Add("Pending_Posted_DO", "decimal(18,2) null")
+        'coll.Add("UnPostedDispatch", "decimal(18,2) null")
+        'coll.Add("Ledger_Outstansing", "decimal(18,2) null")
+        'coll.Add("Refund_Security", "decimal(18,2) null")
+        'coll.Add("Reverse_Refund_Sec", "decimal(18,2) null")
+        'coll.Add("Total_Outstanding", "decimal(18,2) null")
+        'coll.Add("Uploading_date", "Datetime NULL")
+        'coll.Add("Ship_To_Location", "varchar(12) NULL")
+        'coll.Add("isBookingCreatedForNextDay", "Integer not null default 0")
+        'coll.Add("Is_CustomerChanged", "Integer Default 0")
+        'coll.Add("GatePass_Type", "varchar(2) NUll")
+        'coll.Add("Against_DemandBooking_No", "varchar(30)  NULL REFERENCES TSPL_TEMP_DEMAND_BOOKING_MASTER(Document_No)")
+        'coll.Add("Against_DCSBooking_No", "varchar(30)  NULL REFERENCES TSPL_DCS_DEMAND_BOOKING_MASTER(Document_No)")
+        'coll.Add("Is_DCS", "Integer Default 0")
+        'coll.Add("Is_BPL", "Integer Default 0")
+        'coll.Add("Is_GHEE", "Integer Default 0")
+        'coll.Add("BPL_Coupon_Code", "varchar(30) NULL")
+        'coll.Add("BPL_Name", "varchar(50) NULL")
+        'coll.Add("BPL_Remark", "varchar(50) NULL")
+        'coll.Add("BPL_Coupon_Date", "Date NULL")
+        'coll.Add("Is_Distributor", "Integer Default 0")
+        'coll.Add("BPL_Category", "varchar(50) NULL")
+        'coll.Add("TCSAmount", "decimal(18,2) null")
+        'coll.Add("TCSBaseAmt", "decimal(18,2) null")
+        'coll.Add("Tax_Group", "varchar(12) NULL")
+        'coll.Add("TaxGroupName", "varchar(30) NULL")
+        'coll.Add("TAX1", "varchar(12) NULL")
+        'coll.Add("TAX1_Rate", "decimal(18, 4) NULL")
+        'coll.Add("TAX1_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX1_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX2", "varchar(12) NULL")
+        'coll.Add("TAX2_Rate", "decimal(18, 4) NULL")
+        'coll.Add("TAX2_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX2_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX3", "varchar(12) NULL")
+        'coll.Add("TAX3_Rate", "decimal(18, 4) NULL")
+        'coll.Add("TAX3_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX3_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX4", "varchar(12) NULL")
+        'coll.Add("TAX4_Rate", "decimal(18, 4) NULL")
+        'coll.Add("TAX4_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX4_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX5", "varchar(12) NULL")
+        'coll.Add("TAX5_Rate", "decimal(18, 4) NULL")
+        'coll.Add("TAX5_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX5_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX6", "varchar(12) NULL")
+        'coll.Add("TAX6_Rate", "decimal(18, 2) NULL")
+        'coll.Add("TAX6_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX6_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX7", "varchar(12) NULL")
+        'coll.Add("TAX7_Rate", "decimal(18, 2) NULL")
+        'coll.Add("TAX7_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX7_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX8", "varchar(12) NULL")
+        'coll.Add("TAX8_Rate", "decimal(18, 2) NULL")
+        'coll.Add("TAX8_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX8_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX9", "varchar(12) NULL")
+        'coll.Add("TAX9_Rate", "decimal(18, 2) NULL")
+        'coll.Add("TAX9_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX9_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX10", "varchar(12) NULL")
+        'coll.Add("TAX10_Rate", "decimal(18, 2) NULL")
+        'coll.Add("TAX10_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX10_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("Discount_Base", "decimal(18, 2) NULL")
+        'coll.Add("Discount_Amt", "decimal(18, 2) NULL")
+        'coll.Add("Amount_Less_Discount", "decimal(18, 2) NULL")
+        'coll.Add("Total_Tax_Amt", "decimal(18, 2) NULL")
+        'coll.Add("Comments", "varchar(200) NULL")
+        'coll.Add("Terms_Code", "varchar(12) NULL")
+        'coll.Add("Due_Date", "Datetime NULL")
+        'coll.Add("Total_Amt", "decimal(18,2) null")
+        'coll.Add("Is_Credit_Customer", "char(1) null")
+        'coll.Add("LastCollectionDate", "Date NULL")
+        'coll.Add("Distributor_Commission_TotalAmt", "decimal(18,2) null")
+        'coll.Add("Transporter_Commission_TotalAmt", "decimal(18,2) null")
+        'coll.Add("Security_TotalAmt", "decimal(18,2) null")
+        'coll.Add("RoundOffAmount", "decimal(18,2)  null ")
+        'coll.Add("Sub_Location_code", "varchar(12) NULL")
+        'coll.Add("Trip_No", "integer null")
+        'coll.Add("FAT_Per", "decimal(18,2) null")
+        'coll.Add("SNF_Per", "decimal(18,2) null")
+        'coll.Add("Acidity", "decimal(18,2) null")
+        'coll.Add("Temperature", "decimal(18,2) null")
+        'coll.Add("MBRT_Hours", "decimal(18,2) null")
+        'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TEMP_BOOKING_MATSER", coll, "", True, False, "", "Document_No", "Document_Date")
+        '' for mobile app
+        'coll = New Dictionary(Of String, String)()
+        'coll.Add("Amount_After_Commission", "Float not null default 0")
+        'coll.Add("Total_Crates", "varchar(20) NULL")
+        'coll.Add("OTP_No", "char(8) NULL")
+        'coll.Add("OTP_Confirm", "char(1) NOT NULL default 0")
+        'coll.Add("IsDispatched", "char(1) NOT NULL default 0")
+        'coll.Add("Distributor_Code", "varchar(12) NULL REFERENCES TSPL_SECONDARY_CUSTOMER_MASTER(Cust_Code)")
+        'coll.Add("Login_User_Zone_Code", "varchar(30) NULL REFERENCES TSPL_ZONE_MASTER(Zone_Code)")
+        'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TEMP_BOOKING_MATSER", coll, "", True, False, "", "Document_No", "Document_Date")
+
+
+        'clsDBFuncationality.ExecuteNonQuery("Alter Table TSPL_TEMP_BOOKING_MATSER Alter Column Tax_Group varchar(12) NULL")
+        'coll = New Dictionary(Of String, String)()
+        'coll.Add("Document_No", "varchar(30) NOT NULL REFERENCES TSPL_TEMP_BOOKING_MATSER(Document_No)")
+        'coll.Add("Line_No", "integer not null default 0")
+        'coll.Add("Cust_Code", "Varchar(12) null")
+        'coll.Add("Loc_Code", "Varchar(12) null")
+        'coll.Add("Item_Code", "Varchar(50) null")
+        'coll.Add("Short_Description", "Varchar(200) null")
+        'coll.Add("Booking_Qty", "decimal(18,2) null")
+        'coll.Add("Unit_code", "Varchar(12) null")
+        'coll.Add("Delivery_No", "varchar(30) null")
+        'coll.Add("Cust_Outstanding", "decimal(18,2) null")
+        'coll.Add("DocumentAmount", "decimal(18,2) null")
+        'coll.Add("Balance", "decimal(18,2) null")
+        'coll.Add("DO_Posted", "integer not null default 0")
+        'coll.Add("DO_Qty", "decimal(18,2) null")
+        'coll.Add("Vehicle_Code", "Varchar(12) null")
+        'coll.Add("Item_Rate", "decimal(18,2) not null default 0")
+        'coll.Add("Total_Qty", "decimal(18,2) null default 0")
+        'coll.Add("Sampling", "integer not null default 0")
+        'coll.Add("Is_CustomerChanged", "Integer Default 0")
+        'coll.Add("location_code", "Varchar(12) null")
+        'coll.Add("Disc_Scheme_Code", "varchar(30) null")
+        'coll.Add("Disc_Scheme_Type", "varchar(30) null")
+        'coll.Add("Disc_Scheme_Pers", "Float NULL Default 0")
+        'coll.Add("Disc_Scheme_Amount", "Float NULL Default 0")
+        'coll.Add("OrgRate", "Float NULL Default 0")
+        'coll.Add("Posted", "integer not null default 0")
+        'coll.Add("CreditApproval_Reqd", "char(1) not null default 'N'")
+        'coll.Add("Booking_Status", "integer not null default 0 ")
+        'coll.Add("Performance_Invoice_no", "varchar(30) NUll")
+        'coll.Add("Scheme_Type", "varchar(20) NULL ")
+        'coll.Add("Scheme_Item_Code", "varchar(50) NOT NULL default ''")
+        'coll.Add("Scheme_Qty", "float null")
+        'coll.Add("Scheme_Item_UOM", "varchar(12) null")
+        'coll.Add("Scheme_Item", "char(1) NULL")
+        'coll.Add("FOC_Item", "integer not null default 0")
+        'coll.Add("Item_Selling_Price", "float not null default 0")
+        'coll.Add("Scheme_Code", "varchar(12) NULL")
+        'coll.Add("Main_Booking_No", "varchar(30) NULL")
+        'coll.Add("Item_Price_ID", "integer not null default 0")
+        'coll.Add("Tax_On_Amount", "Float NULL Default 0")
+        'coll.Add("Tax_Amount", "Float NULL Default 0")
+        'coll.Add("Tax_NonTax", "Integer not null default 0")
+        'coll.Add("FreshAmbient", "varchar(8) NOT NULL DEFAULT ''")
+        'coll.Add("Remarks", "varchar(200) NOT NULL default ''")
+        'coll.Add("route_no", "varchar(12) null")
+        'coll.Add("Price_with_Tax", "decimal(18,2) NULL Default 0")
+        'coll.Add("Amount_with_Tax", "decimal(18,2) NULL Default 0")
+        'coll.Add("PreviousBookingQty", "decimal(18,2) NULL Default 0")
+        'coll.Add("Price_IdStartDate", "datetime null")
+        'coll.Add("PricePlanNo", "varchar(30) null")
+        'coll.Add("IsKKFTax", "varchar(30) null")
+        'coll.Add("IsMNDTax", "varchar(30) null")
+        'coll.Add("Against_DemandBooking_No", "varchar(30)  NULL REFERENCES TSPL_TEMP_DEMAND_BOOKING_MASTER(Document_No)")
+        'coll.Add("Against_DemandBooking_TR_Code", "varchar(30)  NULL REFERENCES TSPL_TEMP_DEMAND_BOOKING_DETAIL(TR_Code)")
+        'coll.Add("TAX_Group", "varchar(12) NULL")
+        'coll.Add("TAX1", "varchar(12) NULL")
+        'coll.Add("TAX1_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX1_Rate", "decimal(18, 4) NULL")
+        'coll.Add("TAX1_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX2", "varchar(12) NULL")
+        'coll.Add("TAX2_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX2_Rate", "decimal(18, 4) NULL")
+        'coll.Add("TAX2_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX3", "varchar(12) NULL")
+        'coll.Add("TAX3_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX3_Rate", "decimal(18, 4) NULL")
+        'coll.Add("TAX3_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX4", "varchar(12) NULL")
+        'coll.Add("TAX4_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX4_Rate", "decimal(18, 4) NULL")
+        'coll.Add("TAX4_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX5", "varchar(12) NULL")
+        'coll.Add("TAX5_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX5_Rate", "decimal(18, 4) NULL")
+        'coll.Add("TAX5_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX6", "varchar(12) NULL")
+        'coll.Add("TAX6_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX6_Rate", "decimal(18, 2) NULL")
+        'coll.Add("TAX6_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX7", "varchar(12) NULL")
+        'coll.Add("TAX7_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX7_Rate", "decimal(18, 2) NULL")
+        'coll.Add("TAX7_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX8", "varchar(12) NULL")
+        'coll.Add("TAX8_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX8_Rate", "decimal(18, 2) NULL")
+        'coll.Add("TAX8_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX9", "varchar(12) NULL")
+        'coll.Add("TAX9_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX9_Rate", "decimal(18, 2) NULL")
+        'coll.Add("TAX9_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX10", "varchar(12) NULL")
+        'coll.Add("TAX10_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX10_Rate", "decimal(18, 2) NULL")
+        'coll.Add("TAX10_Amt", "decimal(18, 2) NULL")
+        'coll.Add("Disc_Amt", "decimal(18, 2) NULL")
+        'coll.Add("QtyinKg", "decimal(18, 2) NULL")
+        'coll.Add("Amt_Less_Discount", "decimal(18, 2) NULL")
+        'coll.Add("Distributor_Commission_PKID", "int null References TSPL_DISTRIBUTOR_COMMISSION_DETAIL(PK_ID)")
+        'coll.Add("Distributor_Commission_Rate", "decimal(18,4) NULL")
+        'coll.Add("Distributor_Commission_RateWithTax", "decimal(18,4) NULL")
+        'coll.Add("Distributor_Commission_Amt", "decimal(18,4) NULL")
+        'coll.Add("Transporter_Commission_Rate", "decimal(18,4) NULL")
+        'coll.Add("Transporter_Commission_Amt", "decimal(18,4) NULL")
+        'coll.Add("Security_Rate", "decimal(18,2) NULL")
+        'coll.Add("Security_Amt", "decimal(18,2) NULL")
+        'coll.Add("Batch_No", "varchar(30) NULL")
+        'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TEMP_BOOKING_DETAIL", coll, "", True, False, "TSPL_TEMP_BOOKING_MATSER", "Document_No", "")
+
+        ''richa for Booking detail payment
+        'coll = New Dictionary(Of String, String)()
+        'coll.Add("TR_Code", "varchar(30) NOT NULL primary Key")
+        'coll.Add("Document_No", "varchar(30) NOT NULL REFERENCES TSPL_TEMP_BOOKING_MATSER(Document_No)")
+        'coll.Add("SNo", "INT NULL")
+        'coll.Add("Payment_Mode", "varchar(12) NULL")
+        'coll.Add("Amount", "float not NULL Default 0")
+        'coll.Add("Against_Receipt_No", "varchar(30) NULL REFERENCES TSPL_RECEIPT_HEADER(Receipt_No)")
+        'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TEMP_BOOKING_PAYMENT_MODE_DETAIL", coll, "", True, False, "TSPL_TEMP_BOOKING_MATSER", "Document_No", "")
+
+
     End Sub
 End Class

@@ -1099,6 +1099,33 @@ Public Class frmDairyBookingCustomer
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         Return dt
     End Function
+    Public Sub TCSTaxRatio(ByVal intRow As Integer)
+        Dim tcstaxxbaseamt As Decimal = clsCommon.myCdbl(txttcstaxbaseamount.Value)
+        Dim dbltoalbaseamt As Decimal = 0
+        Dim tcsbaseamt As Decimal = 0 'gv1.Rows(intRow).Cells(colTax_Base_Amt)
+        Dim Actualtcsbaseamt As Decimal = 0
+        Dim tcsTaxRate As Decimal = 0
+        If clsCommon.myCdbl(txttcstaxbaseamount.Value) > 0 Then
+            For i As Integer = 0 To gv1.Rows.Count - 1
+                For j As Integer = 1 To 10
+                    If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(i).Cells(clsCommon.myCstr("colTax" + clsCommon.myCstr(j))).Value), "TCS") = CompairStringResult.Equal Then
+                        dbltoalbaseamt += clsCommon.myCdbl(gv1.Rows(i).Cells(clsCommon.myCstr("colTax_Base_Amt" + clsCommon.myCstr(j))).Value)
+                    End If
+                Next
+
+            Next
+            For j As Integer = 1 To 10
+                If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(intRow).Cells(clsCommon.myCstr("colTax" + clsCommon.myCstr(j))).Value), "TCS") = CompairStringResult.Equal Then
+                    tcsbaseamt = clsCommon.myCdbl(gv1.Rows(intRow).Cells(clsCommon.myCstr("colTax_Base_Amt" + clsCommon.myCstr(j))).Value)
+                    tcsTaxRate = clsCommon.myCdbl(gv1.Rows(intRow).Cells(clsCommon.myCstr("colTax_Rate" + clsCommon.myCstr(j))).Value)
+                    Actualtcsbaseamt = Math.Round(clsCommon.myCdbl(txttcstaxbaseamount.Value) * (tcsbaseamt / dbltoalbaseamt))
+                    gv1.Rows(intRow).Cells(clsCommon.myCstr("colTax_Base_Amt" + clsCommon.myCstr(j))).Value = Actualtcsbaseamt
+                    gv1.Rows(intRow).Cells(clsCommon.myCstr("colTax_Amt" + clsCommon.myCstr(j))).Value = (Actualtcsbaseamt * tcsTaxRate) / 100
+                End If
+            Next
+
+        End If
+    End Sub
     'Private Sub ReStoreGridLayout()
     '    Try
     '        If clsCommon.myLen(MyBase.Form_ID) > 0 Then
@@ -1180,8 +1207,10 @@ Public Class frmDairyBookingCustomer
                             Dim strICode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
                             Dim strIUOM As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
                             'gv1.CurrentRow.Cells(colOrgCost).Value = gv1.CurrentRow.Cells(colRate).Value
-                            ItemPrice(strICode, strIUOM, clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value), gv1.CurrentRow.Index, False)
                             SetTax(strICode, gv1.CurrentRow.Index)
+                            SetTaxDetails(strICode, gv1.CurrentRow.Index)
+
+                            ItemPrice(strICode, strIUOM, clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value), gv1.CurrentRow.Index, False)
                             SetTaxDetails(strICode, gv1.CurrentRow.Index)
                             If ShowBookingTypeDropDownonDairyBookingCustomer = True Then
                                 'Dim strICode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
@@ -1224,6 +1253,8 @@ Public Class frmDairyBookingCustomer
                                 End If
                             End If
                             UpdateCurrentRowAvgQty(gv1.CurrentRow.Index)
+                            TCSTaxRatio(gv1.CurrentRow.Index)
+
                             UpdateAllTotals()
                         ElseIf e.Column Is gv1.Columns(colRate) Then
                             If ShowMulMRPOfSameItemOnDairyBookingCustomer Then
@@ -1458,6 +1489,7 @@ Public Class frmDairyBookingCustomer
             Else
                 UpdateCurrentRow(introw)
             End If
+            UpdateAllTotals()
         Else
             If Not isFORPrice Then
                 clsCommon.MyMessageBoxShow("Please create Price chart for customer " & clsCommon.myCstr(txtVendorNo.Value) & " for Location " & clsCommon.myCstr(txtLocation.Value) & "  for item " & gv1.Rows(introw).Cells(colICode).Value & ".", Me.Text)
@@ -1811,6 +1843,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             If dblQty > 0 Then
                 Dim dblNetPrice As Double = dblAmtAfterDis / dblQty
             End If
+            TCSTaxRatio(IntRowNo)
             Dim dblTotTaxAmt As Double = GetCurrentRowTotalTaxAmt(IntRowNo)
             gv1.Rows(IntRowNo).Cells(colTBaseAmt).Value = Math.Round(dblAmtAfterDis, 2)
             gv1.Rows(IntRowNo).Cells(colTTaxAmt).Value = Math.Round(dblTotTaxAmt, 2)
@@ -2002,6 +2035,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                             If dblOutstandingAmount > AmountToCheckCustomerOutstandingForTCSTax Then
                                 gv1.Rows(IntRowNo).Cells("colTax_Amt" + clsCommon.myCstr(ii)).Value = Math.Round(dblTaxableValue + dblGSTTaxValue1 + dblGSTTaxValue2, 2) * (clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells("colTax_Rate" + clsCommon.myCstr(ii)).Value) / 100)
                                 gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Base_Amt" + Strii)).Value = Math.Round(dblTaxableValue + dblGSTTaxValue1 + dblGSTTaxValue2, 2)
+                                TCSTaxRatio(IntRowNo)
                             End If
 
                         End If
@@ -8370,6 +8404,7 @@ from
                     If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Is_TCS  from tspl_tax_master where tax_code ='" & clsCommon.myCstr(dr("Tax_Code")) & "' ")), "Y") = CompairStringResult.Equal Then
                         If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsTCSnotApplicable ,0) from TSPL_CUSTOMER_MASTER where Cust_Code ='" & txtVendorNo.Value & "'")), "0") = CompairStringResult.Equal Then
                             If AmountToCheckCustomerOutstandingForTCSTax > 0 Then
+                                txttcstaxbaseamount.Value = 0
                                 dblOutstandingAmount = clsCommon.myCdbl(clsCustomerMaster.GetCustomerOutstandingForTCSTaxApplicableOnFY(txtVendorNo.Value, txtDate.Value))
                                 If dblOutstandingAmount < AmountToCheckCustomerOutstandingForTCSTax Then
                                     dblOutstandingAmount = dblOutstandingAmount + clsCommon.myCdbl(clsCommon.myFormat(lblActualTCSTaxBaseAmt.Text))
