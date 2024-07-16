@@ -556,8 +556,12 @@ Public Class frmAutoAdditionDeductionReport
             Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If dt1.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt1, "crptAutoAdditionDeductionNewGNG", "AutoPrint")
-                frmCRV = Nothing
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt1, "crptAutoAdditionDeductionNewTNK", "MD Print")
+                Else
+                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt1, "crptAutoAdditionDeductionNewGNG", "AutoPrint")
+                    frmCRV = Nothing
+                End If
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
