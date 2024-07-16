@@ -4566,7 +4566,7 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
                   left outer join TSPL_ITEM_PRICE_PLAN_HEADER on TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code = TSPL_ITEM_PRICE_PLAN_DETAIL.Plan_Code 
                   where xxx.Price_Code = TSPL_ITEM_PRICE_PLAN_DETAIL.Price_Code and xxx.Item_Code = TSPL_ITEM_PRICE_PLAN_DETAIL.Item_Code
                   order by TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Date desc)  as price
-						LEFT OUTER JOIN (Select 1 as COL1, 1 as COL2,  'ORIGINAL' as CopyType1 UNION Select 1 as COL1, 2 as COL2,  'DUPLICATE' as CopyType1 UNION Select 1 as COL1, 3 as COL2,  'TRIPLICATE' as CopyType1 UNION Select 1 as COL1, 4 as COL2,  'QUADRUPLICATE' as CopyType1) YYY ON YYY.COL1=XXX.CopyType ORDER BY Line_No,YYY.CopyType1 "
+						LEFT OUTER JOIN (Select 1 as COL1, 1 as COL2,  'ORIGINAL' as CopyType1 UNION Select 1 as COL1, 2 as COL2,  'DUPLICATE' as CopyType1 UNION Select 1 as COL1, 3 as COL2,  'TRIPLICATE' as CopyType1 UNION Select 1 as COL1, 4 as COL2,  'QUADRUPLICATE' as CopyType1) YYY ON YYY.COL1=XXX.CopyType ORDER BY Line_No,YYY.COL2 "
         Return Qry
     End Function
 End Class
