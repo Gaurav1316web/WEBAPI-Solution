@@ -1732,7 +1732,49 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
 
     Private Sub btnBankSummary_Click(sender As Object, e As EventArgs) Handles btnBankSummary.Click
         Try
-            Dim qry As String = " select ROW_NUMBER() over ( order by GRPColumn) as SNO , * from ( select max(CycleRange) as CycleRange, max(GRPColumn) as GRPColumn,
+            Dim qry As String = Nothing
+            If rbtnSavingSummary.IsChecked Then
+                qry = " select ROW_NUMBER() over ( order by Bank_Code) as SNO , max(CycleRange) as CycleRange, max(Bank_Code) as GRPColumn,max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address, max(From_Date) as From_Date,max(GSTReg_No) as GSTReg_No,max(Fiscal_Name) as Fiscal_Name,max(CycleNo) as CycleNo,max(Date_Range) as Date_Range,Bank_Code,max (Bank_Code_Desc)Branch_Name,max(Bank_Code_Desc) as Bank_Code_Desc, max (Payee_Joint_IFSC_Code) as Payee_Joint_IFSC_Code,max(Payee_Joint_Account_No) as Payee_Joint_Account_No ,sum(Payable_Amount) as Payable_Amount
+                        ,max(CompPhone) as CompPhone,max(Regn_No) as Regn_No,max(MCC_NAME) as MCC_NAME
+                        from (
+                         select  '' AS CycleRange,TSPL_Vendor_MASTER.BankCode2 as GRPColumn,TSPL_COMPANY_MASTER.Comp_Name
+                        ,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end as Comp_address, case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone ,TSPL_COMPANY_MASTER.Regn_No,TSPL_MCC_MASTER.MCC_NAME, TSPL_PAYMENT_PROCESS_HEAD.From_Date,'GSTIN : '+ TSPL_COMPANY_MASTER.GSTReg_No as GSTReg_No,TSPL_PAYMENT_PROCESS_HEAD.Doc_No,TSPL_Fiscal_Year_Master.Fiscal_Name
+                        ,TSPL_PAYMENT_CYCLE_GENERATED.Name as CycleNo ,convert(varchar, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) +' To '+ convert(varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) as Date_Range, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VLC_CODE_Uploader, coalesce(TSPL_VENDOR_MASTER.VSP_Payee_Name,Mp_V.VSP_Payee_Name)  as Payee_Joint_Name,TSPL_Vendor_MASTER.BankCode2 as Bank_Code, 
+                          TSPL_VENDOR_MASTER.BankBranch2 as Branch_Name, 
+                          TSPL_BANK_MASTER2.DESCRIPTION as Bank_Code_Desc, 
+                          case when isnull(coalesce(TSPL_VENDOR_MASTER.vsp_payment, Mp_V.vsp_payment), '')= 'Self' then coalesce(TSPL_VENDOR_MASTER.IFSCCode2, mp_V.IFSC_Code) else coalesce(
+                            TSPL_VENDOR_MASTER.Joint_IFSC_Code,mp_v.Joint_IFSC_Code) end as Payee_Joint_IFSC_Code, 
+                          case when isnull(coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')= 'Self' then coalesce(TSPL_VENDOR_MASTER.AccNo2, mp_V.Account_No) else coalesce(
+                            TSPL_VENDOR_MASTER.Joint_Account_No, mp_V.Joint_Account_No) end as Payee_Joint_Account_No, TSPL_VENDOR_INVOICE_HEAD.Document_Total as Payable_Amount 
+	                        from TSPL_PAYMENT_PROCESS_SAVING 
+                            left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_SAVING.Doc_No
+                            left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_SAVING.AP_Invoice_No
+                            left outer join TSPL_MP_MASTER mp on mp.MP_Code =TSPL_VENDOR_INVOICE_HEAD.Vendor_Code 
+                            Left outer join tspl_vendor_master Mp_V on mp_V.Vendor_Code=mp.MP_Code  
+                            left outer join ( select distinct VSP_Code, VLC_Code_VLC_Uploader  from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =  TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+                            left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='UDP'
+                            left outer join TSPL_Vendor_MASTER on TSPL_Vendor_MASTER.Vendor_Code= TSPL_VENDOR_INVOICE_HEAD.Vendor_Code --TSPL_PAYMENT_PROCESS_SAVING.VSP_CODE
+                            left outer join TSPL_BANK_MASTER as TSPL_BANK_MASTER2 on TSPL_BANK_MASTER2.BANK_CODE=TSPL_Vendor_MASTER.BankCode2 
+                            left outer join TSPL_Fiscal_Year_Master on TSPL_Fiscal_Year_Master.Start_Date<=TSPL_PAYMENT_PROCESS_HEAD.From_Date and TSPL_Fiscal_Year_Master.End_Date>=TSPL_PAYMENT_PROCESS_HEAD.From_Date    
+                            left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert(date, TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103)<=convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert(date,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103)>=convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)   and TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code = TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected   
+                            left outer join TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE = TSPL_Vendor_MASTER.Bank_Code
+                            left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected
+                                where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and TSPL_PAYMENT_PROCESS_HEAD.From_Date>=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
+                                and	TSPL_PAYMENT_PROCESS_HEAD.To_Date <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and TSPL_VENDOR_INVOICE_HEAD.Document_Total>0  
+                               )xxx group by Bank_Code  "
+
+                Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry)
+
+                If dt1 IsNot Nothing And dt1.Rows.Count > 0 Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt1, "crptBankSavingSummary", "Bank Saving Summary")
+                    frmCRV = Nothing
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
+                End If
+
+            Else
+                qry = " select ROW_NUMBER() over ( order by GRPColumn) as SNO , * from ( select max(CycleRange) as CycleRange, max(GRPColumn) as GRPColumn,
                                  max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address, max(From_Date) as From_Date,max(GSTReg_No) as GSTReg_No,
                                  max(Fiscal_Name) as Fiscal_Name,max(CycleNo) as CycleNo,max(Date_Range) as Date_Range,Bank_Code,max(Branch_Name)Branch_Name,
                                  max(Bank_Code_Desc) as Bank_Code_Desc, max (Payee_Joint_IFSC_Code) as Payee_Joint_IFSC_Code,max(Payee_Joint_Account_No) as Payee_Joint_Account_No ,
@@ -1752,14 +1794,15 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
                                 left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert(date, TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103)<=convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert(date,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103)>=convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)   and TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code = TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected   where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and  TSPL_PAYMENT_PROCESS_HEAD.From_Date>= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and	TSPL_PAYMENT_PROCESS_HEAD.To_Date<= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'   And (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0))>0
                                 )xxx group by Bank_Code )xxxx order by GRPColumn  "
 
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
-            If dt IsNot Nothing And dt.Rows.Count > 0 Then
-                Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankDraftSummary", "Bank Draft Summary")
-                frmCRV = Nothing
-            Else
-                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
+                If dt IsNot Nothing And dt.Rows.Count > 0 Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankDraftSummary", "Bank Draft Summary")
+                    frmCRV = Nothing
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
+                End If
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
