@@ -2656,7 +2656,7 @@ Public Class clsFixedParameterCode
     Public Const DemandIncreaseDecreasePer = "Demand Increase Decrease Percentage"
     Public Const CreateAutoMCCPriceChat = "Create Auto MCC Price Chat"
     Public Const VehicleNofromDispatch = "VehicleNo From Dispatch"
-
+    Public Const HideQtyCrateRegister = "Hide Qty Crate Register"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -2838,6 +2838,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.ShowFreshAmbientItems, "0", "0:OFF,1:ON;Show Fresh Ambient Items")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.CustomerReorder, "0", "0:OFF,1:ON;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.AcknowledgeDispatchQty, "0", "0:OFF,1:ON;CNF User Acknowledge Dispatch Qty")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.HideQtyCrateRegister, "0", "0:OFF,1:ON;Demand register Hide Qty crate column")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceQty, "100", "Tollerance % of Qty")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceFAT, "100", "Tollerance % of FAT")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceSNF, "100", "Tollerance % of SNF")
