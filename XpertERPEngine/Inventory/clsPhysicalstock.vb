@@ -114,7 +114,7 @@ Public Class clsPhysicalstock
                 For Each obj As clsPhysicalstock In obj1.Arr
                     Dim coll As New Hashtable()
                     Dim Entrydate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt")
-                    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Empty Transactions", obj.Main_Location, obj.Stock_Date, trans)
+                    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.mbtnEmptyTrans, obj.Main_Location, obj.Stock_Date, trans)
 
                     If isNewEntry Then
                         obj.Physical_No = physicalNo
@@ -190,7 +190,7 @@ Public Class clsPhysicalstock
                     Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select Location ,Stock_Date from  tspl_physical_stock where physical_no='" + strDocNo + "'", tran)
                     If dts IsNot Nothing AndAlso dts.Rows.Count > 0 Then
 
-                        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Empty Transactions", clsCommon.myCstr(dts.Rows(0)("Location")), clsCommon.myCDate(dts.Rows(0)("Stock_Date")), tran)
+                        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.mbtnEmptyTrans, clsCommon.myCstr(dts.Rows(0)("Location")), clsCommon.myCDate(dts.Rows(0)("Stock_Date")), tran)
                     End If
                     qry = "update TSPL_BATCH_ITEM set Against_Inv_Movement_Trans_Id=null where Against_Inv_Movement_Trans_Id in (select Trans_Id from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" + clsCommon.myCstr(dr("adjustment_no")) + "' and Trans_Type='IC-AD')"
                     clsDBFuncationality.ExecuteNonQuery(qry, tran)
@@ -282,7 +282,12 @@ Public Class clsPhysicalstock
             Dim strPostDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt")
             Dim arr As New List(Of clsPhysicalstock)
             arr = clsPhysicalstock.GetData(strDocNo, location, sublocation, is_Milk, NavigatorType.Current, trans, "")
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Empty Transactions", "Main_Location", "Stock_Date", trans)
+            Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select Location ,Stock_Date from  tspl_physical_stock where physical_no='" + strDocNo + "'", trans)
+            If dts IsNot Nothing AndAlso dts.Rows.Count > 0 Then
+
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.mbtnEmptyTrans, clsCommon.myCstr(dts.Rows(0)("Location")), clsCommon.myCDate(dts.Rows(0)("Stock_Date")), trans)
+            End If
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Empty Transactions", "Main_Location", obj.Stock_Date, trans)
 
             For Each obj As clsPhysicalstock In arr
                 If (arr Is Nothing OrElse clsCommon.myLen(obj.Physical_No) <= 0) Then
@@ -964,7 +969,7 @@ Public Class clsPhysicalstock
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(" select Location ,Stock_Date from  tspl_physical_stock where physical_no='" + strDocNo + "'", tran)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
 
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Empty Transactions", clsCommon.myCstr(dt.Rows(0)("Location")), clsCommon.myCDate(dt.Rows(0)("Stock_Date")), tran)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.mbtnEmptyTrans, clsCommon.myCstr(dt.Rows(0)("Location")), clsCommon.myCDate(dt.Rows(0)("Stock_Date")), tran)
             End If
             clsDBFuncationality.ExecuteNonQuery("delete from tspl_physical_stock where physical_no='" + strDocNo + "'", tran)
 
