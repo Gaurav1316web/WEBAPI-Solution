@@ -367,7 +367,7 @@ Public Class FrmTransferKDIL
         Else
             rbtnPrintExcisable.Visible = False
         End If
-        If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BKN") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
             btnSTAMilkPrint.Visible = True
             btnSTAProductPrint.Visible = True
         Else
