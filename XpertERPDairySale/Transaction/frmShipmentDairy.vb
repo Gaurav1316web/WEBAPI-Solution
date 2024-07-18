@@ -350,6 +350,7 @@ Public Class frmShipmentDairy
     Dim EnableCustomerPODetailonDairyBooking As Integer = 0
     Dim OPkmMandatoryonDS As Boolean = False
     Dim ShowMulMRPOfSameItemOnDairyBookingCustomer As Boolean = False
+    Dim DispatchPriceCodeForCreditCustomer As Boolean = False
     Dim FlagDocumentIsTaxable As Integer = 0
     Dim EInvoiceType As String = ""
     Dim lstobj As List(Of clsPSShipmentDemand) = Nothing
@@ -464,6 +465,7 @@ Public Class frmShipmentDairy
         AllowManualVehicleOnDairyDispatch = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowManualvehicleOnDairyBooking, clsFixedParameterCode.AllowManualvehicleOnDairyBooking, Nothing)) = 1, True, False)
         ApplyCommission = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyCommission, clsFixedParameterCode.ApplyCommission, Nothing)) = 1, True, False)
         ApplyCommissionRateWithTax = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyCommissionRateWithTax, clsFixedParameterCode.ApplyCommissionRateWithTax, Nothing)) = 1, True, False)
+        DispatchPriceCodeForCreditCustomer = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DispatchPriceCodeForCreditCustomer, clsFixedParameterCode.DispatchPriceCodeForCreditCustomer, Nothing)) = 1, True, False)
         OPkmMandatoryonDS = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.OPkmMandatoryonDS, clsFixedParameterCode.OPkmMandatoryonDS, Nothing)) = 1, True, False)
         RunBatchFifowisewithmodifyfunctionality = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowisewithModifyfunctionality, clsFixedParameterCode.RunBatchFifowisewithModifyfunctionality, Nothing)) = 1, True, False)
         FORPRICE = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, Nothing))
@@ -6500,7 +6502,6 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                 End If
                 If dblQty > 0 AndAlso clsCommon.myCBool(gv1.Rows(ii).Cells(colIsBatchItem).Value) AndAlso clsERPFuncationality.GetBatchWiseApplicableStatus(txtDate.Value) = True Then
                     Dim arrBatchNo As List(Of clsBatchInventory) = TryCast(gv1.Rows(ii).Cells(colICode).Tag, List(Of clsBatchInventory))
-
                     If RunBatchFifowisewithmodifyfunctionality Then
                         'gv1.CurrentRow = gv1.Rows(ii)
                         'OpenBatchItem()
@@ -6523,9 +6524,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                                 Next
                             End If
                             gv1.Rows(ii).Cells(colICode).Tag = arrBatchNo
-
                         End If
-
                     End If
                     If arrBatchNo Is Nothing Then
                         Throw New Exception("Please provide Batch no for item : " + strICode + " . At Line No" + clsCommon.myCstr(ii + 1))
@@ -6788,7 +6787,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                                     clsBatchInventory.SaveData(TransType_Str, txtDocNo.Value, txtDate.Value, "O", clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), txtBillToLocation.Value, clsCommon.myCstr(gv1.CurrentRow.Cells(colLineNo).Value), 0, clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), gv1.CurrentRow.Cells(colICode).Tag, Nothing)
                                 End If
                             Else
-                                    Dim batchQty As Double = 0
+                                Dim batchQty As Double = 0
                                 For Each obj As clsBatchInventory In frm.arr
                                     batchQty += obj.Qty
                                 Next
@@ -6963,11 +6962,8 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             End If
         End If
     End Sub
-
     Public Sub OpenBatchItemForCreditCust(ByVal trans As SqlTransaction)
         Try
-
-
             Dim TransType_Str As String = ""
             Dim blnBatchqty As Boolean = False
             Dim isNewDocumentorExistingdoc As Boolean = True
@@ -7031,7 +7027,6 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
-
     End Sub
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         If (AllowToSave(False)) Then
@@ -7064,12 +7059,18 @@ left join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code=TSP
 left join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
 where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_code='" + lst.Booth_Code + "'"
                         LoadDistributorGrid(strQry, trans)
+                        If DispatchPriceCodeForCreditCustomer Then
+                            txtVendorNo.Value = lst.Booth_Code
+                            lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + lst.Booth_Code + "'", trans))
+                        End If
                         MergeDistributorItems(True, True, trans)
                         If RunBatchFifowise = 1 Then
                             OpenBatchItemForCreditCust(trans)
                         End If
-                        txtVendorNo.Value = lst.Booth_Code
-                        lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + lst.Booth_Code + "'", trans))
+                        If Not DispatchPriceCodeForCreditCustomer Then
+                            txtVendorNo.Value = lst.Booth_Code
+                            lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + lst.Booth_Code + "'", trans))
+                        End If
                         SaveData(False, trans)
                     Next
                 End If
@@ -14447,7 +14448,9 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colSchemeApplicable).Value = "Yes"
                         End If
                         'findQtyandPromoSchemeCode(False, obj.Scheme_Code, objOrderHead.Document_Date)
-                        GetDCDetails(trans)
+                        If Not IsCreditCustomer Then
+                            GetDCDetails(trans)
+                        End If
                         calculateFOR(gv1.Rows.Count - 1, trans)
                     Next
                     For ii As Integer = 0 To gv1.Rows.Count - 1

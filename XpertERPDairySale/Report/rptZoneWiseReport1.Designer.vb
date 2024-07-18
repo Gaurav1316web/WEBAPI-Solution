@@ -22,7 +22,6 @@ Partial Class rptZoneWiseReport1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -36,11 +35,6 @@ Partial Class rptZoneWiseReport1
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.txtFromDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel2 = New common.Controls.MyLabel()
-        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gv1 = New common.UserControls.MyRadGridView()
-        Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
-        Me.btnExcel = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
@@ -59,10 +53,6 @@ Partial Class rptZoneWiseReport1
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageViewPage2.SuspendLayout()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -108,7 +98,6 @@ Partial Class rptZoneWiseReport1
         '
         'SplitContainer1.Panel2
         '
-        Me.SplitContainer1.Panel2.Controls.Add(Me.RadSplitButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
@@ -119,7 +108,6 @@ Partial Class rptZoneWiseReport1
         'RadPageView1
         '
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
@@ -237,57 +225,6 @@ Partial Class rptZoneWiseReport1
         Me.MyLabel2.TabIndex = 393
         Me.MyLabel2.Text = "From Date"
         '
-        'RadPageViewPage2
-        '
-        Me.RadPageViewPage2.Controls.Add(Me.gv1)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(671, 278)
-        Me.RadPageViewPage2.Text = "Report"
-        '
-        'gv1
-        '
-        Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gv1.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gv1.Location = New System.Drawing.Point(0, 0)
-        '
-        '
-        '
-        Me.gv1.MasterTemplate.AllowAddNewRow = False
-        Me.gv1.MasterTemplate.AllowDeleteRow = False
-        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gv1.MasterTemplate.ShowGroupedColumns = True
-        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
-        Me.gv1.MyStopExport = False
-        Me.gv1.Name = "gv1"
-        Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(671, 278)
-        Me.gv1.TabIndex = 2
-        '
-        'RadSplitButton1
-        '
-        Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnExcel, Me.btnPDF})
-        Me.RadSplitButton1.Location = New System.Drawing.Point(162, 15)
-        Me.RadSplitButton1.Name = "RadSplitButton1"
-        Me.RadSplitButton1.Size = New System.Drawing.Size(95, 22)
-        Me.RadSplitButton1.TabIndex = 154
-        Me.RadSplitButton1.Text = "Export"
-        '
-        'btnExcel
-        '
-        Me.btnExcel.Name = "btnExcel"
-        Me.btnExcel.Text = "Excel"
-        Me.btnExcel.UseCompatibleTextRendering = False
-        '
-        'btnPDF
-        '
-        Me.btnPDF.Name = "btnPDF"
-        Me.btnPDF.Text = "PDF"
-        Me.btnPDF.UseCompatibleTextRendering = False
-        '
         'btnClose
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -347,10 +284,6 @@ Partial Class rptZoneWiseReport1
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageViewPage2.ResumeLayout(False)
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
@@ -371,11 +304,6 @@ Partial Class rptZoneWiseReport1
     Friend WithEvents RadPageViewPage1 As RadPageViewPage
     Friend WithEvents RadPanel1 As RadPanel
     Friend WithEvents RadGroupBox1 As RadGroupBox
-    Friend WithEvents RadPageViewPage2 As RadPageViewPage
-    Friend WithEvents gv1 As common.UserControls.MyRadGridView
-    Friend WithEvents RadSplitButton1 As RadSplitButton
-    Friend WithEvents btnExcel As RadMenuItem
-    Friend WithEvents btnPDF As RadMenuItem
     Friend WithEvents txtFromDate As common.Controls.MyDateTimePicker
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents txtToDate As common.Controls.MyDateTimePicker
