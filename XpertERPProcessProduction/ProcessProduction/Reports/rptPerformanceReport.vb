@@ -84,8 +84,10 @@ Public Class rptPerformanceReport
                 INNER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code=TSPL_TENDER_DETAIL.Vendor_Code
 				left outer join (SELECT DocumentCode,Location_Code,Vendor_Code,Item_Code,MIN(FROM_DATE) AS FROM_DATE,MAX(TO_DATE) AS TO_DATE  FROM TSPL_TENDER_SCHEDULE  GROUP BY DocumentCode,Location_Code,Vendor_Code,Item_Code) as TSPL_TENDER_SCHEDULE ON TSPL_TENDER_SCHEDULE.DocumentCode=TSPL_TENDER_DETAIL.DocumentCode AND TSPL_TENDER_SCHEDULE.Location_Code=TSPL_TENDER_DETAIL.Location AND TSPL_TENDER_SCHEDULE.Vendor_Code=TSPL_TENDER_DETAIL.Vendor_Code AND TSPL_TENDER_SCHEDULE.Item_Code=TSPL_TENDER_DETAIL.Item_Code
                 GROUP BY TSPL_TENDER_DETAIL.Location ,TSPL_TENDER_HEADER.DocumentCode,TSPL_TENDER_DETAIL.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_TENDER_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_TENDER_DETAIL.Unit_code) 
-	                RM_RAL ON RM_RAL.RAL=TSPL_GRN_HEAD.Ref_No AND RM_RAL.LOCATION=TSPL_PO_WEIGHTMENT_HEAD.Location_Code AND RM_RAL.ITEM_CODE=TSPL_PO_WEIGHTMENT_DETAIL.Item_Code AND RM_RAL.VENDORCODE=TSPL_GRN_HEAD.Vendor_Code  AND RM_RAL.UOM=TSPL_PO_WEIGHTMENT_DETAIL.UOM
-                where TSPL_ITEM_MASTER.RAL=1 And TSPL_PO_WEIGHTMENT_HEAD.Location_Code= '" + clsCommon.myCstr(txtBillToLocation.Value) + "'   GROUP BY TSPL_PO_WEIGHTMENT_HEAD.Location_Code ,TSPL_GRN_HEAD.Ref_No,TSPL_PO_WEIGHTMENT_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_PO_WEIGHTMENT_DETAIL.UOM ,TSPL_GRN_HEAD.Vendor_Code ,TSPL_GRN_HEAD.Vendor_Name ,TSPL_PO_WEIGHTMENT_DETAIL.UOM,RAL_QTY
+	            RM_RAL ON RM_RAL.RAL=TSPL_GRN_HEAD.Ref_No AND RM_RAL.LOCATION=TSPL_PO_WEIGHTMENT_HEAD.Location_Code AND RM_RAL.ITEM_CODE=TSPL_PO_WEIGHTMENT_DETAIL.Item_Code AND RM_RAL.VENDORCODE=TSPL_GRN_HEAD.Vendor_Code  AND RM_RAL.UOM=TSPL_PO_WEIGHTMENT_DETAIL.UOM
+                where TSPL_ITEM_MASTER.RAL=1 And TSPL_PO_WEIGHTMENT_HEAD.Location_Code= '" + clsCommon.myCstr(txtBillToLocation.Value) + "'   
+                and TSPL_GRN_HEAD.IsCancel=0 and TSPL_GRN_HEAD.Status=1 and (VisualQCStatus <>2 or VisualQCStatusSecond<>2) 
+                GROUP BY TSPL_PO_WEIGHTMENT_HEAD.Location_Code ,TSPL_GRN_HEAD.Ref_No,TSPL_PO_WEIGHTMENT_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_PO_WEIGHTMENT_DETAIL.UOM ,TSPL_GRN_HEAD.Vendor_Code ,TSPL_GRN_HEAD.Vendor_Name ,TSPL_PO_WEIGHTMENT_DETAIL.UOM,RAL_QTY
                         ) final ) XXY
 						LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=XXY.LOCATION  " + whr
 
@@ -118,7 +120,7 @@ Public Class rptPerformanceReport
                 GROUP BY TSPL_TENDER_DETAIL.Location ,TSPL_TENDER_HEADER.DocumentCode,TSPL_TENDER_DETAIL.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_TENDER_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_TENDER_DETAIL.Unit_code) 
 	                RM_RAL ON RM_RAL.RAL=TSPL_GRN_HEAD.Ref_No AND RM_RAL.LOCATION=TSPL_SRN_HEAD.Bill_To_Location AND RM_RAL.ITEM_CODE=TSPL_SRN_DETAIL.Item_Code AND RM_RAL.VENDORCODE=TSPL_GRN_HEAD.Vendor_Code  AND RM_RAL.UOM=TSPL_SRN_DETAIL.Unit_code
                 where  TSPL_SRN_HEAD.Bill_To_Location= '" + clsCommon.myCstr(txtBillToLocation.Value) + "' 
-				   
+				and TSPL_GRN_HEAD.IsCancel=0 and TSPL_GRN_HEAD.Status=1  and (VisualQCStatus <>2 or VisualQCStatusSecond<>2)   
 				GROUP BY TSPL_SRN_HEAD.Bill_To_Location ,TSPL_GRN_HEAD.Ref_No,TSPL_SRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_SRN_DETAIL.Unit_code ,TSPL_GRN_HEAD.Vendor_Code ,TSPL_GRN_HEAD.Vendor_Name ,TSPL_SRN_DETAIL.Unit_code,RAL_QTY
                         ) final) XXY 
 						LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=XXY.LOCATION   " + whr
@@ -341,7 +343,9 @@ Public Class rptPerformanceReport
 				left outer join (SELECT DocumentCode,Location_Code,Vendor_Code,Item_Code,MIN(FROM_DATE) AS FROM_DATE,MAX(TO_DATE) AS TO_DATE  FROM TSPL_TENDER_SCHEDULE  GROUP BY DocumentCode,Location_Code,Vendor_Code,Item_Code) as TSPL_TENDER_SCHEDULE ON TSPL_TENDER_SCHEDULE.DocumentCode=TSPL_TENDER_DETAIL.DocumentCode AND TSPL_TENDER_SCHEDULE.Location_Code=TSPL_TENDER_DETAIL.Location AND TSPL_TENDER_SCHEDULE.Vendor_Code=TSPL_TENDER_DETAIL.Vendor_Code AND TSPL_TENDER_SCHEDULE.Item_Code=TSPL_TENDER_DETAIL.Item_Code
                 GROUP BY TSPL_TENDER_DETAIL.Location ,TSPL_TENDER_HEADER.DocumentCode,TSPL_TENDER_DETAIL.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_TENDER_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_TENDER_DETAIL.Unit_code) 
 	                RM_RAL ON RM_RAL.RAL=TSPL_GRN_HEAD.Ref_No AND RM_RAL.LOCATION=TSPL_PO_WEIGHTMENT_HEAD.Location_Code AND RM_RAL.ITEM_CODE=TSPL_PO_WEIGHTMENT_DETAIL.Item_Code AND RM_RAL.VENDORCODE=TSPL_GRN_HEAD.Vendor_Code  AND RM_RAL.UOM=TSPL_PO_WEIGHTMENT_DETAIL.UOM
-                where TSPL_ITEM_MASTER.RAL=1 And TSPL_PO_WEIGHTMENT_HEAD.Location_Code= '" + clsCommon.myCstr(txtBillToLocation.Value) + "'   GROUP BY TSPL_PO_WEIGHTMENT_HEAD.Location_Code ,TSPL_GRN_HEAD.Ref_No,TSPL_PO_WEIGHTMENT_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_PO_WEIGHTMENT_DETAIL.UOM ,TSPL_GRN_HEAD.Vendor_Code ,TSPL_GRN_HEAD.Vendor_Name ,TSPL_PO_WEIGHTMENT_DETAIL.UOM,RAL_QTY
+                where TSPL_ITEM_MASTER.RAL=1 And TSPL_PO_WEIGHTMENT_HEAD.Location_Code= '" + clsCommon.myCstr(txtBillToLocation.Value) + "'   
+                and TSPL_GRN_HEAD.IsCancel=0 and TSPL_GRN_HEAD.Status=1 and (VisualQCStatus <>2 or VisualQCStatusSecond<>2) 
+                GROUP BY TSPL_PO_WEIGHTMENT_HEAD.Location_Code ,TSPL_GRN_HEAD.Ref_No,TSPL_PO_WEIGHTMENT_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_PO_WEIGHTMENT_DETAIL.UOM ,TSPL_GRN_HEAD.Vendor_Code ,TSPL_GRN_HEAD.Vendor_Name ,TSPL_PO_WEIGHTMENT_DETAIL.UOM,RAL_QTY
                         ) final ) XXY
 						LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=XXY.LOCATION  " + whr
 
@@ -371,8 +375,8 @@ Public Class rptPerformanceReport
 				left outer join (SELECT DocumentCode,Location_Code,Vendor_Code,Item_Code,MIN(FROM_DATE) AS FROM_DATE,MAX(TO_DATE) AS TO_DATE  FROM TSPL_TENDER_SCHEDULE  GROUP BY DocumentCode,Location_Code,Vendor_Code,Item_Code) as TSPL_TENDER_SCHEDULE ON TSPL_TENDER_SCHEDULE.DocumentCode=TSPL_TENDER_DETAIL.DocumentCode AND TSPL_TENDER_SCHEDULE.Location_Code=TSPL_TENDER_DETAIL.Location AND TSPL_TENDER_SCHEDULE.Vendor_Code=TSPL_TENDER_DETAIL.Vendor_Code AND TSPL_TENDER_SCHEDULE.Item_Code=TSPL_TENDER_DETAIL.Item_Code
                 GROUP BY TSPL_TENDER_DETAIL.Location ,TSPL_TENDER_HEADER.DocumentCode,TSPL_TENDER_DETAIL.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_TENDER_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_TENDER_DETAIL.Unit_code) 
 	                RM_RAL ON RM_RAL.RAL=TSPL_GRN_HEAD.Ref_No AND RM_RAL.LOCATION=TSPL_SRN_HEAD.Bill_To_Location AND RM_RAL.ITEM_CODE=TSPL_SRN_DETAIL.Item_Code AND RM_RAL.VENDORCODE=TSPL_GRN_HEAD.Vendor_Code  AND RM_RAL.UOM=TSPL_SRN_DETAIL.Unit_code
-                where  TSPL_SRN_HEAD.Bill_To_Location= '" + clsCommon.myCstr(txtBillToLocation.Value) + "' 
-				   
+                where  TSPL_SRN_HEAD.Bill_To_Location= '" + clsCommon.myCstr(txtBillToLocation.Value) + "'  
+                and TSPL_GRN_HEAD.IsCancel=0 and TSPL_GRN_HEAD.Status=1  and (VisualQCStatus <>2 or VisualQCStatusSecond<>2)
 				GROUP BY TSPL_SRN_HEAD.Bill_To_Location ,TSPL_GRN_HEAD.Ref_No,TSPL_SRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_SRN_DETAIL.Unit_code ,TSPL_GRN_HEAD.Vendor_Code ,TSPL_GRN_HEAD.Vendor_Name ,TSPL_SRN_DETAIL.Unit_code,RAL_QTY
                         ) final) XXY 
 						LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=XXY.LOCATION   " + whr

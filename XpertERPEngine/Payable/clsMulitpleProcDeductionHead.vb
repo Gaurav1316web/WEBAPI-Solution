@@ -407,12 +407,13 @@ where Document_No ='" + strDocNo + "'", trans))
 where Document_No ='" + strDocNo + "'", trans))
 
             ' If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmPaymentProcess, mcc, "Document_Date", trans)
 
             Dim obj As clsMultipleProcDeductionHead = clsMultipleProcDeductionHead.GetData(strDocNo, trans)
+
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("No Data found to Reverse And UnPost")
             End If
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmPaymentProcess, mcc, obj.Document_Date, trans)
 
 
             '' to insert ap documents into temporaray table

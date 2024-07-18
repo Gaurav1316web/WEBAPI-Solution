@@ -2556,9 +2556,7 @@ Public Class FrmARInvoiceEntry
                 cboDocType.SelectedValue = obj.Document_Type
                 txtRefDocNo.Value = obj.RefDocNo
                 If ((clsCommon.CompairString(obj.Document_Type, "I") = CompairStringResult.Equal) OrElse (clsCommon.CompairString(obj.Document_Type, "C") = CompairStringResult.Equal)) Then
-                    Dim strInvoiceNo As String = ""
-                    strInvoiceNo = clsDBFuncationality.getSingleValue("select Against_Sale_No from TSPL_Customer_Invoice_Head where Document_No='" & txtDocNo.Value & "'")
-                    txtSaleInvoice.Text = strInvoiceNo
+                    txtSaleInvoice.Text = obj.Against_Sale_No
                     txtServiceVisitCode.Text = obj.Against_Service_Visit_Code
                 Else
                     txtServiceVisitCode.Text = ""

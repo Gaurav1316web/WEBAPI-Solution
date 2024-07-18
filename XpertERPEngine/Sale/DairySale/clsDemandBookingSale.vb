@@ -977,7 +977,7 @@ where 2=2 "
                         'Next
 
                         For ii As Integer = obj.Arr.Count - 1 To 0 Step -1
-                            If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsReorder  from TSPL_CUSTOMER_MASTER where Cust_Code='" & obj.Arr(ii).Cust_Code & "'", trans)) = 0 Then
+                            If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsReorder  from TSPL_CUSTOMER_MASTER where Cust_Code='" & obj.Arr(ii).Cust_Code & "'", trans)) = 0 OrElse obj.IsIndividualCustomer = 1 Then
                                 obj.Arr.RemoveAt(ii)
                             Else
                                 If Not isNewEntry Then
