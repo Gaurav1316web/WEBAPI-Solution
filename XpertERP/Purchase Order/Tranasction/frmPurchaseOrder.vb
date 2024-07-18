@@ -3435,7 +3435,9 @@ Public Class frmPurchaseOrder
                 Else
                     strItemTypeincaseofMT = ""
                 End If
-                Dim obj As clsItemMaster = clsItemMaster.FinderForItem(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), clsCommon.myCstr(ItemType), True, isButtonClick, txtVendorNo.Value, "", strItemTypeincaseofMT)
+                Dim obj As clsItemMaster = clsItemMaster.FinderForItemALL(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), clsCommon.myCstr(ItemType), True, ShowItemAllStructureWise, isButtonClick, txtVendorNo.Value, "", strItemTypeincaseofMT)
+
+                ' Dim obj As clsItemMaster = clsItemMaster.FinderForItem(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), clsCommon.myCstr(ItemType), True, isButtonClick, txtVendorNo.Value, "", strItemTypeincaseofMT)
                 If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Item_Code) > 0 Then
                     gv1.CurrentRow.Cells(colICode).Value = obj.Item_Code
                     gv1.CurrentRow.Cells(colIName).Value = obj.Item_Desc
