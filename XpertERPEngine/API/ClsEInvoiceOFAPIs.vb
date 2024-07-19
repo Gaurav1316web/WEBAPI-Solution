@@ -413,32 +413,32 @@ Public Class ClsEInvoiceOFAPIs
                                     End If
 
                                     objItemList.UnitPrice = Math.Round(clsCommon.myCdbl(dr("ItemUnitPrice")), 3)
-                                    objItemList.TotAmt = clsCommon.myCdbl(dr("ItemTotAmt"))
-                                    objItemList.Discount = clsCommon.myCdbl(dr("ItemDiscount"))
-                                    objItemList.AssAmt = clsCommon.myCdbl(dr("ItemAssAmt"))
-                                    objItemList.GstRt = clsCommon.myCdbl(dr("ItemGstRt"))
-                                    objItemList.SgstAmt = clsCommon.myCdbl(dr("ItemSgstAmt"))
-                                    objItemList.IgstAmt = clsCommon.myCdbl(dr("ItemIgstAmt"))
-                                    objItemList.CgstAmt = clsCommon.myCdbl(dr("ItemCgstAmt"))
-                                    objItemList.OthChrg = clsCommon.myCdbl(dr("ItemOthChrg"))
-                                    objItemList.TotItemVal = clsCommon.myCdbl(dr("ItemTotItemVal"))
-                                    objInvDetails.ItemList.Add(objItemList)
+                                objItemList.TotAmt = Math.Round(clsCommon.myCdbl(dr("ItemTotAmt")), 2)
+                                objItemList.Discount = Math.Round(clsCommon.myCdbl(dr("ItemDiscount")), 2)
+                                objItemList.AssAmt = Math.Round(clsCommon.myCdbl(dr("ItemAssAmt")), 2)
+                                objItemList.GstRt = Math.Round(clsCommon.myCdbl(dr("ItemGstRt")), 2)
+                                objItemList.SgstAmt = Math.Round(clsCommon.myCdbl(dr("ItemSgstAmt")), 2)
+                                objItemList.IgstAmt = Math.Round(clsCommon.myCdbl(dr("ItemIgstAmt")), 2)
+                                objItemList.CgstAmt = Math.Round(clsCommon.myCdbl(dr("ItemCgstAmt")), 2)
+                                objItemList.OthChrg = Math.Round(clsCommon.myCdbl(dr("ItemOthChrg")), 2)
+                                objItemList.TotItemVal = Math.Round(clsCommon.myCdbl(dr("ItemTotItemVal")), 2)
+                                objInvDetails.ItemList.Add(objItemList)
                                 Next
 
                                 ''ValDtls info
                                 Dim ValDtlsDiscount As Double = 0
-                                objInvDetails.ValDtls.Add("AssVal", clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsAssVal")))
-                                objInvDetails.ValDtls.Add("CgstVal", clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsCgstVal")))
-                                objInvDetails.ValDtls.Add("SgstVal", clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsSgstVal")))
-                                objInvDetails.ValDtls.Add("IgstVal", clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsIgstVal")))
-                                ''objInvDetails.ValDtls.Add("Discount", clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsDiscount")))
-                                objInvDetails.ValDtls.Add("Discount", clsCommon.myCdbl(ValDtlsDiscount))
-                                objInvDetails.ValDtls.Add("OthChrg", clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsOthChrg")))
-                                objInvDetails.ValDtls.Add("TotInvVal", clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsTotInvVal")))
-                                objInvDetails.ValDtls.Add("RndOffAmt", clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsRndOffAmt")))
+                            objInvDetails.ValDtls.Add("AssVal", Math.Round(clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsAssVal")), 2))
+                            objInvDetails.ValDtls.Add("CgstVal", Math.Round(clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsCgstVal")), 2))
+                            objInvDetails.ValDtls.Add("SgstVal", Math.Round(clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsSgstVal")), 2))
+                            objInvDetails.ValDtls.Add("IgstVal", Math.Round(clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsIgstVal")), 2))
+                            objInvDetails.ValDtls.Add("Discount", Math.Round(clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsDiscount")), 2))
+                            'objInvDetails.ValDtls.Add("Discount", Math.Round(clsCommon.myCdbl(ValDtlsDiscount), 2))
+                            objInvDetails.ValDtls.Add("OthChrg", Math.Round(clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsOthChrg")), 2))
+                            objInvDetails.ValDtls.Add("TotInvVal", Math.Round(clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsTotInvVal")), 2))
+                            objInvDetails.ValDtls.Add("RndOffAmt", Math.Round(clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsRndOffAmt")), 2))
 
-                                'EwbDtls info
-                                If objCommonVar.GenerateEWayBillWithEInvoice = True Then
+                            'EwbDtls info
+                            If objCommonVar.GenerateEWayBillWithEInvoice = True Then
                                     If Not stopEWayBill Then
                                         If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("EwbTransId"))) > 0 Then
                                             objInvDetails.EwbDtls.Add("TransId", clsCommon.myCstr(dtDetails.Rows(0)("EwbTransId")))
