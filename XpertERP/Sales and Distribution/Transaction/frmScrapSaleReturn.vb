@@ -4228,7 +4228,7 @@ Public Class frmScrapSaleReturn
                 End If
 
                 If clsCommon.myLen(txtDocNo.Value) > 0 Then
-                    Dim InvoiceNo As String = clsDBFuncationality.getSingleValue("select invoice_No from TSPL_SCRAPINVOICE_HEAD where shipment_No='" + clsCommon.myCstr(txtDocNo.Value) + "' ")
+                    Dim InvoiceNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select invoice_No from TSPL_SCRAPINVOICE_HEAD where shipment_No in (select shipment_No from TSPL_SCRAPSALE_HEAD_RETURN where Document_No='" + txtDocNo.Value + "')"))
                     If clsCommon.myLen(InvoiceNo) <= 0 Then
                         common.clsCommon.MyMessageBoxShow(Me, "Invoice No does't exist for this loadout", Me.Text)
                     Else

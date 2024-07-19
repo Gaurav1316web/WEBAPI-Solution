@@ -22,8 +22,8 @@ Partial Class frmRMProcessLoss
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -47,6 +47,8 @@ Partial Class frmRMProcessLoss
         Me.txtLoc = New common.UserControls.txtFinder()
         Me.lblFromdate = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.txtITotalssQty = New common.Controls.MyLabel()
         Me.MyLabel7 = New common.Controls.MyLabel()
         Me.txtCostofFeed = New common.Controls.MyLabel()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
@@ -58,8 +60,8 @@ Partial Class frmRMProcessLoss
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.txtDate = New common.Controls.MyDateTimePicker()
-        Me.txtITotalssQty = New common.Controls.MyLabel()
-        Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.btnExcel = New Telerik.WinControls.UI.RadButton()
+        Me.btnPrintDetail = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -86,6 +88,8 @@ Partial Class frmRMProcessLoss
         CType(Me.lblloc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblFromdate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtITotalssQty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCostofFeed, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
@@ -98,8 +102,8 @@ Partial Class frmRMProcessLoss
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtITotalssQty, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnExcel, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrintDetail, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -116,6 +120,8 @@ Partial Class frmRMProcessLoss
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintDetail)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnExcel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
@@ -133,7 +139,7 @@ Partial Class frmRMProcessLoss
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(800, 417)
         Me.RadPageView1.TabIndex = 6
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -387,7 +393,7 @@ Partial Class frmRMProcessLoss
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -475,6 +481,27 @@ Partial Class frmRMProcessLoss
         Me.RadPageViewPage2.Size = New System.Drawing.Size(779, 369)
         Me.RadPageViewPage2.Text = "Production"
         '
+        'MyLabel6
+        '
+        Me.MyLabel6.FieldName = Nothing
+        Me.MyLabel6.Location = New System.Drawing.Point(370, 68)
+        Me.MyLabel6.Name = "MyLabel6"
+        Me.MyLabel6.Size = New System.Drawing.Size(118, 18)
+        Me.MyLabel6.TabIndex = 88
+        Me.MyLabel6.Text = "Total RM item amount"
+        '
+        'txtITotalssQty
+        '
+        Me.txtITotalssQty.AutoSize = False
+        Me.txtITotalssQty.BorderVisible = True
+        Me.txtITotalssQty.FieldName = Nothing
+        Me.txtITotalssQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtITotalssQty.Location = New System.Drawing.Point(502, 68)
+        Me.txtITotalssQty.Name = "txtITotalssQty"
+        Me.txtITotalssQty.Size = New System.Drawing.Size(112, 18)
+        Me.txtITotalssQty.TabIndex = 87
+        Me.txtITotalssQty.TextWrap = False
+        '
         'MyLabel7
         '
         Me.MyLabel7.FieldName = Nothing
@@ -521,7 +548,7 @@ Partial Class frmRMProcessLoss
         Me.Gv2.MasterTemplate.AllowDeleteRow = False
         Me.Gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.Gv2.MyStopExport = False
         Me.Gv2.Name = "Gv2"
         Me.Gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -535,7 +562,7 @@ Partial Class frmRMProcessLoss
         '
         Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(298, 3)
+        Me.btnReverse.Location = New System.Drawing.Point(441, 3)
         Me.btnReverse.Name = "btnReverse"
         Me.btnReverse.Size = New System.Drawing.Size(70, 20)
         Me.btnReverse.TabIndex = 441
@@ -621,26 +648,25 @@ Partial Class frmRMProcessLoss
         Me.txtDate.Text = "28/06/2012"
         Me.txtDate.Value = New Date(2012, 6, 28, 14, 31, 57, 31)
         '
-        'txtITotalssQty
+        'btnExcel
         '
-        Me.txtITotalssQty.AutoSize = False
-        Me.txtITotalssQty.BorderVisible = True
-        Me.txtITotalssQty.FieldName = Nothing
-        Me.txtITotalssQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtITotalssQty.Location = New System.Drawing.Point(502, 68)
-        Me.txtITotalssQty.Name = "txtITotalssQty"
-        Me.txtITotalssQty.Size = New System.Drawing.Size(112, 18)
-        Me.txtITotalssQty.TabIndex = 87
-        Me.txtITotalssQty.TextWrap = False
+        Me.btnExcel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnExcel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnExcel.Location = New System.Drawing.Point(370, 3)
+        Me.btnExcel.Name = "btnExcel"
+        Me.btnExcel.Size = New System.Drawing.Size(69, 20)
+        Me.btnExcel.TabIndex = 86
+        Me.btnExcel.Text = "Excel"
         '
-        'MyLabel6
+        'btnPrintDetail
         '
-        Me.MyLabel6.FieldName = Nothing
-        Me.MyLabel6.Location = New System.Drawing.Point(370, 68)
-        Me.MyLabel6.Name = "MyLabel6"
-        Me.MyLabel6.Size = New System.Drawing.Size(118, 18)
-        Me.MyLabel6.TabIndex = 88
-        Me.MyLabel6.Text = "Total RM item amount"
+        Me.btnPrintDetail.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrintDetail.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrintDetail.Location = New System.Drawing.Point(298, 3)
+        Me.btnPrintDetail.Name = "btnPrintDetail"
+        Me.btnPrintDetail.Size = New System.Drawing.Size(70, 20)
+        Me.btnPrintDetail.TabIndex = 87
+        Me.btnPrintDetail.Text = "Print Detail"
         '
         'frmRMProcessLoss
         '
@@ -682,6 +708,8 @@ Partial Class frmRMProcessLoss
         CType(Me.lblFromdate, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
         Me.RadPageViewPage2.PerformLayout()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtITotalssQty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtCostofFeed, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
@@ -694,8 +722,8 @@ Partial Class frmRMProcessLoss
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtITotalssQty, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnExcel, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrintDetail, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -737,4 +765,6 @@ Partial Class frmRMProcessLoss
     Friend WithEvents MyLabel7 As common.Controls.MyLabel
     Friend WithEvents MyLabel6 As common.Controls.MyLabel
     Friend WithEvents txtITotalssQty As common.Controls.MyLabel
+    Friend WithEvents btnPrintDetail As RadButton
+    Friend WithEvents btnExcel As RadButton
 End Class
