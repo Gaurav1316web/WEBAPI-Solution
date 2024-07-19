@@ -1261,6 +1261,7 @@ Public Class clsFixedParameterType
     Public Const DemandIncreaseDecreasePer = "Demand Increase Decrease Percentage"
     Public Const CreateAutoMCCPriceChat = "Create Auto MCC Price Chat"
     Public Const VehicleNofromDispatch = "VehicleNo From Dispatch"
+    Public Const DispatchPriceCodeForCreditCustomer = "Dispatch PriceCode For Credit Customer"
 
 End Class
 Public Class clsFixedParameterCode
@@ -2657,6 +2658,8 @@ Public Class clsFixedParameterCode
     Public Const CreateAutoMCCPriceChat = "Create Auto MCC Price Chat"
     Public Const VehicleNofromDispatch = "VehicleNo From Dispatch"
     Public Const HideQtyCrateRegister = "Hide Qty Crate Register"
+    Public Const DispatchPriceCodeForCreditCustomer = "Dispatch PriceCode For Credit Customer"
+
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4211,6 +4214,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ConvertPouchtoCrate, clsFixedParameterCode.ConvertPouchtoCrate, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.CreateAutoMCCPriceChat, clsFixedParameterCode.CreateAutoMCCPriceChat, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.VehicleNofromDispatch, clsFixedParameterCode.VehicleNofromDispatch, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.DispatchPriceCodeForCreditCustomer, clsFixedParameterCode.DispatchPriceCodeForCreditCustomer, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ChangeInventroyMovemnet, clsFixedParameterCode.ChangeInventroyMovemnet, "0", "0:Dispatch, 1:Gatepass;")
         '
         clsFixedParameterProgramMapping.SetDefaultValues()
@@ -5985,6 +5989,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ChangeInventroyMovemnet, clsFixedParameterCode.ChangeInventroyMovemnet, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMCCMaterial, clsFixedParameterType.CreateAutoMCCPriceChat, clsFixedParameterCode.CreateAutoMCCPriceChat, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyGatePass, clsFixedParameterType.VehicleNofromDispatch, clsFixedParameterCode.VehicleNofromDispatch, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.DispatchPriceCodeForCreditCustomer, clsFixedParameterCode.DispatchPriceCodeForCreditCustomer, EnumControlType.CheckBox)
 
     End Sub
 End Class
