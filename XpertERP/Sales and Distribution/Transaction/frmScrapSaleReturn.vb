@@ -192,7 +192,7 @@ Public Class frmScrapSaleReturn
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
-        RadDropDownButton1.Visible = MyBase.isPrintFlag
+        btnPrint.Visible = MyBase.isPrintFlag
         btnReverse.Visible = False
         'If MyBase.isReverse Then
         '    btnReverse.Enabled = True
@@ -285,7 +285,7 @@ Public Class frmScrapSaleReturn
             lblSecondryInvNo.Visible = True
             txtVatInvNo.Visible = True
             btnPrint.Text = "Excise"
-            btnPrePrint.Text = "Tax"
+            btnPrint.Text = "Tax"
         End If
         ''-------------------
         chkScrapSale.Enabled = False
@@ -4164,12 +4164,6 @@ Public Class frmScrapSaleReturn
                         Else
                             frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt3, clsERPFuncationality.CompanyAddresShowinFooter(), "RptMaterialSale_NonTaxable", "ScrapnSale Invoice Non Taxable", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt")
                         End If
-                        ' Else
-                        'frmCrystalReportViewer.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "ScrapSaleInvoice", "ScrapnSale Invoice", "rptCompanyAddress.rpt")
-                        ''PurchaseOrderViewer.funreport(dt1, "ScrapSaleInvoice", "ScrapSaleInvoiceRpt")
-                        'End If
-                        'End If
-                        'End If
 
                     Else
                         If clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("Invoice_Type")), "E") = CompairStringResult.Equal Then
@@ -4234,121 +4228,105 @@ Public Class frmScrapSaleReturn
                     Else
                         Dim qry As String
                         Dim dt As DataTable
-                        qry = "select h.Description,h.Reff,TSPL_SCRAPSALE_HEAD.Vehicle_Id,TSPL_GL_SEGMENT_CODE.Description as Vdescription, h.Created_By ,h.Modify_By , tspl_company_master.logo_img,tspl_company_master.logo_img2,tspl_company_master.Comp_Name  as CompanyName,tspl_company_master.Tin_No as CompanyTin," + Address + " as  CompanyAddress,h.invoice_No as ScrapInvoice,h.shipment_Date  as ScrapInvoiceDate," & _
-                                   "h.cust_Name as CustomerName,cm.PAN as Cust_PAN,h.cust_Code as CustomerCode,case when len(cm.Add1)>0 then cm.Add1 else '' end +" & _
-                                   "case when len(cm.Add2)>0 then ',' else '' end + " & _
-                                   "case when len(cm.Add2)>0 then cm.Add2 else ''end +" & _
-                                   "case when len(cm.Add3)>0 then ',' else '' end +" & _
-                                   "case when len(cm.Add3)>0 then cm.Add3 else '' end   as CustomerAddress," & _
-                                   "TSPL_SCRAPSALE_HEAD.NRG_No  as NrgNo,cm.CST as CstNo,TSPL_LOCATION_MASTER.Tin_No as TinNo,d.Item_Code as ItemCode," & _
-                                   " (Select ISNULL(Cheapter_Heads,'') from TSPL_ITEM_MASTER WHere TSPL_ITEM_MASTER.Item_Code=d.Item_Code)as [ChapterHead], " & _
-                                   "d.Item_Desc as Desciption,d.invoice_Qty as Quantity ,d.unit_code as Uom,d.price as Rate," & _
-                                   "d.ItemAmt as Amount, d.TAX1_Amt as Dtax1_Amt, d.DiscountAmt ,h.TAX1 as TaxRateDesc1, ROUND(h.TAX1_Amt, 0) as TaxRate1,h.TAX2 as TaxRateDesc2,ROUND(h.TAX2_Amt,0) as TaxRate2,h.TAX3 as TaxRateDesc3 ,ROUND(h.TAX3_Amt,0) as TaxRate3,h.TAX4 as TaxRateDesc4,ROUND(h.TAX4_Amt,0) as TaxRate4,h.TAX5 as TaxRateDesc5,ROUND(h.TAX5_Amt,0) as TaxRate5,h.TAX6 as TaxRateDesc6,ROUND(h.TAX6_Amt,0) as TaxRate6,h.TAX7 as TaxRateDesc7,ROUND(h.TAX7_Amt,0) as TaxRate7,h.TAX8 as  TaxRateDesc8,ROUND(h.TAX8_Amt,0) as TaxRate8,h.TAX9 as TaxRateDesc9,ROUND(h.TAX9_Amt,0) as TaxRate9,h.TAX10 as TaxRateDesc10,ROUND(h.TAX10_Amt,0) as  TaxRate10, " & _
-                                   " h.TAX1_Rate , h.TAX2_Rate, h.TAX3_Rate, h.TAX4_Rate, h.TAX5_Rate, h.TAX6_Rate, h.TAX7_Rate, h.TAX8_Rate, h.TAX9_Rate, h.TAX10_Rate, " & _
-                                   " TSPL_SCRAPSALE_HEAD.Excisable " & _
-                                   "from TSPL_SCRAPINVOICE_HEAD h left outer join TSPL_SCRAPINVOICE_DETAIL d on h.invoice_No =d.invoice_No " & _
-                                   "left outer join TSPL_CUSTOMER_MASTER   cm on h.cust_Code =cm.Cust_Code  left outer join tspl_company_master   on tspl_company_master.Comp_Code ='" + objCommonVar.CurrentCompanyCode + "'left outer join TSPL_SCRAPSALE_HEAD  on h.shipment_No =TSPL_SCRAPSALE_HEAD.shipment_No left outer join TSPL_LOCATION_MASTER on  h.Loc_Code=TSPL_LOCATION_MASTER.Location_Code left outer join TSPL_GL_SEGMENT_CODE on TSPL_GL_SEGMENT_CODE.Segment_code  =TSPL_SCRAPSALE_HEAD.Vehicle_Id where h.invoice_No='" + clsCommon.myCstr(InvoiceNo) + "'"
+                        qry = "select h.Description,h.Reff,TSPL_SCRAPSALE_HEAD_RETURN.Vehicle_Id,TSPL_GL_SEGMENT_CODE.Description as Vdescription, h.Created_By ,h.Modify_By , tspl_company_master.logo_img,tspl_company_master.logo_img2,tspl_company_master.Comp_Name  as CompanyName,tspl_company_master.Tin_No as CompanyTin," + Address + " as  CompanyAddress,h.invoice_No as ScrapInvoice,h.shipment_Date  as ScrapInvoiceDate," &
+                                   "h.cust_Name as CustomerName,cm.PAN as Cust_PAN,h.cust_Code as CustomerCode,case when len(cm.Add1)>0 then cm.Add1 else '' end +" &
+                                   "case when len(cm.Add2)>0 then ',' else '' end + " &
+                                   "case when len(cm.Add2)>0 then cm.Add2 else ''end +" &
+                                   "case when len(cm.Add3)>0 then ',' else '' end +" &
+                                   "case when len(cm.Add3)>0 then cm.Add3 else '' end   as CustomerAddress," &
+                                   "TSPL_SCRAPSALE_HEAD_RETURN.NRG_No  as NrgNo,cm.CST as CstNo,TSPL_LOCATION_MASTER.Tin_No as TinNo,d.Item_Code as ItemCode," &
+                                   " (Select ISNULL(Cheapter_Heads,'') from TSPL_ITEM_MASTER WHere TSPL_ITEM_MASTER.Item_Code=d.Item_Code)as [ChapterHead], " &
+                                   "d.Item_Desc as Desciption,d.invoice_Qty as Quantity ,d.unit_code as Uom,d.price as Rate," &
+                                   "d.ItemAmt as Amount, d.TAX1_Amt as Dtax1_Amt, d.DiscountAmt ,h.TAX1 as TaxRateDesc1, ROUND(h.TAX1_Amt, 0) as TaxRate1,h.TAX2 as TaxRateDesc2,ROUND(h.TAX2_Amt,0) as TaxRate2,h.TAX3 as TaxRateDesc3 ,ROUND(h.TAX3_Amt,0) as TaxRate3,h.TAX4 as TaxRateDesc4,ROUND(h.TAX4_Amt,0) as TaxRate4,h.TAX5 as TaxRateDesc5,ROUND(h.TAX5_Amt,0) as TaxRate5,h.TAX6 as TaxRateDesc6,ROUND(h.TAX6_Amt,0) as TaxRate6,h.TAX7 as TaxRateDesc7,ROUND(h.TAX7_Amt,0) as TaxRate7,h.TAX8 as  TaxRateDesc8,ROUND(h.TAX8_Amt,0) as TaxRate8,h.TAX9 as TaxRateDesc9,ROUND(h.TAX9_Amt,0) as TaxRate9,h.TAX10 as TaxRateDesc10,ROUND(h.TAX10_Amt,0) as  TaxRate10, " &
+                                   " h.TAX1_Rate , h.TAX2_Rate, h.TAX3_Rate, h.TAX4_Rate, h.TAX5_Rate, h.TAX6_Rate, h.TAX7_Rate, h.TAX8_Rate, h.TAX9_Rate, h.TAX10_Rate, " &
+                                   " TSPL_SCRAPSALE_HEAD_RETURN.Excisable " &
+                                   "from TSPL_SCRAPINVOICE_HEAD h left outer join TSPL_SCRAPINVOICE_DETAIL d on h.invoice_No =d.invoice_No " &
+                                   "left outer join TSPL_CUSTOMER_MASTER   cm on h.cust_Code =cm.Cust_Code  left outer join tspl_company_master   on tspl_company_master.Comp_Code ='" + objCommonVar.CurrentCompanyCode + "'left outer join TSPL_SCRAPSALE_HEAD_RETURN  on h.shipment_No =TSPL_SCRAPSALE_HEAD_RETURN.shipment_No left outer join TSPL_LOCATION_MASTER on  h.Loc_Code=TSPL_LOCATION_MASTER.Location_Code left outer join TSPL_GL_SEGMENT_CODE on TSPL_GL_SEGMENT_CODE.Segment_code  =TSPL_SCRAPSALE_HEAD_RETURN.Vehicle_Id where h.invoice_No='" + clsCommon.myCstr(InvoiceNo) + "'"
                         dt = clsDBFuncationality.GetDataTable(qry)
                         '====for KDIL(by shivani)==============='
-                        Dim Qry1 As String = "select TSPL_SCRAPSALE_HEAD.Is_Taxable,TSPL_SCRAPINVOICE_HEAD.EWayBillNo,convert(varchar,TSPL_SCRAPINVOICE_HEAD.EWayBillDate,103) as EWayBillDate,'' as Electronic_Ref_No, TSPL_ITEM_MASTER.HSN_Code, " & _
-                                            "FromState.GST_STATE_CODE as From_GstStateCode,FromLocation.GSTNO as From_Loc_GstinNo,Customer_State.GST_STATE_CODE as Cust_GstStateCode,Customer_State.STATE_NAME AS Cust_StateName,TSPL_CUSTOMER_MASTER.GSTNO as Cust_GstInNo,ISNULL(TSPL_SCRAPSALE_DETAIL.DiscountAmt,0) AS DiscountAmt," & _
-                                            " convert(varchar,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) as shipment_Date, tspl_customer_master.PAN as Cust_Pan, TSPL_SCRAPINVOICE_HEAD.Description,FromLocation.HOAdd1 as frmHO1,FromLocation.HOAdd2 as frmHO2,ToLocation.HOAdd1 as to_HO1,ToLocation.HOAdd2 as to_HO2," & _
-                                        "TSPL_SCRAPINVOICE_HEAD.invoice_No,convert(varchar,TSPL_SCRAPINVOICE_HEAD.posting_Date,103) as Invoice_Date,TSPL_SCRAPSALE_HEAD.Loc_Code as From_Location,FromLocation.Location_Desc as [From Location Desc],(FromLocation.Add1+FromLocation.Add2+FromLocation.Add3+FromLocation.Add4)as [From Address] ," & _
-                                        "FromLocation.Pin_Code,FromLocation.TIN_No,FromLocation.CST_No,FromLocation.State as From_State,FromState.State_Name as frm_State_name  ,TSPL_SCRAPSALE_HEAD.ToLoc_Code as To_Location,ToLocation.Location_Desc as To_Location_Desc,(ToLocation.Add1+ToLocation.Add2+ToLocation.Add3+ToLocation.Add4)as [To Address]," & _
-                                        "tspl_customer_master.Pin_Code as [To Pin Code],tspl_customer_master.TIN_No as [To TIN No],tspl_customer_master.CST as [To CST No],tspl_customer_master.Phone1 as [To phone],ToLocation.State as To_State,ToState.State_Name as To_state_name,TSPL_SCRAPSALE_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,Shipped_Qty," & _
-                                        "TSPL_SCRAPSALE_DETAIL.Unit_Code,Price,ItemAmt,TSPL_SCRAPSALE_HEAD.Invoice_Type,TSPL_SCRAPSALE_HEAD.Total_Tax_Amt,TSPL_SCRAPSALE_HEAD.Doc_Amt,	TAX1 .Tax_Code_Desc as tax1name,isnull (TSPL_SCRAPSALE_HEAD.tax1_rate,0) as txt1Rate,isnull (TSPL_SCRAPSALE_HEAD.tax1_amt,0) as txt1amt, "
-                        Qry1 += " tax2.Tax_Code_Desc as tax2name,isnull (TSPL_SCRAPSALE_HEAD.tax2_rate,0) as txt2Rate,isnull (TSPL_SCRAPSALE_HEAD.tax2_amt,0) as txt2amt,"
-                        Qry1 += " tax3.Tax_Code_Desc as tax3name,isnull (TSPL_SCRAPSALE_HEAD.tax3_rate,0) as txt3Rate,isnull (TSPL_SCRAPSALE_HEAD.tax3_amt,0) as txt3amt, "
-                        Qry1 += " tax4.Tax_Code_Desc as tax4name,isnull (TSPL_SCRAPSALE_HEAD.tax4_rate,0) as txt4Rate,isnull (TSPL_SCRAPSALE_HEAD.tax4_amt,0) as txt4amt, "
-                        Qry1 += " tax5.Tax_Code_Desc as tax5name,isnull (TSPL_SCRAPSALE_HEAD.tax5_rate,0) as txt5Rate,isnull (TSPL_SCRAPSALE_HEAD.tax5_amt,0) as txt5amt, "
-                        Qry1 += "  tax6.Tax_Code_Desc as tax6name,isnull (TSPL_SCRAPSALE_HEAD.tax6_rate,0) as txt6Rate,isnull (TSPL_SCRAPSALE_HEAD.tax6_amt,0) as txt6amt, "
-                        Qry1 += "  tax7.Tax_Code_Desc as tax7name,isnull (TSPL_SCRAPSALE_HEAD.tax7_rate,0) as txt7Rate,isnull (TSPL_SCRAPSALE_HEAD.tax7_amt,0) as txt7amt, "
-                        Qry1 += " tax8.Tax_Code_Desc as tax8name,isnull (TSPL_SCRAPSALE_HEAD.tax8_rate,0) as txt8Rate,isnull (TSPL_SCRAPSALE_HEAD.tax8_amt,0) as txt8amt,  "
-                        Qry1 += "  tax9.Tax_Code_Desc as tax9name,isnull (TSPL_SCRAPSALE_HEAD.tax9_rate,0) as txt9Rate,isnull (TSPL_SCRAPSALE_HEAD.tax9_amt,0) as txt9amt,'' as cin,'' as pan, '' as companyaddress,"
-                        Qry1 += " tax10.Tax_Code_Desc as tax10name,isnull (TSPL_SCRAPSALE_HEAD.tax10_amt,0) as txt10amt ,TSPL_SCRAPSALE_HEAD.AddDesc1,isnull (TSPL_SCRAPSALE_HEAD.AddAmt1,0) as AddAmt1,"
-                        Qry1 += " TSPL_SCRAPSALE_HEAD.AddDesc2,isnull (TSPL_SCRAPSALE_HEAD.AddAmt2,0) as AddAmt2,"
-                        Qry1 += " TSPL_SCRAPSALE_HEAD.AddDesc3,isnull (TSPL_SCRAPSALE_HEAD.AddAmt3,0) as AddAmt3,"
-                        Qry1 += " TSPL_SCRAPSALE_HEAD.AddDesc4,isnull (TSPL_SCRAPSALE_HEAD.AddAmt4,0) as AddAmt4,"
-                        Qry1 += " TSPL_SCRAPSALE_HEAD.AddDesc5,isnull (TSPL_SCRAPSALE_HEAD.AddAmt5,0) as AddAmt5,"
-                        Qry1 += " TSPL_SCRAPSALE_HEAD.AddDesc6,isnull (TSPL_SCRAPSALE_HEAD.AddAmt6,0) as AddAmt6,"
-                        Qry1 += " TSPL_SCRAPSALE_HEAD.AddDesc7,isnull (TSPL_SCRAPSALE_HEAD.AddAmt7,0) as AddAmt7,"
-                        Qry1 += " TSPL_SCRAPSALE_HEAD.AddDesc8,isnull (TSPL_SCRAPSALE_HEAD.AddAmt8,0) as AddAmt8,"
-                        Qry1 += " TSPL_SCRAPSALE_HEAD.AddDesc9,isnull (TSPL_SCRAPSALE_HEAD.AddAmt9,0) as AddAmt9,"
-                        Qry1 += " TSPL_SCRAPSALE_HEAD.AddDesc10,isnull (TSPL_SCRAPSALE_HEAD.AddAmt10,0) as AddAmt10,"
+                        Dim Qry1 As String = "select TSPL_SCRAPSALE_HEAD_RETURN.Is_Taxable,tspl_company_master.comp_Name,TSPL_COMPANY_MASTER.Add1 as Comp_Add1, TSPL_COMPANY_MASTER.Add2 as Comp_Add2, TSPL_COMPANY_MASTER.Add3 as Comp_Add3, TSPL_COMPANY_MASTER.Email as Comp_Email, TSPL_COMPANY_MASTER.Phone1 as Comp_Phone1, TSPL_COMPANY_MASTER.Phone2 as Comp_Phone2, TSPL_COMPANY_MASTER.Pan_No as Comp_Pan_No, cast(TSPL_COMPANY_MASTER.Logo_Img as image) as Logo_Img, cast(TSPL_COMPANY_MASTER.Logo_Img2 as image) as Logo_Img2 , TSPL_COMPANY_MASTER.GSTREg_No as Comp_GSTREg_No , TSPL_COMPANY_MASTER.CINNO as Comp_CINNO, TSPL_COMPANY_MASTER.Access_Officer as Comp_Access_Officer,TSPL_SCRAPSALE_DETAIL_RETURN.TotalAmt,isnull(TSPL_SCRAPSALE_HEAD_RETURN.RoundOffAmount,0) as RoundOffAmount,cast(TSPL_SCRAPSALE_HEAD_RETURN.QR_Code as image) As BarCode_Img,isnull (TSPL_SCRAPSALE_HEAD_RETURN.IRN_No,'') as IRN_No,isnull (TSPL_SCRAPSALE_HEAD_RETURN.Ack_No,'') as Ack_No,case when len(isnull (TSPL_SCRAPSALE_HEAD_RETURN.Ack_No,'')) > 0 then convert (varchar, TSPL_SCRAPSALE_HEAD_RETURN.Ack_Date,103) else ''  end as Ack_Date,TSPL_SCRAPINVOICE_HEAD.EWayBillNo,convert(varchar,TSPL_SCRAPINVOICE_HEAD.EWayBillDate,103) as EWayBillDate,'' as Electronic_Ref_No, TSPL_ITEM_MASTER.HSN_Code, " &
+                                            "FromState.GST_STATE_CODE as From_GstStateCode,FromLocation.GSTNO as From_Loc_GstinNo,Customer_State.GST_STATE_CODE as Cust_GstStateCode,Customer_State.STATE_NAME AS Cust_StateName,TSPL_CUSTOMER_MASTER.GSTNO as Cust_GstInNo,ISNULL(TSPL_SCRAPSALE_DETAIL_RETURN.DiscountAmt,0) AS DiscountAmt," &
+                                            " convert(varchar,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) as shipment_Date, tspl_customer_master.PAN as Cust_Pan, TSPL_SCRAPINVOICE_HEAD.Description,FromLocation.HOAdd1 as frmHO1,FromLocation.HOAdd2 as frmHO2,ToLocation.HOAdd1 as to_HO1,ToLocation.HOAdd2 as to_HO2," &
+                                        "TSPL_SCRAPINVOICE_HEAD.invoice_No,TSPL_SCRAPSALE_HEAD_RETURN.Document_No,convert(varchar,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103) as Return_Date,convert(varchar,TSPL_SCRAPINVOICE_HEAD.posting_Date,103) as Invoice_Date,TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code as From_Location,FromLocation.Location_Desc as [From Location Desc],(FromLocation.Add1+FromLocation.Add2+FromLocation.Add3+FromLocation.Add4)as [From Address] ," &
+                                        "FromLocation.Pin_Code,FromLocation.TIN_No,FromLocation.CST_No,FromLocation.State as From_State,FromState.State_Name as frm_State_name  ,TSPL_SCRAPSALE_HEAD_RETURN.ToLoc_Code as To_Location,ToLocation.Location_Desc as To_Location_Desc,(ToLocation.Add1+ToLocation.Add2+ToLocation.Add3+ToLocation.Add4)as [To Address]," &
+                                        "tspl_customer_master.Pin_Code as [To Pin Code],tspl_customer_master.TIN_No as [To TIN No],tspl_customer_master.CST as [To CST No],tspl_customer_master.Phone1 as [To phone],ToLocation.State as To_State,ToState.State_Name as To_state_name,TSPL_SCRAPSALE_DETAIL_RETURN.Item_Code,TSPL_ITEM_MASTER.Item_Desc,Shipped_Qty," &
+                                        "TSPL_SCRAPSALE_DETAIL_RETURN.Unit_Code,Price,ItemAmt,TSPL_SCRAPSALE_HEAD_RETURN.Invoice_Type,TSPL_SCRAPSALE_HEAD_RETURN.Total_Tax_Amt,TSPL_SCRAPSALE_HEAD_RETURN.Doc_Amt,	TAX1 .Tax_Code as tax1name,isnull (TSPL_SCRAPSALE_HEAD_RETURN.tax1_rate,0) as txt1Rate,isnull (TSPL_SCRAPSALE_HEAD_RETURN.tax1_amt,0) as txt1amt, "
+                        Qry1 += " tax2.Tax_Code as tax2name,isnull (TSPL_SCRAPSALE_HEAD_RETURN.tax2_rate,0) as txt2Rate,isnull (TSPL_SCRAPSALE_HEAD_RETURN.tax2_amt,0) as txt2amt,"
+                        Qry1 += " tax3.Tax_Code as tax3name,isnull (TSPL_SCRAPSALE_HEAD_RETURN.tax3_rate,0) as txt3Rate,isnull (TSPL_SCRAPSALE_HEAD_RETURN.tax3_amt,0) as txt3amt, "
+                        Qry1 += " tax4.Tax_Code as tax4name,isnull (TSPL_SCRAPSALE_HEAD_RETURN.tax4_rate,0) as txt4Rate,isnull (TSPL_SCRAPSALE_HEAD_RETURN.tax4_amt,0) as txt4amt, "
+                        Qry1 += " tax5.Tax_Code as tax5name,isnull (TSPL_SCRAPSALE_HEAD_RETURN.tax5_rate,0) as txt5Rate,isnull (TSPL_SCRAPSALE_HEAD_RETURN.tax5_amt,0) as txt5amt, "
+                        Qry1 += "  tax6.Tax_Code as tax6name,isnull (TSPL_SCRAPSALE_HEAD_RETURN.tax6_rate,0) as txt6Rate,isnull (TSPL_SCRAPSALE_HEAD_RETURN.tax6_amt,0) as txt6amt, "
+                        Qry1 += "  tax7.Tax_Code as tax7name,isnull (TSPL_SCRAPSALE_HEAD_RETURN.tax7_rate,0) as txt7Rate,isnull (TSPL_SCRAPSALE_HEAD_RETURN.tax7_amt,0) as txt7amt, "
+                        Qry1 += " tax8.Tax_Code as tax8name,isnull (TSPL_SCRAPSALE_HEAD_RETURN.tax8_rate,0) as txt8Rate,isnull (TSPL_SCRAPSALE_HEAD_RETURN.tax8_amt,0) as txt8amt,  "
+                        Qry1 += "  tax9.Tax_Code as tax9name,isnull (TSPL_SCRAPSALE_HEAD_RETURN.tax9_rate,0) as txt9Rate,isnull (TSPL_SCRAPSALE_HEAD_RETURN.tax9_amt,0) as txt9amt,'' as cin,'' as pan, '' as companyaddress,"
+                        Qry1 += " tax10.Tax_Code as tax10name,isnull (TSPL_SCRAPSALE_HEAD_RETURN.tax10_amt,0) as txt10amt ,TSPL_SCRAPSALE_HEAD_RETURN.AddDesc1,isnull (TSPL_SCRAPSALE_HEAD_RETURN.AddAmt1,0) as AddAmt1,"
+                        Qry1 += " TSPL_SCRAPSALE_HEAD_RETURN.AddDesc2,isnull (TSPL_SCRAPSALE_HEAD_RETURN.AddAmt2,0) as AddAmt2,"
+                        Qry1 += " TSPL_SCRAPSALE_HEAD_RETURN.AddDesc3,isnull (TSPL_SCRAPSALE_HEAD_RETURN.AddAmt3,0) as AddAmt3,"
+                        Qry1 += " TSPL_SCRAPSALE_HEAD_RETURN.AddDesc4,isnull (TSPL_SCRAPSALE_HEAD_RETURN.AddAmt4,0) as AddAmt4,"
+                        Qry1 += " TSPL_SCRAPSALE_HEAD_RETURN.AddDesc5,isnull (TSPL_SCRAPSALE_HEAD_RETURN.AddAmt5,0) as AddAmt5,"
+                        Qry1 += " TSPL_SCRAPSALE_HEAD_RETURN.AddDesc6,isnull (TSPL_SCRAPSALE_HEAD_RETURN.AddAmt6,0) as AddAmt6,"
+                        Qry1 += " TSPL_SCRAPSALE_HEAD_RETURN.AddDesc7,isnull (TSPL_SCRAPSALE_HEAD_RETURN.AddAmt7,0) as AddAmt7,"
+                        Qry1 += " TSPL_SCRAPSALE_HEAD_RETURN.AddDesc8,isnull (TSPL_SCRAPSALE_HEAD_RETURN.AddAmt8,0) as AddAmt8,"
+                        Qry1 += " TSPL_SCRAPSALE_HEAD_RETURN.AddDesc9,isnull (TSPL_SCRAPSALE_HEAD_RETURN.AddAmt9,0) as AddAmt9,"
+                        Qry1 += " TSPL_SCRAPSALE_HEAD_RETURN.AddDesc10,isnull (TSPL_SCRAPSALE_HEAD_RETURN.AddAmt10,0) as AddAmt10,"
 
-                        Qry1 += "dtax1.Type as tax1Type,dtax2.Type as tax2Type,dtax3.Type as tax3Type,dtax4.Type as tax4Type,dtax5.Type as tax5Type,dtax6.Type as tax6Type,dtax7.Type as tax7Type,dtax8.Type as tax8Type,dtax9.Type as tax9Type,dtax10.Type as tax10Type," & _
-                         " isnull(TSPL_SCRAPSALE_DETAIL.TAX1_Amt ,0) as DTax1_Amt, isnull(TSPL_SCRAPSALE_DETAIL.TAX2_Amt ,0) as DTax2_Amt," & _
-                         " isnull(TSPL_SCRAPSALE_DETAIL.TAX3_Amt ,0) as DTax3_Amt, isnull(TSPL_SCRAPSALE_DETAIL.TAX4_Amt ,0) as DTax4_Amt," & _
-                         " isnull(TSPL_SCRAPSALE_DETAIL.TAX5_Amt ,0) as DTax5_Amt, isnull(TSPL_SCRAPSALE_DETAIL.TAX6_Amt ,0) as DTax6_Amt," & _
-                         " isnull(TSPL_SCRAPSALE_DETAIL.TAX7_Amt ,0) as DTax7_Amt, isnull(TSPL_SCRAPSALE_DETAIL.TAX8_Amt ,0) as DTax8_Amt," & _
-                         " isnull(TSPL_SCRAPSALE_DETAIL.TAX9_Amt ,0) as DTax9_Amt, isnull(TSPL_SCRAPSALE_DETAIL.TAX10_Amt ,0) as DTax10_Amt," & _
-                         " isnull(TSPL_SCRAPSALE_DETAIL.TAX1_Rate,0) as DTax1_Rate,  isnull(TSPL_SCRAPSALE_DETAIL.TAX2_Rate,0) as DTax2_Rate, " & _
-                          " isnull(TSPL_SCRAPSALE_DETAIL.TAX3_Rate,0) as DTax3_Rate,  isnull(TSPL_SCRAPSALE_DETAIL.TAX4_Rate,0) as DTax4_Rate," & _
-                           " isnull(TSPL_SCRAPSALE_DETAIL.TAX5_Rate,0) as DTax5_Rate,  isnull(TSPL_SCRAPSALE_DETAIL.TAX6_Rate,0) as DTax6_Rate," & _
-                            " isnull(TSPL_SCRAPSALE_DETAIL.TAX7_Rate,0) as DTax7_Rate,  isnull(TSPL_SCRAPSALE_DETAIL.TAX8_Rate,0) as DTax8_Rate," & _
-                             " isnull(TSPL_SCRAPSALE_DETAIL.TAX9_Rate,0) as DTax9_Rate,  isnull(TSPL_SCRAPSALE_DETAIL.TAX10_Rate,0) as DTax10_Rate,"
+                        Qry1 += "dtax1.Type as tax1Type,dtax2.Type as tax2Type,dtax3.Type as tax3Type,dtax4.Type as tax4Type,dtax5.Type as tax5Type,dtax6.Type as tax6Type,dtax7.Type as tax7Type,dtax8.Type as tax8Type,dtax9.Type as tax9Type,dtax10.Type as tax10Type," &
+                         " isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX1_Amt ,0) as DTax1_Amt, isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX2_Amt ,0) as DTax2_Amt," &
+                         " isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX3_Amt ,0) as DTax3_Amt, isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX4_Amt ,0) as DTax4_Amt," &
+                         " isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX5_Amt ,0) as DTax5_Amt, isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX6_Amt ,0) as DTax6_Amt," &
+                         " isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX7_Amt ,0) as DTax7_Amt, isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX8_Amt ,0) as DTax8_Amt," &
+                         " isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX9_Amt ,0) as DTax9_Amt, isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX10_Amt ,0) as DTax10_Amt," &
+                         " isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX1_Rate,0) as DTax1_Rate,  isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX2_Rate,0) as DTax2_Rate, " &
+                          " isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX3_Rate,0) as DTax3_Rate,  isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX4_Rate,0) as DTax4_Rate," &
+                           " isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX5_Rate,0) as DTax5_Rate,  isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX6_Rate,0) as DTax6_Rate," &
+                            " isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX7_Rate,0) as DTax7_Rate,  isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX8_Rate,0) as DTax8_Rate," &
+                             " isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX9_Rate,0) as DTax9_Rate,  isnull(TSPL_SCRAPSALE_DETAIL_RETURN.TAX10_Rate,0) as DTax10_Rate,"
 
-                        Qry1 += "vehicle_code,Transport_code,Transporter_name,TSPL_SCRAPSALE_HEAD.Cust_code,TSPL_SCRAPSALE_HEAD.cust_name,tspl_customer_master.add1,tspl_customer_master.add2,tspl_customer_master.add3,tspl_city_master.city_name,TSPL_SCRAPSALE_HEAD.Electronic_ref_No from TSPL_SCRAPSALE_HEAD left join TSPL_SCRAPSALE_DETAIL on TSPL_SCRAPSALE_DETAIL.shipment_No=TSPL_SCRAPSALE_HEAD.shipment_No left join TSPL_SCRAPINVOICE_HEAD on TSPL_SCRAPINVOICE_HEAD. shipment_No=TSPL_SCRAPSALE_HEAD.shipment_No left join TSPL_LOCATION_MASTER as FromLocation on FromLocation.Location_Code=TSPL_SCRAPSALE_HEAD.Loc_Code left join TSPL_LOCATION_MASTER as ToLocation on ToLocation.Location_Code=TSPL_SCRAPSALE_HEAD.ToLoc_Code left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SCRAPSALE_DETAIL.Item_Code left join TSPL_STATE_MASTER as  FromState on FromState.State_Code=FromLocation.State"
+                        Qry1 += "TSPL_SCRAPSALE_HEAD_RETURN.vehicle_code,TSPL_SCRAPSALE_HEAD_RETURN.Transport_code,Transporter_name,TSPL_SCRAPSALE_HEAD_RETURN.Cust_code,TSPL_SCRAPSALE_HEAD_RETURN.cust_name,tspl_customer_master.add1,tspl_customer_master.add2,tspl_customer_master.add3,tspl_city_master.city_name,TSPL_SCRAPSALE_HEAD_RETURN.Electronic_ref_No from TSPL_SCRAPSALE_HEAD_RETURN left join TSPL_SCRAPSALE_DETAIL_RETURN on TSPL_SCRAPSALE_DETAIL_RETURN.shipment_No=TSPL_SCRAPSALE_HEAD_RETURN.shipment_No left join TSPL_SCRAPINVOICE_HEAD on TSPL_SCRAPINVOICE_HEAD. shipment_No=TSPL_SCRAPSALE_HEAD_RETURN.shipment_No left join TSPL_LOCATION_MASTER as FromLocation on FromLocation.Location_Code=TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code left join TSPL_LOCATION_MASTER as ToLocation on ToLocation.Location_Code=TSPL_SCRAPSALE_HEAD_RETURN.ToLoc_Code left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SCRAPSALE_DETAIL_RETURN.Item_Code left join TSPL_STATE_MASTER as  FromState on FromState.State_Code=FromLocation.State"
                         Qry1 += " left join TSPL_STATE_MASTER as  ToState on ToState.State_Code=ToLocation.State"
-                        Qry1 += " left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_SCRAPSALE_HEAD.tax1 "
-                        Qry1 += "  left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_SCRAPSALE_HEAD.tax2 "
-                        Qry1 += " left outer join tspl_tax_master as tax3 on tax3.Tax_Code=TSPL_SCRAPSALE_HEAD .TAX3 "
-                        Qry1 += "  left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= TSPL_SCRAPSALE_HEAD .tax4 "
-                        Qry1 += " left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=TSPL_SCRAPSALE_HEAD .tax5 "
-                        Qry1 += " left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =TSPL_SCRAPSALE_HEAD .TAX6 "
-                        Qry1 += " left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =TSPL_SCRAPSALE_HEAD .TAX7 "
-                        Qry1 += " left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =TSPL_SCRAPSALE_HEAD .TAX8 "
-                        Qry1 += " left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =TSPL_SCRAPSALE_HEAD .TAX9 "
-                        Qry1 += " left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_SCRAPSALE_HEAD .TAX10 "
+                        Qry1 += " left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_SCRAPSALE_HEAD_RETURN.tax1 "
+                        Qry1 += "  left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_SCRAPSALE_HEAD_RETURN.tax2 "
+                        Qry1 += " left outer join tspl_tax_master as tax3 on tax3.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN .TAX3 "
+                        Qry1 += "  left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= TSPL_SCRAPSALE_HEAD_RETURN .tax4 "
+                        Qry1 += " left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=TSPL_SCRAPSALE_HEAD_RETURN .tax5 "
+                        Qry1 += " left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =TSPL_SCRAPSALE_HEAD_RETURN .TAX6 "
+                        Qry1 += " left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =TSPL_SCRAPSALE_HEAD_RETURN .TAX7 "
+                        Qry1 += " left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =TSPL_SCRAPSALE_HEAD_RETURN .TAX8 "
+                        Qry1 += " left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =TSPL_SCRAPSALE_HEAD_RETURN .TAX9 "
+                        Qry1 += " left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_SCRAPSALE_HEAD_RETURN .TAX10 "
 
-                        Qry1 += "left outer join TSPL_TAX_MASTER as dtax1 on dtax1.tax_code =TSPL_SCRAPSALE_DETAIL.tax1  " & _
-                     " left outer join tspl_tax_master as dtax2 on dtax2.tax_code = TSPL_SCRAPSALE_DETAIL.tax2 " & _
-                      "left outer join tspl_tax_master as dtax3 on dtax3.Tax_Code=TSPL_SCRAPSALE_DETAIL .TAX3  " & _
-                       " left outer join TSPL_TAX_MASTER as dtax4 on dtax4.Tax_Code= TSPL_SCRAPSALE_DETAIL .tax4 " & _
-                        "left outer join TSPL_TAX_MASTER as dtax5 on dtax5.Tax_Code=TSPL_SCRAPSALE_DETAIL .tax5 " & _
-                         " left outer join TSPL_TAX_MASTER as dtax6 on dtax6.Tax_Code =TSPL_SCRAPSALE_DETAIL .TAX6  " & _
-                         "left outer join TSPL_TAX_MASTER as dtax7 on dtax7.Tax_Code =TSPL_SCRAPSALE_DETAIL .TAX7  " & _
-                         " left outer join TSPL_TAX_MASTER as dtax8 on dtax8.Tax_Code =TSPL_SCRAPSALE_DETAIL .TAX8  " & _
-                         " left outer join TSPL_TAX_MASTER as dtax9 on dtax9.Tax_Code =TSPL_SCRAPSALE_DETAIL .TAX9 " & _
-                          " left outer join TSPL_TAX_MASTER as dtax10 on dtax10.Tax_Code =TSPL_SCRAPSALE_DETAIL .TAX10 " & _
-                    " left join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=Transport_code  left join tspl_customer_master on tspl_customer_master.cust_code=TSPL_SCRAPSALE_HEAD.cust_code "
+                        Qry1 += "left outer join TSPL_TAX_MASTER as dtax1 on dtax1.tax_code =TSPL_SCRAPSALE_DETAIL_RETURN.tax1  " &
+                     " left outer join tspl_tax_master as dtax2 on dtax2.tax_code = TSPL_SCRAPSALE_DETAIL_RETURN.tax2 " &
+                      "left outer join tspl_tax_master as dtax3 on dtax3.Tax_Code=TSPL_SCRAPSALE_DETAIL_RETURN .TAX3  " &
+                       " left outer join TSPL_TAX_MASTER as dtax4 on dtax4.Tax_Code= TSPL_SCRAPSALE_DETAIL_RETURN .tax4 " &
+                        "left outer join TSPL_TAX_MASTER as dtax5 on dtax5.Tax_Code=TSPL_SCRAPSALE_DETAIL_RETURN .tax5 " &
+                         " left outer join TSPL_TAX_MASTER as dtax6 on dtax6.Tax_Code =TSPL_SCRAPSALE_DETAIL_RETURN .TAX6  " &
+                         "left outer join TSPL_TAX_MASTER as dtax7 on dtax7.Tax_Code =TSPL_SCRAPSALE_DETAIL_RETURN .TAX7  " &
+                         " left outer join TSPL_TAX_MASTER as dtax8 on dtax8.Tax_Code =TSPL_SCRAPSALE_DETAIL_RETURN .TAX8  " &
+                         " left outer join TSPL_TAX_MASTER as dtax9 on dtax9.Tax_Code =TSPL_SCRAPSALE_DETAIL_RETURN .TAX9 " &
+                          " left outer join TSPL_TAX_MASTER as dtax10 on dtax10.Tax_Code =TSPL_SCRAPSALE_DETAIL_RETURN .TAX10 " &
+                    " left join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_SCRAPSALE_HEAD_RETURN.Transport_code  left join tspl_customer_master on tspl_customer_master.cust_code=TSPL_SCRAPSALE_HEAD_RETURN.cust_code "
                         Qry1 += " left join TSPL_STATE_MASTER as Customer_State on tspl_customer_master .State=Customer_State.STATE_CODE "
-                        Qry1 += " left join tspl_city_master on tspl_city_master.city_code=tspl_customer_master.city_code  where TSPL_SCRAPSALE_HEAD.shipment_No='" & txtDocNo.Value & "'"
+                        Qry1 += " left join tspl_city_master on tspl_city_master.city_code=tspl_customer_master.city_code "
+                        Qry1 += "left outer join tspl_company_master on tspl_company_master.comp_code = TSPL_SCRAPSALE_HEAD_RETURN.Comp_Code where TSPL_SCRAPSALE_HEAD_RETURN.Document_No='" & txtDocNo.Value & "'"
+
                         Dim dt1 As DataTable
                         dt1 = clsDBFuncationality.GetDataTable(Qry1)
-                        If isPrint Then
-                            SetItemWiseTax(dt, InvoiceNo)
-                            If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Excisable")), "Y") = CompairStringResult.Equal Then
-                                If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "VIZAG") = CompairStringResult.Equal Then
-                                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "ScrapsaleInvoice4ExcisePrintfor VIZAG", "ScrapSaleInvoiceRpt")
-                                Else
-                                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "ScrapSaleInvoice4ExcisePrint", "ScrapSaleInvoiceRpt")
-                                End If
-                            Else
-                                If (clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "KL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "001") = CompairStringResult.Equal) Then
-                                    If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt1.Rows(0)("Invoice_Date"))) Then
-                                        If clsCommon.myCdbl(dt1.Rows(0)("Is_Taxable")) = 1 Then
-                                            If clsCommon.CompairString(clsCommon.myCstr(dt1.Rows(0)("frm_State_name")), clsCommon.myCstr(dt1.Rows(0)("Cust_StateName"))) = CompairStringResult.Equal Then
-                                                frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice", "ScrapnSale Invoice Local", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt")
-                                            Else
-                                                If IsMandiTax > 0 Then
-                                                    frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice_InterState_WithMandi", "ScrapnSale Invoice InterState", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt")
-                                                Else
-                                                    frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice_InterState", "ScrapnSale Invoice InterState", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt")
-                                                End If
 
-                                            End If
-                                        Else
-                                            frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice_NonTaxable", "ScrapnSale Invoice Non Taxable", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt")
-                                        End If
+                        If isPrint Then
+                            If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDFCF") = CompairStringResult.Equal Then
+                                If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt1.Rows(0)("Invoice_Date"))) Then
+                                    If clsCommon.myCdbl(dt1.Rows(0)("Is_Taxable")) = 1 Then
+                                        frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt1, "rptMaterialSalesReturn_RCDF", "")
                                     Else
-                                        frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "ScrapSaleInvoice", "ScrapnSale Invoice", "rptCompanyAddress.rpt")
-                                        'PurchaseOrderViewer.funreport(dt1, "ScrapSaleInvoice", "ScrapSaleInvoiceRpt")
+                                        frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt1, "rptMaterialSaleaReturn_RCDFCF_NT", "")
+
                                     End If
                                 End If
                             End If
+
                         Else
-                            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.PaperSize10x12, "ScrapSaleInvoice4Excise", "ScrapSaleInvoiceRpt")
+                            'frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.PaperSize10x12, "ScrapSaleInvoice4Excise", "ScrapSaleInvoiceRpt")
                         End If
                     End If
                 Else
@@ -4363,77 +4341,77 @@ Public Class frmScrapSaleReturn
 
     Public Function PrintMaterialSale() As String
         '"ToState.GST_STATE_CODE as Cust_GstStateCode,ToState.STATE_NAME AS Cust_StateName"
-        Dim strQuery As String = Nothing
-        strQuery = "select TSPL_SCRAPSALE_HEAD.Is_Taxable,'" + strPrintType + "' as Print_Type ,TSPL_COMPANY_MASTER.Insurance_Comp_Name ,TSPL_COMPANY_MASTER.Insurance_No ,convert(varchar,TSPL_COMPANY_MASTER.Insurance_Valid_Date ,103) AS Insurance_Valid_Date, TSPL_COMPANY_MASTER.State as comp_state,TSPL_COMPANY_MASTER.Pincode as copm_pincode,TSPL_COMPANY_MASTER.Add1 as comp_Add1 ,TSPL_COMPANY_MASTER.Add2 as comp_Add2 ,TSPL_COMPANY_MASTER.Add3  as comp_add3,TSPL_COMPANY_MASTER.Fax  as comp_fax , TSPL_COMPANY_MASTER.Circle_No AS TarrifNo,TSPL_COMPANY_MASTER.CE_Division as Divison,TSPL_COMPANY_MASTER.CE_Commissionerate ,TSPL_COMPANY_MASTER.CE_Range ,TSPL_COMPANY_MASTER.Ecc_No as ExciseRegdNo , TSPL_CUSTOMER_MASTER.ECC," & _
-         " ( case when TSPL_COMPANY_MASTER.Phone2  <> '' then TSPL_COMPANY_MASTER.Phone1 +','+TSPL_COMPANY_MASTER.Phone2 else TSPL_COMPANY_MASTER.Phone1 end) as Comp_Phn,convert(varchar,TSPL_COMPANY_MASTER.TinNo_Issue_Date,103) as TinNo_Issue_Date,convert(varchar,TSPL_COMPANY_MASTER.PanNo_Issue_Date,103) PanNo_Issue_Date ," & _
-         " TSPL_SCRAPINVOICE_HEAD.Total_Gross_Weight,TSPL_SCRAPINVOICE_HEAD.Total_Net_Weight, convert(varchar,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) as shipment_Date, tspl_customer_master.PAN as Cust_Pan, TSPL_SCRAPINVOICE_HEAD.Description,FromLocation.HOAdd1 as frmHO1,FromLocation.HOAdd2 as frmHO2,ToLocation.HOAdd1 as to_HO1,ToLocation.HOAdd2 as to_HO2,TSPL_SCRAPINVOICE_HEAD.invoice_No,convert(varchar,TSPL_SCRAPINVOICE_HEAD.posting_Date,103) as Invoice_Date,TSPL_SCRAPSALE_HEAD.Loc_Code as From_Location,FromLocation.Location_Desc as [From Location Desc],(FromLocation.Add1+FromLocation.Add2+FromLocation.Add3+FromLocation.Add4)as [From Address] ,FromLocation.Pin_Code,FromLocation.TIN_No,FromLocation.CST_No,FromLocation.State as From_State,FromState.State_Name as frm_State_name  ,TSPL_SCRAPSALE_HEAD.ToLoc_Code as To_Location,ToLocation.Location_Desc as To_Location_Desc,(ToLocation.Add1+ToLocation.Add2+ToLocation.Add3+ToLocation.Add4)as [To Address],tspl_customer_master.Pin_Code as [To Pin Code],tspl_customer_master.TIN_No as [To TIN No],tspl_customer_master.CST as [To CST No],tspl_customer_master.Phone1 as [To phone],ToLocation.State as To_State,ToState.State_Name as To_state_name,TSPL_SCRAPINVOICE_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,(CASE WHEN TSPL_ITEM_MASTER.Is_Batch_Item=1 THEN TSPL_BATCH_ITEM.Qty ELSE TSPL_SCRAPINVOICE_DETAIL.shipped_Qty END )as Shipped_Qty," & _
-        "TSPL_SCRAPINVOICE_DETAIL.Unit_Code, TSPL_SCRAPINVOICE_DETAIL.Price, TSPL_SCRAPINVOICE_DETAIL.ItemAmt, TSPL_SCRAPSALE_HEAD.Invoice_Type, TSPL_SCRAPSALE_HEAD.Total_Tax_Amt, TSPL_SCRAPSALE_HEAD.Doc_Amt, " & _
-        "tspl_customer_master.Customer_Name,tspl_customer_master.Add1,tspl_customer_master.Add2,tspl_customer_master.Add3,tspl_customer_master.State,tspl_customer_master.Cust_Code,tspl_customer_master.CST,tspl_customer_master.Lst_No,FromLocation.Loc_Short_Name," & _
-        "TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Phone1,TSPL_COMPANY_MASTER.Phone2,TSPL_COMPANY_MASTER.Tcan_No AS Website,TSPL_COMPANY_MASTER.Access_Officer as FSSAI_NO,TSPL_COMPANY_MASTER.Email AS Comp_Email,TSPL_COMPANY_MASTER.CINNo as CORP_NO,TSPL_COMPANY_MASTER.Pan_No AS Comp_PanNo,TSPL_COMPANY_MASTER.Tin_No as Comp_TinNo," & _
-        "TSPL_BATCH_ITEM.Batch_No,TSPL_SCRAPINVOICE_HEAD.Discount_Amt,TSPL_SCRAPINVOICE_HEAD.Balance_Amt,TSPL_SCRAPINVOICE_HEAD.Amount_Less_Discount,TSPL_SCRAPINVOICE_HEAD.ship_Total_Amt, " & _
-        "TAX2= REPLACE((CASE WHEN TSPL_SCRAPINVOICE_HEAD.TAX1!='' AND tax1.Type!='E' THEN(tax1.Tax_Code_Desc+' ( '+CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX1_Rate)+' % ) '+ CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX1_Amt)) ELSE '' END)+' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.TAX2!='' AND tax2.Type!='E' THEN(tax2.Tax_Code_Desc+' ( '+CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX2_Rate)+' % ) '+ CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX2_Amt))ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.TAX3!='' AND tax3.Type!='E' THEN(tax3.Tax_Code_Desc+' ( '+CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX3_Rate)+' % ) '+ CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX3_Amt))ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.TAX4!='' AND tax4.Type!='E' THEN(tax4.Tax_Code_Desc+' ( '+CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX4_Rate)+' % ) '+ CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX4_Amt))ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.TAX5!='' AND tax5.Type!='E' THEN(tax5.Tax_Code_Desc+' ( '+CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX5_Rate)+' % ) '+ CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX5_Amt))ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.TAX6!='' AND tax6.Type!='E' THEN(tax6.Tax_Code_Desc+' ( '+CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX6_Rate)+' % ) '+ CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX6_Amt))ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.TAX7!='' AND tax7.Type!='E' THEN(tax7.Tax_Code_Desc+' ( '+CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX7_Rate)+' % ) '+ CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX7_Amt))ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.TAX8!='' AND tax8.Type!='E' THEN(tax8.Tax_Code_Desc+' ( '+CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX8_Rate)+' % ) '+ CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX8_Amt))ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.TAX9!='' AND tax9.Type!='E' THEN(tax9.Tax_Code_Desc+' ( '+CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX9_Rate)+' % ) '+ CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX9_Amt))ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.TAX10!='' AND tax10.Type!='E' THEN(tax10.Tax_Code_Desc+' ( '+CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX10_Rate)+' % ) '+ CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX10_Amt))ELSE '' END),CHAR(13),'')," & _
-        " Add_Charge_Name1=(CASE WHEN TSPL_SCRAPINVOICE_HEAD.AddDesc1!='' THEN (TSPL_SCRAPINVOICE_HEAD.AddDesc1+' : '+CONVERT(VARCHAR(10),TSPL_SCRAPINVOICE_HEAD.AddAmt1)) ELSE '' END)+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.AddDesc2!='' THEN (TSPL_SCRAPINVOICE_HEAD.AddDesc2+' : '+CONVERT(VARCHAR(10),TSPL_SCRAPINVOICE_HEAD.AddAmt2)) ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.AddDesc3!='' THEN (TSPL_SCRAPINVOICE_HEAD.AddDesc3+' : '+CONVERT(VARCHAR(10),TSPL_SCRAPINVOICE_HEAD.AddAmt3)) ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.AddDesc4!='' THEN (TSPL_SCRAPINVOICE_HEAD.AddDesc4+' : '+CONVERT(VARCHAR(10),TSPL_SCRAPINVOICE_HEAD.AddAmt4)) ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.AddDesc5!='' THEN (TSPL_SCRAPINVOICE_HEAD.AddDesc5+' : '+CONVERT(VARCHAR(10),TSPL_SCRAPINVOICE_HEAD.AddAmt5)) ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.AddDesc6!='' THEN (TSPL_SCRAPINVOICE_HEAD.AddDesc6+' : '+CONVERT(VARCHAR(10),TSPL_SCRAPINVOICE_HEAD.AddAmt6)) ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.AddDesc7!='' THEN (TSPL_SCRAPINVOICE_HEAD.AddDesc7+' : '+CONVERT(VARCHAR(10),TSPL_SCRAPINVOICE_HEAD.AddAmt7)) ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.AddDesc8!='' THEN (TSPL_SCRAPINVOICE_HEAD.AddDesc8+' : '+CONVERT(VARCHAR(10),TSPL_SCRAPINVOICE_HEAD.AddAmt8)) ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.AddDesc9!='' THEN (TSPL_SCRAPINVOICE_HEAD.AddDesc9+' : '+CONVERT(VARCHAR(10),TSPL_SCRAPINVOICE_HEAD.AddAmt9)) ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.AddDesc10!='' THEN (TSPL_SCRAPINVOICE_HEAD.AddDesc10+' : '+CONVERT(VARCHAR(10),TSPL_SCRAPINVOICE_HEAD.AddAmt10)) ELSE '' END)," & _
-       "	TAX1 .Tax_Code_Desc as tax1name,isnull (TSPL_SCRAPSALE_HEAD.tax1_rate,0) as txt1Rate,isnull (TSPL_SCRAPSALE_HEAD.tax1_amt,0) as txt1amt,tax2.Tax_Code_Desc as tax2name,isnull (TSPL_SCRAPSALE_HEAD.tax2_rate,0) as txt2Rate,isnull (TSPL_SCRAPSALE_HEAD.tax2_amt,0) as txt2amt, tax3.Tax_Code_Desc as tax3name,isnull (TSPL_SCRAPSALE_HEAD.tax3_rate,0) as txt3Rate,isnull (TSPL_SCRAPSALE_HEAD.tax3_amt,0) as txt3amt,  tax4.Tax_Code_Desc as tax4name,isnull (TSPL_SCRAPSALE_HEAD.tax4_rate,0) as txt4Rate,isnull (TSPL_SCRAPSALE_HEAD.tax4_amt,0) as txt4amt,  tax5.Tax_Code_Desc as tax5name,isnull (TSPL_SCRAPSALE_HEAD.tax5_rate,0) as txt5Rate,isnull (TSPL_SCRAPSALE_HEAD.tax5_amt,0) as txt5amt,   tax6.Tax_Code_Desc as tax6name,isnull (TSPL_SCRAPSALE_HEAD.tax6_rate,0) as txt6Rate,isnull (TSPL_SCRAPSALE_HEAD.tax6_amt,0) as txt6amt,   tax7.Tax_Code_Desc as tax7name,isnull (TSPL_SCRAPSALE_HEAD.tax7_rate,0) as txt7Rate,isnull (TSPL_SCRAPSALE_HEAD.tax7_amt,0) as txt7amt,  tax8.Tax_Code_Desc as tax8name,isnull (TSPL_SCRAPSALE_HEAD.tax8_rate,0) as txt8Rate,isnull (TSPL_SCRAPSALE_HEAD.tax8_amt,0) as txt8amt,    tax9.Tax_Code_Desc as tax9name,isnull (TSPL_SCRAPSALE_HEAD.tax9_rate,0) as txt9Rate,isnull (TSPL_SCRAPSALE_HEAD.tax9_amt,0) as txt9amt,'' as cin,'' as pan, '' as companyaddress, tax10.Tax_Code_Desc as tax10name,isnull (TSPL_SCRAPSALE_HEAD.tax10_amt,0) as txt10amt ,TSPL_SCRAPSALE_HEAD.AddDesc1,isnull (TSPL_SCRAPSALE_HEAD.AddAmt1,0) as AddAmt1, TSPL_SCRAPSALE_HEAD.AddDesc2,isnull (TSPL_SCRAPSALE_HEAD.AddAmt2,0) as AddAmt2, TSPL_SCRAPSALE_HEAD.AddDesc3,isnull (TSPL_SCRAPSALE_HEAD.AddAmt3,0) as AddAmt3, TSPL_SCRAPSALE_HEAD.AddDesc4,isnull (TSPL_SCRAPSALE_HEAD.AddAmt4,0) as AddAmt4, TSPL_SCRAPSALE_HEAD.AddDesc5,isnull (TSPL_SCRAPSALE_HEAD.AddAmt5,0) as AddAmt5, TSPL_SCRAPSALE_HEAD.AddDesc6,isnull (TSPL_SCRAPSALE_HEAD.AddAmt6,0) as AddAmt6, TSPL_SCRAPSALE_HEAD.AddDesc7,isnull (TSPL_SCRAPSALE_HEAD.AddAmt7,0) as AddAmt7, TSPL_SCRAPSALE_HEAD.AddDesc8,isnull (TSPL_SCRAPSALE_HEAD.AddAmt8,0) as AddAmt8, TSPL_SCRAPSALE_HEAD.AddDesc9,isnull (TSPL_SCRAPSALE_HEAD.AddAmt9,0) as AddAmt9, TSPL_SCRAPSALE_HEAD.AddDesc10,isnull (TSPL_SCRAPSALE_HEAD.AddAmt10,0) as AddAmt10,vehicle_code,Transport_code,Transporter_name,TSPL_SCRAPSALE_HEAD.cust_name,tspl_customer_master.add1,tspl_customer_master.add2,tspl_customer_master.add3,tspl_city_master.city_name,TSPL_SCRAPSALE_HEAD.Is_CashSale,TSPL_SCRAPSALE_HEAD.Is_Scrap,isnull (TSPL_SCRAPSALE_HEAD.TAX10_Rate,0) as txt10Rate  "
+        '        Dim strQuery As String = Nothing
+        '        strQuery = "select TSPL_SCRAPSALE_HEAD.Is_Taxable,'" + strPrintType + "' as Print_Type ,TSPL_COMPANY_MASTER.Insurance_Comp_Name ,TSPL_COMPANY_MASTER.Insurance_No ,convert(varchar,TSPL_COMPANY_MASTER.Insurance_Valid_Date ,103) AS Insurance_Valid_Date, TSPL_COMPANY_MASTER.State as comp_state,TSPL_COMPANY_MASTER.Pincode as copm_pincode,TSPL_COMPANY_MASTER.Add1 as comp_Add1 ,TSPL_COMPANY_MASTER.Add2 as comp_Add2 ,TSPL_COMPANY_MASTER.Add3  as comp_add3,TSPL_COMPANY_MASTER.Fax  as comp_fax , TSPL_COMPANY_MASTER.Circle_No AS TarrifNo,TSPL_COMPANY_MASTER.CE_Division as Divison,TSPL_COMPANY_MASTER.CE_Commissionerate ,TSPL_COMPANY_MASTER.CE_Range ,TSPL_COMPANY_MASTER.Ecc_No as ExciseRegdNo , TSPL_CUSTOMER_MASTER.ECC," & _
+        '         " ( case when TSPL_COMPANY_MASTER.Phone2  <> '' then TSPL_COMPANY_MASTER.Phone1 +','+TSPL_COMPANY_MASTER.Phone2 else TSPL_COMPANY_MASTER.Phone1 end) as Comp_Phn,convert(varchar,TSPL_COMPANY_MASTER.TinNo_Issue_Date,103) as TinNo_Issue_Date,convert(varchar,TSPL_COMPANY_MASTER.PanNo_Issue_Date,103) PanNo_Issue_Date ," & _
+        '         " TSPL_SCRAPINVOICE_HEAD.Total_Gross_Weight,TSPL_SCRAPINVOICE_HEAD.Total_Net_Weight, convert(varchar,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) as shipment_Date, tspl_customer_master.PAN as Cust_Pan, TSPL_SCRAPINVOICE_HEAD.Description,FromLocation.HOAdd1 as frmHO1,FromLocation.HOAdd2 as frmHO2,ToLocation.HOAdd1 as to_HO1,ToLocation.HOAdd2 as to_HO2,TSPL_SCRAPINVOICE_HEAD.invoice_No,convert(varchar,TSPL_SCRAPINVOICE_HEAD.posting_Date,103) as Invoice_Date,TSPL_SCRAPSALE_HEAD.Loc_Code as From_Location,FromLocation.Location_Desc as [From Location Desc],(FromLocation.Add1+FromLocation.Add2+FromLocation.Add3+FromLocation.Add4)as [From Address] ,FromLocation.Pin_Code,FromLocation.TIN_No,FromLocation.CST_No,FromLocation.State as From_State,FromState.State_Name as frm_State_name  ,TSPL_SCRAPSALE_HEAD.ToLoc_Code as To_Location,ToLocation.Location_Desc as To_Location_Desc,(ToLocation.Add1+ToLocation.Add2+ToLocation.Add3+ToLocation.Add4)as [To Address],tspl_customer_master.Pin_Code as [To Pin Code],tspl_customer_master.TIN_No as [To TIN No],tspl_customer_master.CST as [To CST No],tspl_customer_master.Phone1 as [To phone],ToLocation.State as To_State,ToState.State_Name as To_state_name,TSPL_SCRAPINVOICE_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,(CASE WHEN TSPL_ITEM_MASTER.Is_Batch_Item=1 THEN TSPL_BATCH_ITEM.Qty ELSE TSPL_SCRAPINVOICE_DETAIL.shipped_Qty END )as Shipped_Qty," & _
+        '        "TSPL_SCRAPINVOICE_DETAIL.Unit_Code, TSPL_SCRAPINVOICE_DETAIL.Price, TSPL_SCRAPINVOICE_DETAIL.ItemAmt, TSPL_SCRAPSALE_HEAD.Invoice_Type, TSPL_SCRAPSALE_HEAD.Total_Tax_Amt, TSPL_SCRAPSALE_HEAD.Doc_Amt, " & _
+        '        "tspl_customer_master.Customer_Name,tspl_customer_master.Add1,tspl_customer_master.Add2,tspl_customer_master.Add3,tspl_customer_master.State,tspl_customer_master.Cust_Code,tspl_customer_master.CST,tspl_customer_master.Lst_No,FromLocation.Loc_Short_Name," & _
+        '        "TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Phone1,TSPL_COMPANY_MASTER.Phone2,TSPL_COMPANY_MASTER.Tcan_No AS Website,TSPL_COMPANY_MASTER.Access_Officer as FSSAI_NO,TSPL_COMPANY_MASTER.Email AS Comp_Email,TSPL_COMPANY_MASTER.CINNo as CORP_NO,TSPL_COMPANY_MASTER.Pan_No AS Comp_PanNo,TSPL_COMPANY_MASTER.Tin_No as Comp_TinNo," & _
+        '        "TSPL_BATCH_ITEM.Batch_No,TSPL_SCRAPINVOICE_HEAD.Discount_Amt,TSPL_SCRAPINVOICE_HEAD.Balance_Amt,TSPL_SCRAPINVOICE_HEAD.Amount_Less_Discount,TSPL_SCRAPINVOICE_HEAD.ship_Total_Amt, " & _
+        '        "TAX2= REPLACE((CASE WHEN TSPL_SCRAPINVOICE_HEAD.TAX1!='' AND tax1.Type!='E' THEN(tax1.Tax_Code_Desc+' ( '+CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX1_Rate)+' % ) '+ CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX1_Amt)) ELSE '' END)+' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.TAX2!='' AND tax2.Type!='E' THEN(tax2.Tax_Code_Desc+' ( '+CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX2_Rate)+' % ) '+ CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX2_Amt))ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.TAX3!='' AND tax3.Type!='E' THEN(tax3.Tax_Code_Desc+' ( '+CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX3_Rate)+' % ) '+ CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX3_Amt))ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.TAX4!='' AND tax4.Type!='E' THEN(tax4.Tax_Code_Desc+' ( '+CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX4_Rate)+' % ) '+ CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX4_Amt))ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.TAX5!='' AND tax5.Type!='E' THEN(tax5.Tax_Code_Desc+' ( '+CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX5_Rate)+' % ) '+ CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX5_Amt))ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.TAX6!='' AND tax6.Type!='E' THEN(tax6.Tax_Code_Desc+' ( '+CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX6_Rate)+' % ) '+ CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX6_Amt))ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.TAX7!='' AND tax7.Type!='E' THEN(tax7.Tax_Code_Desc+' ( '+CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX7_Rate)+' % ) '+ CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX7_Amt))ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.TAX8!='' AND tax8.Type!='E' THEN(tax8.Tax_Code_Desc+' ( '+CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX8_Rate)+' % ) '+ CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX8_Amt))ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.TAX9!='' AND tax9.Type!='E' THEN(tax9.Tax_Code_Desc+' ( '+CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX9_Rate)+' % ) '+ CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX9_Amt))ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.TAX10!='' AND tax10.Type!='E' THEN(tax10.Tax_Code_Desc+' ( '+CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX10_Rate)+' % ) '+ CONVERT(NVARCHAR(10),TSPL_SCRAPINVOICE_HEAD.TAX10_Amt))ELSE '' END),CHAR(13),'')," & _
+        '        " Add_Charge_Name1=(CASE WHEN TSPL_SCRAPINVOICE_HEAD.AddDesc1!='' THEN (TSPL_SCRAPINVOICE_HEAD.AddDesc1+' : '+CONVERT(VARCHAR(10),TSPL_SCRAPINVOICE_HEAD.AddAmt1)) ELSE '' END)+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.AddDesc2!='' THEN (TSPL_SCRAPINVOICE_HEAD.AddDesc2+' : '+CONVERT(VARCHAR(10),TSPL_SCRAPINVOICE_HEAD.AddAmt2)) ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.AddDesc3!='' THEN (TSPL_SCRAPINVOICE_HEAD.AddDesc3+' : '+CONVERT(VARCHAR(10),TSPL_SCRAPINVOICE_HEAD.AddAmt3)) ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.AddDesc4!='' THEN (TSPL_SCRAPINVOICE_HEAD.AddDesc4+' : '+CONVERT(VARCHAR(10),TSPL_SCRAPINVOICE_HEAD.AddAmt4)) ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.AddDesc5!='' THEN (TSPL_SCRAPINVOICE_HEAD.AddDesc5+' : '+CONVERT(VARCHAR(10),TSPL_SCRAPINVOICE_HEAD.AddAmt5)) ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.AddDesc6!='' THEN (TSPL_SCRAPINVOICE_HEAD.AddDesc6+' : '+CONVERT(VARCHAR(10),TSPL_SCRAPINVOICE_HEAD.AddAmt6)) ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.AddDesc7!='' THEN (TSPL_SCRAPINVOICE_HEAD.AddDesc7+' : '+CONVERT(VARCHAR(10),TSPL_SCRAPINVOICE_HEAD.AddAmt7)) ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.AddDesc8!='' THEN (TSPL_SCRAPINVOICE_HEAD.AddDesc8+' : '+CONVERT(VARCHAR(10),TSPL_SCRAPINVOICE_HEAD.AddAmt8)) ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.AddDesc9!='' THEN (TSPL_SCRAPINVOICE_HEAD.AddDesc9+' : '+CONVERT(VARCHAR(10),TSPL_SCRAPINVOICE_HEAD.AddAmt9)) ELSE '' END) +' '+CHAR(13)+ (CASE WHEN TSPL_SCRAPINVOICE_HEAD.AddDesc10!='' THEN (TSPL_SCRAPINVOICE_HEAD.AddDesc10+' : '+CONVERT(VARCHAR(10),TSPL_SCRAPINVOICE_HEAD.AddAmt10)) ELSE '' END)," & _
+        '       "	TAX1 .Tax_Code_Desc as tax1name,isnull (TSPL_SCRAPSALE_HEAD.tax1_rate,0) as txt1Rate,isnull (TSPL_SCRAPSALE_HEAD.tax1_amt,0) as txt1amt,tax2.Tax_Code_Desc as tax2name,isnull (TSPL_SCRAPSALE_HEAD.tax2_rate,0) as txt2Rate,isnull (TSPL_SCRAPSALE_HEAD.tax2_amt,0) as txt2amt, tax3.Tax_Code_Desc as tax3name,isnull (TSPL_SCRAPSALE_HEAD.tax3_rate,0) as txt3Rate,isnull (TSPL_SCRAPSALE_HEAD.tax3_amt,0) as txt3amt,  tax4.Tax_Code_Desc as tax4name,isnull (TSPL_SCRAPSALE_HEAD.tax4_rate,0) as txt4Rate,isnull (TSPL_SCRAPSALE_HEAD.tax4_amt,0) as txt4amt,  tax5.Tax_Code_Desc as tax5name,isnull (TSPL_SCRAPSALE_HEAD.tax5_rate,0) as txt5Rate,isnull (TSPL_SCRAPSALE_HEAD.tax5_amt,0) as txt5amt,   tax6.Tax_Code_Desc as tax6name,isnull (TSPL_SCRAPSALE_HEAD.tax6_rate,0) as txt6Rate,isnull (TSPL_SCRAPSALE_HEAD.tax6_amt,0) as txt6amt,   tax7.Tax_Code_Desc as tax7name,isnull (TSPL_SCRAPSALE_HEAD.tax7_rate,0) as txt7Rate,isnull (TSPL_SCRAPSALE_HEAD.tax7_amt,0) as txt7amt,  tax8.Tax_Code_Desc as tax8name,isnull (TSPL_SCRAPSALE_HEAD.tax8_rate,0) as txt8Rate,isnull (TSPL_SCRAPSALE_HEAD.tax8_amt,0) as txt8amt,    tax9.Tax_Code_Desc as tax9name,isnull (TSPL_SCRAPSALE_HEAD.tax9_rate,0) as txt9Rate,isnull (TSPL_SCRAPSALE_HEAD.tax9_amt,0) as txt9amt,'' as cin,'' as pan, '' as companyaddress, tax10.Tax_Code_Desc as tax10name,isnull (TSPL_SCRAPSALE_HEAD.tax10_amt,0) as txt10amt ,TSPL_SCRAPSALE_HEAD.AddDesc1,isnull (TSPL_SCRAPSALE_HEAD.AddAmt1,0) as AddAmt1, TSPL_SCRAPSALE_HEAD.AddDesc2,isnull (TSPL_SCRAPSALE_HEAD.AddAmt2,0) as AddAmt2, TSPL_SCRAPSALE_HEAD.AddDesc3,isnull (TSPL_SCRAPSALE_HEAD.AddAmt3,0) as AddAmt3, TSPL_SCRAPSALE_HEAD.AddDesc4,isnull (TSPL_SCRAPSALE_HEAD.AddAmt4,0) as AddAmt4, TSPL_SCRAPSALE_HEAD.AddDesc5,isnull (TSPL_SCRAPSALE_HEAD.AddAmt5,0) as AddAmt5, TSPL_SCRAPSALE_HEAD.AddDesc6,isnull (TSPL_SCRAPSALE_HEAD.AddAmt6,0) as AddAmt6, TSPL_SCRAPSALE_HEAD.AddDesc7,isnull (TSPL_SCRAPSALE_HEAD.AddAmt7,0) as AddAmt7, TSPL_SCRAPSALE_HEAD.AddDesc8,isnull (TSPL_SCRAPSALE_HEAD.AddAmt8,0) as AddAmt8, TSPL_SCRAPSALE_HEAD.AddDesc9,isnull (TSPL_SCRAPSALE_HEAD.AddAmt9,0) as AddAmt9, TSPL_SCRAPSALE_HEAD.AddDesc10,isnull (TSPL_SCRAPSALE_HEAD.AddAmt10,0) as AddAmt10,vehicle_code,Transport_code,Transporter_name,TSPL_SCRAPSALE_HEAD.cust_name,tspl_customer_master.add1,tspl_customer_master.add2,tspl_customer_master.add3,tspl_city_master.city_name,TSPL_SCRAPSALE_HEAD.Is_CashSale,TSPL_SCRAPSALE_HEAD.Is_Scrap,isnull (TSPL_SCRAPSALE_HEAD.TAX10_Rate,0) as txt10Rate  "
 
-        strQuery += " ,TSPL_SCRAPSALE_HEAD.EWayBillNo,convert(varchar,TSPL_SCRAPSALE_HEAD.EWayBillDate,103) as EWayBillDate " & _
-                   " ,TSPL_SCRAPSALE_HEAD.Electronic_ref_No as Electronic_Ref_No" & _
-                    " , TSPL_ITEM_MASTER.HSN_Code,FromState.GST_STATE_CODE as From_GstStateCode,FromLocation.GSTNO as From_Loc_GstinNo," & _
-                   "STATEMASTER_CUSTOMER.GST_STATE_CODE as Cust_GstStateCode,STATEMASTER_CUSTOMER.STATE_NAME AS Cust_StateName" & _
-                    ",TSPL_CUSTOMER_MASTER.GSTNO as Cust_GstInNo,ISNULL(TSPL_SCRAPINVOICE_DETAIL.DiscountAmt,0) AS DeatilDiscountAmt" & _
-                     ",dtax1.Type as tax1Type,dtax2.Type as tax2Type,dtax3.Type as tax3Type,dtax4.Type as tax4Type,dtax5.Type as tax5Type,dtax6.Type as tax6Type,dtax7.Type as tax7Type,dtax8.Type as tax8Type,dtax9.Type as tax9Type,dtax10.Type as tax10Type," & _
-                                " isnull(TSPL_SCRAPSALE_DETAIL.TAX1_Amt ,0) as DTax1_Amt, isnull(TSPL_SCRAPSALE_DETAIL.TAX2_Amt ,0) as DTax2_Amt," & _
-                                " isnull(TSPL_SCRAPSALE_DETAIL.TAX3_Amt ,0) as DTax3_Amt, isnull(TSPL_SCRAPSALE_DETAIL.TAX4_Amt ,0) as DTax4_Amt," & _
-                                " isnull(TSPL_SCRAPSALE_DETAIL.TAX5_Amt ,0) as DTax5_Amt, isnull(TSPL_SCRAPSALE_DETAIL.TAX6_Amt ,0) as DTax6_Amt," & _
-                                " isnull(TSPL_SCRAPSALE_DETAIL.TAX7_Amt ,0) as DTax7_Amt, isnull(TSPL_SCRAPSALE_DETAIL.TAX8_Amt ,0) as DTax8_Amt," & _
-                                " isnull(TSPL_SCRAPSALE_DETAIL.TAX9_Amt ,0) as DTax9_Amt, isnull(TSPL_SCRAPSALE_DETAIL.TAX10_Amt ,0) as DTax10_Amt," & _
-                                " isnull(TSPL_SCRAPSALE_DETAIL.TAX1_Rate,0) as DTax1_Rate,  isnull(TSPL_SCRAPSALE_DETAIL.TAX2_Rate,0) as DTax2_Rate, " & _
-                                 " isnull(TSPL_SCRAPSALE_DETAIL.TAX3_Rate,0) as DTax3_Rate,  isnull(TSPL_SCRAPSALE_DETAIL.TAX4_Rate,0) as DTax4_Rate," & _
-                                  " isnull(TSPL_SCRAPSALE_DETAIL.TAX5_Rate,0) as DTax5_Rate,  isnull(TSPL_SCRAPSALE_DETAIL.TAX6_Rate,0) as DTax6_Rate," & _
-                                   " isnull(TSPL_SCRAPSALE_DETAIL.TAX7_Rate,0) as DTax7_Rate,  isnull(TSPL_SCRAPSALE_DETAIL.TAX8_Rate,0) as DTax8_Rate," & _
-                                    " isnull(TSPL_SCRAPSALE_DETAIL.TAX9_Rate,0) as DTax9_Rate,  isnull(TSPL_SCRAPSALE_DETAIL.TAX10_Rate,0) as DTax10_Rate"
+        '        strQuery += " ,TSPL_SCRAPSALE_HEAD.EWayBillNo,convert(varchar,TSPL_SCRAPSALE_HEAD.EWayBillDate,103) as EWayBillDate " & _
+        '                   " ,TSPL_SCRAPSALE_HEAD.Electronic_ref_No as Electronic_Ref_No" & _
+        '                    " , TSPL_ITEM_MASTER.HSN_Code,FromState.GST_STATE_CODE as From_GstStateCode,FromLocation.GSTNO as From_Loc_GstinNo," & _
+        '                   "STATEMASTER_CUSTOMER.GST_STATE_CODE as Cust_GstStateCode,STATEMASTER_CUSTOMER.STATE_NAME AS Cust_StateName" & _
+        '                    ",TSPL_CUSTOMER_MASTER.GSTNO as Cust_GstInNo,ISNULL(TSPL_SCRAPINVOICE_DETAIL.DiscountAmt,0) AS DeatilDiscountAmt" & _
+        '                     ",dtax1.Type as tax1Type,dtax2.Type as tax2Type,dtax3.Type as tax3Type,dtax4.Type as tax4Type,dtax5.Type as tax5Type,dtax6.Type as tax6Type,dtax7.Type as tax7Type,dtax8.Type as tax8Type,dtax9.Type as tax9Type,dtax10.Type as tax10Type," & _
+        '                                " isnull(TSPL_SCRAPSALE_DETAIL.TAX1_Amt ,0) as DTax1_Amt, isnull(TSPL_SCRAPSALE_DETAIL.TAX2_Amt ,0) as DTax2_Amt," & _
+        '                                " isnull(TSPL_SCRAPSALE_DETAIL.TAX3_Amt ,0) as DTax3_Amt, isnull(TSPL_SCRAPSALE_DETAIL.TAX4_Amt ,0) as DTax4_Amt," & _
+        '                                " isnull(TSPL_SCRAPSALE_DETAIL.TAX5_Amt ,0) as DTax5_Amt, isnull(TSPL_SCRAPSALE_DETAIL.TAX6_Amt ,0) as DTax6_Amt," & _
+        '                                " isnull(TSPL_SCRAPSALE_DETAIL.TAX7_Amt ,0) as DTax7_Amt, isnull(TSPL_SCRAPSALE_DETAIL.TAX8_Amt ,0) as DTax8_Amt," & _
+        '                                " isnull(TSPL_SCRAPSALE_DETAIL.TAX9_Amt ,0) as DTax9_Amt, isnull(TSPL_SCRAPSALE_DETAIL.TAX10_Amt ,0) as DTax10_Amt," & _
+        '                                " isnull(TSPL_SCRAPSALE_DETAIL.TAX1_Rate,0) as DTax1_Rate,  isnull(TSPL_SCRAPSALE_DETAIL.TAX2_Rate,0) as DTax2_Rate, " & _
+        '                                 " isnull(TSPL_SCRAPSALE_DETAIL.TAX3_Rate,0) as DTax3_Rate,  isnull(TSPL_SCRAPSALE_DETAIL.TAX4_Rate,0) as DTax4_Rate," & _
+        '                                  " isnull(TSPL_SCRAPSALE_DETAIL.TAX5_Rate,0) as DTax5_Rate,  isnull(TSPL_SCRAPSALE_DETAIL.TAX6_Rate,0) as DTax6_Rate," & _
+        '                                   " isnull(TSPL_SCRAPSALE_DETAIL.TAX7_Rate,0) as DTax7_Rate,  isnull(TSPL_SCRAPSALE_DETAIL.TAX8_Rate,0) as DTax8_Rate," & _
+        '                                    " isnull(TSPL_SCRAPSALE_DETAIL.TAX9_Rate,0) as DTax9_Rate,  isnull(TSPL_SCRAPSALE_DETAIL.TAX10_Rate,0) as DTax10_Rate"
 
-        strQuery += " ,tax1.Is_MandiTaxCess as tax1_MandiTaxCess,tax2.Is_MandiTaxCess as tax2_MandiTaxCess,tax3.Is_MandiTaxCess as tax3_MandiTaxCess,tax4.Is_MandiTaxCess as tax4_MandiTaxCess,tax5.Is_MandiTaxCess as tax5_MandiTaxCess,tax6.Is_MandiTaxCess as tax6_MandiTaxCess,tax7.Is_MandiTaxCess as tax7_MandiTaxCess,tax8.Is_MandiTaxCess as tax8_MandiTaxCess,tax9.Is_MandiTaxCess as tax9_MandiTaxCess,tax10.Is_MandiTaxCess as tax10_MandiTaxCess "
+        '        strQuery += " ,tax1.Is_MandiTaxCess as tax1_MandiTaxCess,tax2.Is_MandiTaxCess as tax2_MandiTaxCess,tax3.Is_MandiTaxCess as tax3_MandiTaxCess,tax4.Is_MandiTaxCess as tax4_MandiTaxCess,tax5.Is_MandiTaxCess as tax5_MandiTaxCess,tax6.Is_MandiTaxCess as tax6_MandiTaxCess,tax7.Is_MandiTaxCess as tax7_MandiTaxCess,tax8.Is_MandiTaxCess as tax8_MandiTaxCess,tax9.Is_MandiTaxCess as tax9_MandiTaxCess,tax10.Is_MandiTaxCess as tax10_MandiTaxCess "
 
-        strQuery += " from TSPL_SCRAPSALE_HEAD  left join TSPL_SCRAPSALE_DETAIL on TSPL_SCRAPSALE_DETAIL.shipment_No=TSPL_SCRAPSALE_HEAD.shipment_No " & _
- "left join TSPL_SCRAPINVOICE_HEAD on TSPL_SCRAPINVOICE_HEAD. shipment_No=TSPL_SCRAPSALE_HEAD.shipment_No " & _
- "left join TSPL_SCRAPINVOICE_DETAIL on TSPL_SCRAPINVOICE_DETAIL.invoice_No=TSPL_SCRAPINVOICE_HEAD.invoice_No " & _
-" and TSPL_SCRAPSALE_DETAIL.Item_Code=TSPL_SCRAPINVOICE_DETAIL.Item_Code " & _
-" and TSPL_SCRAPSALE_DETAIL.Unit_code=TSPL_SCRAPINVOICE_DETAIL.Unit_code " & _
-"left join TSPL_LOCATION_MASTER as FromLocation on FromLocation.Location_Code=TSPL_SCRAPSALE_HEAD.Loc_Code " & _
-  "left join TSPL_LOCATION_MASTER as ToLocation on ToLocation.Location_Code=TSPL_SCRAPSALE_HEAD.ToLoc_Code " & _
-  "left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SCRAPINVOICE_DETAIL.Item_Code " & _
-  "left join TSPL_STATE_MASTER as  FromState on FromState.State_Code=FromLocation.State  " & _
-  "left join TSPL_STATE_MASTER as  ToState on ToState.State_Code=ToLocation.State  " & _
-   "left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_SCRAPSALE_HEAD.tax1 " & _
-    "left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_SCRAPSALE_HEAD.tax2 " & _
-     "left outer join tspl_tax_master as tax3 on tax3.Tax_Code=TSPL_SCRAPSALE_HEAD .TAX3   " & _
-     "left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= TSPL_SCRAPSALE_HEAD .tax4 " & _
-      "left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=TSPL_SCRAPSALE_HEAD .tax5 " & _
-       "left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =TSPL_SCRAPSALE_HEAD .TAX6  " & _
-       "left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =TSPL_SCRAPSALE_HEAD .TAX7  " & _
-       "left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =TSPL_SCRAPSALE_HEAD .TAX8  " & _
-       "left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =TSPL_SCRAPSALE_HEAD .TAX9  " & _
-       "left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_SCRAPSALE_HEAD .TAX10 "
+        '        strQuery += " from TSPL_SCRAPSALE_HEAD  left join TSPL_SCRAPSALE_DETAIL on TSPL_SCRAPSALE_DETAIL.shipment_No=TSPL_SCRAPSALE_HEAD.shipment_No " & _
+        ' "left join TSPL_SCRAPINVOICE_HEAD on TSPL_SCRAPINVOICE_HEAD. shipment_No=TSPL_SCRAPSALE_HEAD.shipment_No " & _
+        ' "left join TSPL_SCRAPINVOICE_DETAIL on TSPL_SCRAPINVOICE_DETAIL.invoice_No=TSPL_SCRAPINVOICE_HEAD.invoice_No " & _
+        '" and TSPL_SCRAPSALE_DETAIL.Item_Code=TSPL_SCRAPINVOICE_DETAIL.Item_Code " & _
+        '" and TSPL_SCRAPSALE_DETAIL.Unit_code=TSPL_SCRAPINVOICE_DETAIL.Unit_code " & _
+        '"left join TSPL_LOCATION_MASTER as FromLocation on FromLocation.Location_Code=TSPL_SCRAPSALE_HEAD.Loc_Code " & _
+        '  "left join TSPL_LOCATION_MASTER as ToLocation on ToLocation.Location_Code=TSPL_SCRAPSALE_HEAD.ToLoc_Code " & _
+        '  "left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SCRAPINVOICE_DETAIL.Item_Code " & _
+        '  "left join TSPL_STATE_MASTER as  FromState on FromState.State_Code=FromLocation.State  " & _
+        '  "left join TSPL_STATE_MASTER as  ToState on ToState.State_Code=ToLocation.State  " & _
+        '   "left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_SCRAPSALE_HEAD.tax1 " & _
+        '    "left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_SCRAPSALE_HEAD.tax2 " & _
+        '     "left outer join tspl_tax_master as tax3 on tax3.Tax_Code=TSPL_SCRAPSALE_HEAD .TAX3   " & _
+        '     "left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= TSPL_SCRAPSALE_HEAD .tax4 " & _
+        '      "left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=TSPL_SCRAPSALE_HEAD .tax5 " & _
+        '       "left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =TSPL_SCRAPSALE_HEAD .TAX6  " & _
+        '       "left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =TSPL_SCRAPSALE_HEAD .TAX7  " & _
+        '       "left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =TSPL_SCRAPSALE_HEAD .TAX8  " & _
+        '       "left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =TSPL_SCRAPSALE_HEAD .TAX9  " & _
+        '       "left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_SCRAPSALE_HEAD .TAX10 "
 
-        strQuery += "left outer join TSPL_TAX_MASTER as dtax1 on dtax1.tax_code =TSPL_SCRAPSALE_DETAIL.tax1  " & _
-                   " left outer join tspl_tax_master as dtax2 on dtax2.tax_code = TSPL_SCRAPSALE_DETAIL.tax2 " & _
-                    "left outer join tspl_tax_master as dtax3 on dtax3.Tax_Code=TSPL_SCRAPSALE_DETAIL .TAX3  " & _
-                     " left outer join TSPL_TAX_MASTER as dtax4 on dtax4.Tax_Code= TSPL_SCRAPSALE_DETAIL .tax4 " & _
-                      "left outer join TSPL_TAX_MASTER as dtax5 on dtax5.Tax_Code=TSPL_SCRAPSALE_DETAIL .tax5 " & _
-                       " left outer join TSPL_TAX_MASTER as dtax6 on dtax6.Tax_Code =TSPL_SCRAPSALE_DETAIL .TAX6  " & _
-                       "left outer join TSPL_TAX_MASTER as dtax7 on dtax7.Tax_Code =TSPL_SCRAPSALE_DETAIL .TAX7  " & _
-                       " left outer join TSPL_TAX_MASTER as dtax8 on dtax8.Tax_Code =TSPL_SCRAPSALE_DETAIL .TAX8  " & _
-                       " left outer join TSPL_TAX_MASTER as dtax9 on dtax9.Tax_Code =TSPL_SCRAPSALE_DETAIL .TAX9 " & _
-                        " left outer join TSPL_TAX_MASTER as dtax10 on dtax10.Tax_Code =TSPL_SCRAPSALE_DETAIL .TAX10 "
+        '        strQuery += "left outer join TSPL_TAX_MASTER as dtax1 on dtax1.tax_code =TSPL_SCRAPSALE_DETAIL.tax1  " & _
+        '                   " left outer join tspl_tax_master as dtax2 on dtax2.tax_code = TSPL_SCRAPSALE_DETAIL.tax2 " & _
+        '                    "left outer join tspl_tax_master as dtax3 on dtax3.Tax_Code=TSPL_SCRAPSALE_DETAIL .TAX3  " & _
+        '                     " left outer join TSPL_TAX_MASTER as dtax4 on dtax4.Tax_Code= TSPL_SCRAPSALE_DETAIL .tax4 " & _
+        '                      "left outer join TSPL_TAX_MASTER as dtax5 on dtax5.Tax_Code=TSPL_SCRAPSALE_DETAIL .tax5 " & _
+        '                       " left outer join TSPL_TAX_MASTER as dtax6 on dtax6.Tax_Code =TSPL_SCRAPSALE_DETAIL .TAX6  " & _
+        '                       "left outer join TSPL_TAX_MASTER as dtax7 on dtax7.Tax_Code =TSPL_SCRAPSALE_DETAIL .TAX7  " & _
+        '                       " left outer join TSPL_TAX_MASTER as dtax8 on dtax8.Tax_Code =TSPL_SCRAPSALE_DETAIL .TAX8  " & _
+        '                       " left outer join TSPL_TAX_MASTER as dtax9 on dtax9.Tax_Code =TSPL_SCRAPSALE_DETAIL .TAX9 " & _
+        '                        " left outer join TSPL_TAX_MASTER as dtax10 on dtax10.Tax_Code =TSPL_SCRAPSALE_DETAIL .TAX10 "
 
-        strQuery += "left join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=Transport_code  " & _
-       "left join tspl_customer_master on tspl_customer_master.cust_code=TSPL_SCRAPSALE_HEAD.cust_code " & _
-       " LEFT OUTER JOIN TSPL_STATE_MASTER STATEMASTER_CUSTOMER ON STATEMASTER_CUSTOMER.State_Code=TSPL_CUSTOMER_MASTER.State " & _
-       "left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SCRAPSALE_HEAD.Comp_Code " & _
-        "left join tspl_city_master on tspl_city_master.city_code=tspl_customer_master.city_code  " & _
-        "LEFT JOIN TSPL_BATCH_ITEM  ON TSPL_BATCH_ITEM.Document_Code=TSPL_SCRAPINVOICE_DETAIL.invoice_No AND " & _
-        "TSPL_BATCH_ITEM.Parent_Line_No=TSPL_SCRAPINVOICE_DETAIL.Line_No AND TSPL_BATCH_ITEM.Item_Code=TSPL_SCRAPINVOICE_DETAIL.Item_Code WHERE TSPL_SCRAPSALE_HEAD.shipment_No='" & txtDocNo.Value & "' "
-        Return strQuery
+        '        strQuery += "left join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=Transport_code  " & _
+        '       "left join tspl_customer_master on tspl_customer_master.cust_code=TSPL_SCRAPSALE_HEAD.cust_code " & _
+        '       " LEFT OUTER JOIN TSPL_STATE_MASTER STATEMASTER_CUSTOMER ON STATEMASTER_CUSTOMER.State_Code=TSPL_CUSTOMER_MASTER.State " & _
+        '       "left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SCRAPSALE_HEAD.Comp_Code " & _
+        '        "left join tspl_city_master on tspl_city_master.city_code=tspl_customer_master.city_code  " & _
+        '        "LEFT JOIN TSPL_BATCH_ITEM  ON TSPL_BATCH_ITEM.Document_Code=TSPL_SCRAPINVOICE_DETAIL.invoice_No AND " & _
+        '        "TSPL_BATCH_ITEM.Parent_Line_No=TSPL_SCRAPINVOICE_DETAIL.Line_No AND TSPL_BATCH_ITEM.Item_Code=TSPL_SCRAPINVOICE_DETAIL.Item_Code WHERE TSPL_SCRAPSALE_HEAD.shipment_No='" & txtDocNo.Value & "' "
+        ''Return strQuery
     End Function
 
 
@@ -4751,7 +4729,7 @@ Public Class frmScrapSaleReturn
     End Sub
 
 
-    Private Sub btnPrePrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrePrint.Click
+    Private Sub btnPrePrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         strPrintType = "Tax"
         Print(False)
     End Sub
@@ -4791,7 +4769,7 @@ Public Class frmScrapSaleReturn
     End Sub
 
     Private Sub rmiExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmiExport.Click
-        Dim qry As String = "Select '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy") + "' as [Date], '' as [Customer], '' as [Location], '' as [Vehicle]," & _
+        Dim qry As String = "Select '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy") + "' as [Date], '' as [Customer], '' as [Location], '' as [Vehicle]," &
                             " '' as [Item], '' as [UOM], 0 as [Shipped Qty], 0 as [Unit Cost], '' as [Specification]"
         transportSql.ExporttoExcel(qry, Me)
     End Sub
@@ -5099,7 +5077,7 @@ Public Class frmScrapSaleReturn
         Next
         Return False
     End Function
-  
+
     Sub SelectShipmentItems()
         isInsideLoadData = True
         Dim frm As New frmPendingMISC()
@@ -5534,7 +5512,7 @@ Public Class frmScrapSaleReturn
         SelectShipmentItems()
     End Sub
 
-   
+
     Private Sub fndGateEntryNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndGateEntryNo._MYValidating
         Try
             Dim qry As String = Nothing
@@ -5552,7 +5530,7 @@ Public Class frmScrapSaleReturn
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
-       
+
     End Sub
 
     Public Sub FillGateEntryNo()
@@ -5638,10 +5616,11 @@ Public Class frmScrapSaleReturn
                 clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
                 Exit Sub
             End If
-            clsERPFuncationalityold.ShowTransHistoryData(txtDocNo.Value, "Document_No", "TSPL_SCRAPSALE_HEAD_Return", "TSPL_SCRAPSALE_DETAIL_RETURN")
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "Document_No", "TSPL_SCRAPSALE_HEAD_Return", "TSPL_SCRAPSALE_DETAIL_RETURN")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
     End Sub
+
 End Class
 
