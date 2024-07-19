@@ -724,6 +724,9 @@ Public Class frmPendingMISC
             If gvHead.CurrentColumn Is gvHead.Columns(colHSelect) Then
                 Dim strVendorCode As String = clsCommon.myCstr(gvHead.CurrentRow.Cells(colHVendorCode).Value)
                 Dim strVendorName As String = clsCommon.myCstr(gvHead.CurrentRow.Cells(colHVendorName).Value)
+                If gv1.Rows.Count = 0 Then
+                    CustomerCode = ""
+                End If
                 If clsCommon.myLen(CustomerCode) <= 0 Then
                     CustomerCode = strVendorCode
                     CustomerName = strVendorName
