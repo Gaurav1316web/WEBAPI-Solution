@@ -22,13 +22,13 @@ Partial Class frmScrapSaleReturn
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmScrapSaleReturn))
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim GridViewTextBoxColumn3 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn4 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewDecimalColumn2 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim GridViewTextBoxColumn1 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn2 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewDecimalColumn1 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -121,7 +121,6 @@ Partial Class frmScrapSaleReturn
         Me.RadLabel4 = New common.Controls.MyLabel()
         Me.txtaddamt = New common.Controls.MyTextBox()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -162,6 +161,7 @@ Partial Class frmScrapSaleReturn
         Me.rmiImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -400,10 +400,10 @@ Partial Class frmScrapSaleReturn
         Me.RadPageViewPage1.Controls.Add(Me.txtponumber)
         Me.RadPageViewPage1.Controls.Add(Me.btnAddNew)
         Me.RadPageViewPage1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(64.0!, 26.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(60.0!, 22.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 31)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1071, 439)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1071, 443)
         Me.RadPageViewPage1.Text = "Shipment"
         '
         'MyLabel6
@@ -521,7 +521,7 @@ Partial Class frmScrapSaleReturn
         Me.RadGroupBox5.Controls.Add(Me.btnUpdate)
         Me.RadGroupBox5.Controls.Add(Me.MyLabel43)
         Me.RadGroupBox5.HeaderText = ""
-        Me.RadGroupBox5.Location = New System.Drawing.Point(716, 364)
+        Me.RadGroupBox5.Location = New System.Drawing.Point(716, 368)
         Me.RadGroupBox5.Name = "RadGroupBox5"
         Me.RadGroupBox5.Size = New System.Drawing.Size(354, 56)
         Me.RadGroupBox5.TabIndex = 1433
@@ -701,7 +701,7 @@ Partial Class frmScrapSaleReturn
         Me.lblSecondryInvNo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblSecondryInvNo.FieldName = Nothing
         Me.lblSecondryInvNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblSecondryInvNo.Location = New System.Drawing.Point(713, 424)
+        Me.lblSecondryInvNo.Location = New System.Drawing.Point(713, 428)
         Me.lblSecondryInvNo.Name = "lblSecondryInvNo"
         Me.lblSecondryInvNo.Size = New System.Drawing.Size(62, 16)
         Me.lblSecondryInvNo.TabIndex = 16
@@ -716,7 +716,7 @@ Partial Class frmScrapSaleReturn
         Me.UcItemBalance1.ItemCode = ""
         Me.UcItemBalance1.ItemMRP = 0R
         Me.UcItemBalance1.ItemName = ""
-        Me.UcItemBalance1.Location = New System.Drawing.Point(0, 364)
+        Me.UcItemBalance1.Location = New System.Drawing.Point(0, 368)
         Me.UcItemBalance1.LocationCode = ""
         Me.UcItemBalance1.LocationName = ""
         Me.UcItemBalance1.MaximumSize = New System.Drawing.Size(710, 75)
@@ -1003,7 +1003,7 @@ Partial Class frmScrapSaleReturn
         Me.txtVatInvNo.BorderVisible = True
         Me.txtVatInvNo.FieldName = Nothing
         Me.txtVatInvNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtVatInvNo.Location = New System.Drawing.Point(781, 422)
+        Me.txtVatInvNo.Location = New System.Drawing.Point(781, 426)
         Me.txtVatInvNo.Name = "txtVatInvNo"
         Me.txtVatInvNo.Size = New System.Drawing.Size(133, 18)
         Me.txtVatInvNo.TabIndex = 14
@@ -1016,7 +1016,7 @@ Partial Class frmScrapSaleReturn
         Me.lblDocAmount.BorderVisible = True
         Me.lblDocAmount.FieldName = Nothing
         Me.lblDocAmount.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDocAmount.Location = New System.Drawing.Point(957, 422)
+        Me.lblDocAmount.Location = New System.Drawing.Point(957, 426)
         Me.lblDocAmount.Name = "lblDocAmount"
         Me.lblDocAmount.Size = New System.Drawing.Size(113, 18)
         Me.lblDocAmount.TabIndex = 14
@@ -1063,7 +1063,7 @@ Partial Class frmScrapSaleReturn
         Me.MyLabel4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(912, 424)
+        Me.MyLabel4.Location = New System.Drawing.Point(912, 428)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(45, 16)
         Me.MyLabel4.TabIndex = 15
@@ -1379,7 +1379,7 @@ Partial Class frmScrapSaleReturn
         Me.RadGroupBox2.Location = New System.Drawing.Point(0, 219)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(1071, 139)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1071, 143)
         Me.RadGroupBox2.TabIndex = 19
         Me.RadGroupBox2.Text = "Item Details"
         '
@@ -1399,13 +1399,13 @@ Partial Class frmScrapSaleReturn
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(1051, 109)
+        Me.gv1.Size = New System.Drawing.Size(1051, 113)
         Me.gv1.TabIndex = 0
         '
         'RadLabel1
@@ -1539,11 +1539,11 @@ Partial Class frmScrapSaleReturn
         Me.RadPageViewPage2.Controls.Add(Me.txtTaxGroup)
         Me.RadPageViewPage2.Controls.Add(Me.RadLabel10)
         Me.RadPageViewPage2.Controls.Add(Me.RadGroupBox1)
-        Me.RadPageViewPage2.Controls.Add(Me.gv2)
         Me.RadPageViewPage2.Controls.Add(Me.lblTaxGrpName)
+        Me.RadPageViewPage2.Controls.Add(Me.gv2)
         Me.RadPageViewPage2.Controls.Add(Me.RadLabel11)
         Me.RadPageViewPage2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(47.0!, 26.0!)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(43.0!, 22.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(1071, 439)
@@ -1767,7 +1767,7 @@ Partial Class frmScrapSaleReturn
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1779,7 +1779,7 @@ Partial Class frmScrapSaleReturn
         'RadPageViewPage3
         '
         Me.RadPageViewPage3.Controls.Add(Me.RadGroupBox3)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(112.0!, 26.0!)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(108.0!, 22.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
         Me.RadPageViewPage3.Size = New System.Drawing.Size(1071, 439)
@@ -1814,20 +1814,20 @@ Partial Class frmScrapSaleReturn
         '
         '
         Me.gvadd.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
-        GridViewTextBoxColumn3.HeaderText = "Additional Charges"
-        GridViewTextBoxColumn3.Name = "coladdcode"
-        GridViewTextBoxColumn3.Width = 125
-        GridViewTextBoxColumn4.HeaderText = "Description"
-        GridViewTextBoxColumn4.Name = "coladddesc"
-        GridViewTextBoxColumn4.Width = 300
-        GridViewDecimalColumn2.HeaderText = "Amount"
-        GridViewDecimalColumn2.Name = "coladdamt"
-        GridViewDecimalColumn2.Width = 78
-        Me.gvadd.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn3, GridViewTextBoxColumn4, GridViewDecimalColumn2})
+        GridViewTextBoxColumn1.HeaderText = "Additional Charges"
+        GridViewTextBoxColumn1.Name = "coladdcode"
+        GridViewTextBoxColumn1.Width = 125
+        GridViewTextBoxColumn2.HeaderText = "Description"
+        GridViewTextBoxColumn2.Name = "coladddesc"
+        GridViewTextBoxColumn2.Width = 300
+        GridViewDecimalColumn1.HeaderText = "Amount"
+        GridViewDecimalColumn1.Name = "coladdamt"
+        GridViewDecimalColumn1.Width = 78
+        Me.gvadd.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn1, GridViewTextBoxColumn2, GridViewDecimalColumn1})
         Me.gvadd.MasterTemplate.EnableGrouping = False
         Me.gvadd.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvadd.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvadd.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvadd.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvadd.MyStopExport = False
         Me.gvadd.Name = "gvadd"
         Me.gvadd.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1875,24 +1875,16 @@ Partial Class frmScrapSaleReturn
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(89.0!, 26.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(85.0!, 22.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 35)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(1071, 439)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
-        'UcCustomFields1
-        '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1071, 439)
-        Me.UcCustomFields1.TabIndex = 2
-        '
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 26.0!)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 22.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 35)
         Me.Attachments.Name = "Attachments"
         Me.Attachments.Size = New System.Drawing.Size(1071, 439)
@@ -1931,7 +1923,7 @@ Partial Class frmScrapSaleReturn
         Me.RadPageViewPage4.Controls.Add(Me.RadLabel22)
         Me.RadPageViewPage4.Controls.Add(Me.RadLabel19)
         Me.RadPageViewPage4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(41.0!, 26.0!)
+        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(37.0!, 22.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1071, 439)
@@ -2294,6 +2286,14 @@ Partial Class frmScrapSaleReturn
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1092, 517)
         Me.Panel1.TabIndex = 3
+        '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1071, 439)
+        Me.UcCustomFields1.TabIndex = 2
         '
         'frmScrapSaleReturn
         '
