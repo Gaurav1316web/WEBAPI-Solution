@@ -367,6 +367,13 @@ Public Class FrmTransferKDIL
         Else
             rbtnPrintExcisable.Visible = False
         End If
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+            btnSTAMilkPrint.Visible = True
+            btnSTAProductPrint.Visible = True
+        Else
+            btnSTAMilkPrint.Visible = False
+            btnSTAProductPrint.Visible = False
+        End If
         radExportTransferIn.Visibility = ElementVisibility.Collapsed
         radImportTransferIn.Visibility = ElementVisibility.Collapsed
     End Sub

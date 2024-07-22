@@ -3262,7 +3262,7 @@ Partial Class FrmTransferKDIL
         '
         Me.BtnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.BtnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnHistory.Location = New System.Drawing.Point(1125, 3)
+        Me.BtnHistory.Location = New System.Drawing.Point(1144, 3)
         Me.BtnHistory.Name = "BtnHistory"
         Me.BtnHistory.Size = New System.Drawing.Size(64, 20)
         Me.BtnHistory.TabIndex = 51
@@ -3309,9 +3309,9 @@ Partial Class FrmTransferKDIL
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(1195, 2)
+        Me.btnClose.Location = New System.Drawing.Point(1211, 2)
         Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(69, 22)
+        Me.btnClose.Size = New System.Drawing.Size(53, 22)
         Me.btnClose.TabIndex = 6
         Me.btnClose.Text = "Close"
         '

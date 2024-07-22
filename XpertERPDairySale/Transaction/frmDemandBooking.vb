@@ -588,6 +588,11 @@ Public Class frmDemandBooking
     End Sub
     Sub AddNew()
         Try
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                btnPrintChallan.Visible = True
+            Else
+                btnPrintChallan.Visible = False
+            End If
             blnSaveTotalQTy = False
             isNewEntry = True
             btnSave.Text = "Save"
@@ -1460,13 +1465,13 @@ Public Class frmDemandBooking
         End If
     End Sub
     Private Sub btnreverse_Click(sender As Object, e As EventArgs) Handles btnreverse.Click
-        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
 
         Try
-            Dim NextDayDocNo As String = clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "' and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103 )='" + clsCommon.GetPrintDate(txtDate.Value.AddDays(1)) + "') and location_code='" + clsCommon.myCstr(txtLocation.Value) + "' and ShiftType='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "' and IsIndividualCustomer=0 ", trans)
+            Dim NextDayDocNo As String = clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "' and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103 )='" + clsCommon.GetPrintDate(txtDate.Value.AddDays(1)) + "') and location_code='" + clsCommon.myCstr(txtLocation.Value) + "' and ShiftType='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "' and IsIndividualCustomer=0 ")
             'Dim dt As DataTable = clsDBFuncationality.GetDataTable("select location_code,Document_Date from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + NextDayDocNo + "'", "")
             'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Dairy Sale", "Demand Booking", txtLocation.Value, txtDate.Value, trans)
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Dairy Sale", "Demand Booking", txtLocation.Value, txtDate.Value, trans)
 
             'End If
             If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document " + IIf(clsCommon.myLen(NextDayDocNo) > 0, "and Delete Next Day Document [" + NextDayDocNo + "]", "") + " " + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
@@ -4444,6 +4449,14 @@ order  by TSPL_CUSTOMER_MASTER.Display_Seq "
         End Try
     End Sub
     Private Sub txtCustomerNo_Load(sender As Object, e As EventArgs) Handles txtCustomerNo.Load
+    End Sub
+
+    Private Sub btnPrintChallan_Click(sender As Object, e As EventArgs) Handles btnPrintChallan.Click
+        Try
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     'Private Sub gv1_CellValidating(sender As Object, e As CellValidatingEventArgs) Handles gv1.CellValidating
     '    Dim cellValue As String = e.Value

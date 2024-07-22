@@ -33,29 +33,48 @@ Public Class RptDcsPaymentReport
         Try
 
             Dim dt As New DataTable
-            Dim strQry As String = "select 
-TSPL_PAYMENT_PROCESS_DETAIL.SNo  ,TSPL_PAYMENT_PROCESS_DETAIL.AP_Invoice_Date,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Bank_Code
-,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Bank_Name
-,TSPL_VLC_MASTER_HEAD.Route_Code as Route
-,TSPL_MCC_MASTER.MCC_NAME as Bmc_name 
-,TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader  as Dcs_Uploader
-,TSPL_PAYMENT_PROCESS_DETAIL.VLC_Name as Dcs_name
-,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Qty 
-,TabFATSNFDetail.FATKg
-,TabFATSNFDetail.SNFKg
-,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Amount
-,TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount
-,TSPL_PAYMENT_PROCESS_DETAIL.Reduce_Deduc_Amt
-,TSPL_PAYMENT_PROCESS_DETAIL.Deduction_Amount
-,TSPL_PAYMENT_PROCESS_DETAIL.Credit_Note_Amount 
-,TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount 
-from   TSPL_PAYMENT_PROCESS_DETAIL 
-                  left outer join (select DOC_CODE,cast( sum(FATKg) as decimal(18,3)) as FATKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(FATKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as FATPer ,cast( sum(SNFKg) as decimal(18,3)) as SNFKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(SNFKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as SNFPer 
-                  from (select DOC_CODE, ACC_Qty,FAT_PER,SNF_PER,cast(ACC_Qty*FAT_PER/100 as decimal(18,2)) as FATKg, cast(ACC_Qty * SNF_PER / 100 As Decimal(18,2)) As SNFKg from TSPL_MILK_PURCHASE_INVOICE_DETAIL )xx group by DOC_CODE 
-                ) As TabFATSNFDetail On TabFATSNFDetail.DOC_CODE= TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No 
-				left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_CODE=TSPL_PAYMENT_PROCESS_DETAIL.VSP_Code
-				left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_DETAIL.MCC_Code"
-            'where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No ='PP/2324/000002' order by TSPL_PAYMENT_PROCESS_DETAIL.SNo"
+            Dim strQry As String = " select max(x.SNo)SNo ,(format(max(Doc_Date), 'dd-MM-yyyy'))DocDate,(format(max(Milk_Purchase_Invoice_Date), 'dd-MM-yyyy'))Milk_Purchase_Invoice_Date ,max(x.Dcs_Uploader)Dcs_Uploader,max(x.Dcs_name)Dcs_name,max(x.Milk_Qty)Milk_Qty
+                                    ,max(x.FATKg)FATKg,max(x.SNFKg)SNFKg,max(x.Milk_Amount)Milk_Amount,max(x.Head_Load_Amount)Head_Load_Amount,max(x.Reduce_Deduc_Amt)Reduce_Deduc_Amt
+                                    ,max(x.Deduction_Amount)Deduction_Amount,max(x.Credit_Note_Amount)CRAmt,isnull(max(x.PURCHASEEXPENSE),0)PURCHASEEXPENSE
+									,Case When max(isOwnBMC)=1 then sum(x.PURCHASEEXPENSE) else max(isnull(x.Credit_Note_Amount,0)+ isnull(x.PURCHASEEXPENSE,0)) end as AMTS
+									,max(isnull(x.CRAmt,0)+ isnull(x.PURCHASEEXPENSE,0)) as PEAmt,sum(isnull(x.OBEAmt,0))OBEAmt
+									,max(x.Payable_Amount)Payable_Amount ,isnull(max(x.Saving_Amount),0)Saving_Amount,max(isnull(x.Payable_Amount,0) + isnull(x.Saving_Amount,0)) as TotalAmt
+									,sum(isnull(x.CRAmt,0))CRAmt
+                                    from  
+                                    (select TSPL_PAYMENT_PROCESS_DETAIL.SNo ,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_Date ,TSPL_PAYMENT_PROCESS_DETAIL.AP_Invoice_Date,TSPL_PAYMENT_PROCESS_DETAIL.AP_Invoice_No,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Bank_Code
+                                    ,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Bank_Name,TSPL_VLC_MASTER_HEAD.Route_Code as Route,TSPL_MCC_MASTER.MCC_NAME as Bmc_name 
+                                    ,TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader  as Dcs_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.VLC_Name as Dcs_name,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Qty 
+                                    ,TabFATSNFDetail.FATKg,TabFATSNFDetail.SNFKg,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount
+                                    ,TSPL_PAYMENT_PROCESS_DETAIL.Reduce_Deduc_Amt,TSPL_PAYMENT_PROCESS_DETAIL.Deduction_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Credit_Note_Amount 
+                                    ,TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount ,TabDCSdrcr.PURCHASEEXPENSE,TSPL_VLC_MASTER_HEAD.isOwnBMC
+									,TabDCSCreditNote.CRAmt as CRAmt,TabDCSCreditNote.OBEAmt as OBEAmt
+                                    from   TSPL_PAYMENT_PROCESS_DETAIL
+                                    Inner Join TSPL_PAYMENT_PROCESS_HEAD On TSPL_PAYMENT_PROCESS_HEAD.Doc_No =TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
+                                      left outer join (select DOC_CODE,cast( sum(FATKg) as decimal(18,3)) as FATKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(FATKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as FATPer ,cast( sum(SNFKg) as decimal(18,3)) as SNFKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(SNFKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as SNFPer
+                                      from (select DOC_CODE, ACC_Qty,FAT_PER,SNF_PER,cast(ACC_Qty*FAT_PER/100 as decimal(18,2)) as FATKg, cast(ACC_Qty * SNF_PER / 100 As Decimal(18,2)) As SNFKg  
+				                      from TSPL_MILK_PURCHASE_INVOICE_DETAIL )xx group by DOC_CODE 
+                                    ) As TabFATSNFDetail On TabFATSNFDetail.DOC_CODE= TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No 
+				                    left outer join (select case when DCSDescription='PURCHASE EXP.' THEN Amount ELSE 0 END AS PURCHASEEXPENSE,x.InvoiceNo,x.DCSDescription from(
+				                    select TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.InvoiceNo,TSPL_DCS_ADDITION_DEDUCTION.Description As DCSDescription,TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.Amount from TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE
+				                    left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code = TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.DCS_Addition_Deduction)x
+				                    ) As TabDCSdrcr on TabDCSdrcr.InvoiceNo = TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No 
+
+                                    left outer join (select case when DCSDescription='PURCHASE EXP.' THEN VendorAmt ELSE 0 END AS CRAmt,case when DCSDescription='OWN BMC EXPANCES' THEN VendorAmt ELSE 0 END AS OBEAmt
+									,x.Doc_No,x.DCSDescription 
+									,x.InvoiceNo from(
+				                    select TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No,TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,TSPL_DCS_ADDITION_DEDUCTION.Description as DCSDescription,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount,TSPL_VENDOR_INVOICE_DETAIL.Amount as VendorAmt,TSPL_VENDOR_INVOICE_HEAD.Main_VSP_Milk_AP_Invoice_No as InvoiceNo from TSPL_PAYMENT_PROCESS_CREDIT_NOTE
+					                  left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No = TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No
+				                    left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No = TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No
+									left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code = TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction
+									)x
+				                   ) As TabDCSCreditNote on TabDCSCreditNote.InvoiceNo = TSPL_PAYMENT_PROCESS_DETAIL.AP_Invoice_No 
+									
+				                    left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_CODE=TSPL_PAYMENT_PROCESS_DETAIL.VSP_Code
+				                    left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_DETAIL.MCC_Code
+				                    Where convert(date, TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_Date,103)>= '" + clsCommon.GetPrintDate(fromDate.Value) + "'   
+                                    and convert(date,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_Date,103)<= '" + clsCommon.GetPrintDate(dtpToDate.Value) + "' 
+				                    )x group by x.AP_Invoice_No "
+
             dt = clsDBFuncationality.GetDataTable(strQry)
             Gv1.DataSource = Nothing
             Gv1.Rows.Clear()
@@ -129,7 +148,70 @@ from   TSPL_PAYMENT_PROCESS_DETAIL
         For ii As Integer = 0 To Gv1.Columns.Count - 1
             Gv1.Columns(ii).ReadOnly = True
             Gv1.Columns(ii).BestFit()
+            Gv1.Columns(ii).IsVisible = False
         Next
+
+        'Gv1.Columns("Milk_Purchase_Invoice_Date").HeaderText = "Date"
+        'Gv1.Columns("Milk_Purchase_Invoice_Date").Width = 200
+        'Gv1.Columns("Milk_Purchase_Invoice_Date").IsVisible = True
+
+        Gv1.Columns("Dcs_Uploader").HeaderText = "Dcs Uploader"
+        Gv1.Columns("Dcs_Uploader").Width = 200
+        Gv1.Columns("Dcs_Uploader").IsVisible = True
+
+        Gv1.Columns("Dcs_name").HeaderText = "Dcs Name"
+        Gv1.Columns("Dcs_name").Width = 200
+        Gv1.Columns("Dcs_name").IsVisible = True
+
+        Gv1.Columns("Milk_Qty").HeaderText = "Milk Qty"
+        Gv1.Columns("Milk_Qty").Width = 200
+        Gv1.Columns("Milk_Qty").IsVisible = True
+
+        Gv1.Columns("FATKg").HeaderText = "FATKg"
+        Gv1.Columns("FATKg").Width = 200
+        Gv1.Columns("FATKg").IsVisible = True
+
+        Gv1.Columns("SNFKg").HeaderText = "SNFKg"
+        Gv1.Columns("SNFKg").Width = 200
+        Gv1.Columns("SNFKg").IsVisible = True
+
+        Gv1.Columns("Milk_Amount").HeaderText = "Milk Amount"
+        Gv1.Columns("Milk_Amount").Width = 200
+        Gv1.Columns("Milk_Amount").IsVisible = True
+
+        Gv1.Columns("Head_Load_Amount").HeaderText = "HeadLoad Amount"
+        Gv1.Columns("Head_Load_Amount").Width = 200
+        Gv1.Columns("Head_Load_Amount").IsVisible = True
+
+        Gv1.Columns("Reduce_Deduc_Amt").HeaderText = "ReduceDeduc Amt"
+        Gv1.Columns("Reduce_Deduc_Amt").Width = 200
+        Gv1.Columns("Reduce_Deduc_Amt").IsVisible = True
+
+        Gv1.Columns("Deduction_Amount").HeaderText = "Deduction Amount"
+        Gv1.Columns("Deduction_Amount").Width = 200
+        Gv1.Columns("Deduction_Amount").IsVisible = True
+
+        Gv1.Columns("PEAmt").HeaderText = "PE.Amount"
+        Gv1.Columns("PEAmt").Width = 200
+        Gv1.Columns("PEAmt").IsVisible = True
+
+        Gv1.Columns("OBEAmt").HeaderText = "OBE.Amount"
+        Gv1.Columns("OBEAmt").Width = 200
+        Gv1.Columns("OBEAmt").IsVisible = True
+
+        Gv1.Columns("Payable_Amount").HeaderText = "Payable Amount"
+        Gv1.Columns("Payable_Amount").Width = 200
+        Gv1.Columns("Payable_Amount").IsVisible = True
+
+        Gv1.Columns("Saving_Amount").HeaderText = "Saving Amount"
+        Gv1.Columns("Saving_Amount").Width = 200
+        Gv1.Columns("Saving_Amount").IsVisible = True
+
+        Gv1.Columns("TotalAmt").HeaderText = "Total Amount"
+        Gv1.Columns("TotalAmt").Width = 200
+        Gv1.Columns("TotalAmt").IsVisible = True
+
+
         Dim summaryRowItem As New GridViewSummaryRowItem()
         Dim intCount As Integer = 0
 
@@ -147,10 +229,16 @@ from   TSPL_PAYMENT_PROCESS_DETAIL
         summaryRowItem.Add(item6)
         Dim item7 As New GridViewSummaryItem("Deduction_Amount", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item7)
-        Dim item8 As New GridViewSummaryItem("Credit_Note_Amount", "{0:F2}", GridAggregateFunction.Sum)
+        Dim item8 As New GridViewSummaryItem("Saving_Amount", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item8)
         Dim item9 As New GridViewSummaryItem("Payable_Amount", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item9)
+        Dim item10 As New GridViewSummaryItem("TotalAmt", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item10)
+        Dim item11 As New GridViewSummaryItem("PEAmt", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item11)
+        Dim item12 As New GridViewSummaryItem("OBEAmt", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item12)
 
         Gv1.ShowGroupPanel = True
         Gv1.MasterTemplate.AutoExpandGroups = True

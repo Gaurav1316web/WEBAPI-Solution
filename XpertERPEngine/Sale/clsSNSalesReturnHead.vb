@@ -693,7 +693,7 @@ Public Class clsSNSalesReturnHead
                     objTr.ActualRate = clsCommon.myCdbl(dr("ActualRate"))
                     objTr.Cust_DiscountQty = clsCommon.myCdbl(dr("Cust_DiscountQty"))
                     objTr.Price_code = clsCommon.myCstr(dr("Price_code"))
-                    If IsDBNull(dr("Price_Date")).ToString() = "" Then
+                    If IsDBNull(dr("Price_Date")).ToString() <> "" Then
                         objTr.Price_Date = clsCommon.myCDate(dr("Price_Date"))
                     End If
 

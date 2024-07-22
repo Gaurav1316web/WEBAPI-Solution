@@ -67,7 +67,7 @@ Public Class FrmEmpIncrement
         payHeadCode.Name = colpayHeadCode
         payHeadCode.Width = 100
         payHeadCode.ReadOnly = True
-        payHeadCode.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        payHeadCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvSalary.Columns.Add(payHeadCode)
 
         PayHeadName.FormatString = ""
@@ -75,7 +75,7 @@ Public Class FrmEmpIncrement
         PayHeadName.Name = colpayHeadName
         PayHeadName.Width = 100
         PayHeadName.ReadOnly = True
-        PayHeadName.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        PayHeadName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvSalary.Columns.Add(PayHeadName)
 
         Formula.FormatString = ""
@@ -83,7 +83,7 @@ Public Class FrmEmpIncrement
         Formula.Name = colPayHeadFormula
         Formula.Width = 100
         Formula.ReadOnly = True
-        Formula.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Formula.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvSalary.Columns.Add(Formula)
 
         RateAmount.FormatString = ""
@@ -124,7 +124,7 @@ Public Class FrmEmpIncrement
         IncrementType.Width = 100
         IncrementType.HeaderImage = Global.XpertERPHRandPayroll.My.Resources.Resources.search4
         IncrementType.TextImageRelation = TextImageRelation.TextBeforeImage
-        IncrementType.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        IncrementType.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         IncrementType.ReadOnly = False
         IncrementType.IsVisible = False
         gvSalary.Columns.Add(IncrementType)

@@ -1435,24 +1435,23 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
                  )ZZ GROUP BY ZZ.VSP_Uploader_Code,ZZ.VSP_Code,ZZ.Vendor_NAME,ZZ.Addition"
         Dim dtAddition As DataTable = clsDBFuncationality.GetDataTable(sQuery)
 
-        sQuery = " select Final.VSP_Uploader_Code, Final.Vendor_CODE, Vendor_NAME, Final.Ded_Code , Final.Ded_Desc , sum(Amount) as [Amount] from (
-select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_NAME, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code , TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc , TSPL_PAYMENT_PROCESS_DEDUCTION.Amount as Amount1,(TSPL_PAYMENT_PROCESS_DEDUCTION.Amount-TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt) as Amount 
+        Dim baseQryDeduction As String = "select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_NAME, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code , TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc ,(TSPL_PAYMENT_PROCESS_DEDUCTION.Amount-TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt) as Amount,TSPL_VLC_MASTER_HEAD.Route_Code 
 from TSPL_PAYMENT_PROCESS_DEDUCTION inner join TSPL_PAYMENT_PROCESS_HEAD on  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No = TSPL_PAYMENT_PROCESS_HEAD.Doc_No
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
 where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpLedgerFromDate.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpLedgerToDate.Value + "'),103) 
+union all
+select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code, TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE as Vendor_CODE, TSPL_PAYMENT_PROCESS_DETAIL.VSP_NAME as Vendor_NAME, 'TDS' as Ded_Code , 'TDS' as Ded_Desc ,(TSPL_PAYMENT_PROCESS_DETAIL.TDS_Amount) as Amount,TSPL_VLC_MASTER_HEAD.Route_Code 
+from TSPL_PAYMENT_PROCESS_DETAIL 
+inner join TSPL_PAYMENT_PROCESS_HEAD on  TSPL_PAYMENT_PROCESS_DETAIL.Doc_No = TSPL_PAYMENT_PROCESS_HEAD.Doc_No
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE
+where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpLedgerFromDate.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpLedgerToDate.Value + "'),103) and isnull(TSPL_PAYMENT_PROCESS_DETAIL.TDS_Amount,0)>0"
+
+        sQuery = " select Final.VSP_Uploader_Code, Final.Vendor_CODE, Vendor_NAME, Final.Ded_Code , Final.Ded_Desc , sum(Amount) as [Amount] from (" + baseQryDeduction + "
 ) Final group by  final.VSP_Uploader_Code, Final.Vendor_CODE, Vendor_NAME, Final.Ded_Code,Final.Ded_Desc  "
         Dim dtDeduction As DataTable = clsDBFuncationality.GetDataTable(sQuery)
 
         sQuery = "select max(Final.VSP_Uploader_Code)VSP_Uploader_Code, max(Final.Vendor_CODE)Vendor_CODE, max(final.Vendor_NAME)Vendor_NAME, Final.Ded_Code ,
-                  max(Final.Ded_Desc)Ded_Desc , sum(Amount) as [Amount],final.Route_Code from (
-                  select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE,
-                  TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_NAME, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code , TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc ,
-                  TSPL_PAYMENT_PROCESS_DEDUCTION.Amount ,TSPL_VLC_MASTER_HEAD.Route_Code
-                  from TSPL_PAYMENT_PROCESS_DEDUCTION
-                  inner join TSPL_PAYMENT_PROCESS_HEAD on  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No = TSPL_PAYMENT_PROCESS_HEAD.Doc_No
-                  left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
-                  where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpLedgerFromDate.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpLedgerToDate.Value + "'),103) 
-                  ) Final group by final.Ded_Code,final.Route_Code"
+                  max(Final.Ded_Desc)Ded_Desc , sum(Amount) as [Amount],final.Route_Code from (" + baseQryDeduction + " ) Final group by final.Ded_Code,final.Route_Code"
 
         Dim dtDeductionRouteWise As DataTable = clsDBFuncationality.GetDataTable(sQuery)
 
@@ -1608,11 +1607,7 @@ and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtp
         Dim dtTotalAddition As DataTable = clsDBFuncationality.GetDataTable(sQuery)
 
         sQuery = "   select max(Final.VSP_Uploader_Code)VSP_Uploader_Code, max(Final.Vendor_CODE)Vendor_CODE, max(Vendor_NAME)Vendor_NAME, Final.Ded_Code , max(Final.Ded_Desc)Ded_Desc , sum(Amount) as [Amount] from (
-                     select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_NAME, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code , TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc , TSPL_PAYMENT_PROCESS_DEDUCTION.Amount as Amount1 ,(TSPL_PAYMENT_PROCESS_DEDUCTION.Amount-TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt) as Amount 
-                     from TSPL_PAYMENT_PROCESS_DEDUCTION inner join TSPL_PAYMENT_PROCESS_HEAD on  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No = TSPL_PAYMENT_PROCESS_HEAD.Doc_No
-                     left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
-                     where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpLedgerFromDate.Value + "'),103) 
-                     and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpLedgerToDate.Value + "'),103) 
+                     " + baseQryDeduction + "
                         ) Final group by  Final.Ded_Code "
         Dim dtTotalDeduction As DataTable = clsDBFuncationality.GetDataTable(sQuery)
 
@@ -2073,9 +2068,18 @@ and not exists(select 1 from TSPL_MILK_PURCHASE_INVOICE_PRO_LOSS where TSPL_MILK
                 legerMainQuery += "Invoice.Mcc_Code_VLC_Uploader, Invoice.MCC_NAME,"
             End If
 
-            legerMainQuery += "   Invoice.VSP_CODE,	Invoice.Vendor_Name,Invoice.Type,Invoice.Qty,Invoice.SweetQty,Invoice.CurdQty,Invoice.SourQty,Invoice.FAT_PER,Invoice.SNF_PER,Invoice.FATQTY,Invoice.SNFQTY,Invoice.SRN_Net_Amount,Invoice.VLC_Code_VLC_Uploader,Invoice.VLC_NO, coalesce(PaymentProcess.Total_EMP_Amount,0) as Total_EMP_Amount,coalesce(PaymentProcess.Incentive_Amount,0) as Incentive_Amount ,coalesce(PaymentProcess.Incentive_EMP_Amount,0) as Incentive_EMP_Amount ,coalesce(PaymentProcess.EMP_Amount,0) as EMP_Amount ,coalesce(PaymentProcess.Vsp_Own_System_Amount,0) as Vsp_Own_System_Amount ,coalesce(PaymentProcess.Head_Load_Amount,0) as Head_Load_Amount ,coalesce(PaymentProcess.Payable_Amount,0) as Payable_Amount,coalesce(PaymentProcess.Credit_Note_Amount,0)as Credit_Note_Amount,coalesce(PaymentProcess.Deduction_Amount,0)*(-1)  as Deduction_Amount,coalesce(PaymentProcess.Item_Issue_Amount,0)*(-1) as Item_Issue_Amount,coalesce(PaymentProcess.Item_Issue_Return_Amount,0) as Item_Issue_Return_Amount,coalesce(PaymentProcess.MCC_Sale_Amount,0)*(-1) as MCC_Sale_Amount ,coalesce(PaymentProcess.MCC_Sale_Return_Amount,0) as MCC_Sale_Return_Amount from (
-select VLC_Code, VSP_CODE,sum(Total_EMP_Amount) as Total_EMP_Amount,sum(Incentive_Amount) as Incentive_Amount,sum(Incentive_EMP_Amount) as Incentive_EMP_Amount,sum(EMP_Amount) as EMP_Amount,sum(Vsp_Own_System_Amount) as Vsp_Own_System_Amount,sum(Head_Load_Amount) as Head_Load_Amount,sum(Credit_Note_Amount)as Credit_Note_Amount,sum(Deduction_Amount) as Deduction_Amount,sum(Item_Issue_Amount) as Item_Issue_Amount,sum(Item_Issue_Return_Amount) as Item_Issue_Return_Amount,sum(MCC_Sale_Amount) as MCC_Sale_Amount ,sum(MCC_Sale_Return_Amount) as MCC_Sale_Return_Amount,sum(Payable_Amount) as Payable_Amount,pp.PPNo from (
-select TSPL_PAYMENT_PROCESS_HEAD.Doc_No as PPNo,TSPL_PAYMENT_PROCESS_DETAIL.Incentive_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Incentive_EMP_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.EMP_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Vsp_Own_System_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Total_EMP_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount , TSPL_VLC_MASTER_HEAD.VLC_Code  ,TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE ,TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Credit_Note_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Deduction_Amount  ,TSPL_PAYMENT_PROCESS_DETAIL.Item_Issue_Return_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Item_Issue_Amount,TSPL_PAYMENT_PROCESS_DETAIL.MCC_Sale_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.MCC_Sale_Return_Amount  
+            legerMainQuery += "   Invoice.VSP_CODE,	Invoice.Vendor_Name,Invoice.Type,Invoice.Qty,Invoice.SweetQty,Invoice.CurdQty,Invoice.SourQty,Invoice.FAT_PER,Invoice.SNF_PER,Invoice.FATQTY,Invoice.SNFQTY,Invoice.SRN_Net_Amount,Invoice.VLC_Code_VLC_Uploader,Invoice.VLC_NO, coalesce(PaymentProcess.Total_EMP_Amount,0) as Total_EMP_Amount,coalesce(PaymentProcess.Incentive_Amount,0) as Incentive_Amount ,coalesce(PaymentProcess.Incentive_EMP_Amount,0) as Incentive_EMP_Amount ,coalesce(PaymentProcess.EMP_Amount,0) as EMP_Amount ,coalesce(PaymentProcess.Vsp_Own_System_Amount,0) as Vsp_Own_System_Amount ,coalesce(PaymentProcess.Head_Load_Amount,0) as Head_Load_Amount ,"
+
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                legerMainQuery += " coalesce(PaymentProcess.Payable_Amount,0)+coalesce(PaymentProcess.Saving_Amount,0) as Payable_Amount "
+            Else
+                legerMainQuery += " coalesce(PaymentProcess.Payable_Amount,0) as Payable_Amount "
+            End If
+
+
+            legerMainQuery += " ,coalesce(PaymentProcess.Credit_Note_Amount,0)as Credit_Note_Amount,coalesce(PaymentProcess.Deduction_Amount,0)*(-1)  as Deduction_Amount,coalesce(PaymentProcess.Item_Issue_Amount,0)*(-1) as Item_Issue_Amount,coalesce(PaymentProcess.Item_Issue_Return_Amount,0) as Item_Issue_Return_Amount,coalesce(PaymentProcess.MCC_Sale_Amount,0)*(-1) as MCC_Sale_Amount ,coalesce(PaymentProcess.MCC_Sale_Return_Amount,0) as MCC_Sale_Return_Amount from (
+select VLC_Code, VSP_CODE,sum(Total_EMP_Amount) as Total_EMP_Amount,sum(Incentive_Amount) as Incentive_Amount,sum(Incentive_EMP_Amount) as Incentive_EMP_Amount,sum(EMP_Amount) as EMP_Amount,sum(Vsp_Own_System_Amount) as Vsp_Own_System_Amount,sum(Head_Load_Amount) as Head_Load_Amount,sum(Credit_Note_Amount)as Credit_Note_Amount,sum(Deduction_Amount) as Deduction_Amount,sum(Item_Issue_Amount) as Item_Issue_Amount,sum(Item_Issue_Return_Amount) as Item_Issue_Return_Amount,sum(MCC_Sale_Amount) as MCC_Sale_Amount ,sum(MCC_Sale_Return_Amount) as MCC_Sale_Return_Amount,sum(Payable_Amount) as Payable_Amount,pp.PPNo,sum(Saving_Amount)Saving_Amount from (
+select TSPL_PAYMENT_PROCESS_HEAD.Doc_No as PPNo,TSPL_PAYMENT_PROCESS_DETAIL.Incentive_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Incentive_EMP_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.EMP_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Vsp_Own_System_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Total_EMP_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount , TSPL_VLC_MASTER_HEAD.VLC_Code  ,TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE ,TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Credit_Note_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Deduction_Amount  ,TSPL_PAYMENT_PROCESS_DETAIL.Item_Issue_Return_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Item_Issue_Amount,TSPL_PAYMENT_PROCESS_DETAIL.MCC_Sale_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.MCC_Sale_Return_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount  
 from TSPL_PAYMENT_PROCESS_DETAIL 
 left join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No =TSPL_PAYMENT_PROCESS_DETAIL.Doc_No 
 left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader =TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader  
@@ -2285,6 +2289,27 @@ inner join TSPL_PAYMENT_PROCESS_DETAIL on  TSPL_PAYMENT_PROCESS_DETAIL.Doc_No = 
 inner join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE=TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No
 where  convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + fromDate + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + Todate + "'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and
 TSPL_VENDOR_INVOICE_HEAD.Description <> 'AP Credit Note For VSP Commission' and (TSPL_MULTIPLE_DEDUCTION_head.trans_type = 'Addition' or TSPL_VENDOR_INVOICE_HEAD.Document_Type='C') "
+
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                sQueryAD += "  union all
+                              select TSPL_PAYMENT_PROCESS_HEAD.Doc_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code,'' as trans_type,
+                              TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VLC_Code_VLC_Uploader,coalesce(TSPL_DCS_ADDITION_DEDUCTION.Description,
+                              TSPL_MULTIPLE_DEDUCTION_DETAIL.Deduction_Desc) as Item_Desc, 0 as FAT_Amount,0 as SNF_Amount ,
+                              TSPL_VENDOR_INVOICE_HEAD.Document_Total as Amount ,Convert (varchar,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) as  AP_Invoice_Date,
+                              0 as Is_Default_Pashu_Vikas_Kos, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code ,'' as ROUTE_NO
+                             from TSPL_PAYMENT_PROCESS_SAVING 
+                                inner join TSPL_PAYMENT_PROCESS_HEAD on  TSPL_PAYMENT_PROCESS_SAVING.Doc_No = TSPL_PAYMENT_PROCESS_HEAD.Doc_No
+                                left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.document_no=TSPL_PAYMENT_PROCESS_SAVING.AP_Invoice_No
+                                left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.document_no=TSPL_VENDOR_INVOICE_HEAD.document_no
+                                left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE
+                                left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction
+                                left outer join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo = TSPL_PAYMENT_PROCESS_SAVING.AP_Invoice_No
+                                left outer join TSPL_MULTIPLE_DEDUCTION_head on TSPL_MULTIPLE_DEDUCTION_head.Document_No = TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No 
+                                where  convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + fromDate + "'),103)
+                                and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + Todate + "'),103)  "
+            End If
+
+
             If txtMultiMCC.arrValueMember IsNot Nothing AndAlso txtMultiMCC.arrValueMember.Count > 0 Then
                 sQueryAD += " and TSPL_VLC_MASTER_HEAD.MCC in (" + clsCommon.GetMulcallString(txtMultiMCC.arrValueMember) + ") "
             End If
@@ -2449,7 +2474,8 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAY
                                 End If
 
                                 'clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "-" + 
-                                Sumtotal = MilkAmt + SumPayment1
+                                'Sumtotal = MilkAmt + SumPayment1
+                                Sumtotal = MilkAmt + SumPayment1 + HeadLoadAmt
                                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
                                     dtMain.Rows.Add(DBNull.Value, SumSWEET1, SumKGFAT1, MilkAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, Sumtotal)
                                     dtMain.Rows.Add(clsCommon.myCstr(dtVSP1.Rows(V).Item("Vendor_Name")), SumSOUR1, SumKGSNF1, HeadLoadAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumDeduction1)
@@ -2557,7 +2583,8 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAY
                                 SumPayment1 = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "Mcc_Code_VLC_Uploader='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("Mcc_Code_VLC_Uploader")) + "'"))
                                 SumDeduction1 = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Mcc_Code_VLC_Uploader='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("Mcc_Code_VLC_Uploader")) + "'"))
                                 SumNETPAYABLE1 = clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "Mcc_Code_VLC_Uploader='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("Mcc_Code_VLC_Uploader")) + "'"))
-                                Sumtotal = MilkAmt + SumPayment1
+                                'Sumtotal = MilkAmt + SumPayment1
+                                Sumtotal = MilkAmt + SumPayment1 + HeadLoadAmt
                             Else
                                 SumSWEET1 = clsCommon.myCdbl(dt.Compute("sum(SweetQty)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
                                 SumSOUR1 = clsCommon.myCdbl(dt.Compute("sum(SourQty)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
@@ -2582,7 +2609,8 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAY
                                     SumNETPAYABLE1 = clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
 
                                 End If
-                                Sumtotal = MilkAmt + SumPayment1
+                                'Sumtotal = MilkAmt + SumPayment1
+                                Sumtotal = MilkAmt + SumPayment1 + HeadLoadAmt
                             End If
 
 
@@ -2758,7 +2786,8 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAY
                             SumNETPAYABLE1 = clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
                         End If
 
-                        Sumtotal = MilkAmt + SumPayment1
+                        'Sumtotal = MilkAmt + SumPayment1
+                        Sumtotal = MilkAmt + SumPayment1 + HeadLoadAmt
                         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
                             dtMain.Rows.Add(DBNull.Value, SumSWEET1, SumKGFAT1, MilkAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, Sumtotal)
                             dtMain.Rows.Add(clsCommon.myCstr(dr("Vendor_Name")), SumSOUR1, SumKGSNF1, HeadLoadAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumDeduction1)
@@ -2857,7 +2886,8 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAY
                 Else
                     GSumNETPAYABLE = Math.Round(clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "")), 2)
                 End If
-                Dim Gsumtotal As Decimal = GMilkAmt + GSumPayment
+                'Dim Gsumtotal As Decimal = GMilkAmt + GSumPayment
+                Dim Gsumtotal As Decimal = GMilkAmt + GSumPayment + GHeadLoadAmt
                 dtMain.Rows.Add("G-TOTAL:", GSumSWEET, GSumKGFAT, GMilkAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, Gsumtotal)
                 dtMain.Rows.Add(DBNull.Value, GSumSOUR, GSumKGSNF, GHeadLoadAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, GSumDeduction)
                 dtMain.Rows.Add(DBNull.Value, GSumCURD, GAVGFAT, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, GSumNETPAYABLE)
