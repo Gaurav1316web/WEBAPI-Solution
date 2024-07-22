@@ -816,6 +816,11 @@ Public Class FrmAPInvoiceEntry
         dt.Rows.Add(dr)
 
         dr = dt.NewRow()
+        dr("Code") = "AP"
+        dr("Name") = "All AP Invoice"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
         dr("Code") = "WO"
         dr("Name") = "Work Order"
         dt.Rows.Add(dr)
