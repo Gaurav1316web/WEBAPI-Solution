@@ -1314,7 +1314,23 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strMilkSRN + "'  "
                     clsMilkProcurementUploaderDetail.SaveData(Arr(0).Document_No, "", Arr, trans, Arr(0).TR_No)
                 End If
             End If
+            Dim intAgainst_Milk_Collection_DCS_multiple_Days As Integer = 0
             If intAgainst_Milk_Collection_DCS_Detail > 0 Then
+                qry = "select TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.PK_Id  from TSPL_MILK_COLLECTION_DCS_DETAIL
+inner join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL  on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No=TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
+inner join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No=TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
+inner join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail
+inner join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
+inner join TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL on TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Document_No=TSPL_MILK_COLLECTION_MCC.Against_DCS_Multiple_Days 
+where TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id=" + clsCommon.myCstr(intAgainst_Milk_Collection_DCS_Detail) + " 
+and convert(date, TSPL_MILK_COLLECTION_DCS.Document_Date,103)=TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Collection_Date 
+and TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code 
+and TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Qty=TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Qty 
+and TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.FAT=TSPL_MILK_COLLECTION_DCS_DETAIL.FAT 
+and TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.SNF=TSPL_MILK_COLLECTION_DCS_DETAIL.SNF "
+                intAgainst_Milk_Collection_DCS_multiple_Days = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, trans))
+
+
                 qry = "select Document_No from TSPL_MILK_COLLECTION_DCS_DETAIL where PK_Id=" + clsCommon.myCstr(intAgainst_Milk_Collection_DCS_Detail) + ""
                 qry = clsDBFuncationality.getSingleValue(qry, trans)
                 Dim Arr As List(Of clsMilkCollectionDCSDetail) = clsMilkCollectionDCSDetail.GetData(qry, " PK_Id=" + clsCommon.myCstr(intAgainst_Milk_Collection_DCS_Detail) + "", trans)
@@ -1335,6 +1351,29 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strMilkSRN + "'  "
                     End If
                     Arr(0).Milk_Type = strRejectType
                     clsMilkCollectionDCSDetail.SaveData(Arr(0).Document_No, Arr, trans, Arr(0).PK_Id, False, True)
+                End If
+            End If
+            If intAgainst_Milk_Collection_DCS_multiple_Days > 0 Then
+                qry = "select Document_No from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL where PK_Id=" + clsCommon.myCstr(intAgainst_Milk_Collection_DCS_multiple_Days) + ""
+                qry = clsDBFuncationality.getSingleValue(qry, trans)
+                Dim Arr As List(Of clsMilkCollectionDCSMulipleDaysDetail) = clsMilkCollectionDCSMulipleDaysDetail.GetData(qry, " PK_Id=" + clsCommon.myCstr(intAgainst_Milk_Collection_DCS_multiple_Days) + "", "", trans)
+                If Arr IsNot Nothing AndAlso Arr.Count > 0 Then
+                    If corrTypeSRNQty Then
+                        Arr(0).Qty = dblQty
+                        Arr(0).FATKG = Math.Round(Arr(0).Qty * Arr(0).FAT / 100, 3, MidpointRounding.ToEven)
+                        Arr(0).SNFKG = Math.Round(Arr(0).Qty * Arr(0).SNF / 100, 3, MidpointRounding.ToEven)
+                    End If
+                    If corrTypeSRNVLC Then
+                        Arr(0).VLC_Code = strVLCCode
+                    End If
+                    If corrTypeSRNFATSNF Then
+                        Arr(0).FAT = dblFAT
+                        Arr(0).SNF = dblSNF
+                        Arr(0).FATKG = Math.Round(Arr(0).Qty * Arr(0).FAT / 100, 3, MidpointRounding.ToEven)
+                        Arr(0).SNFKG = Math.Round(Arr(0).Qty * Arr(0).SNF / 100, 3, MidpointRounding.ToEven)
+                    End If
+                    Arr(0).Milk_Type = strRejectType
+                    clsMilkCollectionDCSMulipleDaysDetail.SaveData(Arr(0).Document_No, Arr, trans)
                 End If
             End If
         End If
