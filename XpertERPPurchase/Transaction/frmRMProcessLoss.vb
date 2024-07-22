@@ -492,6 +492,7 @@ Public Class frmRMProcessLoss
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colStockTransferQty).Value = clsCommon.myCstr(dr("IssueQtyScrap"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colStockTransferAmt).Value = clsCommon.myCstr(dr("IssueQtyScrapCost"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = clsCommon.myCstr(dr("Rate"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colFinalClStock).Value = clsCommon.myCstr(dr("CLQty"))
                     Next
                 Else
                     clsCommon.MyMessageBoxShow(Me, "No data found to display ", Me.Text)
@@ -530,16 +531,32 @@ Public Class frmRMProcessLoss
         Dim arr As New List(Of String)
         Dim icode As String = ""
         Dim status As Integer = 0
+        Dim amtforFG1 As String = ""
+        Dim code1 As String = ""
+        Dim Itemcode1 As String = ""
         Dim PLAvg As Decimal = 0
         Dim AvgPer As Double = 0
         Dim cost As Double = 0
         Dim ProdQty As Double = 0
         For ii As Integer = 0 To gv1.Rows.Count - 1
-            icode = clsCommon.myCstr(gv1.Rows(ii).Cells(colItemType).Value)
-            If clsCommon.CompairString(icode, "RM") = CompairStringResult.Equal Then
-                Dim PL As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colIssProdAmt).Value)
-                If PL > 0 Then
-                    PLAvg += clsCommon.myCDecimal(gv1.Rows(ii).Cells(colIssProdAmt).Value)
+            Itemcode1 = clsCommon.myCstr(gv1.Rows(ii).Cells(colitemcode).Value)
+            code1 = clsCommon.myCstr(gv1.Rows(ii).Cells(colItemType).Value)
+            If clsCommon.CompairString(code1, "RM") = CompairStringResult.Equal OrElse clsCommon.CompairString(code1, "FG") = CompairStringResult.Equal Then
+                If clsCommon.CompairString(code1, "FG") = CompairStringResult.Equal Then
+                    amtforFG1 = clsDBFuncationality.getSingleValue(" select SFG_for_CF from TSPL_ITEM_MASTER where Item_Code='" + Itemcode1 + "' ")
+                End If
+                If clsCommon.myLen(amtforFG1) > 0 Then
+                    Dim PL As Decimal = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colIssProdAmt).Value)
+                    If PL > 0 Then
+                        PLAvg += clsCommon.myCDecimal(gv1.Rows(ii).Cells(colIssProdAmt).Value)
+                        'PLAvg += PLAvg
+                    End If
+                Else
+                    Dim PL As Decimal = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colIssProdAmt).Value)
+                    If PL > 0 Then
+                        PLAvg += clsCommon.myCDecimal(gv1.Rows(ii).Cells(colIssProdAmt).Value)
+                        'PLAvg += PLAvg
+                    End If
                 End If
             End If
         Next
@@ -559,18 +576,32 @@ Public Class frmRMProcessLoss
         End If
 
         Dim code As String = ""
+        Dim Itemcode As String = ""
         Dim status1 As Integer = 0
+        Dim amtforFG As String = ""
         Dim PLAvg1 As Decimal = 0
         Dim AvgPer1 As Decimal = 0
         For ii As Integer = 0 To gv1.Rows.Count - 1
+            Itemcode = clsCommon.myCstr(gv1.Rows(ii).Cells(colitemcode).Value)
             code = clsCommon.myCstr(gv1.Rows(ii).Cells(colItemType).Value)
-            If clsCommon.CompairString(code, "RM") = CompairStringResult.Equal Then
-                Dim PL As Decimal = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colIssProdAmt).Value)
-                If PL > 0 Then
-                    PLAvg1 += clsCommon.myCDecimal(gv1.Rows(ii).Cells(colIssProdAmt).Value)
-                    'PLAvg += PLAvg
+            If clsCommon.CompairString(code, "RM") = CompairStringResult.Equal OrElse clsCommon.CompairString(code, "FG") = CompairStringResult.Equal Then
+                If clsCommon.CompairString(code, "FG") = CompairStringResult.Equal Then
+                    amtforFG = clsDBFuncationality.getSingleValue(" select SFG_for_CF from TSPL_ITEM_MASTER where Item_Code='" + Itemcode + "' ")
                 End If
-            End If
+                If clsCommon.myLen(amtforFG) > 0 Then
+                    Dim PL As Decimal = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colIssProdAmt).Value)
+                    If PL > 0 Then
+                        PLAvg1 += clsCommon.myCDecimal(gv1.Rows(ii).Cells(colIssProdAmt).Value)
+                        'PLAvg += PLAvg
+                    End If
+                Else
+                    Dim PL As Decimal = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colIssProdAmt).Value)
+                    If PL > 0 Then
+                        PLAvg1 += clsCommon.myCDecimal(gv1.Rows(ii).Cells(colIssProdAmt).Value)
+                        'PLAvg += PLAvg
+                    End If
+                End If
+                End If
         Next
         If PLAvg1 > 0 Then
             txtITotalssQty.Text = PLAvg1
@@ -718,8 +749,8 @@ Public Class frmRMProcessLoss
                 txtLoc.Value = obj.Location
                 lblloc.Text = obj.Locationdesc
                 txtComments.Text = obj.Comments
-                txtFromDate.Text = obj.Fromdate
-                txtDate.Value = obj.Todate
+                txtFromDate.Value = obj.Fromdate
+                txtTodate.Value = obj.Todate
                 UsLock1.Status = ERPTransactionStatus.Pending
                 btnSave.Text = "Update"
                 btnDelete.Enabled = True
@@ -932,6 +963,31 @@ Public Class frmRMProcessLoss
         End If
     End Sub
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        PrintView(True)
+    End Sub
+    Private Sub Export(ByVal exporter As EnumExportTo)
+        Try
+
+            Dim arrHeader As List(Of String) = New List(Of String)()
+            Dim strTemp As String = ""
+            arrHeader.Add("From Date : " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtTodate.Value, "dd/MM/yyyy") + " ")
+            arrHeader.Add("Location : " + clsCommon.myCstr(txtLoc.Value))
+
+            If exporter = EnumExportTo.Excel Then
+                transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
+                transportSql.QuickExportToExcel(gv1, "", Me.Text, , arrHeader)
+            Else
+                transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
+                clsCommon.MyExportToPDF("C - Form Report", gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub btnExcel_Click(sender As Object, e As EventArgs) Handles btnExcel.Click
+        Export(EnumExportTo.Excel)
+    End Sub
+    Sub PrintView(ByVal Detail As Boolean)
         Dim dt As DataTable = Nothing
         Dim dt1 As DataTable = Nothing
         Dim PLPERC As Decimal
@@ -975,12 +1031,21 @@ Public Class frmRMProcessLoss
                                          AND TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE IN ('" + txtLoc.Value + "') GROUP BY  TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE,Item_Desc"
             dt2 = clsDBFuncationality.GetDataTable(strqry)
             If dt Is Nothing OrElse dt.Rows.Count > 0 Then
-                frmCRV.funsubreportWithdt(Nothing, CrystalReportFolder.SalesReport, dt, dt1, "rptRMProcessLossreport", "", Nothing, "PMstockConsumption.rpt", "Production.rpt", dt2)
+                If Detail = True Then
+                    frmCRV.funsubreportWithdt(Nothing, CrystalReportFolder.SalesReport, dt, dt1, "rptRMProcessLossreport", "", Nothing, "PMstockConsumption.rpt", "Production.rpt", dt2)
+                Else
+                    frmCRV.funsubreportWithdt(Nothing, CrystalReportFolder.SalesReport, dt, dt1, "rptRMProcessLossreportDetail", "", Nothing, "PMstockConsumption.rpt", "Production.rpt", dt2)
+
+                End If
             Else
-                common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub btnPrintDetail_Click(sender As Object, e As EventArgs) Handles btnPrintDetail.Click
+        PrintView(False)
     End Sub
 End Class

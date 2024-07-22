@@ -14448,9 +14448,9 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colSchemeApplicable).Value = "Yes"
                         End If
                         'findQtyandPromoSchemeCode(False, obj.Scheme_Code, objOrderHead.Document_Date)
-                        If Not IsCreditCustomer Then
-                            GetDCDetails(trans)
-                        End If
+                        'If Not IsCreditCustomer Then
+                        GetDCDetails(trans)
+                        'End If
                         calculateFOR(gv1.Rows.Count - 1, trans)
                     Next
                     For ii As Integer = 0 To gv1.Rows.Count - 1
