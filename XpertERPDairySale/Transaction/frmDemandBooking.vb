@@ -588,6 +588,11 @@ Public Class frmDemandBooking
     End Sub
     Sub AddNew()
         Try
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                btnPrintChallan.Visible = True
+            Else
+                btnPrintChallan.Visible = False
+            End If
             blnSaveTotalQTy = False
             isNewEntry = True
             btnSave.Text = "Save"
@@ -4444,6 +4449,14 @@ order  by TSPL_CUSTOMER_MASTER.Display_Seq "
         End Try
     End Sub
     Private Sub txtCustomerNo_Load(sender As Object, e As EventArgs) Handles txtCustomerNo.Load
+    End Sub
+
+    Private Sub btnPrintChallan_Click(sender As Object, e As EventArgs) Handles btnPrintChallan.Click
+        Try
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     'Private Sub gv1_CellValidating(sender As Object, e As CellValidatingEventArgs) Handles gv1.CellValidating
     '    Dim cellValue As String = e.Value

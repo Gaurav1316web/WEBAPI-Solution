@@ -23,8 +23,6 @@ Public Class JanaadharStatusReport
             If chkRJSBNS.Checked Then
                 query += "union all
             SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
-            union all
-            SELECT 'Banswara' AS Location_Name,'Banswara' AS DataBase_Name
             ORDER BY Location_Name"
             End If
             dt = clsDBFuncationality.GetDataTable(query)
