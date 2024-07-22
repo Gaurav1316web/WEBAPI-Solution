@@ -3940,25 +3940,26 @@ Public Class clsVedorInvoiceHead
             End If
         End If
         If clsCommon.myLen(obj.Against_MillkPurchaseInvoice_No) > 0 And obj.RefDocType = "MI-PI" Then
-            strShipTolocation = clsDBFuncationality.getSingleValue("select coalesce(Irregular_Mcc_Code,'') from TSPL_MILK_PURCHASE_INVOICE_HEAD where Doc_Code='" + obj.Against_MillkPurchaseInvoice_No + "'", trans)
-            If clsCommon.myLen(strShipTolocation) > 0 Then
-                If clsCommon.CompairString(obj.loc_code, strShipTolocation) <> CompairStringResult.Equal Then
-                    Dim StrShipment As String = clsERPFuncationality.GetLocationSegment(strShipTolocation, trans)
-                    Dim strMainLoc As String = clsERPFuncationality.GetLocationSegment(obj.loc_code, trans)
-                    qry = "select Branch_Account from TSPL_BRANCH_ACCOUNT_MAPPING where From_Location='" + StrShipment + "' and To_Location='" + strMainLoc + "'"
-                    strBrachACofShiptoLoc = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
-                    If clsCommon.myLen(strBrachACofShiptoLoc) <= 0 Then
-                        Throw New Exception("Please set Brach account with From Location=" + StrShipment + " and To Location=" + strMainLoc + "")
-                    End If
-                    qry = "select Branch_Account from TSPL_BRANCH_ACCOUNT_MAPPING where To_Location='" + StrShipment + "' and From_Location='" + strMainLoc + "'"
-                    strBrachAC = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
-                    If clsCommon.myLen(strBrachAC) <= 0 Then
-                        Throw New Exception("Please set Brach account with  From Location=" + strMainLoc + " and To Location=" + StrShipment + " ")
-                    End If
-                End If
-            Else
-                strShipTolocation = ""
-            End If
+            ''IN RCDF No concept of Irregular_Mcc_Code
+            'strShipTolocation = clsDBFuncationality.getSingleValue("select coalesce(Irregular_Mcc_Code,'') from TSPL_MILK_PURCHASE_INVOICE_HEAD where Doc_Code='" + obj.Against_MillkPurchaseInvoice_No + "'", trans)
+            'If clsCommon.myLen(strShipTolocation) > 0 Then
+            '    If clsCommon.CompairString(obj.loc_code, strShipTolocation) <> CompairStringResult.Equal Then
+            '        Dim StrShipment As String = clsERPFuncationality.GetLocationSegment(strShipTolocation, trans)
+            '        Dim strMainLoc As String = clsERPFuncationality.GetLocationSegment(obj.loc_code, trans)
+            '        qry = "select Branch_Account from TSPL_BRANCH_ACCOUNT_MAPPING where From_Location='" + StrShipment + "' and To_Location='" + strMainLoc + "'"
+            '        strBrachACofShiptoLoc = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+            '        If clsCommon.myLen(strBrachACofShiptoLoc) <= 0 Then
+            '            Throw New Exception("Please set Brach account with From Location=" + StrShipment + " and To Location=" + strMainLoc + "")
+            '        End If
+            '        qry = "select Branch_Account from TSPL_BRANCH_ACCOUNT_MAPPING where To_Location='" + StrShipment + "' and From_Location='" + strMainLoc + "'"
+            '        strBrachAC = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+            '        If clsCommon.myLen(strBrachAC) <= 0 Then
+            '            Throw New Exception("Please set Brach account with  From Location=" + strMainLoc + " and To Location=" + StrShipment + " ")
+            '        End If
+            '    End If
+            'Else
+            '    strShipTolocation = ""
+            'End If
         End If
 
         '' Dim isFirstTime As Boolean = True

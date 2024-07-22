@@ -1283,6 +1283,7 @@
     <None Include="Crystal Reports\Kwality Sales Report\crptInvoiceDetail.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDairySaleGatePassEntriesTNK.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptTaxableNonTaxableInvoiceJPR.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\crptZoneWiseReport.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptBoothSlip.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptbulkinvoice.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptdailydispatch.rpt" />

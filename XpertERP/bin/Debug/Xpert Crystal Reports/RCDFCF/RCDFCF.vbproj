@@ -1269,6 +1269,8 @@
     <None Include="Crystal Reports\Kwality Sales Report\rptFreshSaleInvoice.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptInvoiceBulkSale.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptLCIssuingApplicationMT.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\rptMaterialSaleaReturn_RCDFCF_NT.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\rptMaterialSalesReturn_RCDF.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptMerchantDeclarationMT.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptMerchantDeclarationMTFormat2.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptMilkPriceChartMaster.rpt" />
