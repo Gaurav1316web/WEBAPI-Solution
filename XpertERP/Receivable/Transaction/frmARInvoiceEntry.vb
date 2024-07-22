@@ -2557,7 +2557,7 @@ Public Class FrmARInvoiceEntry
                 txtRefDocNo.Value = obj.RefDocNo
                 If ((clsCommon.CompairString(obj.Document_Type, "I") = CompairStringResult.Equal) OrElse (clsCommon.CompairString(obj.Document_Type, "C") = CompairStringResult.Equal)) Then
                     Dim strInvoiceNo As String = ""
-                    strInvoiceNo = clsDBFuncationality.getSingleValue("select Against_Sale_No from TSPL_Customer_Invoice_Head where Document_No='" & txtDocNo.Value & "'")
+                    strInvoiceNo = clsDBFuncationality.getSingleValue("select IsNull(Against_Sale_No,'') from TSPL_Customer_Invoice_Head where Document_No='" & txtDocNo.Value & "'")
                     txtSaleInvoice.Text = strInvoiceNo
                     txtServiceVisitCode.Text = obj.Against_Service_Visit_Code
                 Else
@@ -3327,7 +3327,7 @@ Public Class FrmARInvoiceEntry
             " TSPL_JOURNAL_DETAILS.Account_code as Account_Code , TSPL_JOURNAL_DETAILS.Account_Desc as Account_Desc ,TSPL_JOURNAL_DETAILS.Amount , 0 as Discount ,TSPL_JOURNAL_DETAILS.Amount as Amount_less_Discount , 0 Total_Tax ,TSPL_JOURNAL_DETAILS.Amount as Total_Amount  ," &
             " TSPL_Customer_Invoice_Head.Comp_Code ,TSPL_JOURNAL_DETAILS.Cost_Centre_Code,TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Name,TSPL_JOURNAL_DETAILS.Hirerachy_Code,TSPL_HIRERACHY_LEVEL_MASTER.Description as HIRERACHY_Name,TSPL_JOURNAL_DETAILS.Hirerachy_Code3 ,TSPL_JOURNAL_DETAILS.Hirerachy_Code4,TSPL_Customer_Invoice_Head.TapalNo,TSPL_Customer_Invoice_Head.DateAndTime  from TSPL_Customer_Invoice_Head " &
             " left outer join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No =TSPL_Customer_Invoice_Head.Document_No left outer join TSPL_JOURNAL_DETAILS on TSPL_JOURNAL_DETAILS.Voucher_No = TSPL_JOURNAL_MASTER.Voucher_No   " &
-            " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_Customer_Invoice_Head.Customer_Code  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_Customer_Invoice_Head.Loc_Code  " &
+            " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_Customer_Invoice_Head.Customer_Code  left outer join TSPL_LOCATION_MASTER on left(TSPL_LOCATION_MASTER.Location_Code,3)=TSPL_Customer_Invoice_Head.Loc_Code  " &
             " left outer join TSPL_COST_CENTRE_FINANCIAL on TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code = TSPL_JOURNAL_DETAILS.Cost_Centre_Code  left outer join TSPL_HIRERACHY_LEVEL_MASTER on TSPL_HIRERACHY_LEVEL_MASTER.Hirerachy_Code = TSPL_JOURNAL_DETAILS.Hirerachy_Code  left outer join TSPL_STATE_MASTER as loc_state on loc_state.STATE_CODE =TSPL_LOCATION_MASTER.State  " &
             " left outer join tspl_user_master on tspl_user_master.User_Code=TSPL_Customer_Invoice_Head.Created_By " &
             " left outer join tspl_user_master as user_master_modify on user_master_modify.User_Code=TSPL_Customer_Invoice_Head.Modify_By " &
