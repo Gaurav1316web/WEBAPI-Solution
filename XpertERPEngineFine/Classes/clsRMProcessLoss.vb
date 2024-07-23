@@ -76,7 +76,7 @@ Public Class clsRMProcessLoss
             Dim obj As New clsRMProcessLoss()
             obj.Arr_Pd = New List(Of ClsRmProcessLossDetail)
             Dim qry As String = "select TSPL_RM_PROCESS_LOSS.document_Code,document_date,from_date,To_date,TSPL_RM_PROCESS_LOSS.location,location_desc,comment,status from TSPL_RM_PROCESS_LOSS
-left outer join tspl_location_master on tspl_location_master.location_code=TSPL_RM_PROCESS_LOSS.location "
+            left outer join tspl_location_master on tspl_location_master.location_code=TSPL_RM_PROCESS_LOSS.location "
             Select Case NavType
                 Case NavigatorType.Current
                     qry += " where TSPL_RM_PROCESS_LOSS.document_code='" + strCode + "'"
@@ -203,46 +203,46 @@ left outer join tspl_location_master on tspl_location_master.location_code=TSPL_
         For Each objTr As ClsRmProcessLossDetail In obj.Arr_Pd
 
             Dim strItemType As String = clsItemMaster.GetItemType(objTr.item_code, trans)
-                Dim strItemTypeToSave As String = ""
-                If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
-                    strItemTypeToSave = "RM"
-                ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
-                    strItemTypeToSave = "OT"
-                ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
-                    strItemTypeToSave = "FT"
-                Else
-                    strItemTypeToSave = strItemType
-                    'Throw New Exception("Item Type not found: " + strItemType)
-                End If
-                Dim ConvFac As Double = clsItemMaster.GetConvertionFactor(objTr.item_code, objTr.UOM, trans)
-                If ConvFac = 0 Then
-                    Throw New Exception("Conversion Factor found zero for item :" + objTr.item_code + " and Uom:'" + objTr.UOM)
-                End If
-                Dim objInventoryMovemnt As New clsInventoryMovement()
-                objInventoryMovemnt.InOut = "O"
-                objInventoryMovemnt.Location_Code = obj.Location
-                objInventoryMovemnt.Item_Code = objTr.item_code
-                objInventoryMovemnt.Item_Desc = clsDBFuncationality.getSingleValue("Select Item_desc from tspl_item_master where item_code='" + objTr.item_code + "'", trans)
-                objInventoryMovemnt.Qty = objTr.PL_Qty
-                objInventoryMovemnt.UOM = objTr.UOM
-                objInventoryMovemnt.Basic_Cost = objTr.Rate
-                objInventoryMovemnt.MRP = objTr.Rate
-                objInventoryMovemnt.Add_Cost = objTr.Rate
-                objInventoryMovemnt.Net_Cost = objTr.Rate * objTr.PL_Qty
-                If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
-                    objInventoryMovemnt.ItemType = "RM"
-                ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
-                    objInventoryMovemnt.ItemType = "OT"
-                ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
-                    objInventoryMovemnt.ItemType = "FT"
-                End If
+            Dim strItemTypeToSave As String = ""
+            If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
+                strItemTypeToSave = "RM"
+            ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
+                strItemTypeToSave = "OT"
+            ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
+                strItemTypeToSave = "FT"
+            Else
+                strItemTypeToSave = strItemType
+                'Throw New Exception("Item Type not found: " + strItemType)
+            End If
+            Dim ConvFac As Double = clsItemMaster.GetConvertionFactor(objTr.item_code, objTr.UOM, trans)
+            If ConvFac = 0 Then
+                Throw New Exception("Conversion Factor found zero for item :" + objTr.item_code + " and Uom:'" + objTr.UOM)
+            End If
+            Dim objInventoryMovemnt As New clsInventoryMovement()
+            objInventoryMovemnt.InOut = "O"
+            objInventoryMovemnt.Location_Code = obj.Location
+            objInventoryMovemnt.Item_Code = objTr.item_code
+            objInventoryMovemnt.Item_Desc = clsDBFuncationality.getSingleValue("Select Item_desc from tspl_item_master where item_code='" + objTr.item_code + "'", trans)
+            objInventoryMovemnt.Qty = objTr.PL_Qty
+            objInventoryMovemnt.UOM = objTr.UOM
+            objInventoryMovemnt.Basic_Cost = objTr.Rate
+            objInventoryMovemnt.MRP = objTr.Rate
+            objInventoryMovemnt.Add_Cost = objTr.Rate
+            objInventoryMovemnt.Net_Cost = objTr.Rate * objTr.PL_Qty
+            objInventoryMovemnt.Punching_Date = obj.Todate
+            If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
+                objInventoryMovemnt.ItemType = "RM"
+            ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
+                objInventoryMovemnt.ItemType = "OT"
+            ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
+                objInventoryMovemnt.ItemType = "FT"
+            End If
             objInventoryMovemnt.ItemType = strItemTypeToSave
             If clsCommon.myCdbl(objTr.PL_Qty) > 0 Then
                 ArrInventoryMovement.Add(objInventoryMovemnt)
             End If
         Next
-
-        clsInventoryMovement.SaveData("RM-PL", obj.document_code, obj.document_date, clsCommon.GetPrintDate(obj.document_date, "dd/MM/yyyy"), ArrInventoryMovement, trans)
+        clsInventoryMovement.SaveData("RM-PL", obj.document_code, obj.Todate, clsCommon.GetPrintDate(obj.document_date, "dd/MM/yyyy"), ArrInventoryMovement, trans)
         Return True
     End Function
     Public Shared Sub CreateJournalEntry(ByVal strCode As String, ByVal trans As SqlTransaction, Optional ByVal strVoucherNoRecreatedOnly As String = Nothing)
@@ -262,12 +262,12 @@ left outer join tspl_location_master on tspl_location_master.location_code=TSPL_
             Throw New Exception("Please set Shipment clearing Account for first item")
         End If
 
-        Dim dblCogsCost As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select sum(case when Costing_Method=0 then Avg_Cost when Costing_Method=1 then Avg_Cost when Costing_Method=2 then FIFO_Cost when Costing_Method=3 then LIFO_Cost end) as COst from TSPL_INVENTORY_MOVEMENT left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code where Source_Doc_No='" & obj.Document_Code & "'", trans))
+        Dim dblCogsCost As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select sum(case when Costing_Method=0 then Avg_Cost when Costing_Method=1 then Avg_Cost when Costing_Method=2 then FIFO_Cost when Costing_Method=3 then LIFO_Cost end) as COst from TSPL_INVENTORY_MOVEMENT left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code where Source_Doc_No='" & obj.document_code & "'", trans))
 
         Dim Acc() As String = {strShipmentClearingAC, dblCogsCost}
         ArryLstGLAC.Add(Acc)
 
-        Dim strSql As String = "select TSPL_INVENTORY_MOVEMENT.Item_Code,case when Costing_Method=0 then Avg_Cost when Costing_Method=1 then Avg_Cost when Costing_Method=2 then FIFO_Cost when Costing_Method=3 then LIFO_Cost end as Cost from TSPL_INVENTORY_MOVEMENT left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code  where Source_Doc_No='" & obj.Document_Code & "'"
+        Dim strSql As String = "select TSPL_INVENTORY_MOVEMENT.Item_Code,case when Costing_Method=0 then Avg_Cost when Costing_Method=1 then Avg_Cost when Costing_Method=2 then FIFO_Cost when Costing_Method=3 then LIFO_Cost end as Cost from TSPL_INVENTORY_MOVEMENT left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code  where Source_Doc_No='" & obj.document_code & "'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(strSql, trans)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             For Each dr As DataRow In dt.Rows
@@ -296,6 +296,17 @@ left outer join tspl_location_master on tspl_location_master.location_code=TSPL_
                 Throw New Exception("Transaction status should be posted.")
             End If
             Dim qry As String
+            Dim VoucherNo As String = clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code='RM-PL' and Source_Doc_No='" + strCode + "'", trans)
+            If clsCommon.myLen(VoucherNo) > 0 Then
+                qry = "delete from TSPL_JOURNAL_DETAILS where Voucher_No ='" + VoucherNo + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                qry = "delete from TSPL_JOURNAL_MASTER where Voucher_No ='" + VoucherNo + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
+
+            qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" + strCode + "' and Trans_Type='RM-PL'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
             If obj.Status = 1 Then
                 qry = "update TSPL_RM_PROCESS_LOSS set Status=0,Posted_Date=null,Posted_By=null where document_code='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)

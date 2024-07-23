@@ -446,16 +446,18 @@ Public Class clsMilkCollectionMCCDetail
                 clsCommon.AddColumnsForChange(coll, "Milk_Type", obj.Milk_Type)
 
                 If clsCommon.CompairString(clsCommon.myCstr(objCommonVar.CurrComp_Code1), "JPR") = CompairStringResult.Equal Then
-                    Dim corrFactor As Double = clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, trans)
-                    Dim CLR As Decimal
-                    CLR = clsEkoPro.getClrOnCalculation(obj.Retesting_FAT, obj.Retesting_SNF, corrFactor)
-                    obj.Qty = (clsCommon.myCDecimal(obj.Gaze_Qty) * (1.0 + ((clsCommon.myCDecimal(CLR)) / 1000)))
-                    Dim inputString As String = clsCommon.myCstr(obj.Qty)
-                    Dim parts() As String = inputString.Split(".")
-                    If parts(1) IsNot Nothing AndAlso clsCommon.myCDecimal("0." + parts(1)) > (0.5) Then
-                        obj.Qty = clsCommon.myCDecimal(parts(0)) + 1
-                    ElseIf parts(1) IsNot Nothing AndAlso clsCommon.myCDecimal("0." + parts(1)) < (0.5) Then
-                        obj.Qty = clsCommon.myCDecimal(parts(0))
+                    If obj.Retesting_FAT > 0 AndAlso obj.Retesting_SNF > 0 Then
+                        Dim corrFactor As Double = clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, trans)
+                        Dim CLR As Decimal
+                        CLR = clsEkoPro.getClrOnCalculation(obj.Retesting_FAT, obj.Retesting_SNF, corrFactor)
+                        obj.Qty = (clsCommon.myCDecimal(obj.Gaze_Qty) * (1.0 + ((clsCommon.myCDecimal(CLR)) / 1000)))
+                        Dim inputString As String = clsCommon.myCstr(obj.Qty)
+                        Dim parts() As String = inputString.Split(".")
+                        If parts(1) IsNot Nothing AndAlso clsCommon.myCDecimal("0." + parts(1)) > (0.5) Then
+                            obj.Qty = clsCommon.myCDecimal(parts(0)) + 1
+                        ElseIf parts(1) IsNot Nothing AndAlso clsCommon.myCDecimal("0." + parts(1)) < (0.5) Then
+                            obj.Qty = clsCommon.myCDecimal(parts(0))
+                        End If
                     End If
                 End If
 

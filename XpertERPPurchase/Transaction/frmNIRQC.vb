@@ -58,10 +58,6 @@ Public Class frmNIRQC
         dr("Name") = "OK"
         dt.Rows.Add(dr)
 
-        dr = dt.NewRow()
-        dr("Code") = "0"
-        dr("Name") = "Not OK"
-        dt.Rows.Add(dr)
 
 
         cboVisualQCStatus.DataSource = dt

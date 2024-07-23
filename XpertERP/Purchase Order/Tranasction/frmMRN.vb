@@ -245,6 +245,7 @@ Public Class frmMRN
     ''==================================================================
     Dim ChkAutoDepOnPurchaseCycle As Boolean = False
     Private isCellValueChangedTaxOpen As Boolean = False
+    Public SettRateDecimalPlaces As Integer = 0
 #End Region
 
     Private Sub SetUserMgmtNew()
@@ -266,6 +267,7 @@ Public Class frmMRN
         'End If
     End Sub
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        SettRateDecimalPlaces = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PurchaseModule, clsFixedParameterCode.RateDecimalPlaces, Nothing))
         IsQCColumnRequiredonMRN = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IsQCColumnRequiredonMRN, clsFixedParameterCode.IsQCColumnRequiredonMRN, Nothing)) = 1, True, False)
         ShowItemAllStructureWise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, Nothing)) = 1, True, False)
         SetUserMgmtNew()
@@ -737,13 +739,13 @@ Public Class frmMRN
 
         Dim repoRate As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoRate = New GridViewDecimalColumn()
-        repoRate.FormatString = ""
         repoRate.HeaderText = "Unit Cost"
         repoRate.Name = colRate
         repoRate.Width = 80
         repoRate.Minimum = 0
-        'repoRate.ReadOnly = True
         repoRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoRate.FormatString = "{0:n" + clsCommon.myCstr(SettRateDecimalPlaces) + "}"
+        repoRate.DecimalPlaces = SettRateDecimalPlaces
         gv1.MasterTemplate.Columns.Add(repoRate)
 
         repoIsSurTax1 = New GridViewCheckBoxColumn()

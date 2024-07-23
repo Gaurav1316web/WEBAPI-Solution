@@ -474,6 +474,7 @@
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreJAL.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreJPR.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreRJS.rpt" />
+    <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreTNK.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreUDP.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessJ-V.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptQualityCheck.rpt" />
@@ -1278,10 +1279,12 @@
     <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorWiseSummary.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementRouteAndDistributorWiseDetailcredit.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementRouteWiseDetailcreditProduct.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\crptDemandBookingChallan.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDemandReturn.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptInvoiceDetail.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDairySaleGatePassEntriesTNK.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptTaxableNonTaxableInvoiceJPR.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\crptZoneWiseReport.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptBoothSlip.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptbulkinvoice.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptdailydispatch.rpt" />
@@ -1347,12 +1350,16 @@
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNew.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNewJPR.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNewSaving.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNewSavingTNK.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNewSWM.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNewTNK.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceneww.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdvicenewwBKN.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviseBankWiseSubReportALW.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviseReportALW.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviseSubReportALW.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptBankDraftSummary.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptBankSavingSummary.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankWiseSummary.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDayWiseCollection.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBTFarmerWiseBankAdvice.rpt" />

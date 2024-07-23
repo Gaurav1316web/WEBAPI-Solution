@@ -941,6 +941,10 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
             txtVehicleNo.Focus()
             Throw New Exception("Please select Vehicle No")
         End If
+        If txtTripNo.Value <= 0 Then
+            txtTripNo.Focus()
+            Throw New Exception("Please Provide Trip no")
+        End If
         Dim qry As String = "select Count(Trip_No) as TripNo from TSPL_MILK_COLLECTION_MCC where Trip_No='" + clsCommon.myCstr(txtTripNo.Value) + "' And Tanker_No='" + clsCommon.myCstr(txtTankerNo.Value) + "' And convert (date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) = '" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "'and Document_No='" + txtDocNo.Value + "'"
         Dim _count As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry))
         If (_count > 0) Then

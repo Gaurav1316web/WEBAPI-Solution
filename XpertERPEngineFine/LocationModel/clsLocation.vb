@@ -140,6 +140,7 @@ Public Class clsLocation
     Public ManagerName As String = Nothing
     Public ManagerDestination As String = Nothing
     Public Remarks As String = Nothing
+    Public Target As Decimal = 0
     '----------------Code For Get Finder--------------------------------------------------------------------'
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
@@ -442,6 +443,7 @@ Public Class clsLocation
             clsCommon.AddColumnsForChange(coll, "Manager_Name", obj.ManagerName)
             clsCommon.AddColumnsForChange(coll, "Manager_Destination", obj.ManagerDestination)
             clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
+            clsCommon.AddColumnsForChange(coll, "Target", obj.Target)
             '============================================
             'Ticket- BHA/27/07/18-000198
             clsCommon.AddColumnsForChange(coll, "Silo_Capacity", obj.Silo_Capacity)

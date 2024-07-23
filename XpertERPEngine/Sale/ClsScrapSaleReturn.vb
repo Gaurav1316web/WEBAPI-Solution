@@ -857,7 +857,7 @@ Public Class ClsScrapSaleHeadReturn
             'isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             Dim ECustomerType = clsERPFuncationality.GetCustomerEInvoiceTypeFromTransationTable("TSPL_SCRAPINVOICE_HEAD", "invoice_No", obj.invoice_No, trans)
             ''richa agarwal 28 Dec,2020 check eInvoice Implementation
-            If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.Is_Taxable), "1") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.shipment_Date, trans) = True Then
+            If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso obj.Is_Taxable AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.shipment_Date, trans) = True Then
                 If ClsScrapSaleHeadReturn.EInvoice_Implementation(obj.Document_No, obj.Loc_Code, trans) = True Then
                 Else
                     Throw New Exception("Invalid JSON Value")
@@ -908,7 +908,7 @@ left outer join tspl_tax_master as TCS1 on TCS1.Tax_Code =tspl_scrapsale_head_re
 left outer join tspl_tax_master as TCS2 on TCS2.Tax_Code =tspl_scrapsale_head_return.Tax3
   where tspl_scrapsale_head_return.document_no ='" & strDocNo & "'"
 
-                Dim objResult As Object = ClsEInvoiceOFAPIs.PostAuthTokenNo_withInvoiceData(objCommonVar.CurrentCompanyCode, strtoken, strQry, strLocation, trans)
+                Dim objResult As Object = ClsEInvoiceOFAPIs.PostAuthTokenNo_withInvoiceData(objCommonVar.CurrentCompanyCode, strtoken, strQry, strLocation, trans, True)
                 If objResult IsNot Nothing Then
                     'assign to variable
                     Dim AckNo As String = objResult.SelectToken("AckNo").ToString

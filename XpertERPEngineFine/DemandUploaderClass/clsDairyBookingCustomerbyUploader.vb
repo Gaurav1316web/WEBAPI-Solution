@@ -1,7 +1,6 @@
 ﻿Imports common
 Imports System.Data.SqlClient
 Imports System.IO
-Imports Microsoft.Office.Interop
 Public Class clsDairyBookingCustomerbyUploader
 #Region "Variable"
     Public IsSampling As Integer = 0
