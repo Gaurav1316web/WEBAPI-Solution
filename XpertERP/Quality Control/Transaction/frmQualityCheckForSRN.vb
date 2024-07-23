@@ -910,7 +910,6 @@ Public Class FrmQualityCheckForSRN
                         gv.CurrentRow = gv.Rows(grow.Index)
                         Throw New Exception("Fill rejection remarks at row no. " + clsCommon.myCstr(grow.Index + 1) + "")
                     End If 'rej rem.
-
                 End If
             Next
 
@@ -2445,6 +2444,8 @@ SELECT  MRN_No FROM TSPL_QC_CHECK_DETAIL WHERE Document_Code='" + clsCommon.myCs
             End If
 
             Dim Reason As String = ""
+
+
 
             If iscancel = False Then
                 Dim item As String = clsDBFuncationality.getSingleValue("select Item_Code from TSPL_QC_CHECK_DETAIL where Document_Code='" + clsCommon.myCstr(txtDocNo.Value) + "'")
