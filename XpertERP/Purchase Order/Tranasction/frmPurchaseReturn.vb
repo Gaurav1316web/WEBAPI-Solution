@@ -280,6 +280,7 @@ Public Class frmPurchaseReturn
     Private PurchaseModulePickFixTaxRate As Boolean = False
     Private SettingAutoRoundOffSeprateAccountOnVendorTransaction As Boolean = False
     Dim SaleInvoiceDate As DateTime
+    Public SettRateDecimalPlaces As Integer = 0
 #End Region
     '===update by preeti gupta Against ticket no[ERO/08/04/19-000550]'
     Private Sub SetUserMgmtNew()
@@ -325,6 +326,7 @@ Public Class frmPurchaseReturn
         'ButtonToolTip.SetToolTip(btnRequistionItems, "Press Ctrl+F7 for Select Purchase Requistion Items")
 
         RadPageView1.SelectedPage = RadPageViewPage1
+        SettRateDecimalPlaces = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PurchaseModule, clsFixedParameterCode.RateDecimalPlaces, Nothing))
 
         LoadBlankGrid()
         LoadBlankGridTax()
@@ -748,8 +750,8 @@ Public Class frmPurchaseReturn
         repoRate.Width = 80
         repoRate.Minimum = 0
         repoRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        repoRate.FormatString = "{0:n4}"
-        repoRate.DecimalPlaces = 4
+        repoRate.FormatString = "{0:n" + clsCommon.myCstr(SettRateDecimalPlaces) + "}"
+        repoRate.DecimalPlaces = SettRateDecimalPlaces
         gv1.MasterTemplate.Columns.Add(repoRate)
 
         repoIsSurTax1 = New GridViewCheckBoxColumn()
