@@ -165,7 +165,7 @@ Public Class clsGRNHead
     Public Function SaveData(ByVal obj As clsGRNHead, ByVal isNewEntry As Boolean, Optional ByVal isamendment As Boolean = False) As Boolean
         ShowItemAllStructureWise = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, Nothing)) = "1", True, False))
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "PO Weighment", IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location), obj.GRN_Date, trans)
+        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Gate Received Note", IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location), obj.GRN_Date, trans)
         Try
             SaveData(obj, isNewEntry, trans, isamendment)
             trans.Commit()
@@ -1750,6 +1750,7 @@ Public Class clsGRNHead
 
     Public Shared Function ReverseAndUnpost(ByVal strCode As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        
         Try
             ReverseAndUnpost(strCode, trans)
             trans.Commit()
@@ -1764,7 +1765,10 @@ Public Class clsGRNHead
         Try
             Dim Is_Auto_Generate_MRN As Boolean = False
             Is_Auto_Generate_MRN = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AutoGenerateMRN, clsFixedParameterCode.AutoGenerateMRN, trans)) = "1", True, False))
-
+            Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_GRN_HEAD.Bill_To_Location, TSPL_GRN_HEAD.GRN_No, TSPL_GRN_HEAD.GRN_Date from TSPL_GRN_HEAD where GRN_No= '" + strCode + "' ", trans)
+            If dts.Rows.Count > 0 Then
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Gate Received Note", clsCommon.myCstr(dts.Rows(0)("Bill_To_Location")), clsCommon.myCstr(dts.Rows(0)("GRN_Date")), trans)
+            End If
             Dim qry As String = "select 1 from TSPL_GRN_HEAD where GRN_No='" + strCode + "' and Status=1"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
@@ -1785,6 +1789,8 @@ Public Class clsGRNHead
                 'PO Weighment check
                 qry = "select distinct Weighment_Code from TSPL_PO_WEIGHTMENT_HEAD where TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No ='" + strCode + "'"
                 dt = clsDBFuncationality.GetDataTable(qry, trans)
+
+
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     qry = "GRN is used in following Weighment"
                     For Each dr As DataRow In dt.Rows
@@ -1798,21 +1804,23 @@ Public Class clsGRNHead
 
             'Ticket No :UDL/16/12/19-001013 By Prabhakar
             Dim AutoClosePO As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AutoClosePO, clsFixedParameterCode.AutoClosePO, trans)) = 1)
+
             If AutoClosePO Then
-                qry = "select distinct PO_ID  from TSPL_MRN_DETAIL where mrn_no='" + strCode + "' and PO_ID is not null"
-                dt = clsDBFuncationality.GetDataTable(qry, trans)
-                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                    For Each dr As DataRow In dt.Rows
-                        If clsCommon.myLen(dr("PO_ID")) > 0 Then
-                            If clsGRNHead.IsPOQtyRecv(clsCommon.myCstr(dr("PO_ID")), trans) Then
-                                clsPurchaseOrderHead.closepodata(trans, clsCommon.myCstr(dr("PO_ID")), True, "N")
+                    qry = "select distinct PO_ID  from TSPL_MRN_DETAIL where mrn_no='" + strCode + "' and PO_ID is not null"
+                    dt = clsDBFuncationality.GetDataTable(qry, trans)
+                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        For Each dr As DataRow In dt.Rows
+                            If clsCommon.myLen(dr("PO_ID")) > 0 Then
+                                If clsGRNHead.IsPOQtyRecv(clsCommon.myCstr(dr("PO_ID")), trans) Then
+                                    clsPurchaseOrderHead.closepodata(trans, clsCommon.myCstr(dr("PO_ID")), True, "N")
+                                End If
                             End If
-                        End If
-                    Next
+                        Next
+                    End If
                 End If
-            End If
-            qry = "delete from TSPL_RGP_BOM_DETAIL where grn_no='" + strCode + "' and isnull(srn_no,'')=''"
+                qry = "delete from TSPL_RGP_BOM_DETAIL where grn_no='" + strCode + "' and isnull(srn_no,'')=''"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
 
             If Is_Auto_Generate_MRN Then
                 DeleteMRN(strCode,trans)

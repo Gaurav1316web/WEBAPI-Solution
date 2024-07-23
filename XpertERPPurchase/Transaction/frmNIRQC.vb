@@ -370,6 +370,7 @@ where TSPL_MRN_DETAIL.MRN_No ='" + txtMRNNo.Value + "' and TSPL_MRN_HEAD.Status=
                 frm1.strType = "PO Cancel"
                 frm1.strCode = "PO Cancel"
                 frm1.ShowDialog()
+
                 If frm1.isPasswordCorrect Then
                     Dim iscancel As Boolean = False
                     If clsNIRQC.CheckNIRQCUsedInSRN(clsCommon.myCstr(txtMRNNo.Value), Nothing) Then
