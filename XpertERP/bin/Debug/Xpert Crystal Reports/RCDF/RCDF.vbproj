@@ -1279,6 +1279,7 @@
     <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorWiseSummary.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementRouteAndDistributorWiseDetailcredit.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementRouteWiseDetailcreditProduct.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\crptDemandBookingChallan.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDemandReturn.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptInvoiceDetail.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDairySaleGatePassEntriesTNK.rpt" />
@@ -1349,7 +1350,9 @@
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNew.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNewJPR.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNewSaving.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNewSavingTNK.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNewSWM.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNewTNK.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceneww.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdvicenewwBKN.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviseBankWiseSubReportALW.rpt" />
