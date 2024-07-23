@@ -26,7 +26,7 @@ Partial Class rptMultipleDeductionReport
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -34,6 +34,11 @@ Partial Class rptMultipleDeductionReport
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.rbtnDetail = New common.Controls.MyRadioButton()
+        Me.rbtnSummary = New common.Controls.MyRadioButton()
+        Me.lblArea = New common.Controls.MyLabel()
+        Me.fndArea = New common.UserControls.txtFinder()
         Me.TxtItem = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.chkItemWise = New Telerik.WinControls.UI.RadCheckBox()
@@ -59,8 +64,6 @@ Partial Class rptMultipleDeductionReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.lblArea = New common.Controls.MyLabel()
-        Me.fndArea = New common.UserControls.txtFinder()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -68,6 +71,10 @@ Partial Class rptMultipleDeductionReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
+        CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnSummary, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblArea, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkItemWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ddlReportType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -89,7 +96,6 @@ Partial Class rptMultipleDeductionReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblArea, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -156,6 +162,7 @@ Partial Class rptMultipleDeductionReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.GroupBox1)
         Me.RadPageViewPage1.Controls.Add(Me.lblArea)
         Me.RadPageViewPage1.Controls.Add(Me.fndArea)
         Me.RadPageViewPage1.Controls.Add(Me.TxtItem)
@@ -176,6 +183,75 @@ Partial Class rptMultipleDeductionReport
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(764, 292)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.rbtnDetail)
+        Me.GroupBox1.Controls.Add(Me.rbtnSummary)
+        Me.GroupBox1.Location = New System.Drawing.Point(443, 20)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(161, 35)
+        Me.GroupBox1.TabIndex = 1514
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Visible = False
+        '
+        'rbtnDetail
+        '
+        Me.rbtnDetail.Location = New System.Drawing.Point(82, 8)
+        Me.rbtnDetail.MyLinkLable1 = Nothing
+        Me.rbtnDetail.MyLinkLable2 = Nothing
+        Me.rbtnDetail.Name = "rbtnDetail"
+        Me.rbtnDetail.Size = New System.Drawing.Size(49, 18)
+        Me.rbtnDetail.TabIndex = 1
+        Me.rbtnDetail.TabStop = False
+        Me.rbtnDetail.Text = "Detail"
+        '
+        'rbtnSummary
+        '
+        Me.rbtnSummary.Location = New System.Drawing.Point(6, 9)
+        Me.rbtnSummary.MyLinkLable1 = Nothing
+        Me.rbtnSummary.MyLinkLable2 = Nothing
+        Me.rbtnSummary.Name = "rbtnSummary"
+        Me.rbtnSummary.Size = New System.Drawing.Size(67, 18)
+        Me.rbtnSummary.TabIndex = 0
+        Me.rbtnSummary.TabStop = False
+        Me.rbtnSummary.Text = "Summary"
+        '
+        'lblArea
+        '
+        Me.lblArea.FieldName = Nothing
+        Me.lblArea.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblArea.Location = New System.Drawing.Point(21, 70)
+        Me.lblArea.Name = "lblArea"
+        Me.lblArea.Size = New System.Drawing.Size(30, 16)
+        Me.lblArea.TabIndex = 1501
+        Me.lblArea.Text = "Area"
+        '
+        'fndArea
+        '
+        Me.fndArea.CalculationExpression = Nothing
+        Me.fndArea.FieldCode = Nothing
+        Me.fndArea.FieldDesc = Nothing
+        Me.fndArea.FieldMaxLength = 0
+        Me.fndArea.FieldName = Nothing
+        Me.fndArea.isCalculatedField = False
+        Me.fndArea.IsSourceFromTable = False
+        Me.fndArea.IsSourceFromValueList = False
+        Me.fndArea.IsUnique = False
+        Me.fndArea.Location = New System.Drawing.Point(107, 69)
+        Me.fndArea.MendatroryField = True
+        Me.fndArea.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndArea.MyLinkLable1 = Nothing
+        Me.fndArea.MyLinkLable2 = Nothing
+        Me.fndArea.MyReadOnly = False
+        Me.fndArea.MyShowMasterFormButton = False
+        Me.fndArea.Name = "fndArea"
+        Me.fndArea.ReferenceFieldDesc = Nothing
+        Me.fndArea.ReferenceFieldName = Nothing
+        Me.fndArea.ReferenceTableName = Nothing
+        Me.fndArea.Size = New System.Drawing.Size(344, 18)
+        Me.fndArea.TabIndex = 1500
+        Me.fndArea.Value = ""
         '
         'TxtItem
         '
@@ -224,7 +300,7 @@ Partial Class rptMultipleDeductionReport
         Me.ddlReportType.Items.Add(RadListDataItem1)
         Me.ddlReportType.Items.Add(RadListDataItem2)
         Me.ddlReportType.Items.Add(RadListDataItem3)
-        Me.ddlReportType.Location = New System.Drawing.Point(516, 28)
+        Me.ddlReportType.Location = New System.Drawing.Point(97, 179)
         Me.ddlReportType.Margin = New System.Windows.Forms.Padding(4)
         Me.ddlReportType.Name = "ddlReportType"
         Me.ddlReportType.Size = New System.Drawing.Size(240, 20)
@@ -234,7 +310,7 @@ Partial Class rptMultipleDeductionReport
         'lblType
         '
         Me.lblType.FieldName = Nothing
-        Me.lblType.Location = New System.Drawing.Point(440, 31)
+        Me.lblType.Location = New System.Drawing.Point(21, 182)
         Me.lblType.Margin = New System.Windows.Forms.Padding(4)
         Me.lblType.Name = "lblType"
         Me.lblType.Size = New System.Drawing.Size(67, 18)
@@ -408,7 +484,7 @@ Partial Class rptMultipleDeductionReport
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -478,42 +554,6 @@ Partial Class rptMultipleDeductionReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'lblArea
-        '
-        Me.lblArea.FieldName = Nothing
-        Me.lblArea.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblArea.Location = New System.Drawing.Point(21, 70)
-        Me.lblArea.Name = "lblArea"
-        Me.lblArea.Size = New System.Drawing.Size(30, 16)
-        Me.lblArea.TabIndex = 1501
-        Me.lblArea.Text = "Area"
-        '
-        'fndArea
-        '
-        Me.fndArea.CalculationExpression = Nothing
-        Me.fndArea.FieldCode = Nothing
-        Me.fndArea.FieldDesc = Nothing
-        Me.fndArea.FieldMaxLength = 0
-        Me.fndArea.FieldName = Nothing
-        Me.fndArea.isCalculatedField = False
-        Me.fndArea.IsSourceFromTable = False
-        Me.fndArea.IsSourceFromValueList = False
-        Me.fndArea.IsUnique = False
-        Me.fndArea.Location = New System.Drawing.Point(107, 69)
-        Me.fndArea.MendatroryField = True
-        Me.fndArea.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndArea.MyLinkLable1 = Nothing
-        Me.fndArea.MyLinkLable2 = Nothing
-        Me.fndArea.MyReadOnly = False
-        Me.fndArea.MyShowMasterFormButton = False
-        Me.fndArea.Name = "fndArea"
-        Me.fndArea.ReferenceFieldDesc = Nothing
-        Me.fndArea.ReferenceFieldName = Nothing
-        Me.fndArea.ReferenceTableName = Nothing
-        Me.fndArea.Size = New System.Drawing.Size(344, 18)
-        Me.fndArea.TabIndex = 1500
-        Me.fndArea.Value = ""
-        '
         'rptMultipleDeductionReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -537,6 +577,11 @@ Partial Class rptMultipleDeductionReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
+        CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnSummary, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblArea, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkItemWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ddlReportType, System.ComponentModel.ISupportInitialize).EndInit()
@@ -559,7 +604,6 @@ Partial Class rptMultipleDeductionReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblArea, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -599,5 +643,8 @@ Partial Class rptMultipleDeductionReport
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents lblArea As common.Controls.MyLabel
     Friend WithEvents fndArea As common.UserControls.txtFinder
+    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents rbtnDetail As common.Controls.MyRadioButton
+    Friend WithEvents rbtnSummary As common.Controls.MyRadioButton
 End Class
 
