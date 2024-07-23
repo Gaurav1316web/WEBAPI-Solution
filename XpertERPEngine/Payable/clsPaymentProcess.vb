@@ -210,10 +210,15 @@ Public Class clsPaymentProcessHead
         Return True
     End Function
 
+
     Public Shared Function ProcessData(ByVal DocNo As String, ByVal Desc As String) As Boolean
+        Return ProcessData(DocNo, Desc, True)
+    End Function
+
+    Public Shared Function ProcessData(ByVal DocNo As String, ByVal Desc As String, ByVal ShowProgressBAR As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            ProcessData(DocNo, Desc, True, trans)
+            ProcessData(DocNo, Desc, ShowProgressBAR, trans)
             'Throw New Exception("Balwinder singh premi")
             trans.Commit()
         Catch ex As Exception
