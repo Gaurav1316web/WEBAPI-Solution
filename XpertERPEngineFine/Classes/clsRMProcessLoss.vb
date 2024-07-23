@@ -76,7 +76,7 @@ Public Class clsRMProcessLoss
             Dim obj As New clsRMProcessLoss()
             obj.Arr_Pd = New List(Of ClsRmProcessLossDetail)
             Dim qry As String = "select TSPL_RM_PROCESS_LOSS.document_Code,document_date,from_date,To_date,TSPL_RM_PROCESS_LOSS.location,location_desc,comment,status from TSPL_RM_PROCESS_LOSS
-left outer join tspl_location_master on tspl_location_master.location_code=TSPL_RM_PROCESS_LOSS.location "
+            left outer join tspl_location_master on tspl_location_master.location_code=TSPL_RM_PROCESS_LOSS.location "
             Select Case NavType
                 Case NavigatorType.Current
                     qry += " where TSPL_RM_PROCESS_LOSS.document_code='" + strCode + "'"

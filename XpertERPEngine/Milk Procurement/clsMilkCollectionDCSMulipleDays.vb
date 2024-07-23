@@ -76,7 +76,7 @@ Public Class clsMilkCollectionDCSMulipleDays
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS", OMInsertOrUpdate.Update, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No='" + obj.Document_No + "'", trans)
             End If
-            clsMilkCollectionDCSMulipleDaysDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, False, trans)
+            clsMilkCollectionDCSMulipleDaysDetail.SaveData(obj.Document_No, obj.Arr, trans)
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -290,11 +290,12 @@ where 2=2"
                         End If
                         objMCC.Entered_SNFKg += dclCurrSNFKG
                     Next
-                    If clsCommon.GetDateWithStartTime(Arr.Keys(ii)) = clsCommon.GetDateWithStartTime(MaxDate) Then
-                        objMCC.Entered_Qty = objMCC.Entered_Qty + (obj.Entered_Qty - TotQty)
-                        objMCC.Entered_FATKg = objMCC.Entered_FATKg + (obj.Entered_FATKg - TotFATKG)
-                        objMCC.Entered_SNFKg = objMCC.Entered_SNFKg + (obj.Entered_SNFKg - TotSNFKG)
-                    End If
+                    'Not to adjust becuase it come -ve qty,FAT,SNF MDM./2425/002845 /JAL/Kislay  
+                    'If clsCommon.GetDateWithStartTime(Arr.Keys(ii)) = clsCommon.GetDateWithStartTime(MaxDate) Then
+                    '    objMCC.Entered_Qty = objMCC.Entered_Qty + (obj.Entered_Qty - TotQty)
+                    '    objMCC.Entered_FATKg = objMCC.Entered_FATKg + (obj.Entered_FATKg - TotFATKG)
+                    '    objMCC.Entered_SNFKg = objMCC.Entered_SNFKg + (obj.Entered_SNFKg - TotSNFKG)
+                    'End If
                     objMCCTr.Qty = objMCC.Entered_Qty
                     objMCCTr.FATKG = objMCC.Entered_FATKg
                     objMCCTr.SNFKG = objMCC.Entered_SNFKg
@@ -472,7 +473,7 @@ Public Class clsMilkCollectionDCSMulipleDaysDetail
     '    Return True
     'End Function
 
-    Public Shared Function SaveData(ByVal strDocNo As String, ByVal dtDocDate As DateTime, ByVal Arr As List(Of clsMilkCollectionDCSMulipleDaysDetail), ByVal IsUpdatedFromCorrection As Boolean, ByVal trans As SqlTransaction) As Boolean
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsMilkCollectionDCSMulipleDaysDetail), ByVal trans As SqlTransaction) As Boolean
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsMilkCollectionDCSMulipleDaysDetail In Arr
                 Dim coll As New Hashtable()
@@ -481,9 +482,10 @@ Public Class clsMilkCollectionDCSMulipleDaysDetail
                 clsCommon.AddColumnsForChange(coll, "SNo", obj.SNo)
                 clsCommon.AddColumnsForChange(coll, "VLC_Code", obj.VLC_Code)
                 clsCommon.AddColumnsForChange(coll, "Shift", obj.Shift)
-                If clsCommon.CompairString(obj.Milk_Type, "Good") = CompairStringResult.Equal Then
+                If clsCommon.CompairString(obj.Milk_Type, "Good") = CompairStringResult.Equal OrElse clsCommon.myLen(obj.Milk_Type) <= 0 Then
                     obj.Milk_Type = "Good" ''To Handle Case sensitivity
                 End If
+
                 clsCommon.AddColumnsForChange(coll, "Milk_Type", obj.Milk_Type)
                 clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
                 clsCommon.AddColumnsForChange(coll, "FAT", obj.FAT)

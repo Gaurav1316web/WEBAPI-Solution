@@ -18,6 +18,10 @@ Public Class clsTenderPenalty
 #End Region
     Public Function SaveData(ByVal obj As clsTenderPenalty, ByVal isNewEntry As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_TENDER_PENALTY.Document_No, TSPL_TENDER_PENALTY.Location_Code from TSPL_TENDER_PENALTY where Document_No= '" + obj.Document_No + "' ", trans)
+        If dts IsNot Nothing AndAlso dts.Rows.Count > 0 Then
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Order", clsCommon.myCstr(dts.Rows(0)("Location_Code")), obj.Document_Date, trans)
+        End If
         Try
             Dim qry As String = "delete from TSPL_TENDER_PENALTY_DETAIL where Document_No='" + obj.Document_No + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -132,6 +136,9 @@ where 2=2"
             End If
             Dim qry As String = "Update TSPL_TENDER_PENALTY set Status=1,Post_Date='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt") + "',Post_By='" + objCommonVar.CurrentUserCode + "' where Document_No='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_TENDER_PENALTY.Document_No, TSPL_TENDER_PENALTY.Location_Code from TSPL_TENDER_PENALTY where Document_No= '" + obj.Document_No + "' ", trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Order", clsCommon.myCstr(dts.Rows(0)("Location_Code")), obj.Document_Date, trans)
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -146,6 +153,8 @@ where 2=2"
         End If
         Dim obj As clsTenderPenalty = clsTenderPenalty.GetData(strCode, NavigatorType.Current, Nothing)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_TENDER_PENALTY.Document_No, TSPL_TENDER_PENALTY.Location_Code from TSPL_TENDER_PENALTY where Document_No= '" + obj.Document_No + "' ", trans)
+        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Order", clsCommon.myCstr(dts.Rows(0)("Location_Code")), obj.Document_Date, trans)
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
             Try
                 'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase", "Store receipt Note", obj.Location_Code, obj.Document_Date, trans)
@@ -179,6 +188,8 @@ where 2=2"
         End If
         Dim obj As clsTenderPenalty = clsTenderPenalty.GetData(strCode, NavigatorType.Current, Nothing)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_TENDER_PENALTY.Document_No, TSPL_TENDER_PENALTY.Location_Code from TSPL_TENDER_PENALTY where Document_No= '" + obj.Document_No + "' ", trans)
+        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Order", clsCommon.myCstr(dts.Rows(0)("Location_Code")), obj.Document_Date, trans)
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
             Try
                 'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase", "Store receipt Note", obj.Location_Code, obj.Document_Date, trans)
@@ -222,8 +233,9 @@ where 2=2"
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             Dim Qry As String = "select Status from TSPL_TENDER_PENALTY where Document_No='" + strCode + "'"
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-        If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
+
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
             Throw New Exception("Document No [" + strCode + "] not found for reverse and unpost")
         End If
 
@@ -235,11 +247,13 @@ where 2=2"
 inner join TSPL_PI_DETAIL on TSPL_PI_DETAIL.SRN_Id=TSPL_TENDER_PENALTY_DETAIL.SRN_No  
 where TSPL_TENDER_PENALTY_DETAIL.Document_No='" + strCode + "'"
         dt = clsDBFuncationality.GetDataTable(qry, trans)
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            Throw New Exception("Purchase Invoice No [" + clsCommon.myCstr(dt.Rows(0)("PI_No")) + "] is Generated Against SRN No [" + clsCommon.myCstr(dt.Rows(0)("SRN_No")) + "] ")
-        End If
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Throw New Exception("Purchase Invoice No [" + clsCommon.myCstr(dt.Rows(0)("PI_No")) + "] is Generated Against SRN No [" + clsCommon.myCstr(dt.Rows(0)("SRN_No")) + "] ")
+            End If
 
-        qry = "select Document_No from TSPL_TENDER_PENALTY 
+
+
+            Qry = "select Document_No from TSPL_TENDER_PENALTY 
 where exists(select 1 from TSPL_TENDER_PENALTY as TabCurr where TabCurr.Document_No='" + strCode + "' and TabCurr.Location_Code=TSPL_TENDER_PENALTY.Location_Code and TabCurr.Tender_No=TSPL_TENDER_PENALTY.Tender_No and TabCurr.Vendor_Code=TSPL_TENDER_PENALTY.Vendor_Code and TabCurr.Item_Code=TSPL_TENDER_PENALTY.Item_Code and TabCurr.Created_Date< TSPL_TENDER_PENALTY.Created_Date)"
         dt = clsDBFuncationality.GetDataTable(qry, trans)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -247,9 +261,11 @@ where exists(select 1 from TSPL_TENDER_PENALTY as TabCurr where TabCurr.Document
         End If
 
         qry = "Update TSPL_TENDER_PENALTY set Status = 0 where Document_No='" + strCode + "'"
-        clsDBFuncationality.ExecuteNonQuery(qry, trans)
-        'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_TENDER_PENALTY", "Document_No", trans)
-        trans.Commit()
+            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+
+
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_TENDER_PENALTY", "Document_No", trans)
+            trans.Commit()
         Catch ex As Exception
         trans.Rollback()
         Throw New Exception(ex.Message)

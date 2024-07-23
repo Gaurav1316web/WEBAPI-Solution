@@ -288,13 +288,15 @@ Partial Class frmLocationMaster
         Me.TxtJObworkVendor = New Telerik.WinControls.UI.RadTextBox()
         Me.PageBankDetails = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadGroupBox7 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.txtRmk = New common.Controls.MyTextBox()
+        Me.MyLabel37 = New common.Controls.MyLabel()
         Me.MyLabel34 = New common.Controls.MyLabel()
+        Me.txtRmk = New common.Controls.MyTextBox()
         Me.txtMngrDes = New common.Controls.MyTextBox()
         Me.MyLabel35 = New common.Controls.MyLabel()
         Me.MyLabel36 = New common.Controls.MyLabel()
         Me.txtMngrNm = New common.Controls.MyTextBox()
         Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.QcDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel32 = New common.Controls.MyLabel()
         Me.txtGrdtype = New common.Controls.MyTextBox()
         Me.MyLabel29 = New common.Controls.MyLabel()
@@ -325,7 +327,7 @@ Partial Class frmLocationMaster
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer11 = New System.Windows.Forms.SplitContainer()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
-        Me.QcDate = New common.Controls.MyDateTimePicker()
+        Me.txtTarget = New common.MyNumBox()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -579,14 +581,16 @@ Partial Class frmLocationMaster
         Me.PageBankDetails.SuspendLayout()
         CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox7.SuspendLayout()
-        CType(Me.txtRmk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel37, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtRmk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtMngrDes, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel35, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel36, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtMngrNm, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox6.SuspendLayout()
+        CType(Me.QcDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel32, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtGrdtype, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -621,7 +625,7 @@ Partial Class frmLocationMaster
         Me.SplitContainer11.Panel2.SuspendLayout()
         Me.SplitContainer11.SuspendLayout()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.QcDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTarget, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -3530,6 +3534,7 @@ Partial Class frmLocationMaster
         Me.gvSaleLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaleLocal.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvSaleLocal.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvSaleLocal.MyStopExport = False
         Me.gvSaleLocal.Name = "gvSaleLocal"
         Me.gvSaleLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSaleLocal.ShowHeaderCellButtons = True
@@ -3555,6 +3560,7 @@ Partial Class frmLocationMaster
         Me.gvSaleItemDetailsLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaleItemDetailsLocal.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvSaleItemDetailsLocal.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvSaleItemDetailsLocal.MyStopExport = False
         Me.gvSaleItemDetailsLocal.Name = "gvSaleItemDetailsLocal"
         Me.gvSaleItemDetailsLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSaleItemDetailsLocal.ShowHeaderCellButtons = True
@@ -3580,6 +3586,7 @@ Partial Class frmLocationMaster
         Me.gvSaleTaxLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaleTaxLocal.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvSaleTaxLocal.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvSaleTaxLocal.MyStopExport = False
         Me.gvSaleTaxLocal.Name = "gvSaleTaxLocal"
         Me.gvSaleTaxLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSaleTaxLocal.ShowHeaderCellButtons = True
@@ -3648,6 +3655,7 @@ Partial Class frmLocationMaster
         Me.gvSaleInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaleInterState.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvSaleInterState.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvSaleInterState.MyStopExport = False
         Me.gvSaleInterState.Name = "gvSaleInterState"
         Me.gvSaleInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSaleInterState.ShowHeaderCellButtons = True
@@ -3673,6 +3681,7 @@ Partial Class frmLocationMaster
         Me.gvSaleItemDetailsInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaleItemDetailsInterState.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvSaleItemDetailsInterState.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvSaleItemDetailsInterState.MyStopExport = False
         Me.gvSaleItemDetailsInterState.Name = "gvSaleItemDetailsInterState"
         Me.gvSaleItemDetailsInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSaleItemDetailsInterState.ShowHeaderCellButtons = True
@@ -3698,6 +3707,7 @@ Partial Class frmLocationMaster
         Me.gvSaleTaxInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaleTaxInterState.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvSaleTaxInterState.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvSaleTaxInterState.MyStopExport = False
         Me.gvSaleTaxInterState.Name = "gvSaleTaxInterState"
         Me.gvSaleTaxInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSaleTaxInterState.ShowHeaderCellButtons = True
@@ -3771,6 +3781,7 @@ Partial Class frmLocationMaster
         Me.gvPurchaseLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPurchaseLocal.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvPurchaseLocal.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvPurchaseLocal.MyStopExport = False
         Me.gvPurchaseLocal.Name = "gvPurchaseLocal"
         Me.gvPurchaseLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvPurchaseLocal.ShowHeaderCellButtons = True
@@ -3796,6 +3807,7 @@ Partial Class frmLocationMaster
         Me.gvPurchaseTaxLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPurchaseTaxLocal.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvPurchaseTaxLocal.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvPurchaseTaxLocal.MyStopExport = False
         Me.gvPurchaseTaxLocal.Name = "gvPurchaseTaxLocal"
         Me.gvPurchaseTaxLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvPurchaseTaxLocal.ShowHeaderCellButtons = True
@@ -3847,6 +3859,7 @@ Partial Class frmLocationMaster
         Me.gvPurchaseInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPurchaseInterState.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvPurchaseInterState.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gvPurchaseInterState.MyStopExport = False
         Me.gvPurchaseInterState.Name = "gvPurchaseInterState"
         Me.gvPurchaseInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvPurchaseInterState.ShowHeaderCellButtons = True
@@ -3872,6 +3885,7 @@ Partial Class frmLocationMaster
         Me.gvPurchaseTaxInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPurchaseTaxInterState.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvPurchaseTaxInterState.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gvPurchaseTaxInterState.MyStopExport = False
         Me.gvPurchaseTaxInterState.Name = "gvPurchaseTaxInterState"
         Me.gvPurchaseTaxInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvPurchaseTaxInterState.ShowHeaderCellButtons = True
@@ -3945,6 +3959,7 @@ Partial Class frmLocationMaster
         Me.gvTransferLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTransferLocal.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvTransferLocal.MasterTemplate.ViewDefinition = TableViewDefinition11
+        Me.gvTransferLocal.MyStopExport = False
         Me.gvTransferLocal.Name = "gvTransferLocal"
         Me.gvTransferLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTransferLocal.ShowHeaderCellButtons = True
@@ -3970,6 +3985,7 @@ Partial Class frmLocationMaster
         Me.gvTransferTaxLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTransferTaxLocal.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvTransferTaxLocal.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.gvTransferTaxLocal.MyStopExport = False
         Me.gvTransferTaxLocal.Name = "gvTransferTaxLocal"
         Me.gvTransferTaxLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTransferTaxLocal.ShowHeaderCellButtons = True
@@ -4021,6 +4037,7 @@ Partial Class frmLocationMaster
         Me.gvTransferInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTransferInterState.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvTransferInterState.MasterTemplate.ViewDefinition = TableViewDefinition13
+        Me.gvTransferInterState.MyStopExport = False
         Me.gvTransferInterState.Name = "gvTransferInterState"
         Me.gvTransferInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTransferInterState.ShowHeaderCellButtons = True
@@ -4046,6 +4063,7 @@ Partial Class frmLocationMaster
         Me.gvTransferTaxInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTransferTaxInterState.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvTransferTaxInterState.MasterTemplate.ViewDefinition = TableViewDefinition14
+        Me.gvTransferTaxInterState.MyStopExport = False
         Me.gvTransferTaxInterState.Name = "gvTransferTaxInterState"
         Me.gvTransferTaxInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTransferTaxInterState.ShowHeaderCellButtons = True
@@ -4073,6 +4091,7 @@ Partial Class frmLocationMaster
         Me.gvCategory.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCategory.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvCategory.MasterTemplate.ViewDefinition = TableViewDefinition15
+        Me.gvCategory.MyStopExport = False
         Me.gvCategory.Name = "gvCategory"
         Me.gvCategory.ShowHeaderCellButtons = True
         Me.gvCategory.Size = New System.Drawing.Size(863, 510)
@@ -4439,6 +4458,8 @@ Partial Class frmLocationMaster
         'RadGroupBox7
         '
         Me.RadGroupBox7.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox7.Controls.Add(Me.txtTarget)
+        Me.RadGroupBox7.Controls.Add(Me.MyLabel37)
         Me.RadGroupBox7.Controls.Add(Me.txtRmk)
         Me.RadGroupBox7.Controls.Add(Me.MyLabel34)
         Me.RadGroupBox7.Controls.Add(Me.txtMngrDes)
@@ -4449,9 +4470,29 @@ Partial Class frmLocationMaster
         Me.RadGroupBox7.Location = New System.Drawing.Point(3, 327)
         Me.RadGroupBox7.Name = "RadGroupBox7"
         Me.RadGroupBox7.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox7.Size = New System.Drawing.Size(782, 96)
+        Me.RadGroupBox7.Size = New System.Drawing.Size(782, 116)
         Me.RadGroupBox7.TabIndex = 6
         Me.RadGroupBox7.Text = "Location Manager Detail"
+        '
+        'MyLabel37
+        '
+        Me.MyLabel37.FieldName = Nothing
+        Me.MyLabel37.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel37.Location = New System.Drawing.Point(24, 86)
+        Me.MyLabel37.Name = "MyLabel37"
+        Me.MyLabel37.Size = New System.Drawing.Size(39, 16)
+        Me.MyLabel37.TabIndex = 18
+        Me.MyLabel37.Text = "Target"
+        '
+        'MyLabel34
+        '
+        Me.MyLabel34.FieldName = Nothing
+        Me.MyLabel34.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel34.Location = New System.Drawing.Point(24, 64)
+        Me.MyLabel34.Name = "MyLabel34"
+        Me.MyLabel34.Size = New System.Drawing.Size(51, 16)
+        Me.MyLabel34.TabIndex = 13
+        Me.MyLabel34.Text = "Remarks"
         '
         'txtRmk
         '
@@ -4476,16 +4517,6 @@ Partial Class frmLocationMaster
         Me.txtRmk.ReferenceTableName = Nothing
         Me.txtRmk.Size = New System.Drawing.Size(365, 18)
         Me.txtRmk.TabIndex = 16
-        '
-        'MyLabel34
-        '
-        Me.MyLabel34.FieldName = Nothing
-        Me.MyLabel34.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel34.Location = New System.Drawing.Point(24, 64)
-        Me.MyLabel34.Name = "MyLabel34"
-        Me.MyLabel34.Size = New System.Drawing.Size(51, 16)
-        Me.MyLabel34.TabIndex = 13
-        Me.MyLabel34.Text = "Remarks"
         '
         'txtMngrDes
         '
@@ -4575,6 +4606,33 @@ Partial Class frmLocationMaster
         Me.RadGroupBox6.Size = New System.Drawing.Size(782, 137)
         Me.RadGroupBox6.TabIndex = 5
         Me.RadGroupBox6.Text = "Use in Outgoing QC Production"
+        '
+        'QcDate
+        '
+        Me.QcDate.CalculationExpression = Nothing
+        Me.QcDate.CustomFormat = "dd/MM/yyyy"
+        Me.QcDate.FieldCode = Nothing
+        Me.QcDate.FieldDesc = Nothing
+        Me.QcDate.FieldMaxLength = 0
+        Me.QcDate.FieldName = Nothing
+        Me.QcDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.QcDate.isCalculatedField = False
+        Me.QcDate.IsSourceFromTable = False
+        Me.QcDate.IsSourceFromValueList = False
+        Me.QcDate.IsUnique = False
+        Me.QcDate.Location = New System.Drawing.Point(157, 107)
+        Me.QcDate.MendatroryField = False
+        Me.QcDate.MyLinkLable1 = Me.MyLabel3
+        Me.QcDate.MyLinkLable2 = Nothing
+        Me.QcDate.Name = "QcDate"
+        Me.QcDate.ReferenceFieldDesc = Nothing
+        Me.QcDate.ReferenceFieldName = Nothing
+        Me.QcDate.ReferenceTableName = Nothing
+        Me.QcDate.Size = New System.Drawing.Size(82, 20)
+        Me.QcDate.TabIndex = 1475
+        Me.QcDate.TabStop = False
+        Me.QcDate.Text = "24/02/2015"
+        Me.QcDate.Value = New Date(2015, 2, 24, 17, 7, 15, 425)
         '
         'MyLabel32
         '
@@ -5090,32 +5148,32 @@ Partial Class frmLocationMaster
         Me.btnHistory.TabIndex = 3
         Me.btnHistory.Text = "History"
         '
-        'QcDate
+        'txtTarget
         '
-        Me.QcDate.CalculationExpression = Nothing
-        Me.QcDate.CustomFormat = "dd/MM/yyyy"
-        Me.QcDate.FieldCode = Nothing
-        Me.QcDate.FieldDesc = Nothing
-        Me.QcDate.FieldMaxLength = 0
-        Me.QcDate.FieldName = Nothing
-        Me.QcDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.QcDate.isCalculatedField = False
-        Me.QcDate.IsSourceFromTable = False
-        Me.QcDate.IsSourceFromValueList = False
-        Me.QcDate.IsUnique = False
-        Me.QcDate.Location = New System.Drawing.Point(157, 107)
-        Me.QcDate.MendatroryField = False
-        Me.QcDate.MyLinkLable1 = Me.MyLabel3
-        Me.QcDate.MyLinkLable2 = Nothing
-        Me.QcDate.Name = "QcDate"
-        Me.QcDate.ReferenceFieldDesc = Nothing
-        Me.QcDate.ReferenceFieldName = Nothing
-        Me.QcDate.ReferenceTableName = Nothing
-        Me.QcDate.Size = New System.Drawing.Size(82, 20)
-        Me.QcDate.TabIndex = 1475
-        Me.QcDate.TabStop = False
-        Me.QcDate.Text = "24/02/2015"
-        Me.QcDate.Value = New Date(2015, 2, 24, 17, 7, 15, 425)
+        Me.txtTarget.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtTarget.CalculationExpression = Nothing
+        Me.txtTarget.DecimalPlaces = 0
+        Me.txtTarget.FieldCode = Nothing
+        Me.txtTarget.FieldDesc = Nothing
+        Me.txtTarget.FieldMaxLength = 0
+        Me.txtTarget.FieldName = Nothing
+        Me.txtTarget.isCalculatedField = False
+        Me.txtTarget.IsSourceFromTable = False
+        Me.txtTarget.IsSourceFromValueList = False
+        Me.txtTarget.IsUnique = False
+        Me.txtTarget.Location = New System.Drawing.Point(157, 86)
+        Me.txtTarget.MendatroryField = False
+        Me.txtTarget.MyLinkLable1 = Nothing
+        Me.txtTarget.MyLinkLable2 = Nothing
+        Me.txtTarget.Name = "txtTarget"
+        Me.txtTarget.ReferenceFieldDesc = Nothing
+        Me.txtTarget.ReferenceFieldName = Nothing
+        Me.txtTarget.ReferenceTableName = Nothing
+        Me.txtTarget.Size = New System.Drawing.Size(170, 20)
+        Me.txtTarget.TabIndex = 1428
+        Me.txtTarget.Text = "0"
+        Me.txtTarget.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtTarget.Value = 0R
         '
         'frmLocationMaster
         '
@@ -5399,8 +5457,9 @@ Partial Class frmLocationMaster
         CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox7.ResumeLayout(False)
         Me.RadGroupBox7.PerformLayout()
-        CType(Me.txtRmk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel37, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtRmk, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtMngrDes, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel35, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel36, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5408,6 +5467,7 @@ Partial Class frmLocationMaster
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox6.ResumeLayout(False)
         Me.RadGroupBox6.PerformLayout()
+        CType(Me.QcDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel32, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtGrdtype, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5444,7 +5504,7 @@ Partial Class frmLocationMaster
         Me.SplitContainer11.Panel2.ResumeLayout(False)
         Me.SplitContainer11.ResumeLayout(False)
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.QcDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTarget, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -5725,5 +5785,7 @@ Partial Class frmLocationMaster
     Friend WithEvents MyLabel33 As common.Controls.MyLabel
     Friend WithEvents txtIS As common.Controls.MyTextBox
     Friend WithEvents QcDate As common.Controls.MyDateTimePicker
+    Friend WithEvents MyLabel37 As common.Controls.MyLabel
+    Friend WithEvents txtTarget As common.MyNumBox
 End Class
 

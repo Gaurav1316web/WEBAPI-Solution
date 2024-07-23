@@ -297,6 +297,7 @@ Public Class frmPurchaseInvoice
     Dim AmountToCheckVendorOutstandingForTCSTax As Decimal = 0
     Public AllowtoChangeTCSBaseAmountPurchase As Boolean = False
     Dim isAgainstTender As Boolean = False
+    Public SettRateDecimalPlaces As Integer = 0
 
 #End Region
     Private Sub LOCATIONRIGTHS()
@@ -357,7 +358,7 @@ Public Class frmPurchaseInvoice
         ItemCostTolerancePercentage = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ItemCostTolerancePercentage, clsFixedParameterCode.ItemCostTolerancePercentage, Nothing))
         ShowItemAllStructureWise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, Nothing)) = 1, True, False)
 
-
+        SettRateDecimalPlaces = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PurchaseModule, clsFixedParameterCode.RateDecimalPlaces, Nothing))
         SettingAutoRoundOffSeprateAccountOnVendorTransaction = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AutoRoundOffSeprateAccountOnVendorTransaction, clsFixedParameterCode.AutoRoundOffSeprateAccountOnVendorTransaction, Nothing)) = 1)
         ShowCapexCodeandSubCode = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowOptionforSelectingCapex, clsFixedParameterCode.ShowOptionforSelectingCapex, Nothing)) = "1", True, False))
         ShowMessageTDS = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowMessgForTDS, clsFixedParameterCode.ShowMessgForTDS, Nothing)) = "1", True, False))
@@ -1005,8 +1006,8 @@ Public Class frmPurchaseInvoice
         repoRate.Name = colRate
         repoRate.Width = 80
         repoRate.Minimum = 0
-        repoRate.FormatString = "{0:n4}"
-        repoRate.DecimalPlaces = 4
+        repoRate.FormatString = "{0:n" + clsCommon.myCstr(SettRateDecimalPlaces) + "}"
+        repoRate.DecimalPlaces = SettRateDecimalPlaces
         repoRate.ReadOnly = False
         repoRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoRate)

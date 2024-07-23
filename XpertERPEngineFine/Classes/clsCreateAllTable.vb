@@ -10956,7 +10956,7 @@ Public Class clsCreateAllTable
             coll.Add("Area_Location_Code", "VARCHAR(12) NULL references TSPL_LOCATION_MASTER(Location_Code)")
 
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_HEAD", coll, Nothing, True, False, "", "Doc_No", "Doc_Date")
-            qry ="update TSPL_PAYMENT_PROCESS_HEAD set isPrePosted=isPosted where isPosted=1"
+            qry = "update TSPL_PAYMENT_PROCESS_HEAD set isPrePosted=isPosted where isPosted=1"
             clsDBFuncationality.ExecuteNonQuery(qry)
 
 
@@ -14010,6 +14010,7 @@ Public Class clsCreateAllTable
             coll.Add("Manager_Name", "Varchar(50) null")
             coll.Add("Manager_Destination", "Varchar(50) null")
             coll.Add("Remarks", "Varchar(100) null")
+            coll.Add("Target", "decimal (18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_LOCATION_MASTER", coll, "", True)
 
 
@@ -49698,6 +49699,22 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("TolerancePer", "decimal(18,2) NOT NULL DEFAULT 0")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_ITEM_TYPE_MASTER", coll)
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Item_Type", "varchar(5) not NULL")
+            coll.Add("Days", "integer NULL")
+            coll.Add("Qty_Per", "integer NULL")
+            coll.Add("Short_Per", "integer NULL")
+            coll.Add("Late_Days", "integer NULL")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_TYPE_SCHEDULE", coll, "")
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Against_Schedule_PK_Id", "integer NOT NULL References TSPL_ITEM_TYPE_SCHEDULE(PK_Id)")
+            coll.Add("Penalty_Days", "integer NULL")
+            coll.Add("Penalty", "Decimal(18,2) NULL")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_TYPE_SCHEDULE_PENALTY", coll, "")
+
             coll = New Dictionary(Of String, String)
             coll.Add("LOCK_CODE", "VARCHAR(30) NOT NULL PRIMARY KEY")
             coll.Add("MCC_Code", "Varchar(30) NOT NULL REFERENCES TSPL_MCC_MASTER(MCC_Code)")
@@ -55807,8 +55824,35 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
         clsCommonFunctionality.CreateOrAlterTable("TSPL_INV_MOVE_DL", coll, " unique (TRANS_DATE,LOCATION_CODE,ITEM_CODE,STOCK_UOM)")
 
         '**************************************************************************************
+        ExecuteQueryWithourException("alter table TSPL_PURCHASE_ORDER_detail alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("alter table TSPL_PURCHASE_ORDER_DETAIL_HIST_DATA alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("alter table TSPL_PURCHASE_ORDER_DETAIL_Cancel_Data alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("alter table TSPL_GRN_DETAIL alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("alter table TSPL_GRN_DETAIL_HIST_DATA alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("alter table TSPL_GRN_DETAIL_Cancel_Data alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("alter table TSPL_MRN_DETAIL alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("alter table TSPL_MRN_DETAIL_HIST_DATA alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("alter table TSPL_MRN_DETAIL_Cancel_Data alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("DROP INDEX [For_NC_PI_Index1] ON [dbo].[TSPL_SRN_DETAIL]")
+        ExecuteQueryWithourException("DROP INDEX [For_NC_PI_Index3] ON [dbo].[TSPL_SRN_DETAIL]")
+        ExecuteQueryWithourException("alter table TSPL_SRN_DETAIL alter column Item_Cost decimal(18,10) ")
+        ExecuteQueryWithourException("alter table TSPL_SRN_DETAIL_HIST_DATA alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("alter table TSPL_SRN_DETAIL_history alter column Item_Cost decimal(18,10) ")
+        ExecuteQueryWithourException("alter table TSPL_SRN_DETAIL_Cancel_Data alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("alter table TSPL_PI_DETAIL alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("alter table TSPL_PI_DETAIL_HIST_DATA alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("alter table TSPL_PI_DETAIL_Cancel_Data alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("alter table TSPL_PR_DETAIL alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("alter table TSPL_PR_DETAIL_HIST_DATA alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("alter table TSPL_PR_DETAIL_Cancel_Data alter column Item_Cost decimal(18,10)")
 
 
         Return True
     End Function
+    Shared Sub ExecuteQueryWithourException(ByVal qry As String)
+        Try
+            clsDBFuncationality.ExecuteNonQuery(qry)
+        Catch ex As Exception
+        End Try
+    End Sub
 End Class
