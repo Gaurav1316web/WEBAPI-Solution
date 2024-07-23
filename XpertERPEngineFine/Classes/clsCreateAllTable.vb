@@ -10956,7 +10956,7 @@ Public Class clsCreateAllTable
             coll.Add("Area_Location_Code", "VARCHAR(12) NULL references TSPL_LOCATION_MASTER(Location_Code)")
 
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_HEAD", coll, Nothing, True, False, "", "Doc_No", "Doc_Date")
-            qry ="update TSPL_PAYMENT_PROCESS_HEAD set isPrePosted=isPosted where isPosted=1"
+            qry = "update TSPL_PAYMENT_PROCESS_HEAD set isPrePosted=isPosted where isPosted=1"
             clsDBFuncationality.ExecuteNonQuery(qry)
 
 
@@ -55808,8 +55808,35 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
         clsCommonFunctionality.CreateOrAlterTable("TSPL_INV_MOVE_DL", coll, " unique (TRANS_DATE,LOCATION_CODE,ITEM_CODE,STOCK_UOM)")
 
         '**************************************************************************************
+        ExecuteQueryWithourException("alter table TSPL_PURCHASE_ORDER_detail alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("alter table TSPL_PURCHASE_ORDER_DETAIL_HIST_DATA alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("alter table TSPL_PURCHASE_ORDER_DETAIL_Cancel_Data alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("alter table TSPL_GRN_DETAIL alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("alter table TSPL_GRN_DETAIL_HIST_DATA alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("alter table TSPL_GRN_DETAIL_Cancel_Data alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("alter table TSPL_MRN_DETAIL alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("alter table TSPL_MRN_DETAIL_HIST_DATA alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("alter table TSPL_MRN_DETAIL_Cancel_Data alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("DROP INDEX [For_NC_PI_Index1] ON [dbo].[TSPL_SRN_DETAIL]")
+        ExecuteQueryWithourException("DROP INDEX [For_NC_PI_Index3] ON [dbo].[TSPL_SRN_DETAIL]")
+        ExecuteQueryWithourException("alter table TSPL_SRN_DETAIL alter column Item_Cost decimal(18,10) ")
+        ExecuteQueryWithourException("alter table TSPL_SRN_DETAIL_HIST_DATA alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("alter table TSPL_SRN_DETAIL_history alter column Item_Cost decimal(18,10) ")
+        ExecuteQueryWithourException("alter table TSPL_SRN_DETAIL_Cancel_Data alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("alter table TSPL_PI_DETAIL alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("alter table TSPL_PI_DETAIL_HIST_DATA alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("alter table TSPL_PI_DETAIL_Cancel_Data alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("alter table TSPL_PR_DETAIL alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("alter table TSPL_PR_DETAIL_HIST_DATA alter column Item_Cost decimal(18,10)")
+        ExecuteQueryWithourException("alter table TSPL_PR_DETAIL_Cancel_Data alter column Item_Cost decimal(18,10)")
 
 
         Return True
     End Function
+    Shared Sub ExecuteQueryWithourException(ByVal qry As String)
+        Try
+            clsDBFuncationality.ExecuteNonQuery(qry)
+        Catch ex As Exception
+        End Try
+    End Sub
 End Class
