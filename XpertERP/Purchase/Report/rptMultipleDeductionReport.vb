@@ -116,6 +116,13 @@ Public Class rptMultipleDeductionReport
             Dim strBaseqry As String = ""
             Dim qry As String = ""
             Dim dt As New DataTable
+            If rbtnSummary.IsChecked = True Then
+                DCSWiseSummary()
+                Exit Sub
+            ElseIf rbtnDetail.IsChecked = True Then
+                'DCSWiseDetail()
+                Exit Sub
+            End If
             If chkItemWise.Checked = True Then
                 Dim strAliasCol As String = "( tspl_item_master.Item_Desc )"
                 Dim ItemInUse As String = " tspl_sd_shipment_head left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.Document_Code=tspl_sd_shipment_head.Document_code left outer join tspl_item_master on tspl_item_master.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_code where tspl_sd_shipment_head.Trans_Type='MCC' and tspl_sd_shipment_head.status=1 "
@@ -447,6 +454,13 @@ Environment.NewLine + "Company : " & objCommonVar.CurrentCompanyName
             Dim strQry5 As String = Nothing
             Dim AreaWiseBilling As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
 
+            If rbtnSummary.IsChecked = True Then
+                DCSWiseSummaryPrint()
+                Exit Sub
+            ElseIf rbtnDetail.IsChecked = True Then
+                'DCSWiseDetail()
+                Exit Sub
+            End If
             ' Dim chktranstype As String = Nothing
 
             If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
@@ -490,8 +504,8 @@ Environment.NewLine + "Company : " & objCommonVar.CurrentCompanyName
                 End If
 
             End If
-                'End If
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+            'End If
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                 strQry += " max(xx.[Document Date])[Document Date],max(xx.[Document No])[Document No],max(xx.Type)Type,max(xx.Addition)Addition,max(xx.Deduction)Deduction,(xx.[Deduction Code])[Deduction Code],max(xx.Regn_No)Regn_No,max(xx.[Deduction Desc])[Deduction Desc],sum(DISTINCT xx.[SRN Qty]) as [SRN Qty],max(xx.Phone)Phone,max(xx.Remarks)Remarks,sum(DISTINCT xx.[SRN_AMOUNT]) as [SRN_AMOUNT],max(xx.FromDate)FromDate,max(xx.ToDate)ToDate,
 						(xx.Reduce_Deduc_Amt)Reduce_Deduc_Amt,
 						sum(DISTINCT xx.ReduceAmts) as ReduceAmt,MAX(xx.User_Name)User_Name  "
@@ -664,6 +678,232 @@ WHERE convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) >=convert(date,('"
             fndArea.Value = clsCommon.ShowSelectForm("Location@Plant@Master", sQuery, "Code", "TSPL_LOCATION_MASTER.Type <> 'PLANT' OR TSPL_LOCATION_MASTER.Location_Category <> 'Mcc'", fndArea.Value, "Code", isButtonClicked)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.ToString)
+        End Try
+    End Sub
+
+    Public Sub DCSWiseSummary()
+        Try
+            Dim qry As String = Nothing
+            Dim strBaseqry As String = Nothing
+            Dim dt As New DataTable
+            'If txtMultiVSP.arrValueMember IsNot Nothing AndAlso txtMultiVSP.arrValueMember.Count > 0 Then
+            '    strBaseqry += " and TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code in(" + clsCommon.GetMulcallString(txtMultiVSP.arrValueMember) + ")"
+            'End If
+            qry = "  Select max(final.Vendor_Code) as [Vendor Code] ,max(final.Vendor_Name) as [Vendor Name],(final.[VLC Uploader Code]) as [VLC Uploader Code],
+                     max(final.Type) as Type,max(final.Document_No) as [Document No],max(final.Document_Date) as [Document Date],max(final.DeductionCode) as [Deduction Code] ,max(final.Deduction_Desc) as [Deduction Desc],
+                     isnull(SUM(ACC_Qty),0)MilkQty,ISNULL(sum(NET_AMOUNT),0)NET_AMOUNT,sum(final.Addition) as Addition,
+                     sum(final.Deduction) as Deduction,isnull(sum(Head_Load_Amount),0)Head_Load_Amount,sum(NET_AMOUNT-Deduction+Addition+Head_Load_Amount)Balance
+                     from ( select TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type,
+                     TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No,convert(varchar,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) as Document_Date  ,
+                     case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then TSPL_MULTIPLE_DEDUCTION_detail.amount else 0 end as Addition,
+                     case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 0 else TSPL_MULTIPLE_DEDUCTION_detail.amount  end as Deduction,
+               TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as [VLC Uploader Code]
+                     , SRN_HEAD.ACC_Qty,SRN_HEAD.Head_Load_Amount,SRN_HEAD.NET_AMOUNT
+                     from TSPL_MULTIPLE_DEDUCTION_HEAD 
+                    LEFT OUTER JOIN TSPL_MULTIPLE_DEDUCTION_DETAIL ON TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No =TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
+                    left outer Join (select distinct TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader,TSPL_VLC_MASTER_HEAD.MCC from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code
+                    left outer join (select ISNULL(sum(TSPL_MILK_SRN_DETAIL.Head_Load_Amount),0) as Head_Load_Amount,ISNULL(sum(TSPL_MILK_SRN_DETAIL.NET_AMOUNT),0)NET_AMOUNT,ISNULL(sum(TSPL_MILK_SRN_DETAIL.ACC_Qty),0) as ACC_Qty,VSP_CODE,max(TSPL_MILK_SRN_HEAD.DOC_CODE)DOC_CODE from  TSPL_MILK_SRN_DETAIL 
+                    left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE
+					where convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) >= convert(date,('" + fromDate.Value + "'),103) 
+                    and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) <= convert(date,('" + ToDate.Value + "'),103)
+					group by VSP_CODE 
+					)as SRN_HEAD on SRN_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code
+
+                    left outer join TSPL_MCC_MASTER ON TSPL_VLC_MASTER_HEAD.MCC=TSPL_MCC_MASTER.MCC_Code
+                    left outer join TSPL_LOCATION_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_LOCATION_MASTER.Location_Code
+                    where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and 
+                    convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= convert(date,('" + fromDate.Value + "'),103) 
+                    and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= convert(date,('" + ToDate.Value + "'),103) "
+
+            If txtMultiVSP.arrValueMember IsNot Nothing AndAlso txtMultiVSP.arrValueMember.Count > 0 Then
+                qry += " and TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code in(" + clsCommon.GetMulcallString(txtMultiVSP.arrValueMember) + ")"
+            End If
+            If TxtDeductionCode.arrValueMember IsNot Nothing AndAlso TxtDeductionCode.arrValueMember.Count > 0 Then
+                qry += " and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode in (" + clsCommon.GetMulcallString(TxtDeductionCode.arrValueMember) + ") "
+            End If
+            qry += " )Final group by Final.[VLC Uploader Code] "
+
+            dt = clsDBFuncationality.GetDataTable(qry)
+            Gv1.DataSource = Nothing
+            Gv1.Rows.Clear()
+            Gv1.Columns.Clear()
+            Gv1.GroupDescriptors.Clear()
+            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+            Gv1.MasterView.Refresh()
+            'FormatGv1()
+
+            If dt Is Nothing OrElse dt.Rows.Count > 0 Then
+                Gv1.DataSource = dt
+                For ii As Integer = 0 To Gv1.Columns.Count - 1
+                    Gv1.Columns(ii).ReadOnly = True
+                Next
+
+                RadPageView1.SelectedPage = RadPageViewPage2
+                Gv1.EnableFiltering = True
+                FormatGv1()
+                Gv1.BestFitColumns()
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                Exit Sub
+            End If
+            ReStoreGridLayout()
+
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Sub FormatGv1()
+
+        Gv1.TableElement.TableHeaderHeight = 25
+        Gv1.MasterTemplate.ShowRowHeaderColumn = True
+        For ii As Integer = 0 To Gv1.Columns.Count - 1
+            Gv1.Columns(ii).ReadOnly = True
+            Gv1.Columns(ii).IsVisible = False
+            'Gv1.Columns(ii).FormatString = "{0:n2}"
+        Next
+
+        Gv1.Columns("Vendor Code").IsVisible = True
+        Gv1.Columns("Vendor Code").Width = 100
+        Gv1.Columns("Vendor Code").HeaderText = "Vendor Code"
+
+        Gv1.Columns("VLC Uploader Code").IsVisible = True
+        Gv1.Columns("VLC Uploader Code").Width = 100
+        Gv1.Columns("VLC Uploader Code").HeaderText = "DCS Uploader Code"
+
+        Gv1.Columns("Document No").IsVisible = True
+        Gv1.Columns("Document No").Width = 100
+        Gv1.Columns("Document No").HeaderText = "Document No"
+
+        Gv1.Columns("Vendor Name").IsVisible = True
+        Gv1.Columns("Vendor Name").Width = 100
+        Gv1.Columns("Vendor Name").HeaderText = "Vendor Name"
+
+        Gv1.Columns("Type").IsVisible = False
+        Gv1.Columns("Type").Width = 100
+        Gv1.Columns("Type").HeaderText = "Type"
+
+        Gv1.Columns("Document Date").IsVisible = True
+        Gv1.Columns("Document Date").Width = 100
+        Gv1.Columns("Document Date").HeaderText = "Document Date"
+
+        Gv1.Columns("Addition").IsVisible = True
+        Gv1.Columns("Addition").Width = 100
+        Gv1.Columns("Addition").HeaderText = "Addition"
+
+        Gv1.Columns("Deduction").IsVisible = True
+        Gv1.Columns("Deduction").Width = 100
+        Gv1.Columns("Deduction").HeaderText = "Deduction"
+
+        Gv1.Columns("Deduction Code").IsVisible = False
+        Gv1.Columns("Deduction Code").Width = 100
+        Gv1.Columns("Deduction Code").HeaderText = "Addition/Deduction Code"
+        Gv1.MasterTemplate.Columns("Deduction Code").TextAlignment = ContentAlignment.MiddleCenter
+
+        Gv1.Columns("Deduction Desc").IsVisible = False
+        Gv1.Columns("Deduction Desc").Width = 100
+        Gv1.Columns("Deduction Desc").HeaderText = "Deduction Desc"
+        Gv1.MasterTemplate.Columns("Deduction Desc").TextAlignment = ContentAlignment.MiddleCenter
+
+        Gv1.Columns("NET_AMOUNT").IsVisible = True
+        Gv1.Columns("NET_AMOUNT").Width = 100
+        Gv1.Columns("NET_AMOUNT").HeaderText = "Milk Amount"
+        Gv1.MasterTemplate.Columns("NET_AMOUNT").TextAlignment = ContentAlignment.MiddleCenter
+
+        Gv1.Columns("Head_Load_Amount").IsVisible = True
+        Gv1.Columns("Head_Load_Amount").Width = 100
+        Gv1.Columns("Head_Load_Amount").HeaderText = "Head Load Amount"
+        Gv1.MasterTemplate.Columns("Head_Load_Amount").TextAlignment = ContentAlignment.MiddleCenter
+
+        Gv1.Columns("Balance").IsVisible = True
+        Gv1.Columns("Balance").Width = 100
+        Gv1.Columns("Balance").HeaderText = "Balance"
+
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        'Dim intCount As Integer = 0
+        Dim item1 As New GridViewSummaryItem("Deduction", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        Dim item2 As New GridViewSummaryItem("Addition", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item2)
+        Dim item3 As New GridViewSummaryItem("NET_AMOUNT", "{0:F3}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item3)
+        Dim item4 As New GridViewSummaryItem("Head_Load_Amount", "{0:F3}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item4)
+        Dim item5 As New GridViewSummaryItem("Balance", "{0:F3}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item5)
+
+
+        Gv1.ShowGroupPanel = False
+        Gv1.MasterTemplate.AutoExpandGroups = True
+
+        Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+
+    End Sub
+
+    Sub DCSWiseSummaryPrint()
+        Try
+            Dim qry As String = Nothing
+            Dim strBaseqry As String = Nothing
+            Dim dt As New DataTable
+            'If txtMultiVSP.arrValueMember IsNot Nothing AndAlso txtMultiVSP.arrValueMember.Count > 0 Then
+            '    strBaseqry += " and TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code in(" + clsCommon.GetMulcallString(txtMultiVSP.arrValueMember) + ")"
+            'End If
+            qry = "  Select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' As FromDate
+                        ,'" + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy") + "' As ToDate,'" + objCommonVar.CurrentUserCode + "' as User_Name,max(final.Vendor_Code) as [Vendor Code] ,max(final.Vendor_Name) as [Vendor Name],(final.[VLC Uploader Code]) as [VLC Uploader Code],
+                     max(final.Type) as Type,max(final.Document_No) as [Document No],max(final.Document_Date) as [Document Date],sum(final.Addition) as Addition,
+                     sum(final.Deduction) as Deduction,max(final.DeductionCode) as [Deduction Code] ,max(final.Deduction_Desc) as [Deduction Desc],
+                     isnull(SUM(ACC_Qty),0)MilkQty,isnull(sum(Head_Load_Amount),0)Head_Load_Amount,isnull(sum(NET_AMOUNT),0)NET_AMOUNT,max(Comp_Name)Comp_Name,
+                     max(Add1)Add1,max(Add2)Add2,max(Add3)Add3,isnull(sum(NET_AMOUNT-Deduction+Addition+Head_Load_Amount),0)Balance
+                     from ( select TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type,
+                     TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No,convert(varchar,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) as Document_Date  ,
+                     case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then TSPL_MULTIPLE_DEDUCTION_detail.amount else 0 end as Addition,
+                     case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 0 else TSPL_MULTIPLE_DEDUCTION_detail.amount  end as Deduction,
+               TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as [VLC Uploader Code]
+                     , SRN_HEAD.ACC_Qty,SRN_HEAD.Head_Load_Amount,SRN_HEAD.NET_AMOUNT,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3
+                     from TSPL_MULTIPLE_DEDUCTION_HEAD 
+                    LEFT OUTER JOIN TSPL_MULTIPLE_DEDUCTION_DETAIL ON TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No =TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
+                    left outer Join (select distinct TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader,TSPL_VLC_MASTER_HEAD.MCC from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code
+                    left outer join (select ISNULL(sum(TSPL_MILK_SRN_DETAIL.Head_Load_Amount),0) as Head_Load_Amount,ISNULL(sum(TSPL_MILK_SRN_DETAIL.ACC_Qty),0) as ACC_Qty,VSP_CODE,max(TSPL_MILK_SRN_HEAD.DOC_CODE)DOC_CODE,ISNULL(sum(TSPL_MILK_SRN_DETAIL.NET_AMOUNT),0)NET_AMOUNT from  TSPL_MILK_SRN_DETAIL 
+                    left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE
+					where convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) >= convert(date,('" + fromDate.Value + "'),103) 
+                    and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) <= convert(date,('" + ToDate.Value + "'),103)
+					group by VSP_CODE 
+					)as SRN_HEAD on SRN_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code
+
+                    left outer join TSPL_MCC_MASTER ON TSPL_VLC_MASTER_HEAD.MCC=TSPL_MCC_MASTER.MCC_Code
+                    left outer join TSPL_LOCATION_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_LOCATION_MASTER.Location_Code
+                    left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_MULTIPLE_DEDUCTION_HEAD.Comp_Code
+                    where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and 
+                    convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= convert(date,('" + fromDate.Value + "'),103) 
+                    and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= convert(date,('" + ToDate.Value + "'),103) "
+
+            If txtMultiVSP.arrValueMember IsNot Nothing AndAlso txtMultiVSP.arrValueMember.Count > 0 Then
+                qry += " and TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code in(" + clsCommon.GetMulcallString(txtMultiVSP.arrValueMember) + ")"
+            End If
+            If TxtDeductionCode.arrValueMember IsNot Nothing AndAlso TxtDeductionCode.arrValueMember.Count > 0 Then
+                qry += " and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode in (" + clsCommon.GetMulcallString(TxtDeductionCode.arrValueMember) + ") "
+            End If
+            qry += " )Final group by Final.[VLC Uploader Code] "
+
+            dt = clsDBFuncationality.GetDataTable(qry)
+            If dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                '    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptMultpleDeductionNewJPR", "MD Print")
+                'ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                '    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptMultpleDeductionNewTNK", "MD Print")
+                'Else
+                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptDCSWiseDeductionSummary", "Ded Print")
+                'End If
+                frmCRV = Nothing
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class
