@@ -14280,7 +14280,7 @@ Public Class clsCreateAllTable
             coll.Add("PAN_NO", "VARCHAR(20) NULL")
             coll.Add("PASPORT_NO", "VARCHAR(20) NULL")
             coll.Add("DESCRIPTION", "VARCHAR(100) NULL")
-
+            coll.Add("COMPANY_BANK", "VARCHAR(12) NULL REFERENCES TSPL_Bank_Master(BANK_CODE)")
             coll.Add("FATHERS_NAME", "Varchar(100)  NULL")
             coll.Add("MOTHERS_NAME", "Varchar(100)  NULL")
             coll.Add("SPOUSE_NAME", "Varchar(100)  NULL")

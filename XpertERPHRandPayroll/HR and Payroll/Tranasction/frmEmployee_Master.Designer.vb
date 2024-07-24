@@ -24,16 +24,16 @@ Partial Class frmEmployee_Master
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.General = New Telerik.WinControls.UI.RadPageViewPage()
         Me.txtActiveInactiveDate = New common.Controls.MyDateTimePicker()
@@ -302,6 +302,8 @@ Partial Class frmEmployee_Master
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.txtLeavingDate = New common.Controls.MyDateTimePicker()
         Me.dtpJoining = New common.Controls.MyDateTimePicker()
+        Me.MyLabel48 = New common.Controls.MyLabel()
+        Me.txtCompBank = New common.UserControls.txtFinder()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.General.SuspendLayout()
@@ -545,6 +547,7 @@ Partial Class frmEmployee_Master
         Me.SplitContainer1.SuspendLayout()
         CType(Me.txtLeavingDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpJoining, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel48, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -565,7 +568,7 @@ Partial Class frmEmployee_Master
         Me.RadPageView1.Controls.Add(Me.pageOthers)
         Me.RadPageView1.Location = New System.Drawing.Point(5, 35)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.pageOthers
+        Me.RadPageView1.SelectedPage = Me.General
         Me.RadPageView1.Size = New System.Drawing.Size(866, 460)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -573,6 +576,8 @@ Partial Class frmEmployee_Master
         '
         'General
         '
+        Me.General.Controls.Add(Me.MyLabel48)
+        Me.General.Controls.Add(Me.txtCompBank)
         Me.General.Controls.Add(Me.txtActiveInactiveDate)
         Me.General.Controls.Add(Me.lblActiveInactiveDate)
         Me.General.Controls.Add(Me.cboemployeebasistype)
@@ -715,11 +720,11 @@ Partial Class frmEmployee_Master
         Me.cboemployeebasistype.IsSourceFromTable = False
         Me.cboemployeebasistype.IsSourceFromValueList = False
         Me.cboemployeebasistype.IsUnique = False
-        RadListDataItem1.Text = "Single"
-        RadListDataItem2.Text = "married"
-        Me.cboemployeebasistype.Items.Add(RadListDataItem1)
-        Me.cboemployeebasistype.Items.Add(RadListDataItem2)
-        Me.cboemployeebasistype.Location = New System.Drawing.Point(435, 355)
+        RadListDataItem5.Text = "Single"
+        RadListDataItem6.Text = "married"
+        Me.cboemployeebasistype.Items.Add(RadListDataItem5)
+        Me.cboemployeebasistype.Items.Add(RadListDataItem6)
+        Me.cboemployeebasistype.Location = New System.Drawing.Point(435, 353)
         Me.cboemployeebasistype.MendatroryField = True
         Me.cboemployeebasistype.MyLinkLable1 = Me.MyLabel4
         Me.cboemployeebasistype.MyLinkLable2 = Nothing
@@ -744,7 +749,7 @@ Partial Class frmEmployee_Master
         '
         Me.MyLabel42.FieldName = Nothing
         Me.MyLabel42.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel42.Location = New System.Drawing.Point(326, 356)
+        Me.MyLabel42.Location = New System.Drawing.Point(326, 354)
         Me.MyLabel42.Name = "MyLabel42"
         Me.MyLabel42.Size = New System.Drawing.Size(89, 16)
         Me.MyLabel42.TabIndex = 164
@@ -762,7 +767,7 @@ Partial Class frmEmployee_Master
         Me.txtBiometricEmpID.IsSourceFromTable = False
         Me.txtBiometricEmpID.IsSourceFromValueList = False
         Me.txtBiometricEmpID.IsUnique = False
-        Me.txtBiometricEmpID.Location = New System.Drawing.Point(103, 356)
+        Me.txtBiometricEmpID.Location = New System.Drawing.Point(103, 353)
         Me.txtBiometricEmpID.MaxLength = 49
         Me.txtBiometricEmpID.MendatroryField = False
         Me.txtBiometricEmpID.MyLinkLable1 = Nothing
@@ -778,7 +783,7 @@ Partial Class frmEmployee_Master
         '
         Me.MyLabel40.FieldName = Nothing
         Me.MyLabel40.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel40.Location = New System.Drawing.Point(4, 357)
+        Me.MyLabel40.Location = New System.Drawing.Point(4, 354)
         Me.MyLabel40.Name = "MyLabel40"
         Me.MyLabel40.Size = New System.Drawing.Size(94, 16)
         Me.MyLabel40.TabIndex = 163
@@ -1421,10 +1426,10 @@ Partial Class frmEmployee_Master
         Me.CboMaritalStatus.IsSourceFromTable = False
         Me.CboMaritalStatus.IsSourceFromValueList = False
         Me.CboMaritalStatus.IsUnique = False
-        RadListDataItem3.Text = "Single"
-        RadListDataItem4.Text = "married"
-        Me.CboMaritalStatus.Items.Add(RadListDataItem3)
-        Me.CboMaritalStatus.Items.Add(RadListDataItem4)
+        RadListDataItem1.Text = "Single"
+        RadListDataItem2.Text = "married"
+        Me.CboMaritalStatus.Items.Add(RadListDataItem1)
+        Me.CboMaritalStatus.Items.Add(RadListDataItem2)
         Me.CboMaritalStatus.Location = New System.Drawing.Point(104, 82)
         Me.CboMaritalStatus.MendatroryField = True
         Me.CboMaritalStatus.MyLinkLable1 = Me.MyLabel4
@@ -3470,7 +3475,7 @@ Partial Class frmEmployee_Master
         Me.gvEmpDoc.MasterTemplate.EnableGrouping = False
         Me.gvEmpDoc.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvEmpDoc.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvEmpDoc.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvEmpDoc.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvEmpDoc.MyStopExport = False
         Me.gvEmpDoc.Name = "gvEmpDoc"
         Me.gvEmpDoc.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3508,7 +3513,7 @@ Partial Class frmEmployee_Master
         Me.gvEmpEx.MasterTemplate.EnableGrouping = False
         Me.gvEmpEx.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvEmpEx.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvEmpEx.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvEmpEx.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gvEmpEx.MyStopExport = False
         Me.gvEmpEx.Name = "gvEmpEx"
         Me.gvEmpEx.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3546,7 +3551,7 @@ Partial Class frmEmployee_Master
         Me.gvEmpQuli.MasterTemplate.EnableGrouping = False
         Me.gvEmpQuli.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvEmpQuli.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvEmpQuli.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvEmpQuli.MasterTemplate.ViewDefinition = TableViewDefinition9
         Me.gvEmpQuli.MyStopExport = False
         Me.gvEmpQuli.Name = "gvEmpQuli"
         Me.gvEmpQuli.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3584,7 +3589,7 @@ Partial Class frmEmployee_Master
         Me.gvEmpLanguage.MasterTemplate.EnableGrouping = False
         Me.gvEmpLanguage.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvEmpLanguage.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvEmpLanguage.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvEmpLanguage.MasterTemplate.ViewDefinition = TableViewDefinition10
         Me.gvEmpLanguage.MyStopExport = False
         Me.gvEmpLanguage.Name = "gvEmpLanguage"
         Me.gvEmpLanguage.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3622,7 +3627,7 @@ Partial Class frmEmployee_Master
         Me.gvEmpFamily.MasterTemplate.EnableGrouping = False
         Me.gvEmpFamily.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvEmpFamily.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvEmpFamily.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvEmpFamily.MasterTemplate.ViewDefinition = TableViewDefinition11
         Me.gvEmpFamily.MyStopExport = False
         Me.gvEmpFamily.Name = "gvEmpFamily"
         Me.gvEmpFamily.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3836,7 +3841,7 @@ Partial Class frmEmployee_Master
         Me.gvAssets.MasterTemplate.EnableGrouping = False
         Me.gvAssets.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAssets.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAssets.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvAssets.MasterTemplate.ViewDefinition = TableViewDefinition12
         Me.gvAssets.MyStopExport = False
         Me.gvAssets.Name = "gvAssets"
         Me.gvAssets.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -5266,6 +5271,42 @@ Partial Class frmEmployee_Master
         Me.dtpJoining.Text = "03/05/2011"
         Me.dtpJoining.Value = New Date(2011, 5, 3, 0, 0, 0, 0)
         '
+        'MyLabel48
+        '
+        Me.MyLabel48.FieldName = Nothing
+        Me.MyLabel48.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel48.Location = New System.Drawing.Point(3, 374)
+        Me.MyLabel48.Name = "MyLabel48"
+        Me.MyLabel48.Size = New System.Drawing.Size(84, 16)
+        Me.MyLabel48.TabIndex = 169
+        Me.MyLabel48.Text = "Company Bank"
+        '
+        'txtCompBank
+        '
+        Me.txtCompBank.CalculationExpression = Nothing
+        Me.txtCompBank.FieldCode = Nothing
+        Me.txtCompBank.FieldDesc = Nothing
+        Me.txtCompBank.FieldMaxLength = 0
+        Me.txtCompBank.FieldName = Nothing
+        Me.txtCompBank.isCalculatedField = False
+        Me.txtCompBank.IsSourceFromTable = False
+        Me.txtCompBank.IsSourceFromValueList = False
+        Me.txtCompBank.IsUnique = False
+        Me.txtCompBank.Location = New System.Drawing.Point(104, 373)
+        Me.txtCompBank.MendatroryField = False
+        Me.txtCompBank.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCompBank.MyLinkLable1 = Me.MyLabel48
+        Me.txtCompBank.MyLinkLable2 = Nothing
+        Me.txtCompBank.MyReadOnly = False
+        Me.txtCompBank.MyShowMasterFormButton = False
+        Me.txtCompBank.Name = "txtCompBank"
+        Me.txtCompBank.ReferenceFieldDesc = Nothing
+        Me.txtCompBank.ReferenceFieldName = Nothing
+        Me.txtCompBank.ReferenceTableName = Nothing
+        Me.txtCompBank.Size = New System.Drawing.Size(216, 19)
+        Me.txtCompBank.TabIndex = 168
+        Me.txtCompBank.Value = ""
+        '
         'frmEmployee_Master
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -5531,6 +5572,7 @@ Partial Class frmEmployee_Master
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.txtLeavingDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpJoining, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel48, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -5806,4 +5848,6 @@ Partial Class frmEmployee_Master
     Friend WithEvents MyLabel46 As common.Controls.MyLabel
     Friend WithEvents txtmembershipid As common.Controls.MyTextBox
     Friend WithEvents txtspecialdesc As common.Controls.MyTextBox
+    Friend WithEvents MyLabel48 As common.Controls.MyLabel
+    Friend WithEvents txtCompBank As common.UserControls.txtFinder
 End Class
