@@ -837,7 +837,7 @@ Public Class frmLocationMaster
             obj.ManagerName = clsCommon.myCstr(txtMngrNm.Text)
             obj.ManagerDestination = clsCommon.myCstr(txtMngrDes.Text)
             obj.Remarks = clsCommon.myCstr(txtRmk.Text)
-            obj.Target = clsCommon.myCstr(txtTarget.Text)
+            obj.Target = txtTarget.Value
 
             If objCommonVar.GSTApplicable AndAlso clsCommon.myLen(txtGSTEntityNo.Text) > 0 Then
                 obj.GSTEntity = clsCommon.myCstr(txtGSTEntityNo.Text)
@@ -1255,7 +1255,7 @@ Public Class frmLocationMaster
                 txtMngrNm.Text = clsCommon.myCstr(row("Manager_Name"))
                 txtMngrDes.Text = clsCommon.myCstr(row("Manager_Destination"))
                 txtRmk.Text = clsCommon.myCstr(row("Remarks"))
-                txtTarget.Text = clsCommon.myCstr(row("Target"))
+                txtTarget.Value = clsCommon.myCDecimal(row("Target"))
                 txtBank.Text = clsCommon.myCstr(row("Bank"))
                 txtBranch.Text = clsCommon.myCstr(row("Branch"))
                 txtACType.Text = clsCommon.myCstr(row("ACType"))
@@ -1523,7 +1523,7 @@ Public Class frmLocationMaster
         lblCategoryStructureCode.Text = ""
         LoadBlankGridCat()
         txtRmk.Text = ""
-        txtTarget.Text = ""
+        txtTarget.Value = 0
         txtCMACML.Text = ""
         txtIS.Text = ""
         txtValidUpto.Text = ""
