@@ -263,6 +263,7 @@ Public Class frmGRN
     Dim SettPurchaseSlabRangePOTo As Decimal
     Dim SettPurchaseSlabRangeRALFrom As Decimal
     Dim SettPurchaseSlabRangeRALTo As Decimal
+    Public SettRateDecimalPlaces As Integer = 0
 #End Region
 
     Private Sub SetUserMgmtNew()
@@ -297,6 +298,7 @@ Public Class frmGRN
 
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         RadButton1.Visible = True
+        SettRateDecimalPlaces = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PurchaseModule, clsFixedParameterCode.RateDecimalPlaces, Nothing))
         PurchaseModulePickFixTaxRate = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PurchaseModulePickFixTaxRate, clsFixedParameterCode.PurchaseModulePickFixTaxRate, Nothing)) = 1, True, False)
         AllowPurchaseModulewithUniqueItem = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowPurchaseModulewithUniqueItem, clsFixedParameterCode.AllowPurchaseModulewithUniqueItem, Nothing))
         ShowItemAllStructureWise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, Nothing)) = 1, True, False)
@@ -870,13 +872,15 @@ Public Class frmGRN
 
         Dim repoRate As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoRate = New GridViewDecimalColumn()
-        repoRate.FormatString = ""
+
         repoRate.HeaderText = "Unit Cost"
         repoRate.Name = colRate
         repoRate.Width = 80
         repoRate.Minimum = 0
         repoRate.ReadOnly = False
         repoRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoRate.FormatString = "{0:n" + clsCommon.myCstr(SettRateDecimalPlaces) + "}"
+        repoRate.DecimalPlaces = SettRateDecimalPlaces
         gv1.MasterTemplate.Columns.Add(repoRate)
 
         repoIsSurTax1 = New GridViewCheckBoxColumn()

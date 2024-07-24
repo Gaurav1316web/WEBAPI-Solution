@@ -11,12 +11,10 @@ Public Class clsNIRQC
     Public Posted_Date As DateTime? = Nothing
 #End Region
     Public Shared Function CheckNIRQCUsedInSRN(ByVal strSRNNo As String, ByVal trans As SqlTransaction) As Boolean
-
         Dim qry As String = "select sum(fin.[cnt]) from (Select 1 as [cnt],TSPL_SRN_DETAIL.SRN_No from TSPL_SRN_DETAIL 
 where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
         'Dim qry As String = "select sum(fin.[cnt]) from (SELECT 1 as [cnt] from TSPL_SRN_DETAIL where TSPL_SRN_DETAIL.PO_ID ='" + clsCommon.myCstr(strPONo) + "' union all SELECT 1 as [cnt] from TSPL_GRN_DETAIL where TSPL_GRN_DETAIL.PO_ID ='" + clsCommon.myCstr(strPONo) + "')fin"
         Dim count As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
-
         If count > 0 Then
             Return True
         Else
@@ -27,7 +25,10 @@ where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
         Dim isSaved As Boolean = True
         Try
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Store Received Note Return", obj.Bill_To_Location, Document_Date, trans)
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Bill_To_Location from TSPL_MRN_HEAD left outer join TSPL_NIR_QC on TSPL_NIR_QC.MRN_No=TSPL_MRN_HEAD.MRN_No where Document_No= '" + obj.Document_No + "' ", trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Order", clsCommon.myCstr(dt.Rows(0)("Bill_To_Location")), obj.Document_Date, trans)
+            End If
             Try
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt"))
@@ -49,7 +50,6 @@ where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
                     isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_NIR_QC", OMInsertOrUpdate.Update, "TSPL_NIR_QC.Document_No='" + obj.Document_No + "'", trans)
                 End If
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_NIR_QC", "Document_No", trans)
-
                 'If Not isNewEntry Then
                 'End If
                 trans.Commit()
@@ -98,6 +98,8 @@ where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
         Dim qry As String
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Dim obj As clsNIRQC = clsNIRQC.GetData(Doc_No, NavigatorType.Current, trans)
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Bill_To_Location from TSPL_MRN_HEAD left outer join TSPL_NIR_QC on TSPL_NIR_QC.MRN_No=TSPL_MRN_HEAD.MRN_No where Document_No= '" + obj.Document_No + "' ", trans)
+        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Order", clsCommon.myCstr(dt.Rows(0)("Bill_To_Location")), obj.Document_Date, trans)
         Try
             If Not (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
                 Throw New Exception("Document not found")
@@ -126,7 +128,6 @@ where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
             If Not (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
                 Throw New Exception("Document not found")
             End If
-
             'If (obj.Status = 1) Then
             '    Throw New Exception("Already Posted on :" + obj.Posted_Date)
             'End If
@@ -162,6 +163,8 @@ where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
             End If
             Dim qry As String = "Update TSPL_NIR_QC set Status=1, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "'  where Document_No='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Bill_To_Location from TSPL_MRN_HEAD left outer join TSPL_NIR_QC on TSPL_NIR_QC.MRN_No=TSPL_MRN_HEAD.MRN_No where Document_No= '" + obj.Document_No + "' ", trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Order", clsCommon.myCstr(dt.Rows(0)("Bill_To_Location")), obj.Document_Date, trans)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -553,6 +556,9 @@ where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("Document No not found to Post")
             End If
+            Dim dts As DataTable = clsDBFuncationality.GetDataTable("select Bill_To_Location from TSPL_MRN_HEAD left outer join TSPL_NIR_QC on TSPL_NIR_QC.MRN_No=TSPL_MRN_HEAD.MRN_No where Document_No= '" + obj.Document_No + "' ", trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Order", clsCommon.myCstr(dts.Rows(0)("Bill_To_Location")), obj.Document_Date, trans)
+
             If Not (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Transaction status should be posted.")
             End If
@@ -563,6 +569,8 @@ where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
 left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No where TSPL_SRN_DETAIL.MRN_Id ='" + obj.MRN_No + "'"
                 dt = New DataTable()
                 dt = clsDBFuncationality.GetDataTable(qry, trans)
+
+
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     For Each dr As DataRow In dt.Rows
                         If clsCommon.myCDecimal(dr("Status")) = 1 Then

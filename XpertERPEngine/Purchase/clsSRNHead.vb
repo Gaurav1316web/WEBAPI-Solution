@@ -2649,6 +2649,11 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
     End Function
     Public Shared Function ReverseAndUnpost(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
         Try
+            Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_SRN_HEAD.Bill_To_Location, TSPL_SRN_HEAD.SRN_No, TSPL_SRN_HEAD.SRN_Date from TSPL_SRN_HEAD where SRN_No= '" + strCode + "' ", trans)
+            If dts.Rows.Count > 0 Then
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Store Receipt Note", clsCommon.myCstr(dts.Rows(0)("Bill_To_Location")), clsCommon.myCstr(dts.Rows(0)("SRN_Date")), trans)
+            End If
+
             Dim Qry As String = "select Status,Confirmatory_PO from TSPL_SRN_HEAD where SRN_No='" + strCode + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
@@ -2665,6 +2670,7 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
             If clsCommon.myCdbl(dt.Rows(0)("Confirmatory_PO")) = 1 Then
                 Qry = "select PurchaseOrder_No from TSPL_PURCHASE_ORDER_HEAD  where Confirmatory_PO_SRN_No='" + strCode + "'"
                 dt = clsDBFuncationality.GetDataTable(Qry, trans)
+
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     clsPurchaseOrderHead.ReverseAndUnpost(clsCommon.myCstr(dt.Rows(0)("PurchaseOrder_No")), clsUserMgtCode.mbtnPurchaseOrder, trans)
                     clsPurchaseOrderHead.DeleteData(clsCommon.myCstr(dt.Rows(0)("PurchaseOrder_No")), False, trans)
@@ -2675,6 +2681,7 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
             If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PurchaseDoNotCheckForwardDocuments, clsFixedParameterCode.PurchaseDoNotCheckForwardDocuments, trans)) <= 0 Then
                 Qry = "select distinct PI_No from TSPL_PI_DETAIL where SRN_Id='" + strCode + "'"
                 dt = clsDBFuncationality.GetDataTable(Qry, trans)
+
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Qry = "CURRENT SRN IS USED IN FOLLOWING PURCHASE INVOICE -"
                     For Each DR As DataRow In dt.Rows
@@ -2702,6 +2709,8 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
 
             Qry = "update TSPL_SERIAL_ITEM set Against_Inv_Movement_Trans_Id=null where Document_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+
+
 
             clsBatchInventory.ReverseAndUnpost("SRN", strCode, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_INVENTORY_MOVEMENT", "Source_Doc_No", trans)
