@@ -81,6 +81,28 @@ Public Class clsCreateAllTables
 
 
             Try
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_PURCHASE_ORDER_detail alter column Item_Cost decimal(18,10)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_PURCHASE_ORDER_DETAIL_HIST_DATA alter column Item_Cost decimal(18,10)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_PURCHASE_ORDER_DETAIL_Cancel_Data alter column Item_Cost decimal(18,10)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_GRN_DETAIL alter column Item_Cost decimal(18,10)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_GRN_DETAIL_HIST_DATA alter column Item_Cost decimal(18,10)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_GRN_DETAIL_Cancel_Data alter column Item_Cost decimal(18,10)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_MRN_DETAIL alter column Item_Cost decimal(18,10)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_MRN_DETAIL_HIST_DATA alter column Item_Cost decimal(18,10)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_MRN_DETAIL_Cancel_Data alter column Item_Cost decimal(18,10)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("DROP INDEX [For_NC_PI_Index1] ON [dbo].[TSPL_SRN_DETAIL]")
+                clsCreateAllTables.ExecuteQeuryWithCatch("DROP INDEX [For_NC_PI_Index3] ON [dbo].[TSPL_SRN_DETAIL]")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_SRN_DETAIL alter column Item_Cost decimal(18,10) ")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_SRN_DETAIL_HIST_DATA alter column Item_Cost decimal(18,10)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_SRN_DETAIL_history alter column Item_Cost decimal(18,10) ")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_SRN_DETAIL_Cancel_Data alter column Item_Cost decimal(18,10)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_PI_DETAIL alter column Item_Cost decimal(18,10)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_PI_DETAIL_HIST_DATA alter column Item_Cost decimal(18,10)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_PI_DETAIL_Cancel_Data alter column Item_Cost decimal(18,10)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_PR_DETAIL alter column Item_Cost decimal(18,10)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_PR_DETAIL_HIST_DATA alter column Item_Cost decimal(18,10)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_PR_DETAIL_Cancel_Data alter column Item_Cost decimal(18,10)")
+
 
                 '' adding Standard Methods List 
                 clsStandardMethods.AddStandardFunction()
@@ -939,11 +961,11 @@ Public Class clsCreateAllTables
 
             ''BHA/28/08/18-000489 by balwinder on 29/08/2018
 
-            qry = "alter table TSPL_GRN_DETAIL alter column Item_Cost decimal(18,3) null"
-            ExecuteQeuryWithCatch(qry)
+            'qry = "alter table TSPL_GRN_DETAIL alter column Item_Cost decimal(18,3) null"
+            'ExecuteQeuryWithCatch(qry)
 
-            qry = "alter table TSPL_MRN_DETAIL alter column Item_Cost decimal(18,3) null"
-            ExecuteQeuryWithCatch(qry)
+            'qry = "alter table TSPL_MRN_DETAIL alter column Item_Cost decimal(18,3) null"
+            'ExecuteQeuryWithCatch(qry)
 
             qry = "Alter table tspl_location_master Alter Column City_Code varchar(50) NULL"
             ExecuteQeuryWithCatch(qry)

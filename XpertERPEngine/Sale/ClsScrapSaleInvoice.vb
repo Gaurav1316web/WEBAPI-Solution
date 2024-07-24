@@ -542,16 +542,30 @@ Public Class scrapinvoicehead
             End If
 
             Dim coll As New Hashtable()
+            If objin.EInvoiceAckDate Is Nothing Then
+                clsCommon.AddColumnsForChange(coll, "Ack_Date", Nothing, True)
+            Else
+                clsCommon.AddColumnsForChange(coll, "Ack_Date", clsCommon.GetPrintDate(objin.EInvoiceAckDate, "dd/MMM/yyyy hh:mm tt"))
+            End If
 
-            clsCommon.AddColumnsForChange(coll, "Ack_Date", objin.EInvoiceAckDate)
             clsCommon.AddColumnsForChange(coll, "Ack_No", objin.EInvoiceAckNo)
             clsCommon.AddColumnsForChange(coll, "QR_Code", objin.EInvoiceQRCode)
             clsCommon.AddColumnsForChange(coll, "IRN_No", objin.EInvoiceIRNNo)
 
             clsCommon.AddColumnsForChange(coll, "EWayBillRemarks", objin.EwayBillRemarks)
-            clsCommon.AddColumnsForChange(coll, "EWayBillValidDate", objin.EwayBillValidDate)
+            If objin.EwayBillValidDate Is Nothing Then
+                clsCommon.AddColumnsForChange(coll, "EWayBillValidDate", Nothing, True)
+            Else
+                clsCommon.AddColumnsForChange(coll, "EWayBillValidDate", clsCommon.GetPrintDate(objin.EwayBillValidDate, "dd/MMM/yyyy hh:mm tt"))
+            End If
+
             clsCommon.AddColumnsForChange(coll, "EWayBillNo", objin.EWayBillDate)
-            clsCommon.AddColumnsForChange(coll, "EWayBillDate", objin.EWayBillDate)
+            If objin.EWayBillDate Is Nothing Then
+                clsCommon.AddColumnsForChange(coll, "EWayBillDate", clsCommon.GetPrintDate(objin.EWayBillDate, "dd/MMM/yyyy hh:mm tt"))
+            Else
+                clsCommon.AddColumnsForChange(coll, "EWayBillDate", objin.EWayBillDate)
+            End If
+
 
 
 
