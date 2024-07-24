@@ -9800,6 +9800,9 @@ Public Class clsCreateAllTable
             coll.Add("QC_Separated_Date", "Date NULL ")
             coll.Add("Shift_Code", "varchar(30) null")
             coll.Add("Cleaning_Tester", "varchar(50) null")
+            coll.Add("Manual_Entry", "Integer NULL")
+            coll.Add("Manual_By", "varchar(12)  NULL")
+            coll.Add("Manual_Date", "Datetime NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_QUALITY_CHECK", coll, Nothing, True, False, "", "QC_No", "QC_In_Date_Time")
 
             coll = New Dictionary(Of String, String)()
@@ -9852,6 +9855,7 @@ Public Class clsCreateAllTable
             coll.Add("Shift_Code", "varchar(30) null")
             coll.Add("Cleaning_Tester", "varchar(50) null")
             coll.Add("AcknowEntryDocument_No", " varchar(50)  NULL")
+            coll.Add("Source_API", "int Null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Quality_Check_History", coll, Nothing, False, False)
 
             coll = New Dictionary(Of String, String)
@@ -9863,7 +9867,7 @@ Public Class clsCreateAllTable
             coll.Add("LINE_NO", "INTEGER not null default 0")
             coll.Add("Remarks", "varchar (500) null")
             coll.Add("BoilingDifference", "float not null default 0")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_QC_Parameter_Detail", coll, Nothing, False, False, "TSPL_QUALITY_CHECK", "QC_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_QC_Parameter_Detail", coll, Nothing, True, False, "TSPL_QUALITY_CHECK", "QC_No", "")
 
             coll = New Dictionary(Of String, String)
             coll.Add("QC_No", "varchar(30)  NULL  ")
