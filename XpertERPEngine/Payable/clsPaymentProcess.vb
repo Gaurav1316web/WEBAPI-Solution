@@ -1807,7 +1807,8 @@ select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo
     End Function
 
     '========================================
-    Public Shared Function PaymentProcessDrCrPrint(ByVal strDocNo As String, ByVal CycleFromDate As String, ByVal CycleToDate As String, ByVal strLoc As String, ByVal strVSPCode As String, ByVal strRoutecode As String, ByVal strBank As String, ByVal strHoldUnhold As String, ByVal strMCC_Code As String) As Boolean
+    'Public Shared Function PaymentProcessDrCrPrint(ByVal strDocNo As String, ByVal CycleFromDate As String, ByVal CycleToDate As String, ByVal strLoc As String, ByVal strVSPCode As String, ByVal strRoutecode As String, ByVal strBank As String, ByVal strHoldUnhold As String, ByVal strMCC_Code As String) As Boolean
+    Public Shared Function PaymentProcessDrCrPrint(ByVal strDocNo As String, ByVal CycleFromDate As String, ByVal CycleToDate As String, ByVal strLoc As String, ByVal strRoutecode As String, ByVal strBank As String, ByVal strHoldUnhold As String, ByVal strMCC_Code As String) As Boolean
         Try
             Dim sQuery As String = ""
             Dim dtDebit As New DataTable
@@ -2019,7 +2020,8 @@ Comp_Code,Comp_Name,max(MCC_NAME) as MCC_NAME,Regn_No
             dt = clsDBFuncationality.GetDataTable(sQuery)
 
 
-            Dim BaseQty As String = clsPaymentProcessHead.Load_Report_Paymnet_RCDF_BaseQuery1(strDocNo, CycleFromDate, CycleToDate, strLoc, strVSPCode, "", "", "")
+            'Dim BaseQty As String = clsPaymentProcessHead.Load_Report_Paymnet_RCDF_BaseQuery1(strDocNo, CycleFromDate, CycleToDate, strLoc, strVSPCode, "", "", "")
+            Dim BaseQty As String = clsPaymentProcessHead.Load_Report_Paymnet_RCDF_BaseQuery1(strDocNo, CycleFromDate, CycleToDate, strLoc, "", "", "")
             'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
             If True Then
                 Dim qry As String = "select 'SWEET' as Code,'SWEET' as Name union all select Code,Description from TSPL_MILK_REJECT_TYPE"
@@ -2147,7 +2149,8 @@ where  TSPL_PAYMENT_PROCESS_HEAD.From_Date>=convert(date,('" + CycleFromDate + "
     End Function
 
 
-    Public Shared Function Load_Report_Paymnet_RCDF_BaseQuery1(ByVal strDocNo As String, ByVal CycleFromDate As String, ByVal CycleToDate As String, ByVal strLoc As String, ByVal strVSPCode As String, ByVal strRoutecode As String, ByVal strBank As String, ByVal strHoldUnhold As String) As String
+    'Public Shared Function Load_Report_Paymnet_RCDF_BaseQuery1(ByVal strDocNo As String, ByVal CycleFromDate As String, ByVal CycleToDate As String, ByVal strLoc As String, ByVal strVSPCode As String, ByVal strRoutecode As String, ByVal strBank As String, ByVal strHoldUnhold As String) As String
+    Public Shared Function Load_Report_Paymnet_RCDF_BaseQuery1(ByVal strDocNo As String, ByVal CycleFromDate As String, ByVal CycleToDate As String, ByVal strLoc As String, ByVal strRoutecode As String, ByVal strBank As String, ByVal strHoldUnhold As String) As String
         Dim companyADD, CompName, CompCode As String
         Dim AreaWiseBilling As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
 
@@ -2179,9 +2182,9 @@ where  TSPL_PAYMENT_PROCESS_HEAD.From_Date>=convert(date,('" + CycleFromDate + "
         Dim whrclsItemWise As String = " where 2=2 "
 
         whrcls += "  and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)>=convert(date,('" + fromDate + "'),103) and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) <=convert(date,('" + Todate + "'),103) "
-        If clsCommon.myLen(strVSPCode) > 0 Then
-            whrcls += "  and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE  in ( " + strVSPCode + ")"
-        End If
+        'If clsCommon.myLen(strVSPCode) > 0 Then
+        '    whrcls += "  and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE  in ( " + strVSPCode + ")"
+        'End If
         If clsCommon.myLen(strRoutecode) > 0 Then
             whrcls += "  and TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE  in ( " + strRoutecode + ")"
         End If
@@ -2364,7 +2367,7 @@ where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ") )x group by VSP_
         'If clsCommon.myLen(strVSPCode) > 0 Then
         '    whrcls += "  and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE  in ( " + strVSPCode + ")"
         'End If
-        whrcls += " and TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in ('" + strDocNo + "')"
+        whrcls += " and TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in (" + strDocNo + ")"
         If clsCommon.myLen(strRoutecode) > 0 Then
             whrcls += "  and TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE  in ( " + strRoutecode + ")"
         End If
