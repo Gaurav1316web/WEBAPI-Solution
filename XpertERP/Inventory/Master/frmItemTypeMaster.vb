@@ -161,6 +161,7 @@ Public Class FrmItemTypeMaster
     Private Sub LoadData(ByVal Code As String, ByVal NavType As NavigatorType)
         isNewEntry = False
         Try
+            LoadBlankGridSchedule()
             Dim obj As clsItemType = clsItemType.GetNavQry(Code, NavType)
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.ITEM_TYPE_CODE) > 0 Then
                 fndItemType.Value = obj.ITEM_TYPE_CODE
@@ -187,8 +188,7 @@ Public Class FrmItemTypeMaster
                         gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(ColScheduleLateDays).Tag = objtr.Arr
                         gvSchedule.Rows.AddNew()
                     Next
-                Else
-                    gvSchedule.Rows.AddNew()
+
                 End If
                 btnsave.Enabled = True
                 btnDelete.Enabled = True
@@ -223,7 +223,6 @@ Public Class FrmItemTypeMaster
     End Sub
 
     Public Sub funReset()
-        gvSchedule.Rows.AddNew()
         isNewEntry = True
         btnsave.Text = "Save"
         fndItemType.Value = Nothing
