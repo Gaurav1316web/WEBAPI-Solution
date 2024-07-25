@@ -196,7 +196,7 @@ Public Class clsQCSeparation
     End Function
     Public Shared Function saveData(ByVal obj As clsQCSeparation, ByVal trans As SqlTransaction, Optional ByVal isHistory As Boolean = False) As Boolean
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Milk Procurement Bulk", "Quality Check", obj.location_Code, obj.QC_In_Date_Time, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmQualityCheck, obj.location_Code, obj.QC_In_Date_Time, trans)
             Dim DateTime As String = clsFixedParameter.GetData(clsFixedParameterType.AllowToSaveTimeWithDocumentDate, clsFixedParameterCode.AllowToSaveTimeWithDocumentDate, trans)
             '============Added by preeti Gupta==============
             Dim Status As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select isPosted from TSPL_QC_Separation Where QC_No='" + obj.QC_No + "'", trans))

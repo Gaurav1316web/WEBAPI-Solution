@@ -8,6 +8,8 @@ Public Class clsLockTransactionLocationwise
     Public Is_Locked As Integer = 0
     Public Start_Date As Date?
     Public End_Date As Date?
+    Public ModuleCode As String = Nothing
+    Public TransCode As String = Nothing
 #End Region
     Public Shared Function SaveData(ByVal strLocation As String, ByVal strTransName As String, ByVal arr As List(Of clsLockTransactionLocationwise), ByVal Trans As SqlTransaction) As Boolean
         Try
@@ -16,6 +18,9 @@ Public Class clsLockTransactionLocationwise
             For Each obj As clsLockTransactionLocationwise In arr
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Location_Code", obj.Location_Code)
+                clsCommon.AddColumnsForChange(coll, "ModuleCode", obj.ModuleCode)
+                clsCommon.AddColumnsForChange(coll, "TransCode", obj.TransCode)
+
                 clsCommon.AddColumnsForChange(coll, "Module_Name", obj.Module_Name)
                 clsCommon.AddColumnsForChange(coll, "Trans_Name", obj.Trans_Name)
                 clsCommon.AddColumnsForChange(coll, "Is_Locked", obj.Is_Locked)
@@ -44,6 +49,9 @@ Public Class clsLockTransactionLocationSegmentwise
     Public Is_Locked As String = Nothing
     Public Start_Date As Date?
     Public End_Date As Date?
+    Public Program_Code As String = Nothing
+    Public ModuleCode As String = Nothing
+    Public TransCode As String = Nothing
 
     Public Shared Function SaveData(ByVal strLocation As String, ByVal strTransName As String, ByVal arr As List(Of clsLockTransactionLocationSegmentwise), ByVal Trans As SqlTransaction) As Boolean
         Try
@@ -53,6 +61,8 @@ Public Class clsLockTransactionLocationSegmentwise
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Location_Segment_Code", obj.Location_Segment_Code)
                 clsCommon.AddColumnsForChange(coll, "Module_Name", obj.Module_Name)
+                clsCommon.AddColumnsForChange(coll, "ModuleCode", obj.ModuleCode)
+                clsCommon.AddColumnsForChange(coll, "TransCode", obj.TransCode)
                 clsCommon.AddColumnsForChange(coll, "Trans_Name", obj.Trans_Name)
                 clsCommon.AddColumnsForChange(coll, "Is_Locked", obj.Is_Locked)
                 clsCommon.AddColumnsForChange(coll, "Start_Date", clsCommon.GetPrintDate(obj.Start_Date, "dd/MMM/yyyy"))
@@ -80,6 +90,8 @@ Public Class clsLockTransactionLocationUserwise
     Public User_Name As String = Nothing
     Public ToDate As Date?
     Public Status As String = Nothing
+    Public ModuleCode As String = Nothing
+    Public TransCode As String = Nothing
 #End Region
     Public Shared Function SaveData(ByVal strLocation As String, ByVal strTransName As String, ByVal arr As List(Of clsLockTransactionLocationUserwise), ByVal Trans As SqlTransaction) As Boolean
         Try
@@ -88,6 +100,8 @@ Public Class clsLockTransactionLocationUserwise
             For Each obj As clsLockTransactionLocationUserwise In arr
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Location_Code", obj.Location_Code)
+                clsCommon.AddColumnsForChange(coll, "ModuleCode", obj.ModuleCode)
+                clsCommon.AddColumnsForChange(coll, "TransCode", obj.TransCode)
                 clsCommon.AddColumnsForChange(coll, "Module_Name", obj.Module_Name)
                 clsCommon.AddColumnsForChange(coll, "Trans_Name", obj.Trans_Name)
                 clsCommon.AddColumnsForChange(coll, "User_Code", obj.User_Code)
@@ -149,6 +163,10 @@ Public Class clsLockTransactionLocationSegmentUserwise
     Public User_Name As String = Nothing
     Public ToDate As Date?
     Public Status As String = Nothing
+    Public ModuleCode As String = Nothing
+    Public TransactionName As String = Nothing
+    Public TransCode As String = Nothing
+
 #End Region
     Public Shared Function SaveData(ByVal strLocation As String, ByVal strTransName As String, ByVal arr As List(Of clsLockTransactionLocationSegmentUserwise), ByVal Trans As SqlTransaction) As Boolean
         Try
@@ -157,6 +175,9 @@ Public Class clsLockTransactionLocationSegmentUserwise
             For Each obj As clsLockTransactionLocationSegmentUserwise In arr
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Location_Segment_Code", obj.Location_Segment_Code)
+                clsCommon.AddColumnsForChange(coll, "ModuleCode", obj.ModuleCode)
+                clsCommon.AddColumnsForChange(coll, "TransCode", obj.TransCode)
+
                 clsCommon.AddColumnsForChange(coll, "Module_Name", obj.Module_Name)
                 clsCommon.AddColumnsForChange(coll, "Trans_Name", obj.Trans_Name)
                 clsCommon.AddColumnsForChange(coll, "User_Code", obj.User_Code)

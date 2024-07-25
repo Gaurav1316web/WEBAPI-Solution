@@ -85,11 +85,8 @@ Public Class clsQualityCheckForSRNHead
 
     Public Shared Function SaveData(ByVal obj As clsQualityCheckForSRNHead, ByVal isNewEntry As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-        Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_QC_CHECK_HEAD.bill_to_location, TSPL_QC_CHECK_HEAD.Document_Code from TSPL_QC_CHECK_HEAD where Document_Code= '" + obj.Document_Code + "' ", trans)
-        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Order", clsCommon.myCstr(dts.Rows(0)("Bill_To_location")), obj.Document_Date, trans)
         Try
             SaveData(obj, isNewEntry, trans)
-
             trans.Commit()
             Return True
         Catch ex As Exception
