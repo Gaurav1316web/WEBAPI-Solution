@@ -191,7 +191,7 @@ Public Class clsRcptEntryHeader
             Dim strAllowtoUnlockTransactionsforSetOff As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowtoUnlockTransactionsforSetOff, clsFixedParameterCode.AllowtoUnlockTransactionsforSetOff, trans))
             If clsCommon.CompairString(strAllowtoUnlockTransactionsforSetOff, "1") = CompairStringResult.Equal AndAlso clsCommon.CompairString(obj.Receipt_Type, "A") = CompairStringResult.Equal Then
             Else
-                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Receivables", "Receipt Entry", LocSegmentCode, obj.Receipt_Date, trans)
+                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleReceivable, clsUserMgtCode.ReceiptEntry, LocSegmentCode, obj.Receipt_Date, trans)
             End If
             Dim qry As String = ""
 
@@ -1376,7 +1376,7 @@ Public Class clsRcptEntryHeader
 
                 '--------------------Checks Whether the Transaction is Locked or not----------------------------
                 Dim LocSegmentCode As String = clsDBFuncationality.getSingleValue("Select RIGHT(BANKACC, 3) from TSPL_BANK_MASTER  Where BANK_CODE='" + obj.Bank_Code + "'", trans)
-                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Receivables", "Receipt Entry", LocSegmentCode, obj.Receipt_Date, trans)
+                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleReceivable, clsUserMgtCode.ReceiptEntry, LocSegmentCode, obj.Receipt_Date, trans)
                 '-----------------------------------------------------------------------------------------------
 
 
@@ -2418,7 +2418,7 @@ Public Class clsRcptEntryHeader
             Dim strAllowtoUnlockTransactionsforSetOff As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowtoUnlockTransactionsforSetOff, clsFixedParameterCode.AllowtoUnlockTransactionsforSetOff, trans))
             If clsCommon.CompairString(strAllowtoUnlockTransactionsforSetOff, "1") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(sqlDr.Rows(0)("Receipt_Type")), "A") = CompairStringResult.Equal Then
             Else
-                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Receivables", "Receipt Entry", LocSegmentCode, clsCommon.myCDate(sqlDr.Rows(0)("Receipt_Date")), trans)
+                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleReceivable, clsUserMgtCode.ReceiptEntry, LocSegmentCode, clsCommon.myCDate(sqlDr.Rows(0)("Receipt_Date")), trans)
             End If
             '-----------------------------------------------------------------------------------------------
             If clsCommon.myCBool(clsCommon.CompairString(strJurEntryDefault, True)) = CompairStringResult.Equal Then

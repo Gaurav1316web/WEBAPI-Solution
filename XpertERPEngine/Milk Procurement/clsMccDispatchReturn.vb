@@ -313,7 +313,7 @@ Public Class clsMccTankerDispatchReturn
                 End If
             End If
             Dim issaved As Boolean = True
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Milk Procurement MCC", "Tanker Dispatch", obj.MCC_Code, obj.Dispatch_Date, tran)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMCCDispatch, obj.MCC_Code, obj.Dispatch_Date, tran)
 
             clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_MCC_Tanker_Dispatch_Return_Detail where Return_NO='" + obj.Return_NO + "'", tran)
 

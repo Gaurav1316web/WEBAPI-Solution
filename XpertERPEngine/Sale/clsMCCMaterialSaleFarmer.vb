@@ -3315,7 +3315,7 @@ Public Class clsCustomerInvoiceHeadFarmer
             Throw New Exception("Please first select Location")
         End If
 
-        clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Receivables", "AR Invoice Entry", obj.loc_code, obj.Document_Date, trans)
+        clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleReceivable, clsUserMgtCode.mbtnARInvoiceEntry, obj.loc_code, obj.Document_Date, trans)
 
         Dim qry As String = "delete from TSPL_Customer_Invoice_Detail_Farmer where Document_No='" + obj.Document_No + "'"
         isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -3802,7 +3802,7 @@ Public Class clsCustomerInvoiceHeadFarmer
             Throw New Exception("No Data found to Post")
         End If
 
-        clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Receivables", "AR Invoice Entry", obj.loc_code, obj.Document_Date, trans)
+        clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleReceivable, clsUserMgtCode.mbtnARInvoiceEntry, obj.loc_code, obj.Document_Date, trans)
 
         If (obj.Status = ERPTransactionStatus.Approved) Then
             Throw New Exception("Already Post on :" + obj.Posting_Date)
@@ -3875,7 +3875,7 @@ Public Class clsCustomerInvoiceHeadFarmer
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
             Try
-                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Receivables", "AR Invoice Entry", obj.loc_code, obj.Document_Date, trans)
+                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleReceivable, clsUserMgtCode.mbtnARInvoiceEntry, obj.loc_code, obj.Document_Date, trans)
 
                 If obj.Status = ERPTransactionStatus.Approved Then
                     Throw New Exception("Already Post on :" + obj.Posting_Date)

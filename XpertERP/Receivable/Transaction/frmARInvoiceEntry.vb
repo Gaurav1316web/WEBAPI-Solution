@@ -2132,8 +2132,11 @@ Public Class FrmARInvoiceEntry
                 End If
 
             End If
+
             UcCustomFields1.AllowToSave()
             UcAttachment1.AllowToSave()
+            clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleReceivable, clsUserMgtCode.mbtnARInvoiceEntry, txtlocation.Value, txtDate.Value, Nothing)
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False

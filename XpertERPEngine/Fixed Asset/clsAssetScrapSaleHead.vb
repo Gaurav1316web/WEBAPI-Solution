@@ -118,7 +118,7 @@ Public Class clsAssetScrapSaleHead
 
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Fixed Asset", "Disposal Entry", obj.Loc_Code, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleFixedAsset, clsUserMgtCode.FADisposalEntry, obj.Loc_Code, obj.Document_Date, trans)
             If Not isNewEntry Then
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_ASSET_SCRAP_HEAD", "Document_No", "TSPL_ASSET_SCRAP_DETAIL", "Document_No", trans)
             End If

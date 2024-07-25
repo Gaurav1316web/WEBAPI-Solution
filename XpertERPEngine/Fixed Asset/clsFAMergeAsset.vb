@@ -97,7 +97,7 @@ Public Class clsFAMergeHead
 
     Public Function SaveData(ByVal obj As clsFAMergeHead, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = True
-        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Fixed Asset", "Asset Merging Entry", obj.Loc_Code, obj.Acquisition_Date, trans)
+        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleFixedAsset, clsUserMgtCode.FAMergeAcquisitionEntry, obj.Loc_Code, obj.Acquisition_Date, trans)
         Try
             If Not isNewEntry Then
                 Dim Status As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Status from TSPL_ACQUISITION_HEAD Where Acquisition_Code='" + obj.Acquisition_Code + "'", trans))

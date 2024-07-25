@@ -57,7 +57,7 @@ Public Class clsMilkSRNMCC
                 Throw New Exception("Transporter not defined for VLC Code [" + obj.VLC_DOC_CODE + "]")
             End If
 
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Milk Procurement MCC", "Milk SRN", obj.MCC_CODE, obj.DOC_DATE, Trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMilkSRN, obj.MCC_CODE, obj.DOC_DATE, Trans)
             'Dim qry As String = "Delete FROM TSPL_MILK_SRN_Detail where DOC_CODE in ('" + obj.DOC_CODE + "') "
             'clsDBFuncationality.ExecuteNonQuery(qry, Trans)
 

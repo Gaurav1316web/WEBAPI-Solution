@@ -1945,7 +1945,7 @@ Public Class frmJournalEntry
                             LocSegName = LocSeg.Trim.Substring(clsCommon.myLen(LocSeg) - 3)
                         End If
 
-                        clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "General Ledger", "Journal Entry", LocSeg.Trim.Substring(clsCommon.myLen(LocSeg) - 3), dtVoucher.Value, Nothing)
+                        clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleGL, clsUserMgtCode.journalEntry, LocSeg.Trim.Substring(clsCommon.myLen(LocSeg) - 3), dtVoucher.Value, Nothing)
 
                     End If
                 Next
