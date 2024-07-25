@@ -2822,7 +2822,9 @@ WHEN TSPL_VENDOR_INVOICE_HEAD.RefDocType='DCS-LYT' THEN 'Loyalty'
 WHEN TSPL_VENDOR_INVOICE_HEAD.RefDocType='OWD-CRE' THEN 'Own BMC Expanse'
 WHEN TSPL_VENDOR_INVOICE_HEAD.RefDocType='OWD-CRD' THEN 'FAT SNF SHORTAGE'
 when TSPL_DCS_ADDITION_DEDUCTION.Description is null then TSPL_VENDOR_INVOICE_HEAD.RefDocType
-else TSPL_DCS_ADDITION_DEDUCTION.Description  end as Item_Desc ,TSPL_DCS_ADDITION_DEDUCTION.Description_Hindi as Addition_Hindi, 0 as FAT_Amount,0 as SNF_Amount , TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount as Amount ,Convert (varchar,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) as  AP_Invoice_Date,  0 as Is_Default_Pashu_Vikas_Kos, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code
+else TSPL_DCS_ADDITION_DEDUCTION.Description  end as Item_Desc ,TSPL_DCS_ADDITION_DEDUCTION.Description_Hindi as Addition_Hindis,
+COALESCE(TSPL_DCS_ADDITION_DEDUCTION.Description_Hindi, TSPL_DEDUCTION_MASTER.Description_Hindi) AS Addition_Hindi,
+0 as FAT_Amount,0 as SNF_Amount , TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount as Amount ,Convert (varchar,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) as  AP_Invoice_Date,  0 as Is_Default_Pashu_Vikas_Kos, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code
 ,TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,case when TSPL_MULTIPLE_DEDUCTION_head.Document_No is not null then 1 else 0 end as ManAddDed
 from TSPL_PAYMENT_PROCESS_CREDIT_NOTE   
 left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.document_no=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No
@@ -2830,6 +2832,7 @@ left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.documen
 left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction
 left outer join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo = TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No
 left outer join TSPL_MULTIPLE_DEDUCTION_head on TSPL_MULTIPLE_DEDUCTION_head.Document_No = TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No 
+left outer join TSPL_DEDUCTION_MASTER ON TSPL_DEDUCTION_MASTER.Code = TSPL_MULTIPLE_DEDUCTION_DETAIL.DeductionCode
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE
 where  TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No in ( " + strDocNo + " ) 
 ) Final group by Final.VSP_Uploader_Code, Final.VSP_Code , Final.Item_Desc,final.Addition_Hindi "
