@@ -4396,7 +4396,8 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
 
     Public Shared Function GetAttachQry(ByVal StrCode As String) As String
 
-        Dim strQuery As String = "select * from (select TSPL_TRANSFER_ORDER_DETAIL.line_no,TSPL_TRANSFER_ORDER_HEAD.Price_Code, CASE WHEN TSPL_ITEM_MASTER.IsTaxable = 1 THEN 'T' ELSE 'NT' end as Taxable, tspl_item_master.hsn_code,tspl_location_master.GSTNo,TSPL_LOCATION_MASTER_1.GSTNo as To_Location_GSTNo,TSPL_TRANSFER_ORDER_HEAD.Remarks ,tspl_location_master.HOAdd1 ,TSPL_LOCATION_MASTER .HOAdd2,TSPL_TRANSFER_ORDER_HEAD.GR_No,TSPL_TRANSFER_ORDER_HEAD.document_type ,convert(varchar,TSPL_TRANSFER_ORDER_HEAD.GR_Date,103) as GR_Date,TSPL_TRANSFER_ORDER_HEAD.Transport_Id ,ISNULL(TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual,'') AS Transporter_Name_Manual,TSPL_TRANSFER_ORDER_HEAD.WayBill_No ,convert(varchar,TSPL_TRANSFER_ORDER_HEAD.WayBill_Date,103) as WayBill_Date,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Mannual_No,tspl_location_master_For_Location.City_Code as Location_City_Name, coalesce(cast(convert(decimal(18,0),(TSPL_TRANSFER_ORDER_DETAIL.Out_Qty * tspl_item_uom_detail.conversion_factor)/alt_convrsn.conversion_factor) as varchar)+' '+TSPL_TRANSFER_ORDER_DETAIL.Alt_Unit_Code,'') as Alt_Unit_Code,TSPL_TRANSPORT_MASTER.Transporter_Name,(case when TSPL_TRANSFER_ORDER_HEAD.Is_AgainstFormF=1 then 'Against F-Form Due' else '' end) as Is_AgainstFormF,TSPL_TRANSFER_ORDER_HEAD.Document_No  as[STN_NO] , tspl_transfer_order_head.Document_Date as [Date_N_Time_issue],"
+        Dim strQuery As String
+        strQuery = "(select TSPL_TRANSFER_ORDER_DETAIL.line_no,TSPL_TRANSFER_ORDER_HEAD.Price_Code, CASE WHEN TSPL_ITEM_MASTER.IsTaxable = 1 THEN 'T' ELSE 'NT' end as Taxable, tspl_item_master.hsn_code,tspl_location_master.GSTNo,TSPL_LOCATION_MASTER_1.GSTNo as To_Location_GSTNo,TSPL_TRANSFER_ORDER_HEAD.Remarks ,tspl_location_master.HOAdd1 ,TSPL_LOCATION_MASTER .HOAdd2,TSPL_TRANSFER_ORDER_HEAD.GR_No,TSPL_TRANSFER_ORDER_HEAD.document_type ,convert(varchar,TSPL_TRANSFER_ORDER_HEAD.GR_Date,103) as GR_Date,TSPL_TRANSFER_ORDER_HEAD.Transport_Id ,ISNULL(TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual,'') AS Transporter_Name_Manual,TSPL_TRANSFER_ORDER_HEAD.WayBill_No ,convert(varchar,TSPL_TRANSFER_ORDER_HEAD.WayBill_Date,103) as WayBill_Date,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Mannual_No,tspl_location_master_For_Location.City_Code as Location_City_Name, coalesce(cast(convert(decimal(18,0),(TSPL_TRANSFER_ORDER_DETAIL.Out_Qty * tspl_item_uom_detail.conversion_factor)/alt_convrsn.conversion_factor) as varchar)+' '+TSPL_TRANSFER_ORDER_DETAIL.Alt_Unit_Code,'') as Alt_Unit_Code,TSPL_TRANSPORT_MASTER.Transporter_Name,(case when TSPL_TRANSFER_ORDER_HEAD.Is_AgainstFormF=1 then 'Against F-Form Due' else '' end) as Is_AgainstFormF,TSPL_TRANSFER_ORDER_HEAD.Document_No  as[STN_NO] , tspl_transfer_order_head.Document_Date as [Date_N_Time_issue],"
         strQuery += "  TSPL_TRANSFER_ORDER_HEAD.Discount_Amt  as Discount , TSPL_TRANSFER_ORDER_DETAIL .Document_No as ref_doc_no ,"
         strQuery += " TSPL_TRANSFER_ORDER_HEAD.From_Location, TSPL_TRANSFER_ORDER_HEAD.To_Location ,TSPL_LOCATION_MASTER_1.Location_Desc as To_LocationName ,TSPL_TRANSFER_ORDER_HEAD.Vehicle_No,TSPL_TRANSFER_ORDER_DETAIL.item_code,TSPL_TRANSFER_ORDER_DETAIL.mrp,TSPL_TRANSFER_ORDER_DETAIL.Item_Desc ,"
         strQuery += " TSPL_TRANSFER_ORDER_DETAIL.Item_Cost AS Item_Cost,  TSPL_TRANSFER_ORDER_DETAIL.Out_Qty as Quantity ,TSPL_TRANSFER_ORDER_DETAIL.Unit_code as UOM1,"
@@ -4437,13 +4438,15 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
         strQuery += " where 2=2   "
 
 
-        strQuery += "  and  TSPL_TRANSFER_ORDER_HEAD. Document_No = '" + StrCode + "' )xx cross apply ("
-        strQuery += " select top 1 TSPL_ITEM_PRICE_PLAN_DETAIL.Item_MRP,TSPL_ITEM_PRICE_PLAN_DETAIL.Item_Basic_Price from TSPL_ITEM_PRICE_PLAN_DETAIL
+        strQuery += "  and  TSPL_TRANSFER_ORDER_HEAD. Document_No = '" + StrCode + "' )"
+
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+            strQuery = "select * from " & strQuery & " xx cross apply ( select top 1 TSPL_ITEM_PRICE_PLAN_DETAIL.Item_MRP,TSPL_ITEM_PRICE_PLAN_DETAIL.Item_Basic_Price from TSPL_ITEM_PRICE_PLAN_DETAIL
                   left outer join TSPL_ITEM_PRICE_PLAN_HEADER on TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Code = TSPL_ITEM_PRICE_PLAN_DETAIL.Plan_Code 
                   where xx.Price_Code = TSPL_ITEM_PRICE_PLAN_DETAIL.Price_Code and xx.Item_Code = TSPL_ITEM_PRICE_PLAN_DETAIL.Item_Code
                   order by TSPL_ITEM_PRICE_PLAN_HEADER.Plan_Date desc)
-                  as price"
-        strQuery += " order by xx .line_no"
+                  as price order by xx .line_no  "
+        End If
 
         Return strQuery
     End Function

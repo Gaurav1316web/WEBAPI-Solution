@@ -22,20 +22,24 @@ Partial Class frmItemMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim GridViewTextBoxColumn6 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewComboBoxColumn3 As Telerik.WinControls.UI.GridViewComboBoxColumn = New Telerik.WinControls.UI.GridViewComboBoxColumn()
-        Dim GridViewTextBoxColumn7 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewMultiComboBoxColumn2 As Telerik.WinControls.UI.GridViewMultiComboBoxColumn = New Telerik.WinControls.UI.GridViewMultiComboBoxColumn()
-        Dim GridViewTextBoxColumn8 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn9 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewComboBoxColumn4 As Telerik.WinControls.UI.GridViewComboBoxColumn = New Telerik.WinControls.UI.GridViewComboBoxColumn()
-        Dim GridViewTextBoxColumn10 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim GridViewTextBoxColumn1 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewComboBoxColumn1 As Telerik.WinControls.UI.GridViewComboBoxColumn = New Telerik.WinControls.UI.GridViewComboBoxColumn()
+        Dim GridViewTextBoxColumn2 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim GridViewMultiComboBoxColumn1 As Telerik.WinControls.UI.GridViewMultiComboBoxColumn = New Telerik.WinControls.UI.GridViewMultiComboBoxColumn()
+        Dim GridViewTextBoxColumn3 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn4 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewComboBoxColumn2 As Telerik.WinControls.UI.GridViewComboBoxColumn = New Telerik.WinControls.UI.GridViewComboBoxColumn()
+        Dim GridViewTextBoxColumn5 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.mnimport = New Telerik.WinControls.UI.RadMenuItem()
@@ -205,99 +209,72 @@ Partial Class frmItemMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(697, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnimport, Me.mnexport, Me.mnclose})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
         '
         'mnimport
         '
-        Me.mnimport.AccessibleDescription = "Import"
-        Me.mnimport.AccessibleName = "Import"
         Me.mnimport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiImportItemDetails, Me.rmiImportItemUOMDetails})
         Me.mnimport.Name = "mnimport"
         Me.mnimport.Text = "Import"
         '
         'rmiImportItemDetails
         '
-        Me.rmiImportItemDetails.AccessibleDescription = "Import Item Details"
-        Me.rmiImportItemDetails.AccessibleName = "Import Item Details"
         Me.rmiImportItemDetails.Name = "rmiImportItemDetails"
         Me.rmiImportItemDetails.Text = "Import Item Details"
         '
         'rmiImportItemUOMDetails
         '
-        Me.rmiImportItemUOMDetails.AccessibleDescription = "Import UOM Details"
-        Me.rmiImportItemUOMDetails.AccessibleName = "Import UOM Details"
         Me.rmiImportItemUOMDetails.Name = "rmiImportItemUOMDetails"
         Me.rmiImportItemUOMDetails.Text = "Import UOM Details"
         '
         'mnexport
         '
-        Me.mnexport.AccessibleDescription = "Export"
-        Me.mnexport.AccessibleName = "Export"
         Me.mnexport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RMIExportBlank, Me.RMIexportRaw, Me.RmiExportFinished, Me.RMIExportAll, Me.RMIOthers, Me.rmiExportItemdetails, Me.rmiExportNewUomDetails})
         Me.mnexport.Name = "mnexport"
         Me.mnexport.Text = "Export"
         '
         'RMIExportBlank
         '
-        Me.RMIExportBlank.AccessibleDescription = "Export Blank Sheet"
-        Me.RMIExportBlank.AccessibleName = "Export Blank Sheet"
         Me.RMIExportBlank.Name = "RMIExportBlank"
         Me.RMIExportBlank.Text = "Export Blank Sheet"
         '
         'RMIexportRaw
         '
-        Me.RMIexportRaw.AccessibleDescription = "Export Raw Material"
-        Me.RMIexportRaw.AccessibleName = "Export Raw Material"
         Me.RMIexportRaw.Name = "RMIexportRaw"
         Me.RMIexportRaw.Text = "Export Raw Material"
         '
         'RmiExportFinished
         '
-        Me.RmiExportFinished.AccessibleDescription = "Export Finished Goods"
-        Me.RmiExportFinished.AccessibleName = "Export Finished Goods"
         Me.RmiExportFinished.Name = "RmiExportFinished"
         Me.RmiExportFinished.Text = "Export Finished Goods"
         '
         'RMIExportAll
         '
-        Me.RMIExportAll.AccessibleDescription = "Export All"
-        Me.RMIExportAll.AccessibleName = "Export All"
         Me.RMIExportAll.Name = "RMIExportAll"
         Me.RMIExportAll.Text = "Export All"
         '
         'RMIOthers
         '
-        Me.RMIOthers.AccessibleDescription = "Export Others Item"
-        Me.RMIOthers.AccessibleName = "Export Others Item"
         Me.RMIOthers.Name = "RMIOthers"
         Me.RMIOthers.Text = "Export Others Item"
         '
         'rmiExportItemdetails
         '
-        Me.rmiExportItemdetails.AccessibleDescription = "New Item Details"
-        Me.rmiExportItemdetails.AccessibleName = "New Item Details"
         Me.rmiExportItemdetails.Name = "rmiExportItemdetails"
         Me.rmiExportItemdetails.Text = "New Item Details"
         '
         'rmiExportNewUomDetails
         '
-        Me.rmiExportNewUomDetails.AccessibleDescription = "New UOM Details"
-        Me.rmiExportNewUomDetails.AccessibleName = "New UOM Details"
         Me.rmiExportNewUomDetails.Name = "rmiExportNewUomDetails"
         Me.rmiExportNewUomDetails.Text = "New UOM Details"
         '
         'mnclose
         '
-        Me.mnclose.AccessibleDescription = "Close"
-        Me.mnclose.AccessibleName = "Close"
         Me.mnclose.Name = "mnclose"
         Me.mnclose.Text = "Close"
         '
@@ -387,6 +364,7 @@ Partial Class frmItemMaster
         '
         'drpboxType
         '
+        Me.drpboxType.DropDownAnimationEnabled = True
         Me.drpboxType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.drpboxType.Location = New System.Drawing.Point(546, 10)
         Me.drpboxType.Name = "drpboxType"
@@ -1045,6 +1023,7 @@ Partial Class frmItemMaster
         'ddlitemtype
         '
         Me.ddlitemtype.CalculationExpression = Nothing
+        Me.ddlitemtype.DropDownAnimationEnabled = True
         Me.ddlitemtype.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlitemtype.FieldCode = Nothing
         Me.ddlitemtype.FieldDesc = Nothing
@@ -1055,12 +1034,12 @@ Partial Class frmItemMaster
         Me.ddlitemtype.IsSourceFromTable = False
         Me.ddlitemtype.IsSourceFromValueList = False
         Me.ddlitemtype.IsUnique = False
-        RadListDataItem7.Text = "Finished Goods"
-        RadListDataItem8.Text = "Promotional Item"
-        RadListDataItem9.Text = "Trading Item"
-        Me.ddlitemtype.Items.Add(RadListDataItem7)
-        Me.ddlitemtype.Items.Add(RadListDataItem8)
-        Me.ddlitemtype.Items.Add(RadListDataItem9)
+        RadListDataItem1.Text = "Finished Goods"
+        RadListDataItem2.Text = "Promotional Item"
+        RadListDataItem3.Text = "Trading Item"
+        Me.ddlitemtype.Items.Add(RadListDataItem1)
+        Me.ddlitemtype.Items.Add(RadListDataItem2)
+        Me.ddlitemtype.Items.Add(RadListDataItem3)
         Me.ddlitemtype.Location = New System.Drawing.Point(427, 210)
         Me.ddlitemtype.MendatroryField = False
         Me.ddlitemtype.MyLinkLable1 = Me.lblitemtype
@@ -1104,6 +1083,7 @@ Partial Class frmItemMaster
         'ddlservertype
         '
         Me.ddlservertype.CalculationExpression = Nothing
+        Me.ddlservertype.DropDownAnimationEnabled = True
         Me.ddlservertype.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlservertype.FieldCode = Nothing
         Me.ddlservertype.FieldDesc = Nothing
@@ -1114,12 +1094,12 @@ Partial Class frmItemMaster
         Me.ddlservertype.IsSourceFromTable = False
         Me.ddlservertype.IsSourceFromValueList = False
         Me.ddlservertype.IsUnique = False
-        RadListDataItem1.Text = "Single Serve"
-        RadListDataItem2.Text = "Multiple Serve"
-        RadListDataItem3.Text = "Other"
-        Me.ddlservertype.Items.Add(RadListDataItem1)
-        Me.ddlservertype.Items.Add(RadListDataItem2)
-        Me.ddlservertype.Items.Add(RadListDataItem3)
+        RadListDataItem4.Text = "Single Serve"
+        RadListDataItem5.Text = "Multiple Serve"
+        RadListDataItem6.Text = "Other"
+        Me.ddlservertype.Items.Add(RadListDataItem4)
+        Me.ddlservertype.Items.Add(RadListDataItem5)
+        Me.ddlservertype.Items.Add(RadListDataItem6)
         Me.ddlservertype.Location = New System.Drawing.Point(147, 284)
         Me.ddlservertype.MendatroryField = False
         Me.ddlservertype.MyLinkLable1 = Me.RadLabel28
@@ -1175,32 +1155,34 @@ Partial Class frmItemMaster
         Me.dgvclass1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.dgvclass1.Location = New System.Drawing.Point(26, 49)
         '
-        'dgvclass1
+        '
         '
         Me.dgvclass1.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
-        GridViewTextBoxColumn6.HeaderText = "Class "
-        GridViewTextBoxColumn6.Name = "column1"
-        GridViewTextBoxColumn6.ReadOnly = True
-        GridViewTextBoxColumn6.Width = 150
-        GridViewComboBoxColumn3.HeaderText = "Class Code"
-        GridViewComboBoxColumn3.Name = "column2"
-        GridViewComboBoxColumn3.Width = 140
-        GridViewTextBoxColumn7.HeaderText = "Description"
-        GridViewTextBoxColumn7.MaxLength = 45
-        GridViewTextBoxColumn7.Name = "column3"
-        GridViewTextBoxColumn7.ReadOnly = True
-        GridViewTextBoxColumn7.Width = 260
-        Me.dgvclass1.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn6, GridViewComboBoxColumn3, GridViewTextBoxColumn7})
+        GridViewTextBoxColumn1.HeaderText = "Class "
+        GridViewTextBoxColumn1.Name = "column1"
+        GridViewTextBoxColumn1.ReadOnly = True
+        GridViewTextBoxColumn1.Width = 150
+        GridViewComboBoxColumn1.HeaderText = "Class Code"
+        GridViewComboBoxColumn1.Name = "column2"
+        GridViewComboBoxColumn1.Width = 140
+        GridViewTextBoxColumn2.HeaderText = "Description"
+        GridViewTextBoxColumn2.MaxLength = 45
+        GridViewTextBoxColumn2.Name = "column3"
+        GridViewTextBoxColumn2.ReadOnly = True
+        GridViewTextBoxColumn2.Width = 260
+        Me.dgvclass1.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn1, GridViewComboBoxColumn1, GridViewTextBoxColumn2})
         Me.dgvclass1.MasterTemplate.EnableFiltering = True
         Me.dgvclass1.MasterTemplate.EnableGrouping = False
+        Me.dgvclass1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvclass1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.dgvclass1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.dgvclass1.MyStopExport = False
         Me.dgvclass1.Name = "dgvclass1"
         Me.dgvclass1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvclass1.ShowHeaderCellButtons = True
         Me.dgvclass1.Size = New System.Drawing.Size(574, 131)
         Me.dgvclass1.TabIndex = 1
         Me.dgvclass1.TabStop = False
-        Me.dgvclass1.Text = "RadGridView1"
         '
         'RadLabel19
         '
@@ -1394,10 +1376,9 @@ Partial Class frmItemMaster
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage3)
         Me.RadPageView1.Location = New System.Drawing.Point(3, 3)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(691, 586)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -1427,28 +1408,31 @@ Partial Class frmItemMaster
         Me.dgvuomdetail.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.dgvuomdetail.Location = New System.Drawing.Point(14, 13)
         '
-        'dgvuomdetail
+        '
         '
         Me.dgvuomdetail.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
-        GridViewMultiComboBoxColumn2.HeaderText = "UOM Code"
-        GridViewMultiComboBoxColumn2.Name = "column1"
-        GridViewMultiComboBoxColumn2.Width = 100
-        GridViewTextBoxColumn8.HeaderText = "Description"
-        GridViewTextBoxColumn8.Name = "column2"
-        GridViewTextBoxColumn8.ReadOnly = True
-        GridViewTextBoxColumn8.Width = 220
-        GridViewTextBoxColumn9.HeaderText = "Conversion Factor"
-        GridViewTextBoxColumn9.Name = "column3"
-        GridViewTextBoxColumn9.Width = 160
-        GridViewComboBoxColumn4.HeaderText = "Stocking Unit"
-        GridViewComboBoxColumn4.Name = "column4"
-        GridViewComboBoxColumn4.Width = 90
-        GridViewTextBoxColumn10.HeaderText = "Weight"
-        GridViewTextBoxColumn10.Name = "Weight"
-        GridViewTextBoxColumn10.Width = 70
-        Me.dgvuomdetail.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewMultiComboBoxColumn2, GridViewTextBoxColumn8, GridViewTextBoxColumn9, GridViewComboBoxColumn4, GridViewTextBoxColumn10})
+        GridViewMultiComboBoxColumn1.HeaderText = "UOM Code"
+        GridViewMultiComboBoxColumn1.Name = "column1"
+        GridViewMultiComboBoxColumn1.Width = 100
+        GridViewTextBoxColumn3.HeaderText = "Description"
+        GridViewTextBoxColumn3.Name = "column2"
+        GridViewTextBoxColumn3.ReadOnly = True
+        GridViewTextBoxColumn3.Width = 220
+        GridViewTextBoxColumn4.HeaderText = "Conversion Factor"
+        GridViewTextBoxColumn4.Name = "column3"
+        GridViewTextBoxColumn4.Width = 160
+        GridViewComboBoxColumn2.HeaderText = "Stocking Unit"
+        GridViewComboBoxColumn2.Name = "column4"
+        GridViewComboBoxColumn2.Width = 90
+        GridViewTextBoxColumn5.HeaderText = "Weight"
+        GridViewTextBoxColumn5.Name = "Weight"
+        GridViewTextBoxColumn5.Width = 70
+        Me.dgvuomdetail.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewMultiComboBoxColumn1, GridViewTextBoxColumn3, GridViewTextBoxColumn4, GridViewComboBoxColumn2, GridViewTextBoxColumn5})
         Me.dgvuomdetail.MasterTemplate.EnableGrouping = False
+        Me.dgvuomdetail.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvuomdetail.MasterTemplate.ShowHeaderCellButtons = True
+        Me.dgvuomdetail.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.dgvuomdetail.MyStopExport = False
         Me.dgvuomdetail.Name = "dgvuomdetail"
         Me.dgvuomdetail.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvuomdetail.ShowHeaderCellButtons = True
@@ -1482,17 +1466,19 @@ Partial Class frmItemMaster
         Me.gddatabase.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gddatabase.Location = New System.Drawing.Point(10, 20)
         '
-        'gddatabase
+        '
         '
         Me.gddatabase.MasterTemplate.AllowAddNewRow = False
+        Me.gddatabase.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gddatabase.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gddatabase.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gddatabase.MyStopExport = False
         Me.gddatabase.Name = "gddatabase"
         Me.gddatabase.ShowGroupPanel = False
         Me.gddatabase.ShowHeaderCellButtons = True
         Me.gddatabase.Size = New System.Drawing.Size(594, 250)
         Me.gddatabase.TabIndex = 0
         Me.gddatabase.TabStop = False
-        Me.gddatabase.Text = "RadGridView1"
         '
         'gvDB
         '
@@ -1502,13 +1488,15 @@ Partial Class frmItemMaster
         '
         '
         Me.gvDB.MasterTemplate.AllowAddNewRow = False
+        Me.gvDB.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDB.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvDB.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvDB.MyStopExport = False
         Me.gvDB.Name = "gvDB"
         Me.gvDB.ShowGroupPanel = False
         Me.gvDB.ShowHeaderCellButtons = True
         Me.gvDB.Size = New System.Drawing.Size(368, 120)
         Me.gvDB.TabIndex = 0
-        Me.gvDB.Text = "RadGridView1"
         '
         'SplitContainer1
         '
