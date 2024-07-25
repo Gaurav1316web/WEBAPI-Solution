@@ -251,7 +251,7 @@ Partial Class frmTender
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1098, 492)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -321,7 +321,7 @@ Partial Class frmTender
         '
         Me.MyLabel17.FieldName = Nothing
         Me.MyLabel17.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel17.Location = New System.Drawing.Point(5, 74)
+        Me.MyLabel17.Location = New System.Drawing.Point(6, 74)
         Me.MyLabel17.Name = "MyLabel17"
         Me.MyLabel17.Size = New System.Drawing.Size(35, 16)
         Me.MyLabel17.TabIndex = 1523
@@ -439,7 +439,7 @@ Partial Class frmTender
         Me.txtDate.IsSourceFromTable = False
         Me.txtDate.IsSourceFromValueList = False
         Me.txtDate.IsUnique = False
-        Me.txtDate.Location = New System.Drawing.Point(482, 10)
+        Me.txtDate.Location = New System.Drawing.Point(477, 10)
         Me.txtDate.MendatroryField = False
         Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtDate.MyLinkLable1 = Me.MyLabel4
@@ -559,7 +559,7 @@ Partial Class frmTender
         'UsLock1
         '
         Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(572, 10)
+        Me.UsLock1.Location = New System.Drawing.Point(918, 10)
         Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UsLock1.Name = "UsLock1"
         Me.UsLock1.Size = New System.Drawing.Size(96, 19)
@@ -657,7 +657,7 @@ Partial Class frmTender
         Me.lblTenderSeqNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTenderSeqNo.Location = New System.Drawing.Point(789, 10)
         Me.lblTenderSeqNo.Name = "lblTenderSeqNo"
-        Me.lblTenderSeqNo.Size = New System.Drawing.Size(225, 19)
+        Me.lblTenderSeqNo.Size = New System.Drawing.Size(125, 19)
         Me.lblTenderSeqNo.TabIndex = 1442
         Me.lblTenderSeqNo.TextWrap = False
         '

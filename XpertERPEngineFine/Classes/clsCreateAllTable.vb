@@ -9800,6 +9800,9 @@ Public Class clsCreateAllTable
             coll.Add("QC_Separated_Date", "Date NULL ")
             coll.Add("Shift_Code", "varchar(30) null")
             coll.Add("Cleaning_Tester", "varchar(50) null")
+            coll.Add("Manual_Entry", "Integer NULL")
+            coll.Add("Manual_By", "varchar(12)  NULL")
+            coll.Add("Manual_Date", "Datetime NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_QUALITY_CHECK", coll, Nothing, True, False, "", "QC_No", "QC_In_Date_Time")
 
             coll = New Dictionary(Of String, String)()
@@ -9852,6 +9855,7 @@ Public Class clsCreateAllTable
             coll.Add("Shift_Code", "varchar(30) null")
             coll.Add("Cleaning_Tester", "varchar(50) null")
             coll.Add("AcknowEntryDocument_No", " varchar(50)  NULL")
+            coll.Add("Source_API", "int Null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Quality_Check_History", coll, Nothing, False, False)
 
             coll = New Dictionary(Of String, String)
@@ -9863,7 +9867,7 @@ Public Class clsCreateAllTable
             coll.Add("LINE_NO", "INTEGER not null default 0")
             coll.Add("Remarks", "varchar (500) null")
             coll.Add("BoilingDifference", "float not null default 0")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_QC_Parameter_Detail", coll, Nothing, False, False, "TSPL_QUALITY_CHECK", "QC_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_QC_Parameter_Detail", coll, Nothing, True, False, "TSPL_QUALITY_CHECK", "QC_No", "")
 
             coll = New Dictionary(Of String, String)
             coll.Add("QC_No", "varchar(30)  NULL  ")
@@ -10956,7 +10960,7 @@ Public Class clsCreateAllTable
             coll.Add("Area_Location_Code", "VARCHAR(12) NULL references TSPL_LOCATION_MASTER(Location_Code)")
 
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_HEAD", coll, Nothing, True, False, "", "Doc_No", "Doc_Date")
-            qry ="update TSPL_PAYMENT_PROCESS_HEAD set isPrePosted=isPosted where isPosted=1"
+            qry = "update TSPL_PAYMENT_PROCESS_HEAD set isPrePosted=isPosted where isPosted=1"
             clsDBFuncationality.ExecuteNonQuery(qry)
 
 
@@ -14280,7 +14284,7 @@ Public Class clsCreateAllTable
             coll.Add("PAN_NO", "VARCHAR(20) NULL")
             coll.Add("PASPORT_NO", "VARCHAR(20) NULL")
             coll.Add("DESCRIPTION", "VARCHAR(100) NULL")
-
+            coll.Add("COMPANY_BANK", "VARCHAR(12) NULL REFERENCES TSPL_Bank_Master(BANK_CODE)")
             coll.Add("FATHERS_NAME", "Varchar(100)  NULL")
             coll.Add("MOTHERS_NAME", "Varchar(100)  NULL")
             coll.Add("SPOUSE_NAME", "Varchar(100)  NULL")
@@ -49699,6 +49703,22 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("TolerancePer", "decimal(18,2) NOT NULL DEFAULT 0")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_ITEM_TYPE_MASTER", coll)
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Item_Type", "varchar(5) not NULL")
+            coll.Add("Days", "integer NULL")
+            coll.Add("Qty_Per", "integer NULL")
+            coll.Add("Short_Per", "integer NULL")
+            coll.Add("Late_Days", "integer NULL")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_TYPE_SCHEDULE", coll, "")
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Against_Schedule_PK_Id", "integer NOT NULL References TSPL_ITEM_TYPE_SCHEDULE(PK_Id)")
+            coll.Add("Penalty_Days", "integer NULL")
+            coll.Add("Penalty", "Decimal(18,2) NULL")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_TYPE_SCHEDULE_PENALTY", coll, "")
+
             coll = New Dictionary(Of String, String)
             coll.Add("LOCK_CODE", "VARCHAR(30) NOT NULL PRIMARY KEY")
             coll.Add("MCC_Code", "Varchar(30) NOT NULL REFERENCES TSPL_MCC_MASTER(MCC_Code)")
@@ -55725,6 +55745,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Max_Rate", "decimal(18,2) NOT NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_RCDF_RATE_CONTROL_DETAIL_ALL_UOM", coll)
 
+
             clsCommon.ProgressBarPercentHide()
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
@@ -55812,4 +55833,5 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
 
         Return True
     End Function
+
 End Class

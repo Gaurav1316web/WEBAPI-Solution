@@ -49,7 +49,7 @@ Public Class RptBankTransferDetail
 
             Dim Qry As String = ""
             Qry = ""
-            Qry += " select max(TSPL_GENERATE_SALARY.DEVISION_CODE) as DEVISION_CODE ,max(TSPL_DEVISION_MASTER.DEVISION_NAME) as DEVISION_NAME, max('" & CompCode & "') as Comp_Code,max('" & LocAddress & "') as Comp_Name,max('" + CompanyAdress + "') as Comp_Address, max(TSPL_EMPLOYEE_MASTER.Bank_Branch) as IFSC_Code, max(TSPL_GENERATE_SALARY.PAY_PERIOD_CODE) as pay_period ,TSPL_GENERATE_SALARY.LOCATION_CODE Loc_Code,max(TSPL_LOCATION_MASTER.Location_Desc) as Loc_desc,sum( case when TSPL_PAYHEAD_MASTER.isearning=1 then  TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT else -TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT end  )as Net_Payment,max(TSPL_EMPLOYEE_MASTER.EMP_CODE) as EMP_CODE,max(tSPL_EMPLOYEE_MASTER.Emp_Name) as Emp_Name ,max(TSPL_EMPLOYEE_MASTER.BANK_ACC_NO )as Bank_Account,max(TSPL_EMPLOYEE_MASTER.Bank_Branch) as IFSC_Code,max(TSPL_LOCATION_MASTER.Add1+Case When ISNULL(TSPL_LOCATION_MASTER.Add2,'')='' Then '' else ', '+TSPL_LOCATION_MASTER.Add2+  Case When ISNULL(TSPL_LOCATION_MASTER.Add3,'')='' Then '' Else ', '+TSPL_LOCATION_MASTER.Add3+ Case When ISNULL(TSPL_STATE_MASTER.State_Name ,'')='' Then '' else '-'+CONVERT(varchar, TSPL_STATE_MASTER.State_Name) End End End) as Loc_Add ,max(TSPL_EMPLOYEE_MASTER.Bank_Name)as Bank_Name  from TSPL_GENERATE_SALARY_PAYHEADS"
+            Qry += " select max(TSPL_GENERATE_SALARY.DEVISION_CODE) as DEVISION_CODE ,max(TSPL_DEVISION_MASTER.DEVISION_NAME) as DEVISION_NAME, max('" & CompCode & "') as Comp_Code,max('" & LocAddress & "') as Comp_Name,max('" + CompanyAdress + "') as Comp_Address, max(TSPL_EMPLOYEE_MASTER.Bank_Branch) as IFSC_Code, max(TSPL_GENERATE_SALARY.PAY_PERIOD_CODE) as pay_period ,TSPL_GENERATE_SALARY.LOCATION_CODE Loc_Code,max(TSPL_LOCATION_MASTER.Location_Desc) as Loc_desc,sum( case when TSPL_PAYHEAD_MASTER.isearning=1 then  TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT else -TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT end  )as Net_Payment,max(TSPL_EMPLOYEE_MASTER.EMP_CODE) as EMP_CODE,max(tSPL_EMPLOYEE_MASTER.Emp_Name) as Emp_Name ,max(TSPL_EMPLOYEE_MASTER.BANK_ACC_NO )as Bank_Account,max(TSPL_EMPLOYEE_MASTER.Bank_Branch) as IFSC_Code,max(TSPL_LOCATION_MASTER.Add1+Case When ISNULL(TSPL_LOCATION_MASTER.Add2,'')='' Then '' else ', '+TSPL_LOCATION_MASTER.Add2+  Case When ISNULL(TSPL_LOCATION_MASTER.Add3,'')='' Then '' Else ', '+TSPL_LOCATION_MASTER.Add3+ Case When ISNULL(TSPL_STATE_MASTER.State_Name ,'')='' Then '' else '-'+CONVERT(varchar, TSPL_STATE_MASTER.State_Name) End End End) as Loc_Add ,max(TSPL_EMPLOYEE_MASTER.Bank_Name)as Bank_Name,Max(TSPL_EMPLOYEE_MASTER.COMPANY_BANK)COMPANY_BANK  from TSPL_GENERATE_SALARY_PAYHEADS"
             Qry += " left outer join TSPL_GENERATE_SALARY on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE =TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE "
             Qry += " left join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.Pay_HEAD_Code=TSPL_GENERATE_SALARY_PAYHEADS.Pay_HEAD_Code"
             Qry += " left outer join TSPL_PAYPERIOD_MASTER on TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE =TSPL_GENERATE_SALARY.PAY_PERIOD_CODE "
@@ -74,7 +74,7 @@ Public Class RptBankTransferDetail
                 Qry += " and TSPL_EMPLOYEE_MASTER.BAnk_Name  in (" + clsCommon.GetMulcallString(txtBankMult.arrValueMember) + ") "
             End If
 
-            Qry += " group by TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE,TSPL_GENERATE_SALARY.Location_Code "
+            Qry += " group by TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE,TSPL_GENERATE_SALARY.Location_Code"
 
 
             Dim dtFinal As DataTable = clsDBFuncationality.GetDataTable(Qry)
@@ -196,11 +196,15 @@ Public Class RptBankTransferDetail
         gv1.Columns("Bank_Name").Width = 100
         gv1.Columns("Bank_Name").HeaderText = "Bank Name"
 
+        gv1.Columns("COMPANY_BANK").IsVisible = False
+        gv1.Columns("COMPANY_BANK").Width = 100
+        gv1.Columns("COMPANY_BANK").HeaderText = "Compnay Bank "
+
         Dim summaryRowItem As New GridViewSummaryRowItem()
         Dim intCount As Integer = 0
 
-
-        gv1.GroupDescriptors.Add(New GridGroupByExpression("Bank_Name as Item format ""{0}: {1}"" Group By Bank_Name"))
+        gv1.GroupDescriptors.Add(New GridGroupByExpression("COMPANY_BANK as Item format ""{0}: {1}"" Group By COMPANY_BANK"))
+        'gv1.GroupDescriptors.Add(New GridGroupByExpression("Bank_Name as Item format ""{0}: {1}"" Group By Bank_Name"))
         gv1.GroupDescriptors.Add(New GridGroupByExpression("Loc_Code as Item format ""{0}: {1}"" Group By Loc_Code"))
         gv1.GroupDescriptors.Add(New GridGroupByExpression("DEVISION_CODE as Item format ""{0}: {1}"" Group By DEVISION_CODE"))
 
