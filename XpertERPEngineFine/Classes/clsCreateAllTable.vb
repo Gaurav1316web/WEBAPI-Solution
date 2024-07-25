@@ -9800,6 +9800,9 @@ Public Class clsCreateAllTable
             coll.Add("QC_Separated_Date", "Date NULL ")
             coll.Add("Shift_Code", "varchar(30) null")
             coll.Add("Cleaning_Tester", "varchar(50) null")
+            coll.Add("Manual_Entry", "Integer NULL")
+            coll.Add("Manual_By", "varchar(12)  NULL")
+            coll.Add("Manual_Date", "Datetime NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_QUALITY_CHECK", coll, Nothing, True, False, "", "QC_No", "QC_In_Date_Time")
 
             coll = New Dictionary(Of String, String)()
@@ -9852,6 +9855,7 @@ Public Class clsCreateAllTable
             coll.Add("Shift_Code", "varchar(30) null")
             coll.Add("Cleaning_Tester", "varchar(50) null")
             coll.Add("AcknowEntryDocument_No", " varchar(50)  NULL")
+            coll.Add("Source_API", "int Null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Quality_Check_History", coll, Nothing, False, False)
 
             coll = New Dictionary(Of String, String)
@@ -9863,7 +9867,7 @@ Public Class clsCreateAllTable
             coll.Add("LINE_NO", "INTEGER not null default 0")
             coll.Add("Remarks", "varchar (500) null")
             coll.Add("BoilingDifference", "float not null default 0")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_QC_Parameter_Detail", coll, Nothing, False, False, "TSPL_QUALITY_CHECK", "QC_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_QC_Parameter_Detail", coll, Nothing, True, False, "TSPL_QUALITY_CHECK", "QC_No", "")
 
             coll = New Dictionary(Of String, String)
             coll.Add("QC_No", "varchar(30)  NULL  ")
@@ -55742,6 +55746,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Max_Rate", "decimal(18,2) NOT NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_RCDF_RATE_CONTROL_DETAIL_ALL_UOM", coll)
 
+
             clsCommon.ProgressBarPercentHide()
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
@@ -55825,35 +55830,9 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
         clsCommonFunctionality.CreateOrAlterTable("TSPL_INV_MOVE_DL", coll, " unique (TRANS_DATE,LOCATION_CODE,ITEM_CODE,STOCK_UOM)")
 
         '**************************************************************************************
-        ExecuteQueryWithourException("alter table TSPL_PURCHASE_ORDER_detail alter column Item_Cost decimal(18,10)")
-        ExecuteQueryWithourException("alter table TSPL_PURCHASE_ORDER_DETAIL_HIST_DATA alter column Item_Cost decimal(18,10)")
-        ExecuteQueryWithourException("alter table TSPL_PURCHASE_ORDER_DETAIL_Cancel_Data alter column Item_Cost decimal(18,10)")
-        ExecuteQueryWithourException("alter table TSPL_GRN_DETAIL alter column Item_Cost decimal(18,10)")
-        ExecuteQueryWithourException("alter table TSPL_GRN_DETAIL_HIST_DATA alter column Item_Cost decimal(18,10)")
-        ExecuteQueryWithourException("alter table TSPL_GRN_DETAIL_Cancel_Data alter column Item_Cost decimal(18,10)")
-        ExecuteQueryWithourException("alter table TSPL_MRN_DETAIL alter column Item_Cost decimal(18,10)")
-        ExecuteQueryWithourException("alter table TSPL_MRN_DETAIL_HIST_DATA alter column Item_Cost decimal(18,10)")
-        ExecuteQueryWithourException("alter table TSPL_MRN_DETAIL_Cancel_Data alter column Item_Cost decimal(18,10)")
-        ExecuteQueryWithourException("DROP INDEX [For_NC_PI_Index1] ON [dbo].[TSPL_SRN_DETAIL]")
-        ExecuteQueryWithourException("DROP INDEX [For_NC_PI_Index3] ON [dbo].[TSPL_SRN_DETAIL]")
-        ExecuteQueryWithourException("alter table TSPL_SRN_DETAIL alter column Item_Cost decimal(18,10) ")
-        ExecuteQueryWithourException("alter table TSPL_SRN_DETAIL_HIST_DATA alter column Item_Cost decimal(18,10)")
-        ExecuteQueryWithourException("alter table TSPL_SRN_DETAIL_history alter column Item_Cost decimal(18,10) ")
-        ExecuteQueryWithourException("alter table TSPL_SRN_DETAIL_Cancel_Data alter column Item_Cost decimal(18,10)")
-        ExecuteQueryWithourException("alter table TSPL_PI_DETAIL alter column Item_Cost decimal(18,10)")
-        ExecuteQueryWithourException("alter table TSPL_PI_DETAIL_HIST_DATA alter column Item_Cost decimal(18,10)")
-        ExecuteQueryWithourException("alter table TSPL_PI_DETAIL_Cancel_Data alter column Item_Cost decimal(18,10)")
-        ExecuteQueryWithourException("alter table TSPL_PR_DETAIL alter column Item_Cost decimal(18,10)")
-        ExecuteQueryWithourException("alter table TSPL_PR_DETAIL_HIST_DATA alter column Item_Cost decimal(18,10)")
-        ExecuteQueryWithourException("alter table TSPL_PR_DETAIL_Cancel_Data alter column Item_Cost decimal(18,10)")
 
 
         Return True
     End Function
-    Shared Sub ExecuteQueryWithourException(ByVal qry As String)
-        Try
-            clsDBFuncationality.ExecuteNonQuery(qry)
-        Catch ex As Exception
-        End Try
-    End Sub
+
 End Class
