@@ -51,12 +51,12 @@ Public Class rptTransactionWiseStock
                                     ,sum(Avg_Cost * (case when RI=1 then 1 else 0 end) * case when Punching_Date>= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'  then 1 else 0 end ) as RecCost
                                     ,sum(Stock_Qty * (case when RI=-1 then 1 else 0 end) * (case when Punching_Date>= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end)) as IssueQty
                                     ,sum(Avg_Cost * (case when RI=-1 then 1 else 0 end) * (case when Punching_Date>= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end)) as IssueCost
-                                    ,sum(Avg_Cost * RI  ) as CLCost,max(Cost_Code)Cost_Code,max(Add1)Add1,max(Add2)Add2,max(Add3)Add3,max(Comp_Name)Comp_Name,max(Item_Desc)Item_Desc
+                                    ,sum(Avg_Cost * RI  ) as CLCost,max(Cost_Code)Cost_Code,max(Add1)Add1,max(Add2)Add2,max(Add3)Add3,max(Comp_Name)Comp_Name,max(Item_Desc)Item_Desc,max(Vendor_Code)Vendor_Code,max(Vendor_Name)Vendor_Name
                                     from ( select TSPL_INVENTORY_MOVEMENT.Trans_Id,TSPL_INVENTORY_MOVEMENT.Trans_Type,TSPL_INVENTORY_MOVEMENT.InOut,
                                      TSPL_INVENTORY_MOVEMENT.Location_Code,TSPL_INVENTORY_MOVEMENT.Item_Code as Item_Code,TSPL_INVENTORY_MOVEMENT.Item_Desc,
                                     TSPL_INVENTORY_MOVEMENT.Source_Doc_No,TSPL_INVENTORY_MOVEMENT.Stock_Qty,TSPL_INVENTORY_MOVEMENT.Avg_Cost,
                                     TSPL_INVENTORY_MOVEMENT.Punching_Date,TSPL_INVENTORY_MOVEMENT.Stock_UOM,case when TSPL_INVENTORY_MOVEMENT.InOut='I' then 1 else -1 end as RI,
-                                     TSPL_IssueReturn_DETAIL.Cost_Code,Add1,Add2,Add3,Comp_Name  from TSPL_INVENTORY_MOVEMENT
+                                     TSPL_IssueReturn_DETAIL.Cost_Code,Add1,Add2,Add3,Comp_Name,TSPL_INVENTORY_MOVEMENT.Vendor_Code,TSPL_INVENTORY_MOVEMENT.Vendor_Name  from TSPL_INVENTORY_MOVEMENT
 					                  left outer join TSPL_IssueReturn_DETAIL on TSPL_IssueReturn_DETAIL.Doc_No = TSPL_INVENTORY_MOVEMENT.Source_Doc_No and TSPL_IssueReturn_DETAIL.Item_Code = TSPL_INVENTORY_MOVEMENT.Item_Code
 					                  left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code = TSPL_INVENTORY_MOVEMENT.Comp_Code
                                     where  Punching_Date<= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
@@ -65,14 +65,14 @@ Public Class rptTransactionWiseStock
                                       group by xx.Location_Code,xx.Punching_Date,xx.Source_Doc_No,xx.Item_Code 
                                       )xxx )
                                       select fromdate,ToDate,Location_Code,Format(Punching_Date,'dd/MMM/yyyy')Punching_Date,Source_Doc_No,Trans_Type,Item_Code,Item_Desc,Stock_UOM,
-                                      Cost_Code,OPQty,OPCost,OPRate,RecQty,RecCost,RecRate,IssueQty,IssueCost,IssueRate,CL,CLCost,
-                                      CASE WHEN CL <> 0 THEN CLCost / CL ELSE 0 END AS CLRate,Add1,Add2,Add3,Comp_Name from (
+                                      Cost_Code,Vendor_Name,OPQty,OPCost,OPRate,RecQty,RecCost,RecRate,IssueQty,IssueCost,IssueRate,CL,CLCost,
+                                      CASE WHEN CL <> 0 THEN CLCost / CL ELSE 0 END AS CLRate,Add1,Add2,Add3,Comp_Name,Vendor_Code from (
                                       select SNO,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate,Location_Code,Punching_Date,Trans_Type,Item_Code,Source_Doc_No,OP as OPQty,OPCost,
 					                  CASE WHEN OP <> 0 THEN OPCost / OP ELSE 0 END AS OPRate,RecQty,RecCost,RecRate,IssueQty, IssueCost,IssueRate,(OP+RecQty-IssueQty) as CL,
-                                      CLCost,Cost_Code,Add1,Add2,Add3,Comp_Name,Item_Desc,Stock_UOM from  (
+                                      CLCost,Cost_Code,Add1,Add2,Add3,Comp_Name,Item_Desc,Stock_UOM,Vendor_Code,Vendor_Name from  (
                                       select  (select (sum(Stock_Qty * (case when InOut='I' then 1 else -1 end ) * case when Punching_Date<=Punching_Date then 1 else 0 end ))  from my_cte as InnCTE 
                                       where InnCTE.Punching_Date<my_cte.Punching_Date) as OP,* from my_cte 
-                                      where Punching_Date>= '" + clsCommon.GetPrintDate((txtFromDate.Value), "dd/MMM/yyyy") + "'  and Punching_Date<= '" + clsCommon.GetPrintDate((txtToDate.Value), "dd/MMM/yyyy") + "') xx)xxx
+                                      where Punching_Date>= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'   and Punching_Date<= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' ) xx)xxx
                                       order by xxx.Punching_Date asc "
 
             If clsCommon.myLen(qry) > 0 Then
@@ -111,6 +111,7 @@ Public Class rptTransactionWiseStock
         Gv1.Columns("Add2").IsVisible = False
         Gv1.Columns("Add3").IsVisible = False
         Gv1.Columns("Comp_Name").IsVisible = False
+        Gv1.Columns("Vendor_Code").IsVisible = False
 
         Gv1.Columns("Location_Code").Width = 100
         Gv1.Columns("Location_Code").IsVisible = True
@@ -151,6 +152,11 @@ Public Class rptTransactionWiseStock
         Gv1.Columns("Cost_Code").IsVisible = True
         Gv1.Columns("Cost_Code").HeaderText = "Cost Code"
         Gv1.Columns("Cost_Code").FormatString = "{0:n2}"
+
+        Gv1.Columns("Vendor_Name").Width = 150
+        Gv1.Columns("Vendor_Name").IsVisible = True
+        Gv1.Columns("Vendor_Name").HeaderText = "Vendor Name"
+        Gv1.Columns("Vendor_Name").FormatString = "{0:n2}"
 
         Gv1.Columns("OPQty").Width = 100
         Gv1.Columns("OPQty").IsVisible = True
@@ -342,12 +348,12 @@ Public Class rptTransactionWiseStock
                                     ,sum(Avg_Cost * (case when RI=1 then 1 else 0 end) * case when Punching_Date>= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'  then 1 else 0 end ) as RecCost
                                     ,sum(Stock_Qty * (case when RI=-1 then 1 else 0 end) * (case when Punching_Date>= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end)) as IssueQty
                                     ,sum(Avg_Cost * (case when RI=-1 then 1 else 0 end) * (case when Punching_Date>= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end)) as IssueCost
-                                    ,sum(Avg_Cost * RI  ) as CLCost,max(Cost_Code)Cost_Code,max(Add1)Add1,max(Add2)Add2,max(Add3)Add3,max(Comp_Name)Comp_Name,max(Item_Desc)Item_Desc
+                                    ,sum(Avg_Cost * RI  ) as CLCost,max(Cost_Code)Cost_Code,max(Add1)Add1,max(Add2)Add2,max(Add3)Add3,max(Comp_Name)Comp_Name,max(Item_Desc)Item_Desc,max(Vendor_Code)Vendor_Code,max(Vendor_Name)Vendor_Name
                                     from ( select TSPL_INVENTORY_MOVEMENT.Trans_Id,TSPL_INVENTORY_MOVEMENT.Trans_Type,TSPL_INVENTORY_MOVEMENT.InOut,
                                      TSPL_INVENTORY_MOVEMENT.Location_Code,TSPL_INVENTORY_MOVEMENT.Item_Code as Item_Code,TSPL_INVENTORY_MOVEMENT.Item_Desc,
                                     TSPL_INVENTORY_MOVEMENT.Source_Doc_No,TSPL_INVENTORY_MOVEMENT.Stock_Qty,TSPL_INVENTORY_MOVEMENT.Avg_Cost,
                                     TSPL_INVENTORY_MOVEMENT.Punching_Date,TSPL_INVENTORY_MOVEMENT.Stock_UOM,case when TSPL_INVENTORY_MOVEMENT.InOut='I' then 1 else -1 end as RI,
-                                     TSPL_IssueReturn_DETAIL.Cost_Code,Add1,Add2,Add3,Comp_Name  from TSPL_INVENTORY_MOVEMENT
+                                     TSPL_IssueReturn_DETAIL.Cost_Code,Add1,Add2,Add3,Comp_Name,TSPL_INVENTORY_MOVEMENT.Vendor_Code,TSPL_INVENTORY_MOVEMENT.Vendor_Name  from TSPL_INVENTORY_MOVEMENT
 					                  left outer join TSPL_IssueReturn_DETAIL on TSPL_IssueReturn_DETAIL.Doc_No = TSPL_INVENTORY_MOVEMENT.Source_Doc_No and TSPL_IssueReturn_DETAIL.Item_Code = TSPL_INVENTORY_MOVEMENT.Item_Code
 					                  left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code = TSPL_INVENTORY_MOVEMENT.Comp_Code
                                     where  Punching_Date<= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
@@ -357,13 +363,13 @@ Public Class rptTransactionWiseStock
                                       )xxx )
                                       select fromdate,ToDate,Location_Code,Format(Punching_Date,'dd/MMM/yyyy')Punching_Date,Source_Doc_No,Trans_Type,Item_Code,Item_Desc,Stock_UOM,
                                       Cost_Code,OPQty,OPCost,OPRate,RecQty,RecCost,RecRate,IssueQty,IssueCost,IssueRate,CL,CLCost,
-                                      CASE WHEN CL <> 0 THEN CLCost / CL ELSE 0 END AS CLRate,Add1,Add2,Add3,Comp_Name from (
+                                      CASE WHEN CL <> 0 THEN CLCost / CL ELSE 0 END AS CLRate,Add1,Add2,Add3,Comp_Name,Vendor_Code,Vendor_Name from (
                                       select SNO,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate,Location_Code,Punching_Date,Trans_Type,Item_Code,Source_Doc_No,OP as OPQty,OPCost,
 					                  CASE WHEN OP <> 0 THEN OPCost / OP ELSE 0 END AS OPRate,RecQty,RecCost,RecRate,IssueQty, IssueCost,IssueRate,(OP+RecQty-IssueQty) as CL,
-                                      CLCost,Cost_Code,Add1,Add2,Add3,Comp_Name,Item_Desc,Stock_UOM from  (
+                                      CLCost,Cost_Code,Add1,Add2,Add3,Comp_Name,Item_Desc,Stock_UOM,Vendor_Code,Vendor_Name from  (
                                       select  (select (sum(Stock_Qty * (case when InOut='I' then 1 else -1 end ) * case when Punching_Date<=Punching_Date then 1 else 0 end ))  from my_cte as InnCTE 
                                       where InnCTE.Punching_Date<my_cte.Punching_Date) as OP,* from my_cte 
-                                      where Punching_Date>= '" + clsCommon.GetPrintDate((txtFromDate.Value), "dd/MMM/yyyy") + "'  and Punching_Date<= '" + clsCommon.GetPrintDate((txtToDate.Value), "dd/MMM/yyyy") + "') xx)xxx
+                                      where Punching_Date>= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'  and Punching_Date<= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "') xx)xxx
                                       order by xxx.Punching_Date asc  "
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)

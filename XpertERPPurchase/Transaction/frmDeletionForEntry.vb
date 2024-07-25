@@ -543,7 +543,20 @@ Public Class frmDeletionForEntry
 
     Private Sub UnpostWet_Click(sender As Object, e As EventArgs) Handles UnpostWet.Click
         Try
+            Dim dt As New DataTable()
             If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+
+                Dim query As String = " select distinct TSPL_TENDER_PENALTY_DETAIL.Document_No,Document_Date from TSPL_TENDER_PENALTY_DETAIL
+                   left outer join TSPL_TENDER_PENALTY on TSPL_TENDER_PENALTY.Document_No=TSPL_TENDER_PENALTY_DETAIL.Document_No
+                   where   TSPL_TENDER_PENALTY.Location_Code='" + txtBillToLocation.Value + "' AND TSPL_TENDER_PENALTY.Item_Code='" + txtItemCode.Text + "' 
+                   AND TSPL_TENDER_PENALTY.Vendor_Code='" + txtVendorNo.Value + "'   AND TSPL_TENDER_PENALTY.Tender_No='" + txtRefNo.Text + "'"
+
+                dt = clsDBFuncationality.GetDataTable(query)
+
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Delete RALPenalty", Me.Text)
+                    Exit Sub
+                End If
                 If clsQualityCheckForSRNHead.ReverseAndUnpost(txtWet.Text) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Tansaction unposted succesffuly", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)

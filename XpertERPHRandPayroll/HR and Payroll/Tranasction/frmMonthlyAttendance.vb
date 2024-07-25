@@ -760,7 +760,7 @@ Public Class frmMonthlyAttendance
                     gvMonthlyAttendance.CurrentRow.Cells(colempCode).Value = obj.EMP_CODE
                     gvMonthlyAttendance.CurrentRow.Cells(colempName).Value = obj.Emp_Name
                     gvMonthlyAttendance.CurrentRow.Cells(colDOJ).Value = clsCommon.GetPrintDate(clsEmployeeMaster.GetDateofJoining(obj.EMP_CODE, Nothing), "dd/MMM/yyyy")
-                    gvMonthlyAttendance.CurrentRow.Cells(colPayPeriodDays).Value = clsCommon.myCdbl(txtPayPeriodDays.Text) - GetNotJoinedDays(lblFromDate.Text, gvMonthlyAttendance.CurrentRow.Cells(colDOJ).Value)
+                    gvMonthlyAttendance.CurrentRow.Cells(colPayPeriodDays).Value = clsCommon.myCdbl(txtPayPeriodDays.Text) - GetNotJoinedDays(clsCommon.myCDate(lblFromDate.Text), clsCommon.myCDate(gvMonthlyAttendance.CurrentRow.Cells(colDOJ).Value))
 
                 End If
             Else
@@ -1480,8 +1480,11 @@ Public Class frmMonthlyAttendance
             'MedL = clsCommon.myCdbl(row.Cells(colMEDL).Value)
             'Other = clsCommon.myCdbl(row.Cells(colOther).Value)
 
-            row.Cells(colAbsentDays).Value = row.Cells(colPayPeriodDays).Value - (clsCommon.myCdbl(row.Cells(colPresentDays).Value) _
-                   + clsCommon.myCdbl(row.Cells(colHolidayDays).Value) + clsCommon.myCdbl(row.Cells(colWeeklyOffDays).Value) + clsCommon.myCdbl(row.Cells(colEL).Value) + clsCommon.myCdbl(row.Cells(colCL).Value) + clsCommon.myCdbl(row.Cells(colMATL).Value) + clsCommon.myCdbl(row.Cells(colMEDL).Value) + clsCommon.myCdbl(row.Cells(colCOFF).Value) + clsCommon.myCdbl(row.Cells(colOther).Value))
+            'row.Cells(colAbsentDays).Value = row.Cells(colPayPeriodDays).Value - (clsCommon.myCdbl(row.Cells(colPresentDays).Value) _
+            '      + clsCommon.myCdbl(row.Cells(colHolidayDays).Value) + clsCommon.myCdbl(row.Cells(colWeeklyOffDays).Value) + clsCommon.myCdbl(row.Cells(colEL).Value) + clsCommon.myCdbl(row.Cells(colCL).Value) + clsCommon.myCdbl(row.Cells(colMATL).Value) + clsCommon.myCdbl(row.Cells(colMEDL).Value) + clsCommon.myCdbl(row.Cells(colCOFF).Value) + clsCommon.myCdbl(row.Cells(colOther).Value))
+
+            row.Cells(colPresentDays).Value = row.Cells(colPayPeriodDays).Value - (clsCommon.myCdbl(row.Cells(colAbsentDays).Value) + clsCommon.myCdbl(row.Cells(colHolidayDays).Value) + clsCommon.myCdbl(row.Cells(colWeeklyOffDays).Value) + clsCommon.myCdbl(row.Cells(colEL).Value) + clsCommon.myCdbl(row.Cells(colCL).Value) + clsCommon.myCdbl(row.Cells(colMATL).Value) + clsCommon.myCdbl(row.Cells(colMEDL).Value) + clsCommon.myCdbl(row.Cells(colCOFF).Value) + clsCommon.myCdbl(row.Cells(colOther).Value))
+            'row.Cells(colAbsentDays).Value = row.Cells(colPayPeriodDays).Value - (clsCommon.myCdbl(row.Cells(colHolidayDays).Value) + clsCommon.myCdbl(row.Cells(colWeeklyOffDays).Value) + clsCommon.myCdbl(row.Cells(colEL).Value) + clsCommon.myCdbl(row.Cells(colCL).Value) + clsCommon.myCdbl(row.Cells(colMATL).Value) + clsCommon.myCdbl(row.Cells(colMEDL).Value) + clsCommon.myCdbl(row.Cells(colCOFF).Value) + clsCommon.myCdbl(row.Cells(colOther).Value))
 
             If clsCommon.myCdbl(row.Cells(colAbsentDays).Value) < 0 Then
                 clsCommon.MyMessageBoxShow(Me, "Please check absent days can not be negative", Me.Text)
@@ -1499,14 +1502,18 @@ Public Class frmMonthlyAttendance
             End If
 
             row.Cells(colPayDays).Value = clsCommon.myCdbl(row.Cells(colPayPeriodDays).Value) - clsCommon.myCdbl(row.Cells(colAbsentDays).Value)
-            If row.Cells(colPayPeriodDays).Value < clsCommon.myCdbl(row.Cells(colCL).Value + row.Cells(colEL).Value + row.Cells(colAbsentDays).Value + row.Cells(colPresentDays).Value + row.Cells(colCOFF).Value + row.Cells(colMATL).Value + row.Cells(colMEDL).Value + row.Cells(colOther).Value + row.Cells(colHolidayDays).Value + row.Cells(colWeeklyOffDays).Value) Then
+            If row.Cells(colPayPeriodDays).Value < clsCommon.myCdbl(row.Cells(colCL).Value + row.Cells(colEL).Value + row.Cells(colAbsentDays).Value + row.Cells(colCOFF).Value + row.Cells(colMATL).Value + row.Cells(colMEDL).Value + row.Cells(colOther).Value + row.Cells(colHolidayDays).Value + row.Cells(colWeeklyOffDays).Value) Then
                 clsCommon.MyMessageBoxShow(Me, "Please check total of all leaves should not be more than from total days", Me.Text)
                 Return
             End If
         Else
             For Each grow As GridViewRowInfo In gvMonthlyAttendance.Rows
-                grow.Cells(colAbsentDays).Value = grow.Cells(colPayPeriodDays).Value - (clsCommon.myCdbl(grow.Cells(colPresentDays).Value) _
+                'grow.Cells(colAbsentDays).Value = grow.Cells(colPayPeriodDays).Value - (clsCommon.myCdbl(grow.Cells(colPresentDays).Value) _
+                '   + clsCommon.myCdbl(grow.Cells(colHolidayDays).Value) + clsCommon.myCdbl(grow.Cells(colWeeklyOffDays).Value) + clsCommon.myCdbl(grow.Cells(colEL).Value) + clsCommon.myCdbl(grow.Cells(colCL).Value) + clsCommon.myCdbl(grow.Cells(colMATL).Value) + clsCommon.myCdbl(grow.Cells(colMEDL).Value) + clsCommon.myCdbl(grow.Cells(colCOFF).Value) + clsCommon.myCdbl(grow.Cells(colOther).Value))
+                grow.Cells(colPayDays).Value = grow.Cells(colPayPeriodDays).Value
+                grow.Cells(colPresentDays).Value = grow.Cells(colPayPeriodDays).Value - (clsCommon.myCdbl(grow.Cells(colPresentDays).Value) _
                     + clsCommon.myCdbl(grow.Cells(colHolidayDays).Value) + clsCommon.myCdbl(grow.Cells(colWeeklyOffDays).Value) + clsCommon.myCdbl(grow.Cells(colEL).Value) + clsCommon.myCdbl(grow.Cells(colCL).Value) + clsCommon.myCdbl(grow.Cells(colMATL).Value) + clsCommon.myCdbl(grow.Cells(colMEDL).Value) + clsCommon.myCdbl(grow.Cells(colCOFF).Value) + clsCommon.myCdbl(grow.Cells(colOther).Value))
+
             Next
         End If
 
@@ -1749,7 +1756,7 @@ Public Class frmMonthlyAttendance
             obj.GridColumns = gvMonthlyAttendance.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()

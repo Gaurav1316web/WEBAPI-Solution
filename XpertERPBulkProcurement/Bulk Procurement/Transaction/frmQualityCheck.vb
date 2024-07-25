@@ -1699,11 +1699,13 @@ Public Class FrmQualityCheck
             obj.QC_Out_Date_Time = clsCommon.GetPrintDate(dtpQCOutDateTime.Value, "dd/MMM/yyyy hh:mm:ss tt")
             obj.location_Code = clsCommon.myCstr(fndLocation.Value)
             obj.Location_Desc = clsCommon.myCstr(lblLocationName.Text)
+            obj.Manual_Entry = 1
             If chkBulkMilkProc.IsChecked Then
                 obj.Doc_Type = "BulkProc"
                 obj.Vendor_Code = clsCommon.myCstr(fndVendor.Value)
                 obj.Vendor_Desc = clsCommon.myCstr(lblVendorName.Text)
             Else
+
                 obj.Doc_Type = "MccProc"
                 obj.Dispatched_From_Mcc_Code = clsCommon.myCstr(fndVendor.Value)
                 obj.Dispatched_From_Mcc_Desc = clsCommon.myCstr(lblVendorName.Text)

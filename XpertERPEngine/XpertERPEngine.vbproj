@@ -173,8 +173,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
     </Reference>
-    <Reference Include="zxing, Version=0.16.6.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
-      <HintPath>..\XpertERP\packages\ZXing.Net.0.16.6\lib\net35\zxing.dll</HintPath>
+    <Reference Include="zxing">
+      <HintPath>..\XpertERP\bin\Debug\zxing.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -414,6 +414,8 @@
     <Compile Include="ItemModel\clsItemSalePurchaseSetDetail.vb" />
     <Compile Include="ItemModel\clsItemSalePurchaseSetMaster.vb" />
     <Compile Include="ItemModel\clsItemSetDetail.vb" />
+    <Compile Include="ItemModel\clsItemTypeSchedule.vb" />
+    <Compile Include="ItemModel\clsItemTypeSchedulePenalty.vb" />
     <Compile Include="ItemModel\clsItemUpdateDetail.vb" />
     <Compile Include="ItemModel\clsItemUpdateMaster.vb" />
     <Compile Include="ItemModel\clsPurchaseAccountSets.vb" />

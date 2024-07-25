@@ -1435,24 +1435,23 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
                  )ZZ GROUP BY ZZ.VSP_Uploader_Code,ZZ.VSP_Code,ZZ.Vendor_NAME,ZZ.Addition"
         Dim dtAddition As DataTable = clsDBFuncationality.GetDataTable(sQuery)
 
-        sQuery = " select Final.VSP_Uploader_Code, Final.Vendor_CODE, Vendor_NAME, Final.Ded_Code , Final.Ded_Desc , sum(Amount) as [Amount] from (
-select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_NAME, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code , TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc , TSPL_PAYMENT_PROCESS_DEDUCTION.Amount as Amount1,(TSPL_PAYMENT_PROCESS_DEDUCTION.Amount-TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt) as Amount 
+        Dim baseQryDeduction As String = "select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_NAME, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code , TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc ,(TSPL_PAYMENT_PROCESS_DEDUCTION.Amount-TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt) as Amount,TSPL_VLC_MASTER_HEAD.Route_Code 
 from TSPL_PAYMENT_PROCESS_DEDUCTION inner join TSPL_PAYMENT_PROCESS_HEAD on  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No = TSPL_PAYMENT_PROCESS_HEAD.Doc_No
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
 where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpLedgerFromDate.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpLedgerToDate.Value + "'),103) 
+union all
+select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code, TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE as Vendor_CODE, TSPL_PAYMENT_PROCESS_DETAIL.VSP_NAME as Vendor_NAME, 'TDS' as Ded_Code , 'TDS' as Ded_Desc ,(TSPL_PAYMENT_PROCESS_DETAIL.TDS_Amount) as Amount,TSPL_VLC_MASTER_HEAD.Route_Code 
+from TSPL_PAYMENT_PROCESS_DETAIL 
+inner join TSPL_PAYMENT_PROCESS_HEAD on  TSPL_PAYMENT_PROCESS_DETAIL.Doc_No = TSPL_PAYMENT_PROCESS_HEAD.Doc_No
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE
+where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpLedgerFromDate.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpLedgerToDate.Value + "'),103) and isnull(TSPL_PAYMENT_PROCESS_DETAIL.TDS_Amount,0)>0"
+
+        sQuery = " select Final.VSP_Uploader_Code, Final.Vendor_CODE, Vendor_NAME, Final.Ded_Code , Final.Ded_Desc , sum(Amount) as [Amount] from (" + baseQryDeduction + "
 ) Final group by  final.VSP_Uploader_Code, Final.Vendor_CODE, Vendor_NAME, Final.Ded_Code,Final.Ded_Desc  "
         Dim dtDeduction As DataTable = clsDBFuncationality.GetDataTable(sQuery)
 
         sQuery = "select max(Final.VSP_Uploader_Code)VSP_Uploader_Code, max(Final.Vendor_CODE)Vendor_CODE, max(final.Vendor_NAME)Vendor_NAME, Final.Ded_Code ,
-                  max(Final.Ded_Desc)Ded_Desc , sum(Amount) as [Amount],final.Route_Code from (
-                  select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE,
-                  TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_NAME, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code , TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc ,
-                  TSPL_PAYMENT_PROCESS_DEDUCTION.Amount ,TSPL_VLC_MASTER_HEAD.Route_Code
-                  from TSPL_PAYMENT_PROCESS_DEDUCTION
-                  inner join TSPL_PAYMENT_PROCESS_HEAD on  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No = TSPL_PAYMENT_PROCESS_HEAD.Doc_No
-                  left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
-                  where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpLedgerFromDate.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpLedgerToDate.Value + "'),103) 
-                  ) Final group by final.Ded_Code,final.Route_Code"
+                  max(Final.Ded_Desc)Ded_Desc , sum(Amount) as [Amount],final.Route_Code from (" + baseQryDeduction + " ) Final group by final.Ded_Code,final.Route_Code"
 
         Dim dtDeductionRouteWise As DataTable = clsDBFuncationality.GetDataTable(sQuery)
 
@@ -1608,11 +1607,7 @@ and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtp
         Dim dtTotalAddition As DataTable = clsDBFuncationality.GetDataTable(sQuery)
 
         sQuery = "   select max(Final.VSP_Uploader_Code)VSP_Uploader_Code, max(Final.Vendor_CODE)Vendor_CODE, max(Vendor_NAME)Vendor_NAME, Final.Ded_Code , max(Final.Ded_Desc)Ded_Desc , sum(Amount) as [Amount] from (
-                     select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_NAME, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code , TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc , TSPL_PAYMENT_PROCESS_DEDUCTION.Amount as Amount1 ,(TSPL_PAYMENT_PROCESS_DEDUCTION.Amount-TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt) as Amount 
-                     from TSPL_PAYMENT_PROCESS_DEDUCTION inner join TSPL_PAYMENT_PROCESS_HEAD on  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No = TSPL_PAYMENT_PROCESS_HEAD.Doc_No
-                     left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
-                     where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpLedgerFromDate.Value + "'),103) 
-                     and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpLedgerToDate.Value + "'),103) 
+                     " + baseQryDeduction + "
                         ) Final group by  Final.Ded_Code "
         Dim dtTotalDeduction As DataTable = clsDBFuncationality.GetDataTable(sQuery)
 

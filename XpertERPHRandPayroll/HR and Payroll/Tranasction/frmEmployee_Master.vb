@@ -513,6 +513,7 @@ Public Class frmEmployee_Master
                 '' addded by Parteek on 20/09/2018
                 obj.BioMetricEmpID = txtBiometricEmpID.Text
                 obj.EmpBasisType = clsCommon.myCstr(cboemployeebasistype.SelectedValue)
+                obj.Company_Bank = txtCompBank.Value
                 ''Family Details
                 Try
                     If gvEmpFamily IsNot Nothing AndAlso gvEmpFamily.Rows.Count > 0 Then
@@ -844,6 +845,7 @@ Public Class frmEmployee_Master
                     txtActiveInactiveDate.Checked = False
                 End If
             End If
+            txtCompBank.Value = obj.Company_Bank
             txtPayRollCode.Text = obj.Payroll_Code
             TxtGLAccount.Value = obj.GL_Account
             txtCastCategory.Value = obj.CAST_CATEGORY_CODE
@@ -1340,6 +1342,7 @@ Public Class frmEmployee_Master
         Else
             txtBranch.Value = ""
         End If
+        txtCompBank.Value = ""
     End Sub
 
     Sub BlankAllControl()
@@ -4531,5 +4534,13 @@ Public Class frmEmployee_Master
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             txtRelevingDate.Value = clsCommon.GetPrintDate(dt.Rows(0)("RetirementDate"), "dd/MM/yyyy")
         End If
+    End Sub
+
+    Private Sub txtCompBank__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCompBank._MYValidating
+        Try
+            txtCompBank.Value = clsBankMaster.getFinder("", txtCompBank.Value, isButtonClicked)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

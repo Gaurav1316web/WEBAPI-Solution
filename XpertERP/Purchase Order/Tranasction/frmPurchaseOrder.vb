@@ -1,9 +1,6 @@
-﻿Imports System.IO
+﻿Imports System.Data.SqlClient
+Imports System.IO
 Imports common
-Imports System.Text.RegularExpressions
-Imports System.Text
-Imports System.Data
-Imports System.Data.SqlClient
 'BHA/22/06/18-000080 by balwinder on 22/06/2018
 ' work to be done agaist ticket no. UDL/27/06/18-000196, UDL/27/06/18-000197,BHA/16/05/18-000026 by Parteek
 '' Work to be done Related Work order setting Based UDL/30/10/18-000236
@@ -338,6 +335,7 @@ Public Class frmPurchaseOrder
     Dim CommentSetting As Boolean = False
     Dim strPdfAttachmentPath As String = ""
     Public ShowItemAllStructureWise As Boolean = False
+    Public SettRateDecimalPlaces As Integer = 0
 #End Region
 
     Public Sub New(ByVal formid As String)
@@ -351,8 +349,8 @@ Public Class frmPurchaseOrder
 
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         ''MIL/01/08/19-000115 by balwinder on 01/08/2019  
+        SettRateDecimalPlaces = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PurchaseModule, clsFixedParameterCode.RateDecimalPlaces, Nothing))
         ShowItemAllStructureWise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, Nothing)) = 1, True, False)
-
         ShowMessageTDS = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowMessgForTDS, clsFixedParameterCode.ShowMessgForTDS, Nothing)) = "1", True, False))
         settCreatePOFromMultipleLocation = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreatePOFromMultipleLocation, clsFixedParameterCode.CreatePOFromMultipleLocation, Nothing)) > 0)
         CommentSetting = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CmtSetting, clsFixedParameterCode.CmtSetting, Nothing)) > 0)
@@ -1375,14 +1373,12 @@ Public Class frmPurchaseOrder
         gv1.MasterTemplate.Columns.Add(repoUnit) '17
 
         Dim repoRate As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoRate = New GridViewDecimalColumn()
-        repoRate.FormatString = ""
         repoRate.HeaderText = "Unit Cost"
         repoRate.Name = colRate
         repoRate.Width = 80
         repoRate.Minimum = 0
-        repoRate.FormatString = "{0:n4}"
-        repoRate.DecimalPlaces = 4
+        repoRate.FormatString = "{0:n" + clsCommon.myCstr(SettRateDecimalPlaces) + "}"
+        repoRate.DecimalPlaces = SettRateDecimalPlaces
         repoRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoRate) '20
 
@@ -3435,7 +3431,9 @@ Public Class frmPurchaseOrder
                 Else
                     strItemTypeincaseofMT = ""
                 End If
-                Dim obj As clsItemMaster = clsItemMaster.FinderForItem(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), clsCommon.myCstr(ItemType), True, isButtonClick, txtVendorNo.Value, "", strItemTypeincaseofMT)
+                Dim obj As clsItemMaster = clsItemMaster.FinderForItemALL(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), clsCommon.myCstr(ItemType), True, ShowItemAllStructureWise, isButtonClick, txtVendorNo.Value, "", strItemTypeincaseofMT)
+
+                ' Dim obj As clsItemMaster = clsItemMaster.FinderForItem(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), clsCommon.myCstr(ItemType), True, isButtonClick, txtVendorNo.Value, "", strItemTypeincaseofMT)
                 If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Item_Code) > 0 Then
                     gv1.CurrentRow.Cells(colICode).Value = obj.Item_Code
                     gv1.CurrentRow.Cells(colIName).Value = obj.Item_Desc
