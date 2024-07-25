@@ -213,32 +213,7 @@ Public Class FrmItemTypeMaster
         If fndItemType.MyReadOnly OrElse isButtonClicked Then
             Dim qry As String = " SELECT ITEM_TYPE_CODE AS Code,ITEM_TYPE_NAME AS [Description],UOM FROM TSPL_ITEM_TYPE_MASTER  "
             fndItemType.Value = clsCommon.ShowSelectForm("ITEM_TYPE", qry, "Code", "", fndItemType.Value, "", isButtonClicked)
-            If clsCommon.myLen(fndItemType.Value) > 0 Then
-                'Dim ITEM_TYPE_NAME = clsDBFuncationality.getSingleValue(" SELECT ITEM_TYPE_NAME FROM TSPL_ITEM_TYPE_MASTER  WHERE ITEM_TYPE_CODE='" + fndItemType.Value + "'")
-                'txtItemTypeName.Text = ITEM_TYPE_NAME
-
-                Dim Qry1 = clsItemType.GetNavQry(NavigatorType.Current, fndItemType.Value)
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry1)
-                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                    txtItemTypeName.Text = clsCommon.myCstr(dt.Rows(0)("Description"))
-                    txtUOM.Text = clsCommon.myCstr(dt.Rows(0)("UOM"))
-                    chkFixedTolerance.Checked = IIf(dt.Rows(0)("IsFixedTolerance") = "Y", True, False)
-                    txtTolerancePer.Value = clsCommon.myCdbl(dt.Rows(0)("TolerancePer"))
-                    chkVaccine.Checked = IIf(dt.Rows(0)("IsVaccine") = "Y", True, False)
-                End If
-
-                isNewEntry = False
-                fndItemType.MyReadOnly = True
-                btnsave.Text = "Update"
-            Else
-                txtItemTypeName.Text = String.Empty
-                chkFixedTolerance.Checked = False
-                chkVaccine.Checked = False
-                txtTolerancePer.Value = 0
-                isNewEntry = True
-                fndItemType.MyReadOnly = False
-                btnsave.Text = "Save"
-            End If
+            LoadData(fndItemType.Value, NavigatorType.Current)
 
         End If
     End Sub
