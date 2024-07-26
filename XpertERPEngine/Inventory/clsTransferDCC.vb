@@ -841,7 +841,7 @@ Public Class clsTransferDCC
                 isSaved = isSaved AndAlso UpdateLoadinwithLoadout(obj, strLoadInNo, trans)
             End If
             If isNewEntry AndAlso clsCommon.myLen(obj.Requisition_Id) > 0 Then
-                Dim isProductionStoreReqDoc As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue(" select count (*)  from TSPL_PP_REQUISITION_HEAD where Requisition_Id = '" + obj.Requisition_Id + "' "))
+                Dim isProductionStoreReqDoc As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue(" select count (*)  from TSPL_PP_REQUISITION_HEAD where Requisition_Id = '" + obj.Requisition_Id + "' ", trans))
                 If isProductionStoreReqDoc = True Then
                     isSaved = isSaved AndAlso clsProductionRequistionHead.CloseProdStoreRequest(obj.Requisition_Id, trans)
                 Else
