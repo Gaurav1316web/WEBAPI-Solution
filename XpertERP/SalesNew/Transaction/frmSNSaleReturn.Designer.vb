@@ -22,9 +22,9 @@ Partial Class frmSNSaleReturn
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
@@ -367,7 +367,7 @@ Partial Class frmSNSaleReturn
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
         Me.RadPageView1.Size = New System.Drawing.Size(970, 399)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -1300,7 +1300,7 @@ Partial Class frmSNSaleReturn
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1846,7 +1846,7 @@ Partial Class frmSNSaleReturn
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1859,9 +1859,9 @@ Partial Class frmSNSaleReturn
         '
         Me.RadPageViewPage3.Controls.Add(Me.SplitContainer2)
         Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(108.0!, 22.0!)
-        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 31)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(949, 353)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(949, 357)
         Me.RadPageViewPage3.Text = "Additional Charges"
         '
         'SplitContainer2
@@ -1879,8 +1879,8 @@ Partial Class frmSNSaleReturn
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.RadLabel31)
         Me.SplitContainer2.Panel2.Controls.Add(Me.lblAddCharges)
-        Me.SplitContainer2.Size = New System.Drawing.Size(949, 353)
-        Me.SplitContainer2.SplitterDistance = 319
+        Me.SplitContainer2.Size = New System.Drawing.Size(949, 357)
+        Me.SplitContainer2.SplitterDistance = 322
         Me.SplitContainer2.TabIndex = 0
         '
         'gvAC
@@ -1898,13 +1898,13 @@ Partial Class frmSNSaleReturn
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition9
         Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAC.ShowGroupPanel = False
         Me.gvAC.ShowHeaderCellButtons = True
-        Me.gvAC.Size = New System.Drawing.Size(949, 319)
+        Me.gvAC.Size = New System.Drawing.Size(949, 322)
         Me.gvAC.TabIndex = 0
         Me.gvAC.TabStop = False
         '
@@ -1936,9 +1936,9 @@ Partial Class frmSNSaleReturn
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
         Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(85.0!, 22.0!)
-        Me.pvpCustomFields.Location = New System.Drawing.Point(10, 35)
+        Me.pvpCustomFields.Location = New System.Drawing.Point(10, 31)
         Me.pvpCustomFields.Name = "pvpCustomFields"
-        Me.pvpCustomFields.Size = New System.Drawing.Size(949, 353)
+        Me.pvpCustomFields.Size = New System.Drawing.Size(949, 357)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
         'Attachments
@@ -2583,7 +2583,7 @@ Partial Class frmSNSaleReturn
         Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
         Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(949, 353)
+        Me.UcCustomFields1.Size = New System.Drawing.Size(949, 357)
         Me.UcCustomFields1.TabIndex = 2
         '
         'frmSNSaleReturn
