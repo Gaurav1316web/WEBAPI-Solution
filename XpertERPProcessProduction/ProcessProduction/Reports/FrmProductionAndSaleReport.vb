@@ -93,66 +93,66 @@ Public Class FrmProductionAndSaleReport
                     Throw New Exception("No data found to display")
                 End If
                 queryStock = "select ST.LOCATION_CODE,sum(ST.Qty) as Qty from (" + queryStock + ") ST GROUP BY ST.LOCATION_CODE "
-                For ll As Integer = 0 To dtLocation.Rows.Count - 1
-                    itemcodeqry = "select top 3 ITEM_CODE,Location_Code from (SELECT FINAL.Location_Code,FINAL.Location_Desc,FINAL.Add1,FINAL.Add2,FINAL.Add3,FINAL.Add4,FINAL.ITEM_CODE, FINAL.Item_Desc,FINAL.Unit,FINAL.STOCK_QTY,FINAL.QTY_FOR_DAYS FROM (select xx.Item_Desc,xx.ITEM_CODE,xx.Location_Code,xx.Location_Desc,xx.Add1,xx.Add2,xx.Add3,xx.Add4, case when xx.UOM='KG' THEN CASE WHEN ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,0)=0 THEN xx.UOM ELSE TSPL_ITEM_UOM_DETAIL.UOM_Code END WHEN xx.UOM='GM' THEN CASE WHEN ISNULL(KG_UOM_DETAIL.Conversion_Factor,0)=0 THEN xx.UOM ELSE KG_UOM_DETAIL.UOM_Code END ELSE xx.UOM END AS 'Unit',CAST((case when xx.UOM='KG' THEN CASE WHEN ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,0)<>0 THEN (xx.STOCK_QTY/ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)) ELSE xx.STOCK_QTY END WHEN xx.UOM='GM' THEN CASE WHEN ISNULL(KG_UOM_DETAIL.Conversion_Factor,0)<>0 THEN (xx.STOCK_QTY/ISNULL(KG_UOM_DETAIL.Conversion_Factor,1)) ELSE xx.STOCK_QTY END ELSE xx.STOCK_QTY END) AS numeric(10,0)) AS 'STOCK_QTY',cast(xx.QTY_FOR_DAYS as integer) as QTY_FOR_DAYS from (SELECT max(RM_STOCK_DAYS.Location_Code)Location_Code,max(RM_STOCK_DAYS.Location_Desc)Location_Desc,max(RM_STOCK_DAYS.Add1)Add1,max(RM_STOCK_DAYS.Add2)Add2,max(RM_STOCK_DAYS.Add3)Add3,max(RM_STOCK_DAYS.Add4)Add4, RM_STOCK_DAYS.ITEM_CODE,max(RM_STOCK_DAYS.Item_Desc) as Item_Desc,max(RM_STOCK_DAYS.UOM) AS 'UOM',SUM(ISNULL(RM_STOCK_DAYS.STOCK_QTY,0)) AS 'STOCK_QTY', SUM(ISNULL(RM_STOCK_DAYS.REQ_STOCK,0)) AS REQ_STOCK,SUM(ISNULL(RM_STOCK_DAYS.MIN_LEVEL,0)) AS MIN_LEVEL, CASE WHEN SUM(ISNULL(RM_STOCK_DAYS.REQ_STOCK,0))<>0 THEN SUM(ISNULL(RM_STOCK_DAYS.STOCK_QTY,0))/SUM(ISNULL(RM_STOCK_DAYS.REQ_STOCK,0)) ELSE CASE WHEN SUM(ISNULL(RM_STOCK_DAYS.MIN_LEVEL,0))<>0 THEN SUM(ISNULL(RM_STOCK_DAYS.STOCK_QTY,0))/SUM(ISNULL(RM_STOCK_DAYS.MIN_LEVEL,0)) ELSE 0 END END AS 'QTY_FOR_DAYS' FROM (SELECT max(RM_STOCK.Location_Code)Location_Code,max(RM_STOCK.Location_Desc)Location_Desc,max(RM_STOCK.Add1)Add1,max(RM_STOCK.Add2)Add2,max(RM_STOCK.Add3)Add3,max(RM_STOCK.Add4)Add4, RM_STOCK.ITEM_CODE,max(RM_STOCK.Item_Desc) as Item_Desc,MAX(RM_STOCK.UOM) AS 'UOM',SUM(ISNULL(RM_STOCK.IN_STOCK_QTY,0))-SUM(ISNULL(RM_STOCK.OUT_STOCK_QTY,0)) AS 'STOCK_QTY',0 AS 'REQ_STOCK', 0 AS 'MIN_LEVEL' FROM ( SELECT TSPL_LOCATION_MASTER.Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add2,TSPL_LOCATION_MASTER.Add3,TSPL_LOCATION_MASTER.Add4, TSPL_INVENTORY_MOVEMENT.Item_Code AS 'ITEM_CODE',TSPL_ITEM_MASTER.Short_Description AS 'ITEM_DESC',TSPL_ITEM_MASTER.Unit_Code AS 'UOM', CASE WHEN INOUT='I' THEN STOCK_QTY END AS 'IN_STOCK_QTY',CASE WHEN INOUT='O' THEN STOCK_QTY END AS 'OUT_STOCK_QTY' FROM TSPL_INVENTORY_MOVEMENT LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_INVENTORY_MOVEMENT.Location_Code WHERE 2=2 And TSPL_INVENTORY_MOVEMENT.Location_Code IN ('" + clsCommon.myCstr(dtLocation.Rows(ll).Item("LOCATION_CODE")) + "') AND TSPL_ITEM_MASTER.Structure_Code IN ('RM')and tspl_item_master.Item_Code in (select distinct TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103) and CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + clsCommon.myCstr(dtLocation.Rows(ll).Item("LOCATION_CODE")) + "' and TSPL_ITEM_MASTER.FG_for_CF_PL=1 ) ) RM_STOCK GROUP BY RM_STOCK.Item_Code UNION ALL SELECT max(TSPL_LOCATION_MASTER.Location_Code)LocationCode,max(TSPL_LOCATION_MASTER.Location_Desc)LocDes,max(TSPL_LOCATION_MASTER.Add1)Add1,max(TSPL_LOCATION_MASTER.Add2)Add2,max(TSPL_LOCATION_MASTER.Add3)Add3,max(TSPL_LOCATION_MASTER.Add4)Add4, TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE,max(TSPL_ITEM_MASTER.Short_Description) as Item_Desc,max(TSPL_ITEM_MASTER.Unit_Code) as 'UOM', 0 AS 'STOCK_QTY', AVG(CASE WHEN TSPL_MF_BOM_DETAIL.Percentage>0 THEN (TSPL_MF_BOM_DETAIL.Percentage*TSPL_LOCATION_MASTER.Silo_Capacity*1000)/100 ELSE CASE WHEN TSPL_MF_BOM_DETAIL.CONSM_QUANTITY>0 THEN ((TSPL_MF_BOM_DETAIL.CONSM_QUANTITY*TSPL_LOCATION_MASTER.Silo_Capacity*1000)/TSPL_MF_BOM_HEAD.PROD_QUANTITY) ELSE 0 END END) AS 'REQ_STOCK',0 AS 'MIN_LEVEL' FROM TSPL_MF_BOM_HEAD LEFT OUTER JOIN TSPL_MF_BOM_DETAIL ON TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE left outer join TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=TSPL_MF_BOM_HEAD.LOCATION_CODE INNER join (select PROD_ITEM_CODE,MAX(BOM_CODE) AS 'BOM_CODE',MAX(REVISION_NO) AS 'REVISION_NO' from TSPL_MF_BOM_HEAD WHERE 2=2 and TSPL_MF_BOM_HEAD.LOCATION_CODE IN ('" + clsCommon.myCstr(dtLocation.Rows(ll).Item("LOCATION_CODE")) + "') GROUP BY PROD_ITEM_CODE ) BOM_LATEST ON BOM_LATEST.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE AND BOM_LATEST.REVISION_NO=TSPL_MF_BOM_HEAD.REVISION_NO WHERE TSPL_ITEM_MASTER.Structure_Code IN ('RM') and tspl_item_master.Item_Code in((select distinct TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103) and CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + clsCommon.myCstr(dtLocation.Rows(ll).Item("LOCATION_CODE")) + "' and TSPL_ITEM_MASTER.FG_for_CF_PL=1 ) ) and TSPL_MF_BOM_HEAD.LOCATION_CODE IN ('" + clsCommon.myCstr(dtLocation.Rows(ll).Item("LOCATION_CODE")) + "') GROUP BY TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE ) RM_STOCK_DAYS GROUP BY RM_STOCK_DAYS.ITEM_CODE )xx left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=xx.ITEM_CODE and UPPER(TSPL_ITEM_UOM_DETAIL.UOM_Code)='QTL' left outer join TSPL_ITEM_UOM_DETAIL KG_UOM_DETAIL on KG_UOM_DETAIL.Item_Code=xx.ITEM_CODE and UPPER(KG_UOM_DETAIL.UOM_Code)='KG' WHERE xx.STOCK_QTY>0 ) FINAL WHERE FINAL.QTY_FOR_DAYS<=3 )YYY "
-                    dttop3item = clsDBFuncationality.GetDataTable(itemcodeqry)
-                    If dttop3item IsNot Nothing Then
-                        dtfinal.Merge(dttop3item)
-                    End If
-                Next
+                'For ll As Integer = 0 To dtLocation.Rows.Count - 1
+                '    itemcodeqry = "select top 3 ITEM_CODE,Location_Code from (SELECT FINAL.Location_Code,FINAL.Location_Desc,FINAL.Add1,FINAL.Add2,FINAL.Add3,FINAL.Add4,FINAL.ITEM_CODE, FINAL.Item_Desc,FINAL.Unit,FINAL.STOCK_QTY,FINAL.QTY_FOR_DAYS FROM (select xx.Item_Desc,xx.ITEM_CODE,xx.Location_Code,xx.Location_Desc,xx.Add1,xx.Add2,xx.Add3,xx.Add4, case when xx.UOM='KG' THEN CASE WHEN ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,0)=0 THEN xx.UOM ELSE TSPL_ITEM_UOM_DETAIL.UOM_Code END WHEN xx.UOM='GM' THEN CASE WHEN ISNULL(KG_UOM_DETAIL.Conversion_Factor,0)=0 THEN xx.UOM ELSE KG_UOM_DETAIL.UOM_Code END ELSE xx.UOM END AS 'Unit',CAST((case when xx.UOM='KG' THEN CASE WHEN ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,0)<>0 THEN (xx.STOCK_QTY/ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)) ELSE xx.STOCK_QTY END WHEN xx.UOM='GM' THEN CASE WHEN ISNULL(KG_UOM_DETAIL.Conversion_Factor,0)<>0 THEN (xx.STOCK_QTY/ISNULL(KG_UOM_DETAIL.Conversion_Factor,1)) ELSE xx.STOCK_QTY END ELSE xx.STOCK_QTY END) AS numeric(10,0)) AS 'STOCK_QTY',cast(xx.QTY_FOR_DAYS as integer) as QTY_FOR_DAYS from (SELECT max(RM_STOCK_DAYS.Location_Code)Location_Code,max(RM_STOCK_DAYS.Location_Desc)Location_Desc,max(RM_STOCK_DAYS.Add1)Add1,max(RM_STOCK_DAYS.Add2)Add2,max(RM_STOCK_DAYS.Add3)Add3,max(RM_STOCK_DAYS.Add4)Add4, RM_STOCK_DAYS.ITEM_CODE,max(RM_STOCK_DAYS.Item_Desc) as Item_Desc,max(RM_STOCK_DAYS.UOM) AS 'UOM',SUM(ISNULL(RM_STOCK_DAYS.STOCK_QTY,0)) AS 'STOCK_QTY', SUM(ISNULL(RM_STOCK_DAYS.REQ_STOCK,0)) AS REQ_STOCK,SUM(ISNULL(RM_STOCK_DAYS.MIN_LEVEL,0)) AS MIN_LEVEL, CASE WHEN SUM(ISNULL(RM_STOCK_DAYS.REQ_STOCK,0))<>0 THEN SUM(ISNULL(RM_STOCK_DAYS.STOCK_QTY,0))/SUM(ISNULL(RM_STOCK_DAYS.REQ_STOCK,0)) ELSE CASE WHEN SUM(ISNULL(RM_STOCK_DAYS.MIN_LEVEL,0))<>0 THEN SUM(ISNULL(RM_STOCK_DAYS.STOCK_QTY,0))/SUM(ISNULL(RM_STOCK_DAYS.MIN_LEVEL,0)) ELSE 0 END END AS 'QTY_FOR_DAYS' FROM (SELECT max(RM_STOCK.Location_Code)Location_Code,max(RM_STOCK.Location_Desc)Location_Desc,max(RM_STOCK.Add1)Add1,max(RM_STOCK.Add2)Add2,max(RM_STOCK.Add3)Add3,max(RM_STOCK.Add4)Add4, RM_STOCK.ITEM_CODE,max(RM_STOCK.Item_Desc) as Item_Desc,MAX(RM_STOCK.UOM) AS 'UOM',SUM(ISNULL(RM_STOCK.IN_STOCK_QTY,0))-SUM(ISNULL(RM_STOCK.OUT_STOCK_QTY,0)) AS 'STOCK_QTY',0 AS 'REQ_STOCK', 0 AS 'MIN_LEVEL' FROM ( SELECT TSPL_LOCATION_MASTER.Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add2,TSPL_LOCATION_MASTER.Add3,TSPL_LOCATION_MASTER.Add4, TSPL_INVENTORY_MOVEMENT.Item_Code AS 'ITEM_CODE',TSPL_ITEM_MASTER.Short_Description AS 'ITEM_DESC',TSPL_ITEM_MASTER.Unit_Code AS 'UOM', CASE WHEN INOUT='I' THEN STOCK_QTY END AS 'IN_STOCK_QTY',CASE WHEN INOUT='O' THEN STOCK_QTY END AS 'OUT_STOCK_QTY' FROM TSPL_INVENTORY_MOVEMENT LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_INVENTORY_MOVEMENT.Location_Code WHERE 2=2 And TSPL_INVENTORY_MOVEMENT.Location_Code IN ('" + clsCommon.myCstr(dtLocation.Rows(ll).Item("LOCATION_CODE")) + "') AND TSPL_ITEM_MASTER.Structure_Code IN ('RM')and tspl_item_master.Item_Code in (select distinct TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103) and CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + clsCommon.myCstr(dtLocation.Rows(ll).Item("LOCATION_CODE")) + "' and TSPL_ITEM_MASTER.FG_for_CF_PL=1 ) ) RM_STOCK GROUP BY RM_STOCK.Item_Code UNION ALL SELECT max(TSPL_LOCATION_MASTER.Location_Code)LocationCode,max(TSPL_LOCATION_MASTER.Location_Desc)LocDes,max(TSPL_LOCATION_MASTER.Add1)Add1,max(TSPL_LOCATION_MASTER.Add2)Add2,max(TSPL_LOCATION_MASTER.Add3)Add3,max(TSPL_LOCATION_MASTER.Add4)Add4, TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE,max(TSPL_ITEM_MASTER.Short_Description) as Item_Desc,max(TSPL_ITEM_MASTER.Unit_Code) as 'UOM', 0 AS 'STOCK_QTY', AVG(CASE WHEN TSPL_MF_BOM_DETAIL.Percentage>0 THEN (TSPL_MF_BOM_DETAIL.Percentage*TSPL_LOCATION_MASTER.Silo_Capacity*1000)/100 ELSE CASE WHEN TSPL_MF_BOM_DETAIL.CONSM_QUANTITY>0 THEN ((TSPL_MF_BOM_DETAIL.CONSM_QUANTITY*TSPL_LOCATION_MASTER.Silo_Capacity*1000)/TSPL_MF_BOM_HEAD.PROD_QUANTITY) ELSE 0 END END) AS 'REQ_STOCK',0 AS 'MIN_LEVEL' FROM TSPL_MF_BOM_HEAD LEFT OUTER JOIN TSPL_MF_BOM_DETAIL ON TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE left outer join TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=TSPL_MF_BOM_HEAD.LOCATION_CODE INNER join (select PROD_ITEM_CODE,MAX(BOM_CODE) AS 'BOM_CODE',MAX(REVISION_NO) AS 'REVISION_NO' from TSPL_MF_BOM_HEAD WHERE 2=2 and TSPL_MF_BOM_HEAD.LOCATION_CODE IN ('" + clsCommon.myCstr(dtLocation.Rows(ll).Item("LOCATION_CODE")) + "') GROUP BY PROD_ITEM_CODE ) BOM_LATEST ON BOM_LATEST.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE AND BOM_LATEST.REVISION_NO=TSPL_MF_BOM_HEAD.REVISION_NO WHERE TSPL_ITEM_MASTER.Structure_Code IN ('RM') and tspl_item_master.Item_Code in((select distinct TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103) and CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + clsCommon.myCstr(dtLocation.Rows(ll).Item("LOCATION_CODE")) + "' and TSPL_ITEM_MASTER.FG_for_CF_PL=1 ) ) and TSPL_MF_BOM_HEAD.LOCATION_CODE IN ('" + clsCommon.myCstr(dtLocation.Rows(ll).Item("LOCATION_CODE")) + "') GROUP BY TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE ) RM_STOCK_DAYS GROUP BY RM_STOCK_DAYS.ITEM_CODE )xx left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=xx.ITEM_CODE and UPPER(TSPL_ITEM_UOM_DETAIL.UOM_Code)='QTL' left outer join TSPL_ITEM_UOM_DETAIL KG_UOM_DETAIL on KG_UOM_DETAIL.Item_Code=xx.ITEM_CODE and UPPER(KG_UOM_DETAIL.UOM_Code)='KG' WHERE xx.STOCK_QTY>0 ) FINAL WHERE FINAL.QTY_FOR_DAYS<=3 )YYY "
+                '    dttop3item = clsDBFuncationality.GetDataTable(itemcodeqry)
+                '    If dttop3item IsNot Nothing Then
+                '        dtfinal.Merge(dttop3item)
+                '    End If
+                'Next
 
 
 
 
-                For kk As Integer = 0 To dtfinal.Rows.Count - 1
-                    If clsCommon.myLen(itemcode) > 0 Then
-                        itemcode += "Union all select "
-                        itemcode += " '" + clsCommon.myCstr(dtfinal.Rows(kk)("ITEM_CODE")) + "' as ITEM_CODE "
-                        itemcode += ", '" + clsCommon.myCstr(dtfinal.Rows(kk)("Location_Code")) + "' As Location_Code "
-                    Else
-                        itemcode = " select "
-                        itemcode += "'" + clsCommon.myCstr(dtfinal.Rows(kk)("ITEM_CODE")) + "'  as ITEM_CODE   "
-                        itemcode += ", '" + clsCommon.myCstr(dtfinal.Rows(kk)("Location_Code")) + "' As Location_Code "
-                    End If
-                Next
+                'For kk As Integer = 0 To dtfinal.Rows.Count - 1
+                '    If clsCommon.myLen(itemcode) > 0 Then
+                '        itemcode += "Union all select "
+                '        itemcode += " '" + clsCommon.myCstr(dtfinal.Rows(kk)("ITEM_CODE")) + "' as ITEM_CODE "
+                '        itemcode += ", '" + clsCommon.myCstr(dtfinal.Rows(kk)("Location_Code")) + "' As Location_Code "
+                '    Else
+                '        itemcode = " select "
+                '        itemcode += "'" + clsCommon.myCstr(dtfinal.Rows(kk)("ITEM_CODE")) + "'  as ITEM_CODE   "
+                '        itemcode += ", '" + clsCommon.myCstr(dtfinal.Rows(kk)("Location_Code")) + "' As Location_Code "
+                '    End If
+                'Next
 
-                Dim strLocation As String = " Select "
-                Dim strQry1 As String = " "
-                For i As Integer = 0 To dtfinal.Rows.Count - 1
-                    If clsCommon.CompairString(clsCommon.myCstr(dtfinal.Rows(i)("Location_Code")), strLocation) <> CompairStringResult.Equal Then
-                        If clsCommon.myLen(strQry1) > 15 Then
-                            strQry1 += " Union all "
-                        End If
-                        Dim strQuery As String = "Select * from(" + itemcode + ")xyz Where Location_Code='" + clsCommon.myCstr(dtfinal.Rows(i)("Location_Code")) + "'"
-                            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQuery)
-                            Dim iRow As Integer = dt.Rows.Count - 1
-                            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                'Dim strLocation As String = " Select "
+                'Dim strQry1 As String = " "
+                'For i As Integer = 0 To dtfinal.Rows.Count - 1
+                '    If clsCommon.CompairString(clsCommon.myCstr(dtfinal.Rows(i)("Location_Code")), strLocation) <> CompairStringResult.Equal Then
+                '        If clsCommon.myLen(strQry1) > 15 Then
+                '            strQry1 += " Union all "
+                '        End If
+                '        Dim strQuery As String = "Select * from(" + itemcode + ")xyz Where Location_Code='" + clsCommon.myCstr(dtfinal.Rows(i)("Location_Code")) + "'"
+                '            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQuery)
+                '            Dim iRow As Integer = dt.Rows.Count - 1
+                '            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
 
-                            For ii As Integer = 0 To iRow
-                                If iRow = 2 Then
-                                    If ii = 0 Then
-                                        strQry1 += " Select "
-                                    End If
-                                    strQry1 += "  '" + clsCommon.myCstr(dt.Rows(ii)("ITEM_CODE")) + "' As ITEM_CODE_" + clsCommon.myCstr(dt.Rows(ii)("Location_Code")) + clsCommon.myCstr(ii + 1) + " ,"
+                '            For ii As Integer = 0 To iRow
+                '                If iRow = 2 Then
+                '                    If ii = 0 Then
+                '                        strQry1 += " Select "
+                '                    End If
+                '                    strQry1 += "  '" + clsCommon.myCstr(dt.Rows(ii)("ITEM_CODE")) + "' As ITEM_CODE_" + clsCommon.myCstr(dt.Rows(ii)("Location_Code")) + clsCommon.myCstr(ii + 1) + " ,"
 
-                                    ElseIf iRow = 1 Then
-                                    strQry1 += " select '" + clsCommon.myCstr(dt.Rows(ii)("ITEM_CODE")) + "' As [" + clsCommon.myCstr(dt.Rows(ii)("ITEM_CODE")) + "], '' as P ,"
-                                ElseIf iRow = 0 Then
-                                        strQry1 += " select '' as P, '' as Q,'" + clsCommon.myCstr(dt.Rows(ii)("ITEM_CODE")) + "' As ITEM_CODE_" + clsCommon.myCstr(dt.Rows(ii)("Location_Code")) + clsCommon.myCstr(ii + 1) + " ,"
-                                End If
-                                If ii = iRow Then
-                                    strQry1 += " '" + clsCommon.myCstr(dt.Rows(ii)("Location_Code")) + "' As Location_Code "
-                                    strLocation = ""
-                                    strLocation = clsCommon.myCstr(dt.Rows(ii)("Location_Code"))
-                                End If
-                            Next
-                        End If
-                        End If
-                Next
-                Dim Finalqry As String=""+strQry1+""
+                '                    ElseIf iRow = 1 Then
+                '                    strQry1 += " select '" + clsCommon.myCstr(dt.Rows(ii)("ITEM_CODE")) + "' As [" + clsCommon.myCstr(dt.Rows(ii)("ITEM_CODE")) + "], '' as P ,"
+                '                ElseIf iRow = 0 Then
+                '                        strQry1 += " select '' as P, '' as Q,'" + clsCommon.myCstr(dt.Rows(ii)("ITEM_CODE")) + "' As ITEM_CODE_" + clsCommon.myCstr(dt.Rows(ii)("Location_Code")) + clsCommon.myCstr(ii + 1) + " ,"
+                '                End If
+                '                If ii = iRow Then
+                '                    strQry1 += " '" + clsCommon.myCstr(dt.Rows(ii)("Location_Code")) + "' As Location_Code "
+                '                    strLocation = ""
+                '                    strLocation = clsCommon.myCstr(dt.Rows(ii)("Location_Code"))
+                '                End If
+                '            Next
+                '        End If
+                '        End If
+                'Next
+                'Dim Finalqry As String=""+strQry1+""
 
 
-                Dim StrQry As String = " " + itemcode + " "
+                'Dim StrQry As String = " " + itemcode + " "
                 query = "select ROW_NUMBER() OVER(ORDER BY TSPL_LOCATION_MASTER.Location_code ASC) as SNo
                         ,TSPL_LOCATION_MASTER.Loc_Short_Name as [Location],format(convert(date,'" + fromDate.Value + "',103), 'dd MMMM yyyy') as Date,upper(format(convert(date,'" + fromDate.Value + "',103), 'MMMM yyyy'))as Date1,
                         cast(cast((TSPL_LOCATION_MASTER.remarks) AS DECIMAL(18,0))/(day(eomonth('" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "'))) AS DECIMAL(18,0)) as [Capacity],
