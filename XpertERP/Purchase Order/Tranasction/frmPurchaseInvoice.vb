@@ -4227,7 +4227,6 @@ Public Class frmPurchaseInvoice
     End Function
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Invoice", IIf(clsCommon.myLen(txtShipToLocation.Value) <= 0, txtBillToLocation.Value, txtShipToLocation.Value), txtDate.Value, Nothing)
             SaveData(False)
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -5958,7 +5957,7 @@ select SRN_No,'RM Late Penalty [ Recalculate ]' as Type,Item_Code,Penalty as Amo
     End Sub
     Private Sub btnPost_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPost.Click
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Invoice", IIf(clsCommon.myLen(txtShipToLocation.Value) <= 0, txtBillToLocation.Value, txtShipToLocation.Value), txtDate.Value, Nothing)
+            ' clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Invoice", IIf(clsCommon.myLen(txtShipToLocation.Value) <= 0, txtBillToLocation.Value, txtShipToLocation.Value), txtDate.Value, Nothing)
             PostData()
         Catch ex As Exception
         common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -5977,6 +5976,8 @@ select SRN_No,'RM Late Penalty [ Recalculate ]' as Type,Item_Code,Penalty as Amo
                     Exit Sub
                 End If
                 ''
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnPurchaseInvoice, IIf(clsCommon.myLen(txtShipToLocation.Value) <= 0, txtBillToLocation.Value, txtShipToLocation.Value), txtDate.Value, Nothing)
+
                 If (clsPurchaseInvoiceHead.PostData(MyBase.Form_ID, txtDocNo.Value, arrLoc)) Then
                     msg = "Successfully Posted"
                 Else
@@ -6026,7 +6027,7 @@ select SRN_No,'RM Late Penalty [ Recalculate ]' as Type,Item_Code,Penalty as Amo
     Sub DeleteData()
         Try
             Dim Reason As String = ""
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Invoice", IIf(clsCommon.myLen(txtShipToLocation.Value) <= 0, txtBillToLocation.Value, txtShipToLocation.Value), txtDate.Value, Nothing)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnPurchaseInvoice, IIf(clsCommon.myLen(txtShipToLocation.Value) <= 0, txtBillToLocation.Value, txtShipToLocation.Value), txtDate.Value, Nothing)
             If (myMessages.deleteConfirm()) Then
                 If clsCancelLog.CheckForReasonOnDelete() Then
                     '' REASON FOR DELETE 
