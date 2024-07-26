@@ -5,7 +5,7 @@ Public Class clsLockTransactionLocationwise
     Public Location_Code As String = Nothing
     Public Module_Name As String = Nothing
     Public Trans_Name As String = Nothing
-    Public Is_Locked As Integer = 0
+    Public Is_Locked As Boolean
     Public Start_Date As Date?
     Public End_Date As Date?
 #End Region
@@ -18,7 +18,7 @@ Public Class clsLockTransactionLocationwise
                 clsCommon.AddColumnsForChange(coll, "Location_Code", obj.Location_Code)
                 clsCommon.AddColumnsForChange(coll, "Module_Name", obj.Module_Name)
                 clsCommon.AddColumnsForChange(coll, "Trans_Name", obj.Trans_Name)
-                clsCommon.AddColumnsForChange(coll, "Is_Locked", obj.Is_Locked)
+                clsCommon.AddColumnsForChange(coll, "Is_Locked", IIf(obj.Is_Locked, 1, 0))
                 clsCommon.AddColumnsForChange(coll, "Start_Date", clsCommon.GetPrintDate(obj.Start_Date, "dd/MMM/yyyy"))
                 clsCommon.AddColumnsForChange(coll, "End_Date", clsCommon.GetPrintDate(obj.End_Date, "dd/MMM/yyyy"))
                 clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
@@ -41,9 +41,10 @@ Public Class clsLockTransactionLocationSegmentwise
     Public Location_Segment_Code As String = Nothing
     Public Module_Name As String = Nothing
     Public Trans_Name As String = Nothing
-    Public Is_Locked As String = Nothing
+    Public Is_Locked As Boolean
     Public Start_Date As Date?
     Public End_Date As Date?
+    Public Program_Code As String = Nothing
 
     Public Shared Function SaveData(ByVal strLocation As String, ByVal strTransName As String, ByVal arr As List(Of clsLockTransactionLocationSegmentwise), ByVal Trans As SqlTransaction) As Boolean
         Try
@@ -54,7 +55,7 @@ Public Class clsLockTransactionLocationSegmentwise
                 clsCommon.AddColumnsForChange(coll, "Location_Segment_Code", obj.Location_Segment_Code)
                 clsCommon.AddColumnsForChange(coll, "Module_Name", obj.Module_Name)
                 clsCommon.AddColumnsForChange(coll, "Trans_Name", obj.Trans_Name)
-                clsCommon.AddColumnsForChange(coll, "Is_Locked", obj.Is_Locked)
+                clsCommon.AddColumnsForChange(coll, "Is_Locked", IIf(obj.Is_Locked, 1, 0))
                 clsCommon.AddColumnsForChange(coll, "Start_Date", clsCommon.GetPrintDate(obj.Start_Date, "dd/MMM/yyyy"))
                 clsCommon.AddColumnsForChange(coll, "End_Date", clsCommon.GetPrintDate(obj.End_Date, "dd/MMM/yyyy"))
                 clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
@@ -80,6 +81,8 @@ Public Class clsLockTransactionLocationUserwise
     Public User_Name As String = Nothing
     Public ToDate As Date?
     Public Status As String = Nothing
+    Public ModuleCode As String = Nothing
+    Public TransCode As String = Nothing
 #End Region
     Public Shared Function SaveData(ByVal strLocation As String, ByVal strTransName As String, ByVal arr As List(Of clsLockTransactionLocationUserwise), ByVal Trans As SqlTransaction) As Boolean
         Try
@@ -149,6 +152,8 @@ Public Class clsLockTransactionLocationSegmentUserwise
     Public User_Name As String = Nothing
     Public ToDate As Date?
     Public Status As String = Nothing
+    Public TransactionName As String = Nothing
+
 #End Region
     Public Shared Function SaveData(ByVal strLocation As String, ByVal strTransName As String, ByVal arr As List(Of clsLockTransactionLocationSegmentUserwise), ByVal Trans As SqlTransaction) As Boolean
         Try

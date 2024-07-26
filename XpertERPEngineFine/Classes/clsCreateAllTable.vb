@@ -5837,6 +5837,9 @@ Public Class clsCreateAllTable
             coll.Add("FormCounter", "integer not null default 0")
             coll.Add("ExceptionNo", "varchar(10) null")
             coll.Add("APP_No", "integer not null default 0") ''0-XpertERP,1-XpertAPI
+            coll.Add("Lock_Location", "integer not null default 0")
+            coll.Add("Lock_Location_Segment", "integer not null default 0")
+
             clsCommonFunctionality.CreateOrAlterTable("TSPL_PROGRAM_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -49690,6 +49693,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("ID", "int  IDENTITY(1,1)")
             coll.Add("ITEM_TYPE_CODE", "varchar(5)  not null")
             coll.Add("ITEM_TYPE_NAME", "varchar(50) not null")
+            coll.Add("UOM", "varchar(12) NULL REFERENCES TSPL_UNIT_MASTER (Unit_Code)")
             coll.Add("IS_FREEZ", "int  not null")
             coll.Add("CREATED_BY", "varchar(12) not null")
             coll.Add("CREATED_DATE", "datetime not null")

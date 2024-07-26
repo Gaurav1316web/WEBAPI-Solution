@@ -5,7 +5,13 @@ Public Class FrmItemTypeMaster
 
     Private isNewEntry As Boolean = True
     Dim ErrorControl As New clsErrorControl()
-
+    Const ColScheduleSNo As String = "ColScheduleSNo"
+    Const ColScheduleDays As String = "ColScheduleDays"
+    Const ColSchedulePerQty As String = "ColSchedulePerQty"
+    Const ColSchedulePerShort As String = "ColSchedulePerShort"
+    Const ColScheduleLateDays As String = "ColScheduleLateDays"
+    Dim isCellValueChangedOpen As Boolean = False
+    Dim isInsideLoadData As Boolean = False
 
 
     Private Sub btnsave_Click(sender As Object, e As EventArgs) Handles btnsave.Click
@@ -45,9 +51,23 @@ Public Class FrmItemTypeMaster
         Dim obj As New clsItemType()
         obj.ITEM_TYPE_CODE = fndItemType.Value
         obj.ITEM_TYPE_NAME = txtItemTypeName.Text
+        obj.UOM = txtUOM.Value
         obj.IsFixedTolerance = IIf(chkFixedTolerance.Checked = True, "Y", "N")
         obj.IsVaccine = IIf(chkVaccine.Checked = True, "Y", "N")
         obj.TolerancePer = IIf(chkFixedTolerance.Checked = True, clsCommon.myCdbl(txtTolerancePer.Value), 0)
+
+        obj.ArrSchedule = New List(Of clsItemTypeSchedule)
+        For Each grow As GridViewRowInfo In gvSchedule.Rows
+            Dim objtrp As New clsItemTypeSchedule()
+            objtrp.Days = clsCommon.myCDecimal(grow.Cells(ColScheduleDays).Value)
+            objtrp.Qty_Per = clsCommon.myCDecimal(grow.Cells(ColSchedulePerQty).Value)
+            objtrp.Short_Per = clsCommon.myCDecimal(grow.Cells(ColSchedulePerShort).Value)
+            objtrp.Late_Days = clsCommon.myCDecimal(grow.Cells(ColScheduleLateDays).Value)
+            objtrp.Arr = TryCast(grow.Cells(ColScheduleLateDays).Tag, List(Of clsItemTypeSchedulePenalty))
+            If objtrp.Days > 0 AndAlso objtrp.Qty_Per > 0 Then
+                obj.ArrSchedule.Add(objtrp)
+            End If
+        Next
 
         If (clsItemType.SaveData(obj, isNewEntry) = True) Then
             clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
@@ -61,7 +81,77 @@ Public Class FrmItemTypeMaster
 
     Private Sub FrmItemTypeMaster_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Text = "Item Type Master"
+        LoadBlankGridSchedule()
         funReset()
+
+    End Sub
+    Sub LoadBlankGridSchedule()
+        gvSchedule.Rows.Clear()
+        gvSchedule.Columns.Clear()
+        gvSchedule.Rows.AddNew()
+
+        Dim repoNumBox As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoNumBox.HeaderText = "SNo"
+        repoNumBox.Name = ColScheduleSNo
+        repoNumBox.Minimum = 0
+        repoNumBox.Width = 100
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoNumBox.DecimalPlaces = 0
+        repoNumBox.FormatString = "{0:n0}"
+        repoNumBox.ReadOnly = True
+        gvSchedule.MasterTemplate.Columns.Add(repoNumBox)
+
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.HeaderText = "Days"
+        repoNumBox.Name = ColScheduleDays
+        repoNumBox.Minimum = 0
+        repoNumBox.Width = 100
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoNumBox.DecimalPlaces = 0
+        repoNumBox.FormatString = "{0:n0}"
+        gvSchedule.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.HeaderText = "Qty %"
+        repoNumBox.Name = ColSchedulePerQty
+        repoNumBox.Minimum = 0
+        repoNumBox.Width = 100
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoNumBox.DecimalPlaces = 0
+        repoNumBox.FormatString = "{0:n0}"
+        gvSchedule.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.HeaderText = "Short %"
+        repoNumBox.Name = ColSchedulePerShort
+        repoNumBox.Minimum = 0
+        repoNumBox.Width = 100
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoNumBox.DecimalPlaces = 0
+        repoNumBox.FormatString = "{0:n0}"
+        gvSchedule.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.HeaderText = "Late Days"
+        repoNumBox.Name = ColScheduleLateDays
+        repoNumBox.Minimum = 0
+        repoNumBox.Width = 100
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoNumBox.DecimalPlaces = 0
+        repoNumBox.FormatString = "{0:n0}"
+        gvSchedule.MasterTemplate.Columns.Add(repoNumBox)
+
+
+        gvSchedule.AllowAddNewRow = False
+        gvSchedule.ShowGroupPanel = False
+        gvSchedule.AllowColumnReorder = False
+        gvSchedule.AllowRowReorder = True
+        gvSchedule.AllowDeleteRow = True
+        gvSchedule.AllowEditRow = True
+        gvSchedule.EnableSorting = False
+        gvSchedule.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
+        gvSchedule.MasterTemplate.ShowRowHeaderColumn = False
     End Sub
 
     Private Sub fndItemType__MYNavigator(sender As Object, e As EventArgs, NavType As common.NavigatorType) Handles fndItemType._MYNavigator
@@ -70,27 +160,45 @@ Public Class FrmItemTypeMaster
 
     Private Sub LoadData(ByVal Code As String, ByVal NavType As NavigatorType)
         isNewEntry = False
-        Dim Qry = clsItemType.GetNavQry(NavType, fndItemType.Value)
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            fndItemType.Value = clsCommon.myCstr(dt.Rows(0)("Code"))
-            txtItemTypeName.Text = clsCommon.myCstr(dt.Rows(0)("Description"))
-            chkFixedTolerance.Checked = IIf(dt.Rows(0)("IsFixedTolerance") = "Y", True, False)
-            chkVaccine.Checked = IIf(dt.Rows(0)("IsVaccine") = "Y", True, False)
-            txtTolerancePer.Value = clsCommon.myCdbl(dt.Rows(0)("TolerancePer"))
-            isNewEntry = False
-            btnsave.Text = "Update"
-            fndItemType.MyReadOnly = True
-        Else
-            fndItemType.Value = String.Empty
-            txtItemTypeName.Text = String.Empty
-            chkFixedTolerance.Checked = False
-            chkVaccine.Checked = False
-            txtTolerancePer.Value = 0
-            isNewEntry = True
-            btnsave.Text = "Save"
-            fndItemType.MyReadOnly = False
-        End If
+        Try
+            LoadBlankGridSchedule()
+            Dim obj As clsItemType = clsItemType.GetNavQry(Code, NavType)
+            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.ITEM_TYPE_CODE) > 0 Then
+                fndItemType.Value = obj.ITEM_TYPE_CODE
+                txtItemTypeName.Text = obj.ITEM_TYPE_NAME
+                txtUOM.Value = obj.UOM
+                lblUOM.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select unit_desc from tspl_unit_master where Unit_Code='" + txtUOM.Value + "'"))
+                chkFixedTolerance.Checked = If(obj.IsFixedTolerance = "Y", True, False)
+                chkVaccine.Checked = If(obj.IsVaccine = "Y", True, False)
+                txtTolerancePer.Value = obj.TolerancePer
+                isNewEntry = False
+                btnsave.Text = "Update"
+                fndItemType.MyReadOnly = True
+
+                If obj.ArrSchedule IsNot Nothing AndAlso obj.ArrSchedule.Count > 0 Then
+                    If gvSchedule.Rows.Count = 0 Then
+                        gvSchedule.Rows.AddNew()
+                    End If
+                    For Each objtr As clsItemTypeSchedule In obj.ArrSchedule
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(ColScheduleSNo).Value = objtr.SNo
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(ColScheduleDays).Value = objtr.Days
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(ColSchedulePerQty).Value = objtr.Qty_Per
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(ColSchedulePerShort).Value = objtr.Short_Per
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(ColScheduleLateDays).Value = objtr.Late_Days
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(ColScheduleLateDays).Tag = objtr.Arr
+                        gvSchedule.Rows.AddNew()
+                    Next
+
+                End If
+                btnsave.Enabled = True
+                btnDelete.Enabled = True
+
+                btnsave.Text = "Update"
+            End If
+        Catch ex As Exception
+
+        End Try
+
     End Sub
 
     Private Sub fndItemType__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndItemType._MYValidating
@@ -103,33 +211,9 @@ Public Class FrmItemTypeMaster
         End If
 
         If fndItemType.MyReadOnly OrElse isButtonClicked Then
-            Dim qry As String = " SELECT ITEM_TYPE_CODE AS Code,ITEM_TYPE_NAME AS [Description] FROM TSPL_ITEM_TYPE_MASTER  "
+            Dim qry As String = " SELECT ITEM_TYPE_CODE AS Code,ITEM_TYPE_NAME AS [Description],UOM FROM TSPL_ITEM_TYPE_MASTER  "
             fndItemType.Value = clsCommon.ShowSelectForm("ITEM_TYPE", qry, "Code", "", fndItemType.Value, "", isButtonClicked)
-            If clsCommon.myLen(fndItemType.Value) > 0 Then
-                'Dim ITEM_TYPE_NAME = clsDBFuncationality.getSingleValue(" SELECT ITEM_TYPE_NAME FROM TSPL_ITEM_TYPE_MASTER  WHERE ITEM_TYPE_CODE='" + fndItemType.Value + "'")
-                'txtItemTypeName.Text = ITEM_TYPE_NAME
-
-                Dim Qry1 = clsItemType.GetNavQry(NavigatorType.Current, fndItemType.Value)
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry1)
-                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                    txtItemTypeName.Text = clsCommon.myCstr(dt.Rows(0)("Description"))
-                    chkFixedTolerance.Checked = IIf(dt.Rows(0)("IsFixedTolerance") = "Y", True, False)
-                    txtTolerancePer.Value = clsCommon.myCdbl(dt.Rows(0)("TolerancePer"))
-                    chkVaccine.Checked = IIf(dt.Rows(0)("IsVaccine") = "Y", True, False)
-                End If
-
-                isNewEntry = False
-                fndItemType.MyReadOnly = True
-                btnsave.Text = "Update"
-            Else
-                txtItemTypeName.Text = String.Empty
-                chkFixedTolerance.Checked = False
-                chkVaccine.Checked = False
-                txtTolerancePer.Value = 0
-                isNewEntry = True
-                fndItemType.MyReadOnly = False
-                btnsave.Text = "Save"
-            End If
+            LoadData(fndItemType.Value, NavigatorType.Current)
 
         End If
     End Sub
@@ -143,10 +227,13 @@ Public Class FrmItemTypeMaster
         btnsave.Text = "Save"
         fndItemType.Value = Nothing
         txtItemTypeName.Text = String.Empty
+        txtUOM.Value = Nothing
+        lblUOM.Text = ""
         chkFixedTolerance.Checked = False
         chkVaccine.Checked = False
         txtTolerancePer.Value = 0
         fndItemType.MyReadOnly = False
+        LoadBlankGridSchedule()
     End Sub
 
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
@@ -175,5 +262,141 @@ Public Class FrmItemTypeMaster
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub gvSchedule_CellValidated(sender As Object, e As CellValidatedEventArgs) Handles gvSchedule.CellValidated
+        Try
+            SetScheduleGridFocus()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Sub SetScheduleGridFocus()
+        If gvSchedule.CurrentCell IsNot Nothing Then
+            If gvSchedule.CurrentCell.ColumnInfo.Name = ColScheduleDays Then
+                gvSchedule.CurrentColumn = gvSchedule.Columns(ColSchedulePerQty)
+            ElseIf (gvSchedule.CurrentCell.ColumnInfo.Name = ColSchedulePerQty) Then
+                gvSchedule.CurrentColumn = gvSchedule.Columns(ColSchedulePerShort)
+            ElseIf (gvSchedule.CurrentCell.ColumnInfo.Name = ColSchedulePerShort) Then
+                gvSchedule.CurrentColumn = gvSchedule.Columns(ColScheduleLateDays)
+            ElseIf gvSchedule.CurrentCell.ColumnInfo.Name = ColScheduleLateDays Then
+                If gvSchedule.Rows.Count >= gvSchedule.CurrentRow.Index + 1 Then
+                    gvSchedule.CurrentRow = gvSchedule.Rows(gvSchedule.CurrentRow.Index + 1)
+                End If
+                gvSchedule.CurrentColumn = gvSchedule.Columns(ColScheduleDays)
+            End If
+        End If
+    End Sub
+
+    Private Sub gvSchedule_CurrentColumnChanged(sender As Object, e As CurrentColumnChangedEventArgs) Handles gvSchedule.CurrentColumnChanged
+        If gvSchedule.RowCount > 0 Then
+            Dim intCurrRow As Integer = gvSchedule.CurrentRow.Index
+            gvSchedule.CurrentRow.Cells(ColScheduleSNo).Value = clsCommon.myCdbl(intCurrRow + 1)
+            If intCurrRow = gvSchedule.Rows.Count - 1 Then
+                gvSchedule.Rows.AddNew()
+                gvSchedule.CurrentRow = gvSchedule.Rows(intCurrRow)
+            End If
+        End If
+    End Sub
+
+    Private Sub gvSchedule_UserDeletedRow(sender As Object, e As GridViewRowEventArgs) Handles gvSchedule.UserDeletedRow
+        RefeshScheduleSNO()
+    End Sub
+
+    Private Sub gvSchedule_UserDeletingRow(sender As Object, e As GridViewRowCancelEventArgs) Handles gvSchedule.UserDeletingRow
+        If clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+            e.Cancel = True
+        End If
+    End Sub
+    Sub RefeshScheduleSNO()
+        For ii As Integer = 1 To gvSchedule.Rows.Count
+            gvSchedule.Rows(ii - 1).Cells(ColScheduleSNo).Value = ii
+        Next
+    End Sub
+
+    Private Sub gvSchedule_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gvSchedule.CellValueChanged
+        Try
+            If (Not isInsideLoadData) Then
+                If Not isCellValueChangedOpen Then
+                    isCellValueChangedOpen = True
+                    If e.Column Is gvSchedule.Columns(ColScheduleLateDays) Then
+                        ShowPenalty()
+                    End If
+                    isCellValueChangedOpen = False
+                End If
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+        End Try
+    End Sub
+    Private Sub ShowPenalty()
+        Try
+            Dim dt As DataTable = New DataTable()
+            dt.Columns.Add("Days", GetType(Integer))
+            dt.Columns.Add("Penalty", GetType(Decimal))
+
+            Dim arr As List(Of clsItemTypeSchedulePenalty) = TryCast(gvSchedule.CurrentRow.Cells(ColScheduleLateDays).Tag, List(Of clsItemTypeSchedulePenalty))
+            If arr Is Nothing OrElse arr.Count <= 0 Then
+                For ii As Integer = 0 To clsCommon.myCDecimal(gvSchedule.CurrentRow.Cells(ColScheduleLateDays).Value) - 1
+                    Dim dr As DataRow = dt.NewRow
+                    dr("Days") = ii + 1
+                    dr("Penalty") = 0
+                    dt.Rows.Add(dr)
+                Next
+            Else
+                For ii As Integer = 0 To clsCommon.myCDecimal(gvSchedule.CurrentRow.Cells(ColScheduleLateDays).Value) - 1
+                    If arr.Count < ii Then
+                        Dim dr As DataRow = dt.NewRow
+                        dr("Days") = ii + 1
+                        dr("Penalty") = 0
+                        dt.Rows.Add(dr)
+                    Else
+                        Dim dr As DataRow = dt.NewRow
+                        dr("Days") = ii + 1
+                        dr("Penalty") = arr(ii).Penalty
+                        dt.Rows.Add(dr)
+                    End If
+                Next
+            End If
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim frm As New FrmFreeGrid
+                frm.dt = dt
+                frm.arrEditableColumn = New List(Of String)
+                frm.arrEditableColumn.Add("Penalty")
+                frm.strFormName = "Set Penalty"
+                frm.ReportID = "SchedulePenalty"
+                frm.WindowState = FormWindowState.Maximized
+                frm.ShowDialog()
+                If frm.dt IsNot Nothing AndAlso frm.dt.Rows.Count > 0 Then
+                    Dim ArrTemp As New List(Of clsItemTypeSchedulePenalty)
+                    Dim obj As clsItemTypeSchedulePenalty = Nothing
+                    For Each dr As DataRow In frm.dt.Rows
+                        obj = New clsItemTypeSchedulePenalty()
+                        obj.Penalty_Days = clsCommon.myCDecimal(dr("Days"))
+                        obj.Penalty = clsCommon.myCDecimal(dr("Penalty"))
+                        ArrTemp.Add(obj)
+                    Next
+                    gvSchedule.CurrentRow.Cells(ColScheduleLateDays).Tag = ArrTemp
+                Else
+                    gvSchedule.CurrentRow.Cells(ColScheduleLateDays).Tag = Nothing
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+    End Sub
+    Private Sub gvSchedule_KeyDown(sender As Object, e As KeyEventArgs) Handles gvSchedule.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            gvSchedule.BeginEdit()
+        ElseIf e.KeyCode = Keys.F5 Then
+            ShowPenalty()
+        End If
+    End Sub
+
+    Private Sub txtUOM__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtUOM._MYValidating
+        Dim qry As String = "select unit_code as [Code], unit_desc as [Description] from tspl_unit_master"
+        txtUOM.Value = clsCommon.ShowSelectForm("IMUOM", qry, "Code", "", txtUOM.Value, "", isButtonClicked)
+        lblUOM.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select unit_desc from tspl_unit_master where unit_code ='" + txtUOM.Value + "'"))
     End Sub
 End Class

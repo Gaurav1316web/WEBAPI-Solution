@@ -85,11 +85,8 @@ Public Class clsQualityCheckForSRNHead
 
     Public Shared Function SaveData(ByVal obj As clsQualityCheckForSRNHead, ByVal isNewEntry As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-        Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_QC_CHECK_HEAD.bill_to_location, TSPL_QC_CHECK_HEAD.Document_Code from TSPL_QC_CHECK_HEAD where Document_Code= '" + obj.Document_Code + "' ", trans)
-        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Order", clsCommon.myCstr(dts.Rows(0)("Bill_To_location")), obj.Document_Date, trans)
         Try
             SaveData(obj, isNewEntry, trans)
-
             trans.Commit()
             Return True
         Catch ex As Exception
@@ -457,7 +454,7 @@ Public Class clsQualityCheckForSRNHead
             qry1 = "Select distinct SRN_No from TSPL_TENDER_PENALTY_DETAIL WHERE SRN_No IN (Select  SRN_No from TSPL_SRN_HEAD WHERE SRN_No IN (SELECT DISTINCT SRN_Id  FROM TSPL_QC_CHECK_MRN_DETAIL WHERE Document_Code='" + strCode + "'))"
             dt = clsDBFuncationality.GetDataTable(qry1, trans)
             Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_QC_CHECK_HEAD.bill_to_location, TSPL_QC_CHECK_HEAD.Document_Code from TSPL_QC_CHECK_HEAD where Document_Code= '" + obj.Document_Code + "' ", trans)
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Order", clsCommon.myCstr(dts.Rows(0)("Bill_To_location")), obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleQualityControl, clsUserMgtCode.frmQualityCheckForSRN, clsCommon.myCstr(dts.Rows(0)("Bill_To_location")), obj.Document_Date, trans)
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 clsCommon.MyMessageBoxShow("First Delete RAL Penalty if created then delete SRN")
@@ -510,7 +507,7 @@ Public Class clsQualityCheckForSRNHead
             ' Dim qry As String = ""
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_Date,Bill_To_location from TSPL_QC_CHECK_HEAD where document_code='" + strCode + "'", trans)
             If dt Is Nothing AndAlso dt.Rows.Count > 0 Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Order", clsCommon.myCstr(dt.Rows(0)("Bill_To_location")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleQualityControl, clsUserMgtCode.frmQualityCheckForSRN, clsCommon.myCstr(dt.Rows(0)("Bill_To_location")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
                 'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleQualityControl, clsUserMgtCode.frmQualityCheckForSRN, clsCommon.myCstr(dt.Rows(0)("Bill_To_location")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
 
             End If
@@ -527,7 +524,7 @@ Public Class clsQualityCheckForSRNHead
             qry1 = "Select distinct SRN_No from TSPL_TENDER_PENALTY_DETAIL WHERE SRN_No IN (Select  SRN_No from TSPL_SRN_HEAD WHERE SRN_No IN (SELECT DISTINCT SRN_Id  FROM TSPL_QC_CHECK_MRN_DETAIL WHERE Document_Code='" + strCode + "'))"
             dt = clsDBFuncationality.GetDataTable(qry1, trans)
             Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_QC_CHECK_HEAD.bill_to_location, TSPL_QC_CHECK_HEAD.Document_Code from TSPL_QC_CHECK_HEAD where Document_Code= '" + obj.Document_Code + "' ", trans)
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Order", clsCommon.myCstr(dts.Rows(0)("Bill_To_location")), obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleQualityControl, clsUserMgtCode.frmQualityCheckForSRN, clsCommon.myCstr(dts.Rows(0)("Bill_To_location")), obj.Document_Date, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 clsCommon.MyMessageBoxShow("First Delete RAL Penalty if created then delete SRN")
                 Return True
@@ -564,7 +561,7 @@ Public Class clsQualityCheckForSRNHead
             ' Dim qry As String = ""
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_Date,Bill_To_location from TSPL_QC_CHECK_HEAD where document_code='" + strCode + "'", trans)
             If dt Is Nothing AndAlso dt.Rows.Count > 0 Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Order", clsCommon.myCstr(dt.Rows(0)("Bill_To_location")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleQualityControl, clsUserMgtCode.frmQualityCheckForSRN, clsCommon.myCstr(dt.Rows(0)("Bill_To_location")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
                 'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleQualityControl, clsUserMgtCode.frmQualityCheckForSRN, clsCommon.myCstr(dt.Rows(0)("Bill_To_location")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
 
             End If
@@ -635,7 +632,7 @@ Public Class clsQualityCheckForSRNHead
 
             Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_QC_CHECK_HEAD.Bill_To_location, TSPL_QC_CHECK_HEAD.Document_Date from TSPL_QC_CHECK_HEAD where Document_Code= '" + strCode + "' ", trans)
             If dts IsNot Nothing AndAlso dts.Rows.Count > 0 Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Order", clsCommon.myCstr(dts.Rows(0)("Bill_To_location")), clsCommon.myCDate(dts.Rows(0)("Document_Date")), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleQualityControl, clsUserMgtCode.frmQualityCheckForSRN, clsCommon.myCstr(dts.Rows(0)("Bill_To_location")), clsCommon.myCDate(dts.Rows(0)("Document_Date")), trans)
             End If
 
             Dim qry As String = "select Posted from TSPL_QC_CHECK_HEAD where Document_Code='" + strCode + "' "
@@ -888,7 +885,7 @@ Public Class clsQualityCheckForSRNHead
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_Date,Bill_To_location from TSPL_QC_CHECK_HEAD where document_code='" + strCode + "'", trans)
             'If dt Is Nothing AndAlso dt.Rows.Count > 0 Then
             If dt.Rows.Count > 0 Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Order", clsCommon.myCstr(dt.Rows(0)("Bill_To_location")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleQualityControl, clsUserMgtCode.frmQualityCheckForSRN, clsCommon.myCstr(dt.Rows(0)("Bill_To_location")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
                 'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleQualityControl, clsUserMgtCode.frmQualityCheckForSRN, clsCommon.myCstr(dt.Rows(0)("Bill_To_location")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
 
             End If

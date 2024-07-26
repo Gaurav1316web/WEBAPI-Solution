@@ -140,7 +140,7 @@ Public Class clsFarmerPaymentHeader
         Try
             '--------Checks Whertrher Transaction Is Locked Or Not-----------
             Dim LocSegmentCode As String = clsDBFuncationality.getSingleValue("Select RIGHT(BANKACC, 3) from TSPL_BANK_MASTER  Where BANK_CODE='" + obj.Bank_Code + "'", trans)
-            clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Payables", "Payment Entry", LocSegmentCode, obj.Payment_Date, trans)
+            clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePayable, clsUserMgtCode.PaymentEntryNew, LocSegmentCode, obj.Payment_Date, trans)
             '----------------------------------------------------------------
             If clsCommon.myLen(obj.Payment_No) > 0 Then
                 Dim isPosted As Integer = clsDBFuncationality.getSingleValue("Select Posted from TSPL_MP_PAY_HEAD Where Payment_No='" + obj.Payment_No + "'", trans)
@@ -688,7 +688,7 @@ Public Class clsFarmerPaymentHeader
                 End If
                 '--------Checks Whertrher Transaction Is Locked Or Not-----------
                 Dim LocSegmentCode As String = clsDBFuncationality.getSingleValue("Select RIGHT(BANKACC, 3) from TSPL_BANK_MASTER  Where BANK_CODE='" + obj.Bank_Code + "'", trans)
-                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Payables", "Payment Entry", LocSegmentCode, obj.Payment_Date, trans)
+                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePayable, clsUserMgtCode.PaymentEntryNew, LocSegmentCode, obj.Payment_Date, trans)
                 '----------------------------------------------------------------
             Else
                 Throw New Exception("Document not found to delete.")
@@ -1118,7 +1118,7 @@ Public Class clsFarmerPaymentHeader
             Else
                 '--------Checks Whertrher Transaction Is Locked Or Not-----------
                 LocSegmentCode = clsDBFuncationality.getSingleValue("Select RIGHT(BANKACC, 3) from TSPL_BANK_MASTER  Where BANK_CODE='" + clsCommon.myCstr(obj.Bank_Code) + "'", trans)
-                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Payables", "Payment Entry", LocSegmentCode, clsCommon.myCstr(obj.Payment_Date), trans)
+                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePayable, clsUserMgtCode.ModulePayable, LocSegmentCode, clsCommon.myCstr(obj.Payment_Date), trans)
                 '----------------------------------------------------------------
             End If
             If clsCommon.CompairString(clsCommon.myCstr(obj.Posted), "1") = CompairStringResult.Equal Or clsCommon.CompairString(clsCommon.myCstr(obj.Posted), "P") = CompairStringResult.Equal Then
@@ -2004,7 +2004,7 @@ Public Class clsFarmerPaymentHeader
         Try
             '--------Checks Whertrher Transaction Is Locked Or Not-----------
             Dim LocSegmentCode As String = clsDBFuncationality.getSingleValue("Select RIGHT(BANKACC, 3) from TSPL_BANK_MASTER  Where BANK_CODE='" + obj.Bank_Code + "'", trans)
-            clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Payables", "Payment Entry", LocSegmentCode, obj.Payment_Date, trans)
+            clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePayable, clsUserMgtCode.ModulePayable, LocSegmentCode, obj.Payment_Date, trans)
             '----------------------------------------------------------------
             'If clsCommon.myLen(obj.Payment_No) > 0 Then
             '    Dim isPosted As Integer = clsDBFuncationality.getSingleValue("Select Posted from TSPL_MP_PAY_HEAD Where Payment_No='" + obj.Payment_No + "'", trans)

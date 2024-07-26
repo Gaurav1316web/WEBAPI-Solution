@@ -49,23 +49,29 @@ Public Class frmAutoAdditionDeductionReport
             PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID)
             TemplateGridview = Gv1
             Dim Qry As String = " select (x.[DCS Code])[DCS Code],max([DCS Name])[DCS Name],(x.Code)Code,max(x.[DCS Type])[DCS Type],max(x.[Is Own BMC])[Is Own BMC],([Apply On])[Apply On],([Apply Type])[Apply Type],
-                                 (x.[Formula])Formula,sum(x.[Base Amount/Quantity])[Base Amount/Quantity],sum(x.[Addition/Deduction Amount])[Addition/Deduction Amount],ceiling(SUM(X.[Addition/Deduction Amount])) AS [Addition/Deduction AmountR]
+                                 (x.[Formula])Formula,"
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                Qry += " Case when max(x.[Addition/Deduction Description])='MILK CHILLING' then sum(x.[Addition/Deduction Amount])/0.35 else sum(x.[Base Amount/Quantity]) end as [Base Amount/Quantity] "
+            Else
+                Qry += " sum(x.[Base Amount/Quantity])[Base Amount/Quantity] "
+            End If
+            Qry += "  ,sum(x.[Addition/Deduction Amount])[Addition/Deduction Amount],ceiling(SUM(X.[Addition/Deduction Amount])) As [Addition/Deduction AmountR]
                                  ,max(x.[Addition/Deduction Description])[Addition/Deduction Description] from (select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Code],TSPL_VLC_MASTER_HEAD.VLC_Name  as [DCS Name]
                                  ,TSPL_VLC_MASTER_HEAD.VSP_Code as [Code],CASE WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=0 THEN 'All'
                                     WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=1 THEN 'DCS'
                                     WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=2 THEN 'PDCS'
                                     WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=3 THEN 'BMC'
                                     WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=4 THEN 'Cluster'
-                                    END AS [DCS Type],case when TSPL_VLC_MASTER_HEAD.isOwnBMC=1 then 'Yes' else 'No' end as [Is Own BMC]
+                                    End As [DCS Type],Case When TSPL_VLC_MASTER_HEAD.isOwnBMC=1 Then 'Yes' else 'No' end as [Is Own BMC]
 									  ,case when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=1 then 'Amount'
                                     when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=0 then 'Quantity' else '' end as [Apply On]
                                     ,case when TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=1 then 'Percentage'
                                     when TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=0 then 'Rate' else '' end as [Apply Type],Applicable_Value as [Formula]
-									   ,CASE when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=1 and TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=1 then
-                                    cast(TSPL_MILK_SRN_DETAIL.NET_AMOUNT as decimal(18,2)) 
-                                     when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=0 and TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=0 then
-                                    cast(TSPL_MILK_SRN_DETAIL.Qty as decimal(18,2)) 
-                                    else 0 end AS [Base Amount/Quantity]
+									   ,CASE when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=1 And TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=1 then
+                                    cast(TSPL_MILK_SRN_DETAIL.NET_AMOUNT As Decimal(18, 2)) 
+                                     when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=0 And TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=0 then
+                                    cast(TSPL_MILK_SRN_DETAIL.Qty As Decimal(18, 2)) 
+                                    Else 0 end AS [Base Amount/Quantity]
 									,TSPL_MILK_SRN_DETAIL.AMOUNT, TSPL_MILK_SRN_DETAIL.Qty ,TSPL_MILK_SRN_DETAIL.NET_AMOUNT
 									,TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.Amt As [Addition/Deduction Amount]
 									,TSPL_DCS_ADDITION_DEDUCTION.Description As [Addition/Deduction Description]

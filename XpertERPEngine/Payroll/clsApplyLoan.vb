@@ -173,7 +173,7 @@ Public Class clsApplyLoan
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
 
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Payroll", "Apply Loan", obj.Location, obj.LOAN_DATE, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleHR, clsUserMgtCode.frmApplyLoan, obj.Location, obj.LOAN_DATE, trans)
             If isNewEntry Then
                 If strCode = "" Then
                     obj.LOAN_CODE = clsERPFuncationality.GetNextCode(trans, obj.LOAN_DATE, clsDocType.ApplyLoan, "", "")

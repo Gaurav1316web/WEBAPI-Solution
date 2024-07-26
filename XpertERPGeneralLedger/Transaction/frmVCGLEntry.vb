@@ -581,7 +581,7 @@ Public Class frmVCGLEntry
             txtLocSegment.Focus()
             Return False
         Else
-            clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "General Ledger", "VCGL Entry", txtLocSegment.Value, txtDate.Value, Nothing)
+            clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleGL, clsUserMgtCode.mbtnVCGLEntry, txtLocSegment.Value, txtDate.Value, Nothing)
         End If
         If AllowTransferVSPAmtToFarmerinVCGL Then
             Dim dblfarmercount As Double = 0

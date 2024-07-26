@@ -428,7 +428,7 @@ Public Class clsERPFuncationality
 
         Try
             If AllowLockTransactionUserwise = 0 Then
-                Qry = "Select (CONVERT(varchar, Start_Date, 103) +'  To  '+ CONVERT(varchar, End_Date, 103)) as DateRange from TSPL_LOCK_LOCATION_SEGMENT Where Comp_Code='" + CompCode + "' AND Module_Name='" + Modulee + "' AND Trans_Name='" + transName + "' AND Location_Segment_Code='" + Location + "'"
+                Qry = "Select (CONVERT(varchar, Start_Date, 103) +'  To  '+ CONVERT(varchar, End_Date, 103)) as DateRange from TSPL_LOCK_LOCATION_SEGMENT Where Comp_Code='" + CompCode + "' AND ModuleCode='" + Modulee + "' AND TransCode='" + transName + "' AND Location_Segment_Code='" + Location + "'"
                 Qry += " AND Is_Locked='1' AND Convert(Date, Start_Date, 103)<=convert(Date, '" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "', 103) AND Convert(Date, End_Date , 103)>=convert(Date, '" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "', 103)"
                 Dim DateRange As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Qry, trans))
                 If clsCommon.myLen(DateRange) > 0 Then
@@ -513,7 +513,7 @@ Public Class clsERPFuncationality
         'Dim AllowLockTransactionUserwise As Integer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowLockTransactionUserwise, clsFixedParameterCode.AllowLockTransactionUserwise, trans))
         Try
             If objCommonVar.AllowLockTransactionUserwise = 0 Then
-                Qry = "Select (CONVERT(varchar, Start_Date, 103) +'  To  '+ CONVERT(varchar, End_Date, 103)) as DateRange from TSPL_LOCK_LOCATION Where TSPL_LOCK_LOCATION.Comp_Code='" + CompCode + "' AND TSPL_LOCK_LOCATION.Module_Name='" + Modulee + "' AND TSPL_LOCK_LOCATION.Trans_Name='" + transName + "' AND TSPL_LOCK_LOCATION.Location_Code='" + Location + "'"
+                Qry = "Select (CONVERT(varchar, Start_Date, 103) +'  To  '+ CONVERT(varchar, End_Date, 103)) as DateRange from TSPL_LOCK_LOCATION Where TSPL_LOCK_LOCATION.Comp_Code='" + CompCode + "' AND TSPL_LOCK_LOCATION.ModuleCode='" + Modulee + "' AND TSPL_LOCK_LOCATION.TransCode='" + transName + "' AND TSPL_LOCK_LOCATION.Location_Code='" + Location + "'"
                 Qry += " AND TSPL_LOCK_LOCATION.Is_Locked='1' AND Convert(Date, Start_Date, 103)<=convert(Date, '" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "', 103) AND Convert(Date, End_Date , 103)>=convert(Date, '" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "', 103)"
                 Dim DateRange As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Qry, trans))
                 If clsCommon.myLen(DateRange) > 0 Then

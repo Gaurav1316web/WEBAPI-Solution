@@ -163,7 +163,7 @@ Public Class clsAssetRequisition
                     obj.ASSET_REQ_CODE = strCode
                 End If
             End If
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Fixed Asset", "Asset Requisition", obj.LOCATION_CODE, obj.REQ_DATE, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleFixedAsset, clsUserMgtCode.frmAssetRequisition, obj.LOCATION_CODE, obj.REQ_DATE, trans)
             Dim qry As String = "DELETE FROM TSPL_ASSET_REQUISITION_DETAIL WHERE ASSET_REQ_CODE='" + obj.ASSET_REQ_CODE + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             Dim strDocNo As String = ""
