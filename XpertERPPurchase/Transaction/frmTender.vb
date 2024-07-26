@@ -6,6 +6,7 @@ Public Class frmTender
     Dim userCode, companyCode As String
     Dim itemtype As String
 #Region "Variables"
+    Dim isCellValueChangedOpenSchedule As Boolean = False
     Dim blnPageLoad As Boolean = False
     Private isCellValueChangedOpen As Boolean = False
     Private isNewEntry As Boolean = False
@@ -14,6 +15,8 @@ Public Class frmTender
     Const colLineNo As String = "COLLNO"
     Const colICode As String = "COLICODE"
     Const colIName As String = "COLINAME"
+    Const colITypeCode As String = "colITypeCode"
+    Const colITypeName As String = "colITypeName"
     Const colLCode As String = "COLLCODE"
     Const colLName As String = "COLLNAME"
     Const colVCode As String = "COLVCODE"
@@ -41,6 +44,8 @@ Public Class frmTender
     Const colScheduleLName As String = "colScheduleLName"
     Const colScheduleICode As String = "colScheduleICode"
     Const colScheduleIName As String = "colScheduleIName"
+    Const colScheduleITypeCode As String = "colScheduleITypeCode"
+    Const colScheduleITypeName As String = "colScheduleITypeName"
     Const colScheduleQtyPer As String = "colScheduleQtyPer"
     Const colScheduleQty As String = "colScheduleQty"
     Const colScheduleShortPer As String = "colScheduleShortPer"
@@ -48,7 +53,6 @@ Public Class frmTender
     Const colScheduleLateDays As String = "colScheduleLateDays"
     Const colScheduleExtensionDays As String = "colScheduleExtensionDays"
     Dim ButtonToolTip As ToolTip = New ToolTip()
-
 #End Region
     Public Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
@@ -67,7 +71,6 @@ Public Class frmTender
         btnreverse.Visible = False
     End Sub
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
         isPageLoadData = True
         SetUserMgmtNew()
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction")
@@ -81,11 +84,33 @@ Public Class frmTender
         LoadItemType()
         LoadTenderType()
         LoadMode()
-        LoadBlankGrid1()
-        LoadBlankGrid2()
+        LoadTenderOn()
+        LoadBlankGrid(gv1)
+        LoadBlankGrid(gv2)
         AddNew()
         isPageLoadData = False
         Cancel_btn.Enabled = False
+
+    End Sub
+    Sub LoadTenderOn()
+        Dim dt As DataTable = New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+        dt.Columns.Add("Name", GetType(String))
+
+        Dim dr As DataRow
+        dr = dt.NewRow()
+        dr("Code") = "0"
+        dr("Name") = "Item"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "1"
+        dr("Name") = "Item Type"
+        dt.Rows.Add(dr)
+
+        cboRALOn.DataSource = dt
+        cboRALOn.ValueMember = "Code"
+        cboRALOn.DisplayMember = "Name"
     End Sub
     Sub LoadMode()
         Dim dt As DataTable = New DataTable()
@@ -137,7 +162,6 @@ Public Class frmTender
         cboTenderType.ValueMember = "Code"
         cboTenderType.DisplayMember = "Name"
     End Sub
-
     Sub LoadItemType()
         'cboItemType.DataSource = clsItemMaster.GetItemType()
         Dim Whr = " AND IS_NON_INVENTORY=0   AND ITEM_TYPE_CODE NOT IN('J') "
@@ -145,7 +169,6 @@ Public Class frmTender
         cboItemType.ValueMember = "Code"
         cboItemType.DisplayMember = "Name"
     End Sub
-
     Sub BlankAllControls()
         'Cancel_btn.Visible = False
         txtDocNo.Value = ""
@@ -174,12 +197,12 @@ Public Class frmTender
         chkRalclose.Checked = False
         cboTenderType.SelectedValue = "0"
         cboMode.SelectedValue = "1"
+        cboRALOn.SelectedValue = "0"
     End Sub
-
-    Sub LoadBlankGrid1()
+    Sub LoadBlankGrid(gv)
         Dim qry As String = String.Empty
-        gv1.Rows.Clear()
-        gv1.Columns.Clear()
+        gv.Rows.Clear()
+        gv.Columns.Clear()
 
         Dim TAX_PAID As New GridViewComboBoxColumn
         Dim BOOK_RATE_UOM As New GridViewTextBoxColumn
@@ -192,7 +215,7 @@ Public Class frmTender
         repoLineNo.Width = 50
         repoLineNo.ReadOnly = True
         repoLineNo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        gv1.MasterTemplate.Columns.Add(repoLineNo)
+        gv.MasterTemplate.Columns.Add(repoLineNo)
 
         Dim repoICode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoICode.FormatString = ""
@@ -203,7 +226,9 @@ Public Class frmTender
         repoICode.Width = 100
         repoICode.IsVisible = True
         repoICode.ReadOnly = True
-        gv1.MasterTemplate.Columns.Add(repoICode)
+        gv.MasterTemplate.Columns.Add(repoICode)
+
+
 
         Dim repoIName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoIName.FormatString = ""
@@ -212,7 +237,25 @@ Public Class frmTender
         repoIName.Width = 150
         repoIName.ReadOnly = True
         repoIName.IsVisible = True
-        gv1.MasterTemplate.Columns.Add(repoIName)
+        gv.MasterTemplate.Columns.Add(repoIName)
+
+        repoICode = New GridViewTextBoxColumn()
+        repoICode.FormatString = ""
+        repoICode.HeaderText = "Item Type Code"
+        repoICode.Name = colITypeCode
+        repoICode.Width = 100
+        repoICode.IsVisible = True
+        repoICode.ReadOnly = True
+        gv.MasterTemplate.Columns.Add(repoICode)
+
+        repoIName = New GridViewTextBoxColumn()
+        repoIName.FormatString = ""
+        repoIName.HeaderText = "Item Type Name"
+        repoIName.Name = colITypeName
+        repoIName.Width = 150
+        repoIName.ReadOnly = True
+        repoIName.IsVisible = True
+        gv.MasterTemplate.Columns.Add(repoIName)
 
         Dim repoLCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoLCode.FormatString = ""
@@ -223,7 +266,7 @@ Public Class frmTender
         repoLCode.ReadOnly = True
         repoLCode.Width = 100
         repoLCode.IsVisible = True
-        gv1.MasterTemplate.Columns.Add(repoLCode)
+        gv.MasterTemplate.Columns.Add(repoLCode)
 
         Dim repoLName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoLName.FormatString = ""
@@ -232,7 +275,7 @@ Public Class frmTender
         repoLName.Width = 150
         repoLName.ReadOnly = True
         repoLName.IsVisible = True
-        gv1.MasterTemplate.Columns.Add(repoLName)
+        gv.MasterTemplate.Columns.Add(repoLName)
 
         Dim repoVCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoVCode.FormatString = ""
@@ -242,7 +285,7 @@ Public Class frmTender
         repoVCode.IsVisible = True
         repoVCode.HeaderImage = My.Resources.search4
         repoVCode.TextImageRelation = TextImageRelation.TextBeforeImage
-        gv1.MasterTemplate.Columns.Add(repoVCode)
+        gv.MasterTemplate.Columns.Add(repoVCode)
 
         Dim repoVName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoVName.FormatString = ""
@@ -251,17 +294,10 @@ Public Class frmTender
         repoVName.Width = 150
         repoVName.ReadOnly = True
         repoVName.IsVisible = True
-        gv1.MasterTemplate.Columns.Add(repoVName)
+        gv.MasterTemplate.Columns.Add(repoVName)
 
 
-        Dim repoUnit As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoUnit.FormatString = ""
-        repoUnit.HeaderText = "UOM"
-        repoUnit.Name = colUnit
-        repoUnit.Width = 80
-        repoUnit.HeaderImage = My.Resources.search4
-        repoUnit.TextImageRelation = TextImageRelation.TextBeforeImage
-        gv1.MasterTemplate.Columns.Add(repoUnit)
+
 
 
 
@@ -275,8 +311,16 @@ Public Class frmTender
         repoQty.ShowUpDownButtons = False
         repoQty.Step = 0
         repoQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        gv1.MasterTemplate.Columns.Add(repoQty)
+        gv.MasterTemplate.Columns.Add(repoQty)
 
+        Dim repoUnit As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoUnit.FormatString = ""
+        repoUnit.HeaderText = "UOM"
+        repoUnit.Name = colUnit
+        repoUnit.Width = 80
+        repoUnit.HeaderImage = My.Resources.search4
+        repoUnit.TextImageRelation = TextImageRelation.TextBeforeImage
+        gv.MasterTemplate.Columns.Add(repoUnit)
 
         Dim repoRate As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoRate = New GridViewDecimalColumn()
@@ -288,7 +332,7 @@ Public Class frmTender
         repoRate.ReadOnly = False
         repoRate.IsVisible = True
         repoRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        gv1.MasterTemplate.Columns.Add(repoRate)
+        gv.MasterTemplate.Columns.Add(repoRate)
 
         Dim repoSelect As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoSelect.FormatString = ""
@@ -296,7 +340,7 @@ Public Class frmTender
         repoSelect.Name = colTaxExclusive
         repoSelect.Width = 80
         repoSelect.IsVisible = True
-        gv1.MasterTemplate.Columns.Add(repoSelect)
+        gv.MasterTemplate.Columns.Add(repoSelect)
 
         Dim repoDiscount As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoDiscount = New GridViewDecimalColumn()
@@ -308,7 +352,7 @@ Public Class frmTender
         repoDiscount.ReadOnly = False
         repoDiscount.IsVisible = True
         repoDiscount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        gv1.MasterTemplate.Columns.Add(repoDiscount)
+        gv.MasterTemplate.Columns.Add(repoDiscount)
 
 
         Dim repoAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
@@ -322,7 +366,7 @@ Public Class frmTender
         repoAmt.IsVisible = True
         repoAmt.VisibleInColumnChooser = True
         repoAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        gv1.MasterTemplate.Columns.Add(repoAmt)
+        gv.MasterTemplate.Columns.Add(repoAmt)
 
 
 
@@ -331,200 +375,27 @@ Public Class frmTender
         repoRemarks.HeaderText = "Remarks"
         repoRemarks.Name = colRemarks
         repoRemarks.Width = 200
-        gv1.MasterTemplate.Columns.Add(repoRemarks)
+        gv.MasterTemplate.Columns.Add(repoRemarks)
 
         Dim repoComments As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoComments.FormatString = ""
         repoComments.HeaderText = "Comments"
         repoComments.Name = colComments
         repoComments.Width = 200
-        gv1.MasterTemplate.Columns.Add(repoComments)
+        gv.MasterTemplate.Columns.Add(repoComments)
 
-        gv1.AllowDeleteRow = True
-        gv1.AllowAddNewRow = False
-        gv1.ShowGroupPanel = False
-        gv1.AllowColumnReorder = False
-        gv1.AllowRowReorder = False
-        gv1.EnableSorting = False
-        gv1.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
-        gv1.MasterTemplate.ShowRowHeaderColumn = False
-        gv1.TableElement.TableHeaderHeight = 40
-
+        gv.AllowDeleteRow = True
+        gv.AllowAddNewRow = False
+        gv.ShowGroupPanel = False
+        gv.AllowColumnReorder = False
+        gv.AllowRowReorder = False
+        gv.EnableSorting = False
+        gv.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
+        gv.MasterTemplate.ShowRowHeaderColumn = False
+        gv.TableElement.TableHeaderHeight = 40
+        ApplyTendorOn()
     End Sub
 
-    Sub LoadBlankGrid2()
-        gv2.Rows.Clear()
-        gv2.Columns.Clear()
-
-
-        Dim repoLineNo As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoLineNo = New GridViewDecimalColumn()
-        repoLineNo.FormatString = ""
-        repoLineNo.HeaderText = "Line No"
-        repoLineNo.Name = colLineNo
-        repoLineNo.Width = 50
-        repoLineNo.ReadOnly = True
-        repoLineNo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        gv2.MasterTemplate.Columns.Add(repoLineNo)
-
-        Dim repoICode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoICode.FormatString = ""
-        repoICode.HeaderText = "Item Code"
-        repoICode.Name = colICode
-        'repoICode.HeaderImage = My.Resources.search4
-        'repoICode.TextImageRelation = TextImageRelation.TextBeforeImage
-        repoICode.ReadOnly = True
-        repoICode.Width = 100
-        repoICode.IsVisible = True
-        gv2.MasterTemplate.Columns.Add(repoICode)
-
-        Dim repoIName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoIName.FormatString = ""
-        repoIName.HeaderText = "Item Description"
-        repoIName.Name = colIName
-        repoIName.Width = 150
-        repoIName.ReadOnly = True
-        repoIName.IsVisible = True
-        gv2.MasterTemplate.Columns.Add(repoIName)
-
-        Dim repoLCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoLCode.FormatString = ""
-        repoLCode.HeaderText = "Location Code"
-        repoLCode.Name = colLCode
-        repoLCode.ReadOnly = True
-        repoLCode.Width = 100
-        repoLCode.IsVisible = True
-        gv2.MasterTemplate.Columns.Add(repoLCode)
-
-        Dim repoLName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoLName.FormatString = ""
-        repoLName.HeaderText = "Location Name"
-        repoLName.Name = colLName
-        repoLName.Width = 150
-        repoLName.ReadOnly = True
-        repoLName.IsVisible = True
-        gv2.MasterTemplate.Columns.Add(repoLName)
-
-        Dim repoVCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoVCode.FormatString = ""
-        repoVCode.HeaderText = "Vendor Code"
-        repoVCode.Name = colVCode
-        repoVCode.HeaderImage = My.Resources.search4
-        repoVCode.TextImageRelation = TextImageRelation.TextBeforeImage
-        repoVCode.ReadOnly = False
-        repoVCode.Width = 100
-        repoVCode.IsVisible = True
-        gv2.MasterTemplate.Columns.Add(repoVCode)
-
-        Dim repoVName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoVName.FormatString = ""
-        repoVName.HeaderText = "Vendor Name"
-        repoVName.Name = colVName
-        repoVName.Width = 150
-        repoVName.ReadOnly = True
-        repoVName.IsVisible = True
-        gv2.MasterTemplate.Columns.Add(repoVName)
-
-
-        Dim repoUnit As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoUnit.FormatString = ""
-        repoUnit.HeaderText = "UOM"
-        repoUnit.Name = colUnit
-        repoUnit.HeaderImage = My.Resources.search4
-        repoUnit.TextImageRelation = TextImageRelation.TextBeforeImage
-        repoUnit.Width = 80
-        repoUnit.ReadOnly = False
-        gv2.MasterTemplate.Columns.Add(repoUnit)
-
-
-
-        Dim repoQty As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoQty = New GridViewDecimalColumn()
-        repoQty.FormatString = ""
-        repoQty.HeaderText = "Quantity"
-        repoQty.Name = colQty
-        repoQty.ReadOnly = False
-        repoQty.Width = 80
-        repoQty.Minimum = 0
-        repoQty.ShowUpDownButtons = False
-        repoQty.Step = 0
-        repoQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        gv2.MasterTemplate.Columns.Add(repoQty)
-
-
-        Dim repoRate As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoRate = New GridViewDecimalColumn()
-        repoRate.FormatString = ""
-        repoRate.HeaderText = "Rate"
-        repoRate.Name = colRate
-        repoRate.Width = 80
-        repoRate.Minimum = 0
-        repoRate.ReadOnly = False
-        repoRate.IsVisible = True
-        repoRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        gv2.MasterTemplate.Columns.Add(repoRate)
-
-        Dim repoSelect As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
-        repoSelect.FormatString = ""
-        repoSelect.HeaderText = "Tax Exclusive"
-        repoSelect.Name = colTaxExclusive
-        repoSelect.Width = 80
-        repoSelect.IsVisible = True
-        gv2.MasterTemplate.Columns.Add(repoSelect)
-
-        Dim repoDiscount As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoDiscount = New GridViewDecimalColumn()
-        repoDiscount.FormatString = ""
-        repoDiscount.HeaderText = "Discount % Age"
-        repoDiscount.Name = colDiscount
-        repoDiscount.Width = 80
-        repoDiscount.Minimum = 0
-        repoDiscount.ReadOnly = False
-        repoDiscount.IsVisible = True
-        repoDiscount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        gv2.MasterTemplate.Columns.Add(repoDiscount)
-
-
-        Dim repoAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoAmt = New GridViewDecimalColumn()
-        repoAmt.FormatString = ""
-        repoAmt.HeaderText = "Amount"
-        repoAmt.Name = colAmt
-        repoAmt.Width = 80
-        repoAmt.Minimum = 0
-        repoAmt.ReadOnly = True
-        repoAmt.IsVisible = True
-        repoAmt.VisibleInColumnChooser = True
-        repoAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        gv2.MasterTemplate.Columns.Add(repoAmt)
-
-
-        Dim repoRemarks As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoRemarks.FormatString = ""
-        repoRemarks.HeaderText = "Remarks"
-        repoRemarks.Name = colRemarks
-        repoRemarks.Width = 200
-        repoRemarks.ReadOnly = False
-        gv2.MasterTemplate.Columns.Add(repoRemarks)
-
-        Dim repoComments As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoComments.FormatString = ""
-        repoComments.HeaderText = "Comments"
-        repoComments.Name = colComments
-        repoComments.Width = 200
-        repoComments.ReadOnly = False
-        gv2.MasterTemplate.Columns.Add(repoComments)
-
-        gv2.AllowDeleteRow = True
-        gv2.AllowAddNewRow = False
-        gv2.ShowGroupPanel = False
-        gv2.AllowColumnReorder = False
-        gv2.AllowRowReorder = False
-        gv2.EnableSorting = False
-        gv2.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
-        gv2.MasterTemplate.ShowRowHeaderColumn = False
-        gv2.TableElement.TableHeaderHeight = 40
-    End Sub
     Private Sub gv1_CellValueChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv1.CellValueChanged
         Try
 
@@ -546,7 +417,7 @@ Public Class frmTender
                             'OpenItemList(False)
                             'Dim strICode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
                             'Dim strIUOM As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
-                            'ItemPrice(strICode, strIUOM, clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value), gv1.CurrentRow.Index)
+                            'ItemPrice(strICode, strIUOM, clsCommon.myCDecimal(gv1.CurrentRow.Cells(colQty).Value), gv1.CurrentRow.Index)
                             Dim whrCls As String = Nothing
                             Dim qry As String = "select Vendor_Code as Code,Vendor_Name as Name from TSPL_VENDOR_MASTER "
                             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") = CompairStringResult.Equal Then
@@ -561,26 +432,36 @@ Public Class frmTender
                             End If
 
                         ElseIf e.Column Is gv1.Columns(colUnit) Then
-                            Dim strICode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
-
-                            If clsCommon.myLen(strICode) > 0 Then
-                                'OpenUOMList(False)
+                            If clsCommon.myCDecimal(cboRALOn.SelectedValue) = 0 Then
+                                Dim strICode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
                                 If clsCommon.myLen(strICode) > 0 Then
-                                    Dim qry As String = "select UOM_Code as Code,UOM_Description as [Description] from TSPL_ITEM_UOM_DETAIL"
-                                    Dim whrCls As String = "Item_Code='" + strICode + "'"
-                                    gv1.CurrentRow.Cells(colUnit).Value = clsCommon.ShowSelectForm("ITEM-TenFndr1", qry, "Code", whrCls, clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), "Code", False)
-
+                                    'OpenUOMList(False)
+                                    If clsCommon.myLen(strICode) > 0 Then
+                                        Dim qry As String = "select UOM_Code as Code,UOM_Description as [Description] from TSPL_ITEM_UOM_DETAIL"
+                                        Dim whrCls As String = "Item_Code='" + strICode + "'"
+                                        gv1.CurrentRow.Cells(colUnit).Value = clsCommon.ShowSelectForm("ITEM-TenFndr1", qry, "Code", whrCls, clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), "Code", False)
+                                    End If
+                                Else
+                                    Throw New Exception("Please fill item first.")
+                                    isCellValueChangedOpen = False
+                                    Exit Sub
                                 End If
-
                             Else
-                                Throw New Exception("Please fill item first.")
-                                isCellValueChangedOpen = False
-                                Exit Sub
+                                Dim strICode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colITypeCode).Value)
+                                If clsCommon.myLen(strICode) > 0 Then
+                                    If clsCommon.myLen(strICode) > 0 Then
+                                        Dim qry As String = "select UOM from TSPL_ITEM_TYPE_MASTER where ITEM_TYPE_CODE='" + strICode + "'"
+                                        gv1.CurrentRow.Cells(colUnit).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
+                                    End If
+                                Else
+                                    Throw New Exception("Please fill item first.")
+                                    isCellValueChangedOpen = False
+                                    Exit Sub
+                                End If
                             End If
 
                         ElseIf e.Column Is gv1.Columns(colQty) OrElse e.Column Is gv1.Columns(colRate) Then
-
-                            gv1.CurrentRow.Cells(colAmt).Value = clsCommon.myCdbl(gv1.CurrentRow.Cells(colRate).Value) * clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value)
+                            gv1.CurrentRow.Cells(colAmt).Value = clsCommon.myCDecimal(gv1.CurrentRow.Cells(colRate).Value) * clsCommon.myCDecimal(gv1.CurrentRow.Cells(colQty).Value)
                         End If
                     End If
                 End If
@@ -600,7 +481,6 @@ Public Class frmTender
 
 
     End Sub
-
     Private Sub gv1_UserAddedRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowEventArgs) Handles gv1.UserAddedRow
         For i As Integer = 0 To gv1.Rows.Count - 1
             gv1.Rows(0).Cells(0).Value = 1
@@ -609,21 +489,19 @@ Public Class frmTender
             End If
         Next
     End Sub
-
     Private Sub UpdateCurrentRow(ByVal IntRowNo As Integer)
-        gv1.Rows(IntRowNo).Cells(colAmt).Value = Math.Round(clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value) * clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRate).Value), 2)
+        gv1.Rows(IntRowNo).Cells(colAmt).Value = Math.Round(clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(colQty).Value) * clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(colRate).Value), 2)
     End Sub
-
     Private Sub btnAddNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddNew.Click
         AddNew()
     End Sub
-
     Sub AddNew()
+
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtScheduleStartDate.Value = txtDate.Value
         BlankAllControls()
-        LoadBlankGrid1()
-        LoadBlankGrid2()
+        LoadBlankGrid(gv1)
+        LoadBlankGrid(gv2)
         isNewEntry = True
         btnSave.Text = "Save"
         btnSave.Enabled = True
@@ -635,16 +513,17 @@ Public Class frmTender
         txtDocNo.MyReadOnly = False
         lblTenderSeqNo.Text = ""
         cboItemType.SelectedValue = ""
+
         gvSchedule.Rows.Clear()
         gvSchedule.Columns.Clear()
+        cboRALOn.Enabled = Not objCommonVar.RCDFCFP
     End Sub
-
     Function AllowToSaveRAL_Type(ByVal trans As SqlTransaction) As Boolean
         Try
             Dim qst As String = "SELECT TSPL_LOCATION_MASTER.IsMainPlant FROM TSPL_USER_MASTER
                      INNER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.LOCATION_CODE=TSPL_USER_MASTER.Default_Location
                      WHERE USER_CODE='" + objCommonVar.CurrentUserCode + "'"
-            Dim IsMainPlant As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qst, trans))
+            Dim IsMainPlant As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qst, trans))
             If IsMainPlant = 0 Then
                 If clsCommon.myCDecimal(cboTenderType.SelectedValue) = 0 Then
                     cboTenderType.Focus()
@@ -657,7 +536,6 @@ Public Class frmTender
         End Try
         Return True
     End Function
-
     Function AllowToSave(ByVal trans As SqlTransaction) As Boolean
         Try
 
@@ -674,23 +552,32 @@ Public Class frmTender
             Dim dblTotalAmount As Double = 0
             For ii As Integer = 0 To gv2.Rows.Count - 1
                 Dim strICode As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colICode).Value)
+                Dim strITypeCode As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colITypeCode).Value)
                 Dim strVCode As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colVCode).Value)
                 Dim strLCode As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colLCode).Value)
 
                 Dim strIName As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colIName).Value)
-                Dim dblQty As Double = clsCommon.myCdbl(gv2.Rows(ii).Cells(colQty).Value)
-                Dim dblrate As Double = clsCommon.myCdbl(gv2.Rows(ii).Cells(colRate).Value)
+                Dim dblQty As Double = clsCommon.myCDecimal(gv2.Rows(ii).Cells(colQty).Value)
+                Dim dblrate As Double = clsCommon.myCDecimal(gv2.Rows(ii).Cells(colRate).Value)
                 Dim strUOM As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colUnit).Value)
-                Dim dblAmount As Double = clsCommon.myCdbl(gv2.Rows(ii).Cells(colAmt).Value)
-                Dim dblDiscount As Double = clsCommon.myCdbl(gv2.Rows(ii).Cells(colDiscount).Value)
+                Dim dblAmount As Double = clsCommon.myCDecimal(gv2.Rows(ii).Cells(colAmt).Value)
+                Dim dblDiscount As Double = clsCommon.myCDecimal(gv2.Rows(ii).Cells(colDiscount).Value)
 
 
                 dblTotalAmount = dblTotalAmount + dblAmount
 
-                If clsCommon.myLen(strICode) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Please enter Item At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
-                    Return False
+                If clsCommon.myCDecimal(cboRALOn.SelectedValue) = 0 Then
+                    If clsCommon.myLen(strICode) <= 0 Then
+                        common.clsCommon.MyMessageBoxShow(Me, "Please enter Item At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
+                        Return False
+                    End If
+                Else
+                    If clsCommon.myLen(strITypeCode) <= 0 Then
+                        common.clsCommon.MyMessageBoxShow(Me, "Please enter Item Type At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
+                        Return False
+                    End If
                 End If
+
 
                 If clsCommon.myLen(strLCode) <= 0 Then
                     common.clsCommon.MyMessageBoxShow(Me, "Please enter Location for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
@@ -713,52 +600,56 @@ Public Class frmTender
                     Return False
                 End If
 
-                If clsCommon.myLen(strICode) > 0 AndAlso clsCommon.myLen(strLCode) > 0 AndAlso clsCommon.myLen(strVCode) > 0 AndAlso clsCommon.myCdbl(dblrate) <= 0 AndAlso clsCommon.myCdbl(dblDiscount) <= 0 AndAlso clsCommon.myCDecimal(cboTenderType.SelectedValue) = 2 Then
+                If (clsCommon.myLen(strICode) > 0 OrElse clsCommon.myLen(strITypeCode) > 0) AndAlso clsCommon.myLen(strLCode) > 0 AndAlso clsCommon.myLen(strVCode) > 0 AndAlso clsCommon.myCDecimal(dblrate) <= 0 AndAlso clsCommon.myCDecimal(dblDiscount) <= 0 AndAlso clsCommon.myCDecimal(cboTenderType.SelectedValue) = 2 Then
                     clsCommon.MyMessageBoxShow(Me, "Please enter Rate or Discount for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
                     Return False
                 End If
 
-                If clsCommon.myCdbl(dblrate) <= 0 AndAlso clsCommon.myCDecimal(cboTenderType.SelectedValue) <> 2 Then
+                If clsCommon.myCDecimal(dblrate) <= 0 AndAlso clsCommon.myCDecimal(cboTenderType.SelectedValue) <> 2 Then
                     clsCommon.MyMessageBoxShow(Me, "Please enter Booked Rate for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
                     Return False
                 End If
 
-                If (clsCommon.myLen(strICode) > 0) Then
+                If (clsCommon.myLen(strICode) > 0 OrElse clsCommon.myLen(strITypeCode) > 0) Then
 
                     For jj As Integer = 0 To gv2.Rows.Count - 1
                         If jj = ii Then
                             Continue For
                         End If
                         Dim strInnerICode As String = clsCommon.myCstr(gv2.Rows(jj).Cells(colICode).Value)
+                        Dim strInnerITypeCode As String = clsCommon.myCstr(gv2.Rows(jj).Cells(colITypeCode).Value)
                         Dim strInnerLCode As String = clsCommon.myCstr(gv2.Rows(jj).Cells(colLCode).Value)
                         Dim strInnerVCode As String = clsCommon.myCstr(gv2.Rows(jj).Cells(colVCode).Value)
                         Dim strInnerUOM As String = clsCommon.myCstr(gv2.Rows(jj).Cells(colUnit).Value)
 
-                        If clsCommon.CompairString(strICode, strInnerICode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strLCode, strInnerLCode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strVCode, strInnerVCode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strUOM, strInnerUOM) = CompairStringResult.Equal Then
-                            Dim Msg As String = "Same Detail Exist at Row No " + clsCommon.myCstr(ii + 1) + " And " + clsCommon.myCstr(jj + 1)
-                            common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
-                            Return False
+                        If clsCommon.myCDecimal(cboRALOn.SelectedValue) = 0 Then
+                            If clsCommon.CompairString(strICode, strInnerICode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strLCode, strInnerLCode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strVCode, strInnerVCode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strUOM, strInnerUOM) = CompairStringResult.Equal Then
+                                Dim Msg As String = "Same Detail Exist at Row No " + clsCommon.myCstr(ii + 1) + " And " + clsCommon.myCstr(jj + 1)
+                                common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
+                                Return False
+                            End If
+                        Else
+                            If clsCommon.CompairString(strITypeCode, strInnerITypeCode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strLCode, strInnerLCode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strVCode, strInnerVCode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strUOM, strInnerUOM) = CompairStringResult.Equal Then
+                                Dim Msg As String = "Same Detail Exist at Row No " + clsCommon.myCstr(ii + 1) + " And " + clsCommon.myCstr(jj + 1)
+                                common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
+                                Return False
+                            End If
                         End If
-
                     Next
                 End If
             Next
             RefreshSerialNo()
-            lblTotalDocAmt.Text = Math.Round(clsCommon.myCdbl(dblTotalAmount), 2)
-
+            lblTotalDocAmt.Text = Math.Round(clsCommon.myCDecimal(dblTotalAmount), 2)
             'UpdateAllTotals()
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
     End Function
-
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         SavingData(False)
     End Sub
-
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (SaveData()) Then
             If ChekBtnPost = False Then
@@ -768,7 +659,6 @@ Public Class frmTender
 
         End If
     End Sub
-
     Private Function SaveData() As Boolean
         Try
             Dim qry As String = ""
@@ -777,7 +667,7 @@ Public Class frmTender
                 Dim obj As New clsTenderHead()
                 obj.DocumentCode = txtDocNo.Value
                 obj.DocumentDate = txtDate.Value
-                obj.DocumentAmount = Math.Round(clsCommon.myCdbl(lblTotalDocAmt.Text), 2)
+                obj.DocumentAmount = Math.Round(clsCommon.myCDecimal(lblTotalDocAmt.Text), 2)
                 obj.FieldValue1 = txtFieldValue1.Text
                 obj.FieldValue2 = txtFieldValue2.Text
                 obj.FieldValue3 = txtFieldValue3.Text
@@ -802,34 +692,36 @@ Public Class frmTender
                 obj.OtherInfo10 = txtOtherInfo10.Text
                 obj.Tender_Type = clsCommon.myCDecimal(cboTenderType.SelectedValue)
                 obj.Mode = clsCommon.myCDecimal(cboMode.SelectedValue)
+                obj.Tender_On = clsCommon.myCDecimal(cboRALOn.SelectedValue)
                 obj.Arr = New List(Of clsTenderDetail)
 
                 Dim intLine As Integer = 0
                 For Each grow As GridViewRowInfo In gv2.Rows
                     Dim objTr As New clsTenderDetail()
-                    objTr.Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
-                    objTr.Rate = clsCommon.myCdbl(grow.Cells(colRate).Value)
+                    objTr.Qty = clsCommon.myCDecimal(grow.Cells(colQty).Value)
+                    objTr.Rate = clsCommon.myCDecimal(grow.Cells(colRate).Value)
                     objTr.Tax_Exclusive = clsCommon.myCBool(grow.Cells(colTaxExclusive).Value)
-                    objTr.Discount = clsCommon.myCdbl(grow.Cells(colDiscount).Value)
-                    'If clsCommon.myCdbl(grow.Cells(colQty).Value) > 0 Then
-                    If ((objTr.Qty) > 0 OrElse clsCommon.myCDecimal(cboTenderType.SelectedValue) = 2 OrElse clsCommon.myCDecimal(cboTenderType.SelectedValue) = 3) AndAlso clsCommon.myCdbl(objTr.Rate) OrElse clsCommon.myCdbl(grow.Cells(colDiscount).Value) > 0 Then
+                    objTr.Discount = clsCommon.myCDecimal(grow.Cells(colDiscount).Value)
+                    'If clsCommon.myCDecimal(grow.Cells(colQty).Value) > 0 Then
+                    If ((objTr.Qty) > 0 OrElse clsCommon.myCDecimal(cboTenderType.SelectedValue) = 2 OrElse clsCommon.myCDecimal(cboTenderType.SelectedValue) = 3) AndAlso clsCommon.myCDecimal(objTr.Rate) OrElse clsCommon.myCDecimal(grow.Cells(colDiscount).Value) > 0 Then
                         intLine += 1
                         objTr.Line_No = grow.Cells(colLineNo).Value
                         objTr.Item_Code = clsCommon.myCstr(grow.Cells(colICode).Value)
+                        objTr.Item_Type = clsCommon.myCstr(grow.Cells(colITypeCode).Value)
                         objTr.Vendor_Code = clsCommon.myCstr(grow.Cells(colVCode).Value)
                         objTr.Location = clsCommon.myCstr(grow.Cells(colLCode).Value)
 
-                        objTr.Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
+                        objTr.Qty = clsCommon.myCDecimal(grow.Cells(colQty).Value)
                         objTr.Unit_code = clsCommon.myCstr(grow.Cells(colUnit).Value)
-                        objTr.Rate = clsCommon.myCdbl(grow.Cells(colRate).Value)
+                        objTr.Rate = clsCommon.myCDecimal(grow.Cells(colRate).Value)
                         objTr.Tax_Exclusive = clsCommon.myCBool(grow.Cells(colTaxExclusive).Value)
-                        objTr.Discount = clsCommon.myCdbl(grow.Cells(colDiscount).Value)
-                        objTr.Item_Cost = clsCommon.myCdbl(grow.Cells(colAmt).Value)
+                        objTr.Discount = clsCommon.myCDecimal(grow.Cells(colDiscount).Value)
+                        objTr.Item_Cost = clsCommon.myCDecimal(grow.Cells(colAmt).Value)
                         objTr.Remarks = clsCommon.myCstr(grow.Cells(colRemarks).Value)
                         objTr.Comments = clsCommon.myCstr(grow.Cells(colComments).Value)
                     End If
 
-                    If (clsCommon.myLen(objTr.Location) > 0) AndAlso (clsCommon.myLen(objTr.Vendor_Code) > 0) AndAlso (clsCommon.myLen(objTr.Item_Code) > 0) Then
+                    If (clsCommon.myLen(objTr.Location) > 0) AndAlso (clsCommon.myLen(objTr.Vendor_Code) > 0) AndAlso ((clsCommon.myLen(objTr.Item_Code) > 0) OrElse (clsCommon.myLen(objTr.Item_Type) > 0)) Then
                         obj.Arr.Add(objTr)
                         'End If
                     End If
@@ -851,6 +743,7 @@ Public Class frmTender
                     objTr.Vendor_Code = clsCommon.myCstr(grow.Cells(colScheduleVCode).Value)
                     objTr.Location_Code = clsCommon.myCstr(grow.Cells(colScheduleLCode).Value)
                     objTr.Item_Code = clsCommon.myCstr(grow.Cells(colScheduleICode).Value)
+                    objTr.Item_Type = clsCommon.myCstr(grow.Cells(colScheduleITypeCode).Value)
                     objTr.Schedule_Qty_Per = clsCommon.myCDecimal(grow.Cells(colScheduleQtyPer).Value)
                     objTr.Schedule_Qty = clsCommon.myCDecimal(grow.Cells(colScheduleQty).Value)
                     objTr.Schedule_Short_Per = clsCommon.myCDecimal(grow.Cells(colScheduleShortPer).Value)
@@ -934,6 +827,7 @@ Public Class frmTender
 
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.DocumentCode) > 0) Then
 
+                cboRALOn.Enabled = False
                 btnSave.Enabled = True
                 btnPost.Enabled = True
                 btnDelete.Enabled = True
@@ -943,8 +837,8 @@ Public Class frmTender
                 isNewEntry = False
                 btnSave.Text = "Update"
                 BlankAllControls()
-                LoadBlankGrid1()
-                LoadBlankGrid2()
+                LoadBlankGrid(gv1)
+                LoadBlankGrid(gv2)
                 LoadBlankGridSchedule()
                 Cancel_btn.Enabled = True
 
@@ -991,14 +885,16 @@ Public Class frmTender
                 txtOtherInfo10.Text = obj.OtherInfo10
                 cboTenderType.SelectedValue = clsCommon.myCstr(obj.Tender_Type)
                 cboMode.SelectedValue = clsCommon.myCstr(obj.Mode)
+                cboRALOn.SelectedValue = clsCommon.myCstr(obj.Tender_On)
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                     cboItemType.SelectedValue = clsItemMaster.GetItemType(obj.Arr(0).Item_Code, Nothing)
                     For Each objTr As clsTenderDetail In obj.Arr
                         gv2.Rows.AddNew()
-
                         gv2.Rows(gv2.Rows.Count - 1).Cells(colLineNo).Value = objTr.Line_No
                         gv2.Rows(gv2.Rows.Count - 1).Cells(colICode).Value = objTr.Item_Code
                         gv2.Rows(gv2.Rows.Count - 1).Cells(colIName).Value = objTr.Item_Name
+                        gv2.Rows(gv2.Rows.Count - 1).Cells(colITypeCode).Value = objTr.Item_Type
+                        gv2.Rows(gv2.Rows.Count - 1).Cells(colITypeName).Value = objTr.Item_Type_Name
                         gv2.Rows(gv2.Rows.Count - 1).Cells(colLCode).Value = objTr.Location
                         gv2.Rows(gv2.Rows.Count - 1).Cells(colLName).Value = objTr.Location_Name
                         gv2.Rows(gv2.Rows.Count - 1).Cells(colVCode).Value = objTr.Vendor_Code
@@ -1031,6 +927,8 @@ Public Class frmTender
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLName).Value = clsLocation.GetName(objTr.Location_Code, Nothing)
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleICode).Value = objTr.Item_Code
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleIName).Value = clsItemMaster.GetItemName(objTr.Item_Code, Nothing)
+                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleITypeCode).Value = objTr.Item_Type
+                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleITypeName).Value = clsItemType.GetName(objTr.Item_Type, Nothing)
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleQtyPer).Value = objTr.Schedule_Qty_Per
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleQty).Value = objTr.Schedule_Qty
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleShortPer).Value = objTr.Schedule_Short_Per
@@ -1044,7 +942,7 @@ Public Class frmTender
                         Next
                     End If
                 End If
-
+                ApplyTendorOn()
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -1052,20 +950,15 @@ Public Class frmTender
             isInsideLoadData = False
         End Try
     End Sub
-
     Private Sub RadButton2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
         CloseForm()
     End Sub
-
     Sub CloseForm()
         Me.Close()
     End Sub
-
-
     Private Sub btnPost_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPost.Click
         PostData()
     End Sub
-
     Sub PostData()
         Try
             If AllowToSaveRAL_Type(Nothing) = False Then
@@ -1096,50 +989,44 @@ Public Class frmTender
     Public Sub CheckItem()
         If gvSchedule IsNot Nothing AndAlso gvSchedule.Rows.Count <= 0 Then
             For ii As Integer = 0 To gv2.Rows.Count - 1
-                Dim strICode As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colICode).Value)
-                Dim Qty As Double = clsCommon.myCdbl(gv2.Rows(ii).Cells(colQty).Value)
-                Dim itemcode As String = clsDBFuncationality.getSingleValue("select Item_Code from TSPL_ITEM_MASTER where RAL=1 and Item_Code='" + strICode + "'")
-                If clsCommon.myCdbl(Qty) > 0 Then
-                    If clsCommon.myLen(itemcode) > 0 Then
-                        Throw New Exception("RAL will not allow to post without schedule")
-                        Exit Sub
+                If clsCommon.myCDecimal(gv2.Rows(ii).Cells(colQty).Value) > 0 Then
+                    If clsCommon.myCDecimal(cboRALOn.SelectedValue) = 0 Then
+                        Dim strICode As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colICode).Value)
+                        Dim itemcode As String = clsDBFuncationality.getSingleValue("select Item_Code from TSPL_ITEM_MASTER where RAL=1 and Item_Code='" + strICode + "'")
+                        If clsCommon.myLen(itemcode) > 0 Then
+                            Throw New Exception("RAL will not allow to post without schedule")
+                            Exit Sub
+                        End If
+                    Else
+                        Dim strITypeCode As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colITypeCode).Value)
+                        strITypeCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Item_Type from TSPL_ITEM_TYPE_SCHEDULE where Item_Type='" + strITypeCode + "'"))
+                        If clsCommon.myLen(strITypeCode) > 0 Then
+                            Throw New Exception("RAL will not allow to post without schedule")
+                            Exit Sub
+                        End If
                     End If
                 End If
             Next
         End If
     End Sub
     Public Sub checksheduleitem()
-        'Dim valueFound As Boolean = False
-        'If gvSchedule IsNot Nothing AndAlso gvSchedule.Rows.Count > 0 Then
-        '    For ii As Integer = 0 To gv2.Rows.Count - 1
-        '        Dim strICode As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colICode).Value)
-        '        Dim vendor As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colVCode).Value)
-        '        Dim LOC As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colLCode).Value)
-        '        Dim sno As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colLineNo).Value)
-        '        Dim Line_No As String = clsDBFuncationality.getSingleValue("SELECT Line_No FROM TSPL_TENDER_DETAIL WHERE Line_No='" + sno + "' AND Item_Code='" + strICode + "' AND Vendor_Code='" + vendor + "' AND Location='" + LOC + "' AND DocumentCode='" + txtDocNo.Value + "'")
-        '        For jj As Integer = 0 To gvSchedule.Rows.Count - 1
-        '            Dim psno As String = clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colScheduleParentSNo).Value)
-        '            If Line_No = psno Then
-        '                valueFound = True
-        '                Continue For
-        '            Else
-        '                'If clsCommon.myLen(Line_No) > 0 Then
-        '                Throw New Exception("RAL will not allow to post without schedule")
-        '                '    Exit Sub
-        '            End If
-        '        Next
-        '    Next
-        'End If
         Dim valueFound As Boolean = False
-
         If gvSchedule IsNot Nothing AndAlso gvSchedule.Rows.Count > 0 Then
             For ii As Integer = 0 To gv2.Rows.Count - 1
                 Dim strICode As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colICode).Value)
+                Dim strITypeCode As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colITypeCode).Value)
                 Dim vendor As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colVCode).Value)
                 Dim LOC As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colLCode).Value)
                 Dim sno As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colLineNo).Value)
-                Dim Line_No As String = clsDBFuncationality.getSingleValue("SELECT Line_No FROM TSPL_TENDER_DETAIL WHERE Line_No='" + sno + "' AND Item_Code='" + strICode + "' AND Vendor_Code='" + vendor + "' AND Location='" + LOC + "' AND DocumentCode='" + txtDocNo.Value + "'")
+                Dim qry As String = "SELECT Line_No FROM TSPL_TENDER_DETAIL WHERE Line_No='" + sno + "' "
+                If clsCommon.myCDecimal(cboRALOn.SelectedValue) = 0 Then
+                    qry += "  And Item_Code='" + strICode + "'"
+                Else
+                    qry += "  And Item_Type='" + strITypeCode + "'"
+                End If
+                qry += " And Vendor_Code='" + vendor + "' AND Location='" + LOC + "' AND DocumentCode='" + txtDocNo.Value + "'"
 
+                Dim Line_No As String = clsDBFuncationality.getSingleValue(qry)
                 For jj As Integer = 0 To gvSchedule.Rows.Count - 1
                     Dim psno As String = clsCommon.myCstr(gvSchedule.Rows(jj).Cells(colScheduleParentSNo).Value)
                     If Line_No = psno Then
@@ -1164,7 +1051,6 @@ Public Class frmTender
     Private Sub btnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDelete.Click
         DeleteData()
     End Sub
-
     Sub DeleteData()
         Try
             Dim Reason As String = ""
@@ -1208,22 +1094,6 @@ Public Class frmTender
         obj.ACTIVITY_TYPE = Activity_Type
         Return clsCancelLog.SaveData(obj, True, trans)
     End Function
-
-    'Private Sub gv1_CellEditorInitialized(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv1.CellEditorInitialized
-    '    If TypeOf Me.gv1.CurrentColumn Is GridViewMultiComboBoxColumn Then
-    '        Dim editor As RadMultiColumnComboBoxElement = DirectCast(Me.gv1.ActiveEditor, RadMultiColumnComboBoxElement)
-    '        editor.AutoSizeDropDownToBestFit = True
-    '        editor.EditorControl.MasterTemplate.BestFitColumns()
-    '        editor.DropDownStyle = RadDropDownStyle.DropDown
-    '        editor.AutoFilter = True
-    '        If editor.EditorControl.MasterTemplate.FilterDescriptors.Count = 0 Then
-    '            Dim autoFilter As FilterDescriptor = New FilterDescriptor("Description", FilterOperator.StartsWith, "")
-    '            autoFilter.IsFilterEditor = True
-    '            editor.EditorControl.FilterDescriptors.Add(autoFilter)
-    '        End If
-    '    End If
-    'End Sub
-
     Private Sub txtDocNo__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles txtDocNo._MYNavigator
         Try
 
@@ -1233,12 +1103,9 @@ Public Class frmTender
         End Try
 
     End Sub
-
-
-
     Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDocNo._MYValidating
         Dim qst As String = "select count(*) from tspl_tender_header where DocumentCode='" + txtDocNo.Value + "'"
-        Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qst))
+        Dim count As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qst))
         If count = 0 Then
             txtDocNo.MyReadOnly = False
         Else
@@ -1251,7 +1118,6 @@ Public Class frmTender
         End If
 
     End Sub
-
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         'If e.KeyCode = Keys.F2 AndAlso gv1.CurrentCell IsNot Nothing AndAlso gv1.CurrentColumn Is gv1.Columns(colUnit) Then
         '    isCellValueChangedOpen = True
@@ -1300,11 +1166,8 @@ Public Class frmTender
             ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
                                   "TSPL_TENDER_HEADER " + Environment.NewLine +
                                   "TSPL_TENDER_DETAIL ")
-            End If
+        End If
     End Sub
-
-
-
     Private Sub gv1_UserDeletedRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowEventArgs) Handles gv1.UserDeletedRow
         'UpdateAllTotals()
         For ii As Integer = 1 To gv1.Rows.Count
@@ -1312,7 +1175,6 @@ Public Class frmTender
         Next
         'RefreshReqNo()
     End Sub
-
     Private Sub gv1_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
         If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
 
@@ -1322,12 +1184,10 @@ Public Class frmTender
             '    e.Cancel = True
         End If
     End Sub
-
-
     Private Sub gv1_CurrentColumnChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CurrentColumnChangedEventArgs) Handles gv1.CurrentColumnChanged
         If gv1.RowCount > 0 Then
             Dim intCurrRow As Integer = gv1.CurrentRow.Index
-            gv1.CurrentRow.Cells(colLineNo).Value = clsCommon.myCdbl(intCurrRow + 1)
+            gv1.CurrentRow.Cells(colLineNo).Value = clsCommon.myCDecimal(intCurrRow + 1)
             If intCurrRow = gv1.Rows.Count - 1 Then
                 gv1.Rows.AddNew()
                 'gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = RowTypeItem
@@ -1335,8 +1195,6 @@ Public Class frmTender
             End If
         End If
     End Sub
-
-
     Private Sub btnreverse_Click(sender As Object, e As EventArgs) Handles btnreverse.Click
         Try
             If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
@@ -1360,7 +1218,6 @@ Public Class frmTender
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub btnSubmit_Click(sender As Object, e As EventArgs) Handles btnSubmit.Click
         If ValidateSubmitData() = False Then
             Exit Sub
@@ -1377,7 +1234,7 @@ Public Class frmTender
             'dtTemp = CType(gv1.DataSource, DataTable)
 
             'For Each dr As DataRow In dtTemp.Rows
-            '    If clsCommon.myLen(dr.Item("Item Code")) > 0 AndAlso clsCommon.myLen(dr.Item("Location Code")) > 0 AndAlso clsCommon.myLen(dr.Item("Vendor Code")) > 0 AndAlso clsCommon.myLen(dr.Item("UOM")) > 0 AndAlso clsCommon.myCdbl(dr.Item("Amount")) > 0 Then
+            '    If clsCommon.myLen(dr.Item("Item Code")) > 0 AndAlso clsCommon.myLen(dr.Item("Location Code")) > 0 AndAlso clsCommon.myLen(dr.Item("Vendor Code")) > 0 AndAlso clsCommon.myLen(dr.Item("UOM")) > 0 AndAlso clsCommon.myCDecimal(dr.Item("Amount")) > 0 Then
             '        dt.Rows.Add(dr)
             '    End If
             'Next
@@ -1387,97 +1244,97 @@ Public Class frmTender
             'gv2.Rows.Add(grow)
             'gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = intSerialNo
             For Each grow As GridViewRowInfo In gv1.Rows
-                If clsCommon.myLen(grow.Cells(colICode).Value) > 0 AndAlso clsCommon.myLen(grow.Cells(colLCode).Value) > 0 AndAlso clsCommon.myLen(grow.Cells(colVCode).Value) > 0 AndAlso ((clsCommon.myCdbl(grow.Cells(colAmt).Value) > 0) OrElse (clsCommon.myCdbl(grow.Cells(colRate).Value) > 0 AndAlso (clsCommon.myCDecimal(cboTenderType.SelectedValue) = 2 OrElse clsCommon.myCDecimal(cboTenderType.SelectedValue) = 3) OrElse (clsCommon.myCDecimal(cboTenderType.SelectedValue) = 2 AndAlso (clsCommon.myCdbl(grow.Cells(colRate).Value) > 0 OrElse clsCommon.myCdbl(grow.Cells(colDiscount).Value) > 0)))) Then
-
+                If (clsCommon.myLen(grow.Cells(colICode).Value) > 0 OrElse clsCommon.myLen(grow.Cells(colITypeCode).Value) > 0) AndAlso clsCommon.myLen(grow.Cells(colLCode).Value) > 0 AndAlso clsCommon.myLen(grow.Cells(colVCode).Value) > 0 AndAlso ((clsCommon.myCDecimal(grow.Cells(colAmt).Value) > 0) OrElse (clsCommon.myCDecimal(grow.Cells(colRate).Value) > 0 AndAlso (clsCommon.myCDecimal(cboTenderType.SelectedValue) = 2 OrElse clsCommon.myCDecimal(cboTenderType.SelectedValue) = 3) OrElse (clsCommon.myCDecimal(cboTenderType.SelectedValue) = 2 AndAlso (clsCommon.myCDecimal(grow.Cells(colRate).Value) > 0 OrElse clsCommon.myCDecimal(grow.Cells(colDiscount).Value) > 0)))) Then
                     gv2.Rows.AddNew()
-
                     gv2.Rows(gv2.Rows.Count - 1).Cells(colLineNo).Value = 0
                     gv2.Rows(gv2.Rows.Count - 1).Cells(colICode).Value = clsCommon.myCstr(grow.Cells(colICode).Value)
                     gv2.Rows(gv2.Rows.Count - 1).Cells(colIName).Value = clsCommon.myCstr(grow.Cells(colIName).Value)
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colITypeCode).Value = clsCommon.myCstr(grow.Cells(colITypeCode).Value)
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colITypeName).Value = clsCommon.myCstr(grow.Cells(colITypeName).Value)
                     gv2.Rows(gv2.Rows.Count - 1).Cells(colLCode).Value = clsCommon.myCstr(grow.Cells(colLCode).Value)
                     gv2.Rows(gv2.Rows.Count - 1).Cells(colLName).Value = clsCommon.myCstr(grow.Cells(colLName).Value)
                     gv2.Rows(gv2.Rows.Count - 1).Cells(colVCode).Value = clsCommon.myCstr(grow.Cells(colVCode).Value)
                     gv2.Rows(gv2.Rows.Count - 1).Cells(colVName).Value = clsCommon.myCstr(grow.Cells(colVName).Value)
                     gv2.Rows(gv2.Rows.Count - 1).Cells(colUnit).Value = clsCommon.myCstr(grow.Cells(colUnit).Value)
-
-
-                    gv2.Rows(gv2.Rows.Count - 1).Cells(colQty).Value = clsCommon.myCdbl(grow.Cells(colQty).Value)
-                    gv2.Rows(gv2.Rows.Count - 1).Cells(colRate).Value = clsCommon.myCdbl(grow.Cells(colRate).Value)
-                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTaxExclusive).Value = clsCommon.myCdbl(grow.Cells(colTaxExclusive).Value)
-                    gv2.Rows(gv2.Rows.Count - 1).Cells(colQty).Value = clsCommon.myCdbl(grow.Cells(colQty).Value)
-                    gv2.Rows(gv2.Rows.Count - 1).Cells(colDiscount).Value = clsCommon.myCdbl(grow.Cells(colDiscount).Value)
-                    gv2.Rows(gv2.Rows.Count - 1).Cells(colAmt).Value = clsCommon.myCdbl(grow.Cells(colAmt).Value)
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colQty).Value = clsCommon.myCDecimal(grow.Cells(colQty).Value)
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colRate).Value = clsCommon.myCDecimal(grow.Cells(colRate).Value)
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTaxExclusive).Value = clsCommon.myCDecimal(grow.Cells(colTaxExclusive).Value)
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colQty).Value = clsCommon.myCDecimal(grow.Cells(colQty).Value)
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colDiscount).Value = clsCommon.myCDecimal(grow.Cells(colDiscount).Value)
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colAmt).Value = clsCommon.myCDecimal(grow.Cells(colAmt).Value)
                     gv2.Rows(gv2.Rows.Count - 1).Cells(colRemarks).Value = clsCommon.myCstr(grow.Cells(colRemarks).Value)
                     gv2.Rows(gv2.Rows.Count - 1).Cells(colComments).Value = clsCommon.myCstr(grow.Cells(colComments).Value)
-
                 End If
             Next
-
         End If
 
         Dim dblTotalAmount As Double = 0
         For Each grow As GridViewRowInfo In gv2.Rows
-            dblTotalAmount = dblTotalAmount + clsCommon.myCdbl(grow.Cells(colAmt).Value)
+            dblTotalAmount = dblTotalAmount + clsCommon.myCDecimal(grow.Cells(colAmt).Value)
         Next
-        lblTotalDocAmt.Text = Math.Round(clsCommon.myCdbl(dblTotalAmount), 2)
-        'gv2.Refresh()
-        'gv2.DataSource = dt
-        LoadBlankGrid1()
+        lblTotalDocAmt.Text = Math.Round(clsCommon.myCDecimal(dblTotalAmount), 2)
+        LoadBlankGrid(gv1)
         RefreshSerialNo()
+        cboRALOn.Enabled = False
     End Sub
-
     Private Function ValidateSubmitData() As Boolean
         Try
-
             For ii As Integer = 0 To gv1.Rows.Count - 1
                 Dim strICode As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value)
+                Dim strIType As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colITypeCode).Value)
                 Dim strVCode As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colVCode).Value)
                 Dim strLCode As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colLCode).Value)
 
                 Dim strIName As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colIName).Value)
-                Dim dblQty As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value)
-                Dim dblrate As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colRate).Value)
+                Dim dblQty As Double = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colQty).Value)
+                Dim dblrate As Double = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colRate).Value)
                 Dim strUOM As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value)
-                Dim dblAmount As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colAmt).Value)
-                Dim dblDiscount As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDiscount).Value)
+                Dim dblAmount As Double = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colAmt).Value)
+                Dim dblDiscount As Double = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDiscount).Value)
 
-                If clsCommon.myLen(strICode) > 0 AndAlso clsCommon.myLen(strLCode) > 0 AndAlso clsCommon.myLen(strVCode) > 0 AndAlso clsCommon.myLen(strUOM) <= 0 Then
+                If (clsCommon.myLen(strICode) > 0 OrElse clsCommon.myLen(strIType) > 0) AndAlso clsCommon.myLen(strLCode) > 0 AndAlso clsCommon.myLen(strVCode) > 0 AndAlso clsCommon.myLen(strUOM) <= 0 Then
                     common.clsCommon.MyMessageBoxShow(Me, "Please enter Quantity UOM for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
                     Return False
                 End If
 
-                If clsCommon.myLen(strICode) > 0 AndAlso clsCommon.myLen(strLCode) > 0 AndAlso clsCommon.myLen(strVCode) > 0 AndAlso clsCommon.myCdbl(dblQty) <= 0 AndAlso clsCommon.myCDecimal(cboTenderType.SelectedValue) <> 2 AndAlso clsCommon.myCDecimal(cboTenderType.SelectedValue) <> 3 Then
+                If (clsCommon.myLen(strICode) > 0 OrElse clsCommon.myLen(strIType) > 0) AndAlso clsCommon.myLen(strLCode) > 0 AndAlso clsCommon.myLen(strVCode) > 0 AndAlso clsCommon.myCDecimal(dblQty) <= 0 AndAlso clsCommon.myCDecimal(cboTenderType.SelectedValue) <> 2 AndAlso clsCommon.myCDecimal(cboTenderType.SelectedValue) <> 3 Then
                     common.clsCommon.MyMessageBoxShow(Me, "Please enter Booked Quantity for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
                     Return False
                 End If
 
-                If clsCommon.myLen(strICode) > 0 AndAlso clsCommon.myLen(strLCode) > 0 AndAlso clsCommon.myLen(strVCode) > 0 AndAlso clsCommon.myCdbl(dblrate) <= 0 AndAlso clsCommon.myCdbl(dblDiscount) <= 0 AndAlso clsCommon.myCDecimal(cboTenderType.SelectedValue) = 2 Then
+                If (clsCommon.myLen(strICode) > 0 OrElse clsCommon.myLen(strIType) > 0) AndAlso clsCommon.myLen(strLCode) > 0 AndAlso clsCommon.myLen(strVCode) > 0 AndAlso clsCommon.myCDecimal(dblrate) <= 0 AndAlso clsCommon.myCDecimal(dblDiscount) <= 0 AndAlso clsCommon.myCDecimal(cboTenderType.SelectedValue) = 2 Then
                     clsCommon.MyMessageBoxShow(Me, "Please enter Rate or Discount for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
                     Return False
                 End If
 
-                If clsCommon.myLen(strICode) > 0 AndAlso clsCommon.myLen(strLCode) > 0 AndAlso clsCommon.myLen(strVCode) > 0 AndAlso clsCommon.myCdbl(dblrate) <= 0 AndAlso clsCommon.myCDecimal(cboTenderType.SelectedValue) <> 2 Then
+                If (clsCommon.myLen(strICode) > 0 OrElse clsCommon.myLen(strIType) > 0) AndAlso clsCommon.myLen(strLCode) > 0 AndAlso clsCommon.myLen(strVCode) > 0 AndAlso clsCommon.myCDecimal(dblrate) <= 0 AndAlso clsCommon.myCDecimal(cboTenderType.SelectedValue) <> 2 Then
                     clsCommon.MyMessageBoxShow(Me, "Please enter Rate for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
                     Return False
                 End If
 
                 If (clsCommon.myLen(strVCode) > 0) Then
-
                     For jj As Integer = 0 To gv1.Rows.Count - 1
                         If jj = ii Then
                             Continue For
                         End If
                         Dim strInnerICode As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colICode).Value)
+                        Dim strInnerIType As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colITypeCode).Value)
                         Dim strInnerLCode As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colLCode).Value)
                         Dim strInnerVCode As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colVCode).Value)
                         Dim strInnerUOM As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colUnit).Value)
-
-                        If clsCommon.CompairString(strICode, strInnerICode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strLCode, strInnerLCode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strVCode, strInnerVCode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strUOM, strInnerUOM) = CompairStringResult.Equal Then
-                            Dim Msg As String = "Same Detail Exist at Row No " + clsCommon.myCstr(ii + 1) + " And " + clsCommon.myCstr(jj + 1)
-                            common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
-                            Return False
+                        If clsCommon.myCDecimal(cboRALOn.SelectedValue) = 0 Then
+                            If clsCommon.CompairString(strICode, strInnerICode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strLCode, strInnerLCode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strVCode, strInnerVCode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strUOM, strInnerUOM) = CompairStringResult.Equal Then
+                                Dim Msg As String = "Same Detail Exist at Row No " + clsCommon.myCstr(ii + 1) + " And " + clsCommon.myCstr(jj + 1)
+                                common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
+                                Return False
+                            End If
+                        Else
+                            If clsCommon.CompairString(strIType, strInnerIType) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strLCode, strInnerLCode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strVCode, strInnerVCode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strUOM, strInnerUOM) = CompairStringResult.Equal Then
+                                Dim Msg As String = "Same Detail Exist at Row No " + clsCommon.myCstr(ii + 1) + " And " + clsCommon.myCstr(jj + 1)
+                                common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
+                                Return False
+                            End If
                         End If
-
                     Next
                 End If
             Next
@@ -1487,10 +1344,6 @@ Public Class frmTender
         End Try
         Return True
     End Function
-
-
-
-
     Private Sub txtItem__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtItem._MYValidating
         Try
             If clsCommon.myLen(cboItemType.SelectedValue) <= 0 Then
@@ -1505,17 +1358,16 @@ Public Class frmTender
             obj = clsItemMaster.FinderForItem(clsCommon.myCstr(txtItem.Value), clsCommon.myCstr(cboItemType.SelectedValue), isButtonClicked, "", whr)
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Item_Code) > 0 Then
                 txtItem.Value = obj.Item_Code
-                LoadBlankGrid1()
+                LoadBlankGrid(gv1)
                 LoadItemGrid1()
             Else
                 txtItem.Value = ""
-                LoadBlankGrid1()
+                LoadBlankGrid(gv1)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub LoadItemGrid1()
         Try
             Dim qry As String = "select tspl_location_master.Location_Code,tspl_location_master.Location_Desc,tspl_item_master.item_code,tspl_item_master.Item_Desc,UOM.UOM_Code from 
@@ -1544,14 +1396,12 @@ Public Class frmTender
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colLName).Value = clsCommon.myCstr(dr("Location_Desc"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = clsCommon.myCstr(dr("UOM_Code"))
                 Next
-
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
-
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         printData()
     End Sub
@@ -1589,7 +1439,6 @@ Public Class frmTender
         End Try
 
     End Sub
-
     Private Sub gv2_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gv2.CellValueChanged
         Try
 
@@ -1606,24 +1455,35 @@ Public Class frmTender
                             End If
 
                         ElseIf e.Column Is gv2.Columns(colUnit) Then
-                            Dim strICode As String = clsCommon.myCstr(gv2.CurrentRow.Cells(colICode).Value)
-
-                            If clsCommon.myLen(strICode) > 0 Then
-                                'OpenUOMList(False)
+                            If clsCommon.myCDecimal(cboRALOn.SelectedValue) = 0 Then
+                                Dim strICode As String = clsCommon.myCstr(gv2.CurrentRow.Cells(colICode).Value)
                                 If clsCommon.myLen(strICode) > 0 Then
-                                    Dim qry As String = "select UOM_Code as Code,UOM_Description as [Description] from TSPL_ITEM_UOM_DETAIL"
-                                    Dim whrCls As String = "Item_Code='" + strICode + "'"
-                                    gv2.CurrentRow.Cells(colUnit).Value = clsCommon.ShowSelectForm("ITEM-TenFndr2", qry, "Code", whrCls, clsCommon.myCstr(gv2.CurrentRow.Cells(colUnit).Value), "Code", False)
-
+                                    If clsCommon.myLen(strICode) > 0 Then
+                                        Dim qry As String = "select UOM_Code as Code,UOM_Description as [Description] from TSPL_ITEM_UOM_DETAIL"
+                                        Dim whrCls As String = "Item_Code='" + strICode + "'"
+                                        gv2.CurrentRow.Cells(colUnit).Value = clsCommon.ShowSelectForm("ITEM-TenFndr2", qry, "Code", whrCls, clsCommon.myCstr(gv2.CurrentRow.Cells(colUnit).Value), "Code", False)
+                                    End If
+                                Else
+                                    Throw New Exception("Please fill item first.")
+                                    isCellValueChangedOpen = False
+                                    Exit Sub
                                 End If
-
                             Else
-                                Throw New Exception("Please fill item first.")
-                                isCellValueChangedOpen = False
-                                Exit Sub
+                                Dim strICode As String = clsCommon.myCstr(gv2.CurrentRow.Cells(colITypeCode).Value)
+                                If clsCommon.myLen(strICode) > 0 Then
+                                    If clsCommon.myLen(strICode) > 0 Then
+                                        Dim qry As String = "select UOM from TSPL_ITEM_TYPE_MASTER where ITEM_TYPE_CODE='" + strICode + "'"
+                                        gv2.CurrentRow.Cells(colUnit).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
+                                    End If
+                                Else
+                                    Throw New Exception("Please fill item first.")
+                                    isCellValueChangedOpen = False
+                                    Exit Sub
+                                End If
                             End If
+
                         ElseIf e.Column Is gv2.Columns(colQty) OrElse e.Column Is gv2.Columns(colRate) Then
-                            gv2.CurrentRow.Cells(colAmt).Value = clsCommon.myCdbl(gv2.CurrentRow.Cells(colRate).Value) * clsCommon.myCdbl(gv2.CurrentRow.Cells(colQty).Value)
+                            gv2.CurrentRow.Cells(colAmt).Value = clsCommon.myCDecimal(gv2.CurrentRow.Cells(colRate).Value) * clsCommon.myCDecimal(gv2.CurrentRow.Cells(colQty).Value)
                             For index = 0 To gvSchedule.Rows.Count - 1
                                 If clsCommon.myCDecimal(gv2.CurrentRow.Cells(colLineNo).Value) = clsCommon.myCDecimal(gvSchedule.Rows(index).Cells(colScheduleParentSNo).Value) Then
                                     gvSchedule.Rows(index).Cells(colScheduleQty).Value = ((clsCommon.myCDecimal(gv2.CurrentRow.Cells(colQty).Value) * clsCommon.myCDecimal(gvSchedule.Rows(index).Cells(colScheduleQtyPer).Value)) / 100)
@@ -1638,7 +1498,6 @@ Public Class frmTender
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub btnCopy_Click(sender As Object, e As EventArgs) Handles btnCopy.Click
         Try
             'isLoadCopy = True
@@ -1661,7 +1520,6 @@ Public Class frmTender
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Sub LoadBlankGridSchedule()
         gvSchedule.Rows.Clear()
         gvSchedule.Columns.Clear()
@@ -1775,6 +1633,24 @@ Public Class frmTender
         repotxt.IsVisible = True
         gvSchedule.MasterTemplate.Columns.Add(repotxt)
 
+        repotxt = New GridViewTextBoxColumn()
+        repotxt.FormatString = ""
+        repotxt.HeaderText = "Item Type Code"
+        repotxt.Name = colScheduleITypeCode
+        repotxt.ReadOnly = True
+        repotxt.Width = 100
+        repotxt.IsVisible = True
+        gvSchedule.MasterTemplate.Columns.Add(repotxt)
+
+        repotxt = New GridViewTextBoxColumn()
+        repotxt.FormatString = ""
+        repotxt.HeaderText = "Item Type Description"
+        repotxt.Name = colScheduleITypeName
+        repotxt.Width = 150
+        repotxt.ReadOnly = True
+        repotxt.IsVisible = True
+        gvSchedule.MasterTemplate.Columns.Add(repotxt)
+
         repoNum = New GridViewDecimalColumn()
         repoNum.FormatString = ""
         repoNum.HeaderText = "Quantity %"
@@ -1857,62 +1733,100 @@ Public Class frmTender
         gvSchedule.MasterTemplate.ShowRowHeaderColumn = False
         gvSchedule.TableElement.TableHeaderHeight = 40
     End Sub
-
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
         SetSchedule()
     End Sub
-
     Sub SetSchedule()
         Try
             isInsideLoadData = True
             LoadBlankGridSchedule()
             For ii As Integer = 0 To gv2.Rows.Count - 1
-                If clsCommon.myLen(gv2.Rows(ii).Cells(colVCode).Value) > 0 AndAlso clsCommon.myLen(gv2.Rows(ii).Cells(colLCode).Value) > 0 AndAlso clsCommon.myLen(gv2.Rows(ii).Cells(colICode).Value) > 0 AndAlso clsCommon.myCDecimal(gv2.Rows(ii).Cells(colQty).Value) > 0 Then
-                    Dim dtRunningDate As DateTime = txtScheduleStartDate.Value
-                    Dim ArrSch As List(Of clsItemSchedule) = clsItemSchedule.GetData(clsCommon.myCstr(gv2.Rows(ii).Cells(colICode).Value), Nothing)
-                    If ArrSch IsNot Nothing AndAlso ArrSch.Count > 0 Then
-                        For Each obj As clsItemSchedule In ArrSch
-                            gvSchedule.Rows.AddNew()
-                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleSNo).Value = gvSchedule.Rows.Count
-                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleNo).Value = obj.SNo
-                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleFromDate).Value = dtRunningDate
-                            dtRunningDate = dtRunningDate.AddDays(obj.Days - 1)
-                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
-                            dtRunningDate = dtRunningDate.AddDays(1)
-                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleParentSNo).Value = clsCommon.myCDecimal(gv2.Rows(ii).Cells(colLineNo).Value)
-                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleVCode).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colVCode).Value)
-                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleVName).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colVName).Value)
-                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLCode).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colLCode).Value)
-                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLName).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colLName).Value)
-                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleICode).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colICode).Value)
-                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleIName).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colIName).Value)
-                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleQtyPer).Value = obj.Qty_Per
-                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleQty).Value = ((clsCommon.myCDecimal(gv2.Rows(ii).Cells(colQty).Value) * obj.Qty_Per) / 100)
-                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleShortPer).Value = obj.Short_Per
-                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleShort).Value = ((clsCommon.myCDecimal(gv2.Rows(ii).Cells(colQty).Value) * obj.Short_Per) / 100)
-                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLateDays).Value = obj.Late_Days
-                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLateDays).Tag = SetSchedulePenalty(obj.Arr, dtRunningDate)
+                If clsCommon.myCDecimal(cboRALOn.SelectedValue) = 0 Then
+                    If clsCommon.myLen(gv2.Rows(ii).Cells(colVCode).Value) > 0 AndAlso clsCommon.myLen(gv2.Rows(ii).Cells(colLCode).Value) > 0 AndAlso clsCommon.myLen(gv2.Rows(ii).Cells(colICode).Value) > 0 AndAlso clsCommon.myCDecimal(gv2.Rows(ii).Cells(colQty).Value) > 0 Then
+                        Dim dtRunningDate As DateTime = txtScheduleStartDate.Value
+                        Dim ArrSch As List(Of clsItemSchedule) = clsItemSchedule.GetData(clsCommon.myCstr(gv2.Rows(ii).Cells(colICode).Value), Nothing)
+                        If ArrSch IsNot Nothing AndAlso ArrSch.Count > 0 Then
+                            For Each obj As clsItemSchedule In ArrSch
+                                gvSchedule.Rows.AddNew()
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleSNo).Value = gvSchedule.Rows.Count
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleNo).Value = obj.SNo
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleFromDate).Value = dtRunningDate
+                                dtRunningDate = dtRunningDate.AddDays(obj.Days - 1)
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
+                                dtRunningDate = dtRunningDate.AddDays(1)
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleParentSNo).Value = clsCommon.myCDecimal(gv2.Rows(ii).Cells(colLineNo).Value)
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleVCode).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colVCode).Value)
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleVName).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colVName).Value)
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLCode).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colLCode).Value)
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLName).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colLName).Value)
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleICode).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colICode).Value)
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleIName).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colIName).Value)
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleQtyPer).Value = obj.Qty_Per
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleQty).Value = ((clsCommon.myCDecimal(gv2.Rows(ii).Cells(colQty).Value) * obj.Qty_Per) / 100)
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleShortPer).Value = obj.Short_Per
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleShort).Value = ((clsCommon.myCDecimal(gv2.Rows(ii).Cells(colQty).Value) * obj.Short_Per) / 100)
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLateDays).Value = obj.Late_Days
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLateDays).Tag = SetSchedulePenalty(obj.Arr, dtRunningDate)
+                            Next
+                        End If
+                    Else
+                        For kk As Integer = 0 To gv2.Rows.Count - 1
+                            Dim strIName As String = clsCommon.myCstr(gv2.Rows(kk).Cells(colIName).Value)
+                            Dim dblQty As Double = clsCommon.myCDecimal(gv2.Rows(ii).Cells(colQty).Value)
+                            If dblQty <= 0 Then
+                                'clsCommon.myCDecimal(dblQty) <= 0 Then
+                                common.clsCommon.MyMessageBoxShow(Me, "Please enter Booked Quantity for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
+                                Exit Sub
+                            End If
                         Next
                     End If
                 Else
-                    For kk As Integer = 0 To gv2.Rows.Count - 1
-                        Dim strIName As String = clsCommon.myCstr(gv2.Rows(kk).Cells(colIName).Value)
-                        Dim dblQty As Double = clsCommon.myCdbl(gv2.Rows(ii).Cells(colQty).Value)
-                        If dblQty <= 0 Then
-                            'clsCommon.myCDecimal(dblQty) <= 0 Then
-                            common.clsCommon.MyMessageBoxShow(Me, "Please enter Booked Quantity for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
-                            Exit Sub
+                    If clsCommon.myLen(gv2.Rows(ii).Cells(colVCode).Value) > 0 AndAlso clsCommon.myLen(gv2.Rows(ii).Cells(colLCode).Value) > 0 AndAlso clsCommon.myLen(gv2.Rows(ii).Cells(colITypeCode).Value) > 0 AndAlso clsCommon.myCDecimal(gv2.Rows(ii).Cells(colQty).Value) > 0 Then
+                        Dim dtRunningDate As DateTime = txtScheduleStartDate.Value
+                        Dim ArrSch As List(Of clsItemTypeSchedule) = clsItemTypeSchedule.GetData(clsCommon.myCstr(gv2.Rows(ii).Cells(colITypeCode).Value), Nothing)
+                        If ArrSch IsNot Nothing AndAlso ArrSch.Count > 0 Then
+                            For Each obj As clsItemTypeSchedule In ArrSch
+                                gvSchedule.Rows.AddNew()
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleSNo).Value = gvSchedule.Rows.Count
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleNo).Value = obj.SNo
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleFromDate).Value = dtRunningDate
+                                dtRunningDate = dtRunningDate.AddDays(obj.Days - 1)
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
+                                dtRunningDate = dtRunningDate.AddDays(1)
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleParentSNo).Value = clsCommon.myCDecimal(gv2.Rows(ii).Cells(colLineNo).Value)
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleVCode).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colVCode).Value)
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleVName).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colVName).Value)
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLCode).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colLCode).Value)
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLName).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colLName).Value)
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleITypeCode).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colITypeCode).Value)
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleITypeName).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colITypeName).Value)
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleQtyPer).Value = obj.Qty_Per
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleQty).Value = ((clsCommon.myCDecimal(gv2.Rows(ii).Cells(colQty).Value) * obj.Qty_Per) / 100)
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleShortPer).Value = obj.Short_Per
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleShort).Value = ((clsCommon.myCDecimal(gv2.Rows(ii).Cells(colQty).Value) * obj.Short_Per) / 100)
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLateDays).Value = obj.Late_Days
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLateDays).Tag = SetSchedulePenaltyItemType(obj.Arr, dtRunningDate)
+                            Next
                         End If
-                    Next
+                    Else
+                        For kk As Integer = 0 To gv2.Rows.Count - 1
+                            Dim strIName As String = clsCommon.myCstr(gv2.Rows(kk).Cells(colITypeName).Value)
+                            Dim dblQty As Double = clsCommon.myCDecimal(gv2.Rows(ii).Cells(colQty).Value)
+                            If dblQty <= 0 Then
+                                common.clsCommon.MyMessageBoxShow(Me, "Please enter Booked Quantity for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
+                                Exit Sub
+                            End If
+                        Next
+                    End If
                 End If
             Next
+            ApplyTendorOn()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
     End Sub
-
     Private Function SetSchedulePenalty(ByVal Arr As List(Of clsItemSchedulePenalty), ByVal dtRunningDate As DateTime) As List(Of clsTenderSchedulePenelty)
         Dim ArrTemp As List(Of clsTenderSchedulePenelty) = Nothing
         If Arr IsNot Nothing AndAlso Arr.Count > 0 Then
@@ -1926,7 +1840,19 @@ Public Class frmTender
         End If
         Return ArrTemp
     End Function
-
+    Private Function SetSchedulePenaltyItemType(ByVal Arr As List(Of clsItemTypeSchedulePenalty), ByVal dtRunningDate As DateTime) As List(Of clsTenderSchedulePenelty)
+        Dim ArrTemp As List(Of clsTenderSchedulePenelty) = Nothing
+        If Arr IsNot Nothing AndAlso Arr.Count > 0 Then
+            ArrTemp = New List(Of clsTenderSchedulePenelty)
+            For Each objtr As clsItemTypeSchedulePenalty In Arr
+                Dim objTemp As New clsTenderSchedulePenelty
+                objTemp.Penalty_Date = dtRunningDate.AddDays(objtr.Penalty_Days - 1)
+                objTemp.Penalty = objtr.Penalty
+                ArrTemp.Add(objTemp)
+            Next
+        End If
+        Return ArrTemp
+    End Function
     Private Sub ShowPenalty()
         Try
             Dim dt As DataTable = New DataTable()
@@ -1990,18 +1916,24 @@ Public Class frmTender
             ShowPenalty()
         End If
     End Sub
-
-    Dim isCellValueChangedOpenSchedule As Boolean = False
     Private Sub gvSchedule_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gvSchedule.CellValueChanged
         Try
             If (Not isInsideLoadData) Then
                 If Not isCellValueChangedOpenSchedule Then
                     isCellValueChangedOpen = True
                     If e.Column Is gvSchedule.Columns(colScheduleToDate) Then
-                        Dim PKID As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select PK_Id from (select ROW_NUMBER() over (Partition by Item_Code order by PK_Id) as SNO, * from TSPL_ITEM_SCHEDULE where Item_Code= '" + clsCommon.myCstr(gvSchedule.CurrentRow.Cells(colScheduleICode).Value) + "' )xx where SNO=" + clsCommon.myCstr(gvSchedule.CurrentRow.Cells(colScheduleSNo).Value) + ""))
-                        If clsCommon.myLen(PKID) > 0 Then
-                            Dim Arr As List(Of clsItemSchedulePenalty) = clsItemSchedulePenalty.GetData(PKID, Nothing)
-                            gvSchedule.CurrentRow.Cells(colScheduleLateDays).Tag = SetSchedulePenalty(Arr, clsCommon.myCDate(gvSchedule.CurrentRow.Cells(colScheduleToDate).Value).AddDays(1))
+                        If clsCommon.myCDecimal(cboRALOn.SelectedValue) = 0 Then
+                            Dim PKID As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select PK_Id from (select ROW_NUMBER() over (Partition by Item_Code order by PK_Id) as SNO, * from TSPL_ITEM_SCHEDULE where Item_Code= '" + clsCommon.myCstr(gvSchedule.CurrentRow.Cells(colScheduleICode).Value) + "' )xx where SNO=" + clsCommon.myCstr(gvSchedule.CurrentRow.Cells(colScheduleSNo).Value) + ""))
+                            If clsCommon.myLen(PKID) > 0 Then
+                                Dim Arr As List(Of clsItemSchedulePenalty) = clsItemSchedulePenalty.GetData(PKID, Nothing)
+                                gvSchedule.CurrentRow.Cells(colScheduleLateDays).Tag = SetSchedulePenalty(Arr, clsCommon.myCDate(gvSchedule.CurrentRow.Cells(colScheduleToDate).Value).AddDays(1))
+                            End If
+                        Else
+                            Dim PKID As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select PK_Id from (select ROW_NUMBER() over (Partition by Item_Type order by PK_Id) as SNO, * from TSPL_ITEM_TYPE_SCHEDULE where Item_Type= '" + clsCommon.myCstr(gvSchedule.CurrentRow.Cells(colScheduleITypeCode).Value) + "' )xx where SNO=" + clsCommon.myCstr(gvSchedule.CurrentRow.Cells(colScheduleSNo).Value) + ""))
+                            If clsCommon.myLen(PKID) > 0 Then
+                                Dim Arr As List(Of clsItemTypeSchedulePenalty) = clsItemTypeSchedulePenalty.GetData(PKID, Nothing)
+                                gvSchedule.CurrentRow.Cells(colScheduleLateDays).Tag = SetSchedulePenaltyItemType(Arr, clsCommon.myCDate(gvSchedule.CurrentRow.Cells(colScheduleToDate).Value).AddDays(1))
+                            End If
                         End If
                     End If
                 End If
@@ -2012,7 +1944,6 @@ Public Class frmTender
             isCellValueChangedOpenSchedule = False
         End Try
     End Sub
-
     Private Sub btnApplyAll_Click(sender As Object, e As EventArgs) Handles btnApplyAll.Click
         Try
             For ii As Integer = 0 To gvSchedule.Rows.Count - 1
@@ -2022,7 +1953,6 @@ Public Class frmTender
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub btnExtensionUpdate_Click(sender As Object, e As EventArgs) Handles btnExtensionUpdate.Click
         Try
             Dim Reason As String = ""
@@ -2045,7 +1975,13 @@ Public Class frmTender
 
                     For ii As Integer = 0 To gvSchedule.Rows.Count - 1
                         If CInt(gvSchedule.Rows(ii).Cells(colScheduleExtensionDays).Value) >= 0 Then
-                            clsDBFuncationality.ExecuteNonQuery("UPDATE TSPL_TENDER_SCHEDULE SET Extension_Days='" + clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colScheduleExtensionDays).Value) + "' where DocumentCode='" + txtDocNo.Value + "' and PSNo='" + clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colScheduleParentSNo).Value) + "' and Schedule_No='" + clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colScheduleNo).Value) + "' and Vendor_Code='" + clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colScheduleVCode).Value) + "' and Location_Code='" + clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colScheduleLCode).Value) + "' and Item_Code='" + clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colScheduleICode).Value) + "'")
+                            Dim qry As String = "UPDATE TSPL_TENDER_SCHEDULE SET Extension_Days='" + clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colScheduleExtensionDays).Value) + "' where DocumentCode='" + txtDocNo.Value + "' and PSNo='" + clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colScheduleParentSNo).Value) + "' and Schedule_No='" + clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colScheduleNo).Value) + "' and Vendor_Code='" + clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colScheduleVCode).Value) + "' and Location_Code='" + clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colScheduleLCode).Value) + "'"
+                            If clsCommon.myCDecimal(cboRALOn.SelectedValue) = 0 Then
+                                qry = " and Item_Code='" + clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colScheduleICode).Value) + "'"
+                            Else
+                                qry = " and Item_Type='" + clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colScheduleITypeCode).Value) + "'"
+                            End If
+                            clsDBFuncationality.ExecuteNonQuery(qry)
                         End If
                     Next
 
@@ -2058,21 +1994,15 @@ Public Class frmTender
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
-
-
     Private Sub Import_Click(sender As Object, e As EventArgs)
         CloseForm()
     End Sub
-
     Private Sub ItemClose_Click(sender As Object, e As EventArgs)
 
     End Sub
-
     Private Sub RadMenuItem8_Click(sender As Object, e As EventArgs) Handles RadMenuItem8.Click
         funImport()
     End Sub
-
     Private Sub RadMenuItem9_Click(sender As Object, e As EventArgs) Handles RadMenuItem9.Click
         Try
             Dim str As String = "select tspl_tender_detail.Item_Code,TSPL_ITEM_MASTER.Item_Desc,tspl_tender_detail.Location,tspl_tender_detail.Vendor_Code, TSPL_VENDOR_MASTER.vendor_name,tspl_tender_detail.Unit_code,tspl_tender_detail.Qty,tspl_tender_detail.Rate, tspl_tender_detail.Item_cost as Amount,tspl_tender_detail.Discount , tspl_tender_detail.Remarks, tspl_tender_detail.Comments from  tspl_tender_detail 
@@ -2163,16 +2093,16 @@ Public Class frmTender
                         gv1.Rows(gv1.Rows.Count - 1).Cells("colUnit").Value = clsCommon.myCstr(grow.Cells("Unit_code").Value)
                     End If
                     If grow.Cells("Qty").Value IsNot Nothing Then
-                        gv1.Rows(gv1.Rows.Count - 1).Cells("colQty").Value = clsCommon.myCdbl(grow.Cells("Qty").Value)
+                        gv1.Rows(gv1.Rows.Count - 1).Cells("colQty").Value = clsCommon.myCDecimal(grow.Cells("Qty").Value)
                     End If
                     If grow.Cells("Rate").Value IsNot Nothing Then
-                        gv1.Rows(gv1.Rows.Count - 1).Cells("colRate").Value = clsCommon.myCdbl(grow.Cells("Rate").Value)
+                        gv1.Rows(gv1.Rows.Count - 1).Cells("colRate").Value = clsCommon.myCDecimal(grow.Cells("Rate").Value)
                     End If
                     If grow.Cells("Amount").Value IsNot Nothing Then
-                        gv1.Rows(gv1.Rows.Count - 1).Cells("colAmt").Value = clsCommon.myCdbl(grow.Cells("Amount").Value)
+                        gv1.Rows(gv1.Rows.Count - 1).Cells("colAmt").Value = clsCommon.myCDecimal(grow.Cells("Amount").Value)
                     End If
                     If grow.Cells("Discount").Value IsNot Nothing Then
-                        gv1.Rows(gv1.Rows.Count - 1).Cells("colDiscount").Value = clsCommon.myCdbl(grow.Cells("Discount").Value)
+                        gv1.Rows(gv1.Rows.Count - 1).Cells("colDiscount").Value = clsCommon.myCDecimal(grow.Cells("Discount").Value)
                     End If
                     If grow.Cells("Remarks").Value IsNot Nothing Then
                         gv1.Rows(gv1.Rows.Count - 1).Cells("colRemarks").Value = clsCommon.myCstr(grow.Cells("Remarks").Value)
@@ -2212,7 +2142,6 @@ Public Class frmTender
             End If
         End If
     End Sub
-
     Private Sub gv2_UserDeletedRow(sender As Object, e As GridViewRowEventArgs) Handles gv2.UserDeletedRow
         For ii As Integer = 0 To gv2.Rows.Count - 1
             Dim SNo As Integer = gv2.Rows(ii).Cells(colLineNo).Value
@@ -2224,7 +2153,6 @@ Public Class frmTender
             Next
         Next
     End Sub
-
     Private Sub gv2_UserDeletingRow(sender As Object, e As GridViewRowCancelEventArgs) Handles gv2.UserDeletingRow
         If clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
             e.Cancel = True
@@ -2238,9 +2166,91 @@ Public Class frmTender
         End If
 
     End Sub
-
     Private Sub Cancel_btn_Click(sender As Object, e As EventArgs) Handles Cancel_btn.Click
         CancelRALData()
+    End Sub
+    Private Sub cboRALOn_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles cboRALOn.Validating
+        ApplyTendorOn()
+    End Sub
+    Private Sub ApplyTendorOn()
+        Try
+            If clsCommon.myCDecimal(cboRALOn.SelectedValue) = 1 Then
+                txtItem.Value = ""
+                txtItem.Enabled = False
+                gv1.Columns(colICode).IsVisible = False
+                gv1.Columns(colIName).IsVisible = False
+                gv1.Columns(colITypeCode).IsVisible = True
+                gv1.Columns(colITypeName).IsVisible = True
+
+                gv2.Columns(colICode).IsVisible = False
+                gv2.Columns(colIName).IsVisible = False
+                gv2.Columns(colITypeCode).IsVisible = True
+                gv2.Columns(colITypeName).IsVisible = True
+
+                gvSchedule.Columns(colScheduleICode).IsVisible = False
+                gvSchedule.Columns(colScheduleIName).IsVisible = False
+                gvSchedule.Columns(colScheduleITypeCode).IsVisible = True
+                gvSchedule.Columns(colScheduleITypeName).IsVisible = True
+            Else
+                txtItem.Enabled = True
+
+                gv1.Columns(colICode).IsVisible = True
+                gv1.Columns(colIName).IsVisible = True
+                gv1.Columns(colITypeCode).IsVisible = False
+                gv1.Columns(colITypeName).IsVisible = False
+
+                gv2.Columns(colICode).IsVisible = True
+                gv2.Columns(colIName).IsVisible = True
+                gv2.Columns(colITypeCode).IsVisible = False
+                gv2.Columns(colITypeName).IsVisible = False
+
+                gvSchedule.Columns(colScheduleICode).IsVisible = True
+                gvSchedule.Columns(colScheduleIName).IsVisible = True
+                gvSchedule.Columns(colScheduleITypeCode).IsVisible = False
+                gvSchedule.Columns(colScheduleITypeName).IsVisible = False
+            End If
+        Catch ex As Exception
+        End Try
+    End Sub
+
+    Private Sub cboItemType_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles cboItemType.Validating
+        Try
+            If clsCommon.myCDecimal(cboRALOn.SelectedValue) = 1 Then
+                If clsCommon.myLen(cboItemType.SelectedValue) < 0 Then
+                    cboItemType.Focus()
+                    Throw New Exception("Please select Item Type")
+                End If
+                LoadBlankGrid(gv1)
+                LoadItemTypeGrid1()
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub LoadItemTypeGrid1()
+        Try
+            Dim qry As String = "select TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_CODE,TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_NAME,TSPL_ITEM_TYPE_MASTER.UOM
+,TSPL_LOCATION_MASTER.Location_Code,TSPL_LOCATION_MASTER.Location_Desc
+from TSPL_ITEM_TYPE_MASTER,TSPL_LOCATION_MASTER
+where   TSPL_LOCATION_MASTER.Location_Category<>'MCC' and TSPL_LOCATION_MASTER.Is_Sub_Location='N' and TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_CODE='" + clsCommon.myCstr(cboItemType.SelectedValue) + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            Dim intSerialNo As Integer
+            If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                For Each dr As DataRow In dt.Rows
+                    gv1.Rows.AddNew()
+                    intSerialNo += 1
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = intSerialNo
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colITypeCode).Value = clsCommon.myCstr(dr("ITEM_TYPE_CODE"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colITypeName).Value = clsCommon.myCstr(dr("ITEM_TYPE_NAME"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colLCode).Value = clsCommon.myCstr(dr("Location_Code"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colLName).Value = clsCommon.myCstr(dr("Location_Desc"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = clsCommon.myCstr(dr("UOM"))
+                Next
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
     End Sub
 
     Sub closeRal()

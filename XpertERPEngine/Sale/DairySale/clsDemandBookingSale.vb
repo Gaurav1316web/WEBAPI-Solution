@@ -636,7 +636,7 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
         End Try
         Return obj
     End Function
-    Public Shared Function DeleteBoothDemand(ByVal DocNo As String, ByVal cust_code As String, ByVal ShiftType As String) As Boolean
+    Public Shared Function DeleteBoothDemand(ByVal DocNo As String, ByVal cust_code As String, ByVal ShiftType As String, ByVal ResetDemandOnSave As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             Dim qry As String = ""
@@ -660,15 +660,18 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 Next
             End If
-            qry = "select tr_code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + DocNo + "' and ShiftType='" + ShiftType + "' and Cust_Code ='" + cust_code + "'"
-            Dim dtDetail As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-            If dtDetail IsNot Nothing AndAlso dtDetail.Rows.Count > 0 Then
-                For Each drDetail As DataRow In dtDetail.Rows
-                    qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where tr_code='" + clsCommon.myCstr(drDetail("tr_code")) + "' "
-                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
-                Next
-                dtDetail = Nothing
+            If Not ResetDemandOnSave Then
+                qry = "select tr_code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + DocNo + "' and ShiftType='" + ShiftType + "' and Cust_Code ='" + cust_code + "'"
+                Dim dtDetail As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                If dtDetail IsNot Nothing AndAlso dtDetail.Rows.Count > 0 Then
+                    For Each drDetail As DataRow In dtDetail.Rows
+                        qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where tr_code='" + clsCommon.myCstr(drDetail("tr_code")) + "' "
+                        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                    Next
+                    dtDetail = Nothing
+                End If
             End If
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
