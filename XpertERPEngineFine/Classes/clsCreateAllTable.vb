@@ -5837,8 +5837,8 @@ Public Class clsCreateAllTable
             coll.Add("FormCounter", "integer not null default 0")
             coll.Add("ExceptionNo", "varchar(10) null")
             coll.Add("APP_No", "integer not null default 0") ''0-XpertERP,1-XpertAPI
-            coll.Add("Lock_Location", "integer null default 0")
-            coll.Add("Lock_Location_Segment", "integer null default 0")
+            coll.Add("Lock_Location", "integer not null default 0")
+            coll.Add("Lock_Location_Segment", "integer not null default 0")
 
             clsCommonFunctionality.CreateOrAlterTable("TSPL_PROGRAM_MASTER", coll)
 
@@ -6280,7 +6280,6 @@ Public Class clsCreateAllTable
             coll.Add("Location_Code", "varchar(12) NOT NULL")
             coll.Add("Module_Name", "varchar(101) NOT NULL")
             coll.Add("Trans_Name", "varchar(201) NOT NULL")
-            coll.Add("ModuleCode", "varchar(101)  NULL")
             coll.Add("Is_Locked", "char Default 0")
             coll.Add("Start_Date", "Date NULL")
             coll.Add("End_Date", "Date  NULL")
@@ -6288,8 +6287,6 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "varchar(12) NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "varchar(12) NOT NULL")
-            coll.Add("TransCode", "varchar(101)  NULL")
-
             clsCommonFunctionality.CreateOrAlterTable("TSPL_LOCK_LOCATION", coll, "Primary Key (Comp_Code, Location_Code, Trans_Name)")
 
             coll = New Dictionary(Of String, String)()
@@ -6304,9 +6301,6 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "varchar(12) NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "varchar(12) NOT NULL")
-            coll.Add("ModuleCode", "varchar(101)  NULL")
-            coll.Add("TransCode", "varchar(101)  NULL")
-
             clsCommonFunctionality.CreateOrAlterTable("TSPL_LOCK_LOCATION_SEGMENT", coll, "Primary Key (Comp_Code, Location_Segment_Code, Trans_Name)")
 
 
@@ -6318,8 +6312,6 @@ Public Class clsCreateAllTable
             coll.Add("User_Code", "varchar(12) NOT NULL")
             coll.Add("FromDate", "Date NULL")
             coll.Add("ToDate", "Date  NULL")
-            coll.Add("TransCode", "varchar(101)  NULL")
-            coll.Add("ModuleCode", "varchar(101)  NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_LOCK_LOCATION_USER", coll, "Primary Key (Comp_Code, Location_Code, Trans_Name,User_Code)")
 
             coll = New Dictionary(Of String, String)()
@@ -6330,8 +6322,6 @@ Public Class clsCreateAllTable
             coll.Add("User_Code", "varchar(12) NOT NULL")
             coll.Add("FromDate", "Date NULL")
             coll.Add("ToDate", "Date  NULL")
-            coll.Add("TransCode", "varchar(101)  NULL")
-            coll.Add("ModuleCode", "varchar(101)  NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_LOCK_LOCATION_SEGMENT_USER", coll, "Primary Key (Comp_Code, Location_Segment_Code, Trans_Name,User_Code)")
 
             coll = New Dictionary(Of String, String)()

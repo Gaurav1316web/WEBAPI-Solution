@@ -1651,74 +1651,74 @@ Public Class MDI
         'Dim datLastDay As Date = LastDayOfPreviousMonth(currentDate)
         Dim intCount As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_LOCK_LOCATION where End_Date='" & clsCommon.GetPrintDate(datLastDay, "dd/MMM/yyyy") & "'"))
 
-        If intCount <= 0 Then
-            Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        'If intCount <= 0 Then
+        '    Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
 
-            Try
-                Dim ArrLoc As New ArrayList
+        '    Try
+        '        Dim ArrLoc As New ArrayList
 
-                '' Location Segement wise
-                clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_LOCK_LOCATION_SEGMENT ", trans)
-                clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_LOCK_LOCATION_SEGMENT_USER ", trans)
-                qry = " Select Segment_code as Code, Description from TSPL_GL_SEGMENT_CODE where Seg_No=7 "
-                Dim dtLoc As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+        '        '' Location Segement wise
+        '        clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_LOCK_LOCATION_SEGMENT ", trans)
+        '        clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_LOCK_LOCATION_SEGMENT_USER ", trans)
+        '        qry = " Select Segment_code as Code, Description from TSPL_GL_SEGMENT_CODE where Seg_No=7 "
+        '        Dim dtLoc As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
 
-                Dim FrmLockTransaction As New FrmLockTransaction1
-                qry = " Select * from (" + FrmLockTransaction.LockTransactionNameLocationSegwise() + ") xxx order by Module, [Transaction]"
-                Dim dtTrans As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+        '        Dim FrmLockTransaction As New FrmLockTransaction1
+        '        qry = " Select * from (" + FrmLockTransaction.LockTransactionNameLocationSegwise() + ") xxx order by Module, [Transaction]"
+        '        Dim dtTrans As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
 
-                If (dtLoc IsNot Nothing AndAlso dtLoc.Rows.Count > 0) Then
-                    For Each dr As DataRow In dtLoc.Rows
-                        Dim arr As New List(Of clsLockTransactionLocationSegmentwise)
-                        Dim obj As New clsLockTransactionLocationSegmentwise
-                        For Each dr1 As DataRow In dtTrans.Rows
-                            obj = New clsLockTransactionLocationSegmentwise
-                            obj.Location_Segment_Code = clsCommon.myCstr(dr("Code"))
-                            obj.Module_Name = clsCommon.myCstr(dr1("Module"))
-                            obj.Trans_Name = clsCommon.myCstr(dr1("Transaction"))
-                            obj.Is_Locked = 1
-                            obj.Start_Date = clsCommon.GetPrintDate("01-01-2001", "dd/MMM/yyyy")
-                            obj.End_Date = datLastDay
-                            arr.Add(obj)
-                        Next
-                        clsLockTransactionLocationSegmentwise.SaveData(obj.Location_Segment_Code, "", arr, trans)
-                    Next
-                End If
+        '        If (dtLoc IsNot Nothing AndAlso dtLoc.Rows.Count > 0) Then
+        '            For Each dr As DataRow In dtLoc.Rows
+        '                Dim arr As New List(Of clsLockTransactionLocationSegmentwise)
+        '                Dim obj As New clsLockTransactionLocationSegmentwise
+        '                For Each dr1 As DataRow In dtTrans.Rows
+        '                    obj = New clsLockTransactionLocationSegmentwise
+        '                    obj.Location_Segment_Code = clsCommon.myCstr(dr("Code"))
+        '                    obj.Module_Name = clsCommon.myCstr(dr1("Module"))
+        '                    obj.Trans_Name = clsCommon.myCstr(dr1("Transaction"))
+        '                    obj.Is_Locked = 1
+        '                    obj.Start_Date = clsCommon.GetPrintDate("01-01-2001", "dd/MMM/yyyy")
+        '                    obj.End_Date = datLastDay
+        '                    arr.Add(obj)
+        '                Next
+        '                clsLockTransactionLocationSegmentwise.SaveData(obj.Location_Segment_Code, "", arr, trans)
+        '            Next
+        '        End If
 
-                '' Location wise
-                clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_LOCK_LOCATION ", trans)
-                clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_LOCK_LOCATION_USER ", trans)
-                qry = " Select Location_Code as Code from TSPL_LOCATION_MASTER Where Location_Type='Physical' "
-                Dim dtLocSeg As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+        '        '' Location wise
+        '        clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_LOCK_LOCATION ", trans)
+        '        clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_LOCK_LOCATION_USER ", trans)
+        '        qry = " Select Location_Code as Code from TSPL_LOCATION_MASTER Where Location_Type='Physical' "
+        '        Dim dtLocSeg As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
 
-                qry = " Select * from (" + FrmLockTransaction.LockTransactionNameLocationwise() + ") xxx order by Module, [Transaction]"
-                dtTrans = clsDBFuncationality.GetDataTable(qry, trans)
+        '        qry = " Select * from (" + FrmLockTransaction.LockTransactionNameLocationwise() + ") xxx order by Module, [Transaction]"
+        '        dtTrans = clsDBFuncationality.GetDataTable(qry, trans)
 
-                If (dtLocSeg IsNot Nothing AndAlso dtLocSeg.Rows.Count > 0) Then
+        '        If (dtLocSeg IsNot Nothing AndAlso dtLocSeg.Rows.Count > 0) Then
 
-                    For Each dr As DataRow In dtLocSeg.Rows
-                        Dim obj As New clsLockTransactionLocationwise
-                        Dim arr1 As New List(Of clsLockTransactionLocationwise)
-                        For Each dr1 As DataRow In dtTrans.Rows
-                            obj = New clsLockTransactionLocationwise
-                            obj.Location_Code = clsCommon.myCstr(dr("Code"))
-                            obj.Module_Name = clsCommon.myCstr(dr1("Module"))
-                            obj.Trans_Name = clsCommon.myCstr(dr1("Transaction"))
-                            obj.Is_Locked = 1
-                            obj.Start_Date = clsCommon.GetPrintDate("01-01-2001", "dd/MMM/yyyy")
-                            obj.End_Date = datLastDay
-                            arr1.Add(obj)
-                        Next
-                        clsLockTransactionLocationwise.SaveData(obj.Location_Code, "", arr1, trans)
-                    Next
-                End If
-                trans.Commit()
-                clsCommon.MyMessageBoxShow("Transaction Locked Successfully", Me.Text)
-            Catch ex As Exception
-                trans.Rollback()
-                common.clsCommon.MyMessageBoxShow(Me, ex.Message)
-            End Try
-        End If
+        '            For Each dr As DataRow In dtLocSeg.Rows
+        '                Dim obj As New clsLockTransactionLocationwise
+        '                Dim arr1 As New List(Of clsLockTransactionLocationwise)
+        '                For Each dr1 As DataRow In dtTrans.Rows
+        '                    obj = New clsLockTransactionLocationwise
+        '                    obj.Location_Code = clsCommon.myCstr(dr("Code"))
+        '                    obj.Module_Name = clsCommon.myCstr(dr1("Module"))
+        '                    obj.Trans_Name = clsCommon.myCstr(dr1("Transaction"))
+        '                    obj.Is_Locked = 1
+        '                    obj.Start_Date = clsCommon.GetPrintDate("01-01-2001", "dd/MMM/yyyy")
+        '                    obj.End_Date = datLastDay
+        '                    arr1.Add(obj)
+        '                Next
+        '                clsLockTransactionLocationwise.SaveData(obj.Location_Code, "", arr1, trans)
+        '            Next
+        '        End If
+        '        trans.Commit()
+        '        clsCommon.MyMessageBoxShow("Transaction Locked Successfully", Me.Text)
+        '    Catch ex As Exception
+        '        trans.Rollback()
+        '        common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+        '    End Try
+        'End If
 
     End Function
     Public Shared Sub CreateAutoIndentAccordingReorderLevel()
