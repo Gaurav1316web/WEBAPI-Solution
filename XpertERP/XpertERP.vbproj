@@ -52,7 +52,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>ERP.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355,40000</NoWarn>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <Optimize>false</Optimize>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <Prefer32Bit>false</Prefer32Bit>
@@ -396,7 +396,7 @@
     <Reference Include="XpertERPProjectManagement">
       <HintPath>..\XpertERPProjectManagement\bin\Debug\XpertERPProjectManagement.dll</HintPath>
     </Reference>
-    <Reference Include="XpertERPPurchase, Version=7.1.0.76, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="XpertERPPurchase, Version=7.1.2.81, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERPPurchase\bin\Debug\XpertERPPurchase.dll</HintPath>
     </Reference>

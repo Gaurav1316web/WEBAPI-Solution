@@ -7,21 +7,27 @@ Public Class clsItemType
 #Region "Variables"
     Public ITEM_TYPE_CODE As String = Nothing
     Public ITEM_TYPE_NAME As String = Nothing
+    Public UOM As String = Nothing
     Public IS_ACTIVE As Integer = Nothing
     Public PREFIX_CODE As String = Nothing
     Public IsFixedTolerance As String = Nothing
     Public IsVaccine As String = Nothing
     Public TolerancePer As Double = 0
+    Public ArrSchedule As List(Of clsItemTypeSchedule) = Nothing
 
 #End Region
     Public Shared Function SaveData(ByVal obj As clsItemType, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         'Dim qry As String = ""
         Dim result As Boolean = False
         Try
-
+            Dim qry As String = "delete from TSPL_ITEM_TYPE_SCHEDULE_PENALTY where Against_Schedule_PK_Id in (select PK_ID from TSPL_ITEM_TYPE_SCHEDULE where Item_Type='" + obj.ITEM_TYPE_NAME + "')"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_ITEM_TYPE_SCHEDULE where Item_Type='" + obj.ITEM_TYPE_NAME + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "ITEM_TYPE_NAME", obj.ITEM_TYPE_NAME)
             clsCommon.AddColumnsForChange(coll, "IsFixedTolerance", obj.IsFixedTolerance)
+            clsCommon.AddColumnsForChange(coll, "UOM", obj.UOM)
             clsCommon.AddColumnsForChange(coll, "IsVaccine", obj.IsVaccine)
             clsCommon.AddColumnsForChange(coll, "TolerancePer", obj.TolerancePer)
             If isNewEntry Then
@@ -46,7 +52,7 @@ Public Class clsItemType
                 clsCommon.AddColumnsForChange(coll, "MODIFIED_DATE", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
                 result = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ITEM_TYPE_MASTER", OMInsertOrUpdate.Update, "TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_CODE='" + obj.ITEM_TYPE_CODE + "'", trans)
             End If
-
+            clsItemTypeSchedule.SaveData(obj.ITEM_TYPE_CODE, obj.ArrSchedule, trans)
 
         Catch ex As Exception
             Throw New Exception
@@ -69,8 +75,43 @@ Public Class clsItemType
         Return True
     End Function
 
+    Public Shared Function GetNavQry(ByVal strCode As String, ByVal NavType As common.NavigatorType) As clsItemType
+        Dim obj As clsItemType = Nothing
+        Try
+            Dim qry As String = "SELECT ITEM_TYPE_CODE AS Code,ITEM_TYPE_NAME AS [Description],UOM,IsFixedTolerance,IsVaccine,TolerancePer FROM TSPL_ITEM_TYPE_MASTER WHERE 1=1 "
+            Select Case NavType
+                Case NavigatorType.Current
+                    qry += " and TSPL_ITEM_TYPE_MASTER .ITEM_TYPE_CODE in ('" + strCode + "')"
+                Case NavigatorType.Next
+                    qry += " and TSPL_ITEM_TYPE_MASTER .ITEM_TYPE_CODE in (select min(ITEM_TYPE_CODE ) from TSPL_ITEM_TYPE_MASTER where ITEM_TYPE_CODE  >'" + strCode + "')"
+                Case NavigatorType.First
+                    qry += " and TSPL_ITEM_TYPE_MASTER .ITEM_TYPE_CODE in (select MIN(ITEM_TYPE_CODE ) from TSPL_ITEM_TYPE_MASTER)"
+                Case NavigatorType.Last
+                    qry += " and TSPL_ITEM_TYPE_MASTER .ITEM_TYPE_CODE in (select Max(ITEM_TYPE_CODE ) from TSPL_ITEM_TYPE_MASTER)"
+                Case NavigatorType.Previous
+                    qry += " and TSPL_ITEM_TYPE_MASTER .ITEM_TYPE_CODE in (select Max(ITEM_TYPE_CODE ) from TSPL_ITEM_TYPE_MASTER where ITEM_TYPE_CODE  <'" + strCode + "')"
+            End Select
+
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                obj = New clsItemType
+                obj.ITEM_TYPE_CODE = clsCommon.myCstr(dt.Rows(0)("Code"))
+                obj.ITEM_TYPE_NAME = clsCommon.myCstr(dt.Rows(0)("Description"))
+                obj.UOM = clsCommon.myCstr(dt.Rows(0)("UOM"))
+                obj.IsFixedTolerance = IIf(dt.Rows(0)("IsFixedTolerance") = "Y", True, False)
+                obj.IsVaccine = IIf(dt.Rows(0)("IsVaccine") = "Y", True, False)
+                obj.TolerancePer = clsCommon.myCdbl(dt.Rows(0)("TolerancePer"))
+
+            End If
+            obj.ArrSchedule = clsItemTypeSchedule.GetData(obj.ITEM_TYPE_CODE, Nothing)
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return obj
+    End Function
     Public Shared Function GetNavQry(ByVal Nav As common.NavigatorType, ByVal NavValue As String) As String
-        Dim Qry As String = "SELECT ITEM_TYPE_CODE AS Code,ITEM_TYPE_NAME AS [Description],IsFixedTolerance,IsVaccine,TolerancePer FROM TSPL_ITEM_TYPE_MASTER WHERE 1=1 "
+        Dim Qry As String = "SELECT ITEM_TYPE_CODE AS Code,ITEM_TYPE_NAME AS [Description],UOM,IsFixedTolerance,IsVaccine,TolerancePer FROM TSPL_ITEM_TYPE_MASTER WHERE 1=1 "
         Select Case Nav
             Case NavigatorType.Current
                 Qry += " and TSPL_ITEM_TYPE_MASTER .ITEM_TYPE_CODE in ('" + NavValue + "')"
@@ -120,4 +161,8 @@ Public Class clsItemType
         Return result
     End Function
 
+    Public Shared Function GetName(ByVal strICode As String, ByVal trans As SqlTransaction) As String
+        Dim qry As String = "select ITEM_TYPE_NAME from TSPL_ITEM_TYPE_MASTER where ITEM_TYPE_CODE='" + strICode + "' "
+        Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+    End Function
 End Class

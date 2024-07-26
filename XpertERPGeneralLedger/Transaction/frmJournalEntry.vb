@@ -1252,6 +1252,7 @@ Public Class frmJournalEntry
     Public Sub funDelete()
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
+
             connectSql.RunSpTransaction(trans, "sp_TSPL_JOURNAL_DETAILS_DELETE", New SqlParameter("@Voucher_No", fndVoucher.Value))
             connectSql.RunSpTransaction(trans, "sp_TSPL_JOURNAL_MASTER_DELETE", New SqlParameter("@Voucher_No", fndVoucher.Value))
             trans.Commit()
@@ -1945,7 +1946,7 @@ Public Class frmJournalEntry
                             LocSegName = LocSeg.Trim.Substring(clsCommon.myLen(LocSeg) - 3)
                         End If
 
-                        clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "General Ledger", "Journal Entry", LocSeg.Trim.Substring(clsCommon.myLen(LocSeg) - 3), dtVoucher.Value, Nothing)
+                        clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleGL, clsUserMgtCode.journalEntry, LocSeg.Trim.Substring(clsCommon.myLen(LocSeg) - 3), dtVoucher.Value, Nothing)
 
                     End If
                 Next

@@ -192,7 +192,7 @@ Public Class clsPurchaseInvoiceHead
                     clsRCDFRateControl.CheckRCDFRateControl(clsCommon.myCstr(Arr(i).Item_Code), clsCommon.myCstr(Arr(i).Unit_code), clsCommon.myCDecimal(Arr(i).Item_Cost), clsCommon.myCDate(obj.PI_Date), trans)
                 Next
             End If
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Invoice", obj.Bill_To_Location, clsCommon.myCDate(obj.PI_Date), trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnPurchaseInvoice, obj.Bill_To_Location, clsCommon.myCDate(obj.PI_Date), trans)
             If Not isNewEntry Then
                 HistoryUpdate(obj.PI_No, trans)
             End If
@@ -966,7 +966,7 @@ Public Class clsPurchaseInvoiceHead
                 Throw New Exception("No Data found to Post")
             End If
 
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Invoice", obj.Bill_To_Location, clsCommon.myCDate(obj.PI_Date), trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnPurchaseInvoice, obj.Bill_To_Location, clsCommon.myCDate(obj.PI_Date), trans)
 
             If (obj.Status = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
@@ -3971,7 +3971,7 @@ select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') 
         'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.PI_No) > 0) Then
             Try
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Invoice", obj.Bill_To_Location, clsCommon.myCDate(obj.PI_Date), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnPurchaseInvoice, obj.Bill_To_Location, clsCommon.myCDate(obj.PI_Date), trans)
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
                 End If

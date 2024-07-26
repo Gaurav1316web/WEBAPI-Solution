@@ -1280,7 +1280,7 @@ Public Class clsRecurringPayableInvoice
         If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
             Throw New Exception("No Data found to Post")
         End If
-        clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Payables", "AP Invoice Entry", obj.loc_code, clsCommon.myCDate(obj.Invoice_Entry_Date), trans)
+        clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePayable, clsUserMgtCode.mbtnAPInvoiceEntry, obj.loc_code, clsCommon.myCDate(obj.Invoice_Entry_Date), trans)
         If (clsCommon.myLen(obj.Posting_Date) > 0) Then
             Throw New Exception("Already Post on :" + obj.Posting_Date)
         End If
@@ -2254,7 +2254,7 @@ Public Class clsRecurringPayableInvoice
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
             Try
-                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Payables", "AP Invoice Entry", obj.loc_code, clsCommon.myCDate(obj.Invoice_Entry_Date), trans)
+                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePayable, clsUserMgtCode.mbtnAPInvoiceEntry, obj.loc_code, clsCommon.myCDate(obj.Invoice_Entry_Date), trans)
 
                 If (clsCommon.myLen(obj.Posting_Date) > 0) Then
                     Throw New Exception("Already Post on :" + obj.Posting_Date)

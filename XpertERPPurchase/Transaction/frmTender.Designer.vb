@@ -22,13 +22,15 @@ Partial Class frmTender
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.MyLabel21 = New common.Controls.MyLabel()
+        Me.cboRALOn = New common.Controls.MyComboBox()
         Me.MyLabel17 = New common.Controls.MyLabel()
         Me.cboMode = New common.Controls.MyComboBox()
         Me.MyLabel16 = New common.Controls.MyLabel()
@@ -134,6 +136,8 @@ Partial Class frmTender
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cboRALOn, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboMode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -278,6 +282,8 @@ Partial Class frmTender
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel21)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.cboRALOn)
         Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel17)
         Me.SplitContainer2.Panel1.Controls.Add(Me.cboMode)
         Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel16)
@@ -317,11 +323,47 @@ Partial Class frmTender
         Me.SplitContainer2.SplitterDistance = 118
         Me.SplitContainer2.TabIndex = 1515
         '
+        'MyLabel21
+        '
+        Me.MyLabel21.FieldName = Nothing
+        Me.MyLabel21.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel21.Location = New System.Drawing.Point(559, 11)
+        Me.MyLabel21.Name = "MyLabel21"
+        Me.MyLabel21.Size = New System.Drawing.Size(46, 16)
+        Me.MyLabel21.TabIndex = 1525
+        Me.MyLabel21.Text = "RAL On"
+        '
+        'cboRALOn
+        '
+        Me.cboRALOn.AutoCompleteDisplayMember = Nothing
+        Me.cboRALOn.AutoCompleteValueMember = Nothing
+        Me.cboRALOn.CalculationExpression = Nothing
+        Me.cboRALOn.DropDownAnimationEnabled = True
+        Me.cboRALOn.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboRALOn.FieldCode = Nothing
+        Me.cboRALOn.FieldDesc = Nothing
+        Me.cboRALOn.FieldMaxLength = 0
+        Me.cboRALOn.FieldName = Nothing
+        Me.cboRALOn.isCalculatedField = False
+        Me.cboRALOn.IsSourceFromTable = False
+        Me.cboRALOn.IsSourceFromValueList = False
+        Me.cboRALOn.IsUnique = False
+        Me.cboRALOn.Location = New System.Drawing.Point(607, 9)
+        Me.cboRALOn.MendatroryField = True
+        Me.cboRALOn.MyLinkLable1 = Me.MyLabel21
+        Me.cboRALOn.MyLinkLable2 = Nothing
+        Me.cboRALOn.Name = "cboRALOn"
+        Me.cboRALOn.ReferenceFieldDesc = Nothing
+        Me.cboRALOn.ReferenceFieldName = Nothing
+        Me.cboRALOn.ReferenceTableName = Nothing
+        Me.cboRALOn.Size = New System.Drawing.Size(95, 20)
+        Me.cboRALOn.TabIndex = 1524
+        '
         'MyLabel17
         '
         Me.MyLabel17.FieldName = Nothing
         Me.MyLabel17.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel17.Location = New System.Drawing.Point(5, 74)
+        Me.MyLabel17.Location = New System.Drawing.Point(6, 53)
         Me.MyLabel17.Name = "MyLabel17"
         Me.MyLabel17.Size = New System.Drawing.Size(35, 16)
         Me.MyLabel17.TabIndex = 1523
@@ -342,7 +384,7 @@ Partial Class frmTender
         Me.cboMode.IsSourceFromTable = False
         Me.cboMode.IsSourceFromValueList = False
         Me.cboMode.IsUnique = False
-        Me.cboMode.Location = New System.Drawing.Point(67, 72)
+        Me.cboMode.Location = New System.Drawing.Point(67, 51)
         Me.cboMode.MendatroryField = True
         Me.cboMode.MyLinkLable1 = Me.MyLabel17
         Me.cboMode.MyLinkLable2 = Nothing
@@ -393,7 +435,7 @@ Partial Class frmTender
         '
         Me.RadLabel29.FieldName = Nothing
         Me.RadLabel29.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel29.Location = New System.Drawing.Point(6, 53)
+        Me.RadLabel29.Location = New System.Drawing.Point(6, 73)
         Me.RadLabel29.Name = "RadLabel29"
         Me.RadLabel29.Size = New System.Drawing.Size(57, 16)
         Me.RadLabel29.TabIndex = 1519
@@ -414,7 +456,7 @@ Partial Class frmTender
         Me.cboItemType.IsSourceFromTable = False
         Me.cboItemType.IsSourceFromValueList = False
         Me.cboItemType.IsUnique = False
-        Me.cboItemType.Location = New System.Drawing.Point(67, 51)
+        Me.cboItemType.Location = New System.Drawing.Point(67, 71)
         Me.cboItemType.MendatroryField = True
         Me.cboItemType.MyLinkLable1 = Me.RadLabel29
         Me.cboItemType.MyLinkLable2 = Nothing
@@ -439,7 +481,7 @@ Partial Class frmTender
         Me.txtDate.IsSourceFromTable = False
         Me.txtDate.IsSourceFromValueList = False
         Me.txtDate.IsUnique = False
-        Me.txtDate.Location = New System.Drawing.Point(482, 10)
+        Me.txtDate.Location = New System.Drawing.Point(477, 10)
         Me.txtDate.MendatroryField = False
         Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtDate.MyLinkLable1 = Me.MyLabel4
@@ -461,9 +503,9 @@ Partial Class frmTender
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel4.Location = New System.Drawing.Point(402, 11)
         Me.MyLabel4.Name = "MyLabel4"
-        Me.MyLabel4.Size = New System.Drawing.Size(69, 16)
+        Me.MyLabel4.Size = New System.Drawing.Size(55, 16)
         Me.MyLabel4.TabIndex = 1517
-        Me.MyLabel4.Text = "Tender Date"
+        Me.MyLabel4.Text = "RAL Date"
         '
         'btnCopy
         '
@@ -559,7 +601,7 @@ Partial Class frmTender
         'UsLock1
         '
         Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(572, 10)
+        Me.UsLock1.Location = New System.Drawing.Point(918, 10)
         Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UsLock1.Name = "UsLock1"
         Me.UsLock1.Size = New System.Drawing.Size(96, 19)
@@ -601,9 +643,9 @@ Partial Class frmTender
         Me.lblTenderSqNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTenderSqNo.Location = New System.Drawing.Point(705, 11)
         Me.lblTenderSqNo.Name = "lblTenderSqNo"
-        Me.lblTenderSqNo.Size = New System.Drawing.Size(67, 16)
+        Me.lblTenderSqNo.Size = New System.Drawing.Size(53, 16)
         Me.lblTenderSqNo.TabIndex = 1442
-        Me.lblTenderSqNo.Text = "Tender SNo"
+        Me.lblTenderSqNo.Text = "RAL SNo"
         '
         'MyLabel5
         '
@@ -657,7 +699,7 @@ Partial Class frmTender
         Me.lblTenderSeqNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTenderSeqNo.Location = New System.Drawing.Point(789, 10)
         Me.lblTenderSeqNo.Name = "lblTenderSeqNo"
-        Me.lblTenderSeqNo.Size = New System.Drawing.Size(225, 19)
+        Me.lblTenderSeqNo.Size = New System.Drawing.Size(125, 19)
         Me.lblTenderSeqNo.TabIndex = 1442
         Me.lblTenderSeqNo.TextWrap = False
         '
@@ -850,7 +892,7 @@ Partial Class frmTender
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -889,7 +931,7 @@ Partial Class frmTender
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1133,7 +1175,7 @@ Partial Class frmTender
         Me.gvSchedule.MasterTemplate.AllowDeleteRow = False
         Me.gvSchedule.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSchedule.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSchedule.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvSchedule.MasterTemplate.ViewDefinition = TableViewDefinition9
         Me.gvSchedule.MyStopExport = False
         Me.gvSchedule.Name = "gvSchedule"
         Me.gvSchedule.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1542,6 +1584,8 @@ Partial Class frmTender
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cboRALOn, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboMode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1725,5 +1769,7 @@ Partial Class frmTender
     Friend WithEvents cboMode As common.Controls.MyComboBox
     Friend WithEvents chkRalclose As CheckBox
     Friend WithEvents Cancel_btn As RadButton
+    Friend WithEvents MyLabel21 As common.Controls.MyLabel
+    Friend WithEvents cboRALOn As common.Controls.MyComboBox
 End Class
 

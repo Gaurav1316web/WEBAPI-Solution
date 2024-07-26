@@ -342,6 +342,7 @@ Public Class frmSRN
     Dim ChkAutoDepOnPurchaseCycle As Boolean = False
 
     Dim isAgainstTender As Boolean = False
+    Public SettRateDecimalPlaces As Integer = 0
 #End Region
 
     Public Sub New(ByVal formid As String)
@@ -384,6 +385,7 @@ Public Class frmSRN
         isInsideLoadData = False
     End Sub
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        SettRateDecimalPlaces = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PurchaseModule, clsFixedParameterCode.RateDecimalPlaces, Nothing))
         ItemCostTolerancePercentage = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ItemCostTolerancePercentage, clsFixedParameterCode.ItemCostTolerancePercentage, Nothing))
         AutoClosePOBasedOnSRNQtyWithTolerance = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AutoClosePOBasedOnSRNQtyWithTolerance, clsFixedParameterCode.AutoClosePOBasedOnSRNQtyWithTolerance, Nothing)) = "1", True, False))
         PurchaseModulePickFixTaxRate = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PurchaseModulePickFixTaxRate, clsFixedParameterCode.PurchaseModulePickFixTaxRate, Nothing)) = 1, True, False)
@@ -1187,15 +1189,14 @@ Public Class frmSRN
 
         Dim repoRate As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoRate = New GridViewDecimalColumn()
-        repoRate.FormatString = ""
         repoRate.HeaderText = "Unit Cost"
         repoRate.Name = colRate
         repoRate.Width = 80
         repoRate.Minimum = 0
-        repoRate.FormatString = "{0:n4}"
-        repoRate.DecimalPlaces = 4
         repoRate.ReadOnly = False
         repoRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoRate.FormatString = "{0:n" + clsCommon.myCstr(SettRateDecimalPlaces) + "}"
+        repoRate.DecimalPlaces = SettRateDecimalPlaces
         gv1.MasterTemplate.Columns.Add(repoRate) '20
         repoRate = Nothing
 
@@ -4838,7 +4839,7 @@ Public Class frmSRN
                 Next
             End If
 
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Store Receipt Note", IIf(clsCommon.myLen(txtShipToLocation.Value) <= 0, txtBillToLocation.Value, txtShipToLocation.Value), txtDate.Value, Nothing)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnSRN, IIf(clsCommon.myLen(txtShipToLocation.Value) <= 0, txtBillToLocation.Value, txtShipToLocation.Value), txtDate.Value, Nothing)
 
         Catch ex As Exception  
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

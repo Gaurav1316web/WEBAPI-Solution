@@ -162,8 +162,11 @@ Public Class clsMRNHead
     Public Function SaveData(ByVal obj As clsMRNHead, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction, Optional ByVal isamendment As Boolean = False) As Boolean
         Dim isSaved As Boolean = True
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Material Received Note", obj.Bill_To_Location, obj.MRN_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Material Received Note", IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location), obj.MRN_Date, trans)
             clsMRNAdditionChargeInsurance.DeleteData(obj.MRN_No, trans)
+            'clsSerializeInvenotry.DeleteData("MRN", obj.MRN_No, trans)
+            'clsBatchInventory.DeleteData("MRN", obj.MRN_No, trans)
+
             Dim qry As String = "delete from TSPL_MRN_DETAIL where MRN_No='" + obj.MRN_No + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             If isamendment Then
@@ -811,7 +814,7 @@ Public Class clsMRNHead
             Dim strPostDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt")
 
             Dim obj As clsMRNHead = clsMRNHead.GetData(strDocNo, NavigatorType.Current, trans)
-
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Material Received Note", IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location), obj.MRN_Date, trans)
             If (obj Is Nothing OrElse clsCommon.myLen(obj.MRN_No) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
@@ -972,8 +975,10 @@ where TSPL_MRN_DETAIL.MRN_No='" + strDocNo + "' and ISNULL( TSPL_ITEM_MASTER.NIR
             Throw New Exception("Purchase Order No not found to Delete")
         End If
         Dim obj As clsMRNHead = clsMRNHead.GetData(strCode, NavigatorType.Current, trans)
+
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.MRN_No) > 0) Then
             Try
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Material Received Note", IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location), obj.MRN_Date, trans)
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
                 End If
@@ -1089,6 +1094,7 @@ where TSPL_MRN_DETAIL.MRN_No='" + strDocNo + "' and ISNULL( TSPL_ITEM_MASTER.NIR
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             Dim obj As clsMRNHead = clsMRNHead.GetData(Doc_No, NavigatorType.Current, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Material Received Note", IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location), obj.MRN_Date, trans)
             If obj Is Nothing OrElse clsCommon.myLen(obj.MRN_No) <= 0 Then
                 Throw New Exception("Document- " & Doc_No & " not found")
             End If
@@ -1133,6 +1139,12 @@ where TSPL_MRN_DETAIL.MRN_No='" + strDocNo + "' and ISNULL( TSPL_ITEM_MASTER.NIR
             Dim obj As clsMRNHead = clsMRNHead.GetData(strCode, NavigatorType.Current, trans)
             Dim qry As String = "select 1 from TSPL_MRN_HEAD where MRN_No='" + strCode + "' and Status=1"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_MRN_HEAD.Bill_To_Location, TSPL_MRN_HEAD.MRN_No, TSPL_MRN_HEAD.MRN_Date from TSPL_MRN_HEAD where MRN_No= '" + strCode + "' ", trans)
+            If dts.Rows.Count > 0 Then
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Material Received Note", clsCommon.myCstr(dts.Rows(0)("Bill_To_Location")), clsCommon.myCstr(dts.Rows(0)("MRN_Date")), trans)
+            End If
+
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Material Recive Note", IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location), obj.MRN_Date, trans)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 Throw New Exception("Transaction status should be posted.")
             End If

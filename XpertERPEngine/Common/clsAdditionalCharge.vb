@@ -1034,7 +1034,7 @@ Public Class clsCustomerMaster
         obj.TDMCode = clsCommon.myCstr(dt.Rows(0)("TDM_Code"))
         obj.DistributorCode = clsCommon.myCstr(dt.Rows(0)("Distributor_Code"))
         obj.IsDistributor = clsCommon.myCstr(dt.Rows(0)("IsDistributor"))
-        obj.Is_Default_Grower = clsCommon.myCstr(dt.Rows(0)("Is_Default_Grower"))
+        obj.Is_Default_Grower = clsCommon.myCdbl(dt.Rows(0)("Is_Default_Grower"))
         obj.Price_Group_Code = clsCommon.myCstr(dt.Rows(0)("Price_Group_Code"))
         obj.CSA_Type = clsCommon.myCstr(dt.Rows(0)("CSA_Type"))
         obj.cat_struct_code = clsCommon.myCstr(dt.Rows(0)("Category_Struct_Code"))
@@ -1077,7 +1077,7 @@ Public Class clsCustomerMaster
         obj.GST_COMPOSITION = clsCommon.myCstr(dt.Rows(0)("GST_COMPOSITION"))
         obj.Priority_Level = clsCommon.myCstr(dt.Rows(0)("Priority_Level"))
         obj.FSSAI_NO = clsCommon.myCstr(dt.Rows(0)("FSSAI_NO"))
-        obj.SubsidyAmount = clsCommon.myCstr(dt.Rows(0)("SubsidyAmount"))
+        obj.SubsidyAmount = clsCommon.myCdbl(dt.Rows(0)("SubsidyAmount"))
         obj.RSM = clsCommon.myCstr(dt.Rows(0)("RSM"))
         obj.ASM = clsCommon.myCstr(dt.Rows(0)("ASM"))
         obj.ASO = clsCommon.myCstr(dt.Rows(0)("ASO"))
@@ -1105,7 +1105,7 @@ Public Class clsCustomerMaster
         obj.CustStatus = clsCommon.myCstr(dt.Rows(0)("CustStatus"))
         obj.Area_Code = clsCommon.myCstr(dt.Rows(0)("Area_Code"))
         obj.Customer_Name_Hindi = clsCommon.myCstr(dt.Rows(0)("Customer_Name_Hindi"))
-        obj.IsReorder = clsCommon.myCstr(dt.Rows(0)("IsReorder"))
+        obj.IsReorder = clsCommon.myCdbl(dt.Rows(0)("IsReorder"))
         obj.Cast_Category_Code = clsCommon.myCstr(dt.Rows(0)("Cast_Category_Code"))
         obj.Distict_Code = clsCommon.myCstr(dt.Rows(0)("Distict_Code"))
         obj.Block_Code = clsCommon.myCstr(dt.Rows(0)("Block_Code"))
@@ -2690,8 +2690,7 @@ Public Class clsCustomerMaster
                 If clsCommon.myLen(strCustomer) > 0 Then
                     If AllowtoSHOWParentChildCustomer = True Then
                         strtempBaseQry += " and (TSPL_CUSTOMER_MASTER.Cust_Code in (" & strCustomer & ") or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
-                    Else
-                        strtempBaseQry += " and TSPL_CUSTOMER_MASTER.Cust_Code in (" & strCustomer & ")"
+
                     End If
                 End If
 
@@ -2707,7 +2706,7 @@ Public Class clsCustomerMaster
                              where (TSPL_SD_SHIPMENT_head.Document_Code  not in (select TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code from TSPL_SD_SALE_INVOICE_DETAIL )
 							 or  TSPL_SD_SALE_INVOICE_HEAD.Document_Code not in (select Against_Sale_No from TSPL_Customer_Invoice_Head)) "
                 If clsCommon.myLen(strCustomer) > 0 Then
-                    strtempBaseQry += " and  TSPL_SD_SHIPMENT_head.Customer_Code  in(" & strCustomer & ")"
+                    ' strtempBaseQry += " and  TSPL_SD_SHIPMENT_head.Customer_Code  in(" & strCustomer & ")"
 
                 End If
                 strtempBaseQry += "    and (CONVERT(DATE, TSPL_SD_SHIPMENT_head.Document_Date ,103)) <'" + strfromdate + "'  " + Environment.NewLine
@@ -2751,8 +2750,7 @@ Public Class clsCustomerMaster
                     If clsCommon.myLen(strCustomer) > 0 Then
                         If AllowtoSHOWParentChildCustomer = True Then
                             strtempBaseQry += " and (TSPL_CUSTOMER_MASTER.Cust_Code in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
-                        Else
-                            strtempBaseQry += " and TSPL_CUSTOMER_MASTER.Cust_Code in (" & strCustomer & ") "
+
                         End If
                     End If
 
@@ -2776,8 +2774,7 @@ Public Class clsCustomerMaster
                     If clsCommon.myLen(strCustomer) > 0 Then
                         If AllowtoSHOWParentChildCustomer = True Then
                             strtempBaseQry += " and (TSPL_CUSTOMER_MASTER.Cust_Code in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
-                        Else
-                            strtempBaseQry += " and TSPL_CUSTOMER_MASTER.Cust_Code in (" & strCustomer & ") "
+
                         End If
                     End If
                     strtempBaseQry += "----------------------to find gain or loss amount FOR BANK REVERSE ---------------" + Environment.NewLine
@@ -2851,8 +2848,6 @@ Public Class clsCustomerMaster
                     If clsCommon.myLen(strCustomer) > 0 Then
                         If AllowtoSHOWParentChildCustomer = True Then
                             strtempBaseQry += " and (TSPL_CUSTOMER_MASTER.Cust_Code in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
-                        Else
-                            strtempBaseQry += " and TSPL_CUSTOMER_MASTER.Cust_Code in (" & strCustomer & ") "
                         End If
                     End If
                 End If
@@ -2900,8 +2895,6 @@ Public Class clsCustomerMaster
                 If clsCommon.myLen(strCustomer) > 0 Then
                     If AllowtoSHOWParentChildCustomer = True Then
                         strtempBaseQry += " and (TSPL_CUSTOMER_MASTER.Cust_Code in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
-                    Else
-                        strtempBaseQry += " and TSPL_CUSTOMER_MASTER.Cust_Code in (" & strCustomer & ") "
                     End If
                 End If
                 strtempBaseQry += " )INV "
@@ -2944,8 +2937,6 @@ Public Class clsCustomerMaster
                 If clsCommon.myLen(strCustomer) > 0 Then
                     If AllowtoSHOWParentChildCustomer = True Then
                         strtempBaseQry += " and (TSPL_CUSTOMER_MASTER.Cust_Code in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
-                    Else
-                        strtempBaseQry += " and TSPL_CUSTOMER_MASTER.Cust_Code in (" & strCustomer & ") "
                     End If
                 End If
                 strtempBaseQry += " )INV "
@@ -2975,8 +2966,6 @@ Public Class clsCustomerMaster
                 If clsCommon.myLen(strCustomer) > 0 Then
                     If AllowtoSHOWParentChildCustomer = True Then
                         strtempBaseQry += " and (TSPL_RECEIPT_HEADER.Cust_Code in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
-                    Else
-                        strtempBaseQry += " and TSPL_RECEIPT_HEADER.Cust_Code in (" & strCustomer & ") "
                     End If
                 End If
                 strtempBaseQry += " )XX GROUP BY XX.ACode, XX.Location, XX.DocNo,XX.DocType " + Environment.NewLine
@@ -3011,8 +3000,6 @@ Public Class clsCustomerMaster
                 If clsCommon.myLen(strCustomer) > 0 Then
                     If AllowtoSHOWParentChildCustomer = True Then
                         strtempBaseQry += " and (TSPL_RECEIPT_HEADER.Cust_Code in (" & strCustomer & ")  or isnull(CM.Parent_Customer_No,'')  in (" & strCustomer & ") )"
-                    Else
-                        strtempBaseQry += " and TSPL_RECEIPT_HEADER.Cust_Code in (" & strCustomer & ") "
                     End If
                 End If
                 '     strtempBaseQry += " ) XX WHERE RowNo=1" + Environment.NewLine & _
@@ -3049,9 +3036,6 @@ Public Class clsCustomerMaster
                     If AllowtoSHOWParentChildCustomer = True Then
                         'strtempBaseQry += " and (CIH.Customer_Code in (" & strCustomer & ")  or isnull(CM.Parent_Customer_No,'')  in (" & strCustomer & ") )"
                         strtempBaseQry += " and (CM.Cust_Code in (" & strCustomer & ")  or isnull(CM.Parent_Customer_No,'')  in (" & strCustomer & ") )"
-                    Else
-                        strtempBaseQry += " and isnull(CIH.Customer_Code,TSPL_RECEIPT_HEADER.Cust_Code ) in (" & strCustomer & ") "
-                        ' strtempBaseQry += " and CM.Cust_Code in (" & strCustomer & ") "
                     End If
                 End If
                 strtempBaseQry += " )z group by DocNo ,Location,ACode" & Environment.NewLine
@@ -3074,8 +3058,6 @@ Public Class clsCustomerMaster
                 If clsCommon.myLen(strCustomer) > 0 Then
                     If AllowtoSHOWParentChildCustomer = True Then
                         strtempBaseQry += " and (TSPL_ADJUSTMENT_HEADER.Customer_CODE in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
-                    Else
-                        strtempBaseQry += " and TSPL_ADJUSTMENT_HEADER.Customer_CODE in (" & strCustomer & ") "
                     End If
                 End If
                 strtempBaseQry += " ) AS Final INNER JOIN  TSPL_ADJUSTMENT_HEADER  ON Final.Adjustment_No =  TSPL_ADJUSTMENT_HEADER.Adjustment_No  GROUP BY Final.Adjustment_No, Final.Item_Code" &
@@ -3219,8 +3201,6 @@ Public Class clsCustomerMaster
                     If clsCommon.myLen(strCustomer) > 0 Then
                         If AllowtoSHOWParentChildCustomer = True Then
                             strtempBaseQry += " and (TSPL_Customer_Invoice_Head.Customer_Code in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
-                        Else
-                            strtempBaseQry += " and TSPL_Customer_Invoice_Head.Customer_Code in (" & strCustomer & ") "
                         End If
                     End If
                     strtempBaseQry += Environment.NewLine + " UNION ALL" + Environment.NewLine
@@ -3246,8 +3226,6 @@ Public Class clsCustomerMaster
                 If clsCommon.myLen(strCustomer) > 0 Then
                     If AllowtoSHOWParentChildCustomer = True Then
                         strtempBaseQry += " and (TSPL_Receipt_Adjustment_Header.Customer_No  in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
-                    Else
-                        strtempBaseQry += " and TSPL_Receipt_Adjustment_Header.Customer_No  in (" & strCustomer & ") "
                     End If
                 End If
                 strtempBaseQry += Environment.NewLine + " UNION ALL" + Environment.NewLine &
@@ -3308,8 +3286,6 @@ Public Class clsCustomerMaster
                 If clsCommon.myLen(strCustomer) > 0 Then
                     If AllowtoSHOWParentChildCustomer = True Then
                         strtempBaseQry += " and ((coalesce(TSPL_Customer_Invoice_Head.Customer_Code,TSPL_BANK_REVERSE.Cust_Code))  in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
-                    Else
-                        strtempBaseQry += " and (coalesce(TSPL_Customer_Invoice_Head.Customer_Code,TSPL_BANK_REVERSE.Cust_Code))  in (" & strCustomer & ") "
                     End If
 
                 End If
@@ -3336,8 +3312,6 @@ Public Class clsCustomerMaster
                     If clsCommon.myLen(strCustomer) > 0 Then
                         If AllowtoSHOWParentChildCustomer = True Then
                             strtempBaseQry += " and (TSPL_BANK_REVERSE.Cust_Code  in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
-                        Else
-                            strtempBaseQry += " and TSPL_BANK_REVERSE.Cust_Code  in (" & strCustomer & ") "
                         End If
                     End If
                     strtempBaseQry += Environment.NewLine + " ------------- BANK REVERSE ENTRY AGAINST APPLY DOCUMENT" + Environment.NewLine
@@ -3366,8 +3340,6 @@ Public Class clsCustomerMaster
                     If clsCommon.myLen(strCustomer) > 0 Then
                         If AllowtoSHOWParentChildCustomer = True Then
                             strtempBaseQry += " and (TSPL_BANK_REVERSE.Cust_Code  in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
-                        Else
-                            strtempBaseQry += " and TSPL_BANK_REVERSE.Cust_Code  in (" & strCustomer & ") "
                         End If
                     End If
                 End If
@@ -3389,8 +3361,6 @@ Public Class clsCustomerMaster
                 If clsCommon.myLen(strCustomer) > 0 Then
                     If AllowtoSHOWParentChildCustomer = True Then
                         strtempBaseQry += " and  (TSPL_VCGL_Head.VC_Code  in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
-                    Else
-                        strtempBaseQry += " and  TSPL_VCGL_Head.VC_Code  in (" & strCustomer & ") "
                     End If
                 End If
                 strtempBaseQry += Environment.NewLine + " UNION ALL" + Environment.NewLine &
@@ -3411,8 +3381,6 @@ Public Class clsCustomerMaster
                 If clsCommon.myLen(strCustomer) > 0 Then
                     If AllowtoSHOWParentChildCustomer = True Then
                         strtempBaseQry += " and  (TSPL_VCGL_Detail.VCGL_Code  in (" & strCustomer & ")  or isnull(TSPL_CUSTOMER_MASTER.Parent_Customer_No,'')  in (" & strCustomer & ") )"
-                    Else
-                        strtempBaseQry += " and  TSPL_VCGL_Detail.VCGL_Code  in (" & strCustomer & ")  "
                     End If
                 End If
             End If
@@ -3662,9 +3630,9 @@ Public Class clsCustomerMaster
         Else
             strExcludeEXcforApplyDocumnets += "  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  >='" + strfromdate + "' and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <='" + strtodate + "' " + Environment.NewLine
         End If
-        If clsCommon.myLen(strCustomer) > 0 Then
-            strExcludeEXcforApplyDocumnets += " and TSPL_RECEIPT_HEADER.Cust_Code in (" & strCustomer & ")"
-        End If
+        'If clsCommon.myLen(strCustomer) > 0 Then
+        '    strExcludeEXcforApplyDocumnets += " and TSPL_RECEIPT_HEADER.Cust_Code in (" & strCustomer & ")"
+        'End If
         strExcludeEXcforApplyDocumnets += Environment.NewLine & " Union All" & Environment.NewLine &
         " Select Reverse_Code  from TSPL_BANK_REVERSE where Document_No in ( Select Receipt_No  from TSPL_RECEIPT_HEADER where TSPL_RECEIPT_HEADER.Receipt_Type ='A' and   TSPL_RECEIPT_HEADER.Posted='Y' and (TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT >0 or TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_AMT >0)   "
         If isOpening = True Then
@@ -3672,9 +3640,9 @@ Public Class clsCustomerMaster
         Else
             strExcludeEXcforApplyDocumnets += "  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  >='" + strfromdate + "' and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <='" + strtodate + "' " + Environment.NewLine
         End If
-        If clsCommon.myLen(strCustomer) > 0 Then
-            strExcludeEXcforApplyDocumnets += " and TSPL_RECEIPT_HEADER.Cust_Code in (" & strCustomer & ")"
-        End If
+        'If clsCommon.myLen(strCustomer) > 0 Then
+        '    strExcludeEXcforApplyDocumnets += " and TSPL_RECEIPT_HEADER.Cust_Code in (" & strCustomer & ")"
+        'End If
 
         strExcludeEXcforApplyDocumnets += "  ) ) "
         '' exclude card indent advance receipt

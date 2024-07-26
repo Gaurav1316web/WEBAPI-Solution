@@ -146,7 +146,7 @@ Public Class clsSNSalesReturnHead
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             '' Anubhooti 06-Sep-2014 BM00000003735
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Sales And Distribution", "Sale Return", obj.Bill_To_Location, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSalesNew, clsUserMgtCode.frmSNSaleReturn, obj.Bill_To_Location, obj.Document_Date, trans)
             ''
             clsSerializeInvenotry.DeleteData("Sale Return", obj.Document_Code, trans)
             Dim qry As String = "delete from TSPL_SD_SALE_RETURN_DETAIL where Document_Code='" + obj.Document_Code + "'"

@@ -365,14 +365,30 @@ Public Class clsSNShipmentHead
                              LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE
                              LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code   
 							 left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_head.Document_Code
+                             left outer join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No<>TSPL_SD_SALE_INVOICE_HEAD.Document_Code
                              where (TSPL_SD_SHIPMENT_head.Document_Code  not in (select TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code from TSPL_SD_SALE_INVOICE_DETAIL )
-							 or  TSPL_SD_SALE_INVOICE_HEAD.Document_Code not in (select Against_Sale_No from TSPL_Customer_Invoice_Head)) "
+							 --or  TSPL_SD_SALE_INVOICE_HEAD.Document_Code not in (select Against_Sale_No from TSPL_Customer_Invoice_Head)
+                                ) "
                 If clsCommon.myLen(strCustomer) > 0 Then
                     strtempBaseQry += " and  TSPL_SD_SHIPMENT_head.Customer_Code  in(" & strCustomer & ")"
 
                 End If
                 strtempBaseQry += "    and (CONVERT(DATE, TSPL_SD_SHIPMENT_head.Document_Date ,103)) <'" + strfromdate + "'  " + Environment.NewLine
                 strtempBaseQry += "    and TSPL_SD_SHIPMENT_head.Document_Code not in ('" + DocNo + "') "
+                strtempBaseQry += Environment.NewLine + "UNION ALL" + Environment.NewLine &
+                 "select TSPL_SCRAPSALE_HEAD.cust_Code as ACode,(TSPL_SCRAPSALE_HEAD.cust_Code) as Child,'' as AName,TSPL_SCRAPSALE_HEAD.shipment_No as DocNo,'' as AgainstInvoiceNo,(CONVERT(DATE, TSPL_SCRAPSALE_HEAD.shipment_Date ,103)) as DocDate,'MI' as docType,'' as DocNarr,'' as ChequeDetails,'INR' as Currency_Code, 1 as ConvRate,case when isnull(TSPL_SCRAPINVOICE_HEAD.ship_Total_Amt,0)=0 then TSPL_SCRAPSALE_HEAD.ship_Total_Amt else  TSPL_SCRAPINVOICE_HEAD.ship_Total_Amt end as  DrAmt,0 as CrAmt, 0 as SecurityDrAmt, 0 as SecurityCrAmt, 0 as [Sales], 0 as [CollectionRefund], 0 as [DrNote],0 as [CrNote],(TSPL_SCRAPSALE_HEAD.Loc_Code) as Location,'' as SourceCode,'' as Item_Code, '' as Item_Desc  ,'' As Receipt_Type, '' as Bank_Code,(TSPL_CUSTOMER_MASTER.Cust_Type_Code) as Cust_Type_Code,(TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc) as  Cust_Type_Desc,(TSPL_CUSTOMER_MASTER.Cust_Category_Code) as Cust_Category_Code,(TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC ) as  CUST_CATEGORY_DESC
+                             from TSPL_SCRAPSALE_HEAD
+                             left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SCRAPSALE_HEAD.cust_Code
+                             LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE
+                             LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code   
+							 left outer join TSPL_SCRAPINVOICE_HEAD on TSPL_SCRAPINVOICE_HEAD.shipment_No=TSPL_SCRAPSALE_HEAD.shipment_No
+                             where  TSPL_SCRAPSALE_HEAD.ispost=0 and
+							 TSPL_SCRAPSALE_HEAD.cust_Code  in(" & strCustomer & ")    and (CONVERT(DATE, TSPL_SCRAPSALE_HEAD.shipment_Date ,103)) <'" + strfromdate + "'
+							and TSPL_SCRAPSALE_HEAD.shipment_No not in ('" + DocNo + "') "
+
+
+
+
                 If Docwise = False Then
                     strtempBaseQry += Environment.NewLine + " UNION ALL " + Environment.NewLine &
                     "  Select TSPL_CUSTOMER_MASTER.Cust_Code as ACode,TSPL_CUSTOMER_MASTER.Cust_Code as Child, TSPL_CUSTOMER_MASTER.Customer_Name as AName, TSPL_RECEIPT_HEADER.Receipt_No as DocNo, ''  as AgainstInvoiceNo, Receipt_Date as DocDate,'EXC'  as DocType  , case when ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='Y' Then 'Security' Else '' + 'Exchange Gain/Loss against Journal Entry No  '+isnull(TSPL_JOURNAL_MASTER.Voucher_No,'')    end as DocNarr, (rtrim(Entry_Desc) + (case when len(RTRIM(Entry_Desc))>0 and len(RTRIM(Cheque_No))>0  then ' / ' else '' end)  + (case when LEN(ISNULL(Cheque_No,''))>0 then 'Cheque No. - ' + Cheque_No +  ' - '+Cheque_Date else '' end)) as ChequeDetails, TSPL_RECEIPT_HEADER.Currency_Code, 1 as ConvRate,   TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_AMT as DrAmt, TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT AS CrAmt, 0  as SecurityDrAmt, 0 AS SecurityCrAmt  , 0 as [Sales], 0  as [CollectionRefund], 0 as [DrNote], 0 as [CrNote], isnull( TSPL_Customer_Invoice_Head.Loc_Code,'') as [Location],  (Case when TSPL_RECEIPT_HEADER.Receipt_Type='R' then 'AR-RC' when TSPL_RECEIPT_HEADER.Receipt_Type='f' then 'AR-RF' when TSPL_RECEIPT_HEADER.Receipt_Type='U' then 'AR-UN' when TSPL_RECEIPT_HEADER.Receipt_Type='P' then 'AR-PY' when TSPL_RECEIPT_HEADER.Receipt_Type='O' then 'AR-OA' when TSPL_RECEIPT_HEADER.Receipt_Type='A' then 'AR-IM' end) as SourceCode, '' as Item_Code, '' as Item_Desc,TSPL_RECEIPT_HEADER.Receipt_Type  As Receipt_Type, TSPL_RECEIPT_HEADER.Bank_Code, TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC    from TSPL_RECEIPT_HEADER   " + Environment.NewLine &

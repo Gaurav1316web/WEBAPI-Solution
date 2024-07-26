@@ -306,7 +306,6 @@ Public Class frmScrapSale
         txtponumber.MaxLength = 30
 
     End Sub
-
     Sub BlankAllControls()
         txtFreightDistance.Value = 0
         btnCancel.Enabled = False
@@ -319,6 +318,7 @@ Public Class frmScrapSale
         'txtinvoice.Text = ""
         fndcustNo.Value = ""
         txtcustdesc.Text = ""
+        lblDocCreditLimit.Text = ""
         'txtvehicle_mannual_no.Text = ""
         txtTransporter_Code.Value = Nothing
         txtTransporter_desc.Text = ""
@@ -2840,8 +2840,14 @@ Public Class frmScrapSale
                 chkInterBranch.Checked = obj.Inter_Branch
                 chkTaxable.Checked = obj.Is_Taxable
                 chkBuyBack.Checked = obj.IsBuyBack
-                lblTotalOutstansing.Text = obj.Total_Outstanding
-
+                'lblTotalOutstansing.Text = obj.Total_Outstanding
+                lblDocCreditLimit.Text = obj.Total_Outstanding
+                CustomerOutstandingAmount(obj.cust_Code, Nothing)
+                If obj.ispost <> ERPTransactionStatus.Approved Then
+                    Dim totalamt As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select ship_Total_Amt from TSPL_SCRAPSALE_HEAD where shipment_No ='" + obj.shipment_No + "'"))
+                    Dim creditlimit As Decimal = totalamt - (lblTotalOutstansing.Text)
+                    lblTotalOutstansing.Text = (-1 * creditlimit).ToString("F2")
+                End If
                 '' If clsCommon.myLen(obj.EWayBillNo) > 0 Then
                 'txtEWayBillNo.Text = obj.EWayBillNo
                 'txtEWayBillRemarks.Text = obj.EwayBillRemarks
@@ -4477,7 +4483,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                    "null as ConvRate, SUM(DrAmt* Final.ConvRate)-SUM(CrAmt) as OpngBal, 0 as DrAmt, 0 as CrAmt, 0 as [Sales], 0 as CollectionRefund, 0 as DrNote,  " &
                    "0 as CrNote, MAX(tspl_customer_master.Cust_Category_Code) as Cust_Category_Code,MAX(CUST_CATEGORY_DESC) as Cust_Category_Desc,  " &
                    "MAX(tspl_customer_master.Cust_Type_Code) As Cust_Type_Code,MAX(Cust_Type_Desc) As Cust_Type_Desc from   " &
-                   "(" & clsCustomerMaster.GetCustomerBaseQry(False, False, "", False, "ConvRate", strcustomerfilter, True, clsCommon.GetPrintDate(dtpshipment.Value.AddDays(1), "dd/MMM/yyyy"), "", False, False, True, trans, False) & "   " &
+                   "(" & clsSNShipmentHead.GetCustomerBaseQry(False, False, "", False, "ConvRate", strcustomerfilter, True, clsCommon.GetPrintDate(dtpshipment.Value.AddDays(1), "dd/MMM/yyyy"), "", False, False, True, trans, False, txtDocNo.Value) & "   " &
                    " ) Final left outer join TSPL_CUSTOMER_MASTER on final.ACode=TSPL_CUSTOMER_MASTER.Cust_Code LEFT OUTER JOIN TSPL_CUSTOMER_GROUP_MASTER ON TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code " &
                    "Left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =Final.DocNo  LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE=Final.Bank_Code " &
                    "where  CONVERT(DATE,final.DocDate,103) <= '" & clsCommon.GetPrintDate(dtpshipment.Value, "dd/MMM/yyyy") & "' AND LEN(ACode)>0 and ACode in ('" & strCustomer & "')   AND TSPL_CUSTOMER_MASTER.Status='N' GROUP BY ACode " &
@@ -5915,6 +5921,10 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
         strPrintType = "Excise"
         Print(True, False, False)
+
+    End Sub
+
+    Private Sub RadPageViewPage1_Paint(sender As Object, e As PaintEventArgs) Handles RadPageViewPage1.Paint
 
     End Sub
 End Class

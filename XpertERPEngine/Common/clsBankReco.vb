@@ -31,7 +31,7 @@ Public Class clsBankReco
         Dim LocSegmentCode As String = clsDBFuncationality.getSingleValue("Select TSPL_GL_ACCOUNTS.Account_Seg_Code7 from TSPL_BANK_MASTER LEFT OUTER JOIN TSPL_GL_ACCOUNTS ON TSPL_GL_ACCOUNTS.Account_Code=TSPL_BANK_MASTER.BANKACC Where BANK_CODE='" + obj.Bank_Code + "'")
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Common Services", "Bank Reco", LocSegmentCode, obj.Statement_Date, trans)
+            clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleCommonServices, clsUserMgtCode.FrmBankReco, LocSegmentCode, obj.Statement_Date, trans)
             If Not isNewEntry Then
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Reconciliation_Id, "tspl_BankReco_Head", "Reconciliation_Id", "tspl_BankReco_Detail", "Reconciliation_Id", trans)
             End If
@@ -96,6 +96,10 @@ Public Class clsBankReco
             Throw New Exception("Reconciliation Id  not found to Delete")
         End If
         Dim obj As clsBankReco = clsBankReco.GetData(strCode)
+        Dim LocSegmentCode As String = clsDBFuncationality.getSingleValue("Select TSPL_GL_ACCOUNTS.Account_Seg_Code7 from TSPL_BANK_MASTER LEFT OUTER JOIN TSPL_GL_ACCOUNTS ON TSPL_GL_ACCOUNTS.Account_Code=TSPL_BANK_MASTER.BANKACC Where BANK_CODE='" + obj.Bank_Code + "'")
+
+        clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleCommonServices, clsUserMgtCode.FrmBankReco, LocSegmentCode, obj.Statement_Date, Nothing)
+
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Reconciliation_Id) > 0) Then
             Try
@@ -168,7 +172,7 @@ Public Class clsBankReco
                     Throw New Exception("Outstanding Entry can not be posted.")
                 End If
                 Dim LocSegmentCode As String = clsDBFuncationality.getSingleValue("Select TSPL_GL_ACCOUNTS.Account_Seg_Code7 from TSPL_BANK_MASTER LEFT OUTER JOIN TSPL_GL_ACCOUNTS ON TSPL_GL_ACCOUNTS.Account_Code=TSPL_BANK_MASTER.BANKACC Where BANK_CODE='" + obj.Bank_Code + "'", trans)
-                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Common Services", "Bank Reco", LocSegmentCode, obj.Statement_Date, trans)
+                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleCommonServices, clsUserMgtCode.FrmBankReco, LocSegmentCode, obj.Statement_Date, trans)
 
                 '' Anubhooti 04-Sep-2014 BM00000003437 (Created GL Entry Based on settings)
                 UseSubAcc = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowToUseSubAccount, clsFixedParameterCode.AllowToUseSubAccount, trans))

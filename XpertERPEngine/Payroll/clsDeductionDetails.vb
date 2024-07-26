@@ -134,7 +134,7 @@ Public Class clsDeductionDetails
 
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Payroll", "Deduction Details", obj.LOCATION_CODE, obj.DEDUCTION_DATE, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleHR, clsUserMgtCode.frmDeductionDetails, obj.LOCATION_CODE, obj.DEDUCTION_DATE, trans)
             If isNewEntry Then
                 If strCode = "" Then
                     obj.DEDUCTION_CODE = clsERPFuncationality.GetNextCode(trans, clsCommon.GetPrintDate(obj.DEDUCTION_DATE, "dd/MMM/yyyy"), clsDocType.DeductionDetails, "", "")

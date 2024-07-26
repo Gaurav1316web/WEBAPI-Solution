@@ -139,7 +139,7 @@ Public Class clsAcquisitionHead
 
     Public Function SaveData(ByVal obj As clsAcquisitionHead, ByVal isNewEntry As Boolean, ByVal isMakeAbandomentNo As Boolean, ByVal trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = True
-        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Fixed Asset", "Acquisition Entry", obj.Loc_Code, obj.Acquisition_Date, trans)
+        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleFixedAsset, clsUserMgtCode.FAAcquisitionEntry, obj.Loc_Code, obj.Acquisition_Date, trans)
         Try
             If Not isNewEntry Then
                 Dim Status As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Status from TSPL_ACQUISITION_HEAD Where Acquisition_Code='" + obj.Acquisition_Code + "'", trans))
@@ -2236,7 +2236,7 @@ Public Class clsAssetAccountChangeHead
 
     Public Function SaveData(ByVal obj As clsAssetAccountChangeHead, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = True
-        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Fixed Asset", "Asset Account Change", obj.Loc_Code, obj.Doc_Date, trans)
+        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleFixedAsset, clsUserMgtCode.frmAssetAccountChange, obj.Loc_Code, obj.Doc_Date, trans)
         Try
             If Not isNewEntry Then
                 Dim Status As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Status from TSPL_ASSET_ACCOUNT_CHANGE_HEAD Where Doc_Code='" + obj.Doc_Code + "'", trans))

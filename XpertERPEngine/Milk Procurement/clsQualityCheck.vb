@@ -7,6 +7,7 @@ Public Class clsQualityCheck
     Public Cleaning_Tester As String = String.Empty
     Public IsAgainstJobWork As Integer = 0
     Public Joblocation_Code As String = Nothing
+    Public Manual_Entry As Integer = 0
     Public Arr As List(Of clsQualityChemberNoDetails) = Nothing
     Public AcknowEntryDocument_No As String = String.Empty
     Public Remarks As String = String.Empty
@@ -291,6 +292,7 @@ Public Class clsQualityCheck
             clsCommon.AddColumnsForChange(coll, "Doc_Type", clsCommon.myCstr(obj.Doc_Type))
             clsCommon.AddColumnsForChange(coll, "Gate_Entry_No", clsCommon.myCstr(obj.Gate_Entry_No))
             clsCommon.AddColumnsForChange(coll, "AcknowEntryDocument_No", obj.AcknowEntryDocument_No, True)
+            clsCommon.AddColumnsForChange(coll, "Manual_Entry", obj.Manual_Entry, True)
             If DateTime = "1" Then
                 clsCommon.AddColumnsForChange(coll, "QC_In_Date_Time", clsCommon.GetPrintDate(obj.QC_In_Date_Time, "dd/MMM/yyyy hh:mm:ss tt"), True)
                 clsCommon.AddColumnsForChange(coll, "QC_Out_Date_Time", clsCommon.GetPrintDate(obj.QC_Out_Date_Time, "dd/MMM/yyyy hh:mm:ss tt"), True)
@@ -339,9 +341,15 @@ Public Class clsQualityCheck
             clsCommon.AddColumnsForChange(coll, "Receipt_Control_SNF", clsCommon.myCdbl(obj.Receipt_Control_SNF))
             clsCommon.AddColumnsForChange(coll, "is_Param_accepted", clsCommon.myCdbl(obj.is_Param_accepted))
             clsCommon.AddColumnsForChange(coll, "is_QC_Separated", clsCommon.myCdbl(obj.is_QC_Separated))
+            clsCommon.AddColumnsForChange(coll, "Manual_Entry", clsCommon.myCdbl(obj.Manual_Entry))
             ''-----------------------------
             clsCommon.AddColumnsForChange(coll, "Modify_By", clsCommon.myCstr(objCommonVar.CurrentUserCode))
             clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
+            If obj.Manual_Entry = 1 Then
+                clsCommon.AddColumnsForChange(coll, "Manual_By", clsCommon.myCstr(objCommonVar.CurrentUserCode), True)
+                clsCommon.AddColumnsForChange(coll, "Manual_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"), True)
+            End If
+
             clsCommon.AddColumnsForChange(coll, "Comp_Code", clsCommon.myCstr(objCommonVar.CurrentCompanyCode))
             clsCommon.AddColumnsForChange(coll, "Remarks", clsCommon.myCstr(obj.Remarks))
             '========SANJEET=========================

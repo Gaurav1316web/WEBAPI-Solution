@@ -98,8 +98,8 @@ Public Class frmPendingPO
 #End Region
 
     Private Sub FrmPendingRequistion_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        AutoClosePOBasedOnSRNQtyWithTolerance = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AutoClosePOBasedOnSRNQtyWithTolerance, clsFixedParameterCode.AutoClosePOBasedOnSRNQtyWithTolerance, Nothing)) = 1, True, False)
-        OpenPOForShorateLeakageQty = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.OpenPOforRejectShortageQty, clsFixedParameterCode.OpenPOforRejectShortageQty, Nothing)) = 1, True, False)
+        AutoClosePOBasedOnSRNQtyWithTolerance = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AutoClosePOBasedOnSRNQtyWithTolerance, clsFixedParameterCode.AutoClosePOBasedOnSRNQtyWithTolerance, Nothing)) = 1, True, False)
+        OpenPOForShorateLeakageQty = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.OpenPOforRejectShortageQty, clsFixedParameterCode.OpenPOforRejectShortageQty, Nothing)) = 1, True, False)
         Dim qry As String = ""
         ShowCapexCodeandSubCode = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowOptionforSelectingCapex, clsFixedParameterCode.ShowOptionforSelectingCapex, Nothing)) = "1", True, False))
         If strFormType IsNot Nothing AndAlso clsCommon.myLen(strFormType) > 0 AndAlso clsCommon.CompairString(strFormType, "EXPORT SO") = CompairStringResult.Equal Then
@@ -121,7 +121,7 @@ Public Class frmPendingPO
             End If
             qry += " group by Code,ICode,Unit having SUM(Chk)>0 and SUM((Qty *RI)-Unapproved-DamageQty) <>0 order by Code,ICode "
         Else
-            blnShowInvoiceNo = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowSaleInvoiceNoInPOfinderInSRN, clsFixedParameterCode.ShowSaleInvoiceNoInPOfinderInSRN, Nothing)) = 1, True, False)
+            blnShowInvoiceNo = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowSaleInvoiceNoInPOfinderInSRN, clsFixedParameterCode.ShowSaleInvoiceNoInPOfinderInSRN, Nothing)) = 1, True, False)
 
             If clsCommon.myLen(VendorCode) > 0 Then
                 Me.Text = Me.Text + " For " + VendorName
@@ -219,7 +219,7 @@ Public Class frmPendingPO
                 End If
 
 
-                Dim UDLPurchaseOrderthroughAP As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.UDLPurchaseOrderthroughAP, clsFixedParameterCode.UDLPurchaseOrderthroughAP, Nothing)) = 1, True, False)
+                Dim UDLPurchaseOrderthroughAP As Boolean = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.UDLPurchaseOrderthroughAP, clsFixedParameterCode.UDLPurchaseOrderthroughAP, Nothing)) = 1, True, False)
                 If UDLPurchaseOrderthroughAP = True Then
                     qry += "  and TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_Type <> 'S'" + Environment.NewLine
                 End If
@@ -390,7 +390,7 @@ END AS Qty,0 as Unapproved,TSPL_GRN_DETAIL.Unit_code as Unit,'' as Location,
 	  0 as ItemTolerenceQty,'' as IType,0 as Qty,0 as Unapproved,TSPL_SRN_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,isnull(TSPL_SRN_DETAIL.Assessable,0) as Assessable,isnull(TSPL_SRN_DETAIL.MRP,0) as MRP,(isnull(TSPL_SRN_DETAIL.Leak_Qty,0)+isnull(TSPL_SRN_DETAIL.Burst_Qty,0) +isnull(TSPL_SRN_DETAIL.Short_Qty,0)+isnull(TSPL_SRN_DETAIL.Rejected_Qty,0)) as DamageQty,0 as AbatementRate ,'' as Item_Insurance_Apply_On,0 as Item_Insurance_Rate,0 as Item_Insurance_Amt, null as RefTendorNo " + Environment.NewLine +
                     " from TSPL_SRN_DETAIL" + Environment.NewLine +
                     " left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No " + Environment.NewLine
-                    Dim is_Srn_rejQty_goes_in_Rejstore As Boolean = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select SRN_Rejected_Store from TSPL_PURCHASE_SETTINGS", Nothing)) = 0, False, True)
+                    Dim is_Srn_rejQty_goes_in_Rejstore As Boolean = IIf(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select SRN_Rejected_Store from TSPL_PURCHASE_SETTINGS", Nothing)) = 0, False, True)
                     If is_Srn_rejQty_goes_in_Rejstore Then  ''In SPMMD If Qty rejected Then PO will Open by rejected qty. no need to check Return Qty
                         qry += " inner join TSPL_PR_HEAD on TSPL_PR_HEAD.Against_SRN=TSPL_SRN_HEAD.SRN_NO  " + Environment.NewLine
                     End If
@@ -453,7 +453,7 @@ END AS Qty,0 as Unapproved,TSPL_GRN_DETAIL.Unit_code as Unit,'' as Location,
             'Dim sQuery As String = "select Disc_Per_Unit from TSPL_PURCHASE_ORDER_detail where purchaseorder_No='" & po_No & "' and item_code='" & item_code & "'"
             Dim sQuery As String = "select Disc_Per_Unit from TSPL_MRN_DETAIL where MRN_No='" & po_No & "' and item_code='" & item_code & "'"
             ' Disc_Per_Unit = clsDBFuncationality.getSingleValue(sQuery)
-            Disc_Per_Unit = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(sQuery))
+            Disc_Per_Unit = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(sQuery))
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.ToString)
         End Try
@@ -724,12 +724,13 @@ END AS Qty,0 as Unapproved,TSPL_GRN_DETAIL.Unit_code as Unit,'' as Location,
 
 
         Dim repoRate As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoRate.FormatString = ""
         repoRate.HeaderText = "Rate"
         repoRate.Name = colDRate
         repoRate.ReadOnly = True
         repoUnit.IsVisible = False
         repoRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoRate.FormatString = "{0:n10}"
+        repoRate.DecimalPlaces = 10
         gv1.MasterTemplate.Columns.Add(repoRate)
 
         Dim repoMRP As GridViewDecimalColumn = New GridViewDecimalColumn()
@@ -1247,14 +1248,14 @@ END AS Qty,0 as Unapproved,TSPL_GRN_DETAIL.Unit_code as Unit,'' as Location,
                     obj.Item_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colDICode).Value)
                     obj.Item_Desc = clsCommon.myCstr(gv1.Rows(ii).Cells(colDIName).Value)
                     obj.Row_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colDIType).Value)
-                    obj.Item_Cost = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDRate).Value)
+                    obj.Item_Cost = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDRate).Value)
                     obj.Unit_code = clsCommon.myCstr(gv1.Rows(ii).Cells(colDUnit).Value)
                     ''obj.Location = clsCommon.myCstr(gv1.Rows(ii).Cells("Location").Value)
                     ''obj.LocationName = clsCommon.myCstr(gv1.Rows(ii).Cells("LocationName").Value)
-                    obj.Balance_Qty = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDPendingQty).Value)
+                    obj.Balance_Qty = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDPendingQty).Value)
                     obj.Bin_No = clsCommon.myCstr(gv1.Rows(ii).Cells(colDBinNo).Value)
-                    obj.MRP = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDMRP).Value)
-                    obj.Assessable = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDAssessable).Value)
+                    obj.MRP = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDMRP).Value)
+                    obj.Assessable = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDAssessable).Value)
 
                     If (obj.Balance_Qty > 0) Then
                         ArrReturn_EX.Add(obj)
@@ -1279,43 +1280,43 @@ END AS Qty,0 as Unapproved,TSPL_GRN_DETAIL.Unit_code as Unit,'' as Location,
                     obj.Item_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colDICode).Value)
                     obj.Item_Desc = clsCommon.myCstr(gv1.Rows(ii).Cells(colDIName).Value)
                     obj.Row_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colDIType).Value)
-                    obj.Item_Cost = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDRate).Value)
+                    obj.Item_Cost = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDRate).Value)
                     obj.Unit_code = clsCommon.myCstr(gv1.Rows(ii).Cells(colDUnit).Value)
                     'obj.MRN_No = clsCommon.myCstr(gv1.Rows(ii).Cells(colDmrn).Value)
                     ''obj.Location = clsCommon.myCstr(gv1.Rows(ii).Cells("Location").Value)
                     ''obj.LocationName = clsCommon.myCstr(gv1.Rows(ii).Cells("LocationName").Value)
-                    obj.Balance_Qty = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDPendingQty).Value)
-                    obj.PurchaseOrder_Qty = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDOrderQty).Value)
+                    obj.Balance_Qty = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDPendingQty).Value)
+                    obj.PurchaseOrder_Qty = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDOrderQty).Value)
                     obj.POTax_Group = clsCommon.myCstr(gv1.Rows(ii).Cells(colDTaxGroup).Value)
                     obj.Bin_No = clsCommon.myCstr(gv1.Rows(ii).Cells(colDBinNo).Value)
                     obj.Against_Item_Wise_Tax_Rate = clsCommon.myCstr(gv1.Rows(ii).Cells(colDAgainstItemWiseTaxCode).Value)
                     obj.Taxable_Amount_Per = clsCommon.myCstr(gv1.Rows(ii).Cells(colDTaxableAmountPer).Value)
-                    obj.TAX1_Rate = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDTaxRate1).Value)
-                    obj.TAX2_Rate = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDTaxRate2).Value)
-                    obj.TAX3_Rate = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDTaxRate3).Value)
-                    obj.TAX4_Rate = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDTaxRate4).Value)
-                    obj.TAX5_Rate = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDTaxRate5).Value)
-                    obj.TAX6_Rate = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDTaxRate6).Value)
-                    obj.TAX7_Rate = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDTaxRate7).Value)
-                    obj.TAX8_Rate = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDTaxRate8).Value)
-                    obj.TAX9_Rate = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDTaxRate9).Value)
-                    obj.TAX10_Rate = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDTaxRate10).Value)
-                    obj.TAX1_Amt = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDTaxAmt1).Value)
-                    obj.TAX2_Amt = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDTaxAmt2).Value)
-                    obj.TAX3_Amt = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDTaxAmt3).Value)
-                    obj.TAX4_Amt = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDTaxAmt4).Value)
-                    obj.TAX5_Amt = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDTaxAmt5).Value)
-                    obj.TAX6_Amt = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDTaxAmt6).Value)
-                    obj.TAX7_Amt = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDTaxAmt7).Value)
-                    obj.TAX8_Amt = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDTaxAmt8).Value)
-                    obj.TAX9_Amt = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDTaxAmt9).Value)
-                    obj.TAX10_Amt = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDTaxAmt10).Value)
+                    obj.TAX1_Rate = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDTaxRate1).Value)
+                    obj.TAX2_Rate = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDTaxRate2).Value)
+                    obj.TAX3_Rate = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDTaxRate3).Value)
+                    obj.TAX4_Rate = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDTaxRate4).Value)
+                    obj.TAX5_Rate = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDTaxRate5).Value)
+                    obj.TAX6_Rate = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDTaxRate6).Value)
+                    obj.TAX7_Rate = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDTaxRate7).Value)
+                    obj.TAX8_Rate = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDTaxRate8).Value)
+                    obj.TAX9_Rate = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDTaxRate9).Value)
+                    obj.TAX10_Rate = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDTaxRate10).Value)
+                    obj.TAX1_Amt = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDTaxAmt1).Value)
+                    obj.TAX2_Amt = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDTaxAmt2).Value)
+                    obj.TAX3_Amt = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDTaxAmt3).Value)
+                    obj.TAX4_Amt = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDTaxAmt4).Value)
+                    obj.TAX5_Amt = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDTaxAmt5).Value)
+                    obj.TAX6_Amt = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDTaxAmt6).Value)
+                    obj.TAX7_Amt = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDTaxAmt7).Value)
+                    obj.TAX8_Amt = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDTaxAmt8).Value)
+                    obj.TAX9_Amt = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDTaxAmt9).Value)
+                    obj.TAX10_Amt = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDTaxAmt10).Value)
                     obj.Requisition_Id = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select top 1 isnull(Requisition_Id,'')  from tspl_purchase_order_detail where purchaseOrder_No='" & obj.PurchaseOrder_No & "'  and Item_code='" & obj.Item_Code & "'"))
-                    obj.Disc_Per = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" select disc_per  from tspl_purchase_order_detail where purchaseOrder_No='" & obj.PurchaseOrder_No & "' and Item_code='" & obj.Item_Code & "' "))
-                    obj.MRP = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDMRP).Value)
-                    obj.Assessable = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDAssessable).Value)
-                    obj.AbatementRate = clsCommon.myCdbl(gv1.Rows(ii).Cells(colAbatementRate).Value)
-                    obj.Header_Discount_Per = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDHeaderDisPer).Value)
+                    obj.Disc_Per = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(" select disc_per  from tspl_purchase_order_detail where purchaseOrder_No='" & obj.PurchaseOrder_No & "' and Item_code='" & obj.Item_Code & "' "))
+                    obj.MRP = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDMRP).Value)
+                    obj.Assessable = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDAssessable).Value)
+                    obj.AbatementRate = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colAbatementRate).Value)
+                    obj.Header_Discount_Per = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDHeaderDisPer).Value)
                     '' done by rohit
                     If Is_Load_MRN Then
                         obj.MRN_No = clsCommon.myCstr(gv1.Rows(ii).Cells(colHMRNCode).Value)
@@ -1332,10 +1333,10 @@ END AS Qty,0 as Unapproved,TSPL_GRN_DETAIL.Unit_code as Unit,'' as Location,
                     'obj.TotalAssessableMRP = gv1.Rows(gv1.Rows.Count - 1).Cells(colTotalAssesableMRP).Value
 
                     obj.Item_Insurance_Apply_On = clsCommon.myCstr(gv1.Rows(ii).Cells(colItemInsuranceApplyOn).Value)
-                    obj.Item_Insurance_Rate = clsCommon.myCdbl(gv1.Rows(ii).Cells(colItemInsurancePer).Value)
-                    obj.Item_Insurance_Amt = clsCommon.myCdbl(gv1.Rows(ii).Cells(colItemInsuranceAmt).Value)
+                    obj.Item_Insurance_Rate = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colItemInsurancePer).Value)
+                    obj.Item_Insurance_Amt = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colItemInsuranceAmt).Value)
 
-                    If (obj.Balance_Qty > 0 OrElse clsCommon.myCdbl(gv1.Rows(ii).Cells(colDIsBlanket).Value) > 0) Then
+                    If (obj.Balance_Qty > 0 OrElse clsCommon.myCDecimal(gv1.Rows(ii).Cells(colDIsBlanket).Value) > 0) Then
                         ArrReturn.Add(obj)
                     End If
                 End If
@@ -1472,56 +1473,56 @@ END AS Qty,0 as Unapproved,TSPL_GRN_DETAIL.Unit_code as Unit,'' as Location,
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDIName).Value = clsCommon.myCstr(dr("IName"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDIType).Value = clsCommon.myCstr(dr("IType"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDUnit).Value = clsCommon.myCstr(dr("Unit"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDRate).Value = clsCommon.myCdbl(dr("Rate"))
-                        ' gv1.Rows(gv1.Rows.Count - 1).Cells(colItemTol).Value = clsCommon.myCdbl(dr("tolerencePer"))
-                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colItemTolAmt).Value = clsCommon.myCdbl(dr("ItemTolerenceQty"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDOrderQty).Value = clsCommon.myCdbl(dr("POQty"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDApprovedQty).Value = clsCommon.myCdbl(dr("GRNQty"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDUnApprovedQty).Value = clsCommon.myCdbl(dr("UnapprovedQty"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDPendingQty).Value = clsCommon.myCdbl(dr("PedningQty"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDRate).Value = clsCommon.myCDecimal(dr("Rate"))
+                        ' gv1.Rows(gv1.Rows.Count - 1).Cells(colItemTol).Value = clsCommon.myCDecimal(dr("tolerencePer"))
+                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colItemTolAmt).Value = clsCommon.myCDecimal(dr("ItemTolerenceQty"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDOrderQty).Value = clsCommon.myCDecimal(dr("POQty"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDApprovedQty).Value = clsCommon.myCDecimal(dr("GRNQty"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDUnApprovedQty).Value = clsCommon.myCDecimal(dr("UnapprovedQty"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDPendingQty).Value = clsCommon.myCDecimal(dr("PedningQty"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxGroup).Value = clsCommon.myCstr(dr("Tax_Group"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDBinNo).Value = clsCommon.myCstr(dr("Bin_No"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxGroupName).Value = clsCommon.myCstr(dr("TaxGroupName"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate1).Value = clsCommon.myCdbl(dr("TAX1_Rate"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate2).Value = clsCommon.myCdbl(dr("TAX2_Rate"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate3).Value = clsCommon.myCdbl(dr("TAX3_Rate"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate4).Value = clsCommon.myCdbl(dr("TAX4_Rate"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate5).Value = clsCommon.myCdbl(dr("TAX5_Rate"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate6).Value = clsCommon.myCdbl(dr("TAX6_Rate"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate7).Value = clsCommon.myCdbl(dr("TAX7_Rate"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate8).Value = clsCommon.myCdbl(dr("TAX8_Rate"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate9).Value = clsCommon.myCdbl(dr("TAX9_Rate"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate10).Value = clsCommon.myCdbl(dr("TAX10_Rate"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDDamageQty).Value = clsCommon.myCdbl(dr("DamageQty"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDMRP).Value = clsCommon.myCdbl(dr("MRP"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDAssessable).Value = clsCommon.myCdbl(dr("Assessable"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate1).Value = clsCommon.myCDecimal(dr("TAX1_Rate"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate2).Value = clsCommon.myCDecimal(dr("TAX2_Rate"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate3).Value = clsCommon.myCDecimal(dr("TAX3_Rate"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate4).Value = clsCommon.myCDecimal(dr("TAX4_Rate"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate5).Value = clsCommon.myCDecimal(dr("TAX5_Rate"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate6).Value = clsCommon.myCDecimal(dr("TAX6_Rate"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate7).Value = clsCommon.myCDecimal(dr("TAX7_Rate"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate8).Value = clsCommon.myCDecimal(dr("TAX8_Rate"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate9).Value = clsCommon.myCDecimal(dr("TAX9_Rate"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate10).Value = clsCommon.myCDecimal(dr("TAX10_Rate"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDDamageQty).Value = clsCommon.myCDecimal(dr("DamageQty"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDMRP).Value = clsCommon.myCDecimal(dr("MRP"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDAssessable).Value = clsCommon.myCDecimal(dr("Assessable"))
 
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt1).Value = clsCommon.myCdbl(dr("TAX1_Amt"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt2).Value = clsCommon.myCdbl(dr("TAX2_Amt"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt3).Value = clsCommon.myCdbl(dr("TAX3_Amt"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt4).Value = clsCommon.myCdbl(dr("TAX4_Amt"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt5).Value = clsCommon.myCdbl(dr("TAX5_Amt"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt6).Value = clsCommon.myCdbl(dr("TAX6_Amt"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt7).Value = clsCommon.myCdbl(dr("TAX7_Amt"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt8).Value = clsCommon.myCdbl(dr("TAX8_Amt"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt9).Value = clsCommon.myCdbl(dr("TAX9_Amt"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt10).Value = clsCommon.myCdbl(dr("TAX10_Amt"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt1).Value = clsCommon.myCDecimal(dr("TAX1_Amt"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt2).Value = clsCommon.myCDecimal(dr("TAX2_Amt"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt3).Value = clsCommon.myCDecimal(dr("TAX3_Amt"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt4).Value = clsCommon.myCDecimal(dr("TAX4_Amt"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt5).Value = clsCommon.myCDecimal(dr("TAX5_Amt"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt6).Value = clsCommon.myCDecimal(dr("TAX6_Amt"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt7).Value = clsCommon.myCDecimal(dr("TAX7_Amt"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt8).Value = clsCommon.myCDecimal(dr("TAX8_Amt"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt9).Value = clsCommon.myCDecimal(dr("TAX9_Amt"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt10).Value = clsCommon.myCDecimal(dr("TAX10_Amt"))
 
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colAbatementRate).Value = clsCommon.myCdbl(dr("AbatementRate"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colAbatementRate).Value = clsCommon.myCDecimal(dr("AbatementRate"))
 
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colHMRNCode).Value = clsCommon.myCstr(dr("MRN_No"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colHGRNCode).Value = clsCommon.myCstr(dr("GRN_No"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colCategoryType).Value = clsCommon.myCstr(dr("category"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colEmergency).Value = clsCommon.myCdbl(dr("emergency"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colEmergency).Value = clsCommon.myCDecimal(dr("emergency"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colCapexCode).Value = clsCommon.myCstr(dr("capex_code"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colCapexSubCode).Value = clsCommon.myCstr(dr("capex_subcode"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDAgainstItemWiseTaxCode).Value = clsCommon.myCstr(dr("Against_Item_Wise_Tax_Rate"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxableAmountPer).Value = clsCommon.myCstr(dr("Taxable_Amount_Per"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDHeaderDisPer).Value = clsCommon.myCdbl(dr("Header_Discount_Per"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDHeaderDisPer).Value = clsCommon.myCDecimal(dr("Header_Discount_Per"))
                         If IsItemInsuranceColumn Then
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colItemInsuranceApplyOn).Value = clsCommon.myCstr(dr("Item_Insurance_Apply_On"))
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colItemInsurancePer).Value = clsCommon.myCdbl(dr("Item_Insurance_Rate"))
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colItemInsuranceAmt).Value = clsCommon.myCdbl(dr("Item_Insurance_Amt"))
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colItemInsurancePer).Value = clsCommon.myCDecimal(dr("Item_Insurance_Rate"))
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colItemInsuranceAmt).Value = clsCommon.myCDecimal(dr("Item_Insurance_Amt"))
                         End If
                     End If
                 Else
@@ -1533,49 +1534,49 @@ END AS Qty,0 as Unapproved,TSPL_GRN_DETAIL.Unit_code as Unit,'' as Location,
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDIName).Value = clsCommon.myCstr(dr("IName"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDIType).Value = clsCommon.myCstr(dr("IType"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDUnit).Value = clsCommon.myCstr(dr("Unit"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDRate).Value = clsCommon.myCdbl(dr("Rate"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colItemTol).Value = clsCommon.myCdbl(dr("tolerencePer"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colItemTolAmt).Value = clsCommon.myCdbl(dr("ItemTolerenceQty"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDOrderQty).Value = clsCommon.myCdbl(dr("POQty"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDApprovedQty).Value = clsCommon.myCdbl(dr("GRNQty"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDUnApprovedQty).Value = clsCommon.myCdbl(dr("UnapprovedQty"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDPendingQty).Value = clsCommon.myCdbl(dr("PedningQty"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDRate).Value = clsCommon.myCDecimal(dr("Rate"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colItemTol).Value = clsCommon.myCDecimal(dr("tolerencePer"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colItemTolAmt).Value = clsCommon.myCDecimal(dr("ItemTolerenceQty"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDOrderQty).Value = clsCommon.myCDecimal(dr("POQty"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDApprovedQty).Value = clsCommon.myCDecimal(dr("GRNQty"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDUnApprovedQty).Value = clsCommon.myCDecimal(dr("UnapprovedQty"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDPendingQty).Value = clsCommon.myCDecimal(dr("PedningQty"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxGroup).Value = clsCommon.myCstr(dr("Tax_Group"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDBinNo).Value = clsCommon.myCstr(dr("Bin_No"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxGroupName).Value = clsCommon.myCstr(dr("TaxGroupName"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate1).Value = clsCommon.myCdbl(dr("TAX1_Rate"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate2).Value = clsCommon.myCdbl(dr("TAX2_Rate"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate3).Value = clsCommon.myCdbl(dr("TAX3_Rate"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate4).Value = clsCommon.myCdbl(dr("TAX4_Rate"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate5).Value = clsCommon.myCdbl(dr("TAX5_Rate"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate6).Value = clsCommon.myCdbl(dr("TAX6_Rate"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate7).Value = clsCommon.myCdbl(dr("TAX7_Rate"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate8).Value = clsCommon.myCdbl(dr("TAX8_Rate"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate9).Value = clsCommon.myCdbl(dr("TAX9_Rate"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate10).Value = clsCommon.myCdbl(dr("TAX10_Rate"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDDamageQty).Value = clsCommon.myCdbl(dr("DamageQty"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDMRP).Value = clsCommon.myCdbl(dr("MRP"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDAssessable).Value = clsCommon.myCdbl(dr("Assessable"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate1).Value = clsCommon.myCDecimal(dr("TAX1_Rate"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate2).Value = clsCommon.myCDecimal(dr("TAX2_Rate"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate3).Value = clsCommon.myCDecimal(dr("TAX3_Rate"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate4).Value = clsCommon.myCDecimal(dr("TAX4_Rate"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate5).Value = clsCommon.myCDecimal(dr("TAX5_Rate"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate6).Value = clsCommon.myCDecimal(dr("TAX6_Rate"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate7).Value = clsCommon.myCDecimal(dr("TAX7_Rate"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate8).Value = clsCommon.myCDecimal(dr("TAX8_Rate"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate9).Value = clsCommon.myCDecimal(dr("TAX9_Rate"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxRate10).Value = clsCommon.myCDecimal(dr("TAX10_Rate"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDDamageQty).Value = clsCommon.myCDecimal(dr("DamageQty"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDMRP).Value = clsCommon.myCDecimal(dr("MRP"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDAssessable).Value = clsCommon.myCDecimal(dr("Assessable"))
 
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt1).Value = clsCommon.myCdbl(dr("TAX1_Amt"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt2).Value = clsCommon.myCdbl(dr("TAX2_Amt"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt3).Value = clsCommon.myCdbl(dr("TAX3_Amt"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt4).Value = clsCommon.myCdbl(dr("TAX4_Amt"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt5).Value = clsCommon.myCdbl(dr("TAX5_Amt"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt6).Value = clsCommon.myCdbl(dr("TAX6_Amt"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt7).Value = clsCommon.myCdbl(dr("TAX7_Amt"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt8).Value = clsCommon.myCdbl(dr("TAX8_Amt"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt9).Value = clsCommon.myCdbl(dr("TAX9_Amt"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt10).Value = clsCommon.myCdbl(dr("TAX10_Amt"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDIsBlanket).Value = clsCommon.myCdbl(dr("isBlanket"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDHeaderDisPer).Value = clsCommon.myCdbl(dr("Header_Discount_Per"))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colAbatementRate).Value = clsCommon.myCdbl(dr("AbatementRate"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt1).Value = clsCommon.myCDecimal(dr("TAX1_Amt"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt2).Value = clsCommon.myCDecimal(dr("TAX2_Amt"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt3).Value = clsCommon.myCDecimal(dr("TAX3_Amt"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt4).Value = clsCommon.myCDecimal(dr("TAX4_Amt"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt5).Value = clsCommon.myCDecimal(dr("TAX5_Amt"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt6).Value = clsCommon.myCDecimal(dr("TAX6_Amt"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt7).Value = clsCommon.myCDecimal(dr("TAX7_Amt"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt8).Value = clsCommon.myCDecimal(dr("TAX8_Amt"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt9).Value = clsCommon.myCDecimal(dr("TAX9_Amt"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxAmt10).Value = clsCommon.myCDecimal(dr("TAX10_Amt"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDIsBlanket).Value = clsCommon.myCDecimal(dr("isBlanket"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDHeaderDisPer).Value = clsCommon.myCDecimal(dr("Header_Discount_Per"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colAbatementRate).Value = clsCommon.myCDecimal(dr("AbatementRate"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDAgainstItemWiseTaxCode).Value = clsCommon.myCstr(dr("Against_Item_Wise_Tax_Rate"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDTaxableAmountPer).Value = clsCommon.myCstr(dr("Taxable_Amount_Per"))
                         If IsItemInsuranceColumn Then
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colItemInsuranceApplyOn).Value = clsCommon.myCstr(dr("Item_Insurance_Apply_On"))
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colItemInsurancePer).Value = clsCommon.myCdbl(dr("Item_Insurance_Rate"))
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colItemInsuranceAmt).Value = clsCommon.myCdbl(dr("Item_Insurance_Amt"))
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colItemInsurancePer).Value = clsCommon.myCDecimal(dr("Item_Insurance_Rate"))
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colItemInsuranceAmt).Value = clsCommon.myCDecimal(dr("Item_Insurance_Amt"))
                         End If
                     End If
                 End If

@@ -84,11 +84,11 @@ Public Class ClsAdjustmentsQCC
         Dim isSaved As Boolean = True
         Try
             If clsCommon.CompairString(obj.ItemType, "E") = CompairStringResult.Equal Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Empty Transactions", obj.Loc_Code, obj.Adjustment_Date, trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.mbtnEmptyTrans, obj.Loc_Code, obj.Adjustment_Date, trans)
             ElseIf clsCommon.CompairString(obj.ItemType, "FT") = CompairStringResult.Equal Or clsCommon.CompairString(obj.ItemType, "FM") = CompairStringResult.Equal Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Production Entry", obj.Loc_Code, obj.Adjustment_Date, trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.frmAdjProductionEntry, obj.Loc_Code, obj.Adjustment_Date, trans)
             Else
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Store Adjustment", obj.Loc_Code, obj.Adjustment_Date, trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.mbtnStoreAdjustment, obj.Loc_Code, obj.Adjustment_Date, trans)
             End If
 
             clsSerializeInvenotry.DeleteData("IC-QC", obj.Adjustment_No, trans)
@@ -267,11 +267,11 @@ Public Class ClsAdjustmentsQCC
         End If
 
         If clsCommon.CompairString(obj.ItemType, "E") = CompairStringResult.Equal Then
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Empty Transactions", obj.Loc_Code, obj.Adjustment_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.mbtnEmptyTrans, obj.Loc_Code, obj.Adjustment_Date, trans)
         ElseIf clsCommon.CompairString(obj.ItemType, "FT") = CompairStringResult.Equal Or clsCommon.CompairString(obj.ItemType, "FM") = CompairStringResult.Equal Then
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Production Entry", obj.Loc_Code, obj.Adjustment_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.frmAdjProductionEntry, obj.Loc_Code, obj.Adjustment_Date, trans)
         Else
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Store Adjustment", obj.Loc_Code, obj.Adjustment_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.mbtnStoreAdjustment, obj.Loc_Code, obj.Adjustment_Date, trans)
         End If
 
         If clsCommon.CompairString("Y", obj.Posted) = CompairStringResult.Equal Then
@@ -1547,15 +1547,15 @@ Public Class ClsAdjustmentsQCC
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Adjustment_No) > 0) Then
             Try
                 If clsCommon.CompairString(obj.ItemType, "E") = CompairStringResult.Equal Then
-                    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Empty Transactions", obj.Loc_Code, obj.Adjustment_Date, trans)
+                    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.mbtnEmptyTrans, obj.Loc_Code, obj.Adjustment_Date, trans)
                 ElseIf clsCommon.CompairString(obj.ItemType, "FT") = CompairStringResult.Equal Or clsCommon.CompairString(obj.ItemType, "FM") = CompairStringResult.Equal Then
-                    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Production Entry", obj.Loc_Code, obj.Adjustment_Date, trans)
+                    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.frmAdjProductionEntry, obj.Loc_Code, obj.Adjustment_Date, trans)
                 Else
-                    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Store Adjustment", obj.Loc_Code, obj.Adjustment_Date, trans)
+                    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.mbtnStoreAdjustment, obj.Loc_Code, obj.Adjustment_Date, trans)
                 End If
 
                 If (clsCommon.CompairString(obj.Posted, "Y") = CompairStringResult.Equal) Then
-                    Throw New Exception("Already Posted on :" + clsCommon.GetPrintDate(obj.Posting_Date, "dd/MM/yyyy hh:mm tt"))
+                    Throw New Exception("Already Posted on : " + clsCommon.GetPrintDate(obj.Posting_Date, "dd/MM/yyyy hh:mm tt"))
                 End If
 
                 clsSerializeInvenotry.DeleteData("IC-QC", strCode, trans)
@@ -2005,11 +2005,11 @@ Public Class ClsAdjustmentsStoreEntry
         Dim isSaved As Boolean = True
         Try
             If clsCommon.CompairString(obj.ItemType, "E") = CompairStringResult.Equal Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Empty Transactions", obj.Loc_Code, obj.ProductionStoreEntry_Date, trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.mbtnEmptyTrans, obj.Loc_Code, obj.ProductionStoreEntry_Date, trans)
             ElseIf clsCommon.CompairString(obj.ItemType, "FT") = CompairStringResult.Equal Or clsCommon.CompairString(obj.ItemType, "FM") = CompairStringResult.Equal Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Production Entry", obj.Loc_Code, obj.ProductionStoreEntry_Date, trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.frmAdjProductionEntry, obj.Loc_Code, obj.ProductionStoreEntry_Date, trans)
             Else
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Store Adjustment", obj.Loc_Code, obj.ProductionStoreEntry_Date, trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.mbtnStoreAdjustment, obj.Loc_Code, obj.ProductionStoreEntry_Date, trans)
             End If
 
             clsSerializeInvenotry.DeleteData("IC-SE", obj.ProductionStoreEntryNo, trans)
@@ -2189,11 +2189,11 @@ Public Class ClsAdjustmentsStoreEntry
         End If
 
         If clsCommon.CompairString(obj.ItemType, "E") = CompairStringResult.Equal Then
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Empty Transactions", obj.Loc_Code, obj.ProductionStoreEntry_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.mbtnEmptyTrans, obj.Loc_Code, obj.ProductionStoreEntry_Date, trans)
         ElseIf clsCommon.CompairString(obj.ItemType, "FT") = CompairStringResult.Equal Or clsCommon.CompairString(obj.ItemType, "FM") = CompairStringResult.Equal Then
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Production Entry", obj.Loc_Code, obj.ProductionStoreEntry_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.frmAdjProductionEntry, obj.Loc_Code, obj.ProductionStoreEntry_Date, trans)
         Else
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Store Adjustment", obj.Loc_Code, obj.ProductionStoreEntry_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.mbtnStoreAdjustment, obj.Loc_Code, obj.ProductionStoreEntry_Date, trans)
         End If
 
         If clsCommon.CompairString("Y", obj.Posted) = CompairStringResult.Equal Then
@@ -3472,11 +3472,11 @@ Public Class ClsAdjustmentsStoreEntry
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.ProductionStoreEntryNo) > 0) Then
             Try
                 If clsCommon.CompairString(obj.ItemType, "E") = CompairStringResult.Equal Then
-                    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Empty Transactions", obj.Loc_Code, obj.ProductionStoreEntry_Date, trans)
+                    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.mbtnEmptyTrans, obj.Loc_Code, obj.ProductionStoreEntry_Date, trans)
                 ElseIf clsCommon.CompairString(obj.ItemType, "FT") = CompairStringResult.Equal Or clsCommon.CompairString(obj.ItemType, "FM") = CompairStringResult.Equal Then
-                    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Production Entry", obj.Loc_Code, obj.ProductionStoreEntry_Date, trans)
+                    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.frmAdjProductionEntry, obj.Loc_Code, obj.ProductionStoreEntry_Date, trans)
                 Else
-                    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Store Adjustment", obj.Loc_Code, obj.ProductionStoreEntry_Date, trans)
+                    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.mbtnStoreAdjustment, obj.Loc_Code, obj.ProductionStoreEntry_Date, trans)
                 End If
 
                 If (clsCommon.CompairString(obj.Posted, "Y") = CompairStringResult.Equal) Then

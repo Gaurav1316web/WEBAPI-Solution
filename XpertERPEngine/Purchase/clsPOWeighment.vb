@@ -44,6 +44,9 @@ select Against_GRN_No from TSPL_PO_WEIGHTMENT_HEAD where Weighment_Code='" + cls
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             Dim obj As clsPOWeighment = clsPOWeighment.GetData(strCode, NavigatorType.Current, trans)
+            Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select weighment_code, TSPL_GRN_HEAD.Bill_To_Location from TSPL_PO_WEIGHTMENT_HEAD 
+ left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No where Weighment_Code= '" + obj.Weighment_Code + "' ", trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.POWeighment, clsCommon.myCstr(dts.Rows(0)("Bill_To_Location")), obj.Weighment_Date, trans)
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Weighment_Code) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
@@ -101,6 +104,11 @@ select Against_GRN_No from TSPL_PO_WEIGHTMENT_HEAD where Weighment_Code='" + cls
     End Function
     Public Function SaveData(ByVal obj As clsPOWeighment, ByVal isNewEntry As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select weighment_code, TSPL_GRN_HEAD.Bill_To_Location from TSPL_PO_WEIGHTMENT_HEAD 
+ left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No where Weighment_Code= '" + obj.Weighment_Code + "' ", trans)
+        If dts IsNot Nothing AndAlso dts.Rows.Count > 0 Then
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.POWeighment, clsCommon.myCstr(dts.Rows(0)("Bill_To_Location")), obj.Weighment_Date, trans)
+        End If
         Try
             Dim qry As String = "select Weighment_Code,case when Status=1 then 'Posted' else 'Pending' end as Status from TSPL_PO_WEIGHTMENT_HEAD where Against_GRN_No='" + obj.Against_GRN_No + "' and  Weighment_Code not in ('" + obj.Weighment_Code + "') "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
@@ -222,6 +230,7 @@ select Against_GRN_No from TSPL_PO_WEIGHTMENT_HEAD where Weighment_Code='" + cls
 
     Public Shared Function PostData(ByVal strDocNo As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+
         Try
             If (clsCommon.myLen(strDocNo) <= 0) Then
                 Throw New Exception("Entry No not found to Post")
@@ -236,6 +245,10 @@ select Against_GRN_No from TSPL_PO_WEIGHTMENT_HEAD where Weighment_Code='" + cls
 
             Dim qry As String = "select Item_Code from TSPL_PO_WEIGHTMENT_DETAIL where Weighment_Code='" + strDocNo + "' and isnull(Tare_Weight,0)<=0 "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select weighment_code, TSPL_GRN_HEAD.Bill_To_Location from TSPL_PO_WEIGHTMENT_HEAD 
+ left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No where Weighment_Code= '" + obj.Weighment_Code + "' ", trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.POWeighment, clsCommon.myCstr(dts.Rows(0)("Bill_To_Location")), obj.Weighment_Date, trans)
+
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Throw New Exception("Can't find the tare weight of item " + clsCommon.myCstr(dt.Rows(0)("Item_Code")))
             End If
@@ -644,6 +657,10 @@ select Against_GRN_No from TSPL_PO_WEIGHTMENT_HEAD where Weighment_Code='" + cls
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             Dim obj As clsPOWeighment = clsPOWeighment.GetData(strCode, NavigatorType.Current, trans)
+            Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select weighment_code, TSPL_GRN_HEAD.Bill_To_Location from TSPL_PO_WEIGHTMENT_HEAD left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No where Weighment_Code= '" + obj.Weighment_Code + "' ", trans)
+
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.POWeighment, clsCommon.myCstr(dts.Rows(0)("Bill_To_Location")), obj.Weighment_Date, trans)
+
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Weighment_Code) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
@@ -661,6 +678,8 @@ select Against_GRN_No from TSPL_PO_WEIGHTMENT_HEAD where Weighment_Code='" + cls
             strCode = obj.Against_GRN_No
             qry = "select distinct MRN_No from TSPL_MRN_DETAIL where GRN_Id ='" + strCode + "'"
             dt = clsDBFuncationality.GetDataTable(qry, trans)
+            'Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select weighment_code, TSPL_GRN_HEAD.Bill_To_Location from TSPL_PO_WEIGHTMENT_HEAD left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No where Weighment_Code= '" + obj.Weighment_Code + "' ", trans)
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.POWeighment, clsCommon.myCstr(dts.Rows(0)("Bill_To_Location")), obj.Weighment_Date, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 clsCommon.MyMessageBoxShow("MRN is created")
                 Return True
