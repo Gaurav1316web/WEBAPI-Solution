@@ -9104,13 +9104,19 @@ a:          End If
         Try
             Dim strIsParent As String = clsDBFuncationality.getSingleValue("select Parent_Customer_YN from TSPL_CUSTOMER_MASTER where Cust_Code='" & strCustomer & "' ", trans)
             Dim strParentCust As String = clsDBFuncationality.getSingleValue("select Parent_Customer_No from TSPL_CUSTOMER_MASTER where Parent_Customer_YN='N' and Parent_Customer_No <> '' and Cust_Code='" & strCustomer & "'   and Credit_Limit=0", trans)
+            Dim isUNIONCust As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count ( * )  from TSPL_CUSTOMER_MASTER where Credit_Customer = 'Y' and  Cust_Code = '" + txtCustomer.Value + "' "))
+            Dim qry As String
             If clsCommon.CompairString(strIsParent, "Y") = CompairStringResult.Equal Then
                 strParentCust = strCustomer
             End If
-            Dim strcustomerfilter As String = String.Empty
+            If isUNIONCust = 1 Then
+                lblTotalOutstansing.Text = 0
+            Else
+                Dim strcustomerfilter As String = String.Empty
             strcustomerfilter = "'" + strCustomer + "'"
-            Dim dblOutstandingAmt As Double = 0
-            Dim qry As String = "Select  ( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))  as BalAmt From ( " &
+                Dim dblOutstandingAmt As Double = 0
+
+                qry = "Select  ( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))  as BalAmt From ( " &
                    "Select MAX(TSPL_CUSTOMER_MASTER.Cust_Group_Code) as Cust_Group_Code, ACode, MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as AName, '' as CurrencyCode,  " &
                    "null as ConvRate, SUM(DrAmt* Final.ConvRate)-SUM(CrAmt) as OpngBal, 0 as DrAmt, 0 as CrAmt, 0 as [Sales], 0 as CollectionRefund, 0 as DrNote,  " &
                    "0 as CrNote, MAX(tspl_customer_master.Cust_Category_Code) as Cust_Category_Code,MAX(CUST_CATEGORY_DESC) as Cust_Category_Desc,  " &
@@ -9120,14 +9126,12 @@ a:          End If
                    "Left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =Final.DocNo  LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE=Final.Bank_Code " &
                    "where  CONVERT(DATE,final.DocDate,103) <= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' AND LEN(ACode)>0 and ACode in ('" & strCustomer & "')   AND TSPL_CUSTOMER_MASTER.Status='N' GROUP BY ACode " &
                    ") XXX GROUP BY ACode ORDER BY ACode"
-
-
-            dblOutstandingAmt = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
-            Dim isUNIONCust As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count ( * )  from TSPL_CUSTOMER_MASTER where Credit_Customer = 'Y' and  Cust_Code = '" + txtCustomer.Value + "' "))
-            If isUNIONCust = 0 Then
+                dblOutstandingAmt = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
+                ' Dim isUNIONCust As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count ( * )  from TSPL_CUSTOMER_MASTER where Credit_Customer = 'Y' and  Cust_Code = '" + txtCustomer.Value + "' "))
+                'If isUNIONCust = 0 Then
                 lblTotalOutstansing.Text = -1 * dblOutstandingAmt
-            Else
-                lblTotalOutstansing.Text = 0
+                'Else
+                'lblTotalOutstansing.Text = 0
             End If
 
         Catch ex As Exception
