@@ -34,12 +34,12 @@ Public Class RptDcsPaymentReport
 
             Dim dt As New DataTable
             Dim strQry As String = " select max(x.SNo)SNo ,(format(max(Doc_Date), 'dd-MM-yyyy'))DocDate,(format(max(Milk_Purchase_Invoice_Date), 'dd-MM-yyyy'))Milk_Purchase_Invoice_Date ,max(x.Dcs_Uploader)Dcs_Uploader,max(x.Dcs_name)Dcs_name,max(x.Milk_Qty)Milk_Qty
-                                    ,max(x.FATKg)FATKg,max(x.SNFKg)SNFKg,max(x.Milk_Amount)Milk_Amount,max(x.Head_Load_Amount)Head_Load_Amount,max(x.Reduce_Deduc_Amt)Reduce_Deduc_Amt
-                                    ,max(x.Deduction_Amount)Deduction_Amount,max(x.Credit_Note_Amount)CRAmt,isnull(max(x.PURCHASEEXPENSE),0)PURCHASEEXPENSE
+                                    ,max(x.FATKg)FATKg,max(x.SNFKg)SNFKg,max(x.Milk_Amount)Milk_Amount,max(x.Head_Load_Amount)Head_Load_Amount
+                                    ,max(isnull(x.CRAmt,0)+ isnull(x.PURCHASEEXPENSE,0)) as PEAmt,max(isnull(x.OBEAmt,0))OBEAmt,max(x.Credit_Note_Amount)CRAmt,max(x.Reduce_Deduc_Amt)Reduce_Deduc_Amt
+                                    ,max(x.Deduction_Amount)Deduction_Amount,isnull(max(x.PURCHASEEXPENSE),0)PURCHASEEXPENSE
 									,Case When max(isOwnBMC)=1 then sum(x.PURCHASEEXPENSE) else max(isnull(x.Credit_Note_Amount,0)+ isnull(x.PURCHASEEXPENSE,0)) end as AMTS
-									,max(isnull(x.CRAmt,0)+ isnull(x.PURCHASEEXPENSE,0)) as PEAmt,sum(isnull(x.OBEAmt,0))OBEAmt
 									,max(x.Payable_Amount)Payable_Amount ,isnull(max(x.Saving_Amount),0)Saving_Amount,max(isnull(x.Payable_Amount,0) + isnull(x.Saving_Amount,0)) as TotalAmt
-									,sum(isnull(x.CRAmt,0))CRAmt
+									,sum(isnull(x.CRAmt,0))CRAmts
                                     from  
                                     (select TSPL_PAYMENT_PROCESS_DETAIL.SNo ,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_Date ,TSPL_PAYMENT_PROCESS_DETAIL.AP_Invoice_Date,TSPL_PAYMENT_PROCESS_DETAIL.AP_Invoice_No,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Bank_Code
                                     ,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Bank_Name,TSPL_VLC_MASTER_HEAD.Route_Code as Route,TSPL_MCC_MASTER.MCC_NAME as Bmc_name 
@@ -182,6 +182,10 @@ Public Class RptDcsPaymentReport
         Gv1.Columns("Head_Load_Amount").HeaderText = "HeadLoad Amount"
         Gv1.Columns("Head_Load_Amount").Width = 200
         Gv1.Columns("Head_Load_Amount").IsVisible = True
+
+        Gv1.Columns("CRAmt").HeaderText = "CR Amount"
+        Gv1.Columns("CRAmt").Width = 200
+        Gv1.Columns("CRAmt").IsVisible = True
 
         Gv1.Columns("Reduce_Deduc_Amt").HeaderText = "ReduceDeduc Amt"
         Gv1.Columns("Reduce_Deduc_Amt").Width = 200
