@@ -2314,7 +2314,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.POSDairySale, "POS Dairy Sale", "1.36.02.22", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmTranspoterDeduction, "Transporter Deduction Entry", "1.36.02.23", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmNotepadFileMatching, "Notepad Mismatch", "1.36.02.24", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.frmDemandBooking, "Demand", "1.36.02.25", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmDemandBooking, "Demand", "1.36.02.25", clsUserMgtCode.SubModuleSaleDairyTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.frmDemandAdjustment, "Demand Adjustment", "1.36.02.26", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmDemandApproval, "Demand Approval", "1.36.02.27", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmDemand_Sheet, "Demand Sheet", "1.36.02.28", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)

@@ -421,18 +421,24 @@ Public Class clsERPFuncationality
         If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SkipLockLocation, clsFixedParameterCode.SkipLockLocation, trans)) > 0 Then
             Exit Sub
         End If
-
-
         Dim Qry As String = ""
         Dim AllowLockTransactionUserwise As Integer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowLockTransactionUserwise, clsFixedParameterCode.AllowLockTransactionUserwise, trans))
-
         Try
             If AllowLockTransactionUserwise = 0 Then
-                Qry = "Select (CONVERT(varchar, Start_Date, 103) +'  To  '+ CONVERT(varchar, End_Date, 103)) as DateRange from TSPL_LOCK_LOCATION_SEGMENT Where Comp_Code='" + CompCode + "' AND ModuleCode='" + Modulee + "' AND TransCode='" + transName + "' AND Location_Segment_Code='" + Location + "'"
-                Qry += " AND Is_Locked='1' AND Convert(Date, Start_Date, 103)<=convert(Date, '" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "', 103) AND Convert(Date, End_Date , 103)>=convert(Date, '" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "', 103)"
-                Dim DateRange As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Qry, trans))
-                If clsCommon.myLen(DateRange) > 0 Then
-                    Throw New Exception("Transaction is Locked For Location '" + Location + "' from " + DateRange + "")
+                Qry = "Select Is_Locked, (CONVERT(varchar, Start_Date, 103) +'  To  '+ CONVERT(varchar, End_Date, 103)) as DateRange 
+from TSPL_LOCK_LOCATION_SEGMENT Where Trans_name='" + transName + "' 
+AND  Convert(Date, Start_Date, 103)<=convert(Date, '" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "', 103) 
+AND Convert(Date, End_Date , 103)>=convert(Date, '" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "', 103)"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry + " AND Location_Segment_Code='" + Location + "'", trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    If clsCommon.myCDecimal(dt.Rows(0)("Is_Locked")) = 1 Then
+                        Throw New Exception("Transaction is Locked For Location '" + Location + "' from " + clsCommon.myCstr(dt.Rows(0)("DateRange")) + "")
+                    End If
+                Else
+                    dt = clsDBFuncationality.GetDataTable(Qry + " AND Location_Segment_Code=''", trans)
+                    If clsCommon.myCDecimal(dt.Rows(0)("Is_Locked")) = 1 Then
+                        Throw New Exception("Transaction is Locked For Location '" + Location + "' from " + clsCommon.myCstr(dt.Rows(0)("DateRange")) + "")
+                    End If
                 End If
             Else
                 Qry = "Select (CONVERT(varchar, Start_Date, 103) +'  To  '+ CONVERT(varchar, End_Date, 103)) as DateRange,'' as User_Code from TSPL_LOCK_LOCATION_SEGMENT Where " &
@@ -513,12 +519,29 @@ Public Class clsERPFuncationality
         'Dim AllowLockTransactionUserwise As Integer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowLockTransactionUserwise, clsFixedParameterCode.AllowLockTransactionUserwise, trans))
         Try
             If objCommonVar.AllowLockTransactionUserwise = 0 Then
-                Qry = "Select (CONVERT(varchar, Start_Date, 103) +'  To  '+ CONVERT(varchar, End_Date, 103)) as DateRange from TSPL_LOCK_LOCATION Where TSPL_LOCK_LOCATION.Comp_Code='" + CompCode + "' AND TSPL_LOCK_LOCATION.ModuleCode='" + Modulee + "' AND TSPL_LOCK_LOCATION.TransCode='" + transName + "' AND TSPL_LOCK_LOCATION.Location_Code='" + Location + "'"
-                Qry += " AND TSPL_LOCK_LOCATION.Is_Locked='1' AND Convert(Date, Start_Date, 103)<=convert(Date, '" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "', 103) AND Convert(Date, End_Date , 103)>=convert(Date, '" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "', 103)"
-                Dim DateRange As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Qry, trans))
-                If clsCommon.myLen(DateRange) > 0 Then
-                    Throw New Exception("Transaction " + transName + "[" + Modulee + "] is Locked For Location '" + Location + "' from " + DateRange + "")
+                Qry = "Select Is_Locked, (CONVERT(varchar, Start_Date, 103) +'  To  '+ CONVERT(varchar, End_Date, 103)) as DateRange 
+from TSPL_LOCK_LOCATION Where Trans_name='" + transName + "' 
+AND  Convert(Date, Start_Date, 103)<=convert(Date, '" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "', 103) 
+AND Convert(Date, End_Date , 103)>=convert(Date, '" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "', 103)"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry + " AND Location_Code='" + Location + "'", trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    If clsCommon.myCDecimal(dt.Rows(0)("Is_Locked")) = 1 Then
+                        Throw New Exception("Transaction is Locked For Location '" + Location + "' from " + clsCommon.myCstr(dt.Rows(0)("DateRange")) + "")
+                    End If
+                Else
+                    dt = clsDBFuncationality.GetDataTable(Qry + " AND Location_Code=''", trans)
+                    If clsCommon.myCDecimal(dt.Rows(0)("Is_Locked")) = 1 Then
+                        Throw New Exception("Transaction is Locked For Location '" + Location + "' from " + clsCommon.myCstr(dt.Rows(0)("DateRange")) + "")
+                    End If
                 End If
+
+
+                'Qry = "Select  (CONVERT(varchar, Start_Date, 103) +'  To  '+ CONVERT(varchar, End_Date, 103)) as DateRange from TSPL_LOCK_LOCATION Where TSPL_LOCK_LOCATION.Comp_Code='" + CompCode + "' AND TSPL_LOCK_LOCATION.ModuleCode='" + Modulee + "' AND TSPL_LOCK_LOCATION.TransCode='" + transName + "' AND TSPL_LOCK_LOCATION.Location_Code='" + Location + "'"
+                'Qry += " AND TSPL_LOCK_LOCATION.Is_Locked='1' AND Convert(Date, Start_Date, 103)<=convert(Date, '" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "', 103) AND Convert(Date, End_Date , 103)>=convert(Date, '" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "', 103)"
+                'Dim DateRange As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Qry, trans))
+                'If clsCommon.myLen(DateRange) > 0 Then
+                '    Throw New Exception("Transaction " + transName + "[" + Modulee + "] is Locked For Location '" + Location + "' from " + DateRange + "")
+                'End If
             Else
                 Qry = "Select (CONVERT(varchar, Start_Date, 103) +'  To  '+ CONVERT(varchar, End_Date, 103)) as DateRange,'' as User_Code from TSPL_LOCK_LOCATION Where " &
                 " TSPL_LOCK_LOCATION.Comp_Code='" + CompCode + "' AND TSPL_LOCK_LOCATION.Module_Name='" + Modulee + "' AND " &
