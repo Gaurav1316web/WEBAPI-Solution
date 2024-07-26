@@ -222,7 +222,7 @@ Public Class clsPaymentHeader
             Dim strAllowtoUnlockTransactionsforSetOff As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowtoUnlockTransactionsforSetOff, clsFixedParameterCode.AllowtoUnlockTransactionsforSetOff, trans))
             If clsCommon.CompairString(strAllowtoUnlockTransactionsforSetOff, "1") = CompairStringResult.Equal AndAlso clsCommon.CompairString(obj.Payment_Type, "AD") = CompairStringResult.Equal Then
             Else
-                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Payables", "Payment Entry", LocSegmentCode, obj.Payment_Date, trans)
+                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePayable, clsUserMgtCode.PaymentEntryNew, LocSegmentCode, obj.Payment_Date, trans)
             End If
             '----------------------------------------------------------------
             If clsCommon.myLen(obj.Payment_No) > 0 Then
@@ -1298,7 +1298,7 @@ Public Class clsPaymentHeader
                 End If
                 '--------Checks Whertrher Transaction Is Locked Or Not-----------
                 Dim LocSegmentCode As String = clsDBFuncationality.getSingleValue("Select RIGHT(BANKACC, 3) from TSPL_BANK_MASTER  Where BANK_CODE='" + obj.Bank_Code + "'", trans)
-                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Payables", "Payment Entry", LocSegmentCode, obj.Payment_Date, trans)
+                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePayable, clsUserMgtCode.PaymentEntryNew, LocSegmentCode, obj.Payment_Date, trans)
                 '----------------------------------------------------------------
             Else
                 Throw New Exception("Document not found to delete.")
@@ -2731,7 +2731,7 @@ Public Class clsPaymentHeader
                 Dim strAllowtoUnlockTransactionsforSetOff As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowtoUnlockTransactionsforSetOff, clsFixedParameterCode.AllowtoUnlockTransactionsforSetOff, trans))
                 If clsCommon.CompairString(strAllowtoUnlockTransactionsforSetOff, "1") = CompairStringResult.Equal AndAlso clsCommon.CompairString(obj.Payment_Type, "AD") = CompairStringResult.Equal Then
                 Else
-                    clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Payables", "Payment Entry", LocSegmentCode, obj.Payment_Date, trans)
+                    clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePayable, clsUserMgtCode.PaymentEntryNew, LocSegmentCode, obj.Payment_Date, trans)
                 End If
                 '----------------------------------------------------------------
             End If
@@ -4586,7 +4586,7 @@ Public Class clsPaymentHeader
         Try
             '--------Checks Whertrher Transaction Is Locked Or Not-----------
             Dim LocSegmentCode As String = clsDBFuncationality.getSingleValue("Select RIGHT(BANKACC, 3) from TSPL_BANK_MASTER  Where BANK_CODE='" + obj.Bank_Code + "'", trans)
-            clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Payables", "Payment Entry", LocSegmentCode, obj.Payment_Date, trans)
+            clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePayable, clsUserMgtCode.PaymentEntryNew, LocSegmentCode, obj.Payment_Date, trans)
             '----------------------------------------------------------------
             'If clsCommon.myLen(obj.Payment_No) > 0 Then
             '    Dim isPosted As Integer = clsDBFuncationality.getSingleValue("Select Posted from TSPL_PAYMENT_HEADER Where Payment_No='" + obj.Payment_No + "'", trans)

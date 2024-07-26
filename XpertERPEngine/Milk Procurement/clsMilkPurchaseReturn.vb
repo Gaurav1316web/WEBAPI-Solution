@@ -51,7 +51,7 @@ Public Class clsMilkPurchaseReturnHead
                 Throw New Exception("No Data found to Post")
             End If
 
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Milk Procurement", "Bulk Milk Purchase Return", obj.Loc_Code, obj.Pur_Return_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.FrmMilkPurchaseReturn, obj.Loc_Code, obj.Pur_Return_Date, trans)
 
             If (obj.isPosted = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)

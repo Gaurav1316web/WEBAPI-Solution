@@ -749,7 +749,7 @@ Public Class FrmBankUpdateUploader
                             obj = clsPaymentHeader.GetData(strDocNo, NavigatorType.Current, trans)
                             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Payment_No) > 0) Then
                                 Dim LocSegmentCode As String = clsDBFuncationality.getSingleValue("Select RIGHT(BANKACC, 3) from TSPL_BANK_MASTER  Where BANK_CODE='" + obj.Bank_Code + "'", trans)
-                                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Payables", "Payment Entry", LocSegmentCode, clsCommon.myCDate(obj.Payment_Date), trans)
+                                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePayable, clsUserMgtCode.PaymentEntryNew, LocSegmentCode, clsCommon.myCDate(obj.Payment_Date), trans)
                                 clsPaymentHeader.ReverseAndUnpost(strDocNo, trans, True)
                                 clsPaymentHeader.fundelete(clsCommon.myCstr(obj.Payment_Type), strDocNo, clsCommon.myCstr(obj.Vendor_Code), trans)
                                 clsDBFuncationality.ExecuteNonQuery("Insert into TEMP_CREATED_PAYMENT_ENTRY values('" + strDocNo + "')", trans)
@@ -893,7 +893,7 @@ Public Class FrmBankUpdateUploader
                             qry = clsRcptEntryHeader.GetQuery(strDocNo)
                             Dim dtReceipt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                             Dim LocSegmentCode As String = clsDBFuncationality.getSingleValue("Select RIGHT(BANKACC, 3) from TSPL_BANK_MASTER  Where BANK_CODE='" + clsCommon.myCstr(dtReceipt.Rows(0)("Bank_Code")) + "'", trans)
-                            clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Receivables", "Receipt Entry", LocSegmentCode, clsCommon.myCDate(dtReceipt.Rows(0)("Receipt_Date")), trans)
+                            clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleReceivable, clsUserMgtCode.ReceiptEntry, LocSegmentCode, clsCommon.myCDate(dtReceipt.Rows(0)("Receipt_Date")), trans)
 
                             clsRcptEntryHeader.ReverseAndUnpost(strDocNo, trans)
                             clsRcptEntryHeader.fundelete(strDocNo, trans)

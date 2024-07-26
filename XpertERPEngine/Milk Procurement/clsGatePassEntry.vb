@@ -30,7 +30,7 @@ Public Class clsGatePassEntry
 
         Dim isSaved As Boolean = True
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Fresh Sale", "Fresh Gatepass Entry", obj.Location_Code, obj.GPDate, trans)
+        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleFreshSale, clsUserMgtCode.FrmGatePassFS, obj.Location_Code, obj.GPDate, trans)
         Try
             Dim qry As String = "delete from TSPL_GATEPASS_DETAIL_FRESHSALE where GPcode='" + obj.GPCode + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)

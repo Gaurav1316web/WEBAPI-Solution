@@ -57,7 +57,7 @@ Public Class clsMilkTransferInReturn
     Public Shared Function saveData(ByVal obj As clsMilkTransferInReturn, ByVal trans As SqlTransaction) As Boolean
         Dim issaved As Boolean = True
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Milk Procurement Bulk", "Milk Transfer In Return", obj.location_code, obj.Receipt_Challan_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmMilkTransferInReturn, obj.location_code, obj.Receipt_Challan_Date, trans)
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "PriceCode", clsCommon.myCstr(obj.PriceCode))
             clsCommon.AddColumnsForChange(coll, "FAT_R", clsCommon.myCstr(obj.FAT_R))
@@ -400,7 +400,7 @@ Public Class clsMilkTransferInReturn
             Dim objW As clsWeighment = clsWeighment.getData(obj.Weighment_No, "MccProc", NavigatorType.Current, trans)
             Dim objD As clsMccDispatch = clsMccDispatch.getData(obj.Dispatch_Challan_No, NavigatorType.Current, trans)
             'trans = clsDBFuncationality.GetTransactin()
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Milk Procurement Bulk", "Milk Transfer In Return", obj.location_code, obj.Receipt_Challan_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmMilkTransferInReturn, obj.location_code, obj.Receipt_Challan_Date, trans)
             If (obj.isPosted = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
             End If

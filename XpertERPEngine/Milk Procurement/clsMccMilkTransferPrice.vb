@@ -57,7 +57,7 @@ Public Class clsMccMilkTransferPrice
             If isNewEntry Then
                 obj.Price_Code = clsERPFuncationality.GetNextCode(trans, obj.Price_Date, clsDocType.MccMilkTransferPrice, "", obj.MCC_Code)
             End If
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Milk Procurement MCC", "MCC Milk Transfer Price", obj.MCC_Code, clsCommon.myCDate(obj.Price_Date), trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.MccMilkTransferPrice, obj.MCC_Code, clsCommon.myCDate(obj.Price_Date), trans)
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Price_Code", obj.Price_Code)
             clsCommon.AddColumnsForChange(coll, "Price_Date", clsCommon.GetPrintDate(obj.Price_Date, "dd/MMM/yyyy"))

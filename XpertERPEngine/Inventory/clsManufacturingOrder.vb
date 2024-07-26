@@ -291,7 +291,7 @@ Public Class clsManufacturingOrder
                 obj.MO_CODE = strCode
             End If
         End If
-        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Standard Production", "Manufacturing Order", obj.LOCATION_CODE, obj.PLANNED_START_DATE, trans)
+        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionSTD, clsUserMgtCode.frmManufacturingOrder, obj.LOCATION_CODE, obj.PLANNED_START_DATE, trans)
 
 
         '' delete TSPL_MF_MO_MATERIAL

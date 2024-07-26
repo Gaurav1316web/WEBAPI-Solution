@@ -287,7 +287,7 @@ Public Class clsPhysicalstock
 
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.mbtnEmptyTrans, clsCommon.myCstr(dts.Rows(0)("Location")), clsCommon.myCDate(dts.Rows(0)("Stock_Date")), trans)
             End If
-            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Empty Transactions", "Main_Location", obj.Stock_Date, trans)
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Empty Transactions", "Main_Location", clsCommon.myCDate(dts.Rows(0)("Stock_Date")), trans)
 
             For Each obj As clsPhysicalstock In arr
                 If (arr Is Nothing OrElse clsCommon.myLen(obj.Physical_No) <= 0) Then

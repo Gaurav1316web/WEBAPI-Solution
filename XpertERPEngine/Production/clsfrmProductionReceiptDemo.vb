@@ -38,7 +38,7 @@ Public Class clsfrmProductionReceiptDemo
             If isNewEntry Then
                 obj.docno = clsERPFuncationality.GetNextCode(trans, clsCommon.GetPrintDate(obj.docdate, "dd/MMM/yyyy"), clsDocType.ProductionMapping, "", "")
             End If
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Standard Production", "Production Serialized Mapping", obj.loc_code, obj.docdate, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionSTD, clsUserMgtCode.frmProductionReceiptDemo, obj.loc_code, obj.docdate, trans)
             clsCommon.AddColumnsForChange(coll, "comp_code", objCommonVar.CurrentCompanyCode)
             clsCommon.AddColumnsForChange(coll, "Doc_No", obj.docno)
             clsCommon.AddColumnsForChange(coll, "Doc_Date", clsCommon.GetPrintDate(obj.docdate, "dd/MMM/yyyy"))

@@ -163,7 +163,6 @@ Public Class clsMRNHead
         Dim isSaved As Boolean = True
         Try
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Material Received Note", IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location), obj.MRN_Date, trans)
-            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Material Received Note", obj.Bill_To_Location, obj.MRN_Date, trans)
             clsMRNAdditionChargeInsurance.DeleteData(obj.MRN_No, trans)
             'clsSerializeInvenotry.DeleteData("MRN", obj.MRN_No, trans)
             'clsBatchInventory.DeleteData("MRN", obj.MRN_No, trans)
@@ -976,9 +975,10 @@ where TSPL_MRN_DETAIL.MRN_No='" + strDocNo + "' and ISNULL( TSPL_ITEM_MASTER.NIR
             Throw New Exception("Purchase Order No not found to Delete")
         End If
         Dim obj As clsMRNHead = clsMRNHead.GetData(strCode, NavigatorType.Current, trans)
-        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Material Received Note", IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location), obj.MRN_Date, trans)
+
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.MRN_No) > 0) Then
             Try
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Material Received Note", IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location), obj.MRN_Date, trans)
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
                 End If

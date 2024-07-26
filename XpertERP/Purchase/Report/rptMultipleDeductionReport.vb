@@ -120,7 +120,7 @@ Public Class rptMultipleDeductionReport
                 DCSWiseSummary()
                 Exit Sub
             ElseIf rbtnDetail.IsChecked = True Then
-                'DCSWiseDetail()
+                DCSWiseDetail()
                 Exit Sub
             End If
             If chkItemWise.Checked = True Then
@@ -458,7 +458,7 @@ Environment.NewLine + "Company : " & objCommonVar.CurrentCompanyName
                 DCSWiseSummaryPrint()
                 Exit Sub
             ElseIf rbtnDetail.IsChecked = True Then
-                'DCSWiseDetail()
+                DCSWiseDetailPrint()
                 Exit Sub
             End If
             ' Dim chktranstype As String = Nothing
@@ -681,6 +681,75 @@ WHERE convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) >=convert(date,('"
         End Try
     End Sub
 
+    Public Sub DCSWiseDetail()
+        Try
+            Dim qry As String = Nothing
+            Dim strBaseqry As String = Nothing
+            Dim dt As New DataTable
+
+            qry = "  Select (final.Vendor_Code) as [Vendor Code] ,max(final.Vendor_Name) as [Vendor Name],(final.[VLC Uploader Code]) as [VLC Uploader Code],
+                     max(final.Type) as Type,(final.Document_No) as [Document No],(final.Document_Date) as [Document Date],(final.DeductionCode) as [Deduction Code] ,max(final.Deduction_Desc) as [Deduction Desc],
+                     isnull(SUM(ACC_Qty),0)MilkQty,ISNULL(sum(NET_AMOUNT),0)NET_AMOUNT,sum(final.Addition) as Addition,
+                     sum(final.Deduction) as Deduction,isnull(sum(Head_Load_Amount),0)Head_Load_Amount,sum(NET_AMOUNT-Deduction+Addition+Head_Load_Amount)Balance
+                     from ( select TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type,
+                     TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No,convert(varchar,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) as Document_Date  ,
+                     case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then TSPL_MULTIPLE_DEDUCTION_detail.amount else 0 end as Addition,
+                     case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 0 else TSPL_MULTIPLE_DEDUCTION_detail.amount  end as Deduction,
+               TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as [VLC Uploader Code]
+                     , SRN_HEAD.ACC_Qty,SRN_HEAD.Head_Load_Amount,SRN_HEAD.NET_AMOUNT
+                     from TSPL_MULTIPLE_DEDUCTION_HEAD 
+                    LEFT OUTER JOIN TSPL_MULTIPLE_DEDUCTION_DETAIL ON TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No =TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
+                    left outer Join (select distinct TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader,TSPL_VLC_MASTER_HEAD.MCC from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code
+                    left outer join (select ISNULL(sum(TSPL_MILK_SRN_DETAIL.Head_Load_Amount),0) as Head_Load_Amount,ISNULL(sum(TSPL_MILK_SRN_DETAIL.NET_AMOUNT),0)NET_AMOUNT,ISNULL(sum(TSPL_MILK_SRN_DETAIL.ACC_Qty),0) as ACC_Qty,VSP_CODE,max(TSPL_MILK_SRN_HEAD.DOC_CODE)DOC_CODE from  TSPL_MILK_SRN_DETAIL 
+                    left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE
+					where convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) >= convert(date,('" + fromDate.Value + "'),103) 
+                    and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) <= convert(date,('" + ToDate.Value + "'),103)
+					group by VSP_CODE 
+					)as SRN_HEAD on SRN_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code
+
+                    left outer join TSPL_MCC_MASTER ON TSPL_VLC_MASTER_HEAD.MCC=TSPL_MCC_MASTER.MCC_Code
+                    left outer join TSPL_LOCATION_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_LOCATION_MASTER.Location_Code
+                    where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and 
+                    convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= convert(date,('" + fromDate.Value + "'),103)
+                    and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= convert(date,('" + ToDate.Value + "'),103) "
+
+            If txtMultiVSP.arrValueMember IsNot Nothing AndAlso txtMultiVSP.arrValueMember.Count > 0 Then
+                qry += " and TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code in(" + clsCommon.GetMulcallString(txtMultiVSP.arrValueMember) + ")"
+            End If
+            If TxtDeductionCode.arrValueMember IsNot Nothing AndAlso TxtDeductionCode.arrValueMember.Count > 0 Then
+                qry += " and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode in (" + clsCommon.GetMulcallString(TxtDeductionCode.arrValueMember) + ") "
+            End If
+            qry += " )Final group by final.Document_No,final.Document_Date , final.Vendor_Code ,final.DeductionCode ,Final.[VLC Uploader Code] "
+
+
+            dt = clsDBFuncationality.GetDataTable(qry)
+            Gv1.DataSource = Nothing
+            Gv1.Rows.Clear()
+            Gv1.Columns.Clear()
+            Gv1.GroupDescriptors.Clear()
+            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+            Gv1.MasterView.Refresh()
+            'FormatGv1()
+
+            If dt Is Nothing OrElse dt.Rows.Count > 0 Then
+                Gv1.DataSource = dt
+                For ii As Integer = 0 To Gv1.Columns.Count - 1
+                    Gv1.Columns(ii).ReadOnly = True
+                Next
+
+                RadPageView1.SelectedPage = RadPageViewPage2
+                Gv1.EnableFiltering = True
+                FormatGv1()
+                Gv1.BestFitColumns()
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                Exit Sub
+            End If
+            ReStoreGridLayout()
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
     Public Sub DCSWiseSummary()
         Try
             Dim qry As String = Nothing
@@ -842,6 +911,64 @@ WHERE convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) >=convert(date,('"
 
     End Sub
 
+    Sub DCSWiseDetailPrint()
+        Try
+            Dim qry As String = Nothing
+            Dim strBaseqry As String = Nothing
+            Dim dt As New DataTable
+
+            qry = "  Select (final.Vendor_Code) as [Vendor Code] ,max(final.Vendor_Name) as [Vendor Name],(final.[VLC Uploader Code]) as [VLC Uploader Code],
+                     max(final.Type) as Type,(final.Document_No) as [Document No],(final.Document_Date) as [Document Date],(final.DeductionCode) as [Deduction Code] ,max(final.Deduction_Desc) as [Deduction Desc],
+                     isnull(SUM(ACC_Qty),0)MilkQty,ISNULL(sum(NET_AMOUNT),0)NET_AMOUNT,sum(final.Addition) as Addition,
+                     sum(final.Deduction) as Deduction,isnull(sum(Head_Load_Amount),0)Head_Load_Amount,sum(NET_AMOUNT-Deduction+Addition+Head_Load_Amount)Balance
+                     from ( select TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type,
+                     TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No,convert(varchar,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) as Document_Date  ,
+                     case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then TSPL_MULTIPLE_DEDUCTION_detail.amount else 0 end as Addition,
+                     case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 0 else TSPL_MULTIPLE_DEDUCTION_detail.amount  end as Deduction,
+               TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as [VLC Uploader Code]
+                     , SRN_HEAD.ACC_Qty,SRN_HEAD.Head_Load_Amount,SRN_HEAD.NET_AMOUNT
+                     from TSPL_MULTIPLE_DEDUCTION_HEAD 
+                    LEFT OUTER JOIN TSPL_MULTIPLE_DEDUCTION_DETAIL ON TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No =TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
+                    left outer Join (select distinct TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader,TSPL_VLC_MASTER_HEAD.MCC from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code
+                    left outer join (select ISNULL(sum(TSPL_MILK_SRN_DETAIL.Head_Load_Amount),0) as Head_Load_Amount,ISNULL(sum(TSPL_MILK_SRN_DETAIL.NET_AMOUNT),0)NET_AMOUNT,ISNULL(sum(TSPL_MILK_SRN_DETAIL.ACC_Qty),0) as ACC_Qty,VSP_CODE,max(TSPL_MILK_SRN_HEAD.DOC_CODE)DOC_CODE from  TSPL_MILK_SRN_DETAIL 
+                    left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE
+					where convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) >= convert(date,('" + fromDate.Value + "'),103) 
+                    and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) <= convert(date,('" + ToDate.Value + "'),103)
+					group by VSP_CODE 
+					)as SRN_HEAD on SRN_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code
+
+                    left outer join TSPL_MCC_MASTER ON TSPL_VLC_MASTER_HEAD.MCC=TSPL_MCC_MASTER.MCC_Code
+                    left outer join TSPL_LOCATION_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_LOCATION_MASTER.Location_Code
+                    where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and 
+                    convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= convert(date,('" + fromDate.Value + "'),103)
+                    and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= convert(date,('" + ToDate.Value + "'),103) "
+
+            If txtMultiVSP.arrValueMember IsNot Nothing AndAlso txtMultiVSP.arrValueMember.Count > 0 Then
+                qry += " and TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code in(" + clsCommon.GetMulcallString(txtMultiVSP.arrValueMember) + ")"
+            End If
+            If TxtDeductionCode.arrValueMember IsNot Nothing AndAlso TxtDeductionCode.arrValueMember.Count > 0 Then
+                qry += " and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode in (" + clsCommon.GetMulcallString(TxtDeductionCode.arrValueMember) + ") "
+            End If
+            qry += " )Final group by final.Document_No,final.Document_Date , final.Vendor_Code ,final.DeductionCode ,Final.[VLC Uploader Code] "
+
+            dt = clsDBFuncationality.GetDataTable(qry)
+            If dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                '    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptMultpleDeductionNewJPR", "MD Print")
+                'ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                '    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptMultpleDeductionNewTNK", "MD Print")
+                'Else
+                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptDCSWiseDeductionDetail", "Ded Print")
+                'End If
+                frmCRV = Nothing
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
     Sub DCSWiseSummaryPrint()
         Try
             Dim qry As String = Nothing
@@ -860,7 +987,7 @@ WHERE convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) >=convert(date,('"
                      TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No,convert(varchar,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) as Document_Date  ,
                      case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then TSPL_MULTIPLE_DEDUCTION_detail.amount else 0 end as Addition,
                      case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 0 else TSPL_MULTIPLE_DEDUCTION_detail.amount  end as Deduction,
-               TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as [VLC Uploader Code]
+                     TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as [VLC Uploader Code]
                      , SRN_HEAD.ACC_Qty,SRN_HEAD.Head_Load_Amount,SRN_HEAD.NET_AMOUNT,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3
                      from TSPL_MULTIPLE_DEDUCTION_HEAD 
                     LEFT OUTER JOIN TSPL_MULTIPLE_DEDUCTION_DETAIL ON TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No =TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No

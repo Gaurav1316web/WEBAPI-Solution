@@ -323,7 +323,7 @@ Public Class FrmBankTransfer
 
             If clsCommon.myLen(Txt_frombankCode.Value) > 0 Then
                 Dim LocSegmentCode As String = clsDBFuncationality.getSingleValue("Select RIGHT(BANKACC, 3) from TSPL_BANK_MASTER  Where BANK_CODE='" + Txt_frombankCode.Value + "'", trans)
-                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Common Services", "Bank Transfer", LocSegmentCode, dtp_transferpostingdate.Value, trans)
+                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleCommonServices, clsUserMgtCode.bankTransfer, LocSegmentCode, dtp_transferpostingdate.Value, trans)
             End If
             '--------------------------------------------------------------------------------------------------------------
             '' Anubhooti 18-Dec-2014 BM00000004959
@@ -725,7 +725,7 @@ Public Class FrmBankTransfer
         Try
             If clsCommon.myLen(Txt_frombankCode.Value) > 0 Then
                 Dim LocSegmentCode As String = clsDBFuncationality.getSingleValue("Select RIGHT(BANKACC, 3) from TSPL_BANK_MASTER  Where BANK_CODE='" + Txt_frombankCode.Value + "'", trans)
-                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Common Services", "Bank Transfer", LocSegmentCode, dtp_transferpostingdate.Value, trans)
+                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleCommonServices, clsUserMgtCode.bankTransfer, LocSegmentCode, dtp_transferpostingdate.Value, trans)
             End If
             ''richa ERO/15/05/19-000602
             If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(Post,'') from TSPL_BANK_TRANSFER  where Transfer_No= '" & clsCommon.myCstr(Fnd_Transfernumber.Value) & "' ")), "p") = CompairStringResult.Equal Then
@@ -1309,7 +1309,7 @@ Public Class FrmBankTransfer
         Try
             If clsCommon.myLen(Txt_frombankCode.Value) > 0 Then
                 Dim LocSegmentCode As String = clsDBFuncationality.getSingleValue("Select RIGHT(BANKACC, 3) from TSPL_BANK_MASTER  Where BANK_CODE='" + Txt_frombankCode.Value + "'", trans)
-                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Common Services", "Bank Transfer", LocSegmentCode, dtp_transferpostingdate.Value, trans)
+                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleCommonServices, clsUserMgtCode.bankTransfer, LocSegmentCode, dtp_transferpostingdate.Value, trans)
             End If
             If trans Is Nothing Then
                 If myMessages.postConfirm() Then

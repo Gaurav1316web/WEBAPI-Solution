@@ -190,7 +190,7 @@ Public Class clsCustomerInvoiceHead
 
         End If
 
-        clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Receivables", "AR Invoice Entry", obj.loc_code, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleReceivable, clsUserMgtCode.mbtnARInvoiceEntry, obj.loc_code, obj.Document_Date, trans)
 
             If Not isNewEntry Then
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_Customer_Invoice_HEAD", "Document_No", "TSPL_Customer_Invoice_Detail", "Document_No", "TSPL_REMITTANCE", "Document_No", trans)
@@ -843,7 +843,7 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
                 Throw New Exception("No Data found to Post")
             End If
 
-            clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Receivables", "AR Invoice Entry", obj.loc_code, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleReceivable, clsUserMgtCode.mbtnARInvoiceEntry, obj.loc_code, obj.Document_Date, trans)
 
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
@@ -1213,7 +1213,7 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
         'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
             Try
-                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Receivables", "AR Invoice Entry", obj.loc_code, obj.Document_Date, trans)
+                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleReceivable, clsUserMgtCode.mbtnARInvoiceEntry, obj.loc_code, obj.Document_Date, trans)
 
                 If obj.Status = ERPTransactionStatus.Approved Then
                     Throw New Exception("Already Post on :" + obj.Posting_Date)
