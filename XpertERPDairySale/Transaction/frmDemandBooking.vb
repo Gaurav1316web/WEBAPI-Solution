@@ -4431,7 +4431,7 @@ order  by TSPL_CUSTOMER_MASTER.Display_Seq "
     End Sub
     Public Sub DeleteBoothDemand(ByVal DocNo As String, ByVal cust_code As String, ByVal ShiftType As String)
         Try
-            If clsDemandBookingSale.DeleteBoothDemand(DocNo, cust_code, ShiftType) Then
+            If clsDemandBookingSale.DeleteBoothDemand(DocNo, cust_code, ShiftType, False) Then
                 clsCommon.MyMessageBoxShow(Me, "Demand Reset for Booth No :" + clsCommon.myCstr(cust_code), Me.Text)
                 LoadData(DocNo, NavigatorType.Current)
             End If
@@ -4446,7 +4446,7 @@ order  by TSPL_CUSTOMER_MASTER.Display_Seq "
                     Dim StrQry As String = "select count(TSPL_BOOKING_MATSER.Document_Date) from TSPL_BOOKING_MATSER left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No where TSPL_BOOKING_MATSER.Against_DemandBooking_No='" + DocNo + "' and TSPL_BOOKING_DETAIL.Cust_Code='" + clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value) + "'"
                     Dim count As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(StrQry))
                     If count > 0 Then
-                        Dim status As Boolean = clsDemandBookingSale.DeleteBoothDemand(DocNo, gv1.Rows(dblrows).Cells(colCustCode).Value, IIf(rbtnMorning.IsChecked = True, "Morning", "Evening"))
+                        Dim status As Boolean = clsDemandBookingSale.DeleteBoothDemand(DocNo, gv1.Rows(dblrows).Cells(colCustCode).Value, IIf(rbtnMorning.IsChecked = True, "Morning", "Evening"), True)
                     End If
                 End If
             Next

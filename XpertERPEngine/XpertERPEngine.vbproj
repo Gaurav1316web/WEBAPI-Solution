@@ -169,10 +169,6 @@
     <Reference Include="XpertERPBlankTableScript">
       <HintPath>..\XpertERP\bin\Debug\XpertERPBlankTableScript.dll</HintPath>
     </Reference>
-    <Reference Include="XpertERPEngineFine, Version=7.1.2.36, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
-    </Reference>
     <Reference Include="zxing">
       <HintPath>..\XpertERP\bin\Debug\zxing.dll</HintPath>
     </Reference>
@@ -293,75 +289,111 @@
     <Compile Include="frmCreateTemplate.designer.vb">
       <DependentUpon>frmCreateTemplate.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmCreateTemplate.vb" />
+    <Compile Include="frmCreateTemplate.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmCrptFooter.Designer.vb">
       <DependentUpon>frmCrptFooter.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmCrptFooter.vb" />
+    <Compile Include="frmCrptFooter.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmExportTemplate.designer.vb">
       <DependentUpon>frmExportTemplate.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmExportTemplate.vb" />
+    <Compile Include="frmExportTemplate.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmFreeGrid.Designer.vb">
       <DependentUpon>frmFreeGrid.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmFreeGrid.vb" />
+    <Compile Include="frmFreeGrid.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmFreeImage.Designer.vb">
       <DependentUpon>frmFreeImage.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmFreeImage.vb" />
+    <Compile Include="frmFreeImage.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmItemMasterRMOther.Designer.vb">
       <DependentUpon>frmItemMasterRMOther.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmItemMasterRMOther.vb" />
+    <Compile Include="frmItemMasterRMOther.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmPaymentDetail.Designer.vb">
       <DependentUpon>frmPaymentDetail.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmPaymentDetail.vb" />
+    <Compile Include="frmPaymentDetail.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmPendingSaleInvoiceDS.Designer.vb">
       <DependentUpon>frmPendingSaleInvoiceDS.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmPendingSaleInvoiceDS.vb" />
+    <Compile Include="frmPendingSaleInvoiceDS.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmPendingSaleOrderPS.Designer.vb">
       <DependentUpon>frmPendingSaleOrderPS.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmPendingSaleOrderPS.vb" />
+    <Compile Include="frmPendingSaleOrderPS.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmPendingShipmentPS.Designer.vb">
       <DependentUpon>frmPendingShipmentPS.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmPendingShipmentPS.vb" />
+    <Compile Include="frmPendingShipmentPS.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmPOItemTaxDetails.Designer.vb">
       <DependentUpon>frmPOItemTaxDetails.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmPOItemTaxDetails.vb" />
+    <Compile Include="frmPOItemTaxDetails.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FrmPrintFreshInvoice.Designer.vb">
       <DependentUpon>FrmPrintFreshInvoice.vb</DependentUpon>
     </Compile>
-    <Compile Include="FrmPrintFreshInvoice.vb" />
+    <Compile Include="FrmPrintFreshInvoice.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmSaleHistory.Designer.vb">
       <DependentUpon>frmSaleHistory.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmSaleHistory.vb" />
+    <Compile Include="frmSaleHistory.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmSaleInvoiceProductSale.Designer.vb">
       <DependentUpon>frmSaleInvoiceProductSale.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmSaleInvoiceProductSale.vb" />
+    <Compile Include="frmSaleInvoiceProductSale.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmSerializeItemOutCheckBox.Designer.vb">
       <DependentUpon>frmSerializeItemOutCheckBox.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmSerializeItemOutCheckBox.vb" />
+    <Compile Include="frmSerializeItemOutCheckBox.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmStockDetail.Designer.vb">
       <DependentUpon>frmStockDetail.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmStockDetail.vb" />
+    <Compile Include="frmStockDetail.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmTemplateExpImp.designer.vb">
       <DependentUpon>frmTemplateExpImp.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmTemplateExpImp.vb" />
+    <Compile Include="frmTemplateExpImp.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmUserMaster.Designer.vb">
       <DependentUpon>frmUserMaster.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmUserMaster.vb" />
+    <Compile Include="frmUserMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Inventory\ClsAdjustmentsQCC.vb" />
     <Compile Include="Inventory\clsItemLocationDetails.vb" />
     <Compile Include="Inventory\clsOutputEntry.vb" />
@@ -370,7 +402,9 @@
     <Compile Include="Inventory\frmBatchItemOutNew.Designer.vb">
       <DependentUpon>frmBatchItemOutNew.vb</DependentUpon>
     </Compile>
-    <Compile Include="Inventory\frmBatchItemOutNew.vb" />
+    <Compile Include="Inventory\frmBatchItemOutNew.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ItemModel\clsItemMasterQCParameter.vb" />
     <Compile Include="ItemModel\clsItemPurchaseSetDetail.vb" />
     <Compile Include="ItemModel\clsItemSalePurchaseSetDetail.vb" />
@@ -518,60 +552,88 @@
     <Compile Include="Shared Form\frmPendingBulkMilkSrn.Designer.vb">
       <DependentUpon>frmPendingBulkMilkSrn.vb</DependentUpon>
     </Compile>
-    <Compile Include="Shared Form\frmPendingBulkMilkSrn.vb" />
+    <Compile Include="Shared Form\frmPendingBulkMilkSrn.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Shared Form\frmPendingPO.Designer.vb">
       <DependentUpon>frmPendingPO.vb</DependentUpon>
     </Compile>
-    <Compile Include="Shared Form\frmPendingPO.vb" />
+    <Compile Include="Shared Form\frmPendingPO.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Shared Form\frmPendingPOSchedule.Designer.vb">
       <DependentUpon>frmPendingPOSchedule.vb</DependentUpon>
     </Compile>
-    <Compile Include="Shared Form\frmPendingPOSchedule.vb" />
+    <Compile Include="Shared Form\frmPendingPOSchedule.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Shared Form\frmPPIssueChildScrren.Designer.vb">
       <DependentUpon>frmPPIssueChildScrren.vb</DependentUpon>
     </Compile>
-    <Compile Include="Shared Form\frmPPIssueChildScrren.vb" />
+    <Compile Include="Shared Form\frmPPIssueChildScrren.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Shared Form\frmPPQCCheckHistory.Designer.vb">
       <DependentUpon>frmPPQCCheckHistory.vb</DependentUpon>
     </Compile>
-    <Compile Include="Shared Form\frmPPQCCheckHistory.vb" />
+    <Compile Include="Shared Form\frmPPQCCheckHistory.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Shared Form\RptBulkMilkMultiplePurchaseInvoice.Designer.vb">
       <DependentUpon>RptBulkMilkMultiplePurchaseInvoice.vb</DependentUpon>
     </Compile>
-    <Compile Include="Shared Form\RptBulkMilkMultiplePurchaseInvoice.vb" />
+    <Compile Include="Shared Form\RptBulkMilkMultiplePurchaseInvoice.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Seed\clsSeedGrowerMaster.vb" />
     <Compile Include="UserControl\ucCustomFields.Designer.vb">
       <DependentUpon>ucCustomFields.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\ucCustomFields.vb" />
+    <Compile Include="UserControl\ucCustomFields.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UserControl\UcMilkPendingSRN.Designer.vb">
       <DependentUpon>UcMilkPendingSRN.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\UcMilkPendingSRN.vb" />
+    <Compile Include="UserControl\UcMilkPendingSRN.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UserControl\ucPaymentProcess.Designer.vb">
       <DependentUpon>ucPaymentProcess.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\ucPaymentProcess.vb" />
+    <Compile Include="UserControl\ucPaymentProcess.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="WinForm\Excelform.Designer.vb">
       <DependentUpon>Excelform.vb</DependentUpon>
     </Compile>
-    <Compile Include="WinForm\Excelform.vb" />
+    <Compile Include="WinForm\Excelform.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="WinForm\frmCrystalReportViewer.Designer.vb">
       <DependentUpon>frmCrystalReportViewer.vb</DependentUpon>
     </Compile>
-    <Compile Include="WinForm\frmCrystalReportViewer.vb" />
+    <Compile Include="WinForm\frmCrystalReportViewer.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmMailSMSSettingNew2.Designer.vb">
       <DependentUpon>frmMailSMSSettingNew2.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmMailSMSSettingNew2.vb" />
+    <Compile Include="frmMailSMSSettingNew2.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmRptAPInvoice.Designer.vb">
       <DependentUpon>frmRptAPInvoice.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmRptAPInvoice.vb" />
+    <Compile Include="frmRptAPInvoice.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmTransactionHistory.Designer.vb">
       <DependentUpon>frmTransactionHistory.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmTransactionHistory.vb" />
+    <Compile Include="frmTransactionHistory.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Finance\Accountsegment.vb" />
     <Compile Include="Finance\ClsCostCentreFinancial.vb" />
     <Compile Include="Finance\clsFiscalYear.vb" />
@@ -583,11 +645,15 @@
     <Compile Include="frmMasterHistory.Designer.vb">
       <DependentUpon>frmMasterHistory.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmMasterHistory.vb" />
+    <Compile Include="frmMasterHistory.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmViewTDS.Designer.vb">
       <DependentUpon>frmViewTDS.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmViewTDS.vb" />
+    <Compile Include="frmViewTDS.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="HR\clsComplaintGroup.vb" />
     <Compile Include="Common\clsCreateAllTables.vb" />
     <Compile Include="Common\clsCustomFieldHead.vb" />
@@ -665,23 +731,33 @@
     <Compile Include="Inventory\frmBatchItemIn.Designer.vb">
       <DependentUpon>frmBatchItemIn.vb</DependentUpon>
     </Compile>
-    <Compile Include="Inventory\frmBatchItemIn.vb" />
+    <Compile Include="Inventory\frmBatchItemIn.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Inventory\frmBatchItemOut.Designer.vb">
       <DependentUpon>frmBatchItemOut.vb</DependentUpon>
     </Compile>
-    <Compile Include="Inventory\frmBatchItemOut.vb" />
+    <Compile Include="Inventory\frmBatchItemOut.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Inventory\frmCategorySelect.Designer.vb">
       <DependentUpon>frmCategorySelect.vb</DependentUpon>
     </Compile>
-    <Compile Include="Inventory\frmCategorySelect.vb" />
+    <Compile Include="Inventory\frmCategorySelect.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Inventory\frmSerializeItemIn.Designer.vb">
       <DependentUpon>frmSerializeItemIn.vb</DependentUpon>
     </Compile>
-    <Compile Include="Inventory\frmSerializeItemIn.vb" />
+    <Compile Include="Inventory\frmSerializeItemIn.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Inventory\frmSerializeItemOut.Designer.vb">
       <DependentUpon>frmSerializeItemOut.vb</DependentUpon>
     </Compile>
-    <Compile Include="Inventory\frmSerializeItemOut.vb" />
+    <Compile Include="Inventory\frmSerializeItemOut.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="JobWork Outward\clsJobWorkOutward.vb" />
     <Compile Include="JobWork Outward\clsJWOSRN.vb" />
     <Compile Include="JobWork Outward\clsJWOSRNRetrun.vb" />
@@ -757,7 +833,9 @@
     <Compile Include="Milk Procurement\frmMccDispatch.Designer.vb">
       <DependentUpon>frmMccDispatch.vb</DependentUpon>
     </Compile>
-    <Compile Include="Milk Procurement\frmMccDispatch.vb" />
+    <Compile Include="Milk Procurement\frmMccDispatch.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Modules\globalFunc.vb" />
     <Compile Include="Modules\modForms.vb" />
     <Compile Include="Modules\modUserMgt.vb" />
@@ -1169,23 +1247,33 @@
     <Compile Include="UserControl\frmBalanceQty.designer.vb">
       <DependentUpon>frmBalanceQty.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\frmBalanceQty.vb" />
+    <Compile Include="UserControl\frmBalanceQty.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="UserControl\ucAttachment.Designer.vb">
       <DependentUpon>ucAttachment.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\ucAttachment.vb" />
+    <Compile Include="UserControl\ucAttachment.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UserControl\ucCamControl.Designer.vb">
       <DependentUpon>ucCamControl.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\ucCamControl.vb" />
+    <Compile Include="UserControl\ucCamControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UserControl\ucItemBalance.Designer.vb">
       <DependentUpon>ucItemBalance.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\ucItemBalance.vb" />
+    <Compile Include="UserControl\ucItemBalance.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UserControl\ucWeighing.Designer.vb">
       <DependentUpon>ucWeighing.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\ucWeighing.vb" />
+    <Compile Include="UserControl\ucWeighing.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Web References\BSWS\Reference.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1194,71 +1282,105 @@
     <Compile Include="WinForm\Form1.Designer.vb">
       <DependentUpon>Form1.vb</DependentUpon>
     </Compile>
-    <Compile Include="WinForm\Form1.vb" />
+    <Compile Include="WinForm\Form1.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="WinForm\frmCheckBoxGrid.Designer.vb">
       <DependentUpon>frmCheckBoxGrid.vb</DependentUpon>
     </Compile>
-    <Compile Include="WinForm\frmCheckBoxGrid.vb" />
+    <Compile Include="WinForm\frmCheckBoxGrid.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="WinForm\frmClientFormLableDetails.Designer.vb">
       <DependentUpon>frmClientFormLableDetails.vb</DependentUpon>
     </Compile>
-    <Compile Include="WinForm\frmClientFormLableDetails.vb" />
+    <Compile Include="WinForm\frmClientFormLableDetails.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="WinForm\frmEMailAndSMSSetting.Designer.vb">
       <DependentUpon>frmEMailAndSMSSetting.vb</DependentUpon>
     </Compile>
-    <Compile Include="WinForm\frmEMailAndSMSSetting.vb" />
+    <Compile Include="WinForm\frmEMailAndSMSSetting.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="WinForm\frmFilterColumnsToExport.designer.vb">
       <DependentUpon>frmFilterColumnsToExport.vb</DependentUpon>
     </Compile>
-    <Compile Include="WinForm\frmFilterColumnsToExport.vb" />
+    <Compile Include="WinForm\frmFilterColumnsToExport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="WinForm\frmFilterToExport.designer.vb">
       <DependentUpon>frmFilterToExport.vb</DependentUpon>
     </Compile>
-    <Compile Include="WinForm\frmFilterToExport.vb" />
+    <Compile Include="WinForm\frmFilterToExport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="WinForm\frmFreeComboBox.Designer.vb">
       <DependentUpon>frmFreeComboBox.vb</DependentUpon>
     </Compile>
-    <Compile Include="WinForm\frmFreeComboBox.vb" />
+    <Compile Include="WinForm\frmFreeComboBox.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="WinForm\frmFreeTxtBox1.Designer.vb">
       <DependentUpon>frmFreeTxtBox1.vb</DependentUpon>
     </Compile>
-    <Compile Include="WinForm\frmFreeTxtBox1.vb" />
+    <Compile Include="WinForm\frmFreeTxtBox1.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="WinForm\frmFreeTxtNumBox.Designer.vb">
       <DependentUpon>frmFreeTxtNumBox.vb</DependentUpon>
     </Compile>
-    <Compile Include="WinForm\frmFreeTxtNumBox.vb" />
+    <Compile Include="WinForm\frmFreeTxtNumBox.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="WinForm\frmMainTranScreen.Designer.vb">
       <DependentUpon>frmMainTranScreen.vb</DependentUpon>
     </Compile>
-    <Compile Include="WinForm\frmMainTranScreen.vb" />
+    <Compile Include="WinForm\frmMainTranScreen.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="WinForm\frmMyDateTimePicker2.Designer.vb">
       <DependentUpon>frmMyDateTimePicker2.vb</DependentUpon>
     </Compile>
-    <Compile Include="WinForm\frmMyDateTimePicker2.vb" />
+    <Compile Include="WinForm\frmMyDateTimePicker2.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="WinForm\frmPWD.Designer.vb">
       <DependentUpon>frmPWD.vb</DependentUpon>
     </Compile>
-    <Compile Include="WinForm\frmPWD.vb" />
+    <Compile Include="WinForm\frmPWD.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="WinForm\frmPWDHighSecrity.Designer.vb">
       <DependentUpon>frmPWDHighSecrity.vb</DependentUpon>
     </Compile>
-    <Compile Include="WinForm\frmPWDHighSecrity.vb" />
+    <Compile Include="WinForm\frmPWDHighSecrity.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="WinForm\frmScreenControlDescriptionMapping.Designer.vb">
       <DependentUpon>frmScreenControlDescriptionMapping.vb</DependentUpon>
     </Compile>
-    <Compile Include="WinForm\frmScreenControlDescriptionMapping.vb" />
+    <Compile Include="WinForm\frmScreenControlDescriptionMapping.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="WinForm\frmScreenControlMappingMultiple.Designer.vb">
       <DependentUpon>frmScreenControlMappingMultiple.vb</DependentUpon>
     </Compile>
-    <Compile Include="WinForm\frmScreenControlMappingMultiple.vb" />
+    <Compile Include="WinForm\frmScreenControlMappingMultiple.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="WinForm\frmSetting.Designer.vb">
       <DependentUpon>frmSetting.vb</DependentUpon>
     </Compile>
-    <Compile Include="WinForm\frmSetting.vb" />
+    <Compile Include="WinForm\frmSetting.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="WinForm\frmTakePicFromCamera.Designer.vb">
       <DependentUpon>frmTakePicFromCamera.vb</DependentUpon>
     </Compile>
-    <Compile Include="WinForm\frmTakePicFromCamera.vb" />
+    <Compile Include="WinForm\frmTakePicFromCamera.vb">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="frmCreateTemplate.resx">
@@ -1515,6 +1637,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\new.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\XpertERPEngineFine\XpertERPEngineFine.vbproj">
+      <Project>{ab38a7f1-75cb-41f0-ae56-6ad1cec5193b}</Project>
+      <Name>XpertERPEngineFine</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
