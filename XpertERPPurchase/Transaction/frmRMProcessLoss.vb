@@ -815,9 +815,18 @@ Public Class frmRMProcessLoss
         End Try
     End Sub
     Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
-        Dim qry As String = "   select Document_Code as Code,convert(varchar,Document_Date,103)DocumentDate,Case when status=0 then 'Pending' else 'Approved' end as 'Status',convert(varchar,from_date,103)FromDate,convert(varchar,to_date,103)ToDate from TSPL_RM_PROCESS_LOSS"
-        LoadData(clsCommon.ShowSelectForm("OutgoingQC", qry, "Code", "", txtDocNo.Value, "Code", isButtonClicked), NavigatorType.Current)
+        Try
+            Dim whrClas As String = ""
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                whrClas = " Location in (" + objCommonVar.strCurrUserLocations + ") "
+            End If
+            Dim qry As String = "   select Document_Code as Code,convert(varchar,Document_Date,103)DocumentDate,Case when status=0 then 'Pending' else 'Approved' end as 'Status',convert(varchar,from_date,103)FromDate,convert(varchar,to_date,103)ToDate from TSPL_RM_PROCESS_LOSS "
+            LoadData(clsCommon.ShowSelectForm("OutgoingQC", qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked), NavigatorType.Current)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
+
     Private Sub txtDocNo__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtDocNo._MYNavigator
         Try
             Dim qry As String = "select count(*) from TSPL_RM_PROCESS_LOSS where Document_Code ='" + txtDocNo.Value + "' "

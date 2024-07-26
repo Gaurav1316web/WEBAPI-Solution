@@ -217,7 +217,7 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
             Dim Doc_Type As String = Nothing
 
             Dim obj As clsSRNHead = clsSRNHead.GetData(Doc_No, NavigatorType.Current, trans, Document_Type)
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Store Receipt Note", IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location), obj.SRN_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnSRN, IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location), obj.SRN_Date, trans)
             If obj Is Nothing OrElse clsCommon.myLen(obj.SRN_No) <= 0 Then
                 Throw New Exception("Document- " & Doc_No & " not found")
             End If
@@ -298,7 +298,6 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
         ' Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
 
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Store Receipt Note", IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location), obj.SRN_Date, trans)
             clsSRNAdditionChargeInsurance.DeleteData(obj.SRN_No, trans)
             clsSerializeInvenotry.DeleteData("SRN", obj.SRN_No, trans)
             clsBatchInventory.DeleteData("SRN", obj.SRN_No, trans)
@@ -316,6 +315,8 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
                         obj.SRN_No = clsERPFuncationality.GetNextCode(trans, obj.SRN_Date, clsDocType.SRN, clsDocTransactionType.POJobWorkOutward, obj.Sublocation_Code)
                     Else
                         Dim isPODocumentTypeWise As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PurchaseCounterOnTransactionType, clsFixedParameterCode.PurchaseCounterOnTransactionType, trans)) = 0, False, True) ''Make Setting Balwinder
+                        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnSRN, IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location), obj.SRN_Date, trans)
+
                         If isPODocumentTypeWise Then
                             If clsCommon.CompairString(obj.PurchaseOrder_Type, "J") = CompairStringResult.Equal Then
                                 obj.SRN_No = clsERPFuncationality.GetNextCode(trans, obj.SRN_Date, clsDocType.SRN, clsDocTransactionType.POJobWork, IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location))
@@ -2476,7 +2477,7 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
 
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.SRN_No) > 0) Then
             Try
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Store Receipt Note", IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location), obj.SRN_Date, trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnSRN, IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location), obj.SRN_Date, trans)
                 'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase", "Store receipt Note", obj.Bill_To_Location, obj.SRN_Date, trans)
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
@@ -2651,7 +2652,7 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
         Try
             Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_SRN_HEAD.Bill_To_Location, TSPL_SRN_HEAD.SRN_No, TSPL_SRN_HEAD.SRN_Date from TSPL_SRN_HEAD where SRN_No= '" + strCode + "' ", trans)
             If dts.Rows.Count > 0 Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Store Receipt Note", clsCommon.myCstr(dts.Rows(0)("Bill_To_Location")), clsCommon.myCstr(dts.Rows(0)("SRN_Date")), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnSRN, clsCommon.myCstr(dts.Rows(0)("Bill_To_Location")), clsCommon.myCstr(dts.Rows(0)("SRN_Date")), trans)
             End If
 
             Dim Qry As String = "select Status,Confirmatory_PO from TSPL_SRN_HEAD where SRN_No='" + strCode + "'"

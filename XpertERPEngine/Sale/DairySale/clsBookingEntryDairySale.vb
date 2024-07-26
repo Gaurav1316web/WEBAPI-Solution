@@ -1031,7 +1031,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select location_code,Document_Date from TSPL_BOOKING_MATSER where Document_No='" + strCode + "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmbookingdairy, clsCommon.myCstr(dt.Rows(0)("location_code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmDairyBookingCustomer, clsCommon.myCstr(dt.Rows(0)("location_code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
+                'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmDairyBookingCustomer, clsCommon.myCstr(dt.Rows(0)("location_code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
             End If
 
             dt = clsDBFuncationality.GetDataTable("select TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No 

@@ -159,11 +159,13 @@ Public Class FrmItemTypeMaster
     End Sub
 
     Private Sub LoadData(ByVal Code As String, ByVal NavType As NavigatorType)
-        isNewEntry = False
+
         Try
             LoadBlankGridSchedule()
             Dim obj As clsItemType = clsItemType.GetNavQry(Code, NavType)
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.ITEM_TYPE_CODE) > 0 Then
+                isInsideLoadData = True
+                isNewEntry = False
                 fndItemType.Value = obj.ITEM_TYPE_CODE
                 txtItemTypeName.Text = obj.ITEM_TYPE_NAME
                 txtUOM.Value = obj.UOM
@@ -196,7 +198,9 @@ Public Class FrmItemTypeMaster
                 btnsave.Text = "Update"
             End If
         Catch ex As Exception
-
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
+        Finally
+            isInsideLoadData = False
         End Try
 
     End Sub

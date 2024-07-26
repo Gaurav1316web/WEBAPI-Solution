@@ -2860,6 +2860,14 @@ Public Class frmVSP_VLCMaster
         ChkHeadLoad.Checked = False
         CmbHeadLoadServiceBasis.Text = ""
         txtRateHeadLoad.Text = ""
+        gv1.DataSource = Nothing
+        gv1.Rows.Clear()
+        gv1.Columns.Clear()
+        gv1.GroupDescriptors.Clear()
+        gv1.MasterView.Refresh()
+        gv1.GroupDescriptors.Clear()
+        gv1.EnableFiltering = True
+        gv1.MasterTemplate.SummaryRowsBottom.Clear()
         funSetDefaultData()
         'VLC
         VLC_reset()
@@ -4237,6 +4245,7 @@ Public Class frmVSP_VLCMaster
                 fndvendorNo_text_changed()
             End If
         End If
+        LoadHeadLoadDetails()
     End Sub
 
     Private Sub fndgroupcode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndgroupcode._MYValidating
@@ -4298,6 +4307,7 @@ Public Class frmVSP_VLCMaster
 
         End If
         fndvendorNo_text_changed()
+        LoadHeadLoadDetails()
     End Sub
 
     Private Sub fndvendortype__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndvendortype._MYValidating
@@ -6471,6 +6481,51 @@ Public Class frmVSP_VLCMaster
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub LoadHeadLoadDetails()
+        Dim qry As String = ""
+        qry = "select TSPL_HEAD_LOAD.Document_No,convert(varchar,TSPL_HEAD_LOAD.Document_date,103) as Date,convert(varchar,TSPL_HEAD_LOAD.Start_Date,103) as Start_Date,isnull(TSPL_HEAD_LOAD_DCS.Head_Load_Rate,0) as Head_Load_Rate ,case when Head_Load_Basis = 'K' then 'Rate/Kg' when Head_Load_Basis = 'L' then 'Rate/Ltr' when Head_Load_Basis = 'CK'
+        then 'Cycle Wise Rate/Kg' WHEN Head_Load_Basis = 'CL' then 'Cycle Wise Rate/Ltr' else '' end as Head_Load_Basis ,isnull(TSPL_HEAD_LOAD_DCS.Cycle_Frequency,0)Cycle_Frequency,case when isnull(TSPL_HEAD_LOAD.Status,0) = 1 then 'Posted' else 'UnPosted' end as Status from TSPL_HEAD_LOAD_DCS
+        left outer join TSPL_HEAD_LOAD on TSPL_HEAD_LOAD.Document_No = TSPL_HEAD_LOAD_DCS.Document_No left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_HEAD_LOAD_DCS.VLC_CODE where 2 = 2 "
+        If clsCommon.myLen(fndvendorNo.Value) > 0 Then
+            qry += " and TSPL_VLC_MASTER_HEAD.VSP_Code = '" + fndvendorNo.Value + "' "
+        End If
+        qry += " order by Document_date"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        gv1.DataSource = Nothing
+        gv1.Rows.Clear()
+        gv1.Columns.Clear()
+        gv1.GroupDescriptors.Clear()
+        gv1.MasterView.Refresh()
+        gv1.GroupDescriptors.Clear()
+        gv1.EnableFiltering = True
+        gv1.MasterTemplate.SummaryRowsBottom.Clear()
+        If dt.Rows.Count > 0 Then
+            gv1.DataSource = dt
+            gv1.BestFitColumns()
+            SetGridFormation()
+            gv1.MasterTemplate.AutoExpandGroups = True
+            Exit Sub
+        End If
+    End Sub
+
+    Sub SetGridFormation()
+        gv1.TableElement.TableHeaderHeight = 40
+        gv1.MasterTemplate.ShowRowHeaderColumn = True
+        For ii As Integer = 0 To gv1.Columns.Count - 1
+            gv1.Columns(ii).ReadOnly = True
+            gv1.Columns(ii).IsVisible = True
+            gv1.Columns(ii).FormatString = "{0:n2}"
+        Next
+        gv1.ShowGroupPanel = False
+        gv1.Columns("Document_No").HeaderText = "Document No"
+        gv1.Columns("Start_Date").HeaderText = "Start Date"
+        gv1.Columns("Head_Load_Basis").HeaderText = "Head Load Basis"
+        gv1.Columns("Head_Load_Rate").HeaderText = "Head Load Rate"
+        gv1.Columns("Cycle_Frequency").FormatString = ""
+        gv1.Columns("Cycle_Frequency").HeaderText = "Cycle Frequency"
+    End Sub
+
     Private Sub txtCurrentCompanyBank__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCurrentCompanyBank._MYValidating
         Try
             txtCurrentCompanyBank.Value = clsBankMaster.getFinder("", txtCurrentCompanyBank.Value, isButtonClicked)
