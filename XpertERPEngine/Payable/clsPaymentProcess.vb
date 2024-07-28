@@ -2381,11 +2381,10 @@ where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ") )x group by VSP_
         Dim whrcls As String = " where 2=2 "
         Dim whrcls1 As String = " where 2=2 "
         Dim whrclsItemWise As String = " where 2=2 "
-        'whrcls += "  and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)>=convert(date,('" + fromDate + "'),103) and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) <=convert(date,('" + Todate + "'),103) and TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty > 0 "
-        'If clsCommon.myLen(strVSPCode) > 0 Then
-        '    whrcls += "  and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE  in ( " + strVSPCode + ")"
-        'End If
-        whrcls += " and TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in (" + strDocNo + ")"
+        whrcls += "  and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)>=convert(date,('" + fromDate + "'),103) and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) <=convert(date,('" + Todate + "'),103) and TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty > 0 "
+        If clsCommon.myLen(strVSPCode) > 0 Then
+            whrcls += "  and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE  in ( " + strVSPCode + ")"
+        End If
         If clsCommon.myLen(strRoutecode) > 0 Then
             whrcls += "  and TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE  in ( " + strRoutecode + ")"
         End If
@@ -2507,7 +2506,7 @@ TSPL_VLC_MASTER_HEAD.VLC_Name ,TSPL_VLC_MASTER_HEAD.VLC_Name_Hindi,coalesce(TSPL
         End If
 
 
-        BaseQry += "  from TSPL_PAYMENT_PROCESS_DETAIL inner join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE=TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No  " + Environment.NewLine + " Inner Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE =TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE  " + Environment.NewLine + " left outer join TSPL_MILK_SRN_HEAD  on TSPL_MILK_SRN_HEAD .DOC_CODE  =TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE " + Environment.NewLine
+        BaseQry += "  from TSPL_MILK_PURCHASE_INVOICE_DETAIL  " + Environment.NewLine + " Inner Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE =TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE  " + Environment.NewLine + " left outer join TSPL_MILK_SRN_HEAD  on TSPL_MILK_SRN_HEAD .DOC_CODE  =TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE " + Environment.NewLine
         BaseQry += " left outer join TSPL_MILK_SRN_DETAIL   on TSPL_MILK_SRN_DETAIL .DOC_CODE  =TSPL_MILK_SRN_HEAD.DOC_CODE " + Environment.NewLine
         BaseQry += "  " + Environment.NewLine + " Left Outer Join TSPL_VENDOR_MASTER On"
         BaseQry += " TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE =TSPL_VENDOR_MASTER.Vendor_Code And TSPL_VENDOR_MASTER.Form_Type = 'VSP'  " + Environment.NewLine
