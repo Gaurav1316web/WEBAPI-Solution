@@ -225,7 +225,7 @@ Public Class clsSalaryGeneration
     End Function
     Public Function SaveData(ByVal obj As clsSalaryGeneration, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = True
-        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Payroll", "Salary Generation", obj.LOCATION_CODE, obj.GENERATE_DATE, trans)
+        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleHR, clsUserMgtCode.frmSalaryGeneration, obj.LOCATION_CODE, obj.GENERATE_DATE, trans)
         If clsCommon.myLen(obj.Code) <= 0 Then
             obj.Code = clsERPFuncationality.GetNextCode(trans, Todate, clsDocType.SalaryGeneration, "", "")
         Else

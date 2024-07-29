@@ -49,7 +49,7 @@ Public Class clsMilkUnloading_JOW
             End If
 
             ' trans = clsDBFuncationality.GetTransactin()
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "JobWork Outward", "JobWork Milk Unloading", obj.location_Code, obj.Unloading_Date_Time, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.MilkJobWork, clsUserMgtCode.FrmMilkUnloading, obj.location_Code, obj.Unloading_Date_Time, trans)
             If (obj.isPosted = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
             End If
@@ -139,7 +139,7 @@ Public Class clsMilkUnloading_JOW
     Public Shared Function saveData(ByVal obj As clsMilkUnloading_JOW, ByVal trans As SqlTransaction, Optional ByVal isHistory As Boolean = False) As Boolean
         Dim issaved As Boolean = True
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "JobWork Outward", "JobWork Milk Unloading", obj.location_Code, obj.Unloading_Date_Time, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.MilkJobWork, clsUserMgtCode.FrmMilkUnloading, obj.location_Code, obj.Unloading_Date_Time, trans)
 
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Unloading_No", clsCommon.myCstr(obj.Unloading_No))

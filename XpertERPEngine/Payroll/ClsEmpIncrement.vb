@@ -52,7 +52,7 @@ Public Class ClsEmpIncrement
 
     Public Function SaveData(ByVal obj As ClsEmpIncrement, ByVal objList As List(Of clsEmpIncrementDetail), ByVal isNewEntry As Boolean, Optional ByVal strCode As String = "") As Boolean
         Dim isSaved As Boolean = True
-        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Payroll", "Employee Increment", obj.location_Code, obj.INCREMENT_DATE, Nothing)
+        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleHR, clsUserMgtCode.frmEmployeeIncrement, obj.location_Code, obj.INCREMENT_DATE, Nothing)
         If isNewEntry Then
             If strCode = "" Then
                 obj.INCREMENT_CODE = clsERPFuncationality.GetNextCode(Nothing, clsCommon.GetPrintDate(obj.INCREMENT_DATE, "dd/MMM/yyyy"), clsDocType.EmpIncrement, "", "")
