@@ -1322,6 +1322,7 @@
     <None Include="Crystal Reports\Kwality Sales Report\rptERPStatusTrackingReportUnionrpt.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptFormA2MT.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptFreshSaleInvoice.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\rptGPRouteWiseSummary.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptInvoiceBulkSale.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptLCIssuingApplicationMT.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptMerchantDeclarationMT.rpt" />

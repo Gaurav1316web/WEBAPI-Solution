@@ -123,7 +123,7 @@ Public Class clsWeeklyHolidays
         trans = clsDBFuncationality.GetTransactin()
         Try
             Dim coll As New Hashtable()
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Payroll", "Weekly Holidays", obj.Location_Code, obj.APPLICABLE_FROM, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleHR, clsUserMgtCode.frmWeeklyHolidays, obj.Location_Code, obj.APPLICABLE_FROM, trans)
             If strCode = "" Then
                 obj.WKHOLIDAY_CODE = clsERPFuncationality.GetNextCode(trans, clsCommon.GetPrintDate(obj.APPLICABLE_FROM, "dd/MMM/yyyy"), clsDocType.WeeklyHoliday, "", obj.Location_Code)
             Else

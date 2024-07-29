@@ -134,7 +134,7 @@ Public Class clsLoanGeneration
 
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Payroll", "Loan Generation", obj.LOCATION_CODE, obj.GENERATION_DATE, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleHR, clsUserMgtCode.frmLoanGeneration, obj.LOCATION_CODE, obj.GENERATION_DATE, trans)
             If isNewEntry Then
                 If strCode = "" Then
                     obj.LOAN_GENERATION_CODE = clsERPFuncationality.GetNextCode(trans, clsCommon.GetPrintDate(obj.GENERATION_DATE, "dd/MMM/yyyy"), clsDocType.LoanGeneration, "", "")

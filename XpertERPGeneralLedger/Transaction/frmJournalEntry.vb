@@ -1252,6 +1252,7 @@ Public Class frmJournalEntry
     Public Sub funDelete()
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
+
             connectSql.RunSpTransaction(trans, "sp_TSPL_JOURNAL_DETAILS_DELETE", New SqlParameter("@Voucher_No", fndVoucher.Value))
             connectSql.RunSpTransaction(trans, "sp_TSPL_JOURNAL_MASTER_DELETE", New SqlParameter("@Voucher_No", fndVoucher.Value))
             trans.Commit()
