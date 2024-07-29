@@ -22,18 +22,13 @@ Partial Class FrmLockTransaction1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.dgvDetails = New common.UserControls.MyRadGridView()
-        Me.cmbCompany = New common.Controls.MyComboBox()
-        Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.txtlocation = New common.UserControls.txtFinder()
-        Me.RadLabel4 = New Telerik.WinControls.UI.RadLabel()
         Me.btnLock = New Telerik.WinControls.UI.RadButton()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
         Me.btnLockUser = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.chkAllLoc = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkLocationCode = New Telerik.WinControls.UI.RadRadioButton()
         Me.chkLocationSegment = New Telerik.WinControls.UI.RadRadioButton()
         Me.dtpToDate1 = New common.Controls.MyDateTimePicker()
@@ -44,19 +39,16 @@ Partial Class FrmLockTransaction1
         Me.txtLocationMult = New common.UserControls.txtMultiSelectFinder()
         Me.chkread = New common.Controls.MyCheckBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.RadLabel1 = New Telerik.WinControls.UI.RadLabel()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.dgvDetails, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dgvDetails.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cmbCompany, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnLock, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPanel1.SuspendLayout()
         CType(Me.btnLockUser, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkAllLoc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkLocationCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkLocationSegment, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpToDate1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -68,6 +60,7 @@ Partial Class FrmLockTransaction1
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -87,88 +80,19 @@ Partial Class FrmLockTransaction1
         '
         'dgvDetails
         '
-        Me.dgvDetails.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.dgvDetails.Location = New System.Drawing.Point(7, 17)
+        Me.dgvDetails.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.dgvDetails.Location = New System.Drawing.Point(10, 20)
         '
         '
         '
         Me.dgvDetails.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvDetails.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgvDetails.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.dgvDetails.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.dgvDetails.MyStopExport = False
         Me.dgvDetails.Name = "dgvDetails"
         Me.dgvDetails.ShowHeaderCellButtons = True
-        Me.dgvDetails.Size = New System.Drawing.Size(927, 280)
+        Me.dgvDetails.Size = New System.Drawing.Size(931, 280)
         Me.dgvDetails.TabIndex = 0
-        '
-        'cmbCompany
-        '
-        Me.cmbCompany.CalculationExpression = Nothing
-        Me.cmbCompany.DropDownAnimationEnabled = True
-        Me.cmbCompany.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.cmbCompany.FieldCode = Nothing
-        Me.cmbCompany.FieldDesc = Nothing
-        Me.cmbCompany.FieldMaxLength = 0
-        Me.cmbCompany.FieldName = Nothing
-        Me.cmbCompany.isCalculatedField = False
-        Me.cmbCompany.IsSourceFromTable = False
-        Me.cmbCompany.IsSourceFromValueList = False
-        Me.cmbCompany.IsUnique = False
-        Me.cmbCompany.Location = New System.Drawing.Point(62, 9)
-        Me.cmbCompany.MendatroryField = True
-        Me.cmbCompany.MyLinkLable1 = Nothing
-        Me.cmbCompany.MyLinkLable2 = Nothing
-        Me.cmbCompany.Name = "cmbCompany"
-        Me.cmbCompany.ReferenceFieldDesc = Nothing
-        Me.cmbCompany.ReferenceFieldName = Nothing
-        Me.cmbCompany.ReferenceTableName = Nothing
-        Me.cmbCompany.Size = New System.Drawing.Size(264, 20)
-        Me.cmbCompany.TabIndex = 0
-        '
-        'MyLabel1
-        '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(3, 11)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(55, 16)
-        Me.MyLabel1.TabIndex = 7
-        Me.MyLabel1.Text = "Company"
-        '
-        'txtlocation
-        '
-        Me.txtlocation.CalculationExpression = Nothing
-        Me.txtlocation.FieldCode = Nothing
-        Me.txtlocation.FieldDesc = Nothing
-        Me.txtlocation.FieldMaxLength = 0
-        Me.txtlocation.FieldName = Nothing
-        Me.txtlocation.isCalculatedField = False
-        Me.txtlocation.IsSourceFromTable = False
-        Me.txtlocation.IsSourceFromValueList = False
-        Me.txtlocation.IsUnique = False
-        Me.txtlocation.Location = New System.Drawing.Point(719, 10)
-        Me.txtlocation.MendatroryField = True
-        Me.txtlocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtlocation.MyLinkLable1 = Nothing
-        Me.txtlocation.MyLinkLable2 = Nothing
-        Me.txtlocation.MyReadOnly = False
-        Me.txtlocation.MyShowMasterFormButton = False
-        Me.txtlocation.Name = "txtlocation"
-        Me.txtlocation.ReferenceFieldDesc = Nothing
-        Me.txtlocation.ReferenceFieldName = Nothing
-        Me.txtlocation.ReferenceTableName = Nothing
-        Me.txtlocation.Size = New System.Drawing.Size(167, 19)
-        Me.txtlocation.TabIndex = 3
-        Me.txtlocation.Value = ""
-        Me.txtlocation.Visible = False
-        '
-        'RadLabel4
-        '
-        Me.RadLabel4.Location = New System.Drawing.Point(3, 34)
-        Me.RadLabel4.Name = "RadLabel4"
-        Me.RadLabel4.Size = New System.Drawing.Size(49, 18)
-        Me.RadLabel4.TabIndex = 6
-        Me.RadLabel4.Text = "Location"
         '
         'btnLock
         '
@@ -212,26 +136,17 @@ Partial Class FrmLockTransaction1
         Me.btnClose.TabIndex = 58
         Me.btnClose.Text = "Close"
         '
-        'chkAllLoc
-        '
-        Me.chkAllLoc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkAllLoc.Location = New System.Drawing.Point(332, 35)
-        Me.chkAllLoc.Name = "chkAllLoc"
-        Me.chkAllLoc.Size = New System.Drawing.Size(79, 16)
-        Me.chkAllLoc.TabIndex = 4
-        Me.chkAllLoc.Text = "All Location"
-        '
         'chkLocationCode
         '
-        Me.chkLocationCode.Location = New System.Drawing.Point(332, 10)
+        Me.chkLocationCode.Location = New System.Drawing.Point(112, 8)
         Me.chkLocationCode.Name = "chkLocationCode"
-        Me.chkLocationCode.Size = New System.Drawing.Size(92, 18)
+        Me.chkLocationCode.Size = New System.Drawing.Size(63, 18)
         Me.chkLocationCode.TabIndex = 1
-        Me.chkLocationCode.Text = "Location Code"
+        Me.chkLocationCode.Text = "Location"
         '
         'chkLocationSegment
         '
-        Me.chkLocationSegment.Location = New System.Drawing.Point(436, 10)
+        Me.chkLocationSegment.Location = New System.Drawing.Point(181, 8)
         Me.chkLocationSegment.Name = "chkLocationSegment"
         Me.chkLocationSegment.Size = New System.Drawing.Size(110, 18)
         Me.chkLocationSegment.TabIndex = 2
@@ -251,7 +166,7 @@ Partial Class FrmLockTransaction1
         Me.dtpToDate1.IsSourceFromTable = False
         Me.dtpToDate1.IsSourceFromValueList = False
         Me.dtpToDate1.IsUnique = False
-        Me.dtpToDate1.Location = New System.Drawing.Point(770, 33)
+        Me.dtpToDate1.Location = New System.Drawing.Point(340, 33)
         Me.dtpToDate1.MendatroryField = False
         Me.dtpToDate1.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpToDate1.MyLinkLable1 = Nothing
@@ -281,7 +196,7 @@ Partial Class FrmLockTransaction1
         Me.dtpFromdate1.IsSourceFromTable = False
         Me.dtpFromdate1.IsSourceFromValueList = False
         Me.dtpFromdate1.IsUnique = False
-        Me.dtpFromdate1.Location = New System.Drawing.Point(631, 33)
+        Me.dtpFromdate1.Location = New System.Drawing.Point(201, 33)
         Me.dtpFromdate1.MendatroryField = False
         Me.dtpFromdate1.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpFromdate1.MyLinkLable1 = Nothing
@@ -301,7 +216,7 @@ Partial Class FrmLockTransaction1
         'RadLabel5
         '
         Me.RadLabel5.FieldName = Nothing
-        Me.RadLabel5.Location = New System.Drawing.Point(719, 34)
+        Me.RadLabel5.Location = New System.Drawing.Point(289, 34)
         Me.RadLabel5.Name = "RadLabel5"
         Me.RadLabel5.Size = New System.Drawing.Size(45, 18)
         Me.RadLabel5.TabIndex = 62
@@ -310,7 +225,7 @@ Partial Class FrmLockTransaction1
         'RadLabel6
         '
         Me.RadLabel6.FieldName = Nothing
-        Me.RadLabel6.Location = New System.Drawing.Point(566, 34)
+        Me.RadLabel6.Location = New System.Drawing.Point(136, 34)
         Me.RadLabel6.Name = "RadLabel6"
         Me.RadLabel6.Size = New System.Drawing.Size(59, 18)
         Me.RadLabel6.TabIndex = 61
@@ -319,7 +234,7 @@ Partial Class FrmLockTransaction1
         '
         'btnGo
         '
-        Me.btnGo.Location = New System.Drawing.Point(858, 33)
+        Me.btnGo.Location = New System.Drawing.Point(428, 33)
         Me.btnGo.Name = "btnGo"
         Me.btnGo.Size = New System.Drawing.Size(59, 20)
         Me.btnGo.TabIndex = 63
@@ -329,7 +244,7 @@ Partial Class FrmLockTransaction1
         '
         Me.txtLocationMult.arrDispalyMember = Nothing
         Me.txtLocationMult.arrValueMember = Nothing
-        Me.txtLocationMult.Location = New System.Drawing.Point(62, 34)
+        Me.txtLocationMult.Location = New System.Drawing.Point(297, 8)
         Me.txtLocationMult.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtLocationMult.MyLinkLable1 = Nothing
         Me.txtLocationMult.MyLinkLable2 = Nothing
@@ -340,7 +255,7 @@ Partial Class FrmLockTransaction1
         '
         'chkread
         '
-        Me.chkread.Location = New System.Drawing.Point(436, 34)
+        Me.chkread.Location = New System.Drawing.Point(10, 34)
         Me.chkread.MyLinkLable1 = Nothing
         Me.chkread.MyLinkLable2 = Nothing
         Me.chkread.Name = "chkread"
@@ -360,15 +275,11 @@ Partial Class FrmLockTransaction1
         '
         'SplitContainer1.Panel1
         '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel1)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadLabel1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkread)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.cmbCompany)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtLocationMult)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.RadLabel4)
         Me.SplitContainer1.Panel1.Controls.Add(Me.btnGo)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.txtlocation)
         Me.SplitContainer1.Panel1.Controls.Add(Me.dtpToDate1)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.chkAllLoc)
         Me.SplitContainer1.Panel1.Controls.Add(Me.dtpFromdate1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkLocationCode)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadLabel5)
@@ -381,6 +292,14 @@ Partial Class FrmLockTransaction1
         Me.SplitContainer1.Size = New System.Drawing.Size(951, 376)
         Me.SplitContainer1.SplitterDistance = 62
         Me.SplitContainer1.TabIndex = 66
+        '
+        'RadLabel1
+        '
+        Me.RadLabel1.Location = New System.Drawing.Point(6, 8)
+        Me.RadLabel1.Name = "RadLabel1"
+        Me.RadLabel1.Size = New System.Drawing.Size(100, 18)
+        Me.RadLabel1.TabIndex = 66
+        Me.RadLabel1.Text = "Transaction having"
         '
         'FrmLockTransaction1
         '
@@ -399,15 +318,11 @@ Partial Class FrmLockTransaction1
         Me.RadGroupBox2.ResumeLayout(False)
         CType(Me.dgvDetails.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dgvDetails, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cmbCompany, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnLock, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
         CType(Me.btnLockUser, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkAllLoc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkLocationCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkLocationSegment, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpToDate1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -420,19 +335,15 @@ Partial Class FrmLockTransaction1
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
     Friend WithEvents RadGroupBox2 As Telerik.WinControls.UI.RadGroupBox
-    Friend WithEvents cmbCompany As common.Controls.MyComboBox
-    Friend WithEvents MyLabel1 As common.Controls.MyLabel
-    Friend WithEvents txtlocation As common.UserControls.txtFinder
-    Friend WithEvents RadLabel4 As Telerik.WinControls.UI.RadLabel
     Friend WithEvents btnLock As Telerik.WinControls.UI.RadButton
     Friend WithEvents RadPanel1 As Telerik.WinControls.UI.RadPanel
     Friend WithEvents btnClose As Telerik.WinControls.UI.RadButton
-    Friend WithEvents chkAllLoc As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents MasterTemplate As common.UserControls.MyRadGridView
     Friend WithEvents dgvDetails As common.UserControls.MyRadGridView
     Friend WithEvents chkLocationCode As Telerik.WinControls.UI.RadRadioButton
@@ -446,5 +357,6 @@ Partial Class FrmLockTransaction1
     Friend WithEvents chkread As common.Controls.MyCheckBox
     Friend WithEvents btnLockUser As Telerik.WinControls.UI.RadButton
     Friend WithEvents SplitContainer1 As SplitContainer
+    Friend WithEvents RadLabel1 As RadLabel
 End Class
 

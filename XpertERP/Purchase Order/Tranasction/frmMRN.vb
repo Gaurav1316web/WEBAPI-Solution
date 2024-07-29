@@ -3690,7 +3690,7 @@ Public Class frmMRN
                     LoadData(obj.MRN_No, NavigatorType.Current)
                 End If
             End If
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Material Recive Note", IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location), obj.MRN_Date, Nothing)
+
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
@@ -4366,7 +4366,12 @@ Public Class frmMRN
         End Try
     End Sub
     Private Sub btnPost_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPost.Click
-        PostData()
+        Try
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Material Received Note", IIf(clsCommon.myLen(txtShipToLocation.Value) <= 0, txtBillToLocation.Value, txtShipToLocation.Value), txtDate.Value, Nothing)
+            PostData()
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Sub PostData()
         Try

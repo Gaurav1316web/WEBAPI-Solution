@@ -336,7 +336,7 @@ Public Class frmReverseTransaction
             Else
                 If clsCommon.myLen(fndbankcode.Value) > 0 Then
                     Dim LocSegmentCode As String = clsDBFuncationality.getSingleValue("Select RIGHT(BANKACC, 3) from TSPL_BANK_MASTER  Where BANK_CODE='" + fndbankcode.Value + "'")
-                    clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Common Services", "Reverse Transaction", LocSegmentCode, dtp_reversaldate.Value, Nothing)
+                    clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleCommonServices, clsUserMgtCode.reverseTransaction, LocSegmentCode, dtp_reversaldate.Value, Nothing)
                 End If
 
                 ''richa agarwal 3 Aug,2016 to check balance amount of bank

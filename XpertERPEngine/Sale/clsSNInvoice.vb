@@ -184,7 +184,7 @@ Public Class clsSNInvoiceHead
 
         Try
             '' Anubhooti 06-Sep-2014 BM00000003735 (Locked Transaction)
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Sales And Distribution", "Shipment/Sale Invoice", obj.Bill_To_Location, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSalesNew, clsUserMgtCode.frmSNSaleInvoice, obj.Bill_To_Location, obj.Document_Date, trans)
             ''
             Dim qry As String = "delete from TSPL_SD_SALE_INVOICE_DETAIL where Document_Code='" + obj.Document_Code + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)

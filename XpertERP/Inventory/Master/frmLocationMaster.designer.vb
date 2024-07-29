@@ -288,9 +288,10 @@ Partial Class frmLocationMaster
         Me.TxtJObworkVendor = New Telerik.WinControls.UI.RadTextBox()
         Me.PageBankDetails = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadGroupBox7 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtTarget = New common.MyNumBox()
         Me.MyLabel37 = New common.Controls.MyLabel()
-        Me.MyLabel34 = New common.Controls.MyLabel()
         Me.txtRmk = New common.Controls.MyTextBox()
+        Me.MyLabel34 = New common.Controls.MyLabel()
         Me.txtMngrDes = New common.Controls.MyTextBox()
         Me.MyLabel35 = New common.Controls.MyLabel()
         Me.MyLabel36 = New common.Controls.MyLabel()
@@ -327,7 +328,6 @@ Partial Class frmLocationMaster
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer11 = New System.Windows.Forms.SplitContainer()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
-        Me.txtTarget = New common.MyNumBox()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -581,9 +581,10 @@ Partial Class frmLocationMaster
         Me.PageBankDetails.SuspendLayout()
         CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox7.SuspendLayout()
+        CType(Me.txtTarget, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel37, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRmk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtMngrDes, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel35, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel36, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -625,7 +626,6 @@ Partial Class frmLocationMaster
         Me.SplitContainer11.Panel2.SuspendLayout()
         Me.SplitContainer11.SuspendLayout()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtTarget, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -812,7 +812,7 @@ Partial Class frmLocationMaster
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(10, 5)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.PageBankDetails
+        Me.RadPageView1.SelectedPage = Me.Details
         Me.RadPageView1.Size = New System.Drawing.Size(884, 590)
         Me.RadPageView1.TabIndex = 4
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -4474,6 +4474,33 @@ Partial Class frmLocationMaster
         Me.RadGroupBox7.TabIndex = 6
         Me.RadGroupBox7.Text = "Location Manager Detail"
         '
+        'txtTarget
+        '
+        Me.txtTarget.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtTarget.CalculationExpression = Nothing
+        Me.txtTarget.DecimalPlaces = 0
+        Me.txtTarget.FieldCode = Nothing
+        Me.txtTarget.FieldDesc = Nothing
+        Me.txtTarget.FieldMaxLength = 0
+        Me.txtTarget.FieldName = Nothing
+        Me.txtTarget.isCalculatedField = False
+        Me.txtTarget.IsSourceFromTable = False
+        Me.txtTarget.IsSourceFromValueList = False
+        Me.txtTarget.IsUnique = False
+        Me.txtTarget.Location = New System.Drawing.Point(157, 86)
+        Me.txtTarget.MendatroryField = False
+        Me.txtTarget.MyLinkLable1 = Nothing
+        Me.txtTarget.MyLinkLable2 = Nothing
+        Me.txtTarget.Name = "txtTarget"
+        Me.txtTarget.ReferenceFieldDesc = Nothing
+        Me.txtTarget.ReferenceFieldName = Nothing
+        Me.txtTarget.ReferenceTableName = Nothing
+        Me.txtTarget.Size = New System.Drawing.Size(170, 20)
+        Me.txtTarget.TabIndex = 1428
+        Me.txtTarget.Text = "0"
+        Me.txtTarget.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtTarget.Value = 0R
+        '
         'MyLabel37
         '
         Me.MyLabel37.FieldName = Nothing
@@ -4483,16 +4510,6 @@ Partial Class frmLocationMaster
         Me.MyLabel37.Size = New System.Drawing.Size(39, 16)
         Me.MyLabel37.TabIndex = 18
         Me.MyLabel37.Text = "Target"
-        '
-        'MyLabel34
-        '
-        Me.MyLabel34.FieldName = Nothing
-        Me.MyLabel34.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel34.Location = New System.Drawing.Point(24, 64)
-        Me.MyLabel34.Name = "MyLabel34"
-        Me.MyLabel34.Size = New System.Drawing.Size(51, 16)
-        Me.MyLabel34.TabIndex = 13
-        Me.MyLabel34.Text = "Remarks"
         '
         'txtRmk
         '
@@ -4517,6 +4534,16 @@ Partial Class frmLocationMaster
         Me.txtRmk.ReferenceTableName = Nothing
         Me.txtRmk.Size = New System.Drawing.Size(365, 18)
         Me.txtRmk.TabIndex = 16
+        '
+        'MyLabel34
+        '
+        Me.MyLabel34.FieldName = Nothing
+        Me.MyLabel34.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel34.Location = New System.Drawing.Point(24, 64)
+        Me.MyLabel34.Name = "MyLabel34"
+        Me.MyLabel34.Size = New System.Drawing.Size(51, 16)
+        Me.MyLabel34.TabIndex = 13
+        Me.MyLabel34.Text = "Remarks"
         '
         'txtMngrDes
         '
@@ -5148,33 +5175,6 @@ Partial Class frmLocationMaster
         Me.btnHistory.TabIndex = 3
         Me.btnHistory.Text = "History"
         '
-        'txtTarget
-        '
-        Me.txtTarget.BackColor = System.Drawing.Color.LightGoldenrodYellow
-        Me.txtTarget.CalculationExpression = Nothing
-        Me.txtTarget.DecimalPlaces = 0
-        Me.txtTarget.FieldCode = Nothing
-        Me.txtTarget.FieldDesc = Nothing
-        Me.txtTarget.FieldMaxLength = 0
-        Me.txtTarget.FieldName = Nothing
-        Me.txtTarget.isCalculatedField = False
-        Me.txtTarget.IsSourceFromTable = False
-        Me.txtTarget.IsSourceFromValueList = False
-        Me.txtTarget.IsUnique = False
-        Me.txtTarget.Location = New System.Drawing.Point(157, 86)
-        Me.txtTarget.MendatroryField = False
-        Me.txtTarget.MyLinkLable1 = Nothing
-        Me.txtTarget.MyLinkLable2 = Nothing
-        Me.txtTarget.Name = "txtTarget"
-        Me.txtTarget.ReferenceFieldDesc = Nothing
-        Me.txtTarget.ReferenceFieldName = Nothing
-        Me.txtTarget.ReferenceTableName = Nothing
-        Me.txtTarget.Size = New System.Drawing.Size(170, 20)
-        Me.txtTarget.TabIndex = 1428
-        Me.txtTarget.Text = "0"
-        Me.txtTarget.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTarget.Value = 0R
-        '
         'frmLocationMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -5457,9 +5457,10 @@ Partial Class frmLocationMaster
         CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox7.ResumeLayout(False)
         Me.RadGroupBox7.PerformLayout()
+        CType(Me.txtTarget, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel37, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRmk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtMngrDes, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel35, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel36, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5504,7 +5505,6 @@ Partial Class frmLocationMaster
         Me.SplitContainer11.Panel2.ResumeLayout(False)
         Me.SplitContainer11.ResumeLayout(False)
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtTarget, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

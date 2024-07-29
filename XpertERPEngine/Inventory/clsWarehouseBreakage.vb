@@ -30,7 +30,7 @@ Public Class clsWarehouseBreakage
         Dim cntr As Integer = 0
         Dim isSaved As Boolean = True
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Production Entry", obj.Loc_Code, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.frmAdjProductionEntry, obj.Loc_Code, obj.Document_Date, trans)
 
             Dim qry As String = "delete from TSPL_WH_BREAKAGE_DETAIL where Document_No='" + obj.Document_No + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -87,7 +87,7 @@ Public Class clsWarehouseBreakage
             If obj Is Nothing Then
                 Throw New Exception("No Data Found to Post")
             End If
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Production Entry", obj.Loc_Code, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmAdjProductionEntry, obj.Loc_Code, obj.Document_Date, trans)
             If obj.Is_Post = 1 Then
                 Throw New Exception("Already Posted Transaction :" + strDocNo)
             End If
@@ -244,7 +244,7 @@ Public Class clsWarehouseBreakage
         obj = obj.GetData(strDocNo, NavigatorType.Current, trans)
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
             Try
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Production Entry", obj.Loc_Code, obj.Document_Date, trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmAdjProductionEntry, obj.Loc_Code, obj.Document_Date, trans)
                 If (obj.Is_Post = 1) Then
                     Throw New Exception("Already Posted on :" + clsCommon.GetPrintDate(obj.Posting_Date, "dd/MM/yyyy hh:mm tt"))
                 End If

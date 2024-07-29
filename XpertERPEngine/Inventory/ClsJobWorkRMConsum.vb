@@ -84,11 +84,11 @@ Public Class ClsJobWorkRMConsum
         Dim isSaved As Boolean = True
         Try
             If clsCommon.CompairString(obj.ItemType, "E") = CompairStringResult.Equal Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Empty Transactions", obj.Loc_Code, obj.Adjustment_Date, trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.mbtnEmptyTrans, obj.Loc_Code, obj.Adjustment_Date, trans)
             ElseIf clsCommon.CompairString(obj.ItemType, "FT") = CompairStringResult.Equal Or clsCommon.CompairString(obj.ItemType, "FM") = CompairStringResult.Equal Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Production Entry", obj.Loc_Code, obj.Adjustment_Date, trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.frmAdjProductionEntry, obj.Loc_Code, obj.Adjustment_Date, trans)
             Else
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Job Work Inventory", obj.Loc_Code, obj.Adjustment_Date, trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, "Job Work Inventory", obj.Loc_Code, obj.Adjustment_Date, trans)
             End If
 
             clsSerializeInvenotry.DeleteData("JW-IN", obj.Adjustment_No, trans)
@@ -288,9 +288,9 @@ Public Class ClsJobWorkRMConsum
         End If
 
         If clsCommon.CompairString(obj.ItemType, "E") = CompairStringResult.Equal Then
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Empty Transactions", obj.Loc_Code, obj.Adjustment_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.mbtnEmptyTrans, obj.Loc_Code, obj.Adjustment_Date, trans)
         ElseIf clsCommon.CompairString(obj.ItemType, "FT") = CompairStringResult.Equal Or clsCommon.CompairString(obj.ItemType, "FM") = CompairStringResult.Equal Then
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Production Entry", obj.Loc_Code, obj.Adjustment_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.frmAdjProductionEntry, obj.Loc_Code, obj.Adjustment_Date, trans)
         Else
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Job Work Inventory", obj.Loc_Code, obj.Adjustment_Date, trans)
         End If
@@ -1661,11 +1661,11 @@ Public Class ClsJobWorkRMConsum
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Adjustment_No) > 0) Then
             Try
                 If clsCommon.CompairString(obj.ItemType, "E") = CompairStringResult.Equal Then
-                    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Empty Transactions", obj.Loc_Code, obj.Adjustment_Date, trans)
+                    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.mbtnEmptyTrans, obj.Loc_Code, obj.Adjustment_Date, trans)
                 ElseIf clsCommon.CompairString(obj.ItemType, "FT") = CompairStringResult.Equal Or clsCommon.CompairString(obj.ItemType, "FM") = CompairStringResult.Equal Then
-                    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Production Entry", obj.Loc_Code, obj.Adjustment_Date, trans)
+                    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.frmAdjProductionEntry, obj.Loc_Code, obj.Adjustment_Date, trans)
                 Else
-                    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Store Adjustment", obj.Loc_Code, obj.Adjustment_Date, trans)
+                    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMaterial, clsUserMgtCode.mbtnStoreAdjustment, obj.Loc_Code, obj.Adjustment_Date, trans)
                 End If
 
                 If (clsCommon.CompairString(obj.Posted, "Y") = CompairStringResult.Equal) Then

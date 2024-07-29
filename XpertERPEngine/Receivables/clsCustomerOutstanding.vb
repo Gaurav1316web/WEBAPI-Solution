@@ -36,7 +36,7 @@ Public Class clsCustomerOutstanding
     Public Function SaveData(ByVal obj As clsCustomerOutstanding, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction, ByVal FormId As String) As Boolean
         Dim isSaved As Boolean = True
 
-        clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Receivables", "Customer Outstanding", obj.Location_Code, obj.Document_Date, trans)
+        clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleReceivable, clsUserMgtCode.FrmCustomersOutstanding, obj.Location_Code, obj.Document_Date, trans)
 
         qry = "delete from TSPL_CUSTOMER_OUTSTANDING_DETAIL where Customer_Outsanding_No='" + obj.Customer_Outsanding_No + "'"
         isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -125,7 +125,7 @@ Public Class clsCustomerOutstanding
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Customer_Outsanding_No) > 0) Then
             Try
-                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Receivables", "Customer Outstanding", obj.Location_Code, obj.Document_Date, trans)
+                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleReceivable, clsUserMgtCode.FrmCustomersOutstanding, obj.Location_Code, obj.Document_Date, trans)
 
                 If obj.Posted = 1 Then
                     Throw New Exception("Already Post on :" + obj.Posting_Date)
@@ -178,7 +178,7 @@ Public Class clsCustomerOutstanding
             Throw New Exception("No Data found to Post")
         End If
 
-        clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Receivables", "Customer Outstanding", obj.Location_Code, obj.Document_Date, trans)
+        clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleReceivable, clsUserMgtCode.FrmCustomersOutstanding, obj.Location_Code, obj.Document_Date, trans)
         If (obj.Posted = 1) Then
             Throw New Exception("Already Post on :" + obj.Posting_Date)
         End If

@@ -410,7 +410,7 @@ Public Class FrmSentSalarySlip
 
                 clsCommon.MyMessageBoxShow("Sent:" & sent & ",Not Sent:" & NotSent & "")
 
-                'Dim logFile As String = "salgenlog.txt"
+                'Dim logFile As String =  "c:\ERPTempFolder\salgenlog.txt"
                 'If System.IO.File.Exists(logFile) Then
                 '    Dim stream As New IO.StreamWriter(logFile, False)
                 '    stream.WriteLine("")

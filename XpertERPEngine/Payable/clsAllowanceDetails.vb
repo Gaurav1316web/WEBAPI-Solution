@@ -139,7 +139,7 @@ Public Class clsAllowanceDetails
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
 
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Payroll", "Allowance Details", obj.LOCATION_CODE, obj.ALLOWANCE_DATE, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleHR, clsUserMgtCode.frmAllowanceDetails, obj.LOCATION_CODE, obj.ALLOWANCE_DATE, trans)
             If isNewEntry Then
                 If strCode = "" Then
                     obj.ALLOWANCE_CODE = clsERPFuncationality.GetNextCode(trans, clsCommon.GetPrintDate(obj.ALLOWANCE_DATE, "dd/MMM/yyyy"), clsDocType.AllowanceDetails, "", "")

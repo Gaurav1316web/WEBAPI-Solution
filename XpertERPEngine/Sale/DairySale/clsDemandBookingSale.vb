@@ -145,7 +145,7 @@ where TSPL_BOOKING_MATSER.Against_DemandBooking_No='" + obj.Document_No + "'"
                 End If
             End If
 
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Dairy Sale", "Demand Booking", obj.Location_Code, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmDemandBooking, obj.Location_Code, obj.Document_Date, trans)
 
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt"))
@@ -636,7 +636,7 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
         End Try
         Return obj
     End Function
-    Public Shared Function DeleteBoothDemand(ByVal DocNo As String, ByVal cust_code As String, ByVal ShiftType As String) As Boolean
+    Public Shared Function DeleteBoothDemand(ByVal DocNo As String, ByVal cust_code As String, ByVal ShiftType As String, ByVal ResetDemandOnSave As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             Dim qry As String = ""
@@ -660,15 +660,18 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 Next
             End If
-            qry = "select tr_code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + DocNo + "' and ShiftType='" + ShiftType + "' and Cust_Code ='" + cust_code + "'"
-            Dim dtDetail As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-            If dtDetail IsNot Nothing AndAlso dtDetail.Rows.Count > 0 Then
-                For Each drDetail As DataRow In dtDetail.Rows
-                    qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where tr_code='" + clsCommon.myCstr(drDetail("tr_code")) + "' "
-                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
-                Next
-                dtDetail = Nothing
+            If Not ResetDemandOnSave Then
+                qry = "select tr_code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + DocNo + "' and ShiftType='" + ShiftType + "' and Cust_Code ='" + cust_code + "'"
+                Dim dtDetail As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                If dtDetail IsNot Nothing AndAlso dtDetail.Rows.Count > 0 Then
+                    For Each drDetail As DataRow In dtDetail.Rows
+                        qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where tr_code='" + clsCommon.myCstr(drDetail("tr_code")) + "' "
+                        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                    Next
+                    dtDetail = Nothing
+                End If
             End If
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -785,7 +788,7 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
         End If
 
         Dim obj As clsDemandBookingSale = clsDemandBookingSale.GetData(strCode, NavigatorType.Current)
-        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Dairy Sale", "Demand Booking", obj.Location_Code, obj.Document_Date, Nothing)
+        'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Dairy Sale", "Demand Booking", obj.Location_Code, obj.Document_Date, Nothing)
         clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmbookingdairy, obj.Location_Code, obj.Document_Date, Nothing)
 
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -905,7 +908,7 @@ where 2=2 "
                     Throw New Exception("Evening shift is already posted")
                 End If
             End If
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Dairy Sale", "Demand Booking", obj.Location_Code, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmDemandBooking, obj.Location_Code, obj.Document_Date, trans)
             Dim coll As New Hashtable()
             Dim dtBooking As DataTable = clsDBFuncationality.GetDataTable("select Document_no from TSPL_BOOKING_MATSER where Against_DemandBooking_No='" & strDocNo & "' AND GatePass_Type='" + StrGatePassType + "' ", trans)
             If dtBooking IsNot Nothing AndAlso dtBooking.Rows.Count > 0 Then

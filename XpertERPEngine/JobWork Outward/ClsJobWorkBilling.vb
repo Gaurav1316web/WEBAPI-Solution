@@ -88,7 +88,7 @@ Public Class ClsJobWorkBilling
         Dim Desc As String = String.Empty
         Dim VatInvoiceType As String = Nothing
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "JobWork Inward", "JobWork Billing", obj.Loc_Code, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleJobWorkInWard, clsUserMgtCode.frmJobWorkBillig, obj.Loc_Code, obj.Document_Date, trans)
             If Not isNewEntry Then
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_JOBWORK_BILLING_HEAD", "Document_Code", "TSPL_JOBWORK_BILLING_DETAIL", "Document_Code", trans)
             End If
@@ -611,7 +611,7 @@ where TSPL_JOBWORK_BILLING_HEAD.Document_Code ='" & strDocNo & "'"
                 Throw New Exception("No Data found to Post")
             End If
 
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "JobWork Inward", "JobWork Billing", obj.Loc_Code, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleJobWorkInWard, clsUserMgtCode.frmJobWorkBillig, obj.Loc_Code, obj.Document_Date, trans)
 
             If (obj.Status = 1) Then
                 Throw New Exception("Already Post  :")
@@ -856,10 +856,10 @@ where TSPL_JOBWORK_BILLING_HEAD.Document_Code ='" & strDocNo & "'"
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
             Try
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "JobWork Inward", "JobWork Billing", obj.Loc_Code, obj.Document_Date, trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleJobWorkInWard, clsUserMgtCode.frmJobWorkBillig, obj.Loc_Code, obj.Document_Date, trans)
 
                 If (obj.Status = 1) Then
-                    Throw New Exception("Already Posted on :")
+                    Throw New Exception("Already Posted on : ")
                 End If
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_JOBWORK_BILLING_HEAD", "Document_Code", "TSPL_JOBWORK_BILLING_DETAIL", "Document_Code", trans)
                 Dim qry As String = "delete from TSPL_JOBWORK_BILLING_DETAIL where Document_Code='" + strCode + "'"
