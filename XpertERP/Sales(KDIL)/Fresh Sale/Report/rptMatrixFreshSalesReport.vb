@@ -4167,7 +4167,6 @@ where  TSPL_DEMAND_BOOKING_DETAIL.ShiftType = '" + ddlPTSShift.Text + "'  and ( 
     Private Sub btnGPSummaryRouteWise_Click(sender As Object, e As EventArgs) Handles btnGPSummaryRouteWise.Click
         Try
             PrintGPSummaryRW()
-            clsCommon.MyMessageBoxShow(Me, "Gate Pass Summary Report is Clicked.", Me.Text)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -4176,21 +4175,30 @@ where  TSPL_DEMAND_BOOKING_DETAIL.ShiftType = '" + ddlPTSShift.Text + "'  and ( 
         Try
             If clsCommon.myLen(ddlPTSShift.Text) > 0 Then
                 Dim qry As String = "select max(TSPL_COMPANY_MASTER.Comp_Name) as Comp_Name,( max(TSPL_COMPANY_MASTER.Add1) +max(TSPL_COMPANY_MASTER.Add2) + max(TSPL_COMPANY_MASTER.Add3)) as Company_Address,TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,
-max(TSPL_ROUTE_MASTER.Route_Desc) as Route_Desc,max(TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType) as ShiftType,
+max(TSPL_ROUTE_MASTER.Route_Desc) as Route_Desc,max(TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType) as ShiftType,max(TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date) as Supply_Date,
 max(TSPL_VEHICLE_MASTER.Vehicle_No) as Vehicle_No,TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code,
 max(TSPL_ITEM_MASTER.Short_Description) as Short_Description,TSPL_ITEM_MASTER.Sku_Seq,
-TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code,sum(TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty) as Qty
+TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code,sum(TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty) as Qty,
+case when max(TSPL_ITEM_MASTER.Is_FreshItem)=1 then (sum(TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty)*max(ItemConvinUOM.Conversion_Factor)/max(ItemConvInLtr.Conversion_Factor)) when max(TSPL_ITEM_MASTER.Is_Ambient)=1 then (sum(TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty)*max(ItemConvinUOM.Conversion_Factor)/max(ItemConvInKG.Conversion_Factor)) else (sum(TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty)*max(ItemConvinUOM.Conversion_Factor)/max(ItemConvInLtr.Conversion_Factor)) end as [Qty In LTR/KG],
+max(TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCrate) as TotalCrate
 from  TSPL_DAIRYSALE_GATEPASS_MASTER
 left join TSPL_DAIRYSALE_GATEPASS_DETAIL on TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode=TSPL_DAIRYSALE_GATEPASS_DETAIL.GPCode
 left join TSPL_ROUTE_MASTER on TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
 left join TSPL_ITEM_MASTER on TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
 left join TSPL_VEHICLE_MASTER on TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id=TSPL_VEHICLE_MASTER.Vehicle_Id
 left join TSPL_COMPANY_MASTER on TSPL_DAIRYSALE_GATEPASS_MASTER.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code
-where 2=2 and convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate)='" & clsCommon.GetPrintDate(txtPTSDateFrom.Value) & "' and TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType='" & ddlPTSShift.Text & "' "
+left join TSPL_ITEM_UOM_DETAIL as ItemConvInLtr on TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code=ItemConvInLtr.Item_Code and ItemConvInLtr.UOM_Code='LTR'
+left join TSPL_ITEM_UOM_DETAIL as ItemConvInKG on TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code=ItemConvInKG.Item_Code and ItemConvInKG.UOM_Code='KG'
+left join TSPL_ITEM_UOM_DETAIL as ItemConvinUOM on TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code=ItemConvinUOM.Item_Code and TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code=ItemConvinUOM.UOM_Code
+where 2=2 and convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date)='" & clsCommon.GetPrintDate(txtPTSDateFrom.Value) & "' and TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType='" & ddlPTSShift.Text & "' "
                 If clsCommon.myLen(txtMultPTSRoute.arrValueMember) > 0 Then
-                qry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No in(" + clsCommon.GetMulcallString(txtMultPTSRoute.arrValueMember) + ")"
-            End If
-
+                    qry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No in(" + clsCommon.GetMulcallString(txtMultPTSRoute.arrValueMember) + ")"
+                End If
+                If rbtnMilk.Checked Then
+                    qry += " and TSPL_ITEM_MASTER.Is_FreshItem=1 "
+                ElseIf rbtnProduct.Checked Then
+                    qry += " and TSPL_ITEM_MASTER.Is_Ambient=1 "
+                End If
                 qry += "group by TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code,TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code,TSPL_ITEM_MASTER.Sku_Seq "
 
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)

@@ -534,9 +534,11 @@ Public Class frmDairyGatePass
                                 strVehicleNo.Add(strV)
                             End If
                         End If
-                        txtDistributorName.Text = clsCommon.myCstr(dr("Customer_Name"))
-                            Gv1.Rows(Gv1.Rows.Count - 1).Cells(colPKID).Value = clsCommon.myCDecimal(dr("PK_ID"))
-                            Gv1.Rows(Gv1.Rows.Count - 1).Cells(colPKID).Tag = clsCommon.myCDecimal(dr("PK_ID"))
+                        If intLineNo = 1 Then
+                            txtDistributorName.Text = clsCommon.myCstr(dr("Customer_Name"))
+                        End If
+                        Gv1.Rows(Gv1.Rows.Count - 1).Cells(colPKID).Value = clsCommon.myCDecimal(dr("PK_ID"))
+                        Gv1.Rows(Gv1.Rows.Count - 1).Cells(colPKID).Tag = clsCommon.myCDecimal(dr("PK_ID"))
                             Gv1.Rows(Gv1.Rows.Count - 1).Cells(colLineNo).Value = intLineNo
                             Gv1.Rows(Gv1.Rows.Count - 1).Cells(colItemCode).Value = clsCommon.myCstr(dr("Item Code"))
                             Gv1.Rows(Gv1.Rows.Count - 1).Cells(colItemDesc).Value = clsCommon.myCstr(dr("Item Desc"))
@@ -1295,7 +1297,7 @@ select Route_No,Document_Date,Vehicle_Code,Customer_Code,0 as OpencrateQty,0 as 
             Qry += " ,Max(unit_code) unit_code "
         End If
         Qry += ",CASE WHEN max(unit_code) = 'crate' OR max(unit_code) = 'pouch' THEN 'Crate/Pouch' ELSE max(unit_code) END AS unit_code_result,
-                 Sum(qty) qty, Max(Comp_Address) Comp_Address, Max(Loc_add) Loc_add, Max(Route_No) Route_No, Sum(Totalcrate) Totalcrate, Sum(TotalCan) TotalCan, Max(Route_Desc) Route_Desc, Max(GPCode) GPCode, Max(GPDate) GPDate, Max(GPTime) GPTime, Max(vehicle_id) vehicle_id, Max(VehicleDesc) VehicleDesc, Max(location_code) location_code, Max(Location_desc) Location_desc, Max(transporter) transporter, Max(remarks) remarks, Max(comments) comments, Max(post) post, Item_code, Max(item_desc) item_desc, Max(short_description) short_description, Max(sku_seq) sku_seq, Max(TranporterNameFromMaster) TranporterNameFromMaster, Max(HSN_Code) HSN_Code, Max(Salesman) Salesman, Max(Column_Crate) as  Column_Crate, Max(Area_Code) Area_Code, Max(Zone_Code) Zone_Code, Max(ShiftType) ShiftType, Max(GSTReg_No) GSTReg_No, Max(Loading_Slip) Loading_Slip, Max(DispatchDate) DispatchDate, Max(GatePass_Date) GatePass_Date, Sum(Amount) Amount, sum(AmountWithoutTax) as AmountWithoutTax, Sum(Margin) Margin, sum(SecurityAmt) as SecurityAmt, max(Dist_Commission_Ratewithtax) Dist_Commission_Ratewithtax ,max(RoundOffAmt) as RoundOffAmt " + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ", max(ItemCost) as UnitRate", "") + ", Max(Driver_Name) Driver_Name, Max(Driver_ContactNo) Driver_ContactNo FROM
+                 Sum(qty) qty, Max(Comp_Address) Comp_Address, Max(Loc_add) Loc_add, Max(Route_No) Route_No, Sum(Totalcrate) Totalcrate, Sum(TotalCan) TotalCan, Max(Route_Desc) Route_Desc, Max(GPCode) GPCode, Max(GPDate) GPDate, Max(GPTime) GPTime, Max(vehicle_id) vehicle_id, Max(VehicleDesc) VehicleDesc, Max(location_code) location_code, Max(Location_desc) Location_desc, Max(transporter) transporter, Max(remarks) remarks, Max(comments) comments, Max(post) post, Item_code, Max(item_desc) item_desc, Max(short_description) short_description, Max(sku_seq) sku_seq, Max(TranporterNameFromMaster) TranporterNameFromMaster, Max(HSN_Code) HSN_Code, Max(Salesman) Salesman, Max(Column_Crate) as  Column_Crate, Max(Area_Code) Area_Code, Max(Zone_Code) Zone_Code, Max(ShiftType) ShiftType, Max(GSTReg_No) GSTReg_No, Max(Loading_Slip) Loading_Slip, Max(DispatchDate) DispatchDate, Max(GatePass_Date) GatePass_Date, Max(Amount) Amount, Max(AmountWithoutTax) as AmountWithoutTax, Max(Margin) Margin, Max(SecurityAmt) as SecurityAmt, max(Dist_Commission_Ratewithtax) Dist_Commission_Ratewithtax ,max(RoundOffAmt) as RoundOffAmt " + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ", max(ItemCost) as UnitRate", "") + ", Max(Driver_Name) Driver_Name, Max(Driver_ContactNo) Driver_ContactNo FROM
                    ( select FORMAT( TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date, 'dd/MM/yyyy' ) as Supply_Date,"
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
             Qry += " ItemConversionCrate.Conversion_Factor as Conversion_FactorCrt , gpUnit.Conversion_Factor AS gpUnit, "
@@ -1618,7 +1620,7 @@ select Route_No,Document_Date,Vehicle_Code,Customer_Code,0 as OpencrateQty,0 as 
     Sub setRouteVehicleDetail()
         Try
             Dim qry As String = ""
-            qry = "select TSPL_ROUTE_MASTER.City_Code,Customer_Name,vehicle_code,TSPL_VEHICLE_MASTER.Vehicle_No,Zone_Code,TSPL_CUSTOMER_MASTER.Route_No,Number,TSPL_ROUTE_MASTER.Route_Desc,tspl_customer_master.price_CodeNon,tspl_transport_master.Transporter_Name,TSPL_VEHICLE_MASTER.Transport_Id from TSPL_CUSTOMER_MASTER left outer join " &
+            qry = "select TSPL_ROUTE_MASTER.City_Code,Customer_Name,vehicle_code,TSPL_VEHICLE_MASTER.Vehicle_No,TSPL_ROUTE_MASTER.Zone_Code,TSPL_CUSTOMER_MASTER.Route_No,Number,TSPL_ROUTE_MASTER.Route_Desc,tspl_customer_master.price_CodeNon,tspl_transport_master.Transporter_Name,TSPL_VEHICLE_MASTER.Transport_Id from TSPL_CUSTOMER_MASTER left outer join " &
                 "TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No left outer join TSPL_VEHICLE_MASTER on " &
                 "TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id left outer join tspl_transport_master on tspl_transport_master.Transport_Id=TSPL_VEHICLE_MASTER.Transport_Id "
             qry += " where TSPL_ROUTE_MASTER.Route_No ='" & fndRouteNo.Value & "'"
