@@ -30,7 +30,7 @@ Public Class clsMilkGateEntry
     Public UOM As String = String.Empty
     Public Shared Function saveData(ByVal obj As clsMilkGateEntry, ByVal trans As SqlTransaction, Optional ByVal isHistory As Boolean = False) As Boolean
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Milk Jobwork", "Milk Jobwork GateEntry", obj.location_Code, obj.Date_And_Time, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.MilkJobWork, clsUserMgtCode.FrmMilkGateEntry, obj.location_Code, obj.Date_And_Time, trans)
 
             Dim issaved As Boolean = True
             Dim coll As New Hashtable()
@@ -123,7 +123,7 @@ Public Class clsMilkGateEntry
                 Throw New Exception("No Data found to Post")
             End If
             trans = clsDBFuncationality.GetTransactin()
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Milk Jobwork", "Milk Jobwork GateEntry", obj.location_Code, obj.Date_And_Time, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.MilkJobWork, clsUserMgtCode.FrmMilkGateEntry, obj.location_Code, obj.Date_And_Time, trans)
             If (obj.isPosted = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
             End If

@@ -742,8 +742,8 @@ Public Class frmPayHeadDefinitions
         Try
             Dim qry As String
             Dim whrcls As String
-            Dim arr As New ArrayList()
-            Dim isEarningCond As String = ""
+            'Dim arr As New ArrayList()
+            'Dim isEarningCond As String = ""
             '===============commented because debit,credit cond is add at salary generation screen, done on 28/07/2015
             'If Me.chkIsEarning.Checked = True Then
             '    isEarningCond = "Account_Balance='Debit'"
@@ -751,16 +751,20 @@ Public Class frmPayHeadDefinitions
             '    isEarningCond = "Account_Balance='Credit'"
             'End If
             ''============================end here=====================================
-            arr = clsERPFuncationality.glaccountquery(objCommonVar.CurrentUserCode)
-            qry = arr.Item(0)
-            whrcls = arr.Item(1)
+            'arr = clsERPFuncationality.glaccountquery(objCommonVar.CurrentUserCode)
+            'qry = arr.Item(0)
+            'whrcls = arr.Item(1)
 
-            If clsCommon.myLen(whrcls) > 0 AndAlso clsCommon.myLen(isEarningCond) > 0 Then
+            'If clsCommon.myLen(whrcls) > 0 AndAlso clsCommon.myLen(isEarningCond) > 0 Then
+            '    whrcls += " AND " & isEarningCond
+            'ElseIf clsCommon.myLen(isEarningCond) > 0 Then
+            '    whrcls = isEarningCond
+            'End If
 
-                whrcls += " AND " & isEarningCond
-            ElseIf clsCommon.myLen(isEarningCond) > 0 Then
-                whrcls = isEarningCond
-            End If
+            qry = " select Account_Code , Description  from TSPL_GL_ACCOUNTS
+                    Left Outer Join TSPL_ACCOUNT_MAIN_GL_ACCOUNT On TSPL_ACCOUNT_MAIN_GL_ACCOUNT.Main_GL_Account=TSPL_GL_ACCOUNTS.GL_Main_Code "
+            whrcls = " 2=2  and TSPL_GL_ACCOUNTS.Status='Y' And TSPL_ACCOUNT_MAIN_GL_ACCOUNT.IsControlAcct=1"
+
             fndGLAccount.Value = clsCommon.myCstr(clsCommon.ShowSelectForm("GLACJournalEntry", qry, "Account_Code", whrcls, clsCommon.myCstr(fndGLAccount.Value), "Account_Code", isButtonClick))
             txtGLAccountDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_GL_ACCOUNTS where Account_Code='" + clsCommon.myCstr(fndGLAccount.Value) + "'"))
         Catch ex As Exception
