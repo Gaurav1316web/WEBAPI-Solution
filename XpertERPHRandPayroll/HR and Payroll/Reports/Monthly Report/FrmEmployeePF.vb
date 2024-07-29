@@ -118,6 +118,7 @@ Public Class FrmEmployeePF
             Else
                 Dim frmcrystal As New frmCrystalReportViewer()
                 frmcrystal.funreport(CrystalReportFolder.HRPayroll, dt, "crptSalaryEPF", "Employee PF ")
+                frmcrystal = Nothing
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
