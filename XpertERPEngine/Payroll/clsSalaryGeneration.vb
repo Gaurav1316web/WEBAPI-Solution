@@ -678,7 +678,7 @@ Public Class clsSalaryGeneration
                 '        Dim qry As String = "  Select distinct Emp_code from ( select MAX(tspl_Vendor_master.isemployee) AS isemployee,TSPL_DEDUCTION_DETAIL.EMP_CODE ,TSPL_DEDUCTION_DETAIL.DEDUCTION_CODE ,sum(DEDUCTION_AMOUNT ) as DEDUCTION_AMOUNT,max(tspl_Vendor_master.Vendor_code) Vendor_code,max(tspl_Vendor_master.Vendor_name) as Vendor_name,max(TSPL_PAYHEAD_MASTER.Account_Code) as DeductionAccount from TSPL_DEDUCTION  left outer join TSPL_DEDUCTION_DETAIL on TSPL_DEDUCTION.DEDUCTION_CODE =TSPL_DEDUCTION_DETAIL.DEDUCTION_CODE left outer  join tspl_Vendor_master on TSPL_DEDUCTION_DETAIL.EMP_CODE=tspl_Vendor_master.EMP_CODE left outer join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE =TSPL_DEDUCTION_DETAIL.PAY_HEAD_CODE  where TSPL_DEDUCTION.PAY_PERIOD_CODE ='" + obj.PAY_PERIOD_CODE + "' and TSPL_DEDUCTION_DETAIL.EMP_CODE in (" + strEmpCode + ")  and TSPL_PAYHEAD_MASTER.SUB_HEAD_TYPE <>'TDS' group by TSPL_DEDUCTION_DETAIL.EMP_CODE ,TSPL_DEDUCTION_DETAIL.DEDUCTION_CODE ) XFinal where  (isemployee is null or len (isnull(isemployee,'')) <=0 ) "
                 '        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                 '        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                '            System.Diagnostics.Process.Start("salgenlog.txt")
+                '            System.Diagnostics.Process.Start( "c:\ERPTempFolder\salgenlog.txt")
                 '        End If
 
                 '    End If
@@ -826,7 +826,7 @@ Public Class clsSalaryGeneration
         End If
 
         Dim strLog As String = ""
-        Dim logFile As String = "salgenlog.txt"
+        Dim logFile As String = "c:\ERPTempFolder\salgenlog.txt"
         If System.IO.File.Exists(logFile) Then
             Dim stream As New IO.StreamWriter(logFile, False)
             stream.WriteLine("")
@@ -934,7 +934,7 @@ Public Class clsSalaryGeneration
             End If
         End If
         Dim strLog As String = ""
-        Dim logFile As String = "salgenlog.txt"
+        Dim logFile As String = "c:\ERPTempFolder\salgenlog.txt"
         If System.IO.File.Exists(logFile) Then
             Dim stream As New IO.StreamWriter(logFile, False)
             stream.WriteLine("")
@@ -986,7 +986,7 @@ Public Class clsSalaryGeneration
         End If
 
 
-        Dim logFile As String = "salgenlog.txt"
+        Dim logFile As String = "c:\ERPTempFolder\salgenlog.txt"
         If System.IO.File.Exists(logFile) Then
             'Dim stream As New IO.StreamWriter(logFile, False)
             'stream.WriteLine("")
@@ -1953,7 +1953,7 @@ Public Class clsSalaryGeneration
         Else
             Calc_Table = "TSPL_ARREAR_CALCULATION"
         End If
-        Dim logFile As String = "salgenlog.txt"
+        Dim logFile As String = "c:\ERPTempFolder\salgenlog.txt"
         clsCommon.ProgressBarUpdate("Checking for log file...")
         If System.IO.File.Exists(logFile) Then
             Dim stream As New IO.StreamWriter(logFile, False)
@@ -4506,7 +4506,7 @@ Public Class clsSalaryGeneration
         Else
             strTableName = "TSPL_ARREAR_CALCULATION"
         End If
-        Dim logFile As String = "salgenlog.txt"
+        Dim logFile As String = "c:\ERPTempFolder\salgenlog.txt"
         clsCommon.ProgressBarUpdate("Checking for log file...")
         If System.IO.File.Exists(logFile) Then
             Dim stream As New IO.StreamWriter(logFile, False)

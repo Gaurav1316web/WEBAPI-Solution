@@ -179,7 +179,7 @@ Public Class frmSalaryGeneration
     End Sub
 
     Public Function Save() As Boolean
-        Dim logFile As String = "salgenlog.txt"
+        Dim logFile As String = "c:\ERPTempFolder\salgenlog.txt"
         clsCommon.ProgressBarUpdate("Checking for log file...")
         If System.IO.File.Exists(logFile) Then
             Dim stream As New IO.StreamWriter(logFile, False)
@@ -229,15 +229,15 @@ Public Class frmSalaryGeneration
                 ListOfEmployeeSalaryNotGenrate()
                 Return True
             Else
-                System.Diagnostics.Process.Start("salgenlog.txt")
+                System.Diagnostics.Process.Start("c:\ERPTempFolder\salgenlog.txt")
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-            Dim objreader As New System.IO.StringReader("salgenlog.txt")
+            Dim objreader As New System.IO.StringReader("c:\ERPTempFolder\salgenlog.txt")
             If objreader IsNot Nothing AndAlso clsCommon.myLen(objreader) > 0 Then
-                Dim str As String = clsCommon.myCstr(System.IO.File.ReadAllText("salgenlog.txt"))
+                Dim str As String = clsCommon.myCstr(System.IO.File.ReadAllText("c:\ERPTempFolder\salgenlog.txt"))
                 If clsCommon.myLen(str) > 0 Then
-                    System.Diagnostics.Process.Start("salgenlog.txt")
+                    System.Diagnostics.Process.Start("c:\ERPTempFolder\salgenlog.txt")
                 End If
             End If
 
@@ -247,10 +247,8 @@ Public Class frmSalaryGeneration
 
     Sub ListOfEmployeeSalaryNotGenrate()
         Try
-
-
             Dim strLog As String = ""
-            Dim logFile As String = "salgenlog.txt"
+            Dim logFile As String = "c:\ERPTempFolder\salgenlog.txt"
             If System.IO.File.Exists(logFile) Then
                 Dim stream As New IO.StreamWriter(logFile, False)
                 stream.WriteLine("")
@@ -292,12 +290,13 @@ Public Class frmSalaryGeneration
                 objWriter.Close()
                 Throw New Exception("Some Working Employee's Salary is not defined or Unapproved !")
             End If
+
         Catch ex As Exception
-            Dim objreader As New System.IO.StringReader("salgenlog.txt")
+            Dim objreader As New System.IO.StringReader("c:\ERPTempFolder\salgenlog.txt")
             If objreader IsNot Nothing AndAlso clsCommon.myLen(objreader) > 0 Then
-                Dim str As String = clsCommon.myCstr(System.IO.File.ReadAllText("salgenlog.txt"))
+                Dim str As String = clsCommon.myCstr(System.IO.File.ReadAllText("c:\ERPTempFolder\salgenlog.txt"))
                 If clsCommon.myLen(str) > 0 Then
-                    System.Diagnostics.Process.Start("salgenlog.txt")
+                    System.Diagnostics.Process.Start("c:\ERPTempFolder\salgenlog.txt")
                 End If
             End If
         End Try
@@ -586,11 +585,11 @@ Public Class frmSalaryGeneration
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             Else
-                System.Diagnostics.Process.Start("salgenlog.txt")
+                System.Diagnostics.Process.Start("c:\ERPTempFolder\salgenlog.txt")
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-            System.Diagnostics.Process.Start("salgenlog.txt")
+            System.Diagnostics.Process.Start("c:\ERPTempFolder\salgenlog.txt")
         End Try
     End Sub
 
@@ -638,11 +637,11 @@ Public Class frmSalaryGeneration
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             Else
-                System.Diagnostics.Process.Start("salgenlog.txt")
+                System.Diagnostics.Process.Start("c:\ERPTempFolder\salgenlog.txt")
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-            System.Diagnostics.Process.Start("salgenlog.txt")
+            System.Diagnostics.Process.Start("c:\ERPTempFolder\salgenlog.txt")
         End Try
     End Sub
 
@@ -689,7 +688,7 @@ Public Class frmSalaryGeneration
         End If
 
         Dim strLog As String = ""
-        Dim logFile As String = "salgenlog.txt"
+        Dim logFile As String = "c:\ERPTempFolder\salgenlog.txt"
         If System.IO.File.Exists(logFile) Then
             Dim stream As New IO.StreamWriter(logFile, False)
             stream.WriteLine("")
@@ -791,7 +790,7 @@ Public Class frmSalaryGeneration
             End If
         End If
 
-        Dim logFile As String = "salgenlog.txt"
+        Dim logFile As String = "c:\ERPTempFolder\salgenlog.txt"
         If System.IO.File.Exists(logFile) Then
         Else
             Dim fs As IO.FileStream = System.IO.File.Create(logFile)
@@ -973,7 +972,7 @@ Public Class frmSalaryGeneration
     Sub ViewFinancialEntry()
         Try
             If updateGLAccInGenSalary(Nothing, True) = False Then
-                System.Diagnostics.Process.Start("salgenlog.txt")
+                System.Diagnostics.Process.Start("c:\ERPTempFolder\salgenlog.txt")
                 Exit Sub
             End If
             Dim frm As New frmSalaryGLAccounts
