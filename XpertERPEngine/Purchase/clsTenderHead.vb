@@ -36,6 +36,7 @@ Public Class clsTenderHead
 
     Public Tender_Type As Integer = 0 ''0-RM Tender;1-Risk Purchase;2-Techical Spare Part;3-Local Purchase
     Public Mode As Integer = 0 ''0-Online;1-Offline
+    Public Tender_On As Integer = 0 ''0-Item;1-ItemType
     Public Arr As List(Of clsTenderDetail) = Nothing
     Public ArrSchedule As List(Of clsTenderSchedule) = Nothing
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
@@ -100,6 +101,7 @@ Public Class clsTenderHead
 
             clsCommon.AddColumnsForChange(coll, "Tender_Type", obj.Tender_Type, True)
             clsCommon.AddColumnsForChange(coll, "Mode", obj.Mode, True)
+            clsCommon.AddColumnsForChange(coll, "Tender_On", obj.Tender_On)
 
             clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
@@ -219,6 +221,7 @@ Public Class clsTenderHead
 
                 obj.Tender_Type = clsCommon.myCDecimal(dt.Rows(0)("Tender_Type"))
                 obj.Mode = clsCommon.myCDecimal(dt.Rows(0)("Mode"))
+                obj.Tender_On = clsCommon.myCDecimal(dt.Rows(0)("Tender_On"))
                 obj.Created_By = clsCommon.myCstr(dt.Rows(0)("Created_By"))
                 obj.Created_Date = clsCommon.myCstr(dt.Rows(0)("Created_Date"))
                 obj.Modified_By = clsCommon.myCstr(dt.Rows(0)("Modified_By"))
@@ -229,12 +232,13 @@ Public Class clsTenderHead
                     obj.Posted_By = clsCommon.myCstr(dt.Rows(0)("Posted_By"))
                 End If
 
-                qry = "SELECT TSPL_TENDER_DETAIL.*,TSPL_LOCATION_MASTER.Location_Desc
-                    , TSPL_VENDOR_MASTER.Vendor_Name,TSPL_ITEM_MASTER.Item_Desc
-                    FROM TSPL_TENDER_DETAIL left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_TENDER_DETAIL.Location 
-                    left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.VENDOR_Code=TSPL_TENDER_DETAIL.Vendor_Code
-                    left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_TENDER_DETAIL.Item_Code
-                    where tspl_tender_detail.DocumentCode='" + obj.DocumentCode + "'ORDER BY tspl_tender_detail.Line_No"
+                qry = "SELECT TSPL_TENDER_DETAIL.*,TSPL_LOCATION_MASTER.Location_Desc, TSPL_VENDOR_MASTER.Vendor_Name,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_NAME
+FROM TSPL_TENDER_DETAIL 
+left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_TENDER_DETAIL.Location 
+left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.VENDOR_Code=TSPL_TENDER_DETAIL.Vendor_Code
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_TENDER_DETAIL.Item_Code
+left outer join TSPL_ITEM_TYPE_MASTER on TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_CODE=TSPL_TENDER_DETAIL.Item_Type
+where tspl_tender_detail.DocumentCode='" + obj.DocumentCode + "'ORDER BY tspl_tender_detail.Line_No"
                 dt = New DataTable()
                 dt = clsDBFuncationality.GetDataTable(qry, trans)
                 If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
@@ -245,6 +249,8 @@ Public Class clsTenderHead
                         objTr.DocumentCode = clsCommon.myCstr(dr("DocumentCode"))
                         objTr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
                         objTr.Item_Name = clsCommon.myCstr(dr("Item_Desc"))
+                        objTr.Item_Type = clsCommon.myCstr(dr("Item_Type"))
+                        objTr.Item_Type_Name = clsCommon.myCstr(dr("ITEM_TYPE_NAME"))
                         objTr.Vendor_Code = clsCommon.myCstr(dr("Vendor_Code"))
                         objTr.Vendor_Name = clsCommon.myCstr(dr("Vendor_Name"))
                         objTr.Location = clsCommon.myCstr(dr("Location"))
@@ -1023,6 +1029,8 @@ Public Class clsTenderDetail
     Public Line_No As Integer = 0
     Public Item_Code As String = Nothing
     Public Item_Name As String = Nothing
+    Public Item_Type As String = Nothing
+    Public Item_Type_Name As String = Nothing
     Public Vendor_Code As String = Nothing
     Public Unit_code As String = Nothing
     Public Location As String = Nothing
@@ -1040,19 +1048,16 @@ Public Class clsTenderDetail
 #End Region
 
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsTenderDetail), ByVal trans As SqlTransaction) As Boolean
-
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsTenderDetail In Arr
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "DocumentCode", strDocNo)
                 clsCommon.AddColumnsForChange(coll, "Line_No", obj.Line_No)
-                clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
-
+                clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code, True)
+                clsCommon.AddColumnsForChange(coll, "Item_Type", obj.Item_Type, True)
                 clsCommon.AddColumnsForChange(coll, "Vendor_Code", obj.Vendor_Code)
                 clsCommon.AddColumnsForChange(coll, "Discount", obj.Discount)
                 clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
-
-
                 clsCommon.AddColumnsForChange(coll, "Unit_code", obj.Unit_code)
                 clsCommon.AddColumnsForChange(coll, "Location", obj.Location)
                 clsCommon.AddColumnsForChange(coll, "Rate", obj.Rate)
@@ -1068,14 +1073,17 @@ Public Class clsTenderDetail
 
     Public Shared Function GetFinder(ByVal strTenderNo As String, ByVal strVendorCode As String, ByVal strLocation As String) As clsTenderDetail
         Dim obj As clsTenderDetail = Nothing
-        Dim qry As String = " select TSPL_TENDER_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_TENDER_DETAIL.Unit_code,TSPL_TENDER_DETAIL.Rate,TSPL_TENDER_DETAIL.Discount,TSPL_TENDER_DETAIL.Location,TSPL_TENDER_DETAIL.Tax_Exclusive from TSPL_TENDER_DETAIL
+        Dim qry As String = " select TSPL_TENDER_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_TENDER_DETAIL.Item_Type,TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_NAME,TSPL_TENDER_DETAIL.Unit_code,TSPL_TENDER_DETAIL.Rate,TSPL_TENDER_DETAIL.Discount,TSPL_TENDER_DETAIL.Location,TSPL_TENDER_DETAIL.Tax_Exclusive from TSPL_TENDER_DETAIL
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.ITEM_CODE=TSPL_TENDER_DETAIL.Item_Code
+left outer join TSPL_ITEM_TYPE_MASTER on TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_CODE=TSPL_TENDER_DETAIL.Item_Type
  where DocumentCode='" + strTenderNo + "' and Vendor_Code='" + strVendorCode + "'and Location='" + strLocation + "'"
         Dim dr As DataRow = clsCommon.ShowSelectFormForRow("TenVedItm", qry)
         If dr IsNot Nothing Then
             obj = New clsTenderDetail()
             obj.Item_Code = clsCommon.myCstr(dr("Item_Code"))
             obj.Item_Name = clsCommon.myCstr(dr("Item_Desc"))
+            obj.Item_Type = clsCommon.myCstr(dr("Item_Type"))
+            obj.Item_Type_Name = clsCommon.myCstr(dr("ITEM_TYPE_NAME"))
             obj.Unit_code = clsCommon.myCstr(dr("Unit_code"))
             obj.Rate = clsCommon.myCdbl(dr("Rate"))
             obj.Tax_Exclusive = (clsCommon.myCdbl(dr("Tax_Exclusive")) = 1)
@@ -1097,6 +1105,7 @@ Public Class clsTenderSchedule
     Public Vendor_Code As String
     Public Location_Code As String
     Public Item_Code As String
+    Public Item_Type As String
     Public Schedule_Qty_Per As Decimal
     Public Schedule_Qty As Decimal
     Public Schedule_Short_Per As Decimal
@@ -1120,7 +1129,8 @@ Public Class clsTenderSchedule
                 clsCommon.AddColumnsForChange(coll, "To_Date", clsCommon.GetPrintDate(obj.To_Date, "dd/MMM/yyyy"))
                 clsCommon.AddColumnsForChange(coll, "Vendor_Code", obj.Vendor_Code)
                 clsCommon.AddColumnsForChange(coll, "Location_Code", obj.Location_Code)
-                clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
+                clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code, True)
+                clsCommon.AddColumnsForChange(coll, "Item_Type", obj.Item_Type, True)
                 clsCommon.AddColumnsForChange(coll, "Schedule_Qty_Per", obj.Schedule_Qty_Per)
                 clsCommon.AddColumnsForChange(coll, "Schedule_Qty", obj.Schedule_Qty)
                 clsCommon.AddColumnsForChange(coll, "Schedule_Short_Per", obj.Schedule_Short_Per)
@@ -1129,7 +1139,7 @@ Public Class clsTenderSchedule
                 clsCommon.AddColumnsForChange(coll, "Extension_Days", obj.Extension_Days)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TENDER_SCHEDULE", OMInsertOrUpdate.Insert, "", trans)
 
-                Dim PK As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select MAX(PK_ID) from TSPL_TENDER_SCHEDULE where DocumentCode='" + strDocNo + "'", trans))
+                Dim PK As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select SCOPE_IDENTITY()", trans))
                 clsTenderSchedulePenelty.SaveData(strDocNo, PK, obj.Arr, trans)
             Next
         End If
@@ -1154,7 +1164,7 @@ Public Class clsTenderSchedule
                 obj.Vendor_Code = clsCommon.myCstr(dt.Rows(ii)("Vendor_Code"))
                 obj.Location_Code = clsCommon.myCstr(dt.Rows(ii)("Location_Code"))
                 obj.Item_Code = clsCommon.myCstr(dt.Rows(ii)("Item_Code"))
-
+                obj.Item_Type = clsCommon.myCstr(dt.Rows(ii)("Item_Type"))
                 obj.Schedule_Qty_Per = clsCommon.myCDecimal(dt.Rows(ii)("Schedule_Qty_Per"))
                 obj.Schedule_Qty = clsCommon.myCDecimal(dt.Rows(ii)("Schedule_Qty"))
                 obj.Schedule_Short_Per = clsCommon.myCDecimal(dt.Rows(ii)("Schedule_Short_Per"))

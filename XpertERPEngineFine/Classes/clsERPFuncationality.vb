@@ -436,9 +436,12 @@ AND Convert(Date, End_Date , 103)>=convert(Date, '" + clsCommon.GetPrintDate(Doc
                     End If
                 Else
                     dt = clsDBFuncationality.GetDataTable(Qry + " AND Location_Segment_Code=''", trans)
-                    If clsCommon.myCDecimal(dt.Rows(0)("Is_Locked")) = 1 Then
-                        Throw New Exception("Transaction is Locked For Location '" + Location + "' from " + clsCommon.myCstr(dt.Rows(0)("DateRange")) + "")
+                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        If clsCommon.myCDecimal(dt.Rows(0)("Is_Locked")) = 1 Then
+                            Throw New Exception("Transaction is Locked For Location '" + Location + "' from " + clsCommon.myCstr(dt.Rows(0)("DateRange")) + "")
+                        End If
                     End If
+
                 End If
             Else
                 Qry = "Select (CONVERT(varchar, Start_Date, 103) +'  To  '+ CONVERT(varchar, End_Date, 103)) as DateRange,'' as User_Code from TSPL_LOCK_LOCATION_SEGMENT Where " &
@@ -530,8 +533,10 @@ AND Convert(Date, End_Date , 103)>=convert(Date, '" + clsCommon.GetPrintDate(Doc
                     End If
                 Else
                     dt = clsDBFuncationality.GetDataTable(Qry + " AND Location_Code=''", trans)
-                    If clsCommon.myCDecimal(dt.Rows(0)("Is_Locked")) = 1 Then
-                        Throw New Exception("Transaction is Locked For Location '" + Location + "' from " + clsCommon.myCstr(dt.Rows(0)("DateRange")) + "")
+                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        If clsCommon.myCDecimal(dt.Rows(0)("Is_Locked")) = 1 Then
+                            Throw New Exception("Transaction is Locked For Location '" + Location + "' from " + clsCommon.myCstr(dt.Rows(0)("DateRange")) + "")
+                        End If
                     End If
                 End If
 

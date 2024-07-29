@@ -354,6 +354,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoice.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceBKN.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceJPR.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceNew.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceTNK.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\CSATransfer.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\CSATransfer_Challan.rpt" />
@@ -1322,6 +1323,7 @@
     <None Include="Crystal Reports\Kwality Sales Report\rptERPStatusTrackingReportUnionrpt.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptFormA2MT.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptFreshSaleInvoice.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\rptGPRouteWiseSummary.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptInvoiceBulkSale.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptLCIssuingApplicationMT.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptMerchantDeclarationMT.rpt" />

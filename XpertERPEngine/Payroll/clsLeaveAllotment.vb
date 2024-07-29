@@ -92,7 +92,7 @@ Public Class clsLeaveAllotment
     Public Function SaveData(ByVal obj As clsLeaveAllotment, ByVal isNewEntry As Boolean, Optional ByVal trans As SqlTransaction = Nothing) As Boolean
         Dim isSaved As Boolean = True
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Payroll", "Allotment Of Leaves", obj.Location_Code, obj.ALLOTMENT_DATE, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleHR, clsUserMgtCode.FrmAllotmentOfLeaves, obj.Location_Code, obj.ALLOTMENT_DATE, trans)
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "PAY_PERIOD_CODE", obj.PAY_PERIOD_CODE)
             clsCommon.AddColumnsForChange(coll, "Location_Code", obj.Location_Code)

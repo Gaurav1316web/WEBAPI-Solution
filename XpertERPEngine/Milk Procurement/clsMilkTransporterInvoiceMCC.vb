@@ -157,7 +157,7 @@ Public Class clsMilkTransporterInvoiceMCC
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
 
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Invoice", obj.Bill_To_Location, clsCommon.myCDate(obj.PI_Date), trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnPurchaseInvoice, obj.Bill_To_Location, clsCommon.myCDate(obj.PI_Date), trans)
 
             Dim qry As String = "delete from TSPL_Mcc_Milk_Transport_Invoice_Detail where Doc_No='" + obj.PI_No + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -1108,7 +1108,7 @@ Public Class clsMilkTransporterInvoiceMCC
                 Throw New Exception("No Data found to Post")
             End If
 
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Invoice", obj.Bill_To_Location, clsCommon.myCDate(obj.PI_Date), trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnPurchaseInvoice, obj.Bill_To_Location, clsCommon.myCDate(obj.PI_Date), trans)
 
             If (obj.Status = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
@@ -2696,7 +2696,7 @@ Public Class clsMilkTransporterInvoiceMCC
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.PI_No) > 0) Then
             Try
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Invoice", obj.Bill_To_Location, clsCommon.myCDate(obj.PI_Date), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnPurchaseInvoice, obj.Bill_To_Location, clsCommon.myCDate(obj.PI_Date), trans)
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
                 End If

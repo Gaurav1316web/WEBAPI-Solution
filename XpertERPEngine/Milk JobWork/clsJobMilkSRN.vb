@@ -73,7 +73,7 @@ Public Class clsJobMilkSRN
                 Throw New Exception("No Data found to Post")
             End If
             trans = clsDBFuncationality.GetTransactin()
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Milk Jobwork", "Milk JobWork SRN", obj.Loc_Code, obj.SRN_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.MilkJobWork, clsUserMgtCode.FrmJobMilkSRN, obj.Loc_Code, obj.SRN_Date, trans)
 
             If (obj.isPosted = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
@@ -290,7 +290,7 @@ Public Class clsJobMilkSRN
             Dim Item_Production_type As String = String.Empty
             Dim issaved As Boolean = True
             Dim chk As Integer = 0
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Milk Jobwork", "Milk JobWork SRN", obj.Loc_Code, obj.SRN_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.MilkJobWork, clsUserMgtCode.FrmJobMilkSRN, obj.Loc_Code, obj.SRN_Date, trans)
 
             clsERPFuncationality.IsDocumentAlreadyPosted("tspl_Job_milk_srn", "srn_no", obj.SRN_NO, "isPosted=1", trans)
 

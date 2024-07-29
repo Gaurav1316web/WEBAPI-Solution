@@ -356,7 +356,7 @@ Public Class clsFFSettlement
                 '' POST SALARY
                 clsSalaryGeneration.PostData(objSal.Code, trans)
             Else
-                System.Diagnostics.Process.Start("salgenlog.txt")
+                System.Diagnostics.Process.Start("c:\ERPTempFolder\salgenlog.txt")
             End If
 
             '' SAVE FINAL STATUS OF EMPLOYEE

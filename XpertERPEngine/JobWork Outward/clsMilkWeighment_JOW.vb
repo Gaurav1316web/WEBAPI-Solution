@@ -81,7 +81,7 @@ Public Class clsMilkWeighment_JOW
         Try
             Dim issaved As Boolean = True
 
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "JobWork Outward", "JobWork Milk Weighment", obj.location_Code, obj.Weighment_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.MilkJobWork, clsUserMgtCode.FrmMilkWeighment, obj.location_Code, obj.Weighment_Date, trans)
             If isNewEntry Then
                 obj.Weighment_No = clsERPFuncationality.GetNextCode(trans, obj.Weighment_Date, clsDocType.WeighmentJWO, "", obj.location_Code)
             End If
@@ -387,7 +387,7 @@ Public Class clsMilkWeighment_JOW
                 Throw New Exception("No Data found to Post")
             End If
             'trans = clsDBFuncationality.GetTransactin()
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "JobWork Outward", "JobWork Milk Weighment", obj.location_Code, obj.Weighment_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.MilkJobWork, clsUserMgtCode.FrmMilkWeighment, obj.location_Code, obj.Weighment_Date, trans)
             If (obj.isPosted = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
             End If
