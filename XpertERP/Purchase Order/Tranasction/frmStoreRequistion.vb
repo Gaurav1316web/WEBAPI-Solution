@@ -1918,7 +1918,7 @@ Public Class frmStoreRequistion
                         If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "TSDDCF") = CompairStringResult.Equal Then
                             frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "StoreRequisitionWithoutVendor", "Store Requisition", clsCommon.myCDate(dt.Rows(0)("Requisition_Date")))
                         Else
-                            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisitionWithoutVendor", "Purchase Requisition", clsCommon.myCDate(dt.Rows(0)("Requisition_Date")))
+                            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "StoreRequisitionWithoutVendor", "Purchase Requisition", clsCommon.myCDate(dt.Rows(0)("Requisition_Date")))
                         End If
                     End If
 
@@ -1926,7 +1926,7 @@ Public Class frmStoreRequistion
                     If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GUNTUR") = CompairStringResult.Equal Then
                         frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisition-G", "Purchase Requisition")
                     Else
-                        frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisition", "Purchase Requisition", clsCommon.myCDate(dt.Rows(0)("Requisition_Date")))
+                        frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "StoreRequisitionWithoutVendor", "Purchase Requisition", clsCommon.myCDate(dt.Rows(0)("Requisition_Date")))
                     End If
                 End If
             End If
