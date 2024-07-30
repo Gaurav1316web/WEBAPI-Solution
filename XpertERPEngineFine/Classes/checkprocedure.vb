@@ -133,7 +133,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmBankReco, "Bank Reconciliation", "1.01.02.03", clsUserMgtCode.SubModuleCommonServicesTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, False, True)
         InsertDefaultValue(clsUserMgtCode.FrmCFormEntry, "CForm Entry", "1.01.02.04", clsUserMgtCode.SubModuleCommonServicesTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.FrmBankGuaranteeMaster1, "Bank Guarantee Master", "1.01.02.05", clsUserMgtCode.SubModuleCommonServicesTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.BankOpeningReco, "Bank Opening Reco", "1.01.02.06", clsUserMgtCode.SubModuleCommonServicesTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.BankOpeningReco, "Bank Opening Reco", "1.01.02.06", clsUserMgtCode.SubModuleCommonServicesTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         'InsertDefaultValue(clsUserMgtCode.RevaluationEntry, "Revaluation Entry", "1.01.02.07", clsUserMgtCode.SubModuleCommonServicesTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.ItemRackBinMapping, "Item Rack Bin Mapping", "1.01.02.08", clsUserMgtCode.SubModuleCommonServicesTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.LoanEntry, "Loan Entry", "1.01.02.09", clsUserMgtCode.SubModuleCommonServicesTransaction, 8)
@@ -1276,10 +1276,10 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmBulkPurchaseUploader, "Bulk Purchase\Sale Uploader", "1.29.02.31", clsUserMgtCode.SubModuleProductionTransactionDairy, 8)
         'InsertDefaultValue(clsUserMgtCode.SecondarySettingForQC, "Secondary Setting for QC", "1.29.02.13", clsUserMgtCode.SubModuleProductionTransactionDairy, 8)
         InsertDefaultValue(clsUserMgtCode.frmMilkTransferIn, "Milk Transfer In", "1.29.02.32", clsUserMgtCode.SubModuleProductionTransactionDairy, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
-        InsertDefaultValue(clsUserMgtCode.frmMilkSuppliers, "Milk Suppliers", "1.29.02.33", clsUserMgtCode.SubModuleProductionTransactionDairy, 8)
-        InsertDefaultValue(clsUserMgtCode.frmMCCRouteMapping, "MCC Route Mapping", "1.29.02.34", clsUserMgtCode.SubModuleProductionTransactionDairy, 8)
-        InsertDefaultValue(clsUserMgtCode.frmMCCSuperwiserMapping, "MCC Superviser Mapping", "1.29.02.35", clsUserMgtCode.SubModuleProductionTransactionDairy, 8)
-        InsertDefaultValue(clsUserMgtCode.frmMCCSupplierMapping, "MCC Supplier Mapping", "1.29.02.36", clsUserMgtCode.SubModuleProductionTransactionDairy, 8)
+        InsertDefaultValue(clsUserMgtCode.frmMilkSuppliers, "Milk Suppliers", "1.29.02.33", clsUserMgtCode.SubModuleProductionTransactionDairy, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
+        InsertDefaultValue(clsUserMgtCode.frmMCCRouteMapping, "MCC Route Mapping", "1.29.02.34", clsUserMgtCode.SubModuleProductionTransactionDairy, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
+        InsertDefaultValue(clsUserMgtCode.frmMCCSuperwiserMapping, "MCC Superviser Mapping", "1.29.02.35", clsUserMgtCode.SubModuleProductionTransactionDairy, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
+        InsertDefaultValue(clsUserMgtCode.frmMCCSupplierMapping, "MCC Supplier Mapping", "1.29.02.36", clsUserMgtCode.SubModuleProductionTransactionDairy, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.frmMilkCollection, "Milk Collection", "1.29.02.37", clsUserMgtCode.SubModuleProductionTransactionDairy, 8)
         InsertDefaultValue(clsUserMgtCode.frmMilkQualityCheck, "Milk Quality Check", "1.29.02.38", clsUserMgtCode.SubModuleProductionTransactionDairy, 8)
         InsertDefaultValue(clsUserMgtCode.frmMilkRateProcessingScheme, "Milk Rate Processing Scheme", "1.29.02.39", clsUserMgtCode.SubModuleProductionTransactionDairy, 8)
@@ -2057,12 +2057,12 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmCSADeliveryOrder, "CSA Delivery Order", "1.24.02.03", clsUserMgtCode.SubModuleCSASaleTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.frmCSATransfer, "CSA Transfer", "1.24.02.04", clsUserMgtCode.SubModuleCSASaleTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.frmCSASaleInvoice, "CSA Sale Invoice/Sale Patti", "1.24.02.05", clsUserMgtCode.SubModuleCSASaleTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
-        InsertDefaultValue(clsUserMgtCode.frmCSATransferReturn, "CSA Transfer Return", "1.24.02.06", clsUserMgtCode.SubModuleCSASaleTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmCSATransferReturn, "CSA Transfer Return", "1.24.02.06", clsUserMgtCode.SubModuleCSASaleTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.FrmShortCloseDOCS, "Short Close DO CSA", "1.24.02.07", clsUserMgtCode.SubModuleCSASaleTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.frmCSASalePattiReturn, "CSA Sale Patti Return", "1.24.02.08", clsUserMgtCode.SubModuleCSASaleTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.FrmCSATransferGateOut, "CSA Transfer Gate Out", "1.24.02.09", clsUserMgtCode.SubModuleCSASaleTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.frmGateEntryReturnCS, "Gate Return CSA Sale", "1.24.02.10", clsUserMgtCode.SubModuleCSASaleTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.frmsaleReturnGateEntryCSATransfer, "Sale Return Gate Entry CSA Transfer", "1.24.02.11", clsUserMgtCode.SubModuleCSASaleTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmCSASalePattiReturn, "CSA Sale Patti Return", "1.24.02.08", clsUserMgtCode.SubModuleCSASaleTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
+        InsertDefaultValue(clsUserMgtCode.FrmCSATransferGateOut, "CSA Transfer Gate Out", "1.24.02.09", clsUserMgtCode.SubModuleCSASaleTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
+        InsertDefaultValue(clsUserMgtCode.frmGateEntryReturnCS, "Gate Return CSA Sale", "1.24.02.10", clsUserMgtCode.SubModuleCSASaleTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
+        InsertDefaultValue(clsUserMgtCode.frmsaleReturnGateEntryCSATransfer, "Sale Return Gate Entry CSA Transfer", "1.24.02.11", clsUserMgtCode.SubModuleCSASaleTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         'Report
         InsertDefaultValue(clsUserMgtCode.SubModuleCSAReport, "Report", "1.24.03", clsUserMgtCode.ModuleCSASale, "SM", 30)
         InsertDefaultValue(clsUserMgtCode.frmCSADOReport, "CSA Delivery Order Report", "1.24.03.01", clsUserMgtCode.SubModuleCSAReport, 37)
@@ -2851,8 +2851,8 @@ Public Class ProgramCodeNew
         ''Transaction
         ''============================================
         InsertDefaultValue(clsUserMgtCode.SubModuleMISTransaction, "Transaction", "1.47.02", clsUserMgtCode.ModuleMIS, "SM", 26)
-        InsertDefaultValue(clsUserMgtCode.frmDailyMilkProducts, "Daily Milk Products", "1.47.02.01", clsUserMgtCode.SubModuleMISTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.frmDailySMPProduction, "Daily SMP Production", "1.47.02.02", clsUserMgtCode.SubModuleMISTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmDailyMilkProducts, "Daily Milk Products", "1.47.02.01", clsUserMgtCode.SubModuleMISTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
+        InsertDefaultValue(clsUserMgtCode.frmDailySMPProduction, "Daily SMP Production", "1.47.02.02", clsUserMgtCode.SubModuleMISTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
 
         'Try
         '    clsDBFuncationality.ExecuteNonQuery("insert into TSPL_MODULE_PERMISSION values ('1','" + clsUserMgtCode.ModuleReco + "')")
@@ -2943,7 +2943,7 @@ Public Class ProgramCodeNew
 
         ''--------------------------------------TRANSACTION--------------------------------------------------------
         InsertDefaultValue(clsUserMgtCode.SubModuleSheedTransaction, "Transaction", "1.51.02", clsUserMgtCode.ModuleSheed, "SM", 26)
-        InsertDefaultValue(clsUserMgtCode.frmSeedSelectionEntry, "Seed Selection Entry", "1.51.02.01", clsUserMgtCode.SubModuleSheedTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmSeedSelectionEntry, "Seed Selection Entry", "1.51.02.01", clsUserMgtCode.SubModuleSheedTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
 
 
         ''---------------------------------------REPORT---------------------------------------------------------

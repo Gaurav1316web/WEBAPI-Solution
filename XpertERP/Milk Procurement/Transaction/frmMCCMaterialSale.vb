@@ -5217,13 +5217,20 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
             left outer join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No  
             left outer join TSPL_VEHICLE_MASTER on TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id 
             left join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code 
-            left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code 
-            left join TSPL_VLC_MASTER_HEAD on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code 
-			left join TSPL_USER_CUSTOMER_ZONE on TSPL_USER_CUSTOMER_ZONE.Zone_Code=TSPL_VENDOR_MASTER.Zone_Code"
+            inner join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code 
+            left join TSPL_VLC_MASTER_HEAD on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code"
+            'left join TSPL_USER_CUSTOMER_ZONE on TSPL_USER_CUSTOMER_ZONE.Zone_Code=TSPL_VENDOR_MASTER.Zone_Code"
             Dim WhrCls As String = " 2=2 and TSPL_VENDOR_MASTER.Is_Inactive_In_Milk_Procurement=0
-            and TSPL_CUSTOMER_MASTER.CUSTOMER_FORM_TYPE='VSP' and TSPL_USER_CUSTOMER_ZONE.USER_Code= ('" + objCommonVar.CurrentUserCode + "')"
+            and TSPL_VENDOR_MASTER.Form_Type='VSP' "
+            If clsCommon.myLen(objCommonVar.strCurrUserZones) > 0 Then
+                WhrCls += " and TSPL_VENDOR_MASTER.zone_code in (" + objCommonVar.strCurrUserZones + ")"
+            End If
+            'If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            '    WhrCls += " And TSPL_USER_CUSTOMER_ZONE.USER_Code= ('" + objCommonVar.CurrentUserCode + "')"
+            'End If
+            'and TSPL_USER_CUSTOMER_ZONE.USER_Code= ('" + objCommonVar.CurrentUserCode + "')"
             txtVendorNo.Value = clsCommon.ShowSelectForm("AllCustomerInsteadMcc", qry, "Vlc_Code", WhrCls, txtVendorNo.Value, "Code", isButtonClicked)
-            qry += " where 2=2 and TSPL_VENDOR_MASTER.Is_Inactive_In_Milk_Procurement=0 and TSPL_CUSTOMER_MASTER.CUSTOMER_FORM_TYPE='VSP' and TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader  ='" + txtVendorNo.Value + "'"
+            qry += " where 2=2 and TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader  ='" + txtVendorNo.Value + "'"
         Else
             If ShowAllCustomer = True AndAlso chkcashsale.Checked = True AndAlso chkOther.Checked = True Then
                 qry = "select TSPL_CUSTOMER_MASTER.Cust_Code as Code,Customer_Name as Name,TSPL_CUSTOMER_MASTER.add1 +case when len(TSPL_CUSTOMER_MASTER.add2)>0 then ', '+TSPL_CUSTOMER_MASTER.add2 else '' end +case when LEN(isnull(TSPL_CUSTOMER_MASTER.Add3,''))>0 then ', '+isnull(TSPL_CUSTOMER_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER.City_Name)>0 then ', '+TSPL_CITY_MASTER.City_Name else ' ' end + case when len(TSPL_CUSTOMER_MASTER.State )>0 then TSPL_CUSTOMER_MASTER.State else '' end  as Address,TSPL_CUSTOMER_MASTER.Terms_Code as [Term Code] , TSPL_TERMS_MASTER.Terms_Desc as [Term Description] ,TSPL_CUSTOMER_MASTER.Tax_Group as [Tax Group],TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as [Tax Group Description],Salesman_Code as [Salesman Code],Salesman_Desc as Salesman  " &
