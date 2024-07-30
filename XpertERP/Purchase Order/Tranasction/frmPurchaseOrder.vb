@@ -3370,19 +3370,43 @@ Public Class frmPurchaseOrder
                 cboItemType.Focus()
                 Exit Sub
             End If
-            If clsCommon.myLen(txtTenderNo.Value) > 0 AndAlso (clsCommon.myCDecimal(txtTenderNo.Tag) = 2 OrElse clsCommon.myCDecimal(txtTenderNo.Tag) = 3) Then
-                Dim obj As clsTenderDetail = clsTenderDetail.GetFinder(txtTenderNo.Value, txtVendorNo.Value, txtBillToLocation.Value)
-                If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Item_Code) > 0 Then
-                    gv1.CurrentRow.Cells(colICode).Value = obj.Item_Code
-                    gv1.CurrentRow.Cells(colIName).Value = obj.Item_Name
-                    gv1.CurrentRow.Cells(colHSNNo).Value = clsItemMaster.GetItemHSNCode(obj.Item_Code, Nothing)
-                    gv1.CurrentRow.Cells(colItemTaxable).Value = clsItemMaster.IsTaxableItem(obj.Item_Code, Nothing)
-                    gv1.CurrentRow.Cells(colUnit).Value = obj.Unit_code
-                    gv1.CurrentRow.Cells(colisMRPMandatory).Value = clsItemMaster.IsMRPItem(obj.Item_Code)
-                    gv1.CurrentRow.Cells(colRate).Value = obj.Rate
-                    gv1.CurrentRow.Cells(colDisPer).Value = obj.Discount
+            If clsCommon.myLen(txtTenderNo.Value) > 0 Then
+                If clsTenderHead.GetTenderOn(txtTenderNo.Value, Nothing) = 1 Then
+                    Dim obj As clsTenderDetail = clsTenderDetail.GetItemTypeFinder(txtTenderNo.Value, txtVendorNo.Value, txtBillToLocation.Value)
+                    If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Item_Code) > 0 Then
+                        gv1.CurrentRow.Cells(colICode).Value = obj.Item_Code
+                        gv1.CurrentRow.Cells(colIName).Value = obj.Item_Name
+                        gv1.CurrentRow.Cells(colHSNNo).Value = clsItemMaster.GetItemHSNCode(obj.Item_Code, Nothing)
+                        gv1.CurrentRow.Cells(colItemTaxable).Value = clsItemMaster.IsTaxableItem(obj.Item_Code, Nothing)
+                        gv1.CurrentRow.Cells(colUnit).Value = obj.Unit_code
+                        gv1.CurrentRow.Cells(colisMRPMandatory).Value = clsItemMaster.IsMRPItem(obj.Item_Code)
+                        gv1.CurrentRow.Cells(colRate).Value = obj.Rate
+                        gv1.CurrentRow.Cells(colDisPer).Value = obj.Discount
+                    Else
+                        SetBlankOfItemColumns()
+                    End If
                 Else
-                    SetBlankOfItemColumns()
+                    Dim flag As Boolean = False
+                    If Not objCommonVar.RCDFCFP Then
+                        flag = True
+                    ElseIf objCommonVar.RCDFCFP AndAlso (clsCommon.myCDecimal(txtTenderNo.Tag) = 2 OrElse clsCommon.myCDecimal(txtTenderNo.Tag) = 3) Then
+                        flag = True
+                    End If
+                    If flag Then
+                        Dim obj As clsTenderDetail = clsTenderDetail.GetFinder(txtTenderNo.Value, txtVendorNo.Value, txtBillToLocation.Value)
+                        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Item_Code) > 0 Then
+                            gv1.CurrentRow.Cells(colICode).Value = obj.Item_Code
+                            gv1.CurrentRow.Cells(colIName).Value = obj.Item_Name
+                            gv1.CurrentRow.Cells(colHSNNo).Value = clsItemMaster.GetItemHSNCode(obj.Item_Code, Nothing)
+                            gv1.CurrentRow.Cells(colItemTaxable).Value = clsItemMaster.IsTaxableItem(obj.Item_Code, Nothing)
+                            gv1.CurrentRow.Cells(colUnit).Value = obj.Unit_code
+                            gv1.CurrentRow.Cells(colisMRPMandatory).Value = clsItemMaster.IsMRPItem(obj.Item_Code)
+                            gv1.CurrentRow.Cells(colRate).Value = obj.Rate
+                            gv1.CurrentRow.Cells(colDisPer).Value = obj.Discount
+                        Else
+                            SetBlankOfItemColumns()
+                        End If
+                    End If
                 End If
             ElseIf isItemfromVendorItemDetails Then
                 If clsCommon.myLen(txtVendorNo.Value) > 0 AndAlso clsCommon.myLen(txtBillToLocation.Value) <= 0 AndAlso Not chkMCCPurchase.Checked Then
@@ -4966,14 +4990,26 @@ Public Class frmPurchaseOrder
                             Return False
                         End If
                     End If
-
-                    If clsCommon.myLen(txtTenderNo.Value) > 0 AndAlso clsCommon.myCDecimal(txtTenderNo.Tag) = 3 Then
-                        Dim qry As String = "select Item_Code,TSPL_TENDER_DETAIL.Unit_code,TSPL_TENDER_DETAIL.Rate,TSPL_TENDER_DETAIL.Discount from TSPL_TENDER_DETAIL where DocumentCode='" + txtTenderNo.Value + "' and Vendor_Code='" + txtVendorNo.Value + "' and Item_Code='" + strICode + "' and Rate=" + clsCommon.myCstr(dblRate) + " and Unit_code='" + strUOM + "'"
-                        Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry)
-                        If dt1 Is Nothing OrElse dt1.Rows.Count <= 0 Then
-                            clsCommon.MyMessageBoxShow(Me, "item : " + strICode + " is not for vendor: " + txtVendorNo.Value + " and Tender: " + txtTenderNo.Value + " Rate: " + clsCommon.myCstr(dblRate) + " and UOM: " + strUOM + ". At Line No" + clsCommon.myCstr(ii + 1))
-                            RadPageView1.SelectedPage = RadPageViewPage1
-                            Return False
+                    If clsCommon.myLen(txtTenderNo.Value) > 0 Then
+                        Dim flag As Boolean = False
+                        If Not objCommonVar.RCDFCFP Then
+                            flag = True
+                        ElseIf objCommonVar.RCDFCFP AndAlso clsCommon.myCDecimal(txtTenderNo.Tag) = 3 Then
+                            flag = True
+                        End If
+                        If flag Then
+                            Dim qry As String = "select Item_Code,TSPL_TENDER_DETAIL.Unit_code,TSPL_TENDER_DETAIL.Rate,TSPL_TENDER_DETAIL.Discount from TSPL_TENDER_DETAIL where DocumentCode='" + txtTenderNo.Value + "' and Vendor_Code='" + txtVendorNo.Value + "' and Rate=" + clsCommon.myCstr(dblRate) + " and Unit_code='" + strUOM + "'"
+                            If clsTenderHead.GetTenderOn(txtTenderNo.Value, Nothing) = 1 Then
+                                qry += " and Item_Type='" + clsCommon.myCstr(cboItemType.SelectedValue) + "'"
+                            Else
+                                qry += " and Item_Code='" + strICode + "'"
+                            End If
+                            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry)
+                            If dt1 Is Nothing OrElse dt1.Rows.Count <= 0 Then
+                                clsCommon.MyMessageBoxShow(Me, "item : " + strICode + " is not for vendor: " + txtVendorNo.Value + " and Tender: " + txtTenderNo.Value + " Rate: " + clsCommon.myCstr(dblRate) + " and UOM: " + strUOM + ". At Line No" + clsCommon.myCstr(ii + 1))
+                                RadPageView1.SelectedPage = RadPageViewPage1
+                                Return False
+                            End If
                         End If
                     ElseIf isItemfromVendorItemDetails Then
                         Dim qry As String = "select 1 from TSPL_VENDOR_ITEM_DETAIL where vendor_code='" + txtVendorNo.Value + "' and item_no in ('" + strICode + "')"
@@ -10656,11 +10692,53 @@ Public Class frmPurchaseOrder
 
     Private Sub txtTenderNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtTenderNo._MYValidating
         Try
+
             If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
+                txtVendorNo.Focus()
                 Throw New Exception("Please select vendor")
             End If
-            txtTenderNo.Value = clsTenderHead.getFinder("Tender_Type in (2,3) and Posted=1 and exists (select 1 from TSPL_TENDER_DETAIL where TSPL_TENDER_DETAIL.DocumentCode=TSPL_TENDER_HEADER.DocumentCode and TSPL_TENDER_DETAIL.Vendor_Code='" + txtVendorNo.Value + "') ", txtTenderNo.Value, isButtonClicked)
+            If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
+                txtBillToLocation.Focus()
+                Throw New Exception("Please select " + txtBillToLocation.MyLinkLable1.Text)
+            End If
+
+            Dim whrclas As String = "Posted=1 and exists (select 1 from TSPL_TENDER_DETAIL where TSPL_TENDER_DETAIL.DocumentCode=TSPL_TENDER_HEADER.DocumentCode and TSPL_TENDER_DETAIL.Vendor_Code='" + txtVendorNo.Value + "') "
+            If objCommonVar.RCDFCFP Then
+                whrclas += " and Tender_Type in (2,3)"
+            End If
+            txtTenderNo.Value = clsTenderHead.getFinder(whrclas, txtTenderNo.Value, isButtonClicked)
             txtTenderNo.Tag = clsTenderHead.GetTenderType(txtTenderNo.Value, Nothing)
+            If clsCommon.myLen(txtTenderNo.Value) > 0 Then
+                If Not objCommonVar.RCDFCFP Then
+                    Dim qry As String = "select Tender_On,TSPL_TENDER_DETAIL.Item_Type,TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_NAME 
+from TSPL_TENDER_HEADER 
+left outer join TSPL_TENDER_DETAIL  on TSPL_TENDER_DETAIL.DocumentCode=TSPL_TENDER_HEADER.DocumentCode
+left outer join TSPL_ITEM_TYPE_MASTER on TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_CODE=TSPL_TENDER_DETAIL.Item_Type
+ where TSPL_TENDER_HEADER.DocumentCode='" + txtTenderNo.Value + "' and TSPL_TENDER_DETAIL.Location='" + txtBillToLocation.Value + "'"
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        If clsCommon.myCDecimal(dt.Rows(0)("Tender_On")) = 1 Then
+                            If dt.Rows.Count = 1 Then
+                                cboItemType.SelectedValue = clsCommon.myCstr(dt.Rows(0)("Item_Type"))
+                                cboItemType.Enabled = False
+                            Else
+                                Dim frm As New XpertERPEngine.FrmFreeComboBox()
+                                frm.ComboSource = dt
+                                frm.ComboValueMember = "Item_Type"
+                                frm.ComboDisplayMember = "ITEM_TYPE_NAME"
+                                frm.ShowDialog()
+                                If clsCommon.myLen(frm.strRetValue) > 0 Then
+                                    cboItemType.SelectedValue = frm.strRetValue
+                                    cboItemType.Enabled = False
+                                Else
+                                    txtTenderNo.Value = Nothing
+                                    txtTenderNo.Tag = Nothing
+                                End If
+                            End If
+                        End If
+                    End If
+                End If
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -11087,5 +11165,7 @@ Public Class frmPurchaseOrder
             SetTax()
         End If
     End Sub
+
+
 End Class
 
