@@ -677,6 +677,7 @@
     <None Include="Crystal Reports GST\Purchase Order\SRNReportThroughReportOLD.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\SRNReportThroughReportQtyWise.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\StockAnalysis.rpt" />
+    <None Include="Crystal Reports GST\Purchase Order\StoreRequisitionWithoutVendor.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\VendorList.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\VendorRatingRejection.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\VendorWiseGoodsReturnableBalance.rpt" />

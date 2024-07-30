@@ -65,7 +65,7 @@ Public Class clsCSASalePattiReturnHead
     Public Shared Function SaveData(ByVal obj As clsCSASalePattiReturnHead, ByVal trans As SqlTransaction) As Boolean
         Dim coll As New Hashtable()
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "CSA Sale", "CSA Sale Patti Return", obj.Location_Code, obj.Documnet_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleCSASale, clsUserMgtCode.frmCSASalePattiReturn, obj.Location_Code, obj.Documnet_Date, trans)
 
             clsBatchInventory.DeleteData("CSA-SALEPATTI-RETURN", obj.Document_Code, trans)
 

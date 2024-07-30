@@ -64,6 +64,11 @@ Public Class clsGateEntryReturnCSA
             If (clsCommon.myLen(strCODE) <= 0) Then
                 Throw New Exception("GE_CODE not found to Post")
             End If
+            Dim qryLocationDate As String = "select GE_DATE from TSPL_GATE_ENTRY_RETURN_CSA where TSPL_GATE_ENTRY_RETURN_CSA.GE_CODE ='" + obj.GE_CODE + "'   "
+            Dim dt As DataTable
+            dt = clsDBFuncationality.GetDataTable(qryLocationDate)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleCSASale, clsUserMgtCode.frmGateEntryReturnCS, "REF_DOC_No", clsCommon.myCDate(dt.Rows(0)("GE_DATE")), Nothing)
+
             Dim qry As String
             qry = "update TSPL_GATE_ENTRY_RETURN_CSA set Posted=1  where TSPL_GATE_ENTRY_RETURN_CSA.GE_CODE ='" + strCODE + "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry)
@@ -144,6 +149,10 @@ Public Class clsGateEntryReturnCSA
         Dim rbudget As String = Nothing
         Dim revno As String = Nothing
         Try
+            Dim qryLocationDate As String = "select GE_DATE from TSPL_GATE_ENTRY_RETURN_CSA where TSPL_GATE_ENTRY_RETURN_CSA.GE_CODE ='" + obj.GE_CODE + "'   "
+            Dim dt As DataTable
+            dt = clsDBFuncationality.GetDataTable(qryLocationDate)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleCSASale, clsUserMgtCode.frmGateEntryReturnCS, "REF_DOC_No", clsCommon.myCDate(dt.Rows(0)("GE_DATE")), trans)
 
             Dim coll As New Hashtable()
             revno = "0"
