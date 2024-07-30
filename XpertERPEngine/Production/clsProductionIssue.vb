@@ -116,7 +116,7 @@ Public Class clsProductionIssue
             If (clsCommon.myLen(obj.ISSUE_CODE) <= 0) Then
                 Throw New Exception("Error in Document Code Generation")
             End If
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Standard Production", "Store Issue", obj.LOCATION_CODE, obj.ISSUE_DATE, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionSTD, clsUserMgtCode.frmStoreIssueSTD, obj.LOCATION_CODE, obj.ISSUE_DATE, trans)
             Dim coll As New Hashtable()
 
             clsCommon.AddColumnsForChange(coll, "comp_code", objCommonVar.CurrentCompanyCode)

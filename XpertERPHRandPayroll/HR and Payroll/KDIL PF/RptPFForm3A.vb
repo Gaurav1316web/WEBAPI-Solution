@@ -53,6 +53,19 @@ Public Class RptPFForm3A
             Dim MainQry As String
             Dim TotalContribution As Double
             Dim TotalDays As Double
+            Dim lstFPRule As List(Of String) = Nothing
+
+            Dim lstPFQry As String = "(Select ISNull((COEPS_PER),0)COEPS_PER,ISNull((COEPF_PER),0)COEPF_PER,EPS_MAX  From TSPL_PF_RULE_MASTER Where PFRULE_CODE IN ( select PFRULE_CODE from TSPL_PF_RULE_MASTER  
+                      where APPLICABLE_FROM<=(select top 1 DATE_FROM from TSPL_PAYPERIOD_MASTER where convert(date,TSPL_PAYPERIOD_MASTER.DATE_TO,103)>=convert(date,'" & FromDate.ToString & "',103)  and convert(date,TSPL_PAYPERIOD_MASTER.DATE_TO,103) <=convert(date,'" & ToDate.ToString & "' ,103) Order By DATE_FROM) 
+                      GROUP BY PFRULE_CODE ))"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(lstPFQry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                lstFPRule = New List(Of String)
+                lstFPRule.Add(clsCommon.myCstr(dt.Rows(0)("COEPS_PER")))
+                lstFPRule.Add(clsCommon.myCstr(dt.Rows(0)("COEPF_PER")))
+                lstFPRule.Add(clsCommon.myCstr(dt.Rows(0)("EPS_MAX")))
+            End If
+
             'Dim RountOffType As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT TOP 1 COEPF_ROUNDOFF_YPE  FROM TSPL_PF_RULE_MASTER where convert(date,APPLICABLE_FROM,103) <= convert(date,'" + ToDate + "',103) ORDER BY APPLICABLE_FROM Desc;"))
 
             'StatutoryRate = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT TOP 1 EMPEPF_PER  FROM TSPL_PF_RULE_MASTER where convert(date,APPLICABLE_FROM,103) <= convert(date,'" + ToDate + "',103) ORDER BY APPLICABLE_FROM Desc;"))
@@ -71,15 +84,34 @@ Public Class RptPFForm3A
 
             Qry = " select * from(select * from(select * from(select * from (select * from (select * from (select '12' as Employee_pf_per,Emp_Name,max(FATHERS_NAME) as FATHERS_NAME  ,max(BANK_ACC_NO) as BANK_ACC_NO,MAX( MonthlyAmt) as MonthlyAmt ,max (MonthlyShare) as MonthlyShare,max(monthlyEmployer) as monthlyEmployer,MAX(monthlyPension)as monthlyPension ,max(Comp_Name)as Comp_Name ,max(Add1) as Add1,max(Add2) as Add2,max(location_desc) As [Location_Desc] "
             Qry += " ,max(City_Code) as City_Code , HEAD_VALUE,max(ACTUAL_AMOUNT) as ACTUAL_AMOUNT ,max(pension_fund)as pension_fund,'" & FromDate.Year & "' as From_Year,'" & ToDate.Year & "' as To_Year ,max(Employer_Share) as Employer_Share,max(RELIEVING_DATE)as RELIEVING_DATE,max(LEAVING_REASON)as LEAVING_REASON,max(monthlyDays)as monthlyDays,max(ABSENT_DAYS)as ABSENT_DAYS,MAX(EPF_Rate) As EPF_Rate ,MAX(Rate_Amount) AS Rate_Amount,MAX(PF_No) AS PF_No,max(Emp_PF_NO) as Emp_PF_NO  from (select Emp_Name,FATHERS_NAME,BANK_ACC_NO,tt._Month+'Amt'  as MonthlyAmt ,tt._Month+'Share' as MonthlyShare,tt. _Month+'Employer' as monthlyEmployer ,tt. _Month+'Pension' as monthlyPension,"
-            Qry += " Comp_Name,Add1,Add2,location_desc,City_Code, HEAD_VALUE,ACTUAL_AMOUNT,(ACTUAL_AMOUNT - pension_fund)as Employer_Share ,pension_fund,RELIEVING_DATE,LEAVING_REASON,tt. _Month+'Days' as monthlyDays ,ABSENT_DAYS,EPF_Rate,Rate_Amount,PF_No,Emp_PF_NO from "
+            Qry += " Comp_Name,Add1,Add2,location_desc,City_Code, HEAD_VALUE,ACTUAL_AMOUNT,(((HEAD_VALUE*" & clsCommon.myCdbl(lstFPRule(0)) & ") /100))+(Case When ((HEAD_VALUE*" & clsCommon.myCdbl(lstFPRule(0)) & ") /100)>" & clsCommon.myCdbl(lstFPRule(2)) & " Then  ((HEAD_VALUE*" & clsCommon.myCdbl(lstFPRule(1)) & ") /100)-" & clsCommon.myCdbl(lstFPRule(2)) & " Else 0 End )as Employer_Share ,pension_fund,RELIEVING_DATE,LEAVING_REASON,tt. _Month+'Days' as monthlyDays ,ABSENT_DAYS,EPF_Rate,Rate_Amount,PF_No,Emp_PF_NO from "
 
-            Qry += "(select Emp_Name ,FATHERS_NAME ,BANK_ACC_NO ,Comp_Name ,TSPL_LOCATION_MASTER.Add1 ,TSPL_LOCATION_MASTER.Add2 ,TSPL_LOCATION_MASTER.location_desc,TSPL_LOCATION_MASTER.City_Code,(case when HEAD_VALUE>PF_MAX_LM then PF_MAX_LM else HEAD_VALUE end) as HEAD_VALUE ,ACTUAL_AMOUNT ,"
+            Qry += "(select Emp_Name ,FATHERS_NAME ,BANK_ACC_NO ,Comp_Name ,TSPL_LOCATION_MASTER.Add1 ,TSPL_LOCATION_MASTER.Add2 ,TSPL_LOCATION_MASTER.location_desc,TSPL_LOCATION_MASTER.City_Code,EmpWages.Wages as HEAD_VALUE ,ACTUAL_AMOUNT ,"
 
-            Qry += "  CoEPS_AMT_AC10  as pension_fund,"
+            Qry += " Case When ((EmpWages.Wages*" & clsCommon.myCdbl(lstFPRule(1)) & ") /100)>" & clsCommon.myCdbl(clsCommon.myCdbl(lstFPRule(2))) & " Then " & clsCommon.myCdbl(clsCommon.myCdbl(lstFPRule(2))) & " Else ((EmpWages.Wages*" & clsCommon.myCdbl(lstFPRule(1)) & ") /100) End  as pension_fund, "
             Qry += " DATENAME (MONTH ,CONVERT(date,Date_from,103))as _Month,TSPL_PAYPERIOD_MASTER.DATE_TO as GENERATE_DATE ,convert(date,RELIEVING_DATE,103) as RELIEVING_DATE,LEAVING_REASON,ABSENT_DAYS,coalesce(TSPL_GENERATE_SALARY_PAYHEADS.EPF_Rate,0) as EPF_Rate,ISNULL(CoEPF_Rate_Ac01,0)+ISNULL(CoEPS_RATE_AC10,0) As Rate_Amount ,ISNULL(TSPL_LOCATION_MASTER.PF_NO ,'') AS [PF_No],isnull(TSPL_EMPLOYEE_MASTER.PF_NO,'') as Emp_PF_NO from TSPL_GENERATE_SALARY_PAYHEADS left join TSPL_EMPLOYEE_MASTER on  TSPL_EMPLOYEE_MASTER.EMP_CODE =TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code =TSPL_EMPLOYEE_MASTER.Comp_Code   left join TSPL_GENERATE_SALARY_ATTENDANCE ON TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE AND TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE "
             Qry += " left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_EMPLOYEE_MASTER.Location_Code "
             Qry += "  left join TSPL_GENERATE_SALARY on TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE =TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE "
             Qry += "   left join TSPL_PAYPERIOD_MASTER on TSPL_PAYPERIOD_MASTER.Pay_Period_Code=TSPL_GENERATE_SALARy.Pay_Period_Code"
+            Qry += " Left Join (select (Case When SUB_HEAD_TYPE='Basic' Then ACTUAL_AMOUNT Else 0 End)+(Case When SUB_HEAD_TYPE='DA' Then ACTUAL_AMOUNT Else 0 End)Wages,TSPL_EMPLOYEE_MASTER.EMP_CODE,TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE
+                    from TSPL_GENERATE_SALARY_PAYHEADS 
+                    left join TSPL_EMPLOYEE_MASTER on  TSPL_EMPLOYEE_MASTER.EMP_CODE =TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE 
+                    left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code =TSPL_EMPLOYEE_MASTER.Comp_Code   
+                    left join TSPL_GENERATE_SALARY_ATTENDANCE ON TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE AND TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE  
+                    left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_EMPLOYEE_MASTER.Location_Code   
+                    left join TSPL_GENERATE_SALARY on TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE =TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE    
+                    left join TSPL_PAYPERIOD_MASTER on TSPL_PAYPERIOD_MASTER.Pay_Period_Code=TSPL_GENERATE_SALARy.Pay_Period_Code   
+                    where SUB_HEAD_TYPE IN ('BASIC','DA') And ACTUAL_AMOUNT > 0 and   convert(date,TSPL_PAYPERIOD_MASTER.DATE_TO,103)>=convert(date,'" & FromDate.ToString & "',103)  and convert(date,TSPL_PAYPERIOD_MASTER.DATE_TO,103) <=convert(date,'" & ToDate.ToString & "' ,103)"
+            If FndEmployeeMult.arrValueMember IsNot Nothing AndAlso FndEmployeeMult.arrValueMember.Count > 0 Then
+                Qry += " and TSPL_GENERATE_SALARY_PAYHEADS.Emp_Code  in (" + clsCommon.GetMulcallString(FndEmployeeMult.arrValueMember) + ") "
+            End If
+            If fndDivisionCode.arrValueMember IsNot Nothing AndAlso fndDivisionCode.arrValueMember.Count > 0 Then
+                Qry += "and TSPL_GENERATE_SALARy.DEVISION_CODE in (" + clsCommon.GetMulcallString(fndDivisionCode.arrValueMember) + ")"
+            End If
+            If fndLocationCode.arrValueMember IsNot Nothing AndAlso fndLocationCode.arrValueMember.Count > 0 Then
+                Qry += " and TSPL_GENERATE_SALARy.LOCATION_CODE in (" + clsCommon.GetMulcallString(fndLocationCode.arrValueMember) + ") "
+            End If
+            Qry += ")EmpWages on EmpWages.EMP_CODE=TSPL_EMPLOYEE_MASTER.EMP_CODE And EmpWages.PAY_PERIOD_CODE=TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE "
             Qry += "   where SUB_HEAD_TYPE in ('EPF')and ACTUAL_AMOUNT > 0 and   convert(date,TSPL_PAYPERIOD_MASTER.DATE_TO,103)>=convert(date,'" & FromDate.ToString & "',103)  and convert(date,TSPL_PAYPERIOD_MASTER.DATE_TO,103) <=convert(date,'" & ToDate.ToString & "' ,103)"
 
             If FndEmployeeMult.arrValueMember IsNot Nothing AndAlso FndEmployeeMult.arrValueMember.Count > 0 Then
@@ -140,7 +172,7 @@ Public Class RptPFForm3A
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-   
+
     Private Sub FndEmployeeMult__My_Click(sender As Object, e As EventArgs) Handles FndEmployeeMult._My_Click
         Try
             Dim qry As String = "select EMP_CODE , Emp_Name as Name from TSPL_Employee_Master left join TSPL_Location_Master on  TSPL_Location_Master.Location_code=TSPL_Employee_Master.Location_Code where ISpf ='1' and TSPL_LOCATION_MASTER.Location_Code in (" & clsCommon.GetMulcallString(fndLocationCode.arrValueMember) & ") "

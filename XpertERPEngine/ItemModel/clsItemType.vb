@@ -161,4 +161,8 @@ Public Class clsItemType
         Return result
     End Function
 
+    Public Shared Function GetName(ByVal strICode As String, ByVal trans As SqlTransaction) As String
+        Dim qry As String = "select ITEM_TYPE_NAME from TSPL_ITEM_TYPE_MASTER where ITEM_TYPE_CODE='" + strICode + "' "
+        Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+    End Function
 End Class

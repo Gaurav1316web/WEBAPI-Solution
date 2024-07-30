@@ -32,7 +32,7 @@ Public Class clsProductionItemSerialReplace
             If isNewEntry Then
                 obj.docno = clsERPFuncationality.GetNextCode(trans, clsCommon.GetPrintDate(obj.docdate, "dd/MMM/yyyy"), clsDocType.SerializedReplace, "", "")
             End If
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Standard Production", "Replace Serializing Entry", obj.loc_code, obj.docdate, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionSTD, clsUserMgtCode.frmProductionItemSerialReplace, obj.loc_code, obj.docdate, trans)
             clsCommon.AddColumnsForChange(coll, "Comp_code", objCommonVar.CurrentCompanyCode)
             clsCommon.AddColumnsForChange(coll, "Doc_No", obj.docno)
             clsCommon.AddColumnsForChange(coll, "Doc_Date", clsCommon.GetPrintDate(obj.docdate, "dd/MMM/yyyy"))

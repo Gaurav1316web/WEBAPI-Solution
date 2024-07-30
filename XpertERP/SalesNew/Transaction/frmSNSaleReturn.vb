@@ -2172,7 +2172,7 @@ Public Class frmSNSaleReturn
         repoACName.HeaderText = "Addition Charges Description"
         repoACName.Name = colACName
         repoACName.Width = 300
-        repoACName.ReadOnly = True
+        repoACName.ReadOnly = False
         gvAC.MasterTemplate.Columns.Add(repoACName)
 
         Dim repoACAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
@@ -2189,6 +2189,7 @@ Public Class frmSNSaleReturn
         gvAC.AllowColumnReorder = True
         gvAC.AllowRowReorder = False
         gvAC.EnableSorting = False
+        gvAC.AllowDeleteRow = True
         gvAC.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         gvAC.MasterTemplate.ShowRowHeaderColumn = False
         gvAC.TableElement.TableHeaderHeight = 40
@@ -5105,9 +5106,10 @@ Public Class frmSNSaleReturn
                         gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objOrderHead.Add_Charge_Name10
                         gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objOrderHead.Add_Charge_Amt10
                     End If
+                    LoadBlankGridAC()
                     gvAC.Rows.AddNew()
                 End If
-
+                
             End If
             If gv1.Rows.Count > 0 AndAlso clsCommon.myLen(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) <= 0 Then
                 gv1.Rows.RemoveAt(gv1.Rows.Count - 1)
@@ -5240,7 +5242,7 @@ Public Class frmSNSaleReturn
             Next
         End If
         txtTaxGroup.Enabled = False
-        gvAC.ReadOnly = True
+        'gvAC.ReadOnly = True
         isInsideLoadData = False
         UpdateAllTotals()
         RefreshReqNo()

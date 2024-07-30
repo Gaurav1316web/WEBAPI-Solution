@@ -561,9 +561,9 @@ Public Class scrapinvoicehead
 
             clsCommon.AddColumnsForChange(coll, "EWayBillNo", objin.EWayBillDate)
             If objin.EWayBillDate Is Nothing Then
-                clsCommon.AddColumnsForChange(coll, "EWayBillDate", clsCommon.GetPrintDate(objin.EWayBillDate, "dd/MMM/yyyy hh:mm tt"))
+                clsCommon.AddColumnsForChange(coll, "EWayBillDate", Nothing, True)
             Else
-                clsCommon.AddColumnsForChange(coll, "EWayBillDate", objin.EWayBillDate)
+                clsCommon.AddColumnsForChange(coll, "EWayBillDate", objin.EWayBillDate, clsCommon.GetPrintDate(objin.EWayBillDate, "dd/MMM/yyyy hh:mm tt"))
             End If
 
 

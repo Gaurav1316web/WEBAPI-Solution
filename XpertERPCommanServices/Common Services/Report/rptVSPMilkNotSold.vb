@@ -553,11 +553,19 @@ Public Class rptVSPMilkNotSold
                         'Else
                         '    Qry += "  and TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Text + "' "
                         'End If
-                        If clsCommon.myLen(StrPermission) > 0 Then
-                            Qry += "  and TSPL_VLC_MASTER_HEAD.MCC In (" & StrPermission & ") "
+
+                        'If clsCommon.myLen(StrPermission) > 0 Then
+                        '    Qry += "  and TSPL_VLC_MASTER_HEAD.MCC In (" & StrPermission & ") "
+                        'Else
+                        '    Qry += "  and TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Text + "' "
+                        'End If
+
+                        If TxtMCCMultifnd.arrValueMember IsNot Nothing AndAlso TxtMCCMultifnd.arrValueMember.Count > 0 Then
+                            Qry += "  and TSPL_VLC_MASTER_HEAD.MCC In (" & clsCommon.GetMulcallString(TxtMCCMultifnd.arrValueMember) & ") "
                         Else
-                            Qry += "  and TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Text + "' "
+                            Qry += "  and TSPL_VLC_MASTER_HEAD.MCC In (" & StrPermission & ") "
                         End If
+
                         Qry += "  And TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date >=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' And TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date  <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' and 
                                           TSPL_VLC_MASTER_HEAD.VSP_Code Not In(Select VSP_Code from TSPL_MILK_SRN_HEAD where Doc_Date >=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' And Doc_Date  <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "')) "
 

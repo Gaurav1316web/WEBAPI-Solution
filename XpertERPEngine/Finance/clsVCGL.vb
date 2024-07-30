@@ -793,6 +793,7 @@ Public Class clsVCGLHead
             Throw New Exception("Document No not found to Delete")
         End If
         Dim obj As clsVCGLHead = clsVCGLHead.GetData(strDocNo)
+        clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleGL, clsUserMgtCode.mbtnVCGLEntry, obj.Location_Segment, obj.Document_Date, Nothing)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
             Try

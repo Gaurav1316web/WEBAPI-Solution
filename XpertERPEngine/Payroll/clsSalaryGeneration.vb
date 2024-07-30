@@ -225,7 +225,7 @@ Public Class clsSalaryGeneration
     End Function
     Public Function SaveData(ByVal obj As clsSalaryGeneration, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = True
-        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Payroll", "Salary Generation", obj.LOCATION_CODE, obj.GENERATE_DATE, trans)
+        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleHR, clsUserMgtCode.frmSalaryGeneration, obj.LOCATION_CODE, obj.GENERATE_DATE, trans)
         If clsCommon.myLen(obj.Code) <= 0 Then
             obj.Code = clsERPFuncationality.GetNextCode(trans, Todate, clsDocType.SalaryGeneration, "", "")
         Else
@@ -678,7 +678,7 @@ Public Class clsSalaryGeneration
                 '        Dim qry As String = "  Select distinct Emp_code from ( select MAX(tspl_Vendor_master.isemployee) AS isemployee,TSPL_DEDUCTION_DETAIL.EMP_CODE ,TSPL_DEDUCTION_DETAIL.DEDUCTION_CODE ,sum(DEDUCTION_AMOUNT ) as DEDUCTION_AMOUNT,max(tspl_Vendor_master.Vendor_code) Vendor_code,max(tspl_Vendor_master.Vendor_name) as Vendor_name,max(TSPL_PAYHEAD_MASTER.Account_Code) as DeductionAccount from TSPL_DEDUCTION  left outer join TSPL_DEDUCTION_DETAIL on TSPL_DEDUCTION.DEDUCTION_CODE =TSPL_DEDUCTION_DETAIL.DEDUCTION_CODE left outer  join tspl_Vendor_master on TSPL_DEDUCTION_DETAIL.EMP_CODE=tspl_Vendor_master.EMP_CODE left outer join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE =TSPL_DEDUCTION_DETAIL.PAY_HEAD_CODE  where TSPL_DEDUCTION.PAY_PERIOD_CODE ='" + obj.PAY_PERIOD_CODE + "' and TSPL_DEDUCTION_DETAIL.EMP_CODE in (" + strEmpCode + ")  and TSPL_PAYHEAD_MASTER.SUB_HEAD_TYPE <>'TDS' group by TSPL_DEDUCTION_DETAIL.EMP_CODE ,TSPL_DEDUCTION_DETAIL.DEDUCTION_CODE ) XFinal where  (isemployee is null or len (isnull(isemployee,'')) <=0 ) "
                 '        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                 '        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                '            System.Diagnostics.Process.Start("salgenlog.txt")
+                '            System.Diagnostics.Process.Start( "c:\ERPTempFolder\salgenlog.txt")
                 '        End If
 
                 '    End If
@@ -826,7 +826,7 @@ Public Class clsSalaryGeneration
         End If
 
         Dim strLog As String = ""
-        Dim logFile As String = "salgenlog.txt"
+        Dim logFile As String = "c:\ERPTempFolder\salgenlog.txt"
         If System.IO.File.Exists(logFile) Then
             Dim stream As New IO.StreamWriter(logFile, False)
             stream.WriteLine("")
@@ -934,7 +934,7 @@ Public Class clsSalaryGeneration
             End If
         End If
         Dim strLog As String = ""
-        Dim logFile As String = "salgenlog.txt"
+        Dim logFile As String = "c:\ERPTempFolder\salgenlog.txt"
         If System.IO.File.Exists(logFile) Then
             Dim stream As New IO.StreamWriter(logFile, False)
             stream.WriteLine("")
@@ -986,7 +986,7 @@ Public Class clsSalaryGeneration
         End If
 
 
-        Dim logFile As String = "salgenlog.txt"
+        Dim logFile As String = "c:\ERPTempFolder\salgenlog.txt"
         If System.IO.File.Exists(logFile) Then
             'Dim stream As New IO.StreamWriter(logFile, False)
             'stream.WriteLine("")
@@ -1912,15 +1912,15 @@ Public Class clsSalaryGeneration
 
         Qry += " (select SUM(Actual_Amount)  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE  inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " &
                " TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE where  " + strLocation + " SUB_HEAD_TYPE='EPF' and  TSPL_GENERATE_SALARY_PAYHEADS.Actual_Amount>0 and TSPL_GENERATE_SALARY.Pay_Period_Code='" & PayPeriod & "' " & DivCond & ")EPFAmtAc01,"
-        Qry += " (select SUM(CoEPS_AMT_AC10)  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE  INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE  inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " &
-               " TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE where  " + strLocation + " SUB_HEAD_TYPE='EPF' and  TSPL_GENERATE_SALARY_PAYHEADS.CoEPS_AMT_AC10>0 and TSPL_GENERATE_SALARY.Pay_Period_Code='" & PayPeriod & "' " & DivCond & ")PensionAmtAc10,"
-        Qry += " (select SUM(Actual_Amount-(case when TSPL_GENERATE_SALARY_PAYHEADS.CoEPS_AMT_AC10<0 then 0 else TSPL_GENERATE_SALARY_PAYHEADS.CoEPS_AMT_AC10 end))  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE  inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " &
+        Qry += " (select Case When (SUM(Actual_Amount)*" & objPF.COEPS_PER & ")/100 > " & objPF.EPS_MAX & " Then " & objPF.EPS_MAX & " Else (SUM(Actual_Amount)*" & objPF.COEPS_PER & ")/100 End   from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE  INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE  inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " &
+               " TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE where  " + strLocation + " SUB_HEAD_TYPE='EPF' and  TSPL_GENERATE_SALARY_PAYHEADS.Actual_Amount>0 and TSPL_GENERATE_SALARY.Pay_Period_Code='" & PayPeriod & "' " & DivCond & ")PensionAmtAc10,"
+        Qry += " (select SUM(Actual_Amount-(case when TSPL_GENERATE_SALARY_PAYHEADS.CoEPS_AMT_AC10<0 then 0 else TSPL_GENERATE_SALARY_PAYHEADS.CoEPS_AMT_AC10 end))+ ((SUM(Actual_Amount)*" & objPF.COEPS_PER & ")/100 - " & objPF.EPS_MAX & ")  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE  inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " &
                " TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE where " + strLocation + " SUB_HEAD_TYPE='EPF' and  TSPL_GENERATE_SALARY_PAYHEADS.Actual_Amount>0 and TSPL_GENERATE_SALARY.Pay_Period_Code='" & PayPeriod & "' " & DivCond & ")DifferenceAmtAc01,"
 
-        Qry += " ((select SUM(case when HEAD_VALUE>PF_MAX_LM then PF_MAX_LM*PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end)  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE  inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " &
-               " TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE where  " + strLocation + " SUB_HEAD_TYPE='EPF' and  TSPL_GENERATE_SALARY_PAYHEADS.Actual_Amount>0 and TSPL_GENERATE_SALARY.Pay_Period_Code='" & PayPeriod & "' " & DivCond & ")* " & objPF.ACCOEPF_PER & ")/100 AdminAmtAc02,"
-        Qry += " ((select SUM(case when HEAD_VALUE>" & objPF.EMPEPF_MAX & " then " & objPF.EMPEPF_MAX & " *PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end)  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE  inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " &
-               " TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE where  " + strLocation + " SUB_HEAD_TYPE='EPF' and  TSPL_GENERATE_SALARY_PAYHEADS.Actual_Amount>0 and TSPL_GENERATE_SALARY.Pay_Period_Code='" & PayPeriod & "' " & DivCond & ")* " & objPF.COEDLI_PER & ")/100 EDLIAmtAc21,"
+        Qry += " (select (SUM(Actual_Amount)* " & objPF.ACCOEPF_PER & ")/100 from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE  inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " &
+               " TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE where  " + strLocation + " SUB_HEAD_TYPE='EPF' and  TSPL_GENERATE_SALARY_PAYHEADS.Actual_Amount>0 and TSPL_GENERATE_SALARY.Pay_Period_Code='" & PayPeriod & "' " & DivCond & ")AdminAmtAc02,"
+        Qry += " (select (SUM(Actual_Amount)*  " & objPF.COEDLI_PER & ")/100  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE  inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " &
+               " TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE where  " + strLocation + " SUB_HEAD_TYPE='EPF' and  TSPL_GENERATE_SALARY_PAYHEADS.Actual_Amount>0 and TSPL_GENERATE_SALARY.Pay_Period_Code='" & PayPeriod & "' " & DivCond & ")EDLIAmtAc21,"
         Qry += " " & adminEDLI & " as  AdminEDLIAmtAc22,"
 
         Qry += " (select COUNT(*)  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE where  " + strLocation + " SUB_HEAD_TYPE in('EMPESI','EMPESI') and  TSPL_GENERATE_SALARY_PAYHEADS.ESI_Applicable  = 1 and TSPL_GENERATE_SALARY.Pay_Period_Code='" & PayPeriod & "' " & DivCond & ")TotEmpESI,"
@@ -1953,7 +1953,7 @@ Public Class clsSalaryGeneration
         Else
             Calc_Table = "TSPL_ARREAR_CALCULATION"
         End If
-        Dim logFile As String = "salgenlog.txt"
+        Dim logFile As String = "c:\ERPTempFolder\salgenlog.txt"
         clsCommon.ProgressBarUpdate("Checking for log file...")
         If System.IO.File.Exists(logFile) Then
             Dim stream As New IO.StreamWriter(logFile, False)
@@ -4506,7 +4506,7 @@ Public Class clsSalaryGeneration
         Else
             strTableName = "TSPL_ARREAR_CALCULATION"
         End If
-        Dim logFile As String = "salgenlog.txt"
+        Dim logFile As String = "c:\ERPTempFolder\salgenlog.txt"
         clsCommon.ProgressBarUpdate("Checking for log file...")
         If System.IO.File.Exists(logFile) Then
             Dim stream As New IO.StreamWriter(logFile, False)
