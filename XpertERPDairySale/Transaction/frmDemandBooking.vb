@@ -1466,9 +1466,11 @@ Public Class frmDemandBooking
     End Sub
     Private Sub btnreverse_Click(sender As Object, e As EventArgs) Handles btnreverse.Click
         'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-
+        Dim NextDayDocNo As String = ""
         Try
-            Dim NextDayDocNo As String = clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "' and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103 )='" + clsCommon.GetPrintDate(txtDate.Value.AddDays(1)) + "') and location_code='" + clsCommon.myCstr(txtLocation.Value) + "' and ShiftType='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "' and IsIndividualCustomer=0 ")
+            If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandAll, clsFixedParameterCode.ApplyDemandAll, Nothing)) = 1 Or clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, Nothing)) = 1 Then
+                NextDayDocNo = clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "' and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103 )='" + clsCommon.GetPrintDate(txtDate.Value.AddDays(1)) + "') and location_code='" + clsCommon.myCstr(txtLocation.Value) + "' and ShiftType='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "' and IsIndividualCustomer=0 ")
+            End If
             'Dim dt As DataTable = clsDBFuncationality.GetDataTable("select location_code,Document_Date from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + NextDayDocNo + "'", "")
             'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Dairy Sale", "Demand Booking", txtLocation.Value, txtDate.Value, trans)
