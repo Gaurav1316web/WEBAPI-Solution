@@ -27,7 +27,7 @@ Public Class ClsEmployeeTransfer
         Dim isSaved As Boolean = True
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Payroll", "Employee Transfer", obj.Transfer_Location, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleHR, clsUserMgtCode.FrmEmployeeTransfer, obj.Transfer_Location, obj.Document_Date, trans)
 
             Dim coll As New Hashtable()
             If isNewEntry Then

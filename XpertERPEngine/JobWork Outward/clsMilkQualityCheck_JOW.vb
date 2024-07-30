@@ -103,7 +103,7 @@ Public Class clsMilkQualityCheck_JOW
                 Throw New Exception("No Data found to Post")
             End If
             ' trans = clsDBFuncationality.GetTransactin()
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "JobWork Outward", "JobWork Milk QualityCheck", obj.location_Code, obj.QC_In_Date_Time, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.MilkJobWork, clsUserMgtCode.FrmJobMilkQualityCheck, obj.location_Code, obj.QC_In_Date_Time, trans)
             If (obj.isPosted = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
             End If
@@ -191,7 +191,7 @@ Public Class clsMilkQualityCheck_JOW
     End Function
     Public Shared Function saveData(ByVal obj As clsMilkQualityCheck_JOW, ByVal trans As SqlTransaction, Optional ByVal isHistory As Boolean = False) As Boolean
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "JobWork Outward", "JobWork Milk QualityCheck", obj.location_Code, obj.QC_In_Date_Time, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.MilkJobWork, clsUserMgtCode.FrmJobMilkQualityCheck, obj.location_Code, obj.QC_In_Date_Time, trans)
             Dim issaved As Boolean = True
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "QC_No", clsCommon.myCstr(obj.QC_No))

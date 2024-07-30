@@ -26,7 +26,7 @@ Public Class clsPOBulkProc
 
     Public Shared Function saveData(ByVal obj As clsPOBulkProc, ByVal trans As SqlTransaction, Optional ByVal isHistory As Boolean = False) As Boolean
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Milk Procurement Bulk", "Gate Entry", obj.location_Code, obj.Date_And_Time, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmGateEntrySale, obj.location_Code, obj.Date_And_Time, trans)
             Dim issaved As Boolean = True
             Dim DateTime As String = clsFixedParameter.GetData(clsFixedParameterType.AllowToSaveTimeWithDocumentDate, clsFixedParameterCode.AllowToSaveTimeWithDocumentDate, trans)
             Dim coll As New Hashtable()

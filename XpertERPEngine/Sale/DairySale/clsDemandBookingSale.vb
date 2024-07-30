@@ -133,7 +133,7 @@ where TSPL_BOOKING_MATSER.Against_DemandBooking_No='" + obj.Document_No + "'"
                         'End If
                     Next
                 Else
-                    Throw New Exception("Will never happen")
+                    Throw New Exception("TruckSheet Or Gatepass(Demand) already generated.")
                     'qry = "delete from TSPL_BOOKING_DETAIL where Against_DemandBooking_No = '" + obj.Document_No + "' "
                     'clsDBFuncationality.ExecuteNonQuery(qry, trans)
 

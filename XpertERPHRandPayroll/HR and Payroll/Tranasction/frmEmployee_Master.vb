@@ -771,7 +771,7 @@ Public Class frmEmployee_Master
 
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         BlankAllControl()
-        clsEmployeeMaster.UpdateEMPStatusData(strCode, EmployeeRetirementAge, EmployeePFRetirementAge, NavTyep)
+        'clsEmployeeMaster.UpdateEMPStatusData(strCode, EmployeeRetirementAge, EmployeePFRetirementAge, NavTyep)
         Dim obj As New clsEmployeeMaster()
         obj = clsEmployeeMaster.GetData(strCode, NavTyep)
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.EMP_CODE) > 0) Then

@@ -907,11 +907,56 @@ Public Class clsPurchaseOrderHead
             clsPurchaseOrderRoadDetail.SaveData_WorkOrder_Terms(obj.PurchaseOrder_No, obj.Arr_Terms_C, trans)
             clsPurchaseOrderAdditionChargeInsurance.SaveData(obj.PurchaseOrder_No, obj.PurchaseOrder_Date, obj.Arr_ACInsurance, trans)
             clsTenderSchedulePO.SaveData(obj.PurchaseOrder_No, obj.ArrSchedule, trans)
+            CheckForNegativeTender(obj, trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
         Return True
     End Function
+
+    Private Sub CheckForNegativeTender(obj As clsPurchaseOrderHead, trans As SqlTransaction)
+        If Not objCommonVar.RCDFCFP AndAlso clsCommon.myLen(obj.RefTendorNo) > 0 Then
+            If clsTenderHead.GetTenderOn(obj.RefTendorNo, trans) = 1 Then
+                Dim qry As String = "select DocumentCode,Item_Type,sum(Qty * RI) as BalanceQty from (
+select TSPL_TENDER_DETAIL.DocumentCode,TSPL_TENDER_DETAIL.Item_Type,TSPL_TENDER_DETAIL.Qty,TSPL_TENDER_DETAIL.Unit_code,1 as RI,1 as chk 
+from TSPL_TENDER_DETAIL 
+ where TSPL_TENDER_DETAIL.DocumentCode='" + obj.RefTendorNo + "' and TSPL_TENDER_DETAIL.Vendor_Code='" + obj.Vendor_Code + "' and TSPL_TENDER_DETAIL.Location='" + obj.Bill_To_Location + "' and TSPL_TENDER_DETAIL.Item_Type='" + obj.Item_Type + "'
+ union all
+ select TSPL_PURCHASE_ORDER_HEAD.RefTendorNo,TSPL_ITEM_MASTER.Item_Type,TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_Qty,TSPL_PURCHASE_ORDER_DETAIL.Unit_code,-1 as RI,0 as chk from TSPL_PURCHASE_ORDER_DETAIL 
+ left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No
+ left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_PURCHASE_ORDER_DETAIL.Item_Code
+ where TSPL_PURCHASE_ORDER_HEAD.RefTendorNo='" + obj.RefTendorNo + "' and TSPL_PURCHASE_ORDER_HEAD.Vendor_Code='" + obj.Vendor_Code + "' and TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location='" + obj.Bill_To_Location + "'
+ )xx group by DocumentCode,Item_Type having sum(chk)>0  "
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    If clsCommon.myCDecimal(dt.Rows(0)("BalanceQty")) < 0 Then
+                        Throw New Exception("RAL [" + obj.RefTendorNo + "],Item Type [" + obj.Item_Type + "] Balance is going -ve [" + clsCommon.myCstr(dt.Rows(0)("BalanceQty")) + "]")
+                    End If
+                End If
+            Else
+                For Each objtr As clsPurchaseOrderDetail In obj.Arr
+                    If clsCommon.CompairString(objtr.Row_Type, clsItemRowType.RowTypeItem) = CompairStringResult.Equal Then
+                        Dim qry As String = "select DocumentCode,Item_Code,sum(Qty * RI) as BalanceQty from (
+select TSPL_TENDER_DETAIL.DocumentCode,TSPL_TENDER_DETAIL.Item_Code,TSPL_TENDER_DETAIL.Qty,TSPL_TENDER_DETAIL.Unit_code,1 as RI,1 as chk from TSPL_TENDER_DETAIL 
+ where TSPL_TENDER_DETAIL.DocumentCode='" + obj.RefTendorNo + "' and TSPL_TENDER_DETAIL.Vendor_Code='" + obj.Vendor_Code + "' and TSPL_TENDER_DETAIL.Location='" + obj.Bill_To_Location + "' and TSPL_TENDER_DETAIL.Item_Code='" + objtr.Item_Code + "'
+ union all
+ select TSPL_PURCHASE_ORDER_HEAD.RefTendorNo,TSPL_PURCHASE_ORDER_DETAIL.Item_Code,TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_Qty,TSPL_PURCHASE_ORDER_DETAIL.Unit_code,-1 as RI,0 as chk from TSPL_PURCHASE_ORDER_DETAIL 
+ left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No
+ where TSPL_PURCHASE_ORDER_HEAD.RefTendorNo='" + obj.RefTendorNo + "' and TSPL_PURCHASE_ORDER_HEAD.Vendor_Code='" + obj.Vendor_Code + "' and TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location='" + obj.Bill_To_Location + "' and TSPL_PURCHASE_ORDER_DETAIL.Item_Code='" + objtr.Item_Code + "'
+ )xx group by DocumentCode,Item_Code having sum(chk)>0"
+                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                            If clsCommon.myCDecimal(dt.Rows(0)("BalanceQty")) < 0 Then
+                                Throw New Exception("RAL [" + obj.RefTendorNo + "],Item [" + objtr.Item_Code + "] Balance is going -ve [" + clsCommon.myCstr(dt.Rows(0)("BalanceQty")) + "]")
+                            End If
+                        End If
+                    End If
+                Next
+            End If
+
+        End If
+    End Sub
     ''richa agarwal 24/12/2014
     Public Shared Function UpdateAfterPosting(ByVal obj As clsPurchaseOrderHead, ByVal trans As SqlTransaction) As Boolean
         Try
