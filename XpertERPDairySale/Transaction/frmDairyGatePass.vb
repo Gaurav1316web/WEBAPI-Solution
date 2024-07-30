@@ -1057,19 +1057,19 @@ Public Class frmDairyGatePass
                 clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
             End If
         ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.F11 Then
-                If btnMultiGPReverse.Visible Then
-                    multipleDelteVisible(False)
-                Else
-                    Dim pwd As New FrmPWD(Nothing)
-                    pwd.strCode = clsFixedParameterCode.MultiDairyGatePassReversePWD
-                    pwd.strType = clsFixedParameterType.MultiDairyGatePassReversePWD
-                    pwd.ShowDialog()
-                    If pwd.isPasswordCorrect Then
-                        multipleDelteVisible(True)
-                    End If
+            If btnMultiGPReverse.Visible Then
+                multipleDelteVisible(False)
+            Else
+                Dim pwd As New FrmPWD(Nothing)
+                pwd.strCode = clsFixedParameterCode.MultiDairyGatePassReversePWD
+                pwd.strType = clsFixedParameterType.MultiDairyGatePassReversePWD
+                pwd.ShowDialog()
+                If pwd.isPasswordCorrect Then
+                    multipleDelteVisible(True)
                 End If
-            ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.G Then
-                Dim frm As New FrmPWD(Nothing)
+            End If
+        ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.F10 Then
+            Dim frm As New FrmPWD(Nothing)
             frm.strType = "SIRC"
             frm.strCode = "GatePass Password"
             frm.ShowDialog()
