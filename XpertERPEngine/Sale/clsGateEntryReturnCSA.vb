@@ -149,11 +149,6 @@ Public Class clsGateEntryReturnCSA
         Dim rbudget As String = Nothing
         Dim revno As String = Nothing
         Try
-            Dim qryLocationDate As String = "select GE_DATE from TSPL_GATE_ENTRY_RETURN_CSA where TSPL_GATE_ENTRY_RETURN_CSA.GE_CODE ='" + obj.GE_CODE + "'   "
-            Dim dt As DataTable
-            dt = clsDBFuncationality.GetDataTable(qryLocationDate)
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleCSASale, clsUserMgtCode.frmGateEntryReturnCS, "REF_DOC_No", clsCommon.myCDate(dt.Rows(0)("GE_DATE")), trans)
-
             Dim coll As New Hashtable()
             revno = "0"
             clsCommon.AddColumnsForChange(coll, "GE_DATE", clsCommon.GetPrintDate(obj.GE_DATE, "dd/MMM/yyyy hh:mm tt"))
