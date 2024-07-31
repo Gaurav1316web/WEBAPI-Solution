@@ -5149,8 +5149,10 @@ Public Class FrmAPInvoiceEntry
                     fndProject.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(Project_Id,'') from TSPL_SRN_HEAD where SRN_No='" + txtRefDocNo.Value + "'"))
                     lblProject.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select SPECIFICATION from TSPL_PJC_PROJECT where PROJECT_CODE='" + fndProject.Value + "'"))
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(cmbRefType.SelectedValue), "AP") = CompairStringResult.Equal Then
-                    Dim qry As String = "select Document_No as Code,Invoice_Entry_Date as Date,Vendor_Code as [Vendor Code],Vendor_Name as Vendor,Vendor_Invoice_No as [Vendor Invoice No],Vendor_Invoice_Date as [Vendor Invoice Date] from TSPL_VENDOR_INVOICE_HEAD "
-                    Dim whrclas As String = "Document_Type='I' and LEN(Posting_Date)>0 and Vendor_Code='" + TxtVendorNo.Value + "'"
+                    'Dim qry As String = "select Document_No as Code,Invoice_Entry_Date as Date,Vendor_Code as [Vendor Code],Vendor_Name as Vendor,Vendor_Invoice_No as [Vendor Invoice No],Vendor_Invoice_Date as [Vendor Invoice Date] from TSPL_VENDOR_INVOICE_HEAD "
+                    Dim qry As String = "select TSPL_VENDOR_INVOICE_HEAD.Document_No as Code,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date as Date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as [Vendor Code],TSPL_VENDOR_INVOICE_HEAD.Vendor_Name as Vendor,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_No as [Vendor Invoice No],TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date as [Vendor Invoice Date],TSPL_PI_HEAD.PI_No as [PI No],TSPL_PI_HEAD.PI_Date as [PI Date]
+                                         from TSPL_VENDOR_INVOICE_HEAD left outer join TSPL_PI_HEAD on TSPL_PI_HEAD.Vendor_Code = TSPL_VENDOR_INVOICE_HEAD.Vendor_Code"
+                    Dim whrclas As String = "TSPL_VENDOR_INVOICE_HEAD.Document_Type='I' and LEN(TSPL_VENDOR_INVOICE_HEAD.Posting_Date)>0 and TSPL_VENDOR_INVOICE_HEAD.Vendor_Code='" + TxtVendorNo.Value + "'"
                     If objCommonVar.ApplyLocationFilterBasedOnPermission = True AndAlso clsCommon.myLen(objCommonVar.strCurrUserLocationsSegment) > 0 Then
                         whrclas += " and TSPL_VENDOR_INVOICE_HEAD.Loc_Code in (" + objCommonVar.strCurrUserLocationsSegment + ")"
                     End If

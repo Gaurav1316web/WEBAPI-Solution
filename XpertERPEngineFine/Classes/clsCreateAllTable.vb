@@ -15486,6 +15486,8 @@ Public Class clsCreateAllTable
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("MAX_AMOUNT", "FLOAT NOT NULL DEFAULT 0")
+            coll.Add("HEAD_TYPE", "VARCHAR(30)  NULL")
+            coll.Add("HEAD_TYPE_MODE", "VARCHAR(15)  NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_EMPLOYEE_SALARY_PAYHEADS", coll)
 
 

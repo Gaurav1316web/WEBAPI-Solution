@@ -56,6 +56,7 @@ Partial Class frmDeductionDetails
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnCopy = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -81,6 +82,7 @@ Partial Class frmDeductionDetails
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnCopy, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -93,6 +95,7 @@ Partial Class frmDeductionDetails
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.btnCopy)
         Me.SplitContainer1.Panel1.Controls.Add(Me.btnUnSelect)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtGo)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblLocationDesc)
@@ -201,9 +204,9 @@ Partial Class frmDeductionDetails
         'btnNew
         '
         Me.btnNew.Image = CType(resources.GetObject("btnNew.Image"), System.Drawing.Image)
-        Me.btnNew.Location = New System.Drawing.Point(382, 5)
+        Me.btnNew.Location = New System.Drawing.Point(402, 5)
         Me.btnNew.Name = "btnNew"
-        Me.btnNew.Size = New System.Drawing.Size(14, 20)
+        Me.btnNew.Size = New System.Drawing.Size(16, 22)
         Me.btnNew.TabIndex = 206
         Me.btnNew.Text = " "
         '
@@ -506,6 +509,15 @@ Partial Class frmDeductionDetails
         Me.MenuItemImport.Name = "MenuItemImport"
         Me.MenuItemImport.Text = "Import"
         '
+        'btnCopy
+        '
+        Me.btnCopy.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnCopy.Location = New System.Drawing.Point(378, 5)
+        Me.btnCopy.Name = "btnCopy"
+        Me.btnCopy.Size = New System.Drawing.Size(23, 22)
+        Me.btnCopy.TabIndex = 1516
+        Me.btnCopy.Text = "CC"
+        '
         'frmDeductionDetails
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -545,6 +557,7 @@ Partial Class frmDeductionDetails
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnCopy, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -580,4 +593,5 @@ Partial Class frmDeductionDetails
     Friend WithEvents txtBranch As common.UserControls.txtFinder
     Friend WithEvents txtGo As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnUnSelect As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnCopy As Telerik.WinControls.UI.RadButton
 End Class

@@ -1734,7 +1734,7 @@ Public Class clsPSShipmentHead
                     objTr.Transporter_Commission_Amt = clsCommon.myCdbl(dr("Transporter_Commission_Amt"))
                     objTr.Security_Rate = clsCommon.myCdbl(dr("Security_Rate"))
                     objTr.Security_Amt = clsCommon.myCdbl(dr("Security_Amt"))
-                    objTr.Transporter = clsCommon.myCdbl(dr("Transporter"))
+                    objTr.Transporter = clsCommon.myCstr(dr("Transporter"))
 
                     objTr.arrSrItem = clsSerializeInvenotry.GetData("SD-IN", objTr.Document_Code, objTr.Item_Code, objTr.Line_No, trans)
                     'objTr.arrBatchItem = clsBatchInventory.GetData("PS-SH", objTr.Document_Code, objTr.Item_Code, objTr.Line_No, trans)
