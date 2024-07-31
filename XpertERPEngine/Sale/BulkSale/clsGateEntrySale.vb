@@ -166,6 +166,12 @@ Public Class clsGateEntrySale
         End Try
         Return isSaved
     End Function
+    Public Shared Function GetData(ByVal strCode As String) As clsGateEntrySale
+        Return GetData(strCode, Nothing)
+    End Function
+    Public Shared Function GetData(ByVal strCode As String, ByVal arrLoc As String) As clsGateEntrySale
+        Return GetData(strCode, arrLoc, Nothing)
+    End Function
     Public Shared Function GetData(ByVal strCode As String, ByVal arrLoc As String, ByVal NavType As NavigatorType) As clsGateEntrySale
         Return GetData(strCode, arrLoc, NavType, Nothing)
     End Function
@@ -223,11 +229,13 @@ Public Class clsGateEntrySale
         If (clsCommon.myLen(strDocNo) <= 0) Then
             Throw New Exception("Document No not found to Delete")
         End If
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_Date,Location_Code from TSPL_GATEENTRY_SALE where Document_No='" + strDocNo + "'")
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmGateEntrySale, clsCommon.myCstr(dt.Rows(0)("Location_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), Nothing)
+        'Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_Date,Location_Code from TSPL_GATEENTRY_SALE where Document_No='" + strDocNo + "'")
+        'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+        Dim obj As clsGateEntrySale = clsGateEntrySale.GetData(strDocNo)
 
-        End If
+        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmGateEntrySale, obj.Location_Code, clsCommon.myCDate(obj.Document_Date), Nothing)
+
+        'End If
 
         Try
             Dim qry As String = "delete from TSPL_GATEENTRY_SALE where Document_No='" + strDocNo + "'"
