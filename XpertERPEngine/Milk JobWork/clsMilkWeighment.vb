@@ -67,7 +67,7 @@ Public Class clsMilkWeighment
     Public Shared Function saveData(ByVal obj As clsMilkWeighment, ByVal trans As SqlTransaction, Optional ByVal isHistory As Boolean = False) As Boolean
         Try
             Dim issaved As Boolean = True
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Milk Jobwork", "Milk Jobwork Weighment", obj.location_Code, obj.Weighment_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.MilkJobWork, clsUserMgtCode.FrmMilkWeighment, obj.location_Code, obj.Weighment_Date, trans)
 
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Weighment_No", obj.Weighment_No)
@@ -361,7 +361,7 @@ Public Class clsMilkWeighment
                 Throw New Exception("No Data found to Post")
             End If
             'trans = clsDBFuncationality.GetTransactin()
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Milk Jobwork", "Milk Jobwork Weighment", obj.location_Code, obj.Weighment_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.MilkJobWork, clsUserMgtCode.FrmMilkWeighment, obj.location_Code, obj.Weighment_Date, trans)
 
             If (obj.isPosted = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)

@@ -9,7 +9,7 @@ Public Class Rptralwisematerialreceivedandpayment
     End Sub
 
     Private Sub txtLocation__My_Click(sender As Object, e As EventArgs) Handles txtLocation._My_Click
-        Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
+        Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER where Location_Type='Physical' "
         'qry += " where 2=2 and Seg_No = '7' AND GIT='N'"
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             qry += " and  TSPL_LOCATION_MASTER.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
@@ -128,8 +128,8 @@ Public Class Rptralwisematerialreceivedandpayment
             TemplateGridview = gv1
 
             Dim strqry As String = "With CTETemp as ( 
-                   select  zzz.RAL_NO,zzz.[Name Of Supplier],zzz.Supplied_Material,zzz.Weighment_Code,zzz.Weighment_Date,zzz.Net_Weight,zzz.Bill_No,zzz.Bill_date,zzz.Amount,zzz.Due_Date,zzz.Release_date,CASE WHEN zzz.[Delay day] > 0 THEN CONVERT(varchar, zzz.[Delay day]) ELSE 'No Delay' END AS [Delay day] from (" & Environment.NewLine & "
-                   select  TSPL_PI_HEAD.Ref_No AS RAL_NO,TSPL_VENDOR_MASTER.Vendor_Name as [Name Of Supplier],TSPL_PI_DETAIL.Item_Desc as Supplied_Material,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight,TSPL_GRN_HEAD.[Invoice/Challan_No] as Bill_No,TSPL_GRN_HEAD.Invoice_Date as Bill_date,TSPL_PI_DETAIL.Taxable_Amount as Amount,TSPL_VENDOR_INVOICE_HEAD.Due_Date as Due_date,TSPL_PAYMENT_HEADER.Payment_Date as Release_date," & Environment.NewLine & "
+                   select  zzz.Location,zzz.RAL_NO,zzz.[Name Of Supplier],zzz.Supplied_Material,zzz.Weighment_Code,zzz.Weighment_Date,zzz.Net_Weight,zzz.Bill_No,zzz.Bill_date,zzz.Amount,zzz.Due_Date,zzz.Release_date,CASE WHEN zzz.[Delay day] > 0 THEN CONVERT(varchar, zzz.[Delay day]) ELSE 'No Delay' END AS [Delay day] from (" & Environment.NewLine & "
+                   select  Location,TSPL_PI_HEAD.Ref_No AS RAL_NO,TSPL_VENDOR_MASTER.Vendor_Name as [Name Of Supplier],TSPL_PI_DETAIL.Item_Desc as Supplied_Material,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight,TSPL_GRN_HEAD.[Invoice/Challan_No] as Bill_No,TSPL_GRN_HEAD.Invoice_Date as Bill_date,TSPL_PI_DETAIL.Taxable_Amount as Amount,TSPL_VENDOR_INVOICE_HEAD.Due_Date as Due_date,TSPL_PAYMENT_HEADER.Payment_Date as Release_date," & Environment.NewLine & "
                    CASE WHEN isnull(TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_No,'')<>'' THEN  CASE WHEN ISNULL(TSPL_PAYMENT_HEADER.Payment_No ,'')<>'' THEN  DATEDIFF(DAY,CONVERT(DATE,TSPL_VENDOR_INVOICE_HEAD.Due_Date,103 ),TSPL_PAYMENT_HEADER.Payment_Date) ELSE  DATEDIFF(DAY,CONVERT(DATE,TSPL_VENDOR_INVOICE_HEAD.Due_Date,103 ),convert(date,GETDATE(),103)) END   ELSE NULL END AS [Delay day] " & Environment.NewLine & "
                    from TSPL_VENDOR_INVOICE_HEAD" & Environment.NewLine & "
                    LEFT OUTER JOIN TSPL_PI_HEAD ON TSPL_PI_HEAD.PI_No=TSPL_VENDOR_INVOICE_HEAD.Against_POInvoice_No " & Environment.NewLine & "
@@ -159,7 +159,7 @@ Public Class Rptralwisematerialreceivedandpayment
                    from CTETemp " & Environment.NewLine & "
                    where 1=1  " & Environment.NewLine & "
                    group by 
-                   CTETemp.RAL_NO,CTETemp.[Name Of Supplier],CTETemp.Supplied_Material,CTETemp.Weighment_Code,CTETemp.Weighment_Date,CTETemp.Net_Weight,CTETemp.Bill_No,CTETemp.Bill_date,CTETemp.Amount,CTETemp.Due_Date,CTETemp.Release_date,CTETemp.[Delay day]  "
+                   CTETemp.Location,CTETemp.RAL_NO,CTETemp.[Name Of Supplier],CTETemp.Supplied_Material,CTETemp.Weighment_Code,CTETemp.Weighment_Date,CTETemp.Net_Weight,CTETemp.Bill_No,CTETemp.Bill_date,CTETemp.Amount,CTETemp.Due_Date,CTETemp.Release_date,CTETemp.[Delay day]  "
 
             'Dim strqry As String = "With CTETemp as ( " & Environment.NewLine &
             '" select  zzz.RAL_NO,zzz.[Name Of Supplier],zzz.Supplied_Material,zzz.Weighment_Code,zzz.Weighment_Date,zzz.Net_Weight,zzz.Bill_No,zzz.Bill_date,zzz.Amount,zzz.Due_Date,zzz.Release_date,zzz.[Delay day] as [Delay day] from (" & Environment.NewLine &

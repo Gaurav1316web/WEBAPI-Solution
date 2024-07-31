@@ -72,7 +72,7 @@ Public Class clsMilkGateEntry_JOW
                 Throw New Exception("No Data found to Post")
             End If
             'trans = clsDBFuncationality.GetTransactin()
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "JobWork Outward", "JobWork Milk Gate Entry", obj.location_Code, obj.Date_And_Time, Nothing)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.MilkJobWork, clsUserMgtCode.FrmMilkGateEntry, obj.location_Code, obj.Date_And_Time, Nothing)
             If Not (obj.isPosted = 1) Then
                 Throw New Exception("Should be Post Gate entry:" + obj.Posting_Date)
             End If
@@ -109,7 +109,7 @@ Public Class clsMilkGateEntry_JOW
     Public Shared Function saveData(ByVal obj As clsMilkGateEntry_JOW, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
             Dim issaved As Boolean = True
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "JobWork Outward", "JobWork Milk Gate Entry", obj.location_Code, obj.Date_And_Time, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.MilkJobWork, clsUserMgtCode.FrmMilkGateEntry, obj.location_Code, obj.Date_And_Time, trans)
             If Not isNewEntry Then
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Gate_Entry_No), "TSPL_JWO_GATE_ENTRY", "gate_entry_no", "TSPL_JWO_GATE_ENTRY_detail", "gate_entry_no", "TSPL_JWO_GATE_ENTRY_TRASNFER", "Gate_Entry_No", trans)
             End If
@@ -222,7 +222,7 @@ Public Class clsMilkGateEntry_JOW
                 Throw New Exception("No Data found to Post")
             End If
             'trans = clsDBFuncationality.GetTransactin()
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "JobWork Outward", "JobWork Milk Gate Entry", obj.location_Code, obj.Date_And_Time, Nothing)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.MilkJobWork, clsUserMgtCode.FrmMilkGateEntry, obj.location_Code, obj.Date_And_Time, Nothing)
             If (obj.isPosted = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
             End If

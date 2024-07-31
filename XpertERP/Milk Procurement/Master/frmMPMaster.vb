@@ -2685,7 +2685,6 @@ Public Class FrmMPMaster
         btnUnverifiedJanAdhaar.Enabled = False
     End Sub
     Private Sub ShowRemarks()
-        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             Dim Reason As String = ""
             Dim frm As New FrmFreeTxtBox1
@@ -2696,15 +2695,19 @@ Public Class FrmMPMaster
             Else
                 Reason = frm.strRmks
             End If
-            saveCancelLog(Reason, "Verified", trans)
-            Dim Verified As String = "update tspl_mp_master set Jan_Aadhar_No_Verified = 0 where MP_Code = '" & fndMPCode.Value & "'"
-            clsDBFuncationality.ExecuteNonQuery(Verified, trans)
-            clsCommon.MyMessageBoxShow(Me, "This is Unverified Successfully", Me.Text)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndMPCode.Value, "tspl_mp_master", "MP_Code", trans)
-            trans.Commit()
-
+            Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+            Try
+                saveCancelLog(Reason, "Verified", trans)
+                Dim Verified As String = "update tspl_mp_master set Jan_Aadhar_No_Verified = 0 where MP_Code = '" & fndMPCode.Value & "'"
+                clsDBFuncationality.ExecuteNonQuery(Verified, trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndMPCode.Value, "tspl_mp_master", "MP_Code", trans)
+                trans.Commit()
+                clsCommon.MyMessageBoxShow(Me, "This is Unverified Successfully", Me.Text)
+            Catch ex As Exception
+                trans.Rollback()
+                Throw New Exception(ex.Message)
+            End Try
         Catch ex As Exception
-            trans.Rollback()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub

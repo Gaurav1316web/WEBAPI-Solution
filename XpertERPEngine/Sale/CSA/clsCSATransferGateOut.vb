@@ -28,6 +28,8 @@ Public Class clsCSATransferGateOut
 
     Public Shared Function deleteData(ByVal strDocNo As String, ByVal trans As SqlTransaction) As Boolean
         Try
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleCSASale, clsUserMgtCode.FrmCSATransferGateOut, clsCommon.myCstr(dt.Rows(0)("From_Location")), clsCommon.myCDate(dt.Rows(0)("CSATransfer_Date")), trans)
+
             Dim qry As String = "delete from TSPL_CSATransfer_Gate_Out where Document_No='" & strDocNo & "'"
             Dim isDeleted As Boolean = True
             isDeleted = isDeleted AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -148,6 +150,7 @@ Public Class clsCSATransferGateOut
 
         Try
 
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleCSASale, clsUserMgtCode.FrmCSATransferGateOut, clsCommon.myCstr(dt.Rows(0)("From_Location")), clsCommon.myCDate(dt.Rows(0)("CSATransfer_Date")), trans)
 
             Dim coll As New Hashtable()
             'trans = clsDBFuncationality.GetTransactin()
