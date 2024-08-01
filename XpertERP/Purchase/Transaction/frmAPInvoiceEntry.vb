@@ -816,7 +816,7 @@ Public Class FrmAPInvoiceEntry
         dt.Rows.Add(dr)
 
         dr = dt.NewRow()
-        dr("Code") = "AP"
+        dr("Code") = "API"
         dr("Name") = "All AP Invoice"
         dt.Rows.Add(dr)
 
@@ -853,6 +853,11 @@ Public Class FrmAPInvoiceEntry
         dr = dt.NewRow()
         dr("Code") = "AP"
         dr("Name") = "AP Invoice"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "API"
+        dr("Name") = "All AP Invoice"
         dt.Rows.Add(dr)
 
         dr = dt.NewRow()
@@ -3393,7 +3398,7 @@ Public Class FrmAPInvoiceEntry
                     End If
                 End If
             Next
-            If clsCommon.CompairString(clsCommon.myCstr(cmbRefType.SelectedValue), "AP") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(clsCommon.myCstr(cmbRefType.SelectedValue), "AP") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(cmbRefType.SelectedValue), "All AP Invoice") = CompairStringResult.Equal Then
                 If clsCommon.CompairString(clsCommon.myCstr(cboDocType.SelectedValue), "I") = CompairStringResult.Equal Then
                     clsCommon.MyMessageBoxShow("Can't Create AP Invoice against AP Invoice", Me.Text)
                     Return False
@@ -5149,10 +5154,8 @@ Public Class FrmAPInvoiceEntry
                     fndProject.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(Project_Id,'') from TSPL_SRN_HEAD where SRN_No='" + txtRefDocNo.Value + "'"))
                     lblProject.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select SPECIFICATION from TSPL_PJC_PROJECT where PROJECT_CODE='" + fndProject.Value + "'"))
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(cmbRefType.SelectedValue), "AP") = CompairStringResult.Equal Then
-                    'Dim qry As String = "select Document_No as Code,Invoice_Entry_Date as Date,Vendor_Code as [Vendor Code],Vendor_Name as Vendor,Vendor_Invoice_No as [Vendor Invoice No],Vendor_Invoice_Date as [Vendor Invoice Date] from TSPL_VENDOR_INVOICE_HEAD "
-                    Dim qry As String = "select TSPL_VENDOR_INVOICE_HEAD.Document_No as Code,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date as Date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as [Vendor Code],TSPL_VENDOR_INVOICE_HEAD.Vendor_Name as Vendor,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_No as [Vendor Invoice No],TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date as [Vendor Invoice Date],TSPL_PI_HEAD.PI_No as [PI No],TSPL_PI_HEAD.PI_Date as [PI Date]
-                                         from TSPL_VENDOR_INVOICE_HEAD left outer join TSPL_PI_HEAD on TSPL_PI_HEAD.Vendor_Code = TSPL_VENDOR_INVOICE_HEAD.Vendor_Code"
-                    Dim whrclas As String = "TSPL_VENDOR_INVOICE_HEAD.Document_Type='I' and LEN(TSPL_VENDOR_INVOICE_HEAD.Posting_Date)>0 and TSPL_VENDOR_INVOICE_HEAD.Vendor_Code='" + TxtVendorNo.Value + "'"
+                    Dim qry As String = "select Document_No as Code,Invoice_Entry_Date as Date,Vendor_Code as [Vendor Code],Vendor_Name as Vendor,Vendor_Invoice_No as [Vendor Invoice No],Vendor_Invoice_Date as [Vendor Invoice Date] from TSPL_VENDOR_INVOICE_HEAD "
+                    Dim whrclas As String = "Document_Type='I' and LEN(Posting_Date)>0 and Vendor_Code='" + TxtVendorNo.Value + "'"
                     If objCommonVar.ApplyLocationFilterBasedOnPermission = True AndAlso clsCommon.myLen(objCommonVar.strCurrUserLocationsSegment) > 0 Then
                         whrclas += " and TSPL_VENDOR_INVOICE_HEAD.Loc_Code in (" + objCommonVar.strCurrUserLocationsSegment + ")"
                     End If
@@ -5179,7 +5182,27 @@ Public Class FrmAPInvoiceEntry
                         txtVendorInvoiceNo.Text = ""
                     End If
 
-
+                ElseIf clsCommon.CompairString(clsCommon.myCstr(cmbRefType.SelectedValue), "API") = CompairStringResult.Equal Then
+                    Dim qry As String = " SELECT zzz.Vendor_Code,zzz.[Vendor Name],zzz.[Vendor Invoice date],zzz.[Vendor Invoice No],zzz.[AP Document No],zzz.[AP Document date],zzz.[PI Document No] as PI_NO,zzz.PI_Date
+                    FROM (SELECT TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name AS [Vendor Name],
+                            CASE WHEN ISNULL(TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_No, '') <> ''  THEN TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date 
+                                ELSE NULL END AS [Vendor Invoice date], TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_No AS [Vendor Invoice No], TSPL_VENDOR_INVOICE_HEAD.Document_No AS [AP Document No],  TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date AS [AP Document date],TSPL_VENDOR_INVOICE_HEAD.Against_POInvoice_No AS [PI Document No],
+                            TSPL_PI_HEAD.PI_Date FROM TSPL_VENDOR_INVOICE_HEAD LEFT OUTER JOIN  TSPL_PI_HEAD 
+                        ON  TSPL_PI_HEAD.PI_No = TSPL_VENDOR_INVOICE_HEAD.Against_POInvoice_No
+                        LEFT OUTER JOIN TSPL_PI_DETAIL ON TSPL_PI_HEAD.PI_No = TSPL_PI_DETAIL.PI_No
+                        LEFT OUTER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code = TSPL_VENDOR_INVOICE_HEAD.Vendor_Code) zzz
+                        LEFT OUTER JOIN ( SELECT TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name AS [Vendor Name],
+                        CASE WHEN ISNULL(TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_No, '') <> '' THEN TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date ELSE NULL  END AS [Vendor Invoice date], TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_No AS [Vendor Invoice No], TSPL_VENDOR_INVOICE_HEAD.Document_No AS [AP Document No], TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date AS [AP Document date],TSPL_VENDOR_INVOICE_HEAD.Against_POInvoice_No AS [PI Document No], TSPL_PI_HEAD.PI_Date FROM TSPL_VENDOR_INVOICE_HEAD
+                          LEFT OUTER JOIN TSPL_PI_HEAD ON TSPL_PI_HEAD.PI_No = TSPL_VENDOR_INVOICE_HEAD.Against_POInvoice_No
+                          LEFT OUTER JOIN TSPL_PI_DETAIL ON TSPL_PI_HEAD.PI_No = TSPL_PI_DETAIL.PI_No
+                          LEFT OUTER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code = TSPL_VENDOR_INVOICE_HEAD.Vendor_Code ) T1 
+                    ON T1.[AP Document No] = zzz.[AP Document No] "
+                    Dim whrclas As String = " 1=1 and zzz.[PI Document No] is not null "
+                    If objCommonVar.ApplyLocationFilterBasedOnPermission = True AndAlso clsCommon.myLen(objCommonVar.strCurrUserLocationsSegment) > 0 Then
+                        whrclas += ""
+                    End If
+                    whrclas += " GROUP BY zzz.Vendor_Code,zzz.[Vendor Name],zzz.[Vendor Invoice date],zzz.[Vendor Invoice No],zzz.[AP Document No],zzz.[AP Document date], zzz.[PI Document No],zzz.PI_Date "
+                    txtRefDocNo.Value = clsCommon.ShowSelectForm("WORKORDERJOBAP", qry, "PI_NO", whrclas, txtRefDocNo.Value, "PI_NO", isButtonClicked)
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(cmbRefType.SelectedValue), "WO") = CompairStringResult.Equal Then
                     If clsCommon.myLen(txtlocation.Value) <= 0 Then
                         Throw New Exception("Please select Location first.")

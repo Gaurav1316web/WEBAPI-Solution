@@ -4237,7 +4237,8 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
                     End If
                 End If
                 If clsCommon.myLen(clsCommon.myCstr(obj.Requisition_Id)) > 0 Then
-                    Dim isProductionStoreReqDoc As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue(" select count (*)  from TSPL_PP_REQUISITION_HEAD where Requisition_Id = '" + obj.Requisition_Id + "' "))
+                    'Dim isProductionStoreReqDoc As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue(" select count (*)  from TSPL_PP_REQUISITION_HEAD where Requisition_Id = '" + obj.Requisition_Id + "' "))
+                    Dim isProductionStoreReqDoc As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue(" select count (*)  from TSPL_PP_REQUISITION_HEAD where Requisition_Id = '" + obj.Requisition_Id + "' ", trans))
                     If isProductionStoreReqDoc = True Then
                         clsDBFuncationality.ExecuteNonQuery(" update TSPL_PP_REQUISITION_HEAD set close_yn = 'N' where Requisition_Id = '" + obj.Requisition_Id + "' ", trans)
                     End If

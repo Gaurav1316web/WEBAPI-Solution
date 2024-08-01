@@ -688,7 +688,8 @@ WHERE convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) >=convert(date,('"
             Dim dt As New DataTable
 
             qry = "  Select (final.Vendor_Code) as [Vendor Code] ,max(final.Vendor_Name) as [Vendor Name],(final.[VLC Uploader Code]) as [VLC Uploader Code],
-                     max(final.Type) as Type,(final.Document_No) as [Document No],(final.Document_Date) as [Document Date],(final.DeductionCode) as [Deduction Code] ,max(final.Deduction_Desc) as [Deduction Desc],
+                     max(final.Type) as Type,(final.Document_No) as [Document No],(final.Document_Date) as [Document Date],(final.DeductionCode) as [Deduction Code] ,
+                     max(final.Deduction_Desc) as [Deduction Desc],
                      isnull(SUM(ACC_Qty),0)MilkQty,ISNULL(sum(NET_AMOUNT),0)NET_AMOUNT,sum(final.Addition) as Addition,
                      sum(final.Deduction) as Deduction,isnull(sum(Head_Load_Amount),0)Head_Load_Amount,sum(NET_AMOUNT-Deduction+Addition+Head_Load_Amount)Balance
                      from ( select TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type,
@@ -856,6 +857,13 @@ WHERE convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) >=convert(date,('"
         Gv1.Columns("Document Date").Width = 100
         Gv1.Columns("Document Date").HeaderText = "Document Date"
 
+        If rbtnDetail.IsChecked = True Then
+            Gv1.Columns("Deduction Desc").IsVisible = True
+            Gv1.Columns("Deduction Desc").Width = 100
+            Gv1.Columns("Deduction Desc").HeaderText = "Ded. Description"
+            Gv1.MasterTemplate.Columns("Deduction Desc").TextAlignment = ContentAlignment.MiddleCenter
+        End If
+
         Gv1.Columns("Addition").IsVisible = True
         Gv1.Columns("Addition").Width = 100
         Gv1.Columns("Addition").HeaderText = "Addition"
@@ -868,11 +876,6 @@ WHERE convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) >=convert(date,('"
         Gv1.Columns("Deduction Code").Width = 100
         Gv1.Columns("Deduction Code").HeaderText = "Addition/Deduction Code"
         Gv1.MasterTemplate.Columns("Deduction Code").TextAlignment = ContentAlignment.MiddleCenter
-
-        Gv1.Columns("Deduction Desc").IsVisible = False
-        Gv1.Columns("Deduction Desc").Width = 100
-        Gv1.Columns("Deduction Desc").HeaderText = "Deduction Desc"
-        Gv1.MasterTemplate.Columns("Deduction Desc").TextAlignment = ContentAlignment.MiddleCenter
 
         Gv1.Columns("NET_AMOUNT").IsVisible = True
         Gv1.Columns("NET_AMOUNT").Width = 100
