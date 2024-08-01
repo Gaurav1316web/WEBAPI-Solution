@@ -816,7 +816,7 @@ Public Class FrmAPInvoiceEntry
         dt.Rows.Add(dr)
 
         dr = dt.NewRow()
-        dr("Code") = "AP"
+        dr("Code") = "API"
         dr("Name") = "All AP Invoice"
         dt.Rows.Add(dr)
 
@@ -853,6 +853,11 @@ Public Class FrmAPInvoiceEntry
         dr = dt.NewRow()
         dr("Code") = "AP"
         dr("Name") = "AP Invoice"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "API"
+        dr("Name") = "All AP Invoice"
         dt.Rows.Add(dr)
 
         dr = dt.NewRow()
@@ -3393,7 +3398,7 @@ Public Class FrmAPInvoiceEntry
                     End If
                 End If
             Next
-            If clsCommon.CompairString(clsCommon.myCstr(cmbRefType.SelectedValue), "AP") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(clsCommon.myCstr(cmbRefType.SelectedValue), "AP") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(cmbRefType.SelectedValue), "All AP Invoice") = CompairStringResult.Equal Then
                 If clsCommon.CompairString(clsCommon.myCstr(cboDocType.SelectedValue), "I") = CompairStringResult.Equal Then
                     clsCommon.MyMessageBoxShow("Can't Create AP Invoice against AP Invoice", Me.Text)
                     Return False
@@ -5177,7 +5182,27 @@ Public Class FrmAPInvoiceEntry
                         txtVendorInvoiceNo.Text = ""
                     End If
 
-
+                ElseIf clsCommon.CompairString(clsCommon.myCstr(cmbRefType.SelectedValue), "API") = CompairStringResult.Equal Then
+                    Dim qry As String = " SELECT zzz.Vendor_Code,zzz.[Vendor Name],zzz.[Vendor Invoice date],zzz.[Vendor Invoice No],zzz.[AP Document No],zzz.[AP Document date],zzz.[PI Document No] as PI_NO,zzz.PI_Date
+                    FROM (SELECT TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name AS [Vendor Name],
+                            CASE WHEN ISNULL(TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_No, '') <> ''  THEN TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date 
+                                ELSE NULL END AS [Vendor Invoice date], TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_No AS [Vendor Invoice No], TSPL_VENDOR_INVOICE_HEAD.Document_No AS [AP Document No],  TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date AS [AP Document date],TSPL_VENDOR_INVOICE_HEAD.Against_POInvoice_No AS [PI Document No],
+                            TSPL_PI_HEAD.PI_Date FROM TSPL_VENDOR_INVOICE_HEAD LEFT OUTER JOIN  TSPL_PI_HEAD 
+                        ON  TSPL_PI_HEAD.PI_No = TSPL_VENDOR_INVOICE_HEAD.Against_POInvoice_No
+                        LEFT OUTER JOIN TSPL_PI_DETAIL ON TSPL_PI_HEAD.PI_No = TSPL_PI_DETAIL.PI_No
+                        LEFT OUTER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code = TSPL_VENDOR_INVOICE_HEAD.Vendor_Code) zzz
+                        LEFT OUTER JOIN ( SELECT TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name AS [Vendor Name],
+                        CASE WHEN ISNULL(TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_No, '') <> '' THEN TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date ELSE NULL  END AS [Vendor Invoice date], TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_No AS [Vendor Invoice No], TSPL_VENDOR_INVOICE_HEAD.Document_No AS [AP Document No], TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date AS [AP Document date],TSPL_VENDOR_INVOICE_HEAD.Against_POInvoice_No AS [PI Document No], TSPL_PI_HEAD.PI_Date FROM TSPL_VENDOR_INVOICE_HEAD
+                          LEFT OUTER JOIN TSPL_PI_HEAD ON TSPL_PI_HEAD.PI_No = TSPL_VENDOR_INVOICE_HEAD.Against_POInvoice_No
+                          LEFT OUTER JOIN TSPL_PI_DETAIL ON TSPL_PI_HEAD.PI_No = TSPL_PI_DETAIL.PI_No
+                          LEFT OUTER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code = TSPL_VENDOR_INVOICE_HEAD.Vendor_Code ) T1 
+                    ON T1.[AP Document No] = zzz.[AP Document No] "
+                    Dim whrclas As String = " 1=1 and zzz.[PI Document No] is not null "
+                    If objCommonVar.ApplyLocationFilterBasedOnPermission = True AndAlso clsCommon.myLen(objCommonVar.strCurrUserLocationsSegment) > 0 Then
+                        whrclas += ""
+                    End If
+                    whrclas += " GROUP BY zzz.Vendor_Code,zzz.[Vendor Name],zzz.[Vendor Invoice date],zzz.[Vendor Invoice No],zzz.[AP Document No],zzz.[AP Document date], zzz.[PI Document No],zzz.PI_Date "
+                    txtRefDocNo.Value = clsCommon.ShowSelectForm("WORKORDERJOBAP", qry, "PI_NO", whrclas, txtRefDocNo.Value, "PI_NO", isButtonClicked)
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(cmbRefType.SelectedValue), "WO") = CompairStringResult.Equal Then
                     If clsCommon.myLen(txtlocation.Value) <= 0 Then
                         Throw New Exception("Please select Location first.")

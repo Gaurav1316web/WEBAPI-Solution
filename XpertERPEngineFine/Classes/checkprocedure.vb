@@ -528,7 +528,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.SubModuleSaleNewTransaction, "Transaction", "1.06.02", clsUserMgtCode.ModuleSalesNew, "SM", 26)
         InsertDefaultValue(clsUserMgtCode.frmSaleQuotation, "Sales Quotation", "1.06.02.01", clsUserMgtCode.SubModuleSaleNewTransaction, "", 8, 0, "", "", "", True, True, Nothing)
         InsertDefaultValue(clsUserMgtCode.frmSNSalesOrder, "Sales Order", "1.06.02.02", clsUserMgtCode.SubModuleSaleNewTransaction, "", 8, 0, "", "", "", True, True, Nothing)
-        InsertDefaultValue(clsUserMgtCode.frmSNShipment, "Shipment", "1.06.02.03", clsUserMgtCode.SubModuleSaleNewTransaction, "", 8, 0, "", "", "", True, True, Nothing)
+        InsertDefaultValue(clsUserMgtCode.frmSNShipment, "Shipment", "1.06.02.03", clsUserMgtCode.SubModuleSaleNewTransaction, "", 8, 0, "", "", "", True, True, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.frmSNSaleInvoice, "Sale Invoice", "1.06.02.04", clsUserMgtCode.SubModuleSaleNewTransaction, "", 8, 0, "", "", "", True, True, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.frmSNServiceInvoice, "Service Invoice", "1.06.02.05", clsUserMgtCode.SubModuleSaleNewTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmSNSaleReturn, "Sale Return", "1.06.02.06", clsUserMgtCode.SubModuleSaleNewTransaction, "", 8, 0, "", "", "", True, True, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
@@ -638,7 +638,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.SubModuleMaterialTransaction, "Transaction", "1.07.02", clsUserMgtCode.ModuleMaterial, "SM", 26)
 
         InsertDefaultValue(clsUserMgtCode.Indent, "Transfer Indent", "1.07.02.01", clsUserMgtCode.SubModuleMaterialTransaction, 8) ''FMCG
-        InsertDefaultValue(clsUserMgtCode.Transfer, "Transfer", "1.07.02.02", clsUserMgtCode.SubModuleMaterialTransaction, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, False, Nothing, Nothing, "", "Internal", "", "", "")  ''FMCG
+        InsertDefaultValue(clsUserMgtCode.Transfer, "Transfer", "1.07.02.02", clsUserMgtCode.SubModuleMaterialTransaction, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, False, Nothing, Nothing, "", "Internal", "", "", "", False, "", 0, True, False)  ''FMCG
         InsertDefaultValue(clsUserMgtCode.CreateTransfer, "Create Transfer", "1.07.02.03", clsUserMgtCode.SubModuleMaterialTransaction, 8) ''FMCG
         InsertDefaultValue(clsUserMgtCode.FrmItemMcMapping, "Item MC Mapping", "1.07.02.04", clsUserMgtCode.SubModuleMaterialTransaction, 8) ''FMCG
         InsertDefaultValue(clsUserMgtCode.mbtnEmptyTrans, "Empty Transactions", "1.07.02.05", clsUserMgtCode.SubModuleMaterialTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False) ''FMCG
@@ -646,8 +646,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.mbtnStoreAdjustment, "Store Adjustment", "1.07.02.07", clsUserMgtCode.SubModuleMaterialTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.frmWarehouseBreakage, "Warehouse Breakage", "1.07.02.08", clsUserMgtCode.SubModuleMaterialTransaction, 8)
         ' InsertDefaultValue(clsUserMgtCode.FrmExpiryDateEntry, "Expired Item Entry", "1.07.02.09", clsUserMgtCode.SubModuleMaterialTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.frmPhysicalStock, "Physical Stock", "1.07.02.10", clsUserMgtCode.SubModuleMaterialTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.frmPhysicalStockMultipleLocation, "Physical Stock Multiple Location", "1.07.02.11", clsUserMgtCode.SubModuleMaterialTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmPhysicalStock, "Physical Stock", "1.07.02.10", clsUserMgtCode.SubModuleMaterialTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
+        InsertDefaultValue(clsUserMgtCode.frmPhysicalStockMultipleLocation, "Physical Stock Multiple Location", "1.07.02.11", clsUserMgtCode.SubModuleMaterialTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.ChangeItemSerialNumber, "Change Item Serial Number", "1.07.02.12", clsUserMgtCode.SubModuleMaterialTransaction, 8)
         ' InsertDefaultValue(clsUserMgtCode.frmAssemblies, "Assemblies/Disassemblies", "1.07.02.12", clsUserMgtCode.SubModuleMaterialTransaction, 8)
         ' InsertDefaultValue(clsUserMgtCode.ItemStockConversion, "Item Stock Conversion", "1.07.02.13", clsUserMgtCode.SubModuleMaterialTransaction, 8)
@@ -1068,6 +1068,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.AuditTrailHRAndPayroll, "HR And Payroll Audit Trail Report", "1.11.03.18", clsUserMgtCode.SubModuleHRReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmActiveInactiveEmpRegister, "Employee Active/Inactive Report", "1.11.03.19", clsUserMgtCode.SubModuleHRReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptEmployeeDeductionMasterReport, "Employee Deduction Master Report", "1.11.03.20", clsUserMgtCode.SubModuleHRReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptTentativeReport, "Tentative Salary", "1.11.03.21", clsUserMgtCode.SubModuleHRReport, 37)
 
         'Monthly Reports
         InsertDefaultValue(clsUserMgtCode.SubModuleHRMonthlyReport, "Monthly Report", "1.11.04", clsUserMgtCode.ModuleHR, "SM", 30)
@@ -1516,7 +1517,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmAssetAgreement, "Asset Agreement", "1.15.02.01", clsUserMgtCode.SubModuleServiceTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmAssetInstallPullOut, "Asset Install / PullOut", "1.15.02.02", clsUserMgtCode.SubModuleServiceTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmComplaintDetailEntry, "Complaint Detail Entry", "1.15.02.03", clsUserMgtCode.SubModuleServiceTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.frmAssetDistatch, "Dispatch", "1.15.02.04", clsUserMgtCode.SubModuleServiceTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmAssetDistatch, "Dispatch", "1.15.02.04", clsUserMgtCode.SubModuleServiceTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.frmCartMaintenanceEntry, "Cart Maintenance Entry", "1.15.02.05", clsUserMgtCode.SubModuleServiceTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.FrmPendingComplaintDetail, "Pending Complaint Detail", "1.15.02.06", clsUserMgtCode.SubModuleServiceTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmQuickComplaintDetailEntry, "Quick Complaint Detail Entry", "1.15.02.07", clsUserMgtCode.SubModuleServiceTransaction, 8)

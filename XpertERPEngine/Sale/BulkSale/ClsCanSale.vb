@@ -78,6 +78,7 @@ Public Class ClsCanSale
         '  Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             Dim ApplyTSPriceAtBulkSale As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ApplyTSPriceAtBulkSale, clsFixedParameterCode.ApplyTSPriceAtBulkSale, trans)) = 1, True, False))
+
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmCanSale, obj.Location_Code, obj.Document_Date, trans)
             If Not isNewEntry Then
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_CAN_SALE_HEAD", "Document_No", "TSPL_CAN_SALE_DETAIL", "Document_No", trans)
@@ -160,7 +161,12 @@ Public Class ClsCanSale
         End Try
         Return True
     End Function
-
+    Public Shared Function GetData(ByVal strCode As String) As ClsCanSale
+        Return GetData(strCode, Nothing)
+    End Function
+    Public Shared Function GetData(ByVal strCode As String, ByVal arrLoc As String) As ClsCanSale
+        Return GetData(strCode, arrLoc, Nothing)
+    End Function
     Public Shared Function GetData(ByVal strCode As String, ByVal arrLoc As String, ByVal NavType As NavigatorType) As ClsCanSale
         Return GetData(strCode, arrLoc, NavType, Nothing)
     End Function
@@ -257,21 +263,18 @@ Public Class ClsCanSale
             Throw New Exception("Document No not found to Delete")
         End If
         Try
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_Date,Location_Code from TSPL_CAN_SALE_HEAD where Document_No='" + strDocNo + "'", trans)
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmCanSale, clsCommon.myCstr(dt.Rows(0)("Location_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
-
-
-            End If
+            Dim obj As New ClsCanSale()
+            obj = ClsCanSale.GetData(strDocNo)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmCanSale, obj.Location_Code, obj.Document_Date, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_CAN_SALE_HEAD", "Document_No", "TSPL_CAN_SALE_DETAIL", "Document_No", trans)
             Dim qry As String = ""
-            qry = "delete from TSPL_CAN_SALE_DETAIL where Document_No='" + strDocNo + "'"
-            clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            qry = "delete from TSPL_CAN_SALE_HEAD where Document_No='" + strDocNo + "'"
-            isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            trans.Commit()
-        Catch ex As Exception
-            trans.Rollback()
+                qry = "delete from TSPL_CAN_SALE_DETAIL where Document_No='" + strDocNo + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                qry = "delete from TSPL_CAN_SALE_HEAD where Document_No='" + strDocNo + "'"
+                isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                trans.Commit()
+            Catch ex As Exception
+                trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
 
@@ -724,7 +727,7 @@ Public Class ClsCanSaleDispatch
         Dim qry As String = String.Empty
         Try
             Dim ApplyTSPriceAtBulkSale As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ApplyTSPriceAtBulkSale, clsFixedParameterCode.ApplyTSPriceAtBulkSale, trans)) = 1, True, False))
-            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Bulk Sale", "Can Sale", obj.Location_Code, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmCanSale, obj.Location_Code, obj.Document_Date, trans)
             qry = "delete from TSPL_CANSALE_DISPATCH_DETAIL where Document_No='" & obj.Document_No & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             If isNewEntry Then
@@ -823,6 +826,7 @@ Public Class ClsCanSaleDispatch
                 Throw New Exception("Document No not found to Post")
             End If
             Dim obj As ClsCanSaleDispatch = ClsCanSaleDispatch.GetData(strDocNo, arrLoc, NavigatorType.Current, trans)
+
             Dim settTankerDispatchAvgFATSNFPer As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TankerDispatchAvgFATSNFPer, clsFixedParameterCode.TankerDispatchAvgFATSNFPer, trans)) = 1)
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("No Data found to Post")
@@ -1790,7 +1794,7 @@ Public Class ClsCanSaleInvoice
         Dim qry As String = String.Empty
         Try
             Dim ApplyTSPriceAtBulkSale As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ApplyTSPriceAtBulkSale, clsFixedParameterCode.ApplyTSPriceAtBulkSale, trans)) = 1, True, False))
-            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Bulk Sale", "Can Sale", obj.Location_Code, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmCanSale, obj.Location_Code, obj.Document_Date, trans)
             qry = "delete from TSPL_CANSALE_INVOICE_DETAIL where Document_No='" & obj.Document_No & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             If isNewEntry Then

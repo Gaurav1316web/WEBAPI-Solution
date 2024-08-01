@@ -149,10 +149,6 @@ Public Class clsCSATransferGateOut
         Dim issaved As Boolean = True
 
         Try
-            Dim qryLocationDate As String = "select Gate_Out_Date,From_Location from TSPL_CSATransfer_Gate_Out where Document_No ='" + obj.Document_No + "'   "
-            Dim dt As DataTable
-            dt = clsDBFuncationality.GetDataTable(qryLocationDate)
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleCSASale, clsUserMgtCode.frmGateEntryReturnCS, "From_Location", clsCommon.myCDate(dt.Rows(0)("Gate_Out_Date")), trans)
 
             'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleCSASale, clsUserMgtCode.FrmCSATransferGateOut, clsCommon.myCstr(dt.Rows(0)("From_Location")), clsCommon.myCDate(dt.Rows(0)("CSATransfer_Date")), trans)
 

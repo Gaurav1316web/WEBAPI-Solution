@@ -392,11 +392,13 @@ Public Class ClsDispatchBulkSaleTrade
         If (clsCommon.myLen(strDocNo) <= 0) Then
             Throw New Exception("Document No not found to Delete")
         End If
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_Date,Location_Code from TSPL_Dispatch_BulkSale_Trade where Document_No='" + strDocNo + "'", trans)
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, "", clsCommon.myCstr(dt.Rows(0)("Location_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
+        'Dim obj As clsBulkMilkSRNTrade = clsBulkMilkSRNTrade.getData(strDocNo, NavigatorType.Current, trans)
 
-        End If
+        'Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_Date,Location_Code from TSPL_Dispatch_BulkSale_Trade where Document_No='" + strDocNo + "'", trans)
+        'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+        'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, FrmDispatchBulkSaleTrade, obj.Loc_Code, obj.Challan_Date, trans)
+
+        'End If
         Try
             Dim qry As String = ""
             qry = "delete from TSPL_Dispatch_Detail_BulkSale_Trade where Document_No='" + strDocNo + "'"
