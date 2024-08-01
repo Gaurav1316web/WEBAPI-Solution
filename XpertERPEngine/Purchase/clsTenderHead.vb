@@ -75,6 +75,7 @@ Public Class clsTenderHead
             If (clsCommon.myLen(obj.DocumentCode) <= 0) Then
                 Throw New Exception("Error in Document Code Not Found")
             End If
+
             'If Not isNewEntry Then
             '    CancelData(obj.DocumentCode, trans)
             'End If
