@@ -693,6 +693,12 @@
     <Compile Include="HR and Payroll\Reports\RptPFForm11.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="HR and Payroll\Reports\RptTentativeSalary.Designer.vb">
+      <DependentUpon>RptTentativeSalary.vb</DependentUpon>
+    </Compile>
+    <Compile Include="HR and Payroll\Reports\RptTentativeSalary.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="HR and Payroll\Reports\Statutory Reports\frmAnnualCensusReport.Designer.vb">
       <DependentUpon>frmAnnualCensusReport.vb</DependentUpon>
     </Compile>
@@ -2005,6 +2011,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HR and Payroll\Reports\RptPFForm11.resx">
       <DependentUpon>RptPFForm11.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HR and Payroll\Reports\RptTentativeSalary.resx">
+      <DependentUpon>RptTentativeSalary.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HR and Payroll\Reports\Statutory Reports\frmAnnualCensusReport.resx">
       <DependentUpon>frmAnnualCensusReport.vb</DependentUpon>
