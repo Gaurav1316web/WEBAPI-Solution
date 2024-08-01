@@ -22,9 +22,6 @@ Partial Class frmPriceChartUploaderCLR
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem15 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem16 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem17 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -36,8 +33,11 @@ Partial Class frmPriceChartUploaderCLR
         Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem14 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.cboDockCollectionMilkType = New common.Controls.MyComboBox()
@@ -262,8 +262,7 @@ Partial Class frmPriceChartUploaderCLR
         Me.txtCircularNo.IsSourceFromTable = False
         Me.txtCircularNo.IsSourceFromValueList = False
         Me.txtCircularNo.IsUnique = False
-        Me.txtCircularNo.Location = New System.Drawing.Point(798, 75)
-        Me.txtCircularNo.MaxLength = 30
+        Me.txtCircularNo.Location = New System.Drawing.Point(649, 75)
         Me.txtCircularNo.MendatroryField = False
         Me.txtCircularNo.MyLinkLable1 = Nothing
         Me.txtCircularNo.MyLinkLable2 = Nothing
@@ -271,14 +270,14 @@ Partial Class frmPriceChartUploaderCLR
         Me.txtCircularNo.ReferenceFieldDesc = Nothing
         Me.txtCircularNo.ReferenceFieldName = Nothing
         Me.txtCircularNo.ReferenceTableName = Nothing
-        Me.txtCircularNo.Size = New System.Drawing.Size(100, 20)
+        Me.txtCircularNo.Size = New System.Drawing.Size(249, 20)
         Me.txtCircularNo.TabIndex = 339
         '
         'MyLabel14
         '
         Me.MyLabel14.FieldName = Nothing
         Me.MyLabel14.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel14.Location = New System.Drawing.Point(730, 77)
+        Me.MyLabel14.Location = New System.Drawing.Point(580, 75)
         Me.MyLabel14.Name = "MyLabel14"
         Me.MyLabel14.Size = New System.Drawing.Size(63, 16)
         Me.MyLabel14.TabIndex = 23
@@ -317,12 +316,12 @@ Partial Class frmPriceChartUploaderCLR
         Me.CmbShift.IsSourceFromTable = False
         Me.CmbShift.IsSourceFromValueList = False
         Me.CmbShift.IsUnique = False
-        RadListDataItem15.Text = "None"
-        RadListDataItem16.Text = "Declared Rate"
-        RadListDataItem17.Text = "Effective Rate"
-        Me.CmbShift.Items.Add(RadListDataItem15)
-        Me.CmbShift.Items.Add(RadListDataItem16)
-        Me.CmbShift.Items.Add(RadListDataItem17)
+        RadListDataItem1.Text = "None"
+        RadListDataItem2.Text = "Declared Rate"
+        RadListDataItem3.Text = "Effective Rate"
+        Me.CmbShift.Items.Add(RadListDataItem1)
+        Me.CmbShift.Items.Add(RadListDataItem2)
+        Me.CmbShift.Items.Add(RadListDataItem3)
         Me.CmbShift.Location = New System.Drawing.Point(394, 52)
         Me.CmbShift.MendatroryField = False
         Me.CmbShift.MyLinkLable1 = Me.MyLabel10
@@ -394,12 +393,12 @@ Partial Class frmPriceChartUploaderCLR
         Me.cmbaxis.IsSourceFromTable = False
         Me.cmbaxis.IsSourceFromValueList = False
         Me.cmbaxis.IsUnique = False
-        RadListDataItem1.Text = "None"
-        RadListDataItem2.Text = "Single"
-        RadListDataItem3.Text = "Double"
-        Me.cmbaxis.Items.Add(RadListDataItem1)
-        Me.cmbaxis.Items.Add(RadListDataItem2)
-        Me.cmbaxis.Items.Add(RadListDataItem3)
+        RadListDataItem4.Text = "None"
+        RadListDataItem5.Text = "Single"
+        RadListDataItem6.Text = "Double"
+        Me.cmbaxis.Items.Add(RadListDataItem4)
+        Me.cmbaxis.Items.Add(RadListDataItem5)
+        Me.cmbaxis.Items.Add(RadListDataItem6)
         Me.cmbaxis.Location = New System.Drawing.Point(798, 51)
         Me.cmbaxis.MendatroryField = False
         Me.cmbaxis.MyLinkLable1 = Me.MyLabel3
@@ -437,12 +436,12 @@ Partial Class frmPriceChartUploaderCLR
         Me.cmbmatrix.IsSourceFromTable = False
         Me.cmbmatrix.IsSourceFromValueList = False
         Me.cmbmatrix.IsUnique = False
-        RadListDataItem4.Text = "None"
-        RadListDataItem5.Text = "6.5/9.0"
-        RadListDataItem6.Text = "4.0/8.5"
-        Me.cmbmatrix.Items.Add(RadListDataItem4)
-        Me.cmbmatrix.Items.Add(RadListDataItem5)
-        Me.cmbmatrix.Items.Add(RadListDataItem6)
+        RadListDataItem7.Text = "None"
+        RadListDataItem8.Text = "6.5/9.0"
+        RadListDataItem9.Text = "4.0/8.5"
+        Me.cmbmatrix.Items.Add(RadListDataItem7)
+        Me.cmbmatrix.Items.Add(RadListDataItem8)
+        Me.cmbmatrix.Items.Add(RadListDataItem9)
         Me.cmbmatrix.Location = New System.Drawing.Point(968, 53)
         Me.cmbmatrix.MendatroryField = False
         Me.cmbmatrix.MyLinkLable1 = Me.MyLabel4
@@ -615,8 +614,8 @@ Partial Class frmPriceChartUploaderCLR
         Me.CmbStandardRate.IsSourceFromTable = False
         Me.CmbStandardRate.IsSourceFromValueList = False
         Me.CmbStandardRate.IsUnique = False
-        RadListDataItem7.Text = "None"
-        Me.CmbStandardRate.Items.Add(RadListDataItem7)
+        RadListDataItem10.Text = "None"
+        Me.CmbStandardRate.Items.Add(RadListDataItem10)
         Me.CmbStandardRate.Location = New System.Drawing.Point(550, 17)
         Me.CmbStandardRate.MendatroryField = False
         Me.CmbStandardRate.MyLinkLable1 = Me.MyLabel7
@@ -652,8 +651,8 @@ Partial Class frmPriceChartUploaderCLR
         Me.cmbrate.IsSourceFromTable = False
         Me.cmbrate.IsSourceFromValueList = False
         Me.cmbrate.IsUnique = False
-        RadListDataItem8.Text = "None"
-        Me.cmbrate.Items.Add(RadListDataItem8)
+        RadListDataItem11.Text = "None"
+        Me.cmbrate.Items.Add(RadListDataItem11)
         Me.cmbrate.Location = New System.Drawing.Point(375, 17)
         Me.cmbrate.MendatroryField = False
         Me.cmbrate.MyLinkLable1 = Me.MyLabel5
@@ -699,12 +698,12 @@ Partial Class frmPriceChartUploaderCLR
         Me.cmbratetype.IsSourceFromTable = False
         Me.cmbratetype.IsSourceFromValueList = False
         Me.cmbratetype.IsUnique = False
-        RadListDataItem9.Text = "None"
-        RadListDataItem10.Text = "Declared Rate"
-        RadListDataItem11.Text = "Effective Rate"
-        Me.cmbratetype.Items.Add(RadListDataItem9)
-        Me.cmbratetype.Items.Add(RadListDataItem10)
-        Me.cmbratetype.Items.Add(RadListDataItem11)
+        RadListDataItem12.Text = "None"
+        RadListDataItem13.Text = "Declared Rate"
+        RadListDataItem14.Text = "Effective Rate"
+        Me.cmbratetype.Items.Add(RadListDataItem12)
+        Me.cmbratetype.Items.Add(RadListDataItem13)
+        Me.cmbratetype.Items.Add(RadListDataItem14)
         Me.cmbratetype.Location = New System.Drawing.Point(933, 18)
         Me.cmbratetype.MendatroryField = False
         Me.cmbratetype.MyLinkLable1 = Me.MyLabel2
@@ -965,7 +964,8 @@ Partial Class frmPriceChartUploaderCLR
         Me.gv.MasterTemplate.AllowDragToGroup = False
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(1048, 261)
@@ -1013,7 +1013,8 @@ Partial Class frmPriceChartUploaderCLR
         Me.gvCharges.MasterTemplate.AllowDeleteRow = False
         Me.gvCharges.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCharges.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCharges.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvCharges.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvCharges.MyStopExport = False
         Me.gvCharges.Name = "gvCharges"
         Me.gvCharges.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvCharges.ShowGroupPanel = False
