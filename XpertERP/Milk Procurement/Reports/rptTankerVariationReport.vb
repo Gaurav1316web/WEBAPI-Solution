@@ -797,7 +797,7 @@ Public Class RptTankerVariationReport
             obj.ReportName = ""
             obj.ReportName1 = "M.P.F., HYDERABAD MILK RECEIPTS"
             obj.ShowPageNo = True
-            obj.LandscapPageSetupColumnsChar = 120
+            obj.PageSetupCustomizeCharColumn = 120
             obj.arrFilter = New List(Of clsDosPrintHeaderFilter)()
             obj.arrFilter.Add(clsDosPrintHeaderFilter.GetObject("UNIT NAME", clsCommon.myCstr(txtLocName.Text)))
             obj.arrFilter.Add(clsDosPrintHeaderFilter.GetObject("PERIOD FROM", clsCommon.myCstr(txtMilkReceiptFromDate.Text) + " To " + clsCommon.myCstr(txtMilkReciptToDate.Text)))
