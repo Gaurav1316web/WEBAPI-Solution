@@ -677,9 +677,8 @@ Public Class FrmEmpIncrement
                 'End If
 
                 If e.Column Is gvSalary.Columns(colIncrementRate_Amt) Then
-
-                    gvSalary.CurrentRow.Cells(colIncrementedRate_Amt).Value = ((clsCommon.myCdbl(gvSalary.CurrentRow.Cells(colPAYPERIOD_Amount).Value) * clsCommon.myCdbl(gvSalary.CurrentRow.Cells(colIncrementRate_Amt).Value)) / 100) + clsCommon.myCdbl(gvSalary.CurrentRow.Cells(colPAYPERIOD_Amount).Value)
-                    gvSalary.CurrentRow.Cells(colIncrementAmt).Value = ((clsCommon.myCdbl(gvSalary.CurrentRow.Cells(colPAYPERIOD_Amount).Value) * clsCommon.myCdbl(gvSalary.CurrentRow.Cells(colIncrementRate_Amt).Value)) / 100)
+                    gvSalary.CurrentRow.Cells(colIncrementedRate_Amt).Value = (Math.Round(((clsCommon.myCdbl(gvSalary.CurrentRow.Cells(colPAYPERIOD_Amount).Value) * clsCommon.myCdbl(gvSalary.CurrentRow.Cells(colIncrementRate_Amt).Value)) / 100) / 100) * 100) + clsCommon.myCdbl(gvSalary.CurrentRow.Cells(colPAYPERIOD_Amount).Value)
+                    gvSalary.CurrentRow.Cells(colIncrementAmt).Value = Math.Round(((clsCommon.myCdbl(gvSalary.CurrentRow.Cells(colPAYPERIOD_Amount).Value) * clsCommon.myCdbl(gvSalary.CurrentRow.Cells(colIncrementRate_Amt).Value)) / 100) / 100) * 100
                 ElseIf e.Column Is gvSalary.Columns(colIncrementAmt) Then
                     If clsCommon.myCdbl(gvSalary.CurrentRow.Cells(colPAYPERIOD_Amount).Value) = 0 Then
                         gvSalary.CurrentRow.Cells(colIncrementedRate_Amt).Value = clsCommon.myCdbl(gvSalary.CurrentRow.Cells(colPAYPERIOD_Amount).Value) + clsCommon.myCdbl(gvSalary.CurrentRow.Cells(colIncrementAmt).Value)

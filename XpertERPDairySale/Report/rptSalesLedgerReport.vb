@@ -114,7 +114,6 @@ Public Class rptSalesLedgerReport
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
-
         LoadData()
     End Sub
 
@@ -223,9 +222,6 @@ Public Class rptSalesLedgerReport
                 qry += " and TSPL_ITEM_MASTER.Is_FreshItem = 1  "
             ElseIf rbtnProductType.IsChecked Then
                 qry += " and TSPL_ITEM_MASTER.Is_Ambient = 1 "
-            ElseIf rbtnBothType.IsChecked Then
-                qry += " and TSPL_ITEM_MASTER.Is_FreshItem = 1 or  TSPL_ITEM_MASTER.Is_Ambient = 1 "
-
             End If
             qry += " AND TSPL_SD_SHIPMENT_HEAD.Status = 1  ORDER BY Structure_Code,Sku_Seq"
 
@@ -317,7 +313,7 @@ Public Class rptSalesLedgerReport
             ElseIf rbtnProductType.IsChecked Then
                 BaseQry += " and TSPL_ITEM_MASTER.Is_Ambient = 1 "
             ElseIf rbtnBothType.IsChecked Then
-                BaseQry += " and TSPL_ITEM_MASTER.Is_FreshItem = 1 or  TSPL_ITEM_MASTER.Is_Ambient = 1 "
+                BaseQry += " "
 
             End If
 

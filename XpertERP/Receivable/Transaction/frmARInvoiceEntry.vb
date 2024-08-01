@@ -3782,10 +3782,12 @@ Public Class FrmARInvoiceEntry
             clsCommon.ProgressBarShow()
             Try
                 For Each grow As GridViewRowInfo In gv.Rows
-
+                    Dim strDate As String
                     Dim strCustomer As String = clsCommon.myCstr(grow.Cells("Customer").Value)
                     Dim dblAmt As Double = clsCommon.myCdbl(grow.Cells("Amount").Value)
-                    Dim strDate As String = clsCommon.GetPrintDate(grow.Cells("Date").Value, "dd/MM/yyyy")
+                    If Not IsDBNull(grow.Cells("Date").Value) Then
+                        strDate = clsCommon.GetPrintDate(grow.Cells("Date").Value, "dd/MM/yyyy")
+                    End If
                     Dim segment As String = clsCommon.myCstr(grow.Cells("LocSegment").Value)
 
                     If clsCommon.myLen(strCustomer) <= 0 Then

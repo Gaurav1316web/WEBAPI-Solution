@@ -4688,7 +4688,7 @@ Public Class frmInvoiceFreshSale
         '-----------------------------------------------------
 
 
-        LoadData(clsCommon.ShowSelectForm("ShipmentCofnd", qry, "Code", whrClas, txtDocNo.Value, "TSPL_SD_SALE_INVOICE_HEAD.Document_Date desc", isButtonClicked, "TSPL_SD_SALE_INVOICE_HEAD.Document_Date"), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("ShipmentCofnd", qry, "Code", whrClas, txtDocNo.Value, "TSPL_SD_SALE_INVOICE_HEAD.Document_Date desc", isButtonClicked), NavigatorType.Current)
     End Sub
 
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown

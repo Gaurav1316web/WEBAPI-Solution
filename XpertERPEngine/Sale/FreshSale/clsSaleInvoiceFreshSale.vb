@@ -310,6 +310,8 @@ Public Class clsSaleInvoiceFreshSale
             If (clsCommon.myLen(obj.Document_Code) <= 0) Then
                 Throw New Exception("Error in Document Code Generation")
             End If
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleFreshSale, clsUserMgtCode.frmInvoiceFreshSale, obj.Bill_To_Location, obj.Document_Date, trans)
+
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt"))
 
@@ -1108,7 +1110,7 @@ Public Class clsSaleInvoiceFreshSale
                 Throw New Exception("Code not found to Post")
             End If
             Dim obj As clsSaleInvoiceFreshSale = clsSaleInvoiceFreshSale.GetData(strDocNo, NavigatorType.Current, "", trans)
-
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleFreshSale, clsUserMgtCode.frmInvoiceFreshSale, obj.Bill_To_Location, obj.Document_Date, trans)
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
@@ -1786,6 +1788,9 @@ Public Class clsSaleInvoiceFreshSale
             End If
 
             Dim Qry As String = "select Status from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" + strCode + "'"
+            Dim obj As clsSaleInvoiceFreshSale = clsSaleInvoiceFreshSale.GetData(strCode, NavigatorType.Current, "", trans)
+
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleFreshSale, clsUserMgtCode.frmInvoiceFreshSale, obj.Bill_To_Location, obj.Document_Date, trans)
             If Not clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry, trans)) = 1 Then
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
             End If
