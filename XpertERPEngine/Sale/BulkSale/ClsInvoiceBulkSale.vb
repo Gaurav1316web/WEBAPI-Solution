@@ -80,7 +80,7 @@ Public Class ClsInvoiceBulkSale
             If Not isNewEntry Then
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_INVOICE_MASTER_BULKSAlE", "Document_No", "TSPL_INVOICE_DETAIL_BulKSALE", "Document_No", trans)
             End If
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmInvoiceBulkSale, obj.Location_Code, obj.Document_Date, trans)
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmInvoiceBulkSale, obj.Location_Code, obj.Document_Date, trans)
             qry = "delete from TSPL_INVOICE_DETAIL_BulKSALE where Document_No='" + obj.Document_No + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             If isNewEntry Then

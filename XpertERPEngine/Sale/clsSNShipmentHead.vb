@@ -1031,7 +1031,7 @@ Public Class clsSNShipmentHead
                     clsRCDFRateControl.CheckRCDFRateControl(clsCommon.myCstr(obj.Arr(i).Item_Code), clsCommon.myCstr(obj.Arr(i).Unit_code), clsCommon.myCDecimal(obj.Arr(i).Item_Cost), clsCommon.myCDate(obj.Document_Date), trans)
                 Next
             End If
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Sales And Distribution", "Shipment/Sale Invoice", obj.Bill_To_Location, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleService, clsUserMgtCode.frmSNShipment, obj.Bill_To_Location, obj.Document_Date, trans)
             clsSerializeInvenotry.DeleteData("SD-IN", obj.Document_Code, trans)
             Dim qry1 As String = "delete from TSPL_SD_SHIPMENT_WEIGHMENT_MAPPING where Document_Code='" + obj.Document_Code + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry1, trans)
@@ -1972,8 +1972,9 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
                 Throw New Exception("No Data found to Post")
             End If
             '' Anubhooti 06-Sep-2014 BM00000003735 (Locked Transaction)
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Sales And Distribution", "Shipment/Sale Invoice", obj.Bill_To_Location, obj.Document_Date, trans)
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Sales And Distribution", "Shipment/Sale Invoice", obj.Bill_To_Location, obj.Document_Date, trans)
             ''
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleService, clsUserMgtCode.frmSNShipment, obj.Bill_To_Location, obj.Document_Date, trans)
             If (obj.Status = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
             End If
@@ -2448,8 +2449,9 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
             Try
                 '' Anubhooti 06-Sep-2014 BM00000003735 (Locked Transaction)
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Sales And Distribution", "Shipment/Sale Invoice", obj.Bill_To_Location, obj.Document_Date, trans)
+                ' clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Sales And Distribution", "Shipment/Sale Invoice", obj.Bill_To_Location, obj.Document_Date, trans)
                 ''
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleService, clsUserMgtCode.frmSNShipment, obj.Bill_To_Location, obj.Document_Date, trans)
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
                 End If
@@ -2497,7 +2499,8 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_Code,Bill_To_Location from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + strCode + "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmProductionEntry, clsCommon.myCstr(dt.Rows(0)("Bill_To_Location")), clsCommon.myCDate(dt.Rows(0)("Document_Code")), trans)
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Sales And Distribution", "Shipment/Sale Invoice", obj.Bill_To_Location, obj.Document_Date, trans)
+                ' clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Sales And Distribution", "Shipment/Sale Invoice", obj.Bill_To_Location, obj.Document_Date, trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleService, clsUserMgtCode.frmSNShipment, obj.Bill_To_Location, obj.Document_Date, trans)
             End If
 
             Dim qry As String = "select  Against_Shipment_No from TSPL_SD_SALE_INVOICE_HEAD where Against_Shipment_No ='" + strCode + "'"

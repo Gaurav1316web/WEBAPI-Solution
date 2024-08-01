@@ -295,9 +295,9 @@ Public Class clsDemandHistoryMaster
             Dim StrQry As String = "WITH MaxHistVersions AS (
     SELECT 
         Document_No,
-        MAX(Hist_Version) AS Max_Hist_Version
+        (Hist_Version) AS Max_Hist_Version
     FROM TSPL_BOOKING_MATSER_Hist_Data
-    GROUP BY Document_No
+    GROUP BY Document_No,Hist_Version
 )
 SELECT 
     TSPL_BOOKING_MATSER_Hist_Data.Against_DemandBooking_No AS Demand_No,
@@ -308,7 +308,7 @@ SELECT
     TSPL_BOOKING_DETAIL_Hist_Data.Booking_Qty AS Qty,
     TSPL_BOOKING_DETAIL_Hist_Data.Unit_code AS Unit_Code,
     TSPL_BOOKING_MATSER_Hist_Data.Modified_By AS History_By,
-    TSPL_BOOKING_MATSER_Hist_Data.Modified_Date AS History_ON,
+    TSPL_BOOKING_MATSER_Hist_Data.Hist_On AS History_ON,
     TSPL_BOOKING_DETAIL_Hist_Data.Cust_Code AS Cust_Code,
     TSPL_CUSTOMER_MASTER.Customer_Name AS Customer_Name,
     TSPL_BOOKING_MATSER_Hist_Data.GatePass_Type AS ShiftType,
@@ -328,7 +328,7 @@ INNER JOIN MaxHistVersions
 WHERE CONVERT(date, TSPL_BOOKING_MATSER_Hist_Data.Document_Date, 103) = '" + clsCommon.GetPrintDate(DocDate) + "'
   AND TSPL_BOOKING_MATSER_Hist_Data.GatePass_Type = '" + Shift + "'
   AND TSPL_BOOKING_DETAIL_Hist_Data.Cust_Code = '" + Booth + "'
-ORDER BY TSPL_BOOKING_MATSER_Hist_Data.Modified_Date DESC;"
+ORDER BY TSPL_BOOKING_MATSER_Hist_Data.Hist_On DESC;"
 
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(StrQry, trans)

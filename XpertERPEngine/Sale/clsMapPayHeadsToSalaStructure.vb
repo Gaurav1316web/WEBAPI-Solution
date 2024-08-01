@@ -16,6 +16,7 @@ Public Class clsMapPayHeadsToSalaStructure
     Public CALC_BASIS As String
     Public PAYHEAD_FORMULA As String
     Public RATE_AMOUNT As Double
+    Public PayHeadType As String
     Public DESCRIPTION As String
     Public Shared ObjList As List(Of clsMapPayHeadsToSalaStructure)
     Public IsHiddenComponent As Boolean
@@ -95,6 +96,7 @@ Public Class clsMapPayHeadsToSalaStructure
                 objtr.CALC_BASIS = clsCommon.myCstr(dr("CALC_BASIS"))
                 objtr.RATE_AMOUNT = clsCommon.myCdbl(dr("RATE_AMOUNT"))
                 objtr.PAYHEAD_FORMULA = clsCommon.myCstr(dr("PAYHEAD_FORMULA"))
+                'objtr.PayHeadType = clsCommon.myCstr(dr("ISEARNING"))
                 objtr.DESCRIPTION = clsCommon.myCstr(dr("DESCRIPTION"))
                 objtr.IsHiddenComponent = clsCommon.myCBool(dr("IsHiddenComponent"))
                 If clsCommon.myLen(dt.Rows(0)("VALID_FROM")) > 0 AndAlso clsCommon.myCstr(dt.Rows(0)("VALID_FROM")) <> "01/01/1900 12:00:00 AM" Then

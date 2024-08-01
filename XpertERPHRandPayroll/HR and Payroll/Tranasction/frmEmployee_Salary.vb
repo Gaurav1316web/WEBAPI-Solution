@@ -14,6 +14,8 @@ Public Class frmEmployee_Salary
     Const colHiddenComponent As String = "HiddenComponent"
     Const colMax_Amount As String = "colMax_Amount"
     Const colPAYPERIOD_Amount As String = "colPAYPERIOD_Amount"
+    Const ColPayheadtype As String = "ColPayheadtype"
+    Const ColPayhead As String = "ColPayhead"
     Public sal_structure_code As String = String.Empty
 
     Dim ButtonToolTip As ToolTip = New ToolTip()
@@ -32,6 +34,8 @@ Public Class frmEmployee_Salary
 
         Dim LineNo As New GridViewTextBoxColumn
         Dim payHeadCode As New GridViewTextBoxColumn
+        Dim payHeadtype As New GridViewTextBoxColumn
+        Dim Payhead As New GridViewTextBoxColumn
         Dim PayHeadName As New GridViewTextBoxColumn
         Dim Formula As New GridViewTextBoxColumn
         Dim RateAmount As New GridViewDecimalColumn
@@ -93,6 +97,14 @@ Public Class frmEmployee_Salary
         Max_Amount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvSalary.Columns.Add(Max_Amount)
 
+        Payheadtype.FormatString = ""
+        payHeadtype.HeaderText = "Pay Head Mode"
+        payHeadtype.Name = ColPayheadtype
+        payHeadtype.Width = 100
+        payHeadtype.ReadOnly = True
+        payHeadtype.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+        gvSalary.Columns.Add(Payheadtype)
+
         PAYPERIOD_Amount.FormatString = ""
         PAYPERIOD_Amount.HeaderText = "Pay Period Amount"
         PAYPERIOD_Amount.Name = colPAYPERIOD_Amount
@@ -100,6 +112,14 @@ Public Class frmEmployee_Salary
         PAYPERIOD_Amount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         PAYPERIOD_Amount.ReadOnly = True
         gvSalary.Columns.Add(PAYPERIOD_Amount)
+
+        Payhead.FormatString = ""
+        Payhead.HeaderText = "Pay Head Type"
+        Payhead.Name = ColPayhead
+        Payhead.Width = 100
+        Payhead.ReadOnly = True
+        Payhead.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+        gvSalary.Columns.Add(Payhead)
     End Sub
 
 
@@ -319,7 +339,9 @@ Public Class frmEmployee_Salary
                     gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(colRateAmount).Value = obj1.Rate_Amount
                     gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(colHiddenComponent).Value = obj1.IsHiddenComponent
                     gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(colMax_Amount).Value = obj1.MAX_AMOUNT
-                    'gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(colPAYPERIOD_Amount).Value = obj1.PAYPERIOD_AMOUNT
+                    gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(colPAYPERIOD_Amount).Value = obj1.PAYPERIOD_AMOUNT
+                    gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(ColPayhead).Value = obj1.Payhead
+                    gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(ColPayheadtype).Value = obj1.PayheadMode
                 Next
             Else
                 gvSalary.Rows.AddNew()
@@ -352,6 +374,13 @@ Public Class frmEmployee_Salary
                     gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(colpayHeadName).Value = obj.PAY_HEAD_NAME
                     gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(colPayHeadFormula).Value = obj.PAYHEAD_FORMULA
                     gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(colRateAmount).Value = obj.RATE_AMOUNT
+                    gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(ColPayhead).Value = obj.HEAD_TYPE
+                    Dim PayheadType As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select ISEARNING from TSPL_PAYHEAD_MASTER where PAY_HEAD_CODE='" + obj.PAY_HEAD_CODE + "' "))
+                    If PayheadType = 1 Then
+                        gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(ColPayheadtype).Value = "A"
+                    Else
+                        gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(ColPayheadtype).Value = "D"
+                    End If
                     gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(colHiddenComponent).Value = obj.IsHiddenComponent
                 Next
             Else
@@ -409,6 +438,8 @@ Public Class frmEmployee_Salary
                     obj1.IsHiddenComponent = clsCommon.myCdbl(grow.Cells(colHiddenComponent).Value)
                     obj1.MAX_AMOUNT = clsCommon.myCdbl(grow.Cells(colMax_Amount).Value)
                     obj1.PAYPERIOD_AMOUNT = clsCommon.myCdbl(grow.Cells(colPAYPERIOD_Amount).Value)
+                    obj1.Payhead = clsCommon.myCstr(grow.Cells(ColPayhead).Value)
+                    obj1.PayheadMode = clsCommon.myCstr(grow.Cells(ColPayheadtype).Value)
                     ObjList.Add(obj1)
                 End If
             Next
@@ -990,6 +1021,7 @@ Public Class frmEmployee_Salary
 
             Dim intCurrRow As Integer? = Nothing
             Dim dblAmount As Double = 0
+            Dim DedAmount As Double = 0
             Dim dblPayHeadAmount As Double = 0
             For ii As Integer = 0 To gvSalary.Rows.Count - 1
 
@@ -997,16 +1029,18 @@ Public Class frmEmployee_Salary
                     If clsCommon.myCstr(gvSalary.Rows(ii).Cells(colPayHeadFormula).Value) = "" Then
                         dblAmount = dblAmount + clsCommon.myCdbl(gvSalary.Rows(ii).Cells(colRateAmount).Value)
                     End If
-                    dblPayHeadAmount = dblPayHeadAmount + clsCommon.myCdbl(gvSalary.Rows(ii).Cells(colPAYPERIOD_Amount).Value)
+                    If clsCommon.CompairString(clsCommon.myCstr(gvSalary.Rows(ii).Cells(ColPayheadtype).Value), "A") = CompairStringResult.Equal Then
+                        dblPayHeadAmount = dblPayHeadAmount + clsCommon.myCdbl(gvSalary.Rows(ii).Cells(colPAYPERIOD_Amount).Value)
+                    ElseIf clsCommon.CompairString(clsCommon.myCstr(gvSalary.Rows(ii).Cells(ColPayheadtype).Value), "D") = CompairStringResult.Equal Then
+                        DedAmount = DedAmount + clsCommon.myCdbl(gvSalary.Rows(ii).Cells(colPAYPERIOD_Amount).Value)
+                    End If
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(gvSalary.Rows(ii).Cells(colLineNo).Value), "TOTAL") = CompairStringResult.Equal Then
                     intCurrRow = ii
-
                 End If
-
-
             Next
-            gvSalary.Rows(intCurrRow).Cells(colRateAmount).Value = dblAmount
-            gvSalary.Rows(intCurrRow).Cells(colPAYPERIOD_Amount).Value = dblPayHeadAmount
+            ' gvSalary.Rows(intCurrRow).Cells(colRateAmount).Value = dblAmount
+            Dim finalamt As Double = dblPayHeadAmount - DedAmount
+            gvSalary.Rows(intCurrRow).Cells(colPAYPERIOD_Amount).Value = finalamt
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -1042,7 +1076,7 @@ Public Class frmEmployee_Salary
             'Dim arrFormula = strFormula.Split("+")
             For Each row As GridViewRowInfo In gvSalary.Rows
                 If row.Index < Rowno Then
-                    strFormula = strFormula.Replace(row.Cells(colpayHeadCode).Value, clsCommon.myCstr(clsCommon.myCDecimal(row.Cells(colRateAmount).Value)))
+                    strFormula = strFormula.Replace(row.Cells(colpayHeadCode).Value, clsCommon.myCstr(clsCommon.myCDecimal(row.Cells(colPAYPERIOD_Amount).Value)))
                 Else
                     strFormula = strFormula.Replace("[", "")
                     strFormula = strFormula.Replace("]", "")

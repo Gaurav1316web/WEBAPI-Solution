@@ -150,7 +150,7 @@ Public Class clsSalesReturnFreshSale
         Try
 
             '' Anubhooti 06-Sep-2014 BM00000003735
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSalesNew, clsUserMgtCode.frmSNSaleReturn, obj.Bill_To_Location, obj.Document_Date, trans)
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSalesNew, clsUserMgtCode.frmSNSaleReturn, obj.Bill_To_Location, obj.Document_Date, trans)
             ''
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleFreshSale, clsUserMgtCode.frmSaleReturnFreshSale, obj.Bill_To_Location, obj.Document_Date, trans)
             clsSerializeInvenotry.DeleteData("Sale Return", obj.Document_Code, trans)
@@ -846,8 +846,10 @@ Public Class clsSalesReturnFreshSale
                 Throw New Exception("No Data found to Post")
             End If
             '' Anubhooti 06-Sep-2014 BM00000003735 (Locked Transaction)
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Sales And Distribution", "Sale Return", obj.Bill_To_Location, obj.Document_Date, trans)
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Sales And Distribution", "Sale Return", obj.Bill_To_Location, obj.Document_Date, trans)
             ''
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleFreshSale, clsUserMgtCode.frmSaleReturnFreshSale, obj.Bill_To_Location, obj.Document_Date, trans)
+
             If (obj.Status = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
             End If
@@ -1542,8 +1544,10 @@ Public Class clsSalesReturnFreshSale
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
             Try
                 '' Anubhooti 06-Sep-2014 BM00000003735 (Remarks: Locked Transaction)
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Sales And Distribution", "Sale Return", obj.Bill_To_Location, obj.Document_Date, trans)
+                'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Sales And Distribution", "Sale Return", obj.Bill_To_Location, obj.Document_Date, trans)
                 ''
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleFreshSale, clsUserMgtCode.frmSaleReturnFreshSale, obj.Bill_To_Location, obj.Document_Date, trans)
+
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
                 End If

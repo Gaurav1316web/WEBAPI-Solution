@@ -251,7 +251,7 @@ Public Class clsDispatchNoteFreshSale
 
         Dim isSaved As Boolean = True
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Fresh Sale", "Fresh Dispatch Multiple", obj.Bill_To_Location, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleFreshSale, clsUserMgtCode.frmDispatchMultipleFreshSale, obj.Bill_To_Location, obj.Document_Date, trans)
             clsSerializeInvenotry.DeleteData("SD-IN", obj.Document_Code, trans)
             checkSaveNotification(obj.Document_Date, obj.Customer_Code, trans)
 
@@ -604,7 +604,7 @@ Public Class clsDispatchNoteFreshSale
 
         Dim isSaved As Boolean = True
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Fresh Sale", "Fresh Dispatch Multiple", obj.Bill_To_Location, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleFreshSale, clsUserMgtCode.frmDispatchMultipleFreshSale, obj.Bill_To_Location, obj.Document_Date, trans)
             clsBatchInventory.DeleteData(strTransType, obj.Document_Code, trans)
 
             isSaved = isSaved AndAlso clsDispatchNoteFreshSaleDetail.UpdateDataBatchWiseDetail(obj.Document_Code, Arr, trans, obj.Document_Date, obj.Bill_To_Location, obj, strTransType)
@@ -1813,6 +1813,7 @@ Public Class clsDispatchNoteFreshSale
             Throw New Exception("Purchase Order No not found to Delete")
         End If
         Dim obj As clsDispatchNoteFreshSale = clsDispatchNoteFreshSale.GetData(strCode, NavigatorType.Current)
+        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleFreshSale, clsUserMgtCode.frmDispatchMultipleFreshSale, obj.Bill_To_Location, obj.Document_Date, Nothing)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
             Try

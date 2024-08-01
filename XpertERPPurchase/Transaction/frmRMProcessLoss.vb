@@ -452,7 +452,7 @@ Public Class frmRMProcessLoss
 										 left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code
 										   left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code
                     where  Punching_Date<= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtTodate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
-                    and TSPL_INVENTORY_MOVEMENT.Item_Code in (select distinct TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE 
+                    and TSPL_INVENTORY_MOVEMENT.Item_Code in (  select distinct TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE 
                     from TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
                     left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
                     left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
@@ -645,7 +645,7 @@ Public Class frmRMProcessLoss
                     If clsCommon.myCdbl(gv1.CurrentRow.Cells(colPLper).Value) > 0 Then
                         gv1.CurrentRow.Cells(colFinalClStock).Value = clsCommon.myCdbl(gv1.CurrentRow.Cells(colClQty).Value) - clsCommon.myCdbl(gv1.CurrentRow.Cells(colPLQty).Value)
                     Else
-                        gv1.CurrentRow.Cells(colFinalClStock).Value = 0
+                        gv1.CurrentRow.Cells(colFinalClStock).Value = clsCommon.myCdbl(gv1.CurrentRow.Cells(colClQty).Value)
                     End If
                 End If
             End If

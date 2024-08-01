@@ -1660,7 +1660,12 @@ Public Class frmEmployee_Master
     End Sub
 
     Private Sub txtCompanyCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCompanyCode._MYValidating
-
+        Try
+            Dim Qry As String = " Select Comp_Code As [Company Code] from TSPL_COMPANY_MASTER "
+            txtCompanyCode.Value = clsCommon.ShowSelectForm("CompCode", Qry, "Company Code", "", txtCompanyCode.Value, "Comp_Code", isButtonClicked)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub txtAttendance__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtAttendance._MYValidating

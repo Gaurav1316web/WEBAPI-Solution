@@ -48,7 +48,7 @@ Public Class clsCrateReceivedHead
         'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Fresh Sale", "Fresh Crate Received", obj.Location_Code, clsCommon.myCDate(obj.Document_Date), trans)
         clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmCanReceived, obj.Location_Code, clsCommon.myCDate(obj.Document_Date), trans)
 
-        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmCrateReceviedDairySale, obj.Location_Code, clsCommon.myCDate(obj.Document_Date), trans)
+        'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmCrateReceviedDairySale, obj.Location_Code, clsCommon.myCDate(obj.Document_Date), trans)
 
         Dim isSaved As Boolean = True
 
@@ -286,7 +286,7 @@ Public Class clsCrateReceivedHead
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
             Try
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmCanReceived, obj.Location_Code, clsCommon.myCDate(obj.Document_Date), trans)
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmCrateReceviedDairySale, obj.Location_Code, clsCommon.myCDate(obj.Document_Date), trans)
+                ' clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmCrateReceviedDairySale, obj.Location_Code, clsCommon.myCDate(obj.Document_Date), trans)
 
 
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE", "Document_No", "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE", "Document_No", trans)
@@ -333,7 +333,7 @@ Public Class clsCrateReceivedHead
             End If
             Dim obj As clsCrateReceivedHead = clsCrateReceivedHead.GetData(strDocNo, NavigatorType.Current, trans)
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmCanReceived, obj.Location_Code, clsCommon.myCDate(obj.Document_Date), trans)
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmCrateReceviedDairySale, obj.Location_Code, clsCommon.myCDate(obj.Document_Date), trans)
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmCrateReceviedDairySale, obj.Location_Code, clsCommon.myCDate(obj.Document_Date), trans)
 
 
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
