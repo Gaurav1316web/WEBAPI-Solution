@@ -448,7 +448,7 @@ Public Class clsPurchaseOrderHead
     End Function
     Public Function SaveData(ByVal obj As clsPurchaseOrderHead, ByVal isNewEntry As Boolean, ByVal isMakeAbandomentNo As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Order", obj.Bill_To_Location, obj.PurchaseOrder_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.mbtnPurchaseOrder, clsUserMgtCode.ModulePurchase, obj.Bill_To_Location, clsCommon.myCDate(obj.PurchaseOrder_Date), trans)
             '' Anubhooti 22-Aug-2014 (Amandment After Posting,Make cond isMakeAbandomentNo = False )
             If isMakeAbandomentNo = False Then
                 If Not isNewEntry Then
@@ -1658,7 +1658,7 @@ select TSPL_TENDER_DETAIL.DocumentCode,TSPL_TENDER_DETAIL.Item_Code,TSPL_TENDER_
                 Throw New Exception("No Data found to Post")
             End If
 
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Order", obj.Bill_To_Location, obj.PurchaseOrder_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.mbtnPurchaseOrder, clsUserMgtCode.ModulePurchase, obj.Bill_To_Location, obj.PurchaseOrder_Date, trans)
 
             If (isCheckForPosted AndAlso obj.Status = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
@@ -5080,7 +5080,7 @@ a:
         Dim obj As clsPurchaseOrderHead = clsPurchaseOrderHead.GetData(strCode, NavigatorType.Current, "", trans, isMerchantTrade)
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.PurchaseOrder_No) > 0) Then
             Try
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Order", obj.Bill_To_Location, obj.PurchaseOrder_Date, trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.mbtnPurchaseOrder, clsUserMgtCode.ModulePurchase, obj.Bill_To_Location, clsCommon.myCDate(obj.PurchaseOrder_Date), trans)
                 CancleUpdate(obj.PurchaseOrder_No, trans)
                 clsPurchaseOrderAdditionChargeInsurance.DeleteData(obj.PurchaseOrder_No, trans)
 
@@ -5140,7 +5140,7 @@ a:
         Dim obj As clsPurchaseOrderHead = clsPurchaseOrderHead.GetData(strCode, NavigatorType.Current, "", trans, isMerchantTrade)
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.PurchaseOrder_No) > 0) Then
             Try
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Order", obj.Bill_To_Location, obj.PurchaseOrder_Date, trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.mbtnPurchaseOrder, clsUserMgtCode.ModulePurchase, obj.Bill_To_Location, clsCommon.myCDate(obj.PurchaseOrder_Date), trans)
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
                 End If

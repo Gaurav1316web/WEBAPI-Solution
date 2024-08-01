@@ -670,7 +670,12 @@ Public Class clsEmployeeMaster
             clsCommon.AddColumnsForChange(coll, "EmpBasisType", obj.EmpBasisType)
             clsCommon.AddColumnsForChange(coll, "SecChequeNoLac1", obj.SecChequeNoLac1)
             clsCommon.AddColumnsForChange(coll, "SecChequeNoRs100", obj.SecChequeNoRs100)
-            clsCommon.AddColumnsForChange(coll, "Company_Bank", obj.Company_Bank)
+            If obj.Company_Bank IsNot Nothing AndAlso clsCommon.myLen(obj.Company_Bank) > 0 Then
+                clsCommon.AddColumnsForChange(coll, "Company_Bank", obj.Company_Bank)
+            Else
+                clsCommon.AddColumnsForChange(coll, "Company_Bank", Nothing, True)
+            End If
+
             If isNewEntry Then
                 If clsCommon.myLen(obj.EMP_CODE) <= 0 Then
                     'Ticket No- BHA/24/09/18-000564 Emp code as per employee type

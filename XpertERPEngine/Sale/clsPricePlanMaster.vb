@@ -438,7 +438,7 @@ Public Class clsPricePlanHead
 
                 obj.Item_Basic_Net = objPD.Item_MRP * clsCommon.myCdbl(dt.DefaultView.ToTable.Rows(0)("Conversion_Factor"))
                 obj.Item_MRP = objPD.Item_MRP * clsCommon.myCdbl(dt.DefaultView.ToTable.Rows(0)("Conversion_Factor"))
-                obj.Item_Basic_Price = Math.Round(objPD.Item_Basic_Price * clsCommon.myCdbl(dt.DefaultView.ToTable.Rows(0)("Conversion_Factor")), 5, MidpointRounding.ToEven)
+                obj.Item_Basic_Price = Math.Round(objPD.Item_Basic_Price * clsCommon.myCdbl(dt.DefaultView.ToTable.Rows(0)("Conversion_Factor")), 6, MidpointRounding.ToEven)
                 obj.Abatement_Rate = 100
                 obj.Abatement = objPD.Item_MRP * clsCommon.myCdbl(dt.DefaultView.ToTable.Rows(0)("Conversion_Factor"))
                 obj.Can_Edit = "Y"

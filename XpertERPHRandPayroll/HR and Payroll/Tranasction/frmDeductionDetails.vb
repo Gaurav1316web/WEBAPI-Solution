@@ -76,7 +76,6 @@ Public Class frmDeductionDetails
         allowanceamount.Width = 100
         allowanceamount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvDeduction.Columns.Add(allowanceamount)
-
         gvDeduction.EnableFiltering = True
     End Sub
 
@@ -799,5 +798,27 @@ Public Class frmDeductionDetails
             btnUnSelect.Text = "UnSelect All"
         End If
         isInsideLoadData = False
+    End Sub
+
+    Private Sub btnCopy_Click(sender As Object, e As EventArgs) Handles btnCopy.Click
+        Try
+            'isLoadCopy = True
+            Dim qry As String = "select DEDUCTION_CODE as Code, PAY_PERIOD_CODE,DEDUCTION_REMARKS from TSPL_DEDUCTION "
+            Dim strTender As String = clsCommon.ShowSelectForm("TenderNoFndd1", qry, "Code", "", "", "Code", True)
+            If clsCommon.myLen(strTender) > 0 Then
+                LoadData(strTender, NavigatorType.Current)
+                txtCode.Value = ""
+                ' txtCode.MyReadOnly = False
+                isNewEntry = True
+                btnsave.Text = "Save"
+                btnsave.Enabled = True
+                btndelete.Enabled = False
+                btnPost.Enabled = False
+                UsLock1.Status = ERPTransactionStatus.Pending
+            End If
+
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

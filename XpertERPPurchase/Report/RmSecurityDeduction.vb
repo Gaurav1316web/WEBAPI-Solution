@@ -18,8 +18,8 @@ Public Class RmSecurityDeduction
     End Sub
 
     Private Sub txtLocation__My_Click(sender As Object, e As EventArgs) Handles txtLocation._My_Click
-        Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
-        'qry += " where 2=2 and Seg_No = '7' AND GIT='N'"
+        Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER where Location_Type='Physical' "
+        'qry += " where 2=2 and Seg_No = '7' AND GIT='N' "
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             qry += " and  TSPL_LOCATION_MASTER.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
         End If
