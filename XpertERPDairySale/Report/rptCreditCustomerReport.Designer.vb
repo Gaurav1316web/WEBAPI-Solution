@@ -26,6 +26,9 @@ Partial Class rptCreditCustomerReport
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnProduct = New common.Controls.MyRadioButton()
+        Me.rbtnMilkType = New common.Controls.MyRadioButton()
         Me.txtToDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtfromDate = New common.Controls.MyDateTimePicker()
@@ -37,6 +40,7 @@ Partial Class rptCreditCustomerReport
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnPdfPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
@@ -48,6 +52,10 @@ Partial Class rptCreditCustomerReport
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPanel1.SuspendLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
+        CType(Me.rbtnProduct, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnMilkType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtfromDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -57,6 +65,7 @@ Partial Class rptCreditCustomerReport
         CType(Me.rbtnDistributorWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnRouteWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPdfPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -77,6 +86,7 @@ Partial Class rptCreditCustomerReport
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPdfPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
@@ -106,6 +116,7 @@ Partial Class rptCreditCustomerReport
         '
         'RadPanel1
         '
+        Me.RadPanel1.Controls.Add(Me.RadGroupBox1)
         Me.RadPanel1.Controls.Add(Me.txtToDate)
         Me.RadPanel1.Controls.Add(Me.MyLabel1)
         Me.RadPanel1.Controls.Add(Me.txtfromDate)
@@ -116,6 +127,41 @@ Partial Class rptCreditCustomerReport
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(779, 341)
         Me.RadPanel1.TabIndex = 15
+        '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.rbtnProduct)
+        Me.RadGroupBox1.Controls.Add(Me.rbtnMilkType)
+        Me.RadGroupBox1.HeaderText = ""
+        Me.RadGroupBox1.Location = New System.Drawing.Point(21, 41)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(194, 36)
+        Me.RadGroupBox1.TabIndex = 445
+        '
+        'rbtnProduct
+        '
+        Me.rbtnProduct.Location = New System.Drawing.Point(88, 9)
+        Me.rbtnProduct.MyLinkLable1 = Nothing
+        Me.rbtnProduct.MyLinkLable2 = Nothing
+        Me.rbtnProduct.Name = "rbtnProduct"
+        Me.rbtnProduct.Size = New System.Drawing.Size(86, 18)
+        Me.rbtnProduct.TabIndex = 394
+        Me.rbtnProduct.TabStop = False
+        Me.rbtnProduct.Text = "Product Type"
+        '
+        'rbtnMilkType
+        '
+        Me.rbtnMilkType.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnMilkType.Location = New System.Drawing.Point(5, 9)
+        Me.rbtnMilkType.MyLinkLable1 = Nothing
+        Me.rbtnMilkType.MyLinkLable2 = Nothing
+        Me.rbtnMilkType.Name = "rbtnMilkType"
+        Me.rbtnMilkType.Size = New System.Drawing.Size(69, 18)
+        Me.rbtnMilkType.TabIndex = 393
+        Me.rbtnMilkType.Text = "Milk Type"
+        Me.rbtnMilkType.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'txtToDate
         '
@@ -259,6 +305,17 @@ Partial Class rptCreditCustomerReport
         Me.rmDeleteLayout.Text = "Delete Layout"
         Me.rmDeleteLayout.UseCompatibleTextRendering = False
         '
+        'btnPdfPrint
+        '
+        Me.btnPdfPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPdfPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPdfPrint.Location = New System.Drawing.Point(199, 8)
+        Me.btnPdfPrint.Name = "btnPdfPrint"
+        Me.btnPdfPrint.Size = New System.Drawing.Size(71, 22)
+        Me.btnPdfPrint.TabIndex = 444
+        Me.btnPdfPrint.Text = "PrintPdf"
+        Me.btnPdfPrint.Visible = False
+        '
         'btnPrint
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -311,6 +368,11 @@ Partial Class rptCreditCustomerReport
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
         Me.RadPanel1.PerformLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
+        CType(Me.rbtnProduct, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnMilkType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtfromDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -321,6 +383,7 @@ Partial Class rptCreditCustomerReport
         CType(Me.rbtnDistributorWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnRouteWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPdfPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
@@ -347,4 +410,8 @@ Partial Class rptCreditCustomerReport
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents btnClose As RadButton
     Friend WithEvents btnReset As RadButton
+    Friend WithEvents RadGroupBox1 As RadGroupBox
+    Friend WithEvents rbtnProduct As common.Controls.MyRadioButton
+    Friend WithEvents rbtnMilkType As common.Controls.MyRadioButton
+    Friend WithEvents btnPdfPrint As RadButton
 End Class

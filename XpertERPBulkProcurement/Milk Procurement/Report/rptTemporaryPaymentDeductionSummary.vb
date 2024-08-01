@@ -68,8 +68,10 @@ Public Class rptTemporaryPaymentDeductionSummary
             Dim whrActiveInactive As String = Nothing
             If rbtnActive.Checked Then
                 whrActiveInactive = " And TSPL_VLC_MASTER_HEAD.Active=1 "
+                'whrActiveInactive = " And xxx.Active=1 "
             ElseIf rbtnInActive.Checked Then
                 whrActiveInactive = " And TSPL_VLC_MASTER_HEAD.Active=0 "
+                'whrActiveInactive = " And xxx.Active=0 "
             Else
                 whrActiveInactive = Nothing
             End If
@@ -184,56 +186,69 @@ Public Class rptTemporaryPaymentDeductionSummary
     End Sub
     Function GetBAseQeryUDP(ByVal fromDate As Date, ByVal ToDate As Date) As String
         Dim whrActiveInactive As String = Nothing
-        If rbtnActive.Checked Then
-            whrActiveInactive = " And TSPL_VLC_MASTER_HEAD.Active=1 "
-        ElseIf rbtnInActive.Checked Then
-            whrActiveInactive = " And TSPL_VLC_MASTER_HEAD.Active=0 "
-        Else
-            whrActiveInactive = Nothing
-        End If
-        Dim BaseQry As String = "select TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo as AP_Invoice_No,TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_MULTIPLE_DEDUCTION_DETAIL.Amount,0 as Reduce_Deduc_Amt ,1 as RI
+        'If rbtnActive.Checked Then
+        '    'whrActiveInactive = " And TSPL_VLC_MASTER_HEAD.Active=1 "
+        '    whrActiveInactive = " And xxx.Active=1 "
+        'ElseIf rbtnInActive.Checked Then
+        '    'whrActiveInactive = " And TSPL_VLC_MASTER_HEAD.Active=0 "
+        '    whrActiveInactive = " And xxx.Active=0 "
+        'Else
+        '    whrActiveInactive = Nothing
+        'End If
+        Dim BaseQry As String = "select TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo as AP_Invoice_No,
+TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,
+TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_MULTIPLE_DEDUCTION_DETAIL.Amount,0 as Reduce_Deduc_Amt ,1 as RI,TSPL_VLC_MASTER_HEAD.Active
 from TSPL_MULTIPLE_DEDUCTION_DETAIL
 left  join TSPL_MULTIPLE_DEDUCTION_HEAD on TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No 
 left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo
 left  join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
-where 2=2 " + whrActiveInactive
-        If clsCommon.myLen(txtMCC.Value) > 0 Then
-            BaseQry += " and TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Value + "' "
-        End If
-        If clsCommon.myLen(txtDeduction.Value) > 0 Then
-            BaseQry += " and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode='" + txtDeduction.Value + "'"
-        End If
+where 2=2 "
+
+        '+ whrActiveInactive
+        'If clsCommon.myLen(txtMCC.Value) > 0 Then
+        '    BaseQry += " and TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Value + "' "
+        'End If
+        'If clsCommon.myLen(txtDeduction.Value) > 0 Then
+        '    BaseQry += " and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode='" + txtDeduction.Value + "'"
+        'End If
         BaseQry += "Union all
-            select TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No as Document_No, TSPL_PAYMENT_PROCESS_HEAD.To_Date as Doc_Date,TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No ,TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_DEDUCTION.Amount,TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt,2 as RI
+            select TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No as Document_No, TSPL_PAYMENT_PROCESS_HEAD.To_Date as Doc_Date,TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No ,
+            TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,
+            TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_DEDUCTION.Amount,
+            TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt,2 as RI,TSPL_VLC_MASTER_HEAD.Active
 from TSPL_PAYMENT_PROCESS_DEDUCTION
 left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
 left  join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No
 left join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo=TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No 
 left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
-where 2=2  and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode is not null   " + whrActiveInactive
+where 2=2  and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode is not null   "
+        '+ whrActiveInactive
         'and DeductionCode NOT IN (SELECT Ded_Code FROM TSPL_PAYMENT_PROCESS_DEDUCTION)
-        If clsCommon.myLen(txtMCC.Value) > 0 Then
-            BaseQry += " and TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Value + "' "
-        End If
-        If clsCommon.myLen(txtDeduction.Value) > 0 Then
-            BaseQry += " and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode='" + txtDeduction.Value + "'"
-        End If
+        'If clsCommon.myLen(txtMCC.Value) > 0 Then
+        '    BaseQry += " and TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Value + "' "
+        'End If
+        'If clsCommon.myLen(txtDeduction.Value) > 0 Then
+        '    BaseQry += " and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode='" + txtDeduction.Value + "'"
+        'End If
 
         BaseQry += "Union all
-select TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No as Document_No, TSPL_PAYMENT_PROCESS_HEAD.To_Date as Doc_Date,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No,TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount,0 as Reduce_Deduc_Amt,3 as RI
+select TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No as Document_No, TSPL_PAYMENT_PROCESS_HEAD.To_Date as Doc_Date,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No,
+TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,
+TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount,0 as Reduce_Deduc_Amt,3 as RI,TSPL_VLC_MASTER_HEAD.Active
 from TSPL_PAYMENT_PROCESS_CREDIT_NOTE
 left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No
 left  join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No
 left join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No 
 left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
-where 2=2 and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode is not null " + whrActiveInactive
+where 2=2 and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode is not null "
+        '+ whrActiveInactive
         'and  AP_Invoice_No NOT IN (SELECT AP_Invoice_No FROM TSPL_PAYMENT_PROCESS_CREDIT_NOTE)
-        If clsCommon.myLen(txtMCC.Value) > 0 Then
-            BaseQry += " and TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Value + "' "
-        End If
-        If clsCommon.myLen(txtDeduction.Value) > 0 Then
-            BaseQry += " and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode='" + txtDeduction.Value + "'"
-        End If
+        'If clsCommon.myLen(txtMCC.Value) > 0 Then
+        '    BaseQry += " and TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Value + "' "
+        'End If
+        'If clsCommon.myLen(txtDeduction.Value) > 0 Then
+        '    BaseQry += " and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode='" + txtDeduction.Value + "'"
+        'End If
         Dim qry As String = ""
         If chkDCSWise.Checked Then
             Dim subQry As String = Nothing
@@ -242,11 +257,11 @@ where 2=2 and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode is not null " + whrAc
             Else
                 subQry = "Select "
             End If
-            qry = subQry + " case when Document_Type='D' then 'Deduction' else 'Addition'  end Type,DCSCode,[DCS Name] ,(DeductionCode+'-'+DeductionName) as DeductionName,(OP+Sale) as [Opening+Sale],AMTDeducted as [Amt Deducted],(OP+Sale-AMTDeducted) as [Balance Amount] from (
+            qry = subQry + " case when Document_Type='D' then 'Deduction' else 'Addition'  end Type,DCSCode,[DCS Name] ,(DeductionCode+'-'+DeductionName) as DeductionName,(OP+Sale) as [Opening+Sale],AMTDeducted as [Amt Deducted],(OP+Sale-AMTDeducted) as [Balance Amount],Active from (
 select Document_Type,xx.DeductionCode,max(TSPL_DEDUCTION_MASTER.Description) as DeductionName,TSPL_VENDOR_MASTER.Vendor_Code,max(VLC_Code_VLC_Uploader) as DCSCode,max(TSPL_VENDOR_MASTER.Vendor_Name) as [DCS Name]
 ,sum((Amount-Reduce_Deduc_Amt) * (case when  Document_Date<'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when RI=1 then 1 else -1 end)) as OP 
 ,sum(Amount * (case when  Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when RI=1 then 1 else 0 end)) as Sale
-,sum((Amount-Reduce_Deduc_Amt) * (case when Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when RI=1 then 0 else 1 end)) as AMTDeducted 
+,sum((Amount-Reduce_Deduc_Amt) * (case when Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when RI=1 then 0 else 1 end)) as AMTDeducted ,max(Active)Active
 from (" + BaseQry + ")xx
 left  join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=xx.DeductionCode
 left  join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.Vendor_Code "
@@ -254,13 +269,31 @@ left  join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.Vendor_Code "
                 qry += " where 2=2 and TSPL_DEDUCTION_MASTER.Code !='PDP' "
             End If
             qry += " group by Document_Type,DeductionCode,TSPL_VENDOR_MASTER.Vendor_Code
-)xxx"  'where (OP+Sale-AMTDeducted)>0"
+)xxx  where 2=2 "
+            If clsCommon.myLen(txtMCC.Value) > 0 Then
+                qry += " and TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Value + "' "
+            End If
+            If clsCommon.myLen(txtDeduction.Value) > 0 Then
+                qry += " and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode='" + txtDeduction.Value + "'"
+            End If
+            If rbtnActive.Checked Then
+                'whrActiveInactive = " And TSPL_VLC_MASTER_HEAD.Active=1 "
+                qry += " And xxx.Active=1 "
+            ElseIf rbtnInActive.Checked Then
+                'whrActiveInactive = " And TSPL_VLC_MASTER_HEAD.Active=0 "
+                qry += " And xxx.Active=0 "
+            Else
+                qry += Nothing
+            End If
+
+
+            'where (OP+Sale-AMTDeducted)>0"
         Else
-            qry = "select case when Document_Type='D' then 'Deduction' else 'Addition'  end Type ,(DeductionCode+'-'+DeductionName) as DeductionName,(OP+Sale) as [Opening+Sale],AMTDeducted as [Amt Deducted],(OP+Sale-AMTDeducted) as [Balance Amount] from (
+            qry = "select case when Document_Type='D' then 'Deduction' else 'Addition'  end Type ,(DeductionCode+'-'+DeductionName) as DeductionName,(OP+Sale) as [Opening+Sale],AMTDeducted as [Amt Deducted],(OP+Sale-AMTDeducted) as [Balance Amount],Active from (
 select Document_Type,xx.DeductionCode,max(TSPL_DEDUCTION_MASTER.Description) as DeductionName
 ,sum((Amount-Reduce_Deduc_Amt) * (case when  Document_Date<'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when RI=1 then 1 else -1 end)) as OP 
 ,sum(Amount * (case when  Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when RI=1 then 1 else 0 end)) as Sale
-,sum((Amount-Reduce_Deduc_Amt) * (case when Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when RI=1 then 0 else 1 end)) as AMTDeducted 
+,sum((Amount-Reduce_Deduc_Amt) * (case when Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when RI=1 then 0 else 1 end)) as AMTDeducted ,max(Active)Active
 from (" + BaseQry + ")xx
 left  join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=xx.DeductionCode
 left  join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.Vendor_Code "
@@ -270,7 +303,23 @@ left  join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.Vendor_Code "
             End If
 
             qry += " group by Document_Type,DeductionCode
-)xxx"
+)xxx   where 2=2 "
+            If clsCommon.myLen(txtMCC.Value) > 0 Then
+                qry += " And TSPL_VLC_MASTER_HEAD.MCC ='" + txtMCC.Value + "' "
+            End If
+            If clsCommon.myLen(txtDeduction.Value) > 0 Then
+            qry += " and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode='" + txtDeduction.Value + "'"
+        End If
+        If rbtnActive.Checked Then
+            'whrActiveInactive = " And TSPL_VLC_MASTER_HEAD.Active=1 "
+            qry += " And xxx.Active=1 "
+        ElseIf rbtnInActive.Checked Then
+            'whrActiveInactive = " And TSPL_VLC_MASTER_HEAD.Active=0 "
+            qry += " And xxx.Active=0 "
+        Else
+            qry += Nothing
+        End If
+
         End If
         Return qry
     End Function
@@ -888,6 +937,10 @@ union all
         If rdbOldOutstanding.Checked OrElse rdbCurrentStanding.Checked Then
             Gv1.Columns("Amt Deducted").IsVisible = False
             Gv1.Columns("Opening+Sale").IsVisible = False
+            Gv1.Columns("Active").IsVisible = False
+        End If
+        If rdbOldCurrent.Checked Then
+            Gv1.Columns("Active").IsVisible = False
         End If
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom

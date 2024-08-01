@@ -6743,6 +6743,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptEmployeeDeductionMasterReport
                         frm = New rptEmployeeDeductionMasterReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptTentativeReport
+                        frm = New RptTentativeSalary
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmPF_ESI_Reports
                         frm = New frmPF_ESI_Reports
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
