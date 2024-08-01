@@ -45,7 +45,11 @@ Public Class clsDispatchHead
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
 
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "RGP/NRGP", obj.Location, obj.RGP_Date, trans)
+            Dim obj1 As New clsDispatchHead()
+            obj1 = clsDispatchHead.GetData(obj1.RGP_No)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleService, clsUserMgtCode.frmAssetDistatch, obj.Location, obj.RGP_Date, trans)
+
+            ' clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "RGP/NRGP", obj.Location, obj.RGP_Date, trans)
             Dim qry As String = "delete from TSPL_RGP_DETAIL where RGP_No='" + obj.RGP_No + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -113,7 +117,9 @@ Public Class clsDispatchHead
         End Try
         Return isSaved
     End Function
-
+    Public Shared Function GetData(ByVal strDocumentNo As String) As clsDispatchHead
+        Return GetData(strDocumentNo, Nothing)
+    End Function
     Public Shared Function GetData(ByVal strDocumentNo As String, ByVal NavType As NavigatorType) As clsDispatchHead
         Return GetData(strDocumentNo, NavType, Nothing)
     End Function
@@ -216,6 +222,8 @@ Public Class clsDispatchHead
             Dim strPostDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt")
 
             Dim obj As clsDispatchHead = clsDispatchHead.GetData(strDocNo, NavigatorType.Current, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleService, clsUserMgtCode.frmAssetDistatch, obj.Location, obj.RGP_Date, trans)
+
 
             If (obj Is Nothing OrElse clsCommon.myLen(obj.RGP_No) <= 0) Then
                 Throw New Exception("No Data found to Post")
@@ -310,6 +318,8 @@ Public Class clsDispatchHead
             Throw New Exception("Purchase Order No not found to Delete")
         End If
         Dim obj As clsDispatchHead = clsDispatchHead.GetData(strCode, NavigatorType.Current)
+        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleService, clsUserMgtCode.frmAssetDistatch, obj.Location, obj.RGP_Date, Nothing)
+
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.RGP_No) > 0) Then
             Try

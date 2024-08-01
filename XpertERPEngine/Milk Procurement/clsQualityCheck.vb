@@ -292,7 +292,7 @@ Public Class clsQualityCheck
             clsCommon.AddColumnsForChange(coll, "Doc_Type", clsCommon.myCstr(obj.Doc_Type))
             clsCommon.AddColumnsForChange(coll, "Gate_Entry_No", clsCommon.myCstr(obj.Gate_Entry_No))
             clsCommon.AddColumnsForChange(coll, "AcknowEntryDocument_No", obj.AcknowEntryDocument_No, True)
-            clsCommon.AddColumnsForChange(coll, "Manual_Entry", obj.Manual_Entry, True)
+            'clsCommon.AddColumnsForChange(coll, "Manual_Entry", obj.Manual_Entry, True)
             If DateTime = "1" Then
                 clsCommon.AddColumnsForChange(coll, "QC_In_Date_Time", clsCommon.GetPrintDate(obj.QC_In_Date_Time, "dd/MMM/yyyy hh:mm:ss tt"), True)
                 clsCommon.AddColumnsForChange(coll, "QC_Out_Date_Time", clsCommon.GetPrintDate(obj.QC_Out_Date_Time, "dd/MMM/yyyy hh:mm:ss tt"), True)

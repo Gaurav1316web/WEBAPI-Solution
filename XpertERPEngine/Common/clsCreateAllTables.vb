@@ -103,6 +103,83 @@ Public Class clsCreateAllTables
                 clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_PR_DETAIL_HIST_DATA alter column Item_Cost decimal(18,10)")
                 clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_PR_DETAIL_Cancel_Data alter column Item_Cost decimal(18,10)")
 
+                clsCreateAllTables.ExecuteQeuryWithCatch("ALTER TABLE TSPL_ITEM_PRICE_MASTER DROP CONSTRAINT PK__TSPL_ITE__813413F65EC63012")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_MASTER alter column Item_Basic_Net decimal(18,6) not null")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_MASTER alter column Item_Basic_Price decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_MASTER alter column Item_Selling_Price decimal(18,6) not null")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_MASTER alter column Price_Amount1 decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_MASTER alter column Price_Amount2 decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_MASTER alter column Price_Amount3 decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_MASTER alter column Price_Amount4 decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_MASTER alter column Price_Amount5 decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_MASTER alter column Price_Amount6 decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_MASTER alter column Price_Amount7 decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_MASTER alter column Price_Amount8 decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_MASTER alter column Price_Amount9 decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_MASTER alter column Price_Amount10 decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_MASTER alter column Item_Rate decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_MASTER alter column Liquid_Rate decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_MASTER alter column Stock_Rate decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_MASTER alter column Abatement_Rate decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_MASTER alter column Markup_Percent decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_MASTER alter column Landing_Cost decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_MASTER alter column Purchase_Cost decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("ALTER TABLE TSPL_ITEM_PRICE_MASTER ALTER COLUMN tax1_amt decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("ALTER TABLE TSPL_ITEM_PRICE_MASTER ALTER COLUMN tax2_amt decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("ALTER TABLE TSPL_ITEM_PRICE_MASTER ALTER COLUMN tax3_amt decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("ALTER TABLE TSPL_ITEM_PRICE_MASTER ALTER COLUMN tax4_amt decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("ALTER TABLE TSPL_ITEM_PRICE_MASTER ALTER COLUMN tax5_amt decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("ALTER TABLE TSPL_ITEM_PRICE_MASTER ALTER COLUMN tax6_amt decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("ALTER TABLE TSPL_ITEM_PRICE_MASTER ALTER COLUMN tax7_amt decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("ALTER TABLE TSPL_ITEM_PRICE_MASTER ALTER COLUMN tax8_amt decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("ALTER TABLE TSPL_ITEM_PRICE_MASTER ALTER COLUMN tax9_amt decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("ALTER TABLE TSPL_ITEM_PRICE_MASTER ALTER COLUMN tax10_amt decimal(18,6)")
+                'clsCreateAllTables.'--alter table TSPL_ITEM_PRICE_MASTER alter column Item_Baisc_Price decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("CREATE INDEX PK__TSPL_ITE__813413F65EC63012 ON TSPL_ITEM_PRICE_MASTER (Item_Code, UOM, Start_Date, Price_Code, Item_Basic_Net, Item_Basic_Price, Location_Code)")
+                '-- Alter Price plan tax is 2 to 6 decimal point
+                clsCreateAllTables.ExecuteQeuryWithCatch("ALTER TABLE TSPL_ITEM_PRICE_PLAN_DETAIL ALTER COLUMN tax1_amt decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("ALTER TABLE TSPL_ITEM_PRICE_PLAN_DETAIL ALTER COLUMN tax2_amt decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch(" ALTER TABLE TSPL_ITEM_PRICE_PLAN_DETAIL ALTER COLUMN tax3_amt decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch(" ALTER TABLE TSPL_ITEM_PRICE_PLAN_DETAIL ALTER COLUMN tax4_amt decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch(" ALTER TABLE TSPL_ITEM_PRICE_PLAN_DETAIL ALTER COLUMN tax5_amt decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch(" ALTER TABLE TSPL_ITEM_PRICE_PLAN_DETAIL ALTER COLUMN tax6_amt decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch(" ALTER TABLE TSPL_ITEM_PRICE_PLAN_DETAIL ALTER COLUMN tax7_amt decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch(" ALTER TABLE TSPL_ITEM_PRICE_PLAN_DETAIL ALTER COLUMN tax8_amt decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch(" ALTER TABLE TSPL_ITEM_PRICE_PLAN_DETAIL ALTER COLUMN tax9_amt decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch(" ALTER TABLE TSPL_ITEM_PRICE_PLAN_DETAIL ALTER COLUMN tax10_amt decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("  ALTER TABLE TSPL_ITEM_PRICE_PLAN_DETAIL ALTER COLUMN Total_Tax_Amt decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch(" alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column item_selling_price decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch(" alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column Price_Amount1 decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column Price_Amount2 decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column Price_Amount3 decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column Price_Amount4 decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column Price_Amount5 decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column Price_Amount6 decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column Price_Amount7 decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column Price_Amount8 decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column Price_Amount9 decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column Price_Amount10 decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column Price_Rate1 decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column Price_Rate2 decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column Price_Rate3 decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column Price_Rate4 decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column Price_Rate5 decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column Price_Rate6 decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column Price_Rate7 decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column Price_Rate8 decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column Price_Rate9 decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column Price_Rate10 decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column Item_Basic_Price decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column TAX1_Base_Amt decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column TAX2_Base_Amt decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column TAX3_Base_Amt decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column TAX4_Base_Amt decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column TAX5_Base_Amt decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column TAX6_Base_Amt decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column TAX7_Base_Amt decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column TAX8_Base_Amt decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column TAX9_Base_Amt decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column TAX10_Base_Amt decimal(18,6)")
 
                 '' adding Standard Methods List 
                 clsStandardMethods.AddStandardFunction()
@@ -768,20 +845,20 @@ Public Class clsCreateAllTables
                 qry = "alter table TSPL_ITEM_WISE_TAX_AUTHORITY alter column tax_rate decimal(18,4) null"
                 ExecuteQeuryWithCatch(qry)
 
-                qry = "alter table TSPL_ITEM_PRICE_MASTER alter column tax1_rate decimal(18,4) null"
-                ExecuteQeuryWithCatch(qry)
+                'qry = "alter table TSPL_ITEM_PRICE_MASTER alter column tax1_rate decimal(18,4) null"
+                'ExecuteQeuryWithCatch(qry)
 
-                qry = "alter table TSPL_ITEM_PRICE_MASTER alter column tax2_rate decimal(18,4) null"
-                ExecuteQeuryWithCatch(qry)
+                'qry = "alter table TSPL_ITEM_PRICE_MASTER alter column tax2_rate decimal(18,4) null"
+                'ExecuteQeuryWithCatch(qry)
 
-                qry = "alter table TSPL_ITEM_PRICE_MASTER alter column tax3_rate decimal(18,4) null"
-                ExecuteQeuryWithCatch(qry)
+                'qry = "alter table TSPL_ITEM_PRICE_MASTER alter column tax3_rate decimal(18,4) null"
+                'ExecuteQeuryWithCatch(qry)
 
-                qry = "alter table TSPL_ITEM_PRICE_MASTER alter column tax4_rate decimal(18,4) null"
-                ExecuteQeuryWithCatch(qry)
+                'qry = "alter table TSPL_ITEM_PRICE_MASTER alter column tax4_rate decimal(18,4) null"
+                'ExecuteQeuryWithCatch(qry)
 
-                qry = "alter table TSPL_ITEM_PRICE_MASTER alter column tax5_rate decimal(18,4) null"
-                ExecuteQeuryWithCatch(qry)
+                'qry = "alter table TSPL_ITEM_PRICE_MASTER alter column tax5_rate decimal(18,4) null"
+                'ExecuteQeuryWithCatch(qry)
                 ''end of 5 oct,2020
 
                 qry = "select 1 from TSPL_Exception"
@@ -1913,16 +1990,16 @@ Public Class clsCreateAllTables
             qry = "alter table TSPL_SCRAPINVOICE_HEAD_History alter column Vehicle_code VARCHAR(30) NULL "
             ExecuteQeuryWithCatch(qry)
 
-            ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column TAX1_Rate decimal(18,3) null ")
-            ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column TAX2_Rate decimal(18,3) null ")
-            ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column TAX3_Rate decimal(18,3) null ")
-            ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column TAX4_Rate decimal(18,3) null ")
-            ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column TAX5_Rate decimal(18,3) null ")
-            ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column TAX6_Rate decimal(18,3) null ")
-            ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column TAX7_Rate decimal(18,3) null ")
-            ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column TAX8_Rate decimal(18,3) null ")
-            ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column TAX9_Rate decimal(18,3) null ")
-            ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column TAX10_Rate decimal(18,3) null ")
+            'ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column TAX1_Rate decimal(18,3) null ")
+            'ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column TAX2_Rate decimal(18,3) null ")
+            'ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column TAX3_Rate decimal(18,3) null ")
+            'ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column TAX4_Rate decimal(18,3) null ")
+            'ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column TAX5_Rate decimal(18,3) null ")
+            'ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column TAX6_Rate decimal(18,3) null ")
+            'ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column TAX7_Rate decimal(18,3) null ")
+            'ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column TAX8_Rate decimal(18,3) null ")
+            'ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column TAX9_Rate decimal(18,3) null ")
+            'ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_PLAN_DETAIL alter column TAX10_Rate decimal(18,3) null ")
 
             ExecuteQeuryWithCatch("alter table TSPL_OUTPUT_ENTRY alter column FatKG decimal(18,3) not null ")
             ExecuteQeuryWithCatch("alter table TSPL_OUTPUT_ENTRY alter column SNFKG decimal(18,3) not null ")

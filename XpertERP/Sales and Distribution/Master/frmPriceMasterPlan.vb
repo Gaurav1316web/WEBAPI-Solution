@@ -250,7 +250,7 @@ Public Class frmPriceMasterPlan
                 repoNumBox = New GridViewDecimalColumn()
                 repoNumBox.Name = colPriceComponentRate + clsCommon.myCstr(ii)
                 repoNumBox.Width = 100
-                repoNumBox.DecimalPlaces = 2
+                repoNumBox.DecimalPlaces = 6
                 repoNumBox.Minimum = 0
                 repoNumBox.Step = 0
                 repoNumBox.ShowUpDownButtons = False
@@ -272,7 +272,7 @@ Public Class frmPriceMasterPlan
                 repoNumBox = New GridViewDecimalColumn()
                 repoNumBox.Name = colPriceComponentAmount + clsCommon.myCstr(ii)
                 repoNumBox.Width = 100
-                repoNumBox.DecimalPlaces = 2
+                repoNumBox.DecimalPlaces = 6
                 repoNumBox.Minimum = 0
                 repoNumBox.Step = 0
                 repoNumBox.ShowUpDownButtons = False
@@ -286,7 +286,7 @@ Public Class frmPriceMasterPlan
             repoNumBox = New GridViewDecimalColumn()
             repoNumBox.Name = colBasicPrice
             repoNumBox.Width = 100
-            repoNumBox.DecimalPlaces = 2
+            repoNumBox.DecimalPlaces = 6
             repoNumBox.Minimum = 0
             repoNumBox.Step = 0
             repoNumBox.ShowUpDownButtons = False
@@ -319,7 +319,7 @@ Public Class frmPriceMasterPlan
                 repoNumBox = New GridViewDecimalColumn()
                 repoNumBox.Name = colTaxBaseAmt + clsCommon.myCstr(ii)
                 repoNumBox.Width = 100
-                repoNumBox.DecimalPlaces = 2
+                repoNumBox.DecimalPlaces = 6
                 repoNumBox.Minimum = 0
                 repoNumBox.Step = 0
                 repoNumBox.ShowUpDownButtons = False
@@ -353,7 +353,7 @@ Public Class frmPriceMasterPlan
                 repoNumBox = New GridViewDecimalColumn()
                 repoNumBox.Name = colTaxAmt + clsCommon.myCstr(ii)
                 repoNumBox.Width = 100
-                repoNumBox.DecimalPlaces = 5
+                repoNumBox.DecimalPlaces = 6
                 repoNumBox.Minimum = 0
                 repoNumBox.Step = 0
                 repoNumBox.ShowUpDownButtons = False
@@ -403,7 +403,7 @@ Public Class frmPriceMasterPlan
             repoNumBox = New GridViewDecimalColumn()
             repoNumBox.Name = colTotalTaxAmt
             repoNumBox.Width = 100
-            repoNumBox.DecimalPlaces = 2
+            repoNumBox.DecimalPlaces = 6
             repoNumBox.Minimum = 0
             repoNumBox.Step = 0
             repoNumBox.ShowUpDownButtons = False
@@ -415,7 +415,7 @@ Public Class frmPriceMasterPlan
             repoNumBox = New GridViewDecimalColumn()
             repoNumBox.Name = colSaleAmt
             repoNumBox.Width = 100
-            repoNumBox.DecimalPlaces = 2
+            repoNumBox.DecimalPlaces = 6
             repoNumBox.Minimum = 0
             repoNumBox.Step = 0
             repoNumBox.ShowUpDownButtons = False

@@ -18320,6 +18320,11 @@ Public Class clsCreateAllTable
             coll.Add("Posted_By", "varchar(12) NULL")
             coll.Add("Posted_Date", "datetime null")
             coll.Add("RM_Item", "Integer null")
+            coll.Add("Is_Auto_Gross_Weight", "integer NULL")
+            coll.Add("Is_Auto_Tare_Weight", "integer NULL")
+            coll.Add("Tare_Weight_Manual_By", "varchar(12)  NULL")
+            coll.Add("Tare_Weight_Manual_Date", "Datetime  NULL")
+
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RCDF_LOAD_IN", coll, Nothing, True, False, "", "Document_Code", "Document_Date")
 
             coll = New Dictionary(Of String, String)
@@ -46693,6 +46698,10 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Out_Gross_Date", "datetime null")
             coll.Add("Out_Net_Weight", "Decimal(18,2) NULL")
             coll.Add("Location_Code", "Varchar(12) null references TSPL_LOCATION_MASTER(Location_Code)")
+            coll.Add("Is_Auto_Gross_Weight", "integer NULL")
+            coll.Add("Is_Auto_Tare_Weight", "integer NULL")
+            coll.Add("Tare_Weight_Manual_By", "varchar(12)  NULL")
+            coll.Add("Tare_Weight_Manual_Date", "Datetime  NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PO_WEIGHTMENT_HEAD", coll, Nothing, True, True, "", "Weighment_Code", "Weighment_Date")
 
             qry = "alter table TSPL_PO_WEIGHTMENT_HEAD alter column Against_GRN_No varchar(30) null"
