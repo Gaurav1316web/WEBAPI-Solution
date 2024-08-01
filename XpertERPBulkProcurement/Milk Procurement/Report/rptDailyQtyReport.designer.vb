@@ -22,7 +22,7 @@ Partial Class rptDailyQtyReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -30,7 +30,9 @@ Partial Class rptDailyQtyReport
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtTolerenceSNF = New common.MyNumBox()
         Me.lblArea = New common.Controls.MyLabel()
+        Me.MyLabel7 = New common.Controls.MyLabel()
         Me.fndArea = New common.UserControls.txtFinder()
         Me.ddlShift = New common.Controls.MyComboBox()
         Me.MyLabel6 = New common.Controls.MyLabel()
@@ -42,6 +44,7 @@ Partial Class rptDailyQtyReport
         Me.rbtnBMCDock = New System.Windows.Forms.RadioButton()
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnTranspoterGainlossSummary = New System.Windows.Forms.RadioButton()
         Me.rbtnDockShiftWise = New System.Windows.Forms.RadioButton()
         Me.rbtnDockDateWise = New System.Windows.Forms.RadioButton()
         Me.rbtnRouteWise = New System.Windows.Forms.RadioButton()
@@ -84,9 +87,6 @@ Partial Class rptDailyQtyReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.rbtnTranspoterGainlossSummary = New System.Windows.Forms.RadioButton()
-        Me.txtTolerenceSNF = New common.MyNumBox()
-        Me.MyLabel7 = New common.Controls.MyLabel()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -94,7 +94,9 @@ Partial Class rptDailyQtyReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.txtTolerenceSNF, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblArea, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ddlShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -129,8 +131,6 @@ Partial Class rptDailyQtyReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtTolerenceSNF, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -228,6 +228,32 @@ Partial Class rptDailyQtyReport
         Me.RadPageViewPage1.Size = New System.Drawing.Size(935, 284)
         Me.RadPageViewPage1.Text = "Filters"
         '
+        'txtTolerenceSNF
+        '
+        Me.txtTolerenceSNF.CalculationExpression = Nothing
+        Me.txtTolerenceSNF.DecimalPlaces = 3
+        Me.txtTolerenceSNF.FieldCode = Nothing
+        Me.txtTolerenceSNF.FieldDesc = Nothing
+        Me.txtTolerenceSNF.FieldMaxLength = 7
+        Me.txtTolerenceSNF.FieldName = Nothing
+        Me.txtTolerenceSNF.isCalculatedField = False
+        Me.txtTolerenceSNF.IsSourceFromTable = False
+        Me.txtTolerenceSNF.IsSourceFromValueList = False
+        Me.txtTolerenceSNF.IsUnique = False
+        Me.txtTolerenceSNF.Location = New System.Drawing.Point(289, 80)
+        Me.txtTolerenceSNF.MendatroryField = False
+        Me.txtTolerenceSNF.MyLinkLable1 = Nothing
+        Me.txtTolerenceSNF.MyLinkLable2 = Nothing
+        Me.txtTolerenceSNF.Name = "txtTolerenceSNF"
+        Me.txtTolerenceSNF.ReferenceFieldDesc = Nothing
+        Me.txtTolerenceSNF.ReferenceFieldName = Nothing
+        Me.txtTolerenceSNF.ReferenceTableName = Nothing
+        Me.txtTolerenceSNF.Size = New System.Drawing.Size(70, 20)
+        Me.txtTolerenceSNF.TabIndex = 444
+        Me.txtTolerenceSNF.Text = "0"
+        Me.txtTolerenceSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtTolerenceSNF.Value = 0R
+        '
         'lblArea
         '
         Me.lblArea.FieldName = Nothing
@@ -238,6 +264,15 @@ Partial Class rptDailyQtyReport
         Me.lblArea.TabIndex = 1501
         Me.lblArea.Text = "Area"
         Me.lblArea.Visible = False
+        '
+        'MyLabel7
+        '
+        Me.MyLabel7.FieldName = Nothing
+        Me.MyLabel7.Location = New System.Drawing.Point(218, 82)
+        Me.MyLabel7.Name = "MyLabel7"
+        Me.MyLabel7.Size = New System.Drawing.Size(69, 18)
+        Me.MyLabel7.TabIndex = 443
+        Me.MyLabel7.Text = "Allow SNF %"
         '
         'fndArea
         '
@@ -403,6 +438,16 @@ Partial Class rptDailyQtyReport
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(552, 88)
         Me.RadGroupBox1.TabIndex = 406
+        '
+        'rbtnTranspoterGainlossSummary
+        '
+        Me.rbtnTranspoterGainlossSummary.AutoSize = True
+        Me.rbtnTranspoterGainlossSummary.Location = New System.Drawing.Point(265, 59)
+        Me.rbtnTranspoterGainlossSummary.Name = "rbtnTranspoterGainlossSummary"
+        Me.rbtnTranspoterGainlossSummary.Size = New System.Drawing.Size(177, 17)
+        Me.rbtnTranspoterGainlossSummary.TabIndex = 457
+        Me.rbtnTranspoterGainlossSummary.Text = "Tranpoter Gain/Loss Summary"
+        Me.rbtnTranspoterGainlossSummary.UseVisualStyleBackColor = True
         '
         'rbtnDockShiftWise
         '
@@ -871,7 +916,7 @@ Partial Class rptDailyQtyReport
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -950,51 +995,6 @@ Partial Class rptDailyQtyReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'rbtnTranspoterGainlossSummary
-        '
-        Me.rbtnTranspoterGainlossSummary.AutoSize = True
-        Me.rbtnTranspoterGainlossSummary.Location = New System.Drawing.Point(265, 59)
-        Me.rbtnTranspoterGainlossSummary.Name = "rbtnTranspoterGainlossSummary"
-        Me.rbtnTranspoterGainlossSummary.Size = New System.Drawing.Size(177, 17)
-        Me.rbtnTranspoterGainlossSummary.TabIndex = 457
-        Me.rbtnTranspoterGainlossSummary.Text = "Tranpoter Gain/Loss Summary"
-        Me.rbtnTranspoterGainlossSummary.UseVisualStyleBackColor = True
-        '
-        'txtTolerenceSNF
-        '
-        Me.txtTolerenceSNF.CalculationExpression = Nothing
-        Me.txtTolerenceSNF.DecimalPlaces = 3
-        Me.txtTolerenceSNF.FieldCode = Nothing
-        Me.txtTolerenceSNF.FieldDesc = Nothing
-        Me.txtTolerenceSNF.FieldMaxLength = 7
-        Me.txtTolerenceSNF.FieldName = Nothing
-        Me.txtTolerenceSNF.isCalculatedField = False
-        Me.txtTolerenceSNF.IsSourceFromTable = False
-        Me.txtTolerenceSNF.IsSourceFromValueList = False
-        Me.txtTolerenceSNF.IsUnique = False
-        Me.txtTolerenceSNF.Location = New System.Drawing.Point(289, 80)
-        Me.txtTolerenceSNF.MendatroryField = False
-        Me.txtTolerenceSNF.MyLinkLable1 = Nothing
-        Me.txtTolerenceSNF.MyLinkLable2 = Nothing
-        Me.txtTolerenceSNF.Name = "txtTolerenceSNF"
-        Me.txtTolerenceSNF.ReferenceFieldDesc = Nothing
-        Me.txtTolerenceSNF.ReferenceFieldName = Nothing
-        Me.txtTolerenceSNF.ReferenceTableName = Nothing
-        Me.txtTolerenceSNF.Size = New System.Drawing.Size(70, 20)
-        Me.txtTolerenceSNF.TabIndex = 444
-        Me.txtTolerenceSNF.Text = "0"
-        Me.txtTolerenceSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTolerenceSNF.Value = 0R
-        '
-        'MyLabel7
-        '
-        Me.MyLabel7.FieldName = Nothing
-        Me.MyLabel7.Location = New System.Drawing.Point(218, 82)
-        Me.MyLabel7.Name = "MyLabel7"
-        Me.MyLabel7.Size = New System.Drawing.Size(69, 18)
-        Me.MyLabel7.TabIndex = 443
-        Me.MyLabel7.Text = "Allow SNF %"
-        '
         'rptDailyQtyReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1016,7 +1016,9 @@ Partial Class rptDailyQtyReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.txtTolerenceSNF, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblArea, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ddlShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1054,8 +1056,6 @@ Partial Class rptDailyQtyReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtTolerenceSNF, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
