@@ -330,7 +330,7 @@ Public Class clsPSShipmentHead
     End Function
     Public Shared Function CancelData(ByVal Form_Id As String, ByVal Doc_No As String, ByVal InvoiceNo As String, ByVal NavType As NavigatorType) As Boolean
         '' created by Richa Agarwal against ticket No-ERO/09/09/19-001022  on date 09-09-2019
-        Dim qry As String = ""
+
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             '' table list 
@@ -345,8 +345,35 @@ Public Class clsPSShipmentHead
             ''8. TSPL_JOURNAL_MASTER
             ''9. TSPL_BATCH_ITEM ( no need of history)
             '' steps for checking the items stock and batch wise stock
+            Dim str As String = "select Document_Code,Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" + Doc_No + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(str, trans)
+            If dt IsNot Nothing And dt.Rows.Count > 0 Then
+                For Each dr As DataRow In dt.Rows
 
-            Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(Doc_No, NavType, trans, True)
+                    CancelData(clsCommon.myCstr(dr("Document_Code")), clsCommon.myCstr(dr("Sale_Invoice_No")), Form_Id, trans)
+                Next
+                trans.Commit()
+            Else
+                Throw New Exception("Please select Parent Document")
+            End If
+
+
+
+
+            '' release objects 
+            'obj = Nothing
+            'qry = Nothing
+
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function CancelData(ByVal Doc_No As String, ByVal InvoiceNo As String, ByVal Form_Id As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim qry As String = ""
+            Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(Doc_No, NavigatorType.Current, trans, True)
 
             If obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0 Then
                 Throw New Exception("Document- " & Doc_No & " not found")
@@ -475,17 +502,11 @@ Public Class clsPSShipmentHead
 
             qry = "delete from tspl_sd_shipment_head where Document_Code='" & Doc_No & "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-            trans.Commit()
-            '' release objects 
-            obj = Nothing
-            qry = Nothing
-
         Catch ex As Exception
-            trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
         Return True
+
     End Function
     Public Shared Function SaveData(ByVal obj As clsPSShipmentHead, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction, Optional ByVal IsDairyModule As Boolean = False) As Boolean
         Dim TransType_Str As String = ""
