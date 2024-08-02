@@ -22,21 +22,21 @@ Partial Class RptMatrixFreshSalesReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem15 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem17 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem16 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem14 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
@@ -44,41 +44,28 @@ Partial Class RptMatrixFreshSalesReport
         Me.rmDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.txtFndRoute = New common.UserControls.txtFinder()
-        Me.txtfndCustomer = New common.UserControls.txtFinder()
-        Me.lbltcsShift = New common.Controls.MyLabel()
         Me.rddlTCSShift = New Telerik.WinControls.UI.RadDropDownList()
         Me.RadGroupBox7 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnBoths = New System.Windows.Forms.RadioButton()
         Me.rbtnMrng = New System.Windows.Forms.RadioButton()
         Me.rbtnEvng = New System.Windows.Forms.RadioButton()
         Me.ddlReportType = New Telerik.WinControls.UI.RadDropDownList()
-        Me.MyLabel15 = New common.Controls.MyLabel()
         Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.fndCustomer = New common.UserControls.txtFinder()
-        Me.lblTSDate = New common.Controls.MyLabel()
         Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnTaxable = New System.Windows.Forms.RadioButton()
         Me.rbtnNonTaxable = New System.Windows.Forms.RadioButton()
-        Me.MyLabel14 = New common.Controls.MyLabel()
-        Me.MyLabel17 = New common.Controls.MyLabel()
-        Me.MyLabel18 = New common.Controls.MyLabel()
         Me.btnCreditPrint = New Telerik.WinControls.UI.RadButton()
         Me.txtCreditDateTo = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.txtCreditDateFrom = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.txtfndBooth = New common.UserControls.txtFinder()
+        Me.chkIndividualCustomer = New Telerik.WinControls.UI.RadCheckBox()
+        Me.btnGPSummaryRouteWise = New Telerik.WinControls.UI.RadButton()
         Me.btnPrintRoutBoothwise = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnBoth = New System.Windows.Forms.RadioButton()
         Me.rbtnMilk = New System.Windows.Forms.RadioButton()
         Me.rbtnProduct = New System.Windows.Forms.RadioButton()
-        Me.txtCustMultFnd = New common.UserControls.txtMultiSelectFinder()
-        Me.MyLabel13 = New common.Controls.MyLabel()
         Me.btnTrkShtSummaryRW = New Telerik.WinControls.UI.RadButton()
-        Me.txtMultPTSRoute = New common.UserControls.txtMultiSelectFinder()
-        Me.MyLabel12 = New common.Controls.MyLabel()
-        Me.MyLabel11 = New common.Controls.MyLabel()
         Me.ddlPTSShift = New Telerik.WinControls.UI.RadDropDownList()
         Me.btnPrintTrkSht = New Telerik.WinControls.UI.RadButton()
         Me.txtPTSDateFrom = New Telerik.WinControls.UI.RadDateTimePicker()
@@ -90,7 +77,6 @@ Partial Class RptMatrixFreshSalesReport
         Me.chkProduct = New Telerik.WinControls.UI.RadCheckBox()
         Me.pnlMilkPouch = New System.Windows.Forms.Panel()
         Me.rbtnAsPerBooking = New System.Windows.Forms.RadioButton()
-        Me.MyLabel7 = New common.Controls.MyLabel()
         Me.cboShift = New Telerik.WinControls.UI.RadDropDownList()
         Me.rdbCreate = New System.Windows.Forms.RadioButton()
         Me.rdbLtr = New System.Windows.Forms.RadioButton()
@@ -98,19 +84,48 @@ Partial Class RptMatrixFreshSalesReport
         Me.chkRouteSummary = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkFirstAndSecondSpell = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkFilterByCreatedDate = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkSummary = New Telerik.WinControls.UI.RadCheckBox()
+        Me.ddlInvocieType = New Telerik.WinControls.UI.RadDropDownList()
+        Me.chkSaleInvoiceWise = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkBookingWise = New Telerik.WinControls.UI.RadCheckBox()
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.ToDate = New Telerik.WinControls.UI.RadDateTimePicker()
+        Me.fromDate = New Telerik.WinControls.UI.RadDateTimePicker()
+        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.btnRouteSummaryPrint = New Telerik.WinControls.UI.RadButton()
+        Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.PDF = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.txtFndRoute = New common.UserControls.txtFinder()
+        Me.txtfndBooth = New common.UserControls.txtFinder()
+        Me.txtfndCustomer = New common.UserControls.txtFinder()
+        Me.lbltcsShift = New common.Controls.MyLabel()
+        Me.fndCustomer = New common.UserControls.txtFinder()
+        Me.lblTSDate = New common.Controls.MyLabel()
+        Me.MyLabel14 = New common.Controls.MyLabel()
+        Me.MyLabel17 = New common.Controls.MyLabel()
+        Me.MyLabel18 = New common.Controls.MyLabel()
+        Me.txtCustMultFnd = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel13 = New common.Controls.MyLabel()
+        Me.txtMultPTSRoute = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel12 = New common.Controls.MyLabel()
+        Me.MyLabel11 = New common.Controls.MyLabel()
+        Me.MyLabel7 = New common.Controls.MyLabel()
+        Me.RadLabel2 = New common.Controls.MyLabel()
+        Me.RadLabel1 = New common.Controls.MyLabel()
+        Me.MyLabel15 = New common.Controls.MyLabel()
         Me.TxtMultiCustomerCategory = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel6 = New common.Controls.MyLabel()
         Me.txtBookingType = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel5 = New common.Controls.MyLabel()
-        Me.chkSummary = New Telerik.WinControls.UI.RadCheckBox()
-        Me.ddlInvocieType = New Telerik.WinControls.UI.RadDropDownList()
         Me.lblSubCategory = New common.Controls.MyLabel()
-        Me.chkSaleInvoiceWise = New Telerik.WinControls.UI.RadCheckBox()
         Me.TxtUOM = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.TxtRoute = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel10 = New common.Controls.MyLabel()
-        Me.chkBookingWise = New Telerik.WinControls.UI.RadCheckBox()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.txtLorry = New common.UserControls.txtMultiSelectFinder()
         Me.lblCustomer = New common.Controls.MyLabel()
@@ -123,22 +138,7 @@ Partial Class RptMatrixFreshSalesReport
         Me.txtCustomerGroup = New common.UserControls.txtMultiSelectFinder()
         Me.lblLocation = New common.Controls.MyLabel()
         Me.txtLocation = New common.UserControls.txtMultiSelectFinder()
-        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.RadLabel2 = New common.Controls.MyLabel()
-        Me.RadLabel1 = New common.Controls.MyLabel()
-        Me.ToDate = New Telerik.WinControls.UI.RadDateTimePicker()
-        Me.fromDate = New Telerik.WinControls.UI.RadDateTimePicker()
-        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.Gv1 = New common.UserControls.MyRadGridView()
-        Me.btnRouteSummaryPrint = New Telerik.WinControls.UI.RadButton()
-        Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
-        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.PDF = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.btnGPSummaryRouteWise = New Telerik.WinControls.UI.RadButton()
-        Me.chkIndividualCustomer = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -146,32 +146,25 @@ Partial Class RptMatrixFreshSalesReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
-        CType(Me.lbltcsShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rddlTCSShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox7.SuspendLayout()
         CType(Me.ddlReportType, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox5.SuspendLayout()
-        CType(Me.lblTSDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox6.SuspendLayout()
-        CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnCreditPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCreditDateTo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCreditDateFrom, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
+        CType(Me.chkIndividualCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnGPSummaryRouteWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintRoutBoothwise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox4.SuspendLayout()
-        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnTrkShtSummaryRW, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ddlPTSShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintTrkSht, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPTSDateFrom, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -183,43 +176,50 @@ Partial Class RptMatrixFreshSalesReport
         CType(Me.chkFirstAndSecondSpellAbstract, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkProduct, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlMilkPouch.SuspendLayout()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkMilkPouch, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkRouteSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkFirstAndSecondSpell, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkFilterByCreatedDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ddlInvocieType, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblSubCategory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSaleInvoiceWise, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkBookingWise, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox3.SuspendLayout()
+        CType(Me.ToDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.fromDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage2.SuspendLayout()
+        CType(Me.btnRouteSummaryPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lbltcsShift, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTSDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSubCategory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkBookingWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCustomerGroup, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox3.SuspendLayout()
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ToDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.fromDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageViewPage2.SuspendLayout()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnRouteSummaryPrint, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnGPSummaryRouteWise, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkIndividualCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -293,7 +293,6 @@ Partial Class RptMatrixFreshSalesReport
         Me.RadPageViewPage1.Controls.Add(Me.rddlTCSShift)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox7)
         Me.RadPageViewPage1.Controls.Add(Me.ddlReportType)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel15)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox5)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
@@ -302,19 +301,21 @@ Partial Class RptMatrixFreshSalesReport
         Me.RadPageViewPage1.Controls.Add(Me.chkRouteSummary)
         Me.RadPageViewPage1.Controls.Add(Me.chkFirstAndSecondSpell)
         Me.RadPageViewPage1.Controls.Add(Me.chkFilterByCreatedDate)
+        Me.RadPageViewPage1.Controls.Add(Me.chkSummary)
+        Me.RadPageViewPage1.Controls.Add(Me.ddlInvocieType)
+        Me.RadPageViewPage1.Controls.Add(Me.chkSaleInvoiceWise)
+        Me.RadPageViewPage1.Controls.Add(Me.chkBookingWise)
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel15)
         Me.RadPageViewPage1.Controls.Add(Me.TxtMultiCustomerCategory)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel6)
         Me.RadPageViewPage1.Controls.Add(Me.txtBookingType)
-        Me.RadPageViewPage1.Controls.Add(Me.chkSummary)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel5)
-        Me.RadPageViewPage1.Controls.Add(Me.ddlInvocieType)
         Me.RadPageViewPage1.Controls.Add(Me.lblSubCategory)
-        Me.RadPageViewPage1.Controls.Add(Me.chkSaleInvoiceWise)
         Me.RadPageViewPage1.Controls.Add(Me.TxtUOM)
         Me.RadPageViewPage1.Controls.Add(Me.TxtRoute)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel4)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel10)
-        Me.RadPageViewPage1.Controls.Add(Me.chkBookingWise)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel3)
         Me.RadPageViewPage1.Controls.Add(Me.txtLorry)
         Me.RadPageViewPage1.Controls.Add(Me.lblCustomer)
@@ -327,76 +328,11 @@ Partial Class RptMatrixFreshSalesReport
         Me.RadPageViewPage1.Controls.Add(Me.txtCustomerGroup)
         Me.RadPageViewPage1.Controls.Add(Me.lblLocation)
         Me.RadPageViewPage1.Controls.Add(Me.txtLocation)
-        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(42.0!, 24.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(955, 424)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(955, 428)
         Me.RadPageViewPage1.Text = "Filters"
-        '
-        'txtFndRoute
-        '
-        Me.txtFndRoute.CalculationExpression = Nothing
-        Me.txtFndRoute.FieldCode = Nothing
-        Me.txtFndRoute.FieldDesc = Nothing
-        Me.txtFndRoute.FieldMaxLength = 0
-        Me.txtFndRoute.FieldName = Nothing
-        Me.txtFndRoute.isCalculatedField = False
-        Me.txtFndRoute.IsSourceFromTable = False
-        Me.txtFndRoute.IsSourceFromValueList = False
-        Me.txtFndRoute.IsUnique = False
-        Me.txtFndRoute.Location = New System.Drawing.Point(133, 261)
-        Me.txtFndRoute.MendatroryField = True
-        Me.txtFndRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtFndRoute.MyLinkLable1 = Nothing
-        Me.txtFndRoute.MyLinkLable2 = Nothing
-        Me.txtFndRoute.MyReadOnly = False
-        Me.txtFndRoute.MyShowMasterFormButton = False
-        Me.txtFndRoute.Name = "txtFndRoute"
-        Me.txtFndRoute.ReferenceFieldDesc = Nothing
-        Me.txtFndRoute.ReferenceFieldName = Nothing
-        Me.txtFndRoute.ReferenceTableName = Nothing
-        Me.txtFndRoute.Size = New System.Drawing.Size(189, 19)
-        Me.txtFndRoute.TabIndex = 443
-        Me.txtFndRoute.Value = ""
-        Me.txtFndRoute.Visible = False
-        '
-        'txtfndCustomer
-        '
-        Me.txtfndCustomer.CalculationExpression = Nothing
-        Me.txtfndCustomer.FieldCode = Nothing
-        Me.txtfndCustomer.FieldDesc = Nothing
-        Me.txtfndCustomer.FieldMaxLength = 0
-        Me.txtfndCustomer.FieldName = Nothing
-        Me.txtfndCustomer.isCalculatedField = False
-        Me.txtfndCustomer.IsSourceFromTable = False
-        Me.txtfndCustomer.IsSourceFromValueList = False
-        Me.txtfndCustomer.IsUnique = False
-        Me.txtfndCustomer.Location = New System.Drawing.Point(133, 158)
-        Me.txtfndCustomer.MendatroryField = True
-        Me.txtfndCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtfndCustomer.MyLinkLable1 = Nothing
-        Me.txtfndCustomer.MyLinkLable2 = Nothing
-        Me.txtfndCustomer.MyReadOnly = False
-        Me.txtfndCustomer.MyShowMasterFormButton = False
-        Me.txtfndCustomer.Name = "txtfndCustomer"
-        Me.txtfndCustomer.ReferenceFieldDesc = Nothing
-        Me.txtfndCustomer.ReferenceFieldName = Nothing
-        Me.txtfndCustomer.ReferenceTableName = Nothing
-        Me.txtfndCustomer.Size = New System.Drawing.Size(189, 19)
-        Me.txtfndCustomer.TabIndex = 442
-        Me.txtfndCustomer.Value = ""
-        Me.txtfndCustomer.Visible = False
-        '
-        'lbltcsShift
-        '
-        Me.lbltcsShift.FieldName = Nothing
-        Me.lbltcsShift.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbltcsShift.Location = New System.Drawing.Point(24, 371)
-        Me.lbltcsShift.Name = "lbltcsShift"
-        Me.lbltcsShift.Size = New System.Drawing.Size(29, 18)
-        Me.lbltcsShift.TabIndex = 440
-        Me.lbltcsShift.Text = "Shift"
         '
         'rddlTCSShift
         '
@@ -404,10 +340,10 @@ Partial Class RptMatrixFreshSalesReport
         Me.rddlTCSShift.AutoCompleteValueMember = Nothing
         Me.rddlTCSShift.DropDownAnimationEnabled = True
         Me.rddlTCSShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        RadListDataItem8.Text = "Morning"
-        RadListDataItem9.Text = "Evening"
-        Me.rddlTCSShift.Items.Add(RadListDataItem8)
-        Me.rddlTCSShift.Items.Add(RadListDataItem9)
+        RadListDataItem1.Text = "Morning"
+        RadListDataItem2.Text = "Evening"
+        Me.rddlTCSShift.Items.Add(RadListDataItem1)
+        Me.rddlTCSShift.Items.Add(RadListDataItem2)
         Me.rddlTCSShift.Location = New System.Drawing.Point(83, 370)
         Me.rddlTCSShift.Name = "rddlTCSShift"
         Me.rddlTCSShift.Size = New System.Drawing.Size(194, 20)
@@ -462,25 +398,17 @@ Partial Class RptMatrixFreshSalesReport
         Me.ddlReportType.AutoCompleteDisplayMember = Nothing
         Me.ddlReportType.AutoCompleteValueMember = Nothing
         Me.ddlReportType.DropDownAnimationEnabled = True
-        RadListDataItem10.Text = "Both"
-        RadListDataItem11.Text = "Sale Invoice"
-        RadListDataItem15.Text = "Sale Return"
-        Me.ddlReportType.Items.Add(RadListDataItem10)
-        Me.ddlReportType.Items.Add(RadListDataItem11)
-        Me.ddlReportType.Items.Add(RadListDataItem15)
+        Me.ddlReportType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        RadListDataItem3.Text = "Both"
+        RadListDataItem4.Text = "Sale Invoice"
+        RadListDataItem5.Text = "Sale Return"
+        Me.ddlReportType.Items.Add(RadListDataItem3)
+        Me.ddlReportType.Items.Add(RadListDataItem4)
+        Me.ddlReportType.Items.Add(RadListDataItem5)
         Me.ddlReportType.Location = New System.Drawing.Point(128, 6)
         Me.ddlReportType.Name = "ddlReportType"
         Me.ddlReportType.Size = New System.Drawing.Size(179, 20)
         Me.ddlReportType.TabIndex = 438
-        '
-        'MyLabel15
-        '
-        Me.MyLabel15.FieldName = Nothing
-        Me.MyLabel15.Location = New System.Drawing.Point(16, 7)
-        Me.MyLabel15.Name = "MyLabel15"
-        Me.MyLabel15.Size = New System.Drawing.Size(67, 18)
-        Me.MyLabel15.TabIndex = 437
-        Me.MyLabel15.Text = "Report Type"
         '
         'RadGroupBox5
         '
@@ -500,41 +428,6 @@ Partial Class RptMatrixFreshSalesReport
         Me.RadGroupBox5.Size = New System.Drawing.Size(301, 92)
         Me.RadGroupBox5.TabIndex = 436
         Me.RadGroupBox5.Text = "Credit Sale Report"
-        '
-        'fndCustomer
-        '
-        Me.fndCustomer.CalculationExpression = Nothing
-        Me.fndCustomer.FieldCode = Nothing
-        Me.fndCustomer.FieldDesc = Nothing
-        Me.fndCustomer.FieldMaxLength = 0
-        Me.fndCustomer.FieldName = Nothing
-        Me.fndCustomer.isCalculatedField = False
-        Me.fndCustomer.IsSourceFromTable = False
-        Me.fndCustomer.IsSourceFromValueList = False
-        Me.fndCustomer.IsUnique = False
-        Me.fndCustomer.Location = New System.Drawing.Point(64, 40)
-        Me.fndCustomer.MendatroryField = True
-        Me.fndCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndCustomer.MyLinkLable1 = Me.lblTSDate
-        Me.fndCustomer.MyLinkLable2 = Nothing
-        Me.fndCustomer.MyReadOnly = False
-        Me.fndCustomer.MyShowMasterFormButton = False
-        Me.fndCustomer.Name = "fndCustomer"
-        Me.fndCustomer.ReferenceFieldDesc = Nothing
-        Me.fndCustomer.ReferenceFieldName = Nothing
-        Me.fndCustomer.ReferenceTableName = Nothing
-        Me.fndCustomer.Size = New System.Drawing.Size(194, 19)
-        Me.fndCustomer.TabIndex = 441
-        Me.fndCustomer.Value = ""
-        '
-        'lblTSDate
-        '
-        Me.lblTSDate.FieldName = Nothing
-        Me.lblTSDate.Location = New System.Drawing.Point(5, 19)
-        Me.lblTSDate.Name = "lblTSDate"
-        Me.lblTSDate.Size = New System.Drawing.Size(30, 18)
-        Me.lblTSDate.TabIndex = 2
-        Me.lblTSDate.Text = "Date"
         '
         'RadGroupBox6
         '
@@ -568,34 +461,6 @@ Partial Class RptMatrixFreshSalesReport
         Me.rbtnNonTaxable.TabIndex = 441
         Me.rbtnNonTaxable.Text = "Non-Taxable"
         Me.rbtnNonTaxable.UseVisualStyleBackColor = True
-        '
-        'MyLabel14
-        '
-        Me.MyLabel14.FieldName = Nothing
-        Me.MyLabel14.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel14.Location = New System.Drawing.Point(5, 41)
-        Me.MyLabel14.Name = "MyLabel14"
-        Me.MyLabel14.Size = New System.Drawing.Size(55, 18)
-        Me.MyLabel14.TabIndex = 439
-        Me.MyLabel14.Text = "Customer"
-        '
-        'MyLabel17
-        '
-        Me.MyLabel17.FieldName = Nothing
-        Me.MyLabel17.Location = New System.Drawing.Point(150, 19)
-        Me.MyLabel17.Name = "MyLabel17"
-        Me.MyLabel17.Size = New System.Drawing.Size(19, 18)
-        Me.MyLabel17.TabIndex = 3
-        Me.MyLabel17.Text = "To"
-        '
-        'MyLabel18
-        '
-        Me.MyLabel18.FieldName = Nothing
-        Me.MyLabel18.Location = New System.Drawing.Point(5, 19)
-        Me.MyLabel18.Name = "MyLabel18"
-        Me.MyLabel18.Size = New System.Drawing.Size(32, 18)
-        Me.MyLabel18.TabIndex = 2
-        Me.MyLabel18.Text = "From"
         '
         'btnCreditPrint
         '
@@ -660,40 +525,33 @@ Partial Class RptMatrixFreshSalesReport
         Me.RadGroupBox2.TabIndex = 435
         Me.RadGroupBox2.Text = "Print Truck Sheet"
         '
-        'txtfndBooth
+        'chkIndividualCustomer
         '
-        Me.txtfndBooth.CalculationExpression = Nothing
-        Me.txtfndBooth.FieldCode = Nothing
-        Me.txtfndBooth.FieldDesc = Nothing
-        Me.txtfndBooth.FieldMaxLength = 0
-        Me.txtfndBooth.FieldName = Nothing
-        Me.txtfndBooth.isCalculatedField = False
-        Me.txtfndBooth.IsSourceFromTable = False
-        Me.txtfndBooth.IsSourceFromValueList = False
-        Me.txtfndBooth.IsUnique = False
-        Me.txtfndBooth.Location = New System.Drawing.Point(404, 405)
-        Me.txtfndBooth.MendatroryField = True
-        Me.txtfndBooth.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtfndBooth.MyLinkLable1 = Nothing
-        Me.txtfndBooth.MyLinkLable2 = Nothing
-        Me.txtfndBooth.MyReadOnly = False
-        Me.txtfndBooth.MyShowMasterFormButton = False
-        Me.txtfndBooth.Name = "txtfndBooth"
-        Me.txtfndBooth.ReferenceFieldDesc = Nothing
-        Me.txtfndBooth.ReferenceFieldName = Nothing
-        Me.txtfndBooth.ReferenceTableName = Nothing
-        Me.txtfndBooth.Size = New System.Drawing.Size(171, 19)
-        Me.txtfndBooth.TabIndex = 443
-        Me.txtfndBooth.Value = ""
-        Me.txtfndBooth.Visible = False
+        Me.chkIndividualCustomer.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.chkIndividualCustomer.Location = New System.Drawing.Point(64, 104)
+        Me.chkIndividualCustomer.Name = "chkIndividualCustomer"
+        Me.chkIndividualCustomer.Size = New System.Drawing.Size(120, 18)
+        Me.chkIndividualCustomer.TabIndex = 444
+        Me.chkIndividualCustomer.Text = "Individual Customer"
+        '
+        'btnGPSummaryRouteWise
+        '
+        Me.btnGPSummaryRouteWise.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnGPSummaryRouteWise.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnGPSummaryRouteWise.Location = New System.Drawing.Point(16, 202)
+        Me.btnGPSummaryRouteWise.Name = "btnGPSummaryRouteWise"
+        Me.btnGPSummaryRouteWise.Size = New System.Drawing.Size(242, 24)
+        Me.btnGPSummaryRouteWise.TabIndex = 444
+        Me.btnGPSummaryRouteWise.Text = "Gate Pass Summary Route Wise"
         '
         'btnPrintRoutBoothwise
         '
         Me.btnPrintRoutBoothwise.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrintRoutBoothwise.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintRoutBoothwise.Location = New System.Drawing.Point(33, 150)
+        Me.btnPrintRoutBoothwise.Location = New System.Drawing.Point(17, 152)
         Me.btnPrintRoutBoothwise.Name = "btnPrintRoutBoothwise"
-        Me.btnPrintRoutBoothwise.Size = New System.Drawing.Size(71, 22)
+        Me.btnPrintRoutBoothwise.Size = New System.Drawing.Size(120, 22)
         Me.btnPrintRoutBoothwise.TabIndex = 440
         Me.btnPrintRoutBoothwise.Text = "Print Route Booth"
         '
@@ -704,7 +562,7 @@ Partial Class RptMatrixFreshSalesReport
         Me.RadGroupBox4.Controls.Add(Me.rbtnMilk)
         Me.RadGroupBox4.Controls.Add(Me.rbtnProduct)
         Me.RadGroupBox4.HeaderText = ""
-        Me.RadGroupBox4.Location = New System.Drawing.Point(62, 121)
+        Me.RadGroupBox4.Location = New System.Drawing.Point(64, 124)
         Me.RadGroupBox4.Name = "RadGroupBox4"
         Me.RadGroupBox4.Size = New System.Drawing.Size(194, 26)
         Me.RadGroupBox4.TabIndex = 436
@@ -725,10 +583,10 @@ Partial Class RptMatrixFreshSalesReport
         Me.rbtnMilk.Checked = True
         Me.rbtnMilk.Location = New System.Drawing.Point(5, 4)
         Me.rbtnMilk.Name = "rbtnMilk"
-        Me.rbtnMilk.Size = New System.Drawing.Size(47, 17)
+        Me.rbtnMilk.Size = New System.Drawing.Size(53, 17)
         Me.rbtnMilk.TabIndex = 440
         Me.rbtnMilk.TabStop = True
-        Me.rbtnMilk.Text = "Milk"
+        Me.rbtnMilk.Text = "Fresh"
         Me.rbtnMilk.UseVisualStyleBackColor = True
         '
         'rbtnProduct
@@ -736,78 +594,20 @@ Partial Class RptMatrixFreshSalesReport
         Me.rbtnProduct.AutoSize = True
         Me.rbtnProduct.Location = New System.Drawing.Point(65, 4)
         Me.rbtnProduct.Name = "rbtnProduct"
-        Me.rbtnProduct.Size = New System.Drawing.Size(65, 17)
+        Me.rbtnProduct.Size = New System.Drawing.Size(68, 17)
         Me.rbtnProduct.TabIndex = 441
-        Me.rbtnProduct.Text = "Product"
+        Me.rbtnProduct.Text = "Ambient"
         Me.rbtnProduct.UseVisualStyleBackColor = True
-        '
-        'txtCustMultFnd
-        '
-        Me.txtCustMultFnd.arrDispalyMember = Nothing
-        Me.txtCustMultFnd.arrValueMember = Nothing
-        Me.txtCustMultFnd.Location = New System.Drawing.Point(64, 83)
-        Me.txtCustMultFnd.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCustMultFnd.MyLinkLable1 = Me.MyLabel13
-        Me.txtCustMultFnd.MyLinkLable2 = Nothing
-        Me.txtCustMultFnd.MyNullText = "All"
-        Me.txtCustMultFnd.Name = "txtCustMultFnd"
-        Me.txtCustMultFnd.Size = New System.Drawing.Size(194, 19)
-        Me.txtCustMultFnd.TabIndex = 438
-        Me.txtCustMultFnd.Visible = False
-        '
-        'MyLabel13
-        '
-        Me.MyLabel13.FieldName = Nothing
-        Me.MyLabel13.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel13.Location = New System.Drawing.Point(5, 83)
-        Me.MyLabel13.Name = "MyLabel13"
-        Me.MyLabel13.Size = New System.Drawing.Size(55, 18)
-        Me.MyLabel13.TabIndex = 439
-        Me.MyLabel13.Text = "Customer"
-        Me.MyLabel13.Visible = False
         '
         'btnTrkShtSummaryRW
         '
         Me.btnTrkShtSummaryRW.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnTrkShtSummaryRW.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnTrkShtSummaryRW.Location = New System.Drawing.Point(20, 173)
+        Me.btnTrkShtSummaryRW.Location = New System.Drawing.Point(17, 176)
         Me.btnTrkShtSummaryRW.Name = "btnTrkShtSummaryRW"
         Me.btnTrkShtSummaryRW.Size = New System.Drawing.Size(241, 24)
         Me.btnTrkShtSummaryRW.TabIndex = 434
         Me.btnTrkShtSummaryRW.Text = "Demand Truck Sheet Summary Route Wise"
-        '
-        'txtMultPTSRoute
-        '
-        Me.txtMultPTSRoute.arrDispalyMember = Nothing
-        Me.txtMultPTSRoute.arrValueMember = Nothing
-        Me.txtMultPTSRoute.Location = New System.Drawing.Point(64, 61)
-        Me.txtMultPTSRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtMultPTSRoute.MyLinkLable1 = Me.MyLabel12
-        Me.txtMultPTSRoute.MyLinkLable2 = Nothing
-        Me.txtMultPTSRoute.MyNullText = "All"
-        Me.txtMultPTSRoute.Name = "txtMultPTSRoute"
-        Me.txtMultPTSRoute.Size = New System.Drawing.Size(194, 19)
-        Me.txtMultPTSRoute.TabIndex = 436
-        '
-        'MyLabel12
-        '
-        Me.MyLabel12.FieldName = Nothing
-        Me.MyLabel12.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel12.Location = New System.Drawing.Point(5, 61)
-        Me.MyLabel12.Name = "MyLabel12"
-        Me.MyLabel12.Size = New System.Drawing.Size(36, 18)
-        Me.MyLabel12.TabIndex = 437
-        Me.MyLabel12.Text = "Route"
-        '
-        'MyLabel11
-        '
-        Me.MyLabel11.FieldName = Nothing
-        Me.MyLabel11.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel11.Location = New System.Drawing.Point(5, 41)
-        Me.MyLabel11.Name = "MyLabel11"
-        Me.MyLabel11.Size = New System.Drawing.Size(29, 18)
-        Me.MyLabel11.TabIndex = 434
-        Me.MyLabel11.Text = "Shift"
         '
         'ddlPTSShift
         '
@@ -815,10 +615,10 @@ Partial Class RptMatrixFreshSalesReport
         Me.ddlPTSShift.AutoCompleteValueMember = Nothing
         Me.ddlPTSShift.DropDownAnimationEnabled = True
         Me.ddlPTSShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        RadListDataItem1.Text = "Morning"
-        RadListDataItem2.Text = "Evening"
-        Me.ddlPTSShift.Items.Add(RadListDataItem1)
-        Me.ddlPTSShift.Items.Add(RadListDataItem2)
+        RadListDataItem6.Text = "Morning"
+        RadListDataItem7.Text = "Evening"
+        Me.ddlPTSShift.Items.Add(RadListDataItem6)
+        Me.ddlPTSShift.Items.Add(RadListDataItem7)
         Me.ddlPTSShift.Location = New System.Drawing.Point(64, 40)
         Me.ddlPTSShift.Name = "ddlPTSShift"
         Me.ddlPTSShift.Size = New System.Drawing.Size(194, 20)
@@ -828,9 +628,9 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.btnPrintTrkSht.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrintTrkSht.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintTrkSht.Location = New System.Drawing.Point(125, 151)
+        Me.btnPrintTrkSht.Location = New System.Drawing.Point(138, 152)
         Me.btnPrintTrkSht.Name = "btnPrintTrkSht"
-        Me.btnPrintTrkSht.Size = New System.Drawing.Size(133, 22)
+        Me.btnPrintTrkSht.Size = New System.Drawing.Size(120, 22)
         Me.btnPrintTrkSht.TabIndex = 433
         Me.btnPrintTrkSht.Text = "Print Truck Sheet"
         '
@@ -937,30 +737,20 @@ Partial Class RptMatrixFreshSalesReport
         Me.rbtnAsPerBooking.Text = "As Per Booking"
         Me.rbtnAsPerBooking.UseVisualStyleBackColor = True
         '
-        'MyLabel7
-        '
-        Me.MyLabel7.FieldName = Nothing
-        Me.MyLabel7.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel7.Location = New System.Drawing.Point(87, 26)
-        Me.MyLabel7.Name = "MyLabel7"
-        Me.MyLabel7.Size = New System.Drawing.Size(29, 18)
-        Me.MyLabel7.TabIndex = 429
-        Me.MyLabel7.Text = "Shift"
-        '
         'cboShift
         '
         Me.cboShift.AutoCompleteDisplayMember = Nothing
         Me.cboShift.AutoCompleteValueMember = Nothing
         Me.cboShift.DropDownAnimationEnabled = True
         Me.cboShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        RadListDataItem5.Text = "Both"
-        RadListDataItem6.Text = "Morning"
-        RadListDataItem7.Text = "Evening"
-        RadListDataItem17.Text = "Shift Wise"
-        Me.cboShift.Items.Add(RadListDataItem5)
-        Me.cboShift.Items.Add(RadListDataItem6)
-        Me.cboShift.Items.Add(RadListDataItem7)
-        Me.cboShift.Items.Add(RadListDataItem17)
+        RadListDataItem8.Text = "Both"
+        RadListDataItem9.Text = "Morning"
+        RadListDataItem10.Text = "Evening"
+        RadListDataItem11.Text = "Shift Wise"
+        Me.cboShift.Items.Add(RadListDataItem8)
+        Me.cboShift.Items.Add(RadListDataItem9)
+        Me.cboShift.Items.Add(RadListDataItem10)
+        Me.cboShift.Items.Add(RadListDataItem11)
         Me.cboShift.Location = New System.Drawing.Point(122, 25)
         Me.cboShift.Name = "cboShift"
         Me.cboShift.Size = New System.Drawing.Size(91, 20)
@@ -1025,6 +815,413 @@ Partial Class RptMatrixFreshSalesReport
         Me.chkFilterByCreatedDate.TabIndex = 420
         Me.chkFilterByCreatedDate.Text = "Filter By Created Date"
         '
+        'chkSummary
+        '
+        Me.chkSummary.Location = New System.Drawing.Point(282, 87)
+        Me.chkSummary.Name = "chkSummary"
+        Me.chkSummary.Size = New System.Drawing.Size(67, 18)
+        Me.chkSummary.TabIndex = 398
+        Me.chkSummary.Text = "Summary"
+        Me.chkSummary.Visible = False
+        '
+        'ddlInvocieType
+        '
+        Me.ddlInvocieType.AutoCompleteDisplayMember = Nothing
+        Me.ddlInvocieType.AutoCompleteValueMember = Nothing
+        Me.ddlInvocieType.DropDownAnimationEnabled = True
+        RadListDataItem12.Text = "Both"
+        RadListDataItem13.Text = "Sale Invoice"
+        RadListDataItem14.Text = "Sale Return"
+        Me.ddlInvocieType.Items.Add(RadListDataItem12)
+        Me.ddlInvocieType.Items.Add(RadListDataItem13)
+        Me.ddlInvocieType.Items.Add(RadListDataItem14)
+        Me.ddlInvocieType.Location = New System.Drawing.Point(133, 346)
+        Me.ddlInvocieType.Name = "ddlInvocieType"
+        Me.ddlInvocieType.Size = New System.Drawing.Size(121, 20)
+        Me.ddlInvocieType.TabIndex = 397
+        '
+        'chkSaleInvoiceWise
+        '
+        Me.chkSaleInvoiceWise.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.chkSaleInvoiceWise.Location = New System.Drawing.Point(21, 111)
+        Me.chkSaleInvoiceWise.Name = "chkSaleInvoiceWise"
+        Me.chkSaleInvoiceWise.Size = New System.Drawing.Size(106, 18)
+        Me.chkSaleInvoiceWise.TabIndex = 395
+        Me.chkSaleInvoiceWise.Text = "Sale Invoice Wise"
+        Me.chkSaleInvoiceWise.Visible = False
+        '
+        'chkBookingWise
+        '
+        Me.chkBookingWise.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.chkBookingWise.Location = New System.Drawing.Point(21, 87)
+        Me.chkBookingWise.Name = "chkBookingWise"
+        Me.chkBookingWise.Size = New System.Drawing.Size(89, 18)
+        Me.chkBookingWise.TabIndex = 390
+        Me.chkBookingWise.Text = "Booking Wise"
+        '
+        'RadGroupBox3
+        '
+        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.RadLabel2)
+        Me.RadGroupBox3.Controls.Add(Me.RadLabel1)
+        Me.RadGroupBox3.Controls.Add(Me.ToDate)
+        Me.RadGroupBox3.Controls.Add(Me.fromDate)
+        Me.RadGroupBox3.HeaderText = "Date Range"
+        Me.RadGroupBox3.Location = New System.Drawing.Point(16, 39)
+        Me.RadGroupBox3.Name = "RadGroupBox3"
+        Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(246, 42)
+        Me.RadGroupBox3.TabIndex = 53
+        Me.RadGroupBox3.Text = "Date Range"
+        '
+        'ToDate
+        '
+        Me.ToDate.CustomFormat = "dd/MM/yyyy"
+        Me.ToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.ToDate.Location = New System.Drawing.Point(157, 15)
+        Me.ToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.ToDate.Name = "ToDate"
+        Me.ToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.ToDate.Size = New System.Drawing.Size(81, 20)
+        Me.ToDate.TabIndex = 1
+        Me.ToDate.TabStop = False
+        Me.ToDate.Text = "24/10/2011"
+        Me.ToDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
+        '
+        'fromDate
+        '
+        Me.fromDate.CustomFormat = "dd/MM/yyyy"
+        Me.fromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.fromDate.Location = New System.Drawing.Point(44, 15)
+        Me.fromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.fromDate.Name = "fromDate"
+        Me.fromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.fromDate.Size = New System.Drawing.Size(81, 20)
+        Me.fromDate.TabIndex = 0
+        Me.fromDate.TabStop = False
+        Me.fromDate.Text = "24/10/2011"
+        Me.fromDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
+        '
+        'RadPageViewPage2
+        '
+        Me.RadPageViewPage2.Controls.Add(Me.Gv1)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(46.0!, 24.0!)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage2.Name = "RadPageViewPage2"
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(684, 312)
+        Me.RadPageViewPage2.Text = "Report"
+        '
+        'btnRouteSummaryPrint
+        '
+        Me.btnRouteSummaryPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnRouteSummaryPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnRouteSummaryPrint.Location = New System.Drawing.Point(251, 8)
+        Me.btnRouteSummaryPrint.Name = "btnRouteSummaryPrint"
+        Me.btnRouteSummaryPrint.Size = New System.Drawing.Size(133, 22)
+        Me.btnRouteSummaryPrint.TabIndex = 151
+        Me.btnRouteSummaryPrint.Text = "Route Summary Print"
+        '
+        'RadSplitButton1
+        '
+        Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.PDF})
+        Me.RadSplitButton1.Location = New System.Drawing.Point(150, 8)
+        Me.RadSplitButton1.Name = "RadSplitButton1"
+        Me.RadSplitButton1.Size = New System.Drawing.Size(95, 22)
+        Me.RadSplitButton1.TabIndex = 150
+        Me.RadSplitButton1.Text = "Export"
+        '
+        'RadMenuItem1
+        '
+        Me.RadMenuItem1.Name = "RadMenuItem1"
+        Me.RadMenuItem1.Text = "Excel"
+        '
+        'PDF
+        '
+        Me.PDF.Name = "PDF"
+        Me.PDF.Text = "PDF"
+        '
+        'btnClose
+        '
+        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnClose.Location = New System.Drawing.Point(890, 8)
+        Me.btnClose.Name = "btnClose"
+        Me.btnClose.Size = New System.Drawing.Size(84, 22)
+        Me.btnClose.TabIndex = 148
+        Me.btnClose.Text = "Close"
+        '
+        'btnGo
+        '
+        Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnGo.Location = New System.Drawing.Point(2, 8)
+        Me.btnGo.Name = "btnGo"
+        Me.btnGo.Size = New System.Drawing.Size(71, 22)
+        Me.btnGo.TabIndex = 146
+        Me.btnGo.Text = ">>>"
+        '
+        'btnReset
+        '
+        Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReset.Location = New System.Drawing.Point(76, 8)
+        Me.btnReset.Name = "btnReset"
+        Me.btnReset.Size = New System.Drawing.Size(71, 22)
+        Me.btnReset.TabIndex = 147
+        Me.btnReset.Text = "Reset"
+        '
+        'txtFndRoute
+        '
+        Me.txtFndRoute.CalculationExpression = Nothing
+        Me.txtFndRoute.FieldCode = Nothing
+        Me.txtFndRoute.FieldDesc = Nothing
+        Me.txtFndRoute.FieldMaxLength = 0
+        Me.txtFndRoute.FieldName = Nothing
+        Me.txtFndRoute.isCalculatedField = False
+        Me.txtFndRoute.IsSourceFromTable = False
+        Me.txtFndRoute.IsSourceFromValueList = False
+        Me.txtFndRoute.IsUnique = False
+        Me.txtFndRoute.Location = New System.Drawing.Point(133, 261)
+        Me.txtFndRoute.MendatroryField = True
+        Me.txtFndRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtFndRoute.MyLinkLable1 = Nothing
+        Me.txtFndRoute.MyLinkLable2 = Nothing
+        Me.txtFndRoute.MyReadOnly = False
+        Me.txtFndRoute.MyShowMasterFormButton = False
+        Me.txtFndRoute.Name = "txtFndRoute"
+        Me.txtFndRoute.ReferenceFieldDesc = Nothing
+        Me.txtFndRoute.ReferenceFieldName = Nothing
+        Me.txtFndRoute.ReferenceTableName = Nothing
+        Me.txtFndRoute.Size = New System.Drawing.Size(189, 19)
+        Me.txtFndRoute.TabIndex = 443
+        Me.txtFndRoute.Value = ""
+        Me.txtFndRoute.Visible = False
+        '
+        'txtfndBooth
+        '
+        Me.txtfndBooth.CalculationExpression = Nothing
+        Me.txtfndBooth.FieldCode = Nothing
+        Me.txtfndBooth.FieldDesc = Nothing
+        Me.txtfndBooth.FieldMaxLength = 0
+        Me.txtfndBooth.FieldName = Nothing
+        Me.txtfndBooth.isCalculatedField = False
+        Me.txtfndBooth.IsSourceFromTable = False
+        Me.txtfndBooth.IsSourceFromValueList = False
+        Me.txtfndBooth.IsUnique = False
+        Me.txtfndBooth.Location = New System.Drawing.Point(404, 405)
+        Me.txtfndBooth.MendatroryField = True
+        Me.txtfndBooth.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtfndBooth.MyLinkLable1 = Nothing
+        Me.txtfndBooth.MyLinkLable2 = Nothing
+        Me.txtfndBooth.MyReadOnly = False
+        Me.txtfndBooth.MyShowMasterFormButton = False
+        Me.txtfndBooth.Name = "txtfndBooth"
+        Me.txtfndBooth.ReferenceFieldDesc = Nothing
+        Me.txtfndBooth.ReferenceFieldName = Nothing
+        Me.txtfndBooth.ReferenceTableName = Nothing
+        Me.txtfndBooth.Size = New System.Drawing.Size(171, 19)
+        Me.txtfndBooth.TabIndex = 443
+        Me.txtfndBooth.Value = ""
+        Me.txtfndBooth.Visible = False
+        '
+        'txtfndCustomer
+        '
+        Me.txtfndCustomer.CalculationExpression = Nothing
+        Me.txtfndCustomer.FieldCode = Nothing
+        Me.txtfndCustomer.FieldDesc = Nothing
+        Me.txtfndCustomer.FieldMaxLength = 0
+        Me.txtfndCustomer.FieldName = Nothing
+        Me.txtfndCustomer.isCalculatedField = False
+        Me.txtfndCustomer.IsSourceFromTable = False
+        Me.txtfndCustomer.IsSourceFromValueList = False
+        Me.txtfndCustomer.IsUnique = False
+        Me.txtfndCustomer.Location = New System.Drawing.Point(133, 158)
+        Me.txtfndCustomer.MendatroryField = True
+        Me.txtfndCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtfndCustomer.MyLinkLable1 = Nothing
+        Me.txtfndCustomer.MyLinkLable2 = Nothing
+        Me.txtfndCustomer.MyReadOnly = False
+        Me.txtfndCustomer.MyShowMasterFormButton = False
+        Me.txtfndCustomer.Name = "txtfndCustomer"
+        Me.txtfndCustomer.ReferenceFieldDesc = Nothing
+        Me.txtfndCustomer.ReferenceFieldName = Nothing
+        Me.txtfndCustomer.ReferenceTableName = Nothing
+        Me.txtfndCustomer.Size = New System.Drawing.Size(189, 19)
+        Me.txtfndCustomer.TabIndex = 442
+        Me.txtfndCustomer.Value = ""
+        Me.txtfndCustomer.Visible = False
+        '
+        'lbltcsShift
+        '
+        Me.lbltcsShift.FieldName = Nothing
+        Me.lbltcsShift.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lbltcsShift.Location = New System.Drawing.Point(24, 371)
+        Me.lbltcsShift.Name = "lbltcsShift"
+        Me.lbltcsShift.Size = New System.Drawing.Size(29, 18)
+        Me.lbltcsShift.TabIndex = 440
+        Me.lbltcsShift.Text = "Shift"
+        '
+        'fndCustomer
+        '
+        Me.fndCustomer.CalculationExpression = Nothing
+        Me.fndCustomer.FieldCode = Nothing
+        Me.fndCustomer.FieldDesc = Nothing
+        Me.fndCustomer.FieldMaxLength = 0
+        Me.fndCustomer.FieldName = Nothing
+        Me.fndCustomer.isCalculatedField = False
+        Me.fndCustomer.IsSourceFromTable = False
+        Me.fndCustomer.IsSourceFromValueList = False
+        Me.fndCustomer.IsUnique = False
+        Me.fndCustomer.Location = New System.Drawing.Point(64, 40)
+        Me.fndCustomer.MendatroryField = True
+        Me.fndCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndCustomer.MyLinkLable1 = Me.lblTSDate
+        Me.fndCustomer.MyLinkLable2 = Nothing
+        Me.fndCustomer.MyReadOnly = False
+        Me.fndCustomer.MyShowMasterFormButton = False
+        Me.fndCustomer.Name = "fndCustomer"
+        Me.fndCustomer.ReferenceFieldDesc = Nothing
+        Me.fndCustomer.ReferenceFieldName = Nothing
+        Me.fndCustomer.ReferenceTableName = Nothing
+        Me.fndCustomer.Size = New System.Drawing.Size(194, 19)
+        Me.fndCustomer.TabIndex = 441
+        Me.fndCustomer.Value = ""
+        '
+        'lblTSDate
+        '
+        Me.lblTSDate.FieldName = Nothing
+        Me.lblTSDate.Location = New System.Drawing.Point(5, 19)
+        Me.lblTSDate.Name = "lblTSDate"
+        Me.lblTSDate.Size = New System.Drawing.Size(30, 18)
+        Me.lblTSDate.TabIndex = 2
+        Me.lblTSDate.Text = "Date"
+        '
+        'MyLabel14
+        '
+        Me.MyLabel14.FieldName = Nothing
+        Me.MyLabel14.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel14.Location = New System.Drawing.Point(5, 41)
+        Me.MyLabel14.Name = "MyLabel14"
+        Me.MyLabel14.Size = New System.Drawing.Size(55, 18)
+        Me.MyLabel14.TabIndex = 439
+        Me.MyLabel14.Text = "Customer"
+        '
+        'MyLabel17
+        '
+        Me.MyLabel17.FieldName = Nothing
+        Me.MyLabel17.Location = New System.Drawing.Point(150, 19)
+        Me.MyLabel17.Name = "MyLabel17"
+        Me.MyLabel17.Size = New System.Drawing.Size(19, 18)
+        Me.MyLabel17.TabIndex = 3
+        Me.MyLabel17.Text = "To"
+        '
+        'MyLabel18
+        '
+        Me.MyLabel18.FieldName = Nothing
+        Me.MyLabel18.Location = New System.Drawing.Point(5, 19)
+        Me.MyLabel18.Name = "MyLabel18"
+        Me.MyLabel18.Size = New System.Drawing.Size(32, 18)
+        Me.MyLabel18.TabIndex = 2
+        Me.MyLabel18.Text = "From"
+        '
+        'txtCustMultFnd
+        '
+        Me.txtCustMultFnd.arrDispalyMember = Nothing
+        Me.txtCustMultFnd.arrValueMember = Nothing
+        Me.txtCustMultFnd.Location = New System.Drawing.Point(64, 83)
+        Me.txtCustMultFnd.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCustMultFnd.MyLinkLable1 = Me.MyLabel13
+        Me.txtCustMultFnd.MyLinkLable2 = Nothing
+        Me.txtCustMultFnd.MyNullText = "All"
+        Me.txtCustMultFnd.Name = "txtCustMultFnd"
+        Me.txtCustMultFnd.Size = New System.Drawing.Size(194, 19)
+        Me.txtCustMultFnd.TabIndex = 438
+        Me.txtCustMultFnd.Visible = False
+        '
+        'MyLabel13
+        '
+        Me.MyLabel13.FieldName = Nothing
+        Me.MyLabel13.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel13.Location = New System.Drawing.Point(5, 83)
+        Me.MyLabel13.Name = "MyLabel13"
+        Me.MyLabel13.Size = New System.Drawing.Size(55, 18)
+        Me.MyLabel13.TabIndex = 439
+        Me.MyLabel13.Text = "Customer"
+        Me.MyLabel13.Visible = False
+        '
+        'txtMultPTSRoute
+        '
+        Me.txtMultPTSRoute.arrDispalyMember = Nothing
+        Me.txtMultPTSRoute.arrValueMember = Nothing
+        Me.txtMultPTSRoute.Location = New System.Drawing.Point(64, 62)
+        Me.txtMultPTSRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMultPTSRoute.MyLinkLable1 = Me.MyLabel12
+        Me.txtMultPTSRoute.MyLinkLable2 = Nothing
+        Me.txtMultPTSRoute.MyNullText = "All"
+        Me.txtMultPTSRoute.Name = "txtMultPTSRoute"
+        Me.txtMultPTSRoute.Size = New System.Drawing.Size(194, 19)
+        Me.txtMultPTSRoute.TabIndex = 436
+        '
+        'MyLabel12
+        '
+        Me.MyLabel12.FieldName = Nothing
+        Me.MyLabel12.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel12.Location = New System.Drawing.Point(5, 61)
+        Me.MyLabel12.Name = "MyLabel12"
+        Me.MyLabel12.Size = New System.Drawing.Size(36, 18)
+        Me.MyLabel12.TabIndex = 437
+        Me.MyLabel12.Text = "Route"
+        '
+        'MyLabel11
+        '
+        Me.MyLabel11.FieldName = Nothing
+        Me.MyLabel11.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel11.Location = New System.Drawing.Point(5, 41)
+        Me.MyLabel11.Name = "MyLabel11"
+        Me.MyLabel11.Size = New System.Drawing.Size(29, 18)
+        Me.MyLabel11.TabIndex = 434
+        Me.MyLabel11.Text = "Shift"
+        '
+        'MyLabel7
+        '
+        Me.MyLabel7.FieldName = Nothing
+        Me.MyLabel7.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel7.Location = New System.Drawing.Point(87, 26)
+        Me.MyLabel7.Name = "MyLabel7"
+        Me.MyLabel7.Size = New System.Drawing.Size(29, 18)
+        Me.MyLabel7.TabIndex = 429
+        Me.MyLabel7.Text = "Shift"
+        '
+        'RadLabel2
+        '
+        Me.RadLabel2.FieldName = Nothing
+        Me.RadLabel2.Location = New System.Drawing.Point(130, 16)
+        Me.RadLabel2.Name = "RadLabel2"
+        Me.RadLabel2.Size = New System.Drawing.Size(19, 18)
+        Me.RadLabel2.TabIndex = 3
+        Me.RadLabel2.Text = "To"
+        '
+        'RadLabel1
+        '
+        Me.RadLabel1.FieldName = Nothing
+        Me.RadLabel1.Location = New System.Drawing.Point(5, 16)
+        Me.RadLabel1.Name = "RadLabel1"
+        Me.RadLabel1.Size = New System.Drawing.Size(32, 18)
+        Me.RadLabel1.TabIndex = 2
+        Me.RadLabel1.Text = "From"
+        '
+        'MyLabel15
+        '
+        Me.MyLabel15.FieldName = Nothing
+        Me.MyLabel15.Location = New System.Drawing.Point(16, 7)
+        Me.MyLabel15.Name = "MyLabel15"
+        Me.MyLabel15.Size = New System.Drawing.Size(67, 18)
+        Me.MyLabel15.TabIndex = 437
+        Me.MyLabel15.Text = "Report Type"
+        '
         'TxtMultiCustomerCategory
         '
         Me.TxtMultiCustomerCategory.arrDispalyMember = Nothing
@@ -1071,31 +1268,6 @@ Partial Class RptMatrixFreshSalesReport
         Me.MyLabel5.TabIndex = 400
         Me.MyLabel5.Text = "Booking Type"
         '
-        'chkSummary
-        '
-        Me.chkSummary.Location = New System.Drawing.Point(282, 87)
-        Me.chkSummary.Name = "chkSummary"
-        Me.chkSummary.Size = New System.Drawing.Size(67, 18)
-        Me.chkSummary.TabIndex = 398
-        Me.chkSummary.Text = "Summary"
-        Me.chkSummary.Visible = False
-        '
-        'ddlInvocieType
-        '
-        Me.ddlInvocieType.AutoCompleteDisplayMember = Nothing
-        Me.ddlInvocieType.AutoCompleteValueMember = Nothing
-        Me.ddlInvocieType.DropDownAnimationEnabled = True
-        RadListDataItem3.Text = "Both"
-        RadListDataItem4.Text = "Sale Invoice"
-        RadListDataItem16.Text = "Sale Return"
-        Me.ddlInvocieType.Items.Add(RadListDataItem3)
-        Me.ddlInvocieType.Items.Add(RadListDataItem4)
-        Me.ddlInvocieType.Items.Add(RadListDataItem16)
-        Me.ddlInvocieType.Location = New System.Drawing.Point(133, 346)
-        Me.ddlInvocieType.Name = "ddlInvocieType"
-        Me.ddlInvocieType.Size = New System.Drawing.Size(121, 20)
-        Me.ddlInvocieType.TabIndex = 397
-        '
         'lblSubCategory
         '
         Me.lblSubCategory.FieldName = Nothing
@@ -1104,17 +1276,6 @@ Partial Class RptMatrixFreshSalesReport
         Me.lblSubCategory.Size = New System.Drawing.Size(69, 18)
         Me.lblSubCategory.TabIndex = 396
         Me.lblSubCategory.Text = "Invoice Type"
-        '
-        'chkSaleInvoiceWise
-        '
-        Me.chkSaleInvoiceWise.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.chkSaleInvoiceWise.Location = New System.Drawing.Point(21, 111)
-        Me.chkSaleInvoiceWise.Name = "chkSaleInvoiceWise"
-        Me.chkSaleInvoiceWise.Size = New System.Drawing.Size(106, 18)
-        Me.chkSaleInvoiceWise.TabIndex = 395
-        Me.chkSaleInvoiceWise.Text = "Sale Invoice Wise"
-        Me.chkSaleInvoiceWise.Visible = False
         '
         'TxtUOM
         '
@@ -1161,16 +1322,6 @@ Partial Class RptMatrixFreshSalesReport
         Me.MyLabel10.Size = New System.Drawing.Size(36, 18)
         Me.MyLabel10.TabIndex = 392
         Me.MyLabel10.Text = "Route"
-        '
-        'chkBookingWise
-        '
-        Me.chkBookingWise.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.chkBookingWise.Location = New System.Drawing.Point(21, 87)
-        Me.chkBookingWise.Name = "chkBookingWise"
-        Me.chkBookingWise.Size = New System.Drawing.Size(89, 18)
-        Me.chkBookingWise.TabIndex = 390
-        Me.chkBookingWise.Text = "Booking Wise"
         '
         'MyLabel3
         '
@@ -1310,76 +1461,6 @@ Partial Class RptMatrixFreshSalesReport
         Me.txtLocation.Size = New System.Drawing.Size(332, 19)
         Me.txtLocation.TabIndex = 378
         '
-        'RadGroupBox3
-        '
-        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox3.Controls.Add(Me.RadLabel2)
-        Me.RadGroupBox3.Controls.Add(Me.RadLabel1)
-        Me.RadGroupBox3.Controls.Add(Me.ToDate)
-        Me.RadGroupBox3.Controls.Add(Me.fromDate)
-        Me.RadGroupBox3.HeaderText = "Date Range"
-        Me.RadGroupBox3.Location = New System.Drawing.Point(16, 39)
-        Me.RadGroupBox3.Name = "RadGroupBox3"
-        Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox3.Size = New System.Drawing.Size(246, 42)
-        Me.RadGroupBox3.TabIndex = 53
-        Me.RadGroupBox3.Text = "Date Range"
-        '
-        'RadLabel2
-        '
-        Me.RadLabel2.FieldName = Nothing
-        Me.RadLabel2.Location = New System.Drawing.Point(130, 16)
-        Me.RadLabel2.Name = "RadLabel2"
-        Me.RadLabel2.Size = New System.Drawing.Size(19, 18)
-        Me.RadLabel2.TabIndex = 3
-        Me.RadLabel2.Text = "To"
-        '
-        'RadLabel1
-        '
-        Me.RadLabel1.FieldName = Nothing
-        Me.RadLabel1.Location = New System.Drawing.Point(5, 16)
-        Me.RadLabel1.Name = "RadLabel1"
-        Me.RadLabel1.Size = New System.Drawing.Size(32, 18)
-        Me.RadLabel1.TabIndex = 2
-        Me.RadLabel1.Text = "From"
-        '
-        'ToDate
-        '
-        Me.ToDate.CustomFormat = "dd/MM/yyyy"
-        Me.ToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.ToDate.Location = New System.Drawing.Point(157, 15)
-        Me.ToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.ToDate.Name = "ToDate"
-        Me.ToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.ToDate.Size = New System.Drawing.Size(81, 20)
-        Me.ToDate.TabIndex = 1
-        Me.ToDate.TabStop = False
-        Me.ToDate.Text = "24/10/2011"
-        Me.ToDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
-        '
-        'fromDate
-        '
-        Me.fromDate.CustomFormat = "dd/MM/yyyy"
-        Me.fromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.fromDate.Location = New System.Drawing.Point(44, 15)
-        Me.fromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.fromDate.Name = "fromDate"
-        Me.fromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.fromDate.Size = New System.Drawing.Size(81, 20)
-        Me.fromDate.TabIndex = 0
-        Me.fromDate.TabStop = False
-        Me.fromDate.Text = "24/10/2011"
-        Me.fromDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
-        '
-        'RadPageViewPage2
-        '
-        Me.RadPageViewPage2.Controls.Add(Me.Gv1)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(684, 312)
-        Me.RadPageViewPage2.Text = "Report"
-        '
         'Gv1
         '
         Me.Gv1.Dock = System.Windows.Forms.DockStyle.Fill
@@ -1390,93 +1471,13 @@ Partial Class RptMatrixFreshSalesReport
         Me.Gv1.MasterTemplate.EnableFiltering = True
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ReadOnly = True
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(684, 312)
         Me.Gv1.TabIndex = 1
-        '
-        'btnRouteSummaryPrint
-        '
-        Me.btnRouteSummaryPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnRouteSummaryPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnRouteSummaryPrint.Location = New System.Drawing.Point(251, 8)
-        Me.btnRouteSummaryPrint.Name = "btnRouteSummaryPrint"
-        Me.btnRouteSummaryPrint.Size = New System.Drawing.Size(133, 22)
-        Me.btnRouteSummaryPrint.TabIndex = 151
-        Me.btnRouteSummaryPrint.Text = "Route Summary Print"
-        '
-        'RadSplitButton1
-        '
-        Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.PDF})
-        Me.RadSplitButton1.Location = New System.Drawing.Point(150, 8)
-        Me.RadSplitButton1.Name = "RadSplitButton1"
-        Me.RadSplitButton1.Size = New System.Drawing.Size(95, 22)
-        Me.RadSplitButton1.TabIndex = 150
-        Me.RadSplitButton1.Text = "Export"
-        '
-        'RadMenuItem1
-        '
-        Me.RadMenuItem1.Name = "RadMenuItem1"
-        Me.RadMenuItem1.Text = "Excel"
-        '
-        'PDF
-        '
-        Me.PDF.Name = "PDF"
-        Me.PDF.Text = "PDF"
-        '
-        'btnClose
-        '
-        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(890, 8)
-        Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(84, 22)
-        Me.btnClose.TabIndex = 148
-        Me.btnClose.Text = "Close"
-        '
-        'btnGo
-        '
-        Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGo.Location = New System.Drawing.Point(2, 8)
-        Me.btnGo.Name = "btnGo"
-        Me.btnGo.Size = New System.Drawing.Size(71, 22)
-        Me.btnGo.TabIndex = 146
-        Me.btnGo.Text = ">>>"
-        '
-        'btnReset
-        '
-        Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Location = New System.Drawing.Point(76, 8)
-        Me.btnReset.Name = "btnReset"
-        Me.btnReset.Size = New System.Drawing.Size(71, 22)
-        Me.btnReset.TabIndex = 147
-        Me.btnReset.Text = "Reset"
-        '
-        'btnGPSummaryRouteWise
-        '
-        Me.btnGPSummaryRouteWise.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnGPSummaryRouteWise.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGPSummaryRouteWise.Location = New System.Drawing.Point(20, 203)
-        Me.btnGPSummaryRouteWise.Name = "btnGPSummaryRouteWise"
-        Me.btnGPSummaryRouteWise.Size = New System.Drawing.Size(242, 24)
-        Me.btnGPSummaryRouteWise.TabIndex = 444
-        Me.btnGPSummaryRouteWise.Text = "Gate Pass Summary Route Wise"
-        '
-        'chkIndividualCustomer
-        '
-        Me.chkIndividualCustomer.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.chkIndividualCustomer.Location = New System.Drawing.Point(64, 103)
-        Me.chkIndividualCustomer.Name = "chkIndividualCustomer"
-        Me.chkIndividualCustomer.Size = New System.Drawing.Size(120, 18)
-        Me.chkIndividualCustomer.TabIndex = 444
-        Me.chkIndividualCustomer.Text = "Individual Customer"
         '
         'RptMatrixFreshSalesReport
         '
@@ -1499,37 +1500,30 @@ Partial Class RptMatrixFreshSalesReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
-        CType(Me.lbltcsShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rddlTCSShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox7.ResumeLayout(False)
         Me.RadGroupBox7.PerformLayout()
         CType(Me.ddlReportType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox5.ResumeLayout(False)
         Me.RadGroupBox5.PerformLayout()
-        CType(Me.lblTSDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox6.ResumeLayout(False)
         Me.RadGroupBox6.PerformLayout()
-        CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnCreditPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtCreditDateTo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtCreditDateFrom, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         Me.RadGroupBox2.PerformLayout()
+        CType(Me.chkIndividualCustomer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnGPSummaryRouteWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintRoutBoothwise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox4.ResumeLayout(False)
         Me.RadGroupBox4.PerformLayout()
-        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnTrkShtSummaryRW, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ddlPTSShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintTrkSht, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtPTSDateFrom, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1543,44 +1537,51 @@ Partial Class RptMatrixFreshSalesReport
         CType(Me.chkProduct, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlMilkPouch.ResumeLayout(False)
         Me.pnlMilkPouch.PerformLayout()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkMilkPouch, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkRouteSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkFirstAndSecondSpell, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkFilterByCreatedDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ddlInvocieType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblSubCategory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSaleInvoiceWise, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkBookingWise, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox3.ResumeLayout(False)
+        Me.RadGroupBox3.PerformLayout()
+        CType(Me.ToDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.fromDate, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage2.ResumeLayout(False)
+        CType(Me.btnRouteSummaryPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lbltcsShift, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTSDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSubCategory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkBookingWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCustomerGroup, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox3.ResumeLayout(False)
-        Me.RadGroupBox3.PerformLayout()
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ToDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.fromDate, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnRouteSummaryPrint, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnGPSummaryRouteWise, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkIndividualCustomer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

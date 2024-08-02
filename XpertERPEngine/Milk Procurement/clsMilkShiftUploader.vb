@@ -1438,6 +1438,12 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
                     clsCommon.ProgressBarPercentShow()
                     For Each grow As GridViewRowInfo In gv.Rows
                         ii += 1
+                        If ii = 14248 Then
+                            Dim x As Integer = 222
+                        Else
+                            Continue For
+                        End If
+
                         clsCommon.ProgressBarPercentUpdate(((ii) * 100 / (gv.Rows.Count)), "Validating Data..." & clsCommon.myCstr(ii) & "/" & clsCommon.myCstr(gv.Rows.Count) & "")
                         Try
                             If clsCommon.myLen(grow.Cells(arrColumnName.IndexOf(clsDBFTemplate.DCS)).Value) > 0 Then

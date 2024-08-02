@@ -1359,6 +1359,10 @@ Public Class clsCreateAllTable
             coll.Add("Dock_Collection_Milk_Type", "char(1) NOT NULL Default 'M'")
             coll.Add("In_Active_From", "Date NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_FAT_SNF_UPLOADER_MASTER", coll)
+            Try
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_FAT_SNF_UPLOADER_MASTER alter COLUMN CircularNo varchar(MAX)")
+            Catch ex As Exception
+            End Try
 
 
 

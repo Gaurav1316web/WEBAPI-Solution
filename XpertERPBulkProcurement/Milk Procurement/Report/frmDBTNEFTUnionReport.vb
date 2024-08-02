@@ -92,7 +92,10 @@ Public Class frmDBTNEFTUnionReport
             Exit Function
         End If
         query = ""
-        dt = clsDBFuncationality.GetDataTable("SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHT','JMBILL' , 'JPRTEST') ORDER BY [TSPL_APP_LOCATION].Location_Name")
+        Dim Qry As String = Nothing
+        Qry = clsMilkUnion.UnionDBName()
+        dt = clsDBFuncationality.GetDataTable(Qry)
+
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             For ii As Integer = 0 To dt.Rows.Count - 1
                 BaseQry = " select [Month],0 As [Billed Qty],Sum([Farmer Qty])[Farmer Qty],COUNT(Distinct [Farmer Code])  as [Farmer Code],sum(Amount) as Amt
