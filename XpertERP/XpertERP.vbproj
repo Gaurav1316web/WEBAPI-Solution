@@ -327,9 +327,9 @@
       <HintPath>lib\RCWF\2022.1.222.20.Trial\TelerikData.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="XpertCommon, Version=2.0.6.63, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="XpertCommon, Version=2.1.6.71, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\XpertCommon.dll</HintPath>
+      <HintPath>..\..\XpertCommon\common\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPAdminServices">
       <HintPath>..\XpertERPAdminServices\bin\Debug\XpertERPAdminServices.dll</HintPath>
@@ -351,7 +351,7 @@
     <Reference Include="XpertERPCustomerComplaint">
       <HintPath>..\XpertERPCustomerComplaint\bin\Debug\XpertERPCustomerComplaint.dll</HintPath>
     </Reference>
-    <Reference Include="XpertERPDairySale, Version=7.1.0.42, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="XpertERPDairySale, Version=7.1.2.85, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERPDairySale\bin\Debug\XpertERPDairySale.dll</HintPath>
     </Reference>

@@ -213,7 +213,7 @@ Public Class rptmilkunion
             End If
             Dim docNo As String = ""
             query = " 
-    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') "
+    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE  Union_Report=1 and DataBase_Name not in ('BANSWARA')"
             If chkRJSBNS.Checked Then
                 query += "union all
   SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
