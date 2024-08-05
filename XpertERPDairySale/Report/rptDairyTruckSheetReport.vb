@@ -4214,7 +4214,7 @@ Public Class rptDairyTruckSheetReport
                 If TempItemCount <= 5 Then
                     obj.Print(obj, dt, PageSetup.Potrate)
                 Else
-                    obj.LandscapPageSetupColumnsChar = TempReportWidth
+                    obj.PageSetupCustomizeCharColumn = TempReportWidth
                     obj.Print(obj, dt, PageSetup.Landscap)
                 End If
             Else
@@ -4386,7 +4386,7 @@ Public Class rptDairyTruckSheetReport
                 If TempItemCount <= 5 Then
                     obj.Print(obj, dt, PageSetup.Potrate)
                 Else
-                    obj.LandscapPageSetupColumnsChar = TempReportWidth
+                    obj.PageSetupCustomizeCharColumn = TempReportWidth
                     obj.Print(obj, dt, PageSetup.Landscap)
                 End If
             Else

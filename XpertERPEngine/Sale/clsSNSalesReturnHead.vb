@@ -1476,11 +1476,13 @@ Public Class clsSNSalesReturnHead
             Throw New Exception("Purchase Order No not found to Delete")
         End If
         Dim obj As clsSNSalesReturnHead = clsSNSalesReturnHead.GetData(strCode, NavigatorType.Current)
+
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
             Try
                 '' Anubhooti 06-Sep-2014 BM00000003735 (Remarks: Locked Transaction)
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Sales And Distribution", "Sale Return", obj.Bill_To_Location, obj.Document_Date, trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSalesNew, clsUserMgtCode.frmSNSaleReturn, obj.Bill_To_Location, obj.Document_Date, trans)
+
                 ''
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)

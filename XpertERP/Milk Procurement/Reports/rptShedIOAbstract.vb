@@ -1233,7 +1233,7 @@ Public Class rptShedIOAbstract
                 obj.ReportName2 = "PERIOD FROM: " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " TO " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")
                 obj.ReportName3 = "Shortage Excel"
                 obj.ShowPageNo = False
-                obj.LandscapPageSetupColumnsChar = 240
+                obj.PageSetupCustomizeCharColumn = 240
 
                 obj.arrMergeColumn = New List(Of clsDosPrintMergeColumn)
                 Dim objMergeColumn As New clsDosPrintMergeColumn
@@ -1313,7 +1313,7 @@ Public Class rptShedIOAbstract
                 obj.ReportName2 = "PERIOD FROM: " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " TO " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")
                 obj.ReportName3 = "STATEMENT SHOWING THE RECOVERABLE AMOUNT OF SHORTAGE KG-FAT, KG-SNF"
                 obj.ShowPageNo = False
-                obj.LandscapPageSetupColumnsChar = 150
+                obj.PageSetupCustomizeCharColumn = 150
                 obj.arrColumn = New List(Of clsDosPrintColumn)()
                 obj.arrColumn.Add(clsDosPrintColumn.SetColumn("MainTranLoc", "MCC", True, DosPrintAlignment.Left, 10, False, DecimalPlaces.NA))
                 obj.arrColumn.Add(clsDosPrintColumn.SetColumn("MainTranName", "MCC Name", True, DosPrintAlignment.Left, 10, False, DecimalPlaces.NA))
@@ -1473,7 +1473,7 @@ Public Class rptShedIOAbstract
                 obj.ReportName1 = "SHED NAME : " + lblShed.Text
                 obj.ReportName2 = "PERIOD FROM: " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " TO " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")
                 obj.ShowPageNo = False
-                'obj.LandscapPageSetupColumnsChar = 240
+                'obj.PageSetupCustomizeCharColumn = 240
                 obj.arrColumn = New List(Of clsDosPrintColumn)()
                 obj.arrColumn.Add(clsDosPrintColumn.SetColumn("Particular", "Particular", False, DosPrintAlignment.Left, 12, False, DecimalPlaces.NA))
                 obj.arrColumn.Add(clsDosPrintColumn.SetColumn("BM", "BM", False, DosPrintAlignment.Right, 10, False, DecimalPlaces.Two))
@@ -1532,7 +1532,7 @@ Public Class rptShedIOAbstract
                 obj.arrMergeColumn.Add(objMergeColumn)
 
 
-                'obj.LandscapPageSetupColumnsChar = 20
+                'obj.PageSetupCustomizeCharColumn = 20
                 obj.arrColumn = New List(Of clsDosPrintColumn)()
                 obj.arrColumn.Add(clsDosPrintColumn.SetColumn("Doc Date", "DTD", True, DosPrintAlignment.Left, 2, False, DecimalPlaces.NA))
                 obj.arrColumn.Add(clsDosPrintColumn.SetColumn("Shift", "Shift", True, DosPrintAlignment.Left, 7, False, DecimalPlaces.NA))
