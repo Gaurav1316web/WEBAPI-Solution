@@ -18204,7 +18204,7 @@ Public Class clsCreateAllTable
             coll.Add("Item_Price_ID", "int identity NOT NULL")
             coll.Add("Item_Code", "varchar(50)  NOT NULL REFERENCES TSPL_ITEM_MASTER (Item_Code)")
             coll.Add("Item_MRP", "decimal (18,2) NULL")
-            coll.Add("Item_Baisc_Price", "decimal (18,6) NULL")
+            coll.Add("Item_Baisc_Price", "decimal (18,6) NOT NULL")
             coll.Add("Abatement", "decimal (18,2) NULL")
             coll.Add("Item_Basic_Net", "decimal (18,6)  NOT NULL")
             coll.Add("Start_Date", "date  NOT NULL")
