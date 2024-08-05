@@ -291,6 +291,12 @@
     <Compile Include="Report\FrmZoneWiseSKUReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\rptBoothTruckSheet.Designer.vb">
+      <DependentUpon>rptBoothTruckSheet.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptBoothTruckSheet.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\rptCreditCustomerReport.Designer.vb">
       <DependentUpon>rptCreditCustomerReport.vb</DependentUpon>
     </Compile>
@@ -905,6 +911,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\FrmZoneWiseSKUReport.resx">
       <DependentUpon>FrmZoneWiseSKUReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptBoothTruckSheet.resx">
+      <DependentUpon>rptBoothTruckSheet.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptCreditCustomerReport.resx">
       <DependentUpon>rptCreditCustomerReport.vb</DependentUpon>

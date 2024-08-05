@@ -360,14 +360,16 @@ Public Class frmDairyGatePass
                         End If
                     End If
                 Else
-                    strQuery = "select TSPL_SD_SHIPMENT_DETAIL.PK_ID,TSPL_SD_SHIPMENT_HEAD.VehicleNo, TSPL_SD_SHIPMENT_HEAD.Document_Code as [Document No],Document_Date as [Document Date],Customer_Code,Customer_Name, " &
-                      "TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_SD_SHIPMENT_DETAIL.Unit_code as Unit"
+                    strQuery = "select  max(TSPL_SD_SHIPMENT_DETAIL.PK_ID) as PK_ID, max(TSPL_SD_SHIPMENT_HEAD.VehicleNo) as VehicleNo, 
+          max(TSPL_SD_SHIPMENT_HEAD.Document_Code) as [Document No],max(Document_Date) as [Document Date], 
+          max(Customer_Code) as Customer_Code,max(Customer_Name) as Customer_Name, 
+          TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code],max(Item_Desc) as [Item Desc],TSPL_SD_SHIPMENT_DETAIL.Unit_code as Unit"
                     If AllowGatePassDemandTripWise Then
-                        strQuery += " ,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty as Qty, TSPL_SD_SHIPMENT_BOOKING_DETAIL.trip_no "
+                        strQuery += " ,sum(TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty) as Qty, max(TSPL_SD_SHIPMENT_BOOKING_DETAIL.trip_no) as trip_no "
                     Else
-                        strQuery += " ,Qty"
+                        strQuery += " ,Sum(Qty)as Qty"
                     End If
-                    strQuery += ",TSPL_ITEM_MASTER.HSN_Code  " &
+                    strQuery += ",max(TSPL_ITEM_MASTER.HSN_Code) as HSN_Code  " &
                       "from tspl_sd_shipment_head left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " &
                       "left outer join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code " &
                       "left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  "
@@ -397,6 +399,7 @@ Public Class frmDairyGatePass
                         End If
 
                     End If
+                    strQuery += "  group by TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_SD_SHIPMENT_DETAIL.Unit_code "
                     strQueryCANCRate = "select sum(crate) as crate ,sum(ShippedCAN) as ShippedCAN from TSPL_SD_SHIPMENT_HEAD " &
                                 "left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  " &
                        "where convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & " ' And   isnull(GPCode,'') = '' and " &
@@ -508,8 +511,15 @@ Public Class frmDairyGatePass
             If AllowGatePassDemandTripWise Then
                 strQuery += " ,max(trip_no) as Trip_No "
             End If
-            strQuery += " from(" & qry & ") final  group by [Item Code],Unit,PK_ID )xxfinal
-                        left Outer Join TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL ON TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL.PK_ID=xxfinal.PK_ID and TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL.Item_Code=xxfinal.[Item Code]"
+            strQuery += " from(" & qry & ") final  group by [Item Code],Unit,PK_ID )xxfinal 
+            Left Outer Join TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL ON TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL.PK_ID=xxfinal.PK_ID and TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL.Item_Code=xxfinal.[Item Code]"
+            '             left join(
+            '		  select PK_ID,Item_Code,GP_Qty from TSPL_DAIRYSALE_GATEPASS_MASTER
+            '		  left join TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL on TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode=TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL.GPCode
+            '		  where isnull(TSPL_DAIRYSALE_GATEPASS_MASTER.Status,'')=''
+            '		  ) as TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL ON
+            '						TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL.PK_ID=xxfinal.PK_ID and 
+            'TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL.Item_Code=xxfinal.[Item Code] "
             If AllowGatePassDemandTripWise Then
                 If clsCommon.myLen(txtTripNo.Text) > 0 Then
                     strQuery += " and TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL.Unit_Code=xxfinal.Unit and TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL.TRip_No=xxfinal.Trip_No "
@@ -1326,14 +1336,15 @@ select Route_No,Document_Date,Vehicle_Code,Customer_Code,0 as OpencrateQty,0 as 
         Else
             Qry += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=tspl_vehicle_master.Transport_Id  "
         End If
-        Qry += " left outer join 
-                     ((select Case When Sum(Isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0))>0 Then  Sum(TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt/TSPL_SD_SHIPMENT_DETAIL.Qty*TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GP_Qty) Else 0 End As Amount,  Case When Sum(Isnull(TSPL_SD_SHIPMENT_DETAIL.Qty, 0))> 0 Then Sum(TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Discount) Else 0 End As AmountWithoutTax, Sum(IsNull(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt,0)/TSPL_SD_SHIPMENT_DETAIL.Qty*TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GP_Qty) AS Margin,sum( IsNull(TSPL_SD_SHIPMENT_DETAIL.Security_Amt,0))as SecurityAmt,TSPL_SD_SHIPMENT_DETAIL.Item_Code,max(TSPL_SD_SHIPMENT_DETAIL.Unit_code) as Unit_code,max(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Rate) as Dist_Commission_Ratewithtax,max(TSPL_SD_SHIPMENT_HEAD.RoundOffAmount) as RoundOffAmt " + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ", max(TSPL_SD_SHIPMENT_DETAIL.Item_Cost) as ItemCost", "") + " from TSPL_SD_SHIPMENT_DETAIL   
-                       Left Outer Join TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE 
-					   Left Outer Join TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL On TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID=TSPL_SD_SHIPMENT_DETAIL.PK_ID
-                     WHERE  TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode = '" + StrCode + "'
-                     Group By  TSPL_SD_SHIPMENT_DETAIL.Item_Code)
-                     Union All
-                     (select Case When Sum(Isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0))>0 Then  Sum(TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt) Else 0 End As Amount,  Case When Sum(Isnull(TSPL_SD_SHIPMENT_DETAIL.Qty, 0))> 0 Then Sum(TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Discount) Else 0 End As AmountWithoutTax, 
+        Qry += " left outer join ("
+        '             ((select Case When Sum(Isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0))>0 Then  Sum(TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt/TSPL_SD_SHIPMENT_DETAIL.Qty*TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GP_Qty) Else 0 End As Amount,  Case When Sum(Isnull(TSPL_SD_SHIPMENT_DETAIL.Qty, 0))> 0 Then Sum(TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Discount) Else 0 End As AmountWithoutTax, Sum(IsNull(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt,0)/TSPL_SD_SHIPMENT_DETAIL.Qty*TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GP_Qty) AS Margin,sum( IsNull(TSPL_SD_SHIPMENT_DETAIL.Security_Amt,0))as SecurityAmt,TSPL_SD_SHIPMENT_DETAIL.Item_Code,max(TSPL_SD_SHIPMENT_DETAIL.Unit_code) as Unit_code,max(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Rate) as Dist_Commission_Ratewithtax,max(TSPL_SD_SHIPMENT_HEAD.RoundOffAmount) as RoundOffAmt " + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ", max(TSPL_SD_SHIPMENT_DETAIL.Item_Cost) as ItemCost", "") + " from TSPL_SD_SHIPMENT_DETAIL   
+        '               Left Outer Join TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE 
+        'Left Outer Join TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL On TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID=TSPL_SD_SHIPMENT_DETAIL.PK_ID
+        '             WHERE  TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode = '" + StrCode + "'
+        '             Group By  TSPL_SD_SHIPMENT_DETAIL.Item_Code)
+        '             Union All
+
+        Qry += "(select Case When Sum(Isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0))>0 Then  Sum(TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt) Else 0 End As Amount,  Case When Sum(Isnull(TSPL_SD_SHIPMENT_DETAIL.Qty, 0))> 0 Then Sum(TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Discount) Else 0 End As AmountWithoutTax, 
                      Sum(IsNull(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt,0)) AS Margin,sum( IsNull(TSPL_SD_SHIPMENT_DETAIL.Security_Amt,0))as SecurityAmt,TSPL_SD_SHIPMENT_DETAIL.Item_Code ,max(TSPL_SD_SHIPMENT_DETAIL.Unit_code) as Unit_code ,max(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Rate) as Dist_Commission_Ratewithtax,max(TSPL_SD_SHIPMENT_HEAD.RoundOffAmount) as RoundOffAmt " + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ", max(TSPL_SD_SHIPMENT_DETAIL.Item_Cost) as ItemCost", "") + " from TSPL_SD_SHIPMENT_DETAIL   
                      Left Outer Join TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE 
                      WHERE  TSPL_SD_SHIPMENT_HEAD.GPCode = '" + StrCode + "'
@@ -1925,24 +1936,24 @@ select Route_No,Document_Date,Vehicle_Code,Customer_Code,0 as OpencrateQty,0 as 
             If Not isInsideLoadData Then
                 Dim Qry As String = Nothing
                 Dim dt As DataTable = Nothing
-                If clsCommon.CompairString(clsCommon.myCstr(Gv1.CurrentRow.Cells(colUnit).Value), "Crate") = CompairStringResult.Equal Then
-                    Qry = "Select TSPL_SD_SHIPMENT_DETAIL.PK_ID,TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_SD_SHIPMENT_DETAIL.Unit_Code,IsNull(GPUsed.GP_Qty,0)GP_Qty,TSPL_SD_SHIPMENT_DETAIL.Qty As TotalQty,
-                            Case When IsNull(GPUsed.GP_Qty,0)>0 Then (TSPL_SD_SHIPMENT_DETAIL.Qty-GPUsed.GP_Qty) Else TSPL_SD_SHIPMENT_DETAIL.Qty End As BalanceQty
-                            from TSPL_SD_SHIPMENT_DETAIL Left Join(select  PK_ID,Max(GPCode)GPCode,Max(Item_Code)Item_Code,Max(Unit_Code)Unit_Code,Sum(IsNull(GP_Qty,0))GP_Qty 
-                            from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL Group By PK_ID) AS GPUsed On GPUsed.PK_ID=TSPL_SD_SHIPMENT_DETAIL.PK_ID
-                            Where TSPL_SD_SHIPMENT_DETAIL.PK_ID='" + clsCommon.myCstr(Gv1.CurrentRow.Cells(colPKID).Value) + "'"
-                    dt = clsDBFuncationality.GetDataTable(Qry)
-                    If clsCommon.myCdbl(Gv1.CurrentRow.Cells(colQty).Value) > 0 Then
-                        If dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                            If clsCommon.myCDecimal(Gv1.CurrentRow.Cells(colQty).Value) > clsCommon.myCDecimal(dt.Rows(0)("BalanceQty")) AndAlso clsCommon.myCDecimal(dt.Rows(0)("BalanceQty")) > 0 Then
-                                clsCommon.MyMessageBoxShow(Me, "Balance Qty: " + clsCommon.myCstr(dt.Rows(0)("BalanceQty")) + Environment.NewLine + "Allow Only Maximum " + clsCommon.myCstr(dt.Rows(0)("BalanceQty")) + " Qty.", Me.Text)
-                                Gv1.CurrentRow.Cells(colQty).Value = clsCommon.myCDecimal(dt.Rows(0)("BalanceQty"))
-                            End If
-                        End If
-                        'ElseIf clsCommon.myCdbl(Gv1.CurrentRow.Cells(colQty).Value) <= 0 AndAlso dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 AndAlso clsCommon.myCDecimal(dt.Rows(0)("BalanceQty")) > 0 Then
-                        '    Gv1.CurrentRow.Cells(colQty).Value = clsCommon.myCDecimal(dt.Rows(0)("BalanceQty"))
-                    End If
-                End If
+                'If clsCommon.CompairString(clsCommon.myCstr(Gv1.CurrentRow.Cells(colUnit).Value), "Crate") = CompairStringResult.Equal Then
+                '    Qry = "Select TSPL_SD_SHIPMENT_DETAIL.PK_ID,TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_SD_SHIPMENT_DETAIL.Unit_Code,IsNull(GPUsed.GP_Qty,0)GP_Qty,TSPL_SD_SHIPMENT_DETAIL.Qty As TotalQty,
+                '            Case When IsNull(GPUsed.GP_Qty,0)>0 Then (TSPL_SD_SHIPMENT_DETAIL.Qty-GPUsed.GP_Qty) Else TSPL_SD_SHIPMENT_DETAIL.Qty End As BalanceQty
+                '            from TSPL_SD_SHIPMENT_DETAIL Left Join(select  PK_ID,Max(GPCode)GPCode,Max(Item_Code)Item_Code,Max(Unit_Code)Unit_Code,Sum(IsNull(GP_Qty,0))GP_Qty 
+                '            from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL Group By PK_ID) AS GPUsed On GPUsed.PK_ID=TSPL_SD_SHIPMENT_DETAIL.PK_ID
+                '            Where TSPL_SD_SHIPMENT_DETAIL.PK_ID='" + clsCommon.myCstr(Gv1.CurrentRow.Cells(colPKID).Value) + "'"
+                '    dt = clsDBFuncationality.GetDataTable(Qry)
+                '    If clsCommon.myCdbl(Gv1.CurrentRow.Cells(colQty).Value) > 0 Then
+                '        If dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                '            If clsCommon.myCDecimal(Gv1.CurrentRow.Cells(colQty).Value) > clsCommon.myCDecimal(dt.Rows(0)("BalanceQty")) AndAlso clsCommon.myCDecimal(dt.Rows(0)("BalanceQty")) > 0 Then
+                '                clsCommon.MyMessageBoxShow(Me, "Balance Qty: " + clsCommon.myCstr(dt.Rows(0)("BalanceQty")) + Environment.NewLine + "Allow Only Maximum " + clsCommon.myCstr(dt.Rows(0)("BalanceQty")) + " Qty.", Me.Text)
+                '                Gv1.CurrentRow.Cells(colQty).Value = clsCommon.myCDecimal(dt.Rows(0)("BalanceQty"))
+                '            End If
+                '        End If
+                '        'ElseIf clsCommon.myCdbl(Gv1.CurrentRow.Cells(colQty).Value) <= 0 AndAlso dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 AndAlso clsCommon.myCDecimal(dt.Rows(0)("BalanceQty")) > 0 Then
+                '        '    Gv1.CurrentRow.Cells(colQty).Value = clsCommon.myCDecimal(dt.Rows(0)("BalanceQty"))
+                '    End If
+                'End If
                 isInsideLoadData = False
             End If
         Catch ex As Exception
