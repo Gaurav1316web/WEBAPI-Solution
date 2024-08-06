@@ -1977,9 +1977,9 @@ Public Class frmTender
                         If CInt(gvSchedule.Rows(ii).Cells(colScheduleExtensionDays).Value) >= 0 Then
                             Dim qry As String = "UPDATE TSPL_TENDER_SCHEDULE SET Extension_Days='" + clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colScheduleExtensionDays).Value) + "' where DocumentCode='" + txtDocNo.Value + "' and PSNo='" + clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colScheduleParentSNo).Value) + "' and Schedule_No='" + clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colScheduleNo).Value) + "' and Vendor_Code='" + clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colScheduleVCode).Value) + "' and Location_Code='" + clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colScheduleLCode).Value) + "'"
                             If clsCommon.myCDecimal(cboRALOn.SelectedValue) = 0 Then
-                                qry = " and Item_Code='" + clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colScheduleICode).Value) + "'"
+                                qry += " and Item_Code='" + clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colScheduleICode).Value) + "'"
                             Else
-                                qry = " and Item_Type='" + clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colScheduleITypeCode).Value) + "'"
+                                qry += " and Item_Type='" + clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colScheduleITypeCode).Value) + "'"
                             End If
                             clsDBFuncationality.ExecuteNonQuery(qry)
                         End If

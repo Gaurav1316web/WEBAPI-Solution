@@ -4395,4 +4395,7 @@ where 2=2 and convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date)='" & clsC
             Throw New Exception(ex.Message)
         End Try
     End Sub
+
+
+
 End Class
