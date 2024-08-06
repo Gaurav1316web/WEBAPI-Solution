@@ -8195,6 +8195,9 @@ Public Class MDI
                     Case clsUserMgtCode.FrmPrintMultipleGatepass
                         frm = New FrmPrintMultipleGatepass()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptBoothTruckSheet
+                        frm = New rptBoothTruckSheet()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptZoneWiseMSVisual
                         frm = New rptZoneWiseMilkSaleVisual()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
