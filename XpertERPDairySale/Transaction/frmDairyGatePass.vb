@@ -1491,23 +1491,10 @@ select Route_No,Document_Date,Vehicle_Code,Customer_Code,0 as OpencrateQty,0 as 
                 frmCRV = Nothing
             End If
             If clsCommon.myLen(pdfpath) > 0 Then
-                Dim Str As String = clsAttachDocument.UploadWithHttpRequest(pdfpath, Path.GetFileName(pdfpath))
-                Dim jObj As JObject = JObject.Parse(Str)
-                Dim ArrJ As JArray = Nothing
-                If clsCommon.CompairString(clsCommon.myCstr(jObj.SelectToken("result")), "true") = CompairStringResult.Equal Then
-                    ArrJ = JArray.Parse(clsCommon.myCstr(jObj.SelectToken("data")))
-                    If clsCommon.myCDecimal(ArrJ(0).SelectToken("Result")) > 0 Then
-                        Dim FileNo As Integer = clsCommon.myCDecimal(ArrJ(0).SelectToken("Result"))
-                        If FileNo > 0 Then
-                            Str = " UPDATE TSPL_DAIRYSALE_GATEPASS_MASTER set FILE_INFO=" + clsCommon.myCstr(FileNo) + " where GPCode='" + Code + "'"
-                            clsDBFuncationality.ExecuteNonQuery(Str)
-                        End If
-                    Else
-                        Throw New Exception(ArrJ(0).SelectToken("Message"))
-                    End If
-                Else
-                    ArrJ = JArray.Parse(clsCommon.myCstr(jObj.SelectToken("data")))
-                    Throw New Exception(ArrJ(0).SelectToken("Message"))
+                Dim FileNo As Integer = clsAttachDocument.UploadWithHttpRequest(pdfpath, Path.GetFileName(pdfpath), clsUserMgtCode.frmDairyGatePass, Code)
+                If FileNo > 0 Then
+                    Dim qry As String = " UPDATE TSPL_DAIRYSALE_GATEPASS_MASTER set FILE_INFO=" + clsCommon.myCstr(FileNo) + " where GPCode='" + Code + "'"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
             End If
         Catch ex As Exception
@@ -1542,24 +1529,11 @@ select Route_No,Document_Date,Vehicle_Code,Customer_Code,0 as OpencrateQty,0 as 
                     frmCRV = Nothing
                 End If
                 If clsCommon.myLen(pdfpath) > 0 Then
-                    Dim Str As String = clsAttachDocument.UploadWithHttpRequest(pdfpath, Path.GetFileName(pdfpath))
-                    Dim jObj As JObject = JObject.Parse(Str)
-                    Dim ArrJ As JArray = Nothing
-                    If clsCommon.CompairString(clsCommon.myCstr(jObj.SelectToken("result")), "true") = CompairStringResult.Equal Then
-                        ArrJ = JArray.Parse(clsCommon.myCstr(jObj.SelectToken("data")))
-                        If clsCommon.myCDecimal(ArrJ(0).SelectToken("Result")) > 0 Then
-                            Dim FileNo As Integer = clsCommon.myCDecimal(ArrJ(0).SelectToken("Result"))
-                            If FileNo > 0 Then
-                                Dim DocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SHIPMENT_HEAD where Sale_Invoice_No='" + SaleInvoiceNo + "'"))
-                                Str = " UPDATE TSPL_SD_SHIPMENT_HEAD set FILE_INFO=" + clsCommon.myCstr(FileNo) + " where Document_Code='" + DocNo + "'"
-                                clsDBFuncationality.ExecuteNonQuery(Str)
-                            End If
-                        Else
-                            Throw New Exception(ArrJ(0).SelectToken("Message"))
-                        End If
-                    Else
-                        ArrJ = JArray.Parse(clsCommon.myCstr(jObj.SelectToken("data")))
-                        Throw New Exception(ArrJ(0).SelectToken("Message"))
+                    Dim DocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SHIPMENT_HEAD where Sale_Invoice_No='" + SaleInvoiceNo + "'"))
+                    Dim FileNo As Integer = clsAttachDocument.UploadWithHttpRequest(pdfpath, Path.GetFileName(pdfpath), clsUserMgtCode.frmSaleDispatchDairy, DocNo)
+                    If FileNo > 0 Then
+                        StrSql = " UPDATE TSPL_SD_SHIPMENT_HEAD set FILE_INFO=" + clsCommon.myCstr(FileNo) + " where Document_Code='" + DocNo + "'"
+                        clsDBFuncationality.ExecuteNonQuery(StrSql)
                     End If
                 End If
             End If
