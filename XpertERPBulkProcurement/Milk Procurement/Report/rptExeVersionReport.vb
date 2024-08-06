@@ -39,8 +39,7 @@ Public Class rptExeVersionReport
                 gv1.DataSource = Nothing
                 Exit Sub
             End If
-            qry = clsMilkUnion.UnionDBName()
-            dt = clsDBFuncationality.GetDataTable(qry)
+            dt = clsMilkUnion.UnionDBName()
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 If txtUnion.arrValueMember IsNot Nothing Then
