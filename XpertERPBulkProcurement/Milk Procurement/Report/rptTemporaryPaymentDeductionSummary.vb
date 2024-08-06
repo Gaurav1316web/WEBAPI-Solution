@@ -1029,7 +1029,18 @@ union all
             End If
             Dim StrReportName As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptTemporaryPaymentDeductionSummary & "'"))
             Dim arrHeader As List(Of String) = New List(Of String)()
-            arrHeader.Add("Name : " & StrReportName)
+            If rdbOldOutstanding.Checked = True Then
+                arrHeader.Add("Name : Old Outstanding")
+            ElseIf rdbCurrentStanding.Checked = True Then
+                arrHeader.Add("Name : Current Outstanding")
+            ElseIf rdbOldOutstanding.Checked = True Then
+                arrHeader.Add("Name : Current Opening + Deduction")
+            ElseIf chkWithOpening.Checked = True Then
+                arrHeader.Add("Name : Only Opening(Add/Ded)")
+            ElseIf chkORD_CD.Checked = True Then
+                arrHeader.Add("Name : Old Reduce Deduction + Current Deduction")
+            End If
+            'arrHeader.Add("Name : " & StrReportName)
             arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
             arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy")) + " ")
             If exporter = EnumExportTo.Excel Then

@@ -3536,7 +3536,7 @@ Public Class FrmTransferKDIL
                     objTr.ItemwiseTaxCode = clsCommon.myCstr(grow.Cells(colItemwiseTaxCode).Value)
                     objTr.Specification = clsCommon.myCstr(grow.Cells(colSpecification).Value)
                     objTr.Remarks = clsCommon.myCstr(grow.Cells(colRemarks).Value)
-                    objTr.Location = txtFromLocation.Value 'clsCommon.myCstr(grow.Cells(colLocationCode).Value)
+                    objTr.Location = txtToLoc.Value 'clsCommon.myCstr(grow.Cells(colLocationCode).Value)
                     objTr.MRP = clsCommon.myCdbl(grow.Cells(colMRP).Value)
                     ''objTr.Assessable = clsCommon.myCdbl(grow.Cells(colAssessableRate).Value)
                     objTr.Item_Unit_Wt = clsCommon.myCdbl(grow.Cells(colIUnitWt).Value)
@@ -5110,17 +5110,17 @@ Public Class FrmTransferKDIL
                     txtToLoc.Enabled = False
 
                     If (clsCommon.myLen(txtFromLocation.Value) <= 0) Then
-                        txtFromLocation.Value = objReq.To_Location
-                        lblFromLoc.Text = objReq.To_LocationName
+                        txtFromLocation.Value = objReq.From_Location
+                        lblFromLoc.Text = objReq.From_LocationName
                     End If
 
                     'txtToLoc.Value = objReq.From_Location
                     'lblToLoc.Text = objReq.From_LocationName
                     If clsCommon.myCBool(objReq.InternalTransfer) = True Then
-                        txtToLoc.Value = objReq.From_Location
+                        txtToLoc.Value = objReq.To_Location
                         chkInternalTransfer.Enabled = False
                     Else
-                        txtToLoc.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select location_code from tspl_location_master where git_location='" + txtFromLocation.Value + "'"))
+                        txtToLoc.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select location_code from tspl_location_master where git_location='" + txtToLoc.Value + "'"))
                         chkInternalTransfer.Enabled = False
                     End If
 
