@@ -34,6 +34,7 @@ Partial Class rptPaymentCycleWiseReport
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.rdbNegativeAmt = New Telerik.WinControls.UI.RadCheckBox()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.txtZone = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel1 = New common.Controls.MyLabel()
@@ -70,7 +71,7 @@ Partial Class rptPaymentCycleWiseReport
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.rdbNegativeAmt = New Telerik.WinControls.UI.RadCheckBox()
+        Me.rcbMilkBill = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -78,6 +79,7 @@ Partial Class rptPaymentCycleWiseReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.rdbNegativeAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -109,7 +111,7 @@ Partial Class rptPaymentCycleWiseReport
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rdbNegativeAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rcbMilkBill, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -176,6 +178,7 @@ Partial Class rptPaymentCycleWiseReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.rcbMilkBill)
         Me.RadPageViewPage1.Controls.Add(Me.rdbNegativeAmt)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel4)
         Me.RadPageViewPage1.Controls.Add(Me.txtZone)
@@ -200,11 +203,20 @@ Partial Class rptPaymentCycleWiseReport
         Me.RadPageViewPage1.Size = New System.Drawing.Size(794, 404)
         Me.RadPageViewPage1.Text = "Filters"
         '
+        'rdbNegativeAmt
+        '
+        Me.rdbNegativeAmt.Location = New System.Drawing.Point(516, 58)
+        Me.rdbNegativeAmt.Name = "rdbNegativeAmt"
+        Me.rdbNegativeAmt.Size = New System.Drawing.Size(108, 18)
+        Me.rdbNegativeAmt.TabIndex = 1519
+        Me.rdbNegativeAmt.Text = "Negative Amount"
+        Me.rdbNegativeAmt.Visible = False
+        '
         'MyLabel4
         '
         Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(15, 104)
+        Me.MyLabel4.Location = New System.Drawing.Point(15, 124)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(32, 18)
         Me.MyLabel4.TabIndex = 1524
@@ -214,7 +226,7 @@ Partial Class rptPaymentCycleWiseReport
         '
         Me.txtZone.arrDispalyMember = Nothing
         Me.txtZone.arrValueMember = Nothing
-        Me.txtZone.Location = New System.Drawing.Point(86, 104)
+        Me.txtZone.Location = New System.Drawing.Point(86, 124)
         Me.txtZone.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtZone.MyLinkLable1 = Me.MyLabel1
         Me.txtZone.MyLinkLable2 = Nothing
@@ -227,7 +239,7 @@ Partial Class rptPaymentCycleWiseReport
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(15, 82)
+        Me.MyLabel1.Location = New System.Drawing.Point(15, 102)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(27, 18)
         Me.MyLabel1.TabIndex = 430
@@ -284,7 +296,7 @@ Partial Class rptPaymentCycleWiseReport
         '
         'chkPaymentSummary
         '
-        Me.chkPaymentSummary.Location = New System.Drawing.Point(86, 147)
+        Me.chkPaymentSummary.Location = New System.Drawing.Point(15, 3)
         Me.chkPaymentSummary.Name = "chkPaymentSummary"
         Me.chkPaymentSummary.Size = New System.Drawing.Size(114, 18)
         Me.chkPaymentSummary.TabIndex = 1521
@@ -296,7 +308,7 @@ Partial Class rptPaymentCycleWiseReport
         Me.RadGroupBox2.Controls.Add(Me.rbtnHeadLoad)
         Me.RadGroupBox2.Controls.Add(Me.rbtnOutstanding)
         Me.RadGroupBox2.HeaderText = ""
-        Me.RadGroupBox2.Location = New System.Drawing.Point(591, 3)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(591, 26)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Size = New System.Drawing.Size(200, 27)
         Me.RadGroupBox2.TabIndex = 1520
@@ -326,7 +338,7 @@ Partial Class rptPaymentCycleWiseReport
         '
         'chkShowData
         '
-        Me.chkShowData.Location = New System.Drawing.Point(516, 8)
+        Me.chkShowData.Location = New System.Drawing.Point(516, 30)
         Me.chkShowData.Name = "chkShowData"
         Me.chkShowData.Size = New System.Drawing.Size(74, 18)
         Me.chkShowData.TabIndex = 1518
@@ -336,7 +348,7 @@ Partial Class rptPaymentCycleWiseReport
         '
         Me.txtMCC_BMC.arrDispalyMember = Nothing
         Me.txtMCC_BMC.arrValueMember = Nothing
-        Me.txtMCC_BMC.Location = New System.Drawing.Point(86, 38)
+        Me.txtMCC_BMC.Location = New System.Drawing.Point(86, 58)
         Me.txtMCC_BMC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMCC_BMC.MyLinkLable1 = Nothing
         Me.txtMCC_BMC.MyLinkLable2 = Nothing
@@ -349,7 +361,7 @@ Partial Class rptPaymentCycleWiseReport
         '
         Me.txtBank.arrDispalyMember = Nothing
         Me.txtBank.arrValueMember = Nothing
-        Me.txtBank.Location = New System.Drawing.Point(86, 126)
+        Me.txtBank.Location = New System.Drawing.Point(86, 146)
         Me.txtBank.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtBank.MyLinkLable1 = Me.MyLabel1
         Me.txtBank.MyLinkLable2 = Nothing
@@ -362,7 +374,7 @@ Partial Class rptPaymentCycleWiseReport
         '
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(15, 126)
+        Me.MyLabel3.Location = New System.Drawing.Point(15, 146)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(30, 18)
         Me.MyLabel3.TabIndex = 439
@@ -375,7 +387,7 @@ Partial Class rptPaymentCycleWiseReport
         Me.RadGroupBox1.Controls.Add(Me.rdbUnhold)
         Me.RadGroupBox1.Controls.Add(Me.rdbHold)
         Me.RadGroupBox1.HeaderText = ""
-        Me.RadGroupBox1.Location = New System.Drawing.Point(322, 3)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(322, 26)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(188, 27)
@@ -418,7 +430,7 @@ Partial Class rptPaymentCycleWiseReport
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(15, 38)
+        Me.MyLabel2.Location = New System.Drawing.Point(15, 58)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(65, 18)
         Me.MyLabel2.TabIndex = 432
@@ -428,7 +440,7 @@ Partial Class rptPaymentCycleWiseReport
         '
         Me.txtDCS.arrDispalyMember = Nothing
         Me.txtDCS.arrValueMember = Nothing
-        Me.txtDCS.Location = New System.Drawing.Point(86, 82)
+        Me.txtDCS.Location = New System.Drawing.Point(86, 102)
         Me.txtDCS.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtDCS.MyLinkLable1 = Me.MyLabel1
         Me.txtDCS.MyLinkLable2 = Nothing
@@ -455,7 +467,7 @@ Partial Class rptPaymentCycleWiseReport
         '
         Me.txtRoute.arrDispalyMember = Nothing
         Me.txtRoute.arrValueMember = Nothing
-        Me.txtRoute.Location = New System.Drawing.Point(86, 60)
+        Me.txtRoute.Location = New System.Drawing.Point(86, 80)
         Me.txtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtRoute.MyLinkLable1 = Me.MyLabel16
         Me.txtRoute.MyLinkLable2 = Nothing
@@ -468,7 +480,7 @@ Partial Class rptPaymentCycleWiseReport
         '
         Me.MyLabel16.FieldName = Nothing
         Me.MyLabel16.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel16.Location = New System.Drawing.Point(15, 60)
+        Me.MyLabel16.Location = New System.Drawing.Point(15, 80)
         Me.MyLabel16.Name = "MyLabel16"
         Me.MyLabel16.Size = New System.Drawing.Size(36, 18)
         Me.MyLabel16.TabIndex = 427
@@ -482,7 +494,7 @@ Partial Class rptPaymentCycleWiseReport
         Me.RadGroupBox3.Controls.Add(Me.ToDate)
         Me.RadGroupBox3.Controls.Add(Me.fromDate)
         Me.RadGroupBox3.HeaderText = ""
-        Me.RadGroupBox3.Location = New System.Drawing.Point(15, 3)
+        Me.RadGroupBox3.Location = New System.Drawing.Point(15, 26)
         Me.RadGroupBox3.Name = "RadGroupBox3"
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox3.Size = New System.Drawing.Size(301, 27)
@@ -633,14 +645,13 @@ Partial Class rptPaymentCycleWiseReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'rdbNegativeAmt
+        'rcbMilkBill
         '
-        Me.rdbNegativeAmt.Location = New System.Drawing.Point(516, 38)
-        Me.rdbNegativeAmt.Name = "rdbNegativeAmt"
-        Me.rdbNegativeAmt.Size = New System.Drawing.Size(108, 18)
-        Me.rdbNegativeAmt.TabIndex = 1519
-        Me.rdbNegativeAmt.Text = "Negative Amount"
-        Me.rdbNegativeAmt.Visible = False
+        Me.rcbMilkBill.Location = New System.Drawing.Point(135, 3)
+        Me.rcbMilkBill.Name = "rcbMilkBill"
+        Me.rcbMilkBill.Size = New System.Drawing.Size(56, 18)
+        Me.rcbMilkBill.TabIndex = 1525
+        Me.rcbMilkBill.Text = "MilkBill"
         '
         'rptPaymentCycleWiseReport
         '
@@ -663,6 +674,7 @@ Partial Class rptPaymentCycleWiseReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.rdbNegativeAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
@@ -697,7 +709,7 @@ Partial Class rptPaymentCycleWiseReport
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rdbNegativeAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rcbMilkBill, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -747,5 +759,6 @@ Partial Class rptPaymentCycleWiseReport
     Friend WithEvents txtZone As common.UserControls.txtMultiSelectFinder
     Friend WithEvents btnPrintCHT As RadButton
     Friend WithEvents rdbNegativeAmt As RadCheckBox
+    Friend WithEvents rcbMilkBill As RadCheckBox
 End Class
 
