@@ -93,8 +93,7 @@ Public Class frmDBTNEFTUnionReport
         End If
         query = ""
         Dim Qry As String = Nothing
-        Qry = clsMilkUnion.UnionDBName()
-        dt = clsDBFuncationality.GetDataTable(Qry)
+        dt = clsMilkUnion.UnionDBName()
 
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             For ii As Integer = 0 To dt.Rows.Count - 1
