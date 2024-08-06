@@ -2100,7 +2100,7 @@ Left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS
 
  Left outer join TSPL_Location_MASTER on TSPL_Location_MASTER.Loc_Segment_Code=TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code And  TSPL_Location_MASTER.Rejected_Type='N' and TSPL_Location_MASTER.Location_Category='MCC' 
                 Left outer join TSPL_PAYMENT_CYCLE_GENERATED On convert(Date, TSPL_PAYMENT_CYCLE_GENERATED.From_Date, 103)<=convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) And convert(date,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103)>=convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)  And TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code=TSPL_Location_MASTER.Location_Code  
-where  TSPL_PAYMENT_PROCESS_HEAD.From_Date >= Convert(Of Date, ('" + CycleFromDate + "'),103) and	TSPL_PAYMENT_PROCESS_HEAD.To_Date<=convert(date,('" + CycleToDate + "'),103)    and  TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code='" + strMCC_Code + "' And TSPL_MCC_MASTER.MCC_Code='" + strMCC_Code + "'
+where  TSPL_PAYMENT_PROCESS_HEAD.From_Date >= Convert(Date, ('" + CycleFromDate + "'),103) and	TSPL_PAYMENT_PROCESS_HEAD.To_Date<=convert(date,('" + CycleToDate + "'),103)    and  TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code='" + strMCC_Code + "' And TSPL_MCC_MASTER.MCC_Code='" + strMCC_Code + "'
  )xxx group by Bank_Code, Branch_Name)xxxx order by GRPColumn "
                 '                Dim ssql = "select ROW_NUMBER() over ( order by GRPColumn) as SNO , * from ( select max(CycleRange) as CycleRange, max(GRPColumn) as GRPColumn,max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address, max(From_Date) as From_Date,max(GSTReg_No) as GSTReg_No,max(Fiscal_Name) as Fiscal_Name,max(CycleNo) as CycleNo,max(Date_Range) as Date_Range,Bank_Code,Branch_Name,max(Bank_Code_Desc) as Bank_Code_Desc, max (Payee_Joint_IFSC_Code) as Payee_Joint_IFSC_Code,max(Payee_Joint_Account_No) as Payee_Joint_Account_No,max(payamt) as Amount ,max(Payable_Amount) as Payable_Amount
                 ',max(CompPhone) as CompPhone,max(Regn_No) as Regn_No,max(MCC_NAME) as MCC_NAME
@@ -2415,11 +2415,11 @@ where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ") )x group by VSP_
         whrclsItemWise += "  and convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + fromDate + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + Todate + "'),103) "
         Dim CycleNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select max(Name) as CycleNo from TSPL_PAYMENT_CYCLE_GENERATED where convert(varchar, From_Date,103) = convert(varchar, '" + fromDate + "',103) "))
         Dim BaseQry As String = ""
-        BaseQry = "select '" & User_Name & "' as User_Name,TSPL_COMPANY_MASTER.GSTReg_No, TBL_BILL_DETAILS.Doc_No as PPDoc_No,'" + clsCommon.myCstr(clsCommon.GetPrintDate(fromDate, "dd/MM/yyyy")) + "' as PPDoc_Date,'" + CycleNo + "' as CycleNo, TBL_BILL_DETAILS.BillNo, TBL_BILL_DETAILS.BillDate, round ( TSPL_PRICE_CHART_PLANNING.Price_Chart_FAT_Ratio * TSPL_PRICE_CHART_PLANNING.Price_Chart_Rate / nullif (TSPL_PRICE_CHART_PLANNING.Price_Chart_FAT_Per,0) , 2,1 ) as PC_FATValue , round (  TSPL_PRICE_CHART_PLANNING.Price_Chart_SNF_Ratio * TSPL_PRICE_CHART_PLANNING.Price_Chart_Rate / nullif (TSPL_PRICE_CHART_PLANNING.Price_Chart_SNF_Per,0),2,1)  as PC_SNFValue,  isnull(TSPL_VENDOR_MASTER.Actual_charges,0) as Actual_charges,isnull (TSPL_VENDOR_MASTER.Rate_Head_Load,0) as Rate_Head_Load,"
+        BaseQry = "select '" & User_Name & "' as User_Name,TSPL_COMPANY_MASTER.GSTReg_No, TBL_BILL_DETAILS.Doc_No as PPDoc_No,'" + clsCommon.myCstr(clsCommon.GetPrintDate(fromDate, "dd/MM/yyyy")) + "' as PPDoc_Date,'" + CycleNo + "' as CycleNo, TBL_BILL_DETAILS.BillNo, TBL_BILL_DETAILS.BillDate, round ( TSPL_PRICE_CHART_PLANNING.Price_Chart_FAT_Ratio * TSPL_PRICE_CHART_PLANNING.Price_Chart_Rate / nullif (TSPL_PRICE_CHART_PLANNING.Price_Chart_FAT_Per,0) , 2,1 ) as PC_FATValue , round (  TSPL_PRICE_CHART_PLANNING.Price_Chart_SNF_Ratio * TSPL_PRICE_CHART_PLANNING.Price_Chart_Rate / nullif (TSPL_PRICE_CHART_PLANNING.Price_Chart_SNF_Per,0),2,1)  as PC_SNFValue,  isnull(TSPL_VENDOR_MASTER.Actual_charges,0) as Actual_charges, "
 
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-            BaseQry += "ISnull(Headload.Head_Load_Rate, 0)Head_Load_Rate,"
-        End If
+        'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+        BaseQry += " ISnull(Headload.Head_Load_Rate, 0)Rate_Head_Load, "
+        'End If
 
         BaseQry += " isnull(TSPL_MILK_PURCHASE_INVOICE_HEAD.Handling_Charges_Amount,0) as Handling_Charges_Amount , TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE as MPD ,convert(varchar,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) as MPI_Date,   TSPL_MCC_MASTER.add1 +case when len(TSPL_MCC_MASTER.add2)>0 then ', '+TSPL_MCC_MASTER.add2 else '' end + case when LEN(TSPL_COMPANY_MASTER.City_Code)>0 then ', '+MCC_City.City_Name  else ' ' end + case when len(TSPL_MCC_MASTER.State_Code )>0 then MCC_State.STATE_NAME else '' end  as MCC_address, 
 '" & fromDate & "'  as fromDate ,'" & Todate & "'  as Todate
@@ -2499,7 +2499,7 @@ TSPL_VLC_MASTER_HEAD.VLC_Name ,TSPL_VLC_MASTER_HEAD.VLC_Name_Hindi,coalesce(TSPL
             BaseQry += ",Tab_TSPL_PRICE_CHART_PLANNING_TSDDCF.Rate_Per as Planing_Rate_Per,Tab_TSPL_PRICE_CHART_PLANNING_TSDDCF.Fixed_Rate as Planing_Fixed_Rate,tspl_vendor_master.Email"
         End If
         BaseQry += ",convert(varchar,TSPL_MILK_PURCHASE_INVOICE_HEAD.Created_Date,103) as MPI_CREATED_Date,TSPL_MILK_SRN_DETAIL.ACC_Qty_LTR as 'Milk Weight LTR'," + clsCommon.myCstr(IncentiveRate) + " as IncentiveRate,TSPL_MILK_PURCHASE_INVOICE_DETAIL.Cans,FORMAT(CONVERT(date,'" + clsCommon.myCstr(clsCommon.GetPrintDate(Todate, "dd/MM/yyyy")) + "' ,103),'ddd') as DaysName,PaymentProcess.Compulsory_Amount,TSPL_VENDOR_MASTER.PAN
-                    ,TSPL_VENDOR_MASTER.RegistrationNo "
+                    ,TSPL_VENDOR_MASTER.RegistrationNo,Price_Chart.CircularNo "
 
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal AndAlso PaymentProcessInHindi = True AndAlso isprintHindi Then
             BaseQry += " ,TabMilkPurchase.Amount as DCSEXPAmt "
@@ -2542,14 +2542,14 @@ TSPL_VLC_MASTER_HEAD.VLC_Name ,TSPL_VLC_MASTER_HEAD.VLC_Name_Hindi,coalesce(TSPL
         'Else
         '    BaseQry += " left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_Code " + Environment.NewLine
         'End If
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-            BaseQry += " left join(select VLC_CODE,Max(Head_Load_Rate)Head_Load_Rate from TSPL_HEAD_LOAD_DCS left outer join TSPL_HEAD_LOAD on TSPL_HEAD_LOAD.Document_No = TSPL_HEAD_LOAD_DCS.Document_No
+        'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+        BaseQry += " left join(select VLC_CODE,Max(Head_Load_Rate)Head_Load_Rate from TSPL_HEAD_LOAD_DCS left outer join TSPL_HEAD_LOAD on TSPL_HEAD_LOAD.Document_No = TSPL_HEAD_LOAD_DCS.Document_No
                          group by VLC_CODE )Headload on TSPL_VLC_MASTER_HEAD.VLC_Code = Headload.VLC_CODE "
             'BaseQry += " Left Outer Join TSPL_HEAD_LOAD_DCS On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_HEAD_LOAD_DCS.VLC_CODE " + Environment.NewLine
-        End If
-        'Comment by balwinder on 26/03/2024 as TSPL_TRANSFER_TO_SAVING_DETAIL is not used in this query
-        'BaseQry += " left outer join TSPL_TRANSFER_TO_SAVING_DETAIL  on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_TRANSFER_TO_SAVING_DETAIL.Vendor_Code " + Environment.NewLine
-        BaseQry += " left outer join TSPL_PRICE_CHART_PLANNING on TSPL_PRICE_CHART_PLANNING.Planning_Code=TSPL_MILK_SRN_DETAIL.Price_Code " + Environment.NewLine
+            'End If
+            'Comment by balwinder on 26/03/2024 as TSPL_TRANSFER_TO_SAVING_DETAIL is not used in this query
+            'BaseQry += " left outer join TSPL_TRANSFER_TO_SAVING_DETAIL  on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_TRANSFER_TO_SAVING_DETAIL.Vendor_Code " + Environment.NewLine
+            BaseQry += " left outer join TSPL_PRICE_CHART_PLANNING on TSPL_PRICE_CHART_PLANNING.Planning_Code=TSPL_MILK_SRN_DETAIL.Price_Code " + Environment.NewLine
         BaseQry += " left join TSPL_CITY_MASTER  as MCC_City on MCC_City.city_code=TSPL_MCC_MASTER.City_code " + Environment.NewLine
         BaseQry += " left join TSPL_STATE_MASTER as MCC_State on MCC_State.STATE_CODE =TSPL_MCC_MASTER.State_Code " + Environment.NewLine
         BaseQry += " left join TSPL_Primary_Vehicle_Master on TSPL_Primary_Vehicle_Master.VEHICLE_CODE = TSPL_MILK_SRN_HEAD.VEHICLE_CODE 
@@ -2558,7 +2558,7 @@ left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_MILK_SRN_D
 
 
         BaseQry += " left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_MILK_PURCHASE_INVOICE_Head.Comp_Code " + Environment.NewLine
-        BaseQry += " left join (select distinct FAT_Pers,SNF_Pers,Ratio as Fat_ratio,SNF_Ratio, Milk_Rate,TSPL_MILK_PRICE_MASTER.Price_Code,TSPL_FAT_SNF_UPLOADER_MASTER.code    from TSPL_FAT_SNF_UPLOADER_MASTER inner join  TSPL_MILK_PRICE_MASTER  on TSPL_MILK_PRICE_MASTER.Price_Code=TSPL_FAT_SNF_UPLOADER_MASTER.Price_Code) as  Price_Chart    on TSPL_MILK_SRN_DETAIL.Price_Code=Price_Chart.Code "
+        BaseQry += " left join (select distinct FAT_Pers,SNF_Pers,Ratio as Fat_ratio,SNF_Ratio, Milk_Rate,TSPL_MILK_PRICE_MASTER.Price_Code,TSPL_FAT_SNF_UPLOADER_MASTER.code,TSPL_FAT_SNF_UPLOADER_MASTER.CircularNo    from TSPL_FAT_SNF_UPLOADER_MASTER inner join  TSPL_MILK_PRICE_MASTER  on TSPL_MILK_PRICE_MASTER.Price_Code=TSPL_FAT_SNF_UPLOADER_MASTER.Price_Code) as  Price_Chart    on TSPL_MILK_SRN_DETAIL.Price_Code=Price_Chart.Code "
         BaseQry += " left outer join TSPL_VILLAGE_MASTER on TSPL_VILLAGE_MASTER.Village_Code = TSPL_VLC_MASTER_HEAD.Village_Code " + Environment.NewLine +
         " left join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No  
         Left Join(select max(created_date) As created_date, VLC_Code, VSP_CODE, sum(Total_EMP_Amount) As Total_EMP_Amount, sum(Incentive_Amount) As Incentive_Amount, sum(Incentive_EMP_Amount) As Incentive_EMP_Amount, sum(EMP_Amount) As EMP_Amount, sum(Vsp_Own_System_Amount) As Vsp_Own_System_Amount, sum(Head_Load_Amount) As Head_Load_Amount, sum(Payable_Amount) As Payable_Amount, sum(Credit_Note_Amount)As Credit_Note_Amount, sum(Deduction_Amount) As Deduction_Amount, sum(Item_Issue_Amount) As Item_Issue_Amount, sum(Item_Issue_Return_Amount) As Item_Issue_Return_Amount, sum(MCC_Sale_Amount) As MCC_Sale_Amount , sum(MCC_Sale_Return_Amount) As MCC_Sale_Return_Amount,sum(Compulsory_Amount) as Compulsory_Amount,MAX(Area_Location_Code)Area_Location_Code,max(Payee_Joint_Account_No)Payee_Joint_Account_No,max(Payee_Joint_Branch_Name)Payee_Joint_Branch_Name from (Select TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code,TSPL_PAYMENT_PROCESS_HEAD.Created_Date  , TSPL_PAYMENT_PROCESS_DETAIL.Incentive_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Incentive_EMP_Amount, TSPL_PAYMENT_PROCESS_DETAIL.EMP_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Vsp_Own_System_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Total_EMP_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount, TSPL_VLC_MASTER_HEAD.VLC_Code, TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE, TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Credit_Note_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Deduction_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Item_Issue_Return_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Item_Issue_Amount, TSPL_PAYMENT_PROCESS_DETAIL.MCC_Sale_Amount, TSPL_PAYMENT_PROCESS_DETAIL.MCC_Sale_Return_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Account_No,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Branch_Name  from TSPL_PAYMENT_PROCESS_DETAIL"

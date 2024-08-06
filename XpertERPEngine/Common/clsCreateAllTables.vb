@@ -105,7 +105,7 @@ Public Class clsCreateAllTables
 
                 clsCreateAllTables.ExecuteQeuryWithCatch("ALTER TABLE TSPL_ITEM_PRICE_MASTER DROP CONSTRAINT PK__TSPL_ITE__813413F65EC63012")
                 clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_MASTER alter column Item_Basic_Net decimal(18,6) not null")
-                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_MASTER alter column Item_Basic_Price decimal(18,6)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_MASTER alter column Item_Basic_Price decimal(18,6) not null")
                 clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_MASTER alter column Item_Selling_Price decimal(18,6) not null")
                 clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_MASTER alter column Price_Amount1 decimal(18,6)")
                 clsCreateAllTables.ExecuteQeuryWithCatch("alter table TSPL_ITEM_PRICE_MASTER alter column Price_Amount2 decimal(18,6)")
@@ -135,7 +135,7 @@ Public Class clsCreateAllTables
                 clsCreateAllTables.ExecuteQeuryWithCatch("ALTER TABLE TSPL_ITEM_PRICE_MASTER ALTER COLUMN tax9_amt decimal(18,6)")
                 clsCreateAllTables.ExecuteQeuryWithCatch("ALTER TABLE TSPL_ITEM_PRICE_MASTER ALTER COLUMN tax10_amt decimal(18,6)")
                 'clsCreateAllTables.'--alter table TSPL_ITEM_PRICE_MASTER alter column Item_Baisc_Price decimal(18,6)")
-                clsCreateAllTables.ExecuteQeuryWithCatch("CREATE INDEX PK__TSPL_ITE__813413F65EC63012 ON TSPL_ITEM_PRICE_MASTER (Item_Code, UOM, Start_Date, Price_Code, Item_Basic_Net, Item_Basic_Price, Location_Code)")
+                clsCreateAllTables.ExecuteQeuryWithCatch("ALTER TABLE TSPL_ITEM_PRICE_MASTER ADD CONSTRAINT PK__TSPL_ITE__813413F65EC63012 PRIMARY KEY (Item_Code, UOM, Start_Date, Price_Code, Item_Basic_Net, Item_Basic_Price, Location_Code)")
                 '-- Alter Price plan tax is 2 to 6 decimal point
                 clsCreateAllTables.ExecuteQeuryWithCatch("ALTER TABLE TSPL_ITEM_PRICE_PLAN_DETAIL ALTER COLUMN tax1_amt decimal(18,6)")
                 clsCreateAllTables.ExecuteQeuryWithCatch("ALTER TABLE TSPL_ITEM_PRICE_PLAN_DETAIL ALTER COLUMN tax2_amt decimal(18,6)")

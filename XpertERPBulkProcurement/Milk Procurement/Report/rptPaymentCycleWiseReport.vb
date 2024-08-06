@@ -30,7 +30,15 @@ Public Class rptPaymentCycleWiseReport
     Private Sub fun_gridfill()
         dgv_Groupmapping.AutoGenerateColumns = False
         Try
-            Dim strQuery As String = "select Doc_No,concat(convert(varchar,From_Date,103),' - ',convert(varchar,To_Date,103)) as Description from TSPL_PAYMENT_PROCESS_HEAD"
+            Dim strQuery As String = Nothing
+            If rcbMilkBill.Checked = True Then
+                strQuery = "select Doc_No,concat(convert(varchar,From_Date,103),' - ',convert(varchar,To_Date,103)) as Description from TSPL_PAYMENT_PROCESS_HEAD where 
+                            convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date) >= CONVERT(DATE, '" & clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") & "', 103)
+                            and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date) <= CONVERT(DATE, '" & clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") & "', 103)"
+            Else
+                strQuery = "select Doc_No,concat(convert(varchar,From_Date,103),' - ',convert(varchar,To_Date,103)) as Description from TSPL_PAYMENT_PROCESS_HEAD"
+            End If
+            ' Dim strQuery As String = "select Doc_No,concat(convert(varchar,From_Date,103),' - ',convert(varchar,To_Date,103)) as Description from TSPL_PAYMENT_PROCESS_HEAD"
             transportSql.FillGridView(strQuery, dgv_Groupmapping)
             dgv_Groupmapping.Columns(0).FieldName = "Doc_No"
             dgv_Groupmapping.Columns(1).FieldName = "Description"
@@ -58,6 +66,7 @@ Public Class rptPaymentCycleWiseReport
         RadGroupBox1.Enabled = val
         chkShowData.Enabled = val
         RadGroupBox2.Enabled = val
+        rcbMilkBill.Enabled = val
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs)
@@ -474,5 +483,18 @@ Public Class rptPaymentCycleWiseReport
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub rcbMilkBill_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rcbMilkBill.ToggleStateChanged
+        ToDate.ReadOnly = True
+        'fun_gridfill()
+    End Sub
+
+    Private Sub fromDate_ValueChanged(sender As Object, e As EventArgs) Handles fromDate.ValueChanged
+
+    End Sub
+
+    Private Sub ToDate_ValueChanged(sender As Object, e As EventArgs) Handles ToDate.ValueChanged
+        fun_gridfill()
     End Sub
 End Class

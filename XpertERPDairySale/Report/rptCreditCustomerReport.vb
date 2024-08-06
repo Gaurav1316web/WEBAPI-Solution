@@ -1,4 +1,9 @@
 ﻿Imports common
+Imports System.Diagnostics
+Imports System.IO
+Imports System.Windows.Forms
+Imports System.Drawing.Printing
+'Imports PdfiumViewer
 
 Public Class rptCreditCustomerReport
 
@@ -24,7 +29,12 @@ Public Class rptCreditCustomerReport
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
             Dim qry As String = ""
-
+            Dim whrcls As String = ""
+            If rbtnMilkType.IsChecked Then
+                whrcls += " and  Is_FreshItem = 1"
+            ElseIf rbtnProduct.IsChecked Then
+                whrcls += " and  Is_Ambient = 1"
+            End If
             qry = " Select '" & clsCommon.GetPrintDate(txtfromDate.Value, "dd/MMM/yyyy") & "' as FromDate,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "' as ToDate,'" + objCommonVar.CurrentUser + "' as UserName,TSPL_DEMAND_BOOKING_MASTER.Route_No,
                     TSPL_CUSTOMER_MASTER.Credit_Customer, TSPL_DEMAND_BOOKING_MASTER.ShiftType, case when TSPL_ITEM_MASTER.Is_Ambient = 1 then round((isnull(TSPL_DEMAND_BOOKING_DETAIL.Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.KG,2) 
 		            else (case when TSPL_ITEM_MASTER.Is_FreshItem = 1 then round((isnull(TSPL_DEMAND_BOOKING_DETAIL.Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[LTR],2) else 0 end ) end as Final_Qty,case when TSPL_ITEM_MASTER.Is_FreshItem = 1 then	round((isnull(TSPL_DEMAND_BOOKING_DETAIL.Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.KG,2) else 0 end as Kg_Qty , tspl_company_master.State,tspl_company_master.City_Code,tspl_company_master.Circle_No,tspl_company_master.Phone1,tspl_company_master.Phone2,   tspl_company_master.Comp_Name,tspl_company_master.Add1,tspl_company_master.Add2,tspl_company_master.Pincode,tspl_company_master.Fax, TSPL_ITEM_MASTER.Sku_Seq, TSPL_CUSTOMER_MASTER.Display_Seq,
@@ -42,7 +52,7 @@ Public Class rptCreditCustomerReport
 		            left outer join tspl_company_master on 2 = 2
                     left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_DEMAND_BOOKING_DETAIL.Item_Code = I.item_code 
                     WHERE  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date) >= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtfromDate.Value, "dd/MMM/yyyy") & "', 103) 
-                    and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date) <= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "', 103) and Credit_Customer='Y' "
+                    and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date) <= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "', 103) and Credit_Customer='Y' " & whrcls & " "
 
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)

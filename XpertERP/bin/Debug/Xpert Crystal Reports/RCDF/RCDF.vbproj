@@ -1515,6 +1515,8 @@
     <None Include="Crystal Reports\New Sales Reports\Libraries - Shortcut.lnk" />
     <None Include="Crystal Reports\New Sales Reports\New Sales Reports - Shortcut.lnk" />
     <None Include="Crystal Reports\New Sales Reports\rptCompanyAddress.rpt" />
+    <None Include="Crystal Reports\New Sales Reports\rptDairySaleBoothTruckSheet.rpt" />
+    <None Include="Crystal Reports\New Sales Reports\rptDairySaleBoothTruckSheetInHindi.rpt" />
     <None Include="Crystal Reports\New Sales Reports\rptExportSaleInvoice.rpt" />
     <None Include="Crystal Reports\New Sales Reports\rptFreshSaleInvoice.rpt" />
     <None Include="Crystal Reports\New Sales Reports\rptPaySlip.rpt" />

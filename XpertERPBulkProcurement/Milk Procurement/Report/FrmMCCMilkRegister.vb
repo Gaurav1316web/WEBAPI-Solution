@@ -222,1884 +222,80 @@ Public Class FrmMCCMilkRegister
         End If
 
         If rbtnCollectionSummary.Checked = False Then
-            If chkDateShift.Checked Then
-                gv.Columns("Total FAT").IsVisible = False
-                gv.Columns("Total SNF").IsVisible = False
-                gv.Columns("Milk Weight Sweet(KG)").HeaderText = "QTY"
-                gv.Columns("Sweet FAT(KG)").HeaderText = "KGFAT"
-                gv.Columns("Sweet SNF(KG)").HeaderText = "KGSNF"
-                gv.Columns("Milk Weight Sour(KG)").HeaderText = "QTY"
-                gv.Columns("Sour FAT(KG)").HeaderText = "KGFAT"
-                gv.Columns("Sour SNF(KG)").HeaderText = "KGSNF"
-                gv.Columns("Milk Weight Curd(KG)").HeaderText = "QTY"
-                gv.Columns("No Of Cans").HeaderText = "CANS"
-                gv.Columns("TotalQty").HeaderText = "QTY"
-                gv.Columns("FAT(%)").HeaderText = "FAT"
-                gv.Columns("FAT(%)").FormatString = "{0:n2}"
-                gv.Columns("SNF(%)").HeaderText = "SNF"
-                gv.Columns("SNF(%)").FormatString = "{0:n2}"
+            If Not rbtnShiftWiseTotal.Checked Then
+                If chkDateShift.Checked Then
+                    gv.Columns("Total FAT").IsVisible = False
+                    gv.Columns("Total SNF").IsVisible = False
+                    gv.Columns("Milk Weight Sweet(KG)").HeaderText = "QTY"
+                    gv.Columns("Sweet FAT(KG)").HeaderText = "KGFAT"
+                    gv.Columns("Sweet SNF(KG)").HeaderText = "KGSNF"
+                    gv.Columns("Milk Weight Sour(KG)").HeaderText = "QTY"
+                    gv.Columns("Sour FAT(KG)").HeaderText = "KGFAT"
+                    gv.Columns("Sour SNF(KG)").HeaderText = "KGSNF"
+                    gv.Columns("Milk Weight Curd(KG)").HeaderText = "QTY"
+                    gv.Columns("No Of Cans").HeaderText = "CANS"
+                    gv.Columns("TotalQty").HeaderText = "QTY"
+                    gv.Columns("FAT(%)").HeaderText = "FAT"
+                    gv.Columns("FAT(%)").FormatString = "{0:n2}"
+                    gv.Columns("SNF(%)").HeaderText = "SNF"
+                    gv.Columns("SNF(%)").FormatString = "{0:n2}"
 
 
 
 
-            Else
-                If gv.Columns.Contains("Cow Milk Qty (Ltr)") = True Then
-                    gv.Columns("Cow Milk Qty (Ltr)").IsVisible = False
-                End If
-                If gv.Columns.Contains("Buffalo Milk Qty (Ltr)") = True Then
-                    gv.Columns("Buffalo Milk Qty (Ltr)").IsVisible = False
-                End If
-                If gv.Columns.Contains("Handling_Charges_Amount") = True Then
-                    gv.Columns("Handling_Charges_Amount").IsVisible = True
-                    gv.Columns("Handling_Charges_Amount").Width = 100
-                    gv.Columns("Handling_Charges_Amount").HeaderText = "Handling Charges"
-                End If
-
-                If gv.Columns.Contains("Transporter Code") = True Then
-                    gv.Columns("Transporter Code").IsVisible = True
-                    gv.Columns("Transporter Code").Width = 75
-                    gv.Columns("Transporter Code").HeaderText = "Transporter Code"
-                End If
-
-                If gv.Columns.Contains("Transporter Name") = True Then
-                    gv.Columns("Transporter Name").IsVisible = True
-                    gv.Columns("Transporter Name").Width = 75
-                    gv.Columns("Transporter Name").HeaderText = "Transporter Name"
-                End If
-
-                If gv.Columns.Contains("price_code") = True Then
-                    gv.Columns("price_code").IsVisible = True
-                    gv.Columns("price_code").Width = 100
-                    gv.Columns("price_code").HeaderText = "Price Code"
-                End If
-
-                If gv.Columns.Contains("Plant Code") = True Then
-                    gv.Columns("Plant Code").IsVisible = False
-                    gv.Columns("Plant Name").IsVisible = False
-                End If
-
-                If gv.Columns.Contains("Planning_Code") = True Then
-                    gv.Columns("Planning_Code").IsVisible = True
-                    gv.Columns("Planning_Code").HeaderText = "Price Plan Code"
-                End If
-                If gv.Columns.Contains("Planning_Posted_Date") = True Then
-                    gv.Columns("Planning_Posted_Date").IsVisible = True
-                    gv.Columns("Planning_Posted_Date").HeaderText = "Price Plan Posted Date"
-                End If
-                If gv.Columns.Contains("Planning_Posted_Time") = True Then
-                    gv.Columns("Planning_Posted_Time").IsVisible = True
-                    gv.Columns("Planning_Posted_Time").HeaderText = "Price Plan Posted Time"
-                End If
-
-                If gv.Columns.Contains("Declared_Rate") = True Then
-                    gv.Columns("Declared_Rate").IsVisible = True
-                    gv.Columns("Declared_Rate").HeaderText = "Standard Rate"
-                End If
-
-                gv.Columns("VSP_Commission_Amount").IsVisible = True
-                gv.Columns("VSP_Commission_Amount").Width = 100
-                gv.Columns("VSP_Commission_Amount").HeaderText = "Secretary Commission Amount"
-
-                gv.Columns("VSP_Deduction_Amount").IsVisible = True
-                gv.Columns("VSP_Deduction_Amount").Width = 100
-                gv.Columns("VSP_Deduction_Amount").HeaderText = "Secretary Quality Deduction Amount"
-                If gv.Columns.Contains("VSP_Day_Wise_Incentive") = True Then
-                    gv.Columns("VSP_Day_Wise_Incentive").IsVisible = True
-                    gv.Columns("VSP_Day_Wise_Incentive").Width = 100
-                    gv.Columns("VSP_Day_Wise_Incentive").HeaderText = "Secretary Day Incentive Amount"
-                End If
-
-                If gv.Columns.Contains("Vehicle") Then
-                    gv.Columns("Vehicle").Width = 100
-                    gv.Columns("Vehicle").IsVisible = ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster
-                End If
-
-                If ChkDetailWise.Checked Then
-                    gv.Columns("Milk Receipt Code").IsVisible = True
-                    gv.Columns("Milk Receipt Code").Width = 100
-                    gv.Columns("Milk Receipt Code").HeaderText = " Milk Receipt Code"
-
-                    gv.Columns("MCC Code").IsVisible = True
-                    gv.Columns("MCC Code").Width = 100
-                    gv.Columns("MCC Code").HeaderText = "MCC Code"
-
-                    gv.Columns("MCC Type").IsVisible = False
-                    gv.Columns("Chilling Center").IsVisible = False
-
-                    gv.Columns("Shift").IsVisible = True
-
-                    gv.Columns("MCC Name").IsVisible = True
-                    gv.Columns("MCC Name").Width = 100
-                    gv.Columns("MCC Name").HeaderText = "MCC Name"
-
-                    gv.Columns("Doc Date").IsVisible = True
-                    gv.Columns("Doc Date").Width = 100
-                    gv.Columns("Doc Date").HeaderText = " Doc Date"
-
-                    gv.Columns("Route Code").IsVisible = True
-                    gv.Columns("Route Code").Width = 100
-                    gv.Columns("Route Code").HeaderText = "Route Code"
-
-                    gv.Columns("Route Name").IsVisible = True
-                    gv.Columns("Route Name").Width = 100
-                    gv.Columns("Route Name").HeaderText = "Route Name"
-
-                    gv.Columns("Vehicle Code").IsVisible = True
-                    gv.Columns("Vehicle Code").Width = 100
-                    gv.Columns("Vehicle Code").HeaderText = "Vehicle Code"
-
-                    gv.Columns("VSP Code").IsVisible = True
-                    gv.Columns("VSP Code").Width = 100
-                    gv.Columns("VSP Code").HeaderText = " Secretary Code"
-
-                    gv.Columns("VSP Name").IsVisible = True
-                    gv.Columns("VSP Name").Width = 100
-                    gv.Columns("VSP Name").HeaderText = "Secretary Name"
-
-                    gv.Columns("Vendor Group Code").IsVisible = True
-                    gv.Columns("Vendor Group Code").Width = 100
-                    gv.Columns("Vendor Group Code").HeaderText = "Vendor Group Code"
-
-                    gv.Columns("Vlc Uploader Code").IsVisible = True
-                    gv.Columns("Vlc Uploader Code").Width = 100
-                    gv.Columns("Vlc Uploader Code").HeaderText = "Dcs Uploader Code"
-
-                    gv.Columns("Vlc Code").IsVisible = True
-                    gv.Columns("Vlc Code").Width = 100
-                    gv.Columns("Vlc Code").HeaderText = " Dcs Code"
-
-                    gv.Columns("VLC Name").IsVisible = True
-                    gv.Columns("VLC Name").Width = 100
-                    gv.Columns("VLC Name").HeaderText = "DCS Name"
-
-                    gv.Columns("Item_Code").IsVisible = True
-                    gv.Columns("Item_Code").Width = 100
-                    gv.Columns("Item_Code").HeaderText = "Item Code"
-
-                    gv.Columns("Item_Desc").IsVisible = True
-                    gv.Columns("Item_Desc").Width = 150
-                    gv.Columns("Item_Desc").HeaderText = "Item"
-
-                    gv.Columns("Sample No").IsVisible = True
-                    gv.Columns("Sample No").Width = 100
-                    gv.Columns("Sample No").HeaderText = "Sample No"
-                    gv.Columns("Sample No").FormatString = "{0:n0}"
-
-                    gv.Columns("No Of Cans").IsVisible = True
-                    gv.Columns("No Of Cans").Width = 100
-                    gv.Columns("No Of Cans").HeaderText = "No Of Cans"
-                    gv.Columns("No Of Cans").FormatString = "{0:n0}"
-
-                    gv.Columns("Milk Weight").IsVisible = True
-                    gv.Columns("Milk Weight").Width = 100
-                    gv.Columns("Milk Weight").HeaderText = "Milk Weight"
-
-                    gv.Columns("Milk Weight(KG)").IsVisible = True
-                    gv.Columns("Milk Weight(KG)").Width = 100
-                    gv.Columns("Milk Weight(KG)").HeaderText = "Milk Weight(KG)"
-
-                    gv.Columns("Milk Weight(LTR)").IsVisible = True
-                    gv.Columns("Milk Weight(LTR)").Width = 100
-                    gv.Columns("Milk Weight(LTR)").HeaderText = "Milk Weight(LTR)"
-
-
-
-                    gv.Columns("FAT(%)").IsVisible = True
-                    gv.Columns("FAT(%)").Width = 100
-                    gv.Columns("FAT(%)").HeaderText = " FAT(%)"
-
-                    gv.Columns("SNF(%)").IsVisible = True
-                    gv.Columns("SNF(%)").Width = 100
-                    gv.Columns("SNF(%)").HeaderText = "SNF(%)"
-
-                    If gv.Columns.Contains("Capping_FAT") Then
-                        gv.Columns("Capping_FAT").IsVisible = False
-                        gv.Columns("Capping_FAT").HeaderText = "Before Capping FAT(%)"
+                Else
+                    If gv.Columns.Contains("Cow Milk Qty (Ltr)") = True Then
+                        gv.Columns("Cow Milk Qty (Ltr)").IsVisible = False
                     End If
-                    If gv.Columns.Contains("Capping_SNF") Then
-                        gv.Columns("Capping_SNF").IsVisible = False
-                        gv.Columns("Capping_SNF").HeaderText = "Before Capping SNF(%)"
+                    If gv.Columns.Contains("Buffalo Milk Qty (Ltr)") = True Then
+                        gv.Columns("Buffalo Milk Qty (Ltr)").IsVisible = False
+                    End If
+                    If gv.Columns.Contains("Handling_Charges_Amount") = True Then
+                        gv.Columns("Handling_Charges_Amount").IsVisible = True
+                        gv.Columns("Handling_Charges_Amount").Width = 100
+                        gv.Columns("Handling_Charges_Amount").HeaderText = "Handling Charges"
                     End If
 
-                    gv.Columns("FAT(KG)").IsVisible = True
-                    gv.Columns("FAT(KG)").Width = 100
-                    gv.Columns("FAT(KG)").HeaderText = " FAT(KG)"
-                    gv.Columns("FAT(KG)").FormatString = "{0:n3}"
-
-                    gv.Columns("SNF(KG)").IsVisible = True
-                    gv.Columns("SNF(KG)").Width = 100
-                    gv.Columns("SNF(KG)").HeaderText = "SNF(KG)"
-                    gv.Columns("SNF(KG)").FormatString = "{0:n3}"
-
-
-                    gv.Columns("Cow Milk Qty (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Cow Milk Qty (KG)").Width = 100
-                    gv.Columns("Cow Milk Qty (KG)").HeaderText = "Cow Milk Qty (KG)"
-
-                    gv.Columns("Cow FAT(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Cow FAT(%)").Width = 100
-                    gv.Columns("Cow FAT(%)").HeaderText = "Cow FAT(%)"
-
-                    gv.Columns("Cow SNF(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Cow SNF(%)").Width = 100
-                    gv.Columns("Cow SNF(%)").HeaderText = "Cow SNF(%)"
-
-                    gv.Columns("Cow FAT (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Cow FAT (KG)").Width = 100
-                    gv.Columns("Cow FAT (KG)").HeaderText = "Cow FAT (KG)"
-
-                    gv.Columns("Cow SNF (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Cow SNF (KG)").Width = 100
-                    gv.Columns("Cow SNF (KG)").HeaderText = "Cow SNF (KG)"
-
-                    gv.Columns("Cow CLR").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Cow CLR").Width = 100
-                    gv.Columns("Cow CLR").HeaderText = "Buffalo CLR"
-
-                    gv.Columns("Buffalo CLR").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Buffalo CLR").Width = 100
-                    gv.Columns("Buffalo CLR").HeaderText = "Buffalo CLR"
-
-                    gv.Columns("Buffalo Milk Qty (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Buffalo Milk Qty (KG)").Width = 100
-                    gv.Columns("Buffalo Milk Qty (KG)").HeaderText = "Buffalo Milk Qty (KG)"
-
-                    gv.Columns("Buffalo SNF(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Buffalo SNF(%)").Width = 100
-                    gv.Columns("Buffalo SNF(%)").HeaderText = "Buffalo SNF(%)"
-
-                    gv.Columns("Buffalo FAT(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Buffalo FAT(%)").Width = 100
-
-                    gv.Columns("Buffalo SNF (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Buffalo SNF (KG)").Width = 100
-                    gv.Columns("Buffalo SNF (KG)").HeaderText = "Buffalo FAT (KG)"
-
-                    gv.Columns("Buffalo FAT (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Buffalo FAT (KG)").Width = 100
-                    gv.Columns("Buffalo FAT (KG)").HeaderText = "Buffalo FAT (KG)"
-
-                    gv.Columns("Milk Type").IsVisible = True
-                    gv.Columns("Milk Type").Width = 100
-                    gv.Columns("Milk Type").HeaderText = " Milk Type"
-
-                    gv.Columns("SRN No").IsVisible = True
-                    gv.Columns("SRN No").Width = 100
-                    gv.Columns("SRN No").HeaderText = "SRN No"
-
-                    gv.Columns("SRN Amount").IsVisible = True
-                    gv.Columns("SRN Amount").Width = 100
-                    gv.Columns("SRN Amount").HeaderText = "SRN Amount"
-
-                    gv.Columns("SRN No").IsVisible = True
-                    gv.Columns("SRN No").Width = 100
-                    gv.Columns("SRN No").HeaderText = "SRN No"
-
-                    gv.Columns("SRN Qty").IsVisible = True
-                    gv.Columns("SRN Qty").Width = 100
-                    gv.Columns("SRN Qty").HeaderText = "SRN Qty"
-
-                    gv.Columns("SRN Rate").IsVisible = True
-                    gv.Columns("SRN Rate").Width = 100
-                    gv.Columns("SRN Rate").HeaderText = "SRN Rate"
-                    gv.Columns("SRN Rate").FormatString = "{0:n3}"
-
-                    gv.Columns("Shift Status").IsVisible = True
-                    gv.Columns("Shift Status").Width = 100
-                    gv.Columns("Shift Status").HeaderText = "Shift Status"
-
-                    gv.Columns("Invoice_no").IsVisible = True
-                    gv.Columns("Invoice_no").Width = 100
-                    gv.Columns("Invoice_no").HeaderText = "Invoice No"
-
-                    gv.Columns("Invoice_Date").IsVisible = True
-                    gv.Columns("Invoice_Date").Width = 100
-                    gv.Columns("Invoice_Date").HeaderText = "Invoice Date"
-                    'TankerFromMaster = 1 AndAlso
-                    gv.Columns("Purchase_Order_No").IsVisible = (chkRejection.Checked = True OrElse chkOnlyRejection.Checked = True) ''BHA/09/07/18-000138  by balwinder on 11/07/2018
-                    gv.Columns("Purchase_Order_No").Width = 100
-                    gv.Columns("Purchase_Order_No").HeaderText = "PO No"
-
-                    gv.Columns("Date").IsVisible = False
-
-                    gv.Columns("Head_Load_Amount").IsVisible = True
-                    gv.Columns("Head_Load_Amount").Width = 100
-                    gv.Columns("Head_Load_Amount").HeaderText = "Head Load Amount"
-
-                    gv.Columns("SNF_Ded_Value").IsVisible = False
-                    gv.Columns("SNF_Ded_Value").HeaderText = "SNF Deduction Value"
-
-                    gv.Columns("SNF_Ded_Rate").IsVisible = False
-                    gv.Columns("SNF_Ded_Rate").HeaderText = "SNF Deduction Rate"
-
-                    gv.Columns("SNF_Ded_Amount").IsVisible = False
-                    gv.Columns("SNF_Ded_Amount").HeaderText = "SNF Deduction Amount"
-
-                    If gv.Columns.Contains("Doc Date Time") Then
-                        gv.Columns("Doc Date Time").IsVisible = False
-                    End If
-
-
-                    'TankerFromMaster = 1 AndAlso
-                    If chkRejection.Checked = True OrElse chkOnlyRejection.Checked = True Then
-                        gv.Columns("EMP_Amount").IsVisible = True
-                        gv.Columns("EMP_Amount").Width = 100
-                        gv.Columns("EMP_Amount").HeaderText = "SRN Emp Amount"
-
-                        gv.Columns("TIP_Amount").IsVisible = True
-                        gv.Columns("TIP_Amount").Width = 100
-                        gv.Columns("TIP_Amount").HeaderText = "SRN TIP Amount"
-
-                        gv.Columns("Service_Charge_Amount").IsVisible = True
-                        gv.Columns("Service_Charge_Amount").Width = 150
-                        gv.Columns("Service_Charge_Amount").HeaderText = "Service Charge Amount"
-
-                        gv.Columns("NetAmount").IsVisible = True
-                        gv.Columns("NetAmount").Width = 150
-                        gv.Columns("NetAmount").HeaderText = "SRN Net Amount" '"NetAmount (SRNAmt+EmpAmt-ServiceAmt)"
-
-
-                    Else
-                        Try
-                            gv.Columns("EMP_Amount").IsVisible = True
-                            gv.Columns("EMP_Amount").Width = 100
-                            gv.Columns("EMP_Amount").HeaderText = "SRN EMP Amount"
-
-                            gv.Columns("TIP_Amount").IsVisible = True
-                            gv.Columns("TIP_Amount").Width = 100
-                            gv.Columns("TIP_Amount").HeaderText = "SRN TIP Amount"
-
-                            gv.Columns("NET_AMOUNT").IsVisible = True
-                            gv.Columns("NET_AMOUNT").Width = 100
-                            gv.Columns("NET_AMOUNT").HeaderText = "SRN Net Amount"
-
-                            gv.Columns("Round_Off").IsVisible = True
-                            gv.Columns("Round_Off").Width = 100
-                            gv.Columns("Round_Off").HeaderText = "SRN Round Off"
-
-                            gv.Columns("Handling_Charges_Amount").IsVisible = True
-                            gv.Columns("Handling_Charges_Amount").Width = 100
-                            gv.Columns("Handling_Charges_Amount").HeaderText = "Handling Charges"
-                        Catch ex As Exception
-
-                        End Try
-                    End If
-
-                    If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "KL") = CompairStringResult.Equal Then
-                        gv.Columns("IS_MANUAL").IsVisible = False
-                        gv.Columns("IS_MILK_SAMPLE_MANUAL").IsVisible = True
-                        gv.Columns("IS_MILK_SAMPLE_MANUAL").Width = 75
-                        gv.Columns("IS_MILK_SAMPLE_MANUAL").HeaderText = "Is Manual"
-
+                    If gv.Columns.Contains("Transporter Code") = True Then
                         gv.Columns("Transporter Code").IsVisible = True
                         gv.Columns("Transporter Code").Width = 75
                         gv.Columns("Transporter Code").HeaderText = "Transporter Code"
+                    End If
 
+                    If gv.Columns.Contains("Transporter Name") = True Then
                         gv.Columns("Transporter Name").IsVisible = True
                         gv.Columns("Transporter Name").Width = 75
                         gv.Columns("Transporter Name").HeaderText = "Transporter Name"
-                    Else
-                        gv.Columns("IS_MILK_SAMPLE_MANUAL").IsVisible = False
-                        gv.Columns("IS_MANUAL").IsVisible = True
-                        gv.Columns("IS_MANUAL").Width = 75
-                        gv.Columns("IS_MANUAL").HeaderText = "Is Manual"
                     End If
 
-
-                    Dim summaryRowItem As New GridViewSummaryRowItem()
-                    Dim intCount As Integer = 0
-
-                    Dim item1 As New GridViewSummaryItem("Milk Weight", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item1)
-                    Dim item2 As New GridViewSummaryItem("Milk Weight(KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item2)
-                    Dim item3 As New GridViewSummaryItem("Milk Weight(LTR)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item3)
-                    'Dim item55 As New GridViewSummaryItem("DBT Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    'summaryRowItem.Add(item55)
-
-                    Dim item4 As New GridViewSummaryItem("FAT(KG)", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item4)
-
-                    Dim item101 As New GridViewSummaryItem("Head_Load_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item101)
-
-                    Dim item5 As New GridViewSummaryItem("SNF(KG)", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item5)
-
-
-
-                    Dim item51 As New GridViewSummaryItem("FAT(LTR)", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item51)
-
-
-                    Dim item52 As New GridViewSummaryItem("SNF(LTR)", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item52)
-
-
-                    Dim summaryItem1 As New GridViewSummaryItem()
-                    summaryItem1.FormatString = "{0:F2}"
-                    summaryItem1.Name = "FAT(%)"
-                    summaryItem1.AggregateExpression = "sum([FAT(KG)])*100/sum([Milk Weight(KG)])"
-                    summaryRowItem.Add(summaryItem1)
-
-                    Dim summaryItem2 As New GridViewSummaryItem()
-                    summaryItem2.FormatString = "{0:F2}"
-                    summaryItem2.Name = "SNF(%)"
-                    summaryItem2.AggregateExpression = "sum([SNF(KG)])*100/sum([Milk Weight(KG)])"
-                    summaryRowItem.Add(summaryItem2)
-
-                    Dim item6 As New GridViewSummaryItem("Cow Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item6)
-                    Dim item7 As New GridViewSummaryItem("Cow FAT (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item7)
-
-                    Dim item8 As New GridViewSummaryItem("Cow SNF (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item8)
-
-                    Dim summaryItem3 As New GridViewSummaryItem()
-                    summaryItem3.FormatString = "{0:F2}"
-                    summaryItem3.Name = "Cow SNF(%)"
-                    summaryItem3.AggregateExpression = "IIf(sum([Cow SNF (KG)])>0,sum([Cow SNF (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
-                    summaryRowItem.Add(summaryItem3)
-
-
-
-                    Dim summaryItem4 As New GridViewSummaryItem()
-                    summaryItem4.FormatString = "{0:F2}"
-                    summaryItem4.Name = "Cow FAT(%)"
-                    summaryItem4.AggregateExpression = "IIf(sum([Cow SNF (KG)])>0,sum([Cow FAT (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
-                    summaryRowItem.Add(summaryItem4)
-
-
-
-
-                    Dim item9 As New GridViewSummaryItem("Buffalo Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item9)
-                    Dim item10 As New GridViewSummaryItem("Buffalo FAT (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item10)
-                    Dim item11 As New GridViewSummaryItem("Buffalo SNF (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item11)
-
-                    Dim summaryItem5 As New GridViewSummaryItem()
-                    summaryItem5.FormatString = "{0:F2}"
-                    summaryItem5.Name = "Buffalo FAT(%)"
-                    summaryItem5.AggregateExpression = "sum([Buffalo FAT (KG)])*100/sum([Buffalo Milk Qty (KG)])"
-                    summaryRowItem.Add(summaryItem5)
-
-                    Dim summaryItem6 As New GridViewSummaryItem()
-                    summaryItem6.FormatString = "{0:F2}"
-                    summaryItem6.Name = "Buffalo SNF(%)"
-                    summaryItem6.AggregateExpression = "sum([Buffalo SNF (KG)])*100/sum([Buffalo Milk Qty (KG)])"
-                    summaryRowItem.Add(summaryItem6)
-                    'TankerFromMaster = 1 AndAlso
-                    If chkRejection.Checked = True OrElse chkOnlyRejection.Checked = True Then
-                        Dim item22 As New GridViewSummaryItem("EMP_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                        summaryRowItem.Add(item22)
-                        Dim item122 As New GridViewSummaryItem("TIP_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                        summaryRowItem.Add(item122)
-                        Dim item23 As New GridViewSummaryItem("Service_Charge_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                        summaryRowItem.Add(item23)
-                        Dim item24 As New GridViewSummaryItem("NetAmount", "{0:F2}", GridAggregateFunction.Sum)
-                        summaryRowItem.Add(item24)
-                    Else
-                        Try
-                            Dim item111 As New GridViewSummaryItem("EMP_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                            summaryRowItem.Add(item111)
-                            Dim item1111 As New GridViewSummaryItem("TIP_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                            summaryRowItem.Add(item1111)
-                            Dim item112 As New GridViewSummaryItem("NET_AMOUNT", "{0:F2}", GridAggregateFunction.Sum)
-                            summaryRowItem.Add(item112)
-                            Dim item113 As New GridViewSummaryItem("Round_Off", "{0:F2}", GridAggregateFunction.Sum)
-                            summaryRowItem.Add(item113)
-                            Dim item114 As New GridViewSummaryItem("Handling_Charges_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                            summaryRowItem.Add(item114)
-                        Catch ex As Exception
-
-                        End Try
-
+                    If gv.Columns.Contains("price_code") = True Then
+                        gv.Columns("price_code").IsVisible = True
+                        gv.Columns("price_code").Width = 100
+                        gv.Columns("price_code").HeaderText = "Price Code"
                     End If
 
-                    Dim item12 As New GridViewSummaryItem("SRN Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item12)
-                    Dim item13 As New GridViewSummaryItem("SRN Qty", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item13)
-                    Dim item14 As New GridViewSummaryItem("SNF_Ded_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item14)
-
-
-                    Dim SummaryVSPCommission As New GridViewSummaryItem("VSP_Commission_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPCommission)
-                    Dim SummaryVSPQualityDeduction As New GridViewSummaryItem("VSP_Deduction_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPQualityDeduction)
-                    Dim SummaryVSPDayWiseInc As New GridViewSummaryItem("VSP_Day_Wise_Incentive", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPDayWiseInc)
-
-                    ''richa agarwal 11 Dec,2018 ERO/11/12/18-000429
-                    Dim summaryItem50 As New GridViewSummaryItem()
-                    summaryItem50.FormatString = "{0:F3}"
-                    summaryItem50.Name = "SRN Rate"
-                    summaryItem50.AggregateExpression = "sum([SRN Amount])/sum([SRN Qty])"
-                    summaryRowItem.Add(summaryItem50)
-
-                    gv.ShowGroupPanel = False
-                    gv.MasterTemplate.AutoExpandGroups = True
-
-                    gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-                    gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
-                ElseIf ChkMCCWise.Checked Then
-                    gv.Columns("MCC Code").IsVisible = True
-                    gv.Columns("MCC Code").Width = 100
-                    gv.Columns("MCC Code").HeaderText = "MCC Code"
-
-                    gv.Columns("MCC Name").IsVisible = True
-                    gv.Columns("MCC Name").Width = 100
-                    gv.Columns("MCC Name").HeaderText = "MCC Name"
-
-                    gv.Columns("MCC Type").IsVisible = False
-                    gv.Columns("Chilling Center").IsVisible = False
-
-                    gv.Columns("Milk Weight").IsVisible = True
-                    gv.Columns("Milk Weight").Width = 100
-                    gv.Columns("Milk Weight").HeaderText = "Milk Weight"
-
-                    gv.Columns("Milk Weight(KG)").IsVisible = True
-                    gv.Columns("Milk Weight(KG)").Width = 100
-                    gv.Columns("Milk Weight(KG)").HeaderText = "Milk Weight(KG)"
-
-                    gv.Columns("Milk Weight(LTR)").IsVisible = True
-                    gv.Columns("Milk Weight(LTR)").Width = 100
-                    gv.Columns("Milk Weight(LTR)").HeaderText = "Milk Weight(LTR)"
-
-                    gv.Columns("FAT(%)").IsVisible = True
-                    gv.Columns("FAT(%)").Width = 100
-                    gv.Columns("FAT(%)").HeaderText = " FAT(%)"
-
-                    gv.Columns("SNF(%)").IsVisible = True
-                    gv.Columns("SNF(%)").Width = 100
-                    gv.Columns("SNF(%)").HeaderText = "SNF(%)"
-
-                    gv.Columns("FAT(KG)").IsVisible = True
-                    gv.Columns("FAT(KG)").Width = 100
-                    gv.Columns("FAT(KG)").HeaderText = " FAT(KG)"
-                    gv.Columns("FAT(KG)").FormatString = "{0:n3}"
-
-                    gv.Columns("SNF(KG)").IsVisible = True
-                    gv.Columns("SNF(KG)").Width = 100
-                    gv.Columns("SNF(KG)").HeaderText = "SNF(KG)"
-                    gv.Columns("SNF(KG)").FormatString = "{0:n3}"
-
-                    gv.Columns("Cow Milk Qty (KG)").IsVisible = True
-                    gv.Columns("Cow Milk Qty (KG)").Width = 100
-                    gv.Columns("Cow Milk Qty (KG)").HeaderText = "Cow Milk Qty (KG)"
-
-                    gv.Columns("Cow FAT(%)").IsVisible = True
-                    gv.Columns("Cow FAT(%)").Width = 100
-                    gv.Columns("Cow FAT(%)").HeaderText = "Cow FAT(%)"
-
-                    gv.Columns("Cow SNF(%)").IsVisible = True
-                    gv.Columns("Cow SNF(%)").Width = 100
-                    gv.Columns("Cow SNF(%)").HeaderText = "Cow SNF(%)"
-
-                    gv.Columns("Cow FAT (KG)").IsVisible = True
-                    gv.Columns("Cow FAT (KG)").Width = 100
-                    gv.Columns("Cow FAT (KG)").HeaderText = "Cow FAT (KG)"
-
-                    gv.Columns("Cow SNF (KG)").IsVisible = True
-                    gv.Columns("Cow SNF (KG)").Width = 100
-                    gv.Columns("Cow SNF (KG)").HeaderText = "Cow SNF (KG)"
-
-                    gv.Columns("Buffalo Milk Qty (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Buffalo Milk Qty (KG)").Width = 100
-                    gv.Columns("Buffalo Milk Qty (KG)").HeaderText = "Buffalo Milk Qty (KG)"
-
-                    gv.Columns("Buffalo SNF(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Buffalo SNF(%)").Width = 100
-                    gv.Columns("Buffalo SNF(%)").HeaderText = "Buffalo SNF(%)"
-
-                    gv.Columns("Buffalo FAT(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Buffalo FAT(%)").Width = 100
-
-                    gv.Columns("Buffalo FAT (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Buffalo FAT (KG)").Width = 100
-                    gv.Columns("Buffalo FAT (KG)").HeaderText = "Buffalo FAT (KG)"
-
-
-
-                    gv.Columns("SRN Qty").IsVisible = True
-                    gv.Columns("SRN Qty").Width = 100
-                    gv.Columns("SRN Qty").HeaderText = "SRN Qty"
-
-
-                    gv.Columns("SRN Amount").IsVisible = True
-                    gv.Columns("SRN Amount").Width = 100
-                    gv.Columns("SRN Amount").HeaderText = "SRN Amount"
-
-                    gv.Columns("Head_Load_Amount").IsVisible = True
-                    gv.Columns("Head_Load_Amount").Width = 100
-                    gv.Columns("Head_Load_Amount").HeaderText = "Head Load Amount"
-
-                    gv.Columns("EMP_Amount").IsVisible = True
-                    gv.Columns("EMP_Amount").Width = 100
-                    gv.Columns("EMP_Amount").HeaderText = "SRN EMP Amount"
-
-                    gv.Columns("TIP_Amount").IsVisible = True
-                    gv.Columns("TIP_Amount").Width = 100
-                    gv.Columns("TIP_Amount").HeaderText = "SRN TIP Amount"
-
-
-
-
-                    gv.Columns("SNF_Ded_Amount").IsVisible = False
-                    gv.Columns("SNF_Ded_Amount").HeaderText = "SNF Deduction Amount"
-
-                    Dim summaryRowItem As New GridViewSummaryRowItem()
-                    Dim intCount As Integer = 0
-                    'TankerFromMaster = 0 AndAlso
-                    If chkRejection.Checked = False AndAlso chkOnlyRejection.Checked = False Then
-                        Try
-                            gv.Columns("NET_AMOUNT").IsVisible = True
-                            gv.Columns("NET_AMOUNT").Width = 100
-                            gv.Columns("NET_AMOUNT").HeaderText = "SRN Net Amount"
-
-                            gv.Columns("Round_Off").IsVisible = True
-                            gv.Columns("Round_Off").Width = 100
-                            gv.Columns("Round_Off").HeaderText = "SRN Round Off"
-
-                            gv.Columns("Handling_Charges_Amount").IsVisible = True
-                            gv.Columns("Handling_Charges_Amount").Width = 100
-                            gv.Columns("Handling_Charges_Amount").HeaderText = "Handling Charges"
-
-
-                            Dim item112 As New GridViewSummaryItem("NET_AMOUNT", "{0:F2}", GridAggregateFunction.Sum)
-                            summaryRowItem.Add(item112)
-                            Dim item113 As New GridViewSummaryItem("Round_Off", "{0:F2}", GridAggregateFunction.Sum)
-                            summaryRowItem.Add(item113)
-                            Dim item114 As New GridViewSummaryItem("Handling_Charges_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                            summaryRowItem.Add(item114)
-                        Catch ex As Exception
-
-                        End Try
-
+                    If gv.Columns.Contains("Plant Code") = True Then
+                        gv.Columns("Plant Code").IsVisible = False
+                        gv.Columns("Plant Name").IsVisible = False
                     End If
 
-                    Dim item1 As New GridViewSummaryItem("Milk Weight", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item1)
-                    Dim item2 As New GridViewSummaryItem("Milk Weight(KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item2)
-                    Dim item3 As New GridViewSummaryItem("Milk Weight(LTR)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item3)
-
-
-
-                    Dim item4 As New GridViewSummaryItem("FAT(KG)", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item4)
-                    Dim item101 As New GridViewSummaryItem("Head_Load_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item101)
-                    Dim abcd As New GridViewSummaryItem("EMP_AMOUNT", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(abcd)
-                    Dim abcde As New GridViewSummaryItem("TIP_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(abcde)
-                    Dim item5 As New GridViewSummaryItem("SNF(KG)", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item5)
-
-                    Dim SummaryVSPCommission As New GridViewSummaryItem("VSP_Commission_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPCommission)
-                    Dim SummaryVSPQualityDeduction As New GridViewSummaryItem("VSP_Deduction_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPQualityDeduction)
-                    Dim SummaryVSPDayWiseInc As New GridViewSummaryItem("VSP_Day_Wise_Incentive", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPDayWiseInc)
-
-                    Dim summaryItem1 As New GridViewSummaryItem()
-                    summaryItem1.FormatString = "{0:F2}"
-                    summaryItem1.Name = "FAT(%)"
-                    summaryItem1.AggregateExpression = "sum([FAT(KG)])*100/sum([Milk Weight(KG)])"
-                    summaryRowItem.Add(summaryItem1)
-
-                    Dim summaryItem2 As New GridViewSummaryItem()
-                    summaryItem2.FormatString = "{0:F2}"
-                    summaryItem2.Name = "SNF(%)"
-                    summaryItem2.AggregateExpression = "sum([SNF(KG)])*100/sum([Milk Weight(KG)])"
-                    summaryRowItem.Add(summaryItem2)
-
-                    Dim item6 As New GridViewSummaryItem("Cow Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item6)
-                    Dim item7 As New GridViewSummaryItem("Cow FAT (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item7)
-
-                    Dim item8 As New GridViewSummaryItem("Cow SNF (KG)", "{0:F2}", GridAggregateFunction.Sum)
-
-                    summaryRowItem.Add(item8)
-                    Dim summaryItem3 As New GridViewSummaryItem()
-                    summaryItem3.FormatString = "{0:F2}"
-                    summaryItem3.Name = "Cow SNF(%)"
-                    summaryItem3.AggregateExpression = "IIf(sum([Cow SNF (KG)])>0,sum([Cow SNF (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
-                    summaryRowItem.Add(summaryItem3)
-
-                    Dim summaryItem4 As New GridViewSummaryItem()
-                    summaryItem4.FormatString = "{0:F2}"
-                    summaryItem4.Name = "Cow FAT(%)"
-                    summaryItem4.AggregateExpression = "IIf(sum([Cow FAT (KG)])>0,sum([Cow FAT (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
-                    summaryRowItem.Add(summaryItem4)
-
-                    Dim item9 As New GridViewSummaryItem("Buffalo Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item9)
-                    Dim item10 As New GridViewSummaryItem("Buffalo FAT (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item10)
-                    Dim item11 As New GridViewSummaryItem("Buffalo SNF (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item11)
-                    Dim summaryItem5 As New GridViewSummaryItem()
-                    summaryItem5.FormatString = "{0:F2}"
-                    summaryItem5.Name = "Buffalo FAT(%)"
-                    summaryItem5.AggregateExpression = "IIf(sum([Buffalo FAT (KG)])>0,sum([Buffalo FAT (KG)])*100/sum([Buffalo Milk Qty (KG)]),0)"
-                    summaryRowItem.Add(summaryItem5)
-
-                    Dim summaryItem6 As New GridViewSummaryItem()
-                    summaryItem6.FormatString = "{0:F2}"
-                    summaryItem6.Name = "Buffalo SNF(%)"
-                    summaryItem6.AggregateExpression = "IIf(sum([Buffalo SNF (KG)])>0,sum([Buffalo SNF (KG)])*100/sum([Buffalo Milk Qty (KG)]),0)"
-                    summaryRowItem.Add(summaryItem6)
-                    Dim item13 As New GridViewSummaryItem("SRN Qty", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item13)
-                    Dim item12 As New GridViewSummaryItem("SRN Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item12)
-
-                    Dim item15 As New GridViewSummaryItem("SNF_Ded_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item15)
-
-                    gv.ShowGroupPanel = False
-                    gv.MasterTemplate.AutoExpandGroups = True
-
-                    gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-                    gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
-                ElseIf rbtnPlantWise.Checked Then
-                    gv.Columns("Plant Code").IsVisible = True
-                    gv.Columns("Plant Code").Width = 100
-                    gv.Columns("Plant Code").HeaderText = "Plant Code"
-
-                    gv.Columns("Plant Name").IsVisible = True
-                    gv.Columns("Plant Name").Width = 100
-                    gv.Columns("Plant Name").HeaderText = "Plant Name"
-
-                    gv.Columns("MCC Code").IsVisible = False
-                    gv.Columns("MCC Code").Width = 100
-                    gv.Columns("MCC Code").HeaderText = "MCC Code"
-
-                    gv.Columns("MCC Name").IsVisible = False
-                    gv.Columns("MCC Name").Width = 100
-                    gv.Columns("MCC Name").HeaderText = "MCC Name"
-
-                    gv.Columns("Milk Weight").IsVisible = True
-                    gv.Columns("Milk Weight").Width = 100
-                    gv.Columns("Milk Weight").HeaderText = "Milk Weight"
-
-                    gv.Columns("Milk Weight(KG)").IsVisible = True
-                    gv.Columns("Milk Weight(KG)").Width = 100
-                    gv.Columns("Milk Weight(KG)").HeaderText = "Milk Weight(KG)"
-
-                    gv.Columns("Milk Weight(LTR)").IsVisible = True
-                    gv.Columns("Milk Weight(LTR)").Width = 100
-                    gv.Columns("Milk Weight(LTR)").HeaderText = "Milk Weight(LTR)"
-
-                    gv.Columns("FAT(%)").IsVisible = True
-                    gv.Columns("FAT(%)").Width = 100
-                    gv.Columns("FAT(%)").HeaderText = " FAT(%)"
-
-                    gv.Columns("SNF(%)").IsVisible = True
-                    gv.Columns("SNF(%)").Width = 100
-                    gv.Columns("SNF(%)").HeaderText = "SNF(%)"
-
-                    gv.Columns("FAT(KG)").IsVisible = True
-                    gv.Columns("FAT(KG)").Width = 100
-                    gv.Columns("FAT(KG)").HeaderText = " FAT(KG)"
-                    gv.Columns("FAT(KG)").FormatString = "{0:n3}"
-
-                    gv.Columns("SNF(KG)").IsVisible = True
-                    gv.Columns("SNF(KG)").Width = 100
-                    gv.Columns("SNF(KG)").HeaderText = "SNF(KG)"
-                    gv.Columns("SNF(KG)").FormatString = "{0:n3}"
-
-                    gv.Columns("Total Solid").IsVisible = True
-                    gv.Columns("Total Solid").Width = 100
-                    gv.Columns("Total Solid").HeaderText = "Total Solid"
-                    gv.Columns("Total Solid").FormatString = "{0:n3}"
-
-                    gv.Columns("Cow Milk Qty (KG)").IsVisible = True
-                    gv.Columns("Cow Milk Qty (KG)").Width = 100
-                    gv.Columns("Cow Milk Qty (KG)").HeaderText = "Cow Milk Qty (KG)"
-
-                    gv.Columns("Cow FAT(%)").IsVisible = True
-                    gv.Columns("Cow FAT(%)").Width = 100
-                    gv.Columns("Cow FAT(%)").HeaderText = "Cow FAT(%)"
-
-                    gv.Columns("Cow SNF(%)").IsVisible = True
-                    gv.Columns("Cow SNF(%)").Width = 100
-                    gv.Columns("Cow SNF(%)").HeaderText = "Cow SNF(%)"
-
-                    gv.Columns("Cow FAT (KG)").IsVisible = True
-                    gv.Columns("Cow FAT (KG)").Width = 100
-                    gv.Columns("Cow FAT (KG)").HeaderText = "Cow FAT (KG)"
-
-                    gv.Columns("Cow SNF (KG)").IsVisible = True
-                    gv.Columns("Cow SNF (KG)").Width = 100
-                    gv.Columns("Cow SNF (KG)").HeaderText = "Cow SNF (KG)"
-
-                    gv.Columns("Cow Total Solid").IsVisible = True
-                    gv.Columns("Cow Total Solid").Width = 100
-                    gv.Columns("Cow Total Solid").HeaderText = "Cow Total Solid"
-
-                    gv.Columns("Buffalo Milk Qty (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Buffalo Milk Qty (KG)").Width = 100
-                    gv.Columns("Buffalo Milk Qty (KG)").HeaderText = "Buffalo Milk Qty (KG)"
-
-                    gv.Columns("Buffalo SNF(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Buffalo SNF(%)").Width = 100
-                    gv.Columns("Buffalo SNF(%)").HeaderText = "Buffalo SNF(%)"
-
-                    gv.Columns("Buffalo FAT(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Buffalo FAT(%)").Width = 100
-
-                    gv.Columns("Buffalo FAT (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Buffalo FAT (KG)").Width = 100
-                    gv.Columns("Buffalo FAT (KG)").HeaderText = "Buffalo FAT (KG)"
-
-                    gv.Columns("Buffalo Total Solid").IsVisible = True
-                    gv.Columns("Buffalo Total Solid").Width = 100
-                    gv.Columns("Buffalo Total Solid").HeaderText = "Buffalo Total Solid"
-
-                    gv.Columns("SRN Qty").IsVisible = True
-                    gv.Columns("SRN Qty").Width = 100
-                    gv.Columns("SRN Qty").HeaderText = "SRN Qty"
-
-
-                    gv.Columns("SRN Amount").IsVisible = True
-                    gv.Columns("SRN Amount").Width = 100
-                    gv.Columns("SRN Amount").HeaderText = "SRN Amount"
-
-                    gv.Columns("Head_Load_Amount").IsVisible = True
-                    gv.Columns("Head_Load_Amount").Width = 100
-                    gv.Columns("Head_Load_Amount").HeaderText = "Head Load Amount"
-
-                    gv.Columns("EMP_Amount").IsVisible = True
-                    gv.Columns("EMP_Amount").Width = 100
-                    gv.Columns("EMP_Amount").HeaderText = "SRN EMP Amount"
-
-                    gv.Columns("TIP_Amount").IsVisible = True
-                    gv.Columns("TIP_Amount").Width = 100
-                    gv.Columns("TIP_Amount").HeaderText = "SRN TIP Amount"
-
-
-
-
-                    gv.Columns("SNF_Ded_Amount").IsVisible = False
-                    gv.Columns("SNF_Ded_Amount").HeaderText = "SNF Deduction Amount"
-
-                    Dim summaryRowItem As New GridViewSummaryRowItem()
-                    Dim intCount As Integer = 0
-                    'TankerFromMaster = 0 AndAlso
-                    If chkRejection.Checked = False AndAlso chkOnlyRejection.Checked = False Then
-                        Try
-
-
-                            gv.Columns("NET_AMOUNT").IsVisible = True
-                            gv.Columns("NET_AMOUNT").Width = 100
-                            gv.Columns("NET_AMOUNT").HeaderText = "SRN Net Amount"
-
-                            gv.Columns("Round_Off").IsVisible = True
-                            gv.Columns("Round_Off").Width = 100
-                            gv.Columns("Round_Off").HeaderText = "SRN Round Off"
-
-                            gv.Columns("Handling_Charges_Amount").IsVisible = True
-                            gv.Columns("Handling_Charges_Amount").Width = 100
-                            gv.Columns("Handling_Charges_Amount").HeaderText = "Handling Charges"
-
-
-                            Dim item112 As New GridViewSummaryItem("NET_AMOUNT", "{0:F2}", GridAggregateFunction.Sum)
-                            summaryRowItem.Add(item112)
-                            Dim item113 As New GridViewSummaryItem("Round_Off", "{0:F2}", GridAggregateFunction.Sum)
-                            summaryRowItem.Add(item113)
-                            Dim item114 As New GridViewSummaryItem("Handling_Charges_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                            summaryRowItem.Add(item114)
-                        Catch ex As Exception
-
-                        End Try
-
+                    If gv.Columns.Contains("Planning_Code") = True Then
+                        gv.Columns("Planning_Code").IsVisible = True
+                        gv.Columns("Planning_Code").HeaderText = "Price Plan Code"
+                    End If
+                    If gv.Columns.Contains("Planning_Posted_Date") = True Then
+                        gv.Columns("Planning_Posted_Date").IsVisible = True
+                        gv.Columns("Planning_Posted_Date").HeaderText = "Price Plan Posted Date"
+                    End If
+                    If gv.Columns.Contains("Planning_Posted_Time") = True Then
+                        gv.Columns("Planning_Posted_Time").IsVisible = True
+                        gv.Columns("Planning_Posted_Time").HeaderText = "Price Plan Posted Time"
                     End If
 
-                    Dim item1 As New GridViewSummaryItem("Milk Weight", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item1)
-                    Dim item2 As New GridViewSummaryItem("Milk Weight(KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item2)
-                    Dim item3 As New GridViewSummaryItem("Milk Weight(LTR)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item3)
-
-
-
-                    Dim item4 As New GridViewSummaryItem("FAT(KG)", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item4)
-                    Dim item101 As New GridViewSummaryItem("Head_Load_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item101)
-                    Dim abcd As New GridViewSummaryItem("EMP_AMOUNT", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(abcd)
-                    Dim abcde As New GridViewSummaryItem("TIP_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(abcde)
-                    Dim item5 As New GridViewSummaryItem("SNF(KG)", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item5)
-                    Dim item51 As New GridViewSummaryItem("Total Solid", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item51)
-                    Dim summaryItem1 As New GridViewSummaryItem()
-                    summaryItem1.FormatString = "{0:F2}"
-                    summaryItem1.Name = "FAT(%)"
-                    summaryItem1.AggregateExpression = "sum([FAT(KG)])*100/sum([Milk Weight(KG)])"
-                    summaryRowItem.Add(summaryItem1)
-
-                    Dim summaryItem2 As New GridViewSummaryItem()
-                    summaryItem2.FormatString = "{0:F2}"
-                    summaryItem2.Name = "SNF(%)"
-                    summaryItem2.AggregateExpression = "sum([SNF(KG)])*100/sum([Milk Weight(KG)])"
-                    summaryRowItem.Add(summaryItem2)
-
-                    Dim item6 As New GridViewSummaryItem("Cow Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item6)
-                    Dim item7 As New GridViewSummaryItem("Cow FAT (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item7)
-
-                    Dim item8 As New GridViewSummaryItem("Cow SNF (KG)", "{0:F2}", GridAggregateFunction.Sum)
-
-                    summaryRowItem.Add(item8)
-
-                    Dim item81 As New GridViewSummaryItem("Cow Total Solid", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item81)
-
-                    Dim summaryItem3 As New GridViewSummaryItem()
-                    summaryItem3.FormatString = "{0:F2}"
-                    summaryItem3.Name = "Cow SNF(%)"
-                    summaryItem3.AggregateExpression = "IIf(sum([Cow SNF (KG)])>0,sum([Cow SNF (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
-                    summaryRowItem.Add(summaryItem3)
-
-                    Dim summaryItem4 As New GridViewSummaryItem()
-                    summaryItem4.FormatString = "{0:F2}"
-                    summaryItem4.Name = "Cow FAT(%)"
-                    summaryItem4.AggregateExpression = "IIf(sum([Cow FAT (KG)])>0,sum([Cow FAT (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
-                    summaryRowItem.Add(summaryItem4)
-
-                    Dim item9 As New GridViewSummaryItem("Buffalo Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item9)
-                    Dim item10 As New GridViewSummaryItem("Buffalo FAT (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item10)
-                    Dim item11 As New GridViewSummaryItem("Buffalo SNF (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item11)
-                    Dim item1Baff As New GridViewSummaryItem("Buffalo Total Solid", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item1Baff)
-                    Dim summaryItem5 As New GridViewSummaryItem()
-                    summaryItem5.FormatString = "{0:F2}"
-                    summaryItem5.Name = "Buffalo FAT(%)"
-                    summaryItem5.AggregateExpression = "IIf(sum([Buffalo FAT (KG)])>0,sum([Buffalo FAT (KG)])*100/sum([Buffalo Milk Qty (KG)]),0)"
-                    summaryRowItem.Add(summaryItem5)
-
-                    Dim summaryItem6 As New GridViewSummaryItem()
-                    summaryItem6.FormatString = "{0:F2}"
-                    summaryItem6.Name = "Buffalo SNF(%)"
-                    summaryItem6.AggregateExpression = "IIf(sum([Buffalo SNF (KG)])>0,sum([Buffalo SNF (KG)])*100/sum([Buffalo Milk Qty (KG)]),0)"
-                    summaryRowItem.Add(summaryItem6)
-                    Dim item13 As New GridViewSummaryItem("SRN Qty", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item13)
-                    Dim item12 As New GridViewSummaryItem("SRN Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item12)
-
-                    Dim item15 As New GridViewSummaryItem("SNF_Ded_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item15)
-
-                    Dim SummaryVSPCommission As New GridViewSummaryItem("VSP_Commission_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPCommission)
-                    Dim SummaryVSPQualityDeduction As New GridViewSummaryItem("VSP_Deduction_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPQualityDeduction)
-                    Dim SummaryVSPDayWiseInc As New GridViewSummaryItem("VSP_Day_Wise_Incentive", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPDayWiseInc)
-
-                    gv.ShowGroupPanel = False
-                    gv.MasterTemplate.AutoExpandGroups = True
-
-                    gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-                    gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
-                ElseIf chkRoutewise.Checked Then
-                    'TankerFromMaster = 1 AndAlso
-                    If chkShiftWise.Checked And (chkRejection.Checked = True OrElse chkOnlyRejection.Checked = True) Then
-                        gv.Columns("Shift").IsVisible = True
-                        gv.Columns("Shift").Width = 80
-                        gv.Columns("Shift").HeaderText = "Shift"
+                    If gv.Columns.Contains("Declared_Rate") = True Then
+                        gv.Columns("Declared_Rate").IsVisible = True
+                        gv.Columns("Declared_Rate").HeaderText = "Standard Rate"
                     End If
-                    gv.Columns("MCC Code").IsVisible = True
-                    gv.Columns("MCC Code").Width = 100
-                    gv.Columns("MCC Code").HeaderText = "MCC Code"
-
-                    gv.Columns("MCC Name").IsVisible = True
-                    gv.Columns("MCC Name").Width = 100
-                    gv.Columns("MCC Name").HeaderText = "MCC Name"
-
-                    gv.Columns("MCC Type").IsVisible = False
-                    gv.Columns("Chilling Center").IsVisible = False
-
-                    gv.Columns("Route Code").IsVisible = True
-                    gv.Columns("Route Code").Width = 170
-                    gv.Columns("Route Code").HeaderText = "Route Code"
-
-                    gv.Columns("Route Name").IsVisible = True
-                    gv.Columns("Route Name").Width = 100
-                    gv.Columns("Route Name").HeaderText = "Route Name"
-
-
-                    gv.Columns("Milk Weight").IsVisible = True
-                    gv.Columns("Milk Weight").Width = 100
-                    gv.Columns("Milk Weight").HeaderText = "Milk Weight"
-
-                    gv.Columns("Milk Weight(KG)").IsVisible = True
-                    gv.Columns("Milk Weight(KG)").Width = 100
-                    gv.Columns("Milk Weight(KG)").HeaderText = "Milk Weight(KG)"
-
-                    gv.Columns("Milk Weight(LTR)").IsVisible = True
-                    gv.Columns("Milk Weight(LTR)").Width = 100
-                    gv.Columns("Milk Weight(LTR)").HeaderText = "Milk Weight(LTR)"
-
-                    gv.Columns("FAT(%)").IsVisible = True
-                    gv.Columns("FAT(%)").Width = 100
-                    gv.Columns("FAT(%)").HeaderText = " FAT(%)"
-
-                    gv.Columns("SNF(%)").IsVisible = True
-                    gv.Columns("SNF(%)").Width = 100
-                    gv.Columns("SNF(%)").HeaderText = "SNF(%)"
-
-                    gv.Columns("FAT(KG)").IsVisible = True
-                    gv.Columns("FAT(KG)").Width = 100
-                    gv.Columns("FAT(KG)").HeaderText = " FAT(KG)"
-                    gv.Columns("FAT(KG)").FormatString = "{0:n3}"
-
-                    gv.Columns("SNF(KG)").IsVisible = True
-                    gv.Columns("SNF(KG)").Width = 100
-                    gv.Columns("SNF(KG)").HeaderText = "SNF(KG)"
-                    gv.Columns("SNF(KG)").FormatString = "{0:n3}"
-
-                    gv.Columns("Cow Milk Qty (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Cow Milk Qty (KG)").Width = 100
-                    gv.Columns("Cow Milk Qty (KG)").HeaderText = "Cow Milk Qty (KG)"
-
-                    gv.Columns("Cow FAT(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Cow FAT(%)").Width = 100
-                    gv.Columns("Cow FAT(%)").HeaderText = "Cow FAT(%)"
-
-                    gv.Columns("Cow SNF(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Cow SNF(%)").Width = 100
-                    gv.Columns("Cow SNF(%)").HeaderText = "Cow SNF(%)"
-
-                    gv.Columns("Cow FAT (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Cow FAT (KG)").Width = 100
-                    gv.Columns("Cow FAT (KG)").HeaderText = "Cow FAT (KG)"
-
-                    gv.Columns("Cow SNF (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Cow SNF (KG)").Width = 100
-                    gv.Columns("Cow SNF (KG)").HeaderText = "Cow SNF (KG)"
-
-                    gv.Columns("Buffalo Milk Qty (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Buffalo Milk Qty (KG)").Width = 100
-                    gv.Columns("Buffalo Milk Qty (KG)").HeaderText = "Buffalo Milk Qty (KG)"
-
-                    gv.Columns("Buffalo SNF(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Buffalo SNF(%)").Width = 100
-                    gv.Columns("Buffalo SNF(%)").HeaderText = "Buffalo SNF(%)"
-
-                    gv.Columns("Buffalo FAT(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Buffalo FAT(%)").Width = 100
-
-                    gv.Columns("Buffalo FAT (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Buffalo FAT (KG)").Width = 100
-                    gv.Columns("Buffalo FAT (KG)").HeaderText = "Buffalo FAT (KG)"
-
-
-
-                    gv.Columns("SRN Qty").IsVisible = True
-                    gv.Columns("SRN Qty").Width = 100
-                    gv.Columns("SRN Qty").HeaderText = "SRN Qty"
-
-
-                    gv.Columns("SRN Amount").IsVisible = True
-                    gv.Columns("SRN Amount").Width = 100
-                    gv.Columns("SRN Amount").HeaderText = "SRN Amount"
-
-                    gv.Columns("EMP_Amount").IsVisible = True
-                    gv.Columns("EMP_Amount").Width = 100
-                    gv.Columns("EMP_Amount").HeaderText = "SRN EMP Amount"
-
-                    gv.Columns("TIP_Amount").IsVisible = True
-                    gv.Columns("TIP_Amount").Width = 100
-                    gv.Columns("TIP_Amount").HeaderText = "SRN TIP Amount"
-
-
-
-
-
-                    gv.Columns("SNF_Ded_Amount").IsVisible = False
-                    gv.Columns("SNF_Ded_Amount").HeaderText = "SNF Deduction Amount"
-
-
-                    Dim summaryRowItem As New GridViewSummaryRowItem()
-                    'TankerFromMaster = 0 AndAlso
-                    If chkRejection.Checked = False AndAlso chkOnlyRejection.Checked = False Then
-                        Try
-
-                            gv.Columns("NET_AMOUNT").IsVisible = True
-                            gv.Columns("NET_AMOUNT").Width = 100
-                            gv.Columns("NET_AMOUNT").HeaderText = "SRN Net Amount"
-
-                            gv.Columns("Round_Off").IsVisible = True
-                            gv.Columns("Round_Off").Width = 100
-                            gv.Columns("Round_Off").HeaderText = "SRN Round Off"
-
-                            gv.Columns("Handling_Charges_Amount").IsVisible = True
-                            gv.Columns("Handling_Charges_Amount").Width = 100
-                            gv.Columns("Handling_Charges_Amount").HeaderText = "Handling Charges"
-
-
-                            Dim item112 As New GridViewSummaryItem("NET_AMOUNT", "{0:F2}", GridAggregateFunction.Sum)
-                            summaryRowItem.Add(item112)
-                            Dim item113 As New GridViewSummaryItem("Round_Off", "{0:F2}", GridAggregateFunction.Sum)
-                            summaryRowItem.Add(item113)
-                            Dim item114 As New GridViewSummaryItem("Handling_Charges_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                            summaryRowItem.Add(item114)
-                        Catch ex As Exception
-                        End Try
-
-                    End If
-
-                    Dim intCount As Integer = 0
-                    Dim item111 As New GridViewSummaryItem("EMP_AMOUNT", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item111)
-                    Dim item1111 As New GridViewSummaryItem("TIP_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item1111)
-                    Dim abcd As New GridViewSummaryItem("Head_Load_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(abcd)
-                    Dim item1 As New GridViewSummaryItem("Milk Weight", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item1)
-                    Dim item2 As New GridViewSummaryItem("Milk Weight(KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item2)
-                    Dim item3 As New GridViewSummaryItem("Milk Weight(LTR)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item3)
-
-
-
-
-                    Dim item4 As New GridViewSummaryItem("FAT(KG)", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item4)
-
-                    Dim item5 As New GridViewSummaryItem("SNF(KG)", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item5)
-                    Dim summaryItem1 As New GridViewSummaryItem()
-                    summaryItem1.FormatString = "{0:F2}"
-                    summaryItem1.Name = "FAT(%)"
-                    summaryItem1.AggregateExpression = "sum([FAT(KG)])*100/sum([Milk Weight(KG)])"
-                    summaryRowItem.Add(summaryItem1)
-
-                    Dim summaryItem2 As New GridViewSummaryItem()
-                    summaryItem2.FormatString = "{0:F2}"
-                    summaryItem2.Name = "SNF(%)"
-                    summaryItem2.AggregateExpression = "sum([SNF(KG)])*100/sum([Milk Weight(KG)])"
-                    summaryRowItem.Add(summaryItem2)
-
-                    Dim item6 As New GridViewSummaryItem("Cow Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item6)
-                    Dim item7 As New GridViewSummaryItem("Cow FAT (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item7)
-
-                    Dim item8 As New GridViewSummaryItem("Cow SNF (KG)", "{0:F2}", GridAggregateFunction.Sum)
-
-                    summaryRowItem.Add(item8)
-                    Dim summaryItem3 As New GridViewSummaryItem()
-                    summaryItem3.FormatString = "{0:F2}"
-                    summaryItem3.Name = "Cow SNF(%)"
-                    summaryItem3.AggregateExpression = "IIf(sum([Cow SNF (KG)])>0,sum([Cow SNF (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
-                    summaryRowItem.Add(summaryItem3)
-
-                    Dim summaryItem4 As New GridViewSummaryItem()
-                    summaryItem4.FormatString = "{0:F2}"
-                    summaryItem4.Name = "Cow FAT(%)"
-                    summaryItem4.AggregateExpression = "IIf(sum([Cow FAT (KG)])>0,sum([Cow FAT (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
-                    summaryRowItem.Add(summaryItem4)
-
-                    Dim item9 As New GridViewSummaryItem("Buffalo Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item9)
-                    Dim item10 As New GridViewSummaryItem("Buffalo FAT (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item10)
-                    Dim item11 As New GridViewSummaryItem("Buffalo SNF (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item11)
-                    Dim summaryItem5 As New GridViewSummaryItem()
-                    summaryItem5.FormatString = "{0:F2}"
-                    summaryItem5.Name = "Buffalo FAT(%)"
-                    summaryItem5.AggregateExpression = "sum([Buffalo FAT (KG)])*100/sum([Buffalo Milk Qty (KG)])"
-                    summaryRowItem.Add(summaryItem5)
-
-                    Dim summaryItem6 As New GridViewSummaryItem()
-                    summaryItem6.FormatString = "{0:F2}"
-                    summaryItem6.Name = "Buffalo SNF(%)"
-                    summaryItem6.AggregateExpression = "sum([Buffalo SNF (KG)])*100/sum([Buffalo Milk Qty (KG)])"
-                    summaryRowItem.Add(summaryItem6)
-                    Dim item13 As New GridViewSummaryItem("SRN Qty", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item13)
-                    Dim item12 As New GridViewSummaryItem("SRN Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item12)
-                    Dim item15 As New GridViewSummaryItem("SNF_Ded_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item15)
-
-                    Dim SummaryVSPCommission As New GridViewSummaryItem("VSP_Commission_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPCommission)
-                    Dim SummaryVSPQualityDeduction As New GridViewSummaryItem("VSP_Deduction_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPQualityDeduction)
-                    Dim SummaryVSPDayWiseInc As New GridViewSummaryItem("VSP_Day_Wise_Incentive", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPDayWiseInc)
-
-                    gv.ShowGroupPanel = False
-                    gv.MasterTemplate.AutoExpandGroups = True
-                    'And TankerFromMaster = 1
-                    If chkShiftWise.Checked AndAlso (chkRejection.Checked = True OrElse chkOnlyRejection.Checked = True) Then
-                        gv.GroupDescriptors.Add(New GridGroupByExpression("[Route Code] as [Route Code] format ""{0}: {1}"" Group By [Route Code]"))
-                    End If
-                    gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-                    gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
-                ElseIf rbtnVLCWise.Checked Then
-                    gv.Columns("MCC Code").IsVisible = True
-                    gv.Columns("MCC Code").Width = 100
-                    gv.Columns("MCC Code").HeaderText = "MCC Code"
-
-                    gv.Columns("MCC Name").IsVisible = True
-                    gv.Columns("MCC Name").Width = 100
-                    gv.Columns("MCC Name").HeaderText = "MCC Name"
-
-                    gv.Columns("MCC Type").IsVisible = False
-                    gv.Columns("Chilling Center").IsVisible = False
-
-                    gv.Columns("Route Code").IsVisible = True
-                    gv.Columns("Route Code").Width = 100
-                    gv.Columns("Route Code").HeaderText = "Route Code"
-
-                    gv.Columns("Route Name").IsVisible = True
-                    gv.Columns("Route Name").Width = 100
-                    gv.Columns("Route Name").HeaderText = "Route Name"
-
-                    gv.Columns("Zone Code").IsVisible = True
-                    gv.Columns("Zone Code").Width = 100
-                    gv.Columns("Zone Code").HeaderText = "Zone Code"
-
-                    gv.Columns("Vlc Code").IsVisible = True
-                    gv.Columns("Vlc Code").Width = 100
-                    gv.Columns("Vlc Code").HeaderText = "DCS Code"
-
-                    gv.Columns("VLC Name").IsVisible = True
-                    gv.Columns("VLC Name").Width = 100
-                    gv.Columns("VLC Name").HeaderText = "DCS Name"
-
-
-                    gv.Columns("Milk Weight").IsVisible = True
-                    gv.Columns("Milk Weight").Width = 100
-                    gv.Columns("Milk Weight").HeaderText = "Milk Weight"
-
-                    gv.Columns("Milk Weight(KG)").IsVisible = True
-                    gv.Columns("Milk Weight(KG)").Width = 100
-                    gv.Columns("Milk Weight(KG)").HeaderText = "Milk Weight(KG)"
-
-                    gv.Columns("Milk Weight(LTR)").IsVisible = True
-                    gv.Columns("Milk Weight(LTR)").Width = 100
-                    gv.Columns("Milk Weight(LTR)").HeaderText = "Milk Weight(LTR)"
-
-
-                    If gv.Columns.Contains("DBT Amount") Then
-                        gv.Columns("DBT Amount").IsVisible = True
-                        gv.Columns("DBT Amount").Width = 100
-                        gv.Columns("DBT Amount").HeaderText = "DBT Amount"
-                    End If
-
-                    gv.Columns("FAT(%)").IsVisible = True
-                    gv.Columns("FAT(%)").Width = 100
-                    gv.Columns("FAT(%)").HeaderText = " FAT(%)"
-
-                    gv.Columns("SNF(%)").IsVisible = True
-                    gv.Columns("SNF(%)").Width = 100
-                    gv.Columns("SNF(%)").HeaderText = "SNF(%)"
-
-                    gv.Columns("FAT(KG)").IsVisible = True
-                    gv.Columns("FAT(KG)").Width = 100
-                    gv.Columns("FAT(KG)").HeaderText = " FAT(KG)"
-                    gv.Columns("FAT(KG)").FormatString = "{0:n3}"
-
-
-                    gv.Columns("SNF(KG)").IsVisible = True
-                    gv.Columns("SNF(KG)").Width = 100
-                    gv.Columns("SNF(KG)").HeaderText = "SNF(KG)"
-                    gv.Columns("SNF(KG)").FormatString = "{0:n3}"
-
-                    gv.Columns("Cow Milk Qty (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Cow Milk Qty (KG)").Width = 100
-                    gv.Columns("Cow Milk Qty (KG)").HeaderText = "Cow Milk Qty (KG)"
-
-                    gv.Columns("Cow FAT(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Cow FAT(%)").Width = 100
-                    gv.Columns("Cow FAT(%)").HeaderText = "Cow FAT(%)"
-
-                    gv.Columns("Cow SNF(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Cow SNF(%)").Width = 100
-                    gv.Columns("Cow SNF(%)").HeaderText = "Cow SNF(%)"
-
-                    gv.Columns("Cow FAT (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Cow FAT (KG)").Width = 100
-                    gv.Columns("Cow FAT (KG)").HeaderText = "Cow FAT (KG)"
-
-                    gv.Columns("Cow SNF (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Cow SNF (KG)").Width = 100
-                    gv.Columns("Cow SNF (KG)").HeaderText = "Cow SNF (KG)"
-
-                    gv.Columns("Buffalo Milk Qty (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Buffalo Milk Qty (KG)").Width = 100
-                    gv.Columns("Buffalo Milk Qty (KG)").HeaderText = "Buffalo Milk Qty (KG)"
-
-                    gv.Columns("Buffalo SNF(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Buffalo SNF(%)").Width = 100
-                    gv.Columns("Buffalo SNF(%)").HeaderText = "Buffalo SNF(%)"
-
-                    gv.Columns("Buffalo FAT(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Buffalo FAT(%)").Width = 100
-
-                    gv.Columns("Buffalo FAT (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Buffalo FAT (KG)").Width = 100
-                    gv.Columns("Buffalo FAT (KG)").HeaderText = "Buffalo FAT (KG)"
-
-
-
-                    gv.Columns("SRN Qty").IsVisible = True
-                    gv.Columns("SRN Qty").Width = 100
-                    gv.Columns("SRN Qty").HeaderText = "SRN Qty"
-
-
-                    gv.Columns("SRN Amount").IsVisible = True
-                    gv.Columns("SRN Amount").Width = 100
-                    gv.Columns("SRN Amount").HeaderText = "SRN Amount"
-
-                    ''richa agarwal MIL/01/02/19-000039 12 Feb,2019
-                    gv.Columns("EMP_Amount").IsVisible = True
-                    gv.Columns("EMP_Amount").Width = 100
-                    gv.Columns("EMP_Amount").HeaderText = "SRN EMP Amount"
-
-                    gv.Columns("TIP_Amount").IsVisible = True
-                    gv.Columns("TIP_Amount").Width = 100
-                    gv.Columns("TIP_Amount").HeaderText = "SRN TIP Amount"
-
-                    gv.Columns("Head_Load_Amount").IsVisible = True
-                    gv.Columns("Head_Load_Amount").Width = 100
-                    gv.Columns("Head_Load_Amount").HeaderText = "Head Load Amount"
-
-
-                    gv.Columns("SNF_Ded_Amount").IsVisible = False
-                    gv.Columns("SNF_Ded_Amount").HeaderText = "SNF Deduction Amount"
-
-
-
-                    Dim summaryRowItem As New GridViewSummaryRowItem()
-                    Dim intCount As Integer = 0
-
-
-                    'TankerFromMaster = 0 AndAlso
-                    If chkRejection.Checked = False AndAlso chkOnlyRejection.Checked = False Then
-                        Try
-                            gv.Columns("NET_AMOUNT").IsVisible = True
-                            gv.Columns("NET_AMOUNT").Width = 100
-                            gv.Columns("NET_AMOUNT").HeaderText = "SRN Net Amount"
-
-                            gv.Columns("Round_Off").IsVisible = True
-                            gv.Columns("Round_Off").Width = 100
-                            gv.Columns("Round_Off").HeaderText = "SRN Round Off"
-
-                            gv.Columns("Handling_Charges_Amount").IsVisible = True
-                            gv.Columns("Handling_Charges_Amount").Width = 100
-                            gv.Columns("Handling_Charges_Amount").HeaderText = "Handling Charges"
-
-
-                            Dim item112 As New GridViewSummaryItem("NET_AMOUNT", "{0:F2}", GridAggregateFunction.Sum)
-                            summaryRowItem.Add(item112)
-                            Dim item113 As New GridViewSummaryItem("Round_Off", "{0:F2}", GridAggregateFunction.Sum)
-                            summaryRowItem.Add(item113)
-                            Dim item114 As New GridViewSummaryItem("Handling_Charges_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                            summaryRowItem.Add(item114)
-                        Catch ex As Exception
-                        End Try
-
-                    End If
-
-                    If gv.Columns.Contains("Handling_Charges_Amount") = True Then
-                        Dim item555 As New GridViewSummaryItem("Handling_Charges_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                        summaryRowItem.Add(item555)
-                    End If
-
-                    Dim item111 As New GridViewSummaryItem("EMP_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item111)
-                    Dim item1111 As New GridViewSummaryItem("TIP_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item1111)
-                    Dim item1 As New GridViewSummaryItem("Milk Weight", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item1)
-                    Dim item2 As New GridViewSummaryItem("Milk Weight(KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item2)
-                    Dim item3 As New GridViewSummaryItem("Milk Weight(LTR)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item3)
-
-                    Dim item55 As New GridViewSummaryItem("DBT Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item55)
-
-
-                    Dim item4 As New GridViewSummaryItem("FAT(KG)", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item4)
-                    Dim item101 As New GridViewSummaryItem("Head_Load_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item101)
-                    Dim item5 As New GridViewSummaryItem("SNF(KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item5)
-                    Dim summaryItem1 As New GridViewSummaryItem()
-                    summaryItem1.FormatString = "{0:F2}"
-                    summaryItem1.Name = "FAT(%)"
-                    summaryItem1.AggregateExpression = "sum([FAT(KG)])*100/sum([Milk Weight(KG)])"
-                    summaryRowItem.Add(summaryItem1)
-
-                    Dim summaryItem2 As New GridViewSummaryItem()
-                    summaryItem2.FormatString = "{0:F2}"
-                    summaryItem2.Name = "SNF(%)"
-                    summaryItem2.AggregateExpression = "sum([SNF(KG)])*100/sum([Milk Weight(KG)])"
-                    summaryRowItem.Add(summaryItem2)
-
-                    Dim item6 As New GridViewSummaryItem("Cow Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item6)
-                    Dim item7 As New GridViewSummaryItem("Cow FAT (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item7)
-
-                    Dim item8 As New GridViewSummaryItem("Cow SNF (KG)", "{0:F2}", GridAggregateFunction.Sum)
-
-                    summaryRowItem.Add(item8)
-                    Dim summaryItem3 As New GridViewSummaryItem()
-                    summaryItem3.FormatString = "{0:F2}"
-                    summaryItem3.Name = "Cow SNF(%)"
-                    summaryItem3.AggregateExpression = "IIf(sum([Cow SNF (KG)])>0,sum([Cow SNF (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
-                    summaryRowItem.Add(summaryItem3)
-
-                    Dim summaryItem4 As New GridViewSummaryItem()
-                    summaryItem4.FormatString = "{0:F2}"
-                    summaryItem4.Name = "Cow FAT(%)"
-                    summaryItem4.AggregateExpression = "IIf(sum([Cow FAT (KG)])>0,sum([Cow FAT (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
-                    summaryRowItem.Add(summaryItem4)
-
-                    Dim item9 As New GridViewSummaryItem("Buffalo Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item9)
-                    Dim item10 As New GridViewSummaryItem("Buffalo FAT (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item10)
-                    Dim item11 As New GridViewSummaryItem("Buffalo SNF (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item11)
-                    Dim summaryItem5 As New GridViewSummaryItem()
-                    summaryItem5.FormatString = "{0:F2}"
-                    summaryItem5.Name = "Buffalo FAT(%)"
-                    summaryItem5.AggregateExpression = "sum([Buffalo FAT (KG)])*100/sum([Buffalo Milk Qty (KG)])"
-                    summaryRowItem.Add(summaryItem5)
-
-                    Dim summaryItem6 As New GridViewSummaryItem()
-                    summaryItem6.FormatString = "{0:F2}"
-                    summaryItem6.Name = "Buffalo SNF(%)"
-                    summaryItem6.AggregateExpression = "sum([Buffalo SNF (KG)])*100/sum([Buffalo Milk Qty (KG)])"
-                    summaryRowItem.Add(summaryItem6)
-                    Dim item13 As New GridViewSummaryItem("SRN Qty", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item13)
-                    Dim item12 As New GridViewSummaryItem("SRN Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item12)
-
-                    Dim item15 As New GridViewSummaryItem("SNF_Ded_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item15)
-
-                    Dim SummaryVSPCommission As New GridViewSummaryItem("VSP_Commission_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPCommission)
-                    Dim SummaryVSPQualityDeduction As New GridViewSummaryItem("VSP_Deduction_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPQualityDeduction)
-                    Dim SummaryVSPDayWiseInc As New GridViewSummaryItem("VSP_Day_Wise_Incentive", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPDayWiseInc)
-
-                    If chkRejection.Checked = True AndAlso chkShiftWise.Checked = False AndAlso chkOnlyRejection.Checked = False Then
-                        gv.GroupDescriptors.Add(New GridGroupByExpression("[Route Code] as [Route Code] format ""{0}: {1}"" Group By [Route Code]"))
-                    End If
-
-                    gv.ShowGroupPanel = False
-                    gv.MasterTemplate.AutoExpandGroups = True
-
-                    gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-                    gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
-                    gv.MasterTemplate.ShowTotals = True
-                ElseIf rbtnZoneWise.Checked Then
-                    If chkShiftWise.Checked And (chkRejection.Checked = True OrElse chkOnlyRejection.Checked = True) Then
-                        gv.Columns("Shift").IsVisible = True
-                        gv.Columns("Shift").Width = 80
-                        gv.Columns("Shift").HeaderText = "Shift"
-                    End If
-
-
-                    gv.Columns("Zone Code").IsVisible = True
-                    gv.Columns("Zone Code").Width = 100
-                    gv.Columns("Zone Code").HeaderText = "Zone Code"
-
-                    gv.Columns("Milk Weight").IsVisible = True
-                    gv.Columns("Milk Weight").Width = 100
-                    gv.Columns("Milk Weight").HeaderText = "Milk Weight"
-
-                    gv.Columns("Milk Weight(KG)").IsVisible = True
-                    gv.Columns("Milk Weight(KG)").Width = 100
-                    gv.Columns("Milk Weight(KG)").HeaderText = "Milk Weight(KG)"
-
-                    gv.Columns("Milk Weight(LTR)").IsVisible = True
-                    gv.Columns("Milk Weight(LTR)").Width = 100
-                    gv.Columns("Milk Weight(LTR)").HeaderText = "Milk Weight(LTR)"
-
-                    gv.Columns("FAT(%)").IsVisible = True
-                    gv.Columns("FAT(%)").Width = 100
-                    gv.Columns("FAT(%)").HeaderText = " FAT(%)"
-
-                    gv.Columns("SNF(%)").IsVisible = True
-                    gv.Columns("SNF(%)").Width = 100
-                    gv.Columns("SNF(%)").HeaderText = "SNF(%)"
-
-                    gv.Columns("FAT(KG)").IsVisible = True
-                    gv.Columns("FAT(KG)").Width = 100
-                    gv.Columns("FAT(KG)").HeaderText = " FAT(KG)"
-                    gv.Columns("FAT(KG)").FormatString = "{0:n3}"
-
-                    gv.Columns("SNF(KG)").IsVisible = True
-                    gv.Columns("SNF(KG)").Width = 100
-                    gv.Columns("SNF(KG)").HeaderText = "SNF(KG)"
-                    gv.Columns("SNF(KG)").FormatString = "{0:n3}"
-
-                    gv.Columns("Cow Milk Qty (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Cow Milk Qty (KG)").Width = 100
-                    gv.Columns("Cow Milk Qty (KG)").HeaderText = "Cow Milk Qty (KG)"
-
-                    gv.Columns("Cow FAT(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Cow FAT(%)").Width = 100
-                    gv.Columns("Cow FAT(%)").HeaderText = "Cow FAT(%)"
-
-                    gv.Columns("Cow SNF(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Cow SNF(%)").Width = 100
-                    gv.Columns("Cow SNF(%)").HeaderText = "Cow SNF(%)"
-
-                    gv.Columns("Cow FAT (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Cow FAT (KG)").Width = 100
-                    gv.Columns("Cow FAT (KG)").HeaderText = "Cow FAT (KG)"
-
-                    gv.Columns("Cow SNF (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Cow SNF (KG)").Width = 100
-                    gv.Columns("Cow SNF (KG)").HeaderText = "Cow SNF (KG)"
-
-                    gv.Columns("Buffalo Milk Qty (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Buffalo Milk Qty (KG)").Width = 100
-                    gv.Columns("Buffalo Milk Qty (KG)").HeaderText = "Buffalo Milk Qty (KG)"
-
-                    gv.Columns("Buffalo SNF(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Buffalo SNF(%)").Width = 100
-                    gv.Columns("Buffalo SNF(%)").HeaderText = "Buffalo SNF(%)"
-
-                    gv.Columns("Buffalo FAT(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Buffalo FAT(%)").Width = 100
-
-                    gv.Columns("Buffalo FAT (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Buffalo FAT (KG)").Width = 100
-                    gv.Columns("Buffalo FAT (KG)").HeaderText = "Buffalo FAT (KG)"
-
-
-                    gv.Columns("SRN Qty").IsVisible = True
-                    gv.Columns("SRN Qty").Width = 100
-                    gv.Columns("SRN Qty").HeaderText = "SRN Qty"
-
-
-                    gv.Columns("SRN Amount").IsVisible = True
-                    gv.Columns("SRN Amount").Width = 100
-                    gv.Columns("SRN Amount").HeaderText = "SRN Amount"
-
-                    gv.Columns("EMP_Amount").IsVisible = True
-                    gv.Columns("EMP_Amount").Width = 100
-                    gv.Columns("EMP_Amount").HeaderText = "SRN EMP Amount"
-
-                    gv.Columns("TIP_Amount").IsVisible = True
-                    gv.Columns("TIP_Amount").Width = 100
-                    gv.Columns("TIP_Amount").HeaderText = "SRN TIP Amount"
-
-                    gv.Columns("SNF_Ded_Amount").IsVisible = False
-                    gv.Columns("SNF_Ded_Amount").HeaderText = "SNF Deduction Amount"
-
-
-                    Dim summaryRowItem As New GridViewSummaryRowItem()
-                    'TankerFromMaster = 0 AndAlso
-                    If chkRejection.Checked = False AndAlso chkOnlyRejection.Checked = False Then
-                        Try
-
-                            gv.Columns("NET_AMOUNT").IsVisible = True
-                            gv.Columns("NET_AMOUNT").Width = 100
-                            gv.Columns("NET_AMOUNT").HeaderText = "SRN Net Amount"
-
-                            gv.Columns("Round_Off").IsVisible = True
-                            gv.Columns("Round_Off").Width = 100
-                            gv.Columns("Round_Off").HeaderText = "SRN Round Off"
-
-                            gv.Columns("Handling_Charges_Amount").IsVisible = True
-                            gv.Columns("Handling_Charges_Amount").Width = 100
-                            gv.Columns("Handling_Charges_Amount").HeaderText = "Handling Charges"
-
-
-                            Dim item112 As New GridViewSummaryItem("NET_AMOUNT", "{0:F3}", GridAggregateFunction.Sum)
-                            summaryRowItem.Add(item112)
-                            Dim item113 As New GridViewSummaryItem("Round_Off", "{0:F3}", GridAggregateFunction.Sum)
-                            summaryRowItem.Add(item113)
-                            Dim item114 As New GridViewSummaryItem("Handling_Charges_Amount", "{0:F3}", GridAggregateFunction.Sum)
-                            summaryRowItem.Add(item114)
-                        Catch ex As Exception
-                        End Try
-
-                    End If
-
-                    Dim intCount As Integer = 0
-                    Dim item111 As New GridViewSummaryItem("EMP_AMOUNT", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item111)
-                    Dim item1111 As New GridViewSummaryItem("TIP_Amount", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item1111)
-                    Dim abcd As New GridViewSummaryItem("Head_Load_Amount", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(abcd)
-                    Dim item1 As New GridViewSummaryItem("Milk Weight", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item1)
-                    Dim item2 As New GridViewSummaryItem("Milk Weight(KG)", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item2)
-                    Dim item3 As New GridViewSummaryItem("Milk Weight(LTR)", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item3)
-
-                    Dim item4 As New GridViewSummaryItem("FAT(KG)", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item4)
-
-                    Dim item5 As New GridViewSummaryItem("SNF(KG)", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item5)
-                    Dim summaryItem1 As New GridViewSummaryItem()
-                    summaryItem1.FormatString = "{0:F3}"
-                    summaryItem1.Name = "FAT(%)"
-                    summaryItem1.AggregateExpression = "sum([FAT(KG)])*100/sum([Milk Weight(KG)])"
-                    summaryRowItem.Add(summaryItem1)
-
-                    Dim summaryItem2 As New GridViewSummaryItem()
-                    summaryItem2.FormatString = "{0:F3}"
-                    summaryItem2.Name = "SNF(%)"
-                    summaryItem2.AggregateExpression = "sum([SNF(KG)])*100/sum([Milk Weight(KG)])"
-                    summaryRowItem.Add(summaryItem2)
-
-                    Dim item6 As New GridViewSummaryItem("Cow Milk Qty (KG)", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item6)
-                    Dim item7 As New GridViewSummaryItem("Cow FAT (KG)", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item7)
-
-                    Dim item8 As New GridViewSummaryItem("Cow SNF (KG)", "{0:F3}", GridAggregateFunction.Sum)
-
-                    summaryRowItem.Add(item8)
-                    Dim summaryItem3 As New GridViewSummaryItem()
-                    summaryItem3.FormatString = "{0:F2}"
-                    summaryItem3.Name = "Cow SNF(%)"
-                    summaryItem3.AggregateExpression = "IIf(sum([Cow SNF (KG)])>0,sum([Cow SNF (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
-                    summaryRowItem.Add(summaryItem3)
-
-                    Dim summaryItem4 As New GridViewSummaryItem()
-                    summaryItem4.FormatString = "{0:F2}"
-                    summaryItem4.Name = "Cow FAT(%)"
-                    summaryItem4.AggregateExpression = "IIf(sum([Cow FAT (KG)])>0,sum([Cow FAT (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
-                    summaryRowItem.Add(summaryItem4)
-
-                    Dim item9 As New GridViewSummaryItem("Buffalo Milk Qty (KG)", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item9)
-                    Dim item10 As New GridViewSummaryItem("Buffalo FAT (KG)", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item10)
-                    Dim item11 As New GridViewSummaryItem("Buffalo SNF (KG)", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item11)
-                    Dim summaryItem5 As New GridViewSummaryItem()
-                    summaryItem5.FormatString = "{0:F2}"
-                    summaryItem5.Name = "Buffalo FAT(%)"
-                    summaryItem5.AggregateExpression = "sum([Buffalo FAT (KG)])*100/sum([Buffalo Milk Qty (KG)])"
-                    summaryRowItem.Add(summaryItem5)
-
-                    Dim summaryItem6 As New GridViewSummaryItem()
-                    summaryItem6.FormatString = "{0:F2}"
-                    summaryItem6.Name = "Buffalo SNF(%)"
-                    summaryItem6.AggregateExpression = "sum([Buffalo SNF (KG)])*100/sum([Buffalo Milk Qty (KG)])"
-                    summaryRowItem.Add(summaryItem6)
-                    Dim item13 As New GridViewSummaryItem("SRN Qty", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item13)
-                    Dim item12 As New GridViewSummaryItem("SRN Amount", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item12)
-                    Dim item15 As New GridViewSummaryItem("SNF_Ded_Amount", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item15)
-
-                    Dim SummaryVSPCommission As New GridViewSummaryItem("VSP_Commission_Amount", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPCommission)
-                    Dim SummaryVSPQualityDeduction As New GridViewSummaryItem("VSP_Deduction_Amount", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPQualityDeduction)
-                    Dim SummaryVSPDayWiseInc As New GridViewSummaryItem("VSP_Day_Wise_Incentive", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPDayWiseInc)
-
-                    gv.ShowGroupPanel = False
-                    gv.MasterTemplate.AutoExpandGroups = True
-                    'And TankerFromMaster = 1
-                    If chkShiftWise.Checked AndAlso (chkRejection.Checked = True OrElse chkOnlyRejection.Checked = True) Then
-                        gv.GroupDescriptors.Add(New GridGroupByExpression("[Route Code] as [Route Code] format ""{0}: {1}"" Group By [Route Code]"))
-                    End If
-                    gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-                    gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
-                ElseIf chkVLCWisePayable.Checked Then
-                    gv.Columns("MCC Code").IsVisible = True
-                    gv.Columns("MCC Code").Width = 100
-                    gv.Columns("MCC Code").HeaderText = "MCC Code"
-
-                    gv.Columns("MCC Name").IsVisible = True
-                    gv.Columns("MCC Name").Width = 100
-                    gv.Columns("MCC Name").HeaderText = "MCC Name"
-
-                    gv.Columns("MCC Type").IsVisible = False
-                    gv.Columns("Chilling Center").IsVisible = False
-
-                    gv.Columns("Route Code").IsVisible = True
-                    gv.Columns("Route Code").Width = 100
-                    gv.Columns("Route Code").HeaderText = "Route Code"
-
-
-                    gv.Columns("Route Name").IsVisible = True
-                    gv.Columns("Route Name").Width = 100
-                    gv.Columns("Route Name").HeaderText = "Route Name"
-
-                    gv.Columns("Vlc Code").IsVisible = True
-                    gv.Columns("Vlc Code").Width = 100
-                    gv.Columns("Vlc Code").HeaderText = "DCS Code"
-
-                    gv.Columns("VLC Name").IsVisible = True
-                    gv.Columns("VLC Name").Width = 100
-                    gv.Columns("VLC Name").HeaderText = "DCS Name"
-
-
-
-                    gv.Columns("Milk Weight").IsVisible = True
-                    gv.Columns("Milk Weight").Width = 100
-                    gv.Columns("Milk Weight").HeaderText = "Milk Weight"
-
-                    gv.Columns("Milk Weight(KG)").IsVisible = True
-                    gv.Columns("Milk Weight(KG)").Width = 100
-                    gv.Columns("Milk Weight(KG)").HeaderText = "Milk Weight(KG)"
-
-                    gv.Columns("Milk Weight(LTR)").IsVisible = True
-                    gv.Columns("Milk Weight(LTR)").Width = 100
-                    gv.Columns("Milk Weight(LTR)").HeaderText = "Milk Weight(LTR)"
-
-                    gv.Columns("FAT(%)").IsVisible = True
-                    gv.Columns("FAT(%)").Width = 100
-                    gv.Columns("FAT(%)").HeaderText = " FAT(%)"
-
-                    gv.Columns("SNF(%)").IsVisible = True
-                    gv.Columns("SNF(%)").Width = 100
-                    gv.Columns("SNF(%)").HeaderText = "SNF(%)"
-
-                    gv.Columns("FAT(KG)").IsVisible = True
-                    gv.Columns("FAT(KG)").Width = 100
-                    gv.Columns("FAT(KG)").HeaderText = " FAT(KG)"
-                    gv.Columns("FAT(KG)").FormatString = "{0:n3}"
-
-
-                    gv.Columns("SNF(KG)").IsVisible = True
-                    gv.Columns("SNF(KG)").Width = 100
-                    gv.Columns("SNF(KG)").HeaderText = "SNF(KG)"
-                    gv.Columns("SNF(KG)").FormatString = "{0:n3}"
-
-                    gv.Columns("Cow Milk Qty (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Cow Milk Qty (KG)").Width = 100
-                    gv.Columns("Cow Milk Qty (KG)").HeaderText = "Cow Milk Qty (KG)"
-
-                    gv.Columns("Cow FAT(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Cow FAT(%)").Width = 100
-                    gv.Columns("Cow FAT(%)").HeaderText = "Cow FAT(%)"
-
-                    gv.Columns("Cow SNF(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Cow SNF(%)").Width = 100
-                    gv.Columns("Cow SNF(%)").HeaderText = "Cow SNF(%)"
-
-                    gv.Columns("Cow FAT (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Cow FAT (KG)").Width = 100
-                    gv.Columns("Cow FAT (KG)").HeaderText = "Cow FAT (KG)"
-
-                    gv.Columns("Cow SNF (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Cow SNF (KG)").Width = 100
-                    gv.Columns("Cow SNF (KG)").HeaderText = "Cow SNF (KG)"
-
-                    gv.Columns("Buffalo Milk Qty (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Buffalo Milk Qty (KG)").Width = 100
-                    gv.Columns("Buffalo Milk Qty (KG)").HeaderText = "Buffalo Milk Qty (KG)"
-
-                    gv.Columns("Buffalo SNF(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Buffalo SNF(%)").Width = 100
-                    gv.Columns("Buffalo SNF(%)").HeaderText = "Buffalo SNF(%)"
-
-                    gv.Columns("Buffalo FAT(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Buffalo FAT(%)").Width = 100
-
-                    gv.Columns("Buffalo FAT (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
-                    gv.Columns("Buffalo FAT (KG)").Width = 100
-                    gv.Columns("Buffalo FAT (KG)").HeaderText = "Buffalo FAT (KG)"
-
-
-
-                    gv.Columns("SRN Qty").IsVisible = True
-                    gv.Columns("SRN Qty").Width = 100
-                    gv.Columns("SRN Qty").HeaderText = "SRN Qty"
-
-
-                    gv.Columns("SRN Amount").IsVisible = True
-                    gv.Columns("SRN Amount").Width = 100
-                    gv.Columns("SRN Amount").HeaderText = "SRN Amount"
-
-                    ''richa agarwal MIL/01/02/19-000039 12 Feb,2019
-                    gv.Columns("EMP_Amount").IsVisible = True
-                    gv.Columns("EMP_Amount").Width = 100
-                    gv.Columns("EMP_Amount").HeaderText = "SRN EMP Amount"
-
-                    gv.Columns("TIP_Amount").IsVisible = True
-                    gv.Columns("TIP_Amount").Width = 100
-                    gv.Columns("TIP_Amount").HeaderText = "SRN TIP Amount"
-
-                    gv.Columns("Head_Load_Amount").IsVisible = True
-                    gv.Columns("Head_Load_Amount").Width = 100
-                    gv.Columns("Head_Load_Amount").HeaderText = "Head Load Amount"
-
-
-                    gv.Columns("SNF_Ded_Amount").IsVisible = False
-                    gv.Columns("SNF_Ded_Amount").HeaderText = "SNF Deduction Amount"
-
-                    Dim summaryRowItem As New GridViewSummaryRowItem()
-                    Dim intCount As Integer = 0
-
-                    If gv.Columns.Contains("NET_AMOUNT") Then
-                        gv.Columns("NET_AMOUNT").IsVisible = True
-                        gv.Columns("NET_AMOUNT").Width = 100
-                        gv.Columns("NET_AMOUNT").HeaderText = "SRN Net Amount"
-                    End If
-
-                    If gv.Columns.Contains("Round_Off") Then
-                        gv.Columns("Round_Off").IsVisible = True
-                        gv.Columns("Round_Off").Width = 100
-                        gv.Columns("Round_Off").HeaderText = "SRN Round Off"
-                    End If
-
-
-                    gv.Columns("Handling_Charges_Amount").IsVisible = True
-                    gv.Columns("Handling_Charges_Amount").Width = 100
-                    gv.Columns("Handling_Charges_Amount").HeaderText = "Handling Charges"
-
-
-                    If gv.Columns.Contains("SaleAmt") Then
-                        gv.Columns("SaleAmt").IsVisible = True
-                        gv.Columns("SaleAmt").Width = 100
-                        gv.Columns("SaleAmt").HeaderText = "Sale Amount"
-                    End If
-
 
                     gv.Columns("VSP_Commission_Amount").IsVisible = True
                     gv.Columns("VSP_Commission_Amount").Width = 100
@@ -2107,651 +303,2493 @@ Public Class FrmMCCMilkRegister
 
                     gv.Columns("VSP_Deduction_Amount").IsVisible = True
                     gv.Columns("VSP_Deduction_Amount").Width = 100
-                    gv.Columns("VSP_Deduction_Amount").HeaderText = "Secretary Deduction Amount"
+                    gv.Columns("VSP_Deduction_Amount").HeaderText = "Secretary Quality Deduction Amount"
+                    If gv.Columns.Contains("VSP_Day_Wise_Incentive") = True Then
+                        gv.Columns("VSP_Day_Wise_Incentive").IsVisible = True
+                        gv.Columns("VSP_Day_Wise_Incentive").Width = 100
+                        gv.Columns("VSP_Day_Wise_Incentive").HeaderText = "Secretary Day Incentive Amount"
+                    End If
+
+                    If gv.Columns.Contains("Vehicle") Then
+                        gv.Columns("Vehicle").Width = 100
+                        gv.Columns("Vehicle").IsVisible = ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster
+                    End If
+
+                    If ChkDetailWise.Checked Then
+                        gv.Columns("Milk Receipt Code").IsVisible = True
+                        gv.Columns("Milk Receipt Code").Width = 100
+                        gv.Columns("Milk Receipt Code").HeaderText = " Milk Receipt Code"
+
+                        gv.Columns("MCC Code").IsVisible = True
+                        gv.Columns("MCC Code").Width = 100
+                        gv.Columns("MCC Code").HeaderText = "MCC Code"
+
+                        gv.Columns("MCC Type").IsVisible = False
+                        gv.Columns("Chilling Center").IsVisible = False
+
+                        gv.Columns("Shift").IsVisible = True
+
+                        gv.Columns("MCC Name").IsVisible = True
+                        gv.Columns("MCC Name").Width = 100
+                        gv.Columns("MCC Name").HeaderText = "MCC Name"
+
+                        gv.Columns("Doc Date").IsVisible = True
+                        gv.Columns("Doc Date").Width = 100
+                        gv.Columns("Doc Date").HeaderText = " Doc Date"
+
+                        gv.Columns("Route Code").IsVisible = True
+                        gv.Columns("Route Code").Width = 100
+                        gv.Columns("Route Code").HeaderText = "Route Code"
+
+                        gv.Columns("Route Name").IsVisible = True
+                        gv.Columns("Route Name").Width = 100
+                        gv.Columns("Route Name").HeaderText = "Route Name"
+
+                        gv.Columns("Vehicle Code").IsVisible = True
+                        gv.Columns("Vehicle Code").Width = 100
+                        gv.Columns("Vehicle Code").HeaderText = "Vehicle Code"
+
+                        gv.Columns("VSP Code").IsVisible = True
+                        gv.Columns("VSP Code").Width = 100
+                        gv.Columns("VSP Code").HeaderText = " Secretary Code"
+
+                        gv.Columns("VSP Name").IsVisible = True
+                        gv.Columns("VSP Name").Width = 100
+                        gv.Columns("VSP Name").HeaderText = "Secretary Name"
+
+                        gv.Columns("Vendor Group Code").IsVisible = True
+                        gv.Columns("Vendor Group Code").Width = 100
+                        gv.Columns("Vendor Group Code").HeaderText = "Vendor Group Code"
+
+                        gv.Columns("Vlc Uploader Code").IsVisible = True
+                        gv.Columns("Vlc Uploader Code").Width = 100
+                        gv.Columns("Vlc Uploader Code").HeaderText = "Dcs Uploader Code"
+
+                        gv.Columns("Vlc Code").IsVisible = True
+                        gv.Columns("Vlc Code").Width = 100
+                        gv.Columns("Vlc Code").HeaderText = " Dcs Code"
+
+                        gv.Columns("VLC Name").IsVisible = True
+                        gv.Columns("VLC Name").Width = 100
+                        gv.Columns("VLC Name").HeaderText = "DCS Name"
+
+                        gv.Columns("Item_Code").IsVisible = True
+                        gv.Columns("Item_Code").Width = 100
+                        gv.Columns("Item_Code").HeaderText = "Item Code"
+
+                        gv.Columns("Item_Desc").IsVisible = True
+                        gv.Columns("Item_Desc").Width = 150
+                        gv.Columns("Item_Desc").HeaderText = "Item"
+
+                        gv.Columns("Sample No").IsVisible = True
+                        gv.Columns("Sample No").Width = 100
+                        gv.Columns("Sample No").HeaderText = "Sample No"
+                        gv.Columns("Sample No").FormatString = "{0:n0}"
+
+                        gv.Columns("No Of Cans").IsVisible = True
+                        gv.Columns("No Of Cans").Width = 100
+                        gv.Columns("No Of Cans").HeaderText = "No Of Cans"
+                        gv.Columns("No Of Cans").FormatString = "{0:n0}"
+
+                        gv.Columns("Milk Weight").IsVisible = True
+                        gv.Columns("Milk Weight").Width = 100
+                        gv.Columns("Milk Weight").HeaderText = "Milk Weight"
+
+                        gv.Columns("Milk Weight(KG)").IsVisible = True
+                        gv.Columns("Milk Weight(KG)").Width = 100
+                        gv.Columns("Milk Weight(KG)").HeaderText = "Milk Weight(KG)"
+
+                        gv.Columns("Milk Weight(LTR)").IsVisible = True
+                        gv.Columns("Milk Weight(LTR)").Width = 100
+                        gv.Columns("Milk Weight(LTR)").HeaderText = "Milk Weight(LTR)"
 
 
-                    gv.Columns("VSP_Day_Wise_Incentive").IsVisible = True
-                    gv.Columns("VSP_Day_Wise_Incentive").Width = 100
-                    gv.Columns("VSP_Day_Wise_Incentive").HeaderText = "Secretary Day Wise Incentive"
 
-                    If gv.Columns.Contains("DeductionAmt") Then
-                        gv.Columns("DeductionAmt").IsVisible = True
+                        gv.Columns("FAT(%)").IsVisible = True
+                        gv.Columns("FAT(%)").Width = 100
+                        gv.Columns("FAT(%)").HeaderText = " FAT(%)"
+
+                        gv.Columns("SNF(%)").IsVisible = True
+                        gv.Columns("SNF(%)").Width = 100
+                        gv.Columns("SNF(%)").HeaderText = "SNF(%)"
+
+                        If gv.Columns.Contains("Capping_FAT") Then
+                            gv.Columns("Capping_FAT").IsVisible = False
+                            gv.Columns("Capping_FAT").HeaderText = "Before Capping FAT(%)"
+                        End If
+                        If gv.Columns.Contains("Capping_SNF") Then
+                            gv.Columns("Capping_SNF").IsVisible = False
+                            gv.Columns("Capping_SNF").HeaderText = "Before Capping SNF(%)"
+                        End If
+
+                        gv.Columns("FAT(KG)").IsVisible = True
+                        gv.Columns("FAT(KG)").Width = 100
+                        gv.Columns("FAT(KG)").HeaderText = " FAT(KG)"
+                        gv.Columns("FAT(KG)").FormatString = "{0:n3}"
+
+                        gv.Columns("SNF(KG)").IsVisible = True
+                        gv.Columns("SNF(KG)").Width = 100
+                        gv.Columns("SNF(KG)").HeaderText = "SNF(KG)"
+                        gv.Columns("SNF(KG)").FormatString = "{0:n3}"
+
+
+                        gv.Columns("Cow Milk Qty (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Cow Milk Qty (KG)").Width = 100
+                        gv.Columns("Cow Milk Qty (KG)").HeaderText = "Cow Milk Qty (KG)"
+
+                        gv.Columns("Cow FAT(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Cow FAT(%)").Width = 100
+                        gv.Columns("Cow FAT(%)").HeaderText = "Cow FAT(%)"
+
+                        gv.Columns("Cow SNF(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Cow SNF(%)").Width = 100
+                        gv.Columns("Cow SNF(%)").HeaderText = "Cow SNF(%)"
+
+                        gv.Columns("Cow FAT (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Cow FAT (KG)").Width = 100
+                        gv.Columns("Cow FAT (KG)").HeaderText = "Cow FAT (KG)"
+
+                        gv.Columns("Cow SNF (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Cow SNF (KG)").Width = 100
+                        gv.Columns("Cow SNF (KG)").HeaderText = "Cow SNF (KG)"
+
+                        gv.Columns("Cow CLR").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Cow CLR").Width = 100
+                        gv.Columns("Cow CLR").HeaderText = "Buffalo CLR"
+
+                        gv.Columns("Buffalo CLR").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Buffalo CLR").Width = 100
+                        gv.Columns("Buffalo CLR").HeaderText = "Buffalo CLR"
+
+                        gv.Columns("Buffalo Milk Qty (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Buffalo Milk Qty (KG)").Width = 100
+                        gv.Columns("Buffalo Milk Qty (KG)").HeaderText = "Buffalo Milk Qty (KG)"
+
+                        gv.Columns("Buffalo SNF(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Buffalo SNF(%)").Width = 100
+                        gv.Columns("Buffalo SNF(%)").HeaderText = "Buffalo SNF(%)"
+
+                        gv.Columns("Buffalo FAT(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Buffalo FAT(%)").Width = 100
+
+                        gv.Columns("Buffalo SNF (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Buffalo SNF (KG)").Width = 100
+                        gv.Columns("Buffalo SNF (KG)").HeaderText = "Buffalo FAT (KG)"
+
+                        gv.Columns("Buffalo FAT (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Buffalo FAT (KG)").Width = 100
+                        gv.Columns("Buffalo FAT (KG)").HeaderText = "Buffalo FAT (KG)"
+
+                        gv.Columns("Milk Type").IsVisible = True
+                        gv.Columns("Milk Type").Width = 100
+                        gv.Columns("Milk Type").HeaderText = " Milk Type"
+
+                        gv.Columns("SRN No").IsVisible = True
+                        gv.Columns("SRN No").Width = 100
+                        gv.Columns("SRN No").HeaderText = "SRN No"
+
+                        gv.Columns("SRN Amount").IsVisible = True
+                        gv.Columns("SRN Amount").Width = 100
+                        gv.Columns("SRN Amount").HeaderText = "SRN Amount"
+
+                        gv.Columns("SRN No").IsVisible = True
+                        gv.Columns("SRN No").Width = 100
+                        gv.Columns("SRN No").HeaderText = "SRN No"
+
+                        gv.Columns("SRN Qty").IsVisible = True
+                        gv.Columns("SRN Qty").Width = 100
+                        gv.Columns("SRN Qty").HeaderText = "SRN Qty"
+
+                        gv.Columns("SRN Rate").IsVisible = True
+                        gv.Columns("SRN Rate").Width = 100
+                        gv.Columns("SRN Rate").HeaderText = "SRN Rate"
+                        gv.Columns("SRN Rate").FormatString = "{0:n3}"
+
+                        gv.Columns("Shift Status").IsVisible = True
+                        gv.Columns("Shift Status").Width = 100
+                        gv.Columns("Shift Status").HeaderText = "Shift Status"
+
+                        gv.Columns("Invoice_no").IsVisible = True
+                        gv.Columns("Invoice_no").Width = 100
+                        gv.Columns("Invoice_no").HeaderText = "Invoice No"
+
+                        gv.Columns("Invoice_Date").IsVisible = True
+                        gv.Columns("Invoice_Date").Width = 100
+                        gv.Columns("Invoice_Date").HeaderText = "Invoice Date"
+                        'TankerFromMaster = 1 AndAlso
+                        gv.Columns("Purchase_Order_No").IsVisible = (chkRejection.Checked = True OrElse chkOnlyRejection.Checked = True) ''BHA/09/07/18-000138  by balwinder on 11/07/2018
+                        gv.Columns("Purchase_Order_No").Width = 100
+                        gv.Columns("Purchase_Order_No").HeaderText = "PO No"
+
+                        gv.Columns("Date").IsVisible = False
+
+                        gv.Columns("Head_Load_Amount").IsVisible = True
+                        gv.Columns("Head_Load_Amount").Width = 100
+                        gv.Columns("Head_Load_Amount").HeaderText = "Head Load Amount"
+
+                        gv.Columns("SNF_Ded_Value").IsVisible = False
+                        gv.Columns("SNF_Ded_Value").HeaderText = "SNF Deduction Value"
+
+                        gv.Columns("SNF_Ded_Rate").IsVisible = False
+                        gv.Columns("SNF_Ded_Rate").HeaderText = "SNF Deduction Rate"
+
+                        gv.Columns("SNF_Ded_Amount").IsVisible = False
+                        gv.Columns("SNF_Ded_Amount").HeaderText = "SNF Deduction Amount"
+
+                        If gv.Columns.Contains("Doc Date Time") Then
+                            gv.Columns("Doc Date Time").IsVisible = False
+                        End If
+
+
+                        'TankerFromMaster = 1 AndAlso
+                        If chkRejection.Checked = True OrElse chkOnlyRejection.Checked = True Then
+                            gv.Columns("EMP_Amount").IsVisible = True
+                            gv.Columns("EMP_Amount").Width = 100
+                            gv.Columns("EMP_Amount").HeaderText = "SRN Emp Amount"
+
+                            gv.Columns("TIP_Amount").IsVisible = True
+                            gv.Columns("TIP_Amount").Width = 100
+                            gv.Columns("TIP_Amount").HeaderText = "SRN TIP Amount"
+
+                            gv.Columns("Service_Charge_Amount").IsVisible = True
+                            gv.Columns("Service_Charge_Amount").Width = 150
+                            gv.Columns("Service_Charge_Amount").HeaderText = "Service Charge Amount"
+
+                            gv.Columns("NetAmount").IsVisible = True
+                            gv.Columns("NetAmount").Width = 150
+                            gv.Columns("NetAmount").HeaderText = "SRN Net Amount" '"NetAmount (SRNAmt+EmpAmt-ServiceAmt)"
+
+
+                        Else
+                            Try
+                                gv.Columns("EMP_Amount").IsVisible = True
+                                gv.Columns("EMP_Amount").Width = 100
+                                gv.Columns("EMP_Amount").HeaderText = "SRN EMP Amount"
+
+                                gv.Columns("TIP_Amount").IsVisible = True
+                                gv.Columns("TIP_Amount").Width = 100
+                                gv.Columns("TIP_Amount").HeaderText = "SRN TIP Amount"
+
+                                gv.Columns("NET_AMOUNT").IsVisible = True
+                                gv.Columns("NET_AMOUNT").Width = 100
+                                gv.Columns("NET_AMOUNT").HeaderText = "SRN Net Amount"
+
+                                gv.Columns("Round_Off").IsVisible = True
+                                gv.Columns("Round_Off").Width = 100
+                                gv.Columns("Round_Off").HeaderText = "SRN Round Off"
+
+                                gv.Columns("Handling_Charges_Amount").IsVisible = True
+                                gv.Columns("Handling_Charges_Amount").Width = 100
+                                gv.Columns("Handling_Charges_Amount").HeaderText = "Handling Charges"
+                            Catch ex As Exception
+
+                            End Try
+                        End If
+
+                        If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "KL") = CompairStringResult.Equal Then
+                            gv.Columns("IS_MANUAL").IsVisible = False
+                            gv.Columns("IS_MILK_SAMPLE_MANUAL").IsVisible = True
+                            gv.Columns("IS_MILK_SAMPLE_MANUAL").Width = 75
+                            gv.Columns("IS_MILK_SAMPLE_MANUAL").HeaderText = "Is Manual"
+
+                            gv.Columns("Transporter Code").IsVisible = True
+                            gv.Columns("Transporter Code").Width = 75
+                            gv.Columns("Transporter Code").HeaderText = "Transporter Code"
+
+                            gv.Columns("Transporter Name").IsVisible = True
+                            gv.Columns("Transporter Name").Width = 75
+                            gv.Columns("Transporter Name").HeaderText = "Transporter Name"
+                        Else
+                            gv.Columns("IS_MILK_SAMPLE_MANUAL").IsVisible = False
+                            gv.Columns("IS_MANUAL").IsVisible = True
+                            gv.Columns("IS_MANUAL").Width = 75
+                            gv.Columns("IS_MANUAL").HeaderText = "Is Manual"
+                        End If
+
+
+                        Dim summaryRowItem As New GridViewSummaryRowItem()
+                        Dim intCount As Integer = 0
+
+                        Dim item1 As New GridViewSummaryItem("Milk Weight", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item1)
+                        Dim item2 As New GridViewSummaryItem("Milk Weight(KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item2)
+                        Dim item3 As New GridViewSummaryItem("Milk Weight(LTR)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item3)
+                        'Dim item55 As New GridViewSummaryItem("DBT Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        'summaryRowItem.Add(item55)
+
+                        Dim item4 As New GridViewSummaryItem("FAT(KG)", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item4)
+
+                        Dim item101 As New GridViewSummaryItem("Head_Load_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item101)
+
+                        Dim item5 As New GridViewSummaryItem("SNF(KG)", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item5)
+
+
+
+                        Dim item51 As New GridViewSummaryItem("FAT(LTR)", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item51)
+
+
+                        Dim item52 As New GridViewSummaryItem("SNF(LTR)", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item52)
+
+
+                        Dim summaryItem1 As New GridViewSummaryItem()
+                        summaryItem1.FormatString = "{0:F2}"
+                        summaryItem1.Name = "FAT(%)"
+                        summaryItem1.AggregateExpression = "sum([FAT(KG)])*100/sum([Milk Weight(KG)])"
+                        summaryRowItem.Add(summaryItem1)
+
+                        Dim summaryItem2 As New GridViewSummaryItem()
+                        summaryItem2.FormatString = "{0:F2}"
+                        summaryItem2.Name = "SNF(%)"
+                        summaryItem2.AggregateExpression = "sum([SNF(KG)])*100/sum([Milk Weight(KG)])"
+                        summaryRowItem.Add(summaryItem2)
+
+                        Dim item6 As New GridViewSummaryItem("Cow Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item6)
+                        Dim item7 As New GridViewSummaryItem("Cow FAT (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item7)
+
+                        Dim item8 As New GridViewSummaryItem("Cow SNF (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item8)
+
+                        Dim summaryItem3 As New GridViewSummaryItem()
+                        summaryItem3.FormatString = "{0:F2}"
+                        summaryItem3.Name = "Cow SNF(%)"
+                        summaryItem3.AggregateExpression = "IIf(sum([Cow SNF (KG)])>0,sum([Cow SNF (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
+                        summaryRowItem.Add(summaryItem3)
+
+
+
+                        Dim summaryItem4 As New GridViewSummaryItem()
+                        summaryItem4.FormatString = "{0:F2}"
+                        summaryItem4.Name = "Cow FAT(%)"
+                        summaryItem4.AggregateExpression = "IIf(sum([Cow SNF (KG)])>0,sum([Cow FAT (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
+                        summaryRowItem.Add(summaryItem4)
+
+
+
+
+                        Dim item9 As New GridViewSummaryItem("Buffalo Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item9)
+                        Dim item10 As New GridViewSummaryItem("Buffalo FAT (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item10)
+                        Dim item11 As New GridViewSummaryItem("Buffalo SNF (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item11)
+
+                        Dim summaryItem5 As New GridViewSummaryItem()
+                        summaryItem5.FormatString = "{0:F2}"
+                        summaryItem5.Name = "Buffalo FAT(%)"
+                        summaryItem5.AggregateExpression = "sum([Buffalo FAT (KG)])*100/sum([Buffalo Milk Qty (KG)])"
+                        summaryRowItem.Add(summaryItem5)
+
+                        Dim summaryItem6 As New GridViewSummaryItem()
+                        summaryItem6.FormatString = "{0:F2}"
+                        summaryItem6.Name = "Buffalo SNF(%)"
+                        summaryItem6.AggregateExpression = "sum([Buffalo SNF (KG)])*100/sum([Buffalo Milk Qty (KG)])"
+                        summaryRowItem.Add(summaryItem6)
+                        'TankerFromMaster = 1 AndAlso
+                        If chkRejection.Checked = True OrElse chkOnlyRejection.Checked = True Then
+                            Dim item22 As New GridViewSummaryItem("EMP_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                            summaryRowItem.Add(item22)
+                            Dim item122 As New GridViewSummaryItem("TIP_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                            summaryRowItem.Add(item122)
+                            Dim item23 As New GridViewSummaryItem("Service_Charge_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                            summaryRowItem.Add(item23)
+                            Dim item24 As New GridViewSummaryItem("NetAmount", "{0:F2}", GridAggregateFunction.Sum)
+                            summaryRowItem.Add(item24)
+                        Else
+                            Try
+                                Dim item111 As New GridViewSummaryItem("EMP_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                                summaryRowItem.Add(item111)
+                                Dim item1111 As New GridViewSummaryItem("TIP_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                                summaryRowItem.Add(item1111)
+                                Dim item112 As New GridViewSummaryItem("NET_AMOUNT", "{0:F2}", GridAggregateFunction.Sum)
+                                summaryRowItem.Add(item112)
+                                Dim item113 As New GridViewSummaryItem("Round_Off", "{0:F2}", GridAggregateFunction.Sum)
+                                summaryRowItem.Add(item113)
+                                Dim item114 As New GridViewSummaryItem("Handling_Charges_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                                summaryRowItem.Add(item114)
+                            Catch ex As Exception
+
+                            End Try
+
+                        End If
+
+                        Dim item12 As New GridViewSummaryItem("SRN Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item12)
+                        Dim item13 As New GridViewSummaryItem("SRN Qty", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item13)
+                        Dim item14 As New GridViewSummaryItem("SNF_Ded_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item14)
+
+
+                        Dim SummaryVSPCommission As New GridViewSummaryItem("VSP_Commission_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPCommission)
+                        Dim SummaryVSPQualityDeduction As New GridViewSummaryItem("VSP_Deduction_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPQualityDeduction)
+                        Dim SummaryVSPDayWiseInc As New GridViewSummaryItem("VSP_Day_Wise_Incentive", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPDayWiseInc)
+
+                        ''richa agarwal 11 Dec,2018 ERO/11/12/18-000429
+                        Dim summaryItem50 As New GridViewSummaryItem()
+                        summaryItem50.FormatString = "{0:F3}"
+                        summaryItem50.Name = "SRN Rate"
+                        summaryItem50.AggregateExpression = "sum([SRN Amount])/sum([SRN Qty])"
+                        summaryRowItem.Add(summaryItem50)
+
+                        gv.ShowGroupPanel = False
+                        gv.MasterTemplate.AutoExpandGroups = True
+
+                        gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+                    ElseIf ChkMCCWise.Checked Then
+                        gv.Columns("MCC Code").IsVisible = True
+                        gv.Columns("MCC Code").Width = 100
+                        gv.Columns("MCC Code").HeaderText = "MCC Code"
+
+                        gv.Columns("MCC Name").IsVisible = True
+                        gv.Columns("MCC Name").Width = 100
+                        gv.Columns("MCC Name").HeaderText = "MCC Name"
+
+                        gv.Columns("MCC Type").IsVisible = False
+                        gv.Columns("Chilling Center").IsVisible = False
+
+                        gv.Columns("Milk Weight").IsVisible = True
+                        gv.Columns("Milk Weight").Width = 100
+                        gv.Columns("Milk Weight").HeaderText = "Milk Weight"
+
+                        gv.Columns("Milk Weight(KG)").IsVisible = True
+                        gv.Columns("Milk Weight(KG)").Width = 100
+                        gv.Columns("Milk Weight(KG)").HeaderText = "Milk Weight(KG)"
+
+                        gv.Columns("Milk Weight(LTR)").IsVisible = True
+                        gv.Columns("Milk Weight(LTR)").Width = 100
+                        gv.Columns("Milk Weight(LTR)").HeaderText = "Milk Weight(LTR)"
+
+                        gv.Columns("FAT(%)").IsVisible = True
+                        gv.Columns("FAT(%)").Width = 100
+                        gv.Columns("FAT(%)").HeaderText = " FAT(%)"
+
+                        gv.Columns("SNF(%)").IsVisible = True
+                        gv.Columns("SNF(%)").Width = 100
+                        gv.Columns("SNF(%)").HeaderText = "SNF(%)"
+
+                        gv.Columns("FAT(KG)").IsVisible = True
+                        gv.Columns("FAT(KG)").Width = 100
+                        gv.Columns("FAT(KG)").HeaderText = " FAT(KG)"
+                        gv.Columns("FAT(KG)").FormatString = "{0:n3}"
+
+                        gv.Columns("SNF(KG)").IsVisible = True
+                        gv.Columns("SNF(KG)").Width = 100
+                        gv.Columns("SNF(KG)").HeaderText = "SNF(KG)"
+                        gv.Columns("SNF(KG)").FormatString = "{0:n3}"
+
+                        gv.Columns("Cow Milk Qty (KG)").IsVisible = True
+                        gv.Columns("Cow Milk Qty (KG)").Width = 100
+                        gv.Columns("Cow Milk Qty (KG)").HeaderText = "Cow Milk Qty (KG)"
+
+                        gv.Columns("Cow FAT(%)").IsVisible = True
+                        gv.Columns("Cow FAT(%)").Width = 100
+                        gv.Columns("Cow FAT(%)").HeaderText = "Cow FAT(%)"
+
+                        gv.Columns("Cow SNF(%)").IsVisible = True
+                        gv.Columns("Cow SNF(%)").Width = 100
+                        gv.Columns("Cow SNF(%)").HeaderText = "Cow SNF(%)"
+
+                        gv.Columns("Cow FAT (KG)").IsVisible = True
+                        gv.Columns("Cow FAT (KG)").Width = 100
+                        gv.Columns("Cow FAT (KG)").HeaderText = "Cow FAT (KG)"
+
+                        gv.Columns("Cow SNF (KG)").IsVisible = True
+                        gv.Columns("Cow SNF (KG)").Width = 100
+                        gv.Columns("Cow SNF (KG)").HeaderText = "Cow SNF (KG)"
+
+                        gv.Columns("Buffalo Milk Qty (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Buffalo Milk Qty (KG)").Width = 100
+                        gv.Columns("Buffalo Milk Qty (KG)").HeaderText = "Buffalo Milk Qty (KG)"
+
+                        gv.Columns("Buffalo SNF(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Buffalo SNF(%)").Width = 100
+                        gv.Columns("Buffalo SNF(%)").HeaderText = "Buffalo SNF(%)"
+
+                        gv.Columns("Buffalo FAT(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Buffalo FAT(%)").Width = 100
+
+                        gv.Columns("Buffalo FAT (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Buffalo FAT (KG)").Width = 100
+                        gv.Columns("Buffalo FAT (KG)").HeaderText = "Buffalo FAT (KG)"
+
+
+
+                        gv.Columns("SRN Qty").IsVisible = True
+                        gv.Columns("SRN Qty").Width = 100
+                        gv.Columns("SRN Qty").HeaderText = "SRN Qty"
+
+
+                        gv.Columns("SRN Amount").IsVisible = True
+                        gv.Columns("SRN Amount").Width = 100
+                        gv.Columns("SRN Amount").HeaderText = "SRN Amount"
+
+                        gv.Columns("Head_Load_Amount").IsVisible = True
+                        gv.Columns("Head_Load_Amount").Width = 100
+                        gv.Columns("Head_Load_Amount").HeaderText = "Head Load Amount"
+
+                        gv.Columns("EMP_Amount").IsVisible = True
+                        gv.Columns("EMP_Amount").Width = 100
+                        gv.Columns("EMP_Amount").HeaderText = "SRN EMP Amount"
+
+                        gv.Columns("TIP_Amount").IsVisible = True
+                        gv.Columns("TIP_Amount").Width = 100
+                        gv.Columns("TIP_Amount").HeaderText = "SRN TIP Amount"
+
+
+
+
+                        gv.Columns("SNF_Ded_Amount").IsVisible = False
+                        gv.Columns("SNF_Ded_Amount").HeaderText = "SNF Deduction Amount"
+
+                        Dim summaryRowItem As New GridViewSummaryRowItem()
+                        Dim intCount As Integer = 0
+                        'TankerFromMaster = 0 AndAlso
+                        If chkRejection.Checked = False AndAlso chkOnlyRejection.Checked = False Then
+                            Try
+                                gv.Columns("NET_AMOUNT").IsVisible = True
+                                gv.Columns("NET_AMOUNT").Width = 100
+                                gv.Columns("NET_AMOUNT").HeaderText = "SRN Net Amount"
+
+                                gv.Columns("Round_Off").IsVisible = True
+                                gv.Columns("Round_Off").Width = 100
+                                gv.Columns("Round_Off").HeaderText = "SRN Round Off"
+
+                                gv.Columns("Handling_Charges_Amount").IsVisible = True
+                                gv.Columns("Handling_Charges_Amount").Width = 100
+                                gv.Columns("Handling_Charges_Amount").HeaderText = "Handling Charges"
+
+
+                                Dim item112 As New GridViewSummaryItem("NET_AMOUNT", "{0:F2}", GridAggregateFunction.Sum)
+                                summaryRowItem.Add(item112)
+                                Dim item113 As New GridViewSummaryItem("Round_Off", "{0:F2}", GridAggregateFunction.Sum)
+                                summaryRowItem.Add(item113)
+                                Dim item114 As New GridViewSummaryItem("Handling_Charges_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                                summaryRowItem.Add(item114)
+                            Catch ex As Exception
+
+                            End Try
+
+                        End If
+
+                        Dim item1 As New GridViewSummaryItem("Milk Weight", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item1)
+                        Dim item2 As New GridViewSummaryItem("Milk Weight(KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item2)
+                        Dim item3 As New GridViewSummaryItem("Milk Weight(LTR)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item3)
+
+
+
+                        Dim item4 As New GridViewSummaryItem("FAT(KG)", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item4)
+                        Dim item101 As New GridViewSummaryItem("Head_Load_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item101)
+                        Dim abcd As New GridViewSummaryItem("EMP_AMOUNT", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(abcd)
+                        Dim abcde As New GridViewSummaryItem("TIP_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(abcde)
+                        Dim item5 As New GridViewSummaryItem("SNF(KG)", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item5)
+
+                        Dim SummaryVSPCommission As New GridViewSummaryItem("VSP_Commission_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPCommission)
+                        Dim SummaryVSPQualityDeduction As New GridViewSummaryItem("VSP_Deduction_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPQualityDeduction)
+                        Dim SummaryVSPDayWiseInc As New GridViewSummaryItem("VSP_Day_Wise_Incentive", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPDayWiseInc)
+
+                        Dim summaryItem1 As New GridViewSummaryItem()
+                        summaryItem1.FormatString = "{0:F2}"
+                        summaryItem1.Name = "FAT(%)"
+                        summaryItem1.AggregateExpression = "sum([FAT(KG)])*100/sum([Milk Weight(KG)])"
+                        summaryRowItem.Add(summaryItem1)
+
+                        Dim summaryItem2 As New GridViewSummaryItem()
+                        summaryItem2.FormatString = "{0:F2}"
+                        summaryItem2.Name = "SNF(%)"
+                        summaryItem2.AggregateExpression = "sum([SNF(KG)])*100/sum([Milk Weight(KG)])"
+                        summaryRowItem.Add(summaryItem2)
+
+                        Dim item6 As New GridViewSummaryItem("Cow Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item6)
+                        Dim item7 As New GridViewSummaryItem("Cow FAT (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item7)
+
+                        Dim item8 As New GridViewSummaryItem("Cow SNF (KG)", "{0:F2}", GridAggregateFunction.Sum)
+
+                        summaryRowItem.Add(item8)
+                        Dim summaryItem3 As New GridViewSummaryItem()
+                        summaryItem3.FormatString = "{0:F2}"
+                        summaryItem3.Name = "Cow SNF(%)"
+                        summaryItem3.AggregateExpression = "IIf(sum([Cow SNF (KG)])>0,sum([Cow SNF (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
+                        summaryRowItem.Add(summaryItem3)
+
+                        Dim summaryItem4 As New GridViewSummaryItem()
+                        summaryItem4.FormatString = "{0:F2}"
+                        summaryItem4.Name = "Cow FAT(%)"
+                        summaryItem4.AggregateExpression = "IIf(sum([Cow FAT (KG)])>0,sum([Cow FAT (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
+                        summaryRowItem.Add(summaryItem4)
+
+                        Dim item9 As New GridViewSummaryItem("Buffalo Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item9)
+                        Dim item10 As New GridViewSummaryItem("Buffalo FAT (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item10)
+                        Dim item11 As New GridViewSummaryItem("Buffalo SNF (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item11)
+                        Dim summaryItem5 As New GridViewSummaryItem()
+                        summaryItem5.FormatString = "{0:F2}"
+                        summaryItem5.Name = "Buffalo FAT(%)"
+                        summaryItem5.AggregateExpression = "IIf(sum([Buffalo FAT (KG)])>0,sum([Buffalo FAT (KG)])*100/sum([Buffalo Milk Qty (KG)]),0)"
+                        summaryRowItem.Add(summaryItem5)
+
+                        Dim summaryItem6 As New GridViewSummaryItem()
+                        summaryItem6.FormatString = "{0:F2}"
+                        summaryItem6.Name = "Buffalo SNF(%)"
+                        summaryItem6.AggregateExpression = "IIf(sum([Buffalo SNF (KG)])>0,sum([Buffalo SNF (KG)])*100/sum([Buffalo Milk Qty (KG)]),0)"
+                        summaryRowItem.Add(summaryItem6)
+                        Dim item13 As New GridViewSummaryItem("SRN Qty", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item13)
+                        Dim item12 As New GridViewSummaryItem("SRN Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item12)
+
+                        Dim item15 As New GridViewSummaryItem("SNF_Ded_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item15)
+
+                        gv.ShowGroupPanel = False
+                        gv.MasterTemplate.AutoExpandGroups = True
+
+                        gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+                    ElseIf rbtnPlantWise.Checked Then
+                        gv.Columns("Plant Code").IsVisible = True
+                        gv.Columns("Plant Code").Width = 100
+                        gv.Columns("Plant Code").HeaderText = "Plant Code"
+
+                        gv.Columns("Plant Name").IsVisible = True
+                        gv.Columns("Plant Name").Width = 100
+                        gv.Columns("Plant Name").HeaderText = "Plant Name"
+
+                        gv.Columns("MCC Code").IsVisible = False
+                        gv.Columns("MCC Code").Width = 100
+                        gv.Columns("MCC Code").HeaderText = "MCC Code"
+
+                        gv.Columns("MCC Name").IsVisible = False
+                        gv.Columns("MCC Name").Width = 100
+                        gv.Columns("MCC Name").HeaderText = "MCC Name"
+
+                        gv.Columns("Milk Weight").IsVisible = True
+                        gv.Columns("Milk Weight").Width = 100
+                        gv.Columns("Milk Weight").HeaderText = "Milk Weight"
+
+                        gv.Columns("Milk Weight(KG)").IsVisible = True
+                        gv.Columns("Milk Weight(KG)").Width = 100
+                        gv.Columns("Milk Weight(KG)").HeaderText = "Milk Weight(KG)"
+
+                        gv.Columns("Milk Weight(LTR)").IsVisible = True
+                        gv.Columns("Milk Weight(LTR)").Width = 100
+                        gv.Columns("Milk Weight(LTR)").HeaderText = "Milk Weight(LTR)"
+
+                        gv.Columns("FAT(%)").IsVisible = True
+                        gv.Columns("FAT(%)").Width = 100
+                        gv.Columns("FAT(%)").HeaderText = " FAT(%)"
+
+                        gv.Columns("SNF(%)").IsVisible = True
+                        gv.Columns("SNF(%)").Width = 100
+                        gv.Columns("SNF(%)").HeaderText = "SNF(%)"
+
+                        gv.Columns("FAT(KG)").IsVisible = True
+                        gv.Columns("FAT(KG)").Width = 100
+                        gv.Columns("FAT(KG)").HeaderText = " FAT(KG)"
+                        gv.Columns("FAT(KG)").FormatString = "{0:n3}"
+
+                        gv.Columns("SNF(KG)").IsVisible = True
+                        gv.Columns("SNF(KG)").Width = 100
+                        gv.Columns("SNF(KG)").HeaderText = "SNF(KG)"
+                        gv.Columns("SNF(KG)").FormatString = "{0:n3}"
+
+                        gv.Columns("Total Solid").IsVisible = True
+                        gv.Columns("Total Solid").Width = 100
+                        gv.Columns("Total Solid").HeaderText = "Total Solid"
+                        gv.Columns("Total Solid").FormatString = "{0:n3}"
+
+                        gv.Columns("Cow Milk Qty (KG)").IsVisible = True
+                        gv.Columns("Cow Milk Qty (KG)").Width = 100
+                        gv.Columns("Cow Milk Qty (KG)").HeaderText = "Cow Milk Qty (KG)"
+
+                        gv.Columns("Cow FAT(%)").IsVisible = True
+                        gv.Columns("Cow FAT(%)").Width = 100
+                        gv.Columns("Cow FAT(%)").HeaderText = "Cow FAT(%)"
+
+                        gv.Columns("Cow SNF(%)").IsVisible = True
+                        gv.Columns("Cow SNF(%)").Width = 100
+                        gv.Columns("Cow SNF(%)").HeaderText = "Cow SNF(%)"
+
+                        gv.Columns("Cow FAT (KG)").IsVisible = True
+                        gv.Columns("Cow FAT (KG)").Width = 100
+                        gv.Columns("Cow FAT (KG)").HeaderText = "Cow FAT (KG)"
+
+                        gv.Columns("Cow SNF (KG)").IsVisible = True
+                        gv.Columns("Cow SNF (KG)").Width = 100
+                        gv.Columns("Cow SNF (KG)").HeaderText = "Cow SNF (KG)"
+
+                        gv.Columns("Cow Total Solid").IsVisible = True
+                        gv.Columns("Cow Total Solid").Width = 100
+                        gv.Columns("Cow Total Solid").HeaderText = "Cow Total Solid"
+
+                        gv.Columns("Buffalo Milk Qty (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Buffalo Milk Qty (KG)").Width = 100
+                        gv.Columns("Buffalo Milk Qty (KG)").HeaderText = "Buffalo Milk Qty (KG)"
+
+                        gv.Columns("Buffalo SNF(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Buffalo SNF(%)").Width = 100
+                        gv.Columns("Buffalo SNF(%)").HeaderText = "Buffalo SNF(%)"
+
+                        gv.Columns("Buffalo FAT(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Buffalo FAT(%)").Width = 100
+
+                        gv.Columns("Buffalo FAT (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Buffalo FAT (KG)").Width = 100
+                        gv.Columns("Buffalo FAT (KG)").HeaderText = "Buffalo FAT (KG)"
+
+                        gv.Columns("Buffalo Total Solid").IsVisible = True
+                        gv.Columns("Buffalo Total Solid").Width = 100
+                        gv.Columns("Buffalo Total Solid").HeaderText = "Buffalo Total Solid"
+
+                        gv.Columns("SRN Qty").IsVisible = True
+                        gv.Columns("SRN Qty").Width = 100
+                        gv.Columns("SRN Qty").HeaderText = "SRN Qty"
+
+
+                        gv.Columns("SRN Amount").IsVisible = True
+                        gv.Columns("SRN Amount").Width = 100
+                        gv.Columns("SRN Amount").HeaderText = "SRN Amount"
+
+                        gv.Columns("Head_Load_Amount").IsVisible = True
+                        gv.Columns("Head_Load_Amount").Width = 100
+                        gv.Columns("Head_Load_Amount").HeaderText = "Head Load Amount"
+
+                        gv.Columns("EMP_Amount").IsVisible = True
+                        gv.Columns("EMP_Amount").Width = 100
+                        gv.Columns("EMP_Amount").HeaderText = "SRN EMP Amount"
+
+                        gv.Columns("TIP_Amount").IsVisible = True
+                        gv.Columns("TIP_Amount").Width = 100
+                        gv.Columns("TIP_Amount").HeaderText = "SRN TIP Amount"
+
+
+
+
+                        gv.Columns("SNF_Ded_Amount").IsVisible = False
+                        gv.Columns("SNF_Ded_Amount").HeaderText = "SNF Deduction Amount"
+
+                        Dim summaryRowItem As New GridViewSummaryRowItem()
+                        Dim intCount As Integer = 0
+                        'TankerFromMaster = 0 AndAlso
+                        If chkRejection.Checked = False AndAlso chkOnlyRejection.Checked = False Then
+                            Try
+
+
+                                gv.Columns("NET_AMOUNT").IsVisible = True
+                                gv.Columns("NET_AMOUNT").Width = 100
+                                gv.Columns("NET_AMOUNT").HeaderText = "SRN Net Amount"
+
+                                gv.Columns("Round_Off").IsVisible = True
+                                gv.Columns("Round_Off").Width = 100
+                                gv.Columns("Round_Off").HeaderText = "SRN Round Off"
+
+                                gv.Columns("Handling_Charges_Amount").IsVisible = True
+                                gv.Columns("Handling_Charges_Amount").Width = 100
+                                gv.Columns("Handling_Charges_Amount").HeaderText = "Handling Charges"
+
+
+                                Dim item112 As New GridViewSummaryItem("NET_AMOUNT", "{0:F2}", GridAggregateFunction.Sum)
+                                summaryRowItem.Add(item112)
+                                Dim item113 As New GridViewSummaryItem("Round_Off", "{0:F2}", GridAggregateFunction.Sum)
+                                summaryRowItem.Add(item113)
+                                Dim item114 As New GridViewSummaryItem("Handling_Charges_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                                summaryRowItem.Add(item114)
+                            Catch ex As Exception
+
+                            End Try
+
+                        End If
+
+                        Dim item1 As New GridViewSummaryItem("Milk Weight", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item1)
+                        Dim item2 As New GridViewSummaryItem("Milk Weight(KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item2)
+                        Dim item3 As New GridViewSummaryItem("Milk Weight(LTR)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item3)
+
+
+
+                        Dim item4 As New GridViewSummaryItem("FAT(KG)", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item4)
+                        Dim item101 As New GridViewSummaryItem("Head_Load_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item101)
+                        Dim abcd As New GridViewSummaryItem("EMP_AMOUNT", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(abcd)
+                        Dim abcde As New GridViewSummaryItem("TIP_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(abcde)
+                        Dim item5 As New GridViewSummaryItem("SNF(KG)", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item5)
+                        Dim item51 As New GridViewSummaryItem("Total Solid", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item51)
+                        Dim summaryItem1 As New GridViewSummaryItem()
+                        summaryItem1.FormatString = "{0:F2}"
+                        summaryItem1.Name = "FAT(%)"
+                        summaryItem1.AggregateExpression = "sum([FAT(KG)])*100/sum([Milk Weight(KG)])"
+                        summaryRowItem.Add(summaryItem1)
+
+                        Dim summaryItem2 As New GridViewSummaryItem()
+                        summaryItem2.FormatString = "{0:F2}"
+                        summaryItem2.Name = "SNF(%)"
+                        summaryItem2.AggregateExpression = "sum([SNF(KG)])*100/sum([Milk Weight(KG)])"
+                        summaryRowItem.Add(summaryItem2)
+
+                        Dim item6 As New GridViewSummaryItem("Cow Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item6)
+                        Dim item7 As New GridViewSummaryItem("Cow FAT (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item7)
+
+                        Dim item8 As New GridViewSummaryItem("Cow SNF (KG)", "{0:F2}", GridAggregateFunction.Sum)
+
+                        summaryRowItem.Add(item8)
+
+                        Dim item81 As New GridViewSummaryItem("Cow Total Solid", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item81)
+
+                        Dim summaryItem3 As New GridViewSummaryItem()
+                        summaryItem3.FormatString = "{0:F2}"
+                        summaryItem3.Name = "Cow SNF(%)"
+                        summaryItem3.AggregateExpression = "IIf(sum([Cow SNF (KG)])>0,sum([Cow SNF (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
+                        summaryRowItem.Add(summaryItem3)
+
+                        Dim summaryItem4 As New GridViewSummaryItem()
+                        summaryItem4.FormatString = "{0:F2}"
+                        summaryItem4.Name = "Cow FAT(%)"
+                        summaryItem4.AggregateExpression = "IIf(sum([Cow FAT (KG)])>0,sum([Cow FAT (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
+                        summaryRowItem.Add(summaryItem4)
+
+                        Dim item9 As New GridViewSummaryItem("Buffalo Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item9)
+                        Dim item10 As New GridViewSummaryItem("Buffalo FAT (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item10)
+                        Dim item11 As New GridViewSummaryItem("Buffalo SNF (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item11)
+                        Dim item1Baff As New GridViewSummaryItem("Buffalo Total Solid", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item1Baff)
+                        Dim summaryItem5 As New GridViewSummaryItem()
+                        summaryItem5.FormatString = "{0:F2}"
+                        summaryItem5.Name = "Buffalo FAT(%)"
+                        summaryItem5.AggregateExpression = "IIf(sum([Buffalo FAT (KG)])>0,sum([Buffalo FAT (KG)])*100/sum([Buffalo Milk Qty (KG)]),0)"
+                        summaryRowItem.Add(summaryItem5)
+
+                        Dim summaryItem6 As New GridViewSummaryItem()
+                        summaryItem6.FormatString = "{0:F2}"
+                        summaryItem6.Name = "Buffalo SNF(%)"
+                        summaryItem6.AggregateExpression = "IIf(sum([Buffalo SNF (KG)])>0,sum([Buffalo SNF (KG)])*100/sum([Buffalo Milk Qty (KG)]),0)"
+                        summaryRowItem.Add(summaryItem6)
+                        Dim item13 As New GridViewSummaryItem("SRN Qty", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item13)
+                        Dim item12 As New GridViewSummaryItem("SRN Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item12)
+
+                        Dim item15 As New GridViewSummaryItem("SNF_Ded_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item15)
+
+                        Dim SummaryVSPCommission As New GridViewSummaryItem("VSP_Commission_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPCommission)
+                        Dim SummaryVSPQualityDeduction As New GridViewSummaryItem("VSP_Deduction_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPQualityDeduction)
+                        Dim SummaryVSPDayWiseInc As New GridViewSummaryItem("VSP_Day_Wise_Incentive", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPDayWiseInc)
+
+                        gv.ShowGroupPanel = False
+                        gv.MasterTemplate.AutoExpandGroups = True
+
+                        gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+                    ElseIf chkRoutewise.Checked Then
+                        'TankerFromMaster = 1 AndAlso
+                        If chkShiftWise.Checked And (chkRejection.Checked = True OrElse chkOnlyRejection.Checked = True) Then
+                            gv.Columns("Shift").IsVisible = True
+                            gv.Columns("Shift").Width = 80
+                            gv.Columns("Shift").HeaderText = "Shift"
+                        End If
+                        gv.Columns("MCC Code").IsVisible = True
+                        gv.Columns("MCC Code").Width = 100
+                        gv.Columns("MCC Code").HeaderText = "MCC Code"
+
+                        gv.Columns("MCC Name").IsVisible = True
+                        gv.Columns("MCC Name").Width = 100
+                        gv.Columns("MCC Name").HeaderText = "MCC Name"
+
+                        gv.Columns("MCC Type").IsVisible = False
+                        gv.Columns("Chilling Center").IsVisible = False
+
+                        gv.Columns("Route Code").IsVisible = True
+                        gv.Columns("Route Code").Width = 170
+                        gv.Columns("Route Code").HeaderText = "Route Code"
+
+                        gv.Columns("Route Name").IsVisible = True
+                        gv.Columns("Route Name").Width = 100
+                        gv.Columns("Route Name").HeaderText = "Route Name"
+
+
+                        gv.Columns("Milk Weight").IsVisible = True
+                        gv.Columns("Milk Weight").Width = 100
+                        gv.Columns("Milk Weight").HeaderText = "Milk Weight"
+
+                        gv.Columns("Milk Weight(KG)").IsVisible = True
+                        gv.Columns("Milk Weight(KG)").Width = 100
+                        gv.Columns("Milk Weight(KG)").HeaderText = "Milk Weight(KG)"
+
+                        gv.Columns("Milk Weight(LTR)").IsVisible = True
+                        gv.Columns("Milk Weight(LTR)").Width = 100
+                        gv.Columns("Milk Weight(LTR)").HeaderText = "Milk Weight(LTR)"
+
+                        gv.Columns("FAT(%)").IsVisible = True
+                        gv.Columns("FAT(%)").Width = 100
+                        gv.Columns("FAT(%)").HeaderText = " FAT(%)"
+
+                        gv.Columns("SNF(%)").IsVisible = True
+                        gv.Columns("SNF(%)").Width = 100
+                        gv.Columns("SNF(%)").HeaderText = "SNF(%)"
+
+                        gv.Columns("FAT(KG)").IsVisible = True
+                        gv.Columns("FAT(KG)").Width = 100
+                        gv.Columns("FAT(KG)").HeaderText = " FAT(KG)"
+                        gv.Columns("FAT(KG)").FormatString = "{0:n3}"
+
+                        gv.Columns("SNF(KG)").IsVisible = True
+                        gv.Columns("SNF(KG)").Width = 100
+                        gv.Columns("SNF(KG)").HeaderText = "SNF(KG)"
+                        gv.Columns("SNF(KG)").FormatString = "{0:n3}"
+
+                        gv.Columns("Cow Milk Qty (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Cow Milk Qty (KG)").Width = 100
+                        gv.Columns("Cow Milk Qty (KG)").HeaderText = "Cow Milk Qty (KG)"
+
+                        gv.Columns("Cow FAT(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Cow FAT(%)").Width = 100
+                        gv.Columns("Cow FAT(%)").HeaderText = "Cow FAT(%)"
+
+                        gv.Columns("Cow SNF(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Cow SNF(%)").Width = 100
+                        gv.Columns("Cow SNF(%)").HeaderText = "Cow SNF(%)"
+
+                        gv.Columns("Cow FAT (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Cow FAT (KG)").Width = 100
+                        gv.Columns("Cow FAT (KG)").HeaderText = "Cow FAT (KG)"
+
+                        gv.Columns("Cow SNF (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Cow SNF (KG)").Width = 100
+                        gv.Columns("Cow SNF (KG)").HeaderText = "Cow SNF (KG)"
+
+                        gv.Columns("Buffalo Milk Qty (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Buffalo Milk Qty (KG)").Width = 100
+                        gv.Columns("Buffalo Milk Qty (KG)").HeaderText = "Buffalo Milk Qty (KG)"
+
+                        gv.Columns("Buffalo SNF(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Buffalo SNF(%)").Width = 100
+                        gv.Columns("Buffalo SNF(%)").HeaderText = "Buffalo SNF(%)"
+
+                        gv.Columns("Buffalo FAT(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Buffalo FAT(%)").Width = 100
+
+                        gv.Columns("Buffalo FAT (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Buffalo FAT (KG)").Width = 100
+                        gv.Columns("Buffalo FAT (KG)").HeaderText = "Buffalo FAT (KG)"
+
+
+
+                        gv.Columns("SRN Qty").IsVisible = True
+                        gv.Columns("SRN Qty").Width = 100
+                        gv.Columns("SRN Qty").HeaderText = "SRN Qty"
+
+
+                        gv.Columns("SRN Amount").IsVisible = True
+                        gv.Columns("SRN Amount").Width = 100
+                        gv.Columns("SRN Amount").HeaderText = "SRN Amount"
+
+                        gv.Columns("EMP_Amount").IsVisible = True
+                        gv.Columns("EMP_Amount").Width = 100
+                        gv.Columns("EMP_Amount").HeaderText = "SRN EMP Amount"
+
+                        gv.Columns("TIP_Amount").IsVisible = True
+                        gv.Columns("TIP_Amount").Width = 100
+                        gv.Columns("TIP_Amount").HeaderText = "SRN TIP Amount"
+
+
+
+
+
+                        gv.Columns("SNF_Ded_Amount").IsVisible = False
+                        gv.Columns("SNF_Ded_Amount").HeaderText = "SNF Deduction Amount"
+
+
+                        Dim summaryRowItem As New GridViewSummaryRowItem()
+                        'TankerFromMaster = 0 AndAlso
+                        If chkRejection.Checked = False AndAlso chkOnlyRejection.Checked = False Then
+                            Try
+
+                                gv.Columns("NET_AMOUNT").IsVisible = True
+                                gv.Columns("NET_AMOUNT").Width = 100
+                                gv.Columns("NET_AMOUNT").HeaderText = "SRN Net Amount"
+
+                                gv.Columns("Round_Off").IsVisible = True
+                                gv.Columns("Round_Off").Width = 100
+                                gv.Columns("Round_Off").HeaderText = "SRN Round Off"
+
+                                gv.Columns("Handling_Charges_Amount").IsVisible = True
+                                gv.Columns("Handling_Charges_Amount").Width = 100
+                                gv.Columns("Handling_Charges_Amount").HeaderText = "Handling Charges"
+
+
+                                Dim item112 As New GridViewSummaryItem("NET_AMOUNT", "{0:F2}", GridAggregateFunction.Sum)
+                                summaryRowItem.Add(item112)
+                                Dim item113 As New GridViewSummaryItem("Round_Off", "{0:F2}", GridAggregateFunction.Sum)
+                                summaryRowItem.Add(item113)
+                                Dim item114 As New GridViewSummaryItem("Handling_Charges_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                                summaryRowItem.Add(item114)
+                            Catch ex As Exception
+                            End Try
+
+                        End If
+
+                        Dim intCount As Integer = 0
+                        Dim item111 As New GridViewSummaryItem("EMP_AMOUNT", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item111)
+                        Dim item1111 As New GridViewSummaryItem("TIP_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item1111)
+                        Dim abcd As New GridViewSummaryItem("Head_Load_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(abcd)
+                        Dim item1 As New GridViewSummaryItem("Milk Weight", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item1)
+                        Dim item2 As New GridViewSummaryItem("Milk Weight(KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item2)
+                        Dim item3 As New GridViewSummaryItem("Milk Weight(LTR)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item3)
+
+
+
+
+                        Dim item4 As New GridViewSummaryItem("FAT(KG)", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item4)
+
+                        Dim item5 As New GridViewSummaryItem("SNF(KG)", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item5)
+                        Dim summaryItem1 As New GridViewSummaryItem()
+                        summaryItem1.FormatString = "{0:F2}"
+                        summaryItem1.Name = "FAT(%)"
+                        summaryItem1.AggregateExpression = "sum([FAT(KG)])*100/sum([Milk Weight(KG)])"
+                        summaryRowItem.Add(summaryItem1)
+
+                        Dim summaryItem2 As New GridViewSummaryItem()
+                        summaryItem2.FormatString = "{0:F2}"
+                        summaryItem2.Name = "SNF(%)"
+                        summaryItem2.AggregateExpression = "sum([SNF(KG)])*100/sum([Milk Weight(KG)])"
+                        summaryRowItem.Add(summaryItem2)
+
+                        Dim item6 As New GridViewSummaryItem("Cow Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item6)
+                        Dim item7 As New GridViewSummaryItem("Cow FAT (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item7)
+
+                        Dim item8 As New GridViewSummaryItem("Cow SNF (KG)", "{0:F2}", GridAggregateFunction.Sum)
+
+                        summaryRowItem.Add(item8)
+                        Dim summaryItem3 As New GridViewSummaryItem()
+                        summaryItem3.FormatString = "{0:F2}"
+                        summaryItem3.Name = "Cow SNF(%)"
+                        summaryItem3.AggregateExpression = "IIf(sum([Cow SNF (KG)])>0,sum([Cow SNF (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
+                        summaryRowItem.Add(summaryItem3)
+
+                        Dim summaryItem4 As New GridViewSummaryItem()
+                        summaryItem4.FormatString = "{0:F2}"
+                        summaryItem4.Name = "Cow FAT(%)"
+                        summaryItem4.AggregateExpression = "IIf(sum([Cow FAT (KG)])>0,sum([Cow FAT (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
+                        summaryRowItem.Add(summaryItem4)
+
+                        Dim item9 As New GridViewSummaryItem("Buffalo Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item9)
+                        Dim item10 As New GridViewSummaryItem("Buffalo FAT (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item10)
+                        Dim item11 As New GridViewSummaryItem("Buffalo SNF (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item11)
+                        Dim summaryItem5 As New GridViewSummaryItem()
+                        summaryItem5.FormatString = "{0:F2}"
+                        summaryItem5.Name = "Buffalo FAT(%)"
+                        summaryItem5.AggregateExpression = "sum([Buffalo FAT (KG)])*100/sum([Buffalo Milk Qty (KG)])"
+                        summaryRowItem.Add(summaryItem5)
+
+                        Dim summaryItem6 As New GridViewSummaryItem()
+                        summaryItem6.FormatString = "{0:F2}"
+                        summaryItem6.Name = "Buffalo SNF(%)"
+                        summaryItem6.AggregateExpression = "sum([Buffalo SNF (KG)])*100/sum([Buffalo Milk Qty (KG)])"
+                        summaryRowItem.Add(summaryItem6)
+                        Dim item13 As New GridViewSummaryItem("SRN Qty", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item13)
+                        Dim item12 As New GridViewSummaryItem("SRN Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item12)
+                        Dim item15 As New GridViewSummaryItem("SNF_Ded_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item15)
+
+                        Dim SummaryVSPCommission As New GridViewSummaryItem("VSP_Commission_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPCommission)
+                        Dim SummaryVSPQualityDeduction As New GridViewSummaryItem("VSP_Deduction_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPQualityDeduction)
+                        Dim SummaryVSPDayWiseInc As New GridViewSummaryItem("VSP_Day_Wise_Incentive", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPDayWiseInc)
+
+                        gv.ShowGroupPanel = False
+                        gv.MasterTemplate.AutoExpandGroups = True
+                        'And TankerFromMaster = 1
+                        If chkShiftWise.Checked AndAlso (chkRejection.Checked = True OrElse chkOnlyRejection.Checked = True) Then
+                            gv.GroupDescriptors.Add(New GridGroupByExpression("[Route Code] as [Route Code] format ""{0}: {1}"" Group By [Route Code]"))
+                        End If
+                        gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+                    ElseIf rbtnVLCWise.Checked Then
+                        gv.Columns("MCC Code").IsVisible = True
+                        gv.Columns("MCC Code").Width = 100
+                        gv.Columns("MCC Code").HeaderText = "MCC Code"
+
+                        gv.Columns("MCC Name").IsVisible = True
+                        gv.Columns("MCC Name").Width = 100
+                        gv.Columns("MCC Name").HeaderText = "MCC Name"
+
+                        gv.Columns("MCC Type").IsVisible = False
+                        gv.Columns("Chilling Center").IsVisible = False
+
+                        gv.Columns("Route Code").IsVisible = True
+                        gv.Columns("Route Code").Width = 100
+                        gv.Columns("Route Code").HeaderText = "Route Code"
+
+                        gv.Columns("Route Name").IsVisible = True
+                        gv.Columns("Route Name").Width = 100
+                        gv.Columns("Route Name").HeaderText = "Route Name"
+
+                        gv.Columns("Zone Code").IsVisible = True
+                        gv.Columns("Zone Code").Width = 100
+                        gv.Columns("Zone Code").HeaderText = "Zone Code"
+
+                        gv.Columns("Vlc Code").IsVisible = True
+                        gv.Columns("Vlc Code").Width = 100
+                        gv.Columns("Vlc Code").HeaderText = "DCS Code"
+
+                        gv.Columns("VLC Name").IsVisible = True
+                        gv.Columns("VLC Name").Width = 100
+                        gv.Columns("VLC Name").HeaderText = "DCS Name"
+
+
+                        gv.Columns("Milk Weight").IsVisible = True
+                        gv.Columns("Milk Weight").Width = 100
+                        gv.Columns("Milk Weight").HeaderText = "Milk Weight"
+
+                        gv.Columns("Milk Weight(KG)").IsVisible = True
+                        gv.Columns("Milk Weight(KG)").Width = 100
+                        gv.Columns("Milk Weight(KG)").HeaderText = "Milk Weight(KG)"
+
+                        gv.Columns("Milk Weight(LTR)").IsVisible = True
+                        gv.Columns("Milk Weight(LTR)").Width = 100
+                        gv.Columns("Milk Weight(LTR)").HeaderText = "Milk Weight(LTR)"
+
+
+                        If gv.Columns.Contains("DBT Amount") Then
+                            gv.Columns("DBT Amount").IsVisible = True
+                            gv.Columns("DBT Amount").Width = 100
+                            gv.Columns("DBT Amount").HeaderText = "DBT Amount"
+                        End If
+
+                        gv.Columns("FAT(%)").IsVisible = True
+                        gv.Columns("FAT(%)").Width = 100
+                        gv.Columns("FAT(%)").HeaderText = " FAT(%)"
+
+                        gv.Columns("SNF(%)").IsVisible = True
+                        gv.Columns("SNF(%)").Width = 100
+                        gv.Columns("SNF(%)").HeaderText = "SNF(%)"
+
+                        gv.Columns("FAT(KG)").IsVisible = True
+                        gv.Columns("FAT(KG)").Width = 100
+                        gv.Columns("FAT(KG)").HeaderText = " FAT(KG)"
+                        gv.Columns("FAT(KG)").FormatString = "{0:n3}"
+
+
+                        gv.Columns("SNF(KG)").IsVisible = True
+                        gv.Columns("SNF(KG)").Width = 100
+                        gv.Columns("SNF(KG)").HeaderText = "SNF(KG)"
+                        gv.Columns("SNF(KG)").FormatString = "{0:n3}"
+
+                        gv.Columns("Cow Milk Qty (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Cow Milk Qty (KG)").Width = 100
+                        gv.Columns("Cow Milk Qty (KG)").HeaderText = "Cow Milk Qty (KG)"
+
+                        gv.Columns("Cow FAT(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Cow FAT(%)").Width = 100
+                        gv.Columns("Cow FAT(%)").HeaderText = "Cow FAT(%)"
+
+                        gv.Columns("Cow SNF(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Cow SNF(%)").Width = 100
+                        gv.Columns("Cow SNF(%)").HeaderText = "Cow SNF(%)"
+
+                        gv.Columns("Cow FAT (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Cow FAT (KG)").Width = 100
+                        gv.Columns("Cow FAT (KG)").HeaderText = "Cow FAT (KG)"
+
+                        gv.Columns("Cow SNF (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Cow SNF (KG)").Width = 100
+                        gv.Columns("Cow SNF (KG)").HeaderText = "Cow SNF (KG)"
+
+                        gv.Columns("Buffalo Milk Qty (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Buffalo Milk Qty (KG)").Width = 100
+                        gv.Columns("Buffalo Milk Qty (KG)").HeaderText = "Buffalo Milk Qty (KG)"
+
+                        gv.Columns("Buffalo SNF(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Buffalo SNF(%)").Width = 100
+                        gv.Columns("Buffalo SNF(%)").HeaderText = "Buffalo SNF(%)"
+
+                        gv.Columns("Buffalo FAT(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Buffalo FAT(%)").Width = 100
+
+                        gv.Columns("Buffalo FAT (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Buffalo FAT (KG)").Width = 100
+                        gv.Columns("Buffalo FAT (KG)").HeaderText = "Buffalo FAT (KG)"
+
+
+
+                        gv.Columns("SRN Qty").IsVisible = True
+                        gv.Columns("SRN Qty").Width = 100
+                        gv.Columns("SRN Qty").HeaderText = "SRN Qty"
+
+
+                        gv.Columns("SRN Amount").IsVisible = True
+                        gv.Columns("SRN Amount").Width = 100
+                        gv.Columns("SRN Amount").HeaderText = "SRN Amount"
+
+                        ''richa agarwal MIL/01/02/19-000039 12 Feb,2019
+                        gv.Columns("EMP_Amount").IsVisible = True
+                        gv.Columns("EMP_Amount").Width = 100
+                        gv.Columns("EMP_Amount").HeaderText = "SRN EMP Amount"
+
+                        gv.Columns("TIP_Amount").IsVisible = True
+                        gv.Columns("TIP_Amount").Width = 100
+                        gv.Columns("TIP_Amount").HeaderText = "SRN TIP Amount"
+
+                        gv.Columns("Head_Load_Amount").IsVisible = True
+                        gv.Columns("Head_Load_Amount").Width = 100
+                        gv.Columns("Head_Load_Amount").HeaderText = "Head Load Amount"
+
+
+                        gv.Columns("SNF_Ded_Amount").IsVisible = False
+                        gv.Columns("SNF_Ded_Amount").HeaderText = "SNF Deduction Amount"
+
+
+
+                        Dim summaryRowItem As New GridViewSummaryRowItem()
+                        Dim intCount As Integer = 0
+
+
+                        'TankerFromMaster = 0 AndAlso
+                        If chkRejection.Checked = False AndAlso chkOnlyRejection.Checked = False Then
+                            Try
+                                gv.Columns("NET_AMOUNT").IsVisible = True
+                                gv.Columns("NET_AMOUNT").Width = 100
+                                gv.Columns("NET_AMOUNT").HeaderText = "SRN Net Amount"
+
+                                gv.Columns("Round_Off").IsVisible = True
+                                gv.Columns("Round_Off").Width = 100
+                                gv.Columns("Round_Off").HeaderText = "SRN Round Off"
+
+                                gv.Columns("Handling_Charges_Amount").IsVisible = True
+                                gv.Columns("Handling_Charges_Amount").Width = 100
+                                gv.Columns("Handling_Charges_Amount").HeaderText = "Handling Charges"
+
+
+                                Dim item112 As New GridViewSummaryItem("NET_AMOUNT", "{0:F2}", GridAggregateFunction.Sum)
+                                summaryRowItem.Add(item112)
+                                Dim item113 As New GridViewSummaryItem("Round_Off", "{0:F2}", GridAggregateFunction.Sum)
+                                summaryRowItem.Add(item113)
+                                Dim item114 As New GridViewSummaryItem("Handling_Charges_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                                summaryRowItem.Add(item114)
+                            Catch ex As Exception
+                            End Try
+
+                        End If
+
+                        If gv.Columns.Contains("Handling_Charges_Amount") = True Then
+                            Dim item555 As New GridViewSummaryItem("Handling_Charges_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                            summaryRowItem.Add(item555)
+                        End If
+
+                        Dim item111 As New GridViewSummaryItem("EMP_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item111)
+                        Dim item1111 As New GridViewSummaryItem("TIP_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item1111)
+                        Dim item1 As New GridViewSummaryItem("Milk Weight", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item1)
+                        Dim item2 As New GridViewSummaryItem("Milk Weight(KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item2)
+                        Dim item3 As New GridViewSummaryItem("Milk Weight(LTR)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item3)
+
+                        Dim item55 As New GridViewSummaryItem("DBT Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item55)
+
+
+                        Dim item4 As New GridViewSummaryItem("FAT(KG)", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item4)
+                        Dim item101 As New GridViewSummaryItem("Head_Load_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item101)
+                        Dim item5 As New GridViewSummaryItem("SNF(KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item5)
+                        Dim summaryItem1 As New GridViewSummaryItem()
+                        summaryItem1.FormatString = "{0:F2}"
+                        summaryItem1.Name = "FAT(%)"
+                        summaryItem1.AggregateExpression = "sum([FAT(KG)])*100/sum([Milk Weight(KG)])"
+                        summaryRowItem.Add(summaryItem1)
+
+                        Dim summaryItem2 As New GridViewSummaryItem()
+                        summaryItem2.FormatString = "{0:F2}"
+                        summaryItem2.Name = "SNF(%)"
+                        summaryItem2.AggregateExpression = "sum([SNF(KG)])*100/sum([Milk Weight(KG)])"
+                        summaryRowItem.Add(summaryItem2)
+
+                        Dim item6 As New GridViewSummaryItem("Cow Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item6)
+                        Dim item7 As New GridViewSummaryItem("Cow FAT (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item7)
+
+                        Dim item8 As New GridViewSummaryItem("Cow SNF (KG)", "{0:F2}", GridAggregateFunction.Sum)
+
+                        summaryRowItem.Add(item8)
+                        Dim summaryItem3 As New GridViewSummaryItem()
+                        summaryItem3.FormatString = "{0:F2}"
+                        summaryItem3.Name = "Cow SNF(%)"
+                        summaryItem3.AggregateExpression = "IIf(sum([Cow SNF (KG)])>0,sum([Cow SNF (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
+                        summaryRowItem.Add(summaryItem3)
+
+                        Dim summaryItem4 As New GridViewSummaryItem()
+                        summaryItem4.FormatString = "{0:F2}"
+                        summaryItem4.Name = "Cow FAT(%)"
+                        summaryItem4.AggregateExpression = "IIf(sum([Cow FAT (KG)])>0,sum([Cow FAT (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
+                        summaryRowItem.Add(summaryItem4)
+
+                        Dim item9 As New GridViewSummaryItem("Buffalo Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item9)
+                        Dim item10 As New GridViewSummaryItem("Buffalo FAT (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item10)
+                        Dim item11 As New GridViewSummaryItem("Buffalo SNF (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item11)
+                        Dim summaryItem5 As New GridViewSummaryItem()
+                        summaryItem5.FormatString = "{0:F2}"
+                        summaryItem5.Name = "Buffalo FAT(%)"
+                        summaryItem5.AggregateExpression = "sum([Buffalo FAT (KG)])*100/sum([Buffalo Milk Qty (KG)])"
+                        summaryRowItem.Add(summaryItem5)
+
+                        Dim summaryItem6 As New GridViewSummaryItem()
+                        summaryItem6.FormatString = "{0:F2}"
+                        summaryItem6.Name = "Buffalo SNF(%)"
+                        summaryItem6.AggregateExpression = "sum([Buffalo SNF (KG)])*100/sum([Buffalo Milk Qty (KG)])"
+                        summaryRowItem.Add(summaryItem6)
+                        Dim item13 As New GridViewSummaryItem("SRN Qty", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item13)
+                        Dim item12 As New GridViewSummaryItem("SRN Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item12)
+
+                        Dim item15 As New GridViewSummaryItem("SNF_Ded_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item15)
+
+                        Dim SummaryVSPCommission As New GridViewSummaryItem("VSP_Commission_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPCommission)
+                        Dim SummaryVSPQualityDeduction As New GridViewSummaryItem("VSP_Deduction_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPQualityDeduction)
+                        Dim SummaryVSPDayWiseInc As New GridViewSummaryItem("VSP_Day_Wise_Incentive", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPDayWiseInc)
+
+                        If chkRejection.Checked = True AndAlso chkShiftWise.Checked = False AndAlso chkOnlyRejection.Checked = False Then
+                            gv.GroupDescriptors.Add(New GridGroupByExpression("[Route Code] as [Route Code] format ""{0}: {1}"" Group By [Route Code]"))
+                        End If
+
+                        gv.ShowGroupPanel = False
+                        gv.MasterTemplate.AutoExpandGroups = True
+
+                        gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+                        gv.MasterTemplate.ShowTotals = True
+                    ElseIf rbtnZoneWise.Checked Then
+                        If chkShiftWise.Checked And (chkRejection.Checked = True OrElse chkOnlyRejection.Checked = True) Then
+                            gv.Columns("Shift").IsVisible = True
+                            gv.Columns("Shift").Width = 80
+                            gv.Columns("Shift").HeaderText = "Shift"
+                        End If
+
+
+                        gv.Columns("Zone Code").IsVisible = True
+                        gv.Columns("Zone Code").Width = 100
+                        gv.Columns("Zone Code").HeaderText = "Zone Code"
+
+                        gv.Columns("Milk Weight").IsVisible = True
+                        gv.Columns("Milk Weight").Width = 100
+                        gv.Columns("Milk Weight").HeaderText = "Milk Weight"
+
+                        gv.Columns("Milk Weight(KG)").IsVisible = True
+                        gv.Columns("Milk Weight(KG)").Width = 100
+                        gv.Columns("Milk Weight(KG)").HeaderText = "Milk Weight(KG)"
+
+                        gv.Columns("Milk Weight(LTR)").IsVisible = True
+                        gv.Columns("Milk Weight(LTR)").Width = 100
+                        gv.Columns("Milk Weight(LTR)").HeaderText = "Milk Weight(LTR)"
+
+                        gv.Columns("FAT(%)").IsVisible = True
+                        gv.Columns("FAT(%)").Width = 100
+                        gv.Columns("FAT(%)").HeaderText = " FAT(%)"
+
+                        gv.Columns("SNF(%)").IsVisible = True
+                        gv.Columns("SNF(%)").Width = 100
+                        gv.Columns("SNF(%)").HeaderText = "SNF(%)"
+
+                        gv.Columns("FAT(KG)").IsVisible = True
+                        gv.Columns("FAT(KG)").Width = 100
+                        gv.Columns("FAT(KG)").HeaderText = " FAT(KG)"
+                        gv.Columns("FAT(KG)").FormatString = "{0:n3}"
+
+                        gv.Columns("SNF(KG)").IsVisible = True
+                        gv.Columns("SNF(KG)").Width = 100
+                        gv.Columns("SNF(KG)").HeaderText = "SNF(KG)"
+                        gv.Columns("SNF(KG)").FormatString = "{0:n3}"
+
+                        gv.Columns("Cow Milk Qty (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Cow Milk Qty (KG)").Width = 100
+                        gv.Columns("Cow Milk Qty (KG)").HeaderText = "Cow Milk Qty (KG)"
+
+                        gv.Columns("Cow FAT(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Cow FAT(%)").Width = 100
+                        gv.Columns("Cow FAT(%)").HeaderText = "Cow FAT(%)"
+
+                        gv.Columns("Cow SNF(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Cow SNF(%)").Width = 100
+                        gv.Columns("Cow SNF(%)").HeaderText = "Cow SNF(%)"
+
+                        gv.Columns("Cow FAT (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Cow FAT (KG)").Width = 100
+                        gv.Columns("Cow FAT (KG)").HeaderText = "Cow FAT (KG)"
+
+                        gv.Columns("Cow SNF (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Cow SNF (KG)").Width = 100
+                        gv.Columns("Cow SNF (KG)").HeaderText = "Cow SNF (KG)"
+
+                        gv.Columns("Buffalo Milk Qty (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Buffalo Milk Qty (KG)").Width = 100
+                        gv.Columns("Buffalo Milk Qty (KG)").HeaderText = "Buffalo Milk Qty (KG)"
+
+                        gv.Columns("Buffalo SNF(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Buffalo SNF(%)").Width = 100
+                        gv.Columns("Buffalo SNF(%)").HeaderText = "Buffalo SNF(%)"
+
+                        gv.Columns("Buffalo FAT(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Buffalo FAT(%)").Width = 100
+
+                        gv.Columns("Buffalo FAT (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Buffalo FAT (KG)").Width = 100
+                        gv.Columns("Buffalo FAT (KG)").HeaderText = "Buffalo FAT (KG)"
+
+
+                        gv.Columns("SRN Qty").IsVisible = True
+                        gv.Columns("SRN Qty").Width = 100
+                        gv.Columns("SRN Qty").HeaderText = "SRN Qty"
+
+
+                        gv.Columns("SRN Amount").IsVisible = True
+                        gv.Columns("SRN Amount").Width = 100
+                        gv.Columns("SRN Amount").HeaderText = "SRN Amount"
+
+                        gv.Columns("EMP_Amount").IsVisible = True
+                        gv.Columns("EMP_Amount").Width = 100
+                        gv.Columns("EMP_Amount").HeaderText = "SRN EMP Amount"
+
+                        gv.Columns("TIP_Amount").IsVisible = True
+                        gv.Columns("TIP_Amount").Width = 100
+                        gv.Columns("TIP_Amount").HeaderText = "SRN TIP Amount"
+
+                        gv.Columns("SNF_Ded_Amount").IsVisible = False
+                        gv.Columns("SNF_Ded_Amount").HeaderText = "SNF Deduction Amount"
+
+
+                        Dim summaryRowItem As New GridViewSummaryRowItem()
+                        'TankerFromMaster = 0 AndAlso
+                        If chkRejection.Checked = False AndAlso chkOnlyRejection.Checked = False Then
+                            Try
+
+                                gv.Columns("NET_AMOUNT").IsVisible = True
+                                gv.Columns("NET_AMOUNT").Width = 100
+                                gv.Columns("NET_AMOUNT").HeaderText = "SRN Net Amount"
+
+                                gv.Columns("Round_Off").IsVisible = True
+                                gv.Columns("Round_Off").Width = 100
+                                gv.Columns("Round_Off").HeaderText = "SRN Round Off"
+
+                                gv.Columns("Handling_Charges_Amount").IsVisible = True
+                                gv.Columns("Handling_Charges_Amount").Width = 100
+                                gv.Columns("Handling_Charges_Amount").HeaderText = "Handling Charges"
+
+
+                                Dim item112 As New GridViewSummaryItem("NET_AMOUNT", "{0:F3}", GridAggregateFunction.Sum)
+                                summaryRowItem.Add(item112)
+                                Dim item113 As New GridViewSummaryItem("Round_Off", "{0:F3}", GridAggregateFunction.Sum)
+                                summaryRowItem.Add(item113)
+                                Dim item114 As New GridViewSummaryItem("Handling_Charges_Amount", "{0:F3}", GridAggregateFunction.Sum)
+                                summaryRowItem.Add(item114)
+                            Catch ex As Exception
+                            End Try
+
+                        End If
+
+                        Dim intCount As Integer = 0
+                        Dim item111 As New GridViewSummaryItem("EMP_AMOUNT", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item111)
+                        Dim item1111 As New GridViewSummaryItem("TIP_Amount", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item1111)
+                        Dim abcd As New GridViewSummaryItem("Head_Load_Amount", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(abcd)
+                        Dim item1 As New GridViewSummaryItem("Milk Weight", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item1)
+                        Dim item2 As New GridViewSummaryItem("Milk Weight(KG)", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item2)
+                        Dim item3 As New GridViewSummaryItem("Milk Weight(LTR)", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item3)
+
+                        Dim item4 As New GridViewSummaryItem("FAT(KG)", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item4)
+
+                        Dim item5 As New GridViewSummaryItem("SNF(KG)", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item5)
+                        Dim summaryItem1 As New GridViewSummaryItem()
+                        summaryItem1.FormatString = "{0:F3}"
+                        summaryItem1.Name = "FAT(%)"
+                        summaryItem1.AggregateExpression = "sum([FAT(KG)])*100/sum([Milk Weight(KG)])"
+                        summaryRowItem.Add(summaryItem1)
+
+                        Dim summaryItem2 As New GridViewSummaryItem()
+                        summaryItem2.FormatString = "{0:F3}"
+                        summaryItem2.Name = "SNF(%)"
+                        summaryItem2.AggregateExpression = "sum([SNF(KG)])*100/sum([Milk Weight(KG)])"
+                        summaryRowItem.Add(summaryItem2)
+
+                        Dim item6 As New GridViewSummaryItem("Cow Milk Qty (KG)", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item6)
+                        Dim item7 As New GridViewSummaryItem("Cow FAT (KG)", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item7)
+
+                        Dim item8 As New GridViewSummaryItem("Cow SNF (KG)", "{0:F3}", GridAggregateFunction.Sum)
+
+                        summaryRowItem.Add(item8)
+                        Dim summaryItem3 As New GridViewSummaryItem()
+                        summaryItem3.FormatString = "{0:F2}"
+                        summaryItem3.Name = "Cow SNF(%)"
+                        summaryItem3.AggregateExpression = "IIf(sum([Cow SNF (KG)])>0,sum([Cow SNF (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
+                        summaryRowItem.Add(summaryItem3)
+
+                        Dim summaryItem4 As New GridViewSummaryItem()
+                        summaryItem4.FormatString = "{0:F2}"
+                        summaryItem4.Name = "Cow FAT(%)"
+                        summaryItem4.AggregateExpression = "IIf(sum([Cow FAT (KG)])>0,sum([Cow FAT (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
+                        summaryRowItem.Add(summaryItem4)
+
+                        Dim item9 As New GridViewSummaryItem("Buffalo Milk Qty (KG)", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item9)
+                        Dim item10 As New GridViewSummaryItem("Buffalo FAT (KG)", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item10)
+                        Dim item11 As New GridViewSummaryItem("Buffalo SNF (KG)", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item11)
+                        Dim summaryItem5 As New GridViewSummaryItem()
+                        summaryItem5.FormatString = "{0:F2}"
+                        summaryItem5.Name = "Buffalo FAT(%)"
+                        summaryItem5.AggregateExpression = "sum([Buffalo FAT (KG)])*100/sum([Buffalo Milk Qty (KG)])"
+                        summaryRowItem.Add(summaryItem5)
+
+                        Dim summaryItem6 As New GridViewSummaryItem()
+                        summaryItem6.FormatString = "{0:F2}"
+                        summaryItem6.Name = "Buffalo SNF(%)"
+                        summaryItem6.AggregateExpression = "sum([Buffalo SNF (KG)])*100/sum([Buffalo Milk Qty (KG)])"
+                        summaryRowItem.Add(summaryItem6)
+                        Dim item13 As New GridViewSummaryItem("SRN Qty", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item13)
+                        Dim item12 As New GridViewSummaryItem("SRN Amount", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item12)
+                        Dim item15 As New GridViewSummaryItem("SNF_Ded_Amount", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item15)
+
+                        Dim SummaryVSPCommission As New GridViewSummaryItem("VSP_Commission_Amount", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPCommission)
+                        Dim SummaryVSPQualityDeduction As New GridViewSummaryItem("VSP_Deduction_Amount", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPQualityDeduction)
+                        Dim SummaryVSPDayWiseInc As New GridViewSummaryItem("VSP_Day_Wise_Incentive", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPDayWiseInc)
+
+                        gv.ShowGroupPanel = False
+                        gv.MasterTemplate.AutoExpandGroups = True
+                        'And TankerFromMaster = 1
+                        If chkShiftWise.Checked AndAlso (chkRejection.Checked = True OrElse chkOnlyRejection.Checked = True) Then
+                            gv.GroupDescriptors.Add(New GridGroupByExpression("[Route Code] as [Route Code] format ""{0}: {1}"" Group By [Route Code]"))
+                        End If
+                        gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+                    ElseIf chkVLCWisePayable.Checked Then
+                        gv.Columns("MCC Code").IsVisible = True
+                        gv.Columns("MCC Code").Width = 100
+                        gv.Columns("MCC Code").HeaderText = "MCC Code"
+
+                        gv.Columns("MCC Name").IsVisible = True
+                        gv.Columns("MCC Name").Width = 100
+                        gv.Columns("MCC Name").HeaderText = "MCC Name"
+
+                        gv.Columns("MCC Type").IsVisible = False
+                        gv.Columns("Chilling Center").IsVisible = False
+
+                        gv.Columns("Route Code").IsVisible = True
+                        gv.Columns("Route Code").Width = 100
+                        gv.Columns("Route Code").HeaderText = "Route Code"
+
+
+                        gv.Columns("Route Name").IsVisible = True
+                        gv.Columns("Route Name").Width = 100
+                        gv.Columns("Route Name").HeaderText = "Route Name"
+
+                        gv.Columns("Vlc Code").IsVisible = True
+                        gv.Columns("Vlc Code").Width = 100
+                        gv.Columns("Vlc Code").HeaderText = "DCS Code"
+
+                        gv.Columns("VLC Name").IsVisible = True
+                        gv.Columns("VLC Name").Width = 100
+                        gv.Columns("VLC Name").HeaderText = "DCS Name"
+
+
+
+                        gv.Columns("Milk Weight").IsVisible = True
+                        gv.Columns("Milk Weight").Width = 100
+                        gv.Columns("Milk Weight").HeaderText = "Milk Weight"
+
+                        gv.Columns("Milk Weight(KG)").IsVisible = True
+                        gv.Columns("Milk Weight(KG)").Width = 100
+                        gv.Columns("Milk Weight(KG)").HeaderText = "Milk Weight(KG)"
+
+                        gv.Columns("Milk Weight(LTR)").IsVisible = True
+                        gv.Columns("Milk Weight(LTR)").Width = 100
+                        gv.Columns("Milk Weight(LTR)").HeaderText = "Milk Weight(LTR)"
+
+                        gv.Columns("FAT(%)").IsVisible = True
+                        gv.Columns("FAT(%)").Width = 100
+                        gv.Columns("FAT(%)").HeaderText = " FAT(%)"
+
+                        gv.Columns("SNF(%)").IsVisible = True
+                        gv.Columns("SNF(%)").Width = 100
+                        gv.Columns("SNF(%)").HeaderText = "SNF(%)"
+
+                        gv.Columns("FAT(KG)").IsVisible = True
+                        gv.Columns("FAT(KG)").Width = 100
+                        gv.Columns("FAT(KG)").HeaderText = " FAT(KG)"
+                        gv.Columns("FAT(KG)").FormatString = "{0:n3}"
+
+
+                        gv.Columns("SNF(KG)").IsVisible = True
+                        gv.Columns("SNF(KG)").Width = 100
+                        gv.Columns("SNF(KG)").HeaderText = "SNF(KG)"
+                        gv.Columns("SNF(KG)").FormatString = "{0:n3}"
+
+                        gv.Columns("Cow Milk Qty (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Cow Milk Qty (KG)").Width = 100
+                        gv.Columns("Cow Milk Qty (KG)").HeaderText = "Cow Milk Qty (KG)"
+
+                        gv.Columns("Cow FAT(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Cow FAT(%)").Width = 100
+                        gv.Columns("Cow FAT(%)").HeaderText = "Cow FAT(%)"
+
+                        gv.Columns("Cow SNF(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Cow SNF(%)").Width = 100
+                        gv.Columns("Cow SNF(%)").HeaderText = "Cow SNF(%)"
+
+                        gv.Columns("Cow FAT (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Cow FAT (KG)").Width = 100
+                        gv.Columns("Cow FAT (KG)").HeaderText = "Cow FAT (KG)"
+
+                        gv.Columns("Cow SNF (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Cow SNF (KG)").Width = 100
+                        gv.Columns("Cow SNF (KG)").HeaderText = "Cow SNF (KG)"
+
+                        gv.Columns("Buffalo Milk Qty (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Buffalo Milk Qty (KG)").Width = 100
+                        gv.Columns("Buffalo Milk Qty (KG)").HeaderText = "Buffalo Milk Qty (KG)"
+
+                        gv.Columns("Buffalo SNF(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Buffalo SNF(%)").Width = 100
+                        gv.Columns("Buffalo SNF(%)").HeaderText = "Buffalo SNF(%)"
+
+                        gv.Columns("Buffalo FAT(%)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Buffalo FAT(%)").Width = 100
+
+                        gv.Columns("Buffalo FAT (KG)").IsVisible = Not objCommonVar.DisplayTypeInMilkReceipt
+                        gv.Columns("Buffalo FAT (KG)").Width = 100
+                        gv.Columns("Buffalo FAT (KG)").HeaderText = "Buffalo FAT (KG)"
+
+
+
+                        gv.Columns("SRN Qty").IsVisible = True
+                        gv.Columns("SRN Qty").Width = 100
+                        gv.Columns("SRN Qty").HeaderText = "SRN Qty"
+
+
+                        gv.Columns("SRN Amount").IsVisible = True
+                        gv.Columns("SRN Amount").Width = 100
+                        gv.Columns("SRN Amount").HeaderText = "SRN Amount"
+
+                        ''richa agarwal MIL/01/02/19-000039 12 Feb,2019
+                        gv.Columns("EMP_Amount").IsVisible = True
+                        gv.Columns("EMP_Amount").Width = 100
+                        gv.Columns("EMP_Amount").HeaderText = "SRN EMP Amount"
+
+                        gv.Columns("TIP_Amount").IsVisible = True
+                        gv.Columns("TIP_Amount").Width = 100
+                        gv.Columns("TIP_Amount").HeaderText = "SRN TIP Amount"
+
+                        gv.Columns("Head_Load_Amount").IsVisible = True
+                        gv.Columns("Head_Load_Amount").Width = 100
+                        gv.Columns("Head_Load_Amount").HeaderText = "Head Load Amount"
+
+
+                        gv.Columns("SNF_Ded_Amount").IsVisible = False
+                        gv.Columns("SNF_Ded_Amount").HeaderText = "SNF Deduction Amount"
+
+                        Dim summaryRowItem As New GridViewSummaryRowItem()
+                        Dim intCount As Integer = 0
+
+                        If gv.Columns.Contains("NET_AMOUNT") Then
+                            gv.Columns("NET_AMOUNT").IsVisible = True
+                            gv.Columns("NET_AMOUNT").Width = 100
+                            gv.Columns("NET_AMOUNT").HeaderText = "SRN Net Amount"
+                        End If
+
+                        If gv.Columns.Contains("Round_Off") Then
+                            gv.Columns("Round_Off").IsVisible = True
+                            gv.Columns("Round_Off").Width = 100
+                            gv.Columns("Round_Off").HeaderText = "SRN Round Off"
+                        End If
+
+
+                        gv.Columns("Handling_Charges_Amount").IsVisible = True
+                        gv.Columns("Handling_Charges_Amount").Width = 100
+                        gv.Columns("Handling_Charges_Amount").HeaderText = "Handling Charges"
+
+
+                        If gv.Columns.Contains("SaleAmt") Then
+                            gv.Columns("SaleAmt").IsVisible = True
+                            gv.Columns("SaleAmt").Width = 100
+                            gv.Columns("SaleAmt").HeaderText = "Sale Amount"
+                        End If
+
+
+                        gv.Columns("VSP_Commission_Amount").IsVisible = True
+                        gv.Columns("VSP_Commission_Amount").Width = 100
+                        gv.Columns("VSP_Commission_Amount").HeaderText = "Secretary Commission Amount"
+
+                        gv.Columns("VSP_Deduction_Amount").IsVisible = True
+                        gv.Columns("VSP_Deduction_Amount").Width = 100
+                        gv.Columns("VSP_Deduction_Amount").HeaderText = "Secretary Deduction Amount"
+
+
+                        gv.Columns("VSP_Day_Wise_Incentive").IsVisible = True
+                        gv.Columns("VSP_Day_Wise_Incentive").Width = 100
+                        gv.Columns("VSP_Day_Wise_Incentive").HeaderText = "Secretary Day Wise Incentive"
+
+                        If gv.Columns.Contains("DeductionAmt") Then
+                            gv.Columns("DeductionAmt").IsVisible = True
+                            gv.Columns("DeductionAmt").Width = 100
+                            gv.Columns("DeductionAmt").HeaderText = "Deduction Amt"
+                        End If
+
+
+                        If gv.Columns.Contains("IncetiveAmt") Then
+                            gv.Columns("IncetiveAmt").IsVisible = True
+                            gv.Columns("IncetiveAmt").Width = 100
+                            gv.Columns("IncetiveAmt").HeaderText = "Incentive Amt"
+                        End If
+
+                        If gv.Columns.Contains("DeductionDesc") Then
+                            gv.Columns("DeductionDesc").IsVisible = True
+                            gv.Columns("DeductionDesc").Width = 100
+                            gv.Columns("DeductionDesc").HeaderText = "Deduction Desc"
+                        End If
+
+                        If gv.Columns.Contains("DeductionCode") Then
+                            gv.Columns("DeductionCode").IsVisible = True
+                            gv.Columns("DeductionCode").Width = 100
+                            gv.Columns("DeductionCode").HeaderText = "Deduction Code"
+                        End If
+                        If gv.Columns.Contains("Addition") Then
+                            gv.Columns("Addition").IsVisible = True
+                            gv.Columns("Addition").Width = 100
+                            gv.Columns("Addition").HeaderText = "Manual Add"
+                        End If
+
+                        If gv.Columns.Contains("ManualDed") Then
+                            gv.Columns("ManualDed").IsVisible = True
+                            gv.Columns("ManualDed").Width = 100
+                            gv.Columns("ManualDed").HeaderText = "Manual Ded"
+                        End If
+
+
+                        If gv.Columns.Contains("PayableAmt") Then
+                            gv.Columns("PayableAmt").IsVisible = True
+                            gv.Columns("PayableAmt").Width = 100
+                            gv.Columns("PayableAmt").HeaderText = "Payable Amt"
+                        End If
+
+
+                        Dim item1141 As New GridViewSummaryItem("SaleAmt", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item1141)
+                        Dim item1145 As New GridViewSummaryItem("DeductionAmt", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item1145)
+                        Dim item1146 As New GridViewSummaryItem("IncetiveAmt", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item1146)
+                        Dim item21147 As New GridViewSummaryItem("PayableAmt", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item21147)
+
+
+                        Dim item112 As New GridViewSummaryItem("NET_AMOUNT", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item112)
+                        Dim item113 As New GridViewSummaryItem("Round_Off", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item113)
+                        Dim item114 As New GridViewSummaryItem("Handling_Charges_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item114)
+
+
+                        Dim item111 As New GridViewSummaryItem("EMP_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item111)
+                        Dim item1111 As New GridViewSummaryItem("TIP_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item1111)
+                        Dim item1 As New GridViewSummaryItem("Milk Weight", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item1)
+                        Dim item2 As New GridViewSummaryItem("Milk Weight(KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item2)
+                        Dim item3 As New GridViewSummaryItem("Milk Weight(LTR)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item3)
+
+
+
+
+                        Dim item4 As New GridViewSummaryItem("FAT(KG)", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item4)
+                        Dim item101 As New GridViewSummaryItem("Head_Load_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item101)
+                        Dim item5 As New GridViewSummaryItem("SNF(KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item5)
+                        Dim summaryItem1 As New GridViewSummaryItem()
+                        summaryItem1.FormatString = "{0:F2}"
+                        summaryItem1.Name = "FAT(%)"
+                        summaryItem1.AggregateExpression = "sum([FAT(KG)])*100/sum([Milk Weight(KG)])"
+                        summaryRowItem.Add(summaryItem1)
+
+                        Dim summaryItem2 As New GridViewSummaryItem()
+                        summaryItem2.FormatString = "{0:F2}"
+                        summaryItem2.Name = "SNF(%)"
+                        summaryItem2.AggregateExpression = "sum([SNF(KG)])*100/sum([Milk Weight(KG)])"
+                        summaryRowItem.Add(summaryItem2)
+
+                        Dim item6 As New GridViewSummaryItem("Cow Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item6)
+                        Dim item7 As New GridViewSummaryItem("Cow FAT (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item7)
+
+                        Dim item8 As New GridViewSummaryItem("Cow SNF (KG)", "{0:F2}", GridAggregateFunction.Sum)
+
+                        summaryRowItem.Add(item8)
+                        Dim summaryItem3 As New GridViewSummaryItem()
+                        summaryItem3.FormatString = "{0:F2}"
+                        summaryItem3.Name = "Cow SNF(%)"
+                        summaryItem3.AggregateExpression = "IIf(sum([Cow SNF (KG)])>0,sum([Cow SNF (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
+                        summaryRowItem.Add(summaryItem3)
+
+                        Dim summaryItem4 As New GridViewSummaryItem()
+                        summaryItem4.FormatString = "{0:F2}"
+                        summaryItem4.Name = "Cow FAT(%)"
+                        summaryItem4.AggregateExpression = "IIf(sum([Cow FAT (KG)])>0,sum([Cow FAT (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
+                        summaryRowItem.Add(summaryItem4)
+
+                        Dim item9 As New GridViewSummaryItem("Buffalo Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item9)
+                        Dim item10 As New GridViewSummaryItem("Buffalo FAT (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item10)
+                        Dim item11 As New GridViewSummaryItem("Buffalo SNF (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item11)
+                        Dim summaryItem5 As New GridViewSummaryItem()
+                        summaryItem5.FormatString = "{0:F2}"
+                        summaryItem5.Name = "Buffalo FAT(%)"
+                        summaryItem5.AggregateExpression = "sum([Buffalo FAT (KG)])*100/sum([Buffalo Milk Qty (KG)])"
+                        summaryRowItem.Add(summaryItem5)
+
+                        Dim summaryItem6 As New GridViewSummaryItem()
+                        summaryItem6.FormatString = "{0:F2}"
+                        summaryItem6.Name = "Buffalo SNF(%)"
+                        summaryItem6.AggregateExpression = "sum([Buffalo SNF (KG)])*100/sum([Buffalo Milk Qty (KG)])"
+                        summaryRowItem.Add(summaryItem6)
+                        Dim item13 As New GridViewSummaryItem("SRN Qty", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item13)
+                        Dim item12 As New GridViewSummaryItem("SRN Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item12)
+
+                        Dim item15 As New GridViewSummaryItem("SNF_Ded_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item15)
+
+                        Dim SummaryVSPCommission As New GridViewSummaryItem("VSP_Commission_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPCommission)
+                        Dim SummaryVSPQualityDeduction As New GridViewSummaryItem("VSP_Deduction_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPQualityDeduction)
+                        Dim SummaryVSPDayWiseInc As New GridViewSummaryItem("VSP_Day_Wise_Incentive", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPDayWiseInc)
+
+                        gv.ShowGroupPanel = False
+                        gv.MasterTemplate.AutoExpandGroups = True
+
+                        gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+                    ElseIf rdoVLCWisePaymentSummary.Checked Then
+                        '[MCC Code],[MCC Name],[Vlc Code] , [VLC Name], 
+                        gv.Columns("MCC Code").IsVisible = True
+                        gv.Columns("MCC Code").Width = 100
+                        gv.Columns("MCC Code").HeaderText = "MCC Code"
+
+                        gv.Columns("MCC Name").IsVisible = True
+                        gv.Columns("MCC Name").Width = 100
+                        gv.Columns("MCC Name").HeaderText = "MCC Name"
+
+                        'gv.Columns("MCC Type").IsVisible = False
+                        'gv.Columns("Chilling Center").IsVisible = False
+
+                        'gv.Columns("Route Code").IsVisible = False
+                        'gv.Columns("Route Code").Width = 100
+                        'gv.Columns("Route Code").HeaderText = "Route Code"
+
+
+                        'gv.Columns("Route Name").IsVisible = False
+                        'gv.Columns("Route Name").Width = 100
+                        'gv.Columns("Route Name").HeaderText = "Route Name"
+
+                        gv.Columns("Vlc Code").IsVisible = True
+                        gv.Columns("Vlc Code").Width = 100
+                        gv.Columns("Vlc Code").HeaderText = "DCS Code"
+
+                        gv.Columns("VLC Name").IsVisible = True
+                        gv.Columns("VLC Name").Width = 100
+                        gv.Columns("VLC Name").HeaderText = "DCS Name"
+
+                        '[VLC Uploader Code], [VSP Code],   
+
+                        gv.Columns("Milk Weight").IsVisible = True
+                        gv.Columns("Milk Weight").Width = 100
+                        gv.Columns("Milk Weight").HeaderText = "Milk Weight"
+
+                        gv.Columns("Milk Weight(KG)").IsVisible = True
+                        gv.Columns("Milk Weight(KG)").Width = 100
+                        gv.Columns("Milk Weight(KG)").HeaderText = "Milk Weight(KG)"
+
+                        gv.Columns("Milk Weight(LTR)").IsVisible = True
+                        gv.Columns("Milk Weight(LTR)").Width = 100
+                        gv.Columns("Milk Weight(LTR)").HeaderText = "Milk Weight(LTR)"
+
+                        'gv.Columns("FAT(%)").IsVisible = False
+                        'gv.Columns("FAT(%)").Width = 100
+                        'gv.Columns("FAT(%)").HeaderText = " FAT(%)"
+
+                        'gv.Columns("SNF(%)").IsVisible = False
+                        'gv.Columns("SNF(%)").Width = 100
+                        'gv.Columns("SNF(%)").HeaderText = "SNF(%)"
+
+                        gv.Columns("FAT(KG)").IsVisible = True
+                        gv.Columns("FAT(KG)").Width = 100
+                        gv.Columns("FAT(KG)").HeaderText = " FAT(KG)"
+                        gv.Columns("FAT(KG)").FormatString = "{0:n3}"
+
+
+                        gv.Columns("SNF(KG)").IsVisible = True
+                        gv.Columns("SNF(KG)").Width = 100
+                        gv.Columns("SNF(KG)").HeaderText = "SNF(KG)"
+                        gv.Columns("SNF(KG)").FormatString = "{0:n3}"
+
+                        gv.Columns("FAT(LTR)").IsVisible = True
+                        gv.Columns("FAT(LTR)").Width = 100
+                        gv.Columns("FAT(LTR)").HeaderText = " FAT(LTR)"
+                        gv.Columns("FAT(LTR)").FormatString = "{0:n3}"
+
+
+                        gv.Columns("SNF(LTR)").IsVisible = True
+                        gv.Columns("SNF(LTR)").Width = 100
+                        gv.Columns("SNF(LTR)").HeaderText = "SNF(LTR)"
+                        gv.Columns("SNF(LTR)").FormatString = "{0:n3}"
+
+                        'gv.Columns("Cow Milk Qty (KG)").IsVisible = False 'Not objCommonVar.DisplayTypeInMilkReceipt
+                        'gv.Columns("Cow Milk Qty (KG)").Width = 100
+                        'gv.Columns("Cow Milk Qty (KG)").HeaderText = "Cow Milk Qty (KG)"
+
+                        'gv.Columns("Cow FAT(%)").IsVisible = False 'Not objCommonVar.DisplayTypeInMilkReceipt
+                        'gv.Columns("Cow FAT(%)").Width = 100
+                        'gv.Columns("Cow FAT(%)").HeaderText = "Cow FAT(%)"
+
+                        'gv.Columns("Cow SNF(%)").IsVisible = False 'Not objCommonVar.DisplayTypeInMilkReceipt
+                        'gv.Columns("Cow SNF(%)").Width = 100
+                        'gv.Columns("Cow SNF(%)").HeaderText = "Cow SNF(%)"
+
+                        'gv.Columns("Cow FAT (KG)").IsVisible = False ' Not objCommonVar.DisplayTypeInMilkReceipt
+                        'gv.Columns("Cow FAT (KG)").Width = 100
+                        'gv.Columns("Cow FAT (KG)").HeaderText = "Cow FAT (KG)"
+
+                        'gv.Columns("Cow SNF (KG)").IsVisible = False ' Not objCommonVar.DisplayTypeInMilkReceipt
+                        'gv.Columns("Cow SNF (KG)").Width = 100
+                        'gv.Columns("Cow SNF (KG)").HeaderText = "Cow SNF (KG)"
+
+                        'gv.Columns("Buffalo Milk Qty (KG)").IsVisible = False ' Not objCommonVar.DisplayTypeInMilkReceipt
+                        'gv.Columns("Buffalo Milk Qty (KG)").Width = 100
+                        'gv.Columns("Buffalo Milk Qty (KG)").HeaderText = "Buffalo Milk Qty (KG)"
+
+                        'gv.Columns("Buffalo SNF(%)").IsVisible = False ' Not objCommonVar.DisplayTypeInMilkReceipt
+                        'gv.Columns("Buffalo SNF(%)").Width = 100
+                        'gv.Columns("Buffalo SNF(%)").HeaderText = "Buffalo SNF(%)"
+
+                        'gv.Columns("Buffalo FAT(%)").IsVisible = False ' Not objCommonVar.DisplayTypeInMilkReceipt
+                        'gv.Columns("Buffalo FAT(%)").Width = 100
+
+                        'gv.Columns("Buffalo FAT (KG)").IsVisible = False ' Not objCommonVar.DisplayTypeInMilkReceipt
+                        'gv.Columns("Buffalo FAT (KG)").Width = 100
+                        'gv.Columns("Buffalo FAT (KG)").HeaderText = "Buffalo FAT (KG)"
+
+                        gv.Columns("FAT_Amount").IsVisible = True
+                        gv.Columns("FAT_Amount").Width = 100
+                        gv.Columns("FAT_Amount").HeaderText = "FAT Amount"
+
+                        gv.Columns("SNF_Amount").IsVisible = True
+                        gv.Columns("SNF_Amount").Width = 100
+                        gv.Columns("SNF_Amount").HeaderText = "SNF Amount"
+
+
+
+                        gv.Columns("REJ_AMOUNT").IsVisible = True
+                        gv.Columns("REJ_AMOUNT").Width = 100
+                        gv.Columns("REJ_AMOUNT").HeaderText = "Reject Milk Amt"
+
+                        'gv.Columns("SRN Qty").IsVisible = True
+                        'gv.Columns("SRN Qty").Width = 100
+                        'gv.Columns("SRN Qty").HeaderText = "SRN Qty"
+
+                        gv.Columns("SRN Amount").IsVisible = True
+                        gv.Columns("SRN Amount").Width = 100
+                        gv.Columns("SRN Amount").HeaderText = "Gross Milk Amount"
+
+                        ''richa agarwal MIL/01/02/19-000039 12 Feb,2019
+                        'gv.Columns("EMP_Amount").IsVisible = True
+                        'gv.Columns("EMP_Amount").Width = 100
+                        'gv.Columns("EMP_Amount").HeaderText = "SRN EMP Amount"
+
+                        'gv.Columns("TIP_Amount").IsVisible = True
+                        'gv.Columns("TIP_Amount").Width = 100
+                        'gv.Columns("TIP_Amount").HeaderText = "SRN TIP Amount"
+
+                        'gv.Columns("Head_Load_Amount").IsVisible = True
+                        'gv.Columns("Head_Load_Amount").Width = 100
+                        'gv.Columns("Head_Load_Amount").HeaderText = "Head Load Amount"
+
+
+                        'gv.Columns("SNF_Ded_Amount").IsVisible = False
+                        'gv.Columns("SNF_Ded_Amount").HeaderText = "SNF Deduction Amount"
+
+                        Dim summaryRowItem As New GridViewSummaryRowItem()
+                        Dim intCount As Integer = 0
+
+                        gv.Columns("NET_AMOUNT").IsVisible = True
+                        gv.Columns("NET_AMOUNT").Width = 100
+                        gv.Columns("NET_AMOUNT").HeaderText = "Net Amount"
+
+                        'gv.Columns("Round_Off").IsVisible = True
+                        'gv.Columns("Round_Off").Width = 100
+                        'gv.Columns("Round_Off").HeaderText = "SRN Round Off"
+
+                        'gv.Columns("Handling_Charges_Amount").IsVisible = True
+                        'gv.Columns("Handling_Charges_Amount").Width = 100
+                        'gv.Columns("Handling_Charges_Amount").HeaderText = "Handling Charges"
+
+
+
+                        gv.Columns("SaleAmt").IsVisible = True
+                        gv.Columns("SaleAmt").Width = 100
+                        gv.Columns("SaleAmt").HeaderText = "Sale Amount"
+
+                        gv.Columns("VSP_Commission_Amount").IsVisible = True
+                        gv.Columns("VSP_Commission_Amount").Width = 100
+                        gv.Columns("VSP_Commission_Amount").HeaderText = "EMP"
+
+                        gv.Columns("VSP_Deduction_Amount").IsVisible = True
+                        gv.Columns("VSP_Deduction_Amount").Width = 100
+                        gv.Columns("VSP_Deduction_Amount").HeaderText = "CB Ded."
+
+
+                        'gv.Columns("VSP_Day_Wise_Incentive").IsVisible = True
+                        'gv.Columns("VSP_Day_Wise_Incentive").Width = 100
+                        'gv.Columns("VSP_Day_Wise_Incentive").HeaderText = "VSP Day Wise Incentive"
+
+                        gv.Columns("DeductionAmt").IsVisible = False
                         gv.Columns("DeductionAmt").Width = 100
-                        gv.Columns("DeductionAmt").HeaderText = "Deduction Amt"
-                    End If
-
-
-                    If gv.Columns.Contains("IncetiveAmt") Then
-                        gv.Columns("IncetiveAmt").IsVisible = True
-                        gv.Columns("IncetiveAmt").Width = 100
-                        gv.Columns("IncetiveAmt").HeaderText = "Incentive Amt"
-                    End If
-
-                    If gv.Columns.Contains("DeductionDesc") Then
-                        gv.Columns("DeductionDesc").IsVisible = True
-                        gv.Columns("DeductionDesc").Width = 100
-                        gv.Columns("DeductionDesc").HeaderText = "Deduction Desc"
-                    End If
-
-                    If gv.Columns.Contains("DeductionCode") Then
-                        gv.Columns("DeductionCode").IsVisible = True
-                        gv.Columns("DeductionCode").Width = 100
-                        gv.Columns("DeductionCode").HeaderText = "Deduction Code"
-                    End If
-                    If gv.Columns.Contains("Addition") Then
-                        gv.Columns("Addition").IsVisible = True
-                        gv.Columns("Addition").Width = 100
-                        gv.Columns("Addition").HeaderText = "Manual Add"
-                    End If
-
-                    If gv.Columns.Contains("ManualDed") Then
-                        gv.Columns("ManualDed").IsVisible = True
-                        gv.Columns("ManualDed").Width = 100
-                        gv.Columns("ManualDed").HeaderText = "Manual Ded"
-                    End If
-
-
-                    If gv.Columns.Contains("PayableAmt") Then
-                        gv.Columns("PayableAmt").IsVisible = True
-                        gv.Columns("PayableAmt").Width = 100
-                        gv.Columns("PayableAmt").HeaderText = "Payable Amt"
-                    End If
-
-
-                    Dim item1141 As New GridViewSummaryItem("SaleAmt", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item1141)
-                    Dim item1145 As New GridViewSummaryItem("DeductionAmt", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item1145)
-                    Dim item1146 As New GridViewSummaryItem("IncetiveAmt", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item1146)
-                    Dim item21147 As New GridViewSummaryItem("PayableAmt", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item21147)
-
-
-                    Dim item112 As New GridViewSummaryItem("NET_AMOUNT", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item112)
-                    Dim item113 As New GridViewSummaryItem("Round_Off", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item113)
-                    Dim item114 As New GridViewSummaryItem("Handling_Charges_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item114)
-
-
-                    Dim item111 As New GridViewSummaryItem("EMP_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item111)
-                    Dim item1111 As New GridViewSummaryItem("TIP_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item1111)
-                    Dim item1 As New GridViewSummaryItem("Milk Weight", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item1)
-                    Dim item2 As New GridViewSummaryItem("Milk Weight(KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item2)
-                    Dim item3 As New GridViewSummaryItem("Milk Weight(LTR)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item3)
-
-
-
-
-                    Dim item4 As New GridViewSummaryItem("FAT(KG)", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item4)
-                    Dim item101 As New GridViewSummaryItem("Head_Load_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item101)
-                    Dim item5 As New GridViewSummaryItem("SNF(KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item5)
-                    Dim summaryItem1 As New GridViewSummaryItem()
-                    summaryItem1.FormatString = "{0:F2}"
-                    summaryItem1.Name = "FAT(%)"
-                    summaryItem1.AggregateExpression = "sum([FAT(KG)])*100/sum([Milk Weight(KG)])"
-                    summaryRowItem.Add(summaryItem1)
-
-                    Dim summaryItem2 As New GridViewSummaryItem()
-                    summaryItem2.FormatString = "{0:F2}"
-                    summaryItem2.Name = "SNF(%)"
-                    summaryItem2.AggregateExpression = "sum([SNF(KG)])*100/sum([Milk Weight(KG)])"
-                    summaryRowItem.Add(summaryItem2)
-
-                    Dim item6 As New GridViewSummaryItem("Cow Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item6)
-                    Dim item7 As New GridViewSummaryItem("Cow FAT (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item7)
-
-                    Dim item8 As New GridViewSummaryItem("Cow SNF (KG)", "{0:F2}", GridAggregateFunction.Sum)
-
-                    summaryRowItem.Add(item8)
-                    Dim summaryItem3 As New GridViewSummaryItem()
-                    summaryItem3.FormatString = "{0:F2}"
-                    summaryItem3.Name = "Cow SNF(%)"
-                    summaryItem3.AggregateExpression = "IIf(sum([Cow SNF (KG)])>0,sum([Cow SNF (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
-                    summaryRowItem.Add(summaryItem3)
-
-                    Dim summaryItem4 As New GridViewSummaryItem()
-                    summaryItem4.FormatString = "{0:F2}"
-                    summaryItem4.Name = "Cow FAT(%)"
-                    summaryItem4.AggregateExpression = "IIf(sum([Cow FAT (KG)])>0,sum([Cow FAT (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
-                    summaryRowItem.Add(summaryItem4)
-
-                    Dim item9 As New GridViewSummaryItem("Buffalo Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item9)
-                    Dim item10 As New GridViewSummaryItem("Buffalo FAT (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item10)
-                    Dim item11 As New GridViewSummaryItem("Buffalo SNF (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item11)
-                    Dim summaryItem5 As New GridViewSummaryItem()
-                    summaryItem5.FormatString = "{0:F2}"
-                    summaryItem5.Name = "Buffalo FAT(%)"
-                    summaryItem5.AggregateExpression = "sum([Buffalo FAT (KG)])*100/sum([Buffalo Milk Qty (KG)])"
-                    summaryRowItem.Add(summaryItem5)
-
-                    Dim summaryItem6 As New GridViewSummaryItem()
-                    summaryItem6.FormatString = "{0:F2}"
-                    summaryItem6.Name = "Buffalo SNF(%)"
-                    summaryItem6.AggregateExpression = "sum([Buffalo SNF (KG)])*100/sum([Buffalo Milk Qty (KG)])"
-                    summaryRowItem.Add(summaryItem6)
-                    Dim item13 As New GridViewSummaryItem("SRN Qty", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item13)
-                    Dim item12 As New GridViewSummaryItem("SRN Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item12)
-
-                    Dim item15 As New GridViewSummaryItem("SNF_Ded_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item15)
-
-                    Dim SummaryVSPCommission As New GridViewSummaryItem("VSP_Commission_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPCommission)
-                    Dim SummaryVSPQualityDeduction As New GridViewSummaryItem("VSP_Deduction_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPQualityDeduction)
-                    Dim SummaryVSPDayWiseInc As New GridViewSummaryItem("VSP_Day_Wise_Incentive", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPDayWiseInc)
-
-                    gv.ShowGroupPanel = False
-                    gv.MasterTemplate.AutoExpandGroups = True
-
-                    gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-                    gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
-                ElseIf rdoVLCWisePaymentSummary.Checked Then
-                    '[MCC Code],[MCC Name],[Vlc Code] , [VLC Name], 
-                    gv.Columns("MCC Code").IsVisible = True
-                    gv.Columns("MCC Code").Width = 100
-                    gv.Columns("MCC Code").HeaderText = "MCC Code"
-
-                    gv.Columns("MCC Name").IsVisible = True
-                    gv.Columns("MCC Name").Width = 100
-                    gv.Columns("MCC Name").HeaderText = "MCC Name"
-
-                    'gv.Columns("MCC Type").IsVisible = False
-                    'gv.Columns("Chilling Center").IsVisible = False
-
-                    'gv.Columns("Route Code").IsVisible = False
-                    'gv.Columns("Route Code").Width = 100
-                    'gv.Columns("Route Code").HeaderText = "Route Code"
-
-
-                    'gv.Columns("Route Name").IsVisible = False
-                    'gv.Columns("Route Name").Width = 100
-                    'gv.Columns("Route Name").HeaderText = "Route Name"
-
-                    gv.Columns("Vlc Code").IsVisible = True
-                    gv.Columns("Vlc Code").Width = 100
-                    gv.Columns("Vlc Code").HeaderText = "DCS Code"
-
-                    gv.Columns("VLC Name").IsVisible = True
-                    gv.Columns("VLC Name").Width = 100
-                    gv.Columns("VLC Name").HeaderText = "DCS Name"
-
-                    '[VLC Uploader Code], [VSP Code],   
-
-                    gv.Columns("Milk Weight").IsVisible = True
-                    gv.Columns("Milk Weight").Width = 100
-                    gv.Columns("Milk Weight").HeaderText = "Milk Weight"
-
-                    gv.Columns("Milk Weight(KG)").IsVisible = True
-                    gv.Columns("Milk Weight(KG)").Width = 100
-                    gv.Columns("Milk Weight(KG)").HeaderText = "Milk Weight(KG)"
-
-                    gv.Columns("Milk Weight(LTR)").IsVisible = True
-                    gv.Columns("Milk Weight(LTR)").Width = 100
-                    gv.Columns("Milk Weight(LTR)").HeaderText = "Milk Weight(LTR)"
-
-                    'gv.Columns("FAT(%)").IsVisible = False
-                    'gv.Columns("FAT(%)").Width = 100
-                    'gv.Columns("FAT(%)").HeaderText = " FAT(%)"
-
-                    'gv.Columns("SNF(%)").IsVisible = False
-                    'gv.Columns("SNF(%)").Width = 100
-                    'gv.Columns("SNF(%)").HeaderText = "SNF(%)"
-
-                    gv.Columns("FAT(KG)").IsVisible = True
-                    gv.Columns("FAT(KG)").Width = 100
-                    gv.Columns("FAT(KG)").HeaderText = " FAT(KG)"
-                    gv.Columns("FAT(KG)").FormatString = "{0:n3}"
-
-
-                    gv.Columns("SNF(KG)").IsVisible = True
-                    gv.Columns("SNF(KG)").Width = 100
-                    gv.Columns("SNF(KG)").HeaderText = "SNF(KG)"
-                    gv.Columns("SNF(KG)").FormatString = "{0:n3}"
-
-                    gv.Columns("FAT(LTR)").IsVisible = True
-                    gv.Columns("FAT(LTR)").Width = 100
-                    gv.Columns("FAT(LTR)").HeaderText = " FAT(LTR)"
-                    gv.Columns("FAT(LTR)").FormatString = "{0:n3}"
+                        gv.Columns("DeductionAmt").HeaderText = "TotalDed."
 
+                        gv.Columns("DeductionAmt_RM").IsVisible = True
+                        gv.Columns("DeductionAmt_RM").Width = 100
+                        gv.Columns("DeductionAmt_RM").HeaderText = "RM Ded."
 
-                    gv.Columns("SNF(LTR)").IsVisible = True
-                    gv.Columns("SNF(LTR)").Width = 100
-                    gv.Columns("SNF(LTR)").HeaderText = "SNF(LTR)"
-                    gv.Columns("SNF(LTR)").FormatString = "{0:n3}"
+                        gv.Columns("DeductionAmt_RATE_DIFF").IsVisible = True
+                        gv.Columns("DeductionAmt_RATE_DIFF").Width = 100
+                        gv.Columns("DeductionAmt_RATE_DIFF").HeaderText = "Rate Diff."
 
-                    'gv.Columns("Cow Milk Qty (KG)").IsVisible = False 'Not objCommonVar.DisplayTypeInMilkReceipt
-                    'gv.Columns("Cow Milk Qty (KG)").Width = 100
-                    'gv.Columns("Cow Milk Qty (KG)").HeaderText = "Cow Milk Qty (KG)"
+                        gv.Columns("DeductionAmt_Advance").IsVisible = True
+                        gv.Columns("DeductionAmt_Advance").Width = 100
+                        gv.Columns("DeductionAmt_Advance").HeaderText = "Advance"
 
-                    'gv.Columns("Cow FAT(%)").IsVisible = False 'Not objCommonVar.DisplayTypeInMilkReceipt
-                    'gv.Columns("Cow FAT(%)").Width = 100
-                    'gv.Columns("Cow FAT(%)").HeaderText = "Cow FAT(%)"
-
-                    'gv.Columns("Cow SNF(%)").IsVisible = False 'Not objCommonVar.DisplayTypeInMilkReceipt
-                    'gv.Columns("Cow SNF(%)").Width = 100
-                    'gv.Columns("Cow SNF(%)").HeaderText = "Cow SNF(%)"
-
-                    'gv.Columns("Cow FAT (KG)").IsVisible = False ' Not objCommonVar.DisplayTypeInMilkReceipt
-                    'gv.Columns("Cow FAT (KG)").Width = 100
-                    'gv.Columns("Cow FAT (KG)").HeaderText = "Cow FAT (KG)"
-
-                    'gv.Columns("Cow SNF (KG)").IsVisible = False ' Not objCommonVar.DisplayTypeInMilkReceipt
-                    'gv.Columns("Cow SNF (KG)").Width = 100
-                    'gv.Columns("Cow SNF (KG)").HeaderText = "Cow SNF (KG)"
-
-                    'gv.Columns("Buffalo Milk Qty (KG)").IsVisible = False ' Not objCommonVar.DisplayTypeInMilkReceipt
-                    'gv.Columns("Buffalo Milk Qty (KG)").Width = 100
-                    'gv.Columns("Buffalo Milk Qty (KG)").HeaderText = "Buffalo Milk Qty (KG)"
-
-                    'gv.Columns("Buffalo SNF(%)").IsVisible = False ' Not objCommonVar.DisplayTypeInMilkReceipt
-                    'gv.Columns("Buffalo SNF(%)").Width = 100
-                    'gv.Columns("Buffalo SNF(%)").HeaderText = "Buffalo SNF(%)"
-
-                    'gv.Columns("Buffalo FAT(%)").IsVisible = False ' Not objCommonVar.DisplayTypeInMilkReceipt
-                    'gv.Columns("Buffalo FAT(%)").Width = 100
-
-                    'gv.Columns("Buffalo FAT (KG)").IsVisible = False ' Not objCommonVar.DisplayTypeInMilkReceipt
-                    'gv.Columns("Buffalo FAT (KG)").Width = 100
-                    'gv.Columns("Buffalo FAT (KG)").HeaderText = "Buffalo FAT (KG)"
-
-                    gv.Columns("FAT_Amount").IsVisible = True
-                    gv.Columns("FAT_Amount").Width = 100
-                    gv.Columns("FAT_Amount").HeaderText = "FAT Amount"
-
-                    gv.Columns("SNF_Amount").IsVisible = True
-                    gv.Columns("SNF_Amount").Width = 100
-                    gv.Columns("SNF_Amount").HeaderText = "SNF Amount"
-
-
-
-                    gv.Columns("REJ_AMOUNT").IsVisible = True
-                    gv.Columns("REJ_AMOUNT").Width = 100
-                    gv.Columns("REJ_AMOUNT").HeaderText = "Reject Milk Amt"
-
-                    'gv.Columns("SRN Qty").IsVisible = True
-                    'gv.Columns("SRN Qty").Width = 100
-                    'gv.Columns("SRN Qty").HeaderText = "SRN Qty"
-
-                    gv.Columns("SRN Amount").IsVisible = True
-                    gv.Columns("SRN Amount").Width = 100
-                    gv.Columns("SRN Amount").HeaderText = "Gross Milk Amount"
-
-                    ''richa agarwal MIL/01/02/19-000039 12 Feb,2019
-                    'gv.Columns("EMP_Amount").IsVisible = True
-                    'gv.Columns("EMP_Amount").Width = 100
-                    'gv.Columns("EMP_Amount").HeaderText = "SRN EMP Amount"
-
-                    'gv.Columns("TIP_Amount").IsVisible = True
-                    'gv.Columns("TIP_Amount").Width = 100
-                    'gv.Columns("TIP_Amount").HeaderText = "SRN TIP Amount"
-
-                    'gv.Columns("Head_Load_Amount").IsVisible = True
-                    'gv.Columns("Head_Load_Amount").Width = 100
-                    'gv.Columns("Head_Load_Amount").HeaderText = "Head Load Amount"
-
-
-                    'gv.Columns("SNF_Ded_Amount").IsVisible = False
-                    'gv.Columns("SNF_Ded_Amount").HeaderText = "SNF Deduction Amount"
-
-                    Dim summaryRowItem As New GridViewSummaryRowItem()
-                    Dim intCount As Integer = 0
-
-                    gv.Columns("NET_AMOUNT").IsVisible = True
-                    gv.Columns("NET_AMOUNT").Width = 100
-                    gv.Columns("NET_AMOUNT").HeaderText = "Net Amount"
-
-                    'gv.Columns("Round_Off").IsVisible = True
-                    'gv.Columns("Round_Off").Width = 100
-                    'gv.Columns("Round_Off").HeaderText = "SRN Round Off"
-
-                    'gv.Columns("Handling_Charges_Amount").IsVisible = True
-                    'gv.Columns("Handling_Charges_Amount").Width = 100
-                    'gv.Columns("Handling_Charges_Amount").HeaderText = "Handling Charges"
-
-
-
-                    gv.Columns("SaleAmt").IsVisible = True
-                    gv.Columns("SaleAmt").Width = 100
-                    gv.Columns("SaleAmt").HeaderText = "Sale Amount"
-
-                    gv.Columns("VSP_Commission_Amount").IsVisible = True
-                    gv.Columns("VSP_Commission_Amount").Width = 100
-                    gv.Columns("VSP_Commission_Amount").HeaderText = "EMP"
-
-                    gv.Columns("VSP_Deduction_Amount").IsVisible = True
-                    gv.Columns("VSP_Deduction_Amount").Width = 100
-                    gv.Columns("VSP_Deduction_Amount").HeaderText = "CB Ded."
-
-
-                    'gv.Columns("VSP_Day_Wise_Incentive").IsVisible = True
-                    'gv.Columns("VSP_Day_Wise_Incentive").Width = 100
-                    'gv.Columns("VSP_Day_Wise_Incentive").HeaderText = "VSP Day Wise Incentive"
-
-                    gv.Columns("DeductionAmt").IsVisible = False
-                    gv.Columns("DeductionAmt").Width = 100
-                    gv.Columns("DeductionAmt").HeaderText = "TotalDed."
-
-                    gv.Columns("DeductionAmt_RM").IsVisible = True
-                    gv.Columns("DeductionAmt_RM").Width = 100
-                    gv.Columns("DeductionAmt_RM").HeaderText = "RM Ded."
-
-                    gv.Columns("DeductionAmt_RATE_DIFF").IsVisible = True
-                    gv.Columns("DeductionAmt_RATE_DIFF").Width = 100
-                    gv.Columns("DeductionAmt_RATE_DIFF").HeaderText = "Rate Diff."
-
-                    gv.Columns("DeductionAmt_Advance").IsVisible = True
-                    gv.Columns("DeductionAmt_Advance").Width = 100
-                    gv.Columns("DeductionAmt_Advance").HeaderText = "Advance"
-
-                    gv.Columns("Local_Sale_Amount").IsVisible = True
-                    gv.Columns("Local_Sale_Amount").Width = 100
-                    gv.Columns("Local_Sale_Amount").HeaderText = "Local Sale"
-
-                    gv.Columns("Std_Deduction_Amount").IsVisible = True
-                    gv.Columns("Std_Deduction_Amount").Width = 100
-                    gv.Columns("Std_Deduction_Amount").HeaderText = "Standard Deduction"
-
-
-                    'gv.Columns("IncetiveAmt").IsVisible = True
-                    'gv.Columns("IncetiveAmt").Width = 100
-                    'gv.Columns("IncetiveAmt").HeaderText = "Incentive Amt"
-
-
-                    gv.Columns("Total Payment").IsVisible = True
-                    gv.Columns("Total Payment").Width = 100
-                    gv.Columns("Total Payment").HeaderText = "Total Payment"
-
-                    gv.Columns("Excess Paid").IsVisible = True
-                    gv.Columns("Excess Paid").Width = 100
-                    gv.Columns("Excess Paid").HeaderText = "Excess Paid"
-
-                    gv.Columns("Final Payment").IsVisible = True
-                    gv.Columns("Final Payment").Width = 100
-                    gv.Columns("Final Payment").HeaderText = "Final Payment"
-
-                    ' 
-
-                    gv.Columns("Pro Diff").IsVisible = False
-                    gv.Columns("Pro Diff").Width = 100
-                    gv.Columns("Pro Diff").HeaderText = "PRO"
-
-                    Dim item1141 As New GridViewSummaryItem("SaleAmt", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item1141)
-                    Dim item1145 As New GridViewSummaryItem("DeductionAmt", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item1145)
-                    'Dim item1146 As New GridViewSummaryItem("IncetiveAmt", "{0:F2}", GridAggregateFunction.Sum)
-                    'summaryRowItem.Add(item1146)
-                    Dim item21147 As New GridViewSummaryItem("Total Payment", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item21147)
-
-                    Dim item21147_ExcessPaid As New GridViewSummaryItem("Excess Paid", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item21147_ExcessPaid)
-
-                    Dim item21147_FinalPayment As New GridViewSummaryItem("Final Payment", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item21147_FinalPayment)
-
-                    'VSP_Commission_Amount,VSP_Deduction_Amount,DeductionAmt,[NET_AMOUNT], SaleAmt,[Total Payment] [Excess Paid],[Final Payment]
-
-
-
-                    Dim item112 As New GridViewSummaryItem("NET_AMOUNT", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item112)
-                    'Dim item113 As New GridViewSummaryItem("Round_Off", "{0:F2}", GridAggregateFunction.Sum)
-                    'summaryRowItem.Add(item113)
-                    'Dim item114 As New GridViewSummaryItem("Handling_Charges_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    'summaryRowItem.Add(item114)
-
-
-                    'Dim item111 As New GridViewSummaryItem("EMP_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    'summaryRowItem.Add(item111)
-                    'Dim item1111 As New GridViewSummaryItem("TIP_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    'summaryRowItem.Add(item1111)
-                    Dim item1 As New GridViewSummaryItem("Milk Weight", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item1)
-                    Dim item2 As New GridViewSummaryItem("Milk Weight(KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item2)
-                    Dim item3 As New GridViewSummaryItem("Milk Weight(LTR)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item3)
-
-
-
-                    Dim item4 As New GridViewSummaryItem("FAT(KG)", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item4)
-                    'Dim item101 As New GridViewSummaryItem("Head_Load_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    'summaryRowItem.Add(item101)
-                    Dim item5 As New GridViewSummaryItem("SNF(KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item5)
-                    'Dim summaryItem1 As New GridViewSummaryItem()
-                    'summaryItem1.FormatString = "{0:F2}"
-                    'summaryItem1.Name = "FAT(%)"
-                    'summaryItem1.AggregateExpression = "sum([FAT(KG)])*100/sum([Milk Weight(KG)])"
-                    'summaryRowItem.Add(summaryItem1)
-
-                    'Dim summaryItem2 As New GridViewSummaryItem()
-                    'summaryItem2.FormatString = "{0:F2}"
-                    'summaryItem2.Name = "SNF(%)"
-                    'summaryItem2.AggregateExpression = "sum([SNF(KG)])*100/sum([Milk Weight(KG)])"
-                    'summaryRowItem.Add(summaryItem2)
-
-                    'Dim item6 As New GridViewSummaryItem("Cow Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    'summaryRowItem.Add(item6)
-                    'Dim item7 As New GridViewSummaryItem("Cow FAT (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    'summaryRowItem.Add(item7)
-
-                    'Dim item8 As New GridViewSummaryItem("Cow SNF (KG)", "{0:F2}", GridAggregateFunction.Sum)
-
-                    'summaryRowItem.Add(item8)
-                    'Dim summaryItem3 As New GridViewSummaryItem()
-                    'summaryItem3.FormatString = "{0:F2}"
-                    'summaryItem3.Name = "Cow SNF(%)"
-                    'summaryItem3.AggregateExpression = "IIf(sum([Cow SNF (KG)])>0,sum([Cow SNF (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
-                    'summaryRowItem.Add(summaryItem3)
-
-                    Dim summaryItem4 As New GridViewSummaryItem()
-                    summaryItem4.FormatString = "{0:F2}"
-                    summaryItem4.Name = "Cow FAT(%)"
-                    summaryItem4.AggregateExpression = "IIf(sum([Cow FAT (KG)])>0,sum([Cow FAT (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
-                    summaryRowItem.Add(summaryItem4)
-
-                    'Dim item9 As New GridViewSummaryItem("Buffalo Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    'summaryRowItem.Add(item9)
-                    'Dim item10 As New GridViewSummaryItem("Buffalo FAT (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    'summaryRowItem.Add(item10)
-                    'Dim item11 As New GridViewSummaryItem("Buffalo SNF (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    'summaryRowItem.Add(item11)
-                    'Dim summaryItem5 As New GridViewSummaryItem()
-                    'summaryItem5.FormatString = "{0:F2}"
-                    'summaryItem5.Name = "Buffalo FAT(%)"
-                    'summaryItem5.AggregateExpression = "sum([Buffalo FAT (KG)])*100/sum([Buffalo Milk Qty (KG)])"
-                    'summaryRowItem.Add(summaryItem5)
-
-                    'Dim summaryItem6 As New GridViewSummaryItem()
-                    'summaryItem6.FormatString = "{0:F2}"
-                    'summaryItem6.Name = "Buffalo SNF(%)"
-                    'summaryItem6.AggregateExpression = "sum([Buffalo SNF (KG)])*100/sum([Buffalo Milk Qty (KG)])"
-                    'summaryRowItem.Add(summaryItem6)
-                    'Dim item13 As New GridViewSummaryItem("SRN Qty", "{0:F2}", GridAggregateFunction.Sum)
-                    'summaryRowItem.Add(item13)
-                    Dim item12 As New GridViewSummaryItem("SRN Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item12)
-
-                    'Dim item15 As New GridViewSummaryItem("SNF_Ded_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    'summaryRowItem.Add(item15)
-
-                    Dim SummaryVSPCommission As New GridViewSummaryItem("VSP_Commission_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPCommission)
-                    Dim SummaryVSPQualityDeduction As New GridViewSummaryItem("VSP_Deduction_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPQualityDeduction)
-
-                    Dim SummaryVSPProDiff As New GridViewSummaryItem("Pro Diff", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPProDiff)
-
-                    Dim SummaryVSPFAT_Amount As New GridViewSummaryItem("FAT_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPFAT_Amount)
-                    Dim SummaryVSPSNF_Amount As New GridViewSummaryItem("SNF_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPSNF_Amount)
-
-
-                    SummaryVSPSNF_Amount = New GridViewSummaryItem("Local_Sale_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPSNF_Amount)
-                    SummaryVSPSNF_Amount = New GridViewSummaryItem("Std_Deduction_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPSNF_Amount)
-
-                    ' FAT(LTR), SNF(LTR)
-                    Dim SummaryVSPFAT_LTR As New GridViewSummaryItem("FAT(LTR)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPFAT_LTR)
-                    Dim SummaryVSPSNF_LTR As New GridViewSummaryItem("SNF(LTR)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPSNF_LTR)
-                    'Dim SummaryVSPDayWiseInc As New GridViewSummaryItem("VSP_Day_Wise_Incentive", "{0:F2}", GridAggregateFunction.Sum)
-                    'summaryRowItem.Add(SummaryVSPDayWiseInc)
-                    Dim SummaryREJ_AMOUNT As New GridViewSummaryItem("REJ_AMOUNT", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryREJ_AMOUNT)
-
-                    Dim dtDeduction As DataTable = clsDBFuncationality.GetDataTable("select distinct tspl_deduction_master.Description as deduction FROM TSPL_PAYMENT_PROCESS_DEDUCTION left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code WHERE convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103)")
-
-                    If dtDeduction IsNot Nothing AndAlso dtDeduction.Rows.Count > 0 Then
-                        For i As Integer = 0 To dtDeduction.Rows.Count - 1
-                            Dim aa = clsCommon.myCstr(dtDeduction.Rows(i).Item(0))
-                            Dim item111 As New GridViewSummaryItem(aa, "{0:F2}", GridAggregateFunction.Sum)
-                            summaryRowItem.Add(item111)
-                            gv.Columns(i).FormatString = "{0:F2}"
+                        gv.Columns("Local_Sale_Amount").IsVisible = True
+                        gv.Columns("Local_Sale_Amount").Width = 100
+                        gv.Columns("Local_Sale_Amount").HeaderText = "Local Sale"
+
+                        gv.Columns("Std_Deduction_Amount").IsVisible = True
+                        gv.Columns("Std_Deduction_Amount").Width = 100
+                        gv.Columns("Std_Deduction_Amount").HeaderText = "Standard Deduction"
+
+
+                        'gv.Columns("IncetiveAmt").IsVisible = True
+                        'gv.Columns("IncetiveAmt").Width = 100
+                        'gv.Columns("IncetiveAmt").HeaderText = "Incentive Amt"
+
+
+                        gv.Columns("Total Payment").IsVisible = True
+                        gv.Columns("Total Payment").Width = 100
+                        gv.Columns("Total Payment").HeaderText = "Total Payment"
+
+                        gv.Columns("Excess Paid").IsVisible = True
+                        gv.Columns("Excess Paid").Width = 100
+                        gv.Columns("Excess Paid").HeaderText = "Excess Paid"
+
+                        gv.Columns("Final Payment").IsVisible = True
+                        gv.Columns("Final Payment").Width = 100
+                        gv.Columns("Final Payment").HeaderText = "Final Payment"
+
+                        ' 
+
+                        gv.Columns("Pro Diff").IsVisible = False
+                        gv.Columns("Pro Diff").Width = 100
+                        gv.Columns("Pro Diff").HeaderText = "PRO"
+
+                        Dim item1141 As New GridViewSummaryItem("SaleAmt", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item1141)
+                        Dim item1145 As New GridViewSummaryItem("DeductionAmt", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item1145)
+                        'Dim item1146 As New GridViewSummaryItem("IncetiveAmt", "{0:F2}", GridAggregateFunction.Sum)
+                        'summaryRowItem.Add(item1146)
+                        Dim item21147 As New GridViewSummaryItem("Total Payment", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item21147)
+
+                        Dim item21147_ExcessPaid As New GridViewSummaryItem("Excess Paid", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item21147_ExcessPaid)
+
+                        Dim item21147_FinalPayment As New GridViewSummaryItem("Final Payment", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item21147_FinalPayment)
+
+                        'VSP_Commission_Amount,VSP_Deduction_Amount,DeductionAmt,[NET_AMOUNT], SaleAmt,[Total Payment] [Excess Paid],[Final Payment]
+
+
+
+                        Dim item112 As New GridViewSummaryItem("NET_AMOUNT", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item112)
+                        'Dim item113 As New GridViewSummaryItem("Round_Off", "{0:F2}", GridAggregateFunction.Sum)
+                        'summaryRowItem.Add(item113)
+                        'Dim item114 As New GridViewSummaryItem("Handling_Charges_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        'summaryRowItem.Add(item114)
+
+
+                        'Dim item111 As New GridViewSummaryItem("EMP_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        'summaryRowItem.Add(item111)
+                        'Dim item1111 As New GridViewSummaryItem("TIP_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        'summaryRowItem.Add(item1111)
+                        Dim item1 As New GridViewSummaryItem("Milk Weight", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item1)
+                        Dim item2 As New GridViewSummaryItem("Milk Weight(KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item2)
+                        Dim item3 As New GridViewSummaryItem("Milk Weight(LTR)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item3)
+
+
+
+                        Dim item4 As New GridViewSummaryItem("FAT(KG)", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item4)
+                        'Dim item101 As New GridViewSummaryItem("Head_Load_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        'summaryRowItem.Add(item101)
+                        Dim item5 As New GridViewSummaryItem("SNF(KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item5)
+                        'Dim summaryItem1 As New GridViewSummaryItem()
+                        'summaryItem1.FormatString = "{0:F2}"
+                        'summaryItem1.Name = "FAT(%)"
+                        'summaryItem1.AggregateExpression = "sum([FAT(KG)])*100/sum([Milk Weight(KG)])"
+                        'summaryRowItem.Add(summaryItem1)
+
+                        'Dim summaryItem2 As New GridViewSummaryItem()
+                        'summaryItem2.FormatString = "{0:F2}"
+                        'summaryItem2.Name = "SNF(%)"
+                        'summaryItem2.AggregateExpression = "sum([SNF(KG)])*100/sum([Milk Weight(KG)])"
+                        'summaryRowItem.Add(summaryItem2)
+
+                        'Dim item6 As New GridViewSummaryItem("Cow Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        'summaryRowItem.Add(item6)
+                        'Dim item7 As New GridViewSummaryItem("Cow FAT (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        'summaryRowItem.Add(item7)
+
+                        'Dim item8 As New GridViewSummaryItem("Cow SNF (KG)", "{0:F2}", GridAggregateFunction.Sum)
+
+                        'summaryRowItem.Add(item8)
+                        'Dim summaryItem3 As New GridViewSummaryItem()
+                        'summaryItem3.FormatString = "{0:F2}"
+                        'summaryItem3.Name = "Cow SNF(%)"
+                        'summaryItem3.AggregateExpression = "IIf(sum([Cow SNF (KG)])>0,sum([Cow SNF (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
+                        'summaryRowItem.Add(summaryItem3)
+
+                        Dim summaryItem4 As New GridViewSummaryItem()
+                        summaryItem4.FormatString = "{0:F2}"
+                        summaryItem4.Name = "Cow FAT(%)"
+                        summaryItem4.AggregateExpression = "IIf(sum([Cow FAT (KG)])>0,sum([Cow FAT (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
+                        summaryRowItem.Add(summaryItem4)
+
+                        'Dim item9 As New GridViewSummaryItem("Buffalo Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        'summaryRowItem.Add(item9)
+                        'Dim item10 As New GridViewSummaryItem("Buffalo FAT (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        'summaryRowItem.Add(item10)
+                        'Dim item11 As New GridViewSummaryItem("Buffalo SNF (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        'summaryRowItem.Add(item11)
+                        'Dim summaryItem5 As New GridViewSummaryItem()
+                        'summaryItem5.FormatString = "{0:F2}"
+                        'summaryItem5.Name = "Buffalo FAT(%)"
+                        'summaryItem5.AggregateExpression = "sum([Buffalo FAT (KG)])*100/sum([Buffalo Milk Qty (KG)])"
+                        'summaryRowItem.Add(summaryItem5)
+
+                        'Dim summaryItem6 As New GridViewSummaryItem()
+                        'summaryItem6.FormatString = "{0:F2}"
+                        'summaryItem6.Name = "Buffalo SNF(%)"
+                        'summaryItem6.AggregateExpression = "sum([Buffalo SNF (KG)])*100/sum([Buffalo Milk Qty (KG)])"
+                        'summaryRowItem.Add(summaryItem6)
+                        'Dim item13 As New GridViewSummaryItem("SRN Qty", "{0:F2}", GridAggregateFunction.Sum)
+                        'summaryRowItem.Add(item13)
+                        Dim item12 As New GridViewSummaryItem("SRN Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item12)
+
+                        'Dim item15 As New GridViewSummaryItem("SNF_Ded_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        'summaryRowItem.Add(item15)
+
+                        Dim SummaryVSPCommission As New GridViewSummaryItem("VSP_Commission_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPCommission)
+                        Dim SummaryVSPQualityDeduction As New GridViewSummaryItem("VSP_Deduction_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPQualityDeduction)
+
+                        Dim SummaryVSPProDiff As New GridViewSummaryItem("Pro Diff", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPProDiff)
+
+                        Dim SummaryVSPFAT_Amount As New GridViewSummaryItem("FAT_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPFAT_Amount)
+                        Dim SummaryVSPSNF_Amount As New GridViewSummaryItem("SNF_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPSNF_Amount)
+
+
+                        SummaryVSPSNF_Amount = New GridViewSummaryItem("Local_Sale_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPSNF_Amount)
+                        SummaryVSPSNF_Amount = New GridViewSummaryItem("Std_Deduction_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPSNF_Amount)
+
+                        ' FAT(LTR), SNF(LTR)
+                        Dim SummaryVSPFAT_LTR As New GridViewSummaryItem("FAT(LTR)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPFAT_LTR)
+                        Dim SummaryVSPSNF_LTR As New GridViewSummaryItem("SNF(LTR)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPSNF_LTR)
+                        'Dim SummaryVSPDayWiseInc As New GridViewSummaryItem("VSP_Day_Wise_Incentive", "{0:F2}", GridAggregateFunction.Sum)
+                        'summaryRowItem.Add(SummaryVSPDayWiseInc)
+                        Dim SummaryREJ_AMOUNT As New GridViewSummaryItem("REJ_AMOUNT", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryREJ_AMOUNT)
+
+                        Dim dtDeduction As DataTable = clsDBFuncationality.GetDataTable("select distinct tspl_deduction_master.Description as deduction FROM TSPL_PAYMENT_PROCESS_DEDUCTION left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code WHERE convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,'" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "',103)")
+
+                        If dtDeduction IsNot Nothing AndAlso dtDeduction.Rows.Count > 0 Then
+                            For i As Integer = 0 To dtDeduction.Rows.Count - 1
+                                Dim aa = clsCommon.myCstr(dtDeduction.Rows(i).Item(0))
+                                Dim item111 As New GridViewSummaryItem(aa, "{0:F2}", GridAggregateFunction.Sum)
+                                summaryRowItem.Add(item111)
+                                gv.Columns(i).FormatString = "{0:F2}"
+                            Next
+                        End If
+
+                        gv.ShowGroupPanel = False
+                        gv.MasterTemplate.AutoExpandGroups = True
+
+                        gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+                    ElseIf rdbPlantWisePaymentSummary.Checked Then
+
+                        For ii As Integer = 0 To gv.Columns.Count - 1
+                            gv.Columns(ii).Width = 100
                         Next
+                        Dim summaryRowItem As New GridViewSummaryRowItem()
+
+                        Dim item1 As New GridViewSummaryItem("Milk Weight", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item1)
+                        Dim item2 As New GridViewSummaryItem("Milk Weight(KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item2)
+                        Dim item3 As New GridViewSummaryItem("Milk Weight(LTR)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item3)
+
+
+
+
+                        Dim item4 As New GridViewSummaryItem("FAT(KG)", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item4)
+                        Dim item5 As New GridViewSummaryItem("SNF(KG)", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item5)
+
+                        Dim summaryItem1 As New GridViewSummaryItem()
+                        summaryItem1.FormatString = "{0:F2}"
+                        summaryItem1.Name = "FAT(%)"
+                        summaryItem1.AggregateExpression = "sum([FAT(KG)])*100/sum([Milk Weight(KG)])"
+                        summaryRowItem.Add(summaryItem1)
+
+                        Dim summaryItem2 As New GridViewSummaryItem()
+                        summaryItem2.FormatString = "{0:F2}"
+                        summaryItem2.Name = "SNF(%)"
+                        summaryItem2.AggregateExpression = "sum([SNF(KG)])*100/sum([Milk Weight(KG)])"
+                        summaryRowItem.Add(summaryItem2)
+
+                        Dim item6 As New GridViewSummaryItem("Cow Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item6)
+                        Dim item7 As New GridViewSummaryItem("Cow FAT (KG)", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item7)
+                        Dim item8 As New GridViewSummaryItem("Cow SNF (KG)", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item8)
+
+                        Dim summaryItem3 As New GridViewSummaryItem()
+                        summaryItem3.FormatString = "{0:F2}"
+                        summaryItem3.Name = "Cow SNF(%)"
+                        summaryItem3.AggregateExpression = "IIf(sum([Cow SNF (KG)])>0,sum([Cow SNF (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
+                        summaryRowItem.Add(summaryItem3)
+
+                        Dim summaryItem4 As New GridViewSummaryItem()
+                        summaryItem4.FormatString = "{0:F2}"
+                        summaryItem4.Name = "Cow FAT(%)"
+                        summaryItem4.AggregateExpression = "IIf(sum([Cow FAT (KG)])>0,sum([Cow FAT (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
+                        summaryRowItem.Add(summaryItem4)
+
+                        Dim item9 As New GridViewSummaryItem("Buffalo Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item9)
+                        Dim item10 As New GridViewSummaryItem("Buffalo FAT (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item10)
+                        Dim item11 As New GridViewSummaryItem("Buffalo SNF (KG)", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item11)
+                        Dim summaryItem5 As New GridViewSummaryItem()
+                        summaryItem5.FormatString = "{0:F2}"
+                        summaryItem5.Name = "Buffalo FAT(%)"
+                        summaryItem5.AggregateExpression = "sum([Buffalo FAT (KG)])*100/sum([Buffalo Milk Qty (KG)])"
+                        summaryRowItem.Add(summaryItem5)
+                        Dim summaryItem6 As New GridViewSummaryItem()
+                        summaryItem6.FormatString = "{0:F2}"
+                        summaryItem6.Name = "Buffalo SNF(%)"
+                        summaryItem6.AggregateExpression = "sum([Buffalo SNF (KG)])*100/sum([Buffalo Milk Qty (KG)])"
+                        summaryRowItem.Add(summaryItem6)
+
+                        Dim item13 As New GridViewSummaryItem("SRN Qty", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item13)
+                        Dim item12 As New GridViewSummaryItem("SRN Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item12)
+                        Dim item14 As New GridViewSummaryItem("EMP_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item14)
+                        Dim item15 As New GridViewSummaryItem("TIP_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item15)
+                        Dim item16 As New GridViewSummaryItem("NET_AMOUNT", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item16)
+                        Dim item17 As New GridViewSummaryItem("Round_Off", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item17)
+                        Dim item18 As New GridViewSummaryItem("Handling_Charges_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item18)
+                        Dim item19 As New GridViewSummaryItem("Head_Load_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item19)
+                        Dim item20 As New GridViewSummaryItem("SNF_Ded_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item20)
+                        Dim item21 As New GridViewSummaryItem("SaleAmt", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item21)
+                        Dim SummaryVSPCommission As New GridViewSummaryItem("VSP_Commission_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPCommission)
+                        Dim SummaryVSPQualityDeduction As New GridViewSummaryItem("VSP_Deduction_Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPQualityDeduction)
+                        Dim SummaryVSPDayWiseInc As New GridViewSummaryItem("VSP_Day_Wise_Incentive", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SummaryVSPDayWiseInc)
+                        Dim item22 As New GridViewSummaryItem("DeductionAmt", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item22)
+                        Dim item23 As New GridViewSummaryItem("PayableAmt", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item23)
+
+                        gv.ShowGroupPanel = False
+                        gv.MasterTemplate.AutoExpandGroups = True
+
+                        gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+
                     End If
-
-                    gv.ShowGroupPanel = False
-                    gv.MasterTemplate.AutoExpandGroups = True
-
-                    gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-                    gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
-                ElseIf rdbPlantWisePaymentSummary.Checked Then
-
-                    For ii As Integer = 0 To gv.Columns.Count - 1
-                        gv.Columns(ii).Width = 100
-                    Next
-                    Dim summaryRowItem As New GridViewSummaryRowItem()
-
-                    Dim item1 As New GridViewSummaryItem("Milk Weight", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item1)
-                    Dim item2 As New GridViewSummaryItem("Milk Weight(KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item2)
-                    Dim item3 As New GridViewSummaryItem("Milk Weight(LTR)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item3)
-
-
-
-
-                    Dim item4 As New GridViewSummaryItem("FAT(KG)", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item4)
-                    Dim item5 As New GridViewSummaryItem("SNF(KG)", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item5)
-
-                    Dim summaryItem1 As New GridViewSummaryItem()
-                    summaryItem1.FormatString = "{0:F2}"
-                    summaryItem1.Name = "FAT(%)"
-                    summaryItem1.AggregateExpression = "sum([FAT(KG)])*100/sum([Milk Weight(KG)])"
-                    summaryRowItem.Add(summaryItem1)
-
-                    Dim summaryItem2 As New GridViewSummaryItem()
-                    summaryItem2.FormatString = "{0:F2}"
-                    summaryItem2.Name = "SNF(%)"
-                    summaryItem2.AggregateExpression = "sum([SNF(KG)])*100/sum([Milk Weight(KG)])"
-                    summaryRowItem.Add(summaryItem2)
-
-                    Dim item6 As New GridViewSummaryItem("Cow Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item6)
-                    Dim item7 As New GridViewSummaryItem("Cow FAT (KG)", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item7)
-                    Dim item8 As New GridViewSummaryItem("Cow SNF (KG)", "{0:F3}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item8)
-
-                    Dim summaryItem3 As New GridViewSummaryItem()
-                    summaryItem3.FormatString = "{0:F2}"
-                    summaryItem3.Name = "Cow SNF(%)"
-                    summaryItem3.AggregateExpression = "IIf(sum([Cow SNF (KG)])>0,sum([Cow SNF (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
-                    summaryRowItem.Add(summaryItem3)
-
-                    Dim summaryItem4 As New GridViewSummaryItem()
-                    summaryItem4.FormatString = "{0:F2}"
-                    summaryItem4.Name = "Cow FAT(%)"
-                    summaryItem4.AggregateExpression = "IIf(sum([Cow FAT (KG)])>0,sum([Cow FAT (KG)])*100/sum([Cow Milk Qty (KG)]),0)"
-                    summaryRowItem.Add(summaryItem4)
-
-                    Dim item9 As New GridViewSummaryItem("Buffalo Milk Qty (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item9)
-                    Dim item10 As New GridViewSummaryItem("Buffalo FAT (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item10)
-                    Dim item11 As New GridViewSummaryItem("Buffalo SNF (KG)", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item11)
-                    Dim summaryItem5 As New GridViewSummaryItem()
-                    summaryItem5.FormatString = "{0:F2}"
-                    summaryItem5.Name = "Buffalo FAT(%)"
-                    summaryItem5.AggregateExpression = "sum([Buffalo FAT (KG)])*100/sum([Buffalo Milk Qty (KG)])"
-                    summaryRowItem.Add(summaryItem5)
-                    Dim summaryItem6 As New GridViewSummaryItem()
-                    summaryItem6.FormatString = "{0:F2}"
-                    summaryItem6.Name = "Buffalo SNF(%)"
-                    summaryItem6.AggregateExpression = "sum([Buffalo SNF (KG)])*100/sum([Buffalo Milk Qty (KG)])"
-                    summaryRowItem.Add(summaryItem6)
-
-                    Dim item13 As New GridViewSummaryItem("SRN Qty", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item13)
-                    Dim item12 As New GridViewSummaryItem("SRN Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item12)
-                    Dim item14 As New GridViewSummaryItem("EMP_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item14)
-                    Dim item15 As New GridViewSummaryItem("TIP_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item15)
-                    Dim item16 As New GridViewSummaryItem("NET_AMOUNT", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item16)
-                    Dim item17 As New GridViewSummaryItem("Round_Off", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item17)
-                    Dim item18 As New GridViewSummaryItem("Handling_Charges_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item18)
-                    Dim item19 As New GridViewSummaryItem("Head_Load_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item19)
-                    Dim item20 As New GridViewSummaryItem("SNF_Ded_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item20)
-                    Dim item21 As New GridViewSummaryItem("SaleAmt", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item21)
-                    Dim SummaryVSPCommission As New GridViewSummaryItem("VSP_Commission_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPCommission)
-                    Dim SummaryVSPQualityDeduction As New GridViewSummaryItem("VSP_Deduction_Amount", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPQualityDeduction)
-                    Dim SummaryVSPDayWiseInc As New GridViewSummaryItem("VSP_Day_Wise_Incentive", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(SummaryVSPDayWiseInc)
-                    Dim item22 As New GridViewSummaryItem("DeductionAmt", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item22)
-                    Dim item23 As New GridViewSummaryItem("PayableAmt", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item23)
-
-                    gv.ShowGroupPanel = False
-                    gv.MasterTemplate.AutoExpandGroups = True
-
-                    gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-                    gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
-
                 End If
+            Else
+                gv.Columns("Date").HeaderText = "Date"
+                gv.Columns("Morning Milk Weight Sweet(KG)").HeaderText = "QTY"
+                gv.Columns("Morning SweetFAT").HeaderText = "FAT"
+                gv.Columns("Morning SweetFAT").FormatString = "{0:n2}"
+                gv.Columns("Morning Sweet SNF").HeaderText = "SNF"
+                gv.Columns("Morning Sweet SNF").FormatString = "{0:n2}"
+                gv.Columns("Morning Sweet FAT(KG)").HeaderText = "KgFAT"
+                gv.Columns("Morning Sweet SNF(KG)").HeaderText = "KgSNF"
+                gv.Columns("Morning Milk Weight Sour(KG)").HeaderText = "QTY"
+                gv.Columns("Morning Sour FAT").HeaderText = "FAT"
+                gv.Columns("Morning Sour FAT").FormatString = "{0:n2}"
+                gv.Columns("Morning Sour SNF").HeaderText = "SNF"
+                gv.Columns("Morning Sour SNF").FormatString = "{0:n2}"
+                gv.Columns("Morning Sour FAT(KG)").HeaderText = "KgFAT"
+                gv.Columns("Morning Sour SNF(KG)").HeaderText = "KgSNF"
+                gv.Columns("Morning Milk Weight Curd(KG)").HeaderText = "QTY"
+                gv.Columns("Evening Milk Weight Sweet(KG)").HeaderText = "QTY"
+                gv.Columns("Evening SweetFAT").HeaderText = "FAT"
+                gv.Columns("Evening SweetFAT").FormatString = "{0:n2}"
+                gv.Columns("Evening Sweet SNF").HeaderText = "SNF"
+                gv.Columns("Evening Sweet SNF").FormatString = "{0:n2}"
+                gv.Columns("Evening Sweet FAT(KG)").HeaderText = "KgFAT"
+                gv.Columns("Evening Sweet SNF(KG)").HeaderText = "KgSNF"
+                gv.Columns("Evening Milk Weight Sour(KG)").HeaderText = "QTY"
+                gv.Columns("Evening Sour FAT").HeaderText = "FAT"
+                gv.Columns("Evening Sour FAT").FormatString = "{0:n2}"
+                gv.Columns("Evening Sour SNF").HeaderText = "SNF"
+                gv.Columns("Evening Sour SNF").FormatString = "{0:n2}"
+                gv.Columns("Evening Sour FAT(KG)").HeaderText = "KgFAT"
+                gv.Columns("Evening Sour SNF(KG)").HeaderText = "KgSNF"
+                gv.Columns("Evening Milk Weight Curd(KG)").HeaderText = "QTY"
+                gv.Columns("Morning No Of Cans").HeaderText = "MOR."
+                gv.Columns("Evening No Of Cans").HeaderText = "EVE."
+
             End If
+
         Else
             gv.Columns("Collection_Date").IsVisible = True
             gv.Columns("Collection_Date").Width = 100
@@ -2764,50 +2802,105 @@ Public Class FrmMCCMilkRegister
         Try
             If gv.Rows.Count > 0 Then
                 Dim view As New ColumnGroupsViewDefinition()
+                If Not rbtnShiftWiseTotal.Checked Then
+                    If chkDateShift.Checked Then
+                        view.ColumnGroups.Add(New GridViewColumnGroup(""))
+                        view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
+                        view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns("Date").Name)
+                        view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns("Shift").Name)
+                        If rbtnTotal.Checked Then
+                            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns(2).Name)
+                        ElseIf rbtnBMC.Checked Then
+                            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns(2).Name)
+                            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns(3).Name)
+                            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns(4).Name)
+                        Else
+                            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns(2).Name)
+                            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns(3).Name)
+                        End If
 
-                If chkDateShift.Checked Then
-                    view.ColumnGroups.Add(New GridViewColumnGroup(""))
-                    view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
-                    view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns("Date").Name)
-                    view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns("Shift").Name)
-                    If rbtnTotal.Checked Then
-                        view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns(2).Name)
-                    ElseIf rbtnBMC.Checked Then
-                        view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns(2).Name)
-                        view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns(3).Name)
-                        view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns(4).Name)
-                    Else
-                        view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns(2).Name)
-                        view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns(3).Name)
+                        view.ColumnGroups.Add(New GridViewColumnGroup("SWEET"))
+                        view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+                        view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv.Columns("Milk Weight Sweet(KG)").Name)
+                        view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv.Columns("Sweet FAT(KG)").Name)
+                        view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv.Columns("Sweet SNF(KG)").Name)
+
+                        view.ColumnGroups.Add(New GridViewColumnGroup("SOUR"))
+                        view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
+                        view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv.Columns("Milk Weight Sour(KG)").Name)
+                        view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv.Columns("Sour FAT(KG)").Name)
+                        view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv.Columns("Sour SNF(KG)").Name)
+
+                        view.ColumnGroups.Add(New GridViewColumnGroup("CURD"))
+                        view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
+                        view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv.Columns("Milk Weight Curd(KG)").Name)
+
+                        view.ColumnGroups.Add(New GridViewColumnGroup("TOTAL"))
+                        view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
+                        view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv.Columns("No Of Cans").Name)
+                        view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv.Columns("TotalQty").Name)
+                        view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv.Columns("FAT(%)").Name)
+                        view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv.Columns("SNF(%)").Name)
+
+
+                        gv.ViewDefinition = view
+
                     End If
+                Else
+                    If rbtnShiftWiseTotal.Checked Then
+                        view.ColumnGroups.Add(New GridViewColumnGroup(""))
+                        view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
+                        view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns("Date").Name)
 
-                    view.ColumnGroups.Add(New GridViewColumnGroup("SWEET"))
-                    view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
-                    view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv.Columns("Milk Weight Sweet(KG)").Name)
-                    view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv.Columns("Sweet FAT(KG)").Name)
-                    view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv.Columns("Sweet SNF(KG)").Name)
+                        view.ColumnGroups.Add(New GridViewColumnGroup("MORNING SWEET MILK"))
+                        view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+                        view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv.Columns("Morning Milk Weight Sweet(KG)").Name)
+                        view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv.Columns("Morning SweetFAT").Name)
+                        view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv.Columns("Morning Sweet SNF").Name)
+                        view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv.Columns("Morning Sweet FAT(KG)").Name)
+                        view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv.Columns("Morning Sweet SNF(KG)").Name)
 
-                    view.ColumnGroups.Add(New GridViewColumnGroup("SOUR"))
-                    view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
-                    view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv.Columns("Milk Weight Sour(KG)").Name)
-                    view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv.Columns("Sour FAT(KG)").Name)
-                    view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv.Columns("Sour SNF(KG)").Name)
+                        view.ColumnGroups.Add(New GridViewColumnGroup("MORNING SOUR MILK"))
+                        view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
+                        view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv.Columns("Morning Milk Weight Sour(KG)").Name)
+                        view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv.Columns("Morning Sour FAT").Name)
+                        view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv.Columns("Morning Sour SNF").Name)
+                        view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv.Columns("Morning Sour FAT(KG)").Name)
+                        view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv.Columns("Morning Sour SNF(KG)").Name)
 
-                    view.ColumnGroups.Add(New GridViewColumnGroup("CURD"))
-                    view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
-                    view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv.Columns("Milk Weight Curd(KG)").Name)
+                        view.ColumnGroups.Add(New GridViewColumnGroup("CURD"))
+                        view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
+                        view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv.Columns("Morning Milk Weight Curd(KG)").Name)
 
-                    view.ColumnGroups.Add(New GridViewColumnGroup("TOTAL"))
-                    view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
-                    view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv.Columns("No Of Cans").Name)
-                    view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv.Columns("TotalQty").Name)
-                    view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv.Columns("FAT(%)").Name)
-                    view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv.Columns("SNF(%)").Name)
+                        view.ColumnGroups.Add(New GridViewColumnGroup("EVENING SWEET MILK"))
+                        view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
+                        view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv.Columns("Evening Milk Weight Sweet(KG)").Name)
+                        view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv.Columns("Evening SweetFAT").Name)
+                        view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv.Columns("Evening Sweet SNF").Name)
+                        view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv.Columns("Evening Sweet FAT(KG)").Name)
+                        view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv.Columns("Evening Sweet SNF(KG)").Name)
 
+                        view.ColumnGroups.Add(New GridViewColumnGroup("EVENING SOUR MILK"))
+                        view.ColumnGroups(5).Rows.Add(New GridViewColumnGroupRow())
+                        view.ColumnGroups(5).Rows(0).ColumnNames.Add(gv.Columns("Evening Milk Weight Sour(KG)").Name)
+                        view.ColumnGroups(5).Rows(0).ColumnNames.Add(gv.Columns("Evening Sour FAT").Name)
+                        view.ColumnGroups(5).Rows(0).ColumnNames.Add(gv.Columns("Evening Sour SNF").Name)
+                        view.ColumnGroups(5).Rows(0).ColumnNames.Add(gv.Columns("Evening Sour FAT(KG)").Name)
+                        view.ColumnGroups(5).Rows(0).ColumnNames.Add(gv.Columns("Evening Sour SNF(KG)").Name)
 
-                    gv.ViewDefinition = view
+                        view.ColumnGroups.Add(New GridViewColumnGroup("CURD"))
+                        view.ColumnGroups(6).Rows.Add(New GridViewColumnGroupRow())
+                        view.ColumnGroups(6).Rows(0).ColumnNames.Add(gv.Columns("Evening Milk Weight Curd(KG)").Name)
 
+                        view.ColumnGroups.Add(New GridViewColumnGroup("CANS"))
+                        view.ColumnGroups(7).Rows.Add(New GridViewColumnGroupRow())
+                        view.ColumnGroups(7).Rows(0).ColumnNames.Add(gv.Columns("Morning No Of Cans").Name)
+                        view.ColumnGroups(7).Rows(0).ColumnNames.Add(gv.Columns("Evening No Of Cans").Name)
+
+                        gv.ViewDefinition = view
+                    End If
                 End If
+
 
 
             End If
@@ -4079,27 +4172,54 @@ Public Class FrmMCCMilkRegister
                     Final = ""
                     XXXFinal = ""
                 End If
-                qry = "select convert(varchar,Date,103) as Date , Shift  " & str & " , [Milk Type] , [Milk Weight Sweet(KG)] , [Sweet FAT(KG)] , [Sweet SNF(KG)] , [Milk Weight Sour(KG)] , [Sour FAT(KG)] , [Sour SNF(KG)] , [Milk Weight Curd(KG)] , [No Of Cans] , TotalQty , CASE when TotalQty = 0 then 0 else ([Total FAT] / TotalQty)* 100 end as  [FAT(%)],
+                If Not rbtnShiftWiseTotal.Checked Then
+                    qry = "select convert(varchar,Date,103) as Date , Shift  " & str & " , [Milk Type] , [Milk Weight Sweet(KG)] , [Sweet FAT(KG)] , [Sweet SNF(KG)] , [Milk Weight Sour(KG)] , [Sour FAT(KG)] , [Sour SNF(KG)] , [Milk Weight Curd(KG)] , [No Of Cans] , TotalQty , CASE when TotalQty = 0 then 0 else ([Total FAT] / TotalQty)* 100 end as  [FAT(%)],
                           case when TotalQty= 0 then 0 else ([Total SNF] / TotalQty )*100 end as [SNF(%)],([Sweet FAT(KG)] )+ ([Sour FAT(KG)])  as [Total FAT] , ([Sweet SNF(KG)] ) + ([Sour SNF(KG)]) as [Total SNF]  from (
                         select 1 as SNo ,[Milk Type] ,  Date , Shift  " & str & " , sum([Milk Weight Sweet(KG)] ) as [Milk Weight Sweet(KG)],sum([Sweet FAT(KG)] ) as [Sweet FAT(KG)] ,sum([Sweet SNF(KG)] ) as [Sweet SNF(KG)],sum([Milk Weight Sour(KG)] ) as [Milk Weight Sour(KG)],  sum([Sour FAT(KG)]) as [Sour FAT(KG)], sum([Sour SNF(KG)]) as [Sour SNF(KG)] , sum ([Milk Weight Curd(KG)]) as [Milk Weight Curd(KG)] , 
                       sum([No Of Cans]) as [No Of Cans] , sum([Milk Weight Sweet(KG)] ) + sum([Milk Weight Sour(KG)] ) + sum ([Milk Weight Curd(KG)]) as TotalQty ,sum([Sweet FAT(KG)] )+ sum([Sour FAT(KG)])  as [Total FAT] , sum([Sweet SNF(KG)] ) + sum([Sour SNF(KG)]) as [Total SNF]  From 
                      ( select [Milk Type]+'M' as [Milk Type], XXXFinal.date as Date , XXXFinal.Shift " & XXXFinal & ", sum([Milk Weight Sweet(KG)] ) as [Milk Weight Sweet(KG)] ,sum([Sweet FAT(KG)] ) as [Sweet FAT(KG)] ,sum([Sweet SNF(KG)] ) as [Sweet SNF(KG)],sum([Milk Weight Sour(KG)] ) as [Milk Weight Sour(KG)],  sum([Sour FAT(KG)]) as [Sour FAT(KG)], sum([Sour SNF(KG)]) as [Sour SNF(KG)] ,  sum([Milk Weight Curd(KG)]) as [Milk Weight Curd(KG)] ,
                     sum(XXXFinal.[No Of Cans]) as [No Of Cans] , sum([Milk Weight Sweet(KG)] ) + sum([Milk Weight Sour(KG)] ) +  sum([Milk Weight Curd(KG)]) as TotalQty,sum([Sweet FAT(KG)] )+ sum([Sour FAT(KG)])  as [Total FAT] ,sum([Sweet SNF(KG)] ) + sum([Sour SNF(KG)]) as [Total SNF] from    ( Select final.[Milk Type], final.[Milk Receipt Code] " & Final & " ,final.[MCC Name],final.Date ,final.[Doc Date] ,final.Shift ,final.[Route Code],final.[Route Name]
                    ,final.[VSP Code],final.[VSP Name],final.[Vlc Uploader Code] ,final.[Vlc Code] ,final.[VLC Name], final.[Sample No] ,final.[No Of Cans] , final.[Milk Weight Sweet(KG)]   ,final.[Sweet FAT(KG)],final.[Sweet SNF(KG)],final.[Milk Weight Sour(KG)] , final.[Sour FAT(KG)] ,final.[Sour SNF(KG)],final.[Milk Weight Curd(KG)] ,final.Mcc_Uploader_Code as [Mcc_Uploader_Code] from ( "
-                Dim strDate As String = ""
+                    Dim strDate As String = ""
 
-                If rbtnTotal.Checked Then
-                    strDate = "Date"
-                Else
-                    strDate = "Null as Date"
-                End If
-                BaseQry2 += " union all "
-                BaseQry2 += "select 2 as SNo ,'Total' as [Milk Type] , " & strDate & " , '' as Shift " & str & " , sum([Milk Weight Sweet(KG)] ) as [Milk Weight Sweet(KG)],sum([Sweet FAT(KG)] ) as [Sweet FAT(KG)] ,sum([Sweet SNF(KG)] ) as [Sweet SNF(KG)],sum([Milk Weight Sour(KG)] ) as [Milk Weight Sour(KG)],  sum([Sour FAT(KG)]) as [Sour FAT(KG)], 
+                    If rbtnTotal.Checked Then
+                        strDate = "Date"
+                    Else
+                        strDate = "Null as Date"
+                    End If
+                    BaseQry2 += " union all "
+                    BaseQry2 += "select 2 as SNo ,'Total' as [Milk Type] , " & strDate & " , '' as Shift " & str & " , sum([Milk Weight Sweet(KG)] ) as [Milk Weight Sweet(KG)],sum([Sweet FAT(KG)] ) as [Sweet FAT(KG)] ,sum([Sweet SNF(KG)] ) as [Sweet SNF(KG)],sum([Milk Weight Sour(KG)] ) as [Milk Weight Sour(KG)],  sum([Sour FAT(KG)]) as [Sour FAT(KG)], 
                sum([Sour SNF(KG)]) as [Sour SNF(KG)] , sum ([Milk Weight Curd(KG)]) as [Milk Weight Curd(KG)] , sum([No Of Cans]) as [No Of Cans] , sum([Milk Weight Sweet(KG)] ) + sum([Milk Weight Sour(KG)] ) + sum ([Milk Weight Curd(KG)]) as TotalQty ,sum([Sweet FAT(KG)] )+ sum([Sour FAT(KG)])  as [Total FAT] , sum([Sweet SNF(KG)] ) + sum([Sour SNF(KG)]) as [Total SNF]  From "
 
-                BaseQry2 += "( select [Milk Type]+'M' as [Milk Type], XXXFinal.date as Date , '' as Shift " & XXXFinal & ", sum([Milk Weight Sweet(KG)] ) as [Milk Weight Sweet(KG)],sum([Sweet FAT(KG)] ) as [Sweet FAT(KG)] ,sum([Sweet SNF(KG)] ) as [Sweet SNF(KG)],sum([Milk Weight Sour(KG)] ) as [Milk Weight Sour(KG)],  sum([Sour FAT(KG)]) as [Sour FAT(KG)], sum([Sour SNF(KG)]) as [Sour SNF(KG)] ,
+                    BaseQry2 += "( select [Milk Type]+'M' as [Milk Type], XXXFinal.date as Date , '' as Shift " & XXXFinal & ", sum([Milk Weight Sweet(KG)] ) as [Milk Weight Sweet(KG)],sum([Sweet FAT(KG)] ) as [Sweet FAT(KG)] ,sum([Sweet SNF(KG)] ) as [Sweet SNF(KG)],sum([Milk Weight Sour(KG)] ) as [Milk Weight Sour(KG)],  sum([Sour FAT(KG)]) as [Sour FAT(KG)], sum([Sour SNF(KG)]) as [Sour SNF(KG)] ,
                sum ([Milk Weight Curd(KG)]) as [Milk Weight Curd(KG)] , sum([No Of Cans]) as [No Of Cans] , sum([Milk Weight Sweet(KG)] ) + sum([Milk Weight Sour(KG)] ) + sum ([Milk Weight Curd(KG)]) as TotalQty ,sum([Sweet FAT(KG)] )+ sum([Sour FAT(KG)])  as [Total FAT] , sum([Sweet SNF(KG)] ) + sum([Sour SNF(KG)]) as [Total SNF]  from   
           ( Select final.[Milk Type], final.[Milk Receipt Code] " & Final & " ,final.[MCC Name],final.Date ,final.[Doc Date] ,final.Shift ,final.[Route Code],final.[Route Name],final.[VSP Code],final.[VSP Name],final.[Vlc Uploader Code] ,final.[Vlc Code] ,final.[VLC Name], final.[Sample No] ,final.[No Of Cans] , final.[Milk Weight Sweet(KG)]   ,final.[Sweet FAT(KG)],final.[Sweet SNF(KG)],final.[Milk Weight Sour(KG)] , final.[Sour FAT(KG)] ,final.[Sour SNF(KG)],final.[Milk Weight Curd(KG)] ,final.Mcc_Uploader_Code as [Mcc_Uploader_Code] from (  " & BaseQry1 & ""
+
+                Else
+                    qry = " select CONVERT(VARCHAR, Date, 103) AS Date,(CASE WHEN Shift = 'Morning' THEN [Milk Weight Sweet(KG)] ELSE 0 END) AS [Morning Milk Weight Sweet(KG)],
+(case when Shift ='Morning' then [SweetFAT] else 0 end) as [Morning SweetFAT],(case when Shift ='Morning' then [SweetSNF] else 0 end) as [Morning Sweet SNF],
+(CASE WHEN Shift = 'Morning' THEN [Sweet FAT(KG)] ELSE 0 END) AS [Morning Sweet FAT(KG)],(CASE WHEN Shift = 'Morning' THEN [Sweet SNF(KG)] ELSE 0 END) AS [Morning Sweet SNF(KG)],(CASE WHEN Shift = 'Morning' THEN [Milk Weight Sour(KG)] ELSE 0 END) AS [Morning Milk Weight Sour(KG)],
+(case when Shift ='Morning' then [SourFAT] else 0 end) as [Morning Sour FAT],(case when Shift ='Morning' then [SourSNF] else 0 end) as [Morning Sour SNF],
+(CASE WHEN Shift = 'Morning' THEN [Sour FAT(KG)] ELSE 0 END) AS [Morning Sour FAT(KG)],(CASE WHEN Shift = 'Morning' THEN [Sour SNF(KG)] ELSE 0 END) AS [Morning Sour SNF(KG)],(CASE WHEN Shift = 'Morning' THEN [Milk Weight Curd(KG)] ELSE 0 END) AS [Morning Milk Weight Curd(KG)],(CASE WHEN Shift = 'Evening' THEN [Milk Weight Sweet(KG)] ELSE 0 END) AS [Evening Milk Weight Sweet(KG)],
+(case when Shift ='Evening' then [SweetFAT] else 0 end) as [Evening SweetFAT],(case when Shift ='Evening' then [SweetSNF] else 0 end) as [Evening Sweet SNF],
+(CASE WHEN Shift = 'Evening' THEN [Sweet FAT(KG)] ELSE 0 END) AS [Evening Sweet FAT(KG)],(CASE WHEN Shift = 'Evening' THEN [Sweet SNF(KG)] ELSE 0 END) AS [Evening Sweet SNF(KG)],(CASE WHEN Shift = 'Evening' THEN [Milk Weight Sour(KG)] ELSE 0 END) AS [Evening Milk Weight Sour(KG)],
+(case when Shift ='Evening' then [SourFAT] else 0 end) as [Evening Sour FAT],(case when Shift ='Evening' then [SourSNF] else 0 end) as [Evening Sour SNF],
+(CASE WHEN Shift = 'Evening' THEN [Sour FAT(KG)] ELSE 0 END) AS [Evening Sour FAT(KG)],(CASE WHEN Shift = 'Evening' THEN [Sour SNF(KG)] ELSE 0 END) AS [Evening Sour SNF(KG)], (CASE WHEN Shift = 'Evening' THEN [Milk Weight Curd(KG)] ELSE 0 END) AS [Evening Milk Weight Curd(KG)],(CASE WHEN Shift = 'Morning' THEN [No Of Cans] ELSE 0 END) AS [Morning No Of Cans],(CASE WHEN Shift = 'Evening' THEN [No Of Cans] ELSE 0 END) AS [Evening No Of Cans]
+	
+	from 
+( select 1 as SNo ,  Date , Shift   , sum([Milk Weight Sweet(KG)] ) as [Milk Weight Sweet(KG)],sum([SweetFAT]) as SweetFAT,sum([SweetSNF]) as SweetSNF ,sum([Sweet FAT(KG)] ) as [Sweet FAT(KG)] ,sum([Sweet SNF(KG)] ) as [Sweet SNF(KG)],sum([Milk Weight Sour(KG)] ) as [Milk Weight Sour(KG)],sum([SourFAT]) as SourFAT ,sum([SourSNF]) as SourSNF,  sum([Sour FAT(KG)]) as [Sour FAT(KG)], sum([Sour SNF(KG)]) as [Sour SNF(KG)] , sum ([Milk Weight Curd(KG)]) as [Milk Weight Curd(KG)] , 
+                      sum([No Of Cans]) as [No Of Cans]  From 
+                     ( select  XXXFinal.date as Date , XXXFinal.Shift , sum([Milk Weight Sweet(KG)] ) as [Milk Weight Sweet(KG)]
+					 ,case when sum([Milk Weight Sweet(KG)])= 0 then 0  else (sum([Sweet FAT(KG)])/sum([Milk Weight Sweet(KG)])*100) end as SweetFAT
+					 ,case when sum([Milk Weight Sweet(KG)])= 0 then 0 else (sum([Sweet SNF(KG)])/sum([Milk Weight Sweet(KG)])*100) end as SweetSNF
+					 ,sum([Sweet FAT(KG)] ) as [Sweet FAT(KG)] ,sum([Sweet SNF(KG)] ) as [Sweet SNF(KG)],sum([Milk Weight Sour(KG)] ) as [Milk Weight Sour(KG)]
+					 , case when sum([Milk Weight Sour(KG)]) = 0 then 0 else (sum([Sour FAT(KG)])/sum([Milk Weight Sour(KG)])*100) end as SourFAT,case when sum([Milk Weight Sour(KG)])=0 then 0 else (SUM([Sour SNF(KG)])/sum([Milk Weight Sour(KG)])*100) end as SourSNF
+					 ,  sum([Sour FAT(KG)]) as [Sour FAT(KG)], sum([Sour SNF(KG)]) as [Sour SNF(KG)] ,  sum([Milk Weight Curd(KG)]) as [Milk Weight Curd(KG)] ,
+                    sum(XXXFinal.[No Of Cans]) as [No Of Cans]  from  ( Select  final.[Milk Receipt Code]  ,final.[MCC Name],final.Date ,final.[Doc Date] ,final.Shift ,final.[Route Code],final.[Route Name]
+                   ,final.[VSP Code],final.[VSP Name],final.[Vlc Uploader Code] ,final.[Vlc Code] ,final.[VLC Name], final.[Sample No] ,final.[No Of Cans] , final.[Milk Weight Sweet(KG)]   ,final.[Sweet FAT(KG)],final.[Sweet SNF(KG)],final.[Milk Weight Sour(KG)] , final.[Sour FAT(KG)] ,final.[Sour SNF(KG)],final.[Milk Weight Curd(KG)] ,final.Mcc_Uploader_Code as [Mcc_Uploader_Code] from ("
+                End If
+
+
                 If rbtnBMC.Checked Then
                     FinalQuery = "" & qry & " " & BaseQry1 & ""
                     FinalQuery += "group by XXXFinal.Date, XXXFinal.Shift, XXXFinal.[MCC Code], XXXFinal.Mcc_Uploader_Code , XXXFinal.[Milk Type] ) XXXXFinal group by XXXXFinal.Date, XXXXFinal.Shift, XXXXFinal.[MCC Code] ,XXXXFinal.[Mcc Uploader Code] , XXXXFinal.[Milk Type] 	"
@@ -4136,8 +4256,16 @@ Public Class FrmMCCMilkRegister
 										 group by  XXXXFinal.Date , XXXXFinal.[Milk Type]															
 										 ) pp 
 										 order by date , sno , shift desc,[Milk Type]"
+                ElseIf rbtnShiftWiseTotal.Checked Then
+                    FinalQuery = "" & qry & " " & BaseQry1 & ""
+                    FinalQuery += "group by XXXFinal.Date, XXXFinal.Shift) XXXXFinal group by XXXXFinal.Date, XXXXFinal.Shift) pp order by date,shift"
                 End If
-                dtGrandTotal = clsDBFuncationality.GetDataTable(TotalQry)
+                If Not rbtnShiftWiseTotal.Checked Then
+                    dtGrandTotal = clsDBFuncationality.GetDataTable(TotalQry)
+                Else
+                    dtGrandTotal = clsDBFuncationality.GetDataTable(FinalQuery)
+                End If
+
             End If
 
             If rbtnCollectionSummary.Checked Then
@@ -4164,6 +4292,8 @@ Public Class FrmMCCMilkRegister
                         dt.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, "Grand Total", dtGrandTotal.Rows(0)("Milk Weight Sweet(KG)"), dtGrandTotal.Rows(0)("Sweet FAT(KG)"), dtGrandTotal.Rows(0)("Sweet SNF(KG)"), dtGrandTotal.Rows(0)("Milk Weight Sour(KG)"), dtGrandTotal.Rows(0)("Sour FAT(KG)"), dtGrandTotal.Rows(0)("Sour SNF(KG)"), dtGrandTotal.Rows(0)("Milk Weight Curd(KG)"), dtGrandTotal.Rows(0)("No Of Cans"), dtGrandTotal.Rows(0)("TotalQty"), dtGrandTotal.Rows(0)("FAT(%)"), dtGrandTotal.Rows(0)("SNF(%)"), DBNull.Value, DBNull.Value)
                     ElseIf rbtnTotal.Checked Then
                         dt.Rows.Add(DBNull.Value, DBNull.Value, "Grand Total", dtGrandTotal.Rows(0)("Milk Weight Sweet(KG)"), dtGrandTotal.Rows(0)("Sweet FAT(KG)"), dtGrandTotal.Rows(0)("Sweet SNF(KG)"), dtGrandTotal.Rows(0)("Milk Weight Sour(KG)"), dtGrandTotal.Rows(0)("Sour FAT(KG)"), dtGrandTotal.Rows(0)("Sour SNF(KG)"), dtGrandTotal.Rows(0)("Milk Weight Curd(KG)"), dtGrandTotal.Rows(0)("No Of Cans"), dtGrandTotal.Rows(0)("TotalQty"), dtGrandTotal.Rows(0)("FAT(%)"), dtGrandTotal.Rows(0)("SNF(%)"), DBNull.Value, DBNull.Value)
+                    ElseIf rbtnShiftWiseTotal.Checked Then
+                        dt.Rows.Add("Grand Total", dtGrandTotal.Rows(0)("Morning Milk Weight Sweet(KG)"), dtGrandTotal.Rows(0)("Morning SweetFAT"), dtGrandTotal.Rows(0)("Morning Sweet SNF"), dtGrandTotal.Rows(0)("Morning Sweet FAT(KG)"), dtGrandTotal.Rows(0)("Morning Sweet SNF(KG)"), dtGrandTotal.Rows(0)("Morning Milk Weight Sour(KG)"), dtGrandTotal.Rows(0)("Morning Sour FAT"), dtGrandTotal.Rows(0)("Morning Sour SNF"), dtGrandTotal.Rows(0)("Morning Sour FAT(KG)"), dtGrandTotal.Rows(0)("Morning Sour SNF(KG)"), dtGrandTotal.Rows(0)("Morning Milk Weight Curd(KG)"), dtGrandTotal.Rows(0)("Evening Milk Weight Sweet(KG)"), dtGrandTotal.Rows(0)("Evening SweetFAT"), dtGrandTotal.Rows(0)("Evening Sweet SNF"), dtGrandTotal.Rows(0)("Evening Sweet FAT(KG)"), dtGrandTotal.Rows(0)("Evening Sweet SNF(KG)"), dtGrandTotal.Rows(0)("Evening Milk Weight Sour(KG)"), dtGrandTotal.Rows(0)("Evening Sour FAT"), dtGrandTotal.Rows(0)("Evening Sour SNF"), dtGrandTotal.Rows(0)("Evening Sour FAT(KG)"), dtGrandTotal.Rows(0)("Evening Sour SNF(KG)"), dtGrandTotal.Rows(0)("Evening Milk Weight Curd(KG)"), dtGrandTotal.Rows(0)("Morning No Of Cans"), dtGrandTotal.Rows(0)("Evening No Of Cans"))
                     Else
                         dt.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, "Grand Total", dtGrandTotal.Rows(0)("Milk Weight Sweet(KG)"), dtGrandTotal.Rows(0)("Sweet FAT(KG)"), dtGrandTotal.Rows(0)("Sweet SNF(KG)"), dtGrandTotal.Rows(0)("Milk Weight Sour(KG)"), dtGrandTotal.Rows(0)("Sour FAT(KG)"), dtGrandTotal.Rows(0)("Sour SNF(KG)"), dtGrandTotal.Rows(0)("Milk Weight Curd(KG)"), dtGrandTotal.Rows(0)("No Of Cans"), dtGrandTotal.Rows(0)("TotalQty"), dtGrandTotal.Rows(0)("FAT(%)"), dtGrandTotal.Rows(0)("SNF(%)"), DBNull.Value, DBNull.Value)
 

@@ -22,14 +22,14 @@ Partial Class FrmMCCMilkRegister
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.MyLabel16 = New common.Controls.MyLabel()
         Me.lblArea = New common.Controls.MyLabel()
         Me.fndArea = New common.UserControls.txtFinder()
+        Me.MyLabel16 = New common.Controls.MyLabel()
         Me.txtMCC = New common.UserControls.txtMultiSelectFinder()
         Me.RadLabel21 = New common.Controls.MyLabel()
         Me.lblLocation = New common.Controls.MyLabel()
@@ -92,6 +92,7 @@ Partial Class FrmMCCMilkRegister
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.rbtnShiftWiseTotal = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -100,8 +101,8 @@ Partial Class FrmMCCMilkRegister
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
-        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblArea, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboMilkReceiveUOM, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -224,16 +225,6 @@ Partial Class FrmMCCMilkRegister
         Me.RadGroupBox2.Size = New System.Drawing.Size(477, 129)
         Me.RadGroupBox2.TabIndex = 415
         '
-        'MyLabel16
-        '
-        Me.MyLabel16.FieldName = Nothing
-        Me.MyLabel16.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel16.Location = New System.Drawing.Point(8, 30)
-        Me.MyLabel16.Name = "MyLabel16"
-        Me.MyLabel16.Size = New System.Drawing.Size(30, 18)
-        Me.MyLabel16.TabIndex = 412
-        Me.MyLabel16.Text = "MCC"
-        '
         'lblArea
         '
         Me.lblArea.FieldName = Nothing
@@ -269,6 +260,16 @@ Partial Class FrmMCCMilkRegister
         Me.fndArea.Size = New System.Drawing.Size(371, 18)
         Me.fndArea.TabIndex = 1502
         Me.fndArea.Value = ""
+        '
+        'MyLabel16
+        '
+        Me.MyLabel16.FieldName = Nothing
+        Me.MyLabel16.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel16.Location = New System.Drawing.Point(8, 30)
+        Me.MyLabel16.Name = "MyLabel16"
+        Me.MyLabel16.Size = New System.Drawing.Size(30, 18)
+        Me.MyLabel16.TabIndex = 412
+        Me.MyLabel16.Text = "MCC"
         '
         'txtMCC
         '
@@ -348,7 +349,7 @@ Partial Class FrmMCCMilkRegister
         Me.MyLabel15.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel15.Location = New System.Drawing.Point(8, 70)
         Me.MyLabel15.Name = "MyLabel15"
-        Me.MyLabel15.Size = New System.Drawing.Size(26, 18)
+        Me.MyLabel15.Size = New System.Drawing.Size(27, 18)
         Me.MyLabel15.TabIndex = 410
         Me.MyLabel15.Text = "DCS"
         '
@@ -498,6 +499,7 @@ Partial Class FrmMCCMilkRegister
         'RadGroupBox7
         '
         Me.RadGroupBox7.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox7.Controls.Add(Me.rbtnShiftWiseTotal)
         Me.RadGroupBox7.Controls.Add(Me.chkDateShift)
         Me.RadGroupBox7.Controls.Add(Me.rbtnTotal)
         Me.RadGroupBox7.Controls.Add(Me.rbtnRoute)
@@ -644,7 +646,7 @@ Partial Class FrmMCCMilkRegister
         Me.chkVLCWisePayable.AutoSize = True
         Me.chkVLCWisePayable.Location = New System.Drawing.Point(172, 27)
         Me.chkVLCWisePayable.Name = "chkVLCWisePayable"
-        Me.chkVLCWisePayable.Size = New System.Drawing.Size(114, 17)
+        Me.chkVLCWisePayable.Size = New System.Drawing.Size(116, 17)
         Me.chkVLCWisePayable.TabIndex = 5
         Me.chkVLCWisePayable.TabStop = True
         Me.chkVLCWisePayable.Text = "DCS Wise Payable"
@@ -666,7 +668,7 @@ Partial Class FrmMCCMilkRegister
         Me.rbtnVLCWise.AutoSize = True
         Me.rbtnVLCWise.Location = New System.Drawing.Point(93, 5)
         Me.rbtnVLCWise.Name = "rbtnVLCWise"
-        Me.rbtnVLCWise.Size = New System.Drawing.Size(72, 17)
+        Me.rbtnVLCWise.Size = New System.Drawing.Size(74, 17)
         Me.rbtnVLCWise.TabIndex = 3
         Me.rbtnVLCWise.TabStop = True
         Me.rbtnVLCWise.Text = "DCS Wise"
@@ -845,7 +847,7 @@ Partial Class FrmMCCMilkRegister
         Me.gv.MasterTemplate.EnableFiltering = True
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -982,6 +984,16 @@ Partial Class FrmMCCMilkRegister
         Me.btnGo.TabIndex = 9
         Me.btnGo.Text = ">>>"
         '
+        'rbtnShiftWiseTotal
+        '
+        Me.rbtnShiftWiseTotal.AutoSize = True
+        Me.rbtnShiftWiseTotal.Location = New System.Drawing.Point(323, 27)
+        Me.rbtnShiftWiseTotal.Name = "rbtnShiftWiseTotal"
+        Me.rbtnShiftWiseTotal.Size = New System.Drawing.Size(105, 17)
+        Me.rbtnShiftWiseTotal.TabIndex = 17
+        Me.rbtnShiftWiseTotal.Text = "Shift Wise Total"
+        Me.rbtnShiftWiseTotal.UseVisualStyleBackColor = True
+        '
         'FrmMCCMilkRegister
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1004,8 +1016,8 @@ Partial Class FrmMCCMilkRegister
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         Me.RadGroupBox2.PerformLayout()
-        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblArea, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboMilkReceiveUOM, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1123,5 +1135,6 @@ Partial Class FrmMCCMilkRegister
     Friend WithEvents fndArea As common.UserControls.txtFinder
     Friend WithEvents rbtnCollectionSummary As RadioButton
     Friend WithEvents rbtnZoneWise As RadioButton
+    Friend WithEvents rbtnShiftWiseTotal As RadioButton
 End Class
 

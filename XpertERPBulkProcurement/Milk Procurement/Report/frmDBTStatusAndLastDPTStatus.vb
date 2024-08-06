@@ -70,7 +70,7 @@ Public Class frmDBTStatusAndLastDPTStatus
                 Dim frmDate As String = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select convert(date,Start_Date, 103) from TSPL_Fiscal_Year_Master where Fiscal_Code='" + txtFinYr.Value + "'"))
                 Dim toDate As String = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select convert(date,End_Date, 103) from TSPL_Fiscal_Year_Master where Fiscal_Code='" + txtFinYr.Value + "'"))
 
-                Dim dtr As DataTable = clsDBFuncationality.GetDataTable("SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHT','JMBILL') ORDER BY [TSPL_APP_LOCATION].Location_Name")
+                Dim dtr As DataTable = clsMilkUnion.UnionDBName()
                 query = ""
                 Dim status As String = ""
                 If rbtnTransactionPosted.Checked Then
@@ -106,7 +106,7 @@ Public Class frmDBTStatusAndLastDPTStatus
 
                 Dim docNo As String = ""
                 query = ""
-                dt = clsDBFuncationality.GetDataTable("SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHT','JMBILL') ORDER BY [TSPL_APP_LOCATION].Location_Name")
+                dt = clsMilkUnion.UnionDBName()
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         If ii > 0 Then
@@ -137,7 +137,7 @@ Public Class frmDBTStatusAndLastDPTStatus
                     common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
                     gvData.DataSource = Nothing
                 End If
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','JMBILL')")
+                Dim dt As DataTable = clsMilkUnion.UnionDBName()
 
                 query = ""
                 Dim Status1 As String = ""

@@ -66,11 +66,11 @@ Public Class rptDBTNEFTPaymentDetailReport
                 gv1.DataSource = Nothing
                 Exit Sub
             End If
-            dt = clsDBFuncationality.GetDataTable("SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHT','JMBILL') ORDER BY [TSPL_APP_LOCATION].Location_Name")
+            dt = clsMilkUnion.UnionDBName()
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 If txtUnion.arrValueMember IsNot Nothing Then
-                    dt = clsDBFuncationality.GetDataTable("SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name  in (" & clsCommon.GetMulcallString(txtUnion.arrValueMember) & ") AND DataBase_Name  not in ('TECXPERT','UDAIPURTEST','CHT','JMBILL') ORDER BY [TSPL_APP_LOCATION].Location_Name")
+                    dt = clsMilkUnion.UnionDBName()
                 End If
                 Baseqry = " select ROW_NUMBER() over(order by ([Union Name])) as 'SNO.',* from ( "
                 For ii As Integer = 0 To dt.Rows.Count - 1
