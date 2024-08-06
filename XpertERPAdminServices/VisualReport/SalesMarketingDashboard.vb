@@ -48,8 +48,7 @@ Public Class SalesMarketingDashboard
             End If
 
             Dim docNo As String = ""
-            query = " 
-    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') order by Location_Name "
+
             '          If chkRJSBNS.Checked Then
             '              query += "union all
             'SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
@@ -57,7 +56,7 @@ Public Class SalesMarketingDashboard
             'SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
             'ORDER BY Location_Name"
             '          End If
-            dt = clsDBFuncationality.GetDataTable(query)
+            dt = clsMilkUnion.UnionDBName()
             query = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For ii As Integer = 0 To dt.Rows.Count - 1
@@ -338,8 +337,7 @@ Public Class SalesMarketingDashboard
             End If
 
             Dim docNo As String = ""
-            query = " 
-    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') order by Location_Name "
+
             '          If chkRJSBNS.Checked Then
             '              query += "union all
             'SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
@@ -347,7 +345,7 @@ Public Class SalesMarketingDashboard
             'SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
             'ORDER BY Location_Name"
             '          End If
-            dt = clsDBFuncationality.GetDataTable(query)
+            dt = clsMilkUnion.UnionDBName()
             query = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For ii As Integer = 0 To dt.Rows.Count - 1
@@ -768,8 +766,7 @@ FROM
             End If
 
             Dim docNo As String = ""
-            query = " 
-        SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') "
+
             '          If chkRJSBNS.Checked Then
             '              query += "union all
             'SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
@@ -777,7 +774,7 @@ FROM
             'SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
             'ORDER BY Location_Name"
             '          End If
-            dt = clsDBFuncationality.GetDataTable(query)
+            dt = clsMilkUnion.UnionDBName()
             query = ""
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -954,8 +951,7 @@ FROM
             End If
 
             Dim docNo As String = ""
-            query = " 
-    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') order by Location_Name "
+
             '          If chkRJSBNS.Checked Then
             '              query += "union all
             'SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
@@ -963,7 +959,7 @@ FROM
             'SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
             'ORDER BY Location_Name"
             '          End If
-            dt = clsDBFuncationality.GetDataTable(query)
+            dt = clsMilkUnion.UnionDBName()
             query = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For ii As Integer = 0 To dt.Rows.Count - 1
@@ -1133,8 +1129,7 @@ FROM
             End If
 
             Dim docNo As String = ""
-            query = " 
-    SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHITTORGARH','RAJSAMAND','BANSWARA','JMBILL','JPRTEST') order by Location_Name "
+
             '          If chkRJSBNS.Checked Then
             '              query += "union all
             'SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
@@ -1142,7 +1137,7 @@ FROM
             'SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
             'ORDER BY Location_Name"
             '          End If
-            dt = clsDBFuncationality.GetDataTable(query)
+            dt = clsMilkUnion.UnionDBName()
             query = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For ii As Integer = 0 To dt.Rows.Count - 1
