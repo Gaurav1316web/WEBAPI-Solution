@@ -13447,6 +13447,7 @@ Public Class clsCreateAllTable
             coll.Add("ApplyCowPriceDate", "Date Default NULL")
             coll.Add("Loyalty_Rate", "decimal(18, 2) NULL")
             coll.Add("OwnBMCDate", "Date NULL")
+            coll.Add("Shift_Cow_Limit", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VLC_MASTER_HEAD", coll, Nothing, True)
 
             qry = "update TSPL_VLC_MASTER_HEAD set ApplyCowPriceDate='01/Jan/2022' where ApplyCowPriceDate is null and   Apply_Cow_Price=1 "
@@ -19738,7 +19739,10 @@ Public Class clsCreateAllTable
             coll.Add("WO_Subject", "Varchar(200) null")
             coll.Add("WO_Content", "Varchar(200) null")
             coll.Add("WO_CopySubmittedTo", "Varchar(200) null")
+            coll.Add("All_Transfer_Issue", "Varchar(10) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_REQUISITION_HEAD", coll, Nothing, True, True, "", "Requisition_Id", "Requisition_Date")
+            clsDBFuncationality.ExecuteNonQuery("Update TSPL_REQUISITION_HEAD Set All_Transfer_Issue='All' Where Status=1 And ISNULL(All_Transfer_Issue,'')=''")
+
 
             coll = New Dictionary(Of String, String)
             coll.Add("Requisition_Id", "Varchar(30) not null References TSPL_REQUISITION_HEAD(Requisition_Id)")

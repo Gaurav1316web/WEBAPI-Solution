@@ -111,13 +111,28 @@ Public Class FrmEmployeePF
 
             End If
             Dim LocDesc As String = ""
-            Qry = clsSalaryGeneration.GetPFESIQuery(txtFromPP.Value, Location_Code, DivCond, LblLocName.Text, LocAddress, FirmPf, LocDesc)
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+            Qry = clsSalaryGeneration.GetPFESIQuery1(txtFromPP.Value, Location_Code, DivCond, LblLocName.Text, LocAddress, FirmPf, LocDesc)
+            Dim FinalQry As String = Nothing
+            If chkEmpWise.Checked Then
+                FinalQry = Qry
+            Else
+                FinalQry = "Select Max(PrintBy) As PrintBy,Max(Location_Code) as Location_Code ,Max(Location_Desc) as Location_Desc,Max(Location_Address) as Location_Address ,
+            Max(Name) as Name,Max(Address1) As Address1,Max(Address2) as Address2,Max(Address3) as Address3, 
+            Max(Month)Month,	Max(Year)Year,	Max(DateFr)DateFr,	Max(DateTo)DateTo,	Max(Pay_Period_Code)Pay_Period_Code,	Max(EMP_CODE)EMP_CODE,	Sum(TotalEmpEPFAc01)TotalEmpEPFAc01,	Sum(TotalEmpPensionAC10)TotalEmpPensionAC10,	Sum(TotalEmpEDLIAc21)TotalEmpEDLIAc21,	Sum(TotEmpESI)TotEmpESI,	Sum(TotalSalaryEPFAc01)TotalSalaryEPFAc01,	Sum(TotalSalaryPensionAc10)TotalSalaryPensionAc10,	Sum(TotalSalaryEDLIAc21)TotalSalaryEDLIAc21,	Sum(EPFAmtAc01)EPFAmtAc01,	Sum(PensionAmtAc10)PensionAmtAc10,	Sum(DifferenceAmtAc01)DifferenceAmtAc01,	Sum(AdminAmtAc02)AdminAmtAc02,	Sum(EDLIAmtAc21)EDLIAmtAc21,	Sum(AdminEDLIAmtAc22)AdminEDLIAmtAc22,	Sum(TotSalESI)TotSalESI,	Sum(EmpESIAmt)EmpESIAmt,	Sum(EmployerESIAMT)EmployerESIAMT,	Sum(LWFER)LWFER,	Max(FirmPFNo)FirmPFNo,	Sum(Total_Employee_Count)Total_Employee_Count
+            from (" + Qry + ") final"
+            End If
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(FinalQry)
             If dt.Rows.Count <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Else
                 Dim frmcrystal As New frmCrystalReportViewer()
-                frmcrystal.funreport(CrystalReportFolder.HRPayroll, dt, "crptSalaryEPF", "Employee PF ")
+                If chkEmpWise.Checked Then
+                    frmcrystal.funreport(CrystalReportFolder.HRPayroll, dt, "crptSalaryEPFEmployeeWise", "Employee PF ")
+                Else
+                    frmcrystal.funreport(CrystalReportFolder.HRPayroll, dt, "crptSalaryEPF", "Employee PF ")
+                End If
+
                 frmcrystal = Nothing
             End If
         Catch ex As Exception

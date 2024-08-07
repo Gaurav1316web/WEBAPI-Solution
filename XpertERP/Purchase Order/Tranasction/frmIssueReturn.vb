@@ -4358,7 +4358,7 @@ Public Class frmIssueReturn
             'Dim whrclas As String = "is_internal='Y' AND ISNULL(Requisition_Id,'') Not In (select ISNULL(Req_IssueNo,'') from TSPL_IssueReturn_HEAD)"
             Dim qry As String = ""
             If AllowOnlyOneIssueAgainstStoreRequisition = True Then
-                qry = "Select Distinct AA.RequisitionNo ,AA.Date as RequisitionDate from (select TSPL_REQUISITION_HEAD.Requisition_Id as RequisitionNo,Convert(varchar,TSPL_REQUISITION_HEAD.Requisition_Date ,103) as Date " &
+                qry = "Select Distinct AA.RequisitionNo ,AA.Date as RequisitionDate,AA.[All/Issue] from (select TSPL_REQUISITION_HEAD.Requisition_Id as RequisitionNo,Convert(varchar,TSPL_REQUISITION_HEAD.Requisition_Date ,103) as Date,All_Transfer_Issue As [All/Issue]   " &
                   " From TSPL_REQUISITION_HEAD " &
                   " where TSPL_REQUISITION_HEAD.close_yn = 'N' and TSPL_REQUISITION_HEAD.Status=1 and TSPL_REQUISITION_HEAD.Is_Internal ='Y'    and isnull(TSPL_REQUISITION_HEAD.Capex_SubCode,'')=''  " &
                   " And isnull(TSPL_REQUISITION_HEAD.Capex_Code,'') =''  and TSPL_REQUISITION_HEAD.Requisition_Id not in " &
@@ -4366,18 +4366,20 @@ Public Class frmIssueReturn
                   " Left Outer Join TSPL_IssueReturn_DETAIL on TSPL_IssueReturn_HEAD.Doc_No =TSPL_IssueReturn_DETAIL.Doc_No " &
                   " where Doc_Type='Issue'  and len(isnull(TSPL_IssueReturn_DETAIL.Doc_No ,''))>0 )) AA"
             Else
-                qry = " Select Distinct AA.RequisitionNo ,AA.Date as RequisitionDate from " &
-                " ( Select MAX(Code) as RequisitionNo,MAX(Date) as Date,MAX(Unit_code) as [Unit Code],SUM(Qty* case when RI=1 then 1 else 0 end) as RequisitionQty,SUM(Qty* case when RI=-1 then 1 else 0 end) as IssueQty,SUM((Qty *RI)- Unapproved) as PendingQty ,SUM(Unapproved) as UnapprovedQty from" &
-                " ( Select TSPL_REQUISITION_HEAD.Requisition_Id as Code,Convert(varchar,TSPL_REQUISITION_HEAD.Requisition_Date ,103) as Date,TSPL_REQUISITION_DETAIL.Item_Code ,TSPL_REQUISITION_DETAIL.Item_Desc ,TSPL_REQUISITION_DETAIL.Unit_Code ,TSPL_REQUISITION_DETAIL.Requisition_Qty as Qty,0 as Unapproved,1 as RI from  TSPL_REQUISITION_HEAD Left Outer Join TSPL_REQUISITION_DETAIL on TSPL_REQUISITION_HEAD.Requisition_Id =TSPL_REQUISITION_DETAIL.Requisition_Id  where TSPL_REQUISITION_HEAD.close_yn = 'N' and  TSPL_REQUISITION_HEAD.Status=1 and TSPL_REQUISITION_HEAD.Is_Internal ='Y' " &
+                qry = " Select Distinct AA.RequisitionNo ,AA.Date as RequisitionDate,AA.[All/Issue] from " &
+                " ( Select MAX(Code) as RequisitionNo,MAX(Date) as Date,MAX(Unit_code) as [Unit Code],SUM(Qty* case when RI=1 then 1 else 0 end) as RequisitionQty,SUM(Qty* case when RI=-1 then 1 else 0 end) as IssueQty,SUM((Qty *RI)- Unapproved) as PendingQty ,SUM(Unapproved) as UnapprovedQty,Max(All_Transfer_Issue) AS [All/Issue] from" &
+                " ( Select TSPL_REQUISITION_HEAD.Requisition_Id as Code,Convert(varchar,TSPL_REQUISITION_HEAD.Requisition_Date ,103) as Date,TSPL_REQUISITION_DETAIL.Item_Code ,TSPL_REQUISITION_DETAIL.Item_Desc ,TSPL_REQUISITION_DETAIL.Unit_Code ,TSPL_REQUISITION_DETAIL.Requisition_Qty as Qty,0 as Unapproved,1 as RI,TSPL_REQUISITION_HEAD.All_Transfer_Issue  from  TSPL_REQUISITION_HEAD Left Outer Join TSPL_REQUISITION_DETAIL on TSPL_REQUISITION_HEAD.Requisition_Id =TSPL_REQUISITION_DETAIL.Requisition_Id  where TSPL_REQUISITION_HEAD.close_yn = 'N' and  TSPL_REQUISITION_HEAD.Status=1 and TSPL_REQUISITION_HEAD.Is_Internal ='Y' " &
                 "   and isnull(TSPL_REQUISITION_HEAD.Capex_SubCode,'')='' and isnull(TSPL_REQUISITION_HEAD.Capex_Code,'') ='' " &
                 " Union All " &
-                " select TSPL_IssueReturn_HEAD.RequisitionNo as Code,'' as Date,TSPL_IssueReturn_DETAIL.Item_Code ,TSPL_IssueReturn_DETAIL.Item_Desc ,TSPL_IssueReturn_DETAIL.Unit_code,TSPL_IssueReturn_DETAIL.Issued_Qty as Qty,0  as Unapproved ,-1 as RI   from TSPL_IssueReturn_HEAD Left Outer Join TSPL_IssueReturn_DETAIL on TSPL_IssueReturn_HEAD.Doc_No =TSPL_IssueReturn_DETAIL.Doc_No  where Doc_Type='Issue' and TSPL_IssueReturn_HEAD.Status=1 and len(isnull(TSPL_IssueReturn_DETAIL.Doc_No ,''))>0 " &
+                " select TSPL_IssueReturn_HEAD.RequisitionNo as Code,'' as Date,TSPL_IssueReturn_DETAIL.Item_Code ,TSPL_IssueReturn_DETAIL.Item_Desc ,TSPL_IssueReturn_DETAIL.Unit_code,TSPL_IssueReturn_DETAIL.Issued_Qty as Qty,0  as Unapproved ,-1 as RI,'' As All_Transfer_Issue   from TSPL_IssueReturn_HEAD Left Outer Join TSPL_IssueReturn_DETAIL on TSPL_IssueReturn_HEAD.Doc_No =TSPL_IssueReturn_DETAIL.Doc_No  where Doc_Type='Issue' and TSPL_IssueReturn_HEAD.Status=1 and len(isnull(TSPL_IssueReturn_DETAIL.Doc_No ,''))>0 " &
                 " Union All " &
-                " select TSPL_IssueReturn_HEAD.RequisitionNo as Code,'' as Date,TSPL_IssueReturn_DETAIL.Item_Code ,TSPL_IssueReturn_DETAIL.Item_Desc ,TSPL_IssueReturn_DETAIL.Unit_code,0 as Qty,TSPL_IssueReturn_DETAIL.Issued_Qty  as Unapproved ,-1 as RI   from TSPL_IssueReturn_HEAD Left Outer Join TSPL_IssueReturn_DETAIL on TSPL_IssueReturn_HEAD.Doc_No =TSPL_IssueReturn_DETAIL.Doc_No  where Doc_Type='Issue' and TSPL_IssueReturn_HEAD.Status=0 and len(isnull(TSPL_IssueReturn_DETAIL.Doc_No ,''))>0 and TSPL_IssueReturn_DETAIL.Doc_No not in ('" & txtDocNo.Value & "'))" &
+                " select TSPL_IssueReturn_HEAD.RequisitionNo as Code,'' as Date,TSPL_IssueReturn_DETAIL.Item_Code ,TSPL_IssueReturn_DETAIL.Item_Desc ,TSPL_IssueReturn_DETAIL.Unit_code,0 as Qty,TSPL_IssueReturn_DETAIL.Issued_Qty  as Unapproved ,-1 as RI,'' As All_Transfer_Issue   from TSPL_IssueReturn_HEAD Left Outer Join TSPL_IssueReturn_DETAIL on TSPL_IssueReturn_HEAD.Doc_No =TSPL_IssueReturn_DETAIL.Doc_No  where Doc_Type='Issue' and TSPL_IssueReturn_HEAD.Status=0 and len(isnull(TSPL_IssueReturn_DETAIL.Doc_No ,''))>0 and TSPL_IssueReturn_DETAIL.Doc_No not in ('" & txtDocNo.Value & "'))" &
                 " Final group by Code having (SUM(Qty *RI)-SUM(Unapproved)) >0) AA"
             End If
 
-            fndReqNo.Value = clsCommon.ShowSelectForm("Req no", qry, "RequisitionNo", "", fndReqNo.Value, "", isButtonClicked)
+            Dim whrcls As String = " IsNull([All/Issue],'') In ('All','Issue','')"
+
+            fndReqNo.Value = clsCommon.ShowSelectForm("Req no", qry, "RequisitionNo", whrcls, fndReqNo.Value, "", isButtonClicked)
             lblReq3.Text = fndReqNo.Value
             If clsCommon.myLen(fndReqNo.Value) > 0 Then
                 LoadReqDataHead(fndReqNo.Value)

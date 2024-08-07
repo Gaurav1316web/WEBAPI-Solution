@@ -52,12 +52,12 @@ Public Class rptExeVersionReport
                     End If
                     Baseqry += "select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name], "
                     If rbtnDetail.IsChecked Then
-                        Baseqry += " Version_No AS [Exe Version],Date  from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Exe_Deployment where convert(date,Date,103) >=convert(date,'" + txtFromDate.Value + "',103) and convert(date,Date,103) <= convert(date,'" + txtToDate.Value + "',103)"
+                        Baseqry += " Version_No AS [Exe Version],Date  from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Exe_Deployment where convert(date,Date,103) >=convert(date,'" + txtFromDate.Value + "',103) and convert(date,Date,103) <= convert(date,'" + txtToDate.Value + "',103) and Version_No <= (select Last_Version from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Version_Info)"
                     Else
-                        Baseqry += " MAX(Version_No) AS [Exe Version],max(Date)  AS Date from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Exe_Deployment"
+                        Baseqry += "(select top 1 Version_No  from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Exe_Deployment where Version_No <= (select Last_Version from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Version_Info) order by Date desc) AS [Exe Version],"
+                        Baseqry += "(select top 1 Date from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Exe_Deployment where Version_No <= (select Last_Version from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Version_Info) order BY Date desc) as Date"
+
                     End If
-
-
 
                 Next
             End If
