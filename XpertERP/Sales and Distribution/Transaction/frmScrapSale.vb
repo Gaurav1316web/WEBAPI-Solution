@@ -2879,7 +2879,7 @@ Public Class frmScrapSale
                 EInvoiceType = clsERPFuncationality.GetCustomerEInvoiceTypeFromTransationTable("TSPL_SCRAPINVOICE_HEAD", "invoice_no", lblInvoiceNo.Text, Nothing)
 
                 If chkTaxable.Checked = True AndAlso clsERPFuncationality.GetEInvoiceStatus(dtpshipment.Value) = True AndAlso clsCommon.CompairString(EInvoiceType, "BB") = CompairStringResult.Equal Then
-                    btnReverse.Enabled = False
+                    'btnReverse.Enabled = False
                     If objCommonVar.GenerateEWayBillWithEInvoice = True Then
                         txtEWayBillNo.ReadOnly = True
                         txtEWayBillDate.ReadOnly = True

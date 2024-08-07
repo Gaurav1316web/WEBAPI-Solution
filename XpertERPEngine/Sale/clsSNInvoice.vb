@@ -1535,7 +1535,17 @@ TSPL_SD_SALE_INVOICE_HEAD.PROJECT_ID, TSPL_SD_SALE_INVOICE_HEAD.Form_38_No "
                 End If
             End If
 
+            Dim IrnNo As String = clsDBFuncationality.getSingleValue(" select isnull(IRN_No,'')IRN_No FROM TSPL_SD_SALE_INVOICE_HEAD where Document_Code= '" + strCode + "' ", trans)
+            If clsCommon.myLen(IrnNo) > 0 Then
+                Throw New Exception("IrnNo Generated,Can't Reverse The Document")
+            End If
 
+            Qry = " select Is_Taxable,IRN_No,EInvoice_Type from TSPL_SD_SALE_INVOICE_HEAD where Document_Code= '" + strCode + "' AND (EInvoice_Type = 'BB' OR EInvoice_Type IS NULL) AND ISNULL(IRN_No,'')='' and Is_Taxable='1'"
+            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
+            If dt1.Rows.Count > 0 Then
+                Throw New Exception("Update IrnNo before Reversing The Document")
+                'Else
+            End If
             Dim strARInvoiceNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No  from TSPL_Customer_Invoice_Head where Against_Sale_No='" + strCode + "'", trans))
             If clsCommon.myLen(strARInvoiceNo) > 0 Then
                 Dim VoucherNo As String = clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code='AR-IN' and Source_Doc_No='" + strARInvoiceNo + "'", trans)
