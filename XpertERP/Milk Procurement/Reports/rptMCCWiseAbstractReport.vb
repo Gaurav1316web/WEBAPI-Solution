@@ -461,7 +461,7 @@ Public Class rptMCCWiseAbstractReport
                 obj.ReportName1 = "MILK SHED NAME : " + txtLocName.Text + "                             FORTINIGHT CONSOLIDATED OF MILK PAYMENT, DEDUCTION, NET AMOUNT PAYABLE AND T.I.P DEDUCTION, SHARE-CAPITAL DEDUCTIONS PERIOD FROM: " + clsCommon.myCstr(clsCommon.GetPrintDate(dtpFromDate.Value, "MMM dd, yyyy")) + " TO " + clsCommon.myCstr(clsCommon.GetPrintDate(dtpToDate.Value, "MMM dd, yyyy")) + "                        "
                 'obj.ReportName2 = "                                 DETAILS OF GROSS AMOUNT                                                                                             DETAILS OF RECOVERIES"
                 obj.ShowPageNo = False
-                obj.LandscapPageSetupColumnsChar = 340
+                obj.PageSetupCustomizeCharColumn = 340
                 'obj.arrFilter = New List(Of clsDosPrintHeaderFilter)()
                 'obj.arrFilter.Add(clsDosPrintHeaderFilter.GetObject("Zone", clsCommon.myCstr(dt.Rows(0)("Zone_Name"))))
                 obj.arrColumn = New List(Of clsDosPrintColumn)()
@@ -555,7 +555,7 @@ Public Class rptMCCWiseAbstractReport
                 obj.ReportName = ""
                 obj.ReportName1 = "MILK SHED NAME : " + txtLocName.Text + "                                                          FORTINIGHT CONSOLIDATED REPORT OF MILK PROCUREMENT, KG-FAT,KG-SNF,TOTAL SOLIDS PERIOD FROM: " + clsCommon.myCstr(clsCommon.GetPrintDate(dtpFromDate.Value, "MMM dd, yyyy")) + " TO " + clsCommon.myCstr(clsCommon.GetPrintDate(dtpToDate.Value, "MMM dd, yyyy")) + "                                                       "
                 obj.ShowPageNo = False
-                obj.LandscapPageSetupColumnsChar = 270
+                obj.PageSetupCustomizeCharColumn = 270
 
                 obj.arrMergeColumn = New List(Of clsDosPrintMergeColumn)()
                 Dim objMergeColumn As clsDosPrintMergeColumn = New clsDosPrintMergeColumn()
@@ -633,7 +633,7 @@ Public Class rptMCCWiseAbstractReport
                 obj.ReportName1 = "MILK SHED NAME : " + txtLocName.Text + "                                 YEARLY CONSOLIDATED OF MILK PAYMENT, DEDUCTION, NET AMOUNT PAYABLE AND T.I.P DEDUCTION, SHARE-CAPITAL DEDUCTIONS PERIOD FROM: " + clsCommon.myCstr(clsCommon.GetPrintDate(dtpFromDate.Value, "MMM dd, yyyy")) + " TO " + clsCommon.myCstr(clsCommon.GetPrintDate(dtpToDate.Value, "MMM dd, yyyy")) + "                        "
                 'obj.ReportName2 = "                                 DETAILS OF GROSS AMOUNT                                                                                             DETAILS OF RECOVERIES"
                 obj.ShowPageNo = False
-                obj.LandscapPageSetupColumnsChar = 340
+                obj.PageSetupCustomizeCharColumn = 340
                 'obj.arrFilter = New List(Of clsDosPrintHeaderFilter)()
                 'obj.arrFilter.Add(clsDosPrintHeaderFilter.GetObject("Zone", clsCommon.myCstr(dt.Rows(0)("Zone_Name"))))
                 obj.arrColumn = New List(Of clsDosPrintColumn)()
@@ -665,7 +665,7 @@ Public Class rptMCCWiseAbstractReport
                 obj.ReportName = ""
                 obj.ReportName1 = "MILK SHED NAME : " + txtLocName.Text + "                                                              YEARLY CONSOLIDATED REPORT OF MILK PROCUREMENT, KG-FAT,KG-SNF,TOTAL SOLIDS PERIOD FROM: " + clsCommon.myCstr(clsCommon.GetPrintDate(dtpFromDate.Value, "MMM dd, yyyy")) + " TO " + clsCommon.myCstr(clsCommon.GetPrintDate(dtpToDate.Value, "MMM dd, yyyy")) + "                                                       "
                 obj.ShowPageNo = False
-                obj.LandscapPageSetupColumnsChar = 270
+                obj.PageSetupCustomizeCharColumn = 270
 
                 obj.arrMergeColumn = New List(Of clsDosPrintMergeColumn)()
                 Dim objMergeColumn As clsDosPrintMergeColumn = New clsDosPrintMergeColumn()
@@ -1195,7 +1195,7 @@ Public Class rptMCCWiseAbstractReport
                     obj.ReportName = ""
                     obj.ReportName1 = "M.P.F., HYDERABAD MILK RECEIPTS"
                     obj.ShowPageNo = True
-                    obj.LandscapPageSetupColumnsChar = 120
+                    obj.PageSetupCustomizeCharColumn = 120
                     obj.arrFilter = New List(Of clsDosPrintHeaderFilter)()
                     obj.arrFilter.Add(clsDosPrintHeaderFilter.GetObject("UNIT NAME", clsCommon.myCstr(txtLocName.Text)))
                     obj.arrFilter.Add(clsDosPrintHeaderFilter.GetObject("PERIOD FROM", clsCommon.myCstr(txtMilkReceiptFromDate.Text) + " To " + clsCommon.myCstr(txtMilkReciptToDate.Text)))
@@ -1369,9 +1369,9 @@ Public Class rptMCCWiseAbstractReport
                 If isDotMaterixPrint = True Then
                     'Dim strshift As String = ""
                     If rdbMainPlant.Checked = True Then
-                        strshift = "MORNING"
+                        strShift = "MORNING"
                     ElseIf rdbOther.Checked = True Then
-                        strshift = "EVENING"
+                        strShift = "EVENING"
 
                     End If
 
@@ -1379,7 +1379,7 @@ Public Class rptMCCWiseAbstractReport
                     obj.ReportName = ""
                     obj.ReportName1 = "CHECK LIST FOR MILK PROCUREMENT PARTICULARS DATED: " + clsCommon.myCstr(txtMilkReceiptFromDate.Text) + " To " + clsCommon.myCstr(txtMilkReciptToDate.Text) + "   " + strShift + " UserLogin: " + objCommonVar.CurrentUserCode.ToUpper() + " "
                     obj.ShowPageNo = True
-                    obj.LandscapPageSetupColumnsChar = 120
+                    obj.PageSetupCustomizeCharColumn = 120
 
                     obj.arrMergeColumn = New List(Of clsDosPrintMergeColumn)()
                     Dim objMergeColumn As clsDosPrintMergeColumn = New clsDosPrintMergeColumn()
@@ -1534,7 +1534,7 @@ Public Class rptMCCWiseAbstractReport
                     obj.ReportName = ""
                     obj.ReportName1 = "STATEMENT OF UNIT WISE TOTAL LTS,KGS"   '"CHECK LIST FOR MILK PROCUREMENT PARTICULARS DATED: " + clsCommon.myCstr(txtMilkReceiptFromDate.Text) + "   " + strShift + " UserLogin: " + objCommonVar.CurrentUserCode.ToUpper() + " "
                     obj.ShowPageNo = True
-                    obj.LandscapPageSetupColumnsChar = 120
+                    obj.PageSetupCustomizeCharColumn = 120
 
                     obj.arrMergeColumn = New List(Of clsDosPrintMergeColumn)()
                     Dim objMergeColumn As clsDosPrintMergeColumn = New clsDosPrintMergeColumn()
@@ -1712,7 +1712,7 @@ Public Class rptMCCWiseAbstractReport
                     obj.ReportName = ""
                     obj.ReportName1 = "STATEMENT OF UNIT WISE ANALYSIS FOR LTS,KGS,KGFAT,KGSNF AND AVRAGE FAT ,AVRAGE SNF"   '"CHECK LIST FOR MILK PROCUREMENT PARTICULARS DATED: " + clsCommon.myCstr(txtMilkReceiptFromDate.Text) + "   " + strShift + " UserLogin: " + objCommonVar.CurrentUserCode.ToUpper() + " "
                     obj.ShowPageNo = True
-                    obj.LandscapPageSetupColumnsChar = 180
+                    obj.PageSetupCustomizeCharColumn = 180
 
                     obj.arrMergeColumn = New List(Of clsDosPrintMergeColumn)()
                     Dim objMergeColumn As clsDosPrintMergeColumn = New clsDosPrintMergeColumn()
@@ -2012,7 +2012,7 @@ left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MA
                     obj.ReportName1 = "THE TELANGANA STATE DAIRY DEVELOPMENT CO-OPERATIVE FEDERATION LIMITED. "   '"CHECK LIST FOR MILK PROCUREMENT PARTICULARS DATED: " + clsCommon.myCstr(txtMilkReceiptFromDate.Text) + "   " + strShift + " UserLogin: " + objCommonVar.CurrentUserCode.ToUpper() + " "
                     obj.ReportName2 = "R O U T E    B I L L S    A B S T R A C T  " + clsCommon.myCstr(txtMilkReceiptFromDate.Text) + " TO " + clsCommon.myCstr(txtMilkReciptToDate.Text) + ""
                     obj.ShowPageNo = True
-                    obj.LandscapPageSetupColumnsChar = 220
+                    obj.PageSetupCustomizeCharColumn = 220
                     obj.arrFilter = New List(Of clsDosPrintHeaderFilter)()
                     obj.arrFilter.Add(clsDosPrintHeaderFilter.GetObject("UNIT CODE AND NAME", clsCommon.myCstr(fndSingleMCCCode.Value) + " " + clsCommon.myCstr(lblSingleMCCName.Text)))
                     'obj.arrFilter.Add(clsDosPrintHeaderFilter.GetObject("UNIT NAME", clsCommon.myCstr(lblSingleMCCName.Text)))
@@ -2095,11 +2095,11 @@ left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MA
             'End If
             'If fndSingleMCCCode.Value Then
             whrForMulDed += " and TSPL_MULTIPLE_DEDUCTION_HEAD.MCC_Code in ('" + fndSingleMCCCode.Value + "') "
-                whrForSingleDed += " and TSPL_VLC_MASTER_HEAD.MCC in ('" + fndSingleMCCCode.Value + "') "
-                'End If
+            whrForSingleDed += " and TSPL_VLC_MASTER_HEAD.MCC in ('" + fndSingleMCCCode.Value + "') "
+            'End If
 
-                'If ChkPosted.IsChecked = True Then
-                whrForMulDed += " and TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted = 1 "
+            'If ChkPosted.IsChecked = True Then
+            whrForMulDed += " and TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted = 1 "
             whrForSingleDed += " and  len (TSPL_VENDOR_INVOICE_HEAD.Posting_Date) > 0  "
             'ElseIf ChkUnPosted.IsChecked = True Then
             '    whrForMulDed += " and TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted = 0 "
@@ -2152,7 +2152,7 @@ left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MA
                     obj.ReportName1 = "UNIT NAME :  " + lblSingleMCCName.Text + "          DATE OF ENDING : " + clsCommon.myCstr(clsCommon.GetPrintDate(txtMilkReciptToDate.Value, "dd/MM/yyyy")) + "                                                                                                   "
 
                     obj.ShowPageNo = True
-                    obj.LandscapPageSetupColumnsChar = 270
+                    obj.PageSetupCustomizeCharColumn = 270
 
                     obj.arrColumn = New List(Of clsDosPrintColumn)()
                     obj.arrColumn.Add(clsDosPrintColumn.SetColumn("VLC Uploader Code", "Center Code", False, DosPrintAlignment.Left, 13, False, DecimalPlaces.NA))

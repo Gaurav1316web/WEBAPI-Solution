@@ -46,7 +46,7 @@ Public Class frmDailySMPProduction
         Try
             LoadBlankGridResource()
             Dim query As String
-            Dim dtr As DataTable = clsDBFuncationality.GetDataTable("SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].Code,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','RAJSAMAND','BANSWARA') ORDER BY [TSPL_APP_LOCATION].Location_Name")
+            Dim dtr As DataTable = clsMilkUnion.UnionDBName()
             query = ""
             For ii As Integer = 0 To dtr.Rows.Count - 1
                 If ii > 0 Then

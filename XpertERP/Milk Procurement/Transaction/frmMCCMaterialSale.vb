@@ -2605,33 +2605,40 @@ Public Class frmMCCMaterialSale
             & " TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and ISNULL(TSPL_ITEM_CATEGORY_LEVEL.Form_Type,'item')='item' left outer join " _
             & " TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code" _
             & " and TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values  and ISNULL(TSPL_ITEM_CATEGORY_LEVEL_VALUES.Form_Type,'item')='item')a" _
-            & " on a.Item_code=TSPL_ITEM_MASTER.Item_Code and TSPL_ITEM_MASTER.item_code=a.item_code " _
-             & "  where  TSPL_ITEM_MASTER.Active=1 and Is_FreshItem=0 and coalesce(Product_Type,'') not in ('MI') and Item_Type not in ('A') and coalesce(Item_used_as,'')='S' "
+            & " on a.Item_code=TSPL_ITEM_MASTER.Item_Code and TSPL_ITEM_MASTER.item_code=a.item_code "
+
+            Dim whrcls As String = " "
+            whrcls = " TSPL_ITEM_MASTER.Active = 1 And Is_FreshItem = 0 And coalesce(Product_Type,'') not in ('MI') and Item_Type not in ('A') and coalesce(Item_used_as,'')='S' "
             If clsERPFuncationality.GetGSTStatus(txtDate.Value) Then
-                qry += " and TSPL_ITEM_MASTER.IsTaxable='" + IIf(chkTaxable.Checked, "1", "0") + "'"
+                whrcls += " and TSPL_ITEM_MASTER.IsTaxable='" + IIf(chkTaxable.Checked, "1", "0") + "'"
             End If
-            qry += " ) as s pivot(max(cat_value) for description in ([BRAND],[ITEM TYPE1],[MAIN GROUP],[PACKING],[PRODUCT CATEGORY],[SKU],[SUB GROUP]))t  "
-            Dim dr As DataRow = clsCommon.ShowSelectFormForRow("MSA@Items", qry)
-            If Not dr Is Nothing Then
-                If clsCommon.myLen(clsCommon.myCstr(dr("Item"))) > 0 Then
+            whrcls += " ) as s pivot(max(cat_value) for description in ([BRAND],[ITEM TYPE1],[MAIN GROUP],[PACKING],[PRODUCT CATEGORY],[SKU],[SUB GROUP]))t  "
+            ' Dim dr As DataRow = clsCommon.ShowSelectFormForRow("MSA@Items", qry)
+            gv1.CurrentRow.Cells(colICode).Value = clsCommon.ShowSelectForm("ITMMSTFND", qry, "Item", whrcls, gv1.CurrentRow.Cells(colICode).Value, "Item", False)
+
+            qry += " where " & whrcls & ""
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            Dim dr As DataRow() = clsCommon.MyDTSelect(dt, "Item='" + gv1.CurrentRow.Cells(colICode).Value + "'")
+            If dr.Length > 0 Then
+                If clsCommon.myLen(clsCommon.myCstr(dr(0).Item("Item"))) > 0 Then
                     gv1.CurrentRow.Cells(colRowType).Value = RowTypeItem
-                    gv1.CurrentRow.Cells(colICode).Value = clsCommon.myCstr(dr("Item"))
-                    gv1.CurrentRow.Cells(ColActualBalQty).Value = clsItemLocationDetails.getBalance(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), txtBillToLocation.Value, txtDocNo.Value, txtDate.Value, Nothing, clsCommon.myCstr(dr("Unit")), clsCommon.myCdbl(dr("MRP")))
-                    gv1.CurrentRow.Cells(colIName).Value = clsCommon.myCstr(dr("ItemDesc"))
-                    gv1.CurrentRow.Cells(colHSNNo).Value = clsItemMaster.GetItemHSNCode(clsCommon.myCstr(dr("Item")), Nothing)
+                    gv1.CurrentRow.Cells(colICode).Value = clsCommon.myCstr(dr(0).Item("Item"))
+                    gv1.CurrentRow.Cells(ColActualBalQty).Value = clsItemLocationDetails.getBalance(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), txtBillToLocation.Value, txtDocNo.Value, txtDate.Value, Nothing, clsCommon.myCstr(dr(0).Item("Unit")), clsCommon.myCdbl(dr(0).Item("MRP")))
+                    gv1.CurrentRow.Cells(colIName).Value = clsCommon.myCstr(dr(0).Item("ItemDesc"))
+                    gv1.CurrentRow.Cells(colHSNNo).Value = clsItemMaster.GetItemHSNCode(clsCommon.myCstr(dr(0).Item("Item")), Nothing)
                     gv1.CurrentRow.Cells(colPriceCOde).Value = ""
-                    gv1.CurrentRow.Cells(colUnit).Value = clsCommon.myCstr(dr("Unit"))
-                    gv1.CurrentRow.Cells(colUOMName).Value = clsDBFuncationality.getSingleValue("select Unit_Desc from tspl_unit_master where Unit_code= '" + clsCommon.myCstr(dr("Unit")) + "'")
-                    gv1.CurrentRow.Cells(colOrgUnit).Value = clsCommon.myCstr(dr("Unit"))
-                    gv1.CurrentRow.Cells(colMRP).Value = clsCommon.myCdbl(dr("MRP"))
-                    gv1.CurrentRow.Cells(colRate).Value = clsEkoPro.GetRateMccSale(txtBillToLocation.Value, clsCommon.myCstr(dr("Item")), clsCommon.myCstr(dr("Unit")), txtDate.Value) 'clsCommon.myCdbl(dr("BasicRate"))
+                    gv1.CurrentRow.Cells(colUnit).Value = clsCommon.myCstr(dr(0).Item("Unit"))
+                    gv1.CurrentRow.Cells(colUOMName).Value = clsDBFuncationality.getSingleValue("select Unit_Desc from tspl_unit_master where Unit_code= '" + clsCommon.myCstr(dr(0).Item("Unit")) + "'")
+                    gv1.CurrentRow.Cells(colOrgUnit).Value = clsCommon.myCstr(dr(0).Item("Unit"))
+                    gv1.CurrentRow.Cells(colMRP).Value = clsCommon.myCdbl(dr(0).Item("MRP"))
+                    gv1.CurrentRow.Cells(colRate).Value = clsEkoPro.GetRateMccSale(txtBillToLocation.Value, clsCommon.myCstr(dr(0).Item("Item")), clsCommon.myCstr(dr(0).Item("Unit")), txtDate.Value) 'clsCommon.myCdbl(dr("BasicRate"))
                     gv1.CurrentRow.Cells(colSchemeApplicable).Value = "No"
                     gv1.CurrentRow.Cells(colSchemeItem).Value = "No"
-                    gv1.CurrentRow.Cells(colActualCost).Value = clsCommon.myCdbl(dr("BasicRate"))
+                    gv1.CurrentRow.Cells(colActualCost).Value = clsCommon.myCdbl(dr(0).Item("BasicRate"))
                     gv1.CurrentRow.Cells(ColFOC).Value = 0
-                    gv1.CurrentRow.Cells(colItemWeight).Value = clsCommon.myCdbl(dr("Weight Value"))
-                    gv1.CurrentRow.Cells(colOrgCost).Value = clsCommon.myCdbl(dr("BasicRate"))
-                    gv1.CurrentRow.Cells(colShortDesc).Value = clsCommon.myCstr(dr("Short_Description"))
+                    gv1.CurrentRow.Cells(colItemWeight).Value = clsCommon.myCdbl(dr(0).Item("Weight Value"))
+                    gv1.CurrentRow.Cells(colOrgCost).Value = clsCommon.myCdbl(dr(0).Item("BasicRate"))
+                    gv1.CurrentRow.Cells(colShortDesc).Value = clsCommon.myCstr(dr(0).Item("Short_Description"))
                     Dim dblConvF As Double
                     dblConvF = GetConvFactor(gv1.CurrentRow.Cells(colUnit).Value, gv1.CurrentRow.Cells(colICode).Value)
                     gv1.CurrentRow.Cells(colConvF).Value = dblConvF

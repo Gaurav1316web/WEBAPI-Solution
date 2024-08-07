@@ -76,7 +76,7 @@ Public Class rptDBTDashboard
 
             Dim docNo As String = ""
             query = ""
-            dt = clsDBFuncationality.GetDataTable("SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','JPRTEST','UDAIPURTEST','CHT','JMBILL') ORDER BY [TSPL_APP_LOCATION].Location_Name")
+            dt = clsMilkUnion.UnionDBName()
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For ii As Integer = 0 To dt.Rows.Count - 1
                     If ii > 0 Then
@@ -147,7 +147,7 @@ Public Class rptDBTDashboard
                 gvMismatchqty.DataSource = Nothing
             End If
             query = ""
-            dt = clsDBFuncationality.GetDataTable("SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','JPRTEST','UDAIPURTEST','CHT','JMBILL') ORDER BY [TSPL_APP_LOCATION].Location_Name")
+            dt = clsMilkUnion.UnionDBName()
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 query += "select ROW_NUMBER() over(order by ([Union Name])) as 'SNO.',  [Union Name],'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,MAX([Union Contact Person])[Union Contact Person],MAX([Union Contact Phone No])[Union Contact Phone No] ,sum([Farmer count])[Farmer count] , sum([DCS Billed Qty])[DCS Billed Qty], sum([Farmer Qty])[Farmer Qty], sum([Mismatch Qty])[Mismatch Qty]  from ("
                 For ii As Integer = 0 To dt.Rows.Count - 1
@@ -223,7 +223,7 @@ Public Class rptDBTDashboard
                 gvPaymentStatus.DataSource = Nothing
                 Exit Sub
             End If
-            dt = clsDBFuncationality.GetDataTable("SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','JPRTEST','UDAIPURTEST','CHT','JMBILL') ORDER BY [TSPL_APP_LOCATION].Location_Name")
+            dt = clsMilkUnion.UnionDBName()
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
 
@@ -313,8 +313,11 @@ Public Class rptDBTDashboard
                 common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
                 gvDBTSummary.DataSource = Nothing
             End If
+
             query = ""
-            dt = clsDBFuncationality.GetDataTable("SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','JPRTEST','UDAIPURTEST','CHT','JMBILL') ORDER BY [TSPL_APP_LOCATION].Location_Name")
+
+            dt = clsMilkUnion.UnionDBName()
+
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For ii As Integer = 0 To dt.Rows.Count - 1
                     If ii > 0 Then

@@ -15,6 +15,7 @@ Public Class clsBankAdvise
     Public Shared Function SaveData(ByVal obj As clsBankAdvise, ByVal isNewEntry As Boolean) As Boolean
         Dim issaved As Boolean = True
         Try
+
             Dim dt As Date = clsCommon.myCDate(clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy"))
             If isNewEntry Then
                 obj.Document_No = clsERPFuncationality.GetNextCode(Nothing, dt, clsDocType.BankAdvise, "", "", False)

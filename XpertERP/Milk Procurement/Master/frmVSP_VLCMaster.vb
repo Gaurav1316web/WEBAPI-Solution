@@ -255,8 +255,10 @@ Public Class frmVSP_VLCMaster
         txtCowPriceDate.Value = clsCommon.GETSERVERDATE()
         If chkApplyCowPrice.Checked Then
             txtCowPriceDate.Enabled = True
+            txtShiftCowLimit.Enabled = True
         Else
             txtCowPriceDate.Enabled = False
+            txtShiftCowLimit.Enabled = False
         End If
 
         If ChkHeadLoad.Checked Then
@@ -1269,6 +1271,7 @@ Public Class frmVSP_VLCMaster
             obj.ApplyCowPriceDate = txtCowPriceDate.Value
             obj.IsSuspense = chkSuspense.Checked
             obj.Loyalty_Rate = txtLoyaltyPer.Value
+            obj.Shift_Cow_Limit = txtShiftCowLimit.Value
             If chkOwnBMC.Checked Then
                 obj.TFOwnBMC = True
                 obj.OwnBMCDate = txtOwnBMCDate.Value
@@ -1306,7 +1309,7 @@ Public Class frmVSP_VLCMaster
                 Else
                     chkApplyCowPrice.Checked = False
                 End If
-
+                txtShiftCowLimit.Value = clsCommon.myCdbl(obj.Shift_Cow_Limit)
                 chkSuspense.Checked = obj.IsSuspense
                 txtvsp.Text = obj.VspName
                 fndMcc.Value = obj.MCCCOde
@@ -1325,43 +1328,44 @@ Public Class frmVSP_VLCMaster
                 End If
                 txtroutename.Text = obj.routename
                 txtLoyaltyPer.Value = obj.Loyalty_Rate
+
                 If obj.TFOwnBMC = True Then
-                    chkOwnBMC.Checked = True
-                    If clsCommon.myLen(obj.OwnBMCDate) <= 0 Then
-                        Dim BMCDate As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Created_Date from TSPL_VLC_MASTER_HEAD where VSP_Code='" + obj.vspCode + "'"))
-                        If clsCommon.myLen(BMCDate) > 0 Then
-                            Dim UpdateBMC As String = "Update TSPL_VLC_MASTER_HEAD set OwnBMCDate='" & clsCommon.GetPrintDate(BMCDate) & "' where VSP_Code='" + obj.vspCode + "' "
-                            clsDBFuncationality.ExecuteNonQuery(UpdateBMC)
+                        chkOwnBMC.Checked = True
+                        If clsCommon.myLen(obj.OwnBMCDate) <= 0 Then
+                            Dim BMCDate As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Created_Date from TSPL_VLC_MASTER_HEAD where VSP_Code='" + obj.vspCode + "'"))
+                            If clsCommon.myLen(BMCDate) > 0 Then
+                                Dim UpdateBMC As String = "Update TSPL_VLC_MASTER_HEAD set OwnBMCDate='" & clsCommon.GetPrintDate(BMCDate) & "' where VSP_Code='" + obj.vspCode + "' "
+                                clsDBFuncationality.ExecuteNonQuery(UpdateBMC)
+                            End If
+                            txtOwnBMCDate.Value = clsCommon.myCDate(BMCDate)
+                        Else
+                            txtOwnBMCDate.Value = clsCommon.myCDate(obj.OwnBMCDate)
                         End If
-                        txtOwnBMCDate.Value = clsCommon.myCDate(BMCDate)
+                        txtMCCOwnBMC.Value = obj.OwnBMC
                     Else
-                        txtOwnBMCDate.Value = clsCommon.myCDate(obj.OwnBMCDate)
+                        chkOwnBMC.Checked = False
+                        txtMCCOwnBMC.Value = Nothing
                     End If
-                    txtMCCOwnBMC.Value = obj.OwnBMC
-                Else
-                    chkOwnBMC.Checked = False
-                    txtMCCOwnBMC.Value = Nothing
-                End If
-                fndPriceCode.Value = obj.Price_Code
-                Me.chkInActive.Checked = IIf(obj.Active = 0, True, False)
-                'fndvlccode.ReadOnly = True
-                If clsCommon.myCBool(obj.HeadLoad) = True Then
-                    ChkHeadLoad.Checked = True
-                    If clsCommon.myCstr(obj.HeadLoadBasis) = "P" Then
-                        CmbHeadLoadServiceBasis.Text = "%(Percentage)"
-                    ElseIf clsCommon.myCstr(obj.HeadLoadBasis) = "K" Then
-                        CmbHeadLoadServiceBasis.Text = "Rate/Kg"
-                    ElseIf clsCommon.myCstr(obj.HeadLoadBasis) = "L" Then
-                        CmbHeadLoadServiceBasis.Text = "Rate/Ltr"
+                    fndPriceCode.Value = obj.Price_Code
+                    Me.chkInActive.Checked = IIf(obj.Active = 0, True, False)
+                    'fndvlccode.ReadOnly = True
+                    If clsCommon.myCBool(obj.HeadLoad) = True Then
+                        ChkHeadLoad.Checked = True
+                        If clsCommon.myCstr(obj.HeadLoadBasis) = "P" Then
+                            CmbHeadLoadServiceBasis.Text = "%(Percentage)"
+                        ElseIf clsCommon.myCstr(obj.HeadLoadBasis) = "K" Then
+                            CmbHeadLoadServiceBasis.Text = "Rate/Kg"
+                        ElseIf clsCommon.myCstr(obj.HeadLoadBasis) = "L" Then
+                            CmbHeadLoadServiceBasis.Text = "Rate/Ltr"
+                        End If
+                        txtRateHeadLoad.Text = obj.HeadLoadRate
+                    Else
+                        ChkHeadLoad.Checked = False
+                        CmbHeadLoadServiceBasis.Text = ""
+                        txtRateHeadLoad.Text = ""
                     End If
-                    txtRateHeadLoad.Text = obj.HeadLoadRate
                 Else
-                    ChkHeadLoad.Checked = False
-                    CmbHeadLoadServiceBasis.Text = ""
-                    txtRateHeadLoad.Text = ""
-                End If
-            Else
-                Reset()
+                    Reset()
             End If
 
             'isLoadData = False
@@ -2716,6 +2720,7 @@ Public Class frmVSP_VLCMaster
         chkMultIncentive.Checked = False
         txtIncentiveMult.Enabled = False
         txtLoyaltyPer.Value = 0
+        txtShiftCowLimit.Value = 0
         txtjointname.Text = ""
         txtno_days.Enabled = False
         txtpayeename.Enabled = False
@@ -3905,7 +3910,7 @@ Public Class frmVSP_VLCMaster
             Dim gv As New RadGridView()
             Me.Controls.Add(gv)
             Dim currentdate As Date = Date.Today
-            If transportSql.importExcel(gv, "DCS Code", "DCS Name", "DCS Uploader Code", "PAN No", "MCC", "DCS Route Code", "Active", "Created Date", "Loyalty Rate", "Own BMC", "Own BMC Date", "Apply Cow Price", "Apply Cow Price Date", "Head Load", "Head Load Service Basis", "Head Load Rate", "Registration No", "Registration Date", "Registered/PDCS/CLUSTER", "Gender", "Supervisor", "District Code", "Block Code", "Zone Code", "Revenue Village Code", "Grampanchayat Code", "Panchayat Samiti Code", "Vidhan Sabha Code", "Saving Company Bank", "Current Company Bank", "Bank Code 1", "Bank Name 1", "Branch Name 1", "IFSC Code 1", "Account No 1", "Credit Limit 1", "Account Type 1", "Security Charges 1", "Bank Code 2", "Bank Name 2", "Branch Name 2", "IFSC Code 2", "Account No 2", "Credit Limit 2", "Account Type 2", "Security Charges 2") Then
+            If transportSql.importExcel(gv, "DCS Code", "DCS Name", "DCS Uploader Code", "PAN No", "MCC", "DCS Route Code", "Active", "Created Date", "Loyalty Rate", "Own BMC", "Own BMC Date", "Apply Cow Price", "Apply Cow Price Date", "Head Load", "Head Load Service Basis", "Head Load Rate", "Registration No", "Registration Date", "Registered/PDCS/CLUSTER", "Gender", "Supervisor", "District Code", "Block Code", "Zone Code", "Revenue Village Code", "Grampanchayat Code", "Panchayat Samiti Code", "Vidhan Sabha Code", "Saving Company Bank", "Current Company Bank", "Bank Code 1", "Bank Name 1", "Branch Name 1", "IFSC Code 1", "Account No 1", "Credit Limit 1", "Account Type 1", "Security Charges 1", "Bank Code 2", "Bank Name 2", "Branch Name 2", "IFSC Code 2", "Account No 2", "Credit Limit 2", "Account Type 2", "Security Charges 2", "Shift Cow Quantity Limit") Then
                 Dim linno As Integer = 0
                 Dim TempNewRecord As Boolean = False
                 clsCommon.ProgressBarShow()
@@ -3943,6 +3948,7 @@ Public Class frmVSP_VLCMaster
                         If clsCommon.myCdbl(grow.Cells("Apply Cow Price").Value) = 1 Then
                             obj.Apply_Cow_Price = True
                             obj.ApplyCowPriceDate = clsCommon.myCDate(grow.Cells("Apply Cow Price Date").Value)
+                            obj.Shift_Cow_Limit = clsCommon.myCdbl(grow.Cells("Shift Cow Quantity Limit").Value)
                         Else
                             obj.Apply_Cow_Price = False
                             obj.ApplyCowPriceDate = Nothing
@@ -6386,9 +6392,12 @@ Public Class frmVSP_VLCMaster
         Try
             If chkApplyCowPrice.Checked Then
                 txtCowPriceDate.Enabled = True
+                txtShiftCowLimit.Enabled = True
             Else
                 txtCowPriceDate.Enabled = False
                 txtCowPriceDate.Value = Nothing
+                txtShiftCowLimit.Enabled = False
+                txtShiftCowLimit.Value = 0
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)

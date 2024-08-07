@@ -4144,9 +4144,9 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
             Dim objInventoryMovemnt1 As New clsInventoryMovement()
             objInventoryMovemnt1.InOut = "I"
             If clsCommon.CompairString(obj.IsJobWorkType, "1") = CompairStringResult.Equal AndAlso clsCommon.CompairString(obj.Transfer_Type, "I") = CompairStringResult.Equal Then
-                objInventoryMovemnt1.Location_Code = obj.From_Location
+                objInventoryMovemnt1.Location_Code = obj.To_Location
             ElseIf InDocMandatoryOnInternalTransfer = True AndAlso clsCommon.CompairString(obj.InternalTransfer, "1") = CompairStringResult.Equal AndAlso clsCommon.CompairString(obj.Transfer_Type, "I") = CompairStringResult.Equal Then
-                objInventoryMovemnt1.Location_Code = obj.From_Location
+                objInventoryMovemnt1.Location_Code = obj.To_Location
             Else
                 objInventoryMovemnt1.Location_Code = obj.To_Location
             End If
