@@ -4,6 +4,12 @@ Imports System.Data.SqlClient
 Imports System.IO
 Imports System.Net
 
+
+
+Imports Newtonsoft.Json
+Imports Newtonsoft.Json.Linq
+Imports System.Collections.Specialized
+
 Public Class clsAttachDocument
 
 
@@ -136,21 +142,28 @@ where 1=1 "
         Return dt
     End Function
 
-    Public Shared Function UploadWithHttpRequest(ByVal filePath As String, ByVal fileName As String) As String
+    Public Shared Function UploadWithHttpRequest(ByVal filePath As String, ByVal fileName As String, ByVal ProgramCode As String, ByVal DocumentNo As String) As Integer
+        Dim FileNo As Integer = -1
         Try
             Dim url As String = Nothing
             Dim FullResponse As String = Nothing
             If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
-                url = "http://172.21.80.251:7888/api/FileUploads/FileUpload"  ''Server Live IP
+                url = "http://172.21.80.251:7888/api/FileUploads/FileUploadWithDetails"  ''Server Live IP
             Else
-                url = "http://103.122.38.34:7888/api/FileUploads/FileUpload" '' Local IP
+                url = "http://103.122.38.34:7888/api/FileUploads/FileUploadWithDetails" '' Local IP
             End If
+
+            'url = "http://localhost:1111/api/FileUploads/FileUploadWithDetails" ''Testing LOCALIIS BSP
+
             Dim fileByteArray As Byte() = File.ReadAllBytes(filePath)
             Dim formDataBoundary As String = $"----------{Guid.NewGuid()}"
             Dim contentType As String = "multipart/form-data; boundary=" & formDataBoundary
             Dim formData As Byte() = GetMultipartFormDataForUpload(fileByteArray, fileName, contentType, formDataBoundary)
             Dim request = TryCast(WebRequest.Create(url), HttpWebRequest)
             request.Headers.Add("Key", "Tecxpert@MP#123$456%789^")
+            request.Headers.Add("DBName", objCommonVar.CurrDatabase)
+            request.Headers.Add("ProgramCode", ProgramCode)
+            request.Headers.Add("DocumentCode", DocumentNo)
             request.Method = "POST"
             request.ContentType = contentType
             'request.UserAgent = Credentials.UserName
@@ -158,6 +171,7 @@ where 1=1 "
             request.ContentLength = formData.Length
             'request.Credentials = Credentials
 
+            'Or (SecurityProtocolType)3072
             Using RequestStream As Stream = request.GetRequestStream()
                 RequestStream.Write(formData, 0, formData.Length)
                 RequestStream.Close()
@@ -168,6 +182,32 @@ where 1=1 "
             Dim ResponseReader = New StreamReader(response.GetResponseStream())
             FullResponse = ResponseReader.ReadToEnd()
             response.Close()
+            'Return FullResponse
+
+
+            Dim jObj As JObject = JObject.Parse(FullResponse)
+            Dim ArrJ As JArray = Nothing
+            Try
+                If clsCommon.CompairString(clsCommon.myCstr(jObj.SelectToken("result")), "true") = CompairStringResult.Equal Then
+                    ArrJ = JArray.Parse(clsCommon.myCstr(jObj.SelectToken("data")))
+                    If clsCommon.myCDecimal(ArrJ(0).SelectToken("Result")) > 0 Then
+                        FileNo = clsCommon.myCDecimal(ArrJ(0).SelectToken("Result"))
+                    Else
+                        Throw New Exception(ArrJ(0).SelectToken("Message"))
+                    End If
+                Else
+                    ArrJ = JArray.Parse(clsCommon.myCstr(jObj.SelectToken("data")))
+                    Throw New Exception(ArrJ(0).SelectToken("Message"))
+                End If
+            Finally
+                ' Dispose objects to release memory
+                If jObj IsNot Nothing Then
+                    jObj = Nothing
+                End If
+                If ArrJ IsNot Nothing Then
+                    ArrJ = Nothing
+                End If
+            End Try
 
             response = Nothing
             fileByteArray = Nothing
@@ -176,8 +216,6 @@ where 1=1 "
             formData = Nothing
             request = Nothing
             ResponseReader = Nothing
-
-            Return FullResponse
         Catch ex As Exception
             Throw ex
         Finally
@@ -185,6 +223,7 @@ where 1=1 "
             GC.WaitForPendingFinalizers()
             GC.Collect()
         End Try
+        Return FileNo
     End Function
 
 

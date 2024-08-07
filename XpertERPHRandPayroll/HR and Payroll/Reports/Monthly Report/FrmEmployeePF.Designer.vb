@@ -27,6 +27,7 @@ Partial Class FrmEmployeePF
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmEmployeePF))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkEmpWise = New System.Windows.Forms.CheckBox()
         Me.txtDivisionMult = New common.UserControls.txtMultiSelectFinder()
         Me.lblDivision = New common.Controls.MyLabel()
         Me.txtLocationMult = New common.UserControls.txtMultiSelectFinder()
@@ -84,13 +85,14 @@ Partial Class FrmEmployeePF
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(560, 452)
+        Me.SplitContainer1.Size = New System.Drawing.Size(798, 452)
         Me.SplitContainer1.SplitterDistance = 416
         Me.SplitContainer1.TabIndex = 10
         '
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.chkEmpWise)
         Me.RadGroupBox1.Controls.Add(Me.txtDivisionMult)
         Me.RadGroupBox1.Controls.Add(Me.lblDivision)
         Me.RadGroupBox1.Controls.Add(Me.txtLocationMult)
@@ -104,8 +106,19 @@ Partial Class FrmEmployeePF
         Me.RadGroupBox1.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(560, 416)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(798, 416)
         Me.RadGroupBox1.TabIndex = 2
+        '
+        'chkEmpWise
+        '
+        Me.chkEmpWise.AutoSize = True
+        Me.chkEmpWise.Location = New System.Drawing.Point(557, 16)
+        Me.chkEmpWise.Name = "chkEmpWise"
+        Me.chkEmpWise.Size = New System.Drawing.Size(103, 17)
+        Me.chkEmpWise.TabIndex = 351
+        Me.chkEmpWise.Text = "Employee Wise"
+        Me.chkEmpWise.UseVisualStyleBackColor = True
+        Me.chkEmpWise.Visible = False
         '
         'txtDivisionMult
         '
@@ -160,7 +173,7 @@ Partial Class FrmEmployeePF
         Me.lblFrompp.FieldName = Nothing
         Me.lblFrompp.Location = New System.Drawing.Point(294, 16)
         Me.lblFrompp.Name = "lblFrompp"
-        Me.lblFrompp.Size = New System.Drawing.Size(252, 19)
+        Me.lblFrompp.Size = New System.Drawing.Size(249, 19)
         Me.lblFrompp.TabIndex = 216
         '
         'txtFromPP
@@ -319,7 +332,7 @@ Partial Class FrmEmployeePF
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnClose.ImageScalingSize = New System.Drawing.Size(68, 14)
-        Me.btnClose.Location = New System.Drawing.Point(484, 11)
+        Me.btnClose.Location = New System.Drawing.Point(722, 11)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(68, 18)
         Me.btnClose.TabIndex = 10
@@ -329,7 +342,7 @@ Partial Class FrmEmployeePF
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(560, 452)
+        Me.ClientSize = New System.Drawing.Size(798, 452)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "FrmEmployeePF"
         '
@@ -377,5 +390,6 @@ Partial Class FrmEmployeePF
     Friend WithEvents lblDivision As common.Controls.MyLabel
     Friend WithEvents txtLocationMult As common.UserControls.txtMultiSelectFinder
     Friend WithEvents lblLocation As common.Controls.MyLabel
+    Friend WithEvents chkEmpWise As CheckBox
 End Class
 

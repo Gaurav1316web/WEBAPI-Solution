@@ -1828,7 +1828,8 @@ select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo
                 clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse
                 clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal OrElse
                 clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal OrElse
-                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BHR") = CompairStringResult.Equal Then
+                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BHR") = CompairStringResult.Equal OrElse
+                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                 Flag = True
             End If
 
@@ -2415,11 +2416,11 @@ where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ") )x group by VSP_
         whrclsItemWise += "  and convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + fromDate + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + Todate + "'),103) "
         Dim CycleNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select max(Name) as CycleNo from TSPL_PAYMENT_CYCLE_GENERATED where convert(varchar, From_Date,103) = convert(varchar, '" + fromDate + "',103) "))
         Dim BaseQry As String = ""
-        BaseQry = "select '" & User_Name & "' as User_Name,TSPL_COMPANY_MASTER.GSTReg_No, TBL_BILL_DETAILS.Doc_No as PPDoc_No,'" + clsCommon.myCstr(clsCommon.GetPrintDate(fromDate, "dd/MM/yyyy")) + "' as PPDoc_Date,'" + CycleNo + "' as CycleNo, TBL_BILL_DETAILS.BillNo, TBL_BILL_DETAILS.BillDate, round ( TSPL_PRICE_CHART_PLANNING.Price_Chart_FAT_Ratio * TSPL_PRICE_CHART_PLANNING.Price_Chart_Rate / nullif (TSPL_PRICE_CHART_PLANNING.Price_Chart_FAT_Per,0) , 2,1 ) as PC_FATValue , round (  TSPL_PRICE_CHART_PLANNING.Price_Chart_SNF_Ratio * TSPL_PRICE_CHART_PLANNING.Price_Chart_Rate / nullif (TSPL_PRICE_CHART_PLANNING.Price_Chart_SNF_Per,0),2,1)  as PC_SNFValue,  isnull(TSPL_VENDOR_MASTER.Actual_charges,0) as Actual_charges,isnull (TSPL_VENDOR_MASTER.Rate_Head_Load,0) as Rate_Head_Load,"
+        BaseQry = "select '" & User_Name & "' as User_Name,TSPL_COMPANY_MASTER.GSTReg_No, TBL_BILL_DETAILS.Doc_No as PPDoc_No,'" + clsCommon.myCstr(clsCommon.GetPrintDate(fromDate, "dd/MM/yyyy")) + "' as PPDoc_Date,'" + CycleNo + "' as CycleNo, TBL_BILL_DETAILS.BillNo, TBL_BILL_DETAILS.BillDate, round ( TSPL_PRICE_CHART_PLANNING.Price_Chart_FAT_Ratio * TSPL_PRICE_CHART_PLANNING.Price_Chart_Rate / nullif (TSPL_PRICE_CHART_PLANNING.Price_Chart_FAT_Per,0) , 2,1 ) as PC_FATValue , round (  TSPL_PRICE_CHART_PLANNING.Price_Chart_SNF_Ratio * TSPL_PRICE_CHART_PLANNING.Price_Chart_Rate / nullif (TSPL_PRICE_CHART_PLANNING.Price_Chart_SNF_Per,0),2,1)  as PC_SNFValue,  isnull(TSPL_VENDOR_MASTER.Actual_charges,0) as Actual_charges, "
 
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-            BaseQry += "ISnull(Headload.Head_Load_Rate, 0)Head_Load_Rate,"
-        End If
+        'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+        BaseQry += " ISnull(Headload.Head_Load_Rate, 0)Rate_Head_Load, "
+        'End If
 
         BaseQry += " isnull(TSPL_MILK_PURCHASE_INVOICE_HEAD.Handling_Charges_Amount,0) as Handling_Charges_Amount , TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE as MPD ,convert(varchar,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) as MPI_Date,   TSPL_MCC_MASTER.add1 +case when len(TSPL_MCC_MASTER.add2)>0 then ', '+TSPL_MCC_MASTER.add2 else '' end + case when LEN(TSPL_COMPANY_MASTER.City_Code)>0 then ', '+MCC_City.City_Name  else ' ' end + case when len(TSPL_MCC_MASTER.State_Code )>0 then MCC_State.STATE_NAME else '' end  as MCC_address, 
 '" & fromDate & "'  as fromDate ,'" & Todate & "'  as Todate
@@ -2542,14 +2543,14 @@ TSPL_VLC_MASTER_HEAD.VLC_Name ,TSPL_VLC_MASTER_HEAD.VLC_Name_Hindi,coalesce(TSPL
         'Else
         '    BaseQry += " left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_Code " + Environment.NewLine
         'End If
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-            BaseQry += " left join(select VLC_CODE,Max(Head_Load_Rate)Head_Load_Rate from TSPL_HEAD_LOAD_DCS left outer join TSPL_HEAD_LOAD on TSPL_HEAD_LOAD.Document_No = TSPL_HEAD_LOAD_DCS.Document_No
+        'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+        BaseQry += " left join(select VLC_CODE,Max(Head_Load_Rate)Head_Load_Rate from TSPL_HEAD_LOAD_DCS left outer join TSPL_HEAD_LOAD on TSPL_HEAD_LOAD.Document_No = TSPL_HEAD_LOAD_DCS.Document_No
                          group by VLC_CODE )Headload on TSPL_VLC_MASTER_HEAD.VLC_Code = Headload.VLC_CODE "
             'BaseQry += " Left Outer Join TSPL_HEAD_LOAD_DCS On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_HEAD_LOAD_DCS.VLC_CODE " + Environment.NewLine
-        End If
-        'Comment by balwinder on 26/03/2024 as TSPL_TRANSFER_TO_SAVING_DETAIL is not used in this query
-        'BaseQry += " left outer join TSPL_TRANSFER_TO_SAVING_DETAIL  on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_TRANSFER_TO_SAVING_DETAIL.Vendor_Code " + Environment.NewLine
-        BaseQry += " left outer join TSPL_PRICE_CHART_PLANNING on TSPL_PRICE_CHART_PLANNING.Planning_Code=TSPL_MILK_SRN_DETAIL.Price_Code " + Environment.NewLine
+            'End If
+            'Comment by balwinder on 26/03/2024 as TSPL_TRANSFER_TO_SAVING_DETAIL is not used in this query
+            'BaseQry += " left outer join TSPL_TRANSFER_TO_SAVING_DETAIL  on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_TRANSFER_TO_SAVING_DETAIL.Vendor_Code " + Environment.NewLine
+            BaseQry += " left outer join TSPL_PRICE_CHART_PLANNING on TSPL_PRICE_CHART_PLANNING.Planning_Code=TSPL_MILK_SRN_DETAIL.Price_Code " + Environment.NewLine
         BaseQry += " left join TSPL_CITY_MASTER  as MCC_City on MCC_City.city_code=TSPL_MCC_MASTER.City_code " + Environment.NewLine
         BaseQry += " left join TSPL_STATE_MASTER as MCC_State on MCC_State.STATE_CODE =TSPL_MCC_MASTER.State_Code " + Environment.NewLine
         BaseQry += " left join TSPL_Primary_Vehicle_Master on TSPL_Primary_Vehicle_Master.VEHICLE_CODE = TSPL_MILK_SRN_HEAD.VEHICLE_CODE 
@@ -2894,7 +2895,6 @@ select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_PAYM
         Else
             sQuery += " (TSPL_PAYMENT_PROCESS_DEDUCTION.Amount-TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt) as Amount "
         End If
-
 
         sQuery += ",case when TSPL_MULTIPLE_DEDUCTION_head.Document_No is not null then 1 else 0 end as ManAddDed,TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt,TSPL_DCS_ADDITION_DEDUCTION.Description_Hindi AS Hindi
 from TSPL_PAYMENT_PROCESS_DEDUCTION 

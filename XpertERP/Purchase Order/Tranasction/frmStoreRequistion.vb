@@ -946,7 +946,6 @@ Public Class frmStoreRequistion
 
     Private Sub btnAddNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddNew.Click
         AddNew()
-
     End Sub
 
     Sub AddNew()
@@ -962,15 +961,13 @@ Public Class frmStoreRequistion
         cboItemType.SelectedIndex = 0
         cboItemType.Enabled = True
         gv1.Rows.AddNew()
-
+        rbtnAll.Checked = True
         If EnableStoreCostCentre = 1 Then
             txtDept.Enabled = False
         Else
             txtDept.Enabled = True
         End If
-
         ''For Custom Fields
-
         '' updation by preeti gupta
         Dim desc As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.EnableProjectFinder, clsFixedParameterCode.EnableProjectFinder, Nothing))
         If clsCommon.CompairString(desc, "1") = CompairStringResult.Equal Then
@@ -991,8 +988,6 @@ Public Class frmStoreRequistion
             txtDept.Enabled = True
             txtDept.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Segment_Code from TSPL_USER_MASTER where User_Code ='" + objCommonVar.CurrentUserCode + "'"))
             lblDept.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select DEPARTMENT_NAME from TSPL_DEPARTMENT_MASTER WHERE DEPARTMENT_CODE='" + txtDept.Value + "'"))
-
-
         Else
             txtRequestBy.Value = ""
             lblRequestBy.Text = ""
@@ -1007,9 +1002,6 @@ Public Class frmStoreRequistion
         If ShowDefaultUser = False Then
             AllowDepartmentMandatoryOnPurchaseCycle()
         End If
-
-
-
         'txtUnitCode.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Unit_Code from TSPL_COST_CENTER_TYPE_MASTER where Department_Cost='" + txtDept.Value + "' "))
         'lblUnitDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_COST_CENTER_UNIT_MASTER WHERE Code='" + txtUnitCode.Value + "'"))
 
@@ -1026,17 +1018,12 @@ Public Class frmStoreRequistion
         '    lblUnitDesc.Text = ""
         '    txtCostCenterType.Value = ""
         '    lblCostcenterTypeDesc.Text = ""
-
         'End If
-
         txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
         If clsCommon.myLen(txtLocation.Value) > 0 Then
             lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtLocation.Value + "' "))
         End If
-
         isCellValueChangedOpen = False
-
-
     End Sub
 
     Function AllowToSave() As Boolean
@@ -1240,7 +1227,15 @@ Public Class frmStoreRequistion
                 ElseIf chkprclose.Checked = False Then
                     obj.close_yn = "N"
                 End If
-
+                If rbtnAll.Checked Then
+                    obj.All_Transfer_Issue = "All"
+                ElseIf rbtnTransfer.Checked Then
+                    obj.All_Transfer_Issue = "Transfer"
+                ElseIf rbtnIssue.Checked Then
+                    obj.All_Transfer_Issue = "Issue"
+                Else
+                    obj.All_Transfer_Issue = Nothing
+                End If
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select Level1, Level2 from TSPL_REQUISITION_APPROVAL")
                 If dt.Rows.Count > 0 Then
                     If clsCommon.myCdbl(lblTotRAmt.Text) <= clsCommon.myCdbl(dt.Rows(0)("Level1")) Then
@@ -1509,6 +1504,19 @@ Public Class frmStoreRequistion
                 If clsCommon.myLen(Me.txtCostCenterType.Value) > 0 Then
                     lblCostcenterTypeDesc.Text = clsCostCenterTypeMaster.GetName(Me.txtCostCenterType.Value)
                 End If
+
+                If clsCommon.CompairString(clsCommon.myCstr(obj.All_Transfer_Issue), "All") = CompairStringResult.Equal Then
+                    rbtnAll.Checked = True
+                ElseIf clsCommon.CompairString(clsCommon.myCstr(obj.All_Transfer_Issue), "Transfer") = CompairStringResult.Equal Then
+                    rbtnTransfer.Checked = True
+                ElseIf clsCommon.CompairString(clsCommon.myCstr(obj.All_Transfer_Issue), "Issue") = CompairStringResult.Equal Then
+                    rbtnIssue.Checked = True
+                Else
+                    rbtnAll.Checked = False
+                    rbtnTransfer.Checked = False
+                    rbtnIssue.Checked = False
+                End If
+
                 '======================
                 For Each objTr As clsRequistionDetail In obj.ArrTr
                     gv1.Rows.AddNew()

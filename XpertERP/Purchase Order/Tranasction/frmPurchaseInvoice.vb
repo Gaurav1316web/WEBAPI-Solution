@@ -8961,6 +8961,7 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
             End If
             Dim frmCRV As New frmCrystalReportViewer()
             Dim qry As String = ""
+            Dim qry1 As String = ""
             Dim dt As DataTable
             Dim SRNQTTY As String = ""
             Dim SRNQTTY1stsch As String = ""
@@ -9097,14 +9098,22 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
                 dt.Rows(0).Item("RAL_Period") = RALPeriodDetail
 
                 qry = "select Document_No as APInvoiceNo,convert(varchar,Posting_Date,103) as APInvoiceDate,Document_Type as Type,Description,Document_Total as Amount  from (
-select   Document_No,Posting_Date,Document_Type,Description,-1*Document_Total as Document_Total,Document_No as SNo
-from TSPL_VENDOR_INVOICE_HEAD where RefDocType in( 'SCH-PNT' ) and RefDocNo='" + txtDocNo.Value + "' 
-union all
-select Document_No,Posting_Date,Document_Type,Description,Document_Total,RefDocNo as SNo
-from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('SCH-PNT') and RefDocNo='" + txtDocNo.Value + "' )
-)x order by Posting_Date,x.SNo,Document_No"
+                        select   Document_No,Posting_Date,Document_Type,Description,-1*Document_Total as Document_Total,Document_No as SNo
+                        from TSPL_VENDOR_INVOICE_HEAD where RefDocType in( 'SCH-PNT' ) and RefDocNo='" + txtDocNo.Value + "' 
+                        union all
+                        select Document_No,Posting_Date,Document_Type,Description,Document_Total,RefDocNo as SNo
+                        from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('SCH-PNT') and RefDocNo='" + txtDocNo.Value + "' )
+                        )x order by Posting_Date,x.SNo,Document_No"
+                qry1 = "SELECT TSPL_PI_HEAD.PI_No,TSPL_PI_HEAD.PI_Date,TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Loc_Code,TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code,TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Desc,TSPL_VENDOR_INVOICE_DETAIL.Amount,(TSPL_VENDOR_INVOICE_DETAIL.TAX1_Amt+TSPL_VENDOR_INVOICE_DETAIL.TAX2_Amt+TSPL_VENDOR_INVOICE_DETAIL.TAX3_Amt) as Tax_amt FROM TSPL_PI_HEAD
+                        LEFT OUTER JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_HEAD.RefDocNo=TSPL_PI_HEAD.PI_No AND TSPL_VENDOR_INVOICE_HEAD.RefDocType='API'
+                        lEFT OUTER JOIN TSPL_VENDOR_INVOICE_DETAIL ON TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_VENDOR_INVOICE_DETAIL.Document_No 
+                        LEFT outer join TSPL_TAX_MASTER  tspl_tax1 on TSPL_VENDOR_INVOICE_DETAIL.TAX1=tspl_tax1.Tax_Code
+                        LEFT outer join TSPL_TAX_MASTER  tspl_tax2 on TSPL_VENDOR_INVOICE_DETAIL.TAX1=tspl_tax2.Tax_Code
+                        LEFT outer join TSPL_TAX_MASTER  tspl_tax3 on TSPL_VENDOR_INVOICE_DETAIL.TAX1=tspl_tax3.Tax_Code
+                        WHERE TSPL_PI_HEAD.PI_No='" + txtDocNo.Value + "'"
+                Dim dt1APDocs As DataTable = clsDBFuncationality.GetDataTable(qry1)
                 Dim dtAPDocs As DataTable = clsDBFuncationality.GetDataTable(qry)
-                frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, dtAPDocs, "rptPurchaseInvoicePrintNew", "Purchase Invoice", "SubPurchaseInvoice.rpt")
+                frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, dtAPDocs, "rptPurchaseInvoicePrintNew", "Purchase Invoice", "SubPurchaseInvoice.rpt", "PurchaseInvoiceSub", dt1APDocs)
 
 
             Else

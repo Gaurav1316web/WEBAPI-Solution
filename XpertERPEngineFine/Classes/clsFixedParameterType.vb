@@ -977,6 +977,7 @@ Public Class clsFixedParameterType
     Public Const FATSNFDeductionMixMilkSNFMaxValue As String = "FAT SNF Deduction Mix Milk SNF Max Value"
     Public Const FATSNFDeductionMixMilkDeductionPer As String = "FAT SNF Deduction Mix Milk Deduction Per"
     Public Const VSPHoldPaymentNotCompanyBank As String = "VSP Hold Payment Not Company Bank"
+    Public Const TDSRoundOffAmount As String = "TDS Round Off Amount"
     Public Const RoundOffPaiseAmount As String = "Round Off Paise Amount"
     Public Const EnableInternalTransfer As String = "Enable Internal Transfer for UDL"
     Public Const FreightProvisionAccount As String = "Freight Provision Account"
@@ -2368,6 +2369,7 @@ Public Class clsFixedParameterCode
     Public Const FATSNFDeductionMixMilkSNFMaxValue As String = "FAT SNF Deduction Mix Milk SNF Max Value"
     Public Const FATSNFDeductionMixMilkDeductionPer As String = "FAT SNF Deduction Mix Milk Deduction Per"
     Public Const VSPHoldPaymentNotCompanyBank As String = "VSP Hold Payment Not Company Bank"
+    Public Const TDSRoundOffAmount As String = "TDS Round Off Amount"
     Public Const RoundOffPaiseAmount As String = "Round Off Paise Amount"
     Public Const EnableInternalTransfer As String = "Enable Internal Transfer for UDL"
     Public Const FreightProvisionAccount As String = "Freight Provision Account"
@@ -3890,6 +3892,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.FATSNFDeductionMixMilkSNFMaxValue, clsFixedParameterCode.FATSNFDeductionMixMilkSNFMaxValue, "7.2", "FAT SNF Deduction Mix Milk SNF Max Value (Should be One Decimal)")
         InsertDefaultValueFixedParameter(clsFixedParameterType.FATSNFDeductionMixMilkDeductionPer, clsFixedParameterCode.FATSNFDeductionMixMilkDeductionPer, "20", "FAT SNF Deduction Mix Milk Deduction Per")
         InsertDefaultValueFixedParameter(clsFixedParameterType.VSPHoldPaymentNotCompanyBank, clsFixedParameterCode.VSPHoldPaymentNotCompanyBank, "0", "0:Off,1:ON,If VSP Company Bank Not Defined Then Hold")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.TDSRoundOffAmount, clsFixedParameterCode.TDSRoundOffAmount, "1", "0:OFF(Amount in Ruppes and paisa),1:ON(Amount in Ruppes)")
         InsertDefaultValueFixedParameter(clsFixedParameterType.RoundOffPaiseAmount, clsFixedParameterCode.RoundOffPaiseAmount, "0", "0:Off,1:ON,Remove paise and add in Round off")
         InsertDefaultValueFixedParameter(clsFixedParameterType.EnableInternalTransfer, clsFixedParameterCode.EnableInternalTransfer, "0", "0:Off,1:ON,Enable Internal Transfer for UDL")
         InsertDefaultValueFixedParameter(clsFixedParameterType.FreightProvisionAccount, clsFixedParameterCode.FreightProvisionAccount, "", "Set Freight Provision Account From GL Account")
@@ -5075,6 +5078,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.PickPendingMilkSRNinNextPaymentCycle, clsFixedParameterCode.PickPendingMilkSRNinNextPaymentCycle, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.MilkProc, clsFixedParameterCode.AllowSkippingPrevDocumentsOnPaymentProcess, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.VSPHoldPaymentNotCompanyBank, clsFixedParameterCode.VSPHoldPaymentNotCompanyBank, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.TDSRoundOffAmount, clsFixedParameterCode.TDSRoundOffAmount, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmMCCMilkTransPortorInvoice, clsFixedParameterType.ShowTaxRateColumnOnTransaction, clsFixedParameterCode.ShowTaxRateColumnOnTransaction, EnumControlType.CheckBox)
         'InsertDefaultValue(clsUserMgtCode.MilkMPPayment, clsFixedParameterType.RoundOffPaiseAmount, clsFixedParameterCode.RoundOffPaiseAmount, EnumControlType.CheckBox)
         'InsertDefaultValue(clsUserMgtCode.frmMCCTankerDispatchReturn, clsFixedParameterType.DipMarkingMendatory, clsFixedParameterCode.DipMarkingMendatory, EnumControlType.CheckBox)
