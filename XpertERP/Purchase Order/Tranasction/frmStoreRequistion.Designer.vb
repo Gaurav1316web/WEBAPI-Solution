@@ -22,7 +22,7 @@ Partial Class frmStoreRequistion
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
@@ -97,6 +97,7 @@ Partial Class frmStoreRequistion
         Me.txtDesc = New common.Controls.MyTextBox()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.btncancel = New Telerik.WinControls.UI.RadButton()
@@ -110,7 +111,10 @@ Partial Class frmStoreRequistion
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnAll = New System.Windows.Forms.RadioButton()
+        Me.rbtnTransfer = New System.Windows.Forms.RadioButton()
+        Me.rbtnIssue = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -187,6 +191,8 @@ Partial Class frmStoreRequistion
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -215,7 +221,7 @@ Partial Class frmStoreRequistion
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1009, 517)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1079, 517)
         Me.SplitContainer1.SplitterDistance = 473
         Me.SplitContainer1.TabIndex = 1
         '
@@ -233,7 +239,7 @@ Partial Class frmStoreRequistion
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.RadPageView1)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1009, 473)
+        Me.SplitContainer2.Size = New System.Drawing.Size(1079, 473)
         Me.SplitContainer2.SplitterDistance = 25
         Me.SplitContainer2.TabIndex = 1
         '
@@ -242,7 +248,7 @@ Partial Class frmStoreRequistion
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(1009, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(1079, 20)
         Me.RadMenu1.TabIndex = 0
         '
         'RadMenuItem1
@@ -278,7 +284,7 @@ Partial Class frmStoreRequistion
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(1009, 444)
+        Me.RadPageView1.Size = New System.Drawing.Size(1079, 444)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
@@ -286,6 +292,7 @@ Partial Class frmStoreRequistion
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage1.Controls.Add(Me.pnlUnit_CostType)
         Me.RadPageViewPage1.Controls.Add(Me.SplitContainer3)
         Me.RadPageViewPage1.Controls.Add(Me.lblRequestBy)
@@ -322,10 +329,10 @@ Partial Class frmStoreRequistion
         Me.RadPageViewPage1.Controls.Add(Me.txtDesc)
         Me.RadPageViewPage1.Controls.Add(Me.btnAddNew)
         Me.RadPageViewPage1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(98.0!, 22.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 31)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(102.0!, 26.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(988, 402)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1058, 398)
         Me.RadPageViewPage1.Text = "Store Requisition"
         '
         'pnlUnit_CostType
@@ -454,7 +461,7 @@ Partial Class frmStoreRequistion
         'SplitContainer3.Panel2
         '
         Me.SplitContainer3.Panel2.Controls.Add(Me.RadGroupBox2)
-        Me.SplitContainer3.Size = New System.Drawing.Size(985, 203)
+        Me.SplitContainer3.Size = New System.Drawing.Size(1055, 199)
         Me.SplitContainer3.SplitterDistance = 71
         Me.SplitContainer3.TabIndex = 72
         '
@@ -477,7 +484,7 @@ Partial Class frmStoreRequistion
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(985, 71)
+        Me.Panel1.Size = New System.Drawing.Size(1055, 71)
         Me.Panel1.TabIndex = 0
         '
         'lbl_capexcode
@@ -675,7 +682,7 @@ Partial Class frmStoreRequistion
         Me.RadGroupBox2.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(985, 128)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1055, 124)
         Me.RadGroupBox2.TabIndex = 18
         Me.RadGroupBox2.Text = "Item Details"
         '
@@ -694,13 +701,13 @@ Partial Class frmStoreRequistion
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(965, 98)
+        Me.gv1.Size = New System.Drawing.Size(1035, 94)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
         '
@@ -759,7 +766,7 @@ Partial Class frmStoreRequistion
         Me.UcItemBalance1.ItemCode = ""
         Me.UcItemBalance1.ItemMRP = 0R
         Me.UcItemBalance1.ItemName = ""
-        Me.UcItemBalance1.Location = New System.Drawing.Point(2, 336)
+        Me.UcItemBalance1.Location = New System.Drawing.Point(2, 332)
         Me.UcItemBalance1.LocationCode = ""
         Me.UcItemBalance1.LocationName = ""
         Me.UcItemBalance1.MaximumSize = New System.Drawing.Size(710, 65)
@@ -1030,7 +1037,7 @@ Partial Class frmStoreRequistion
         Me.RadLabel27.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadLabel27.FieldName = Nothing
         Me.RadLabel27.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel27.Location = New System.Drawing.Point(798, 385)
+        Me.RadLabel27.Location = New System.Drawing.Point(868, 381)
         Me.RadLabel27.Name = "RadLabel27"
         Me.RadLabel27.Size = New System.Drawing.Size(74, 16)
         Me.RadLabel27.TabIndex = 20
@@ -1043,7 +1050,7 @@ Partial Class frmStoreRequistion
         Me.lblTotRAmt.BorderVisible = True
         Me.lblTotRAmt.FieldName = Nothing
         Me.lblTotRAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotRAmt.Location = New System.Drawing.Point(877, 383)
+        Me.lblTotRAmt.Location = New System.Drawing.Point(947, 379)
         Me.lblTotRAmt.Name = "lblTotRAmt"
         Me.lblTotRAmt.Size = New System.Drawing.Size(110, 18)
         Me.lblTotRAmt.TabIndex = 19
@@ -1113,7 +1120,7 @@ Partial Class frmStoreRequistion
         'chkInternal
         '
         Me.chkInternal.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkInternal.Location = New System.Drawing.Point(718, 3)
+        Me.chkInternal.Location = New System.Drawing.Point(670, 2)
         Me.chkInternal.Name = "chkInternal"
         Me.chkInternal.Size = New System.Drawing.Size(58, 16)
         Me.chkInternal.TabIndex = 4
@@ -1159,10 +1166,10 @@ Partial Class frmStoreRequistion
         'UsLock1
         '
         Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(797, 1)
+        Me.UsLock1.Location = New System.Drawing.Point(940, 0)
         Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UsLock1.Name = "UsLock1"
-        Me.UsLock1.Size = New System.Drawing.Size(136, 20)
+        Me.UsLock1.Size = New System.Drawing.Size(117, 20)
         Me.UsLock1.Status = common.ERPTransactionStatus.Pending
         Me.UsLock1.TabIndex = 23
         '
@@ -1328,16 +1335,24 @@ Partial Class frmStoreRequistion
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(85.0!, 22.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(89.0!, 26.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 35)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(988, 398)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(988, 398)
+        Me.UcCustomFields1.TabIndex = 0
+        '
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 22.0!)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 26.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 35)
         Me.Attachments.Name = "Attachments"
         Me.Attachments.Size = New System.Drawing.Size(988, 398)
@@ -1355,7 +1370,7 @@ Partial Class frmStoreRequistion
         '
         Me.btncancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btncancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btncancel.Location = New System.Drawing.Point(860, 9)
+        Me.btncancel.Location = New System.Drawing.Point(930, 9)
         Me.btncancel.Name = "btncancel"
         Me.btncancel.Size = New System.Drawing.Size(69, 22)
         Me.btncancel.TabIndex = 10
@@ -1437,7 +1452,7 @@ Partial Class frmStoreRequistion
         Me.btnClose.AccessibleRole = System.Windows.Forms.AccessibleRole.None
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(935, 9)
+        Me.btnClose.Location = New System.Drawing.Point(1005, 9)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(69, 22)
         Me.btnClose.TabIndex = 6
@@ -1453,19 +1468,57 @@ Partial Class frmStoreRequistion
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
-        'UcCustomFields1
+        'RadGroupBox1
         '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(988, 398)
-        Me.UcCustomFields1.TabIndex = 0
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.rbtnIssue)
+        Me.RadGroupBox1.Controls.Add(Me.rbtnTransfer)
+        Me.RadGroupBox1.Controls.Add(Me.rbtnAll)
+        Me.RadGroupBox1.HeaderText = ""
+        Me.RadGroupBox1.Location = New System.Drawing.Point(734, 0)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Size = New System.Drawing.Size(200, 22)
+        Me.RadGroupBox1.TabIndex = 74
+        '
+        'rbtnAll
+        '
+        Me.rbtnAll.AutoSize = True
+        Me.rbtnAll.Checked = True
+        Me.rbtnAll.Location = New System.Drawing.Point(7, 2)
+        Me.rbtnAll.Name = "rbtnAll"
+        Me.rbtnAll.Size = New System.Drawing.Size(38, 17)
+        Me.rbtnAll.TabIndex = 0
+        Me.rbtnAll.TabStop = True
+        Me.rbtnAll.Text = "All"
+        Me.rbtnAll.UseVisualStyleBackColor = True
+        '
+        'rbtnTransfer
+        '
+        Me.rbtnTransfer.AutoSize = True
+        Me.rbtnTransfer.Location = New System.Drawing.Point(65, 2)
+        Me.rbtnTransfer.Name = "rbtnTransfer"
+        Me.rbtnTransfer.Size = New System.Drawing.Size(66, 17)
+        Me.rbtnTransfer.TabIndex = 1
+        Me.rbtnTransfer.TabStop = True
+        Me.rbtnTransfer.Text = "Transfer"
+        Me.rbtnTransfer.UseVisualStyleBackColor = True
+        '
+        'rbtnIssue
+        '
+        Me.rbtnIssue.AutoSize = True
+        Me.rbtnIssue.Location = New System.Drawing.Point(145, 2)
+        Me.rbtnIssue.Name = "rbtnIssue"
+        Me.rbtnIssue.Size = New System.Drawing.Size(51, 17)
+        Me.rbtnIssue.TabIndex = 2
+        Me.rbtnIssue.TabStop = True
+        Me.rbtnIssue.Text = "Issue"
+        Me.rbtnIssue.UseVisualStyleBackColor = True
         '
         'frmStoreRequistion
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1009, 517)
+        Me.ClientSize = New System.Drawing.Size(1079, 517)
         Me.Controls.Add(Me.SplitContainer1)
         Me.MinimumSize = New System.Drawing.Size(890, 467)
         Me.Name = "frmStoreRequistion"
@@ -1557,6 +1610,9 @@ Partial Class frmStoreRequistion
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1649,5 +1705,9 @@ Partial Class frmStoreRequistion
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
     Friend WithEvents txtCostCenterType As common.UserControls.txtFinder
     Friend WithEvents btncancel As RadButton
+    Friend WithEvents RadGroupBox1 As RadGroupBox
+    Friend WithEvents rbtnAll As RadioButton
+    Friend WithEvents rbtnTransfer As RadioButton
+    Friend WithEvents rbtnIssue As RadioButton
 End Class
 
