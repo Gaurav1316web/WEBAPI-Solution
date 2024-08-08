@@ -8000,7 +8000,8 @@ Public Class FrmTransferKDIL
         Try
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
                 Dim Qry As String = Nothing
-                Qry = "Select * from (select TSPL_TRANSFER_ORDER_HEAD.Tax_Group,ISNULL(TSPL_TAX_GROUP_MASTER.Is_Tax_Exempted,0) AS Is_Tax_Exempted ,TSPL_TRANSFER_ORDER_HEAD.Is_MandiTax, TSPL_TRANSFER_ORDER_HEAD.Electronic_Ref_No,
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                    Qry = "Select * from (select TSPL_TRANSFER_ORDER_HEAD.Tax_Group,ISNULL(TSPL_TAX_GROUP_MASTER.Is_Tax_Exempted,0) AS Is_Tax_Exempted ,TSPL_TRANSFER_ORDER_HEAD.Is_MandiTax, TSPL_TRANSFER_ORDER_HEAD.Electronic_Ref_No,
                        TSPL_LOCATION_MASTER.GSTNO as GSTIN_No ,TSPL_STATE_MASTER.GST_STATE_Code as From_Gst_StateCode,StateMaster_ToLocation.GST_STATE_Code as To_Loc_GSTStateCode,TSPL_LOCATION_MASTER_1.GSTNO as To_Loc_GSTINNo, 
                        TSPL_TRANSFER_ORDER_DETAIL.item_Net_Amt ,TSPL_ITEM_MASTER.HSN_Code ,TSPL_LOCATION_MASTER.GSTNO as frm_GSTINNo ,TSPL_STATE_MASTER.GST_STATE_Code as Frm_StateGST,StateMaster_ToLocation.GST_STATE_Code as To_StateGST,
                        TSPL_LOCATION_MASTER_1.GSTNO as To_GSTINNo,TSPL_TRANSFER_ORDER_HEAD.EWayBillNo ,convert(varchar,TSPL_TRANSFER_ORDER_HEAD.EWayBillDate,103) as EWayBillDate ,convert(varchar(10),TSPL_COMPANY_MASTER.insurance_valid_date,103) as insurance_valid_date,
@@ -8053,13 +8054,33 @@ Public Class FrmTransferKDIL
                         left outer join TSPL_TAX_MASTER as dtax10 on dtax10.Tax_Code =TSPL_TRANSFER_ORDER_DETAIL .TAX10  
                         LEFT JOIN TSPL_TAX_GROUP_MASTER ON TSPL_TRANSFER_ORDER_HEAD.Tax_Group=TSPL_TAX_GROUP_MASTER.Tax_Group_Code and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='T' 
                         where 2=2 and TSPL_TRANSFER_ORDER_HEAD. Document_No = '" + clsCommon.myCstr(txtDocNo.Value) + "')xxx"
+                Else
+                    Qry = "select TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1+TSPL_COMPANY_MASTER.Add2+TSPL_COMPANY_MASTER.Add3 as Comp_Address,TSPL_COMPANY_MASTER.GSTINNo,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Mannual_No,TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual,TSPL_TRANSFER_ORDER_HEAD.TransferOutNo,TSPL_TRANSFER_ORDER_HEAD.Delivery_date,TSPL_TRANSFER_ORDER_HEAD.From_Location,TSPL_TRANSFER_ORDER_HEAD.To_Location,TSPL_TRANSFER_ORDER_HEAD.Document_No,TSPL_TRANSFER_ORDER_HEAD.Document_Date,TrasOut.Requisition_Id,TSPL_TRANSFER_ORDER_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.HSN_Code,TSPL_TRANSFER_ORDER_DETAIL.Unit_code,case when isnull(TSPL_BATCH_ITEM.Batch_No,'')='' then TSPL_TRANSFER_ORDER_DETAIL.In_Qty else TSPL_BATCH_ITEM.Qty end as Qty,TSPL_BATCH_ITEM.Batch_No
+from TSPL_TRANSFER_ORDER_HEAD
+left join TSPL_TRANSFER_ORDER_DETAIL on TSPL_TRANSFER_ORDER_HEAD.Document_No=TSPL_TRANSFER_ORDER_DETAIL.Document_No
+left join TSPL_ITEM_MASTER on TSPL_TRANSFER_ORDER_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+left join TSPL_VEHICLE_MASTER on TSPL_TRANSFER_ORDER_HEAD.Vehicle_Code=TSPL_VEHICLE_MASTER.Vehicle_Id
+left join TSPL_BATCH_ITEM on TSPL_TRANSFER_ORDER_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_TRANSFER_ORDER_DETAIL.Document_No=TSPL_BATCH_ITEM.Document_Code and TSPL_BATCH_ITEM.In_Out_Type='I'
+left join TSPL_VENDOR_MASTER on TSPL_VEHICLE_MASTER.Transport_Id=TSPL_VENDOR_MASTER.Vendor_Code
+left join TSPL_COMPANY_MASTER on TSPL_TRANSFER_ORDER_HEAD.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code
+left join TSPL_TRANSFER_ORDER_HEAD as TrasOut on TSPL_TRANSFER_ORDER_HEAD.TransferOutNo=TSPL_TRANSFER_ORDER_HEAD.Document_No
+
+where TSPL_TRANSFER_ORDER_HEAD.Document_No='" + clsCommon.myCstr(txtDocNo.Value) + "'"
+                End If
+
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
                 If dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "StockTransferSTA", "Stock Transfer Advice", Nothing)
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "StockTransferSTA", "Stock Transfer Advice", Nothing)
+                    Else
+                        frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "StockTransferSTA_Other", "Stock Transfer Advice", Nothing)
+
+                    End If
+
                     'frmCRV.Close()
                 Else
-                    clsCommon.MyMessageBoxShow("Data not found to print.", Me.Text)
+                        clsCommon.MyMessageBoxShow("Data not found to print.", Me.Text)
                 End If
             Else
                 clsCommon.MyMessageBoxShow("Select document.", Me.Text)
