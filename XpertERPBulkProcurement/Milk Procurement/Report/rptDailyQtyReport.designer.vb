@@ -79,6 +79,7 @@ Partial Class rptDailyQtyReport
         Me.fromDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.Gv1 = New common.UserControls.MyRadGridView()
+        Me.btnGainLoss = New Telerik.WinControls.UI.RadButton()
         Me.btnRoutePrint = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnSplitExport = New Telerik.WinControls.UI.RadSplitButton()
@@ -125,6 +126,7 @@ Partial Class rptDailyQtyReport
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnGainLoss, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnRoutePrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -173,6 +175,7 @@ Partial Class rptDailyQtyReport
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnGainLoss)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnRoutePrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSplitExport)
@@ -924,6 +927,16 @@ Partial Class rptDailyQtyReport
         Me.Gv1.Size = New System.Drawing.Size(935, 284)
         Me.Gv1.TabIndex = 0
         '
+        'btnGainLoss
+        '
+        Me.btnGainLoss.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnGainLoss.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnGainLoss.Location = New System.Drawing.Point(433, 15)
+        Me.btnGainLoss.Name = "btnGainLoss"
+        Me.btnGainLoss.Size = New System.Drawing.Size(152, 22)
+        Me.btnGainLoss.TabIndex = 159
+        Me.btnGainLoss.Text = "Transpoter Gain/Loss Print"
+        '
         'btnRoutePrint
         '
         Me.btnRoutePrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -1050,6 +1063,7 @@ Partial Class rptDailyQtyReport
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnGainLoss, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnRoutePrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1125,5 +1139,6 @@ Partial Class rptDailyQtyReport
     Friend WithEvents rbtnTranspoterGainlossSummary As RadioButton
     Friend WithEvents txtTolerenceSNF As common.MyNumBox
     Friend WithEvents MyLabel7 As common.Controls.MyLabel
+    Friend WithEvents btnGainLoss As RadButton
 End Class
 
