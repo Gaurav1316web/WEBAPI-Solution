@@ -36,7 +36,7 @@ Public Class clsRequistionHead
     Public Item_Type As String = Nothing
     Public Request_By As String = Nothing
     Public Requisition_Type As String = Nothing
-    Public All_Transfer_Issue As String = Nothing
+    Public All_Transfer_Issue As Integer = 0
     Public Level1_Approval_Status As Integer = 0
     Public Level2_Approval_Status As Integer = 0
     Public Level3_Approval_Status As Integer = 0
@@ -210,7 +210,7 @@ Public Class clsRequistionHead
             If objCommonVar.IsDemoERP Then
                 clsCommon.AddColumnsForChange(coll, "Approvel_Level_Required", 2 + obj.Approvel_Level_Required) ''2 is Added for Budgetry and Function Approval
             End If
-            clsCommon.AddColumnsForChange(coll, "All_Transfer_Issue ", clsCommon.myCstr(obj.All_Transfer_Issue))
+            clsCommon.AddColumnsForChange(coll, "All_Transfer_Issue ", clsCommon.myCdbl(obj.All_Transfer_Issue))
             Dim s As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy")
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "Requisition_Id", obj.Requisition_Id)

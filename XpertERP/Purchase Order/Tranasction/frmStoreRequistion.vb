@@ -1228,13 +1228,11 @@ Public Class frmStoreRequistion
                     obj.close_yn = "N"
                 End If
                 If rbtnAll.Checked Then
-                    obj.All_Transfer_Issue = "All"
+                    obj.All_Transfer_Issue = 0
                 ElseIf rbtnTransfer.Checked Then
-                    obj.All_Transfer_Issue = "Transfer"
+                    obj.All_Transfer_Issue = 1
                 ElseIf rbtnIssue.Checked Then
-                    obj.All_Transfer_Issue = "Issue"
-                Else
-                    obj.All_Transfer_Issue = Nothing
+                    obj.All_Transfer_Issue = 2
                 End If
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select Level1, Level2 from TSPL_REQUISITION_APPROVAL")
                 If dt.Rows.Count > 0 Then
@@ -1505,11 +1503,11 @@ Public Class frmStoreRequistion
                     lblCostcenterTypeDesc.Text = clsCostCenterTypeMaster.GetName(Me.txtCostCenterType.Value)
                 End If
 
-                If clsCommon.CompairString(clsCommon.myCstr(obj.All_Transfer_Issue), "All") = CompairStringResult.Equal Then
+                If obj.All_Transfer_Issue = 0 Then
                     rbtnAll.Checked = True
-                ElseIf clsCommon.CompairString(clsCommon.myCstr(obj.All_Transfer_Issue), "Transfer") = CompairStringResult.Equal Then
+                ElseIf obj.All_Transfer_Issue = 1 Then
                     rbtnTransfer.Checked = True
-                ElseIf clsCommon.CompairString(clsCommon.myCstr(obj.All_Transfer_Issue), "Issue") = CompairStringResult.Equal Then
+                ElseIf obj.All_Transfer_Issue = 2 Then
                     rbtnIssue.Checked = True
                 Else
                     rbtnAll.Checked = False
