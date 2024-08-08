@@ -19739,10 +19739,8 @@ Public Class clsCreateAllTable
             coll.Add("WO_Subject", "Varchar(200) null")
             coll.Add("WO_Content", "Varchar(200) null")
             coll.Add("WO_CopySubmittedTo", "Varchar(200) null")
-            coll.Add("All_Transfer_Issue", "Varchar(10) null")
+            coll.Add("All_Transfer_Issue", "Int Not Null Default 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_REQUISITION_HEAD", coll, Nothing, True, True, "", "Requisition_Id", "Requisition_Date")
-            clsDBFuncationality.ExecuteNonQuery("Update TSPL_REQUISITION_HEAD Set All_Transfer_Issue='All' Where Status=1 And ISNULL(All_Transfer_Issue,'')=''")
-
 
             coll = New Dictionary(Of String, String)
             coll.Add("Requisition_Id", "Varchar(30) not null References TSPL_REQUISITION_HEAD(Requisition_Id)")
