@@ -396,7 +396,7 @@ Public Class frmCrystalReportViewer
                     Dim CrExportOptions As ExportOptions
                     Dim CrDiskFileDestinationOptions As New DiskFileDestinationOptions()
                     Dim CrFormatTypeOptions As New PdfRtfWordFormatOptions()
-                    subPath += "\\" & clsCommon.GetPrintDate(DateTime.Now, "yyyyMMddhhmmsss") & ".pdf"
+                    subPath += "\\" & (objCommonVar.CurrDatabase).Trim() + clsCommon.GetPrintDate(DateTime.Now, "yyyyMMddHHmmssfff") & ".pdf"
                     IsExists = System.IO.File.Exists(subPath)
                     If IsExists Then
                         System.IO.File.Delete(subPath)

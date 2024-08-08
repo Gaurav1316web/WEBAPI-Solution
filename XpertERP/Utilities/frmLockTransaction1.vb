@@ -116,7 +116,7 @@ Public Class FrmLockTransaction1
         Dim startDate As GridViewDateTimeColumn = New GridViewDateTimeColumn()
         startDate = New GridViewDateTimeColumn()
         startDate.CustomFormat = "dd/MM/yyyy"
-        startDate.FormatString = "{0:d}"
+        startDate.FormatString = "{0:dd/MM/yyyy}"
         startDate.HeaderText = "From"
         startDate.Name = colFromDate
         startDate.Width = 151
@@ -127,7 +127,7 @@ Public Class FrmLockTransaction1
         Dim endDate As GridViewDateTimeColumn = New GridViewDateTimeColumn()
         endDate = New GridViewDateTimeColumn()
         endDate.CustomFormat = "dd/MM/yyyy"
-        endDate.FormatString = "{0:d}"
+        endDate.FormatString = "{0:dd/MM/yyyy}"
         endDate.HeaderText = "To"
         endDate.Name = colToDate
         endDate.Width = 151
@@ -143,6 +143,18 @@ Public Class FrmLockTransaction1
         dgvDetails.MasterTemplate.ShowRowHeaderColumn = False
         dgvDetails.ShowFilteringRow = True
         dgvDetails.EnableFiltering = True
+    End Sub
+    Private Sub dgvDetails_CellEndEdit(sender As Object, e As GridViewCellEventArgs) Handles dgvDetails.CellEndEdit
+        If e.Column.Name = "colToDate" Then
+            Dim cellValue As String = dgvDetails.Rows(e.RowIndex).Cells(e.Column.Index).Value.ToString()
+            Dim enteredDate As Date
+            If Date.TryParse(cellValue, enteredDate) Then
+                If enteredDate > Date.Now Then
+                    MessageBox.Show("The date cannot be in the future. Reverting to today's date.", "Invalid Date", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    dgvDetails.Rows(e.RowIndex).Cells(e.Column.Index).Value = Date.Now.Date ' Set to current date
+                End If
+            End If
+        End If
     End Sub
     Public Sub LoadData()
         Try
@@ -369,39 +381,39 @@ and Trans_Name='" & clsCommon.myCstr(dr("TransactionCode")) & "'"
                 End If
                 Dim arr As New List(Of clsLockTransactionLocationwise)
                 For Each grow As GridViewRowInfo In dgvDetails.Rows
-                        Dim obj As New clsLockTransactionLocationwise
-                        obj.Location_Code = clsCommon.myCstr(grow.Cells(colLocationCode).Value)
-                        obj.Module_Name = clsCommon.myCstr(grow.Cells(colModuleCode).Value)
-                        obj.Trans_Name = clsCommon.myCstr(grow.Cells(colTransactionCode).Value)
-                        obj.Is_Locked = clsCommon.myCBool(grow.Cells(colLock).Value)
-                        obj.Start_Date = Nothing
-                        If clsCommon.myLen(grow.Cells(colFromDate).Value) > 0 Then
-                            obj.Start_Date = clsCommon.myCDate(grow.Cells(colFromDate).Value)
+                    Dim obj As New clsLockTransactionLocationwise
+                    obj.Location_Code = clsCommon.myCstr(grow.Cells(colLocationCode).Value)
+                    obj.Module_Name = clsCommon.myCstr(grow.Cells(colModuleCode).Value)
+                    obj.Trans_Name = clsCommon.myCstr(grow.Cells(colTransactionCode).Value)
+                    obj.Is_Locked = clsCommon.myCBool(grow.Cells(colLock).Value)
+                    obj.Start_Date = Nothing
+                    If clsCommon.myLen(grow.Cells(colFromDate).Value) > 0 Then
+                        obj.Start_Date = clsCommon.myCDate(grow.Cells(colFromDate).Value)
+                    End If
+                    obj.End_Date = Nothing
+                    If clsCommon.myLen(grow.Cells(colToDate).Value) > 0 Then
+                        obj.End_Date = clsCommon.myCDate(grow.Cells(colToDate).Value)
+                    End If
+                    arr.Add(obj)
+                    Dim arr1 As New List(Of clsLockTransactionLocationUserwise)
+                    If clsCommon.myCBool(grow.Cells(colLock).Value) Then
+                        Dim ArrUser As List(Of clsLockTransactionLocationUserwise) = Nothing
+                        ArrUser = TryCast(grow.Cells(colTransactionCode).Tag, List(Of clsLockTransactionLocationUserwise))
+                        If ArrUser IsNot Nothing Then
+                            For Each objtr As clsLockTransactionLocationUserwise In ArrUser
+                                objtr.Location_Code = obj.Location_Code
+                                objtr.Module_Name = obj.Module_Name
+                                objtr.Trans_Name = obj.Trans_Name
+                                objtr.User_Code = objtr.User_Code
+                                arr1.Add(objtr)
+                            Next
+                            clsLockTransactionLocationUserwise.SaveData("", "", arr1, trans)
                         End If
-                        obj.End_Date = Nothing
-                        If clsCommon.myLen(grow.Cells(colToDate).Value) > 0 Then
-                            obj.End_Date = clsCommon.myCDate(grow.Cells(colToDate).Value)
-                        End If
-                        arr.Add(obj)
-                        Dim arr1 As New List(Of clsLockTransactionLocationUserwise)
-                        If clsCommon.myCBool(grow.Cells(colLock).Value) Then
-                            Dim ArrUser As List(Of clsLockTransactionLocationUserwise) = Nothing
-                            ArrUser = TryCast(grow.Cells(colTransactionCode).Tag, List(Of clsLockTransactionLocationUserwise))
-                            If ArrUser IsNot Nothing Then
-                                For Each objtr As clsLockTransactionLocationUserwise In ArrUser
-                                    objtr.Location_Code = obj.Location_Code
-                                    objtr.Module_Name = obj.Module_Name
-                                    objtr.Trans_Name = obj.Trans_Name
-                                    objtr.User_Code = objtr.User_Code
-                                    arr1.Add(objtr)
-                                Next
-                                clsLockTransactionLocationUserwise.SaveData("", "", arr1, trans)
-                            End If
-                        End If
-                    Next
-                    clsLockTransactionLocationwise.SaveData("", "", arr, trans)
-                End If
-                trans.Commit()
+                    End If
+                Next
+                clsLockTransactionLocationwise.SaveData("", "", arr, trans)
+            End If
+            trans.Commit()
             common.clsCommon.MyMessageBoxShow("Locked Successfully")
         Catch ex As Exception
             trans.Rollback()

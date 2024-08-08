@@ -1704,7 +1704,7 @@ insert into TSPL_TDS_DEDUCTION_DETAIL values(@Detail_Line_No,@Deduction_Code,@Fr
         " BEGIN" &
         " IF @ISEARNING='No'" &
         " begin" &
-        " SET @str1 = @str1 + 'CASE WHEN  ACD.PAY_HEAD_CODE ='''+ @PH_CODE +''' THEN acd.Payable_Amount else 0 END  AS "" '+ replace(LOWER(@PH_NAME),' ','_') +'"",'   ; " &
+        " SET @str1 = @str1 + 'CASE WHEN  ACD.PAY_HEAD_CODE ='''+ @PH_CODE +''' THEN acd.Actual_Amount else 0 END  AS "" '+ replace(LOWER(@PH_NAME),' ','_') +'"",'   ; " &
         " SET @str2= @str2 + ' SUM("" ' + replace(LOWER(@PH_NAME),' ','_') +'"") AS ""v'+ replace(LOWER(@PH_NAME),' ','_') +'"",'   ; " &
         " SET @str4=@str4 + '(case when '''+ @ISEARNING +'''=''No'' then SUM("" ' + (replace(LOWER(@PH_NAME),' ','_')) +'"") else 0 end )+' ; " &
         " SET @OLD_PH_CODE=@PH_CODE;" &

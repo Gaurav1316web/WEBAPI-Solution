@@ -66,7 +66,7 @@ Public Class clsfrmVLCMaster
     Public Company_Bank_Current As String = Nothing
     Public BankName2 As String = Nothing
     Public Bank2_Credit2 As Decimal = 0
-
+    Public Shift_Cow_Limit As Integer
 
 
 #End Region
@@ -182,8 +182,10 @@ Public Class clsfrmVLCMaster
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.myCstr(clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy")))
             If obj.ApplyCowPriceDate IsNot Nothing AndAlso obj.Apply_Cow_Price Then
                 clsCommon.AddColumnsForChange(coll, "ApplyCowPriceDate", clsCommon.GetPrintDate(obj.ApplyCowPriceDate, "dd/MMM/yyyy"))
+                clsCommon.AddColumnsForChange(coll, "Shift_Cow_Limit", obj.Shift_Cow_Limit)
             Else
                 clsCommon.AddColumnsForChange(coll, "ApplyCowPriceDate", Nothing, True)
+                clsCommon.AddColumnsForChange(coll, "Shift_Cow_Limit", obj.Shift_Cow_Limit, True)
             End If
             clsCommon.AddColumnsForChange(coll, "Loyalty_Rate", obj.Loyalty_Rate, True)
             If obj.TFOwnBMC = True Then
@@ -338,7 +340,7 @@ Public Class clsfrmVLCMaster
                 whrcls = " and TSPL_VLC_MASTER_HEAD.mcc in (" + arrLoc + ")"
             End If
 
-            Dim qry As String = "select TSPL_VLC_MASTER_HEAD.IsSuspense,TSPL_VLC_MASTER_HEAD.Apply_Cow_Price, TSPL_VLC_MASTER_HEAD.Apply_Price_Chart_Uploader,TSPL_VLC_MASTER_HEAD.Short_Description, TSPL_VLC_MASTER_HEAD.Price_Code,TSPL_VLC_MASTER_HEAD.vlc_code as [Code],TSPL_VLC_MASTER_HEAD.vlc_name,TSPL_VLC_MASTER_HEAD.vehical_name,TSPL_VLC_MASTER_HEAD.vlc_code_vlc_uploader,TSPL_VLC_MASTER_HEAD.vsp_code,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_VLC_MASTER_HEAD.mcc,TSPL_MCC_MASTER.mcc_name,TSPL_VLC_MASTER_HEAD.Village_Code,tspl_village_master.village_name,TSPL_VLC_MASTER_HEAD.route_code,TSPL_BULK_ROUTE_MASTER.route_name,TSPL_VLC_MASTER_HEAD.Active,convert(date,TSPL_VLC_MASTER_HEAD.Created_Date,103) as Created_Date,TSPL_VLC_MASTER_HEAD.Milk_Receive_UOM,TSPL_VLC_MASTER_HEAD.Auto_Fill_MP_Order,TSPL_VLC_MASTER_HEAD.ApplyCowPriceDate,TSPL_VLC_MASTER_HEAD.Loyalty_Rate,isOwnBMC,OwnBMCDate,MCCOwnBMC,TSPL_VENDOR_MASTER.Is_Head_Load AS HeadLoad,TSPL_VENDOR_MASTER.Rate_Head_Load As HeadLoadRate,TSPL_VENDOR_MASTER.Service_Basis_Head_Load As HeadLoadBasis from TSPL_VLC_MASTER_HEAD left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.vsp_code and TSPL_VENDOR_MASTER.Form_Type='VSP' left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.mcc_code=TSPL_VLC_MASTER_HEAD.mcc left outer join tspl_village_master on TSPL_VLC_MASTER_HEAD.village_code=tspl_village_master.village_code left outer join tspl_mcc_route_master on TSPL_VLC_MASTER_HEAD.route_code=tspl_mcc_route_master.route_code left Outer Join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_VLC_MASTER_HEAD.route_code"
+            Dim qry As String = "select TSPL_VLC_MASTER_HEAD.IsSuspense,TSPL_VLC_MASTER_HEAD.Apply_Cow_Price, TSPL_VLC_MASTER_HEAD.Apply_Price_Chart_Uploader,TSPL_VLC_MASTER_HEAD.Short_Description, TSPL_VLC_MASTER_HEAD.Price_Code,TSPL_VLC_MASTER_HEAD.vlc_code as [Code],TSPL_VLC_MASTER_HEAD.vlc_name,TSPL_VLC_MASTER_HEAD.vehical_name,TSPL_VLC_MASTER_HEAD.vlc_code_vlc_uploader,TSPL_VLC_MASTER_HEAD.vsp_code,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_VLC_MASTER_HEAD.mcc,TSPL_MCC_MASTER.mcc_name,TSPL_VLC_MASTER_HEAD.Village_Code,tspl_village_master.village_name,TSPL_VLC_MASTER_HEAD.route_code,TSPL_BULK_ROUTE_MASTER.route_name,TSPL_VLC_MASTER_HEAD.Active,convert(date,TSPL_VLC_MASTER_HEAD.Created_Date,103) as Created_Date,TSPL_VLC_MASTER_HEAD.Milk_Receive_UOM,TSPL_VLC_MASTER_HEAD.Auto_Fill_MP_Order,TSPL_VLC_MASTER_HEAD.ApplyCowPriceDate,TSPL_VLC_MASTER_HEAD.Loyalty_Rate,TSPL_VLC_MASTER_HEAD.Shift_Cow_Limit,isOwnBMC,OwnBMCDate,MCCOwnBMC,TSPL_VENDOR_MASTER.Is_Head_Load AS HeadLoad,TSPL_VENDOR_MASTER.Rate_Head_Load As HeadLoadRate,TSPL_VENDOR_MASTER.Service_Basis_Head_Load As HeadLoadBasis from TSPL_VLC_MASTER_HEAD left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.vsp_code and TSPL_VENDOR_MASTER.Form_Type='VSP' left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.mcc_code=TSPL_VLC_MASTER_HEAD.mcc left outer join tspl_village_master on TSPL_VLC_MASTER_HEAD.village_code=tspl_village_master.village_code left outer join tspl_mcc_route_master on TSPL_VLC_MASTER_HEAD.route_code=tspl_mcc_route_master.route_code left Outer Join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_VLC_MASTER_HEAD.route_code"
             Dim strVLCCol As String = ""
             If isUploaderCode Then
                 strVLCCol = "VLC_Code_VLC_Uploader"
@@ -388,6 +390,7 @@ Public Class clsfrmVLCMaster
                     obj.Created_Date = dt.Rows(0)("Created_Date")
                 End If
                 obj.Loyalty_Rate = clsCommon.myCDecimal(dt.Rows(0)("Loyalty_Rate"))
+                obj.Shift_Cow_Limit = clsCommon.myCdbl(dt.Rows(0)("Shift_Cow_Limit"))
                 obj.TFOwnBMC = clsCommon.myCBool(dt.Rows(0)("isOwnBMC"))
                 If dt.Rows(0)("OwnBMCDate") IsNot DBNull.Value Then
                     obj.OwnBMCDate = clsCommon.myCDate(dt.Rows(0)("OwnBMCDate"))

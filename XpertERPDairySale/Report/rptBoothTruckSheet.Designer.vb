@@ -22,19 +22,14 @@ Partial Class rptBoothTruckSheet
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.RadGroupBox7 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnBoths = New System.Windows.Forms.RadioButton()
-        Me.rbtnMilk = New System.Windows.Forms.RadioButton()
-        Me.rbtnproduct = New System.Windows.Forms.RadioButton()
-        Me.cboDocumentType = New Telerik.WinControls.UI.RadDropDownList()
-        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnMorning = New common.Controls.MyRadioButton()
+        Me.rbtnEvening = New common.Controls.MyRadioButton()
+        Me.rbtnBothShift = New common.Controls.MyRadioButton()
         Me.lblRouteCode = New common.Controls.MyLabel()
         Me.txtRouteCode = New common.UserControls.txtFinder()
         Me.lblRoute = New common.Controls.MyLabel()
@@ -44,24 +39,31 @@ Partial Class rptBoothTruckSheet
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadLabel2 = New common.Controls.MyLabel()
         Me.RadLabel1 = New common.Controls.MyLabel()
-        Me.ToDate = New Telerik.WinControls.UI.RadDateTimePicker()
-        Me.fromDate = New Telerik.WinControls.UI.RadDateTimePicker()
+        Me.txtToDate = New Telerik.WinControls.UI.RadDateTimePicker()
+        Me.txtFromDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.Gv1 = New common.UserControls.MyRadGridView()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnMilkType = New common.Controls.MyRadioButton()
+        Me.rbtnProductType = New common.Controls.MyRadioButton()
+        Me.MyRadioButton3 = New common.Controls.MyRadioButton()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.MyLabel1 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
-        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox7.SuspendLayout()
-        CType(Me.cboDocumentType, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox5.SuspendLayout()
+        CType(Me.rbtnMorning, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnEvening, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnBothShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRouteCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -72,8 +74,8 @@ Partial Class rptBoothTruckSheet
         Me.RadGroupBox3.SuspendLayout()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ToDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.fromDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -81,6 +83,13 @@ Partial Class rptBoothTruckSheet
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox4.SuspendLayout()
+        CType(Me.rbtnMilkType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnProductType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyRadioButton3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -112,16 +121,17 @@ Partial Class rptBoothTruckSheet
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(800, 398)
         Me.RadPageView1.TabIndex = 13
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
-        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox7)
-        Me.RadPageViewPage1.Controls.Add(Me.cboDocumentType)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel4)
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox4)
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox5)
         Me.RadPageViewPage1.Controls.Add(Me.lblRouteCode)
         Me.RadPageViewPage1.Controls.Add(Me.txtRouteCode)
         Me.RadPageViewPage1.Controls.Add(Me.lblRoute)
@@ -133,76 +143,52 @@ Partial Class rptBoothTruckSheet
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 350)
         Me.RadPageViewPage1.Text = "Filters"
         '
-        'RadGroupBox7
+        'RadGroupBox5
         '
-        Me.RadGroupBox7.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox7.Controls.Add(Me.rbtnBoths)
-        Me.RadGroupBox7.Controls.Add(Me.rbtnMilk)
-        Me.RadGroupBox7.Controls.Add(Me.rbtnproduct)
-        Me.RadGroupBox7.HeaderText = ""
-        Me.RadGroupBox7.Location = New System.Drawing.Point(132, 101)
-        Me.RadGroupBox7.Name = "RadGroupBox7"
-        Me.RadGroupBox7.Size = New System.Drawing.Size(250, 26)
-        Me.RadGroupBox7.TabIndex = 440
+        Me.RadGroupBox5.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox5.Controls.Add(Me.rbtnMorning)
+        Me.RadGroupBox5.Controls.Add(Me.rbtnEvening)
+        Me.RadGroupBox5.Controls.Add(Me.rbtnBothShift)
+        Me.RadGroupBox5.HeaderText = ""
+        Me.RadGroupBox5.Location = New System.Drawing.Point(132, 109)
+        Me.RadGroupBox5.Name = "RadGroupBox5"
+        Me.RadGroupBox5.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox5.Size = New System.Drawing.Size(303, 34)
+        Me.RadGroupBox5.TabIndex = 444
         '
-        'rbtnBoths
+        'rbtnMorning
         '
-        Me.rbtnBoths.AutoSize = True
-        Me.rbtnBoths.Location = New System.Drawing.Point(186, 4)
-        Me.rbtnBoths.Name = "rbtnBoths"
-        Me.rbtnBoths.Size = New System.Drawing.Size(49, 17)
-        Me.rbtnBoths.TabIndex = 442
-        Me.rbtnBoths.Text = "Both"
-        Me.rbtnBoths.UseVisualStyleBackColor = True
+        Me.rbtnMorning.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnMorning.Location = New System.Drawing.Point(5, 9)
+        Me.rbtnMorning.MyLinkLable1 = Nothing
+        Me.rbtnMorning.MyLinkLable2 = Nothing
+        Me.rbtnMorning.Name = "rbtnMorning"
+        Me.rbtnMorning.Size = New System.Drawing.Size(63, 18)
+        Me.rbtnMorning.TabIndex = 393
+        Me.rbtnMorning.Text = "Morning"
+        Me.rbtnMorning.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
-        'rbtnMilk
+        'rbtnEvening
         '
-        Me.rbtnMilk.AutoSize = True
-        Me.rbtnMilk.Checked = True
-        Me.rbtnMilk.Location = New System.Drawing.Point(5, 4)
-        Me.rbtnMilk.Name = "rbtnMilk"
-        Me.rbtnMilk.Size = New System.Drawing.Size(47, 17)
-        Me.rbtnMilk.TabIndex = 440
-        Me.rbtnMilk.TabStop = True
-        Me.rbtnMilk.Text = "Milk"
-        Me.rbtnMilk.UseVisualStyleBackColor = True
+        Me.rbtnEvening.Location = New System.Drawing.Point(95, 9)
+        Me.rbtnEvening.MyLinkLable1 = Nothing
+        Me.rbtnEvening.MyLinkLable2 = Nothing
+        Me.rbtnEvening.Name = "rbtnEvening"
+        Me.rbtnEvening.Size = New System.Drawing.Size(59, 18)
+        Me.rbtnEvening.TabIndex = 393
+        Me.rbtnEvening.TabStop = False
+        Me.rbtnEvening.Text = "Evening"
         '
-        'rbtnproduct
+        'rbtnBothShift
         '
-        Me.rbtnproduct.AutoSize = True
-        Me.rbtnproduct.Location = New System.Drawing.Point(83, 4)
-        Me.rbtnproduct.Name = "rbtnproduct"
-        Me.rbtnproduct.Size = New System.Drawing.Size(65, 17)
-        Me.rbtnproduct.TabIndex = 441
-        Me.rbtnproduct.Text = "Product"
-        Me.rbtnproduct.UseVisualStyleBackColor = True
-        '
-        'cboDocumentType
-        '
-        Me.cboDocumentType.AutoCompleteDisplayMember = Nothing
-        Me.cboDocumentType.AutoCompleteValueMember = Nothing
-        Me.cboDocumentType.DropDownAnimationEnabled = True
-        Me.cboDocumentType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        RadListDataItem1.Text = "Both"
-        RadListDataItem2.Text = "Posted"
-        RadListDataItem3.Text = "UnPosted"
-        Me.cboDocumentType.Items.Add(RadListDataItem1)
-        Me.cboDocumentType.Items.Add(RadListDataItem2)
-        Me.cboDocumentType.Items.Add(RadListDataItem3)
-        Me.cboDocumentType.Location = New System.Drawing.Point(132, 75)
-        Me.cboDocumentType.Name = "cboDocumentType"
-        Me.cboDocumentType.Size = New System.Drawing.Size(137, 20)
-        Me.cboDocumentType.TabIndex = 430
-        '
-        'MyLabel4
-        '
-        Me.MyLabel4.FieldName = Nothing
-        Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(19, 75)
-        Me.MyLabel4.Name = "MyLabel4"
-        Me.MyLabel4.Size = New System.Drawing.Size(85, 18)
-        Me.MyLabel4.TabIndex = 402
-        Me.MyLabel4.Text = "Document Type"
+        Me.rbtnBothShift.Location = New System.Drawing.Point(212, 9)
+        Me.rbtnBothShift.MyLinkLable1 = Nothing
+        Me.rbtnBothShift.MyLinkLable2 = Nothing
+        Me.rbtnBothShift.Name = "rbtnBothShift"
+        Me.rbtnBothShift.Size = New System.Drawing.Size(44, 18)
+        Me.rbtnBothShift.TabIndex = 395
+        Me.rbtnBothShift.TabStop = False
+        Me.rbtnBothShift.Text = "Both"
         '
         'lblRouteCode
         '
@@ -289,8 +275,8 @@ Partial Class rptBoothTruckSheet
         Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox3.Controls.Add(Me.RadLabel2)
         Me.RadGroupBox3.Controls.Add(Me.RadLabel1)
-        Me.RadGroupBox3.Controls.Add(Me.ToDate)
-        Me.RadGroupBox3.Controls.Add(Me.fromDate)
+        Me.RadGroupBox3.Controls.Add(Me.txtToDate)
+        Me.RadGroupBox3.Controls.Add(Me.txtFromDate)
         Me.RadGroupBox3.HeaderText = "Date Range"
         Me.RadGroupBox3.Location = New System.Drawing.Point(16, 9)
         Me.RadGroupBox3.Name = "RadGroupBox3"
@@ -317,33 +303,33 @@ Partial Class rptBoothTruckSheet
         Me.RadLabel1.TabIndex = 2
         Me.RadLabel1.Text = "From"
         '
-        'ToDate
+        'txtToDate
         '
-        Me.ToDate.CustomFormat = "dd/MM/yyyy"
-        Me.ToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.ToDate.Location = New System.Drawing.Point(157, 15)
-        Me.ToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.ToDate.Name = "ToDate"
-        Me.ToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.ToDate.Size = New System.Drawing.Size(78, 20)
-        Me.ToDate.TabIndex = 1
-        Me.ToDate.TabStop = False
-        Me.ToDate.Text = "24/10/2011"
-        Me.ToDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
+        Me.txtToDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtToDate.Location = New System.Drawing.Point(157, 15)
+        Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtToDate.Name = "txtToDate"
+        Me.txtToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtToDate.Size = New System.Drawing.Size(78, 20)
+        Me.txtToDate.TabIndex = 1
+        Me.txtToDate.TabStop = False
+        Me.txtToDate.Text = "24/10/2011"
+        Me.txtToDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
         '
-        'fromDate
+        'txtFromDate
         '
-        Me.fromDate.CustomFormat = "dd/MM/yyyy"
-        Me.fromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.fromDate.Location = New System.Drawing.Point(44, 15)
-        Me.fromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.fromDate.Name = "fromDate"
-        Me.fromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.fromDate.Size = New System.Drawing.Size(78, 20)
-        Me.fromDate.TabIndex = 0
-        Me.fromDate.TabStop = False
-        Me.fromDate.Text = "24/10/2011"
-        Me.fromDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
+        Me.txtFromDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtFromDate.Location = New System.Drawing.Point(44, 15)
+        Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtFromDate.Name = "txtFromDate"
+        Me.txtFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtFromDate.Size = New System.Drawing.Size(78, 20)
+        Me.txtFromDate.TabIndex = 0
+        Me.txtFromDate.TabStop = False
+        Me.txtFromDate.Text = "24/10/2011"
+        Me.txtFromDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
         '
         'RadPageViewPage2
         '
@@ -417,6 +403,73 @@ Partial Class rptBoothTruckSheet
         Me.btnReset.TabIndex = 155
         Me.btnReset.Text = "Reset"
         '
+        'RadGroupBox4
+        '
+        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox4.Controls.Add(Me.rbtnMilkType)
+        Me.RadGroupBox4.Controls.Add(Me.rbtnProductType)
+        Me.RadGroupBox4.Controls.Add(Me.MyRadioButton3)
+        Me.RadGroupBox4.HeaderText = ""
+        Me.RadGroupBox4.Location = New System.Drawing.Point(132, 76)
+        Me.RadGroupBox4.Name = "RadGroupBox4"
+        Me.RadGroupBox4.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox4.Size = New System.Drawing.Size(303, 34)
+        Me.RadGroupBox4.TabIndex = 445
+        '
+        'rbtnMilkType
+        '
+        Me.rbtnMilkType.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnMilkType.Location = New System.Drawing.Point(5, 9)
+        Me.rbtnMilkType.MyLinkLable1 = Nothing
+        Me.rbtnMilkType.MyLinkLable2 = Nothing
+        Me.rbtnMilkType.Name = "rbtnMilkType"
+        Me.rbtnMilkType.Size = New System.Drawing.Size(69, 18)
+        Me.rbtnMilkType.TabIndex = 393
+        Me.rbtnMilkType.Text = "Milk Type"
+        Me.rbtnMilkType.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'rbtnProductType
+        '
+        Me.rbtnProductType.Location = New System.Drawing.Point(95, 9)
+        Me.rbtnProductType.MyLinkLable1 = Nothing
+        Me.rbtnProductType.MyLinkLable2 = Nothing
+        Me.rbtnProductType.Name = "rbtnProductType"
+        Me.rbtnProductType.Size = New System.Drawing.Size(86, 18)
+        Me.rbtnProductType.TabIndex = 393
+        Me.rbtnProductType.TabStop = False
+        Me.rbtnProductType.Text = "Product Type"
+        '
+        'MyRadioButton3
+        '
+        Me.MyRadioButton3.Location = New System.Drawing.Point(212, 9)
+        Me.MyRadioButton3.MyLinkLable1 = Nothing
+        Me.MyRadioButton3.MyLinkLable2 = Nothing
+        Me.MyRadioButton3.Name = "MyRadioButton3"
+        Me.MyRadioButton3.Size = New System.Drawing.Size(44, 18)
+        Me.MyRadioButton3.TabIndex = 395
+        Me.MyRadioButton3.TabStop = False
+        Me.MyRadioButton3.Text = "Both"
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel4.Location = New System.Drawing.Point(19, 85)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(85, 18)
+        Me.MyLabel4.TabIndex = 446
+        Me.MyLabel4.Text = "Document Type"
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(21, 117)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(56, 18)
+        Me.MyLabel1.TabIndex = 447
+        Me.MyLabel1.Text = "Shift Type"
+        '
         'rptBoothTruckSheet
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -436,11 +489,12 @@ Partial Class rptBoothTruckSheet
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
-        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox7.ResumeLayout(False)
-        Me.RadGroupBox7.PerformLayout()
-        CType(Me.cboDocumentType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox5.ResumeLayout(False)
+        Me.RadGroupBox5.PerformLayout()
+        CType(Me.rbtnMorning, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnEvening, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnBothShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRouteCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -453,8 +507,8 @@ Partial Class rptBoothTruckSheet
         Me.RadGroupBox3.PerformLayout()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ToDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.fromDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -462,6 +516,14 @@ Partial Class rptBoothTruckSheet
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox4.ResumeLayout(False)
+        Me.RadGroupBox4.PerformLayout()
+        CType(Me.rbtnMilkType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnProductType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyRadioButton3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -470,12 +532,6 @@ Partial Class rptBoothTruckSheet
     Friend WithEvents SplitContainer1 As SplitContainer
     Friend WithEvents RadPageView1 As RadPageView
     Friend WithEvents RadPageViewPage1 As RadPageViewPage
-    Friend WithEvents RadGroupBox7 As RadGroupBox
-    Friend WithEvents rbtnBoths As RadioButton
-    Friend WithEvents rbtnMilk As RadioButton
-    Friend WithEvents rbtnproduct As RadioButton
-    Friend WithEvents cboDocumentType As RadDropDownList
-    Friend WithEvents MyLabel4 As common.Controls.MyLabel
     Friend WithEvents lblRouteCode As common.Controls.MyLabel
     Friend WithEvents txtRouteCode As common.UserControls.txtFinder
     Friend WithEvents lblRoute As common.Controls.MyLabel
@@ -485,12 +541,22 @@ Partial Class rptBoothTruckSheet
     Friend WithEvents RadGroupBox3 As RadGroupBox
     Friend WithEvents RadLabel2 As common.Controls.MyLabel
     Friend WithEvents RadLabel1 As common.Controls.MyLabel
-    Friend WithEvents ToDate As RadDateTimePicker
-    Friend WithEvents fromDate As RadDateTimePicker
+    Friend WithEvents txtToDate As RadDateTimePicker
+    Friend WithEvents txtFromDate As RadDateTimePicker
     Friend WithEvents RadPageViewPage2 As RadPageViewPage
     Friend WithEvents Gv1 As common.UserControls.MyRadGridView
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents btnClose As RadButton
     Friend WithEvents btnGo As RadButton
     Friend WithEvents btnReset As RadButton
+    Friend WithEvents RadGroupBox5 As RadGroupBox
+    Friend WithEvents rbtnMorning As common.Controls.MyRadioButton
+    Friend WithEvents rbtnEvening As common.Controls.MyRadioButton
+    Friend WithEvents rbtnBothShift As common.Controls.MyRadioButton
+    Friend WithEvents RadGroupBox4 As RadGroupBox
+    Friend WithEvents rbtnMilkType As common.Controls.MyRadioButton
+    Friend WithEvents rbtnProductType As common.Controls.MyRadioButton
+    Friend WithEvents MyRadioButton3 As common.Controls.MyRadioButton
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents MyLabel4 As common.Controls.MyLabel
 End Class

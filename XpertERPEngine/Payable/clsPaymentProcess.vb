@@ -1828,7 +1828,8 @@ select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo
                 clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse
                 clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal OrElse
                 clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal OrElse
-                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BHR") = CompairStringResult.Equal Then
+                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BHR") = CompairStringResult.Equal OrElse
+                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                 Flag = True
             End If
 
@@ -2029,12 +2030,13 @@ Comp_Code,Comp_Name,max(MCC_NAME) as MCC_NAME,Regn_No
 
             'Dim BaseQty As String = clsPaymentProcessHead.Load_Report_Paymnet_RCDF_BaseQuery1(strDocNo, CycleFromDate, CycleToDate, strLoc, strVSPCode, "", "", "")
             Dim BaseQty As String = clsPaymentProcessHead.Load_Report_Paymnet_RCDF_BaseQuery1(strDocNo, CycleFromDate, CycleToDate, strLoc, "", "", "")
-            'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+            'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then cast( sum (FATQTY) * 100 /sum( Qty) as decimal(18,2))  as FATPer
             If True Then
                 Dim qry As String = "select 'SWEET' as Code,'SWEET' as Name union all select Code,Description from TSPL_MILK_REJECT_TYPE"
                 Dim dtRejType As DataTable = clsDBFuncationality.GetDataTable(qry)
 
-                sQuery = " select QBD,sum( Qty) as Qty, cast( sum (FATQTY) * 100 /sum( Qty) as decimal(18,2))  as FATPer, cast( sum (SNFQTY) * 100 / sum(Qty) as decimal(18,2)) as SNFPer, "
+                sQuery = " select QBD,sum( Qty) as Qty, CASE WHEN SUM(Qty) = 0 THEN 0 ELSE CAST(SUM(FATQTY) * 100 / SUM(Qty) AS DECIMAL(18,2)) END AS FATPer,
+                           CASE WHEN SUM(Qty) = 0 THEN 0 ELSE CAST(SUM(SNFQTY) * 100 / SUM(Qty) AS DECIMAL(18,2)) End as SNFPer, "
 
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                     sQuery += " sum(isnull(SRN_NET_AMOUNT,0)) AS Amt,round(sum (FATQTY),2,1)  as FATKG,round(sum (SNFQTY),2,1) as SNFKG "
@@ -2061,7 +2063,8 @@ Comp_Code,Comp_Name,max(MCC_NAME) as MCC_NAME,Regn_No
             End If
 
 
-            sQuery = " select CowBuffalo_Type,sum( Qty) as Qty, cast( sum (FATQTY) * 100 /sum( Qty) as decimal(18,2))  as FATPer, cast( sum (SNFQTY) * 100 / sum(Qty) as decimal(18,2)) as SNFPer, "
+            sQuery = " select CowBuffalo_Type,sum( Qty) as Qty,  CASE WHEN SUM(Qty) = 0 THEN 0 ELSE CAST(SUM(FATQTY) * 100 / SUM(Qty) AS DECIMAL(18,2)) END AS FATPer,
+                           CASE WHEN SUM(Qty) = 0 THEN 0 ELSE CAST(SUM(SNFQTY) * 100 / SUM(Qty) AS DECIMAL(18,2)) End as SNFPer, "
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                 sQuery += " sum(SRN_NET_AMOUNT) As Amt, "
@@ -2894,7 +2897,6 @@ select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_PAYM
         Else
             sQuery += " (TSPL_PAYMENT_PROCESS_DEDUCTION.Amount-TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt) as Amount "
         End If
-
 
         sQuery += ",case when TSPL_MULTIPLE_DEDUCTION_head.Document_No is not null then 1 else 0 end as ManAddDed,TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt,TSPL_DCS_ADDITION_DEDUCTION.Description_Hindi AS Hindi
 from TSPL_PAYMENT_PROCESS_DEDUCTION 
