@@ -216,6 +216,7 @@ Public Class FrmTransferKDIL
     Const colItemwiseTaxCode As String = "colItemwiseTaxCode"
     Dim EInvoiceType As String = ""
     Dim AllowOnlyOneIssueAgainstStoreRequisition As Boolean = False
+    Dim ShowPriceCode As Boolean = False
 #End Region
 
     Private Sub LOCATIONRIGTHS()
@@ -295,6 +296,14 @@ Public Class FrmTransferKDIL
         CalculateTaxRatefromItemwsieTaxOnSale = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CalculateTaxRatefromItemwsieTaxOnSale, clsFixedParameterCode.CalculateTaxRatefromItemwsieTaxOnSale, Nothing))
         AllowOnlyOneIssueAgainstStoreRequisition = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowOnlyOneIssueAgainstStoreRequisition, clsFixedParameterCode.AllowOnlyOneIssueAgainstStoreRequisition, Nothing)) = 1, True, False)
         Dim Value As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.IsItemRateEditableOnTransfer & "'"))
+        ShowPriceCode = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DisplayPriceCodeForBKN, clsFixedParameterCode.DisplayPriceCodeForBKN, Nothing)) = 1, True, False)
+        If ShowPriceCode Then
+            fndPriceCode.Visible = True
+            lblpricecode.Visible = True
+        Else
+            fndPriceCode.Visible = False
+            lblpricecode.Visible = False
+        End If
         If Value = 0 Then
             IsItemRateeditable = False
             IsRateeditableItemwise = False
@@ -2663,10 +2672,13 @@ Public Class FrmTransferKDIL
             GatePassPanel.Visible = True
             lblpricecode.Visible = True
             fndPriceCode.Visible = True
-        Else
-            GatePassPanel.Visible = False
+        ElseIf ShowPriceCode Then
             lblpricecode.Visible = True
             fndPriceCode.Visible = True
+        Else
+            GatePassPanel.Visible = False
+            lblpricecode.Visible = False
+            fndPriceCode.Visible = False
         End If
 
         FndGatePassNo.Value = ""
@@ -2762,9 +2774,12 @@ Public Class FrmTransferKDIL
                     Throw New Exception("Transfer In Date can't be less than transferout Date")
                 End If
             End If
-            If clsCommon.myLen(fndPriceCode.Value) <= 0 Then
-                Throw New Exception("Please select Price Code")
+            If ShowPriceCode Then
+                If clsCommon.myLen(fndPriceCode.Value) <= 0 Then
+                    Throw New Exception("Please select Price Code")
+                End If
             End If
+
             '=====================Added by preeti Gupta==================
             If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
                 txtDate.Focus()
@@ -7803,7 +7818,7 @@ Public Class FrmTransferKDIL
             txtToLoc.Value = clsCommon.myCstr(dt.Rows(0)("Location"))
             'lblToLoc.Text = clsLocation.GetName(clsCommon.myCstr(dt.Rows(0)("Location")), Nothing)
             If chkInternalTransfer.Checked = True Then
-                txtToLoc.Enabled = False
+                txtToLoc.Enabled = True
             Else
                 FillLocationInfo(False)
             End If
