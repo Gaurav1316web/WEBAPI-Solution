@@ -1725,6 +1725,20 @@ Left Outer Join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id  =TSPL_SCR
                 Throw New Exception(Qry)
             End If
 
+            Dim IrnNo As String = clsDBFuncationality.getSingleValue(" select isnull(IRN_No,'')IRN_No FROM TSPL_SCRAPINVOICE_HEAD where invoice_No='" + strInvoiceCode + "' ", trans)
+            If clsCommon.myLen(IrnNo) > 0 Then
+                Throw New Exception("IrnNo Generated,Can't Reverse The Document")
+            End If
+
+            Qry = " select Is_Taxable,IRN_No,EInvoice_Type from TSPL_SCRAPINVOICE_HEAD where invoice_No= '" + strInvoiceCode + "' AND (EInvoice_Type = 'BB' OR EInvoice_Type IS NULL) AND ISNULL(IRN_No,'')='' and Is_Taxable='1'"
+            dt = clsDBFuncationality.GetDataTable(Qry, trans)
+            If dt.Rows.Count > 0 Then
+                Throw New Exception("Update IrnNo before Reversing The Document")
+                'Else
+
+            End If
+
+
 
             Dim VoucherNo As String = clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code='AR-SI' and Source_Doc_No='" + strInvoiceCode + "'", trans)
             If clsCommon.myLen(VoucherNo) > 0 Then

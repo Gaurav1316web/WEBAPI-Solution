@@ -36,7 +36,7 @@ Public Class clsRequistionHead
     Public Item_Type As String = Nothing
     Public Request_By As String = Nothing
     Public Requisition_Type As String = Nothing
-
+    Public All_Transfer_Issue As Integer = 0
     Public Level1_Approval_Status As Integer = 0
     Public Level2_Approval_Status As Integer = 0
     Public Level3_Approval_Status As Integer = 0
@@ -209,10 +209,8 @@ Public Class clsRequistionHead
             clsCommon.AddColumnsForChange(coll, "WO_CopySubmittedTo ", clsCommon.myCstr(obj.WO_CopySubmittedTo), True)
             If objCommonVar.IsDemoERP Then
                 clsCommon.AddColumnsForChange(coll, "Approvel_Level_Required", 2 + obj.Approvel_Level_Required) ''2 is Added for Budgetry and Function Approval
-
             End If
-
-
+            clsCommon.AddColumnsForChange(coll, "All_Transfer_Issue ", clsCommon.myCdbl(obj.All_Transfer_Issue))
             Dim s As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy")
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "Requisition_Id", obj.Requisition_Id)
@@ -257,7 +255,7 @@ Public Class clsRequistionHead
         Dim whrclas As String = ""
         Dim qry As String = "select TSPL_REQUISITION_HEAD.close_yn,TSPL_REQUISITION_HEAD.Requisition_Id,convert(varchar,TSPL_REQUISITION_HEAD.Requisition_Date,103) as Requisition_Date,TSPL_REQUISITION_HEAD.Cust_OrderNo,TSPL_REQUISITION_HEAD.Expire_Date,TSPL_REQUISITION_HEAD.Require_Date,TSPL_REQUISITION_HEAD.Status,TSPL_REQUISITION_HEAD.On_Hold,TSPL_REQUISITION_HEAD.Manual_Complete,TSPL_REQUISITION_HEAD.Ref_No,TSPL_REQUISITION_HEAD.Description,TSPL_REQUISITION_HEAD.Remarks,TSPL_REQUISITION_HEAD.Location,TSPL_LOCATION_MASTER.Location_Desc as LocationName,TSPL_REQUISITION_HEAD.RQ_Detail_Total_Amt,TSPL_REQUISITION_HEAD.Total_RQ_Amt,TSPL_REQUISITION_HEAD.Mode_Of_Transport,TSPL_REQUISITION_HEAD.Comments,TSPL_REQUISITION_HEAD.Created_By,TSPL_REQUISITION_HEAD.Created_Date,TSPL_REQUISITION_HEAD.Modify_By,TSPL_REQUISITION_HEAD.Modify_Date,TSPL_REQUISITION_HEAD.Comp_Code,TSPL_REQUISITION_HEAD.Posting_Date,TSPL_REQUISITION_HEAD.Dept,TSPL_REQUISITION_HEAD.Dept_Desc,TSPL_REQUISITION_HEAD.Item_Type,TSPL_REQUISITION_HEAD.Request_By,Is_internal, Is_Tender,EMailID,TSPL_REQUISITION_HEAD.Approvel_Level_Required,TSPL_REQUISITION_HEAD.Level1_Approval_Status ,TSPL_REQUISITION_HEAD.Level2_Approval_Status,TSPL_REQUISITION_HEAD.SubRequest,TSPL_REQUISITION_HEAD.CatalogueType,TSPL_REQUISITION_HEAD.Vendor_Code ,TSPL_REQUISITION_HEAD.Level3_Approval_Status,TSPL_REQUISITION_HEAD.Level4_Approval_Status,TSPL_REQUISITION_HEAD.Level5_Approval_Status ,TSPL_REQUISITION_HEAD.Requisition_Type,TSPL_REQUISITION_HEAD.Request_Type,TSPL_REQUISITION_HEAD.PROJECT_ID,TSPL_REQUISITION_HEAD.Category,TSPL_REQUISITION_HEAD.Capex_Code,TSPL_REQUISITION_HEAD.Capex_SubCode,TSPL_REQUISITION_HEAD.Emergency,TSPL_REQUISITION_HEAD.Cost_Center_Unit,TSPL_REQUISITION_HEAD.Cost_Center_Type " &
         ",isnull(SubCapex_Amount,0) as SubCapex_Amount,isnull(SubCapex_AmountWithTol,0) as SubCapex_AmountWithTol,isnull(SubCapex_BalAmount,0) as SubCapex_BalAmount,isnull(SubCapex_BalAmountWithTol,0) as SubCapex_BalAmountWithTol"
-        qry += ",From_Screen_Code,WO_To,WO_Subject,WO_Content,WO_CopySubmittedTo FROM TSPL_REQUISITION_HEAD left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_REQUISITION_HEAD.Location where  2=2"
+        qry += ",From_Screen_Code,WO_To,WO_Subject,WO_Content,WO_CopySubmittedTo,TSPL_REQUISITION_HEAD.All_Transfer_Issue FROM TSPL_REQUISITION_HEAD left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_REQUISITION_HEAD.Location where  2=2"
         If clsCommon.myLen(IsInternal) > 0 Then
             whrclas = " and Is_Internal='" & IsInternal & "' "
         End If
@@ -365,7 +363,7 @@ Public Class clsRequistionHead
             obj.WO_Subject = clsCommon.myCstr(dt.Rows(0)("WO_Subject"))
             obj.WO_Content = clsCommon.myCstr(dt.Rows(0)("WO_Content"))
             obj.WO_CopySubmittedTo = clsCommon.myCstr(dt.Rows(0)("WO_CopySubmittedTo"))
-
+            obj.All_Transfer_Issue = clsCommon.myCstr(dt.Rows(0)("All_Transfer_Issue"))
             qry = "SELECT TSPL_REQUISITION_DETAIL.Hirerachy_Code,TSPL_REQUISITION_DETAIL.Cost_Centre_Code,TSPL_REQUISITION_DETAIL.Requisition_Id,TSPL_REQUISITION_DETAIL.Line_No,TSPL_REQUISITION_DETAIL.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name as VendorName, TSPL_REQUISITION_DETAIL.Item_Code,TSPL_REQUISITION_DETAIL.Item_Desc,TSPL_REQUISITION_DETAIL.Requisition_Qty,TSPL_REQUISITION_DETAIL.Balance_Qty,TSPL_REQUISITION_DETAIL.Unit_Code,TSPL_REQUISITION_DETAIL.Location,TSPL_LOCATION_MASTER.Location_Desc as LocationName ,TSPL_REQUISITION_DETAIL.Item_Cost,TSPL_REQUISITION_DETAIL.Item_Net_Amt,TSPL_REQUISITION_DETAIL.Status,TSPL_REQUISITION_DETAIL.Order_No,TSPL_REQUISITION_DETAIL.Vendor_ItemNo,TSPL_REQUISITION_DETAIL.Specification,TSPL_REQUISITION_DETAIL.Remarks,TSPL_REQUISITION_DETAIL.Row_Type,TSPL_REQUISITION_DETAIL.Capacity,TSPL_REQUISITION_DETAIL.Make,TSPL_REQUISITION_DETAIL.Cost_Code,TSPL_REQUISITION_DETAIL.Model,TSPL_REQUISITION_DETAIL.Hirerachy_Level3,TSPL_REQUISITION_DETAIL.Hirerachy_Level4 FROM TSPL_REQUISITION_DETAIL left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_REQUISITION_DETAIL.Location left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code =TSPL_REQUISITION_DETAIL.Vendor_Code where TSPL_REQUISITION_DETAIL.Requisition_Id='" + obj.Requisition_Id + "' ORDER BY TSPL_REQUISITION_DETAIL.Line_No"
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(qry, trans)
