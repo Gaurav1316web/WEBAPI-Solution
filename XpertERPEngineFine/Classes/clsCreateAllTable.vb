@@ -18329,6 +18329,8 @@ Public Class clsCreateAllTable
             coll.Add("Is_Auto_Tare_Weight", "integer NULL")
             coll.Add("Tare_Weight_Manual_By", "varchar(12)  NULL")
             coll.Add("Tare_Weight_Manual_Date", "Datetime  NULL")
+            coll.Add("Gross_Weight_Manual_By", "varchar(12)  NULL")
+            coll.Add("Gross_Weight_Manual_Date", "Datetime  NULL")
 
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RCDF_LOAD_IN", coll, Nothing, True, False, "", "Document_Code", "Document_Date")
 
@@ -46707,6 +46709,8 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Is_Auto_Tare_Weight", "integer NULL")
             coll.Add("Tare_Weight_Manual_By", "varchar(12)  NULL")
             coll.Add("Tare_Weight_Manual_Date", "Datetime  NULL")
+            coll.Add("Gross_Weight_Manual_By", "varchar(12)  NULL")
+            coll.Add("Gross_Weight_Manual_Date", "Datetime  NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PO_WEIGHTMENT_HEAD", coll, Nothing, True, True, "", "Weighment_Code", "Weighment_Date")
 
             qry = "alter table TSPL_PO_WEIGHTMENT_HEAD alter column Against_GRN_No varchar(30) null"
