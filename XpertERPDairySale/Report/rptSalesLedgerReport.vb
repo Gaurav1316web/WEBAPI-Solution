@@ -113,7 +113,49 @@ Public Class rptSalesLedgerReport
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportID()
         LoadData()
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+
+        If rbtnDemand.IsChecked Then
+            VarID += "_DE"
+        ElseIf rbtnDispatch.IsChecked Then
+            VarID += "_DI"
+        End If
+        If rbtnDetail.IsChecked Then
+            VarID += "_D"
+        ElseIf rbtnSummary.IsChecked Then
+            VarID += "_S"
+        End If
+        If rbtnRoute.IsChecked Then
+            VarID += "_R"
+        ElseIf rbtnCustomer.IsChecked Then
+            VarID += "_C"
+        ElseIf rbtnZone.IsChecked Then
+            VarID += "_Z"
+        End If
+
+        If rbtnMilkType.IsChecked Then
+            VarID += "_MT"
+        ElseIf rbtnProductType.IsChecked Then
+            VarID += "_PT"
+        ElseIf rbtnBothType.IsChecked Then
+            VarID += "_BT"
+        End If
+
+        If rbtnMorning.IsChecked Then
+            VarID += "_MS"
+        ElseIf rbtnEvening.IsChecked Then
+            VarID += "_PS"
+        ElseIf rbtnBothShift.IsChecked Then
+            VarID += "_BS"
+        End If
+
+        gv1.VarID = VarID
+
     End Sub
 
     Sub funreset()
@@ -546,18 +588,15 @@ Public Class rptSalesLedgerReport
                 arrHeader.Add("Date : " & clsCommon.myCDate(txtFromDate.Value) + "  To " + clsCommon.myCDate(txtToDate.Value))
                 If rbtnSummary.IsChecked = True Then
                     arrHeader.Add("Report Type : " & "Summary")
-                End If
-                If rbtnDetail.IsChecked = True Then
+                ElseIf rbtnDetail.IsChecked = True Then
                     arrHeader.Add("Report Type : " & "Details")
                     If rbtnRoute.IsChecked Then
-                        arrHeader.Add("Route : " & clsCommon.GetMulcallString(txtRoute.arrValueMember) & "")
+                        arrHeader.Add("Route Code : " & clsCommon.GetMulcallString(txtRoute.arrValueMember) & "   Route Name :" & clsCommon.GetMulcallString(txtRoute.arrDispalyMember) & "")
                     ElseIf rbtnCustomer.IsChecked Then
-                        arrHeader.Add("Customer : " & clsCommon.GetMulcallString(txtCustomer.arrValueMember) & "")
+                        arrHeader.Add("Customer Code: " & clsCommon.GetMulcallString(txtCustomer.arrValueMember) & "   Customer Name :" & clsCommon.GetMulcallString(txtCustomer.arrDispalyMember) & "")
                     ElseIf rbtnZone.IsChecked Then
-                        arrHeader.Add("Zone : " & clsCommon.GetMulcallString(txtZone.arrValueMember) & "")
+                        arrHeader.Add("Zone Code : " & clsCommon.GetMulcallString(txtZone.arrValueMember) & "   Zone Name :" & clsCommon.GetMulcallString(txtZone.arrDispalyMember) & "")
                     End If
-
-
                 End If
                 transportSql.exportdata(gv1, "", Me.Text, False, arrHeader, False, False, True)
             Else
@@ -572,39 +611,24 @@ Public Class rptSalesLedgerReport
     Private Sub btnPDF_Click(sender As Object, e As EventArgs) Handles btnPDF.Click
         Try
             If gv1.Rows.Count > 0 Then
-                Dim style As New GridPrintStyle()
-                style.PrintGrouping = True
-                style.HeaderCellBackColor = Color.White
-                style.GroupRowBackColor = Color.White
-                style.SummaryCellBackColor = Color.White
-                style.PrintSummaries = True
-                gv1.PrintStyle = style
+                Dim arrHeader As List(Of String) = New List(Of String)()
+                arrHeader.Add("Date : " & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "  To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy"))
+                Dim ReportHeading As String = ""
+                If rbtnSummary.IsChecked = True Then
+                    arrHeader.Add("Report Type : " & "Summary")
+                ElseIf rbtnDetail.IsChecked = True Then
+                    arrHeader.Add("Report Type : " & "Details")
+                    If rbtnRoute.IsChecked Then
+                        arrHeader.Add("Route Code : " & clsCommon.GetMulcallString(txtRoute.arrValueMember) & "   Route Name :" & clsCommon.GetMulcallString(txtRoute.arrDispalyMember) & "")
+                    ElseIf rbtnCustomer.IsChecked Then
+                        arrHeader.Add("Customer Code: " & clsCommon.GetMulcallString(txtCustomer.arrValueMember) & "   Customer Name :" & clsCommon.GetMulcallString(txtCustomer.arrDispalyMember) & "")
+                    ElseIf rbtnZone.IsChecked Then
+                        arrHeader.Add("Zone Code : " & clsCommon.GetMulcallString(txtZone.arrValueMember) & "   Zone Name :" & clsCommon.GetMulcallString(txtZone.arrDispalyMember) & "")
+                    End If
 
-                Dim doc As New clsMyPrintDocument()
+                End If
 
-                doc.Margins.Top = 50
-                doc.Margins.Bottom = 50
-                doc.Margins.Left = 50
-                doc.Margins.Right = 50
-                doc.HeaderHeight = 90
-                doc.Landscape = True
-                doc.AssociatedObject = gv1
-
-                doc.DocumentName = objCommonVar.CurrentCompanyName
-
-                doc.MiddleHeader = objCommonVar.CurrentCompanyName + Environment.NewLine & clsCommon.myCDate(txtFromDate.Value) + "-" + clsCommon.myCDate(txtToDate.Value)
-                doc.HeaderFont = New Font("Segoe UI", 10, FontStyle.Bold)
-
-                doc.AssociatedObject = gv1
-
-                doc.RightFooter = "Page [Page #] Of [Total Pages]"
-
-                Dim dialog As New RadPrintPreviewDialog
-                dialog.Document = doc
-                dialog.ToolMenu.Visible = True
-                dialog.Show()
-
-                'doc.Print()
+                clsCommon.MyExportToPDF(Me.Text, gv1, arrHeader, Me.Text)
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
             End If
