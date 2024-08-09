@@ -56315,6 +56315,18 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
 
         '**************************************************************************************
 
+        coll = New Dictionary(Of String, String)()
+        coll.Add("ReportID", "Varchar(100) NOT NULL")
+        coll.Add("Page_Size", "Varchar(12) NULL")
+        coll.Add("Page_Style", "Varchar(12) NULL")
+        coll.Add("Page_Width", "decimal(18,2) NULL")
+        coll.Add("Page_Height", "decimal(18,2) NULL")
+        coll.Add("Page_Margin_Top", "decimal(18,2) NULL")
+        coll.Add("Page_Margin_Bottom", "decimal(18,2) NULL")
+        coll.Add("Page_Margin_Left", "decimal(18,2) NULL")
+        coll.Add("Page_Margin_Right", "decimal(18,2) NULL")
+        coll.Add("Page_Right_Header", "Varchar(500) NULL")
+        clsCommonFunctionality.CreateOrAlterTable("TSPL_NEW_PDF_PAGE_SIZE", coll)
 
         Return True
     End Function
