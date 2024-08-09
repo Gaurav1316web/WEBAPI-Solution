@@ -26517,4 +26517,37 @@ and   not exists (select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PEN
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
     End Sub
+
+    Private Sub FrmUtility_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+
+        If clsCommon.CompairString(RadButton354.Text, "Stop Key Event") = CompairStringResult.Equal Then
+            Dim str As String = "Date Time-" + clsCommon.GetPrintDate(DateTime.Now, "dd/MM/yyyy hh:mm:ss:fff tt") + " "
+
+            If e.Control Then
+                str += "Control + "
+            End If
+            If e.Alt Then
+                str += "Alt + "
+            End If
+            If e.Shift Then
+                str += "Shift + "
+            End If
+            str += clsCommon.myCstr(e.KeyCode)
+            txtKeyDown.Text += str + Environment.NewLine
+        End If
+
+    End Sub
+
+    Private Sub RadButton354_Click_1(sender As Object, e As EventArgs) Handles RadButton354.Click
+        If clsCommon.CompairString(RadButton354.Text, "Start Key Event") = CompairStringResult.Equal Then
+            RadButton354.Text = "Stop Key Event"
+        Else
+            RadButton354.Text = "Start Key Event"
+        End If
+    End Sub
+
+    Private Sub RadButton355_Click(sender As Object, e As EventArgs) Handles RadButton355.Click
+        txtKeyDown.Text = ""
+        RadButton354.Text = "Start Key Event"
+    End Sub
 End Class

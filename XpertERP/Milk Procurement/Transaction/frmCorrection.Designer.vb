@@ -22,14 +22,14 @@ Partial Class frmCorrection
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -47,6 +47,7 @@ Partial Class frmCorrection
         Me.txtVLC = New common.UserControls.txtFinder()
         Me.lblVLC = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.cboRejectType = New common.Controls.MyComboBox()
         Me.chkCorrection = New common.Controls.MyCheckBox()
         Me.chkRetesting = New common.Controls.MyCheckBox()
         Me.MyLabel8 = New common.Controls.MyLabel()
@@ -167,7 +168,6 @@ Partial Class frmCorrection
         Me.MyLabel45 = New common.Controls.MyLabel()
         Me.txtBMCTankerFAT = New common.MyNumBox()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.cboRejectType = New common.Controls.MyComboBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -188,6 +188,7 @@ Partial Class frmCorrection
         CType(Me.lblVLC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.cboRejectType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkCorrection, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkRetesting, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -306,7 +307,6 @@ Partial Class frmCorrection
         CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtBMCTankerFAT, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cboRejectType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -341,7 +341,7 @@ Partial Class frmCorrection
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(667, 424)
         Me.RadPageView1.TabIndex = 2
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -425,10 +425,10 @@ Partial Class frmCorrection
         Me.cboShift.IsSourceFromTable = False
         Me.cboShift.IsSourceFromValueList = False
         Me.cboShift.IsUnique = False
-        RadListDataItem7.Text = "M"
-        RadListDataItem8.Text = "E"
-        Me.cboShift.Items.Add(RadListDataItem7)
-        Me.cboShift.Items.Add(RadListDataItem8)
+        RadListDataItem1.Text = "M"
+        RadListDataItem2.Text = "E"
+        Me.cboShift.Items.Add(RadListDataItem1)
+        Me.cboShift.Items.Add(RadListDataItem2)
         Me.cboShift.Location = New System.Drawing.Point(273, 16)
         Me.cboShift.MendatroryField = True
         Me.cboShift.MyLinkLable1 = Me.lblBOMStatus
@@ -605,6 +605,37 @@ Partial Class frmCorrection
         Me.RadGroupBox1.TabIndex = 1
         Me.RadGroupBox1.Text = "Correction"
         '
+        'cboRejectType
+        '
+        Me.cboRejectType.AutoCompleteDisplayMember = Nothing
+        Me.cboRejectType.AutoCompleteValueMember = Nothing
+        Me.cboRejectType.CalculationExpression = Nothing
+        Me.cboRejectType.DropDownAnimationEnabled = True
+        Me.cboRejectType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboRejectType.FieldCode = Nothing
+        Me.cboRejectType.FieldDesc = Nothing
+        Me.cboRejectType.FieldMaxLength = 0
+        Me.cboRejectType.FieldName = Nothing
+        Me.cboRejectType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboRejectType.isCalculatedField = False
+        Me.cboRejectType.IsSourceFromTable = False
+        Me.cboRejectType.IsSourceFromValueList = False
+        Me.cboRejectType.IsUnique = False
+        RadListDataItem3.Text = "M"
+        RadListDataItem4.Text = "E"
+        Me.cboRejectType.Items.Add(RadListDataItem3)
+        Me.cboRejectType.Items.Add(RadListDataItem4)
+        Me.cboRejectType.Location = New System.Drawing.Point(209, 92)
+        Me.cboRejectType.MendatroryField = True
+        Me.cboRejectType.MyLinkLable1 = Nothing
+        Me.cboRejectType.MyLinkLable2 = Nothing
+        Me.cboRejectType.Name = "cboRejectType"
+        Me.cboRejectType.ReferenceFieldDesc = Nothing
+        Me.cboRejectType.ReferenceFieldName = Nothing
+        Me.cboRejectType.ReferenceTableName = Nothing
+        Me.cboRejectType.Size = New System.Drawing.Size(135, 18)
+        Me.cboRejectType.TabIndex = 372
+        '
         'chkCorrection
         '
         Me.chkCorrection.CheckState = System.Windows.Forms.CheckState.Checked
@@ -710,10 +741,10 @@ Partial Class frmCorrection
         Me.cboMilkType.IsSourceFromTable = False
         Me.cboMilkType.IsSourceFromValueList = False
         Me.cboMilkType.IsUnique = False
-        RadListDataItem9.Text = "M"
-        RadListDataItem10.Text = "E"
-        Me.cboMilkType.Items.Add(RadListDataItem9)
-        Me.cboMilkType.Items.Add(RadListDataItem10)
+        RadListDataItem5.Text = "M"
+        RadListDataItem6.Text = "E"
+        Me.cboMilkType.Items.Add(RadListDataItem5)
+        Me.cboMilkType.Items.Add(RadListDataItem6)
         Me.cboMilkType.Location = New System.Drawing.Point(71, 92)
         Me.cboMilkType.MendatroryField = True
         Me.cboMilkType.MyLinkLable1 = Me.MyLabel4
@@ -1781,10 +1812,10 @@ Partial Class frmCorrection
         Me.cboBMCCorrMilkType.IsSourceFromTable = False
         Me.cboBMCCorrMilkType.IsSourceFromValueList = False
         Me.cboBMCCorrMilkType.IsUnique = False
-        RadListDataItem3.Text = "M"
-        RadListDataItem4.Text = "E"
-        Me.cboBMCCorrMilkType.Items.Add(RadListDataItem3)
-        Me.cboBMCCorrMilkType.Items.Add(RadListDataItem4)
+        RadListDataItem7.Text = "M"
+        RadListDataItem8.Text = "E"
+        Me.cboBMCCorrMilkType.Items.Add(RadListDataItem7)
+        Me.cboBMCCorrMilkType.Items.Add(RadListDataItem8)
         Me.cboBMCCorrMilkType.Location = New System.Drawing.Point(71, 94)
         Me.cboBMCCorrMilkType.MendatroryField = True
         Me.cboBMCCorrMilkType.MyLinkLable1 = Me.MyLabel24
@@ -2379,37 +2410,6 @@ Partial Class frmCorrection
         Me.btnclose.TabIndex = 0
         Me.btnclose.Text = "Close"
         '
-        'cboRejectType
-        '
-        Me.cboRejectType.AutoCompleteDisplayMember = Nothing
-        Me.cboRejectType.AutoCompleteValueMember = Nothing
-        Me.cboRejectType.CalculationExpression = Nothing
-        Me.cboRejectType.DropDownAnimationEnabled = True
-        Me.cboRejectType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.cboRejectType.FieldCode = Nothing
-        Me.cboRejectType.FieldDesc = Nothing
-        Me.cboRejectType.FieldMaxLength = 0
-        Me.cboRejectType.FieldName = Nothing
-        Me.cboRejectType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cboRejectType.isCalculatedField = False
-        Me.cboRejectType.IsSourceFromTable = False
-        Me.cboRejectType.IsSourceFromValueList = False
-        Me.cboRejectType.IsUnique = False
-        RadListDataItem1.Text = "M"
-        RadListDataItem2.Text = "E"
-        Me.cboRejectType.Items.Add(RadListDataItem1)
-        Me.cboRejectType.Items.Add(RadListDataItem2)
-        Me.cboRejectType.Location = New System.Drawing.Point(209, 92)
-        Me.cboRejectType.MendatroryField = True
-        Me.cboRejectType.MyLinkLable1 = Nothing
-        Me.cboRejectType.MyLinkLable2 = Nothing
-        Me.cboRejectType.Name = "cboRejectType"
-        Me.cboRejectType.ReferenceFieldDesc = Nothing
-        Me.cboRejectType.ReferenceFieldName = Nothing
-        Me.cboRejectType.ReferenceTableName = Nothing
-        Me.cboRejectType.Size = New System.Drawing.Size(135, 18)
-        Me.cboRejectType.TabIndex = 372
-        '
         'frmCorrection
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2444,6 +2444,7 @@ Partial Class frmCorrection
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.cboRejectType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkCorrection, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkRetesting, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2569,7 +2570,6 @@ Partial Class frmCorrection
         CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtBMCTankerFAT, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cboRejectType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
