@@ -538,7 +538,7 @@ Public Class rptVSPMilkNotSold
                 If clsCommon.myLen(txtPaymentCycleCode.Value) > 0 Then
                     'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
                     ''Dim qry As String = "Select Code from TSPL_DEDUCTION_MASTER Where TSPL_DEDUCTION_MASTER.Code In('22','31','33','36')"
-                    Dim Qry As String = "Select Code from TSPL_DEDUCTION_MASTER Where Code In (Select  TSPL_MULTIPLE_DEDUCTION_DETAIL.DeductionCode from TSPL_MULTIPLE_DEDUCTION_DETAIL
+                    Dim Qry As String = "Select Code from TSPL_DEDUCTION_MASTER Where Code In (Select Distinct TSPL_MULTIPLE_DEDUCTION_DETAIL.DeductionCode from TSPL_MULTIPLE_DEDUCTION_DETAIL
                                         Inner Join TSPL_MULTIPLE_DEDUCTION_HEAD On TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
                                         Inner Join TSPL_VLC_MASTER_HEAD ON  TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_MULTIPLE_DEDUCTION_DETAIL.Vendor_Code"
                     If AreaWiseBilling = True Then
@@ -562,10 +562,11 @@ Public Class rptVSPMilkNotSold
 
                         If TxtMCCMultifnd.arrValueMember IsNot Nothing AndAlso TxtMCCMultifnd.arrValueMember.Count > 0 Then
                             Qry += "  and TSPL_VLC_MASTER_HEAD.MCC In (" & clsCommon.GetMulcallString(TxtMCCMultifnd.arrValueMember) & ") "
+                        ElseIf txtMCC.Text IsNot Nothing AndAlso clsCommon.myLen(txtMCC.Text) > 0 Then
+                            Qry += "  and TSPL_VLC_MASTER_HEAD.MCC ='" + txtMCC.Text + "'  "
                         Else
                             Qry += "  and TSPL_VLC_MASTER_HEAD.MCC In (" & StrPermission & ") "
                         End If
-
                         Qry += "  And TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date >=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' And TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date  <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' and 
                                           TSPL_VLC_MASTER_HEAD.VSP_Code Not In(Select VSP_Code from TSPL_MILK_SRN_HEAD where Doc_Date >=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' And Doc_Date  <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "')) "
 
@@ -588,9 +589,11 @@ Public Class rptVSPMilkNotSold
                     'End If
                 Else
                     clsCommon.MyMessageBoxShow(Me, "Select Payment Cycle", Me.Text)
-                    MyLabel3.Visible = False
-                    txtMultiDeduction.Visible = False
                 End If
+            Else
+                MyLabel3.Visible = False
+                txtMultiDeduction.arrValueMember = Nothing
+                txtMultiDeduction.Visible = False
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

@@ -1938,6 +1938,86 @@ Public Class clsSalaryGeneration
         Qry += " from TSPL_COMPANY_MASTER where Comp_Code='" & objCommonVar.CurrentCompanyCode & "'"
         Return Qry
     End Function
+
+    Public Shared Function GetPFESIQuery1(ByVal PayPeriod As String, ByVal Location_Code As String, ByVal DivCond As String, ByVal LocName As String, ByVal LocAdress As String, ByVal FirmPf As String, Optional ByVal LocDesc As String = "") As String
+        Dim objPF As clsPFRulesMaster = clsPFRulesMaster.GetRecentPFRule(PayPeriod)
+        Dim objESI As clsESIRulesMaster = clsESIRulesMaster.GetRecentESIRule(PayPeriod)
+        Dim Qry As String = ""
+        Dim arrLoc() As String = Location_Code.Replace("(", "").Replace(")", "").Split(",")
+        Dim adminEDLI As Decimal = 0
+        Dim qryAdminEDLI As String = ""
+        Dim strLocation As String = Nothing
+        If Location_Code IsNot Nothing AndAlso clsCommon.myLen(Location_Code) > 0 Then
+            strLocation = " TSPL_GENERATE_SALARY.LOCATION_CODE in " + Location_Code + " And "
+        End If
+        For Each strLoc As String In arrLoc
+            qryAdminEDLI = " select (CASE WHEN  (((select SUM(case when HEAD_VALUE>" & objPF.EMPEPF_MAX & " then " & objPF.EMPEPF_MAX & " *PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end)  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " &
+                           " TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE where  "
+            If strLoc IsNot Nothing AndAlso clsCommon.myLen(strLoc) > 0 Then
+                qryAdminEDLI += " TSPL_GENERATE_SALARY.LOCATION_CODE = " & strLoc & " And "
+            End If
+            qryAdminEDLI += " PAY_HEAD_CODE='EPF' And  TSPL_GENERATE_SALARY_PAYHEADS.Actual_Amount>0 and TSPL_GENERATE_SALARY.Pay_Period_Code='" & PayPeriod & "' " & DivCond & ")* " & objPF.ACCOEDLI_PER & ")/100)>" & objPF.ACCOEDLI_MIN & " THEN ((select SUM(case when HEAD_VALUE>" & objPF.EMPEPF_MAX & " then " & objPF.EMPEPF_MAX & " *PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end)  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and " &
+                            " TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE where  " + strLocation + " PAY_HEAD_CODE='EPF' And TSPL_GENERATE_SALARY_PAYHEADS.Actual_Amount>0 and TSPL_GENERATE_SALARY.Pay_Period_Code='" & PayPeriod & "' " & DivCond & ")* " & objPF.ACCOEDLI_PER & ")/100 ELSE " & objPF.ACCOEDLI_MIN & " END) as Admin_EDLI_Amt"
+            adminEDLI = adminEDLI + clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qryAdminEDLI))
+        Next
+        ''Ticket No - BM00000007674,BM00000007377 By Panch Raj
+        Dim Total_58 As Integer = 0
+        Qry = " select COUNT(*)  from TSPL_GENERATE_SALARY_PAYHEADS left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE INNER JOIN TSPL_GENERATE_SALARY_ATTENDANCE GSA ON TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=GSA.SALARY_GENERATION_CODE AND GSA.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE  where  " + strLocation + " PAY_HEAD_CODE='EPF' " &
+              " and  PF_Applicable=1 and CoEPF_AMT_AC01>0 and  coalesce(CoEPS_AMT_AC10,0)<=0 and TSPL_GENERATE_SALARY.Pay_Period_Code='" & PayPeriod & "' " & DivCond & ""
+        Total_58 = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry))
+
+        Qry = "Select ('" + objCommonVar.CurrentUser + "') As PrintBy,('" & Location_Code & "') as Location_Code ,('" & LocName & "') as Location_Desc,(TSPL_COMPANY_MASTER.Comp_Name) as Location_Address ,
+(TSPL_COMPANY_MASTER.Comp_Name) as Name,(TSPL_COMPANY_MASTER.Add1) As Address1,(TSPL_COMPANY_MASTER.Add2) as Address2,(TSPL_COMPANY_MASTER.Add3) as Address3,xxx.* from (select DATEPART(month,(select DATE_FROM from TSPL_PAYPERIOD_MASTER where PAY_PERIOD_CODE ='" + PayPeriod + "'))Month, 
+DATEPART(Year,(select DATE_TO from TSPL_PAYPERIOD_MASTER where PAY_PERIOD_CODE ='" + PayPeriod + "'))Year, (select DATE_FROM from TSPL_PAYPERIOD_MASTER where PAY_PERIOD_CODE ='" + PayPeriod + "')DateFr,
+(select DATE_TO from TSPL_PAYPERIOD_MASTER where PAY_PERIOD_CODE ='" + PayPeriod + "')DateTo, Max(TSPL_GENERATE_SALARY.Pay_Period_Code)Pay_Period_Code,EMP.EMP_CODE,Max(EMP.Emp_Name)Emp_Name,
+Max(TotalEmp.TotalEmpEPFAc01)TotalEmpEPFAc01,Max(TotalEmp.TotalEmpPensionAC10)TotalEmpPensionAC10,Max(TotalEmp.TotalEmpEDLIAc21)TotalEmpEDLIAc21,Max(Isnull(TotEmpESI.TotEmpESI,0))TotEmpESI,
+Sum(Case When TSPL_GENERATE_SALARY_PAYHEADS.Actual_Amount>0 Then (case when HEAD_VALUE>PF_MAX_LM then PF_MAX_LM*PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end)Else 0 End) AS TotalSalaryEPFAc01,
+Sum(Case When TSPL_GENERATE_SALARY_PAYHEADS.CoEPS_AMT_AC10>0 Then (case when HEAD_VALUE>" & objPF.EMPEPF_MAX & " then " & objPF.EMPEPF_MAX & " *PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end) Else 0 End) As TotalSalaryPensionAc10,
+Sum(Case When TSPL_GENERATE_SALARY_PAYHEADS.CoEPF_AMT_AC01>0 Then (case when HEAD_VALUE>" & objPF.EMPEPF_MAX & " then " & objPF.EMPEPF_MAX & " *PAYABLE_DAYS/TSPL_GENERATE_SALARY_ATTENDANCE.PAYPERIOD_DAYS else HEAD_VALUE end)  Else 0 End) AS TotalSalaryEDLIAc21,
+Sum(Case When TSPL_GENERATE_SALARY_PAYHEADS.Actual_Amount>0  Then Actual_Amount Else 0 End) AS EPFAmtAc01,
+Sum(Case When TSPL_GENERATE_SALARY_PAYHEADS.Actual_Amount>0 Then Case When ((Actual_Amount)*" & objPF.COEPS_PER & ")/100 > " & objPF.EPS_MAX & " Then " & objPF.EPS_MAX & " Else ((Actual_Amount)*" & objPF.COEPS_PER & ")/100 End Else 0 End) As PensionAmtAc10,
+Sum(Case When TSPL_GENERATE_SALARY_PAYHEADS.Actual_Amount>0 Then (Actual_Amount)-(case when ((Actual_Amount)*" & objPF.COEPS_PER & ")/100 > " & objPF.EPS_MAX & " then ((Actual_Amount*" & objPF.COEPS_PER & ")/100 - " & objPF.EPS_MAX & ")*(-1) else ((Actual_Amount*" & objPF.COEPS_PER & ")/100) End) Else 0 End) As DifferenceAmtAc01,
+Sum(Case When (TotWages.TotalWages)>0 Then ((TotWages.TotalWages)* " & objPF.ACCOEPF_PER & ")/100   Else 0 End) AdminAmtAc02,
+Sum(Case When (TotWages.TotalWages)>0 Then ((TotWages.TotalWages)*  " & objPF.COEDLI_PER & ")/100   Else 0 End) EDLIAmtAc21,
+Sum(Case When (TotWages.TotalWages)>0 Then ((TotWages.TotalWages*" & objPF.ACCOEDLI_PER & ")/100) Else 0 End) as  AdminEDLIAmtAc22,
+Sum(Case When SUB_HEAD_TYPE in('EMPESI','COESI') and TSPL_GENERATE_SALARY_PAYHEADS.Actual_Amount>0 Then IsNull(HEAD_VALUE,0) Else 0 End) As TotSalESI,
+Sum(Case When SUB_HEAD_TYPE ='EMPESI' and  TSPL_GENERATE_SALARY_PAYHEADS.Actual_Amount>0 Then IsNull(ACTUAL_AMOUNT,0) Else 0 End) As EmpESIAmt,
+Sum(Case When SUB_HEAD_TYPE ='EMPESI' and  TSPL_GENERATE_SALARY_PAYHEADS.Actual_Amount>0 Then CEILING(((HEAD_VALUE)* " & objESI.COESI_PER & "/100)) Else 0 End) As EmployerESIAMT,
+Sum(Case When SUB_HEAD_TYPE ='LWF' and  TSPL_GENERATE_SALARY_PAYHEADS.Actual_Amount>0 Then IsNull(Actual_Amount,0)*2   Else 0 End) As LWFER,
+'" & FirmPf & "' as FirmPFNo,
+COUNT(distinct EMP.EMP_CODE)Total_Employee_Count 
+from TSPL_GENERATE_SALARY_PAYHEADS 
+left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE 
+INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE  
+inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and  TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE 
+Left Outer Join(select Max(TSPL_GENERATE_SALARY.Pay_Period_Code)Pay_Period_Code,(EMP.EMP_CODE)EMP_CODE,COUNT(*)TotalEmpEPFAc01,(COUNT(*)-" & Total_58 & ")TotalEmpPensionAC10,
+COUNT(*)TotalEmpEDLIAc21
+from TSPL_GENERATE_SALARY_PAYHEADS 
+left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE 
+INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE 
+INNER JOIN TSPL_GENERATE_SALARY_ATTENDANCE GSA ON TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=GSA.SALARY_GENERATION_CODE AND GSA.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE 
+where " + strLocation + "  PAY_HEAD_CODE='EPF' And  PF_Applicable=1 And TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT>0 And TSPL_GENERATE_SALARY.Pay_Period_Code='" & PayPeriod & "' " & DivCond & " Group By EMP.EMP_CODE )TotalEmp
+On TotalEmp.EMP_CODE=EMP.EMP_CODE And TotalEmp.Pay_Period_Code=TSPL_GENERATE_SALARY.Pay_Period_Code
+Left Outer Join(select Max(TSPL_GENERATE_SALARY.Pay_Period_Code)Pay_Period_Code,(EMP.EMP_CODE)EMP_CODE,COUNT(*)TotEmpESI  
+from TSPL_GENERATE_SALARY_PAYHEADS 
+left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE 
+INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE 
+where " + strLocation + "  SUB_HEAD_TYPE in('EMPESI','EMPESI') and  TSPL_GENERATE_SALARY_PAYHEADS.ESI_Applicable  = 1 And TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT>0 and TSPL_GENERATE_SALARY.Pay_Period_Code='" & PayPeriod & "' " & DivCond & "
+Group By EMP.EMP_CODE)TotEmpESI
+On TotEmpESI.EMP_CODE=EMP.EMP_CODE And TotEmpESI.Pay_Period_Code=TSPL_GENERATE_SALARY.Pay_Period_Code
+
+Left Outer Join(select Max(TSPL_GENERATE_SALARY.Pay_Period_Code)Pay_Period_Code,(EMP.EMP_CODE)EMP_CODE,Sum(Case When PAY_HEAD_CODE='BASIC' Then PAYABLE_AMOUNT Else 0 End) As BasicAmt,Sum(Case When PAY_HEAD_CODE='DA' Then PAYABLE_AMOUNT Else 0 End) As DAAmt,(Sum(Case When PAY_HEAD_CODE='BASIC' Then PAYABLE_AMOUNT Else 0 End)+Sum(Case When PAY_HEAD_CODE='DA' Then PAYABLE_AMOUNT Else 0 End)) As TotalWages
+from TSPL_GENERATE_SALARY_PAYHEADS 
+left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE 
+INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE 
+where " + strLocation + "  PF_Applicable=1 And TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT>0  And TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE in('BASIC','DA') and TSPL_GENERATE_SALARY.Pay_Period_Code='" & PayPeriod & "' " & DivCond & " 
+Group By EMP.EMP_CODE)TotWages
+On TotWages.EMP_CODE=EMP.EMP_CODE And TotWages.Pay_Period_Code=TSPL_GENERATE_SALARY.Pay_Period_Code
+
+where " + strLocation + "  PAY_HEAD_CODE='EPF' And  SUB_HEAD_TYPE In (Select SUB_HEAD_TYPE from TSPL_GENERATE_SALARY_PAYHEADS WHERE PAY_HEAD_CODE='EPF') And TSPL_GENERATE_SALARY.Pay_Period_Code='" & PayPeriod & "' " & DivCond & " 
+Group By EMP.EMP_CODE)xxx Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "'"
+        Return Qry
+    End Function
     Public Shared Function Generate_SalaryOLD(ByVal Pay_Period_Code As String, ByVal EmpList As ArrayList, ByVal trans As SqlTransaction, Optional ByVal Is_Arrear As Boolean = False) As Boolean
         'ProgressBar1.Minimum = 0
         'ProgressBar1.Maximum = 100
