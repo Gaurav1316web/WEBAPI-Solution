@@ -23,7 +23,7 @@ Partial Class FrmUtility
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -799,6 +799,9 @@ Partial Class FrmUtility
         Me.RadButton285 = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.Timer3 = New System.Windows.Forms.Timer(Me.components)
+        Me.txtKeyDown = New common.Controls.MyTextBox()
+        Me.RadButton354 = New Telerik.WinControls.UI.RadButton()
+        Me.RadButton355 = New Telerik.WinControls.UI.RadButton()
         CType(Me.btnCreateAdjustment, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadGroupBox1.SuspendLayout
@@ -1550,6 +1553,9 @@ Partial Class FrmUtility
         Me.SplitContainer2.Panel1.SuspendLayout
         Me.SplitContainer2.Panel2.SuspendLayout
         Me.SplitContainer2.SuspendLayout
+        CType(Me.txtKeyDown, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.RadButton354, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.RadButton355, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
@@ -1660,7 +1666,7 @@ Partial Class FrmUtility
         '
         Me.gvShipment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvShipment.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvShipment.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvShipment.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gvShipment.MyStopExport = False
         Me.gvShipment.Name = "gvShipment"
         Me.gvShipment.ShowHeaderCellButtons = True
@@ -1738,7 +1744,7 @@ Partial Class FrmUtility
         'Btnclose
         '
         Me.Btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Btnclose.Location = New System.Drawing.Point(1034, 1)
+        Me.Btnclose.Location = New System.Drawing.Point(1043, 1)
         Me.Btnclose.Name = "Btnclose"
         Me.Btnclose.Size = New System.Drawing.Size(64, 24)
         Me.Btnclose.TabIndex = 8
@@ -1945,8 +1951,8 @@ Partial Class FrmUtility
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(1103, 440)
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.Size = New System.Drawing.Size(1112, 440)
         Me.RadPageView1.TabIndex = 44
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -5688,7 +5694,7 @@ Partial Class FrmUtility
         Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(117.0!, 28.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
-        Me.RadPageViewPage4.Size = New System.Drawing.Size(1082, 392)
+        Me.RadPageViewPage4.Size = New System.Drawing.Size(1091, 392)
         Me.RadPageViewPage4.Text = "Machine Integration"
         '
         'SplitContainer1
@@ -5701,6 +5707,8 @@ Partial Class FrmUtility
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadButton355)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadButton354)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadButton110)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel3)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadButton48)
@@ -5717,8 +5725,9 @@ Partial Class FrmUtility
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.txtKeyDown)
         Me.SplitContainer1.Panel2.Controls.Add(Me.txtHyperTerminal)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1082, 392)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1091, 392)
         Me.SplitContainer1.SplitterDistance = 51
         Me.SplitContainer1.TabIndex = 0
         '
@@ -5903,9 +5912,11 @@ Partial Class FrmUtility
         '
         'txtHyperTerminal
         '
+        Me.txtHyperTerminal.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtHyperTerminal.AutoSize = False
         Me.txtHyperTerminal.CalculationExpression = Nothing
-        Me.txtHyperTerminal.Dock = System.Windows.Forms.DockStyle.Fill
         Me.txtHyperTerminal.FieldCode = Nothing
         Me.txtHyperTerminal.FieldDesc = Nothing
         Me.txtHyperTerminal.FieldMaxLength = 0
@@ -5925,7 +5936,7 @@ Partial Class FrmUtility
         Me.txtHyperTerminal.ReferenceFieldDesc = Nothing
         Me.txtHyperTerminal.ReferenceFieldName = Nothing
         Me.txtHyperTerminal.ReferenceTableName = Nothing
-        Me.txtHyperTerminal.Size = New System.Drawing.Size(1082, 337)
+        Me.txtHyperTerminal.Size = New System.Drawing.Size(717, 337)
         Me.txtHyperTerminal.TabIndex = 7
         Me.txtHyperTerminal.TabStop = False
         '
@@ -9892,7 +9903,7 @@ Partial Class FrmUtility
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.Btnclose)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1103, 470)
+        Me.SplitContainer2.Size = New System.Drawing.Size(1112, 470)
         Me.SplitContainer2.SplitterDistance = 440
         Me.SplitContainer2.TabIndex = 45
         '
@@ -9900,11 +9911,58 @@ Partial Class FrmUtility
         '
         Me.Timer3.Interval = 50000
         '
+        'txtKeyDown
+        '
+        Me.txtKeyDown.AutoSize = False
+        Me.txtKeyDown.CalculationExpression = Nothing
+        Me.txtKeyDown.Dock = System.Windows.Forms.DockStyle.Right
+        Me.txtKeyDown.FieldCode = Nothing
+        Me.txtKeyDown.FieldDesc = Nothing
+        Me.txtKeyDown.FieldMaxLength = 0
+        Me.txtKeyDown.FieldName = Nothing
+        Me.txtKeyDown.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtKeyDown.isCalculatedField = False
+        Me.txtKeyDown.IsSourceFromTable = False
+        Me.txtKeyDown.IsSourceFromValueList = False
+        Me.txtKeyDown.IsUnique = False
+        Me.txtKeyDown.Location = New System.Drawing.Point(723, 0)
+        Me.txtKeyDown.MaxLength = 150
+        Me.txtKeyDown.MendatroryField = False
+        Me.txtKeyDown.Multiline = True
+        Me.txtKeyDown.MyLinkLable1 = Nothing
+        Me.txtKeyDown.MyLinkLable2 = Nothing
+        Me.txtKeyDown.Name = "txtKeyDown"
+        Me.txtKeyDown.ReadOnly = True
+        Me.txtKeyDown.ReferenceFieldDesc = Nothing
+        Me.txtKeyDown.ReferenceFieldName = Nothing
+        Me.txtKeyDown.ReferenceTableName = Nothing
+        Me.txtKeyDown.Size = New System.Drawing.Size(368, 337)
+        Me.txtKeyDown.TabIndex = 8
+        Me.txtKeyDown.TabStop = False
+        '
+        'RadButton354
+        '
+        Me.RadButton354.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadButton354.Location = New System.Drawing.Point(935, 29)
+        Me.RadButton354.Name = "RadButton354"
+        Me.RadButton354.Size = New System.Drawing.Size(90, 20)
+        Me.RadButton354.TabIndex = 78
+        Me.RadButton354.Text = "Start Key Event"
+        '
+        'RadButton355
+        '
+        Me.RadButton355.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadButton355.Location = New System.Drawing.Point(841, 29)
+        Me.RadButton355.Name = "RadButton355"
+        Me.RadButton355.Size = New System.Drawing.Size(90, 20)
+        Me.RadButton355.TabIndex = 79
+        Me.RadButton355.Text = "Clear Key Event"
+        '
         'FrmUtility
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1103, 470)
+        Me.ClientSize = New System.Drawing.Size(1112, 470)
         Me.Controls.Add(Me.SplitContainer2)
         Me.Name = "FrmUtility"
         '
@@ -10694,6 +10752,9 @@ Partial Class FrmUtility
         Me.SplitContainer2.Panel1.ResumeLayout(False)
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.txtKeyDown, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.RadButton354, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.RadButton355, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(False)
 
@@ -11464,5 +11525,8 @@ Partial Class FrmUtility
     Friend WithEvents MyLabel67 As common.Controls.MyLabel
     Friend WithEvents RadButton352 As RadButton
     Friend WithEvents UpdateVirtualCustomerAccount As RadButton
+    Friend WithEvents txtKeyDown As common.Controls.MyTextBox
+    Friend WithEvents RadButton354 As RadButton
+    Friend WithEvents RadButton355 As RadButton
 End Class
 

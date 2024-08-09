@@ -1466,13 +1466,13 @@ where 2=2 "
 
                     MCCCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT MCC_CODE FROM TSPL_MCC_MASTER WHERE Mcc_Code_VLC_Uploader = '" + MCCUploader + "' "))
                     If clsCommon.myLen(MCCCode) <= 0 Then
-                        Throw New Exception("Invalid MCC Uploader code At Line No " + clsCommon.myCstr(counter) + "")
+                        Throw New Exception("Invalid MCC Uploader code ")
                     End If
 
                     qry = " select count(*) from TSPL_VLC_MASTER_HEAD where VLC_Code_VLC_Uploader = '" + VLCUploader + "'  "
                     Dim checkValid As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue(qry))
                     If checkValid = False Then
-                        'Throw New Exception("Invalid VLC Uploader code At Line No " + clsCommon.myCstr(counter) + "")
+                        'Throw New Exception("Invalid VLC Uploader code ")
                         If (dtDefault IsNot Nothing AndAlso clsCommon.myLen(dtDefault.Rows.Count) > 0) Then
                             clsfrmVLCMaster.CreateNewVSP_VLC(VLCUploader, MCCCode)
                         Else
@@ -1487,14 +1487,14 @@ where 2=2 "
                     qry = " select count(*) from TSPL_BULK_ROUTE_MASTER where ROUTE_NO = '" + RouteCode + "'"
                     checkValid = clsCommon.myCBool(clsDBFuncationality.getSingleValue(qry))
                     If checkValid = False Then
-                        Throw New Exception("Invalid Route code At Line No " + clsCommon.myCstr(counter) + "")
+                        Throw New Exception("Invalid Route code ")
                     End If
 
                     If Not SettShowAllDCS Then
                         qry = " select count(*) from TSPL_VLC_MASTER_HEAD where VLC_Code_VLC_Uploader = '" + VLCUploader + "' and mcc='" + MCCCode + "' "
                         checkValid = clsCommon.myCBool(clsDBFuncationality.getSingleValue(qry))
                         If checkValid = False Then
-                            Throw New Exception("Invalid MCC Uploader code/VLC Uploader code At Line No " + clsCommon.myCstr(counter) + "")
+                            Throw New Exception("Invalid MCC Uploader code/VLC Uploader code ")
                         End If
                     End If
 
@@ -1505,49 +1505,49 @@ where 2=2 "
                     MilkCollectionRef = CInt(clsDBFuncationality.getSingleValue(qry))
 
                     If MilkCollectionRef <= 0 Then
-                        Throw New Exception("No Milk collection found for data At Line No " + clsCommon.myCstr(counter) + "")
+                        Throw New Exception("No Milk collection found for data ")
                     End If
 
                     If SettHideShiftCollection = 1 Then
                         If clsCommon.CompairString(StrShift, "M") = CompairStringResult.Equal Then
                         Else
-                            Throw New Exception("Shift should be (M-Morning)  At Line No " + clsCommon.myCstr(counter) + "")
+                            Throw New Exception("Shift should be (M-Morning)  ")
                         End If
                     ElseIf SettHideShiftCollection = 2 Then
                         If clsCommon.CompairString(StrShift, "E") = CompairStringResult.Equal Then
                         Else
-                            Throw New Exception("Shift should be (E-Evening)  At Line No " + clsCommon.myCstr(counter) + "")
+                            Throw New Exception("Shift should be (E-Evening)  ")
                         End If
                     Else
                         If clsCommon.CompairString(StrShift, "M") = CompairStringResult.Equal OrElse clsCommon.CompairString(StrShift, "E") = CompairStringResult.Equal Then
                         Else
-                            Throw New Exception("Shift should be (M-Morning/E-Evening)  At Line No " + clsCommon.myCstr(counter) + "")
+                            Throw New Exception("Shift should be (M-Morning/E-Evening)  ")
                         End If
                     End If
 
                     If clsCommon.CompairString(MilkType, "Good") = CompairStringResult.Equal OrElse clsCommon.CompairString(MilkType, "Curd") = CompairStringResult.Equal OrElse clsCommon.CompairString(MilkType, "Sour") = CompairStringResult.Equal Then
                     Else
-                        Throw New Exception("Milk Type should be (Good/Curd/Sour)  At Line No " + clsCommon.myCstr(counter) + "")
+                        Throw New Exception("Milk Type should be (Good/Curd/Sour)  ")
                     End If
                     If clsCommon.CompairString(StrType, "M") = CompairStringResult.Equal OrElse clsCommon.CompairString(StrType, "C") = CompairStringResult.Equal Then
                     Else
-                        Throw New Exception("Shift should be (M-Mix/C-Cow)  At Line No " + clsCommon.myCstr(counter) + "")
+                        Throw New Exception("Shift should be (M-Mix/C-Cow)  ")
                     End If
 
                     If DblFAT <= 0 Then
-                        Throw New Exception("FAT Should be greater than 0 At Line No " + clsCommon.myCstr(counter) + "")
+                        Throw New Exception("FAT Should be greater than 0 ")
                     End If
 
                     If DblSNF <= 0 Then
-                        Throw New Exception("SNF Should be greater than 0 At Line No " + clsCommon.myCstr(counter) + "")
+                        Throw New Exception("SNF Should be greater than 0 ")
                     End If
                     If DblQty <= 0 Then
-                        Throw New Exception("SNF Should be greater than 0 At Line No " + clsCommon.myCstr(counter) + "")
+                        Throw New Exception("SNF Should be greater than 0 ")
                     End If
                 Next
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Error At Line No " + clsCommon.myCstr(counter + 1) + Environment.NewLine + ex.Message, Me.Text)
                 Exit Sub
             End Try
             '********************
