@@ -820,6 +820,13 @@ Public Class frmDemandBooking
     Private Function SaveData(ByVal IsRepeatOrder As Integer, ByVal isQuickDemand As Boolean) As Boolean
         Try
             Dim qry As String = ""
+            If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                qry = "select Posted from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + txtDocNo.Value + "'"
+                Dim isPosted As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+                If isPosted = 1 Then
+                    Throw New Exception("Document Already Posted.")
+                End If
+            End If
             blnSaveTotalQTy = True
             'BookingStatus = 0
             Dim strPriceCode As String = String.Empty
