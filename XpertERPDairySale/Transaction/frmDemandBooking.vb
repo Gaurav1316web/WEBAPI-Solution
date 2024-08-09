@@ -324,17 +324,17 @@ Public Class frmDemandBooking
         repoBookingCreatedFor3Days.IsPinned = True
         gv1.MasterTemplate.Columns.Add(repoBookingCreatedFor3Days)
         Dim repoIName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        qry = "select * from (select 'Fresh' as FreshAmbient,tspl_item_master.Item_Code,tspl_item_master.Short_Description ,tspl_item_master.Item_Desc , TSPL_ITEM_UOM_DETAIL.UOM_Code,tspl_item_master.Short_Description +' - '+ TSPL_ITEM_UOM_DETAIL.UOM_Code as ItemDescNew,1 as RowNo,tspl_item_master.Sku_Seq   from tspl_item_master 
+        qry = "select * from (select 'Fresh' as FreshAmbient,tspl_item_master.Item_Code,tspl_item_master.Short_Description ,tspl_item_master.Item_Desc , TSPL_ITEM_UOM_DETAIL.UOM_Code,tspl_item_master.Short_Description +' - '+ TSPL_ITEM_UOM_DETAIL.UOM_Code as ItemDescNew,1 as RowNo,tspl_item_master.Sku_Seq,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,TSPL_ITEM_UOM_DETAIL.Stocking_Unit   from tspl_item_master 
     left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL .item_code=tspl_item_master.Item_Code 
     where  tspl_item_master.Is_FreshItem =1 AND TSPL_ITEM_MASTER.Is_Milk_Pouch =1 and isnull(TSPL_ITEM_MASTER.CAN,0)=0  and isnull(TSPL_ITEM_MASTER.CRATE,0)=0  and Item_Type ='F' and tspl_item_master.Active=1 and tspl_item_master.Is_DisplayDemand=1
     and TSPL_ITEM_UOM_DETAIL.Uom_code in ('Crate','Pouch','LTR')
     union
-    select 'Fresh' as FreshAmbient,tspl_item_master.Item_Code ,tspl_item_master.Short_Description,tspl_item_master.Item_Desc , TSPL_ITEM_UOM_DETAIL.UOM_Code,tspl_item_master.Short_Description +' - '+ TSPL_ITEM_UOM_DETAIL.UOM_Code as ItemDescNew,1 as RowNo,tspl_item_master.Sku_Seq  from tspl_item_master 
+    select 'Fresh' as FreshAmbient,tspl_item_master.Item_Code ,tspl_item_master.Short_Description,tspl_item_master.Item_Desc , TSPL_ITEM_UOM_DETAIL.UOM_Code,tspl_item_master.Short_Description +' - '+ TSPL_ITEM_UOM_DETAIL.UOM_Code as ItemDescNew,1 as RowNo,tspl_item_master.Sku_Seq,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,TSPL_ITEM_UOM_DETAIL.Stocking_Unit  from tspl_item_master 
     left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL .item_code=tspl_item_master.Item_Code 
     where  tspl_item_master.Is_FreshItem =1 AND TSPL_ITEM_MASTER.Is_Milk_Pouch =1 and isnull(TSPL_ITEM_MASTER.CAN,0)=0  and isnull(TSPL_ITEM_MASTER.CRATE,0)=0  and Item_Type ='F' and tspl_item_master.Active=1 and tspl_item_master.Is_DisplayDemand=1
     and TSPL_ITEM_UOM_DETAIL.Uom_code in ('Crate','Pouch','LTR')
     union all
-    select 'Ambient' as FreshAmbient,tspl_item_master.Item_Code ,tspl_item_master.Short_Description,tspl_item_master.Item_Desc , TSPL_ITEM_UOM_DETAIL.UOM_Code,tspl_item_master.Short_Description +' - '+ TSPL_ITEM_UOM_DETAIL.UOM_Code as ItemDescNew,2 as RowNo,tspl_item_master.Sku_Seq   from tspl_item_master 
+    select 'Ambient' as FreshAmbient,tspl_item_master.Item_Code ,tspl_item_master.Short_Description,tspl_item_master.Item_Desc , TSPL_ITEM_UOM_DETAIL.UOM_Code,tspl_item_master.Short_Description +' - '+ TSPL_ITEM_UOM_DETAIL.UOM_Code as ItemDescNew,2 as RowNo,tspl_item_master.Sku_Seq,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,TSPL_ITEM_UOM_DETAIL.Stocking_Unit   from tspl_item_master 
     left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL .item_code=tspl_item_master.Item_Code 
     where  tspl_item_master.Is_Ambient=1   and isnull(TSPL_ITEM_MASTER.CAN,0)=0  and isnull(TSPL_ITEM_MASTER.CRATE,0)=0  and Item_Type ='F' and tspl_item_master.Active=1 and tspl_item_master.Is_DisplayDemand=1
     and TSPL_ITEM_UOM_DETAIL.Default_UOM=1
@@ -353,6 +353,8 @@ Public Class frmDemandBooking
                 obj.Unit_code = clsCommon.myCstr(dr("UOM_Code"))
                 obj.IsFreshAmbient = clsCommon.myCstr(dr("FreshAmbient"))
                 obj.ShortDesc = clsCommon.myCstr(dr("Short_Description"))
+                obj.Conversion_Factor = clsCommon.myCdbl(dr("Conversion_Factor"))
+                obj.Stocking_Unit = clsCommon.myCstr(dr("Stocking_Unit"))
                 repoIName.Tag = obj
                 repoIName.Name = colItemCode + clsCommon.myCstr(i)
                 repoIName.Width = 150
@@ -809,7 +811,7 @@ Public Class frmDemandBooking
     Private Sub btnSave_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnSave.Click
         Try
             UpdateAllTotals(False)
-            HideUnhideRowsAndColumnsOFGrid()
+            'HideUnhideRowsAndColumnsOFGrid()
             SaveData(0, False)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -818,6 +820,13 @@ Public Class frmDemandBooking
     Private Function SaveData(ByVal IsRepeatOrder As Integer, ByVal isQuickDemand As Boolean) As Boolean
         Try
             Dim qry As String = ""
+            If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                qry = "select Posted from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + txtDocNo.Value + "'"
+                Dim isPosted As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+                If isPosted = 1 Then
+                    Throw New Exception("Document Already Posted.")
+                End If
+            End If
             blnSaveTotalQTy = True
             'BookingStatus = 0
             Dim strPriceCode As String = String.Empty
@@ -827,48 +836,50 @@ Public Class frmDemandBooking
                     ResetDemandOnSave(txtDocNo.Value)
                 End If
                 Dim obj As New clsDemandBookingSale()
-                If SeparateDemandMilkandProduct Then
-                    'If IsRepeatOrder = 1 Then
-                    '    obj.Document_Date = clsCommon.myCDate(txtDate.Value).AddDays(1)
-                    '    Dim strQry1 As String = "select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "' and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103 )='" + clsCommon.GetPrintDate(obj.Document_Date) + "') and location_code='" + clsCommon.myCstr(txtLocation.Value) + "' and ShiftType='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "'"
-                    '    If rbtn_Fresh.IsChecked Then
-                    '        strQry1 += " and ItemType='Fresh' "
-                    '    ElseIf rbtn_Ambient.IsChecked Then
-                    '        strQry1 += " and ItemType='Ambient' "
-                    '    Else
-                    '        strQry1 += " and ItemType='Both' "
-                    '    End If
-                    '    strQry1 += " And  IsIndividualCustomer=0 "
-                    '    obj.Document_No = clsDBFuncationality.getSingleValue(strQry1)
-                    '    If clsCommon.myLen(obj.Document_No) > 0 Then
-                    '        isNewEntry = False
-                    '    Else
-                    '        If Not chkMorningPosted.Checked AndAlso Not chkEveningPosted.Checked Then
-                    '            obj.Document_No = ""
-                    '            isNewEntry = True
-                    '        End If
-                    '    End If
-                    'Else
-                    obj.Document_No = txtDocNo.Value
-                    obj.Document_Date = txtDate.Value
-                    'End If
-                Else
-                    'If IsRepeatOrder = 1 Then
-                    '    obj.Document_Date = clsCommon.myCDate(txtDate.Value).AddDays(1)
-                    '    obj.Document_No = clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "' and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103 )='" + clsCommon.GetPrintDate(obj.Document_Date) + "') and location_code='" + clsCommon.myCstr(txtLocation.Value) + "' and ShiftType='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "' and IsIndividualCustomer=0 ")
-                    '    If clsCommon.myLen(obj.Document_No) > 0 Then
-                    '        isNewEntry = False
-                    '    Else
-                    '        If Not chkMorningPosted.Checked AndAlso Not chkEveningPosted.Checked Then
-                    '            obj.Document_No = ""
-                    '            isNewEntry = True
-                    '        End If
-                    '    End If
-                    'Else
-                    obj.Document_No = txtDocNo.Value
-                    obj.Document_Date = txtDate.Value
-                    'End If
-                End If
+                obj.Document_No = txtDocNo.Value
+                obj.Document_Date = txtDate.Value
+                'If SeparateDemandMilkandProduct Then
+                '    'If IsRepeatOrder = 1 Then
+                '    '    obj.Document_Date = clsCommon.myCDate(txtDate.Value).AddDays(1)
+                '    '    Dim strQry1 As String = "select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "' and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103 )='" + clsCommon.GetPrintDate(obj.Document_Date) + "') and location_code='" + clsCommon.myCstr(txtLocation.Value) + "' and ShiftType='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "'"
+                '    '    If rbtn_Fresh.IsChecked Then
+                '    '        strQry1 += " and ItemType='Fresh' "
+                '    '    ElseIf rbtn_Ambient.IsChecked Then
+                '    '        strQry1 += " and ItemType='Ambient' "
+                '    '    Else
+                '    '        strQry1 += " and ItemType='Both' "
+                '    '    End If
+                '    '    strQry1 += " And  IsIndividualCustomer=0 "
+                '    '    obj.Document_No = clsDBFuncationality.getSingleValue(strQry1)
+                '    '    If clsCommon.myLen(obj.Document_No) > 0 Then
+                '    '        isNewEntry = False
+                '    '    Else
+                '    '        If Not chkMorningPosted.Checked AndAlso Not chkEveningPosted.Checked Then
+                '    '            obj.Document_No = ""
+                '    '            isNewEntry = True
+                '    '        End If
+                '    '    End If
+                '    'Else
+                '    obj.Document_No = txtDocNo.Value
+                '    obj.Document_Date = txtDate.Value
+                '    'End If
+                'Else
+                '    'If IsRepeatOrder = 1 Then
+                '    '    obj.Document_Date = clsCommon.myCDate(txtDate.Value).AddDays(1)
+                '    '    obj.Document_No = clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "' and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103 )='" + clsCommon.GetPrintDate(obj.Document_Date) + "') and location_code='" + clsCommon.myCstr(txtLocation.Value) + "' and ShiftType='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "' and IsIndividualCustomer=0 ")
+                '    '    If clsCommon.myLen(obj.Document_No) > 0 Then
+                '    '        isNewEntry = False
+                '    '    Else
+                '    '        If Not chkMorningPosted.Checked AndAlso Not chkEveningPosted.Checked Then
+                '    '            obj.Document_No = ""
+                '    '            isNewEntry = True
+                '    '        End If
+                '    '    End If
+                '    'Else
+                '    obj.Document_No = txtDocNo.Value
+                '    obj.Document_Date = txtDate.Value
+                '    'End If
+                'End If
                 obj.Location_Code = txtLocation.Value
                 obj.Route_No = txtRouteNo.Value
                 obj.City_Code = TxtCity.Value
@@ -979,36 +990,38 @@ Public Class frmDemandBooking
                                             Else
                                                 Dim ItemCrateType As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IS_CrateType  from TSPL_ITEM_MASTER Where Item_Code  ='" & clsCommon.myCstr(obj1.itemCode) & "'"))
                                                 If ItemCrateType = 1 Then
-                                                    Dim IsStockingUnit As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Stocking_Unit from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code  ='" & clsCommon.myCstr(obj1.Unit_code) & "'"))
-                                                    Dim CrateConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and tspl_unit_master.Crate_Type ='Y' "))
-                                                    Dim ItemConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(obj1.Unit_code) & "' "))
-                                                    If CrateConvFactor > 0 And ItemConvFactor > 0 Then
-                                                        Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor
-                                                        If DispatchQty > (CrateConvFactor / 2) Then
-                                                            objTr.TotalCrates_ItemWise = Math.Ceiling(DispatchQty / CrateConvFactor)
-                                                        Else
-                                                            objTr.TotalCrates_ItemWise = 0
-                                                        End If
-                                                    End If
+                                                    'Dim IsStockingUnit As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Stocking_Unit from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code  ='" & clsCommon.myCstr(obj1.Unit_code) & "'"))
+                                                    'Dim CrateConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and tspl_unit_master.Crate_Type ='Y' "))
+                                                    'Dim ItemConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(obj1.Unit_code) & "' "))
+                                                    'If CrateConvFactor > 0 And ItemConvFactor > 0 Then
+                                                    '    Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor
+                                                    '    If DispatchQty > (CrateConvFactor / 2) Then
+                                                    '        objTr.TotalCrates_ItemWise = Math.Ceiling(DispatchQty / CrateConvFactor)
+                                                    '    Else
+                                                    '        objTr.TotalCrates_ItemWise = 0
+                                                    '    End If
+                                                    'End If
+                                                    objTr.TotalCrates_ItemWise = clsCommon.myCdbl(obj1.FreshItem_QtyInCrates)
                                                 End If
                                             End If
                                             ''to convert into litre
-                                            Dim CrateConvFactor_Ltr As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code='Ltr' "))
-                                            Dim ItemConvFactor_Ltr As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(obj1.Unit_code) & "' "))
-                                            If CrateConvFactor_Ltr > 0 And ItemConvFactor_Ltr > 0 Then
-                                                Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor_Ltr
-                                                'If IsRepeatOrder = 1 Then
-                                                '    If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, Nothing)) = 1 Then
-                                                '        If clsCommon.CompairString(objTr.Cust_Code, clsDBFuncationality.getSingleValue("Select Cust_Code from TSPL_CUSTOMER_MASTER where cust_code='" + clsCommon.myCstr(objTr.Cust_Code) + "' and IsReorder=1")) = CompairStringResult.Equal Then
-                                                '            objTr.TotalLtr_ItemWise = (DispatchQty / CrateConvFactor_Ltr)
-                                                '        End If
-                                                '    Else
-                                                '        objTr.TotalLtr_ItemWise = (DispatchQty / CrateConvFactor_Ltr)
-                                                '    End If
-                                                'Else
-                                                objTr.TotalLtr_ItemWise = (DispatchQty / CrateConvFactor_Ltr)
-                                                'End If
-                                            End If
+                                            'Dim CrateConvFactor_Ltr As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code='Ltr' "))
+                                            'Dim ItemConvFactor_Ltr As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(obj1.Unit_code) & "' "))
+                                            'If CrateConvFactor_Ltr > 0 And ItemConvFactor_Ltr > 0 Then
+                                            '    Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor_Ltr
+                                            '    'If IsRepeatOrder = 1 Then
+                                            '    '    If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, Nothing)) = 1 Then
+                                            '    '        If clsCommon.CompairString(objTr.Cust_Code, clsDBFuncationality.getSingleValue("Select Cust_Code from TSPL_CUSTOMER_MASTER where cust_code='" + clsCommon.myCstr(objTr.Cust_Code) + "' and IsReorder=1")) = CompairStringResult.Equal Then
+                                            '    '            objTr.TotalLtr_ItemWise = (DispatchQty / CrateConvFactor_Ltr)
+                                            '    '        End If
+                                            '    '    Else
+                                            '    '        objTr.TotalLtr_ItemWise = (DispatchQty / CrateConvFactor_Ltr)
+                                            '    '    End If
+                                            '    'Else
+                                            '    objTr.TotalLtr_ItemWise = (DispatchQty / CrateConvFactor_Ltr)
+                                            '    'End If
+                                            'End If
+                                            objTr.TotalLtr_ItemWise = clsCommon.myCdbl(obj1.FreshItem_QtyInLitres)
                                         End If
                                         qry = "select Customer_Name,vehicle_code,TSPL_VEHICLE_MASTER.Vehicle_No,TSPL_ROUTE_MASTER.Zone_Code,TSPL_CUSTOMER_MASTER.Route_No,Number,TSPL_ROUTE_MASTER.Route_Desc,tspl_customer_master.price_CodeNon from TSPL_CUSTOMER_MASTER left outer join " &
                            "TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No left outer join TSPL_VEHICLE_MASTER on " &
@@ -2129,6 +2142,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
     End Sub
     Private Sub UpdateAllTotals(ByVal isLoad As Boolean)
         Try
+            isInsideLoadData = True
             Dim TotalCrate As Double = 0
             Dim TotalLitre As Double = 0
             Dim TotalPCount As Double = 0
@@ -2177,9 +2191,9 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                 Else
                                     Dim ItemCrateType As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IS_CrateType  from TSPL_ITEM_MASTER Where Item_Code  ='" & clsCommon.myCstr(obj1.itemCode) & "'"))
                                     If ItemCrateType = 1 Then
-                                        Dim IsStockingUnit As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Stocking_Unit from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code  ='" & clsCommon.myCstr(obj1.Unit_code) & "'"))
+                                        Dim IsStockingUnit As String = obj1.Stocking_Unit 'clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Stocking_Unit from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code  ='" & clsCommon.myCstr(obj1.Unit_code) & "'"))
                                         Dim CrateConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and tspl_unit_master.Crate_Type ='Y' "))
-                                        Dim ItemConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(obj1.Unit_code) & "' "))
+                                        Dim ItemConvFactor As Double = obj1.Conversion_Factor 'clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(obj1.Unit_code) & "' "))
                                         If Not clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                                             If CrateConvFactor > 0 And ItemConvFactor > 0 Then
                                                 Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor
@@ -2205,7 +2219,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                 End If
                                 ''to convert into litre
                                 Dim CrateConvFactor_Ltr As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code='Ltr' "))
-                                Dim ItemConvFactor_Ltr As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(obj1.Unit_code) & "' "))
+                                Dim ItemConvFactor_Ltr As Double = obj1.Conversion_Factor 'clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(obj1.Unit_code) & "' "))
                                 If CrateConvFactor_Ltr > 0 And ItemConvFactor_Ltr > 0 Then
                                     Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor_Ltr
                                     dblTotalLitreRowWise = (DispatchQty / CrateConvFactor_Ltr)
@@ -2294,6 +2308,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             UpdateColumnTotal()
             gv1.Rows(gv1.Rows.Count - 1).IsPinned = True
             gv1.Rows(gv1.Rows.Count - 1).PinPosition = PinnedRowPosition.Bottom
+            isInsideLoadData = False
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -2343,19 +2358,22 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                             If clsCommon.CompairString(clsCommon.myCstr(obj1.IsFreshAmbient), "Fresh") = CompairStringResult.Equal Then
                                 If clsCommon.CompairString(clsCommon.myCstr(obj1.Unit_code), "Crate") = CompairStringResult.Equal Then
                                     Dim cellValue As String = clsCommon.myCstr(gv1.Rows(dblrows).Cells(dblcolumns).Value)
-                                    If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(AllowEntryInDecimal) from TSPL_ITEM_MASTER where Item_Code='" + obj1.itemCode + "' and  AllowEntryInDecimal=1")) = 0 Then
-                                        If cellValue.Contains(".") OrElse cellValue.Contains(",") Then
-                                            gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                                        If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(AllowEntryInDecimal) from TSPL_ITEM_MASTER where Item_Code='" + obj1.itemCode + "' and  AllowEntryInDecimal=1")) = 0 Then
+                                            If cellValue.Contains(".") OrElse cellValue.Contains(",") Then
+                                                gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
 
-                                            Throw New Exception("Decimal values are not allowed.")
-                                        End If
-                                    Else
-                                        If clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) Mod 0.5 <> 0 Then
-                                            gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                                                Throw New Exception("Decimal values are not allowed.")
+                                            End If
+                                        Else
+                                            If clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) Mod 0.5 <> 0 Then
+                                                gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
 
-                                            Throw New Exception("Should be in multiple of 0.5")
+                                                Throw New Exception("Should be in multiple of 0.5")
+                                            End If
                                         End If
                                     End If
+
                                     TotalCrate = TotalCrate + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
                                     obj1.FreshItem_QtyInCrates = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
                                     'gv1.Rows(gv1.Rows.Count - 1).Cells(dblcolumns).Value = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
@@ -4232,7 +4250,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
 
                 Dim arrRoute As New ArrayList
                 arrRoute.Add(txtRouteNo.Value)
-                clsDemandBookingSale.PrintDOSData(arrRoute, ShiftType, txtDate.Value, rbtn_Fresh.IsChecked, rbtn_Ambient.IsChecked, chkIndividualCustomer.Checked)
+                clsDemandBookingSale.PrintDOSData(arrRoute, ShiftType, txtDate.Value, rbtn_Fresh.IsChecked, rbtn_Ambient.IsChecked, chkIndividualCustomer.Checked, 107, 70) ''39
             Else
 
                 Dim Comp_Name As String = clsDBFuncationality.getSingleValue("select Comp_Name from TSPL_COMPANY_MASTER where Comp_Code = '" + objCommonVar.CurrentCompanyCode + "'")
@@ -4811,4 +4829,6 @@ Public Class ItemValueClass
     Public ItemRate As Double = 0
     Public FreshItem_QtyInCrates As Double = 0
     Public FreshItem_QtyInLitres As Double = 0
+    Public Conversion_Factor As Double = 0
+    Public Stocking_Unit As String = String.Empty
 End Class

@@ -3540,19 +3540,55 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
                                   where CONVERT(date,TSPL_MILK_SRN_HEAD.Doc_Date,103)>=convert(date,'" + dtpDailySummaryFromDate.Value + "',103)  and CONVERT(date,TSPL_MILK_SRN_HEAD.Doc_Date,103)<=convert(date,'" + dtpDailySummaryToDate.Value + "',103) group by CONVERT(varchar,TSPL_MILK_SRN_HEAD.Doc_Date,103) ) XXXFinal  order by convert (datetime, Doc_Date,103) asc  "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
-            If dt IsNot Nothing And dt.Rows.Count > 0 Then
+            Gv1.DataSource = Nothing
+            Gv1.Rows.Clear()
+            Gv1.Columns.Clear()
+            Gv1.GroupDescriptors.Clear()
+            Gv1.MasterView.Refresh()
+            Gv1.GroupDescriptors.Clear()
+            Gv1.EnableFiltering = True
+            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+            If dt.Rows.Count > 0 Then
+                Gv1.DataSource = dt
+                Gv1.BestFitColumns()
+                'View()
+                SetGridFormation()
+                ReStoreGridLayout()
+                Gv1.MasterTemplate.AutoExpandGroups = True
+                RadPageView1.SelectedPage = RadPageViewPage2
+                Gv1.BestFitColumns()
                 Dim frmCRV As New frmCrystalReportViewer()
                 frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDailySummaryReport", "")
                 frmCRV = Nothing
             Else
-                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                Exit Sub
+
             End If
+
+            'If dt IsNot Nothing And dt.Rows.Count > 0 Then
+            '    Dim frmCRV As New frmCrystalReportViewer()
+            '    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDailySummaryReport", "")
+            '    frmCRV = Nothing
+            'Else
+            '    clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
+            'End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
-
+    Sub SetGridFormation()
+        Gv1.TableElement.TableHeaderHeight = 40
+        Gv1.MasterTemplate.ShowRowHeaderColumn = True
+        For ii As Integer = 0 To Gv1.Columns.Count - 1
+            Gv1.Columns(ii).ReadOnly = True
+            Gv1.Columns(ii).IsVisible = True
+        Next
+        Gv1.Columns("Comp_Name").IsVisible = False
+        Gv1.Columns("Comp_City_Name").IsVisible = False
+        Gv1.Columns("User_Name").IsVisible = False
+    End Sub
     Private Sub btnPrintDailySummaryRouteWise_Click(sender As Object, e As EventArgs) Handles btnPrintDailySummaryRouteWise.Click
         Try
             Dim qry As String = " select Comp_Name,Comp_City_Name,'" & objCommonVar.CurrentUser & "' as User_Name,XXXFinal.ROUTE_CODE,XXXFinal.route_name,FAT_KG,SNF_KG, XXXFinal.Doc_Date , XXXFinal.Quantity , cast ( ( XXXFinal.FAT_KG * 100 /XXXFinal.Quantity) as decimal(18,2)) as FATPer , cast ( (XXXFinal.SNF_KG * 100 /XXXFinal.Quantity) as decimal(18,2)) as SNFPer from (
@@ -4566,7 +4602,24 @@ TSPL_MILK_COLLECTION_MCC
              where FINAL.VSP_CODE1 is not null 
              group by  final.VLC_Code_VLC_Uploader ) xxx"
                 Dim dtSubDay As DataTable = clsDBFuncationality.GetDataTable(Qry)
+
+                Gv1.DataSource = Nothing
+                Gv1.Rows.Clear()
+                Gv1.Columns.Clear()
+                Gv1.GroupDescriptors.Clear()
+                Gv1.MasterView.Refresh()
+                Gv1.GroupDescriptors.Clear()
+                Gv1.EnableFiltering = True
+                Gv1.MasterTemplate.SummaryRowsBottom.Clear()
                 If dt.Rows.Count > 0 Then
+                    Gv1.DataSource = dt
+                    Gv1.BestFitColumns()
+                    ' View()
+                    SetGridFormations()
+                    ReStoreGridLayout()
+                    Gv1.MasterTemplate.AutoExpandGroups = True
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    Gv1.BestFitColumns()
                     Dim frmCRV As New frmCrystalReportViewer()
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
                         frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubMonthly, "rptDCSSummaryYearlyWiseUDP", "", "rptSubDCSYearlySummaryMonthlyWiseReport.rpt")
@@ -4576,11 +4629,29 @@ TSPL_MILK_COLLECTION_MCC
                         frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubMonthly, "rptDCSSummaryYearlyWise", "", "rptSubDCSYearlySummaryMonthlyWiseReport.rpt")
                         'frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubMonthly, "rptDCSSummaryYearlyWise", "", "rptSubDCSYearlySummaryMonthlyWiseReport", "rptDCSSummaryYearlyDayWiseReport", dtSubDay)
                     End If
-                    frmCRV = Nothing
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                    Exit Sub
 
-                        Else
-                        clsCommon.MyMessageBoxShow(Me, "No data found to print.", Me.Text)
                 End If
+
+
+
+                'If dt.Rows.Count > 0 Then
+                '    Dim frmCRV As New frmCrystalReportViewer()
+                '    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                '        frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubMonthly, "rptDCSSummaryYearlyWiseUDP", "", "rptSubDCSYearlySummaryMonthlyWiseReport.rpt")
+
+                '    Else
+
+                '        frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubMonthly, "rptDCSSummaryYearlyWise", "", "rptSubDCSYearlySummaryMonthlyWiseReport.rpt")
+                '        'frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubMonthly, "rptDCSSummaryYearlyWise", "", "rptSubDCSYearlySummaryMonthlyWiseReport", "rptDCSSummaryYearlyDayWiseReport", dtSubDay)
+                '    End If
+                '    frmCRV = Nothing
+
+                '        Else
+                '        clsCommon.MyMessageBoxShow(Me, "No data found to print.", Me.Text)
+                'End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "Finacial Year can't be blanck.", Me.Text)
             End If
@@ -4589,6 +4660,45 @@ TSPL_MILK_COLLECTION_MCC
         End Try
     End Sub
 
+    Sub SetGridFormations()
+        Gv1.TableElement.TableHeaderHeight = 40
+        Gv1.MasterTemplate.ShowRowHeaderColumn = True
+        For ii As Integer = 0 To Gv1.Columns.Count - 1
+            Gv1.Columns(ii).ReadOnly = True
+            Gv1.Columns(ii).IsVisible = True
+        Next
+        Gv1.Columns("DCSCode").IsVisible = False
+        Gv1.Columns("CompName").IsVisible = False
+        Gv1.Columns("User_Name").IsVisible = False
+        Gv1.Columns("fromDate").IsVisible = False
+        Gv1.Columns("Todate").IsVisible = False
+
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+
+        Dim item1 As New GridViewSummaryItem("MorningSweetQty", "{0:F3}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        Dim item2 As New GridViewSummaryItem("MorningSoreQty", "{0:F3}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item2)
+        Dim item3 As New GridViewSummaryItem("MorningCurdQty", "{0:F3}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item3)
+        Dim item4 As New GridViewSummaryItem("EveningSweetQty", "{0:F3}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item4)
+        Dim item5 As New GridViewSummaryItem("EveningSoreQty", "{0:F3}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item5)
+        Dim item6 As New GridViewSummaryItem("EveningCurdQty", "{0:F3}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item6)
+        Dim item7 As New GridViewSummaryItem("TotalSweetQty", "{0:F3}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item7)
+        Dim item8 As New GridViewSummaryItem("TotalSoreQty", "{0:F3}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item8)
+        Dim item9 As New GridViewSummaryItem("TotalCurdQty", "{0:F3}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item9)
+        Dim item10 As New GridViewSummaryItem("TotalQty", "{0:F3}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item10)
+
+        Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+    End Sub
     Private Sub fndMultMCC__My_Click(sender As Object, e As EventArgs) Handles fndMultMCC._My_Click
         Dim qry As String = "select MCC_Code As [MCC Code],MCC_NAME As [MCC Name],TSPL_MCC_MASTER.plant_code as [Plant Code],tspl_location_master.location_desc as [Plant Name] from TSPL_MCC_MASTER left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.plant_code"
         fndMultMCC.arrValueMember = clsCommon.ShowMultipleSelectForm("@MultMCC", qry, "MCC Code", "MCC Name", fndMultMCC.arrValueMember, fndMultMCC.arrDispalyMember)

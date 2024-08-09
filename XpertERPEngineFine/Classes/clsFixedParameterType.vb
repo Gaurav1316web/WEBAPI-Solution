@@ -2,6 +2,7 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
+    Public Const ConvertVlcCodeUploaderToInt As String = "Convert VlcCodeUploader To Int"
     Public Const Transactionupdate As String = "Transtion Update"
     Public Const RCDFRateControl As String = "RCDF Rate Control"
     Public Const RCDFControl As String = "RCDF Control"
@@ -814,6 +815,7 @@ Public Class clsFixedParameterType
     Public Const ForUDLOnly As String = "CSA Sale changes For UDL only"
     Public Const CheckCreditLimitonCSADO As String = "Check Credit Limit on CSA DO"
     Public Const GrossWtFromItemMasterONCSATransfer As String = "Gross Wt. from item master on CSA Transfer"
+    Public Const DisplayPriceCodeForBKN As String = "Display Price Code For BKN"
     Public Const EnableExciseONCSASalePatti As String = "Enable Excise entry on CSA Sale Patti"
     Public Const BatchSkipCSAReturn As String = "Batch Skip at CSA sale patti/Return"
     ''===========End Here====================================================================
@@ -1272,6 +1274,7 @@ Public Class clsFixedParameterCode
     Public Const UserMaster As String = "User Master"
     Public Const ItemMaster As String = "Item Master"
     Public Const CustomerMaster As String = "Customer Master"
+    Public Const ConvertVlcCodeUploaderToInt As String = "Convert VlcCodeUploader To Int"
     Public Const RCDFRateControl As String = "RCDF Rate Control"
     Public Const EmployeePFRetirementAge As String = "Employee PF Retirement Age"
     Public Const EmployeeRetirementAge As String = "Employee Retirement Age"
@@ -2176,6 +2179,7 @@ Public Class clsFixedParameterCode
     Public Const ForUDLOnly As String = "CSA Sale changes For UDL only"
     Public Const CheckCreditLimitonCSADO As String = "Check Credit Limit on CSA DO"
     Public Const GrossWtFromItemMasterONCSATransfer As String = "Gross Wt. from item master on CSA Transfer"
+    Public Const DisplayPriceCodeForBKN As String = "Display Price Code For BKN"
     Public Const EnableExciseONCSASalePatti As String = "Enable Excise entry on CSA Sale Patti"
     Public Const BatchSkipCSAReturn As String = "Batch Skip at CSA sale patti/Return"
     ''====================end here=====================================================
@@ -2742,6 +2746,7 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ConvertVlcCodeUploaderToInt, clsFixedParameterCode.ConvertVlcCodeUploaderToInt, "1", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.RCDFRateControl, clsFixedParameterCode.RCDFRateControl, "0", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.RCDFControl, clsFixedParameterCode.MaxFATPerLimit, "0", "0-OFF.Max FAT % limit on Milk")
         InsertDefaultValueFixedParameter(clsFixedParameterType.RCDFControl, clsFixedParameterCode.MaxSNFPerLimit, "0", "0-OFF.Max SNF % limit on Milk")
@@ -3686,6 +3691,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ForUDLOnly, clsFixedParameterCode.ForUDLOnly, "0", "0:Off,1:On; When setting ON then CSA Sale effect for UDL,otherwise standard cycle run.")
         InsertDefaultValueFixedParameter(clsFixedParameterType.CheckCreditLimitonCSADO, clsFixedParameterCode.CheckCreditLimitonCSADO, "0", "0:Off,1:On; When setting ON then Credit limit outstanding check on CSA DO,otherwise no check.")
         InsertDefaultValueFixedParameter(clsFixedParameterType.GrossWtFromItemMasterONCSATransfer, clsFixedParameterCode.GrossWtFromItemMasterONCSATransfer, "0", "0:Off,1:On; When setting ON then Gross wt. calculated from item master set values and readonly on CSA Transfer,otherwise manual entry.")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.DisplayPriceCodeForBKN, clsFixedParameterCode.DisplayPriceCodeForBKN, "0", "0:Off,1:On; When setting ON then Price Code Finder Will Show.")
         InsertDefaultValueFixedParameter(clsFixedParameterType.EnableExciseONCSASalePatti, clsFixedParameterCode.EnableExciseONCSASalePatti, "0", "0:Off,1:On; When setting ON then Excise entry made on CSA Sale Patti,otherwise no excise entry.")
         InsertDefaultValueFixedParameter(clsFixedParameterType.BatchSkipCSAReturn, clsFixedParameterCode.BatchSkipCSAReturn, "1", "0:Off,1:On; When setting ON then batch entry not mandatory on CSA Sale Patti/Return,otherwise mandatory entry.")
         InsertDefaultValueFixedParameter(clsFixedParameterType.IsChamberWiseTanker, clsFixedParameterCode.IsChamberWiseTanker, "0", "0:Off, 1:On; Apply tanker chamber wise for MCC")
@@ -4252,6 +4258,7 @@ Public Class clsFixedParameterProgramMapping
     End Function
     Public Shared Sub SetDefaultValues()
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_FIXED_PARAMETER_PROGRAM_MAPPING")
+        InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.ConvertVlcCodeUploaderToInt, clsFixedParameterCode.ConvertVlcCodeUploaderToInt, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmRCDFRateControl, clsFixedParameterType.RCDFRateControl, clsFixedParameterCode.RCDFRateControl, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMilkSRN, clsFixedParameterType.RCDFControl, clsFixedParameterCode.MaxFATPerLimit, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmMilkSRN, clsFixedParameterType.RCDFControl, clsFixedParameterCode.MaxSNFPerLimit, EnumControlType.NumericBox)
@@ -5188,6 +5195,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.Transfer, clsFixedParameterType.RunBatchFifowise, clsFixedParameterCode.RunBatchFifowise, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.Transfer, clsFixedParameterType.PROVISIONENTRYONSTOCKTRANSFER, clsFixedParameterCode.PROVISIONENTRYONSTOCKTRANSFER, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.Transfer, clsFixedParameterType.GrossWtFromItemMasterONCSATransfer, clsFixedParameterCode.GrossWtFromItemMasterONCSATransfer, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.Transfer, clsFixedParameterType.DisplayPriceCodeForBKN, clsFixedParameterCode.DisplayPriceCodeForBKN, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.TransferReturn, clsFixedParameterType.AllowGateReturn, clsFixedParameterCode.AllowGateReturn, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmProcessProductionStandardization, clsFixedParameterType.RequiredFinalQCofstandardization, clsFixedParameterCode.RequiredFinalQCofstandardization, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmProcessProductionStandardization, clsFixedParameterType.CheckLiveStockInProductionDuringTrans, clsFixedParameterCode.CheckLiveStockInProductionDuringTrans, EnumControlType.CheckBox)

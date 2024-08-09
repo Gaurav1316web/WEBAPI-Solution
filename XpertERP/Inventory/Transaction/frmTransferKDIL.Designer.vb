@@ -207,6 +207,7 @@ Partial Class FrmTransferKDIL
         Me.RadLabel17 = New common.Controls.MyLabel()
         Me.gv2 = New common.UserControls.MyRadGridView()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.btnSTAProductPrint = New Telerik.WinControls.UI.RadButton()
@@ -225,7 +226,6 @@ Partial Class FrmTransferKDIL
         Me.radExportTransferIn = New Telerik.WinControls.UI.RadMenuItem()
         Me.radImportTransferOut = New Telerik.WinControls.UI.RadMenuItem()
         Me.radImportTransferIn = New Telerik.WinControls.UI.RadMenuItem()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.pnlRMDA.SuspendLayout()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage4.SuspendLayout()
@@ -471,7 +471,7 @@ Partial Class FrmTransferKDIL
         Me.RadPageViewPage4.Controls.Add(Me.RadLabel22)
         Me.RadPageViewPage4.Controls.Add(Me.RadLabel19)
         Me.RadPageViewPage4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(37.0!, 22.0!)
+        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(41.0!, 26.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1251, 388)
@@ -767,7 +767,7 @@ Partial Class FrmTransferKDIL
         Me.MyLabel2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(1004, 316)
+        Me.MyLabel2.Location = New System.Drawing.Point(1004, 312)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(100, 16)
         Me.MyLabel2.TabIndex = 21
@@ -780,7 +780,7 @@ Partial Class FrmTransferKDIL
         Me.lblTotRAmt1.BorderVisible = True
         Me.lblTotRAmt1.FieldName = Nothing
         Me.lblTotRAmt1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotRAmt1.Location = New System.Drawing.Point(1107, 315)
+        Me.lblTotRAmt1.Location = New System.Drawing.Point(1107, 311)
         Me.lblTotRAmt1.Name = "lblTotRAmt1"
         Me.lblTotRAmt1.Size = New System.Drawing.Size(143, 18)
         Me.lblTotRAmt1.TabIndex = 20
@@ -874,7 +874,7 @@ Partial Class FrmTransferKDIL
         Me.UcItemBalance1.ItemCode = ""
         Me.UcItemBalance1.ItemMRP = 0R
         Me.UcItemBalance1.ItemName = ""
-        Me.UcItemBalance1.Location = New System.Drawing.Point(2, 310)
+        Me.UcItemBalance1.Location = New System.Drawing.Point(2, 306)
         Me.UcItemBalance1.LocationCode = ""
         Me.UcItemBalance1.LocationName = ""
         Me.UcItemBalance1.MaximumSize = New System.Drawing.Size(710, 70)
@@ -1187,7 +1187,7 @@ Partial Class FrmTransferKDIL
         Me.RadGroupBox2.Location = New System.Drawing.Point(2, 195)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(1246, 103)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1246, 99)
         Me.RadGroupBox2.TabIndex = 11
         Me.RadGroupBox2.Text = "Item Details"
         '
@@ -1212,7 +1212,7 @@ Partial Class FrmTransferKDIL
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(1226, 73)
+        Me.gv1.Size = New System.Drawing.Size(1226, 69)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
         '
@@ -1495,10 +1495,10 @@ Partial Class FrmTransferKDIL
         Me.RadPageViewPage1.Controls.Add(Me.txtDate)
         Me.RadPageViewPage1.Controls.Add(Me.btnAddNew)
         Me.RadPageViewPage1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(54.0!, 22.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 31)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(58.0!, 26.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1251, 392)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1251, 388)
         Me.RadPageViewPage1.Text = "Transfer"
         '
         'chkProductionRequest
@@ -1879,7 +1879,7 @@ Partial Class FrmTransferKDIL
         Me.MyLabel24.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.MyLabel24.FieldName = Nothing
         Me.MyLabel24.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel24.Location = New System.Drawing.Point(1002, 338)
+        Me.MyLabel24.Location = New System.Drawing.Point(1002, 334)
         Me.MyLabel24.Name = "MyLabel24"
         Me.MyLabel24.Size = New System.Drawing.Size(91, 16)
         Me.MyLabel24.TabIndex = 1439
@@ -1892,7 +1892,7 @@ Partial Class FrmTransferKDIL
         Me.txtSecondary_Doc_Code.BorderVisible = True
         Me.txtSecondary_Doc_Code.FieldName = Nothing
         Me.txtSecondary_Doc_Code.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtSecondary_Doc_Code.Location = New System.Drawing.Point(1107, 339)
+        Me.txtSecondary_Doc_Code.Location = New System.Drawing.Point(1107, 335)
         Me.txtSecondary_Doc_Code.Name = "txtSecondary_Doc_Code"
         Me.txtSecondary_Doc_Code.Size = New System.Drawing.Size(143, 18)
         Me.txtSecondary_Doc_Code.TabIndex = 1438
@@ -2232,7 +2232,7 @@ Partial Class FrmTransferKDIL
         Me.MyLabel6.FieldName = Nothing
         Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel6.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.MyLabel6.Location = New System.Drawing.Point(1042, 375)
+        Me.MyLabel6.Location = New System.Drawing.Point(1042, 371)
         Me.MyLabel6.Name = "MyLabel6"
         Me.MyLabel6.Size = New System.Drawing.Size(211, 16)
         Me.MyLabel6.TabIndex = 1422
@@ -2924,7 +2924,7 @@ Partial Class FrmTransferKDIL
         Me.RadPageViewPage2.Controls.Add(Me.gv2)
         Me.RadPageViewPage2.Controls.Add(Me.RadLabel11)
         Me.RadPageViewPage2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(43.0!, 22.0!)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(47.0!, 26.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(1251, 388)
@@ -3204,16 +3204,24 @@ Partial Class FrmTransferKDIL
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(85.0!, 22.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(89.0!, 26.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 35)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(1251, 388)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1251, 388)
+        Me.UcCustomFields1.TabIndex = 1
+        '
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 22.0!)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 26.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 35)
         Me.Attachments.Name = "Attachments"
         Me.Attachments.Size = New System.Drawing.Size(1251, 388)
@@ -3361,14 +3369,6 @@ Partial Class FrmTransferKDIL
         '
         Me.radImportTransferIn.Name = "radImportTransferIn"
         Me.radImportTransferIn.Text = "Import Transfer In"
-        '
-        'UcCustomFields1
-        '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1251, 388)
-        Me.UcCustomFields1.TabIndex = 1
         '
         'FrmTransferKDIL
         '
