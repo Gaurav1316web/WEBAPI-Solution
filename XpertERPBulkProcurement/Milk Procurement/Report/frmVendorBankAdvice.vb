@@ -7,6 +7,7 @@ Public Class frmVendorBankAdvice
     Inherits FrmMainTranScreen
 #Region "Variables"
     Dim MultipleFinderFillAuto As Boolean = False
+    Dim ConvertVlcCodeUploaderToInt As Boolean = False
     Dim AreaWiseBilling As Boolean = False
     Dim VendorBankAdviceForSWM As Boolean = False
     Dim StrPermission As String
@@ -24,6 +25,7 @@ Public Class frmVendorBankAdvice
     Private Sub rptMilkBillProcurementSummary_Load(sender As Object, e As EventArgs) Handles Me.Load
         IsBankAdviseStartDate = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.BankAdviseRequired, clsFixedParameterCode.BankAdviseRequired, Nothing))
         MultipleFinderFillAuto = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultipleFinderFillAuto, clsFixedParameterCode.MultipleFinderFillAuto, Nothing)) = 1)
+        ConvertVlcCodeUploaderToInt = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConvertVlcCodeUploaderToInt, clsFixedParameterCode.ConvertVlcCodeUploaderToInt, Nothing)) = 1)
         StrPermission = clsERPFuncationality.UserWiseAvailableLocationCode()
         Reset()
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
@@ -462,7 +464,15 @@ where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and  TSPL_PAYMENT_PROCESS_HEAD.F
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                     FinalQuery = "select * from ( " + BaseQry + ")xxx order by Payee_Joint_Account_No asc"
                 Else
-                    FinalQuery = "select * from ( " + BaseQry + ")xxx order by Bank_Code, cast(VLC_Code_Uploader as Int) "
+                    FinalQuery = "select * from ( " + BaseQry + ")xxx order by Bank_Code, "
+
+                    If ConvertVlcCodeUploaderToInt = True Then
+                        FinalQuery += " cast(VLC_Code_Uploader as Int) "
+                    Else
+                        FinalQuery += " VLC_Code_Uploader "
+                    End If
+
+                    'FinalQuery += "cast(VLC_Code_Uploader as Int) "
                 End If
             ElseIf rbtnBankWiseSummary.IsChecked Then
                 FinalQuery += "select ROW_NUMBER() over ( order by GRPColumn) as SNO , * from ( select max(CycleRange) as CycleRange, max(GRPColumn) as GRPColumn,max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address, max(From_Date) as From_Date,max(GSTReg_No) as GSTReg_No,max(Fiscal_Name) as Fiscal_Name,max(CycleNo) as CycleNo,max(Date_Range) as Date_Range,Bank_Code,Branch_Name,max(Bank_Code_Desc) as Bank_Code_Desc, max (Payee_Joint_IFSC_Code) as Payee_Joint_IFSC_Code,max(Payee_Joint_Account_No) as Payee_Joint_Account_No ,sum(Payable_Amount) as Payable_Amount
@@ -693,7 +703,7 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
                             Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MCC_ROUTE_MASTER.Route_Code = TSPL_MILK_SRN_HEAD.ROUTE_CODE
                              where 2 = 2  and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
                              ) As final
-                             where 2=2  GROUP BY FINAL.[Doc Date],FINAL.[VLC Name],FINAL.[Vlc Uploader Code] )YYY  GROUP BY [VLC Name],[Vlc Uploader Code])xxxDCSCount On xxxDCSCount.[Vlc Uploader Code]=xxxFinal.VLC_CODE_Uploader "
+                             where 2=2  GROUP BY FINAL.[Doc Date],FINAL.[VLC Name],FINAL.[Vlc Uploader Code] )YYY  GROUP BY [VLC Name],[Vlc Uploader Code])xxxDCSCount On xxxDCSCount.[Vlc Uploader Code]=xxxFinal.VLC_CODE_Uploader order by cast(VLC_CODE_Uploader as int)  "
         Return Qry
     End Function
 
