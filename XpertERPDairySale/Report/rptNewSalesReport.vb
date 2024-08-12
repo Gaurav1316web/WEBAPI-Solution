@@ -372,7 +372,7 @@ Public Class rptNewSalesReport
                 If dtProductItem.Rows.Count > 0 Then
                     FinalQuery += " PIVOT (SUM(KG_QTY)   For Product_Item In (" & ProductIemsName & ") ) As  pivot_Product "
                 End If
-                FinalQuery += "group by Route_No, Document_Date, Shift_Type "
+                FinalQuery += "group by  Document_Date, Shift_Type "
                 FinalQuery += " " & Environment.NewLine & " ---TTL " & Environment.NewLine & " union all " & Environment.NewLine & " Select   max(Shift_Type)Shift_Type,'TTL' as Document_Date, " & qry1 & " from ( " & Environment.NewLine & " " & qry & " " & Environment.NewLine & ""
                 If dtFreshItem.Rows.Count > 0 Then
                     FinalQuery += " PIVOT (SUM(LTR_QTY)  For Fresh_Item In (" & FreshItemsName & ") ) As pivot_fresh "
