@@ -158,37 +158,7 @@ Public Class frmCorrection
         cboRejectType.ValueMember = "Code"
         cboRejectType.DisplayMember = "Name"
     End Sub
-    'Private Sub CreateTable()
-    '    Dim coll As Dictionary(Of String, String)
-    '    coll = New Dictionary(Of String, String)
-    '    coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-    '    coll.Add("Document_No", "Varchar(30) not null references TSPL_MILK_COLLECTION_MCC(Document_No)")
-    '    coll.Add("SNo", "Integer NULL")
-    '    coll.Add("MCC_Code", "Varchar(30) not null references TSPL_MCC_MASTER(MCC_Code)")
-    '    coll.Add("Milk_Type", "char(5) NOT NULL Default 'M'")
-    '    coll.Add("Qty", "Decimal(18,2) null")
-    '    coll.Add("FAT", "Decimal(18,2) null")
-    '    coll.Add("SNF", "Decimal(18,2) null")
-    '    coll.Add("FATKG", "Decimal(18,3) null")
-    '    coll.Add("SNFKG", "Decimal(18,3) null")
-    '    coll.Add("Gaze_Reading", "Decimal(18,1) null")
-    '    coll.Add("Silo_Capacity", "integer null")
-    '    coll.Add("Temp", "Decimal(18,2) null")
-    '    coll.Add("Sample_No", "integer null")
-    '    coll.Add("Gaze_Reading_Code", "Varchar(30) null REFERENCES TSPL_GAZE_READING(Code)")
-    '    coll.Add("IsUpdatedFromCorrection", "Integer NOT NULL DEFAULT 0")
-    '    coll.Add("Against_Multiple_Days", "integer NULL references TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL(PK_Id)")
-    '    coll.Add("REF_PK_ID_BMCDCS_TRIP", "integer NULL references TSPL_MILK_COLLECTION_BMCDCS_TRIP(PK_ID)")
-    '    coll.Add("Machine_FAT", "Decimal(18,2) null")
-    '    coll.Add("Machine_SNF", "Decimal(18,2) null")
-    '    coll.Add("Retesting_FAT", "Decimal(18,2) null")
-    '    coll.Add("Retesting_SNF", "Decimal(18,2) null")
-    '    coll.Add("Retesting_CLR", "Decimal(18,2) null")
-    '    coll.Add("Retesting_OR_Correction", "integer null")
-    '    coll.Add("Correction_FAT", "Decimal(18,2) null")
-    '    coll.Add("Correction_SNF", "Decimal(18,2) null")
-    '    clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_MCC", "Document_No", "")
-    'End Sub
+
     Sub LoadShiftFrom()
         Dim dt As DataTable = New DataTable
         dt.Columns.Add("Code")
@@ -354,7 +324,7 @@ Public Class frmCorrection
     Private Sub frmMilkGateEntryIn_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnclose.Enabled Then
             CloseForm()
-        ElseIf e.Control AndAlso e.Alt AndAlso e.KeyCode = Keys.D Then
+        ElseIf e.Control AndAlso e.Alt AndAlso e.KeyCode = Keys.L Then
             Dim pwd As New FrmPWD(Nothing)
             pwd.strCode = clsFixedParameterCode.DeleteMccMilkShiftPassword
             pwd.strType = clsFixedParameterType.DeleteMccMilkShiftPassword

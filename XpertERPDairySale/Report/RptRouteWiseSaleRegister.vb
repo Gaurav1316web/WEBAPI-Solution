@@ -34,6 +34,9 @@ Public Class RptRouteWiseSaleRegister
     ' ticket No : ERO/19/10/19-001070
     'Sanjay add route join
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        If chkdemand.Checked Then
+            gvData.VarID = "_DE"
+        End If
         PageSetupReport_ID = MyBase.Form_ID
         gvData.DataSource = Nothing
         gvData.Rows.Clear()

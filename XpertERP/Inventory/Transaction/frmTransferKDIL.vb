@@ -216,6 +216,7 @@ Public Class FrmTransferKDIL
     Const colItemwiseTaxCode As String = "colItemwiseTaxCode"
     Dim EInvoiceType As String = ""
     Dim AllowOnlyOneIssueAgainstStoreRequisition As Boolean = False
+    Dim ShowPriceCode As Boolean = False
 #End Region
 
     Private Sub LOCATIONRIGTHS()
@@ -295,6 +296,14 @@ Public Class FrmTransferKDIL
         CalculateTaxRatefromItemwsieTaxOnSale = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CalculateTaxRatefromItemwsieTaxOnSale, clsFixedParameterCode.CalculateTaxRatefromItemwsieTaxOnSale, Nothing))
         AllowOnlyOneIssueAgainstStoreRequisition = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowOnlyOneIssueAgainstStoreRequisition, clsFixedParameterCode.AllowOnlyOneIssueAgainstStoreRequisition, Nothing)) = 1, True, False)
         Dim Value As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.IsItemRateEditableOnTransfer & "'"))
+        ShowPriceCode = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DisplayPriceCodeForBKN, clsFixedParameterCode.DisplayPriceCodeForBKN, Nothing)) = 1, True, False)
+        If ShowPriceCode Then
+            fndPriceCode.Visible = True
+            lblpricecode.Visible = True
+        Else
+            fndPriceCode.Visible = False
+            lblpricecode.Visible = False
+        End If
         If Value = 0 Then
             IsItemRateeditable = False
             IsRateeditableItemwise = False
@@ -2663,10 +2672,13 @@ Public Class FrmTransferKDIL
             GatePassPanel.Visible = True
             lblpricecode.Visible = True
             fndPriceCode.Visible = True
-        Else
-            GatePassPanel.Visible = False
+        ElseIf ShowPriceCode Then
             lblpricecode.Visible = True
             fndPriceCode.Visible = True
+        Else
+            GatePassPanel.Visible = False
+            lblpricecode.Visible = False
+            fndPriceCode.Visible = False
         End If
 
         FndGatePassNo.Value = ""
@@ -2762,9 +2774,12 @@ Public Class FrmTransferKDIL
                     Throw New Exception("Transfer In Date can't be less than transferout Date")
                 End If
             End If
-            If clsCommon.myLen(fndPriceCode.Value) <= 0 Then
-                Throw New Exception("Please select Price Code")
+            If ShowPriceCode Then
+                If clsCommon.myLen(fndPriceCode.Value) <= 0 Then
+                    Throw New Exception("Please select Price Code")
+                End If
             End If
+
             '=====================Added by preeti Gupta==================
             If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
                 txtDate.Focus()
@@ -7752,20 +7767,20 @@ Public Class FrmTransferKDIL
             'If chkInternalTransfer.Checked = True Then
 
             Dim qry As String = " Select distinct z.Document_No as Code, z.[Date],z.Description,z.[Location Code],z.Location_Desc as [Location Name],z.[Dept Code],z.[Dept Desc],z.Mode_Of_Transport as [Mode Of Transport],z.Remarks,z.Comments,z.[All/Transfer] from ( " &
-        " select code as Document_No,SUM(Qty* RI) as OutQty,Max(Unit_Code) as UnitCode ,max(Requisition_Date) as [Date], max(Description) as [Description], max(Location) as [Location Code], max(Location_Desc) as Location_Desc, max(Dept) as [Dept Code],max(Dept_Desc) as [Dept Desc], max(Remarks) as Remarks,max(Mode_Of_Transport) as Mode_Of_Transport, max(Comments) as Comments,Max(All_Transfer_Issue) As [All/Transfer] " &
+        " select code as Document_No,SUM(Qty* RI) as OutQty,Max(Unit_Code) as UnitCode ,max(Requisition_Date) as [Date], max(Description) as [Description], max(Location) as [Location Code], max(Location_Desc) as Location_Desc, max(Dept) as [Dept Code],max(Dept_Desc) as [Dept Desc], max(Remarks) as Remarks,max(Mode_Of_Transport) as Mode_Of_Transport, max(Comments) as Comments,Case When Max(All_Transfer_Issue)=0 Then 'All' Else (Case When Max(All_Transfer_Issue)=1 Then 'Transfer' Else '' End) End As [All/Transfer] " &
         "  from " &
          " ( Select TSPL_REQUISITION_HEAD.Requisition_Id as Code,TSPL_REQUISITION_DETAIL.Item_Code as ICode,TSPL_REQUISITION_DETAIL.Requisition_Qty as Qty " &
          " ,1 as RI,TSPL_REQUISITION_DETAIL.Unit_Code, Convert (varchar,TSPL_REQUISITION_HEAD.Requisition_Date,103) as Requisition_Date,TSPL_REQUISITION_HEAD.Description,TSPL_REQUISITION_HEAD.Location,TSPL_LOCATION_MASTER.Location_Desc,TSPL_REQUISITION_HEAD.Dept,TSPL_REQUISITION_HEAD.Dept_Desc,TSPL_REQUISITION_HEAD.Remarks,TSPL_REQUISITION_HEAD.Mode_Of_Transport,TSPL_REQUISITION_HEAD.Comments,TSPL_REQUISITION_HEAD.All_Transfer_Issue  FROM TSPL_REQUISITION_DETAIL  LEFT OUTER JOIN TSPL_REQUISITION_HEAD  " &
          " ON TSPL_REQUISITION_DETAIL.Requisition_Id = TSPL_REQUISITION_HEAD.Requisition_Id Left Outer Join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_REQUISITION_HEAD.Location  where   TSPL_REQUISITION_HEAD.Status =1  " &
          " Union All " &
          " Select TSPL_TRANSFER_ORDER_HEAD.Requisition_Id  as Code,TSPL_TRANSFER_ORDER_DETAIL.Item_Code as ICode,TSPL_TRANSFER_ORDER_DETAIL.Out_Qty as Qty " &
-         " ,-1 as RI,TSPL_TRANSFER_ORDER_DETAIL.Unit_Code,Convert (varchar,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103) as Requisition_Date , TSPL_TRANSFER_ORDER_HEAD.Description ,TSPL_TRANSFER_ORDER_HEAD.From_Location as Location,TSPL_LOCATION_MASTER.Location_Desc ,'' as Dept,'' as Dept_Desc,TSPL_TRANSFER_ORDER_HEAD.Remarks,TSPL_TRANSFER_ORDER_HEAD.Mode_Of_Transport,TSPL_TRANSFER_ORDER_HEAD.Comments,'' As  All_Transfer_Issue   FROM TSPL_TRANSFER_ORDER_DETAIL  LEFT OUTER JOIN TSPL_TRANSFER_ORDER_HEAD  " &
+         " ,-1 as RI,TSPL_TRANSFER_ORDER_DETAIL.Unit_Code,Convert (varchar,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103) as Requisition_Date , TSPL_TRANSFER_ORDER_HEAD.Description ,TSPL_TRANSFER_ORDER_HEAD.From_Location as Location,TSPL_LOCATION_MASTER.Location_Desc ,'' as Dept,'' as Dept_Desc,TSPL_TRANSFER_ORDER_HEAD.Remarks,TSPL_TRANSFER_ORDER_HEAD.Mode_Of_Transport,TSPL_TRANSFER_ORDER_HEAD.Comments,0 As  All_Transfer_Issue   FROM TSPL_TRANSFER_ORDER_DETAIL  LEFT OUTER JOIN TSPL_TRANSFER_ORDER_HEAD  " &
          " ON TSPL_TRANSFER_ORDER_DETAIL.Document_No = TSPL_TRANSFER_ORDER_HEAD.Document_No  Left Outer Join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_TRANSFER_ORDER_HEAD.From_Location where Requisition_Id is not null " &
          " ) Final where Final.code not in (select isnull(TSPL_TRANSFER_ORDER_HEAD.Requisition_Id,'') as Requisition_Id from TSPL_TRANSFER_ORDER_HEAD ) " &
          " group by Code,ICode,Unit_Code having SUM(Qty *RI) >0   " &
          " )z  "
 
-            Dim whrcls = " IsNull([All/Transfer],'') in ('All','Transfer','')"
+            Dim whrcls = " [All/Transfer] in ('All','Transfer')"
 
 
             'InternalTransfer=1 and
@@ -7804,7 +7819,7 @@ Public Class FrmTransferKDIL
             txtToLoc.Value = clsCommon.myCstr(dt.Rows(0)("Location"))
             'lblToLoc.Text = clsLocation.GetName(clsCommon.myCstr(dt.Rows(0)("Location")), Nothing)
             If chkInternalTransfer.Checked = True Then
-                txtToLoc.Enabled = False
+                txtToLoc.Enabled = True
             Else
                 FillLocationInfo(False)
             End If
@@ -8055,15 +8070,18 @@ Public Class FrmTransferKDIL
                         LEFT JOIN TSPL_TAX_GROUP_MASTER ON TSPL_TRANSFER_ORDER_HEAD.Tax_Group=TSPL_TAX_GROUP_MASTER.Tax_Group_Code and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='T' 
                         where 2=2 and TSPL_TRANSFER_ORDER_HEAD. Document_No = '" + clsCommon.myCstr(txtDocNo.Value) + "')xxx"
                 Else
-                    Qry = "select TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1+TSPL_COMPANY_MASTER.Add2+TSPL_COMPANY_MASTER.Add3 as Comp_Address,TSPL_COMPANY_MASTER.GSTINNo,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Mannual_No,TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual,TSPL_TRANSFER_ORDER_HEAD.TransferOutNo,TSPL_TRANSFER_ORDER_HEAD.Delivery_date,TSPL_TRANSFER_ORDER_HEAD.From_Location,TSPL_TRANSFER_ORDER_HEAD.To_Location,TSPL_TRANSFER_ORDER_HEAD.Document_No,TSPL_TRANSFER_ORDER_HEAD.Document_Date,TrasOut.Requisition_Id,TSPL_TRANSFER_ORDER_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.HSN_Code,TSPL_TRANSFER_ORDER_DETAIL.Unit_code,case when isnull(TSPL_BATCH_ITEM.Batch_No,'')='' then TSPL_TRANSFER_ORDER_DETAIL.In_Qty else TSPL_BATCH_ITEM.Qty end as Qty,TSPL_BATCH_ITEM.Batch_No
+                    Qry = "select TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1+TSPL_COMPANY_MASTER.Add2+TSPL_COMPANY_MASTER.Add3 as Comp_Address,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.GSTReg_No,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Mannual_No,TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual,TSPL_TRANSFER_ORDER_HEAD.TransferOutNo,TSPL_TRANSFER_ORDER_HEAD.Delivery_date,frmLocation.Location_Desc as From_Location,ToLocation.Location_Desc as To_Location,TSPL_TRANSFER_ORDER_HEAD.Document_No,TSPL_TRANSFER_ORDER_HEAD.Document_Date,TrasOut.Requisition_Id,TSPL_REQUISITION_HEAD.Requisition_Date,TSPL_TRANSFER_ORDER_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.HSN_Code,TSPL_TRANSFER_ORDER_DETAIL.Unit_code,case when isnull(TSPL_BATCH_ITEM.Batch_No,'')='' then TSPL_TRANSFER_ORDER_DETAIL.In_Qty else TSPL_BATCH_ITEM.Qty end as Qty,TSPL_BATCH_ITEM.Batch_No,TSPL_TRANSFER_ORDER_HEAD.Transfer_Type
 from TSPL_TRANSFER_ORDER_HEAD
 left join TSPL_TRANSFER_ORDER_DETAIL on TSPL_TRANSFER_ORDER_HEAD.Document_No=TSPL_TRANSFER_ORDER_DETAIL.Document_No
 left join TSPL_ITEM_MASTER on TSPL_TRANSFER_ORDER_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
 left join TSPL_VEHICLE_MASTER on TSPL_TRANSFER_ORDER_HEAD.Vehicle_Code=TSPL_VEHICLE_MASTER.Vehicle_Id
+left join TSPL_LOCATION_MASTER as frmLocation on TSPL_TRANSFER_ORDER_HEAD.From_Location=frmLocation.Location_Code
+left join TSPL_LOCATION_MASTER as ToLocation on TSPL_TRANSFER_ORDER_HEAD.To_Location=ToLocation.Location_Code
 left join TSPL_BATCH_ITEM on TSPL_TRANSFER_ORDER_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_TRANSFER_ORDER_DETAIL.Document_No=TSPL_BATCH_ITEM.Document_Code and TSPL_BATCH_ITEM.In_Out_Type='I'
 left join TSPL_VENDOR_MASTER on TSPL_VEHICLE_MASTER.Transport_Id=TSPL_VENDOR_MASTER.Vendor_Code
 left join TSPL_COMPANY_MASTER on TSPL_TRANSFER_ORDER_HEAD.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code
 left join TSPL_TRANSFER_ORDER_HEAD as TrasOut on TSPL_TRANSFER_ORDER_HEAD.TransferOutNo=TSPL_TRANSFER_ORDER_HEAD.Document_No
+left join TSPL_REQUISITION_HEAD on TSPL_TRANSFER_ORDER_HEAD.Requisition_Id=TSPL_REQUISITION_HEAD.Requisition_Id
 
 where TSPL_TRANSFER_ORDER_HEAD.Document_No='" + clsCommon.myCstr(txtDocNo.Value) + "'"
                 End If

@@ -234,8 +234,20 @@ Public Class rptdailydispatch
     End Sub
 
     Private Sub btngo_Click(sender As Object, e As EventArgs) Handles btngo.Click
+        GetReportID()
         griddata()
     End Sub
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rbtnMilk.Checked Then
+            VarID += "_MT"
+        ElseIf rbtnproduct.Checked Then
+            VarID += "_PT"
+        End If
+        gv1.VarID = VarID
+
+    End Sub
+
     Sub griddata()
         Try
             Dim dt As DataTable = Nothing

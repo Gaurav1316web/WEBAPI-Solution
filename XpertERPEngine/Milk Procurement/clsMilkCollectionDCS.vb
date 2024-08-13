@@ -27,11 +27,18 @@ Public Class clsMilkCollectionDCS
     End Function
     Public Function SaveData(ByVal obj As clsMilkCollectionDCS, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
-            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkShiftUploader, obj.VLC_Code, obj.Document_Date, trans)
             'clsMCCPaymentCycleLockForScheduler.CheckForSchedulerLock(obj.VLC_Code, obj.Document_Date, trans)
             If isNewEntry = False Then
                 HistoryUpdate(obj.Document_No, trans)
             End If
+            Dim Mcccode As String = "select TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader from TSPL_MILK_COLLECTION_DCS_DETAIL
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code
+left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC where Document_No='" + obj.Document_No + "'"
+            Mcccode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Mcccode, trans))
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkCollectionMCC, Mcccode, obj.Document_Date, trans)
+
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkCollectionDCS, obj., obj.Document_Date, trans)
+
             Dim qry As String = "delete from TSPL_MILK_COLLECTION_DCS_DETAIL where Document_No='" + obj.Document_No + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Document_No='" + obj.Document_No + "'"
@@ -115,6 +122,12 @@ Public Class clsMilkCollectionDCS
             'End If
 
             Dim obj As clsMilkCollectionDCS = clsMilkCollectionDCS.GetData(strCode, NavigatorType.Current, trans)
+            Dim Mcccode As String = "select TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader from TSPL_MILK_COLLECTION_DCS_DETAIL
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code
+left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC where Document_No='" + obj.Document_No + "'"
+            Mcccode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Mcccode, trans))
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkCollectionMCC, Mcccode, obj.Document_Date, trans)
+
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("Document No: " + strCode + " not found to Delete")
             End If
@@ -154,6 +167,11 @@ Public Class clsMilkCollectionDCS
             End If
             Dim obj As clsMilkCollectionDCS = clsMilkCollectionDCS.GetData(strCode, NavigatorType.Current, trans)
             'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkShiftUploader, obj.VLC_Code, obj.Document_Date, trans)
+            Dim Mcccode As String = "select TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader from TSPL_MILK_COLLECTION_DCS_DETAIL
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code
+left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC where Document_No='" + obj.Document_No + "'"
+            Mcccode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Mcccode, trans))
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkCollectionMCC, Mcccode, obj.Document_Date, trans)
 
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("Document No: " + strCode + " not found to Post")
@@ -389,18 +407,46 @@ and not exists (select 1 from TSPL_MILK_SHIFT_UPLOADER_DETAIL where TSPL_MILK_SH
 from (
 select  PK_Id,max(MCC_Code) as MCC_Code,max(MCC_NAME) as MCC_NAME,max(Document_Date) as Document_Date,sum(MCCQty) as MCCQty,sum(MCCFATKG) as MCCFATKG,sum(MCCSNFKG) as MCCSNFKG,sum(DCSQty) as DCSQty,sum(DCSFATKG) as DCSFATKG,sum(DCSSNFKG) as DCSSNFKG,-1*(sum(DCSFATKG) - max(MCCFATKG)) as DiffFATKG,-1*(sum(DCSSNFKG) - max(MCCSNFKG)) as DiffSNFKG,(select top 1 case when TSPL_OWN_BMC_GAIN_LOSS_RATE.Inactive=0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Code else '' end as  FindCode 
 from TSPL_OWN_BMC_GAIN_LOSS_RATE where max(Document_Date)>=TSPL_OWN_BMC_GAIN_LOSS_RATE.Start_Date  and (2= case when TSPL_OWN_BMC_GAIN_LOSS_RATE.End_Date is null then 2 else case when max(Document_Date)<= TSPL_OWN_BMC_GAIN_LOSS_RATE.End_Date then 2 else 3 end end)  and TSPL_OWN_BMC_GAIN_LOSS_RATE.Posted=1 order by TSPL_OWN_BMC_GAIN_LOSS_RATE.Start_Date desc,TSPL_OWN_BMC_GAIN_LOSS_RATE.Code desc) as  FindCode
+from ( "
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
+            BaseQry += "select (MCC_Code+VDocument_Date) as PK_Id,MCC_Code,max(MCC_NAME) as MCC_NAME,max(Document_Date) as Document_Date ,sum(Qty * case when RI=1 then 1 else 0 end) as MCCQty ,sum(FATKG * case when RI=1 then 1 else 0 end) as MCCFATKG ,sum(SNFKg * case when RI=1 then 1 else 0 end) as MCCSNFKG ,0 as MCCFAT ,0 as MCCSNF ,sum(Qty * case when RI=2 then 1 else 0 end) as DCSQty ,sum(FATKG * case when RI=2 then 1 else 0 end) as DCSFATKG ,sum(SNFKg * case when RI=2 then 1 else 0 end) as DCSSNFKG
 from (
-
-select TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id,TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code,TSPL_MCC_MASTER.MCC_NAME,convert(date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) as Document_Date,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty as MCCQty,TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG as MCCFATKG,TSPL_MILK_COLLECTION_MCC_DETAIL.FAT as MCCFAT,TSPL_MILK_COLLECTION_MCC_DETAIL.SNF as MCCSNF,TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG as MCCSNFKG
+select TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code,TSPL_MCC_MASTER.MCC_NAME ,convert(date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date,103) as Document_Date,convert(varchar,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date,103) as VDocument_Date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Entered_Qty as Qty,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Entered_FATKg as FATKg,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Entered_SNFKg as SNFKg,1 as RI
+from   TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS  
+left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code
+left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO = TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Route_Code 
+WHERE convert(date, TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date,103) >= '" + clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") + "'
+and convert (date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date,103) <= '" + clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") + "'"
+            If arrMCC IsNot Nothing AndAlso arrMCC.Count > 0 Then
+                BaseQry += " And TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code in (" + clsCommon.GetMulcallString(arrMCC) + ")"
+            End If
+            BaseQry += Environment.NewLine + " union all
+select TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code,TSPL_MCC_MASTER.MCC_NAME
+,convert(date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Collection_Date,103) as Document_Date 
+,convert(varchar,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Collection_Date,103) as VDocument_Date 
+,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Qty ,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.FATKG,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.SNFKG,2 as RI
+from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL
+left outer join TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS on TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No= TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Document_No
+LEFT OUTER JOIN TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.VLC_Code
+left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code
+left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO = TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Route_Code 
+WHERE convert(date, TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Collection_Date,103) >= '" + clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") + "'
+and convert (date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Collection_Date,103) <= '" + clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") + "'"
+            If arrMCC IsNot Nothing AndAlso arrMCC.Count > 0 Then
+                BaseQry += " and TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code in (" + clsCommon.GetMulcallString(arrMCC) + ")"
+            End If
+            BaseQry += " )   xx group by MCC_Code,VDocument_Date  "
+        Else
+            BaseQry += "select TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id,TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code,TSPL_MCC_MASTER.MCC_NAME,convert(date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) as Document_Date,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty as MCCQty,TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG as MCCFATKG,TSPL_MILK_COLLECTION_MCC_DETAIL.FAT as MCCFAT,TSPL_MILK_COLLECTION_MCC_DETAIL.SNF as MCCSNF,TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG as MCCSNFKG
 ,0 as DCSQty ,0 as DCSFATKG ,0 as DCSSNFKG
 from   TSPL_MILK_COLLECTION_MCC_DETAIL 
 left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
 where convert(date, TSPL_MILK_COLLECTION_MCC.Document_Date,103)>='" + clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") + "' and convert(date, TSPL_MILK_COLLECTION_MCC.Document_Date,103)<='" + clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") + "' "
-        If arrMCC IsNot Nothing AndAlso arrMCC.Count > 0 Then
-            BaseQry += " and TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code in (" + clsCommon.GetMulcallString(arrMCC) + ") "
-        End If
-        BaseQry += "  union all
+            If arrMCC IsNot Nothing AndAlso arrMCC.Count > 0 Then
+                BaseQry += " and TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code in (" + clsCommon.GetMulcallString(arrMCC) + ") "
+            End If
+            BaseQry += "  union all
 select Tab.PK_Id,null as MCC_Code,null as MCC_NAME,null as Document_Date,0 as MCCQty,0 as MCCFATKG,0 as MCCFAT,0 as MCCSNF,0 as MCCSNFKG
 ,TSPL_MILK_COLLECTION_DCS_DETAIL.Qty as DCSQty ,TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG as DCSFATKG ,TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG as DCSSNFKG
 from   TSPL_MILK_COLLECTION_DCS_DETAIL 
@@ -412,12 +458,14 @@ from TSPL_MILK_COLLECTION_MCC_DETAIL
 left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
 left outer join  TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail=TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id 
 where convert(date, TSPL_MILK_COLLECTION_MCC.Document_Date,103)>='" + clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") + "' and convert(date, TSPL_MILK_COLLECTION_MCC.Document_Date,103)<='" + clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") + "' "
-        If arrMCC IsNot Nothing AndAlso arrMCC.Count > 0 Then
-            BaseQry += " and TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code in (" + clsCommon.GetMulcallString(arrMCC) + ") "
+            If arrMCC IsNot Nothing AndAlso arrMCC.Count > 0 Then
+                BaseQry += " and TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code in (" + clsCommon.GetMulcallString(arrMCC) + ") "
+            End If
+            BaseQry += " )xx group by xx.Document_No
+)Tab on Tab.Document_No= TSPL_MILK_COLLECTION_DCS.Document_No"
         End If
-        BaseQry += " )xx group by xx.Document_No
-)Tab on Tab.Document_No= TSPL_MILK_COLLECTION_DCS.Document_No
-)X group by PK_Id  
+
+        BaseQry += ")X group by PK_Id  
 )xxx 
 left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BMC_GAIN_LOSS_RATE.Code=xxx.FindCode"
         Return BaseQry
