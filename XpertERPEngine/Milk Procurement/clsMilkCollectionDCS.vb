@@ -27,11 +27,18 @@ Public Class clsMilkCollectionDCS
     End Function
     Public Function SaveData(ByVal obj As clsMilkCollectionDCS, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
-            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkShiftUploader, obj.VLC_Code, obj.Document_Date, trans)
             'clsMCCPaymentCycleLockForScheduler.CheckForSchedulerLock(obj.VLC_Code, obj.Document_Date, trans)
             If isNewEntry = False Then
                 HistoryUpdate(obj.Document_No, trans)
             End If
+            Dim Mcccode As String = "select TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader from TSPL_MILK_COLLECTION_DCS_DETAIL
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code
+left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC where Document_No='" + obj.Document_No + "'"
+            Mcccode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Mcccode, trans))
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkCollectionMCC, Mcccode, obj.Document_Date, trans)
+
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkCollectionDCS, obj., obj.Document_Date, trans)
+
             Dim qry As String = "delete from TSPL_MILK_COLLECTION_DCS_DETAIL where Document_No='" + obj.Document_No + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Document_No='" + obj.Document_No + "'"
@@ -115,6 +122,12 @@ Public Class clsMilkCollectionDCS
             'End If
 
             Dim obj As clsMilkCollectionDCS = clsMilkCollectionDCS.GetData(strCode, NavigatorType.Current, trans)
+            Dim Mcccode As String = "select TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader from TSPL_MILK_COLLECTION_DCS_DETAIL
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code
+left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC where Document_No='" + obj.Document_No + "'"
+            Mcccode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Mcccode, trans))
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkCollectionMCC, Mcccode, obj.Document_Date, trans)
+
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("Document No: " + strCode + " not found to Delete")
             End If
@@ -154,6 +167,11 @@ Public Class clsMilkCollectionDCS
             End If
             Dim obj As clsMilkCollectionDCS = clsMilkCollectionDCS.GetData(strCode, NavigatorType.Current, trans)
             'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkShiftUploader, obj.VLC_Code, obj.Document_Date, trans)
+            Dim Mcccode As String = "select TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader from TSPL_MILK_COLLECTION_DCS_DETAIL
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code
+left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC where Document_No='" + obj.Document_No + "'"
+            Mcccode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Mcccode, trans))
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkCollectionMCC, Mcccode, obj.Document_Date, trans)
 
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("Document No: " + strCode + " not found to Post")

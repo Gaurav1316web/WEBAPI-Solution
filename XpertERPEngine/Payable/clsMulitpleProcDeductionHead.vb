@@ -43,14 +43,14 @@ Public Class clsMultipleProcDeductionHead
             Throw New Exception("Please first select Location")
         End If
 
-        'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMultipleProcDeduction, obj.loc_code, obj.Document_Date, trans)
+        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMultipleProcDeduction, obj.loc_code, obj.Document_Date, trans)
         If IsPosted = 0 Then
             Dim mcc As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select TSPL_VLC_MASTER_HEAD.MCC from TSPL_MULTIPLE_DEDUCTION_Detail
            Left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_DETAIL.Vendor_Code
 where Document_No ='" + obj.Document_No + "'", trans))
 
             ' If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmPaymentProcess, mcc, obj.Document_Date, trans)
+            ' clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmPaymentProcess, mcc, obj.Document_Date, trans)
         End If
 
         Dim qry As String = "delete from TSPL_MULTIPLE_DEDUCTION_DETAIL where Document_No='" + obj.Document_No + "'"
@@ -313,10 +313,10 @@ where Document_No='" + strDocumentNo + "' ORDER BY Line_No"
         where Document_No ='" + strDocNo + "'", trans))
 
         '        ' If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmPaymentProcess, mcc, obj.Document_Date, trans)
+        'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmPaymentProcess, mcc, obj.Document_Date, trans)
 
         'End If
-        'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMultipleProcDeduction, obj.loc_code, obj.Document_Date, trans)
+        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMultipleProcDeduction, obj.loc_code, obj.Document_Date, trans)
 
         If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
             Throw New Exception("No Data found to Post")
@@ -366,9 +366,9 @@ where Document_No='" + strDocumentNo + "' ORDER BY Line_No"
 where Document_No ='" + strDocNo + "'", trans))
 
         ' If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmPaymentProcess, mcc, obj.Document_Date, trans)
+        'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmPaymentProcess, mcc, obj.Document_Date, trans)
 
-        'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmPaymentProcess, obj.loc_code, obj.Document_Date, trans)
+        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMultipleProcDeduction, obj.loc_code, obj.Document_Date, trans)
 
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
             Try
@@ -413,7 +413,8 @@ where Document_No ='" + strDocNo + "'", trans))
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("No Data found to Reverse And UnPost")
             End If
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmPaymentProcess, mcc, obj.Document_Date, trans)
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmPaymentProcess, mcc, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMultipleProcDeduction, obj.loc_code, obj.Document_Date, trans)
 
 
             '' to insert ap documents into temporaray table

@@ -31,8 +31,9 @@ Public Class clsMilkProcurementUploaderHead
 
     Public Function SaveData(ByVal obj As clsMilkProcurementUploaderHead, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMilkReceipt, obj.MCC_Code, obj.Document_Date, trans)
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMilkSample, obj.MCC_Code, obj.Document_Date, trans)
+            ' clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMilkReceipt, obj.MCC_Code, obj.Document_Date, trans)
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMilkSample, obj.MCC_Code, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkProcurementUploader, obj.MCC_Code, obj.Document_Date, trans)
 
             Dim qry As String = "delete from TSPL_MILK_PROCUREMENT_UPLOADER_QC_PARAMETER_DETAIL where Document_No='" & obj.Document_No & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -148,8 +149,9 @@ Public Class clsMilkProcurementUploaderHead
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("Document No: " + strCode + " not found to Delete")
             End If
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMilkReceipt, obj.MCC_Code, obj.Document_Date, trans)
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMilkSample, obj.MCC_Code, obj.Document_Date, trans)
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMilkReceipt, obj.MCC_Code, obj.Document_Date, trans)
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMilkSample, obj.MCC_Code, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkProcurementUploader, obj.MCC_Code, obj.Document_Date, trans)
 
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Posted on :" + obj.Posting_Date)
@@ -238,8 +240,9 @@ Public Class clsMilkProcurementUploaderHead
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("Document No: " + strCode + " not found to Post")
             End If
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMilkReceipt, obj.MCC_Code, obj.Document_Date, trans)
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMilkSample, obj.MCC_Code, obj.Document_Date, trans)
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMilkReceipt, obj.MCC_Code, obj.Document_Date, trans)
+            ' clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMilkSample, obj.MCC_Code, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkProcurementUploader, obj.MCC_Code, obj.Document_Date, trans)
 
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Posted on :" + obj.Posting_Date)
