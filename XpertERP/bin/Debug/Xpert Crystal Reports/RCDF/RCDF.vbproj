@@ -1186,6 +1186,7 @@
     <None Include="Crystal Reports\HR_Payroll\ESICcrpt.rpt" />
     <None Include="Crystal Reports\HR_Payroll\rptDetailOfWelfareFundAmount.rpt" />
     <None Include="Crystal Reports\HR_Payroll\rptPayrollBankTransferDetail.rpt" />
+    <None Include="Crystal Reports\HR_Payroll\rptTentativeSalary.rpt" />
     <None Include="Crystal Reports\Human Resource\rptAppointmentLetter.rpt" />
     <None Include="Crystal Reports\Human Resource\rptMultipleOfferLetter.rpt" />
     <None Include="Crystal Reports\Human Resource\rptOfferLetter.rpt" />
@@ -1259,7 +1260,6 @@
     <None Include="Crystal Reports\Inventory Report\StockReportFinishGoods.rpt" />
     <None Include="Crystal Reports\Inventory Report\StockReportFinishGoods16042012.rpt" />
     <None Include="Crystal Reports\Inventory Report\StockTransferSTA.rpt" />
-    <None Include="Crystal Reports\Inventory Report\StockTransferSTA_Other.rpt" />
     <None Include="Crystal Reports\Inventory Report\TransferLI-GUN.rpt" />
     <None Include="Crystal Reports\Inventory Report\TransferLI-VIZ.rpt" />
     <None Include="Crystal Reports\Inventory Report\TransferLI.rpt" />
@@ -1347,6 +1347,7 @@
     <None Include="Crystal Reports\Kwality Sales Report\rptSubReportExciseTransferSaleInvoice.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptSupplyCrate.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptTrustReceiptMT.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\TransportGainLossSummary.rpt" />
     <None Include="Crystal Reports\Milk Procurement\Address.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptAssetDispatchRetailer.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptAutoAdditionDeductionNewGNG.rpt" />
@@ -1517,8 +1518,6 @@
     <None Include="Crystal Reports\New Sales Reports\Libraries - Shortcut.lnk" />
     <None Include="Crystal Reports\New Sales Reports\New Sales Reports - Shortcut.lnk" />
     <None Include="Crystal Reports\New Sales Reports\rptCompanyAddress.rpt" />
-    <None Include="Crystal Reports\New Sales Reports\rptDairySaleBoothTruckSheet.rpt" />
-    <None Include="Crystal Reports\New Sales Reports\rptDairySaleBoothTruckSheetInHindi.rpt" />
     <None Include="Crystal Reports\New Sales Reports\rptExportSaleInvoice.rpt" />
     <None Include="Crystal Reports\New Sales Reports\rptFreshSaleInvoice.rpt" />
     <None Include="Crystal Reports\New Sales Reports\rptPaySlip.rpt" />

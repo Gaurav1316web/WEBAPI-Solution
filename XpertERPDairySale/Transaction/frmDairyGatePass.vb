@@ -1299,7 +1299,7 @@ select Route_No,Document_Date,Vehicle_Code,Customer_Code,0 as OpencrateQty,0 as 
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
             Qry += "  ,(qty * Conversion_Factor/CFinPrintUOM ) as PrintUOM,case when UPPER(Unit_code)='CRATE' then qty else 0 end as TotalCrate,case when UPPER(Unit_code)='BOX' then qty else 0 end as TotalBOX,    case when UPPER(Unit_code)='CFC' then qty else 0 end as TotalCFC "
         End If
-        Qry += "FROM 
+        Qry += "  FROM 
                    ( Select  max(Supply_Date)as Supply_Date,"
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
             Qry += " max(Conversion_FactorCrt) as Conversion_FactorCrt ,MAX(gpUnit) AS gpUnit, "
