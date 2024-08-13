@@ -33,7 +33,9 @@ Public Class clsMilkCollectionMCCMulipleDays
         Return True
     End Function
     Public Function SaveData(ByVal obj As clsMilkCollectionMCCMulipleDays, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
+
         Try
+
             If isNewEntry = False Then
                 If clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select isnull(Status,0) as Status from  TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS where Document_No ='" + obj.Document_No + "' ", trans)) = 1 Then
                     Throw New Exception("Posted Document [" + obj.Document_No + "]")
@@ -41,6 +43,10 @@ Public Class clsMilkCollectionMCCMulipleDays
 
                 HistoryUpdate(obj.Document_No, trans)
             End If
+            Dim Mcccode As String = "select Mcc_code from TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL  where  Document_No ='" + obj.Document_No + "'"
+            Mcccode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Mcccode, trans))
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkCollectionMCCMultipleDays, Mcccode, obj.Document_Date, trans)
+
             Dim qry As String = "delete from TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL where Document_No='" + obj.Document_No + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -134,12 +140,17 @@ where 2=2"
 
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
+
             'Dim dt As DataTable = clsDBFuncationality.GetDataTable("select TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.Document_Date,TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.MCC_Code from TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS where Document_No='" + strCode + "'", trans)
             'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             '    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkShiftUploader, clsCommon.myCstr(dt.Rows(0)("MCC_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
             'End If
 
             Dim obj As clsMilkCollectionMCCMulipleDays = clsMilkCollectionMCCMulipleDays.GetData(strCode, NavigatorType.Current, trans)
+            Dim Mcccode As String = "select Mcc_code from TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL  where  Document_No ='" + obj.Document_No + "'"
+            Mcccode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Mcccode, trans))
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkCollectionMCCMultipleDays, Mcccode, obj.Document_Date, trans)
+
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("Document No: " + strCode + " not found to Delete")
             End If
@@ -165,6 +176,10 @@ where 2=2"
                 Throw New Exception("Document No not found to Post")
             End If
             Dim obj As clsMilkCollectionMCCMulipleDays = clsMilkCollectionMCCMulipleDays.GetData(strCode, NavigatorType.Current, trans)
+            Dim Mcccode As String = "select Mcc_code from TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL  where  Document_No ='" + obj.Document_No + "'"
+            Mcccode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Mcccode, trans))
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkCollectionMCCMultipleDays, Mcccode, obj.Document_Date, trans)
+
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("Document No: " + strCode + " not found to Post")
             End If

@@ -865,11 +865,12 @@ Public Class FrmPrintFreshInvoice
                 End If
 
             End If
-            Qry = "   select Final.*  from ( select Main_Final.*,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.GSTReg_No As SellerGST,TSPL_COMPANY_MASTER.Pan_No, "
+            Qry = "   select Final.*  from ( select Main_Final.*,TSPL_COMPANY_MASTER.Access_Officer as FSSAI_NO,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.GSTReg_No As SellerGST,TSPL_COMPANY_MASTER.Pan_No, "
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                 Qry += " Convert(decimal(18,2),(valueInRs/((Qty_Default*ConversionFactor)/CF))) As RateLtr "
             Else
                 Qry += " Rate_Default As RateLtr"
+
             End If
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                 Qry += " , isnull(TSPL_COMPANY_MASTER.Comp_Name,'') as Company_Name,  isnull(TSPL_COMPANY_MASTER.Add2,'') as Address2,TSPL_COMPANY_MASTER.Regn_No,

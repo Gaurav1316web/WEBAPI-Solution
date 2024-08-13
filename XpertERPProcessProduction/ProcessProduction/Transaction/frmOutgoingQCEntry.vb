@@ -521,8 +521,13 @@ Public Class frmOutgoingQCEntry
     End Sub
 
     Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
-        Dim qry As String = " select Document_Code as Code,Document_Date,Case when status=0 then 'Pending' else 'Approved' end as 'Status' from TSPL_PROD_QC_CHECK_HEAD "
-        LoadData(clsCommon.ShowSelectForm("OutgoingQC", qry, "Code", "", txtDocNo.Value, "Code", isButtonClicked), NavigatorType.Current)
+        Dim qry As String = " select TSPL_PROD_QC_CHECK_HEAD.Document_Code as Code,Document_Date,Case when status=0 then 'Pending' else 'Approved' end as 'Status',TSPL_PROD_QC_CHECK_HEAD.Location_Code as loction_Code,tspl_spp_production_entry.PROD_DATE as production_date,tspl_spp_production_entry.Shift_Code,TSPL_PROD_QC_CHECK_PRODUCTION_ENTRY.PROD_ENTRY_CODE as proudution_code from TSPL_PROD_QC_CHECK_HEAD  left outer join TSPL_PROD_QC_CHECK_PRODUCTION_ENTRY on TSPL_PROD_QC_CHECK_PRODUCTION_ENTRY.Document_Code=TSPL_PROD_QC_CHECK_HEAD.Document_Code
+        left outer join tspl_spp_production_entry on TSPL_PROD_QC_CHECK_PRODUCTION_ENTRY.PROD_ENTRY_CODE=tspl_spp_production_entry.PROD_ENTRY_CODE "
+        Dim WhrCls As String '= " TSPL_PROD_QC_CHECK_HEAD.Document_Code ='" + txtDocNo.Value + "' "
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            WhrCls += " TSPL_PROD_QC_CHECK_HEAD.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+        End If
+        LoadData(clsCommon.ShowSelectForm("OutgoingQC", qry, "Code", WhrCls, txtDocNo.Value, "Code", isButtonClicked), NavigatorType.Current)
     End Sub
     Private Sub txtDocNo__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtDocNo._MYNavigator
         Try
