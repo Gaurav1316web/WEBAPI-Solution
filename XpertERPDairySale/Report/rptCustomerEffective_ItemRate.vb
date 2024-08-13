@@ -122,6 +122,7 @@ Public Class RptCustomerEffective_ItemRate
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         PageSetupReport_ID = MyBase.Form_ID
         TemplateGridview = gv
+        GetReportID()
         Dim dt As New DataTable()
         Dim qry As String = Nothing
         Try
@@ -391,6 +392,25 @@ Public Class RptCustomerEffective_ItemRate
         End Try
     End Sub
 
+    Sub GetReportID()
+        Dim VarID As String = ""
+
+        If RbtnLatest.Checked Then
+            VarID += "_L"
+        ElseIf RbtnAll.Checked Then
+            VarID += "_AL"
+        End If
+        If chkStockingUOM.IsChecked Then
+            VarID += "_SU"
+        ElseIf chkPriceCodeWise.IsChecked Then
+            VarID += "_PW"
+        End If
+        If ChkExcisablePrice.IsChecked Then
+            VarID += "_EP"
+        End If
+        gv.VarID = VarID
+
+    End Sub
     Private Sub ReStoreGridLayout()
         Try
             If clsCommon.myLen(MyBase.Form_ID) > 0 Then
